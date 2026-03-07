@@ -140,7 +140,7 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "¡Oye @Program! Encontré una persona. Bueno, supongo que nos encontraron. ¡Quieren ser nuestro nuevo director!"
+                            "¡Oye @Program! Encontré a una persona. Bueno, supongo que ellos nos encontraron. ¡Quieren ser nuestro nuevo director!"
                         ],
                         [
                             "Program",
@@ -159,18 +159,18 @@
                         [
                             "Program",
                             "excited",
-                            "Veo. ¿@FunctionDefinition te dijo algo sobre nosotros? Mucha gente intenta dirigirnos, pero algunas se confunden, se aburren e incluso se irritan con nosotros. A veces somos bastante densos. Pero estoy orgulloso de lo que hacemos, así que no quiero trabajar con cualquiera."
+                            "Ya veo. ¿@FunctionDefinition te dijo algo sobre nosotros? Mucha gente intenta dirigirnos, pero algunas se confunden, se aburren e incluso se irritan con nosotros. A veces somos bastante densos. Pero estoy orgulloso de lo que hacemos, así que no quiero trabajar con cualquiera."
                         ],
                         null,
                         [
                             "FunctionDefinition",
                             "kind",
-                            "Les dije un poco. Dije que éramos raros y que a veces los directores se van por eso. Pero están de acuerdo. ¿Cierto, estás de acuerdo?"
+                            "Les dije un poco. Dije que éramos raros y que a veces los directores se van por eso. Pero están de acuerdo. ¿Verdad que estás de acuerdo, persona?"
                         ],
                         [
                             "Program",
                             "serious",
-                            "Ah bueno. Pues mucho gusto. Lo siento, mucha gente llegan y dicen '/esto no es para mí/' y me he vuelto un poco escéptico con respecto a las personas que lo intentan por un tiempo y luego simplemente se dan por vencidos. No debería tener que cambiar quién soy para adaptarme a las expectativas de la gente. Pero si estás dispuesto a aprender sobre mí y sobre nosotros, ¡intentémoslo!"
+                            "Ah bueno. Pues mucho gusto. Lo siento, muchas personas llegan y dicen '/esto no es para mí/' y me he vuelto un poco desconfiado con respecto a las personas que nos intentan dirigir por un tiempo y luego simplemente se dan por vencidos. No debería tener que cambiar quién soy para adaptarme a las expectativas de la gente. Pero si estás dispuesto a aprender sobre mí y sobre nosotros, ¡intentémoslo!"
                         ],
                         null,
                         ["edit", ""],
@@ -183,24 +183,24 @@
                             "Program",
                             "neutral",
                             "Seguro. Básicamente soy el organizador del programa de un espectáculo.",
-                            "Puedes verme allí, con un *editor* @UI/editor mostrándome el *escenario* @UI/stage que muestra lo que evalúo (ahorita nada). El *director*, ese eres tú, ayuda a todos a descubrir lo que están haciendo, escribiendo un programa para lo que sucederá en el programa. Y luego evalúo el programa y pongo el resultado en el escenario para que el público lo vea."
+                            "Puedes verme allí, con un *editor* @UI/editor mostrándome el *escenario* @UI/stage que muestra lo que evalúo (por ahora, nada). El *director*, ese eres tú, nos ayudaras a todos a descubrir lo que estamos haciendo, escribiendo un programa de instrucciones para lo que sucederá en el espectaculo. Luego, evalúo el programa y pongo el resultado en el escenario para que el público lo vea."
                         ],
                         null,
                         [
                             "Program",
                             "neutral",
-                            "Por ejemplo, intenta escribir mi \\'hola'\\ en el editor de allí.",
-                            "(No te preocupes por cometer errores, siempre puedes volver al original con *revert* @UI/revertProject).",
-                            "¿Escribiste algo? Ese es mi amigo @Text. ¿Ya los conociste? Lo evalúan como \\'hello'\\, luego yo pongo \\'hello'\\ en el escenario. Intente cambiar \\'hola'\\ por otra cosa. Lo mostraré en su lugar. Así que evaluaré inmediatamente todo lo que escribas y mostraré el resultado."
+                            "Por ejemplo, intenta escribir \\'hola'\\ en el editor de allí.",
+                            "(No te preocupes por cometer errores, siempre puedes volver al original usando *revertir* @UI/revertProject).",
+                            "¿Escribiste algo? Ese es mi amigo, se llama @Text. ¿Ya los conociste? Lo evalúan como \\'hello'\\, luego yo pongo \\'hello'\\ en el escenario. Intenta cambiar \\'hola'\\ con otra cosa. Lo mostraré en su lugar. Evaluó de inmediato todo lo que escribas y muestro el resultado."
                         ],
                         null,
                         [
                             "Program",
                             "serious",
                             "Las instrucciones pueden ser tan sofisticadas como quieras, pero existen algunas reglas.",
-                            "Por ejemplo, solo puedo evaluar un *valor* y mostrar ese valor en el escenario. Ese valor puede ser tan complejo como quieras y, siempre que sepa cómo mostrarlo, lo haré.",
-                            "Pero si me das dos cosas, solo mostraré la última que me das.",
-                            "Por ejemplo, intente agregar otra instrucción después de \\'hola'\\, cualquier palabra que desee, entre comillas."
+                            "Por ejemplo, solo puedo evaluar un *valor* y mostrar ese valor en el escenario. Ese valor puede ser tan complejo como quieras y, mientras sepa cómo mostrarlo, lo haré.",
+                            "Pero si me das dos cosas, solo mostraré la última que me des.",
+                            "Por ejemplo, intenta agregar otra instrucción después de \\'hola'\\, cualquier palabra que quieras, entre comillas."
                         ],
                         null,
                         [
@@ -218,19 +218,19 @@
                         [
                             "Program",
                             "serious",
-                            "Si y no. Puedo hacer mucho, pero eso es sólo porque trabajo con todos los demás en el *Verso*. Ellos son los que traen todas las posibilidades emocionantes al *escenario*. Lo único que realmente hago es dejarles hacer lo suyo y luego tomar lo último que crearon y mostrarlo en el escenario. Soy más como una escort que trae el *valor* final al escenario, como números, textos, frases u otros valores."
+                            "Si y no. Puedo hacer mucho, pero eso es sólo porque trabajo con todos los demás en el *Verso*. Ellos son los que traen todas las posibilidades emocionantes al *escenario*. Lo único que realmente hago es dejarles hacer lo suyo y luego tomar lo último que crearon y mostrarlo en el escenario. Soy más como un mensajero que trae el *valor* final al escenario, como números, textos, frases y otros valores."
                         ],
                         null,
                         [
                             "Program",
                             "serious",
-                            "De hecho, si alguna vez quieres ver el programa de algo en el escenario, puedes presionar el lápiz en el escenario @UI/editProject. Eso te mostrará cómo todos se unen para crear lo que hay en el escenario. Este programa es sólo una simple frase."
+                            "De hecho, si alguna vez quieres ver el programa de algo en el escenario, puedes presionar el 👁️ en el escenario @UI/editProject. Eso te mostrará cómo todos se unen para crear lo que hay en el escenario. Este programa es sólo una simple frase."
                         ],
                         null,
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "Gracias @Program, estamos muy emocionados de conocerlos a todos y compartir la noticia."
+                            "¡Gracias @Program, estamos muy emocionados de conocerlos a todos y compartir la noticias de nuestro nuevo director!"
                         ],
                         [
                             "Program",
@@ -240,7 +240,7 @@
                     ]
                 },
                 {
-                    "title": "Mantener espacios",
+                    "title": "Manteniendo espacios",
                     "subtitle": "Marcador de posición",
                     "concept": "ExpressionPlaceholder",
                     "performance": ["use", "fit", "DarkVoid"],
@@ -248,7 +248,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "Realmente te va a gustar @ExpressionPlaceholder. Son increíblemente amables y muy flexibles. Pero son un poco tímidos. ¿Sea amable con ellos, bueno?"
+                            "Realmente te va a gustar concer al @ExpressionPlaceholder. Son increíblemente amables y muy flexibles. Pero son un poco tímidos. ¿Se amable con el, vale?"
                         ],
                         null,
                         [
@@ -268,7 +268,7 @@
                             "kind",
                             "Sí. Hace mucho tiempo que no te veo. ¿Cómo estás?"
                         ],
-                        ["ExpressionPlaceholder", "scared", "Lonely."],
+                        ["ExpressionPlaceholder", "scared", "Solitario."],
                         null,
                         [
                             "FunctionDefinition",
@@ -278,21 +278,21 @@
                         [
                             "ExpressionPlaceholder",
                             "scared",
-                            "No, te he extrañado. He extrañado a todos..."
+                            "No. Te he extrañado. He extrañado a todos..."
                         ],
                         null,
                         [
                             "FunctionDefinition",
                             "kind",
                             "Lo sé. Yo también. Lo siento mucho.",
-                            "En realidad, por eso estoy aquí. Quería presentarles a nuestro nuevo director en formación."
+                            "En realidad, por eso estoy aquí. Quería presentarles a todos a nuestro nuevo director en formación."
                         ],
-                        ["ExpressionPlaceholder", "scared", "Hi."],
+                        ["ExpressionPlaceholder", "scared", "Hola."],
                         null,
                         [
                             "FunctionDefinition",
                             "kind",
-                            "Acaban de conocer a @Program, así que realmente están en el comienzo, pero estaba pensando que sería mejor para ellos conocerte a ti a continuación, ya que eres un maravilloso representante de muchos de nosotros aquí."
+                            "Acaban de conocer a @Program, así que realmente están solo en el comienzo, pero pense que sería mejor para ellos conocerte a ti, ya que eres un maravilloso representante de muchos de nosotros aquí."
                         ],
                         ["ExpressionPlaceholder", "curious", "…"],
                         null,
@@ -301,33 +301,33 @@
                             "kind",
                             "¿Quieres decir lo que haces?"
                         ],
-                        ["ExpressionPlaceholder", "scared", "Can you?"],
+                        ["ExpressionPlaceholder", "scared", "Lo puedes hacer tu?"],
                         null,
                         [
                             "FunctionDefinition",
                             "kind",
-                            "¡Seguro! Mi amigo @ExpressionPlaceholder es un marcador de posición. Representan cualquier tipo de expresión en un programa. De hecho, si aparecen en @Program, @Program simplemente detendrá el rendimiento, ya que no está realmente claro qué hacer a continuación."
+                            "¡Seguro! Mi amigo @ExpressionPlaceholder es un marcador de posición. Representan cualquier tipo de expresión en un programa. De hecho, si aparecen en @Program, @Program simplemente detendrá el espectaculo, ya que no está realmente claro qué hacer a continuación."
                         ],
                         null,
                         ["conflict", "_"],
                         [
                             "FunctionDefinition",
                             "kind",
-                            "Pero son poderosos porque pueden representar a cualquier otra persona, como un suplente hasta que decides cuál quieres que sea parte de tu actuación. @ExpressionPlaceholder, ¿quieres ocupar un lugar en este @Program, solo para ilustrar? ¿Ves cómo hay un pequeño marcador de posición en @Program @UI/ExpressionPlaceholder? Esa es una señal de lo que podrías poner allí."
+                            "Pero son poderosos porque pueden representar a cualquier otra persona, como un suplente hasta que decidas quien quieres que sea parte de tu actuación. @ExpressionPlaceholder, ¿quieres ocupar un lugar en este @Program, solo para ilustrar? ¿Ves cómo hay un pequeño marcador de posición en @Program @UI/ExpressionPlaceholder? Esa es una señal de lo que podrías poner allí."
                         ],
                         null,
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "@Program no sabía qué hacer con @ExpressionPlaceholder, por lo que mostró una *excepción* @UI/excepción en el *escenario* y un *conflicto* en @Program @UI/conflict.",
-                            "Pero si haces clic en @ExpressionPlaceholder o mueves el cursor de texto sobre él, verás un mundo de posibilidades para otros caracteres. También puedes escribir sobre @ExpressionPlaceholder y escribir el tuyo propio. Por ejemplo, intente escribir su nombre entre comillas."
+                            "@Program no sabía qué hacer con @ExpressionPlaceholder, así que que mostró una *excepción* @UI/excepción en el *escenario* y un *conflicto* en @Program @UI/conflict.",
+                            "Pero si haces clic en @ExpressionPlaceholder o mueves el cursor de texto sobre él, verás un mundo de posibilidades para otros caracteres. También puedes escribir sobre @ExpressionPlaceholder y escribir tus propios caracteres. Por ejemplo, intenta escribir tu nombre entre comillas."
                         ],
                         null,
                         ["use", "fit", "Symbol", "-"],
                         [
                             "FunctionDefinition",
                             "serious",
-                            "Así, @ExpressionPlaceholder fue reemplazado por otros caracteres. ¿¿Le expliqué todo, @ExpressionPlaceholder?"
+                            "Así, @ExpressionPlaceholder fue reemplazado por otros caracteres. ¿Le expliqué todo, @ExpressionPlaceholder?"
                         ],
                         ["ExpressionPlaceholder", "eager", "Creo que sí"],
                         null,
@@ -346,12 +346,12 @@
                         [
                             "FunctionDefinition",
                             "cheerful",
-                            "No les gusta estar en el escenario, ni siquiera en un programa por mucho tiempo. Nunca lo admitirían, pero son algo importante y la mayoría de los directores no pueden trabajar sin ellos. Piensa en él como un pequeño tramoyista útil que le recuerda cosas que aún no ha descubierto."
+                            "No les gusta estar en el escenario, ni siquiera en un programa por mucho tiempo. Nunca lo admitirían, pero son algo importante y la mayoría de los directores no pueden trabajar sin ellos. Piensa en él como un pequeño ayudante útil que te recuerda cosas que aún ni has descubierto."
                         ]
                     ]
                 },
                 {
-                    "title": "¿Decir de nuevo?",
+                    "title": "¿Repítelo?",
                     "subtitle": "No analizable",
                     "concept": "UnparsableExpression",
                     "performance": ["use", "fit", "Symbol", "ahkeolfewvk"],
@@ -371,7 +371,7 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "¡Qué bueno verte a ti también! Ha sido tan largo. ¿Qué has estado haciendo en todo este silencio?"
+                            "¡Qué bueno verte a ti también! Ha sido mucho tiempo. ¿Qué has estado haciendo en todo este silencio?"
                         ],
                         [
                             "UnparsableExpression",
@@ -381,14 +381,14 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "(Parece que pasaron mucho tiempo en la playa. Hicieron nuevos amigos y practicaron haciendo nada)."
+                            "(Parece que pasaron mucho tiempo en la playa. Hicieron nuevos amigos y practicaron hacer nada)."
                         ],
                         null,
                         ["use", "fit", "Symbol", "ivioas we wjjdks"],
                         [
                             "FunctionDefinition",
                             "excited",
-                            "Quería presentarles a nuestro nuevo director potencial. Acaban de llegar y están aprendiendo lo básico. Les acabo de presentar @Program y @ExpressionPlaceholder."
+                            "Quería presentarte a nuestro nuevo director potencial. Acaban de llegar y están aprendiendo lo básico. Les acabo de presentar a @Program y a @ExpressionPlaceholder."
                         ],
                         [
                             "UnparsableExpression",
@@ -415,7 +415,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "(Represento todo lo que no significa nada. Y digo que nada)."
+                            "(Represento todo lo que no significa nada. Y yo significo nada)."
                         ],
                         null,
                         ["edit", ""],
@@ -458,7 +458,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "Así que @UnparsableExpression quiere que intentes crear tantos como sea posible. (Puedes simplemente combinar un montón de caracteres aleatorios y probablemente obtendrás muchos de ellos)."
+                            "... @UnparsableExpression quiere que intentes crear las expresiones más confusas que puedas. (Puedes simplemente combinar un montón de caracteres aleatorios y probablemente obtendrás muchas de ellas)."
                         ],
                         ["edit", ""],
                         null,
@@ -478,13 +478,13 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "Preguntan si ya tienes alguna idea sobre qué actuaciones realizar."
+                            "Preguntan si ya tienes alguna idea sobre qué actuaciones quieres realizar."
                         ],
                         null,
                         [
                             "FunctionDefinition",
                             "kind",
-                            "¿No? Esta bien. Apenas hemos comenzado a mostrarle lo que es posible. Vamos a conocer a @Evaluate. ¡Adiós imperdible, fue un placer verte! Juguemos pronto."
+                            "¿No? Esta bien. Apenas hemos comenzado a mostrarle lo que es posible. Vamos a conocer a @Evaluate. ¡Adiós @UnparsableExpression, fue un placer verte! Juguemos pronto."
                         ],
                         [
                             "UnparsableExpression",
@@ -551,12 +551,12 @@
                             "serious",
                             "Nunca. No lo haré. No puedo. Te amo."
                         ],
-                        ["Evaluate", "serious", "I love you…"],
+                        ["Evaluate", "serious", "Te amo tambien…"],
                         null,
                         [
                             "FunctionDefinition",
                             "serious",
-                            "@Evaluate, quiero presentarles a nuestro nuevo director en formación."
+                            "@Evaluate, quiero presentarte a nuestro nuevo director en formación."
                         ],
                         [
                             "Evaluate",
@@ -567,7 +567,7 @@
                         [
                             "FunctionDefinition",
                             "eager",
-                            "Hemos estado conociendo a algunas personas, @Program, @ExpressionPlaceholder, @UnparsableExpression. Recién estamos comenzando. Pensé que vendríamos a verte a continuación, sólo porque eres una parte increíble de nuestra comunidad. La parte más increíble."
+                            "Hemos estado conociendo a algunas personas, @Program, @ExpressionPlaceholder, y a @UnparsableExpression. Recién estamos comenzando. Pensé que vendríamos a verte a ti, sólo porque eres una parte increíble de nuestra comunidad. La parte más increíble."
                         ],
                         [
                             "Evaluate",
@@ -587,19 +587,19 @@
                         [
                             "Evaluate",
                             "serious",
-                            "Sí. Pero no puedo explicarlo sin explicar un poco sobre @FunctionDefinition también. Son demasiado modestos para compartir esto, pero probablemente sean el personaje más importante del Verso. Sin duda son la persona más importante de mi mundo. Están en el centro de cada actuación y son parte del papel de todos los demás personajes. Representan la idea más fundamental de nuestro mundo: la *función*."
+                            "Sí. Pero no puedo explicarlo sin explicar un poco sobre @FunctionDefinition también. Son demasiado modestos para compartir esto, pero probablemente son el personaje más importante del Verso. Sin duda son la persona más importante de mi mundo. Están en el centro de cada actuación y son parte del papel de todos los demás personajes. Representan la idea más fundamental de nuestro mundo: la *función*."
                         ],
                         null,
                         [
                             "Evaluate",
                             "serious",
-                            "Las funciones son una especie de alquimia. Toman cualquier número de insumos y los utilizan para producir un resultado. Pueden tener nombres o no tener nombre. Pueden tener cero entradas o cinco o un número desconocido. Y la alquimia: son como @Program y pueden tener cualquier cantidad de expresiones para producir un valor."
+                            "Las funciones son una especie de alquimia. Toman cualquier número de insumos y los utilizan para producir un resultado. Pueden tener nombres o no tener nombre. Pueden tener cero entradas o cinco, o un número desconocido. Y la alquimia: son como @Program y pueden tener cualquier cantidad de expresiones para producir un valor."
                         ],
                         null,
                         [
                             "Evaluate",
                             "serious",
-                            "He aquí por qué esto es tan poderoso: resulta que todo en @Program es una composición de evaluaciones de funciones. Todos los bailes, todos los juegos, todas las maravillosas historias que contamos juntos son un tapiz de funciones que se evalúan, una a la vez, para componer los valores que se ven en el escenario.",
+                            "¿Porque es eso tan poderoso? Resulta que todo en @Program es una composición de evaluaciones de funciones. Todos los bailes, todos los juegos, todas las maravillosas historias que contamos juntos son un tapiz de funciones que se evalúan, una a la vez, para componer los valores que se ven en el escenario.",
                             "Y @FunctionDefinition, aquí, mi dulce y querida @FunctionDefinition, es la que los define a todos."
                         ],
                         null,
@@ -607,19 +607,19 @@
                         [
                             "Evaluate",
                             "serious",
-                            "Sí, @FunctionDefinition, eso es lo que eres. Y soy el afortunado que puede hacer esta evaluación. Tomo las entradas que otros me dan, sigo las instrucciones que @FunctionDefinition define y creo la salida que @FunctionDefinition me dice que cree. @FunctionDefinition da la receta y yo preparo la comida. Y luego festejamos juntos.",
+                            "Sí, @FunctionDefinition, eso es lo que eres. Y soy el afortunado que puede hacer esa evaluación. Tomo las entradas que otros me dan, sigo las instrucciones que @FunctionDefinition define y creo la salida que @FunctionDefinition me dice que cree. @FunctionDefinition da la receta y yo preparo la comida. Y luego festejamos juntos.",
                             "¿Quieres ver?"
                         ],
                         [
                             "FunctionDefinition",
                             "happy",
-                            "... Sí, vamos a mostrarlos."
+                            "... Sí, vamos a mostrarles."
                         ],
                         null,
                         [
                             "Evaluate",
                             "serious",
-                            "Cada evaluación se ve así @UI/Evaluate: alguna función, seguida de un paréntesis izquierdo y derecho, con cualquier número de entradas entre ellas. Aquí solo tengo @ExpressionPlaceholder como función y tres más como entradas de marcador de posición."
+                            "Cada evaluación se ve así @UI/Evaluate: alguna función, seguida de un paréntesis izquierdo y derecho, con cualquier número de entradas entre ellas. Aquí solo tengo @ExpressionPlaceholder como la función y tres más como entradas de marcador de posición."
                         ],
                         ["conflict", "_(_ _ _)"],
                         null,
@@ -634,7 +634,7 @@
                         [
                             "Evaluate",
                             "serious",
-                            "Así es como me veo en @Program: alguna función, seguida de paréntesis, con una lista de expresiones entre ellas que representan las entradas. La función en este caso es @Phrase y la entrada única es \\'hola'\\. Cuando evalúo esto, hago un valor @Phrase, que luego @Program muestra en el escenario."
+                            "Así es como me veo en @Program: como alguna función, seguida de paréntesis, con una lista de expresiones entre ellas que representan las entradas. La función en este caso es @Phrase y la entrada única es \\'hola'\\. Cuando evalúo esto, hago un valor @Phrase, que luego @Program muestra en el escenario."
                         ],
                         null,
                         [
