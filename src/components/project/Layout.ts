@@ -382,7 +382,7 @@ export default class Layout {
               height < 500 || width < 500
                 ? Arrangement.Single
                 : // Tablet size? Split view.
-                  height < 700 || width < 700
+                  height < 600 || width < 600
                   ? Arrangement.Split
                   : width > height
                     ? Arrangement.Horizontal

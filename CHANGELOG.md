@@ -22,6 +22,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 ### Changed
 
+- We adjusted the tablet-sized split view layout cutoff to better fit laptop screens.
 - We moved the gallery how tos to the top of the guide, above the built-in how tos, to make local guidance more prominent than platform guidance.
 - We upgraded internal tooling for stability.
 - We generalized the name of "name separator" (commas) to "separator", since they can be used in other places.
