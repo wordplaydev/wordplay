@@ -20,6 +20,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 ### Changed
 
 - We moved the gallery how tos to the top of the guide, above the built-in how tos, to make local guidance more prominent than platform guidance.
+- We upgraded internal tooling for stability.
 
 ## 0.16.45 - 2026-02-28
 
