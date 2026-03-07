@@ -278,7 +278,12 @@ export default class StructureDefinition extends DefinitionExpression {
             this.inputs.every((input, index) => input === inputs[index])
         )
             return this;
-        else return this.clone({ original: 'inputs', replacement: inputs });
+        else
+            return this.clone({
+                original: 'inputs',
+                replacement: inputs,
+                report: 'console',
+            });
     }
 
     getTypeVariableReference(index: number): NameType | undefined {
