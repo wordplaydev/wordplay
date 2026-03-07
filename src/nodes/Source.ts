@@ -84,7 +84,7 @@ export default class Source extends Expression {
             // Save the AST provided
             const [program, spaces] = code;
             this.expression = program;
-            this.tokens = program.leaves() as Token[];
+            this.tokens = program.leaves();
             this.root = new Root(this);
             this.spaces = spaces.withRoot(this);
         }
@@ -524,8 +524,7 @@ export default class Source extends Expression {
             // Iterate through all of the tokens in order
             let count = 0;
             for (const token of this.leaves()) {
-                count +=
-                    this.spaces.getSpace(token as Token).split('\n').length - 1;
+                count += this.spaces.getSpace(token).split('\n').length - 1;
                 if (leaf === token) return count;
             }
             return undefined;
@@ -582,7 +581,7 @@ export default class Source extends Expression {
             lastOnLine: boolean,
         ) => Result | undefined,
     ): Result | undefined {
-        const tokens = this.leaves() as Token[];
+        const tokens = this.leaves();
 
         // Track the rendered line, rendered column, and physical index.
         // "Physical" here means the text string that repreesents the program in memory

@@ -362,7 +362,7 @@ export default class Caret {
         // Find the token whose space contains the current position. This is the token text to the right of the caret.
         const tokens = this.getProgram()
             .nodes()
-            .filter((token) => token instanceof Token) as Token[];
+            .filter((token) => token instanceof Token);
         const tokenAfter = this.source.getTokenWithSpaceAt(this.position);
 
         if (tokenAfter === undefined) return empty;
@@ -1000,7 +1000,7 @@ export default class Caret {
             // Get the first or last token of the given node.
             const tokens = this.position.nodes(
                 (n): n is Token => n instanceof Token,
-            ) as Token[];
+            );
             const first = tokens[0];
             const last = tokens[tokens.length - 1];
             if (start && first) {
@@ -1555,11 +1555,11 @@ export default class Caret {
             );
             // Bail if we couldn't find it for some reason.
             if (editedRevision === undefined) return undefined;
-            const start = revisedSource.getTokenTextPosition(
-                editedRevision[1]
-                    .leaves()
-                    .find((t) => t.isSymbol(Sym.Name)) as Token,
-            );
+            const firstName = editedRevision[1]
+                .leaves()
+                .find((t) => t.isSymbol(Sym.Name));
+            if (firstName === undefined) return undefined;
+            const start = revisedSource.getTokenTextPosition(firstName);
             // Bail if we couldn't find the start position for some reason.
             if (start === undefined) return undefined;
 
