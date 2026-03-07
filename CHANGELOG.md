@@ -21,6 +21,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - When undoing an edit, the caret was sometimes restored incorrectly, making it impossible to move it.
 - Sometimes edits would result in the editor crashing. We prevented those from happening.
 - The feedback on sequence editor percentages was wrong. It's fixed now.
+- When tooltips are near the top or left of the screen, we avoid covering the control they're describing.
 
 ### Changed
 
