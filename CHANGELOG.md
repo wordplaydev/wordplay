@@ -10,6 +10,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 - Added a machine translation of a Hebrew locale (#411).
 - Added a machine translation of a Vietnamese locale (#985).
+- We made autocompletion of conversions smarter and less buggy.
 
 ### Fixed
 

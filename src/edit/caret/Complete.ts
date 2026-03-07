@@ -16,7 +16,7 @@ import ListType from '@nodes/ListType';
 import Literal from '@nodes/Literal';
 import MapType from '@nodes/MapType';
 import Names from '@nodes/Names';
-import Node from '@nodes/Node';
+import Node, { type Field } from '@nodes/Node';
 import NumberLiteral from '@nodes/NumberLiteral';
 import NumberType from '@nodes/NumberType';
 import Paragraph, { type Segment } from '@nodes/Paragraph';
@@ -248,12 +248,25 @@ function completeConvert({
     position,
 }: InsertInfo): Revision | undefined {
     // What's the preceding expression?
-    const precedingExpression = getPrecedingExpression(
+    let precedingExpression = getPrecedingExpression(
         source,
         position,
         false,
     )[0];
     if (precedingExpression === undefined) return undefined;
+
+    // Keep climbing parents until we find an expression that can be replaced with a convert,
+    // or we run out of expression parents.
+    let parent: Node | undefined = undefined;
+    let field: Field | undefined = undefined;
+    do {
+        parent = source.root.getParent(precedingExpression);
+        field = parent?.getFieldOfChild(precedingExpression);
+        if (field === undefined) return undefined;
+        if (field.kind.allowsKind(Convert)) break;
+        if (parent instanceof Expression) precedingExpression = parent;
+        else return undefined;
+    } while (true);
 
     // Replace the preceding expression with a conversion of it.
     const placeholder = TypePlaceholder.make();

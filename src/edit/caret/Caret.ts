@@ -1033,8 +1033,15 @@ export default class Caret {
         column?: number,
         entry?: Entry,
     ): Caret {
-        if (typeof position === 'number' && isNaN(position))
-            throw Error('NaN on caret set!');
+        if (
+            (typeof position === 'number' && isNaN(position)) ||
+            (Array.isArray(position) &&
+                (isNaN(position[0]) || isNaN(position[1])))
+        ) {
+            console.error('NaN on caret set!');
+            console.trace();
+            return this;
+        }
         return new Caret(
             this.source,
             typeof position === 'number'
