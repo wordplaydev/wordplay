@@ -907,6 +907,8 @@
         );
     }
 
+    let outputView = $state<OutputView | undefined>(undefined);
+
     let adjusting = $state(false);
 
     /** Take the given axis, group, and split, and adjust it. */
@@ -1706,6 +1708,19 @@
                                     <Painting
                                             bind:painting
                                         />{/if} -->
+                                    <Button
+                                        action={() =>
+                                            outputView?.adjustZoom(-1)}
+                                        tip={(l) => l.ui.output.button.zoomOut}
+                                        padding={false}
+                                        ><Emoji>–<sub>🔎</sub></Emoji></Button
+                                    >
+                                    <Button
+                                        action={() => outputView?.adjustZoom(1)}
+                                        tip={(l) => l.ui.output.button.zoomIn}
+                                        padding={false}
+                                        ><Emoji>+<sub>🔎</sub></Emoji></Button
+                                    >
                                     <Toggle
                                         background
                                         tips={(l) => l.ui.output.toggle.grid}
@@ -1770,6 +1785,7 @@
                                     />
                                 {:else if tile.kind === TileKind.Output}
                                     <OutputView
+                                        bind:this={outputView}
                                         {project}
                                         evaluator={$evaluator}
                                         value={latestValue}

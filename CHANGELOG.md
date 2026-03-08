@@ -12,6 +12,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - Added a machine translation of a Vietnamese locale (#985).
 - We made autocompletion of conversions smarter and less buggy.
 - Added a zoom control to code editors for accessibility (#772).
+- Added a zoom control to the stage.
 
 ### Fixed
 

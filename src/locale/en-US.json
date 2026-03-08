@@ -4840,7 +4840,9 @@
                 }
             },
             "button": {
-                "submit": "submit this chat message"
+                "submit": "submit this chat message",
+                "zoomIn": "zoom into the stage",
+                "zoomOut": "zoom out from the stage"
             },
             "options": {
                 "locale": "preferred language for output",

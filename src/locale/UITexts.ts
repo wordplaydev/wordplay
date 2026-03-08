@@ -463,6 +463,10 @@ type UITexts = {
         button: {
             /** The chat submit button */
             submit: string;
+            /** Zoom in output button */
+            zoomIn: string;
+            /** Zoom in output button */
+            zoomOut: string;
         };
         options: {
             /** The label for the locale chooser in output */

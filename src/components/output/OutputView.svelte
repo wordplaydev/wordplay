@@ -116,6 +116,10 @@
         value === undefined ? undefined : toStage(evaluator, value),
     );
 
+    export function adjustZoom(dz: number) {
+        stage?.adjustFocus(0, 0, dz);
+    }
+
     /** Every time the stage value changes, load any new fonts we might need */
     $effect(() => {
         if (stageValue) {

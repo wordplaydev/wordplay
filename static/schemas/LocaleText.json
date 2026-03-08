@@ -11026,10 +11026,20 @@
                     "submit": {
                       "description": "The chat submit button",
                       "type": "string"
+                    },
+                    "zoomIn": {
+                      "description": "Zoom in output button",
+                      "type": "string"
+                    },
+                    "zoomOut": {
+                      "description": "Zoom in output button",
+                      "type": "string"
                     }
                   },
                   "required": [
-                    "submit"
+                    "submit",
+                    "zoomIn",
+                    "zoomOut"
                   ],
                   "type": "object"
                 },
