@@ -13,15 +13,15 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - We made autocompletion of conversions smarter and less buggy.
 - We added a zoom control to code editors for accessibility (#772).
 - We added a zoom control to the stage.
-- We added the Courier Prime font.
-- `Evaluate` expressions can have commas in them now, in case you're used to other programming languages that separate function inputs with commas.
+- We added the /Courier Prime/ font.
+- @Evaluate expressions can have commas in them now, in case you're used to other programming languages that separate function inputs with commas.
 
 ### Fixed
 
 - Sometimes emojis have extra hidden symbols after them. We ignore them now so that emojis in code don't break things. (#970).
 - We weren't properly handling commas after text and formatted literals. Now we do!
 - Dropdowns weren't working in Safari. Now they do! (#978).
-- The `Pointer` stream stopped working, but we fixed it.
+- The @Pointer stream stopped working, but we fixed it.
 - When undoing an edit, the caret was sometimes restored incorrectly, making it impossible to move it.
 - Sometimes edits would result in the editor crashing. We prevented those from happening.
 - The feedback on sequence editor percentages was wrong. It's fixed now.
