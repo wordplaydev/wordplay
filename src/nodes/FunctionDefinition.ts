@@ -191,9 +191,7 @@ export default class FunctionDefinition extends DefinitionExpression {
 
         const unitStructure = structure.getType(context);
 
-        return this.isOperator() &&
-            this.inputs.length === 0 &&
-            !(fun instanceof PropertyReference)
+        return this.isOperator() && this.inputs.length === 0
             ? new UnaryEvaluate(
                   new Reference(
                       new Token(this.getOperatorName() ?? '_', Sym.Operator),
@@ -202,7 +200,7 @@ export default class FunctionDefinition extends DefinitionExpression {
               )
             : this.isOperator() &&
                 this.inputs.length === 1 &&
-                !(fun instanceof PropertyReference)
+                !(structure instanceof PropertyReference)
               ? unary && this.isOptionalUnary()
                   ? new UnaryEvaluate(
                         new Reference(
