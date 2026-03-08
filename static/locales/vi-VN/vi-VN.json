@@ -4712,7 +4712,9 @@
                 "selectOutput": "$~Hiển thị kết quả này trên sân khấu",
                 "expandSequence": "$~mở rộng đoạn mã bị thu gọn này",
                 "expandControls": "$~Hiển thị các lệnh chỉnh sửa bổ sung",
-                "collapseControls": "$~ẩn các lệnh chỉnh sửa bổ sung"
+                "collapseControls": "$~ẩn các lệnh chỉnh sửa bổ sung",
+                "zoomIn": "$~Làm cho mã lớn hơn",
+                "zoomOut": "$~Thu nhỏ mã nguồn"
             },
             "field": {
                 "name": {
@@ -4837,7 +4839,9 @@
                 }
             },
             "button": {
-                "submit": "$~gửi tin nhắn trò chuyện này"
+                "submit": "$~gửi tin nhắn trò chuyện này",
+                "zoomIn": "$~phóng to sân khấu",
+                "zoomOut": "$~thu nhỏ tầm nhìn sân khấu"
             },
             "options": {
                 "locale": "$~ngôn ngữ ưu tiên cho đầu ra",

@@ -4476,7 +4476,9 @@
                 "selectOutput": "$~visa denna produktion på scenen",
                 "expandSequence": "$~expandera den här komprimerade koden",
                 "expandControls": "$~visa ytterligare redigeringskommandon",
-                "collapseControls": "$~dölj ytterligare redigeringskommandon"
+                "collapseControls": "$~dölj ytterligare redigeringskommandon",
+                "zoomIn": "$~Gör koden större",
+                "zoomOut": "$~Gör koden mindre"
             },
             "field": {
                 "name": {
@@ -4607,7 +4609,9 @@
                 }
             },
             "button": {
-                "submit": "$~skicka detta chattmeddelande"
+                "submit": "$~skicka detta chattmeddelande",
+                "zoomIn": "$~zooma in på scenen",
+                "zoomOut": "$~zooma ut från scenen"
             },
             "options": {
                 "locale": "$~välj språk för utmatning",

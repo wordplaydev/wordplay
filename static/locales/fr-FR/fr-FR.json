@@ -4459,7 +4459,9 @@
                 "selectOutput": "$~montrer cette sortie sur scène",
                 "expandSequence": "$~développer ce code réduit",
                 "expandControls": "$~afficher des commandes d'édition supplémentaires",
-                "collapseControls": "$~masquer les commandes d'édition supplémentaires"
+                "collapseControls": "$~masquer les commandes d'édition supplémentaires",
+                "zoomIn": "$~Agrandir le code",
+                "zoomOut": "$~Réduisez la taille du code."
             },
             "field": {
                 "name": {
@@ -4590,7 +4592,9 @@
                 }
             },
             "button": {
-                "submit": "$~soumettre ce message de discussion"
+                "submit": "$~soumettre ce message de discussion",
+                "zoomIn": "$~zoom sur la scène",
+                "zoomOut": "$~Dézoom arrière depuis la scène"
             },
             "options": {
                 "locale": "$~choisir la langue de sortie",

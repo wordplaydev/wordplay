@@ -4458,7 +4458,9 @@
                 "selectOutput": "$~diese Ausgabe auf der Bühne zeigen",
                 "expandSequence": "$~Erweitern Sie diesen ausgeblendeten Code",
                 "expandControls": "$~zusätzliche Bearbeitungsbefehle anzeigen",
-                "collapseControls": "$~zusätzliche Bearbeitungsbefehle ausblenden"
+                "collapseControls": "$~zusätzliche Bearbeitungsbefehle ausblenden",
+                "zoomIn": "$~Vergrößern Sie den Code",
+                "zoomOut": "$~Verkleinern Sie den Code"
             },
             "field": {
                 "name": {
@@ -4589,7 +4591,9 @@
                 }
             },
             "button": {
-                "submit": "$~diese Chat-Nachricht senden"
+                "submit": "$~diese Chat-Nachricht senden",
+                "zoomIn": "$~Zoomen Sie auf die Bühne",
+                "zoomOut": "$~Zoomen Sie von der Bühne heraus."
             },
             "options": {
                 "locale": "$~Wählen Sie die Sprache für die Ausgabe",

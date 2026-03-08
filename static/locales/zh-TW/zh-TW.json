@@ -4417,7 +4417,9 @@
                 "selectOutput": "在舞台上顯示此輸出",
                 "expandSequence": "展開此折疊的程式碼",
                 "expandControls": "$~显示附加编辑命令",
-                "collapseControls": "$~隐藏附加编辑命令"
+                "collapseControls": "$~隐藏附加编辑命令",
+                "zoomIn": "$~增加程式碼量",
+                "zoomOut": "$~縮小程式碼體積"
             },
             "field": {
                 "name": {
@@ -4548,7 +4550,9 @@
                 }
             },
             "button": {
-                "submit": "提交此聊天訊息"
+                "submit": "提交此聊天訊息",
+                "zoomIn": "$~鏡頭拉近舞台",
+                "zoomOut": "$~鏡頭從舞台拉遠。"
             },
             "options": {
                 "locale": "選擇輸出語言",
