@@ -4713,7 +4713,9 @@
                 "selectOutput": "show this output on stage",
                 "expandSequence": "expand this collapsed code",
                 "expandControls": "show additional editing commands",
-                "collapseControls": "hide additional editing commands"
+                "collapseControls": "hide additional editing commands",
+                "zoomIn": "Make the code larger",
+                "zoomOut": "Make the code smaller"
             },
             "field": {
                 "name": {

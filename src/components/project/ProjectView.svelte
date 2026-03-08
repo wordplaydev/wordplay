@@ -451,6 +451,11 @@
     const editors = writable(new Map<string, EditorState>());
     setEditors(editors);
 
+    /** The currently focused editor state */
+    const focusedEditorState = $derived(
+        Array.from($editors.values()).find((editor) => editor.focused),
+    );
+
     /** A map of tile IDs to editor components, so we can pass around references for programmatic use of editors. */
     const editorViews = $state<Record<string, Editor>>({});
 
@@ -1029,9 +1034,8 @@
         caret:
             layout === undefined || layout.isFullscreenNonSource()
                 ? undefined
-                : (Array.from($editors.values()).find(
-                      (editor) => editor.focused,
-                  )?.caret ?? Array.from($editors.values())[0]?.caret),
+                : (focusedEditorState?.caret ??
+                  Array.from($editors.values())[0]?.caret),
         project,
         editor: false,
         /** We intentionally depend on the evaluation store because it updates when the evaluator's state changes */
@@ -1046,6 +1050,8 @@
         blocks: $blocks,
         view: undefined,
         help: () => (showHelpDialog = !showHelpDialog),
+        zoom: focusedEditorState?.zoom,
+        setZoom: focusedEditorState?.setZoom,
     });
 
     // Create reactive context to share the above.
