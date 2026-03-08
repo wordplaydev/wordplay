@@ -5345,9 +5345,9 @@
             "label": "collaborate",
             "role": {
                 "owner": "owner",
-                "collaborators": "collaborators",
+                "collaborators": "collaborators (edit and chat)",
                 "curators": "curators",
-                "commenters": "commenters",
+                "commenters": "commenters (chat only)",
                 "viewers": "viewers"
             },
             "field": {
@@ -5389,7 +5389,7 @@
                 "deleted": "This message was deleted."
             },
             "prompt": {
-                "solo": "Chat with yourself or add...\n\n• a collaborator, who can edit and chat\n\n• a commenter, who can chat but cannot edit\n\n• a viewer, who can see your project but cannot edit or chat",
+                "solo": "Chat with yourself or add...",
                 "owner": "Collaborators can edit this project and chat about it. Commenters can chat but cannot edit this project. Viewers can view this project but cannot chat.",
                 "collaborator": "You're a collaborator. You can edit this project and chat about it.",
                 "curator": "You're a curator of this project's gallery. You can edit this project and chat about it. Only the project's owner, collaborators, and commenters can see the chat.",

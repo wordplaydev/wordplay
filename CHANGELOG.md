@@ -24,6 +24,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - Sometimes edits would result in the editor crashing. We prevented those from happening.
 - The feedback on sequence editor percentages was wrong. It's fixed now.
 - When tooltips are near the top or left of the screen, we avoid covering the control they're describing.
+- Project chat wasn't visible on small screens. We gave it a minimum height.
 
 ### Changed
 
