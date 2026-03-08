@@ -3431,6 +3431,41 @@
                 "names": "$~y",
                 "doc": "$~Hướng và độ lớn của hướng dọc theo trục y."
             }
+        },
+        "Speech": {
+            "doc": [
+                "$~Xin chào!",
+                "$~@FunctionDefinition đây - sẵn sàng lắng nghe!",
+                "$~Luồng này nhận dạng giọng nói và chuyển đổi nó thành @Text. Nó sử dụng tính năng nhận dạng giọng nói của trình duyệt để lắng nghe những gì bạn nói và biến nó thành từ ngữ (thật tuyệt vời phải không?!).",
+                "$~\\Lời nói()\\",
+                "$~Đây là lựa chọn hoàn hảo cho những người có thể nói một ngôn ngữ nhưng vẫn đang học đọc hoặc viết (và hơn thế nữa)...",
+                "$~Bạn có thể chỉ định mã ngôn ngữ để nhận dạng giọng nói bằng một ngôn ngữ cụ thể:",
+                "$~\\Speech(language: 'es-MX')\\",
+                "$~Nếu không chỉ định ngôn ngữ, hệ thống sẽ mặc định sử dụng ngôn ngữ bạn ưu tiên.",
+                "$~Tính năng nhận dạng giọng nói yêu cầu quyền truy cập micro và kết nối Internet (vui lòng cấp quyền truy cập!). Ngoài ra, có thể có giới hạn sử dụng, vì vậy đừng để nó hoạt động quá lâu (tuyệt đối không!)."
+            ],
+            "names": ["$~🎙️", "$~Lờinói", "$~Tiếngnói"],
+            "reset": {
+                "names": ["$~càilại", "$~thôngthoáng"],
+                "doc": "$~Khi giá trị này thay đổi, hãy xóa toàn bộ dữ liệu đã lưu và bắt đầu lại từ đầu."
+            },
+            "language": {
+                "names": ["$~ngônngữ", "$~lang"],
+                "doc": "$~Mã ngôn ngữ BCP 47 (ví dụ: 'en-US'). Nếu trình duyệt của bạn không hỗ trợ nhận dạng giọng nói, bạn sẽ nhận được thông báo lỗi. Ngôn ngữ mặc định sẽ là ngôn ngữ bạn ưu tiên."
+            },
+            "limit": {
+                "names": ["$~giớihạn", "$~từ"],
+                "doc": "$~Số lượng từ tối đa được giữ lại trong dữ liệu lời nói tích lũy (cửa sổ trượt). Khi được thiết lập, chỉ những từ gần đây nhất được giữ lại, và các từ cũ hơn sẽ bị loại bỏ. Nếu không được chỉ định, tất cả các từ sẽ được giữ lại vô thời hạn."
+            },
+            "error": {
+                "browserNotSupported": "$~Dịch vụ không được hỗ trợ trên trình duyệt này",
+                "noConnection": "$~không có kết nối internet",
+                "serviceNotAllowed": "$~Dịch vụ không khả dụng",
+                "micNotAllowed": "$~Không được phép truy cập micro.",
+                "noMicrophone": "$~Không tìm thấy micrô",
+                "languageNotSupported": "$~Ngôn ngữ không được hỗ trợ",
+                "limit": "$~Thất bại sau nhiều lần thử."
+            }
         }
     },
     "output": {

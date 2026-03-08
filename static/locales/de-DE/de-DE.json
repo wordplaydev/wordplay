@@ -3447,7 +3447,7 @@
                 "$~Wenn keine Sprache angegeben ist, wird standardmäßig Ihre bevorzugte Sprache verwendet.",
                 "$~Die Spracherkennung benötigt Zugriff auf das Mikrofon und eine Internetverbindung (bitte gewähren Sie den Zugriff!). Es kann außerdem Nutzungsbeschränkungen geben, lassen Sie es also nicht zu lange eingeschaltet (nein!)."
             ],
-            "names": ["$~🗣️", "$~Rede", "$~Stimme"],
+            "names": ["$~Rede", "$~Stimme"],
             "reset": {
                 "names": ["$~zurücksetzen", "$~klar"],
                 "doc": "$~Wenn sich dieser Wert ändert, löschen Sie die gespeicherte Sprache und beginnen Sie von vorn."

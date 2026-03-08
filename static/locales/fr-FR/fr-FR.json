@@ -3444,7 +3444,7 @@
                 "$~Si aucune langue n'est spécifiée, la langue par défaut sera celle de votre région préférée.",
                 "$~La reconnaissance vocale nécessite l'accès au microphone et à Internet (veuillez autoriser ces accès !). De plus, des limites d'utilisation peuvent s'appliquer, alors ne la laissez pas activée trop longtemps (non !)."
             ],
-            "names": ["$~🗣️", "$~Discours", "$~Voix"],
+            "names": ["$~Discours", "$~Voix"],
             "reset": {
                 "names": ["$~réinitialiser", "$~clair"],
                 "doc": "$~Lorsque cette valeur change, effacez le discours accumulé et recommencez à zéro."

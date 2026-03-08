@@ -3249,7 +3249,7 @@
                 "If no language is specified, it defaults to your preferred locale.",
                 "Speech recognition requires microphone access and Internet connection (please give access!). Also, there might be usage limits, so don't leave it on for too long (nooooo)!"
             ],
-            "names": ["🗣️", "Speech", "Voice"],
+            "names": ["🎙️", "Speech", "Voice"],
             "reset": {
                 "names": ["reset", "clear"],
                 "doc": "When this value changes, clear the accumulated speech and start fresh."

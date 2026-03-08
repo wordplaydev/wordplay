@@ -3449,7 +3449,7 @@
                 "$~Jeśli nie określono języka, domyślnie zostanie użyty preferowany język.",
                 "$~Rozpoznawanie mowy wymaga dostępu do mikrofonu i połączenia internetowego (prosimy o udzielenie dostępu!). Mogą obowiązywać limity użytkowania, więc nie pozostawiaj go włączonego zbyt długo (nieeeee)!"
             ],
-            "names": ["$~🗣️", "$~Przemówienie", "$~Głos"],
+            "names": ["$~Przemówienie", "$~Głos"],
             "reset": {
                 "names": ["$~nastawić", "$~jasne"],
                 "doc": "$~Gdy ta wartość ulegnie zmianie, wyczyść nagromadzoną mowę i zacznij od nowa."

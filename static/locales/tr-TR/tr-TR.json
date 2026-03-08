@@ -3444,7 +3444,7 @@
                 "$~Dil belirtilmezse, tercih ettiğiniz yerel ayar kullanılır.",
                 "$~Ses tanıma özelliği mikrofon erişimi ve internet bağlantısı gerektirir (lütfen erişim izni verin!). Ayrıca, kullanım sınırları olabilir, bu yüzden çok uzun süre açık bırakmayın (aman aman)!"
             ],
-            "names": ["$~🗣️", "$~Konuşma", "$~Ses"],
+            "names": ["$~Konuşma", "$~Ses"],
             "reset": {
                 "names": ["$~sıfırlamak", "$~temizlemek"],
                 "doc": "$~Bu değer değiştiğinde, birikmiş konuşmaları silin ve yeniden başlayın."

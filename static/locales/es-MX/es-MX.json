@@ -3426,7 +3426,7 @@
                 "$~Si no se especifica ningún idioma, se utilizará de forma predeterminada su configuración regional preferida.",
                 "$~El reconocimiento de voz requiere acceso al micrófono y conexión a internet (¡por favor, concédenos acceso!). Además, puede haber límites de uso, así que no lo dejes activado demasiado tiempo (¡nooooo!)."
             ],
-            "names": ["$~🗣️", "$~Discurso", "$~Voz"],
+            "names": ["$~Discurso", "$~Voz"],
             "reset": {
                 "names": ["$~reiniciar", "$~claro"],
                 "doc": "$~Cuando este valor cambie, borre el discurso acumulado y comience de nuevo."

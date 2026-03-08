@@ -3444,7 +3444,7 @@
                 "$~Om inget språk anges används som standard din föredragna plats.",
                 "$~Taligenkänning kräver mikrofonåtkomst och internetanslutning (vänligen ge åtkomst!). Det kan också finnas användningsbegränsningar, så låt det inte vara på för länge (neeeeeeeee)!"
             ],
-            "names": ["$~🗣️", "$~Tal", "$~Röst"],
+            "names": ["$~Tal", "$~Röst"],
             "reset": {
                 "names": ["$~återställa", "$~rensa"],
                 "doc": "$~När detta värde ändras, rensa det ackumulerade talet och börja om från början."
