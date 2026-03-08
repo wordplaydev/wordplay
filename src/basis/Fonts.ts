@@ -444,6 +444,12 @@ export const Faces: Record<string, Face> = {
         scripts: ['Hani', 'Hans'],
         format: 'ttf',
     },
+    'Courier Prime': {
+        weights: [400, 700],
+        italic: true,
+        scripts: ['Latn'],
+        format: 'ttf',
+    },
 };
 
 /** The font face names supported. To add one, carefully add metadata to Faces and files to /static/fonts/. */

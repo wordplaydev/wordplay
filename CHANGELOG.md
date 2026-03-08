@@ -8,11 +8,12 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 ### Added
 
-- Added a machine translation of a Hebrew locale (#411).
-- Added a machine translation of a Vietnamese locale (#985).
+- We added a machine translation of a Hebrew locale (#411).
+- We added a machine translation of a Vietnamese locale (#985).
 - We made autocompletion of conversions smarter and less buggy.
-- Added a zoom control to code editors for accessibility (#772).
-- Added a zoom control to the stage.
+- We added a zoom control to code editors for accessibility (#772).
+- We added a zoom control to the stage.
+- We added the Courier Prime font.
 - `Evaluate` expressions can have commas in them now, in case you're used to other programming languages that separate function inputs with commas.
 
 ### Fixed
