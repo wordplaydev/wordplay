@@ -13,6 +13,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - We made autocompletion of conversions smarter and less buggy.
 - Added a zoom control to code editors for accessibility (#772).
 - Added a zoom control to the stage.
+- `Evaluate` expressions can have commas in them now, in case you're used to other programming languages that separate function inputs with commas.
 
 ### Fixed
 

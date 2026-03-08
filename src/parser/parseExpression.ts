@@ -882,8 +882,11 @@ function parseInput(tokens: Tokens): Input {
     const name = tokens.read();
     const bind = tokens.read(Sym.Bind);
     const value = parseExpression(tokens);
+    const seperator = tokens.nextIs(Sym.Separator)
+        ? tokens.read(Sym.Separator)
+        : undefined;
 
-    return new Input(name, bind, value);
+    return new Input(name, bind, value, seperator);
 }
 
 function parseConversion(tokens: Tokens): ConversionDefinition {
