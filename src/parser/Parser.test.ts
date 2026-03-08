@@ -55,6 +55,7 @@ import Update from '@nodes/Update';
 import WebLink from '@nodes/WebLink';
 import Words from '@nodes/Words';
 import { expect, test } from 'vitest';
+import { readProjects } from '../examples/readProjects';
 import Delete from '../nodes/Delete';
 import Docs from '../nodes/Docs';
 import Example from '../nodes/Example';
@@ -416,4 +417,35 @@ test('unparsables in blocks', () => {
     expect(program.expression.statements[1]).toBeInstanceOf(
         UnparsableExpression,
     );
+});
+
+// Verify that no matter where we insert a comma, a complex program doesn't crash the parser.
+test("commas in complex programs don't crash", { timeout: 120000 }, () => {
+    // Get the first 10 example projects
+    const projects = readProjects('examples').slice(0, 10);
+    // For each one, insert a comma in all possible token gaps and see if the parser crashes.
+    for (const project of projects) {
+        const code = project.sources[0].code;
+        const originalTokens = toTokens(code);
+        let i = 0;
+        while (i < code.length) {
+            let error: Error | undefined = undefined;
+            const withComma = code.slice(0, i) + ',' + code.slice(i);
+            try {
+                parseProgram(toTokens(withComma));
+            } catch (e) {
+                error = new Error(
+                    '' +
+                        e +
+                        `"${code.slice(i - 20, i)}-->,<--${code.slice(i, i + 20)}" crashed the parser`,
+                );
+            }
+            expect(error).toBeFalsy();
+
+            // No more tokens? Stop.
+            if (!originalTokens.hasNext()) break;
+            // Skip past the next token, to try a comma after it.
+            i += originalTokens.read().getTextLength();
+        }
+    }
 });

@@ -11106,10 +11106,20 @@
                     "submit": {
                       "description": "The chat submit button",
                       "type": "string"
+                    },
+                    "zoomIn": {
+                      "description": "Zoom in output button",
+                      "type": "string"
+                    },
+                    "zoomOut": {
+                      "description": "Zoom in output button",
+                      "type": "string"
                     }
                   },
                   "required": [
-                    "submit"
+                    "submit",
+                    "zoomIn",
+                    "zoomOut"
                   ],
                   "type": "object"
                 },
@@ -13726,13 +13736,23 @@
                     "selectOutput": {
                       "description": "Output preview button for selecting output for display in output tile",
                       "type": "string"
+                    },
+                    "zoomIn": {
+                      "description": "The zoom in button for the code editor",
+                      "type": "string"
+                    },
+                    "zoomOut": {
+                      "description": "The zoom out button for the code editor",
+                      "type": "string"
                     }
                   },
                   "required": [
                     "selectOutput",
                     "expandSequence",
                     "expandControls",
-                    "collapseControls"
+                    "collapseControls",
+                    "zoomIn",
+                    "zoomOut"
                   ],
                   "type": "object"
                 },

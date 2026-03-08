@@ -466,9 +466,7 @@ function parseText(tokens: Tokens): TextLiteral {
     // Read a series of Translations lacking separating space.
     tokens.doWhile(
         () => texts.push(parseTranslation(tokens)),
-        () =>
-            texts.at(-1)?.separator !== undefined ||
-            (tokens.nextIs(Sym.Text) && tokens.nextLacksPrecedingSpace()),
+        () => tokens.nextIs(Sym.Text) && tokens.nextLacksPrecedingSpace(),
     );
 
     return new TextLiteral(texts);
@@ -884,8 +882,11 @@ function parseInput(tokens: Tokens): Input {
     const name = tokens.read();
     const bind = tokens.read(Sym.Bind);
     const value = parseExpression(tokens);
+    const seperator = tokens.nextIs(Sym.Separator)
+        ? tokens.read(Sym.Separator)
+        : undefined;
 
-    return new Input(name, bind, value);
+    return new Input(name, bind, value, seperator);
 }
 
 function parseConversion(tokens: Tokens): ConversionDefinition {
@@ -989,12 +990,8 @@ function parseUnparsable(tokens: Tokens): UnparsableExpression {
 export function parseFormattedLiteral(tokens: Tokens): FormattedLiteral {
     const translations: FormattedTranslation[] = [];
     tokens.doWhile(
-        () => {
-            translations.push(parseFormattedTranslation(tokens));
-        },
-        () =>
-            translations.at(-1)?.separator !== undefined ||
-            (tokens.nextIs(Sym.Formatted) && tokens.nextLacksPrecedingSpace()),
+        () => translations.push(parseFormattedTranslation(tokens)),
+        () => tokens.nextIs(Sym.Formatted) && tokens.nextLacksPrecedingSpace(),
     );
     return new FormattedLiteral(translations);
 }

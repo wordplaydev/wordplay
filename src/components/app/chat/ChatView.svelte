@@ -274,6 +274,7 @@
         overflow-y: auto;
         overflow-x: clip;
         height: 100%;
+        min-height: 50%;
         width: 100%;
         margin-block-start: auto;
         border-top: var(--wordplay-border-width) solid

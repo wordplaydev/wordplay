@@ -88,7 +88,7 @@
         "Literal": "literal",
         "TypeOpen": "type input open",
         "TypeClose": "type input close",
-        "Separator": "name separator",
+        "Separator": "separator",
         "Language": "language tag",
         "Region": "region dash",
         "BooleanType": "boolean type",
@@ -4748,7 +4748,9 @@
                 "selectOutput": "show this output on stage",
                 "expandSequence": "expand this collapsed code",
                 "expandControls": "show additional editing commands",
-                "collapseControls": "hide additional editing commands"
+                "collapseControls": "hide additional editing commands",
+                "zoomIn": "Make the code larger",
+                "zoomOut": "Make the code smaller"
             },
             "field": {
                 "name": {
@@ -4873,7 +4875,9 @@
                 }
             },
             "button": {
-                "submit": "submit this chat message"
+                "submit": "submit this chat message",
+                "zoomIn": "zoom into the stage",
+                "zoomOut": "zoom out from the stage"
             },
             "options": {
                 "locale": "preferred language for output",
@@ -5376,9 +5380,9 @@
             "label": "collaborate",
             "role": {
                 "owner": "owner",
-                "collaborators": "collaborators",
+                "collaborators": "collaborators (edit and chat)",
                 "curators": "curators",
-                "commenters": "commenters",
+                "commenters": "commenters (chat only)",
                 "viewers": "viewers"
             },
             "field": {
@@ -5420,7 +5424,7 @@
                 "deleted": "This message was deleted."
             },
             "prompt": {
-                "solo": "Chat with yourself or add...\n\n• a collaborator, who can edit and chat\n\n• a commenter, who can chat but cannot edit\n\n• a viewer, who can see your project but cannot edit or chat",
+                "solo": "Chat with yourself or add...",
                 "owner": "Collaborators can edit this project and chat about it. Commenters can chat but cannot edit this project. Viewers can view this project but cannot chat.",
                 "collaborator": "You're a collaborator. You can edit this project and chat about it.",
                 "curator": "You're a curator of this project's gallery. You can edit this project and chat about it. Only the project's owner, collaborators, and commenters can see the chat.",

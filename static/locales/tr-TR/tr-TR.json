@@ -4501,7 +4501,9 @@
                 "selectOutput": "$~bu çıktıyı sahnede göster",
                 "expandSequence": "$~bu daraltılmış kodu genişlet",
                 "expandControls": "$~ek düzenleme komutlarını göster",
-                "collapseControls": "$~ek düzenleme komutlarını gizle"
+                "collapseControls": "$~ek düzenleme komutlarını gizle",
+                "zoomIn": "$~Kodu daha büyük yapın",
+                "zoomOut": "$~Kodu küçültün"
             },
             "field": {
                 "name": {
@@ -4632,7 +4634,9 @@
                 }
             },
             "button": {
-                "submit": "$~bu sohbet mesajını gönder"
+                "submit": "$~bu sohbet mesajını gönder",
+                "zoomIn": "$~sahneye yakınlaştır",
+                "zoomOut": "$~sahneden uzaklaşarak yakınlaştırma yapın."
             },
             "options": {
                 "locale": "$~çıktı için dili seçin",

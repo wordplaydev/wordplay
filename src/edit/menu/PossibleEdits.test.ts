@@ -124,7 +124,7 @@ test.each([
             node instanceof ExpressionPlaceholder &&
             node.type instanceof StreamType,
         Replace,
-        '🖱️()',
+        '🖱()',
     ],
     [
         'suggest negation on number expressions',

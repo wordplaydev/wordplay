@@ -4506,7 +4506,9 @@
                 "selectOutput": "$~pokaż ten wynik na scenie",
                 "expandSequence": "$~rozwiń ten zwinięty kod",
                 "expandControls": "$~pokaż dodatkowe polecenia edycyjne",
-                "collapseControls": "$~ukryj dodatkowe polecenia edycyjne"
+                "collapseControls": "$~ukryj dodatkowe polecenia edycyjne",
+                "zoomIn": "$~Powiększ kod",
+                "zoomOut": "$~Zmniejsz kod"
             },
             "field": {
                 "name": {
@@ -4637,7 +4639,9 @@
                 }
             },
             "button": {
-                "submit": "$~wyślij tę wiadomość czatu"
+                "submit": "$~wyślij tę wiadomość czatu",
+                "zoomIn": "$~przybliż scenę",
+                "zoomOut": "$~oddalić się od sceny"
             },
             "options": {
                 "locale": "$~wybierz język wyjścia",

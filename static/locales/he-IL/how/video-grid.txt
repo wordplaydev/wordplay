@@ -1,0 +1,21 @@
+צור סרטון מהמצלמה
+
+ה @Camera זרם הוא דרך נהדרת לקבל רשת של צבעים מהעולם.מה אם אנחנו רוצים לראות את הצבעים האלה, וליצור מחדש את התמונה? @Camera רואה?
+
+אנחנו יכולים להשתמש ב- @Grid פריסה עבור @Group , ו @List/combine פונקציה להמרת הצבעים לרשימה של @Phrase שאנחנו נותנים ל- @Grid .
+
+\width: 24
+height: 24
+colors: Camera(width × 1px height × 1px 33ms)
+Stage([
+		Group(Grid(height width 0m) colors.combine([] ƒ(phrases row) [
+						:phrases
+						:row.translate(ƒ(color) Phrase("⬤" color: color duration: 0s))
+					]))
+	])\
+
+דוגמה זו בונה רשימה של ביטויים, תוך המכסה כל צבע לעיגול עם הצבע הספציפי.
+
+היזהר עם @Camera זרמים: הם מייצרים הרבה קלט! כדאי לשמור על רוחב וגובה התמונה קטנים.
+
+interactive-scene

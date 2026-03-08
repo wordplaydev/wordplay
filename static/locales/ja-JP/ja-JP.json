@@ -4501,7 +4501,9 @@
                 "selectOutput": "$~この出力をステージで見せる",
                 "expandSequence": "$~この折りたたまれたコードを展開する",
                 "expandControls": "$~追加の編集コマンドを表示",
-                "collapseControls": "$~追加の編集コマンドを非表示にする"
+                "collapseControls": "$~追加の編集コマンドを非表示にする",
+                "zoomIn": "$~コードを大きくする",
+                "zoomOut": "$~コードを小さくする"
             },
             "field": {
                 "name": {
@@ -4632,7 +4634,9 @@
                 }
             },
             "button": {
-                "submit": "$~このチャットメッセージを送信"
+                "submit": "$~このチャットメッセージを送信",
+                "zoomIn": "$~ステージにズームイン",
+                "zoomOut": "$~ステージからズームアウトする"
             },
             "options": {
                 "locale": "$~出力の言語を選択します",

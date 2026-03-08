@@ -1,34 +1,15 @@
 import Templates from '@concepts/Templates';
 import Evaluator from '@runtime/Evaluator';
 import ExceptionValue from '@values/ExceptionValue';
-import { readdirSync, readFileSync } from 'fs';
+import { readFileSync } from 'fs';
 import path from 'path';
 import { expect, test } from 'vitest';
 import { DB, Locales } from '../db/Database';
 import Project from '../db/projects/Project';
 import type { SerializedProject } from '../db/projects/ProjectSchemas';
 import DefaultLocales from '../locale/DefaultLocales';
-import { getExampleGalleries, parseSerializedProject } from './examples';
-
-function readProjects(dir: string): SerializedProject[] {
-    const proj: SerializedProject[] = [];
-    readdirSync(path.join('static', dir), { withFileTypes: true }).forEach(
-        (file) => {
-            if (file.isFile() && file.name.endsWith('.wp')) {
-                const text = readFileSync(
-                    path.join('static', dir, file.name),
-                    'utf8',
-                );
-                const project = parseSerializedProject(
-                    text,
-                    file.name.split('.')[0],
-                );
-                proj.push(project);
-            }
-        },
-    );
-    return proj;
-}
+import { getExampleGalleries } from './examples';
+import { readProjects } from './readProjects';
 
 const projects: SerializedProject[] = readProjects('examples');
 

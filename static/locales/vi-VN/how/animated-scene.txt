@@ -1,0 +1,31 @@
+Tạo một loạt các cảnh hoạt hình
+
+Đôi khi chúng ta muốn kể chuyện, thể hiện lời bài hát hoặc minh họa thơ ca.Để làm được điều đó, chúng ta có thể sử dụng @Scene  Và  @Phrase Cùng nhau, để thể hiện một chuỗi.
+
+Ví dụ, hãy tưởng tượng chúng ta muốn làm hoạt hình cho bài đồng dao ngắn "Jack be Nimble".Chúng ta có thể tạo ra một @Scene trong đó mỗi dòng là một @Phrase và bằng cách thiết lập @Phrase/duration của mỗi dòng, @Scene sẽ chuyển sang bước tiếp theo khi mỗi cụm từ được hoàn thành.
+
+\Scene([
+		Phrase('Jack nhanh nhẹn' duration: 1s)
+		Phrase('Jack nhanh lên' duration: 1s)
+		Phrase('Jack nhảy qua cây nến.' duration: 1s)
+	])\
+
+@Scene sẽ đợi một @Sequence Việc đó cũng cần phải làm. Hãy làm cho đường nến nhảy vọt lên nào!
+
+\Scene([
+		Phrase('Jack nhanh nhẹn' duration: 1s)
+		Phrase('Jack nhanh lên' duration: 1s)
+		Phrase('Jack nhảy qua cây nến.' entering: Sequence(bounce() 1s))
+	])\
+
+@Scene cũng có thể lấy @Group Văn bản cũng vậy, và nó sẽ đợi cho đến khi toàn bộ nội dung hoàn tất quá trình hoạt động.
+
+\Scene([
+		Group(Stack() [
+				Phrase('Jack nhanh nhẹn')
+				Phrase('Jack nhanh lên')
+			] duration: 2s)
+		Phrase('Jack nhảy qua cây nến.' entering: Sequence(bounce() 1s))
+	])\
+
+interactive-scene

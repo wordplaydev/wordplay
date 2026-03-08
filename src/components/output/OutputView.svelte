@@ -116,6 +116,10 @@
         value === undefined ? undefined : toStage(evaluator, value),
     );
 
+    export function adjustZoom(dz: number) {
+        stage?.adjustFocus(0, 0, dz);
+    }
+
     /** Every time the stage value changes, load any new fonts we might need */
     $effect(() => {
         if (stageValue) {
@@ -705,7 +709,9 @@
                 position.x -= renderedFocus?.x ?? 0;
                 position.y -= renderedFocus?.y ?? 0;
 
-                pointerStreams.forEach((stream) => stream.react(position));
+                evaluator.singletonReact(Pointer, (stream) =>
+                    stream.react(position),
+                );
             }
         }
     }

@@ -236,11 +236,19 @@ export default class Bind extends Expression {
 
     /** Copy this bind, but with the given type */
     withType(type: Type) {
-        return this.clone({ original: 'type', replacement: type });
+        return this.clone({
+            original: 'type',
+            replacement: type,
+            report: 'console',
+        });
     }
 
     withNames(names: Names) {
-        return this.clone({ original: 'names', replacement: names });
+        return this.clone({
+            original: 'names',
+            replacement: names,
+            report: 'console',
+        });
     }
 
     /** Used to help generate function and structure types without extraneous information */

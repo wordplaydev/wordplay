@@ -1,5 +1,6 @@
 import Sym from '@nodes/Sym';
 import Token from '@nodes/Token';
+import { withoutVariationSelectors } from '@unicode/emoji';
 import ReservedSymbols from './ReservedSymbols';
 import {
     BIND_SYMBOL,
@@ -501,6 +502,9 @@ export function tokenize(source: string): TokenList {
 
     // Then, strip any zero width spaces. Those only cause confusion, since they are invisible.
     source = source.replaceAll('\u200B', '');
+
+    // Remove any emoiji variation selectors, as they don't have any semantic meaning.
+    source = withoutVariationSelectors(source);
 
     // Start with an empty list
     const tokens: Token[] = [];

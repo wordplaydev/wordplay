@@ -122,6 +122,9 @@ export type CommandContext = {
     getTokenViews?: () => HTMLElement[];
     /** Function to clear large deletion notification */
     clearLargeDeletionNotification?: () => void;
+    /** The editor zoom level */
+    zoom: number | undefined;
+    setZoom?: undefined | ((z: number) => void);
 };
 
 export type Edit = Caret | Revision;
@@ -1554,6 +1557,45 @@ const Commands: Command[] = [
                         ),
                 ];
             } else return false;
+        },
+    },
+
+    {
+        symbol: '+🔎',
+        description: (l) => l.ui.source.button.zoomIn,
+        visible: Visibility.Visible,
+        category: Category.Cursor,
+        control: true,
+        shift: true,
+        alt: true,
+        key: 'Equal',
+        important: true,
+        active: ({ zoom }) => zoom !== undefined && zoom < 16,
+        execute: ({ editor, zoom, setZoom }) => {
+            if (editor && setZoom && zoom !== undefined) {
+                setZoom(zoom + 2);
+                return true;
+            }
+            return false;
+        },
+    },
+    {
+        symbol: '–🔎',
+        description: (l) => l.ui.source.button.zoomOut,
+        visible: Visibility.Visible,
+        category: Category.Cursor,
+        control: true,
+        shift: true,
+        alt: true,
+        key: 'Minus',
+        important: true,
+        active: ({ zoom }) => zoom !== undefined && zoom > -4,
+        execute: ({ editor, zoom, setZoom }) => {
+            if (editor && setZoom && zoom !== undefined) {
+                setZoom(zoom - 2);
+                return true;
+            }
+            return false;
         },
     },
 

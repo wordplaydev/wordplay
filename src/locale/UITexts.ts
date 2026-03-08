@@ -255,6 +255,10 @@ type UITexts = {
             expandControls: string;
             /** The button tooltip for collapsing the controls accordion */
             collapseControls: string;
+            /** The zoom in button for the code editor */
+            zoomIn: string;
+            /** The zoom out button for the code editor */
+            zoomOut: string;
         };
         menu: {
             /** How to describe the autocomplete menu */
@@ -459,6 +463,10 @@ type UITexts = {
         button: {
             /** The chat submit button */
             submit: string;
+            /** Zoom in output button */
+            zoomIn: string;
+            /** Zoom in output button */
+            zoomOut: string;
         };
         options: {
             /** The label for the locale chooser in output */

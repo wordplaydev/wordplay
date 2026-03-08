@@ -24,12 +24,20 @@ export default class Input extends Node {
     readonly name: Token;
     readonly bind: Token;
     readonly value: Expression;
+    /** An optional separator betweeen inputs */
+    readonly separator: Token | undefined;
 
-    constructor(name: Token, bind: Token, value: Expression) {
+    constructor(
+        name: Token,
+        bind: Token,
+        value: Expression,
+        separator: Token | undefined,
+    ) {
         super();
         this.name = name;
         this.bind = bind;
         this.value = value;
+        this.separator = separator;
     }
 
     getDescriptor(): NodeDescriptor {
@@ -41,6 +49,7 @@ export default class Input extends Node {
             typeof name === 'string' ? new Token(name, Sym.Name) : name,
             new BindToken(),
             value,
+            undefined,
         );
     }
 
@@ -98,6 +107,7 @@ export default class Input extends Node {
                 },
                 label: () => (l) => l.term.value,
             },
+            { name: 'separator', kind: node(Sym.Separator), label: undefined },
         ];
     }
 
@@ -106,6 +116,7 @@ export default class Input extends Node {
             this.replaceChild('name', this.name, replace),
             this.replaceChild('bind', this.bind, replace),
             this.replaceChild('value', this.value, replace),
+            this.replaceChild('separator', this.separator, replace),
         ) as this;
     }
 

@@ -4,6 +4,37 @@ We'll note all notable changes in this file, including bug fixes, enhancements, 
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 These notes are publicly posted in [production](https://wordplay.dev/updates), so we write them to an audience of teachers and youth.
 
+## 0.17.0 - 2026-03-03
+
+### Added
+
+- We added a machine translation of a Hebrew locale (#411).
+- We added a machine translation of a Vietnamese locale (#985).
+- We made autocompletion of conversions smarter and less buggy.
+- We added a zoom control to code editors for accessibility (#772).
+- We added a zoom control to the stage.
+- We added the Courier Prime font.
+- `Evaluate` expressions can have commas in them now, in case you're used to other programming languages that separate function inputs with commas.
+
+### Fixed
+
+- Sometimes emojis have extra hidden symbols after them. We ignore them now so that emojis in code don't break things. (#970).
+- We weren't properly handling commas after text and formatted literals. Now we do!
+- Dropdowns weren't working in Safari. Now they do! (#978).
+- The `Pointer` stream stopped working, but we fixed it.
+- When undoing an edit, the caret was sometimes restored incorrectly, making it impossible to move it.
+- Sometimes edits would result in the editor crashing. We prevented those from happening.
+- The feedback on sequence editor percentages was wrong. It's fixed now.
+- When tooltips are near the top or left of the screen, we avoid covering the control they're describing.
+- Project chat wasn't visible on small screens. We gave it a minimum height.
+
+### Changed
+
+- We adjusted the tablet-sized split view layout cutoff to better fit laptop screens.
+- We moved the gallery how tos to the top of the guide, above the built-in how tos, to make local guidance more prominent than platform guidance.
+- We upgraded internal tooling for stability.
+- We generalized the name of "name separator" (commas) to "separator", since they can be used in other places.
+
 ## 0.16.45 - 2026-02-28
 
 ### Added

@@ -21,7 +21,7 @@ export default class Names extends Node {
     constructor(names: Name[]) {
         super();
 
-        // Add name separators if lacking
+        // Add separators if lacking
         this.names = names.map((name, index) =>
             index < names.length - 1 && name.separator === undefined
                 ? name.withSeparator()
