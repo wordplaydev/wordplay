@@ -3413,6 +3413,41 @@
                 "names": "y",
                 "doc": "La dirección y magnitud de la dirección a lo largo del eje y."
             }
+        },
+        "Speech": {
+            "doc": [
+                "$~/¡hola!/",
+                "$~@FunctionDefinition aquí, ¡listo para escuchar!",
+                "$~Este flujo reconoce el habla y la convierte en @Text. Utiliza el reconocimiento de voz de tu navegador para escuchar lo que dices y convertirlo en palabras (¡genial!).",
+                "$~\\Discurso()\\",
+                "$~Esto es perfecto para aquellos que pueden hablar un idioma pero todavía están aprendiendo a leerlo o escribirlo (y más)...",
+                "$~Puede especificar un código de idioma para reconocer el habla en un idioma en particular:",
+                "$~\\Speech(idioma: 'es-MX')\\",
+                "$~Si no se especifica ningún idioma, se utilizará de forma predeterminada su configuración regional preferida.",
+                "$~El reconocimiento de voz requiere acceso al micrófono y conexión a internet (¡por favor, concédenos acceso!). Además, puede haber límites de uso, así que no lo dejes activado demasiado tiempo (¡nooooo!)."
+            ],
+            "names": ["$~🗣️", "$~Discurso", "$~Voz"],
+            "reset": {
+                "names": ["$~reiniciar", "$~claro"],
+                "doc": "$~Cuando este valor cambie, borre el discurso acumulado y comience de nuevo."
+            },
+            "language": {
+                "names": ["$~idioma", "$~idioma"],
+                "doc": "$~Un código de idioma BCP 47 (p. ej., \"en-US\"). Si el reconocimiento de voz de tu navegador no lo admite, recibirás un error. Se establece de forma predeterminada en tu configuración regional preferida."
+            },
+            "limit": {
+                "names": ["$~límite", "$~palabras"],
+                "doc": "$~El número máximo de palabras que se conservan en el discurso acumulado (ventana deslizante). Al configurarlo, solo se conservan las palabras más recientes y se descartan las más antiguas. Si no se especifica, todas las palabras se conservan indefinidamente."
+            },
+            "error": {
+                "browserNotSupported": "$~servicio no compatible con este navegador",
+                "noConnection": "$~sin conexión a internet",
+                "serviceNotAllowed": "$~servicio no disponible",
+                "micNotAllowed": "$~acceso al micrófono no permitido",
+                "noMicrophone": "$~No se encontró ningún micrófono",
+                "languageNotSupported": "$~idioma no compatible",
+                "limit": "$~Falló después de múltiples intentos"
+            }
         }
     },
     "output": {
