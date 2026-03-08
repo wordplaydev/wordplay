@@ -84,6 +84,18 @@
                         {/each}
                     </ul>
                 {/if}
+                {#if update.changes.changed.length > 0}
+                    <h3 class="changed"
+                        ><LocalizedText
+                            path={(l) => l.ui.page.updates.categories.changed}
+                        ></LocalizedText></h3
+                    >
+                    <ul>
+                        {#each update.changes.changed as item}
+                            {@render note(item)}
+                        {/each}
+                    </ul>
+                {/if}
                 {#if update.changes.fixed.length > 0}
                     <h3 class="fixed"
                         ><LocalizedText
@@ -104,18 +116,6 @@
                     >
                     <ul>
                         {#each update.changes.removed as item}
-                            {@render note(item)}
-                        {/each}
-                    </ul>
-                {/if}
-                {#if update.changes.changed.length > 0}
-                    <h3 class="changed"
-                        ><LocalizedText
-                            path={(l) => l.ui.page.updates.categories.changed}
-                        ></LocalizedText></h3
-                    >
-                    <ul>
-                        {#each update.changes.changed as item}
                             {@render note(item)}
                         {/each}
                     </ul>
