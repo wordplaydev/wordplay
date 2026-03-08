@@ -400,7 +400,7 @@ export default class Source extends Expression {
             const next = replacements.shift();
             if (next) {
                 const [oldTree, newTree] = next;
-                newProgram = newProgram.replace(newTree, oldTree);
+                newProgram = newProgram.replace(newTree, oldTree, 'silent');
             }
         }
 

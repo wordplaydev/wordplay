@@ -466,14 +466,7 @@ function parseText(tokens: Tokens): TextLiteral {
     // Read a series of Translations lacking separating space.
     tokens.doWhile(
         () => texts.push(parseTranslation(tokens)),
-        () =>
-            // Continue if there's a separator and the next is a formatted translation without a preceding space, or
-            // if the next is a formatted translation without a preceding space.
-            (texts.at(-1)?.separator !== undefined &&
-                tokens.nextLacksPrecedingSpace() &&
-                tokens.afterNextIs(Sym.Formatted) &&
-                tokens.afterNextLacksPrecedingSpace()) ||
-            (tokens.nextIs(Sym.Text) && tokens.nextLacksPrecedingSpace()),
+        () => tokens.nextIs(Sym.Text) && tokens.nextLacksPrecedingSpace(),
     );
 
     return new TextLiteral(texts);
@@ -994,17 +987,8 @@ function parseUnparsable(tokens: Tokens): UnparsableExpression {
 export function parseFormattedLiteral(tokens: Tokens): FormattedLiteral {
     const translations: FormattedTranslation[] = [];
     tokens.doWhile(
-        () => {
-            translations.push(parseFormattedTranslation(tokens));
-        },
-        () =>
-            // Continue if there's a separator and the next is a formatted translation without a preceding space, or
-            // if the next is a formatted translation without a preceding space.
-            (translations.at(-1)?.separator !== undefined &&
-                tokens.nextLacksPrecedingSpace() &&
-                tokens.afterNextIs(Sym.Formatted) &&
-                tokens.afterNextLacksPrecedingSpace()) ||
-            (tokens.nextIs(Sym.Formatted) && tokens.nextLacksPrecedingSpace()),
+        () => translations.push(parseFormattedTranslation(tokens)),
+        () => tokens.nextIs(Sym.Formatted) && tokens.nextLacksPrecedingSpace(),
     );
     return new FormattedLiteral(translations);
 }
