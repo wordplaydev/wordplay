@@ -8,6 +8,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 ### Added
 
+- We added a new @Speech stream, which works in most browsers. If you allow the site to use your microphone, you can make projects that respond to speech! (#394).
 - We added a machine translation of a Hebrew locale (#411).
 - We added a machine translation of a Vietnamese locale (#985).
 - We made autocompletion of conversions smarter and less buggy.
