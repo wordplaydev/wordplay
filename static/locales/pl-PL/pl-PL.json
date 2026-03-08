@@ -3436,6 +3436,41 @@
                 "names": "$~y",
                 "doc": "$~Kierunek i wielkość kierunku wzdłuż osi y."
             }
+        },
+        "Speech": {
+            "doc": [
+                "$~/Witam!/",
+                "$~@FunctionDefinition tutaj - gotowy do słuchania!",
+                "$~Ten strumień rozpoznaje mowę i konwertuje ją na @Text. Używa funkcji rozpoznawania mowy w przeglądarce, aby słuchać tego, co mówisz, i zamieniać to na słowa (czyż to nie jest super?!).",
+                "$~\\Przemówienie()\\",
+                "$~To idealne rozwiązanie dla osób, które mówią w danym języku, ale wciąż uczą się go czytać i pisać (i nie tylko)...",
+                "$~Możesz określić kod języka, aby rozpoznawać mowę w danym języku:",
+                "$~\\Mowa(język: 'es-MX')\\",
+                "$~Jeśli nie określono języka, domyślnie zostanie użyty preferowany język.",
+                "$~Rozpoznawanie mowy wymaga dostępu do mikrofonu i połączenia internetowego (prosimy o udzielenie dostępu!). Mogą obowiązywać limity użytkowania, więc nie pozostawiaj go włączonego zbyt długo (nieeeee)!"
+            ],
+            "names": ["$~🗣️", "$~Przemówienie", "$~Głos"],
+            "reset": {
+                "names": ["$~nastawić", "$~jasne"],
+                "doc": "$~Gdy ta wartość ulegnie zmianie, wyczyść nagromadzoną mowę i zacznij od nowa."
+            },
+            "language": {
+                "names": ["$~język", "$~język"],
+                "doc": "$~Kod języka BCP 47 (np. „en-US”). Jeśli funkcja rozpoznawania mowy w Twojej przeglądarce nie obsługuje tego kodu, pojawi się błąd. Domyślnie zostanie wyświetlona preferowana lokalizacja."
+            },
+            "limit": {
+                "names": ["$~limit", "$~słowa"],
+                "doc": "$~Maksymalna liczba słów do zachowania w zgromadzonej mowie (przesuwane okno). Po ustawieniu zachowywane są tylko najnowsze słowa, a starsze są odrzucane. Jeśli nie zostanie określona, wszystkie słowa będą przechowywane bezterminowo."
+            },
+            "error": {
+                "browserNotSupported": "$~usługa nie jest obsługiwana w tej przeglądarce",
+                "noConnection": "$~brak połączenia internetowego",
+                "serviceNotAllowed": "$~usługa niedostępna",
+                "micNotAllowed": "$~dostęp do mikrofonu nie jest dozwolony",
+                "noMicrophone": "$~nie znaleziono mikrofonu",
+                "languageNotSupported": "$~język nieobsługiwany",
+                "limit": "$~nie powiodło się po wielu próbach"
+            }
         }
     },
     "output": {

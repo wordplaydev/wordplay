@@ -3434,6 +3434,41 @@
                 "names": "$~j",
                 "doc": "$~Die Richtung und Größe der Richtung entlang der Y-Achse."
             }
+        },
+        "Speech": {
+            "doc": [
+                "$~/Hallo!/",
+                "$~@FunctionDefinition hier – ich bin bereit zuzuhören!",
+                "$~Dieser Stream erkennt Sprache und wandelt sie in @Text um. Er nutzt die Spracherkennung Ihres Browsers, um zuzuhören, was Sie sagen, und es in Wörter umzuwandeln (ist das nicht genial?!).",
+                "$~\\Rede()\\",
+                "$~Dies ist perfekt für alle, die eine Sprache sprechen, aber noch das Lesen und Schreiben lernen (und vieles mehr)...",
+                "$~Sie können einen Sprachcode angeben, um Sprache in einer bestimmten Sprache zu erkennen:",
+                "$~\\Speech(language: 'es-MX')\\",
+                "$~Wenn keine Sprache angegeben ist, wird standardmäßig Ihre bevorzugte Sprache verwendet.",
+                "$~Die Spracherkennung benötigt Zugriff auf das Mikrofon und eine Internetverbindung (bitte gewähren Sie den Zugriff!). Es kann außerdem Nutzungsbeschränkungen geben, lassen Sie es also nicht zu lange eingeschaltet (nein!)."
+            ],
+            "names": ["$~🗣️", "$~Rede", "$~Stimme"],
+            "reset": {
+                "names": ["$~zurücksetzen", "$~klar"],
+                "doc": "$~Wenn sich dieser Wert ändert, löschen Sie die gespeicherte Sprache und beginnen Sie von vorn."
+            },
+            "language": {
+                "names": ["$~Sprache", "$~lang"],
+                "doc": "$~Ein BCP-47-Sprachcode (z. B. „en-US“). Falls dieser von der Spracherkennung Ihres Browsers nicht unterstützt wird, erhalten Sie eine Fehlermeldung. Standardmäßig wird Ihr bevorzugtes Gebietsschema verwendet."
+            },
+            "limit": {
+                "names": ["$~Limit", "$~Wörter"],
+                "doc": "$~Die maximale Anzahl der Wörter, die im gespeicherten Sprachprotokoll (gleitendes Fenster) beibehalten werden. Ist dieser Wert festgelegt, werden nur die zuletzt verwendeten Wörter gespeichert, ältere Wörter werden verworfen. Wird kein Wert angegeben, werden alle Wörter unbegrenzt gespeichert."
+            },
+            "error": {
+                "browserNotSupported": "$~Dieser Dienst wird von diesem Browser nicht unterstützt.",
+                "noConnection": "$~keine Internetverbindung",
+                "serviceNotAllowed": "$~Service nicht verfügbar",
+                "micNotAllowed": "$~Mikrofonzugriff nicht gestattet",
+                "noMicrophone": "$~Kein Mikrofon gefunden",
+                "languageNotSupported": "$~Sprache wird nicht unterstützt",
+                "limit": "$~Nach mehreren Versuchen fehlgeschlagen."
+            }
         }
     },
     "output": {
