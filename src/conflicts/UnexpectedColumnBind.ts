@@ -19,25 +19,15 @@ export default class UnexpectedColumnBind extends Conflict {
     static readonly LocalePath = (locales: LocaleText) =>
         locales.node.Row.conflict.UnexpectedColumnBind;
 
-    getConflictingNodes() {
+    getMessage() {
         return {
-            primary: {
-                node: this.expression,
-                explanation: (locales: Locales, context: Context) =>
-                    locales.concretize(
-                        (l) => UnexpectedColumnBind.LocalePath(l).primary,
+            node: this.expression,
+            explanation: (locales: Locales, context: Context) =>
+                locales.concretize(
+                    (l) => UnexpectedColumnBind.LocalePath(l).explanation,
 
-                        new NodeRef(this.cell, locales, context),
-                    ),
-            },
-            secondary: {
-                node: this.expression.type,
-                explanation: (locales: Locales, context: Context) =>
-                    locales.concretize(
-                        (l) => UnexpectedColumnBind.LocalePath(l).secondary,
-                        new NodeRef(this.expression.type, locales, context),
-                    ),
-            },
+                    new NodeRef(this.cell, locales, context),
+                ),
         };
     }
 

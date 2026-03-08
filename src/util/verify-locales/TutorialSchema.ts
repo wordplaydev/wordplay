@@ -24,4 +24,7 @@ export function getTutorialJSON(
 }
 
 // Get the default tutorial. We use this for translation.
-export const DefaultTutorial = getTutorialJSON(new Log(), 'en-US') as Tutorial;
+export const DefaultTutorial = getTutorialJSON(
+    new Log(false),
+    'en-US',
+) as Tutorial;

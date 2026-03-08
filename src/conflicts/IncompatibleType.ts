@@ -30,26 +30,15 @@ export default class IncompatibleType extends Conflict {
     static readonly LocalePath = (locales: LocaleText) =>
         locales.node.Bind.conflict.IncompatibleType;
 
-    getConflictingNodes() {
+    getMessage() {
         return {
-            primary: {
-                node: this.receiver,
-                explanation: (locales: Locales, context: Context) =>
-                    locales.concretize(
-                        (l) => IncompatibleType.LocalePath(l).primary,
-                        new NodeRef(this.givenType, locales, context),
-                        new NodeRef(this.expectedType, locales, context),
-                    ),
-            },
-            secondary: {
-                node: this.expression,
-                explanation: (locales: Locales, context: Context) =>
-                    locales.concretize(
-                        (l) => IncompatibleType.LocalePath(l).secondary,
-                        new NodeRef(this.givenType, locales, context),
-                        new NodeRef(this.expectedType, locales, context),
-                    ),
-            },
+            node: this.receiver,
+            explanation: (locales: Locales, context: Context) =>
+                locales.concretize(
+                    (l) => IncompatibleType.LocalePath(l).explanation,
+                    new NodeRef(this.givenType, locales, context),
+                    new NodeRef(this.expectedType, locales, context),
+                ),
         };
     }
 

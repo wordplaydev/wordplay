@@ -1,18 +1,14 @@
-name: Svelte check (types and a11y)
-
+name: Svelte - check types, accessibility, syntax, and semantics check
 on:
     pull_request:
         branches: ['main']
-    push:
-        branches:
-            - main
 jobs:
     build:
         runs-on: ubuntu-latest
 
         strategy:
             matrix:
-                node-version: [20.x]
+                node-version: [22.x]
 
         steps:
             - uses: actions/checkout@v4

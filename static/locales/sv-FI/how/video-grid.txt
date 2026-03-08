@@ -6,7 +6,7 @@ Vi kan använda @Grid upplägg för en @Group och @List/combine funktion för at
 
 \width: 24
 height: 24
-colors: Camera(width · 1px height · 1px 33ms)
+colors: Camera(width × 1px height × 1px 33ms)
 Stage([
 		Group(Grid(height width 0m) colors.combine([] ƒ(phrases row) [
 						:phrases

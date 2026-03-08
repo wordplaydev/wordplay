@@ -24,7 +24,7 @@ Scene([
 	])
 \
 
-@Scene can also take a @Group of text too, and it will wait for all its content to finish animationg.
+@Scene can also take a @Group of text too, and it will wait for all its content to finish animation.
 
 \
 Scene([

@@ -1,6 +1,6 @@
 import type Project from '@db/projects/Project';
 import type LocaleText from '@locale/LocaleText';
-import type { InternalConflictText } from '@locale/NodeTexts';
+import type { ConflictText } from '@locale/NodeTexts';
 import type Context from '@nodes/Context';
 import Node from '@nodes/Node';
 import type Locales from '../locale/Locales';
@@ -21,9 +21,7 @@ export type Resolution = {
     ) => { newProject: Project; newNode?: Node };
 };
 
-export type ConflictLocaleAccessor = (
-    locale: LocaleText,
-) => InternalConflictText;
+export type ConflictLocaleAccessor = (locale: LocaleText) => ConflictText;
 
 export default abstract class Conflict {
     readonly #minor: boolean;
@@ -33,18 +31,12 @@ export default abstract class Conflict {
     }
 
     /**
-     * There are two types of conflicting nodes: "primary" ones, which ostensibly caused the conflict,
-     * and "secondary" ones, which are involved. We use this distiction in the editor to decide what to highlight,
-     * but also how to position the various parties involved in the visual portrayal of the conflict.
+     * Conflicting nodes have primary nodes to be highlighted and optional resolutions to resolve the conflict.
      */
-    abstract getConflictingNodes(
+    abstract getMessage(
         context: Context,
         concepts: Node[],
-    ): {
-        primary: ConflictingNode;
-        secondary?: ConflictingNode;
-        resolutions?: Resolution[];
-    };
+    ): ConflictingNode & { resolutions?: Resolution[] };
 
     isMinor() {
         return this.#minor;

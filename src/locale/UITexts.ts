@@ -11,9 +11,9 @@ import type CharacterPageText from '../routes/character/[id]/PageText';
 import type CharactersPageText from '../routes/characters/PageText';
 import type DonatePageText from '../routes/donate/PageText';
 import type GalleriesPageText from '../routes/galleries/PageText';
+import type GalleryModerationPageText from '../routes/galleries/moderation/PageText';
 import type GalleryPageText from '../routes/gallery/[galleryid]/PageText';
 import type HowToPageText from '../routes/gallery/[galleryid]/howto/PageText';
-import type GalleryModerationPageText from '../routes/galleries/moderation/PageText';
 import type { default as GuidePageText } from '../routes/guide/PageText';
 import type JoinPageText from '../routes/join/PageText';
 import type LearnPageText from '../routes/learn/PageText';
@@ -255,6 +255,10 @@ type UITexts = {
             expandControls: string;
             /** The button tooltip for collapsing the controls accordion */
             collapseControls: string;
+            /** The zoom in button for the code editor */
+            zoomIn: string;
+            /** The zoom out button for the code editor */
+            zoomOut: string;
         };
         menu: {
             /** How to describe the autocomplete menu */
@@ -323,8 +327,10 @@ type UITexts = {
             insertNone: string;
             /** Insert ≠ symbol */
             insertNotEqual: string;
-            /** Insert · symbol */
+            /** Insert × symbol */
             insertProduct: string;
+            /** Insert · symbol */
+            insertDot: string;
             /** Insert ÷ symbol */
             insertQuotient: string;
             /** Insert ° symbol */
@@ -457,6 +463,10 @@ type UITexts = {
         button: {
             /** The chat submit button */
             submit: string;
+            /** Zoom in output button */
+            zoomIn: string;
+            /** Zoom in output button */
+            zoomOut: string;
         };
         options: {
             /** The label for the locale chooser in output */

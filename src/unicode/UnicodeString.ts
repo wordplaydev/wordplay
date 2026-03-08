@@ -18,7 +18,7 @@ export default class UnicodeString {
     _segments: string[] | undefined = undefined;
 
     constructor(text: string) {
-        // Ensure text is comparable.
+        // Ensure text is comparable by removing variation selectors and normalizing it.
         this.text = text.normalize();
     }
 

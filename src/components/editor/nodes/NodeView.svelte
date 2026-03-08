@@ -397,6 +397,18 @@
             var(--wordplay-evaluation-color);
     }
 
+    .block.blockmajor {
+        border-bottom: var(--wordplay-focus-width) solid var(--wordplay-error);
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+
+    .block.blockminor {
+        border-bottom: var(--wordplay-focus-width) solid var(--wordplay-warning);
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+
     .small {
         font-size: var(--wordplay-small-font-size);
     }

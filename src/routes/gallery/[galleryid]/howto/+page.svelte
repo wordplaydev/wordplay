@@ -268,7 +268,7 @@
             .map((h) => {
                 return {
                     value: h.getHowToId(),
-                    label: h.getTitle(),
+                    label: h.getTitleInLocale($locales.getLocaleString()),
                 };
             })
             .sort((a, b) => a.label.localeCompare(b.label)),
@@ -384,7 +384,10 @@
                             {#each usersBookmarks as bookmark, i (i)}
                                 <Button
                                     tip={(l) => l.ui.howto.bookmarks.tooltip}
-                                    label={(l) => bookmark.getTitle()}
+                                    label={(l) =>
+                                        bookmark.getTitleInLocale(
+                                            $locales.getLocaleString(),
+                                        )}
                                     action={() => {
                                         // Center the bookmarked how to
                                         let coords = bookmark.getCoordinates();

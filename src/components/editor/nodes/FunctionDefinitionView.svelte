@@ -36,6 +36,7 @@
             {format}
             empty="menu"
             breaks
+            wrap
         /><NodeView node={[node, 'close']} {format} /><NodeView
             node={[node, 'dot']}
             {format}

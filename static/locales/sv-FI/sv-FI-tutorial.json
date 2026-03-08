@@ -978,9 +978,9 @@
                         [
                             "FunctionDefinition",
                             "eager",
-                            "$~Istället kan du låta @Evaluate utvärdera det med en mycket enklare symbol i mitten, så här. Det betyder \"upprepa \"hej\" fem gånger. Men det betyder också 'utvärdera \\·\\-funktionen på textvärdet \\'hi'\\ med inmatningen \\5\\.' Funktionen \\repeat\\ har bara flera namn, varav ett är ett symbolnamn \\·\\."
+                            "$~Istället kan du låta @Evaluate utvärdera det med en mycket enklare symbol i mitten, så här. Det betyder \"upprepa \"hej\" fem gånger. Men det betyder också 'utvärdera \\×\\-funktionen på textvärdet \\'hi'\\ med inmatningen \\5\\.' Funktionen \\repeat\\ har bara flera namn, varav ett är ett symbolnamn \\×\\."
                         ],
-                        ["edit", "'hi' · 5"],
+                        ["edit", "'hi' × 5"],
                         null,
                         [
                             "FunctionDefinition",
@@ -1194,7 +1194,7 @@
                             "                        Phrase(glyph resting:Pose(",
                             "                            color: Color(75% 0 0°) ",
                             "                            rotation: 90° ",
-                            "                            offset:Place(0m (Time() ^ 2) · -0.000025m/ms^2))",
+                            "                            offset:Place(0m (Time() ^ 2) × -0.000025m/ms^2))",
                             "                        )))])"
                         ],
                         ["⊤", "precise", "$~… Nej."],
@@ -1246,7 +1246,7 @@
                             "                        Group(Grid(5 5) numbers.translate(",
                             "                            ƒ (n•#) ",
                             "                                (",
-                            "                                    off:Random(-3 3) · 1m",
+                            "                                    off:Random(-3 3) × 1m",
                             "                                    Phrase(",
                             "                                        n → '' ",
                             "                                        resting:Sequence({",
@@ -1531,7 +1531,7 @@
             "title": "$~Ensembler",
             "performance": [
                 "fit",
-                "Group(Row('|' (Time() ÷ 500).sin() · 1m) [Phrase('[]') Phrase('{}') Phrase('{:}')])"
+                "Group(Row('|' (Time() ÷ 500).sin() × 1m) [Phrase('[]') Phrase('{}') Phrase('{:}')])"
             ],
             "scenes": [
                 {
@@ -1539,7 +1539,7 @@
                     "subtitle": null,
                     "performance": [
                         "fit",
-                        "Group(Row() [Phrase('[') Phrase(' .' · (Time() ÷ 100ms)) Phrase(']')])"
+                        "Group(Row() [Phrase('[') Phrase(' .' × (Time() ÷ 100ms)) Phrase(']')])"
                     ],
                     "lines": [
                         [
@@ -1779,7 +1779,7 @@
                         [
                             "Set",
                             "eager",
-                            "$~Åh ja, såklart. Jag samlar på saker (Hm, uppenbarligen; jag är en samling). Men viktigast av allt, jag samlar bara på **en av varje sort** av saker. Jag kan samla vad du vill och hjälpa dig att hålla reda på värderingar, men jag kommer aldrig att upprepa ett värde. Jag gillar att ordna mig lite som @List men med \\{\\ och \\}\\ istället."
+                            "$~Åh ja, såklart. Jag samlar på saker (Hm, uppenbarligen; jag är en samling). Men viktigast av allt, jag samlar bara på *en av varje sort* av saker. Jag kan samla vad du vill och hjälpa dig att hålla reda på värderingar, men jag kommer aldrig att upprepa ett värde. Jag gillar att ordna mig lite som @List men med \\{\\ och \\}\\ istället."
                         ],
                         ["edit", "{ 1 2 3 4 5 }"],
                         null,
@@ -2041,7 +2041,7 @@
                 "           '→?' → [].random()",
                 "           place: Motion(",
                 "               Place(y: 10m)",
-                "               Velocity(Random(-5 5) · 1m/s angle: Random(0 360) · 1°/s)",
+                "               Velocity(Random(-5 5) × 1m/s angle: Random(0 360) × 1°/s)",
                 "           )",
                 "           matter: Matter(bounciness: Random())",
                 "       )",
@@ -2373,7 +2373,7 @@
                     "lines": [
                         [
                             "fix",
-                            "amp: (Volume() · 10)",
+                            "amp: (Volume() × 10)",
                             "Phrase('.'.repeat(amp.roundDown()) resting:Pose(scale: amp))"
                         ],
                         [
@@ -2393,7 +2393,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~Jag vill visa dig kopplingen mellan våra världar och vad de gör möjligt. Vi kallar dem **inmatningsströmmar**, och de är kanske den mest magiska typen av indata i Versen. De är som funktioner som skapar en speciell typ av värde som förändras när din värld förändras. De kan inte heller kommunicera på de sätt som du kanske är van vid. De är mer som hjärtslag från en annan värld. Så jag ska göra mitt bästa för att förklara hur de fungerar eftersom de inte kommer att kunna förklara sig själva.",
+                            "$~Jag vill visa dig kopplingen mellan våra världar och vad de gör möjligt. Vi kallar dem *inmatningsströmmar*, och de är kanske den mest magiska typen av indata i Versen. De är som funktioner som skapar en speciell typ av värde som förändras när din värld förändras. De kan inte heller kommunicera på de sätt som du kanske är van vid. De är mer som hjärtslag från en annan värld. Så jag ska göra mitt bästa för att förklara hur de fungerar eftersom de inte kommer att kunna förklara sig själva.",
                             "$~Är du redo att träffa en?"
                         ]
                     ]
@@ -2617,7 +2617,7 @@
                             "$~@Volym kan användas för att få föreställningar att svara på ljud från publiken. Till exempel, här skulle vi kunna göra en liten amplitudvisualisering genom att konvertera amplitudtalet från strömmen till ett visst antal \\'o'\\ tecken. Se hur när du gör oväsen, det finns fler \\'o'\\s? @Volume divideras med \\10\\, vilket sätter den i intervallet \\0\\ till \\10\\. Sedan ges det värdet till funktionen @Text/repeat, som upprepar \\'o'\\ det givna antalet gånger."
                         ],
                         ["Volume", "neutral", "$~bzzzZZZZZzzzzzzZZZZ…"],
-                        ["edit", "'o'.repeat(Volume() · 10)"]
+                        ["edit", "'o'.repeat(Volume() × 10)"]
                     ]
                 },
                 {
@@ -3179,7 +3179,7 @@
                             "kind",
                             "$~Den storleken kan vara vilket uttryck som helst. Säg till exempel att vi ville att det skulle växa när @Time tickar. Vi kan ta tid, multiplicera det med en bråkdel av en meter, och härligt, tick tick tick, hej hi hi. Försök att ändra frekvensen eller multiplikatorn. Se vilken vacker tillväxt du kan skapa!"
                         ],
-                        ["fix", "Phrase('hi' Time(100ms) · 0.001m/ms)"],
+                        ["fix", "Phrase('hi' Time(100ms) × 0.001m/ms)"],
                         null,
                         [
                             "Phrase",
@@ -3190,7 +3190,7 @@
                             "use",
                             "fix",
                             "Symbol",
-                            "hi' Time(100ms) · 0.001m/ms 'Poor Story"
+                            "hi' Time(100ms) × 0.001m/ms 'Poor Story"
                         ],
                         null,
                         [
@@ -3200,7 +3200,7 @@
                         ],
                         [
                             "fit",
-                            "Phrase('hi' Time(100ms) · 0.001m/ms 'Poor Story' Place(2m 2m))"
+                            "Phrase('hi' Time(100ms) × 0.001m/ms 'Poor Story' Place(2m 2m))"
                         ],
                         null,
                         [
@@ -3210,7 +3210,7 @@
                         ],
                         [
                             "fit",
-                            "Phrase('hi' Time(100ms) · 0.001m/ms 'Poor Story' Place(2m 2m) rotation: 20°)"
+                            "Phrase('hi' Time(100ms) × 0.001m/ms 'Poor Story' Place(2m 2m) rotation: 20°)"
                         ],
                         null,
                         [
@@ -3220,7 +3220,7 @@
                         ],
                         [
                             "fit",
-                            "Phrase('hi' 3m 'Poor Story' rotation: Time(10ms) · 1°/ms)"
+                            "Phrase('hi' 3m 'Poor Story' rotation: Time(10ms) × 1°/ms)"
                         ],
                         null,
                         [
@@ -3235,7 +3235,7 @@
                         ],
                         [
                             "conflict",
-                            "Phrase('hi' 'Poor Story' 3m Time(10ms) · 1°/ms Place(2m 2m))"
+                            "Phrase('hi' 'Poor Story' 3m Time(10ms) × 1°/ms Place(2m 2m))"
                         ],
                         null,
                         [
@@ -3245,7 +3245,7 @@
                         ],
                         [
                             "edit",
-                            "Phrase('hi' size: 3m rotation: Time(10ms) · 0.1°/ms)"
+                            "Phrase('hi' size: 3m rotation: Time(10ms) × 0.1°/ms)"
                         ],
                         null,
                         [
@@ -3272,7 +3272,7 @@
                         ],
                         [
                             "fit",
-                            "Phrase('hi' size: 5m place: Place(Time(1000ms) · 0.001m/ms 0m) moving:Pose(rotation: 5°) duration: 0.5s)"
+                            "Phrase('hi' size: 5m place: Place(Time(1000ms) × 0.001m/ms 0m) moving:Pose(rotation: 5°) duration: 0.5s)"
                         ],
                         null,
                         [
@@ -3282,7 +3282,7 @@
                         ],
                         [
                             "fit",
-                            "Phrase('hi' size: 5m place: Place(Time(1000ms) · 0.001m/ms 0m) moving:Pose(rotation: 5°) duration: 0.5s style: “straight”)"
+                            "Phrase('hi' size: 5m place: Place(Time(1000ms) × 0.001m/ms 0m) moving:Pose(rotation: 5°) duration: 0.5s style: “straight”)"
                         ],
                         null,
                         [
@@ -3293,7 +3293,7 @@
                         [
                             "fit",
                             "Time(1000ms) < 3000ms ? ",
-                            "Phrase('hi' size: 5m place: Place(Time(1000ms) · 0.001m/ms 0m) moving:Pose(rotation: 5°) duration: 0.5s) ",
+                            "Phrase('hi' size: 5m place: Place(Time(1000ms) × 0.001m/ms 0m) moving:Pose(rotation: 5°) duration: 0.5s) ",
                             "Phrase('')"
                         ],
                         null,
@@ -3304,7 +3304,7 @@
                         ],
                         [
                             "fit",
-                            "Time(1000ms) < 3000ms ? Phrase('hi' size: 5m place: Place(Time(1000ms) · 0.001m/ms 0m) moving:Pose(rotation: 5°) exiting:Pose(scale: 10 rotation: 180° opacity: 0) duration: 0.5s) Phrase('')"
+                            "Time(1000ms) < 3000ms ? Phrase('hi' size: 5m place: Place(Time(1000ms) × 0.001m/ms 0m) moving:Pose(rotation: 5°) exiting:Pose(scale: 10 rotation: 180° opacity: 0) duration: 0.5s) Phrase('')"
                         ],
                         null,
                         [
@@ -3318,7 +3318,7 @@
                             "    Phrase(",
                             "        'hi'",
                             "        size: 5m",
-                            "        place: Place(Time(1000ms) · 0.001m/ms 0m)",
+                            "        place: Place(Time(1000ms) × 0.001m/ms 0m)",
                             "        moving:Pose(rotation: 5°)",
                             "        exiting:Pose(scale: 10 rotation: 180° opacity: 0)",
                             "        duration: 0.5s",
@@ -3359,7 +3359,7 @@
                         ],
                         [
                             "edit",
-                            "Phrase('red' size: 5m color: 🌈(50% 300 (Time() % 360) · 1°/ms))"
+                            "Phrase('red' size: 5m color: 🌈(50% 300 (Time() % 360) × 1°/ms))"
                         ],
                         [
                             "FunctionDefinition",
@@ -3677,7 +3677,7 @@
                         [
                             "edit",
                             "Group(",
-                            "    Stack('|' Time(100ms) · 0.001m/ms) ",
+                            "    Stack('|' Time(100ms) × 0.001m/ms) ",
                             "    [",
                             "        Phrase('one')",
                             "        Phrase('two')",
@@ -3694,7 +3694,7 @@
                         [
                             "edit",
                             "Group(",
-                            "    Row('|' Time(100ms) · 0.001m/ms) [",
+                            "    Row('|' Time(100ms) × 0.001m/ms) [",
                             "        Phrase('one')",
                             "        Phrase('two')",
                             "        Phrase('three')",
@@ -4397,7 +4397,7 @@
                             "kind",
                             "$~Ja, självklart! Så det visar sig att @Program mest bara är ett @Block. Det är bara @Block utan parentes. Men du kan sätta @Block med parentes var som helst i ett program. Du kan till exempel använda @Block för att förtydliga ordningen för utvärdering av matematik. Här utvärderar @BinaryEvaluate \\1\\, utvärderar sedan @Block och sedan läggs de ihop. @Block, fattade jag rätt?"
                         ],
-                        ["edit", "1 + (2 · 3)"],
+                        ["edit", "1 + (2 × 3)"],
                         ["Block", "shy", "$~… ja!"],
                         null,
                         [
@@ -4969,7 +4969,7 @@
                             "¶Gets the tax for a given price, ",
                             "which is 1% if less than 100, and 5% otherwise¶",
                             "ƒ tax(price•#dollar) ",
-                            "    price · (price < 100dollar ? 0.01 0.05)"
+                            "    price × (price < 100dollar ? 0.01 0.05)"
                         ],
                         null,
                         [
@@ -4993,7 +4993,7 @@
                             "edit",
                             "ƒ quadratic(a•# b•# c•# x•#)",
                             "¶The quadratic equation¶",
-                            "(a · (x ^ 2)) + (b · x) + c"
+                            "(a × (x ^ 2)) + (b × x) + c"
                         ],
                         null,
                         [
@@ -5006,7 +5006,7 @@
                             "ƒ quadratic(a•# b•# c•# x•#)",
                             "¶The quadratic equation¶/en",
                             "¶La ecuación cuadrática¶/es",
-                            "(a · (x ^ 2)) + (b · x) + c"
+                            "(a × (x ^ 2)) + (b × x) + c"
                         ],
                         null,
                         [

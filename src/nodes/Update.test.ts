@@ -39,7 +39,7 @@ test.each([
         Update,
         IncompatibleCellType,
     ],
-])('good: %s bad: %s', (good, bad, kind, conflict) => {
+])('%s => no conflict, %s => conflict', (good, bad, kind, conflict) => {
     testConflict(good, bad, kind, conflict);
 });
 

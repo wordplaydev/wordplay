@@ -79,6 +79,7 @@
     style:width
     disabled={!editable}
     class:code
+    onchange={(e) => commitChange((e.target as HTMLSelectElement).value)}
     onpointerenter={showTip}
     onpointerleave={hideTip}
     ontouchstart={showTip}

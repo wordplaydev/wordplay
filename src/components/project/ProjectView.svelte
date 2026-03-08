@@ -451,6 +451,11 @@
     const editors = writable(new Map<string, EditorState>());
     setEditors(editors);
 
+    /** The currently focused editor state */
+    const focusedEditorState = $derived(
+        Array.from($editors.values()).find((editor) => editor.focused),
+    );
+
     /** A map of tile IDs to editor components, so we can pass around references for programmatic use of editors. */
     const editorViews = $state<Record<string, Editor>>({});
 
@@ -902,6 +907,8 @@
         );
     }
 
+    let outputView = $state<OutputView | undefined>(undefined);
+
     let adjusting = $state(false);
 
     /** Take the given axis, group, and split, and adjust it. */
@@ -1029,9 +1036,8 @@
         caret:
             layout === undefined || layout.isFullscreenNonSource()
                 ? undefined
-                : (Array.from($editors.values()).find(
-                      (editor) => editor.focused,
-                  )?.caret ?? Array.from($editors.values())[0]?.caret),
+                : (focusedEditorState?.caret ??
+                  Array.from($editors.values())[0]?.caret),
         project,
         editor: false,
         /** We intentionally depend on the evaluation store because it updates when the evaluator's state changes */
@@ -1046,6 +1052,8 @@
         blocks: $blocks,
         view: undefined,
         help: () => (showHelpDialog = !showHelpDialog),
+        zoom: focusedEditorState?.zoom,
+        setZoom: focusedEditorState?.setZoom,
     });
 
     // Create reactive context to share the above.
@@ -1700,6 +1708,19 @@
                                     <Painting
                                             bind:painting
                                         />{/if} -->
+                                    <Button
+                                        action={() =>
+                                            outputView?.adjustZoom(-1)}
+                                        tip={(l) => l.ui.output.button.zoomOut}
+                                        padding={false}
+                                        ><Emoji>–<sub>🔎</sub></Emoji></Button
+                                    >
+                                    <Button
+                                        action={() => outputView?.adjustZoom(1)}
+                                        tip={(l) => l.ui.output.button.zoomIn}
+                                        padding={false}
+                                        ><Emoji>+<sub>🔎</sub></Emoji></Button
+                                    >
                                     <Toggle
                                         background
                                         tips={(l) => l.ui.output.toggle.grid}
@@ -1764,6 +1785,7 @@
                                     />
                                 {:else if tile.kind === TileKind.Output}
                                     <OutputView
+                                        bind:this={outputView}
                                         {project}
                                         evaluator={$evaluator}
                                         value={latestValue}

@@ -22,21 +22,19 @@ export class BorrowCycle extends Conflict {
     static readonly LocalePath = (locale: LocaleText) =>
         locale.node.Borrow.conflict.BorrowCycle;
 
-    getConflictingNodes() {
+    getMessage() {
         return {
-            primary: {
-                node: this.borrow,
-                explanation: (locales: Locales, context: Context) =>
-                    locales.concretize(
-                        (l) => BorrowCycle.LocalePath(l).primary,
-                        new NodeRef(
-                            this.borrow,
-                            locales,
-                            context,
-                            locales.getName(this.cycle[0].names),
-                        ),
+            node: this.borrow,
+            explanation: (locales: Locales, context: Context) =>
+                locales.concretize(
+                    (l) => BorrowCycle.LocalePath(l).explanation,
+                    new NodeRef(
+                        this.borrow,
+                        locales,
+                        context,
+                        locales.getName(this.cycle[0].names),
                     ),
-            },
+                ),
         };
     }
 

@@ -245,6 +245,9 @@ export default class Speech extends StreamValue<TextValue, string> {
                     const transcript =
                         results[resultIndex][0].transcript.trim();
                     if (transcript) {
+                        // Only reset retry count after a successful result,
+                        // not on start — prevents infinite retry loops on flaky connections
+                        this.retryCount = 0;
                         this.react(transcript);
                     }
                 }
@@ -258,8 +261,10 @@ export default class Speech extends StreamValue<TextValue, string> {
             // Handle end (restart if still on)
             this.recognition.onend = () => {
                 this.isListening = false;
-                // Restart if we're supposed to be listening
-                if (this.on) {
+                // Only auto-restart if we're supposed to be listening
+                // and not in a retry state — let attemptRetry handle
+                // backoff and restart when errors are occurring
+                if (this.on && this.retryCount === 0) {
                     try {
                         this.recognition?.start();
                         this.isListening = true;
@@ -272,9 +277,6 @@ export default class Speech extends StreamValue<TextValue, string> {
             // Handle start
             this.recognition.onstart = () => {
                 this.isListening = true;
-                // Reset retry count on successful start
-                this.retryCount = 0;
-                this.retryDelay = 1000;
             };
         }
 
@@ -326,13 +328,13 @@ export default class Speech extends StreamValue<TextValue, string> {
             case 'network':
                 // Network error - could be no internet or service unavailable
                 this.reactError('noConnection');
-                this.attemptRetry('network');
+                this.attemptRetry();
                 break;
 
             case 'service-not-allowed':
                 // Service denied - API quota/rate limit or service unavailable
                 this.reactError('serviceNotAllowed');
-                this.attemptRetry('service-not-allowed');
+                this.attemptRetry();
                 break;
 
             case 'not-allowed':
@@ -345,7 +347,7 @@ export default class Speech extends StreamValue<TextValue, string> {
             case 'audio-capture':
                 // Microphone hardware error
                 this.reactError('noMicrophone');
-                this.attemptRetry('audio-capture');
+                this.attemptRetry();
                 break;
 
             case 'language-not-supported':
@@ -367,7 +369,7 @@ export default class Speech extends StreamValue<TextValue, string> {
             default:
                 // Unknown error - surface as a connection error since most unexpected speech errors are network/service related
                 this.reactError('noConnection');
-                this.attemptRetry('unknown');
+                this.attemptRetry();
                 break;
         }
     }
@@ -376,7 +378,7 @@ export default class Speech extends StreamValue<TextValue, string> {
     // Backoff strategy: delay = baseDelay * attemptnumber
     // Attempt 1: 1000ms; Attempt 2: 2000ms; Attempt 3: 3000ms
     // After [maxRetries] failures, it injects a localized error message and stops the stream
-    private attemptRetry(errorType: string) {
+    private attemptRetry() {
         // Only retry for transient errors, and only up to max retries
         if (this.retryCount < this.maxRetries && this.on) {
             this.retryCount++;

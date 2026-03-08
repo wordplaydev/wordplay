@@ -1,8 +1,11 @@
 <script lang="ts">
     import Subheader from '@components/app/Subheader.svelte';
+    import { setConceptPath } from '@components/project/Contexts';
     import Button from '@components/widgets/Button.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
+    import type Concept from '@concepts/Concept';
     import { Settings } from '@db/Database';
+    import { writable } from 'svelte/store';
     import Header from '../../components/app/Header.svelte';
     import Writing from '../../components/app/Writing.svelte';
     import MarkupHTMLView from '../../components/concepts/MarkupHTMLView.svelte';
@@ -23,6 +26,9 @@
     let collapsed = $state<boolean[]>(
         datedUpdates.map((_, index) => index > 1),
     );
+
+    let path = writable<Concept[]>([]);
+    setConceptPath(path);
 
     Settings.setUpdatesLastChecked(datedUpdates[0].date.split('T')[0]);
 </script>
@@ -78,6 +84,18 @@
                         {/each}
                     </ul>
                 {/if}
+                {#if update.changes.changed.length > 0}
+                    <h3 class="changed"
+                        ><LocalizedText
+                            path={(l) => l.ui.page.updates.categories.changed}
+                        ></LocalizedText></h3
+                    >
+                    <ul>
+                        {#each update.changes.changed as item}
+                            {@render note(item)}
+                        {/each}
+                    </ul>
+                {/if}
                 {#if update.changes.fixed.length > 0}
                     <h3 class="fixed"
                         ><LocalizedText
@@ -98,18 +116,6 @@
                     >
                     <ul>
                         {#each update.changes.removed as item}
-                            {@render note(item)}
-                        {/each}
-                    </ul>
-                {/if}
-                {#if update.changes.changed.length > 0}
-                    <h3 class="changed"
-                        ><LocalizedText
-                            path={(l) => l.ui.page.updates.categories.changed}
-                        ></LocalizedText></h3
-                    >
-                    <ul>
-                        {#each update.changes.changed as item}
                             {@render note(item)}
                         {/each}
                     </ul>

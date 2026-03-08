@@ -16,15 +16,13 @@ export default class UnexpectedEtc extends Conflict {
     static readonly LocalePath = (locales: LocaleText) =>
         locales.node.Bind.conflict.UnexpectedEtc;
 
-    getConflictingNodes() {
+    getMessage() {
         return {
-            primary: {
-                node: this.bind,
-                explanation: (locales: Locales) =>
-                    locales.concretize(
-                        (l) => UnexpectedEtc.LocalePath(l).primary,
-                    ),
-            },
+            node: this.bind,
+            explanation: (locales: Locales) =>
+                locales.concretize(
+                    (l) => UnexpectedEtc.LocalePath(l).explanation,
+                ),
         };
     }
 

@@ -3,6 +3,7 @@ import type { NotificationData } from '@components/settings/Notifications.svelte
 import { type Database } from '@db/Database';
 import { firestore } from '@db/firebase';
 import type Gallery from '@db/galleries/Gallery';
+import { SupportedLocales } from '@locale/SupportedLocales';
 import { FirebaseError } from 'firebase/app';
 import {
     and,
@@ -154,12 +155,58 @@ export default class HowTo {
         return this.data.title;
     }
 
+    getTitleAsMap(): SvelteMap<string, string> {
+        return HowTo.markupToMapHelper(this.data.title);
+    }
+
+    /** Get the title of the how-to in the specified locale. If there is no title written in that language, fall back to the first title */
+    getTitleInLocale(locale: string): string {
+        const titleMap = this.getTitleAsMap();
+        let nameInLocale: string | undefined = titleMap.get(locale);
+        if (nameInLocale) return nameInLocale;
+
+        let firstLanguage: [string, string] | undefined = titleMap.entries().next().value;
+        if (firstLanguage) return firstLanguage[1];
+        else return ''; // fall back to an empty title
+    }
+
     getGuidingQuestions() {
         return this.data.guidingQuestions;
     }
 
     getText() {
         return this.data.text;
+    }
+
+    static markupToMapHelper(markup: string): SvelteMap<string, string> {
+        // input format: '¶hello¶/en-US¶hola¶/es-MX'
+        // output format: {'en-US': 'hello', 'es-MX': 'hola'}
+        let map: SvelteMap<string, string> = new SvelteMap<
+            string,
+            string
+        >();
+
+        // should match strings in the format of "¶some text¶/locale", where the locale is one of the supported locales
+        // necessary, since not all locales match the {2,3}-{2,3} format (e.g., ta-IN-LK-SG)
+        let regexString: string = "¶(.*?)¶\/(" + SupportedLocales.join("|") + ")";
+        let regex: RegExp = new RegExp(regexString, "gs");
+
+        let stringAndLocale: RegExpExecArray[] = [...markup.matchAll(regex)];
+
+        // dealing with cases of no markup, just text (i.e., how-to was created before translation was implemented)
+        // 'en-US' was the hard-coded default locale, so we just use that
+        if (stringAndLocale.length === 0) {
+            map.set('en-US', markup);
+        } else {
+            stringAndLocale.forEach((match) => {
+                let locale: string = match[2];
+                let text: string = match[1];
+
+                map.set(locale, text);
+            });
+        }
+
+        return map;
     }
 
     getCreator() {
@@ -185,7 +232,7 @@ export default class HowTo {
         return this.data.viewersFlat.includes(userId);
     }
 
-    getLocales() {
+    getLocales(): string[] {
         return this.data.locales;
     }
 

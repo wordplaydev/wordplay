@@ -1,27 +1,52 @@
 进行文字冒险
 
-一种有趣的游戏是/选择你自己的冒险/游戏中，玩家需要做出一系列选择，并尝试找到通往幸福结局的方法。
+一种有趣的游戏是/选择你自己的冒险/游戏，玩家需要做出一系列选择，并尝试找到通往幸福结局的方法。
 
-为了制作其中之一，我们可以使用 @Structure ， @Key ， @Reaction ， 和  @List 共同做出一系列决定，每个决定都有一组选项，如下所示：
+我们可以使用 @Structure ， @Key ， @Reaction ， 和  @List 共同做出一系列决定，每个决定都有一组选项，如下所示：
 
-\¶这就形成了一个数据结构，用于存储选择以及它将导航到哪个决策。¶•Option(text•'' decision•#)
-¶此数据结构存储了选择列表¶•Decision(options: [Option])
-¶这就是游戏内容！更改选项中的文本，营造氛围，并做出艰难的选择。添加选项来创建一个棘手的选择网络。¶
+\¶这就形成了一个数据结构，用于存储选择以及它将导航到哪个决策。
+¶•Option(text•'' decision•#)
+
+¶这个数据结构存储了一个列表的选项¶
+•Decision(options: [Option])
+
+¶这就是游戏内容！更改选项中的文本，营造氛围，并做出艰难的选择。
+添加选项来创造错综复杂的选择。¶
 decisions: [
 		Decision([Option('开始' 2)])
 		Decision([Option('左边' 3) Option('直的' 4) Option('正确的' 4)])
 		Decision([Option('赢' 1)])
 		Decision([Option('失去' 1)])
 	]
-¶如果密钥是数字，则将其转换为数字¶
+
+¶如果按键是数字，则将其转换为数字¶
 key: Key()
 choice: key → #
-¶该值代表上述列表中的当前决策。当按下该键时，我们会执行以下操作之一。如果这个决定只有一个选择，那么我们改变当前的决定无论按下什么键，都会做出选项的目标决定。如果按下的键介于 1 和选项数量之间，那么我们将转到该选项的目标决策。否则，我们就维持当前的决定。¶
-current•#: 1 … ∆ key … decisions[current].options.length() = 1 ? decisions[current].options[1].decision ((choice ≥ 1) & (choice ≤ decisions[current].options.length())) ? decisions[current].options[choice].decision current
-¶这只是将选项显示为一堆短语。您可以更改它以添加说明、动画和其他趣味内容！¶Stage([
-		Group(Stack() decisions[current].options.translate(ƒ(option) Phrase(option.text)))
-	])\
 
-这个模式看起来很复杂，但它实际上的作用是显示当前的选项集，并且每次按键改变时，都会跳转到所选选项的决策。游戏设计的关键在于改变顶部的内容！
+¶这个值代表上方列表中的当前选中的决定。
+当按下该键时，我们会执行以下操作之一。
+如果这个决策只有一个可选项，则无论按下哪个按键，都会将当前决策切换到该选项所指向的目标决策。
+如果按下的按键在 1 到选项数量之间，就会跳转到对应选项的目标决策。
+不然，我们就维持当前的决策。¶
+current•#: 1 …
+	∆ key …
+		decisions[current].options.length() = 1 ?
+			decisions[current].options[1].decision
+			((choice ≥ 1) & (choice ≤ decisions[current].options.length())) ?
+				decisions[current].options[choice].decision
+				current
+
+¶这只是将选项显示为一堆短语。你可以更改它以添加说明、动画和其他趣味内容！¶
+Stage([
+		Group(
+			Stack()
+			decisions[current].options.translate(ƒ(option) Phrase(option.text))
+		)
+	])
+
+\
+
+这个模式看起来很复杂，但它本质上只是展示当前的选项，并在按键变化时跳转到你选择的决策。
+游戏设计的关键，其实就在于不断变化页面顶部的内容！
 
 offer-choices

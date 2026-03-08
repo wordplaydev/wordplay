@@ -33,11 +33,11 @@ Stage(
                 face: "Noto Color Emoji"
                 size: 5m 
                 place: Place(
-                    kitty.x · 1m
-                    kitty.y · 1m
-                    kitty.z · 1m
+                    kitty.x × 1m
+                    kitty.y × 1m
+                    kitty.z × 1m
                 )
-                rotation: kitty.angle · 1°
+                rotation: kitty.angle × 1°
                 duration: 0s
             )
     )

@@ -19,16 +19,14 @@ export class UnknownTypeName extends Conflict {
     static readonly LocalePath = (locales: LocaleText) =>
         locales.node.NameType.conflict.UnknownTypeName;
 
-    getConflictingNodes() {
+    getMessage() {
         return {
-            primary: {
-                node: this.name,
-                explanation: (locales: Locales, context: Context) =>
-                    locales.concretize(
-                        (l) => UnknownTypeName.LocalePath(l).primary,
-                        new NodeRef(this.definition, locales, context),
-                    ),
-            },
+            node: this.name,
+            explanation: (locales: Locales, context: Context) =>
+                locales.concretize(
+                    (l) => UnknownTypeName.LocalePath(l).explanation,
+                    new NodeRef(this.definition, locales, context),
+                ),
         };
     }
 

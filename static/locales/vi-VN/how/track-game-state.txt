@@ -1,0 +1,30 @@
+Theo dõi trạng thái trò chơi
+
+Hầu hết các trò chơi đều theo dõi nhiều yếu tố trong suốt quá trình chơi: điểm số, vị trí người chơi và các chi tiết khác đều rất quan trọng.Mỗi khi có dữ liệu đầu vào, trạng thái đó sẽ thay đổi, và sau đó chúng ta muốn hiển thị dữ liệu đầu ra mới để đáp ứng.
+
+Một mô hình chung cho bất kỳ trò chơi nào đều thực hiện ba điều:
+
+• Định nghĩa cấu trúc dữ liệu trạng thái trò chơi để lưu trữ tất cả trạng thái trò chơi.• Định nghĩa một phản ứng tạo ra trạng thái trò chơi mới dựa trên trạng thái trò chơi trước đó mỗi khi có dữ liệu đầu vào mới.• Tạo một @Stage  với  @Group  Và  @Phrase để hiển thị trạng thái trò chơi
+
+Ví dụ, hãy tưởng tượng một trò chơi đơn giản, trong đó người chơi nhập các từ bí mật vào một ô văn bản và nhận được một điểm mỗi khi đoán đúng từ bí mật đó:
+
+\•Game(secrets•[''] points•#)
+state: Game(['con mèo' 'chó'] 0) … state.secrets.has(Chat()) … state.points:state.points + 1
+Stage(state.points = state.secrets.length() ? [Phrase("Bạn thắng rồi!")] [
+			Group(Stack() [
+					Phrase("Đoán xem từ bí mật của tôi là gì nào!")
+					Phrase(`\state.secrets.length() - state.points\thêm bí mật`)
+				])
+		])\
+
+Chúng ta hãy cùng phân tích điều này.
+
+• Dòng đầu tiên,\•Game(secrets•[''] points•#)\nói,/Tạo một cấu trúc dữ liệu có tên là\Game\nơi lưu trữ danh sách các bí mật và điểm số./• Dòng thứ hai nói rằng/Trạng thái trò chơi bắt đầu với một danh sách các bí mật và 0 điểm. Mỗi lần\Chat\Nếu từ được nhập có trong danh sách bí mật, hãy tạo trạng thái trò chơi mới với số điểm tăng thêm một./.• Mỗi lần chương trình đánh giá lại (khi\Chat\(thay đổi), hiển thị một giai đoạn. Nếu số điểm bằng số bí mật, hiển thị giai đoạn chiến thắng. Nếu không, hiển thị lời nhắc và số bí mật còn lại.
+
+Ví dụ này có một số vấn đề:
+
+• Nếu họ đoán đúng một từ bí mật nhiều lần, họ sẽ nhận được nhiều điểm hơn! Trạng thái trò chơi của chúng ta cũng có thể cần ghi nhớ những từ đã được đoán, vì vậy mỗi từ chỉ được tính hai lần.• Nếu người chơi nhập nhiều từ, liệu chúng có được tính không?
+
+Các trạng thái trò chơi và bản cập nhật trò chơi phức tạp hơn sẽ giúp chúng ta xử lý những trường hợp này.
+
+track-points

@@ -233,9 +233,16 @@
     );
     setDragTarget(insertion);
 
+    let zoom = $state(0);
+
+    function setZoom(z: number) {
+        zoom = z;
+    }
+
     // A store of the handle edit function
     const editContext = writable({
         edit: handleEdit,
+        sourceID: sourceID,
         caret: $caret,
         blocks: $blocks,
         project,
@@ -243,6 +250,8 @@
         toggleMenu,
         grabFocus,
         setCaretPosition,
+        zoom,
+        setZoom,
     });
     setEditor(editContext);
 
@@ -1004,6 +1013,8 @@
             getTokenViews,
             clearLargeDeletionNotification: () =>
                 setLargeDeletionNotification?.(null),
+            zoom,
+            setZoom,
         });
 
         // Don't insert symbols if composing.
@@ -1134,12 +1145,15 @@
             const state: EditorState = {
                 caret: $caret,
                 edit: handleEdit,
+                sourceID: sourceID,
                 blocks: $blocks,
                 project,
                 focused,
                 toggleMenu,
                 grabFocus,
                 setCaretPosition,
+                zoom,
+                setZoom,
             };
             untrack(() => {
                 // Update the editor state in the editors store.
@@ -1249,10 +1263,7 @@
                 if (conflictSelection)
                     // Get all conflicts involving the selection
                     newConflictsOfInterest = [
-                        ...(project.getPrimaryConflictsInvolvingNode(
-                            conflictSelection,
-                        ) ?? []),
-                        ...(project.getSecondaryConflictsInvolvingNode(
+                        ...(project.getConflictsInvolvingNode(
                             conflictSelection,
                         ) ?? []),
                         ...$nodeConflicts,
@@ -1408,6 +1419,7 @@
         dragPoint !== undefined}
     data-uiid="editor"
     role="application"
+    style:--zoom={`${zoom}pt`}
     aria-label={`${$locales.get((l) => l.ui.source.label)} ${$locales.getName(
         source.names,
     )}`}
@@ -1538,6 +1550,7 @@
         viewport={editor}
         viewportWidth={editorWidth}
         viewportHeight={editorHeight}
+        {zoom}
         bind:location={caretLocation}
     />
     <!--
@@ -1631,6 +1644,7 @@
         display: flex;
         flex-direction: column;
         gap: var(--wordplay-spacing);
+        font-size: calc(var(--wordplay-font-size) + var(--zoom));
     }
 
     .editor.readonly {

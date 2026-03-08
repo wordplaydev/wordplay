@@ -25,27 +25,25 @@ export class UnimplementedInterface extends Conflict {
     static readonly LocalePath = (locales: LocaleText) =>
         locales.node.StructureDefinition.conflict.UnimplementedInterface;
 
-    getConflictingNodes() {
+    getMessage() {
         return {
-            primary: {
-                node: this.structure,
-                explanation: (locales: Locales, context: Context) =>
-                    locales.concretize(
-                        (l) => UnimplementedInterface.LocalePath(l).primary,
-                        new NodeRef(
-                            this.interfaceStructure,
-                            locales,
-                            context,
-                            locales.getName(this.interfaceStructure.names),
-                        ),
-                        new NodeRef(
-                            this.fun,
-                            locales,
-                            context,
-                            locales.getName(this.fun.names),
-                        ),
+            node: this.structure,
+            explanation: (locales: Locales, context: Context) =>
+                locales.concretize(
+                    (l) => UnimplementedInterface.LocalePath(l).explanation,
+                    new NodeRef(
+                        this.interfaceStructure,
+                        locales,
+                        context,
+                        locales.getName(this.interfaceStructure.names),
                     ),
-            },
+                    new NodeRef(
+                        this.fun,
+                        locales,
+                        context,
+                        locales.getName(this.fun.names),
+                    ),
+                ),
         };
     }
 

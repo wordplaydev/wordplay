@@ -442,11 +442,29 @@
                     {#if howTos === undefined}
                         <Spinning></Spinning>
                     {:else}
-                        {@const how = index.concepts.filter(
+                        {#if galleryHowTos.length > 0}
+                            {@const galleryHow = index.concepts.filter(
+                                (c) => c instanceof GalleryHowConcept,
+                            )}
+                            <Subheader
+                                text={(l) => l.ui.docs.how.category.gallery}
+                            />
+                            <div class="howtos">
+                                {#each galleryHow as how}
+                                    <CodeView
+                                        node={how.getRepresentation()}
+                                        concept={how}
+                                        elide
+                                    />
+                                {/each}
+                            </div>
+                        {/if}
+
+                        {@const builtInHowTo = index.concepts.filter(
                             (c) => c instanceof HowConcept,
                         )}
                         {#each Object.keys(HowToCategories) as category}
-                            {@const categoryHowTos = how.filter(
+                            {@const categoryHowTos = builtInHowTo.filter(
                                 (howTo) => howTo.how.category === category,
                             )}
                             {#if categoryHowTos.length > 0}
@@ -467,23 +485,6 @@
                                 </div>
                             {/if}
                         {/each}
-                        {#if galleryHowTos.length > 0}
-                            {@const galleryHow = index.concepts.filter(
-                                (c) => c instanceof GalleryHowConcept,
-                            )}
-                            <Subheader
-                                text={(l) => l.ui.docs.how.category.gallery}
-                            />
-                            <div class="howtos">
-                                {#each galleryHow as how}
-                                    <CodeView
-                                        node={how.getRepresentation()}
-                                        concept={how}
-                                        elide
-                                    />
-                                {/each}
-                            </div>
-                        {/if}
                     {/if}
                 {:else if purpose === Purpose.Project}
                     {@const projectConcepts =

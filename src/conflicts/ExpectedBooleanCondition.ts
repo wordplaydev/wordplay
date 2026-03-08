@@ -21,29 +21,17 @@ export default class ExpectedBooleanCondition extends Conflict {
     static readonly LocalePath = (locale: LocaleText) =>
         locale.node.Conditional.conflict.ExpectedBooleanCondition;
 
-    getConflictingNodes() {
+    getMessage() {
         return {
-            primary: {
-                node:
-                    this.conditional instanceof Conditional
-                        ? this.conditional.question
-                        : this.conditional.dots,
-                explanation: (locales: Locales, context: Context) =>
-                    locales.concretize(
-                        (l) => ExpectedBooleanCondition.LocalePath(l).primary,
-                        new NodeRef(this.type, locales, context),
-                    ),
-            },
-            secondary: {
-                node: this.conditional.condition,
-                explanation: (locales: Locales, context: Context) =>
-                    locales.concretize(
-                        (l) =>
-                            l.node.Conditional.conflict.ExpectedBooleanCondition
-                                .secondary,
-                        new NodeRef(this.type, locales, context),
-                    ),
-            },
+            node:
+                this.conditional instanceof Conditional
+                    ? this.conditional.question
+                    : this.conditional.dots,
+            explanation: (locales: Locales, context: Context) =>
+                locales.concretize(
+                    (l) => ExpectedBooleanCondition.LocalePath(l).explanation,
+                    new NodeRef(this.type, locales, context),
+                ),
         };
     }
 
