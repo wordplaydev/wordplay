@@ -183,7 +183,7 @@
                             "Program",
                             "neutral",
                             "$~Säker. Jag är i princip arrangör av programmet för en föreställning.",
-                            "$~Du kan se mig där borta med en *redigerare* @UI/editor som visar mig *stadiet* @UI/editor som visar vad jag utvärderar till (för närvarande ingenting). *regissören* – det är du – hjälper alla att ta reda på vad de gör och skriver ett program för vad som kommer att hända i programmet. Och så utvärderar jag programmet och sätter upp resultatet på scen för publiken att se."
+                            "$~Du kan se mig där borta med en *redigerare* @UI/editor som visar mig *stadiet* @UI/stage som visar vad jag utvärderar till (för närvarande ingenting). *regissören* – det är du – hjälper alla att ta reda på vad de gör och skriver ett program för vad som kommer att hända i programmet. Och så utvärderar jag programmet och sätter upp resultatet på scen för publiken att se."
                         ],
                         null,
                         [
