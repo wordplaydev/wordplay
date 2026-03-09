@@ -640,7 +640,7 @@
                         [
                             "Evaluate",
                             "neutral",
-                            "Déjame mostrarte una de las perillas. ¿Puedes encontrar el pequeño botón de alternancia de *paleta* @UI/paletteExpand? Selecciónelo para expandir la paleta y luego seleccione la frase en el escenario. Una vez que lo hagas, verás las muchas entradas que acepta @Phrase. Por ejemplo, intente cambiar su @Phrase/size con el control deslizante."
+                            "Déjame mostrarte una de las perillas. ¿Puedes encontrar el pequeño botón de alternancia de *paleta* @UI/paletteExpand? Selecciónalo para expandir la paleta y luego selecciona la frase en el escenario. Una vez que lo hagas, verás las varias entradas que acepta @Phrase. Por ejemplo, intenta cambiar su @Phrase/size con el control deslizante."
                         ],
                         null,
                         [
