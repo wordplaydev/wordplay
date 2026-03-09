@@ -63,8 +63,9 @@
         }
 
         previousTime = time;
-        // Disable background animation for speed.
-        // if (mounted && $animationFactor > 0) window.requestAnimationFrame(step);
+
+        // Step again soon.
+        if (mounted && $animationFactor > 0) window.requestAnimationFrame(step);
     }
 
     onMount(() => {
@@ -82,12 +83,12 @@
             return {
                 symbol,
                 index,
-                size: Math.round(Math.random() * 128 + 16),
+                size: Math.round(Math.random() * 128 + 128),
                 x: Math.random() * windowWidth,
                 y: Math.random() * windowHeight,
                 angle: Math.round(Math.random() * 360),
-                vx: Math.round(Math.random() * 200 - 100),
-                vy: Math.round(Math.random() * 200 - 100),
+                vx: Math.round(Math.random() * 100 - 50),
+                vy: Math.round(Math.random() * 100 - 50),
                 va: Math.round(Math.random() * 30 - 50),
             };
         });
@@ -133,8 +134,8 @@
         font-family: 'Noto Emoji';
         font-size: 48pt;
         position: absolute;
-        opacity: 0.05;
+        opacity: 0.03;
         user-select: none;
-        color: var(--wordplay-foreground);
+        color: var(--wordplay-inactive);
     }
 </style>
