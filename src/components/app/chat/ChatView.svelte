@@ -4,6 +4,7 @@
     import TileMessage from '@components/project/TileMessage.svelte';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import Button from '@components/widgets/Button.svelte';
+    import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
     import FormattedEditor from '@components/widgets/FormattedEditor.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import Note from '@components/widgets/Note.svelte';
@@ -109,7 +110,8 @@
             >
             {#if $user?.uid === msg.creator && msg.text !== null}
                 <ConfirmButton
-                    tip={(l) => l.ui.collaborate.button.delete}
+                    tip={(l: any) => l.ui.collaborate.button.delete}
+                    prompt={(l: any) => l.ui.collaborate.button.confirmDelete}
                     action={() => deleteMessage(chat, msg)}
                     icon={CANCEL_SYMBOL}
                 ></ConfirmButton>
@@ -118,7 +120,7 @@
         <div class="what"
             >{#if msg.text === null}<em
                     ><LocalizedText
-                        path={(l) => l.ui.collaborate.error.deleted}
+                        path={(l: any) => l.ui.collaborate.error.deleted}
                     /></em
                 >{:else}<MarkupHTMLView
                     markup={msg.text.replaceAll('\n', '\n\n')}
