@@ -63,28 +63,39 @@
     function handleKey(event: KeyboardEvent) {
         if (event.ctrlKey || event.metaKey) {
             switch (event.key.toLowerCase()) {
+                case 'enter':
+                    event.preventDefault();
+                    event.stopPropagation();
+                    preview = !preview;
+                    break;
                 case 'b':
                     event.preventDefault();
+                    event.stopPropagation();
                     format('*');
                     break;
                 case 'i':
                     event.preventDefault();
+                    event.stopPropagation();
                     format('/');
                     break;
                 case 'u':
                     event.preventDefault();
+                    event.stopPropagation();
                     format('_');
                     break;
                 case 'e':
                     event.preventDefault();
+                    event.stopPropagation();
                     format('^');
                     break;
                 case 'k':
                     event.preventDefault();
+                    event.stopPropagation();
                     format('@');
                     break;
                 case '\\':
                     event.preventDefault();
+                    event.stopPropagation();
                     format('\\');
                     break;
             }
@@ -101,6 +112,12 @@
             offTip={(l) => l.ui.widget.formatted.edit}
             onTip={(l) => l.ui.widget.formatted.preview}
             toggle={(on: boolean) => (preview = on)}
+            shortcut={toShortcut({
+                control: true,
+                alt: undefined,
+                shift: undefined,
+                key: 'Enter',
+            })}
         />
         <Button
             tip={() =>

@@ -56,7 +56,7 @@
         Settings,
     } from '../../db/Database';
     import { isFlagged } from '../../db/projects/Moderation';
-    import Arrangement from '../../db/settings/Arrangement';
+    import Arrangement, { isResizeable } from '../../db/settings/Arrangement';
     import Characters from '../../lore/BasisCharacters';
     import type Color from '../../output/Color';
     import {
@@ -162,6 +162,8 @@
         index?: ConceptIndex | undefined;
         /** Whether to persist the layout for layter */
         persistLayout?: boolean;
+        /** If false and not collaborator, then collaborate panel is not shown */
+        isCommenter?: boolean;
     }
 
     let {
@@ -178,6 +180,7 @@
         dragged = $bindable(undefined),
         index = $bindable(undefined),
         persistLayout = true,
+        isCommenter = false,
     }: Props = $props();
 
     // The HTMLElement that represents this element
@@ -361,15 +364,18 @@
     let latestValue = $state<Value | undefined>();
 
     // When the project changes, create a new evaluator, observe it.
-    let evaluatorTimeout = $state<NodeJS.Timeout | undefined>();
+    let staleEvaluator = $state(false);
     projectStore.subscribe((newProject) => {
-        if ($keyboardEditIdle === IdleKind.Typing) {
-            if (evaluatorTimeout) clearTimeout(evaluatorTimeout);
-            evaluatorTimeout = setTimeout(() => {
-                updateEvaluator(newProject);
-            }, KeyboardIdleWaitTime);
-        } else {
-            updateEvaluator(newProject);
+        // If the project change, but the creator is typing, debounce update after the keyboard idle wait time.
+        if ($keyboardEditIdle === IdleKind.Typing) staleEvaluator = true;
+        // Otherwise, update immediately.
+        else updateEvaluator(newProject);
+    });
+
+    // When the keyboard becomes idle, and the evaluator is stale, update it.
+    $effect(() => {
+        if ($keyboardEditIdle === IdleKind.Idle && staleEvaluator) {
+            updateEvaluator($projectStore);
         }
     });
 
@@ -395,7 +401,7 @@
             // Is the checkpoint not now? Use the old sources instead of the current ones.
             checkpoint >= 0 ? getCheckpointProject(newProject) : newProject,
             DB,
-            // Choose the selected evaluation locale or if not selected, currently selected IDE locale
+            // Choose the selected evaluation locale or if not selected, the project's embedded locales
             evaluationLocale ? [evaluationLocale] : localesUsed,
             true,
             replayInputs ? $evaluator : undefined,
@@ -409,6 +415,9 @@
 
         // Set the evaluator store
         evaluator.set(newEvaluator);
+
+        // Mark the evaluator not stale.
+        staleEvaluator = false;
     }
 
     /** Create a store for all of the evaluation state, so that the editor nodes can update when it changes. */
@@ -441,6 +450,11 @@
     /** A store for tracking editor state for all Sources */
     const editors = writable(new Map<string, EditorState>());
     setEditors(editors);
+
+    /** The currently focused editor state */
+    const focusedEditorState = $derived(
+        Array.from($editors.values()).find((editor) => editor.focused),
+    );
 
     /** A map of tile IDs to editor components, so we can pass around references for programmatic use of editors. */
     const editorViews = $state<Record<string, Editor>>({});
@@ -579,8 +593,8 @@
             new Layout(
                 project.getID(),
                 defaultTiles,
-                // If showing output was requested, we fullscreen on output
-                showOutput ? TileKind.Output : undefined,
+                // If showing output or requested play was requested, we fullscreen on output
+                showOutput || requestedPlay ? TileKind.Output : undefined,
                 null,
             )
         );
@@ -893,6 +907,8 @@
         );
     }
 
+    let outputView = $state<OutputView | undefined>(undefined);
+
     let adjusting = $state(false);
 
     /** Take the given axis, group, and split, and adjust it. */
@@ -1020,9 +1036,8 @@
         caret:
             layout === undefined || layout.isFullscreenNonSource()
                 ? undefined
-                : (Array.from($editors.values()).find(
-                      (editor) => editor.focused,
-                  )?.caret ?? Array.from($editors.values())[0]?.caret),
+                : (focusedEditorState?.caret ??
+                  Array.from($editors.values())[0]?.caret),
         project,
         editor: false,
         /** We intentionally depend on the evaluation store because it updates when the evaluator's state changes */
@@ -1037,6 +1052,8 @@
         blocks: $blocks,
         view: undefined,
         help: () => (showHelpDialog = !showHelpDialog),
+        zoom: focusedEditorState?.zoom,
+        setZoom: focusedEditorState?.setZoom,
     });
 
     // Create reactive context to share the above.
@@ -1072,13 +1089,15 @@
             });
     });
 
+    let currentArrangement = $state<Arrangement>($arrangement);
+
     /** When dragged is set, update the layout if necessary to support dragging to the last editor. */
     $effect(() => {
         // Get the current layout (without making a dependnecy, since we assign below).
         const currentLayout = untrack(() => layout);
 
         // Figure out what arrangement we're in.
-        const currentArrangement = Layout.getComputedLayout(
+        currentArrangement = Layout.getComputedLayout(
             $arrangement,
             canvasWidth,
             canvasHeight,
@@ -1225,7 +1244,7 @@
 
     function setBrowserFullscreen(on: boolean) {
         browserFullscreen = on;
-        if (browserFullscreen) view?.requestFullscreen();
+        if (browserFullscreen) document.documentElement.requestFullscreen();
         else if (document.fullscreenElement) document.exitFullscreen();
         else setFullscreen(undefined);
     }
@@ -1548,11 +1567,18 @@
     }}
 />
 
+<svelte:document
+    onfullscreenchange={() => {
+        if (!document.fullscreenElement) browserFullscreen = false;
+    }}
+/>
+
 {#if warn}
     <Moderation {project} />
 {/if}
 <!-- Render the current project. -->
 <main class="project" class:dragging={dragged !== undefined} bind:this={view}>
+    <!-- svelte-ignore a11y_no_static_element_interactions -->
     <div
         class="canvas"
         class:free={$arrangement === Arrangement.Free}
@@ -1682,6 +1708,19 @@
                                     <Painting
                                             bind:painting
                                         />{/if} -->
+                                    <Button
+                                        action={() =>
+                                            outputView?.adjustZoom(-1)}
+                                        tip={(l) => l.ui.output.button.zoomOut}
+                                        padding={false}
+                                        ><Emoji>–<sub>🔎</sub></Emoji></Button
+                                    >
+                                    <Button
+                                        action={() => outputView?.adjustZoom(1)}
+                                        tip={(l) => l.ui.output.button.zoomIn}
+                                        padding={false}
+                                        ><Emoji>+<sub>🔎</sub></Emoji></Button
+                                    >
                                     <Toggle
                                         background
                                         tips={(l) => l.ui.output.toggle.grid}
@@ -1746,6 +1785,7 @@
                                     />
                                 {:else if tile.kind === TileKind.Output}
                                     <OutputView
+                                        bind:this={outputView}
                                         {project}
                                         evaluator={$evaluator}
                                         value={latestValue}
@@ -1871,24 +1911,31 @@
                         </TileView>
                     {/if}
                 {/each}
-                <!-- Create an adjuster for each axis split in the current layout that isn't the first in the axis -->
-                {#each layout.getSplits($arrangement, canvasWidth, canvasHeight) ?? [] as axis, axisIndex}
-                    {#each axis.positions as _, groupIndex}
-                        {#if groupIndex > 0}
-                            <PositionAdjuster
-                                {axis}
-                                index={groupIndex}
-                                {layout}
-                                adjuster={(split) =>
-                                    adjustSplit(axisIndex, groupIndex, split)}
-                                setAdjusting={(state) => (adjusting = state)}
-                                {adjusting}
-                                width={canvasWidth}
-                                height={canvasHeight}
-                            ></PositionAdjuster>
-                        {/if}
+                <!-- If in a layout that supports resizing, create an adjuster for each axis split in the current layout that isn't the first in the axis -->
+                {#if isResizeable(currentArrangement)}
+                    {#each layout.getSplits(currentArrangement, canvasWidth, canvasHeight) ?? [] as axis, axisIndex}
+                        {#each axis.positions as _, groupIndex}
+                            {#if groupIndex > 0}
+                                <PositionAdjuster
+                                    {axis}
+                                    index={groupIndex}
+                                    {layout}
+                                    adjuster={(split) =>
+                                        adjustSplit(
+                                            axisIndex,
+                                            groupIndex,
+                                            split,
+                                        )}
+                                    setAdjusting={(state) =>
+                                        (adjusting = state)}
+                                    {adjusting}
+                                    width={canvasWidth}
+                                    height={canvasHeight}
+                                ></PositionAdjuster>
+                            {/if}
+                        {/each}
                     {/each}
-                {/each}
+                {/if}
             {/if}
         {/key}
     </div>
@@ -1945,7 +1992,8 @@
                 {/each}
                 {#each layout.getNonSources() as tile (tile.id)}
                     <!-- No need to show the tile if not visible when not editable. -->
-                    {#if tile.isVisibleCollapsed(editable)}
+                    <!-- Show collaborate tile if the user is a commenter -->
+                    {#if tile.isVisibleCollapsed(editable || (tile.kind === TileKind.Collaborate && isCommenter))}
                         <NonSourceTileToggle
                             {project}
                             {tile}

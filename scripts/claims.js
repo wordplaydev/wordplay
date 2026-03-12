@@ -47,11 +47,11 @@ if (privilege !== undefined && !flags.includes(privilege)) {
 
 console.log('Reading service key...');
 
-const serviceKeyPath = `../firebase-${project}-service-key.json`;
+const serviceKeyPath = `firebase-${project}-service-key.json`;
 
 // Log in with the secret service key generated in the Firebase service accounts console.
 const serviceAccount = JSON.parse(
-    readFileSync(`../wordplay-${project}-service-key.json`, 'utf8'),
+    readFileSync(`wordplay-${project}-service-key.json`, 'utf8'),
 );
 
 if (serviceAccount === undefined) {

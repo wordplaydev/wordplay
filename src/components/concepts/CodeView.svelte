@@ -24,6 +24,7 @@
         outline?: boolean;
         elide?: boolean;
         flip?: boolean;
+        localize?: boolean;
     }
 
     let {
@@ -36,6 +37,7 @@
         outline = true,
         elide = false,
         flip = false,
+        localize = true,
     }: Props = $props();
 
     let dragged = getDragged();
@@ -90,7 +92,7 @@
                 {spaces}
                 blocks={$blocks}
                 {elide}
-                locale={$locales.getLocale()}
+                locale={localize ? $locales.getLocale() : null}
                 inert={!draggable}
             /></div
         >{#if type && concept}&nbsp;<TypeView
@@ -105,7 +107,7 @@
     {#if describe && concept}
         <div class="link">
             {#if concept instanceof GalleryHowConcept}
-                <Link to={concept.getPath()} external>{concept.getName()}</Link>
+                <Link to={concept.getPath()} external>{concept.getName($locales)}</Link>
             {:else}
                 <ConceptLinkUI link={concept} symbolic={false} />
             {/if}

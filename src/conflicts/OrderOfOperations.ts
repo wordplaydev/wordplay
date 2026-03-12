@@ -17,15 +17,13 @@ export default class OrderOfOperations extends Conflict {
     static readonly LocalePath = (locale: LocaleText) =>
         locale.node.BinaryEvaluate.conflict.OrderOfOperations;
 
-    getConflictingNodes() {
+    getMessage() {
         return {
-            primary: {
-                node: this.operation,
-                explanation: (locales: Locales) =>
-                    locales.concretize(
-                        (l) => OrderOfOperations.LocalePath(l).primary,
-                    ),
-            },
+            node: this.operation,
+            explanation: (locales: Locales) =>
+                locales.concretize(
+                    (l) => OrderOfOperations.LocalePath(l).explanation,
+                ),
         };
     }
 

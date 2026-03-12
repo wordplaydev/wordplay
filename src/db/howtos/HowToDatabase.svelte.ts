@@ -3,6 +3,7 @@ import type { NotificationData } from '@components/settings/Notifications.svelte
 import { type Database } from '@db/Database';
 import { firestore } from '@db/firebase';
 import type Gallery from '@db/galleries/Gallery';
+import { SupportedLocales } from '@locale/SupportedLocales';
 import { FirebaseError } from 'firebase/app';
 import {
     and,
@@ -90,7 +91,9 @@ const HowToSchemaV1 = z.object({
     viewers: z.record(z.string(), z.array(z.string())),
     /** Flat version of viewers, calculated in a firestore function, for firestore rule queries */
     viewersFlat: z.array(z.string()),
-    /** If the user wants to overwrite the scope set by the gallery curator */
+    /** True if the user restricts access to the how-to to only those who have direct access to the gallery
+     * I.e., overwrites the gallery curator "expanding" how-to viewing permissions
+     */
     scopeOverwrite: z.boolean(),
     /** Locales that the how-to depends on All ISO 639-1 languaage codes, followed by a -, followed by ISO 3166-2 region code: https://en.wikipedia.org/wiki/ISO_3166-2 */
     locales: z.array(z.string()),
@@ -152,12 +155,58 @@ export default class HowTo {
         return this.data.title;
     }
 
+    getTitleAsMap(): SvelteMap<string, string> {
+        return HowTo.markupToMapHelper(this.data.title);
+    }
+
+    /** Get the title of the how-to in the specified locale. If there is no title written in that language, fall back to the first title */
+    getTitleInLocale(locale: string): string {
+        const titleMap = this.getTitleAsMap();
+        let nameInLocale: string | undefined = titleMap.get(locale);
+        if (nameInLocale) return nameInLocale;
+
+        let firstLanguage: [string, string] | undefined = titleMap.entries().next().value;
+        if (firstLanguage) return firstLanguage[1];
+        else return ''; // fall back to an empty title
+    }
+
     getGuidingQuestions() {
         return this.data.guidingQuestions;
     }
 
     getText() {
         return this.data.text;
+    }
+
+    static markupToMapHelper(markup: string): SvelteMap<string, string> {
+        // input format: '¶hello¶/en-US¶hola¶/es-MX'
+        // output format: {'en-US': 'hello', 'es-MX': 'hola'}
+        let map: SvelteMap<string, string> = new SvelteMap<
+            string,
+            string
+        >();
+
+        // should match strings in the format of "¶some text¶/locale", where the locale is one of the supported locales
+        // necessary, since not all locales match the {2,3}-{2,3} format (e.g., ta-IN-LK-SG)
+        let regexString: string = "¶(.*?)¶\/(" + SupportedLocales.join("|") + ")";
+        let regex: RegExp = new RegExp(regexString, "gs");
+
+        let stringAndLocale: RegExpExecArray[] = [...markup.matchAll(regex)];
+
+        // dealing with cases of no markup, just text (i.e., how-to was created before translation was implemented)
+        // 'en-US' was the hard-coded default locale, so we just use that
+        if (stringAndLocale.length === 0) {
+            map.set('en-US', markup);
+        } else {
+            stringAndLocale.forEach((match) => {
+                let locale: string = match[2];
+                let text: string = match[1];
+
+                map.set(locale, text);
+            });
+        }
+
+        return map;
     }
 
     getCreator() {
@@ -183,7 +232,7 @@ export default class HowTo {
         return this.data.viewersFlat.includes(userId);
     }
 
-    getLocales() {
+    getLocales(): string[] {
         return this.data.locales;
     }
 
@@ -237,6 +286,10 @@ export default class HowTo {
 
     getViewCount() {
         return this.data.social.viewCount;
+    }
+
+    getScopeOverwrite() {
+        return this.data.scopeOverwrite;
     }
 
     getData() {
@@ -345,6 +398,7 @@ export class HowToDatabase {
         locales: string[],
         reactionTypes: Record<string, string>,
         notify: boolean,
+        overwriteAccessScope: boolean,
     ): Promise<HowTo | undefined | false> {
         if (firestore === undefined) return undefined;
         const user = this.db.getUser()?.uid;
@@ -384,7 +438,7 @@ export class HowToDatabase {
             collaborators: collaborators,
             viewers: {} as Record<string, string[]>,
             viewersFlat: [] as string[],
-            scopeOverwrite: false,
+            scopeOverwrite: overwriteAccessScope,
             locales: locales,
             social: newHowToSocial,
         };
@@ -488,7 +542,10 @@ export class HowToDatabase {
             or(
                 or(...creatorOrCollaborator),
                 or(...editorGalleryConstraints),
-                where('viewersFlat', 'array-contains', userId),
+                and(
+                    where('scopeOverwrite', '==', false),
+                    where('viewersFlat', 'array-contains', userId)
+                ),
             ),
         );
 
@@ -539,7 +596,7 @@ export class HowToDatabase {
                             data.publishedAt >= startTime &&
                             data.social.notifySubscribers == true
                         ) {
-                            notifications.add({
+                            notifications.set(data.id + 'howto', {
                                 title: data.title,
                                 galleryID: data.galleryId,
                                 itemID: data.id,

@@ -17,15 +17,13 @@ export default class MissingLanguage extends Conflict {
     static readonly LocalePath = (locale: LocaleText) =>
         locale.node.Language.conflict.MissingLanguage;
 
-    getConflictingNodes() {
+    getMessage() {
         return {
-            primary: {
-                node: this.language,
-                explanation: (locales: Locales) =>
-                    locales.concretize(
-                        (l) => MissingLanguage.LocalePath(l).primary,
-                    ),
-            },
+            node: this.language,
+            explanation: (locales: Locales) =>
+                locales.concretize(
+                    (l) => MissingLanguage.LocalePath(l).explanation,
+                ),
         };
     }
 

@@ -19,16 +19,14 @@ export default class ExpectedColumnType extends Conflict {
     static readonly LocalePath = (locale: LocaleText) =>
         locale.node.TableType.conflict.ExpectedColumnType;
 
-    getConflictingNodes() {
+    getMessage() {
         return {
-            primary: {
-                node: this.table,
-                explanation: (locales: Locales, context: Context) =>
-                    locales.concretize(
-                        (l) => ExpectedColumnType.LocalePath(l).primary,
-                        new NodeRef(this.column, locales, context),
-                    ),
-            },
+            node: this.table,
+            explanation: (locales: Locales, context: Context) =>
+                locales.concretize(
+                    (l) => ExpectedColumnType.LocalePath(l).explanation,
+                    new NodeRef(this.column, locales, context),
+                ),
         };
     }
 

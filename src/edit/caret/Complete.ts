@@ -37,6 +37,7 @@ import {
     BIND_SYMBOL,
     CODE_SYMBOL,
     CONVERT_SYMBOL,
+    DOT_SYMBOL,
     ELISION_SYMBOL,
     EVAL_CLOSE_SYMBOL,
     EVAL_OPEN_SYMBOL,
@@ -123,17 +124,22 @@ export function completeInsertion(
                   ? trigger.symbol(text)
                   : text === trigger.symbol
         ) {
-            const result = trigger.revise({
-                text,
-                caret,
-                project,
-                source,
-                position,
-                validOnly,
-            });
-            if (result !== undefined) {
-                return result;
-            }
+            // Catch any replacement errors.
+            try {
+                const result = trigger.revise({
+                    text,
+                    caret,
+                    project,
+                    source,
+                    position,
+                    validOnly,
+                });
+                // If the revised source didn't change (likely because the edit wasn't allowed)
+                // then we don't make the edit.
+                if (result !== undefined && !source.isEqualTo(result[0])) {
+                    return result;
+                }
+            } catch (_) {}
         }
     }
 }
@@ -212,14 +218,21 @@ function completeEvaluate({
                       : undefined;
         const evaluate = definition
             ? definition.getEvaluateTemplate(
-                  context.getBasis().locales,
+                  precedingExpression instanceof Reference
+                      ? precedingExpression.getName()
+                      : context.getBasis().locales,
                   context,
+                  false,
                   false,
                   precedingExpression,
               )
             : Evaluate.make(precedingExpression, []);
         // Make a new source
-        const newSource = source.replace(precedingExpression, evaluate);
+        const newSource = source.replace(
+            precedingExpression,
+            evaluate,
+            'exception',
+        );
         if (newSource === source) return undefined;
         const firstPlaceholder = evaluate.nodes(
             (n) => n instanceof ExpressionPlaceholder,
@@ -244,7 +257,7 @@ function completeConvert({
     position,
 }: InsertInfo): Revision | undefined {
     // What's the preceding expression?
-    const precedingExpression = getPrecedingExpression(
+    let precedingExpression: Expression | undefined = getPrecedingExpression(
         source,
         position,
         false,
@@ -256,6 +269,7 @@ function completeConvert({
     const newSource = source.replace(
         precedingExpression,
         Convert.make(precedingExpression, placeholder),
+        'exception',
     );
     if (newSource !== source) return [newSource, placeholder];
 }
@@ -325,6 +339,7 @@ function completeDelimiter({
             const newSource = source.replace(
                 precedingList,
                 ListAccess.make(precedingList, placeholder),
+                'exception',
             );
             if (newSource) return [newSource, placeholder];
         } else if (precedingSet) {
@@ -332,6 +347,7 @@ function completeDelimiter({
             const newSource = source.replace(
                 precedingSet,
                 SetOrMapAccess.make(precedingSet, placeholder),
+                'exception',
             );
             if (newSource) return [newSource, placeholder];
         } else {
@@ -372,7 +388,7 @@ function completeBinaryEvaluate({
     project,
 }: InsertInfo): Revision | undefined {
     // Find the top most expression that ends where the caret is.
-    const precedingExpression = getPrecedingExpression(
+    let precedingExpression: Expression | undefined = getPrecedingExpression(
         source,
         position,
         false,
@@ -384,10 +400,14 @@ function completeBinaryEvaluate({
             !(node instanceof Block && node.isRoot()),
     )[0];
 
+    if (precedingExpression === undefined) return undefined;
+
     if (
         precedingExpression instanceof NumberLiteral &&
         !precedingExpression.unit?.isEmpty() &&
-        (text === PRODUCT_SYMBOL || text === EXPONENT_SYMBOL)
+        (text === PRODUCT_SYMBOL ||
+            text === DOT_SYMBOL ||
+            text === EXPONENT_SYMBOL)
     )
         return undefined;
 
@@ -408,8 +428,13 @@ function completeBinaryEvaluate({
             new Reference(tokens(text)[0]),
             ExpressionPlaceholder.make(),
         );
+
         // Make a new source
-        const newSource = source.replace(precedingExpression, binary);
+        const newSource = source.replace(
+            precedingExpression,
+            binary,
+            'exception',
+        );
         // Place the caret on the placeholder
         const newPosition = binary.right;
         if (newSource) return [newSource, newPosition];
@@ -436,6 +461,7 @@ function completeIs({ source, position }: InsertInfo): Revision | undefined {
         isExpressionPlaceholder
             ? precedingExpression.withType(placeholder)
             : Is.make(precedingExpression, placeholder),
+        'exception',
     );
     // Place the caret on the placeholder
     if (newSource !== source) return [newSource, placeholder];
@@ -463,7 +489,7 @@ function completeBindOrKeyValue({
         placeholder,
     );
     // Make a new source
-    const newSource = source.replace(preceding, bind);
+    const newSource = source.replace(preceding, bind, 'exception');
     // Place the caret on the placeholder
     if (newSource !== source) return [newSource, placeholder];
 }
@@ -495,6 +521,7 @@ function completeMarkup(
     const newSource = source.replace(
         parent,
         parent.withSegmentInsertedAt(index + 1, segment),
+        'exception',
     );
 
     if (newSource !== source) return [newSource, position + 1];

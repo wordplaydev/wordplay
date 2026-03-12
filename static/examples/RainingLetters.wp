@@ -43,7 +43,7 @@ Stage(
     [
       Phrase("☁️" size: 3m place: Place(-8m 12m))
       Phrase("☁️" size: 5m place: Place(8m 11m))
-      Phrase("🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩" place: Place(-3.5 · size -0.5m))
+      Phrase("🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩🟩" place: Place(-3.5 × size -0.5m))
     ].append(
     letters.translate(
         ƒ(letter•Letter) 
@@ -51,7 +51,7 @@ Stage(
                 letter.letter 
                 size: 1m
                 place: Place(letter.x letter.y)
-                rotation: letter.angle · 1°
+                rotation: letter.angle × 1°
                 resting: Pose(
                   opacity: letter.visible ? 1 0 
                   color: 🌈(100% 0 0°)
@@ -59,5 +59,5 @@ Stage(
                 duration: 0s
             )
     ))
-    place: Place(0m  1 · size -15m) background: 🌈(63% 93 248°)
+    place: Place(0m  1 × size -15m) background: 🌈(63% 93 248°)
 )

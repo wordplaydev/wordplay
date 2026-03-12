@@ -1,0 +1,17 @@
+Lặp lại một chuyển động
+
+Đôi khi chúng ta muốn nhân vật di chuyển theo cùng một kiểu nhiều lần!Việc gõ đi gõ lại cùng một dòng chữ trở nên nhàm chán.
+
+Thay vào đó, chúng ta có thể sử dụng @Sequence  với  @Phrase Để làm cho một điều gì đó lặp lại nhiều lần! Cụ thể là,chúng ta có thể sử dụng số lượng trong @Sequence và chọn số lần một chuỗi tư thế được thực hiện. Ví dụ:Đây là một quả bóng rổ đang nảy lên và xuống hai lần.
+
+\Stage([
+		Phrase('🏀' entering: Sequence({
+					0%: Pose(offset: Place(y: 0.25m))
+					25%: Pose(offset: Place(y: 0m))
+					50%: Pose(offset: Place(y: -0.25m))
+					75%: Pose(offset: Place(y: 0m))
+					100%: Pose(offset: Place(y: 0.25m))
+				} count: 2x duration: 2s))
+	])\
+
+animate-phrase, shake-phrase

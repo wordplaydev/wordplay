@@ -18,15 +18,13 @@ export default class UnknownColumn extends Conflict {
     static readonly LocalePath = (locales: LocaleText) =>
         locales.node.Row.conflict.UnknownColumn;
 
-    getConflictingNodes() {
+    getMessage() {
         return {
-            primary: {
-                node: this.cell,
-                explanation: (locales: Locales) =>
-                    locales.concretize(
-                        (l) => UnknownColumn.LocalePath(l).primary,
-                    ),
-            },
+            node: this.cell,
+            explanation: (locales: Locales) =>
+                locales.concretize(
+                    (l) => UnknownColumn.LocalePath(l).explanation,
+                ),
         };
     }
 

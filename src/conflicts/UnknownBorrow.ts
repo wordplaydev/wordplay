@@ -15,18 +15,16 @@ export class UnknownBorrow extends Conflict {
     static readonly LocalePath = (locales: LocaleText) =>
         locales.node.Borrow.conflict.UnknownBorrow;
 
-    getConflictingNodes() {
+    getMessage() {
         return {
-            primary: {
-                node:
-                    this.borrow.source === undefined
-                        ? this.borrow.borrow
-                        : this.borrow.source,
-                explanation: (locales: Locales) =>
-                    locales.concretize(
-                        (l) => UnknownBorrow.LocalePath(l).primary,
-                    ),
-            },
+            node:
+                this.borrow.source === undefined
+                    ? this.borrow.borrow
+                    : this.borrow.source,
+            explanation: (locales: Locales) =>
+                locales.concretize(
+                    (l) => UnknownBorrow.LocalePath(l).explanation,
+                ),
         };
     }
 

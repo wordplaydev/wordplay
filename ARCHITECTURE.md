@@ -6,15 +6,15 @@ This document describes how Wordplay is built. It aspires to be a high-level doc
 
 Wordplay has several major dependencies, each of which is crucial to understand in order to understand Wordplay's implementation:
 
--   **[HTML](https://developer.mozilla.org/en-US/docs/Web/HTML) + [CSS](https://developer.mozilla.org/en-US/docs/Web/CSS) + [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript)**. You really must know these before you can understand Wordplay's implementation. You don't have to have mastered them, but you're going to see them everywhere, as Wordplay is an inherently web-based application.
+- **[HTML](https://developer.mozilla.org/en-US/docs/Web/HTML) + [CSS](https://developer.mozilla.org/en-US/docs/Web/CSS) + [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript)**. You really must know these before you can understand Wordplay's implementation. You don't have to have mastered them, but you're going to see them everywhere, as Wordplay is an inherently web-based application.
 
--   **[TypeScript](https://www.typescriptlang.org/)**. TypeScript is a _superset_ of JavaScript that adds type information -- that means that it's JavaScript, plus other goodies. Most defects in programs are type errors, and TypeScript catches most type errors, so we use it to catch most defects. Read the [tutorial](https://www.typescriptlang.org/docs/handbook/intro.html) if unfamiliar. As a practice, we do not use `any`, unless TypeScript _really_ can't express the type we're trying to express.
+- **[TypeScript](https://www.typescriptlang.org/)**. TypeScript is a _superset_ of JavaScript that adds type information -- that means that it's JavaScript, plus other goodies. Most defects in programs are type errors, and TypeScript catches most type errors, so we use it to catch most defects. Read the [tutorial](https://www.typescriptlang.org/docs/handbook/intro.html) if unfamiliar. As a practice, we do not use `any`, unless TypeScript _really_ can't express the type we're trying to express.
 
--   **[Svelte](https://svelte.dev/)**. Svelte is a front-end framework for building web applications. At the highest level, a Svelte application is a collection of `.svelte` files, each corresponding to some component, and each Svelte file has a script, markup, and style section, using JavaScript, HTML, and CSS standards. It also adds several other simple language features, however, that make building interactive web applications easier. We use Svelte because it's the fastest front-end framework and the easiest to learn (relative to React, Vue, Angular, and other frameworks). The [Svelte tutorial](https://learn.svelte.dev/) is a must-read.
+- **[Svelte](https://svelte.dev/)**. Svelte is a front-end framework for building web applications. At the highest level, a Svelte application is a collection of `.svelte` files, each corresponding to some component, and each Svelte file has a script, markup, and style section, using JavaScript, HTML, and CSS standards. It also adds several other simple language features, however, that make building interactive web applications easier. We use Svelte because it's the fastest front-end framework and the easiest to learn (relative to React, Vue, Angular, and other frameworks). The [Svelte tutorial](https://learn.svelte.dev/) is a must-read.
 
--   **[SvelteKit](https://kit.svelte.dev/)**. Builds upon Svelte, adding routing, server-side rendering, and other neat features for building web applications. We primarily use it to structure the Wordplay website, define consistent layout features, and interact with backend services, primarily Firebase. It's the obvious choice for a Svelte project.
+- **[SvelteKit](https://kit.svelte.dev/)**. Builds upon Svelte, adding routing, server-side rendering, and other neat features for building web applications. We primarily use it to structure the Wordplay website, define consistent layout features, and interact with backend services, primarily Firebase. It's the obvious choice for a Svelte project.
 
--   **[Firebase](https://firebase.google.com/)**. We use Firebase to persist the creator's projects and configuration settings, as well as for enabling project sharing. It uses a non-relational database structure for high scalability, which has some unfortunate tradeoffs on software evolution. The worst is that any schema design decisions we make place hard constraints on the views of data we create, since the schema design determines what kinds of queries are feasible. So any time we're doing schema design, we must simultaneously do user interface design, and be highly confident we won't change our minds about interface design.
+- **[Firebase](https://firebase.google.com/)**. We use Firebase to persist the creator's projects and configuration settings, as well as for enabling project sharing. It uses a non-relational database structure for high scalability, which has some unfortunate tradeoffs on software evolution. The worst is that any schema design decisions we make place hard constraints on the views of data we create, since the schema design determines what kinds of queries are feasible. So any time we're doing schema design, we must simultaneously do user interface design, and be highly confident we won't change our minds about interface design.
 
 There are several other more minor dependencies, especially in tooling ([Vite](https://vitejs.dev/), [Vitest](https://vitest.dev/), [Prettier](https://prettier.io/)).
 
@@ -42,8 +42,8 @@ Some nodes add additional interfaces, especially [Expression.ts](https://github.
 
 One important note about AST nodes: they are all **immutable**. This has a few implications:
 
--   They should never have state that can be modified, so all of their fields are `readonly`, unless they are a temporary cache of some derived value (e.g., an expression's type).
--   They do not know their parent. This is, the parser builds the tree from the bottom up; nodes have to be created before they can become part of other nodes, and so each node's parent doesn't exist until after it's created. However, this is also because immutable nodes can be reused, since they cannot change. One node might appear in many trees.
+- They should never have state that can be modified, so all of their fields are `readonly`, unless they are a temporary cache of some derived value (e.g., an expression's type).
+- They do not know their parent. This is, the parser builds the tree from the bottom up; nodes have to be created before they can become part of other nodes, and so each node's parent doesn't exist until after it's created. However, this is also because immutable nodes can be reused, since they cannot change. One node might appear in many trees.
 
 To work around the lack of a parent, we have [Root.ts](https://github.com/wordplaydev/wordplay/tree/main/src/nodes), which represents the root of an AST, and manages all of the parent information, offering facilities for figuring out the structure of an AST.
 
@@ -69,7 +69,7 @@ There are many ways that an AST might be invalid. They can have type errors, cau
 
 Not every node can have conflicts (e.g., `BooleanLiteral`). Some can have many. Overall, there are more than 50 types of errors that can occur, only some of which are type errors.
 
-Each conflict gathers a bunch of contextual information about the nodes involved and then defines a _primary_ and _secondary_ node. The primary one is the node on which the error happened, and the secondary one, which is optional, is the node for which there is disagreement. This follows a concept of errors as not a mistake that someone made, but a disagreement between two parts of a Wordplay program.
+Each conflict gathers a bunch of contextual information about the nodes involved and then defines node to represent the conflict.
 
 Once an AST is built for a Wordplay program, it's not necessarily analyzed for conflicts. It's up to the front end when to call `Project.analyze()` to find defects. The analysis happens at the project level and many conflicts span multiple `Source` nodes in a project.
 
@@ -89,10 +89,10 @@ All APIs in Wordplay -- the input streams like `Key` and `Button` and output dat
 
 Creating new output APIs in the language means following that pattern, and doing a few other key things:
 
--   Creating a similar file like [Grid](https://github.com/wordplaydev/wordplay/blob/main/src/output/Grid.ts)], defining its structure definition with locales, defining a wrapper class for use in the rendering, and writing a function that converts a `StructureValue` representing that type as an instance of that wrapper class.
--   Updating [createDefaultShares](https://github.com/wordplaydev/wordplay/blob/main/src/runtime/createDefaultShares.ts) to call the structure definition creator function, and include the definition in the appropriate set of types.
--   Creating placeholders for localization strings for all of the strings defined for the type and its documentation in [OutputTexts.ts](https://github.com/wordplaydev/wordplay/blob/main/src/locale/OutputTexts.ts), where the schema for the output API strings are defined.
--   Using the new wrapper class in the output engine in the appropriate place to change rendering. The output engine is generally comprised of the Svelte components `PhraseView`, `GroupView`, `StageView`, `Scene`, `OutputAnimation`, `Physics`, and other helper classes.
+- Creating a similar file like [Grid](https://github.com/wordplaydev/wordplay/blob/main/src/output/Grid.ts)], defining its structure definition with locales, defining a wrapper class for use in the rendering, and writing a function that converts a `StructureValue` representing that type as an instance of that wrapper class.
+- Updating [createDefaultShares](https://github.com/wordplaydev/wordplay/blob/main/src/runtime/createDefaultShares.ts) to call the structure definition creator function, and include the definition in the appropriate set of types.
+- Creating placeholders for localization strings for all of the strings defined for the type and its documentation in [OutputTexts.ts](https://github.com/wordplaydev/wordplay/blob/main/src/locale/OutputTexts.ts), where the schema for the output API strings are defined.
+- Using the new wrapper class in the output engine in the appropriate place to change rendering. The output engine is generally comprised of the Svelte components `PhraseView`, `GroupView`, `StageView`, `Scene`, `OutputAnimation`, `Physics`, and other helper classes.
 
 Once these are done, the new API structure should appear in documentation and work in programs.
 
@@ -120,17 +120,17 @@ Rendering is managed by all of the mappings defined in `nodeToView.ts`; every ty
 
 Editing comes in three forms:
 
--   Typing, which is primarily managed by `Caret.ts`, and involves inserting and removing symbols, and moving a caret to select a certain position or node. When edited as text, `Source` does its best to avoid reparsing the entire tree, reusing any nodes and tokens that it can.
+- Typing, which is primarily managed by `Caret.ts`, and involves inserting and removing symbols, and moving a caret to select a certain position or node. When edited as text, `Source` does its best to avoid reparsing the entire tree, reusing any nodes and tokens that it can.
 
--   Drag and drop involves a global `ProjectView ` state that manages a selected node from an `Editor`, or `Documentation.svelte`. The editor uses Node facilities such as their grammar and types to decide what can be dropped where.
+- Drag and drop involves a global `ProjectView ` state that manages a selected node from an `Editor`, or `Documentation.svelte`. The editor uses Node facilities such as their grammar and types to decide what can be dropped where.
 
--   Menu edits involve taking the caret's current position and asking `Autocomplete` to generate a set of `Revision` that are valid for the current selection. These appear as an autocomplete menu. Revisions perform an edit on the AST, usually replacing one node with another, or removing one, and then revising the project with the edited node.
+- Menu edits involve taking the caret's current position and asking `Autocomplete` to generate a set of `Revision` that are valid for the current selection. These appear as an autocomplete menu. Revisions perform an edit on the AST, usually replacing one node with another, or removing one, and then revising the project with the edited node.
 
 The editor does many other things, including:
 
--   Rendering conflicts based on the current caret position
--   Highlighting based on the mouse, touch screen, and drag interactions, defined by `Highlights.ts`
--   Providing descriptions for screen readers
+- Rendering conflicts based on the current caret position
+- Highlighting based on the mouse, touch screen, and drag interactions, defined by `Highlights.ts`
+- Providing descriptions for screen readers
 
 ### Conflicts and resolutions
 

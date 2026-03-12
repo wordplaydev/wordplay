@@ -14,13 +14,11 @@ export class NotANumber extends Conflict {
     static readonly LocalePath = (locale: LocaleText) =>
         locale.node.NumberLiteral.conflict.NotANumber;
 
-    getConflictingNodes() {
+    getMessage() {
         return {
-            primary: {
-                node: this.measurement,
-                explanation: (locales: Locales) =>
-                    locales.concretize((l) => NotANumber.LocalePath(l).primary),
-            },
+            node: this.measurement,
+            explanation: (locales: Locales) =>
+                locales.concretize((l) => NotANumber.LocalePath(l).explanation),
         };
     }
 

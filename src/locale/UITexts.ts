@@ -11,6 +11,7 @@ import type CharacterPageText from '../routes/character/[id]/PageText';
 import type CharactersPageText from '../routes/characters/PageText';
 import type DonatePageText from '../routes/donate/PageText';
 import type GalleriesPageText from '../routes/galleries/PageText';
+import type GalleryModerationPageText from '../routes/galleries/moderation/PageText';
 import type GalleryPageText from '../routes/gallery/[galleryid]/PageText';
 import type HowToPageText from '../routes/gallery/[galleryid]/howto/PageText';
 import type { default as GuidePageText } from '../routes/guide/PageText';
@@ -22,6 +23,7 @@ import type RightsPageText from '../routes/rights/PageText';
 import type TeachPageText from '../routes/teach/PageText';
 import type ClassPageText from '../routes/teach/class/[classid]/PageText';
 import type NewClassPageText from '../routes/teach/class/new/PageText';
+import type UpdatesPageText from '../routes/updates/PageText';
 import type EditTexts from './EditTexts';
 
 export type ButtonText = {
@@ -131,7 +133,7 @@ type UITexts = {
         };
     };
     /** Project settings and controls */
-    project: { 
+    project: {
         defaults: {
             /** The default template shown when opening a new project */
             starterCode: string;
@@ -222,6 +224,8 @@ type UITexts = {
     checkpoints: CheckpointsText;
     /** Gallery page labels */
     gallery: GalleryPageText;
+    /** Gallery moderation page labels */
+    gallerymoderation: GalleryModerationPageText;
     /** How-to space page labels */
     howto: HowToPageText;
     /** Source file controls */
@@ -251,6 +255,10 @@ type UITexts = {
             expandControls: string;
             /** The button tooltip for collapsing the controls accordion */
             collapseControls: string;
+            /** The zoom in button for the code editor */
+            zoomIn: string;
+            /** The zoom out button for the code editor */
+            zoomOut: string;
         };
         menu: {
             /** How to describe the autocomplete menu */
@@ -319,8 +327,10 @@ type UITexts = {
             insertNone: string;
             /** Insert ≠ symbol */
             insertNotEqual: string;
-            /** Insert · symbol */
+            /** Insert × symbol */
             insertProduct: string;
+            /** Insert · symbol */
+            insertDot: string;
             /** Insert ÷ symbol */
             insertQuotient: string;
             /** Insert ° symbol */
@@ -453,6 +463,10 @@ type UITexts = {
         button: {
             /** The chat submit button */
             submit: string;
+            /** Zoom in output button */
+            zoomIn: string;
+            /** Zoom in output button */
+            zoomOut: string;
         };
         options: {
             /** The label for the locale chooser in output */
@@ -479,6 +493,10 @@ type UITexts = {
             collaborators: string;
             /** What to call curators */
             curators: string;
+            /** What to call commenters */
+            commenters: string;
+            /** What to call viewers */
+            viewers: string;
         };
         /** Buttons in the chat tile */
         button: {
@@ -488,6 +506,16 @@ type UITexts = {
             start: ButtonText;
             /** The message delete button */
             delete: string;
+            /** Confirm deleting the message */
+            confirmDelete: string;
+        };
+        /** Dialog for chat moderation */
+        moderation: HeaderAndExplanationText & {
+            report: ButtonText;
+            moderate: ButtonText;
+            pending: string;
+            removed: string;
+            inGallery: string;
         };
         /** Errors that can happen in the chat tile */
         error: {
@@ -506,6 +534,11 @@ type UITexts = {
             owner: string;
             collaborator: string;
             curator: string;
+            commenter: string;
+        };
+        restrictGalleryCreatorAccess: {
+            explanation: string;
+            mode: ModeText<[string, string]>;
         };
     };
     /** The palette editor */
@@ -757,8 +790,9 @@ type UITexts = {
                 howToHeader: string;
                 projectChatHeader: string;
                 howToChatHeader: string;
+                moderationHeader: string;
                 link: string;
-            },
+            };
             delete: string;
             popup: string;
         };
@@ -887,6 +921,8 @@ type UITexts = {
         galleries: GalleriesPageText;
         /** About page text */
         about: AboutPageText;
+        /** Update page text */
+        updates: UpdatesPageText;
         /** The login and account page */
         login: LoginPageText;
         /** Account creation page text */

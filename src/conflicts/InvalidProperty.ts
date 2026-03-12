@@ -20,28 +20,18 @@ export default class InvalidProperty extends Conflict {
     static readonly LocalePath = (locales: LocaleText) =>
         locales.node.PropertyBind.conflict.InvalidProperty;
 
-    getConflictingNodes() {
+    getMessage() {
         return {
-            primary: {
-                node: this.refine.reference,
-                explanation: (locales: Locales, context: Context) =>
-                    locales.concretize(
-                        (l) => InvalidProperty.LocalePath(l).primary,
-                        new NodeRef(this.definition.names, locales, context),
+            node: this.definition.names,
+            explanation: (locales: Locales, context: Context) =>
+                locales.concretize(
+                    (l) => InvalidProperty.LocalePath(l).explanation,
+                    new NodeRef(
+                        this.refine.reference.name ?? this.refine.reference,
+                        locales,
+                        context,
                     ),
-            },
-            secondary: {
-                node: this.definition.names,
-                explanation: (locales: Locales, context: Context) =>
-                    locales.concretize(
-                        (l) => InvalidProperty.LocalePath(l).secondary,
-                        new NodeRef(
-                            this.refine.reference.name ?? this.refine.reference,
-                            locales,
-                            context,
-                        ),
-                    ),
-            },
+                ),
         };
     }
 

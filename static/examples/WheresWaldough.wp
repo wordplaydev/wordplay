@@ -28,49 +28,49 @@ Stage([
 			place: Place(-5.9m -1m))
 
 		Phrase("🏀" 
-			place: Place(((0.1 · Random(-9m 9m)) + Random(-2m 1m)) ((0.1 · Random(-9m 9m)) + Random(-2m 1m))))
+			place: Place(((0.1 × Random(-9m 9m)) + Random(-2m 1m)) ((0.1 × Random(-9m 9m)) + Random(-2m 1m))))
 		Phrase("🦧" 
-			place: Place(((0.1 · Random(-9m 9m)) + Random(-2m 1m)) ((0.1 · Random(-9m 9m)) + Random(-2m 1m))))
+			place: Place(((0.1 × Random(-9m 9m)) + Random(-2m 1m)) ((0.1 × Random(-9m 9m)) + Random(-2m 1m))))
 		Phrase("🍊" 
-			place: Place(((0.1 · Random(-9m 9m)) + Random(-2m 1m)) ((0.1 · Random(-9m 9m)) + Random(-2m 1m))))
+			place: Place(((0.1 × Random(-9m 9m)) + Random(-2m 1m)) ((0.1 × Random(-9m 9m)) + Random(-2m 1m))))
 		Phrase("👻" 
-			place: Place(((0.1 · Random(-9m 9m)) + Random(-2m 1m)) ((0.1 · Random(-9m 9m)) + Random(-2m 1m))))
+			place: Place(((0.1 × Random(-9m 9m)) + Random(-2m 1m)) ((0.1 × Random(-9m 9m)) + Random(-2m 1m))))
 		Phrase("🤖" 
-			place: Place(((0.1 · Random(-9m 9m)) + Random(-2m 1m)) ((0.1 · Random(-9m 9m)) + Random(-2m 1m))))
+			place: Place(((0.1 × Random(-9m 9m)) + Random(-2m 1m)) ((0.1 × Random(-9m 9m)) + Random(-2m 1m))))
 		Phrase("👽" 
-			place: Place(((0.1 · Random(-9m 9m)) + Random(-2m 1m)) ((0.1 · Random(-9m 9m)) + Random(-2m 1m))))
+			place: Place(((0.1 × Random(-9m 9m)) + Random(-2m 1m)) ((0.1 × Random(-9m 9m)) + Random(-2m 1m))))
 		Phrase("🐀" 
-			place: Place(((0.1 · Random(-9m 9m)) + Random(-2m 1m)) ((0.1 · Random(-9m 9m)) + Random(-2m 1m))))
+			place: Place(((0.1 × Random(-9m 9m)) + Random(-2m 1m)) ((0.1 × Random(-9m 9m)) + Random(-2m 1m))))
 		Phrase("🦣" 
-			place: Place(((0.1 · Random(-9m 9m)) + Random(-2m 1m)) ((0.1 · Random(-9m 9m)) + Random(-2m 1m))))
+			place: Place(((0.1 × Random(-9m 9m)) + Random(-2m 1m)) ((0.1 × Random(-9m 9m)) + Random(-2m 1m))))
 		Phrase("🐸" 
-			place: Place(((0.1 · Random(-9m 9m)) + Random(-2m 1m)) ((0.1 · Random(-9m 9m)) + Random(-2m 1m))))
+			place: Place(((0.1 × Random(-9m 9m)) + Random(-2m 1m)) ((0.1 × Random(-9m 9m)) + Random(-2m 1m))))
 		Phrase("🍎" 
-			place: Place(((0.1 · Random(-9m 9m)) + Random(-2m 1m)) ((0.1 · Random(-9m 9m)) + Random(-2m 1m))))
+			place: Place(((0.1 × Random(-9m 9m)) + Random(-2m 1m)) ((0.1 × Random(-9m 9m)) + Random(-2m 1m))))
 		Phrase("💧" 
-			place: Place(((0.1 · Random(-9m 9m)) + Random(-2m 1m)) ((0.1 · Random(-9m 9m)) + Random(-2m 1m))))
+			place: Place(((0.1 × Random(-9m 9m)) + Random(-2m 1m)) ((0.1 × Random(-9m 9m)) + Random(-2m 1m))))
 		Phrase("🍔" 
-			place: Place(((0.1 · Random(-9m 9m)) + Random(-2m 1m)) ((0.1 · Random(-9m 9m)) + Random(-2m 1m))))
+			place: Place(((0.1 × Random(-9m 9m)) + Random(-2m 1m)) ((0.1 × Random(-9m 9m)) + Random(-2m 1m))))
 		Phrase("❤️" 
-			place: Place(((0.1 · Random(-9m 9m)) + Random(-2m 1m)) ((0.1 · Random(-9m 9m)) + Random(-2m 1m))))
+			place: Place(((0.1 × Random(-9m 9m)) + Random(-2m 1m)) ((0.1 × Random(-9m 9m)) + Random(-2m 1m))))
 		Phrase("🍥" 
-			place: Place(((0.1 · Random(-9m 9m)) + Random(-2m 1m)) ((0.1 · Random(-9m 9m)) + Random(-2m 1m))))
+			place: Place(((0.1 × Random(-9m 9m)) + Random(-2m 1m)) ((0.1 × Random(-9m 9m)) + Random(-2m 1m))))
 		💬(
 			"🧍🏻" 
 			selectable: ⊤
-			place: Place(((0.1 · Random(-9m 9m)) + Random(-2m 1m)) ((0.1 · Random(-9m 9m)) + Random(-2m 1m)))
+			place: Place(((0.1 × Random(-9m 9m)) + Random(-2m 1m)) ((0.1 × Random(-9m 9m)) + Random(-2m 1m)))
 			resting: caught ? Pose(rotation: 180°) Pose()
 			duration: 0s
 			name: 'Waldough'
 		)
 		Phrase("🔥" 
-			place: Place(((0.1 · Random(-9m 9m)) + Random(-2m 1m)) ((0.1 · Random(-9m 9m)) + Random(-2m 1m))))
+			place: Place(((0.1 × Random(-9m 9m)) + Random(-2m 1m)) ((0.1 × Random(-9m 9m)) + Random(-2m 1m))))
 		Phrase("🎂" 
-			place: Place(((0.1 · Random(-9m 9m)) + Random(-2m 1m)) ((0.1 · Random(-9m 9m)) + Random(-2m 1m))))
+			place: Place(((0.1 × Random(-9m 9m)) + Random(-2m 1m)) ((0.1 × Random(-9m 9m)) + Random(-2m 1m))))
 		Phrase("🐕" 
-			place: Place(((0.1 · Random(-9m 9m)) + Random(-2m 1m)) ((0.1 · Random(-9m 9m)) + Random(-2m 1m))))
+			place: Place(((0.1 × Random(-9m 9m)) + Random(-2m 1m)) ((0.1 × Random(-9m 9m)) + Random(-2m 1m))))
 		Phrase("🦈" 
-			place: Place(((0.1 · Random(-9m 9m)) + Random(-2m 1m)) ((0.1 · Random(-9m 9m)) + Random(-2m 1m))))
+			place: Place(((0.1 × Random(-9m 9m)) + Random(-2m 1m)) ((0.1 × Random(-9m 9m)) + Random(-2m 1m))))
 		Shape(Rectangle(-3.5m -3m 3.5m -3.5m))
 		Shape(Rectangle(-3.5m 3.5m 3.5m 3m))
 		Shape(Rectangle(-3.5m 3.5m -3m -3.5m))

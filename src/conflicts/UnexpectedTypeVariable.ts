@@ -14,15 +14,13 @@ export class UnexpectedTypeVariable extends Conflict {
     static readonly LocalePath = (locales: LocaleText) =>
         locales.node.Reference.conflict.UnexpectedTypeVariable;
 
-    getConflictingNodes() {
+    getMessage() {
         return {
-            primary: {
-                node: this.name,
-                explanation: (locales: Locales) =>
-                    locales.concretize(
-                        (l) => UnexpectedTypeVariable.LocalePath(l).primary,
-                    ),
-            },
+            node: this.name,
+            explanation: (locales: Locales) =>
+                locales.concretize(
+                    (l) => UnexpectedTypeVariable.LocalePath(l).explanation,
+                ),
         };
     }
 

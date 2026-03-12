@@ -3,13 +3,17 @@
  * This is a broad match, because it catches many invalid sequences, but it will help match sequences followed by modifiers.
  * See the Unicode Standard for details: https://www.unicode.org/versions/Unicode11.0.0/ch23.pdf#page=19
  */
-const EmoijRegex =
+export const EmojiRegex =
     /(\p{Extended_Pictographic}|(\p{Emoji_Modifier_Base}(\p{Emoji_Modifier}|\u200D)*))/gu;
 
+export function withoutVariationSelectors(text: string) {
+    return text.replaceAll(/(\uFE0F|\uFE0E)/gu, '');
+}
+
 /** Adds emoji text variation descriptor to any noto emoji missing them. Ensures fonts are rendered consistently across Chrome, Safari, and Firefox. */
-function withVariationSelector(text: string, color = false) {
+export function withVariationSelector(text: string, color = false) {
     // Strip the presentation selectors from the string.
-    const withoutPresentation = text.replaceAll(/(\uFE0F|\uFE0E)/gu, '');
+    const withoutPresentation = withoutVariationSelectors(text);
 
     // Choose the appropriate presentation selector (FE0F is color, FE0E is mono).
     const selector = color ? '\uFE0F' : '\uFE0E';
@@ -18,7 +22,7 @@ function withVariationSelector(text: string, color = false) {
     // of code points, and they can be terminated by a presentation selector, so we match the whole
     // sequence, and append the selector to the end.
     // For the standard details, see: https://www.unicode.org/reports/tr51/
-    return withoutPresentation.replaceAll(EmoijRegex, `$1${selector}`);
+    return withoutPresentation.replaceAll(EmojiRegex, `$1${selector}`);
 }
 
 /** Remove any existing variation selectors from emoji sequences and add the color selector. */
@@ -33,7 +37,7 @@ export function withMonoEmoji(text: string) {
 
 /** Check if the string matches an emoji sequence */
 export function isEmoji(text: string) {
-    return EmoijRegex.test(text);
+    return EmojiRegex.test(text);
 }
 
 /** Converts a code point in a string to a JavaScript unicode escape string. */

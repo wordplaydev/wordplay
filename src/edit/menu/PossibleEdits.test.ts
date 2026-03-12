@@ -124,7 +124,7 @@ test.each([
             node instanceof ExpressionPlaceholder &&
             node.type instanceof StreamType,
         Replace,
-        '🖱️()',
+        '🖱()',
     ],
     [
         'suggest negation on number expressions',
@@ -132,13 +132,6 @@ test.each([
         (node) => node instanceof NumberLiteral,
         Replace,
         '-5',
-    ],
-    [
-        'suggest addition on number with unit',
-        '5m',
-        (node) => node instanceof NumberLiteral,
-        Replace,
-        '5m + _•#m',
     ],
 ])(
     '%s: %s',

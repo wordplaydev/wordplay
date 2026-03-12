@@ -37,6 +37,7 @@
     import { type ModeText } from '@locale/UITexts';
     import ConceptLink, { CharacterName } from '@nodes/ConceptLink';
     import Sym from '@nodes/Sym';
+    import { RGBtoLCH } from '@output/ColorJS';
     import { toProgram } from '@parser/parseProgram';
     import {
         ALL_SYMBOL,
@@ -51,7 +52,6 @@
         UNDO_SYMBOL,
     } from '@parser/Symbols';
     import { toTokens } from '@parser/toTokens';
-    import ColorJS from 'colorjs.io';
     import { untrack } from 'svelte';
     import {
         CharacterSize,
@@ -1278,7 +1278,6 @@
 
     /** Given an emoji, render it to a canvas, get its pixels, and place the pixels in the character's shapes. */
     function importEmoji(emoji: string) {
-        // Get the
         emoji = new UnicodeString(emoji).at(0)?.toString() ?? '';
         if (emoji.length === 0) return;
 
@@ -1310,15 +1309,13 @@
                 const a = pixels[index + 3];
 
                 if (a > 0) {
-                    const color = new ColorJS(
-                        ColorJS.spaces.srgb,
-                        [r / 255, g / 255, b / 255],
-                        a / 255,
-                    ).to('lch');
+                    const color = RGBtoLCH(r / 255, g / 255, b / 255);
                     setPixel(false, x, y, {
-                        l: color.coords[0] / 100,
-                        c: color.coords[1],
-                        h: isNaN(color.coords[2]) ? 0 : color.coords[2],
+                        l: (color.coords[0] ?? 0) / 100,
+                        c: color.coords[1] ?? 0,
+                        h: isNaN(color.coords[2] ?? 0)
+                            ? 0
+                            : (color.coords[2] ?? 0),
                     });
                 }
             }
@@ -1680,6 +1677,7 @@
                     setKeyboardFocus(canvasView, 'Focus the canvas.');
             }}
             labeled={false}
+            wrap
         ></Mode>
 
         <!-- Say what's being drawn or selected selected -->
@@ -2040,6 +2038,7 @@
         {/if}
         {#if mode === DrawingMode.Emoji}
             <EmojiChooser
+                showCustom={false}
                 pick={(emoji) => {
                     importEmoji(emoji);
                     rememberShapes();

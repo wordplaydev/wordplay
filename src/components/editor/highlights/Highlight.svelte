@@ -166,13 +166,13 @@
     }
 
     /* Conflicts layer on top of everything else */
-    .underline.primaryMajor path,
-    .underline.secondaryMajor {
+    .underline.major path,
+    .underline.major {
         stroke: var(--wordplay-error);
     }
 
-    .underline.primaryMinor path,
-    .underline.secondaryMinor path {
+    .underline.minor path,
+    .underline.minor {
         stroke: var(--wordplay-warning);
     }
 
@@ -194,9 +194,8 @@
         animation: shake calc(var(--animation-factor) * 250ms) linear;
     }
 
-    .outline.output path {
-        stroke: var(--wordplay-highlight-color);
-        stroke-dasharray: 4px;
+    .underline.output path {
+        stroke: var(--wordplay-evaluation-color);
         stroke-width: var(--wordplay-focus-width);
     }
 </style>

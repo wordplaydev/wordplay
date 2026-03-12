@@ -111,10 +111,8 @@ export class CharactersDatabase {
                     // Removed? Delete the local cache of the project.
                     // Stop litening to the project's changes.
                     if (change.type === 'removed') {
-                        const characterID = change.doc.id;
                         const data = change.doc.data();
-                        this.byID.delete(characterID);
-                        this.byName.delete(data.name);
+                        this.deleteCharacterLocally(data as Character);
                     }
                 });
             },
@@ -417,13 +415,18 @@ export class CharactersDatabase {
             if (firestore === undefined) return;
             try {
                 await deleteDoc(doc(firestore, CharactersCollection, id));
-                this.byName.delete(char.name);
-                this.byID.delete(char.id);
+                this.deleteCharacterLocally(char);
             } catch (err) {
                 console.error(err);
                 return;
             }
         }
+    }
+
+    deleteCharacterLocally(character: Character) {
+        this.byName.delete(character.name);
+        this.byID.delete(character.id);
+        this.unsaved.delete(character.id);
     }
 
     /** Get all cached characters owned by the user */

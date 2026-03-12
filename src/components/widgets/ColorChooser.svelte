@@ -1,18 +1,11 @@
 <script module lang="ts">
-    import ColorJS from 'colorjs.io';
     import Slider from './Slider.svelte';
 
     // Create a list of hues in the LCH color space from 0 to 360
     function getColors(lightness: number, chroma: number) {
         const values = [];
         for (let hue = 0; hue < 360; hue += 10) values.push(hue);
-        return values.map((hue) =>
-            new ColorJS(
-                ColorJS.spaces.lch,
-                [lightness, chroma, hue],
-                1,
-            ).display(),
-        );
+        return values.map((hue) => LCHtoCSS(lightness, chroma, hue));
     }
 
     const MaxChroma = 150;
@@ -55,6 +48,7 @@
 </script>
 
 <script lang="ts">
+    import { LCHtoCSS } from '@output/ColorJS';
     import { getFirstText } from '../../locale/LocaleText';
     import Button from './Button.svelte';
 
@@ -83,9 +77,7 @@
         palette = [],
     }: Props = $props();
 
-    let color = $derived(
-        new ColorJS(ColorJS.spaces.lch, [lightness * 100, chroma, hue], 1),
-    );
+    let color = $derived(LCHtoCSS(lightness * 100, chroma, hue));
 
     let hueWidth: number | undefined = $state(undefined);
     let hueHeight: number | undefined = $state(undefined);
@@ -107,7 +99,8 @@
 </script>
 
 <div class="component" {id}>
-    <div class="preview" style:background-color={color.display()}></div>
+    <div class="preview" style:background-color={color}></div>
+    <!-- svelte-ignore a11y_no_static_element_interactions -->
     <div
         class="bands"
         onpointerdown={editable ? handleMouseMove : null}
@@ -144,10 +137,11 @@
                 }}
                 ><div
                     class="color"
-                    style:background={new ColorJS(
-                        ColorJS.spaces.lch,
-                        primary,
-                    ).display()}
+                    style:background={LCHtoCSS(
+                        primary[0],
+                        primary[1],
+                        primary[2],
+                    )}
                 ></div></Button
             >{/each}
     </div>

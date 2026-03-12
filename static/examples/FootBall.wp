@@ -13,7 +13,7 @@ ballObj/en,bolaObjeto/es: Phrase('⚽' 1m
 
 footObj/en,pieObjeto/es: Phrase('🦶🏻' 1.5m
 		matter: Matter(mass: 20kg 0.9)
-		place: Place(Volume() · 10m 0.1m)
+		place: Place(Volume() × 10m 0.1m)
 		name: 'footy')
 
 keeperObj/en,porteroObjeto/es: Phrase('🚶🏻‍♂️' 2m

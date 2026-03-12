@@ -14,6 +14,7 @@ export function testConflict(
     nodeType: new (...params: never[]) => Node,
     conflictType: new (...params: never[]) => Conflict,
     nodeIndex = 0,
+    badNodeIndex: number | undefined = undefined,
 ) {
     const goodSource = new Source('test', goodCode);
     const goodProject = Project.make(
@@ -38,7 +39,7 @@ export function testConflict(
     const badProject = Project.make(null, 'bad', badSource, [], DefaultLocale);
     const badProgram = badSource.expression;
     const badOp = badProgram.nodes().filter((n) => n instanceof nodeType)[
-        nodeIndex
+        badNodeIndex ?? nodeIndex
     ];
     expect(badOp).toBeInstanceOf(nodeType);
     const conflicts = badOp?.getConflicts(badProject.getContext(badSource));

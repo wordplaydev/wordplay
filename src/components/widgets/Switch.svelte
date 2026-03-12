@@ -12,6 +12,7 @@
         offTip: LocaleTextAccessor;
         onTip: LocaleTextAccessor;
         uiid?: string | undefined;
+        shortcut: string | undefined;
     }
 
     let {
@@ -22,6 +23,7 @@
         offTip,
         onTip,
         uiid = undefined,
+        shortcut,
     }: Props = $props();
 
     let onTipText = $derived($locales.get(onTip));
@@ -29,7 +31,7 @@
 
     let hint = getTip();
     function showTip(view: HTMLSpanElement, tip: string) {
-        hint.show(tip, view);
+        hint.show(tip + (shortcut ? ` (${shortcut})` : ''), view);
     }
     function hideTip() {
         hint.hide();
@@ -43,7 +45,6 @@
         aria-disabled={!on}
         aria-label={offTipText}
         tabindex="0"
-        title={offTipText}
         onclick={(event) => {
             event.stopPropagation();
             toggle(false);

@@ -18,6 +18,7 @@ import { createPitchDefinition } from '../input/Pitch';
 import { createPlacementDefinition } from '../input/Placement';
 import { createPointerDefinition } from '../input/Pointer';
 import { createRandomFunction } from '../input/Random';
+import { createSpeechDefinition } from '../input/Speech';
 import { createTimeType } from '../input/Time';
 import { createVolumeDefinition } from '../input/Volume';
 import { createWebpageDefinition } from '../input/Webpage';
@@ -93,6 +94,7 @@ export default function createDefaultShares(locales: Locales) {
         Pointer: createPointerDefinition(locales, PlaceType),
         Volume: createVolumeDefinition(locales),
         Pitch: createPitchDefinition(locales),
+        Speech: createSpeechDefinition(locales),
         Camera: createCameraDefinition(locales, ColorType),
         Webpage: createWebpageDefinition(locales),
         Chat: createChatDefinition(locales),

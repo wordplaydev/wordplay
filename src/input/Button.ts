@@ -7,13 +7,13 @@ import StreamType from '@nodes/StreamType';
 import UnionType from '@nodes/UnionType';
 import type Evaluation from '@runtime/Evaluation';
 import BoolValue from '@values/BoolValue';
-import StreamValue from '@values/StreamValue';
+import SingletonStreamValue from '@values/SingletonStreamValue';
 import type Locales from '../locale/Locales';
 import BooleanLiteral from '../nodes/BooleanLiteral';
 import BooleanType from '../nodes/BooleanType';
 import createStreamEvaluator from './createStreamEvaluator';
 
-export default class Button extends StreamValue<BoolValue, boolean> {
+export default class Button extends SingletonStreamValue<BoolValue, boolean> {
     on = false;
     down: boolean | undefined;
 

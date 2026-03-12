@@ -51,6 +51,8 @@ type DocumentationText = {
         >;
     };
     header: {
+        /** Names header */
+        names: HeaderAndExplanationText;
         /** Function inputs header */
         inputs: HeaderAndExplanationText;
         /** Structue interfaces header */

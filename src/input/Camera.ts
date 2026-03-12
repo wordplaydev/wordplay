@@ -1,7 +1,7 @@
+import { RGBtoLCH } from '@output/ColorJS';
 import type Evaluation from '@runtime/Evaluation';
 import ListValue from '@values/ListValue';
 import NumberValue from '@values/NumberValue';
-import ColorJS from 'colorjs.io';
 import { getDocLocales } from '../locale/getDocLocales';
 import { getNameLocales } from '../locale/getNameLocales';
 import type Locales from '../locale/Locales';
@@ -146,23 +146,21 @@ export default class Camera extends TemporalStreamValue<ListValue, RawFrame> {
                         raw[row] = [];
                     }
 
-                    // Create a ColorJS wrapper from the sRGB values.
-                    const srgb = new ColorJS('srgb', [
+                    // Get an LCH color from it.
+                    const lch = RGBtoLCH(
                         image.data[i] / 255,
                         image.data[i + 1] / 255,
                         image.data[i + 2] / 255,
-                    ]);
-                    // Get an LCH color from it.
-                    const lch = srgb.to('lch');
+                    );
 
                     // PERF: We convert to integers to prevent
                     // Decimal from parsing as a string.
 
                     // Save the color to an LCH Color and store at the appropriate place in the matrix.
                     raw[row][column] = {
-                        l: Math.round(lch.coords[0]) / 100,
-                        c: Math.round(lch.coords[1]),
-                        h: Math.round(lch.coords[2]),
+                        l: Math.round(lch.coords[0] ?? 0) / 100,
+                        c: Math.round(lch.coords[1] ?? 0),
+                        h: Math.round(lch.coords[2] ?? 0),
                     };
                 }
 

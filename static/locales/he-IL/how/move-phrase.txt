@@ -1,0 +1,21 @@
+להפוך דמות לניתנת להזזה
+
+לפעמים זה מועיל ליצור @Phrase ניתן להזזה באמצעות מקלדת, עכבר או אצבע.
+
+תעשו את זה, נוכל לשלב @Phrase עם @Placement :
+
+\Stage([Phrase('להזיז אותי' place: Placement())] place: Place(0m 0m -10m))\
+
+באמצעות חצי המקלדת או לחיצה על @Stage יעדכן את @Placement , גורם ל- @Phrase כדי לנוע בכיוון הזה.
+
+האם ידעת, בכל זאת, ש @Placement ניתן להשתמש עם/דָבָר/זה לוקח @Place ?לדוגמה א @Stage יש לו @Place שקובע לאן המצלמה שלו מופנית.בואו ננסה להגדיר @Placement עבור @Stage המקום של, ונראה מה יקרה.
+
+\Stage([
+		Phrase('🐈' place: Place(-2m 2m))
+		Phrase('🐈' place: Place(2m -2m))
+		Phrase('🐈' place: Place(-1m 3m))
+	] place: Placement(Place(0m 0m -10m)))\
+
+זה גורם למצלמה לזוז! (הערה: אנחנו מתחילים את @Placement עם א\z\ערך של\10m\כך שהמצלמה תהיה רחוקה מהכל.)
+
+animated-scene

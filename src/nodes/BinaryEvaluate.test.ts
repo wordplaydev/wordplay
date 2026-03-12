@@ -6,7 +6,7 @@ import evaluateCode from '../runtime/evaluate';
 import BinaryEvaluate from './BinaryEvaluate';
 
 test.each([
-    ['1 · 5', '1 · ""', BinaryEvaluate, IncompatibleInput],
+    ['1 × 5', '1 × ""', BinaryEvaluate, IncompatibleInput],
     [
         '(1ms % 5) = 1ms',
         '(1ms % 5) + "hi"',

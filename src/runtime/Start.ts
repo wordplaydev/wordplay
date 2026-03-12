@@ -46,9 +46,12 @@ export function start(evaluator: Evaluator, expr: Expression) {
 
 export function shouldSkip(evaluator: Evaluator, expr: Expression) {
     return (
+        // Never skip an internal expression
         !expr.isInternal() &&
-        // Never skip a Changed expression, they always need to be evaluated.
+        // Never skip a Changed expression, as they can always affect evaluation
         !(expr instanceof Changed) &&
+        // Never skip an expression dependent on a Changed expression, as they can always change based on a Changed expression.
+        !evaluator.project.isChangedDependentExpression(expr) &&
         // Don't reevaluate constants
         (evaluator.project.isConstant(expr) ||
             // Don't reevaluate reactions that are not currently reacting

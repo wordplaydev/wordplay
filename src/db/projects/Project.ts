@@ -6,6 +6,7 @@ import { getBestSupportedLocales } from '@locale/getBestSupportedLocales';
 import type Locale from '@locale/Locale';
 import { localeToString } from '@locale/Locale';
 import type { SharedDefinition } from '@nodes/Borrow';
+import Changed from '@nodes/Changed';
 import Context from '@nodes/Context';
 import type Definition from '@nodes/Definition';
 import Doc from '@nodes/Doc';
@@ -71,8 +72,7 @@ export type ProjectData = Omit<SerializedProject, 'sources' | 'locales'> & {
 
 type Analysis = {
     conflicts: Conflict[];
-    primary: Map<Node, Conflict[]>;
-    secondary: Map<Node, Conflict[]>;
+    conflictedNodes: Map<Node, Conflict[]>;
     /** Evaluations by function and structures they evaluate (a call graph) */
     evaluations: Map<
         FunctionDefinition | StructureDefinition | StreamDefinition,
@@ -117,11 +117,13 @@ export default class Project {
     analyzed: 'unanalyzed' | 'analyzing' | 'analyzed' = 'unanalyzed';
     analysis: Analysis = {
         conflicts: [],
-        primary: new Map(),
-        secondary: new Map(),
+        conflictedNodes: new Map(),
         evaluations: new Map(),
         dependencies: new Map(),
     };
+
+    /** A cache of expressions that dependent on Changed expressions, so we can quickly know to reevaluate them. */
+    #changeDependentExpressions: Set<Expression> | undefined = undefined;
 
     constructor(data: ProjectData) {
         // Copy to prevent external modification
@@ -185,6 +187,9 @@ export default class Project {
             nonPII: [],
             chat: null,
             history: [],
+            restrictedGallery: false,
+            viewers: [],
+            commenters: [],
         });
     }
 
@@ -316,8 +321,7 @@ export default class Project {
 
         this.analysis = {
             conflicts: [],
-            primary: new Map(),
-            secondary: new Map(),
+            conflictedNodes: new Map(),
             evaluations: new Map(),
             dependencies: new Map(),
         };
@@ -334,26 +338,13 @@ export default class Project {
             // Build conflict indices by going through each conflict, asking for the conflicting nodes
             // and adding to the conflict to each node's list of conflicts.
             for (const conflict of this.analysis.conflicts) {
-                const complicitNodes = conflict.getConflictingNodes(
-                    context,
-                    Templates,
-                );
-                this.analysis.primary.set(complicitNodes.primary.node, [
-                    ...(this.analysis.primary.get(
-                        complicitNodes.primary.node,
+                const complicitNodes = conflict.getMessage(context, Templates);
+                this.analysis.conflictedNodes.set(complicitNodes.node, [
+                    ...(this.analysis.conflictedNodes.get(
+                        complicitNodes.node,
                     ) ?? []),
                     conflict,
                 ]);
-                if (complicitNodes.secondary) {
-                    const nodeConflicts =
-                        this.analysis.secondary.get(
-                            complicitNodes.secondary.node,
-                        ) ?? [];
-                    this.analysis.secondary.set(complicitNodes.secondary.node, [
-                        ...nodeConflicts,
-                        conflict,
-                    ]);
-                }
             }
 
             // Build a mapping from functions and structures to their evaluations.
@@ -421,8 +412,7 @@ export default class Project {
     static analyze(project: Project): Analysis {
         let newAnalysis: Analysis = {
             conflicts: [],
-            primary: new Map(),
-            secondary: new Map(),
+            conflictedNodes: new Map(),
             evaluations: new Map(),
             dependencies: new Map(),
         };
@@ -439,25 +429,12 @@ export default class Project {
             // Build conflict indices by going through each conflict, asking for the conflicting nodes
             // and adding to the conflict to each node's list of conflicts.
             for (const conflict of newAnalysis.conflicts) {
-                const complicitNodes = conflict.getConflictingNodes(
-                    context,
-                    Templates,
-                );
-                newAnalysis.primary.set(complicitNodes.primary.node, [
-                    ...(newAnalysis.primary.get(complicitNodes.primary.node) ??
+                const complicitNodes = conflict.getMessage(context, Templates);
+                newAnalysis.conflictedNodes.set(complicitNodes.node, [
+                    ...(newAnalysis.conflictedNodes.get(complicitNodes.node) ??
                         []),
                     conflict,
                 ]);
-                if (complicitNodes.secondary) {
-                    const nodeConflicts =
-                        newAnalysis.secondary.get(
-                            complicitNodes.secondary.node,
-                        ) ?? [];
-                    newAnalysis.secondary.set(complicitNodes.secondary.node, [
-                        ...nodeConflicts,
-                        conflict,
-                    ]);
-                }
             }
 
             // Build a mapping from functions and structures to their evaluations.
@@ -597,28 +574,17 @@ export default class Project {
         return false;
     }
 
-    getPrimaryConflicts() {
-        return this.getAnalysis().primary;
-    }
-
-    getSecondaryConflicts() {
-        return this.getAnalysis().secondary;
+    getConflictedNodes() {
+        return this.getAnalysis().conflictedNodes;
     }
 
     nodeInvolvedInConflicts(node: Node) {
-        return (
-            this.getPrimaryConflicts().has(node) ||
-            this.getSecondaryConflicts().has(node)
-        );
+        return this.getConflictedNodes().has(node);
     }
 
     /** Given a node N, and the set of conflicts C in the program, determines the subset of C in which the given N is complicit. */
-    getPrimaryConflictsInvolvingNode(node: Node) {
-        return this.getPrimaryConflicts().get(node);
-    }
-
-    getSecondaryConflictsInvolvingNode(node: Node) {
-        return this.getSecondaryConflicts().get(node);
+    getConflictsInvolvingNode(node: Node) {
+        return this.getConflictedNodes().get(node);
     }
 
     getEvaluationsOf(
@@ -629,6 +595,35 @@ export default class Project {
 
     getExpressionsAffectedBy(expression: Expression): Set<Expression> {
         return this.getAnalysis().dependencies.get(expression) ?? new Set();
+    }
+
+    /**
+     * Returns true if the given expression is transitively dependent on a Changed expression.
+     * Used to determine whether to reevaluate an expression at evaluation time.
+     */
+    isChangedDependentExpression(expr: Expression): boolean {
+        if (this.#changeDependentExpressions === undefined) {
+            const analysis = this.analyze();
+            this.#changeDependentExpressions = new Set();
+
+            const changes = Array.from(analysis.dependencies.entries()).filter(
+                (s) => s[0] instanceof Changed,
+            );
+            while (changes.length > 0) {
+                const [, dependents] = changes.pop()!;
+                for (const dependent of dependents) {
+                    if (!this.#changeDependentExpressions.has(dependent)) {
+                        this.#changeDependentExpressions.add(dependent);
+                        const furtherDependents =
+                            analysis.dependencies.get(dependent);
+                        if (furtherDependents) {
+                            changes.push([dependent, furtherDependents]);
+                        }
+                    }
+                }
+            }
+        }
+        return this.#changeDependentExpressions.has(expr);
     }
 
     /** Return true if the given expression is in this project and depends only on contants. */
@@ -995,11 +990,17 @@ export default class Project {
         )?.caret;
 
         return position !== undefined
-            ? typeof position === 'number'
+            ? // Number? Return it.
+              typeof position === 'number'
                 ? position
-                : position.every((n) => typeof n === 'number')
-                  ? [position[0], position[1]]
-                  : source.root.resolvePath(position)
+                : // Range? If it's of length 2 and they're both numbers, return a range.
+                  Array.isArray(position)
+                  ? position.length === 2 &&
+                    position.every((n) => typeof n === 'number')
+                      ? [position[0], position[1]]
+                      : undefined
+                  : // A node path? Resolve it.
+                    source.root.resolvePath(position)
             : undefined;
     }
 
@@ -1065,6 +1066,9 @@ export default class Project {
             nonPII: project.nonPII,
             chat: project.chat,
             history: project.history,
+            restrictedGallery: project.restrictedGallery,
+            viewers: project.viewers,
+            commenters: project.commenters,
         });
     }
 
@@ -1271,6 +1275,9 @@ export default class Project {
             nonPII: this.data.nonPII,
             chat: this.data.chat,
             history: this.data.history,
+            restrictedGallery: this.data.restrictedGallery,
+            viewers: this.data.viewers,
+            commenters: this.data.commenters,
         };
     }
 
@@ -1358,5 +1365,67 @@ export default class Project {
                 )
                 .join('\n')
         );
+    }
+
+    getViewers() {
+        return this.data.viewers;
+    }
+
+    withViewer(viewer: string) {
+        return this.data.viewers.some((user) => user === viewer)
+            ? this
+            : new Project({
+                  ...this.data,
+                  viewers: [...this.data.viewers, viewer],
+              });
+    }
+
+    withoutViewer(viewer: string) {
+        return !this.data.viewers.some((user) => user === viewer)
+            ? this
+            : new Project({
+                  ...this.data,
+                  viewers: this.data.viewers.filter((id) => id !== viewer),
+              });
+    }
+
+    hasViewer(id: string) {
+        return this.data.viewers.includes(id);
+    }
+
+    getCommenters() {
+        return this.data.commenters;
+    }
+
+    withCommenter(commenter: string) {
+        return this.data.commenters.some((user) => user === commenter)
+            ? this
+            : new Project({
+                  ...this.data,
+                  commenters: [...this.data.commenters, commenter],
+              });
+    }
+
+    withoutCommenter(commenter: string) {
+        return !this.data.commenters.some((user) => user === commenter)
+            ? this
+            : new Project({
+                  ...this.data,
+                  commenters: this.data.commenters.filter(
+                      (id) => id !== commenter,
+                  ),
+              });
+    }
+
+    hasCommenter(id: string) {
+        return this.data.commenters.includes(id);
+    }
+
+    getRestrictedGallery() {
+        return this.data.restrictedGallery;
+    }
+
+    withRestrictedGallery(restricted: boolean) {
+        return new Project({ ...this.data, restrictedGallery: restricted });
     }
 }

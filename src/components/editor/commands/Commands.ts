@@ -10,6 +10,7 @@ import {
     DEGREE_SYMBOL,
     DOCS_SYMBOL,
     DOCUMENTATION_SYMBOL,
+    DOT_SYMBOL,
     EDIT_SYMBOL,
     ELISION_SYMBOL,
     FALSE_SYMBOL,
@@ -121,6 +122,9 @@ export type CommandContext = {
     getTokenViews?: () => HTMLElement[];
     /** Function to clear large deletion notification */
     clearLargeDeletionNotification?: () => void;
+    /** The editor zoom level */
+    zoom: number | undefined;
+    setZoom?: undefined | ((z: number) => void);
 };
 
 export type Edit = Caret | Revision;
@@ -138,6 +142,7 @@ export enum Category {
     Modify = 'modify',
     Evaluate = 'evaluate',
     Help = 'help',
+    Fallback = 'fallback',
 }
 
 export function toShortcut(
@@ -506,7 +511,7 @@ export const ShowMenu: Command = {
 
 export const EnterFullscreen: Command = {
     uiid: '16',
-    symbol: '▶️',
+    symbol: '▶',
     description: (l) => l.ui.tile.toggle.fullscreen.off,
     visible: Visibility.Invisible,
     category: Category.Evaluate,
@@ -659,7 +664,7 @@ export const InsertSymbol: Command = {
     symbol: 'a',
     description: (l) => l.ui.source.cursor.type,
     visible: Visibility.Invisible,
-    category: Category.Modify,
+    category: Category.Fallback,
     control: false,
     shift: undefined,
     alt: false,
@@ -1132,6 +1137,18 @@ const Commands: Command[] = [
         execute: (context) => handleInsert(context, PRODUCT_SYMBOL),
     },
     {
+        symbol: DOT_SYMBOL,
+        description: (l) => l.ui.source.cursor.insertDot,
+        visible: Visibility.Visible,
+        category: Category.Insert,
+        alt: true,
+        shift: false,
+        control: false,
+        key: 'Period',
+        keySymbol: '.',
+        execute: (context) => handleInsert(context, DOT_SYMBOL),
+    },
+    {
         symbol: QUOTIENT_SYMBOL,
         description: (l) => l.ui.source.cursor.insertQuotient,
         visible: Visibility.Visible,
@@ -1200,7 +1217,7 @@ const Commands: Command[] = [
         shift: false,
         control: false,
         key: 'J',
-        keySymbol: '∆',
+        keySymbol: 'j',
         execute: (context) => handleInsert(context, CHANGE_SYMBOL),
     },
     {
@@ -1540,6 +1557,45 @@ const Commands: Command[] = [
                         ),
                 ];
             } else return false;
+        },
+    },
+
+    {
+        symbol: '+🔎',
+        description: (l) => l.ui.source.button.zoomIn,
+        visible: Visibility.Visible,
+        category: Category.Cursor,
+        control: true,
+        shift: true,
+        alt: true,
+        key: 'Equal',
+        important: true,
+        active: ({ zoom }) => zoom !== undefined && zoom < 16,
+        execute: ({ editor, zoom, setZoom }) => {
+            if (editor && setZoom && zoom !== undefined) {
+                setZoom(zoom + 2);
+                return true;
+            }
+            return false;
+        },
+    },
+    {
+        symbol: '–🔎',
+        description: (l) => l.ui.source.button.zoomOut,
+        visible: Visibility.Visible,
+        category: Category.Cursor,
+        control: true,
+        shift: true,
+        alt: true,
+        key: 'Minus',
+        important: true,
+        active: ({ zoom }) => zoom !== undefined && zoom > -4,
+        execute: ({ editor, zoom, setZoom }) => {
+            if (editor && setZoom && zoom !== undefined) {
+                setZoom(zoom - 2);
+                return true;
+            }
+            return false;
         },
     },
 
