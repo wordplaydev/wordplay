@@ -162,16 +162,16 @@ export default class HowTo {
 
     /** Get the title of the how-to in the specified locale. If there is no title written in that language, fall back to the first title */
     getTitleInLocale(locale: string): string {
-        return HowTo.titleInLocale(this.data.title, locale);
+        return HowTo.titleInLocale(this.data.title, locale, this.getLocales()[0]);
     }
 
-    static titleInLocale(title: string, locale: string): string {
+    static titleInLocale(title: string, locale: string, backupLocale: string): string {
         const titleMap = HowTo.markupToMapHelper(title);
         let nameInLocale: string | undefined = titleMap.get(locale);
         if (nameInLocale) return nameInLocale;
 
-        let firstLanguage: [string, string] | undefined = titleMap.entries().next().value;
-        if (firstLanguage) return firstLanguage[1];
+        let nameInBackupLocale: string | undefined = titleMap.get(backupLocale);
+        if (nameInBackupLocale) return nameInBackupLocale;
         else return ''; // fall back to an empty title
     }
 
@@ -616,7 +616,7 @@ export class HowToDatabase {
                             data.social.notifySubscribers == true
                         ) {
                             notifications.set(data.id + 'howto', {
-                                title: HowTo.titleInLocale(data.title, localeToString(this.db.Locales.getLocale())),
+                                title: HowTo.titleInLocale(data.title, localeToString(this.db.Locales.getLocale()), (data.locales as string[])[0]),
                                 galleryID: data.galleryId,
                                 itemID: data.id,
                                 type: 'howto',

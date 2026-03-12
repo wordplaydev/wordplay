@@ -302,7 +302,7 @@
         let returnString: string = titleMap
             .entries()
             .reduce((acc, [locale, text]) => {
-                return acc + `¶${text}¶/${locale}`;
+                return acc + (text.length === 0 ? '' : `¶${text}¶/${locale}`);
             }, '');
 
         await textLocales.forEach(async (loc) => {
