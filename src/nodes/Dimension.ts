@@ -2,7 +2,7 @@ import { getPossibleDimensions } from '@edit/menu/getPossibleUnits';
 import type { InsertContext, ReplaceContext } from '@edit/revision/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
-import { EXPONENT_SYMBOL, PRODUCT_SYMBOL } from '@parser/Symbols';
+import { DOT_SYMBOL, EXPONENT_SYMBOL } from '@parser/Symbols';
 import Purpose from '../concepts/Purpose';
 import type Locales from '../locale/Locales';
 import Characters from '../lore/BasisCharacters';
@@ -39,7 +39,7 @@ export default class Dimension extends Node {
 
     static make(subsequent: boolean, unit: string, exponent: number) {
         return new Dimension(
-            subsequent ? new Token(PRODUCT_SYMBOL, Sym.Operator) : undefined,
+            subsequent ? new Token(DOT_SYMBOL, Sym.Operator) : undefined,
             new NameToken(unit),
             exponent > 1 ? new Token(EXPONENT_SYMBOL, Sym.Operator) : undefined,
             exponent > 1 ? new Token('' + exponent, Sym.Number) : undefined,
@@ -124,7 +124,7 @@ export default class Dimension extends Node {
         return this.product !== undefined
             ? this
             : new Dimension(
-                  new Token(PRODUCT_SYMBOL, Sym.Operator),
+                  new Token(DOT_SYMBOL, Sym.Operator),
                   this.name?.clone(),
                   this.caret,
                   this.exponent,

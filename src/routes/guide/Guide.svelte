@@ -6,6 +6,7 @@
     import Documentation from '@components/concepts/Documentation.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import {
+        getUser,
         setConceptIndex,
         setConceptPath,
     } from '@components/project/Contexts';
@@ -15,7 +16,7 @@
         getConceptFromURL,
         setConceptInURL,
     } from '@concepts/ConceptParams';
-    import { Locales, locales } from '@db/Database';
+    import { HowTos, Locales, locales } from '@db/Database';
     import Project from '@db/projects/Project';
     import { toLocaleString } from '@locale/LocaleText';
     import Source from '@nodes/Source';
@@ -84,11 +85,14 @@
 
     let howTos = $derived($howToStore[$locales.getLocaleString()]);
 
+    const user = getUser();
+
     let index = $derived(
         ConceptIndex.make(
             project,
             $locales,
             howTos instanceof Promise ? [] : howTos,
+            user ? HowTos.allAccessiblePublishedHowTos : [],
         ),
     );
 

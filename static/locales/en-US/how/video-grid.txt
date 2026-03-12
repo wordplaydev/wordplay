@@ -8,7 +8,7 @@ We can use the @Grid layout for a @Group, and @List/combine function to convert 
 \
 width: 24
 height: 24
-colors: Camera(width · 1px height · 1px 33ms)
+colors: Camera(width × 1px height × 1px 33ms)
 Stage([
 		Group(Grid(height width 0m) colors.combine([] ƒ(phrases row) [
 						:phrases

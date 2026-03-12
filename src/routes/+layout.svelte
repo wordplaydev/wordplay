@@ -1,4 +1,14 @@
 <script module lang="ts">
+    import type { NotificationData } from '@components/settings/Notifications.svelte';
+    import { SvelteMap } from 'svelte/reactivity';
+
+    /** User's notifications state
+     * Maps a string (notification's item ID + type) to data
+     * (Workaround to make sure that we don't send more than one notification of the same type)
+     */
+    export let notifications = $state<SvelteMap<string, NotificationData>>(
+        new SvelteMap(),
+    );
 </script>
 
 <script lang="ts">
@@ -6,6 +16,7 @@
     import Loading from '@components/app/Loading.svelte';
     import Announcer from '@components/project/Announcer.svelte';
     import Hint, { ActiveHint } from '@components/widgets/Hint.svelte';
+    import { firestore } from '@db/firebase';
     import { FaceSetting } from '@db/settings/FaceSetting';
     import type { User } from 'firebase/auth';
     import { onMount, type Snippet } from 'svelte';
@@ -21,6 +32,8 @@
         animationFactor,
         dark,
         DB,
+        howToNotifications,
+        HowTos,
         locales,
         Settings,
     } from '../db/Database';
@@ -132,10 +145,24 @@
         return () => unsub();
     });
 
+    let hint = $state(new ActiveHint());
+
     /** Create a global state for a tip to show at the top level */
-    setTip(new ActiveHint());
+    setTip(hint);
+
+    // if the user turns off how-to notifications, clear existing notifications
+    // if notifications are on, listen for changing from the how-to database
+    $effect(() => {
+        if (!$howToNotifications) {
+            notifications.clear();
+            HowTos.ignore();
+        } else if ($user && firestore) {
+            HowTos.listen(firestore, $user.uid);
+        }
+    });
 </script>
 
+<!-- svelte-ignore a11y_no_static_element_interactions -->
 <div
     class="root"
     class:dark={$dark}
@@ -143,6 +170,7 @@
     style:--wordplay-app-font={appFaces}
     style:--wordplay-code-font={codeFonts}
     lang={$locales.getLocale().language}
+    ontouchstart={() => hint.hide()}
 >
     {#if !loaded && lag}
         <Loading />

@@ -14,8 +14,8 @@
 
     interface Props {
         show?: boolean;
-        header: LocaleTextAccessor;
-        explanation: LocaleTextsAccessor;
+        header: LocaleTextAccessor | undefined;
+        explanation: LocaleTextsAccessor | undefined;
         closeable?: boolean;
         button?:
             | {
@@ -83,8 +83,8 @@
         {/if}
 
         <div class="content">
-            <Header text={header} />
-            <MarkupHTMLView markup={explanation} />
+            {#if header}<Header text={header} />{/if}
+            {#if explanation}<MarkupHTMLView markup={explanation} />{/if}
             {@render children?.()}
         </div>
     </div>

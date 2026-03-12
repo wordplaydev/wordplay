@@ -13,6 +13,13 @@ export const DraftLocales = [
     'pl-PL',
     'gu-IN',
     'tr-TR',
+    'ar-SA',
+    'el-GR',
+    'kn-IN',
+    'te-IN',
+    'as-IN',
+    'he-IL',
+    'vi-VN',
 ];
 
 /** Supported locale names. Put a locale in this list when it's no longer a draft. */

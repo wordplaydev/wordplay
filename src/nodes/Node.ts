@@ -457,6 +457,7 @@ export default abstract class Node {
         // The default of undefined here means that we have not confirmed that the specified field
         // is to be replaced.
         let valid = undefined;
+        let inBrowser = typeof window !== 'undefined';
 
         // Replacement by field name:
         if (typeof original === 'string') {
@@ -464,13 +465,12 @@ export default abstract class Node {
             if (field === original) {
                 // See if the replacement is valid.
                 valid = kind.allows(replacement);
-                if (!valid) {
-                    console.error(
-                        Node.invalidReplacementToString(
-                            field,
-                            kind,
-                            replacement,
-                        ),
+                if (!valid && inBrowser) {
+                    Node.invalidReplacementToString(
+                        field,
+                        kind,
+                        replacement,
+                        replace.report,
                     );
                     return child as Child;
                 }
@@ -483,13 +483,12 @@ export default abstract class Node {
             if (child === original) {
                 // Verify that the replacement list is valid.
                 valid = kind.allows(replacement);
-                if (!valid) {
-                    console.error(
-                        Node.invalidReplacementToString(
-                            field,
-                            kind,
-                            replacement,
-                        ),
+                if (!valid && inBrowser) {
+                    Node.invalidReplacementToString(
+                        field,
+                        kind,
+                        replacement,
+                        replace.report,
                     );
                     return child as Child;
                 }
@@ -507,13 +506,12 @@ export default abstract class Node {
                 // Verify that the replacement node is valid. It can be undefined (which indicates removal) or one of the allowed types.
                 valid =
                     replacement === undefined || kind.allowsItem(replacement);
-                if (!valid) {
-                    console.error(
-                        Node.invalidReplacementToString(
-                            field,
-                            kind,
-                            replacement,
-                        ),
+                if (!valid && inBrowser) {
+                    Node.invalidReplacementToString(
+                        field,
+                        kind,
+                        replacement,
+                        replace.report,
                     );
                     return child as Child;
                 }
@@ -522,13 +520,12 @@ export default abstract class Node {
             else if (child === original) {
                 // Verify that the replacement node is valid.
                 valid = kind.allows(replacement);
-                if (!valid) {
-                    console.error(
-                        Node.invalidReplacementToString(
-                            field,
-                            kind,
-                            replacement,
-                        ),
+                if (!valid && inBrowser) {
+                    Node.invalidReplacementToString(
+                        field,
+                        kind,
+                        replacement,
+                        replace.report,
                     );
                     return child as Child;
                 }
@@ -590,10 +587,13 @@ export default abstract class Node {
         field: string,
         kind: FieldKind,
         replacement: FieldValue,
+        report: ReplacementFailure,
     ) {
-        return `Attempt to replace list field ${String(
+        if (report === 'silent') return;
+
+        let message = `Attempt to replace field ${String(
             field,
-        )} failed because replacement list is not a list or contains invalid items; expected ${kind.toString()}, but received ${(Array.isArray(
+        )} failed; expected ${kind.toString()}, but received ${(Array.isArray(
             replacement,
         )
             ? replacement
@@ -601,6 +601,9 @@ export default abstract class Node {
         )
             .map((n) => n?.constructor.name)
             .join(', ')}`;
+
+        if (report === 'console') console.log(message);
+        if (report === 'exception') throw new Error(message);
     }
 
     /** Always true, except in Token, which overrids. This helps us aovid importing Token here, creating an import cycle. */
@@ -608,8 +611,12 @@ export default abstract class Node {
         return false;
     }
 
-    replace(original: Node | Node[] | string, replacement: FieldValue) {
-        return this.clone({ original, replacement });
+    replace(
+        original: Node | Node[] | string,
+        replacement: FieldValue,
+        report: ReplacementFailure = 'console',
+    ): this {
+        return this.clone({ original, replacement, report });
     }
 
     /** Adjust this node in the requested direction, if that makes sense. By default, do nothing. */
@@ -999,10 +1006,14 @@ export function optional(kind: IsA) {
 
 export type Grammar = Field[];
 
+type ReplacementFailure = 'silent' | 'console' | 'exception';
+
 /** Represents a replacement of an original node or string with a new field value */
 export type Replacement = {
     original: Node | Node[] | string;
     replacement: FieldValue;
+    // Whether to report invalid replacmements.
+    report: ReplacementFailure;
 };
 
 /** Represents a node and a field on the node, and optional index into a list field. Used to represent a selection of a field for editing. */

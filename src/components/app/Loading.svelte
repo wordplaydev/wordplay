@@ -4,14 +4,14 @@
 </script>
 
 <div class="container">
-    <Spinning label={(l) => l.ui.widget.loading.message} large />
+    <Spinning label={(l) => l.ui.widget.loading.message} size={2} />
     <p><Text path={(l) => l.ui.widget.loading.message} /></p>
 </div>
 
 <style>
     .container {
-        width: 100vw;
-        height: 100vh;
+        width: 100dvw;
+        height: 100dvh;
         max-width: 100%;
         max-height: 100%;
         display: flex;

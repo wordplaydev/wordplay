@@ -13,15 +13,13 @@ export class MisplacedThis extends Conflict {
     static readonly LocalePath = (locale: LocaleText) =>
         locale.node.This.conflict.MisplacedThis;
 
-    getConflictingNodes() {
+    getMessage() {
         return {
-            primary: {
-                node: this.dis,
-                explanation: (locales: Locales) =>
-                    locales.concretize(
-                        (l) => MisplacedThis.LocalePath(l).primary,
-                    ),
-            },
+            node: this.dis,
+            explanation: (locales: Locales) =>
+                locales.concretize(
+                    (l) => MisplacedThis.LocalePath(l).explanation,
+                ),
         };
     }
 

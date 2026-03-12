@@ -16,15 +16,17 @@
         <NodeView node={[node, 'docs']} {format} empty="menu" />
     {/if}
     <Flow direction="row" wrap>
-        {#if node.docs.isEmpty()}
-            <NodeView node={[node, 'docs']} {format} empty="menu" />
-        {/if}
-        <NodeView node={[node, 'share']} {format} empty="hide" />
-        <NodeView node={[node, 'names']} {format} />
-        <NodeView node={[node, 'etc']} {format} empty="hide" />
-        <NodeView node={[node, 'dot']} {format} empty="hide" />
-        <NodeView node={[node, 'type']} {format} empty="menu" />
-        <NodeView node={[node, 'colon']} {format} empty="hide" />
+        <Flow direction="row">
+            {#if node.docs.isEmpty()}
+                <NodeView node={[node, 'docs']} {format} empty="menu" />
+            {/if}
+            <NodeView node={[node, 'share']} {format} empty="hide" />
+            <NodeView node={[node, 'names']} {format} />
+            <NodeView node={[node, 'etc']} {format} empty="hide" />
+            <NodeView node={[node, 'dot']} {format} empty="hide" />
+            <NodeView node={[node, 'type']} {format} empty="menu" />
+            <NodeView node={[node, 'colon']} {format} empty="hide" />
+        </Flow>
         <NodeView node={[node, 'value']} {format} />
     </Flow>
 {:else}

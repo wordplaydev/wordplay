@@ -118,7 +118,7 @@
                                     previous &&
                                     previous instanceof KeyValue &&
                                     previous.key instanceof NumberLiteral &&
-                                    number / 100 <
+                                    number <
                                         previous.key.getValue().num.toNumber()
                                 )
                                     return (l) =>
@@ -127,8 +127,7 @@
                                     next &&
                                     next instanceof KeyValue &&
                                     next.key instanceof NumberLiteral &&
-                                    number / 100 >
-                                        next.key.getValue().num.toNumber()
+                                    number > next.key.getValue().num.toNumber()
                                 )
                                     return (l) =>
                                         l.ui.palette.error.lessThanNext;

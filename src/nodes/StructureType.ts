@@ -185,6 +185,7 @@ export default class StructureType extends BasisType {
                 context.getBasis().locales,
                 context,
                 true,
+                true,
                 this,
             );
     }

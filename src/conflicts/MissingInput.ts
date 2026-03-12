@@ -37,37 +37,27 @@ export default class MissingInput extends Conflict {
     static readonly LocalePath = (locales: LocaleText) =>
         locales.node.Evaluate.conflict.MissingInput;
 
-    getConflictingNodes() {
+    getMessage() {
         return {
-            primary: {
-                node: this.evaluate.fun,
-                explanation: (locales: Locales, context: Context) =>
-                    locales.concretize(
-                        (l) => MissingInput.LocalePath(l).primary,
-                        this.func.names.getPreferredNameString(
-                            locales.getLocales(),
-                        ) ??
-                            this.func.names.getFirst() ??
-                            '—',
-                        context.project.contains(this.input)
-                            ? new NodeRef(this.input, locales, context)
-                            : new ConceptRef(
-                                  `${this.func.getPreferredName(
-                                      locales.getLocales(),
-                                  )}/${this.input.getPreferredName(
-                                      locales.getLocales(),
-                                  )}`,
-                              ),
-                    ),
-            },
-            secondary: {
-                node: this.input.names,
-                explanation: (locales: Locales, context: Context) =>
-                    locales.concretize(
-                        (l) => MissingInput.LocalePath(l).secondary,
-                        new NodeRef(this.evaluate.fun, locales, context),
-                    ),
-            },
+            node: this.evaluate.fun,
+            explanation: (locales: Locales, context: Context) =>
+                locales.concretize(
+                    (l) => MissingInput.LocalePath(l).explanation,
+                    this.func.names.getPreferredNameString(
+                        locales.getLocales(),
+                    ) ??
+                        this.func.names.getFirst() ??
+                        '—',
+                    context.project.contains(this.input)
+                        ? new NodeRef(this.input, locales, context)
+                        : new ConceptRef(
+                              `${this.func.getPreferredName(
+                                  locales.getLocales(),
+                              )}/${this.input.getPreferredName(
+                                  locales.getLocales(),
+                              )}`,
+                          ),
+                ),
         };
     }
 

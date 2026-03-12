@@ -1,0 +1,31 @@
+Tạo một chuỗi cảnh tương tác
+
+Đôi khi chúng ta muốn kể những câu chuyện mà người xem cần thực hiện một hành động nào đó trước khi chuyển sang nội dung tiếp theo.
+
+Để làm điều này, chúng ta có thể sử dụng một @Scene nhưng đặt @Boolean các giá trị nằm giữa nội dung mà chúng ta muốn hiển thị. Ví dụ, ở đây một cú nhấp chuột sẽ chuyển đến nội dung tiếp theo, sử dụng một @Button :
+
+\Scene([
+		Phrase('bấm vào đây')
+		Button()
+		Phrase('bấm vào đây lần nữa' duration: 1s)
+		Button()
+		Phrase('Không, hãy nhấn mạnh hết sức có thể vào tôi!!' duration: 1s)
+		Button()
+		Phrase('Bạn đã nhấp vào tôi chưa?' duration: 1s)
+	])\
+
+Cái @Scene hiển thị cái đầu tiên @Phrase sau đó chờ đợi @Button Điều đó là sự thật, và một khi đã đúng, nó sẽ tiến đến giai đoạn tiếp theo. @Phrase .
+
+Bạn có thể sử dụng bất cứ thứ gì bạn muốn để tiến lên, miễn là nó đúng hoặc sai.Ví dụ, chúng ta có thể sử dụng giọng nói của mình!Nếu chúng ta hét đủ lớn, cảnh sẽ tiếp diễn:
+
+\Scene([
+		Phrase('Có ai ở đó không?')
+		Volume() > .5
+		Phrase("Tôi không nghe rõ, bạn nói lại được không?" duration: 1s)
+		Volume() > .7
+		Phrase('Làm ơn nói to hơn...' duration: 1s)
+		Volume() > .9
+		Phrase('Ồ, chào!' duration: 1s)
+	])\
+
+animated-scene

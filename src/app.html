@@ -65,14 +65,18 @@
                 src: url(/fonts/NotoEmoji/NotoEmoji-400.woff2);
             }
 
-            /* If in webkit, use Apple Color Emoji, as COLRv1 isn't supported, and SVG rendering causes major hangs: https://github.com/googlefonts/noto-emoji/issues/438 */
+            /* 
+                If in webkit, use Apple Color Emoji, as COLRv1 isn't supported. So we generate an SVG version
+                of Noto Color Emoji with scripts/notocolor.sh. See here for more details:
+                https://github.com/googlefonts/noto-emoji/issues/438
+            */
             @supports (-webkit-hyphens: none) {
                 @font-face {
                     font-family: 'Noto Color Emoji';
                     font-style: normal;
                     font-weight: 400;
                     font-display: swap;
-                    src: local('Apple Color Emoji');
+                    src: url(/fonts/NotoColorEmoji/NotoColorEmoji.svg.ttf);
                 }
             }
 
@@ -321,8 +325,9 @@
                     transparent
                 );
                 --color-orange: #fe6100;
+                --color-orange-transparent: #fe61004b;
                 --color-yellow: #ffb000;
-                --color-yellow-transparent: #ffae004b;
+                --color-yellow-transparent: #ffb0004b;
                 --color-white: #ffffff;
                 --color-black: #000000;
                 --color-light-grey: #9f9f9f;
@@ -617,6 +622,10 @@
             p,
             li {
                 line-height: 1.5;
+            }
+
+            li:not(:last-of-type) {
+                margin-block-end: var(--wordplay-spacing-half);
             }
 
             a:hover {

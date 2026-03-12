@@ -17,6 +17,7 @@ export const HowToCategories = {
     stories: 7,
     motion: 8,
     video: 9,
+    gallery: 10, // created by users and stored in the project's gallery
 } as const;
 
 export type HowToCategory = keyof typeof HowToCategories;
@@ -40,6 +41,7 @@ export const HowToMetadata = {
     'offer-choices': { category: 'remembering' },
     'choose-adventure': { category: 'remembering' },
     'repeating-a-movement': { category: 'characters' },
+    'gallery-how-to': { category: 'gallery' },
 } satisfies Record<string, { category: HowToCategory }>;
 
 export const HowToIDs = Object.keys(HowToMetadata);

@@ -115,7 +115,7 @@ test.each([
         1,
     ],
 ])(
-    'Expect %s no conflicts, %s to have %s with %s',
+    '%s => no conflict, %s => conflict',
     (good, bad, node, conflict, number?) => {
         testConflict(good, bad, node, conflict, number);
     },

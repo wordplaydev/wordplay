@@ -15,15 +15,13 @@ export default class Placeholder extends Conflict {
     static readonly LocalePath = (locale: LocaleText) =>
         locale.node.ExpressionPlaceholder.conflict.Placeholder;
 
-    getConflictingNodes() {
+    getMessage() {
         return {
-            primary: {
-                node: this.placeholder,
-                explanation: (locales: Locales) =>
-                    locales.concretize(
-                        (l) => Placeholder.LocalePath(l).primary,
-                    ),
-            },
+            node: this.placeholder,
+            explanation: (locales: Locales) =>
+                locales.concretize(
+                    (l) => Placeholder.LocalePath(l).explanation,
+                ),
         };
     }
 

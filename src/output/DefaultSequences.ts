@@ -30,9 +30,9 @@ export function createSway(locales: Locales) {
         ],
         parseExpression(
             toTokens(`{ 
-            0%: Pose(rotation: -1 · angle)
+            0%: Pose(rotation: -1 × angle)
             50%: Pose(rotation: angle) 
-            100%: Pose(rotation: -1 · angle)
+            100%: Pose(rotation: -1 × angle)
     }`),
         ),
     );

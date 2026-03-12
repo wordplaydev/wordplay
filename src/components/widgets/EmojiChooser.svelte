@@ -8,9 +8,10 @@
     interface Props {
         pick: (emoij: string) => void;
         emoji: string;
+        showCustom?: boolean;
     }
 
-    let { pick, emoji }: Props = $props();
+    let { pick, emoji, showCustom = true }: Props = $props();
 
     let publicCharacters = $derived(
         CharactersDB.getEditableCharacters().filter((c) => c.public),
@@ -18,18 +19,20 @@
 </script>
 
 <div class="picker">
-    <!-- Show the public custom characters -->
-    {#each publicCharacters as character}
-        <div class="emoji" class:selected={`@${character.name}` === emoji}>
-            <Button
-                tip={() => character.description}
-                padding={false}
-                action={() => pick(`@${character.name}`)}
-            >
-                {@html characterToSVG(character, '1.25em')}
-            </Button>
-        </div>
-    {/each}
+    {#if showCustom}
+        <!-- Show the public custom characters -->
+        {#each publicCharacters as character}
+            <div class="emoji" class:selected={`@${character.name}` === emoji}>
+                <Button
+                    tip={() => character.description}
+                    padding={false}
+                    action={() => pick(`@${character.name}`)}
+                >
+                    {@html characterToSVG(character, '1.25em')}
+                </Button>
+            </div>
+        {/each}
+    {/if}
     <!-- Show standard emojis -->
     {#await getEmoji() then emojis}
         {#each emojis as code}

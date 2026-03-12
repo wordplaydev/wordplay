@@ -22,17 +22,15 @@ export default class SeparatedEvaluate extends Conflict {
     static readonly LocalePath = (locales: LocaleText) =>
         locales.node.Evaluate.conflict.SeparatedEvaluate;
 
-    getConflictingNodes() {
+    getMessage() {
         return {
-            primary: {
-                node: this.name,
-                explanation: (locales: Locales, context: Context) =>
-                    locales.concretize(
-                        (l) => SeparatedEvaluate.LocalePath(l).primary,
-                        new NodeRef(this.name, locales, context),
-                        this.structure,
-                    ),
-            },
+            node: this.name,
+            explanation: (locales: Locales, context: Context) =>
+                locales.concretize(
+                    (l) => SeparatedEvaluate.LocalePath(l).explanation,
+                    new NodeRef(this.name, locales, context),
+                    this.structure,
+                ),
         };
     }
 

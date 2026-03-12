@@ -14,15 +14,13 @@ export class ExpectedEndingExpression extends Conflict {
     static readonly LocalePath = (locale: LocaleText) =>
         locale.node.Block.conflict.ExpectedEndingExpression;
 
-    getConflictingNodes() {
+    getMessage() {
         return {
-            primary: {
-                node: this.block,
-                explanation: (locales: Locales) =>
-                    locales.concretize(
-                        (l) => ExpectedEndingExpression.LocalePath(l).primary,
-                    ),
-            },
+            node: this.block,
+            explanation: (locales: Locales) =>
+                locales.concretize(
+                    (l) => ExpectedEndingExpression.LocalePath(l).explanation,
+                ),
         };
     }
 

@@ -5,7 +5,7 @@ import { initializeApp } from 'firebase-admin/app';
 import { UserIdentifier } from 'firebase-admin/auth';
 import { getFirestore } from 'firebase-admin/firestore';
 import { defineString } from 'firebase-functions/params';
-import { onDocumentCreated } from 'firebase-functions/v2/firestore';
+import { onDocumentCreated, onDocumentWritten } from 'firebase-functions/v2/firestore';
 import { onCall, onRequest } from 'firebase-functions/v2/https';
 import { onSchedule } from 'firebase-functions/v2/scheduler';
 import * as http from 'http';
@@ -114,8 +114,8 @@ export const getWebpage = onRequest(cors, async (request, response) => {
         url === undefined
             ? undefined
             : url.startsWith('https://')
-              ? https
-              : http;
+                ? https
+                : http;
 
     // Cache the response for 10 minutes to minimize requests.
     response.set('Cache-Control', 'public, max-age=600, s-maxage=600');
@@ -376,3 +376,151 @@ export const postFeedback = onDocumentCreated(
         });
     },
 );
+
+export const galleryEdited = onDocumentWritten('galleries/{id}', async (event) => {
+    const before = event.data?.before.data();
+    const after = event.data?.after.data();
+    const howToStore = db.collection('howtos');
+    const galleryStore = db.collection('galleries');
+    const batch = db.batch();
+
+    const listEq = (a: string[], b: string[]): boolean => {
+        if (a.length !== b.length) return false;
+        const aSorted = [...a].sort();
+        const bSorted = [...b].sort();
+
+        for (let i = 0; i < aSorted.length; i++) {
+            if (aSorted[i] !== bSorted[i]) return false;
+        }
+        return true;
+    }
+
+    // if deletion or if none of the relevant fields changed, then return to prevent infinite loops
+    if (!after || (before && listEq(before.curators, after.curators) && listEq(before.creators, after.creators) && listEq(before.howToViewersFlat, after.howToViewersFlat) && before.howToExpandedVisibility === after.howToExpandedVisibility && listEq(before.howTos, after.howTos))) {
+        return;
+    }
+
+    // if the gallery was just created or the list of curators have changed,
+    // then we need to update the curators' other galleries' lists of expanded galleries and viewers
+    if (!before || !listEq(before.curators, after.curators)) {
+        const removedCurators = before ? before.curators.filter((c: string) => !after.curators.includes(c)) : [];
+        const addedCurators = before ? after.curators.filter((c: string) => !before.curators.includes(c)) : after.curators;
+
+        if (removedCurators.length > 0) {
+            const galleriesToUpdate = await galleryStore.where('curators', 'array-contains-any', removedCurators).get();
+
+            galleriesToUpdate.forEach((g) => {
+                const otherGallery = g.data();
+
+                if (otherGallery.id !== after.id && !otherGallery.curators.some((c: string) => after.curators.includes(c))) {
+                    // if none of the curators remain, then remove this gallery from the expanded galleries and viewer lists
+                    let howToExpandedGalleries: string[] = otherGallery.howToExpandedGalleries.filter((id: string) => id !== after.id);
+                    let howToViewers: Record<string, string[]> = otherGallery.howToViewers;
+                    delete howToViewers[after.id];
+                    let howToViewersFlat: string[] = Object.values(howToViewers).flat();
+
+                    batch.update(galleryStore.doc(g.id), {
+                        howToExpandedGalleries: howToExpandedGalleries,
+                        howToViewers: howToViewers,
+                        howToViewersFlat: howToViewersFlat,
+                    });
+                }
+            });
+        }
+
+        if (addedCurators.length > 0) {
+            const galleriesToUpdate = await galleryStore.where('curators', 'array-contains-any', addedCurators).get();
+
+            galleriesToUpdate.forEach((g) => {
+                const otherGallery = g.data();
+
+                if (otherGallery.id !== after.id) {
+                    let howToExpandedGalleries: string[] = otherGallery.howToExpandedGalleries.includes(after.id) ? otherGallery.howToExpandedGalleries : [...otherGallery.howToExpandedGalleries, after.id];
+                    let howToViewers: Record<string, string[]> = otherGallery.howToViewers;
+                    howToViewers[after.id] = [...after.curators, ...after.creators];
+                    let howToViewersFlat: string[] = Object.values(howToViewers).flat();
+
+                    batch.update(galleryStore.doc(g.id), {
+                        howToExpandedGalleries: howToExpandedGalleries,
+                        howToViewers: howToViewers,
+                        howToViewersFlat: howToViewersFlat,
+                    });
+                }
+            });
+        }
+    } else if (!listEq(before.creators, after.creators)) {
+        // else if the gallery's list of creators have changed
+        // then we need to update the viewer lists of all of the other galleries, too
+
+        const galleriesToUpdate = await galleryStore.where('curators', 'array-contains-any', after.curators).get();
+
+        galleriesToUpdate.forEach(async (g) => {
+            const otherGallery = g.data();
+            if (otherGallery.id !== after.id) {
+                let howToViewers: Record<string, string[]> = otherGallery.howToViewers;
+                howToViewers[after.id] = [...after.curators, ...after.creators];
+                let howToViewersFlat: string[] = Object.values(howToViewers).flat();
+
+                if (otherGallery.v === 2) {
+                    batch.update(galleryStore.doc(g.id), {
+                        howToViewers: howToViewers,
+                        howToViewersFlat: howToViewersFlat,
+                    });
+                } else {
+                    await galleryStore.doc(g.id).update({
+                        v: 2,
+                        howTos: [],
+                        howToExpandedVisibility: false,
+                        howToExpandedGalleries: [after.id],
+                        howToViewers: howToViewers,
+                        howToViewersFlat: howToViewersFlat,
+                    });
+                }
+            }
+        });
+    }
+
+    // if expanded scope is on orlist of how-tos was updated, then we need to update their viewer permissions
+    if (before && (before.howToExpandedVisibility !== after.howToExpandedVisibility || (after.howToExpandedVisibility && !listEq(before.howTos, after.howTos)))) {
+        if (after.howToExpandedVisibility) {
+            after.howTos.forEach(async (howToID: string) => {
+                batch.update(howToStore.doc(howToID), {
+                    viewers: after.howToViewers,
+                    viewersFlat: after.howToViewersFlat,
+                });
+            });
+        } else {
+            after.howTos.forEach(async (howToID: string) => {
+                batch.update(howToStore.doc(howToID), {
+                    viewers: {},
+                    viewersFlat: [],
+                });
+            });
+        }
+    }
+
+    // if document was just created, then update its own list of expanded galleries and viewers
+    if (!before) {
+        let howToExpandedGalleries: string[] = [];
+        let howToViewers: Record<string, string[]> = {};
+        let howToViewersFlat: string[] = [];
+
+        const otherGalleries = await galleryStore.where('curators', 'array-contains-any', after.curators).get();
+        otherGalleries.forEach((g) => {
+            const otherGallery = g.data();
+            if (otherGallery.id !== after.id) {
+                howToExpandedGalleries.push(otherGallery.id);
+                howToViewers[otherGallery.id] = [...otherGallery.curators, ...otherGallery.creators];
+            }
+        });
+        howToViewersFlat = Object.values(howToViewers).flat();
+
+        batch.update(galleryStore.doc(after.id), {
+            howToExpandedGalleries: howToExpandedGalleries,
+            howToViewers: howToViewers,
+            howToViewersFlat: howToViewersFlat,
+        });
+    }
+
+    return batch.commit();
+});

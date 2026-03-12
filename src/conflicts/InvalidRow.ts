@@ -14,13 +14,11 @@ export default class InvalidRow extends Conflict {
     static readonly LocalePath = (locale: LocaleText) =>
         locale.node.Row.conflict.InvalidRow;
 
-    getConflictingNodes() {
+    getMessage() {
         return {
-            primary: {
-                node: this.row,
-                explanation: (locales: Locales) =>
-                    locales.concretize((l) => InvalidRow.LocalePath(l).primary),
-            },
+            node: this.row,
+            explanation: (locales: Locales) =>
+                locales.concretize((l) => InvalidRow.LocalePath(l).explanation),
         };
     }
 
