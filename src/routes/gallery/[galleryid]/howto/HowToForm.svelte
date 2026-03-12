@@ -178,9 +178,7 @@
     onMount(() => {
         titles = howTo
             ? howTo.getTitleAsMap()
-            : new SvelteMap<string, string>(
-                  [...localeList].map((loc) => [loc, '']),
-              );
+            : new SvelteMap<string, string>([[$locales.getLocaleString(), '']]);
 
         if (prompts.length > 0) {
             multilingualText = howTo
@@ -317,7 +315,7 @@
                 );
                 if (!locale) return;
 
-                returnString += `¶${locale.ui.howto.editor.untitledHowToPlaceholder}¶${loc}`;
+                returnString += `¶${locale.ui.howto.editor.untitledHowToPlaceholder}¶/${loc}`;
             }
         });
 
@@ -365,9 +363,9 @@
             howTo = undefined;
             title = '';
             multilingualText = [];
-            titles = new SvelteMap<string, string>(
-                $locales.getLocales().map((loc) => [localeToString(loc), '']),
-            );
+            titles = new SvelteMap<string, string>([
+                [$locales.getLocaleString(), ''],
+            ]);
             allCollaborators = [];
         } else {
             // if was not published, and now is published, need to find coordinates for the how-to

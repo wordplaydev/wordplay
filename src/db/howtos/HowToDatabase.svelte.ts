@@ -3,6 +3,7 @@ import type { NotificationData } from '@components/settings/Notifications.svelte
 import { type Database } from '@db/Database';
 import { firestore } from '@db/firebase';
 import type Gallery from '@db/galleries/Gallery';
+import { localeToString } from '@locale/Locale';
 import { SupportedLocales } from '@locale/SupportedLocales';
 import { FirebaseError } from 'firebase/app';
 import {
@@ -161,7 +162,11 @@ export default class HowTo {
 
     /** Get the title of the how-to in the specified locale. If there is no title written in that language, fall back to the first title */
     getTitleInLocale(locale: string): string {
-        const titleMap = this.getTitleAsMap();
+        return HowTo.titleInLocale(this.data.title, locale);
+    }
+
+    static titleInLocale(title: string, locale: string): string {
+        const titleMap = HowTo.markupToMapHelper(title);
         let nameInLocale: string | undefined = titleMap.get(locale);
         if (nameInLocale) return nameInLocale;
 
@@ -176,6 +181,20 @@ export default class HowTo {
 
     getText() {
         return this.data.text;
+    }
+
+    /** Get text in the specified locale. If no text is available for that locale, fall back to the first locale */
+    getTextInLocale(locale: string): string[] {
+        if (!this.getLocales().includes(locale)) {
+            locale = this.getLocales()[0]; // fall back to the first locale if the requested one isn't available
+        }
+
+        return this.data.text.map((text: string) => {
+            let map = HowTo.markupToMapHelper(text);
+            let textInLocale: string | undefined = map.get(locale);
+            if (textInLocale) return textInLocale;
+            else return '';
+        });
     }
 
     static markupToMapHelper(markup: string): SvelteMap<string, string> {
@@ -597,7 +616,7 @@ export class HowToDatabase {
                             data.social.notifySubscribers == true
                         ) {
                             notifications.set(data.id + 'howto', {
-                                title: data.title,
+                                title: HowTo.titleInLocale(data.title, localeToString(this.db.Locales.getLocale())),
                                 galleryID: data.galleryId,
                                 itemID: data.id,
                                 type: 'howto',
