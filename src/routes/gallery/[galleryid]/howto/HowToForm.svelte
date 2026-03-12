@@ -952,12 +952,7 @@
         height: 100%;
     }
 
-    .how-to-text {
-        height: 100%;
-        width: 100%;
-        padding: var(--wordplay-spacing);
-    }
-
+    .how-to-text,
     .how-to-social {
         height: 100%;
         width: 100%;
