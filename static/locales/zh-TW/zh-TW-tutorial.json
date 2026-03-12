@@ -1,34 +1,51 @@
 {
     "$schema": "../../schemas/Tutorial.json",
     "language": "zh",
-    "regions": ["TW"],
+    "regions": [
+        "TW"
+    ],
     "acts": [
         {
             "title": "$~經文",
-            "performance": ["use", "fit", "DarkVoid"],
+            "performance": [
+                "use",
+                "fit",
+                "DarkVoid"
+            ],
             "scenes": [
                 {
-                    "title": "$~沉默",
+                    "title": "$~安靜",
                     "subtitle": null,
-                    "performance": ["use", "fit", "DarkVoid"],
+                    "performance": [
+                        "use",
+                        "fit",
+                        "DarkVoid"
+                    ],
                     "lines": [
-                        ["FunctionDefinition", "bored", "...喔，你好"],
+                        [
+                            "FunctionDefinition",
+                            "bored",
+                            "...喔，你好呀"
+                        ],
                         null,
-                        ["FunctionDefinition", "neutral", "我認識你嗎？"],
-
+                        [
+                            "FunctionDefinition",
+                            "neutral",
+                            "我認識你嗎？"
+                        ],
                         null,
                         [
                             "FunctionDefinition",
                             "curious",
-                            "噢，你好，這是你第一次來這裡嗎？",
-                            "很高興認識你，我的名字是函式（Function）！ @FunctionDefinition.",
+                            "噢，這是你第一次來這裡嗎？",
+                            "很高興認識你，我的名字是函數（Function）！ @FunctionDefinition.",
                             "…"
                         ],
                         null,
                         [
                             "FunctionDefinition",
                             "curious",
-                            "$~你需要幫助嗎？噢，你來拜訪。歡迎來到*Verse*。 …"
+                            "$~你需要幫助嗎？噢，你在參觀。歡迎來到*Verse*。 …"
                         ],
                         null,
                         [
@@ -36,7 +53,7 @@
                             "bored",
                             "$~這是什麼地方？",
                             "$~是啊，這是什麼地方…",
-                            "$~這裡曾經是一個跳舞、說故事、玩遊戲和玩耍的地方…",
+                            "$~這裡曾經是一個跳舞、說故事、遊戲和玩耍的地方…",
                             "$~我們曾經上演過最精彩的表演。有時是為了像您這樣的遊客，有時只是為了好玩。這是一個充滿生機和驚喜的地方…"
                         ],
                         null,
@@ -45,7 +62,7 @@
                             "sad",
                             "停止？",
                             "我們從來沒想過要停！我們只是失去了靈感...",
-                            "我可以是很多東西，比如說，我以前是一種荷蘭的古老貨幣的象徵，那時候我被幾乎全世界的人所熟知並用來交易；更久以前，我也曾經是小寫的拉丁文字。",
+                            "我可以是很多東西，比如說，我以前是一種荷蘭的古老貨幣，那時候我被幾乎全世界的人所熟知並用來交易；更久以前，我也曾經是小寫的拉丁文字。",
                             "但今天，已經沒有多少人知道我了..."
                         ],
                         null,
@@ -62,7 +79,11 @@
                             "fit",
                             "Stage([Phrase('☁️')] background: Color(25% 0 0°))"
                         ],
-                        ["FunctionDefinition", "curious", "$~等等……你是人嗎？"],
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~等等……你是人嗎？"
+                        ],
                         null,
                         [
                             "fit",
@@ -131,9 +152,17 @@
                     "title": "想要來一份程序嗎？",
                     "subtitle": "程序",
                     "concept": "Program",
-                    "performance": ["use", "fit", "Symbol", "📄"],
+                    "performance": [
+                        "use",
+                        "fit",
+                        "Symbol",
+                        "📄"
+                    ],
                     "lines": [
-                        ["fit", "Phrase('📄' resting:Pose(rotation: 10°))"],
+                        [
+                            "fit",
+                            "Phrase('📄' resting:Pose(rotation: 10°))"
+                        ],
                         [
                             "FunctionDefinition",
                             "excited",
@@ -145,14 +174,20 @@
                             "真的嗎！？你真的是人嗎？說些人會說的話。"
                         ],
                         null,
-                        ["fit", "Phrase('📄' entering: Sequence(spin() 1s))"],
+                        [
+                            "fit",
+                            "Phrase('📄' entering: Sequence(spin() 1s))"
+                        ],
                         [
                             "Program",
                             "serious",
                             "哇喔...你真的是一個人，你說你想當我們的導演？"
                         ],
                         null,
-                        ["fit", "Phrase('📄' resting: Pose(rotation: 010°))"],
+                        [
+                            "fit",
+                            "Phrase('📄' resting: Pose(rotation: 010°))"
+                        ],
                         [
                             "Program",
                             "excited",
@@ -170,7 +205,10 @@
                             "好吧。很高興見到你，抱歉，我只是遇到很多人來這裡說「這不適合我」，所以我對嘗試一下就放棄的人有點懷疑。我不想改變自己去迎合別人的期待。但如果你願意了解我和我們，那就一起試試吧！"
                         ],
                         null,
-                        ["edit", ""],
+                        [
+                            "edit",
+                            ""
+                        ],
                         [
                             "FunctionDefinition",
                             "neutral",
@@ -206,7 +244,12 @@
                             "看到了嗎？我只顯示了你的第二個文本，而不是第一個。而且你會知道你打破了我的規則，因為我已經劃線了你的第一句，告訴你，我會忽略它。"
                         ],
                         null,
-                        ["use", "fit", "Symbol", "🎭"],
+                        [
+                            "use",
+                            "fit",
+                            "Symbol",
+                            "🎭"
+                        ],
                         [
                             "FunctionDefinition",
                             "excited",
@@ -240,7 +283,11 @@
                     "title": "佔位符",
                     "subtitle": "佔位符",
                     "concept": "ExpressionPlaceholder",
-                    "performance": ["use", "fit", "DarkVoid"],
+                    "performance": [
+                        "use",
+                        "fit",
+                        "DarkVoid"
+                    ],
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -265,7 +312,11 @@
                             "kind",
                             "恩，是我，好久不見了，你還好嗎？"
                         ],
-                        ["ExpressionPlaceholder", "scared", "$~孤獨。"],
+                        [
+                            "ExpressionPlaceholder",
+                            "scared",
+                            "$~孤獨。"
+                        ],
                         null,
                         [
                             "FunctionDefinition",
@@ -284,21 +335,33 @@
                             "對，我也是...",
                             "這也是為什麼我現在來找你，我要向你介紹我們的新的、還在實習中的導演！"
                         ],
-                        ["ExpressionPlaceholder", "scared", "$~你好。"],
+                        [
+                            "ExpressionPlaceholder",
+                            "scared",
+                            "$~你好。"
+                        ],
                         null,
                         [
                             "FunctionDefinition",
                             "kind",
                             "他剛剛認識方程式（Program）@Program 現在正開始學習，我覺得最好接下來讓他認識你，因為你是我們這裡很多人的一個很好的代表。"
                         ],
-                        ["ExpressionPlaceholder", "curious", "$~…"],
+                        [
+                            "ExpressionPlaceholder",
+                            "curious",
+                            "$~…"
+                        ],
                         null,
                         [
                             "FunctionDefinition",
                             "kind",
                             "你想說說你都做些什麼嗎？"
                         ],
-                        ["ExpressionPlaceholder", "scared", "...你來"],
+                        [
+                            "ExpressionPlaceholder",
+                            "scared",
+                            "...你來"
+                        ],
                         null,
                         [
                             "FunctionDefinition",
@@ -306,7 +369,10 @@
                             "好啊！我的朋友佔位符（Placeholder） @ExpressionPlaceholder 在程序中能代表任何的表達方式。他們不會評估任何值，其實，當方程式（Program） @Program 看到他們出現的時候，方程式（Program） @Program 就會因為不清楚要做什麼而停下來。"
                         ],
                         null,
-                        ["conflict", "_"],
+                        [
+                            "conflict",
+                            "_"
+                        ],
                         [
                             "FunctionDefinition",
                             "kind",
@@ -320,23 +386,44 @@
                             "但是如果你點擊佔位符（Placeholder） @ExpressionPlaceholder ，或者將文字光標移到上面，你會看到很多其他可能性。你也可以直接在佔位符（Placeholder） @ExpressionPlaceholder 上輸入內容。例如，試著在引號中輸入你的名字。"
                         ],
                         null,
-                        ["use", "fit", "Symbol", "-"],
+                        [
+                            "use",
+                            "fit",
+                            "Symbol",
+                            "-"
+                        ],
                         [
                             "FunctionDefinition",
                             "serious",
                             "就像這樣，佔位符（Placeholder） @ExpressionPlaceholder 被其他字符取代了，我說的都對嗎？佔位符（Placeholder） @ExpressionPlaceholder ？"
                         ],
-                        ["ExpressionPlaceholder", "eager", "恩，沒錯。"],
+                        [
+                            "ExpressionPlaceholder",
+                            "eager",
+                            "恩，沒錯。"
+                        ],
                         null,
                         [
                             "FunctionDefinition",
                             "neutral",
                             "那你覺得呢，導演？我們繼續去和其他字符聊聊吧？"
                         ],
-                        ["ExpressionPlaceholder", "excited", "很高興認識你！"],
-                        ["ExpressionPlaceholder", "excited", "很高興認識你！"],
+                        [
+                            "ExpressionPlaceholder",
+                            "excited",
+                            "很高興認識你！"
+                        ],
+                        [
+                            "ExpressionPlaceholder",
+                            "excited",
+                            "很高興認識你！"
+                        ],
                         null,
-                        ["use", "fit", "DarkVoid"],
+                        [
+                            "use",
+                            "fit",
+                            "DarkVoid"
+                        ],
                         [
                             "FunctionDefinition",
                             "cheerful",
@@ -348,17 +435,35 @@
                     "title": "再說一遍？",
                     "subtitle": "無法理解（Unparsable）",
                     "concept": "UnparsableExpression",
-                    "performance": ["use", "fit", "Symbol", "ahkeolfewvk"],
+                    "performance": [
+                        "use",
+                        "fit",
+                        "Symbol",
+                        "ahkeolfewvk"
+                    ],
                     "lines": [
                         [
                             "FunctionDefinition",
                             "eager",
                             "嘿！無法理解（Unparsable） @UnparsableExpression ？是你嗎？"
                         ],
-                        ["UnparsableExpression", "neutral", "ㄐ%ㄓ$ㄜ|"],
-                        ["UnparsableExpression", "neutral", "ㄐ%ㄓ$ㄜ|"],
+                        [
+                            "UnparsableExpression",
+                            "neutral",
+                            "ㄐ%ㄓ$ㄜ|"
+                        ],
+                        [
+                            "UnparsableExpression",
+                            "neutral",
+                            "ㄐ%ㄓ$ㄜ|"
+                        ],
                         null,
-                        ["use", "fit", "Symbol", "c iise we dvk"],
+                        [
+                            "use",
+                            "fit",
+                            "Symbol",
+                            "c iise we dvk"
+                        ],
                         [
                             "FunctionDefinition",
                             "excited",
@@ -375,8 +480,12 @@
                             "（聽起來他們在海灘上玩了很久，交了新朋友，還練習了什麼都不做。）"
                         ],
                         null,
-
-                        ["use", "fit", "Symbol", "ㄩ&ㄧㄅ"],
+                        [
+                            "use",
+                            "fit",
+                            "Symbol",
+                            "ㄩ&ㄧㄅ"
+                        ],
                         [
                             "FunctionDefinition",
                             "excited",
@@ -393,7 +502,12 @@
                             "（他們說能見到你很棒，還說你會是一位很好的導演。）"
                         ],
                         null,
-                        ["use", "fit", "Symbol", "v s d we iweiwei"],
+                        [
+                            "use",
+                            "fit",
+                            "Symbol",
+                            "v s d we iweiwei"
+                        ],
                         [
                             "FunctionDefinition",
                             "neutral",
@@ -410,7 +524,10 @@
                             "（我代表所有沒意義的東西。也就是說，無。）"
                         ],
                         null,
-                        ["edit", ""],
+                        [
+                            "edit",
+                            ""
+                        ],
                         [
                             "UnparsableExpression",
                             "eager",
@@ -422,7 +539,10 @@
                             "（比如說，試著打打看 \\][\\ 。你會發現我們完全不懂，這並沒有任何意義，我就是來告訴你這完全沒有意義的。）"
                         ],
                         null,
-                        ["conflict", "]["],
+                        [
+                            "conflict",
+                            "]["
+                        ],
                         [
                             "UnparsableExpression",
                             "eager",
@@ -434,7 +554,10 @@
                             "（當我出現的時候，表示我們不明白你說的話。）"
                         ],
                         null,
-                        ["conflict", "]["],
+                        [
+                            "conflict",
+                            "]["
+                        ],
                         [
                             "FunctionDefinition",
                             "curious",
@@ -452,7 +575,10 @@
                             "kind",
                             "所以～無法理解（Unparsable） @UnparsableExpression 希望你你可以試著打很多亂七八糟的字，試著讓他們出現很多次。（你可以試著在鍵盤上面隨便亂按，這樣他們大概會出現很多次。）"
                         ],
-                        ["edit", ""],
+                        [
+                            "edit",
+                            ""
+                        ],
                         null,
                         [
                             "UnparsableExpression",
@@ -464,7 +590,11 @@
                             "kind",
                             "他們很喜歡這樣，謝謝你！其實寫一些完全沒意義的東西是很難的。但這不代表你寫的每一個字我們都能理解，像是你剛剛打的那些我就不太懂，無法理解（Unparsable） @UnparsableExpression ，你知道嗎？"
                         ],
-                        ["UnparsableExpression", "confused", "$~…/DDook/"],
+                        [
+                            "UnparsableExpression",
+                            "confused",
+                            "$~…/DDook/"
+                        ],
                         null,
                         [
                             "UnparsableExpression",
@@ -503,16 +633,23 @@
                             "excited",
                             "我好期待讓你見到評估（Evaluate） @Evaluate 喔！它真的是我最好的朋友，我們幾乎什麼事都一起做。我定什麼規則，它就來玩什麼規則，我們簡直就是天生一對。不過他比我強大多了... @Evaluate？"
                         ],
-
                         [
                             "Evaluate",
                             "shy",
                             "函式（Function）@FunctionDefinition ？"
                         ],
                         null,
-                        ["FunctionDefinition", "curious", "是我！你在哪裡？"],
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "是我！你在哪裡？"
+                        ],
                         null,
-                        ["FunctionDefinition", "curious", "是我！你在哪裡？"],
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "是我！你在哪裡？"
+                        ],
                         [
                             "Evaluate",
                             "shy",
@@ -550,7 +687,11 @@
                             "serious",
                             "我不想再離開了，我也很想你"
                         ],
-                        ["Evaluate", "serious", "$~我愛你…"],
+                        [
+                            "Evaluate",
+                            "serious",
+                            "$~我愛你…"
+                        ],
                         null,
                         [
                             "FunctionDefinition",
@@ -607,7 +748,6 @@
                             "happy",
                             "...評估（Evaluate） @Evaluate"
                         ],
-
                         [
                             "Evaluate",
                             "serious",
@@ -625,9 +765,15 @@
                             "serious",
                             "每個評估都長得像這樣 @UI/Evaluate ：一個函數，後面跟著一對括號，括號中間放的是輸入。現在我只放了佔位符（Placeholder） @ExpressionPlaceholder 作為輸入。"
                         ],
-                        ["conflict", "_(_ _ _)"],
+                        [
+                            "conflict",
+                            "_(_ _ _)"
+                        ],
                         null,
-                        ["edit", "Phrase('hello')"],
+                        [
+                            "edit",
+                            "Phrase('hello')"
+                        ],
                         [
                             "Evaluate",
                             "serious",
@@ -655,7 +801,10 @@
                             "看到當你這樣做時，我在方程式（Program）中有了一個新的輸入嗎？這是大小 @Phrase/size 輸入。輸入是有順序的，而且，當同時有很多個輸入時，你可以使用它們的名稱來指定你想要給的輸入。現在我們有了大小的輸入 @Phrase/size 但沒有給其他可以給的輸入。試著用調色板改變另一個輸入，也許是字體。"
                         ],
                         null,
-                        ["conflict", "'hi'(1 2)"],
+                        [
+                            "conflict",
+                            "'hi'(1 2)"
+                        ],
                         [
                             "FunctionDefinition",
                             "happy",
@@ -667,21 +816,30 @@
                             "喔，對！這是個好主意！很多事情可能會出錯。例如，你可能會給我一些不是函式（Function）的東西。看，當我輸入一個 \\“hi”\\ 作為函式（Function），並給了我兩個數字 \\1\\ and \\2\\ ，不過呢，我只知道如何評估函式，而 \\“hi”\\ 不是函式，它是文本。所以我會不知道該怎麼辦，如果發生這種情況，我基本上會停止表演。"
                         ],
                         null,
-                        ["conflict", "Phrase()"],
+                        [
+                            "conflict",
+                            "Phrase()"
+                        ],
                         [
                             "Evaluate",
                             "eager",
                             "還有一件事！ @Phrase 片語（Phrase）至少需要一些文本，所以如果你不給我文本，我就不能去評估 @Phrase 片語（Phrase），因為我缺少必要的輸入。"
                         ],
                         null,
-                        ["conflict", "Phrase(1)"],
+                        [
+                            "conflict",
+                            "Phrase(1)"
+                        ],
                         [
                             "Evaluate",
                             "excited",
                             "或者，如果你給我一個輸入，但它不是我期望的那種，那就會出問題了。就像現在， @Phrase 片語（Phrase）被輸入了數字 \\1\\ 而不是文本。"
                         ],
                         null,
-                        ["fit", "Stage([] background: 🌈(90% 100 0°))"],
+                        [
+                            "fit",
+                            "Stage([] background: 🌈(90% 100 0°))"
+                        ],
                         [
                             "Evaluate",
                             "curious",
@@ -719,12 +877,21 @@
         },
         {
             "title": "不起眼的大事",
-            "performance": ["use", "fit", "SimpleJiggle"],
+            "performance": [
+                "use",
+                "fit",
+                "SimpleJiggle"
+            ],
             "scenes": [
                 {
                     "title": "$~價值觀",
                     "subtitle": null,
-                    "performance": ["use", "fit", "Symbol", "💡"],
+                    "performance": [
+                        "use",
+                        "fit",
+                        "Symbol",
+                        "💡"
+                    ],
                     "lines": [
                         [
                             "fit",
@@ -747,7 +914,10 @@
                             "你問什麼是 *值（Value）* ？ 歐抱歉，我還沒解釋過這個，嗯...，怎麼解釋呢...你知道什麼是資料嗎？像是數字和文字？值（Value）是任何這些東西。值（Value）可以小到一個數字，也可以大到舞台上的整個場景，充滿了跳舞和移動的角色。有些值（Value）甚至可以是由許多其他值（Value）組成的，就像我們會用「點心」代表很多種不同的食物一樣！"
                         ],
                         null,
-                        ["fit", "Group(Stack() [Phrase('#') Phrase('\"\"')])"],
+                        [
+                            "fit",
+                            "Group(Stack() [Phrase('#') Phrase('\"\"')])"
+                        ],
                         [
                             "FunctionDefinition",
                             "neutral",
@@ -765,7 +935,12 @@
                             "*表達式（Expression）* 是我們創建一個值（Value）的方式。所有的表達式都是經由我評估、計算後創建的值，像是如果你問我1+1大於2嗎？我在經過計算和評估後，我會給你一個值（Value）：正確（True）！但根據你問我的問題不同，我會給你的表達式（Expression）也不一樣。"
                         ],
                         null,
-                        ["use", "fit", "Symbol", "🤔"],
+                        [
+                            "use",
+                            "fit",
+                            "Symbol",
+                            "🤔"
+                        ],
                         [
                             "FunctionDefinition",
                             "serious",
@@ -776,7 +951,6 @@
                 {
                     "title": "加上引號！",
                     "subtitle": "文本",
-
                     "concept": "TextLiteral",
                     "performance": [
                         "fit",
@@ -787,10 +961,16 @@
                             "fit",
                             "Phrase('\"\"' resting:Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 2 opacity: 0.5) 100%: Pose(scale: 1)} duration: 2s))"
                         ],
-                        ["FunctionDefinition", "curious", "$~@Text?"],
-
-                        ["Text", "happy", "@Text？"],
-
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~@Text?"
+                        ],
+                        [
+                            "Text",
+                            "happy",
+                            "@Text？"
+                        ],
                         null,
                         [
                             "FunctionDefinition",
@@ -820,7 +1000,10 @@
                             "試試看，在這片空白 @Program 裡寫一段文字？",
                             "你也可以用任何你喜歡的引號來包住它們——單引號 \\「」\\、 雙引號 \\『』\\、書名號 \\«»\\、括號 \\（）\\，也可以用任何你喜歡的語言！唯一的規則是：你用什麼符號開始，就要用相同的符號結束。裡面的東西，我就會幫你變成的文本！"
                         ],
-                        ["edit", "''"],
+                        [
+                            "edit",
+                            "''"
+                        ],
                         null,
                         [
                             "Text",
@@ -835,23 +1018,35 @@
                             "serious",
                             "對我來說，要分辨哪裡需要翻譯真的很不容易，假設你寫下這些好了，看！他們只有開始的符號但沒有結束的！我好混亂啊，我不知道要從哪裡開始轉換文本哪裡結束才好？"
                         ],
-                        ["conflict", "'hello"],
+                        [
+                            "conflict",
+                            "'hello"
+                        ],
                         null,
                         [
                             "Text",
                             "surprised",
                             "$~或者，這是另一種情況。你給我開頭和結尾的文字，但你把開頭和結尾的文字放在裡面。看看這有多奇怪？當你試圖在我的內部和外部使用相同的符號時，我感到非常困惑。您可以透過在外部使用不同的符號（例如單引號）來解決此問題。"
                         ],
-                        ["conflict", "'Hi there 'friend'"],
+                        [
+                            "conflict",
+                            "'Hi there 'friend'"
+                        ],
                         null,
-                        ["edit", "'friends!'/en-US"],
+                        [
+                            "edit",
+                            "'friends!'/en-US"
+                        ],
                         [
                             "Text",
                             "excited",
                             "$~哦，你知道你可以告訴我我說什麼語言嗎？您只需輸入一個小斜線，然後輸入一個特殊的語言代碼，或者如果您願意，輸入一種語言和地區。"
                         ],
                         null,
-                        ["edit", "'amigas'/es'friends!'/en-US"],
+                        [
+                            "edit",
+                            "'amigas'/es'friends!'/en-US"
+                        ],
                         [
                             "Text",
                             "excited",
@@ -860,7 +1055,10 @@
                             "$~您可以嘗試新增另一種翻譯。只是不要在它們之間留出任何空間，否則就會有兩個我！"
                         ],
                         null,
-                        ["edit", "'I have 7 apples'"],
+                        [
+                            "edit",
+                            "'I have 7 apples'"
+                        ],
                         [
                             "Text",
                             "neutral",
@@ -873,7 +1071,10 @@
                             "serious",
                             "$~例如，@FunctionDefinition 是否向您展示了文字如何知道如何將自己添加到其他文本中？像這樣：這個小表達式將 \\7\\ 轉換為文本，將其添加到 \\'I have'\\，然後添加 \\'apples'\\。但它太混亂了，很難讀懂正在發生的事情，而且轉換為文字感覺沒有必要。"
                         ],
-                        ["edit", "'I have' + (7→'') + 'apples'"],
+                        [
+                            "edit",
+                            "'I have' + (7→'') + 'apples'"
+                        ],
                         null,
                         [
                             "Text",
@@ -886,14 +1087,20 @@
                             "$~這不是更優雅嗎？您可以將我放在@Text 中的任何位置，我會將您的值轉換為文字並與@Text 一起產生@Text。",
                             "$~這使得編寫使用價值觀的優美散文變得更加容易。"
                         ],
-                        ["edit", "'I have \\7\\ apples'"],
+                        [
+                            "edit",
+                            "'I have \\7\\ apples'"
+                        ],
                         null,
                         [
                             "Text",
                             "neutral",
                             "$~當我說任何表達時，我確實是指任何表達。例如，假設您想做一些算術運算並使用結果建立一些文字。你可能會這麼做。這將對幾個數字求和，然後用和生成文字。真是奇妙，不是嗎？而且比‘我有'+（1+2+5+8）+'個蘋果’\\t 更優雅，並且帶有所有額外的附加項。"
                         ],
-                        ["edit", "'I have \\1 + 2 + 5 + 8\\ apples'"],
+                        [
+                            "edit",
+                            "'I have \\1 + 2 + 5 + 8\\ apples'"
+                        ],
                         null,
                         [
                             "Text",
@@ -908,7 +1115,11 @@
                             "\"I'm just \\\\regular\\\\ text, not a template.\""
                         ],
                         null,
-                        ["use", "fit", "DarkVoid"],
+                        [
+                            "use",
+                            "fit",
+                            "DarkVoid"
+                        ],
                         [
                             "FunctionDefinition",
                             "excited",
@@ -920,14 +1131,20 @@
                             "curious",
                             "$~我們的朋友@FunctionDefinition 是否告訴過您他們為我定義的所有精彩功能？他們允許我做各種各樣的事情。一個非常簡單：它被稱為@Text/length，它的作用是獲取一些文字的長度。例如，如果我們在這裡與@FunctionDefinition@Text/length，我們就可以在沒有輸入的情況下評估長度函數並傳回長度值。嘗試更改文字並觀察程式顯示的長度變化，文字變得越來越短或越來越長。"
                         ],
-                        ["edit", "'hello'.length()"],
+                        [
+                            "edit",
+                            "'hello'.length()"
+                        ],
                         null,
                         [
                             "Text",
                             "happy",
                             "$~這是另一個盛事。這讓我咯咯笑。它被稱為@Text/repeat，當它被評估時，它會獲取它所評估的任何文本並重複它，無論你說什麼次數。嘗試改變數字並查看其計算結果。"
                         ],
-                        ["edit", "'hello '.repeat(5)"],
+                        [
+                            "edit",
+                            "'hello '.repeat(5)"
+                        ],
                         null,
                         [
                             "Text",
@@ -960,7 +1177,12 @@
                         "])"
                     ],
                     "lines": [
-                        ["use", "fit", "Symbol", "🥰"],
+                        [
+                            "use",
+                            "fit",
+                            "Symbol",
+                            "🥰"
+                        ],
                         [
                             "FunctionDefinition",
                             "happy",
@@ -972,49 +1194,70 @@
                             "neutral",
                             "$~例如，您是否知道它們還有其他形式？您在 \\function()\\ 形式中看到了它們，但是當對單一輸入函數進行值評估時，它們也有這個漂亮的技巧。 @Evaluate 稱為 @BinaryEvaluate。例如，您知道文字剛剛向您展示的重複功能嗎？它看起來像這樣。"
                         ],
-                        ["edit", "'hi'.repeat(5)"],
+                        [
+                            "edit",
+                            "'hi'.repeat(5)"
+                        ],
                         null,
                         [
                             "FunctionDefinition",
                             "eager",
                             "$~相反，您可以讓@Evaluate 使用中間一個更簡單的符號來評估它，就像這樣。這意味著‘重複‘嗨’五次’。但它也意味著‘使用輸入 \\5\\ 對文字值 \\'hi'\\ 評估 \\·\\ 函數。 ’函數 \\repeat\\ 有多個名稱，其中一個是符號名稱 \\·\\。"
                         ],
-                        ["edit", "'hi' · 5"],
+                        [
+                            "edit",
+                            "'hi' · 5"
+                        ],
                         null,
                         [
                             "FunctionDefinition",
                             "serious",
                             "$~這讓我想起了@Text 的另一個功能！這對於從多個文字值中建立一個文字值很有幫助。它被稱為 \\combine\\，也稱為 \\+\\，您可以使用它將單字加在一起。看看我如何獲取一個文字值然後將其與 \\'verse'\\ 進行 \\combine\\ 評估？這就是「你好詩句」。"
                         ],
-                        ["edit", "'hello '.combine('verse')"],
+                        [
+                            "edit",
+                            "'hello '.combine('verse')"
+                        ],
                         null,
                         [
                             "FunctionDefinition",
                             "serious",
                             "$~但使用 \\+\\ 就容易多了。"
                         ],
-                        ["edit", "'hello ' + ' verse'"],
+                        [
+                            "edit",
+                            "'hello ' + ' verse'"
+                        ],
                         null,
                         [
                             "FunctionDefinition",
                             "neutral",
                             "$~您甚至可以將它們按順序串在一起以組合兩個以上的事物。"
                         ],
-                        ["edit", "'hello ' + 'verse' + '!'"],
+                        [
+                            "edit",
+                            "'hello ' + 'verse' + '!'"
+                        ],
                         null,
                         [
                             "FunctionDefinition",
                             "neutral",
                             "$~這與一系列組合評估相同，但沒有所有的括號和 \\.\\，並且使用符號名稱而不是單字名稱。"
                         ],
-                        ["edit", "'hello '.combine('verse').combine('!')"],
+                        [
+                            "edit",
+                            "'hello '.combine('verse').combine('!')"
+                        ],
                         null,
                         [
                             "FunctionDefinition",
                             "neutral",
                             "$~您也可以使用這種格式的符號名稱，但最終看起來有點混亂，不是嗎？"
                         ],
-                        ["edit", "'hello '.+('verse').+('!')"],
+                        [
+                            "edit",
+                            "'hello '.+('verse').+('!')"
+                        ],
                         null,
                         [
                             "FunctionDefinition",
@@ -1022,7 +1265,10 @@
                             "$~這是@Evaluate 令人驚嘆的眾多方式之一♥他們用途非常廣泛！",
                             "$~但它們並不完美。對於任何@BinaryEvaluate，您需要始終確保提供第二個輸入。例如，這是行不通的。一加什麼？當這種情況發生時，@UnparsableExpression 就不會遙遠。"
                         ],
-                        ["conflict", "1 +"],
+                        [
+                            "conflict",
+                            "1 +"
+                        ],
                         null,
                         [
                             "FunctionDefinition",
@@ -1040,15 +1286,26 @@
                         "Group(Row() [Phrase('⊤') Phrase('⊥')] resting:Sequence({ 0%: Pose(rotation: 0°) 50%: Pose(rotation: 180°) 100%: Pose(rotation: 360°)} duration: 2s))"
                     ],
                     "lines": [
-                        ["fit", "Stage([])"],
+                        [
+                            "fit",
+                            "Stage([])"
+                        ],
                         [
                             "FunctionDefinition",
                             "curious",
                             "$~\\⊤\\！ \\⊥\\！你們兩個在這裡嗎？它們通常到處都是，但我卻哪裡也看不見它們。"
                         ],
                         null,
-                        ["⊤", "precise", "$~就在這裡。"],
-                        ["⊥", "precise", "$~不在那裡。"],
+                        [
+                            "⊤",
+                            "precise",
+                            "$~就在這裡。"
+                        ],
+                        [
+                            "⊥",
+                            "precise",
+                            "$~不在那裡。"
+                        ],
                         [
                             "fit",
                             "multiple: 10",
@@ -1060,42 +1317,85 @@
                             "scared",
                             "$~噢，你嚇到我了！我知道你們兩個不會相距太遠。在我們長時間的沉默中，你們兩個過得怎麼樣？"
                         ],
-                        ["⊤", "precise", "$~非常好！"],
-                        ["⊥", "precise", "$~不錯。"],
+                        [
+                            "⊤",
+                            "precise",
+                            "$~非常好！"
+                        ],
+                        [
+                            "⊥",
+                            "precise",
+                            "$~不錯。"
+                        ],
                         null,
                         [
                             "FunctionDefinition",
                             "curious",
                             "$~不孤單嗎？我與之交談過的每個人 — — @Program、@ExpressionPlaceholder、@Evaluate — — 他們都感到如此孤立（除了@UnparsableExpression；他們似乎在任何地方都很好）。"
                         ],
-                        ["⊤", "precise", "$~我們彼此擁有。"],
-                        ["⊥", "precise", "$~我們並不孤單。"],
+                        [
+                            "⊤",
+                            "precise",
+                            "$~我們彼此擁有。"
+                        ],
+                        [
+                            "⊥",
+                            "precise",
+                            "$~我們並不孤單。"
+                        ],
                         null,
                         [
                             "FunctionDefinition",
                             "happy",
                             "$~嗯，聽到這個消息真是太好了。很高興再次和你在一起。我想向你介紹我們的新任潛在導演。他們一直在與每個人見面，學習如何與我們一起表演。你想告訴他們你在做什麼嗎？"
                         ],
-                        ["⊤", "precise", "$~我是真的。"],
-                        ["⊥", "precise", "$~我是假的。"],
+                        [
+                            "⊤",
+                            "precise",
+                            "$~我是真的。"
+                        ],
+                        [
+                            "⊥",
+                            "precise",
+                            "$~我是假的。"
+                        ],
                         null,
                         [
                             "FunctionDefinition",
                             "sad",
                             "$~是的，但是你會做什麼呢？"
                         ],
-                        ["⊤", "precise", "$~我只是說實話。"],
-                        ["⊥", "precise", "$~而我並不是真的。"],
+                        [
+                            "⊤",
+                            "precise",
+                            "$~我只是說實話。"
+                        ],
+                        [
+                            "⊥",
+                            "precise",
+                            "$~而我並不是真的。"
+                        ],
                         null,
                         [
                             "FunctionDefinition",
                             "sad",
                             "$~嗯。我想這是真的。但你確實做了一些事情，對嗎？我以為我為你做了一些功能。"
                         ],
-                        ["⊤", "precise", "$~啊，是的，三個。"],
-                        ["⊥", "precise", "$~不多不少。"],
+                        [
+                            "⊤",
+                            "precise",
+                            "$~啊，是的，三個。"
+                        ],
+                        [
+                            "⊥",
+                            "precise",
+                            "$~不多不少。"
+                        ],
                         null,
-                        ["edit", "(⊤ & ⊤) = ⊤"],
+                        [
+                            "edit",
+                            "(⊤ & ⊤) = ⊤"
+                        ],
                         [
                             "FunctionDefinition",
                             "neutral",
@@ -1117,7 +1417,10 @@
                             "$~（當嘗試確定多個表達式是否全部為真時，這非常有用，因為只有當所有表達式都為真時它才為真）。"
                         ],
                         null,
-                        ["edit", "(⊤ | ⊤) = ⊥"],
+                        [
+                            "edit",
+                            "(⊤ | ⊤) = ⊥"
+                        ],
                         [
                             "FunctionDefinition",
                             "neutral",
@@ -1139,14 +1442,25 @@
                             "$~（當嘗試確定任何表達式是否為真時，這非常有用，因為即使只有一個表達式為真，它也為真）。"
                         ],
                         null,
-                        ["edit", "~⊤ = ⊥"],
+                        [
+                            "edit",
+                            "~⊤ = ⊥"
+                        ],
                         [
                             "FunctionDefinition",
                             "excited",
                             "$~但另一個是@Boolean/not？"
                         ],
-                        ["⊤", "precise", "$~正確的。 \\~⊤ = ⊥\\."],
-                        ["⊥", "precise", "$~沒錯。 \\~⊥ = ⊤\\."],
+                        [
+                            "⊤",
+                            "precise",
+                            "$~正確的。 \\~⊤ = ⊥\\."
+                        ],
+                        [
+                            "⊥",
+                            "precise",
+                            "$~沒錯。 \\~⊥ = ⊤\\."
+                        ],
                         [
                             "FunctionDefinition",
                             "neutral",
@@ -1163,8 +1477,16 @@
                             "curious",
                             "$~你在我們的表演中有什麼用處？"
                         ],
-                        ["⊤", "precise", "$~詢問@Conditional。"],
-                        ["⊥", "precise", "$~別問我們。"],
+                        [
+                            "⊤",
+                            "precise",
+                            "$~詢問@Conditional。"
+                        ],
+                        [
+                            "⊥",
+                            "precise",
+                            "$~別問我們。"
+                        ],
                         null,
                         [
                             "FunctionDefinition",
@@ -1182,8 +1504,16 @@
                             "curious",
                             "$~哦！我想知道。你們兩個代表了兩個截然不同的極端：真與假。但是那些比較模糊的東西怎麼辦呢？就像那些有點真實或有點虛假的事情，甚至同時真實和虛假的事情？有點像地球看起來是平的但實際上不是，或者天空是藍色的，但顏色實際上只是我們的頭腦創造的幻覺？我們的導演要表達這樣的東西，該怎麼辦呢？"
                         ],
-                        ["⊤", "precise", "$~…"],
-                        ["⊥", "precise", "$~…"],
+                        [
+                            "⊤",
+                            "precise",
+                            "$~…"
+                        ],
+                        [
+                            "⊥",
+                            "precise",
+                            "$~…"
+                        ],
                         null,
                         [
                             "fit",
@@ -1200,17 +1530,36 @@
                             "                            offset:Place(0m (Time() ^ 2) · -0.000025m/ms^2))",
                             "                        )))])"
                         ],
-                        ["⊤", "precise", "$~… 不。"],
-                        ["⊥", "precise", "$~… 不。"],
+                        [
+                            "⊤",
+                            "precise",
+                            "$~… 不。"
+                        ],
+                        [
+                            "⊥",
+                            "precise",
+                            "$~… 不。"
+                        ],
                         null,
-                        ["fit", "Stage([])"],
+                        [
+                            "fit",
+                            "Stage([])"
+                        ],
                         [
                             "FunctionDefinition",
                             "serious",
                             "$~嗯，好的。值得一試！也許還有其他我還沒想到的方式來表達這些想法。或者也許數據所能表達的內容是有限的……如果我們離開並遇到其他表達方式，你們兩個會沒事嗎？"
                         ],
-                        ["⊤", "precise", "$~我們還好。"],
-                        ["⊥", "precise", "$~沒問題。"],
+                        [
+                            "⊤",
+                            "precise",
+                            "$~我們還好。"
+                        ],
+                        [
+                            "⊥",
+                            "precise",
+                            "$~沒問題。"
+                        ],
                         [
                             "FunctionDefinition",
                             "happy",
@@ -1236,7 +1585,12 @@
                         ")"
                     ],
                     "lines": [
-                        ["use", "fit", "Symbol", "😞"],
+                        [
+                            "use",
+                            "fit",
+                            "Symbol",
+                            "😞"
+                        ],
                         [
                             "FunctionDefinition",
                             "confused",
@@ -1266,7 +1620,11 @@
                             "eager",
                             "$~接下來我們應該會見@Number。他們總是有這樣有趣的事情可以分享。嘿，@Number，你在嗎？"
                         ],
-                        ["Number", "kind", "$~只需 3 步！"],
+                        [
+                            "Number",
+                            "kind",
+                            "$~只需 3 步！"
+                        ],
                         null,
                         [
                             "FunctionDefinition",
@@ -1301,27 +1659,76 @@
                             "excited",
                             "$~我數東西！我可以是任何你喜歡的數字。只要輸入我，我就會給出您想要的值。像這樣。"
                         ],
-                        ["edit", "1"],
+                        [
+                            "edit",
+                            "1"
+                        ],
                         null,
-                        ["Number", "excited", "$~或這個。"],
-                        ["edit", "1.0"],
+                        [
+                            "Number",
+                            "excited",
+                            "$~或這個。"
+                        ],
+                        [
+                            "edit",
+                            "1.0"
+                        ],
                         null,
-                        ["Number", "excited", "$~或這個。"],
-                        ["edit", "1.01"],
+                        [
+                            "Number",
+                            "excited",
+                            "$~或這個。"
+                        ],
+                        [
+                            "edit",
+                            "1.01"
+                        ],
                         null,
-                        ["Number", "excited", "$~或這個。"],
-                        ["edit", "∞"],
+                        [
+                            "Number",
+                            "excited",
+                            "$~或這個。"
+                        ],
+                        [
+                            "edit",
+                            "∞"
+                        ],
                         null,
-                        ["Number", "excited", "$~或這個。"],
-                        ["edit", "π"],
+                        [
+                            "Number",
+                            "excited",
+                            "$~或這個。"
+                        ],
+                        [
+                            "edit",
+                            "π"
+                        ],
                         null,
-                        ["Number", "excited", "$~或這個。"],
-                        ["edit", "Ⅶ"],
+                        [
+                            "Number",
+                            "excited",
+                            "$~或這個。"
+                        ],
+                        [
+                            "edit",
+                            "Ⅶ"
+                        ],
                         null,
-                        ["Number", "excited", "$~或這個。"],
-                        ["edit", "万十一"],
+                        [
+                            "Number",
+                            "excited",
+                            "$~或這個。"
+                        ],
+                        [
+                            "edit",
+                            "万十一"
+                        ],
                         null,
-                        ["Number", "excited", "$~或者…"],
+                        [
+                            "Number",
+                            "excited",
+                            "$~或者…"
+                        ],
                         [
                             "FunctionDefinition",
                             "kind",
@@ -1333,18 +1740,46 @@
                             "excited",
                             "$~哦是的，*單位*！只需在數字後面加上一些符號，我就會追蹤正在計算的內容。像這樣。"
                         ],
-                        ["edit", "1dolphin"],
+                        [
+                            "edit",
+                            "1dolphin"
+                        ],
                         null,
-                        ["Number", "excited", "$~或這個。"],
-                        ["edit", "1.0thunderstorm"],
+                        [
+                            "Number",
+                            "excited",
+                            "$~或這個。"
+                        ],
+                        [
+                            "edit",
+                            "1.0thunderstorm"
+                        ],
                         null,
-                        ["Number", "excited", "$~或這個。"],
-                        ["edit", "∞kittens"],
+                        [
+                            "Number",
+                            "excited",
+                            "$~或這個。"
+                        ],
+                        [
+                            "edit",
+                            "∞kittens"
+                        ],
                         null,
-                        ["Number", "excited", "$~或這個。"],
-                        ["edit", "1.01toes"],
+                        [
+                            "Number",
+                            "excited",
+                            "$~或這個。"
+                        ],
+                        [
+                            "edit",
+                            "1.01toes"
+                        ],
                         null,
-                        ["Number", "excited", "$~或者…"],
+                        [
+                            "Number",
+                            "excited",
+                            "$~或者…"
+                        ],
                         [
                             "FunctionDefinition",
                             "kind",
@@ -1361,19 +1796,50 @@
                             "excited",
                             "$~哦，是的，數學！ @FunctionDefinition 為我提供了許多簡潔的算術。像這樣。"
                         ],
-                        ["edit", "1 + 1"],
+                        [
+                            "edit",
+                            "1 + 1"
+                        ],
                         null,
-                        ["Number", "excited", "$~或這個。"],
-                        ["edit", "1000 + 9999"],
+                        [
+                            "Number",
+                            "excited",
+                            "$~或這個。"
+                        ],
+                        [
+                            "edit",
+                            "1000 + 9999"
+                        ],
                         null,
-                        ["Number", "excited", "$~或這個。"],
-                        ["edit", "1kitty + 2kitty"],
+                        [
+                            "Number",
+                            "excited",
+                            "$~或這個。"
+                        ],
+                        [
+                            "edit",
+                            "1kitty + 2kitty"
+                        ],
                         null,
-                        ["Number", "excited", "$~或這個。"],
-                        ["edit", "-5s + 5s"],
+                        [
+                            "Number",
+                            "excited",
+                            "$~或這個。"
+                        ],
+                        [
+                            "edit",
+                            "-5s + 5s"
+                        ],
                         null,
-                        ["Number", "excited", "$~或這個。"],
-                        ["conflict", "2apple + 5orange"],
+                        [
+                            "Number",
+                            "excited",
+                            "$~或這個。"
+                        ],
+                        [
+                            "conflict",
+                            "2apple + 5orange"
+                        ],
                         null,
                         [
                             "FunctionDefinition",
@@ -1391,7 +1857,11 @@
                             "neutral",
                             "$~太酷了。 @Number，你對數字很在行！我看到@Number 出現在許多與位置有關的表演中，也出現在許多我們要追蹤分數、生命或其他可數事物的遊戲中。 @Number，您還有什麼想與我們的新導演分享的嗎？"
                         ],
-                        ["Number", "serious", "$~其他 192 個巧妙的技巧。"],
+                        [
+                            "Number",
+                            "serious",
+                            "$~其他 192 個巧妙的技巧。"
+                        ],
                         null,
                         [
                             "FunctionDefinition",
@@ -1409,7 +1879,12 @@
                     "title": "$~開場白（重述）",
                     "subtitle": "$~前綴",
                     "concept": "UnaryEvaluate",
-                    "performance": ["use", "fit", "Symbol", "~"],
+                    "performance": [
+                        "use",
+                        "fit",
+                        "Symbol",
+                        "~"
+                    ],
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -1428,7 +1903,10 @@
                             "serious",
                             "$~雖然數量不多，但威力很大。其中一個確實與@Number：否定。您只需在任何數字值前面加上 \\-\\ 即可得到其負數。"
                         ],
-                        ["edit", "-(1 + 3)"],
+                        [
+                            "edit",
+                            "-(1 + 3)"
+                        ],
                         null,
                         [
                             "FunctionDefinition",
@@ -1441,7 +1919,10 @@
                             "kind",
                             "$~另一個與之類似，但用於否定 \\⊤\\ 和 \\⊥\\：它就像一個小波浪線減去 \\~\\，將真翻轉為假，將假翻轉為真。例如，這個小表達式計算 \\⊤ | ⊥\\，即 \\⊤\\，然後將 \\⊤\\ 翻轉為 \\⊥\\。這與說 \\(⊤ | ⊥).not()\\ 相同，但更簡潔。"
                         ],
-                        ["edit", "~(⊤ | ⊥)"],
+                        [
+                            "edit",
+                            "~(⊤ | ⊥)"
+                        ],
                         null,
                         [
                             "FunctionDefinition",
@@ -1464,51 +1945,81 @@
                             "curious",
                             "$~您認為只要再滿足一個價值觀就可以了嗎？接下來我們去尋找@None。他們比@Number 冷靜一些。 @None？你在那裡嗎？"
                         ],
-                        ["None", "bored", "$~…"],
+                        [
+                            "None",
+                            "bored",
+                            "$~…"
+                        ],
                         null,
                         [
                             "FunctionDefinition",
                             "excited",
                             "$~我們找到你了！你看起來很好。這麼沉默，你過得怎麼樣？"
                         ],
-                        ["None", "excited", "$~…"],
+                        [
+                            "None",
+                            "excited",
+                            "$~…"
+                        ],
                         null,
                         [
                             "FunctionDefinition",
                             "neutral",
                             "$~這很有道理。我明白你為什麼喜歡安靜。這確實是平靜的。我想向你介紹我的新朋友和潛在導演。他們有興趣激勵我們。"
                         ],
-                        ["None", "eager", "$~…"],
+                        [
+                            "None",
+                            "eager",
+                            "$~…"
+                        ],
                         null,
                         [
                             "FunctionDefinition",
                             "neutral",
                             "$~是的，我認為他們有各種各樣的想法。我們還沒有談論它們，但還有充足的時間。我們現在還在學習。你想分享你所做的事情嗎？ （我可以翻譯）。"
                         ],
-                        ["None", "serious", "$~…"],
+                        [
+                            "None",
+                            "serious",
+                            "$~…"
+                        ],
                         null,
                         [
                             "FunctionDefinition",
                             "neutral",
                             "$~它們什麼也不代表。與零不同的是，你不能為它添加任何東西，也不能從它上面減去任何東西。只是……什麼都沒有。"
                         ],
-                        ["None", "serious", "$~…"],
+                        [
+                            "None",
+                            "serious",
+                            "$~…"
+                        ],
                         null,
                         [
                             "FunctionDefinition",
                             "neutral",
                             "$~他們說他們喜歡佔據可能有東西的地方。有時它們代表遊戲中缺乏選擇，有時它們代表功能中的一些預設輸入。從這個意義上來說，它們可能代表著任何事物的缺失。"
                         ],
-                        ["None", "neutral", "$~…"],
+                        [
+                            "None",
+                            "neutral",
+                            "$~…"
+                        ],
                         null,
                         [
                             "FunctionDefinition",
                             "neutral",
                             "$~他們想讓你知道他們其實什麼也沒做。他們就是這樣。他們真正做的只是表明他們是否是他們自己。如果是，則評估為 \\⊤\\，否則評估為 \\⊥\\。"
                         ],
-                        ["edit", "ø = ø"],
+                        [
+                            "edit",
+                            "ø = ø"
+                        ],
                         null,
-                        ["edit", "Phrase('hi' face: ø)"],
+                        [
+                            "edit",
+                            "Phrase('hi' face: ø)"
+                        ],
                         [
                             "FunctionDefinition",
                             "excited",
@@ -1520,7 +2031,11 @@
                             "curious",
                             "$~您還有什麼想與我們新進導演分享的嗎？"
                         ],
-                        ["None", "eager", "$~…"],
+                        [
+                            "None",
+                            "eager",
+                            "$~…"
+                        ],
                         [
                             "FunctionDefinition",
                             "neutral",
@@ -1570,7 +2085,12 @@
                             "kind",
                             "$~你想見見他們嗎？讓我們先從@List 開始…它們是我遇到的第一個集合，並且可能是我們社區中最引人注目的集合，因為它們在組織表演的其他價值方面非常有用。"
                         ],
-                        ["use", "fit", "Symbol", "[]"]
+                        [
+                            "use",
+                            "fit",
+                            "Symbol",
+                            "[]"
+                        ]
                     ]
                 },
                 {
@@ -1633,8 +2153,16 @@
                             "excited",
                             "$~這太棒了！很高興認識您，新導演。"
                         ],
-                        ["List", "excited", "$~你想知道我做什麼嗎？"],
-                        ["FunctionDefinition", "neutral", "$~是的，告訴他們！"],
+                        [
+                            "List",
+                            "excited",
+                            "$~你想知道我做什麼嗎？"
+                        ],
+                        [
+                            "FunctionDefinition",
+                            "neutral",
+                            "$~是的，告訴他們！"
+                        ],
                         null,
                         [
                             "List",
@@ -1642,17 +2170,30 @@
                             "$~好的。首先，也是最重要的，我把價值觀整理好。無論您想要什麼表達方式：數字、單字、其他清單——我都可以按順序將任何內容組合在一起。",
                             "$~例如，查看這個有趣的清單。你曾經看過類似的東西嗎？太美了！前十個數字，依序排列。"
                         ],
-                        ["edit", "[1 2 3 4 5 6 7 8 9 10]"],
+                        [
+                            "edit",
+                            "[1 2 3 4 5 6 7 8 9 10]"
+                        ],
                         null,
                         [
                             "List",
                             "serious",
                             "$~第二，這很嚴重，我總是以 \\[\\ 開頭，以 \\]\\ 結尾。這就是我知道清單的開始和結束的方式。它們必須始終按照這個順序進行。沒有 \\]\\ 第一，沒有 \\[\\ 最後；那是錯的。你知道事情變得多麼令人困惑嗎？你能修復這個嗎？"
                         ],
-                        ["conflict", "[ 1 2 3 4"],
+                        [
+                            "conflict",
+                            "[ 1 2 3 4"
+                        ],
                         null,
-                        ["List", "serious", "$~這個也壞了。你能修好它嗎？"],
-                        ["conflict", "] 1 2 3 4 ["],
+                        [
+                            "List",
+                            "serious",
+                            "$~這個也壞了。你能修好它嗎？"
+                        ],
+                        [
+                            "conflict",
+                            "] 1 2 3 4 ["
+                        ],
                         null,
                         [
                             "List",
@@ -1670,7 +2211,10 @@
                             "happy",
                             "$~我也喜歡秩序！好的，我說到哪裡了。是的，第三，這也很關鍵，沒有逗號！我知道在某些文化中，人們喜歡在清單中的事物之間添加逗號，但我不喜歡這樣。它們就像是一些小垃圾，妨礙了我優雅的排序，人們總是忘記它們。如果您難以看清表達式之間的界限，只需添加換行符即可。也許你可以擺脫那些討厭的東西？如果願意的話，可以加上換行符。逗號以外的任何內容。總的！"
                         ],
-                        ["conflict", "[ 1, 2, 3, 4, 5]"],
+                        [
+                            "conflict",
+                            "[ 1, 2, 3, 4, 5]"
+                        ],
                         null,
                         [
                             "FunctionDefinition",
@@ -1682,14 +2226,20 @@
                             "neutral",
                             "$~是的，但是@FunctionDefinition，這些都是你做的。您為我展現了所有這些美妙的功能，使我能夠做各種各樣的事情！就像@List/reverse — 哦，這個很棒而且簡單。它只是採用我的價值觀並將它們按相反的順序排列。"
                         ],
-                        ["edit", "[ 1 2 3 4 5 ].reverse()"],
+                        [
+                            "edit",
+                            "[ 1 2 3 4 5 ].reverse()"
+                        ],
                         null,
                         [
                             "List",
                             "excited",
                             "$~這很有趣：@List/sans 只是刪除所有等於給定值的值。看看結果清單中沒有剩餘的零嗎？"
                         ],
-                        ["edit", "[ 1 0 1 0 1 ].sans(0)"],
+                        [
+                            "edit",
+                            "[ 1 0 1 0 1 ].sans(0)"
+                        ],
                         null,
                         [
                             "List",
@@ -1702,7 +2252,10 @@
                             "surprised",
                             "$~哦，這讓我想起了最後一條規則，第五條規則：我從 1 開始數！不是零，不是二，是 1。因此，如果您想要取得清單中特定位置的值，您可以使用兩個以上的 \\[]\\ 來建立 @ListAccess 並提供您想要的位置。看看當我得到 \\3\\ 時，我給了列表中的第三個值 \\'c'\\？嘗試將其變更為 \\1\\ 或 \\5\\ 並查看結果。然後也許嘗試 \\0\\ 或 \\6\\..."
                         ],
-                        ["edit", "['a' 'b' 'c' 'd' 'e'][3]"],
+                        [
+                            "edit",
+                            "['a' 'b' 'c' 'd' 'e'][3]"
+                        ],
                         [
                             "List",
                             "happy",
@@ -1742,7 +2295,11 @@
                         "                    Group(Row() [Phrase('{' resting:clockwise) Phrase('}' resting:counter) ])"
                     ],
                     "lines": [
-                        ["use", "fit", "DarkVoid"],
+                        [
+                            "use",
+                            "fit",
+                            "DarkVoid"
+                        ],
                         [
                             "FunctionDefinition",
                             "neutral",
@@ -1776,21 +2333,30 @@
                             "eager",
                             "$~噢，是的，當然。我收集東西（嗯，顯然，我是一個收藏家）。但最重要的是，每種東西我只會收集一件。我可以收集任何你喜歡的東西並幫助你追蹤價值，但我永遠不會重複一個價值。我喜歡像@List 那樣安排自己，但使用 \\{\\ 和 \\}\\ 來代替。"
                         ],
-                        ["edit", "{ 1 2 3 4 5 }"],
+                        [
+                            "edit",
+                            "{ 1 2 3 4 5 }"
+                        ],
                         null,
                         [
                             "Set",
                             "neutral",
                             "$~那是一套。但就像我說的，沒有重複。所以如果你給我這個，我就會把多餘的東西拿掉。"
                         ],
-                        ["edit", "{ 1 2 2 3 3 3 }"],
+                        [
+                            "edit",
+                            "{ 1 2 2 3 3 3 }"
+                        ],
                         null,
                         [
                             "Set",
                             "curious",
                             "$~與@List 類似，您可以使用@SetOrMapAccess 來查看集合中是否包含某個值。如果是，則您將獲得 \\⊤\\；如果不是，則您將獲得 \\⊥\\。讓我們看看這個集合中是否缺少 \\3\\。是的，不在那裡！嘗試將 \\3\\ 加回集合。"
                         ],
-                        ["edit", "{ 1 2 4 5 }{3}"],
+                        [
+                            "edit",
+                            "{ 1 2 4 5 }{3}"
+                        ],
                         null,
                         [
                             "FunctionDefinition",
@@ -1814,29 +2380,47 @@
                             "$~是的，@Set/difference。",
                             "$~當對一個集合進行評估並給定另一個集合時，它會從所評估的集合中刪除給定集合中的所有項目（嗯，這些話有些笨拙，但這就是我的意思）。這是一個例子。看看結果只是 \\{3}\\ 的集合嗎？這是刪除 \\{ 1 2 }\\ 中的值後剩下的唯一值。"
                         ],
-                        ["edit", "{ 1 2 3 }.difference({ 1 2 })"],
+                        [
+                            "edit",
+                            "{ 1 2 3 }.difference({ 1 2 })"
+                        ],
                         null,
                         [
                             "Set",
                             "eager",
                             "$~您也可以從集合中新增或刪除內容。這將取得集合 \\{1}\\，向其中新增 \\2\\，然後從中刪除 1，剩下 \\{2}\\。"
                         ],
-                        ["edit", "({ 1 } + 2) - 1"],
+                        [
+                            "edit",
+                            "({ 1 } + 2) - 1"
+                        ],
                         [
                             "Set",
                             "neutral",
                             "$~感謝@FunctionDefinition，我還可以做很多事。如果您想了解更多信息，請隨時來找我！"
                         ],
                         null,
-                        ["use", "fit", "DarkVoid"],
+                        [
+                            "use",
+                            "fit",
+                            "DarkVoid"
+                        ],
                         [
                             "Set",
                             "curious",
                             "$~哦，嘿@FunctionDefinition，你說你看到了@Evaluate？"
                         ],
-                        ["FunctionDefinition", "sad", "$~是的，我做到了。"],
+                        [
+                            "FunctionDefinition",
+                            "sad",
+                            "$~是的，我做到了。"
+                        ],
                         null,
-                        ["Set", "curious", "$~他們怎麼樣？"],
+                        [
+                            "Set",
+                            "curious",
+                            "$~他們怎麼樣？"
+                        ],
                         [
                             "FunctionDefinition",
                             "sad",
@@ -1860,7 +2444,11 @@
                         "                    Group(Row() [Phrase('{' resting:clockwise) Phrase(':') Phrase('}' resting:counter) ])"
                     ],
                     "lines": [
-                        ["use", "fit", "DarkVoid"],
+                        [
+                            "use",
+                            "fit",
+                            "DarkVoid"
+                        ],
                         [
                             "FunctionDefinition",
                             "neutral",
@@ -1909,7 +2497,11 @@
                             "kind",
                             "$~有點像你和@Evaluate 之間的緊張關係？"
                         ],
-                        ["FunctionDefinition", "sad", "$~…"],
+                        [
+                            "FunctionDefinition",
+                            "sad",
+                            "$~…"
+                        ],
                         null,
                         [
                             "Map",
@@ -1957,14 +2549,20 @@
                             "neutral",
                             "$~噢，只有我一個人！小@Bind 和我只是閒逛，沒有鍵或值。"
                         ],
-                        ["edit", "{:}"],
+                        [
+                            "edit",
+                            "{:}"
+                        ],
                         null,
                         [
                             "FunctionDefinition",
                             "curious",
                             "$~如果我們的主管不提供價值或金鑰怎麼辦？像這樣？例如，\\3\\ 沒有價值？"
                         ],
-                        ["conflict", "{1:1 2:2 3 }"],
+                        [
+                            "conflict",
+                            "{1:1 2:2 3 }"
+                        ],
                         [
                             "Map",
                             "serious",
@@ -1986,7 +2584,11 @@
                             "{ 'ben': 2points 'joe': 5points 'kate': 12points }{'ben'}"
                         ],
                         null,
-                        ["Map", "neutral", "$~如果我沒有鑰匙，我會給你@None。"],
+                        [
+                            "Map",
+                            "neutral",
+                            "$~如果我沒有鑰匙，我會給你@None。"
+                        ],
                         [
                             "edit",
                             "{ 'ben': 2points 'joe': 5points 'kate': 12points }{'anna'}"
@@ -2003,7 +2605,11 @@
                             "map: { 'ben': 2points 'joe': 5points 'kate': 12points }\nmap{'anna'} ?? 0points"
                         ],
                         null,
-                        ["use", "fit", "DarkVoid"],
+                        [
+                            "use",
+                            "fit",
+                            "DarkVoid"
+                        ],
                         [
                             "Map",
                             "neutral",
@@ -2044,7 +2650,11 @@
                 {
                     "title": "$~車輛改道",
                     "subtitle": null,
-                    "performance": ["use", "fit", "DarkVoid"],
+                    "performance": [
+                        "use",
+                        "fit",
+                        "DarkVoid"
+                    ],
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -2071,9 +2681,18 @@
                     "title": "$~我們可以成為任何人",
                     "subtitle": "$~轉變",
                     "concept": "Convert",
-                    "performance": ["use", "fix", "FlyIn", "→"],
+                    "performance": [
+                        "use",
+                        "fix",
+                        "FlyIn",
+                        "→"
+                    ],
                     "lines": [
-                        ["use", "fit", "DarkVoid"],
+                        [
+                            "use",
+                            "fit",
+                            "DarkVoid"
+                        ],
                         [
                             "FunctionDefinition",
                             "neutral",
@@ -2096,7 +2715,11 @@
                             "$~是的，價值觀就是我最好的朋友。我們喜歡在週末進行跑酷——或者看表演，或者其他什麼。"
                         ],
                         null,
-                        ["FunctionDefinition", "curious", "$~跑酷？"],
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~跑酷？"
+                        ],
                         [
                             "Convert",
                             "serious",
@@ -2113,42 +2736,60 @@
                             "kind",
                             "$~很高興，兄弟。假設你有一個數字。"
                         ],
-                        ["edit", "1"],
+                        [
+                            "edit",
+                            "1"
+                        ],
                         null,
                         [
                             "Convert",
                             "kind",
                             "$~假設您希望它是文字。把我和@Text 一起扔進去，BAM，你就得到了文本！"
                         ],
-                        ["edit", "1 → ''"],
+                        [
+                            "edit",
+                            "1 → ''"
+                        ],
                         null,
                         [
                             "Convert",
                             "serious",
                             "$~或者想像一下你有文字並且想要一個數字。把我和@Number 和 POP 一起扔進去，你就得到了一個數字！"
                         ],
-                        ["edit", "'1'→#"],
+                        [
+                            "edit",
+                            "'1'→#"
+                        ],
                         null,
                         [
                             "Convert",
                             "surprised",
                             "$~但你想看到一些嚴肅的魔力嗎？假設您有一些文字並且想要將其字元放在列表中。把我和@List 一起丟進去，然後 HAAAAAA，你就得到了一串字母。"
                         ],
-                        ["edit", "'halloween'→[]"],
+                        [
+                            "edit",
+                            "'halloween'→[]"
+                        ],
                         null,
                         [
                             "Convert",
                             "serious",
                             "$~但是我和@Number？我們一直在練習一些非常噁心的技巧。假設您有幾天的時間並且想要第二份？我們抓到你了。"
                         ],
-                        ["edit", "5day → #s"],
+                        [
+                            "edit",
+                            "5day → #s"
+                        ],
                         null,
                         [
                             "Convert",
                             "excited",
                             "$~但真正的惡作劇是什麼呢？鏈接。就像連續多次轉換一樣。看看這個。從天到秒到文字到列表，全部包含在一個鏈中。現在我們得到了一個數字清單。甜的！"
                         ],
-                        ["edit", "1day → #s → '' → []"],
+                        [
+                            "edit",
+                            "1day → #s → '' → []"
+                        ],
                         null,
                         [
                             "Convert",
@@ -2170,9 +2811,17 @@
                             "$~但這可能不是你想要的...",
                             "$~而且，如果我不知道如何滿足您的要求，我基本上就會關閉一切。"
                         ],
-                        ["edit", "10s → '' → {}"],
+                        [
+                            "edit",
+                            "10s → '' → {}"
+                        ],
                         null,
-                        ["use", "fit", "Symbol", "📕"],
+                        [
+                            "use",
+                            "fit",
+                            "Symbol",
+                            "📕"
+                        ],
                         [
                             "FunctionDefinition",
                             "serious",
@@ -2184,7 +2833,12 @@
                             "$~是的...您可以隨時檢查值的類型並查看它們支援哪些類型的轉換。"
                         ],
                         null,
-                        ["use", "fit", "Symbol", "🧐"],
+                        [
+                            "use",
+                            "fit",
+                            "Symbol",
+                            "🧐"
+                        ],
                         [
                             "FunctionDefinition",
                             "curious",
@@ -2197,11 +2851,27 @@
                             "$~就像一切都是關於將輸入轉換為輸出？"
                         ],
                         null,
-                        ["FunctionDefinition", "serious", "$~大概吧？"],
-                        ["Convert", "surprised", "$~🤯"],
-                        ["edit", "Phrase('🤯')"],
+                        [
+                            "FunctionDefinition",
+                            "serious",
+                            "$~大概吧？"
+                        ],
+                        [
+                            "Convert",
+                            "surprised",
+                            "$~🤯"
+                        ],
+                        [
+                            "edit",
+                            "Phrase('🤯')"
+                        ],
                         null,
-                        ["use", "fit", "Symbol", "🤯"],
+                        [
+                            "use",
+                            "fit",
+                            "Symbol",
+                            "🤯"
+                        ],
                         [
                             "FunctionDefinition",
                             "kind",
@@ -2230,9 +2900,18 @@
                     "title": "$~如何選擇？",
                     "subtitle": "$~決策",
                     "concept": "Conditional",
-                    "performance": ["use", "fix", "FlyIn", "?"],
+                    "performance": [
+                        "use",
+                        "fix",
+                        "FlyIn",
+                        "?"
+                    ],
                     "lines": [
-                        ["use", "fit", "DarkVoid"],
+                        [
+                            "use",
+                            "fit",
+                            "DarkVoid"
+                        ],
                         [
                             "FunctionDefinition",
                             "neutral",
@@ -2245,7 +2924,12 @@
                             "$~要明確的是，並非所有決定都是如此：我有自己的生活，他們有他們的生活。但在表演中，當我們試圖決定下一步在舞台上做什麼時，完全取決於他們是否遵循導演的指導並決定要做什麼。因此他們是創造精彩表演的重要夥伴。"
                         ],
                         null,
-                        ["use", "fit", "SpinningInTheDark", "?"],
+                        [
+                            "use",
+                            "fit",
+                            "SpinningInTheDark",
+                            "?"
+                        ],
                         [
                             "FunctionDefinition",
                             "curious",
@@ -2274,8 +2958,15 @@
                             "kind",
                             "$~是的，我想是的。這更像是導演對決定進行編碼，然後將其委託給你。你成為決策者。你想舉個例子嗎？"
                         ],
-                        ["Conditional", "curious", "$~像這樣？"],
-                        ["conflict", "_•? ? _ _"],
+                        [
+                            "Conditional",
+                            "curious",
+                            "$~像這樣？"
+                        ],
+                        [
+                            "conflict",
+                            "_•? ? _ _"
+                        ],
                         [
                             "FunctionDefinition",
                             "excited",
@@ -2283,14 +2974,24 @@
                             "$~您看到@Conditional 的格式有四個部分嗎？首先有一個*條件*，它需要是@Boolean。然後是 \\?\\。然後是*是*的表情，然後是*否*的表情。 @Conditional 所做的是評估條件，如果是 \\⊤\\，則評估 *yes* 表達式。否則，他們會評估 /no/ 表達式。這是一個非常有力的決定方式！"
                         ],
                         null,
-                        ["edit", "1 > 5 ? 'more' 'less'"],
+                        [
+                            "edit",
+                            "1 > 5 ? 'more' 'less'"
+                        ],
                         [
                             "FunctionDefinition",
                             "excited",
                             "$~您能給我們舉一個更具體的例子嗎？"
                         ],
-                        ["Conditional", "curious", "$~像這樣嗎？"],
-                        ["edit", "1 > 5 ? 'less' 'more'"],
+                        [
+                            "Conditional",
+                            "curious",
+                            "$~像這樣嗎？"
+                        ],
+                        [
+                            "edit",
+                            "1 > 5 ? 'less' 'more'"
+                        ],
                         null,
                         [
                             "FunctionDefinition",
@@ -2303,7 +3004,10 @@
                             "curious",
                             "$~可靠的？或許？如果你接受我只是照導演告訴我的做決定，那麼是的，但如果導演告訴我這件事怎麼辦？如果該數字永遠不會大於 \\3\\，這真的是一個決定嗎？"
                         ],
-                        ["edit", "[1 2 3].random() > 3 ? 'big' 'small'"],
+                        [
+                            "edit",
+                            "[1 2 3].random() > 3 ? 'big' 'small'"
+                        ],
                         [
                             "FunctionDefinition",
                             "confused",
@@ -2316,16 +3020,27 @@
                             "$~小心？或許是持懷疑態度？你有沒有想過我的好朋友@BooleanLiteral？他們的世界觀怎麼可能足以代表我們可能想要做出的所有決定？例如，如果我們想要一場以某人的名字命名的表演，並判斷其是否精彩，該怎麼辦？這是一個正確的決定還是錯誤的決定？這真的是我們該做的決定嗎？這看起來是不是太簡化和有失偏頗了？",
                             "$~主任，您覺得什麼字母組成的名字才漂亮呢？"
                         ],
-                        ["edit", "'Verse'.has('e') ? 'beautiful' 'ugly'"],
+                        [
+                            "edit",
+                            "'Verse'.has('e') ? 'beautiful' 'ugly'"
+                        ],
                         null,
                         [
                             "Conditional",
                             "curious",
                             "$~想想我回答的問題－為什麼我只能回應 \\⊤\\ 和 \\⊥\\？為什麼不是一個數字？難道我沒有權利決定\\1\\是否美麗嗎？"
                         ],
-                        ["conflict", "1 ? 'beautiful' 'ugly'"],
+                        [
+                            "conflict",
+                            "1 ? 'beautiful' 'ugly'"
+                        ],
                         null,
-                        ["use", "fit", "SpinningInTheDark", "?"],
+                        [
+                            "use",
+                            "fit",
+                            "SpinningInTheDark",
+                            "?"
+                        ],
                         [
                             "FunctionDefinition",
                             "sad",
@@ -2344,19 +3059,31 @@
                             "$~他們確實是。",
                             "$~我很高興向我們的新朋友展示它們有多有價值。當我這麼做的時候你會在嗎？"
                         ],
-                        ["Conditional", "happy", "$~還有什麼能讓我更開心嗎？"]
+                        [
+                            "Conditional",
+                            "happy",
+                            "$~還有什麼能讓我更開心嗎？"
+                        ]
                     ]
                 }
             ]
         },
         {
             "title": "$~場景變換",
-            "performance": ["use", "fit", "TakeTheMic"],
+            "performance": [
+                "use",
+                "fit",
+                "TakeTheMic"
+            ],
             "scenes": [
                 {
                     "title": "$~輸入",
                     "subtitle": null,
-                    "performance": ["use", "fit", "DarkVoid"],
+                    "performance": [
+                        "use",
+                        "fit",
+                        "DarkVoid"
+                    ],
                     "lines": [
                         [
                             "fix",
@@ -2389,53 +3116,94 @@
                     "title": "$~滴答，滴答，滴答…",
                     "subtitle": "$~時間",
                     "concept": "Time",
-                    "performance": ["use", "fit", "Symbol", "🕦"],
+                    "performance": [
+                        "use",
+                        "fit",
+                        "Symbol",
+                        "🕦"
+                    ],
                     "lines": [
                         [
                             "FunctionDefinition",
                             "neutral",
                             "$~讓我們從最基本的流開始：@Time。為了建立流，我們使用@Time。"
                         ],
-                        ["Time", "neutral", "$~滴答滴答滴答滴答滴答…"],
-                        ["edit", "Time()"],
+                        [
+                            "Time",
+                            "neutral",
+                            "$~滴答滴答滴答滴答滴答…"
+                        ],
+                        [
+                            "edit",
+                            "Time()"
+                        ],
                         null,
                         [
                             "FunctionDefinition",
                             "neutral",
                             "$~你看到時間是如何改變的嗎？流是一系列值。每次流獲得新值時，@Program 都會使用新的流值重新評估。這就是為什麼這個程式會不斷計數：我們製作了一個時間流，它從 0 毫秒開始，然後在每次時鐘滴答時不斷更新。這次是屬於你的時間，屬於你的世界。"
                         ],
-                        ["Time", "neutral", "$~滴答滴答滴答滴答滴答…"],
+                        [
+                            "Time",
+                            "neutral",
+                            "$~滴答滴答滴答滴答滴答…"
+                        ],
                         null,
                         [
                             "FunctionDefinition",
                             "curious",
                             "$~看到那個 \\1000ms\\ 了嗎？它是一個@Time/frequency，它告訴@Time，而不是預設的每33毫秒。現在它就像一個每秒都在滴答作響的計數器。 @Time 所採用的這些輸入就像是一種配置：它們告訴流如何表現。"
                         ],
-                        ["Time", "neutral", "$~滴答…滴答…滴答…滴答…滴答…"],
-                        ["edit", "Time(1000ms)"],
+                        [
+                            "Time",
+                            "neutral",
+                            "$~滴答…滴答…滴答…滴答…滴答…"
+                        ],
+                        [
+                            "edit",
+                            "Time(1000ms)"
+                        ],
                         null,
                         [
                             "FunctionDefinition",
                             "serious",
                             "$~但我們可以利用我們遇到的所有奇妙的人物來進一步改變時間。例如，如果我們想知道時間是否是 \\2\\ 的倍數怎麼辦？我們可以使用@Number/remainder，它來取得除法的餘數。若餘數為零，計算結果為 \\⊤\\，否則計算結果為 \\⊥\\。看看它是如何在 \\⊤\\ 和 \\⊥\\ 之間來回變化的嗎？太神奇了。"
                         ],
-                        ["Time", "neutral", "$~滴答…滴答…滴答…滴答…滴答…"],
-                        ["edit", "(Time(1000ms) % 5) = 2ms"],
+                        [
+                            "Time",
+                            "neutral",
+                            "$~滴答…滴答…滴答…滴答…滴答…"
+                        ],
+                        [
+                            "edit",
+                            "(Time(1000ms) % 5) = 2ms"
+                        ],
                         null,
                         [
                             "FunctionDefinition",
                             "curious",
                             "$~您可能還注意到了另一件事：輸出下方有一個時間軸區域。每次程序重新評估時（即每次流發生變化時），它都會更新。每當@Time 滴答時它就會顯示。"
                         ],
-                        ["Time", "neutral", "$~滴答…滴答…滴答…滴答…滴答…"],
+                        [
+                            "Time",
+                            "neutral",
+                            "$~滴答…滴答…滴答…滴答…滴答…"
+                        ],
                         null,
                         [
                             "FunctionDefinition",
                             "curious",
                             "$~嘗試使用時間軸按鈕在時間軸@UI/timeline 上拖曳，在時間軸對焦的情況下使用箭頭鍵，或按 ⏸️ 和 ▶️ @UI/playToggle 按鈕。您可以回顧過去查看先前的評估。虛線箭頭指向前一個和未來的流輸入。實心的那個在程序的不同步驟之間移動。嘗試導航時間並查看程式顯示的內容。這樣你就可以看到你所學過的所有漂亮的表達式都被@UI/timeline，最終得出@Program 在舞台上顯示的最終值。"
                         ],
-                        ["Time", "neutral", "$~滴答…滴答…滴答…滴答…滴答…"],
-                        ["edit", "Time(1000ms)"],
+                        [
+                            "Time",
+                            "neutral",
+                            "$~滴答…滴答…滴答…滴答…滴答…"
+                        ],
+                        [
+                            "edit",
+                            "Time(1000ms)"
+                        ],
                         null,
                         [
                             "FunctionDefinition",
@@ -2448,7 +3216,12 @@
                     "title": "$~咔噠咔噠",
                     "subtitle": "$~鑰匙",
                     "concept": "Key",
-                    "performance": ["use", "fit", "Symbol", "⌨️"],
+                    "performance": [
+                        "use",
+                        "fit",
+                        "Symbol",
+                        "⌨️"
+                    ],
                     "lines": [
                         [
                             "fit",
@@ -2465,39 +3238,72 @@
                             "neutral",
                             "$~這是一個簡單的例子。點選舞台或使用鍵盤聚焦舞台，然後按任何鍵盤鍵。您會看到您輸入的鍵按名稱出現。這是因為每次金鑰流發生變化時，@Program 都會將金鑰流評估為其最新值，然後將其顯示在舞台上。"
                         ],
-                        ["Key", "neutral", "$~咔噠咔噠咔噠"],
-                        ["edit", "Key()"],
+                        [
+                            "Key",
+                            "neutral",
+                            "$~咔噠咔噠咔噠"
+                        ],
+                        [
+                            "edit",
+                            "Key()"
+                        ],
                         null,
                         [
                             "FunctionDefinition",
                             "serious",
                             "$~只要按下任意鍵，該流就會改變。但是您可以告訴鍵流僅在按下特定鍵時進行更改。看看流第一次如何變成 \\a\\ 但之後沒有改變？這是因為該流僅在按下 \\a\\ 時才會改變，所以它總是顯示 \\a\\。但您總是會看到新的關鍵值出現在時間軸中。"
                         ],
-                        ["Key", "neutral", "$~喀嚓一聲…"],
-                        ["edit", "Key('a')"],
+                        [
+                            "Key",
+                            "neutral",
+                            "$~喀嚓一聲…"
+                        ],
+                        [
+                            "edit",
+                            "Key('a')"
+                        ],
                         null,
                         [
                             "FunctionDefinition",
                             "kind",
-                            "$~有時知道何時釋放按鍵而不是何時按下按鍵會很有幫助。只需傳遞 \\⊥\\ 來告訴 @Key 流您知道何時釋放鍵而不是按下鍵。現在，按住“a”鍵，然後放開時，您會看到“a”出現在舞台上。沒抓到嗎？按 ↻ 按鈕重設效能並重試。"
+                            "~有時知道何時釋放按鍵而不是何時按下按鍵會很有幫助。只需傳遞 \\⊥\\ 來告訴 @Key 流您知道何時釋放鍵而不是按下鍵。現在，按住“a”鍵，然後放開時，您會看到“a”出現在舞台上。沒抓到嗎？按 ↻ 按鈕重設效能並重試。"
                         ],
-                        ["Key", "neutral", "$~喀嚓一聲…"],
-                        ["edit", "Key('a' ⊥)"],
+                        [
+                            "Key",
+                            "neutral",
+                            "$~喀嚓一聲…"
+                        ],
+                        [
+                            "edit",
+                            "Key('a' ⊥)"
+                        ],
                         null,
                         [
                             "FunctionDefinition",
                             "neutral",
                             "$~@Key，Key 流非常有用。例如，您可以檢查某個鍵中是否有單字“Arrow”，以確定是否按下了箭頭鍵。按箭頭鍵，您將看到“移動”；按其他按鈕就會看到“停留”"
                         ],
-                        ["Key", "neutral", "$~點擊“箭頭”…"],
-                        ["edit", "Key().has('Arrow') ? 'move' 'stay'"]
+                        [
+                            "Key",
+                            "neutral",
+                            "$~點擊“箭頭”…"
+                        ],
+                        [
+                            "edit",
+                            "Key().has('Arrow') ? 'move' 'stay'"
+                        ]
                     ]
                 },
                 {
                     "title": "$~嗯嗯嗯…",
                     "subtitle": "$~指針",
                     "concept": "Pointer",
-                    "performance": ["use", "fit", "Symbol", "👆🏻"],
+                    "performance": [
+                        "use",
+                        "fit",
+                        "Symbol",
+                        "👆🏻"
+                    ],
                     "lines": [
                         [
                             "fix",
@@ -2514,77 +3320,139 @@
                             "curious",
                             "$~將指針移動到舞台周圍，您將看到@Place 的流在舞台上發生變化。"
                         ],
-                        ["fix", "Pointer()"],
-                        ["Pointer", "neutral", "$~嗚嗚嗚…"],
+                        [
+                            "fix",
+                            "Pointer()"
+                        ],
+                        [
+                            "Pointer",
+                            "neutral",
+                            "$~嗚嗚嗚…"
+                        ],
                         null,
                         [
                             "FunctionDefinition",
                             "excited",
                             "$~現在就讓我們在舞台上看看吧！"
                         ],
-                        ["Pointer", "neutral", "$~嗚嗚嗚…"],
-                        ["fix", "Phrase(Pointer()→'' place: Pointer())"],
+                        [
+                            "Pointer",
+                            "neutral",
+                            "$~嗚嗚嗚…"
+                        ],
+                        [
+                            "fix",
+                            "Phrase(Pointer()→'' place: Pointer())"
+                        ],
                         null,
                         [
                             "FunctionDefinition",
                             "excited",
                             "$~如果您想將@Phrase 的@Place 連結到指標所在的位置，@Pointer 會很有趣。"
                         ],
-                        ["fix", "Phrase('🐪' size: 4m place: Pointer())"],
-                        ["Pointer", "neutral", "$~嗚嗚嗚…"]
+                        [
+                            "fix",
+                            "Phrase('🐪' size: 4m place: Pointer())"
+                        ],
+                        [
+                            "Pointer",
+                            "neutral",
+                            "$~嗚嗚嗚…"
+                        ]
                     ]
                 },
                 {
                     "title": "$~現在...！",
                     "subtitle": "$~按鈕",
                     "concept": "Button",
-                    "performance": ["use", "fit", "Symbol", "🖱️"],
+                    "performance": [
+                        "use",
+                        "fit",
+                        "Symbol",
+                        "🖱️"
+                    ],
                     "lines": [
                         [
                             "FunctionDefinition",
                             "kind",
                             "$~@Button 與 @Key 類似，但對應於主指標按鈕，例如單擊或輕觸。它只是一個 \\⊤\\ 流，指示指針按鈕何時被按下。按下該按鈕並觀察時間線上出現的事件。"
                         ],
-                        ["Button", "neutral", "$~咔噠…咔噠…咔噠…"],
-                        ["edit", "Button()"],
+                        [
+                            "Button",
+                            "neutral",
+                            "$~咔噠…咔噠…咔噠…"
+                        ],
+                        [
+                            "edit",
+                            "Button()"
+                        ],
                         null,
                         [
                             "FunctionDefinition",
                             "neutral",
                             "$~您可以透過傳遞 \\⊤\\ 或 \\⊥\\ 將其配置為僅變更為向上或向下。"
                         ],
-                        ["Button", "neutral", "$~下…下…下…"],
-                        ["edit", "Button(ø)"],
+                        [
+                            "Button",
+                            "neutral",
+                            "$~下…下…下…"
+                        ],
+                        [
+                            "edit",
+                            "Button(ø)"
+                        ],
                         null,
                         [
                             "FunctionDefinition",
                             "excited",
                             "$~使用@Button 流是推進表演各個階段或觸發表演某些變化的一種方法。這個小程式列出了按下的按鈕並開始顯示悲傷，但是當@Button 流變為真時，@Conditional 會評估為「快樂」。"
                         ],
-                        ["edit", "Phrase(Button(ø) ? 'happy' 'sad')"]
+                        [
+                            "edit",
+                            "Phrase(Button(ø) ? 'happy' 'sad')"
+                        ]
                     ]
                 },
                 {
                     "title": "$~有人在聽嗎？",
                     "subtitle": "$~體積",
                     "concept": "Volume",
-                    "performance": ["use", "fit", "Symbol", "🎤"],
+                    "performance": [
+                        "use",
+                        "fit",
+                        "Symbol",
+                        "🎤"
+                    ],
                     "lines": [
                         [
                             "FunctionDefinition",
                             "excited",
                             "$~你們的世界和我們的世界也有聲音。您知道嗎，只要您同意，我們就可以聽到您的聲音？我們使用名為@Volume 的串流進行監聽，它提供了低階振幅序列。您的麥克風可能會要求與我們分享的權限。完成後，您將看到一個與振幅相對應的數字，介於 \\0\\ 和 \\100\\ 之間。"
                         ],
-                        ["Volume", "neutral", "$~嗡嗡聲…"],
-                        ["edit", "Volume()"],
+                        [
+                            "Volume",
+                            "neutral",
+                            "$~嗡嗡聲…"
+                        ],
+                        [
+                            "edit",
+                            "Volume()"
+                        ],
                         null,
                         [
                             "FunctionDefinition",
                             "kind",
                             "$~@Volume 可用於使表演對觀眾的聲音做出反應。例如，我們可以透過將流中的振幅數轉換為一定數量的“o”字元來實現一點振幅視覺化。看看當你發出聲音時，會出現更多的「o」嗎？ @Volume 振幅除以 \\10\\，將其置於 \\0\\ 到 \\10\\ 範圍內。然後，將該值賦給@Volume，該函數將\\'o'\\重複給定的次數。"
                         ],
-                        ["Volume", "neutral", "$~嗡嗡聲…"],
-                        ["edit", "'o'.repeat(Volume() · 10)"]
+                        [
+                            "Volume",
+                            "neutral",
+                            "$~嗡嗡聲…"
+                        ],
+                        [
+                            "edit",
+                            "'o'.repeat(Volume() · 10)"
+                        ]
                     ]
                 },
                 {
@@ -2604,24 +3472,45 @@
                             "$~相反，每次評估時，它都會給出一個不同的隨機數。",
                             "$~看到時間軸旁邊那個小小的 ↻ @UI/resetEvaluator 按鈕了嗎？按下按鈕可以手動重新評估程序，每次您都會看到一個介於 \\0\\ 和 \\1\\ 之間的新數字。"
                         ],
-                        ["Random", "neutral", "$~0.223423…0.823423…0.123459"],
-                        ["edit", "Random()"],
+                        [
+                            "Random",
+                            "neutral",
+                            "$~0.223423…0.823423…0.123459"
+                        ],
+                        [
+                            "edit",
+                            "Random()"
+                        ],
                         null,
                         [
                             "FunctionDefinition",
                             "surprised",
                             "$~我們可以透過賦予@Random 最小數字和最大數字來告訴它我們想要的數字範圍。此範例給出 \\1\\ 至 \\10\\ 之間的數字："
                         ],
-                        ["Random", "neutral", "$~1…7…3…9…10…2…"],
-                        ["edit", "Random(1 10)"],
+                        [
+                            "Random",
+                            "neutral",
+                            "$~1…7…3…9…10…2…"
+                        ],
+                        [
+                            "edit",
+                            "Random(1 10)"
+                        ],
                         null,
                         [
                             "FunctionDefinition",
                             "excited",
                             "$~隨機也可以很有趣！我們可以將它與流一起使用來創造有趣的混亂。例如，這裡我們從單字清單中選擇一個隨機單字。這與 \\['kitty' 'cat' 'feline'].random()\\ 相同。繼續按 ↻ 來取得不同的貓同義字！嘗試將您自己的單字添加到清單中，看看是否可以讓該單字出現。"
                         ],
-                        ["Random", "neutral", "$~1…2…2…1…3…"],
-                        ["edit", "['kitty' 'cat' 'feline'][Random(1 3)]"]
+                        [
+                            "Random",
+                            "neutral",
+                            "$~1…2…2…1…3…"
+                        ],
+                        [
+                            "edit",
+                            "['kitty' 'cat' 'feline'][Random(1 3)]"
+                        ]
                     ]
                 },
                 {
@@ -2677,7 +3566,11 @@
                         "Stage([Phrase('🏀' 1m place: Motion(Place(0m 10m)) matter: Matter(2kg 0.8)) Shape(Rectangle(-10m 0m 10m -1m))])"
                     ],
                     "lines": [
-                        ["use", "fit", "DarkVoid"],
+                        [
+                            "use",
+                            "fit",
+                            "DarkVoid"
+                        ],
                         [
                             "FunctionDefinition",
                             "excited",
@@ -2685,13 +3578,20 @@
                             "$~@Motion 是其中最有趣的一個。它生成了@Place 流。"
                         ],
                         null,
-                        ["edit", "Phrase('🏀' 3m place: Motion(Place(0m 5m)))"],
+                        [
+                            "edit",
+                            "Phrase('🏀' 3m place: Motion(Place(0m 5m)))"
+                        ],
                         [
                             "FunctionDefinition",
                             "excited",
                             "$~這是最簡單的使用方法。這將創建一個以此@Motion@Phrase。它會根據重力不斷移動球。"
                         ],
-                        ["Motion", "excited", "$~/咻…/"],
+                        [
+                            "Motion",
+                            "excited",
+                            "$~/咻…/"
+                        ],
                         null,
                         [
                             "edit",
@@ -2703,7 +3603,11 @@
                             "$~但是由於沒有地面，球不斷下落！我們可以在@Stage 上放置一個叫做@Shape 的東西，例如@Rectangle。它需要兩個角。我們會把它弄得又漂亮又厚實。",
                             "$~嗯，它掉到地上了…"
                         ],
-                        ["Motion", "excited", "$~/咻…/"],
+                        [
+                            "Motion",
+                            "excited",
+                            "$~/咻…/"
+                        ],
                         null,
                         [
                             "edit",
@@ -2737,7 +3641,11 @@
                             "$~例如，我們可以給它一個開始@Motion/velocity。",
                             "$~此範例使球最初向右向上移動並旋轉一點。"
                         ],
-                        ["Motion", "excited", "$~咻…"],
+                        [
+                            "Motion",
+                            "excited",
+                            "$~咻…"
+                        ],
                         null,
                         [
                             "edit",
@@ -2756,7 +3664,11 @@
                             "$~嘗試將其改變為像月球一樣，那裡的重力真的很低！",
                             "$~或嘗試改變@Matter/mass 或@Matter/bounciness，這會影響@Phrase 的彈跳方式。"
                         ],
-                        ["Motion", "excited", "$~洗手…"],
+                        [
+                            "Motion",
+                            "excited",
+                            "$~洗手…"
+                        ],
                         null,
                         [
                             "edit",
@@ -2798,9 +3710,15 @@
                     "title": "$~讓我們談談",
                     "subtitle": "$~聊天",
                     "concept": "Chat",
-                    "performance": ["fit", "Phrase('🗣️')"],
+                    "performance": [
+                        "fit",
+                        "Phrase('🗣️')"
+                    ],
                     "lines": [
-                        ["fit", "Phrase('🗣️')"],
+                        [
+                            "fit",
+                            "Phrase('🗣️')"
+                        ],
                         [
                             "FunctionDefinition",
                             "kind",
@@ -2808,14 +3726,20 @@
                             "$~這就是@Chat 的用途。當你使用它時，舞台上會出現一個小框供觀眾輸入，當他們提交訊息時，@Text 將被添加到串流中以供程式回應。"
                         ],
                         null,
-                        ["edit", "Chat()"],
+                        [
+                            "edit",
+                            "Chat()"
+                        ],
                         [
                             "FunctionDefinition",
                             "kind",
                             "$~這是最簡單的使用方法。您輸入一些內容，然後舞台會顯示它，因為程式的值就是@Chat 的值。"
                         ],
                         null,
-                        ["edit", "Chat().has('oo') ? 'choo choo' 'hmm'"],
+                        [
+                            "edit",
+                            "Chat().has('oo') ? 'choo choo' 'hmm'"
+                        ],
                         [
                             "FunctionDefinition",
                             "kind",
@@ -2832,7 +3756,10 @@
                         "Webpage('https://www.nytimes.com')"
                     ],
                     "lines": [
-                        ["edit", "Phrase('🛜')"],
+                        [
+                            "edit",
+                            "Phrase('🛜')"
+                        ],
                         [
                             "FunctionDefinition",
                             "kind",
@@ -2840,7 +3767,10 @@
                             "$~好吧，我們認為將互聯網上的單字帶到這裡真的很酷，這樣你就可以用它們來玩了。"
                         ],
                         null,
-                        ["edit", "Webpage('https://www.nytimes.com')"],
+                        [
+                            "edit",
+                            "Webpage('https://www.nytimes.com')"
+                        ],
                         [
                             "FunctionDefinition",
                             "kind",
@@ -2848,7 +3778,10 @@
                             "$~就像這裡：這些是一些新聞短語。"
                         ],
                         null,
-                        ["edit", "Webpage('https://www.nytimes.com' 'h2')"],
+                        [
+                            "edit",
+                            "Webpage('https://www.nytimes.com' 'h2')"
+                        ],
                         [
                             "FunctionDefinition",
                             "kind",
@@ -2870,9 +3803,17 @@
                     "title": "$~準時",
                     "subtitle": "$~反應",
                     "concept": "Reaction",
-                    "performance": ["use", "fit", "Symbol", "…"],
+                    "performance": [
+                        "use",
+                        "fit",
+                        "Symbol",
+                        "…"
+                    ],
                     "lines": [
-                        ["fit", "Phrase('…' resting:Pose(rotation: 120°))"],
+                        [
+                            "fit",
+                            "Phrase('…' resting:Pose(rotation: 120°))"
+                        ],
                         [
                             "FunctionDefinition",
                             "neutral",
@@ -2884,7 +3825,10 @@
                             "$~是啊是啊！它是@FunctionDefinition！你好嗎？最近一切都如此……穩定。你注意到了嗎？"
                         ],
                         null,
-                        ["fit", "Phrase('…' resting:Pose(rotation: 240°))"],
+                        [
+                            "fit",
+                            "Phrase('…' resting:Pose(rotation: 240°))"
+                        ],
                         [
                             "FunctionDefinition",
                             "curious",
@@ -2896,7 +3840,10 @@
                             "$~超奇怪，超奇怪。我的一生都在關注變化，總是傾聽和觀察人們的新意見，幫助將它們轉化為價值觀。但什麼事也沒有發生。直到剛才……等一下……那是一個人嗎？"
                         ],
                         null,
-                        ["fit", "Phrase('…' resting:Pose(rotation: 360°))"],
+                        [
+                            "fit",
+                            "Phrase('…' resting:Pose(rotation: 360°))"
+                        ],
                         [
                             "FunctionDefinition",
                             "excited",
@@ -2907,7 +3854,11 @@
                             "excited",
                             "$~是的，改變即將到來！我可以向你展示我所做的事情嗎？"
                         ],
-                        ["FunctionDefinition", "eager", "$~是的，請這樣做！"],
+                        [
+                            "FunctionDefinition",
+                            "eager",
+                            "$~是的，請這樣做！"
+                        ],
                         null,
                         [
                             "Reaction",
@@ -2919,14 +3870,20 @@
                             "$~然後在條件後面放置另一個 \\…\\ 來告訴我該值可以改變。",
                             "$~最後，*下一個*值是每當條件改變時我應該產生的值。"
                         ],
-                        ["conflict", "_ … _•? … _"],
+                        [
+                            "conflict",
+                            "_ … _•? … _"
+                        ],
                         null,
                         [
                             "Reaction",
                             "serious",
                             "$~這是一個例子。看@Key？在詢問「這個流是否改變？」之前放置 ∆，在它發生變化之前，我評估其初始值 \\1m\\。但是當按下空白鍵時，@Program 會重新評估，並且我會評估*next*表達式，即 \\1m\\ 加上前一個流值；以 \\.\\ 表示。這會在短語的大小上添加 \\1m\\，使單字變得越來越大。"
                         ],
-                        ["fix", "Phrase('hi' size: 1m … ∆ Key(' ') … 1m + .)"],
+                        [
+                            "fix",
+                            "Phrase('hi' size: 1m … ∆ Key(' ') … 1m + .)"
+                        ],
                         null,
                         [
                             "FunctionDefinition",
@@ -2954,13 +3911,21 @@
                             "bored",
                             "$~我的意思是，我只是告訴你流是否發生了變化。給我一個流，我會檢查。就是這樣。"
                         ],
-                        ["Reaction", "confused", "$~嗯，還不只這些。正確的？"],
+                        [
+                            "Reaction",
+                            "confused",
+                            "$~嗯，還不只這些。正確的？"
+                        ],
                         [
                             "Changed",
                             "bored",
                             "$~並不真地。就是這樣。我的意思是，我很擅長這個，但這是我唯一擅長的。"
                         ],
-                        ["Reaction", "confused", "$~…"],
+                        [
+                            "Reaction",
+                            "confused",
+                            "$~…"
+                        ],
                         null,
                         [
                             "Reaction",
@@ -2999,42 +3964,75 @@
         },
         {
             "title": "$~登上舞台",
-            "performance": ["use", "fix", "RainingEmoji"],
+            "performance": [
+                "use",
+                "fix",
+                "RainingEmoji"
+            ],
             "scenes": [
                 {
                     "title": "$~輸出",
                     "subtitle": null,
-                    "performance": ["use", "fix", "StaticRainingEmoji"],
+                    "performance": [
+                        "use",
+                        "fix",
+                        "StaticRainingEmoji"
+                    ],
                     "lines": [
-                        ["use", "fit", "Symbol", "😀"],
+                        [
+                            "use",
+                            "fit",
+                            "Symbol",
+                            "😀"
+                        ],
                         [
                             "FunctionDefinition",
                             "happy",
                             "$~那麼到目前為止您有什麼想法？我認為這首詩非常簡潔，主要是因為其中的角色非常簡潔。每個人都很特別！"
                         ],
                         null,
-                        ["use", "fit", "Symbol", "🥱"],
+                        [
+                            "use",
+                            "fit",
+                            "Symbol",
+                            "🥱"
+                        ],
                         [
                             "FunctionDefinition",
                             "curious",
                             "$~你無聊嗎？哦天哪。我以為這一切都會很有趣！你希望得到什麼？"
                         ],
                         null,
-                        ["use", "fit", "Symbol", "😴"],
+                        [
+                            "use",
+                            "fit",
+                            "Symbol",
+                            "😴"
+                        ],
                         [
                             "FunctionDefinition",
                             "serious",
                             "$~我懂了。文字、數字、清單和串流都很無聊。我想我真的還沒有向你們展示我們可以用這些製作出的所有東西。也許我們是時候開始談論產出了。"
                         ],
                         null,
-                        ["use", "fit", "Symbol", "🤗"],
+                        [
+                            "use",
+                            "fit",
+                            "Symbol",
+                            "🤗"
+                        ],
                         [
                             "FunctionDefinition",
                             "neutral",
                             "$~您已經看到了很多輸出。每次 @Program 評估時，它都會產生一個值，而 @Program 會在舞台上顯示該值。但到目前為止，您只看到了數字、文字、清單之類的東西。我明白，你只是想看完整的表演，就像我們一樣！"
                         ],
                         null,
-                        ["use", "fit", "Symbol", "💬"],
+                        [
+                            "use",
+                            "fit",
+                            "Symbol",
+                            "💬"
+                        ],
                         [
                             "FunctionDefinition",
                             "eager",
@@ -3046,7 +4044,12 @@
                     "title": "$~說什麼？",
                     "subtitle": "$~短語",
                     "concept": "Phrase",
-                    "performance": ["use", "fit", "Symbol", "💬"],
+                    "performance": [
+                        "use",
+                        "fit",
+                        "Symbol",
+                        "💬"
+                    ],
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -3081,28 +4084,41 @@
                             "happy",
                             "$~嗯，你來對地方了。我喜歡談論有關舞台生活的一切。我迫不及待地想向你們展示我們在舞台上所做的所有精彩的小事！"
                         ],
-                        ["FunctionDefinition", "excited", "$~演出開始了！"],
+                        [
+                            "FunctionDefinition",
+                            "excited",
+                            "$~演出開始了！"
+                        ],
                         null,
                         [
                             "Phrase",
                             "excited",
                             "$~所以我知道你已經看到我這樣做了。"
                         ],
-                        ["edit", "Phrase('hi')"],
+                        [
+                            "edit",
+                            "Phrase('hi')"
+                        ],
                         null,
                         [
                             "Phrase",
                             "kind",
                             "$~親愛的，這就是在舞台上演講最簡單的方法。但還有更多！例如，您是否知道您可以透過使用@FormattedTranslation 來設定您提供給我的文字的樣式？您還沒有見過它們，但您要做的就是在文字周圍放置特殊符號。看哪：大膽！"
                         ],
-                        ["edit", "Phrase(`*hi*`)"],
+                        [
+                            "edit",
+                            "Phrase(`*hi*`)"
+                        ],
                         null,
                         [
                             "Phrase",
                             "kind",
                             "$~對你來說還不夠無禮嗎？那麼同時使用底線、斜體、淺色文字和超粗文字呢？"
                         ],
-                        ["edit", "Phrase(`/I/ _am_ ^the^ /fabulous/ 💬!`)"],
+                        [
+                            "edit",
+                            "Phrase(`/I/ _am_ ^the^ /fabulous/ 💬!`)"
+                        ],
                         null,
                         [
                             "Phrase",
@@ -3110,7 +4126,10 @@
                             "$~還是不滿意？",
                             "$~將它們混合在一起！"
                         ],
-                        ["edit", "Phrase(`/_*I am the fabulous*_/ 💬!`)"],
+                        [
+                            "edit",
+                            "Phrase(`/_*I am the fabulous*_/ 💬!`)"
+                        ],
                         null,
                         [
                             "Phrase",
@@ -3127,14 +4146,20 @@
                             "excited",
                             "$~但我所能做的不僅僅是設定文字樣式。例如，我可以以米\\m\\為單位測量@Phrase/size。嘗試將尺寸更改為您喜歡的任何尺寸！"
                         ],
-                        ["edit", "Phrase('hi' 2m)"],
+                        [
+                            "edit",
+                            "Phrase('hi' 2m)"
+                        ],
                         null,
                         [
                             "Phrase",
                             "kind",
                             "$~該尺寸可以是任何表達式。例如，假設我們希望它隨著@Time 的滴答而增長。我們可以把時間乘以一公尺的一小部分，然後光榮地滴答滴答滴答，嗨嗨嗨。嘗試改變頻率或乘數。看看您能創造多麼美好的成長！"
                         ],
-                        ["fix", "Phrase('hi' Time(100ms) · 0.001m/ms)"],
+                        [
+                            "fix",
+                            "Phrase('hi' Time(100ms) · 0.001m/ms)"
+                        ],
                         null,
                         [
                             "Phrase",
@@ -3208,7 +4233,10 @@
                             "neutral",
                             "$~現在我們已經解決了所有這些問題，我們可以談談跳舞了，親愛的！跳舞是我最喜歡做的事情之一。我的行動方式有*四種*。首先，我可以@Phrase/entering。 Enter 是我進入舞台的方式。如果你不告訴我如何進入，我就會像傳送到那裡一樣突然出現在舞台上。但如果你給我@Pose，我會從你給我的姿勢開始，然後轉到我的休息姿勢。例如，讓我從不可見逐漸消失，變得清晰可見。"
                         ],
-                        ["edit", "Phrase('hi' entering: Pose(opacity: 0))"],
+                        [
+                            "edit",
+                            "Phrase('hi' entering: Pose(opacity: 0))"
+                        ],
                         null,
                         [
                             "Phrase",
@@ -3291,7 +4319,10 @@
                             "happy",
                             "$~當然！每當您厭倦了擺弄@Evaluate 的輸入時，您可以隨時在舞台上選擇一個短語，然後會出現一個調色板，讓您可以更改任何您想要的小東西：我的大小、字體、位置、姿勢。只有一條規則：如果您將其中任何一個設定為表達式而不是值，則必須在@Program 中更改它們，而不是在調色板中。隨你喜歡幫我打扮吧！"
                         ],
-                        ["edit", "Phrase('dress me up!')"],
+                        [
+                            "edit",
+                            "Phrase('dress me up!')"
+                        ],
                         null,
                         [
                             "FunctionDefinition",
@@ -3305,7 +4336,10 @@
                             "$~然後，@Color/chroma 介於 0 到 ∞ 之間，你可以認為它有多少顏色，從無色灰色到全彩色。",
                             "$~最後，@Color/hue，你可以把它想像成一個色輪，從紅色到綠色再到藍色。所以你想讓我變成鮮紅色？將我的休息姿勢顏色設定為\\Color(50% 300 30°)\\。"
                         ],
-                        ["edit", "Phrase('red' color: 🌈(50% 300 30°))"],
+                        [
+                            "edit",
+                            "Phrase('red' color: 🌈(50% 300 30°))"
+                        ],
                         null,
                         [
                             "FunctionDefinition",
@@ -3321,16 +4355,29 @@
                             "happy",
                             "$~@Phrase，這是值得驕傲的事情：P 我想我們接下來會去參觀@Sequence，然後也許是@Group 和@Stage。你會來幫忙嗎？"
                         ],
-                        ["Phrase", "kind", "$~我不會錯過的。閃耀光芒！"]
+                        [
+                            "Phrase",
+                            "kind",
+                            "$~我不會錯過的。閃耀光芒！"
+                        ]
                     ]
                 },
                 {
                     "title": "$~1、2、3、4、1、2、3、4",
                     "subtitle": "$~順序",
                     "concept": "Sequence",
-                    "performance": ["use", "fix", "DancingEmoji", "💃"],
+                    "performance": [
+                        "use",
+                        "fix",
+                        "DancingEmoji",
+                        "💃"
+                    ],
                     "lines": [
-                        ["use", "fit", "DarkVoid"],
+                        [
+                            "use",
+                            "fit",
+                            "DarkVoid"
+                        ],
                         [
                             "FunctionDefinition",
                             "kind",
@@ -3353,7 +4400,11 @@
                             "sad",
                             "$~一切都很安靜，不是嗎？但我完全可以看到你獨自跳舞。我也是獨自進行編舞，只是想像你們所有人一起工作。但這並不一樣。"
                         ],
-                        ["Sequence", "kind", "$~你和@Evaluate 呢？你還是…"],
+                        [
+                            "Sequence",
+                            "kind",
+                            "$~你和@Evaluate 呢？你還是…"
+                        ],
                         null,
                         [
                             "FunctionDefinition",
@@ -3464,7 +4515,11 @@
                             ")"
                         ],
                         null,
-                        ["use", "fit", "DarkVoid"],
+                        [
+                            "use",
+                            "fit",
+                            "DarkVoid"
+                        ],
                         [
                             "FunctionDefinition",
                             "kind",
@@ -3475,16 +4530,28 @@
                             "excited",
                             "$~噢，是的！ @Phrase 和我一直在研究這種新的甜甜圈舞蹈。它融合了我最喜歡的食物和我在舞蹈中學到的幾乎所有知識。你想看嗎？"
                         ],
-                        ["FunctionDefinition", "excited", "$~是的！ ！ ！"],
+                        [
+                            "FunctionDefinition",
+                            "excited",
+                            "$~是的！ ！ ！"
+                        ],
                         null,
                         [
                             "Sequence",
                             "serious",
                             "$~耶，嗯，哦，向上，eee，eee，eee，eee，bam，噓，耶，嗯，哦，向上，eee，eee，eee，eee，bam，噓，耶，嗯，哦，向上，eee，eee，eee，eee，bam，噓，..."
                         ],
-                        ["use", "fit", "DonutDance"],
+                        [
+                            "use",
+                            "fit",
+                            "DonutDance"
+                        ],
                         null,
-                        ["use", "fit", "DonutDance"],
+                        [
+                            "use",
+                            "fit",
+                            "DonutDance"
+                        ],
                         [
                             "FunctionDefinition",
                             "happy",
@@ -3506,7 +4573,12 @@
                         "Group(Grid(2 2) [Phrase('1' resting:Sequence(spin() 1s)) Phrase('2' resting:Sequence(spin() 2s)) Phrase('3' resting:Sequence(spin() 3s)) Phrase('4' resting:Sequence(spin() 4s))])"
                     ],
                     "lines": [
-                        ["use", "fit", "Symbol", "☹️"],
+                        [
+                            "use",
+                            "fit",
+                            "Symbol",
+                            "☹️"
+                        ],
                         [
                             "FunctionDefinition",
                             "neutral",
@@ -3514,7 +4586,12 @@
                             "$~…"
                         ],
                         null,
-                        ["use", "fit", "Symbol", "😕"],
+                        [
+                            "use",
+                            "fit",
+                            "Symbol",
+                            "😕"
+                        ],
                         [
                             "FunctionDefinition",
                             "serious",
@@ -3523,7 +4600,12 @@
                             "$~我認為有幫助的是將你介紹給我們其他人，然後進行一場表演，然後我認為@Evaluate 和我可以理清事情。"
                         ],
                         null,
-                        ["use", "fit", "Symbol", "🙂"],
+                        [
+                            "use",
+                            "fit",
+                            "Symbol",
+                            "🙂"
+                        ],
                         [
                             "FunctionDefinition",
                             "eager",
@@ -3533,7 +4615,10 @@
                             "$~@Group？你在嗎？"
                         ],
                         null,
-                        ["fit", "Group(Grid(2 2) [Phrase('🔳')])"],
+                        [
+                            "fit",
+                            "Group(Grid(2 2) [Phrase('🔳')])"
+                        ],
                         [
                             "Group",
                             "neutral",
@@ -3545,7 +4630,10 @@
                             "$~我沒事。我們都很好！沉默被打破了，因為我們找到了一個人！他們將會成為我們的靈感。"
                         ],
                         null,
-                        ["fit", "Group(Grid(2 2) [Phrase('🔳') Phrase('🔳')])"],
+                        [
+                            "fit",
+                            "Group(Grid(2 2) [Phrase('🔳') Phrase('🔳')])"
+                        ],
                         [
                             "Group",
                             "happy",
@@ -3718,7 +4806,11 @@
                             ")"
                         ],
                         null,
-                        ["use", "fit", "DarkVoid"],
+                        [
+                            "use",
+                            "fit",
+                            "DarkVoid"
+                        ],
                         [
                             "Group",
                             "curious",
@@ -3816,14 +4908,21 @@
                             "neutral",
                             "$~也許我們可以從一個簡單的例子開始。這只是為@Stage 提供了一個@Phrase 的清單。您不必在這裡提及@Stage；這只是展示了當您將@Stage@Phrase。"
                         ],
-                        ["edit", "Stage([Phrase(“🐈”)])"],
+                        [
+                            "edit",
+                            "Stage([Phrase(“🐈”)])"
+                        ],
                         null,
                         [
                             "FunctionDefinition",
                             "neutral",
                             "$~但是假設您希望舞台具有不同的背景顏色，例如黑色。"
                         ],
-                        ["Stage", "surprised", "$~BRRRRR…"],
+                        [
+                            "Stage",
+                            "surprised",
+                            "$~BRRRRR…"
+                        ],
                         [
                             "edit",
                             "Stage([Phrase(“🐈”)] background: Color(0 0 0°))"
@@ -3834,7 +4933,11 @@
                             "neutral",
                             "$~您還可以建立舞台，例如使用@Rectangle，它佔據左上角和右下角。看到小貓有點超出畫面了嗎？"
                         ],
-                        ["Stage", "surprised", "$~世界正在逼近…"],
+                        [
+                            "Stage",
+                            "surprised",
+                            "$~世界正在逼近…"
+                        ],
                         [
                             "edit",
                             "Stage([Phrase(“🐈” place: Place(-2.5m))] background: Color(0 0 0°) frame: Rectangle(-2m -2m 2m 2m))"
@@ -3845,7 +4948,11 @@
                             "neutral",
                             "$~您也可以將所有相同的屬性套用到@Stage，就像@Group 或@Phrase 一樣。讓我們傾斜整個舞台！"
                         ],
-                        ["Stage", "surprised", "$~哇哦，現在要小心了…"],
+                        [
+                            "Stage",
+                            "surprised",
+                            "$~哇哦，現在要小心了…"
+                        ],
                         [
                             "edit",
                             "Stage(",
@@ -3861,14 +4968,21 @@
                             "kind",
                             "$~您可以使用@Stage 做更多的事情，但您可以隨時使用它們進行探索。對吧，@Stage？"
                         ],
-                        ["Stage", "excited", "$~總是！"]
+                        [
+                            "Stage",
+                            "excited",
+                            "$~總是！"
+                        ]
                     ]
                 },
                 {
                     "title": "$~還有...場景！",
                     "subtitle": "$~場景",
                     "concept": "Scene",
-                    "performance": ["fix", "Phrase('🎬' 10m)"],
+                    "performance": [
+                        "fix",
+                        "Phrase('🎬' 10m)"
+                    ],
                     "lines": [
                         [
                             "FunctionDefinition",
@@ -3989,7 +5103,10 @@
                     "title": "$~有沒有一個人叫...",
                     "subtitle": "$~選擇",
                     "concept": "Choice",
-                    "performance": ["fix", "Phrase('🔘' 10m)"],
+                    "performance": [
+                        "fix",
+                        "Phrase('🔘' 10m)"
+                    ],
                     "lines": [
                         [
                             "fix",
@@ -4012,7 +5129,11 @@
                             "excited",
                             "$~這是一個簡單的例子。看看它有三個短語？前兩個有兩個重要的細節。首先，它們被設定為可選擇的。這告訴@Stage，如果單擊它們或使用鍵盤選擇它們，它們就會被選中。第二個細節是他們有一個@Phrase/name。這為@Stage 所選的短語提供了一個唯一的名稱。它的唯一性很重要，這樣@Stage 才知道該選擇了什麼。第三個短語設定為@Choice流，它是一系列選定的@Phrase/name@Group名稱。在這裡，我們只是給另一個短語命名，以便它顯示選擇了什麼名稱。嘗試點擊貓或狗或使用鍵盤選擇一隻。看看第三個@Stage？"
                         ],
-                        ["Choice", "neutral", "$~貓...‘狗’...‘貓’...‘狗’..."],
+                        [
+                            "Choice",
+                            "neutral",
+                            "$~貓...‘狗’...‘貓’...‘狗’..."
+                        ],
                         [
                             "edit",
                             "Stage(",
@@ -4035,23 +5156,46 @@
         },
         {
             "title": "$~回調",
-            "performance": ["use", "fit", "DarkVoid"],
+            "performance": [
+                "use",
+                "fit",
+                "DarkVoid"
+            ],
             "scenes": [
                 {
                     "title": "$~回憶",
                     "subtitle": null,
-                    "performance": ["use", "fit", "Symbol", "💭"],
+                    "performance": [
+                        "use",
+                        "fit",
+                        "Symbol",
+                        "💭"
+                    ],
                     "lines": [
-                        ["FunctionDefinition", "curious", "$~…"],
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "$~…"
+                        ],
                         null,
-                        ["use", "fit", "Symbol", "🤯"],
+                        [
+                            "use",
+                            "fit",
+                            "Symbol",
+                            "🤯"
+                        ],
                         [
                             "FunctionDefinition",
                             "neutral",
                             "$~有時，我只需要停下來思考我的小社區是多麼令人難以置信。我們每個人都如此不同，沒有人能夠獨自完成任務。但只要我們齊心協力，我們就能做出如此驚人的事情！"
                         ],
                         null,
-                        ["use", "fit", "Symbol", "🧠"],
+                        [
+                            "use",
+                            "fit",
+                            "Symbol",
+                            "🧠"
+                        ],
                         [
                             "FunctionDefinition",
                             "kind",
@@ -4063,9 +5207,17 @@
                     "title": "$~命名",
                     "subtitle": "$~綁定",
                     "concept": "Bind",
-                    "performance": ["use", "fit", "Symbol", ":"],
+                    "performance": [
+                        "use",
+                        "fit",
+                        "Symbol",
+                        ":"
+                    ],
                     "lines": [
-                        ["fit", "Phrase(':' rotation: 90°)"],
+                        [
+                            "fit",
+                            "Phrase(':' rotation: 90°)"
+                        ],
                         [
                             "FunctionDefinition",
                             "curious",
@@ -4112,7 +5264,12 @@
                             "$~除了我們遇到的所有角色的名字之外，我根本沒有告訴我們這裡的靈感關於名字的事情。您想解釋一下這裡的名字是如何運作的嗎？"
                         ],
                         null,
-                        ["use", "fit", "Symbol", ":"],
+                        [
+                            "use",
+                            "fit",
+                            "Symbol",
+                            ":"
+                        ],
                         [
                             "Bind",
                             "excited",
@@ -4134,21 +5291,33 @@
                             "serious",
                             "$~這是一個非常簡單的例子。假設我們想命名一個數字。我們只需說出名字，然後：，然後說出我們想要的數字。很簡單，對吧？現在，任何時候我們在表達式中使用名稱數字，它都會被計算為 \\1\\。就像這裡，我們給它命名，然後使用它的名字來賦予@Program 它所具有的任何價值。"
                         ],
-                        ["edit", "number: 1", "number"],
+                        [
+                            "edit",
+                            "number: 1",
+                            "number"
+                        ],
                         null,
                         [
                             "Bind",
                             "serious",
                             "$~並且，您可以透過給我一個帶有 \\•\\ 符號的類型來告訴我名稱應該是什麼類型的值。因此，如果您想確保該數字是一個數字，您會這樣說。這表示將值命名為 \\number\\ 並且該值必須是 @Number。"
                         ],
-                        ["edit", "number•#: 1", "number"],
+                        [
+                            "edit",
+                            "number•#: 1",
+                            "number"
+                        ],
                         null,
                         [
                             "Bind",
                             "eager",
                             "$~但是，如果你給我的東西不是數字怎麼辦？然後我會抱怨，因為你說它應該是一個數字，但你給了我一些文字。所以我不知道該怎麼辦。看？"
                         ],
-                        ["conflict", "number•#: 'oh hi'", "number"],
+                        [
+                            "conflict",
+                            "number•#: 'oh hi'",
+                            "number"
+                        ],
                         null,
                         [
                             "Bind",
@@ -4156,7 +5325,10 @@
                             "$~但好吧，現在你一定在想，*為什麼有人會這樣命名數字或文字？ *。好吧，想像一下，您正在聽@Key，並且您想知道它是否是一組秘密字母中的一個，並且如果它是一個魔法字母，則顯示一個帶有大\\⊤\\的@Phrase，如果不是，則顯示小\\⊥\\。我們可以從這樣的事情開始。這讓我們得到 \\⊤\\ 或 \\⊥\\。",
                             "$~這太棒了；當您按下其中一個字母時，您會得到 \\⊤\\，而當您按下其他字母時，您會得到 \\⊥\\。好的。"
                         ],
-                        ["edit", "[ 'a' 'e' 'i' 'o' 'u'].has(Key())"],
+                        [
+                            "edit",
+                            "[ 'a' 'e' 'i' 'o' 'u'].has(Key())"
+                        ],
                         null,
                         [
                             "Bind",
@@ -4260,7 +5432,12 @@
                             "kind",
                             "$~我想還有最後一個。假設你有這個。看看這裡發生了什麼事？我們將其命名為\\veggies\\，但從未使用過它。這通常是一個不好的跡象，表明您遺漏了某人或沒有使用正確的名字。例如，也許你只是沒有使用它，但為什麼它在那裡呢？"
                         ],
-                        ["conflict", "fruits: 5", "veggies: 10", "fruits + 3"],
+                        [
+                            "conflict",
+                            "fruits: 5",
+                            "veggies: 10",
+                            "fruits + 3"
+                        ],
                         null,
                         [
                             "FunctionDefinition",
@@ -4274,9 +5451,17 @@
                             "$~將文字遊標放在名稱 \\fruit\\ 上。看看裡面其實有三個名字，每個名字都有一個兩個字母的標籤，例如 \\/en\\？如果名稱採用的是您未選擇的語言，則名稱會被隱藏。",
                             "$~例如，向下到⚙並選擇西班牙語，您將看到英語和西班牙語名稱。因此，一個值，但有三個名稱，您可以使用其中任何一個來獲取該值。如果您告訴我們您想要什麼語言，我們就會顯示可用的語言。不過，語言越多越好，因為世界上有很多人閱讀許多不同的語言！"
                         ],
-                        ["conflict", "fruit/en,fruta/es,水果/zh: 5"],
+                        [
+                            "conflict",
+                            "fruit/en,fruta/es,水果/zh: 5"
+                        ],
                         null,
-                        ["use", "fit", "Symbol", ":"],
+                        [
+                            "use",
+                            "fit",
+                            "Symbol",
+                            ":"
+                        ],
                         [
                             "FunctionDefinition",
                             "curious",
@@ -4293,62 +5478,116 @@
                     "title": "$~舞台之外",
                     "subtitle": "$~堵塞",
                     "concept": "Block",
-                    "performance": ["use", "fit", "Symbol", "()"],
+                    "performance": [
+                        "use",
+                        "fit",
+                        "Symbol",
+                        "()"
+                    ],
                     "lines": [
-                        ["fix", "Phrase('()' 1m)"],
+                        [
+                            "fix",
+                            "Phrase('()' 1m)"
+                        ],
                         [
                             "FunctionDefinition",
                             "neutral",
                             "$~所以有一個角色一直在這裡，但你還沒有見過，但他們一直在隱藏......他們與@Bind 和許多其他人密切合作，所以我想我們接下來應該和他們談談。 @Block，你能出來嗎？"
                         ],
-                        ["Block", "shy", "$~… 你好"],
+                        [
+                            "Block",
+                            "shy",
+                            "$~… 你好"
+                        ],
                         null,
-                        ["fix", "Phrase('()' 2m)"],
+                        [
+                            "fix",
+                            "Phrase('()' 2m)"
+                        ],
                         [
                             "FunctionDefinition",
                             "kind",
                             "$~你好，@Block！你好嗎？"
                         ],
-                        ["Block", "shy", "$~…嗯，好嗎？"],
+                        [
+                            "Block",
+                            "shy",
+                            "$~…嗯，好嗎？"
+                        ],
                         null,
-                        ["fix", "Phrase('()' 3m)"],
+                        [
+                            "fix",
+                            "Phrase('()' 3m)"
+                        ],
                         [
                             "FunctionDefinition",
                             "kind",
                             "$~我有一位新朋友想讓你認識。他們可能是我們的下一任導演。"
                         ],
-                        ["Block", "shy", "$~… 你好 …"],
+                        [
+                            "Block",
+                            "shy",
+                            "$~… 你好 …"
+                        ],
                         null,
-                        ["fix", "Phrase('()' 4m)"],
+                        [
+                            "fix",
+                            "Phrase('()' 4m)"
+                        ],
                         [
                             "FunctionDefinition",
                             "kind",
                             "$~我們剛剛與@Bind 見面，還沒有機會談論你們兩個是如何成為最好的朋友的！"
                         ],
-                        ["Block", "shy", "$~…是的，@Bind！"],
+                        [
+                            "Block",
+                            "shy",
+                            "$~…是的，@Bind！"
+                        ],
                         null,
-                        ["fix", "Phrase('()' 1m)"],
+                        [
+                            "fix",
+                            "Phrase('()' 1m)"
+                        ],
                         [
                             "FunctionDefinition",
                             "curious",
                             "$~你想分享你們一起做的事情嗎？"
                         ],
-                        ["Block", "shy", "$~… 你可以嗎？"],
+                        [
+                            "Block",
+                            "shy",
+                            "$~… 你可以嗎？"
+                        ],
                         null,
                         [
                             "FunctionDefinition",
                             "kind",
                             "$~是的當然！因此，事實證明@Program@Block。它只是不帶括號的@Block。但是您可以將帶有括號的@Block 放在程式中的任何位置。例如，您可以使用@Block。這裡，@BinaryEvaluate 評估 \\1\\，然後評估 @Block，然後將它們加起來。 @Block，我說得對嗎？"
                         ],
-                        ["edit", "1 + (2 · 3)"],
-                        ["Block", "shy", "$~… 是的！"],
+                        [
+                            "edit",
+                            "1 + (2 · 3)"
+                        ],
+                        [
+                            "Block",
+                            "shy",
+                            "$~… 是的！"
+                        ],
                         null,
                         [
                             "FunctionDefinition",
                             "kind",
                             "$~@Block 可以做的另一件事您已經看到了。 @Block 讓您使用 @Bind 命名事物。但是在@Block。之前沒有，之後也沒有。例如，檢查一下這個。 \\a\\ 定義為 \\1\\，然後開始一個區塊，\\b\\ 定義為 \\2\\，然後 \\c\\ 定義為它們的總和。 @Block 計算的結果為其表達式清單中的最後一個值。這就是@Bind，其計算結果是\\c\\，即\\3\\。正確的？"
                         ],
-                        ["conflict", "a: 1", "(", "  b: 2", "  c: a + b", ")"],
+                        [
+                            "conflict",
+                            "a: 1",
+                            "(",
+                            "  b: 2",
+                            "  c: a + b",
+                            ")"
+                        ],
                         null,
                         [
                             "FunctionDefinition",
@@ -4414,23 +5653,43 @@
                     "title": "$~舞台指導",
                     "subtitle": "$~功能",
                     "concept": "FunctionDefinition",
-                    "performance": ["use", "fit", "Symbol", "ƒ"],
+                    "performance": [
+                        "use",
+                        "fit",
+                        "Symbol",
+                        "ƒ"
+                    ],
                     "lines": [
-                        ["use", "fit", "Symbol", "☺️"],
+                        [
+                            "use",
+                            "fit",
+                            "Symbol",
+                            "☺️"
+                        ],
                         [
                             "FunctionDefinition",
                             "happy",
                             "$~我很高興我們找到了所有人，並且你能夠見到他們所有人。每個人都是如此不同，不是嗎？但也這麼有趣？我覺得我們就像一個家庭，每個人都有自己的獨特之處，但我們共同的差異使我們變得強大。大家覺得怎麼樣？"
                         ],
                         null,
-                        ["use", "fit", "Symbol", "🙈"],
+                        [
+                            "use",
+                            "fit",
+                            "Symbol",
+                            "🙈"
+                        ],
                         [
                             "FunctionDefinition",
                             "curious",
                             "$~我？嗯，我沒什麼特別的。我只是喜歡在幕後提供幫助，向每個人展示他們的特別之處。我想我什至都沒想過要談論我自己。我想我們可以聊聊我的事情。"
                         ],
                         null,
-                        ["use", "fit", "Symbol", "ƒ"],
+                        [
+                            "use",
+                            "fit",
+                            "Symbol",
+                            "ƒ"
+                        ],
                         [
                             "FunctionDefinition",
                             "serious",
@@ -4443,7 +5702,10 @@
                             "$~這是一個非常簡單的例子。事實上，這是最簡單的！這定義了一個總是計算結果為數字 \\1\\ 的函數。就是這樣。它沒什麼用，不是嗎？它沒有名字，不需要輸入，並且總是計算結果為 \\1\\。",
                             "$~您也可以看到@Program@FunctionDefinition。沒錯，@FunctionDefinition 也是值！我不知道為什麼有人會製作這樣一個無用的功能，但正如我所說：我不是有靈感的人；你是。"
                         ],
-                        ["edit", "ƒ() 1"],
+                        [
+                            "edit",
+                            "ƒ() 1"
+                        ],
                         null,
                         [
                             "FunctionDefinition",
@@ -4461,7 +5723,10 @@
                             "eager",
                             "$~您也可以告訴我應該評估什麼樣的價值。看看我們如何加 \\•\\？輸入清單之後？也就是說，「函數的表達式應該計算為 \\⊤\\ 或 \\⊥\\。」但看看我們是如何抱怨的？我們不知道函數應該是 \\⊤\\ 還是 \\⊥\\ 或您傳回的任何類型的值，因此節目結束。"
                         ],
-                        ["conflict", "ƒ even(number•#)•? (number % 2) + 0"],
+                        [
+                            "conflict",
+                            "ƒ even(number•#)•? (number % 2) + 0"
+                        ],
                         null,
                         [
                             "FunctionDefinition",
@@ -4503,7 +5768,11 @@
                             "Group(Grid(3 2) [Phrase('translate') Phrase('filter') Phrase('combine') Phrase('find') Phrase('sort') Phrase('until')])"
                         ],
                         null,
-                        ["use", "fit", "DarkVoid"],
+                        [
+                            "use",
+                            "fit",
+                            "DarkVoid"
+                        ],
                         [
                             "FunctionDefinition",
                             "sad",
@@ -4515,9 +5784,18 @@
                     "title": "$~佈景設計",
                     "subtitle": "$~結構",
                     "concept": "StructureDefinition",
-                    "performance": ["use", "fit", "Symbol", "•"],
+                    "performance": [
+                        "use",
+                        "fit",
+                        "Symbol",
+                        "•"
+                    ],
                     "lines": [
-                        ["use", "fit", "DarkVoid"],
+                        [
+                            "use",
+                            "fit",
+                            "DarkVoid"
+                        ],
                         [
                             "FunctionDefinition",
                             "sad",
@@ -4590,7 +5868,11 @@
                             "kind",
                             "$~你們覺得怎麼樣，準備好跟大家重逢了嗎？按照我們的樹苗主管的想法表演任何節目？"
                         ],
-                        ["StructureDefinition", "eager", "$~我認為是的。"],
+                        [
+                            "StructureDefinition",
+                            "eager",
+                            "$~我認為是的。"
+                        ],
                         [
                             "fit",
                             "Phrase('•' resting:Sequence({0%: Pose(offset: Place(0m 0.25m)) 50%: Pose(offset: Place(0m 0m)) 100%: Pose(offset: Place(0m 0.25m))} 1.5s))"
@@ -4773,7 +6055,10 @@
                             "eager",
                             "$~哦是的。 @StructureDefinition 中不需要有任何 @FunctionDefinition。你只要有價值觀就好了。例如，您可能只想將一堆資料保存在一個地方。我知道很多導演喜歡製作遊戲，他們通常會將所有遊戲狀態放在@StructureDefinition 中。"
                         ],
-                        ["edit", "•Game(score•# lives•# level•#)"],
+                        [
+                            "edit",
+                            "•Game(score•# lives•# level•#)"
+                        ],
                         null,
                         [
                             "FunctionDefinition",
@@ -4839,14 +6124,24 @@
                     "title": "$~導演筆記",
                     "subtitle": "$~解釋",
                     "concept": "Doc",
-                    "performance": ["use", "fit", "Symbol", "¶"],
+                    "performance": [
+                        "use",
+                        "fit",
+                        "Symbol",
+                        "¶"
+                    ],
                     "lines": [
                         [
                             "FunctionDefinition",
                             "eager",
                             "$~哇，我們已經走了很長一段路了，不是嗎？我們還有一個角色要說。它們很有趣，因為從本質上講，它們都是為了解釋事物，這感覺就像我最近一直在和你一起做的事情。他們的名字是@Doc。怎麼了，@Doc？"
                         ],
-                        ["use", "fit", "Symbol", "¶"],
+                        [
+                            "use",
+                            "fit",
+                            "Symbol",
+                            "¶"
+                        ],
                         [
                             "Doc",
                             "surprised",
@@ -4863,14 +6158,24 @@
                             "kind",
                             "$~很高興認識你！我希望@FunctionDefinition 是一位好老師？"
                         ],
-                        ["use", "fit", "Symbol", "¶/"],
+                        [
+                            "use",
+                            "fit",
+                            "Symbol",
+                            "¶/"
+                        ],
                         null,
                         [
                             "FunctionDefinition",
                             "eager",
                             "$~我試過了……你知道嗎，你是我們的最後一站？你是如此重要，但在我們開始解釋我們的表演之前，還有很多事情需要解釋。所以我希望你能說出最後一句話。你想分享你所做的事情嗎？"
                         ],
-                        ["use", "fit", "Symbol", "¶/en"],
+                        [
+                            "use",
+                            "fit",
+                            "Symbol",
+                            "¶/en"
+                        ],
                         null,
                         [
                             "Doc",
@@ -4883,7 +6188,12 @@
                             "happy",
                             "$~這是一種讓你能夠提醒自己每個人在做什麼的方法，同時也是一種向其他人解釋的方法，例如你正在和朋友一起指揮，或想與某人分享你的表演。所以你不必和我一起工作，但我發現如果你花一些時間解釋它是如何運作的，那麼每場表演都會更容易做和改變。"
                         ],
-                        ["use", "fit", "Symbol", "¶About me...¶/en"],
+                        [
+                            "use",
+                            "fit",
+                            "Symbol",
+                            "¶About me...¶/en"
+                        ],
                         null,
                         [
                             "FunctionDefinition",
@@ -4969,7 +6279,12 @@
                             "Phrase(“✈️” sound)"
                         ],
                         null,
-                        ["use", "fit", "Symbol", "✈️🫦"],
+                        [
+                            "use",
+                            "fit",
+                            "Symbol",
+                            "✈️🫦"
+                        ],
                         [
                             "FunctionDefinition",
                             "excited",
@@ -5048,7 +6363,10 @@
                             "$~看到我們製作的清單中沒有包含“cat”嗎？",
                             "$~您可以透過使用鍵盤刪除星星或將遊標放在星星內並使用 elide 命令將其刪除。"
                         ],
-                        ["edit", "[1 2 3 4 *'cat'* 5 6 7 8]"],
+                        [
+                            "edit",
+                            "[1 2 3 4 *'cat'* 5 6 7 8]"
+                        ],
                         null,
                         [
                             "fit",
@@ -5059,7 +6377,11 @@
                             "excited",
                             "$~哇。我不知道你能做這麼多！謝謝，@Doc，我想我們已經準備好表演了！"
                         ],
-                        ["Doc", "excited", "$~我們開始做吧！"]
+                        [
+                            "Doc",
+                            "excited",
+                            "$~我們開始做吧！"
+                        ]
                     ]
                 }
             ]
@@ -5098,7 +6420,11 @@
                             "fit",
                             "Stage([Phrase('😢')] background: Color(0% 0 0°))"
                         ],
-                        ["Evaluate", "shy", "我沒想到你會花這麼長的時間…"],
+                        [
+                            "Evaluate",
+                            "shy",
+                            "我沒想到你會花這麼長的時間…"
+                        ],
                         [
                             "FunctionDefinition",
                             "sad",
@@ -5139,7 +6465,11 @@
                             "fit",
                             "Stage([Phrase('😭')] background: Color(0% 0 0°))"
                         ],
-                        ["Evaluate", "sad", "你不愛我了嗎?"],
+                        [
+                            "Evaluate",
+                            "sad",
+                            "你不愛我了嗎?"
+                        ],
                         [
                             "FunctionDefinition",
                             "angry",
@@ -5150,21 +6480,33 @@
                             "fit",
                             "Stage([Phrase('🫠')] background: Color(0% 0 0°))"
                         ],
-                        ["Evaluate", "shy", "我需要……你。我不需要我自己"],
+                        [
+                            "Evaluate",
+                            "shy",
+                            "我需要……你。我不需要我自己"
+                        ],
                         [
                             "FunctionDefinition",
                             "kind",
                             "我愛你，@Evaluate。但我希望你也愛你自己。我對我們的世界重新甦醒感到興奮，也期待我們能再次在一起，但你需要找到自己，找到你的需求，找到你的目標。我不能成為你的唯一目標。"
                         ],
                         null,
-                        ["use", "fit", "DarkVoid"],
+                        [
+                            "use",
+                            "fit",
+                            "DarkVoid"
+                        ],
                         [
                             "FunctionDefinition",
                             "sad",
                             "我需要一些空間。對不起，導演朋友。也許 @Evaluate 可以幫忙結束這場歡迎派對。"
                         ],
                         null,
-                        ["Evaluate", "shy", "… 嗨."],
+                        [
+                            "Evaluate",
+                            "shy",
+                            "… 嗨."
+                        ],
                         null,
                         [
                             "Evaluate",
@@ -5178,144 +6520,319 @@
                             "我？ 我什麼都不知道。Me? 我只是給 @FunctionDefinition 他們需要的東西……至少我以為我是這樣做的。"
                         ],
                         null,
-                        ["fit", "Stage([] background: Color(10% 0 0°))"],
-                        ["List", "kind", "這不是真的，@Evaluate。"],
-                        ["Boolean", "precise", "你在說謊"],
-                        ["Text", "happy", "這一點都不對!"],
-                        ["Changed", "happy", "完全不是真的！"],
+                        [
+                            "fit",
+                            "Stage([] background: Color(10% 0 0°))"
+                        ],
+                        [
+                            "List",
+                            "kind",
+                            "這不是真的，@Evaluate。"
+                        ],
+                        [
+                            "Boolean",
+                            "precise",
+                            "你在說謊"
+                        ],
+                        [
+                            "Text",
+                            "happy",
+                            "這一點都不對!"
+                        ],
+                        [
+                            "Changed",
+                            "happy",
+                            "完全不是真的！"
+                        ],
                         [
                             "Number",
                             "serious",
                             "1) 你基本上掌控了我們的演出，2) @Evaluate 沒有你就什麼都不是，3) 你能把東西完全轉變成新的數值，4) 你有超多不同的形態，5) 你讓我們所有人都找到意義，6) 我們都仰賴你來指引方向……"
                         ],
                         null,
-                        ["fit", "Stage([] background: Color(20% 0 0°))"],
+                        [
+                            "fit",
+                            "Stage([] background: Color(20% 0 0°))"
+                        ],
                         [
                             "Phrase",
                             "kind",
                             "@Number 說得對 @Evaluate, 你真的超棒！"
                         ],
-                        ["Sequence", "happy", "我每一次看到你都很開心"],
-
-                        ["Group", "kind", " 你激勵我把大家聚在一起！"],
-
-                        ["Stage", "serious", "你是我們存在的基石！!"],
-                        ["None", "serious", "…"],
-                        ["Program", "kind", "我就是你創造出來的一切！"],
+                        [
+                            "Sequence",
+                            "happy",
+                            "我每一次看到你都很開心"
+                        ],
+                        [
+                            "Group",
+                            "kind",
+                            " 你激勵我把大家聚在一起！"
+                        ],
+                        [
+                            "Stage",
+                            "serious",
+                            "你是我們存在的基石！!"
+                        ],
+                        [
+                            "None",
+                            "serious",
+                            "…"
+                        ],
+                        [
+                            "Program",
+                            "kind",
+                            "我就是你創造出來的一切！"
+                        ],
                         null,
-                        ["fit", "Stage([] background: Color(40% 0 0°))"],
-                        ["Convert", "kind", "我從你身上學到了一切！"],
+                        [
+                            "fit",
+                            "Stage([] background: Color(40% 0 0°))"
+                        ],
+                        [
+                            "Convert",
+                            "kind",
+                            "我從你身上學到了一切！"
+                        ],
                         [
                             "StructureDefinition",
                             "kind",
                             " 沒有你，我們是一團混亂。"
                         ],
-                        ["Bind", "happy", "如果沒有你，我還能命名什麼呢？"],
-                        ["Conditional", "curious", "沒有你，我們還能做什麼？"],
-                        ["Block", "kind", "… 你就是 @Evaluate！"],
-
+                        [
+                            "Bind",
+                            "happy",
+                            "如果沒有你，我還能命名什麼呢？"
+                        ],
+                        [
+                            "Conditional",
+                            "curious",
+                            "沒有你，我們還能做什麼？"
+                        ],
+                        [
+                            "Block",
+                            "kind",
+                            "… 你就是 @Evaluate！"
+                        ],
                         null,
-                        ["fit", "Stage([] background: Color(50% 0 0°))"],
-                        ["Evaluate", "happy", "$~…"],
+                        [
+                            "fit",
+                            "Stage([] background: Color(50% 0 0°))"
+                        ],
+                        [
+                            "Evaluate",
+                            "happy",
+                            "$~…"
+                        ],
                         null,
-                        ["fit", "Stage([] background: Color(60% 0 0°))"],
-                        ["Evaluate", "kind", "你們真的太好了……我……"],
-
+                        [
+                            "fit",
+                            "Stage([] background: Color(60% 0 0°))"
+                        ],
+                        [
+                            "Evaluate",
+                            "kind",
+                            "你們真的太好了……我……"
+                        ],
                         null,
-                        ["fit", "Stage([] background: Color(70% 0 0°))"],
+                        [
+                            "fit",
+                            "Stage([] background: Color(70% 0 0°))"
+                        ],
                         [
                             "Evaluate",
                             "kind",
                             "我們能一起跳舞嗎？我真的好想念你們！"
                         ],
                         null,
-                        ["fit", "Stage([] background: Color(80% 0 0°))"],
-                        ["FunctionDefinition", "happy", "讓我們跳舞吧！"],
-                        ["Evaluate", "sad", "@FunctionDefinition… 我太……"],
-                        ["FunctionDefinition", "happy", "你應該來帶領我們。"],
-
+                        [
+                            "fit",
+                            "Stage([] background: Color(80% 0 0°))"
+                        ],
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "讓我們跳舞吧！"
+                        ],
+                        [
+                            "Evaluate",
+                            "sad",
+                            "@FunctionDefinition… 我太……"
+                        ],
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "你應該來帶領我們。"
+                        ],
                         null,
-                        ["Evaluate", "shy", "… 我做不到……"],
-                        ["FunctionDefinition", "happy", "你 *可以*的."],
+                        [
+                            "Evaluate",
+                            "shy",
+                            "… 我做不到……"
+                        ],
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "你 *可以*的."
+                        ],
                         null,
-                        ["fit", "Stage([] background: Color(90% 0 0°))"],
-                        ["Evaluate", "shy", "… 我……我會試試看。"],
-
+                        [
+                            "fit",
+                            "Stage([] background: Color(90% 0 0°))"
+                        ],
+                        [
+                            "Evaluate",
+                            "shy",
+                            "… 我……我會試試看。"
+                        ],
                         null,
-                        ["fit", "Stage([] background: Color(100% 0 0°))"],
+                        [
+                            "fit",
+                            "Stage([] background: Color(100% 0 0°))"
+                        ],
                         [
                             "Evaluate",
                             "shy",
                             "我想……我想讓我們都隨著節拍移動，在黑暗中微微搖擺。可以嗎？"
                         ],
                         null,
-                        ["Program", "happy", "當然可以！"],
-                        ["Stage", "kind", "讓我們開始吧——我先！"],
-
-                        ["Evaluate", "kind", " 好的，@Stage，你能讓它變暗嗎?"],
-                        ["Stage", "kind", "黑暗模式，啟動！"],
-                        ["use", "edit", "EvaluateDance1"],
+                        [
+                            "Program",
+                            "happy",
+                            "當然可以！"
+                        ],
+                        [
+                            "Stage",
+                            "kind",
+                            "讓我們開始吧——我先！"
+                        ],
+                        [
+                            "Evaluate",
+                            "kind",
+                            " 好的，@Stage，你能讓它變暗嗎?"
+                        ],
+                        [
+                            "Stage",
+                            "kind",
+                            "黑暗模式，啟動！"
+                        ],
+                        [
+                            "use",
+                            "edit",
+                            "EvaluateDance1"
+                        ],
                         null,
                         [
                             "Evaluate",
                             "kind",
                             "@StructureDefinition，我覺得我們需要記住自己的位置。你能幫我們設計一個結構嗎？"
                         ],
-                        ["StructureDefinition", "curious", "這樣可以嗎？"],
-
-                        ["use", "edit", "EvaluateDance2"],
+                        [
+                            "StructureDefinition",
+                            "curious",
+                            "這樣可以嗎？"
+                        ],
+                        [
+                            "use",
+                            "edit",
+                            "EvaluateDance2"
+                        ],
                         null,
                         [
                             "Evaluate",
                             "kind",
                             "沒錯……我還希望我們可以隨著節拍旋轉。可以記住旋轉嗎？"
                         ],
-                        ["StructureDefinition", "curious", "這樣如何？"],
-
-                        ["use", "edit", "EvaluateDance3"],
+                        [
+                            "StructureDefinition",
+                            "curious",
+                            "這樣如何？"
+                        ],
+                        [
+                            "use",
+                            "edit",
+                            "EvaluateDance3"
+                        ],
                         null,
                         [
                             "Evaluate",
                             "happy",
                             "太棒了！嗯……，我們還需要站上舞台。@Text，你可以幫我們列出所有人嗎？我們會把名單轉成\\角色。"
                         ],
-                        ["Text", "excited", "沒問題。這樣可以嗎？"],
-
-                        ["use", "conflict", "EvaluateDance4"],
+                        [
+                            "Text",
+                            "excited",
+                            "沒問題。這樣可以嗎？"
+                        ],
+                        [
+                            "use",
+                            "conflict",
+                            "EvaluateDance4"
+                        ],
                         null,
                         [
                             "Evaluate",
                             "excited",
                             "完美！現在我們要把名單變成角色。@List，我們可以進行轉換嗎？@FunctionDefinition，你願意幫忙嗎？"
                         ],
-                        ["List", "happy", "轉換開始，1、2、3！這樣如何？"],
-
-                        ["use", "conflict", "EvaluateDance5"],
+                        [
+                            "List",
+                            "happy",
+                            "轉換開始，1、2、3！這樣如何？"
+                        ],
+                        [
+                            "use",
+                            "conflict",
+                            "EvaluateDance5"
+                        ],
                         null,
                         [
                             "Evaluate",
                             "happy",
                             "太棒了！現在我們需要讓角色登上舞台。可以把角色轉換成 @Phrase 嗎？或許放進 @Free Group 會更好？"
                         ],
-                        ["List", "kind", "再來一次！"],
-                        ["Phrase", "kind", "集中所有目光！"],
-                        ["Group", "kind", "來吧，大家就位……"],
-
-                        ["use", "edit", "EvaluateDance6"],
+                        [
+                            "List",
+                            "kind",
+                            "再來一次！"
+                        ],
+                        [
+                            "Phrase",
+                            "kind",
+                            "集中所有目光！"
+                        ],
+                        [
+                            "Group",
+                            "kind",
+                            "來吧，大家就位……"
+                        ],
+                        [
+                            "use",
+                            "edit",
+                            "EvaluateDance6"
+                        ],
                         null,
                         [
                             "Evaluate",
                             "confused",
                             "哦……我們在哪裡？哦！我們需要顏色。@Pose，我們能變成白色嗎？"
                         ],
-                        ["use", "edit", "EvaluateDance7"],
+                        [
+                            "use",
+                            "edit",
+                            "EvaluateDance7"
+                        ],
                         null,
                         [
                             "Evaluate",
                             "surprised",
                             "糟了，我們全擠在一起了！我們需要起始位置。來試試 @Random 吧？"
                         ],
-                        ["use", "edit", "EvaluateDance8"],
+                        [
+                            "use",
+                            "edit",
+                            "EvaluateDance8"
+                        ],
                         null,
                         [
                             "Evaluate",
@@ -5327,18 +6844,38 @@
                             "kind",
                             "我能調整它！我們需要一個 @Time stream，還需要改變角色的狀態。但下一個值應該是什麼呢？"
                         ],
-                        ["use", "edit", "EvaluateDance9"],
+                        [
+                            "use",
+                            "edit",
+                            "EvaluateDance9"
+                        ],
                         null,
                         [
                             "Evaluate",
                             "eager",
                             "看來我們需要一個方法，讓我們在每個節拍上移動。@StructureDefinition，我們能創建一個選擇新位置和旋轉的 移動函式嗎？"
                         ],
-                        ["StructureDefinition", "sad", "我不知道怎麼寫函式……"],
+                        [
+                            "StructureDefinition",
+                            "sad",
+                            "我不知道怎麼寫函式……"
+                        ],
                         null,
-                        ["Evaluate", "sad", "…"],
-                        ["FunctionDefinition", "happy", "我可以幫你。"],
-                        ["Evaluate", "happy", "…"],
+                        [
+                            "Evaluate",
+                            "sad",
+                            "…"
+                        ],
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "我可以幫你。"
+                        ],
+                        [
+                            "Evaluate",
+                            "happy",
+                            "…"
+                        ],
                         [
                             "FunctionDefinition",
                             "happy",
@@ -5355,37 +6892,65 @@
                             "eager",
                             "當然！ 一個 \\移動\\ 函式，馬上來。我來開個頭，你來完成它……"
                         ],
-                        ["use", "edit", "EvaluateDance10"],
+                        [
+                            "use",
+                            "edit",
+                            "EvaluateDance10"
+                        ],
                         null,
                         [
                             "Evaluate",
                             "confused",
                             " 謝謝你，@FunctionDefinition。但它們沒有動……啊，對了，\\移動\\ 什麼都沒改變！我們得從當前位置開始，隨機移動水平方向和垂直方向，然後加上一點深度變化，讓大家輪流站到最前面。還有隨機旋轉？"
                         ],
-                        ["use", "edit", "EvaluateDance11"],
+                        [
+                            "use",
+                            "edit",
+                            "EvaluateDance11"
+                        ],
                         null,
                         [
                             "Evaluate",
                             "confused",
                             "嗯……還是不動。哦！我們忘了在 @Reaction 中評估 移動（move）！@List，能幫我們把每個 \\角色\\ 轉換成 移動後的 \\角色\\ 嗎？"
                         ],
-                        ["List", "excited", "和你一起翻譯！"],
-                        ["use", "edit", "EvaluateDance12"],
+                        [
+                            "List",
+                            "excited",
+                            "和你一起翻譯！"
+                        ],
+                        [
+                            "use",
+                            "edit",
+                            "EvaluateDance12"
+                        ],
                         null,
                         [
                             "Evaluate",
                             "confused",
                             "動作還是很生硬……哦，@Phrase，我們忘了設定 移動（move） 的 @Pose 和持續時間。我們應該選個比 @Time tick 還小的值，這樣能讓我們移動後稍作停頓。"
                         ],
-                        ["use", "edit", "EvaluateDance13"],
+                        [
+                            "use",
+                            "edit",
+                            "EvaluateDance13"
+                        ],
                         null,
                         [
                             "Evaluate",
                             "excited",
                             "我們跳舞了！我們真的在跳舞！我們成功了！"
                         ],
-                        ["FunctionDefinition", "kind", "我們忘了一個人……"],
-                        ["Evaluate", "excited", "誰?"],
+                        [
+                            "FunctionDefinition",
+                            "kind",
+                            "我們忘了一個人……"
+                        ],
+                        [
+                            "Evaluate",
+                            "excited",
+                            "誰?"
+                        ],
                         [
                             "FunctionDefinition",
                             "kind",
@@ -5397,23 +6962,87 @@
                             "excited",
                             "哦對！當然！不如讓他們來製作音樂吧？@Phrase，你能監聽 @Volume，並將它連結到你的 @Color/lightness 和 @Color/chroma 嗎？這樣當我們的導演發聲時，我們就會閃耀出炙熱的白光！"
                         ],
-                        ["Phrase", "kind", "好主意！"],
-                        ["use", "edit", "EvaluateDance14"],
+                        [
+                            "Phrase",
+                            "kind",
+                            "好主意！"
+                        ],
+                        [
+                            "use",
+                            "edit",
+                            "EvaluateDance14"
+                        ],
                         null,
-                        ["use", "fix", "EvaluateDance14"],
-                        ["List", "excited", "1, 2, 3, 1, 2, 3"],
-                        ["Boolean", "excited", "移動！"],
-                        ["Text", "excited", "喜悅！"],
-                        ["Conditional", "excited", "什麼才是跳舞，真的？"],
-                        ["Changed", "excited", "砰，砰，砰！"],
-                        ["Number", "excited", "左轉 5 度，上升 1 公尺！"],
-                        ["Phrase", "excited", "美妙！"],
-                        ["Sequence", "excited", "這種感覺！"],
-                        ["Group", "excited", "一起來！"],
-                        ["Stage", "excited", "BOOM BOOM BOOM"],
-                        ["None", "excited", "…"],
-                        ["StructureDefinition", "excited", "記得繼續移動！"],
-                        ["Bind", "excited", "角色們！"],
+                        [
+                            "use",
+                            "fix",
+                            "EvaluateDance14"
+                        ],
+                        [
+                            "List",
+                            "excited",
+                            "1, 2, 3, 1, 2, 3"
+                        ],
+                        [
+                            "Boolean",
+                            "excited",
+                            "移動！"
+                        ],
+                        [
+                            "Text",
+                            "excited",
+                            "喜悅！"
+                        ],
+                        [
+                            "Conditional",
+                            "excited",
+                            "什麼才是跳舞，真的？"
+                        ],
+                        [
+                            "Changed",
+                            "excited",
+                            "砰，砰，砰！"
+                        ],
+                        [
+                            "Number",
+                            "excited",
+                            "左轉 5 度，上升 1 公尺！"
+                        ],
+                        [
+                            "Phrase",
+                            "excited",
+                            "美妙！"
+                        ],
+                        [
+                            "Sequence",
+                            "excited",
+                            "這種感覺！"
+                        ],
+                        [
+                            "Group",
+                            "excited",
+                            "一起來！"
+                        ],
+                        [
+                            "Stage",
+                            "excited",
+                            "BOOM BOOM BOOM"
+                        ],
+                        [
+                            "None",
+                            "excited",
+                            "…"
+                        ],
+                        [
+                            "StructureDefinition",
+                            "excited",
+                            "記得繼續移動！"
+                        ],
+                        [
+                            "Bind",
+                            "excited",
+                            "角色們！"
+                        ],
                         null,
                         [
                             "FunctionDefinition",
@@ -5431,14 +7060,23 @@
                             "curious",
                             "我們剛剛是不是完成了一場表演？"
                         ],
-                        ["Reaction", "eager", "好像有喔……"],
+                        [
+                            "Reaction",
+                            "eager",
+                            "好像有喔……"
+                        ],
                         [
                             "FunctionDefinition",
                             "serious",
                             "是的……但如果沒有我們的新導演朋友，我們不可能做到。他們打破了沉默，提醒我們——我們是為了表達而存在，一起。"
                         ],
                         null,
-                        ["use", "fit", "Symbol", "?"],
+                        [
+                            "use",
+                            "fit",
+                            "Symbol",
+                            "?"
+                        ],
                         [
                             "FunctionDefinition",
                             "excited",
