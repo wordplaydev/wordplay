@@ -5311,7 +5311,7 @@
                 "button": {
                     "show": "Show the feedback form.",
                     "submit": {
-                        "tip": "submit your feeback",
+                        "tip": "submit your feedback",
                         "label": "submit"
                     },
                     "delete": {
