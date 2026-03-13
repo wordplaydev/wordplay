@@ -5168,7 +5168,8 @@
                     "label": "$~Bir sohbet başlatın",
                     "tip": "$~Kendinizle veya başkalarıyla bir tartışma başlatın."
                 },
-                "delete": "$~bu mesajı sil"
+                "delete": "$~bu mesajı sil",
+                "confirmDelete": "$~Silme işlemini onaylıyor musunuz?"
             },
             "error": {
                 "unowned": "$~Bu proje çevrimiçi olarak saklanmadığından, bir sohbet veya işbirlikçileri olamaz.",

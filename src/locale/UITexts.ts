@@ -506,6 +506,8 @@ type UITexts = {
             start: ButtonText;
             /** The message delete button */
             delete: string;
+            /** Confirm deleting the message */
+            confirmDelete: string;
         };
         /** Dialog for chat moderation */
         moderation: HeaderAndExplanationText & {

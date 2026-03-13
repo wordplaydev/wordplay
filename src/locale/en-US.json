@@ -5400,7 +5400,8 @@
                     "label": "start a chat",
                     "tip": "begin a discussion with yourself or others."
                 },
-                "delete": "delete this message"
+                "delete": "delete this message",
+                "confirmDelete": "confirm delete?"
             },
             "moderation": {
                 "header": "Report this message",

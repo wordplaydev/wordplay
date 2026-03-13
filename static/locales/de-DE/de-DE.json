@@ -5880,7 +5880,8 @@
                     "label": "$~Einen Chat starten",
                     "tip": "$~Beginnen Sie eine Diskussion mit sich selbst oder anderen."
                 },
-                "delete": "$~diese Nachricht löschen"
+                "delete": "$~diese Nachricht löschen",
+                "confirmDelete": "$~Löschen bestätigen?"
             },
             "error": {
                 "unowned": "$~Dieses Projekt hat keinen Eigentümer, daher ist kein Chat möglich.",

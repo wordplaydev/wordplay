@@ -9130,6 +9130,10 @@
                   "additionalProperties": false,
                   "description": "Buttons in the chat tile",
                   "properties": {
+                    "confirmDelete": {
+                      "description": "Confirm deleting the message",
+                      "type": "string"
+                    },
                     "delete": {
                       "description": "The message delete button",
                       "type": "string"
@@ -9146,7 +9150,8 @@
                   "required": [
                     "submit",
                     "start",
-                    "delete"
+                    "delete",
+                    "confirmDelete"
                   ],
                   "type": "object"
                 },
