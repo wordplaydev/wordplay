@@ -3534,11 +3534,11 @@
                 "names": "background"
             },
             "opacity": {
-                "doc": "How transparent everything inside me should be, between \\0\\ and \\1\\, unless overriden by a different @Pose.",
+                "doc": "How transparent everything inside me should be, between \\0\\ and \\1\\, unless overridden by a different @Pose.",
                 "names": "opacity"
             },
             "offset": {
-                "doc": "A @Place indicating how offset from my normal @Place it should be, unless overriden by a different @Pose. Helpful for wiggling in place.",
+                "doc": "A @Place indicating how offset from my normal @Place it should be, unless overridden by a different @Pose. Helpful for wiggling in place.",
                 "names": "offset"
             },
             "rotation": {
@@ -3585,7 +3585,7 @@
         },
         "Phrase": {
             "doc": [
-                "Hello, hello! Remember me? How could anyone forget /me/. That's right, I am the manificent @Phrase, ready to represent the loveliest of @Text on @Stage.",
+                "Hello, hello! Remember me? How could anyone forget /me/. That's right, I am the magnificent @Phrase, ready to represent the loveliest of @Text on @Stage.",
                 "Just make me like this, and I'll appear on @Stage:",
                 "\\Phrase('magnificient!')\\",
                 "I need @TextLiteral or @FormattedLiteral to show. With @FormattedLiteral, I can use things like \\`*bold* and /italic/`\\ or refer to custom @ConceptLink you create.",
@@ -3650,7 +3650,7 @@
                 "names": "selectable"
             },
             "color": {
-                "doc": "The @Color I should be by default, unless overriden by a different @Pose.",
+                "doc": "The @Color I should be by default, unless overridden by a different @Pose.",
                 "names": "color"
             },
             "background": {
@@ -3658,27 +3658,27 @@
                 "names": "background"
             },
             "opacity": {
-                "doc": "How transparent I should be by default, between \\0\\ and \\1\\, unless overriden by a different @Pose. Helpful for fading in and out.",
+                "doc": "How transparent I should be by default, between \\0\\ and \\1\\, unless overridden by a different @Pose. Helpful for fading in and out.",
                 "names": "opacity"
             },
             "offset": {
-                "doc": "A @Place indicating how offset from my @Place it should be, unless overriden by a different @Pose. Helpful for wiggling in place.",
+                "doc": "A @Place indicating how offset from my @Place it should be, unless overridden by a different @Pose. Helpful for wiggling in place.",
                 "names": "offset"
             },
             "rotation": {
-                "doc": "The amount in degrees I should should be rotated around its center, unless overriden by a different @Pose.",
+                "doc": "The amount in degrees I should should be rotated around its center, unless overridden by a different @Pose.",
                 "names": "rotation"
             },
             "scale": {
-                "doc": "How magnified I should be relative to its original size, unless overriden by a different @Pose.",
+                "doc": "How magnified I should be relative to its original size, unless overridden by a different @Pose.",
                 "names": "scale"
             },
             "flipx": {
-                "doc": "Whether I should be mirrored on the x-axis, unless overriden by a different @Pose.",
+                "doc": "Whether I should be mirrored on the x-axis, unless overridden by a different @Pose.",
                 "names": "flipx"
             },
             "flipy": {
-                "doc": "Whether I should be mirrored on the y-axis, unless overriden by a different @Pose.",
+                "doc": "Whether I should be mirrored on the y-axis, unless overridden by a different @Pose.",
                 "names": "flipy"
             },
             "entering": {
