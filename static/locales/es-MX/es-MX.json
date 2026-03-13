@@ -5655,7 +5655,7 @@
                     },
                     "fill": {
                         "label": "$~llenar",
-                        "labels": ["$~ninguno", "$~inerit", "$~elegir"],
+                        "labels": ["$~ninguno", "$~inherit", "$~elegir"],
                         "tips": [
                             "$~sin relleno",
                             "$~heredar el color de relleno del texto circundante",
@@ -5664,7 +5664,7 @@
                     },
                     "stroke": {
                         "label": "$~ataque",
-                        "labels": ["$~ninguno", "$~inerit", "$~elegir"],
+                        "labels": ["$~ninguno", "$~inherit", "$~elegir"],
                         "tips": [
                             "$~sin accidente cerebrovascular",
                             "$~heredar el color del trazo del texto circundante",

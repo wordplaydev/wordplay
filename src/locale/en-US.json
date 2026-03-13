@@ -5853,7 +5853,7 @@
                     },
                     "fill": {
                         "label": "fill",
-                        "labels": ["none", "inerit", "choose"],
+                        "labels": ["none", "inherit", "choose"],
                         "tips": [
                             "no fill",
                             "inherit fill color from surrounding text",
@@ -5862,7 +5862,7 @@
                     },
                     "stroke": {
                         "label": "stroke",
-                        "labels": ["none", "inerit", "choose"],
+                        "labels": ["none", "inherit", "choose"],
                         "tips": [
                             "no stroke",
                             "inherit stroke color from surrounding text",

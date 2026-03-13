@@ -5672,7 +5672,7 @@
                     },
                     "fill": {
                         "label": "$~füllen",
-                        "labels": ["$~keiner", "$~inerit", "$~wählen"],
+                        "labels": ["$~keiner", "$~inherit", "$~wählen"],
                         "tips": [
                             "$~keine Füllung",
                             "$~Füllfarbe vom umgebenden Text übernehmen",
@@ -5681,7 +5681,7 @@
                     },
                     "stroke": {
                         "label": "$~Schlaganfall",
-                        "labels": ["$~keiner", "$~inerit", "$~wählen"],
+                        "labels": ["$~keiner", "$~inherit", "$~wählen"],
                         "tips": [
                             "$~kein Schlaganfall",
                             "$~Die Strichfarbe des umgebenden Textes übernehmen",
