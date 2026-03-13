@@ -1,4 +1,4 @@
-<script module>
+<script lang="ts" module>
     import type Spaces from '@parser/Spaces';
 
     export type Format = {
@@ -367,10 +367,10 @@
 
     .block.type {
         font-size: var(--wordplay-small-font-size);
-        box-shadow: inset var(--wordplay-border-color) 1px 1px
+        box-shadow: inset var(--wordplay-border-color) 0px 0px
             var(--wordplay-border-width);
-        background: var(--color-light-grey-transparent);
-        padding: var(--wordplay-spacing-half);
+        background: var(--wordplay-alternating-color);
+        padding: var(--wordplay-spacing) var(--wordplay-spacing-half);
     }
 
     .block.predicate {
@@ -395,6 +395,18 @@
     .block.blockoutput {
         outline: var(--wordplay-focus-width) solid
             var(--wordplay-evaluation-color);
+    }
+
+    .block.blockmajor {
+        border-bottom: var(--wordplay-focus-width) solid var(--wordplay-error);
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+
+    .block.blockminor {
+        border-bottom: var(--wordplay-focus-width) solid var(--wordplay-warning);
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
     }
 
     .small {

@@ -1,12 +1,12 @@
 <script lang="ts">
     import type Locale from '@locale/Locale';
     import { DRAFT_SYMBOL } from '@parser/Symbols';
+    import { withColorEmoji } from '@unicode/emoji';
     import {
         getLocaleLanguageName,
         getLocaleRegionNames,
         isLocaleDraft,
     } from '../../locale/LocaleText';
-    import { withColorEmoji } from '../../unicode/emoji';
 
     interface Props {
         locale: string | Locale;
@@ -28,12 +28,13 @@
 </script>
 
 <span class="language" class:supported>
-    {#if draft && showDraft}{withColorEmoji(DRAFT_SYMBOL)}{/if}
     <span class="name">{language}</span>{#each regions as region, index}<sub
             >{#if index > 0}
                 /
             {/if}{region}</sub
         >{/each}
+    {#if draft && showDraft}
+        {withColorEmoji(DRAFT_SYMBOL)}{/if}
 </span>
 
 <style>

@@ -21,42 +21,31 @@
     let conflicts = getConflicts();
 
     // The number of conflicts is the number of nodes in the source involved in conflicts
-    let primaryCount = $state(0);
-    let secondaryCount = $state(0);
+    let conflictCount = $state(0);
 
     // Derive counts from sources.
     $effect(() => {
-        let newPrimaryCount = 0;
-        let newSecondaryCount = 0;
+        let newCount = 0;
         if ($conflicts) {
             for (const conflict of $conflicts) {
-                const nodes = conflict.getConflictingNodes(
+                const nodes = conflict.getMessage(
                     project.getContext(source),
                     Templates,
                 );
-                if (source.has(nodes.primary.node)) {
-                    if (!conflict.isMinor()) newPrimaryCount++;
-                    else newSecondaryCount++;
-                } else if (
-                    nodes.secondary !== undefined &&
-                    source.has(nodes.secondary.node)
-                )
-                    newSecondaryCount++;
+                if (source.has(nodes.node)) {
+                    if (!conflict.isMinor()) newCount++;
+                }
             }
         }
 
-        primaryCount = newPrimaryCount;
-        secondaryCount = newSecondaryCount;
+        conflictCount = newCount;
     });
 </script>
 
 <Toggle tips={(l) => l.ui.tile.toggle.show} on={expanded} {toggle}>
-    {#if primaryCount > 0}<span class="count primary">{primaryCount}</span>{/if}
-    {#if secondaryCount > 0}<span class="count secondary">{secondaryCount}</span
+    {#if conflictCount > 0}<span class="count conflict">{conflictCount}</span
         >{/if}
-    {#if primaryCount === 0 && secondaryCount === 0}<Emoji
-            >{Characters.Program.symbols}</Emoji
-        >{/if}
+    {#if conflictCount === 0}<Emoji>{Characters.Program.symbols}</Emoji>{/if}
     <!-- Only one source? Use a label to indicate that this is where the code is. Otherwise, use the source names. -->
     {#if project.getSources().length > 1}{$locales.getName(
             source.names,
@@ -80,11 +69,7 @@
         vertical-align: middle;
     }
 
-    .primary {
+    .conflict {
         background-color: var(--wordplay-error);
-    }
-
-    .secondary {
-        background-color: var(--wordplay-warning);
     }
 </style>

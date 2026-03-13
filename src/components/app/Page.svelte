@@ -112,8 +112,8 @@
 
 <style>
     .page {
-        width: 100vw;
-        height: calc(100vh - 1px);
+        width: 100dvw;
+        height: calc(100dvh - 1px);
         max-width: 100%;
         max-height: 100%;
         display: flex;

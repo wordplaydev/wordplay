@@ -1,0 +1,31 @@
+יצירת סדרת אנימציה של סצנות
+
+לפעמים אנחנו רוצים לספר סיפורים, להראות מילים או להנפיש שירה.לשם כך, נוכל להשתמש @Scene ו @Phrase יחד, כדי להראות רצף.
+
+לדוגמה, דמיינו שאנחנו רוצים להנפיש את שיר הילדים הקצר "ג'ק בי נימבלי".אנחנו יכולים לעשות @Scene שיש בו כל שורה כ- @Phrase , ועל ידי הגדרת ה- @Phrase/duration של כל שורה, ה @Scene יתקדם כאשר כל משפט יושלם.
+
+\Scene([
+		Phrase('ג'ק יהיה זריז' duration: 1s)
+		Phrase('ג'ק, תמהר' duration: 1s)
+		Phrase('ג'ק קופץ מעל מקל הנר' duration: 1s)
+	])\
+
+@Scene יחכה ל- @Sequence גם לעשות. בואו נקפוץ בשורת הנרות!
+
+\Scene([
+		Phrase('ג'ק יהיה זריז' duration: 1s)
+		Phrase('ג'ק, תמהר' duration: 1s)
+		Phrase('ג'ק קופץ מעל מקל הנר' entering: Sequence(bounce() 1s))
+	])\
+
+@Scene יכול גם לקחת א @Group גם של טקסט, והוא ימתין שכל התוכן שלו יסיים את האנימציה.
+
+\Scene([
+		Group(Stack() [
+				Phrase('ג'ק יהיה זריז')
+				Phrase('ג'ק, תמהר')
+			] duration: 2s)
+		Phrase('ג'ק קופץ מעל מקל הנר' entering: Sequence(bounce() 1s))
+	])\
+
+interactive-scene

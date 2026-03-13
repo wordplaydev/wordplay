@@ -7,7 +7,7 @@ import Purpose from '../concepts/Purpose';
 import type Locales from '../locale/Locales';
 import Emotion from '../lore/Emotion';
 import Language from './Language';
-import { getPreferred as getPreferredName } from './LanguageTagged';
+import { getPreferred } from './LanguageTagged';
 import Name from './Name';
 import NameToken from './NameToken';
 import type { Grammar, Replacement } from './Node';
@@ -21,7 +21,7 @@ export default class Names extends Node {
     constructor(names: Name[]) {
         super();
 
-        // Add name separators if lacking
+        // Add separators if lacking
         this.names = names.map((name, index) =>
             index < names.length - 1 && name.separator === undefined
                 ? name.withSeparator()
@@ -124,6 +124,10 @@ export default class Names extends Node {
         return this.names.find((name) => name.isSymbolic())?.getName();
     }
 
+    getEmojiName() {
+        return this.names.find((name) => name.isEmoji())?.getName();
+    }
+
     getNonSymbolicName() {
         return this.names.find((name) => !name.isSymbolic())?.getName();
     }
@@ -167,7 +171,7 @@ export default class Names extends Node {
         // Build the list of preferred languages
         const locales = Array.isArray(preferred) ? preferred : [preferred];
         // Find the first preferred locale with an exact match.
-        return getPreferredName(
+        return getPreferred(
             locales,
             this.names.filter((name) => !name.isSymbolic()),
         );

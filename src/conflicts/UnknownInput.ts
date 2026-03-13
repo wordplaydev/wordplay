@@ -29,24 +29,14 @@ export default class UnknownInput extends Conflict {
     static readonly LocalePath = (locales: LocaleText) =>
         locales.node.Evaluate.conflict.UnknownInput;
 
-    getConflictingNodes() {
+    getMessage() {
         return {
-            primary: {
-                node: this.given.name,
-                explanation: (locales: Locales, context: Context) =>
-                    locales.concretize(
-                        (l) => UnknownInput.LocalePath(l).primary,
-                        this.func.getPreferredName(locales.getLocales()),
-                    ),
-            },
-            secondary: {
-                node: this.func.names,
-                explanation: (locales: Locales) =>
-                    locales.concretize(
-                        (l) => UnknownInput.LocalePath(l).secondary,
-                        this.given.name.getText(),
-                    ),
-            },
+            node: this.given.name,
+            explanation: (locales: Locales, context: Context) =>
+                locales.concretize(
+                    (l) => UnknownInput.LocalePath(l).explanation,
+                    this.func.getPreferredName(locales.getLocales()),
+                ),
         };
     }
 

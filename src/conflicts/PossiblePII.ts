@@ -35,20 +35,16 @@ export class PossiblePII extends Conflict {
             .flat();
     }
 
-    getConflictingNodes() {
+    getMessage() {
         return {
-            primary: {
-                node: this.text,
-                explanation: (locales: Locales) =>
-                    locales.concretize(
-                        (l) =>
-                            l.node.Translation.conflict[this.pii.kind].primary,
-                        this.pii.text,
-                        locales.get(
-                            (l) => l.node.Translation.conflict.reminder,
-                        ),
-                    ),
-            },
+            node: this.text,
+            explanation: (locales: Locales) =>
+                locales.concretize(
+                    (l) =>
+                        l.node.Translation.conflict[this.pii.kind].explanation,
+                    this.pii.text,
+                    locales.get((l) => l.node.Translation.conflict.reminder),
+                ),
             resolutions: [
                 {
                     description: (locales: Locales) =>

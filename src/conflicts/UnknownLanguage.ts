@@ -17,15 +17,13 @@ export default class UnknownLanguage extends Conflict {
     static readonly LocalePath = (locales: LocaleText) =>
         locales.node.Language.conflict.UnknownLanguage;
 
-    getConflictingNodes() {
+    getMessage() {
         return {
-            primary: {
-                node: this.language,
-                explanation: (locales: Locales) =>
-                    locales.concretize(
-                        (l) => UnknownLanguage.LocalePath(l).primary,
-                    ),
-            },
+            node: this.language,
+            explanation: (locales: Locales) =>
+                locales.concretize(
+                    (l) => UnknownLanguage.LocalePath(l).explanation,
+                ),
         };
     }
 

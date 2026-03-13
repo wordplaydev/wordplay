@@ -27,6 +27,7 @@ import EmptySourceNameException from '@values/EmptySourceNameException';
 import ListValue from '@values/ListValue';
 import ProjectSizeLimitException from '@values/ProjectSizeLimitException';
 import ReadOnlyEditException from '@values/ReadOnlyEditException';
+import SingletonStreamValue from '@values/SingletonStreamValue';
 import StructureValue from '@values/StructureValue';
 import TextValue from '@values/TextValue';
 import NumberGenerator from 'recoverable-random';
@@ -230,6 +231,13 @@ export default class Evaluator {
      * to this Evaluator.
      */
     temporalReactions: StreamValue[] = [];
+
+    /**
+     * A set of singleton stream values that have updated, for pooling them into a single reevaluation, rather than evaluating each at once.
+     * Requires the UI handling inputs to trigger reevaluation after they are handled.
+     */
+    singletonReactions: Map<Function, SingletonStreamValue<any, any>[]> =
+        new Map();
 
     /** The animation multiplier to apply to all time-based streams. Can come from anywhere, but typically a user configuration.
      */
@@ -1521,6 +1529,22 @@ export default class Evaluator {
         if (this.reactive && !this.#stopped) this.later(this.tick.bind(this));
     }
 
+    /** React to all singleton streams */
+    singletonReact<Kind extends StreamValue>(
+        type: new (...params: never[]) => Kind,
+        callback: (kind: Kind) => void,
+    ) {
+        // React to all of the streams of the given type, pooling new stream values of that type.
+        this.getBasisStreamsOfType(type).map((stream) => callback(stream));
+
+        // Flush all of the streams of that type that we pooled, and clear the pool.
+        const values = this.singletonReactions.get(type);
+        if (values) {
+            this.evaluate(values);
+            this.singletonReactions.delete(type);
+        }
+    }
+
     /** React with any pooled temporal reactions */
     flush() {
         // If they changed, react.
@@ -1573,6 +1597,15 @@ export default class Evaluator {
             // If this is a temporal stream, pool it, letting tick() do a single project reaction.
             if (stream instanceof TemporalStreamValue)
                 this.temporalReactions.push(stream);
+            // If this is a singleton stream value, pool it.
+            else if (stream instanceof SingletonStreamValue) {
+                let values = this.singletonReactions.get(stream.constructor);
+                if (values === undefined) {
+                    values = [];
+                    this.singletonReactions.set(stream.constructor, values);
+                }
+                values.push(stream);
+            }
             // Otherwise, react immediately.
             else this.evaluate([stream]);
         }

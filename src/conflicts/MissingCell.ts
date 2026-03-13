@@ -23,29 +23,19 @@ export default class MissingCell extends Conflict {
     static readonly LocalePath = (locale: LocaleText) =>
         locale.node.Row.conflict.MissingCell;
 
-    getConflictingNodes() {
+    getMessage() {
         return {
-            primary: {
-                node: this.row,
-                explanation: (locales: Locales, context: Context) =>
-                    locales.concretize(
-                        (l) => MissingCell.LocalePath(l).primary,
-                        new NodeRef(
-                            this.column,
-                            locales,
-                            context,
-                            locales.getName(this.column.names),
-                        ),
+            node: this.row,
+            explanation: (locales: Locales, context: Context) =>
+                locales.concretize(
+                    (l) => MissingCell.LocalePath(l).explanation,
+                    new NodeRef(
+                        this.column,
+                        locales,
+                        context,
+                        locales.getName(this.column.names),
                     ),
-            },
-            secondary: {
-                node: this.column,
-                explanation: (locales: Locales, context: Context) =>
-                    locales.concretize(
-                        (l) => MissingCell.LocalePath(l).secondary,
-                        new NodeRef(this.row, locales, context),
-                    ),
-            },
+                ),
         };
     }
 

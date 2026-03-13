@@ -15,15 +15,13 @@ export default class NoExpression extends Conflict {
     static readonly LocalePath = (locale: LocaleText) =>
         locale.node.FunctionDefinition.conflict.NoExpression;
 
-    getConflictingNodes() {
+    getMessage() {
         return {
-            primary: {
-                node: this.def.names,
-                explanation: (locales: Locales) =>
-                    locales.concretize(
-                        (l) => NoExpression.LocalePath(l).primary,
-                    ),
-            },
+            node: this.def.names,
+            explanation: (locales: Locales) =>
+                locales.concretize(
+                    (l) => NoExpression.LocalePath(l).explanation,
+                ),
         };
     }
 

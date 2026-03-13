@@ -1,5 +1,6 @@
 import Sym from '@nodes/Sym';
 import Token from '@nodes/Token';
+import { withoutVariationSelectors } from '@unicode/emoji';
 import ReservedSymbols from './ReservedSymbols';
 import {
     BIND_SYMBOL,
@@ -19,6 +20,7 @@ import {
     DELETE_SYMBOL,
     DIFFERENCE_SYMBOL,
     DOCS_SYMBOL,
+    DOT_SYMBOL,
     ELISION_SYMBOL,
     EVAL_CLOSE_SYMBOL,
     EVAL_CLOSE_SYMBOL_FULL,
@@ -86,7 +88,7 @@ import TokenList from './TokenList';
 import { toTokens } from './toTokens';
 
 const TEXT_SEPARATORS = '\'‘’"“”„«»‹›「」『』';
-const OPERATORS = `${NOT_SYMBOL}\\-\\^${SUM_SYMBOL}\\${DIFFERENCE_SYMBOL}×${PRODUCT_SYMBOL}÷%<≤=≠≥>&|~?\\u2200-\\u22FF\\u2A00-\\u2AFF\\u2190-\\u21FF\\u27F0-\\u27FF\\u2900-\\u297F`;
+const OPERATORS = `${NOT_SYMBOL}\\-\\^${SUM_SYMBOL}\\${DIFFERENCE_SYMBOL}${PRODUCT_SYMBOL}${DOT_SYMBOL}÷%<≤=≠≥>&|~?\\u2200-\\u22FF\\u2A00-\\u2AFF\\u2190-\\u21FF\\u27F0-\\u27FF\\u2900-\\u297F`;
 
 export const OperatorRegEx = new RegExp(`^[${OPERATORS}]`, 'u');
 export const StrictURLRegEx = new RegExp(
@@ -500,6 +502,9 @@ export function tokenize(source: string): TokenList {
 
     // Then, strip any zero width spaces. Those only cause confusion, since they are invisible.
     source = source.replaceAll('\u200B', '');
+
+    // Remove any emoiji variation selectors, as they don't have any semantic meaning.
+    source = withoutVariationSelectors(source);
 
     // Start with an empty list
     const tokens: Token[] = [];

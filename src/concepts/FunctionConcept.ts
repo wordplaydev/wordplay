@@ -42,6 +42,7 @@ export default class FunctionConcept extends Concept {
             locales,
             context,
             false,
+            true,
             this.structure?.type,
         );
 

@@ -362,7 +362,7 @@ export default class Caret {
         // Find the token whose space contains the current position. This is the token text to the right of the caret.
         const tokens = this.getProgram()
             .nodes()
-            .filter((token) => token instanceof Token) as Token[];
+            .filter((token) => token instanceof Token);
         const tokenAfter = this.source.getTokenWithSpaceAt(this.position);
 
         if (tokenAfter === undefined) return empty;
@@ -705,7 +705,46 @@ export default class Caret {
                 const grammar = node.getGrammar();
                 for (let index = 0; index < grammar.length; index++) {
                     const field = grammar[index];
-                    if (field.kind instanceof ListOf) {
+                    // If it's optionally empty field and it's empty, add a point to insert to it.
+                    if (
+                        field.kind.isOptional() &&
+                        node.getField(field.name) === undefined
+                    ) {
+                        // Find the position of the empty field. This is either the position of the first token after it, or the last token before it if there is no token after it, or the position of the node if there are no tokens.
+                        const tokensAfterField = getFieldTokens(
+                            node,
+                            grammar.slice(index + 1),
+                        );
+                        const firstTokenAfter = tokensAfterField.at(0);
+                        if (firstTokenAfter) {
+                            const firstPosition =
+                                this.source.getTokenTextPosition(
+                                    firstTokenAfter,
+                                );
+                            if (firstPosition !== undefined)
+                                points.push(firstPosition);
+                        } else {
+                            const tokensBeforeField = getFieldTokens(
+                                node,
+                                grammar.slice(0, index),
+                            );
+                            const lastTokenBefore = tokensBeforeField.at(-1);
+                            if (lastTokenBefore) {
+                                const lastPosition =
+                                    this.source.getTokenLastPosition(
+                                        lastTokenBefore,
+                                    );
+                                if (lastPosition !== undefined)
+                                    points.push(lastPosition);
+                            } else {
+                                const emptyPosition =
+                                    this.source.getNodeFirstPosition(node);
+                                if (emptyPosition) points.push(emptyPosition);
+                            }
+                        }
+                    }
+                    // If it's a list field, see if someting can be inserted in the list.
+                    else if (field.kind instanceof ListOf) {
                         // Get the list values.
                         const values = node.getField(field.name);
                         if (Array.isArray(values)) {
@@ -741,7 +780,6 @@ export default class Caret {
                                 }
                             }
                             // No tokens before the list? See if there are tokens after.
-
                             const tokensAfterField = getFieldTokens(
                                 node,
                                 grammar.slice(index + 1),
@@ -962,7 +1000,7 @@ export default class Caret {
             // Get the first or last token of the given node.
             const tokens = this.position.nodes(
                 (n): n is Token => n instanceof Token,
-            ) as Token[];
+            );
             const first = tokens[0];
             const last = tokens[tokens.length - 1];
             if (start && first) {
@@ -995,8 +1033,15 @@ export default class Caret {
         column?: number,
         entry?: Entry,
     ): Caret {
-        if (typeof position === 'number' && isNaN(position))
-            throw Error('NaN on caret set!');
+        if (
+            (typeof position === 'number' && isNaN(position)) ||
+            (Array.isArray(position) &&
+                (isNaN(position[0]) || isNaN(position[1])))
+        ) {
+            console.error('NaN on caret set!');
+            console.trace();
+            return this;
+        }
         return new Caret(
             this.source,
             typeof position === 'number'
@@ -1510,11 +1555,11 @@ export default class Caret {
             );
             // Bail if we couldn't find it for some reason.
             if (editedRevision === undefined) return undefined;
-            const start = revisedSource.getTokenTextPosition(
-                editedRevision[1]
-                    .leaves()
-                    .find((t) => t.isSymbol(Sym.Name)) as Token,
-            );
+            const firstName = editedRevision[1]
+                .leaves()
+                .find((t) => t.isSymbol(Sym.Name));
+            if (firstName === undefined) return undefined;
+            const start = revisedSource.getTokenTextPosition(firstName);
             // Bail if we couldn't find the start position for some reason.
             if (start === undefined) return undefined;
 
@@ -1943,6 +1988,15 @@ export default class Caret {
         let position: Expression | undefined;
 
         // Tokenize the insertion
+        const keyTokens = tokens(key);
+        // We expect exactly two tokens, the key token and the end token. Otherwise, we don't wrap.
+        if (
+            keyTokens.length < 2 ||
+            keyTokens.length > 2 ||
+            keyTokens[1].isSymbol(Sym.End)
+        )
+            return;
+
         const token = tokens(key)[0];
         if (token === undefined) return;
 

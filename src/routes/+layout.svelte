@@ -1,10 +1,13 @@
 <script module lang="ts">
     import type { NotificationData } from '@components/settings/Notifications.svelte';
-    import { SvelteSet } from 'svelte/reactivity';
+    import { SvelteMap } from 'svelte/reactivity';
 
-    /** User's notifications state */
-    export let notifications = $state<SvelteSet<NotificationData>>(
-        new SvelteSet(),
+    /** User's notifications state
+     * Maps a string (notification's item ID + type) to data
+     * (Workaround to make sure that we don't send more than one notification of the same type)
+     */
+    export let notifications = $state<SvelteMap<string, NotificationData>>(
+        new SvelteMap(),
     );
 </script>
 
@@ -142,8 +145,10 @@
         return () => unsub();
     });
 
+    let hint = $state(new ActiveHint());
+
     /** Create a global state for a tip to show at the top level */
-    setTip(new ActiveHint());
+    setTip(hint);
 
     // if the user turns off how-to notifications, clear existing notifications
     // if notifications are on, listen for changing from the how-to database
@@ -157,6 +162,7 @@
     });
 </script>
 
+<!-- svelte-ignore a11y_no_static_element_interactions -->
 <div
     class="root"
     class:dark={$dark}
@@ -164,6 +170,7 @@
     style:--wordplay-app-font={appFaces}
     style:--wordplay-code-font={codeFonts}
     lang={$locales.getLocale().language}
+    ontouchstart={() => hint.hide()}
 >
     {#if !loaded && lag}
         <Loading />

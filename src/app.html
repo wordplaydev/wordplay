@@ -325,6 +325,7 @@
                     transparent
                 );
                 --color-orange: #fe6100;
+                --color-orange-transparent: #fe61004b;
                 --color-yellow: #ffb000;
                 --color-yellow-transparent: #ffb0004b;
                 --color-white: #ffffff;
@@ -621,6 +622,10 @@
             p,
             li {
                 line-height: 1.5;
+            }
+
+            li:not(:last-of-type) {
+                margin-block-end: var(--wordplay-spacing-half);
             }
 
             a:hover {

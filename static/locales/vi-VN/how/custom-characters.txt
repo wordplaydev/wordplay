@@ -1,0 +1,15 @@
+Hiển thị ký tự tùy chỉnh
+
+Biểu tượng cảm xúc, chữ cái và ký hiệu rất tuyệt! Nhưng đôi khi bạn muốn tự tạo ra các nhân vật của riêng mình.Bạn có thể tạo và trưng bày tác phẩm của riêng mình như thế nào?
+
+Đầu tiên, hãy bắt đầu bằng cách tạo một nhân vật trên máy tính.<Nhân vật@://characters> trang. Bạn có thể sử dụng pixel, hình chữ nhật, hình tròn và đường dẫn.Hãy đặt tên cho nó, mô tả nó, rồi bạn có thể sử dụng tên người dùng và tên nhân vật như thế này:
+
+\Phrase(`Hãy nhìn vào chiếc váy lộng lẫy của tôi này. @username/charactername !`)\
+
+Tên người dùng và tên nhân vật đó không tồn tại, vì vậy nó sẽ hiển thị dưới dạng một hình chữ nhật trống.Hãy chắc chắn sử dụng tên người dùng và tên nhân vật thật của bạn.
+
+Bạn thấy đấy, văn bản này sử dụng dấu ngoặc kép ngược thay vì dấu ngoặc kép thông thường. Điều đó rất quan trọng.Điều đó cho chúng ta biết rằng bạn đang sử dụng chế độ văn bản đa dạng, và chế độ này cần thiết để tham chiếu đến một ký tự tùy chỉnh.
+
+Bạn có thể tìm hiểu thêm về định dạng văn bản từ @Phrase .
+
+animate-phrase

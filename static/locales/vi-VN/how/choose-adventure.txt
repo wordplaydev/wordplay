@@ -1,0 +1,32 @@
+Tạo một trò chơi phiêu lưu bằng văn bản
+
+Một loại trò chơi thú vị là.../Hãy tự chọn cuộc phiêu lưu của riêng bạn/Trò chơi, trong đó người chơi đưa ra một loạt các lựa chọn và cố gắng tìm cách dẫn đến một kết thúc có hậu.
+
+Để làm ra một cái như thế này, chúng ta có thể sử dụng @Structure , @Key , @Reaction , Và  @List Cùng nhau đưa ra một loạt quyết định, mỗi quyết định đều có một tập hợp các lựa chọn, như sau:
+
+\¶Điều này tạo ra một cấu trúc dữ liệu lưu trữ lựa chọn và quyết định mà nó sẽ dẫn đến.¶
+•Option(text•'' decision•#)
+¶Cấu trúc dữ liệu này lưu trữ một danh sách các lựa chọn.¶•Decision(options: [Option])
+¶Đây là nội dung trò chơi! Hãy thay đổi văn bản trong phần Tùy chọn để tạo bầu không khí và những lựa chọn khó khăn.Thêm các tùy chọn để tạo ra một mạng lưới các lựa chọn phức tạp.¶
+decisions: [
+		Decision([Option('bắt đầu' 2)])
+		Decision([
+				Option('bên trái' 3)
+				Option('thẳng' 4)
+				Option('Phải' 4)
+			])
+		Decision([Option('thắng' 1)])
+		Decision([Option('thua' 1)])
+	]
+¶Nếu khóa là số một, hãy chuyển đổi nó thành số.¶
+key: Key()
+choice: key → #
+¶Giá trị này thể hiện quyết định hiện tại trong danh sách trên.Khi nhấn phím, chúng ta thực hiện một trong những thao tác sau.Nếu chỉ có một lựa chọn duy nhất cho quyết định này, thì chúng ta sẽ thay đổi quyết định hiện tại.quyết định mục tiêu của quyền chọn sẽ được giữ nguyên bất kể phím nào được nhấn.Nếu phím được nhấn nằm trong khoảng từ 1 đến số lượng tùy chọn, thì chúng ta sẽ chuyển đến quyết định mục tiêu của tùy chọn đó.Nếu không, chúng ta cứ giữ nguyên quyết định hiện tại.¶
+current•#: 1 … ∆ key … decisions[current].options.length() = 1 ? decisions[current].options[1].decision ((choice ≥ 1) & (choice ≤ decisions[current].options.length())) ? decisions[current].options[choice].decision current
+¶Đây chỉ đơn giản là hiển thị các tùy chọn dưới dạng một chồng các cụm từ. Bạn có thể thay đổi điều này để thêm hướng dẫn, hình ảnh động và những yếu tố thú vị khác!¶Stage([
+		Group(Stack() decisions[current].options.translate(ƒ(option) Phrase(option.text)))
+	])\
+
+Mẫu này trông có vẻ phức tạp, nhưng thực chất nó chỉ hiển thị tập hợp các tùy chọn hiện tại và mỗi khi một phím thay đổi, nó sẽ chuyển đến quyết định của tùy chọn đã chọn. Thiết kế trò chơi chủ yếu là về việc thay đổi nội dung ở phía trên!
+
+offer-choices

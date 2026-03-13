@@ -1,0 +1,23 @@
+Làm cho nhân vật có thể di chuyển được
+
+Đôi khi việc tạo ra một @Phrase Có thể di chuyển bằng bàn phím, chuột hoặc ngón tay.
+
+Hãy làm điều này, chúng ta có thể kết hợp. @Phrase  với  @Placement :
+
+\Stage([
+		Phrase('làm tôi xúc động' place: Placement())
+	] place: Place(0m 0m -10m))\
+
+Sử dụng các phím mũi tên trên bàn phím hoặc nhấp chuột vào @Stage sẽ cập nhật @Placement , gây ra @Phrase Tiến theo hướng đó.
+
+Bạn có biết rằng @Placement có thể được sử dụng với/bất cứ điều gì/điều đó mất một @Place ?Ví dụ như một @Stage có @Place Điều đó quyết định hướng mà camera đang nhắm tới.Hãy thử thiết lập một @Placement cho một @Stage Đến chỗ của anh ấy và xem chuyện gì sẽ xảy ra.
+
+\Stage([
+		Phrase('🐈' place: Place(-2m 2m))
+		Phrase('🐈' place: Place(2m -2m))
+		Phrase('🐈' place: Place(-1m 3m))
+	] place: Placement(Place(0m 0m -10m)))\
+
+Điều đó khiến máy quay di chuyển! (Lưu ý: chúng ta bắt đầu từ...) @Placement với một\z\giá trị của\10m\(Để máy ảnh được đặt cách xa mọi thứ.)
+
+animated-scene

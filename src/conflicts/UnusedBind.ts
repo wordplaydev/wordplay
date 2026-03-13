@@ -17,16 +17,14 @@ export default class UnusedBind extends Conflict {
     static readonly LocalePath = (locales: LocaleText) =>
         locales.node.Bind.conflict.UnusedBind;
 
-    getConflictingNodes() {
+    getMessage() {
         return {
-            primary: {
-                node: this.bind.names,
-                explanation: (locales: Locales, context: Context) =>
-                    locales.concretize(
-                        (l) => UnusedBind.LocalePath(l).primary,
-                        new NodeRef(this.bind.names, locales, context),
-                    ),
-            },
+            node: this.bind.names,
+            explanation: (locales: Locales, context: Context) =>
+                locales.concretize(
+                    (l) => UnusedBind.LocalePath(l).explanation,
+                    new NodeRef(this.bind.names, locales, context),
+                ),
         };
     }
 

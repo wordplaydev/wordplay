@@ -14,15 +14,13 @@ export class DisallowedInputs extends Conflict {
     static readonly LocalePath = (locale: LocaleText) =>
         locale.node.StructureDefinition.conflict.DisallowedInputs;
 
-    getConflictingNodes() {
+    getMessage() {
         return {
-            primary: {
-                node: this.structure,
-                explanation: (locales: Locales) =>
-                    locales.concretize(
-                        (l) => DisallowedInputs.LocalePath(l).primary,
-                    ),
-            },
+            node: this.structure,
+            explanation: (locales: Locales) =>
+                locales.concretize(
+                    (l) => DisallowedInputs.LocalePath(l).explanation,
+                ),
         };
     }
 

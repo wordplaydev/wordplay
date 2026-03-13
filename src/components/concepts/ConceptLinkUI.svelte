@@ -1,9 +1,11 @@
 <script lang="ts">
+    import Link from '@components/app/Link.svelte';
     import CharacterView from '@components/output/CharacterView.svelte';
     import Concept from '@concepts/Concept';
     import ConceptLink, {
         CharacterName,
         CodepointName,
+        ConceptName,
         HowToName,
         UIName,
     } from '@nodes/ConceptLink';
@@ -43,6 +45,8 @@
         | HowToName
         // A custom character name
         | CharacterName
+        // A concept name that we couldn't resolve to a Concept. We'll make a link for it.
+        | string
         | undefined;
 
     // Derive the concept, container, and UI based on the link.
@@ -113,14 +117,16 @@
                             concept,
                         };
                 }
-            }
+            } else if (id instanceof ConceptName) return id.name;
 
             return undefined;
         }
     });
 
     let concept: Concept | undefined = $derived(
-        match && 'concept' in match ? match.concept : undefined,
+        match && typeof match !== 'string' && 'concept' in match
+            ? match.concept
+            : undefined,
     );
 
     let longName: string = $derived(concept?.getName($locales, false) ?? '');
@@ -129,7 +135,7 @@
     function navigate() {
         // If we have a concept and the last concept isn't it, navigate
         if (match) {
-            if ('concept' in match) {
+            if (typeof match !== 'string' && 'concept' in match) {
                 const concept = match.concept;
                 if (path) {
                     // Already at this concept? Make a new path anyway to ensure that tile is shown if collapsed.
@@ -175,6 +181,8 @@
         {match.codepoint}
     {:else if match instanceof CharacterName}
         <CharacterView name={match} />
+    {:else if typeof match === 'string'}
+        <Link to={`/guide?concept=${encodeURIComponent(match)}`}>{match}</Link>
     {/if}
 {:else if link instanceof ConceptLink}
     {link.concept.getText()}
@@ -183,7 +191,7 @@
 {:else if typeof link === 'string'}
     {link}
 {:else}
-    {link.getName($locales, true)}
+    {link.getName($locales, symbolic)}
 {/if}
 
 <style>

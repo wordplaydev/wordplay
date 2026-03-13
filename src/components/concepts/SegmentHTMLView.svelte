@@ -31,6 +31,24 @@
     }
 
     let { segment, spaces, alone, first }: Props = $props();
+
+    // Compute whether there are one or more spaces before this segment, but not at the beginning of a paragraph.
+    function isTokenSpaced(token: Token) {
+        return (
+            !first &&
+            token instanceof Token &&
+            /^[ ]+$/.test(spaces.getSpace(token))
+        );
+    }
+
+    function getTokenText(token: Token) {
+        return withColorEmoji(
+            (token.startsWith('•')
+                ? token.getText().substring(1).trimStart()
+                : withColorEmoji(unescapeMarkupSymbols(token.getText()))
+            ).replaceAll('--', '—'),
+        );
+    }
 </script>
 
 {#if segment instanceof WebLink}<WebLinkHTMLView link={segment} {spaces} />
@@ -69,9 +87,6 @@
         ><ValueView value={segment.value} /></strong
     >
     <!-- Remove the bullet if the words start with one. -->
-{:else if segment instanceof Token}{#if !first && /^[ ]+$/.test(spaces.getSpace(segment))}&nbsp;{/if}{withColorEmoji(
-        (segment.startsWith('•')
-            ? segment.getText().substring(1).trimStart()
-            : withColorEmoji(unescapeMarkupSymbols(segment.getText()))
-        ).replaceAll('--', '—'),
+{:else if segment instanceof Token}{#if isTokenSpaced(segment)}&nbsp;{/if}{getTokenText(
+        segment,
     )}{/if}

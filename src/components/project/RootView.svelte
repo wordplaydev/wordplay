@@ -128,7 +128,7 @@
         // If the locale is not null, hide non-preferred locales
         if ($localize !== null) {
             // Hide any language tagged nodes that 1) the caret isn't in, and 2) either have no language tag or aren't the selected locale.
-            // Also hide any name separators if the first visible name has one.
+            // Also hide any separators if the first visible name has one.
             for (const tagged of node
                 .nodes()
                 .filter(

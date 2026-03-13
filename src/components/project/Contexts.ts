@@ -136,6 +136,7 @@ export type EditHandler = (
 ) => Promise<void>;
 export type EditorState = {
     caret: Caret;
+    sourceID: string;
     project: Project;
     edit: EditHandler;
     focused: boolean;
@@ -143,6 +144,8 @@ export type EditorState = {
     toggleMenu: () => void;
     grabFocus: (message: string) => void;
     setCaretPosition: (position: CaretPosition) => void;
+    zoom: number;
+    setZoom: (z: number) => void;
 };
 export const [getEditors, setEditors] =
     createContext<Writable<Map<string, EditorState>>>();

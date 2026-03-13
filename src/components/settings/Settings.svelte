@@ -250,17 +250,17 @@
                 icons={[TEXT_EDITING_SYMBOL, BLOCK_EDITING_SYMBOL]}
             />
             <Mode
-                modes={(l) => l.ui.dialog.settings.mode.space}
-                choice={$spaceIndicator ? 1 : 0}
-                select={(choice) =>
-                    Settings.setSpace(choice === 1 ? true : false)}
-                icons={[CANCEL_SYMBOL, CONFIRM_SYMBOL]}
-            />
-            <Mode
                 modes={(l) => l.ui.dialog.settings.mode.lines}
                 choice={$showLines ? 1 : 0}
                 select={(choice) =>
                     Settings.setLines(choice === 1 ? true : false)}
+                icons={[CANCEL_SYMBOL, CONFIRM_SYMBOL]}
+            />
+            <Mode
+                modes={(l) => l.ui.dialog.settings.mode.space}
+                choice={$spaceIndicator ? 1 : 0}
+                select={(choice) =>
+                    Settings.setSpace(choice === 1 ? true : false)}
                 icons={[CANCEL_SYMBOL, CONFIRM_SYMBOL]}
             />
         </div>

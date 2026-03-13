@@ -105,10 +105,10 @@
                 newTop = newTop - parentRect.top + dialog.scrollTop;
             }
 
-            if (newLeft < 0) newLeft = 0;
+            if (newLeft < 0) newLeft = rect.right;
             if (newLeft + width + 5 >= containerWidth)
                 newLeft = containerWidth - width - 5;
-            if (newTop < 0) newTop = rect.top;
+            if (newTop < 0) newTop = rect.bottom;
             if (newTop + height + 5 >= containerHeight)
                 newTop = containerHeight - height - 5;
 

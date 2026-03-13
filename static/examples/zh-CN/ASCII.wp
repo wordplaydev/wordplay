@@ -1,0 +1,24 @@
+ASCII码视频
+===
+colors: Camera(20px 20px 100ms)
+scale: "@%#*+=-:. " → []
+
+Stage(
+	colors.combined(
+		[]
+		ƒ(phrases•[Phrase] row•[Color] y•#)
+			phrases.append(
+				row.translate(
+					ƒ(color•Color x•#)
+						Phrase(
+							"\scale[(color.lightness × 9).round()]\"
+							place: Place((-x - 1) × 0.5m y × -0.5m)
+							duration: 0s
+							size: 0.75m
+							face: "Noto Sans Mono"
+						)
+				)
+			)
+	)
+	description: "20 by 20 video stylized with ASCII"
+)

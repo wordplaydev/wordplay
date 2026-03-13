@@ -88,7 +88,7 @@
         "Literal": "literal",
         "TypeOpen": "type input open",
         "TypeClose": "type input close",
-        "Separator": "name separator",
+        "Separator": "separator",
         "Language": "language tag",
         "Region": "region dash",
         "BooleanType": "boolean type",
@@ -198,11 +198,11 @@
             "conflict": {
                 "UnknownLanguage": {
                     "name": "unknown language",
-                    "primary": "I don't know this language"
+                    "explanation": "I don't know this language"
                 },
                 "MissingLanguage": {
                     "name": "missing language",
-                    "primary": "I'm missing a language. Can you add one?"
+                    "explanation": "I'm missing a language. Can you add one?"
                 }
             }
         },
@@ -243,26 +243,23 @@
             "conflict": {
                 "InvalidRow": {
                     "name": "invalid row",
-                    "primary": "Rows either have to be all values or all @Bind."
+                    "explanation": "Rows either have to be all values or all @Bind."
                 },
                 "MissingCell": {
                     "name": "missing column",
-                    "primary": "I'm missing column $1",
-                    "secondary": "I'm required, but $1 didn't provide it"
+                    "explanation": "I'm missing column $1"
                 },
                 "ExtraCell": {
                     "name": "extra column",
-                    "primary": "Am I supposed to be here?",
-                    "secondary": "Hey $1, you're not part of this @Table!"
+                    "explanation": "Based on my table type, I'm an extra column that shouldn't be here."
                 },
                 "UnknownColumn": {
                     "name": "unknown column name",
-                    "primary": "I don't know a column by this name"
+                    "explanation": "I don't know a column by this name"
                 },
                 "UnexpectedColumnBind": {
                     "name": "no binds rows",
-                    "primary": "Am I supposed to be a @Bind?",
-                    "secondary": "Hey, I'm a @Table, I need values, not @Bind."
+                    "explanation": "I should be a value, not @Bind."
                 }
             }
         },
@@ -290,8 +287,7 @@
             "conflict": {
                 "DuplicateTypeVariable": {
                     "name": "duplicate type variable",
-                    "primary": "I have the same name as $1",
-                    "secondary": "I have the same name as $1"
+                    "explanation": "I have the same name as $1"
                 }
             }
         },
@@ -399,7 +395,7 @@
                 "This makes everythign a bit tidier, even though its basically the same thing.",
                 "There's only one thing to watch out for: when I'm in this form, I evaluate from left to right. That might be confusing if you're used to things like order of operations in mathematics.",
                 "It means that this evaluates in a way that you might not expect:",
-                "\\1 + 2 · 3 + 4\\",
+                "\\1 + 2 × 3 + 4\\",
                 "In math, multiplication would come first, and then addition, and so the result would be \\11\\. But since I evaluate in reading order, the result is \\13\\."
             ],
             "label": {
@@ -411,7 +407,7 @@
             "conflict": {
                 "OrderOfOperations": {
                     "name": "ambiguous order",
-                    "primary": "I evalute in reading order, not in math order of operations. Do you want to use @Block to specify the order I should evaluate in?"
+                    "explanation": "I evalute in reading order, not in math order of operations. Do you want to use @Block to specify the order I should evaluate in?"
                 }
             }
         },
@@ -456,40 +452,37 @@
                 "DuplicateName": {
                     "conflict": {
                         "name": "duplicate name",
-                        "primary": "someone has the name $1 so I can't have this name.",
-                        "secondary": "hey, $1 is my name, you can't have it!"
+                        "explanation": "Someone has the name $1 so I can't have this name."
                     },
                     "resolution": "There are duplicate names, do you want to remove one?"
                 },
                 "DuplicateShare": {
                     "name": "duplicate share",
-                    "primary": "I have the same name as $1, which makes what is shared ambiguous",
-                    "secondary": "I have has the same name as $1"
+                    "explanation": "I have the same name as $1. That makes it unclear what we're sharing."
                 },
                 "IncompatibleType": {
                     "name": "incompatible type",
-                    "primary": "I'm supposed to be type $2, but I'm type $1",
-                    "secondary": "Oh, I'm sorry. Should I change, or maybe you're supposed to be type $1?"
+                    "explanation": "I'm supposed to be type $2, but I'm type $1"
                 },
                 "MisplacedShare": {
                     "name": "misplaced share",
-                    "primary": "I can only share things at the @Program level, not inside anything!"
+                    "explanation": "I can only share things at the @Program level, not inside anything!"
                 },
                 "MissingShareLanguages": {
                     "name": "missing language",
-                    "primary": "if you want to share this, you have to say what language this is in, so others know if they can read it!"
+                    "explanation": "if you want to share this, you have to say what language this is in, so others know if they can read it!"
                 },
                 "RequiredAfterOptional": {
                     "name": "required input after optional",
-                    "primary": "I can't be here, there's an optional @Bind before me"
+                    "explanation": "I can't be here, there's an optional @Bind before me"
                 },
                 "UnexpectedEtc": {
                     "name": "unexpected input after input list",
-                    "primary": "I can only be variable length in a @FunctionDefinition"
+                    "explanation": "I can only be variable length in a @FunctionDefinition"
                 },
                 "UnusedBind": {
                     "name": "unused bind",
-                    "primary": "I'm named $1, but no one is using me. Maybe I'm not needed?"
+                    "explanation": "I'm named $1, but no one is using me. Maybe I'm not needed?"
                 }
             }
         },
@@ -520,13 +513,13 @@
             "conflict": {
                 "ExpectedEndingExpression": {
                     "name": "missing expression",
-                    "primary": "I need an expression."
+                    "explanation": "I need an expression."
                 },
                 "IgnoredExpression": {
                     "name": "ignored expression",
-                    "primary": "I'm going to ignore $1, since it doesn't define anything and isn't my last expression.",
-                    "secondary": "@Block, don't ignore me!",
+                    "explanation": "I'm ignored, because a @Block's value is based on the last expression.",
                     "resolution": {
+                        "name": "Did you want to name this expression with @Bind, so you can use it to compute this @Block's value?",
                         "binary": "Did you mean for this to be a @BinaryEvaluate instead of a @UnaryEvaluate? I can add a space, so I know that's what you meant.",
                         "evaluate": "Did you mean for this to be an @Evaluate? I can remove this space to make it one, instead of two separate expressions."
                     }
@@ -554,11 +547,11 @@
             "conflict": {
                 "UnknownBorrow": {
                     "name": "unknown borrow",
-                    "primary": "I don't know a $source by this name"
+                    "explanation": "I don't know a $source by this name"
                 },
                 "BorrowCycle": {
                     "name": "self-referencing borrow",
-                    "primary": "this depends on $1, which depends on this $source, so the program can't be evaluated"
+                    "explanation": "this depends on $1, which depends on this $source, so the program can't be evaluated"
                 }
             },
             "exception": {
@@ -604,8 +597,7 @@
             "conflict": {
                 "ExpectedBooleanCondition": {
                     "name": "expected boolean condition",
-                    "primary": "How can I choose yes and no with type $1? No really, how?",
-                    "secondary": "I think @Conditional wanted me to be a @Boolean, but I'm type $1."
+                    "explanation": "I need a @Boolean to make a decision, but I got a $1 instead."
                 }
             }
         },
@@ -628,7 +620,7 @@
             "conflict": {
                 "MisplacedConversion": {
                     "name": "misplaced conversion",
-                    "primary": "whoa, I can't be here, just in @Block."
+                    "explanation": "whoa, I can't be here, just in @Block."
                 }
             }
         },
@@ -649,7 +641,7 @@
             "conflict": {
                 "UnknownConversion": {
                     "name": "unknown conversion",
-                    "primary": "Bummer, no way make $1 into $2"
+                    "explanation": "We couldn't find a way to convert a $1 into a $2"
                 }
             },
             "exception": {
@@ -677,7 +669,7 @@
             "doc": [
                 "I'm any expression, but with a @Doc!",
                 "To make me, just put a @Doc before an expression, and you'll get me:",
-                "\\doubleplus: 1\n(2 · doubleplus) + \n¶Let's make it just a little bit bigger¶\n1\\",
+                "\\doubleplus: 1\n(2 × doubleplus) + \n¶Let's make it just a little bit bigger¶\n1\\",
                 "I'm useful for making a comment on some part of a program."
             ],
             "start": "Let's evaluate the expression"
@@ -708,40 +700,35 @@
             "conflict": {
                 "IncompatibleInput": {
                     "name": "incompatible input",
-                    "primary": "I'm supposed to be type $1, but I'm type $2",
-                    "secondary": "Umm, I got type $2 instead of type $1"
+                    "explanation": "I'm supposed to be type $1, but I'm type $2"
                 },
                 "UnexpectedTypeInput": {
                     "name": "unexpected type input",
-                    "primary": "I wasn't expecting this type input",
-                    "secondary": "oh, am I not supposed to be here?"
+                    "explanation": "I'm an extra, unexpected type input."
                 },
                 "MissingInput": {
                     "name": "missing input",
-                    "primary": "I can't evaluate without the input $2 :(",
-                    "secondary": "I need a value, can you give me one?"
+                    "explanation": "I can't evaluate without the input $2 :("
                 },
                 "NotInstantiable": {
                     "name": "incomplete structure",
-                    "primary": "I can't make this @StructureDefinition, it has unimplemented functions."
+                    "explanation": "I can't make this @StructureDefinition, it has unimplemented functions."
                 },
                 "UnexpectedInput": {
                     "name": "unexpected input",
-                    "primary": "I didn't expect this input $1",
-                    "secondary": "Oh, am I not supposed to be here?"
+                    "explanation": "I'm an unexpected input."
                 },
                 "UnknownInput": {
                     "name": "unknown input",
-                    "primary": "I don't think *$1* accepts an input with my name",
-                    "secondary": "I don't have an input with the name *$1*"
+                    "explanation": "This function *$1* doesn't expect an input with my name."
                 },
                 "InputListMustBeLast": {
                     "name": "extra inputs aren't last",
-                    "primary": "list of inputs must be last"
+                    "explanation": "list of inputs must be last"
                 },
                 "SeparatedEvaluate": {
                     "name": "ambiguous evaluate",
-                    "primary": "Is $1 the name of a $2[$structure|$function] you're trying to evaluate? Try removing the space after me, so I know it's an @Evaluate and not a separate @Block."
+                    "explanation": "Is $1 the name of a $2[$structure|$function] you're trying to evaluate? Try removing the space after me, so I know it's an @Evaluate and not a separate @Block."
                 }
             },
             "exception": {
@@ -783,7 +770,7 @@
             "conflict": {
                 "Placeholder": {
                     "name": "placeholder",
-                    "primary": "Can you fill me? I'm just a placeholder."
+                    "explanation": "Can you fill me? I'm just a placeholder."
                 }
             },
             "exception": {
@@ -805,11 +792,11 @@
             "doc": [
                 "Hi again! I take some inputs, then evaluate an expression using them, producing an output.",
                 "Here's a simple example:",
-                "\\ƒ repeat(message•'') message · 5\nrepeat('hi')\\",
+                "\\ƒ repeat(message•'') message × 5\nrepeat('hi')\\",
                 "That function takes one input, \\message\\, and uses the @Text/repeat function to repeat the message five times.",
                 "I'm really helpful if you want to evaluate something over and over, but with different inputs!",
                 "I do have lots of other little tricks. For example, I don't have to have a name. Here, I'm just going directly to @Evaluate as a value.",
-                "\\(ƒ(message•'') message · 5)('hi')\\",
+                "\\(ƒ(message•'') message × 5)('hi')\\",
                 "Or, here's a function that takes any number of inputs, using the \\…\\ character after an input name.",
                 "\\ƒ yes(messages…•'') messages.sans('no')\nyes('yes' 'yes' 'no' 'yes' 'no')\\",
                 "See how it took all the 'no's and got rid of them? That's because messages is a @List, and so we could use @List/sansAll.",
@@ -822,7 +809,7 @@
             "conflict": {
                 "NoExpression": {
                     "name": "missing expression",
-                    "primary": "I need an expression to evaluate, can you add one?"
+                    "explanation": "I need an expression to evaluate, can you add one?"
                 }
             }
         },
@@ -876,7 +863,7 @@
             "conflict": {
                 "ImpossibleType": {
                     "name": "impossible type",
-                    "primary": "this can't ever be $1"
+                    "explanation": "this can't ever be $1"
                 }
             },
             "exception": {
@@ -937,8 +924,7 @@
             "conflict": {
                 "NotAKeyValue": {
                     "name": "missing value",
-                    "primary": "one of my keys is missing a value",
-                    "secondary": "oops, where's my value?"
+                    "explanation": "I'm in a @Map, so I need a value."
                 }
             }
         },
@@ -970,7 +956,7 @@
             "conflict": {
                 "NotANumber": {
                     "name": "not a number",
-                    "primary": "I thought I knew all the numbers, but I don't know this one"
+                    "explanation": "I thought I knew all the numbers, but I don't know this one"
                 }
             }
         },
@@ -1076,8 +1062,7 @@
             "conflict": {
                 "InvalidProperty": {
                     "name": "unknown property",
-                    "primary": "I'm not an input of $1, so I can't be refined.",
-                    "secondary": "I don't have an input named $1"
+                    "explanation": "I'm not a name in the structure $1, so I can't be refined."
                 }
             }
         },
@@ -1116,7 +1101,7 @@
             "conflict": {
                 "ExpectedStream": {
                     "name": "expected stream",
-                    "primary": "$1 doesn't reference a stream, so I will never react!"
+                    "explanation": "$1 doesn't reference a stream, so I will never react!"
                 }
             }
         },
@@ -1135,17 +1120,17 @@
                 "UnknownName": {
                     "conflict": {
                         "name": "unknown name",
-                        "primary": "$1[I don't know anyone named $1 in $2[$2|this @Block]|Can you give me a name?]"
+                        "explanation": "$1[I don't know anyone named $1 in $2[$2|this @Block]|Can you give me a name?]"
                     },
                     "resolution": "Did you mean *$1?*"
                 },
                 "ReferenceCycle": {
                     "name": "self-referencing value",
-                    "primary": "um, $1's value depends on itself, so how do I know what value to give it?"
+                    "explanation": "um, $1's value depends on itself, so how do I know what value to give it?"
                 },
                 "UnexpectedTypeVariable": {
                     "name": "unexpected type variable",
-                    "primary": "I don't now what to do with these type inputs"
+                    "explanation": "I don't now what to do with these type inputs"
                 }
             },
             "exception": {
@@ -1169,7 +1154,7 @@
             "conflict": {
                 "ExpectedSelectName": {
                     "name": "missing column name",
-                    "primary": "I need at least one column name."
+                    "explanation": "I need at least one column name."
                 }
             }
         },
@@ -1196,8 +1181,7 @@
             "conflict": {
                 "IncompatibleKey": {
                     "name": "incompatible key",
-                    "primary": "I expected $1 key",
-                    "secondary": "I got type $1 instead of type $2"
+                    "explanation": "I expected a key of type $1"
                 }
             }
         },
@@ -1229,31 +1213,31 @@
             "doc": [
                 "Why hello, how are you? Me? I'm great. I love to define structures that store values and function, so as long as I get to do that all day, I'm happy.",
                 "I work like this:",
-                "\\•Pizza(\ningredients•['']\nsize•#in\n) (\n\tƒ cost() size · 10dollars/in\n)\n\nPizza(['pepperoni' 'peppers'] 12in).cost()\\",
+                "\\•Pizza(\ningredients•['']\nsize•#in\n) (\n\tƒ cost() size × 10dollars/in\n)\n\nPizza(['pepperoni' 'peppers'] 12in).cost()\\",
                 "See how that works? I defined \\Pizza\\, which has two inputs, \\ingredients\\ (a list of @Text) and \\size\\ (a number in inches).",
                 "Inside, @FunctionDefinition made a function that evaluates the cost of a pizza, assuming $$10 per inch.",
                 "I don't need to have @FunctionDefinition in me. I can just be inputs.",
                 "\\•Pizza(\ningredients•['']\nsize•#in\n)\\",
                 "I can also have @Bind inside, so we could evaluate the cost in advance.",
-                "\\•Pizza(\ningredients•['']\nsize•#in\n) (\n\tcost: size · 10dollars/in\n)\n\nPizza(['pepperoni' 'peppers'] 12in).cost\\"
+                "\\•Pizza(\ningredients•['']\nsize•#in\n) (\n\tcost: size × 10dollars/in\n)\n\nPizza(['pepperoni' 'peppers'] 12in).cost\\"
             ],
             "start": "Let's define this lovely structure",
             "conflict": {
                 "DisallowedInputs": {
                     "name": "inputs not allowed",
-                    "primary": "I can't have inputs because one of or more of my interface functions isn't implemented"
+                    "explanation": "I can't have inputs because one of or more of my interface functions isn't implemented"
                 },
                 "IncompleteImplementation": {
                     "name": "incomplete structure",
-                    "primary": "my functions either need to all be implemented, or none be implemented. No messy mixtures!"
+                    "explanation": "my functions either need to all be implemented, or none be implemented. No messy mixtures!"
                 },
                 "NotAnInterface": {
                     "name": "not an interface",
-                    "primary": "I am not an interface; a structure can only implement interfaces, not other structures"
+                    "explanation": "I am not an interface; a structure can only implement interfaces, not other structures"
                 },
                 "UnimplementedInterface": {
                     "name": "unimplemented",
-                    "primary": "I implement $1 but haven't implemented $2"
+                    "explanation": "I implement $1 but haven't implemented $2"
                 }
             }
         },
@@ -1294,29 +1278,29 @@
             "conflict": {
                 "phone": {
                     "name": "possible phone number",
-                    "primary": "Is *$1* someone's phone number? Don't share me online if so!\n\n$2"
+                    "explanation": "Is *$1* someone's phone number? Don't share me online if so!\n\n$2"
                 },
                 "email": {
                     "name": "possible email",
-                    "primary": "Is *$1* someone's email? Don't share me here if so!\n\n$2"
+                    "explanation": "Is *$1* someone's email? Don't share me here if so!\n\n$2"
                 },
                 "tin": {
                     "name": "possible tax identifier",
-                    "primary": "Is *$1* a tax identifier? If yes, definitely don't share me, I'm very sensitive information!\n\n$2"
+                    "explanation": "Is *$1* a tax identifier? If yes, definitely don't share me, I'm very sensitive information!\n\n$2"
                 },
                 "address": {
                     "name": "possible address",
-                    "primary": "Is *$1* someone's home address? If so, don't put me here, we don't want anyone getting stalked!\n\n$2"
+                    "explanation": "Is *$1* someone's home address? If so, don't put me here, we don't want anyone getting stalked!\n\n$2"
                 },
                 "handle": {
                     "name": "possible username",
-                    "primary": "Is *$1* your username for somewhere else on the internet? If so, don't share me here unless you really mean to.\n\n$2"
+                    "explanation": "Is *$1* your username for somewhere else on the internet? If so, don't share me here unless you really mean to.\n\n$2"
                 },
                 "resolution": "This isn't sensitive data",
                 "reminder": "Note: You can undo this action and see other things you've marked as non-sensitive in the sharing dialog.",
                 "character": {
                     "name": "possible custom character",
-                    "primary": "This looks like a character name. To show those, use @FormattedLiteral instead of @TextLiteral."
+                    "explanation": "This looks like a character name. To show those, use @FormattedLiteral instead of @TextLiteral."
                 }
             }
         },
@@ -1349,10 +1333,10 @@
             "doc": [
                 "Sometimes, it's helpful to refer to a value implicilty, rather than having to name it.",
                 "For example, suppose you wanted to make a new @ConversionDefinition, which doesn't name the value being convered. You can just refer to it with me:",
-                "\\→ #rainbows #joys . · 1000000joys\n2rainbows → #joys\\",
+                "\\→ #rainbows #joys . × 1000000joys\n2rainbows → #joys\\",
                 "See me there, representing the number of rainbows?",
                 "Or suppose you wanted to make a @Reaction, but not have to name the most recent value:",
-                "\\2 … ∆ Time(1000ms) … . · 2\\",
+                "\\2 … ∆ Time(1000ms) … . × 2\\",
                 "Check me out, representing the previous reaction value.",
                 "I don't show up often, but when I do, I can really help a value get out of a @Bind!"
             ],
@@ -1360,7 +1344,7 @@
             "conflict": {
                 "MisplacedThis": {
                     "name": "misplaced this reference",
-                    "primary": "I'm only allowed in a structure, conversion, or reaction."
+                    "explanation": "I'm only allowed in a structure, conversion, or reaction."
                 }
             }
         },
@@ -1402,13 +1386,13 @@
                 "UnparsableConflict": {
                     "conflict": {
                         "name": "unreadable code",
-                        "primary": "@FunctionDefinition here, @UnparsableExpression doesn't know what kind of $1[ expression | type ] this is."
+                        "explanation": "@FunctionDefinition here, @UnparsableExpression doesn't know what kind of $1[ expression | type ] this is."
                     },
                     "resolution": "Did you mean type $1, $2?"
                 },
                 "UnclosedDelimiter": {
                     "name": "unclosed delimiter",
-                    "primary": "I expected $2 sometime after $1"
+                    "explanation": "I expected $2 sometime after $1"
                 }
             },
             "exception": {
@@ -1432,12 +1416,11 @@
             "conflict": {
                 "ExpectedColumnBind": {
                     "name": "missing column value",
-                    "primary": "I need a value for every column"
+                    "explanation": "I need a value for every column"
                 },
                 "IncompatibleCellType": {
                     "name": "incompatible cell type",
-                    "primary": "I needed type $1, but got type $2",
-                    "secondary": "I got a $2"
+                    "explanation": "I'm supposed to be type $1, but got I'm $2"
                 }
             }
         },
@@ -1524,7 +1507,7 @@
             "conflict": {
                 "UnknownTypeName": {
                     "name": "unknown type name",
-                    "primary": "type names can only refer to structures or type variables, but this refers to type $1"
+                    "explanation": "type names can only refer to structures or type variables, but this refers to type $1"
                 }
             }
         },
@@ -1582,7 +1565,7 @@
             "conflict": {
                 "ExpectedColumnType": {
                     "name": "missing column type",
-                    "primary": "I need a column type"
+                    "explanation": "I need a column type"
                 }
             }
         },
@@ -1870,14 +1853,14 @@
                 "repeat": {
                     "doc": [
                         "I make a new @Text that's me, repeated the number of times of \\count\\:",
-                        "\\'hi ' · 5\\",
+                        "\\'hi ' × 5\\",
                         "If you give me a fractional @Number, I ignore the fraction:",
-                        "\\'hi ' · 5.5\\",
+                        "\\'hi ' × 5.5\\",
                         "If you give me a negative @Number or zero, I give an empty @Text.",
-                        "\\'hi ' · -5\\",
+                        "\\'hi ' × -5\\",
                         "The longest text I can make is 65,535 characters. If you try to make a longer text, I'll repeat the text as many times as I can."
                     ],
-                    "names": ["·", "🔁", "repeated", "repeat"],
+                    "names": ["×", "·", "🔁", "repeated", "repeat"],
                     "inputs": [
                         {
                             "doc": "The number of times to repeat myself in the new text.",
@@ -1982,11 +1965,11 @@
                 "multiply": {
                     "doc": [
                         "I multiply myself to the given @Number, creating a product of my @Unit and the given number's @Unit:",
-                        "\\5 · 5\\",
-                        "\\5m · 5m\\",
-                        "\\5m · 1/s\\"
+                        "\\5 × 5\\",
+                        "\\5m × 5m\\",
+                        "\\5m × 1/s\\"
                     ],
-                    "names": ["·", "multiply"],
+                    "names": ["×", "·", "multiply"],
                     "inputs": [
                         {
                             "doc": "The number to multiply.",
@@ -2500,7 +2483,7 @@
                     "doc": [
                         "Give me a @FunctionDefinition that takes a value and optional index as input and produces a value, and I'll evaluate it on each of my items, translating my values into new values.",
                         "For example, imagine I was a list of @Number and you wanted to double all of them:",
-                        "\\[2 4 6 8].translate(ƒ(num•#) num · 2)\\"
+                        "\\[2 4 6 8].translate(ƒ(num•#) num × 2)\\"
                     ],
                     "names": "translate",
                     "inputs": [
@@ -3254,13 +3237,48 @@
                 "doc": "The time between samplings."
             }
         },
+        "Speech": {
+            "doc": [
+                "/hello there!/",
+                "@FunctionDefinition here - ready to listen!",
+                "This stream recognizes speech and converts it to @Text. It uses your browser's speech recognition to listen to what you say and turn it into words (isn't this so cool?!).",
+                "\\Speech()\\",
+                "This is perfect for those who can speak a language but are still learning to read or write it (and more)...",
+                "You can specify a language code to recognize speech in a particular language:",
+                "\\Speech(language: 'es-MX')\\",
+                "If no language is specified, it defaults to your preferred locale.",
+                "Speech recognition requires microphone access and Internet connection (please give access!). Also, there might be usage limits, so don't leave it on for too long (nooooo)!"
+            ],
+            "names": ["🎙️", "Speech", "Voice"],
+            "reset": {
+                "names": ["reset", "clear"],
+                "doc": "When this value changes, clear the accumulated speech and start fresh."
+            },
+            "language": {
+                "names": ["language", "lang"],
+                "doc": "A BCP 47 language code (e.g., 'en-US'). If it's not supported by your browser's speech recognition, you'll get an error. It defaults to your preferred locale."
+            },
+            "limit": {
+                "names": ["limit", "words"],
+                "doc": "The maximum number of words to keep in the accumulated speech (sliding window). When set, only the most recent words are kept, and older words are discarded. If not specified, all words are kept indefinitely."
+            },
+            "error": {
+                "browserNotSupported": "service not supported in this browser",
+                "noConnection": "no internet connection",
+                "serviceNotAllowed": "service not available",
+                "micNotAllowed": "microphone access not allowed",
+                "noMicrophone": "no microphone found",
+                "languageNotSupported": "language not supported",
+                "limit": "failed after multiple attempts"
+            }
+        },
         "Camera": {
             "doc": [
                 "/bzzzzzzz/",
                 "@FunctionDefinition here, I can explain @Camera!",
                 "So @Camera provides a @List of @Color from your world. That list essentially represents an image, but it's up to you to decide what to do with it.",
                 "You could try to represent the image with a bunch of @Phrase, which could look pretty cool! Try copying this...",
-                "\\colors: Camera(32px 24px 33ms)\n\nStage(\ncolors.combine(\n[] \nƒ(phrases•[Phrase] row•[Color] y•#) \nphrases.append(\nrow.translate(\nƒ(color•Color x•#)\nPhrase('o' place: Place((x - 1) · 0.5m y · -0.5m) color: color duration: 0s\n)\n)\n)\n)\n)\\",
+                "\\colors: Camera(32px 24px 33ms)\n\nStage(\ncolors.combine(\n[] \nƒ(phrases•[Phrase] row•[Color] y•#) \nphrases.append(\nrow.translate(\nƒ(color•Color x•#)\nPhrase('o' place: Place((x - 1) × 0.5m y × -0.5m) color: color duration: 0s\n)\n)\n)\n)\n)\\",
                 "But you could also analyze the colors to decide if a light was on or off, or if a particular color was common, letting the audience influence a performance with the colors they show."
             ],
             "names": ["🎥", "Camera"],
@@ -3516,11 +3534,11 @@
                 "names": "background"
             },
             "opacity": {
-                "doc": "How transparent everything inside me should be, between \\0\\ and \\1\\, unless overriden by a different @Pose.",
+                "doc": "How transparent everything inside me should be, between \\0\\ and \\1\\, unless overridden by a different @Pose.",
                 "names": "opacity"
             },
             "offset": {
-                "doc": "A @Place indicating how offset from my normal @Place it should be, unless overriden by a different @Pose. Helpful for wiggling in place.",
+                "doc": "A @Place indicating how offset from my normal @Place it should be, unless overridden by a different @Pose. Helpful for wiggling in place.",
                 "names": "offset"
             },
             "rotation": {
@@ -3567,7 +3585,7 @@
         },
         "Phrase": {
             "doc": [
-                "Hello, hello! Remember me? How could anyone forget /me/. That's right, I am the manificent @Phrase, ready to represent the loveliest of @Text on @Stage.",
+                "Hello, hello! Remember me? How could anyone forget /me/. That's right, I am the magnificent @Phrase, ready to represent the loveliest of @Text on @Stage.",
                 "Just make me like this, and I'll appear on @Stage:",
                 "\\Phrase('magnificient!')\\",
                 "I need @TextLiteral or @FormattedLiteral to show. With @FormattedLiteral, I can use things like \\`*bold* and /italic/`\\ or refer to custom @ConceptLink you create.",
@@ -3632,7 +3650,7 @@
                 "names": "selectable"
             },
             "color": {
-                "doc": "The @Color I should be by default, unless overriden by a different @Pose.",
+                "doc": "The @Color I should be by default, unless overridden by a different @Pose.",
                 "names": "color"
             },
             "background": {
@@ -3640,27 +3658,27 @@
                 "names": "background"
             },
             "opacity": {
-                "doc": "How transparent I should be by default, between \\0\\ and \\1\\, unless overriden by a different @Pose. Helpful for fading in and out.",
+                "doc": "How transparent I should be by default, between \\0\\ and \\1\\, unless overridden by a different @Pose. Helpful for fading in and out.",
                 "names": "opacity"
             },
             "offset": {
-                "doc": "A @Place indicating how offset from my @Place it should be, unless overriden by a different @Pose. Helpful for wiggling in place.",
+                "doc": "A @Place indicating how offset from my @Place it should be, unless overridden by a different @Pose. Helpful for wiggling in place.",
                 "names": "offset"
             },
             "rotation": {
-                "doc": "The amount in degrees I should should be rotated around its center, unless overriden by a different @Pose.",
+                "doc": "The amount in degrees I should should be rotated around its center, unless overridden by a different @Pose.",
                 "names": "rotation"
             },
             "scale": {
-                "doc": "How magnified I should be relative to its original size, unless overriden by a different @Pose.",
+                "doc": "How magnified I should be relative to its original size, unless overridden by a different @Pose.",
                 "names": "scale"
             },
             "flipx": {
-                "doc": "Whether I should be mirrored on the x-axis, unless overriden by a different @Pose.",
+                "doc": "Whether I should be mirrored on the x-axis, unless overridden by a different @Pose.",
                 "names": "flipx"
             },
             "flipy": {
-                "doc": "Whether I should be mirrored on the y-axis, unless overriden by a different @Pose.",
+                "doc": "Whether I should be mirrored on the y-axis, unless overridden by a different @Pose.",
                 "names": "flipy"
             },
             "entering": {
@@ -4429,7 +4447,10 @@
                 },
                 "curators": {
                     "header": "Curators",
-                    "explanation": "Creators can edit the projects and gallery settings, and chat on all projects."
+                    "explanation": [
+                        "Curators can edit the projects and gallery settings, and chat on all projects.",
+                        "/Curators are responsible for moderating the content of the chats associated with projects and how-tos in the gallery. Chats reported by creators can be found on the <gallery moderation dashboard@://galleries/moderation>./"
+                    ]
                 },
                 "creators": {
                     "header": "Creators",
@@ -4464,6 +4485,29 @@
                 }
             }
         },
+        "gallerymoderation": {
+            "header": "Gallery Moderation Dashboard",
+            "description": "The following messages in galleries that you curate have been reported by users for moderation.",
+            "labels": {
+                "message": "message",
+                "reporter": "reporter",
+                "action": "moderator actions"
+            },
+            "view": {
+                "label": "view chat",
+                "tip": "view message in chat"
+            },
+            "remove": {
+                "label": "remove",
+                "tip": "this message violates guidelines"
+            },
+            "keep": {
+                "label": "keep",
+                "tip": "this message does not violate guidelines"
+            },
+            "empty": "No messages require moderation",
+            "error": "You must be logged in to moderate galleries"
+        },
         "howto": {
             "galleryView": {
                 "header": "How-tos",
@@ -4490,7 +4534,7 @@
                     "tip": "remove this how-to from your bookmarks"
                 },
                 "empty": "You can bookmark how-tos you want to reference later.",
-                "notLoggedIn": "$!You must be <logged in@://login> to use bookmarks"
+                "notLoggedIn": "You must be <logged in@://login> to use bookmarks"
             },
             "navigationtooltip": "navigate to a how-to",
             "button": {
@@ -4532,12 +4576,32 @@
                     "description": "the title of your how-to",
                     "placeholder": "Title"
                 },
-                "titlePlaceholder": "Untitled how-to",
-                "collaboratorsPrompt": "Add a collaborator, who can edit this how-to",
+                "untitledHowToPlaceholder": "Untitled how-to",
+                "collaborators": {
+                    "header": "👥 collaborators",
+                    "explanation": "Collaborators can edit this how-to and view it in drafts."
+                },
                 "collaboratorsToggle": {
                     "on": "collapse the collaborators panel",
                     "off": "expand the collaborators panel"
-                }
+                },
+                "access": {
+                    "header": "↗ share",
+                    "explanation": "The curator of this gallery can let creators and curators of other galleries they curate view this how-to. If you don't want them to be able to view it, you can restrict who can view this how-to to only the curators and creators in this gallery."
+                },
+                "accessToggle": {
+                    "on": "collapse the access settings panel",
+                    "off": "expand the access settings panel"
+                },
+                "accessMode": {
+                    "label": "restrict who can view this how-to",
+                    "labels": ["restricted", "expanded"],
+                    "tips": [
+                        "only creators in this gallery can view",
+                        "creators and curators in any gallery the curator curates can view"
+                    ]
+                },
+                "localeOptionsLabel": "editor input language"
             },
             "viewer": {
                 "view": {
@@ -4684,7 +4748,9 @@
                 "selectOutput": "show this output on stage",
                 "expandSequence": "expand this collapsed code",
                 "expandControls": "show additional editing commands",
-                "collapseControls": "hide additional editing commands"
+                "collapseControls": "hide additional editing commands",
+                "zoomIn": "Make the code larger",
+                "zoomOut": "Make the code smaller"
             },
             "field": {
                 "name": {
@@ -4723,7 +4789,8 @@
                 "insertFalse": "insert false",
                 "insertNone": "insert none symbol",
                 "insertNotEqual": "insert not equal",
-                "insertProduct": "insert product symbol",
+                "insertProduct": "insert multiplication symbol",
+                "insertDot": "insert dot product symbol",
                 "insertQuotient": "insert quotient symbol",
                 "insertDegree": "insert degree symbol",
                 "insertFunction": "insert function",
@@ -4808,7 +4875,9 @@
                 }
             },
             "button": {
-                "submit": "submit this chat message"
+                "submit": "submit this chat message",
+                "zoomIn": "zoom into the stage",
+                "zoomOut": "zoom out from the stage"
             },
             "options": {
                 "locale": "preferred language for output",
@@ -5070,7 +5139,7 @@
                 },
                 "error": {
                     "unknown": "We don't know a creator with this email.",
-                    "anonymous": "$!You must be <logged in@://login> to share.",
+                    "anonymous": "You must be <logged in@://login> to share.",
                     "self": "You can't add yourself."
                 },
                 "button": {
@@ -5148,7 +5217,7 @@
                         "tips": ["edit code as text", "edit code as blocks"]
                     },
                     "space": {
-                        "label": "space indicator",
+                        "label": "space, tab, and new line markers",
                         "labels": ["hide", "show"],
                         "tips": [
                             "do not show space and tab indicators",
@@ -5204,6 +5273,7 @@
                     "howToHeader": "New how-to titled \"$1\" was posted",
                     "projectChatHeader": "New message in project \"$1\"",
                     "howToChatHeader": "New message in how-to \"$1\"",
+                    "moderationHeader": "Message in \"$1\" requires moderation action",
                     "link": "details"
                 },
                 "delete": "delete this notification",
@@ -5241,7 +5311,7 @@
                 "button": {
                     "show": "Show the feedback form.",
                     "submit": {
-                        "tip": "submit your feeback",
+                        "tip": "submit your feedback",
                         "label": "submit"
                     },
                     "delete": {
@@ -5298,7 +5368,7 @@
                     "idea": "Didn't see the idea you're thinking of? Suggest it."
                 },
                 "error": {
-                    "login": "$!You must be <logged in@://login> to submit feedback",
+                    "login": "You must be <logged in@://login> to submit feedback",
                     "submit": "Unable to submit feedback.",
                     "load": "Unable to load feedback",
                     "empty": "There is no feedback to show.",
@@ -5310,9 +5380,9 @@
             "label": "collaborate",
             "role": {
                 "owner": "owner",
-                "collaborators": "collaborators",
+                "collaborators": "collaborators (edit and chat)",
                 "curators": "curators",
-                "commenters": "commenters",
+                "commenters": "commenters (chat only)",
                 "viewers": "viewers"
             },
             "field": {
@@ -5330,7 +5400,23 @@
                     "label": "start a chat",
                     "tip": "begin a discussion with yourself or others."
                 },
-                "delete": "delete this message"
+                "delete": "delete this message",
+                "confirmDelete": "confirm delete?"
+            },
+            "moderation": {
+                "header": "Report this message",
+                "explanation": "If this message does not meet our <community standards@://rights> or the type of feedback your requested, you can report it. When you report this message, it will be sent to the gallery curators and taken down until it can be reviewed.",
+                "report": {
+                    "tip": "report this message",
+                    "label": "report"
+                },
+                "moderate": {
+                    "tip": "go to moderation dashboard",
+                    "label": "moderate"
+                },
+                "pending": "This message is temporarily removed while waiting for moderation action.",
+                "removed": "This message has been removed for violating community or feedback guidelines.",
+                "inGallery": "This chat is in a gallery. It is subject to moderation by the gallery curators. You can report messages that violate our <community standards@://rights> for moderation."
             },
             "error": {
                 "unowned": "This project isn't stored online, so it can't have a chat or collaborators.",
@@ -5339,7 +5425,7 @@
                 "deleted": "This message was deleted."
             },
             "prompt": {
-                "solo": "Chat with yourself or add...\n\n• a collaborator, who can edit and chat\n\n• a commenter, who can chat but cannot edit\n\n• a viewer, who can see your project but cannot edit or chat",
+                "solo": "Chat with yourself or add...",
                 "owner": "Collaborators can edit this project and chat about it. Commenters can chat but cannot edit this project. Viewers can view this project but cannot chat.",
                 "collaborator": "You're a collaborator. You can edit this project and chat about it.",
                 "curator": "You're a curator of this project's gallery. You can edit this project and chat about it. Only the project's owner, collaborators, and commenters can see the chat.",
@@ -5488,7 +5574,7 @@
                 },
                 "error": {
                     "offline": "We weren't able to check your teacher status. Are you logged in?",
-                    "login": "$!You need to be <logged in@://login> to manage classes.",
+                    "login": "You need to be <logged in@://login> to manage classes.",
                     "teacher": "You need teacher privileges to create and manage classes. Fill out this form and let's get to know each other!"
                 },
                 "link": {
@@ -5603,8 +5689,6 @@
                 "header": "Projects",
                 "projectprompt": "Ready to say something? Create a project or work on one. If you get stuck, keep <learning@://learn>.",
                 "archiveprompt": "These are projects you've archived. Only owners can permanently delete or unarchive them. Archived projects will be permanently deleted 30 days after they were last edited.",
-                "galleriesheader": "Galleries",
-                "galleryprompt": "Create and curate galleries to share a collection of projects with others.",
                 "add": {
                     "header": "New Project",
                     "explanation": "Choose a template to create a new project."
@@ -5621,7 +5705,6 @@
                     "newproject": "new project",
                     "editproject": "edit this project",
                     "viewcode": "view this project's code",
-                    "newgallery": "new gallery",
                     "unarchive": "unarchive this project"
                 },
                 "confirm": {
@@ -5636,21 +5719,40 @@
                 },
                 "error": {
                     "noaccess": "We couldn't reach the internet.",
-                    "nogalleryedits": "$!You must be <logged in@://login> to create and change galleries.",
                     "newgallery": "We couldn't create a new gallery.",
-                    "nodeletes": "$!You must be <logged in@://login> to delete archived projects.",
+                    "nodeletes": "You must be <logged in@://login> to delete archived projects.",
                     "delete": "Oops, we couldn't delete the project!"
                 }
             },
             "galleries": {
                 "header": "Galleries",
-                "prompt": "These are performances that others have made. Experience them, study them, or adapt them into your own statement.",
-                "examples": "Examples",
+                "prompt": "Galleries are collections of projects, often centered around a theme, and curated by you or other creators.",
+                "section": {
+                    "own": {
+                        "header": "Yours",
+                        "explanation": [
+                            "Contribute to a gallery you're invited to, or curate your own gallery with a particular theme, and invite others.",
+                            "/Curators are responsible for moderating the content in galleries using the <gallery moderation dashboard@://galleries/moderation>./"
+                        ]
+                    },
+                    "examples": {
+                        "header": "Examples",
+                        "explanation": "These are curated galleries from the Wordplay developers. They are good starting points for learning and inspiration."
+                    },
+                    "public": {
+                        "header": "Public",
+                        "explanation": "These are galleries that Wordplay creators have made public. See what others have made for inspiration!"
+                    }
+                },
                 "button": {
+                    "newgallery": "new gallery",
                     "more": {
                         "label": "more...",
                         "tip": "load more galleries"
                     }
+                },
+                "error": {
+                    "nogalleryedits": "You must be <logged in@://login> to create and change galleries."
                 }
             },
             "characters": {
@@ -5669,7 +5771,7 @@
                 },
                 "error": {
                     "offline": "We couldn't access your characters stored online.",
-                    "noauth": "$!You must be <logged in@://login> to see your characters and create new ones.",
+                    "noauth": "You must be <logged in@://login> to see your characters and create new ones.",
                     "create": "Unable to create a new character."
                 }
             },
@@ -5751,7 +5853,7 @@
                     },
                     "fill": {
                         "label": "fill",
-                        "labels": ["none", "inerit", "choose"],
+                        "labels": ["none", "inherit", "choose"],
                         "tips": [
                             "no fill",
                             "inherit fill color from surrounding text",
@@ -5760,7 +5862,7 @@
                     },
                     "stroke": {
                         "label": "stroke",
-                        "labels": ["none", "inerit", "choose"],
+                        "labels": ["none", "inherit", "choose"],
                         "tips": [
                             "no stroke",
                             "inherit stroke color from surrounding text",
@@ -5863,7 +5965,7 @@
                     "end": "or press escape.",
                     "loadfail": "There was a problem loading this character.",
                     "notfound": "This character doesn't exist or isn't visible to you.",
-                    "unauthenticated": "$!You must be <logged in@://login> to edit a character.",
+                    "unauthenticated": "You must be <logged in@://login> to edit a character.",
                     "taken": "You already have a character with this name; not saving.",
                     "projecteditfail": "There was a problem updating projects that use this character. The following projects need fixing: ",
                     "untitledproject": "Untitled Project"
@@ -5931,6 +6033,7 @@
                     "invalid": "This link isn't valid.",
                     "email": "Not a valid email.",
                     "invalidUsername": "Usernames must at least 5 letters with no spaces.",
+                    "usernameTaken": "This username is already taken.",
                     "failure": "Unable to login :(",
                     "offline": "We couldn't reach the cloud ☁️.",
                     "unchanged": "We couldn't change your email address, but we don't know why.",
@@ -5996,7 +6099,7 @@
                 "header": "Join",
                 "prompt": {
                     "create": "Create an account to save your projects, collaborate with others, and share your work.",
-                    "username": "Usernames must be at least /5 characters/, can't be an email, and shouldn't contain your name or other identifing information.",
+                    "username": "Usernames must be at least /5 characters/, can't be an email, and shouldn't contain your name or other identifying information.",
                     "password": "Passwords must be at least /6 characters/. Type it twice and write it down somewhere secure, like a password manager. *There is no way to recover your account* if you lose it, since we do not gather contact information."
                 }
             },
@@ -6019,11 +6122,12 @@
                     "Here's how we will and won't use your data:",
                     "• We won't share your data with anyone, unless explicitly required by law. It's always possible that your data is taken without permission (a 'data breach'). If we discover that this has happened, we will notify you that this has happened using the email you've shared with us.",
                     "• We won't contact you via your email address unless you 1) make an account change that requires us to, 2) you explicitly give us consent to reach out, or 3) in the case of data breach above.",
-                    "• We may analyze projects on the platform to understand what everyone is making and how they are making it. We may share these aggregated, anonymized insights in academic publications. We will only do this under the supervision of an institutional review board, as mandated by U.S. federal law.",
+                    "• We may analyze projects, galleries, and how to content on the platform to understand what everyone is making and how they are making it. We may share these aggregated, anonymized insights in academic publications. We will only do this under the supervision of an institutional review board, as mandated by U.S. federal law.",
                     "Finally, a note about speech. You can say anything you want on this platform in *private*. Projects are private by default, and if you share them with specific email addresses, they are still considered private. We won't moderate anything in private projects.",
                     "But making a project *public*, or including it in a public gallery, is a privilege. This is a platform made for love, affirmation, respect, and dignity. Therefore, we expect that none of your *public* content will:"
                 ],
                 "consequences": [
+                    "Chats for projects and how-tos that are in public or private galleries are subject to moderation by the gallery curators. You can report messages that violate these community guidelines to the curators using the report button next to each message, and curators can approve or remove messages.",
                     "If we find a project or gallery that violates these rules, we will warn creators before they view it, or block it from being viewed. If you repeatedly violate these rules, you'll lose the privilege of posting publicly."
                 ]
             },

@@ -27,4 +27,7 @@ export function getLocaleJSON(log: Log, locale: string): unknown | undefined {
 }
 
 /** We use this for repair. Make sure it's valid before we do any repairs. */
-export const DefaultLocale = getLocaleJSON(new Log(), 'en-US') as LocaleText;
+export const DefaultLocale = getLocaleJSON(
+    new Log(false),
+    'en-US',
+) as LocaleText;

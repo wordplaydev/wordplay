@@ -149,6 +149,8 @@ service cloud.firestore {
 
       function isRequestorViewer(uid) {
         return 
+          "scopeOverwrite" in resource.data &&
+          !resource.data.scopeOverwrite &&
           "viewersFlat" in resource.data && 
           uid in resource.data.viewersFlat;
       }

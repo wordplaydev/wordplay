@@ -47,7 +47,7 @@
                         loading = false;
                         error = false;
 
-                        // Handle
+                        // Update the project.
                         project = proj;
                     })
                     .catch(() => {

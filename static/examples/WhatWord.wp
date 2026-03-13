@@ -7,7 +7,7 @@ WhatWord
 ¶قائمة التخمينات وكلمة سرية¶/ar
 •Game/en,Juego/es,لعبة/ar(guesses/en,suposiciones/es,التخمينات/ar•[""] remaining•[""] start•?) (
 	secret: start ? remaining[1] ""
-	guessesRemaining/en,conjeturasRestantes/es,التخميناتالمتبقية/ar: (secret.📏() · 3) - guesses.📏()
+	guessesRemaining/en,conjeturasRestantes/es,التخميناتالمتبقية/ar: (secret.📏() × 3) - guesses.📏()
 	status/en,estado/es,حالة/ar:
 		secret = "" ? "start"
 			secret → [""].all(ƒ(letter•"") guesses.has(letter)) ? "won"
@@ -71,7 +71,7 @@ screen/en,cine/es,إظهار/ar:
 						"Type a letter to guess"/en"Escribe una carta a"/es"اكتب حرفًا للتخمين"/ar "اكتب حرفًا للتخمين"/ar"Guesses: \state.guesses.join(' ')\"/en"Suposiciones: \state.guesses.join(' ')\"/es"التخمينات \state.guesses.join(' ')\"/ar
 				)
 				💬("\state.guessesRemaining\ remaining"/en"\state.guessesRemaining\ restante"/es"متبقي \state.guessesRemaining\"/ar
-					resting: Sequence(sway(2°) (state.guessesRemaining ÷ 5) · 1s
+					resting: Sequence(sway(2°) (state.guessesRemaining ÷ 5) × 1s
 					)
 				)
 			])

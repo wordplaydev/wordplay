@@ -44,10 +44,7 @@ function checkBasisNodes(node: Node) {
             !(conflict instanceof UnusedBind) &&
             !context
                 .getRoot(node)
-                ?.getAncestors(
-                    conflict.getConflictingNodes(context, Templates).primary
-                        .node,
-                )
+                ?.getAncestors(conflict.getMessage(context, Templates).node)
                 .some((n) => n instanceof Example),
     );
 
@@ -56,8 +53,8 @@ function checkBasisNodes(node: Node) {
         conflicts
             .map((c) =>
                 c
-                    .getConflictingNodes(context, Templates)
-                    .primary.explanation(DefaultLocales, context)
+                    .getMessage(context, Templates)
+                    .explanation(DefaultLocales, context)
                     .toText(),
             )
             .join(),

@@ -22,27 +22,25 @@ export default class UnclosedDelimiter extends Conflict {
     static readonly LocalePath = (locales: LocaleText) =>
         locales.node.UnparsableExpression.conflict.UnclosedDelimiter;
 
-    getConflictingNodes() {
+    getMessage() {
         return {
-            primary: {
-                node: this.open,
-                explanation: (locales: Locales, context: Context) =>
-                    locales.concretize(
-                        (l) => UnclosedDelimiter.LocalePath(l).primary,
-                        new NodeRef(
-                            this.open,
-                            locales,
-                            context,
-                            this.open.getText(),
-                        ),
-                        new NodeRef(
-                            this.expected,
-                            locales,
-                            context,
-                            this.expected.getText(),
-                        ),
+            node: this.open,
+            explanation: (locales: Locales, context: Context) =>
+                locales.concretize(
+                    (l) => UnclosedDelimiter.LocalePath(l).explanation,
+                    new NodeRef(
+                        this.open,
+                        locales,
+                        context,
+                        this.open.getText(),
                     ),
-            },
+                    new NodeRef(
+                        this.expected,
+                        locales,
+                        context,
+                        this.expected.getText(),
+                    ),
+                ),
         };
     }
 
