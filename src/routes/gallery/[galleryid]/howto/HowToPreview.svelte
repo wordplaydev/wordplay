@@ -52,7 +52,9 @@
     let title: string = $derived(
         howTo?.getTitleInLocale($locales.getLocaleString()) ?? '',
     );
-    let text: string[] = $derived(howTo?.getText() ?? []);
+    let text: string[] = $derived(
+        howTo?.getTextInLocale($locales.getLocaleString()) ?? [],
+    );
     let howToId: string = $derived(howTo?.getHowToId() ?? '');
     let xcoord: number = $derived(howTo?.getCoordinates()[0] ?? 0);
     let ycoord: number = $derived(howTo?.getCoordinates()[1] ?? 0);
