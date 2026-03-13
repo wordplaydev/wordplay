@@ -5177,7 +5177,8 @@
                     "label": "$~Rozpocznij czat",
                     "tip": "$~Rozpocznij dyskusję z samym sobą lub innymi."
                 },
-                "delete": "$~usuń tę wiadomość"
+                "delete": "$~usuń tę wiadomość",
+                "confirmDelete": "$~potwierdzić usunięcie?"
             },
             "error": {
                 "unowned": "$~Ten projekt nie jest przechowywany online, więc nie można na nim prowadzić czatu ani współpracować z innymi osobami.",

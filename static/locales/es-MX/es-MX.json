@@ -5863,7 +5863,8 @@
                     "label": "$~Iniciar un chat",
                     "tip": "$~Inicie una discusión con usted mismo o con otros."
                 },
-                "delete": "$~eliminar este mensaje"
+                "delete": "$~eliminar este mensaje",
+                "confirmDelete": "$~¿Confirmar eliminación?"
             },
             "error": {
                 "unowned": "$~Este proyecto no tiene propietario, por lo que no puede tener un chat.",

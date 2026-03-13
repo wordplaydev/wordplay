@@ -5398,7 +5398,8 @@
                     "label": "$~bắt đầu cuộc trò chuyện",
                     "tip": "$~Bắt đầu cuộc thảo luận với chính mình hoặc với người khác."
                 },
-                "delete": "$~xóa tin nhắn này"
+                "delete": "$~xóa tin nhắn này",
+                "confirmDelete": "$~Xác nhận xóa?"
             },
             "moderation": {
                 "header": "$~Báo cáo tin nhắn này",

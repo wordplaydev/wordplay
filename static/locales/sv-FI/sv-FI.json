@@ -5172,7 +5172,8 @@
                     "label": "$~Starta en chatt",
                     "tip": "$~Börja en diskussion med dig själv eller andra."
                 },
-                "delete": "$~radera detta meddelande"
+                "delete": "$~radera detta meddelande",
+                "confirmDelete": "$~bekräfta borttagning?"
             },
             "error": {
                 "unowned": "$~Det här projektet lagras inte online, så det kan inte ha en chatt eller samarbetspartner.",

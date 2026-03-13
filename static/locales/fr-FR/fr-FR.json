@@ -5881,7 +5881,8 @@
                     "label": "$~Démarrer une discussion",
                     "tip": "$~Commencez une discussion avec vous-même ou avec d’autres."
                 },
-                "delete": "$~supprimer ce message"
+                "delete": "$~supprimer ce message",
+                "confirmDelete": "$~confirmer la suppression ?"
             },
             "error": {
                 "unowned": "$~Ce projet n'a pas de propriétaire, il ne peut donc pas avoir de chat.",
