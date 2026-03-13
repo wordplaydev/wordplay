@@ -821,13 +821,13 @@
             />
         </div>
         <div class="howtosplitview">
-            <div class="splitside" id="howtoview">
+            <div class="how-to-text" id="howtoview">
                 {#each howTo.getText() as markup, i (i)}
                     <HowToPrompt text={(l) => prompts[i]} />
                     <MarkupHTMLView {markup} />
                 {/each}
             </div>
-            <div class="splitside" id="howtointeractions">
+            <div class="how-to-social" id="howtointeractions">
                 <HowToPrompt text={(l) => l.ui.howto.viewer.reactionsPrompt} />
                 {#each reactionButtons as reaction, i (i)}
                     <Button
@@ -850,12 +850,14 @@
 
                 <HowToPrompt text={(l) => l.ui.howto.viewer.chatPrompt} />
 
-                <ChatView
-                    {chat}
-                    creators={chatParticipants}
-                    {galleryID}
-                    {howTo}
-                />
+                <div class="how-to-chat">
+                    <ChatView
+                        {chat}
+                        creators={chatParticipants}
+                        {galleryID}
+                        {howTo}
+                    />
+                </div>
             </div>
         </div>
     {:else if howTo && (!$user || !isCreatorCollaboratorViewer($user.uid))}
@@ -946,16 +948,18 @@
         grid-template-columns: 1fr 1fr;
         gap: var(--wordplay-spacing);
         height: 100%;
-        overflow: hidden;
     }
 
-    .splitside {
+    .how-to-text,
+    .how-to-social {
         height: 100%;
-        max-height: 100%;
         width: 100%;
         padding: var(--wordplay-spacing);
-        overflow-y: auto;
-        overscroll-behavior-y: contain;
+    }
+
+    .how-to-chat {
+        height: 100%;
+        max-height: 50vh;
     }
 
     .optionsarea {
