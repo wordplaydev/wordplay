@@ -90,7 +90,6 @@
         "matter-js": "^0",
         "picomatch": "^4",
         "pitchy": "^4",
-        "recoverable-random": "^1",
         "shared-types": "file:./functions/src/shared",
         "uuid": "^13",
         "zod": "^4"

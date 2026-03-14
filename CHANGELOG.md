@@ -9,7 +9,8 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 ### Changed
 
 - We upgraded internal tooling for stability.
-- Improved some Arabic translations.
+- We improved some Arabic translations.
+- We arranged more reliable recoverable random numbers.
 
 ## 0.17.0 - 2026-03-03
 
