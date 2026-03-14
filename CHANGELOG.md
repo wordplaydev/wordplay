@@ -11,6 +11,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - We added dates to the feedback, so we can see how long ago feedback was reported.
 - We added a "select all of color" tool in the character editor (#994).
 - We added a color picker in the character editor (only supported in Chrome, Edge, and Opera).
+- We added saturation increase and decrease buttons to adjust the chroma of all colors in the character editor.
 
 ### Fixed
 

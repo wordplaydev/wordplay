@@ -5944,6 +5944,14 @@
                         "label": "pick color",
                         "tip": "select a color from your screen to use for drawing pixels and shapes"
                     },
+                    "saturationUp": {
+                        "label": "saturation",
+                        "tip": "increase saturation"
+                    },
+                    "saturationDown": {
+                        "label": "saturation",
+                        "tip": "decrease saturation"
+                    },
                     "end": {
                         "label": "finish shape",
                         "tip": "end the current path"

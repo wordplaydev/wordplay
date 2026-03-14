@@ -919,7 +919,7 @@
         if (rgb === null) return;
 
         const lch = RGBtoLCH(rgb.r / 255, rgb.g / 255, rgb.b / 255);
-        console.log(lch.coords);
+
         currentFill = {
             l: Math.round(lch.coords[0] ?? 0) / 100,
             c: Math.round(lch.coords[1] ?? 0),
@@ -927,6 +927,43 @@
         };
         currentFillSetting = 'set';
         mode = DrawingMode.Pixel;
+    }
+
+    async function saturation(delta: number) {
+        const chromas = shapes
+            .map((s) =>
+                s.fill
+                    ? s.fill.c
+                    : 'stroke' in s && s.stroke && s.stroke.color
+                      ? s.stroke.color.c
+                      : undefined,
+            )
+            .filter((c): c is number => c !== undefined);
+        if (chromas.length === 0) return;
+        const min = Math.min(...chromas);
+        const max = Math.max(...chromas);
+        if (delta < 0 && min === 0) return;
+        if (delta > 0 && max === 100) return;
+        setShapes(
+            shapes.map((shape) => {
+                if (shape.fill) {
+                    shape.fill.c = Math.max(
+                        0,
+                        Math.min(100, shape.fill.c + delta),
+                    );
+                } else if (
+                    'stroke' in shape &&
+                    shape.stroke &&
+                    shape.stroke.color
+                ) {
+                    shape.stroke.color.c = Math.max(
+                        0,
+                        Math.min(100, shape.stroke.color.c + delta),
+                    );
+                }
+                return shape;
+            }),
+        );
     }
 
     function copyShapes() {
@@ -2161,6 +2198,33 @@
                 label={(l) => l.ui.page.character.button.pick.label}
             />
         {/if}
+        <Button
+            tip={(l) => l.ui.page.character.button.saturationUp.tip}
+            action={() => saturation(5)}
+            active={shapes.every(
+                (s) =>
+                    (s.fill && s.fill.c < 100) ||
+                    ('stroke' in s &&
+                        s.stroke &&
+                        s.stroke.color &&
+                        s.stroke.color.c < 100),
+            )}
+            icon="↑"
+            label={(l) => l.ui.page.character.button.saturationUp.label}
+        /><Button
+            tip={(l) => l.ui.page.character.button.saturationDown.tip}
+            action={() => saturation(-5)}
+            active={shapes.every(
+                (s) =>
+                    (s.fill && s.fill.c > 0) ||
+                    ('stroke' in s &&
+                        s.stroke &&
+                        s.stroke.color &&
+                        s.stroke.color.c > 0),
+            )}
+            icon="↓"
+            label={(l) => l.ui.page.character.button.saturationDown.label}
+        />
         <Button
             tip={(l) => l.ui.page.character.button.fit.tip}
             action={() => fit()}

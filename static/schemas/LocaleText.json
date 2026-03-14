@@ -11302,6 +11302,14 @@
                           "$ref": "#/definitions/ButtonText",
                           "description": "The redo tooltip"
                         },
+                        "saturationDown": {
+                          "$ref": "#/definitions/ButtonText",
+                          "description": "The saturation down button"
+                        },
+                        "saturationUp": {
+                          "$ref": "#/definitions/ButtonText",
+                          "description": "The saturation up button"
+                        },
                         "toBack": {
                           "$ref": "#/definitions/ButtonText",
                           "description": "The move to back button"
@@ -11333,6 +11341,8 @@
                         "all",
                         "allColor",
                         "pick",
+                        "saturationUp",
+                        "saturationDown",
                         "end",
                         "horizontal",
                         "vertical",
