@@ -899,6 +899,36 @@
         );
     }
 
+    async function pickColor() {
+        if (window.EyeDropper === undefined) return;
+
+        const dropper = new window.EyeDropper();
+        const result = await dropper.open();
+        // Do something with the selected color
+        console.log(result.sRGBHex);
+        const match = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(
+            result.sRGBHex,
+        );
+        const rgb = match
+            ? {
+                  r: parseInt(match[1], 16), // Convert the hex pair to a decimal number
+                  g: parseInt(match[2], 16),
+                  b: parseInt(match[3], 16),
+              }
+            : null;
+        if (rgb === null) return;
+
+        const lch = RGBtoLCH(rgb.r / 255, rgb.g / 255, rgb.b / 255);
+        console.log(lch.coords);
+        currentFill = {
+            l: Math.round(lch.coords[0] ?? 0) / 100,
+            c: Math.round(lch.coords[1] ?? 0),
+            h: Math.round(lch.coords[2] ?? 0),
+        };
+        currentFillSetting = 'set';
+        mode = DrawingMode.Pixel;
+    }
+
     function copyShapes() {
         copy = selection.map(
             (s) => structuredClone($state.snapshot(s)) as CharacterShape,
@@ -2123,6 +2153,14 @@
             icon={SELECTION_SYMBOL}
             label={(l) => l.ui.page.character.button.allColor.label}
         />
+        {#if 'EyeDropper' in window}
+            <Button
+                tip={(l) => l.ui.page.character.button.pick.tip}
+                action={() => pickColor()}
+                icon="🌓"
+                label={(l) => l.ui.page.character.button.pick.label}
+            />
+        {/if}
         <Button
             tip={(l) => l.ui.page.character.button.fit.tip}
             action={() => fit()}

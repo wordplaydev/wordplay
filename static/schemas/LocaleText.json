@@ -11294,6 +11294,10 @@
                           "$ref": "#/definitions/ButtonText",
                           "description": "Paste button text"
                         },
+                        "pick": {
+                          "$ref": "#/definitions/ButtonText",
+                          "description": "The color picker button"
+                        },
                         "redo": {
                           "$ref": "#/definitions/ButtonText",
                           "description": "The redo tooltip"
@@ -11328,6 +11332,7 @@
                         "redo",
                         "all",
                         "allColor",
+                        "pick",
                         "end",
                         "horizontal",
                         "vertical",

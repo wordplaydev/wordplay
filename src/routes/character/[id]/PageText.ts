@@ -86,6 +86,8 @@ type PageText = {
         all: ButtonText;
         /** The select all of color button */
         allColor: ButtonText;
+        /** The color picker button */
+        pick: ButtonText;
         /** End path button */
         end: ButtonText;
         /** Flip path horizontal */
