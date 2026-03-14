@@ -13,6 +13,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 ### Fixed
 
 - We fixed the layout of the existing username checking feedback.
+- We fixed some broken code in the @Example documentation.
 
 ### Changed
 

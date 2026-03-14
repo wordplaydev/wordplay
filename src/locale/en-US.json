@@ -358,10 +358,8 @@
             "name": "example",
             "emotion": "serious",
             "doc": [
-                "I'm an example performance, helpful for writing @Doc that explains how to use something!",
-                "\\¶Here's an example of adding: \\1 + 1\\¶'example code'\\",
-                "If you put me in a paragraph all alone, I'll show up in a fancy box and show the result of evaluating me.",
-                "\\¶Here's an example of adding:\n\n\\1 + 1\\¶\\"
+                "You can put examples in your @Doc, like this:",
+                "\\¶Here's an example of adding: \\1 + 2\\¶3 + 4\\"
             ]
         },
         "Mention": {
