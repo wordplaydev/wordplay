@@ -69,6 +69,8 @@ export async function verifyLocale(
     log: Log,
     locale: string,
     text: LocaleText,
+    /** Whether to fix structural issues */
+    fix: boolean,
     /** Whether to translate unwritten strings in the locale */
     translate: boolean,
     /** Whether to override existing machine translations */
@@ -87,7 +89,7 @@ export async function verifyLocale(
                 log.bad(3, `${error.instancePath}: ${error.message}`);
         }
 
-        revisedText = repairLocale(log, DefaultLocale, revisedText);
+        if (fix) revisedText = repairLocale(log, DefaultLocale, revisedText);
     }
 
     // Don't warn if we're checking the example locale.
