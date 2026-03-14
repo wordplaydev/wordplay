@@ -27,7 +27,7 @@
         margin-block-end: 4em;
     }
 
-    :global(p:not(:last-of-kind)) {
+    :global(p:not(:last-of-type)) {
         margin-block-end: 1em;
     }
 </style>
