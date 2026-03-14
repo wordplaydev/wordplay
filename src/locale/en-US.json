@@ -5936,6 +5936,10 @@
                         "label": "select all",
                         "tip": "select all shapes and pixels"
                     },
+                    "allColor": {
+                        "label": "all of color",
+                        "tip": "select all shapes with the same color as the selection"
+                    },
                     "end": {
                         "label": "finish shape",
                         "tip": "end the current path"

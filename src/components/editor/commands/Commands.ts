@@ -1,7 +1,6 @@
 import Caret from '@edit/caret/Caret';
 import Node from '@nodes/Node';
 import {
-    ALL_SYMBOL,
     BORROW_SYMBOL,
     CHANGE_SYMBOL,
     CONVERT_SYMBOL,
@@ -22,6 +21,7 @@ import {
     PRODUCT_SYMBOL,
     QUOTIENT_SYMBOL,
     REDO_SYMBOL,
+    SELECTION_SYMBOL,
     SHARE_SYMBOL,
     SOURCE_SYMBOL,
     STAGE_SYMBOL,
@@ -971,7 +971,7 @@ const Commands: Command[] = [
         },
     },
     {
-        symbol: ALL_SYMBOL,
+        symbol: SELECTION_SYMBOL,
         description: (l) => l.ui.source.cursor.selectAll,
         visible: Visibility.Visible,
         category: Category.Cursor,

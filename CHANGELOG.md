@@ -9,6 +9,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 ### Added
 
 - We added dates to the feedback, so we can see how long ago feedback was reported.
+- We added a "select all of color" tool in the character editor (#994).
 
 ### Fixed
 

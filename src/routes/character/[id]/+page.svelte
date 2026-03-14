@@ -40,7 +40,6 @@
     import { RGBtoLCH } from '@output/ColorJS';
     import { toProgram } from '@parser/parseProgram';
     import {
-        ALL_SYMBOL,
         BORROW_SYMBOL,
         CANCEL_SYMBOL,
         COPY_SYMBOL,
@@ -48,6 +47,7 @@
         GLOBE1_SYMBOL,
         PASTE_SYMBOL,
         REDO_SYMBOL,
+        SELECTION_SYMBOL,
         SHARE_SYMBOL,
         UNDO_SYMBOL,
     } from '@parser/Symbols';
@@ -883,6 +883,22 @@
         selection = [...shapes];
     }
 
+    function selectAllOfColor() {
+        // Get the color of the current selection.
+        const fill = selection[0].fill;
+
+        if (fill === undefined || fill === null) return;
+
+        selection = shapes.filter(
+            (s) =>
+                s.fill !== undefined &&
+                s.fill !== null &&
+                s.fill.l === fill.l &&
+                s.fill.c === fill.c &&
+                s.fill.h === fill.h,
+        );
+    }
+
     function copyShapes() {
         copy = selection.map(
             (s) => structuredClone($state.snapshot(s)) as CharacterShape,
@@ -1669,7 +1685,7 @@
         >
         <Mode
             modes={(l) => l.ui.page.character.field.mode}
-            icons={['👆', '⌫', '■', '🔲', '⚪️', '╱', '🙂']}
+            icons={[SELECTION_SYMBOL, ERASE_SYMBOL, '■', '🔲', '⚪️', '╱', '🙂']}
             choice={mode}
             select={(choice: number) => {
                 mode = choice as DrawingMode;
@@ -2089,8 +2105,23 @@
             tip={(l) => l.ui.page.character.button.all.tip}
             action={() => selectAll()}
             active={shapes.length > 0}
-            icon={ALL_SYMBOL}
+            icon={SELECTION_SYMBOL}
             label={(l) => l.ui.page.character.button.all.label}
+        />
+        <Button
+            tip={(l) => l.ui.page.character.button.allColor.tip}
+            action={() => selectAllOfColor()}
+            // Active if there's one or more pixels with the same color
+            active={shapes.length > 0 &&
+                new Set(
+                    selection
+                        .filter((s) => s.fill !== undefined && s.fill !== null)
+                        .map((s) =>
+                            s.fill ? `${s.fill.l}${s.fill.c}${s.fill.h}` : '',
+                        ),
+                ).size === 1}
+            icon={SELECTION_SYMBOL}
+            label={(l) => l.ui.page.character.button.allColor.label}
         />
         <Button
             tip={(l) => l.ui.page.character.button.fit.tip}

@@ -11250,6 +11250,10 @@
                           "$ref": "#/definitions/ButtonText",
                           "description": "The select all button"
                         },
+                        "allColor": {
+                          "$ref": "#/definitions/ButtonText",
+                          "description": "The select all of color button"
+                        },
                         "back": {
                           "$ref": "#/definitions/ButtonText",
                           "description": "The move selection back button"
@@ -11323,6 +11327,7 @@
                         "undo",
                         "redo",
                         "all",
+                        "allColor",
                         "end",
                         "horizontal",
                         "vertical",
