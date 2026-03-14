@@ -6,7 +6,9 @@
       "added": [],
       "fixed": [],
       "changed": [
-        "We upgraded internal tooling for stability."
+        "We upgraded internal tooling for stability.",
+        "We improved some Arabic translations.",
+        "We arranged more reliable recoverable random numbers."
       ],
       "removed": []
     }
