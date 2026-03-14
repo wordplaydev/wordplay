@@ -359,9 +359,7 @@
             "emotion": "serious",
             "doc": [
                 "$~Tôi là một ví dụ về cách thực hiện, hữu ích cho việc viết tài liệu hướng dẫn (@Doc) giải thích cách sử dụng một thứ gì đó!",
-                "$~¶Đây là một ví dụ về phép cộng: \\1 + 1\\¶'mã ví dụ'\\",
-                "$~Nếu bạn đặt tôi vào một đoạn văn riêng biệt, tôi sẽ hiện lên trong một khung hình đẹp mắt và hiển thị kết quả đánh giá về tôi.",
-                "$~¶Đây là một ví dụ về phép cộng:\n\n\\1 + 1\\¶\\"
+                "$~¶Đây là một ví dụ về phép cộng: \\1 + 1\\¶'mã ví dụ'\\"
             ]
         },
         "Mention": {
@@ -5955,6 +5953,10 @@
                     "dismissError": {
                         "label": "$~miễn nhiệm",
                         "tip": "$~bỏ qua thông báo lỗi"
+                    },
+                    "allColor": {
+                        "label": "$~tất cả màu sắc",
+                        "tip": "$~Chọn tất cả các hình có cùng màu với hình đã chọn."
                     }
                 },
                 "feedback": {

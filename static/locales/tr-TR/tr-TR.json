@@ -359,9 +359,7 @@
             "emotion": "serious",
             "doc": [
                 "$~Ben bir örnek performansım, @Doc'ta bir şeyin nasıl kullanılacağını anlatan yazılar yazmak için faydalı!",
-                "$~\\¶İşte eklemenin bir örneği: \\1 + 1\\¶'örnek kod'\\",
-                "$~Beni tek başına bir paragrafa koyarsanız, süslü bir kutunun içinde karşınıza çıkarım ve beni değerlendirmenin sonucunu gösteririm.",
-                "$~\\¶İşte eklemenin bir örneği:\n\n\\1 + 1\\¶\\"
+                "$~\\¶İşte eklemenin bir örneği: \\1 + 1\\¶'örnek kod'\\"
             ]
         },
         "Mention": {
@@ -5857,6 +5855,10 @@
                     "dismissError": {
                         "label": "$~azletmek",
                         "tip": "$~hata mesajını kapat"
+                    },
+                    "allColor": {
+                        "label": "$~tüm renkler",
+                        "tip": "$~Seçimle aynı renkteki tüm şekilleri seçin."
                     }
                 },
                 "feedback": {

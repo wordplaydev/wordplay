@@ -359,9 +359,7 @@
             "emotion": "serious",
             "doc": [
                 "$~Jestem przykładem wykonania, pomocnym przy pisaniu @Doc, który wyjaśnia jak czegoś używać!",
-                "$~\\¶Oto przykład dodawania: \\1 + 1\\¶'przykładowy kod'\\",
-                "$~Jeśli umieścisz mnie samego w akapicie, pojawię się w ozdobnym polu i pokażę wynik mojej oceny.",
-                "$~\\¶Oto przykład dodawania:\n\n\\1 + 1\\¶\\"
+                "$~\\¶Oto przykład dodawania: \\1 + 1\\¶'przykładowy kod'\\"
             ]
         },
         "Mention": {
@@ -5866,6 +5864,10 @@
                     "dismissError": {
                         "label": "$~odrzucać",
                         "tip": "$~odrzuć komunikat o błędzie"
+                    },
+                    "allColor": {
+                        "label": "$~wszystkie kolorowe",
+                        "tip": "$~wybierz wszystkie kształty o tym samym kolorze co zaznaczenie"
                     }
                 },
                 "feedback": {

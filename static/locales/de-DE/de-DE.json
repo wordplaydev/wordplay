@@ -359,9 +359,7 @@
             "emotion": "$?",
             "doc": [
                 "$~Ich bin eine Beispielleistung, hilfreich beim Schreiben von @Doc, das erklärt, wie man etwas verwendet!",
-                "$~\\¶Hier ist ein Beispiel für die Addition: \\1 + 1\\¶'Beispielcode'\\",
-                "$~Wenn Sie mich allein in einen Absatz einfügen, werde ich in einem schicken Feld angezeigt und das Ergebnis meiner Bewertung wird angezeigt.",
-                "$~\\¶Hier ist ein Beispiel für die Addition:\n\n\\1 + 1\\¶\\"
+                "$~\\¶Hier ist ein Beispiel für die Addition: \\1 + 1\\¶'Beispielcode'\\"
             ]
         },
         "Mention": {
@@ -5776,6 +5774,10 @@
                     "dismissError": {
                         "label": "$~zurückweisen",
                         "tip": "$~die Fehlermeldung verwerfen"
+                    },
+                    "allColor": {
+                        "label": "$~alle Farben",
+                        "tip": "$~Wählen Sie alle Formen mit der gleichen Farbe wie die Auswahl aus."
                     }
                 },
                 "feedback": {

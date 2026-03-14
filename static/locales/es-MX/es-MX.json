@@ -335,9 +335,7 @@
             "emotion": "serious",
             "doc": [
                 "Soy un rendimiento de ejemplo, ¡útil para escribir @Doc que explique cómo usar algo!",
-                "\\¶Aquí tienes un ejemplo de suma: \\1 + 1\\¶'código de ejemplo'\\",
-                "Si me pones en un párrafo completamente solo, apareceré en una caja elegante y mostraré el resultado de evaluarme.",
-                "\\¶Aquí tienes un ejemplo de suma:\n\n\\1 + 1\\¶\\"
+                "\\¶Aquí tienes un ejemplo de suma: \\1 + 1\\¶'código de ejemplo'\\"
             ]
         },
         "Mention": {
@@ -5759,6 +5757,10 @@
                     "dismissError": {
                         "label": "$~despedir",
                         "tip": "$~descartar el mensaje de error"
+                    },
+                    "allColor": {
+                        "label": "$~todo color",
+                        "tip": "$~Seleccione todas las formas con el mismo color que la selección."
                     }
                 },
                 "feedback": {

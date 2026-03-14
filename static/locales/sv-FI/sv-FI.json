@@ -359,9 +359,7 @@
             "emotion": "serious",
             "doc": [
                 "$~Jag är ett exempel på prestanda, användbart för att skriva @Doc som förklarar hur man använder något!",
-                "$~\\¶Här är ett exempel på att lägga till: \\1 + 1\\¶'exempelkod'\\",
-                "$~Om du lägger in mig i ett stycke helt ensam, dyker jag upp i en snygg låda och visar resultatet av att utvärdera mig.",
-                "$~\\¶Här är ett exempel på att lägga till:\n\n\\1 + 1\\¶\\"
+                "$~\\¶Här är ett exempel på att lägga till: \\1 + 1\\¶'exempelkod'\\"
             ]
         },
         "Mention": {
@@ -5861,6 +5859,10 @@
                     "dismissError": {
                         "label": "$~avfärda",
                         "tip": "$~ignorera felmeddelandet"
+                    },
+                    "allColor": {
+                        "label": "$~alla i färg",
+                        "tip": "$~markera alla former med samma färg som markeringen"
                     }
                 },
                 "feedback": {
