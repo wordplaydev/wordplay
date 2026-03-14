@@ -518,7 +518,9 @@
 
         <Button
             background
-            active={!submitting && title.length > 0 && description.length > 0}
+            active={!submitting &&
+                title.trim().length > 0 &&
+                description.trim().length > 0}
             tip={(l) => l.ui.dialog.feedback.button.submit.tip}
             icon={mode === 'defect' ? DEFECT_SYMBOL : IDEA_SYMBOL}
             label={(l) => l.ui.dialog.feedback.button.submit.label}

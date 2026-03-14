@@ -15,6 +15,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - We upgraded internal tooling for stability.
 - We improved some Arabic translations.
 - We arranged more reliable recoverable random numbers.
+- We no longer permit only whitespace in the feedback form (#1008).
 
 ## 0.17.0 - 2026-03-03
 
