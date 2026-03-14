@@ -9,6 +9,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 ### Changed
 
 - We upgraded internal tooling for stability.
+- Improved some Arabic translations.
 
 ## 0.17.0 - 2026-03-03
 
