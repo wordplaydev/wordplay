@@ -6,6 +6,10 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 ## 0.17.1 - 2026-03-14
 
+### Added
+
+- We added dates to the feedback, so we can see how long ago feedback was reported.
+
 ### Fixed
 
 - We fixed the layout of the existing username checking feedback.

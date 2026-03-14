@@ -9,7 +9,7 @@
     import Note from '@components/widgets/Note.svelte';
     import TextBox from '@components/widgets/TextBox.svelte';
     import TextField from '@components/widgets/TextField.svelte';
-    import { Logs } from '@db/Database';
+    import { locales, Logs } from '@db/Database';
     import {
         createFeedback,
         deleteFeedback,
@@ -120,6 +120,12 @@
 
 {#snippet feedbackView(feed: Feedback, index: number)}
     <div class="feedback" class:expanded={expanded[index]}>
+        <Note
+            >{new Date(feed.created).toLocaleString(
+                $locales.getLocaleString(),
+                { day: 'numeric', month: 'short', year: 'numeric' },
+            )}</Note
+        >
         <div
             role="button"
             class="header"
