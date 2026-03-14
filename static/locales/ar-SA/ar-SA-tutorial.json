@@ -62,10 +62,20 @@
                             "ولم أرَ أحداً منذ زمن طويل."
                         ],
                         null,
-                        ["fit", "Stage([Phrase('☁️')] background: Color(25% 0 0°))"],
-                        ["FunctionDefinition", "curious", "لحظة... هل أنت إنسان؟"],
+                        [
+                            "fit",
+                            "Stage([Phrase('☁️')] background: Color(25% 0 0°))"
+                        ],
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "لحظة... هل أنت إنسان؟"
+                        ],
                         null,
-                        ["fit", "Stage([Phrase('🌙')] background: Color(50% 0 0°))"],
+                        [
+                            "fit",
+                            "Stage([Phrase('🌙')] background: Color(50% 0 0°))"
+                        ],
                         [
                             "FunctionDefinition",
                             "eager",
@@ -78,7 +88,10 @@
                             "أعرف أن هذا طلب كبير. أنا لا أعرفك حتى. وسأحتاج أن أتحدث مع الآخرين أولاً..."
                         ],
                         null,
-                        ["fit", "Stage([Phrase('☀️')] background: Color(75% 0 0°))"],
+                        [
+                            "fit",
+                            "Stage([Phrase('☀️')] background: Color(75% 0 0°))"
+                        ],
                         [
                             "FunctionDefinition",
                             "eager",
@@ -91,14 +104,20 @@
                             "آه، المخرج! لم أشرح لك بعد. *المخرج* هو الشخص الذي يعطينا المعنى. هو من يرتب العرض ويحدد ما نقوله ويضع كل واحد منا في مكانه. هذا هو الإلهام الذي كنت أتحدث عنه! نحن نستطيع أن نفعل أشياء كثيرة، لكننا لا نستطيع توجيه أنفسنا. لهذا المخرج مهم جداً. فهل تستطيع أن تكون مخرجنا؟"
                         ],
                         null,
-                        ["fit", "Stage([Phrase('')] background: Color(100% 0 0°))"],
+                        [
+                            "fit",
+                            "Stage([Phrase('')] background: Color(100% 0 0°))"
+                        ],
                         [
                             "FunctionDefinition",
                             "excited",
                             "حقاً؟ رائع! سيكون هذا ممتعاً جداً. لكنه لن يكون سهلاً. عندنا الكثير لنتعلمه."
                         ],
                         null,
-                        ["fit", "Stage([Phrase('')] background: (80% 99 270°))"],
+                        [
+                            "fit",
+                            "Stage([Phrase('')] background: Color(80% 99 270°))"
+                        ],
                         [
                             "FunctionDefinition",
                             "excited",
@@ -107,7 +126,7 @@
                         null,
                         [
                             "fit",
-                            "Stage([Phrase('' resting:Sequence(spin() 4s 'straight'))] background: (80% 99 270°))"
+                            "Stage([Phrase('' resting:Sequence(spin() 4s 'straight'))] background: Color(80% 99 270°))"
                         ],
                         [
                             "FunctionDefinition",
