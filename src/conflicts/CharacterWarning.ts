@@ -16,15 +16,13 @@ export class CharacterWarning extends Conflict {
     static readonly LocalePath = (locale: LocaleText) =>
         locale.node.Translation.conflict.character;
 
-    getConflictingNodes() {
+    getMessage() {
         return {
-            primary: {
-                node: this.text,
-                explanation: (locales: Locales) =>
-                    locales.concretize(
-                        (l) => CharacterWarning.LocalePath(l).primary,
-                    ),
-            },
+            node: this.text,
+            explanation: (locales: Locales) =>
+                locales.concretize(
+                    (l) => CharacterWarning.LocalePath(l).explanation,
+                ),
         };
     }
 

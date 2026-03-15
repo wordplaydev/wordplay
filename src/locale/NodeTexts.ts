@@ -31,16 +31,11 @@ export interface Conflicts<T> {
 }
 
 /** The text that describes this conflict type. */
-export type InternalConflictText = {
+export type ConflictText = {
     /** The short header to describe the conflict */
     name: string;
     /** The text that describes this conflict on the node which generated it. */
-    primary: Template;
-};
-
-export type ConflictText = InternalConflictText & {
-    /** The text that describes this conflict on a related note, but not the one that generated it. */
-    secondary: Template;
+    explanation: Template;
 };
 
 export interface Exceptions<Kinds> {
@@ -67,8 +62,8 @@ type NodeTexts = {
     /** A language tag appearing in a doc or name, such as `/en` in `name/en: 1` or ` ¶My doc¶/en` */
     Language: DescriptiveNodeText &
         Conflicts<{
-            UnknownLanguage: InternalConflictText;
-            MissingLanguage: InternalConflictText;
+            UnknownLanguage: ConflictText;
+            MissingLanguage: ConflictText;
         }>;
     /**
      * A name, e.g., `hi`.
@@ -81,7 +76,7 @@ type NodeTexts = {
     Row: NodeText &
         Conflicts<{
             /** When a row does not form to it's table's type definition */
-            InvalidRow: InternalConflictText;
+            InvalidRow: ConflictText;
             /**
              * When cell is missing from a row. $1: Column
              * $2: Row
@@ -94,7 +89,7 @@ type NodeTexts = {
             /**
              * When a unknown column is specified by name.
              */
-            UnknownColumn: InternalConflictText;
+            UnknownColumn: ConflictText;
             /** When a bind was not expected in a row but it was provided. */
             UnexpectedColumnBind: ConflictText;
         }>;
@@ -158,7 +153,7 @@ type NodeTexts = {
             right: Template;
         } & Conflicts<{
             /** Warning about order of evaluation of binary evaluations always being reading order, not math order of operations */
-            OrderOfOperations: InternalConflictText;
+            OrderOfOperations: ConflictText;
         }> & { label: { operator: string } };
     /**
      * Naming a value, e.g., `mybinding: 5m`
@@ -171,7 +166,10 @@ type NodeTexts = {
             label: { value: string; names: string; type: string };
         } & Conflicts<{
             /** When a bind has duplicate names. Description inputs: $1: The name that shadowed this one */
-            DuplicateName: { conflict: ConflictText; resolution: Template };
+            DuplicateName: {
+                conflict: ConflictText;
+                resolution: Template;
+            };
             /** When a shared bind has a duplicate name that's shared. Description inputs: $1: The duplicate */
             DuplicateShare: ConflictText;
             /**
@@ -182,15 +180,15 @@ type NodeTexts = {
             /**
              * When a bind is marked as share, but not at the top level.
              */
-            MisplacedShare: InternalConflictText;
+            MisplacedShare: ConflictText;
             /** When a bind is shared, but not language tagged. */
-            MissingShareLanguages: InternalConflictText;
+            MissingShareLanguages: ConflictText;
             /** When a bind is required, but appears after an optional bind in a definition */
-            RequiredAfterOptional: InternalConflictText;
+            RequiredAfterOptional: ConflictText;
             /** When a bind is marked as a variable length list, but not at the end. */
-            UnexpectedEtc: InternalConflictText;
+            UnexpectedEtc: ConflictText;
             /** When a bind is declared but never used. */
-            UnusedBind: InternalConflictText;
+            UnusedBind: ConflictText;
         }>;
     /**
      * A block of expressions, evaluating to the final expression's value, e.g., `(a: 1  1 + a)`
@@ -206,10 +204,11 @@ type NodeTexts = {
             };
         } & Conflicts<{
             /** When there's no ending expression */
-            ExpectedEndingExpression: InternalConflictText;
+            ExpectedEndingExpression: ConflictText;
             /** When a statement is ignored because it's not last and not a bind */
             IgnoredExpression: ConflictText & {
                 resolution: {
+                    name: Template;
                     binary: Template;
                     evaluate: Template;
                 };
@@ -236,9 +235,9 @@ type NodeTexts = {
             };
         } & Conflicts<{
             /** When the borrowed name could not be found */
-            UnknownBorrow: InternalConflictText;
+            UnknownBorrow: ConflictText;
             /** When a borrowed value depends on the source file doing the borrowing. Description inputs: $1 = borrow that had a cycle */
-            BorrowCycle: InternalConflictText;
+            BorrowCycle: ConflictText;
         }> &
         Exceptions<{
             /** When a borrow depends on itself. Description inputs: $1: Borrow that it depends on */
@@ -301,7 +300,7 @@ type NodeTexts = {
         SimpleExpressionText &
         Conflicts<{
             /** When a conversion is defined somewhere it's not allowed. */
-            MisplacedConversion: InternalConflictText;
+            MisplacedConversion: ConflictText;
         }> & {
             label: {
                 input: string;
@@ -321,7 +320,7 @@ type NodeTexts = {
              * When conversion could not be found.
              * Description inputs: $1 = from type, $2: to type
              **/
-            UnknownConversion: InternalConflictText;
+            UnknownConversion: ConflictText;
         }> &
         Exceptions<{
             /**
@@ -369,7 +368,7 @@ type NodeTexts = {
             /**
              * When the structure definition given is an interface, and can't be created
              */
-            NotInstantiable: InternalConflictText;
+            NotInstantiable: ConflictText;
             /**
              * When an input value is given but not expected
              * Description inputs: $1 = evaluate with unexected input, $2: unexpected input
@@ -382,11 +381,11 @@ type NodeTexts = {
             /**
              * When a list of inputs is given but isn't last.
              */
-            InputListMustBeLast: InternalConflictText;
+            InputListMustBeLast: ConflictText;
             /**
              * When something looks like an Evaluate with space
              */
-            SeparatedEvaluate: InternalConflictText;
+            SeparatedEvaluate: ConflictText;
         }> &
         Exceptions<{
             /**
@@ -402,7 +401,7 @@ type NodeTexts = {
      */
     ExpressionPlaceholder: DescriptiveNodeText &
         SimpleExpressionText & { label: { placeholder: string } } & Conflicts<{
-            Placeholder: InternalConflictText;
+            Placeholder: ConflictText;
         }> &
         Exceptions<{
             /** No inputs */
@@ -416,7 +415,7 @@ type NodeTexts = {
         SimpleExpressionText &
         Conflicts<{
             /** When a function has no expression */
-            NoExpression: InternalConflictText;
+            NoExpression: ConflictText;
         }> & {
             label: {
                 inputs: string;
@@ -457,7 +456,7 @@ type NodeTexts = {
         ExpressionText &
         Conflicts<{
             /** When the type given isn't possible */
-            ImpossibleType: InternalConflictText;
+            ImpossibleType: ConflictText;
         }> &
         Exceptions<{
             /**
@@ -504,7 +503,7 @@ type NodeTexts = {
         SimpleExpressionText &
         Conflicts<{
             /** When something is not a valid number format */
-            NotANumber: InternalConflictText;
+            NotANumber: ConflictText;
         }>;
     /** An internal expression, used to implement core APIs. */
     InternalExpression: NodeText & SimpleExpressionText;
@@ -578,7 +577,7 @@ type NodeTexts = {
             };
         } & Conflicts<{
             /** When the condition doesn't refer to a strema */
-            ExpectedStream: InternalConflictText;
+            ExpectedStream: ConflictText;
         }>;
     /**
      * A bind name, e.g., `a` in `1 + a`
@@ -596,13 +595,13 @@ type NodeTexts = {
              * Description inputs: $1 = Scope
              * */
             UnknownName: {
-                conflict: InternalConflictText;
+                conflict: ConflictText;
                 resolution: Template;
             };
             /** When a name refers to itself outside a reaction */
-            ReferenceCycle: InternalConflictText;
+            ReferenceCycle: ConflictText;
             /** When a reference refers to a type variable */
-            UnexpectedTypeVariable: InternalConflictText;
+            UnexpectedTypeVariable: ConflictText;
         }> &
         Exceptions<{
             /**
@@ -620,7 +619,7 @@ type NodeTexts = {
             /**
              * When a cell in the row isn't a name
              * Description inputs: $1: The select expression */
-            ExpectedSelectName: InternalConflictText;
+            ExpectedSelectName: ConflictText;
         }>;
     /**
      * A set, e.g., `{ 1 2 3 }`
@@ -656,16 +655,16 @@ type NodeTexts = {
         SimpleExpressionText &
         Conflicts<{
             /** When inputs are declared on a structure with unimplemented functions */
-            DisallowedInputs: InternalConflictText;
+            DisallowedInputs: ConflictText;
             /** When a structure implements some functions, but not all */
-            IncompleteImplementation: InternalConflictText;
+            IncompleteImplementation: ConflictText;
             /** When a structure implements something that isn't an interface */
-            NotAnInterface: InternalConflictText;
+            NotAnInterface: ConflictText;
             /**
              * When a structure implements an interface, but not all of its functions
              * Description inputs: $1 = Interface, $2 = Function
              */
-            UnimplementedInterface: InternalConflictText;
+            UnimplementedInterface: ConflictText;
         }> & {
             label: {
                 docs: string;
@@ -694,16 +693,16 @@ type NodeTexts = {
     Translation: DescriptiveNodeText & {
         label: { segments: string };
     } & Conflicts<{
-            phone: InternalConflictText;
-            email: InternalConflictText;
-            address: InternalConflictText;
-            tin: InternalConflictText;
-            handle: InternalConflictText;
+            phone: ConflictText;
+            email: ConflictText;
+            address: ConflictText;
+            tin: ConflictText;
+            handle: ConflictText;
             /** How to describe the resolution of the sensitive information conflict. */
             resolution: Template;
             /** Note to remind users where they can manage sensitive information for their project. */
             reminder: Template;
-            character: InternalConflictText;
+            character: ConflictText;
         }>;
     /**
      * A formatted text literal, e.g., ` `hello *wordplay*` `
@@ -721,7 +720,7 @@ type NodeTexts = {
      */
     This: NodeText &
         SimpleExpressionText &
-        Conflicts<{ MisplacedThis: InternalConflictText }>;
+        Conflicts<{ MisplacedThis: ConflictText }>;
     /**
      * A unary operation, e.g., `-1`
      * Description inputs: $1 = the operator
@@ -739,14 +738,14 @@ type NodeTexts = {
              * Description inputs: $1: true if expression, false if type
              */
             UnparsableConflict: {
-                conflict: InternalConflictText;
+                conflict: ConflictText;
                 resolution: Template;
             };
             /**
              * When a delimiter is unclosed.
              * Description inputs: $1: unclosed token, $2: opening delimiter
              * */
-            UnclosedDelimiter: InternalConflictText;
+            UnclosedDelimiter: ConflictText;
         }> &
         Exceptions<{
             /** When an unparsable thing is evaluated */
@@ -761,7 +760,7 @@ type NodeTexts = {
         ExpressionText &
         Conflicts<{
             /** When a column name was expected but not given */
-            ExpectedColumnBind: InternalConflictText;
+            ExpectedColumnBind: ConflictText;
             /**
              * When a value was given that didn't match the expected type of the column
              * Description inputs: $1: expected type, $2: given type
@@ -805,7 +804,7 @@ type NodeTexts = {
              * A type representing an unknown name
              * Description inputs: $1 = Invalid type
              * */
-            UnknownTypeName: InternalConflictText;
+            UnknownTypeName: ConflictText;
         }>;
     /**
      * A type that is not possible
@@ -837,7 +836,7 @@ type NodeTexts = {
             /**
              * When a column's type is missing
              * Description inputs: $1 = The missing column */
-            ExpectedColumnType: InternalConflictText;
+            ExpectedColumnType: ConflictText;
         }>;
     /**
      * A text type, e.g., `''`

@@ -123,6 +123,8 @@
         /** Width and height of the viewport */
         viewportWidth: number;
         viewportHeight: number;
+        /** Current zoom of the editor */
+        zoom: number;
     }
 
     let {
@@ -134,6 +136,7 @@
         getTokenViews,
         viewport,
         viewportWidth,
+        zoom,
     }: Props = $props();
 
     /** The calculated padding of the editor. Determined from the DOM. */
@@ -204,6 +207,7 @@
     $effect(() => {
         caret;
         blocks;
+        zoom;
         // Not playing? Depend on evaluation $evaluation. Otherwise, only update when caret changes.
         // We do this because when stepping, things hide and show and we need to update the caret
         // position when they do. But we don't want to do it when playing, otherwise the editor
@@ -531,7 +535,6 @@
             const blockView = getNodeView(block);
             if (blockView !== null) {
                 const bounds = blockView.getBoundingClientRect();
-                console.log(bounds.right);
                 return {
                     left:
                         (start ? bounds.left : bounds.right) + viewportXOffset,

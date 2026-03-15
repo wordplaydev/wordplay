@@ -30,9 +30,16 @@
     );
 </script>
 
+<!-- svelte-ignore a11y_no_static_element_interactions -->
 <span
     aria-label={label}
     onpointerenter={(event) => tip.show(label, event.currentTarget)}
-    onpointerleave={(event) => tip.show(label, event.currentTarget)}
+    onpointerleave={() => tip.hide()}
     >{withMonoEmoji(LayoutIcons[computedLayout])}
 </span>
+
+<style>
+    span {
+        cursor: default;
+    }
+</style>

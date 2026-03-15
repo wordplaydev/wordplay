@@ -233,9 +233,16 @@
     );
     setDragTarget(insertion);
 
+    let zoom = $state(0);
+
+    function setZoom(z: number) {
+        zoom = z;
+    }
+
     // A store of the handle edit function
     const editContext = writable({
         edit: handleEdit,
+        sourceID: sourceID,
         caret: $caret,
         blocks: $blocks,
         project,
@@ -243,6 +250,8 @@
         toggleMenu,
         grabFocus,
         setCaretPosition,
+        zoom,
+        setZoom,
     });
     setEditor(editContext);
 
@@ -1004,6 +1013,8 @@
             getTokenViews,
             clearLargeDeletionNotification: () =>
                 setLargeDeletionNotification?.(null),
+            zoom,
+            setZoom,
         });
 
         // Don't insert symbols if composing.
@@ -1015,6 +1026,11 @@
 
         if (typeof result === 'function') {
             setIgnored(result);
+
+            // Consume the event so that nothing else handles it.
+            event.preventDefault();
+            event.stopPropagation();
+
             return;
         } else if (result !== false) {
             if (result instanceof Promise) {
@@ -1026,7 +1042,7 @@
                 handleEdit(result, idle, true);
             }
 
-            // Prevent default keyboard commands from being otherwise handled, since they were handled here.
+            // Consume the event so that nothing else handles it.
             event.preventDefault();
             event.stopPropagation();
             return;
@@ -1129,12 +1145,15 @@
             const state: EditorState = {
                 caret: $caret,
                 edit: handleEdit,
+                sourceID: sourceID,
                 blocks: $blocks,
                 project,
                 focused,
                 toggleMenu,
                 grabFocus,
                 setCaretPosition,
+                zoom,
+                setZoom,
             };
             untrack(() => {
                 // Update the editor state in the editors store.
@@ -1244,10 +1263,7 @@
                 if (conflictSelection)
                     // Get all conflicts involving the selection
                     newConflictsOfInterest = [
-                        ...(project.getPrimaryConflictsInvolvingNode(
-                            conflictSelection,
-                        ) ?? []),
-                        ...(project.getSecondaryConflictsInvolvingNode(
+                        ...(project.getConflictsInvolvingNode(
                             conflictSelection,
                         ) ?? []),
                         ...$nodeConflicts,
@@ -1306,8 +1322,9 @@
                 project.shares.output.Group,
                 project.shares.output.Stage,
             )
-        )
+        ) {
             selection.setPaths(project, [$caret.position], 'editor');
+        }
     });
 
     // Update the highlights when any of these stores values change
@@ -1402,6 +1419,7 @@
         dragPoint !== undefined}
     data-uiid="editor"
     role="application"
+    style:--zoom={`${zoom}pt`}
     aria-label={`${$locales.get((l) => l.ui.source.label)} ${$locales.getName(
         source.names,
     )}`}
@@ -1532,6 +1550,7 @@
         viewport={editor}
         viewportWidth={editorWidth}
         viewportHeight={editorHeight}
+        {zoom}
         bind:location={caretLocation}
     />
     <!--
@@ -1547,6 +1566,7 @@
             caretLocation === undefined
                 ? undefined
                 : Math.min(caretLocation.bottom)}
+        <!-- svelte-ignore a11y_no_static_element_interactions -->
         <div
             class="caret-description"
             class:ignored={shakeCaret}
@@ -1624,6 +1644,7 @@
         display: flex;
         flex-direction: column;
         gap: var(--wordplay-spacing);
+        font-size: calc(var(--wordplay-font-size) + var(--zoom));
     }
 
     .editor.readonly {

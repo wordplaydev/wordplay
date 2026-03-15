@@ -1,0 +1,20 @@
+Xếp chồng các hình ảnh lên nhau
+
+Đôi khi chúng ta muốn ghép các hình ảnh lại với nhau để tạo nên những cảnh thú vị hoặc những hình dạng sáng tạo.
+
+Ví dụ, bạn có thể sử dụng nhiều lớp cho dự án của mình. @Stage Bạn có thể xếp chồng và sắp xếp hình ảnh theo bất kỳ cách nào bạn muốn.
+
+Nhìn này! Đây là con rùa mình làm chỉ bằng các hình khối!Hãy thử thay đổi các con số cho từng hình dạng. Bạn có thể di chuyển, thay đổi kích thước và thậm chí xoay chúng.Hãy thỏa sức sáng tạo và xem bạn có thể tạo ra những gì!
+
+\¶Lưu ý: Hãy xem thư viện ảnh để xem thêm dự án khác.<ví dụ@https://wordplay.dev/project/example-Layers?play>về việc xếp lớp các hình ảnh.¶
+Stage([
+		Shape(Circle(3m 0m 1m 0m))
+		Shape(Polygon(2m 3 0m -12m 0m) rotation: -30°)
+		Shape(Polygon(7m 6 0m -6m 0m))
+		Shape(Rectangle(-11m -9m 11m -12m 10m) rotation: 25°)
+		Shape(Rectangle(-11m -9m 11m -12m 10m) rotation: -25°)
+	] place: Place(0m 10m -30m))\
+
+Bạn có thể tạo ra những thứ thực sự tuyệt vời bằng cách sử dụng các lớp! Hãy thử xem!
+
+custom-characters

@@ -1,0 +1,19 @@
+Làm cho nhân vật chuyển động
+
+Các nhân vật có thể có hoạt ảnh nghỉ ngơi lặp lại khi họ không di chuyển.
+
+Ví dụ, chúng ta hãy làm cho con mèo này nhảy múa một chút bằng cách xoay và di chuyển:
+
+\Phrase('🐈' resting: Sequence({
+			0%: Pose(rotation: 0°)
+			15%: Pose(rotation: 15°)
+			30%: Pose(rotation: 0°)
+			45%: Pose(offset: Place(-0.25m))
+			60%: Pose(offset: Place(0.25m))
+			75%: Pose(offset: Place(-0.25m))
+			90%: Pose(offset: Place(0m))
+		} 2s))\
+
+Ví dụ này sử dụng một @Sequence khác nhau @Pose .
+
+move-phrase, shake-phrase

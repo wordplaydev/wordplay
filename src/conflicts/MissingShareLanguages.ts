@@ -14,15 +14,13 @@ export class MissingShareLanguages extends Conflict {
     static readonly LocalePath = (locale: LocaleText) =>
         locale.node.Bind.conflict.MissingShareLanguages;
 
-    getConflictingNodes() {
+    getMessage() {
         return {
-            primary: {
-                node: this.share,
-                explanation: (locales: Locales) =>
-                    locales.concretize(
-                        (l) => MissingShareLanguages.LocalePath(l).primary,
-                    ),
-            },
+            node: this.share,
+            explanation: (locales: Locales) =>
+                locales.concretize(
+                    (l) => MissingShareLanguages.LocalePath(l).explanation,
+                ),
         };
     }
 

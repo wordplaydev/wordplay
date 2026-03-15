@@ -61,7 +61,7 @@ export default class TextType extends BasisType {
     getGrammar(): Grammar {
         return [
             { name: 'open', kind: node(Sym.Text), label: undefined },
-            { name: 'text', kind: node(Sym.Words), label: undefined },
+            { name: 'text', kind: optional(node(Sym.Words)), label: undefined },
             { name: 'close', kind: node(Sym.Text), label: undefined },
             {
                 name: 'language',

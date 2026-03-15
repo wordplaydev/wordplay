@@ -19,17 +19,15 @@ export class UnknownConversion extends Conflict {
     static readonly LocalePath = (locales: LocaleText) =>
         locales.node.Convert.conflict.UnknownConversion;
 
-    getConflictingNodes() {
+    getMessage() {
         return {
-            primary: {
-                node: this.convert,
-                explanation: (locales: Locales, context: Context) =>
-                    locales.concretize(
-                        (l) => UnknownConversion.LocalePath(l).primary,
-                        new NodeRef(this.expectedType, locales, context),
-                        new NodeRef(this.convert.type, locales, context),
-                    ),
-            },
+            node: this.convert,
+            explanation: (locales: Locales, context: Context) =>
+                locales.concretize(
+                    (l) => UnknownConversion.LocalePath(l).explanation,
+                    new NodeRef(this.expectedType, locales, context),
+                    new NodeRef(this.convert.type, locales, context),
+                ),
         };
     }
 

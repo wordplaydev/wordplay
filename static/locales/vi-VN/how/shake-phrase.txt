@@ -1,0 +1,23 @@
+Làm cho nhân vật run rẩy
+
+Đôi khi, việc cho nhân vật trông như đang run rẩy sẽ rất hữu ích.Có một vài cách để chúng ta có thể thực hiện điều đó.
+
+Chúng ta có thể sử dụng @Phrase/offset  với  @Random  Và  @Time để biến điều đó thành hiện thực.
+
+\offset: 0m … ∆ Time() … Random(-0.1m 0.1m)
+Phrase('CHÀO' offset: Place(offset 0m))\
+
+Điều này tạo ra một giá trị được gọi là\offset\Giá trị đó sẽ thay đổi thành một giá trị ngẫu nhiên mới mỗi khi đồng hồ tích tắc.Sau đó, nó sử dụng độ lệch đó để hiển thị @Phrase được bù trừ bằng số tiền đó.
+
+Nếu muốn kiểm soát độ rung lắc chính xác hơn, chúng ta có thể sử dụng... @Sequence Tạo hiệu ứng rung lắc ngẫu nhiên lặp đi lặp lại.
+
+\Phrase('CHÀO' resting: Sequence({
+			0%: Pose(offset: Place(Random(-.2m .2m)))
+			15%: Pose(offset: Place(Random(-.2m .2m)))
+			60%: Pose(offset: Place(Random(-.2m .2m)))
+			75%: Pose(offset: Place(Random(-.2m .2m)))
+		} 0.1s))\
+
+Ví dụ này chỉ chọn ngẫu nhiên các giá trị một lần, nhưng biến chúng thành một chuỗi lặp lại.
+
+move-phrase

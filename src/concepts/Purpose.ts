@@ -31,6 +31,8 @@ enum Purpose {
     Hidden = 'Hidden',
     /** Tutorials and "how to" guides. Placed at the end since it doesn't appear in the UI. */
     How = 'How',
+    /** How-tos written by Wordplay users */
+    GalleryHow = "GalleryHow",
 }
 
 export default Purpose;

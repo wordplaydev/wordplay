@@ -17,15 +17,13 @@ export class MisplacedShare extends Conflict {
     static readonly LocalePath = (locale: LocaleText) =>
         locale.node.Bind.conflict.MisplacedShare;
 
-    getConflictingNodes() {
+    getMessage() {
         return {
-            primary: {
-                node: this.bind,
-                explanation: (locales: Locales) =>
-                    locales.concretize(
-                        (l) => MisplacedShare.LocalePath(l).primary,
-                    ),
-            },
+            node: this.bind,
+            explanation: (locales: Locales) =>
+                locales.concretize(
+                    (l) => MisplacedShare.LocalePath(l).explanation,
+                ),
         };
     }
 

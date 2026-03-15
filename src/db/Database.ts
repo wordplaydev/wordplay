@@ -18,6 +18,7 @@ import { CharactersDatabase } from './characters/CharacterDatabase.svelte';
 import { ChatDatabase } from './chats/ChatDatabase.svelte';
 import CreatorDatabase, { CreatorCollection } from './creators/CreatorDatabase';
 import GalleryDatabase from './galleries/GalleryDatabase.svelte';
+import { HowToDatabase } from './howtos/HowToDatabase.svelte';
 import LocalesDatabase from './locales/LocalesDatabase';
 import ProjectsDatabase from './projects/ProjectsDatabase.svelte';
 import SettingsDatabase from './settings/SettingsDatabase';
@@ -62,6 +63,9 @@ export class Database {
     /** A collection of characters loaded from the database */
     readonly Characters: CharactersDatabase;
 
+    /** A collection of how-tos loaded from the database */
+    readonly HowTos: HowToDatabase;
+
     /** The status of persisting the projects. */
     readonly Status: Writable<{
         status: SaveStatus;
@@ -90,6 +94,7 @@ export class Database {
         this.Creators = new CreatorDatabase(this);
         this.Chats = new ChatDatabase(this);
         this.Characters = new CharactersDatabase(this);
+        this.HowTos = new HowToDatabase(this);
     }
 
     getUser() {
@@ -183,6 +188,9 @@ export class Database {
 
         // Tell the characters database.
         this.Characters.syncUser();
+
+        // Tell the how-to database.
+        this.HowTos.syncUser();
     }
 
     /** Clean up listeners */
@@ -226,8 +234,7 @@ export class Database {
         // Ask the server to get the URL
         try {
             return await fetch(
-                `${
-                    import.meta.hot ? 'http://127.0.0.1:5002' : ''
+                `${import.meta.hot ? 'http://127.0.0.1:5002' : ''
                 }/function/getWebpage?url=${encodeURI(url)}`,
             );
         } catch (_) {
@@ -251,6 +258,7 @@ export const Galleries = DB.Galleries;
 export const Creators = DB.Creators;
 export const Chats = DB.Chats;
 export const CharactersDB = DB.Characters;
+export const HowTos = DB.HowTos;
 
 export const animationFactor = Settings.settings.animationFactor.value;
 export const animationDuration = Settings.animationDuration;
@@ -265,6 +273,7 @@ export const showLines = Settings.settings.lines.value;
 export const showAnnotations = Settings.settings.annotations.value;
 export const mic = Settings.settings.mic.value;
 export const blocks = Settings.settings.blocks.value;
+export const howToNotifications = Settings.settings.howToNotifications.value;
 export const status = DB.Status;
 
 if (import.meta.hot) {

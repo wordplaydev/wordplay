@@ -14,4 +14,7 @@
     node={[node, 'bind']}
     {format}
     empty="hide"
-/><NodeView node={[node, 'value']} {format} />
+/><NodeView node={[node, 'value']} {format} /><NodeView
+    node={[node, 'separator']}
+    {format}
+/>

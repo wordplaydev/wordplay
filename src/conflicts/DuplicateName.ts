@@ -20,37 +20,19 @@ export default class DuplicateName extends Conflict {
     static readonly LocalePath = (locale: LocaleText) =>
         locale.node.Bind.conflict.DuplicateName.conflict;
 
-    getConflictingNodes() {
+    getMessage() {
         return {
-            primary: {
-                node: this.bind,
-                explanation: (locales: Locales, context: Context) =>
-                    locales.concretize(
-                        (l) => DuplicateName.LocalePath(l).primary,
-                        new NodeRef(
-                            this.duplicate.name ?? this.duplicate,
-                            locales,
-                            context,
-                            this.duplicate.getName(),
-                        ),
+            node: this.bind,
+            explanation: (locales: Locales, context: Context) =>
+                locales.concretize(
+                    (l) => DuplicateName.LocalePath(l).explanation,
+                    new NodeRef(
+                        this.duplicate.name ?? this.duplicate,
+                        locales,
+                        context,
+                        this.duplicate.getName(),
                     ),
-            },
-            secondary: {
-                node: this.duplicate,
-                explanation: (locales: Locales, context: Context) =>
-                    locales.concretize(
-                        (l) => DuplicateName.LocalePath(l).secondary,
-                        new NodeRef(
-                            this.bind.names.names.find(
-                                (name) =>
-                                    name.getName() === this.duplicate.getName(),
-                            ) ?? this.bind.names.names[0],
-                            locales,
-                            context,
-                            this.duplicate.getName(),
-                        ),
-                    ),
-            },
+                ),
             // If declarations are not on one line, do not show resolutions
             resolutions: this.duplicate.separator
                 ? [

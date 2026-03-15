@@ -117,6 +117,13 @@ export default class Tokens {
         return this.hasNext() && !this.#spaces.hasSpace(this.#unread[0]);
     }
 
+    /** Returns true if and only if the next token has no preceding space. */
+    afterNextLacksPrecedingSpace(): boolean {
+        return (
+            this.#unread.length > 2 && !this.#spaces.hasSpace(this.#unread[1])
+        );
+    }
+
     /** Returns true if and only if the next token is the specified type. */
     afterLacksPrecedingSpace(): boolean {
         const after = this.#unread[1];

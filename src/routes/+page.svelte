@@ -20,13 +20,14 @@
     import Writing from '../components/app/Writing.svelte';
     import MarkupHTMLView from '../components/concepts/MarkupHTMLView.svelte';
     import LocaleChooser from '../components/settings/LocaleChooser.svelte';
-    import { DB } from '../db/Database';
+    import { DB, Settings } from '../db/Database';
     import { getLocaleLanguageName } from '../locale/LocaleText';
     import { SupportedLocales } from '../locale/SupportedLocales';
     import Characters from '../lore/BasisCharacters';
     import Emotion from '../lore/Emotion';
     import Beta from './Beta.svelte';
     import Iconified from './Iconified.svelte';
+    import date from './updates/date.json';
 
     const user = getUser();
 
@@ -67,6 +68,8 @@
     function switchToCurrentLocale() {
         DB.Locales.setLocales([rotatingLocale]);
     }
+
+    let updatesLastChecked = $derived(Settings.getUpdatesLastChecked());
 </script>
 
 <svelte:head>
@@ -137,7 +140,9 @@
             ><LocalizedText path={(l) => l.ui.page.login.header} /></BigLink
         >
     {/if}
+
     <br />
+
     <div class="actions">
         <Action>
             <BigLink
@@ -205,7 +210,21 @@
                 /></BigLink
             >
         </Action>
-        <Action meta>
+        <Action
+            kind={updatesLastChecked === null ||
+            updatesLastChecked !== date.date
+                ? 'salient'
+                : 'meta'}
+        >
+            <BigLink
+                smaller
+                to="/updates"
+                subtitle={(l) => l.ui.page.landing.link.updates}
+            >
+                <Iconified icon="🎉" text={(l) => l.ui.page.updates.header} />
+            </BigLink>
+        </Action>
+        <Action kind="meta">
             <BigLink
                 smaller
                 to="/about"
@@ -216,7 +235,7 @@
                 /></BigLink
             >
         </Action>
-        <Action meta>
+        <Action kind="meta">
             <BigLink
                 smaller
                 to="/rights"
@@ -227,7 +246,7 @@
                 /></BigLink
             ></Action
         >
-        <Action meta>
+        <Action kind="meta">
             <BigLink
                 smaller
                 external
@@ -239,7 +258,7 @@
                 /></BigLink
             ></Action
         >
-        <Action meta>
+        <Action kind="meta">
             <BigLink
                 smaller
                 external
@@ -251,7 +270,7 @@
                 />
             </BigLink>
         </Action>
-        <Action meta>
+        <Action kind="meta">
             <BigLink
                 smaller
                 to="/donate"

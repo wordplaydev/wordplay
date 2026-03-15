@@ -170,6 +170,7 @@ export default class Evaluate extends Expression {
                                               def.names.getNames()[0],
                                               context,
                                               true,
+                                              true,
                                               replace &&
                                                   structureFunctions.includes(
                                                       def,
@@ -210,7 +211,13 @@ export default class Evaluate extends Expression {
                         : undefined;
                 const defaultTemplate = new Refer(
                     (name) =>
-                        def.getEvaluateTemplate(name, context, true, type),
+                        def.getEvaluateTemplate(
+                            name,
+                            context,
+                            true,
+                            true,
+                            type,
+                        ),
                     def,
                 );
                 return def instanceof FunctionDefinition &&
@@ -221,6 +228,7 @@ export default class Evaluate extends Expression {
                                   def.getEvaluateTemplate(
                                       name,
                                       context,
+                                      true,
                                       true,
                                       type,
                                       true,

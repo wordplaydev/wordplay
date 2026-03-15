@@ -1,6 +1,8 @@
 <script lang="ts">
+    import { type Face } from '@basis/Fonts';
+    import FaceName from '@components/settings/FaceName.svelte';
     import type OutputProperty from '@edit/output/OutputProperty';
-    import type OutputPropertyOptions from '@edit/output/OutputPropertyOptions';
+    import OutputPropertyOptions from '@edit/output/OutputPropertyOptions';
     import type OutputPropertyValues from '@edit/output/OutputPropertyValueSet';
     import { locales, Projects } from '../../db/Database';
     import { getProject } from '../project/Contexts';
@@ -45,10 +47,19 @@
     width="7em"
     options={[
         ...(options.allowNone ? [{ value: undefined, label: '—' }] : []),
-        ...options.values.map((option) => {
-            return { value: option.value, label: option.label };
-        }),
+        ...options.values,
     ]}
     change={handleChange}
     {editable}
-/>
+>
+    {#snippet item(option)}
+        {#if 'face' in option}
+            <FaceName
+                name={(option.face as { name: string; face: Face }).name}
+                face={(option.face as { name: string; face: Face }).face}
+            />
+        {:else}
+            {option.label}
+        {/if}
+    {/snippet}
+</Options>

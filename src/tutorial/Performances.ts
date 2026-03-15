@@ -28,7 +28,7 @@ Group(
     100%: Pose(rotation: 360° color:Color(10% 0 0°))} duration:20s))
   ] background: Color(0% 0 0°)
 )`,
-    TakeTheMic: () => `Phrase("🎤" size: Volume()· 1m)`,
+    TakeTheMic: () => `Phrase("🎤" size: Volume() × 1m)`,
     RainingEmoji: () => `count: 50
 size: 30
 
@@ -60,11 +60,11 @@ Stage(
                 "😀" 
                 size: 5m 
                 place: Place(
-                    kitty.x · 1m
-                    kitty.y · 1m
-                    kitty.z · 1m
+                    kitty.x × 1m
+                    kitty.y × 1m
+                    kitty.z × 1m
                 )
-                rotation: kitty.angle · 1°
+                rotation: kitty.angle × 1°
             )
     )
     place: Place(0m 0m -5m)
@@ -95,11 +95,11 @@ Stage(
                 "😀"
                 size: 5m 
                 place: Place(
-                    kitty.x · 1m
-                    kitty.y · 1m
-                    kitty.z · 1m
+                    kitty.x × 1m
+                    kitty.y × 1m
+                    kitty.z × 1m
                 )
-                rotation: kitty.angle · 1°
+                rotation: kitty.angle × 1°
             )
     )
     place: Place(0m 0m -5m)
@@ -173,7 +173,7 @@ initial•[Character]:
   translate(ƒ(character•"") 
     Character(
       character 
-      Place(Random() · 10m Random() · 10m Random(-3 3) · 1m) 
+      Place(Random() × 10m Random() × 10m Random(-3 3) × 1m) 
       0°)
     )
 Stage([
@@ -198,7 +198,7 @@ initial•[Character]:
       translate(ƒ(character•"") 
       Character(
           character 
-          Place(Random() · 10m Random() · 10m Random(-3 3) · 1m) 
+          Place(Random() × 10m Random() × 10m Random(-3 3) × 1m) 
           0°)
       )
 
@@ -232,7 +232,7 @@ initial•[Character]:
   translate(ƒ(character•"") 
     Character(
       character 
-      Place(Random() · 10m Random() · 10m Random(-3 3) · 1m) 
+      Place(Random() × 10m Random() × 10m Random(-3 3) × 1m) 
       0°)
     )
 
@@ -257,8 +257,8 @@ background:Color(0% 0 0°))`,
 ƒ move()
   Character(
    character
-   Place(place.x + (Random(-1 1) · 1m) place.y + (Random(-1 1) · 1m) Random(-3 3) · 1m)
-   Random(-45 45) · 1°
+   Place(place.x + (Random(-1 1) × 1m) place.y + (Random(-1 1) × 1m) Random(-3 3) × 1m)
+   Random(-45 45) × 1°
   )
 )
 
@@ -267,7 +267,7 @@ initial•[Character]:
   translate(ƒ(character•"") 
     Character(
       character 
-      Place(Random() · 10m Random() · 10m Random(-3 3) · 1m) 
+      Place(Random() × 10m Random() × 10m Random(-3 3) × 1m) 
       0°)
     )
 
@@ -292,8 +292,8 @@ background:Color(0% 0 0°))`,
 ƒ move()
   Character(
    character
-   Place(place.x + (Random(-1 1) · 1m) place.y + (Random(-1 1) · 1m) Random(-3 3) · 1m)
-   Random(-45 45) · 1°
+   Place(place.x + (Random(-1 1) × 1m) place.y + (Random(-1 1) × 1m) Random(-3 3) × 1m)
+   Random(-45 45) × 1°
   )
 )
 
@@ -302,7 +302,7 @@ initial•[Character]:
   translate(ƒ(character•"") 
     Character(
       character 
-      Place(Random() · 10m Random() · 10m Random(-3 3) · 1m) 
+      Place(Random() × 10m Random() × 10m Random(-3 3) × 1m) 
       0°)
     )
 
@@ -327,8 +327,8 @@ background:Color(0% 0 0°))`,
 ƒ move()
   Character(
    character
-   Place(place.x + (Random(-1 1) · 1m) place.y + (Random(-1 1) · 1m) Random(-3 3) · 1m)
-   Random(-45 45) · 1°
+   Place(place.x + (Random(-1 1) × 1m) place.y + (Random(-1 1) × 1m) Random(-3 3) × 1m)
+   Random(-45 45) × 1°
   )
 )
 
@@ -337,7 +337,7 @@ initial•[Character]:
   translate(ƒ(character•"") 
     Character(
       character 
-      Place(Random() · 10m Random() · 10m Random(-3 3) · 1m) 
+      Place(Random() × 10m Random() × 10m Random(-3 3) × 1m) 
       0°)
     )
 
@@ -365,8 +365,8 @@ background:Color(0% 0 0°)
 ƒ move()
   Character(
    character
-   Place(place.x + (Random(-1 1) · 1m) place.y + (Random(-1 1) · 1m) Random(-3 3) · 1m)
-   Random(-45 45) · 1°
+   Place(place.x + (Random(-1 1) × 1m) place.y + (Random(-1 1) × 1m) Random(-3 3) × 1m)
+   Random(-45 45) × 1°
   )
 )
 
@@ -375,7 +375,7 @@ initial•[Character]:
   translate(ƒ(character•"") 
     Character(
       character 
-      Place(Random() · 10m Random() · 10m Random(-3 3) · 1m) 
+      Place(Random() × 10m Random() × 10m Random(-3 3) × 1m) 
       0°)
     )
 

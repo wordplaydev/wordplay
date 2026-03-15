@@ -5,7 +5,7 @@
 我们可以在 @Group 中使用 @Grid 布局，并结合一个函数，将这些颜色转换为一个 @Phrase 列表，再把这个列表传递给 @Grid 来进行展示。
 \width: 24
 height: 24
-colors: Camera(width · 1px height · 1px 33ms)
+colors: Camera(width × 1px height × 1px 33ms)
 Stage([
 		Group(Grid(height width 0m) colors.combine([] ƒ(phrases row) [
 						:phrases

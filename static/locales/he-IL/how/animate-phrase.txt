@@ -1,0 +1,19 @@
+יצירת אנימציה של דמות
+
+לדמויות יכולה להיות אנימציה של מנוחה שחוזרת על עצמה גם כשהן לא בתנועה.
+
+לדוגמה, בואו נגרום לחתול הזה לרקוד קצת על ידי כך שהוא מסתובב וזוז:
+
+\Phrase('🐈' resting: Sequence({
+			0%: Pose(rotation: 0°)
+			15%: Pose(rotation: 15°)
+			30%: Pose(rotation: 0°)
+			45%: Pose(offset: Place(-0.25m))
+			60%: Pose(offset: Place(0.25m))
+			75%: Pose(offset: Place(-0.25m))
+			90%: Pose(offset: Place(0m))
+		} 2s))\
+
+דוגמה זו משתמשת ב- @Sequence של שונים @Pose .
+
+move-phrase, shake-phrase

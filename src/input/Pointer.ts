@@ -8,7 +8,7 @@ import Unit from '@nodes/Unit';
 import type Evaluation from '@runtime/Evaluation';
 import type Evaluator from '@runtime/Evaluator';
 import NumberValue from '@values/NumberValue';
-import StreamValue from '@values/StreamValue';
+import SingletonStreamValue from '@values/SingletonStreamValue';
 import StructureValue, { createStructure } from '@values/StructureValue';
 import type Value from '@values/Value';
 import type Locales from '../locale/Locales';
@@ -34,7 +34,7 @@ function position(evaluator: Evaluator, x: number, y: number) {
     return createStructure(evaluator, PlaceType, bindings);
 }
 
-export default class Pointer extends StreamValue<
+export default class Pointer extends SingletonStreamValue<
     StructureValue,
     { x: number; y: number }
 > {

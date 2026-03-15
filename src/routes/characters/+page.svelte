@@ -105,7 +105,7 @@
     {#if firestore === undefined}
         <Notice text={(l) => l.ui.page.characters.error.offline} />
     {:else if $user === null}
-        <Notice text={(l) => l.ui.page.characters.error.noauth} />
+        <Notice markup text={(l) => l.ui.page.characters.error.noauth} />
     {:else}
         <NewCharacterButton></NewCharacterButton>
 

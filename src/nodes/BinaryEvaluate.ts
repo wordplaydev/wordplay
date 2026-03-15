@@ -222,14 +222,14 @@ export default class BinaryEvaluate extends Expression {
         const fun = this.getFunction(context);
 
         // Did we find nothing?
-        if (fun === undefined)
-            return [
-                new IncompatibleInput(
-                    this.fun,
-                    this.left.getType(context),
-                    FunctionType.make(undefined, [], new AnyType()),
-                ),
-            ];
+        // if (fun === undefined)
+        //     return [
+        //         new IncompatibleInput(
+        //             this.fun,
+        //             this.left.getType(context),
+        //             FunctionType.make(undefined, [], new AnyType()),
+        //         ),
+        //     ];
 
         // If it is a function, does the right match the expected input?
         if (fun instanceof FunctionDefinition) {

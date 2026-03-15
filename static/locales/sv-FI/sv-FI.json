@@ -86,7 +86,6 @@
         "None": "$~ingenting",
         "Type": "$~typ",
         "Literal": "$~bokstavlig",
-        "TypeOperator": "$~är",
         "TypeOpen": "$~typ ingång öppen",
         "TypeClose": "$~typ input stäng",
         "Separator": "$~namnavskiljare",
@@ -199,11 +198,11 @@
             "conflict": {
                 "UnknownLanguage": {
                     "name": "$~okäntspråk",
-                    "primary": "$~Jag kan inte det här språket"
+                    "explanation": "$~Jag kan inte det här språket"
                 },
                 "MissingLanguage": {
                     "name": "$~saknatspråk",
-                    "primary": "$~Jag saknar ett språk. Kan du lägga till ett?"
+                    "explanation": "$~Jag saknar ett språk. Kan du lägga till ett?"
                 }
             }
         },
@@ -244,26 +243,23 @@
             "conflict": {
                 "InvalidRow": {
                     "name": "$~ogiltigrad",
-                    "primary": "$~Rader måste antingen vara alla värden eller alla @Bind."
+                    "explanation": "$~Rader måste antingen vara alla värden eller alla @Bind."
                 },
                 "MissingCell": {
-                    "primary": "$~Jag saknar kolumn $1",
-                    "secondary": "$~Jag är obligatorisk, men $1 gav det inte",
-                    "name": "$~saknadkolumn"
+                    "name": "$~saknadkolumn",
+                    "explanation": "$~Jag saknar kolumn $1"
                 },
                 "ExtraCell": {
-                    "primary": "$~Ska jag vara här?",
-                    "secondary": "$~Hej $1, du är inte en del av detta @Table!",
-                    "name": "$~extrakolumn"
+                    "name": "$~extrakolumn",
+                    "explanation": "$~Baserat på min tabelltyp är jag en extra kolumn som inte borde vara här."
                 },
                 "UnknownColumn": {
                     "name": "$~okäntkolumnnamn",
-                    "primary": "$~Jag känner inte till en kolumn med det här namnet"
+                    "explanation": "$~Jag känner inte till en kolumn med det här namnet"
                 },
                 "UnexpectedColumnBind": {
-                    "primary": "$~Ska jag vara en @Bind?",
-                    "secondary": "$~Hej, jag är en @Table, jag behöver värden, inte @Bind.",
-                    "name": "$~ingabindningsrader"
+                    "name": "$~ingabindningsrader",
+                    "explanation": "$~Jag borde vara ett värde, inte @Bind."
                 }
             }
         },
@@ -287,9 +283,8 @@
             "doc": "$~Jag är en mysterietyp på @FunctionDefinition eller @StructureDefinition, tillhandahållen av @TypeInputs när någon av dem utvärderas. @Set, @List och @Map använder mig.",
             "conflict": {
                 "DuplicateTypeVariable": {
-                    "primary": "$~Jag har samma namn som $1",
-                    "secondary": "$~Jag har samma namn som $1",
-                    "name": "$~dupliceradtypvariabel"
+                    "name": "$~dupliceradtypvariabel",
+                    "explanation": "$~Jag har samma namn som $1"
                 }
             },
             "label": {
@@ -400,7 +395,7 @@
                 "$~Detta gör allting lite snyggare, även om det i princip är samma sak.",
                 "$~Det finns bara en sak att se upp med: när jag är i den här formen utvärderar jag från vänster till höger. Det kan vara förvirrande om du är van vid saker som operationsordning i matematik.",
                 "$~Det betyder att detta utvärderas på ett sätt som du kanske inte förväntar dig:",
-                "$~\\1 + 2 · 3 + 4\\",
+                "$~\\1 + 2 × 3 + 4\\",
                 "$~I matematik skulle multiplikation komma först, och sedan addition, och så skulle resultatet bli \\11\\. Men eftersom jag utvärderar i läsordning blir resultatet \\13\\."
             ],
             "right": "$~input",
@@ -409,7 +404,7 @@
             "conflict": {
                 "OrderOfOperations": {
                     "name": "$~tvetydigordning",
-                    "primary": "$~Jag utvärderar i läsordning, inte i matematisk ordning för operationerna. Vill du använda @Block för att ange i vilken ordning jag ska utvärdera?"
+                    "explanation": "$~Jag utvärderar i läsordning, inte i matematisk ordning för operationerna. Vill du använda @Block för att ange i vilken ordning jag ska utvärdera?"
                 }
             },
             "label": {
@@ -451,41 +446,38 @@
             "conflict": {
                 "DuplicateName": {
                     "conflict": {
-                        "primary": "$~någon har namnet $1 så jag kan inte ha det här namnet.",
-                        "secondary": "$~hej, $1 är mitt namn, du kan inte få det!",
-                        "name": "$~dupliceratnamn"
+                        "name": "$~dupliceratnamn",
+                        "explanation": "$~Någon har namnet $1 så jag kan inte ha det namnet."
                     },
                     "resolution": "$~Det finns dubbletter av namn, vill du ta bort ett?"
                 },
                 "DuplicateShare": {
-                    "primary": "$~Jag har samma namn som $1, vilket gör det som delas tvetydigt",
-                    "secondary": "$~Jag har har samma namn som $1",
-                    "name": "$~dupliceraddelning"
+                    "name": "$~dupliceraddelning",
+                    "explanation": "$~Jag har samma namn som $1. Det gör det oklart vad vi delar."
                 },
                 "IncompatibleType": {
-                    "primary": "$~Jag ska vara en $2, men jag är en $1",
-                    "secondary": "$~Åh, jag är ledsen. Ska jag byta, eller kanske du ska vara en $1?",
-                    "name": "$~inkompatibeltyp"
+                    "name": "$~inkompatibeltyp",
+                    "explanation": "$~Jag borde vara typ $2, men jag är typ $1"
                 },
                 "MisplacedShare": {
                     "name": "$~felplaceraddelning",
-                    "primary": "$~Jag kan bara dela saker på @Program-nivå, inte inuti någonting!"
+                    "explanation": "$~Jag kan bara dela saker på @Program-nivå, inte inuti någonting!"
                 },
                 "MissingShareLanguages": {
                     "name": "$~saknatspråk",
-                    "primary": "$~Om du vill dela detta måste du ange vilket språk det är på, så att andra vet om de kan läsa det!"
+                    "explanation": "$~Om du vill dela detta måste du ange vilket språk det är på, så att andra vet om de kan läsa det!"
                 },
                 "RequiredAfterOptional": {
                     "name": "$~obligatoriskinmatningeftervalfritt",
-                    "primary": "$~Jag kan inte vara här, det finns en valfri @Bind framför mig"
+                    "explanation": "$~Jag kan inte vara här, det finns en valfri @Bind framför mig"
                 },
                 "UnexpectedEtc": {
                     "name": "$~oväntadinmatningefterinmatningslista",
-                    "primary": "$~Jag kan bara ha variabel längd i en @FunctionDefinition"
+                    "explanation": "$~Jag kan bara ha variabel längd i en @FunctionDefinition"
                 },
                 "UnusedBind": {
                     "name": "$~oanvändbindning",
-                    "primary": "$~Jag heter $1, men ingen utnyttjar mig. Kanske behövs jag inte?"
+                    "explanation": "$~Jag heter $1, men ingen utnyttjar mig. Kanske behövs jag inte?"
                 }
             },
             "label": {
@@ -518,16 +510,16 @@
             "conflict": {
                 "ExpectedEndingExpression": {
                     "name": "$~saknatuttryck",
-                    "primary": "$~Jag behöver ett uttryck."
+                    "explanation": "$~Jag behöver ett uttryck."
                 },
                 "IgnoredExpression": {
-                    "primary": "$~Jag kommer att ignorera $1, eftersom det inte definierar någonting och inte är mitt sista uttryck.",
-                    "secondary": "$~@Block, ignorera mig inte!",
                     "resolution": {
                         "binary": "$~Menade du att detta skulle vara en @BinaryEvaluate istället för en @UnaryEvaluate? Jag kan lägga till ett mellanslag, så jag vet att det var det du menade.",
-                        "evaluate": "$~Menade du att detta skulle vara en @Evaluate? Jag kan ta bort det här utrymmet för att göra det till ett istället för två separata uttryck."
+                        "evaluate": "$~Menade du att detta skulle vara en @Evaluate? Jag kan ta bort det här utrymmet för att göra det till ett istället för två separata uttryck.",
+                        "name": "$~Villedunamngedethäruttrycketmed@Bind,såattdukananvändadetförattberäknavärdetpådetta@Block?"
                     },
-                    "name": "$~ignoreratuttryck"
+                    "name": "$~ignoreratuttryck",
+                    "explanation": "$~Jag ignoreras eftersom ett @Block värde är baserat på det sista uttrycket."
                 }
             },
             "label": {
@@ -550,11 +542,11 @@
             "conflict": {
                 "UnknownBorrow": {
                     "name": "$~okändlån",
-                    "primary": "$~Jag känner inte till en $source med det här namnet"
+                    "explanation": "$~Jag känner inte till en $source med det här namnet"
                 },
                 "BorrowCycle": {
                     "name": "$~självrefererandelån",
-                    "primary": "$~detta beror på $1, vilket beror på denna $source, så programmet kan inte utvärderas"
+                    "explanation": "$~detta beror på $1, vilket beror på denna $source, så programmet kan inte utvärderas"
                 }
             },
             "exception": {
@@ -599,9 +591,8 @@
             "finish": "$~Jag antar att det är $1?",
             "conflict": {
                 "ExpectedBooleanCondition": {
-                    "primary": "$~Hur kan jag välja ja och nej med en $1? Nej egentligen, hur?",
-                    "secondary": "$~Jag tror att @Conditional ville att jag skulle vara en @Boolean, men jag är en $1.",
-                    "name": "$~förväntatboolesktvillkor"
+                    "name": "$~förväntatboolesktvillkor",
+                    "explanation": "$~Jag behöver en @Boolean för att fatta ett beslut, men jag fick en $1 istället."
                 }
             },
             "label": {
@@ -624,7 +615,7 @@
             "conflict": {
                 "MisplacedConversion": {
                     "name": "$~felplaceradkonvertering",
-                    "primary": "$~Oj, jag kan inte vara här, bara i @Block."
+                    "explanation": "$~Oj, jag kan inte vara här, bara i @Block."
                 }
             },
             "label": {
@@ -650,7 +641,7 @@
             "conflict": {
                 "UnknownConversion": {
                     "name": "$~okändkonvertering",
-                    "primary": "$~Synd, det går inte att göra 1 dollar till 2 dollar"
+                    "explanation": "$~Vi kunde inte hitta ett sätt att konvertera 1 dollar till 2 dollar"
                 }
             },
             "exception": {
@@ -678,7 +669,7 @@
             "doc": [
                 "$~Jag är vilket uttryck som helst, men med en @Doc!",
                 "$~För att göra mig, sätt bara en @Doc före ett uttryck, så får du mig:",
-                "$~\\doubleplus: 1\n(2 · dubbelplus) + \n¶Låt oss göra det lite större¶\n1\\",
+                "$~\\doubleplus: 1\n(2 × dubbelplus) + \n¶Låt oss göra det lite större¶\n1\\",
                 "$~Jag är användbar för att kommentera någon del av ett program."
             ],
             "start": "$~Låt oss utvärdera uttrycket"
@@ -703,41 +694,36 @@
             "finish": "$~Jag värderade till $1",
             "conflict": {
                 "IncompatibleInput": {
-                    "primary": "$~Jag ska vara en $1, men jag är en $2",
-                    "secondary": "$~Umm, jag fick en $2 istället för en $1",
-                    "name": "$~inkompatibelingång"
+                    "name": "$~inkompatibelingång",
+                    "explanation": "$~Jag borde vara typ $1, men jag är typ $2"
                 },
                 "UnexpectedTypeInput": {
-                    "primary": "$~Jag förväntade mig inte den här typen av input",
-                    "secondary": "$~åh, ska jag inte vara här?",
-                    "name": "$~oväntadtypinmatning"
+                    "name": "$~oväntadtypinmatning",
+                    "explanation": "$~Jag är en extra, oväntad typ av input."
                 },
                 "MissingInput": {
-                    "primary": "$~Jag kan inte utvärdera utan inmatningen $2 :(",
-                    "secondary": "$~Jag behöver ett värde, kan du ge mig ett?",
-                    "name": "$~saknadinmatning"
+                    "name": "$~saknadinmatning",
+                    "explanation": "$~Jag kan inte utvärdera utan inmatningen $2 :("
                 },
                 "NotInstantiable": {
                     "name": "$~ofullständigstruktur",
-                    "primary": "$~Jag kan inte skapa denna @StructureDefinition, den har oimplementerade funktioner."
+                    "explanation": "$~Jag kan inte skapa denna @StructureDefinition, den har oimplementerade funktioner."
                 },
                 "UnexpectedInput": {
-                    "primary": "$~Jag förväntade mig inte denna ingång $1",
-                    "secondary": "$~Åh, ska jag inte vara här?",
-                    "name": "$~oväntadinmatning"
+                    "name": "$~oväntadinmatning",
+                    "explanation": "$~Jag är en oväntad input."
                 },
                 "UnknownInput": {
-                    "primary": "$~Jag känner inte till en inmatning med detta namn i $1",
-                    "secondary": "$~Jag har ingen ingång med namnet $1",
-                    "name": "$~okändingång"
+                    "name": "$~okändingång",
+                    "explanation": "$~Den här funktionen *$1* förväntar sig inte inmatning med mitt namn."
                 },
                 "InputListMustBeLast": {
                     "name": "$~extrainmatningarärintesista",
-                    "primary": "$~listan över inmatningar måste vara sist"
+                    "explanation": "$~listan över inmatningar måste vara sist"
                 },
                 "SeparatedEvaluate": {
                     "name": "$~tvetydigutvärdering",
-                    "primary": "$~Är $1 namnet på en $2[$structure|$function] som du försöker utvärdera? Försök att ta bort mellanslaget efter mig, så att jag vet att det är en @Evaluate och inte ett separat @Block."
+                    "explanation": "$~Är $1 namnet på en $2[$structure|$function] som du försöker utvärdera? Försök att ta bort mellanslaget efter mig, så att jag vet att det är en @Evaluate och inte ett separat @Block."
                 }
             },
             "exception": {
@@ -781,7 +767,7 @@
             "conflict": {
                 "Placeholder": {
                     "name": "$~platshållare",
-                    "primary": "$~Kan du fylla i mig? Jag är bara en platsmarkör."
+                    "explanation": "$~Kan du fylla i mig? Jag är bara en platsmarkör."
                 }
             },
             "exception": {
@@ -801,11 +787,11 @@
             "doc": [
                 "$~Hej igen! Jag tar några ingångar, utvärderar sedan ett uttryck med hjälp av dem och producerar en utdata.",
                 "$~Här är ett enkelt exempel:",
-                "$~\\ƒ upprepa(meddelande•'') meddelande · 5\nrepeat('hej')\\",
+                "$~\\ƒ upprepa(meddelande•'') meddelande × 5\nrepeat('hej')\\",
                 "$~Den funktionen tar en ingång, \\meddelande\\, och använder @Text/repeat-funktionen för att upprepa meddelandet fem gånger.",
                 "$~Jag är verkligen behjälplig om du vill utvärdera något om och om igen, men med olika input!",
                 "$~Jag har många andra små knep. Jag behöver till exempel inte ha ett namn. Här går jag bara direkt till @Evaluate som ett värde.",
-                "$~\\(ƒ(meddelande•'') meddelande · 5)('hej')\\",
+                "$~\\(ƒ(meddelande•'') meddelande × 5)('hej')\\",
                 "$~Eller här är en funktion som tar valfritt antal ingångar, med tecknet \\...\\ efter ett ingångsnamn.",
                 "$~\\ƒ yes(meddelanden...•'') messages.sans('no')\nyes('yes' 'yes' 'no' 'yes' 'no')\\",
                 "$~Se hur det tog alla nej och blev av med dem? Det beror på att meddelanden är en @List, och därför skulle vi kunna använda @List/sansAll.",
@@ -818,7 +804,7 @@
             "conflict": {
                 "NoExpression": {
                     "name": "$~saknatuttryck",
-                    "primary": "$~Jag behöver ett uttryck för att utvärdera, kan du lägga till ett?"
+                    "explanation": "$~Jag behöver ett uttryck för att utvärdera, kan du lägga till ett?"
                 }
             },
             "label": {
@@ -877,7 +863,7 @@
             "conflict": {
                 "ImpossibleType": {
                     "name": "$~omöjligtyp",
-                    "primary": "$~detta kan aldrig vara 1 dollar"
+                    "explanation": "$~detta kan aldrig vara 1 dollar"
                 }
             },
             "exception": {
@@ -934,9 +920,8 @@
             "finish": "$~Jag kopplade ihop alla, $1",
             "conflict": {
                 "NotAKeyValue": {
-                    "primary": "$~en av mina nycklar saknar ett värde",
-                    "secondary": "$~oj, var är mitt värde?",
-                    "name": "$~saknatvärde"
+                    "name": "$~saknatvärde",
+                    "explanation": "$~Jag är i en @Map, så jag behöver ett värde."
                 }
             },
             "label": {
@@ -971,7 +956,7 @@
             "conflict": {
                 "NotANumber": {
                     "name": "$~inteettnummer",
-                    "primary": "$~Jag trodde jag kunde alla siffror, men jag kan inte den här."
+                    "explanation": "$~Jag trodde jag kunde alla siffror, men jag kan inte den här."
                 }
             }
         },
@@ -1072,9 +1057,8 @@
             "finish": "$~Jag kopierade strukturen, men med $1 som $2",
             "conflict": {
                 "InvalidProperty": {
-                    "primary": "$~Jag är inte en ingång på $1, så jag kan inte förfinas.",
-                    "secondary": "$~Jag har ingen ingång som heter $1",
-                    "name": "$~okändegendom"
+                    "name": "$~okändegendom",
+                    "explanation": "$~Jag är inte ett namn i strukturen $1, så jag kan inte förfinas."
                 }
             },
             "label": {
@@ -1112,7 +1096,7 @@
             "conflict": {
                 "ExpectedStream": {
                     "name": "$~förväntadström",
-                    "primary": "$~$1 refererar inte till en stream, så jag kommer aldrig att reagera!"
+                    "explanation": "$~$1 refererar inte till en stream, så jag kommer aldrig att reagera!"
                 }
             },
             "label": {
@@ -1136,17 +1120,17 @@
                 "UnknownName": {
                     "conflict": {
                         "name": "$~okäntnamn",
-                        "primary": "$~$1[Jag känner ingen som heter $1 i $2[$2|detta @Block]|Kan du ge mig ett namn?]"
+                        "explanation": "$~$1[Jag känner ingen som heter $1 i $2[$2|detta @Block]|Kan du ge mig ett namn?]"
                     },
                     "resolution": "$~Menade du *$1?*"
                 },
                 "ReferenceCycle": {
                     "name": "$~självrefererandevärde",
-                    "primary": "$~Öh, värdet på 1 dollar beror på sig självt, så hur vet jag vilket värde jag ska ge den?"
+                    "explanation": "$~Öh, värdet på 1 dollar beror på sig självt, så hur vet jag vilket värde jag ska ge den?"
                 },
                 "UnexpectedTypeVariable": {
                     "name": "$~oväntadtypvariabel",
-                    "primary": "$~Jag vet inte vad jag ska göra med den här typen av inmatningar."
+                    "explanation": "$~Jag vet inte vad jag ska göra med den här typen av inmatningar."
                 }
             },
             "exception": {
@@ -1170,7 +1154,7 @@
             "conflict": {
                 "ExpectedSelectName": {
                     "name": "$~saknatkolumnnamn",
-                    "primary": "$~Jag behöver minst ett kolumnnamn."
+                    "explanation": "$~Jag behöver minst ett kolumnnamn."
                 }
             }
         },
@@ -1196,9 +1180,8 @@
             "finish": "$~Värdet är $1",
             "conflict": {
                 "IncompatibleKey": {
-                    "primary": "$~Jag förväntade mig en nyckel för $1",
-                    "secondary": "$~Jag fick en $1 istället för en $2",
-                    "name": "$~inkompatibelnyckel"
+                    "name": "$~inkompatibelnyckel",
+                    "explanation": "$~Jag förväntade mig en nyckel av typen $1"
                 }
             }
         },
@@ -1224,31 +1207,31 @@
             "doc": [
                 "$~Varför hej, hur mår du? Mig? Jag är jättebra. Jag älskar att definiera strukturer som lagrar värderingar och funktion, så så länge jag får göra det hela dagen är jag nöjd.",
                 "$~Jag jobbar så här:",
-                "$~\\•Pizza(\ningredienser•['']\nstorlek•#in\n) (\n\tƒ cost() storlek · 10 dollar/tum\n)\n\nPizza(['pepperoni' 'peppar'] 12in).cost()\\",
+                "$~\\•Pizza(\ningredienser•['']\nstorlek•#in\n) (\n\tƒ cost() storlek × 10 dollar/tum\n)\n\nPizza(['pepperoni' 'peppar'] 12in).cost()\\",
                 "$~Ser du hur det fungerar? Jag definierade \\Pizza\\, som har två ingångar, \\ingredients\\ (en lista med @Text) och \\size\\ (ett tal i tum).",
                 "$~Inuti skapade @FunctionDefinition en funktion som utvärderar kostnaden för en pizza, med utgångspunkt från $10 per tum.",
                 "$~Jag behöver inte ha @FunctionDefinition i mig. Jag kan bara vara input.",
                 "$~\\•Pizza(\ningredienser•['']\nstorlek•#in\n)\\",
                 "$~Jag kan också ha @Bind inne, så att vi kan utvärdera kostnaden i förväg.",
-                "$~\\•Pizza(\ningredienser•['']\nstorlek•#in\n) (\n\tkostnad: storlek · 10 dollar/tum\n)\n\nPizza(['pepperoni' 'peppar'] 12in).cost\\"
+                "$~\\•Pizza(\ningredienser•['']\nstorlek•#in\n) (\n\tkostnad: storlek × 10 dollar/tum\n)\n\nPizza(['pepperoni' 'peppar'] 12in).cost\\"
             ],
             "start": "$~Låt oss definiera denna vackra struktur",
             "conflict": {
                 "DisallowedInputs": {
                     "name": "$~inmatningarärintetillåtna",
-                    "primary": "$~Jag kan inte få indata eftersom en eller flera av mina gränssnittsfunktioner inte är implementerade."
+                    "explanation": "$~Jag kan inte få indata eftersom en eller flera av mina gränssnittsfunktioner inte är implementerade."
                 },
                 "IncompleteImplementation": {
                     "name": "$~ofullständigstruktur",
-                    "primary": "$~Antingen måste alla mina funktioner implementeras, eller så måste ingen implementeras. Inga röriga blandningar!"
+                    "explanation": "$~Antingen måste alla mina funktioner implementeras, eller så måste inga implementeras. Inga röriga blandningar!"
                 },
                 "NotAnInterface": {
                     "name": "$~inteettgränssnitt",
-                    "primary": "$~Jag är inte ett gränssnitt; en struktur kan bara implementera gränssnitt, inte andra strukturer."
+                    "explanation": "$~Jag är inte ett gränssnitt; en struktur kan bara implementera gränssnitt, inte andra strukturer."
                 },
                 "UnimplementedInterface": {
                     "name": "$~oimplementerad",
-                    "primary": "$~Jag implementerar $1 men har inte implementerat $2"
+                    "explanation": "$~Jag implementerar $1 men har inte implementerat $2"
                 }
             },
             "label": {
@@ -1292,29 +1275,29 @@
             "conflict": {
                 "phone": {
                     "name": "$~möjligttelefonnummer",
-                    "primary": "$~Är *$1* någons telefonnummer? Dela mig inte online i så fall!\n\n$2"
+                    "explanation": "$~Är *$1* någons telefonnummer? Dela mig inte online i så fall!\n\n$2"
                 },
                 "email": {
                     "name": "$~möjlige-post",
-                    "primary": "$~Är *$1* någons e-postadress? Dela mig inte här i så fall!\n\n$2"
+                    "explanation": "$~Är *$1* någons e-postadress? Dela mig inte här i så fall!\n\n$2"
                 },
                 "tin": {
                     "name": "$~möjligskatteidentifiering",
-                    "primary": "$~Är *$1* ett skatteidentifieringsnummer? Om ja, dela mig absolut inte, jag är mycket känslig information!\n\n$2"
+                    "explanation": "$~Är *$1* ett skatteidentifieringsnummer? Om ja, dela mig absolut inte, jag är mycket känslig information!\n\n$2"
                 },
                 "address": {
                     "name": "$~möjligadress",
-                    "primary": "$~Är *$1* någons hemadress? Om så är fallet, skriv mig inte här, vi vill inte att någon ska bli förföljd!\n\n$2"
+                    "explanation": "$~Är *$1* någons hemadress? Om så är fallet, skriv mig inte här, vi vill inte att någon ska bli förföljd!\n\n$2"
                 },
                 "handle": {
                     "name": "$~möjligtanvändarnamn",
-                    "primary": "$~Är *$1* ditt användarnamn någon annanstans på internet? Om så är fallet, dela mig inte här om du inte verkligen menar det.\n\n$2"
+                    "explanation": "$~Är *$1* ditt användarnamn någon annanstans på internet? Om så är fallet, dela mig inte här om du inte verkligen menar det.\n\n$2"
                 },
                 "resolution": "$~Det här är inte känslig information",
                 "reminder": "$~Obs! Du kan ångra den här åtgärden och se andra saker som du har markerat som okänsliga i delningsdialogrutan.",
                 "character": {
                     "name": "$~möjliganpassadkaraktär",
-                    "primary": "$~Detta ser ut som ett teckennamn. För att visa dessa, använd @FormattedLiteral istället för @TextLiteral."
+                    "explanation": "$~Detta ser ut som ett teckennamn. För att visa dessa, använd @FormattedLiteral istället för @TextLiteral."
                 }
             },
             "label": {
@@ -1350,10 +1333,10 @@
             "doc": [
                 "$~Ibland är det bra att hänvisa till ett värde implicit, snarare än att behöva namnge det.",
                 "$~Anta till exempel att du ville skapa en ny @ConversionDefinition, som inte namnger värdet som konverteras. Du kan bara hänvisa till det med mig:",
-                "$~\\→ #regnbågar #glädje . · 1000000 glädjeämnen\n2regnbågar → #glädje\\",
+                "$~\\→ #regnbågar #glädje . × 1000000 glädjeämnen\n2regnbågar → #glädje\\",
                 "$~Se mig där, representerar antalet regnbågar?",
                 "$~Eller anta att du ville göra en @Reaction, men inte behöver nämna det senaste värdet:",
-                "$~\\2 … ∆ Tid(1000ms) … . · 2\\",
+                "$~\\2 … ∆ Tid(1000ms) … . × 2\\",
                 "$~Kolla in mig, som representerar det tidigare reaktionsvärdet.",
                 "$~Jag dyker inte upp ofta, men när jag gör det kan jag verkligen hjälpa ett värde att ta sig ur en @Bind!"
             ],
@@ -1361,7 +1344,7 @@
             "conflict": {
                 "MisplacedThis": {
                     "name": "$~felplaceradedennareferens",
-                    "primary": "$~Jag är bara tillåten i en struktur, konvertering eller reaktion."
+                    "explanation": "$~Jag är bara tillåten i en struktur, konvertering eller reaktion."
                 }
             }
         },
@@ -1403,13 +1386,13 @@
                 "UnparsableConflict": {
                     "conflict": {
                         "name": "$~oläsligkod",
-                        "primary": "$~@FunctionDefinition här, @UnparsableExpression vet inte vilken typ av $1[uttryck | typ] detta är."
+                        "explanation": "$~@FunctionDefinition här, @UnparsableExpression vet inte vilken typ av $1[uttryck | typ] detta är."
                     },
                     "resolution": "$~Menade du $1, $2?"
                 },
                 "UnclosedDelimiter": {
                     "name": "$~oavslutadavgränsare",
-                    "primary": "$~Jag förväntade mig 2 dollar någon gång efter 1 dollar"
+                    "explanation": "$~Jag förväntade mig 2 dollar någon gång efter 1 dollar"
                 }
             },
             "exception": {
@@ -1433,12 +1416,11 @@
             "conflict": {
                 "ExpectedColumnBind": {
                     "name": "$~saknatkolumnvärde",
-                    "primary": "$~Jag behöver ett värde för varje kolumn"
+                    "explanation": "$~Jag behöver ett värde för varje kolumn"
                 },
                 "IncompatibleCellType": {
-                    "primary": "$~Jag behövde en $1, men fick en $2",
-                    "secondary": "$~Jag fick en $2",
-                    "name": "$~inkompatibelcelltyp"
+                    "name": "$~inkompatibelcelltyp",
+                    "explanation": "$~Jag borde vara typ $1, men jag har för mig att jag är $2"
                 }
             }
         },
@@ -1525,7 +1507,7 @@
             "conflict": {
                 "UnknownTypeName": {
                     "name": "$~okänttypnamn",
-                    "primary": "$~typnamn kan bara referera till strukturer eller typvariabler, men detta refererar till typ $1"
+                    "explanation": "$~typnamn kan bara referera till strukturer eller typvariabler, men detta refererar till typ $1"
                 }
             }
         },
@@ -1583,7 +1565,7 @@
             "conflict": {
                 "ExpectedColumnType": {
                     "name": "$~saknadkolumntyp",
-                    "primary": "$~Jag behöver en kolumntyp"
+                    "explanation": "$~Jag behöver en kolumntyp"
                 }
             }
         },
@@ -1871,14 +1853,14 @@
                 "repeat": {
                     "doc": [
                         "$~Jag gör en ny @Text som är jag, upprepade antalet gånger \\count\\:",
-                        "$~\\'hej' · 5\\",
+                        "$~\\'hej' × 5\\",
                         "$~Om du ger mig ett bråktal @Number, ignorerar jag bråket:",
-                        "$~\\'hej' · 5.5\\",
+                        "$~\\'hej' × 5.5\\",
                         "$~Om du ger mig ett negativt @Number eller noll, ger jag en tom @Text.",
-                        "$~\\'hej ' · -5\\",
+                        "$~\\'hej ' × -5\\",
                         "$~Den längsta text jag kan göra är 65 535 tecken. Om du försöker göra en längre text så upprepar jag texten så många gånger jag kan."
                     ],
-                    "names": ["$~·", "$~🔁", "$~upprepas", "$~upprepa"],
+                    "names": ["$~×", "$~🔁", "$~upprepas", "$~upprepa"],
                     "inputs": [
                         {
                             "doc": "$~Antalet gånger jag ska upprepa mig själv i den nya texten.",
@@ -1983,11 +1965,11 @@
                 "multiply": {
                     "doc": [
                         "$~Jag multiplicerar mig själv till det givna @Number, skapar en produkt av min @Unit och det givna numrets @Unit:",
-                        "$~\\5 · 5\\",
-                        "$~\\5m · 5m\\",
-                        "$~\\5m · 1/s\\"
+                        "$~\\5 × 5\\",
+                        "$~\\5m × 5m\\",
+                        "$~\\5m × 1/s\\"
                     ],
-                    "names": ["$~·", "$~multiplicera"],
+                    "names": ["$~×", "$~multiplicera"],
                     "inputs": [
                         {
                             "doc": "$~Antalet som ska multipliceras.",
@@ -2501,7 +2483,7 @@
                     "doc": [
                         "$~Ge mig en @FunctionDefinition som tar ett värde och valfritt index som indata och producerar ett värde, så kommer jag att utvärdera det på vart och ett av mina objekt och översätta mina värden till nya värden.",
                         "$~Tänk dig till exempel att jag var en lista med @Number och att du ville dubbla dem alla:",
-                        "$~\\[2 4 6 8].translate(ƒ(num•#) num · 2)\\"
+                        "$~\\[2 4 6 8].translate(ƒ(num•#) num × 2)\\"
                     ],
                     "names": "$~översätta",
                     "inputs": [
@@ -3261,7 +3243,7 @@
                 "$~@FunctionDefinition här, jag kan förklara @Camera!",
                 "$~Så @Camera tillhandahåller en @Camera med @Color från din värld. Den listan representerar i huvudsak en bild, men det är upp till dig att bestämma vad du ska göra med den.",
                 "$~Du kan försöka representera bilden med ett gäng @Phrase, som kan se ganska coolt ut! Testa att kopiera detta...",
-                "$~\\colors: Kamera (32px 24px 33ms)\n\nEtapp(\ncolors.combine(\n[] \nƒ(fraser•[Fras] rad•[Färg] y•#) \nphrases.append(\nrow.translate(\nƒ(färg•Färg x•#)\nFras('o' plats: Plats((x - 1) · 0,5m y · -0,5m) färg: färgvaraktighet: 0s\n)\n)\n)\n)\n)\\",
+                "$~\\colors: Kamera (32px 24px 33ms)\n\nEtapp(\ncolors.combine(\n[] \nƒ(fraser•[Fras] rad•[Färg] y•#) \nphrases.append(\nrow.translate(\nƒ(färg•Färg x•#)\nFras('o' plats: Plats((x - 1) × 0,5m y × -0,5m) färg: färgvaraktighet: 0s\n)\n)\n)\n)\n)\\",
                 "$~Men du kan också analysera färgerna för att avgöra om ett ljus var på eller av, eller om en viss färg var vanlig, så att publiken kan påverka en föreställning med de färger de visar."
             ],
             "names": ["$~🎥", "$~Kamera"],
@@ -3448,6 +3430,41 @@
             "y": {
                 "names": "$~y",
                 "doc": "$~Riktningen och storleken på riktningen längs y-axeln."
+            }
+        },
+        "Speech": {
+            "doc": [
+                "$~/hej där!/",
+                "$~@FunctionDefinition här - redo att lyssna!",
+                "$~Den här strömmen känner igen tal och konverterar det till @Text. Den använder din webbläsares taligenkänning för att lyssna på vad du säger och omvandla det till ord (visst är det coolt?!).",
+                "$~\\Tal()\\",
+                "$~Detta är perfekt för de som kan tala ett språk men fortfarande lär sig läsa eller skriva det (och mer)...",
+                "$~Du kan ange en språkkod för att känna igen tal på ett visst språk:",
+                "$~\\Tal(språk: 'es-MX')\\",
+                "$~Om inget språk anges används som standard din föredragna plats.",
+                "$~Taligenkänning kräver mikrofonåtkomst och internetanslutning (vänligen ge åtkomst!). Det kan också finnas användningsbegränsningar, så låt det inte vara på för länge (neeeeeeeee)!"
+            ],
+            "names": ["$~Tal", "$~Röst"],
+            "reset": {
+                "names": ["$~återställa", "$~rensa"],
+                "doc": "$~När detta värde ändras, rensa det ackumulerade talet och börja om från början."
+            },
+            "language": {
+                "names": ["$~språk", "$~lång"],
+                "doc": "$~En BCP 47-språkkod (t.ex. 'en-US'). Om den inte stöds av din webbläsares röstigenkänning får du ett felmeddelande. Standardinställningen är din föredragna språkinställning."
+            },
+            "limit": {
+                "names": ["$~begränsa", "$~ord"],
+                "doc": "$~Det maximala antalet ord som ska behållas i det ackumulerade talet (glidande fönster). När detta är inställt behålls endast de senaste orden, och äldre ord kasseras. Om inget anges behålls alla ord på obestämd tid."
+            },
+            "error": {
+                "browserNotSupported": "$~tjänsten stöds inte i den här webbläsaren",
+                "noConnection": "$~ingen internetanslutning",
+                "serviceNotAllowed": "$~tjänsten är inte tillgänglig",
+                "micNotAllowed": "$~mikrofonåtkomst är inte tillåten",
+                "noMicrophone": "$~ingen mikrofon hittades",
+                "languageNotSupported": "$~språk stöds inte",
+                "limit": "$~misslyckades efter flera försök"
             }
         }
     },
@@ -4494,7 +4511,9 @@
                 "selectOutput": "$~visa denna produktion på scenen",
                 "expandSequence": "$~expandera den här komprimerade koden",
                 "expandControls": "$~visa ytterligare redigeringskommandon",
-                "collapseControls": "$~dölj ytterligare redigeringskommandon"
+                "collapseControls": "$~dölj ytterligare redigeringskommandon",
+                "zoomIn": "$~Gör koden större",
+                "zoomOut": "$~Gör koden mindre"
             },
             "field": {
                 "name": {
@@ -4530,6 +4549,7 @@
                 "insertNone": "$~infoga ingen symbol",
                 "insertNotEqual": "$~infoga inte lika",
                 "insertProduct": "$~infoga produktsymbol",
+                "insertDot": "$~infoga punktproduktsymbol",
                 "insertQuotient": "$~infoga kvotsymbol",
                 "insertDegree": "$~infoga gradsymbol",
                 "insertFunction": "$~infogningsfunktion",
@@ -4624,7 +4644,9 @@
                 }
             },
             "button": {
-                "submit": "$~skicka detta chattmeddelande"
+                "submit": "$~skicka detta chattmeddelande",
+                "zoomIn": "$~zooma in på scenen",
+                "zoomOut": "$~zooma ut från scenen"
             },
             "options": {
                 "locale": "$~välj språk för utmatning",
@@ -4706,6 +4728,10 @@
                 "reactions": {
                     "header": "$~Reaktioner",
                     "explanation": "$~/Sätt att reagera på eller analysera en indataström./"
+                },
+                "names": {
+                    "header": "$~Namn",
+                    "explanation": "$~/Namn för detta koncept./"
                 }
             },
             "how": {
@@ -4718,7 +4744,8 @@
                     "remembering": "$~spåra förändringar och val",
                     "stories": "$~berätta en historia",
                     "motion": "$~använda fysik",
-                    "video": "$~använda en kamera"
+                    "video": "$~använda en kamera",
+                    "gallery": "$~skapad av dina Wordplay-regissörskollegor"
                 },
                 "related": "$~Inte vad du letar efter?"
             },
@@ -4831,6 +4858,10 @@
                 "Definitions": {
                     "header": "$~Definitioner",
                     "explanation": "$~/Sätt att namnge värden, funktioner och datastrukturer för senare användning./"
+                },
+                "GalleryHow": {
+                    "header": "$~Galleri-instruktioner",
+                    "explanation": "$~/Vanliga mönster för att skapa olika typer av projekt, från dina gallerier./"
                 }
             },
             "note": {
@@ -4877,7 +4908,7 @@
                 },
                 "error": {
                     "unknown": "$~Vi känner ingen skapare med den här e-postadressen.",
-                    "anonymous": "$~Du måste vara inloggad för att dela.",
+                    "anonymous": "$~Du måste vara <inloggad@://login> för att dela.",
                     "self": "$~Du kan inte lägga till dig själv."
                 },
                 "button": {
@@ -5083,12 +5114,38 @@
                     "idea": "$~Såg du inte idén du tänkte på? Föreslå det."
                 },
                 "error": {
-                    "login": "$~Du måste vara inloggad för att skicka feedback",
+                    "login": "$~Du måste vara <inloggad@://login> för att skicka feedback",
                     "submit": "$~Det gick inte att skicka feedback.",
                     "load": "$~Det gick inte att ladda feedback",
                     "empty": "$~Det finns ingen feedback att visa.",
                     "url": "$~Detta är inte en giltig GitHub-URL."
                 }
+            },
+            "notifications": {
+                "header": "$~Aviseringar",
+                "explanation": "$~Aviseringar från nya chattar och publicerade instruktioner",
+                "open": "$~öppna aviseringsdialogrutan",
+                "howToNotifications": {
+                    "label": "$~aviseringar om nya instruktioner",
+                    "labels": ["$~av", "$~på"],
+                    "tips": [
+                        "$~meddela mig inte om nya instruktioner",
+                        "$~meddela mig om nya instruktioner"
+                    ]
+                },
+                "clearAll": {
+                    "label": "$~rensa alla aviseringar",
+                    "tip": "$~rensa alla aviseringar"
+                },
+                "notification": {
+                    "howToHeader": "$~Ny instruktionsguide med titeln \"$1\" har publicerats",
+                    "projectChatHeader": "$~Nytt meddelande i projektet \"$1\"",
+                    "howToChatHeader": "$~Nytt meddelande i instruktionsguiden \"$1\"",
+                    "link": "$~detaljer",
+                    "moderationHeader": "$~Meddelandet i \"$1\" kräver modereringsåtgärd"
+                },
+                "delete": "$~radera den här aviseringen",
+                "popup": "$~ny avisering"
             }
         },
         "collaborate": {
@@ -5096,7 +5153,9 @@
             "role": {
                 "owner": "$~ägare",
                 "collaborators": "$~kollaboratörer",
-                "curators": "$~kuratorer"
+                "curators": "$~kuratorer",
+                "commenters": "$~kommentatorer",
+                "viewers": "$~tittare"
             },
             "field": {
                 "message": {
@@ -5125,7 +5184,34 @@
                 "solo": "$~Chatta med dig själv eller lägg till en medarbetare som kan redigera och chatta.",
                 "owner": "$~Samarbetspartners kan redigera det här projektet och chatta om det.",
                 "collaborator": "$~Du är en kollaboratör. Du kan redigera det här projektet och chatta om det.",
-                "curator": "$~Du är curator för detta projekts galleri. Du kan redigera det här projektet och chatta om det."
+                "curator": "$~Du är curator för detta projekts galleri. Du kan redigera det här projektet och chatta om det.",
+                "commenter": "$~Du är en kommentator. Du kan chatta om det här projektet men inte redigera det."
+            },
+            "moderation": {
+                "header": "$~Rapportera det här meddelandet",
+                "explanation": "$~Om det här meddelandet inte uppfyller våra <community standards@://rights> eller den typ av feedback du begärt kan du rapportera det. När du rapporterar det här meddelandet skickas det till galleriets kuratorer och tas bort tills det kan granskas.",
+                "report": {
+                    "tip": "$~rapportera detta meddelande",
+                    "label": "$~rapportera"
+                },
+                "moderate": {
+                    "tip": "$~gå till modereringspanelen",
+                    "label": "$~måttlig"
+                },
+                "pending": "$~Det här meddelandet tas tillfälligt bort i väntan på modereringsåtgärd.",
+                "removed": "$~Det här meddelandet har tagits bort eftersom det bryter mot riktlinjer för communityn eller feedback.",
+                "inGallery": "$~Den här chatten finns i ett galleri. Den modereras av galleriets kuratorer. Du kan rapportera meddelanden som bryter mot våra <community standards@://rights> för moderering."
+            },
+            "restrictGalleryCreatorAccess": {
+                "explanation": "$~Ditt projekt finns i ett galleri. Som standard kan alla som kan se det här galleriet se det här projektet. Du kan begränsa vem som kan se ditt projekt till bara du och galleriets kuratorer.",
+                "mode": {
+                    "label": "$~begränsa åtkomst till projektet",
+                    "labels": ["$~begränsa inte", "$~begränsa"],
+                    "tips": [
+                        "$~alla som kan se det här galleriet kan se ditt projekt",
+                        "$~Endast galleriets intendenter kan se ditt projekt"
+                    ]
+                }
             }
         },
         "palette": {
@@ -5204,7 +5290,7 @@
                 "message": "$~Var är det här stället? Kan vi gå hem?"
             },
             "landing": {
-                "value": "$!Skapa interaktiva berättelser med ord, symboler, emojis och kod med oss!",
+                "value": "$~Skapa interaktiva berättelser med ord, symboler, emojis och kod med oss!",
                 "chooseLocales": "$~eller välj",
                 "description": [
                     "$~Wordplay är ett programmeringsspråk som gör att du kan:",
@@ -5236,7 +5322,8 @@
                         "label": "$~Medverka",
                         "subtitle": "$~Hjälp oss att göra ordspel."
                     },
-                    "characters": "$~Skapa anpassade emojis och symboler"
+                    "characters": "$~Skapa anpassade emojis och symboler",
+                    "updates": "$~Se vad som är nytt i Wordplay"
                 }
             },
             "learn": {
@@ -5258,7 +5345,7 @@
                 },
                 "error": {
                     "offline": "$~Vi kunde inte kontrollera din lärarstatus. Är du inloggad?",
-                    "login": "$~Du måste vara inloggad för att hantera klasser.",
+                    "login": "$~Du måste vara <inloggad@://login> för att hantera klasser.",
                     "teacher": "$~Du behöver lärarbehörighet för att skapa och hantera klasser. Fyll i detta formulär och låt oss lära känna varandra!"
                 },
                 "link": {
@@ -5373,8 +5460,6 @@
                 "header": "$~Projekt",
                 "projectprompt": "$~Redo att säga något? Skapa ett projekt eller arbeta med ett. Om du fastnar, fortsätt med <learning@://learn>.",
                 "archiveprompt": "$~Det här är projekt som du har arkiverat. Endast ägare kan permanent ta bort eller avarkivera dem. Arkiverade projekt kommer att raderas permanent 30 dagar efter att de senast redigerades.",
-                "galleriesheader": "$~Gallerier",
-                "galleryprompt": "$~Skapa och kurera gallerier för att dela en samling projekt med andra.",
                 "add": {
                     "header": "$~Nytt projekt",
                     "explanation": "$~Välj en mall för att skapa ett nytt projekt."
@@ -5383,7 +5468,6 @@
                     "newproject": "$~nytt projekt",
                     "editproject": "$~redigera detta projekt",
                     "viewcode": "$~visa detta projekts kod",
-                    "newgallery": "$~nytt galleri",
                     "unarchive": "$~avarkivera detta projekt"
                 },
                 "confirm": {
@@ -5398,25 +5482,48 @@
                 },
                 "error": {
                     "noaccess": "$~Vi kunde inte nå internet.",
-                    "nogalleryedits": "$~Du måste vara inloggad för att skapa och ändra gallerier.",
                     "newgallery": "$~Vi kunde inte skapa ett nytt galleri.",
-                    "nodeletes": "$~Du måste vara inloggad för att ta bort arkiverade projekt.",
+                    "nodeletes": "$~Du måste vara <inloggad@://login> för att radera arkiverade projekt.",
                     "delete": "$~Hoppsan, vi kunde inte ta bort projektet!"
                 },
                 "subheader": {
                     "shared": "$~Delad",
-                    "archived": "$~Arkiverad"
+                    "archived": "$~Arkiverad",
+                    "howtoviewonly": {
+                        "header": "$~Instruktioner",
+                        "explanation": "$~Du kan visa och interagera med instruktionerna i dessa gallerier, men du kan inte se deras projekt om inte galleriet eller projekten är offentliga."
+                    }
                 }
             },
             "galleries": {
                 "header": "$~Gallerier",
-                "prompt": "$~Det är föreställningar som andra har gjort. Upplev dem, studera dem eller anpassa dem till ditt eget uttalande.",
-                "examples": "$~Exempel",
+                "prompt": "$~$!Galleries är samlingar av projekt, ofta centrerade kring ett tema, och sammanställda av dig eller andra kreatörer.",
                 "button": {
                     "more": {
                         "label": "$~mer...",
                         "tip": "$~Ladda fler gallerier"
+                    },
+                    "newgallery": "$~nytt galleri"
+                },
+                "section": {
+                    "own": {
+                        "header": "$~Din",
+                        "explanation": [
+                            "$~Bidra till ett galleri du är inbjuden till, eller skapa ditt eget galleri med ett visst tema och bjud in andra.",
+                            "$~/Kuratorer ansvarar för att moderera innehållet i gallerier med hjälp av <gallery moderation dashboard@://galleries/moderation>./"
+                        ]
+                    },
+                    "examples": {
+                        "header": "$~Exempel",
+                        "explanation": "$~$!Dessa är utvalda gallerier från Wordplay-utvecklarna. De är bra utgångspunkter för lärande och inspiration."
+                    },
+                    "public": {
+                        "header": "$~Offentlig",
+                        "explanation": "$~Det här är gallerier som skapare av Wordplay har gjort offentliga. Se vad andra har skapat för inspiration!"
                     }
+                },
+                "error": {
+                    "nogalleryedits": "$~Du måste vara <inloggad@://login> för att skapa och ändra gallerier."
                 }
             },
             "about": {
@@ -5468,7 +5575,8 @@
                     "tooMany": "$~Du har försökt och misslyckats med att logga in för många gånger. Du måste vänta med att försöka igen.",
                     "invalidUsername": "$~Användarnamn måste vara e-postmeddelanden eller >5 bokstäver utan mellanslag.",
                     "invalidPassword": "$~Lösenord måste vara minst 6 tecken långa.",
-                    "mismatched": "$~Lösenorden stämmer inte överens."
+                    "mismatched": "$~Lösenorden stämmer inte överens.",
+                    "usernameTaken": "$~Detta användarnamn är redan upptaget."
                 },
                 "feedback": {
                     "changing": "$~Skickar nytt e-postmeddelande...",
@@ -5554,7 +5662,8 @@
                     "$~Men att göra ett projekt *offentligt*, eller inkludera det i ett offentligt galleri, är ett privilegium. Detta är en plattform gjord för kärlek, bekräftelse, respekt och värdighet. Därför förväntar vi oss att inget av ditt *offentliga* innehåll kommer att:"
                 ],
                 "consequences": [
-                    "$~Om vi hittar ett projekt eller galleri som bryter mot dessa regler kommer vi att varna skapare innan de tittar på det, eller blockera det från att ses. Om du upprepade gånger bryter mot dessa regler kommer du att förlora privilegiet att publicera offentligt."
+                    "$~Chattar för projekt och instruktioner som finns i offentliga eller privata gallerier modereras av galleriets kuratorer. Du kan rapportera meddelanden som bryter mot dessa communityriktlinjer till kuratorerna med hjälp av rapportknappen bredvid varje meddelande, och kuratorerna kan godkänna eller ta bort meddelanden.",
+                    "$~Om vi hittar ett projekt eller galleri som bryter mot dessa regler kommer vi att varna skaparna innan de ser det, eller blockera det från att visas. Om du upprepade gånger bryter mot dessa regler förlorar du rätten att publicera inlägg offentligt."
                 ]
             },
             "donate": {
@@ -5585,7 +5694,7 @@
                 },
                 "error": {
                     "offline": "$~Vi kunde inte komma åt dina karaktärer lagrade online.",
-                    "noauth": "$~Du måste vara inloggad för att se dina karaktärer och skapa nya.",
+                    "noauth": "$~Du måste vara <inloggad@://login> för att se dina karaktärer och skapa nya.",
                     "create": "$~Det går inte att skapa en ny karaktär."
                 },
                 "subheader": {
@@ -5759,7 +5868,7 @@
                     "end": "$~eller tryck på Escape.",
                     "loadfail": "$~Det gick inte att läsa in den här karaktären.",
                     "notfound": "$~Den här karaktären finns inte.",
-                    "unauthenticated": "$~Du måste vara inloggad för att redigera en karaktär.",
+                    "unauthenticated": "$~Du måste vara <inloggad@://login> för att redigera ett tecken.",
                     "taken": "$~Du har redan en karaktär med detta namn; inte sparar.",
                     "projecteditfail": "$~Det uppstod ett problem när projekt som använder det här tecknet uppdaterades. Följande projekt behöver åtgärdas:",
                     "untitledproject": "$~Namnlöst projekt"
@@ -5791,6 +5900,22 @@
                     },
                     "collaborators": "$~kollaboratörer"
                 }
+            },
+            "updates": {
+                "header": "$~Uppdateringar",
+                "content": [
+                    "$~Det här är de senaste nya funktionerna, förbättringarna och buggfixarna i Wordplay. Vi släpper uppdateringar varje vecka de flesta lördagar, såvida vi inte hittar ett akut fel."
+                ],
+                "tips": {
+                    "expand": "$~Utöka uppdateringarna för detta datum",
+                    "collapse": "$~Komprimera uppdateringar från detta datum"
+                },
+                "categories": {
+                    "added": "$~Tillagd",
+                    "changed": "$~Ändrad",
+                    "removed": "$~Borttagen",
+                    "fixed": "$~Fast"
+                }
             }
         },
         "edit": {
@@ -5814,6 +5939,232 @@
         "template": {
             "unwritten": "$~TBD",
             "unparsable": "$~Oparserbar mall: $1"
+        },
+        "howto": {
+            "galleryView": {
+                "header": "$~Instruktioner",
+                "subheader": "$~1 dollar i instruktioner, 2 dollar i nya",
+                "subheaderEmpty": "$~skapa den första!",
+                "prompt": "$~Instruktioner är korta förklaringar och exempelkod för hur man gör något med Wordplay. När du har kommit fram till något du vill dela, skriv en för de andra skaparna i det här galleriet, så att de kan lära sig det!"
+            },
+            "headerTooltip": "$~gå tillbaka till galleriet",
+            "drafts": {
+                "header": "$~📝 Instruktioner för utkast",
+                "prompt": "$~Det här är ett utrymme för dina utkast! Endast du och dina medarbetare kan se dessa utkast.",
+                "tooltip": "$~visa ditt utkast",
+                "note": "$~Detta är ett utkast till en instruktionsguide. Endast du och dina medarbetare kan se den."
+            },
+            "bookmarks": {
+                "header": "$~🔖 Bokmärken",
+                "tooltip": "$~gå till den här instruktionen",
+                "canBookmark": {
+                    "label": "$~🔖 bokmärk instruktionsguide",
+                    "tip": "$~Bokmärk den här instruktionen för att hitta den senare"
+                },
+                "alreadyBookmarked": {
+                    "label": "$~🔖 ta bort bokmärke",
+                    "tip": "$~ta bort den här instruktionen från dina bokmärken"
+                },
+                "empty": "$~Du kan bokmärka instruktioner som du vill använda senare.",
+                "notLoggedIn": "$~Du måste vara <inloggad@://login> för att använda bokmärken"
+            },
+            "navigationtooltip": "$~navigera till en instruktionsguide",
+            "button": {
+                "reset": {
+                    "label": "$~centrum",
+                    "tip": "$~centrera arbetsytan"
+                }
+            },
+            "editor": {
+                "newForm": {
+                    "header": "$~Skapa en ny instruktionsguide",
+                    "explanation": "$~Skriv namnet och innehållet på din nya instruktionsguide."
+                },
+                "editForm": {
+                    "header": "$~Redigera instruktionsguide",
+                    "explanation": "$~Redigera namnet och innehållet i din instruktionsguide."
+                },
+                "post": {
+                    "label": "$~📣 inlägg",
+                    "tip": "$~publicera din instruktion i utrymmet"
+                },
+                "save": {
+                    "label": "$~💾 spara som utkast",
+                    "tip": "$~spara din instruktion som ett utkast"
+                },
+                "notification": {
+                    "label": "$~meddela prenumeranter",
+                    "labels": ["$~meddela", "$~meddela inte"],
+                    "tips": [
+                        "$~meddela prenumeranter när du publicerar den här instruktionen",
+                        "$~meddela inte prenumeranter när du publicerar den här instruktionen"
+                    ]
+                },
+                "title": {
+                    "description": "$~titeln på din instruktion",
+                    "placeholder": "$~Titel"
+                },
+                "untitledHowToPlaceholder": "$~Namnlös instruktion",
+                "collaboratorsToggle": {
+                    "on": "$~dölj panelen för samarbetspartners",
+                    "off": "$~expandera panelen för samarbetspartners"
+                },
+                "editor": {
+                    "placeholder": "$~Skriv din instruktion här, använd formatering och kod för att undervisa.",
+                    "description": "$~en textruta för att skriva din instruktion"
+                },
+                "collaborators": {
+                    "header": "$~👥 samarbetspartners",
+                    "explanation": "$~Samarbetare kan redigera den här instruktionen och visa den i utkast."
+                },
+                "access": {
+                    "header": "$~↗ dela",
+                    "explanation": "$~Galleriets kurator kan låta skapare och kuratorer i andra gallerier de kuraterar se den här instruktionen. Om du inte vill att de ska kunna se den kan du begränsa vem som kan se den till endast kuratorerna och skaparna i galleriet."
+                },
+                "accessToggle": {
+                    "on": "$~dölj panelen för åtkomstinställningar",
+                    "off": "$~expandera panelen för åtkomstinställningar"
+                },
+                "accessMode": {
+                    "label": "$~begränsa vem som kan se den här instruktionen",
+                    "labels": ["$~begränsad", "$~utökad"],
+                    "tips": [
+                        "$~endast skapare i det här galleriet kan se",
+                        "$~skapare och kuratorer i vilket galleri som helst som kuratorn kurerar kan se"
+                    ]
+                },
+                "localeOptionsLabel": "$~redigerarens inmatningsspråk"
+            },
+            "viewer": {
+                "view": {
+                    "label": "$~se instruktionsguide",
+                    "tip": "$~se instruktionsguide"
+                },
+                "edit": {
+                    "label": "$~✏️ redigera",
+                    "tip": "$~redigera den här instruktionen"
+                },
+                "delete": {
+                    "description": "$~ta bort den här instruktionen",
+                    "prompt": "$~🗑️ radera"
+                },
+                "submitToGuide": {
+                    "submit": {
+                        "label": "$~📨 skicka in till Wordplay Guide",
+                        "tip": "$~Skicka in den här instruktionen för att bli övervägd för inkludering i Ordspelsguiden!"
+                    },
+                    "alreadySubmitted": {
+                        "label": "$~✅ skickad till Guide",
+                        "tip": "$~Denna instruktionsguide har redan skickats in för att beaktas för inkludering i Ordspelsguiden."
+                    }
+                },
+                "usedBy": {
+                    "prompt": "$~Använde du den här handledningen i ditt projekt eller i en annan handledning? Låt andra veta det genom att lägga till ditt projekt i listan!",
+                    "empty": "$~Du har inga projekt eller andra publicerade instruktioner än. Försök att skapa ett!",
+                    "countDisplay": "$~Andra Wordplay-regissörer har använt detta i andra projekt eller instruktionsböcker på $1",
+                    "selector": "$~projekt- och instruktionsväljare",
+                    "removeButton": "$~ta bort projekt eller instruktionsguide från listan",
+                    "addButton": "$~lägg till projekt eller instruktionsguide"
+                },
+                "reactionsPrompt": "$~Gillade du den här instruktionen? Lämna en kommentar för att stödja skaparen!",
+                "chatPrompt": "$~Lämna en kommentar eller fråga till skaparen!",
+                "link": {
+                    "label": "$~🔗 kopiera instruktionslänken",
+                    "tip": "$~kopiera länken till den här instruktionen"
+                },
+                "collaborators": "$~skriven av"
+            },
+            "configuration": {
+                "configurationDialog": {
+                    "header": "$~Instruktioner för utrymmesinställningar",
+                    "explanation": "$~Konfigurera inställningarna för den här instruktionsplatsen. Klicka på spara-knappen längst ner för att spara dina inställningar."
+                },
+                "configurationButton": {
+                    "tip": "$~konfigurera detta instruktionsutrymme",
+                    "label": "$~⚙️ inställningar"
+                },
+                "visibility": {
+                    "subheader": {
+                        "header": "$~Synlighet",
+                        "explanation": "$~Konfigurera vem som kan visa instruktioner i det här utrymmet som standard"
+                    },
+                    "mode": {
+                        "label": "$~standardsynlighet",
+                        "labels": ["$~begränsad", "$~utökad"],
+                        "tips": [
+                            "$~endast samarbetspartners i det här galleriet kan visa",
+                            "$~samarbetspartners i vilket galleri som helst som en kurator skapar kan se"
+                        ]
+                    },
+                    "expanded": "$~utökad",
+                    "limited": "$~begränsad"
+                },
+                "guidingQuestions": {
+                    "subheader": {
+                        "header": "$~Vägledande frågor",
+                        "explanation": "$~Konfigurera de vägledande frågor som visas när du skapar en ny instruktionsguide. Separera vägledande frågor med en radbrytning."
+                    },
+                    "descriptor": "$~en textruta för att skriva dina vägledande frågor, separerade med en radbrytning.",
+                    "default": [
+                        "$~Vad lärde du dig? Ge exempel på hur man gör det."
+                    ]
+                },
+                "reactions": {
+                    "subheader": {
+                        "header": "$~Reaktioner",
+                        "explanation": "$~Konfigurera de reaktioner som tittare kan lämna på nya instruktioner"
+                    },
+                    "reactionPickerTip": "$~välj en karaktär som ska vara en reaktion",
+                    "reactionDescriptionTip": "$~beskriv vad denna reaktion betyder",
+                    "addReactionTip": "$~lägg till en ny reaktion",
+                    "removeReactionTip": "$~ta bort denna reaktion",
+                    "default": {
+                        "👍": "$~Jag gillar det här!",
+                        "💭": "$~Detta inspirerar mig!",
+                        "🙏": "$~Tack så mycket!",
+                        "🎉": "$~Firande!",
+                        "🤩": "$~Jag vill prova det här!",
+                        "😁": "$~Detta gör mig glad!"
+                    }
+                },
+                "submit": {
+                    "error": "$~vägledande frågor och reaktioner kan inte vara tomma",
+                    "label": "$~spara",
+                    "tip": "$~spara inställningar för instruktionsutrymme"
+                }
+            },
+            "announce": {
+                "howToPosition": "$~instruktionstexten med titeln $1 flyttad till $2 $3",
+                "canvasPosition": "$~Canvas flyttad till 1 dollar, 2 dollar",
+                "moveActivated": "$~rörelse aktiverad. $1 kan flyttas med musen, tangentbordet eller pekskärmen",
+                "moveDeactivated": "$~rörelsen avaktiverad."
+            },
+            "error": {
+                "unknown": "$~Det här instruktionsutrymmet finns inte eller är inte offentligt."
+            }
+        },
+        "gallerymoderation": {
+            "header": "$~Översikt för gallerimoderering",
+            "description": "$~Följande meddelanden i gallerier som du hanterar har rapporterats av användare för moderering.",
+            "labels": {
+                "message": "$~meddelande",
+                "reporter": "$~reporter",
+                "action": "$~moderatoråtgärder"
+            },
+            "view": {
+                "label": "$~visa chatten",
+                "tip": "$~visa meddelande i chatten"
+            },
+            "remove": {
+                "label": "$~ta bort",
+                "tip": "$~detta meddelande bryter mot riktlinjerna"
+            },
+            "keep": {
+                "label": "$~hålla",
+                "tip": "$~detta meddelande bryter inte mot riktlinjerna"
+            },
+            "empty": "$~Inga meddelanden kräver moderering",
+            "error": "$~Du måste vara inloggad för att moderera gallerier"
         }
     },
     "moderation": {

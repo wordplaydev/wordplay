@@ -33,12 +33,9 @@ test.each([
         Insert,
         InvalidRow,
     ],
-])(
-    'Expect %s no conflicts, %s to have %s with %s',
-    (good, bad, node, conflict) => {
-        testConflict(good, bad, node, conflict);
-    },
-);
+])('%s => no conflict, %s => conflict', (good, bad, node, conflict) => {
+    testConflict(good, bad, node, conflict);
+});
 
 test.each([
     ['⎡a•# b•#⎦⎡1 2⎦ ⎡+ 2 3⎦', '⎡ 1 2 ⎦\n⎡ 2 3 ⎦'],

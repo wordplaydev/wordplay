@@ -1,7 +1,7 @@
 import type Evaluation from '@runtime/Evaluation';
 import type Evaluator from '@runtime/Evaluator';
 import BoolValue from '@values/BoolValue';
-import StreamValue from '@values/StreamValue';
+import SingletonStreamValue from '@values/SingletonStreamValue';
 import { getDocLocales } from '../locale/getDocLocales';
 import { getNameLocales } from '../locale/getNameLocales';
 import type Locales from '../locale/Locales';
@@ -16,7 +16,7 @@ import UnionType from '../nodes/UnionType';
 import TextValue from '../values/TextValue';
 import createStreamEvaluator from './createStreamEvaluator';
 
-export default class Key extends StreamValue<
+export default class Key extends SingletonStreamValue<
     TextValue,
     { key: string; down: boolean }
 > {

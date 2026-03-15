@@ -17,21 +17,19 @@ export default class ReferenceCycle extends Conflict {
     static readonly LocalePath = (locales: LocaleText) =>
         locales.node.Reference.conflict.ReferenceCycle;
 
-    getConflictingNodes() {
+    getMessage() {
         return {
-            primary: {
-                node: this.name,
-                explanation: (locales: Locales, context: Context) =>
-                    locales.concretize(
-                        (l) => ReferenceCycle.LocalePath(l).primary,
-                        new NodeRef(
-                            this.name,
-                            locales,
-                            context,
-                            this.name.getName(),
-                        ),
+            node: this.name,
+            explanation: (locales: Locales, context: Context) =>
+                locales.concretize(
+                    (l) => ReferenceCycle.LocalePath(l).explanation,
+                    new NodeRef(
+                        this.name,
+                        locales,
+                        context,
+                        this.name.getName(),
                     ),
-            },
+                ),
         };
     }
 

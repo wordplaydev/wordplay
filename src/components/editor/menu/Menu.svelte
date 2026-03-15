@@ -283,7 +283,7 @@
         height: auto;
 
         /* Max size */
-        max-width: 100vw;
+        max-width: 100dvw;
         max-height: 30vh;
 
         /** Position above tiles */

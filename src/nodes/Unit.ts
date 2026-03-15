@@ -3,11 +3,7 @@ import { getPossibleDimensions } from '@edit/menu/getPossibleUnits';
 import type { InsertContext, ReplaceContext } from '@edit/revision/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
-import {
-    EXPONENT_SYMBOL,
-    LANGUAGE_SYMBOL,
-    PRODUCT_SYMBOL,
-} from '@parser/Symbols';
+import { DOT_SYMBOL, EXPONENT_SYMBOL, LANGUAGE_SYMBOL } from '@parser/Symbols';
 import NumberValue from '@values/NumberValue';
 import type { BasisTypeName } from '../basis/BasisConstants';
 import type Locales from '../locale/Locales';
@@ -344,7 +340,7 @@ export default class Unit extends Node {
                                 : ''
                         }`,
                 )
-                .join(PRODUCT_SYMBOL) +
+                .join(DOT_SYMBOL) +
             (denominator.length > 0 ? LANGUAGE_SYMBOL : '') +
             denominator
                 .map(
@@ -357,7 +353,7 @@ export default class Unit extends Node {
                                 : ''
                         }`,
                 )
-                .join(PRODUCT_SYMBOL)
+                .join(DOT_SYMBOL)
         );
     }
 

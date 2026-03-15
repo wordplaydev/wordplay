@@ -40,7 +40,9 @@
     let editor = $derived(
         sourceID
             ? $editors?.get(sourceID)
-            : Array.from($editors.values()).find((editor) => editor.focused),
+            : Array.from($editors.values()).find(
+                  (editor) => editor.sourceID === sourceID,
+              ),
     );
 
     let active = $derived(
@@ -48,7 +50,11 @@
             ? true
             : context
               ? (command.active(
-                    { ...context.context, editor: editor !== undefined },
+                    {
+                        ...context.context,
+                        editor: editor !== undefined,
+                        ...editor,
+                    },
                     '',
                 ) ?? false)
               : false,
@@ -69,12 +75,10 @@
         if (context === undefined) return;
 
         // Include the caret and toggle menu we have from the editor, if we have them.
-        const caretyContext = { ...context.context };
-        if (editor) {
-            caretyContext.caret = editor?.caret;
-            caretyContext.toggleMenu = editor?.toggleMenu;
-            caretyContext.editor = true;
-        }
+        const caretyContext = {
+            ...context.context,
+            ...(editor ? { editor: true, ...editor } : {}),
+        };
 
         const result = command.execute(caretyContext, '');
         if (result instanceof Promise)
@@ -104,7 +108,7 @@
                 spaces: undefined,
                 editable: false,
             }}
-        />{:else if /^\p{Extended_Pictographic}+$/u.test(command.symbol)}<Emoji
+        />{:else if /\p{Extended_Pictographic}$/u.test(command.symbol)}<Emoji
             >{command.symbol}</Emoji
         >{:else}{command.symbol}{/if}</Button
 >

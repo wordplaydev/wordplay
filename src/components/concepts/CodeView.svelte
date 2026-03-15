@@ -1,5 +1,7 @@
 <script lang="ts">
+    import Link from '@components/app/Link.svelte';
     import type Concept from '@concepts/Concept';
+    import GalleryHowConcept from '@concepts/GalleryHowConcept';
     import { blocks, locales } from '@db/Database';
     import Expression, { ExpressionKind } from '@nodes/Expression';
     import type Node from '@nodes/Node';
@@ -22,6 +24,7 @@
         outline?: boolean;
         elide?: boolean;
         flip?: boolean;
+        localize?: boolean;
     }
 
     let {
@@ -34,6 +37,7 @@
         outline = true,
         elide = false,
         flip = false,
+        localize = true,
     }: Props = $props();
 
     let dragged = getDragged();
@@ -88,7 +92,7 @@
                 {spaces}
                 blocks={$blocks}
                 {elide}
-                locale={$locales.getLocale()}
+                locale={localize ? $locales.getLocale() : null}
                 inert={!draggable}
             /></div
         >{#if type && concept}&nbsp;<TypeView
@@ -102,7 +106,11 @@
 {#snippet link()}
     {#if describe && concept}
         <div class="link">
-            <ConceptLinkUI link={concept} symbolic={false} />
+            {#if concept instanceof GalleryHowConcept}
+                <Link to={concept.getPath()} external>{concept.getName($locales)}</Link>
+            {:else}
+                <ConceptLinkUI link={concept} symbolic={false} />
+            {/if}
         </div>
     {/if}
 {/snippet}
