@@ -3,5 +3,4 @@
     "editor.codeActionsOnSave": {
         "source.organizeImports": "explicit"
     },
-    "workbench.colorTheme": "Quiet Light"
 }
