@@ -36,7 +36,8 @@
         markupText = languageToTextMap
             .entries()
             .reduce(
-                (acc, [language, text]) => acc + `¶${text}¶/${language}`,
+                (acc, [language, text]) =>
+                    acc + (text.length === 0 ? '' : `¶${text}¶/${language}`),
                 '',
             );
     });

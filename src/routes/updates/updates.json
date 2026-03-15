@@ -1,9 +1,24 @@
 [
   {
+    "version": "0.17.1",
+    "date": "2026-03-14",
+    "changes": {
+      "added": [],
+      "fixed": [],
+      "changed": [
+        "We upgraded internal tooling for stability.",
+        "We improved some Arabic translations.",
+        "We arranged more reliable recoverable random numbers."
+      ],
+      "removed": []
+    }
+  },
+  {
     "version": "0.17.0",
     "date": "2026-03-03",
     "changes": {
       "added": [
+        "We added a new @Speech stream, which works in most browsers. If you allow the site to use your microphone, you can make projects that respond to speech! (#394).",
         "We added a machine translation of a Hebrew locale (#411).",
         "We added a machine translation of a Vietnamese locale (#985).",
         "We made autocompletion of conversions smarter and less buggy.",

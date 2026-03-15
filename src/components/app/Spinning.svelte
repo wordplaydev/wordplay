@@ -5,13 +5,15 @@
     interface Props {
         label?: LocaleTextAccessor | undefined;
         size?: number;
+        spin?: boolean;
     }
 
-    let { label = undefined, size = 2 }: Props = $props();
+    let { label = undefined, size = 2, spin = true }: Props = $props();
 </script>
 
 <div
     class="cursor"
+    class:spin
     style="width: {size}rem; height: {size}rem;"
     aria-live="assertive"
     aria-atomic="true"
@@ -22,7 +24,6 @@
 <style>
     .cursor {
         display: inline-block;
-        animation: spin infinite linear;
         animation-duration: calc(var(--animation-factor) * 1s);
         transform-origin: center;
         border: var(--wordplay-inactive-color) solid var(--wordplay-focus-width);
@@ -30,6 +31,12 @@
         background: var(--wordplay-alternating-color);
         width: 1em;
         height: 1em;
+        opacity: 0;
+    }
+
+    .cursor.spin {
+        opacity: 1;
+        animation: spin infinite linear;
     }
 
     @keyframes spin {

@@ -358,10 +358,8 @@
             "name": "example",
             "emotion": "serious",
             "doc": [
-                "I'm an example performance, helpful for writing @Doc that explains how to use something!",
-                "\\¶Here's an example of adding: \\1 + 1\\¶'example code'\\",
-                "If you put me in a paragraph all alone, I'll show up in a fancy box and show the result of evaluating me.",
-                "\\¶Here's an example of adding:\n\n\\1 + 1\\¶\\"
+                "You can put examples in your @Doc, like this:",
+                "\\¶Here's an example of adding: \\1 + 2\\¶3 + 4\\"
             ]
         },
         "Mention": {
@@ -3534,11 +3532,11 @@
                 "names": "background"
             },
             "opacity": {
-                "doc": "How transparent everything inside me should be, between \\0\\ and \\1\\, unless overriden by a different @Pose.",
+                "doc": "How transparent everything inside me should be, between \\0\\ and \\1\\, unless overridden by a different @Pose.",
                 "names": "opacity"
             },
             "offset": {
-                "doc": "A @Place indicating how offset from my normal @Place it should be, unless overriden by a different @Pose. Helpful for wiggling in place.",
+                "doc": "A @Place indicating how offset from my normal @Place it should be, unless overridden by a different @Pose. Helpful for wiggling in place.",
                 "names": "offset"
             },
             "rotation": {
@@ -3585,7 +3583,7 @@
         },
         "Phrase": {
             "doc": [
-                "Hello, hello! Remember me? How could anyone forget /me/. That's right, I am the manificent @Phrase, ready to represent the loveliest of @Text on @Stage.",
+                "Hello, hello! Remember me? How could anyone forget /me/. That's right, I am the magnificent @Phrase, ready to represent the loveliest of @Text on @Stage.",
                 "Just make me like this, and I'll appear on @Stage:",
                 "\\Phrase('magnificient!')\\",
                 "I need @TextLiteral or @FormattedLiteral to show. With @FormattedLiteral, I can use things like \\`*bold* and /italic/`\\ or refer to custom @ConceptLink you create.",
@@ -3650,7 +3648,7 @@
                 "names": "selectable"
             },
             "color": {
-                "doc": "The @Color I should be by default, unless overriden by a different @Pose.",
+                "doc": "The @Color I should be by default, unless overridden by a different @Pose.",
                 "names": "color"
             },
             "background": {
@@ -3658,27 +3656,27 @@
                 "names": "background"
             },
             "opacity": {
-                "doc": "How transparent I should be by default, between \\0\\ and \\1\\, unless overriden by a different @Pose. Helpful for fading in and out.",
+                "doc": "How transparent I should be by default, between \\0\\ and \\1\\, unless overridden by a different @Pose. Helpful for fading in and out.",
                 "names": "opacity"
             },
             "offset": {
-                "doc": "A @Place indicating how offset from my @Place it should be, unless overriden by a different @Pose. Helpful for wiggling in place.",
+                "doc": "A @Place indicating how offset from my @Place it should be, unless overridden by a different @Pose. Helpful for wiggling in place.",
                 "names": "offset"
             },
             "rotation": {
-                "doc": "The amount in degrees I should should be rotated around its center, unless overriden by a different @Pose.",
+                "doc": "The amount in degrees I should should be rotated around its center, unless overridden by a different @Pose.",
                 "names": "rotation"
             },
             "scale": {
-                "doc": "How magnified I should be relative to its original size, unless overriden by a different @Pose.",
+                "doc": "How magnified I should be relative to its original size, unless overridden by a different @Pose.",
                 "names": "scale"
             },
             "flipx": {
-                "doc": "Whether I should be mirrored on the x-axis, unless overriden by a different @Pose.",
+                "doc": "Whether I should be mirrored on the x-axis, unless overridden by a different @Pose.",
                 "names": "flipx"
             },
             "flipy": {
-                "doc": "Whether I should be mirrored on the y-axis, unless overriden by a different @Pose.",
+                "doc": "Whether I should be mirrored on the y-axis, unless overridden by a different @Pose.",
                 "names": "flipy"
             },
             "entering": {
@@ -5311,7 +5309,7 @@
                 "button": {
                     "show": "Show the feedback form.",
                     "submit": {
-                        "tip": "submit your feeback",
+                        "tip": "submit your feedback",
                         "label": "submit"
                     },
                     "delete": {
@@ -5400,7 +5398,8 @@
                     "label": "start a chat",
                     "tip": "begin a discussion with yourself or others."
                 },
-                "delete": "delete this message"
+                "delete": "delete this message",
+                "confirmDelete": "confirm delete?"
             },
             "moderation": {
                 "header": "Report this message",
@@ -5852,7 +5851,7 @@
                     },
                     "fill": {
                         "label": "fill",
-                        "labels": ["none", "inerit", "choose"],
+                        "labels": ["none", "inherit", "choose"],
                         "tips": [
                             "no fill",
                             "inherit fill color from surrounding text",
@@ -5861,7 +5860,7 @@
                     },
                     "stroke": {
                         "label": "stroke",
-                        "labels": ["none", "inerit", "choose"],
+                        "labels": ["none", "inherit", "choose"],
                         "tips": [
                             "no stroke",
                             "inherit stroke color from surrounding text",
@@ -5936,6 +5935,22 @@
                     "all": {
                         "label": "select all",
                         "tip": "select all shapes and pixels"
+                    },
+                    "allColor": {
+                        "label": "all of color",
+                        "tip": "select all shapes with the same color as the selection"
+                    },
+                    "pick": {
+                        "label": "pick color",
+                        "tip": "select a color from your screen to use for drawing pixels and shapes"
+                    },
+                    "saturationUp": {
+                        "label": "saturation",
+                        "tip": "increase saturation"
+                    },
+                    "saturationDown": {
+                        "label": "saturation",
+                        "tip": "decrease saturation"
                     },
                     "end": {
                         "label": "finish shape",
@@ -6167,6 +6182,52 @@
         "template": {
             "unwritten": "TBD",
             "unparsable": "Unparsable template: $1"
+        },
+        "emoji": {
+            "noCharacters": "Create a custom character",
+            "groups": {
+                "label": "groups",
+                "labels": [
+                    "🎨",
+                    "😀",
+                    "👤",
+                    "🐱",
+                    "🍔",
+                    "🚲",
+                    "⚽",
+                    "🏠",
+                    "⚡",
+                    "🏳️",
+                    "🔡",
+                    "🔠",
+                    "➗",
+                    "📐",
+                    "⬇️",
+                    "1️⃣",
+                    "Ⅶ",
+                    "💰"
+                ],
+                "tips": [
+                    "custom",
+                    "smileys & emotion",
+                    "people & body",
+                    "animals & nature",
+                    "food & drink",
+                    "activities",
+                    "travel & places",
+                    "objects",
+                    "symbols",
+                    "flags",
+                    "lowercase",
+                    "uppercase",
+                    "mathematical",
+                    "shapes",
+                    "arrows",
+                    "numbers",
+                    "letter numbers",
+                    "currency"
+                ]
+            }
         }
     },
     "moderation": {

@@ -359,9 +359,7 @@
             "emotion": "serious",
             "doc": [
                 "$~Jestem przykładem wykonania, pomocnym przy pisaniu @Doc, który wyjaśnia jak czegoś używać!",
-                "$~\\¶Oto przykład dodawania: \\1 + 1\\¶'przykładowy kod'\\",
-                "$~Jeśli umieścisz mnie samego w akapicie, pojawię się w ozdobnym polu i pokażę wynik mojej oceny.",
-                "$~\\¶Oto przykład dodawania:\n\n\\1 + 1\\¶\\"
+                "$~\\¶Oto przykład dodawania: \\1 + 1\\¶'przykładowy kod'\\"
             ]
         },
         "Mention": {
@@ -5177,7 +5175,8 @@
                     "label": "$~Rozpocznij czat",
                     "tip": "$~Rozpocznij dyskusję z samym sobą lub innymi."
                 },
-                "delete": "$~usuń tę wiadomość"
+                "delete": "$~usuń tę wiadomość",
+                "confirmDelete": "$~potwierdzić usunięcie?"
             },
             "error": {
                 "unowned": "$~Ten projekt nie jest przechowywany online, więc nie można na nim prowadzić czatu ani współpracować z innymi osobami.",
@@ -5865,6 +5864,22 @@
                     "dismissError": {
                         "label": "$~odrzucać",
                         "tip": "$~odrzuć komunikat o błędzie"
+                    },
+                    "allColor": {
+                        "label": "$~wszystkie kolorowe",
+                        "tip": "$~wybierz wszystkie kształty o tym samym kolorze co zaznaczenie"
+                    },
+                    "pick": {
+                        "label": "$~wybierz kolor",
+                        "tip": "$~wybierz kolor z ekranu, którego będziesz używać do rysowania pikseli i kształtów"
+                    },
+                    "saturationUp": {
+                        "label": "$~nasycenie",
+                        "tip": "$~zwiększyć nasycenie"
+                    },
+                    "saturationDown": {
+                        "label": "$~nasycenie",
+                        "tip": "$~zmniejszyć nasycenie"
                     }
                 },
                 "feedback": {
@@ -6170,6 +6185,52 @@
             },
             "empty": "$~Żadna wiadomość nie wymaga moderacji",
             "error": "$~Aby moderować galerie, musisz się zalogować"
+        },
+        "emoji": {
+            "noCharacters": "$~Utwórz własną postać",
+            "groups": {
+                "label": "$~grupy",
+                "labels": [
+                    "$~🎨",
+                    "$~😀",
+                    "$~👤",
+                    "$~🐱",
+                    "$~🍔",
+                    "$~🚲",
+                    "$~⚽",
+                    "$~🏠",
+                    "$~⚡",
+                    "$~🏳️",
+                    "$~🔡",
+                    "$~🔠",
+                    "$~➗",
+                    "$~📐",
+                    "$~⬇️",
+                    "$~1️⃣",
+                    "$~Ⅶ",
+                    "$~💰"
+                ],
+                "tips": [
+                    "$~zwyczaj",
+                    "$~emotikony i emocje",
+                    "$~ludzie i ciało",
+                    "$~zwierzęta i przyroda",
+                    "$~jedzenie i napoje",
+                    "$~działania",
+                    "$~podróże i miejsca",
+                    "$~obiekty",
+                    "$~symbolika",
+                    "$~flagi",
+                    "$~małe litery",
+                    "$~wielkie litery",
+                    "$~matematyczny",
+                    "$~kształty",
+                    "$~strzałki",
+                    "$~takty muzyczne",
+                    "$~cyfry literowe",
+                    "$~waluta"
+                ]
+            }
         }
     },
     "moderation": {

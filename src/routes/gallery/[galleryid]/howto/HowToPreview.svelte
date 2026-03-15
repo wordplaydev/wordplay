@@ -3,6 +3,7 @@
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import {
         getAnnouncer,
+        getTip,
         getUser,
         isAuthenticated,
     } from '@components/project/Contexts';
@@ -51,7 +52,9 @@
     let title: string = $derived(
         howTo?.getTitleInLocale($locales.getLocaleString()) ?? '',
     );
-    let text: string[] = $derived(howTo?.getText() ?? []);
+    let text: string[] = $derived(
+        howTo?.getTextInLocale($locales.getLocaleString()) ?? [],
+    );
     let howToId: string = $derived(howTo?.getHowToId() ?? '');
     let xcoord: number = $derived(howTo?.getCoordinates()[0] ?? 0);
     let ycoord: number = $derived(howTo?.getCoordinates()[1] ?? 0);
@@ -255,12 +258,16 @@
 
     let keyboardFocused: boolean = $state(false);
     function onfocus() {
+        showTip();
+
         if (!canEdit || whichDialogOpen) return;
 
         keyboardFocused = true;
     }
 
     function onblur() {
+        hideTip();
+
         if (!canEdit || whichDialogOpen) return;
 
         keyboardFocused = false;
@@ -404,6 +411,17 @@
             }
         });
     });
+
+    let hint = getTip();
+    let previewNode: HTMLDivElement;
+
+    function showTip() {
+        if (previewNode) hint.show(title, previewNode);
+    }
+
+    function hideTip() {
+        hint.hide();
+    }
 </script>
 
 {#snippet preview()}
@@ -444,6 +462,12 @@
     {onfocus}
     {onblur}
     {onkeydown}
+    onpointerenter={showTip}
+    onpointerleave={hideTip}
+    ontouchstart={showTip}
+    ontouchend={hideTip}
+    ontouchcancel={hideTip}
+    bind:this={previewNode}
 >
     <div class="howtotitle"> <MarkupHTMLView markup={title} /></div>
 

@@ -33,6 +33,7 @@ const TranslationRequested =
     process.argv[2] === 'translate' || process.argv[2] === 'override';
 const OverrideMachineTranslations = process.argv[2] === 'override';
 const FailOnInvalid = process.argv[2] === 'ci';
+const FixRequested = process.argv[2] === 'fix';
 
 // Make a logger so we can pretty print feedback. It bails on bad or exit with a failure exit code if we're in continuous integration mode.
 const log = new Log(FailOnInvalid);
@@ -40,11 +41,11 @@ const log = new Log(FailOnInvalid);
 // Now that we've defined all of the functionality, let's process requests.
 if (
     process.argv.length < 3 ||
-    !['ci', 'verify', 'translate', 'override'].includes(process.argv[2])
+    !['fix', 'ci', 'verify', 'translate', 'override'].includes(process.argv[2])
 ) {
     log.exit(
         0,
-        'Please provide either "ci", "verify", "translate", "override" command',
+        'Please provide either "verify" (check structure), "ci" (fail on invalid structure), "fix" (repair structure), "translate" (translate untranslated strings), "override" command (replace existing machine translations)',
         false,
     );
 }
@@ -106,6 +107,7 @@ async function handleLocale(
         log,
         locale,
         localeText as LocaleText,
+        FixRequested,
         TranslationRequested,
         OverrideMachineTranslations,
         revisedStrings,

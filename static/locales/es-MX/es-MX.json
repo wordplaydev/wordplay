@@ -335,9 +335,7 @@
             "emotion": "serious",
             "doc": [
                 "Soy un rendimiento de ejemplo, ¡útil para escribir @Doc que explique cómo usar algo!",
-                "\\¶Aquí tienes un ejemplo de suma: \\1 + 1\\¶'código de ejemplo'\\",
-                "Si me pones en un párrafo completamente solo, apareceré en una caja elegante y mostraré el resultado de evaluarme.",
-                "\\¶Aquí tienes un ejemplo de suma:\n\n\\1 + 1\\¶\\"
+                "\\¶Aquí tienes un ejemplo de suma: \\1 + 1\\¶'código de ejemplo'\\"
             ]
         },
         "Mention": {
@@ -5655,7 +5653,7 @@
                     },
                     "fill": {
                         "label": "$~llenar",
-                        "labels": ["$~ninguno", "$~inerit", "$~elegir"],
+                        "labels": ["$~ninguno", "$~inherit", "$~elegir"],
                         "tips": [
                             "$~sin relleno",
                             "$~heredar el color de relleno del texto circundante",
@@ -5664,7 +5662,7 @@
                     },
                     "stroke": {
                         "label": "$~ataque",
-                        "labels": ["$~ninguno", "$~inerit", "$~elegir"],
+                        "labels": ["$~ninguno", "$~inherit", "$~elegir"],
                         "tips": [
                             "$~sin accidente cerebrovascular",
                             "$~heredar el color del trazo del texto circundante",
@@ -5759,6 +5757,22 @@
                     "dismissError": {
                         "label": "$~despedir",
                         "tip": "$~descartar el mensaje de error"
+                    },
+                    "allColor": {
+                        "label": "$~todo color",
+                        "tip": "$~Seleccione todas las formas con el mismo color que la selección."
+                    },
+                    "pick": {
+                        "label": "$~elige color",
+                        "tip": "$~Selecciona un color de tu pantalla para usarlo en el dibujo de píxeles y formas."
+                    },
+                    "saturationUp": {
+                        "label": "$~saturación",
+                        "tip": "$~aumentar la saturación"
+                    },
+                    "saturationDown": {
+                        "label": "$~saturación",
+                        "tip": "$~disminuir la saturación"
                     }
                 },
                 "feedback": {
@@ -5863,7 +5877,8 @@
                     "label": "$~Iniciar un chat",
                     "tip": "$~Inicie una discusión con usted mismo o con otros."
                 },
-                "delete": "$~eliminar este mensaje"
+                "delete": "$~eliminar este mensaje",
+                "confirmDelete": "$~¿Confirmar eliminación?"
             },
             "error": {
                 "unowned": "$~Este proyecto no tiene propietario, por lo que no puede tener un chat.",
@@ -6147,6 +6162,52 @@
             },
             "empty": "$~Ningún mensaje requiere moderación",
             "error": "$~Debes iniciar sesión para moderar galerías."
+        },
+        "emoji": {
+            "noCharacters": "$~Crea un personaje personalizado",
+            "groups": {
+                "label": "$~grupos",
+                "labels": [
+                    "$~🎨",
+                    "$~😀",
+                    "$~👤",
+                    "$~🐱",
+                    "$~🍔",
+                    "$~🚲",
+                    "$~⚽",
+                    "$~🏠",
+                    "$~⚡",
+                    "$~🏳️",
+                    "$~🔡",
+                    "$~🔠",
+                    "$~➗",
+                    "$~📐",
+                    "$~⬇️",
+                    "$~1️⃣",
+                    "$~VII",
+                    "$~💰"
+                ],
+                "tips": [
+                    "$~costumbre",
+                    "$~emoticonos y emociones",
+                    "$~personas y cuerpo",
+                    "$~animales y naturaleza",
+                    "$~comida y bebida",
+                    "$~actividades",
+                    "$~viajes y lugares",
+                    "$~objetos",
+                    "$~símbolos",
+                    "$~banderas",
+                    "$~minúsculas",
+                    "$~mayúsculas",
+                    "$~matemático",
+                    "$~formas",
+                    "$~flechas",
+                    "$~números",
+                    "$~números de letras",
+                    "$~divisa"
+                ]
+            }
         }
     },
     "moderation": {

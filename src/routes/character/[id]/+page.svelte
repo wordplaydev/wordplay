@@ -21,7 +21,7 @@
     import ColorChooser from '@components/widgets/ColorChooser.svelte';
     import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
     import Dialog from '@components/widgets/Dialog.svelte';
-    import EmojiChooser from '@components/widgets/EmojiChooser.svelte';
+    import EmojiChooser from '@components/widgets/GlyphChooser.svelte';
     import Labeled from '@components/widgets/Labeled.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import Mode from '@components/widgets/Mode.svelte';
@@ -40,7 +40,6 @@
     import { RGBtoLCH } from '@output/ColorJS';
     import { toProgram } from '@parser/parseProgram';
     import {
-        ALL_SYMBOL,
         BORROW_SYMBOL,
         CANCEL_SYMBOL,
         COPY_SYMBOL,
@@ -48,6 +47,7 @@
         GLOBE1_SYMBOL,
         PASTE_SYMBOL,
         REDO_SYMBOL,
+        SELECTION_SYMBOL,
         SHARE_SYMBOL,
         UNDO_SYMBOL,
     } from '@parser/Symbols';
@@ -883,6 +883,89 @@
         selection = [...shapes];
     }
 
+    function selectAllOfColor() {
+        // Get the color of the current selection.
+        const fill = selection[0].fill;
+
+        if (fill === undefined || fill === null) return;
+
+        selection = shapes.filter(
+            (s) =>
+                s.fill !== undefined &&
+                s.fill !== null &&
+                s.fill.l === fill.l &&
+                s.fill.c === fill.c &&
+                s.fill.h === fill.h,
+        );
+    }
+
+    async function pickColor() {
+        if (window.EyeDropper === undefined) return;
+
+        const dropper = new window.EyeDropper();
+        const result = await dropper.open();
+        // Do something with the selected color
+        console.log(result.sRGBHex);
+        const match = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(
+            result.sRGBHex,
+        );
+        const rgb = match
+            ? {
+                  r: parseInt(match[1], 16), // Convert the hex pair to a decimal number
+                  g: parseInt(match[2], 16),
+                  b: parseInt(match[3], 16),
+              }
+            : null;
+        if (rgb === null) return;
+
+        const lch = RGBtoLCH(rgb.r / 255, rgb.g / 255, rgb.b / 255);
+
+        currentFill = {
+            l: Math.round(lch.coords[0] ?? 0) / 100,
+            c: Math.round(lch.coords[1] ?? 0),
+            h: Math.round(lch.coords[2] ?? 0),
+        };
+        currentFillSetting = 'set';
+        mode = DrawingMode.Pixel;
+    }
+
+    async function saturation(delta: number) {
+        const chromas = shapes
+            .map((s) =>
+                s.fill
+                    ? s.fill.c
+                    : 'stroke' in s && s.stroke && s.stroke.color
+                      ? s.stroke.color.c
+                      : undefined,
+            )
+            .filter((c): c is number => c !== undefined);
+        if (chromas.length === 0) return;
+        const min = Math.min(...chromas);
+        const max = Math.max(...chromas);
+        if (delta < 0 && min === 0) return;
+        if (delta > 0 && max === 100) return;
+        setShapes(
+            shapes.map((shape) => {
+                if (shape.fill) {
+                    shape.fill.c = Math.max(
+                        0,
+                        Math.min(100, shape.fill.c + delta),
+                    );
+                } else if (
+                    'stroke' in shape &&
+                    shape.stroke &&
+                    shape.stroke.color
+                ) {
+                    shape.stroke.color.c = Math.max(
+                        0,
+                        Math.min(100, shape.stroke.color.c + delta),
+                    );
+                }
+                return shape;
+            }),
+        );
+    }
+
     function copyShapes() {
         copy = selection.map(
             (s) => structuredClone($state.snapshot(s)) as CharacterShape,
@@ -1669,7 +1752,7 @@
         >
         <Mode
             modes={(l) => l.ui.page.character.field.mode}
-            icons={['👆', '⌫', '■', '🔲', '⚪️', '╱', '🙂']}
+            icons={[SELECTION_SYMBOL, ERASE_SYMBOL, '■', '🔲', '⚪️', '╱', '🙂']}
             choice={mode}
             select={(choice: number) => {
                 mode = choice as DrawingMode;
@@ -2043,7 +2126,7 @@
                     importEmoji(emoji);
                     rememberShapes();
                 }}
-                emoji="🙂"
+                glyph="🙂"
             />
         {/if}
     </div>
@@ -2089,8 +2172,58 @@
             tip={(l) => l.ui.page.character.button.all.tip}
             action={() => selectAll()}
             active={shapes.length > 0}
-            icon={ALL_SYMBOL}
+            icon={SELECTION_SYMBOL}
             label={(l) => l.ui.page.character.button.all.label}
+        />
+        <Button
+            tip={(l) => l.ui.page.character.button.allColor.tip}
+            action={() => selectAllOfColor()}
+            // Active if there's one or more pixels with the same color
+            active={shapes.length > 0 &&
+                new Set(
+                    selection
+                        .filter((s) => s.fill !== undefined && s.fill !== null)
+                        .map((s) =>
+                            s.fill ? `${s.fill.l}${s.fill.c}${s.fill.h}` : '',
+                        ),
+                ).size === 1}
+            icon={SELECTION_SYMBOL}
+            label={(l) => l.ui.page.character.button.allColor.label}
+        />
+        {#if 'EyeDropper' in window}
+            <Button
+                tip={(l) => l.ui.page.character.button.pick.tip}
+                action={() => pickColor()}
+                icon="🌓"
+                label={(l) => l.ui.page.character.button.pick.label}
+            />
+        {/if}
+        <Button
+            tip={(l) => l.ui.page.character.button.saturationUp.tip}
+            action={() => saturation(5)}
+            active={shapes.every(
+                (s) =>
+                    (s.fill && s.fill.c < 100) ||
+                    ('stroke' in s &&
+                        s.stroke &&
+                        s.stroke.color &&
+                        s.stroke.color.c < 100),
+            )}
+            icon="↑"
+            label={(l) => l.ui.page.character.button.saturationUp.label}
+        /><Button
+            tip={(l) => l.ui.page.character.button.saturationDown.tip}
+            action={() => saturation(-5)}
+            active={shapes.every(
+                (s) =>
+                    (s.fill && s.fill.c > 0) ||
+                    ('stroke' in s &&
+                        s.stroke &&
+                        s.stroke.color &&
+                        s.stroke.color.c > 0),
+            )}
+            icon="↓"
+            label={(l) => l.ui.page.character.button.saturationDown.label}
         />
         <Button
             tip={(l) => l.ui.page.character.button.fit.tip}

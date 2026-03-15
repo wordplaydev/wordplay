@@ -3,8 +3,8 @@
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import Button from '@components/widgets/Button.svelte';
     import Dialog from '@components/widgets/Dialog.svelte';
-    import EmojiChooser from '@components/widgets/EmojiChooser.svelte';
     import FormattedEditor from '@components/widgets/FormattedEditor.svelte';
+    import EmojiChooser from '@components/widgets/GlyphChooser.svelte';
     import Mode from '@components/widgets/Mode.svelte';
     import TextField from '@components/widgets/TextField.svelte';
     import { Galleries } from '@db/Database';
@@ -135,7 +135,7 @@
         {#if reactions[index][2]}
             <EmojiChooser
                 pick={(emoji) => (reactions[index][0] = emoji)}
-                emoji={reactions[index][0]}
+                glyph={reactions[index][0]}
             />
         {/if}
     {/each}

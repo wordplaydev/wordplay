@@ -5,9 +5,9 @@ ColorSpace.register(sRGB);
 ColorSpace.register(LCH);
 
 export function RGBtoLCH(r: number, b: number, g: number) {
-    return convert({ space: 'sRGB', coords: [r, b, g] }, 'lch');
+    return convert({ space: sRGB, coords: [r, b, g] }, LCH, { inGamut: true });
 }
 
 export function LCHtoCSS(l: number, c: number, h: number) {
-    return display({ space: 'lch', coords: [l, c, h] });
+    return display({ space: LCH, coords: [l, c, h] });
 }

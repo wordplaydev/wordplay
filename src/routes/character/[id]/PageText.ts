@@ -84,6 +84,14 @@ type PageText = {
         redo: ButtonText;
         /** The select all button */
         all: ButtonText;
+        /** The select all of color button */
+        allColor: ButtonText;
+        /** The color picker button */
+        pick: ButtonText;
+        /** The saturation up button */
+        saturationUp: ButtonText;
+        /** The saturation down button */
+        saturationDown: ButtonText;
         /** End path button */
         end: ButtonText;
         /** Flip path horizontal */

@@ -359,9 +359,7 @@
             "emotion": "$?",
             "doc": [
                 "$~Je suis un exemple de performance, utile pour écrire un @Doc qui explique comment utiliser quelque chose!",
-                "$~\\¶Voici un exemple d'ajout: \\1 + 1\\¶'exemple de code'\\",
-                "$~Si vous me mettez dans un paragraphe tout seul, j'apparaîtrai dans une jolie boîte et montrerai le résultat de mon évaluation.",
-                "$~\\¶Voici un exemple d'addition:¶\n\n\\1 + 1\\¶\\"
+                "$~\\¶Voici un exemple d'ajout: \\1 + 1\\¶'exemple de code'\\"
             ]
         },
         "Mention": {
@@ -5777,6 +5775,22 @@
                     "dismissError": {
                         "label": "$~rejeter",
                         "tip": "$~ignorer le message d'erreur"
+                    },
+                    "allColor": {
+                        "label": "$~toutes les couleurs",
+                        "tip": "$~Sélectionnez toutes les formes de la même couleur que la sélection."
+                    },
+                    "pick": {
+                        "label": "$~choisir une couleur",
+                        "tip": "$~Sélectionnez une couleur sur votre écran pour dessiner les pixels et les formes."
+                    },
+                    "saturationUp": {
+                        "label": "$~saturation",
+                        "tip": "$~augmenter la saturation"
+                    },
+                    "saturationDown": {
+                        "label": "$~saturation",
+                        "tip": "$~diminution de la saturation"
                     }
                 },
                 "feedback": {
@@ -5881,7 +5895,8 @@
                     "label": "$~Démarrer une discussion",
                     "tip": "$~Commencez une discussion avec vous-même ou avec d’autres."
                 },
-                "delete": "$~supprimer ce message"
+                "delete": "$~supprimer ce message",
+                "confirmDelete": "$~confirmer la suppression ?"
             },
             "error": {
                 "unowned": "$~Ce projet n'a pas de propriétaire, il ne peut donc pas avoir de chat.",
@@ -6165,6 +6180,52 @@
             },
             "empty": "$~Aucun message ne nécessite de modération.",
             "error": "$~Vous devez être connecté pour modérer les galeries"
+        },
+        "emoji": {
+            "noCharacters": "$~Créer un personnage personnalisé",
+            "groups": {
+                "label": "$~groupes",
+                "labels": [
+                    "$~🎨",
+                    "$~😀",
+                    "$~👤",
+                    "$~🐱",
+                    "$~🍔",
+                    "$~🚲",
+                    "$~⚽",
+                    "$~🏠",
+                    "$~⚡",
+                    "$~🏳️",
+                    "$~🔡",
+                    "$~🔠",
+                    "$~➗",
+                    "$~📐",
+                    "$~⬇️",
+                    "$~1️⃣",
+                    "$~VII",
+                    "$~💰"
+                ],
+                "tips": [
+                    "$~coutume",
+                    "$~smileys et émotions",
+                    "$~personnes et corps",
+                    "$~animaux et nature",
+                    "$~nourriture et boissons",
+                    "$~activités",
+                    "$~voyages et lieux",
+                    "$~objets",
+                    "$~symboles",
+                    "$~drapeaux",
+                    "$~minuscule",
+                    "$~majuscule",
+                    "$~mathématique",
+                    "$~formes",
+                    "$~flèches",
+                    "$~Nombres",
+                    "$~chiffres de lettres",
+                    "$~devise"
+                ]
+            }
         }
     },
     "moderation": {

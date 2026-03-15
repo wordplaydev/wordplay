@@ -359,9 +359,7 @@
             "emotion": "$?",
             "doc": [
                 "$~Ich bin eine Beispielleistung, hilfreich beim Schreiben von @Doc, das erklärt, wie man etwas verwendet!",
-                "$~\\¶Hier ist ein Beispiel für die Addition: \\1 + 1\\¶'Beispielcode'\\",
-                "$~Wenn Sie mich allein in einen Absatz einfügen, werde ich in einem schicken Feld angezeigt und das Ergebnis meiner Bewertung wird angezeigt.",
-                "$~\\¶Hier ist ein Beispiel für die Addition:\n\n\\1 + 1\\¶\\"
+                "$~\\¶Hier ist ein Beispiel für die Addition: \\1 + 1\\¶'Beispielcode'\\"
             ]
         },
         "Mention": {
@@ -5672,7 +5670,7 @@
                     },
                     "fill": {
                         "label": "$~füllen",
-                        "labels": ["$~keiner", "$~inerit", "$~wählen"],
+                        "labels": ["$~keiner", "$~inherit", "$~wählen"],
                         "tips": [
                             "$~keine Füllung",
                             "$~Füllfarbe vom umgebenden Text übernehmen",
@@ -5681,7 +5679,7 @@
                     },
                     "stroke": {
                         "label": "$~Schlaganfall",
-                        "labels": ["$~keiner", "$~inerit", "$~wählen"],
+                        "labels": ["$~keiner", "$~inherit", "$~wählen"],
                         "tips": [
                             "$~kein Schlaganfall",
                             "$~Die Strichfarbe des umgebenden Textes übernehmen",
@@ -5776,6 +5774,22 @@
                     "dismissError": {
                         "label": "$~zurückweisen",
                         "tip": "$~die Fehlermeldung verwerfen"
+                    },
+                    "allColor": {
+                        "label": "$~alle Farben",
+                        "tip": "$~Wählen Sie alle Formen mit der gleichen Farbe wie die Auswahl aus."
+                    },
+                    "pick": {
+                        "label": "$~Farbe auswählen",
+                        "tip": "$~Wähle eine Farbe von deinem Bildschirm aus, die zum Zeichnen von Pixeln und Formen verwendet werden soll."
+                    },
+                    "saturationUp": {
+                        "label": "$~Sättigung",
+                        "tip": "$~Sättigung erhöhen"
+                    },
+                    "saturationDown": {
+                        "label": "$~Sättigung",
+                        "tip": "$~Sättigung verringern"
                     }
                 },
                 "feedback": {
@@ -5880,7 +5894,8 @@
                     "label": "$~Einen Chat starten",
                     "tip": "$~Beginnen Sie eine Diskussion mit sich selbst oder anderen."
                 },
-                "delete": "$~diese Nachricht löschen"
+                "delete": "$~diese Nachricht löschen",
+                "confirmDelete": "$~Löschen bestätigen?"
             },
             "error": {
                 "unowned": "$~Dieses Projekt hat keinen Eigentümer, daher ist kein Chat möglich.",
@@ -6164,6 +6179,52 @@
             },
             "empty": "$~Keine der Nachrichten muss moderiert werden.",
             "error": "$~Sie müssen angemeldet sein, um Galerien zu moderieren"
+        },
+        "emoji": {
+            "noCharacters": "$~Erstelle einen benutzerdefinierten Charakter",
+            "groups": {
+                "label": "$~Gruppen",
+                "labels": [
+                    "$~🎨",
+                    "$~😀",
+                    "$~👤",
+                    "$~🐱",
+                    "$~🍔",
+                    "$~🚲",
+                    "$~⚽",
+                    "$~🏠",
+                    "$~⚡",
+                    "$~🏳️",
+                    "$~🔡",
+                    "$~🔠",
+                    "$~➗",
+                    "$~📐",
+                    "$~⬇️",
+                    "$~1️⃣",
+                    "$~VII",
+                    "$~💰"
+                ],
+                "tips": [
+                    "$~Brauch",
+                    "$~Smileys und Emotionen",
+                    "$~Menschen und Körper",
+                    "$~Tiere und Natur",
+                    "$~Essen und Trinken",
+                    "$~Aktivitäten",
+                    "$~Reisen & Orte",
+                    "$~Objekte",
+                    "$~Symbole",
+                    "$~Flaggen",
+                    "$~Kleinbuchstaben",
+                    "$~Großbuchstaben",
+                    "$~mathematische",
+                    "$~Formen",
+                    "$~Pfeile",
+                    "$~Zahlen",
+                    "$~Buchstaben und Zahlen",
+                    "$~Währung"
+                ]
+            }
         }
     },
     "moderation": {

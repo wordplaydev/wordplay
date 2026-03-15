@@ -4,6 +4,29 @@ We'll note all notable changes in this file, including bug fixes, enhancements, 
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 These notes are publicly posted in [production](https://wordplay.dev/updates), so we write them to an audience of teachers and youth.
 
+## 0.17.1 - 2026-03-14
+
+### Added
+
+- We (finally) added emoji and symbol categories. As part of this, included all possible emoji variations and the new 17.0 emojis just released this year (#110).
+- We added dates to the feedback, so we can see how long ago feedback was reported.
+- We added a "select all of color" tool in the character editor (#994).
+- We added a color picker in the character editor (only supported in Chrome, Edge, and Opera).
+- We added saturation increase and decrease buttons to adjust the chroma of all colors in the character editor.
+
+### Fixed
+
+- We fixed the layout of the existing username checking feedback.
+- We fixed some broken code in the @Example documentation.
+
+### Changed
+
+- We upgraded internal tooling for stability.
+- We improved some Arabic translations.
+- We arranged more reliable recoverable random numbers.
+- We no longer permit only whitespace in the feedback form (#1008).
+- We made locale checking less error prone for localization contributors.
+
 ## 0.17.0 - 2026-03-03
 
 ### Added

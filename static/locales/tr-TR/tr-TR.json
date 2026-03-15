@@ -359,9 +359,7 @@
             "emotion": "serious",
             "doc": [
                 "$~Ben bir örnek performansım, @Doc'ta bir şeyin nasıl kullanılacağını anlatan yazılar yazmak için faydalı!",
-                "$~\\¶İşte eklemenin bir örneği: \\1 + 1\\¶'örnek kod'\\",
-                "$~Beni tek başına bir paragrafa koyarsanız, süslü bir kutunun içinde karşınıza çıkarım ve beni değerlendirmenin sonucunu gösteririm.",
-                "$~\\¶İşte eklemenin bir örneği:\n\n\\1 + 1\\¶\\"
+                "$~\\¶İşte eklemenin bir örneği: \\1 + 1\\¶'örnek kod'\\"
             ]
         },
         "Mention": {
@@ -5168,7 +5166,8 @@
                     "label": "$~Bir sohbet başlatın",
                     "tip": "$~Kendinizle veya başkalarıyla bir tartışma başlatın."
                 },
-                "delete": "$~bu mesajı sil"
+                "delete": "$~bu mesajı sil",
+                "confirmDelete": "$~Silme işlemini onaylıyor musunuz?"
             },
             "error": {
                 "unowned": "$~Bu proje çevrimiçi olarak saklanmadığından, bir sohbet veya işbirlikçileri olamaz.",
@@ -5856,6 +5855,22 @@
                     "dismissError": {
                         "label": "$~azletmek",
                         "tip": "$~hata mesajını kapat"
+                    },
+                    "allColor": {
+                        "label": "$~tüm renkler",
+                        "tip": "$~Seçimle aynı renkteki tüm şekilleri seçin."
+                    },
+                    "pick": {
+                        "label": "$~renk seçin",
+                        "tip": "$~Piksel ve şekil çizmek için ekranınızdan bir renk seçin."
+                    },
+                    "saturationUp": {
+                        "label": "$~doygunluk",
+                        "tip": "$~doygunluğu artırmak"
+                    },
+                    "saturationDown": {
+                        "label": "$~doygunluk",
+                        "tip": "$~doygunluğu azaltmak"
                     }
                 },
                 "feedback": {
@@ -6161,6 +6176,52 @@
             },
             "empty": "$~Hiçbir mesaj moderasyon gerektirmez.",
             "error": "$~Galerileri denetlemek için giriş yapmanız gerekmektedir."
+        },
+        "emoji": {
+            "noCharacters": "$~Özel bir karakter oluşturun",
+            "groups": {
+                "label": "$~gruplar",
+                "labels": [
+                    "$~🎨",
+                    "$~😀",
+                    "$~👤",
+                    "$~🐱",
+                    "$~🍔",
+                    "$~🚲",
+                    "$~⚽",
+                    "$~🏠",
+                    "$~⚡",
+                    "$~🏳️",
+                    "$~🔡",
+                    "$~🔠",
+                    "$~➗",
+                    "$~📐",
+                    "$~⬇️",
+                    "$~1️⃣",
+                    "$~Ⅶ",
+                    "$~💰"
+                ],
+                "tips": [
+                    "$~gelenek",
+                    "$~Gülücükler ve duygular",
+                    "$~insanlar ve beden",
+                    "$~hayvanlar ve doğa",
+                    "$~yiyecek ve içecek",
+                    "$~aktiviteler",
+                    "$~seyahat ve yerler",
+                    "$~nesneler",
+                    "$~semboller",
+                    "$~bayraklar",
+                    "$~küçük harf",
+                    "$~büyük harf",
+                    "$~matematiksel",
+                    "$~şekiller",
+                    "$~oklar",
+                    "$~sayılar",
+                    "$~harf sayıları",
+                    "$~para birimi"
+                ]
+            }
         }
     },
     "moderation": {

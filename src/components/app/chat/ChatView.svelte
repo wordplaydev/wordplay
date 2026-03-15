@@ -5,6 +5,7 @@
     import TileMessage from '@components/project/TileMessage.svelte';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import Button from '@components/widgets/Button.svelte';
+    import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
     import Dialog from '@components/widgets/Dialog.svelte';
     import FormattedEditor from '@components/widgets/FormattedEditor.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
@@ -140,11 +141,12 @@
                       })}</div
             >
             {#if $user?.uid === msg.creator && msg.text !== null && (msg.moderation === undefined || msg.moderation === 'approved')}
-                <Button
-                    tip={(l) => l.ui.collaborate.button.delete}
+                <ConfirmButton
+                    tip={(l: any) => l.ui.collaborate.button.delete}
+                    prompt={(l: any) => l.ui.collaborate.button.confirmDelete}
                     action={() => deleteMessage(chat, msg)}
                     icon={CANCEL_SYMBOL}
-                ></Button>
+                ></ConfirmButton>
             {/if}
         </div>
         <div
@@ -153,12 +155,11 @@
                 ? 'solid var(--wordplay-border-width) var(--wordplay-warning)'
                 : ''}
         >
-            {#if msg.text === null}
-                <em>
-                    <LocalizedText
-                        path={(l) => l.ui.collaborate.error.deleted}
-                    />
-                </em>
+            {#if msg.text === null}<em
+                    ><LocalizedText
+                        path={(l: any) => l.ui.collaborate.error.deleted}
+                    /></em
+                >
             {:else if msg.moderation === 'pending'}
                 {#if isModerator}
                     <MarkupHTMLView

@@ -25,6 +25,8 @@
         wrap?: boolean;
         /** Buttons to omit, allowing for conditional display of modes */
         omit?: readonly number[];
+        /** Render as a small button */
+        small?: boolean;
     }
 
     let {
@@ -37,6 +39,7 @@
         modeLabels = true,
         wrap = false,
         omit = [],
+        small = false,
     }: Props = $props();
 
     let modeText = $derived($locales.get(modes));
@@ -57,6 +60,7 @@
     <div
         class="group"
         class:wrap
+        class:small
         role="radiogroup"
         id={modeText.label}
         aria-labelledby={modeText.label}
@@ -146,6 +150,10 @@
         cursor: pointer;
     }
 
+    .small button {
+        font-size: var(--wordplay-small-font-size);
+    }
+
     button.selected {
         color: var(--wordplay-background);
         background: var(--wordplay-highlight-color);
@@ -188,7 +196,7 @@
     .group.wrap {
         flex-wrap: wrap;
         white-space: normal;
-        row-gap: var(--wordplay-focus-width);
+        row-gap: 0;
     }
 
     [aria-disabled='true'] {

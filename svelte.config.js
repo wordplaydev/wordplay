@@ -26,6 +26,7 @@ const config = {
             '@edit': path.resolve('./src/edit'),
             '@db': path.resolve('./src/db'),
             '@unicode': path.resolve('./src/unicode'),
+            '@util': path.resolve('./src/util'),
         },
         csp: {
             directives: {

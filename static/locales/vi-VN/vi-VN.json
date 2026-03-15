@@ -359,9 +359,7 @@
             "emotion": "serious",
             "doc": [
                 "$~Tôi là một ví dụ về cách thực hiện, hữu ích cho việc viết tài liệu hướng dẫn (@Doc) giải thích cách sử dụng một thứ gì đó!",
-                "$~¶Đây là một ví dụ về phép cộng: \\1 + 1\\¶'mã ví dụ'\\",
-                "$~Nếu bạn đặt tôi vào một đoạn văn riêng biệt, tôi sẽ hiện lên trong một khung hình đẹp mắt và hiển thị kết quả đánh giá về tôi.",
-                "$~¶Đây là một ví dụ về phép cộng:\n\n\\1 + 1\\¶\\"
+                "$~¶Đây là một ví dụ về phép cộng: \\1 + 1\\¶'mã ví dụ'\\"
             ]
         },
         "Mention": {
@@ -5398,7 +5396,8 @@
                     "label": "$~bắt đầu cuộc trò chuyện",
                     "tip": "$~Bắt đầu cuộc thảo luận với chính mình hoặc với người khác."
                 },
-                "delete": "$~xóa tin nhắn này"
+                "delete": "$~xóa tin nhắn này",
+                "confirmDelete": "$~Xác nhận xóa?"
             },
             "moderation": {
                 "header": "$~Báo cáo tin nhắn này",
@@ -5954,6 +5953,22 @@
                     "dismissError": {
                         "label": "$~miễn nhiệm",
                         "tip": "$~bỏ qua thông báo lỗi"
+                    },
+                    "allColor": {
+                        "label": "$~tất cả màu sắc",
+                        "tip": "$~Chọn tất cả các hình có cùng màu với hình đã chọn."
+                    },
+                    "pick": {
+                        "label": "$~chọn màu",
+                        "tip": "$~Chọn một màu từ màn hình của bạn để sử dụng cho việc vẽ các điểm ảnh và hình dạng."
+                    },
+                    "saturationUp": {
+                        "label": "$~độ bão hòa",
+                        "tip": "$~tăng độ bão hòa"
+                    },
+                    "saturationDown": {
+                        "label": "$~độ bão hòa",
+                        "tip": "$~giảm độ bão hòa"
                     }
                 },
                 "feedback": {
@@ -6165,6 +6180,52 @@
         "template": {
             "unwritten": "$~Sẽ được xác định sau.",
             "unparsable": "$~Mẫu không thể phân tích cú pháp: $1"
+        },
+        "emoji": {
+            "noCharacters": "$~Tạo nhân vật tùy chỉnh",
+            "groups": {
+                "label": "$~các nhóm",
+                "labels": [
+                    "$~🎨",
+                    "$~😀",
+                    "$~👤",
+                    "$~🐱",
+                    "$~🍔",
+                    "$~🚲",
+                    "$~⚽",
+                    "$~🏠",
+                    "$~⚡",
+                    "$~🏳️",
+                    "$~🔡",
+                    "$~🔠",
+                    "$~➗",
+                    "$~📐",
+                    "$~⬇️",
+                    "$~1️⃣",
+                    "$~Ⅶ",
+                    "$~💰"
+                ],
+                "tips": [
+                    "$~phong tục",
+                    "$~biểu tượng cảm xúc & cảm xúc",
+                    "$~con người và cơ thể",
+                    "$~động vật và thiên nhiên",
+                    "$~đồ ăn & thức uống",
+                    "$~các hoạt động",
+                    "$~du lịch & địa điểm",
+                    "$~đối tượng",
+                    "$~biểu tượng",
+                    "$~cờ",
+                    "$~chữ thường",
+                    "$~chữ hoa",
+                    "$~toán học",
+                    "$~hình dạng",
+                    "$~mũi tên",
+                    "$~số",
+                    "$~chữ số",
+                    "$~tiền tệ"
+                ]
+            }
         }
     },
     "moderation": {

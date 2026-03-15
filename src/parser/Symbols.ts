@@ -117,7 +117,7 @@ export const COPY_SYMBOL = '📚';
 export const PASTE_SYMBOL = '📋';
 export const CANCEL_SYMBOL = '⨉';
 export const CONFIRM_SYMBOL = '✓';
-export const ALL_SYMBOL = '⬚';
+export const SELECTION_SYMBOL = '⬚';
 export const ERASE_SYMBOL = '⌫';
 
 // The "teacher" emoji is a combination of the "person" and "school" emojis.
