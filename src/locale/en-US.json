@@ -133,7 +133,7 @@
                 "I am a /unit of measurement/!",
                 "I can be any standardized units, like \\1m\\, \\10s\\, \\100g\\, or any other scientific unit. I'm happy to be any unit want to make up too, like \\17apple\\.",
                 "I can be combined with \\/\\ to make ratio units like \\17apple/day\\ and with \\^\\ to make exponentional units like \\9.8m/s^2\\",
-                "I must always come after a @Number. If I don't, I might be mistaken for @Reference, which would be quite embarassing!",
+                "I must always come after a @Number. If I don't, I might be mistaken for @Reference, which would be quite embarrassing!",
                 "I'm pretty good at finding inconsistencies between units too. For example, \\1cat + 1dog\\ doesn't make any sense!",
                 "If you ever want to convert between different values of units, go talk to @Convert."
             ]
@@ -173,7 +173,7 @@
             "emotion": "kind",
             "doc": [
                 "I'm a mapping from a *key* to a *value*, always in a @Map.",
-                "You can map any kind of value to any other. For example, here's a mappning of numbers:",
+                "You can map any kind of value to any other. For example, here's a mapping of numbers:",
                 "\\{1:1}\\",
                 "Or a mapping from text to numbers:",
                 "\\{'bunny':1}\\"
@@ -185,7 +185,7 @@
             "emotion": "eager",
             "doc": [
                 "I'm a language tag and I work with @Name and @Doc!",
-                "I'm really good at making it *crystal clear* what lanugage something is written in.",
+                "I'm really good at making it *crystal clear* what language something is written in.",
                 "That's what I do. Just a little slash, and a couple letters, and no one will ever be confused about what language some text is in.",
                 "For example, let's say you wanted to say my $name, but make it clear I'm in English:",
                 "\\\"Language\"/en\\",
@@ -336,7 +336,7 @@
                 "I'm a link to Verse character. I'm helpful when you want to write a @Doc and refer to one of us.",
                 "For example, say you wanted to talk about @Evaluate, and how awesome they are. You could write:",
                 "\\¶You know, @Evaluate is pretty awesome.¶\n'look, a character link!'\\",
-                "Characters also have numbers that correspond to them. For exmple, @FunctionDefinition is 192. You can refer to them by number and they'll appear:",
+                "Characters also have numbers that correspond to them. For example, @FunctionDefinition is 192. You can refer to them by number and they'll appear:",
                 "\\`@192 is so nice!`\\",
                 "And if you make your own character, you can refer to them by the name you gave them.",
                 "\\`@coolbeans`\\",
@@ -390,7 +390,7 @@
                 "Doesn't that look a little funny? It's not wrong: it just says get the add function on 1 and then evaluate it.",
                 "But it's much easier to use @BinaryEvaluate",
                 "\\1 + 1\\",
-                "This makes everythign a bit tidier, even though its basically the same thing.",
+                "This makes everything a bit tidier, even though its basically the same thing.",
                 "There's only one thing to watch out for: when I'm in this form, I evaluate from left to right. That might be confusing if you're used to things like order of operations in mathematics.",
                 "It means that this evaluates in a way that you might not expect:",
                 "\\1 + 2 × 3 + 4\\",
@@ -405,7 +405,7 @@
             "conflict": {
                 "OrderOfOperations": {
                     "name": "ambiguous order",
-                    "explanation": "I evalute in reading order, not in math order of operations. Do you want to use @Block to specify the order I should evaluate in?"
+                    "explanation": "I evaluate in reading order, not in math order of operations. Do you want to use @Block to specify the order I should evaluate in?"
                 }
             }
         },
@@ -489,7 +489,7 @@
             "description": "$1 statements",
             "emotion": "shy",
             "doc": [
-                "Hi. I make a little quiet, private space for evaluate things.",
+                "Hi. I make a little quiet, private space for evaluating things.",
                 "Like this:",
                 "\\(1 - 1) + 2\\",
                 "That helps clarify order of evaluation.",
@@ -609,7 +609,7 @@
                 "expression": "expression"
             },
             "doc": [
-                "Dude, I define conversions from one type to another! I go in @Block, someting like this:",
+                "Dude, I define conversions from one type to another! I go in @Block, something like this:",
                 "\\→ #kitty #cat . ÷ 2\n6kitty→#cat\\",
                 "See how I turned kitties into cats? Wicked!",
                 "You might be wondering what that \\.\\ is doing there. That represents the value being converted. I use that because the value has no name otherwise."
@@ -938,7 +938,7 @@
                 "For example, if you had a @Number and wanted to convert it to a @Text, you might do something like this:",
                 "\\number: 2\nnumber ??? 1: 'one' 2: 'two' 3: 'three' 'bigger!'\\",
                 "If none match, I evaluate the default expression you give me.",
-                "I'm really helpful for convering one of many possible @Number, @Text, or more complex values into something else.",
+                "I'm really helpful for converting one of many possible @Number, @Text, or more complex values into something else.",
                 "You can use it for @Boolean or @None, but they can't really be that many things, so I'm not as useful for those simple values."
             ],
             "start": "Let's see what $1 is...",
@@ -990,7 +990,7 @@
                 "For example, here's what @Time was five ticks ago:",
                 "\\← 5 Time(1000ms)\\",
                 "See how it's @None for 5 seconds, then suddenly a previous time?",
-                "If you want the last several values, give me to arrows, and I'll interpret the number as a count:",
+                "If you want the last several values, give me two arrows, and I'll interpret the number as a count:",
                 "\\←← 5 Time(1000ms)\\",
                 "See how it's the five previous times, instead of just one time?",
                 "I'm helpful when you want to create performances that depend on the past."
@@ -1092,7 +1092,7 @@
                 "Like, if you wanted @Time to tick, but like, to show words instead of numbers, you could do something like this:",
                 "\\time: Time(1000ms)\n'start' … ∆ time … ((time % 2) = 0ms) ? 'even' 'odd'\\",
                 "That's like saying \"/begin with the word 'start' and then if time changes, change to either even or odd, based on the time./\"",
-                "So I'm like a stream to, but one based on other streams. Wicked, huh?"
+                "So I'm like a stream too, but one based on other streams. Wicked, huh?"
             ],
             "start": "Let's see if we should update the stream",
             "finish": "The new stream value is $1",
@@ -1128,7 +1128,7 @@
                 },
                 "UnexpectedTypeVariable": {
                     "name": "unexpected type variable",
-                    "explanation": "I don't now what to do with these type inputs"
+                    "explanation": "I don't know what to do with these type inputs"
                 }
             },
             "exception": {
@@ -1160,7 +1160,7 @@
             "name": "set literal",
             "description": "$1 items",
             "emotion": "eager",
-            "doc": "I'm a specifc @Set of specific values. See @Set to learn more about how to work with me.",
+            "doc": "I'm a specific @Set of specific values. See @Set to learn more about how to work with me.",
             "start": "Let's evaluate the values first!",
             "finish": "I made a set $1!"
         },
@@ -1195,7 +1195,7 @@
         "StreamDefinition": {
             "name": "stream",
             "emotion": "curious",
-            "doc": "I /think/ I'm supposed make new streams. But I really don't know ho to do that. For now, I guess just use the streams that exist?",
+            "doc": "I /think/ I'm supposed make new streams. But I really don't know how to do that. For now, I guess just use the streams that exist?",
             "start": "Create this new kind of stream"
         },
         "StructureDefinition": {
@@ -1209,7 +1209,7 @@
                 "interfaces": "interfaces"
             },
             "doc": [
-                "Why hello, how are you? Me? I'm great. I love to define structures that store values and function, so as long as I get to do that all day, I'm happy.",
+                "Why hello, how are you? Me? I'm great. I love to define structures that store values and functions, so as long as I get to do that all day, I'm happy.",
                 "I work like this:",
                 "\\•Pizza(\ningredients•['']\nsize•#in\n) (\n\tƒ cost() size × 10dollars/in\n)\n\nPizza(['pepperoni' 'peppers'] 12in).cost()\\",
                 "See how that works? I defined \\Pizza\\, which has two inputs, \\ingredients\\ (a list of @Text) and \\size\\ (a number in inches).",
@@ -1329,8 +1329,8 @@
             "name": "this",
             "emotion": "serious",
             "doc": [
-                "Sometimes, it's helpful to refer to a value implicilty, rather than having to name it.",
-                "For example, suppose you wanted to make a new @ConversionDefinition, which doesn't name the value being convered. You can just refer to it with me:",
+                "Sometimes, it's helpful to refer to a value implicitly, rather than having to name it.",
+                "For example, suppose you wanted to make a new @ConversionDefinition, which doesn't name the value being converted. You can just refer to it with me:",
                 "\\→ #rainbows #joys . × 1000000joys\n2rainbows → #joys\\",
                 "See me there, representing the number of rainbows?",
                 "Or suppose you wanted to make a @Reaction, but not have to name the most recent value:",
@@ -1418,14 +1418,14 @@
                 },
                 "IncompatibleCellType": {
                     "name": "incompatible cell type",
-                    "explanation": "I'm supposed to be type $1, but got I'm $2"
+                    "explanation": "I'm supposed to be type $1, but I'm $2"
                 }
             }
         },
         "AnyType": {
             "name": "any",
             "emotion": "curious",
-            "doc": "I represent any any possible type. Sometimes I show up because I don't know what kind of value something is, so it could be anything."
+            "doc": "I represent any possible type. Sometimes I show up because I don't know what kind of value something is, so it could be anything."
         },
         "BooleanType": {
             "name": "boolean",
@@ -1499,7 +1499,7 @@
             "description": "$1",
             "emotion": "curious",
             "doc": [
-                "I represent a @StructureDefinition by it's name. So like, if you had a structure like this, you could make a @Bind that stores the values it creates.",
+                "I represent a @StructureDefinition by its name. So like, if you had a structure like this, you could make a @Bind that stores the values it creates.",
                 "\\•Friend(name•'')\nbestie•Friend: Friend('Jonah')\\"
             ],
             "conflict": {
@@ -1767,7 +1767,7 @@
                 "\\『一日三秋』\\",
                 "Just remember to close me if you open me, and use the matching symbol. Otherwise I won't know that you're done with your words.",
                 "\\'hello'/en'hola'/es-MX\\",
-                "You can also tag me with languages, and even give multiple translations. I'll evaluate to whatever languages are currently selected, if there's a matching langauge.",
+                "You can also tag me with languages, and even give multiple translations. I'll evaluate to whatever languages are currently selected, if there's a matching language.",
                 "If you want to make me with some other values, you can do this:",
                 "\\\"Here are some sums \\1 + 2\\, \\2 + 3\\, \\3 + 4\\\"\\",
                 "See how elegantly I just evaluated those sums, and placed them inside the @Text?",
@@ -1883,7 +1883,7 @@
                 },
                 "combine": {
                     "doc": [
-                        "Sometimes it's helpful to combine to @Text into one. Give me another @Text and I'll make a new text that joins us together:",
+                        "Sometimes it's helpful to combine two @Text into one. Give me another @Text and I'll make a new text that joins us together:",
                         "\\'hello ' + 'verse'\\"
                     ],
                     "names": ["+", "combined", "combine"],
@@ -2035,7 +2035,7 @@
                 },
                 "roundUp": {
                     "doc": [
-                        "I create a new @Number that rounds to the smalelst integer greater than me.",
+                        "I create a new @Number that rounds to the smallest integer greater than me.",
                         "\\10.5.roundUp()\\",
                         "\\10.9.roundUp()\\",
                         "\\10.99.roundUp()\\"
@@ -2206,7 +2206,7 @@
                 "s2day": "Seconds to days",
                 "s2wk": "Seconds to weeks",
                 "s2year": "Seconds to years",
-                "s2ms": "Seconds to miliseconds",
+                "s2ms": "Seconds to milliseconds",
                 "ms2s": "Milliseconds to seconds",
                 "min2s": "Minutes to seconds",
                 "h2s": "Hours to seconds",
@@ -2217,7 +2217,7 @@
                 "m2nm": "Meters to nanometers",
                 "m2micro": "Meters to micrometers",
                 "m2mm": "Meters to millimeters",
-                "m2cm": "Meters to centimenters",
+                "m2cm": "Meters to centimeters",
                 "m2dm": "Meters to decimeters",
                 "m2km": "Meters to kilometers",
                 "m2Mm": "Meters to megameters",
@@ -2262,7 +2262,7 @@
                 "\\['apple' 10 + 10 Time()]\\",
                 "When you give me a list of many things, I'll generalize them if they have a type in common. But sometimes you might literally mean those specific things. If you do, just put a ! after me, and I'll make sure that I represent a list of specifically only those values.",
                 "\\['apple' 'banana' 'mango']!\\",
-                "That's kind of it. But I can do call kinds of exciting things with my @FunctionDefinition!"
+                "That's kind of it. But I can do all kinds of exciting things with my @FunctionDefinition!"
             ],
             "name": ["[]", "List"],
             "kind": "Kind",
@@ -2329,7 +2329,7 @@
                 },
                 "shuffled": {
                     "doc": [
-                        "Make a new list with the items in the last randomly ordered.",
+                        "Make a new list with the items in the list randomly ordered.",
                         "\\['apple' 'banana' 'mango'].shuffled()\\"
                     ],
                     "names": "shuffled",
@@ -2419,7 +2419,7 @@
                 },
                 "sans": {
                     "doc": [
-                        "Me, but without the first occurences of the given value.",
+                        "Me, but without the first occurrences of the given value.",
                         "\\['apple' 'banana' 'mango' 'apple'].sans('apple')\\"
                     ],
                     "names": ["without", "sans"],
@@ -2432,7 +2432,7 @@
                 },
                 "sansAll": {
                     "doc": [
-                        "Me, but without all occurences of the given value.",
+                        "Me, but without all occurrences of the given value.",
                         "\\['apple' 'banana' 'mango' 'apple'].sans('apple')\\"
                     ],
                     "names": ["withoutAll", "sansAll"],
@@ -2655,11 +2655,11 @@
                 },
                 "sorted": {
                     "doc": [
-                        "I can take a list, and make a new list with it's values sorted. Like this:",
+                        "I can take a list, and make a new list with its values sorted. Like this:",
                         "\\[1 5 8 0 2].sorted()\\",
                         "I can also do it for @Text values",
                         "\\['orange' 'kiwi' 'banana' 'apple'].sorted()\\",
-                        "And if you have a list of values that aren't @Number or @Text, you can give me a @FunctionDefinition that turns each item into a @Number so I can sort it. For example, here we have a list of lists of different lengths; if you give me a function that turns each list into it's length, I can sort by their length.",
+                        "And if you have a list of values that aren't @Number or @Text, you can give me a @FunctionDefinition that turns each item into a @Number so I can sort it. For example, here we have a list of lists of different lengths; if you give me a function that turns each list into its length, I can sort by their length.",
                         "\\[[1] [2 3] [4 8 12] [8]].sorted(ƒ(list) list.length())\\"
                     ],
                     "names": "sorted",
@@ -3016,7 +3016,7 @@
         },
         "Table": {
             "doc": [
-                "I'm a set of table rows! I can help you help track of large collections of values that have the same structure.",
+                "I'm a set of table rows! I can help you keep track of large collections of values that have the same structure.",
                 "For example, imagine you wanted to keep track of a bunch of rocks:",
                 "\\⎡name•'' color•''⎦\n⎡'obsidian' 'black'⎦\n⎡'pumice' 'grey'⎦\n⎡'citrine' 'yellow'⎦\\",
                 "@Bind can help you name it! And then you can do things like make a revised table with an new row @Insert:",
@@ -3111,11 +3111,11 @@
             "inputs": [
                 {
                     "names": "min",
-                    "doc": "The minimum value that will be created, or if it's larger than 0, the maximum value. If @None is provided, then the miniumum is \\0\\."
+                    "doc": "The minimum value that will be created, or if it's larger than 0, the maximum value. If @None is provided, then the minimum is \\0\\."
                 },
                 {
                     "names": "max",
-                    "doc": "The maximum value that will created, or if its smaller than the minimum provided, the minimum. If @None is provided, than the maximum is \\1\\."
+                    "doc": "The maximum value that will created, or if its smaller than the minimum provided, the minimum. If @None is provided, then the maximum is \\1\\."
                 }
             ]
         },
@@ -3320,7 +3320,7 @@
                 "/boing boing boing/",
                 "/Hi! @FunctionDefinition here. How about I explain @Motion?",
                 "Basically, @Motion is a stream of @Phrase. You give it a starting @Phrase, and then it refines it with a new place and rotation based on gravity.",
-                "This let's you do really simple things like creating bouncing emoji:",
+                "This lets you do really simple things like creating bouncing emoji:",
                 "\\Motion(Phrase('o') startplace: Place(0m 10m))\\",
                 "See how the o bounces? On the first evaluation, we give it a place up high on @Stage, but then after, it gets @None, which allows @Motion to change it to whatever position gravity would place it.",
                 "Check out the many other ways to configure it below."
@@ -3396,7 +3396,7 @@
                 "\\Webpage('https://wordplay.dev')\\",
                 "And there's apparently this thing called <CSS@https://developer.mozilla.org/en-US/docs/Learn/CSS/First_steps/What_is_CSS>, which likes you query things on a web page? Give us a CSS selection query and we'll get only the text that matches that query. Like this example, which gets the level one headers.",
                 "\\Webpage('https://wordplay.dev' 'h1')\\",
-                "Lots of things can go wrong with this one. If you lose your internet connection, or the URL doesn't resolve to anything, or the URL isn't public, or the URL isn't an HTML page… All of these can lead to exception. If if you find a page that works, you'll get some @Number indicating a percent commplete and then a @List of the words on the page."
+                "Lots of things can go wrong with this one. If you lose your internet connection, or the URL doesn't resolve to anything, or the URL isn't public, or the URL isn't an HTML page… All of these can lead to exception. If if you find a page that works, you'll get some @Number indicating a percent complete and then a @List of the words on the page."
             ],
             "names": ["🔗", "Webpage"],
             "url": {
@@ -3585,7 +3585,7 @@
             "doc": [
                 "Hello, hello! Remember me? How could anyone forget /me/. That's right, I am the magnificent @Phrase, ready to represent the loveliest of @Text on @Stage.",
                 "Just make me like this, and I'll appear on @Stage:",
-                "\\Phrase('magnificient!')\\",
+                "\\Phrase('magnificent!')\\",
                 "I need @TextLiteral or @FormattedLiteral to show. With @FormattedLiteral, I can use things like \\`*bold* and /italic/`\\ or refer to custom @ConceptLink you create.",
                 "You can also optionally give me everything an @Output can do, including changing my size, font, rotation, and do all of my incredible dances with @Pose and @Sequence.",
                 "You can also select me on @Stage and edit me on the palette next door."
@@ -3706,7 +3706,7 @@
             "defaultDescription": "$3[$3 meter |]phrase $1 $2[named $2|] $4[$4|] $5"
         },
         "Arrangement": {
-            "doc": "I am an inspiration to the many other kinds of arrangment in the Verse, including @Row, @Stack, @Grid, and @Free. I work closely with @Group to ",
+            "doc": "I am an inspiration to the many other kinds of arrangement in the Verse, including @Row, @Stack, @Grid, and @Free. I work closely with @Group to ",
             "names": ["⠿", "Arrangement"]
         },
         "Row": {
@@ -3740,7 +3740,7 @@
             "names": ["▦", "Grid"],
             "description": "$1 row $2 column grid",
             "rows": {
-                "doc": "How many rows in make in the grid.",
+                "doc": "How many rows to make in the grid.",
                 "names": "rows"
             },
             "columns": {
@@ -4208,7 +4208,7 @@
                 "names": "style"
             },
             "gravity": {
-                "doc": "The gravity to apply to output whose's place is in @Motion.",
+                "doc": "The gravity to apply to output whose place is in @Motion.",
                 "names": "gravity"
             },
             "defaultDescription": "stage $2[$2 |]of $1 outputs$3[with frame $3|] $4"
@@ -4249,7 +4249,7 @@
                 "names": ["fadeout"]
             },
             "popup": {
-                "doc": "I create a @Sequence that makes @Output scale in quickly than shrink to its normal size.",
+                "doc": "I create a @Sequence that makes @Output scale in quickly, then shrink to its normal size.",
                 "names": ["popup"]
             },
             "shake": {
@@ -5537,7 +5537,7 @@
                     "learn": "Learn the language with a dramatic cast of characters",
                     "teach": "Manage classes of students and their projects",
                     "guide": "Search and browse the language reference",
-                    "projects": "Create and share peformances",
+                    "projects": "Create and share performances",
                     "galleries": "Experience others' performances",
                     "characters": "Create custom emojis and symbols",
                     "rights": "Responsibilities, ours and yours",
@@ -5618,7 +5618,7 @@
                     "words": {
                         "description": "words to use in passwords",
                         "placeholder": "e.g., cat dot rat...",
-                        "prompt": "Provide at least *25 words* randomly generate 2-3 word memorable passwords. Choose words your students know or ask them to brainstorm words. The more random the more secure!"
+                        "prompt": "Provide at least *25 words* to randomly generate 2-3 word memorable passwords. Choose words your students know or ask them to brainstorm words. The more random the more secure!"
                     },
                     "generate": {
                         "label": "generate",
@@ -5638,7 +5638,7 @@
                     "columns": "Ensure each student has the same number of columns.",
                     "generate": "Unable to create unique usernames.",
                     "taken": "One or more usernames above is taken",
-                    "limit": "You can't crete a class of more than 35 students at a time.",
+                    "limit": "You can't create a class of more than 35 students at a time.",
                     "words": "Provide at least 25 words.",
                     "account": "Unable to create some of the accounts.",
                     "generic": "We couldn't create the class. Here's some information to help developers figure out what went wrong."
@@ -5994,9 +5994,9 @@
                 "content": [
                     "Have you ever felt like coding was just for English-fluent, non-disabled Westerners who grew up with computers?",
                     "Yeah, us too.",
-                    "This isn't an accident. Since the dawn of computing, programming languages have been design and built by mostly the same group of people -- mostly white, cis, English-speaking men in academia and industry in the US and Europe, and a few incredible woman mathematicians. They did their work in a time of post-colonial, winner-take-all power, and programming languages were a key tool for securing that power.",
+                    "This isn't an accident. Since the dawn of computing, programming languages have been designed and built by mostly the same group of people -- mostly white, cis, English-speaking men in academia and industry in the US and Europe, and a few incredible woman mathematicians. They did their work in a time of post-colonial, winner-take-all power, and programming languages were a key tool for securing that power.",
                     "This history has led to a vision of computation that is primarily about speed, logic, profit, and domination.",
-                    "This is an injustice. Because computing, for better and worse, now undergirds daily life in visible and invisible ways, and the people who have access to create with it are the ones most like its creators. The rest of humanity remains beholden to this power, because imagining anything different requires literacy, gatekept by language barriers, accesibility barriers, economic barriers, and inequities in public education.",
+                    "This is an injustice. Because computing, for better and worse, now undergirds daily life in visible and invisible ways, and the people who have access to create with it are the ones most like its creators. The rest of humanity remains beholden to this power, because imagining anything different requires literacy, gatekept by language barriers, accessibility barriers, economic barriers, and inequities in public education.",
                     "*Wordplay* aspires to help change this. It's a programming platform designed to be global, supporting /all/ of the world's languages, but also be /about/ the world's languages. A platform on which everyone can create, with whatever abilities they have, to share interactive content that anyone can experience. For youth and young adults who want to express themselves through interactive words, emojis, and typography, playfully and artfully. Not with the goal of getting power for themselves, but to create a computational world that recognize the incredible strength and necessity of our beautiful differences.",
                     "We're a community of designers, educators, and developers trying to bring this vision to life. We are people of color, we are trans, we are queer, we are disabled, we are immigrants, we are refugees. We're centered at the <University of Washington@https://washington.edu> <Information School@https://ischool.uw.edu/> in Seattle, Washington, USA, a place that aspires to welcome everyone and undo the ableist and racist ravages of colonialism that continue today. Making this programming language and platform is a small part of that mission, offering a glimpse of a future of computing where /everyone/ belongs.",
                     "We'd love your help. Learn <how to contribute@https://github.com/wordplaydev/wordplay/wiki/contribute>, <donate@://donate>, or track our <progress@https://github.com/amyjko/wordplay/milestones>. Write our community organizer <Amy@https://amyjko.phd> if you have questions."
@@ -6037,7 +6037,7 @@
                     "sent": "If this email is associated with an account, it will receive an email with a login link. It may take a few minutes to appear. If there is no account associated with this email, you will not receive anything.",
                     "logout": "Are you using a shared device and want to keep your projects private? Logout and we'll *delete your projects* from this device, but they will be saved online.",
                     "success": "Account created!",
-                    "confirm": "Check your old email address to confirm you new address.",
+                    "confirm": "Check your old email address to confirm your new address.",
                     "delete": "Want us to forget everything you've made here? This can't be undone.",
                     "reallyDelete": "Are you sure? Your account and settings will be deleted immediately and your projects will be scheduled for deletion. Collaborators on your projects will immediately lose access to them. Type your email or username to confirm that this is what you want.",
                     "name": "Pick an emoji or custom character to represent yourself to others."
@@ -6046,7 +6046,7 @@
                     "expired": "This link expired.",
                     "invalid": "This link isn't valid.",
                     "email": "Not a valid email.",
-                    "invalidUsername": "Usernames must at least 5 letters with no spaces.",
+                    "invalidUsername": "Usernames must be at least 5 letters with no spaces.",
                     "usernameTaken": "This username is already taken.",
                     "failure": "Unable to login :(",
                     "offline": "We couldn't reach the cloud ☁️.",
@@ -6156,7 +6156,7 @@
                     "• We pay Google for <Firebase@https://firebase.google.com/> bandwidth and storage, and <Workspace@https://workspace.google.com/> services.",
                     "• We pay <Squarespace@https://www.squarespace.com/> annually for the domain.",
                     "Our current costs, assuming 5 undergraduates at $$20 USD//hour, 10 hours//week during the academic year (36 weeks) and 2 undergraduates during the summer (12 weeks), plus cloud services, are about $$60K USD per year.",
-                    "If 2,400 people gave $$25 USD per year, that would cover our current costs, with any excess going to compensation more students and teachers.",
+                    "If 2,400 people gave $$25 USD per year, that would cover our current costs, with any excess going to compensate more students and teachers.",
                     "Can you be one of those 2,400 people? If so, here's our University of Washington giving link:"
                 ]
             }
@@ -6173,7 +6173,7 @@
             "append": "/Eager to insert…/",
             "remove": "/Considers leaving…/",
             "replace": "/Wants to step in…/",
-            "wrap": "parentheize",
+            "wrap": "parenthesize",
             "unwrap": "unwrap",
             "bind": "name this expression",
             "show": "… show more",

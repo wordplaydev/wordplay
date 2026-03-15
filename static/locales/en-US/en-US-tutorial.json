@@ -2568,7 +2568,7 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "Using a @Button stream is one way to advance through stages of a performance or to trigger some change in a performance. This little program lists to button presses and starts off showing \\'sad'\\, but when the @Button stream changes to true, @Conditional evaluates to \\'happy'\\ instead."
+                            "Using a @Button stream is one way to advance through stages of a performance or to trigger some change in a performance. This little program listens to button presses and starts off showing \\'sad'\\, but when the @Button stream changes to true, @Conditional evaluates to \\'happy'\\ instead."
                         ],
                         ["edit", "Phrase(Button(ø) ? 'happy' 'sad')"]
                     ]
@@ -4678,7 +4678,7 @@
                         [
                             "StructureDefinition",
                             "excited",
-                            "Then, they remembered @Reaction, which can be used to respond to stream changes. They wanted the message to change every two sections, so they made @Time stream that ticks every 2 seconds and used @Reaction to increment the next index each time. This @Reaction says start at \\1\\, and when the time changes every \\2000ms\\, evaluate to the previous value of \\index + 1\\. This way, \\index\\ increases by \\1\\ every two seconds, changing the message shown. Yay, it works!"
+                            "Then, they remembered @Reaction, which can be used to respond to stream changes. They wanted the message to change every two seconds, so they made @Time stream that ticks every 2 seconds and used @Reaction to increment the next index each time. This @Reaction says start at \\1\\, and when the time changes every \\2000ms\\, evaluate to the previous value of \\index + 1\\. This way, \\index\\ increases by \\1\\ every two seconds, changing the message shown. Yay, it works!"
                         ],
                         [
                             "edit",
