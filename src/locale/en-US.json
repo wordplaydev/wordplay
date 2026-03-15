@@ -6182,6 +6182,52 @@
         "template": {
             "unwritten": "TBD",
             "unparsable": "Unparsable template: $1"
+        },
+        "emoji": {
+            "noCharacters": "Create a custom character",
+            "groups": {
+                "label": "groups",
+                "labels": [
+                    "🎨",
+                    "😀",
+                    "👤",
+                    "🐱",
+                    "🍔",
+                    "🚲",
+                    "⚽",
+                    "🏠",
+                    "⚡",
+                    "🏳️",
+                    "🔡",
+                    "🔠",
+                    "➗",
+                    "📐",
+                    "⬇️",
+                    "1️⃣",
+                    "Ⅶ",
+                    "💰"
+                ],
+                "tips": [
+                    "custom",
+                    "smileys & emotion",
+                    "people & body",
+                    "animals & nature",
+                    "food & drink",
+                    "activities",
+                    "travel & places",
+                    "objects",
+                    "symbols",
+                    "flags",
+                    "lowercase",
+                    "uppercase",
+                    "mathematical",
+                    "shapes",
+                    "arrows",
+                    "numbers",
+                    "letter numbers",
+                    "currency"
+                ]
+            }
         }
     },
     "moderation": {

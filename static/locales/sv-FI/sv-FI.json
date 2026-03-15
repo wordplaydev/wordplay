@@ -5863,6 +5863,18 @@
                     "allColor": {
                         "label": "$~alla i färg",
                         "tip": "$~markera alla former med samma färg som markeringen"
+                    },
+                    "pick": {
+                        "label": "$~välj färg",
+                        "tip": "$~välj en färg från skärmen som ska användas för att rita pixlar och former"
+                    },
+                    "saturationUp": {
+                        "label": "$~mättnad",
+                        "tip": "$~öka mättnaden"
+                    },
+                    "saturationDown": {
+                        "label": "$~mättnad",
+                        "tip": "$~minska mättnaden"
                     }
                 },
                 "feedback": {
@@ -6168,6 +6180,52 @@
             },
             "empty": "$~Inga meddelanden kräver moderering",
             "error": "$~Du måste vara inloggad för att moderera gallerier"
+        },
+        "emoji": {
+            "noCharacters": "$~Skapa en anpassad karaktär",
+            "groups": {
+                "label": "$~grupper",
+                "labels": [
+                    "$~🎨",
+                    "$~😀",
+                    "$~👤",
+                    "$~🐱",
+                    "$~🍔",
+                    "$~🚲",
+                    "$~⚽",
+                    "$~🏠",
+                    "$~⚡",
+                    "$~🏳️",
+                    "$~🔡",
+                    "$~🔠",
+                    "$~➗",
+                    "$~📐",
+                    "$~⬇️",
+                    "$~1️⃣",
+                    "$~Ⅶ",
+                    "$~💰"
+                ],
+                "tips": [
+                    "$~beställnings-",
+                    "$~smileys och känslor",
+                    "$~människor och kropp",
+                    "$~djur och natur",
+                    "$~mat och dryck",
+                    "$~aktiviteter",
+                    "$~resor och platser",
+                    "$~föremål",
+                    "$~symboler",
+                    "$~flaggor",
+                    "$~gemener",
+                    "$~versal",
+                    "$~matematisk",
+                    "$~former",
+                    "$~pilar",
+                    "$~tal",
+                    "$~bokstavsnummer",
+                    "$~valuta"
+                ]
+            }
         }
     },
     "moderation": {

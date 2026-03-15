@@ -5957,6 +5957,18 @@
                     "allColor": {
                         "label": "$~tất cả màu sắc",
                         "tip": "$~Chọn tất cả các hình có cùng màu với hình đã chọn."
+                    },
+                    "pick": {
+                        "label": "$~chọn màu",
+                        "tip": "$~Chọn một màu từ màn hình của bạn để sử dụng cho việc vẽ các điểm ảnh và hình dạng."
+                    },
+                    "saturationUp": {
+                        "label": "$~độ bão hòa",
+                        "tip": "$~tăng độ bão hòa"
+                    },
+                    "saturationDown": {
+                        "label": "$~độ bão hòa",
+                        "tip": "$~giảm độ bão hòa"
                     }
                 },
                 "feedback": {
@@ -6168,6 +6180,52 @@
         "template": {
             "unwritten": "$~Sẽ được xác định sau.",
             "unparsable": "$~Mẫu không thể phân tích cú pháp: $1"
+        },
+        "emoji": {
+            "noCharacters": "$~Tạo nhân vật tùy chỉnh",
+            "groups": {
+                "label": "$~các nhóm",
+                "labels": [
+                    "$~🎨",
+                    "$~😀",
+                    "$~👤",
+                    "$~🐱",
+                    "$~🍔",
+                    "$~🚲",
+                    "$~⚽",
+                    "$~🏠",
+                    "$~⚡",
+                    "$~🏳️",
+                    "$~🔡",
+                    "$~🔠",
+                    "$~➗",
+                    "$~📐",
+                    "$~⬇️",
+                    "$~1️⃣",
+                    "$~Ⅶ",
+                    "$~💰"
+                ],
+                "tips": [
+                    "$~phong tục",
+                    "$~biểu tượng cảm xúc & cảm xúc",
+                    "$~con người và cơ thể",
+                    "$~động vật và thiên nhiên",
+                    "$~đồ ăn & thức uống",
+                    "$~các hoạt động",
+                    "$~du lịch & địa điểm",
+                    "$~đối tượng",
+                    "$~biểu tượng",
+                    "$~cờ",
+                    "$~chữ thường",
+                    "$~chữ hoa",
+                    "$~toán học",
+                    "$~hình dạng",
+                    "$~mũi tên",
+                    "$~số",
+                    "$~chữ số",
+                    "$~tiền tệ"
+                ]
+            }
         }
     },
     "moderation": {

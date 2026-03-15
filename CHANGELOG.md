@@ -8,6 +8,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 ### Added
 
+- We (finally) added emoji and symbol categories. As part of this, included all possible emoji variations and the new 17.0 emojis just released this year (#110).
 - We added dates to the feedback, so we can see how long ago feedback was reported.
 - We added a "select all of color" tool in the character editor (#994).
 - We added a color picker in the character editor (only supported in Chrome, Edge, and Opera).

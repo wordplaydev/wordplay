@@ -5868,6 +5868,18 @@
                     "allColor": {
                         "label": "$~wszystkie kolorowe",
                         "tip": "$~wybierz wszystkie kształty o tym samym kolorze co zaznaczenie"
+                    },
+                    "pick": {
+                        "label": "$~wybierz kolor",
+                        "tip": "$~wybierz kolor z ekranu, którego będziesz używać do rysowania pikseli i kształtów"
+                    },
+                    "saturationUp": {
+                        "label": "$~nasycenie",
+                        "tip": "$~zwiększyć nasycenie"
+                    },
+                    "saturationDown": {
+                        "label": "$~nasycenie",
+                        "tip": "$~zmniejszyć nasycenie"
                     }
                 },
                 "feedback": {
@@ -6173,6 +6185,52 @@
             },
             "empty": "$~Żadna wiadomość nie wymaga moderacji",
             "error": "$~Aby moderować galerie, musisz się zalogować"
+        },
+        "emoji": {
+            "noCharacters": "$~Utwórz własną postać",
+            "groups": {
+                "label": "$~grupy",
+                "labels": [
+                    "$~🎨",
+                    "$~😀",
+                    "$~👤",
+                    "$~🐱",
+                    "$~🍔",
+                    "$~🚲",
+                    "$~⚽",
+                    "$~🏠",
+                    "$~⚡",
+                    "$~🏳️",
+                    "$~🔡",
+                    "$~🔠",
+                    "$~➗",
+                    "$~📐",
+                    "$~⬇️",
+                    "$~1️⃣",
+                    "$~Ⅶ",
+                    "$~💰"
+                ],
+                "tips": [
+                    "$~zwyczaj",
+                    "$~emotikony i emocje",
+                    "$~ludzie i ciało",
+                    "$~zwierzęta i przyroda",
+                    "$~jedzenie i napoje",
+                    "$~działania",
+                    "$~podróże i miejsca",
+                    "$~obiekty",
+                    "$~symbolika",
+                    "$~flagi",
+                    "$~małe litery",
+                    "$~wielkie litery",
+                    "$~matematyczny",
+                    "$~kształty",
+                    "$~strzałki",
+                    "$~takty muzyczne",
+                    "$~cyfry literowe",
+                    "$~waluta"
+                ]
+            }
         }
     },
     "moderation": {

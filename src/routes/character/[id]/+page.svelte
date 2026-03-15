@@ -21,7 +21,7 @@
     import ColorChooser from '@components/widgets/ColorChooser.svelte';
     import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
     import Dialog from '@components/widgets/Dialog.svelte';
-    import EmojiChooser from '@components/widgets/EmojiChooser.svelte';
+    import EmojiChooser from '@components/widgets/GlyphChooser.svelte';
     import Labeled from '@components/widgets/Labeled.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import Mode from '@components/widgets/Mode.svelte';
@@ -2126,7 +2126,7 @@
                     importEmoji(emoji);
                     rememberShapes();
                 }}
-                emoji="🙂"
+                glyph="🙂"
             />
         {/if}
     </div>

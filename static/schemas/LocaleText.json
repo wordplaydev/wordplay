@@ -10424,6 +10424,25 @@
               ],
               "type": "object"
             },
+            "emoji": {
+              "additionalProperties": false,
+              "description": "Emoji related text",
+              "properties": {
+                "groups": {
+                  "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%5D%3E",
+                  "description": "Emoji category labels for the filter"
+                },
+                "noCharacters": {
+                  "description": "Prompt when no custom characters are available",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "noCharacters",
+                "groups"
+              ],
+              "type": "object"
+            },
             "font": {
               "additionalProperties": false,
               "properties": {
@@ -14577,7 +14596,8 @@
             "save",
             "page",
             "edit",
-            "template"
+            "template",
+            "emoji"
           ],
           "type": "object"
         },
@@ -14600,6 +14620,39 @@
         "ui",
         "gallery",
         "moderation"
+      ],
+      "type": "object"
+    },
+    "ModeText<[string,string,string,string,string,string,string,string,string,string,string,string,string,string,string,string,string,string]>": {
+      "additionalProperties": false,
+      "properties": {
+        "label": {
+          "description": "The tooltip and ARIA-label for the entire mode widget, describing the kind of modes it supports switching to.",
+          "type": "string"
+        },
+        "labels": {
+          "description": "A list of modes",
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 18,
+          "minItems": 18,
+          "type": "array"
+        },
+        "tips": {
+          "description": "A list of tips/aria labels for each option",
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 18,
+          "minItems": 18,
+          "type": "array"
+        }
+      },
+      "required": [
+        "label",
+        "labels",
+        "tips"
       ],
       "type": "object"
     },

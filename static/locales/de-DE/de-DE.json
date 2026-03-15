@@ -5778,6 +5778,18 @@
                     "allColor": {
                         "label": "$~alle Farben",
                         "tip": "$~Wählen Sie alle Formen mit der gleichen Farbe wie die Auswahl aus."
+                    },
+                    "pick": {
+                        "label": "$~Farbe auswählen",
+                        "tip": "$~Wähle eine Farbe von deinem Bildschirm aus, die zum Zeichnen von Pixeln und Formen verwendet werden soll."
+                    },
+                    "saturationUp": {
+                        "label": "$~Sättigung",
+                        "tip": "$~Sättigung erhöhen"
+                    },
+                    "saturationDown": {
+                        "label": "$~Sättigung",
+                        "tip": "$~Sättigung verringern"
                     }
                 },
                 "feedback": {
@@ -6167,6 +6179,52 @@
             },
             "empty": "$~Keine der Nachrichten muss moderiert werden.",
             "error": "$~Sie müssen angemeldet sein, um Galerien zu moderieren"
+        },
+        "emoji": {
+            "noCharacters": "$~Erstelle einen benutzerdefinierten Charakter",
+            "groups": {
+                "label": "$~Gruppen",
+                "labels": [
+                    "$~🎨",
+                    "$~😀",
+                    "$~👤",
+                    "$~🐱",
+                    "$~🍔",
+                    "$~🚲",
+                    "$~⚽",
+                    "$~🏠",
+                    "$~⚡",
+                    "$~🏳️",
+                    "$~🔡",
+                    "$~🔠",
+                    "$~➗",
+                    "$~📐",
+                    "$~⬇️",
+                    "$~1️⃣",
+                    "$~VII",
+                    "$~💰"
+                ],
+                "tips": [
+                    "$~Brauch",
+                    "$~Smileys und Emotionen",
+                    "$~Menschen und Körper",
+                    "$~Tiere und Natur",
+                    "$~Essen und Trinken",
+                    "$~Aktivitäten",
+                    "$~Reisen & Orte",
+                    "$~Objekte",
+                    "$~Symbole",
+                    "$~Flaggen",
+                    "$~Kleinbuchstaben",
+                    "$~Großbuchstaben",
+                    "$~mathematische",
+                    "$~Formen",
+                    "$~Pfeile",
+                    "$~Zahlen",
+                    "$~Buchstaben und Zahlen",
+                    "$~Währung"
+                ]
+            }
         }
     },
     "moderation": {

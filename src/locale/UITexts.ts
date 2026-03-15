@@ -940,6 +940,34 @@ type UITexts = {
         /** The placeholder string indicating that a template string could not be parsed */
         unparsable: string;
     };
+    /** Emoji related text */
+    emoji: {
+        /** Prompt when no custom characters are available */
+        noCharacters: string;
+        /** Emoji category labels for the filter */
+        groups: ModeText<
+            [
+                string,
+                string,
+                string,
+                string,
+                string,
+                string,
+                string,
+                string,
+                string,
+                string,
+                string,
+                string,
+                string,
+                string,
+                string,
+                string,
+                string,
+                string,
+            ]
+        >;
+    };
 };
 
 export { type UITexts as default };

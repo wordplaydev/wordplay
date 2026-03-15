@@ -12,6 +12,7 @@
         "noEmit": true,
         "strict": true,
         "noErrorTruncation": true,
-        "exactOptionalPropertyTypes": true
+        "exactOptionalPropertyTypes": true,
+        "allowImportingTsExtensions": true
     }
 }

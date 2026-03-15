@@ -195,8 +195,8 @@
     }
 
     .padding {
-        padding-left: var(--wordplay-spacing);
-        padding-right: var(--wordplay-spacing);
+        padding-left: var(--wordplay-spacing-half);
+        padding-right: var(--wordplay-spacing-half);
     }
 
     button.stretch {

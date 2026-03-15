@@ -10,7 +10,7 @@
     import CollaborateView from '@components/app/chat/CollaborateView.svelte';
     import Subheader from '@components/app/Subheader.svelte';
     import Documentation from '@components/concepts/Documentation.svelte';
-    import GlyphChooser from '@components/editor/commands/GlyphChooser.svelte';
+    import GlyphChooser from '@components/editor/commands/GlyphInserter.svelte';
     import Highlight from '@components/editor/highlights/Highlight.svelte';
     import Menu from '@components/editor/menu/Menu.svelte';
     import Speech from '@components/lore/Speech.svelte';
