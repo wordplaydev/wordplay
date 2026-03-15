@@ -45,15 +45,15 @@
         "key": "键",
         "help": "帮助",
         "feedback": "反馈",
-        "how": "$~如何",
-        "code": "$~代码",
-        "unit": "$~单元",
-        "markup": "$~标记",
-        "column": "$~列",
-        "cell": "$~单元格",
-        "documentation": "$~文档",
-        "language": "$~语言",
-        "region": "$~地区"
+        "how": "$如何",
+        "code": "$代码",
+        "unit": "$单元",
+        "markup": "$标记",
+        "column": "$列",
+        "cell": "$单元格",
+        "documentation": "$文档",
+        "language": "$语言",
+        "region": "$地区"
     },
     "token": {
         "EvalOpen": "评估打开",
@@ -201,11 +201,11 @@
             "conflict": {
                 "UnknownLanguage": {
                     "primary": "我不知道这个语言呢",
-                    "name": "$~未知语言"
+                    "name": "$未知语言"
                 },
                 "MissingLanguage": {
                     "primary": "这里缺少了对语言的描述，你能加上一个吗？",
-                    "name": "$~缺少语言"
+                    "name": "$缺少语言"
                 }
             }
         },
@@ -236,7 +236,7 @@
                 "\\嗨/zh,你好/zh,hola/es: '欢迎'\\"
             ],
             "label": {
-                "names": "$~姓名"
+                "names": "$姓名"
             }
         },
         "Row": {
@@ -246,26 +246,26 @@
             "conflict": {
                 "InvalidRow": {
                     "primary": "行要么所有都是值，要么必须是所有都是 @Bind 。",
-                    "name": "$~无效行"
+                    "name": "$无效行"
                 },
                 "MissingCell": {
                     "primary": "我和列 $1 走散啦。",
                     "secondary": "这里是需要我的，但是 $1 好像没有提供呢。",
-                    "name": "$~缺失列"
+                    "name": "$缺失列"
                 },
                 "UnknownColumn": {
                     "primary": "我不知道有哪一列是这个名字呀。",
-                    "name": "$~未知的列名"
+                    "name": "$未知的列名"
                 },
                 "ExtraCell": {
                     "primary": "我真的应该在这里吗？",
                     "secondary": "嘿 $1，你不是 @Table 的一部分呀!",
-                    "name": "$~额外的列"
+                    "name": "$额外的列"
                 },
                 "UnexpectedColumnBind": {
                     "primary": "我真的应该是一个 @Bind 吗?",
                     "secondary": "嘿，我是一个 @Table, 我需要一个值，而不是 @Bind。",
-                    "name": "$~无联结行"
+                    "name": "$无联结行"
                 }
             }
         },
@@ -291,11 +291,11 @@
                 "DuplicateTypeVariable": {
                     "primary": "我和 $1 有一样的名字。",
                     "secondary": "我和 $1 有一样的名字。",
-                    "name": "$~重复类型变量"
+                    "name": "$重复类型变量"
                 }
             },
             "label": {
-                "type": "$~类型"
+                "type": "$类型"
             }
         },
         "TypeVariables": {
@@ -311,7 +311,7 @@
                 "我是一个段落列表，使用了解释中可用的多种标记，如 @Words、@WebLink、@ConceptLink 和 @Example 等."
             ],
             "label": {
-                "paragraphs": "$~段落"
+                "paragraphs": "$段落"
             }
         },
         "Paragraph": {
@@ -340,14 +340,14 @@
             "description": "角色 $1",
             "emotion": "serious",
             "doc": [
-                "$~我是 Verse 角色的链接。当您想要编写 @Doc 并引用我们中的一个时，我会很有帮助。",
-                "$~例如，假设你想谈论@Evaluate，以及他们有多棒。你可以写：",
-                "$~\\¶你知道，@Evaluate 非常棒。¶\n“看，一个角色链接！”\\",
-                "$~角色也有与之对应的数字。例如，@FunctionDefinition 是 192。您可以通过数字引用它们，它们将出现：",
-                "$~\\`@192 太棒了！`\\",
-                "$~如果您创建了自己的角色，您可以用您赋予的名字来引用他们。",
-                "$~`@coolbeans`",
-                "$~哦……我猜那个角色不存在，所以你得到了一个小方块。但如果他们存在，他们就会出现在这里！"
+                "$我是 Verse 角色的链接。当您想要编写 @Doc 并引用我们中的一个时，我会很有帮助。",
+                "$例如，假设你想谈论@Evaluate，以及他们有多棒。你可以写：",
+                "$\\¶你知道，@Evaluate 非常棒。¶\n“看，一个角色链接！”\\",
+                "$角色也有与之对应的数字。例如，@FunctionDefinition 是 192。您可以通过数字引用它们，它们将出现：",
+                "$\\`@192 太棒了！`\\",
+                "$如果您创建了自己的角色，您可以用您赋予的名字来引用他们。",
+                "$`@coolbeans`",
+                "$哦……我猜那个角色不存在，所以你得到了一个小方块。但如果他们存在，他们就会出现在这里！"
             ]
         },
         "Words": {
@@ -411,11 +411,11 @@
             "conflict": {
                 "OrderOfOperations": {
                     "primary": "我是按照读取顺序而非数学运算顺序来评估一个值的。你想用 @Block 来指定我的运算顺序吗？",
-                    "name": "$~模糊的顺序"
+                    "name": "$模糊的顺序"
                 }
             },
             "label": {
-                "operator": "$~操作器"
+                "operator": "$操作器"
             }
         },
         "Bind": {
@@ -455,45 +455,45 @@
                     "conflict": {
                         "primary": "有其他人已经被命名为 $1 了，所以我不能叫这个名字。",
                         "secondary": "噢, $1 是我的名字",
-                        "name": "$~重复名称"
+                        "name": "$重复名称"
                     },
                     "resolution": "有重复的名称，是否要删除一个？"
                 },
                 "DuplicateShare": {
                     "primary": "我有和 $1 一样的名字，这让事情有些模棱两可",
                     "secondary": "我有和 $1 一样的名字",
-                    "name": "$~重复共享"
+                    "name": "$重复共享"
                 },
                 "IncompatibleType": {
                     "primary": "我应该是 $2 的，但现在我是 $1",
                     "secondary": "噢……抱歉，你输入了什么？ $1, 真的吗?",
-                    "name": "$~不相容类型"
+                    "name": "$不相容类型"
                 },
                 "MisplacedShare": {
                     "primary": "我只能分享在 @Program 等级的事物，没办法分享一切！",
-                    "name": "$~放错位置的共享"
+                    "name": "$放错位置的共享"
                 },
                 "MissingShareLanguages": {
                     "primary": "如果你想要分享这个，你需要说明它是什么语言的，这样其他人才知道他们能不能阅读你分享的东西！",
-                    "name": "$~缺少语言"
+                    "name": "$缺少语言"
                 },
                 "RequiredAfterOptional": {
                     "primary": "我不能在这，这里还有一个可选的 @Bind 在我前面",
-                    "name": "$~可选后需要输入"
+                    "name": "$可选后需要输入"
                 },
                 "UnexpectedEtc": {
                     "primary": "只有在 @FunctionDefinition 中我才是可变的长度",
-                    "name": "$~输入列表后的意外输入"
+                    "name": "$输入列表后的意外输入"
                 },
                 "UnusedBind": {
                     "primary": "我被命名为 $1， 但是还没有人使用我。难道我不被需要吗？",
-                    "name": "$~未使用的绑定"
+                    "name": "$未使用的绑定"
                 }
             },
             "label": {
-                "value": "$~价值",
-                "names": "$~姓名",
-                "type": "$~类型"
+                "value": "$价值",
+                "names": "$姓名",
+                "type": "$类型"
             }
         },
         "Block": {
@@ -520,20 +520,20 @@
             "conflict": {
                 "ExpectedEndingExpression": {
                     "primary": "我需要一个算式。",
-                    "name": "$~缺失算式"
+                    "name": "$缺失算式"
                 },
                 "IgnoredExpression": {
-                    "primary": "$~我将忽略 $1，因为它没有定义任何东西并且不是我的最后一个算式。",
-                    "secondary": "$~@Block，不要忽略我！",
+                    "primary": "$我将忽略 $1，因为它没有定义任何东西并且不是我的最后一个算式。",
+                    "secondary": "$@Block，不要忽略我！",
                     "resolution": {
-                        "binary": "$~您的意思是将其改为 @BinaryEvaluate 而不是 @UnaryEvaluate 吗？我可以添加一个空格，这样我就知道这就是您的意思。",
-                        "evaluate": "$~你的意思是把它变成一个 @Evaluate 表达式吗？我可以去掉这个空格，让它变成一个算式，而不是两个独立的算式。"
+                        "binary": "$您的意思是将其改为 @BinaryEvaluate 而不是 @UnaryEvaluate 吗？我可以添加一个空格，这样我就知道这就是您的意思。",
+                        "evaluate": "$你的意思是把它变成一个 @Evaluate 表达式吗？我可以去掉这个空格，让它变成一个算式，而不是两个独立的算式。"
                     },
-                    "name": "$~忽略的算式"
+                    "name": "$忽略的算式"
                 }
             },
             "label": {
-                "statements": "$~算式"
+                "statements": "$算式"
             }
         },
         "BooleanLiteral": {
@@ -552,11 +552,11 @@
             "conflict": {
                 "UnknownBorrow": {
                     "primary": "我不知道哪个 $source 是叫这个名字的",
-                    "name": "$~未知借用"
+                    "name": "$未知借用"
                 },
                 "BorrowCycle": {
                     "primary": "这取决于 $1，而它取决于 $source，所以这个程序不能被运算。",
-                    "name": "$~自引用借用"
+                    "name": "$自引用借用"
                 }
             },
             "exception": {
@@ -566,9 +566,9 @@
                 }
             },
             "label": {
-                "source": "$~源",
-                "bind": "$~姓名",
-                "version": "$~版本"
+                "source": "$源",
+                "bind": "$名字",
+                "version": "$版本"
             }
         },
         "Changed": {
@@ -582,7 +582,7 @@
             ],
             "start": "让我们看看 $1 有没有改变……",
             "label": {
-                "stream": "$~数据流"
+                "stream": "$数据流"
             }
         },
         "Conditional": {
@@ -603,13 +603,13 @@
                 "ExpectedBooleanCondition": {
                     "primary": "我怎样才能用 $1 来选择是或不是呢? 这样是没办法的",
                     "secondary": "我感觉 @Conditional 想要我成为一个 @Boolean，但我现在是 $1 类型。",
-                    "name": "$~预期布尔条件"
+                    "name": "$预期布尔条件"
                 }
             },
             "label": {
-                "condition": "$~状况",
-                "yes": "$~是",
-                "no": "$~否"
+                "condition": "$状况",
+                "yes": "$是",
+                "no": "$否"
             }
         },
         "ConversionDefinition": {
@@ -626,13 +626,13 @@
             "conflict": {
                 "MisplacedConversion": {
                     "primary": "哇，我不能在这里，只能在 @Block 中。",
-                    "name": "$~错误的转换"
+                    "name": "$错误的转换"
                 }
             },
             "label": {
-                "input": "$~输入类型",
-                "output": "$~输出类型",
-                "expression": "$~算式"
+                "input": "$输入类型",
+                "output": "$输出类型",
+                "expression": "$算式"
             }
         },
         "Convert": {
@@ -652,7 +652,7 @@
             "conflict": {
                 "UnknownConversion": {
                     "primary": "糟糕，无法将 $1 转成 $2",
-                    "name": "$~未知转换"
+                    "name": "$未知转换"
                 }
             },
             "exception": {
