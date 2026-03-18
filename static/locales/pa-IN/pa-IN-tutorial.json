@@ -990,9 +990,9 @@
                         [
                             "FunctionDefinition",
                             "eager",
-                            "$~ਇਸਦੀ ਬਜਾਏ, ਤੁਸੀਂ @Evaluate ਨੂੰ ਮੱਧ ਵਿੱਚ ਇੱਕ ਬਹੁਤ ਹੀ ਸਰਲ ਚਿੰਨ੍ਹ ਨਾਲ ਮੁਲਾਂਕਣ ਕਰ ਸਕਦੇ ਹੋ, ਇਸ ਤਰ੍ਹਾਂ। ਇਸ ਦਾ ਅਰਥ ਹੈ 'ਹਾਇ' ਨੂੰ ਪੰਜ ਵਾਰ ਦੁਹਰਾਓ। ਪਰ ਇਸਦਾ ਅਰਥ ਇਹ ਵੀ ਹੈ ਕਿ 'ਇੰਪੁੱਟ \\5\\ ਨਾਲ ਟੈਕਸਟ ਵੈਲਯੂ \\'hi'\\ 'ਤੇ \\·\\ ਫੰਕਸ਼ਨ ਦਾ ਮੁਲਾਂਕਣ ਕਰੋ।' ਫੰਕਸ਼ਨ \\repeat\\ ਦੇ ਸਿਰਫ਼ ਇੱਕ ਤੋਂ ਵੱਧ ਨਾਮ ਹਨ, ਜਿਨ੍ਹਾਂ ਵਿੱਚੋਂ ਇੱਕ ਪ੍ਰਤੀਕ ਨਾਮ \\·\\ ਹੈ।"
+                            "$~ਇਸਦੀ ਬਜਾਏ, ਤੁਸੀਂ @Evaluate ਨੂੰ ਮੱਧ ਵਿੱਚ ਇੱਕ ਬਹੁਤ ਹੀ ਸਰਲ ਚਿੰਨ੍ਹ ਨਾਲ ਮੁਲਾਂਕਣ ਕਰ ਸਕਦੇ ਹੋ, ਇਸ ਤਰ੍ਹਾਂ। ਇਸ ਦਾ ਅਰਥ ਹੈ 'ਹਾਇ' ਨੂੰ ਪੰਜ ਵਾਰ ਦੁਹਰਾਓ। ਪਰ ਇਸਦਾ ਅਰਥ ਇਹ ਵੀ ਹੈ ਕਿ 'ਇੰਪੁੱਟ \\5\\ ਨਾਲ ਟੈਕਸਟ ਵੈਲਯੂ \\'hi'\\ 'ਤੇ \\×\\ ਫੰਕਸ਼ਨ ਦਾ ਮੁਲਾਂਕਣ ਕਰੋ।' ਫੰਕਸ਼ਨ \\repeat\\ ਦੇ ਸਿਰਫ਼ ਇੱਕ ਤੋਂ ਵੱਧ ਨਾਮ ਹਨ, ਜਿਨ੍ਹਾਂ ਵਿੱਚੋਂ ਇੱਕ ਪ੍ਰਤੀਕ ਨਾਮ \\×\\ ਹੈ।"
                         ],
-                        ["edit", "'hi' · 5"],
+                        ["edit", "'hi' × 5"],
                         null,
                         [
                             "FunctionDefinition",
@@ -1210,7 +1210,7 @@
                             "                        Phrase(glyph resting:Pose(",
                             "                            color: Color(75% 0 0°) ",
                             "                            rotation: 90° ",
-                            "                            offset:Place(0m (Time() ^ 2) · -0.000025m/ms^2))",
+                            "                            offset:Place(0m (Time() ^ 2) × -0.000025m/ms^2))",
                             "                        )))])"
                         ],
                         ["⊤", "precise", "$~… ਨਹੀਂ।"],
@@ -1262,7 +1262,7 @@
                             "                        Group(Grid(5 5) numbers.translate(",
                             "                            ƒ (n•#) ",
                             "                                (",
-                            "                                    off:Random(-3 3) · 1m",
+                            "                                    off:Random(-3 3) × 1m",
                             "                                    Phrase(",
                             "                                        n → '' ",
                             "                                        resting:Sequence({",
@@ -1547,7 +1547,7 @@
             "title": "$~ensembles",
             "performance": [
                 "fit",
-                "Group(Row('|' (Time() ÷ 500).sin() · 1m) [Phrase('[]') Phrase('{}') Phrase('{:}')])"
+                "Group(Row('|' (Time() ÷ 500).sin() × 1m) [Phrase('[]') Phrase('{}') Phrase('{:}')])"
             ],
             "scenes": [
                 {
@@ -1555,7 +1555,7 @@
                     "subtitle": null,
                     "performance": [
                         "fit",
-                        "Group(Row() [Phrase('[') Phrase(' .' · (Time() ÷ 100ms)) Phrase(']')])"
+                        "Group(Row() [Phrase('[') Phrase(' .' × (Time() ÷ 100ms)) Phrase(']')])"
                     ],
                     "lines": [
                         [
@@ -1799,7 +1799,7 @@
                         [
                             "Set",
                             "eager",
-                            "$~ਓਹ ਹਾਂ, ਜ਼ਰੂਰ। ਮੈਂ ਚੀਜ਼ਾਂ ਇਕੱਠੀਆਂ ਕਰਦਾ ਹਾਂ (Hm, ਸਪੱਸ਼ਟ ਤੌਰ 'ਤੇ; ਮੈਂ ਇੱਕ ਸੰਗ੍ਰਹਿ ਹਾਂ)। ਪਰ ਸਭ ਤੋਂ ਮਹੱਤਵਪੂਰਣ ਗੱਲ ਇਹ ਹੈ ਕਿ, ਮੈਂ ਸਿਰਫ **ਹਰ ਕਿਸਮ ਦੀ ਇੱਕ** ਚੀਜ਼ ਨੂੰ ਇਕੱਠਾ ਕਰਦਾ ਹਾਂ। ਮੈਂ ਜੋ ਵੀ ਤੁਹਾਨੂੰ ਪਸੰਦ ਕਰਦਾ ਹਾਂ ਇਕੱਠਾ ਕਰ ਸਕਦਾ ਹਾਂ ਅਤੇ ਕਦਰਾਂ-ਕੀਮਤਾਂ 'ਤੇ ਨਜ਼ਰ ਰੱਖਣ ਵਿਚ ਤੁਹਾਡੀ ਮਦਦ ਕਰ ਸਕਦਾ ਹਾਂ, ਪਰ ਮੈਂ ਕਦੇ ਵੀ ਕਿਸੇ ਮੁੱਲ ਨੂੰ ਨਹੀਂ ਦੁਹਰਾਵਾਂਗਾ। ਮੈਂ ਆਪਣੇ ਆਪ ਨੂੰ ਥੋੜਾ ਜਿਹਾ @List ਵਾਂਗ ਵਿਵਸਥਿਤ ਕਰਨਾ ਪਸੰਦ ਕਰਦਾ ਹਾਂ ਪਰ ਇਸਦੀ ਬਜਾਏ \\{\\ ਅਤੇ \\}\\ ਨਾਲ।"
+                            "$~ਓਹ ਹਾਂ, ਜ਼ਰੂਰ। ਮੈਂ ਚੀਜ਼ਾਂ ਇਕੱਠੀਆਂ ਕਰਦਾ ਹਾਂ (Hm, ਸਪੱਸ਼ਟ ਤੌਰ 'ਤੇ; ਮੈਂ ਇੱਕ ਸੰਗ੍ਰਹਿ ਹਾਂ)। ਪਰ ਸਭ ਤੋਂ ਮਹੱਤਵਪੂਰਣ ਗੱਲ ਇਹ ਹੈ ਕਿ, ਮੈਂ ਸਿਰਫ *ਹਰ ਕਿਸਮ ਦੀ ਇੱਕ* ਚੀਜ਼ ਨੂੰ ਇਕੱਠਾ ਕਰਦਾ ਹਾਂ। ਮੈਂ ਜੋ ਵੀ ਤੁਹਾਨੂੰ ਪਸੰਦ ਕਰਦਾ ਹਾਂ ਇਕੱਠਾ ਕਰ ਸਕਦਾ ਹਾਂ ਅਤੇ ਕਦਰਾਂ-ਕੀਮਤਾਂ 'ਤੇ ਨਜ਼ਰ ਰੱਖਣ ਵਿਚ ਤੁਹਾਡੀ ਮਦਦ ਕਰ ਸਕਦਾ ਹਾਂ, ਪਰ ਮੈਂ ਕਦੇ ਵੀ ਕਿਸੇ ਮੁੱਲ ਨੂੰ ਨਹੀਂ ਦੁਹਰਾਵਾਂਗਾ। ਮੈਂ ਆਪਣੇ ਆਪ ਨੂੰ ਥੋੜਾ ਜਿਹਾ @List ਵਾਂਗ ਵਿਵਸਥਿਤ ਕਰਨਾ ਪਸੰਦ ਕਰਦਾ ਹਾਂ ਪਰ ਇਸਦੀ ਬਜਾਏ \\{\\ ਅਤੇ \\}\\ ਨਾਲ।"
                         ],
                         ["edit", "{ 1 2 3 4 5 }"],
                         null,
@@ -2061,7 +2061,7 @@
                 "           '→?' → [].random()",
                 "           place: Motion(",
                 "               Place(y: 10m)",
-                "               Velocity(Random(-5 5) · 1m/s angle: Random(0 360) · 1°/s)",
+                "               Velocity(Random(-5 5) × 1m/s angle: Random(0 360) × 1°/s)",
                 "           )",
                 "           matter: Matter(bounciness: Random())",
                 "       )",
@@ -2397,7 +2397,7 @@
                     "lines": [
                         [
                             "fix",
-                            "amp: (Volume() · 10)",
+                            "amp: (Volume() × 10)",
                             "Phrase('.'.repeat(amp.roundDown()) resting:Pose(scale: amp))"
                         ],
                         [
@@ -2417,7 +2417,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~ਮੈਂ ਤੁਹਾਨੂੰ ਸਾਡੇ ਸੰਸਾਰਾਂ ਅਤੇ ਉਹਨਾਂ ਦੁਆਰਾ ਸੰਭਵ ਬਣਾਉਣ ਦੇ ਵਿਚਕਾਰ ਸਬੰਧ ਦਿਖਾਉਣਾ ਚਾਹੁੰਦਾ ਹਾਂ। ਅਸੀਂ ਉਹਨਾਂ ਨੂੰ **ਇਨਪੁਟ ਸਟ੍ਰੀਮ** ਕਹਿੰਦੇ ਹਾਂ, ਅਤੇ ਉਹ ਸ਼ਾਇਦ ਆਇਤ ਵਿੱਚ ਸਭ ਤੋਂ ਜਾਦੂਈ ਕਿਸਮ ਦੀ ਇਨਪੁਟ ਹਨ। ਉਹ ਫੰਕਸ਼ਨਾਂ ਵਾਂਗ ਹਨ ਜੋ ਇੱਕ ਵਿਸ਼ੇਸ਼ ਕਿਸਮ ਦਾ ਮੁੱਲ ਬਣਾਉਂਦੇ ਹਨ ਜੋ ਤੁਹਾਡੀ ਦੁਨੀਆ ਦੇ ਬਦਲਣ ਨਾਲ ਬਦਲਦਾ ਹੈ। ਉਹ ਉਹਨਾਂ ਤਰੀਕਿਆਂ ਨਾਲ ਵੀ ਸੰਚਾਰ ਨਹੀਂ ਕਰ ਸਕਦੇ ਜਿਨ੍ਹਾਂ ਦੀ ਤੁਸੀਂ ਵਰਤੋਂ ਕੀਤੀ ਹੋ ਸਕਦੀ ਹੈ। ਉਹ ਕਿਸੇ ਹੋਰ ਸੰਸਾਰ ਤੋਂ ਦਿਲ ਦੀ ਧੜਕਣ ਵਰਗੇ ਹਨ। ਇਸ ਲਈ ਮੈਂ ਇਹ ਦੱਸਣ ਦੀ ਪੂਰੀ ਕੋਸ਼ਿਸ਼ ਕਰਾਂਗਾ ਕਿ ਉਹ ਕਿਵੇਂ ਕੰਮ ਕਰਦੇ ਹਨ ਕਿਉਂਕਿ ਉਹ ਆਪਣੇ ਆਪ ਨੂੰ ਸਮਝਾਉਣ ਦੇ ਯੋਗ ਨਹੀਂ ਹੋਣਗੇ।",
+                            "$~ਮੈਂ ਤੁਹਾਨੂੰ ਸਾਡੇ ਸੰਸਾਰਾਂ ਅਤੇ ਉਹਨਾਂ ਦੁਆਰਾ ਸੰਭਵ ਬਣਾਉਣ ਦੇ ਵਿਚਕਾਰ ਸਬੰਧ ਦਿਖਾਉਣਾ ਚਾਹੁੰਦਾ ਹਾਂ। ਅਸੀਂ ਉਹਨਾਂ ਨੂੰ *ਇਨਪੁਟ ਸਟ੍ਰੀਮ* ਕਹਿੰਦੇ ਹਾਂ, ਅਤੇ ਉਹ ਸ਼ਾਇਦ ਆਇਤ ਵਿੱਚ ਸਭ ਤੋਂ ਜਾਦੂਈ ਕਿਸਮ ਦੀ ਇਨਪੁਟ ਹਨ। ਉਹ ਫੰਕਸ਼ਨਾਂ ਵਾਂਗ ਹਨ ਜੋ ਇੱਕ ਵਿਸ਼ੇਸ਼ ਕਿਸਮ ਦਾ ਮੁੱਲ ਬਣਾਉਂਦੇ ਹਨ ਜੋ ਤੁਹਾਡੀ ਦੁਨੀਆ ਦੇ ਬਦਲਣ ਨਾਲ ਬਦਲਦਾ ਹੈ। ਉਹ ਉਹਨਾਂ ਤਰੀਕਿਆਂ ਨਾਲ ਵੀ ਸੰਚਾਰ ਨਹੀਂ ਕਰ ਸਕਦੇ ਜਿਨ੍ਹਾਂ ਦੀ ਤੁਸੀਂ ਵਰਤੋਂ ਕੀਤੀ ਹੋ ਸਕਦੀ ਹੈ। ਉਹ ਕਿਸੇ ਹੋਰ ਸੰਸਾਰ ਤੋਂ ਦਿਲ ਦੀ ਧੜਕਣ ਵਰਗੇ ਹਨ। ਇਸ ਲਈ ਮੈਂ ਇਹ ਦੱਸਣ ਦੀ ਪੂਰੀ ਕੋਸ਼ਿਸ਼ ਕਰਾਂਗਾ ਕਿ ਉਹ ਕਿਵੇਂ ਕੰਮ ਕਰਦੇ ਹਨ ਕਿਉਂਕਿ ਉਹ ਆਪਣੇ ਆਪ ਨੂੰ ਸਮਝਾਉਣ ਦੇ ਯੋਗ ਨਹੀਂ ਹੋਣਗੇ।",
                             "$~ਕੀ ਤੁਸੀਂ ਇੱਕ ਨੂੰ ਮਿਲਣ ਲਈ ਤਿਆਰ ਹੋ?"
                         ]
                     ]
@@ -2625,7 +2625,7 @@
                             "$~@Volume ਦੀ ਵਰਤੋਂ ਪ੍ਰਦਰਸ਼ਨਾਂ ਨੂੰ ਦਰਸ਼ਕਾਂ ਤੋਂ ਆਵਾਜ਼ ਦਾ ਜਵਾਬ ਦੇਣ ਲਈ ਕੀਤੀ ਜਾ ਸਕਦੀ ਹੈ। ਉਦਾਹਰਨ ਲਈ, ਇੱਥੇ ਅਸੀਂ ਸਟ੍ਰੀਮ ਤੋਂ ਐਂਪਲੀਟਿਊਡ ਨੰਬਰ ਨੂੰ \\'o'\\ ਅੱਖਰਾਂ ਦੀ ਇੱਕ ਨਿਸ਼ਚਿਤ ਸੰਖਿਆ ਵਿੱਚ ਬਦਲ ਕੇ ਥੋੜਾ ਜਿਹਾ ਐਪਲੀਟਿਊਡ ਵਿਜ਼ੂਅਲਾਈਜ਼ੇਸ਼ਨ ਬਣਾ ਸਕਦੇ ਹਾਂ। ਦੇਖੋ ਜਦੋਂ ਤੁਸੀਂ ਰੌਲਾ ਪਾਉਂਦੇ ਹੋ, ਤਾਂ ਹੋਰ \\'o'\\s ਹੁੰਦੇ ਹਨ? @Volume ਐਪਲੀਟਿਊਡ ਨੂੰ \\10\\ ਨਾਲ ਵੰਡਿਆ ਜਾਂਦਾ ਹੈ, ਇਸਨੂੰ \\0\\ ਤੋਂ \\10\\ ਰੇਂਜ ਵਿੱਚ ਰੱਖਦਾ ਹੈ। ਫਿਰ, ਉਹ ਮੁੱਲ @Text/repeat ਫੰਕਸ਼ਨ ਨੂੰ ਦਿੱਤਾ ਜਾਂਦਾ ਹੈ, ਜੋ \\'o'\\ ਨੂੰ ਦਿੱਤੀ ਗਈ ਸੰਖਿਆ ਨੂੰ ਦੁਹਰਾਉਂਦਾ ਹੈ।"
                         ],
                         ["Volume", "neutral", "$~bzzzZZZZZZZZZZZ..."],
-                        ["edit", "'o'.repeat(Volume() · 10)"]
+                        ["edit", "'o'.repeat(Volume() × 10)"]
                     ]
                 },
                 {
@@ -3187,7 +3187,7 @@
                             "kind",
                             "$~ਇਹ ਆਕਾਰ ਕੋਈ ਵੀ ਸਮੀਕਰਨ ਹੋ ਸਕਦਾ ਹੈ। ਉਦਾਹਰਨ ਲਈ, ਕਹੋ ਕਿ ਅਸੀਂ ਚਾਹੁੰਦੇ ਸੀ ਕਿ ਇਹ @Time ਟਿੱਕਸ ਦੇ ਰੂਪ ਵਿੱਚ ਵਧੇ। ਅਸੀਂ ਸਮਾਂ ਲੈ ਸਕਦੇ ਹਾਂ, ਇਸਨੂੰ ਮੀਟਰ ਦੇ ਇੱਕ ਅੰਸ਼ ਨਾਲ ਗੁਣਾ ਕਰ ਸਕਦੇ ਹਾਂ, ਅਤੇ ਸ਼ਾਨਦਾਰ, ਟਿਕ ਟਿਕ ਟਿਕ, ਹਾਇ ਹਾਇ ਹਾਇ। ਬਾਰੰਬਾਰਤਾ ਜਾਂ ਗੁਣਕ ਨੂੰ ਬਦਲਣ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰੋ। ਦੇਖੋ ਕਿ ਤੁਸੀਂ ਕਿੰਨੀ ਸੁੰਦਰ ਵਿਕਾਸ ਕਰ ਸਕਦੇ ਹੋ!"
                         ],
-                        ["fix", "Phrase('hi' Time(100ms) · 0.001m/ms)"],
+                        ["fix", "Phrase('hi' Time(100ms) × 0.001m/ms)"],
                         null,
                         [
                             "Phrase",
@@ -3198,7 +3198,7 @@
                             "use",
                             "fix",
                             "Symbol",
-                            "hi' Time(100ms) · 0.001m/ms 'Poor Story"
+                            "hi' Time(100ms) × 0.001m/ms 'Poor Story"
                         ],
                         null,
                         [
@@ -3208,7 +3208,7 @@
                         ],
                         [
                             "fit",
-                            "Phrase('hi' Time(100ms) · 0.001m/ms 'Poor Story' Place(2m 2m))"
+                            "Phrase('hi' Time(100ms) × 0.001m/ms 'Poor Story' Place(2m 2m))"
                         ],
                         null,
                         [
@@ -3218,7 +3218,7 @@
                         ],
                         [
                             "fit",
-                            "Phrase('hi' Time(100ms) · 0.001m/ms 'Poor Story' Place(2m 2m) rotation: 20°)"
+                            "Phrase('hi' Time(100ms) × 0.001m/ms 'Poor Story' Place(2m 2m) rotation: 20°)"
                         ],
                         null,
                         [
@@ -3228,7 +3228,7 @@
                         ],
                         [
                             "fit",
-                            "Phrase('hi' 3m 'Poor Story' rotation: Time(10ms) · 1°/ms)"
+                            "Phrase('hi' 3m 'Poor Story' rotation: Time(10ms) × 1°/ms)"
                         ],
                         null,
                         [
@@ -3243,7 +3243,7 @@
                         ],
                         [
                             "conflict",
-                            "Phrase('hi' 'Poor Story' 3m Time(10ms) · 1°/ms Place(2m 2m))"
+                            "Phrase('hi' 'Poor Story' 3m Time(10ms) × 1°/ms Place(2m 2m))"
                         ],
                         null,
                         [
@@ -3253,7 +3253,7 @@
                         ],
                         [
                             "edit",
-                            "Phrase('hi' size: 3m rotation: Time(10ms) · 0.1°/ms)"
+                            "Phrase('hi' size: 3m rotation: Time(10ms) × 0.1°/ms)"
                         ],
                         null,
                         [
@@ -3280,7 +3280,7 @@
                         ],
                         [
                             "fit",
-                            "Phrase('hi' size: 5m place: Place(Time(1000ms) · 0.001m/ms 0m) moving:Pose(rotation: 5°) duration: 0.5s)"
+                            "Phrase('hi' size: 5m place: Place(Time(1000ms) × 0.001m/ms 0m) moving:Pose(rotation: 5°) duration: 0.5s)"
                         ],
                         null,
                         [
@@ -3290,7 +3290,7 @@
                         ],
                         [
                             "fit",
-                            "Phrase('hi' size: 5m place: Place(Time(1000ms) · 0.001m/ms 0m) moving:Pose(rotation: 5°) duration: 0.5s style: “straight”)"
+                            "Phrase('hi' size: 5m place: Place(Time(1000ms) × 0.001m/ms 0m) moving:Pose(rotation: 5°) duration: 0.5s style: “straight”)"
                         ],
                         null,
                         [
@@ -3301,7 +3301,7 @@
                         [
                             "fit",
                             "Time(1000ms) < 3000ms ? ",
-                            "Phrase('hi' size: 5m place: Place(Time(1000ms) · 0.001m/ms 0m) moving:Pose(rotation: 5°) duration: 0.5s) ",
+                            "Phrase('hi' size: 5m place: Place(Time(1000ms) × 0.001m/ms 0m) moving:Pose(rotation: 5°) duration: 0.5s) ",
                             "Phrase('')"
                         ],
                         null,
@@ -3312,7 +3312,7 @@
                         ],
                         [
                             "fit",
-                            "Time(1000ms) < 3000ms ? Phrase('hi' size: 5m place: Place(Time(1000ms) · 0.001m/ms 0m) moving:Pose(rotation: 5°) exiting:Pose(scale: 10 rotation: 180° opacity: 0) duration: 0.5s) Phrase('')"
+                            "Time(1000ms) < 3000ms ? Phrase('hi' size: 5m place: Place(Time(1000ms) × 0.001m/ms 0m) moving:Pose(rotation: 5°) exiting:Pose(scale: 10 rotation: 180° opacity: 0) duration: 0.5s) Phrase('')"
                         ],
                         null,
                         [
@@ -3326,7 +3326,7 @@
                             "    Phrase(",
                             "        'hi'",
                             "        size: 5m",
-                            "        place: Place(Time(1000ms) · 0.001m/ms 0m)",
+                            "        place: Place(Time(1000ms) × 0.001m/ms 0m)",
                             "        moving:Pose(rotation: 5°)",
                             "        exiting:Pose(scale: 10 rotation: 180° opacity: 0)",
                             "        duration: 0.5s",
@@ -3367,7 +3367,7 @@
                         ],
                         [
                             "edit",
-                            "Phrase('red' size: 5m color: 🌈(50% 300 (Time() % 360) · 1°/ms))"
+                            "Phrase('red' size: 5m color: 🌈(50% 300 (Time() % 360) × 1°/ms))"
                         ],
                         [
                             "FunctionDefinition",
@@ -3685,7 +3685,7 @@
                         [
                             "edit",
                             "Group(",
-                            "    Stack('|' Time(100ms) · 0.001m/ms) ",
+                            "    Stack('|' Time(100ms) × 0.001m/ms) ",
                             "    [",
                             "        Phrase('one')",
                             "        Phrase('two')",
@@ -3702,7 +3702,7 @@
                         [
                             "edit",
                             "Group(",
-                            "    Row('|' Time(100ms) · 0.001m/ms) [",
+                            "    Row('|' Time(100ms) × 0.001m/ms) [",
                             "        Phrase('one')",
                             "        Phrase('two')",
                             "        Phrase('three')",
@@ -4405,7 +4405,7 @@
                             "kind",
                             "$~ਅਵੱਸ਼ ਹਾਂ! ਇਸ ਲਈ, ਇਹ ਪਤਾ ਚਲਦਾ ਹੈ ਕਿ ਪ੍ਰੋਗਰਾਮ ਜ਼ਿਆਦਾਤਰ ਸਿਰਫ ਇੱਕ ਬਲਾਕ ਹੈ. ਇਹ ਸਿਰਫ਼ ਬਰੈਕਟਾਂ ਤੋਂ ਬਿਨਾਂ @Block ਹੈ। ਪਰ ਤੁਸੀਂ ਕਿਸੇ ਪ੍ਰੋਗਰਾਮ ਵਿੱਚ ਕਿਤੇ ਵੀ ਬਰੈਕਟ ਦੇ ਨਾਲ @Programਾਕ ਲਗਾ ਸਕਦੇ ਹੋ। ਉਦਾਹਰਨ ਲਈ, ਤੁਸੀਂ ਗਣਿਤ ਦੇ ਮੁਲਾਂਕਣ ਦੇ ਕ੍ਰਮ ਨੂੰ ਸਪਸ਼ਟ ਕਰਨ ਲਈ @Block ਦੀ ਵਰਤੋਂ ਕਰ ਸਕਦੇ ਹੋ। ਇੱਥੇ, @BinaryEvaluate \\1\\ ਦਾ ਮੁਲਾਂਕਣ ਕਰਦਾ ਹੈ, ਫਿਰ @Block ਦਾ ਮੁਲਾਂਕਣ ਕਰਦਾ ਹੈ, ਫਿਰ ਉਹਨਾਂ ਨੂੰ ਇਕੱਠੇ ਜੋੜਿਆ ਜਾਂਦਾ ਹੈ। ਬਲਾਕ, ਕੀ ਮੈਨੂੰ ਇਹ ਸਹੀ ਮਿਲਿਆ?"
                         ],
-                        ["edit", "1 + (2 · 3)"],
+                        ["edit", "1 + (2 × 3)"],
                         ["Block", "shy", "$~… ਹਾਂ!"],
                         null,
                         [
@@ -4981,7 +4981,7 @@
                             "¶Gets the tax for a given price, ",
                             "which is 1% if less than 100, and 5% otherwise¶",
                             "ƒ tax(price•#dollar) ",
-                            "    price · (price < 100dollar ? 0.01 0.05)"
+                            "    price × (price < 100dollar ? 0.01 0.05)"
                         ],
                         null,
                         [
@@ -5005,7 +5005,7 @@
                             "edit",
                             "ƒ quadratic(a•# b•# c•# x•#)",
                             "¶The quadratic equation¶",
-                            "(a · (x ^ 2)) + (b · x) + c"
+                            "(a × (x ^ 2)) + (b × x) + c"
                         ],
                         null,
                         [
@@ -5018,7 +5018,7 @@
                             "ƒ quadratic(a•# b•# c•# x•#)",
                             "¶The quadratic equation¶/en",
                             "¶La ecuación cuadrática¶/es",
-                            "(a · (x ^ 2)) + (b · x) + c"
+                            "(a × (x ^ 2)) + (b × x) + c"
                         ],
                         null,
                         [

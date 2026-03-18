@@ -1,0 +1,21 @@
+Tạo video từ camera
+
+Cái @Camera Luồng dữ liệu là một cách tuyệt vời để thu thập một lưới màu sắc từ thế giới xung quanh.Nếu chúng ta muốn nhìn thấy những màu sắc đó, bằng cách tái tạo lại hình ảnh thì sao? @Camera thấy sao?
+
+Chúng ta có thể sử dụng @Grid bố cục cho một @Group , Và  @List/combine hàm chuyển đổi màu sắc thành một danh sách @Phrase mà chúng ta trao cho @Grid .
+
+\width: 24
+height: 24
+colors: Camera(width × 1px height × 1px 33ms)
+Stage([
+		Group(Grid(height width 0m) colors.combine([] ƒ(phrases row) [
+						:phrases
+						:row.translate(ƒ(color) Phrase("⬤" color: color duration: 0s))
+					]))
+	])\
+
+Ví dụ này xây dựng một danh sách các cụm từ, chuyển đổi mỗi màu thành một hình tròn có màu sắc cụ thể đó.
+
+Hãy cẩn thận với @Camera Luồng dữ liệu: Chúng tạo ra rất nhiều dữ liệu đầu vào! Bạn nên giữ chiều rộng và chiều cao của hình ảnh ở mức nhỏ.
+
+interactive-scene

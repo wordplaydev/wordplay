@@ -21,25 +21,14 @@ export class IncompatibleKey extends Conflict {
     static readonly LocalePath = (locales: LocaleText) =>
         locales.node.SetOrMapAccess.conflict.IncompatibleKey;
 
-    getConflictingNodes() {
+    getMessage() {
         return {
-            primary: {
-                node: this.access,
-                explanation: (locales: Locales, context: Context) =>
-                    locales.concretize(
-                        (l) => IncompatibleKey.LocalePath(l).primary,
-                        new NodeRef(this.expected, locales, context),
-                    ),
-            },
-            secondary: {
-                node: this.access.setOrMap,
-                explanation: (locales: Locales, context: Context) =>
-                    locales.concretize(
-                        (l) => IncompatibleKey.LocalePath(l).secondary,
-                        new NodeRef(this.received, locales, context),
-                        new NodeRef(this.expected, locales, context),
-                    ),
-            },
+            node: this.access,
+            explanation: (locales: Locales, context: Context) =>
+                locales.concretize(
+                    (l) => IncompatibleKey.LocalePath(l).explanation,
+                    new NodeRef(this.expected, locales, context),
+                ),
         };
     }
 

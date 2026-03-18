@@ -26,6 +26,7 @@ import {
     TutorialProgressSetting,
     type TutorialProgress,
 } from './TutorialProgressSetting';
+import { UpdatesSetting } from './UpdatesSetting';
 import { WritingLayoutSetting } from './WritingLayoutSetting';
 
 /** The schema of the record written to the creators collection. */
@@ -40,7 +41,7 @@ export type SettingsSchemaV1 = {
 export type SettingsSchemaV2 = Omit<SettingsSchemaV1, 'v'> & {
     v: 2;
     newHowToNotifications: boolean;
-}
+};
 
 export type SettingsSchema = SettingsSchemaV2;
 const SettingsSchemaLatestVersion = 2;
@@ -84,6 +85,7 @@ export default class SettingsDatabase {
         lines: LineSetting,
         annotations: AnnotationsSetting,
         howToNotifications: HowToNotificationsSetting,
+        updates: UpdatesSetting,
     };
 
     /** A derived store based on animation factor */
@@ -121,7 +123,10 @@ export default class SettingsDatabase {
             this.settings.locales.set(this.database, data.locales);
             this.settings.tutorial.set(this.database, data.tutorial);
             this.settings.writingLayout.set(this.database, data.writingLayout);
-            this.settings.howToNotifications.set(this.database, data.newHowToNotifications);
+            this.settings.howToNotifications.set(
+                this.database,
+                data.newHowToNotifications,
+            );
         }
     }
 
@@ -229,6 +234,14 @@ export default class SettingsDatabase {
 
     getHowToNotifications() {
         return this.settings.howToNotifications.get();
+    }
+
+    getUpdatesLastChecked() {
+        return this.settings.updates.get();
+    }
+
+    setUpdatesLastChecked(date: string) {
+        this.settings.updates.set(this.database, date);
     }
 
     /** To serialize to a database */

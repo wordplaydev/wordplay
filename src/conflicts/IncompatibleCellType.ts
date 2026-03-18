@@ -31,24 +31,14 @@ export default class IncompatibleCellType extends Conflict {
     static readonly LocalePath = (locales: LocaleText) =>
         locales.node.Update.conflict.IncompatibleCellType;
 
-    getConflictingNodes() {
+    getMessage() {
         return {
-            primary: {
-                node: this.cell,
-                explanation: (locales: Locales, context: Context) =>
-                    locales.concretize(
-                        (l) => IncompatibleCellType.LocalePath(l).primary,
-                        new NodeRef(this.expected, locales, context),
-                    ),
-            },
-            secondary: {
-                node: this.type,
-                explanation: (locales: Locales, context: Context) =>
-                    locales.concretize(
-                        (l) => IncompatibleCellType.LocalePath(l).secondary,
-                        new NodeRef(this.received, locales, context),
-                    ),
-            },
+            node: this.cell,
+            explanation: (locales: Locales, context: Context) =>
+                locales.concretize(
+                    (l) => IncompatibleCellType.LocalePath(l).explanation,
+                    new NodeRef(this.expected, locales, context),
+                ),
         };
     }
 

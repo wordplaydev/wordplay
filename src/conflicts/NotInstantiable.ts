@@ -25,15 +25,13 @@ export default class NotInstantiable extends Conflict {
     static readonly LocalePath = (locale: LocaleText) =>
         locale.node.Evaluate.conflict.NotInstantiable;
 
-    getConflictingNodes() {
+    getMessage() {
         return {
-            primary: {
-                node: this.evaluate,
-                explanation: (locales: Locales) =>
-                    locales.concretize(
-                        (l) => NotInstantiable.LocalePath(l).primary,
-                    ),
-            },
+            node: this.evaluate,
+            explanation: (locales: Locales) =>
+                locales.concretize(
+                    (l) => NotInstantiable.LocalePath(l).explanation,
+                ),
         };
     }
 

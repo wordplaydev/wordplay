@@ -15,15 +15,13 @@ export default class RequiredAfterOptional extends Conflict {
     static readonly LocalePath = (locale: LocaleText) =>
         locale.node.Bind.conflict.RequiredAfterOptional;
 
-    getConflictingNodes() {
+    getMessage() {
         return {
-            primary: {
-                node: this.bind,
-                explanation: (locales: Locales) =>
-                    locales.concretize(
-                        (l) => RequiredAfterOptional.LocalePath(l).primary,
-                    ),
-            },
+            node: this.bind,
+            explanation: (locales: Locales) =>
+                locales.concretize(
+                    (l) => RequiredAfterOptional.LocalePath(l).explanation,
+                ),
         };
     }
 

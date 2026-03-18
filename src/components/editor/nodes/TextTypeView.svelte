@@ -12,6 +12,7 @@
 
 <NodeView node={[node, 'open']} {format} /><NodeView
     node={[node, 'text']}
+    empty="hide"
     {format}
 /><NodeView node={[node, 'close']} {format} /><NodeView
     node={[node, 'language']}

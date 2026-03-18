@@ -40,24 +40,20 @@
     },
     "ConflictText": {
       "additionalProperties": false,
+      "description": "The text that describes this conflict type.",
       "properties": {
-        "name": {
-          "description": "The short header to describe the conflict",
-          "type": "string"
-        },
-        "primary": {
+        "explanation": {
           "$ref": "#/definitions/Template",
           "description": "The text that describes this conflict on the node which generated it."
         },
-        "secondary": {
-          "$ref": "#/definitions/Template",
-          "description": "The text that describes this conflict on a related note, but not the one that generated it."
+        "name": {
+          "description": "The short header to describe the conflict",
+          "type": "string"
         }
       },
       "required": [
         "name",
-        "primary",
-        "secondary"
+        "explanation"
       ],
       "type": "object"
     },
@@ -340,25 +336,6 @@
       "required": [
         "header",
         "explanation"
-      ],
-      "type": "object"
-    },
-    "InternalConflictText": {
-      "additionalProperties": false,
-      "description": "The text that describes this conflict type.",
-      "properties": {
-        "name": {
-          "description": "The short header to describe the conflict",
-          "type": "string"
-        },
-        "primary": {
-          "$ref": "#/definitions/Template",
-          "description": "The text that describes this conflict on the node which generated it."
-        }
-      },
-      "required": [
-        "name",
-        "primary"
       ],
       "type": "object"
     },
@@ -2228,6 +2205,85 @@
               ],
               "type": "object"
             },
+            "Speech": {
+              "additionalProperties": false,
+              "description": "A stream of recognized speech as text",
+              "properties": {
+                "doc": {
+                  "$ref": "#/definitions/DocText",
+                  "description": "Documentation for this definition, to appear in the documentation browser."
+                },
+                "error": {
+                  "additionalProperties": false,
+                  "description": "Errors that can happen during speech recognition, modeled after WebPage",
+                  "properties": {
+                    "browserNotSupported": {
+                      "description": "Browser does not support speech recognition",
+                      "type": "string"
+                    },
+                    "languageNotSupported": {
+                      "description": "Requested language not supported",
+                      "type": "string"
+                    },
+                    "limit": {
+                      "description": "Too many failed attempts to reconnect",
+                      "type": "string"
+                    },
+                    "micNotAllowed": {
+                      "description": "Microphone permission denied",
+                      "type": "string"
+                    },
+                    "noConnection": {
+                      "description": "There was no connection to the internet",
+                      "type": "string"
+                    },
+                    "noMicrophone": {
+                      "description": "Microphone hardware not available",
+                      "type": "string"
+                    },
+                    "serviceNotAllowed": {
+                      "description": "Speech service denied or rate limited",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "browserNotSupported",
+                    "noConnection",
+                    "serviceNotAllowed",
+                    "micNotAllowed",
+                    "noMicrophone",
+                    "languageNotSupported",
+                    "limit"
+                  ],
+                  "type": "object"
+                },
+                "language": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The BCP 47 language code for speech recognition (e.g., 'en-US', 'es-MX', 'zh-CN')"
+                },
+                "limit": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Maximum number of words to keep (sliding window)"
+                },
+                "names": {
+                  "$ref": "#/definitions/NameText",
+                  "description": "One or more names for this definition. Be careful not to introduce duplicates."
+                },
+                "reset": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Whether to reset/clear the accumulated speech"
+                }
+              },
+              "required": [
+                "doc",
+                "error",
+                "language",
+                "limit",
+                "names",
+                "reset"
+              ],
+              "type": "object"
+            },
             "Time": {
               "additionalProperties": false,
               "description": "A stream of times since evaluation began",
@@ -2360,6 +2416,7 @@
             "Time",
             "Volume",
             "Pitch",
+            "Speech",
             "Camera",
             "Scene",
             "Motion",
@@ -2505,7 +2562,7 @@
                   "description": "Conflicts that this node can generate",
                   "properties": {
                     "OrderOfOperations": {
-                      "$ref": "#/definitions/InternalConflictText",
+                      "$ref": "#/definitions/ConflictText",
                       "description": "Warning about order of evaluation of binary evaluations always being reading order, not math order of operations"
                     }
                   },
@@ -2624,23 +2681,23 @@
                       "description": "When a bind and it's value type are incompatible. Description inputs: $1: Expected type, $2: Given type"
                     },
                     "MisplacedShare": {
-                      "$ref": "#/definitions/InternalConflictText",
+                      "$ref": "#/definitions/ConflictText",
                       "description": "When a bind is marked as share, but not at the top level."
                     },
                     "MissingShareLanguages": {
-                      "$ref": "#/definitions/InternalConflictText",
+                      "$ref": "#/definitions/ConflictText",
                       "description": "When a bind is shared, but not language tagged."
                     },
                     "RequiredAfterOptional": {
-                      "$ref": "#/definitions/InternalConflictText",
+                      "$ref": "#/definitions/ConflictText",
                       "description": "When a bind is required, but appears after an optional bind in a definition"
                     },
                     "UnexpectedEtc": {
-                      "$ref": "#/definitions/InternalConflictText",
+                      "$ref": "#/definitions/ConflictText",
                       "description": "When a bind is marked as a variable length list, but not at the end."
                     },
                     "UnusedBind": {
-                      "$ref": "#/definitions/InternalConflictText",
+                      "$ref": "#/definitions/ConflictText",
                       "description": "When a bind is declared but never used."
                     }
                   },
@@ -2744,20 +2801,20 @@
                   "description": "Conflicts that this node can generate",
                   "properties": {
                     "ExpectedEndingExpression": {
-                      "$ref": "#/definitions/InternalConflictText",
+                      "$ref": "#/definitions/ConflictText",
                       "description": "When there's no ending expression"
                     },
                     "IgnoredExpression": {
                       "additionalProperties": false,
                       "description": "When a statement is ignored because it's not last and not a bind",
                       "properties": {
+                        "explanation": {
+                          "$ref": "#/definitions/Template",
+                          "description": "The text that describes this conflict on the node which generated it."
+                        },
                         "name": {
                           "description": "The short header to describe the conflict",
                           "type": "string"
-                        },
-                        "primary": {
-                          "$ref": "#/definitions/Template",
-                          "description": "The text that describes this conflict on the node which generated it."
                         },
                         "resolution": {
                           "additionalProperties": false,
@@ -2767,24 +2824,23 @@
                             },
                             "evaluate": {
                               "$ref": "#/definitions/Template"
+                            },
+                            "name": {
+                              "$ref": "#/definitions/Template"
                             }
                           },
                           "required": [
+                            "name",
                             "binary",
                             "evaluate"
                           ],
                           "type": "object"
-                        },
-                        "secondary": {
-                          "$ref": "#/definitions/Template",
-                          "description": "The text that describes this conflict on a related note, but not the one that generated it."
                         }
                       },
                       "required": [
+                        "explanation",
                         "name",
-                        "primary",
-                        "resolution",
-                        "secondary"
+                        "resolution"
                       ],
                       "type": "object"
                     }
@@ -2936,11 +2992,11 @@
                   "description": "Conflicts that this node can generate",
                   "properties": {
                     "BorrowCycle": {
-                      "$ref": "#/definitions/InternalConflictText",
+                      "$ref": "#/definitions/ConflictText",
                       "description": "When a borrowed value depends on the source file doing the borrowing. Description inputs: $1 = borrow that had a cycle"
                     },
                     "UnknownBorrow": {
-                      "$ref": "#/definitions/InternalConflictText",
+                      "$ref": "#/definitions/ConflictText",
                       "description": "When the borrowed name could not be found"
                     }
                   },
@@ -3228,7 +3284,7 @@
                   "description": "Conflicts that this node can generate",
                   "properties": {
                     "MisplacedConversion": {
-                      "$ref": "#/definitions/InternalConflictText",
+                      "$ref": "#/definitions/ConflictText",
                       "description": "When a conversion is defined somewhere it's not allowed."
                     }
                   },
@@ -3324,7 +3380,7 @@
                   "description": "Conflicts that this node can generate",
                   "properties": {
                     "UnknownConversion": {
-                      "$ref": "#/definitions/InternalConflictText",
+                      "$ref": "#/definitions/ConflictText",
                       "description": "When conversion could not be found. Description inputs: $1 = from type, $2: to type"
                     }
                   },
@@ -3584,7 +3640,7 @@
                       "description": "When an input given to this evaluate doesn't match the input of the function being evaluated Description inputs: $1 = expected type, $2 = given type"
                     },
                     "InputListMustBeLast": {
-                      "$ref": "#/definitions/InternalConflictText",
+                      "$ref": "#/definitions/ConflictText",
                       "description": "When a list of inputs is given but isn't last."
                     },
                     "MissingInput": {
@@ -3592,11 +3648,11 @@
                       "description": "When an input is expected, but not given. Description inputs: $1 = missing input, $2: evaluate that is missing input"
                     },
                     "NotInstantiable": {
-                      "$ref": "#/definitions/InternalConflictText",
+                      "$ref": "#/definitions/ConflictText",
                       "description": "When the structure definition given is an interface, and can't be created"
                     },
                     "SeparatedEvaluate": {
-                      "$ref": "#/definitions/InternalConflictText",
+                      "$ref": "#/definitions/ConflictText",
                       "description": "When something looks like an Evaluate with space"
                     },
                     "UnexpectedInput": {
@@ -3740,7 +3796,7 @@
                   "description": "Conflicts that this node can generate",
                   "properties": {
                     "Placeholder": {
-                      "$ref": "#/definitions/InternalConflictText"
+                      "$ref": "#/definitions/ConflictText"
                     }
                   },
                   "required": [
@@ -3902,7 +3958,7 @@
                   "description": "Conflicts that this node can generate",
                   "properties": {
                     "NoExpression": {
-                      "$ref": "#/definitions/InternalConflictText",
+                      "$ref": "#/definitions/ConflictText",
                       "description": "When a function has no expression"
                     }
                   },
@@ -4164,7 +4220,7 @@
                   "description": "Conflicts that this node can generate",
                   "properties": {
                     "ImpossibleType": {
-                      "$ref": "#/definitions/InternalConflictText",
+                      "$ref": "#/definitions/ConflictText",
                       "description": "When the type given isn't possible"
                     }
                   },
@@ -4386,10 +4442,10 @@
                   "description": "Conflicts that this node can generate",
                   "properties": {
                     "MissingLanguage": {
-                      "$ref": "#/definitions/InternalConflictText"
+                      "$ref": "#/definitions/ConflictText"
                     },
                     "UnknownLanguage": {
-                      "$ref": "#/definitions/InternalConflictText"
+                      "$ref": "#/definitions/ConflictText"
                     }
                   },
                   "required": [
@@ -4821,7 +4877,7 @@
                   "description": "Conflicts that this node can generate",
                   "properties": {
                     "UnknownTypeName": {
-                      "$ref": "#/definitions/InternalConflictText",
+                      "$ref": "#/definitions/ConflictText",
                       "description": "A type representing an unknown name Description inputs: $1 = Invalid type"
                     }
                   },
@@ -5025,7 +5081,7 @@
                   "description": "Conflicts that this node can generate",
                   "properties": {
                     "NotANumber": {
-                      "$ref": "#/definitions/InternalConflictText",
+                      "$ref": "#/definitions/ConflictText",
                       "description": "When something is not a valid number format"
                     }
                   },
@@ -5513,7 +5569,7 @@
                   "description": "Conflicts that this node can generate",
                   "properties": {
                     "ExpectedStream": {
-                      "$ref": "#/definitions/InternalConflictText",
+                      "$ref": "#/definitions/ConflictText",
                       "description": "When the condition doesn't refer to a strema"
                     }
                   },
@@ -5608,11 +5664,11 @@
                   "description": "Conflicts that this node can generate",
                   "properties": {
                     "ReferenceCycle": {
-                      "$ref": "#/definitions/InternalConflictText",
+                      "$ref": "#/definitions/ConflictText",
                       "description": "When a name refers to itself outside a reaction"
                     },
                     "UnexpectedTypeVariable": {
-                      "$ref": "#/definitions/InternalConflictText",
+                      "$ref": "#/definitions/ConflictText",
                       "description": "When a reference refers to a type variable"
                     },
                     "UnknownName": {
@@ -5620,7 +5676,7 @@
                       "description": "When the name does not correspond to a bind in scope Description inputs: $1 = Scope",
                       "properties": {
                         "conflict": {
-                          "$ref": "#/definitions/InternalConflictText"
+                          "$ref": "#/definitions/ConflictText"
                         },
                         "resolution": {
                           "$ref": "#/definitions/Template"
@@ -5721,7 +5777,7 @@
                       "description": "When an extra cell was provided. $1: Cell"
                     },
                     "InvalidRow": {
-                      "$ref": "#/definitions/InternalConflictText",
+                      "$ref": "#/definitions/ConflictText",
                       "description": "When a row does not form to it's table's type definition"
                     },
                     "MissingCell": {
@@ -5733,7 +5789,7 @@
                       "description": "When a bind was not expected in a row but it was provided."
                     },
                     "UnknownColumn": {
-                      "$ref": "#/definitions/InternalConflictText",
+                      "$ref": "#/definitions/ConflictText",
                       "description": "When a unknown column is specified by name."
                     }
                   },
@@ -5798,7 +5854,7 @@
                   "description": "Conflicts that this node can generate",
                   "properties": {
                     "ExpectedSelectName": {
-                      "$ref": "#/definitions/InternalConflictText",
+                      "$ref": "#/definitions/ConflictText",
                       "description": "When a cell in the row isn't a name Description inputs: $1: The select expression"
                     }
                   },
@@ -6072,19 +6128,19 @@
                   "description": "Conflicts that this node can generate",
                   "properties": {
                     "DisallowedInputs": {
-                      "$ref": "#/definitions/InternalConflictText",
+                      "$ref": "#/definitions/ConflictText",
                       "description": "When inputs are declared on a structure with unimplemented functions"
                     },
                     "IncompleteImplementation": {
-                      "$ref": "#/definitions/InternalConflictText",
+                      "$ref": "#/definitions/ConflictText",
                       "description": "When a structure implements some functions, but not all"
                     },
                     "NotAnInterface": {
-                      "$ref": "#/definitions/InternalConflictText",
+                      "$ref": "#/definitions/ConflictText",
                       "description": "When a structure implements something that isn't an interface"
                     },
                     "UnimplementedInterface": {
-                      "$ref": "#/definitions/InternalConflictText",
+                      "$ref": "#/definitions/ConflictText",
                       "description": "When a structure implements an interface, but not all of its functions Description inputs: $1 = Interface, $2 = Function"
                     }
                   },
@@ -6251,7 +6307,7 @@
                   "description": "Conflicts that this node can generate",
                   "properties": {
                     "ExpectedColumnType": {
-                      "$ref": "#/definitions/InternalConflictText",
+                      "$ref": "#/definitions/ConflictText",
                       "description": "When a column's type is missing Description inputs: $1 = The missing column"
                     }
                   },
@@ -6385,7 +6441,7 @@
                   "description": "Conflicts that this node can generate",
                   "properties": {
                     "MisplacedThis": {
-                      "$ref": "#/definitions/InternalConflictText"
+                      "$ref": "#/definitions/ConflictText"
                     }
                   },
                   "required": [
@@ -6454,19 +6510,19 @@
                   "description": "Conflicts that this node can generate",
                   "properties": {
                     "address": {
-                      "$ref": "#/definitions/InternalConflictText"
+                      "$ref": "#/definitions/ConflictText"
                     },
                     "character": {
-                      "$ref": "#/definitions/InternalConflictText"
+                      "$ref": "#/definitions/ConflictText"
                     },
                     "email": {
-                      "$ref": "#/definitions/InternalConflictText"
+                      "$ref": "#/definitions/ConflictText"
                     },
                     "handle": {
-                      "$ref": "#/definitions/InternalConflictText"
+                      "$ref": "#/definitions/ConflictText"
                     },
                     "phone": {
-                      "$ref": "#/definitions/InternalConflictText"
+                      "$ref": "#/definitions/ConflictText"
                     },
                     "reminder": {
                       "$ref": "#/definitions/Template",
@@ -6477,7 +6533,7 @@
                       "description": "How to describe the resolution of the sensitive information conflict."
                     },
                     "tin": {
-                      "$ref": "#/definitions/InternalConflictText"
+                      "$ref": "#/definitions/ConflictText"
                     }
                   },
                   "required": [
@@ -6789,7 +6845,7 @@
                   "description": "Conflicts that this node can generate",
                   "properties": {
                     "UnclosedDelimiter": {
-                      "$ref": "#/definitions/InternalConflictText",
+                      "$ref": "#/definitions/ConflictText",
                       "description": "When a delimiter is unclosed. Description inputs: $1: unclosed token, $2: opening delimiter"
                     },
                     "UnparsableConflict": {
@@ -6797,7 +6853,7 @@
                       "description": "When an unparsable expression or type is used. Description inputs: $1: true if expression, false if type",
                       "properties": {
                         "conflict": {
-                          "$ref": "#/definitions/InternalConflictText"
+                          "$ref": "#/definitions/ConflictText"
                         },
                         "resolution": {
                           "$ref": "#/definitions/Template"
@@ -6892,7 +6948,7 @@
                   "description": "Conflicts that this node can generate",
                   "properties": {
                     "ExpectedColumnBind": {
-                      "$ref": "#/definitions/InternalConflictText",
+                      "$ref": "#/definitions/ConflictText",
                       "description": "When a column name was expected but not given"
                     },
                     "IncompatibleCellType": {
@@ -9074,6 +9130,10 @@
                   "additionalProperties": false,
                   "description": "Buttons in the chat tile",
                   "properties": {
+                    "confirmDelete": {
+                      "description": "Confirm deleting the message",
+                      "type": "string"
+                    },
                     "delete": {
                       "description": "The message delete button",
                       "type": "string"
@@ -9090,7 +9150,8 @@
                   "required": [
                     "submit",
                     "start",
-                    "delete"
+                    "delete",
+                    "confirmDelete"
                   ],
                   "type": "object"
                 },
@@ -9140,6 +9201,55 @@
                 "label": {
                   "description": "The ARIA label for the chat section",
                   "type": "string"
+                },
+                "moderation": {
+                  "additionalProperties": false,
+                  "description": "Dialog for chat moderation",
+                  "properties": {
+                    "explanation": {
+                      "anyOf": [
+                        {
+                          "$ref": "#/definitions/Template"
+                        },
+                        {
+                          "items": {
+                            "$ref": "#/definitions/Template"
+                          },
+                          "type": "array"
+                        }
+                      ],
+                      "description": "The explanation text just below the header."
+                    },
+                    "header": {
+                      "description": "The header to be shown at the top of the dialog",
+                      "type": "string"
+                    },
+                    "inGallery": {
+                      "type": "string"
+                    },
+                    "moderate": {
+                      "$ref": "#/definitions/ButtonText"
+                    },
+                    "pending": {
+                      "type": "string"
+                    },
+                    "removed": {
+                      "type": "string"
+                    },
+                    "report": {
+                      "$ref": "#/definitions/ButtonText"
+                    }
+                  },
+                  "required": [
+                    "explanation",
+                    "header",
+                    "inGallery",
+                    "moderate",
+                    "pending",
+                    "removed",
+                    "report"
+                  ],
+                  "type": "object"
                 },
                 "prompt": {
                   "additionalProperties": false,
@@ -9225,6 +9335,7 @@
                 "field",
                 "role",
                 "button",
+                "moderation",
                 "error",
                 "prompt",
                 "restrictGalleryCreatorAccess"
@@ -9602,6 +9713,9 @@
                         "link": {
                           "type": "string"
                         },
+                        "moderationHeader": {
+                          "type": "string"
+                        },
                         "projectChatHeader": {
                           "type": "string"
                         }
@@ -9610,6 +9724,7 @@
                         "howToHeader",
                         "projectChatHeader",
                         "howToChatHeader",
+                        "moderationHeader",
                         "link"
                       ],
                       "type": "object"
@@ -10309,6 +10424,25 @@
               ],
               "type": "object"
             },
+            "emoji": {
+              "additionalProperties": false,
+              "description": "Emoji related text",
+              "properties": {
+                "groups": {
+                  "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%5D%3E",
+                  "description": "Emoji category labels for the filter"
+                },
+                "noCharacters": {
+                  "description": "Prompt when no custom characters are available",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "noCharacters",
+                "groups"
+              ],
+              "type": "object"
+            },
             "font": {
               "additionalProperties": false,
               "properties": {
@@ -10424,6 +10558,74 @@
                 "confirm",
                 "error",
                 "field"
+              ],
+              "type": "object"
+            },
+            "gallerymoderation": {
+              "additionalProperties": false,
+              "description": "Gallery moderation page labels",
+              "properties": {
+                "description": {
+                  "description": "Description for the moderation page",
+                  "type": "string"
+                },
+                "empty": {
+                  "description": "No messages need moderation",
+                  "type": "string"
+                },
+                "error": {
+                  "description": "No access to the moderation page (not logged in)",
+                  "type": "string"
+                },
+                "header": {
+                  "description": "Page title",
+                  "type": "string"
+                },
+                "keep": {
+                  "$ref": "#/definitions/ButtonText",
+                  "description": "Button for keeping the message as a result of moderation action (i.e., no action)"
+                },
+                "labels": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "action": {
+                      "description": "Labels for the buttons that allow taking moderation action",
+                      "type": "string"
+                    },
+                    "message": {
+                      "description": "Labels the message for display",
+                      "type": "string"
+                    },
+                    "reporter": {
+                      "description": "Labels the username of the user who reported the message",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "message",
+                    "reporter",
+                    "action"
+                  ],
+                  "type": "object"
+                },
+                "remove": {
+                  "$ref": "#/definitions/ButtonText",
+                  "description": "Button for deleting the message as a result of moderation action"
+                },
+                "view": {
+                  "$ref": "#/definitions/ButtonText",
+                  "description": "Button for vieweing the chat the message originated from"
+                }
+              },
+              "required": [
+                "header",
+                "description",
+                "labels",
+                "view",
+                "remove",
+                "keep",
+                "empty",
+                "error"
               ],
               "type": "object"
             },
@@ -10680,9 +10882,21 @@
                 "editor": {
                   "additionalProperties": false,
                   "properties": {
-                    "collaboratorsPrompt": {
-                      "description": "Collaboration",
-                      "type": "string"
+                    "access": {
+                      "$ref": "#/definitions/HeaderAndExplanationText",
+                      "description": "Header for access settings"
+                    },
+                    "accessMode": {
+                      "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%5D%3E",
+                      "description": "Mode text for opting in/out of expanded access to how-tos"
+                    },
+                    "accessToggle": {
+                      "$ref": "#/definitions/ToggleText",
+                      "description": "Access settings toggle text"
+                    },
+                    "collaborators": {
+                      "$ref": "#/definitions/HeaderAndExplanationText",
+                      "description": "Header for collaborator settings"
                     },
                     "collaboratorsToggle": {
                       "$ref": "#/definitions/ToggleText",
@@ -10695,6 +10909,10 @@
                     "editor": {
                       "$ref": "#/definitions/FieldText",
                       "description": "How-to content editor"
+                    },
+                    "localeOptionsLabel": {
+                      "description": "Label for options for translation",
+                      "type": "string"
                     },
                     "newForm": {
                       "$ref": "#/definitions/HeaderAndExplanationText",
@@ -10716,7 +10934,7 @@
                       "$ref": "#/definitions/FieldText",
                       "description": "Field text for how-to title"
                     },
-                    "titlePlaceholder": {
+                    "untitledHowToPlaceholder": {
                       "description": "Placeholder for an untitled how-to",
                       "type": "string"
                     }
@@ -10729,9 +10947,13 @@
                     "notification",
                     "editor",
                     "title",
-                    "titlePlaceholder",
-                    "collaboratorsPrompt",
-                    "collaboratorsToggle"
+                    "untitledHowToPlaceholder",
+                    "collaborators",
+                    "collaboratorsToggle",
+                    "access",
+                    "accessToggle",
+                    "accessMode",
+                    "localeOptionsLabel"
                   ],
                   "type": "object"
                 },
@@ -10908,10 +11130,20 @@
                     "submit": {
                       "description": "The chat submit button",
                       "type": "string"
+                    },
+                    "zoomIn": {
+                      "description": "Zoom in output button",
+                      "type": "string"
+                    },
+                    "zoomOut": {
+                      "description": "Zoom in output button",
+                      "type": "string"
                     }
                   },
                   "required": [
-                    "submit"
+                    "submit",
+                    "zoomIn",
+                    "zoomOut"
                   ],
                   "type": "object"
                 },
@@ -11037,6 +11269,10 @@
                           "$ref": "#/definitions/ButtonText",
                           "description": "The select all button"
                         },
+                        "allColor": {
+                          "$ref": "#/definitions/ButtonText",
+                          "description": "The select all of color button"
+                        },
                         "back": {
                           "$ref": "#/definitions/ButtonText",
                           "description": "The move selection back button"
@@ -11077,9 +11313,21 @@
                           "$ref": "#/definitions/ButtonText",
                           "description": "Paste button text"
                         },
+                        "pick": {
+                          "$ref": "#/definitions/ButtonText",
+                          "description": "The color picker button"
+                        },
                         "redo": {
                           "$ref": "#/definitions/ButtonText",
                           "description": "The redo tooltip"
+                        },
+                        "saturationDown": {
+                          "$ref": "#/definitions/ButtonText",
+                          "description": "The saturation down button"
+                        },
+                        "saturationUp": {
+                          "$ref": "#/definitions/ButtonText",
+                          "description": "The saturation up button"
                         },
                         "toBack": {
                           "$ref": "#/definitions/ButtonText",
@@ -11110,6 +11358,10 @@
                         "undo",
                         "redo",
                         "all",
+                        "allColor",
+                        "pick",
+                        "saturationUp",
+                        "saturationDown",
                         "end",
                         "horizontal",
                         "vertical",
@@ -11677,16 +11929,31 @@
                         "more": {
                           "$ref": "#/definitions/ButtonText",
                           "description": "Button for showing more galleries"
+                        },
+                        "newgallery": {
+                          "description": "Create a new gallery tip",
+                          "type": "string"
                         }
                       },
                       "required": [
+                        "newgallery",
                         "more"
                       ],
                       "type": "object"
                     },
-                    "examples": {
-                      "description": "The subheader for the examples",
-                      "type": "string"
+                    "error": {
+                      "additionalProperties": false,
+                      "description": "Error messages on the galleries page",
+                      "properties": {
+                        "nogalleryedits": {
+                          "description": "When the creator is not logged in.",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "nogalleryedits"
+                      ],
+                      "type": "object"
                     },
                     "header": {
                       "description": "How to describe galleries of projects",
@@ -11695,13 +11962,38 @@
                     "prompt": {
                       "description": "Explanation for the galleries page",
                       "type": "string"
+                    },
+                    "section": {
+                      "additionalProperties": false,
+                      "description": "Subheaders and prompts for the gallery types",
+                      "properties": {
+                        "examples": {
+                          "$ref": "#/definitions/HeaderAndExplanationText",
+                          "description": "Subheader for built-in galleries"
+                        },
+                        "own": {
+                          "$ref": "#/definitions/HeaderAndExplanationText",
+                          "description": "Subheader for personally owned galleries"
+                        },
+                        "public": {
+                          "$ref": "#/definitions/HeaderAndExplanationText",
+                          "description": "Subheader for public galleries"
+                        }
+                      },
+                      "required": [
+                        "own",
+                        "examples",
+                        "public"
+                      ],
+                      "type": "object"
                     }
                   },
                   "required": [
                     "header",
                     "prompt",
-                    "examples",
-                    "button"
+                    "section",
+                    "button",
+                    "error"
                   ],
                   "type": "object"
                 },
@@ -12042,6 +12334,10 @@
                           "description": "When the email address couldn't be changed for unknown reasons.",
                           "type": "string"
                         },
+                        "usernameTaken": {
+                          "description": "Username taken",
+                          "type": "string"
+                        },
                         "wrongPassword": {
                           "description": "When a password is wrong",
                           "type": "string"
@@ -12052,6 +12348,7 @@
                         "invalid",
                         "email",
                         "invalidUsername",
+                        "usernameTaken",
                         "failure",
                         "offline",
                         "unchanged",
@@ -12513,10 +12810,6 @@
                           "description": "Edit a project",
                           "type": "string"
                         },
-                        "newgallery": {
-                          "description": "Create a new gallery",
-                          "type": "string"
-                        },
                         "newproject": {
                           "description": "Create a new project",
                           "type": "string"
@@ -12534,7 +12827,6 @@
                         "newproject",
                         "editproject",
                         "viewcode",
-                        "newgallery",
                         "unarchive"
                       ],
                       "type": "object"
@@ -12575,28 +12867,15 @@
                         "nodeletes": {
                           "description": "Feedback that we are unable to delete when logged out",
                           "type": "string"
-                        },
-                        "nogalleryedits": {
-                          "description": "When the creator is not logged in.",
-                          "type": "string"
                         }
                       },
                       "required": [
                         "noaccess",
-                        "nogalleryedits",
                         "newgallery",
                         "nodeletes",
                         "delete"
                       ],
                       "type": "object"
-                    },
-                    "galleriesheader": {
-                      "description": "Header for the galleries page",
-                      "type": "string"
-                    },
-                    "galleryprompt": {
-                      "description": "A prompt to create galleries",
-                      "type": "string"
                     },
                     "header": {
                       "description": "Header for the projects page",
@@ -12635,8 +12914,6 @@
                     "header",
                     "projectprompt",
                     "archiveprompt",
-                    "galleriesheader",
-                    "galleryprompt",
                     "add",
                     "subheader",
                     "button",
@@ -13503,13 +13780,23 @@
                     "selectOutput": {
                       "description": "Output preview button for selecting output for display in output tile",
                       "type": "string"
+                    },
+                    "zoomIn": {
+                      "description": "The zoom in button for the code editor",
+                      "type": "string"
+                    },
+                    "zoomOut": {
+                      "description": "The zoom out button for the code editor",
+                      "type": "string"
                     }
                   },
                   "required": [
                     "selectOutput",
                     "expandSequence",
                     "expandControls",
-                    "collapseControls"
+                    "collapseControls",
+                    "zoomIn",
+                    "zoomOut"
                   ],
                   "type": "object"
                 },
@@ -13656,6 +13943,10 @@
                       "description": "Insert ¶ symbol",
                       "type": "string"
                     },
+                    "insertDot": {
+                      "description": "Insert · symbol",
+                      "type": "string"
+                    },
                     "insertFalse": {
                       "description": "Insert false symbol",
                       "type": "string"
@@ -13689,7 +13980,7 @@
                       "type": "string"
                     },
                     "insertProduct": {
-                      "description": "Insert · symbol",
+                      "description": "Insert × symbol",
                       "type": "string"
                     },
                     "insertQuotient": {
@@ -13835,6 +14126,7 @@
                     "insertNone",
                     "insertNotEqual",
                     "insertProduct",
+                    "insertDot",
                     "insertQuotient",
                     "insertDegree",
                     "insertFunction",
@@ -14291,6 +14583,7 @@
             "project",
             "checkpoints",
             "gallery",
+            "gallerymoderation",
             "howto",
             "source",
             "annotations",
@@ -14303,7 +14596,8 @@
             "save",
             "page",
             "edit",
-            "template"
+            "template",
+            "emoji"
           ],
           "type": "object"
         },
@@ -14326,6 +14620,39 @@
         "ui",
         "gallery",
         "moderation"
+      ],
+      "type": "object"
+    },
+    "ModeText<[string,string,string,string,string,string,string,string,string,string,string,string,string,string,string,string,string,string]>": {
+      "additionalProperties": false,
+      "properties": {
+        "label": {
+          "description": "The tooltip and ARIA-label for the entire mode widget, describing the kind of modes it supports switching to.",
+          "type": "string"
+        },
+        "labels": {
+          "description": "A list of modes",
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 18,
+          "minItems": 18,
+          "type": "array"
+        },
+        "tips": {
+          "description": "A list of tips/aria labels for each option",
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 18,
+          "minItems": 18,
+          "type": "array"
+        }
+      },
+      "required": [
+        "label",
+        "labels",
+        "tips"
       ],
       "type": "object"
     },

@@ -21,16 +21,14 @@ export default class ExpectedSelectName extends Conflict {
     static readonly LocalePath = (locales: LocaleText) =>
         locales.node.Select.conflict.ExpectedSelectName;
 
-    getConflictingNodes() {
+    getMessage() {
         return {
-            primary: {
-                node: this.select,
-                explanation: (locales: Locales, context: Context) =>
-                    locales.concretize(
-                        (l) => ExpectedSelectName.LocalePath(l).primary,
-                        new NodeRef(this.cell, locales, context),
-                    ),
-            },
+            node: this.select,
+            explanation: (locales: Locales, context: Context) =>
+                locales.concretize(
+                    (l) => ExpectedSelectName.LocalePath(l).explanation,
+                    new NodeRef(this.cell, locales, context),
+                ),
         };
     }
 

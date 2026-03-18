@@ -4,7 +4,7 @@ Calculator
 ¶ Functions that performs calculations ¶
 ƒ addition(num1•# num2•#) num1 + num2
 ƒ subtraction(num1•# num2•#) num1 - num2
-ƒ multiplication(num1•# num2•#) num1 · num2
+ƒ multiplication(num1•# num2•#) num1 × num2
 ƒ division(num1•# num2•#) num1 ÷ num2
 
 choice: Choice()

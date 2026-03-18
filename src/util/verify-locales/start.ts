@@ -28,12 +28,26 @@ import {
 } from './verifyLocale';
 import { createUnwrittenTutorial, verifyTutorial } from './verifyTutorial';
 
-// Make a logger so we can pretty print feedback.
-const log = new Log();
+// We're we asked to translate? Let's see if there was a specific locale we're focusing on.
+const TranslationRequested =
+    process.argv[2] === 'translate' || process.argv[2] === 'override';
+const OverrideMachineTranslations = process.argv[2] === 'override';
+const FailOnInvalid = process.argv[2] === 'ci';
+const FixRequested = process.argv[2] === 'fix';
+
+// Make a logger so we can pretty print feedback. It bails on bad or exit with a failure exit code if we're in continuous integration mode.
+const log = new Log(FailOnInvalid);
 
 // Now that we've defined all of the functionality, let's process requests.
-if (process.argv.length < 3) {
-    log.exit(0, 'Please provide either "verify" or "translate" command');
+if (
+    process.argv.length < 3 ||
+    !['fix', 'ci', 'verify', 'translate', 'override'].includes(process.argv[2])
+) {
+    log.exit(
+        0,
+        'Please provide either "verify" (check structure), "ci" (fail on invalid structure), "fix" (repair structure), "translate" (translate untranslated strings), "override" command (replace existing machine translations)',
+        false,
+    );
 }
 
 // If there are problems in the default locale, we can't verify or translate anything.
@@ -47,13 +61,9 @@ if (!LocaleValidator(DefaultLocale)) {
             if (error.message)
                 log.bad(1, 'x ' + `${error.instancePath}: ${error.message}`);
         }
-    process.exit(0);
+    process.exit(1);
 }
 
-// We're we asked to translate? Let's see if there was a specific locale we're focusing on.
-const TranslationRequested =
-    process.argv[2] === 'translate' || process.argv[2] === 'override';
-const OverrideMachineTranslations = process.argv[2] === 'override';
 const FocalLocale = process.argv[3] ?? null;
 
 const FocalLanguage = FocalLocale ? getLocaleLanguage(FocalLocale) : null;
@@ -62,7 +72,11 @@ const FocalRegion = FocalLocale
     : null;
 
 if (FocalLanguage === undefined)
-    log.exit(0, 'Please provide a valid locale language code to translate');
+    log.exit(
+        0,
+        'Please provide a valid locale language code to translate',
+        false,
+    );
 
 log.say(
     0,
@@ -93,6 +107,7 @@ async function handleLocale(
         log,
         locale,
         localeText as LocaleText,
+        FixRequested,
         TranslationRequested,
         OverrideMachineTranslations,
         revisedStrings,

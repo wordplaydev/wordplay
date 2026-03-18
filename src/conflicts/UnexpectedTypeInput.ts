@@ -28,29 +28,19 @@ export default class UnexpectedTypeInput extends Conflict {
     static readonly LocalePath = (locales: LocaleText) =>
         locales.node.Evaluate.conflict.UnexpectedTypeInput;
 
-    getConflictingNodes() {
+    getMessage() {
         return {
-            primary: {
-                node: this.type,
-                explanation: (locales: Locales, context: Context) =>
-                    locales.concretize(
-                        (l) => UnexpectedTypeInput.LocalePath(l).primary,
-                        new NodeRef(
-                            this.definition.names,
-                            locales,
-                            context,
-                            locales.getName(this.definition.names),
-                        ),
+            node: this.type,
+            explanation: (locales: Locales, context: Context) =>
+                locales.concretize(
+                    (l) => UnexpectedTypeInput.LocalePath(l).explanation,
+                    new NodeRef(
+                        this.definition.names,
+                        locales,
+                        context,
+                        locales.getName(this.definition.names),
                     ),
-            },
-            secondary: {
-                node: this.definition.names,
-                explanation: (locales: Locales, context: Context) =>
-                    locales.concretize(
-                        (l) => UnexpectedTypeInput.LocalePath(l).secondary,
-                        new NodeRef(this.type, locales, context),
-                    ),
-            },
+                ),
         };
     }
 

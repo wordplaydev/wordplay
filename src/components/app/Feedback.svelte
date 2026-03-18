@@ -9,7 +9,7 @@
     import Note from '@components/widgets/Note.svelte';
     import TextBox from '@components/widgets/TextBox.svelte';
     import TextField from '@components/widgets/TextField.svelte';
-    import { Logs } from '@db/Database';
+    import { locales, Logs } from '@db/Database';
     import {
         createFeedback,
         deleteFeedback,
@@ -120,6 +120,12 @@
 
 {#snippet feedbackView(feed: Feedback, index: number)}
     <div class="feedback" class:expanded={expanded[index]}>
+        <Note
+            >{new Date(feed.created).toLocaleString(
+                $locales.getLocaleString(),
+                { day: 'numeric', month: 'short', year: 'numeric' },
+            )}</Note
+        >
         <div
             role="button"
             class="header"
@@ -393,7 +399,7 @@
         }
 
         .feedback.expanded {
-            max-height: 100vh;
+            max-height: 100dvh;
             overflow: auto;
         }
 
@@ -518,7 +524,9 @@
 
         <Button
             background
-            active={!submitting && title.length > 0 && description.length > 0}
+            active={!submitting &&
+                title.trim().length > 0 &&
+                description.trim().length > 0}
             tip={(l) => l.ui.dialog.feedback.button.submit.tip}
             icon={mode === 'defect' ? DEFECT_SYMBOL : IDEA_SYMBOL}
             label={(l) => l.ui.dialog.feedback.button.submit.label}

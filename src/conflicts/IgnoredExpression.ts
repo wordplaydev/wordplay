@@ -1,8 +1,10 @@
 import type LocaleText from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
+import Bind from '@nodes/Bind';
 import type Context from '@nodes/Context';
 import type Expression from '@nodes/Expression';
 import FunctionDefinition from '@nodes/FunctionDefinition';
+import Names from '@nodes/Names';
 import UnaryEvaluate from '@nodes/UnaryEvaluate';
 import type Locales from '../locale/Locales';
 import Block from '../nodes/Block';
@@ -21,10 +23,42 @@ export class IgnoredExpression extends Conflict {
     static readonly LocalePath = (locales: LocaleText) =>
         locales.node.Block.conflict.IgnoredExpression;
 
-    getConflictingNodes(context: Context) {
+    getMessage(context: Context) {
         // Is the expression after the ignored expression a unary one that, if a space were inserted, would resolve
         // to a binary function? If so, offer to insert a space.
         let unary: Resolution | undefined;
+
+        // Suggest we name the value
+        const nameValue = {
+            description: (locales: Locales) =>
+                locales.concretize(
+                    (l) =>
+                        l.node.Block.conflict.IgnoredExpression.resolution.name,
+                ),
+            mediator: (context: Context) => {
+                const source = context.project.getSourceOf(this.expr);
+                if (source === undefined)
+                    return { newProject: context.project };
+                return {
+                    newProject: context.project.withSource(
+                        source,
+                        source.replace(
+                            this.expr,
+                            Bind.make(
+                                undefined,
+                                Names.make([
+                                    context.project.getLocales().getLocale()
+                                        .node.Name.name,
+                                ]),
+                                undefined,
+                                this.expr,
+                            ),
+                        ),
+                    ),
+                };
+            },
+        };
+
         const next =
             this.block.statements[this.block.statements.indexOf(this.expr) + 1];
         if (next instanceof UnaryEvaluate) {
@@ -120,22 +154,14 @@ export class IgnoredExpression extends Conflict {
             }
         }
         return {
-            primary: {
-                node: this.block.statements.at(-1) ?? this.block,
-                explanation: (locales: Locales, context: Context) =>
-                    locales.concretize(
-                        (l) => IgnoredExpression.LocalePath(l).primary,
-                        new NodeRef(this.expr, locales, context),
-                    ),
-            },
-            secondary: {
-                node: this.expr,
-                explanation: (locales: Locales) =>
-                    locales.concretize(
-                        (l) => IgnoredExpression.LocalePath(l).secondary,
-                    ),
-            },
+            node: this.expr,
+            explanation: (locales: Locales, context: Context) =>
+                locales.concretize(
+                    (l) => IgnoredExpression.LocalePath(l).explanation,
+                    new NodeRef(this.expr, locales, context),
+                ),
             resolutions: [
+                nameValue,
                 ...(unary ? [unary] : []),
                 ...(splitEvaluate ? [splitEvaluate] : []),
             ],

@@ -8,7 +8,7 @@
     import Link from '../../components/app/Link.svelte';
     import MarkupHTMLView from '../../components/concepts/MarkupHTMLView.svelte';
     import ConfirmButton from '../../components/widgets/ConfirmButton.svelte';
-    import EmojiChooser from '../../components/widgets/EmojiChooser.svelte';
+    import EmojiChooser from '../../components/widgets/GlyphChooser.svelte';
     import { Creator } from '../../db/creators/CreatorDatabase';
     import { SaveStatus, status } from '../../db/Database';
     import { auth } from '../../db/firebase';
@@ -66,7 +66,7 @@
         <LocalizedText path={(l) => l.ui.page.login.prompt.name} />
         <EmojiChooser
             pick={(name) => rename(name)}
-            emoji={user.displayName ?? ''}
+            glyph={user.displayName ?? ''}
         />
     </Action>
     <Action>

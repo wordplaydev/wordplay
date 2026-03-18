@@ -1,0 +1,19 @@
+Theo dõi điểm số
+
+Đôi khi trong trò chơi, việc theo dõi điểm số khi có sự kiện xảy ra rất hữu ích. Nếu Wordplay không cho phép gán giá trị mới cho các biến, chúng ta có thể làm điều đó bằng cách nào?
+
+Mấu chốt là sử dụng một @Reaction để định nghĩa một @Bind giá trị của nó, và cần suy nghĩ kỹ về sự kiện nào sẽ dẫn đến một giá trị mới cho nó. @Bind .
+
+Ví dụ, hãy tưởng tượng một trò chơi rất đơn giản, trong đó người chơi nhận được nhiều điểm hơn mỗi khi họ gõ một phím bí mật trên bàn phím.
+
+\points: 0 … ['Một' 'e' 'Tôi' 'o' 'bạn'].has(Key()) … points + 1\
+
+Ví dụ này nói rằng,/Điểm số bắt đầu từ 0, và mỗi khi nhấn một phím, nếu phím đó nằm trong danh sách các nguyên âm, điểm số sẽ bằng điểm số hiện tại cộng thêm một./Mỗi lần\Key()\  @Stream Khi có thay đổi, chương trình sẽ đánh giá lại, kiểm tra điều kiện, và nếu điều kiện đúng, sẽ đưa ra kết quả.\points\một giá trị mới.
+
+Phản ứng này gồm ba phần:
+
+• Giá trị ban đầu của các điểm (\0\)• Điều kiện, khi đúng, sẽ tạo ra một giá trị mới (\['Một' 'e' 'Tôi' 'o' 'bạn'].has(Key())\)• Giá trị mới, nếu điều kiện trở thành đúng (\points + 1\)
+
+Để thực hiện việc theo dõi điểm phức tạp hơn, chỉ cần tạo ra các điều kiện phức tạp hơn hoặc các giá trị mới. Hãy dành thời gian suy nghĩ kỹ về các quy tắc của những điều kiện và giá trị mới đó, rồi cố gắng thể hiện chúng bằng mã lập trình.
+
+track-points

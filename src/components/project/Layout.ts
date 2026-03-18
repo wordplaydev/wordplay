@@ -348,7 +348,11 @@ export default class Layout {
         return new Layout(
             this.projectID,
             this.tiles.map((tile) =>
-                tile.id === tileID ? tile.withMode(TileMode.Expanded) : tile,
+                // If there's a fullscreen id set, make sure this one is visible.
+                tileID !== undefined && tile.id === tileID
+                    ? tile.withMode(TileMode.Expanded)
+                    : // Otherwise, just reuse the title as is.
+                      tile,
             ),
             tileID,
             this.splits,
@@ -378,7 +382,7 @@ export default class Layout {
               height < 500 || width < 500
                 ? Arrangement.Single
                 : // Tablet size? Split view.
-                  height < 700 || width < 700
+                  height < 600 || width < 600
                   ? Arrangement.Split
                   : width > height
                     ? Arrangement.Horizontal

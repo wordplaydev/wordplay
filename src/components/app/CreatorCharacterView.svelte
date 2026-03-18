@@ -1,7 +1,6 @@
 <script lang="ts">
     import { characterToSVG, type Character } from '@db/characters/Character';
     import { CharactersDB } from '@db/Database';
-    import { withColorEmoji } from '../../unicode/emoji';
 
     const { character }: { character: string | null } = $props();
 
@@ -19,9 +18,9 @@
 <span class="name" style:animation-delay={`${Math.random() * 1000}ms`}
     >{#if customCharacter}
         {@html characterToSVG(customCharacter, '1em')}
-    {:else}{withColorEmoji(
-            character === '' || character === null ? '😃' : character,
-        )}{/if}</span
+    {:else}{character === '' || character === null
+            ? '😃'
+            : character}{/if}</span
 >
 
 <style>

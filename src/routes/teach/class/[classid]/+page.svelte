@@ -177,7 +177,7 @@
 
     <Centered>
         <Button
-            tip={(l) => l.ui.page.projects.button.newgallery}
+            tip={(l) => l.ui.page.galleries.button.newgallery}
             action={() => createGallery(classData)}
             large
             icon="+"

@@ -177,7 +177,7 @@ export default class Spaces {
      */
     withReplacement(replaced: Node, replacement: Node | undefined) {
         // Find the first leaf of the replaced token
-        const replacedToken = replaced.getFirstLeaf() as Token | undefined;
+        const replacedToken = replaced.getFirstLeaf();
 
         // Get the next token after the replaced node.
         const lastTokenOfReplaced = replaced.leaves().at(-1) as
@@ -192,7 +192,7 @@ export default class Spaces {
             replacedToken === undefined
                 ? undefined
                 : replacement
-                  ? (replacement.getFirstLeaf() as Token | undefined)
+                  ? replacement.getFirstLeaf()
                   : nextToken;
 
         // Get the space prior to the replaced token.
@@ -223,7 +223,7 @@ export default class Spaces {
     /** Create a new space mapping that sets the space before the given token to the specified space. */
     withSpace(token: Node, space: string) {
         // Find the first leaf of the given node (possiblity the node itself.)
-        const firstToken = token.getFirstLeaf() as Token | undefined;
+        const firstToken = token.getFirstLeaf();
 
         // Silently fail if there is no first token.
         if (firstToken === undefined) return this;

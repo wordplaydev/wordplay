@@ -1,7 +1,6 @@
 <script lang="ts">
     import { goto } from '$app/navigation';
     import Header from '@components/app/Header.svelte';
-    import Notice from '@components/app/Notice.svelte';
     import Spinning from '@components/app/Spinning.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import Button from '@components/widgets/Button.svelte';
@@ -85,7 +84,9 @@
             validator={(text) =>
                 !isValidUsername(text)
                     ? (l) => l.ui.page.login.error.invalidUsername
-                    : true}
+                    : available === false
+                      ? (l) => l.ui.page.login.error.usernameTaken
+                      : true}
             changed={() => {
                 if (available === false) available = undefined;
             }}
@@ -95,11 +96,8 @@
                 checkingUsername = false;
             }}
         />
+        <Spinning size={1} spin={checkingUsername}></Spinning>
     </p>
-    {#if checkingUsername}<Spinning></Spinning>
-    {:else if available === false}
-        <Notice>This username is taken.</Notice>
-    {/if}
 
     <MarkupHTMLView note markup={(l) => l.ui.page.join.prompt.password} />
     <p class="center">

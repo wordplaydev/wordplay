@@ -17,24 +17,14 @@ export class DuplicateShare extends Conflict {
     static readonly LocalePath = (locale: LocaleText) =>
         locale.node.Bind.conflict.DuplicateShare;
 
-    getConflictingNodes() {
+    getMessage() {
         return {
-            primary: {
-                node: this.share.names,
-                explanation: (locales: Locales, context: Context) =>
-                    locales.concretize(
-                        (l) => DuplicateShare.LocalePath(l).primary,
-                        new NodeRef(this.other, locales, context),
-                    ),
-            },
-            secondary: {
-                node: this.other.names,
-                explanation: (locales: Locales, context: Context) =>
-                    locales.concretize(
-                        (l) => DuplicateShare.LocalePath(l).secondary,
-                        new NodeRef(this.other, locales, context),
-                    ),
-            },
+            node: this.share.names,
+            explanation: (locales: Locales, context: Context) =>
+                locales.concretize(
+                    (l) => DuplicateShare.LocalePath(l).explanation,
+                    new NodeRef(this.other, locales, context),
+                ),
         };
     }
 

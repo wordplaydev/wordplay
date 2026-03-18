@@ -16,6 +16,7 @@ import ConceptLink from '@nodes/ConceptLink';
 import Sym from '@nodes/Sym';
 import Token from '@nodes/Token';
 import { tokenize } from '@parser/Tokenizer';
+import { toTokens } from '@parser/toTokens';
 import LocalePath, { getKeyTemplatePairs } from './LocalePath';
 import { LocaleValidator } from './LocaleSchema';
 import type Log from './Log';
@@ -68,6 +69,8 @@ export async function verifyLocale(
     log: Log,
     locale: string,
     text: LocaleText,
+    /** Whether to fix structural issues */
+    fix: boolean,
     /** Whether to translate unwritten strings in the locale */
     translate: boolean,
     /** Whether to override existing machine translations */
@@ -80,16 +83,13 @@ export async function verifyLocale(
     let revisedText: LocaleText = text;
     const valid = LocaleValidator(text);
     if (!valid && LocaleValidator.errors) {
-        log.bad(
-            2,
-            "Locale doesn't match the schema. Will attempt to repair it.",
-        );
+        log.bad(2, "Locale doesn't match the schema.");
         for (const error of LocaleValidator.errors) {
             if (error.message)
                 log.bad(3, `${error.instancePath}: ${error.message}`);
         }
 
-        revisedText = repairLocale(log, DefaultLocale, revisedText);
+        if (fix) revisedText = repairLocale(log, DefaultLocale, revisedText);
     }
 
     // Don't warn if we're checking the example locale.
@@ -156,7 +156,28 @@ async function checkLocale(
                   );
         })
         // Don't translate emotions; those have meaning.
-        .filter(({ key }) => key !== 'emotion');
+        .filter(({ key }) => key !== 'emotion')
+        // Don't translate names that are names that are symbolic
+        .map((path) => {
+            if (path.key !== 'names') return path;
+            const names = (
+                Array.isArray(path.value) ? path.value : [path.value]
+            ).map((name) => {
+                // Not unwritten? Nothing to do.
+                if (!isUnwritten(name)) return name;
+                const nameWithoutPlaceholder = withoutAnnotations(name);
+                // A symbolic name? Don't translate it, just remove the unwritten marker.
+                if (
+                    toTokens(nameWithoutPlaceholder)
+                        .peek()
+                        ?.isSymbol(Sym.Operator)
+                )
+                    return nameWithoutPlaceholder;
+                // Return the unwritten name.
+                return name;
+            });
+            return new LocalePath(path.path, path.key, names);
+        });
 
     // If there are any unwritten strings and we were asked to translate them, do so.
     if (pairsToTranslate.length > 0 && warnUnwritten && translate) {
@@ -314,16 +335,22 @@ async function checkLocale(
     }
 
     // Give warnings on revised strings that are not machine translated.
+    let potentiallyOutOfDate = new Set<string>();
     for (const revisedString of revisedStrings) {
         const match = pairs.find((path) => path.equals(revisedString.path));
         if (match) {
             const outOfDate = revisedString.path.resolve(original);
             if (typeof outOfDate === 'string' && !isAutomated(outOfDate))
-                log.warning(
-                    2,
-                    `Potentially out of date string at ${revisedString.path.toString()}: "${outOfDate}". Revision in ${revisedString.locale}: "${revisedString.text}"`,
-                );
+                potentiallyOutOfDate.add(revisedString.path.toString());
         }
+    }
+    if (potentiallyOutOfDate.size > 0) {
+        log.warning(
+            2,
+            `${potentiallyOutOfDate.size} strings potentially out of date ${Array.from(
+                potentiallyOutOfDate,
+            ).join(', ')}`,
+        );
     }
 
     const automated = pairs.filter(({ value }) =>

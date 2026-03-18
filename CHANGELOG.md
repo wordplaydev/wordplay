@@ -2,6 +2,144 @@
 
 We'll note all notable changes in this file, including bug fixes, enhancements, and all closed issues.
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
+These notes are publicly posted in [production](https://wordplay.dev/updates), so we write them to an audience of teachers and youth.
+
+## 0.17.1 - 2026-03-14
+
+### Added
+
+- We (finally) added emoji and symbol categories. As part of this, included all possible emoji variations and the new 17.0 emojis just released this year (#110).
+- We added dates to the feedback, so we can see how long ago feedback was reported.
+- We added a "select all of color" tool in the character editor (#994).
+- We added a color picker in the character editor (only supported in Chrome, Edge, and Opera).
+- We added saturation increase and decrease buttons to adjust the chroma of all colors in the character editor.
+
+### Fixed
+
+- We fixed the layout of the existing username checking feedback.
+- We fixed some broken code in the @Example documentation.
+
+### Changed
+
+- We upgraded internal tooling for stability.
+- We improved some Arabic translations.
+- We arranged more reliable recoverable random numbers.
+- We no longer permit only whitespace in the feedback form (#1008).
+- We made locale checking less error prone for localization contributors.
+
+## 0.17.0 - 2026-03-03
+
+### Added
+
+- We added a new @Speech stream, which works in most browsers. If you allow the site to use your microphone, you can make projects that respond to speech! (#394).
+- We added a machine translation of a Hebrew locale (#411).
+- We added a machine translation of a Vietnamese locale (#985).
+- We made autocompletion of conversions smarter and less buggy.
+- We added a zoom control to code editors for accessibility (#772).
+- We added a zoom control to the stage.
+- We added the /Courier Prime/ font.
+- @Evaluate expressions can have commas in them now, in case you're used to other programming languages that separate function inputs with commas.
+
+### Fixed
+
+- Sometimes emojis have extra hidden symbols after them. We ignore them now so that emojis in code don't break things. (#970).
+- We weren't properly handling commas after text and formatted literals. Now we do!
+- Dropdowns weren't working in Safari. Now they do! (#978).
+- The @Pointer stream stopped working, but we fixed it.
+- When undoing an edit, the caret was sometimes restored incorrectly, making it impossible to move it.
+- Sometimes edits would result in the editor crashing. We prevented those from happening.
+- The feedback on sequence editor percentages was wrong. It's fixed now.
+- When tooltips are near the top or left of the screen, we avoid covering the control they're describing.
+- Project chat wasn't visible on small screens. We gave it a minimum height.
+
+### Changed
+
+- We adjusted the tablet-sized split view layout cutoff to better fit laptop screens.
+- We moved the gallery how tos to the top of the guide, above the built-in how tos, to make local guidance more prominent than platform guidance.
+- We upgraded internal tooling for stability.
+- We generalized the name of "name separator" (commas) to "separator", since they can be used in other places.
+
+## 0.16.45 - 2026-02-28
+
+### Added
+
+- **Times symbol**. Up to this point, Wordplay only used \·\ as a multiplication symbol. Now you can use \×\ too! That's now the new default, but both are still supported.
+- **Better block conflict highlights**. Conflicts on a block are drawn much more clearly now!
+
+### Fixed
+
+- We now dismiss hints on mobile if the page is tapped.
+- Initial loads on mobile devices are now less janky.
+- Pasting code in text mode didn't always work. Now it does!
+- We restored showing the full name in the guide, rather than the symbolic name. Oops!
+
+### Changed
+
+- We simplified conflicts, limiting them to just one message instead of two and improving their clarity.
+- We made a suggestion to name an unused value in a @Block.
+- We simplified conflicts when a function name can't be found.
+- We no longer show space indicators by default, as it can be confused with the multiplication operator (#961).
+- We made code editor cursor descriptions of functions simpler and easier to read.
+- We stopped binds with types from wrapping in @Block mode, so they're easier to read.
+- We upgraded internal tooling for stability.
+
+## 0.16.43 - 2026-02-22
+
+### Added
+
+- **How to translation**. We added the ability to create machine translations of how to's in a gallery.
+
+### Fixed
+
+- We localized a "username taken" feature.
+- We improved some Spanish translations.
+- We no longer release a new version when there is a problem with Wordplay's code or locales.
+
+### Changed
+
+- We upgraded minor versions of internal tooling for stability.
+- We cleaned up some of the locale translation feedback for developers.
+
+## 0.16.42 - 2026-02-14
+
+### Added
+
+- **How to permissions**. How to authors can make their how to's visible to broader audiences.
+- **Chinese translations of how to examples**. Thank you to our localizers for their translations!
+
+### Changed
+
+- We upgraded minor versions of internal tooling for stability.
+- Input streams that correspond to a single input device now re-evaluate the program only once, even if there are multiple streams for that device created.
+
+### Fixed
+
+- The emojis weren't appearing in the timeline. We fixed it so that they would appear again.
+- Project tiles were collapsing on page reload. We stopped that from happening!
+- Added a missing background to the clear all notifications button.
+
+## 0.16.41 - 2026-02-07
+
+### Added
+
+- **Updates highlight**. We now highlight the updates link on the landing page when there are new updates.
+- **Gallery chat moderation**. Creators in a gallery can report problematic chats to curators of a gallery, and curators can moderate those messages.
+- **Organized the galleries page**. All galleries — yours, examples, and public galleries — now appear on the galleries page (#594, #799).
+
+### Changed
+
+- We made it slightly easier for project maintainers to add moderator, teacher, and other account privileges.
+- We upgraded minor versions of internal tooling for stability.
+- Markup can now handle multiple translations. The current primary language will be rendered.
+- We hid a drop down menu for text type words, since those have to be typed, and so the menu would be empty.
+- We added insertion points in blocks mode for optionally empty fields of a block.
+- We added a cleaner visual design for type blocks.
+
+### Fixed
+
+- We fixed a problem with the rotating locale chooser on the landing page (#942).
+- We avoid machine translating of symbolic names, which sometimes are converted in strange ways by Google Translate.
+- We fixed the time zone on updates page, so the date is always in Pacific time.
 
 ## 0.16.40 - 2026-01-31
 

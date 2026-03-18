@@ -17,15 +17,13 @@ export default class NotAnInterface extends Conflict {
     static readonly LocalePath = (locale: LocaleText) =>
         locale.node.StructureDefinition.conflict.NotAnInterface;
 
-    getConflictingNodes() {
+    getMessage() {
         return {
-            primary: {
-                node: this.ref,
-                explanation: (locales: Locales) =>
-                    locales.concretize(
-                        (l) => NotAnInterface.LocalePath(l).primary,
-                    ),
-            },
+            node: this.ref,
+            explanation: (locales: Locales) =>
+                locales.concretize(
+                    (l) => NotAnInterface.LocalePath(l).explanation,
+                ),
         };
     }
 

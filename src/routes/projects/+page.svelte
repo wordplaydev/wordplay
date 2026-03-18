@@ -1,19 +1,15 @@
 <script lang="ts">
     import { goto } from '$app/navigation';
     import AddProject from '@components/app/AddProject.svelte';
-    import GalleryPreview from '@components/app/GalleryPreview.svelte';
     import Header from '@components/app/Header.svelte';
-    import Link from '@components/app/Link.svelte';
     import Notice from '@components/app/Notice.svelte';
     import ProjectPreviewSet from '@components/app/ProjectPreviewSet.svelte';
-    import Spinning from '@components/app/Spinning.svelte';
     import Subheader from '@components/app/Subheader.svelte';
     import Writing from '@components/app/Writing.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import { getUser, isAuthenticated } from '@components/project/Contexts';
-    import Button from '@components/widgets/Button.svelte';
     import Title from '@components/widgets/Title.svelte';
-    import { Galleries, Projects, locales } from '@db/Database';
+    import { Projects } from '@db/Database';
     import type Project from '@db/projects/Project';
     import {
         CANCEL_SYMBOL,
@@ -22,18 +18,6 @@
     } from '../../parser/Symbols';
 
     const user = getUser();
-
-    let newGalleryError = $state(false);
-    async function newGallery() {
-        newGalleryError = false;
-        try {
-            const newGalleryID = await Galleries.create($locales);
-            goto(`/gallery/${newGalleryID}`);
-        } catch (error) {
-            console.error(error);
-            newGalleryError = true;
-        }
-    }
 
     // Whether to show an error
     let deleteError = $state(false);
@@ -177,67 +161,4 @@
                     : false}
         />
     {/if}
-
-    <Header text={(l) => l.ui.page.projects.galleriesheader} />
-    <MarkupHTMLView markup={(l) => l.ui.page.projects.galleryprompt} />
-    {#if $user}
-        <p class="add">
-            <Button
-                tip={(l) => l.ui.page.projects.button.newgallery}
-                action={newGallery}
-                icon="+"
-                large
-            ></Button></p
-        >
-        {#if newGalleryError}
-            <Notice text={(l) => l.ui.page.projects.error.newgallery} />
-        {/if}
-        {#if Galleries.getStatus() === 'loading'}
-            <Spinning label={(l) => l.ui.widget.loading.message} large />
-        {:else if Galleries.getStatus() === 'noaccess'}
-            <Notice text={(l) => l.ui.page.projects.error.noaccess} />
-        {:else if Galleries.getStatus() === 'loggedout'}
-            <Notice text={(l) => l.ui.page.projects.error.nogalleryedits} />
-        {:else}
-            {#each Galleries.accessibleGalleries.values() as gallery, index}
-                <GalleryPreview {gallery} delay={index * 1000} />
-            {/each}
-        {/if}
-    {:else}
-        <Notice text={(l) => l.ui.page.projects.error.nogalleryedits} />
-    {/if}
-
-    {#if Galleries.expandedScopeGalleries.size > 0}
-        <Subheader
-            text={(l) => l.ui.page.projects.subheader.howtoviewonly.header}
-        />
-        <MarkupHTMLView
-            markup={(l) =>
-                l.ui.page.projects.subheader.howtoviewonly.explanation}
-        />
-        {#each Galleries.expandedScopeGalleries.values() as gallery}
-            <div class="howtoonlypreview">
-                <Subheader>
-                    <Link to={`/gallery/${gallery.getID()}/howto`}
-                        >{gallery.getName($locales)}</Link
-                    >
-                </Subheader>
-                <MarkupHTMLView
-                    markup={gallery.getDescription($locales).length > 0
-                        ? gallery.getDescription($locales)
-                        : `/${$locales.get((l) => l.ui.gallery.undescribed)}/`}
-                /></div
-            >
-        {/each}
-    {/if}
 </Writing>
-
-<style>
-    .add {
-        margin-left: calc(2 * var(--wordplay-spacing));
-    }
-
-    .howtoonlypreview {
-        gap: var(--wordplay-spacing);
-    }
-</style>

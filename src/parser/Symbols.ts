@@ -76,7 +76,8 @@ export const NEGATE_SYMBOL = '-';
 export const AND_SYMBOL = '&';
 export const OR_SYMBOL = '|';
 export const NOT_SYMBOL = '~';
-export const PRODUCT_SYMBOL = '·';
+export const PRODUCT_SYMBOL = '×';
+export const DOT_SYMBOL = '·';
 export const QUOTIENT_SYMBOL = '÷';
 export const SUM_SYMBOL = '+';
 export const DIFFERENCE_SYMBOL = '-';
@@ -116,7 +117,7 @@ export const COPY_SYMBOL = '📚';
 export const PASTE_SYMBOL = '📋';
 export const CANCEL_SYMBOL = '⨉';
 export const CONFIRM_SYMBOL = '✓';
-export const ALL_SYMBOL = '⬚';
+export const SELECTION_SYMBOL = '⬚';
 export const ERASE_SYMBOL = '⌫';
 
 // The "teacher" emoji is a combination of the "person" and "school" emojis.

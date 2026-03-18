@@ -4,7 +4,7 @@ import {
 } from '@db/creators/accountExists';
 import { Creator } from '@db/creators/CreatorDatabase';
 import { UsernameLength } from '@db/creators/isValidUsername';
-import NumberGenerator from 'recoverable-random';
+import NumberGenerator from '@util/random/NumberGenerator';
 
 export type Credentials = { username: string; password: string };
 export type StudentWithCredentials = Credentials & { meta: string[] };
