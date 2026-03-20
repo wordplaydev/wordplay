@@ -198,7 +198,6 @@
         --tail-width: 0.25em;
         --direction: 1;
         max-height: 100%;
-        max-width: 90%;
         padding: var(--wordplay-spacing);
     }
 
@@ -793,5 +792,9 @@
         flex-direction: row;
         align-items: baseline;
         gap: var(--wordplay-spacing-half);
+
+        margin-right: 7px;
+        width: fit-content;
+        flex-shrink: 0;
     }
 </style>
