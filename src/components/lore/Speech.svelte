@@ -142,12 +142,6 @@
         max-width: 100%;
     }
 
-    .dialog.row {
-        flex-direction: row;
-        align-items: center;
-        max-width: 100%;
-    }
-
     .dialog.column.reverse {
         align-items: flex-end;
         padding-inline-start: calc(2 * var(--wordplay-spacing));
@@ -792,7 +786,6 @@
         flex-direction: row;
         align-items: baseline;
         gap: var(--wordplay-spacing-half);
-
         margin-right: 7px;
         width: fit-content;
         flex-shrink: 0;
