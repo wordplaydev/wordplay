@@ -198,6 +198,7 @@
         --tail-width: 0.25em;
         --direction: 1;
         max-height: 100%;
+        max-width: 90%;
         padding: var(--wordplay-spacing);
     }
 
