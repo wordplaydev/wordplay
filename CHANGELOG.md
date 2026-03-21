@@ -12,10 +12,11 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 ### Changed
 
-- We upgraded internal tooling for stability.
 - We now check for locale problems in new contributor pull requests.
 - We improved the layout of code examples in the code (#996).
 - We improved explanations of concepts in the tutorial (#984).
+- We improved the speed of testing before we release new changes.
+- We upgraded internal tooling for stability.
 
 ## 0.17.1 - 2026-03-14
 
