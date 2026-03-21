@@ -9,12 +9,13 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 ### Fixed
 
 - We improved the usability and reliabilty of stage panning and output dragging on stage. Now you can more easily drag the stage to pan, use a mouse scroll wheel to zoom in and out, and use they keyboard to pan.
-- We improved the layout of code examples in the code (#996).
 
 ### Changed
 
 - We upgraded internal tooling for stability.
 - We now check for locale problems in new contributor pull requests.
+- We improved the layout of code examples in the code (#996).
+- We improved explanations of concepts in the tutorial (#984).
 
 ## 0.17.1 - 2026-03-14
 

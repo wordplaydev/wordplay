@@ -1761,7 +1761,7 @@
         },
         "Text": {
             "doc": [
-                "I can be any text you like, from any language, and using any of these symbols opening and closing symbols: \\\"\"\\, \\“”\\, \\„“\\, \\''\\, \\‘’\\, \\‹›\\, \\«»\\, \\「」\\, or \\『』\\.",
+                "I can represent any text, from any language. Just put the text between opening and closing text symbols: \\\"\"\\, \\“”\\, \\„“\\, \\''\\, \\‘’\\, \\‹›\\, \\«»\\, \\「」\\, or \\『』\\.",
                 "To illustrate, consider these beautiful phrases",
                 "\\“There are only two ways to live your life. One is as though nothing is a miracle. The other is as though everything is a miracle.”\\",
                 "\\『一日三秋』\\",

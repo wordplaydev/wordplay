@@ -182,8 +182,10 @@
                         [
                             "Program",
                             "neutral",
-                            "Sure. I'm basically the organizer of the program for a performance.",
-                            "You can see me over there with an *editor* @UI/editor showing me the *stage* @UI/stage showing what I evaluate to (currently nothing). The *director* — that's you — helps everyone figure out what they're doing, writing a program for what will happen in the show. And then I evaluate the program and put the result on stage for the audience to see."
+                            "I'm the organizer of the program for a performance.",
+                            "I have an *editor* @UI/editor, which is where you put instructions about what to show on stage, and how.",
+                            "I use those insructions to show output on the *stage* @UI/stage.",
+                            "The *director* — that's you! — decides what instructions to give us."
                         ],
                         null,
                         [
@@ -319,8 +321,10 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "@Program didn't know what to do with @ExpressionPlaceholder, so it showed an *exception* @UI/exception on *stage* and a *conflict* in @Program @UI/conflict.",
-                            "But if you click on @ExpressionPlaceholder, or move the text caret over it, you'll see a world of possibilities of other characters. You can also just type over @ExpressionPlaceholder and write your own. For example, try typing your name in quotes."
+                            "@Program tried to follow the @ExpressionPlaceholder, instruction, but since the placeholder doesn't say what to do yet, it @Program evaluated to an *exception* @UI/exception on *stage*.",
+                            "An exception happens when @Program can't follow an instruction you give.",
+                            "If @Program knows there will be an exception, it will show a *conflict* @UI/conflict that explains its confusion.",
+                            "If you select @ExpressionPlaceholder, or move the text cursor over it, you can see options for what to replace it with. You can also just type over @ExpressionPlaceholder and write your own. For example, try typing \\'hello'\\."
                         ],
                         null,
                         ["use", "fit", "Symbol", "-"],
