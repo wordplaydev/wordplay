@@ -6225,7 +6225,8 @@
                     "$~chữ số",
                     "$~tiền tệ"
                 ]
-            }
+            },
+            "skinTone": "$~màu da"
         }
     },
     "moderation": {

@@ -6225,7 +6225,8 @@
                     "$~bokstavsnummer",
                     "$~valuta"
                 ]
-            }
+            },
+            "skinTone": "$~hudton"
         }
     },
     "moderation": {

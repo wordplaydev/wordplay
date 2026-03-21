@@ -6224,7 +6224,8 @@
                     "$~Buchstaben und Zahlen",
                     "$~Währung"
                 ]
-            }
+            },
+            "skinTone": "$~Hautton"
         }
     },
     "moderation": {

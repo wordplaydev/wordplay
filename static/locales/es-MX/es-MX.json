@@ -6207,7 +6207,8 @@
                     "$~números de letras",
                     "$~divisa"
                 ]
-            }
+            },
+            "skinTone": "$~tono de piel"
         }
     },
     "moderation": {

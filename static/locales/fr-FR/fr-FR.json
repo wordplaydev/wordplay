@@ -6225,7 +6225,8 @@
                     "$~chiffres de lettres",
                     "$~devise"
                 ]
-            }
+            },
+            "skinTone": "$~teint"
         }
     },
     "moderation": {

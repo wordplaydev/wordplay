@@ -6221,7 +6221,8 @@
                     "$~harf sayıları",
                     "$~para birimi"
                 ]
-            }
+            },
+            "skinTone": "$~cilt tonu"
         }
     },
     "moderation": {
