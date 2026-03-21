@@ -5339,6 +5339,10 @@
                 },
                 "options": {
                     "lesson": "$~bieżąca lekcja"
+                },
+                "search": {
+                    "placeholder": "$~szukaj",
+                    "noResults": "$~Nie znaleziono wyników"
                 }
             },
             "teach": {

@@ -5330,6 +5330,10 @@
                 },
                 "options": {
                     "lesson": "$~ਮੌਜੂਦਾ ਪਾਠ"
+                },
+                "search": {
+                    "placeholder": "$~ਖੋਜ",
+                    "noResults": "$~ਕੋਈ ਨਤੀਜਾ ਨਹੀਂ ਮਿਲਿਆ"
                 }
             },
             "teach": {

@@ -5249,6 +5249,10 @@
                 },
                 "options": {
                     "lesson": "$~aktuelle Lektion"
+                },
+                "search": {
+                    "placeholder": "$~suchen",
+                    "noResults": "$~Keine Ergebnisse gefunden"
                 }
             },
             "projects": {

@@ -5535,6 +5535,10 @@
                 },
                 "options": {
                     "lesson": "$~الدرس الحالي"
+                },
+                "search": {
+                    "placeholder": "$~يبحث",
+                    "noResults": "$~لم يتم العثور على نتائج"
                 }
             },
             "teach": {

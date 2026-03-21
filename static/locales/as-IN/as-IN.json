@@ -5539,6 +5539,10 @@
                 },
                 "options": {
                     "lesson": "$~বৰ্তমানৰ পাঠ"
+                },
+                "search": {
+                    "placeholder": "$~সন্ধান",
+                    "noResults": "$~কোনো ফলাফল পোৱা নগ’ল"
                 }
             },
             "teach": {

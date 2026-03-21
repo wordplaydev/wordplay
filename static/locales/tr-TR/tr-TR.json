@@ -5330,6 +5330,10 @@
                 },
                 "options": {
                     "lesson": "$~güncel ders"
+                },
+                "search": {
+                    "placeholder": "$~aramak",
+                    "noResults": "$~Hiçbir sonuç bulunamadı."
                 }
             },
             "teach": {

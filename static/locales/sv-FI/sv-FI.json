@@ -5334,6 +5334,10 @@
                 },
                 "options": {
                     "lesson": "$~aktuell lektion"
+                },
+                "search": {
+                    "placeholder": "$~söka",
+                    "noResults": "$~Inga resultat hittades"
                 }
             },
             "teach": {

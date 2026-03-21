@@ -5555,6 +5555,10 @@
                 },
                 "options": {
                     "lesson": "$~השיעור הנוכחי"
+                },
+                "search": {
+                    "placeholder": "$~לְחַפֵּשׂ",
+                    "noResults": "$~לא נמצאו תוצאות"
                 }
             },
             "teach": {

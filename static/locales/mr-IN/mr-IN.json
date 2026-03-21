@@ -5334,6 +5334,10 @@
                 },
                 "options": {
                     "lesson": "$~वर्तमान धडा"
+                },
+                "search": {
+                    "placeholder": "$~शोध",
+                    "noResults": "$~कोणतेही परिणाम आढळले नाहीत"
                 }
             },
             "teach": {

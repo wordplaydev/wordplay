@@ -5250,6 +5250,10 @@
                 },
                 "options": {
                     "lesson": "$~वर्तमान पाठ"
+                },
+                "search": {
+                    "placeholder": "$~खोज",
+                    "noResults": "$~कोई परिणाम नहीं मिला"
                 }
             },
             "guide": {

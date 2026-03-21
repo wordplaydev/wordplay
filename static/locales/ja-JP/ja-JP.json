@@ -5330,6 +5330,10 @@
                 },
                 "options": {
                     "lesson": "$~現在のレッスン"
+                },
+                "search": {
+                    "placeholder": "$~検索",
+                    "noResults": "$~検索結果が見つかりませんでした"
                 }
             },
             "teach": {

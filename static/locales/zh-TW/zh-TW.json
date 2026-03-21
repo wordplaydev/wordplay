@@ -5191,6 +5191,10 @@
                 },
                 "options": {
                     "lesson": "當前課程"
+                },
+                "search": {
+                    "placeholder": "$~搜尋",
+                    "noResults": "$~未找到結果"
                 }
             },
             "guide": {

@@ -5232,6 +5232,10 @@
                 },
                 "options": {
                     "lesson": "lección presente"
+                },
+                "search": {
+                    "placeholder": "$~buscar",
+                    "noResults": "$~No se encontraron resultados"
                 }
             },
             "guide": {

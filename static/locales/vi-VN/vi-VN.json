@@ -5560,6 +5560,10 @@
                 },
                 "options": {
                     "lesson": "$~bài học hiện tại"
+                },
+                "search": {
+                    "placeholder": "$~tìm kiếm",
+                    "noResults": "$~Không tìm thấy kết quả nào."
                 }
             },
             "teach": {

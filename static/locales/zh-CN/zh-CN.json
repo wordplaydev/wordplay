@@ -5195,6 +5195,10 @@
                 },
                 "options": {
                     "lesson": "当前课程"
+                },
+                "search": {
+                    "placeholder": "$~搜索",
+                    "noResults": "$~未找到结果"
                 }
             },
             "guide": {

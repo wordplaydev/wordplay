@@ -5334,6 +5334,10 @@
                 },
                 "options": {
                     "lesson": "$~વર્તમાન પાઠ"
+                },
+                "search": {
+                    "placeholder": "$~શોધ",
+                    "noResults": "$~કોઈ પરિણામ મળ્યું નથી."
                 }
             },
             "teach": {

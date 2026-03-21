@@ -5246,6 +5246,10 @@
                 },
                 "options": {
                     "lesson": "$~현재 수업"
+                },
+                "search": {
+                    "placeholder": "$~찾다",
+                    "noResults": "$~검색 결과가 없습니다."
                 }
             },
             "guide": {
