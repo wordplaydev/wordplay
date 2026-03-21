@@ -6,6 +6,10 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 ## 0.17.2 - 2026-03-21
 
+### Added
+
+- We added a skin tone drop down to the emoji chooser (#779).
+
 ### Fixed
 
 - We improved the usability and reliabilty of stage panning and output dragging on stage. Now you can more easily drag the stage to pan, use a mouse scroll wheel to zoom in and out, and use they keyboard to pan.

@@ -944,6 +944,8 @@ type UITexts = {
     emoji: {
         /** Prompt when no custom characters are available */
         noCharacters: string;
+        /** Label for the skin tone selector dropdown */
+        skinTone: string;
         /** Emoji category labels for the filter */
         groups: ModeText<
             [

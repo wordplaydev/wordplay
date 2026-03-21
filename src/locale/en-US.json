@@ -6185,6 +6185,7 @@
         },
         "emoji": {
             "noCharacters": "Create a custom character",
+            "skinTone": "skin tone",
             "groups": {
                 "label": "groups",
                 "labels": [

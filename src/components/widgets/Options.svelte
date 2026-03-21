@@ -186,7 +186,7 @@
     }
 
     option::checkmark {
-        content: '⬤';
+        content: '●';
         color: var(--wordplay-highlight-color);
     }
 

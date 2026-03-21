@@ -40,6 +40,19 @@
         [0x2b00, 0x2bff],
         [0x1f800, 0x1f8ff],
     ];
+
+    /** Fitzpatrick skin tone modifier codepoints (U+1F3FB–U+1F3FF) */
+    const SkinToneModifiers = [0x1f3fb, 0x1f3fc, 0x1f3fd, 0x1f3fe, 0x1f3ff];
+
+    /** True if the codepoint is a Fitzpatrick skin tone modifier */
+    function isSkinToneModifier(cp: number): boolean {
+        return cp >= 0x1f3fb && cp <= 0x1f3ff;
+    }
+
+    /** True if the hex array contains a Fitzpatrick skin tone modifier */
+    function hasSkinToneModifier(hex: number[]): boolean {
+        return hex.some(isSkinToneModifier);
+    }
 </script>
 
 <script lang="ts">
@@ -53,6 +66,7 @@
     import Button from './Button.svelte';
     import LocalizedText from './LocalizedText.svelte';
     import Mode from './Mode.svelte';
+    import Options, { type Option } from './Options.svelte';
     import TextField from './TextField.svelte';
 
     interface Props {
@@ -78,6 +92,34 @@
 
     /** The current query */
     let query = $state('');
+
+    /** The selected skin tone modifier codepoint as a string, or undefined for the default (no modifier) */
+    let skinTone = $state<string | undefined>(undefined);
+
+    /** Options for the skin tone selector */
+    const skinToneOptions: Option[] = [
+        { value: undefined, label: '🟡' },
+        ...SkinToneModifiers.map((cp) => ({
+            value: String(cp),
+            label: String.fromCodePoint(cp),
+        })),
+    ];
+
+    /** Set of hex keys (comma-joined codepoints) for base emojis that have at least one skin tone variant */
+    let skinToneEligibleCodepoints = $derived<Set<string>>(
+        codepoints === null
+            ? new Set()
+            : new Set(
+                  codepoints
+                      .filter((c) => hasSkinToneModifier(c.hex))
+                      .map((c) =>
+                          // Remove the skin tone modifier from the hex array to get the base emoji, and join with commas to get the key
+                          c.hex
+                              .filter((cp) => !isSkinToneModifier(cp))
+                              .join(','),
+                      ),
+              ),
+    );
 
     /** Load the codepoints on mount */
     onMount(() => {
@@ -127,6 +169,14 @@
             description={(l) => l.ui.source.cursor.search}
             bind:text={query}
         />
+        {#if category === 'So-pe'}
+            <Options
+                label={(l) => l.ui.emoji.skinTone}
+                value={skinTone}
+                options={skinToneOptions}
+                change={(value) => (skinTone = value)}
+            />
+        {/if}
         <Mode
             labeled={false}
             modes={(l) => l.ui.emoji.groups}
@@ -173,9 +223,26 @@
             <!-- Show loading feedback if the codepoints aren't yet loaded. -->
             <Spinning></Spinning>
         {:else if category.startsWith('So-')}
-            <!-- Is it an emoji group? Show all the emojis in that group. -->
+            <!-- Is it an emoji group? Show all the emojis in that group, and only the selected skin tone. -->
             {@const emojiGroup = category.split('-')[1]}
-            {#each codepoints.filter((code) => code.emoji?.group === emojiGroup) as code}
+            {@const filtered = codepoints.filter(
+                (code) =>
+                    // It's in the group
+                    code.emoji?.group === emojiGroup &&
+                    // It is not an emoji that supports skin tone variation
+                    (!skinToneEligibleCodepoints.has(
+                        code.hex
+                            .filter((cp) => !isSkinToneModifier(cp))
+                            .join(','),
+                    ) ||
+                        // It does support skin tone, but none is selected and this emoji doesn't have a modifier
+                        (skinTone === undefined &&
+                            !hasSkinToneModifier(code.hex)) ||
+                        // A tone is selected, and this emoji has the corresponding modifier
+                        (skinTone !== undefined &&
+                            code.hex.includes(parseInt(skinTone)))),
+            )}
+            {#each filtered as code}
                 {@render choice(code.hex, code.name)}
             {/each}
         {:else if category === 'Shapes' || category === 'Arrows'}

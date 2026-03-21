@@ -10435,10 +10435,15 @@
                 "noCharacters": {
                   "description": "Prompt when no custom characters are available",
                   "type": "string"
+                },
+                "skinTone": {
+                  "description": "Label for the skin tone selector dropdown",
+                  "type": "string"
                 }
               },
               "required": [
                 "noCharacters",
+                "skinTone",
                 "groups"
               ],
               "type": "object"
