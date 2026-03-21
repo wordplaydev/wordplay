@@ -1713,13 +1713,13 @@
                                             outputView?.adjustZoom(-1)}
                                         tip={(l) => l.ui.output.button.zoomOut}
                                         padding={false}
-                                        ><Emoji>–<sub>🔎</sub></Emoji></Button
+                                        ><Emoji>–🔎</Emoji></Button
                                     >
                                     <Button
                                         action={() => outputView?.adjustZoom(1)}
                                         tip={(l) => l.ui.output.button.zoomIn}
                                         padding={false}
-                                        ><Emoji>+<sub>🔎</sub></Emoji></Button
+                                        ><Emoji>+🔎</Emoji></Button
                                     >
                                     <Toggle
                                         background

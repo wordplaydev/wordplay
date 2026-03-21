@@ -85,7 +85,7 @@ export default function moveOutput(
             const bind = evaluate.is(project.shares.output.Phrase, ctx)
                 ? project.shares.output.Phrase.inputs[3]
                 : evaluate.is(project.shares.output.Group, ctx)
-                  ? project.shares.output.Phrase.inputs[4]
+                  ? project.shares.output.Group.inputs[4]
                   : undefined;
 
             return [

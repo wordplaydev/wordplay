@@ -905,7 +905,6 @@
         const dropper = new window.EyeDropper();
         const result = await dropper.open();
         // Do something with the selected color
-        console.log(result.sRGBHex);
         const match = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(
             result.sRGBHex,
         );

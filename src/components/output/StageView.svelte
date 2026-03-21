@@ -401,7 +401,9 @@
         class:editing={$evaluation?.playing === false && !painting}
         aria-label={stage.description?.text ?? stage.getDescription($locales)}
         data-id={stage.getHTMLID()}
-        data-node-id={stage.value.creator.id}
+        // Only add a node ID if a stage value created it. Stages are implicitly created when the project evalutes to just a phrase
+        // but we don't want this to be associated with that phrase for the puroposes of interactivity.
+        data-node-id={stage.explicit ? stage.value.creator.id : undefined}
         data-selectable={stage.selectable}
         style:font-family={getFaceCSS(stage.face)}
         style:font-size={getSizeCSS(context.size)}

@@ -216,14 +216,14 @@
         if (event.key === 'Tab') return;
 
         // Adjust verse focus
-        if (shift && stage) {
+        if (stage && !evaluator.isPlaying()) {
             const increment = 1;
             if (event.key === 'ArrowLeft') {
                 event.stopPropagation();
-                return stage.adjustFocus(-1 * increment, 0, 0);
+                return stage.adjustFocus(1 * increment, 0, 0);
             } else if (event.key === 'ArrowRight') {
                 event.stopPropagation();
-                return stage.adjustFocus(increment, 0, 0);
+                return stage.adjustFocus(-1 * increment, 0, 0);
             } else if (event.key === 'ArrowUp') {
                 event.stopPropagation();
                 return stage.adjustFocus(0, 1 * increment, 0);
@@ -388,6 +388,14 @@
         }
     }
 
+    /**
+     * When the pointer is pressed down:
+     * 1) Focus on the keyboard input if there is any
+     * 2) Record a button down event if there is a button stream
+     * 3) Reset the selection if not playing
+     * 4) Send a placement navigation event based on the position of the pointer if there is a placement stream
+     * 5) Initiate an output drag
+     * */
     function handlePointerDown(event: PointerEvent) {
         // Add event to pointer event cache for
         pointersByIndex.push(event);
@@ -400,6 +408,8 @@
             );
             event.stopPropagation();
             event.preventDefault();
+        } else if (valueView) {
+            setKeyboardFocus(valueView, 'Focusing on stage');
         }
 
         // If the evaluator is playing, record button events.
@@ -412,12 +422,13 @@
                 if (output instanceof HTMLElement) recordSelection(event);
             }
         }
-
         // If we're editable and not playing, select output.
-        if (editable && !evaluator.isPlaying()) {
+        else if (editable) {
             if (painting) {
                 if (selection) selection.setPaths(project, [], 'output');
-            } else if (!selectPointerOutput(event)) ignore();
+            } else if (!selectPointerOutput(event)) {
+                ignore();
+            }
         }
 
         // If there's a Placement, send it some navigation events based on position.
@@ -497,7 +508,6 @@
                 0,
                 renderedFocus.z,
             );
-            const focus = event.shiftKey;
             const place =
                 // If painting, the start place is where the click was
                 painting
@@ -507,19 +517,16 @@
                           my + renderedFocus.y,
                           0,
                       )
-                    : // If moving focus, the start place is the rendered focus
-                      focus
-                      ? renderedFocus
-                      : // If there's selected output, it's the first output selected, and it has a place
-                        output.length > 0
-                        ? getOrCreatePlace(
-                              project,
-                              $locales,
-                              output[0],
-                              evaluator.project.getNodeContext(output[0]),
-                          )
-                        : // Otherwise, there's no place the click started.
-                          undefined;
+                    : // If there's selected output, it's the first output selected, and it has a place
+                      output.length > 0
+                      ? getOrCreatePlace(
+                            project,
+                            $locales,
+                            output[0],
+                            evaluator.project.getNodeContext(output[0]),
+                        )
+                      : // If moving focus, the start place is the rendered focus
+                        renderedFocus;
 
             if (place) {
                 fit = false;
@@ -534,6 +541,13 @@
             }
         }
     }
+
+    /**
+     * When the pointer moves:
+     * 1) If we're pinching, zoom in and out based on the change in distance between the two pointers.
+     * 2) If we're panning, pan
+     * 3) If there's a Pointer stream, send a new point
+     */
     function handlePointerMove(event: PointerEvent) {
         // TOUCH PANNING AND ZOOMING
 
@@ -578,7 +592,7 @@
             }
         }
 
-        // MOUSE PANNING AND ZOOMING
+        // POINTER PANNING AND ZOOMING
 
         // Handle focus or output moves..
         if (event.buttons === 1 && drag && renderedFocus) {
@@ -649,7 +663,10 @@
                 }
                 // If panning, move focus
                 else {
-                    if (event.shiftKey && stage) {
+                    // If there's a stage, move the focus.
+                    if (selection?.isEmpty() && stage) {
+                        // Show the grid, for clarity on positioning.
+                        grid = true;
                         const scale = rootScale(0, renderedFocus.z);
                         // Scale down the mouse delta and offset by the drag starting point.
                         stage.setFocus(
@@ -658,7 +675,9 @@
                             drag.startPlace.z,
                         );
                         event.stopPropagation();
-                    } else if (
+                    }
+                    // If there's an output selection, move the output.
+                    else if (
                         selection?.hasPaths() &&
                         !selection
                             .getOutput(project)[0]
@@ -669,6 +688,8 @@
                                 ),
                             )
                     ) {
+                        // Show the grid, for clarity on positioning.
+                        grid = true;
                         moveOutput(
                             DB,
                             project,
@@ -752,7 +773,9 @@
     function selectPointerOutput(event: PointerEvent | MouseEvent): boolean {
         if (selection === undefined) return false;
         // If we found the node in the project, add it to the selection.
-        const evaluate = getOutputNodeFromID(getOutputNodeIDUnderMouse(event));
+        const evaluate = getOutputNodeFromID(
+            getOutputNodeIDUnderPointer(event),
+        );
         if (evaluate) {
             // If the shift key is down
             let newSelection: Evaluate[];
@@ -787,7 +810,7 @@
                     outputView,
                     'Focusing output on output selection',
                 );
-        }
+        } else selection.setPaths(project, [], 'output');
 
         return true;
     }
@@ -801,7 +824,7 @@
         return Math.round(100 * num) / 100;
     }
 
-    function getOutputNodeIDUnderMouse(
+    function getOutputNodeIDUnderPointer(
         event: PointerEvent | MouseEvent,
     ): number | undefined {
         // Find the nearest .output element and get its node-id data attribute.
@@ -946,6 +969,7 @@
         class="value"
         class:ignored
         class:typing
+        tabIndex="0"
         bind:this={valueView}
         onkeydown={interactive ? handleKeyDown : null}
         onkeyup={interactive ? handleKeyUp : null}
@@ -1053,6 +1077,11 @@
         height: 100%;
 
         flex-grow: 1;
+    }
+
+    .output:focus-within {
+        outline: var(--wordplay-focus-width) solid var(--wordplay-focus-color);
+        outline-offset: calc(-1 * var(--wordplay-focus-width));
     }
 
     .output.editing.selected {

@@ -91,6 +91,7 @@ export default class Stage extends Output {
 
     constructor(
         value: Value,
+        /** True if the stage was explicit in the program or generated to wrap some other content. */
         explicit: boolean,
         content: (Output | null)[],
         background: Color,
