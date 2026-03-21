@@ -17,6 +17,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - We improved explanations of concepts in the tutorial (#984).
 - We improved the speed of testing before we release new changes.
 - We upgraded internal tooling for stability.
+- We improved the clarity of the unarchive project button (#1018).
 
 ## 0.17.1 - 2026-03-14
 

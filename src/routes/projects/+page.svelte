@@ -135,7 +135,7 @@
                 description: (l) => l.ui.page.projects.button.unarchive,
                 action: (project) =>
                     Projects.archiveProject(project.getID(), false),
-                label: '↑🗑️',
+                label: '↑',
             }}
             copy={false}
             anonymize={false}
