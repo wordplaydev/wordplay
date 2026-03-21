@@ -9,6 +9,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 ### Changed
 
 - We upgraded internal tooling for stability.
+- We now check for locale problems in new contributor pull requests.
 
 ## 0.17.1 - 2026-03-14
 

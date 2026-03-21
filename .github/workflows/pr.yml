@@ -1,4 +1,4 @@
-name: Svelte - check types, accessibility, syntax, and semantics check
+name: Verify PR - check types, accessibility, syntax, semantics, and locales
 on:
     pull_request:
         branches: ['main']
@@ -23,3 +23,5 @@ jobs:
               name: Sync svelte-kit
             - run: npx svelte-check --tsconfig ./tsconfig.json .svelte-kit
               name: Run svelte-check
+            - run: npm run locales
+              name: Verify locales
