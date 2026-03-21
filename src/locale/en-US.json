@@ -5562,6 +5562,10 @@
                 },
                 "options": {
                     "lesson": "current lesson"
+                },
+                "search": {
+                    "placeholder": "search",
+                    "noResults": "No results found"
                 }
             },
             "teach": {

@@ -12236,13 +12236,33 @@
                         "lesson"
                       ],
                       "type": "object"
+                    },
+                    "search": {
+                      "additionalProperties": false,
+                      "description": "Tutorial search",
+                      "properties": {
+                        "noResults": {
+                          "description": "Shown when a search query has no results",
+                          "type": "string"
+                        },
+                        "placeholder": {
+                          "description": "Placeholder text for the search field",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "placeholder",
+                        "noResults"
+                      ],
+                      "type": "object"
                     }
                   },
                   "required": [
                     "header",
                     "error",
                     "button",
-                    "options"
+                    "options",
+                    "search"
                   ],
                   "type": "object"
                 },

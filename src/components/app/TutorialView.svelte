@@ -34,10 +34,16 @@
     import { toMarkup } from '../../parser/toMarkup';
     import { Performances } from '../../tutorial/Performances';
     import Progress from '../../tutorial/Progress';
-    import type { Dialog, Performance } from '../../tutorial/Tutorial';
+    import {
+        PerformanceMode,
+        type Dialog,
+        type PeformanceModeType,
+        type Performance,
+    } from '../../tutorial/Tutorial';
     import { withColorEmoji } from '../../unicode/emoji';
     import MarkupHTMLView from '../concepts/MarkupHTMLView.svelte';
     import Button from '../widgets/Button.svelte';
+    import TextField from '../widgets/TextField.svelte';
     import Header from './Header.svelte';
     import PlayView from './PlayView.svelte';
     import TutorialHighlight from './TutorialHighlight.svelte';
@@ -303,6 +309,75 @@
         }
     }
 
+    type SearchResult = {
+        excerpt: string;
+        progress: Progress;
+        label: string;
+    };
+
+    let searchQuery = $state('');
+
+    /** Find a segment of text that matches the query. */
+    function makeExcerpt(text: string, query: string): string {
+        const lowerText = text.toLowerCase();
+        const lowerQuery = query.toLowerCase();
+        const matchIndex = lowerText.indexOf(lowerQuery);
+        if (matchIndex === -1) return text.slice(0, 200);
+        const start = Math.max(0, matchIndex - 100);
+        const end = Math.min(text.length, matchIndex + query.length + 100);
+        const before = text.slice(start, matchIndex);
+        const match = text.slice(matchIndex, matchIndex + query.length);
+        const after = text.slice(matchIndex + query.length, end);
+        return `${start > 0 ? '…' : ''}${before}*${match}*${after}${end < text.length ? '…' : ''}`;
+    }
+
+    // Compute search results based on the search query.
+    let searchResults = $derived.by((): SearchResult[] => {
+        if (searchQuery.length === 0) return [];
+        const results: SearchResult[] = [];
+        const lowerQuery = searchQuery.toLowerCase();
+        const tutorial = progress.tutorial;
+        for (let actIndex = 0; actIndex < tutorial.acts.length; actIndex++) {
+            const act = tutorial.acts[actIndex];
+            for (
+                let sceneIndex = 0;
+                sceneIndex < act.scenes.length;
+                sceneIndex++
+            ) {
+                const scene = act.scenes[sceneIndex];
+                let pauseCount = 0;
+                for (
+                    let lineIndex = 0;
+                    lineIndex < scene.lines.length;
+                    lineIndex++
+                ) {
+                    const line = scene.lines[lineIndex];
+                    if (line === null) {
+                        pauseCount++;
+                        continue;
+                    }
+                    if (PerformanceMode.includes(line[0] as PeformanceModeType))
+                        continue;
+                    const texts = (line as Dialog).slice(2) as string[];
+                    const fullText = texts.join('\n\n');
+                    if (fullText.toLowerCase().includes(lowerQuery)) {
+                        results.push({
+                            excerpt: makeExcerpt(fullText, searchQuery),
+                            progress: new Progress(
+                                tutorial,
+                                actIndex + 1,
+                                sceneIndex + 1,
+                                pauseCount + 1,
+                            ),
+                            label: `${withoutAnnotations(act.title)} — ${withoutAnnotations(scene.subtitle ?? scene.title)}`,
+                        });
+                    }
+                }
+            }
+        }
+        return results;
+    });
+
     async function handleKey(event: KeyboardEvent) {
         // Ignore any modifiers; thhose are handled by the editor and project view.
         if (event.shiftKey || event.ctrlKey || event.altKey) return;
@@ -364,140 +439,173 @@
                     ></Note
                 >{/if}
             <!-- A select component tutorial lessons, grouped by unit. The value is always line zero so that the label is selected correctly.  -->
-            <Options
-                label={(l) => l.ui.page.learn.options.lesson}
-                value={withoutAnnotations(
-                    JSON.stringify(progress.withLine(0).serialize()),
-                )}
-                change={handleSelect}
-                id="current-lesson"
-                options={lessons}
-            ></Options>
+            <div class="nav-controls">
+                <Options
+                    label={(l) => l.ui.page.learn.options.lesson}
+                    value={withoutAnnotations(
+                        JSON.stringify(progress.withLine(0).serialize()),
+                    )}
+                    change={handleSelect}
+                    id="current-lesson"
+                    options={lessons}
+                ></Options>
+                <TextField
+                    id="tutorial-search"
+                    placeholder={(l) => l.ui.page.learn.search.placeholder}
+                    description={(l) => l.ui.page.learn.search.placeholder}
+                    bind:text={searchQuery}
+                />
+            </div>
         </nav>
     </div>
-    <div class="content">
-        <div role="article" class="dialog">
-            <!-- svelte-ignore a11y_click_events_have_key_events -->
-            <div
-                class="turns"
-                aria-live="assertive"
-                onclick={(event) => {
-                    if (nextButton) {
-                        event.stopPropagation();
-                        setKeyboardFocus(
-                            nextButton,
-                            'Focusing next button after chat click',
-                        );
-                    }
-                }}
-            >
-                <div class="controls">
-                    <Button
-                        large
-                        tip={(l) => l.ui.page.learn.button.previous}
-                        action={() => nav(progress.previousPause() ?? progress)}
-                        active={progress.previousPause() !== undefined}
-                        icon="←"
-                        bind:view={previousButton}
-                    ></Button>
-                    {#if act !== undefined && scene !== undefined && (scene.subtitle ?? scene.title)}<Note
-                            >{withoutAnnotations(scene.subtitle ?? scene.title)}
-                            {#if act !== undefined && scene !== undefined && progress.pause > 0}
-                                <sub class="progress"
-                                    >{progress.pause}/{scene
-                                        ? scene.lines.filter(
-                                              (line) => line === null,
-                                          ).length + 1
-                                        : '?'}</sub
-                                >{/if}</Note
-                        >{/if}
-                    <Button
-                        large
-                        tip={(l) => l.ui.page.learn.button.next}
-                        action={() => nav(progress.nextPause() ?? progress)}
-                        active={progress.nextPause() !== undefined}
-                        icon="→"
-                        bind:view={nextButton}
-                    ></Button>
-                </div>
-                {#if act === undefined}
-                    <div class="title play"
-                        ><LocalizedText path={(l) => l.wordplay} /></div
-                    >
-                {:else if scene === undefined}
-                    <div class="title act"
-                        ><LocalizedText path={(l) => l.term.act} />
-                        {progress.act}<p
-                            ><em>{withoutAnnotations(act.title)}</em></p
-                        ></div
-                    >
-                {:else if dialog === undefined}
-                    <div class="title scene"
-                        ><LocalizedText path={(l) => l.term.scene} />
-                        {progress.scene}<p
-                            ><em>{withoutAnnotations(scene.title)}</em></p
-                        >{#if scene.subtitle}<em
-                                >{withoutAnnotations(scene.subtitle)}</em
-                            >{/if}</div
-                    >
-                {:else}
-                    {#key turns}
-                        {#each turns as turn}
-                            {@const character = turn.dialog[0]}
-                            {@const concept =
-                                projectContext?.getConceptByName(character)}
-                            <!-- First speaker is always function, alternating speakers are the concept we're learning about. -->
-                            <Speech
-                                character={concept ??
-                                    BasisCharacters[
-                                        character as keyof typeof BasisCharacters
-                                    ] ?? {
-                                        symbols: character,
-                                    }}
-                                flip={turn.dialog[0] !== 'FunctionDefinition'}
-                                baseline
-                                scroll={false}
-                                emotion={Emotion[turn.dialog[1]]}
-                            >
-                                {#snippet content()}
-                                    <MarkupHTMLView markup={turn.speech} />
-                                {/snippet}
-                            </Speech>
-                        {/each}
-                    {/key}
-                {/if}
-            </div>
-        </div>
-        <!-- Create a new view from scratch when the code changes -->
-        <!-- Autofocus the main editor if it's currently focused -->
-        {#key initialProject}
-            {#if scene}
-                {@const currentProject = project ?? initialProject}
-                {#if currentProject}
-                    <div class="project"
-                        ><ProjectView
-                            project={currentProject}
-                            original={initialProject}
-                            bind:index={projectContext}
-                            bind:dragged
-                            showOutput={!editable}
-                            {fit}
-                            autofocus={false}
-                            guide={false}
-                            warn={false}
-                            shareable={false}
-                            persistLayout={false}
-                        /></div
-                    >
-                {/if}
+    {#if searchQuery.length > 0}
+        <div class="search-results">
+            {#if searchResults.length === 0}
+                <LocalizedText path={(l) => l.ui.page.learn.search.noResults} />
             {:else}
-                {@const currentProject = project ?? initialProject}
-                {#if currentProject}
-                    <PlayView project={currentProject} {fit} />
-                {/if}
+                {#each searchResults as result}
+                    <button
+                        class="search-result"
+                        onclick={() => {
+                            nav(result.progress);
+                            searchQuery = '';
+                        }}
+                    >
+                        <small class="result-label">{result.label}</small>
+                        <MarkupHTMLView markup={result.excerpt} inline />
+                    </button>
+                {/each}
             {/if}
-        {/key}
-    </div>
+        </div>
+    {:else}
+        <div class="content">
+            <div role="article" class="dialog">
+                <!-- svelte-ignore a11y_click_events_have_key_events -->
+                <div
+                    class="turns"
+                    aria-live="assertive"
+                    onclick={(event) => {
+                        if (nextButton) {
+                            event.stopPropagation();
+                            setKeyboardFocus(
+                                nextButton,
+                                'Focusing next button after chat click',
+                            );
+                        }
+                    }}
+                >
+                    <div class="controls">
+                        <Button
+                            large
+                            tip={(l) => l.ui.page.learn.button.previous}
+                            action={() =>
+                                nav(progress.previousPause() ?? progress)}
+                            active={progress.previousPause() !== undefined}
+                            icon="←"
+                            bind:view={previousButton}
+                        ></Button>
+                        {#if act !== undefined && scene !== undefined && (scene.subtitle ?? scene.title)}<Note
+                                >{withoutAnnotations(
+                                    scene.subtitle ?? scene.title,
+                                )}
+                                {#if act !== undefined && scene !== undefined && progress.pause > 0}
+                                    <sub class="progress"
+                                        >{progress.pause}/{scene
+                                            ? scene.lines.filter(
+                                                  (line) => line === null,
+                                              ).length + 1
+                                            : '?'}</sub
+                                    >{/if}</Note
+                            >{/if}
+                        <Button
+                            large
+                            tip={(l) => l.ui.page.learn.button.next}
+                            action={() => nav(progress.nextPause() ?? progress)}
+                            active={progress.nextPause() !== undefined}
+                            icon="→"
+                            bind:view={nextButton}
+                        ></Button>
+                    </div>
+                    {#if act === undefined}
+                        <div class="title play"
+                            ><LocalizedText path={(l) => l.wordplay} /></div
+                        >
+                    {:else if scene === undefined}
+                        <div class="title act"
+                            ><LocalizedText path={(l) => l.term.act} />
+                            {progress.act}<p
+                                ><em>{withoutAnnotations(act.title)}</em></p
+                            ></div
+                        >
+                    {:else if dialog === undefined}
+                        <div class="title scene"
+                            ><LocalizedText path={(l) => l.term.scene} />
+                            {progress.scene}<p
+                                ><em>{withoutAnnotations(scene.title)}</em></p
+                            >{#if scene.subtitle}<em
+                                    >{withoutAnnotations(scene.subtitle)}</em
+                                >{/if}</div
+                        >
+                    {:else}
+                        {#key turns}
+                            {#each turns as turn}
+                                {@const character = turn.dialog[0]}
+                                {@const concept =
+                                    projectContext?.getConceptByName(character)}
+                                <!-- First speaker is always function, alternating speakers are the concept we're learning about. -->
+                                <Speech
+                                    character={concept ??
+                                        BasisCharacters[
+                                            character as keyof typeof BasisCharacters
+                                        ] ?? {
+                                            symbols: character,
+                                        }}
+                                    flip={turn.dialog[0] !==
+                                        'FunctionDefinition'}
+                                    baseline
+                                    scroll={false}
+                                    emotion={Emotion[turn.dialog[1]]}
+                                >
+                                    {#snippet content()}
+                                        <MarkupHTMLView markup={turn.speech} />
+                                    {/snippet}
+                                </Speech>
+                            {/each}
+                        {/key}
+                    {/if}
+                </div>
+            </div>
+            <!-- Create a new view from scratch when the code changes -->
+            <!-- Autofocus the main editor if it's currently focused -->
+            {#key initialProject}
+                {#if scene}
+                    {@const currentProject = project ?? initialProject}
+                    {#if currentProject}
+                        <div class="project"
+                            ><ProjectView
+                                project={currentProject}
+                                original={initialProject}
+                                bind:index={projectContext}
+                                bind:dragged
+                                showOutput={!editable}
+                                {fit}
+                                autofocus={false}
+                                guide={false}
+                                warn={false}
+                                shareable={false}
+                                persistLayout={false}
+                            /></div
+                        >
+                    {/if}
+                {:else}
+                    {@const currentProject = project ?? initialProject}
+                    {#if currentProject}
+                        <PlayView project={currentProject} {fit} />
+                    {/if}
+                {/if}
+            {/key}
+        </div>
+    {/if}
 </section>
 {#key highlights}
     {#each highlights as highlight}
@@ -631,5 +739,48 @@
         width: 100%;
         align-items: center;
         justify-content: space-between;
+    }
+
+    .nav-controls {
+        display: flex;
+        flex-direction: row;
+        gap: var(--wordplay-spacing);
+        align-items: center;
+        flex-wrap: wrap;
+    }
+
+    .search-results {
+        display: flex;
+        flex-direction: column;
+        gap: var(--wordplay-spacing);
+        overflow-y: auto;
+        flex: 1;
+        padding: var(--wordplay-spacing);
+    }
+
+    .search-result {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: calc(var(--wordplay-spacing) / 2);
+        padding: var(--wordplay-spacing);
+        background: none;
+        border: var(--wordplay-border-width) solid var(--wordplay-border-color);
+        border-radius: var(--wordplay-border-radius);
+        cursor: pointer;
+        text-align: left;
+        font-family: var(--wordplay-app-font);
+        font-size: inherit;
+        color: inherit;
+        width: 100%;
+    }
+
+    .search-result:hover {
+        background: var(--wordplay-hover);
+    }
+
+    .result-label {
+        font-size: var(--wordplay-small-font-size);
+        color: var(--wordplay-inactive-color);
     }
 </style>

@@ -9,6 +9,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 ### Added
 
 - We added a skin tone drop down to the emoji chooser (#779).
+- We added a search to the tutorial, in case that's helpful for browsing by word (#992).
 
 ### Fixed
 

@@ -14,6 +14,13 @@ type PageText = {
         /** The label for the lesson drop down */
         lesson: string;
     };
+    /** Tutorial search */
+    search: {
+        /** Placeholder text for the search field */
+        placeholder: string;
+        /** Shown when a search query has no results */
+        noResults: string;
+    };
 };
 
 export type { PageText as default };
