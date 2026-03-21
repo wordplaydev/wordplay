@@ -140,6 +140,7 @@
         flex-direction: row;
         align-items: center;
         max-width: 100%;
+        gap: var(--wordplay-spacing);
     }
 
     .dialog.column.reverse {
@@ -786,7 +787,6 @@
         flex-direction: row;
         align-items: baseline;
         gap: var(--wordplay-spacing-half);
-        margin-right: 7px;
         width: fit-content;
         flex-shrink: 0;
     }
