@@ -174,17 +174,22 @@
     .container {
         display: flex;
         flex-direction: column;
-        max-width: 100%;
     }
 
     .value {
-        text-align: right;
+        flex-grow: 1;
+        max-width: 30em;
     }
 
     .example {
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
         flex-grow: 1;
+        gap: var(--wordplay-spacing);
+    }
+
+    .code {
+        min-width: 10em;
     }
 
     .code.inline {
@@ -193,6 +198,7 @@
 
     .stage {
         display: flex;
+        min-width: 10em;
         width: 100%;
         aspect-ratio: 4/3;
         border-radius: var(--wordplay-border-radius);
@@ -216,7 +222,7 @@
     }
 
     .tools {
-        justify-content: end;
+        justify-content: start;
         display: flex;
         flex-direction: row;
         gap: var(--wordplay-spacing);
