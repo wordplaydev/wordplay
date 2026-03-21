@@ -4,7 +4,6 @@ import type Node from '@nodes/Node';
 import type StructureDefinition from '@nodes/StructureDefinition';
 import StructureType from '@nodes/StructureType';
 import type Type from '@nodes/Type';
-import { COMMA_SYMBOL } from '@parser/Symbols';
 import type Locales from '../locale/Locales';
 import Emotion from '../lore/Emotion';
 import type Markup from '../nodes/Markup';
@@ -115,10 +114,9 @@ export default class StructureConcept extends Concept {
     getCharacter(locales: Locales) {
         return {
             symbols:
+                // Show the symbolic name, if there is one, and otherwise the first name.
                 this.definition.names.getSymbolicName() ??
-                this.definition.names
-                    .getLocaleNames(locales)
-                    .join(COMMA_SYMBOL),
+                this.definition.names.getLocaleNames(locales)[0],
         };
     }
 

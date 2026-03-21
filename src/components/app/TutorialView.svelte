@@ -25,7 +25,7 @@
     import type ConceptIndex from '../../concepts/ConceptIndex';
     import { moderatedFlags } from '../../db/projects/Moderation';
     import { PersistenceType } from '../../db/projects/ProjectHistory.svelte';
-    import Glyphs from '../../lore/BasisCharacters';
+    import BasisCharacters from '../../lore/BasisCharacters';
     import Emotion from '../../lore/Emotion';
     import ConceptLink from '../../nodes/ConceptLink';
     import type Markup from '../../nodes/Markup';
@@ -444,13 +444,13 @@
                     {#key turns}
                         {#each turns as turn}
                             {@const character = turn.dialog[0]}
+                            {@const concept =
+                                projectContext?.getConceptByName(character)}
                             <!-- First speaker is always function, alternating speakers are the concept we're learning about. -->
                             <Speech
-                                character={projectContext
-                                    ?.getConceptByName(character)
-                                    ?.getCharacter($locales) ??
-                                    Glyphs[
-                                        character as keyof typeof Glyphs
+                                character={concept ??
+                                    BasisCharacters[
+                                        character as keyof typeof BasisCharacters
                                     ] ?? {
                                         symbols: character,
                                     }}
@@ -572,7 +572,7 @@
     .dialog {
         height: 100%;
         width: 30%;
-        min-width: 10em;
+        min-width: 20em;
         max-width: 30em;
         display: flex;
         flex-direction: column;

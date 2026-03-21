@@ -67,6 +67,7 @@
         />{/if}
 {:else if segment instanceof ConceptLink || segment instanceof ConceptRef}<ConceptLinkUI
         link={segment}
+        symbolic={false}
     />
 {:else if segment instanceof Words}<WordsHTMLView words={segment} {spaces} />
 {:else if segment instanceof NodeRef}{#if segment.node instanceof UnknownType}

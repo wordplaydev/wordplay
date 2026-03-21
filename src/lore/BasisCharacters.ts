@@ -54,7 +54,7 @@ const CharactersSet = {
     // Names
     Language: { symbols: LANGUAGE_SYMBOL },
     Name: { symbols: '@' },
-    Names: { symbols: '@,@' },
+    Names: { symbols: '@@' },
     Reference: { symbols: '@' },
     Bind: { symbols: BIND_SYMBOL },
     Branch: { symbols: LIST_OPEN_SYMBOL + OR_SYMBOL + LIST_CLOSE_SYMBOL },
@@ -65,7 +65,7 @@ const CharactersSet = {
     Program: { symbols: '📄' },
     FunctionDefinition: { symbols: FUNCTION_SYMBOL },
     Evaluate: {
-        symbols: PLACEHOLDER_SYMBOL + EVAL_OPEN_SYMBOL + EVAL_CLOSE_SYMBOL,
+        symbols: EVAL_OPEN_SYMBOL + EVAL_CLOSE_SYMBOL,
     },
     BinaryEvaluate: {
         symbols: `${PLACEHOLDER_SYMBOL} ${PLACEHOLDER_SYMBOL} ${PLACEHOLDER_SYMBOL}`,

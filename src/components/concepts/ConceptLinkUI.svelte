@@ -123,13 +123,24 @@
         }
     });
 
+    function capitalizeFirstLetter(val: string) {
+        return (
+            String(val)
+                .charAt(0)
+                .toLocaleUpperCase($locales.getLocaleString()) +
+            String(val).slice(1)
+        );
+    }
+
     let concept: Concept | undefined = $derived(
         match && typeof match !== 'string' && 'concept' in match
             ? match.concept
             : undefined,
     );
 
-    let longName: string = $derived(concept?.getName($locales, false) ?? '');
+    let longName: string = $derived(
+        capitalizeFirstLetter(concept?.getName($locales, false) ?? ''),
+    );
     let symbolicName: string = $derived(concept?.getName($locales, true) ?? '');
 
     function navigate() {
@@ -166,14 +177,16 @@
         wrap={true}
         tip={() =>
             $locales.concretize((l) => l.ui.docs.link, longName).toText()}
-        ><span class="conceptlink interactive"
-            >{#if label}{withMonoEmoji(label)}{:else}<span class="long"
-                    >{longName}</span
-                >{#if symbolicName !== longName && symbolic}<sub
-                        >{withMonoEmoji(symbolicName)}</sub
-                    >{/if}{/if}</span
-        ></Button
-    >
+        ><span class="conceptlink interactive">
+            {#if label}
+                {withMonoEmoji(label)}
+            {:else}
+                <span class="long">{longName}</span
+                >{#if symbolicName !== longName}
+                    <sub>{withMonoEmoji(symbolicName)}</sub>{/if}
+            {/if}
+        </span>
+    </Button>
 {:else if match}
     {#if match instanceof UIName}
         <TutorialHighlight id={match.id} source />

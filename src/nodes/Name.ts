@@ -4,6 +4,7 @@ import type LanguageCode from '@locale/LanguageCode';
 import type Locale from '@locale/Locale';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
+import ReservedSymbols from '@parser/ReservedSymbols';
 import { COMMA_SYMBOL } from '@parser/Symbols';
 import { OperatorRegEx } from '@parser/Tokenizer';
 import { EmojiRegex } from '@unicode/emoji';
@@ -132,7 +133,8 @@ export default class Name extends LanguageTagged {
         return (
             this.isOperator() ||
             this.isEmoji() ||
-            this.name.getTextLength() === 1
+            this.name.getTextLength() === 1 ||
+            ReservedSymbols.includes(this.name.getText().charAt(0))
         );
     }
 
