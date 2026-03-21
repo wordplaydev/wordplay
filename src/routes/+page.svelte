@@ -2,6 +2,7 @@
     import Action from '@components/app/Action.svelte';
     import Emoji from '@components/app/Emoji.svelte';
     import Header from '@components/app/Header.svelte';
+    import Spinning from '@components/app/Spinning.svelte';
     import Speech from '@components/lore/Speech.svelte';
     import { getUser } from '@components/project/Contexts';
     import Button from '@components/widgets/Button.svelte';
@@ -142,6 +143,8 @@
     {/if}
 
     <br />
+
+    <Spinning></Spinning>
 
     <div class="actions">
         <Action>

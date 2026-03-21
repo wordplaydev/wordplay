@@ -24,7 +24,6 @@
 <style>
     .cursor {
         display: inline-block;
-        animation-duration: calc(var(--animation-factor) * 1s);
         transform-origin: center;
         border: var(--wordplay-inactive-color) solid var(--wordplay-focus-width);
         border-radius: var(--wordplay-border-radius);
@@ -37,6 +36,7 @@
     .cursor.spin {
         opacity: 1;
         animation: spin infinite linear;
+        animation-duration: calc(var(--animation-factor) * 1s);
     }
 
     @keyframes spin {

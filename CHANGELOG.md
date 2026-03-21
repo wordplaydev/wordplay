@@ -9,6 +9,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 ### Fixed
 
 - We improved the usability and reliabilty of stage panning and output dragging on stage. Now you can more easily drag the stage to pan, use a mouse scroll wheel to zoom in and out, and use they keyboard to pan.
+- Our spinning loading feedback stopped spinning. It's spinning again!
 
 ### Changed
 
