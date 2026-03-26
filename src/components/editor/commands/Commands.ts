@@ -1492,7 +1492,13 @@ const Commands: Command[] = [
                     if (type === 'text/plain') {
                         const blob = await item.getType(type);
                         const text = await blob.text();
-                        return caret.insert(interpret(text), blocks, project);
+                        // Insert the text, b ut since it's a paste, dont' insert.
+                        return caret.insert(
+                            interpret(text),
+                            blocks,
+                            project,
+                            false,
+                        );
                     }
                 }
             }
