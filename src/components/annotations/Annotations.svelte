@@ -93,8 +93,22 @@
         // Wait for DOM updates so that everything is in position before we layout annotations.
         await tick();
 
+        // Filter conflicts to those relevant to the source.
+        const sourceConflicts: Conflict[] = [];
+        const seen = new Set<Conflict>();
+        for (const [node, conflicts] of project.getConflictedNodes()) {
+            if (source.root.has(node)) {
+                for (const conflict of conflicts) {
+                    if (!seen.has(conflict)) {
+                        seen.add(conflict);
+                        sourceConflicts.push(conflict);
+                    }
+                }
+            }
+        }
+
         // Reset the annotation list to active annotations.
-        annotations = conflicts
+        annotations = sourceConflicts
             .map((conflict: Conflict) => {
                 const nodes = conflict.getMessage(context, Templates);
                 // Based on the node given, decide what to show.
