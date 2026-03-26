@@ -1993,7 +1993,7 @@ export default class Caret {
         if (
             keyTokens.length < 2 ||
             keyTokens.length > 2 ||
-            keyTokens[1].isSymbol(Sym.End)
+            !keyTokens[1].isSymbol(Sym.End)
         )
             return;
 

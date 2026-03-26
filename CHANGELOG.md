@@ -17,6 +17,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - We made the full range of emojis visible in the editor's emoji chooser.
 - We now only show conflicts related to the current source in the conflict list.
 - We no longer auto-complete pasted text.
+- We fixed the ability to wrap a selected node by typing an open parenthesis, list, or set.
 
 ## 0.17.2 - 2026-03-21
 
