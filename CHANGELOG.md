@@ -13,6 +13,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 ### Fixed
 
 - We fixed the text cursor position when spaces aren't shown explicitly.
+- We made the full range of emojis visible in the editor's emoji chooser.
 
 ## 0.17.2 - 2026-03-21
 

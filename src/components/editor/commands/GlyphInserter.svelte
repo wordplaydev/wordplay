@@ -43,8 +43,7 @@
 <section class:expanded class="directory" data-uiid="directory">
     <div class="matches">
         {#if expanded}
-            <EmojiChooser glyph="🙂" pick={(glyph) => insert(glyph)}
-            ></EmojiChooser>
+            <EmojiChooser pick={(glyph) => insert(glyph)}></EmojiChooser>
         {:else}
             {#each Defaults as command}<CommandButton
                     {sourceID}
@@ -85,6 +84,5 @@
 
     section.expanded {
         min-height: 10em;
-        max-height: 15em;
     }
 </style>
