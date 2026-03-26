@@ -244,25 +244,27 @@
             {/if}
 
             <!-- If editable and there's an owner, possibly show collaborators. -->
-            {#if editable && owner !== null && showCollaborators && collaborators.length > 0}
+            {#if editable && owner !== null && showCollaborators}
                 <div class="creators">
                     {#await Creators.getCreator(owner)}
                         <Spinning />
                     {:then creator}
                         <CreatorView {anonymize} {creator} />
                     {/await}
-                    {#each collaborators.slice(0, 2) as collaborator}
-                        {#await Creators.getCreator(collaborator)}
-                            <Spinning />
-                        {:then collaboratorCreator}
-                            <CreatorView
-                                {anonymize}
-                                creator={collaboratorCreator}
-                            />
-                        {/await}
-                    {/each}
-                    {#if collaborators.length > 2}
-                        <span>...</span>
+                    {#if collaborators.length > 0}
+                        {#each collaborators.slice(0, 2) as collaborator}
+                            {#await Creators.getCreator(collaborator)}
+                                <Spinning />
+                            {:then collaboratorCreator}
+                                <CreatorView
+                                    {anonymize}
+                                    creator={collaboratorCreator}
+                                />
+                            {/await}
+                        {/each}
+                        {#if collaborators.length > 2}
+                            <span>...</span>
+                        {/if}
                     {/if}
                 </div>
             {/if}
