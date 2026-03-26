@@ -9,6 +9,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 ### Added
 
 - We show the owner of a project in the gallery and projects previews.
+- Programs can now start with documentation, even if they start with a borrow statement.
 
 ### Fixed
 

@@ -12,18 +12,28 @@
     let { node, format }: ProgramProps = $props();
 </script>
 
+{#snippet docs()}
+    <NodeView node={[node, 'docs']} {format} empty="menu" />
+{/snippet}
+
 {#if format.block}
+    {#if !node.docs.isEmpty()}{@render docs()}{/if}
     <NodeSequenceView {node} field="borrows" {format} empty="hide" />
     <Flow direction="row">
-        <NodeView node={[node, 'expression']} {format} /><NodeView
-            node={[node, 'end']}
+        {#if node.docs.isEmpty()}{@render docs()}{/if}<NodeView
+            node={[node, 'expression']}
             {format}
-            empty="hide"
-        />
+        /><NodeView node={[node, 'end']} {format} empty="hide" />
     </Flow>
 {:else}
-    <NodeSequenceView {node} field="borrows" {format} empty="hide" /><NodeView
-        node={[node, 'expression']}
+    <NodeView node={[node, 'docs']} {format} /><NodeSequenceView
+        {node}
+        field="borrows"
         {format}
-    /><NodeView node={[node, 'end']} {format} empty="hide" />
+        empty="hide"
+    /><NodeView node={[node, 'expression']} {format} /><NodeView
+        node={[node, 'end']}
+        {format}
+        empty="hide"
+    />
 {/if}

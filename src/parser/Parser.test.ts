@@ -250,7 +250,7 @@ test.each([
     ['a.b', PropertyReference, 'name', Reference, 'b'],
     ['a.b.c()[d]{f}', SetOrMapAccess, 'setOrMap', ListAccess],
     [
-        "¶Program¶\n\n¶let's see it¶/en\na",
+        "¶Program¶\n\n¶let's see it¶\n\n¶Testing¶/en\na",
         DocumentedExpression,
         'expression',
         Reference,

@@ -3,7 +3,7 @@ import Borrow from '@nodes/Borrow';
 import Program from '@nodes/Program';
 import Sym from '@nodes/Sym';
 import type Tokens from './Tokens';
-import { parseBlock, parseReference } from './parseExpression';
+import { parseBlock, parseDocs, parseReference } from './parseExpression';
 import { toTokens } from './toTokens';
 
 export function toProgram(code: string): Program {
@@ -11,6 +11,8 @@ export function toProgram(code: string): Program {
 }
 
 export default function parseProgram(tokens: Tokens, doc = false): Program {
+    const docs = tokens.nextIs(Sym.Doc) ? parseDocs(tokens) : undefined;
+
     const borrows: Borrow[] = [];
     tokens.whileDo(
         () => tokens.hasNext() && tokens.nextIs(Sym.Borrow),
@@ -22,7 +24,7 @@ export default function parseProgram(tokens: Tokens, doc = false): Program {
     // If the next token is the end, we're done!
     const end = tokens.nextIsEnd() ? tokens.read(Sym.End) : undefined;
 
-    return new Program(borrows, block, end);
+    return new Program(docs, borrows, block, end);
 }
 
 export function parseBorrow(tokens: Tokens): Borrow {
