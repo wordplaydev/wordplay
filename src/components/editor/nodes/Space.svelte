@@ -87,7 +87,7 @@
 -->
 {#key [$spaceIndicator, space, line, $showLines, insertionIndex]}
     <span class="space" role="none" data-id={token.id} data-uiid="space">
-        {#if block}{#if space !== ''}<span class="space-text"
+        {#if block}{#if space !== ''}<span class="space-text" data-space={space}
                     >{space
                         .split('')
                         .map((s) =>
@@ -111,6 +111,7 @@
                                 >{/if}</span
                         >{/if}{#if s === ''}&ZeroWidthSpace;{:else}<span
                             class="space-text"
+                            data-space={s}
                             data-uiid="space-text">{s}</span
                         >{/if}{:else}&ZeroWidthSpace;{/each}{#if insertion}<InsertionPointView
                     />{/if}</span
@@ -127,6 +128,7 @@
                         >{/if}<span
                         class="space-text"
                         data-uiid="space-text"
+                        data-space={s}
                         data-line={beforeSpacesByLine.length + index}>{s}</span
                     >{/each}</span
             >

@@ -374,11 +374,9 @@
             if (nextLine instanceof HTMLElement) {
                 // Replace tab text with actual tabs for an accurate count.
                 const lineText = new UnicodeString(
-                    nextLine.innerText.replaceAll(
-                        $spaceIndicator ? EXPLICIT_TAB_TEXT : TAB_TEXT,
-                        '\t',
-                    ),
+                    nextLine.dataset.space ?? '',
                 );
+
                 // If the caret index is between and the end of this line (inclusive), then we found our line.
                 if (currentIndex + lineText.getLength() >= caretIndex) {
                     containingLine = lineText;
