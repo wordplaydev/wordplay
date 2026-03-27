@@ -1,14 +1,71 @@
 [
   {
+    "version": "0.17.3",
+    "date": "2026-03-28",
+    "changes": {
+      "added": [
+        "We show the owner of a project in the gallery and projects previews.",
+        "Programs can now start with documentation, even if they start with a borrow statement."
+      ],
+      "fixed": [
+        "We fixed the text cursor position when spaces aren't shown explicitly.",
+        "We made the full range of emojis visible in the editor's emoji chooser.",
+        "We now only show conflicts related to the current source in the conflict list.",
+        "We no longer auto-complete pasted text.",
+        "We fixed the ability to wrap a selected node by typing an open parenthesis, list, or set.",
+        "Did you know you can paste CSV data from the clipboard and Wordplay will convert it to a table value? We made this work better with CSV files with underscores in headers."
+      ],
+      "changed": [
+        "We upgraded internal tooling for stability."
+      ],
+      "removed": []
+    }
+  },
+  {
+    "version": "0.17.2",
+    "date": "2026-03-21",
+    "changes": {
+      "added": [
+        "We added a skin tone drop down to the emoji chooser (#779).",
+        "We added a search to the tutorial, in case that's helpful for browsing by word (#992)."
+      ],
+      "fixed": [
+        "We improved the usability and reliabilty of stage panning and output dragging on stage. Now you can more easily drag the stage to pan, use a mouse scroll wheel to zoom in and out, and use they keyboard to pan.",
+        "Our spinning loading feedback stopped spinning. It's spinning again!",
+        "We improved the consistency of names and symbols in concept links in the tutorial (#986)."
+      ],
+      "changed": [
+        "We now check for locale problems in new contributor pull requests.",
+        "We improved the layout of code examples in the code (#996).",
+        "We improved explanations of concepts in the tutorial (#984).",
+        "We improved the speed of testing before we release new changes.",
+        "We upgraded internal tooling for stability.",
+        "We improved the clarity of the unarchive project button (#1018)."
+      ],
+      "removed": []
+    }
+  },
+  {
     "version": "0.17.1",
     "date": "2026-03-14",
     "changes": {
-      "added": [],
-      "fixed": [],
+      "added": [
+        "We (finally) added emoji and symbol categories. As part of this, included all possible emoji variations and the new 17.0 emojis just released this year (#110).",
+        "We added dates to the feedback, so we can see how long ago feedback was reported.",
+        "We added a \"select all of color\" tool in the character editor (#994).",
+        "We added a color picker in the character editor (only supported in Chrome, Edge, and Opera).",
+        "We added saturation increase and decrease buttons to adjust the chroma of all colors in the character editor."
+      ],
+      "fixed": [
+        "We fixed the layout of the existing username checking feedback.",
+        "We fixed some broken code in the @Example documentation."
+      ],
       "changed": [
         "We upgraded internal tooling for stability.",
         "We improved some Arabic translations.",
-        "We arranged more reliable recoverable random numbers."
+        "We arranged more reliable recoverable random numbers.",
+        "We no longer permit only whitespace in the feedback form (#1008).",
+        "We made locale checking less error prone for localization contributors."
       ],
       "removed": []
     }
