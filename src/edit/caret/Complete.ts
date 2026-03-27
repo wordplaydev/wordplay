@@ -37,6 +37,7 @@ import {
     BIND_SYMBOL,
     CODE_SYMBOL,
     CONVERT_SYMBOL,
+    DIFFERENCE_SYMBOL,
     DOT_SYMBOL,
     ELISION_SYMBOL,
     EVAL_CLOSE_SYMBOL,
@@ -45,6 +46,7 @@ import {
     PLACEHOLDER_SYMBOL,
     PRODUCT_SYMBOL,
     STREAM_SYMBOL,
+    SUM_SYMBOL,
     TAG_OPEN_SYMBOL,
     TYPE_SYMBOL,
 } from '@parser/Symbols';
@@ -408,6 +410,14 @@ function completeBinaryEvaluate({
         (text === PRODUCT_SYMBOL ||
             text === DOT_SYMBOL ||
             text === EXPONENT_SYMBOL)
+    )
+        return undefined;
+
+    // Don't complete + or - as binary operators when there is whitespace between
+    // the preceding expression and the caret — they may be starting a new number literal.
+    if (
+        (text === SUM_SYMBOL || text === DIFFERENCE_SYMBOL) &&
+        source.getNodeLastPosition(precedingExpression) !== position
     )
         return undefined;
 
