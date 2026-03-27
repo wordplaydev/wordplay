@@ -271,7 +271,7 @@
 <style>
     .picker {
         display: flex;
-        flex-direction: row;
+        flex-direction: column;
         flex-wrap: wrap;
         gap: var(--wordplay-spacing-half);
         row-gap: var(--wordplay-spacing-half);
