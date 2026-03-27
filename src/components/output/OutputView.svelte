@@ -665,8 +665,6 @@
                 else {
                     // If there's a stage, move the focus.
                     if (selection?.isEmpty() && stage) {
-                        // Show the grid, for clarity on positioning.
-                        grid = true;
                         const scale = rootScale(0, renderedFocus.z);
                         // Scale down the mouse delta and offset by the drag starting point.
                         stage.setFocus(
