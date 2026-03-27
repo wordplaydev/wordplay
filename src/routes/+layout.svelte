@@ -126,8 +126,11 @@
             new Set([
                 ...$locales.getLocales().map((locale) => locale.ui.font.code),
                 'Noto Sans Mono',
-                'Noto Emoji',
+                // Color emoji font before monochrome so skin-tone modifier sequences
+                // (e.g. 👍🏽) resolve to a combined glyph rather than splitting into
+                // base + standalone modifier swatch.
                 'Noto Color Emoji',
+                'Noto Emoji',
                 'Noto Sans',
             ]),
         )

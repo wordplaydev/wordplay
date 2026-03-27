@@ -4,7 +4,7 @@
  * See the Unicode Standard for details: https://www.unicode.org/versions/Unicode11.0.0/ch23.pdf#page=19
  */
 export const EmojiRegex =
-    /(\p{Extended_Pictographic}|(\p{Emoji_Modifier_Base}(\p{Emoji_Modifier}|\u200D)*))/gu;
+    /(\p{Emoji_Modifier_Base}(\p{Emoji_Modifier}|\u200D)*|\p{Extended_Pictographic})/gu;
 
 export function withoutVariationSelectors(text: string) {
     return text.replaceAll(/(\uFE0F|\uFE0E)/gu, '');
