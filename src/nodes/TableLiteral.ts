@@ -139,7 +139,9 @@ export default class TableLiteral extends CompositeLiteral {
 
         const type = TableType.make(
             header.map((col, index) => {
-                const tokens = tokenize(col.replaceAll(' ', '')).getTokens();
+                const tokens = tokenize(
+                    col.replaceAll(' ', '').replaceAll('_', ''),
+                ).getTokens();
                 const name = tokens[0].isSymbol(Sym.Name)
                     ? tokens[0].getText()
                     : tokens[0].isSymbol(Sym.Number)

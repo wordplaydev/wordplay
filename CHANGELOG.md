@@ -18,6 +18,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - We now only show conflicts related to the current source in the conflict list.
 - We no longer auto-complete pasted text.
 - We fixed the ability to wrap a selected node by typing an open parenthesis, list, or set.
+- Did you know you can paste CSV data from the clipboard and Wordplay will convert it to a table value? We made this work better with CSV files with underscores in headers.
 
 ## 0.17.2 - 2026-03-21
 

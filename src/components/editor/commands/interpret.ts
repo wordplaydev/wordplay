@@ -1,14 +1,16 @@
 import getPreferredSpaces from '@parser/getPreferredSpaces';
 import TableLiteral from '../../../nodes/TableLiteral';
 
+export function isCSV(text: string): boolean {
+    return /^(('|“|"|”)?[a-zA-Z0-9.%&-() _]*('|"|“|”)?(,|\n|\\Z)\s*){5,}/g.test(
+        text.trim(),
+    );
+}
+
 /** See if this is a kind of text we can convert into something Wordplay formatted. */
 export default function interpret(text: string): string {
     // Does it seem like CSV data? Convert it to a table.
-    if (
-        /^(('|“|"|”)?[a-zA-Z0-9.%&-() ]*('|"|“|”)?(,|\n|\\Z)\s*){5,}/g.test(
-            text.trim(),
-        )
-    ) {
+    if (isCSV(text)) {
         const data = parseCSV(text.trim());
 
         const table = TableLiteral.from(data);
