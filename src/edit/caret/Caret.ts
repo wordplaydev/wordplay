@@ -1212,6 +1212,14 @@ export default class Caret {
                 ];
             }
 
+            // Is this a placeholder and we're typing space? Do nothing
+            if (
+                this.position instanceof ExpressionPlaceholder &&
+                text === ' '
+            ) {
+                return this;
+            }
+
             // Try wrapping the node
             const wrap = this.wrap(project, text);
             if (wrap !== undefined) return wrap;

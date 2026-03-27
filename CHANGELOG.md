@@ -26,6 +26,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 - We upgraded internal tooling for stability.
 - We stopped annoyingly autocompleting + and - expressions, as those might be positive or negative numbers you're trying to type.
+- We now ignore space insertions when a placeholder is selected. That makes autocomplete less annyoying if you're used to typing a space, but also prevents accidental erasure of a placeholder with a space.
 
 ## 0.17.2 - 2026-03-21
 
