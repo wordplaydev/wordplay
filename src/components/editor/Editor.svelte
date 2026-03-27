@@ -545,11 +545,14 @@
         // Handle an edit
         handleEditHover(event);
 
-        // If dragging and there's no drag candidate, update the selection.
+        // If dragging and there's no drag candidate,
+        // and we've exceeded the drag threshold,
+        // update the selection.
         if (
             event.buttons === 1 &&
             $dragged === undefined &&
-            dragPoint !== undefined
+            dragPoint !== undefined &&
+            exceededDragThreshold(event)
         ) {
             // Dragging to select. What's under the pointer?
             const position = getCaretPositionAt(

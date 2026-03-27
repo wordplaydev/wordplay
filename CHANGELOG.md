@@ -20,6 +20,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - We fixed the ability to wrap a selected node by typing an open parenthesis, list, or set.
 - Did you know you can paste CSV data from the clipboard and Wordplay will convert it to a table value? We made this work better with CSV files with underscores in headers.
 - We fixed rendering of skin tone modified emojis in the code editor.
+- We fixed a problem where clicking to place the cursor in the editor would sometimes select a range.
 
 ### Changed
 
