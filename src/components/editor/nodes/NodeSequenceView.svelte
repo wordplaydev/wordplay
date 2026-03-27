@@ -179,6 +179,21 @@
                     inserting={insertion?.index === 0}
                 />
             {/each}
+            <!-- Render line breaks between the last node and whatever follows the sequence -->
+            {#if format.block && breaks && direction === 'block' && format.spaces && nodes.length > 0}
+                {@const allTokens = format.spaces.getTokens()}
+                {@const lastLeaf = nodes.at(-1)?.leaves().at(-1)}
+                {@const lastLeafIdx =
+                    lastLeaf !== undefined ? allTokens.indexOf(lastLeaf) : -1}
+                {@const trailingToken =
+                    lastLeafIdx >= 0 ? allTokens[lastLeafIdx + 1] : undefined}
+                {@const trailingSpace = trailingToken
+                    ? format.spaces.getSpace(trailingToken)
+                    : ''}
+                {#each trailingSpace.split('\n').slice(0, -1)}
+                    <div class="break"></div>
+                {/each}
+            {/if}
             {@render after()}
             {#if nodes.length > 0}
                 {#if insertion?.index === nodes.length}
@@ -295,10 +310,13 @@
     .break {
         display: block;
         flex-basis: 100%;
-        height: 1em;
+        min-height: var(--wordplay-min-line-height);
     }
 
+    /* When a break is first, we render it, but we don't give it space.
+    This helps with caret positioning in CaretView.svelte. */
     .break.first {
-        height: 0;
+        min-height: 0;
+        max-height: 0;
     }
 </style>

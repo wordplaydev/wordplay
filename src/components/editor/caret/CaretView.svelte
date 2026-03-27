@@ -522,6 +522,7 @@
             }
         }
         // At the start in blocks mode? Render at the first statement's top left.
+        // At the end in blocks mode? Render at the right side of the last token.
         else if (
             blocks &&
             (caret.position === 0 ||
@@ -530,12 +531,92 @@
         ) {
             const start = caret.position === 0;
             const block = caret.source.expression.expression;
+            if (!start) {
+                // Find the last token in the program.
+                const lastToken = block
+                    .leaves()
+                    .filter((n): n is Token => n instanceof Token)
+                    .at(-1);
+                if (lastToken) {
+                    // Trailing space lives in the space of the token after the
+                    // last real token (spaces precede their token in Wordplay).
+                    const nextToken = caret.source.getNextToken(lastToken, 1);
+                    const trailingSpace = nextToken
+                        ? caret.source.spaces.getSpace(nextToken)
+                        : '';
+
+                    if (trailingSpace.includes('\n')) {
+                        // NodeSequenceView renders trailing newlines as .break
+                        // divs (not .break.first, which has zero height).
+                        // In document order the outermost trailing breaks come
+                        // last, so the last match is always the correct one.
+                        const blockView = getNodeView(block);
+                        const allBreaks = blockView
+                            ? Array.from(
+                                  blockView.querySelectorAll(
+                                      '.break:not(.first)',
+                                  ),
+                              )
+                            : [];
+                        const lastBreak = allBreaks.at(-1);
+                        if (lastBreak) {
+                            const breakRect =
+                                lastBreak.getBoundingClientRect();
+                            // Use the left of the last node-view in the same
+                            // node-list as the inline start (same as case 2).
+                            const nodeList = lastBreak.parentElement;
+                            const siblings = nodeList
+                                ? Array.from(nodeList.children)
+                                : [];
+                            const lastNodeView = siblings
+                                .filter((el) =>
+                                    el.classList.contains('node-view'),
+                                )
+                                .at(-1);
+                            const nodeRect =
+                                lastNodeView?.getBoundingClientRect();
+                            const lineWidth =
+                                element?.parentElement
+                                    ?.querySelector('.line-number')
+                                    ?.getBoundingClientRect().width ?? 0;
+                            const editorHorizontalStart =
+                                leftToRight && horizontal
+                                    ? (editorPadding ?? 0) + lineWidth
+                                    : viewportWidth - (editorPadding ?? 0);
+                            const inlineStart = nodeRect
+                                ? (leftToRight
+                                      ? nodeRect.left
+                                      : nodeRect.right) + viewportXOffset
+                                : editorHorizontalStart;
+                            return {
+                                left: inlineStart,
+                                top: breakRect.top + viewportYOffset,
+                                height: breakRect.height,
+                                bottom: breakRect.bottom + viewportYOffset,
+                            };
+                        }
+                    }
+
+                    // No trailing newlines: render at the right edge of the last token.
+                    const lastTokenView = getNodeView(lastToken);
+                    if (lastTokenView !== null) {
+                        const bounds = lastTokenView.getBoundingClientRect();
+                        return {
+                            left:
+                                (leftToRight ? bounds.right : bounds.left) +
+                                viewportXOffset,
+                            top: bounds.top + viewportYOffset,
+                            height: bounds.height,
+                            bottom: bounds.bottom + viewportYOffset,
+                        };
+                    }
+                }
+            }
             const blockView = getNodeView(block);
             if (blockView !== null) {
                 const bounds = blockView.getBoundingClientRect();
                 return {
-                    left:
-                        (start ? bounds.left : bounds.right) + viewportXOffset,
+                    left: bounds.left + viewportXOffset,
                     top: bounds.top + viewportYOffset,
                     height: bounds.height,
                     bottom: bounds.bottom + viewportYOffset,
@@ -719,11 +800,66 @@
 
                 if (horizontal) {
                     // Place the caret's top at {tokenHeight} * {number of new lines prior}
-                    const spaceTop =
-                        (blocks ? spaceViewTop : priorTokenTop) + offset;
+                    let spaceTop: number;
+                    let inlineStart = editorHorizontalStart;
+                    if (blocks) {
+                        // In blocks mode, NodeView renders the .space span as a sibling of
+                        // the .node-view div — both are direct children of .node-list.
+                        // The .break divs for this node's preceding newlines appear immediately
+                        // before the .space element in the .node-list. Find those .break divs
+                        // and use the one matching this newline position's bounding rect.
+                        const nodeListView = spaceView?.parentElement;
+                        // The number of newlines in spaceBefore maps to the .break div index.
+                        const breakDivIdx = spaceBefore.split('\n').length - 1;
+
+                        if (
+                            nodeListView?.classList.contains('node-list') &&
+                            spaceView
+                        ) {
+                            const siblings = Array.from(nodeListView.children);
+                            const spaceIdx = siblings.indexOf(spaceView);
+                            // Walk backwards from the .space to collect consecutive .break siblings.
+                            const breaksBefore: Element[] = [];
+                            for (let i = spaceIdx - 1; i >= 0; i--) {
+                                if (siblings[i].classList.contains('break'))
+                                    breaksBefore.unshift(siblings[i]);
+                                else break;
+                            }
+                            const breakRect =
+                                breaksBefore[
+                                    breakDivIdx
+                                ]?.getBoundingClientRect();
+                            spaceTop =
+                                breakRect !== undefined
+                                    ? breakRect.top + viewportYOffset
+                                    : spaceViewTop + offset;
+
+                            // Use the left edge of the preceding node-view in
+                            // the list as the inline start for the caret.
+                            const firstBreakIdx =
+                                spaceIdx - breaksBefore.length;
+                            for (let i = firstBreakIdx - 1; i >= 0; i--) {
+                                if (
+                                    siblings[i].classList.contains('node-view')
+                                ) {
+                                    const nodeRect =
+                                        siblings[i].getBoundingClientRect();
+                                    inlineStart =
+                                        (leftToRight
+                                            ? nodeRect.left
+                                            : nodeRect.right) + viewportXOffset;
+                                    break;
+                                }
+                            }
+                        } else {
+                            spaceTop = spaceViewTop + offset;
+                        }
+                    } else {
+                        spaceTop = priorTokenTop + offset;
+                    }
                     return {
                         left:
-                            editorHorizontalStart +
+                            inlineStart +
                             (leftToRight ? 1 : -1) * beforeSpaceWidth,
                         top: spaceTop,
                         height: caretHeight,
@@ -756,44 +892,32 @@
                 let spaceTop = tokenTop;
 
                 // Figure out where to start. In text mode, it's the editor left.
-                // In blocks mode, it's the left of the closest parent that is in block layout.
+                // In blocks mode, it's the left of the node on this line.
                 let horizontalStart: number;
                 if (blocks) {
-                    // We have to be careful about what "in" means in blocks mode.
-                    // If the token whose space we're in is a first leaf, we want to find the
-                    // highest block for which it is, and find the horizontal start of it's view.
-                    // Otherwise, we just want to find the containing block and find it's horizontal start.
-                    // If there isn't one, then we use the editor horizontal start.
-                    // For the token that is the first token of a block, we want the horizontal start
-                    // of the block that contains that first leaf, since it's space is outside the block.
-
-                    // Find the highest block layout node for which this is first leaf.
-                    let blockParents = [];
-                    let parent = tokenView.parentElement;
-                    while (parent !== null) {
-                        if (parent.classList.contains('block'))
-                            blockParents.push(parent);
-                        parent = parent.parentElement;
+                    // The .space element for this token is a direct child of .node-list,
+                    // and its next sibling is the .node-view for the node on this line.
+                    // Use that node-view's left edge as the inline start.
+                    const spaceEl = viewport.querySelector(
+                        `.space[data-id='${token.id}']`,
+                    );
+                    const nodeViewEl =
+                        spaceEl?.parentElement?.classList.contains(
+                            'node-list',
+                        ) &&
+                        spaceEl.nextElementSibling?.classList.contains(
+                            'node-view',
+                        )
+                            ? spaceEl.nextElementSibling
+                            : null;
+                    if (nodeViewEl) {
+                        const rect = nodeViewEl.getBoundingClientRect();
+                        horizontalStart =
+                            (leftToRight ? rect.left : rect.right) +
+                            viewportXOffset;
+                    } else {
+                        horizontalStart = editorHorizontalStart;
                     }
-                    while (
-                        blockParents.length > 0 &&
-                        blockParents[0].querySelectorAll('.token-view')[0] ===
-                            tokenView
-                    )
-                        blockParents.shift();
-                    const containingBlockView =
-                        blockParents[0] ?? tokenView.closest('.block');
-
-                    const rect = containingBlockView?.getBoundingClientRect();
-                    horizontalStart =
-                        rect === undefined
-                            ? editorHorizontalStart
-                            : beforeSpaceLeft +
-                              (leftToRight ? rect.left : rect.right) +
-                              viewportXOffset;
-
-                    // if (rect)
-                    //     spaceTop = rect.bottom + viewportYOffset - caretHeight;
                 } else horizontalStart = editorHorizontalStart;
 
                 if (horizontal) {

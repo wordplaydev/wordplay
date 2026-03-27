@@ -665,7 +665,7 @@ export default class Caret {
                 const position = this.source.getTokenTextPosition(node);
                 if (position !== undefined) {
                     for (let index = 0; index < space.length; index++) {
-                        if (space.charAt(index) === ' ') {
+                        if (this.isSpace(space.charAt(index))) {
                             points.push(position - space.length + index);
                         }
                     }
