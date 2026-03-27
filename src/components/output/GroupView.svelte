@@ -100,6 +100,7 @@
     aria-hidden={empty ? 'true' : null}
     class="output group {group instanceof Group ? 'Group' : 'Stage'}"
     class:selected={selected && !root}
+    class:background={group instanceof Group && group.background !== undefined}
     class:root
     tabIndex={!root && interactive && (group.selectable || editing) ? 0 : null}
     data-id={group.getHTMLID()}
@@ -110,9 +111,10 @@
     style:height={sizeToPx(layout.height)}
     style:font-family={getFaceCSS(localContext.face)}
     style:font-size={getSizeCSS(localContext.size)}
-    style:background={(group instanceof Group
+    style:background={group instanceof Group ? group.background?.toCSS() : null}
+    style:outline-color={group instanceof Group
         ? group.background?.toCSS()
-        : null) ?? null}
+        : null}
     style:color={getColorCSS(group.getFirstRestPose(), group.pose)}
     style:opacity={getOpacityCSS(group.getFirstRestPose(), group.pose)}
     style:transform={toOutputTransform(
@@ -193,6 +195,11 @@
 
         /* This disables translation around the center; we want to translate around the focus.*/
         transform-origin: 0 0;
+    }
+
+    .group.background {
+        outline-style: solid;
+        outline-width: calc(var(--wordplay-spacing) / 2);
     }
 
     .frame {
