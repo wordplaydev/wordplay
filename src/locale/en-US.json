@@ -460,7 +460,8 @@
                 },
                 "IncompatibleType": {
                     "name": "incompatible type",
-                    "explanation": "I'm supposed to be type $2, but I'm type $1"
+                    "explanation": "I'm supposed to be type $2, but I'm type $1",
+                    "resolution": "Convert to $1"
                 },
                 "MisplacedShare": {
                     "name": "misplaced share",
@@ -698,7 +699,8 @@
             "conflict": {
                 "IncompatibleInput": {
                     "name": "incompatible input",
-                    "explanation": "I'm supposed to be type $1, but I'm type $2"
+                    "explanation": "I'm supposed to be type $1, but I'm type $2",
+                    "resolution": "Convert to $1"
                 },
                 "UnexpectedTypeInput": {
                     "name": "unexpected type input",

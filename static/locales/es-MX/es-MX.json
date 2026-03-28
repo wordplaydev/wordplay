@@ -431,7 +431,8 @@
                 },
                 "IncompatibleType": {
                     "name": "$~tipoincompatible",
-                    "explanation": "$~Se supone que soy tipo $2, pero soy tipo $1"
+                    "explanation": "$~Se supone que soy tipo $2, pero soy tipo $1",
+                    "resolution": "$~Convertir a $1"
                 },
                 "MisplacedShare": {
                     "name": "$~acciónextraviada",
@@ -669,7 +670,8 @@
             "conflict": {
                 "IncompatibleInput": {
                     "name": "$~entradaincompatible",
-                    "explanation": "$~Se supone que soy del tipo $1, pero soy del tipo $2"
+                    "explanation": "$~Se supone que soy del tipo $1, pero soy del tipo $2",
+                    "resolution": "$~Convertir a $1"
                 },
                 "UnexpectedTypeInput": {
                     "name": "$~entradadetipoinesperado",

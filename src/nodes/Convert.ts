@@ -302,7 +302,7 @@ export default class Convert extends Expression {
     }
 }
 
-function getConversionPath(
+export function getConversionPath(
     input: Type,
     output: Type,
     conversions: ConversionDefinition[],

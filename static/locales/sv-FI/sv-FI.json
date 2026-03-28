@@ -455,7 +455,8 @@
                 },
                 "IncompatibleType": {
                     "name": "$~inkompatibeltyp",
-                    "explanation": "$~Jag borde vara typ $2, men jag är typ $1"
+                    "explanation": "$~Jag borde vara typ $2, men jag är typ $1",
+                    "resolution": "$~Konvertera till 1 dollar"
                 },
                 "MisplacedShare": {
                     "name": "$~felplaceraddelning",
@@ -693,7 +694,8 @@
             "conflict": {
                 "IncompatibleInput": {
                     "name": "$~inkompatibelingång",
-                    "explanation": "$~Jag borde vara typ $1, men jag är typ $2"
+                    "explanation": "$~Jag borde vara typ $1, men jag är typ $2",
+                    "resolution": "$~Konvertera till 1 dollar"
                 },
                 "UnexpectedTypeInput": {
                     "name": "$~oväntadtypinmatning",

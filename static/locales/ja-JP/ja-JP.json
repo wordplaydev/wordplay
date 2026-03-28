@@ -455,7 +455,8 @@
                 },
                 "IncompatibleType": {
                     "name": "$~互換性のないタイプ",
-                    "explanation": "$~私はタイプ$2のはずが、タイプ$1です"
+                    "explanation": "$~私はタイプ$2のはずが、タイプ$1です",
+                    "resolution": "$~1ドルに換算"
                 },
                 "MisplacedShare": {
                     "name": "$~間違ったシェア",
@@ -693,7 +694,8 @@
             "conflict": {
                 "IncompatibleInput": {
                     "name": "$~互換性のない入力",
-                    "explanation": "$~私はタイプ$1のはずが、タイプ$2です"
+                    "explanation": "$~私はタイプ$1のはずが、タイプ$2です",
+                    "resolution": "$~1ドルに換算"
                 },
                 "UnexpectedTypeInput": {
                     "name": "$~予期しない型入力",

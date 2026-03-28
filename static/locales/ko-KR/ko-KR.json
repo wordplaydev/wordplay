@@ -455,7 +455,8 @@
                 },
                 "IncompatibleType": {
                     "name": "$~호환되지않는유형",
-                    "explanation": "$~저는 2번 유형이어야 하는데, 1번 유형이에요."
+                    "explanation": "$~저는 2번 유형이어야 하는데, 1번 유형이에요.",
+                    "resolution": "$~1달러로 환산"
                 },
                 "MisplacedShare": {
                     "name": "$~잘못된공유",
@@ -693,7 +694,8 @@
             "conflict": {
                 "IncompatibleInput": {
                     "name": "$~호환되지않는입력",
-                    "explanation": "$~저는 1번 유형이어야 하는데, 2번 유형이에요."
+                    "explanation": "$~저는 1번 유형이어야 하는데, 2번 유형이에요.",
+                    "resolution": "$~1달러로 환산"
                 },
                 "UnexpectedTypeInput": {
                     "name": "$~예상치못한유형입력",

@@ -455,7 +455,8 @@
                 },
                 "IncompatibleType": {
                     "name": "$~અસંગતપ્રકાર",
-                    "explanation": "$~હું ટાઇપ $2 નો છું, પણ હું ટાઇપ $1 છું."
+                    "explanation": "$~હું ટાઇપ $2 નો છું, પણ હું ટાઇપ $1 છું.",
+                    "resolution": "$~$1 માં કન્વર્ટ કરો"
                 },
                 "MisplacedShare": {
                     "name": "$~ખોટાસ્થાનેરાખેલશેર",
@@ -693,7 +694,8 @@
             "conflict": {
                 "IncompatibleInput": {
                     "name": "$~અસંગતઇનપુટ",
-                    "explanation": "$~હું ટાઇપ $1 હોવાનો છું, પણ હું ટાઇપ $2 છું."
+                    "explanation": "$~હું ટાઇપ $1 હોવાનો છું, પણ હું ટાઇપ $2 છું.",
+                    "resolution": "$~$1 માં કન્વર્ટ કરો"
                 },
                 "UnexpectedTypeInput": {
                     "name": "$~અનપેક્ષિતપ્રકારઇનપુટ",

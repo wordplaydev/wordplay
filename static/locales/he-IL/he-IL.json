@@ -460,7 +460,8 @@
                 },
                 "IncompatibleType": {
                     "name": "$~סוגלאתואם",
-                    "explanation": "$~אני אמור להיות סוג $2, אבל אני סוג $1"
+                    "explanation": "$~אני אמור להיות סוג $2, אבל אני סוג $1",
+                    "resolution": "$~המרה ל-$1"
                 },
                 "MisplacedShare": {
                     "name": "$~שיתוףלאבמקום",
@@ -698,7 +699,8 @@
             "conflict": {
                 "IncompatibleInput": {
                     "name": "$~קלטלאתואם",
-                    "explanation": "$~אני אמור להיות סוג $1, אבל אני סוג $2"
+                    "explanation": "$~אני אמור להיות סוג $1, אבל אני סוג $2",
+                    "resolution": "$~המרה ל-$1"
                 },
                 "UnexpectedTypeInput": {
                     "name": "$~קלטמסוגבלתיצפוי",

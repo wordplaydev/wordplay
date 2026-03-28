@@ -460,7 +460,8 @@
                 },
                 "IncompatibleType": {
                     "name": "$~loạikhôngtươngthích",
-                    "explanation": "$~Tôi đáng lẽ phải thuộc loại $2, nhưng tôi lại thuộc loại $1."
+                    "explanation": "$~Tôi đáng lẽ phải thuộc loại $2, nhưng tôi lại thuộc loại $1.",
+                    "resolution": "$~Quy đổi sang 1 đô la"
                 },
                 "MisplacedShare": {
                     "name": "$~cổphầnbịthấtlạc",
@@ -698,7 +699,8 @@
             "conflict": {
                 "IncompatibleInput": {
                     "name": "$~đầuvàokhôngtươngthích",
-                    "explanation": "$~Tôi đáng lẽ phải thuộc loại $1, nhưng tôi lại thuộc loại $2."
+                    "explanation": "$~Tôi đáng lẽ phải thuộc loại $1, nhưng tôi lại thuộc loại $2.",
+                    "resolution": "$~Quy đổi sang 1 đô la"
                 },
                 "UnexpectedTypeInput": {
                     "name": "$~đầuvàokiểukhôngmongđợi",

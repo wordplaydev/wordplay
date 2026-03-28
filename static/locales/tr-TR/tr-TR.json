@@ -455,7 +455,8 @@
                 },
                 "IncompatibleType": {
                     "name": "$~uyumsuztip",
-                    "explanation": "$~Ben normalde $2 tipinde olmam gerekirken, $1 tipindeyim."
+                    "explanation": "$~Ben normalde $2 tipinde olmam gerekirken, $1 tipindeyim.",
+                    "resolution": "$~1 dolara çevirin"
                 },
                 "MisplacedShare": {
                     "name": "$~yanlışyerleştirilmişpaylaşım",
@@ -693,7 +694,8 @@
             "conflict": {
                 "IncompatibleInput": {
                     "name": "$~uyumsuzgiriş",
-                    "explanation": "$~Ben 1 numaralı tip olmalıyım ama 2 numaralı tipim."
+                    "explanation": "$~Ben 1 numaralı tip olmalıyım ama 2 numaralı tipim.",
+                    "resolution": "$~1 dolara çevirin"
                 },
                 "UnexpectedTypeInput": {
                     "name": "$~beklenmeyentipgirişi",

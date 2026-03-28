@@ -455,7 +455,8 @@
                 },
                 "IncompatibleType": {
                     "name": "不相容类型",
-                    "explanation": "我应该是 $2 的，但现在我是 $1"
+                    "explanation": "我应该是 $2 的，但现在我是 $1",
+                    "resolution": "$~转换为 1 美元"
                 },
                 "MisplacedShare": {
                     "name": "放错位置的共享",
@@ -693,7 +694,8 @@
             "conflict": {
                 "IncompatibleInput": {
                     "name": "$~不兼容的输入",
-                    "explanation": "$~我应该用1号字体，但我用的是2号字体。"
+                    "explanation": "$~我应该用1号字体，但我用的是2号字体。",
+                    "resolution": "$~转换为 1 美元"
                 },
                 "UnexpectedTypeInput": {
                     "name": "$~意外的类型输入",

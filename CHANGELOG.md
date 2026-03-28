@@ -10,6 +10,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 - We show the owner of a project in the gallery and projects previews.
 - Programs can now start with documentation, even if they start with a borrow statement.
+- When there's a way to convert an expression to an expected type, we suggest it as a resolution (#991).
 
 ### Fixed
 

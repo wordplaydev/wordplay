@@ -455,7 +455,8 @@
                 },
                 "IncompatibleType": {
                     "name": "$~niezgodnytyp",
-                    "explanation": "$~Powinienem być typem 2, ale jestem typem 1"
+                    "explanation": "$~Powinienem być typem 2, ale jestem typem 1",
+                    "resolution": "$~Przelicz na 1$"
                 },
                 "MisplacedShare": {
                     "name": "$~źleumieszczonyudział",
@@ -693,7 +694,8 @@
             "conflict": {
                 "IncompatibleInput": {
                     "name": "$~niezgodnedanewejściowe",
-                    "explanation": "$~Powinienem być typem $1, ale jestem typem $2"
+                    "explanation": "$~Powinienem być typem $1, ale jestem typem $2",
+                    "resolution": "$~Przelicz na 1$"
                 },
                 "UnexpectedTypeInput": {
                     "name": "$~nieoczekiwanytypdanychwejściowych",

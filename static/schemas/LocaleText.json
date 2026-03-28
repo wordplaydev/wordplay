@@ -2677,8 +2677,27 @@
                       "description": "When a shared bind has a duplicate name that's shared. Description inputs: $1: The duplicate"
                     },
                     "IncompatibleType": {
-                      "$ref": "#/definitions/ConflictText",
-                      "description": "When a bind and it's value type are incompatible. Description inputs: $1: Expected type, $2: Given type"
+                      "additionalProperties": false,
+                      "description": "When a bind and it's value type are incompatible. Description inputs: $1: Expected type, $2: Given type",
+                      "properties": {
+                        "explanation": {
+                          "$ref": "#/definitions/Template",
+                          "description": "The text that describes this conflict on the node which generated it."
+                        },
+                        "name": {
+                          "description": "The short header to describe the conflict",
+                          "type": "string"
+                        },
+                        "resolution": {
+                          "$ref": "#/definitions/Template"
+                        }
+                      },
+                      "required": [
+                        "explanation",
+                        "name",
+                        "resolution"
+                      ],
+                      "type": "object"
                     },
                     "MisplacedShare": {
                       "$ref": "#/definitions/ConflictText",
@@ -3636,8 +3655,27 @@
                   "description": "Conflicts that this node can generate",
                   "properties": {
                     "IncompatibleInput": {
-                      "$ref": "#/definitions/ConflictText",
-                      "description": "When an input given to this evaluate doesn't match the input of the function being evaluated Description inputs: $1 = expected type, $2 = given type"
+                      "additionalProperties": false,
+                      "description": "When an input given to this evaluate doesn't match the input of the function being evaluated Description inputs: $1 = expected type, $2 = given type",
+                      "properties": {
+                        "explanation": {
+                          "$ref": "#/definitions/Template",
+                          "description": "The text that describes this conflict on the node which generated it."
+                        },
+                        "name": {
+                          "description": "The short header to describe the conflict",
+                          "type": "string"
+                        },
+                        "resolution": {
+                          "$ref": "#/definitions/Template"
+                        }
+                      },
+                      "required": [
+                        "explanation",
+                        "name",
+                        "resolution"
+                      ],
+                      "type": "object"
                     },
                     "InputListMustBeLast": {
                       "$ref": "#/definitions/ConflictText",

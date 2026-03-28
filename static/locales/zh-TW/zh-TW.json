@@ -455,7 +455,8 @@
                 },
                 "IncompatibleType": {
                     "name": "$~不相容類型",
-                    "explanation": "$~我應該用2號字體，但我用的是1號字體。"
+                    "explanation": "$~我應該用2號字體，但我用的是1號字體。",
+                    "resolution": "$~轉換為 1 美元"
                 },
                 "MisplacedShare": {
                     "name": "$~放錯位置的份額",
@@ -693,7 +694,8 @@
             "conflict": {
                 "IncompatibleInput": {
                     "name": "$~不相容的輸入",
-                    "explanation": "$~我應該用1號字體，但我用的是2號字體。"
+                    "explanation": "$~我應該用1號字體，但我用的是2號字體。",
+                    "resolution": "$~轉換為 1 美元"
                 },
                 "UnexpectedTypeInput": {
                     "name": "$~意外的類型輸入",

@@ -455,7 +455,8 @@
                 },
                 "IncompatibleType": {
                     "name": "$~typeincompatible",
-                    "explanation": "$~Je suis censé être de type 2, mais je suis de type 1."
+                    "explanation": "$~Je suis censé être de type 2, mais je suis de type 1.",
+                    "resolution": "$~Convertir en 1 $"
                 },
                 "MisplacedShare": {
                     "name": "$~partmalplacée",
@@ -693,7 +694,8 @@
             "conflict": {
                 "IncompatibleInput": {
                     "name": "$~entréeincompatible",
-                    "explanation": "$~Je suis censé être de type 1, mais je suis de type 2."
+                    "explanation": "$~Je suis censé être de type 1, mais je suis de type 2.",
+                    "resolution": "$~Convertir en 1 $"
                 },
                 "UnexpectedTypeInput": {
                     "name": "$~entréedetypeinattendue",

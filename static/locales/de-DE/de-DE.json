@@ -455,7 +455,8 @@
                 },
                 "IncompatibleType": {
                     "name": "$~inkompatiblerTyp",
-                    "explanation": "$~Ich sollte eigentlich Typ 2 sein, bin aber Typ 1."
+                    "explanation": "$~Ich sollte eigentlich Typ 2 sein, bin aber Typ 1.",
+                    "resolution": "$~Umrechnung in 1 US-Dollar"
                 },
                 "MisplacedShare": {
                     "name": "$~falschplatzierteAktie",
@@ -693,7 +694,8 @@
             "conflict": {
                 "IncompatibleInput": {
                     "name": "$~inkompatibleEingabe",
-                    "explanation": "$~Ich sollte eigentlich Typ 1 sein, bin aber Typ 2."
+                    "explanation": "$~Ich sollte eigentlich Typ 1 sein, bin aber Typ 2.",
+                    "resolution": "$~Umrechnung in 1 US-Dollar"
                 },
                 "UnexpectedTypeInput": {
                     "name": "$~unerwarteteTypeingabe",

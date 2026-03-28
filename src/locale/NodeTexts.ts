@@ -176,7 +176,7 @@ type NodeTexts = {
              * When a bind and it's value type are incompatible.
              * Description inputs: $1: Expected type, $2: Given type
              **/
-            IncompatibleType: ConflictText;
+            IncompatibleType: ConflictText & { resolution: Template };
             /**
              * When a bind is marked as share, but not at the top level.
              */
@@ -354,7 +354,7 @@ type NodeTexts = {
              * When an input given to this evaluate doesn't match the input of the function being evaluated
              * Description inputs: $1 = expected type, $2 = given type
              * */
-            IncompatibleInput: ConflictText;
+            IncompatibleInput: ConflictText & { resolution: Template };
             /**
              * When a type input given is not expected.
              * Description inputs: $1 = definition given, $2: type given
