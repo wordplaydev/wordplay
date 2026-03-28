@@ -581,8 +581,9 @@ export default class ProjectsDatabase {
         // Delete from the local cache.
         await this.localDB.deleteProject(id);
 
-        // Untrack the project.
+        // Untrack the project from both editable and read-only caches.
         this.projectHistories.delete(id);
+        this.readonlyProjects.delete(id);
     }
 
     /** Persist in storage */
