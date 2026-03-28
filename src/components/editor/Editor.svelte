@@ -870,6 +870,8 @@
 
     /** True if a symbol was inserted using the insert symbol command, so we can undo it if composition starts. */
     let insertedSymbol = false;
+    /** The key most recently inserted via InsertSymbol, for character echo; undefined when the last action was navigation. */
+    let lastInsertedKey: string | undefined = undefined;
     /** True if text was pasted */
     let pasted = true;
 
@@ -1022,6 +1024,11 @@
 
         // Don't insert symbols if composing.
         insertedSymbol = command === InsertSymbol;
+        // Track the key for character echo; clear for navigation commands.
+        lastInsertedKey =
+            command === InsertSymbol && event.key.length === 1
+                ? event.key
+                : undefined;
 
         // If it produced a new caret and optionally a new project, update the stores.
         const idle =
@@ -1289,26 +1296,35 @@
         }
     });
 
-    /** Announce caret position when it changes */
+    /** Announce symbol insertion (character echo) or caret position (navigation) to screen readers.
+     *  WCAG 2.1 SC 4.1.3: status messages are conveyed via the live region in Announcer.svelte.
+     *  On typing: announce the character that was inserted (character echo).
+     *  On navigation: announce the cursor's contextual description. */
     $effect(() => {
-        if (
-            $announce &&
-            document.activeElement === input &&
-            $caret &&
-            conflictsOfInterest &&
-            caretExpressionType
-        ) {
-            untrack(() =>
-                $announce(
-                    sourceID,
-                    $caret.getLanguage(),
-                    $caret.getDescription(
-                        caretExpressionType,
-                        conflictsOfInterest,
-                        context,
-                    ),
-                ),
-            );
+        if ($announce && document.activeElement === input && $caret) {
+            // Read lastInsertedKey before entering untrack so the value is captured
+            // at the time the reactive effect fires (i.e. after the caret update).
+            const key = lastInsertedKey;
+            untrack(() => {
+                if (key !== undefined) {
+                    // Character echo: announce only the typed symbol so the screen
+                    // reader does not flood the user with position descriptions while typing.
+                    $announce(sourceID, $caret.getLanguage(), key);
+                } else {
+                    // Navigation: announce the cursor's contextual description.
+                    $announce(
+                        sourceID,
+                        $caret.getLanguage(),
+                        $caret.getDescription(
+                            caretExpressionType,
+                            conflictsOfInterest,
+                            context,
+                        ),
+                    );
+                }
+                // Reset so the next caret change (navigation) gets a position description.
+                lastInsertedKey = undefined;
+            });
         }
     });
 
