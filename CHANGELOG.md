@@ -23,6 +23,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - We fixed rendering of skin tone modified emojis in the code editor.
 - We fixed a problem where clicking to place the cursor in the editor would sometimes select a range.
 - We now render line breaks in blocks mode, when appropriate (e.g.,), and place the cursor in more reasonable places (#927).
+- When an input is added to an evaluation with the menu, it is added where the cursor is, instead of the end (#811).
 
 ### Changed
 

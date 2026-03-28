@@ -534,17 +534,22 @@ function getRelativeFieldEdits(
                 // Account for empty lists, as the node might not be in the list, as its an opening delimiter.
                 // If it's not in the list, it's either an empty list, in which we're inserting at the beginning,
                 // or it's not empty, and we're before the end.
-                const index =
-                    list.length === 0
+                // Compute the splice index: the position in the list where the new item will be inserted.
+                // If the anchor is before the caret, insert after it; if after, insert before it.
+                const anchorIndexInList = list.indexOf(anchorNode);
+                const spliceIndex = isAfterAnchor
+                    ? anchorIndexInList === -1
                         ? 0
-                        : Math.max(list.length - 1, list.indexOf(anchorNode)) +
-                          1;
-                if (index >= 0) {
+                        : anchorIndexInList + 1
+                    : anchorIndexInList === -1
+                      ? list.length
+                      : anchorIndexInList;
+                if (spliceIndex >= 0) {
                     // Find the expected type of the position in the list.
                     // Some lists don't care, other lists do (e.g., Evaluate has very specific type expectations based on it's function definition).
                     // If this field is before, then we do the index after. If the field we're analyzing is after, we keep the current index as the insertion point.
                     const expectedType = relativeField.getType
-                        ? relativeField.getType(context, index)
+                        ? relativeField.getType(context, spliceIndex)
                         : undefined;
                     edits = [
                         ...edits,
@@ -557,7 +562,7 @@ function getRelativeFieldEdits(
                                     locales,
                                     parent,
                                     field: relativeField.name,
-                                    index,
+                                    index: spliceIndex,
                                 })
                                     // Some nodes will suggest removals. We filter those here.
                                     .filter(
@@ -571,7 +576,7 @@ function getRelativeFieldEdits(
                                                 position,
                                                 parent,
                                                 list,
-                                                index + 1,
+                                                spliceIndex,
                                                 insertion,
                                             ),
                                     ),
