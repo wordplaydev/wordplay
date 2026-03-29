@@ -1,11 +1,13 @@
 <script module lang="ts">
     export type Option = {
         value: string | undefined;
-        label: string;
+        label: string | LocaleTextAccessor;
+        [key: string]: any;
     };
     export type Group<Type extends Option> = {
-        label: string;
+        label: string | LocaleTextAccessor;
         options: Type[];
+        [key: string]: any;
     };
 </script>
 
@@ -14,17 +16,14 @@
 
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import { locales } from '@db/Database';
-    import type {
-        LocaleTextAccessor,
-        LocaleTextsAccessor,
-    } from '@locale/Locales';
-    import { getFirstText } from '@locale/LocaleText';
+    import type { LocaleTextAccessor } from '@locale/Locales';
 
     import { tick, type Snippet } from 'svelte';
+    import LocalizedText from './LocalizedText.svelte';
 
     interface Props {
         value: string | undefined;
-        label: LocaleTextAccessor | LocaleTextsAccessor;
+        label: string | LocaleTextAccessor;
         options: Group<Item>[] | Item[];
         change: (value: string | undefined) => void;
         width?: string;
@@ -47,7 +46,7 @@
     }: Props = $props();
 
     let title = $derived(
-        $locales.getPlainText(getFirstText($locales.get(label))),
+        typeof label === 'string' ? label : $locales.getPlainText(label),
     );
 
     let view: HTMLSelectElement | undefined = $state(undefined);
@@ -93,7 +92,7 @@
     <button><selectedcontent></selectedcontent></button>
     {#each options as option}
         {#if 'options' in option}
-            <optgroup label={option.label}>
+            <optgroup label={$locales.getPlainText(option.label)}>
                 {#each option.options as groupoption}
                     <option
                         selected={groupoption.value === value}
@@ -106,7 +105,9 @@
                         }}
                         >{#if item}{@render item(
                                 groupoption,
-                            )}{:else}{groupoption.label}{/if}</option
+                            )}{:else if typeof groupoption.label === 'string'}{groupoption.label}{:else}<LocalizedText
+                                path={groupoption.label}
+                            />{/if}</option
                     >{/each}
             </optgroup>
         {:else}
@@ -121,7 +122,9 @@
                 }}
                 >{#if item}{@render item(
                         option,
-                    )}{:else}{option.label}{/if}</option
+                    )}{:else if typeof option.label === 'string'}{option.label}{:else}<LocalizedText
+                        path={option.label}
+                    />{/if}</option
             >
         {/if}
     {/each}

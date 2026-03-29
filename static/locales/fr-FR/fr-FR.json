@@ -4301,8 +4301,7 @@
             "code": "Noto Sans Mono"
         },
         "phrases": {
-            "welcome": "$~Bonjour",
-            "machineTranslated": "$~(Traduction par IA)"
+            "welcome": "$~Bonjour"
         },
         "widget": {
             "confirm": {
@@ -5880,7 +5879,8 @@
         },
         "template": {
             "unwritten": "$~À déterminer",
-            "unparsable": "$~Modèle non analysable:$1"
+            "unparsable": "$~Modèle non analysable:$1",
+            "machineTranslated": "$~Ce texte a été traduit automatiquement, il peut donc être illisible ou incorrect."
         },
         "collaborate": {
             "label": "$~collaborer",

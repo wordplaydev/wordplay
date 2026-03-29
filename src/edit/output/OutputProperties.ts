@@ -50,7 +50,7 @@ export function getStyleProperty(locales: Locales): OutputProperty {
     return new OutputProperty(
         (l) => l.output.Phrase.style.names,
         new OutputPropertyOptions(
-            Object.values(locales.get((l) => l.output.Easing))
+            Object.values(locales.getTextStructure((l) => l.output.Easing))
                 .reduce(
                     (all: string[], next: NameText) => [
                         ...all,
@@ -105,7 +105,10 @@ export function getTypeOutputProperties(
             false,
             true,
             (expr) => expr instanceof TextLiteral,
-            () => TextLiteral.make(locales.get((l) => l.ui.font.app)),
+            () =>
+                TextLiteral.make(
+                    locales.getUnannotatedText((l) => l.ui.font.app),
+                ),
         ),
         new OutputProperty(
             (l) => l.output.Phrase.place.names,

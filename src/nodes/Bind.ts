@@ -122,7 +122,9 @@ export default class Bind extends Expression {
                 return [
                     Bind.make(
                         undefined,
-                        Names.make([locales.get((l) => l.term.name)]),
+                        Names.make([
+                            locales.getUnannotatedText((l) => l.term.name),
+                        ]),
                         undefined,
                         node,
                     ),
@@ -136,13 +138,17 @@ export default class Bind extends Expression {
             parent instanceof FunctionDefinition
                 ? Bind.make(
                       undefined,
-                      Names.make([locales.get((l) => l.term.name)]),
+                      Names.make([
+                          locales.getUnannotatedText((l) => l.term.name),
+                      ]),
                       TypePlaceholder.make(),
                       undefined,
                   )
                 : Bind.make(
                       undefined,
-                      Names.make([locales.get((l) => l.term.name)]),
+                      Names.make([
+                          locales.getUnannotatedText((l) => l.term.name),
+                      ]),
                       undefined,
                       ExpressionPlaceholder.make(),
                   ),
@@ -211,7 +217,9 @@ export default class Bind extends Expression {
                     return () =>
                         bind
                             ? locales.getName(bind.names)
-                            : locales.get((l) => l.node.Bind.label.value);
+                            : locales.getUnannotatedText(
+                                  (l) => l.node.Bind.label.value,
+                              );
                 },
             },
         ];

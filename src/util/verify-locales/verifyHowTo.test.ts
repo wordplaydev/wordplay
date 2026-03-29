@@ -1,8 +1,5 @@
-import {
-    MachineTranslated,
-    isMachineTranslated,
-    isUnwritten,
-} from '@locale/LocaleText';
+import { MachineTranslated } from '@locale/Annotations';
+import { isMachineTranslated, isUnwritten } from '@locale/LocaleText';
 import { describe, expect, it } from 'vitest';
 
 // Test the helper functions and logic that can be unit tested

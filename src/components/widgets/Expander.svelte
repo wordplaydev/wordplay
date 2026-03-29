@@ -17,7 +17,7 @@
 
     let hint = getTip();
     function showTip() {
-        if (view) hint.show($locales.get(label), view);
+        if (view) hint.show($locales.getPlainText(label), view);
     }
     function hideTip() {
         hint.hide();

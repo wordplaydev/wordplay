@@ -56,7 +56,11 @@ export default class Doc extends LanguageTagged {
 
     static getTemplate(locales: Locales) {
         return Doc.make([
-            new Paragraph([Words.make(locales.get((l) => l.node.Words.name))]),
+            new Paragraph([
+                Words.make(
+                    locales.getUnannotatedText((l) => l.node.Words.name),
+                ),
+            ]),
         ]);
     }
 

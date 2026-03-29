@@ -22,7 +22,7 @@ export default class EvaluationLimitException extends ExceptionValue {
     }
 
     getExceptionText(locales: Locales) {
-        return locales.get(
+        return locales.getTextStructure(
             (l) => l.node.Program.exception.EvaluationLimitException,
         );
     }

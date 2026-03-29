@@ -12,8 +12,7 @@ export default class UnimplementedException extends ExceptionValue {
     }
 
     getExceptionText(locales: Locales) {
-        return locales.get((l) => l.node.ExpressionPlaceholder.exception)
-            .UnimplementedException;
+        return locales.getTextStructure((l) => l.node.ExpressionPlaceholder.exception.UnimplementedException);
     }
 
     getExplanation(locales: Locales) {

@@ -135,7 +135,7 @@
                                   node.getText().startsWith(event.key),
                           )
                     : $locales
-                          .get(
+                          .getUnannotatedText(
                               (l) =>
                                   l.ui.docs.purposes[revision.purpose].header,
                           )
@@ -211,9 +211,8 @@
                     }}
                 >
                     <MarkupHTMLView
-                        markup={$locales.concretize(
-                            `/${$locales.get((l) => l.ui.docs.purposes[entry.purpose]?.header)}…/`,
-                        )}
+                        markup={(l) =>
+                            l.ui.docs.purposes[entry.purpose]?.header}
                     />
                 </div>
                 <div

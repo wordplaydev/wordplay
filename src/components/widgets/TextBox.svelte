@@ -2,6 +2,7 @@
     import { locales } from '@db/Database';
     import type { LocaleTextAccessor } from '@locale/Locales';
     import { CONFIRM_SYMBOL } from '@parser/Symbols';
+    import LocalizedText from './LocalizedText.svelte';
 
     interface Props {
         text: string;
@@ -69,7 +70,7 @@
         aria-label={title}
         aria-invalid={message !== undefined}
         aria-describedby="{id}-error"
-        placeholder={$locales.get(placeholder)}
+        placeholder={$locales.getPlainText(placeholder)}
         class={{ inline, error: message !== undefined }}
         bind:value={text}
         bind:this={view}
@@ -95,7 +96,7 @@
         }}
     ></textarea>
     {#if message !== undefined}
-        <div class="message" id="id-{id}">{$locales.get(message)}</div>
+        <div class="message" id="id-{id}"><LocalizedText path={message} /></div>
     {/if}
     {#if savingDone !== false}
         <div class="done"

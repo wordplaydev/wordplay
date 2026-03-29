@@ -124,7 +124,7 @@ export default class FunctionDefinition extends DefinitionExpression {
         return [
             FunctionDefinition.make(
                 undefined,
-                Names.make([locales.get((l) => l.term.name)]),
+                Names.make([locales.getUnannotatedText((l) => l.term.name)]),
                 undefined,
                 [],
                 ExpressionPlaceholder.make(),

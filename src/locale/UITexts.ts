@@ -80,8 +80,6 @@ type UITexts = {
     phrases: {
         /** Placeholder text used in code examples. */
         welcome: string;
-        /** How do describe machine translated text in ARIA descriptions */
-        machineTranslated: string;
     };
     /** Generic reusable widgets and their generic labels. */
     widget: {
@@ -941,6 +939,8 @@ type UITexts = {
         unwritten: string;
         /** The placeholder string indicating that a template string could not be parsed */
         unparsable: string;
+        /** The tooltip for the machine-translated annotation */
+        machineTranslated: string;
     };
     /** Emoji related text */
     emoji: {

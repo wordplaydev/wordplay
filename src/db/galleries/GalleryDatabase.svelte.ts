@@ -215,9 +215,8 @@ export default class GalleryDatabase {
 
         const id = uuidv4();
         const name: Record<string, string> = {};
-        name[localeToString(locales.getLocales()[0])] = locales.get(
-            (l) => l.ui.gallery.untitled,
-        );
+        name[localeToString(locales.getLocales()[0])] =
+            locales.getUnannotatedText((l) => l.ui.gallery.untitled);
         const description: Record<string, string> = {};
         description[localeToString(locales.getLocales()[0])] = '';
 
@@ -238,10 +237,10 @@ export default class GalleryDatabase {
             howToExpandedGalleries: [],
             howToViewers: {},
             howToViewersFlat: [],
-            howToGuidingQuestions: locales.get(
+            howToGuidingQuestions: locales.getUnannotatedTexts(
                 (l) => l.ui.howto.configuration.guidingQuestions.default,
             ),
-            howToReactions: locales.get(
+            howToReactions: locales.getTextStructure(
                 (l) => l.ui.howto.configuration.reactions.default,
             ),
         };

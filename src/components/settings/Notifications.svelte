@@ -66,7 +66,9 @@
                     $announce(
                         'notification',
                         $locales.getLanguages()[0],
-                        $locales.get((l) => l.ui.dialog.notifications.popup),
+                        $locales.getPlainText(
+                            (l) => l.ui.dialog.notifications.popup,
+                        ),
                     );
                 }
             });
@@ -153,9 +155,10 @@
         }
 
         return (
-            docToMarkup($locales.get(accessor)).concretize($locales, [
-                notification.title,
-            ]) ?? ''
+            docToMarkup($locales.getUnannotatedText(accessor)).concretize(
+                $locales,
+                [notification.title],
+            ) ?? ''
         );
     }
 </script>

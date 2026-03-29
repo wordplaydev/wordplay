@@ -103,7 +103,7 @@
                     id="ui-face"
                     width="10em"
                     options={[
-                        { value: undefined, label: '—', face: null },
+                        { value: undefined, label: () => '—', face: null },
                         // Only show faces supported in the current locale
                         ...Object.entries(Faces)
                             .filter(
@@ -116,7 +116,7 @@
                             .map(([name, face]) => {
                                 return {
                                     value: name,
-                                    label: getFaceDescription(name, face),
+                                    label: () => getFaceDescription(name, face),
                                     face: {
                                         name: name,
                                         face: face,
@@ -128,7 +128,7 @@
                         Settings.setFace(choice === undefined ? null : choice)}
                 >
                     {#snippet item(option)}
-                        {#if option.face === null}<span>{option.label}</span>
+                        {#if option.face === null}<span>{option.label()}</span>
                         {:else}
                             <FaceName
                                 name={option.face.name}
@@ -186,14 +186,13 @@
                         options={[
                             {
                                 value: undefined,
-                                label: $locales.get(
-                                    (l) => l.ui.dialog.settings.options.default,
-                                ),
+                                label: (l) =>
+                                    l.ui.dialog.settings.options.default,
                             },
                             ...cameras.map((device) => {
                                 return {
                                     value: device.label,
-                                    label: device.label,
+                                    label: () => device.label,
                                 };
                             }),
                         ]}
@@ -214,14 +213,13 @@
                         options={[
                             {
                                 value: undefined,
-                                label: $locales.get(
-                                    (l) => l.ui.dialog.settings.options.default,
-                                ),
+                                label: (l) =>
+                                    l.ui.dialog.settings.options.default,
                             },
                             ...mics.map((device) => {
                                 return {
                                     value: device.label,
-                                    label: device.label,
+                                    label: () => device.label,
                                 };
                             }),
                         ]}

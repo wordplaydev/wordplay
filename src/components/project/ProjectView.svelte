@@ -83,6 +83,7 @@
     import type Gallery from '@db/galleries/Gallery';
     import GalleryHowTo from '@db/howtos/HowToDatabase.svelte';
     import type MenuInfo from '@edit/menu/Menu';
+    import type { LocaleTextAccessor } from '@locale/Locales';
     import type { HighlightSpec } from '../editor/highlights/Highlights';
     import getOutlineOf, { getUnderlineOf } from '../editor/highlights/outline';
     import Timeline from '../evaluator/Timeline.svelte';
@@ -190,13 +191,13 @@
     let conflictsOfInterest = $state<Map<Source, Conflict[]>>(new Map());
 
     /** Per-editor large deletion notifications */
-    let largeDeletionNotifications = $state<Map<string, string | null>>(
-        new Map(),
-    );
+    let largeDeletionNotifications = $state<
+        Map<string, LocaleTextAccessor | null>
+    >(new Map());
 
     /** Function to set large deletion notification for a specific editor */
     function setLargeDeletionNotification(sourceID: string) {
-        return (message: string | null) => {
+        return (message: LocaleTextAccessor | null) => {
             largeDeletionNotifications.set(sourceID, message);
             largeDeletionNotifications = new Map(largeDeletionNotifications);
         };
@@ -685,7 +686,7 @@
     let paintingConfig = $state<PaintingConfiguration>({
         characters: 'a',
         size: 1,
-        font: $locales.get((l) => l.ui.font.app),
+        font: $locales.getUnannotatedText((l) => l.ui.font.app),
     });
 
     /** Get the store of how tos stored in the locales database. */
@@ -1083,7 +1084,7 @@
                     $announce(
                         project.getID(),
                         $locales.getLanguages()[0],
-                        $locales.get((l) => l.ui.source.overwritten),
+                        $locales.getPlainText((l) => l.ui.source.overwritten),
                     );
                 }
             });
@@ -1500,7 +1501,7 @@
 
     function addSource() {
         const newProject = project.withNewSource(
-            `${$locales.get((l) => l.term.source)}${
+            `${$locales.getUnannotatedText((l) => l.term.source)}${
                 project.getSupplements().length + 1
             }`,
         );
@@ -1647,21 +1648,7 @@
                                 setFullscreen(fullscreen ? tile : undefined);
                             }}
                         >
-                            {#snippet title()}
-                                {#if tile.kind === TileKind.Output}
-                                    <span
-                                        title={$locales.getPlainText(
-                                            $locales.get(
-                                                (l) =>
-                                                    l.ui.dialog.settings.mode
-                                                        .animate,
-                                            ).labels[$animationFactor],
-                                        )}
-                                    >
-                                        <!-- <Emoji>{AnimationFactorIcons[$animationFactor]}</Emoji> -->
-                                    </span>
-                                {/if}
-                            {/snippet}
+                            {#snippet title()}{/snippet}
 
                             {#snippet extra()}
                                 {#if tile.kind === TileKind.Source}
@@ -1752,11 +1739,12 @@
                                         modeLabels={false}
                                         labeled={false}
                                     />
-                                    {#if $animationFactor === 0}{$locales.get(
-                                            (l) =>
+                                    {#if $animationFactor === 0}<LocalizedText
+                                            path={(l) =>
                                                 l.ui.dialog.settings.mode
-                                                    .animate,
-                                        ).labels[0]}{/if}
+                                                    .animate.labels[0]}
+                                        />
+                                    {/if}
                                 {:else if tile.isSource()}
                                     {#if !editable}<CopyButton {project}
                                         ></CopyButton>{/if}
@@ -1850,6 +1838,8 @@
                                 {/if}
                             {/snippet}
                             {#snippet footer()}
+                                {@const notification =
+                                    largeDeletionNotifications.get(tile.id)}
                                 {#if tile.kind === TileKind.Source && editable}
                                     {#if editableAndCurrent}<GlyphInserter
                                             sourceID={tile.id}
@@ -1882,13 +1872,14 @@
                                             />
                                         </div>
                                     {/if}
-                                    {#if largeDeletionNotifications.get(tile.id)}
+
+                                    {#if notification}
                                         <div
                                             class="large-deletion-notification"
                                         >
-                                            {largeDeletionNotifications.get(
-                                                tile.id,
-                                            )}
+                                            <LocalizedText
+                                                path={notification}
+                                            />
                                         </div>
                                     {/if}
                                 {:else if tile.kind === TileKind.Output && layout.fullscreenID !== tile.id && !requestedPlay && !showOutput}

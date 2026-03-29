@@ -109,7 +109,9 @@ export default class Gallery {
 
     /** Get the best name given a locale */
     getName(locales: Locales) {
-        return locales.get((l) => this.data.name[localeToString(l)]);
+        return locales.getUnannotatedText(
+            (l) => this.data.name[localeToString(l)],
+        );
     }
 
     withName(name: string, locale: LocaleText) {
@@ -122,7 +124,9 @@ export default class Gallery {
     /** Get the best description given a locale */
     getDescription(locales: Locales) {
         // Is there a name for this specific locale and region? If not, choose the first one.
-        return locales.get((l) => this.data.description[localeToString(l)]);
+        return locales.getUnannotatedText(
+            (l) => this.data.description[localeToString(l)],
+        );
     }
 
     withDescription(name: string, locale: LocaleText) {

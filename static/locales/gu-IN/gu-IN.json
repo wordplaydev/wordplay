@@ -4301,8 +4301,7 @@
             "code": "$~નોટો સેન્સ મોનો"
         },
         "phrases": {
-            "welcome": "$~હેલો",
-            "machineTranslated": "$~(AI અનુવાદ)"
+            "welcome": "$~હેલો"
         },
         "widget": {
             "confirm": {
@@ -5964,7 +5963,8 @@
         },
         "template": {
             "unwritten": "$~TBD",
-            "unparsable": "$~અપાર્સેબલ નમૂનો: $1"
+            "unparsable": "$~અપાર્સેબલ નમૂનો: $1",
+            "machineTranslated": "$~આ મશીન દ્વારા અનુવાદિત કરવામાં આવ્યું હતું, તેથી તે વાંચી શકાય તેવું કે સાચું ન પણ હોય."
         },
         "howto": {
             "galleryView": {

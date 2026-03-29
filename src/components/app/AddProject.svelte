@@ -16,8 +16,10 @@
                 null,
                 '',
                 new Source(
-                    $locales.get((l) => l.term.start),
-                    $locales.get((l) => l.ui.project.defaults.starterCode),
+                    $locales.getUnannotatedText((l) => l.term.start),
+                    $locales.getUnannotatedText(
+                        (l) => l.ui.project.defaults.starterCode,
+                    ),
                 ),
                 [],
                 $locales.getLocales(),

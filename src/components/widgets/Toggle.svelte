@@ -39,7 +39,7 @@
         }
     }
 
-    let text = $derived($locales.get(tips));
+    let text = $derived($locales.getTextStructure(tips));
 
     let title = $derived(
         $locales.getPlainText(

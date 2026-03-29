@@ -78,7 +78,7 @@
     let tooltip = $derived(
         isComputedTooltip(tip)
             ? tip()
-            : $locales.concretize($locales.get(tip)).toText(),
+            : $locales.concretize($locales.getPlainText(tip)).toText(),
     );
     let pressed = $state(false);
 

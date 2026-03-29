@@ -5,6 +5,7 @@
     import { CONFIRM_SYMBOL } from '@parser/Symbols';
     import { onMount, tick } from 'svelte';
     import { withMonoEmoji } from '../../unicode/emoji';
+    import LocalizedText from './LocalizedText.svelte';
 
     interface Props {
         /** The current text to show */
@@ -65,20 +66,14 @@
     let placeholderText = $derived(
         typeof placeholder === 'string'
             ? placeholder
-            : $locales.get(placeholder),
+            : $locales.getPlainText(placeholder),
     );
     let savingDone = $state<false | undefined | true>(false);
 
     let timeout: NodeJS.Timeout | undefined = undefined;
 
     /** The message to display if invalid */
-    let message = $derived.by(() => {
-        if (validator) {
-            const message = validator(text);
-            if (message === true) return undefined;
-            else return $locales.get(message);
-        } else return undefined;
-    });
+    let message = $derived(validator ? validator(text) : undefined);
 
     function handleInput() {
         if (changed) changed(text);
@@ -194,9 +189,9 @@
               ? '•'.repeat(text.length)
               : text.replaceAll(' ', '\xa0')}</span
     >
-    {#if message}
+    {#if typeof message === 'function'}
         <div class="message" class:inline={inlineValidation} id="{id}-error"
-            >{message}</div
+            ><LocalizedText path={message} /></div
         >
     {/if}
     {#if savingDone !== false}

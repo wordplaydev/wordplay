@@ -1,7 +1,7 @@
 <script lang="ts">
     import type Locale from '@locale/Locale';
     import { DRAFT_SYMBOL } from '@parser/Symbols';
-    import { withColorEmoji } from '@unicode/emoji';
+    import { withMonoEmoji } from '@unicode/emoji';
     import {
         getLocaleLanguageName,
         getLocaleRegionNames,
@@ -28,13 +28,14 @@
 </script>
 
 <span class="language" class:supported>
-    <span class="name">{language}</span>{#each regions as region, index}<sub
+    {#if draft && showDraft}
+        {withMonoEmoji(DRAFT_SYMBOL)}&nbsp;
+    {/if}<span class="name">{language}</span
+    >{#each regions as region, index}<sub
             >{#if index > 0}
                 /
             {/if}{region}</sub
         >{/each}
-    {#if draft && showDraft}
-        {withColorEmoji(DRAFT_SYMBOL)}{/if}
 </span>
 
 <style>

@@ -1080,7 +1080,9 @@ const Commands: Command[] = [
             caret?.insertNode(
                 FunctionDefinition.make(
                     undefined,
-                    Names.make([locales.get((l) => l.term.name)]),
+                    Names.make([
+                        locales.getWithAnnotations((l) => l.term.name),
+                    ]),
                     undefined,
                     [],
                     ExpressionPlaceholder.make(),

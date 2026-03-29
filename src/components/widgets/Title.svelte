@@ -11,6 +11,6 @@
 </script>
 
 <title
-    >{$locales.get(text)}{#if subtitle}
+    >{$locales.getPlainText(text)}{#if subtitle}
         - {subtitle}{/if}</title
 >

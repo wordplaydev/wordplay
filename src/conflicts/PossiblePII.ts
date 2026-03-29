@@ -43,7 +43,9 @@ export class PossiblePII extends Conflict {
                     (l) =>
                         l.node.Translation.conflict[this.pii.kind].explanation,
                     this.pii.text,
-                    locales.get((l) => l.node.Translation.conflict.reminder),
+                    locales.getUnannotatedText(
+                        (l) => l.node.Translation.conflict.reminder,
+                    ),
                 ),
             resolutions: [
                 {

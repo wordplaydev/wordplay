@@ -52,12 +52,12 @@ class OutputProperty {
     }
 
     getName(locales: Locales) {
-        return getFirstText(locales.get(this.name));
+        return getFirstText(locales.getUnannotatedTexts(this.name));
     }
 
     isName(locales: Locales, accessor: LocaleTextsAccessor) {
-        const thisNames = [locales.get(this.name)].flat();
-        const thoseNames = [locales.get(accessor)].flat();
+        const thisNames = [locales.getUnannotatedTexts(this.name)].flat();
+        const thoseNames = [locales.getUnannotatedTexts(accessor)].flat();
         return thisNames.filter((name) => thoseNames.includes(name)).length > 0;
     }
 }

@@ -139,7 +139,9 @@ export default function moveOutput(
 export function createPlaceholderPhrase(project: Project, locales: Locales) {
     const PhraseType = project.shares.output.Phrase;
     return Evaluate.make(Reference.make(locales.getName(PhraseType.names)), [
-        TextLiteral.make(locales.get((l) => l.ui.phrases.welcome)),
+        TextLiteral.make(
+            locales.getUnannotatedText((l) => l.ui.phrases.welcome),
+        ),
     ]);
 }
 

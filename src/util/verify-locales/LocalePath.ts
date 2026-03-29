@@ -1,4 +1,4 @@
-import { Unwritten } from '@locale/LocaleText';
+import { Unwritten } from '@locale/Annotations';
 
 export default class LocalePath {
     // The key or number indexing into the object literal.

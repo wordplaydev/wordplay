@@ -9,7 +9,7 @@ export default class ProjectSizeLimitException extends ExceptionValue {
     }
 
     getExceptionText(locales: Locales) {
-        return locales.get((l) => l.output.Source.ProjectSizeLimitException);
+        return locales.getTextStructure((l) => l.output.Source.ProjectSizeLimitException);
     }
 
     getExplanation(locales: Locales) {

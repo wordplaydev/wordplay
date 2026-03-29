@@ -4259,8 +4259,7 @@
             "code": "Noto Sans Mono"
         },
         "phrases": {
-            "welcome": "你好",
-            "machineTranslated": "$~（AI翻譯）"
+            "welcome": "你好"
         },
         "widget": {
             "confirm": {
@@ -5821,7 +5820,8 @@
         },
         "template": {
             "unwritten": "待定",
-            "unparsable": "無法解析的模板: $1"
+            "unparsable": "無法解析的模板: $1",
+            "machineTranslated": "$~這是機器翻譯的，所以可能不通順或不正確。"
         },
         "collaborate": {
             "label": "$~合作",

@@ -399,7 +399,7 @@
                     $locales.getLanguages()[0],
                     $locales
                         .concretize(
-                            $locales.get(
+                            $locales.getPlainText(
                                 (l) => l.ui.howto.announce.howToPosition,
                             ),
                             title,

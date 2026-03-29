@@ -282,19 +282,19 @@
                 options={[
                     {
                         value: 'normal',
-                        label: $locales.get((l) => l.ui.palette.labels.normal),
+                        label: (l) => l.ui.palette.labels.normal,
                     },
                     {
                         value: 'light',
-                        label: $locales.get((l) => l.ui.palette.labels.light),
+                        label: (l) => l.ui.palette.labels.light,
                     },
                     {
                         value: 'bold',
-                        label: $locales.get((l) => l.ui.palette.labels.bold),
+                        label: (l) => l.ui.palette.labels.bold,
                     },
                     {
                         value: 'extra',
-                        label: $locales.get((l) => l.ui.palette.labels.extra),
+                        label: (l) => l.ui.palette.labels.extra,
                     },
                 ]}
                 change={(value) => applyWeight(value)}

@@ -1,14 +1,10 @@
 <script lang="ts">
     import { locales } from '@db/Database';
-    import type {
-        LocaleTextAccessor,
-        LocaleTextsAccessor,
-    } from '@locale/Locales';
-    import { getFirstText } from '@locale/LocaleText';
+    import type { LocaleTextAccessor } from '@locale/Locales';
 
     interface Props {
         on: boolean | undefined;
-        label: LocaleTextAccessor | LocaleTextsAccessor;
+        label: LocaleTextAccessor;
         changed?: undefined | ((value: boolean | undefined) => void);
         editable?: boolean;
         /** Mandatory id for label */
@@ -23,9 +19,7 @@
         id,
     }: Props = $props();
 
-    let labelText = $derived(
-        $locales.getPlainText(getFirstText($locales.get(label))),
-    );
+    let labelText = $derived($locales.getPlainText(label));
 
     function handleInput() {
         if (changed) changed(on);

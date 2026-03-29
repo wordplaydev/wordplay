@@ -4307,8 +4307,7 @@
             "code": "$~নোটো ছান্স মনো"
         },
         "phrases": {
-            "welcome": "$~নমস্কাৰ",
-            "machineTranslated": "$~(AI অনুবাদ)"
+            "welcome": "$~নমস্কাৰ"
         },
         "widget": {
             "confirm": {
@@ -6169,7 +6168,8 @@
         },
         "template": {
             "unwritten": "$~টিবিডি",
-            "unparsable": "$~অবিশ্লেষণযোগ্য টেমপ্লেট: $1"
+            "unparsable": "$~অবিশ্লেষণযোগ্য টেমপ্লেট: $1",
+            "machineTranslated": "$~এইটো মেচিন অনুবাদ কৰা হৈছিল, গতিকে ই পঢ়িব পৰা বা শুদ্ধ নহ'বও পাৰে।"
         },
         "gallerymoderation": {
             "header": "$~গেলেৰী মডাৰেচন ডেচব'ৰ্ড",

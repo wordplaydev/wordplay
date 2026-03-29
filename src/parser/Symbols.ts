@@ -141,3 +141,5 @@ export const BLOCK_EDITING_SYMBOL = withMonoEmoji('🖱️');
 export const TEXT_EDITING_SYMBOL = withMonoEmoji('⌨️');
 
 export const DROP_DOWN_SYMBOL = '▾';
+
+export const MACHINE_TRANSLATED_SYMBOL = withMonoEmoji('🤖');

@@ -42,11 +42,19 @@ export default class Paragraph extends Content {
     }
 
     static getPossibleReplacements({ locales }: ReplaceContext) {
-        return [new Paragraph([Words.make(locales.get((l) => l.token.Words))])];
+        return [
+            new Paragraph([
+                Words.make(locales.getUnannotatedText((l) => l.token.Words)),
+            ]),
+        ];
     }
 
     static getPossibleInsertions({ locales }: InsertContext) {
-        return [new Paragraph([Words.make(locales.get((l) => l.token.Words))])];
+        return [
+            new Paragraph([
+                Words.make(locales.getUnannotatedText((l) => l.token.Words)),
+            ]),
+        ];
     }
 
     getDescriptor(): NodeDescriptor {

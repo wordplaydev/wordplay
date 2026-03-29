@@ -14,7 +14,7 @@ export default class BlankException extends ExceptionValue {
     }
 
     getExceptionText(locales: Locales): ExceptionText {
-        return locales.get((l) => l.node.Program.exception.BlankException);
+        return locales.getTextStructure((l) => l.node.Program.exception.BlankException);
     }
 
     getExplanation(locales: Locales) {

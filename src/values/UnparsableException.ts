@@ -14,7 +14,7 @@ export default class UnparsableException extends ExceptionValue {
     }
 
     getExceptionText(locales: Locales) {
-        return locales.get(
+        return locales.getTextStructure(
             (l) => l.node.UnparsableExpression.exception.UnparsableException,
         );
     }

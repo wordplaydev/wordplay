@@ -21,7 +21,7 @@
     );
 
     const label = $derived(
-        $locales.get(
+        $locales.getPlainText(
             (l) =>
                 l.ui.dialog.settings.mode.layout.labels[
                     Object.values(Arrangement).indexOf(computedLayout)

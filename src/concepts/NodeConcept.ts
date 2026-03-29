@@ -1,4 +1,5 @@
 import { docToMarkup } from '@locale/LocaleText';
+import { withoutAnnotations } from '@locale/withoutAnnotations';
 import type Context from '@nodes/Context';
 import NameToken from '@nodes/NameToken';
 import NameType from '@nodes/NameType';
@@ -32,7 +33,8 @@ export default class NodeConcept extends Concept {
 
     /** Returns the emotions for the characters */
     getEmotion(locales: Locales) {
-        return locales.get(this.template.getLocalePath()).emotion as Emotion;
+        return locales.getTextStructure(this.template.getLocalePath())
+            .emotion as Emotion;
     }
 
     /** Nodes can be matched by two names: the locale-specific one or the key in the locale
@@ -79,7 +81,9 @@ export default class NodeConcept extends Concept {
             (n): n is NameToken =>
                 n instanceof NameToken && n.getText() === PLACEHOLDER_SYMBOL,
         )[0];
-        const nameTranslation = String(locales.get((l) => l.node.Name.name));
+        const nameTranslation = String(
+            locales.getWithAnnotations((l) => l.node.Name.name),
+        );
         const template = name
             ? this.template.replace(
                   name,
@@ -111,12 +115,14 @@ export default class NodeConcept extends Concept {
 
     getCharacterName(locales: Locales): CharacterName | undefined {
         // Get the locale strings for the template for this node.
-        const text = locales.get(this.template.getLocalePath());
+        const text = locales.getTextStructure(this.template.getLocalePath());
         // Find the corresponding node text in the locales.
         const match = locales
             .getLocales()
             .map((l) =>
-                Object.entries(l.node).find(([, t]) => t.name === text.name),
+                Object.entries(l.node).find(
+                    ([, t]) => t.name === withoutAnnotations(text.name),
+                ),
             )
             .find((n) => n !== undefined);
         return match ? (match[0] as CharacterName) : undefined;

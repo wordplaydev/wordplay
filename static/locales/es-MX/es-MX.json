@@ -4283,8 +4283,7 @@
             "code": "Noto Sans Mono"
         },
         "phrases": {
-            "welcome": "hola",
-            "machineTranslated": "$~(Traducción por IA)"
+            "welcome": "hola"
         },
         "widget": {
             "confirm": {
@@ -5862,7 +5861,8 @@
         },
         "template": {
             "unwritten": "Por determinar",
-            "unparsable": "Plantilla no analizable: $1"
+            "unparsable": "Plantilla no analizable: $1",
+            "machineTranslated": "$~Esta traducción es automática, por lo que puede que no sea legible o correcta."
         },
         "collaborate": {
             "label": "$~colaborar",

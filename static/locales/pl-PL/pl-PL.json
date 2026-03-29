@@ -4306,8 +4306,7 @@
             "code": "$~Noto Sans Mono"
         },
         "phrases": {
-            "welcome": "$~Witam",
-            "machineTranslated": "$~(tłumaczenie AI)"
+            "welcome": "$~Witam"
         },
         "widget": {
             "confirm": {
@@ -5969,7 +5968,8 @@
         },
         "template": {
             "unwritten": "$~Do ustalenia",
-            "unparsable": "$~Niemożliwy do przeanalizowania szablon: $1"
+            "unparsable": "$~Niemożliwy do przeanalizowania szablon: $1",
+            "machineTranslated": "$~Tekst został przetłumaczony maszynowo, więc może być nieczytelny lub niepoprawny."
         },
         "howto": {
             "galleryView": {

@@ -121,21 +121,21 @@
         />
         <Button
             tip={() =>
-                $locales.get((l) => l.token.Italic) +
+                $locales.getPlainText((l) => l.token.Italic) +
                 ` (${toShortcut({ control: true, alt: undefined, shift: undefined, key: 'i' })})`}
             action={() => format('/')}
             ><em style="font-family: 'Noto Sans'">I</em></Button
         >
         <Button
             tip={() =>
-                $locales.get((l) => l.token.Bold) +
+                $locales.getPlainText((l) => l.token.Bold) +
                 ` (${toShortcut({ control: true, alt: undefined, shift: undefined, key: 'b' })})`}
             action={() => format('*')}
             ><strong style="font-family: 'Noto Sans'">B</strong></Button
         >
         <Button
             tip={() =>
-                $locales.get((l) => l.token.Extra) +
+                $locales.getPlainText((l) => l.token.Extra) +
                 ` (${toShortcut({ control: true, alt: undefined, shift: undefined, key: 'e' })})`}
             action={() => format('^')}
             ><strong style="font-family: 'Noto Sans'; font-weight: 900"
@@ -144,20 +144,20 @@
         >
         <Button
             tip={() =>
-                $locales.get((l) => l.token.Underline) +
+                $locales.getPlainText((l) => l.token.Underline) +
                 ` (${toShortcut({ control: true, alt: undefined, shift: undefined, key: 'u' })})`}
             action={() => format('_')}
             ><u style="font-family: 'Noto Sans'">U</u></Button
         >
         <Button
             tip={() =>
-                $locales.get((l) => l.token.Code) +
+                $locales.getPlainText((l) => l.token.Code) +
                 ` (${toShortcut({ control: true, alt: undefined, shift: undefined, key: '\\' })})`}
             action={() => format('\\')}><code>\\</code></Button
         >
         <Button
             tip={() =>
-                $locales.get((l) => l.token.Link) +
+                $locales.getPlainText((l) => l.token.Link) +
                 ` (${toShortcut({ control: true, alt: undefined, shift: undefined, key: 'k' })})`}
             action={() => format('@')}><Emoji>🔗</Emoji></Button
         >

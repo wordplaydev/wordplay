@@ -4301,8 +4301,7 @@
             "code": "Noto Sans Mono"
         },
         "phrases": {
-            "welcome": "$~नमस्ते",
-            "machineTranslated": "$~(एआई अनुवाद)"
+            "welcome": "$~नमस्ते"
         },
         "widget": {
             "confirm": {
@@ -5880,7 +5879,8 @@
         },
         "template": {
             "unwritten": "$~टीबीडी",
-            "unparsable": "$~अनपर्सेबल टेम्पलेट: $1"
+            "unparsable": "$~अनपर्सेबल टेम्पलेट: $1",
+            "machineTranslated": "$~यह मशीन द्वारा अनुवादित है, इसलिए यह पठनीय या सही नहीं हो सकता है।"
         },
         "collaborate": {
             "label": "$~सहयोग",

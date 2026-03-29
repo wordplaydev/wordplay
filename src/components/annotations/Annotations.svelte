@@ -29,7 +29,6 @@
         Resolution,
     } from '@conflicts/Conflict';
     import type Caret from '@edit/caret/Caret';
-    import { docToMarkup } from '@locale/LocaleText';
     import NodeRef from '@locale/NodeRef';
     import Context from '@nodes/Context';
     import Expression from '@nodes/Expression';
@@ -261,10 +260,10 @@
                 >
                     {#snippet content()}
                         <MarkupHTMLView
-                            markup={docToMarkup(
-                                $locales.get((l) => l.ui.source.empty),
-                            ).concretize($locales, [toShortcut(ShowMenu)]) ??
-                                ''}
+                            markup={[
+                                (l) => l.ui.source.empty,
+                                toShortcut(ShowMenu),
+                            ]}
                         />
                     {/snippet}
                 </Speech>
@@ -285,11 +284,8 @@
                                 <div class="intro">
                                     <MarkupHTMLView
                                         inline
-                                        markup={docToMarkup(
-                                            $locales.get(
-                                                (l) => l.ui.annotations.cursor,
-                                            ),
-                                        ).concretize($locales, [
+                                        markup={[
+                                            (l) => l.ui.annotations.cursor,
                                             caretNode.getLabel($locales),
                                             caretNode instanceof Expression
                                                 ? new NodeRef(
@@ -301,7 +297,7 @@
                                                       context,
                                                   )
                                                 : undefined,
-                                        ]) ?? ''}
+                                        ]}
                                     />
                                 </div>
                                 {#if relevantConcept}
@@ -335,13 +331,11 @@
                                     <div class="intro">
                                         <MarkupHTMLView
                                             inline
-                                            markup={docToMarkup(
-                                                $locales.get(
-                                                    (l) =>
-                                                        l.ui.annotations
-                                                            .cursorParent,
-                                                ),
-                                            ).concretize($locales, [
+                                            markup={[
+                                                (l) =>
+                                                    l.ui.annotations
+                                                        .cursorParent,
+
                                                 caretNodeParent.getLabel(
                                                     $locales,
                                                 ),
@@ -357,7 +351,7 @@
                                                           context,
                                                       )
                                                     : undefined,
-                                            ]) ?? ''}
+                                            ]}
                                         />
                                     </div>
                                     {#if relevantParentConcept}

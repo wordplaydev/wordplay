@@ -142,7 +142,7 @@
                       code.name.includes(query) ||
                       (code.emoji &&
                           $locales
-                              .get((l) => l.ui.emoji.groups.tips)
+                              .getTextStructure((l) => l.ui.emoji.groups.tips)
                               [
                                   getEmojiGroupIndex(code.emoji.group)
                               ].includes(query)),

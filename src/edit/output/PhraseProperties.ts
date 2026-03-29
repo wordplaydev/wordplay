@@ -1,4 +1,3 @@
-import { getFirstText } from '@locale/LocaleText';
 import {
     HorizontalLayout,
     VerticalLeftRightLayout,
@@ -101,7 +100,7 @@ export default function getPhraseProperties(
     const faceIndex = typeProperties.findIndex(
         (prop) =>
             prop.getName(locales) ===
-            getFirstText(locales.get((l) => l.output.Phrase.face.names)),
+            locales.getUnannotatedText((l) => l.output.Phrase.face.names[0]),
     );
     if (faceIndex >= 0) {
         const faceProperty = typeProperties[faceIndex];

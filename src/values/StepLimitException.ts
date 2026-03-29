@@ -11,7 +11,7 @@ export default class StepLimitException extends ExceptionValue {
     }
 
     getExceptionText(locales: Locales) {
-        return locales.get((l) => l.node.Program.exception.StepLimitException);
+        return locales.getTextStructure((l) => l.node.Program.exception.StepLimitException);
     }
 
     getExplanation(locales: Locales) {

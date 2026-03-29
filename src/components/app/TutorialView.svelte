@@ -9,7 +9,6 @@
     import Project from '@db/projects/Project';
     import { withoutAnnotations } from '@locale/withoutAnnotations';
     import type Node from '@nodes/Node';
-    import { DRAFT_SYMBOL } from '@parser/Symbols';
     import { onMount, tick, untrack } from 'svelte';
     import { writable } from 'svelte/store';
     import {
@@ -40,7 +39,6 @@
         type PeformanceModeType,
         type Performance,
     } from '../../tutorial/Tutorial';
-    import { withColorEmoji } from '../../unicode/emoji';
     import MarkupHTMLView from '../concepts/MarkupHTMLView.svelte';
     import Button from '../widgets/Button.svelte';
     import TextField from '../widgets/TextField.svelte';
@@ -54,7 +52,7 @@
         fallback: boolean;
     }
 
-    let { progress, navigate, fallback }: Props = $props();
+    let { progress, navigate }: Props = $props();
 
     // Get the concept index and path from the project view and put it in
     // a store, and the store in a context so that ContextViewUI can access the index.
@@ -424,8 +422,7 @@
 <!-- svelte-ignore a11y_no_static_element_interactions -->
 <section class="tutorial" onkeydown={handleKey}>
     <div class="header">
-        <Header block={false}
-            >{#if fallback}{withColorEmoji(DRAFT_SYMBOL)}{/if}
+        <Header block={false}>
             <LocalizedText path={(l) => l.ui.page.learn.header} /></Header
         >
         <nav>

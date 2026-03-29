@@ -8,6 +8,7 @@ import type {
     NodeDescriptor,
     NodeText,
 } from '@locale/NodeTexts';
+import { withoutAnnotations } from '@locale/withoutAnnotations';
 import type Spaces from '@parser/Spaces';
 import type { BasisTypeName } from '../basis/BasisConstants';
 import type Purpose from '../concepts/Purpose';
@@ -652,14 +653,16 @@ export default abstract class Node {
      * Given a locale, get the node's static label
      * */
     getLabel(locales: Locales): string {
-        return locales.get(this.getLocalePath()).name;
+        return withoutAnnotations(
+            locales.getTextStructure(this.getLocalePath()).name,
+        );
     }
 
     /**
      * Given a locale and a context, generate a description of the node.
      * */
     getDescription(locales: Locales, context: Context): Markup {
-        const text = locales.get(this.getLocalePath());
+        const text = locales.getTextStructure(this.getLocalePath());
         return locales.concretize(
             // Is there a description? Use that. Otherwise just use the name.
             'description' in text
@@ -677,7 +680,7 @@ export default abstract class Node {
     }
 
     getDoc(locales: Locales): DocText {
-        return locales.get(this.getLocalePath()).doc;
+        return locales.getTextStructure(this.getLocalePath()).doc;
     }
 
     /**

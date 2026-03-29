@@ -129,7 +129,9 @@ export class Rectangle extends Form {
     }
 
     getDescription(locales: Locales): string {
-        return locales.get((l) => getFirstText(l.output.Rectangle.names));
+        return locales.getPlainText((l) =>
+            getFirstText(l.output.Rectangle.names),
+        );
     }
 }
 
@@ -202,7 +204,7 @@ export class Circle extends Form {
     }
 
     getDescription(locales: Locales): string {
-        return locales.get((l) => getFirstText(l.output.Circle.names));
+        return locales.getPlainText((l) => getFirstText(l.output.Circle.names));
     }
 }
 
@@ -294,7 +296,9 @@ export class Polygon extends Form {
     }
 
     getDescription(locales: Locales): string {
-        return locales.get((l) => getFirstText(l.output.Polygon.names));
+        return locales.getPlainText((l) =>
+            getFirstText(l.output.Polygon.names),
+        );
     }
 }
 

@@ -208,7 +208,10 @@ export default class Dimension extends Node {
                       oz: 'ounces',
                       lb: 'pounds',
                       pt: 'font size',
-                  }[dim] ?? locales.get((l) => l.node.Dimension.description)),
+                  }[dim] ??
+                      locales.getUnannotatedText(
+                          (l) => l.node.Dimension.description,
+                      )),
         );
     }
 

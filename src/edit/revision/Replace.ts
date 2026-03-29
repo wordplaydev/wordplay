@@ -129,7 +129,7 @@ export default class Replace<NodeType extends Node> extends Revision {
 
     getDescription(locales: Locales) {
         if (this.description)
-            return Markup.words(locales.get(this.description));
+            return Markup.words(locales.getWithAnnotations(this.description));
         const node =
             this.replacement instanceof Refer
                 ? this.replacement.getNode(locales)

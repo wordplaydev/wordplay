@@ -3,6 +3,7 @@ import type Sym from '../nodes/Sym';
 import parseDoc from '../parser/parseDoc';
 import { DOCS_SYMBOL } from '../parser/Symbols';
 import { toTokens } from '../parser/toTokens';
+import { MachineTranslated, Revised, Unwritten } from './Annotations';
 import type BasisTexts from './BasisTexts';
 import type { GalleryTexts } from './GalleryTexts';
 import type InputTexts from './InputTexts';
@@ -17,11 +18,6 @@ import { DraftLocales } from './SupportedLocales';
 import type TermTexts from './TermTexts';
 import type UITexts from './UITexts';
 import { withoutAnnotations } from './withoutAnnotations';
-
-/** Placeholders in the locale template language */
-export const Unwritten = '$?';
-export const Revised = '$!';
-export const MachineTranslated = '$~';
 
 /**
  * Represents a complete translation for Wordplay,

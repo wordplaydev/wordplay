@@ -1,21 +1,20 @@
 import type Markup from '@nodes/Markup';
+import { MACHINE_TRANSLATED_SYMBOL } from '@parser/Symbols';
+import { withMonoEmoji } from '@unicode/emoji';
 import type Names from '../nodes/Names';
 import { getKeyTemplatePairs } from '../util/verify-locales/LocalePath';
+import { MachineTranslated, Unwritten } from './Annotations';
 import type ConceptRef from './ConceptRef';
 import type { Concretizer } from './concretize';
 import type LanguageCode from './LanguageCode';
 import { getLanguageDirection, getLanguageScripts } from './LanguageCode';
 import { localeToString } from './Locale';
 import type LocaleText from './LocaleText';
-import {
-    isUnwritten,
-    MachineTranslated,
-    toLocaleString,
-    Unwritten,
-} from './LocaleText';
+import { isUnwritten, toLocaleString } from './LocaleText';
 import type NodeRef from './NodeRef';
 import type { Script } from './Scripts';
 import type ValueRef from './ValueRef';
+import { withoutAnnotations } from './withoutAnnotations';
 
 export type TemplateInput =
     | number
@@ -105,10 +104,10 @@ export default class Locales {
 
     /**
      * Get the most preferred non-placeholder string given the accessor.
-     * This is private, because everything must do something with the
-     * annotations on the strings, whether it's concretizing them for display or getting them for ARIA labels, so we want to force users of this class to go through the appropriate public methods that handle annotations rather than accidentally forgetting to handle annotations by using this method directly.
+     * This is private, because everything must do something with the annotations on the strings, either removing them
+     * or converting then to plain text, or converting them to a UI.
      * */
-    get<Kind>(accessor: (locale: LocaleText) => Kind): Kind {
+    private get<Kind>(accessor: (locale: LocaleText) => Kind): Kind {
         let fallback = false;
         let match = this.locales
             .map((l) => accessor(l))
@@ -149,7 +148,10 @@ export default class Locales {
             const pairs = getKeyTemplatePairs(cleaned);
             for (const pair of pairs)
                 if (typeof pair.value === 'string')
-                    pair.repair(cleaned, this.annotate(pair.value, fallback));
+                    pair.repair(
+                        cleaned,
+                        this.annotateAsUnwritten(pair.value, fallback),
+                    );
             match = cleaned;
         }
 
@@ -157,19 +159,47 @@ export default class Locales {
             // Is the match a string? Clean it.
             (
                 typeof match === 'string'
-                    ? this.annotate(match, fallback)
+                    ? this.annotateAsUnwritten(match, fallback)
                     : // Is it an array? Clean each one.
                       Array.isArray(match) &&
                         match.every((s) => typeof s === 'string')
-                      ? match.map((s) => this.annotate(s, fallback))
+                      ? match.map((s) => this.annotateAsUnwritten(s, fallback))
                       : match
             ) as Kind
         );
     }
 
     /** Annotates the text as unwritten or machine translated while also replacing any terminology */
-    annotate(text: string, unwritten: boolean) {
+    private annotateAsUnwritten(text: string, unwritten: boolean) {
         return `${unwritten ? Unwritten : ''}${text}`;
+    }
+
+    /** This gets the text with the annotations unprocessed. This is a just a pass through to make it explicit. */
+    getWithAnnotations<Kind>(accessor: (locale: LocaleText) => Kind): Kind {
+        return this.get(accessor);
+    }
+
+    /**
+     * Get localized text, but strip the annotations.
+     * Be careful to only use this when the UI doesn't need that metadata.
+     */
+    getUnannotatedText(path: LocaleTextAccessor): string {
+        return withoutAnnotations(this.get(path));
+    }
+
+    /**
+     * Given an accessor to a list of strings, get without annotations. Be careful when using this:
+     * there won't be a UI for modifying the text in context.
+     */
+    getUnannotatedTexts(path: LocaleTextsAccessor): string[] {
+        const texts = this.get(path);
+        if (typeof texts === 'string') return [withoutAnnotations(texts)];
+        else if (
+            Array.isArray(texts) &&
+            texts.every((t) => typeof t === 'string')
+        )
+            return texts.map((t) => withoutAnnotations(t));
+        else return [];
     }
 
     /**
@@ -179,15 +209,15 @@ export default class Locales {
     getPlainText(path: LocaleTextAccessor | string): string {
         let text = typeof path === 'string' ? path : this.get(path);
         const isMT = text.startsWith(MachineTranslated);
+        return `${withoutAnnotations(text)}${isMT ? withMonoEmoji(' ' + MACHINE_TRANSLATED_SYMBOL) : ''}`;
+    }
 
-        // If its machine translated, annotate the text with a machine translation label.
-        if (isMT)
-            text = this.concretize(
-                this.getLocale().ui.phrases.machineTranslated,
-                text.replace(MachineTranslated, ''),
-            ).toText();
-
-        return text;
+    /**
+     * A wrapper to make it explicit when an object of individual text strings is being retrived.
+     * This is because we keep get() above private.
+     */
+    getTextStructure<Kind>(accessor: (locale: LocaleText) => Kind): Kind {
+        return this.get(accessor);
     }
 
     /**

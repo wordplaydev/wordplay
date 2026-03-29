@@ -50,7 +50,7 @@ export default class WebLink extends Content {
     static getPossibleReplacements({ locales }: ReplaceContext) {
         return [
             WebLink.make(
-                locales.get((l) => l.node.WebLink.name),
+                locales.getUnannotatedText((l) => l.node.WebLink.name),
                 'https://',
             ),
         ];
@@ -59,7 +59,7 @@ export default class WebLink extends Content {
     static getPossibleInsertions({ locales }: InsertContext) {
         return [
             WebLink.make(
-                locales.get((l) => l.node.WebLink.name),
+                locales.getUnannotatedText((l) => l.node.WebLink.name),
                 'https://',
             ),
         ];

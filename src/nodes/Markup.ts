@@ -1,6 +1,7 @@
 import type { InsertContext, ReplaceContext } from '@edit/revision/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
+import { MACHINE_TRANSLATED_SYMBOL } from '@parser/Symbols';
 import type { FontWeight } from '../basis/Fonts';
 import Purpose from '../concepts/Purpose';
 import type Locales from '../locale/Locales';
@@ -19,6 +20,8 @@ import Sym from './Sym';
 import Token from './Token';
 import Words from './Words';
 
+export type MarkupMetadata = { unwritten: boolean; machineTranslated: boolean };
+
 /**
  * To refer to an input, use a $, followed by the number of the input desired,
  * starting from 1.
@@ -28,12 +31,20 @@ import Words from './Words';
 export default class Markup extends Content {
     readonly paragraphs: Paragraph[];
     readonly spaces: Spaces | undefined;
+    readonly metadata:
+        | { unwritten: boolean; machineTranslated: boolean }
+        | undefined;
 
-    constructor(content: Paragraph[], spaces: Spaces | undefined = undefined) {
+    constructor(
+        content: Paragraph[],
+        spaces: Spaces | undefined = undefined,
+        metadata: MarkupMetadata | undefined = undefined,
+    ) {
         super();
 
         this.paragraphs = content;
         this.spaces = spaces;
+        this.metadata = metadata;
 
         this.computeChildren();
     }
@@ -45,13 +56,21 @@ export default class Markup extends Content {
 
     static getPossibleReplacements({ locales }: ReplaceContext) {
         return [
-            new Paragraph([Words.make(locales.get((l) => l.node.Markup.name))]),
+            new Paragraph([
+                Words.make(
+                    locales.getUnannotatedText((l) => l.node.Markup.name),
+                ),
+            ]),
         ];
     }
 
     static getPossibleInsertions({ locales }: InsertContext) {
         return [
-            new Paragraph([Words.make(locales.get((l) => l.node.Markup.name))]),
+            new Paragraph([
+                Words.make(
+                    locales.getUnannotatedText((l) => l.node.Markup.name),
+                ),
+            ]),
         ];
     }
 
@@ -157,7 +176,11 @@ export default class Markup extends Content {
     }
 
     toText() {
-        return this.paragraphs.map((p) => p.toText()).join('\n\n');
+        let text = this.paragraphs.map((p) => p.toText()).join('\n\n');
+
+        if (this.metadata?.machineTranslated)
+            return `${text} ${MACHINE_TRANSLATED_SYMBOL}`;
+        else return text;
     }
 
     /** Returns a sequence of text with formats applied, and null representing paragraph breaks. */
@@ -236,6 +259,14 @@ export default class Markup extends Content {
         }
 
         return new Markup([new Paragraph(segments)], spaces);
+    }
+
+    withMetadata(metadata: MarkupMetadata) {
+        return new Markup(this.paragraphs, this.spaces, metadata);
+    }
+
+    isMachineTranslated() {
+        return this.metadata?.machineTranslated ?? false;
     }
 
     toString() {

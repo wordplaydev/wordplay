@@ -3,6 +3,7 @@
     import { locales } from '@db/Database';
     import type LocaleText from '@locale/LocaleText';
     import type { ModeText } from '@locale/UITexts';
+    import { withoutAnnotations } from '@locale/withoutAnnotations';
     import { withMonoEmoji } from '../../unicode/emoji';
     import LocalizedText from './LocalizedText.svelte';
 
@@ -42,7 +43,8 @@
         small = false,
     }: Props = $props();
 
-    let modeText = $derived($locales.get(modes));
+    let modeText = $derived($locales.getTextStructure(modes));
+    let label = $derived(withoutAnnotations(modeText.label));
 
     let hint = getTip();
     function showTip(view: HTMLButtonElement, tip: string) {
@@ -55,15 +57,15 @@
 
 <div class="mode">
     {#if labeled}
-        <label class="label" for={modeText.label}>{modeText.label}</label>
+        <label class="label" for={label}>{label}</label>
     {/if}
     <div
         class="group"
         class:wrap
         class:small
         role="radiogroup"
-        id={modeText.label}
-        aria-labelledby={modeText.label}
+        id={label}
+        aria-labelledby={label}
     >
         {#each modeText.labels, index}
             {#if !omit.includes(index)}
@@ -95,7 +97,7 @@
                     ontouchstart={(event) =>
                         showTip(
                             event.target as HTMLButtonElement,
-                            modeText.tips[index],
+                            $locales.getPlainText(modeText.tips[index]),
                         )}
                     ontouchend={hideTip}
                     ontouchcancel={hideTip}
@@ -113,7 +115,8 @@
                                 icons[index],
                             )}{:else}?{/if}{/if}
                     {#if modeLabels}<LocalizedText
-                            path={(l) => modeText.labels[index]}
+                            path={(l) =>
+                                $locales.getPlainText(modeText.labels[index])}
                         />{/if}
                 </button>
             {/if}

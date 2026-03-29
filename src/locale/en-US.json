@@ -4303,8 +4303,7 @@
             "code": "Noto Sans Mono"
         },
         "phrases": {
-            "welcome": "hello",
-            "machineTranslated": "(AI translation)"
+            "welcome": "hello"
         },
         "widget": {
             "confirm": {
@@ -6192,7 +6191,8 @@
         },
         "template": {
             "unwritten": "TBD",
-            "unparsable": "Unparsable template: $1"
+            "unparsable": "Unparsable template: $1",
+            "machineTranslated": "This was machine translated, so it may not be readable or correct."
         },
         "emoji": {
             "noCharacters": "Create a custom character",

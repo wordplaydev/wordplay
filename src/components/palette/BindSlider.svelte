@@ -48,7 +48,7 @@
     max={range.max}
     unit={range.unit}
     increment={range.step}
-    tip={property.name}
+    tip={() => $locales.getTextStructure(property.name)[0]}
     change={handleChange}
     precision={range.precision}
     {editable}

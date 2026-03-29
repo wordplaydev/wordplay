@@ -11,7 +11,7 @@ export function describeEnteredOutput(
     entered: OutputsByName,
 ): string | undefined {
     return entered.size > 0
-        ? locales.get((l) => l.term.entered) +
+        ? locales.getPlainText((l) => l.term.entered) +
               ' ' +
               Array.from(entered.values())
                   .filter(
@@ -86,6 +86,8 @@ export function describeMovedOutput(locales: Locales, moved: Moved) {
     if (descriptions.length === 0) return '';
     else
         return (
-            locales.get((l) => l.term.moved) + ', ' + descriptions.join(', ')
+            locales.getPlainText((l) => l.term.moved) +
+            ', ' +
+            descriptions.join(', ')
         );
 }

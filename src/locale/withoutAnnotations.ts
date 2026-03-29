@@ -1,4 +1,4 @@
-import { MachineTranslated, Revised, Unwritten } from './LocaleText';
+import { MachineTranslated, Revised, Unwritten } from './Annotations';
 
 export function withoutAnnotations(name: string) {
     return name

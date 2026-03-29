@@ -4301,8 +4301,7 @@
             "code": "$~ノートサンモノ"
         },
         "phrases": {
-            "welcome": "$~こんにちは",
-            "machineTranslated": "$~（AI翻訳）"
+            "welcome": "$~こんにちは"
         },
         "widget": {
             "confirm": {
@@ -5960,7 +5959,8 @@
         },
         "template": {
             "unwritten": "$~未定",
-            "unparsable": "$~解析できないテンプレート: $1"
+            "unparsable": "$~解析できないテンプレート: $1",
+            "machineTranslated": "$~これは機械翻訳なので、読みにくかったり、正確でない可能性があります。"
         },
         "howto": {
             "galleryView": {

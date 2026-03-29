@@ -2,10 +2,9 @@
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import Button from '@components/widgets/Button.svelte';
     import Options, { type Option } from '@components/widgets/Options.svelte';
-    import { HowTos, locales, Projects } from '@db/Database';
+    import { HowTos, Projects } from '@db/Database';
     import HowTo from '@db/howtos/HowToDatabase.svelte';
     import type Project from '@db/projects/Project';
-    import { docToMarkup } from '@locale/LocaleText';
     import { CANCEL_SYMBOL } from '@parser/Symbols';
     import HowToPrompt from './HowToPrompt.svelte';
 
@@ -111,10 +110,7 @@
 
 {#snippet usedItem(name: string, id: string)}
     <form class="form">
-        <MarkupHTMLView
-            inline
-            markup={docToMarkup($locales.get((l) => name))}
-        />
+        <MarkupHTMLView inline markup={name} />
         <Button
             submit
             padding={false}
@@ -158,19 +154,12 @@
         </Button>
     </form>
 {:else}
-    <MarkupHTMLView
-        inline
-        markup={docToMarkup(
-            $locales.get((l) => l.ui.howto.viewer.usedBy.empty),
-        )}
-    />
+    <MarkupHTMLView inline markup={(l) => l.ui.howto.viewer.usedBy.empty} />
 {/if}
 
 {#if numOtherUsedBy > 0}
     <MarkupHTMLView
         inline
-        markup={docToMarkup(
-            $locales.get((l) => l.ui.howto.viewer.usedBy.countDisplay),
-        ).concretize($locales, [numOtherUsedBy]) ?? ''}
+        markup={[(l) => l.ui.howto.viewer.usedBy.countDisplay, numOtherUsedBy]}
     />
 {/if}

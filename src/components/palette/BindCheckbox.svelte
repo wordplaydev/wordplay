@@ -34,7 +34,7 @@
 </script>
 
 <Checkbox
-    label={property.name}
+    label={() => $locales.getTextStructure(property.name)[0]}
     on={values.getBool()}
     changed={handleChange}
     {editable}

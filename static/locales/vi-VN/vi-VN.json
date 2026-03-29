@@ -4302,8 +4302,7 @@
             "code": "$~Noto Sans Mono"
         },
         "phrases": {
-            "welcome": "$~Xin chào",
-            "machineTranslated": "$~(Bản dịch của AI)"
+            "welcome": "$~Xin chào"
         },
         "widget": {
             "confirm": {
@@ -6190,7 +6189,8 @@
         },
         "template": {
             "unwritten": "$~Sẽ được xác định sau.",
-            "unparsable": "$~Mẫu không thể phân tích cú pháp: $1"
+            "unparsable": "$~Mẫu không thể phân tích cú pháp: $1",
+            "machineTranslated": "$~Đây là bản dịch máy, vì vậy có thể không dễ đọc hoặc không chính xác."
         },
         "emoji": {
             "noCharacters": "$~Tạo nhân vật tùy chỉnh",

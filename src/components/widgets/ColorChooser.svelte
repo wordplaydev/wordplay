@@ -153,7 +153,7 @@
             min={0}
             max={1}
             increment={0.01}
-            tip={(l) => l.output.Color.lightness.names}
+            tip={(l) => l.output.Color.lightness.names[0]}
             unit={'%'}
             precision={0}
             change={(value) => {
@@ -169,7 +169,7 @@
             max={150}
             increment={1}
             unit=""
-            tip={(l) => l.output.Color.chroma.names}
+            tip={(l) => l.output.Color.chroma.names[0]}
             change={(value) => {
                 chroma = value.round().toNumber();
                 broadcast();
@@ -183,7 +183,7 @@
             max={360}
             increment={1}
             unit={'°'}
-            tip={(l) => l.output.Color.hue.names}
+            tip={(l) => l.output.Color.hue.names[0]}
             change={(value) => {
                 hue = value.round().toNumber();
                 broadcast();

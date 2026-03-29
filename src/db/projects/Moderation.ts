@@ -113,7 +113,7 @@ export function getFlagDescription(
     flag: string,
     locales: Locales,
 ): string | undefined {
-    return locales.get((l) => l.moderation.flags)[flag as Flag];
+    return locales.getTextStructure((l) => l.moderation.flags)[flag as Flag];
 }
 
 export async function isModerator(user: User) {

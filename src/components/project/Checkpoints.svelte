@@ -10,9 +10,8 @@
     import Button from '@components/widgets/Button.svelte';
     import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import { locales, Projects } from '@db/Database';
+    import { Projects } from '@db/Database';
     import type Project from '@db/projects/Project';
-    import { docToMarkup } from '@locale/LocaleText';
     import { CANCEL_SYMBOL } from '@parser/Symbols';
     import { onMount } from 'svelte';
     import { withMonoEmoji } from '../../unicode/emoji';
@@ -118,12 +117,11 @@
                 <span class="time"
                     ><MarkupHTMLView
                         inline
-                        markup={docToMarkup(
-                            $locales.get((l) => l.ui.checkpoints.label.ago),
-                        ).concretize($locales, [
+                        markup={[
+                            (l) => l.ui.checkpoints.label.ago,
                             duration.number,
                             duration.unit,
-                        ]) ?? ''}
+                        ]}
                     /></span
                 >
             {/if}

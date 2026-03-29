@@ -122,7 +122,9 @@
         /** Whether the code was revised by another creator */
         overwritten?: boolean;
         /** Function to set large deletion notification for this editor */
-        setLargeDeletionNotification?: (message: string | null) => void;
+        setLargeDeletionNotification?: (
+            message: LocaleTextAccessor | null,
+        ) => void;
     }
 
     let {
@@ -847,7 +849,7 @@
                 40
         ) {
             setLargeDeletionNotification?.(
-                $locales.get((l) => l.ui.source.cursor.largeDelete),
+                (l) => l.ui.source.cursor.largeDelete,
             );
         }
 

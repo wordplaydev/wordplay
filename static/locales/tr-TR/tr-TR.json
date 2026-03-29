@@ -4301,8 +4301,7 @@
             "code": "$~Noto Sans Mono"
         },
         "phrases": {
-            "welcome": "$~Merhaba",
-            "machineTranslated": "$~(Yapay zeka çevirisi)"
+            "welcome": "$~Merhaba"
         },
         "widget": {
             "confirm": {
@@ -5960,7 +5959,8 @@
         },
         "template": {
             "unwritten": "$~Belirsiz",
-            "unparsable": "$~Ayrıştırılamayan şablon: $1"
+            "unparsable": "$~Ayrıştırılamayan şablon: $1",
+            "machineTranslated": "$~Bu metin makine çevirisiyle oluşturulmuştur, bu nedenle okunabilir veya doğru olmayabilir."
         },
         "howto": {
             "galleryView": {

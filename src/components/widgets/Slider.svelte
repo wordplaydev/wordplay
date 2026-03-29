@@ -2,11 +2,7 @@
     import { getTip } from '@components/project/Contexts';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import { locales } from '@db/Database';
-    import type {
-        LocaleTextAccessor,
-        LocaleTextsAccessor,
-    } from '@locale/Locales';
-    import { getFirstText } from '@locale/LocaleText';
+    import type { LocaleTextAccessor } from '@locale/Locales';
     import Decimal from 'decimal.js';
     import { tick } from 'svelte';
     import LocalizedText from './LocalizedText.svelte';
@@ -18,7 +14,7 @@
         unit: string;
         increment: number;
         label?: LocaleTextAccessor | undefined;
-        tip: LocaleTextAccessor | LocaleTextsAccessor;
+        tip: LocaleTextAccessor;
         change?: (value: Decimal) => void;
         release?: (value: number | undefined) => void;
         precision?: number;
@@ -42,9 +38,7 @@
     }: Props = $props();
 
     let view: HTMLInputElement | undefined = $state(undefined);
-    let tooltip = $derived(
-        $locales.getPlainText(getFirstText($locales.get(tip))),
-    );
+    let tooltip = $derived($locales.getPlainText(tip));
 
     async function handleChange() {
         if (value !== undefined && change !== undefined)

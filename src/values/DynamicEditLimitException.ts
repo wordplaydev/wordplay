@@ -9,7 +9,7 @@ export default class DynamicEditLimitException extends ExceptionValue {
     }
 
     getExceptionText(locales: Locales) {
-        return locales.get((l) => l.output.Source.DynamicEditLimitException);
+        return locales.getTextStructure((l) => l.output.Source.DynamicEditLimitException);
     }
 
     getExplanation(locales: Locales) {

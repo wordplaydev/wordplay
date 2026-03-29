@@ -4300,8 +4300,7 @@
             "code": "Noto Sans Mono"
         },
         "phrases": {
-            "welcome": "Wilkommen",
-            "machineTranslated": "$~(KI-Übersetzung)"
+            "welcome": "Wilkommen"
         },
         "widget": {
             "confirm": {
@@ -5879,7 +5878,8 @@
         },
         "template": {
             "unwritten": "$~Wird noch bekannt gegeben",
-            "unparsable": "$~Nicht analysierbare Vorlage: $1"
+            "unparsable": "$~Nicht analysierbare Vorlage: $1",
+            "machineTranslated": "$~Dies wurde maschinell übersetzt, daher ist der Text möglicherweise nicht lesbar oder korrekt."
         },
         "collaborate": {
             "label": "$~zusammenarbeiten",

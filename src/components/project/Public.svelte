@@ -3,6 +3,7 @@
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import Mode from '@components/widgets/Mode.svelte';
     import { locales } from '@db/Database';
+    import { withoutAnnotations } from '@locale/withoutAnnotations';
     import { GLOBE1_SYMBOL } from '@parser/Symbols';
     import {
         getBlocks,
@@ -26,8 +27,8 @@
 />
 
 <MarkupHTMLView
-    markup={Object.values($locales.get((l) => l.moderation.flags))
-        .map((promise) => `• ${promise}`)
+    markup={Object.values($locales.getTextStructure((l) => l.moderation.flags))
+        .map((promise) => `• ${withoutAnnotations(promise)}`)
         .join('\n\n')}
 />
 {#if flags === undefined || Object.values(flags).every((state) => state === null)}

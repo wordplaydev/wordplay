@@ -3,7 +3,8 @@
 </script>
 
 <script lang="ts">
-    import type { LocaleTextsAccessor } from '@locale/Locales';
+    import MachineTranslatedAnnotation from '@components/app/MachineTranslatedAnnotation.svelte';
+    import type { LocaleTextsAccessor, TemplateInput } from '@locale/Locales';
     import Markup from '@nodes/Markup';
     import Paragraph from '@nodes/Paragraph';
     import { DOCS_SYMBOL, FORMATTED_SYMBOL } from '@parser/Symbols';
@@ -17,7 +18,12 @@
     import SegmentHTMLView from './SegmentHTMLView.svelte';
 
     interface Props {
-        markup: Markup | string[] | string | LocaleTextsAccessor;
+        markup:
+            | Markup
+            | string[]
+            | string
+            | LocaleTextsAccessor
+            | [LocaleTextsAccessor, ...TemplateInput[]];
         inline?: boolean;
         note?: boolean;
     }
@@ -28,36 +34,45 @@
     let parsed = $derived.by(() => {
         // If markup was given, just pass it back and render it.
         if (markup instanceof Markup) return markup;
+        // If markup was given as an accessor and inputs, concretize it with the inputs
+        else if (Array.isArray(markup) && markup[0] instanceof Function) {
+            const accessor = markup[0];
+            const inputs = markup.slice(1) as TemplateInput[];
+            const words = $locales.getWithAnnotations(accessor);
+            return (
+                Markup.words(
+                    Array.isArray(words) ? words.join('\n\n') : words,
+                ).concretize($locales, inputs) ?? Markup.words('?')
+            );
+        }
         // If an accessor function was given, get the corresponding locale text and render it as markup,
         // automatically adding newlines to create multiple paragraphs.
-        if (markup instanceof Function) {
-            const text = $locales.get(markup);
+        else if (markup instanceof Function) {
+            const text = $locales.getWithAnnotations(markup);
             return Markup.words(Array.isArray(text) ? text.join('\n\n') : text);
         }
         // If it's a list of strings, join them with newlines to create multiple paragraphs, and render that as markup.
-        if (Array.isArray(markup)) return Markup.words(markup.join('\n\n'));
+        else if (Array.isArray(markup))
+            return Markup.words(markup.join('\n\n'));
         // Does it start with a docs symbol? Pull out the relevant markup matching
         // the preferred locale.
-        if (markup.startsWith(DOCS_SYMBOL)) {
+        else if (markup.startsWith(DOCS_SYMBOL)) {
             const docs = parseDocs(toTokens(markup));
-            if (docs)
-                return (
-                    docs.getLanguage($locales.getLocale().language)?.markup ??
-                    docs.docs[0].markup ??
-                    undefined
-                );
+            return (
+                docs.getLanguage($locales.getLocale().language)?.markup ??
+                docs.docs[0].markup ??
+                undefined
+            );
         }
         // Does it start with a formatted symbol? Pull out the relevant markup matching
         // the preferred locale.
         if (markup.startsWith(FORMATTED_SYMBOL)) {
             const formatted = parseFormattedLiteral(toTokens(markup));
-            if (formatted)
-                return (
-                    formatted.getLanguage($locales.getLocale().language)
-                        ?.markup ??
-                    formatted.texts[0].markup ??
-                    undefined
-                );
+            return (
+                formatted.getLanguage($locales.getLocale().language)?.markup ??
+                formatted.texts[0].markup ??
+                undefined
+            );
         }
         // Otherwise, just render the string as a single paragraph of markup.
         return Markup.words(markup);
@@ -113,9 +128,10 @@
                                         first={index === 0}
                                     />{/each}</li
                             >{/each}</ul
-                    >{/if}{/each}
+                    >{/if}{/each}{#if parsed.isMachineTranslated()}<MachineTranslatedAnnotation
+                />{/if}
         </div>{/if}
-{:else}no spaces{/if}
+{:else}unable to render markup without spaces{/if}
 
 <style>
     .markup {
@@ -169,7 +185,7 @@
         margin-block-end: 1em;
     }
 
-    p:last-child {
+    p:last-of-type {
         margin-block-end: 0;
     }
 </style>

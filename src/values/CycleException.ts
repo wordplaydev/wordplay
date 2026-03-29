@@ -14,7 +14,7 @@ export default class CycleException extends ExceptionValue {
     }
 
     getExceptionText(locales: Locales) {
-        return locales.get((l) => l.node.Borrow.exception.CycleException);
+        return locales.getTextStructure((l) => l.node.Borrow.exception.CycleException);
     }
 
     getExplanation(locales: Locales) {

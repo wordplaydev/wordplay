@@ -4301,8 +4301,7 @@
             "code": "$~ਨੋਟੋ ਸੈਂਸ ਮੋਨੋ"
         },
         "phrases": {
-            "welcome": "$~ਸਤ ਸ੍ਰੀ ਅਕਾਲ",
-            "machineTranslated": "$~(AI ਅਨੁਵਾਦ)"
+            "welcome": "$~ਸਤ ਸ੍ਰੀ ਅਕਾਲ"
         },
         "widget": {
             "confirm": {
@@ -5960,7 +5959,8 @@
         },
         "template": {
             "unwritten": "$~TBD",
-            "unparsable": "$~ਅਸਪਸ਼ਟ ਟੈਮਪਲੇਟ: $1"
+            "unparsable": "$~ਅਸਪਸ਼ਟ ਟੈਮਪਲੇਟ: $1",
+            "machineTranslated": "$~ਇਹ ਮਸ਼ੀਨੀ ਅਨੁਵਾਦ ਕੀਤਾ ਗਿਆ ਸੀ, ਇਸ ਲਈ ਇਹ ਪੜ੍ਹਨਯੋਗ ਜਾਂ ਸਹੀ ਨਹੀਂ ਹੋ ਸਕਦਾ।"
         },
         "howto": {
             "galleryView": {

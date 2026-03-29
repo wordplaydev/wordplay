@@ -1,3 +1,4 @@
+import { MachineTranslated, Unwritten } from '@locale/Annotations';
 import { concretizeOrUndefined } from '@locale/concretize';
 import DefaultLocale from '@locale/DefaultLocale';
 import DefaultLocales from '@locale/DefaultLocales';
@@ -5,11 +6,9 @@ import type LocaleText from '@locale/LocaleText';
 import {
     isMachineTranslated,
     isUnwritten,
-    MachineTranslated,
     parseLocaleDoc,
     toDocString,
     toLocaleString,
-    Unwritten,
 } from '@locale/LocaleText';
 import { withoutAnnotations } from '@locale/withoutAnnotations';
 import ConceptLink from '@nodes/ConceptLink';

@@ -79,7 +79,7 @@
         <MarkupHTMLView
             markup={description.length > 0
                 ? description
-                : `/${$locales.get((l) => l.ui.gallery.undescribed)}/`}
+                : (l) => l.ui.gallery.undescribed}
         />
     </div>
 </div>

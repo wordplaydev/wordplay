@@ -1,11 +1,7 @@
 import Project from '@db/projects/Project';
+import { MachineTranslated, Unwritten } from '@locale/Annotations';
 import type LocaleText from '@locale/LocaleText';
-import {
-    isMachineTranslated,
-    isUnwritten,
-    MachineTranslated,
-    Unwritten,
-} from '@locale/LocaleText';
+import { isMachineTranslated, isUnwritten } from '@locale/LocaleText';
 import ConceptLink from '@nodes/ConceptLink';
 import type Node from '@nodes/Node';
 import Source from '@nodes/Source';

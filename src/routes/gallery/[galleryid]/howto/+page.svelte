@@ -18,7 +18,6 @@
     import { Galleries, HowTos, locales } from '@db/Database';
     import type Gallery from '@db/galleries/Gallery';
     import HowTo from '@db/howtos/HowToDatabase.svelte';
-    import { docToMarkup } from '@locale/LocaleText';
     import { untrack } from 'svelte';
     import { SvelteMap } from 'svelte/reactivity';
     import HowToConfiguration from './HowToConfiguration.svelte';
@@ -180,7 +179,7 @@
                         $locales.getLanguages()[0],
                         $locales
                             .concretize(
-                                $locales.get(
+                                $locales.getPlainText(
                                     (l) => l.ui.howto.announce.moveActivated,
                                 ),
                                 'canvas',
@@ -198,7 +197,7 @@
                             $locales.getLanguages()[0],
                             $locales
                                 .concretize(
-                                    $locales.get(
+                                    $locales.getPlainText(
                                         (l) =>
                                             l.ui.howto.announce.moveActivated,
                                     ),
@@ -210,7 +209,7 @@
                     $announce(
                         'move mode deactivated',
                         $locales.getLanguages()[0],
-                        $locales.get(
+                        $locales.getPlainText(
                             (l) => l.ui.howto.announce.moveDeactivated,
                         ),
                     );
@@ -231,7 +230,7 @@
                     $locales.getLanguages()[0],
                     $locales
                         .concretize(
-                            $locales.get(
+                            $locales.getPlainText(
                                 (l) => l.ui.howto.announce.canvasPosition,
                             ),
                             cameraX.toString(),
@@ -262,16 +261,20 @@
     // data for the dropdown
     let navigationSelection: string | undefined = $state(undefined);
     let navigationOptions: Option[] = $derived([
-        { value: undefined, label: '—' },
+        { value: undefined, label: () => '—' },
         ...howTos
             .filter((ht) => ht.isPublished())
             .map((h) => {
                 return {
                     value: h.getHowToId(),
-                    label: h.getTitleInLocale($locales.getLocaleString()),
+                    label: () => h.getTitleInLocale($locales.getLocaleString()),
                 };
             })
-            .sort((a, b) => a.label.localeCompare(b.label)),
+            .toSorted((a, b) =>
+                $locales
+                    .getUnannotatedText(a.label)
+                    .localeCompare($locales.getUnannotatedText(b.label)),
+            ),
     ]);
 
     // collision detection
@@ -412,11 +415,7 @@
                             {/each}
                         {:else}
                             <MarkupHTMLView
-                                markup={docToMarkup(
-                                    $locales.get(
-                                        (l) => l.ui.howto.bookmarks.notLoggedIn,
-                                    ),
-                                )}
+                                markup={(l) => l.ui.howto.bookmarks.notLoggedIn}
                             />
                         {/if}
                     </div>

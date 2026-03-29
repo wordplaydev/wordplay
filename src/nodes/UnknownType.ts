@@ -82,7 +82,9 @@ export default abstract class UnknownType<
             parts = [
                 ...parts,
                 new Token(
-                    locales.get((l) => l.node.UnknownType.connector),
+                    locales.getUnannotatedText(
+                        (l) => l.node.UnknownType.connector,
+                    ),
                     Sym.Words,
                 ),
                 reason,

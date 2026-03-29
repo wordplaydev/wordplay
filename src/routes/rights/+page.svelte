@@ -10,7 +10,9 @@
 
     <MarkupHTMLView markup={(l) => l.ui.page.rights.content} />
     <MarkupHTMLView
-        markup={Object.values($locales.get((l) => l.moderation.flags))
+        markup={Object.values(
+            $locales.getTextStructure((l) => l.moderation.flags),
+        )
             .map((promise) => `• ${promise}`)
             .join('\n\n')}
     />

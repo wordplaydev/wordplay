@@ -1,7 +1,6 @@
 <script lang="ts">
-    import concretize from '@locale/concretize';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import type ExceptionValue from '@values/ExceptionValue';
-    import { locales } from '../../db/Database';
 
     interface Props {
         value: ExceptionValue;
@@ -12,5 +11,5 @@
 </script>
 
 {#if inline || !inline}
-    ! {concretize($locales, $locales.get(value.getDescription())).toText()}
+    ! <LocalizedText path={value.getDescription()} />
 {/if}

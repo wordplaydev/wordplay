@@ -24,7 +24,7 @@ export default class NameException extends ExceptionValue {
     }
 
     getExceptionText(locales: Locales) {
-        return locales.get((l) => l.node.Reference.exception.NameException);
+        return locales.getTextStructure((l) => l.node.Reference.exception.NameException);
     }
 
     getExplanation(locales: Locales) {

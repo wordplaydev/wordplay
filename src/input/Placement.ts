@@ -116,7 +116,9 @@ export function createPlacementDefinition(
     locales: Locales,
     placeType: StructureDefinition,
 ) {
-    const PlaceName = locales.get((l) => getFirstText(l.output.Place.names));
+    const PlaceName = locales.getUnannotatedText((l) =>
+        getFirstText(l.output.Place.names),
+    );
     const inputs = createInputs(locales, (l) => l.input.Placement.inputs, [
         [
             NameType.make(PlaceName),

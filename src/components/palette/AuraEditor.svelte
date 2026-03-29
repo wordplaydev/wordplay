@@ -176,7 +176,7 @@
         min={0}
         max={0.5}
         increment={0.01}
-        tip={(l) => l.output.Aura.blur.names}
+        tip={(l) => l.output.Aura.blur.names[0]}
         label={(l) => getFirstText(l.output.Aura.blur.names)}
         unit={'m'}
         precision={2}
@@ -191,7 +191,7 @@
         min={-0.5}
         max={0.5}
         increment={0.01}
-        tip={(l) => l.output.Aura.offsetX.names}
+        tip={(l) => l.output.Aura.offsetX.names[0]}
         label={(l) => getFirstText(l.output.Aura.offsetX.names)}
         unit={'m'}
         precision={2}
@@ -206,7 +206,7 @@
         min={-0.5}
         max={0.5}
         increment={0.01}
-        tip={(l) => l.output.Aura.offsetY.names}
+        tip={(l) => l.output.Aura.offsetY.names[0]}
         label={(l) => getFirstText(l.output.Aura.offsetY.names)}
         unit={'m'}
         precision={2}

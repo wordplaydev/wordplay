@@ -174,7 +174,7 @@
                         ? exception.getExplanation($locales).toText()
                         : concretize(
                               $locales,
-                              $locales.get(value.getDescription()),
+                              $locales.getPlainText(value.getDescription()),
                           ).toText(),
                 ),
             );
@@ -1032,7 +1032,9 @@
                     type="text"
                     class="keyboard-input"
                     placeholder={chats
-                        ? $locales.get((l) => l.ui.output.field.key.placeholder)
+                        ? $locales.getPlainText(
+                              (l) => l.ui.output.field.key.placeholder,
+                          )
                         : null}
                     data-defaultfocus
                     aria-autocomplete="none"

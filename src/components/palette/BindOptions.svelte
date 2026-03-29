@@ -42,7 +42,7 @@
 
 <Options
     {id}
-    label={property.name}
+    label={() => $locales.getTextStructure(property.name)[0]}
     value={options.toText(values.getExpression())}
     width="7em"
     options={[

@@ -50,7 +50,7 @@ export default class Tile {
     getName(project: Project, locales: Locales) {
         return `${
             this.getSource(project)?.getPreferredName(locales.getLocales()) ??
-            locales.get((l) => l.ui.tile.label[this.kind])
+            locales.getUnannotatedText((l) => l.ui.tile.label[this.kind])
         }`;
     }
 

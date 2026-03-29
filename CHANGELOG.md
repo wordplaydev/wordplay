@@ -12,6 +12,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - Programs can now start with documentation, even if they start with a borrow statement.
 - When there's a way to convert an expression to an expected type, we suggest it as a resolution (#991).
 - We added character echos when typing in the code editor (#540).
+- We added little robot emojis to represent when some text has been machine translated.
 
 ### Fixed
 

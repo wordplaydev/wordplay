@@ -84,7 +84,7 @@ export default class Mention extends Content {
         const numberMatch = name.match(/^[0-9]+/);
         if (name === '?') {
             const replacement = new Token(
-                locales.get((l) => l.ui.template.unwritten),
+                locales.getUnannotatedText((l) => l.ui.template.unwritten),
                 Sym.Words,
             );
             replacements.push([this, replacement]);

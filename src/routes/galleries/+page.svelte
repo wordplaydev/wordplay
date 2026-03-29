@@ -146,7 +146,7 @@
                     <MarkupHTMLView
                         markup={gallery.getDescription($locales).length > 0
                             ? gallery.getDescription($locales)
-                            : `/${$locales.get((l) => l.ui.gallery.undescribed)}/`}
+                            : (l) => l.ui.gallery.undescribed}
                     /></div
                 >
             {/each}

@@ -102,7 +102,9 @@ export default class Block extends Expression {
                 Block.make([
                     FunctionDefinition.make(
                         undefined,
-                        Names.make([locales.get((l) => l.node.Name.name)]),
+                        Names.make([
+                            locales.getUnannotatedText((l) => l.node.Name.name),
+                        ]),
                         undefined,
                         [],
                         ExpressionPlaceholder.make(),

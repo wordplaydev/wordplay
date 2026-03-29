@@ -5,7 +5,6 @@
     import ProjectView from '@components/project/ProjectView.svelte';
     import Checkbox from '@components/widgets/Checkbox.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import Markup from '@nodes/Markup';
     import {
         FieldPath,
         and,
@@ -143,12 +142,11 @@
             {:else}
                 <div class="progress-counter">
                     <MarkupHTMLView
-                        markup={Markup.words(
-                            $locales.get((l) => l.moderation.progress),
-                        ).concretize($locales, [
+                        markup={[
+                            (l) => l.moderation.progress,
                             moderatedCount,
                             unmoderatedCount,
-                        ]) ?? '?'}
+                        ]}
                     />
                 </div>
                 <MarkupHTMLView

@@ -23,7 +23,7 @@ export default class TypeException extends ExceptionValue {
     }
 
     getExceptionText(locales: Locales) {
-        return locales.get((l) => l.node.Is.exception.TypeException);
+        return locales.getTextStructure((l) => l.node.Is.exception.TypeException);
     }
 
     getExplanation(locales: Locales) {

@@ -210,7 +210,9 @@ export default class Stage extends Output {
     getShortDescription(locales: Locales) {
         return this.name instanceof TextLang
             ? this.name.text
-            : locales.get((l) => getFirstText(l.output.Group.names));
+            : locales.getUnannotatedText((l) =>
+                  getFirstText(l.output.Group.names),
+              );
     }
 
     getDescription(locales: Locales) {

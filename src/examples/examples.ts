@@ -108,10 +108,10 @@ function createGallery(
         howToExpandedGalleries: [],
         howToViewers: {},
         howToViewersFlat: [],
-        howToGuidingQuestions: locales.get(
+        howToGuidingQuestions: locales.getUnannotatedTexts(
             (l) => l.ui.howto.configuration.guidingQuestions.default,
         ),
-        howToReactions: locales.get(
+        howToReactions: locales.getTextStructure(
             (l) => l.ui.howto.configuration.reactions.default,
         ),
     });
@@ -182,7 +182,14 @@ export function getExampleGalleries(locales: Locales): Gallery[] {
             Object.fromEntries(
                 locale.map((l) => [localeToString(l), l.gallery.av]),
             ),
-            ['Listen', 'Talk', 'SpokenWords', 'RainingLetters', 'Video', 'ASCII'],
+            [
+                'Listen',
+                'Talk',
+                'SpokenWords',
+                'RainingLetters',
+                'Video',
+                'ASCII',
+            ],
             locales,
         ),
         createGallery(

@@ -4301,8 +4301,7 @@
             "code": "$~Noto Sans Mono"
         },
         "phrases": {
-            "welcome": "$~Hej",
-            "machineTranslated": "$~(AI-översättning)"
+            "welcome": "$~Hej"
         },
         "widget": {
             "confirm": {
@@ -5964,7 +5963,8 @@
         },
         "template": {
             "unwritten": "$~TBD",
-            "unparsable": "$~Oparserbar mall: $1"
+            "unparsable": "$~Oparserbar mall: $1",
+            "machineTranslated": "$~Detta är maskinöversatt, så det kanske inte är läsbart eller korrekt."
         },
         "howto": {
             "galleryView": {

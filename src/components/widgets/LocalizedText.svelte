@@ -1,5 +1,6 @@
 <!-- Represents some text defined in the locale. -->
 <script lang="ts">
+    import MachineTranslatedAnnotation from '@components/app/MachineTranslatedAnnotation.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import { locales } from '@db/Database';
     import type { LocaleTextAccessor } from '@locale/Locales';
@@ -13,19 +14,13 @@
 
     let { path, markup = false }: Props = $props();
 
-    const text = $derived($locales.get(path));
+    const text = $derived($locales.getWithAnnotations(path));
     const isMT = $derived(isMachineTranslated(text));
+    const withoutAnnotationsText = $derived(withoutAnnotations(text));
 </script>
 
 <span class="localized"
     >{#if markup}<MarkupHTMLView markup={text}
-        ></MarkupHTMLView>{:else}{withoutAnnotations(text)}{/if}{#if isMT}<span
-            class="mt">✎</span
-        >{/if}</span
+        ></MarkupHTMLView>{:else}{withoutAnnotationsText}{/if}{#if isMT}<MachineTranslatedAnnotation
+        />{/if}</span
 >
-
-<style>
-    .mt {
-        font-size: 7pt;
-    }
-</style>

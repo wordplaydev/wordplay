@@ -376,14 +376,14 @@
                     $locales.getLanguages()[0],
                     $locales
                         .concretize(
-                            $locales.get(
+                            $locales.getPlainText(
                                 (l) => l.ui.page.character.announce.selection,
                             ),
                             selection.length === 0
                                 ? undefined
                                 : selection
                                       .map((s) =>
-                                          $locales.get(
+                                          $locales.getPlainText(
                                               (l) =>
                                                   l.ui.page.character.shape[
                                                       s.type
@@ -672,7 +672,7 @@
                     $locales.getLanguages()[0],
                     $locales
                         .concretize(
-                            $locales.get(
+                            $locales.getPlainText(
                                 (l) => l.ui.page.character.announce.position,
                             ),
                             drawingCursorPosition.x,
@@ -1639,7 +1639,7 @@
     setState: (state: ColorSetting) => void,
     setColor: (color: LCH) => void,
 )}
-    <h3>{locales.get(accessor).label}</h3>
+    <h3><LocalizedText path={(l) => accessor(l).label} /></h3>
     <Mode
         modes={accessor}
         icons={['🚫', '❏', '🎨']}
@@ -1767,7 +1767,9 @@
             {#if selection.length > 0}
                 {Array.from(new Set(selection.map((s) => s.type)))
                     .map((s) =>
-                        $locales.get((l) => l.ui.page.character.shape[s]),
+                        $locales.getUnannotatedText(
+                            (l) => l.ui.page.character.shape[s],
+                        ),
                     )
                     .join(', ')}
             {:else if mode === DrawingMode.Eraser}
