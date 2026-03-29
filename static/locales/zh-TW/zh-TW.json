@@ -4255,7 +4255,8 @@
             "code": "Noto Sans Mono"
         },
         "phrases": {
-            "welcome": "你好"
+            "welcome": "你好",
+            "machineTranslated": "$~（AI翻譯）"
         },
         "widget": {
             "confirm": {

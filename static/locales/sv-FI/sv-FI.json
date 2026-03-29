@@ -4297,7 +4297,8 @@
             "code": "$~Noto Sans Mono"
         },
         "phrases": {
-            "welcome": "$~Hej"
+            "welcome": "$~Hej",
+            "machineTranslated": "$~(AI-översättning)"
         },
         "widget": {
             "confirm": {

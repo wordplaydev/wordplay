@@ -42,7 +42,9 @@
     }: Props = $props();
 
     let view: HTMLInputElement | undefined = $state(undefined);
-    let tooltip = $derived(getFirstText($locales.get(tip)));
+    let tooltip = $derived(
+        $locales.getARIALabel(getFirstText($locales.get(tip))),
+    );
 
     async function handleChange() {
         if (value !== undefined && change !== undefined)

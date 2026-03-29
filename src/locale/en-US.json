@@ -4299,7 +4299,8 @@
             "code": "Noto Sans Mono"
         },
         "phrases": {
-            "welcome": "hello"
+            "welcome": "hello",
+            "machineTranslated": "(AI translation)"
         },
         "widget": {
             "confirm": {
@@ -5556,7 +5557,7 @@
                 }
             },
             "learn": {
-                "header": "Learn",
+                "header": "$~Learn",
                 "error": "We weren't able to find a tutorial for this language.",
                 "button": {
                     "next": "next pause in dialog",

@@ -4297,7 +4297,8 @@
             "code": "$~ノートサンモノ"
         },
         "phrases": {
-            "welcome": "$~こんにちは"
+            "welcome": "$~こんにちは",
+            "machineTranslated": "$~（AI翻訳）"
         },
         "widget": {
             "confirm": {

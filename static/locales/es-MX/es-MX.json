@@ -4279,7 +4279,8 @@
             "code": "Noto Sans Mono"
         },
         "phrases": {
-            "welcome": "hola"
+            "welcome": "hola",
+            "machineTranslated": "$~(Traducción por IA)"
         },
         "widget": {
             "confirm": {

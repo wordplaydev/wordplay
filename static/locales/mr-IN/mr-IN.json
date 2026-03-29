@@ -4297,7 +4297,8 @@
             "code": "$~नोटो सॅन्स मोनो"
         },
         "phrases": {
-            "welcome": "$~नमस्कार"
+            "welcome": "$~नमस्कार",
+            "machineTranslated": "$~(एआय भाषांतर)"
         },
         "widget": {
             "confirm": {

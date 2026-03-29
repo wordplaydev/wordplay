@@ -1,5 +1,4 @@
 import type Markup from '@nodes/Markup';
-import { DRAFT_SYMBOL } from '@parser/Symbols';
 import type Names from '../nodes/Names';
 import { getKeyTemplatePairs } from '../util/verify-locales/LocalePath';
 import type ConceptRef from './ConceptRef';
@@ -8,7 +7,12 @@ import type LanguageCode from './LanguageCode';
 import { getLanguageDirection, getLanguageScripts } from './LanguageCode';
 import { localeToString } from './Locale';
 import type LocaleText from './LocaleText';
-import { isUnwritten, MachineTranslated, toLocaleString } from './LocaleText';
+import {
+    isUnwritten,
+    MachineTranslated,
+    toLocaleString,
+    Unwritten,
+} from './LocaleText';
 import type NodeRef from './NodeRef';
 import type { Script } from './Scripts';
 import type ValueRef from './ValueRef';
@@ -129,7 +133,7 @@ export default class Locales {
                 else return true;
             });
 
-        // If we found a preferred result, return it. Strip the automation marker if present.
+        // If we didn't find a match, fall back to the fallback locale.
         if (match === undefined) {
             fallback = true;
             match = accessor(this.fallback);
@@ -144,7 +148,7 @@ export default class Locales {
             const pairs = getKeyTemplatePairs(cleaned);
             for (const pair of pairs)
                 if (typeof pair.value === 'string')
-                    pair.repair(cleaned, this.clean(pair.value, fallback));
+                    pair.repair(cleaned, this.annotate(pair.value, fallback));
             match = cleaned;
         }
 
@@ -152,19 +156,37 @@ export default class Locales {
             // Is the match a string? Clean it.
             (
                 typeof match === 'string'
-                    ? this.clean(match, fallback)
+                    ? this.annotate(match, fallback)
                     : // Is it an array? Clean each one.
-                    Array.isArray(match) &&
+                      Array.isArray(match) &&
                         match.every((s) => typeof s === 'string')
-                        ? match.map((s) => this.clean(s, fallback))
-                        : match
+                      ? match.map((s) => this.annotate(s, fallback))
+                      : match
             ) as Kind
         );
     }
 
     /** Annotates the text as unwritten or machine translated while also replacing any terminology */
-    clean(text: string, unwritten: boolean) {
-        return `${unwritten ? DRAFT_SYMBOL : ''}${text.replace(MachineTranslated, '')}`;
+    annotate(text: string, unwritten: boolean) {
+        return `${unwritten ? Unwritten : ''}${text}`;
+    }
+
+    /**
+     * Given an accessor, get the text, and replace any annotations with appropriate
+     * language to describe the annotation.
+     */
+    getARIALabel(path: LocaleTextAccessor | string): string {
+        let text = typeof path === 'string' ? path : this.get(path);
+        const isMT = text.startsWith(MachineTranslated);
+
+        // If its machine translated, annotate the text with a machine translation label.
+        if (isMT)
+            text = this.concretize(
+                this.getLocale().ui.phrases.machineTranslated,
+                text.replace(MachineTranslated, ''),
+            ).toText();
+
+        return text;
     }
 
     /**

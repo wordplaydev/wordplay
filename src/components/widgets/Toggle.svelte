@@ -42,9 +42,11 @@
     let text = $derived($locales.get(tips));
 
     let title = $derived(
-        `${on ? text.on : text.off}${
-            command ? ' (' + toShortcut(command) + ')' : ''
-        }`,
+        $locales.getARIALabel(
+            `${on ? text.on : text.off}${
+                command ? ' (' + toShortcut(command) + ')' : ''
+            }`,
+        ),
     );
 
     let view = $state<HTMLButtonElement | undefined>(undefined);

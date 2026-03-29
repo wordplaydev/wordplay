@@ -362,7 +362,7 @@
 <section
     class="documentation"
     data-testid="documentation"
-    aria-label={$locales.get((l) => l.ui.docs.label)}
+    aria-label={$locales.getARIALabel((l) => l.ui.docs.label)}
     onpointerup={handleDrop}
     bind:this={view}
     bind:clientWidth={viewWidth}

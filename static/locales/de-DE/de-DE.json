@@ -4296,7 +4296,8 @@
             "code": "Noto Sans Mono"
         },
         "phrases": {
-            "welcome": "Wilkommen"
+            "welcome": "Wilkommen",
+            "machineTranslated": "$~(KI-Übersetzung)"
         },
         "widget": {
             "confirm": {

@@ -4297,7 +4297,8 @@
             "code": "$~ਨੋਟੋ ਸੈਂਸ ਮੋਨੋ"
         },
         "phrases": {
-            "welcome": "$~ਸਤ ਸ੍ਰੀ ਅਕਾਲ"
+            "welcome": "$~ਸਤ ਸ੍ਰੀ ਅਕਾਲ",
+            "machineTranslated": "$~(AI ਅਨੁਵਾਦ)"
         },
         "widget": {
             "confirm": {

@@ -69,7 +69,7 @@
     <div class="code">
         <div
             role="textbox"
-            aria-label={$locales.get(node.getLocalePath()).name}
+            aria-label={$locales.getARIALabel((l) => node.getLocalePath()(l).name)}
             aria-readonly="true"
             class:blocks={$blocks}
             class="node"

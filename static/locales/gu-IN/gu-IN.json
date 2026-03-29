@@ -4297,7 +4297,8 @@
             "code": "$~નોટો સેન્સ મોનો"
         },
         "phrases": {
-            "welcome": "$~હેલો"
+            "welcome": "$~હેલો",
+            "machineTranslated": "$~(AI અનુવાદ)"
         },
         "widget": {
             "confirm": {

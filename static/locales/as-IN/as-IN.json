@@ -4303,7 +4303,8 @@
             "code": "$~নোটো ছান্স মনো"
         },
         "phrases": {
-            "welcome": "$~নমস্কাৰ"
+            "welcome": "$~নমস্কাৰ",
+            "machineTranslated": "$~(AI অনুবাদ)"
         },
         "widget": {
             "confirm": {

@@ -4302,7 +4302,8 @@
             "code": "$~Noto Sans Mono"
         },
         "phrases": {
-            "welcome": "$~Witam"
+            "welcome": "$~Witam",
+            "machineTranslated": "$~(tłumaczenie AI)"
         },
         "widget": {
             "confirm": {

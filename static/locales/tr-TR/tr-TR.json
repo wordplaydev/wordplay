@@ -4297,7 +4297,8 @@
             "code": "$~Noto Sans Mono"
         },
         "phrases": {
-            "welcome": "$~Merhaba"
+            "welcome": "$~Merhaba",
+            "machineTranslated": "$~(Yapay zeka çevirisi)"
         },
         "widget": {
             "confirm": {

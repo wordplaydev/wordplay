@@ -1,4 +1,8 @@
-import { MachineTranslated, isAutomated, isUnwritten } from '@locale/LocaleText';
+import {
+    MachineTranslated,
+    isMachineTranslated,
+    isUnwritten,
+} from '@locale/LocaleText';
 import { describe, expect, it } from 'vitest';
 
 // Test the helper functions and logic that can be unit tested
@@ -10,9 +14,11 @@ describe('verifyHowTo helpers', () => {
     });
 
     it('should identify automated content correctly', () => {
-        expect(isAutomated(MachineTranslated + 'Some translated text')).toBe(true);
-        expect(isAutomated('Regular text')).toBe(false);
-        expect(isAutomated('')).toBe(false);
+        expect(
+            isMachineTranslated(MachineTranslated + 'Some translated text'),
+        ).toBe(true);
+        expect(isMachineTranslated('Regular text')).toBe(false);
+        expect(isMachineTranslated('')).toBe(false);
     });
 
     it('should handle machine translated marker correctly', () => {
@@ -27,24 +33,27 @@ describe('verifyHowTo helpers', () => {
         const testCases = [
             {
                 input: MachineTranslated + 'Some translated text',
-                expected: 'Some translated text'
+                expected: 'Some translated text',
             },
             {
                 input: '$~Some text with marker',
-                expected: 'Some text with marker'
+                expected: 'Some text with marker',
             },
             {
                 input: '  Regular text with spaces  ',
-                expected: 'Regular text with spaces'
+                expected: 'Regular text with spaces',
             },
             {
                 input: '',
-                expected: ''
-            }
+                expected: '',
+            },
         ];
 
         testCases.forEach(({ input, expected }) => {
-            const cleaned = input.replace(MachineTranslated, '').replace(/^\$~/, '').trim();
+            const cleaned = input
+                .replace(MachineTranslated, '')
+                .replace(/^\$~/, '')
+                .trim();
             expect(cleaned).toBe(expected);
         });
     });

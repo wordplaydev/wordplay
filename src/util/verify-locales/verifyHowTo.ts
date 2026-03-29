@@ -1,6 +1,6 @@
 import { howToToString, parseHowTo } from '@concepts/HowTo';
 import type LanguageCode from '@locale/LanguageCode';
-import { isAutomated } from '@locale/LocaleText';
+import { isMachineTranslated } from '@locale/LocaleText';
 import type { RegionCode } from '@locale/Regions';
 import Sym from '@nodes/Sym';
 import Token from '@nodes/Token';
@@ -149,7 +149,7 @@ async function translateHowToFile(
 
     // Check if any lines need translation
     const needsTranslation =
-        isNewFile || (override && isAutomated(targetLines));
+        isNewFile || (override && isMachineTranslated(targetLines));
 
     if (!needsTranslation) return;
 

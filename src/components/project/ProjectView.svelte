@@ -1650,11 +1650,13 @@
                             {#snippet title()}
                                 {#if tile.kind === TileKind.Output}
                                     <span
-                                        title={$locales.get(
-                                            (l) =>
-                                                l.ui.dialog.settings.mode
-                                                    .animate,
-                                        ).labels[$animationFactor]}
+                                        title={$locales.getARIALabel(
+                                            $locales.get(
+                                                (l) =>
+                                                    l.ui.dialog.settings.mode
+                                                        .animate,
+                                            ).labels[$animationFactor],
+                                        )}
                                     >
                                         <!-- <Emoji>{AnimationFactorIcons[$animationFactor]}</Emoji> -->
                                     </span>

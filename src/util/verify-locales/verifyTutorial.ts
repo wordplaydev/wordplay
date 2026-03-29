@@ -1,7 +1,7 @@
 import Project from '@db/projects/Project';
 import type LocaleText from '@locale/LocaleText';
 import {
-    isAutomated,
+    isMachineTranslated,
     isUnwritten,
     MachineTranslated,
     Unwritten,
@@ -219,8 +219,8 @@ async function checkTutorial(
 
     const automated = pairs.filter(({ value }) =>
         typeof value === 'string'
-            ? isAutomated(value)
-            : value.some((s) => isAutomated(s)),
+            ? isMachineTranslated(value)
+            : value.some((s) => isMachineTranslated(s)),
     );
 
     if (automated.length > 0)
@@ -258,8 +258,10 @@ async function translateTutorial(
 
     const unwritten = pairs.filter(({ value }) =>
         typeof value === 'string'
-            ? isUnwritten(value) || (override && isAutomated(value))
-            : value.some((s) => isUnwritten(s) || (override && isAutomated(s))),
+            ? isUnwritten(value) || (override && isMachineTranslated(value))
+            : value.some(
+                  (s) => isUnwritten(s) || (override && isMachineTranslated(s)),
+              ),
     );
 
     if (unwritten.length === 0) return tutorial;

@@ -4297,7 +4297,8 @@
             "code": "$~Ното Санс Моно"
         },
         "phrases": {
-            "welcome": "$~здраво"
+            "welcome": "$~здраво",
+            "machineTranslated": "$~(Превод помоћу вештачке интелигенције)"
         },
         "widget": {
             "confirm": {

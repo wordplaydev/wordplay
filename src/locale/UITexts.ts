@@ -80,6 +80,8 @@ type UITexts = {
     phrases: {
         /** Placeholder text used in code examples. */
         welcome: string;
+        /** How do describe machine translated text in ARIA descriptions */
+        machineTranslated: string;
     };
     /** Generic reusable widgets and their generic labels. */
     widget: {

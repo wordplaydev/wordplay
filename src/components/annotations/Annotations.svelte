@@ -241,7 +241,7 @@
 
 <!-- Render annotations by node -->
 <section
-    aria-label={$locales.get((l) => l.ui.annotations.label)}
+    aria-label={$locales.getARIALabel((l) => l.ui.annotations.label)}
     class:expanded={$showAnnotations}
     data-uiid="conflict"
 >
@@ -396,8 +396,10 @@
             <div
                 role="button"
                 tabindex="0"
-                title={$locales.get((l) => l.ui.annotations.button.highlight)}
-                aria-label={$locales.get(
+                title={$locales.getARIALabel(
+                    (l) => l.ui.annotations.button.highlight,
+                )}
+                aria-label={$locales.getARIALabel(
                     (l) => l.ui.annotations.button.highlight,
                 )}
                 onpointerdown={() =>

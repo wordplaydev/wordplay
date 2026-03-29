@@ -4297,7 +4297,8 @@
             "code": "Noto Sans Mono"
         },
         "phrases": {
-            "welcome": "$~नमस्ते"
+            "welcome": "$~नमस्ते",
+            "machineTranslated": "$~(एआई अनुवाद)"
         },
         "widget": {
             "confirm": {

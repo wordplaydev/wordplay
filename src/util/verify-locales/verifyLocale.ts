@@ -3,7 +3,7 @@ import DefaultLocale from '@locale/DefaultLocale';
 import DefaultLocales from '@locale/DefaultLocales';
 import type LocaleText from '@locale/LocaleText';
 import {
-    isAutomated,
+    isMachineTranslated,
     isUnwritten,
     MachineTranslated,
     parseLocaleDoc,
@@ -113,7 +113,7 @@ function shouldStringBeMachineTranslated(
     override: boolean,
 ): boolean {
     if (isUnwritten(text)) return true;
-    if (isAutomated(text) && override) return true;
+    if (isMachineTranslated(text) && override) return true;
     return false;
 }
 
@@ -143,8 +143,8 @@ async function checkLocale(
             if (
                 revisedStrings.some((rev) => rev.path.equals(path)) &&
                 (typeof value === 'string'
-                    ? isAutomated(value)
-                    : value.some((s) => isAutomated(s)))
+                    ? isMachineTranslated(value)
+                    : value.some((s) => isMachineTranslated(s)))
             )
                 return true;
 
@@ -340,7 +340,10 @@ async function checkLocale(
         const match = pairs.find((path) => path.equals(revisedString.path));
         if (match) {
             const outOfDate = revisedString.path.resolve(original);
-            if (typeof outOfDate === 'string' && !isAutomated(outOfDate))
+            if (
+                typeof outOfDate === 'string' &&
+                !isMachineTranslated(outOfDate)
+            )
                 potentiallyOutOfDate.add(revisedString.path.toString());
         }
     }
@@ -355,8 +358,8 @@ async function checkLocale(
 
     const automated = pairs.filter(({ value }) =>
         typeof value === 'string'
-            ? isAutomated(value)
-            : value.some((s) => isAutomated(s)),
+            ? isMachineTranslated(value)
+            : value.some((s) => isMachineTranslated(s)),
     );
 
     if (automated.length > 0)

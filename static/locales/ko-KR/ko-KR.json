@@ -4297,7 +4297,8 @@
             "code": "Noto Mono"
         },
         "phrases": {
-            "welcome": "$~안녕하세요"
+            "welcome": "$~안녕하세요",
+            "machineTranslated": "$~(AI 번역)"
         },
         "widget": {
             "confirm": {

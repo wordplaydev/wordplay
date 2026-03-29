@@ -33,7 +33,7 @@
     {@render labelOrChildren()}
 {:else}<a
         data-sveltekit-preload-data="tap"
-        title={tip ? $locales.get(tip) : undefined}
+        title={tip ? $locales.getARIALabel(tip) : undefined}
         href={to}
         target={external ? '_blank' : null}
         class:nowrap

@@ -26,6 +26,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - We now render line breaks in blocks mode, when appropriate (e.g.,), and place the cursor in more reasonable places (#927).
 - When an input is added to an evaluation with the menu, it is added where the cursor is, instead of the end (#811).
 - We fixed a problem where collaborators who were removed from a project could still see the project until they refreshed the page (#625).
+- We improved the machine translation annotations on ARIA labels, for screen reader users, so they know when text was not written by a human.
 
 ### Changed
 

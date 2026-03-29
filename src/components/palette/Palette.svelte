@@ -139,7 +139,7 @@
 <section
     class="palette"
     data-testid="palette"
-    aria-label={$locales.get((l) => l.ui.palette.label)}
+    aria-label={$locales.getARIALabel((l) => l.ui.palette.label)}
 >
     {#if propertyValues.size > 0}
         <Speech

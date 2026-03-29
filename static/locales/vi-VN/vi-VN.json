@@ -4298,7 +4298,8 @@
             "code": "$~Noto Sans Mono"
         },
         "phrases": {
-            "welcome": "$~Xin chào"
+            "welcome": "$~Xin chào",
+            "machineTranslated": "$~(Bản dịch của AI)"
         },
         "widget": {
             "confirm": {

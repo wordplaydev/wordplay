@@ -1439,7 +1439,7 @@
     data-uiid="editor"
     role="application"
     style:--zoom={`${zoom}pt`}
-    aria-label={`${$locales.get((l) => l.ui.source.label)} ${$locales.getName(
+    aria-label={`${$locales.getARIALabel((l) => l.ui.source.label)} ${$locales.getName(
         source.names,
     )}`}
     dir={$locales.getDirection()}
@@ -1504,7 +1504,7 @@
         id={getInputID()}
         data-defaultfocus
         aria-autocomplete="none"
-        aria-label={$locales.get((l) => l.ui.edit.area)}
+        aria-label={$locales.getARIALabel((l) => l.ui.edit.area)}
         autocomplete="off"
         autocapitalize="none"
         spellcheck="false"

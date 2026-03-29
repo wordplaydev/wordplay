@@ -95,8 +95,8 @@
     role={!group.selectable ? null : 'group'}
     aria-label={description}
     aria-roledescription={group instanceof Group
-        ? $locales.get((l) => l.term.group)
-        : $locales.get((l) => l.term.stage)}
+        ? $locales.getARIALabel((l) => l.term.group)
+        : $locales.getARIALabel((l) => l.term.stage)}
     aria-hidden={empty ? 'true' : null}
     class="output group {group instanceof Group ? 'Group' : 'Stage'}"
     class:selected={selected && !root}

@@ -4297,7 +4297,8 @@
             "code": "Noto Sans Mono"
         },
         "phrases": {
-            "welcome": "$~Bonjour"
+            "welcome": "$~Bonjour",
+            "machineTranslated": "$~(Traduction par IA)"
         },
         "widget": {
             "confirm": {

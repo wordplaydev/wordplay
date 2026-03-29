@@ -4306,7 +4306,8 @@
             "code": "$~Νότο Σανς Μονό"
         },
         "phrases": {
-            "welcome": "$~Γειά σου"
+            "welcome": "$~Γειά σου",
+            "machineTranslated": "$~(Μετάφραση Τεχνητής Νοημοσύνης)"
         },
         "widget": {
             "confirm": {

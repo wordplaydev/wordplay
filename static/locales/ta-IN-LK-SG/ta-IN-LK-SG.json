@@ -4302,7 +4302,8 @@
             "code": "$~நோட்டோ சான்ஸ் மோனோ"
         },
         "phrases": {
-            "welcome": "$~வணக்கம்"
+            "welcome": "$~வணக்கம்",
+            "machineTranslated": "$~(AI மொழிபெயர்ப்பு)"
         },
         "widget": {
             "confirm": {

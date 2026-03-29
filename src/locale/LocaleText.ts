@@ -107,7 +107,7 @@ export function isRevised(text: string) {
     return text.startsWith(Revised);
 }
 
-export function isAutomated(text: string) {
+export function isMachineTranslated(text: string) {
     return text.startsWith(MachineTranslated);
 }
 
