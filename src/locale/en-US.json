@@ -1040,6 +1040,10 @@
                 "ValueException": {
                     "description": "missing value",
                     "explanation": "I expected a value but didn't get one!"
+                },
+                "InternalException": {
+                    "description": "internal error",
+                    "explanation": "something very bad happened internally: $1"
                 }
             }
         },

@@ -1040,6 +1040,10 @@
                 "ValueException": {
                     "description": "$~విలువ లేదు",
                     "explanation": "$~నేను విలువను ఆశించాను కానీ ఒకటి రాలేదు!"
+                },
+                "InternalException": {
+                    "description": "$~అంతర్గత లోపం",
+                    "explanation": "$~అంతర్గతంగా చాలా చెడు జరిగింది: $1"
                 }
             }
         },

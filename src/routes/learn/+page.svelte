@@ -5,6 +5,7 @@
     import Loading from '@components/app/Loading.svelte';
     import Page from '@components/app/Page.svelte';
     import TutorialView from '@components/app/TutorialView.svelte';
+    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import { untrack } from 'svelte';
     import Header from '../../components/app/Header.svelte';
     import Link from '../../components/app/Link.svelte';
@@ -26,8 +27,8 @@
     $effect(() => {
         if (browser && $locales) {
             Locales.getTutorial(
-                $locales.get((l) => l.language),
-                $locales.get((l) => l.regions),
+                $locales.getLocale().language,
+                $locales.getLocale().regions,
             ).then((t) => {
                 tutorial = t;
                 if (initial && tutorial) {
@@ -48,8 +49,8 @@
     if (import.meta.hot) {
         import.meta.hot.on('locales-update', async () => {
             tutorial = await Locales.getTutorial(
-                $locales.get((l) => l.language),
-                $locales.get((l) => l.regions),
+                $locales.getLocale().language,
+                $locales.getLocale().regions,
             );
         });
     }
@@ -89,10 +90,8 @@
         <Header>:(</Header>
         <Speech character={Characters.FunctionDefinition}
             >{#snippet content()}
-                <p>
-                    {$locales.get((l) => l.ui.page.learn.error)}
-                    <Link to="/">🏠</Link></p
-                >
+                <MarkupHTMLView markup={(l) => l.ui.page.learn.error} />
+                <Link to="/">🏠</Link>
             {/snippet}</Speech
         ></Writing
     >

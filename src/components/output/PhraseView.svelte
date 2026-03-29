@@ -224,7 +224,7 @@
         aria-disabled={!selectable}
         aria-label={description}
         aria-roledescription={!selectable
-            ? $locales.getARIALabel((l) => l.term.phrase)
+            ? $locales.getPlainText((l) => l.term.phrase)
             : null}
         class="output phrase"
         class:selected

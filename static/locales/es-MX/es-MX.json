@@ -1012,6 +1012,10 @@
                 "ValueException": {
                     "description": "valor faltante",
                     "explanation": "¡Esperaba un valor pero no obtuve ninguno!"
+                },
+                "InternalException": {
+                    "description": "$~error interno",
+                    "explanation": "$~Algo muy malo sucedió internamente: $1"
                 }
             },
             "label": {

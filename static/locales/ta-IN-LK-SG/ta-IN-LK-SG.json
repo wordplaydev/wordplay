@@ -1036,6 +1036,10 @@
                 "ValueException": {
                     "description": "$~மதிப்பு இல்லை",
                     "explanation": "$~நான் ஒரு மதிப்பை எதிர்பார்த்தேன் ஆனால் பெறவில்லை!"
+                },
+                "InternalException": {
+                    "description": "$~உள் பிழை",
+                    "explanation": "$~உள்ளுக்குள் ஏதோ மிகவும் மோசமாக நடந்துவிட்டது: $1"
                 }
             },
             "label": {

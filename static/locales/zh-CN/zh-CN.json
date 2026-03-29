@@ -1036,6 +1036,10 @@
                 "ValueException": {
                     "description": "缺少值",
                     "explanation": "我期待一个值，但却没有得到！"
+                },
+                "InternalException": {
+                    "description": "$~内部错误",
+                    "explanation": "$~内部发生了一件非常糟糕的事情：1美元"
                 }
             },
             "label": {

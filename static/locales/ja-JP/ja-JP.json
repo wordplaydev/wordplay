@@ -1036,6 +1036,10 @@
                 "ValueException": {
                     "description": "$~欠損値",
                     "explanation": "$~価値を期待していましたが、得られませんでした。"
+                },
+                "InternalException": {
+                    "description": "$~内部エラー",
+                    "explanation": "$~内部で非常に悪いことが起こりました:$1"
                 }
             },
             "label": {

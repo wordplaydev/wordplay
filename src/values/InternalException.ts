@@ -1,7 +1,7 @@
+import type Locales from '@locale/Locales';
 import type Evaluator from '@runtime/Evaluator';
 import ExceptionValue from '@values/ExceptionValue';
 import type Expression from '../nodes/Expression';
-import Markup from '../nodes/Markup';
 
 export default class InternalException extends ExceptionValue {
     readonly reason: string;
@@ -10,14 +10,14 @@ export default class InternalException extends ExceptionValue {
         this.reason = reason;
     }
 
-    getExceptionText() {
-        return {
-            description: 'internal exception',
-            explanation: 'something very bad happened internally, sorry!',
-        };
+    getExceptionText(locales: Locales) {
+        return locales.get((l) => l.node.Program.exception.InternalException);
     }
 
-    getExplanation() {
-        return Markup.words(this.reason);
+    getExplanation(locales: Locales) {
+        return locales.concretize(
+            this.getExceptionText(locales).explanation,
+            this.reason,
+        );
     }
 }

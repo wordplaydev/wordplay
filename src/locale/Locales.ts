@@ -105,7 +105,8 @@ export default class Locales {
 
     /**
      * Get the most preferred non-placeholder string given the accessor.
-     * If we resort the fallback, annotate the text with a signal that it's a placeholder.
+     * This is private, because everything must do something with the
+     * annotations on the strings, whether it's concretizing them for display or getting them for ARIA labels, so we want to force users of this class to go through the appropriate public methods that handle annotations rather than accidentally forgetting to handle annotations by using this method directly.
      * */
     get<Kind>(accessor: (locale: LocaleText) => Kind): Kind {
         let fallback = false;
@@ -175,7 +176,7 @@ export default class Locales {
      * Given an accessor, get the text, and replace any annotations with appropriate
      * language to describe the annotation.
      */
-    getARIALabel(path: LocaleTextAccessor | string): string {
+    getPlainText(path: LocaleTextAccessor | string): string {
         let text = typeof path === 'string' ? path : this.get(path);
         const isMT = text.startsWith(MachineTranslated);
 

@@ -61,7 +61,7 @@
 
     let width = $state(0);
     let focused = $state(false);
-    let title = $derived($locales.getARIALabel(description));
+    let title = $derived($locales.getPlainText(description));
     let placeholderText = $derived(
         typeof placeholder === 'string'
             ? placeholder

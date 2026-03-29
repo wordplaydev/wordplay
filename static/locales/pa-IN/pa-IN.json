@@ -1036,6 +1036,10 @@
                 "ValueException": {
                     "description": "$~ਗੁੰਮ ਮੁੱਲ",
                     "explanation": "$~ਮੈਨੂੰ ਇੱਕ ਮੁੱਲ ਦੀ ਉਮੀਦ ਸੀ ਪਰ ਇੱਕ ਨਹੀਂ ਮਿਲਿਆ!"
+                },
+                "InternalException": {
+                    "description": "$~ਅੰਦਰੂਨੀ ਗਲਤੀ",
+                    "explanation": "$~ਅੰਦਰੂਨੀ ਤੌਰ 'ਤੇ ਕੁਝ ਬਹੁਤ ਬੁਰਾ ਹੋਇਆ: $1"
                 }
             },
             "label": {

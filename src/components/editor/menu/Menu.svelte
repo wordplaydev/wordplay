@@ -161,7 +161,7 @@
         role="menu"
         tabindex="-1"
         aria-orientation="vertical"
-        aria-label={$locales.getARIALabel((l) => l.ui.source.menu.label)}
+        aria-label={$locales.getPlainText((l) => l.ui.source.menu.label)}
         aria-activedescendant="menuitem-{menu.inSubmenu()
             ? `${menu.getSelectionIndex()[0]}-${menu.getSelectionIndex()[1]}`
             : menu.getSelectionIndex()[0]}"

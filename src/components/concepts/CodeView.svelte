@@ -69,7 +69,9 @@
     <div class="code">
         <div
             role="textbox"
-            aria-label={$locales.getARIALabel((l) => node.getLocalePath()(l).name)}
+            aria-label={$locales.getPlainText(
+                (l) => node.getLocalePath()(l).name,
+            )}
             aria-readonly="true"
             class:blocks={$blocks}
             class="node"
@@ -107,7 +109,9 @@
     {#if describe && concept}
         <div class="link">
             {#if concept instanceof GalleryHowConcept}
-                <Link to={concept.getPath()} external>{concept.getName($locales)}</Link>
+                <Link to={concept.getPath()} external
+                    >{concept.getName($locales)}</Link
+                >
             {:else}
                 <ConceptLinkUI link={concept} symbolic={false} />
             {/if}

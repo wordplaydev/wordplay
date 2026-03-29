@@ -73,7 +73,7 @@
                     role="radio"
                     aria-checked={index === choice}
                     class:selected={index === choice}
-                    aria-label={$locales.getARIALabel(modeText.tips[index])}
+                    aria-label={$locales.getPlainText(modeText.tips[index])}
                     aria-disabled={!active || index === choice}
                     ondblclick={(event) => event.stopPropagation()}
                     onpointerdown={(event) =>
@@ -83,13 +83,13 @@
                     onpointerenter={(event) =>
                         showTip(
                             event.target as HTMLButtonElement,
-                            $locales.getARIALabel(modeText.tips[index]),
+                            $locales.getPlainText(modeText.tips[index]),
                         )}
                     onpointerleave={hideTip}
                     onfocus={(event) =>
                         showTip(
                             event.target as HTMLButtonElement,
-                            $locales.getARIALabel(modeText.tips[index]),
+                            $locales.getPlainText(modeText.tips[index]),
                         )}
                     onblur={hideTip}
                     ontouchstart={(event) =>

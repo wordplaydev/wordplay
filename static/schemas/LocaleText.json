@@ -5364,6 +5364,10 @@
                       "$ref": "#/definitions/ExceptionText",
                       "description": "When the number of function evaluations have exceeded a limit Description inputs: $1 = The function that was evaluated too many times"
                     },
+                    "InternalException": {
+                      "$ref": "#/definitions/ExceptionText",
+                      "description": "Internal exception are catastrophic and unrecoverable, usually indicating a defect"
+                    },
                     "StepLimitException": {
                       "$ref": "#/definitions/ExceptionText",
                       "description": "When the number of steps have exceeded a limit"
@@ -5377,7 +5381,8 @@
                     "BlankException",
                     "EvaluationLimitException",
                     "StepLimitException",
-                    "ValueException"
+                    "ValueException",
+                    "InternalException"
                   ],
                   "type": "object"
                 },

@@ -42,7 +42,7 @@
     let text = $derived($locales.get(tips));
 
     let title = $derived(
-        $locales.getARIALabel(
+        $locales.getPlainText(
             `${on ? text.on : text.off}${
                 command ? ' (' + toShortcut(command) + ')' : ''
             }`,

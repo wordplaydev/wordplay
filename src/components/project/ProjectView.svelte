@@ -1650,7 +1650,7 @@
                             {#snippet title()}
                                 {#if tile.kind === TileKind.Output}
                                     <span
-                                        title={$locales.getARIALabel(
+                                        title={$locales.getPlainText(
                                             $locales.get(
                                                 (l) =>
                                                     l.ui.dialog.settings.mode

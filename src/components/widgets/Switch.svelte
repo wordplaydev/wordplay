@@ -26,8 +26,8 @@
         shortcut,
     }: Props = $props();
 
-    let onTipText = $derived($locales.getARIALabel(onTip));
-    let offTipText = $derived($locales.getARIALabel(offTip));
+    let onTipText = $derived($locales.getPlainText(onTip));
+    let offTipText = $derived($locales.getPlainText(offTip));
 
     let hint = getTip();
     function showTip(view: HTMLSpanElement, tip: string) {

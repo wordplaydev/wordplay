@@ -32,7 +32,7 @@
     }: Props = $props();
 
     let focused = $state(false);
-    let title = $derived($locales.getARIALabel(description));
+    let title = $derived($locales.getPlainText(description));
     let savingDone = $state<boolean | undefined>(false);
 
     /** The message to display if invalid */

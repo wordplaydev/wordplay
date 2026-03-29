@@ -18,7 +18,9 @@
     aria-live="assertive"
     aria-atomic="true"
     aria-relevant="all"
-    aria-label={$locales.getARIALabel(label ?? ((l) => l.ui.widget.loading.message))}
+    aria-label={$locales.getPlainText(
+        label ?? ((l) => l.ui.widget.loading.message),
+    )}
 ></div>
 
 <style>

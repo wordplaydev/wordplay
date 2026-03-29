@@ -71,7 +71,7 @@
 {:else}
     <section
         class="collab"
-        aria-label={$locales.getARIALabel((l) => l.ui.collaborate.label)}
+        aria-label={$locales.getPlainText((l) => l.ui.collaborate.label)}
     >
         <MarkupHTMLView
             markup={editable

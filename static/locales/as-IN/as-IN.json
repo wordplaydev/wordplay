@@ -1040,6 +1040,10 @@
                 "ValueException": {
                     "description": "$~মূল্য হেৰুৱাইছে",
                     "explanation": "$~মূল্য আশা কৰিছিলোঁ যদিও নাপালোঁ!"
+                },
+                "InternalException": {
+                    "description": "$~আভ্যন্তৰীণ ভুল",
+                    "explanation": "$~আভ্যন্তৰীণভাৱে কিবা এটা অতি বেয়া কথা ঘটিল: $1"
                 }
             }
         },

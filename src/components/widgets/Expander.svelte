@@ -29,7 +29,7 @@
     class="expander {vertical ? 'vertical' : 'horizontal'}"
     class:expanded
     tabindex="0"
-    aria-label={$locales.getARIALabel(label)}
+    aria-label={$locales.getPlainText(label)}
     onpointerdown={(event) => {
         if (event.button !== 0) return;
         event.stopPropagation();

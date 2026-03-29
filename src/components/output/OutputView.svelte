@@ -953,7 +953,7 @@
     class="output"
     data-testid="output"
     data-uiid="stage"
-    aria-label={$locales.getARIALabel((l) => l.ui.output.label)}
+    aria-label={$locales.getPlainText((l) => l.ui.output.label)}
     class:mini
     class:editing={$evaluation?.playing === false && !painting}
     class:selected={stageValue &&
@@ -1036,7 +1036,7 @@
                         : null}
                     data-defaultfocus
                     aria-autocomplete="none"
-                    aria-label={$locales.getARIALabel(
+                    aria-label={$locales.getPlainText(
                         (l) => l.ui.output.field.key.description,
                     )}
                     autocomplete={chats ? 'on' : 'off'}

@@ -24,7 +24,7 @@
     }: Props = $props();
 
     let labelText = $derived(
-        $locales.getARIALabel(getFirstText($locales.get(label))),
+        $locales.getPlainText(getFirstText($locales.get(label))),
     );
 
     function handleInput() {

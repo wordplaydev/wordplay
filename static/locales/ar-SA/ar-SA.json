@@ -1040,6 +1040,10 @@
                 "ValueException": {
                     "description": "$~القيم المفقودة",
                     "explanation": "$~كنت أتوقع قيمة، لكنني لم أحصل عليها!"
+                },
+                "InternalException": {
+                    "description": "$~خطأ داخلي",
+                    "explanation": "$~حدث شيء سيء للغاية داخلياً: 1 دولار"
                 }
             }
         },

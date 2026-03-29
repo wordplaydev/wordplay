@@ -1040,6 +1040,10 @@
                 "ValueException": {
                     "description": "$~ελλείπουσα τιμή",
                     "explanation": "$~Περίμενα μια τιμή αλλά δεν την βρήκα!"
+                },
+                "InternalException": {
+                    "description": "$~εσωτερικό σφάλμα",
+                    "explanation": "$~κάτι πολύ κακό συνέβη εσωτερικά: $1"
                 }
             }
         },

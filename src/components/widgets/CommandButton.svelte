@@ -63,7 +63,9 @@
 
 <Button
     {background}
-    tip={() => $locales.get(command.description) + ` (${toShortcut(command)})`}
+    tip={() =>
+        $locales.getPlainText(command.description) +
+        ` (${toShortcut(command)})`}
     shortcut={toShortcut(command)}
     bind:view
     uiid={command.uiid}

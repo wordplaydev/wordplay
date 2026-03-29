@@ -1040,6 +1040,10 @@
                 "ValueException": {
                     "description": "$~ಕಾಣೆಯಾದ ಮೌಲ್ಯ",
                     "explanation": "$~ನಾನು ಮೌಲ್ಯವನ್ನು ನಿರೀಕ್ಷಿಸಿದ್ದೆ ಆದರೆ ಸಿಗಲಿಲ್ಲ!"
+                },
+                "InternalException": {
+                    "description": "$~ಆಂತರಿಕ ದೋಷ",
+                    "explanation": "$~ಆಂತರಿಕವಾಗಿ ತುಂಬಾ ಕೆಟ್ಟದ್ದೇನೋ ಸಂಭವಿಸಿದೆ: $1"
                 }
             }
         },

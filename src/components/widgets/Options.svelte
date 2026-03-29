@@ -47,7 +47,7 @@
     }: Props = $props();
 
     let title = $derived(
-        $locales.getARIALabel(getFirstText($locales.get(label))),
+        $locales.getPlainText(getFirstText($locales.get(label))),
     );
 
     let view: HTMLSelectElement | undefined = $state(undefined);

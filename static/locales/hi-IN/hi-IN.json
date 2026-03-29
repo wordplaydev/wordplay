@@ -1036,6 +1036,10 @@
                 "ValueException": {
                     "description": "$~अनुपस्थित मान",
                     "explanation": "$~मुझे मूल्य की उम्मीद थी लेकिन वह नहीं मिला!"
+                },
+                "InternalException": {
+                    "description": "$~आंतरिक त्रुटि",
+                    "explanation": "$~आंतरिक रूप से कुछ बहुत बुरा हुआ: $1"
                 }
             },
             "label": {

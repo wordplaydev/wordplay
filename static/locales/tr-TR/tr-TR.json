@@ -1036,6 +1036,10 @@
                 "ValueException": {
                     "description": "$~eksik değer",
                     "explanation": "$~Bir değer bekliyordum ama alamadım!"
+                },
+                "InternalException": {
+                    "description": "$~dahili hata",
+                    "explanation": "$~İçeride çok kötü bir şey oldu: 1 dolar"
                 }
             },
             "label": {

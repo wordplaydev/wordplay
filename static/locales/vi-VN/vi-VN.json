@@ -1040,6 +1040,10 @@
                 "ValueException": {
                     "description": "$~giá trị bị thiếu",
                     "explanation": "$~Tôi mong đợi một giá trị nhưng lại không nhận được!"
+                },
+                "InternalException": {
+                    "description": "$~lỗi nội bộ",
+                    "explanation": "$~Một sự việc rất tồi tệ đã xảy ra bên trong: $1"
                 }
             }
         },

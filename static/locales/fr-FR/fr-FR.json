@@ -1036,6 +1036,10 @@
                 "ValueException": {
                     "description": "$~valeur manquante",
                     "explanation": "$~Je m'attendais à une valeur mais je n'en ai pas eu !"
+                },
+                "InternalException": {
+                    "description": "$~erreur interne",
+                    "explanation": "$~quelque chose de très grave s'est produit en interne : 1 $"
                 }
             },
             "label": {

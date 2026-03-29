@@ -1036,6 +1036,10 @@
                 "ValueException": {
                     "description": "$~недостаје вредност",
                     "explanation": "$~Очекивао сам вредност, али је нисам добио!"
+                },
+                "InternalException": {
+                    "description": "$~интерна грешка",
+                    "explanation": "$~нешто веома лоше се десило унутра: 1 долар"
                 }
             },
             "label": {

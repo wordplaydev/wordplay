@@ -1036,6 +1036,10 @@
                 "ValueException": {
                     "description": "$~saknat värde",
                     "explanation": "$~Jag förväntade mig ett värde men fick inget!"
+                },
+                "InternalException": {
+                    "description": "$~internt fel",
+                    "explanation": "$~något väldigt dåligt hände internt: $1"
                 }
             },
             "label": {

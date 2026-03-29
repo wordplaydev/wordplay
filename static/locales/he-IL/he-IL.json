@@ -1040,6 +1040,10 @@
                 "ValueException": {
                     "description": "$~ערך חסר",
                     "explanation": "$~ציפיתי לתמורה טובה אבל לא קיבלתי!"
+                },
+                "InternalException": {
+                    "description": "$~שגיאה פנימית",
+                    "explanation": "$~משהו רע מאוד קרה באופן פנימי: $1"
                 }
             }
         },

@@ -1024,6 +1024,10 @@
                 "ValueException": {
                     "description": "$~fehlender Wert",
                     "explanation": "$~Ich habe einen Wert erwartet, aber keinen bekommen!"
+                },
+                "InternalException": {
+                    "description": "$~Interner Fehler",
+                    "explanation": "$~Intern ist etwas sehr Schlimmes passiert: 1 Dollar"
                 }
             },
             "label": {

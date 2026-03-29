@@ -1036,6 +1036,10 @@
                 "ValueException": {
                     "description": "$~गहाळ मूल्य",
                     "explanation": "$~मला मूल्य अपेक्षित आहे पण ते मिळाले नाही!"
+                },
+                "InternalException": {
+                    "description": "$~अंतर्गत त्रुटी",
+                    "explanation": "$~अंतर्गत काहीतरी खूप वाईट घडले: $1"
                 }
             },
             "label": {

@@ -1036,6 +1036,10 @@
                 "ValueException": {
                     "description": "값 누락",
                     "explanation": "값을 기대했는데 받지 못했어!"
+                },
+                "InternalException": {
+                    "description": "$~내부 오류",
+                    "explanation": "$~내부적으로 아주 안 좋은 일이 생겼습니다: $1"
                 }
             },
             "label": {

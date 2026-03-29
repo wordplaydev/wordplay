@@ -539,6 +539,8 @@ type NodeTexts = {
             StepLimitException: ExceptionText;
             /** When a value was expected, but not provided */
             ValueException: ExceptionText;
+            /** Internal exception are catastrophic and unrecoverable, usually indicating a defect */
+            InternalException: ExceptionText;
         }> & {
             label: {
                 borrows: string;

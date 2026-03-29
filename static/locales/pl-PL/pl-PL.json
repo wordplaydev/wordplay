@@ -1036,6 +1036,10 @@
                 "ValueException": {
                     "description": "$~Brak wartości",
                     "explanation": "$~Spodziewałem się czegoś wartościowego, ale nic nie dostałem!"
+                },
+                "InternalException": {
+                    "description": "$~błąd wewnętrzny",
+                    "explanation": "$~wydarzyło się coś bardzo złego: $1"
                 }
             },
             "label": {

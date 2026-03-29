@@ -43,7 +43,7 @@
 
     let view: HTMLInputElement | undefined = $state(undefined);
     let tooltip = $derived(
-        $locales.getARIALabel(getFirstText($locales.get(tip))),
+        $locales.getPlainText(getFirstText($locales.get(tip))),
     );
 
     async function handleChange() {
