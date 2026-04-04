@@ -1,8 +1,10 @@
 <script lang="ts">
+    import { dev } from '$app/environment';
     import { Faces, getFaceDescription } from '@basis/Fonts';
     import Feedback from '@components/app/Feedback.svelte';
     import { LayoutIcons } from '@components/project/Layout';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
+    import Toggle from '@components/widgets/Toggle.svelte';
     import {
         AnimationFactorIcons,
         AnimationFactors,
@@ -32,7 +34,7 @@
     import CreatorView from '../app/CreatorView.svelte';
     import Link from '../app/Link.svelte';
     import Status from '../app/Status.svelte';
-    import { getUser } from '../project/Contexts';
+    import { getLocalizing, getUser } from '../project/Contexts';
     import Dialog from '../widgets/Dialog.svelte';
     import Mode from '../widgets/Mode.svelte';
     import Options from '../widgets/Options.svelte';
@@ -69,6 +71,8 @@
     let micDevice = $derived(
         $mic ? mics.find((m) => m.deviceId === $mic) : undefined,
     );
+
+    let localizing = getLocalizing();
 </script>
 
 <div class="settings">
@@ -81,6 +85,13 @@
             prompt
         />
     </Link>
+    {#if dev}
+        <Toggle
+            on={localizing.on}
+            tips={(l) => l.ui.localize.toggle.mode}
+            toggle={() => (localizing.on = !localizing.on)}>✎</Toggle
+        >
+    {/if}
     <LocaleChooser />
     <Feedback />
     <Dialog
@@ -127,8 +138,10 @@
                     change={(choice) =>
                         Settings.setFace(choice === undefined ? null : choice)}
                 >
-                    {#snippet item(option)}
-                        {#if option.face === null}<span>{option.label()}</span>
+                    {#snippet item(option, localized)}
+                        {#if option.face === null}<span
+                                >{@render localized(option.label)}</span
+                            >
                         {:else}
                             <FaceName
                                 name={option.face.name}

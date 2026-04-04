@@ -36,11 +36,13 @@
         change={(value) =>
             change(value === undefined ? undefined : stringToLocale(value))}
     >
-        {#snippet item(
-            option,
-        )}{#if option.value === undefined}{option.label}{:else}<LocaleName
-                    locale={option.value}
-                ></LocaleName>{/if}{/snippet}
+        {#snippet item(option, localized)}
+            {#if option.value === undefined}
+                {@render localized(option.label)}
+            {:else}
+                <LocaleName locale={option.value}></LocaleName>
+            {/if}
+        {/snippet}
     </Options></label
 >
 

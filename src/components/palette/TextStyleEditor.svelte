@@ -299,18 +299,18 @@
                 ]}
                 change={(value) => applyWeight(value)}
             >
-                {#snippet item(option)}
+                {#snippet item(option, localized)}
                     <span
                         >{#if option.value === 'normal'}
-                            {option.label}
+                            {@render localized(option.label)}
                         {:else if option.value === 'light'}
                             <strong style="font-weight: 300"
-                                >{option.label}</strong
+                                >{@render localized(option.label)}</strong
                             >{:else if option.value === 'bold'}
-                            <strong>{option.label}</strong
+                            <strong>{@render localized(option.label)}</strong
                             >{:else if option.value === 'extra'}
                             <strong style="font-weight: 900"
-                                >{option.label}</strong
+                                >{@render localized(option.label)}</strong
                             >{/if}</span
                     >
                 {/snippet}

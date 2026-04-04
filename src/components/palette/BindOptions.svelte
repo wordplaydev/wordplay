@@ -52,14 +52,14 @@
     change={handleChange}
     {editable}
 >
-    {#snippet item(option)}
+    {#snippet item(option, localized)}
         {#if 'face' in option}
             <FaceName
                 name={(option.face as { name: string; face: Face }).name}
                 face={(option.face as { name: string; face: Face }).face}
             />
         {:else}
-            {option.label}
+            {@render localized(option.label)}
         {/if}
     {/snippet}
 </Options>

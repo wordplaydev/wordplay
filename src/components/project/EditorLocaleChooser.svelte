@@ -40,7 +40,9 @@
 >
     {#snippet item(
         option,
-    )}{#if option.locale === null}{option.label}{:else}<LocaleName
-                locale={option.locale}
+        localized,
+    )}{#if option.locale === null}{@render localized(
+                option.label,
+            )}{:else}<LocaleName locale={option.locale}
             ></LocaleName>{/if}{/snippet}
 </Options>

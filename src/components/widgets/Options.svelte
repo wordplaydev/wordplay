@@ -30,7 +30,12 @@
         id?: string | undefined;
         editable?: boolean;
         code?: boolean;
-        item?: Snippet<[option: Item]>;
+        item?: Snippet<
+            [
+                option: Item,
+                localized: Snippet<[label: string | LocaleTextAccessor]>,
+            ]
+        >;
     }
 
     let {
@@ -72,6 +77,14 @@
     }
 </script>
 
+{#snippet localized(label: string | LocaleTextAccessor)}
+    {#if typeof label === 'string'}
+        {label}
+    {:else}
+        <LocalizedText path={label} />
+    {/if}
+{/snippet}
+
 <select
     {id}
     aria-label={title}
@@ -105,9 +118,10 @@
                         }}
                         >{#if item}{@render item(
                                 groupoption,
-                            )}{:else if typeof groupoption.label === 'string'}{groupoption.label}{:else}<LocalizedText
-                                path={groupoption.label}
-                            />{/if}</option
+                                localized,
+                            )}{:else}{@render localized(
+                                groupoption.label,
+                            )}{/if}</option
                     >{/each}
             </optgroup>
         {:else}
@@ -122,9 +136,8 @@
                 }}
                 >{#if item}{@render item(
                         option,
-                    )}{:else if typeof option.label === 'string'}{option.label}{:else}<LocalizedText
-                        path={option.label}
-                    />{/if}</option
+                        localized,
+                    )}{:else}{@render localized(option.label)}{/if}</option
             >
         {/if}
     {/each}
