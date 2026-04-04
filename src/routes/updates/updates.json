@@ -1,11 +1,26 @@
 [
   {
+    "version": "0.17.4",
+    "date": "2026-04-04",
+    "changes": {
+      "added": [],
+      "fixed": [],
+      "changed": [
+        "We upgraded internal tooling for stability."
+      ],
+      "removed": []
+    }
+  },
+  {
     "version": "0.17.3",
     "date": "2026-03-28",
     "changes": {
       "added": [
         "We show the owner of a project in the gallery and projects previews.",
-        "Programs can now start with documentation, even if they start with a borrow statement."
+        "Programs can now start with documentation, even if they start with a borrow statement.",
+        "When there's a way to convert an expression to an expected type, we suggest it as a resolution (#991).",
+        "We added character echos when typing in the code editor (#540).",
+        "We added little robot emojis to represent when some text has been machine translated."
       ],
       "fixed": [
         "We fixed the text cursor position when spaces aren't shown explicitly.",
@@ -13,10 +28,20 @@
         "We now only show conflicts related to the current source in the conflict list.",
         "We no longer auto-complete pasted text.",
         "We fixed the ability to wrap a selected node by typing an open parenthesis, list, or set.",
-        "Did you know you can paste CSV data from the clipboard and Wordplay will convert it to a table value? We made this work better with CSV files with underscores in headers."
+        "Did you know you can paste CSV data from the clipboard and Wordplay will convert it to a table value? We made this work better with CSV files with underscores in headers.",
+        "We fixed rendering of skin tone modified emojis in the code editor.",
+        "We fixed a problem where clicking to place the cursor in the editor would sometimes select a range.",
+        "We now render line breaks in blocks mode, when appropriate (e.g.,), and place the cursor in more reasonable places (#927).",
+        "When an input is added to an evaluation with the menu, it is added where the cursor is, instead of the end (#811).",
+        "We fixed a problem where collaborators who were removed from a project could still see the project until they refreshed the page (#625).",
+        "We improved the machine translation annotations on ARIA labels, for screen reader users, so they know when text was not written by a human.",
+        "We localized catastrophic internal exceptions. Let's hope they never happen!"
       ],
       "changed": [
-        "We upgraded internal tooling for stability."
+        "We upgraded internal tooling for stability.",
+        "We stopped annoyingly autocompleting + and - expressions, as those might be positive or negative numbers you're trying to type.",
+        "We now ignore space insertions when a placeholder is selected. That makes autocomplete less annyoying if you're used to typing a space, but also prevents accidental erasure of a placeholder with a space.",
+        "We changed all simplified Chinese pronouns to be it (它) instead (#377)."
       ],
       "removed": []
     }
