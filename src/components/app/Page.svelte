@@ -1,7 +1,9 @@
 <script lang="ts">
     import { goto } from '$app/navigation';
     import { page } from '$app/state';
+    import Localizer from '@components/localization/Localizer.svelte';
     import {
+        getLocalizing,
         setFullscreen,
         type FullscreenContext,
     } from '@components/project/Contexts';
@@ -9,6 +11,7 @@
     import { LOGO_SYMBOL } from '@parser/Symbols';
     import { type Snippet } from 'svelte';
     import { writable } from 'svelte/store';
+    import { slide } from 'svelte/transition';
     import Color from '../../output/Color';
     import Settings from '../settings/Settings.svelte';
     import Emoji from './Emoji.svelte';
@@ -29,6 +32,8 @@
         background: null,
     });
     setFullscreen(fullscreen);
+
+    let localizing = getLocalizing();
 
     $effect(() => {
         if (typeof document !== 'undefined' && $fullscreen) {
@@ -59,6 +64,9 @@
 <svelte:window onkeydown={handleKey} />
 
 <div class="page">
+    {#if localizing.on}
+        <header transition:slide><Localizer /></header>
+    {/if}
     <main>
         {@render children()}
     </main>
@@ -133,16 +141,29 @@
         outline: none !important;
     }
 
+    header,
     footer {
         width: 100%;
         max-width: 100%;
         overflow: auto;
-        border-radius: var(--wordplay-border-radius);
-        border-top: var(--wordplay-border-color) solid
-            var(--wordplay-border-width);
         z-index: 1;
         color: var(--wordplay-foreground);
         background: var(--wordplay-background);
+    }
+
+    header {
+        border-bottom-left-radius: var(--wordplay-border-radius);
+        border-bottom-right-radius: var(--wordplay-border-radius);
+        border-bottom: var(--wordplay-border-color) solid
+            var(--wordplay-border-width);
+        padding: var(--wordplay-spacing);
+    }
+
+    footer {
+        border-top-left-radius: var(--wordplay-border-radius);
+        border-top-right-radius: var(--wordplay-border-radius);
+        border-top: var(--wordplay-border-color) solid
+            var(--wordplay-border-width);
     }
 
     nav {

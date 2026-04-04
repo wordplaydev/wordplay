@@ -53,6 +53,10 @@ export function isAuthenticated(user: PossibleUser): user is User {
     return user !== null && user !== undefined;
 }
 
+// Localization context
+
+export const [getLocalizing, setLocalizing] = createContext<{ on: boolean }>();
+
 /**
  * These are lists of announcements rendered invisiblily in the project view
  * for screen readers. Children can override by ID to change what's announced.

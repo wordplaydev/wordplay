@@ -207,7 +207,9 @@
     .background {
         color: var(--wordplay-foreground);
         background: var(--wordplay-alternating-color);
+        border: var(--wordplay-border-width) solid var(--wordplay-border-color);
     }
+
     [aria-disabled='true'] {
         cursor: default;
         background: none;
@@ -242,7 +244,6 @@
     .background.padding {
         padding-top: var(--wordplay-spacing-half);
         padding-bottom: var(--wordplay-spacing-half);
-        border: var(--wordplay-border-width) solid var(--wordplay-border-color);
     }
 
     .background[aria-disabled='true'] {
@@ -255,8 +256,7 @@
     }
 
     button.background:hover[aria-disabled='false'] {
-        background: var(--wordplay-chrome);
-        border-color: var(--wordplay-alternating-color);
+        background: var(--wordplay-hover);
     }
 
     button.pressed {

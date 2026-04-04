@@ -24,6 +24,7 @@
     import Fonts from '../basis/Fonts';
     import {
         setAnnouncer,
+        setLocalizing,
         setTip,
         setUser,
         type AnnouncerContext,
@@ -46,6 +47,7 @@
 
     let loaded = $state(false);
     let lag = $state(false);
+    let localizing = $state({ on: false });
 
     /** Create a user store to share globally. Undefined means we don't know if the user is logged in yet. Null means not logged in. */
     const user = writable<User | null | undefined>(undefined);
@@ -54,6 +56,8 @@
     // Create a store context for the announcer function.
     let announcerStore: Writable<AnnouncerContext> = writable();
     setAnnouncer(announcerStore);
+
+    setLocalizing(localizing);
 
     /** Keep the page's language and direction up to date. */
     $effect(() => {
@@ -169,6 +173,7 @@
 <div
     class="root"
     class:dark={$dark}
+    class:localizing={localizing.on}
     style:--animation-factor={$animationFactor}
     style:--wordplay-app-font={appFaces}
     style:--wordplay-code-font={codeFonts}
@@ -193,5 +198,37 @@
         font-weight: var(--wordplay-font-weight);
         font-size: var(--wordplay-font-size);
         color: var(--wordplay-foreground);
+    }
+
+    .root.localizing {
+        background-color: var(--wordplay-background);
+        background-image:
+            linear-gradient(
+                135deg,
+                var(--wordplay-alternating-color) 25%,
+                transparent 25%
+            ),
+            linear-gradient(
+                225deg,
+                var(--wordplay-alternating-color) 25%,
+                transparent 25%
+            ),
+            linear-gradient(
+                45deg,
+                var(--wordplay-alternating-color) 25%,
+                transparent 25%
+            ),
+            linear-gradient(
+                315deg,
+                var(--wordplay-alternating-color) 25%,
+                var(--wordplay-background) 25%
+            );
+        background-position:
+            10px 0,
+            10px 0,
+            0 0,
+            0 0;
+        background-size: 20px 20px;
+        background-repeat: repeat;
     }
 </style>

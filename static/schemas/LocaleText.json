@@ -11169,6 +11169,67 @@
               ],
               "type": "object"
             },
+            "localize": {
+              "additionalProperties": false,
+              "description": "Text for the localization editor",
+              "properties": {
+                "button": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "cancel": {
+                      "description": "Tooltip for the button that cancels the suggested edit",
+                      "type": "string"
+                    },
+                    "edit": {
+                      "description": "Tooltip for the button that opens text editing",
+                      "type": "string"
+                    },
+                    "submit": {
+                      "description": "Tooltip for the button that submits the suggested edit",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "edit",
+                    "submit",
+                    "cancel"
+                  ],
+                  "type": "object"
+                },
+                "description": {
+                  "description": "An explanation of the localization editor",
+                  "type": "string"
+                },
+                "field": {
+                  "$ref": "#/definitions/FieldText"
+                },
+                "header": {
+                  "description": "The header for the localization editor",
+                  "type": "string"
+                },
+                "toggle": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "mode": {
+                      "$ref": "#/definitions/ToggleText",
+                      "description": "The on/off switch for the localization editor"
+                    }
+                  },
+                  "required": [
+                    "mode"
+                  ],
+                  "type": "object"
+                }
+              },
+              "required": [
+                "header",
+                "description",
+                "toggle",
+                "button",
+                "field"
+              ],
+              "type": "object"
+            },
             "output": {
               "additionalProperties": false,
               "properties": {
@@ -13800,6 +13861,7 @@
             },
             "save": {
               "additionalProperties": false,
+              "description": "Saving related text",
               "properties": {
                 "local": {
                   "description": "Shown when saving on device was successful",
@@ -14667,6 +14729,7 @@
             "timeline",
             "dialog",
             "save",
+            "localize",
             "page",
             "edit",
             "template",

@@ -886,6 +886,7 @@ type UITexts = {
             };
         };
     };
+    /** Saving related text */
     save: {
         /** Shown when saving has started */
         saving: string;
@@ -895,6 +896,26 @@ type UITexts = {
         local: string;
         /** Shown when there was a problem saving */
         unsaved: string;
+    };
+    /** Text for the localization editor */
+    localize: {
+        /** The header for the localization editor */
+        header: string;
+        /** An explanation of the localization editor */
+        description: string;
+        toggle: {
+            /** The on/off switch for the localization editor */
+            mode: ToggleText;
+        };
+        button: {
+            /** Tooltip for the button that opens text editing */
+            edit: string;
+            /** Tooltip for the button that submits the suggested edit */
+            submit: string;
+            /** Tooltip for the button that cancels the suggested edit */
+            cancel: string;
+        };
+        field: FieldText;
     };
     page: {
         /** The unknown route page */
