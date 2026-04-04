@@ -309,7 +309,7 @@
         .node-view.block.editable:not(.blockselected):not(
             :has(.node-view.block:hover)
         ):not(.Token):hover {
-        outline: var(--wordplay-focus-width) solid var(--wordplay-hover);
+        outline: var(--wordplay-focus-width) solid var(--wordplay-hover-light);
         box-shadow: var(--color-shadow) 4px 4px 4px;
         cursor: grab;
     }
@@ -317,7 +317,7 @@
     .blockselected {
         outline: var(--wordplay-focus-width) solid
             var(--wordplay-highlight-color);
-        background: var(--wordplay-hover);
+        background: var(--wordplay-hover-light);
     }
 
     /** An empty block has different padding */
