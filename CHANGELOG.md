@@ -6,6 +6,10 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 ## 0.17.4 - 2026-04-04
 
+### Fixed
+
+- Links in the guide were broken for names that were machine translated. Now they work! (#1027).
+
 ### Changed
 
 - We upgraded internal tooling for stability.

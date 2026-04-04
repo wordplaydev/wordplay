@@ -121,7 +121,9 @@ export default class NodeConcept extends Concept {
             .getLocales()
             .map((l) =>
                 Object.entries(l.node).find(
-                    ([, t]) => t.name === withoutAnnotations(text.name),
+                    ([, t]) =>
+                        withoutAnnotations(t.name) ===
+                        withoutAnnotations(text.name),
                 ),
             )
             .find((n) => n !== undefined);
