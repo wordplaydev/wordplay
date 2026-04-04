@@ -1,10 +1,11 @@
+import type { FormattedText } from '@locale/LocaleText';
 import type { ButtonText, HeaderAndExplanationText } from '@locale/UITexts';
 
 type PageText = {
     /** How to describe galleries of projects */
     header: string;
     /** Explanation for the galleries page */
-    prompt: string;
+    prompt: FormattedText;
     /** Subheaders and prompts for the gallery types */
     section: {
         /** Subheader for personally owned galleries */

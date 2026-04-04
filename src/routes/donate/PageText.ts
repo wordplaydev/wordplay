@@ -1,12 +1,12 @@
-import type { Template } from '@locale/LocaleText';
+import type { FormattedText } from '@locale/LocaleText';
 
 type PageText = {
     /** The label for the link and header */
-    header: Template;
+    header: FormattedText;
     /** The explanation of the link */
-    prompt: Template;
+    prompt: FormattedText;
     /** The content of the page */
-    content: Template[];
+    content: FormattedText[];
 };
 
 export type { PageText as default };

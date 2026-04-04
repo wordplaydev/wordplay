@@ -2,7 +2,7 @@ import { isAuthenticated } from '@components/project/Contexts';
 import type { User } from 'firebase/auth';
 import type Locales from '../../locale/Locales';
 import type LocaleText from '../../locale/LocaleText';
-import type { Template } from '../../locale/LocaleText';
+import type { FormattedText } from '../../locale/LocaleText';
 import getClaim from '../creators/getClaim';
 import type Project from './Project';
 
@@ -34,7 +34,7 @@ export const Flags = {
 export type Flag = keyof typeof Flags;
 
 /** An object literal type that contains a template for each of the moderation flags */
-export type FlagDescriptions = { [key in Flag]: Template };
+export type FlagDescriptions = { [key in Flag]: FormattedText };
 
 /** Represents a moderation state. null = unknown, true = violates flag, false = doesn't */
 export type FlagState = boolean | null;

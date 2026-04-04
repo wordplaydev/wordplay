@@ -6,7 +6,7 @@ import Expression from '@nodes/Expression';
 import type Type from '@nodes/Type';
 import type Locales from '../locale/Locales';
 import type LocaleText from '../locale/LocaleText';
-import type { Template } from '../locale/LocaleText';
+import type { FormattedText } from '../locale/LocaleText';
 import Block from '../nodes/Block';
 import NumberLiteral from '../nodes/NumberLiteral';
 import NumberType from '../nodes/NumberType';
@@ -24,7 +24,7 @@ export function makeConversionResolutions(
     givenType: Type,
     expectedType: Type,
     context: Context,
-    localeAccessor: (locales: LocaleText) => Template,
+    localeAccessor: (locales: LocaleText) => FormattedText,
 ): Resolution[] {
     // Gather basis conversions and any ConversionDefinitions defined in enclosing blocks.
     const scopeConversions = (
@@ -75,8 +75,7 @@ export function makeConversionResolutions(
                             new NodeRef(targetType, locales, context),
                         ),
                     mediator: (context: Context) => {
-                        const source =
-                            context.project.getSourceOf(givenNode);
+                        const source = context.project.getSourceOf(givenNode);
                         if (source === undefined)
                             return { newProject: context.project };
                         const newLiteral = givenNode.withUnit(targetUnit);

@@ -1,4 +1,4 @@
-import type { Template } from '@locale/LocaleText';
+import type { FormattedText } from '@locale/LocaleText';
 import type {
     ButtonText,
     FieldText,
@@ -125,9 +125,9 @@ type PageText = {
     };
     announce: {
         /** When cursor position changes $1 x, $2: y. */
-        position: Template;
+        position: FormattedText;
         /** When selection changes. $1 is list of shape types. */
-        selection: Template;
+        selection: FormattedText;
     };
 };
 

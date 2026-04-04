@@ -1,28 +1,28 @@
-import type { Template } from './LocaleText';
+import type { FormattedText } from './LocaleText';
 
 type EditTexts = {
     /** A way to say "on node of type [type]" */
-    node: Template;
+    node: FormattedText;
     /** A way to say "before [token], at the beginning of the program" */
-    before: Template;
+    before: FormattedText;
     /** A way to say "inside [description], between character [before|start] and [after|end]" */
-    inside: Template;
+    inside: FormattedText;
     /** Description of a selection range */
-    range: Template;
+    range: FormattedText;
     /** A way to say "between [token1] and [token2]" */
-    between: Template;
+    between: FormattedText;
     /** A way to say "empty line between [node1] and [node2]" */
-    line: Template;
+    line: FormattedText;
     /** A description of how many conflicts are at this position */
-    conflicts: Template;
+    conflicts: FormattedText;
     /** $1: node description */
-    assign: Template;
+    assign: FormattedText;
     /** $1: node description */
-    append: Template;
+    append: FormattedText;
     /** $1: node description */
-    remove: Template;
+    remove: FormattedText;
     /** $1: node description or undefined */
-    replace: Template;
+    replace: FormattedText;
     /** Shown in menus to offer to wrap an expression in parentheses */
     wrap: string;
     /** Shown in menus to offer to unwrap an expression in parentheses */
@@ -30,7 +30,7 @@ type EditTexts = {
     /** Shown in menus to offer to name an expression with a bind */
     bind: string;
     /** Show elided data structure $1 count */
-    show: Template;
+    show: FormattedText;
     /** A label for the textarea in which text is typed */
     area: string;
 };

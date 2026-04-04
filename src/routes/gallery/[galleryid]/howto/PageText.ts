@@ -1,3 +1,4 @@
+import type { FormattedText } from '@locale/LocaleText';
 import type {
     ButtonText,
     ConfirmText,
@@ -17,7 +18,7 @@ type PageText = {
         /** Subtitle for the how-to space in the gallery if no how-tos */
         subheaderEmpty: string;
         /** Prompt for the how-to space in the gallery view */
-        prompt: string;
+        prompt: FormattedText;
     };
     /** Tooltip for header/breadcrumb to gallery for the how-to space page */
     headerTooltip: string;
@@ -29,7 +30,7 @@ type PageText = {
         /** Tooltip for viewing a draft */
         tooltip: string;
         /** Text indicating that the how-to is currently a draft */
-        note: string;
+        note: FormattedText;
     };
     bookmarks: {
         /** Header for the bookmarks area */
@@ -98,7 +99,7 @@ type PageText = {
             /** Text for asking if the user used this how-to in their project or another how-to */
             prompt: string;
             /** Text for if the user does not have any other how-tos or projects */
-            empty: string;
+            empty: FormattedText;
             /** Text for how many others projects or how-tos, other than the user's own, have used this how-to */
             countDisplay: string;
             /** Options text for selecting which projects and how-tos used this how-to */

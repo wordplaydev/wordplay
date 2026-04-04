@@ -1,12 +1,12 @@
-import type { Template } from '@locale/LocaleText';
+import type { FormattedText } from '@locale/LocaleText';
 
 type PageText = {
     /** The value proposition for the site */
-    value: Template;
+    value: FormattedText;
     /** A description of the platform's features */
-    description: Template | Template[];
+    description: FormattedText | FormattedText[];
     /** The landing page beta warning */
-    beta: Template[];
+    beta: FormattedText[];
     /** Text between locale buttons - "or choose" */
     chooseLocales: string;
     /** The subtitles below links */

@@ -1,3 +1,4 @@
+import type { FormattedText } from '@locale/LocaleText';
 import type { ButtonText, FieldText } from '@locale/UITexts';
 
 /** The localization strings for the page. */
@@ -16,19 +17,19 @@ type PageText = {
     };
     prompt: {
         /** Explain the purpose of the form */
-        start: string;
+        start: FormattedText;
         /** Prompt review of the genrated students.*/
-        review: string;
+        review: FormattedText;
         /** What to say before there are any generated credentials. */
-        ready: string;
+        ready: FormattedText;
         /** When generating usernames and passwords */
         pending: string;
         /** Ready to submit instructions */
-        submit: string;
+        submit: FormattedText;
         /** Submitting instructions */
         submitting: string;
         /** Download instructions */
-        download: string;
+        download: FormattedText;
     };
     field: {
         /** The class name */
@@ -37,14 +38,14 @@ type PageText = {
         description: FieldText;
         existing: {
             /** Explanation of existing users. */
-            prompt: string;
+            prompt: FormattedText;
             /** Label for existing users. */
             label: string;
         };
         /** The student data field */
-        metadata: FieldText & { prompt: string };
+        metadata: FieldText & { prompt: FormattedText };
         /** The password words field */
-        words: FieldText & { prompt: string };
+        words: FieldText & { prompt: FormattedText };
         /** The generate credentials button */
         generate: ButtonText;
         /** The submit button */

@@ -1,8 +1,10 @@
+import type { FormattedText } from '@locale/LocaleText';
+
 type PageText = {
     /** Header for the character page */
     header: string;
     /** Explanation for the character page */
-    prompt: string;
+    prompt: FormattedText;
     /** Buttons for the page */
     button: {
         /** Create a new character */

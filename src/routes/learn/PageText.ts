@@ -1,8 +1,10 @@
+import type { FormattedText } from '@locale/LocaleText';
+
 type PageText = {
     /** The header for the tutorial page */
     header: string;
     /** When the tutorial could not be found */
-    error: string;
+    error: FormattedText;
     button: {
         /** Advance to the next pause in the dialog */
         next: string;

@@ -157,6 +157,36 @@
         border-bottom: var(--wordplay-border-color) solid
             var(--wordplay-border-width);
         padding: var(--wordplay-spacing);
+
+        background-color: var(--wordplay-background);
+        background-image:
+            linear-gradient(
+                135deg,
+                var(--wordplay-alternating-color) 25%,
+                transparent 25%
+            ),
+            linear-gradient(
+                225deg,
+                var(--wordplay-alternating-color) 25%,
+                transparent 25%
+            ),
+            linear-gradient(
+                45deg,
+                var(--wordplay-alternating-color) 25%,
+                transparent 25%
+            ),
+            linear-gradient(
+                315deg,
+                var(--wordplay-alternating-color) 25%,
+                var(--wordplay-background) 25%
+            );
+        background-position:
+            10px 0,
+            10px 0,
+            0 0,
+            0 0;
+        background-size: 20px 20px;
+        background-repeat: repeat;
     }
 
     footer {

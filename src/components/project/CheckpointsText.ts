@@ -1,7 +1,12 @@
-import type { Template } from '@locale/LocaleText';
+import type { FormattedText } from '@locale/LocaleText';
 
 type CheckpointsText = {
-    label: { now: string; history: string; restore: string; ago: Template };
+    label: {
+        now: string;
+        history: string;
+        restore: string;
+        ago: FormattedText;
+    };
     button: {
         clear: string;
         select: string;

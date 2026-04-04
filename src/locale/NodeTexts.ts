@@ -1,5 +1,5 @@
 import type { Emotion } from '../lore/Emotion';
-import type { DocText, Template } from './LocaleText';
+import type { DocText, FormattedText } from './LocaleText';
 
 export type NodeText = {
     /** The name that should be used to refer to the node type */
@@ -12,17 +12,17 @@ export type NodeText = {
 
 export type DescriptiveNodeText = NodeText & {
     /** A precise description of the node's contents, more specific than a name. If not provided, name is used. */
-    description: Template;
+    description: FormattedText;
 };
 
 export interface SimpleExpressionText {
     /** The text shown when this expression type first begins evaluating.  */
-    start: Template;
+    start: FormattedText;
 }
 
 export interface ExpressionText extends SimpleExpressionText {
     /** The text shown when this expression type finishes evaluating and has a value. */
-    finish: Template;
+    finish: FormattedText;
 }
 
 export interface Conflicts<T> {
@@ -35,7 +35,7 @@ export type ConflictText = {
     /** The short header to describe the conflict */
     name: string;
     /** The text that describes this conflict on the node which generated it. */
-    explanation: Template;
+    explanation: FormattedText;
 };
 
 export interface Exceptions<Kinds> {
@@ -45,9 +45,9 @@ export interface Exceptions<Kinds> {
 
 export interface ExceptionText {
     /** A description of the kind of exception this is; appears as screen reader text and a header when exception value is displayed on stage. */
-    description: Template;
+    description: FormattedText;
     /** The text of the explanation, in the voice of the node that generated it. Appears when value is shown on stage. */
-    explanation: Template;
+    explanation: FormattedText;
 }
 
 type NodeTexts = {
@@ -150,7 +150,7 @@ type NodeTexts = {
     BinaryEvaluate: DescriptiveNodeText &
         ExpressionText & {
             /** How to describe the right operand in a placeholder expression */
-            right: Template;
+            right: FormattedText;
         } & Conflicts<{
             /** Warning about order of evaluation of binary evaluations always being reading order, not math order of operations */
             OrderOfOperations: ConflictText;
@@ -168,7 +168,7 @@ type NodeTexts = {
             /** When a bind has duplicate names. Description inputs: $1: The name that shadowed this one */
             DuplicateName: {
                 conflict: ConflictText;
-                resolution: Template;
+                resolution: FormattedText;
             };
             /** When a shared bind has a duplicate name that's shared. Description inputs: $1: The duplicate */
             DuplicateShare: ConflictText;
@@ -176,7 +176,7 @@ type NodeTexts = {
              * When a bind and it's value type are incompatible.
              * Description inputs: $1: Expected type, $2: Given type
              **/
-            IncompatibleType: ConflictText & { resolution: Template };
+            IncompatibleType: ConflictText & { resolution: FormattedText };
             /**
              * When a bind is marked as share, but not at the top level.
              */
@@ -208,9 +208,9 @@ type NodeTexts = {
             /** When a statement is ignored because it's not last and not a bind */
             IgnoredExpression: ConflictText & {
                 resolution: {
-                    name: Template;
-                    binary: Template;
-                    evaluate: Template;
+                    name: FormattedText;
+                    binary: FormattedText;
+                    evaluate: FormattedText;
                 };
             };
         }>;
@@ -257,17 +257,17 @@ type NodeTexts = {
     Conditional: NodeText &
         ExpressionText & {
             /** When the else case is chosen. Description inputs: $1: true if jumping to the "else" expression */
-            afterthen: Template;
+            afterthen: FormattedText;
             /** After the then case is done. Description inputs: jump after the "then" expression */
-            else: Template;
+            else: FormattedText;
         } & {
             label: {
                 /** A placeholder label for the condition */
-                condition: Template;
+                condition: FormattedText;
                 /** A placeholder label for then expression */
-                yes: Template;
+                yes: FormattedText;
                 /** A placeholder label for else condition */
-                no: Template;
+                no: FormattedText;
             };
         } & Conflicts<{
             /**
@@ -288,12 +288,12 @@ type NodeTexts = {
         ExpressionText & {
             label: {
                 /** The label for the default value if none of the cases match */
-                other: Template;
+                other: FormattedText;
                 /** The label for the case being checked */
-                case: Template;
+                case: FormattedText;
             };
             /** How to describe when a case is checked */
-            case: Template;
+            case: FormattedText;
         };
     /** A definition of a conversion, e.g. `→ # #m 5` */
     ConversionDefinition: DescriptiveNodeText &
@@ -346,7 +346,7 @@ type NodeTexts = {
     Evaluate: DescriptiveNodeText &
         ExpressionText & {
             /** What to say after inputs are done evaluating, right before starting evaluation the function */
-            evaluate: Template;
+            evaluate: FormattedText;
         } & {
             label: { function: string; types: string; inputs: string };
         } & Conflicts<{
@@ -354,7 +354,7 @@ type NodeTexts = {
              * When an input given to this evaluate doesn't match the input of the function being evaluated
              * Description inputs: $1 = expected type, $2 = given type
              * */
-            IncompatibleInput: ConflictText & { resolution: Template };
+            IncompatibleInput: ConflictText & { resolution: FormattedText };
             /**
              * When a type input given is not expected.
              * Description inputs: $1 = definition given, $2: type given
@@ -430,11 +430,11 @@ type NodeTexts = {
     Iteration: NodeText &
         ExpressionText & {
             /** What to say when the iteration initialization begins */
-            initialize: Template;
+            initialize: FormattedText;
             /** What to say when the next value is being gotten */
-            next: Template;
+            next: FormattedText;
             /** What to say when the next value is being checked to decide whether to continue */
-            check: Template;
+            check: FormattedText;
         };
     /**
      * Inserting a table row, e.g., `table ⎡+ 1⎦`
@@ -523,11 +523,11 @@ type NodeTexts = {
     Program: NodeText &
         ExpressionText & {
             /** What to say when the program is halting because of a fatal error */
-            halt: Template;
+            halt: FormattedText;
             /** What to say when the program is done evaluating */
-            done: Template;
+            done: FormattedText;
             /** What to say when the program has yet to evaluate */
-            unevaluated: Template;
+            unevaluated: FormattedText;
         } & Exceptions<{
             /** When a program is blank */
             BlankException: ExceptionText;
@@ -555,14 +555,14 @@ type NodeTexts = {
      */
     PropertyBind: DescriptiveNodeText &
         ExpressionText & {
-            label: { property: Template; value: Template };
+            label: { property: FormattedText; value: FormattedText };
         } & Conflicts<{ InvalidProperty: ConflictText }>;
     /**
      * Getting a structure property, e.g., `mammal.name`
      * Finish inputs: $1: property name, $2: value
      */
     PropertyReference: DescriptiveNodeText &
-        ExpressionText & { label: { property: Template } };
+        ExpressionText & { label: { property: FormattedText } };
     /**
      * Generating a stream of values from other streams, e.g., `a: 1 … ∆ Time() … a + 1`
      * Finish inputs: $1 = resulting value
@@ -571,11 +571,11 @@ type NodeTexts = {
         ExpressionText & {
             label: {
                 /** Placeholder label for the initial value */
-                initial: Template;
+                initial: FormattedText;
                 /** Placeholder label for the condition to check */
-                condition: Template;
+                condition: FormattedText;
                 /** Placeholder label for the next value */
-                next: Template;
+                next: FormattedText;
             };
         } & Conflicts<{
             /** When the condition doesn't refer to a strema */
@@ -589,7 +589,7 @@ type NodeTexts = {
     Reference: DescriptiveNodeText &
         SimpleExpressionText & {
             /** The placeholder label for the name */
-            name: Template;
+            name: FormattedText;
         } & Conflicts</** $1: The name that depends on itself */
         {
             /**
@@ -598,7 +598,7 @@ type NodeTexts = {
              * */
             UnknownName: {
                 conflict: ConflictText;
-                resolution: Template;
+                resolution: FormattedText;
             };
             /** When a name refers to itself outside a reaction */
             ReferenceCycle: ConflictText;
@@ -701,9 +701,9 @@ type NodeTexts = {
             tin: ConflictText;
             handle: ConflictText;
             /** How to describe the resolution of the sensitive information conflict. */
-            resolution: Template;
+            resolution: FormattedText;
             /** Note to remind users where they can manage sensitive information for their project. */
-            reminder: Template;
+            reminder: FormattedText;
             character: ConflictText;
         }>;
     /**
@@ -741,7 +741,7 @@ type NodeTexts = {
              */
             UnparsableConflict: {
                 conflict: ConflictText;
-                resolution: Template;
+                resolution: FormattedText;
             };
             /**
              * When a delimiter is unclosed.

@@ -1,5 +1,5 @@
 import type { FlagDescriptions } from '@db/projects/Moderation';
-import type { Template } from './LocaleText';
+import type { FormattedText } from './LocaleText';
 import type { ButtonText, HeaderAndExplanationText } from './UITexts';
 
 export type ModerationTexts = {
@@ -14,9 +14,9 @@ export type ModerationTexts = {
     /** Content moderation rules that creators promise to follow. See en-US.json for ground truth language. */
     flags: FlagDescriptions;
     /** Progress message */
-    progress: Template;
+    progress: FormattedText;
     /** Done message */
-    done: Template;
+    done: FormattedText;
     /** Buttons on the moderation page */
     button: {
         /** Submit moderation decisions button */

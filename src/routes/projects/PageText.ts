@@ -1,12 +1,13 @@
+import type { FormattedText } from '@locale/LocaleText';
 import type { ConfirmText, HeaderAndExplanationText } from '@locale/UITexts';
 
 type PageText = {
     /** Header for the projects page */
     header: string;
     /** Explanation for the project page */
-    projectprompt: string;
+    projectprompt: FormattedText;
     /** Explanation for the archive subsection */
-    archiveprompt: string;
+    archiveprompt: FormattedText;
     /** Dialog text for the project addition dialog */
     add: HeaderAndExplanationText;
     /** Buttons on the project page */

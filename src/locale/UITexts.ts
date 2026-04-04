@@ -1,6 +1,6 @@
 import type { TileKind } from '@components/project/TileKind';
 import type { SupportedFace } from '../basis/Fonts';
-import type { DocText, Template } from './LocaleText';
+import type { DocText, FormattedText } from './LocaleText';
 
 import type DocumentationText from '@components/concepts/DocumentationText';
 import type CheckpointsText from '@components/project/CheckpointsText';
@@ -53,7 +53,7 @@ export type HeaderAndExplanationText = {
     /** The header to be shown at the top of the dialog */
     header: string;
     /** The explanation text just below the header. */
-    explanation: Template | Template[];
+    explanation: FormattedText | FormattedText[];
 };
 
 export type ConfirmText = {
@@ -196,29 +196,29 @@ type UITexts = {
         /** The messages shown for save status */
         save: {
             /** When projects fail to save locally */
-            projectsNotSavedLocally: Template;
+            projectsNotSavedLocally: FormattedText;
             /** When projects can't save locally */
-            projectsCannotNotSaveLocally: Template;
+            projectsCannotNotSaveLocally: FormattedText;
             /** When a project wasn't saved because it contained PII */
-            projectContainedPII: Template;
+            projectContainedPII: FormattedText;
             /** Projects failed to load */
-            projectsNotLoadingOnline: Template;
+            projectsNotLoadingOnline: FormattedText;
             /** When a project couldn't be saved to the database */
-            projectNotSavedOnline: Template;
+            projectNotSavedOnline: FormattedText;
             /** When settings are being saved */
-            settingsUnsaved: Template;
+            settingsUnsaved: FormattedText;
         };
         dialog: {
             /** The header for the save error */
-            unsaved: Template;
+            unsaved: FormattedText;
             /** The content for the translation dialog */
             translate: HeaderAndExplanationText;
         };
         subheader: {
             /** The header for the source language */
-            source: Template;
+            source: FormattedText;
             /** The header for the destination language */
-            destination: Template;
+            destination: FormattedText;
         };
     };
     /** Checkpoints text */
@@ -428,18 +428,18 @@ type UITexts = {
         /** The ARIA label for the conflicts section in the editor. */
         label: string;
         /** The description of the cursor position */
-        cursor: Template;
+        cursor: FormattedText;
         /** The description fo the cursor position's parent */
-        cursorParent: Template;
+        cursorParent: FormattedText;
         /** The prompt to line more about the cursor node */
-        learn: Template;
+        learn: FormattedText;
         /** What function should say when evaluating */
-        evaluating: Template;
+        evaluating: FormattedText;
         /** What function should say when the cursor is in space */
-        space: Template;
+        space: FormattedText;
         button: {
             /** How the resolution button should should be described */
-            resolution: Template;
+            resolution: FormattedText;
             /** The button to toggle the annotations */
             toggle: string;
             /** The button to show the annotation's node in the code */
@@ -516,7 +516,7 @@ type UITexts = {
             moderate: ButtonText;
             pending: string;
             removed: string;
-            inGallery: string;
+            inGallery: FormattedText;
         };
         /** Errors that can happen in the chat tile */
         error: {
@@ -545,11 +545,12 @@ type UITexts = {
         /** Controls for restricting project visibility when it is in a gallery */
         restrictGalleryCreatorAccess: {
             /** Explains that the project is in a gallery and describes the visibility restriction option */
-            explanation: string;
+            explanation: FormattedText;
             /** The toggle mode for restricting project visibility to owner and curators only */
             mode: ModeText<[string, string]>;
         };
     };
+
     /** The palette editor */
     palette: {
         /** The ARIA label for the palette section */
@@ -618,15 +619,15 @@ type UITexts = {
         };
         prompt: {
             /** The text offering to create a phrase in the palette without a stage */
-            offerPhrase: Template;
+            offerPhrase: FormattedText;
             /** The text offering to create a group in the palette without a stage */
-            offerGroup: Template;
+            offerGroup: FormattedText;
             /** The text offering to create a stage in the palette without a stage */
-            offerStage: Template;
+            offerStage: FormattedText;
             /** Prompt if no selection */
-            select: Template;
+            select: FormattedText;
             /** The text prompting the creator to edit the selected output */
-            editing: Template;
+            editing: FormattedText;
         };
         field: {
             /** The tooltip and ARIA-label for the text input to Phrase */
@@ -922,7 +923,7 @@ type UITexts = {
         /** The header for the localization editor */
         header: string;
         /** An explanation of the localization editor */
-        description: string;
+        description: FormattedText;
         toggle: {
             /** The on/off switch for the localization editor */
             mode: ToggleText;

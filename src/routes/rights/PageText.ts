@@ -1,12 +1,12 @@
-import type { Template } from '@locale/LocaleText';
+import type { FormattedText } from '@locale/LocaleText';
 
 type PageText = {
     /** Header for the rights page */
     header: string;
     /** Paragraphs for the rights page */
-    content: Template[];
+    content: FormattedText[];
     /** The consequences of violating a promise. */
-    consequences: Template[];
+    consequences: FormattedText[];
 };
 
 export type { PageText as default };

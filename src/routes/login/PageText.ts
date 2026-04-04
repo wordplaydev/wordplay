@@ -1,3 +1,4 @@
+import type { FormattedText } from '@locale/LocaleText';
 import type { ButtonText, FieldText, ToggleText } from '@locale/UITexts';
 
 type PageText = {
@@ -7,13 +8,13 @@ type PageText = {
     subtitle: string;
     prompt: {
         /** Prompts creator to login to save their work */
-        login: string;
+        login: FormattedText;
         /** Prompt to join on the login page */
-        join: string;
+        join: FormattedText;
         /** Forgot password regrets */
-        forgot: string;
+        forgot: FormattedText;
         /** Email login explanation */
-        email: string;
+        email: FormattedText;
         /** Prompt to check email for a login link. */
         sent: string;
         /** Tells the creator that they can change their email address. */
@@ -31,7 +32,7 @@ type PageText = {
         /** Too young feedback */
         tooyoung: string;
         /** Offers to log out the creator. */
-        logout: string;
+        logout: FormattedText;
         /** Shown briefly before page redirects to projects */
         success: string;
         /** Prompts creator to check their original email to confirm the email change */
@@ -65,7 +66,7 @@ type PageText = {
         /** Password successfully updated */
         updatedPassword: string;
         /** Email or username must match to delete account */
-        match: string;
+        match: FormattedText;
     };
     error: {
         /** Shown when the login link expired */

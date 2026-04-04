@@ -13,7 +13,7 @@ import { deleteDoc, doc, setDoc } from 'firebase/firestore';
 import { writable, type Writable } from 'svelte/store';
 import DefaultLocale from '../locale/DefaultLocale';
 import type LocaleText from '../locale/LocaleText';
-import { type Template } from '../locale/LocaleText';
+import { type FormattedText } from '../locale/LocaleText';
 import { CharactersDatabase } from './characters/CharacterDatabase.svelte';
 import { ChatDatabase } from './chats/ChatDatabase.svelte';
 import CreatorDatabase, { CreatorCollection } from './creators/CreatorDatabase';
@@ -70,7 +70,7 @@ export class Database {
     /** The status of persisting the projects. */
     readonly Status: Writable<{
         status: SaveStatus;
-        message: undefined | ((locale: LocaleText) => Template);
+        message: undefined | ((locale: LocaleText) => FormattedText);
     }> = writable({ status: SaveStatus.Saved, message: undefined });
 
     /** The current Firestore user ID */
@@ -113,7 +113,7 @@ export class Database {
     /** Update the saving status and broadcast via the store. */
     setStatus(
         status: SaveStatus,
-        message: undefined | ((locale: LocaleText) => Template),
+        message: undefined | ((locale: LocaleText) => FormattedText),
     ) {
         this.Status.set({ status, message });
     }
@@ -235,7 +235,8 @@ export class Database {
         // Ask the server to get the URL
         try {
             return await fetch(
-                `${import.meta.hot ? 'http://127.0.0.1:5002' : ''
+                `${
+                    import.meta.hot ? 'http://127.0.0.1:5002' : ''
                 }/function/getWebpage?url=${encodeURI(url)}`,
             );
         } catch (_) {

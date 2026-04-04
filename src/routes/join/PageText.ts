@@ -1,14 +1,16 @@
+import type { FormattedText } from '@locale/LocaleText';
+
 type PageText = {
     /** The account creation header */
     header: string;
     /** Requests for information on the account creation page */
     prompt: {
         /** Prompt to create an account */
-        create: string;
+        create: FormattedText;
         /** Username rules */
-        username: string;
+        username: FormattedText;
         /** Password rules and warnings */
-        password: string;
+        password: FormattedText;
     };
 };
 

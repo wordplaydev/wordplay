@@ -1,3 +1,4 @@
+import type { FormattedText } from '@locale/LocaleText';
 import type { ButtonText, FieldText } from '@locale/UITexts';
 
 type PageText = {
@@ -13,9 +14,9 @@ type PageText = {
     };
     prompt: {
         /** Encourage galleries */
-        gallery: string;
+        gallery: FormattedText;
         /** Explain deletion */
-        delete: string;
+        delete: FormattedText;
     };
     field: {
         /** The name of the class */

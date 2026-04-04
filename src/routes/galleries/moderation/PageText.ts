@@ -1,10 +1,11 @@
+import type { FormattedText } from '@locale/LocaleText';
 import type { ButtonText } from '@locale/UITexts';
 
 type PageText = {
     /** Page title */
     header: string;
     /** Description for the moderation page */
-    description: string;
+    description: FormattedText;
     labels: {
         /** Labels the message for display */
         message: string;

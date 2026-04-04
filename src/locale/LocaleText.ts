@@ -55,7 +55,8 @@ export type LocaleText = {
 
 export { type LocaleText as default };
 
-export type Template = string;
+/** Represents a string that is in Wordplay markup formatted syntax. */
+export type FormattedText = string;
 
 export type NameAndDoc = {
     /** One or more names for this definition. Be careful not to introduce duplicates. */

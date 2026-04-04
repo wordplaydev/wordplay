@@ -1,4 +1,4 @@
-import type { NameAndDoc, NameText, Template } from './LocaleText';
+import type { FormattedText, NameAndDoc, NameText } from './LocaleText';
 import type { ExceptionText } from './NodeTexts';
 
 export type TypeTexts = {
@@ -56,7 +56,7 @@ type OutputTexts = {
         /** The matter to use for the group if it's involved in collisions */
         matter: NameAndDoc;
         /** $1 = Layout description, $2 = pose description */
-        defaultDescription: Template;
+        defaultDescription: FormattedText;
     } & TypeTexts;
     /** A shadow */
     Aura: NameAndDoc & {
@@ -84,12 +84,12 @@ type OutputTexts = {
         /** The shadow properties for the phrase */
         aura: NameAndDoc;
         /** A description of the phrase for screen readers. 1$: non-optional text, $2: optional name, $3: optional size, $4: optional font, $5: then non-optional pose */
-        defaultDescription: Template;
+        defaultDescription: FormattedText;
     } & TypeTexts;
     /** The whole stage view and settings to control its appearance */
     Stage: NameAndDoc & {
         /** A description of the stage for screen readers. $1: total outputs, $2: total phrases, $3: total groups, $4: pose */
-        defaultDescription: Template;
+        defaultDescription: FormattedText;
         /** A list of content to show on stage */
         content: NameAndDoc;
         /** The shape of the frame to clip stage content */
@@ -187,7 +187,7 @@ type OutputTexts = {
         flipx: NameAndDoc;
         flipy: NameAndDoc;
         /** Templated description of the pose */
-        description: Template;
+        description: FormattedText;
     };
     /** A sequence of poses, keyed by percentage complete, for use in overriding an output's defaults for entering, resting, moving, or existing states */
     Sequence: NameAndDoc & {
@@ -256,7 +256,7 @@ type OutputTexts = {
          * $2: phrase count
          * $3: group count
          */
-        description: Template;
+        description: FormattedText;
         /** Whether to align content vertically at the start, center, or end of the vertical axis */
         alignment: NameAndDoc;
         /** How much padding to place between content */
@@ -270,7 +270,7 @@ type OutputTexts = {
          * $2: phrase count
          * $3: group count
          */
-        description: Template;
+        description: FormattedText;
         /** Whether to align content at the start, center, or end of the horizontal axis */
         alignment: NameAndDoc;
         /** How much padding to place between content */
@@ -283,7 +283,7 @@ type OutputTexts = {
          * $1: rows
          * $2: columns
          */
-        description: Template;
+        description: FormattedText;
         /** How many rows in the grid */
         rows: NameAndDoc;
         /** How many columns in the grid */
@@ -301,7 +301,7 @@ type OutputTexts = {
          * A description of the free layout for screen readers.
          * $1: output count
          */
-        description: Template;
+        description: FormattedText;
     };
     /** Localized descriptions of transition styles */
     Easing: {

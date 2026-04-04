@@ -1,8 +1,10 @@
+import type { FormattedText } from '@locale/LocaleText';
+
 type PageText = {
     /** Header for the about page */
     header: string;
     /** Text for the about page */
-    content: string[];
+    content: FormattedText[];
     /** Expand, collapse tooltips for the updates page */
     tips: {
         /** Expand the section */
