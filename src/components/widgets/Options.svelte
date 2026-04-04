@@ -190,6 +190,7 @@
 
     optgroup,
     option {
+        background: var(--wordplay-background);
         padding: var(--wordplay-spacing);
         gap: var(--wordplay-spacing);
     }
