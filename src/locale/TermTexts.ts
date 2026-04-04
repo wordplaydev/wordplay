@@ -27,8 +27,11 @@ type TermTexts = {
     scene: string;
     /** The word for phrase output in a Wordplay program */
     phrase: string;
+    /** The word for a group of output in a Wordplay program */
     group: string;
+    /** The word for the visual stage on which output is displayed */
     stage: string;
+    /** The word for a data type */
     type: string;
     /** What to call the main source in a project. */
     start: string;

@@ -140,6 +140,7 @@ type UITexts = {
         };
         /** The error shown when a project ID is unknown. */
         error: {
+            /** Shown when a project doesn't exist or the user doesn't have access */
             unknown: string;
             /** The error to show if translation wasn't possible */
             translate: string;
@@ -528,16 +529,24 @@ type UITexts = {
             /** A message was deleted */
             deleted: string;
         };
-        /** Messages to explain the purpose */
+        /** Messages to explain the purpose of the chat to each kind of participant */
         prompt: {
+            /** Shown when the user is the only participant; invites them to add collaborators */
             solo: string;
+            /** Shown to the project owner; describes what collaborators and commenters can do */
             owner: string;
+            /** Shown to collaborators; describes their editing and chat permissions */
             collaborator: string;
+            /** Shown to gallery curators; describes their editing and chat permissions */
             curator: string;
+            /** Shown to commenters; describes their chat-only permissions */
             commenter: string;
         };
+        /** Controls for restricting project visibility when it is in a gallery */
         restrictGalleryCreatorAccess: {
+            /** Explains that the project is in a gallery and describes the visibility restriction option */
             explanation: string;
+            /** The toggle mode for restricting project visibility to owner and curators only */
             mode: ModeText<[string, string]>;
         };
     };
@@ -786,14 +795,22 @@ type UITexts = {
             open: string;
             howToNotifications: ModeText<[string, string]>;
             clearAll: ButtonText;
+            /** Templates for the title of each notification kind */
             notification: {
+                /** Title for a new how-to notification, with $1 as the how-to title */
                 howToHeader: string;
+                /** Title for a new project chat message notification, with $1 as the project name */
                 projectChatHeader: string;
+                /** Title for a new how-to chat message notification, with $1 as the how-to title */
                 howToChatHeader: string;
+                /** Title for a moderation-required notification, with $1 as the project name */
                 moderationHeader: string;
+                /** Link label to view notification details */
                 link: string;
             };
+            /** Tooltip for the button that deletes a notification */
             delete: string;
+            /** ARIA label for the new-notification popup indicator */
             popup: string;
         };
         /** The locale chooser dialog */
@@ -868,8 +885,11 @@ type UITexts = {
                 /** The moderator subheader for a moderator comment */
                 moderator: string;
             };
+            /** Prompts inviting the user to submit new feedback if they didn't find an existing match */
             prompt: {
+                /** Prompt shown above the defect list encouraging new bug reports */
                 defect: string;
+                /** Prompt shown above the ideas list encouraging new feature suggestions */
                 idea: string;
             };
             error: {

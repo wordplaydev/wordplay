@@ -12,6 +12,7 @@ type DocumentationText = {
     learn: string;
     /** Shown if documentation is missing for a concept */
     nodoc: string;
+    /** Buttons in the documentation tile */
     button: {
         /** The home button in the docs tile */
         home: string;
@@ -20,17 +21,21 @@ type DocumentationText = {
         /** The toggle to expand and collapse concept groups */
         toggle: string;
     };
+    /** Text fields in the documentation tile */
     field: {
         /** The search text field */
         search: string;
     };
+    /** Notes shown in the documentation tile */
     note: {
         /** The project has no concepts. */
         empty: string;
     };
     /** Modes in the guide */
     mode: {
+        /** Toggle between browsing all concepts and filtering by purpose */
         browse: ModeText<[string, string]>;
+        /** Filter concepts by purpose category */
         purpose: ModeText<
             [
                 string,
