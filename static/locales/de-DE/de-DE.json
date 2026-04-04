@@ -6237,6 +6237,25 @@
                 ]
             },
             "skinTone": "$~Hautton"
+        },
+        "localize": {
+            "header": "$~Lokalisieren",
+            "description": "$~Willkommen im Lokalisierungsmodus! Hier können Sie Verbesserungsvorschläge für die Texte in der Wordplay-Oberfläche einreichen. Markieren Sie einfach einen beliebigen Text, um eine Änderung vorzuschlagen. Ihre Vorschläge werden geprüft und, falls sie genehmigt werden, in die Plattform integriert, sodass sie für alle sichtbar sind. Vielen Dank, dass Sie dazu beitragen, Wordplay für alle Menschen weltweit zugänglicher zu machen!",
+            "toggle": {
+                "mode": {
+                    "on": "$~Lokalisierungsmodus verlassen",
+                    "off": "$~Wechseln Sie in den Lokalisierungsmodus, um Änderungen am Plattformtext in der aktuell gewählten Sprache vorzuschlagen."
+                }
+            },
+            "button": {
+                "edit": "$~Schlagen Sie eine Änderung an diesem Text vor",
+                "submit": "$~Vorschlag zur Bearbeitung einreichen",
+                "cancel": "$~Vorgeschlagene Bearbeitung verwerfen"
+            },
+            "field": {
+                "description": "$~Vorschlag für einen Ersatztext",
+                "placeholder": "$~Ersatz eingeben..."
+            }
         }
     },
     "moderation": {

@@ -6238,6 +6238,25 @@
                 ]
             },
             "skinTone": "$~hudton"
+        },
+        "localize": {
+            "header": "$~Lokalisera",
+            "description": "$~Välkommen till lokaliseringsläget! Du kan föreslå förbättringar av texten i Wordplay-gränssnittet. Välj valfri text för att föreslå en redigering. Dina förslag kommer att granskas och om de godkänns kommer de att bli en del av plattformen för alla att se. Tack för att du hjälper till att göra Wordplay mer tillgängligt för alla i världen!",
+            "toggle": {
+                "mode": {
+                    "on": "$~Lämna lokaliseringsläget",
+                    "off": "$~Gå in i lokaliseringsläget för att föreslå ändringar i plattformens text på det aktuella språkvalet."
+                }
+            },
+            "button": {
+                "edit": "$~Föreslå en redigering av den här texten",
+                "submit": "$~Skicka in föreslagen redigering",
+                "cancel": "$~Ignorera föreslagen redigering"
+            },
+            "field": {
+                "description": "$~Föreslagen ersättningstext",
+                "placeholder": "$~Ange ersättning..."
+            }
         }
     },
     "moderation": {

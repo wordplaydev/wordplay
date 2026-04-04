@@ -6220,6 +6220,25 @@
                 ]
             },
             "skinTone": "$~tono de piel"
+        },
+        "localize": {
+            "header": "$~Localizar",
+            "description": "$~¡Bienvenido al modo de localización! Puedes sugerir mejoras al texto en la interfaz de Wordplay. Selecciona cualquier texto para sugerir una edición. Tus sugerencias serán revisadas y, si se aprueban, se incorporarán a la plataforma para que todos las vean. ¡Gracias por ayudarnos a que Wordplay sea más accesible para todos en el mundo!",
+            "toggle": {
+                "mode": {
+                    "on": "$~Salir del modo de localización",
+                    "off": "$~Acceda al modo de localización para ver sugerencias de edición del texto de la plataforma en el idioma seleccionado."
+                }
+            },
+            "button": {
+                "edit": "$~Sugiere una edición para este texto.",
+                "submit": "$~Enviar sugerencia de edición",
+                "cancel": "$~Descartar la edición sugerida"
+            },
+            "field": {
+                "description": "$~Texto de reemplazo sugerido",
+                "placeholder": "$~Introduzca el reemplazo..."
+            }
         }
     },
     "moderation": {

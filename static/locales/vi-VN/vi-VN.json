@@ -6238,6 +6238,25 @@
                 ]
             },
             "skinTone": "$~màu da"
+        },
+        "localize": {
+            "header": "$~Bản địa hóa",
+            "description": "$~Chào mừng bạn đến với chế độ bản địa hóa! Bạn có thể đề xuất cải tiến văn bản trong giao diện Wordplay. Chọn bất kỳ đoạn văn bản nào để đề xuất chỉnh sửa. Các đề xuất của bạn sẽ được xem xét, và nếu được chấp thuận, sẽ được đưa vào nền tảng để mọi người cùng xem. Cảm ơn bạn đã giúp Wordplay trở nên dễ tiếp cận hơn với mọi người trên toàn thế giới!",
+            "toggle": {
+                "mode": {
+                    "on": "$~Thoát khỏi chế độ bản địa hóa",
+                    "off": "$~Vào chế độ bản địa hóa để đề xuất chỉnh sửa văn bản trên nền tảng bằng ngôn ngữ hiện tại."
+                }
+            },
+            "button": {
+                "edit": "$~Hãy đề xuất chỉnh sửa cho văn bản này.",
+                "submit": "$~Gửi đề xuất chỉnh sửa",
+                "cancel": "$~Bỏ đề xuất chỉnh sửa"
+            },
+            "field": {
+                "description": "$~Văn bản thay thế được đề xuất",
+                "placeholder": "$~Nhập thông tin thay thế..."
+            }
         }
     },
     "moderation": {

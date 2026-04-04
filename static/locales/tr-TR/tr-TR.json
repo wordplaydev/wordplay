@@ -6234,6 +6234,25 @@
                 ]
             },
             "skinTone": "$~cilt tonu"
+        },
+        "localize": {
+            "header": "$~Yerelleştir",
+            "description": "$~Yerelleştirme moduna hoş geldiniz! Wordplay arayüzünde metne yönelik iyileştirmeler önerebilirsiniz. Düzenleme önermek için herhangi bir metni seçin. Önerileriniz incelenecek ve onaylanırsa, herkesin görebileceği şekilde platformun bir parçası haline gelecektir. Wordplay'i dünyadaki herkes için daha erişilebilir hale getirmeye yardımcı olduğunuz için teşekkür ederiz!",
+            "toggle": {
+                "mode": {
+                    "on": "$~Yerelleştirme modundan çık",
+                    "off": "$~Platform metnine mevcut dil seçeneğinde yapılacak düzenlemeler için yerelleştirme moduna girin."
+                }
+            },
+            "button": {
+                "edit": "$~Bu metne bir düzenleme önerin.",
+                "submit": "$~Önerilen düzenlemeyi gönder",
+                "cancel": "$~Önerilen düzenlemeyi iptal et"
+            },
+            "field": {
+                "description": "$~Önerilen yedek metin",
+                "placeholder": "$~Değiştirme işlemini girin..."
+            }
         }
     },
     "moderation": {
