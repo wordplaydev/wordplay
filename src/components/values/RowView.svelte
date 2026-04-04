@@ -1,6 +1,6 @@
 <script lang="ts">
     import type StructureValue from '@values/StructureValue';
-    import Sym from '../../nodes/Sym';
+    import { Sym } from '../../nodes/Sym';
     import type TableType from '../../nodes/TableType';
     import {
         TABLE_CLOSE_SYMBOL,

@@ -25,7 +25,7 @@ import GalleryHowConcept from "./GalleryHowConcept";
 import HowConcept from './HowConcept';
 import type HowTo from './HowTo';
 import NodeConcept from './NodeConcept';
-import Purpose from './Purpose';
+import { Purpose } from './Purpose';
 import StreamConcept from './StreamConcept';
 import StructureConcept from './StructureConcept';
 

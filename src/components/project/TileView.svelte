@@ -19,7 +19,10 @@
     import { onMount } from 'svelte';
     import { animationDuration, locales } from '../../db/Database';
     import type Project from '../../db/projects/Project';
-    import Arrangement from '../../db/settings/Arrangement';
+    import {
+        Arrangement,
+        type ArrangementType,
+    } from '../../db/settings/Arrangement';
     import Characters from '../../lore/BasisCharacters';
     import Color from '../../output/Color';
     import { isName } from '../../parser/Tokenizer';
@@ -37,7 +40,7 @@
         project: Project;
         tile: Tile;
         layout: Layout;
-        arrangement: Arrangement;
+        arrangement: ArrangementType;
         dragging: boolean;
         fullscreenID: string | undefined;
         background?: Color | string | null;

@@ -56,7 +56,10 @@
         Settings,
     } from '../../db/Database';
     import { isFlagged } from '../../db/projects/Moderation';
-    import Arrangement, { isResizeable } from '../../db/settings/Arrangement';
+    import Arrangement, {
+        isResizeable,
+        type ArrangementType,
+    } from '../../db/settings/Arrangement';
     import Characters from '../../lore/BasisCharacters';
     import type Color from '../../output/Color';
     import {
@@ -133,7 +136,8 @@
     import Sharing from './Sharing.svelte';
     import Shortcuts from './Shortcuts.svelte';
     import SourceTileToggle from './SourceTileToggle.svelte';
-    import Tile, { TileKind, TileMode } from './Tile';
+    import Tile, { TileMode } from './Tile';
+    import { TileKind } from './TileKind';
     import TileView, { type ResizeDirection } from './TileView.svelte';
     import Translate from './Translate.svelte';
 
@@ -1090,7 +1094,7 @@
             });
     });
 
-    let currentArrangement = $state<Arrangement>($arrangement);
+    let currentArrangement = $state<ArrangementType>($arrangement);
 
     /** When dragged is set, update the layout if necessary to support dragging to the last editor. */
     $effect(() => {

@@ -7,7 +7,7 @@ import BasisType from './BasisType';
 import FormattedLiteral from './FormattedLiteral';
 import FormattedTranslation from './FormattedTranslation';
 import { node, type Grammar, type Replacement } from './Node';
-import Sym from './Sym';
+import { Sym } from './Sym';
 import Token from './Token';
 import type TypeSet from './TypeSet';
 

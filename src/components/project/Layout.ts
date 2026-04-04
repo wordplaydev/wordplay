@@ -1,6 +1,10 @@
-import Arrangement from '../../db/settings/Arrangement';
+import {
+    Arrangement,
+    type ArrangementType,
+} from '../../db/settings/Arrangement';
 import type Bounds from './Bounds';
-import Tile, { TileKind, TileMode } from './Tile';
+import Tile, { TileMode } from './Tile';
+import { TileKind } from './TileKind';
 import TileKinds from './TileKinds';
 
 export const LAYOUT_ICON_RESPONSIVE = '📐';
@@ -199,7 +203,7 @@ export default class Layout {
     }
 
     // Given the current arrangement, get a list of axes for layout, including default proportions if not defined.
-    getSplits(arrangement: Arrangement, width: number, height: number) {
+    getSplits(arrangement: ArrangementType, width: number, height: number) {
         return arrangement === Arrangement.Horizontal
             ? (this.splits?.horizontal ?? DefaultHorizontalSplits)
             : arrangement === Arrangement.Vertical
@@ -372,7 +376,7 @@ export default class Layout {
     }
 
     static getComputedLayout(
-        arrangement: Arrangement,
+        arrangement: ArrangementType,
         width: number,
         height: number,
     ) {
@@ -390,7 +394,7 @@ export default class Layout {
             : arrangement;
     }
 
-    resized(arrangement: Arrangement, width: number, height: number) {
+    resized(arrangement: ArrangementType, width: number, height: number) {
         arrangement = Layout.getComputedLayout(arrangement, width, height);
 
         return arrangement === Arrangement.Vertical
@@ -642,7 +646,7 @@ export default class Layout {
     }
 
     withSplit(
-        arrangement: Arrangement,
+        arrangement: ArrangementType,
         axis: number,
         index: number,
         split: number,

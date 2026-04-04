@@ -89,14 +89,15 @@ export const [getTip, setTip] = createContext<ActiveHint>();
 export const [getProject, setProject] =
     createOptionalContext<Writable<Project | undefined>>();
 
-export enum IdleKind {
+export const IdleKind = {
     /** Indicates no keyboard activity. */
-    Idle = 'idle',
+    Idle: 'idle',
     /** Indicates active typing (generally a flurry of insertion or deletion) */
-    Typing = 'typing',
+    Typing: 'typing',
     /** Indicates a single command that will not come in a flurry  */
-    Typed = 'typed',
-}
+    Typed: 'typed',
+} as const;
+export type IdleKind = (typeof IdleKind)[keyof typeof IdleKind];
 
 /** The current keyboard edit idle state in a ProjectView. */
 export const [getKeyboardEditIdle, setKeyboardEditIdle] =

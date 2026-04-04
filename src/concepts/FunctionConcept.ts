@@ -4,12 +4,12 @@ import type Node from '@nodes/Node';
 import type StructureDefinition from '@nodes/StructureDefinition';
 import { COMMA_SYMBOL } from '@parser/Symbols';
 import type Locales from '../locale/Locales';
-import Emotion from '../lore/Emotion';
+import { Emotion } from '../lore/Emotion';
 import type Markup from '../nodes/Markup';
 import type { CharacterName } from '../tutorial/Tutorial';
 import BindConcept from './BindConcept';
 import Concept from './Concept';
-import type Purpose from './Purpose';
+import type { Purpose } from './Purpose';
 import type StructureConcept from './StructureConcept';
 
 export default class FunctionConcept extends Concept {

@@ -1,4 +1,4 @@
-import Purpose from '@concepts/Purpose';
+import { Purpose } from '@concepts/Purpose';
 import type { ReplaceContext } from '@edit/revision/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
@@ -13,7 +13,7 @@ import Conditional from './Conditional';
 import type Context from './Context';
 import Literal from './Literal';
 import { node, type Grammar, type Replacement } from './Node';
-import Sym from './Sym';
+import { Sym } from './Sym';
 import Token from './Token';
 import type Type from './Type';
 import type TypeSet from './TypeSet';

@@ -6,7 +6,7 @@ import type Evaluator from '../runtime/Evaluator';
 import StructureValue from '../values/StructureValue';
 import TextValue from '../values/TextValue';
 import type Value from '../values/Value';
-import type Arrangement from './Arrangement';
+import Arrangement from './Arrangement';
 import type Aura from './Aura';
 import { toAura } from './Aura';
 import Color, { toColor } from './Color';

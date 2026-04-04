@@ -5,7 +5,7 @@ import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
 import Node, { ListOf } from '@nodes/Node';
 import Program from '@nodes/Program';
 import Source from '@nodes/Source';
-import Sym from '@nodes/Sym';
+import { Sym } from '@nodes/Sym';
 import Token from '@nodes/Token';
 import Type from '@nodes/Type';
 import TypePlaceholder from '@nodes/TypePlaceholder';

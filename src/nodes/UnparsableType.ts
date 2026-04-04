@@ -1,4 +1,4 @@
-import Purpose from '@concepts/Purpose';
+import { Purpose } from '@concepts/Purpose';
 import type Conflict from '@conflicts/Conflict';
 import { UnparsableConflict } from '@conflicts/UnparsableConflict';
 import type LocaleText from '@locale/LocaleText';

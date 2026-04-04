@@ -14,7 +14,7 @@ import type { NodeDescriptor } from '@locale/NodeTexts';
 import StartFinish from '@runtime/StartFinish';
 import NameException from '@values/NameException';
 import ValueException from '@values/ValueException';
-import Purpose from '../concepts/Purpose';
+import { Purpose } from '../concepts/Purpose';
 import type Locales from '../locale/Locales';
 import Characters from '../lore/BasisCharacters';
 import { PROPERTY_SYMBOL } from '../parser/Symbols';
@@ -25,7 +25,7 @@ import Reaction from './Reaction';
 import SimpleExpression from './SimpleExpression';
 import StructureDefinition from './StructureDefinition';
 import StructureType from './StructureType';
-import Sym from './Sym';
+import { Sym } from './Sym';
 import Token from './Token';
 import { UnenclosedType } from './UnenclosedType';
 

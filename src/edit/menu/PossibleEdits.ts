@@ -73,7 +73,7 @@ import Select from '../../nodes/Select';
 import SetLiteral from '../../nodes/SetLiteral';
 import SetType from '../../nodes/SetType';
 import StructureDefinition from '../../nodes/StructureDefinition';
-import { WildcardSymbols } from '../../nodes/Sym';
+import { Sym, WildcardSymbols } from '../../nodes/Sym';
 import TableLiteral from '../../nodes/TableLiteral';
 import TextLiteral from '../../nodes/TextLiteral';
 import TextType from '../../nodes/TextType';
@@ -766,12 +766,11 @@ function getPossibleNodes(
     // Symbol? That represents a token. We use the symbol's string as the text. Don't recommend it if it's already that.
     if (!(kind instanceof Function)) {
         const newToken = new Token(kind.toString(), kind);
-        // Don't generate tokens on uncompletable fields, tokens that are equal to the existing token, or tokens that are numbers, text, or names.
         return field.uncompletable ||
             ('node' in action &&
                 action.node !== undefined &&
                 newToken.isEqualTo(action.node)) ||
-            WildcardSymbols.has(kind)
+            isWildcardSymbol(kind)
             ? []
             : [newToken];
     }
@@ -816,4 +815,18 @@ function getPossibleNodes(
     );
 
     return filtered;
+}
+
+type WildcardSym =
+    | 'number'
+    | 'boolean'
+    | 'name'
+    | 'text'
+    | 'words'
+    | '@concept'
+    | 'decimal'
+    | 'end';
+
+function isWildcardSymbol(sym: Sym): sym is WildcardSym {
+    return (WildcardSymbols as ReadonlySet<Sym>).has(sym);
 }

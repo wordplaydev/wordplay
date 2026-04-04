@@ -1,4 +1,4 @@
-import Purpose from '@concepts/Purpose';
+import { Purpose } from '@concepts/Purpose';
 import type Conflict from '@conflicts/Conflict';
 import IncompatibleType from '@conflicts/IncompatibleType';
 import type { ReplaceContext } from '@edit/revision/EditContext';
@@ -20,7 +20,7 @@ import Expression from './Expression';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
 import KeyValue from './KeyValue';
 import { list, node, type Grammar, type Replacement } from './Node';
-import Sym from './Sym';
+import { Sym } from './Sym';
 import Token from './Token';
 import type Type from './Type';
 import type TypeSet from './TypeSet';

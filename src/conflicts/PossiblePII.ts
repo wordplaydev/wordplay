@@ -1,7 +1,7 @@
 import type LocaleText from '@locale/LocaleText';
 import type Context from '@nodes/Context';
 import type { LanguageTagged } from '@nodes/LanguageTagged';
-import Sym from '@nodes/Sym';
+import { Sym } from '@nodes/Sym';
 import Token from '@nodes/Token';
 import type Locales from '../locale/Locales';
 import type { PII } from '../pii/getPII';

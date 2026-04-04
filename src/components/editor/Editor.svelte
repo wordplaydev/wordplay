@@ -29,7 +29,7 @@
     import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
     import Node, { type FieldPosition, isFieldPosition } from '@nodes/Node';
     import Source from '@nodes/Source';
-    import Sym from '@nodes/Sym';
+    import { Sym } from '@nodes/Sym';
     import Token from '@nodes/Token';
     import TypePlaceholder from '@nodes/TypePlaceholder';
     import type Evaluator from '@runtime/Evaluator';

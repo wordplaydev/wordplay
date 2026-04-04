@@ -15,7 +15,7 @@ import MapLiteral from './MapLiteral';
 import { any, node, none, type Grammar, type Replacement } from './Node';
 import SetCloseToken from './SetCloseToken';
 import SetOpenToken from './SetOpenToken';
-import Sym from './Sym';
+import { Sym } from './Sym';
 import type Token from './Token';
 import Type from './Type';
 import TypePlaceholder from './TypePlaceholder';

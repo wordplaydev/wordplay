@@ -1,6 +1,6 @@
 import type LocaleText from '@locale/LocaleText';
 import NumberType from '@nodes/NumberType';
-import Sym from '@nodes/Sym';
+import { Sym } from '@nodes/Sym';
 import Token from '@nodes/Token';
 import Unit from '@nodes/Unit';
 import BoolValue from '@values/BoolValue';

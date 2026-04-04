@@ -3,7 +3,7 @@ import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { MACHINE_TRANSLATED_SYMBOL } from '@parser/Symbols';
 import type { FontWeight } from '../basis/Fonts';
-import Purpose from '../concepts/Purpose';
+import { Purpose } from '../concepts/Purpose';
 import type Locales from '../locale/Locales';
 import type { TemplateInput } from '../locale/Locales';
 import Characters from '../lore/BasisCharacters';
@@ -16,7 +16,7 @@ import Content from './Content';
 import Example from './Example';
 import Node, { list, node, type Grammar, type Replacement } from './Node';
 import Paragraph, { type Segment } from './Paragraph';
-import Sym from './Sym';
+import { Sym } from './Sym';
 import Token from './Token';
 import Words from './Words';
 

@@ -1,4 +1,4 @@
-import Purpose from '@concepts/Purpose';
+import { Purpose } from '@concepts/Purpose';
 import type Context from './Context';
 import type Definition from './Definition';
 import type Node from './Node';

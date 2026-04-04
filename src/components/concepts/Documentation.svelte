@@ -19,7 +19,7 @@
     import type HowTo from '@concepts/HowTo';
     import { HowToCategories, type HowToCategory } from '@concepts/HowTo';
     import NodeConcept from '@concepts/NodeConcept';
-    import Purpose from '@concepts/Purpose';
+    import { Purpose } from '@concepts/Purpose';
     import StreamConcept from '@concepts/StreamConcept';
     import StructureConcept from '@concepts/StructureConcept';
     import type Gallery from '@db/galleries/Gallery';
@@ -93,6 +93,21 @@
     let { project, standalone, collapse = false }: Props = $props();
 
     let view: HTMLElement | undefined = $state();
+
+    const contentPurposes = [
+        Purpose.Text,
+        Purpose.Numbers,
+        Purpose.Truth,
+        Purpose.Lists,
+        Purpose.Maps,
+        Purpose.Tables,
+    ] as const;
+
+    type ContentPurpose = (typeof contentPurposes)[number];
+
+    function isContentPurpose(p: Purpose): p is ContentPurpose {
+        return (contentPurposes as readonly Purpose[]).includes(p);
+    }
 
     /**
      * The palette is hybrid documentation/drag and drop palette, organized by types.
@@ -588,8 +603,8 @@
                         sub
                     />
                     <ConceptGroupView concepts={controls} {collapse} {row} />
-                {:else if [Purpose.Text, Purpose.Numbers, Purpose.Truth, Purpose.Lists, Purpose.Maps, Purpose.Tables].includes(purpose)}
-                    <!-- We filter out the literals because the corresponding node concepts have all of the documentation. -->
+                {:else if isContentPurpose(purpose)}
+                    <!-- purpose is now narrowed to ContentPurpose -->
                     {@const primary = index
                         .getPrimaryConceptsWithPurpose(purpose)
                         .filter(

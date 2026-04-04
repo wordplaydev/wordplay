@@ -13,7 +13,7 @@ import { node, optional, type Grammar, type Replacement } from './Node';
 import SetCloseToken from './SetCloseToken';
 import SetLiteral from './SetLiteral';
 import SetOpenToken from './SetOpenToken';
-import Sym from './Sym';
+import { Sym } from './Sym';
 import type Token from './Token';
 import Type from './Type';
 import type TypeSet from './TypeSet';

@@ -1,5 +1,5 @@
 import type LocaleText from '@locale/LocaleText';
-import Sym from '@nodes/Sym';
+import { Sym } from '@nodes/Sym';
 import Token from '@nodes/Token';
 import type { BasisTypeName } from '../basis/BasisConstants';
 import type FormattedLiteral from '../nodes/FormattedLiteral';

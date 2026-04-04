@@ -1,4 +1,4 @@
-import Purpose from '@concepts/Purpose';
+import { Purpose } from '@concepts/Purpose';
 import type Conflict from '@conflicts/Conflict';
 import IncompatibleInput from '@conflicts/IncompatibleInput';
 import MissingInput from '@conflicts/MissingInput';
@@ -59,7 +59,7 @@ import StreamType from './StreamType';
 import StructureDefinition from './StructureDefinition';
 import StructureDefinitionType from './StructureDefinitionType';
 import StructureType from './StructureType';
-import Sym from './Sym';
+import { Sym } from './Sym';
 import type Token from './Token';
 import type Type from './Type';
 import TypeInputs from './TypeInputs';

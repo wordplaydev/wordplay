@@ -7,11 +7,11 @@ import type Node from '@nodes/Node';
 import StructureDefinition from '@nodes/StructureDefinition';
 import { PLACEHOLDER_SYMBOL } from '@parser/Symbols';
 import type Locales from '../locale/Locales';
-import type Emotion from '../lore/Emotion';
+import type { Emotion } from '../lore/Emotion';
 import type Markup from '../nodes/Markup';
 import type { CharacterName } from '../tutorial/Tutorial';
 import Concept from './Concept';
-import type Purpose from './Purpose';
+import type { Purpose } from './Purpose';
 
 export default class NodeConcept extends Concept {
     readonly template: Node;

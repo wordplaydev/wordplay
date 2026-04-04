@@ -10,7 +10,7 @@ import NoneType from '../nodes/NoneType';
 import NumberType from '../nodes/NumberType';
 import SetType from '../nodes/SetType';
 import StreamType from '../nodes/StreamType';
-import Sym from '../nodes/Sym';
+import { Sym } from '../nodes/Sym';
 import TableType from '../nodes/TableType';
 import TextType from '../nodes/TextType';
 import type Type from '../nodes/Type';

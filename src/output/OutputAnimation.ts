@@ -12,13 +12,14 @@ import Sequence from './Sequence';
 import Stage from './Stage';
 import Transition from './Transition';
 
-export enum AnimationState {
-    Entering = 'entering',
-    Rest = 'rest',
-    Moving = 'moving',
-    Exiting = 'exiting',
-    Done = 'done',
-}
+export const AnimationState = {
+    Entering: 'entering',
+    Rest: 'rest',
+    Moving: 'moving',
+    Exiting: 'exiting',
+    Done: 'done',
+} as const;
+export type AnimationState = (typeof AnimationState)[keyof typeof AnimationState];
 
 export type TransitionSequence = [Transition, Transition, ...Transition[]];
 

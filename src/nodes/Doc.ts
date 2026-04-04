@@ -6,7 +6,7 @@ import type Locales from '@locale/Locales';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { DOCS_SYMBOL } from '@parser/Symbols';
-import Purpose from '../concepts/Purpose';
+import { Purpose } from '../concepts/Purpose';
 import Characters from '../lore/BasisCharacters';
 import type Context from './Context';
 import Language from './Language';
@@ -15,7 +15,7 @@ import Markup from './Markup';
 import type { Grammar, Replacement } from './Node';
 import { node, optional } from './Node';
 import Paragraph from './Paragraph';
-import Sym from './Sym';
+import { Sym } from './Sym';
 import Token from './Token';
 import Words from './Words';
 

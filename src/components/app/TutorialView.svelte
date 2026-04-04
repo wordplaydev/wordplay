@@ -25,7 +25,7 @@
     import { moderatedFlags } from '../../db/projects/Moderation';
     import { PersistenceType } from '../../db/projects/ProjectHistory.svelte';
     import BasisCharacters from '../../lore/BasisCharacters';
-    import Emotion from '../../lore/Emotion';
+    import { Emotion } from '../../lore/Emotion';
     import ConceptLink from '../../nodes/ConceptLink';
     import type Markup from '../../nodes/Markup';
     import Source from '../../nodes/Source';

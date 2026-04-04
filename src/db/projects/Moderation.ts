@@ -7,12 +7,13 @@ import getClaim from '../creators/getClaim';
 import type Project from './Project';
 
 /** Ways the platform can respond to a content moderation flag */
-export enum Remedy {
+export const Remedy = {
     /** Don't allow the content to be seen */
-    Block = 'block',
+    Block: 'block',
     /** Warn about the nature of the content */
-    Warn = 'warn',
-}
+    Warn: 'warn',
+} as const;
+export type Remedy = (typeof Remedy)[keyof typeof Remedy];
 
 /**
  * These are the internal names that define categories of content moderation violations.

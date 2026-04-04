@@ -7,13 +7,13 @@ import type Locale from '@locale/Locale';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import type { RegionCode } from '@locale/Regions';
-import Purpose from '../concepts/Purpose';
+import { Purpose } from '../concepts/Purpose';
 import Characters from '../lore/BasisCharacters';
 import LanguageToken from './LanguageToken';
 import NameToken from './NameToken';
 import type { Grammar, Replacement } from './Node';
 import Node, { node, optional } from './Node';
-import Sym from './Sym';
+import { Sym } from './Sym';
 import type Token from './Token';
 
 export default class Language extends Node {

@@ -3,7 +3,7 @@ import type Conflict from '@conflicts/Conflict';
 import DefaultLocale from '@locale/DefaultLocale';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
-import Purpose from '../concepts/Purpose';
+import { Purpose } from '../concepts/Purpose';
 import Characters from '../lore/BasisCharacters';
 import { LINK_SYMBOL } from '../parser/Symbols';
 import { getCodepointFromString } from '../unicode/getCodepoint';

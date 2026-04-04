@@ -7,7 +7,7 @@ import { getFirstText } from '../locale/LocaleText';
 import { GROUP_SYMBOL, TYPE_SYMBOL } from '../parser/Symbols';
 import type Evaluator from '../runtime/Evaluator';
 import type Value from '../values/Value';
-import type Arrangement from './Arrangement';
+import Arrangement from './Arrangement';
 import type Color from './Color';
 import Matter, { toMatter } from './Matter';
 import Output, { DefaultStyle } from './Output';

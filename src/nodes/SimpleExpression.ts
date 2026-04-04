@@ -12,7 +12,7 @@ export default abstract class SimpleExpression extends Expression {
         return this.getStartExplanations(locales, context, evaluator);
     }
 
-    getKind() {
+    getKind(): ExpressionKind {
         return ExpressionKind.Simple;
     }
 }

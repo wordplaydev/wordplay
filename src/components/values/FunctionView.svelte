@@ -1,6 +1,6 @@
 <script lang="ts">
     import { locales } from '@db/Database';
-    import Sym from '@nodes/Sym';
+    import { Sym } from '@nodes/Sym';
     import { FUNCTION_SYMBOL } from '@parser/Symbols';
     import type FunctionValue from '@values/FunctionValue';
     import SymbolView from './SymbolView.svelte';

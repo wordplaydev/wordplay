@@ -2,7 +2,7 @@ import type { InsertContext, ReplaceContext } from '@edit/revision/EditContext';
 import type LanguageCode from '@locale/LanguageCode';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
-import Purpose from '../concepts/Purpose';
+import { Purpose } from '../concepts/Purpose';
 import type Locales from '../locale/Locales';
 import Characters from '../lore/BasisCharacters';
 import Doc from './Doc';

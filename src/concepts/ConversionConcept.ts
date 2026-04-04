@@ -5,11 +5,11 @@ import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
 import type Node from '@nodes/Node';
 import type Locales from '../locale/Locales';
 import Characters from '../lore/BasisCharacters';
-import Emotion from '../lore/Emotion';
+import { Emotion } from '../lore/Emotion';
 import type Markup from '../nodes/Markup';
 import type { CharacterName } from '../tutorial/Tutorial';
 import Concept from './Concept';
-import Purpose from './Purpose';
+import { Purpose } from './Purpose';
 import type StructureConcept from './StructureConcept';
 
 export default class ConversionConcept extends Concept {

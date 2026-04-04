@@ -1,5 +1,5 @@
 import Doc from '../nodes/Doc';
-import Sym from '../nodes/Sym';
+import { Sym } from '../nodes/Sym';
 import type Tokens from './Tokens';
 import parseLanguage from './parseLanguage';
 import parseMarkup from './parseMarkup';

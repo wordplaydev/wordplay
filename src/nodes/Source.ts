@@ -14,7 +14,7 @@ import type Evaluator from '@runtime/Evaluator';
 import type Step from '@runtime/Step';
 import NoneValue from '@values/NoneValue';
 import type Value from '@values/Value';
-import Purpose from '../concepts/Purpose';
+import { Purpose } from '../concepts/Purpose';
 import Characters from '../lore/BasisCharacters';
 import Tokens from '../parser/Tokens';
 import UnicodeString from '../unicode/UnicodeString';

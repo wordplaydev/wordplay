@@ -3,7 +3,7 @@ import type Node from '@nodes/Node';
 import Reference from '@nodes/Reference';
 import { COMMA_SYMBOL } from '@parser/Symbols';
 import type Locales from '../locale/Locales';
-import Emotion from '../lore/Emotion';
+import { Emotion } from '../lore/Emotion';
 import Evaluate from '../nodes/Evaluate';
 import ExpressionPlaceholder from '../nodes/ExpressionPlaceholder';
 import type Markup from '../nodes/Markup';
@@ -12,7 +12,7 @@ import type { CharacterName } from '../tutorial/Tutorial';
 import BindConcept from './BindConcept';
 import Concept from './Concept';
 import type ConceptIndex from './ConceptIndex';
-import Purpose from './Purpose';
+import { Purpose } from './Purpose';
 import StructureConcept from './StructureConcept';
 
 export default class StreamConcept extends Concept {

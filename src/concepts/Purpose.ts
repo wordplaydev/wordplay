@@ -1,38 +1,41 @@
-enum Purpose {
+const Purpose = {
     /** Project-level concepts  */
-    Project = 'Project',
+    Project: 'Project',
     /** APIs related to program output */
-    Outputs = 'Outputs',
+    Outputs: 'Outputs',
     /** APIs related to program input */
-    Inputs = 'Inputs',
+    Inputs: 'Inputs',
     /** Language concepts related to decisions */
-    Decisions = 'Decisions',
+    Decisions: 'Decisions',
     /** Language concepts related to naming things for later (binds, blocks) */
-    Definitions = 'Definitions',
+    Definitions: 'Definitions',
     /** Language concepts related to text logic */
-    Text = 'Text',
+    Text: 'Text',
     /** Language concepts related to number logic */
-    Numbers = 'Numbers',
+    Numbers: 'Numbers',
     /** Language concepts related to boolean logic */
-    Truth = 'Truth',
+    Truth: 'Truth',
     /** Language concepts related to list logic */
-    Lists = 'Lists',
+    Lists: 'Lists',
     /** Language concepts related to sets and maps */
-    Maps = 'Maps',
+    Maps: 'Maps',
     /** Language concepts related to tables */
-    Tables = 'Tables',
+    Tables: 'Tables',
     /** Language concepts related to documentation */
-    Documentation = 'Documentation',
+    Documentation: 'Documentation',
     /** Language concepts related to types and conversion */
-    Types = 'Types',
+    Types: 'Types',
     /** Language concepts related to source code */
-    Advanced = 'Advanced',
+    Advanced: 'Advanced',
     /** Language concepts that are hidden because they aren't helpful to show */
-    Hidden = 'Hidden',
+    Hidden: 'Hidden',
     /** Tutorials and "how to" guides. Placed at the end since it doesn't appear in the UI. */
-    How = 'How',
+    How: 'How',
     /** How-tos written by Wordplay users */
-    GalleryHow = "GalleryHow",
-}
+    GalleryHow: 'GalleryHow',
+} as const;
 
+export type Purpose = (typeof Purpose)[keyof typeof Purpose];
+
+export { Purpose };
 export default Purpose;

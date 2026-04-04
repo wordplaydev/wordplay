@@ -3,7 +3,7 @@ import type { NodeDescriptor } from '@locale/NodeTexts';
 import Evaluation, { type EvaluationNode } from '@runtime/Evaluation';
 import type Evaluator from '@runtime/Evaluator';
 import ExceptionValue from '@values/ExceptionValue';
-import Purpose from '../concepts/Purpose';
+import { Purpose } from '../concepts/Purpose';
 import Characters from '../lore/BasisCharacters';
 import { TABLE_CLOSE_SYMBOL, TABLE_OPEN_SYMBOL } from '../parser/Symbols';
 import StructureValue from '../values/StructureValue';
@@ -13,7 +13,7 @@ import Expression from './Expression';
 import Input from './Input';
 import type { Grammar, Replacement } from './Node';
 import Node, { any, list, node } from './Node';
-import Sym from './Sym';
+import { Sym } from './Sym';
 import type TableType from './TableType';
 import Token from './Token';
 

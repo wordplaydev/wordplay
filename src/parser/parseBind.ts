@@ -1,7 +1,7 @@
 import Bind from '../nodes/Bind';
 import Name from '../nodes/Name';
 import Names from '../nodes/Names';
-import Sym from '../nodes/Sym';
+import { Sym } from '../nodes/Sym';
 import { PairedCloseDelimiters } from './Tokenizer';
 import type Tokens from './Tokens';
 import parseExpression, { parseDocs } from './parseExpression';

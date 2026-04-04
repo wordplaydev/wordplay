@@ -2,7 +2,7 @@ import { howToToString, parseHowTo } from '@concepts/HowTo';
 import type LanguageCode from '@locale/LanguageCode';
 import { isMachineTranslated } from '@locale/LocaleText';
 import type { RegionCode } from '@locale/Regions';
-import Sym from '@nodes/Sym';
+import { Sym } from '@nodes/Sym';
 import Token from '@nodes/Token';
 import fs from 'fs';
 import path from 'path';

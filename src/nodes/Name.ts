@@ -8,8 +8,8 @@ import ReservedSymbols from '@parser/ReservedSymbols';
 import { COMMA_SYMBOL } from '@parser/Symbols';
 import { OperatorRegEx } from '@parser/Tokenizer';
 import { EmojiRegex } from '@unicode/emoji';
-import Purpose from '../concepts/Purpose';
-import Emotion from '../lore/Emotion';
+import { Purpose } from '../concepts/Purpose';
+import { Emotion } from '../lore/Emotion';
 import type Context from './Context';
 import type Definition from './Definition';
 import Evaluate from './Evaluate';
@@ -18,7 +18,7 @@ import { LanguageTagged } from './LanguageTagged';
 import NameToken from './NameToken';
 import type { Grammar, Replacement } from './Node';
 import Node, { node, optional } from './Node';
-import Sym from './Sym';
+import { Sym } from './Sym';
 import Token from './Token';
 
 export default class Name extends LanguageTagged {

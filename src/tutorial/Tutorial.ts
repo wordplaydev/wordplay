@@ -5,7 +5,7 @@ import type OutputTexts from '@locale/OutputTexts';
 import type BasisTexts from '../locale/BasisTexts';
 import type LanguageCode from '../locale/LanguageCode';
 import type { RegionCode } from '../locale/Regions';
-import type Emotion from '../lore/Emotion';
+import type { Emotion } from '../lore/Emotion';
 
 export type Tutorial = {
     /** This is here so that when we generate a JSON schema for a tutorial, the VS Code schema property is allowed **/

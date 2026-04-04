@@ -1,5 +1,5 @@
 <script lang="ts">
-    import Sym from '@nodes/Sym';
+    import { Sym } from '@nodes/Sym';
     import {
         BIND_SYMBOL,
         SET_CLOSE_SYMBOL,

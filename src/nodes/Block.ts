@@ -12,7 +12,7 @@ import Start from '@runtime/Start';
 import type Step from '@runtime/Step';
 import NoneValue from '@values/NoneValue';
 import type Value from '@values/Value';
-import Purpose from '../concepts/Purpose';
+import { Purpose } from '../concepts/Purpose';
 import type Locales from '../locale/Locales';
 import Characters from '../lore/BasisCharacters';
 import Bind from './Bind';
@@ -31,17 +31,18 @@ import type Node from './Node';
 import { any, list, node, none, type Grammar, type Replacement } from './Node';
 import Reference from './Reference';
 import StructureDefinition from './StructureDefinition';
-import Sym from './Sym';
+import { Sym } from './Sym';
 import type Token from './Token';
 import type Type from './Type';
 import type TypeSet from './TypeSet';
 
-export enum BlockKind {
-    Root = 'root',
-    Structure = 'creator',
-    Function = 'function',
-    Block = 'block',
-}
+export const BlockKind = {
+    Root: 'root',
+    Structure: 'creator',
+    Function: 'function',
+    Block: 'block',
+} as const;
+export type BlockKind = (typeof BlockKind)[keyof typeof BlockKind];
 
 export default class Block extends Expression {
     readonly docs: Docs;

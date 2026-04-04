@@ -1,7 +1,7 @@
 import type { InsertContext, ReplaceContext } from '@edit/revision/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
-import Purpose from '../concepts/Purpose';
+import { Purpose } from '../concepts/Purpose';
 import type { TemplateInput } from '../locale/Locales';
 import Characters from '../lore/BasisCharacters';
 import {
@@ -11,7 +11,7 @@ import {
 } from '../parser/Symbols';
 import Content from './Content';
 import { node, type Grammar, type Replacement } from './Node';
-import Sym from './Sym';
+import { Sym } from './Sym';
 import Token from './Token';
 
 export default class WebLink extends Content {

@@ -14,7 +14,7 @@ import Node, { Empty, FieldKind, ListOf, type Field } from '@nodes/Node';
 import NumberType from '@nodes/NumberType';
 import Program from '@nodes/Program';
 import Source from '@nodes/Source';
-import Sym from '@nodes/Sym';
+import { Sym } from '@nodes/Sym';
 import Token from '@nodes/Token';
 import Unit from '@nodes/Unit';
 import Spaces from '@parser/Spaces';

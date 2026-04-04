@@ -1,5 +1,5 @@
 <script lang="ts">
-    import Sym from '@nodes/Sym';
+    import { Sym } from '@nodes/Sym';
     import type TextValue from '@values/TextValue';
     import UnicodeString from '../../unicode/UnicodeString';
     import Expandable from './Expandable.svelte';

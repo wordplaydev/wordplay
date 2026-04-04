@@ -1,5 +1,5 @@
+import type { TileKind } from '@components/project/TileKind';
 import type { SupportedFace } from '../basis/Fonts';
-import type { TileKind } from '../components/project/Tile';
 import type { DocText, Template } from './LocaleText';
 
 import type DocumentationText from '@components/concepts/DocumentationText';

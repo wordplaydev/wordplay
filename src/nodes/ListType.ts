@@ -10,7 +10,7 @@ import BasisType from './BasisType';
 import type Context from './Context';
 import ListLiteral from './ListLiteral';
 import { node, optional, type Grammar, type Replacement } from './Node';
-import Sym from './Sym';
+import { Sym } from './Sym';
 import Token from './Token';
 import Type from './Type';
 import type TypeSet from './TypeSet';

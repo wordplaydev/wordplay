@@ -1,5 +1,5 @@
 <script lang="ts">
-    import Sym from '@nodes/Sym';
+    import { Sym } from '@nodes/Sym';
     import { locales } from '../../db/Database';
     import { STREAM_SYMBOL } from '../../parser/Symbols';
     import type StreamDefinitionValue from '../../values/StreamDefinitionValue';

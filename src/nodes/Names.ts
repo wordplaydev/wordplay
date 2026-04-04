@@ -3,16 +3,16 @@ import type Locale from '@locale/Locale';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { COMMA_SYMBOL } from '@parser/Symbols';
-import Purpose from '../concepts/Purpose';
+import { Purpose } from '../concepts/Purpose';
 import type Locales from '../locale/Locales';
-import Emotion from '../lore/Emotion';
+import { Emotion } from '../lore/Emotion';
 import Language from './Language';
 import { getPreferred } from './LanguageTagged';
 import Name from './Name';
 import NameToken from './NameToken';
 import type { Grammar, Replacement } from './Node';
 import Node, { list, node } from './Node';
-import Sym from './Sym';
+import { Sym } from './Sym';
 import Token from './Token';
 
 export default class Names extends Node {

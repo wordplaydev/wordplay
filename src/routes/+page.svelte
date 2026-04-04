@@ -24,7 +24,7 @@
     import { getLocaleLanguageName } from '../locale/LocaleText';
     import { SupportedLocales } from '../locale/SupportedLocales';
     import Characters from '../lore/BasisCharacters';
-    import Emotion from '../lore/Emotion';
+    import { Emotion } from '../lore/Emotion';
     import Beta from './Beta.svelte';
     import Iconified from './Iconified.svelte';
     import date from './updates/date.json';

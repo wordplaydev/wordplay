@@ -6,7 +6,7 @@ import type Evaluator from '@runtime/Evaluator';
 import StartFinish from '@runtime/StartFinish';
 import type Step from '@runtime/Step';
 import type Value from '@values/Value';
-import Purpose from '../concepts/Purpose';
+import { Purpose } from '../concepts/Purpose';
 import type Locales from '../locale/Locales';
 import Characters from '../lore/BasisCharacters';
 import StreamDefinitionValue from '../values/StreamDefinitionValue';
@@ -33,7 +33,7 @@ import {
 } from './Node';
 import Reference from './Reference';
 import StreamDefinitionType from './StreamDefinitionType';
-import Sym from './Sym';
+import { Sym } from './Sym';
 import Token from './Token';
 import Type from './Type';
 import TypePlaceholder from './TypePlaceholder';

@@ -1,7 +1,7 @@
 <script lang="ts">
     import Caret from '@edit/caret/Caret';
     import Reference from '@nodes/Reference';
-    import Sym from '@nodes/Sym';
+    import { Sym } from '@nodes/Sym';
     import Token from '@nodes/Token';
     import { locales } from '../../../db/Database';
     import { withColorEmoji } from '../../../unicode/emoji';

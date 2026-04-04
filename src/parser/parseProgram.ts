@@ -1,7 +1,7 @@
 import { BlockKind } from '@nodes/Block';
 import Borrow from '@nodes/Borrow';
 import Program from '@nodes/Program';
-import Sym from '@nodes/Sym';
+import { Sym } from '@nodes/Sym';
 import type Tokens from './Tokens';
 import { parseBlock, parseDocs, parseReference } from './parseExpression';
 import { toTokens } from './toTokens';

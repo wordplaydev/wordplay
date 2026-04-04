@@ -1,5 +1,5 @@
 <script lang="ts">
-    import Sym from '@nodes/Sym';
+    import { Sym } from '@nodes/Sym';
     import { TYPE_SYMBOL } from '@parser/Symbols';
     import type StructureDefinitionValue from '@values/StructureDefinitionValue';
     import { locales } from '../../db/Database';

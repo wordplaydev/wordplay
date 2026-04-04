@@ -11,7 +11,7 @@ import type {
 import { withoutAnnotations } from '@locale/withoutAnnotations';
 import type Spaces from '@parser/Spaces';
 import type { BasisTypeName } from '../basis/BasisConstants';
-import type Purpose from '../concepts/Purpose';
+import type { Purpose } from '../concepts/Purpose';
 import type Locales from '../locale/Locales';
 import type { LocaleTextAccessor, TemplateInput } from '../locale/Locales';
 import type BasisCharacter from '../lore/BasisCharacter';
@@ -19,7 +19,7 @@ import type Context from './Context';
 import type Definition from './Definition';
 import type Markup from './Markup';
 import type Root from './Root';
-import type Sym from './Sym';
+import type { Sym } from './Sym';
 import type Token from './Token';
 import type Type from './Type';
 

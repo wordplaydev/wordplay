@@ -1,4 +1,4 @@
-import Purpose from '@concepts/Purpose';
+import { Purpose } from '@concepts/Purpose';
 import type Conflict from '@conflicts/Conflict';
 import type { InsertContext } from '@edit/revision/EditContext';
 import Refer from '@edit/revision/Refer';
@@ -15,7 +15,7 @@ import Expression from './Expression';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
 import Node, { node, type Grammar, type Replacement } from './Node';
 import NoExpressionType from './NoExpressionType';
-import Sym from './Sym';
+import { Sym } from './Sym';
 import Token from './Token';
 import type Type from './Type';
 import type TypeSet from './TypeSet';

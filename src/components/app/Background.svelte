@@ -1,7 +1,7 @@
 <script lang="ts">
     import { onMount } from 'svelte';
     import { animationFactor } from '../../db/Database';
-    import Emotion from '../../lore/Emotion';
+    import { Emotion } from '../../lore/Emotion';
     import { withColorEmoji } from '../../unicode/emoji';
     import UnicodeString from '../../unicode/UnicodeString';
     import Eyes from '../lore/Eyes.svelte';

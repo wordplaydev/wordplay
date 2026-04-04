@@ -2,20 +2,14 @@ import type Project from '../../db/projects/Project';
 import type Locales from '../../locale/Locales';
 import type Bounds from './Bounds';
 import Layout from './Layout';
+import { TileKind } from './TileKind';
 import TileKinds from './TileKinds';
 
-export enum TileMode {
-    Expanded = 'expanded',
-    Collapsed = 'collapsed',
-}
-
-export enum TileKind {
-    Output = 'output',
-    Documentation = 'docs',
-    Source = 'source',
-    Palette = 'palette',
-    Collaborate = 'collaborate',
-}
+export const TileMode = {
+    Expanded: 'expanded',
+    Collapsed: 'collapsed',
+} as const;
+export type TileMode = (typeof TileMode)[keyof typeof TileMode];
 
 export default class Tile {
     /** An internal name for lookups */

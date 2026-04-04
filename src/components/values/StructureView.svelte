@@ -1,6 +1,6 @@
 <script lang="ts">
     import Names from '@nodes/Names';
-    import Sym from '@nodes/Sym';
+    import { Sym } from '@nodes/Sym';
     import {
         BIND_SYMBOL,
         EVAL_CLOSE_SYMBOL,

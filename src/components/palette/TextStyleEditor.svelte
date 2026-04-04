@@ -11,7 +11,7 @@
     import Example from '@nodes/Example';
     import type Expression from '@nodes/Expression';
     import FormattedLiteral from '@nodes/FormattedLiteral';
-    import Sym from '@nodes/Sym';
+    import { Sym } from '@nodes/Sym';
     import TextLiteral from '@nodes/TextLiteral';
     import Token from '@nodes/Token';
     import Translation from '@nodes/Translation';

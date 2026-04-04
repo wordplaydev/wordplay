@@ -15,7 +15,7 @@ import { list, node, type Grammar, type Replacement } from './Node';
 import type Reference from './Reference';
 import StructureDefinition from './StructureDefinition';
 import StructureType from './StructureType';
-import Sym from './Sym';
+import { Sym } from './Sym';
 import TableLiteral from './TableLiteral';
 import Token from './Token';
 import type Type from './Type';

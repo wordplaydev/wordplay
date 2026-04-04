@@ -4,11 +4,11 @@ import type Node from '@nodes/Node';
 import Reference from '@nodes/Reference';
 import { COMMA_SYMBOL } from '@parser/Symbols';
 import type Locales from '../locale/Locales';
-import Emotion from '../lore/Emotion';
+import { Emotion } from '../lore/Emotion';
 import type Markup from '../nodes/Markup';
 import type { CharacterName } from '../tutorial/Tutorial';
 import Concept from './Concept';
-import type Purpose from './Purpose';
+import type { Purpose } from './Purpose';
 
 export default class BindConcept extends Concept {
     /** The type this concept represents. */

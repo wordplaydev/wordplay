@@ -2,7 +2,7 @@ import type Conflict from '@conflicts/Conflict';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import type { FontWeight } from '../basis/Fonts';
-import Purpose from '../concepts/Purpose';
+import { Purpose } from '../concepts/Purpose';
 import type Locales from '../locale/Locales';
 import type { TemplateInput } from '../locale/Locales';
 import NodeRef from '../locale/NodeRef';
@@ -24,7 +24,7 @@ import Node, {
     type Replacement,
 } from './Node';
 import type { NodeSegment, Segment } from './Paragraph';
-import Sym from './Sym';
+import { Sym } from './Sym';
 import { unescaped } from './TextLiteral';
 import Token from './Token';
 import WebLink from './WebLink';

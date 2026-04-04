@@ -1,7 +1,7 @@
 import ConceptRef from '@locale/ConceptRef';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
-import Purpose from '../concepts/Purpose';
+import { Purpose } from '../concepts/Purpose';
 import type Locales from '../locale/Locales';
 import type { TemplateInput } from '../locale/Locales';
 import NodeRef from '../locale/NodeRef';
@@ -10,7 +10,7 @@ import Characters from '../lore/BasisCharacters';
 import Content from './Content';
 import type Node from './Node';
 import { node, type Grammar, type Replacement } from './Node';
-import Sym from './Sym';
+import { Sym } from './Sym';
 import Token from './Token';
 
 /**

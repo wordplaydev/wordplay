@@ -5,7 +5,7 @@ import Markup from '../nodes/Markup';
 import Mention from '../nodes/Mention';
 import type { Segment } from '../nodes/Paragraph';
 import Paragraph from '../nodes/Paragraph';
-import Sym from '../nodes/Sym';
+import { Sym } from '../nodes/Sym';
 import WebLink from '../nodes/WebLink';
 import Words from '../nodes/Words';
 import parseProgram from './parseProgram';
@@ -69,18 +69,24 @@ function parseConceptLink(tokens: Tokens): ConceptLink {
     return new ConceptLink(concept);
 }
 
-const Formats = [Sym.Italic, Sym.Underline, Sym.Light, Sym.Bold, Sym.Extra];
+const Formats = [
+    Sym.Italic,
+    Sym.Underline,
+    Sym.Light,
+    Sym.Bold,
+    Sym.Extra,
+] as const;
+type FormatSym = (typeof Formats)[number];
 
 function parseWords(tokens: Tokens): Words {
     // Read an optional format
     const open = tokens.nextIsOneOf(...Formats) ? tokens.read() : undefined;
 
     // Figure out what token type it is.
-    let format: Sym | undefined = undefined;
+    let format: FormatSym | undefined = undefined;
     if (open !== undefined) {
-        const types = new Set(Formats);
-        const intersection = open.types.filter((type) => types.has(type));
-        if (intersection.length > 0) format = intersection[0];
+        const hit = Formats.find((t) => open.types.includes(t));
+        if (hit) format = hit;
     }
 
     // Read segments until reaching the matching closing format or the end of the paragraph or the end of the doc or there are no more tokens.

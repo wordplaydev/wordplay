@@ -10,11 +10,12 @@ import Node from './Node';
 import type Type from './Type';
 import type TypeSet from './TypeSet';
 
-export enum ExpressionKind {
-    Simple = 'simple',
-    Evaluate = 'block',
-    Definition = 'definition',
-}
+export const ExpressionKind = {
+    Simple: 'simple',
+    Evaluate: 'block',
+    Definition: 'definition',
+} as const;
+export type ExpressionKind = (typeof ExpressionKind)[keyof typeof ExpressionKind];
 
 export default abstract class Expression extends Node {
     constructor() {

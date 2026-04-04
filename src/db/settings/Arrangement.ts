@@ -1,13 +1,15 @@
-enum Arrangement {
-    Responsive = 'responsive',
-    Horizontal = 'horizontal',
-    Vertical = 'vertical',
-    Split = 'split',
-    Single = 'single',
-    Free = 'free',
-}
+const Arrangement = {
+    Responsive: 'responsive',
+    Horizontal: 'horizontal',
+    Vertical: 'vertical',
+    Split: 'split',
+    Single: 'single',
+    Free: 'free',
+} as const;
 
-export function isResizeable(arrangement: Arrangement): boolean {
+export type ArrangementType = (typeof Arrangement)[keyof typeof Arrangement];
+
+export function isResizeable(arrangement: ArrangementType): boolean {
     return (
         arrangement === Arrangement.Free ||
         arrangement === Arrangement.Vertical ||
@@ -15,4 +17,5 @@ export function isResizeable(arrangement: Arrangement): boolean {
     );
 }
 
+export { Arrangement };
 export default Arrangement;

@@ -7,10 +7,10 @@ import Words from '@nodes/Words';
 import { toMarkup } from '@parser/toMarkup';
 import type CharacterSymbols from '../lore/BasisCharacter';
 import Characters from '../lore/BasisCharacters';
-import Emotion from '../lore/Emotion';
+import { Emotion } from '../lore/Emotion';
 import type { CharacterName } from '../tutorial/Tutorial';
 import Concept from './Concept';
-import Purpose from './Purpose';
+import { Purpose } from './Purpose';
 
 // modified from HowConcept.ts
 

@@ -1,4 +1,4 @@
-import Purpose from '@concepts/Purpose';
+import { Purpose } from '@concepts/Purpose';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { CONVERT_SYMBOL } from '@parser/Symbols';
@@ -6,7 +6,7 @@ import type { BasisTypeName } from '../basis/BasisConstants';
 import Characters from '../lore/BasisCharacters';
 import type Context from './Context';
 import { node, type Grammar, type Replacement } from './Node';
-import Sym from './Sym';
+import { Sym } from './Sym';
 import Token from './Token';
 import Type from './Type';
 import TypePlaceholder from './TypePlaceholder';

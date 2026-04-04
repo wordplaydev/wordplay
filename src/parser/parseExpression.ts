@@ -49,7 +49,7 @@ import IsLocale from '../nodes/IsLocale';
 import PropertyBind from '../nodes/PropertyBind';
 import Spread from '../nodes/Spread';
 import StructureDefinition from '../nodes/StructureDefinition';
-import Sym from '../nodes/Sym';
+import { Sym } from '../nodes/Sym';
 import This from '../nodes/This';
 import Translation, { type TranslationSegment } from '../nodes/Translation';
 import type Type from '../nodes/Type';

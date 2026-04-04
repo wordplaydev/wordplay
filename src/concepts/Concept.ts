@@ -3,10 +3,10 @@ import type Node from '@nodes/Node';
 import type StructureDefinition from '@nodes/StructureDefinition';
 import type Locales from '../locale/Locales';
 import type BasisCharacter from '../lore/BasisCharacter';
-import type Emotion from '../lore/Emotion';
+import type { Emotion } from '../lore/Emotion';
 import type Markup from '../nodes/Markup';
 import type { CharacterName } from '../tutorial/Tutorial';
-import type Purpose from './Purpose';
+import type { Purpose } from './Purpose';
 
 /**
  * Represents some part of the Wordplay language, API, or example ecosystem.

@@ -1,5 +1,5 @@
 <script lang="ts">
-    import Sym from '@nodes/Sym';
+    import { Sym } from '@nodes/Sym';
     import type BoolValue from '@values/BoolValue';
     import SymbolView from './SymbolView.svelte';
 

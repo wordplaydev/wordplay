@@ -36,7 +36,7 @@
     import type LocaleText from '@locale/LocaleText';
     import { type ModeText } from '@locale/UITexts';
     import ConceptLink, { CharacterName } from '@nodes/ConceptLink';
-    import Sym from '@nodes/Sym';
+    import { Sym } from '@nodes/Sym';
     import { RGBtoLCH } from '@output/ColorJS';
     import { toProgram } from '@parser/parseProgram';
     import {

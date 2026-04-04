@@ -1,4 +1,4 @@
-import Sym from '@nodes/Sym';
+import { Sym } from '@nodes/Sym';
 import Token from '@nodes/Token';
 import { withoutVariationSelectors } from '@unicode/emoji';
 import ReservedSymbols from './ReservedSymbols';

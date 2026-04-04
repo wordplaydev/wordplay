@@ -1,4 +1,4 @@
-import Purpose from '@concepts/Purpose';
+import { Purpose } from '@concepts/Purpose';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { NONE_SYMBOL } from '@parser/Symbols';
@@ -9,7 +9,7 @@ import Characters from '../lore/BasisCharacters';
 import Literal from './Literal';
 import { node, type Grammar, type Replacement } from './Node';
 import NoneType from './NoneType';
-import Sym from './Sym';
+import { Sym } from './Sym';
 import Token from './Token';
 import type Type from './Type';
 import type TypeSet from './TypeSet';

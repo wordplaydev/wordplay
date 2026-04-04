@@ -29,7 +29,7 @@ import Source from '@nodes/Source';
 import StreamDefinitionType from '@nodes/StreamDefinitionType';
 import StructureDefinitionType from '@nodes/StructureDefinitionType';
 import StructureType from '@nodes/StructureType';
-import Sym from '@nodes/Sym';
+import { Sym } from '@nodes/Sym';
 import TypePlaceholder from '@nodes/TypePlaceholder';
 import WebLink from '@nodes/WebLink';
 import Words from '@nodes/Words';

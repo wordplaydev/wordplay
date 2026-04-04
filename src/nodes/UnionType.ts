@@ -1,4 +1,4 @@
-import Purpose from '@concepts/Purpose';
+import { Purpose } from '@concepts/Purpose';
 import type { ReplaceContext } from '@edit/revision/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
@@ -15,7 +15,7 @@ import NeverType from './NeverType';
 import type Node from './Node';
 import { node, type Grammar, type Replacement } from './Node';
 import NoneType from './NoneType';
-import Sym from './Sym';
+import { Sym } from './Sym';
 import Token from './Token';
 import Type from './Type';
 import TypePlaceholder from './TypePlaceholder';

@@ -33,6 +33,7 @@ import {
     UNDO_SYMBOL,
 } from '@parser/Symbols';
 
+import { TileKind } from '@components/project/TileKind';
 import { Settings, type Database } from '@db/Database';
 import type Locales from '@locale/Locales';
 import type { LocaleTextAccessor } from '@locale/Locales';
@@ -44,8 +45,7 @@ import { TAB_SYMBOL } from '@parser/Spaces';
 import getPreferredSpaces from '@parser/getPreferredSpaces';
 import type Evaluator from '@runtime/Evaluator';
 import type Project from '../../../db/projects/Project';
-import Sym from '../../../nodes/Sym';
-import { TileKind } from '../../project/Tile';
+import { Sym } from '../../../nodes/Sym';
 import { moveVisualVertical } from '../caret/CaretView.svelte';
 import { copyNode, toClipboard } from './Clipboard';
 import interpret from './interpret';
@@ -131,19 +131,22 @@ export type Edit = Caret | Revision;
 export type Revision = [Source, Caret];
 export type ProjectRevision = [Project, Caret];
 
-export enum Visibility {
-    Visible = 'visible',
-    Touch = 'touch',
-    Invisible = 'invisible ',
-}
-export enum Category {
-    Cursor = 'cursor',
-    Insert = 'insert',
-    Modify = 'modify',
-    Evaluate = 'evaluate',
-    Help = 'help',
-    Fallback = 'fallback',
-}
+export const Visibility = {
+    Visible: 'visible',
+    Touch: 'touch',
+    Invisible: 'invisible ',
+} as const;
+export type Visibility = (typeof Visibility)[keyof typeof Visibility];
+
+export const Category = {
+    Cursor: 'cursor',
+    Insert: 'insert',
+    Modify: 'modify',
+    Evaluate: 'evaluate',
+    Help: 'help',
+    Fallback: 'fallback',
+} as const;
+export type Category = (typeof Category)[keyof typeof Category];
 
 export function toShortcut(
     command: {

@@ -184,6 +184,7 @@
         display: flex;
         flex-direction: column;
         gap: var(--wordplay-spacing);
+        background: var(--wordplay-background);
     }
 
     .toolbar {

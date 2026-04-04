@@ -1,5 +1,5 @@
 import type ConceptIndex from '@concepts/ConceptIndex';
-import type Purpose from '@concepts/Purpose';
+import type { Purpose } from '@concepts/Purpose';
 import type Context from '@nodes/Context';
 import type Node from '@nodes/Node';
 import Root from '@nodes/Root';

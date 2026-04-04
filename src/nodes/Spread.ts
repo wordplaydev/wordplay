@@ -2,7 +2,7 @@ import type { ReplaceContext } from '@edit/revision/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import type { BasisTypeName } from '../basis/BasisConstants';
-import Purpose from '../concepts/Purpose';
+import { Purpose } from '../concepts/Purpose';
 import type Conflict from '../conflicts/Conflict';
 import IncompatibleType from '../conflicts/IncompatibleType';
 import Characters from '../lore/BasisCharacters';
@@ -13,7 +13,7 @@ import Expression from './Expression';
 import ListType from './ListType';
 import type { Grammar, Replacement } from './Node';
 import Node, { node, optional } from './Node';
-import Sym from './Sym';
+import { Sym } from './Sym';
 import Token from './Token';
 
 /** Inside a list literal, flattens values of a list value into a new list */

@@ -1,4 +1,4 @@
-import Purpose from '@concepts/Purpose';
+import { Purpose } from '@concepts/Purpose';
 import type Conflict from '@conflicts/Conflict';
 import Placeholder from '@conflicts/Placeholder';
 import type LocaleText from '@locale/LocaleText';
@@ -7,7 +7,7 @@ import type { BasisTypeName } from '../basis/BasisConstants';
 import Characters from '../lore/BasisCharacters';
 import { node, type Grammar, type Replacement } from './Node';
 import PlaceholderToken from './PlaceholderToken';
-import Sym from './Sym';
+import { Sym } from './Sym';
 import type Token from './Token';
 import Type from './Type';
 

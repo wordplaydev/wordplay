@@ -30,7 +30,7 @@
         showLines,
         spaceIndicator,
     } from '../../db/Database';
-    import Arrangement from '../../db/settings/Arrangement';
+    import { Arrangement } from '../../db/settings/Arrangement';
     import CreatorView from '../app/CreatorView.svelte';
     import Link from '../app/Link.svelte';
     import Status from '../app/Status.svelte';

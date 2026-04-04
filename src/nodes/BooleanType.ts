@@ -6,7 +6,7 @@ import Characters from '../lore/BasisCharacters';
 import BasisType from './BasisType';
 import BooleanLiteral from './BooleanLiteral';
 import { node, type Grammar, type Replacement } from './Node';
-import Sym from './Sym';
+import { Sym } from './Sym';
 import Token from './Token';
 import type TypeSet from './TypeSet';
 

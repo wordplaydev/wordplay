@@ -7,7 +7,7 @@
     import { type Snippet } from 'svelte';
     import Concept from '../../concepts/Concept';
     import type BasisCharacter from '../../lore/BasisCharacter';
-    import Emotion from '../../lore/Emotion';
+    import { Emotion } from '../../lore/Emotion';
     import { withColorEmoji } from '../../unicode/emoji';
     import ConceptLinkUI from '../concepts/ConceptLinkUI.svelte';
     import Eyes from './Eyes.svelte';

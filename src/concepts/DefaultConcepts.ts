@@ -24,7 +24,7 @@ import TableType from '../nodes/TableType';
 import type Concept from './Concept';
 import FunctionConcept from './FunctionConcept';
 import NodeConcept from './NodeConcept';
-import Purpose from './Purpose';
+import { Purpose } from './Purpose';
 import StructureConcept from './StructureConcept';
 import Templates from './Templates';
 

@@ -13,7 +13,7 @@ import Evaluate from './Evaluate';
 import { node, type Grammar, type Replacement } from './Node';
 import NumberLiteral from './NumberLiteral';
 import PropertyReference from './PropertyReference';
-import Sym from './Sym';
+import { Sym } from './Sym';
 import Token from './Token';
 import type TypeSet from './TypeSet';
 import UnaryEvaluate from './UnaryEvaluate';

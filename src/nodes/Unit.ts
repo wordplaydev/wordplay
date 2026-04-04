@@ -1,4 +1,4 @@
-import Purpose from '@concepts/Purpose';
+import { Purpose } from '@concepts/Purpose';
 import { getPossibleDimensions } from '@edit/menu/getPossibleUnits';
 import type { InsertContext, ReplaceContext } from '@edit/revision/EditContext';
 import type LocaleText from '@locale/LocaleText';
@@ -7,7 +7,7 @@ import { DOT_SYMBOL, EXPONENT_SYMBOL, LANGUAGE_SYMBOL } from '@parser/Symbols';
 import NumberValue from '@values/NumberValue';
 import type { BasisTypeName } from '../basis/BasisConstants';
 import type Locales from '../locale/Locales';
-import Emotion from '../lore/Emotion';
+import { Emotion } from '../lore/Emotion';
 import Dimension from './Dimension';
 import LanguageToken from './LanguageToken';
 import Node, {
@@ -17,7 +17,7 @@ import Node, {
     type Grammar,
     type Replacement,
 } from './Node';
-import Sym from './Sym';
+import { Sym } from './Sym';
 import Token from './Token';
 import type TypeSet from './TypeSet';
 

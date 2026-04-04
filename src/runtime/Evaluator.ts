@@ -72,10 +72,11 @@ export const MAX_SOURCE_VALUE_SIZE = 52428;
 
 export const MAX_VALUE_HISTORY = 250;
 
-export enum Mode {
-    Play,
-    Step,
-}
+export const Mode = {
+    Play: 0,
+    Step: 1,
+} as const;
+export type Mode = (typeof Mode)[keyof typeof Mode];
 
 export default class Evaluator {
     /** The project that this is evaluating. */

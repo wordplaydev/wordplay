@@ -1,4 +1,4 @@
-import Purpose from '@concepts/Purpose';
+import { Purpose } from '@concepts/Purpose';
 import type Conflict from '@conflicts/Conflict';
 import { NotANumber } from '@conflicts/NotANumber';
 import { getPossibleDimensions } from '@edit/menu/getPossibleUnits';
@@ -18,7 +18,7 @@ import Literal from './Literal';
 import type Node from './Node';
 import { node, optional, type Grammar, type Replacement } from './Node';
 import NumberType from './NumberType';
-import Sym from './Sym';
+import { Sym } from './Sym';
 import Token from './Token';
 import type Type from './Type';
 import type TypeSet from './TypeSet';

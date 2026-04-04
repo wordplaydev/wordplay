@@ -3,13 +3,13 @@ import type { InsertContext, ReplaceContext } from '@edit/revision/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { DOT_SYMBOL, EXPONENT_SYMBOL } from '@parser/Symbols';
-import Purpose from '../concepts/Purpose';
+import { Purpose } from '../concepts/Purpose';
 import type Locales from '../locale/Locales';
 import Characters from '../lore/BasisCharacters';
 import Markup from './Markup';
 import NameToken from './NameToken';
 import Node, { any, node, none, type Grammar, type Replacement } from './Node';
-import Sym from './Sym';
+import { Sym } from './Sym';
 import Token from './Token';
 
 export default class Dimension extends Node {

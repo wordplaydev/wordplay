@@ -3,8 +3,8 @@ import type Conflict from '@conflicts/Conflict';
 import { PossiblePII } from '@conflicts/PossiblePII';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
-import Purpose from '../concepts/Purpose';
-import Emotion from '../lore/Emotion';
+import { Purpose } from '../concepts/Purpose';
+import { Emotion } from '../lore/Emotion';
 import {
     ConceptRegExPattern,
     TextCloseByTextOpen,
@@ -16,7 +16,7 @@ import type Expression from './Expression';
 import Language from './Language';
 import { LanguageTagged } from './LanguageTagged';
 import { list, node, optional, type Grammar, type Replacement } from './Node';
-import Sym from './Sym';
+import { Sym } from './Sym';
 import Token from './Token';
 
 export const ESCAPE_REGEX = /\\(.)/g;

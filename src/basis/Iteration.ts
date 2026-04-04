@@ -9,7 +9,7 @@ import Internal from '@runtime/Internal';
 import Next from '@runtime/Next';
 import Start from '@runtime/Start';
 import type Step from '@runtime/Step';
-import Purpose from '../concepts/Purpose';
+import { Purpose } from '../concepts/Purpose';
 import type Locales from '../locale/Locales';
 import Characters from '../lore/BasisCharacters';
 import AnyType from '../nodes/AnyType';

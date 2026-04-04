@@ -1,5 +1,5 @@
 import { EVAL_CLOSE_SYMBOL } from '@parser/Symbols';
-import Sym from './Sym';
+import { Sym } from './Sym';
 import Token from './Token';
 
 export default class EvalCloseToken extends Token {

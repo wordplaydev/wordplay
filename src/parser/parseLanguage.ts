@@ -1,5 +1,5 @@
 import Language from '../nodes/Language';
-import Sym from '../nodes/Sym';
+import { Sym } from '../nodes/Sym';
 import type Tokens from './Tokens';
 
 /** LANGUAGE :: /NAME */

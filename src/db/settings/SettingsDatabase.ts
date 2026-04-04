@@ -10,7 +10,7 @@ import type { Database } from '../Database';
 import { firestore } from '../firebase';
 import { AnimationFactorSetting } from './AnimationFactorSetting';
 import { AnnotationsSetting } from './AnnotationsSetting';
-import type Arrangement from './Arrangement';
+import type { ArrangementType } from './Arrangement';
 import { ArrangementSetting } from './ArrangementSetting';
 import { BlocksSetting } from './BlocksSetting';
 import { CameraSetting } from './CameraSetting';
@@ -156,7 +156,7 @@ export default class SettingsDatabase {
         this.settings.layouts.set(this.database, layouts);
     }
 
-    setArrangement(arrangement: Arrangement) {
+    setArrangement(arrangement: ArrangementType) {
         this.settings.arrangement.set(this.database, arrangement);
     }
 

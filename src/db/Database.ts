@@ -35,11 +35,12 @@ export const Logs: string[] = [];
     };
 }
 
-export enum SaveStatus {
-    Saved = 'saved',
-    Saving = 'saving',
-    Error = 'error',
-}
+export const SaveStatus = {
+    Saved: 'saved',
+    Saving: 'saving',
+    Error: 'error',
+} as const;
+export type SaveStatus = (typeof SaveStatus)[keyof typeof SaveStatus];
 
 export class Database {
     /** The database of local persisted settings */

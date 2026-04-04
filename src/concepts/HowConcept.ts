@@ -3,12 +3,12 @@ import type Node from '@nodes/Node';
 import Words from '@nodes/Words';
 import type Locales from '../locale/Locales';
 import Characters from '../lore/BasisCharacters';
-import Emotion from '../lore/Emotion';
+import { Emotion } from '../lore/Emotion';
 import type Markup from '../nodes/Markup';
 import type { CharacterName } from '../tutorial/Tutorial';
 import Concept from './Concept';
 import type HowTo from './HowTo';
-import Purpose from './Purpose';
+import { Purpose } from './Purpose';
 
 /** Represents how to do something with Wordplay, backed by a how document. */
 export default class HowConcept extends Concept {

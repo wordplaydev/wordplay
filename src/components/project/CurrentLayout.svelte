@@ -1,12 +1,15 @@
 <script lang="ts">
     import { locales } from '@db/Database';
-    import Arrangement from '@db/settings/Arrangement';
+    import {
+        Arrangement,
+        type ArrangementType,
+    } from '@db/settings/Arrangement';
     import { withMonoEmoji } from '../../unicode/emoji';
     import { getTip } from './Contexts';
     import Layout, { LayoutIcons } from './Layout';
 
     interface Props {
-        arrangement: Arrangement;
+        arrangement: ArrangementType;
         canvasWidth: number;
         canvasHeight: number;
     }

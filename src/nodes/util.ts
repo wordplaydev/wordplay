@@ -3,7 +3,7 @@ import InputListMustBeLast from '@conflicts/InputListMustBeLast';
 import RequiredAfterOptional from '@conflicts/RequiredAfterOptional';
 import Bind from './Bind';
 import type Node from './Node';
-import Sym from './Sym';
+import { Sym } from './Sym';
 import Token from './Token';
 
 export function requiredBindAfterOptional(

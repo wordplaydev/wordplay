@@ -7,7 +7,7 @@ import Halt from '@runtime/Halt';
 import type Step from '@runtime/Step';
 import UnparsableException from '@values/UnparsableException';
 import type Value from '@values/Value';
-import Purpose from '../concepts/Purpose';
+import { Purpose } from '../concepts/Purpose';
 import type Locales from '../locale/Locales';
 import Characters from '../lore/BasisCharacters';
 import type Context from './Context';

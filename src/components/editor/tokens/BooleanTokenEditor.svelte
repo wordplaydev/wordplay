@@ -3,7 +3,7 @@
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import { Projects } from '@db/Database';
     import type Project from '@db/projects/Project';
-    import Sym from '@nodes/Sym';
+    import { Sym } from '@nodes/Sym';
     import Token from '@nodes/Token';
     import { FALSE_SYMBOL, TRUE_SYMBOL } from '@parser/Symbols';
 
