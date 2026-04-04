@@ -4,7 +4,9 @@
     "date": "2026-04-04",
     "changes": {
       "added": [],
-      "fixed": [],
+      "fixed": [
+        "Links in the guide were broken for names that were machine translated. Now they work! (#1027)."
+      ],
       "changed": [
         "We upgraded internal tooling for stability."
       ],
