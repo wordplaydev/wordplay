@@ -80,10 +80,11 @@
         return false;
     }
 
-    const mtCount = $derived(allPaths.filter(isMT).length);
+    let filterQuery = $state('');
 
-    const options = $derived(
-        [...allPaths]
+    const options = $derived.by(() => {
+        const query = filterQuery.trim().toLowerCase();
+        return [...allPaths]
             .sort((a, b) => {
                 const aMT = isMT(a);
                 const bMT = isMT(b);
@@ -94,7 +95,18 @@
                 value: pair.toString(),
                 label: `${isMT(pair) ? MACHINE_TRANSLATED_SYMBOL + ' ' : ''}${pair.toString()}`,
                 description: getDescription(pair.toString()),
-            })),
+            }))
+            .filter(
+                (opt) =>
+                    query === '' ||
+                    opt.value.toLowerCase().includes(query) ||
+                    (opt.description?.toLowerCase().includes(query) ?? false),
+            );
+    });
+
+    const mtCount = $derived(
+        options.filter((opt) => opt.label.startsWith(MACHINE_TRANSLATED_SYMBOL))
+            .length,
     );
 
     let selectedPath = $state<string | undefined>(undefined);
@@ -126,32 +138,45 @@
 
 {#if allPaths.length > 0}
     <div class="mt-editor">
-        <Note>{MACHINE_TRANSLATED_SYMBOL} {mtCount} / {allPaths.length}</Note>
-        <Options
-            value={selectedPath}
-            label={(l) => l.ui.localize.strings}
-            {options}
-            change={(val) => {
-                selectedPath = val;
-            }}
-            width="100%"
-        >
-            {#snippet item(option, localized)}
-                <span class="option-item">
-                    <span class="option-label"
-                        >{@render localized(option.label)}</span
-                    >
-                    {#if option.description}
-                        <Note>{option.description}</Note>
-                    {/if}
-                </span>
-            {/snippet}
-        </Options>
+        <div class="selector-row">
+            <TextField
+                id="localize-filter"
+                description={(l) => l.ui.localize.field.filter.description}
+                placeholder={(l) => l.ui.localize.field.filter.placeholder}
+                bind:text={filterQuery}
+            />
+            <div class="dropdown-group">
+                <Note
+                    >{MACHINE_TRANSLATED_SYMBOL}
+                    {mtCount} / {options.length}</Note
+                >
+                <Options
+                    value={selectedPath}
+                    label={(l) => l.ui.localize.strings}
+                    {options}
+                    change={(val) => {
+                        selectedPath = val;
+                    }}
+                    width="100%"
+                >
+                    {#snippet item(option, localized)}
+                        <span class="option-item">
+                            <span class="option-label"
+                                >{@render localized(option.label)}</span
+                            >
+                            {#if option.description}
+                                <Note>{option.description}</Note>
+                            {/if}
+                        </span>
+                    {/snippet}
+                </Options>
+            </div>
+        </div>
         {#if selectedPath !== undefined}
             <TextField
                 id="localize-mt-field"
-                description={(l) => l.ui.localize.field.description}
-                placeholder={(l) => l.ui.localize.field.placeholder}
+                description={(l) => l.ui.localize.field.plain.description}
+                placeholder={(l) => l.ui.localize.field.plain.placeholder}
                 bind:text={editedText}
                 fill
             />
@@ -165,6 +190,21 @@
         flex-direction: column;
         gap: var(--wordplay-spacing);
         margin-top: var(--wordplay-spacing);
+    }
+
+    .selector-row {
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        gap: var(--wordplay-spacing);
+    }
+
+    .dropdown-group {
+        display: flex;
+        flex-direction: column;
+        gap: var(--wordplay-spacing);
+        flex: 1;
+        min-width: 0;
     }
 
     .option-item {

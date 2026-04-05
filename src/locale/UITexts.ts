@@ -936,7 +936,12 @@ type UITexts = {
             /** Tooltip for the button that cancels the suggested edit */
             cancel: string;
         };
-        field: FieldText;
+        field: {
+            /** The description and placeholder of the localization plain text editor. */
+            plain: FieldText;
+            /** The description and placeholder of the localization string filter. */
+            filter: FieldText;
+        };
         /** The ARIA label for the dropdown that lists all locale strings available to review and edit */
         strings: string;
     };

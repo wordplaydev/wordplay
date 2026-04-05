@@ -11240,7 +11240,22 @@
                   "description": "An explanation of the localization editor"
                 },
                 "field": {
-                  "$ref": "#/definitions/FieldText"
+                  "additionalProperties": false,
+                  "properties": {
+                    "filter": {
+                      "$ref": "#/definitions/FieldText",
+                      "description": "The description and placeholder of the localization string filter."
+                    },
+                    "plain": {
+                      "$ref": "#/definitions/FieldText",
+                      "description": "The description and placeholder of the localization plain text editor."
+                    }
+                  },
+                  "required": [
+                    "plain",
+                    "filter"
+                  ],
+                  "type": "object"
                 },
                 "header": {
                   "description": "The header for the localization editor",

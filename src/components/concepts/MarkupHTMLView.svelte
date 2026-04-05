@@ -156,8 +156,8 @@
         {#if editing}
             <FormattedEditor
                 id={fieldId}
-                description={(l) => l.ui.localize.field.description}
-                placeholder={(l) => l.ui.localize.field.placeholder}
+                description={(l) => l.ui.localize.field.plain.description}
+                placeholder={(l) => l.ui.localize.field.plain.placeholder}
                 bind:text={editedText}
                 bind:view={editorView}
             />
