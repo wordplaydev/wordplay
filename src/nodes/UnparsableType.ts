@@ -23,7 +23,7 @@ export default class UnparsableType extends Type {
         return 'UnparsableType';
     }
 
-    getPurpose(): Purpose {
+    getPurpose() {
         return Purpose.Hidden;
     }
 

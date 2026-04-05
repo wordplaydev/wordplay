@@ -49,7 +49,7 @@ import IsLocale from '../nodes/IsLocale';
 import PropertyBind from '../nodes/PropertyBind';
 import Spread from '../nodes/Spread';
 import StructureDefinition from '../nodes/StructureDefinition';
-import { Sym } from '../nodes/Sym';
+import { Sym, type SymType } from '../nodes/Sym';
 import This from '../nodes/This';
 import Translation, { type TranslationSegment } from '../nodes/Translation';
 import type Type from '../nodes/Type';
@@ -624,7 +624,7 @@ function parseTable(tokens: Tokens): TableLiteral {
     return new TableLiteral(type, rows);
 }
 
-function parseRow(tokens: Tokens, expected: Sym = Sym.TableOpen): Row {
+function parseRow(tokens: Tokens, expected: SymType = Sym.TableOpen): Row {
     const open = tokens.read(expected);
 
     // Don't allow reactions on row values.
@@ -1011,7 +1011,10 @@ export function parseFormattedTranslation(
     return new FormattedTranslation(open, content, close, lang, separator);
 }
 
-export function nextAreOptionalDocsThen(tokens: Tokens, types: Sym[]): boolean {
+export function nextAreOptionalDocsThen(
+    tokens: Tokens,
+    types: SymType[],
+): boolean {
     const rollbackToken = tokens.peek();
     if (rollbackToken === undefined) return false;
 

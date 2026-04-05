@@ -6199,7 +6199,8 @@
             "field": {
                 "description": "$~建议替换文本",
                 "placeholder": "$~输入替换项..."
-            }
+            },
+            "strings": "$~区域设置字符串"
         }
     },
     "moderation": {

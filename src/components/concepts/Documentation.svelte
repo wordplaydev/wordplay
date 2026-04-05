@@ -19,7 +19,7 @@
     import type HowTo from '@concepts/HowTo';
     import { HowToCategories, type HowToCategory } from '@concepts/HowTo';
     import NodeConcept from '@concepts/NodeConcept';
-    import { Purpose } from '@concepts/Purpose';
+    import { Purpose, type PurposeType } from '@concepts/Purpose';
     import StreamConcept from '@concepts/StreamConcept';
     import StructureConcept from '@concepts/StructureConcept';
     import type Gallery from '@db/galleries/Gallery';
@@ -105,8 +105,8 @@
 
     type ContentPurpose = (typeof contentPurposes)[number];
 
-    function isContentPurpose(p: Purpose): p is ContentPurpose {
-        return (contentPurposes as readonly Purpose[]).includes(p);
+    function isContentPurpose(p: PurposeType): p is ContentPurpose {
+        return (contentPurposes as readonly PurposeType[]).includes(p);
     }
 
     /**
@@ -128,7 +128,7 @@
     let mode = $state<(typeof Modes)[number]>($blocks ? 'language' : 'howto');
 
     /** The purpose selected for browsing */
-    let purpose = $state<Purpose>(Purpose.Outputs);
+    let purpose = $state<PurposeType>(Purpose.Outputs);
 
     /** The current concept is always the one at the end of the list. */
     let currentConcept = $derived($path[$path.length - 1]);

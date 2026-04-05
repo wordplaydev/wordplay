@@ -8,7 +8,7 @@ import { Emotion } from '../lore/Emotion';
 import type Markup from '../nodes/Markup';
 import type { CharacterName } from '../tutorial/Tutorial';
 import Concept from './Concept';
-import type { Purpose } from './Purpose';
+import type { PurposeType } from './Purpose';
 
 export default class BindConcept extends Concept {
     /** The type this concept represents. */
@@ -18,7 +18,7 @@ export default class BindConcept extends Concept {
     readonly reference: Reference;
 
     constructor(
-        purpose: Purpose,
+        purpose: PurposeType,
         bind: Bind,
         locales: Locales,
         context: Context,

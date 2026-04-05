@@ -21,7 +21,7 @@ export default class ExceptionType extends Type {
         return 'ExceptionType';
     }
 
-    getPurpose(): Purpose {
+    getPurpose() {
         return Purpose.Hidden;
     }
 

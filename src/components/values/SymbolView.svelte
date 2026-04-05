@@ -1,10 +1,10 @@
 <script lang="ts">
-    import type { Sym } from '@nodes/Sym';
+    import type { SymType } from '@nodes/Sym';
     import TokenCategories from '../editor/tokens/TokenCategories';
 
     interface Props {
         symbol: string;
-        type: Sym;
+        type: SymType;
     }
 
     let { symbol, type }: Props = $props();

@@ -6252,7 +6252,8 @@
             "field": {
                 "description": "$~Önerilen yedek metin",
                 "placeholder": "$~Değiştirme işlemini girin..."
-            }
+            },
+            "strings": "$~Yerel ayar dizeleri"
         }
     },
     "moderation": {

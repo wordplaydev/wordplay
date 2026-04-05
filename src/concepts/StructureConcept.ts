@@ -12,7 +12,7 @@ import BindConcept from './BindConcept';
 import Concept from './Concept';
 import ConversionConcept from './ConversionConcept';
 import FunctionConcept from './FunctionConcept';
-import { Purpose } from './Purpose';
+import type { PurposeType } from './Purpose';
 
 export default class StructureConcept extends Concept {
     /** The type this concept represents. */
@@ -40,7 +40,7 @@ export default class StructureConcept extends Concept {
     readonly conversions: ConversionConcept[];
 
     constructor(
-        purpose: Purpose,
+        purpose: PurposeType,
         affiliation: StructureDefinition | undefined,
         definition: StructureDefinition,
         type: Type | undefined,

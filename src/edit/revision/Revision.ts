@@ -1,5 +1,5 @@
 import type ConceptIndex from '@concepts/ConceptIndex';
-import type { Purpose } from '@concepts/Purpose';
+import type { PurposeType } from '@concepts/Purpose';
 import type Context from '@nodes/Context';
 import type Node from '@nodes/Node';
 import Root from '@nodes/Root';
@@ -79,7 +79,7 @@ export default abstract class Revision {
     }
 
     /** Given a concept index, find the purpose of this revision */
-    getPurpose(concepts: ConceptIndex): Purpose | undefined {
+    getPurpose(concepts: ConceptIndex): PurposeType | undefined {
         const node = this.getNewNode(concepts.locales);
         if (node) {
             const concept = concepts.getRelevantConcept(node);

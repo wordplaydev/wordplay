@@ -16,16 +16,16 @@ import type Context from './Context';
 import type Definition from './Definition';
 import Node, { type Grammar, type Replacement } from './Node';
 import type Root from './Root';
-import { Sym } from './Sym';
+import { Sym, type SymType } from './Sym';
 
 export default class Token extends Node {
     /** The one or more types of token this might represent. This is narrowed during parsing to one.*/
-    readonly types: Sym[];
+    readonly types: SymType[];
 
     /** The text of the token */
     readonly text: UnicodeString;
 
-    constructor(text: string | UnicodeString, types: Sym | Sym[]) {
+    constructor(text: string | UnicodeString, types: SymType | SymType[]) {
         super();
 
         this.types = Array.isArray(types) ? types : [types];
@@ -73,11 +73,11 @@ export default class Token extends Node {
 
     // TOKEN TYPES
 
-    isntSymbol(type: Sym) {
+    isntSymbol(type: SymType) {
         return !this.isSymbol(type);
     }
 
-    isSymbol(type: Sym) {
+    isSymbol(type: SymType) {
         return this.getTypes().includes(type);
     }
 

@@ -68,7 +68,7 @@ export default class Spread extends Node {
         ) as this;
     }
 
-    getPurpose(): Purpose {
+    getPurpose() {
         return Purpose.Lists;
     }
 

@@ -165,7 +165,7 @@ export default class Unit extends Node {
         return 'Unit';
     }
 
-    getPurpose(): Purpose {
+    getPurpose() {
         return Purpose.Numbers;
     }
 

@@ -6,7 +6,7 @@ import type BasisCharacter from '../lore/BasisCharacter';
 import type { Emotion } from '../lore/Emotion';
 import type Markup from '../nodes/Markup';
 import type { CharacterName } from '../tutorial/Tutorial';
-import type { Purpose } from './Purpose';
+import type { PurposeType } from './Purpose';
 
 /**
  * Represents some part of the Wordplay language, API, or example ecosystem.
@@ -14,12 +14,12 @@ import type { Purpose } from './Purpose';
  * which requires some mapping from specific rendered example code in the UI to Nodes.
  */
 export default abstract class Concept {
-    readonly purpose: Purpose;
+    readonly purpose: PurposeType;
     readonly affiliation: StructureDefinition | undefined;
     readonly context: Context;
 
     constructor(
-        purpose: Purpose,
+        purpose: PurposeType,
         affiliation: StructureDefinition | undefined,
         context: Context,
     ) {

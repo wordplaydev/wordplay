@@ -6254,7 +6254,8 @@
             "field": {
                 "description": "$~نص بديل مقترح",
                 "placeholder": "$~أدخل البديل..."
-            }
+            },
+            "strings": "$~سلاسل اللغة"
         }
     },
     "moderation": {

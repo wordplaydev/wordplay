@@ -73,7 +73,7 @@ import Select from '../../nodes/Select';
 import SetLiteral from '../../nodes/SetLiteral';
 import SetType from '../../nodes/SetType';
 import StructureDefinition from '../../nodes/StructureDefinition';
-import { Sym, WildcardSymbols } from '../../nodes/Sym';
+import { WildcardSymbols, type SymType } from '../../nodes/Sym';
 import TableLiteral from '../../nodes/TableLiteral';
 import TextLiteral from '../../nodes/TextLiteral';
 import TextType from '../../nodes/TextType';
@@ -827,6 +827,6 @@ type WildcardSym =
     | 'decimal'
     | 'end';
 
-function isWildcardSymbol(sym: Sym): sym is WildcardSym {
-    return (WildcardSymbols as ReadonlySet<Sym>).has(sym);
+function isWildcardSymbol(sym: SymType): sym is WildcardSym {
+    return (WildcardSymbols as ReadonlySet<SymType>).has(sym);
 }

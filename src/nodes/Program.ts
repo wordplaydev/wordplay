@@ -22,7 +22,15 @@ import Docs from './Docs';
 import Expression, { ExpressionKind } from './Expression';
 import Language from './Language';
 import type Node from './Node';
-import { any, list, node, none, optional, type Grammar, type Replacement } from './Node';
+import {
+    any,
+    list,
+    node,
+    none,
+    optional,
+    type Grammar,
+    type Replacement,
+} from './Node';
 import Reference from './Reference';
 import { Sym } from './Sym';
 import Token from './Token';

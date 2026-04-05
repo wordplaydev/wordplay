@@ -38,7 +38,7 @@ import {
     PROJECT_PARAM_PLAY,
 } from '../../routes/project/constants';
 import type LocalesDatabase from '../locales/LocalesDatabase';
-import { type Moderation, unknownFlags } from './Moderation';
+import { type ModerationState, unknownFlags } from './Moderation';
 import {
     type ProjectID,
     ProjectSchemaLatestVersion,
@@ -159,7 +159,7 @@ export default class Project {
         persisted = false,
         gallery: string | null = null,
         // By default, unmoderated.
-        flags: Moderation = unknownFlags(),
+        flags: ModerationState = unknownFlags(),
         // This is last; omitting it updates the time.
         timestamp: number | undefined = undefined,
     ) {
@@ -1115,7 +1115,7 @@ export default class Project {
         return { ...this.data.flags };
     }
 
-    withFlags(flags: Moderation) {
+    withFlags(flags: ModerationState) {
         return new Project({ ...this.data, flags: { ...flags } });
     }
 

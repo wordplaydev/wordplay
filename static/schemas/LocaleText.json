@@ -43,7 +43,7 @@
       "description": "The text that describes this conflict type.",
       "properties": {
         "explanation": {
-          "$ref": "#/definitions/Template",
+          "$ref": "#/definitions/FormattedText",
           "description": "The text that describes this conflict on the node which generated it."
         },
         "name": {
@@ -61,7 +61,7 @@
       "additionalProperties": false,
       "properties": {
         "description": {
-          "$ref": "#/definitions/Template",
+          "$ref": "#/definitions/FormattedText",
           "description": "A precise description of the node's contents, more specific than a name. If not provided, name is used."
         },
         "doc": {
@@ -125,11 +125,11 @@
       "additionalProperties": false,
       "properties": {
         "description": {
-          "$ref": "#/definitions/Template",
+          "$ref": "#/definitions/FormattedText",
           "description": "A description of the kind of exception this is; appears as screen reader text and a header when exception value is displayed on stage."
         },
         "explanation": {
-          "$ref": "#/definitions/Template",
+          "$ref": "#/definitions/FormattedText",
           "description": "The text of the explanation, in the voice of the node that generated it. Appears when value is shown on stage."
         }
       },
@@ -162,16 +162,16 @@
       "description": "An object literal type that contains a template for each of the moderation flags",
       "properties": {
         "dehumanization": {
-          "$ref": "#/definitions/Template"
+          "$ref": "#/definitions/FormattedText"
         },
         "disclosure": {
-          "$ref": "#/definitions/Template"
+          "$ref": "#/definitions/FormattedText"
         },
         "misinformation": {
-          "$ref": "#/definitions/Template"
+          "$ref": "#/definitions/FormattedText"
         },
         "violence": {
-          "$ref": "#/definitions/Template"
+          "$ref": "#/definitions/FormattedText"
         }
       },
       "required": [
@@ -182,7 +182,11 @@
       ],
       "type": "object"
     },
-    "FunctionText<[def-alias-1170802340-2437-2683-1170802340-0-5418,def-alias-1170802340-2437-2683-1170802340-0-5418]>": {
+    "FormattedText": {
+      "description": "Represents a string that is in Wordplay markup formatted syntax.",
+      "type": "string"
+    },
+    "FunctionText<[def-alias-1170802340-2513-2759-1170802340-0-5494,def-alias-1170802340-2513-2759-1170802340-0-5494]>": {
       "additionalProperties": false,
       "properties": {
         "doc": {
@@ -210,7 +214,7 @@
       ],
       "type": "object"
     },
-    "FunctionText<[def-alias-1170802340-2437-2683-1170802340-0-5418]>": {
+    "FunctionText<[def-alias-1170802340-2513-2759-1170802340-0-5494]>": {
       "additionalProperties": false,
       "properties": {
         "doc": {
@@ -267,9 +271,11 @@
       "additionalProperties": false,
       "properties": {
         "description": {
+          "description": "A short description of the kinds of projects in this gallery category",
           "type": "string"
         },
         "name": {
+          "description": "The display name of the gallery category",
           "type": "string"
         }
       },
@@ -283,22 +289,28 @@
       "additionalProperties": false,
       "properties": {
         "av": {
-          "$ref": "#/definitions/GalleryText"
+          "$ref": "#/definitions/GalleryText",
+          "description": "Projects using volume, pitch, and video as input"
         },
         "games": {
-          "$ref": "#/definitions/GalleryText"
+          "$ref": "#/definitions/GalleryText",
+          "description": "Interactive games with words and symbols"
         },
         "motion": {
-          "$ref": "#/definitions/GalleryText"
+          "$ref": "#/definitions/GalleryText",
+          "description": "Examples of movement and collisions"
         },
         "stories": {
-          "$ref": "#/definitions/GalleryText"
+          "$ref": "#/definitions/GalleryText",
+          "description": "Interactive stories and narratives"
         },
         "tools": {
-          "$ref": "#/definitions/GalleryText"
+          "$ref": "#/definitions/GalleryText",
+          "description": "Simple utilities and applications"
         },
         "visualizations": {
-          "$ref": "#/definitions/GalleryText"
+          "$ref": "#/definitions/GalleryText",
+          "description": "Visualizations of and via text"
         }
       },
       "required": [
@@ -317,11 +329,11 @@
         "explanation": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Template"
+              "$ref": "#/definitions/FormattedText"
             },
             {
               "items": {
-                "$ref": "#/definitions/Template"
+                "$ref": "#/definitions/FormattedText"
               },
               "type": "array"
             }
@@ -378,11 +390,11 @@
                   "description": "Functions in the type",
                   "properties": {
                     "and": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2437-2683-1170802340-0-5418%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2513-2759-1170802340-0-5494%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "equals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2437-2683-1170802340-0-5418%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2513-2759-1170802340-0-5494%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "not": {
@@ -390,11 +402,11 @@
                       "description": "See `en-US.json` for documentation"
                     },
                     "notequal": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2437-2683-1170802340-0-5418%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2513-2759-1170802340-0-5494%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "or": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2437-2683-1170802340-0-5418%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2513-2759-1170802340-0-5494%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     }
                   },
@@ -450,7 +462,7 @@
                   "description": "Functions in the type",
                   "properties": {
                     "add": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2437-2683-1170802340-0-5418%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2513-2759-1170802340-0-5494%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "all": {
@@ -492,7 +504,7 @@
                       "type": "object"
                     },
                     "append": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2437-2683-1170802340-0-5418%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2513-2759-1170802340-0-5494%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "combine": {
@@ -534,7 +546,7 @@
                       "type": "object"
                     },
                     "equals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2437-2683-1170802340-0-5418%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2513-2759-1170802340-0-5494%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "filter": {
@@ -618,11 +630,11 @@
                       "description": "See `en-US.json` for documentation"
                     },
                     "has": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2437-2683-1170802340-0-5418%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2513-2759-1170802340-0-5494%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "join": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2437-2683-1170802340-0-5418%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2513-2759-1170802340-0-5494%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "last": {
@@ -634,7 +646,7 @@
                       "description": "See `en-US.json` for documentation"
                     },
                     "notequals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2437-2683-1170802340-0-5418%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2513-2759-1170802340-0-5494%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "random": {
@@ -642,7 +654,7 @@
                       "description": "See `en-US.json` for documentation"
                     },
                     "replace": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2437-2683-1170802340-0-5418%2Cdef-alias-1170802340-2437-2683-1170802340-0-5418%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2513-2759-1170802340-0-5494%2Cdef-alias-1170802340-2513-2759-1170802340-0-5494%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "reverse": {
@@ -650,11 +662,11 @@
                       "description": "See `en-US.json` for documentation"
                     },
                     "sans": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2437-2683-1170802340-0-5418%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2513-2759-1170802340-0-5494%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "sansAll": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2437-2683-1170802340-0-5418%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2513-2759-1170802340-0-5494%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "sansFirst": {
@@ -708,7 +720,7 @@
                       "type": "object"
                     },
                     "subsequence": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2437-2683-1170802340-0-5418%2Cdef-alias-1170802340-2437-2683-1170802340-0-5418%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2513-2759-1170802340-0-5494%2Cdef-alias-1170802340-2513-2759-1170802340-0-5494%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "translate": {
@@ -881,7 +893,7 @@
                   "description": "Functions in the type",
                   "properties": {
                     "equals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2437-2683-1170802340-0-5418%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2513-2759-1170802340-0-5494%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "filter": {
@@ -923,15 +935,15 @@
                       "type": "object"
                     },
                     "notequals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2437-2683-1170802340-0-5418%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2513-2759-1170802340-0-5494%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "remove": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2437-2683-1170802340-0-5418%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2513-2759-1170802340-0-5494%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "set": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2437-2683-1170802340-0-5418%2Cdef-alias-1170802340-2437-2683-1170802340-0-5418%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2513-2759-1170802340-0-5494%2Cdef-alias-1170802340-2513-2759-1170802340-0-5494%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "size": {
@@ -977,7 +989,7 @@
                       "type": "object"
                     },
                     "unset": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2437-2683-1170802340-0-5418%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2513-2759-1170802340-0-5494%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     }
                   },
@@ -1048,11 +1060,11 @@
                   "description": "Functions in the type",
                   "properties": {
                     "equals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2437-2683-1170802340-0-5418%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2513-2759-1170802340-0-5494%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "notequals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2437-2683-1170802340-0-5418%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2513-2759-1170802340-0-5494%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     }
                   },
@@ -1337,7 +1349,7 @@
                   "description": "Functions in the type",
                   "properties": {
                     "add": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2437-2683-1170802340-0-5418%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2513-2759-1170802340-0-5494%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "cos": {
@@ -1345,43 +1357,43 @@
                       "description": "See `en-US.json` for documentation"
                     },
                     "divide": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2437-2683-1170802340-0-5418%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2513-2759-1170802340-0-5494%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "equal": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2437-2683-1170802340-0-5418%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2513-2759-1170802340-0-5494%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "greaterOrEqual": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2437-2683-1170802340-0-5418%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2513-2759-1170802340-0-5494%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "greaterThan": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2437-2683-1170802340-0-5418%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2513-2759-1170802340-0-5494%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "lessOrEqual": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2437-2683-1170802340-0-5418%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2513-2759-1170802340-0-5494%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "lessThan": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2437-2683-1170802340-0-5418%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2513-2759-1170802340-0-5494%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "max": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2437-2683-1170802340-0-5418%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2513-2759-1170802340-0-5494%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "min": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2437-2683-1170802340-0-5418%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2513-2759-1170802340-0-5494%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "multiply": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2437-2683-1170802340-0-5418%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2513-2759-1170802340-0-5494%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "notequal": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2437-2683-1170802340-0-5418%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2513-2759-1170802340-0-5494%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "positive": {
@@ -1389,15 +1401,15 @@
                       "description": "See `en-US.json` for documentation"
                     },
                     "power": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2437-2683-1170802340-0-5418%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2513-2759-1170802340-0-5494%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "remainder": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2437-2683-1170802340-0-5418%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2513-2759-1170802340-0-5494%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "root": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2437-2683-1170802340-0-5418%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2513-2759-1170802340-0-5494%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "round": {
@@ -1417,7 +1429,7 @@
                       "description": "See `en-US.json` for documentation"
                     },
                     "subtract": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2437-2683-1170802340-0-5418%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2513-2759-1170802340-0-5494%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     }
                   },
@@ -1491,15 +1503,15 @@
                   "description": "Functions in the type",
                   "properties": {
                     "add": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2437-2683-1170802340-0-5418%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2513-2759-1170802340-0-5494%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "difference": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2437-2683-1170802340-0-5418%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2513-2759-1170802340-0-5494%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "equals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2437-2683-1170802340-0-5418%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2513-2759-1170802340-0-5494%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "filter": {
@@ -1541,15 +1553,15 @@
                       "type": "object"
                     },
                     "intersection": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2437-2683-1170802340-0-5418%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2513-2759-1170802340-0-5494%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "notequals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2437-2683-1170802340-0-5418%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2513-2759-1170802340-0-5494%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "remove": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2437-2683-1170802340-0-5418%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2513-2759-1170802340-0-5494%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "size": {
@@ -1595,7 +1607,7 @@
                       "type": "object"
                     },
                     "union": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2437-2683-1170802340-0-5418%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2513-2759-1170802340-0-5494%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     }
                   },
@@ -1663,11 +1675,11 @@
                   "description": "Functions in the type",
                   "properties": {
                     "equals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2437-2683-1170802340-0-5418%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2513-2759-1170802340-0-5494%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "notequal": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2437-2683-1170802340-0-5418%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2513-2759-1170802340-0-5494%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     }
                   },
@@ -1722,11 +1734,11 @@
                   "description": "Functions in the type",
                   "properties": {
                     "equals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2437-2683-1170802340-0-5418%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2513-2759-1170802340-0-5494%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "notequal": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2437-2683-1170802340-0-5418%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2513-2759-1170802340-0-5494%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     }
                   },
@@ -1786,19 +1798,19 @@
                   "description": "Functions in the type",
                   "properties": {
                     "combine": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2437-2683-1170802340-0-5418%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2513-2759-1170802340-0-5494%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "ends": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2437-2683-1170802340-0-5418%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2513-2759-1170802340-0-5494%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "equals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2437-2683-1170802340-0-5418%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2513-2759-1170802340-0-5494%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "has": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2437-2683-1170802340-0-5418%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2513-2759-1170802340-0-5494%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "length": {
@@ -1806,19 +1818,19 @@
                       "description": "See `en-US.json` for documentation"
                     },
                     "notequals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2437-2683-1170802340-0-5418%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2513-2759-1170802340-0-5494%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "repeat": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2437-2683-1170802340-0-5418%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2513-2759-1170802340-0-5494%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "segment": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2437-2683-1170802340-0-5418%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2513-2759-1170802340-0-5494%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "starts": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2437-2683-1170802340-0-5418%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2513-2759-1170802340-0-5494%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     }
                   },
@@ -2572,7 +2584,7 @@
                   "type": "object"
                 },
                 "description": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "A precise description of the node's contents, more specific than a name. If not provided, name is used."
                 },
                 "doc": {
@@ -2606,7 +2618,7 @@
                   "type": "string"
                 },
                 "finish": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "The text shown when this expression type finishes evaluating and has a value."
                 },
                 "label": {
@@ -2626,11 +2638,11 @@
                   "type": "string"
                 },
                 "right": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "How to describe the right operand in a placeholder expression"
                 },
                 "start": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "The text shown when this expression type first begins evaluating."
                 }
               },
@@ -2663,7 +2675,7 @@
                           "$ref": "#/definitions/ConflictText"
                         },
                         "resolution": {
-                          "$ref": "#/definitions/Template"
+                          "$ref": "#/definitions/FormattedText"
                         }
                       },
                       "required": [
@@ -2681,7 +2693,7 @@
                       "description": "When a bind and it's value type are incompatible. Description inputs: $1: Expected type, $2: Given type",
                       "properties": {
                         "explanation": {
-                          "$ref": "#/definitions/Template",
+                          "$ref": "#/definitions/FormattedText",
                           "description": "The text that describes this conflict on the node which generated it."
                         },
                         "name": {
@@ -2689,7 +2701,7 @@
                           "type": "string"
                         },
                         "resolution": {
-                          "$ref": "#/definitions/Template"
+                          "$ref": "#/definitions/FormattedText"
                         }
                       },
                       "required": [
@@ -2733,7 +2745,7 @@
                   "type": "object"
                 },
                 "description": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "A precise description of the node's contents, more specific than a name. If not provided, name is used."
                 },
                 "doc": {
@@ -2767,7 +2779,7 @@
                   "type": "string"
                 },
                 "finish": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "The text shown when this expression type finishes evaluating and has a value."
                 },
                 "label": {
@@ -2795,7 +2807,7 @@
                   "type": "string"
                 },
                 "start": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "The text shown when this expression type first begins evaluating."
                 }
               },
@@ -2828,7 +2840,7 @@
                       "description": "When a statement is ignored because it's not last and not a bind",
                       "properties": {
                         "explanation": {
-                          "$ref": "#/definitions/Template",
+                          "$ref": "#/definitions/FormattedText",
                           "description": "The text that describes this conflict on the node which generated it."
                         },
                         "name": {
@@ -2839,13 +2851,13 @@
                           "additionalProperties": false,
                           "properties": {
                             "binary": {
-                              "$ref": "#/definitions/Template"
+                              "$ref": "#/definitions/FormattedText"
                             },
                             "evaluate": {
-                              "$ref": "#/definitions/Template"
+                              "$ref": "#/definitions/FormattedText"
                             },
                             "name": {
-                              "$ref": "#/definitions/Template"
+                              "$ref": "#/definitions/FormattedText"
                             }
                           },
                           "required": [
@@ -2871,7 +2883,7 @@
                   "type": "object"
                 },
                 "description": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "A precise description of the node's contents, more specific than a name. If not provided, name is used."
                 },
                 "doc": {
@@ -2905,7 +2917,7 @@
                   "type": "string"
                 },
                 "finish": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "The text shown when this expression type finishes evaluating and has a value."
                 },
                 "label": {
@@ -2926,7 +2938,7 @@
                   "type": "string"
                 },
                 "start": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "The text shown when this expression type first begins evaluating."
                 }
               },
@@ -2947,7 +2959,7 @@
               "description": "A single boolean literal, e.g., `⊤` or `⊥` Description inputs: $1: true if true, false otherwise",
               "properties": {
                 "description": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "A precise description of the node's contents, more specific than a name. If not provided, name is used."
                 },
                 "doc": {
@@ -2985,7 +2997,7 @@
                   "type": "string"
                 },
                 "start": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "The text shown when this expression type first begins evaluating."
                 }
               },
@@ -3026,7 +3038,7 @@
                   "type": "object"
                 },
                 "description": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "A precise description of the node's contents, more specific than a name. If not provided, name is used."
                 },
                 "doc": {
@@ -3101,7 +3113,7 @@
                   "type": "string"
                 },
                 "start": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "The text shown when this expression type first begins evaluating."
                 }
               },
@@ -3172,7 +3184,7 @@
                   "type": "string"
                 },
                 "start": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "The text shown when this expression type first begins evaluating."
                 }
               },
@@ -3194,7 +3206,7 @@
               "description": "A conditional expression, e.g., `truth ? 'yes' 'no'` Start inputs: $1 = description of condition to check Finish inputs: $1 = resulting value",
               "properties": {
                 "afterthen": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "When the else case is chosen. Description inputs: $1: true if jumping to the \"else\" expression"
                 },
                 "conflict": {
@@ -3216,7 +3228,7 @@
                   "description": "Documentation text that appears in the documentation view"
                 },
                 "else": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "After the then case is done. Description inputs: jump after the \"then\" expression"
                 },
                 "emotion": {
@@ -3246,22 +3258,22 @@
                   "type": "string"
                 },
                 "finish": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "The text shown when this expression type finishes evaluating and has a value."
                 },
                 "label": {
                   "additionalProperties": false,
                   "properties": {
                     "condition": {
-                      "$ref": "#/definitions/Template",
+                      "$ref": "#/definitions/FormattedText",
                       "description": "A placeholder label for the condition"
                     },
                     "no": {
-                      "$ref": "#/definitions/Template",
+                      "$ref": "#/definitions/FormattedText",
                       "description": "A placeholder label for else condition"
                     },
                     "yes": {
-                      "$ref": "#/definitions/Template",
+                      "$ref": "#/definitions/FormattedText",
                       "description": "A placeholder label for then expression"
                     }
                   },
@@ -3277,7 +3289,7 @@
                   "type": "string"
                 },
                 "start": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "The text shown when this expression type first begins evaluating."
                 }
               },
@@ -3313,7 +3325,7 @@
                   "type": "object"
                 },
                 "description": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "A precise description of the node's contents, more specific than a name. If not provided, name is used."
                 },
                 "doc": {
@@ -3371,7 +3383,7 @@
                   "type": "string"
                 },
                 "start": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "The text shown when this expression type first begins evaluating."
                 }
               },
@@ -3453,7 +3465,7 @@
                   "type": "object"
                 },
                 "finish": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "The text shown when this expression type finishes evaluating and has a value."
                 },
                 "name": {
@@ -3461,7 +3473,7 @@
                   "type": "string"
                 },
                 "start": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "The text shown when this expression type first begins evaluating."
                 }
               },
@@ -3515,7 +3527,7 @@
                   "type": "string"
                 },
                 "finish": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "The text shown when this expression type finishes evaluating and has a value."
                 },
                 "name": {
@@ -3523,7 +3535,7 @@
                   "type": "string"
                 },
                 "start": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "The text shown when this expression type first begins evaluating."
                 }
               },
@@ -3583,7 +3595,7 @@
                   "type": "string"
                 },
                 "start": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "The text shown when this expression type first begins evaluating."
                 }
               },
@@ -3634,7 +3646,7 @@
                   "type": "string"
                 },
                 "start": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "The text shown when this expression type first begins evaluating."
                 }
               },
@@ -3659,7 +3671,7 @@
                       "description": "When an input given to this evaluate doesn't match the input of the function being evaluated Description inputs: $1 = expected type, $2 = given type",
                       "properties": {
                         "explanation": {
-                          "$ref": "#/definitions/Template",
+                          "$ref": "#/definitions/FormattedText",
                           "description": "The text that describes this conflict on the node which generated it."
                         },
                         "name": {
@@ -3667,7 +3679,7 @@
                           "type": "string"
                         },
                         "resolution": {
-                          "$ref": "#/definitions/Template"
+                          "$ref": "#/definitions/FormattedText"
                         }
                       },
                       "required": [
@@ -3719,7 +3731,7 @@
                   "type": "object"
                 },
                 "description": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "A precise description of the node's contents, more specific than a name. If not provided, name is used."
                 },
                 "doc": {
@@ -3753,7 +3765,7 @@
                   "type": "string"
                 },
                 "evaluate": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "What to say after inputs are done evaluating, right before starting evaluation the function"
                 },
                 "exception": {
@@ -3771,7 +3783,7 @@
                   "type": "object"
                 },
                 "finish": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "The text shown when this expression type finishes evaluating and has a value."
                 },
                 "label": {
@@ -3799,7 +3811,7 @@
                   "type": "string"
                 },
                 "start": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "The text shown when this expression type first begins evaluating."
                 }
               },
@@ -3843,7 +3855,7 @@
                   "type": "object"
                 },
                 "description": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "A precise description of the node's contents, more specific than a name. If not provided, name is used."
                 },
                 "doc": {
@@ -3907,7 +3919,7 @@
                   "type": "string"
                 },
                 "start": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "The text shown when this expression type first begins evaluating."
                 }
               },
@@ -3928,7 +3940,7 @@
               "description": "A formatted text literal, e.g., ` `hello *wordplay*` ` Description inputs: $1 = the text",
               "properties": {
                 "description": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "A precise description of the node's contents, more specific than a name. If not provided, name is used."
                 },
                 "doc": {
@@ -3966,7 +3978,7 @@
                   "type": "string"
                 },
                 "start": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "The text shown when this expression type first begins evaluating."
                 }
               },
@@ -4006,7 +4018,7 @@
                   "type": "object"
                 },
                 "description": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "A precise description of the node's contents, more specific than a name. If not provided, name is used."
                 },
                 "doc": {
@@ -4064,7 +4076,7 @@
                   "type": "string"
                 },
                 "start": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "The text shown when this expression type first begins evaluating."
                 }
               },
@@ -4091,7 +4103,7 @@
               "additionalProperties": false,
               "properties": {
                 "description": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "A precise description of the node's contents, more specific than a name. If not provided, name is used."
                 },
                 "doc": {
@@ -4129,7 +4141,7 @@
                   "type": "string"
                 },
                 "start": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "The text shown when this expression type first begins evaluating."
                 }
               },
@@ -4177,7 +4189,7 @@
                   "type": "string"
                 },
                 "finish": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "The text shown when this expression type finishes evaluating and has a value."
                 },
                 "name": {
@@ -4185,7 +4197,7 @@
                   "type": "string"
                 },
                 "start": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "The text shown when this expression type first begins evaluating."
                 }
               },
@@ -4237,7 +4249,7 @@
                   "type": "string"
                 },
                 "start": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "The text shown when this expression type first begins evaluating."
                 }
               },
@@ -4268,7 +4280,7 @@
                   "type": "object"
                 },
                 "description": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "A precise description of the node's contents, more specific than a name. If not provided, name is used."
                 },
                 "doc": {
@@ -4316,7 +4328,7 @@
                   "type": "object"
                 },
                 "finish": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "The text shown when this expression type finishes evaluating and has a value."
                 },
                 "name": {
@@ -4324,7 +4336,7 @@
                   "type": "string"
                 },
                 "start": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "The text shown when this expression type first begins evaluating."
                 }
               },
@@ -4345,7 +4357,7 @@
               "description": "Check if the current locale is a particular langauge, e.g., `🌏/en`",
               "properties": {
                 "description": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "A precise description of the node's contents, more specific than a name. If not provided, name is used."
                 },
                 "doc": {
@@ -4383,7 +4395,7 @@
                   "type": "string"
                 },
                 "start": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "The text shown when this expression type first begins evaluating."
                 }
               },
@@ -4401,7 +4413,7 @@
               "description": "An internal node used by higher order functions to iterate over a list of values. Finish inputs: $1 = resulting value",
               "properties": {
                 "check": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "What to say when the next value is being checked to decide whether to continue"
                 },
                 "doc": {
@@ -4435,11 +4447,11 @@
                   "type": "string"
                 },
                 "finish": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "The text shown when this expression type finishes evaluating and has a value."
                 },
                 "initialize": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "What to say when the iteration initialization begins"
                 },
                 "name": {
@@ -4447,11 +4459,11 @@
                   "type": "string"
                 },
                 "next": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "What to say when the next value is being gotten"
                 },
                 "start": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "The text shown when this expression type first begins evaluating."
                 }
               },
@@ -4493,7 +4505,7 @@
                   "type": "object"
                 },
                 "description": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "A precise description of the node's contents, more specific than a name. If not provided, name is used."
                 },
                 "doc": {
@@ -4575,7 +4587,7 @@
                   "type": "string"
                 },
                 "finish": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "The text shown when this expression type finishes evaluating and has a value."
                 },
                 "name": {
@@ -4583,7 +4595,7 @@
                   "type": "string"
                 },
                 "start": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "The text shown when this expression type first begins evaluating."
                 }
               },
@@ -4601,7 +4613,7 @@
               "description": "A list, e.g., `[1 2 3]` Description inputs: $1 = item count Finish inputs: $1 = resulting value",
               "properties": {
                 "description": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "A precise description of the node's contents, more specific than a name. If not provided, name is used."
                 },
                 "doc": {
@@ -4635,7 +4647,7 @@
                   "type": "string"
                 },
                 "finish": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "The text shown when this expression type finishes evaluating and has a value."
                 },
                 "name": {
@@ -4643,7 +4655,7 @@
                   "type": "string"
                 },
                 "start": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "The text shown when this expression type first begins evaluating."
                 }
               },
@@ -4680,7 +4692,7 @@
                   "type": "object"
                 },
                 "description": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "A precise description of the node's contents, more specific than a name. If not provided, name is used."
                 },
                 "doc": {
@@ -4714,7 +4726,7 @@
                   "type": "string"
                 },
                 "finish": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "The text shown when this expression type finishes evaluating and has a value."
                 },
                 "label": {
@@ -4734,7 +4746,7 @@
                   "type": "string"
                 },
                 "start": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "The text shown when this expression type first begins evaluating."
                 }
               },
@@ -4759,7 +4771,7 @@
               "description": "Markup text used in documentation or phrase text, e.g., ` ¶Hello, I am *bold*¶ ` Description inputs: $1 = paragraph count",
               "properties": {
                 "description": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "A precise description of the node's contents, more specific than a name. If not provided, name is used."
                 },
                 "doc": {
@@ -4823,7 +4835,7 @@
               "description": "A match expression, e.g., `value ??? 1: 'one' 2: 'two' 'other' Start inputs: $1 = description of value expression",
               "properties": {
                 "case": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "How to describe when a case is checked"
                 },
                 "doc": {
@@ -4857,18 +4869,18 @@
                   "type": "string"
                 },
                 "finish": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "The text shown when this expression type finishes evaluating and has a value."
                 },
                 "label": {
                   "additionalProperties": false,
                   "properties": {
                     "case": {
-                      "$ref": "#/definitions/Template",
+                      "$ref": "#/definitions/FormattedText",
                       "description": "The label for the case being checked"
                     },
                     "other": {
-                      "$ref": "#/definitions/Template",
+                      "$ref": "#/definitions/FormattedText",
                       "description": "The label for the default value if none of the cases match"
                     }
                   },
@@ -4883,7 +4895,7 @@
                   "type": "string"
                 },
                 "start": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "The text shown when this expression type first begins evaluating."
                 }
               },
@@ -4925,7 +4937,7 @@
                   "type": "object"
                 },
                 "description": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "A precise description of the node's contents, more specific than a name. If not provided, name is used."
                 },
                 "doc": {
@@ -5082,7 +5094,7 @@
                   "type": "string"
                 },
                 "start": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "The text shown when this expression type first begins evaluating."
                 }
               },
@@ -5129,7 +5141,7 @@
                   "type": "object"
                 },
                 "description": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "A precise description of the node's contents, more specific than a name. If not provided, name is used."
                 },
                 "doc": {
@@ -5167,7 +5179,7 @@
                   "type": "string"
                 },
                 "start": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "The text shown when this expression type first begins evaluating."
                 }
               },
@@ -5220,7 +5232,7 @@
                   "type": "string"
                 },
                 "finish": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "The text shown when this expression type finishes evaluating and has a value."
                 },
                 "name": {
@@ -5228,7 +5240,7 @@
                   "type": "string"
                 },
                 "start": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "The text shown when this expression type first begins evaluating."
                 }
               },
@@ -5280,7 +5292,7 @@
                   "type": "string"
                 },
                 "finish": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "The text shown when this expression type finishes evaluating and has a value."
                 },
                 "label": {
@@ -5300,7 +5312,7 @@
                   "type": "string"
                 },
                 "start": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "The text shown when this expression type first begins evaluating."
                 }
               },
@@ -5323,7 +5335,7 @@
                   "description": "Documentation text that appears in the documentation view"
                 },
                 "done": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "What to say when the program is done evaluating"
                 },
                 "emotion": {
@@ -5387,11 +5399,11 @@
                   "type": "object"
                 },
                 "finish": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "The text shown when this expression type finishes evaluating and has a value."
                 },
                 "halt": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "What to say when the program is halting because of a fatal error"
                 },
                 "label": {
@@ -5415,11 +5427,11 @@
                   "type": "string"
                 },
                 "start": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "The text shown when this expression type first begins evaluating."
                 },
                 "unevaluated": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "What to say when the program has yet to evaluate"
                 }
               },
@@ -5455,7 +5467,7 @@
                   "type": "object"
                 },
                 "description": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "A precise description of the node's contents, more specific than a name. If not provided, name is used."
                 },
                 "doc": {
@@ -5489,17 +5501,17 @@
                   "type": "string"
                 },
                 "finish": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "The text shown when this expression type finishes evaluating and has a value."
                 },
                 "label": {
                   "additionalProperties": false,
                   "properties": {
                     "property": {
-                      "$ref": "#/definitions/Template"
+                      "$ref": "#/definitions/FormattedText"
                     },
                     "value": {
-                      "$ref": "#/definitions/Template"
+                      "$ref": "#/definitions/FormattedText"
                     }
                   },
                   "required": [
@@ -5513,7 +5525,7 @@
                   "type": "string"
                 },
                 "start": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "The text shown when this expression type first begins evaluating."
                 }
               },
@@ -5534,7 +5546,7 @@
               "description": "Getting a structure property, e.g., `mammal.name` Finish inputs: $1: property name, $2: value",
               "properties": {
                 "description": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "A precise description of the node's contents, more specific than a name. If not provided, name is used."
                 },
                 "doc": {
@@ -5568,14 +5580,14 @@
                   "type": "string"
                 },
                 "finish": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "The text shown when this expression type finishes evaluating and has a value."
                 },
                 "label": {
                   "additionalProperties": false,
                   "properties": {
                     "property": {
-                      "$ref": "#/definitions/Template"
+                      "$ref": "#/definitions/FormattedText"
                     }
                   },
                   "required": [
@@ -5588,7 +5600,7 @@
                   "type": "string"
                 },
                 "start": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "The text shown when this expression type first begins evaluating."
                 }
               },
@@ -5652,22 +5664,22 @@
                   "type": "string"
                 },
                 "finish": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "The text shown when this expression type finishes evaluating and has a value."
                 },
                 "label": {
                   "additionalProperties": false,
                   "properties": {
                     "condition": {
-                      "$ref": "#/definitions/Template",
+                      "$ref": "#/definitions/FormattedText",
                       "description": "Placeholder label for the condition to check"
                     },
                     "initial": {
-                      "$ref": "#/definitions/Template",
+                      "$ref": "#/definitions/FormattedText",
                       "description": "Placeholder label for the initial value"
                     },
                     "next": {
-                      "$ref": "#/definitions/Template",
+                      "$ref": "#/definitions/FormattedText",
                       "description": "Placeholder label for the next value"
                     }
                   },
@@ -5683,7 +5695,7 @@
                   "type": "string"
                 },
                 "start": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "The text shown when this expression type first begins evaluating."
                 }
               },
@@ -5722,7 +5734,7 @@
                           "$ref": "#/definitions/ConflictText"
                         },
                         "resolution": {
-                          "$ref": "#/definitions/Template"
+                          "$ref": "#/definitions/FormattedText"
                         }
                       },
                       "required": [
@@ -5740,7 +5752,7 @@
                   "type": "object"
                 },
                 "description": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "A precise description of the node's contents, more specific than a name. If not provided, name is used."
                 },
                 "doc": {
@@ -5792,7 +5804,7 @@
                   "type": "string"
                 },
                 "start": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "The text shown when this expression type first begins evaluating."
                 }
               },
@@ -5937,7 +5949,7 @@
                   "type": "string"
                 },
                 "finish": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "The text shown when this expression type finishes evaluating and has a value."
                 },
                 "name": {
@@ -5945,7 +5957,7 @@
                   "type": "string"
                 },
                 "start": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "The text shown when this expression type first begins evaluating."
                 }
               },
@@ -5964,7 +5976,7 @@
               "description": "A set, e.g., `{ 1 2 3 }` Finish inputs: $1 = the new set!",
               "properties": {
                 "description": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "A precise description of the node's contents, more specific than a name. If not provided, name is used."
                 },
                 "doc": {
@@ -5998,7 +6010,7 @@
                   "type": "string"
                 },
                 "finish": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "The text shown when this expression type finishes evaluating and has a value."
                 },
                 "name": {
@@ -6006,7 +6018,7 @@
                   "type": "string"
                 },
                 "start": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "The text shown when this expression type first begins evaluating."
                 }
               },
@@ -6069,7 +6081,7 @@
                   "type": "string"
                 },
                 "finish": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "The text shown when this expression type finishes evaluating and has a value."
                 },
                 "name": {
@@ -6077,7 +6089,7 @@
                   "type": "string"
                 },
                 "start": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "The text shown when this expression type first begins evaluating."
                 }
               },
@@ -6142,7 +6154,7 @@
                   "type": "string"
                 },
                 "start": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "The text shown when this expression type first begins evaluating."
                 }
               },
@@ -6196,7 +6208,7 @@
                   "type": "object"
                 },
                 "description": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "A precise description of the node's contents, more specific than a name. If not provided, name is used."
                 },
                 "doc": {
@@ -6258,7 +6270,7 @@
                   "type": "string"
                 },
                 "start": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "The text shown when this expression type first begins evaluating."
                 }
               },
@@ -6285,7 +6297,7 @@
               "description": "A table literal, e.g., `⎡a•# b•#⎦⎡1 2⎦` Description inputs: $1 = the number of rows Finish inputs: $1 = resulting table",
               "properties": {
                 "description": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "A precise description of the node's contents, more specific than a name. If not provided, name is used."
                 },
                 "doc": {
@@ -6319,7 +6331,7 @@
                   "type": "string"
                 },
                 "finish": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "The text shown when this expression type finishes evaluating and has a value."
                 },
                 "name": {
@@ -6327,7 +6339,7 @@
                   "type": "string"
                 },
                 "start": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "The text shown when this expression type first begins evaluating."
                 }
               },
@@ -6407,7 +6419,7 @@
               "description": "A text literal, e.g., `'hi'` Description inputs: $1 = the text of the text literal",
               "properties": {
                 "description": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "A precise description of the node's contents, more specific than a name. If not provided, name is used."
                 },
                 "doc": {
@@ -6457,7 +6469,7 @@
                   "type": "string"
                 },
                 "start": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "The text shown when this expression type first begins evaluating."
                 }
               },
@@ -6527,7 +6539,7 @@
                   "type": "string"
                 },
                 "start": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "The text shown when this expression type first begins evaluating."
                 }
               },
@@ -6568,11 +6580,11 @@
                       "$ref": "#/definitions/ConflictText"
                     },
                     "reminder": {
-                      "$ref": "#/definitions/Template",
+                      "$ref": "#/definitions/FormattedText",
                       "description": "Note to remind users where they can manage sensitive information for their project."
                     },
                     "resolution": {
-                      "$ref": "#/definitions/Template",
+                      "$ref": "#/definitions/FormattedText",
                       "description": "How to describe the resolution of the sensitive information conflict."
                     },
                     "tin": {
@@ -6592,7 +6604,7 @@
                   "type": "object"
                 },
                 "description": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "A precise description of the node's contents, more specific than a name. If not provided, name is used."
                 },
                 "doc": {
@@ -6743,7 +6755,7 @@
               "description": "A unary operation, e.g., `-1` Description inputs: $1 = the operator Finish inputs: $1 = resulting value",
               "properties": {
                 "description": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "A precise description of the node's contents, more specific than a name. If not provided, name is used."
                 },
                 "doc": {
@@ -6777,7 +6789,7 @@
                   "type": "string"
                 },
                 "finish": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "The text shown when this expression type finishes evaluating and has a value."
                 },
                 "label": {
@@ -6797,7 +6809,7 @@
                   "type": "string"
                 },
                 "start": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "The text shown when this expression type first begins evaluating."
                 }
               },
@@ -6899,7 +6911,7 @@
                           "$ref": "#/definitions/ConflictText"
                         },
                         "resolution": {
-                          "$ref": "#/definitions/Template"
+                          "$ref": "#/definitions/FormattedText"
                         }
                       },
                       "required": [
@@ -6964,7 +6976,7 @@
                   "type": "string"
                 },
                 "start": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "The text shown when this expression type first begins evaluating."
                 }
               },
@@ -7036,7 +7048,7 @@
                   "type": "string"
                 },
                 "finish": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "The text shown when this expression type finishes evaluating and has a value."
                 },
                 "name": {
@@ -7044,7 +7056,7 @@
                   "type": "string"
                 },
                 "start": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "The text shown when this expression type first begins evaluating."
                 }
               },
@@ -7336,7 +7348,7 @@
               "description": "An arrangement where locations are specified by content",
               "properties": {
                 "description": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "A description of the free layout for screen readers. $1: output count"
                 },
                 "doc": {
@@ -7372,7 +7384,7 @@
                   "description": "How many columns in the grid"
                 },
                 "description": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "A description of the grid of content $1: rows $2: columns"
                 },
                 "doc": {
@@ -7421,7 +7433,7 @@
                   "description": "The list of content in the group"
                 },
                 "defaultDescription": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "$1 = Layout description, $2 = pose description"
                 },
                 "description": {
@@ -7617,7 +7629,7 @@
                   "description": "The color of characters in a phrase, group, or stage"
                 },
                 "defaultDescription": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "A description of the phrase for screen readers. 1$: non-optional text, $2: optional name, $3: optional size, $4: optional font, $5: then non-optional pose"
                 },
                 "description": {
@@ -7841,7 +7853,7 @@
                   "$ref": "#/definitions/NameAndDoc"
                 },
                 "description": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "Templated description of the pose"
                 },
                 "doc": {
@@ -7942,7 +7954,7 @@
                   "description": "Whether to align content vertically at the start, center, or end of the vertical axis"
                 },
                 "description": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "A description of the row for screen readers. $1: total count $2: phrase count $3: group count"
                 },
                 "doc": {
@@ -8178,7 +8190,7 @@
                   "description": "Whether to align content at the start, center, or end of the horizontal axis"
                 },
                 "description": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "A description of the stack for screen readers. $1: total count $2: phrase count $3: group count"
                 },
                 "doc": {
@@ -8220,7 +8232,7 @@
                   "description": "A list of content to show on stage"
                 },
                 "defaultDescription": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "A description of the stage for screen readers. $1: total outputs, $2: total phrases, $3: total groups, $4: pose"
                 },
                 "description": {
@@ -8565,6 +8577,7 @@
               "type": "string"
             },
             "group": {
+              "description": "The word for a group of output in a Wordplay program",
               "type": "string"
             },
             "help": {
@@ -8656,6 +8669,7 @@
               "type": "string"
             },
             "stage": {
+              "description": "The word for the visual stage on which output is displayed",
               "type": "string"
             },
             "start": {
@@ -8679,6 +8693,7 @@
               "type": "string"
             },
             "type": {
+              "description": "The word for a data type",
               "type": "string"
             },
             "unit": {
@@ -9043,7 +9058,7 @@
                       "type": "string"
                     },
                     "resolution": {
-                      "$ref": "#/definitions/Template",
+                      "$ref": "#/definitions/FormattedText",
                       "description": "How the resolution button should should be described"
                     },
                     "toggle": {
@@ -9059,15 +9074,15 @@
                   "type": "object"
                 },
                 "cursor": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "The description of the cursor position"
                 },
                 "cursorParent": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "The description fo the cursor position's parent"
                 },
                 "evaluating": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "What function should say when evaluating"
                 },
                 "label": {
@@ -9075,11 +9090,11 @@
                   "type": "string"
                 },
                 "learn": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "The prompt to line more about the cursor node"
                 },
                 "space": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "What function should say when the cursor is in space"
                 }
               },
@@ -9138,7 +9153,7 @@
                   "additionalProperties": false,
                   "properties": {
                     "ago": {
-                      "$ref": "#/definitions/Template"
+                      "$ref": "#/definitions/FormattedText"
                     },
                     "history": {
                       "type": "string"
@@ -9252,11 +9267,11 @@
                     "explanation": {
                       "anyOf": [
                         {
-                          "$ref": "#/definitions/Template"
+                          "$ref": "#/definitions/FormattedText"
                         },
                         {
                           "items": {
-                            "$ref": "#/definitions/Template"
+                            "$ref": "#/definitions/FormattedText"
                           },
                           "type": "array"
                         }
@@ -9268,7 +9283,7 @@
                       "type": "string"
                     },
                     "inGallery": {
-                      "type": "string"
+                      "$ref": "#/definitions/FormattedText"
                     },
                     "moderate": {
                       "$ref": "#/definitions/ButtonText"
@@ -9296,21 +9311,26 @@
                 },
                 "prompt": {
                   "additionalProperties": false,
-                  "description": "Messages to explain the purpose",
+                  "description": "Messages to explain the purpose of the chat to each kind of participant",
                   "properties": {
                     "collaborator": {
+                      "description": "Shown to collaborators; describes their editing and chat permissions",
                       "type": "string"
                     },
                     "commenter": {
+                      "description": "Shown to commenters; describes their chat-only permissions",
                       "type": "string"
                     },
                     "curator": {
+                      "description": "Shown to gallery curators; describes their editing and chat permissions",
                       "type": "string"
                     },
                     "owner": {
+                      "description": "Shown to the project owner; describes what collaborators and commenters can do",
                       "type": "string"
                     },
                     "solo": {
+                      "description": "Shown when the user is the only participant; invites them to add collaborators",
                       "type": "string"
                     }
                   },
@@ -9325,12 +9345,15 @@
                 },
                 "restrictGalleryCreatorAccess": {
                   "additionalProperties": false,
+                  "description": "Controls for restricting project visibility when it is in a gallery",
                   "properties": {
                     "explanation": {
-                      "type": "string"
+                      "$ref": "#/definitions/FormattedText",
+                      "description": "Explains that the project is in a gallery and describes the visibility restriction option"
                     },
                     "mode": {
-                      "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%5D%3E"
+                      "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%5D%3E",
+                      "description": "The toggle mode for restricting project visibility to owner and curators only"
                     }
                   },
                   "required": [
@@ -9466,11 +9489,11 @@
                     "explanation": {
                       "anyOf": [
                         {
-                          "$ref": "#/definitions/Template"
+                          "$ref": "#/definitions/FormattedText"
                         },
                         {
                           "items": {
-                            "$ref": "#/definitions/Template"
+                            "$ref": "#/definitions/FormattedText"
                           },
                           "type": "array"
                         }
@@ -9520,11 +9543,14 @@
                     },
                     "prompt": {
                       "additionalProperties": false,
+                      "description": "Prompts inviting the user to submit new feedback if they didn't find an existing match",
                       "properties": {
                         "defect": {
+                          "description": "Prompt shown above the defect list encouraging new bug reports",
                           "type": "string"
                         },
                         "idea": {
+                          "description": "Prompt shown above the ideas list encouraging new feature suggestions",
                           "type": "string"
                         }
                       },
@@ -9577,11 +9603,11 @@
                     "explanation": {
                       "anyOf": [
                         {
-                          "$ref": "#/definitions/Template"
+                          "$ref": "#/definitions/FormattedText"
                         },
                         {
                           "items": {
-                            "$ref": "#/definitions/Template"
+                            "$ref": "#/definitions/FormattedText"
                           },
                           "type": "array"
                         }
@@ -9665,11 +9691,11 @@
                     "explanation": {
                       "anyOf": [
                         {
-                          "$ref": "#/definitions/Template"
+                          "$ref": "#/definitions/FormattedText"
                         },
                         {
                           "items": {
-                            "$ref": "#/definitions/Template"
+                            "$ref": "#/definitions/FormattedText"
                           },
                           "type": "array"
                         }
@@ -9721,16 +9747,17 @@
                       "$ref": "#/definitions/ButtonText"
                     },
                     "delete": {
+                      "description": "Tooltip for the button that deletes a notification",
                       "type": "string"
                     },
                     "explanation": {
                       "anyOf": [
                         {
-                          "$ref": "#/definitions/Template"
+                          "$ref": "#/definitions/FormattedText"
                         },
                         {
                           "items": {
-                            "$ref": "#/definitions/Template"
+                            "$ref": "#/definitions/FormattedText"
                           },
                           "type": "array"
                         }
@@ -9746,20 +9773,26 @@
                     },
                     "notification": {
                       "additionalProperties": false,
+                      "description": "Templates for the title of each notification kind",
                       "properties": {
                         "howToChatHeader": {
+                          "description": "Title for a new how-to chat message notification, with $1 as the how-to title",
                           "type": "string"
                         },
                         "howToHeader": {
+                          "description": "Title for a new how-to notification, with $1 as the how-to title",
                           "type": "string"
                         },
                         "link": {
+                          "description": "Link label to view notification details",
                           "type": "string"
                         },
                         "moderationHeader": {
+                          "description": "Title for a moderation-required notification, with $1 as the project name",
                           "type": "string"
                         },
                         "projectChatHeader": {
+                          "description": "Title for a new project chat message notification, with $1 as the project name",
                           "type": "string"
                         }
                       },
@@ -9777,6 +9810,7 @@
                       "type": "string"
                     },
                     "popup": {
+                      "description": "ARIA label for the new-notification popup indicator",
                       "type": "string"
                     }
                   },
@@ -9812,11 +9846,11 @@
                     "explanation": {
                       "anyOf": [
                         {
-                          "$ref": "#/definitions/Template"
+                          "$ref": "#/definitions/FormattedText"
                         },
                         {
                           "items": {
-                            "$ref": "#/definitions/Template"
+                            "$ref": "#/definitions/FormattedText"
                           },
                           "type": "array"
                         }
@@ -9958,11 +9992,11 @@
                     "explanation": {
                       "anyOf": [
                         {
-                          "$ref": "#/definitions/Template"
+                          "$ref": "#/definitions/FormattedText"
                         },
                         {
                           "items": {
-                            "$ref": "#/definitions/Template"
+                            "$ref": "#/definitions/FormattedText"
                           },
                           "type": "array"
                         }
@@ -10073,6 +10107,7 @@
               "properties": {
                 "button": {
                   "additionalProperties": false,
+                  "description": "Buttons in the documentation tile",
                   "properties": {
                     "back": {
                       "description": "The back button in the docs tile",
@@ -10096,6 +10131,7 @@
                 },
                 "field": {
                   "additionalProperties": false,
+                  "description": "Text fields in the documentation tile",
                   "properties": {
                     "search": {
                       "description": "The search text field",
@@ -10248,7 +10284,7 @@
                   "type": "string"
                 },
                 "link": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "A link to a concept in documentation"
                 },
                 "mode": {
@@ -10256,10 +10292,12 @@
                   "description": "Modes in the guide",
                   "properties": {
                     "browse": {
-                      "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%5D%3E"
+                      "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%5D%3E",
+                      "description": "Toggle between browsing all concepts and filtering by purpose"
                     },
                     "purpose": {
-                      "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%5D%3E"
+                      "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%5D%3E",
+                      "description": "Filter concepts by purpose category"
                     }
                   },
                   "required": [
@@ -10274,6 +10312,7 @@
                 },
                 "note": {
                   "additionalProperties": false,
+                  "description": "Notes shown in the documentation tile",
                   "properties": {
                     "empty": {
                       "description": "The project has no concepts.",
@@ -10383,7 +10422,7 @@
               "description": "Descriptions of cursor positions and code transformations",
               "properties": {
                 "append": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "$1: node description"
                 },
                 "area": {
@@ -10391,15 +10430,15 @@
                   "type": "string"
                 },
                 "assign": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "$1: node description"
                 },
                 "before": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "A way to say \"before [token], at the beginning of the program\""
                 },
                 "between": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "A way to say \"between [token1] and [token2]\""
                 },
                 "bind": {
@@ -10407,35 +10446,35 @@
                   "type": "string"
                 },
                 "conflicts": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "A description of how many conflicts are at this position"
                 },
                 "inside": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "A way to say \"inside [description], between character [before|start] and [after|end]\""
                 },
                 "line": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "A way to say \"empty line between [node1] and [node2]\""
                 },
                 "node": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "A way to say \"on node of type [type]\""
                 },
                 "range": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "Description of a selection range"
                 },
                 "remove": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "$1: node description"
                 },
                 "replace": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "$1: node description or undefined"
                 },
                 "show": {
-                  "$ref": "#/definitions/Template",
+                  "$ref": "#/definitions/FormattedText",
                   "description": "Show elided data structure $1 count"
                 },
                 "unwrap": {
@@ -10614,8 +10653,8 @@
               "description": "Gallery moderation page labels",
               "properties": {
                 "description": {
-                  "description": "Description for the moderation page",
-                  "type": "string"
+                  "$ref": "#/definitions/FormattedText",
+                  "description": "Description for the moderation page"
                 },
                 "empty": {
                   "description": "No messages need moderation",
@@ -10907,8 +10946,8 @@
                       "type": "string"
                     },
                     "note": {
-                      "description": "Text indicating that the how-to is currently a draft",
-                      "type": "string"
+                      "$ref": "#/definitions/FormattedText",
+                      "description": "Text indicating that the how-to is currently a draft"
                     },
                     "prompt": {
                       "description": "Explanation for the drafts area",
@@ -11027,8 +11066,8 @@
                       "type": "string"
                     },
                     "prompt": {
-                      "description": "Prompt for the how-to space in the gallery view",
-                      "type": "string"
+                      "$ref": "#/definitions/FormattedText",
+                      "description": "Prompt for the how-to space in the gallery view"
                     },
                     "subheader": {
                       "description": "Subtitle for the how-to space in the gallery view",
@@ -11110,8 +11149,8 @@
                           "type": "string"
                         },
                         "empty": {
-                          "description": "Text for if the user does not have any other how-tos or projects",
-                          "type": "string"
+                          "$ref": "#/definitions/FormattedText",
+                          "description": "Text for if the user does not have any other how-tos or projects"
                         },
                         "prompt": {
                           "description": "Text for asking if the user used this how-to in their project or another how-to",
@@ -11197,14 +11236,18 @@
                   "type": "object"
                 },
                 "description": {
-                  "description": "An explanation of the localization editor",
-                  "type": "string"
+                  "$ref": "#/definitions/FormattedText",
+                  "description": "An explanation of the localization editor"
                 },
                 "field": {
                   "$ref": "#/definitions/FieldText"
                 },
                 "header": {
                   "description": "The header for the localization editor",
+                  "type": "string"
+                },
+                "strings": {
+                  "description": "The ARIA label for the dropdown that lists all locale strings available to review and edit",
                   "type": "string"
                 },
                 "toggle": {
@@ -11226,7 +11269,8 @@
                 "description",
                 "toggle",
                 "button",
-                "field"
+                "field",
+                "strings"
               ],
               "type": "object"
             },
@@ -11334,7 +11378,7 @@
                     "content": {
                       "description": "Text for the about page",
                       "items": {
-                        "type": "string"
+                        "$ref": "#/definitions/FormattedText"
                       },
                       "type": "array"
                     },
@@ -11357,11 +11401,11 @@
                       "additionalProperties": false,
                       "properties": {
                         "position": {
-                          "$ref": "#/definitions/Template",
+                          "$ref": "#/definitions/FormattedText",
                           "description": "When cursor position changes $1 x, $2: y."
                         },
                         "selection": {
-                          "$ref": "#/definitions/Template",
+                          "$ref": "#/definitions/FormattedText",
                           "description": "When selection changes. $1 is list of shape types."
                         }
                       },
@@ -11864,8 +11908,8 @@
                       "type": "string"
                     },
                     "prompt": {
-                      "description": "Explanation for the character page",
-                      "type": "string"
+                      "$ref": "#/definitions/FormattedText",
+                      "description": "Explanation for the character page"
                     },
                     "subheader": {
                       "additionalProperties": false,
@@ -11953,12 +11997,12 @@
                       "additionalProperties": false,
                       "properties": {
                         "delete": {
-                          "description": "Explain deletion",
-                          "type": "string"
+                          "$ref": "#/definitions/FormattedText",
+                          "description": "Explain deletion"
                         },
                         "gallery": {
-                          "description": "Encourage galleries",
-                          "type": "string"
+                          "$ref": "#/definitions/FormattedText",
+                          "description": "Encourage galleries"
                         }
                       },
                       "required": [
@@ -12007,16 +12051,16 @@
                     "content": {
                       "description": "The content of the page",
                       "items": {
-                        "$ref": "#/definitions/Template"
+                        "$ref": "#/definitions/FormattedText"
                       },
                       "type": "array"
                     },
                     "header": {
-                      "$ref": "#/definitions/Template",
+                      "$ref": "#/definitions/FormattedText",
                       "description": "The label for the link and header"
                     },
                     "prompt": {
-                      "$ref": "#/definitions/Template",
+                      "$ref": "#/definitions/FormattedText",
                       "description": "The explanation of the link"
                     }
                   },
@@ -12069,8 +12113,8 @@
                       "type": "string"
                     },
                     "prompt": {
-                      "description": "Explanation for the galleries page",
-                      "type": "string"
+                      "$ref": "#/definitions/FormattedText",
+                      "description": "Explanation for the galleries page"
                     },
                     "section": {
                       "additionalProperties": false,
@@ -12111,8 +12155,8 @@
                   "description": "Docuemntation guide page text",
                   "properties": {
                     "description": {
-                      "description": "A description of the guide",
-                      "type": "string"
+                      "$ref": "#/definitions/FormattedText",
+                      "description": "A description of the guide"
                     },
                     "header": {
                       "description": "The header for the guide page",
@@ -12138,16 +12182,16 @@
                       "description": "Requests for information on the account creation page",
                       "properties": {
                         "create": {
-                          "description": "Prompt to create an account",
-                          "type": "string"
+                          "$ref": "#/definitions/FormattedText",
+                          "description": "Prompt to create an account"
                         },
                         "password": {
-                          "description": "Password rules and warnings",
-                          "type": "string"
+                          "$ref": "#/definitions/FormattedText",
+                          "description": "Password rules and warnings"
                         },
                         "username": {
-                          "description": "Username rules",
-                          "type": "string"
+                          "$ref": "#/definitions/FormattedText",
+                          "description": "Username rules"
                         }
                       },
                       "required": [
@@ -12171,7 +12215,7 @@
                     "beta": {
                       "description": "The landing page beta warning",
                       "items": {
-                        "$ref": "#/definitions/Template"
+                        "$ref": "#/definitions/FormattedText"
                       },
                       "type": "array"
                     },
@@ -12182,11 +12226,11 @@
                     "description": {
                       "anyOf": [
                         {
-                          "$ref": "#/definitions/Template"
+                          "$ref": "#/definitions/FormattedText"
                         },
                         {
                           "items": {
-                            "$ref": "#/definitions/Template"
+                            "$ref": "#/definitions/FormattedText"
                           },
                           "type": "array"
                         }
@@ -12284,7 +12328,7 @@
                       "type": "object"
                     },
                     "value": {
-                      "$ref": "#/definitions/Template",
+                      "$ref": "#/definitions/FormattedText",
                       "description": "The value proposition for the site"
                     }
                   },
@@ -12320,8 +12364,8 @@
                       "type": "object"
                     },
                     "error": {
-                      "description": "When the tutorial could not be found",
-                      "type": "string"
+                      "$ref": "#/definitions/FormattedText",
+                      "description": "When the tutorial could not be found"
                     },
                     "header": {
                       "description": "The header for the tutorial page",
@@ -12501,8 +12545,8 @@
                           "type": "string"
                         },
                         "match": {
-                          "description": "Email or username must match to delete account",
-                          "type": "string"
+                          "$ref": "#/definitions/FormattedText",
+                          "description": "Email or username must match to delete account"
                         },
                         "updatedPassword": {
                           "description": "Password successfully updated",
@@ -12574,28 +12618,28 @@
                           "type": "string"
                         },
                         "email": {
-                          "description": "Email login explanation",
-                          "type": "string"
+                          "$ref": "#/definitions/FormattedText",
+                          "description": "Email login explanation"
                         },
                         "enter": {
                           "description": "Asks the creator to enter their email if they opened the email link in a different browser.",
                           "type": "string"
                         },
                         "forgot": {
-                          "description": "Forgot password regrets",
-                          "type": "string"
+                          "$ref": "#/definitions/FormattedText",
+                          "description": "Forgot password regrets"
                         },
                         "join": {
-                          "description": "Prompt to join on the login page",
-                          "type": "string"
+                          "$ref": "#/definitions/FormattedText",
+                          "description": "Prompt to join on the login page"
                         },
                         "login": {
-                          "description": "Prompts creator to login to save their work",
-                          "type": "string"
+                          "$ref": "#/definitions/FormattedText",
+                          "description": "Prompts creator to login to save their work"
                         },
                         "logout": {
-                          "description": "Offers to log out the creator.",
-                          "type": "string"
+                          "$ref": "#/definitions/FormattedText",
+                          "description": "Offers to log out the creator."
                         },
                         "name": {
                           "description": "Pick an emoji as a name",
@@ -12754,8 +12798,8 @@
                               "type": "string"
                             },
                             "prompt": {
-                              "description": "Explanation of existing users.",
-                              "type": "string"
+                              "$ref": "#/definitions/FormattedText",
+                              "description": "Explanation of existing users."
                             }
                           },
                           "required": [
@@ -12781,7 +12825,7 @@
                               "type": "string"
                             },
                             "prompt": {
-                              "type": "string"
+                              "$ref": "#/definitions/FormattedText"
                             }
                           },
                           "required": [
@@ -12812,7 +12856,7 @@
                               "type": "string"
                             },
                             "prompt": {
-                              "type": "string"
+                              "$ref": "#/definitions/FormattedText"
                             }
                           },
                           "required": [
@@ -12843,28 +12887,28 @@
                       "additionalProperties": false,
                       "properties": {
                         "download": {
-                          "description": "Download instructions",
-                          "type": "string"
+                          "$ref": "#/definitions/FormattedText",
+                          "description": "Download instructions"
                         },
                         "pending": {
                           "description": "When generating usernames and passwords",
                           "type": "string"
                         },
                         "ready": {
-                          "description": "What to say before there are any generated credentials.",
-                          "type": "string"
+                          "$ref": "#/definitions/FormattedText",
+                          "description": "What to say before there are any generated credentials."
                         },
                         "review": {
-                          "description": "Prompt review of the genrated students.",
-                          "type": "string"
+                          "$ref": "#/definitions/FormattedText",
+                          "description": "Prompt review of the genrated students."
                         },
                         "start": {
-                          "description": "Explain the purpose of the form",
-                          "type": "string"
+                          "$ref": "#/definitions/FormattedText",
+                          "description": "Explain the purpose of the form"
                         },
                         "submit": {
-                          "description": "Ready to submit instructions",
-                          "type": "string"
+                          "$ref": "#/definitions/FormattedText",
+                          "description": "Ready to submit instructions"
                         },
                         "submitting": {
                           "description": "Submitting instructions",
@@ -12929,8 +12973,8 @@
                       "description": "Dialog text for the project addition dialog"
                     },
                     "archiveprompt": {
-                      "description": "Explanation for the archive subsection",
-                      "type": "string"
+                      "$ref": "#/definitions/FormattedText",
+                      "description": "Explanation for the archive subsection"
                     },
                     "button": {
                       "additionalProperties": false,
@@ -13011,8 +13055,8 @@
                       "type": "string"
                     },
                     "projectprompt": {
-                      "description": "Explanation for the project page",
-                      "type": "string"
+                      "$ref": "#/definitions/FormattedText",
+                      "description": "Explanation for the project page"
                     },
                     "subheader": {
                       "additionalProperties": false,
@@ -13058,14 +13102,14 @@
                     "consequences": {
                       "description": "The consequences of violating a promise.",
                       "items": {
-                        "$ref": "#/definitions/Template"
+                        "$ref": "#/definitions/FormattedText"
                       },
                       "type": "array"
                     },
                     "content": {
                       "description": "Paragraphs for the rights page",
                       "items": {
-                        "$ref": "#/definitions/Template"
+                        "$ref": "#/definitions/FormattedText"
                       },
                       "type": "array"
                     },
@@ -13089,16 +13133,16 @@
                       "additionalProperties": false,
                       "properties": {
                         "login": {
-                          "description": "When not logged in",
-                          "type": "string"
+                          "$ref": "#/definitions/FormattedText",
+                          "description": "When not logged in"
                         },
                         "offline": {
-                          "description": "When unable to check teacher status or classes",
-                          "type": "string"
+                          "$ref": "#/definitions/FormattedText",
+                          "description": "When unable to check teacher status or classes"
                         },
                         "teacher": {
-                          "description": "When logged in, but not a teacher",
-                          "type": "string"
+                          "$ref": "#/definitions/FormattedText",
+                          "description": "When logged in, but not a teacher"
                         }
                       },
                       "required": [
@@ -13134,12 +13178,12 @@
                       "additionalProperties": false,
                       "properties": {
                         "none": {
-                          "description": "No classes",
-                          "type": "string"
+                          "$ref": "#/definitions/FormattedText",
+                          "description": "No classes"
                         },
                         "some": {
-                          "description": "One or more classes",
-                          "type": "string"
+                          "$ref": "#/definitions/FormattedText",
+                          "description": "One or more classes"
                         }
                       },
                       "required": [
@@ -13212,7 +13256,7 @@
                     "content": {
                       "description": "Text for the about page",
                       "items": {
-                        "type": "string"
+                        "$ref": "#/definitions/FormattedText"
                       },
                       "type": "array"
                     },
@@ -13490,23 +13534,23 @@
                   "additionalProperties": false,
                   "properties": {
                     "editing": {
-                      "$ref": "#/definitions/Template",
+                      "$ref": "#/definitions/FormattedText",
                       "description": "The text prompting the creator to edit the selected output"
                     },
                     "offerGroup": {
-                      "$ref": "#/definitions/Template",
+                      "$ref": "#/definitions/FormattedText",
                       "description": "The text offering to create a group in the palette without a stage"
                     },
                     "offerPhrase": {
-                      "$ref": "#/definitions/Template",
+                      "$ref": "#/definitions/FormattedText",
                       "description": "The text offering to create a phrase in the palette without a stage"
                     },
                     "offerStage": {
-                      "$ref": "#/definitions/Template",
+                      "$ref": "#/definitions/FormattedText",
                       "description": "The text offering to create a stage in the palette without a stage"
                     },
                     "select": {
-                      "$ref": "#/definitions/Template",
+                      "$ref": "#/definitions/FormattedText",
                       "description": "Prompt if no selection"
                     }
                   },
@@ -13733,7 +13777,7 @@
                       "description": "The content for the translation dialog"
                     },
                     "unsaved": {
-                      "$ref": "#/definitions/Template",
+                      "$ref": "#/definitions/FormattedText",
                       "description": "The header for the save error"
                     }
                   },
@@ -13760,6 +13804,7 @@
                       "type": "string"
                     },
                     "unknown": {
+                      "description": "Shown when a project doesn't exist or the user doesn't have access",
                       "type": "string"
                     }
                   },
@@ -13793,27 +13838,27 @@
                   "description": "The messages shown for save status",
                   "properties": {
                     "projectContainedPII": {
-                      "$ref": "#/definitions/Template",
+                      "$ref": "#/definitions/FormattedText",
                       "description": "When a project wasn't saved because it contained PII"
                     },
                     "projectNotSavedOnline": {
-                      "$ref": "#/definitions/Template",
+                      "$ref": "#/definitions/FormattedText",
                       "description": "When a project couldn't be saved to the database"
                     },
                     "projectsCannotNotSaveLocally": {
-                      "$ref": "#/definitions/Template",
+                      "$ref": "#/definitions/FormattedText",
                       "description": "When projects can't save locally"
                     },
                     "projectsNotLoadingOnline": {
-                      "$ref": "#/definitions/Template",
+                      "$ref": "#/definitions/FormattedText",
                       "description": "Projects failed to load"
                     },
                     "projectsNotSavedLocally": {
-                      "$ref": "#/definitions/Template",
+                      "$ref": "#/definitions/FormattedText",
                       "description": "When projects fail to save locally"
                     },
                     "settingsUnsaved": {
-                      "$ref": "#/definitions/Template",
+                      "$ref": "#/definitions/FormattedText",
                       "description": "When settings are being saved"
                     }
                   },
@@ -13831,11 +13876,11 @@
                   "additionalProperties": false,
                   "properties": {
                     "destination": {
-                      "$ref": "#/definitions/Template",
+                      "$ref": "#/definitions/FormattedText",
                       "description": "The header for the destination language"
                     },
                     "source": {
-                      "$ref": "#/definitions/Template",
+                      "$ref": "#/definitions/FormattedText",
                       "description": "The header for the source language"
                     }
                   },
@@ -15051,7 +15096,7 @@
           "type": "object"
         },
         "done": {
-          "$ref": "#/definitions/Template",
+          "$ref": "#/definitions/FormattedText",
           "description": "Done message"
         },
         "error": {
@@ -15077,7 +15122,7 @@
           "description": "Moderation view text"
         },
         "progress": {
-          "$ref": "#/definitions/Template",
+          "$ref": "#/definitions/FormattedText",
           "description": "Progress message"
         },
         "unmoderated": {
@@ -15189,9 +15234,6 @@
       "type": [
         "string"
       ]
-    },
-    "Template": {
-      "type": "string"
     },
     "ToggleText": {
       "additionalProperties": false,

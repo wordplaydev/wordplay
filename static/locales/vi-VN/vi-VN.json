@@ -6256,7 +6256,8 @@
             "field": {
                 "description": "$~Văn bản thay thế được đề xuất",
                 "placeholder": "$~Nhập thông tin thay thế..."
-            }
+            },
+            "strings": "$~Chuỗi ngôn ngữ"
         }
     },
     "moderation": {

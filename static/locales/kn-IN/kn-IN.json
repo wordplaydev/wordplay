@@ -6265,7 +6265,8 @@
             "field": {
                 "description": "$~ಸೂಚಿಸಲಾದ ಬದಲಿ ಪಠ್ಯ",
                 "placeholder": "$~ಬದಲಿ ನಮೂದಿಸಿ..."
-            }
+            },
+            "strings": "$~ಸ್ಥಳೀಯ ವಾಕ್ಯಗಳು"
         }
     },
     "moderation": {

@@ -6256,7 +6256,8 @@
             "field": {
                 "description": "$~Texte de remplacement suggéré",
                 "placeholder": "$~Saisir le remplacement..."
-            }
+            },
+            "strings": "$~Chaînes de paramètres régionaux"
         }
     },
     "moderation": {

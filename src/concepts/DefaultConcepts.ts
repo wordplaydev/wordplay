@@ -24,7 +24,7 @@ import TableType from '../nodes/TableType';
 import type Concept from './Concept';
 import FunctionConcept from './FunctionConcept';
 import NodeConcept from './NodeConcept';
-import { Purpose } from './Purpose';
+import { Purpose, type PurposeType } from './Purpose';
 import StructureConcept from './StructureConcept';
 import Templates from './Templates';
 
@@ -134,7 +134,7 @@ export function getBasisConcepts(
 
 export function getStructureOrFunctionConcept(
     def: StructureDefinition | FunctionDefinition,
-    purpose: Purpose,
+    purpose: PurposeType,
     affiliation: StructureDefinition | undefined,
     locales: Locales,
     context: Context,

@@ -26,7 +26,7 @@
     import Button from '../../components/widgets/Button.svelte';
     import { Projects, locales } from '../../db/Database';
     import { firestore } from '../../db/firebase';
-    import type { Flag, Moderation } from '../../db/projects/Moderation';
+    import type { Flag, ModerationState } from '../../db/projects/Moderation';
     import {
         Flags,
         getFlagDescription,
@@ -56,7 +56,7 @@
         $state(null);
     let project: Project | undefined = $state(undefined);
 
-    let newFlags: Moderation | undefined = $state();
+    let newFlags: ModerationState | undefined = $state();
 
     let moderatedCount = $state(0);
     let unmoderatedCount = $state(0);

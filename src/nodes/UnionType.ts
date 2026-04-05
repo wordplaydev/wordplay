@@ -58,7 +58,7 @@ export default class UnionType extends Type {
         return 'UnionType';
     }
 
-    getPurpose(): Purpose {
+    getPurpose() {
         return Purpose.Types;
     }
 

@@ -108,7 +108,7 @@ export default class SetOrMapAccess extends Expression {
         ) as this;
     }
 
-    getPurpose(): Purpose {
+    getPurpose() {
         return Purpose.Maps;
     }
 

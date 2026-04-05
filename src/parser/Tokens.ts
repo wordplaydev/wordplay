@@ -1,4 +1,4 @@
-import { Sym } from '../nodes/Sym';
+import { Sym, type SymType } from '../nodes/Sym';
 import Token from '../nodes/Token';
 import type Spaces from './Spaces';
 
@@ -62,7 +62,7 @@ export default class Tokens {
     }
 
     /** Returns true if and only if the next token is the specified type. */
-    nextIs(type: Sym, text?: string): boolean {
+    nextIs(type: SymType, text?: string): boolean {
         return (
             this.hasNext() &&
             this.peek()?.isSymbol(type) === true &&
@@ -71,12 +71,12 @@ export default class Tokens {
     }
 
     /** Returns true if and only if there is a next token and it's not the specified type. */
-    nextIsnt(type: Sym): boolean {
+    nextIsnt(type: SymType): boolean {
         return this.hasNext() && this.peek()?.isntSymbol(type) === true;
     }
 
     /** Returns true if and only if the next series of tokens matches the series of given token types. */
-    nextAre(...types: Sym[]) {
+    nextAre(...types: SymType[]) {
         return types.every(
             (type, index) =>
                 index < this.#unread.length &&
@@ -85,14 +85,14 @@ export default class Tokens {
     }
 
     /** Returns true if and only there was a previous token and it was of the given type. */
-    previousWas(type: Sym): boolean {
+    previousWas(type: SymType): boolean {
         return (
             this.#read.length > 0 &&
             this.#read[this.#read.length - 1].isSymbol(type)
         );
     }
 
-    beforeNextLineIs(type: Sym) {
+    beforeNextLineIs(type: SymType) {
         // To detect this, we'll just peek ahead and see if there's a bind before the next line.
         let index = 0;
         while (index < this.#unread.length) {
@@ -108,7 +108,7 @@ export default class Tokens {
         );
     }
 
-    nextIsOneOf(...types: Sym[]): boolean {
+    nextIsOneOf(...types: SymType[]): boolean {
         return types.find((type) => this.nextIs(type)) !== undefined;
     }
 
@@ -134,7 +134,7 @@ export default class Tokens {
         );
     }
 
-    afterNextIs(type: Sym) {
+    afterNextIs(type: SymType) {
         const after = this.#unread[1];
         return after !== undefined && after.isSymbol(type);
     }
@@ -169,7 +169,7 @@ export default class Tokens {
     }
 
     /** Returns a token list without the first token. */
-    read(expectedType?: Sym): Token {
+    read(expectedType?: SymType): Token {
         const next = this.#unread.shift();
         if (next !== undefined) {
             if (expectedType !== undefined && !next.isSymbol(expectedType)) {
@@ -190,7 +190,7 @@ export default class Tokens {
         } else return new Token('', Sym.End);
     }
 
-    readIf(type: Sym) {
+    readIf(type: SymType) {
         return this.nextIs(type) ? this.read() : undefined;
     }
 

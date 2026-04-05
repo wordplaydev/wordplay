@@ -29,7 +29,7 @@ export default class NoneLiteral extends Literal {
         return 'NoneLiteral';
     }
 
-    getPurpose(): Purpose {
+    getPurpose() {
         return Purpose.Truth;
     }
 

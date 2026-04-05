@@ -20,7 +20,7 @@ export default class VariableType extends Type {
         return 'VariableType';
     }
 
-    getPurpose(): Purpose {
+    getPurpose() {
         return Purpose.Hidden;
     }
 

@@ -9,7 +9,7 @@ export default abstract class BasisType extends Type {
         super();
     }
 
-    getPurpose(): Purpose {
+    getPurpose() {
         return Purpose.Types;
     }
 

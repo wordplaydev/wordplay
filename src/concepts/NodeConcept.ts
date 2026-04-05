@@ -11,13 +11,13 @@ import type { Emotion } from '../lore/Emotion';
 import type Markup from '../nodes/Markup';
 import type { CharacterName } from '../tutorial/Tutorial';
 import Concept from './Concept';
-import type { Purpose } from './Purpose';
+import type { PurposeType } from './Purpose';
 
 export default class NodeConcept extends Concept {
     readonly template: Node;
 
     constructor(
-        purpose: Purpose,
+        purpose: PurposeType,
         type: StructureDefinition | undefined,
         template: Node,
         context: Context,

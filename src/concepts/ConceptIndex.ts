@@ -1,4 +1,4 @@
-import GalleryHowTo from "@db/howtos/HowToDatabase.svelte";
+import GalleryHowTo from '@db/howtos/HowToDatabase.svelte';
 import Bind from '@nodes/Bind';
 import FunctionDefinition from '@nodes/FunctionDefinition';
 import type Node from '@nodes/Node';
@@ -21,11 +21,11 @@ import {
     getOutputConcepts,
 } from './DefaultConcepts';
 import FunctionConcept from './FunctionConcept';
-import GalleryHowConcept from "./GalleryHowConcept";
+import GalleryHowConcept from './GalleryHowConcept';
 import HowConcept from './HowConcept';
 import type HowTo from './HowTo';
 import NodeConcept from './NodeConcept';
-import { Purpose } from './Purpose';
+import { Purpose, type PurposeType } from './Purpose';
 import StreamConcept from './StreamConcept';
 import StructureConcept from './StructureConcept';
 
@@ -140,13 +140,13 @@ export default class ConceptIndex {
                 def instanceof StreamDefinition
                     ? makeStreamConcept(def)
                     : new FunctionConcept(
-                        Purpose.Inputs,
-                        undefined,
-                        def,
-                        undefined,
-                        locales,
-                        context,
-                    ),
+                          Purpose.Inputs,
+                          undefined,
+                          def,
+                          undefined,
+                          locales,
+                          context,
+                      ),
             );
 
         const constructs = getNodeConcepts(context);
@@ -157,7 +157,9 @@ export default class ConceptIndex {
 
         const how = howTos?.map((how) => new HowConcept(how, context)) ?? [];
 
-        const galleryHow = galleryHowTos?.map((ht) => new GalleryHowConcept(ht, context)) ?? [];
+        const galleryHow =
+            galleryHowTos?.map((ht) => new GalleryHowConcept(ht, context)) ??
+            [];
 
         return new ConceptIndex(
             project,
@@ -194,24 +196,24 @@ export default class ConceptIndex {
         const context = this.project.getNodeContext(node);
         const definition =
             node instanceof Evaluate ||
-                node instanceof BinaryEvaluate ||
-                node instanceof UnaryEvaluate
+            node instanceof BinaryEvaluate ||
+            node instanceof UnaryEvaluate
                 ? node.getFunction(context)
                 : node instanceof Reference
-                    ? node.resolve(context)
-                    : node instanceof Bind
-                        ? node
-                        : undefined;
+                  ? node.resolve(context)
+                  : node instanceof Bind
+                    ? node
+                    : undefined;
         const definitionConcept =
             definition instanceof FunctionDefinition
                 ? this.getFunctionConcept(definition)
                 : definition instanceof StructureDefinition
-                    ? this.getStructureConcept(definition)
-                    : definition instanceof StreamDefinition
-                        ? this.getStreamConcept(definition)
-                        : definition instanceof Bind
-                            ? this.getBindConcept(definition)
-                            : undefined;
+                  ? this.getStructureConcept(definition)
+                  : definition instanceof StreamDefinition
+                    ? this.getStreamConcept(definition)
+                    : definition instanceof Bind
+                      ? this.getBindConcept(definition)
+                      : undefined;
 
         return definitionConcept ?? this.getNodeConcept(node);
     }
@@ -267,7 +269,7 @@ export default class ConceptIndex {
     }
 
     /** Returns all concepts that are not subconcepts and that have the given purpose. */
-    getPrimaryConceptsWithPurpose(purpose: Purpose): Concept[] {
+    getPrimaryConceptsWithPurpose(purpose: PurposeType): Concept[] {
         return this.primaryConcepts.filter((c) => c.purpose === purpose);
     }
 
@@ -294,8 +296,8 @@ export default class ConceptIndex {
         const subconcepts = this.getConceptByName(owner)?.getSubConcepts();
         return subconcepts
             ? Array.from(subconcepts).find((c) =>
-                c.hasName(concept, this.locales),
-            )
+                  c.hasName(concept, this.locales),
+              )
             : undefined;
     }
 

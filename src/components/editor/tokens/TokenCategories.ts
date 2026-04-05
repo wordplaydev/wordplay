@@ -1,4 +1,4 @@
-import { Sym } from '@nodes/Sym';
+import { Sym, type SymType } from '@nodes/Sym';
 
 const TokenCategoryDelimiter = 'delimiter';
 const TokenCategoryRelation = 'relation';
@@ -13,7 +13,7 @@ const TokenCategoryUnknown = 'unknown';
 const TokenCategoryPlaceholder = 'placeholder';
 const TokenCategoryEnd = 'end';
 
-const TokenCategories: Map<Sym, string> = new Map();
+const TokenCategories: Map<SymType, string> = new Map();
 TokenCategories.set(Sym.EvalOpen, TokenCategoryDelimiter);
 TokenCategories.set(Sym.EvalClose, TokenCategoryDelimiter);
 TokenCategories.set(Sym.SetOpen, TokenCategoryDelimiter);

@@ -9,7 +9,7 @@ import type Markup from '../nodes/Markup';
 import type { CharacterName } from '../tutorial/Tutorial';
 import BindConcept from './BindConcept';
 import Concept from './Concept';
-import type { Purpose } from './Purpose';
+import type { PurposeType } from './Purpose';
 import type StructureConcept from './StructureConcept';
 
 export default class FunctionConcept extends Concept {
@@ -26,7 +26,7 @@ export default class FunctionConcept extends Concept {
     readonly inputs: BindConcept[];
 
     constructor(
-        purpose: Purpose,
+        purpose: PurposeType,
         affiliation: StructureDefinition | undefined,
         definition: FunctionDefinition,
         structure: StructureConcept | undefined,

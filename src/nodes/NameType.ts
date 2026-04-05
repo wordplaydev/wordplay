@@ -69,7 +69,7 @@ export default class NameType extends Type {
         return 'NameType';
     }
 
-    getPurpose(): Purpose {
+    getPurpose() {
         return Purpose.Types;
     }
 

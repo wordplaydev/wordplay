@@ -6255,7 +6255,8 @@
             "field": {
                 "description": "$~Vorschlag für einen Ersatztext",
                 "placeholder": "$~Ersatz eingeben..."
-            }
+            },
+            "strings": "$~Gebietsschema-Zeichenketten"
         }
     },
     "moderation": {

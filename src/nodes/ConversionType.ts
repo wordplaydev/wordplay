@@ -47,7 +47,7 @@ export default class ConversionType extends Type {
         return 'ConversionType';
     }
 
-    getPurpose(): Purpose {
+    getPurpose() {
         return Purpose.Advanced;
     }
 

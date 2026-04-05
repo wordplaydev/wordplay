@@ -13,7 +13,8 @@
     import type { Character } from '../../db/characters/Character';
     import { characterToSVG } from '../../db/characters/Character';
     import { Chats, Creators, DB, locales } from '../../db/Database';
-    import { isAudience, isFlagged } from '../../db/projects/Moderation';
+    import { isFlagged } from '../../db/projects/Moderation';
+    import { isAudience } from '../../db/projects/ModerationUtils';
     import ConceptLink, { CharacterName } from '../../nodes/ConceptLink';
     import UnicodeString from '../../unicode/UnicodeString';
     import MarkupValue from '../../values/MarkupValue';

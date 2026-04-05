@@ -1,5 +1,5 @@
 import type ConceptIndex from '@concepts/ConceptIndex';
-import { Purpose } from '@concepts/Purpose';
+import { Purpose, type PurposeType } from '@concepts/Purpose';
 import type Project from '@db/projects/Project';
 import { type CaretPosition } from '@edit/caret/Caret';
 import type Locales from '@locale/Locales';
@@ -16,7 +16,7 @@ export type MenuOrganization = (Revision | RevisionSet)[];
 
 // A relevance ordering of purposes.
 
-const PurposeRelevance: Record<Purpose, number> = {
+const PurposeRelevance: Record<PurposeType, number> = {
     Project: 0,
     Outputs: 1,
     Inputs: 2,
@@ -116,7 +116,7 @@ export default class Menu {
             );
 
             // Organize by purpose.
-            const kinds: Map<Purpose, Revision[]> = new Map();
+            const kinds: Map<PurposeType, Revision[]> = new Map();
             for (const other of others) {
                 const purpose = other.getPurpose(this.concepts);
                 if (purpose !== undefined) {
@@ -217,8 +217,8 @@ export default class Menu {
             (submenu instanceof RevisionSet && subindex === undefined)
             ? submenu
             : subindex !== undefined
-                ? submenu.revisions[subindex]
-                : undefined;
+              ? submenu.revisions[subindex]
+              : undefined;
     }
 
     getSelectionIndex() {
@@ -266,29 +266,29 @@ export default class Menu {
             const newIndex = index + direction;
             return newIndex >= 0 && newIndex < this.organization.length
                 ? new Menu(
-                    this.project,
-                    this.source,
-                    this.anchor,
-                    this.revisions,
-                    this.organization,
-                    this.concepts,
-                    [newIndex, undefined],
-                    this.action,
-                )
+                      this.project,
+                      this.source,
+                      this.anchor,
+                      this.revisions,
+                      this.organization,
+                      this.concepts,
+                      [newIndex, undefined],
+                      this.action,
+                  )
                 : this;
         } else if (submenu instanceof RevisionSet) {
             const newSubindex = subindex + direction;
             return newSubindex >= -1 && newSubindex < submenu.size()
                 ? new Menu(
-                    this.project,
-                    this.source,
-                    this.anchor,
-                    this.revisions,
-                    this.organization,
-                    this.concepts,
-                    [index, newSubindex],
-                    this.action,
-                )
+                      this.project,
+                      this.source,
+                      this.anchor,
+                      this.revisions,
+                      this.organization,
+                      this.concepts,
+                      [index, newSubindex],
+                      this.action,
+                  )
                 : this;
         } else return this;
     }
@@ -297,15 +297,15 @@ export default class Menu {
     out() {
         return this.selection[1] !== undefined
             ? new Menu(
-                this.project,
-                this.source,
-                this.anchor,
-                this.revisions,
-                this.organization,
-                this.concepts,
-                [this.selection[0], undefined],
-                this.action,
-            )
+                  this.project,
+                  this.source,
+                  this.anchor,
+                  this.revisions,
+                  this.organization,
+                  this.concepts,
+                  [this.selection[0], undefined],
+                  this.action,
+              )
             : this;
     }
 
@@ -314,30 +314,30 @@ export default class Menu {
         return this.getSelection() instanceof RevisionSet &&
             this.selection[1] === undefined
             ? new Menu(
-                this.project,
-                this.source,
-                this.anchor,
-                this.revisions,
-                this.organization,
-                this.concepts,
-                [this.selection[0], 0],
-                this.action,
-            )
+                  this.project,
+                  this.source,
+                  this.anchor,
+                  this.revisions,
+                  this.organization,
+                  this.concepts,
+                  [this.selection[0], 0],
+                  this.action,
+              )
             : this;
     }
 
     back() {
         return this.selection[1] !== undefined
             ? new Menu(
-                this.project,
-                this.source,
-                this.anchor,
-                this.revisions,
-                this.organization,
-                this.concepts,
-                [this.selection[0], undefined],
-                this.action,
-            )
+                  this.project,
+                  this.source,
+                  this.anchor,
+                  this.revisions,
+                  this.organization,
+                  this.concepts,
+                  [this.selection[0], undefined],
+                  this.action,
+              )
             : this;
     }
 
@@ -345,19 +345,19 @@ export default class Menu {
         if (revision === undefined) return this.action(undefined);
         return revision
             ? this.action(
-                revision instanceof Revision
-                    ? revision.getEdit(locales)
-                    : revision,
-            )
+                  revision instanceof Revision
+                      ? revision.getEdit(locales)
+                      : revision,
+              )
             : false;
     }
 }
 
 export class RevisionSet {
-    readonly purpose: Purpose;
+    readonly purpose: PurposeType;
     readonly revisions: Revision[];
 
-    constructor(purpose: Purpose, revisions: Revision[]) {
+    constructor(purpose: PurposeType, revisions: Revision[]) {
         this.purpose = purpose;
         this.revisions = revisions;
     }

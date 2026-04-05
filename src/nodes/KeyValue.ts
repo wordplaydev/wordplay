@@ -73,7 +73,7 @@ export default class KeyValue extends Node {
         ) as this;
     }
 
-    getPurpose(): Purpose {
+    getPurpose() {
         return Purpose.Maps;
     }
 

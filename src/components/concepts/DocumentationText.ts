@@ -1,5 +1,5 @@
 import type { HowToCategories } from '@concepts/HowTo';
-import type { Purpose } from '@concepts/Purpose';
+import { Purpose } from '@concepts/Purpose';
 import type { FormattedText } from '@locale/LocaleText';
 import type { HeaderAndExplanationText, ModeText } from '@locale/UITexts';
 

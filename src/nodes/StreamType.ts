@@ -38,7 +38,7 @@ export default class StreamType extends Type {
         return 'StreamType';
     }
 
-    getPurpose(): Purpose {
+    getPurpose() {
         return Purpose.Hidden;
     }
 

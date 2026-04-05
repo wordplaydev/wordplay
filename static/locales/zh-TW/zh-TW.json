@@ -6195,7 +6195,8 @@
             "field": {
                 "description": "$~建議替換文字",
                 "placeholder": "$~輸入替換項..."
-            }
+            },
+            "strings": "$~區域設定字串"
         }
     },
     "moderation": {

@@ -109,7 +109,7 @@ export default class ListAccess extends Expression {
         ) as this;
     }
 
-    getPurpose(): Purpose {
+    getPurpose() {
         return Purpose.Lists;
     }
 

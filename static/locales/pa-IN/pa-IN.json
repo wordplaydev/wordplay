@@ -6252,7 +6252,8 @@
             "field": {
                 "description": "$~ਸੁਝਾਈ ਗਈ ਬਦਲਵੀਂ ਲਿਖਤ",
                 "placeholder": "$~ਬਦਲੀ ਦਰਜ ਕਰੋ..."
-            }
+            },
+            "strings": "$~ਲੋਕੇਲ ਸਤਰ"
         }
     },
     "moderation": {

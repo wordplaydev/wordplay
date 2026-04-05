@@ -5,8 +5,8 @@
         getBlocks,
         getUnmoderated,
         getWarnings,
-        isAudience,
     } from '../../db/projects/Moderation';
+    import { isAudience } from '../../db/projects/ModerationUtils';
     import type Project from '../../db/projects/Project';
     import MarkupHTMLView from '../concepts/MarkupHTMLView.svelte';
     import { getUser } from './Contexts';

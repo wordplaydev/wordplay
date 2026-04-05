@@ -30,7 +30,7 @@ export default abstract class UnknownType<
         return 'UnknownType';
     }
 
-    getPurpose(): Purpose {
+    getPurpose() {
         return Purpose.Hidden;
     }
 

@@ -23,7 +23,7 @@ export default class StructureDefinitionType extends Type {
         return 'StructureDefinitionType';
     }
 
-    getPurpose(): Purpose {
+    getPurpose() {
         return Purpose.Types;
     }
 

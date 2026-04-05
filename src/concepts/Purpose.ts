@@ -35,7 +35,7 @@ const Purpose = {
     GalleryHow: 'GalleryHow',
 } as const;
 
-export type Purpose = (typeof Purpose)[keyof typeof Purpose];
+export type PurposeType = (typeof Purpose)[keyof typeof Purpose];
 
 export { Purpose };
 export default Purpose;

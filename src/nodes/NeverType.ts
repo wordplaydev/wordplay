@@ -15,7 +15,7 @@ export default class NeverType extends Type {
         return 'NeverType';
     }
 
-    getPurpose(): Purpose {
+    getPurpose() {
         return Purpose.Hidden;
     }
 

@@ -6256,7 +6256,8 @@
             "field": {
                 "description": "$~Föreslagen ersättningstext",
                 "placeholder": "$~Ange ersättning..."
-            }
+            },
+            "strings": "$~Språksträngar"
         }
     },
     "moderation": {

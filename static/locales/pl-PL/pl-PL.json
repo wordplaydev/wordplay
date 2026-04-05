@@ -6261,7 +6261,8 @@
             "field": {
                 "description": "$~Sugerowany tekst zastępczy",
                 "placeholder": "$~Wprowadź zamiennik..."
-            }
+            },
+            "strings": "$~Ciągi ustawień regionalnych"
         }
     },
     "moderation": {

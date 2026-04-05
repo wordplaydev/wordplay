@@ -5967,7 +5967,8 @@
             "field": {
                 "description": "Suggested replacement text",
                 "placeholder": "Enter replacement..."
-            }
+            },
+            "strings": "Locale strings"
         },
         "page": {
             "unknown": {

@@ -86,7 +86,7 @@ export default class FunctionType extends Type {
         return 'FunctionType';
     }
 
-    getPurpose(): Purpose {
+    getPurpose() {
         return Purpose.Types;
     }
 

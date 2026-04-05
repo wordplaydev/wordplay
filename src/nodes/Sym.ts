@@ -83,7 +83,7 @@ const Sym = {
     End: 'end',
 } as const;
 
-export type Sym = (typeof Sym)[keyof typeof Sym];
+export type SymType = (typeof Sym)[keyof typeof Sym];
 
 /** Tokens that can be many different possible sequences of characters. We use this list to know when a token is static and can only be one symbol. */
 export const WildcardSymbols = new Set([
@@ -98,7 +98,7 @@ export const WildcardSymbols = new Set([
     Sym.End,
 ]);
 
-export function isTokenType(text: string): text is Sym {
+export function isTokenType(text: string): text is SymType {
     return (Object.values(Sym) as string[]).includes(text);
 }
 

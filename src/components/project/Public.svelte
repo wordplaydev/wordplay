@@ -8,14 +8,14 @@
     import {
         getBlocks,
         getWarnings,
-        type Moderation,
+        type ModerationState,
     } from '../../db/projects/Moderation';
     import Warning from '../widgets/Warning.svelte';
 
     interface Props {
         isPublic: boolean;
         set: (choice: number) => void;
-        flags?: Moderation | undefined;
+        flags?: ModerationState | undefined;
     }
 
     let { isPublic, set, flags = undefined }: Props = $props();

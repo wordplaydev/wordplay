@@ -126,7 +126,7 @@
     <div class="mt-editor">
         <Options
             value={selectedPath}
-            label="Machine translated strings"
+            label={(l) => l.ui.localize.strings}
             {options}
             change={(val) => {
                 selectedPath = val;

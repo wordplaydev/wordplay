@@ -112,7 +112,7 @@ export default class SetLiteral extends CompositeLiteral {
         ) as this;
     }
 
-    getPurpose(): Purpose {
+    getPurpose() {
         return Purpose.Hidden;
     }
 

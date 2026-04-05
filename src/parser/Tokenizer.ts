@@ -1,4 +1,4 @@
-import { Sym } from '@nodes/Sym';
+import { Sym, type SymType } from '@nodes/Sym';
 import Token from '@nodes/Token';
 import { withoutVariationSelectors } from '@unicode/emoji';
 import ReservedSymbols from './ReservedSymbols';
@@ -195,7 +195,7 @@ function escapeRegexCharacter(c: string) {
     return /[\\/()[\]{}]/.test(c) ? '\\' + c : c;
 }
 
-type TokenPattern = { pattern: string | RegExp; types: Sym[] };
+type TokenPattern = { pattern: string | RegExp; types: SymType[] };
 
 const CodePattern = { pattern: CODE_SYMBOL, types: [Sym.Code] };
 const FormattedPattern = {

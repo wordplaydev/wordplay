@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-types */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
+import type { PurposeType } from '@concepts/Purpose';
 import type Conflict from '@conflicts/Conflict';
 import type { DocText, LocaleText } from '@locale/LocaleText';
 import type {
@@ -11,7 +12,6 @@ import type {
 import { withoutAnnotations } from '@locale/withoutAnnotations';
 import type Spaces from '@parser/Spaces';
 import type { BasisTypeName } from '../basis/BasisConstants';
-import type { Purpose } from '../concepts/Purpose';
 import type Locales from '../locale/Locales';
 import type { LocaleTextAccessor, TemplateInput } from '../locale/Locales';
 import type BasisCharacter from '../lore/BasisCharacter';
@@ -19,7 +19,7 @@ import type Context from './Context';
 import type Definition from './Definition';
 import type Markup from './Markup';
 import type Root from './Root';
-import type { Sym } from './Sym';
+import type { SymType } from './Sym';
 import type Token from './Token';
 import type Type from './Type';
 
@@ -608,7 +608,7 @@ export default abstract class Node {
     }
 
     /** Always true, except in Token, which overrids. This helps us aovid importing Token here, creating an import cycle. */
-    isSymbol(_: Sym) {
+    isSymbol(_: SymType) {
         return false;
     }
 
@@ -686,7 +686,7 @@ export default abstract class Node {
     /**
      * Provide a category for documentation and any related type that it should be organized within.
      */
-    abstract getPurpose(): Purpose;
+    abstract getPurpose(): PurposeType;
 
     getAffiliatedType(): BasisTypeName | undefined {
         return undefined;
@@ -781,7 +781,7 @@ export type Field = ListField | OtherField;
  */
 export type FieldValue = Node | Node[] | undefined;
 
-export type NodeKind = Function | Sym | undefined;
+export type NodeKind = Function | SymType | undefined;
 
 /** These classes help encapsulate field definitions for node grammars, centralizing reasoning about validity. */
 export abstract class FieldKind {
@@ -793,16 +793,18 @@ export abstract class FieldKind {
     abstract toString(): string;
 }
 
-export function enumerateSymbols(field: Field): Sym[] {
+export function enumerateSymbols(field: Field): SymType[] {
     return field.kind
         .enumerate()
-        .filter((k): k is Sym => k !== undefined && !(k instanceof Function));
+        .filter(
+            (k): k is SymType => k !== undefined && !(k instanceof Function),
+        );
 }
 
 // A field can be of this type of node or token type.
 export class IsA extends FieldKind {
-    readonly kind: Function | Sym;
-    constructor(kind: Function | Sym) {
+    readonly kind: Function | SymType;
+    constructor(kind: Function | SymType) {
         super();
         this.kind = kind;
     }
@@ -984,7 +986,7 @@ export class Any extends FieldKind {
 }
 
 /** These are shorthand functions for making grammars a bit less verbose. */
-export function node(kind: Function | Sym) {
+export function node(kind: Function | SymType) {
     return new IsA(kind);
 }
 

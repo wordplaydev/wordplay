@@ -1,19 +1,16 @@
-import { isAuthenticated } from '@components/project/Contexts';
 import type { User } from 'firebase/auth';
 import type Locales from '../../locale/Locales';
 import type LocaleText from '../../locale/LocaleText';
 import type { FormattedText } from '../../locale/LocaleText';
 import getClaim from '../creators/getClaim';
-import type Project from './Project';
 
 /** Ways the platform can respond to a content moderation flag */
-export const Remedy = {
+export enum Remedy {
     /** Don't allow the content to be seen */
-    Block: 'block',
+    Block = 'block',
     /** Warn about the nature of the content */
-    Warn: 'warn',
-} as const;
-export type Remedy = (typeof Remedy)[keyof typeof Remedy];
+    Warn = 'warn',
+}
 
 /**
  * These are the internal names that define categories of content moderation violations.
@@ -40,13 +37,13 @@ export type FlagDescriptions = { [key in Flag]: FormattedText };
 export type FlagState = boolean | null;
 
 /** An object literal type that contains states for all moderation flags. */
-export type Moderation = { [key in Flag]: FlagState };
+export type ModerationState = { [key in Flag]: FlagState };
 
 export function withFlag(
-    flags: Moderation,
+    flags: ModerationState,
     flag: string,
     state: FlagState,
-): Moderation {
+): ModerationState {
     if (!(flag in Flags)) return flags;
     const newFlags = { ...flags };
     newFlags[flag as Flag] = state;
@@ -54,21 +51,21 @@ export function withFlag(
 }
 
 /** Return a moderation state with all flags false */
-export function moderatedFlags(): Moderation {
+export function moderatedFlags(): ModerationState {
     const newFlags: Record<string, FlagState> = {};
     for (const flag of Object.keys(Flags)) newFlags[flag] = false;
-    return newFlags as Moderation;
+    return newFlags as ModerationState;
 }
 
 /** Return a moderation state with all flags null */
-export function unknownFlags(): Moderation {
+export function unknownFlags(): ModerationState {
     const newFlags: Record<string, FlagState> = {};
     for (const flag of Object.keys(Flags)) newFlags[flag] = null;
-    return newFlags as Moderation;
+    return newFlags as ModerationState;
 }
 
 /** Get descriptions of all true warning flags */
-export function getWarnings(flags: Moderation, locale: LocaleText) {
+export function getWarnings(flags: ModerationState, locale: LocaleText) {
     return Object.entries(flags)
         .filter(
             ([flag, state]) =>
@@ -78,7 +75,7 @@ export function getWarnings(flags: Moderation, locale: LocaleText) {
 }
 
 /** Get descriptions of all true block flags */
-export function getBlocks(flags: Moderation, locale: LocaleText) {
+export function getBlocks(flags: ModerationState, locale: LocaleText) {
     return Object.entries(flags)
         .filter(
             ([flag, state]) =>
@@ -88,26 +85,14 @@ export function getBlocks(flags: Moderation, locale: LocaleText) {
 }
 
 /** True if one of the flags is true and is a flagged that's warned  */
-export function getUnmoderated(flags: Moderation, locale: LocaleText) {
+export function getUnmoderated(flags: ModerationState, locale: LocaleText) {
     return Object.entries(flags)
         .filter(([, state]) => state === null)
         .map(([flag]) => locale.moderation.flags[flag as Flag]);
 }
 
-export function isFlagged(flags: Moderation) {
+export function isFlagged(flags: ModerationState) {
     return Object.values(flags).some((state) => state === true);
-}
-
-export function isAudience(
-    user: User | null | undefined,
-    project: Project,
-): boolean {
-    return (
-        project.isPublic() &&
-        (!isAuthenticated(user) ||
-            (project.getOwner() !== user.uid &&
-                !project.hasCollaborator(user.uid)))
-    );
 }
 
 export function getFlagDescription(

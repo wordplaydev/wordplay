@@ -937,6 +937,8 @@ type UITexts = {
             cancel: string;
         };
         field: FieldText;
+        /** The ARIA label for the dropdown that lists all locale strings available to review and edit */
+        strings: string;
     };
     page: {
         /** The unknown route page */

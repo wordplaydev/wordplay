@@ -84,7 +84,7 @@ export default class Is extends Expression {
         ) as this;
     }
 
-    getPurpose(): Purpose {
+    getPurpose() {
         return Purpose.Types;
     }
 

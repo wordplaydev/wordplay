@@ -6238,7 +6238,8 @@
             "field": {
                 "description": "$~Texto de reemplazo sugerido",
                 "placeholder": "$~Introduzca el reemplazo..."
-            }
+            },
+            "strings": "$~Cadenas de configuración regional"
         }
     },
     "moderation": {

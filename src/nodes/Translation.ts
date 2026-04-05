@@ -100,7 +100,7 @@ export default class Translation extends LanguageTagged {
         ) as this;
     }
 
-    getPurpose(): Purpose {
+    getPurpose() {
         return Purpose.Text;
     }
 

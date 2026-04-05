@@ -6251,7 +6251,8 @@
             "field": {
                 "description": "$~טקסט חלופי מוצע",
                 "placeholder": "$~הזן תחליף..."
-            }
+            },
+            "strings": "$~מחרוזות מקומיות"
         }
     },
     "moderation": {

@@ -18,7 +18,7 @@ import Literal from './Literal';
 import type Node from './Node';
 import { node, optional, type Grammar, type Replacement } from './Node';
 import NumberType from './NumberType';
-import { Sym } from './Sym';
+import { Sym, type SymType } from './Sym';
 import Token from './Token';
 import type Type from './Type';
 import type TypeSet from './TypeSet';
@@ -40,7 +40,7 @@ export default class NumberLiteral extends Literal {
         this.computeChildren();
     }
 
-    static make(number?: number | string, unit?: Unit, type?: Sym) {
+    static make(number?: number | string, unit?: Unit, type?: SymType) {
         return new NumberLiteral(
             new Token(
                 number === undefined
@@ -114,7 +114,7 @@ export default class NumberLiteral extends Literal {
         return 'NumberLiteral';
     }
 
-    getPurpose(): Purpose {
+    getPurpose() {
         return Purpose.Numbers;
     }
 

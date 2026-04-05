@@ -86,7 +86,7 @@ export class Iteration<State = any> extends Expression {
         return [];
     }
 
-    getPurpose(): Purpose {
+    getPurpose() {
         return Purpose.Hidden;
     }
 

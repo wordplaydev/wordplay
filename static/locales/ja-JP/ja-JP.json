@@ -6252,7 +6252,8 @@
             "field": {
                 "description": "$~代替テキスト案",
                 "placeholder": "$~代替品を入力してください..."
-            }
+            },
+            "strings": "$~ロケール文字列"
         }
     },
     "moderation": {

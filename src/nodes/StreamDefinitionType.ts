@@ -22,7 +22,7 @@ export default class StreamDefinitionType extends Type {
         return 'StreamDefinitionType';
     }
 
-    getPurpose(): Purpose {
+    getPurpose() {
         return Purpose.Hidden;
     }
 

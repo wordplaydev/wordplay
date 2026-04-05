@@ -15,7 +15,7 @@ export default class AnyType extends Type {
         return 'AnyType';
     }
 
-    getPurpose(): Purpose {
+    getPurpose() {
         return Purpose.Hidden;
     }
 
