@@ -1,33 +1,33 @@
 import type { FormattedText } from '@locale/LocaleText';
 
 type PageText = {
-    /** The value proposition for the site */
+    /** [formatted] The value proposition for the site */
     value: FormattedText;
     /** A description of the platform's features */
     description: FormattedText | FormattedText[];
-    /** The landing page beta warning */
+    /** [formatted] The landing page beta warning */
     beta: FormattedText[];
-    /** Text between locale buttons - "or choose" */
+    /** [plain] Text between locale buttons - "or choose" */
     chooseLocales: string;
     /** The subtitles below links */
     link: {
-        /** What content is on the about page */
+        /** [plain] What content is on the about page */
         about: string;
-        /** What content is on the learn page */
+        /** [plain] What content is on the learn page */
         learn: string;
-        /** What content is on the teach page */
+        /** [plain] What content is on the teach page */
         teach: string;
-        /** What content is on the guide page */
+        /** [plain] What content is on the guide page */
         guide: string;
-        /** What content is on the projects page */
+        /** [plain] What content is on the projects page */
         projects: string;
-        /** What content is on the galleries page */
+        /** [plain] What content is on the galleries page */
         galleries: string;
-        /** What content is on on the characters page */
+        /** [plain] What content is on on the characters page */
         characters: string;
-        /** What content is on the rights page */
+        /** [plain] What content is on the rights page */
         rights: string;
-        /** What content is on the updates page */
+        /** [plain] What content is on the updates page */
         updates: string;
         /** The community link */
         community: { label: string; subtitle: string };

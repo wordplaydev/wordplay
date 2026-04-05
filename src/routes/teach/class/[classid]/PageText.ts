@@ -5,17 +5,17 @@ type PageText = {
     /** Header for the class page*/
     header: string;
     subheader: {
-        /** The teachers header */
+        /** [plain] The teachers header */
         teachers: string;
-        /** The student header */
+        /** [plain] The student header */
         students: string;
-        /** The galleries header */
+        /** [plain] The galleries header */
         galleries: string;
     };
     prompt: {
-        /** Encourage galleries */
+        /** [formatted] Encourage galleries */
         gallery: FormattedText;
-        /** Explain deletion */
+        /** [formatted] Explain deletion */
         delete: FormattedText;
     };
     field: {
@@ -25,15 +25,15 @@ type PageText = {
         description: FieldText;
         /** Add a teacher */
         newteacher: FieldText;
-        /** Add a teacher button */
+        /** [plain] Add a teacher button */
         addteacher: string;
         /** Delete class */
         delete: ButtonText;
     };
     error: {
-        /** Couldn't find the requested class */
+        /** [plain] Couldn't find the requested class */
         notfound: string;
-        /** Couldn't create a gallery*/
+        /** [plain]Couldn't create a gallery*/
         gallery: string;
     };
 };

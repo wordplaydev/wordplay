@@ -1,26 +1,26 @@
 import type { FormattedText } from '@locale/LocaleText';
 
 type PageText = {
-    /** The header for the tutorial page */
+    /** [plain] The header for the tutorial page */
     header: string;
-    /** When the tutorial could not be found */
+    /** [formatted] When the tutorial could not be found */
     error: FormattedText;
     button: {
-        /** Advance to the next pause in the dialog */
+        /** [plain] Advance to the next pause in the dialog */
         next: string;
-        /** Navigate back to the previous pause in the dialog */
+        /** [plain] Navigate back to the previous pause in the dialog */
         previous: string;
     };
     /** Labels for drop down menus */
     options: {
-        /** The label for the lesson drop down */
+        /** [plain] The label for the lesson drop down */
         lesson: string;
     };
     /** Tutorial search */
     search: {
-        /** Placeholder text for the search field */
+        /** [plain] Placeholder text for the search field */
         placeholder: string;
-        /** Shown when a search query has no results */
+        /** [plain] Shown when a search query has no results */
         noResults: string;
     };
 };

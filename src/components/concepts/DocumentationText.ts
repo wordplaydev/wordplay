@@ -4,31 +4,31 @@ import type { FormattedText } from '@locale/LocaleText';
 import type { HeaderAndExplanationText, ModeText } from '@locale/UITexts';
 
 type DocumentationText = {
-    /** The ARIA label for the palette section. */
+    /** [plain] The ARIA label for the palette section. */
     label: string;
-    /** A link to a concept in documentation */
+    /** [formatted] A link to a concept in documentation */
     link: FormattedText;
-    /** A link to the tutorial for a concept */
+    /** [plain] A link to the tutorial for a concept */
     learn: string;
-    /** Shown if documentation is missing for a concept */
+    /** [plain] Shown if documentation is missing for a concept */
     nodoc: string;
     /** Buttons in the documentation tile */
     button: {
-        /** The home button in the docs tile */
+        /** [plain] The home button in the docs tile */
         home: string;
-        /** The back button in the docs tile */
+        /** [plain] The back button in the docs tile */
         back: string;
-        /** The toggle to expand and collapse concept groups */
+        /** [plain] The toggle to expand and collapse concept groups */
         toggle: string;
     };
     /** Text fields in the documentation tile */
     field: {
-        /** The search text field */
+        /** [plain] The search text field */
         search: string;
     };
     /** Notes shown in the documentation tile */
     note: {
-        /** The project has no concepts. */
+        /** [plain] The project has no concepts. */
         empty: string;
     };
     /** Modes in the guide */
@@ -89,7 +89,7 @@ type DocumentationText = {
     how: {
         /** The category names */
         category: Record<keyof typeof HowToCategories, string>;
-        /** The subheader for related how to's */
+        /** [plain] The subheader for related how to's */
         related: string;
     };
 };

@@ -31,7 +31,7 @@ export type LocaleText = {
     language: LanguageCode;
     /** An ISO 3166-2 region code: https://en.wikipedia.org/wiki/ISO_3166-2 */
     regions: RegionCode[];
-    /** The name of the platform */
+    /** [plain] The name of the platform */
     wordplay: string;
     /** Common vocabulary that can be used in documentation and descriptions. */
     term: TermTexts;
@@ -59,7 +59,7 @@ export { type LocaleText as default };
 export type FormattedText = string;
 
 export type NameAndDoc = {
-    /** One or more names for this definition. Be careful not to introduce duplicates. */
+    /** [name] One or more names for this definition. Be careful not to introduce duplicates. */
     names: NameText;
     /** Documentation for this definition, to appear in the documentation browser. */
     doc: DocText;

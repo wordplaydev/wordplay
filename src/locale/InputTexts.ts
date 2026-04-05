@@ -46,19 +46,19 @@ type InputTexts = {
         limit: NameAndDoc;
         /** Errors that can happen during speech recognition, modeled after WebPage */
         error: {
-            /** Browser does not support speech recognition */
+            /** [plain] Browser does not support speech recognition */
             browserNotSupported: string;
-            /** There was no connection to the internet */
+            /** [plain] There was no connection to the internet */
             noConnection: string;
-            /** Speech service denied or rate limited */
+            /** [plain] Speech service denied or rate limited */
             serviceNotAllowed: string;
-            /** Microphone permission denied */
+            /** [plain] Microphone permission denied */
             micNotAllowed: string;
-            /** Microphone hardware not available */
+            /** [plain] Microphone hardware not available */
             noMicrophone: string;
-            /** Requested language not supported */
+            /** [plain] Requested language not supported */
             languageNotSupported: string;
-            /** Too many failed attempts to reconnect */
+            /** [plain] Too many failed attempts to reconnect */
             limit: string;
         };
     };
@@ -104,15 +104,15 @@ type InputTexts = {
         frequency: NameAndDoc;
         /** Errors that can happen during page retrieval, generating exception values */
         error: {
-            /** When the URL is not valid */
+            /** [plain] When the URL is not valid */
             invalid: string;
-            /** The URL could not be accessed */
+            /** [plain] The URL could not be accessed */
             unvailable: string;
-            /** The response was not HTML */
+            /** [plain] The response was not HTML */
             notHTML: string;
-            /** There was no connection to the internet */
+            /** [plain] There was no connection to the internet */
             noConnection: string;
-            /** Too many requests to the same domain */
+            /** [plain] Too many requests to the same domain */
             limit: string;
         };
     };

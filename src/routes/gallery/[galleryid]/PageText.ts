@@ -5,9 +5,9 @@ import type {
 } from '@locale/UITexts';
 
 type PageText = {
-    /** What to call a gallery by default, before it's given a name */
+    /** [plain] What to call a gallery by default, before it's given a name */
     untitled: string;
-    /** What to say if the description is empty */
+    /** [plain] What to say if the description is empty */
     undescribed: string;
     /** Headers on the page */
     subheader: {
@@ -28,7 +28,7 @@ type PageText = {
         remove: ConfirmText;
     };
     error: {
-        /** When the gallery is not known or is not public */
+        /** [plain] When the gallery is not known or is not public */
         unknown: string;
     };
     field: { name: FieldText; description: FieldText };

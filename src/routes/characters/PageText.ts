@@ -1,34 +1,34 @@
 import type { FormattedText } from '@locale/LocaleText';
 
 type PageText = {
-    /** Header for the character page */
+    /** [plain] Header for the character page */
     header: string;
-    /** Explanation for the character page */
+    /** [formatted] Explanation for the character page */
     prompt: FormattedText;
     /** Buttons for the page */
     button: {
-        /** Create a new character */
+        /** [plain] Create a new character */
         new: string;
-        /** Copy a character */
+        /** [plain] Copy a character */
         copy: string;
         /** Delete a character */
         remove: {
-            /** Confirmation message */
+            /** [plain] Confirmation message */
             prompt: string;
-            /** Delete character toolitp */
+            /** [plain] Delete character toolitp */
             tip: string;
         };
     };
     subheader: {
-        /** Header for the shared character list */
+        /** [plain] Header for the shared character list */
         shared: string;
     };
     error: {
-        /** When there's no access to the database. */
+        /** [plain] When there's no access to the database. */
         offline: string;
-        /** When not logged in */
+        /** [plain] When not logged in */
         noauth: string;
-        /** Problem creating a character */
+        /** [plain] Problem creating a character */
         create: string;
     };
 };

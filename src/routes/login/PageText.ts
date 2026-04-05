@@ -2,49 +2,49 @@ import type { FormattedText } from '@locale/LocaleText';
 import type { ButtonText, FieldText, ToggleText } from '@locale/UITexts';
 
 type PageText = {
-    /** Header for the login page when not logged in */
+    /** [plain] Header for the login page when not logged in */
     header: string;
-    /** Subtitle for the header link on the landing page */
+    /** [plain] Subtitle for the header link on the landing page */
     subtitle: string;
     prompt: {
-        /** Prompts creator to login to save their work */
+        /** [formatted] Prompts creator to login to save their work */
         login: FormattedText;
-        /** Prompt to join on the login page */
+        /** [formatted] Prompt to join on the login page */
         join: FormattedText;
-        /** Forgot password regrets */
+        /** [formatted] Forgot password regrets */
         forgot: FormattedText;
-        /** Email login explanation */
+        /** [formatted] Email login explanation */
         email: FormattedText;
-        /** Prompt to check email for a login link. */
+        /** [plain] Prompt to check email for a login link. */
         sent: string;
-        /** Tells the creator that they can change their email address. */
+        /** [plain] Tells the creator that they can change their email address. */
         changeEmail: string;
-        /** Tells the creator that they can cahnge their password */
+        /** [plain] Tells the creator that they can cahnge their password */
         changePassword: string;
-        /** Asks the creator to enter their email if they opened the email link in a different browser. */
+        /** [plain] Asks the creator to enter their email if they opened the email link in a different browser. */
         enter: string;
-        /** Encouragement to go create after logging in. */
+        /** [plain] Encouragement to go create after logging in. */
         play: string;
-        /** Description of password rules */
+        /** [plain] Description of password rules */
         passwordrule: string;
-        /** Reminder to write down password */
+        /** [plain] Reminder to write down password */
         passwordreminder: string;
-        /** Too young feedback */
+        /** [plain] Too young feedback */
         tooyoung: string;
-        /** Offers to log out the creator. */
+        /** [formatted] Offers to log out the creator. */
         logout: FormattedText;
-        /** Shown briefly before page redirects to projects */
+        /** [plain] Shown briefly before page redirects to projects */
         success: string;
-        /** Prompts creator to check their original email to confirm the email change */
+        /** [plain] Prompts creator to check their original email to confirm the email change */
         confirm: string;
-        /** Offers to delete account */
+        /** [plain] Offers to delete account */
         delete: string;
-        /** Offers to really delete account forever */
+        /** [plain] Offers to really delete account forever */
         reallyDelete: string;
-        /** Pick an emoji as a name */
+        /** [name] Pick an emoji as a name */
         name: string;
     };
-    /** Shown in the footer a creator is not logged in. */
+    /** [plain] Shown in the footer a creator is not logged in. */
     anonymous: string;
     field: {
         /** The login email */
@@ -59,55 +59,55 @@ type PageText = {
         newPassword: FieldText;
     };
     feedback: {
-        /** Change email pending */
+        /** [plain] Change email pending */
         changing: string;
-        /** Account deleting pending */
+        /** [plain] Account deleting pending */
         deleting: string;
-        /** Password successfully updated */
+        /** [plain] Password successfully updated */
         updatedPassword: string;
-        /** Email or username must match to delete account */
+        /** [formatted] Email or username must match to delete account */
         match: FormattedText;
     };
     error: {
-        /** Shown when the login link expired */
+        /** [plain] Shown when the login link expired */
         expired: string;
-        /** Shown when the login link isn't valid */
+        /** [plain] Shown when the login link isn't valid */
         invalid: string;
-        /** Shown when the email address isn't valid */
+        /** [plain] Shown when the email address isn't valid */
         email: string;
-        /** Invalid username */
+        /** [plain] Invalid username */
         invalidUsername: string;
-        /** Username taken */
+        /** [plain] Username taken */
         usernameTaken: string;
-        /** Unknown failure to login */
+        /** [plain] Unknown failure to login */
         failure: string;
-        /** When there's no connection to Firebase */
+        /** [plain] When there's no connection to Firebase */
         offline: string;
-        /** When the email address couldn't be changed for unknown reasons. */
+        /** [plain] When the email address couldn't be changed for unknown reasons. */
         unchanged: string;
-        /** When account deletion failed */
+        /** [plain] When account deletion failed */
         delete: string;
-        /** When a password is wrong */
+        /** [plain] When a password is wrong */
         wrongPassword: string;
-        /** When the password is invalid */
+        /** [plain] When the password is invalid */
         invalidPassword: string;
-        /** When the passwords don't match */
+        /** [plain] When the passwords don't match */
         mismatched: string;
-        /** When there are too mant failed attempts */
+        /** [plain] When there are too mant failed attempts */
         tooMany: string;
     };
     button: {
         /** Log out of the account */
         logout: ButtonText;
-        /** Login button description */
+        /** [plain] Login button description */
         login: string;
-        /** Update email button description  */
+        /** [plain] Update email button description  */
         updateEmail: string;
         /** Delete account button */
         delete: ButtonText;
         /** Confirm deletion */
         reallyDelete: ButtonText;
-        /** Update password */
+        /** [plain] Update password */
         updatePassword: string;
     };
     toggle: {

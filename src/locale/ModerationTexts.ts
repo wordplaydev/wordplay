@@ -13,9 +13,9 @@ export type ModerationTexts = {
     moderate: HeaderAndExplanationText;
     /** Content moderation rules that creators promise to follow. See en-US.json for ground truth language. */
     flags: FlagDescriptions;
-    /** Progress message */
+    /** [formatted] Progress message */
     progress: FormattedText;
-    /** Done message */
+    /** [formatted] Done message */
     done: FormattedText;
     /** Buttons on the moderation page */
     button: {
@@ -23,12 +23,12 @@ export type ModerationTexts = {
         submit: ButtonText;
         /** Skip moderation button */
         skip: ButtonText;
-        /** Checkbox for moderation property */
+        /** [plain] Checkbox for moderation property */
         property: string;
     };
     /** Moderation errors */
     error: {
-        /** Not a moderator */
+        /** [plain] Not a moderator */
         notmod: string;
     };
 };

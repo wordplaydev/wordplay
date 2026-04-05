@@ -2,26 +2,26 @@ import type { Emotion } from '../lore/Emotion';
 import type { DocText, FormattedText } from './LocaleText';
 
 export type NodeText = {
-    /** The name that should be used to refer to the node type */
+    /** [name] The name that should be used to refer to the node type */
     name: string;
     /** Documentation text that appears in the documentation view */
     doc: DocText;
-    /** The emotion that should be conveyed in animations of the node type */
+    /** [emotion] The emotion that should be conveyed in animations of the node type */
     emotion: `${Emotion}`;
 };
 
 export type DescriptiveNodeText = NodeText & {
-    /** A precise description of the node's contents, more specific than a name. If not provided, name is used. */
+    /** [formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used. */
     description: FormattedText;
 };
 
 export interface SimpleExpressionText {
-    /** The text shown when this expression type first begins evaluating.  */
+    /** [formatted] The text shown when this expression type first begins evaluating.  */
     start: FormattedText;
 }
 
 export interface ExpressionText extends SimpleExpressionText {
-    /** The text shown when this expression type finishes evaluating and has a value. */
+    /** [formatted] The text shown when this expression type finishes evaluating and has a value. */
     finish: FormattedText;
 }
 
@@ -32,9 +32,9 @@ export interface Conflicts<T> {
 
 /** The text that describes this conflict type. */
 export type ConflictText = {
-    /** The short header to describe the conflict */
+    /** [name] The short header to describe the conflict */
     name: string;
-    /** The text that describes this conflict on the node which generated it. */
+    /** [formatted] The text that describes this conflict on the node which generated it. */
     explanation: FormattedText;
 };
 
@@ -44,9 +44,9 @@ export interface Exceptions<Kinds> {
 }
 
 export interface ExceptionText {
-    /** A description of the kind of exception this is; appears as screen reader text and a header when exception value is displayed on stage. */
+    /** [formatted] A description of the kind of exception this is; appears as screen reader text and a header when exception value is displayed on stage. */
     description: FormattedText;
-    /** The text of the explanation, in the voice of the node that generated it. Appears when value is shown on stage. */
+    /** [formatted] The text of the explanation, in the voice of the node that generated it. Appears when value is shown on stage. */
     explanation: FormattedText;
 }
 
@@ -149,7 +149,7 @@ type NodeTexts = {
      */
     BinaryEvaluate: DescriptiveNodeText &
         ExpressionText & {
-            /** How to describe the right operand in a placeholder expression */
+            /** [formatted] How to describe the right operand in a placeholder expression */
             right: FormattedText;
         } & Conflicts<{
             /** Warning about order of evaluation of binary evaluations always being reading order, not math order of operations */
@@ -199,7 +199,7 @@ type NodeTexts = {
     Block: DescriptiveNodeText &
         ExpressionText & {
             label: {
-                /** The placeholder label for a statement in the block */
+                /** [plain] The placeholder label for a statement in the block */
                 statements: string;
             };
         } & Conflicts<{
@@ -226,11 +226,11 @@ type NodeTexts = {
     Borrow: DescriptiveNodeText &
         SimpleExpressionText & {
             label: {
-                /** Placeholder label for the source name */
+                /** [plain] Placeholder label for the source name */
                 source: string;
-                /** Placeholder label for the bind name being borrowed */
+                /** [plain] Placeholder label for the bind name being borrowed */
                 bind: string;
-                /** Placeholder label for the version being borrowed */
+                /** [plain] Placeholder label for the version being borrowed */
                 version: string;
             };
         } & Conflicts<{
@@ -256,17 +256,17 @@ type NodeTexts = {
      */
     Conditional: NodeText &
         ExpressionText & {
-            /** When the else case is chosen. Description inputs: $1: true if jumping to the "else" expression */
+            /** [formatted] When the else case is chosen. Description inputs: $1: true if jumping to the "else" expression */
             afterthen: FormattedText;
-            /** After the then case is done. Description inputs: jump after the "then" expression */
+            /** [formatted] After the then case is done. Description inputs: jump after the "then" expression */
             else: FormattedText;
         } & {
             label: {
-                /** A placeholder label for the condition */
+                /** [formatted] A placeholder label for the condition */
                 condition: FormattedText;
-                /** A placeholder label for then expression */
+                /** [formatted] A placeholder label for then expression */
                 yes: FormattedText;
-                /** A placeholder label for else condition */
+                /** [formatted] A placeholder label for else condition */
                 no: FormattedText;
             };
         } & Conflicts<{
@@ -287,12 +287,12 @@ type NodeTexts = {
     Match: NodeText &
         ExpressionText & {
             label: {
-                /** The label for the default value if none of the cases match */
+                /** [formatted] The label for the default value if none of the cases match */
                 other: FormattedText;
-                /** The label for the case being checked */
+                /** [formatted] The label for the case being checked */
                 case: FormattedText;
             };
-            /** How to describe when a case is checked */
+            /** [formatted] How to describe when a case is checked */
             case: FormattedText;
         };
     /** A definition of a conversion, e.g. `→ # #m 5` */
@@ -345,7 +345,7 @@ type NodeTexts = {
      */
     Evaluate: DescriptiveNodeText &
         ExpressionText & {
-            /** What to say after inputs are done evaluating, right before starting evaluation the function */
+            /** [formatted] What to say after inputs are done evaluating, right before starting evaluation the function */
             evaluate: FormattedText;
         } & {
             label: { function: string; types: string; inputs: string };
@@ -429,11 +429,11 @@ type NodeTexts = {
      */
     Iteration: NodeText &
         ExpressionText & {
-            /** What to say when the iteration initialization begins */
+            /** [formatted] What to say when the iteration initialization begins */
             initialize: FormattedText;
-            /** What to say when the next value is being gotten */
+            /** [formatted] What to say when the next value is being gotten */
             next: FormattedText;
-            /** What to say when the next value is being checked to decide whether to continue */
+            /** [formatted] What to say when the next value is being checked to decide whether to continue */
             check: FormattedText;
         };
     /**
@@ -522,11 +522,11 @@ type NodeTexts = {
      */
     Program: NodeText &
         ExpressionText & {
-            /** What to say when the program is halting because of a fatal error */
+            /** [formatted] What to say when the program is halting because of a fatal error */
             halt: FormattedText;
-            /** What to say when the program is done evaluating */
+            /** [formatted] What to say when the program is done evaluating */
             done: FormattedText;
-            /** What to say when the program has yet to evaluate */
+            /** [formatted] What to say when the program has yet to evaluate */
             unevaluated: FormattedText;
         } & Exceptions<{
             /** When a program is blank */
@@ -570,11 +570,11 @@ type NodeTexts = {
     Reaction: NodeText &
         ExpressionText & {
             label: {
-                /** Placeholder label for the initial value */
+                /** [formatted] Placeholder label for the initial value */
                 initial: FormattedText;
-                /** Placeholder label for the condition to check */
+                /** [formatted] Placeholder label for the condition to check */
                 condition: FormattedText;
-                /** Placeholder label for the next value */
+                /** [formatted] Placeholder label for the next value */
                 next: FormattedText;
             };
         } & Conflicts<{
@@ -588,7 +588,7 @@ type NodeTexts = {
      */
     Reference: DescriptiveNodeText &
         SimpleExpressionText & {
-            /** The placeholder label for the name */
+            /** [name] [formatted] The placeholder label for the name */
             name: FormattedText;
         } & Conflicts</** $1: The name that depends on itself */
         {
@@ -700,9 +700,9 @@ type NodeTexts = {
             address: ConflictText;
             tin: ConflictText;
             handle: ConflictText;
-            /** How to describe the resolution of the sensitive information conflict. */
+            /** [formatted] How to describe the resolution of the sensitive information conflict. */
             resolution: FormattedText;
-            /** Note to remind users where they can manage sensitive information for their project. */
+            /** [formatted] Note to remind users where they can manage sensitive information for their project. */
             reminder: FormattedText;
             character: ConflictText;
         }>;
@@ -871,7 +871,7 @@ type NodeTexts = {
      * A type that is not known. All unknown types are rendered as a sequence of reasons, e.g., 'unknown type because X because Y because Z..."".
      * The unknown type description is used for the beginning of this message, and then the connector below is used to string them together. */
     UnknownType: NodeText & {
-        /** The connector between reasons, e.g., "because " */
+        /** [plain] The connector between reasons, e.g., "because " */
         connector: string;
     };
     /**

@@ -55,7 +55,7 @@ type OutputTexts = {
         layout: NameAndDoc;
         /** The matter to use for the group if it's involved in collisions */
         matter: NameAndDoc;
-        /** $1 = Layout description, $2 = pose description */
+        /** [formatted] $1 = Layout description, $2 = pose description */
         defaultDescription: FormattedText;
     } & TypeTexts;
     /** A shadow */
@@ -83,12 +83,12 @@ type OutputTexts = {
         matter: NameAndDoc;
         /** The shadow properties for the phrase */
         aura: NameAndDoc;
-        /** A description of the phrase for screen readers. 1$: non-optional text, $2: optional name, $3: optional size, $4: optional font, $5: then non-optional pose */
+        /** [formatted] A description of the phrase for screen readers. 1$: non-optional text, $2: optional name, $3: optional size, $4: optional font, $5: then non-optional pose */
         defaultDescription: FormattedText;
     } & TypeTexts;
     /** The whole stage view and settings to control its appearance */
     Stage: NameAndDoc & {
-        /** A description of the stage for screen readers. $1: total outputs, $2: total phrases, $3: total groups, $4: pose */
+        /** [formatted] A description of the stage for screen readers. $1: total outputs, $2: total phrases, $3: total groups, $4: pose */
         defaultDescription: FormattedText;
         /** A list of content to show on stage */
         content: NameAndDoc;
@@ -186,7 +186,7 @@ type OutputTexts = {
         scale: NameAndDoc;
         flipx: NameAndDoc;
         flipy: NameAndDoc;
-        /** Templated description of the pose */
+        /** [formatted] Templated description of the pose */
         description: FormattedText;
     };
     /** A sequence of poses, keyed by percentage complete, for use in overriding an output's defaults for entering, resting, moving, or existing states */
@@ -251,7 +251,7 @@ type OutputTexts = {
     /** A horizontal row arrangement */
     Row: NameAndDoc & {
         /**
-         * A description of the row for screen readers.
+         * [formatted] A description of the row for screen readers.
          * $1: total count
          * $2: phrase count
          * $3: group count
@@ -265,7 +265,7 @@ type OutputTexts = {
     /** A vertical stack arragement */
     Stack: NameAndDoc & {
         /**
-         * A description of the stack for screen readers.
+         * [formatted] A description of the stack for screen readers.
          * $1: total count
          * $2: phrase count
          * $3: group count
@@ -279,7 +279,7 @@ type OutputTexts = {
     /** A grid arrangement, like a table */
     Grid: NameAndDoc & {
         /**
-         * A description of the grid of content
+         * [formatted] A description of the grid of content
          * $1: rows
          * $2: columns
          */
@@ -298,7 +298,7 @@ type OutputTexts = {
     /** An arrangement where locations are specified by content */
     Free: NameAndDoc & {
         /**
-         * A description of the free layout for screen readers.
+         * [formatted] A description of the free layout for screen readers.
          * $1: output count
          */
         description: FormattedText;
@@ -339,7 +339,7 @@ type OutputTexts = {
     };
     /** A data file structure */
     Source: NameAndDoc & {
-        /** The name of the data file */
+        /** [name] The name of the data file */
         name: NameAndDoc;
         /** The data value to persist */
         value: NameAndDoc;

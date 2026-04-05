@@ -1,26 +1,26 @@
 import type { FormattedText } from '@locale/LocaleText';
 
 type PageText = {
-    /** Header for the about page */
+    /** [plain] Header for the about page */
     header: string;
-    /** Text for the about page */
+    /** [formatted] Text for the about page */
     content: FormattedText[];
     /** Expand, collapse tooltips for the updates page */
     tips: {
-        /** Expand the section */
+        /** [plain] Expand the section */
         expand: string;
-        /** Collapse the section */
+        /** [plain] Collapse the section */
         collapse: string;
     };
     /** Categories for updates */
     categories: {
-        /** New features */
+        /** [plain] New features */
         added: string;
-        /** Changes to existing features */
+        /** [plain] Changes to existing features */
         changed: string;
-        /** Removed features */
+        /** [plain] Removed features */
         removed: string;
-        /** Bug fixes */
+        /** [plain] Bug fixes */
         fixed: string;
     };
 };

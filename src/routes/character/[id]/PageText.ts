@@ -44,9 +44,9 @@ type PageText = {
         >;
         fill: ModeText<string[]>;
         stroke: ModeText<string[]>;
-        /** What to call no color */
+        /** [plain] What to call no color */
         none: string;
-        /** What to call inherited color */
+        /** [plain] What to call inherited color */
         inherit: string;
         /** Labels for the stroke width slider*/
         strokeWidth: { label: string; tip: string };
@@ -58,7 +58,7 @@ type PageText = {
         width: { label: string; tip: string };
         /** Height slider */
         height: { label: string; tip: string };
-        /** Closed path label */
+        /** [plain] Closed path label */
         closed: string;
     };
     button: {
@@ -104,29 +104,29 @@ type PageText = {
         dismissError: ButtonText;
     };
     feedback: {
-        /** When the name isn't a valid Wordplay name */
+        /** [name] When the name isn't a valid Wordplay name */
         name: string;
-        /** When the description is empty */
+        /** [plain] When the description is empty */
         description: string;
-        /** When completing a path, instructions on how to end it. */
+        /** [plain] When completing a path, instructions on how to end it. */
         end: string;
-        /** Couldn't load the character */
+        /** [plain] Couldn't load the character */
         loadfail: string;
-        /** The character doesn't exist */
+        /** [plain] The character doesn't exist */
         notfound: string;
-        /** Not logged in */
+        /** [plain] Not logged in */
         unauthenticated: string;
-        /** Not saving because name is taken */
+        /** [plain] Not saving because name is taken */
         taken: string;
-        /** When an edit failure occurs when updating projects after a character name change. */
+        /** [plain] When an edit failure occurs when updating projects after a character name change. */
         projecteditfail: string;
-        /** Placeholder name for a project that has no name. */
+        /** [plain] Placeholder name for a project that has no name. */
         untitledproject: string;
     };
     announce: {
-        /** When cursor position changes $1 x, $2: y. */
+        /** [formatted] When cursor position changes $1 x, $2: y. */
         position: FormattedText;
-        /** When selection changes. $1 is list of shape types. */
+        /** [formatted] When selection changes. $1 is list of shape types. */
         selection: FormattedText;
     };
 };

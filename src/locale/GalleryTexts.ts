@@ -1,7 +1,7 @@
 export type GalleryText = {
-    /** The display name of the gallery category */
+    /** [plain] The display name of the gallery category */
     name: string;
-    /** A short description of the kinds of projects in this gallery category */
+    /** [plain] A short description of the kinds of projects in this gallery category */
     description: string;
 };
 

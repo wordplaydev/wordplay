@@ -11,42 +11,42 @@ import type {
 type PageText = {
     /** Headers on the gallery page */
     galleryView: {
-        /** Title of how-to space in the gallery view */
+        /** [plain] Title of how-to space in the gallery view */
         header: string;
-        /** Subtitle for the how-to space in the gallery view */
+        /** [plain] Subtitle for the how-to space in the gallery view */
         subheader: string;
-        /** Subtitle for the how-to space in the gallery if no how-tos */
+        /** [plain] Subtitle for the how-to space in the gallery if no how-tos */
         subheaderEmpty: string;
-        /** Prompt for the how-to space in the gallery view */
+        /** [formatted] Prompt for the how-to space in the gallery view */
         prompt: FormattedText;
     };
-    /** Tooltip for header/breadcrumb to gallery for the how-to space page */
+    /** [plain] Tooltip for header/breadcrumb to gallery for the how-to space page */
     headerTooltip: string;
     drafts: {
-        /** Header for the drafts area */
+        /** [plain] Header for the drafts area */
         header: string;
-        /** Explanation for the drafts area */
+        /** [plain] Explanation for the drafts area */
         prompt: string;
-        /** Tooltip for viewing a draft */
+        /** [plain] Tooltip for viewing a draft */
         tooltip: string;
-        /** Text indicating that the how-to is currently a draft */
+        /** [formatted] Text indicating that the how-to is currently a draft */
         note: FormattedText;
     };
     bookmarks: {
-        /** Header for the bookmarks area */
+        /** [plain] Header for the bookmarks area */
         header: string;
-        /** Bookmarks  tooltip */
+        /** [plain] Bookmarks  tooltip */
         tooltip: string;
         /** Button text for bookmarking the how-to */
         canBookmark: ButtonText;
         /** For when a how-to is already bookmarked */
         alreadyBookmarked: ButtonText;
-        /** When there are no bookmarks */
+        /** [plain] When there are no bookmarks */
         empty: string;
-        /** Error message if the user is not logged in */
+        /** [plain] Error message if the user is not logged in */
         notLoggedIn: string;
     };
-    /** Navigation tooltip */
+    /** [plain] Navigation tooltip */
     navigationtooltip: string;
     /** Buttons for the how-to space */
     button: {
@@ -68,7 +68,7 @@ type PageText = {
         editor: FieldText;
         /** Field text for how-to title */
         title: FieldText;
-        /** Placeholder for an untitled how-to */
+        /** [plain] Placeholder for an untitled how-to */
         untitledHowToPlaceholder: string;
         /** Header for collaborator settings */
         collaborators: HeaderAndExplanationText;
@@ -80,7 +80,7 @@ type PageText = {
         accessToggle: ToggleText;
         /** Mode text for opting in/out of expanded access to how-tos */
         accessMode: ModeText<[string, string]>;
-        /** Label for options for translation */
+        /** [plain] Label for options for translation */
         localeOptionsLabel: string;
     };
     viewer: {
@@ -96,24 +96,24 @@ type PageText = {
             alreadySubmitted: ButtonText;
         };
         usedBy: {
-            /** Text for asking if the user used this how-to in their project or another how-to */
+            /** [plain] Text for asking if the user used this how-to in their project or another how-to */
             prompt: string;
-            /** Text for if the user does not have any other how-tos or projects */
+            /** [formatted] Text for if the user does not have any other how-tos or projects */
             empty: FormattedText;
-            /** Text for how many others projects or how-tos, other than the user's own, have used this how-to */
+            /** [plain] Text for how many others projects or how-tos, other than the user's own, have used this how-to */
             countDisplay: string;
-            /** Options text for selecting which projects and how-tos used this how-to */
+            /** [plain] Options text for selecting which projects and how-tos used this how-to */
             selector: string;
             removeButton: string;
             addButton: string;
         };
-        /** Prompt for reaction summary */
+        /** [plain] Prompt for reaction summary */
         reactionsPrompt: string;
-        /** Text for prompting users to chat */
+        /** [plain] Text for prompting users to chat */
         chatPrompt: string;
         /** Button text for copying the how-to's URL */
         link: ButtonText;
-        /** Label for list of creators and collaborators */
+        /** [plain] Label for list of creators and collaborators */
         collaborators: string;
     };
     /** For configuring the how-to space */
@@ -126,16 +126,16 @@ type PageText = {
         visibility: {
             subheader: HeaderAndExplanationText;
             mode: ModeText<[string, string]>;
-            /** Name of visibility option for limiting visibility to gallery curators and creators */
+            /** [plain] Name of visibility option for limiting visibility to gallery curators and creators */
             limited: string;
-            /** Name of visibility option for making how-tos visible to anyone who has access to the curator's galleries */
+            /** [plain] Name of visibility option for making how-tos visible to anyone who has access to the curator's galleries */
             expanded: string;
         };
         /** Subheaders and descriptions for configuring guiding questions */
         guidingQuestions: {
             /** Guiding questions header */
             subheader: HeaderAndExplanationText;
-            /** Guiding questions description */
+            /** [plain] Guiding questions description */
             descriptor: string;
             /** Guiding questions default text */
             default: string[];
@@ -144,13 +144,13 @@ type PageText = {
         reactions: {
             /** Reactions header */
             subheader: HeaderAndExplanationText;
-            /** Reaction picker tip */
+            /** [plain] Reaction picker tip */
             reactionPickerTip: string;
-            /** Reaction picker description tip */
+            /** [plain] Reaction picker description tip */
             reactionDescriptionTip: string;
-            /** Add reaction tip */
+            /** [plain] Add reaction tip */
             addReactionTip: string;
-            /** Remove reaction tip */
+            /** [plain] Remove reaction tip */
             removeReactionTip: string;
             /** Default reactions */
             default: Record<string, string>;
@@ -167,7 +167,7 @@ type PageText = {
         moveDeactivated: string;
     };
     error: {
-        /** When the how-to is not known or is not public */
+        /** [plain] When the how-to is not known or is not public */
         unknown: string;
     };
 };

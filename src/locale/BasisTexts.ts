@@ -6,7 +6,7 @@ type EmptyInputs = typeof Empty;
 export type BasisNameAndDoc = {
     /** Documentation to explain what the type is for and how it's used. */
     doc: DocText;
-    /** The name to use to describe the type of value. */
+    /** [name] The name to use to describe the type of value. */
     name: NameText;
 };
 

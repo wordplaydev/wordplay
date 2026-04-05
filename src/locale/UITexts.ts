@@ -27,21 +27,21 @@ import type UpdatesPageText from '../routes/updates/PageText';
 import type EditTexts from './EditTexts';
 
 export type ButtonText = {
-    /** The buttons label */
+    /** [plain] The buttons label */
     label: string;
-    /** THe buttons tooltip and ARIA-label, spoken by screen readers */
+    /** [plain] THe buttons tooltip and ARIA-label, spoken by screen readers */
     tip: string;
 };
 
 export type ToggleText = {
-    /** The tooltip and ARIA-label for when the toggle is in the on state */
+    /** [plain] The tooltip and ARIA-label for when the toggle is in the on state */
     on: string;
-    /** The tooltip and ARIA-label for when the toggle is in the off state */
+    /** [plain] The tooltip and ARIA-label for when the toggle is in the off state */
     off: string;
 };
 
 export type ModeText<Options extends readonly string[]> = {
-    /** The tooltip and ARIA-label for the entire mode widget, describing the kind of modes it supports switching to. */
+    /** [plain] The tooltip and ARIA-label for the entire mode widget, describing the kind of modes it supports switching to. */
     label: string;
     /** A list of modes */
     labels: Options;
@@ -50,23 +50,23 @@ export type ModeText<Options extends readonly string[]> = {
 };
 
 export type HeaderAndExplanationText = {
-    /** The header to be shown at the top of the dialog */
+    /** [plain] The header to be shown at the top of the dialog */
     header: string;
     /** The explanation text just below the header. */
     explanation: FormattedText | FormattedText[];
 };
 
 export type ConfirmText = {
-    /** The tooltip and ARIA-label for the button */
+    /** [plain] The tooltip and ARIA-label for the button */
     description: string;
-    /** The confirmation prompt to show after clicked the first time. */
+    /** [plain] The confirmation prompt to show after clicked the first time. */
     prompt: string;
 };
 
 export type FieldText = {
-    /** The tooltip and ARIA-label for the text field */
+    /** [plain] The tooltip and ARIA-label for the text field */
     description: string;
-    /** The placeholder text fo the text field. */
+    /** [plain] The placeholder text fo the text field. */
     placeholder: string;
 };
 
@@ -78,49 +78,49 @@ type UITexts = {
         code: SupportedFace;
     };
     phrases: {
-        /** Placeholder text used in code examples. */
+        /** [plain] Placeholder text used in code examples. */
         welcome: string;
     };
     /** Generic reusable widgets and their generic labels. */
     widget: {
         /** A confirm button */
         confirm: {
-            /** The 'x' cancel button after a confirm button has been pressed. */
+            /** [plain] The 'x' cancel button after a confirm button has been pressed. */
             cancel: string;
         };
         /** A modal dialog */
         dialog: {
-            /** The close button on modal dialogs */
+            /** [plain] The close button on modal dialogs */
             close: string;
         };
         /** The page loading widget, before content is shown */
         loading: {
-            /** The message shown in the page loading feedback */
+            /** [plain] The message shown in the page loading feedback */
             message: string;
         };
-        /** The go home button description */
+        /** [plain] The go home button description */
         home: string;
         /** An editable table */
         table: {
             /** The field to edit a cell */
             cell: FieldText;
-            /** The button to remove a row from the table */
+            /** [plain] The button to remove a row from the table */
             addcolumn: string;
-            /** The button to remove a row from the table */
+            /** [plain] The button to remove a row from the table */
             removecolumn: string;
         };
         /** Formatted text editor */
         formatted: {
-            /** The edit mode */
+            /** [plain] The edit mode */
             edit: string;
-            /** The preview mode */
+            /** [plain] The preview mode */
             preview: string;
         };
     };
     /** Controls for the tiled windows in the project */
     tile: {
         button: {
-            /** Collapse the tile window */
+            /** [plain] Collapse the tile window */
             collapse: string;
         };
         /** Tile labels appearing in the project footer tile toggles, except for source files. */
@@ -135,89 +135,89 @@ type UITexts = {
     /** Project settings and controls */
     project: {
         defaults: {
-            /** The default template shown when opening a new project */
+            /** [plain] The default template shown when opening a new project */
             starterCode: string;
         };
         /** The error shown when a project ID is unknown. */
         error: {
-            /** Shown when a project doesn't exist or the user doesn't have access */
+            /** [plain] Shown when a project doesn't exist or the user doesn't have access */
             unknown: string;
-            /** The error to show if translation wasn't possible */
+            /** [plain] The error to show if translation wasn't possible */
             translate: string;
-            /** The message for an error in a tile */
+            /** [plain] The message for an error in a tile */
             tile: string;
-            /** The button label for an error reset */
+            /** [plain] The button label for an error reset */
             reset: string;
         };
         button: {
             /** Shows the sharing dialog */
             share: ButtonText;
-            /** Remove a collaborator that has been shared with */
+            /** [plain] Remove a collaborator that has been shared with */
             removeCollaborator: string;
             /** Copy the project as text to the clipboard */
             copy: ButtonText;
-            /** Add a source file */
+            /** [plain] Add a source file */
             addSource: string;
-            /** Duplicate the project */
+            /** [plain] Duplicate the project */
             duplicate: string;
-            /** Revert project to original code */
+            /** [plain] Revert project to original code */
             revert: string;
-            /** Keyboard shortcut to focus output tile */
+            /** [plain] Keyboard shortcut to focus output tile */
             focusOutput: string;
-            /** Keyboard shortcut to focus source tiles */
+            /** [plain] Keyboard shortcut to focus source tiles */
             focusSource: string;
-            /** Keyboard shortcut to focus documentation tile */
+            /** [plain] Keyboard shortcut to focus documentation tile */
             focusDocs: string;
-            /** Keyboard shortcut to focus palette tiles */
+            /** [plain] Keyboard shortcut to focus palette tiles */
             focusPalette: string;
-            /** Keyboard shortcut to cycle between tiles */
+            /** [plain] Keyboard shortcut to cycle between tiles */
             focusCycle: string;
-            /** Tooltip for saved or saving status locally */
+            /** [plain] Tooltip for saved or saving status locally */
             savedLocally: string;
-            /** Tooltip for saved or saving status online */
+            /** [plain] Tooltip for saved or saving status online */
             savedOnline: string;
-            /** Show save error button */
+            /** [plain] Show save error button */
             unsaved: string;
             /** Show translation button */
             translate: ButtonText;
-            /** The tooltip for the primary locale setting button */
+            /** [plain] The tooltip for the primary locale setting button */
             primary: string;
             /** The history switch */
             history: { off: string; on: string };
         };
         field: {
-            /** The project name text field */
+            /** [name] The project name text field */
             name: FieldText;
         };
-        /** The keyboard shortcut to show the shortcut menu */
+        /** [plain] The keyboard shortcut to show the shortcut menu */
         help: string;
-        /** The text to show when all of the tiles are collapsed. */
+        /** [plain] The text to show when all of the tiles are collapsed. */
         collapsed: string;
         /** The messages shown for save status */
         save: {
-            /** When projects fail to save locally */
+            /** [formatted] When projects fail to save locally */
             projectsNotSavedLocally: FormattedText;
-            /** When projects can't save locally */
+            /** [formatted] When projects can't save locally */
             projectsCannotNotSaveLocally: FormattedText;
-            /** When a project wasn't saved because it contained PII */
+            /** [formatted] When a project wasn't saved because it contained PII */
             projectContainedPII: FormattedText;
-            /** Projects failed to load */
+            /** [formatted] Projects failed to load */
             projectsNotLoadingOnline: FormattedText;
-            /** When a project couldn't be saved to the database */
+            /** [formatted] When a project couldn't be saved to the database */
             projectNotSavedOnline: FormattedText;
-            /** When settings are being saved */
+            /** [formatted] When settings are being saved */
             settingsUnsaved: FormattedText;
         };
         dialog: {
-            /** The header for the save error */
+            /** [formatted] The header for the save error */
             unsaved: FormattedText;
             /** The content for the translation dialog */
             translate: HeaderAndExplanationText;
         };
         subheader: {
-            /** The header for the source language */
+            /** [formatted] The header for the source language */
             source: FormattedText;
-            /** The header for the destination language */
+            /** [formatted] The header for the destination language */
             destination: FormattedText;
         };
     };
@@ -231,11 +231,11 @@ type UITexts = {
     howto: HowToPageText;
     /** Source file controls */
     source: {
-        /** The ARIA label for the source file section */
+        /** [plain] The ARIA label for the source file section */
         label: string;
         /** The text to show when a source file is empty */
         empty: DocText;
-        /** When some other device had a more recent edit that overrode this device's version. */
+        /** [plain] When some other device had a more recent edit that overrode this device's version. */
         overwritten: string;
         confirm: {
             /** The confirm button that deletes a source file */
@@ -248,31 +248,31 @@ type UITexts = {
             characters: ToggleText;
         };
         button: {
-            /** Output preview button for selecting output for display in output tile */
+            /** [plain] Output preview button for selecting output for display in output tile */
             selectOutput: string;
-            /** The button shown when a list of code is ellided; clicking it shows the hidden code. */
+            /** [plain] The button shown when a list of code is ellided; clicking it shows the hidden code. */
             expandSequence: string;
-            /** The button tooltip for expanding the controls accordion */
+            /** [plain] The button tooltip for expanding the controls accordion */
             expandControls: string;
-            /** The button tooltip for collapsing the controls accordion */
+            /** [plain] The button tooltip for collapsing the controls accordion */
             collapseControls: string;
-            /** The zoom in button for the code editor */
+            /** [plain] The zoom in button for the code editor */
             zoomIn: string;
-            /** The zoom out button for the code editor */
+            /** [plain] The zoom out button for the code editor */
             zoomOut: string;
         };
         menu: {
-            /** How to describe the autocomplete menu */
+            /** [plain] How to describe the autocomplete menu */
             label: string;
-            /** The menu show button and keyboard shortcut */
+            /** [plain] The menu show button and keyboard shortcut */
             show: string;
-            /** How to describe the autocomplete back button for leaving the submenu */
+            /** [plain] How to describe the autocomplete back button for leaving the submenu */
             back: string;
-            /** What to say when the menu is empty */
+            /** [plain] What to say when the menu is empty */
             empty: string;
         };
         field: {
-            /** The name of the source file */
+            /** [name] The name of the source file */
             name: FieldText;
         };
         options: {
@@ -280,174 +280,174 @@ type UITexts = {
             locale: { tip: string; all: string };
         };
         cursor: {
-            /** Move caret to the line before */
+            /** [plain] Move caret to the line before */
             priorLine: string;
-            /** Move caret to the line after */
+            /** [plain] Move caret to the line after */
             nextLine: string;
-            /** Move cursor inline one position before */
+            /** [plain] Move cursor inline one position before */
             priorInline: string;
-            /** Move cursor inline one position after */
+            /** [plain] Move cursor inline one position after */
             nextInline: string;
-            /** Expand selection before inline */
+            /** [plain] Expand selection before inline */
             expandBeforeInline: string;
-            /** Expand selection after inline */
+            /** [plain] Expand selection after inline */
             expandAfterInline: string;
-            /** Expand selection to prior line */
+            /** [plain] Expand selection to prior line */
             expandPriorLine: string;
-            /** Expand selection to next line */
+            /** [plain] Expand selection to next line */
             expandNextLine: string;
-            /** Move cursor to line start */
+            /** [plain] Move cursor to line start */
             lineStart: string;
-            /** Move cursor to line end */
+            /** [plain] Move cursor to line end */
             lineEnd: string;
-            /** Move cursor to start of source */
+            /** [plain] Move cursor to start of source */
             sourceStart: string;
-            /** Move cursor to end of source */
+            /** [plain] Move cursor to end of source */
             sourceEnd: string;
-            /** Move cursor to node prior */
+            /** [plain] Move cursor to node prior */
             priorNode: string;
-            /** Move cursor to node after */
+            /** [plain] Move cursor to node after */
             nextNode: string;
-            /** Select parent of node */
+            /** [plain] Select parent of node */
             parent: string;
-            /** Select the whole program */
+            /** [plain] Select the whole program */
             selectAll: string;
-            /** Increment the literal at the cursor */
+            /** [plain] Increment the literal at the cursor */
             incrementLiteral: string;
-            /** Decrement the literal at the cursor */
+            /** [plain] Decrement the literal at the cursor */
             decrementLiteral: string;
-            /** Insert selected symbol */
+            /** [plain] Insert selected symbol */
             insertSymbol: string;
-            /** Insert tab symbol */
+            /** [plain] Insert tab symbol */
             insertTab: string;
-            /** Insert true symbol */
+            /** [plain] Insert true symbol */
             insertTrue: string;
-            /** Insert false symbol */
+            /** [plain] Insert false symbol */
             insertFalse: string;
-            /** Insert none symbol */
+            /** [plain] Insert none symbol */
             insertNone: string;
-            /** Insert ≠ symbol */
+            /** [plain] Insert ≠ symbol */
             insertNotEqual: string;
-            /** Insert × symbol */
+            /** [plain] Insert × symbol */
             insertProduct: string;
-            /** Insert · symbol */
+            /** [plain] Insert · symbol */
             insertDot: string;
-            /** Insert ÷ symbol */
+            /** [plain] Insert ÷ symbol */
             insertQuotient: string;
-            /** Insert ° symbol */
+            /** [plain] Insert ° symbol */
             insertDegree: string;
-            /** Insert ƒ symbol */
+            /** [plain] Insert ƒ symbol */
             insertFunction: string;
-            /** Insert ≤ symbol */
+            /** [plain] Insert ≤ symbol */
             insertLessOrEqual: string;
-            /** Insert ≥ symbol */
+            /** [plain] Insert ≥ symbol */
             insertGreaterOrEqual: string;
-            /** Insert • symbol */
+            /** [plain] Insert • symbol */
             insertType: string;
-            /** Insert ¶ symbol */
+            /** [plain] Insert ¶ symbol */
             insertDocs: string;
-            /** Insert … symbol */
+            /** [plain] Insert … symbol */
             insertStream: string;
-            /** Insert ∆ symbol */
+            /** [plain] Insert ∆ symbol */
             insertChange: string;
-            /** Insert ← symbol */
+            /** [plain] Insert ← symbol */
             insertPrevious: string;
-            /** Insert → symbol */
+            /** [plain] Insert → symbol */
             insertConvert: string;
-            /** Insert table symbol */
+            /** [plain] Insert table symbol */
             insertTable: string;
-            /** Insert table close symbol */
+            /** [plain] Insert table close symbol */
             insertTableClose: string;
-            /** Insert borrow symbol */
+            /** [plain] Insert borrow symbol */
             insertBorrow: string;
-            /** Insert share symbol */
+            /** [plain] Insert share symbol */
             insertShare: string;
-            /** Insert new line */
+            /** [plain] Insert new line */
             insertLine: string;
-            /** Delete previous symbol */
+            /** [plain] Delete previous symbol */
             backspace: string;
-            /** Delete next symbol */
+            /** [plain] Delete next symbol */
             delete: string;
-            /** Copy selection to clipboard as text */
+            /** [plain] Copy selection to clipboard as text */
             copy: string;
-            /** Cut selection to clipboard as text */
+            /** [plain] Cut selection to clipboard as text */
             cut: string;
-            /** Paste clipboard text as code */
+            /** [plain] Paste clipboard text as code */
             paste: string;
-            /** Parenthesize selection */
+            /** [plain] Parenthesize selection */
             parenthesize: string;
-            /** Listify selection */
+            /** [plain] Listify selection */
             enumerate: string;
-            /** Insert a symbol */
+            /** [plain] Insert a symbol */
             type: string;
-            /** Undo last edit */
+            /** [plain] Undo last edit */
             undo: string;
-            /** Redo undone edit */
+            /** [plain] Redo undone edit */
             redo: string;
-            /** Search for character */
+            /** [plain] Search for character */
             search: string;
-            /** Tidy spacing */
+            /** [plain] Tidy spacing */
             tidy: string;
-            /** Toggle elision */
+            /** [plain] Toggle elision */
             elide: string;
-            /** Large deletion notification */
+            /** [plain] Large deletion notification */
             largeDelete: string;
             /** Explanations for why something isn't editable */
             ignored: {
-                /** The source is not editable */
+                /** [plain] The source is not editable */
                 readOnly: string;
-                /** No spaces in block mode unless in editable */
+                /** [plain] No spaces in block mode unless in editable */
                 blockSpace: string;
-                /** A node couldn't be deleted */
+                /** [plain] A node couldn't be deleted */
                 noDelete: string;
-                /** An insertion failed */
+                /** [plain] An insertion failed */
                 noInsert: string;
-                /** No errors allowed */
+                /** [plain] No errors allowed */
                 noError: string;
-                /** No editor active */
+                /** [plain] No editor active */
                 noEditor: string;
-                /** No clipboard */
+                /** [plain] No clipboard */
                 noClipboard: string;
-                /** No clipboard item */
+                /** [plain] No clipboard item */
                 noClipboardItem: string;
-                /** No selection */
+                /** [plain] No selection */
                 noSelection: string;
-                /** No where to go */
+                /** [plain] No where to go */
                 noMove: string;
             };
         };
         error: {
-            /** An invalid source name */
+            /** [plain] An invalid source name */
             invalidName: string;
-            /** Invalid words in a words token editor */
+            /** [plain] Invalid words in a words token editor */
             invalidWords: string;
         };
     };
     /** The conflicts area in the margin of the editor. */
     annotations: {
-        /** The ARIA label for the conflicts section in the editor. */
+        /** [plain] The ARIA label for the conflicts section in the editor. */
         label: string;
-        /** The description of the cursor position */
+        /** [formatted] The description of the cursor position */
         cursor: FormattedText;
-        /** The description fo the cursor position's parent */
+        /** [formatted] The description fo the cursor position's parent */
         cursorParent: FormattedText;
-        /** The prompt to line more about the cursor node */
+        /** [formatted] The prompt to line more about the cursor node */
         learn: FormattedText;
-        /** What function should say when evaluating */
+        /** [formatted] What function should say when evaluating */
         evaluating: FormattedText;
-        /** What function should say when the cursor is in space */
+        /** [formatted] What function should say when the cursor is in space */
         space: FormattedText;
         button: {
-            /** How the resolution button should should be described */
+            /** [formatted] How the resolution button should should be described */
             resolution: FormattedText;
-            /** The button to toggle the annotations */
+            /** [plain] The button to toggle the annotations */
             toggle: string;
-            /** The button to show the annotation's node in the code */
+            /** [plain] The button to show the annotation's node in the code */
             highlight: string;
         };
     };
     output: {
-        /** The ARIA label for the output section */
+        /** [plain] The ARIA label for the output section */
         label: string;
         toggle: {
             /** Toggle whether grid is shown */
@@ -462,17 +462,17 @@ type UITexts = {
             key: FieldText;
         };
         button: {
-            /** The chat submit button */
+            /** [plain] The chat submit button */
             submit: string;
-            /** Zoom in output button */
+            /** [plain] Zoom in output button */
             zoomIn: string;
-            /** Zoom in output button */
+            /** [plain] Zoom in output button */
             zoomOut: string;
         };
         options: {
-            /** The label for the locale chooser in output */
+            /** [plain] The label for the locale chooser in output */
             locale: string;
-            /** The default locale for the output */
+            /** [plain] The default locale for the output */
             default: string;
         };
     };
@@ -480,7 +480,7 @@ type UITexts = {
     docs: DocumentationText;
     /** The project chat */
     collaborate: {
-        /** The ARIA label for the chat section */
+        /** [plain] The ARIA label for the chat section */
         label: string;
         /** The chat message input field */
         field: {
@@ -488,15 +488,15 @@ type UITexts = {
             message: FieldText;
         };
         role: {
-            /** What to call the owner of a project */
+            /** [plain] What to call the owner of a project */
             owner: string;
-            /** What to call collaborators */
+            /** [plain] What to call collaborators */
             collaborators: string;
-            /** What to call curators */
+            /** [plain] What to call curators */
             curators: string;
-            /** What to call commenters */
+            /** [plain] What to call commenters */
             commenters: string;
-            /** What to call viewers */
+            /** [plain] What to call viewers */
             viewers: string;
         };
         /** Buttons in the chat tile */
@@ -505,9 +505,9 @@ type UITexts = {
             submit: ButtonText;
             /** The start a chat button */
             start: ButtonText;
-            /** The message delete button */
+            /** [plain] The message delete button */
             delete: string;
-            /** Confirm deleting the message */
+            /** [plain] Confirm deleting the message */
             confirmDelete: string;
         };
         /** Dialog for chat moderation */
@@ -520,31 +520,31 @@ type UITexts = {
         };
         /** Errors that can happen in the chat tile */
         error: {
-            /** The project isn't owned by a person */
+            /** [plain] The project isn't owned by a person */
             unowned: string;
-            /** Offline, or couldn't load the chat */
+            /** [plain] Offline, or couldn't load the chat */
             offline: string;
-            /** No messages in the chat */
+            /** [plain] No messages in the chat */
             empty: string;
-            /** A message was deleted */
+            /** [plain] A message was deleted */
             deleted: string;
         };
         /** Messages to explain the purpose of the chat to each kind of participant */
         prompt: {
-            /** Shown when the user is the only participant; invites them to add collaborators */
+            /** [plain] Shown when the user is the only participant; invites them to add collaborators */
             solo: string;
-            /** Shown to the project owner; describes what collaborators and commenters can do */
+            /** [plain] Shown to the project owner; describes what collaborators and commenters can do */
             owner: string;
-            /** Shown to collaborators; describes their editing and chat permissions */
+            /** [plain] Shown to collaborators; describes their editing and chat permissions */
             collaborator: string;
-            /** Shown to gallery curators; describes their editing and chat permissions */
+            /** [plain] Shown to gallery curators; describes their editing and chat permissions */
             curator: string;
-            /** Shown to commenters; describes their chat-only permissions */
+            /** [plain] Shown to commenters; describes their chat-only permissions */
             commenter: string;
         };
         /** Controls for restricting project visibility when it is in a gallery */
         restrictGalleryCreatorAccess: {
-            /** Explains that the project is in a gallery and describes the visibility restriction option */
+            /** [formatted] Explains that the project is in a gallery and describes the visibility restriction option */
             explanation: FormattedText;
             /** The toggle mode for restricting project visibility to owner and curators only */
             mode: ModeText<[string, string]>;
@@ -553,149 +553,149 @@ type UITexts = {
 
     /** The palette editor */
     palette: {
-        /** The ARIA label for the palette section */
+        /** [plain] The ARIA label for the palette section */
         label: string;
         labels: {
-            /** Shown in the output palette when multiple outputs are selected but they have unequal values. */
+            /** [plain] Shown in the output palette when multiple outputs are selected but they have unequal values. */
             mixed: string;
-            /** Shown in the output palette when the output(s) selected have expressions that are not editable using the editor. */
+            /** [plain] Shown in the output palette when the output(s) selected have expressions that are not editable using the editor. */
             computed: string;
-            /** Shown in the output palette when the output(s) selected have no value set, but have a default */
+            /** [plain] Shown in the output palette when the output(s) selected have no value set, but have a default */
             default: string;
-            /** Shown in the output palette when a value is unset but is inherited */
+            /** [plain] Shown in the output palette when a value is unset but is inherited */
             inherited: string;
-            /** Shown in the output palette when a sequence isn't valid */
+            /** [plain] Shown in the output palette when a sequence isn't valid */
             notSequence: string;
-            /** Shown in the output palette when a list of content is isn't valid */
+            /** [plain] Shown in the output palette when a list of content is isn't valid */
             notContent: string;
-            /** The word to describe whether text is rich text formatted */
+            /** [plain] The word to describe whether text is rich text formatted */
             format: string;
-            /** The word to describe font weight */
+            /** [plain] The word to describe font weight */
             weight: string;
-            /** The word to describe light font weight */
+            /** [plain] The word to describe light font weight */
             light: string;
-            /** The word to describe normal font weight */
+            /** [plain] The word to describe normal font weight */
             normal: string;
-            /** The word to describe bold font weight */
+            /** [plain] The word to describe bold font weight */
             bold: string;
-            /** The word to describe extra bold font weight */
+            /** [plain] The word to describe extra bold font weight */
             extra: string;
-            /** The word to describe italic font style */
+            /** [plain] The word to describe italic font style */
             italic: string;
-            /** The word to describe underline text decoration */
+            /** [plain] The word to describe underline text decoration */
             underline: string;
         };
         button: {
-            /** Resets a property to it's default value */
+            /** [plain] Resets a property to it's default value */
             revert: string;
-            /** Sets the property to a value, allowing modification */
+            /** [plain] Sets the property to a value, allowing modification */
             set: string;
-            /** Add a group to the output */
+            /** [plain] Add a group to the output */
             addGroup: string;
-            /** Add a phrase to the output */
+            /** [plain] Add a phrase to the output */
             addPhrase: string;
-            /** Add a shape to the output */
+            /** [plain] Add a shape to the output */
             addShape: string;
-            /** Set place to Motion stream */
+            /** [plain] Set place to Motion stream */
             addMotion: string;
-            /** Set place to Placement stream */
+            /** [plain] Set place to Placement stream */
             addPlacement: string;
-            /** Remove child from this output */
+            /** [plain] Remove child from this output */
             remove: string;
-            /** Move child up in list */
+            /** [plain] Move child up in list */
             up: string;
-            /** Move child down in list */
+            /** [plain] Move child down in list */
             down: string;
-            /** Edit the child */
+            /** [plain] Edit the child */
             edit: string;
-            /** Convert a pose to a sequence */
+            /** [plain] Convert a pose to a sequence */
             sequence: string;
-            /** The button that creates a phrase when there is none */
+            /** [plain] The button that creates a phrase when there is none */
             createPhrase: string;
-            /** The button that creates a group when there is none */
+            /** [plain] The button that creates a group when there is none */
             createGroup: string;
-            /** The button that creates a stage when there is none */
+            /** [plain] The button that creates a stage when there is none */
             createStage: string;
         };
         prompt: {
-            /** The text offering to create a phrase in the palette without a stage */
+            /** [formatted] The text offering to create a phrase in the palette without a stage */
             offerPhrase: FormattedText;
-            /** The text offering to create a group in the palette without a stage */
+            /** [formatted] The text offering to create a group in the palette without a stage */
             offerGroup: FormattedText;
-            /** The text offering to create a stage in the palette without a stage */
+            /** [formatted] The text offering to create a stage in the palette without a stage */
             offerStage: FormattedText;
-            /** Prompt if no selection */
+            /** [formatted] Prompt if no selection */
             select: FormattedText;
-            /** The text prompting the creator to edit the selected output */
+            /** [formatted] The text prompting the creator to edit the selected output */
             editing: FormattedText;
         };
         field: {
-            /** The tooltip and ARIA-label for the text input to Phrase */
+            /** [plain] The tooltip and ARIA-label for the text input to Phrase */
             text: string;
-            /** The tooltip and ARIA-label fro the text input for a Place coordinate */
+            /** [plain] The tooltip and ARIA-label fro the text input for a Place coordinate */
             coordinate: string;
         };
         /** Widgets for editing sequences */
         sequence: {
             /** Buttons for editing sequences */
             button: {
-                /** Add pose */
+                /** [plain] Add pose */
                 add: string;
-                /** Remove pose */
+                /** [plain] Remove pose */
                 remove: string;
-                /** Move pose up */
+                /** [plain] Move pose up */
                 up: string;
-                /** Move pose down */
+                /** [plain] Move pose down */
                 down: string;
             };
             /** Text fields for editing sequences */
             field: {
-                /** Edit percent for pose */
+                /** [plain] Edit percent for pose */
                 percent: string;
             };
         };
         /** Errors for the palette */
         error: {
-            /** The value entered isn't a number */
+            /** [plain] The value entered isn't a number */
             nan: string;
-            /** 0-100 range */
+            /** [plain] 0-100 range */
             percent: string;
-            /** Sequence percent must be greater than the last */
+            /** [plain] Sequence percent must be greater than the last */
             moreThanPrevious: string;
-            /** Sequence precent must be less than the next */
+            /** [plain] Sequence precent must be less than the next */
             lessThanNext: string;
         };
     };
     /** The timeline view below the output */
     timeline: {
-        /** The ARIA label for the timeline section */
+        /** [plain] The ARIA label for the timeline section */
         label: string;
-        /** The description of the timeline slider */
+        /** [plain] The description of the timeline slider */
         slider: string;
         button: {
-            /** Evaluate in real time */
+            /** [plain] Evaluate in real time */
             play: string;
-            /** Pause evaluation */
+            /** [plain] Pause evaluation */
             pause: string;
-            /** One step back */
+            /** [plain] One step back */
             backStep: string;
-            /** Step to the previous evaluation of the node at the cursor  */
+            /** [plain] Step to the previous evaluation of the node at the cursor  */
             backNode: string;
-            /** Step to the previous input */
+            /** [plain] Step to the previous input */
             backInput: string;
-            /** Step out of the current function evaluation */
+            /** [plain] Step out of the current function evaluation */
             out: string;
-            /** Step to the very beginning */
+            /** [plain] Step to the very beginning */
             start: string;
-            /** Step forward one step */
+            /** [plain] Step forward one step */
             forwardStep: string;
-            /** Step to the next evaluation of the node at the cursor */
+            /** [plain] Step to the next evaluation of the node at the cursor */
             forwardNode: string;
-            /** Step to the next input */
+            /** [plain] Step to the next input */
             forwardInput: string;
-            /** Step to the present */
+            /** [plain] Step to the present */
             present: string;
-            /** Reset the input history to restart the performance */
+            /** [plain] Reset the input history to restart the performance */
             reset: string;
         };
     };
@@ -720,7 +720,7 @@ type UITexts = {
             };
             /** Buttons in the share dialog */
             button: {
-                /** Description for the email submission button. */
+                /** [plain] Description for the email submission button. */
                 submit: string;
                 /** Description and label for the button to mark PII as sensitive again. */
                 sensitive: ButtonText;
@@ -732,22 +732,22 @@ type UITexts = {
             };
             /** Errors in the share dialog */
             error: {
-                /** When someone tries to add an email collaborator that doesn't have a Wordplay account */
+                /** [plain] When someone tries to add an email collaborator that doesn't have a Wordplay account */
                 unknown: string;
-                /** When someone wants to add a collaborator but isn't authenticated */
+                /** [plain] When someone wants to add a collaborator but isn't authenticated */
                 anonymous: string;
-                /** Can't add self */
+                /** [plain] Can't add self */
                 self: string;
             };
             options: {
-                /** The label for the gallery chooser */
+                /** [plain] The label for the gallery chooser */
                 gallery: string;
             };
         };
         /** The settings dialog */
         settings: HeaderAndExplanationText & {
             button: {
-                /** Show the settings dialog */
+                /** [plain] Show the settings dialog */
                 show: string;
             };
             mode: {
@@ -780,60 +780,60 @@ type UITexts = {
                 lines: ModeText<[string, string]>;
             };
             options: {
-                /** The label for the font face chooser */
+                /** [plain] The label for the font face chooser */
                 face: string;
-                /** The label for the microphone drop down */
+                /** [plain] The label for the microphone drop down */
                 mic: string;
-                /** The label for the camera drop down */
+                /** [plain] The label for the camera drop down */
                 camera: string;
-                /** The label for default device */
+                /** [plain] The label for default device */
                 default: string;
             };
         };
         /** The notifications dialog */
         notifications: HeaderAndExplanationText & {
-            /** The how-to notifications on/off mode */
+            /** [plain] The how-to notifications on/off mode */
             open: string;
             howToNotifications: ModeText<[string, string]>;
             clearAll: ButtonText;
             /** Templates for the title of each notification kind */
             notification: {
-                /** Title for a new how-to notification, with $1 as the how-to title */
+                /** [plain] Title for a new how-to notification, with $1 as the how-to title */
                 howToHeader: string;
-                /** Title for a new project chat message notification, with $1 as the project name */
+                /** [plain] Title for a new project chat message notification, with $1 as the project name */
                 projectChatHeader: string;
-                /** Title for a new how-to chat message notification, with $1 as the how-to title */
+                /** [plain] Title for a new how-to chat message notification, with $1 as the how-to title */
                 howToChatHeader: string;
-                /** Title for a moderation-required notification, with $1 as the project name */
+                /** [plain] Title for a moderation-required notification, with $1 as the project name */
                 moderationHeader: string;
-                /** Link label to view notification details */
+                /** [plain] Link label to view notification details */
                 link: string;
             };
-            /** Tooltip for the button that deletes a notification */
+            /** [plain] Tooltip for the button that deletes a notification */
             delete: string;
-            /** ARIA label for the new-notification popup indicator */
+            /** [plain] ARIA label for the new-notification popup indicator */
             popup: string;
         };
         /** The locale chooser dialog */
         locale: HeaderAndExplanationText & {
             /** Subheaders in the local chooser dialog. */
             subheader: {
-                /** How to label the locales that have been selected */
+                /** [plain] How to label the locales that have been selected */
                 selected: string;
-                /** How to label the supported locales that have not been selected */
+                /** [plain] How to label the supported locales that have not been selected */
                 supported: string;
-                /** How to request help with localization */
+                /** [plain] How to request help with localization */
                 help: string;
             };
             /** Buttons in the locale chooser dialog */
             button: {
-                /** Show the locale chooser dialog */
+                /** [plain] Show the locale chooser dialog */
                 show: string;
-                /** Add a locale */
+                /** [plain] Add a locale */
                 add: string;
-                /** Replace locale */
+                /** [plain] Replace locale */
                 replace: string;
-                /** Remove a locale */
+                /** [plain] Remove a locale */
                 remove: string;
                 /** Menu button label for "other languages" (landing page)*/
                 menu: string;
@@ -851,13 +851,13 @@ type UITexts = {
         /** The feedback dialog */
         feedback: HeaderAndExplanationText & {
             button: {
-                /** Show the feedback dialog */
+                /** [plain] Show the feedback dialog */
                 show: string;
                 /** Submit the feedback */
                 submit: ButtonText;
                 /** Delete */
                 delete: ConfirmText;
-                /** Like feedback */
+                /** [plain] Like feedback */
                 like: string;
                 /** Close the feedback */
                 close: ButtonText;
@@ -879,61 +879,61 @@ type UITexts = {
                 github: FieldText;
             };
             subheader: {
-                /** The subheader for the defect dialog */
+                /** [plain] The subheader for the defect dialog */
                 defect: string;
-                /** The subheader for the feedback dialog */
+                /** [plain] The subheader for the feedback dialog */
                 idea: string;
-                /** The moderator subheader for a moderator comment */
+                /** [plain] The moderator subheader for a moderator comment */
                 moderator: string;
             };
             /** Prompts inviting the user to submit new feedback if they didn't find an existing match */
             prompt: {
-                /** Prompt shown above the defect list encouraging new bug reports */
+                /** [plain] Prompt shown above the defect list encouraging new bug reports */
                 defect: string;
-                /** Prompt shown above the ideas list encouraging new feature suggestions */
+                /** [plain] Prompt shown above the ideas list encouraging new feature suggestions */
                 idea: string;
             };
             error: {
-                /** Must be logged in to submit */
+                /** [plain] Must be logged in to submit */
                 login: string;
-                /** The error shown when the feedback was not submitted */
+                /** [plain] The error shown when the feedback was not submitted */
                 submit: string;
-                /** Unable to laod feedback */
+                /** [plain] Unable to laod feedback */
                 load: string;
-                /** No feedback yet */
+                /** [plain] No feedback yet */
                 empty: string;
-                /** Not a valid URL */
+                /** [plain] Not a valid URL */
                 url: string;
             };
         };
     };
     /** Saving related text */
     save: {
-        /** Shown when saving has started */
+        /** [plain] Shown when saving has started */
         saving: string;
-        /** Shown when online saving was successful */
+        /** [plain] Shown when online saving was successful */
         saved: string;
-        /** Shown when saving on device was successful */
+        /** [plain] Shown when saving on device was successful */
         local: string;
-        /** Shown when there was a problem saving */
+        /** [plain] Shown when there was a problem saving */
         unsaved: string;
     };
     /** Text for the localization editor */
     localize: {
-        /** The header for the localization editor */
+        /** [plain] The header for the localization editor */
         header: string;
-        /** An explanation of the localization editor */
+        /** [formatted] An explanation of the localization editor */
         description: FormattedText;
         toggle: {
             /** The on/off switch for the localization editor */
             mode: ToggleText;
         };
         button: {
-            /** Tooltip for the button that opens text editing */
+            /** [plain] Tooltip for the button that opens text editing */
             edit: string;
-            /** Tooltip for the button that submits the suggested edit */
+            /** [plain] Tooltip for the button that submits the suggested edit */
             submit: string;
-            /** Tooltip for the button that cancels the suggested edit */
+            /** [plain] Tooltip for the button that cancels the suggested edit */
             cancel: string;
         };
         field: {
@@ -942,7 +942,7 @@ type UITexts = {
             /** The description and placeholder of the localization string filter. */
             filter: FieldText;
         };
-        /** The ARIA label for the dropdown that lists all locale strings available to review and edit */
+        /** [plain] The ARIA label for the dropdown that lists all locale strings available to review and edit */
         strings: string;
     };
     page: {
@@ -984,18 +984,18 @@ type UITexts = {
     /** Descriptions of cursor positions and code transformations */
     edit: EditTexts;
     template: {
-        /** The placeholder indicating that a locale string is not yet written */
+        /** [plain] The placeholder indicating that a locale string is not yet written */
         unwritten: string;
-        /** The placeholder string indicating that a template string could not be parsed */
+        /** [plain] The placeholder string indicating that a template string could not be parsed */
         unparsable: string;
-        /** The tooltip for the machine-translated annotation */
+        /** [plain] The tooltip for the machine-translated annotation */
         machineTranslated: string;
     };
     /** Emoji related text */
     emoji: {
-        /** Prompt when no custom characters are available */
+        /** [plain] Prompt when no custom characters are available */
         noCharacters: string;
-        /** Label for the skin tone selector dropdown */
+        /** [plain] Label for the skin tone selector dropdown */
         skinTone: string;
         /** Emoji category labels for the filter */
         groups: ModeText<

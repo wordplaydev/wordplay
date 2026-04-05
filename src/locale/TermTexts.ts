@@ -1,99 +1,99 @@
 type TermTexts = {
-    /** The phrase to use to describe when values are bound to names, e.g., 'num: 5' */
+    /** [plain] The phrase to use to describe when values are bound to names, e.g., 'num: 5' */
     bind: string;
-    /** The phrase to use to describe */
+    /** [plain] The phrase to use to describe */
     evaluate: string;
-    /** The phrase to use to describe conditional logic */
+    /** [plain] The phrase to use to describe conditional logic */
     decide: string;
-    /** What to call documentation in code */
+    /** [plain] What to call documentation in code */
     document: string;
-    /** What to call a Wordplay project */
+    /** [plain] What to call a Wordplay project */
     project: string;
-    /** What to call code */
+    /** [plain] What to call code */
     code: string;
-    /** What to call a Wordplay project source file */
+    /** [plain] What to call a Wordplay project source file */
     source: string;
-    /** What to call data that goes into a program */
+    /** [plain] What to call data that goes into a program */
     input: string;
-    /** What to call data that comes out of a program */
+    /** [plain] What to call data that comes out of a program */
     output: string;
-    /** The verb for converting data from one type to another */
+    /** [plain] The verb for converting data from one type to another */
     convert: string;
-    /** The phrase for describing a how to concept */
+    /** [plain] The phrase for describing a how to concept */
     how: string;
-    /** The word for the top level organizational scheme of the tutorial, as in a dramatic play */
+    /** [plain] The word for the top level organizational scheme of the tutorial, as in a dramatic play */
     act: string;
-    /** The word for the a comoponent of an act in a dramatic play */
+    /** [plain] The word for the a comoponent of an act in a dramatic play */
     scene: string;
-    /** The word for phrase output in a Wordplay program */
+    /** [plain] The word for phrase output in a Wordplay program */
     phrase: string;
-    /** The word for a group of output in a Wordplay program */
+    /** [plain] The word for a group of output in a Wordplay program */
     group: string;
-    /** The word for the visual stage on which output is displayed */
+    /** [plain] The word for the visual stage on which output is displayed */
     stage: string;
-    /** The word for a data type */
+    /** [plain] The word for a data type */
     type: string;
-    /** What to call the main source in a project. */
+    /** [plain] What to call the main source in a project. */
     start: string;
-    /** How to describe output that has entered for the first time */
+    /** [plain] How to describe output that has entered for the first time */
     entered: string;
-    /** How to describe output that has changed */
+    /** [plain] How to describe output that has changed */
     changed: string;
-    /** How to describe output that has moved */
+    /** [plain] How to describe output that has moved */
     moved: string;
-    /** How to refer to names */
+    /** [name] How to refer to names */
     name: string;
-    /** What to call a data value */
+    /** [plain] What to call a data value */
     value: string;
-    /** What to call a boolean value */
+    /** [plain] What to call a boolean value */
     boolean: string;
-    /** What to call a table value */
+    /** [plain] What to call a table value */
     table: string;
-    /** What to call a table column */
+    /** [plain] What to call a table column */
     column: string;
-    /** What to call a table cell */
+    /** [plain] What to call a table cell */
     cell: string;
-    /** What to call a row value */
+    /** [plain] What to call a row value */
     row: string;
-    /** What to call a list value */
+    /** [plain] What to call a list value */
     list: string;
-    /** What to call a map value */
+    /** [plain] What to call a map value */
     map: string;
-    /** What to call a text value */
+    /** [plain] What to call a text value */
     text: string;
-    /** What to call a number value */
+    /** [plain] What to call a number value */
     number: string;
-    /** What to call a number unit */
+    /** [plain] What to call a number unit */
     unit: string;
-    /** What to call rich text */
+    /** [plain] What to call rich text */
     markup: string;
-    /** What to call a function value */
+    /** [plain] What to call a function value */
     function: string;
-    /** What to call a none value */
+    /** [plain] What to call a none value */
     none: string;
-    /** What to call an exception value */
+    /** [plain] What to call an exception value */
     exception: string;
-    /** What to call a set value */
+    /** [plain] What to call a set value */
     set: string;
-    /** What to call a structure value */
+    /** [plain] What to call a structure value */
     structure: string;
-    /** What to call a stream value */
+    /** [plain] What to call a stream value */
     stream: string;
-    /** What to call an index into a list value  */
+    /** [plain] What to call an index into a list value  */
     index: string;
-    /** What to call a query a table value */
+    /** [plain] What to call a query a table value */
     query: string;
-    /** What to call a key in a map */
+    /** [plain] What to call a key in a map */
     key: string;
-    /** What to call help in help/feedback links */
+    /** [plain] What to call help in help/feedback links */
     help: string;
-    /** What to call feedback in help/feedback links  */
+    /** [plain] What to call feedback in help/feedback links  */
     feedback: string;
-    /** What to call language tags */
+    /** [plain] What to call language tags */
     language: string;
-    /** What to call region tags */
+    /** [plain] What to call region tags */
     region: string;
-    /** What to call documentation */
+    /** [plain] What to call documentation */
     documentation: string;
 };
 
