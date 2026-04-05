@@ -6254,10 +6254,26 @@
                 "cancel": "$~Bỏ đề xuất chỉnh sửa"
             },
             "field": {
-                "description": "$~Văn bản thay thế được đề xuất",
-                "placeholder": "$~Nhập thông tin thay thế..."
+                "plain": {
+                    "description": "$~Văn bản thay thế được đề xuất",
+                    "placeholder": "$~Nhập thông tin thay thế..."
+                },
+                "formatted": {
+                    "description": "$~Đề xuất thay thế (hỗ trợ định dạng đánh dấu)",
+                    "placeholder": "$~Nhập định dạng thay thế..."
+                },
+                "name": {
+                    "description": "$~Tên gợi ý (phải là tên chơi chữ hợp lệ)",
+                    "placeholder": "$~Nhập tên..."
+                },
+                "filter": {
+                    "description": "$~Lọc chuỗi ngôn ngữ theo đường dẫn hoặc mô tả",
+                    "placeholder": "$~Lọc..."
+                }
             },
-            "strings": "$~Chuỗi ngôn ngữ"
+            "strings": "$~Chuỗi ngôn ngữ",
+            "emotion": "$?",
+            "invalidName": "$~Không phải là tên chơi chữ hợp lệ."
         }
     },
     "moderation": {

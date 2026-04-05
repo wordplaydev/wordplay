@@ -939,11 +939,19 @@ type UITexts = {
         field: {
             /** The description and placeholder of the localization plain text editor. */
             plain: FieldText;
+            /** The description and placeholder of the localization formatted text editor. */
+            formatted: FieldText;
+            /** The description and placeholder of the localization name editor. */
+            name: FieldText;
             /** The description and placeholder of the localization string filter. */
             filter: FieldText;
         };
         /** [plain] The ARIA label for the dropdown that lists all locale strings available to review and edit */
         strings: string;
+        /** [plain] The ARIA label for the emotion dropdown */
+        emotion: string;
+        /** [plain] Error shown when a name is not a valid Wordplay name */
+        invalidName: string;
     };
     page: {
         /** The unknown route page */

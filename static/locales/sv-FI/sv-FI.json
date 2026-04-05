@@ -6254,10 +6254,26 @@
                 "cancel": "$~Ignorera föreslagen redigering"
             },
             "field": {
-                "description": "$~Föreslagen ersättningstext",
-                "placeholder": "$~Ange ersättning..."
+                "plain": {
+                    "description": "$~Föreslagen ersättningstext",
+                    "placeholder": "$~Ange ersättning..."
+                },
+                "formatted": {
+                    "description": "$~Föreslagen ersättning (stöder markupformatering)",
+                    "placeholder": "$~Ange formaterad ersättning..."
+                },
+                "name": {
+                    "description": "$~Föreslaget namn (måste vara ett giltigt Wordplay-namn)",
+                    "placeholder": "$~Ange namn..."
+                },
+                "filter": {
+                    "description": "$~Filtrera språksträngar efter sökväg eller beskrivning",
+                    "placeholder": "$~Filtrera..."
+                }
             },
-            "strings": "$~Språksträngar"
+            "strings": "$~Språksträngar",
+            "emotion": "$?",
+            "invalidName": "$~Inte ett giltigt Wordplay-namn"
         }
     },
     "moderation": {

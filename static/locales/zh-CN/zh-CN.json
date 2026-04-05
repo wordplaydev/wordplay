@@ -6197,10 +6197,26 @@
                 "cancel": "$~放弃建议的编辑"
             },
             "field": {
-                "description": "$~建议替换文本",
-                "placeholder": "$~输入替换项..."
+                "plain": {
+                    "description": "$~建议替换文本",
+                    "placeholder": "$~输入替换项..."
+                },
+                "formatted": {
+                    "description": "$~建议的替代方案（支持标记格式）",
+                    "placeholder": "$~请输入格式化的替换内容..."
+                },
+                "name": {
+                    "description": "$~建议名称（必须是有效的文字游戏名称）",
+                    "placeholder": "$~请输入姓名..."
+                },
+                "filter": {
+                    "description": "$~按路径或描述筛选区域设置字符串",
+                    "placeholder": "$~筛选..."
+                }
             },
-            "strings": "$~区域设置字符串"
+            "strings": "$~区域设置字符串",
+            "emotion": "$?",
+            "invalidName": "$~不是有效的文字游戏名称"
         }
     },
     "moderation": {

@@ -6193,10 +6193,26 @@
                 "cancel": "$~放棄建議的編輯"
             },
             "field": {
-                "description": "$~建議替換文字",
-                "placeholder": "$~輸入替換項..."
+                "plain": {
+                    "description": "$~建議替換文字",
+                    "placeholder": "$~輸入替換項..."
+                },
+                "formatted": {
+                    "description": "$~建議的替代方案（支援標記格式）",
+                    "placeholder": "$~請輸入格式化的替換內容..."
+                },
+                "name": {
+                    "description": "$~建議名稱（必須是有效的文字遊戲名稱）",
+                    "placeholder": "$~請輸入姓名..."
+                },
+                "filter": {
+                    "description": "$~按路徑或描述篩選區域設定字串",
+                    "placeholder": "$~篩選..."
+                }
             },
-            "strings": "$~區域設定字串"
+            "strings": "$~區域設定字串",
+            "emotion": "$?",
+            "invalidName": "$~不是有效的文字遊戲名稱"
         }
     },
     "moderation": {

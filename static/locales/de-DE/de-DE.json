@@ -6253,10 +6253,26 @@
                 "cancel": "$~Vorgeschlagene Bearbeitung verwerfen"
             },
             "field": {
-                "description": "$~Vorschlag für einen Ersatztext",
-                "placeholder": "$~Ersatz eingeben..."
+                "plain": {
+                    "description": "$~Vorschlag für einen Ersatztext",
+                    "placeholder": "$~Ersatz eingeben..."
+                },
+                "formatted": {
+                    "description": "$~Empfohlener Ersatz (unterstützt Markup-Formatierung)",
+                    "placeholder": "$~Formatierten Text eingeben..."
+                },
+                "name": {
+                    "description": "$~Namensvorschlag (muss ein gültiger Wortspielname sein)",
+                    "placeholder": "$~Name eingeben..."
+                },
+                "filter": {
+                    "description": "$~Filtern Sie Gebietsschemazeichenfolgen nach Pfad oder Beschreibung",
+                    "placeholder": "$~Filter..."
+                }
             },
-            "strings": "$~Gebietsschema-Zeichenketten"
+            "strings": "$~Gebietsschema-Zeichenketten",
+            "emotion": "$?",
+            "invalidName": "$~Kein gültiger Wortspielname"
         }
     },
     "moderation": {

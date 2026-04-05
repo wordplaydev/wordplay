@@ -6254,10 +6254,26 @@
                 "cancel": "$~Rejeter la modification suggérée"
             },
             "field": {
-                "description": "$~Texte de remplacement suggéré",
-                "placeholder": "$~Saisir le remplacement..."
+                "plain": {
+                    "description": "$~Texte de remplacement suggéré",
+                    "placeholder": "$~Saisir le remplacement..."
+                },
+                "formatted": {
+                    "description": "$~Solution de remplacement suggérée (prend en charge la mise en forme du balisage)",
+                    "placeholder": "$~Saisissez le remplacement formaté..."
+                },
+                "name": {
+                    "description": "$~Nom suggéré (doit être un nom Wordplay valide)",
+                    "placeholder": "$~Entrez votre nom..."
+                },
+                "filter": {
+                    "description": "$~Filtrer les chaînes de langue par chemin ou description",
+                    "placeholder": "$~Filtre..."
+                }
             },
-            "strings": "$~Chaînes de paramètres régionaux"
+            "strings": "$~Chaînes de paramètres régionaux",
+            "emotion": "$?",
+            "invalidName": "$~Nom de jeu de mots non valide"
         }
     },
     "moderation": {

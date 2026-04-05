@@ -6250,10 +6250,26 @@
                 "cancel": "$~제안된 수정 사항을 폐기합니다."
             },
             "field": {
-                "description": "$~제안된 대체 텍스트",
-                "placeholder": "$~대체할 내용을 입력하세요..."
+                "plain": {
+                    "description": "$~제안된 대체 텍스트",
+                    "placeholder": "$~대체할 내용을 입력하세요..."
+                },
+                "formatted": {
+                    "description": "$~제안된 대체 기능 (마크업 서식 지원)",
+                    "placeholder": "$~형식화된 대체 내용을 입력하세요..."
+                },
+                "name": {
+                    "description": "$~제안하는 이름 (유효한 말장난 이름이어야 합니다)",
+                    "placeholder": "$~이름을 입력하세요..."
+                },
+                "filter": {
+                    "description": "$~경로 또는 설명을 기준으로 로케일 문자열을 필터링합니다.",
+                    "placeholder": "$~필터..."
+                }
             },
-            "strings": "$~로케일 문자열"
+            "strings": "$~로케일 문자열",
+            "emotion": "$?",
+            "invalidName": "$~유효한 말장난 이름이 아닙니다"
         }
     },
     "moderation": {

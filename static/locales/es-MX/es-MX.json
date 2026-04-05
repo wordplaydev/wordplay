@@ -6236,10 +6236,26 @@
                 "cancel": "$~Descartar la edición sugerida"
             },
             "field": {
-                "description": "$~Texto de reemplazo sugerido",
-                "placeholder": "$~Introduzca el reemplazo..."
+                "plain": {
+                    "description": "$~Texto de reemplazo sugerido",
+                    "placeholder": "$~Introduzca el reemplazo..."
+                },
+                "formatted": {
+                    "description": "$~Sugerencia de reemplazo (admite formato de marcado)",
+                    "placeholder": "$~Introduzca el texto de reemplazo formateado..."
+                },
+                "name": {
+                    "description": "$~Nombre sugerido (debe ser un nombre válido para un juego de palabras)",
+                    "placeholder": "$~Ingrese su nombre..."
+                },
+                "filter": {
+                    "description": "$~Filtrar cadenas de localización por ruta o descripción.",
+                    "placeholder": "$~Filtrar..."
+                }
             },
-            "strings": "$~Cadenas de configuración regional"
+            "strings": "$~Cadenas de configuración regional",
+            "emotion": "$?",
+            "invalidName": "$~No es un nombre válido para un juego de palabras."
         }
     },
     "moderation": {

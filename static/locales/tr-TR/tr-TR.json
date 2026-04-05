@@ -6250,10 +6250,26 @@
                 "cancel": "$~Önerilen düzenlemeyi iptal et"
             },
             "field": {
-                "description": "$~Önerilen yedek metin",
-                "placeholder": "$~Değiştirme işlemini girin..."
+                "plain": {
+                    "description": "$~Önerilen yedek metin",
+                    "placeholder": "$~Değiştirme işlemini girin..."
+                },
+                "formatted": {
+                    "description": "$~Önerilen alternatif (işaretleme biçimlendirmesini destekler)",
+                    "placeholder": "$~Biçimlendirilmiş değiştirme seçeneğini girin..."
+                },
+                "name": {
+                    "description": "$~Önerilen isim (geçerli bir kelime oyunu ismi olmalıdır)",
+                    "placeholder": "$~Adınızı girin..."
+                },
+                "filter": {
+                    "description": "$~Yol veya açıklamaya göre yerel ayar dizelerini filtrele",
+                    "placeholder": "$~Filtrele..."
+                }
             },
-            "strings": "$~Yerel ayar dizeleri"
+            "strings": "$~Yerel ayar dizeleri",
+            "emotion": "$?",
+            "invalidName": "$~Geçerli bir Wordplay adı değil."
         }
     },
     "moderation": {

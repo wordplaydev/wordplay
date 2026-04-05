@@ -2,13 +2,16 @@
     import Subheader from '@components/app/Subheader.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
+    import FormattedEditor from '@components/widgets/FormattedEditor.svelte';
     import Note from '@components/widgets/Note.svelte';
     import Options from '@components/widgets/Options.svelte';
     import TextField from '@components/widgets/TextField.svelte';
     import { locales } from '@db/Database';
     import { isMachineTranslated } from '@locale/LocaleText';
     import { withoutAnnotations } from '@locale/withoutAnnotations';
+    import { Emotion } from '../../lore/Emotion';
     import { MACHINE_TRANSLATED_SYMBOL } from '@parser/Symbols';
+    import { isName } from '@parser/Tokenizer';
     import { getKeyTemplatePairs } from '@util/verify-locales/LocalePath';
     import { onMount } from 'svelte';
 
@@ -66,6 +69,17 @@
         return undefined;
     }
 
+    type EditorType = 'plain' | 'formatted' | 'name' | 'emotion';
+
+    function getEditorType(description: string | undefined): EditorType | undefined {
+        if (!description) return undefined;
+        if (description.includes('[emotion]')) return 'emotion';
+        if (description.includes('[name]')) return 'name';
+        if (description.includes('[formatted]')) return 'formatted';
+        if (description.includes('[plain]')) return 'plain';
+        return undefined;
+    }
+
     const allPaths = $derived.by(() => {
         const locale = $locales.getLocale();
         return getKeyTemplatePairs(
@@ -93,27 +107,46 @@
             })
             .map((pair) => ({
                 value: pair.toString(),
-                label: `${isMT(pair) ? MACHINE_TRANSLATED_SYMBOL + ' ' : ''}${pair.toString()}`,
+                label: pair.toString(),
                 description: getDescription(pair.toString()),
             }))
-            .filter(
-                (opt) =>
+            .filter((opt) => {
+                // Once schema is loaded, only include keys with a recognized editor type
+                if (schema !== undefined && getEditorType(opt.description) === undefined)
+                    return false;
+                return (
                     query === '' ||
                     opt.value.toLowerCase().includes(query) ||
-                    (opt.description?.toLowerCase().includes(query) ?? false),
-            );
+                    (opt.description?.toLowerCase().includes(query) ?? false)
+                );
+            });
     });
 
     const mtCount = $derived(
-        options.filter((opt) => opt.label.startsWith(MACHINE_TRANSLATED_SYMBOL))
-            .length,
+        options.filter((opt) => {
+            const pair = allPaths.find((p) => p.toString() === opt.value);
+            return pair ? isMT(pair) : false;
+        }).length,
     );
+
+    const editorTypePrefix: Record<EditorType, string> = {
+        plain: '[T]',
+        formatted: '[*T*]',
+        name: '[N]',
+        emotion: '[🙂]',
+    };
 
     let selectedPath = $state<string | undefined>(undefined);
 
     const selectedPair = $derived(
         allPaths.find((p) => p.toString() === selectedPath),
     );
+
+    const selectedDescription = $derived(
+        selectedPath !== undefined ? getDescription(selectedPath) : undefined,
+    );
+
+    const editorType = $derived(getEditorType(selectedDescription));
 
     const selectedText = $derived.by(() => {
         if (!selectedPair) return '';
@@ -129,6 +162,10 @@
     $effect(() => {
         editedText = selectedText;
     });
+
+    const emotionOptions: { value: string; label: string }[] = Object.values(
+        Emotion,
+    ).map((e) => ({ value: e as string, label: e as string }));
 </script>
 
 <Subheader>
@@ -160,9 +197,12 @@
                     width="100%"
                 >
                     {#snippet item(option, localized)}
+                        {@const typePrefix = editorTypePrefix[getEditorType(option.description) ?? 'plain'] ?? ''}
+                        {@const pair = allPaths.find((p) => p.toString() === option.value)}
+                        {@const mt = pair ? isMT(pair) : false}
                         <span class="option-item">
                             <span class="option-label"
-                                >{@render localized(option.label)}</span
+                                >{typePrefix}{mt ? ' ' + MACHINE_TRANSLATED_SYMBOL : ''} {@render localized(option.label)}</span
                             >
                             {#if option.description}
                                 <Note>{option.description}</Note>
@@ -173,13 +213,43 @@
             </div>
         </div>
         {#if selectedPath !== undefined}
-            <TextField
-                id="localize-mt-field"
-                description={(l) => l.ui.localize.field.plain.description}
-                placeholder={(l) => l.ui.localize.field.plain.placeholder}
-                bind:text={editedText}
-                fill
-            />
+            {#if editorType === 'plain'}
+                <TextField
+                    id="localize-mt-field"
+                    description={(l) => l.ui.localize.field.plain.description}
+                    placeholder={(l) => l.ui.localize.field.plain.placeholder}
+                    bind:text={editedText}
+                    fill
+                />
+            {:else if editorType === 'formatted'}
+                <FormattedEditor
+                    id="localize-mt-field"
+                    description={(l) => l.ui.localize.field.formatted.description}
+                    placeholder={(l) => l.ui.localize.field.formatted.placeholder}
+                    bind:text={editedText}
+                />
+            {:else if editorType === 'name'}
+                <TextField
+                    id="localize-mt-field"
+                    description={(l) => l.ui.localize.field.name.description}
+                    placeholder={(l) => l.ui.localize.field.name.placeholder}
+                    validator={(text) =>
+                        isName(text) || text === ''
+                            ? true
+                            : (l) => l.ui.localize.invalidName}
+                    bind:text={editedText}
+                    fill
+                />
+            {:else if editorType === 'emotion'}
+                <Options
+                    value={editedText}
+                    label={(l) => l.ui.localize.emotion}
+                    options={emotionOptions}
+                    change={(val) => {
+                        editedText = val ?? '';
+                    }}
+                />
+            {/if}
         {/if}
     </div>
 {/if}

@@ -5536,12 +5536,22 @@
                     "description": "Suggested replacement text",
                     "placeholder": "Enter replacement..."
                 },
+                "formatted": {
+                    "description": "Suggested replacement (supports markup formatting)",
+                    "placeholder": "Enter formatted replacement..."
+                },
+                "name": {
+                    "description": "Suggested name (must be a valid Wordplay name)",
+                    "placeholder": "Enter name..."
+                },
                 "filter": {
                     "description": "Filter locale strings by path or description",
                     "placeholder": "Filter..."
                 }
             },
-            "strings": "Locale strings"
+            "strings": "Locale strings",
+            "emotion": "Choose an emotion",
+            "invalidName": "Not a valid Wordplay name"
         },
         "page": {
             "unknown": {

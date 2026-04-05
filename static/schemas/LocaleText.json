@@ -11239,12 +11239,24 @@
                   "$ref": "#/definitions/FormattedText",
                   "description": "[formatted] An explanation of the localization editor"
                 },
+                "emotion": {
+                  "description": "[plain] The ARIA label for the emotion dropdown",
+                  "type": "string"
+                },
                 "field": {
                   "additionalProperties": false,
                   "properties": {
                     "filter": {
                       "$ref": "#/definitions/FieldText",
                       "description": "The description and placeholder of the localization string filter."
+                    },
+                    "formatted": {
+                      "$ref": "#/definitions/FieldText",
+                      "description": "The description and placeholder of the localization formatted text editor."
+                    },
+                    "name": {
+                      "$ref": "#/definitions/FieldText",
+                      "description": "The description and placeholder of the localization name editor."
                     },
                     "plain": {
                       "$ref": "#/definitions/FieldText",
@@ -11253,12 +11265,18 @@
                   },
                   "required": [
                     "plain",
+                    "formatted",
+                    "name",
                     "filter"
                   ],
                   "type": "object"
                 },
                 "header": {
                   "description": "[plain] The header for the localization editor",
+                  "type": "string"
+                },
+                "invalidName": {
+                  "description": "[plain] Error shown when a name is not a valid Wordplay name",
                   "type": "string"
                 },
                 "strings": {
@@ -11285,7 +11303,9 @@
                 "toggle",
                 "button",
                 "field",
-                "strings"
+                "strings",
+                "emotion",
+                "invalidName"
               ],
               "type": "object"
             },
@@ -11957,7 +11977,7 @@
                       "additionalProperties": false,
                       "properties": {
                         "gallery": {
-                          "description": "Couldn't create a gallery",
+                          "description": "[plain]Couldn't create a gallery",
                           "type": "string"
                         },
                         "notfound": {
@@ -11988,7 +12008,7 @@
                         },
                         "name": {
                           "$ref": "#/definitions/FieldText",
-                          "description": "[name] The name of the class"
+                          "description": "The name of the class"
                         },
                         "newteacher": {
                           "$ref": "#/definitions/FieldText",

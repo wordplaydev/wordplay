@@ -6249,10 +6249,26 @@
                 "cancel": "$~בטל את העריכה המוצעת"
             },
             "field": {
-                "description": "$~טקסט חלופי מוצע",
-                "placeholder": "$~הזן תחליף..."
+                "plain": {
+                    "description": "$~טקסט חלופי מוצע",
+                    "placeholder": "$~הזן תחליף..."
+                },
+                "formatted": {
+                    "description": "$~החלפה מוצעת (תומך בעיצוב סימון)",
+                    "placeholder": "$~הזן חלופה מעוצבת..."
+                },
+                "name": {
+                    "description": "$~שם מוצע (חייב להיות שם תקין של משחק מילים)",
+                    "placeholder": "$~הזן שם..."
+                },
+                "filter": {
+                    "description": "$~סנן מחרוזות מקומיות לפי נתיב או תיאור",
+                    "placeholder": "$~לְסַנֵן..."
+                }
             },
-            "strings": "$~מחרוזות מקומיות"
+            "strings": "$~מחרוזות מקומיות",
+            "emotion": "$?",
+            "invalidName": "$~שם לא חוקי של משחק מילים"
         }
     },
     "moderation": {

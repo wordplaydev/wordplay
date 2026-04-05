@@ -6250,10 +6250,26 @@
                 "cancel": "$~提案された編集を破棄する"
             },
             "field": {
-                "description": "$~代替テキスト案",
-                "placeholder": "$~代替品を入力してください..."
+                "plain": {
+                    "description": "$~代替テキスト案",
+                    "placeholder": "$~代替品を入力してください..."
+                },
+                "formatted": {
+                    "description": "$~代替案（マークアップ書式に対応）",
+                    "placeholder": "$~書式設定済みの置換文字列を入力してください..."
+                },
+                "name": {
+                    "description": "$~提案する名前（有効な言葉遊びの名前である必要があります）",
+                    "placeholder": "$~名前を入力してください..."
+                },
+                "filter": {
+                    "description": "$~パスまたは説明でロケール文字列をフィルタリングします",
+                    "placeholder": "$~フィルター..."
+                }
             },
-            "strings": "$~ロケール文字列"
+            "strings": "$~ロケール文字列",
+            "emotion": "$?",
+            "invalidName": "$~有効な言葉遊びの名前ではありません"
         }
     },
     "moderation": {

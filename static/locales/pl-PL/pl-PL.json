@@ -6259,10 +6259,26 @@
                 "cancel": "$~Odrzuć sugerowaną edycję"
             },
             "field": {
-                "description": "$~Sugerowany tekst zastępczy",
-                "placeholder": "$~Wprowadź zamiennik..."
+                "plain": {
+                    "description": "$~Sugerowany tekst zastępczy",
+                    "placeholder": "$~Wprowadź zamiennik..."
+                },
+                "formatted": {
+                    "description": "$~Sugerowana zamiana (obsługuje formatowanie znaczników)",
+                    "placeholder": "$~Wprowadź sformatowany zamiennik..."
+                },
+                "name": {
+                    "description": "$~Proponowana nazwa (musi być prawidłową nazwą w Wordplay)",
+                    "placeholder": "$~Wpisz nazwę..."
+                },
+                "filter": {
+                    "description": "$~Filtruj ciągi ustawień regionalnych według ścieżki lub opisu",
+                    "placeholder": "$~Filtr..."
+                }
             },
-            "strings": "$~Ciągi ustawień regionalnych"
+            "strings": "$~Ciągi ustawień regionalnych",
+            "emotion": "$?",
+            "invalidName": "$~Nieprawidłowa nazwa gry Wordplay"
         }
     },
     "moderation": {
