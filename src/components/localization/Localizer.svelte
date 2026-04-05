@@ -80,6 +80,8 @@
         return false;
     }
 
+    const mtCount = $derived(allPaths.filter(isMT).length);
+
     const options = $derived(
         [...allPaths]
             .sort((a, b) => {
@@ -124,6 +126,7 @@
 
 {#if allPaths.length > 0}
     <div class="mt-editor">
+        <Note>{MACHINE_TRANSLATED_SYMBOL} {mtCount} / {allPaths.length}</Note>
         <Options
             value={selectedPath}
             label={(l) => l.ui.localize.strings}
