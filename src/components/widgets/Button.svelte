@@ -182,7 +182,10 @@
         min-height: var(--wordplay-widget-height);
         width: fit-content;
         white-space: nowrap;
-        transition: transform calc(var(--animation-factor) * 100ms);
+        transition:
+            transform calc(var(--animation-factor) * 100ms),
+            box-shadow calc(var(--animation-factor) * 100ms),
+            background-color calc(var(--animation-factor) * 100ms);
         /* This allows command hints to be visible */
         position: relative;
         overflow: visible;
@@ -204,10 +207,15 @@
         height: inherit;
     }
 
+    /* Raised, bordered look with hard offset shadow for dimensionality */
     .background {
         color: var(--wordplay-foreground);
         background: var(--wordplay-alternating-color);
-        border: var(--wordplay-border-width) solid var(--wordplay-border-color);
+        border: var(--wordplay-border-width) solid var(--wordplay-foreground);
+        box-shadow: var(--wordplay-border-width) var(--wordplay-border-width) 0
+            var(--wordplay-foreground);
+        text-shadow: 0 var(--wordplay-border-width) 0
+            var(--color-shadow-transparent);
     }
 
     [aria-disabled='true'] {
@@ -216,13 +224,31 @@
         color: var(--wordplay-inactive-color);
     }
 
+    /* Disabled background buttons: flat, muted, no shadow */
     .background[aria-disabled='true'] {
         background: var(--wordplay-alternating-color);
+        border-color: var(--wordplay-inactive-color);
+        box-shadow: none;
+        text-shadow: none;
+        opacity: 0.55;
     }
 
     button:focus {
         background: var(--wordplay-focus-color);
         fill: var(--wordplay-background);
+    }
+
+    /* Focus on background buttons: blue fill, stronger shadow, white text */
+    button.background:focus {
+        background: var(--wordplay-focus-color);
+        color: var(--wordplay-background);
+        border-color: var(--wordplay-foreground);
+        box-shadow: var(--wordplay-border-width) var(--wordplay-border-width) 0
+            var(--wordplay-foreground);
+        text-shadow: 0 var(--wordplay-border-width) var(--wordplay-border-width)
+            var(--color-shadow);
+        fill: var(--wordplay-background);
+        outline: none;
     }
 
     button:hover:not(:global(:focus))[aria-disabled='false'] {
@@ -246,20 +272,34 @@
         padding-bottom: var(--wordplay-spacing-half);
     }
 
-    .background[aria-disabled='true'] {
-        border-color: transparent;
-    }
-
     button:hover:not(.pressed)[aria-disabled='false'],
     button:focus {
         transform: rotate(calc(-5deg / var(--characters)));
     }
 
-    button.background:hover[aria-disabled='false'] {
+    /* Hover on background buttons: yellow fill, lift with larger shadow */
+    button.background:hover:not(.pressed)[aria-disabled='false'] {
         background: var(--wordplay-hover);
+        border-color: var(--wordplay-foreground);
+        box-shadow: var(--wordplay-border-width) var(--wordplay-border-width) 0
+            var(--wordplay-foreground);
+        transform: translate(-1px, -1px) rotate(calc(-5deg / var(--characters)));
+        text-shadow: 0 var(--wordplay-border-width) var(--wordplay-border-width)
+            var(--color-shadow);
+    }
+
+    button.background:focus {
+        transform: translate(-1px, -1px) rotate(calc(-5deg / var(--characters)));
     }
 
     button.pressed {
         transform: translateY(-0.25em) scale(1.1);
+    }
+
+    /* Pressed background buttons: shadow collapses, button sinks into it */
+    button.background.pressed {
+        box-shadow: 0 0 0 var(--wordplay-foreground);
+        transform: translate(3px, 3px);
+        text-shadow: none;
     }
 </style>

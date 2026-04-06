@@ -14,6 +14,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 - We upgraded internal tooling for stability.
 - We prepared many things to enable localization contributions directly on the website. It's not ready yet, but it's getting close! (#437).
+- We redesigned buttons with backgrounds to make them pop a bit more.
 
 ## 0.17.3 - 2026-03-28
 
