@@ -9,6 +9,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 ### Fixed
 
 - Links in the guide were broken for names that were machine translated. Now they work! (#1027).
+- We fixed the text color in drop down items (#1031).
 
 ### Changed
 
