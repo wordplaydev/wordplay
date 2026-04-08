@@ -4615,7 +4615,8 @@
             "error": {
                 "invalidName": "$~Musi to być prawidłowa nazwa Wordplay.",
                 "invalidWords": "$~Słowa nie mogą być puste ani zawierać zarezerwowanych symboli."
-            }
+            },
+            "title": "$~kod"
         },
         "annotations": {
             "label": "$~konflikty i pomoc",
@@ -4678,7 +4679,8 @@
                 "present": "$~do końca",
                 "start": "$~Na początek",
                 "reset": "$~ponowne uruchomienie wydajności"
-            }
+            },
+            "debug": "$~odpluskwić"
         },
         "docs": {
             "label": "$~przeglądarka dokumentacji",

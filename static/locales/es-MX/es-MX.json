@@ -4575,7 +4575,8 @@
             "error": {
                 "invalidName": "$~Este debe ser un nombre de Wordplay válido.",
                 "invalidWords": "$~Las palabras no pueden estar vacías ni contener símbolos reservados."
-            }
+            },
+            "title": "$~código"
         },
         "annotations": {
             "label": "conflictos y ayuda",
@@ -4638,7 +4639,8 @@
                 "present": "al presente",
                 "start": "al principio",
                 "reset": "reiniciar la actuación"
-            }
+            },
+            "debug": "$~depurar"
         },
         "docs": {
             "label": "navegador de documentación",

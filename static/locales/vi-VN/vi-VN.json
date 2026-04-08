@@ -4840,7 +4840,8 @@
             "error": {
                 "invalidName": "$~Đây phải là một tên chơi chữ hợp lệ.",
                 "invalidWords": "$~Từ ngữ không được trống rỗng hoặc chứa các ký hiệu dành riêng."
-            }
+            },
+            "title": "$~mã số"
         },
         "annotations": {
             "label": "$~xung đột và giúp đỡ",
@@ -4903,7 +4904,8 @@
                 "present": "$~đến cuối cùng",
                 "start": "$~Trở lại điểm khởi đầu",
                 "reset": "$~hiệu suất khởi động lại"
-            }
+            },
+            "debug": "$~gỡ lỗi"
         },
         "docs": {
             "label": "$~trình duyệt tài liệu",

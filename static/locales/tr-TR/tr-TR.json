@@ -4610,7 +4610,8 @@
             "error": {
                 "invalidName": "$~Bu geçerli bir Wordplay adı olmalıdır.",
                 "invalidWords": "$~Kelimeler boş olamaz veya ayrılmış semboller içeremez."
-            }
+            },
+            "title": "$~kod"
         },
         "annotations": {
             "label": "$~çatışmalar ve yardım",
@@ -4673,7 +4674,8 @@
                 "present": "$~sonuna kadar",
                 "start": "$~Başlangıca",
                 "reset": "$~yeniden başlatma performansı"
-            }
+            },
+            "debug": "$~hata ayıklama"
         },
         "docs": {
             "label": "$~belge tarayıcısı",

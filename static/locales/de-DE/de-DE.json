@@ -4592,7 +4592,8 @@
             "error": {
                 "invalidName": "$~Dies muss ein gültiger Wortspielname sein.",
                 "invalidWords": "$~Wörter dürfen nicht leer sein oder reservierte Symbole enthalten."
-            }
+            },
+            "title": "$~Code"
         },
         "annotations": {
             "label": "$~Konflikte und Hilfe",
@@ -4655,7 +4656,8 @@
                 "present": "$~bis zum Ende",
                 "start": "$~zu Beginn",
                 "reset": "$~Leistung neu starten"
-            }
+            },
+            "debug": "$~debuggen"
         },
         "docs": {
             "label": "$~Dokumentationsbrowser",

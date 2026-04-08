@@ -8,6 +8,9 @@
     import { animationDuration, locales } from '../../db/Database';
     import Button from '../../input/Button';
     import Key from '../../input/Key';
+    import { DEFECT_SYMBOL } from '../../parser/Symbols';
+    import Emoji from '../app/Emoji.svelte';
+    import Subheader from '../app/Subheader.svelte';
     import { getEvaluation } from '../project/Contexts';
     import Controls from './Controls.svelte';
 
@@ -198,6 +201,10 @@
     aria-label={$locales.getPlainText((l) => l.ui.timeline.label)}
     class:stepping={$evaluation?.playing === false}
 >
+    <Subheader compact
+        ><Emoji>{DEFECT_SYMBOL}</Emoji>
+        {$locales.getUnannotatedText((l) => l.ui.timeline.debug)}</Subheader
+    >
     {#if $evaluation}
         <Controls {evaluator} />
         <div

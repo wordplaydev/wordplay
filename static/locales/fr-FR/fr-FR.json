@@ -4593,7 +4593,8 @@
             "error": {
                 "invalidName": "$~Il doit s'agir d'un nom de jeu de mots valide.",
                 "invalidWords": "$~Les mots ne peuvent pas être vides ou contenir des symboles réservés."
-            }
+            },
+            "title": "$~code"
         },
         "annotations": {
             "label": "$~conflits et aide",
@@ -4656,7 +4657,8 @@
                 "present": "$~jusqu'à la fin",
                 "start": "$~Au début",
                 "reset": "$~redémarrer les performances"
-            }
+            },
+            "debug": "$~déboguer"
         },
         "docs": {
             "label": "$~navigateur de documentation",

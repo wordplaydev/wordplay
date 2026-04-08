@@ -4555,7 +4555,8 @@
             "error": {
                 "invalidName": "$~这必须是一个有效的 Wordplay 名称。",
                 "invalidWords": "$~单词不能为空或包含保留符号。"
-            }
+            },
+            "title": "$~代码"
         },
         "annotations": {
             "label": "冲突",
@@ -4618,7 +4619,8 @@
                 "present": "到现在",
                 "start": "返回开头",
                 "reset": "重新启动性能"
-            }
+            },
+            "debug": "$~调试"
         },
         "docs": {
             "label": "文档浏览器",

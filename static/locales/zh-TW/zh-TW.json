@@ -4551,7 +4551,8 @@
             "error": {
                 "invalidName": "$~這必須是一個有效的 Wordplay 名稱。",
                 "invalidWords": "$~單字不能為空或包含保留符號。"
-            }
+            },
+            "title": "$~程式碼"
         },
         "annotations": {
             "label": " 衝突",
@@ -4614,7 +4615,8 @@
                 "present": "到現在",
                 "start": "返回開頭",
                 "reset": "重新啟動效能"
-            }
+            },
+            "debug": "$~偵錯"
         },
         "docs": {
             "label": "文件瀏覽器",

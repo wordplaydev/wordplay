@@ -4610,7 +4610,8 @@
             "error": {
                 "invalidName": "$~Detta måste vara ett giltigt ordspelsnamn.",
                 "invalidWords": "$~Ord får inte vara tomma eller innehålla reserverade symboler."
-            }
+            },
+            "title": "$~koda"
         },
         "annotations": {
             "label": "$~konflikter och hjälp",
@@ -4673,7 +4674,8 @@
                 "present": "$~till slutet",
                 "start": "$~Till början",
                 "reset": "$~starta om prestandan"
-            }
+            },
+            "debug": "$~felsöka"
         },
         "docs": {
             "label": "$~dokumentwebbläsare",

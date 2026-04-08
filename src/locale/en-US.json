@@ -4717,6 +4717,7 @@
         },
         "source": {
             "label": "program editor",
+            "title": "code",
             "empty": [
                 "Let's get started! You can …",
                 "• Open 📕 and drag 🖱️ us to this program.",
@@ -4890,6 +4891,7 @@
         },
         "timeline": {
             "label": "timeline",
+            "debug": "debug",
             "slider": "time slider",
             "button": {
                 "play": "evaluate the program to the end, responding to inputs in real time",
