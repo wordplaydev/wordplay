@@ -16,3 +16,4 @@ firestore-debug.log
 /playwright-report/
 /playwright/.cache/
 /playwright/.auth
+CLAUDE.md

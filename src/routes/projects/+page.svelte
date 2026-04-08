@@ -10,7 +10,7 @@
     import { getUser, isAuthenticated } from '@components/project/Contexts';
     import TextField from '@components/widgets/TextField.svelte';
     import Title from '@components/widgets/Title.svelte';
-    import { Projects } from '@db/Database';
+    import { locales, Projects } from '@db/Database';
     import type Project from '@db/projects/Project';
     import {
         CANCEL_SYMBOL,
@@ -36,24 +36,24 @@
     };
     
     // Create searchable data structure for projects
-    function createSearchableProjects(projects: Project[]) {
+    function createSearchableProjects(projects: Project[], l: typeof $locales) {
         return projects.map(project => ({
             project: project,
             name: project.getName(),
             files: project.getSources().map(source => ({
-                name: source.getPreferredName($locales.getLocales())
+                name: source.getPreferredName(l.getLocales())
             }))
         }));
     }
-    
+
     // Search scope: project names and source file names with Fuse.js
-    function searchInProjects(projects: Project[], searchTerm: string): Project[] {
+    function searchInProjects(projects: Project[], searchTerm: string, l: typeof $locales): Project[] {
         if (!searchTerm.trim()) return projects;
-        
-        const searchableProjects = createSearchableProjects(projects);
+
+        const searchableProjects = createSearchableProjects(projects, l);
         const fuse = new Fuse(searchableProjects, fuseOptions);
         const results = fuse.search(searchTerm);
-        
+
         // Return projects in order of best match
         return results.map(result => result.item.project);
     }
@@ -96,16 +96,16 @@
     );
 
     let owned: Project[] = $derived(
-        searchInProjects(allOwnedProjects, searchTerm)
+        searchInProjects(allOwnedProjects, searchTerm, $locales)
     );
 
     let shared: Project[] = $derived(
-        searchInProjects(allSharedProjects, searchTerm)
+        searchInProjects(allSharedProjects, searchTerm, $locales)
     );
 
     // Include archived projects in search results
     let archived: Project[] = $derived(
-        searchInProjects(allArchivedProjects, searchTerm)
+        searchInProjects(allArchivedProjects, searchTerm, $locales)
     );
 </script>
 
