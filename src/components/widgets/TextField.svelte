@@ -155,11 +155,11 @@
         data-id={id}
         data-testid={id}
         data-defaultfocus={defaultFocus ? '' : null}
-        class:error={message !== undefined}
+        class:error={typeof message === 'function'}
         aria-label={title}
         aria-placeholder={placeholderText}
         placeholder={withMonoEmoji(placeholderText)}
-        aria-invalid={message !== undefined}
+        aria-invalid={typeof message === 'function'}
         aria-describedby="{id}-error"
         style:width={fill ? null : `${width + 5}px`}
         style:max-width={max}
