@@ -292,7 +292,7 @@
         top: 100%;
         width: 15em;
         background: var(--wordplay-error);
-        color: var(--wordplay-background);
+        color: var(--wordplay-error-text-color);
         padding: var(--wordplay-spacing);
         font-size: calc(var(--wordplay-small-font-size));
         border-bottom-left-radius: var(--wordplay-border-radius);
