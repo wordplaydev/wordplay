@@ -26,7 +26,15 @@ export default class SelectedOutput {
     // Remember how it was it selected.
     origin: SelectionOrigin | null = $state(null);
 
+    // True while a palette input is mid-gesture (slider drag, text focus), so
+    // the stage can suppress fit-to-content and avoid jumping during edits.
+    adjusting: boolean = $state(false);
+
     constructor() {}
+
+    setAdjusting(adjusting: boolean) {
+        this.adjusting = adjusting;
+    }
 
     hasPaths() {
         return this.paths.length > 0;

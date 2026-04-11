@@ -61,6 +61,8 @@
         lightness: number;
         /** Called every time the color changes */
         change: (l: number, c: number, h: number) => void;
+        start?: () => void;
+        release?: () => void;
         editable?: boolean;
         id?: string | undefined;
         /** Additional colors to add to the palette */
@@ -72,6 +74,8 @@
         chroma = $bindable(),
         lightness = $bindable(),
         change,
+        start = undefined,
+        release = undefined,
         editable = true,
         id = undefined,
         palette = [],
@@ -103,8 +107,9 @@
     <!-- svelte-ignore a11y_no_static_element_interactions -->
     <div
         class="bands"
-        onpointerdown={editable ? handleMouseMove : null}
+        onpointerdown={editable ? (e) => { start?.(); handleMouseMove(e); } : null}
         onpointermove={editable ? handleMouseMove : null}
+        onpointerup={editable ? () => release?.() : null}
         bind:clientWidth={hueWidth}
         bind:clientHeight={hueHeight}
     >
@@ -156,6 +161,8 @@
             tip={(l) => l.output.Color.lightness.names[0]}
             unit={'%'}
             precision={0}
+            {...(start ? { start } : {})}
+            {...(release ? { release: () => release() } : {})}
             change={(value) => {
                 lightness = value.toNumber();
                 broadcast();
@@ -170,6 +177,8 @@
             increment={1}
             unit=""
             tip={(l) => l.output.Color.chroma.names[0]}
+            {...(start ? { start } : {})}
+            {...(release ? { release: () => release() } : {})}
             change={(value) => {
                 chroma = value.round().toNumber();
                 broadcast();
@@ -184,6 +193,8 @@
             increment={1}
             unit={'°'}
             tip={(l) => l.output.Color.hue.names[0]}
+            {...(start ? { start } : {})}
+            {...(release ? { release: () => release() } : {})}
             change={(value) => {
                 hue = value.round().toNumber();
                 broadcast();

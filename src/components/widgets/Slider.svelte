@@ -15,6 +15,7 @@
         increment: number;
         label?: LocaleTextAccessor | undefined;
         tip: LocaleTextAccessor;
+        start?: () => void;
         change?: (value: Decimal) => void;
         release?: (value: number | undefined) => void;
         precision?: number;
@@ -30,6 +31,7 @@
         increment,
         label = undefined,
         tip,
+        start = undefined,
         change = undefined,
         release = undefined,
         precision = 0,
@@ -82,6 +84,7 @@
         step={increment}
         bind:value
         bind:this={view}
+        onpointerdown={() => start?.()}
         oninput={handleChange}
         onpointerup={() => release?.(value)}
         disabled={!editable}

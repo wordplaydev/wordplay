@@ -15,6 +15,8 @@
         /** A validation function that either returns true if valid or a message accessor if false */
         validator?: undefined | ((text: string) => LocaleTextAccessor | true);
         changed?: undefined | ((text: string) => void);
+        focus?: () => void;
+        blur?: () => void;
         // Called if someone typed and paused for more than a second.
         dwelled?: undefined | ((text: string) => void);
         done?:
@@ -45,6 +47,8 @@
         description,
         validator = undefined,
         changed = undefined,
+        focus = undefined,
+        blur = undefined,
         dwelled = undefined,
         done = undefined,
         fill = false,
@@ -171,6 +175,7 @@
         onpointerdown={(event) => event.stopPropagation()}
         onblur={async () => {
             focused = false;
+            blur?.();
             if (done) {
                 savingDone = undefined;
                 await done(text);
@@ -180,7 +185,7 @@
                 }, 1500);
             }
         }}
-        onfocus={() => (focused = true)}
+        onfocus={() => { focused = true; focus?.(); }}
     />
     <span class="measurer" bind:clientWidth={width}
         >{text.length === 0

@@ -12,6 +12,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 ### Fixed
 
+- We fixed many little issues with palette sliders, including incorrect tooltips and a lack of visible change on stage when changing size (#1032).
 - Sometimes links in the guide had identical labels and subabels. Now they don't!
 - We made speech bubble animations respect the aniamtion off setting (#1040).
 - Some links concepts in the guide were not working, and were ambiguous, so we fixed the links and made them less ambiguous (#1035).

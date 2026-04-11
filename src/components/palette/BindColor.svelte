@@ -106,5 +106,7 @@
     {chroma}
     {hue}
     change={handleChange}
+    start={() => selection?.setAdjusting(true)}
+    release={() => selection?.setAdjusting(false)}
     {editable}
 />

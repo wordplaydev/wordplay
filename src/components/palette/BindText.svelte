@@ -15,7 +15,7 @@
     import { toTokens } from '@parser/toTokens';
     import MarkupValue from '@values/MarkupValue';
     import { tick } from 'svelte';
-    import { getProject } from '../project/Contexts';
+    import { getProject, getSelectedOutput } from '../project/Contexts';
     import TextField from '../widgets/TextField.svelte';
 
     interface Props {
@@ -29,6 +29,7 @@
     let { property, values, validator, editable, id }: Props = $props();
 
     let project = getProject();
+    let selection = getSelectedOutput();
     let view: HTMLInputElement | undefined = $state(undefined);
 
     let isMarkup = $derived(values.getValue() instanceof MarkupValue);
@@ -75,6 +76,8 @@
             : $locales.getName(values.values[0].bind.names)}
         {validator}
         changed={handleChange}
+        focus={() => selection?.setAdjusting(true)}
+        blur={() => selection?.setAdjusting(false)}
         bind:view
         {editable}
         {id}
