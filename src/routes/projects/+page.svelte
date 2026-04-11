@@ -143,7 +143,10 @@
     </div>
 
     {#if searchTerm.trim() && owned.length === 0 && shared.length === 0 && archived.length === 0}
-        <Notice text={(l) => l.ui.page.projects.search.noResults} />
+        <Notice
+            testid="no-results-message"
+            text={(l) => l.ui.page.projects.search.noResults}
+        />
     {:else}
         <ProjectPreviewSet
             set={owned}

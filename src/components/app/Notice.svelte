@@ -8,15 +8,25 @@
     interface Props {
         markup?: boolean;
         inline?: boolean;
+        testid?: string;
         text?: LocaleTextAccessor;
         children?: Snippet;
     }
 
-    let { markup = true, inline = false, text, children }: Props = $props();
+    let {
+        markup = true,
+        inline = false,
+        text,
+        children,
+        testid,
+    }: Props = $props();
 </script>
 
 {#if inline}<span class="feedback">{@render children?.()}</span>{:else}
-    <p class="feedback" transition:slide={{ duration: $animationDuration }}
+    <p
+        class="feedback"
+        data-testid={testid}
+        transition:slide={{ duration: $animationDuration }}
         >{#if children}{@render children()}{:else if text}<LocalizedText
                 path={text}
                 {markup}
