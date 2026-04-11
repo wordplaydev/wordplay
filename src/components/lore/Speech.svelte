@@ -355,7 +355,7 @@
 
     .emotion-kind {
         animation: kind ease 1;
-        animation-duration: 0.5s;
+        animation-duration: calc(var(--animation-factor) * 0.5s);
         transform-origin: bottom;
     }
 
@@ -376,7 +376,7 @@
 
     .emotion-serious {
         animation: serious ease 3;
-        animation-duration: 0.25s;
+        animation-duration: calc(var(--animation-factor) * 0.25s);
         transform-origin: bottom;
     }
 
@@ -395,7 +395,7 @@
 
     .emotion-cheerful {
         animation: cheerful ease-in-out infinite;
-        animation-duration: 2s;
+        animation-duration: calc(var(--animation-factor) * 2s);
         transform-origin: bottom;
         --cheerfulness: 1deg;
     }
@@ -415,7 +415,7 @@
 
     .emotion-bored {
         animation: bored ease infinite;
-        animation-duration: 2s;
+        animation-duration: calc(var(--animation-factor) * 2s);
         transform-origin: bottom;
     }
 
@@ -435,7 +435,7 @@
 
     .emotion-curious {
         animation: curious ease infinite;
-        animation-duration: 2s;
+        animation-duration: calc(var(--animation-factor) * 2s);
         transform-origin: bottom;
     }
 
@@ -452,7 +452,7 @@
 
     .emotion-eager {
         animation: eager ease infinite;
-        animation-duration: 1s;
+        animation-duration: calc(var(--animation-factor) * 1s);
         transform-origin: bottom;
     }
 
@@ -482,7 +482,7 @@
 
     .emotion-scared {
         animation: scared linear infinite;
-        animation-duration: 100ms;
+        animation-duration: calc(var(--animation-factor) * 100ms);
         transform-origin: center;
     }
 
@@ -512,7 +512,7 @@
 
     .emotion-angry {
         animation: angry linear infinite;
-        animation-duration: 25ms;
+        animation-duration: calc(var(--animation-factor) * 25ms);
         transform-origin: center;
     }
 
@@ -530,7 +530,7 @@
 
     .emotion-arrogant {
         animation: arrogant ease-out infinite;
-        animation-duration: 5s;
+        animation-duration: calc(var(--animation-factor) * 5s);
         transform-origin: bottom;
     }
 
@@ -549,7 +549,7 @@
 
     .emotion-confused {
         animation: confused ease infinite;
-        animation-duration: 2s;
+        animation-duration: calc(var(--animation-factor) * 2s);
         transform-origin: bottom;
     }
 
@@ -571,7 +571,7 @@
 
     .emotion-excited {
         animation: excited ease-out infinite;
-        animation-duration: 500ms;
+        animation-duration: calc(var(--animation-factor) * 500ms);
         transform-origin: bottom;
     }
 
@@ -587,7 +587,7 @@
 
     .emotion-grumpy {
         animation: grumpy ease-out infinite;
-        animation-duration: 5s;
+        animation-duration: calc(var(--animation-factor) * 5s);
         transform-origin: bottom;
     }
 
@@ -609,7 +609,7 @@
 
     .emotion-happy {
         animation: happy ease-out infinite;
-        animation-duration: 4s;
+        animation-duration: calc(var(--animation-factor) * 4s);
         transform-origin: bottom;
     }
 
@@ -631,7 +631,7 @@
 
     .emotion-insecure {
         animation: insecure ease-out infinite;
-        animation-duration: 4s;
+        animation-duration: calc(var(--animation-factor) * 4s);
         transform-origin: bottom;
     }
 
@@ -653,7 +653,7 @@
 
     .emotion-neutral {
         animation: neutral ease-out infinite;
-        animation-duration: 4s;
+        animation-duration: calc(var(--animation-factor) * 4s);
         transform-origin: bottom;
     }
 
@@ -675,7 +675,7 @@
 
     .emotion-sad {
         animation: sad ease-in infinite;
-        animation-duration: 2s;
+        animation-duration: calc(var(--animation-factor) * 2s);
         transform-origin: bottom;
     }
 
@@ -718,7 +718,7 @@
 
     .emotion-surprised {
         animation: surprised ease-out infinite;
-        animation-duration: 2s;
+        animation-duration: calc(var(--animation-factor) * 2s);
         transform-origin: bottom;
     }
 
@@ -740,7 +740,7 @@
 
     .emotion-precise {
         animation: precise steps(2) infinite;
-        animation-duration: 1s;
+        animation-duration: calc(var(--animation-factor) * 1s);
         transform-origin: bottom;
     }
 
@@ -765,7 +765,7 @@
     .emotion-shy {
         animation-name: shy;
         animation-iteration-count: 1;
-        animation-duration: 3s;
+        animation-duration: calc(var(--animation-factor) * 3s);
         transform-origin: bottom;
         animation-fill-mode: forwards;
     }
