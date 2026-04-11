@@ -8,7 +8,9 @@
         "Links in the guide were broken for names that were machine translated. Now they work! (#1027)."
       ],
       "changed": [
-        "We upgraded internal tooling for stability."
+        "We upgraded internal tooling for stability.",
+        "We prepared many things to enable localization contributions directly on the website. It's not ready yet, but it's getting close! (#437).",
+        "We redesigned buttons with backgrounds to make them pop a bit more."
       ],
       "removed": []
     }

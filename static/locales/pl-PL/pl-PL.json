@@ -5507,6 +5507,10 @@
                         "header": "$~Instrukcje",
                         "explanation": "$~Możesz przeglądać instrukcje w tych galeriach i korzystać z nich, ale nie będziesz mógł zobaczyć ich projektów, chyba że galeria lub projekty są publiczne."
                     }
+                },
+                "search": {
+                    "description": "$~Wyszukaj projekty i pliki źródłowe",
+                    "noResults": "$~Nie znaleziono wyników."
                 }
             },
             "galleries": {

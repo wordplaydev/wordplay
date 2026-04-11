@@ -5498,6 +5498,10 @@
                         "header": "$~Nasıl yapılır",
                         "explanation": "$~Bu galerilerdeki \"nasıl yapılır\" kılavuzlarını görüntüleyebilir ve bunlarla etkileşim kurabilirsiniz, ancak galeri veya projeler herkese açık olmadığı sürece projeleri göremezsiniz."
                     }
+                },
+                "search": {
+                    "description": "$~Projeleri ve kaynak dosyalarını arayın.",
+                    "noResults": "$~Hiçbir sonuç bulunamadı."
                 }
             },
             "galleries": {

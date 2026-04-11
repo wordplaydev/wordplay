@@ -5298,6 +5298,10 @@
                         "header": "$~Anleitungen",
                         "explanation": "$~Sie können die Anleitungen in diesen Galerien ansehen und mit ihnen interagieren, aber Sie können die Projekte selbst nicht sehen, es sei denn, die Galerie oder die Projekte sind öffentlich."
                     }
+                },
+                "search": {
+                    "description": "$~Projekte und Quelldateien durchsuchen",
+                    "noResults": "$~Keine Ergebnisse gefunden."
                 }
             },
             "galleries": {

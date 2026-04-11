@@ -5285,6 +5285,10 @@
                         "header": "$~Instrucciones",
                         "explanation": "$~Puedes ver e interactuar con los tutoriales en estas galerías, pero no puedes ver sus proyectos a menos que la galería o los proyectos sean públicos."
                     }
+                },
+                "search": {
+                    "description": "$~Buscar proyectos y archivos fuente",
+                    "noResults": "$~No se encontraron resultados."
                 }
             },
             "galleries": {

@@ -5728,6 +5728,10 @@
                     "newgallery": "$~Chúng tôi không thể tạo thư viện ảnh mới.",
                     "nodeletes": "$~Bạn phải đăng nhập vào tài khoản <login@://login> để xóa các dự án đã lưu trữ.",
                     "delete": "$~Ôi, chúng tôi không thể xóa dự án được!"
+                },
+                "search": {
+                    "description": "$~Tìm kiếm dự án và tệp nguồn",
+                    "noResults": "$~Không tìm thấy kết quả nào."
                 }
             },
             "galleries": {
