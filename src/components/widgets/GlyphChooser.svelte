@@ -76,9 +76,19 @@
         glyph?: string | undefined;
         /** Whether to show custom characters*/
         showCustom?: boolean;
+        /**
+         * When provided, the search box is hidden and this value is used as the
+         * query instead, letting a parent component control the search.
+         */
+        externalQuery?: string | undefined;
     }
 
-    let { pick, glyph = undefined, showCustom = true }: Props = $props();
+    let {
+        pick,
+        glyph = undefined,
+        showCustom = true,
+        externalQuery = undefined,
+    }: Props = $props();
 
     let publicCharacters = $derived(
         CharactersDB.getEditableCharacters().filter((c) => c.public),
@@ -90,8 +100,11 @@
     /** The Unicode codepoints metadata, loaded async on mount */
     let codepoints = $state<Codepoint[] | null>(null);
 
-    /** The current query */
-    let query = $state('');
+    /** The internal search query, used when no externalQuery is provided */
+    let internalQuery = $state('');
+
+    /** The active query: external when provided, otherwise internal */
+    let query = $derived(externalQuery !== undefined ? externalQuery : internalQuery);
 
     /** The selected skin tone modifier codepoint as a string, or undefined for the default (no modifier) */
     let skinTone = $state<string | undefined>(undefined);
@@ -163,12 +176,14 @@
 
 <div class="picker">
     <div class="filter">
-        <TextField
-            id="character-search"
-            placeholder={SEARCH_SYMBOL}
-            description={(l) => l.ui.source.cursor.search}
-            bind:text={query}
-        />
+        {#if externalQuery === undefined}
+            <TextField
+                id="character-search"
+                placeholder={SEARCH_SYMBOL}
+                description={(l) => l.ui.source.cursor.search}
+                bind:text={internalQuery}
+            />
+        {/if}
         {#if category === 'So-pe'}
             <Options
                 label={(l) => l.ui.emoji.skinTone}
@@ -184,7 +199,7 @@
             small
             choice={VisibleCategories.indexOf(category)}
             select={(choice) => {
-                query = '';
+                internalQuery = '';
                 category = VisibleCategories[choice];
             }}
             omit={showCustom ? [] : [0]}

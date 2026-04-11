@@ -6,12 +6,18 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 ## 0.17.5 - 2026-04-11
 
+### Added
+
+- We added a search box to the emoji toolbar at the bottom of the editor, to make it clearer how to search for emojis (#1037).
+
 ### Changed
 
 - We upgraded internal tooling for stability.
 
 ### Fixed
 
+- We fixed the highlight of the emoji chooser in the editor (#1037).
+- We fixed a problem where code examples on Windows weren't being copied to the clipboard with the ctrl-C shortcut (#1038).
 - We fixed many little issues with palette sliders, including incorrect tooltips and a lack of visible change on stage when changing size (#1032).
 - Sometimes links in the guide had identical labels and subabels. Now they don't!
 - We made speech bubble animations respect the aniamtion off setting (#1040).

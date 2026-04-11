@@ -1,7 +1,9 @@
 <script lang="ts">
-    import EmojiChooser from '@components/widgets/GlyphChooser.svelte';
+    import GlyphChooser from '@components/widgets/GlyphChooser.svelte';
+    import TextField from '@components/widgets/TextField.svelte';
     import Toggle from '@components/widgets/Toggle.svelte';
     import { type Character } from '../../../db/characters/Character';
+    import { SEARCH_SYMBOL } from '../../../parser/Symbols';
     import { withColorEmoji } from '../../../unicode/emoji';
     import { IdleKind, getEditors } from '../../project/Contexts';
     import CommandButton from '../../widgets/CommandButton.svelte';
@@ -21,6 +23,18 @@
     );
 
     let expanded = $state(false);
+    let query = $state('');
+
+    // Auto-expand when the user starts typing a search query.
+    $effect(() => {
+        if (query.length > 0) expanded = true;
+    });
+
+    function toggle() {
+        expanded = !expanded;
+        // Clear the query when collapsing so it doesn't linger.
+        if (!expanded) query = '';
+    }
 
     function insert(character: string | Character) {
         const editorState = $editors?.get(sourceID);
@@ -40,10 +54,13 @@
     }
 </script>
 
-<section class:expanded class="directory" data-uiid="directory">
+<section class:expanded class="directory">
     <div class="matches">
         {#if expanded}
-            <EmojiChooser pick={(glyph) => insert(glyph)}></EmojiChooser>
+            <GlyphChooser
+                externalQuery={query}
+                pick={(glyph) => insert(glyph)}
+            />
         {:else}
             {#each Defaults as command}<CommandButton
                     {sourceID}
@@ -53,12 +70,21 @@
                 />{/each}
         {/if}
     </div>
-    <Toggle
-        tips={(l) => l.ui.source.toggle.characters}
-        on={expanded}
-        toggle={() => (expanded = !expanded)}
-        >{withColorEmoji(expanded ? '😴' : '😊')}</Toggle
-    >
+    <div class="controls">
+        <TextField
+            id="glyph-search"
+            max="5m"
+            placeholder={SEARCH_SYMBOL}
+            description={(l) => l.ui.source.cursor.search}
+            bind:text={query}
+        />
+        <Toggle
+            uiid="directory"
+            tips={(l) => l.ui.source.toggle.characters}
+            on={expanded}
+            {toggle}>{withColorEmoji(expanded ? '😴' : '😊')}</Toggle
+        >
+    </div>
 </section>
 
 <style>
@@ -80,6 +106,15 @@
         overflow-x: auto;
         padding: var(--wordplay-spacing);
         align-content: baseline;
+    }
+
+    .controls {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: var(--wordplay-spacing);
+        padding: var(--wordplay-spacing);
+        flex-shrink: 0;
     }
 
     section.expanded {

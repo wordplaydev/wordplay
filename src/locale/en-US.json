@@ -4739,8 +4739,8 @@
                     "off": "edit as blocks"
                 },
                 "characters": {
-                    "on": "collapse the matching characters",
-                    "off": "expand the matching characters"
+                    "on": "hide the emoji and symbol chooser",
+                    "off": "show the emoji and symbol chooser"
                 }
             },
             "options": {
