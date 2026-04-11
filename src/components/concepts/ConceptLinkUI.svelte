@@ -182,7 +182,7 @@
                 {withMonoEmoji(label)}
             {:else}
                 <span class="long">{longName}</span
-                >{#if symbolicName !== longName}
+                >{#if symbolicName.toLocaleLowerCase($locales.getLocaleString()) !== longName.toLocaleLowerCase($locales.getLocaleString())}
                     <sub>{withMonoEmoji(symbolicName)}</sub>{/if}
             {/if}
         </span>

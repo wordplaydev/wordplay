@@ -10,6 +10,10 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 - We upgraded internal tooling for stability.
 
+### Fixed
+
+- Sometimes links in the guide had identical labels and subabels. Now they don't!
+
 ## 0.17.4 - 2026-04-04
 
 ### Added
