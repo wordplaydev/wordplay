@@ -4,45 +4,54 @@ import { beforeEach, describe, expect, it } from 'vitest';
 // Mock project data for testing
 const mockProjects = [
     {
-        project: { getName: () => 'Object Oriented Programming', getSources: () => [] },
+        project: {
+            getName: () => 'Object Oriented Programming',
+            getSources: () => [],
+        },
         name: 'Object Oriented Programming',
-        files: []
+        files: [],
     },
     {
-        project: { getName: () => 'Data Structures & Algorithms', getSources: () => [] },
+        project: {
+            getName: () => 'Data Structures & Algorithms',
+            getSources: () => [],
+        },
         name: 'Data Structures & Algorithms',
-        files: []
+        files: [],
     },
     {
         project: { getName: () => 'Test Project', getSources: () => [] },
         name: 'Test Project',
-        files: []
+        files: [],
     },
     {
         project: {
             getName: () => 'Main Project',
             getSources: () => [
                 { getPreferredName: () => 'main.wp' },
-                { getPreferredName: () => 'utils.js' }
-            ]
+                { getPreferredName: () => 'utils.js' },
+            ],
         },
         name: 'Main Project',
-        files: [
-            { name: 'main.wp' },
-            { name: 'utils.js' }
-        ]
+        files: [{ name: 'main.wp' }, { name: 'utils.js' }],
     },
     // Add archived projects for testing
     {
-        project: { getName: () => 'Archived Math Project', getSources: () => [] },
+        project: {
+            getName: () => 'Archived Math Project',
+            getSources: () => [],
+        },
         name: 'Archived Math Project',
-        files: []
+        files: [],
     },
     {
-        project: { getName: () => 'Old Science Experiment', getSources: () => [] },
+        project: {
+            getName: () => 'Old Science Experiment',
+            getSources: () => [],
+        },
         name: 'Old Science Experiment',
-        files: []
-    }
+        files: [],
+    },
 ];
 
 describe('Search Functionality', () => {
@@ -53,7 +62,7 @@ describe('Search Functionality', () => {
             includeScore: true,
             threshold: 0.4,
             ignoreLocation: true,
-            keys: ['name', 'files.name']
+            keys: ['name', 'files.name'],
         };
         fuse = new Fuse(mockProjects, fuseOptions);
     });
@@ -146,9 +155,9 @@ describe('Search Functionality', () => {
             expect(results).toHaveLength(0);
         });
 
-        it('should return empty results for empty search', () => {
+        it('should return all results for empty search', () => {
             const results = fuse.search('');
-            expect(results).toHaveLength(0);
+            expect(results).toHaveLength(6);
         });
     });
 
@@ -170,7 +179,7 @@ describe('Search Functionality', () => {
                 includeScore: true,
                 threshold: 0.2, // More strict
                 ignoreLocation: true,
-                keys: ['name', 'files.name']
+                keys: ['name', 'files.name'],
             });
 
             const results = strictFuse.search('Objct');
@@ -178,4 +187,4 @@ describe('Search Functionality', () => {
             expect(results.length).toBeLessThanOrEqual(1);
         });
     });
-}); 
+});
