@@ -84,10 +84,12 @@
                 node.getKind() === ExpressionKind.Definition}
             tabindex={draggable ? 0 : 0}
             onpointerdown={handlePointerDown}
-            onkeydown={(event) =>
-                event.key === 'c' && (event.ctrlKey || event.metaKey)
-                    ? copy()
-                    : undefined}
+            onkeydown={(event) => {
+                if (event.key === 'c' && (event.ctrlKey || event.metaKey)) {
+                    event.preventDefault();
+                    copy();
+                }
+            }}
             ><RootView
                 {node}
                 {inline}
