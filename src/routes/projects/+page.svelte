@@ -12,42 +12,46 @@
     import Title from '@components/widgets/Title.svelte';
     import { locales, Projects } from '@db/Database';
     import type Project from '@db/projects/Project';
+    import Fuse from 'fuse.js';
     import {
         CANCEL_SYMBOL,
         COPY_SYMBOL,
         EDIT_SYMBOL,
     } from '../../parser/Symbols';
-    import Fuse from 'fuse.js';
 
     const user = getUser();
 
     // Whether to show an error
     let deleteError = $state(false);
-    
+
     // Search functionality
     let searchTerm = $state('');
-    
+
     // Fuse.js configuration for fuzzy search
     const fuseOptions = {
         includeScore: true,
         threshold: 0.4, // 0.0 = exact match, 1.0 = match anything
         ignoreLocation: true, // Don't care where in string match occurs
-        keys: ['name', 'files.name']
+        keys: ['name', 'files.name'],
     };
-    
+
     // Create searchable data structure for projects
     function createSearchableProjects(projects: Project[], l: typeof $locales) {
-        return projects.map(project => ({
+        return projects.map((project) => ({
             project: project,
             name: project.getName(),
-            files: project.getSources().map(source => ({
-                name: source.getPreferredName(l.getLocales())
-            }))
+            files: project.getSources().map((source) => ({
+                name: source.getPreferredName(l.getLocales()),
+            })),
         }));
     }
 
     // Search scope: project names and source file names with Fuse.js
-    function searchInProjects(projects: Project[], searchTerm: string, l: typeof $locales): Project[] {
+    function searchInProjects(
+        projects: Project[],
+        searchTerm: string,
+        l: typeof $locales,
+    ): Project[] {
         if (!searchTerm.trim()) return projects;
 
         const searchableProjects = createSearchableProjects(projects, l);
@@ -55,13 +59,13 @@
         const results = fuse.search(searchTerm);
 
         // Return projects in order of best match
-        return results.map(result => result.item.project);
+        return results.map((result) => result.item.project);
     }
 
     let allOwnedProjects = $derived(
         Projects.allEditableProjects.filter(
             (p) => p.getOwner() === $user?.uid || !p.hasOwner(),
-        )
+        ),
     );
 
     let allSharedProjects = $derived(
@@ -69,7 +73,7 @@
             ? []
             : Projects.allEditableProjects.filter(
                   (p) => p.hasOwner() && p.getOwner() !== $user.uid,
-              )
+              ),
     );
 
     let commenterViewerProjects: Project[] = $state([]);
@@ -92,20 +96,20 @@
     let allArchivedProjects = $derived(
         Projects.allArchivedProjects.filter(
             (p) => p.getOwner() === $user?.uid || !p.hasOwner(),
-        )
+        ),
     );
 
     let owned: Project[] = $derived(
-        searchInProjects(allOwnedProjects, searchTerm, $locales)
+        searchInProjects(allOwnedProjects, searchTerm, $locales),
     );
 
     let shared: Project[] = $derived(
-        searchInProjects(allSharedProjects, searchTerm, $locales)
+        searchInProjects(allSharedProjects, searchTerm, $locales),
     );
 
     // Include archived projects in search results
     let archived: Project[] = $derived(
-        searchInProjects(allArchivedProjects, searchTerm, $locales)
+        searchInProjects(allArchivedProjects, searchTerm, $locales),
     );
 </script>
 
@@ -116,45 +120,34 @@
 <Writing>
     <Header text={(l) => l.ui.page.projects.header} />
     <MarkupHTMLView markup={(l) => l.ui.page.projects.projectprompt} />
-    
-    <!-- Search Bar -->
-    <div class="search-container">
+
+    <div class="controls">
         <TextField
             id="project-search"
             bind:text={searchTerm}
-            placeholder="🔍 Search projects and sources"
+            placeholder="🔍"
             description={(l) => l.ui.page.projects.search.description}
-            fill={true}
+            max="10em"
+        />
+
+        <AddProject
+            add={(template) => {
+                const newProjectID = Projects.copy(
+                    template,
+                    $user?.uid ?? null,
+                    null,
+                );
+                goto(`/project/${newProjectID}`);
+            }}
         />
     </div>
-    
-    
-    <AddProject
-        add={(template) => {
-            const newProjectID = Projects.copy(
-                template,
-                $user?.uid ?? null,
-                null,
-            );
-            goto(`/project/${newProjectID}`);
-        }}
-    />
 
     {#if searchTerm.trim() && owned.length === 0 && shared.length === 0 && archived.length === 0}
-        <Notice>
-            <div class="no-results">
-                <p class="no-results-message">
-                    No projects found for "<strong>{searchTerm}</strong>"
-                </p>
-                <p class="no-results-suggestion">
-                    Try checking your spelling or using different keywords. Our search is forgiving of typos, but you might want to try a shorter search term.
-                </p>
-            </div>
-        </Notice>
+        <Notice text={(l) => l.ui.page.projects.search.noResults} />
     {:else}
         <ProjectPreviewSet
             set={owned}
-            searchTerm={searchTerm}
+            {searchTerm}
             edit={{
                 description: (l) => l.ui.page.projects.button.editproject,
                 action: (project) => goto(project.getLink(false)),
@@ -171,7 +164,8 @@
                     prompt: (l) => l.ui.page.projects.confirm.archive.prompt,
                     description: (l) =>
                         l.ui.page.projects.confirm.archive.description,
-                    action: () => Projects.archiveProject(project.getID(), true),
+                    action: () =>
+                        Projects.archiveProject(project.getID(), true),
                     label: '🗑️',
                 };
             }}
@@ -185,7 +179,7 @@
         <Subheader text={(l) => l.ui.page.projects.subheader.shared} />
         <ProjectPreviewSet
             set={shared.concat(commenterViewerProjects)}
-            searchTerm={searchTerm}
+            {searchTerm}
             edit={{
                 description: (l) => l.ui.page.projects.button.editproject,
                 action: (project) => goto(project.getLink(false)),
@@ -208,7 +202,7 @@
         <Subheader text={(l) => l.ui.page.projects.subheader.archived} />
         <ProjectPreviewSet
             set={archived}
-            searchTerm={searchTerm}
+            {searchTerm}
             edit={{
                 description: (l) => l.ui.page.projects.button.unarchive,
                 action: (project) =>
@@ -285,29 +279,10 @@
 </Writing>
 
 <style>
-    .add {
-        margin-left: calc(2 * var(--wordplay-spacing));
-    }
-
-    .search-container {
-        margin: var(--wordplay-spacing) 0;
-        padding: 0 calc(2 * var(--wordplay-spacing));
-    }
-
-    .no-results {
-        text-align: center;
-    }
-
-    .no-results-message {
-        font-size: 1.1em;
-        margin-bottom: var(--wordplay-spacing);
-        color: var(--wordplay-background);
-    }
-
-    .no-results-suggestion {
-        font-size: 0.9em;
-        line-height: 1.4;
-        color: var(--wordplay-background);
+    .controls {
+        display: flex;
+        flex-direction: column;
+        gap: var(--wordplay-spacing);
+        margin-block-end: var(--wordplay-spacing);
     }
 </style>
-+

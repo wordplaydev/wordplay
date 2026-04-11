@@ -233,9 +233,13 @@
     </a>
     {#snippet highlighted(text: string)}
         {#if searchTerm.trim()}
-            {@const index = text.toLowerCase().indexOf(searchTerm.toLowerCase())}
+            {@const index = text
+                .toLowerCase()
+                .indexOf(searchTerm.toLowerCase())}
             {#if index !== -1}
-                {text.slice(0, index)}<mark class="search-highlight">{text.slice(index, index + searchTerm.length)}</mark>{text.slice(index + searchTerm.length)}
+                {text.slice(0, index)}<mark class="search-highlight"
+                    >{text.slice(index, index + searchTerm.length)}</mark
+                >{text.slice(index + searchTerm.length)}
             {:else}
                 {text}
             {/if}
@@ -379,10 +383,9 @@
     }
 
     .search-highlight {
-        background-color: #ffffff;
-        color: #1f2937;
-        padding: 0 2px;
-        border-radius: 2px;
-        font-weight: 600;
+        background-color: var(--wordplay-highlight-color);
+        color: var(--wordplay-foreground);
+        padding: 0 var(--wordplay-spacing);
+        border-radius: var(--wordplay-border-radius);
     }
 </style>

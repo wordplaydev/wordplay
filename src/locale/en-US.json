@@ -5746,7 +5746,8 @@
                     }
                 },
                 "search": {
-                    "description": "Search projects and files"
+                    "description": "Search projects and source files",
+                    "noResults": "No results found."
                 },
                 "button": {
                     "newproject": "new project",

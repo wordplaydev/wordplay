@@ -13100,10 +13100,15 @@
                         "description": {
                           "description": "Description for the search field",
                           "type": "string"
+                        },
+                        "noResults": {
+                          "description": "No project search results",
+                          "type": "string"
                         }
                       },
                       "required": [
-                        "description"
+                        "description",
+                        "noResults"
                       ],
                       "type": "object"
                     },

@@ -23,6 +23,8 @@ type PageText = {
     search: {
         /** Description for the search field */
         description: string;
+        /** No project search results */
+        noResults: string;
     };
     button: {
         /** [plain] Create a new project */

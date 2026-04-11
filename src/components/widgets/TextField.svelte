@@ -224,7 +224,7 @@
         color: inherit;
         border: none;
         outline: none;
-        min-width: 1em;
+        min-width: 3em;
         cursor: text;
     }
 
