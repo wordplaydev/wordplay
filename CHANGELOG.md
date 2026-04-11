@@ -13,7 +13,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 ### Fixed
 
 - Sometimes links in the guide had identical labels and subabels. Now they don't!
-- We made speech bubble animations respect the aniamtion off setting.
+- We made speech bubble animations respect the aniamtion off setting (#1040).
 
 ## 0.17.4 - 2026-04-04
 
