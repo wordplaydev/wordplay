@@ -718,6 +718,8 @@
     });
 
     let latestProject: Project | undefined;
+    let latestHowTos: unknown = undefined;
+    let latestGalleryHowTos: GalleryHowTo[] = [];
 
     // get the user generated how-tos that are in a gallery, if the gallery exists
     let galleryHowTos = $state<GalleryHowTo[]>([]);
@@ -747,19 +749,28 @@
 
     // When dependencies change, create a new concept index.
     $effect(() => {
+        // Always read these reactive values to ensure they are tracked as dependencies,
+        // so the effect re-runs when howTos load or galleryHowTos change.
+        const resolvedHowTos = howTos instanceof Promise ? [] : howTos;
+        const currentGalleryHowTos = galleryHowTos;
+
         if (
             index === undefined ||
-            ($keyboardEditIdle === IdleKind.Idle && latestProject !== project)
+            ($keyboardEditIdle === IdleKind.Idle && latestProject !== project) ||
+            resolvedHowTos !== latestHowTos ||
+            currentGalleryHowTos !== latestGalleryHowTos
         ) {
             latestProject = project;
+            latestHowTos = resolvedHowTos;
+            latestGalleryHowTos = currentGalleryHowTos;
 
             // Make a new concept index with the new project and translations, but the old examples.
             const newIndex = project
                 ? ConceptIndex.make(
                       project,
                       $locales,
-                      howTos instanceof Promise ? [] : howTos,
-                      galleryHowTos,
+                      resolvedHowTos ?? [],
+                      currentGalleryHowTos,
                   ).withExamples(
                       index === undefined ? new Map() : index.examples,
                   )

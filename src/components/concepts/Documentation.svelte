@@ -11,7 +11,6 @@
     import Mode from '@components/widgets/Mode.svelte';
     import BindConcept from '@concepts/BindConcept';
     import type Concept from '@concepts/Concept';
-    import ConceptIndex from '@concepts/ConceptIndex';
     import ConversionConcept from '@concepts/ConversionConcept';
     import FunctionConcept from '@concepts/FunctionConcept';
     import GalleryHowConcept from '@concepts/GalleryHowConcept';
@@ -51,7 +50,7 @@
         TRUE_SYMBOL,
         TYPE_SYMBOL,
     } from '@parser/Symbols';
-    import { onDestroy, tick, untrack } from 'svelte';
+    import { onDestroy, tick } from 'svelte';
     import {
         Galleries,
         HowTos,
@@ -186,14 +185,6 @@
             );
         } else if (standalone) {
             galleryHowTos = HowTos.allAccessiblePublishedHowTos;
-        }
-    });
-
-    $effect(() => {
-        if (howTos && indexContext && galleryHowTos) {
-            indexContext.index = untrack(() =>
-                ConceptIndex.make(project, $locales, howTos, galleryHowTos),
-            );
         }
     });
 

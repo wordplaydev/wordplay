@@ -31,7 +31,9 @@ export function setConceptInURL(
     params: URLSearchParams,
 ) {
     if (concept) {
-        const name = concept.getCharacterName(locales);
+        const name =
+            concept.getCharacterName(locales) ??
+            concept.getName(locales, false);
         const ownerName = index
             ?.getConceptOwner(concept)
             ?.getName(locales, false);
