@@ -4293,6 +4293,21 @@
                 "description": "$~proje boyut sınırı",
                 "explanation": "$~Bu projede çok fazla metin var, bu yüzden kaydedemiyoruz."
             }
+        },
+        "Say": {
+            "doc": [
+                "$~Merhaba! Ben @Say ve @Stage'de metni göstermek yerine sesli olarak okuyorum.",
+                "$~Söyleyecek bir şey verin, programınız her değerlendirildiğinde onu söyleyeceğim:",
+                "$~\\('bla bla bla' de)\\",
+                "$~@TextLiteral'ın @Language özelliği varsa onu kullanacağım, yoksa seçili yerel ayarı kullanacağım.",
+                "$~Ayarlardan bir ses seçebilirsiniz."
+            ],
+            "names": ["$~🔊", "$~Söylemek"],
+            "text": {
+                "doc": "$~Sesli olarak okumam gereken metin.",
+                "names": "$~metin"
+            },
+            "defaultDescription": "$~1 dolar diyelim."
         }
     },
     "ui": {
@@ -4610,7 +4625,8 @@
             "error": {
                 "invalidName": "$~Bu geçerli bir Wordplay adı olmalıdır.",
                 "invalidWords": "$~Kelimeler boş olamaz veya ayrılmış semboller içeremez."
-            }
+            },
+            "title": "$~kod"
         },
         "annotations": {
             "label": "$~çatışmalar ve yardım",
@@ -4673,7 +4689,8 @@
                 "present": "$~sonuna kadar",
                 "start": "$~Başlangıca",
                 "reset": "$~yeniden başlatma performansı"
-            }
+            },
+            "debug": "$~hata ayıklama"
         },
         "docs": {
             "label": "$~belge tarayıcısı",
@@ -5022,7 +5039,8 @@
                     "face": "$~yazı tipi",
                     "mic": "$~seçili mikrofon",
                     "camera": "$~seçili kamera",
-                    "default": "$~varsayılan"
+                    "default": "$~varsayılan",
+                    "voice": "$~Say için seçilen ses"
                 }
             },
             "locale": {

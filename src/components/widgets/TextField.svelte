@@ -15,6 +15,8 @@
         /** A validation function that either returns true if valid or a message accessor if false */
         validator?: undefined | ((text: string) => LocaleTextAccessor | true);
         changed?: undefined | ((text: string) => void);
+        focus?: () => void;
+        blur?: () => void;
         // Called if someone typed and paused for more than a second.
         dwelled?: undefined | ((text: string) => void);
         done?:
@@ -45,6 +47,8 @@
         description,
         validator = undefined,
         changed = undefined,
+        focus = undefined,
+        blur = undefined,
         dwelled = undefined,
         done = undefined,
         fill = false,
@@ -155,11 +159,11 @@
         data-id={id}
         data-testid={id}
         data-defaultfocus={defaultFocus ? '' : null}
-        class:error={message !== undefined}
+        class:error={typeof message === 'function'}
         aria-label={title}
         aria-placeholder={placeholderText}
         placeholder={withMonoEmoji(placeholderText)}
-        aria-invalid={message !== undefined}
+        aria-invalid={typeof message === 'function'}
         aria-describedby="{id}-error"
         style:width={fill ? null : `${width + 5}px`}
         style:max-width={max}
@@ -171,6 +175,7 @@
         onpointerdown={(event) => event.stopPropagation()}
         onblur={async () => {
             focused = false;
+            blur?.();
             if (done) {
                 savingDone = undefined;
                 await done(text);
@@ -180,7 +185,7 @@
                 }, 1500);
             }
         }}
-        onfocus={() => (focused = true)}
+        onfocus={() => { focused = true; focus?.(); }}
     />
     <span class="measurer" bind:clientWidth={width}
         >{text.length === 0
@@ -292,7 +297,7 @@
         top: 100%;
         width: 15em;
         background: var(--wordplay-error);
-        color: var(--wordplay-background);
+        color: var(--wordplay-error-text-color);
         padding: var(--wordplay-spacing);
         font-size: calc(var(--wordplay-small-font-size));
         border-bottom-left-radius: var(--wordplay-border-radius);

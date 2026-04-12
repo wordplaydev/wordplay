@@ -4293,6 +4293,21 @@
                 "description": "$~limite de taille du projet",
                 "explanation": "$~Ce projet contient trop de texte, nous ne pouvons donc pas le sauvegarder."
             }
+        },
+        "Say": {
+            "doc": [
+                "$~Salut ! Je suis @Say, et je lis le texte à voix haute au lieu de l'afficher sur @Stage.",
+                "$~Donnez-moi juste quelque chose à dire, et je le dirai à chaque évaluation de votre programme :",
+                "$~\\Dites('bla bla bla')\\",
+                "$~J'utiliserai la propriété @Language de l'objet @TextLiteral si elle en possède une, sinon j'utiliserai les paramètres régionaux sélectionnés.",
+                "$~Vous pouvez sélectionner une voix dans les paramètres."
+            ],
+            "names": ["$~🔊", "$~Dire"],
+            "text": {
+                "doc": "$~Le texte que je devrais lire à voix haute.",
+                "names": "$~texte"
+            },
+            "defaultDescription": "$~Disons 1 $"
         }
     },
     "ui": {
@@ -4593,7 +4608,8 @@
             "error": {
                 "invalidName": "$~Il doit s'agir d'un nom de jeu de mots valide.",
                 "invalidWords": "$~Les mots ne peuvent pas être vides ou contenir des symboles réservés."
-            }
+            },
+            "title": "$~code"
         },
         "annotations": {
             "label": "$~conflits et aide",
@@ -4656,7 +4672,8 @@
                 "present": "$~jusqu'à la fin",
                 "start": "$~Au début",
                 "reset": "$~redémarrer les performances"
-            }
+            },
+            "debug": "$~déboguer"
         },
         "docs": {
             "label": "$~navigateur de documentation",
@@ -5009,7 +5026,8 @@
                     "mic": "$~microphone sélectionné",
                     "camera": "$~caméra sélectionnée",
                     "face": "$~police de caractère",
-                    "default": "$~défaut"
+                    "default": "$~défaut",
+                    "voice": "$~voix sélectionnée pour Say"
                 }
             },
             "locale": {

@@ -718,6 +718,8 @@
     });
 
     let latestProject: Project | undefined;
+    let latestHowTos: unknown = undefined;
+    let latestGalleryHowTos: GalleryHowTo[] = [];
 
     // get the user generated how-tos that are in a gallery, if the gallery exists
     let galleryHowTos = $state<GalleryHowTo[]>([]);
@@ -747,43 +749,61 @@
 
     // When dependencies change, create a new concept index.
     $effect(() => {
-        if (
-            index === undefined ||
-            ($keyboardEditIdle === IdleKind.Idle && latestProject !== project)
-        ) {
-            latestProject = project;
+        // Read reactive inputs in the outer scope so the effect re-runs when
+        // they change (howTos loading, gallery changes, project idle swap).
+        const resolvedHowTos = howTos instanceof Promise ? [] : howTos;
+        const currentGalleryHowTos = galleryHowTos;
+        const isIdle = $keyboardEditIdle === IdleKind.Idle;
+        const currentProject = project;
 
-            // Make a new concept index with the new project and translations, but the old examples.
-            const newIndex = project
-                ? ConceptIndex.make(
-                      project,
-                      $locales,
-                      howTos instanceof Promise ? [] : howTos,
-                      galleryHowTos,
-                  ).withExamples(
-                      index === undefined ? new Map() : index.examples,
-                  )
-                : undefined;
+        // Wrap the rebuild logic in untrack() so that reads and writes of
+        // index and $path don't create a dependency cycle: without this,
+        // writing index/path would re-trigger this effect.
+        untrack(() => {
+            if (
+                index === undefined ||
+                (isIdle && latestProject !== currentProject) ||
+                resolvedHowTos !== latestHowTos ||
+                currentGalleryHowTos !== latestGalleryHowTos
+            ) {
+                latestProject = currentProject;
+                latestHowTos = resolvedHowTos;
+                latestGalleryHowTos = currentGalleryHowTos;
 
-            // Set the index
-            index = newIndex;
+                // Make a new concept index with the new project and translations, but the old examples.
+                const newIndex = currentProject
+                    ? ConceptIndex.make(
+                          currentProject,
+                          $locales,
+                          resolvedHowTos ?? [],
+                          currentGalleryHowTos,
+                      ).withExamples(
+                          index === undefined ? new Map() : index.examples,
+                      )
+                    : undefined;
 
-            // Map the old path to the new one using concept equality.
-            if (path)
-                path.set(
-                    index && $path
-                        ? $path
-                              .map((concept) => index?.getEquivalent(concept))
-                              .filter((c): c is Concept => c !== undefined)
-                        : [],
+                // Set the index
+                index = newIndex;
+
+                // Map the old path to the new one using concept equality.
+                if (path)
+                    path.set(
+                        newIndex && $path
+                            ? $path
+                                  .map((concept) =>
+                                      newIndex?.getEquivalent(concept),
+                                  )
+                                  .filter((c): c is Concept => c !== undefined)
+                            : [],
+                    );
+
+                // Ensure the selected source index is in bounds.
+                selectedSourceIndex = Math.min(
+                    selectedSourceIndex,
+                    currentProject.getSupplements().length,
                 );
-
-            // Ensure the selected source index is in bounds.
-            selectedSourceIndex = Math.min(
-                selectedSourceIndex,
-                project.getSupplements().length,
-            );
-        }
+            }
+        });
     });
 
     // When the path changes, show the docs and mirror the concept in the URL.

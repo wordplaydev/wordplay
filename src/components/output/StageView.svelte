@@ -30,6 +30,7 @@
         getAnimatingNodes,
         getAnnouncer,
         getEvaluation,
+        getSelectedOutput,
     } from '../project/Contexts';
     import GroupView from './GroupView.svelte';
     import {
@@ -128,6 +129,7 @@
     let previouslyPresent: Map<string, Output> | undefined = $state(undefined);
 
     const announcer = getAnnouncer();
+    const selectedOutput = getSelectedOutput();
 
     /** The verse focus that fits the content to the view*/
     let fitFocus: Place | undefined = $state(undefined);
@@ -244,9 +246,15 @@
     );
     let contentBounds = $derived(stage.getLayout(context));
 
+    /** Permanently disable autofit when the user starts a palette edit, so the
+     *  stage doesn't snap back to fit after the gesture ends. */
+    $effect(() => {
+        if (selectedOutput?.adjusting) untrack(() => { fit = false; });
+    });
+
     /** When verse or viewport changes, update the autofit focus. */
     $effect(() => {
-        if (view && fit) {
+        if (view && fit && !selectedOutput?.adjusting) {
             // Get the bounds of the verse in verse units.
             const contentWidth = contentBounds.width;
             const contentHeight = contentBounds.height;

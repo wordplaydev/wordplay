@@ -21,6 +21,7 @@ import { LayoutsSetting } from './LayoutsSetting';
 import { LineSetting } from './LinesSetting';
 import { LocalesSetting } from './LocalesSetting';
 import { MicSetting } from './MicSetting';
+import { SaySetting } from './SaySetting';
 import { SpaceSetting } from './SpaceSetting';
 import {
     TutorialProgressSetting,
@@ -86,6 +87,7 @@ export default class SettingsDatabase {
         annotations: AnnotationsSetting,
         howToNotifications: HowToNotificationsSetting,
         updates: UpdatesSetting,
+        say: SaySetting,
     };
 
     /** A derived store based on animation factor */
@@ -194,6 +196,14 @@ export default class SettingsDatabase {
 
     getMic() {
         return this.settings.mic.get();
+    }
+
+    setVoice(voiceURI: string | null) {
+        this.settings.say.set(this.database, voiceURI);
+    }
+
+    getVoice() {
+        return this.settings.say.get();
     }
 
     setDark(dark: boolean | null) {

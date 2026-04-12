@@ -21,6 +21,7 @@ import { DefinitePose, toPose } from './Pose';
 import { toRow } from './Row';
 import type Sequence from './Sequence';
 import { toSequence } from './Sequence';
+import { toSay } from './Say';
 import { toShape } from './Shape';
 import { toStack } from './Stack';
 import { NameGenerator, toBoolean, toNumber, toStage } from './Stage';
@@ -43,6 +44,8 @@ export function toOutput(
             return toStage(evaluator, value, namer);
         case project.shares.output.Shape:
             return toShape(project, value, namer);
+        case project.shares.output.Say:
+            return toSay(project, value, namer);
     }
     return undefined;
 }

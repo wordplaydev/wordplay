@@ -123,24 +123,19 @@
         }
     });
 
-    function capitalizeFirstLetter(val: string) {
-        return (
-            String(val)
-                .charAt(0)
-                .toLocaleUpperCase($locales.getLocaleString()) +
-            String(val).slice(1)
-        );
-    }
-
     let concept: Concept | undefined = $derived(
         match && typeof match !== 'string' && 'concept' in match
             ? match.concept
             : undefined,
     );
 
-    let longName: string = $derived(
-        capitalizeFirstLetter(concept?.getName($locales, false) ?? ''),
+    let ownerConcept: Concept | undefined = $derived(
+        match && typeof match !== 'string' && 'container' in match
+            ? match.container
+            : undefined,
     );
+
+    let longName: string = $derived(concept?.getName($locales, false) ?? '');
     let symbolicName: string = $derived(concept?.getName($locales, true) ?? '');
 
     function navigate() {
@@ -181,8 +176,11 @@
             {#if label}
                 {withMonoEmoji(label)}
             {:else}
-                <span class="long">{longName}</span
-                >{#if symbolicName !== longName}
+                {#if ownerConcept}
+                    <span class="long"
+                        >{ownerConcept.getName($locales, false)}</span
+                    >.{/if}<span class="long">{longName}</span
+                >{#if symbolicName.toLocaleLowerCase($locales.getLocaleString()) !== longName.toLocaleLowerCase($locales.getLocaleString())}
                     <sub>{withMonoEmoji(symbolicName)}</sub>{/if}
             {/if}
         </span>

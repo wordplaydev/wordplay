@@ -346,6 +346,10 @@
                                     inlineValidation
                                     changed={handleRename}
                                 />
+                            {:else}
+                                {$locales.getUnannotatedText(
+                                    (l) => l.ui.source.title,
+                                )}
                             {/if}
                         {:else}
                             <Emoji>{TileKinds[tile.kind].symbol}</Emoji
@@ -549,7 +553,7 @@
         flex-wrap: nowrap;
         align-items: center;
         padding: var(--wordplay-spacing);
-        gap: var(--wordplay-spacing-half);
+        gap: var(--wordplay-spacing);
         width: 100%;
         overflow-x: auto;
         overflow-y: visible;
@@ -586,7 +590,7 @@
         margin-inline-end: auto;
         display: flex;
         flex-direction: row;
-        gap: var(--wordplay-spacing);
+        gap: var(--wordplay-spacing-half);
         align-items: center;
     }
 

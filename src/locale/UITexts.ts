@@ -233,6 +233,8 @@ type UITexts = {
     source: {
         /** [plain] The ARIA label for the source file section */
         label: string;
+        /** [plain] The label for the code editor toolbar */
+        title: string;
         /** The text to show when a source file is empty */
         empty: DocText;
         /** [plain] When some other device had a more recent edit that overrode this device's version. */
@@ -670,6 +672,8 @@ type UITexts = {
     timeline: {
         /** [plain] The ARIA label for the timeline section */
         label: string;
+        /** [plain] The label for the debug toolbar */
+        debug: string;
         /** [plain] The description of the timeline slider */
         slider: string;
         button: {
@@ -786,6 +790,8 @@ type UITexts = {
                 mic: string;
                 /** [plain] The label for the camera drop down */
                 camera: string;
+                /** [plain] The label for the voice drop down for Say */
+                voice: string;
                 /** [plain] The label for default device */
                 default: string;
             };

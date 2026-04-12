@@ -9,12 +9,33 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 ### Added
 
 - We added search features to the projects and gallery pages, making it easier to find projects that have specific names, source file names, or text (#770).
+- We added a search box to the emoji toolbar at the bottom of the editor, to make it clearer how to search for emojis (#1037).
+- We added a new `Say` output, so you can make output that /speaks/ text, in addition to showing it on stage.
+
+### Changed
+
+- We upgraded internal tooling for stability.
+
+### Fixed
+
+- We fixed the highlight of the emoji chooser in the editor (#1037).
+- We fixed a problem where code examples on Windows weren't being copied to the clipboard with the ctrl-C shortcut (#1038).
+- We fixed many little issues with palette sliders, including incorrect tooltips and a lack of visible change on stage when changing size (#1032).
+- Sometimes links in the guide had identical labels and subabels. Now they don't!
+- We made speech bubble animations respect the aniamtion off setting (#1040).
+- Some links concepts in the guide were not working, and were ambiguous, so we fixed the links and made them less ambiguous (#1035).
+- We fixed a problem where autocompleting a conversion expression would sometimes wrap the wrong code.
 
 ## 0.17.4 - 2026-04-04
+
+### Added
+
+- We added debug and code labels to the project view, to be consistent with other tiles in the project view.
 
 ### Fixed
 
 - Links in the guide were broken for names that were machine translated. Now they work! (#1027).
+- We fixed the text color in drop down items (#1031).
 
 ### Changed
 

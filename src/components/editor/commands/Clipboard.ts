@@ -14,7 +14,7 @@ export async function toClipboard(
 ): Promise<true | LocaleTextAccessor> {
     if (navigator.clipboard && navigator.clipboard.writeText) {
         try {
-            navigator.clipboard.writeText(text);
+            await navigator.clipboard.writeText(text);
             return true;
         } catch (err) {
             return (l) => l.ui.source.cursor.ignored.noClipboard;

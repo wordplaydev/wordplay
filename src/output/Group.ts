@@ -15,6 +15,7 @@ import type Place from './Place';
 import type Pose from './Pose';
 import type { DefinitePose } from './Pose';
 import type RenderContext from './RenderContext';
+import Say from './Say';
 import type Sequence from './Sequence';
 import type { NameGenerator } from './Stage';
 import TextLang from './TextLang';
@@ -28,7 +29,7 @@ export function createGroupType(locales: Locales) {
         ${getBind(
             locales,
             (locale) => locale.output.Group.content,
-        )}•[Phrase|Group|ø]
+        )}•[Phrase|Group|Say|ø]
         ${getBind(locales, (locale) => locale.output.Group.size)}•${'#m|ø: ø'}
     ${getBind(
         locales,
@@ -142,6 +143,15 @@ export default class Group extends Output {
             }
         }
         return undefined;
+    }
+
+    getSays(): Say[] {
+        const says: Say[] = [];
+        for (const child of this.content) {
+            if (child instanceof Say) says.push(child);
+            else if (child instanceof Group) says.push(...child.getSays());
+        }
+        return says;
     }
 
     getBackground(): Color | undefined {

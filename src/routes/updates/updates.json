@@ -3,9 +3,12 @@
     "version": "0.17.4",
     "date": "2026-04-04",
     "changes": {
-      "added": [],
+      "added": [
+        "We added debug and code labels to the project view, to be consistent with other tiles in the project view."
+      ],
       "fixed": [
-        "Links in the guide were broken for names that were machine translated. Now they work! (#1027)."
+        "Links in the guide were broken for names that were machine translated. Now they work! (#1027).",
+        "We fixed the text color in drop down items (#1031)."
       ],
       "changed": [
         "We upgraded internal tooling for stability.",
