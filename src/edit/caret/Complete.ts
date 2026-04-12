@@ -258,12 +258,12 @@ function completeConvert({
     source,
     position,
 }: InsertInfo): Revision | undefined {
-    // What's the preceding expression?
-    let precedingExpression: Expression | undefined = getPrecedingExpression(
-        source,
-        position,
-        false,
-    )[0];
+    // What's the preceding expression? Prefer an exact position match to avoid
+    // selecting an inner node (e.g. the "1" inside "(1)") that happens to match
+    // via the +1 fuzzy rule when a parent node ends exactly at the cursor.
+    let precedingExpression: Expression | undefined =
+        (getPrecedingExpression(source, position, true)[0] ??
+            getPrecedingExpression(source, position, false)[0]);
     if (precedingExpression === undefined) return undefined;
 
     // Replace the preceding expression with a conversion of it.
