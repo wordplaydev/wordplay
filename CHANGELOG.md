@@ -4,6 +4,12 @@ We'll note all notable changes in this file, including bug fixes, enhancements, 
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 These notes are publicly posted in [production](https://wordplay.dev/updates), so we write them to an audience of teachers and youth.
 
+## 0.17.5 - 2026-04-11
+
+### Added
+
+- We added search features to the projects and gallery pages, making it easier to find projects that have specific names, source file names, or text (#770).
+
 ## 0.17.4 - 2026-04-04
 
 ### Fixed
