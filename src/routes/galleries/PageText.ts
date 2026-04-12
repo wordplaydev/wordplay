@@ -27,6 +27,13 @@ type PageText = {
         /** [plain] When the creator is not logged in. */
         nogalleryedits: string;
     };
+    /** Search functionality for example gallery projects */
+    search: {
+        /** [plain] Description for the search field */
+        description: string;
+        /** [plain] No search results message */
+        noResults: string;
+    };
 };
 
 export type { PageText as default };

@@ -3,11 +3,15 @@
     import Header from '@components/app/Header.svelte';
     import Link from '@components/app/Link.svelte';
     import Notice from '@components/app/Notice.svelte';
+    import ProjectPreview from '@components/app/ProjectPreview.svelte';
     import Subheader from '@components/app/Subheader.svelte';
     import Writing from '@components/app/Writing.svelte';
     import { getUser } from '@components/project/Contexts';
     import Title from '@components/widgets/Title.svelte';
-    import { Galleries, locales } from '@db/Database';
+    import TextField from '@components/widgets/TextField.svelte';
+    import { Galleries, Projects, locales } from '@db/Database';
+    import type Project from '@db/projects/Project';
+    import Fuse from 'fuse.js';
     import {
         collection,
         getDocs,
@@ -90,6 +94,53 @@
     }
 
     let galleries = $derived([...loadedGalleries]);
+
+    // Search functionality for example gallery projects
+    let searchTerm = $state('');
+
+    const fuseOptions = {
+        includeScore: true,
+        threshold: 0.4,
+        ignoreLocation: true,
+        keys: ['name'],
+    };
+
+    /** All example projects, loaded lazily when search is first used */
+    let allExampleProjects: Project[] = $state([]);
+    let loadingExamples = $state(false);
+
+    $effect(() => {
+        if (
+            searchTerm.trim().length > 0 &&
+            allExampleProjects.length === 0 &&
+            !loadingExamples
+        ) {
+            loadingExamples = true;
+            const ids = [
+                ...new Set(
+                    Galleries.getExampleGalleries().flatMap((g) =>
+                        g.getProjects(),
+                    ),
+                ),
+            ];
+            Promise.all(ids.map((id) => Projects.get(id))).then((projects) => {
+                allExampleProjects = projects.filter(
+                    (p): p is Project => p !== undefined,
+                );
+                loadingExamples = false;
+            });
+        }
+    });
+
+    let searchResults = $derived.by((): Project[] => {
+        if (!searchTerm.trim()) return [];
+        const searchable = allExampleProjects.map((p) => ({
+            project: p,
+            name: p.getName(),
+        }));
+        const fuse = new Fuse(searchable, fuseOptions);
+        return fuse.search(searchTerm).map((r) => r.item.project);
+    });
 </script>
 
 <svelte:head>
@@ -160,13 +211,39 @@
         markup={(l) => l.ui.page.galleries.section.examples.explanation}
     />
 
-    <div class="previews">
-        {#each Galleries.getExampleGalleries() as gallery, index}
-            <div class="preview">
-                <GalleryPreview {gallery} delay={index * 250} />
+    <TextField
+        id="gallery-project-search"
+        bind:text={searchTerm}
+        placeholder="🔍"
+        description={(l) => l.ui.page.galleries.search.description}
+        max="10em"
+    />
+
+    {#if searchTerm.trim()}
+        {#if loadingExamples}
+            <Spinning label={(l) => l.ui.widget.loading.message} />
+        {:else if searchResults.length === 0}
+            <Notice text={(l) => l.ui.page.galleries.search.noResults} />
+        {:else}
+            <div class="search-results">
+                {#each searchResults as project (project.getID())}
+                    <ProjectPreview
+                        {project}
+                        {searchTerm}
+                        anonymize={false}
+                    />
+                {/each}
             </div>
-        {/each}
-    </div>
+        {/if}
+    {:else}
+        <div class="previews">
+            {#each Galleries.getExampleGalleries() as gallery, index}
+                <div class="preview">
+                    <GalleryPreview {gallery} delay={index * 250} />
+                </div>
+            {/each}
+        </div>
+    {/if}
 
     <Subheader text={(l) => l.ui.page.galleries.section.public.header} />
     <MarkupHTMLView
@@ -220,5 +297,12 @@
 
     .howtoonlypreview {
         gap: var(--wordplay-spacing);
+    }
+
+    .search-results {
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+        gap: calc(2 * var(--wordplay-spacing));
     }
 </style>

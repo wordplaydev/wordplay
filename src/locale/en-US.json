@@ -5801,6 +5801,10 @@
                 },
                 "error": {
                     "nogalleryedits": "You must be <logged in@://login> to create and change galleries."
+                },
+                "search": {
+                    "description": "Search example gallery projects",
+                    "noResults": "No results found."
                 }
             },
             "characters": {
