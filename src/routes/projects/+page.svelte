@@ -12,7 +12,7 @@
     import Title from '@components/widgets/Title.svelte';
     import { locales, Projects } from '@db/Database';
     import type Project from '@db/projects/Project';
-    import Fuse from 'fuse.js';
+    import { searchProjects, type ProjectMatch } from './search';
     import {
         CANCEL_SYMBOL,
         COPY_SYMBOL,
@@ -26,41 +26,6 @@
 
     // Search functionality
     let searchTerm = $state('');
-
-    // Fuse.js configuration for fuzzy search
-    const fuseOptions = {
-        includeScore: true,
-        threshold: 0.4, // 0.0 = exact match, 1.0 = match anything
-        ignoreLocation: true, // Don't care where in string match occurs
-        keys: ['name', 'files.name'],
-    };
-
-    // Create searchable data structure for projects
-    function createSearchableProjects(projects: Project[], l: typeof $locales) {
-        return projects.map((project) => ({
-            project: project,
-            name: project.getName(),
-            files: project.getSources().map((source) => ({
-                name: source.getPreferredName(l.getLocales()),
-            })),
-        }));
-    }
-
-    // Search scope: project names and source file names with Fuse.js
-    function searchInProjects(
-        projects: Project[],
-        searchTerm: string,
-        l: typeof $locales,
-    ): Project[] {
-        if (!searchTerm.trim()) return projects;
-
-        const searchableProjects = createSearchableProjects(projects, l);
-        const fuse = new Fuse(searchableProjects, fuseOptions);
-        const results = fuse.search(searchTerm);
-
-        // Return projects in order of best match
-        return results.map((result) => result.item.project);
-    }
 
     let allOwnedProjects = $derived(
         Projects.allEditableProjects.filter(
@@ -99,17 +64,41 @@
         ),
     );
 
-    let owned: Project[] = $derived(
-        searchInProjects(allOwnedProjects, searchTerm, $locales),
+    let ownedMatches: ProjectMatch[] = $derived(
+        searchProjects(allOwnedProjects, searchTerm, $locales),
+    );
+    let owned: Project[] = $derived(ownedMatches.map((m) => m.project));
+    let ownedMatchTexts = $derived(
+        new Map(
+            ownedMatches
+                .filter((m) => m.matchText !== undefined)
+                .map((m) => [m.project.getID(), m.matchText!]),
+        ),
     );
 
-    let shared: Project[] = $derived(
-        searchInProjects(allSharedProjects, searchTerm, $locales),
+    let sharedMatches: ProjectMatch[] = $derived(
+        searchProjects(allSharedProjects, searchTerm, $locales),
+    );
+    let shared: Project[] = $derived(sharedMatches.map((m) => m.project));
+    let sharedMatchTexts = $derived(
+        new Map(
+            sharedMatches
+                .filter((m) => m.matchText !== undefined)
+                .map((m) => [m.project.getID(), m.matchText!]),
+        ),
     );
 
     // Include archived projects in search results
-    let archived: Project[] = $derived(
-        searchInProjects(allArchivedProjects, searchTerm, $locales),
+    let archivedMatches: ProjectMatch[] = $derived(
+        searchProjects(allArchivedProjects, searchTerm, $locales),
+    );
+    let archived: Project[] = $derived(archivedMatches.map((m) => m.project));
+    let archivedMatchTexts = $derived(
+        new Map(
+            archivedMatches
+                .filter((m) => m.matchText !== undefined)
+                .map((m) => [m.project.getID(), m.matchText!]),
+        ),
     );
 </script>
 
@@ -151,6 +140,7 @@
         <ProjectPreviewSet
             set={owned}
             {searchTerm}
+            matchTexts={ownedMatchTexts}
             edit={{
                 description: (l) => l.ui.page.projects.button.editproject,
                 action: (project) => goto(project.getLink(false)),
@@ -183,6 +173,7 @@
         <ProjectPreviewSet
             set={shared.concat(commenterViewerProjects)}
             {searchTerm}
+            matchTexts={sharedMatchTexts}
             edit={{
                 description: (l) => l.ui.page.projects.button.editproject,
                 action: (project) => goto(project.getLink(false)),
@@ -206,6 +197,7 @@
         <ProjectPreviewSet
             set={archived}
             {searchTerm}
+            matchTexts={archivedMatchTexts}
             edit={{
                 description: (l) => l.ui.page.projects.button.unarchive,
                 action: (project) =>

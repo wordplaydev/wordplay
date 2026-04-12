@@ -38,6 +38,8 @@
         showCollaborators?: boolean;
         /** Search term for highlighting matches in project names */
         searchTerm?: string;
+        /** Excerpt of matching source text to display when the match was not on the project name */
+        matchText?: string;
     }
 
     function findCharacterName(value: Value): string | null {
@@ -75,6 +77,7 @@
         anonymize = true,
         showCollaborators = false,
         searchTerm = '',
+        matchText = undefined,
     }: Props = $props();
 
     // Clone the project and get its initial value, then stop the project's evaluator.
@@ -291,6 +294,9 @@
             {#if unread}
                 <div class="notification">{PHRASE_SYMBOL}</div>
             {/if}
+            {#if matchText}
+                <div class="match-text">{@render highlighted(matchText)}</div>
+            {/if}
         </div>
     {/if}
 </div>
@@ -380,6 +386,16 @@
         margin-block-start: var(--wordplay-spacing);
         gap: var(--wordplay-spacing);
         row-gap: var(--wordplay-spacing);
+    }
+
+    .match-text {
+        font-size: var(--wordplay-small-font-size);
+        color: var(--wordplay-inactive-color);
+        font-style: italic;
+        max-width: 20em;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
 
     .search-highlight {

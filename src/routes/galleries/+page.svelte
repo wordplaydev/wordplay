@@ -11,7 +11,7 @@
     import TextField from '@components/widgets/TextField.svelte';
     import { Galleries, Projects, locales } from '@db/Database';
     import type Project from '@db/projects/Project';
-    import Fuse from 'fuse.js';
+    import { searchProjects, type ProjectMatch } from '../projects/search';
     import {
         collection,
         getDocs,
@@ -98,13 +98,6 @@
     // Search functionality for example gallery projects
     let searchTerm = $state('');
 
-    const fuseOptions = {
-        includeScore: true,
-        threshold: 0.4,
-        ignoreLocation: true,
-        keys: ['name'],
-    };
-
     /** All example projects, loaded lazily when search is first used */
     let allExampleProjects: Project[] = $state([]);
     let loadingExamples = $state(false);
@@ -132,15 +125,9 @@
         }
     });
 
-    let searchResults = $derived.by((): Project[] => {
-        if (!searchTerm.trim()) return [];
-        const searchable = allExampleProjects.map((p) => ({
-            project: p,
-            name: p.getName(),
-        }));
-        const fuse = new Fuse(searchable, fuseOptions);
-        return fuse.search(searchTerm).map((r) => r.item.project);
-    });
+    let searchResults: ProjectMatch[] = $derived(
+        searchProjects(allExampleProjects, searchTerm, $locales),
+    );
 </script>
 
 <svelte:head>
@@ -226,10 +213,11 @@
             <Notice text={(l) => l.ui.page.galleries.search.noResults} />
         {:else}
             <div class="search-results">
-                {#each searchResults as project (project.getID())}
+                {#each searchResults as { project, matchText } (project.getID())}
                     <ProjectPreview
                         {project}
                         {searchTerm}
+                        {...(matchText !== undefined ? { matchText } : {})}
                         anonymize={false}
                     />
                 {/each}
