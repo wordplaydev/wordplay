@@ -5338,6 +5338,10 @@
                 },
                 "error": {
                     "nogalleryedits": "$~$!Debes estar <logged in@://login> para crear y cambiar galerías."
+                },
+                "search": {
+                    "description": "$~Buscar ejemplos de proyectos en la galería",
+                    "noResults": "$~No se encontraron resultados."
                 }
             },
             "about": {

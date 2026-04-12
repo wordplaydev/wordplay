@@ -5560,6 +5560,10 @@
                 },
                 "error": {
                     "nogalleryedits": "$~$!Musisz być <zalogowany@://login>, aby tworzyć i zmieniać galerie."
+                },
+                "search": {
+                    "description": "$~Wyszukaj przykładowe projekty galerii",
+                    "noResults": "$~Nie znaleziono wyników."
                 }
             },
             "about": {

@@ -5351,6 +5351,10 @@
                 },
                 "error": {
                     "nogalleryedits": "$~$!Sie müssen <logged in@://login> sein, um Galerien zu erstellen und zu ändern."
+                },
+                "search": {
+                    "description": "$~Beispielgalerie-Projekte durchsuchen",
+                    "noResults": "$~Keine Ergebnisse gefunden."
                 }
             },
             "about": {

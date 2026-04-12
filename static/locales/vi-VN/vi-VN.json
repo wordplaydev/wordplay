@@ -5781,6 +5781,10 @@
                 },
                 "error": {
                     "nogalleryedits": "$~Bạn phải đăng nhập vào <địa chỉ email> để tạo và chỉnh sửa thư viện ảnh."
+                },
+                "search": {
+                    "description": "$~Tìm kiếm các dự án trong thư viện ảnh ví dụ",
+                    "noResults": "$~Không tìm thấy kết quả nào."
                 }
             },
             "characters": {

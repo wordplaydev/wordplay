@@ -5301,6 +5301,10 @@
                 },
                 "error": {
                     "nogalleryedits": "$~您必须<登录@://login>才能创建和更改图库。"
+                },
+                "search": {
+                    "description": "$~搜索示例图库项目",
+                    "noResults": "$~未找到结果。"
                 }
             },
             "about": {

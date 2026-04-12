@@ -5555,6 +5555,10 @@
                 },
                 "error": {
                     "nogalleryedits": "$~Du måste vara <inloggad@://login> för att skapa och ändra gallerier."
+                },
+                "search": {
+                    "description": "$~Sök exempel på galleriprojekt",
+                    "noResults": "$~Inga resultat hittades."
                 }
             },
             "about": {

@@ -5352,6 +5352,10 @@
                 },
                 "error": {
                     "nogalleryedits": "$~갤러리를 만들고 변경하려면 <로그인@login>해야 합니다."
+                },
+                "search": {
+                    "description": "$~검색 예시 갤러리 프로젝트",
+                    "noResults": "$~검색 결과가 없습니다."
                 }
             },
             "about": {

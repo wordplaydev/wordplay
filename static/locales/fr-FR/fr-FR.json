@@ -5356,6 +5356,10 @@
                 },
                 "error": {
                     "nogalleryedits": "$~Vous devez être <connecté@://login> pour créer et modifier des galeries."
+                },
+                "search": {
+                    "description": "$~Exemples de projets de galerie de recherche",
+                    "noResults": "$~Aucun résultat trouvé."
                 }
             },
             "about": {

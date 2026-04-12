@@ -5776,6 +5776,10 @@
                 },
                 "error": {
                     "nogalleryedits": "$~עליך להיות <logged in@://login> כדי ליצור ולשנות גלריות."
+                },
+                "search": {
+                    "description": "$~חיפוש פרויקטים לדוגמה בגלריה",
+                    "noResults": "$~לא נמצאו תוצאות."
                 }
             },
             "characters": {

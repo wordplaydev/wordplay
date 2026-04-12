@@ -5297,6 +5297,10 @@
                 },
                 "error": {
                     "nogalleryedits": "$~您必須<登入@://login>才能建立和變更圖庫。"
+                },
+                "search": {
+                    "description": "$~搜尋範例圖庫項目",
+                    "noResults": "$~未找到結果。"
                 }
             },
             "about": {

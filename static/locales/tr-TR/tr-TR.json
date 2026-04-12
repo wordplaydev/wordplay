@@ -5551,6 +5551,10 @@
                 },
                 "error": {
                     "nogalleryedits": "$~Galeri oluşturmak ve değiştirmek için <giriş yapmalısınız@://login>."
+                },
+                "search": {
+                    "description": "$~Örnek galeri projelerini arayın",
+                    "noResults": "$~Hiçbir sonuç bulunamadı."
                 }
             },
             "about": {

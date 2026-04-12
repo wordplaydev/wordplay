@@ -5756,6 +5756,10 @@
                 },
                 "error": {
                     "nogalleryedits": "$~يجب أن تكون مسجلاً الدخول إلى <logged in@://login> لإنشاء وتغيير المعارض."
+                },
+                "search": {
+                    "description": "$~ابحث عن مشاريع معرض الأمثلة",
+                    "noResults": "$~لم يتم العثور على نتائج."
                 }
             },
             "characters": {
