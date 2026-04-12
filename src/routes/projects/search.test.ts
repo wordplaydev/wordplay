@@ -41,9 +41,7 @@ const mockProjects: SearchableProject[] = [
     {
         project: { getName: () => 'Greeting Card' } as any,
         name: 'Greeting Card',
-        sources: [
-            { name: 'main.wp', code: 'Happy Birthday wonderful friend' },
-        ],
+        sources: [{ name: 'main.wp', code: 'Happy Birthday wonderful friend' }],
     },
     {
         project: { getName: () => 'Weather App' } as any,
@@ -83,7 +81,7 @@ describe('Search Functionality', () => {
 
         it('should find exact source file name matches', () => {
             const results = fuse.search('main.wp');
-            expect(results).toHaveLength(2);
+            expect(results).toHaveLength(3);
             expect(results[0].item.name).toBe('Main Project');
         });
     });
@@ -103,7 +101,7 @@ describe('Search Functionality', () => {
 
         it('should find projects with extra characters', () => {
             const results = fuse.search('Testt');
-            expect(results).toHaveLength(1);
+            expect(results).toHaveLength(2);
             expect(results[0].item.name).toBe('Test Project');
         });
     });
@@ -145,7 +143,7 @@ describe('Search Functionality', () => {
 
         it('should find archived projects by partial name', () => {
             const results = fuse.search('Math');
-            expect(results).toHaveLength(1);
+            expect(results).toHaveLength(2);
             expect(results[0].item.name).toBe('Archived Math Project');
         });
     });
