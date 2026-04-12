@@ -5,10 +5,17 @@
     import type Project from '@db/projects/Project';
     import concretize from '@locale/concretize';
     import type Evaluator from '@runtime/Evaluator';
+    import { withMonoEmoji } from '@unicode/emoji';
     import ExceptionValue from '@values/ExceptionValue';
     import type Value from '@values/Value';
-    import { untrack } from 'svelte';
-    import { animationFactor, DB, locales, Projects } from '../../db/Database';
+    import { onDestroy, untrack } from 'svelte';
+    import {
+        animationFactor,
+        DB,
+        locales,
+        Projects,
+        voice,
+    } from '../../db/Database';
     import Button from '../../input/Button';
     import Chat from '../../input/Chat';
     import Choice from '../../input/Choice';
@@ -947,6 +954,55 @@
                 );
         }
     });
+
+    // Collect all Say outputs from the stage each evaluation.
+    let says = $derived(stageValue?.getSays() ?? []);
+
+    // Index of the utterance currently being spoken; -1 when nothing is playing.
+    let speakingIndex = $state(-1);
+
+    // Speak the queued Say outputs whenever the list changes (i.e., each evaluation).
+    $effect(() => {
+        const currentSays = says;
+        speakingIndex = -1;
+
+        if (typeof speechSynthesis === 'undefined' || currentSays.length === 0)
+            return;
+
+        speechSynthesis.cancel();
+
+        const lang = $locales.getLanguages()[0];
+        const currentVoiceURI = $voice;
+
+        // Build all utterances up front so onend closures can reference them.
+        const utterances = currentSays.map((say, i) => {
+            const u = new SpeechSynthesisUtterance(say.text.text);
+            u.lang = say.text.lang ?? lang;
+            if (currentVoiceURI) {
+                const v = speechSynthesis
+                    .getVoices()
+                    .find((v) => v.voiceURI === currentVoiceURI);
+                if (v) u.voice = v;
+            }
+            u.onstart = () => {
+                speakingIndex = i;
+            };
+            u.onend = () => {
+                speakingIndex = -1;
+                if (i + 1 < utterances.length)
+                    speechSynthesis.speak(utterances[i + 1]);
+            };
+            return u;
+        });
+
+        speechSynthesis.speak(utterances[0]);
+
+        return () => speechSynthesis.cancel();
+    });
+
+    onDestroy(() => {
+        if (typeof speechSynthesis !== 'undefined') speechSynthesis.cancel();
+    });
 </script>
 
 <section
@@ -1024,6 +1080,22 @@
                 interactive={!mini}
                 {editable}
             />
+        {/if}
+        {#if says.length > 0}
+            <div class="say-overlay" aria-live="polite" aria-atomic="false">
+                {#each says as say, i (say.text.text + i)}
+                    <span
+                        class="say-item"
+                        title={say.text.text}
+                        aria-label={say.text.text}
+                        >{i < speakingIndex
+                            ? withMonoEmoji('🔇')
+                            : i === speakingIndex
+                              ? withMonoEmoji('🔊')
+                              : withMonoEmoji('🔈')}</span
+                    >
+                {/each}
+            </div>
         {/if}
         <!-- These streams need keyboard input, so we make a text input field. If there's a chat stream, we make it visible. -->
         {#if keys || placements || chats}
@@ -1211,5 +1283,24 @@
 
     h2 {
         margin-top: 1em;
+    }
+
+    .say-overlay {
+        position: absolute;
+        bottom: var(--wordplay-spacing);
+        right: var(--wordplay-spacing);
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: calc(var(--wordplay-spacing) / 2);
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    .say-item {
+        color: var(--wordplay-background);
+        font-size: 1em;
+        line-height: 1;
+        user-select: none;
     }
 </style>

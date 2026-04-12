@@ -4298,6 +4298,21 @@
                 "description": "$~limit rozmiaru projektu",
                 "explanation": "$~W tym projekcie jest za dużo tekstu, dlatego nie można go zapisać."
             }
+        },
+        "Say": {
+            "doc": [
+                "$~Cześć! Jestem @Say i mówię tekst na głos, zamiast wyświetlać go na @Stage.",
+                "$~Daj mi po prostu coś do powiedzenia, a będę to powtarzał za każdym razem, gdy Twój program będzie oceniał:",
+                "$~\\Powiedz('bla bla bla')\\",
+                "$~Użyję parametru @Language elementu @TextLiteral, jeśli go posiada, w przeciwnym razie użyję wybranej lokalizacji.",
+                "$~Możesz wybrać głos w ustawieniach."
+            ],
+            "names": ["$~🔊", "$~Mowić"],
+            "text": {
+                "doc": "$~Tekst, który powinienem wypowiedzieć na głos.",
+                "names": "$~tekst"
+            },
+            "defaultDescription": "$~Powiedz 1$"
         }
     },
     "ui": {
@@ -5033,7 +5048,8 @@
                     "face": "$~krój czcionki",
                     "mic": "$~wybrany mikrofon",
                     "camera": "$~wybrana kamera",
-                    "default": "$~domyślny"
+                    "default": "$~domyślny",
+                    "voice": "$~wybrany głos dla Say"
                 }
             },
             "locale": {

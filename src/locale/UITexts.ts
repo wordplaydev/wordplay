@@ -790,6 +790,8 @@ type UITexts = {
                 mic: string;
                 /** [plain] The label for the camera drop down */
                 camera: string;
+                /** [plain] The label for the voice drop down for Say */
+                voice: string;
                 /** [plain] The label for default device */
                 default: string;
             };

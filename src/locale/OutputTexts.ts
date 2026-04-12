@@ -137,6 +137,13 @@ type OutputTexts = {
         /** The transition style of transitions */
         style: NameAndDoc;
     };
+    /** A text-to-speech output that speaks a plain text literal */
+    Say: NameAndDoc & {
+        /** The text to speak */
+        text: NameAndDoc;
+        /** [formatted] A description of the say for screen readers. $1: the text to speak */
+        defaultDescription: FormattedText;
+    };
     /** The base form type */
     Form: NameAndDoc;
     /** A rectangle form */

@@ -4293,6 +4293,21 @@
                 "description": "$~projektstorleksgräns",
                 "explanation": "$~Det här projektet har för mycket text, så vi kan inte spara det."
             }
+        },
+        "Say": {
+            "doc": [
+                "$~Hej! Jag heter @Say och jag läser upp texten högt istället för att visa den på @Stage.",
+                "$~Ge mig bara något att säga, så säger jag det varje gång ditt program utvärderas:",
+                "$~\\Säg('bla bla bla')\\",
+                "$~Jag använder @Language för @TextLiteral om det finns ett, annars använder jag den valda språkinställningen.",
+                "$~Du kan välja en röst i inställningarna."
+            ],
+            "names": ["$~🔊", "$~Säga"],
+            "text": {
+                "doc": "$~Texten jag borde läsa högt.",
+                "names": "$~text"
+            },
+            "defaultDescription": "$~Säg 1 dollar"
         }
     },
     "ui": {
@@ -5028,7 +5043,8 @@
                     "face": "$~teckensnitt",
                     "mic": "$~vald mikrofon",
                     "camera": "$~vald kamera",
-                    "default": "$~standard"
+                    "default": "$~standard",
+                    "voice": "$~vald röst för Say"
                 }
             },
             "locale": {

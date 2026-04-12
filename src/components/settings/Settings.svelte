@@ -29,6 +29,7 @@
         Settings,
         showLines,
         spaceIndicator,
+        voice,
     } from '../../db/Database';
     import { Arrangement } from '../../db/settings/Arrangement';
     import CreatorView from '../app/CreatorView.svelte';
@@ -50,19 +51,26 @@
             typeof navigator.mediaDevices == 'undefined'
         ) {
             devicesRetrieved = undefined;
-            return;
+        } else {
+            const devices = await navigator.mediaDevices.enumerateDevices();
+            cameras = devices.filter((device) => device.kind === 'videoinput');
+            mics = devices.filter((device) => device.kind === 'audioinput');
+            devicesRetrieved = true;
         }
 
-        const devices = await navigator.mediaDevices.enumerateDevices();
-
-        cameras = devices.filter((device) => device.kind === 'videoinput');
-        mics = devices.filter((device) => device.kind === 'audioinput');
-        devicesRetrieved = true;
+        if (typeof speechSynthesis !== 'undefined') {
+            function loadVoices() {
+                voices = speechSynthesis.getVoices();
+            }
+            loadVoices();
+            speechSynthesis.addEventListener('voiceschanged', loadVoices);
+        }
     });
 
     let devicesRetrieved: boolean | undefined = $state(false);
     let cameras: MediaDeviceInfo[] = $state([]);
     let mics: MediaDeviceInfo[] = $state([]);
+    let voices: SpeechSynthesisVoice[] = $state([]);
 
     let cameraDevice = $derived(
         $camera ? cameras.find((cam) => cam.deviceId === $camera) : undefined,
@@ -70,6 +78,10 @@
 
     let micDevice = $derived(
         $mic ? mics.find((m) => m.deviceId === $mic) : undefined,
+    );
+
+    let selectedVoice = $derived(
+        $voice ? voices.find((v) => v.voiceURI === $voice) : undefined,
     );
 
     let localizing = getLocalizing();
@@ -243,6 +255,34 @@
                             )}
                     />
                 </label>
+                {#if voices.length > 0}
+                    <label for="voice-setting">
+                        🔊
+                        <Options
+                            value={selectedVoice?.name}
+                            label={(l) => l.ui.dialog.settings.options.voice}
+                            id="voice-setting"
+                            options={[
+                                {
+                                    value: undefined,
+                                    label: (l) =>
+                                        l.ui.dialog.settings.options.default,
+                                },
+                                ...voices.map((v) => {
+                                    return {
+                                        value: v.name,
+                                        label: () => v.name,
+                                    };
+                                }),
+                            ]}
+                            change={(choice) =>
+                                Settings.setVoice(
+                                    voices.find((v) => v.name === choice)
+                                        ?.voiceURI ?? null,
+                                )}
+                        />
+                    </label>
+                {/if}
             {/if}
             <Mode
                 modes={(l) => l.ui.dialog.settings.mode.dark}

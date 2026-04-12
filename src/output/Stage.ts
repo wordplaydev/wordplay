@@ -13,10 +13,12 @@ import { getFirstText } from '../locale/LocaleText';
 import type Evaluator from '../runtime/Evaluator';
 import Color from './Color';
 import { Form, toForm } from './Form';
+import Group from './Group';
 import Output, { DefaultStyle } from './Output';
 import Place from './Place';
 import Pose, { DefinitePose } from './Pose';
 import type RenderContext from './RenderContext';
+import Say from './Say';
 import type Sequence from './Sequence';
 import Shape from './Shape';
 import TextLang from './TextLang';
@@ -34,7 +36,7 @@ export function createStageType(locales: Locales) {
     ${getBind(
         locales,
         (locale) => locale.output.Stage.content,
-    )}•[Phrase|Shape|Group]
+    )}•[Phrase|Shape|Group|Say]
     ${getBind(locales, (locale) => locale.output.Stage.frame)}•Form|ø: ø
     ${getBind(locales, (locale) => locale.output.Stage.size)}•${'#m: 1m'}
     ${getBind(
@@ -153,6 +155,15 @@ export default class Stage extends Output {
             }
         }
         return undefined;
+    }
+
+    getSays(): Say[] {
+        const says: Say[] = [];
+        for (const child of this.content) {
+            if (child instanceof Say) says.push(child);
+            else if (child instanceof Group) says.push(...child.getSays());
+        }
+        return says;
     }
 
     getLayout(context: RenderContext) {

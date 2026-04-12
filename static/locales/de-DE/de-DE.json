@@ -4292,6 +4292,21 @@
                 "description": "$~Projektgrößenbeschränkung",
                 "explanation": "$~Dieses Projekt hat zu viel Text, deshalb können wir es nicht speichern."
             }
+        },
+        "Say": {
+            "doc": [
+                "$~Hallo! Ich bin @Say und lese Texte laut vor, anstatt sie auf @Stage anzuzeigen.",
+                "$~Sagen Sie mir einfach, was ich sagen soll, und ich werde es jedes Mal sagen, wenn Ihr Programm evaluiert wird:",
+                "$~\\Say('blah blah blah')\\",
+                "$~Ich verwende die @Language-Eigenschaft des @Language, falls vorhanden, andernfalls verwende ich das ausgewählte Gebietsschema.",
+                "$~Sie können in den Einstellungen eine Stimme auswählen."
+            ],
+            "names": ["$~🔊", "$~Sagen"],
+            "text": {
+                "doc": "$~Der Text, den ich laut vorlesen sollte.",
+                "names": "$~Text"
+            },
+            "defaultDescription": "$~Sagen wir 1 Dollar"
         }
     },
     "ui": {
@@ -5010,7 +5025,8 @@
                     "mic": "$~ausgewähltes Mikrofon",
                     "camera": "$~ausgewählte Kamera",
                     "face": "$~Schriftart",
-                    "default": "$~Standard"
+                    "default": "$~Standard",
+                    "voice": "$~ausgewählte Stimme für Say"
                 }
             },
             "locale": {

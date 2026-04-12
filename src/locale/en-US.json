@@ -3852,6 +3852,21 @@
                 "names": "style"
             }
         },
+        "Say": {
+            "doc": [
+                "Hi! I'm @Say, and I speak text aloud instead of showing it on @Stage.",
+                "Just give me something to say, and I'll say it every time your program evaluates:",
+                "\\Say('blah blah blah')\\",
+                "I'll use the @Language of the @TextLiteral if it has one, otherwise I'll use the selected locale.",
+                "You can select a voice in settings."
+            ],
+            "names": ["🔊", "Say"],
+            "text": {
+                "doc": "The text I should speak aloud.",
+                "names": "text"
+            },
+            "defaultDescription": "Say $1"
+        },
         "Form": {
             "doc": "I am an abstract form, like a @Rectangle or @Circle.",
             "names": ["Form"]
@@ -5256,6 +5271,7 @@
                     "face": "font face",
                     "mic": "selected microphone",
                     "camera": "selected camera",
+                    "voice": "selected voice for Say",
                     "default": "default"
                 }
             },

@@ -7979,6 +7979,35 @@
               ],
               "type": "object"
             },
+            "Say": {
+              "additionalProperties": false,
+              "description": "A text-to-speech output that speaks a plain text literal",
+              "properties": {
+                "defaultDescription": {
+                  "$ref": "#/definitions/FormattedText",
+                  "description": "[formatted] A description of the say for screen readers. $1: the text to speak"
+                },
+                "doc": {
+                  "$ref": "#/definitions/DocText",
+                  "description": "Documentation for this definition, to appear in the documentation browser."
+                },
+                "names": {
+                  "$ref": "#/definitions/NameText",
+                  "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
+                },
+                "text": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The text to speak"
+                }
+              },
+              "required": [
+                "defaultDescription",
+                "doc",
+                "names",
+                "text"
+              ],
+              "type": "object"
+            },
             "Sequence": {
               "additionalProperties": false,
               "description": "A sequence of poses, keyed by percentage complete, for use in overriding an output's defaults for entering, resting, moving, or existing states",
@@ -8480,6 +8509,7 @@
             "Phrase",
             "Stage",
             "Shape",
+            "Say",
             "Form",
             "Rectangle",
             "Circle",
@@ -9922,12 +9952,17 @@
                         "mic": {
                           "description": "[plain] The label for the microphone drop down",
                           "type": "string"
+                        },
+                        "voice": {
+                          "description": "[plain] The label for the voice drop down for Say",
+                          "type": "string"
                         }
                       },
                       "required": [
                         "face",
                         "mic",
                         "camera",
+                        "voice",
                         "default"
                       ],
                       "type": "object"

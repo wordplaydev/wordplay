@@ -4294,6 +4294,21 @@
                 "description": "$~giới hạn kích thước dự án",
                 "explanation": "$~Dự án này có quá nhiều văn bản nên chúng tôi không thể lưu lại được."
             }
+        },
+        "Say": {
+            "doc": [
+                "$~Chào! Mình là @Say, và mình đọc văn bản thành tiếng thay vì hiển thị trên @Stage.",
+                "$~Hãy cho tôi điều gì đó để nói, và tôi sẽ nói điều đó mỗi khi chương trình của bạn được đánh giá:",
+                "$~\\Say('blah blah blah')\\",
+                "$~Tôi sẽ sử dụng thuộc tính @Language của @TextLiteral nếu nó có thuộc tính đó, nếu không, tôi sẽ sử dụng ngôn ngữ được chọn.",
+                "$~Bạn có thể chọn giọng nói trong phần cài đặt."
+            ],
+            "names": ["$~🔊", "$~Nói"],
+            "text": {
+                "doc": "$~Đoạn văn tôi nên đọc to.",
+                "names": "$~chữ"
+            },
+            "defaultDescription": "$~Ví dụ 1 đô la"
         }
     },
     "ui": {
@@ -5254,7 +5269,8 @@
                     "face": "$~kiểu chữ",
                     "mic": "$~micro đã chọn",
                     "camera": "$~máy ảnh đã chọn",
-                    "default": "$~mặc định"
+                    "default": "$~mặc định",
+                    "voice": "$~giọng nói được chọn cho Say"
                 }
             },
             "notifications": {

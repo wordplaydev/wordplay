@@ -39,6 +39,7 @@ import { createReboundType } from '../output/Rebound';
 import { createRowType } from '../output/Row';
 import { createSequenceType } from '../output/Sequence';
 import { createShapeType } from '../output/Shape';
+import { createSayType } from '../output/Say';
 import { createStackType } from '../output/Stack';
 import { createStageType } from '../output/Stage';
 import { createVelocityType } from '../output/Velocity';
@@ -81,6 +82,7 @@ export default function createDefaultShares(locales: Locales) {
         Grid: createGridType(locales),
         Free: createFreeType(locales),
         Data: createSourceType(locales),
+        Say: createSayType(locales),
     };
 
     const InputTypes = {

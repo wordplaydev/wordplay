@@ -688,6 +688,10 @@
           "type": "string"
         },
         {
+          "const": "Say",
+          "type": "string"
+        },
+        {
           "const": "Form",
           "type": "string"
         },

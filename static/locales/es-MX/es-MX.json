@@ -4275,6 +4275,21 @@
                 "description": "$~límite de tamaño del proyecto",
                 "explanation": "$~Este proyecto tiene demasiado texto, por lo que no podemos guardarlo."
             }
+        },
+        "Say": {
+            "doc": [
+                "$~¡Hola! Soy @Say, y leo el texto en voz alta en lugar de mostrarlo en @Stage.",
+                "$~Solo dame algo que decir, y lo diré cada vez que tu programa sea evaluado:",
+                "$~\\Di('bla bla bla')\\",
+                "$~Usaré el atributo @Language del atributo @TextLiteral si lo tiene; de lo contrario, usaré la configuración regional seleccionada.",
+                "$~Puedes seleccionar una voz en la configuración."
+            ],
+            "names": ["$~🔊", "$~Decir"],
+            "text": {
+                "doc": "$~El texto que debo leer en voz alta.",
+                "names": "$~texto"
+            },
+            "defaultDescription": "$~Digamos $1"
         }
     },
     "ui": {
@@ -4993,7 +5008,8 @@
                     "mic": "micrófono seleccionado",
                     "camera": "cámara seleccionada ",
                     "face": "fuente de texto",
-                    "default": "$~por defecto"
+                    "default": "$~por defecto",
+                    "voice": "$~Voz seleccionada para decir"
                 }
             },
             "locale": {
