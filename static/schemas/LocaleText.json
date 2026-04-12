@@ -12186,6 +12186,25 @@
                       "$ref": "#/definitions/FormattedText",
                       "description": "[formatted] Explanation for the galleries page"
                     },
+                    "search": {
+                      "additionalProperties": false,
+                      "description": "Search functionality for example gallery projects",
+                      "properties": {
+                        "description": {
+                          "description": "[plain] Description for the search field",
+                          "type": "string"
+                        },
+                        "noResults": {
+                          "description": "[plain] No search results message",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "description",
+                        "noResults"
+                      ],
+                      "type": "object"
+                    },
                     "section": {
                       "additionalProperties": false,
                       "description": "Subheaders and prompts for the gallery types",
@@ -12216,7 +12235,8 @@
                     "prompt",
                     "section",
                     "button",
-                    "error"
+                    "error",
+                    "search"
                   ],
                   "type": "object"
                 },
@@ -13128,6 +13148,25 @@
                       "$ref": "#/definitions/FormattedText",
                       "description": "[formatted] Explanation for the project page"
                     },
+                    "search": {
+                      "additionalProperties": false,
+                      "description": "Search functionality",
+                      "properties": {
+                        "description": {
+                          "description": "Description for the search field",
+                          "type": "string"
+                        },
+                        "noResults": {
+                          "description": "No project search results",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "description",
+                        "noResults"
+                      ],
+                      "type": "object"
+                    },
                     "subheader": {
                       "additionalProperties": false,
                       "description": "Buttons on the project page",
@@ -13159,6 +13198,7 @@
                     "archiveprompt",
                     "add",
                     "subheader",
+                    "search",
                     "button",
                     "confirm",
                     "error"

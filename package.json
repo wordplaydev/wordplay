@@ -86,6 +86,7 @@
         "dexie": "^4",
         "firebase": "^12",
         "firebase-admin": "^13",
+        "fuse.js": "^7",
         "graphemer": "^1",
         "matter-js": "^0",
         "picomatch": "^4",

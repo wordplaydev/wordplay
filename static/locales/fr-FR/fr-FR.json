@@ -5321,6 +5321,10 @@
                         "header": "$~Tutoriels",
                         "explanation": "$~Vous pouvez consulter les tutoriels et interagir avec eux dans ces galeries, mais vous ne pouvez pas voir leurs projets à moins que la galerie ou les projets ne soient publics."
                     }
+                },
+                "search": {
+                    "description": "$~Rechercher des projets et des fichiers sources",
+                    "noResults": "$~Aucun résultat trouvé."
                 }
             },
             "galleries": {
@@ -5352,6 +5356,10 @@
                 },
                 "error": {
                     "nogalleryedits": "$~Vous devez être <connecté@://login> pour créer et modifier des galeries."
+                },
+                "search": {
+                    "description": "$~Exemples de projets de galerie de recherche",
+                    "noResults": "$~Aucun résultat trouvé."
                 }
             },
             "about": {

@@ -19,6 +19,13 @@ type PageText = {
         /** Header for the galleries where the user can see how-tos but not projects */
         howtoviewonly: HeaderAndExplanationText;
     };
+    /** Search functionality */
+    search: {
+        /** Description for the search field */
+        description: string;
+        /** No project search results */
+        noResults: string;
+    };
     button: {
         /** [plain] Create a new project */
         newproject: string;

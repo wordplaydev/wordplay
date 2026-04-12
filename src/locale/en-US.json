@@ -5763,6 +5763,10 @@
                         "explanation": "You can view and interact with the how-tos in these galleries, but you can't see their projects unless the gallery or projects are public."
                     }
                 },
+                "search": {
+                    "description": "Search projects and source files",
+                    "noResults": "No results found."
+                },
                 "button": {
                     "newproject": "new project",
                     "editproject": "edit this project",
@@ -5815,6 +5819,10 @@
                 },
                 "error": {
                     "nogalleryedits": "You must be <logged in@://login> to create and change galleries."
+                },
+                "search": {
+                    "description": "Search example gallery projects",
+                    "noResults": "No results found."
                 }
             },
             "characters": {

@@ -5266,6 +5266,10 @@
                         "header": "$~操作指南",
                         "explanation": "$~您可以查看这些图库中的操作指南并与之互动，但除非图库或项目是公开的，否则您无法查看它们的项目。"
                     }
+                },
+                "search": {
+                    "description": "$~搜索项目和源文件",
+                    "noResults": "$~未找到结果。"
                 }
             },
             "galleries": {
@@ -5297,6 +5301,10 @@
                 },
                 "error": {
                     "nogalleryedits": "$~您必须<登录@://login>才能创建和更改图库。"
+                },
+                "search": {
+                    "description": "$~搜索示例图库项目",
+                    "noResults": "$~未找到结果。"
                 }
             },
             "about": {

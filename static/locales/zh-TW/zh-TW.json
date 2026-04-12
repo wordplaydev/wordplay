@@ -5262,6 +5262,10 @@
                         "header": "$~操作指南",
                         "explanation": "$~您可以查看這些圖庫中的操作指南並與之互動，但除非圖庫或項目是公開的，否則您無法查看他們的項目。"
                     }
+                },
+                "search": {
+                    "description": "$~搜尋項目和來源文件",
+                    "noResults": "$~未找到結果。"
                 }
             },
             "galleries": {
@@ -5293,6 +5297,10 @@
                 },
                 "error": {
                     "nogalleryedits": "$~您必須<登入@://login>才能建立和變更圖庫。"
+                },
+                "search": {
+                    "description": "$~搜尋範例圖庫項目",
+                    "noResults": "$~未找到結果。"
                 }
             },
             "about": {

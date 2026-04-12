@@ -34,6 +34,9 @@
         children?: Snippet;
         anonymize?: boolean;
         showCollaborators?: boolean;
+        searchTerm?: string;
+        /** Map from project ID to match snippet, for results matched on source content */
+        matchTexts?: Map<string, string>;
     }
 
     let {
@@ -44,6 +47,8 @@
         children,
         anonymize = true,
         showCollaborators = false,
+        searchTerm = '',
+        matchTexts = undefined,
     }: Props = $props();
 
     function sortProjects(projects: Project[]): Project[] {
@@ -63,6 +68,10 @@
             link={project.getLink(true)}
             {anonymize}
             {showCollaborators}
+            {searchTerm}
+            {...(matchTexts?.has(project.getID())
+                ? { matchText: matchTexts.get(project.getID())! }
+                : {})}
             ><div class="controls">
                 {#if edit}<Button
                         tip={edit.description}

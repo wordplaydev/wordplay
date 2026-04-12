@@ -8,6 +8,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 ### Added
 
+- We added search features to the projects and gallery pages, making it easier to find projects that have specific names, source file names, or text (#770).
 - We added a search box to the emoji toolbar at the bottom of the editor, to make it clearer how to search for emojis (#1037).
 - We added a new `Say` output, so you can make output that /speaks/ text, in addition to showing it on stage.
 

@@ -5516,6 +5516,10 @@
                         "header": "$~Nasıl yapılır",
                         "explanation": "$~Bu galerilerdeki \"nasıl yapılır\" kılavuzlarını görüntüleyebilir ve bunlarla etkileşim kurabilirsiniz, ancak galeri veya projeler herkese açık olmadığı sürece projeleri göremezsiniz."
                     }
+                },
+                "search": {
+                    "description": "$~Projeleri ve kaynak dosyalarını arayın.",
+                    "noResults": "$~Hiçbir sonuç bulunamadı."
                 }
             },
             "galleries": {
@@ -5547,6 +5551,10 @@
                 },
                 "error": {
                     "nogalleryedits": "$~Galeri oluşturmak ve değiştirmek için <giriş yapmalısınız@://login>."
+                },
+                "search": {
+                    "description": "$~Örnek galeri projelerini arayın",
+                    "noResults": "$~Hiçbir sonuç bulunamadı."
                 }
             },
             "about": {
