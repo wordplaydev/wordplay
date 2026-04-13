@@ -3253,7 +3253,7 @@
                 "$~\\colors: Kamera(32px 24px 33ms)\n\nBühne(\ncolors.combine(\n[] \nƒ(phrases•[Phrase] row•[Color] y•#) \nphrases.append(\nrow.translate(\nƒ(color•Color x•#)\nPhrase('o' place: Place((x - 1) × 0.5m y × -0.5m) color: color Dauer: 0s\n)\n)\n)\n)\n)\\",
                 "$~Sie könnten die Farben aber auch analysieren, um zu entscheiden, ob ein Licht an oder aus ist oder ob eine bestimmte Farbe häufig vorkommt, sodass das Publikum durch die gezeigten Farben Einfluss auf die Aufführung nehmen kann."
             ],
-            "names": ["Cámara"],
+            "names": ["Kamera"],
             "width": {
                 "names": ["$~Breite"],
                 "doc": "$~Die Anzahl der @Color, die in einer Zeile abgetastet werden soll."

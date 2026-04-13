@@ -6,6 +6,7 @@ import type Locales from './Locales';
 import type LocaleText from './LocaleText';
 import { type NameText } from './LocaleText';
 import { localeToLanguage } from './localeToLanguage';
+import { withoutAnnotations } from './withoutAnnotations';
 
 export function getNameLocales(
     locales: Locales,
@@ -18,9 +19,14 @@ export function getNameLocales(
             const name =
                 nameText instanceof Function ? nameText(locale) : nameText;
             return names.concat(
-                (Array.isArray(name) ? name : [name]).map((n) =>
-                    Name.make(n, localeToLanguage(locale)),
-                ),
+                (Array.isArray(name) ? name : [name])
+                    .map((n) => {
+                        const stripped = withoutAnnotations(n);
+                        return stripped === ''
+                            ? undefined
+                            : Name.make(stripped, localeToLanguage(locale));
+                    })
+                    .filter((n): n is Name => n !== undefined),
             );
         }, [])
         .filter((name) => name.getName()?.startsWith(Unwritten) === false);
