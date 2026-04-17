@@ -1,0 +1,32 @@
+Mostrar opções selecionáveis
+
+Por vezes, quer mostrar várias opções no ecrã e fazer algo com a escolha do público. Para isso, precisamos de duas coisas:
+
+• Um ou mais @Phrase que estão marcados como selecionáveis e têm um nome único (por ex.\Phrase('opção 1' selectable: ⊤ name: 'um')\)• UM  @Choice , que muda para o @Phrase Nome escolhido mais recentemente.
+
+Por exemplo, aqui mostramos três opções, cada uma com um nome único.
+
+\option: Choice()
+Group(Stack() [
+		Phrase('opção 1' selectable: ⊤ name: 'um')
+		Phrase('opção 2' selectable: ⊤ name: 'dois')
+		Phrase('opção 3' selectable: ⊤ name: 'três')
+		Phrase(option)
+	])\
+
+Sempre que um for escolhido, o último @Phrase Mostra o nome selecionado.
+
+Pode utilizar este padrão para executar ações em resposta a uma escolha. Por exemplo, poderíamos modificar o projeto acima para exibir um emoji secreto com base na escolha:
+
+\option: Choice()
+option = '' ? Group(Stack() [
+			Phrase('opção 1' selectable: ⊤ name: 'um')
+			Phrase('opção 2' selectable: ⊤ name: 'dois')
+			Phrase('opção 3' selectable: ⊤ name: 'três')
+		]) Phrase({'um': '😡' 'dois': '🏀' 'três': '❤'}{option} ?? '?')\
+
+O  @Choice começa como um vazio @Text Depois, quando o projeto começa, verificamos isso e mostramos as três opções.Uma vez feita a escolha, esta passa a ser uma das três. @Phrase nomes.
+
+Para exibir um emoji com base na escolha, podemos utilizar um @Map Converter o nome num emoji secreto.Quando obtemos um valor de um @Map Se não houver correspondência, a avaliação será...\ø\, depois usamos o\??\para definir como predefinição\'?'\Se a opção não estiver no mapa.Nesse caso, isso nunca poderia acontecer, mas não somos suficientemente inteligentes para o saber!
+
+move-phrase

@@ -1,0 +1,23 @@
+Faça um personagem tremer
+
+Por vezes é útil fazer com que um personagem pareça estar a tremer.Existem algumas formas de fazermos isso acontecer.
+
+Podemos usar @Phrase/offset  com  @Random  e  @Time Para que isso aconteça.
+
+\offset: 0m … ∆ Time() … Random(-0.1m 0.1m)
+Phrase('Olá' offset: Place(offset 0m))\
+
+Isto cria um valor chamado\offset\que muda para um novo valor aleatório a cada pulso do relógio.De seguida, utiliza esse deslocamento para mostrar o @Phrase compensado por esse valor.
+
+Se quiséssemos controlar a vibração com mais precisão, poderíamos utilizar um @Sequence Para criar uma animação de tremor aleatório que se repete.
+
+\Phrase('Olá' resting: Sequence({
+			0%: Pose(offset: Place(Random(-.2m .2m)))
+			15%: Pose(offset: Place(Random(-.2m .2m)))
+			60%: Pose(offset: Place(Random(-.2m .2m)))
+			75%: Pose(offset: Place(Random(-.2m .2m)))
+		} 0.1s))\
+
+Este exemplo simplesmente escolhe valores aleatórios uma única vez, mas transforma-os numa sequência repetida.
+
+move-phrase

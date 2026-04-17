@@ -1,0 +1,37 @@
+Estilize o seu texto
+
+Por vezes queremos que o nosso texto se destaque. Podemos fazê-lo através de/itálico/,*negrito*E muito mais!
+
+Por exemplo, para colocar o texto em itálico, pode envolvê-lo em barras (//), como em //Olá//. Por exemplo:
+
+\Group(Stack() [
+		Phrase(`Quer exibir um pouco de estilo?/itálico/no seu texto?`)
+		Phrase(`É bom para dar ênfase ou para dar mais impacto às suas palavras./extra jazz/.`)
+		Phrase(`Basta colocar uma barra (//) antes e depois da palavra ou frase./assim/.`)
+	])\
+
+@Phrase Também pode colocar o texto em negrito. Para tal, basta envolver o texto entre asteriscos **, como em **Olá**. Por exemplo:
+
+\Group(Stack() [
+		Phrase(`Quer dar destaque ao seu texto com*negrito*?`)
+		Phrase(`É perfeito para quando precisa de*grite alguma coisa bem alto*.`)
+		Phrase(`Basta colocar asteriscos simples (**) à volta das suas palavras, como por exemplo:*Olá!*E veja como a experiência é diferente.`)
+	])\
+
+@Phrase Também pode deixar o texto EXTRA em negrito. Para tal, envolva o texto com acentos circunflexos ^^, como ^^Olá^^. Por exemplo:
+
+\Group(Stack() [
+		Phrase(`Extra negrito é o^CABRA^Quando precisa de elevar a vibe ao máximo.`)
+		Phrase(`É como o negrito, só que mais^fogo^, geralmente feito com cenouras individuais à volta (^^)`)
+		Phrase(`Use-o para se exibir.^cabeçalhos^ ou ^grandes ideias^.`)
+	])\
+
+Finalmente,  @Phrase É possível sublinhar o texto. Para tal, envolva o texto em sublinhados __, como em __Olá__. Por exemplo:
+
+\Group(Stack() [
+		Phrase(`Sublinhado é_fogo discreto_Para quando pretende manter o texto elegante, mas ainda assim destacar-se.`)
+		Phrase(`Adicione um único sublinhado (__) antes e depois do seu texto,_assim_E isso proporciona uma ênfase clara.`)
+		Phrase(`Dele _perfeito_para expressar a sua opinião sem ser demasiado..._extra_.`)
+	])\
+
+custom-characters
