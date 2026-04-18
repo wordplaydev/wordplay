@@ -43,6 +43,7 @@
         align-items: center;
         justify-content: center;
         font-size: var(--wordplay-small-font-size);
+        padding: var(--wordplay-spacing);
     }
 
     .fade {
@@ -54,8 +55,6 @@
         border-top-left-radius: 1em;
         border-bottom-left-radius: 1em;
         border: var(--wordplay-border-color) solid var(--wordplay-border-width);
-        padding: calc(var(--wordplay-spacing) / 3);
-        padding-left: var(--wordplay-spacing);
     }
 
     @keyframes rotate {

@@ -88,15 +88,16 @@
 </script>
 
 <div class="settings">
-    <Notifications />
     <Status />
     <Link nowrap to="/login">
         <CreatorView
             anonymize={false}
             creator={$user ? Creator.from($user) : null}
+            chrome={$user !== null}
             prompt
         />
     </Link>
+    <Notifications />
     {#if dev}
         <Toggle
             on={localizing.on}
