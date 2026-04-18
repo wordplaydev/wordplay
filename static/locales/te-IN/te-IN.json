@@ -5550,7 +5550,8 @@
                         "label": "$~సహకరించండి",
                         "subtitle": "$~వర్డ్‌ప్లే చేయడానికి మాకు సహాయం చేయండి."
                     },
-                    "updates": "$~Wordplay లో కొత్తగా ఏమి ఉన్నాయో చూడండి"
+                    "updates": "$~Wordplay లో కొత్తగా ఏమి ఉన్నాయో చూడండి",
+                    "design": "$?"
                 }
             },
             "learn": {
@@ -6178,6 +6179,47 @@
                     "changed": "$~మార్చబడింది",
                     "removed": "$~తీసివేయబడింది",
                     "fixed": "$~స్థిరీకరించబడింది"
+                }
+            },
+            "design": {
+                "header": "$?",
+                "description": "$?",
+                "theme": "$?",
+                "colors": "$?",
+                "palette": "$?",
+                "semantic": "$?",
+                "fonts": "$?",
+                "appfont": "$?",
+                "codefont": "$?",
+                "spacing": "$?",
+                "typography": "$?",
+                "components": "$?",
+                "col": {
+                    "component": "$?",
+                    "preview": "$?",
+                    "variable": "$?",
+                    "color": "$?",
+                    "hex": "$?",
+                    "description": "$?",
+                    "cssvalue": "$?",
+                    "computed": "$?",
+                    "primaryface": "$?"
+                },
+                "demo": {
+                    "button": "$?",
+                    "note": "$?",
+                    "warning": "$?",
+                    "notice": "$?",
+                    "header": "$?",
+                    "subheader": "$?",
+                    "toggleon": "$?",
+                    "toggleoff": "$?",
+                    "textfieldplaceholder": "$?",
+                    "textfielddescription": "$?",
+                    "optionslabel": "$?",
+                    "optiona": "$?",
+                    "optionb": "$?",
+                    "optionc": "$?"
                 }
             }
         },

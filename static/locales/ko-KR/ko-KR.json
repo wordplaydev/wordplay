@@ -5258,7 +5258,8 @@
                     },
                     "teach": "$~학생들의 수업과 프로젝트를 관리합니다",
                     "characters": "$~사용자 정의 이모티콘과 기호 만들기",
-                    "updates": "$~워드플레이의 새로운 소식을 확인하세요"
+                    "updates": "$~워드플레이의 새로운 소식을 확인하세요",
+                    "design": "$?"
                 }
             },
             "learn": {
@@ -5878,6 +5879,47 @@
                     "changed": "$~변경됨",
                     "removed": "$~제거됨",
                     "fixed": "$~결정된"
+                }
+            },
+            "design": {
+                "header": "$?",
+                "description": "$?",
+                "theme": "$?",
+                "colors": "$?",
+                "palette": "$?",
+                "semantic": "$?",
+                "fonts": "$?",
+                "appfont": "$?",
+                "codefont": "$?",
+                "spacing": "$?",
+                "typography": "$?",
+                "components": "$?",
+                "col": {
+                    "component": "$?",
+                    "preview": "$?",
+                    "variable": "$?",
+                    "color": "$?",
+                    "hex": "$?",
+                    "description": "$?",
+                    "cssvalue": "$?",
+                    "computed": "$?",
+                    "primaryface": "$?"
+                },
+                "demo": {
+                    "button": "$?",
+                    "note": "$?",
+                    "warning": "$?",
+                    "notice": "$?",
+                    "header": "$?",
+                    "subheader": "$?",
+                    "toggleon": "$?",
+                    "toggleoff": "$?",
+                    "textfieldplaceholder": "$?",
+                    "textfielddescription": "$?",
+                    "optionslabel": "$?",
+                    "optiona": "$?",
+                    "optionb": "$?",
+                    "optionc": "$?"
                 }
             }
         },

@@ -5262,7 +5262,8 @@
                     },
                     "teach": "$~छात्रों की कक्षाओं और उनकी परियोजनाओं का प्रबंधन करें",
                     "characters": "$~कस्टम इमोजी और प्रतीक बनाएं",
-                    "updates": "$~वर्डप्ले में नया क्या है, देखें"
+                    "updates": "$~वर्डप्ले में नया क्या है, देखें",
+                    "design": "$?"
                 }
             },
             "learn": {
@@ -5882,6 +5883,47 @@
                     "changed": "$~बदला हुआ",
                     "removed": "$~निकाला गया",
                     "fixed": "$~तय"
+                }
+            },
+            "design": {
+                "header": "$?",
+                "description": "$?",
+                "theme": "$?",
+                "colors": "$?",
+                "palette": "$?",
+                "semantic": "$?",
+                "fonts": "$?",
+                "appfont": "$?",
+                "codefont": "$?",
+                "spacing": "$?",
+                "typography": "$?",
+                "components": "$?",
+                "col": {
+                    "component": "$?",
+                    "preview": "$?",
+                    "variable": "$?",
+                    "color": "$?",
+                    "hex": "$?",
+                    "description": "$?",
+                    "cssvalue": "$?",
+                    "computed": "$?",
+                    "primaryface": "$?"
+                },
+                "demo": {
+                    "button": "$?",
+                    "note": "$?",
+                    "warning": "$?",
+                    "notice": "$?",
+                    "header": "$?",
+                    "subheader": "$?",
+                    "toggleon": "$?",
+                    "toggleoff": "$?",
+                    "textfieldplaceholder": "$?",
+                    "textfielddescription": "$?",
+                    "optionslabel": "$?",
+                    "optiona": "$?",
+                    "optionb": "$?",
+                    "optionc": "$?"
                 }
             }
         },

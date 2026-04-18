@@ -5342,7 +5342,8 @@
                         "subtitle": "$~Wordplay yapmamıza yardım edin."
                     },
                     "characters": "$~Özel emojiler ve semboller yaratın",
-                    "updates": "$~Wordplay'deki yeniliklere göz atın."
+                    "updates": "$~Wordplay'deki yeniliklere göz atın.",
+                    "design": "$?"
                 }
             },
             "learn": {
@@ -5962,6 +5963,47 @@
                     "changed": "$~Değiştirildi",
                     "removed": "$~Kaldırıldı",
                     "fixed": "$~Sabit"
+                }
+            },
+            "design": {
+                "header": "$?",
+                "description": "$?",
+                "theme": "$?",
+                "colors": "$?",
+                "palette": "$?",
+                "semantic": "$?",
+                "fonts": "$?",
+                "appfont": "$?",
+                "codefont": "$?",
+                "spacing": "$?",
+                "typography": "$?",
+                "components": "$?",
+                "col": {
+                    "component": "$?",
+                    "preview": "$?",
+                    "variable": "$?",
+                    "color": "$?",
+                    "hex": "$?",
+                    "description": "$?",
+                    "cssvalue": "$?",
+                    "computed": "$?",
+                    "primaryface": "$?"
+                },
+                "demo": {
+                    "button": "$?",
+                    "note": "$?",
+                    "warning": "$?",
+                    "notice": "$?",
+                    "header": "$?",
+                    "subheader": "$?",
+                    "toggleon": "$?",
+                    "toggleoff": "$?",
+                    "textfieldplaceholder": "$?",
+                    "textfielddescription": "$?",
+                    "optionslabel": "$?",
+                    "optiona": "$?",
+                    "optionb": "$?",
+                    "optionc": "$?"
                 }
             }
         },

@@ -5547,7 +5547,8 @@
                         "label": "$~يساهم",
                         "subtitle": "$~ساعدنا في صنع لعبة الكلمات."
                     },
-                    "updates": "$~اكتشف الجديد في لعبة الكلمات"
+                    "updates": "$~اكتشف الجديد في لعبة الكلمات",
+                    "design": "$?"
                 }
             },
             "learn": {
@@ -6167,6 +6168,47 @@
                     "changed": "$~تم التغيير",
                     "removed": "$~تمت إزالته",
                     "fixed": "$~مُثَبَّت"
+                }
+            },
+            "design": {
+                "header": "$?",
+                "description": "$?",
+                "theme": "$?",
+                "colors": "$?",
+                "palette": "$?",
+                "semantic": "$?",
+                "fonts": "$?",
+                "appfont": "$?",
+                "codefont": "$?",
+                "spacing": "$?",
+                "typography": "$?",
+                "components": "$?",
+                "col": {
+                    "component": "$?",
+                    "preview": "$?",
+                    "variable": "$?",
+                    "color": "$?",
+                    "hex": "$?",
+                    "description": "$?",
+                    "cssvalue": "$?",
+                    "computed": "$?",
+                    "primaryface": "$?"
+                },
+                "demo": {
+                    "button": "$?",
+                    "note": "$?",
+                    "warning": "$?",
+                    "notice": "$?",
+                    "header": "$?",
+                    "subheader": "$?",
+                    "toggleon": "$?",
+                    "toggleoff": "$?",
+                    "textfieldplaceholder": "$?",
+                    "textfielddescription": "$?",
+                    "optionslabel": "$?",
+                    "optiona": "$?",
+                    "optionb": "$?",
+                    "optionc": "$?"
                 }
             }
         },

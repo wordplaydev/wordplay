@@ -5342,7 +5342,8 @@
                         "subtitle": "$~Wordplay ਬਣਾਉਣ ਵਿੱਚ ਸਾਡੀ ਮਦਦ ਕਰੋ।"
                     },
                     "characters": "$~ਕਸਟਮ ਇਮੋਜੀ ਅਤੇ ਚਿੰਨ੍ਹ ਬਣਾਓ",
-                    "updates": "$~ਦੇਖੋ ਵਰਡਪਲੇ ਵਿੱਚ ਕੀ ਨਵਾਂ ਹੈ"
+                    "updates": "$~ਦੇਖੋ ਵਰਡਪਲੇ ਵਿੱਚ ਕੀ ਨਵਾਂ ਹੈ",
+                    "design": "$?"
                 }
             },
             "learn": {
@@ -5962,6 +5963,47 @@
                     "changed": "$~ਬਦਲਿਆ ਗਿਆ",
                     "removed": "$~ਹਟਾਇਆ ਗਿਆ",
                     "fixed": "$~ਸਥਿਰ"
+                }
+            },
+            "design": {
+                "header": "$?",
+                "description": "$?",
+                "theme": "$?",
+                "colors": "$?",
+                "palette": "$?",
+                "semantic": "$?",
+                "fonts": "$?",
+                "appfont": "$?",
+                "codefont": "$?",
+                "spacing": "$?",
+                "typography": "$?",
+                "components": "$?",
+                "col": {
+                    "component": "$?",
+                    "preview": "$?",
+                    "variable": "$?",
+                    "color": "$?",
+                    "hex": "$?",
+                    "description": "$?",
+                    "cssvalue": "$?",
+                    "computed": "$?",
+                    "primaryface": "$?"
+                },
+                "demo": {
+                    "button": "$?",
+                    "note": "$?",
+                    "warning": "$?",
+                    "notice": "$?",
+                    "header": "$?",
+                    "subheader": "$?",
+                    "toggleon": "$?",
+                    "toggleoff": "$?",
+                    "textfieldplaceholder": "$?",
+                    "textfielddescription": "$?",
+                    "optionslabel": "$?",
+                    "optiona": "$?",
+                    "optionb": "$?",
+                    "optionc": "$?"
                 }
             }
         },

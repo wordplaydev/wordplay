@@ -5612,7 +5612,8 @@
                     "contribute": {
                         "label": "$~Contribuir",
                         "subtitle": "$~Ajude-nos a criar jogos de palavras."
-                    }
+                    },
+                    "design": "$?"
                 }
             },
             "learn": {
@@ -6233,6 +6234,47 @@
                     "$~Se 2.400 pessoas doassem 25 dólares por ano, isso cobriria os nossos custos atuais, e qualquer excedente seria utilizado para remunerar mais alunos e professores.",
                     "$~Pode ser uma dessas 2.400 pessoas? Se sim, aqui fica o link para os donativos da Universidade de Washington:"
                 ]
+            },
+            "design": {
+                "header": "$?",
+                "description": "$?",
+                "theme": "$?",
+                "colors": "$?",
+                "palette": "$?",
+                "semantic": "$?",
+                "fonts": "$?",
+                "appfont": "$?",
+                "codefont": "$?",
+                "spacing": "$?",
+                "typography": "$?",
+                "components": "$?",
+                "col": {
+                    "component": "$?",
+                    "preview": "$?",
+                    "variable": "$?",
+                    "color": "$?",
+                    "hex": "$?",
+                    "description": "$?",
+                    "cssvalue": "$?",
+                    "computed": "$?",
+                    "primaryface": "$?"
+                },
+                "demo": {
+                    "button": "$?",
+                    "note": "$?",
+                    "warning": "$?",
+                    "notice": "$?",
+                    "header": "$?",
+                    "subheader": "$?",
+                    "toggleon": "$?",
+                    "toggleoff": "$?",
+                    "textfieldplaceholder": "$?",
+                    "textfielddescription": "$?",
+                    "optionslabel": "$?",
+                    "optiona": "$?",
+                    "optionb": "$?",
+                    "optionc": "$?"
+                }
             }
         },
         "edit": {

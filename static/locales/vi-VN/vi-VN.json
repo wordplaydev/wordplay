@@ -5572,7 +5572,8 @@
                     "contribute": {
                         "label": "$~Đóng góp",
                         "subtitle": "$~Hãy giúp chúng tôi tạo ra trò chơi chữ Wordplay"
-                    }
+                    },
+                    "design": "$?"
                 }
             },
             "learn": {
@@ -6193,6 +6194,47 @@
                     "$~Nếu 2.400 người quyên góp 25 đô la Mỹ mỗi năm, số tiền đó sẽ đủ trang trải chi phí hiện tại của chúng tôi, và phần dư sẽ được dùng để trả lương cho thêm học sinh và giáo viên.",
                     "$~Bạn có thể là một trong số 2.400 người đó không? Nếu có, đây là liên kết quyên góp của Đại học Washington:"
                 ]
+            },
+            "design": {
+                "header": "$?",
+                "description": "$?",
+                "theme": "$?",
+                "colors": "$?",
+                "palette": "$?",
+                "semantic": "$?",
+                "fonts": "$?",
+                "appfont": "$?",
+                "codefont": "$?",
+                "spacing": "$?",
+                "typography": "$?",
+                "components": "$?",
+                "col": {
+                    "component": "$?",
+                    "preview": "$?",
+                    "variable": "$?",
+                    "color": "$?",
+                    "hex": "$?",
+                    "description": "$?",
+                    "cssvalue": "$?",
+                    "computed": "$?",
+                    "primaryface": "$?"
+                },
+                "demo": {
+                    "button": "$?",
+                    "note": "$?",
+                    "warning": "$?",
+                    "notice": "$?",
+                    "header": "$?",
+                    "subheader": "$?",
+                    "toggleon": "$?",
+                    "toggleoff": "$?",
+                    "textfieldplaceholder": "$?",
+                    "textfielddescription": "$?",
+                    "optionslabel": "$?",
+                    "optiona": "$?",
+                    "optionb": "$?",
+                    "optionc": "$?"
+                }
             }
         },
         "edit": {

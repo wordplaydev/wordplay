@@ -5551,7 +5551,8 @@
                         "label": "$~বৰঙণি দিয়া",
                         "subtitle": "$~আমাক ৱৰ্ডপ্লে বনাবলৈ সহায় কৰক।"
                     },
-                    "updates": "$~চাওক ৱৰ্ডপ্লেত কি নতুন আছে"
+                    "updates": "$~চাওক ৱৰ্ডপ্লেত কি নতুন আছে",
+                    "design": "$?"
                 }
             },
             "learn": {
@@ -6171,6 +6172,47 @@
                     "changed": "$~সলনি হ’ল",
                     "removed": "$~আঁতৰোৱা হৈছে",
                     "fixed": "$~নিৰ্ধাৰিত"
+                }
+            },
+            "design": {
+                "header": "$?",
+                "description": "$?",
+                "theme": "$?",
+                "colors": "$?",
+                "palette": "$?",
+                "semantic": "$?",
+                "fonts": "$?",
+                "appfont": "$?",
+                "codefont": "$?",
+                "spacing": "$?",
+                "typography": "$?",
+                "components": "$?",
+                "col": {
+                    "component": "$?",
+                    "preview": "$?",
+                    "variable": "$?",
+                    "color": "$?",
+                    "hex": "$?",
+                    "description": "$?",
+                    "cssvalue": "$?",
+                    "computed": "$?",
+                    "primaryface": "$?"
+                },
+                "demo": {
+                    "button": "$?",
+                    "note": "$?",
+                    "warning": "$?",
+                    "notice": "$?",
+                    "header": "$?",
+                    "subheader": "$?",
+                    "toggleon": "$?",
+                    "toggleoff": "$?",
+                    "textfieldplaceholder": "$?",
+                    "textfielddescription": "$?",
+                    "optionslabel": "$?",
+                    "optiona": "$?",
+                    "optionb": "$?",
+                    "optionc": "$?"
                 }
             }
         },

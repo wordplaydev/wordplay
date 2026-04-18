@@ -5207,7 +5207,8 @@
                     },
                     "teach": "$~管理学生班级及其项目",
                     "characters": "$~创建自定义表情符号和符号",
-                    "updates": "$~看看 Wordplay 有什么新内容"
+                    "updates": "$~看看 Wordplay 有什么新内容",
+                    "design": "$?"
                 }
             },
             "learn": {
@@ -5827,6 +5828,47 @@
                     "changed": "$~已更改",
                     "removed": "$~已移除",
                     "fixed": "$~固定的"
+                }
+            },
+            "design": {
+                "header": "$?",
+                "description": "$?",
+                "theme": "$?",
+                "colors": "$?",
+                "palette": "$?",
+                "semantic": "$?",
+                "fonts": "$?",
+                "appfont": "$?",
+                "codefont": "$?",
+                "spacing": "$?",
+                "typography": "$?",
+                "components": "$?",
+                "col": {
+                    "component": "$?",
+                    "preview": "$?",
+                    "variable": "$?",
+                    "color": "$?",
+                    "hex": "$?",
+                    "description": "$?",
+                    "cssvalue": "$?",
+                    "computed": "$?",
+                    "primaryface": "$?"
+                },
+                "demo": {
+                    "button": "$?",
+                    "note": "$?",
+                    "warning": "$?",
+                    "notice": "$?",
+                    "header": "$?",
+                    "subheader": "$?",
+                    "toggleon": "$?",
+                    "toggleoff": "$?",
+                    "textfieldplaceholder": "$?",
+                    "textfielddescription": "$?",
+                    "optionslabel": "$?",
+                    "optiona": "$?",
+                    "optionb": "$?",
+                    "optionc": "$?"
                 }
             }
         },

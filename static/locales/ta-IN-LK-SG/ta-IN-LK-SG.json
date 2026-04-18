@@ -5351,7 +5351,8 @@
                         "subtitle": "$~Wordplay ஐ உருவாக்க எங்களுக்கு உதவுங்கள்."
                     },
                     "characters": "$~தனிப்பயன் ஈமோஜிகள் மற்றும் சின்னங்களை உருவாக்கவும்",
-                    "updates": "$~வேர்டுபிளேயில் புதிதாக என்ன இருக்கிறது என்று பாருங்கள்."
+                    "updates": "$~வேர்டுபிளேயில் புதிதாக என்ன இருக்கிறது என்று பாருங்கள்.",
+                    "design": "$?"
                 }
             },
             "learn": {
@@ -5979,6 +5980,47 @@
                     "changed": "$~மாற்றப்பட்டது",
                     "removed": "$~அகற்றப்பட்டது",
                     "fixed": "$~சரி செய்யப்பட்டது"
+                }
+            },
+            "design": {
+                "header": "$?",
+                "description": "$?",
+                "theme": "$?",
+                "colors": "$?",
+                "palette": "$?",
+                "semantic": "$?",
+                "fonts": "$?",
+                "appfont": "$?",
+                "codefont": "$?",
+                "spacing": "$?",
+                "typography": "$?",
+                "components": "$?",
+                "col": {
+                    "component": "$?",
+                    "preview": "$?",
+                    "variable": "$?",
+                    "color": "$?",
+                    "hex": "$?",
+                    "description": "$?",
+                    "cssvalue": "$?",
+                    "computed": "$?",
+                    "primaryface": "$?"
+                },
+                "demo": {
+                    "button": "$?",
+                    "note": "$?",
+                    "warning": "$?",
+                    "notice": "$?",
+                    "header": "$?",
+                    "subheader": "$?",
+                    "toggleon": "$?",
+                    "toggleoff": "$?",
+                    "textfieldplaceholder": "$?",
+                    "textfielddescription": "$?",
+                    "optionslabel": "$?",
+                    "optiona": "$?",
+                    "optionb": "$?",
+                    "optionc": "$?"
                 }
             }
         },

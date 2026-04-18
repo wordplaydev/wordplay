@@ -5351,7 +5351,8 @@
                         "subtitle": "$~Pomóż nam tworzyć Wordplay."
                     },
                     "characters": "$~Twórz własne emotikony i symbole",
-                    "updates": "$~Zobacz, co nowego w Wordplay"
+                    "updates": "$~Zobacz, co nowego w Wordplay",
+                    "design": "$?"
                 }
             },
             "learn": {
@@ -5971,6 +5972,47 @@
                     "changed": "$~Zmieniono",
                     "removed": "$~REMOVED",
                     "fixed": "$~Naprawił"
+                }
+            },
+            "design": {
+                "header": "$?",
+                "description": "$?",
+                "theme": "$?",
+                "colors": "$?",
+                "palette": "$?",
+                "semantic": "$?",
+                "fonts": "$?",
+                "appfont": "$?",
+                "codefont": "$?",
+                "spacing": "$?",
+                "typography": "$?",
+                "components": "$?",
+                "col": {
+                    "component": "$?",
+                    "preview": "$?",
+                    "variable": "$?",
+                    "color": "$?",
+                    "hex": "$?",
+                    "description": "$?",
+                    "cssvalue": "$?",
+                    "computed": "$?",
+                    "primaryface": "$?"
+                },
+                "demo": {
+                    "button": "$?",
+                    "note": "$?",
+                    "warning": "$?",
+                    "notice": "$?",
+                    "header": "$?",
+                    "subheader": "$?",
+                    "toggleon": "$?",
+                    "toggleoff": "$?",
+                    "textfieldplaceholder": "$?",
+                    "textfielddescription": "$?",
+                    "optionslabel": "$?",
+                    "optiona": "$?",
+                    "optionb": "$?",
+                    "optionc": "$?"
                 }
             }
         },

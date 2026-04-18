@@ -5567,7 +5567,8 @@
                     "contribute": {
                         "label": "$~לִתְרוֹם",
                         "subtitle": "$~עזרו לנו ליצור משחקי מילים"
-                    }
+                    },
+                    "design": "$?"
                 }
             },
             "learn": {
@@ -6188,6 +6189,47 @@
                     "$~אם 2,400 איש היו תורמים 25 דולר בשנה, זה היה מכסה את העלויות הנוכחיות שלנו, וכל עודף היה מופנה לפיצוי לתלמידים ולמורים נוספים.",
                     "$~האם אתה יכול להיות אחד מאותם 2,400 אנשים? אם כן, הנה קישור התרומה שלנו מאוניברסיטת וושינגטון:"
                 ]
+            },
+            "design": {
+                "header": "$?",
+                "description": "$?",
+                "theme": "$?",
+                "colors": "$?",
+                "palette": "$?",
+                "semantic": "$?",
+                "fonts": "$?",
+                "appfont": "$?",
+                "codefont": "$?",
+                "spacing": "$?",
+                "typography": "$?",
+                "components": "$?",
+                "col": {
+                    "component": "$?",
+                    "preview": "$?",
+                    "variable": "$?",
+                    "color": "$?",
+                    "hex": "$?",
+                    "description": "$?",
+                    "cssvalue": "$?",
+                    "computed": "$?",
+                    "primaryface": "$?"
+                },
+                "demo": {
+                    "button": "$?",
+                    "note": "$?",
+                    "warning": "$?",
+                    "notice": "$?",
+                    "header": "$?",
+                    "subheader": "$?",
+                    "toggleon": "$?",
+                    "toggleoff": "$?",
+                    "textfieldplaceholder": "$?",
+                    "textfielddescription": "$?",
+                    "optionslabel": "$?",
+                    "optiona": "$?",
+                    "optionb": "$?",
+                    "optionc": "$?"
+                }
             }
         },
         "edit": {

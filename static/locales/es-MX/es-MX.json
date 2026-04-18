@@ -5244,7 +5244,8 @@
                     },
                     "teach": "Administra clases de estudiantes y sus proyectos",
                     "characters": "$~Crea emojis y símbolos personalizados",
-                    "updates": "Ve las novedades de Wordplay"
+                    "updates": "Ve las novedades de Wordplay",
+                    "design": "$?"
                 }
             },
             "learn": {
@@ -5864,6 +5865,47 @@
                     "changed": "$~Cambió",
                     "removed": "$~Remoto",
                     "fixed": "$~Fijado"
+                }
+            },
+            "design": {
+                "header": "$?",
+                "description": "$?",
+                "theme": "$?",
+                "colors": "$?",
+                "palette": "$?",
+                "semantic": "$?",
+                "fonts": "$?",
+                "appfont": "$?",
+                "codefont": "$?",
+                "spacing": "$?",
+                "typography": "$?",
+                "components": "$?",
+                "col": {
+                    "component": "$?",
+                    "preview": "$?",
+                    "variable": "$?",
+                    "color": "$?",
+                    "hex": "$?",
+                    "description": "$?",
+                    "cssvalue": "$?",
+                    "computed": "$?",
+                    "primaryface": "$?"
+                },
+                "demo": {
+                    "button": "$?",
+                    "note": "$?",
+                    "warning": "$?",
+                    "notice": "$?",
+                    "header": "$?",
+                    "subheader": "$?",
+                    "toggleon": "$?",
+                    "toggleoff": "$?",
+                    "textfieldplaceholder": "$?",
+                    "textfielddescription": "$?",
+                    "optionslabel": "$?",
+                    "optiona": "$?",
+                    "optionb": "$?",
+                    "optionc": "$?"
                 }
             }
         },

@@ -5261,7 +5261,8 @@
                     },
                     "teach": "$~Verwalten Sie Schülerklassen und ihre Projekte",
                     "characters": "$~Erstellen Sie benutzerdefinierte Emojis und Symbole",
-                    "updates": "$~Entdecken Sie die Neuigkeiten in Wordplay."
+                    "updates": "$~Entdecken Sie die Neuigkeiten in Wordplay.",
+                    "design": "$?"
                 }
             },
             "learn": {
@@ -5881,6 +5882,47 @@
                     "changed": "$~Geändert",
                     "removed": "$~ENTFERNT",
                     "fixed": "$~Behoben"
+                }
+            },
+            "design": {
+                "header": "$?",
+                "description": "$?",
+                "theme": "$?",
+                "colors": "$?",
+                "palette": "$?",
+                "semantic": "$?",
+                "fonts": "$?",
+                "appfont": "$?",
+                "codefont": "$?",
+                "spacing": "$?",
+                "typography": "$?",
+                "components": "$?",
+                "col": {
+                    "component": "$?",
+                    "preview": "$?",
+                    "variable": "$?",
+                    "color": "$?",
+                    "hex": "$?",
+                    "description": "$?",
+                    "cssvalue": "$?",
+                    "computed": "$?",
+                    "primaryface": "$?"
+                },
+                "demo": {
+                    "button": "$?",
+                    "note": "$?",
+                    "warning": "$?",
+                    "notice": "$?",
+                    "header": "$?",
+                    "subheader": "$?",
+                    "toggleon": "$?",
+                    "toggleoff": "$?",
+                    "textfieldplaceholder": "$?",
+                    "textfielddescription": "$?",
+                    "optionslabel": "$?",
+                    "optiona": "$?",
+                    "optionb": "$?",
+                    "optionc": "$?"
                 }
             }
         },
