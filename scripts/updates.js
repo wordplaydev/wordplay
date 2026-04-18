@@ -48,7 +48,7 @@ function parseChangelog(changelog) {
                 date: date,
                 changes: { added: [], fixed: [], changed: [], removed: [] },
             };
-        } else if (currentUpdate && line.startsWith('- ')) {
+        } else if (currentUpdate && currentType && line.startsWith('- ')) {
             currentUpdate.changes[currentType.toLowerCase()].push(
                 line.substring(2).trim(),
             );
@@ -70,7 +70,7 @@ fs.writeFileSync(outputPath, JSON.stringify(updates, null, 2), 'utf-8');
 
 fs.writeFileSync(
     datePath,
-    JSON.stringify({ date: updates[0].date }, null, 2),
+    JSON.stringify({ date: updates[0]?.date ?? null }, null, 2),
     'utf-8',
 );
 
