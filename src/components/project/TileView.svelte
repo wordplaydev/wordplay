@@ -365,8 +365,7 @@
             <div class="tile-controls">
                 {#if !layout.isFullscreen()}
                     <Button
-                        background={background !== null}
-                        padding={false}
+                        background={false}
                         tip={(l) => l.ui.tile.button.collapse}
                         action={() => mode(TileMode.Collapsed)}
                         icon="–"
@@ -375,7 +374,6 @@
                 <Toggle
                     tips={(l) => l.ui.tile.toggle.fullscreen}
                     on={fullscreen}
-                    background={background !== null}
                     toggle={() => setFullscreen(!fullscreen)}
                 >
                     <FullscreenIcon />

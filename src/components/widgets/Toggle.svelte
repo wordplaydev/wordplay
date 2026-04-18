@@ -14,7 +14,6 @@
         uiid?: string | undefined;
         testid?: string | undefined;
         command?: Command | undefined;
-        background?: boolean;
         highlight?: boolean;
         children: Snippet;
     }
@@ -27,7 +26,6 @@
         uiid = undefined,
         testid = undefined,
         command = undefined,
-        background = false,
         highlight = false,
         children,
     }: Props = $props();
@@ -66,7 +64,6 @@
 -->
 <button
     type="button"
-    class:background
     class:highlight
     data-uiid={uiid}
     data-testid={testid}
@@ -119,10 +116,10 @@
             box-shadow calc(var(--animation-factor) * 100ms);
         flex-shrink: 0;
         position: relative;
-    }
-
-    .background {
-        background: var(--wordplay-alternating-color);
+        box-shadow: var(--wordplay-border-width) var(--wordplay-border-width) 0
+            var(--wordplay-border-color);
+        text-shadow: 0 var(--wordplay-border-width) 0
+            var(--color-shadow-transparent);
     }
 
     .highlight {
@@ -140,6 +137,7 @@
         background: var(--wordplay-alternating-color);
         box-shadow: inset var(--wordplay-border-width)
             var(--wordplay-border-width) 0 var(--wordplay-foreground);
+        transform: translate(-1px, -1px);
     }
 
     .icon {

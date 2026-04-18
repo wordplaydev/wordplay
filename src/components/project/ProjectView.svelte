@@ -1735,13 +1735,11 @@
                                         ><Emoji>+🔎</Emoji></Button
                                     >
                                     <Toggle
-                                        background
                                         tips={(l) => l.ui.output.toggle.grid}
                                         on={grid}
                                         toggle={() => (grid = !grid)}
                                         ><Emoji>▦</Emoji></Toggle
                                     ><Toggle
-                                        background
                                         tips={(l) => l.ui.output.toggle.fit}
                                         on={fit}
                                         toggle={() => (fit = !fit)}
