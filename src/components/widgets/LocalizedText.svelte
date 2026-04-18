@@ -75,21 +75,22 @@
             /><Button
                 tip={(l) => l.ui.localize.button.submit}
                 action={() => (editing = false)}
-                padding={false}>{CONFIRM_SYMBOL}</Button
+                background>{CONFIRM_SYMBOL}</Button
             ><Button
                 tip={(l) => l.ui.localize.button.cancel}
                 action={() => {
                     cancelled = true;
                     fieldView?.blur();
                 }}
-                padding={false}>{CANCEL_SYMBOL}</Button
+                background>{CANCEL_SYMBOL}</Button
             >
         {:else}
             <Button
                 tip={(l) => l.ui.localize.button.edit}
                 action={startEditing}
                 padding={false}
-                background
+                background="salient"
+                size="inherit"
                 >{withoutAnnotationsText}{#if isMT}<MachineTranslatedAnnotation
                     />{/if}</Button
             >

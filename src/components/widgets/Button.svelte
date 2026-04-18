@@ -29,8 +29,9 @@
         /** The DOM element corresponding to the button */
         view?: HTMLButtonElement | undefined;
         large?: boolean;
+        size?: undefined | 'inherit';
         /** Whether it should have a background */
-        background?: boolean;
+        background?: boolean | 'salient';
         /** Whether it should have padding */
         padding?: boolean;
         /** An ID to add for reference in the tutorial */
@@ -60,6 +61,7 @@
         view: _ = $bindable(undefined),
         large = false,
         background = false,
+        size = undefined,
         padding = true,
         testid = undefined,
         shortcut = undefined,
@@ -110,7 +112,9 @@
 -->
 <button
     class:stretch
-    class:background
+    class:background={background === true}
+    class:salient={background === 'salient'}
+    class:inherit={size === 'inherit'}
     class:padding
     class:scale
     class:large
@@ -193,6 +197,10 @@
         flex-shrink: 0;
     }
 
+    .inherit {
+        font-size: inherit;
+    }
+
     .wrap {
         white-space: normal;
     }
@@ -208,7 +216,8 @@
     }
 
     /* Raised, bordered look with hard offset shadow for dimensionality */
-    .background {
+    .background,
+    .salient {
         color: var(--wordplay-foreground);
         background: var(--wordplay-background);
         border: var(--wordplay-border-width) solid var(--wordplay-border-color);
@@ -216,6 +225,14 @@
             var(--wordplay-border-color);
         text-shadow: 0 var(--wordplay-border-width) 0
             var(--color-shadow-transparent);
+    }
+
+    .salient {
+        outline: var(--wordplay-highlight-color) solid
+            var(--wordplay-border-width);
+        outline-offset: calc(var(--wordplay-border-width) * -1);
+        background: var(--wordplay-alternating-color);
+        border-radius: 0;
     }
 
     [aria-disabled='true'] {
@@ -291,8 +308,8 @@
 
     /* Pressed background buttons: shadow collapses, button sinks into it */
     button.background.pressed {
-        box-shadow: inset var(--wordplay-border-width) var(--wordplay-border-width)
-            0 var(--wordplay-foreground);
+        box-shadow: inset var(--wordplay-border-width)
+            var(--wordplay-border-width) 0 var(--wordplay-foreground);
         transform: translate(
             var(--wordplay-border-width),
             var(--wordplay-border-width)

@@ -181,7 +181,8 @@
                     tip={(l) => l.ui.localize.button.edit}
                     action={startEditing}
                     padding={false}
-                    background
+                    background="salient"
+                    size="inherit"
                     wrap={true}
                 >
                     {#if spaces}
