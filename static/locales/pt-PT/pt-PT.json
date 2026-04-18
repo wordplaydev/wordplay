@@ -5613,7 +5613,7 @@
                         "label": "$~Contribuir",
                         "subtitle": "$~Ajude-nos a criar jogos de palavras."
                     },
-                    "design": "$?"
+                    "design": "$~Sistema de referência de design para colaboradores"
                 }
             },
             "learn": {
@@ -6236,44 +6236,44 @@
                 ]
             },
             "design": {
-                "header": "$?",
-                "description": "$?",
-                "theme": "$?",
-                "colors": "$?",
-                "palette": "$?",
-                "semantic": "$?",
-                "fonts": "$?",
-                "appfont": "$?",
-                "codefont": "$?",
-                "spacing": "$?",
-                "typography": "$?",
-                "components": "$?",
+                "header": "$~Estilo",
+                "description": "$~Este é um guia de referência para o sistema de design visual do Wordplay, incluindo cores, tipos de letra, espaçamento e componentes reutilizáveis. Consulte os guias <design wiki@https://github.com/wordplaydev/wordplay/wiki/design> e <develop wiki@https://github.com/wordplaydev/wordplay/wiki/develop> para obter informações sobre como contribuir.",
+                "theme": "$~Tema",
+                "colors": "$~Cores",
+                "palette": "$~Paleta",
+                "semantic": "$~Cores Semânticas",
+                "fonts": "$~Fontes",
+                "appfont": "$~Fonte do texto",
+                "codefont": "$~Fonte de código",
+                "spacing": "$~Espaçamento",
+                "typography": "$~Tipografia",
+                "components": "$~Componentes",
                 "col": {
-                    "component": "$?",
-                    "preview": "$?",
-                    "variable": "$?",
-                    "color": "$?",
-                    "hex": "$?",
-                    "description": "$?",
-                    "cssvalue": "$?",
-                    "computed": "$?",
-                    "primaryface": "$?"
+                    "component": "$~Componente",
+                    "preview": "$~Pré-visualização",
+                    "variable": "$~Variável",
+                    "color": "$~Cor",
+                    "hex": "$~Hex",
+                    "description": "$~Descrição",
+                    "cssvalue": "$~valor CSS",
+                    "computed": "$~Calculado",
+                    "primaryface": "$~Face principal"
                 },
                 "demo": {
-                    "button": "$?",
-                    "note": "$?",
-                    "warning": "$?",
-                    "notice": "$?",
-                    "header": "$?",
-                    "subheader": "$?",
-                    "toggleon": "$?",
-                    "toggleoff": "$?",
-                    "textfieldplaceholder": "$?",
-                    "textfielddescription": "$?",
-                    "optionslabel": "$?",
-                    "optiona": "$?",
-                    "optionb": "$?",
-                    "optionc": "$?"
+                    "button": "$~Exemplo",
+                    "note": "$~Isto é uma nota.",
+                    "warning": "$~Isto é um aviso.",
+                    "notice": "$~Este é um aviso.",
+                    "header": "$~Cabeçalho",
+                    "subheader": "$~Subtítulo",
+                    "toggleon": "$~Em",
+                    "toggleoff": "$~Desligado",
+                    "textfieldplaceholder": "$~Introduza o texto…",
+                    "textfielddescription": "$~Campo de texto de exemplo",
+                    "optionslabel": "$~Exemplo",
+                    "optiona": "$~Opção A",
+                    "optionb": "$~Opção B",
+                    "optionc": "$~Opção C"
                 }
             }
         },

@@ -5551,7 +5551,7 @@
                         "subtitle": "$~వర్డ్‌ప్లే చేయడానికి మాకు సహాయం చేయండి."
                     },
                     "updates": "$~Wordplay లో కొత్తగా ఏమి ఉన్నాయో చూడండి",
-                    "design": "$?"
+                    "design": "$~సహకారుల కోసం డిజైన్ సిస్టమ్ సూచన"
                 }
             },
             "learn": {
@@ -6182,44 +6182,44 @@
                 }
             },
             "design": {
-                "header": "$?",
-                "description": "$?",
-                "theme": "$?",
-                "colors": "$?",
-                "palette": "$?",
-                "semantic": "$?",
-                "fonts": "$?",
-                "appfont": "$?",
-                "codefont": "$?",
-                "spacing": "$?",
-                "typography": "$?",
-                "components": "$?",
+                "header": "$~డిజైన్",
+                "description": "$~రంగులు, ఫాంట్‌లు, ఖాళీలు మరియు పునర్వినియోగించదగిన కాంపోనెంట్‌లతో సహా వర్డ్‌ప్లే యొక్క విజువల్ డిజైన్ సిస్టమ్ కోసం ఇది ఒక సూచన. సహకరించడానికి <design wiki@https://github.com/wordplaydev/wordplay/wiki/design> మరియు <develop wiki@https://github.com/wordplaydev/wordplay/wiki/develop> గైడ్‌లను చూడండి.",
+                "theme": "$~థీమ్",
+                "colors": "$~రంగులు",
+                "palette": "$~పాలెట్",
+                "semantic": "$~సెమాంటిక్ రంగులు",
+                "fonts": "$~ఫాంట్లు",
+                "appfont": "$~టెక్స్ట్ ఫాంట్",
+                "codefont": "$~కోడ్ ఫాంట్",
+                "spacing": "$~అంతరం",
+                "typography": "$~టైపోగ్రఫీ",
+                "components": "$~భాగాలు",
                 "col": {
-                    "component": "$?",
-                    "preview": "$?",
-                    "variable": "$?",
-                    "color": "$?",
-                    "hex": "$?",
-                    "description": "$?",
-                    "cssvalue": "$?",
-                    "computed": "$?",
-                    "primaryface": "$?"
+                    "component": "$~భాగం",
+                    "preview": "$~ప్రివ్యూ",
+                    "variable": "$~వేరియబుల్",
+                    "color": "$~రంగు",
+                    "hex": "$~హెక్స్",
+                    "description": "$~వివరణ",
+                    "cssvalue": "$~CSS విలువ",
+                    "computed": "$~గణించబడింది",
+                    "primaryface": "$~ప్రాథమిక ముఖం"
                 },
                 "demo": {
-                    "button": "$?",
-                    "note": "$?",
-                    "warning": "$?",
-                    "notice": "$?",
-                    "header": "$?",
-                    "subheader": "$?",
-                    "toggleon": "$?",
-                    "toggleoff": "$?",
-                    "textfieldplaceholder": "$?",
-                    "textfielddescription": "$?",
-                    "optionslabel": "$?",
-                    "optiona": "$?",
-                    "optionb": "$?",
-                    "optionc": "$?"
+                    "button": "$~ఉదాహరణ",
+                    "note": "$~ఇది ఒక గమనిక.",
+                    "warning": "$~ఇది ఒక హెచ్చరిక.",
+                    "notice": "$~ఇది ఒక ప్రకటన.",
+                    "header": "$~శీర్షిక",
+                    "subheader": "$~ఉపశీర్షిక",
+                    "toggleon": "$~ఆన్",
+                    "toggleoff": "$~ఆఫ్",
+                    "textfieldplaceholder": "$~టెక్స్ట్ నమోదు చేయండి…",
+                    "textfielddescription": "$~ఉదాహరణ టెక్స్ట్ ఫీల్డ్",
+                    "optionslabel": "$~ఉదాహరణ",
+                    "optiona": "$~ఎంపిక A",
+                    "optionb": "$~ఎంపిక బి",
+                    "optionc": "$~ఆప్షన్ సి"
                 }
             }
         },

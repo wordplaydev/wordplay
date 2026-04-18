@@ -5548,7 +5548,7 @@
                         "subtitle": "$~ساعدنا في صنع لعبة الكلمات."
                     },
                     "updates": "$~اكتشف الجديد في لعبة الكلمات",
-                    "design": "$?"
+                    "design": "$~مرجع نظام التصميم للمساهمين"
                 }
             },
             "learn": {
@@ -6171,44 +6171,44 @@
                 }
             },
             "design": {
-                "header": "$?",
-                "description": "$?",
-                "theme": "$?",
-                "colors": "$?",
-                "palette": "$?",
-                "semantic": "$?",
-                "fonts": "$?",
-                "appfont": "$?",
-                "codefont": "$?",
-                "spacing": "$?",
-                "typography": "$?",
-                "components": "$?",
+                "header": "$~تصميم",
+                "description": "$~هذا مرجع لنظام التصميم المرئي لـ Wordplay، بما في ذلك الألوان والخطوط والتباعد والمكونات القابلة لإعادة الاستخدام. للاطلاع على دليلَي <design wiki@https://github.com/wordplaydev/wordplay/wiki/design> و <develop wiki@https://github.com/wordplaydev/wordplay/wiki/develop> للمساهمة.",
+                "theme": "$~سمة",
+                "colors": "$~الألوان",
+                "palette": "$~لوحة الألوان",
+                "semantic": "$~الألوان الدلالية",
+                "fonts": "$~الخطوط",
+                "appfont": "$~خط النص",
+                "codefont": "$~كودفونت",
+                "spacing": "$~التباعد",
+                "typography": "$~الطباعة",
+                "components": "$~عناصر",
                 "col": {
-                    "component": "$?",
-                    "preview": "$?",
-                    "variable": "$?",
-                    "color": "$?",
-                    "hex": "$?",
-                    "description": "$?",
-                    "cssvalue": "$?",
-                    "computed": "$?",
-                    "primaryface": "$?"
+                    "component": "$~عنصر",
+                    "preview": "$~معاينة",
+                    "variable": "$~عامل",
+                    "color": "$~لون",
+                    "hex": "$~عرافة",
+                    "description": "$~وصف",
+                    "cssvalue": "$~قيمة CSS",
+                    "computed": "$~محسوب",
+                    "primaryface": "$~الوجه الرئيسي"
                 },
                 "demo": {
-                    "button": "$?",
-                    "note": "$?",
-                    "warning": "$?",
-                    "notice": "$?",
-                    "header": "$?",
-                    "subheader": "$?",
-                    "toggleon": "$?",
-                    "toggleoff": "$?",
-                    "textfieldplaceholder": "$?",
-                    "textfielddescription": "$?",
-                    "optionslabel": "$?",
-                    "optiona": "$?",
-                    "optionb": "$?",
-                    "optionc": "$?"
+                    "button": "$~مثال",
+                    "note": "$~هذه ملاحظة.",
+                    "warning": "$~هذا تحذير.",
+                    "notice": "$~هذا إشعار.",
+                    "header": "$~رأس الصفحة",
+                    "subheader": "$~عنوان فرعي",
+                    "toggleon": "$~على",
+                    "toggleoff": "$~عن",
+                    "textfieldplaceholder": "$~أدخل النص…",
+                    "textfielddescription": "$~مثال على حقل نصي",
+                    "optionslabel": "$~مثال",
+                    "optiona": "$~الخيار أ",
+                    "optionb": "$~الخيار ب",
+                    "optionc": "$~الخيار ج"
                 }
             }
         },

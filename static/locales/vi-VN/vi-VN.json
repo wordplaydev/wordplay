@@ -5573,7 +5573,7 @@
                         "label": "$~Đóng góp",
                         "subtitle": "$~Hãy giúp chúng tôi tạo ra trò chơi chữ Wordplay"
                     },
-                    "design": "$?"
+                    "design": "$~Tài liệu tham khảo về hệ thống thiết kế dành cho người đóng góp."
                 }
             },
             "learn": {
@@ -6196,44 +6196,44 @@
                 ]
             },
             "design": {
-                "header": "$?",
-                "description": "$?",
-                "theme": "$?",
-                "colors": "$?",
-                "palette": "$?",
-                "semantic": "$?",
-                "fonts": "$?",
-                "appfont": "$?",
-                "codefont": "$?",
-                "spacing": "$?",
-                "typography": "$?",
-                "components": "$?",
+                "header": "$~Thiết kế",
+                "description": "$~Đây là tài liệu tham khảo về hệ thống thiết kế hình ảnh của Wordplay, bao gồm màu sắc, phông chữ, khoảng cách và các thành phần có thể tái sử dụng. Xem hướng dẫn đóng góp tại <design wiki@https://github.com/wordplaydev/wordplay/wiki/design> và <develop wiki@https://github.com/wordplaydev/wordplay/wiki/develop>.",
+                "theme": "$~Chủ đề",
+                "colors": "$~Màu sắc",
+                "palette": "$~Bảng màu",
+                "semantic": "$~Màu sắc ngữ nghĩa",
+                "fonts": "$~Phông chữ",
+                "appfont": "$~Phông chữ văn bản",
+                "codefont": "$~Phông chữ mã",
+                "spacing": "$~Khoảng cách",
+                "typography": "$~Kiểu chữ",
+                "components": "$~Các thành phần",
                 "col": {
-                    "component": "$?",
-                    "preview": "$?",
-                    "variable": "$?",
-                    "color": "$?",
-                    "hex": "$?",
-                    "description": "$?",
-                    "cssvalue": "$?",
-                    "computed": "$?",
-                    "primaryface": "$?"
+                    "component": "$~Thành phần",
+                    "preview": "$~Xem trước",
+                    "variable": "$~Biến",
+                    "color": "$~Màu sắc",
+                    "hex": "$~Hex",
+                    "description": "$~Sự miêu tả",
+                    "cssvalue": "$~Giá trị CSS",
+                    "computed": "$~Đã tính toán",
+                    "primaryface": "$~Mặt chính"
                 },
                 "demo": {
-                    "button": "$?",
-                    "note": "$?",
-                    "warning": "$?",
-                    "notice": "$?",
-                    "header": "$?",
-                    "subheader": "$?",
-                    "toggleon": "$?",
-                    "toggleoff": "$?",
-                    "textfieldplaceholder": "$?",
-                    "textfielddescription": "$?",
-                    "optionslabel": "$?",
-                    "optiona": "$?",
-                    "optionb": "$?",
-                    "optionc": "$?"
+                    "button": "$~Ví dụ",
+                    "note": "$~Đây là một ghi chú.",
+                    "warning": "$~Đây là lời cảnh báo.",
+                    "notice": "$~Đây là một thông báo.",
+                    "header": "$~Tiêu đề",
+                    "subheader": "$~Tiêu đề phụ",
+                    "toggleon": "$~TRÊN",
+                    "toggleoff": "$~Tắt",
+                    "textfieldplaceholder": "$~Nhập văn bản…",
+                    "textfielddescription": "$~Ví dụ về trường văn bản",
+                    "optionslabel": "$~Ví dụ",
+                    "optiona": "$~Phương án A",
+                    "optionb": "$~Phương án B",
+                    "optionc": "$~Phương án C"
                 }
             }
         },

@@ -5551,7 +5551,7 @@
                         "subtitle": "$~ವರ್ಡ್‌ಪ್ಲೇ ಮಾಡಲು ನಮಗೆ ಸಹಾಯ ಮಾಡಿ."
                     },
                     "updates": "$~Wordplay ನಲ್ಲಿ ಹೊಸದೇನಿದೆ ಎಂದು ನೋಡಿ",
-                    "design": "$?"
+                    "design": "$~ಕೊಡುಗೆದಾರರಿಗೆ ವಿನ್ಯಾಸ ವ್ಯವಸ್ಥೆಯ ಉಲ್ಲೇಖ"
                 }
             },
             "learn": {
@@ -6182,44 +6182,44 @@
                 }
             },
             "design": {
-                "header": "$?",
-                "description": "$?",
-                "theme": "$?",
-                "colors": "$?",
-                "palette": "$?",
-                "semantic": "$?",
-                "fonts": "$?",
-                "appfont": "$?",
-                "codefont": "$?",
-                "spacing": "$?",
-                "typography": "$?",
-                "components": "$?",
+                "header": "$~ವಿನ್ಯಾಸ",
+                "description": "$~ಇದು ಬಣ್ಣಗಳು, ಫಾಂಟ್‌ಗಳು, ಅಂತರ ಮತ್ತು ಮರುಬಳಕೆ ಮಾಡಬಹುದಾದ ಘಟಕಗಳನ್ನು ಒಳಗೊಂಡಂತೆ ವರ್ಡ್‌ಪ್ಲೇನ ದೃಶ್ಯ ವಿನ್ಯಾಸ ವ್ಯವಸ್ಥೆಗೆ ಉಲ್ಲೇಖವಾಗಿದೆ. ಕೊಡುಗೆ ನೀಡಲು <design wiki@https://github.com/wordplaydev/wordplay/wiki/design> ಮತ್ತು <develop wiki@https://github.com/wordplaydev/wordplay/wiki/develop> ಮಾರ್ಗದರ್ಶಿಗಳನ್ನು ನೋಡಿ.",
+                "theme": "$~ಥೀಮ್",
+                "colors": "$~ಬಣ್ಣಗಳು",
+                "palette": "$~ಪ್ಯಾಲೆಟ್",
+                "semantic": "$~ಲಾಕ್ಷಣಿಕ ಬಣ್ಣಗಳು",
+                "fonts": "$~ಫಾಂಟ್‌ಗಳು",
+                "appfont": "$~ಪಠ್ಯ ಫಾಂಟ್",
+                "codefont": "$~ಕೋಡ್ ಫಾಂಟ್",
+                "spacing": "$~ಅಂತರ",
+                "typography": "$~ಮುದ್ರಣಕಲೆ",
+                "components": "$~ಘಟಕಗಳು",
                 "col": {
-                    "component": "$?",
-                    "preview": "$?",
-                    "variable": "$?",
-                    "color": "$?",
-                    "hex": "$?",
-                    "description": "$?",
-                    "cssvalue": "$?",
-                    "computed": "$?",
-                    "primaryface": "$?"
+                    "component": "$~ಘಟಕ",
+                    "preview": "$~ಪೂರ್ವವೀಕ್ಷಣೆ",
+                    "variable": "$~ವೇರಿಯಬಲ್",
+                    "color": "$~ಬಣ್ಣ",
+                    "hex": "$~ಹೆಕ್ಸ್",
+                    "description": "$~ವಿವರಣೆ",
+                    "cssvalue": "$~CSS ಮೌಲ್ಯ",
+                    "computed": "$~ಲೆಕ್ಕಾಚಾರ ಮಾಡಲಾಗಿದೆ",
+                    "primaryface": "$~ಪ್ರಾಥಮಿಕ ಮುಖ"
                 },
                 "demo": {
-                    "button": "$?",
-                    "note": "$?",
-                    "warning": "$?",
-                    "notice": "$?",
-                    "header": "$?",
-                    "subheader": "$?",
-                    "toggleon": "$?",
-                    "toggleoff": "$?",
-                    "textfieldplaceholder": "$?",
-                    "textfielddescription": "$?",
-                    "optionslabel": "$?",
-                    "optiona": "$?",
-                    "optionb": "$?",
-                    "optionc": "$?"
+                    "button": "$~ಉದಾಹರಣೆ",
+                    "note": "$~ಇದು ಒಂದು ಟಿಪ್ಪಣಿ.",
+                    "warning": "$~ಇದು ಒಂದು ಎಚ್ಚರಿಕೆ.",
+                    "notice": "$~ಇದು ಒಂದು ಸೂಚನೆ.",
+                    "header": "$~ಶಿರೋಲೇಖ",
+                    "subheader": "$~ಉಪಶೀರ್ಷಿಕೆ",
+                    "toggleon": "$~ಆನ್",
+                    "toggleoff": "$~ಆಫ್",
+                    "textfieldplaceholder": "$~ಪಠ್ಯವನ್ನು ನಮೂದಿಸಿ...",
+                    "textfielddescription": "$~ಉದಾಹರಣೆ ಪಠ್ಯ ಕ್ಷೇತ್ರ",
+                    "optionslabel": "$~ಉದಾಹರಣೆ",
+                    "optiona": "$~ಆಯ್ಕೆ ಎ",
+                    "optionb": "$~ಆಯ್ಕೆ ಬಿ",
+                    "optionc": "$~ಆಯ್ಕೆ ಸಿ"
                 }
             }
         },

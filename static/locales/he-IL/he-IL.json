@@ -5568,7 +5568,7 @@
                         "label": "$~לִתְרוֹם",
                         "subtitle": "$~עזרו לנו ליצור משחקי מילים"
                     },
-                    "design": "$?"
+                    "design": "$~מדריך למערכת עיצוב עבור תורמים"
                 }
             },
             "learn": {
@@ -6191,44 +6191,44 @@
                 ]
             },
             "design": {
-                "header": "$?",
-                "description": "$?",
-                "theme": "$?",
-                "colors": "$?",
-                "palette": "$?",
-                "semantic": "$?",
-                "fonts": "$?",
-                "appfont": "$?",
-                "codefont": "$?",
-                "spacing": "$?",
-                "typography": "$?",
-                "components": "$?",
+                "header": "$~לְעַצֵב",
+                "description": "$~זהו מקור למערכת העיצוב החזותי של Wordplay, הכוללת צבעים, גופנים, מרווחים ורכיבים לשימוש חוזר. עיינו במדריכים <design wiki@https://github.com/wordplaydev/wordplay/wiki/design> ו- <develop wiki@https://github.com/wordplaydev/wordplay/wiki/develop> לתרומה.",
+                "theme": "$~נוֹשֵׂא",
+                "colors": "$~צבעים",
+                "palette": "$~לוּחַ הַצְבָעִים",
+                "semantic": "$~צבעים סמנטיים",
+                "fonts": "$~גופנים",
+                "appfont": "$~גופן טקסט",
+                "codefont": "$~גופן קוד",
+                "spacing": "$~ריווח",
+                "typography": "$~טיפוגרפיה",
+                "components": "$~רכיבים",
                 "col": {
-                    "component": "$?",
-                    "preview": "$?",
-                    "variable": "$?",
-                    "color": "$?",
-                    "hex": "$?",
-                    "description": "$?",
-                    "cssvalue": "$?",
-                    "computed": "$?",
-                    "primaryface": "$?"
+                    "component": "$~רְכִיב",
+                    "preview": "$~תצוגה מקדימה",
+                    "variable": "$~מִשְׁתַנֶה",
+                    "color": "$~צֶבַע",
+                    "hex": "$~הקס",
+                    "description": "$~תֵאוּר",
+                    "cssvalue": "$~ערך CSS",
+                    "computed": "$~מחושב",
+                    "primaryface": "$~פנים ראשוניות"
                 },
                 "demo": {
-                    "button": "$?",
-                    "note": "$?",
-                    "warning": "$?",
-                    "notice": "$?",
-                    "header": "$?",
-                    "subheader": "$?",
-                    "toggleon": "$?",
-                    "toggleoff": "$?",
-                    "textfieldplaceholder": "$?",
-                    "textfielddescription": "$?",
-                    "optionslabel": "$?",
-                    "optiona": "$?",
-                    "optionb": "$?",
-                    "optionc": "$?"
+                    "button": "$~דוּגמָה",
+                    "note": "$~זוהי הערה.",
+                    "warning": "$~זוהי אזהרה.",
+                    "notice": "$~זוהי הודעה.",
+                    "header": "$~כּוֹתֶרֶת",
+                    "subheader": "$~כותרת משנה",
+                    "toggleon": "$~עַל",
+                    "toggleoff": "$~כבוי",
+                    "textfieldplaceholder": "$~הזן טקסט…",
+                    "textfielddescription": "$~שדה טקסט לדוגמה",
+                    "optionslabel": "$~דוּגמָה",
+                    "optiona": "$~אפשרות א'",
+                    "optionb": "$~אפשרות ב'",
+                    "optionc": "$~אפשרות ג'"
                 }
             }
         },

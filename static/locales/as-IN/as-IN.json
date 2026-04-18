@@ -5552,7 +5552,7 @@
                         "subtitle": "$~আমাক ৱৰ্ডপ্লে বনাবলৈ সহায় কৰক।"
                     },
                     "updates": "$~চাওক ৱৰ্ডপ্লেত কি নতুন আছে",
-                    "design": "$?"
+                    "design": "$~অৱদানকাৰীসকলৰ বাবে ডিজাইন ব্যৱস্থাপ্ৰণালীৰ উল্লেখ"
                 }
             },
             "learn": {
@@ -6175,44 +6175,44 @@
                 }
             },
             "design": {
-                "header": "$?",
-                "description": "$?",
-                "theme": "$?",
-                "colors": "$?",
-                "palette": "$?",
-                "semantic": "$?",
-                "fonts": "$?",
-                "appfont": "$?",
-                "codefont": "$?",
-                "spacing": "$?",
-                "typography": "$?",
-                "components": "$?",
+                "header": "$~ডিজাইন",
+                "description": "$~এইটো ৱৰ্ডপ্লেৰ দৃশ্যমান ডিজাইন ব্যৱস্থাৰ বাবে এটা প্ৰসংগ, ৰং, ফন্ট, ব্যৱধান, আৰু পুনৰ ব্যৱহাৰযোগ্য উপাদানসমূহ অন্তৰ্ভুক্ত কৰি। অৱদানৰ বাবে <design wiki@https://github.com/wordplaydev/wordplay/wiki/design> আৰু <develop wiki@https://github.com/wordplaydev/wordplay/wiki/develop> গাইডসমূহ চাওক।",
+                "theme": "$~বিষয়বস্তু",
+                "colors": "$~ৰংবোৰ",
+                "palette": "$~পেলেট",
+                "semantic": "$~অৰ্থগত ৰং",
+                "fonts": "$~ফন্ট",
+                "appfont": "$~টেক্সট ফন্ট",
+                "codefont": "$~ক'ড ফন্ট",
+                "spacing": "$~ব্যৱধান",
+                "typography": "$~টাইপোগ্ৰাফী",
+                "components": "$~উপাদানসমূহ",
                 "col": {
-                    "component": "$?",
-                    "preview": "$?",
-                    "variable": "$?",
-                    "color": "$?",
-                    "hex": "$?",
-                    "description": "$?",
-                    "cssvalue": "$?",
-                    "computed": "$?",
-                    "primaryface": "$?"
+                    "component": "$~উপাদান",
+                    "preview": "$~পূৰ্বদৰ্শন",
+                    "variable": "$~ভেৰিয়েবল",
+                    "color": "$~ৰং",
+                    "hex": "$~হেক্স",
+                    "description": "$~বিৱৰণ",
+                    "cssvalue": "$~CSS মান",
+                    "computed": "$~গণনা কৰা হৈছে",
+                    "primaryface": "$~প্ৰাথমিক মুখ"
                 },
                 "demo": {
-                    "button": "$?",
-                    "note": "$?",
-                    "warning": "$?",
-                    "notice": "$?",
-                    "header": "$?",
-                    "subheader": "$?",
-                    "toggleon": "$?",
-                    "toggleoff": "$?",
-                    "textfieldplaceholder": "$?",
-                    "textfielddescription": "$?",
-                    "optionslabel": "$?",
-                    "optiona": "$?",
-                    "optionb": "$?",
-                    "optionc": "$?"
+                    "button": "$~উদাহৰণ",
+                    "note": "$~এইটো এটা টোকা।",
+                    "warning": "$~এয়া এক সতৰ্কবাণী।",
+                    "notice": "$~এইটো এটা জাননী।",
+                    "header": "$~হেডাৰ",
+                    "subheader": "$~উপশিৰোনামা",
+                    "toggleon": "$~ওপৰত",
+                    "toggleoff": "$~বন্ধ কৰা",
+                    "textfieldplaceholder": "$~টেক্সট প্ৰৱেশ কৰক...",
+                    "textfielddescription": "$~উদাহৰণ লিখনী ক্ষেত্ৰ",
+                    "optionslabel": "$~উদাহৰণ",
+                    "optiona": "$~বিকল্প ক",
+                    "optionb": "$~বিকল্প খ",
+                    "optionc": "$~বিকল্প গ"
                 }
             }
         },
