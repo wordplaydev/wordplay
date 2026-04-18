@@ -488,7 +488,7 @@
                         >
                     </td>
                 </tr>
-<tr>
+                <tr>
                     <td><code>Notice.svelte</code></td>
                     <td>
                         <Notice
@@ -598,18 +598,15 @@
                             options={[
                                 {
                                     value: 'a',
-                                    label: (l) =>
-                                        l.ui.page.design.demo.optiona,
+                                    label: (l) => l.ui.page.design.demo.optiona,
                                 },
                                 {
                                     value: 'b',
-                                    label: (l) =>
-                                        l.ui.page.design.demo.optionb,
+                                    label: (l) => l.ui.page.design.demo.optionb,
                                 },
                                 {
                                     value: 'c',
-                                    label: (l) =>
-                                        l.ui.page.design.demo.optionc,
+                                    label: (l) => l.ui.page.design.demo.optionc,
                                 },
                             ]}
                             change={(v) => (optionsValue = v)}
@@ -703,10 +700,6 @@
         font-family: var(--wordplay-code-font);
         font-size: var(--wordplay-small-font-size);
         color: var(--wordplay-inactive-color);
-    }
-
-    .font-preview {
-        font-size: 1.1em;
     }
 
     .app-font {
