@@ -7,17 +7,25 @@
     import Writing from '../../components/app/Writing.svelte';
     import MarkupHTMLView from '../../components/concepts/MarkupHTMLView.svelte';
     import Button from '../../components/widgets/Button.svelte';
+    import Checkbox from '../../components/widgets/Checkbox.svelte';
     import LocalizedText from '../../components/widgets/LocalizedText.svelte';
     import Mode from '../../components/widgets/Mode.svelte';
     import Note from '../../components/widgets/Note.svelte';
+    import Options from '../../components/widgets/Options.svelte';
+    import Slider from '../../components/widgets/Slider.svelte';
     import Switch from '../../components/widgets/Switch.svelte';
+    import TextField from '../../components/widgets/TextField.svelte';
     import Toggle from '../../components/widgets/Toggle.svelte';
-    import Warning from '../../components/widgets/Warning.svelte';
     import { dark, locales, Settings } from '../../db/Database';
 
     // Demo state for interactive component examples
     let toggleOn = $state(false);
     let modeChoice = $state(0);
+    let switchOn = $state(false);
+    let sliderValue = $state<number>(50);
+    let optionsValue = $state<string | undefined>('b');
+    let textValue = $state('');
+    let checkboxOn = $state<boolean | undefined>(false);
 
     // Computed CSS values — updated reactively whenever dark mode changes
     let colorHex = $state<Record<string, string>>({});
@@ -470,6 +478,26 @@
                         />
                     </td>
                 </tr>
+                <tr>
+                    <td><code>Note.svelte</code></td>
+                    <td>
+                        <Note
+                            ><LocalizedText
+                                path={(l) => l.ui.page.design.demo.note}
+                            /></Note
+                        >
+                    </td>
+                </tr>
+<tr>
+                    <td><code>Notice.svelte</code></td>
+                    <td>
+                        <Notice
+                            ><LocalizedText
+                                path={(l) => l.ui.page.design.demo.notice}
+                            /></Notice
+                        >
+                    </td>
+                </tr>
             </tbody>
         </table></div
     >
@@ -532,8 +560,8 @@
                     <td><code>Switch.svelte</code></td>
                     <td>
                         <Switch
-                            on={false}
-                            toggle={() => {}}
+                            on={switchOn}
+                            toggle={(on) => (switchOn = on)}
                             offLabel={`☼ ${lightLabel}`}
                             onLabel={`☽ ${darkLabel}`}
                             offTip={(l) =>
@@ -562,33 +590,69 @@
                     </td>
                 </tr>
                 <tr>
-                    <td><code>Note.svelte</code></td>
+                    <td><code>Options.svelte</code></td>
                     <td>
-                        <Note
-                            ><LocalizedText
-                                path={(l) => l.ui.page.design.demo.note}
-                            /></Note
-                        >
+                        <Options
+                            value={optionsValue}
+                            label={(l) => l.ui.page.design.demo.optionslabel}
+                            options={[
+                                {
+                                    value: 'a',
+                                    label: (l) =>
+                                        l.ui.page.design.demo.optiona,
+                                },
+                                {
+                                    value: 'b',
+                                    label: (l) =>
+                                        l.ui.page.design.demo.optionb,
+                                },
+                                {
+                                    value: 'c',
+                                    label: (l) =>
+                                        l.ui.page.design.demo.optionc,
+                                },
+                            ]}
+                            change={(v) => (optionsValue = v)}
+                        />
                     </td>
                 </tr>
                 <tr>
-                    <td><code>Warning.svelte</code></td>
+                    <td><code>Slider.svelte</code></td>
                     <td>
-                        <Warning
-                            ><LocalizedText
-                                path={(l) => l.ui.page.design.demo.warning}
-                            /></Warning
-                        >
+                        <Slider
+                            value={sliderValue}
+                            min={0}
+                            max={100}
+                            unit="%"
+                            increment={1}
+                            tip={() => 'Adjust value'}
+                            change={(v) => (sliderValue = v.toNumber())}
+                        />
                     </td>
                 </tr>
                 <tr>
-                    <td><code>Notice.svelte</code></td>
+                    <td><code>TextField.svelte</code></td>
                     <td>
-                        <Notice
-                            ><LocalizedText
-                                path={(l) => l.ui.page.design.demo.notice}
-                            /></Notice
-                        >
+                        <TextField
+                            text={textValue}
+                            placeholder={(l) =>
+                                l.ui.page.design.demo.textfieldplaceholder}
+                            description={(l) =>
+                                l.ui.page.design.demo.textfielddescription}
+                            id="design-textfield"
+                            changed={(t) => (textValue = t)}
+                        />
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>Checkbox.svelte</code></td>
+                    <td>
+                        <Checkbox
+                            on={checkboxOn}
+                            label={() => 'Example checkbox'}
+                            id="design-checkbox"
+                            changed={(v) => (checkboxOn = v)}
+                        />
                     </td>
                 </tr>
             </tbody>
@@ -675,11 +739,7 @@
 
     /* Typography specimen shown above the component table */
     .type-specimen {
-        padding: var(--wordplay-spacing);
-        border: var(--wordplay-border-width) solid var(--wordplay-border-color);
-        border-radius: var(--wordplay-border-radius);
         margin-block-end: var(--wordplay-spacing);
-        overflow: hidden;
     }
 
     table {

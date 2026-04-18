@@ -95,43 +95,39 @@
 <style>
     button {
         font-family: var(--wordplay-app-font);
-        font-size: inherit;
+        font-size: var(--wordplay-small-font-size);
         font-weight: var(--wordplay-font-weight);
         font-style: inherit;
         transform-origin: center;
         user-select: none;
-        border: none;
+        border: var(--wordplay-border-width) solid var(--wordplay-border-color);
         border-radius: var(--wordplay-border-radius);
-        background: none;
-        color: currentColor;
+        border-top-left-radius: 0;
+        border-bottom-right-radius: 0;
+        background: var(--wordplay-background);
+        color: var(--wordplay-foreground);
         stroke: currentColor;
         fill: var(--wordplay-background);
-        padding: var(--wordplay-spacing-half);
+        padding: var(--wordplay-spacing);
         cursor: pointer;
         width: fit-content;
-        max-width: 10em;
-        height: var(--wordplay-widget-height);
-        overflow: hidden;
-        text-overflow: ellipsis;
+        min-height: var(--wordplay-widget-height);
+        overflow: visible;
         white-space: nowrap;
-        transition: transform calc(var(--animation-factor) * 200ms);
-        line-height: 1;
-        /* Don't let it shrink smaller than its width */
+        transition:
+            transform calc(var(--animation-factor) * 100ms),
+            box-shadow calc(var(--animation-factor) * 100ms);
         flex-shrink: 0;
-
-        /** Allows for command hint layout */
         position: relative;
     }
 
     .background {
         background: var(--wordplay-alternating-color);
-        color: var(--wordplay-foreground);
     }
 
     .highlight {
         background: var(--wordplay-highlight-color);
         color: var(--wordplay-background);
-
         animation: bounce;
         animation-duration: calc(var(--animation-factor) * 1000ms);
         animation-delay: 0;
@@ -139,11 +135,11 @@
     }
 
     button.on {
-        color: var(--wordplay-foreground);
         stroke: var(--wordplay-background);
         fill: var(--wordplay-background);
-        box-shadow: inset 2px 2px var(--wordplay-chrome);
         background: var(--wordplay-alternating-color);
+        box-shadow: inset var(--wordplay-border-width)
+            var(--wordplay-border-width) 0 var(--wordplay-foreground);
     }
 
     .icon {
@@ -153,21 +149,25 @@
         gap: var(--wordplay-spacing-half);
     }
 
-    button.on .icon {
-        transform: scale(0.9);
-    }
-
-    button:hover {
+    button:not(.on):hover {
         background: var(--wordplay-hover);
     }
 
-    button:not(:global(.on)):hover .icon {
-        transform: scale(1.1);
+    button:focus {
+        background: var(--wordplay-focus-color);
+        color: var(--wordplay-background);
+        fill: var(--wordplay-background);
+        box-shadow: var(--wordplay-border-width) var(--wordplay-border-width) 0
+            var(--wordplay-border-color);
+        transform: translate(-1px, -1px);
+        outline: none;
     }
 
     [aria-disabled='true'] {
         cursor: default;
-        background: none;
         color: var(--wordplay-inactive-color);
+        border-color: var(--wordplay-border-color);
+        box-shadow: none;
+        opacity: 0.55;
     }
 </style>

@@ -6265,7 +6265,13 @@
                     "header": "Header",
                     "subheader": "Subheader",
                     "toggleon": "On",
-                    "toggleoff": "Off"
+                    "toggleoff": "Off",
+                    "textfieldplaceholder": "Enter text…",
+                    "textfielddescription": "Example text field",
+                    "optionslabel": "Example",
+                    "optiona": "Option A",
+                    "optionb": "Option B",
+                    "optionc": "Option C"
                 }
             }
         },

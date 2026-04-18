@@ -153,21 +153,40 @@
         background: var(--wordplay-background);
         color: var(--wordplay-foreground);
         font-family: var(--wordplay-app-font);
-        font-size: var(--wordplay-code-font);
-        border: var(--wordplay-border-color) solid var(--wordplay-border-width);
+        font-size: var(--wordplay-small-font-size);
+        border: var(--wordplay-border-width) solid var(--wordplay-border-color);
         border-radius: var(--wordplay-border-radius);
         gap: var(--wordplay-spacing);
-        transition: calc(var(--animation-factor) * 250ms) border-radius;
+        padding: var(--wordplay-spacing);
+        box-shadow: var(--wordplay-border-width) var(--wordplay-border-width) 0
+            var(--wordplay-border-color);
+        transition:
+            transform calc(var(--animation-factor) * 100ms),
+            box-shadow calc(var(--animation-factor) * 100ms),
+            border-radius calc(var(--animation-factor) * 250ms);
     }
 
     select:hover {
         background: var(--wordplay-hover);
+        transform: translate(-1px, -1px);
+    }
+
+    select:focus {
+        background: var(--wordplay-focus-color);
+        color: var(--wordplay-background);
+        outline: none;
     }
 
     select:open {
         border-bottom-right-radius: 0;
         border-bottom-left-radius: 0;
         border-bottom: none;
+        box-shadow: inset var(--wordplay-border-width) var(--wordplay-border-width)
+            0 var(--wordplay-foreground);
+        transform: translate(
+            var(--wordplay-border-width),
+            var(--wordplay-border-width)
+        );
     }
 
     select::picker-icon {

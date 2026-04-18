@@ -196,7 +196,6 @@
             labeled={false}
             modes={(l) => l.ui.emoji.groups}
             wrap={true}
-            small
             choice={VisibleCategories.indexOf(category)}
             select={(choice) => {
                 internalQuery = '';

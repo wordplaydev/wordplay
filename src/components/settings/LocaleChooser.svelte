@@ -83,6 +83,7 @@
               label: selectedLocales
                   .map((code) => getLocaleLanguageName(code))
                   .join(' + '),
+              background: true,
           }
         : undefined}
 >

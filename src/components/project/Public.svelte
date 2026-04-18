@@ -10,7 +10,7 @@
         getWarnings,
         type ModerationState,
     } from '../../db/projects/Moderation';
-    import Warning from '../widgets/Warning.svelte';
+    import Notice from '@components/app/Notice.svelte';
 
     interface Props {
         isPublic: boolean;
@@ -37,10 +37,10 @@
     {@const blocked = getBlocks(flags, $locales.getLocale())}
     {@const warnings = getWarnings(flags, $locales.getLocale())}
     {#if blocked.length > 0}
-        <Warning
+        <Notice
             ><MarkupHTMLView
                 markup={(l) => l.moderation.blocked.explanation}
-            /></Warning
+            /></Notice
         >
     {/if}
     <ul>
@@ -49,10 +49,10 @@
         {/each}
     </ul>
     {#if warnings.length > 0}
-        <Warning
+        <Notice
             ><MarkupHTMLView
                 markup={(l) => l.moderation.warning.explanation}
-            /></Warning
+            /></Notice
         >
     {/if}
     <ul>

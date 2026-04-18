@@ -64,6 +64,18 @@ type PageText = {
         toggleon: string;
         /** [plain] Tooltip when the Toggle demo is off */
         toggleoff: string;
+        /** [plain] Placeholder text in the TextField demo */
+        textfieldplaceholder: string;
+        /** [plain] ARIA description for the TextField demo */
+        textfielddescription: string;
+        /** [plain] Label for the Options demo select */
+        optionslabel: string;
+        /** [plain] First option in the Options demo */
+        optiona: string;
+        /** [plain] Second option in the Options demo */
+        optionb: string;
+        /** [plain] Third option in the Options demo */
+        optionc: string;
     };
 };
 

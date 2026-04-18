@@ -137,7 +137,7 @@
 
     input[type='range'] {
         height: 1em;
-        border: var(--wordplay-border-color) solid var(--wordplay-border-width);
+        border: var(--wordplay-border-width) solid var(--wordplay-border-color);
         border-radius: var(--wordplay-border-radius);
         margin: 0 0;
         background: none;
@@ -146,6 +146,15 @@
         /* Allow for it to be tiny */
         width: auto;
         min-width: 2em;
+        box-shadow: var(--wordplay-border-width) var(--wordplay-border-width) 0
+            var(--wordplay-border-color);
+        transition:
+            transform calc(var(--animation-factor) * 100ms),
+            box-shadow calc(var(--animation-factor) * 100ms);
+    }
+
+    input[type='range']:hover {
+        transform: translate(-1px, -1px);
     }
 
     input[type='range']:focus {

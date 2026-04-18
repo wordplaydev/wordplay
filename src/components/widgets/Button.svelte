@@ -74,7 +74,6 @@
     }
 
     let loading = $state(false);
-    let width = $state(0);
     let tooltip = $derived(
         isComputedTooltip(tip)
             ? tip()
@@ -93,7 +92,6 @@
     async function doAction(event: Event) {
         if (active) {
             const result = action();
-            pressed = true;
             setTimeout(() => (pressed = false), 100);
 
             if (result instanceof Promise) {
@@ -121,8 +119,6 @@
     data-testid={testid}
     data-uiid={uiid}
     class={classes}
-    bind:clientWidth={width}
-    style:--characters={width / 20}
     type={submit ? 'submit' : 'button'}
     aria-label={tooltip}
     aria-disabled={!active}
@@ -130,9 +126,13 @@
     onpointerdown={(event) => {
         event.preventDefault();
         event.stopPropagation();
+        if (active) pressed = true;
     }}
     onpointerenter={showTip}
-    onpointerleave={hideTip}
+    onpointerleave={() => {
+        hideTip();
+        pressed = false;
+    }}
     ontouchstart={showTip}
     ontouchend={hideTip}
     ontouchcancel={hideTip}
@@ -167,7 +167,7 @@
     button {
         background-color: var(--wordplay-chrome);
         font-family: var(--wordplay-app-font);
-        font-size: inherit;
+        font-size: var(--wordplay-small-font-size);
         font-weight: var(--wordplay-font-weight);
         font-style: inherit;
         transform-origin: center;
@@ -198,8 +198,8 @@
     }
 
     .padding {
-        padding-left: var(--wordplay-spacing-half);
-        padding-right: var(--wordplay-spacing-half);
+        padding-left: var(--wordplay-spacing);
+        padding-right: var(--wordplay-spacing);
     }
 
     button.stretch {
@@ -210,10 +210,10 @@
     /* Raised, bordered look with hard offset shadow for dimensionality */
     .background {
         color: var(--wordplay-foreground);
-        background: var(--wordplay-alternating-color);
-        border: var(--wordplay-border-width) solid var(--wordplay-foreground);
+        background: var(--wordplay-background);
+        border: var(--wordplay-border-width) solid var(--wordplay-border-color);
         box-shadow: var(--wordplay-border-width) var(--wordplay-border-width) 0
-            var(--wordplay-foreground);
+            var(--wordplay-border-color);
         text-shadow: 0 var(--wordplay-border-width) 0
             var(--color-shadow-transparent);
     }
@@ -227,7 +227,7 @@
     /* Disabled background buttons: flat, muted, no shadow */
     .background[aria-disabled='true'] {
         background: var(--wordplay-alternating-color);
-        border-color: var(--wordplay-inactive-color);
+        border-color: var(--wordplay-border-color);
         box-shadow: none;
         text-shadow: none;
         opacity: 0.55;
@@ -242,17 +242,18 @@
     button.background:focus {
         background: var(--wordplay-focus-color);
         color: var(--wordplay-background);
-        border-color: var(--wordplay-foreground);
+        border-color: var(--wordplay-border-color);
         box-shadow: var(--wordplay-border-width) var(--wordplay-border-width) 0
-            var(--wordplay-foreground);
+            var(--wordplay-border-color);
         text-shadow: 0 var(--wordplay-border-width) var(--wordplay-border-width)
             var(--color-shadow);
         fill: var(--wordplay-background);
         outline: none;
     }
 
-    button:hover:not(:global(:focus))[aria-disabled='false'] {
+    button:hover:not(.pressed)[aria-disabled='false'] {
         background: var(--wordplay-hover);
+        transform: translate(-1px, -1px);
     }
 
     .button.active {
@@ -268,38 +269,34 @@
     }
 
     .background.padding {
-        padding-top: var(--wordplay-spacing-half);
-        padding-bottom: var(--wordplay-spacing-half);
+        padding-top: var(--wordplay-spacing);
+        padding-bottom: var(--wordplay-spacing);
     }
 
-    button:hover:not(.pressed)[aria-disabled='false'],
     button:focus {
-        transform: rotate(calc(-5deg / var(--characters)));
+        transform: translate(-1px, -1px);
     }
 
-    /* Hover on background buttons: yellow fill, lift with larger shadow */
-    button.background:hover:not(.pressed)[aria-disabled='false'] {
-        background: var(--wordplay-hover);
-        border-color: var(--wordplay-foreground);
-        box-shadow: var(--wordplay-border-width) var(--wordplay-border-width) 0
-            var(--wordplay-foreground);
-        transform: translate(-1px, -1px) rotate(calc(-5deg / var(--characters)));
-        text-shadow: 0 var(--wordplay-border-width) var(--wordplay-border-width)
-            var(--color-shadow);
-    }
-
+    /* Hover on background buttons: lift with larger shadow */
+    button.background:hover:not(.pressed)[aria-disabled='false'],
     button.background:focus {
-        transform: translate(-1px, -1px) rotate(calc(-5deg / var(--characters)));
+        border-color: var(--wordplay-border-color);
+        box-shadow: var(--wordplay-border-width) var(--wordplay-border-width) 0
+            var(--wordplay-border-color);
     }
 
     button.pressed {
-        transform: translateY(-0.25em) scale(1.1);
+        transform: translate(1px, 1px);
     }
 
     /* Pressed background buttons: shadow collapses, button sinks into it */
     button.background.pressed {
-        box-shadow: 0 0 0 var(--wordplay-foreground);
-        transform: translate(3px, 3px);
+        box-shadow: inset var(--wordplay-border-width) var(--wordplay-border-width)
+            0 var(--wordplay-foreground);
+        transform: translate(
+            var(--wordplay-border-width),
+            var(--wordplay-border-width)
+        );
         text-shadow: none;
     }
 </style>

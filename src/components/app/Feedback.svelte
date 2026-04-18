@@ -445,6 +445,7 @@
     button={{
         tip: (l) => l.ui.dialog.feedback.button.show,
         icon: `${IDEA_SYMBOL}/${DEFECT_SYMBOL}`,
+        background: true,
     }}
 >
     <Mode

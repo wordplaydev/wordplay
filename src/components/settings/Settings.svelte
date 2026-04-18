@@ -110,6 +110,7 @@
         button={{
             tip: (l) => l.ui.dialog.settings.button.show,
             icon: '⚙',
+            background: true,
         }}
         header={(l) => l.ui.dialog.settings.header}
         explanation={(l) => l.ui.dialog.settings.explanation}

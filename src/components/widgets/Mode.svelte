@@ -26,8 +26,6 @@
         wrap?: boolean;
         /** Buttons to omit, allowing for conditional display of modes */
         omit?: readonly number[];
-        /** Render as a small button */
-        small?: boolean;
     }
 
     let {
@@ -40,7 +38,6 @@
         modeLabels = true,
         wrap = false,
         omit = [],
-        small = false,
     }: Props = $props();
 
     let modeText = $derived($locales.getTextStructure(modes));
@@ -62,7 +59,6 @@
     <div
         class="group"
         class:wrap
-        class:small
         role="radiogroup"
         id={label}
         aria-labelledby={label}
@@ -78,10 +74,11 @@
                     aria-label={$locales.getPlainText(modeText.tips[index])}
                     aria-disabled={!active || index === choice}
                     ondblclick={(event) => event.stopPropagation()}
-                    onpointerdown={(event) =>
-                        index !== choice && event.button === 0 && active
-                            ? select(index)
-                            : undefined}
+                    onpointerdown={(event) => {
+                        event.preventDefault();
+                        if (index !== choice && event.button === 0 && active)
+                            select(index);
+                    }}
                     onpointerenter={(event) =>
                         showTip(
                             event.target as HTMLButtonElement,
@@ -115,7 +112,7 @@
                                 icons[index],
                             )}{:else}?{/if}{/if}
                     {#if modeLabels}<LocalizedText
-                            path={(l) =>
+                            path={() =>
                                 $locales.getPlainText(modeText.labels[index])}
                         />{/if}
                 </button>
@@ -141,48 +138,55 @@
     button {
         display: inline-block;
         font-family: var(--wordplay-app-font);
+        font-size: var(--wordplay-small-font-size);
         font-weight: var(--wordplay-font-weight);
         cursor: pointer;
         width: fit-content;
         white-space: nowrap;
-        border: 1px solid var(--wordplay-chrome);
+        border: var(--wordplay-border-width) solid var(--wordplay-border-color);
         color: var(--wordplay-foreground);
         background-color: var(--wordplay-background);
         padding: var(--wordplay-spacing);
-        transition: transform calc(var(--animation-factor) * 200ms);
+        box-shadow: var(--wordplay-border-width) var(--wordplay-border-width) 0
+            var(--wordplay-border-color);
+        transition:
+            transform calc(var(--animation-factor) * 200ms),
+            box-shadow calc(var(--animation-factor) * 100ms);
         cursor: pointer;
     }
 
-    .small button {
-        font-size: var(--wordplay-small-font-size);
-    }
+
 
     button.selected {
         color: var(--wordplay-background);
         background: var(--wordplay-highlight-color);
-        transform: scale(1.05);
+        box-shadow: inset var(--wordplay-border-width) var(--wordplay-border-width)
+            0 var(--wordplay-foreground);
         cursor: default;
     }
 
     button:focus {
-        outline: var(--wordplay-focus-color) solid var(--wordplay-focus-width);
+        background: var(--wordplay-focus-color);
+        color: var(--wordplay-background);
+        fill: var(--wordplay-background);
+        outline: none;
     }
 
     button:first-child {
         border-top-left-radius: var(--wordplay-border-radius);
         border-bottom-left-radius: var(--wordplay-border-radius);
-        border-left: 1px solid var(--wordplay-chrome);
     }
 
     button:last-child {
         border-top-right-radius: var(--wordplay-border-radius);
         border-bottom-right-radius: var(--wordplay-border-radius);
-        border-right: 1px solid var(--wordplay-chrome);
     }
 
     button:not(:global(.selected)):hover {
-        transform: scale(1.05);
         background: var(--wordplay-hover);
+        box-shadow: var(--wordplay-border-width) var(--wordplay-border-width) 0
+            var(--wordplay-border-color);
+        transform: translate(-1px, -1px);
     }
 
     .group {

@@ -12208,8 +12208,32 @@
                           "description": "[plain] Text shown in the Notice demo",
                           "type": "string"
                         },
+                        "optiona": {
+                          "description": "[plain] First option in the Options demo",
+                          "type": "string"
+                        },
+                        "optionb": {
+                          "description": "[plain] Second option in the Options demo",
+                          "type": "string"
+                        },
+                        "optionc": {
+                          "description": "[plain] Third option in the Options demo",
+                          "type": "string"
+                        },
+                        "optionslabel": {
+                          "description": "[plain] Label for the Options demo select",
+                          "type": "string"
+                        },
                         "subheader": {
                           "description": "[plain] Text shown inside the Subheader demo",
+                          "type": "string"
+                        },
+                        "textfielddescription": {
+                          "description": "[plain] ARIA description for the TextField demo",
+                          "type": "string"
+                        },
+                        "textfieldplaceholder": {
+                          "description": "[plain] Placeholder text in the TextField demo",
                           "type": "string"
                         },
                         "toggleoff": {
@@ -12233,7 +12257,13 @@
                         "header",
                         "subheader",
                         "toggleon",
-                        "toggleoff"
+                        "toggleoff",
+                        "textfieldplaceholder",
+                        "textfielddescription",
+                        "optionslabel",
+                        "optiona",
+                        "optionb",
+                        "optionc"
                       ],
                       "type": "object"
                     },

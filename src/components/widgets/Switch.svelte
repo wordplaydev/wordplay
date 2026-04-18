@@ -45,6 +45,7 @@
         aria-disabled={!on}
         aria-label={offTipText}
         tabindex="0"
+        onpointerdown={(event) => event.preventDefault()}
         onclick={(event) => {
             event.stopPropagation();
             toggle(false);
@@ -69,6 +70,7 @@
         aria-disabled={on}
         aria-label={onTipText}
         tabindex="0"
+        onpointerdown={(event) => event.preventDefault()}
         onpointerenter={(event) =>
             showTip(event.target as HTMLSpanElement, onTipText)}
         onpointerleave={hideTip}
@@ -94,7 +96,7 @@
         align-items: center;
         user-select: none;
         font-family: var(--wordplay-app-font);
-        font-size: var(--wordplay-font-size);
+        font-size: var(--wordplay-small-font-size);
         font-weight: var(--wordplay-font-weight);
         color: var(--wordplay-foreground);
     }
@@ -105,9 +107,14 @@
         transform-origin: center;
         cursor: pointer;
         border-radius: var(--wordplay-border-radius);
-        padding: var(--wordplay-spacing-half);
-        border: 1px solid var(--wordplay-chrome);
+        padding: var(--wordplay-spacing);
+        border: var(--wordplay-border-width) solid var(--wordplay-border-color);
         background: var(--wordplay-background);
+        box-shadow: var(--wordplay-border-width) var(--wordplay-border-width) 0
+            var(--wordplay-border-color);
+        transition:
+            transform calc(var(--animation-factor) * 100ms),
+            box-shadow calc(var(--animation-factor) * 100ms);
     }
 
     .button.off {
@@ -132,25 +139,29 @@
     }
 
     .button.inactive {
-        transform: scale(1);
         color: var(--wordplay-foreground);
         background-color: var(--wordplay-background);
     }
 
     .button.inactive:hover {
-        transform: scale(1.05);
-        transform-origin: center;
-        z-index: 1;
         background-color: var(--wordplay-hover);
+        box-shadow: var(--wordplay-border-width) var(--wordplay-border-width) 0
+            var(--wordplay-border-color);
+        transform: translate(-1px, -1px);
+        z-index: 1;
     }
 
     .button.active {
-        transform: scale(1.1);
         color: var(--wordplay-background);
         background: var(--wordplay-highlight-color);
+        box-shadow: inset var(--wordplay-border-width) var(--wordplay-border-width)
+            0 var(--wordplay-foreground);
     }
 
     .button:focus {
-        outline: var(--wordplay-focus-color) solid var(--wordplay-focus-width);
+        background: var(--wordplay-focus-color);
+        color: var(--wordplay-background);
+        fill: var(--wordplay-background);
+        outline: none;
     }
 </style>

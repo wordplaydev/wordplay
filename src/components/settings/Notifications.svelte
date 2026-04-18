@@ -188,6 +188,7 @@
     button={{
         tip: (l) => l.ui.dialog.notifications.open,
         icon: `🔔 ${notifications.size}`,
+        background: true,
     }}
 >
     <Mode
