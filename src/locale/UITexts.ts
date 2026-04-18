@@ -24,6 +24,7 @@ import type TeachPageText from '../routes/teach/PageText';
 import type ClassPageText from '../routes/teach/class/[classid]/PageText';
 import type NewClassPageText from '../routes/teach/class/new/PageText';
 import type UpdatesPageText from '../routes/updates/PageText';
+import type DesignPageText from '../routes/design/PageText';
 import type EditTexts from './EditTexts';
 
 export type ButtonText = {
@@ -994,6 +995,8 @@ type UITexts = {
         rights: RightsPageText;
         /** Giving related text */
         donate: DonatePageText;
+        /** Design system page text */
+        design: DesignPageText;
     };
     /** Descriptions of cursor positions and code transformations */
     edit: EditTexts;

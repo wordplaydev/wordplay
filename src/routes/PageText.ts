@@ -33,6 +33,8 @@ type PageText = {
         community: { label: string; subtitle: string };
         /** The contributor link */
         contribute: { label: string; subtitle: string };
+        /** [plain] What content is on the design page */
+        design: string;
     };
 };
 

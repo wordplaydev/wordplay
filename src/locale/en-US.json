@@ -5610,7 +5610,8 @@
                     "contribute": {
                         "label": "Contribute",
                         "subtitle": "Help us make Wordplay"
-                    }
+                    },
+                    "design": "Design system reference for contributors"
                 }
             },
             "learn": {
@@ -6231,6 +6232,41 @@
                     "If 2,400 people gave $$25 USD per year, that would cover our current costs, with any excess going to compensate more students and teachers.",
                     "Can you be one of those 2,400 people? If so, here's our University of Washington giving link:"
                 ]
+            },
+            "design": {
+                "header": "Design",
+                "description": "This is a reference for Wordplay's visual design system, including colors, fonts, spacing, and reusable components. See the <design wiki@https://github.com/wordplaydev/wordplay/wiki/design> and <develop wiki@https://github.com/wordplaydev/wordplay/wiki/develop> guides for contributing.",
+                "theme": "Theme",
+                "colors": "Colors",
+                "palette": "Palette",
+                "semantic": "Semantic Colors",
+                "fonts": "Fonts",
+                "appfont": "Text Font",
+                "codefont": "Code Font",
+                "spacing": "Spacing",
+                "typography": "Typography",
+                "components": "Components",
+                "col": {
+                    "component": "Component",
+                    "preview": "Preview",
+                    "variable": "Variable",
+                    "color": "Color",
+                    "hex": "Hex",
+                    "description": "Description",
+                    "cssvalue": "CSS value",
+                    "computed": "Computed",
+                    "primaryface": "Primary face"
+                },
+                "demo": {
+                    "button": "Example",
+                    "note": "This is a note.",
+                    "warning": "This is a warning.",
+                    "notice": "This is a notice.",
+                    "header": "Header",
+                    "subheader": "Subheader",
+                    "toggleon": "On",
+                    "toggleoff": "Off"
+                }
             }
         },
         "edit": {

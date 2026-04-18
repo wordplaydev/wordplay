@@ -12114,6 +12114,180 @@
                   ],
                   "type": "object"
                 },
+                "design": {
+                  "additionalProperties": false,
+                  "description": "Design system page text",
+                  "properties": {
+                    "appfont": {
+                      "description": "[plain] Label for the application font subsection",
+                      "type": "string"
+                    },
+                    "codefont": {
+                      "description": "[plain] Label for the code font subsection",
+                      "type": "string"
+                    },
+                    "col": {
+                      "additionalProperties": false,
+                      "description": "Column header labels for data tables",
+                      "properties": {
+                        "color": {
+                          "description": "[plain] Column header for the color swatch",
+                          "type": "string"
+                        },
+                        "component": {
+                          "description": "[plain] Column header for the component name",
+                          "type": "string"
+                        },
+                        "computed": {
+                          "description": "[plain] Column header for the computed/resolved measurement",
+                          "type": "string"
+                        },
+                        "cssvalue": {
+                          "description": "[plain] Column header for the raw CSS value",
+                          "type": "string"
+                        },
+                        "description": {
+                          "description": "[plain] Column header for the description",
+                          "type": "string"
+                        },
+                        "hex": {
+                          "description": "[plain] Column header for the hex value",
+                          "type": "string"
+                        },
+                        "preview": {
+                          "description": "[plain] Column header for the live preview",
+                          "type": "string"
+                        },
+                        "primaryface": {
+                          "description": "[plain] Row label for the primary font face name",
+                          "type": "string"
+                        },
+                        "variable": {
+                          "description": "[plain] Column header for the CSS variable name",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "component",
+                        "preview",
+                        "variable",
+                        "color",
+                        "hex",
+                        "description",
+                        "cssvalue",
+                        "computed",
+                        "primaryface"
+                      ],
+                      "type": "object"
+                    },
+                    "colors": {
+                      "description": "[plain] Subheader for the colors section",
+                      "type": "string"
+                    },
+                    "components": {
+                      "description": "[plain] Subheader for the components section",
+                      "type": "string"
+                    },
+                    "demo": {
+                      "additionalProperties": false,
+                      "description": "Placeholder text used in live component demos",
+                      "properties": {
+                        "button": {
+                          "description": "[plain] Label shown inside the Button demo",
+                          "type": "string"
+                        },
+                        "header": {
+                          "description": "[plain] Text shown inside the Header demo",
+                          "type": "string"
+                        },
+                        "note": {
+                          "description": "[plain] Text shown in the Note demo",
+                          "type": "string"
+                        },
+                        "notice": {
+                          "description": "[plain] Text shown in the Notice demo",
+                          "type": "string"
+                        },
+                        "subheader": {
+                          "description": "[plain] Text shown inside the Subheader demo",
+                          "type": "string"
+                        },
+                        "toggleoff": {
+                          "description": "[plain] Tooltip when the Toggle demo is off",
+                          "type": "string"
+                        },
+                        "toggleon": {
+                          "description": "[plain] Tooltip when the Toggle demo is on",
+                          "type": "string"
+                        },
+                        "warning": {
+                          "description": "[plain] Text shown in the Warning demo",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "button",
+                        "note",
+                        "warning",
+                        "notice",
+                        "header",
+                        "subheader",
+                        "toggleon",
+                        "toggleoff"
+                      ],
+                      "type": "object"
+                    },
+                    "description": {
+                      "$ref": "#/definitions/FormattedText",
+                      "description": "[formatted] Description of the design system page, with links to wiki guides"
+                    },
+                    "fonts": {
+                      "description": "[plain] Subheader for the fonts section",
+                      "type": "string"
+                    },
+                    "header": {
+                      "description": "[plain] Header for the design page",
+                      "type": "string"
+                    },
+                    "palette": {
+                      "description": "[plain] Subheader for the palette colors subsection",
+                      "type": "string"
+                    },
+                    "semantic": {
+                      "description": "[plain] Subheader for the semantic colors subsection",
+                      "type": "string"
+                    },
+                    "spacing": {
+                      "description": "[plain] Subheader for the spacing section",
+                      "type": "string"
+                    },
+                    "theme": {
+                      "description": "[plain] Subheader for the theme toggle section",
+                      "type": "string"
+                    },
+                    "typography": {
+                      "description": "[plain] Subheader for typography",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "header",
+                    "description",
+                    "theme",
+                    "colors",
+                    "palette",
+                    "semantic",
+                    "fonts",
+                    "appfont",
+                    "codefont",
+                    "spacing",
+                    "typography",
+                    "components",
+                    "col",
+                    "demo"
+                  ],
+                  "type": "object"
+                },
                 "donate": {
                   "additionalProperties": false,
                   "description": "Giving related text",
@@ -12373,6 +12547,10 @@
                           ],
                           "type": "object"
                         },
+                        "design": {
+                          "description": "[plain] What content is on the design page",
+                          "type": "string"
+                        },
                         "galleries": {
                           "description": "[plain] What content is on the galleries page",
                           "type": "string"
@@ -12413,7 +12591,8 @@
                         "rights",
                         "updates",
                         "community",
-                        "contribute"
+                        "contribute",
+                        "design"
                       ],
                       "type": "object"
                     },
@@ -13420,7 +13599,8 @@
                 "login",
                 "join",
                 "rights",
-                "donate"
+                "donate",
+                "design"
               ],
               "type": "object"
             },

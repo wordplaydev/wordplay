@@ -9,6 +9,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 ## Added
 
 - We added a Portugese (Portugal) machine translation! Time to get to work to make it good.
+- We added `/design` page so that anyone working on design or development for the platform have an easier guide on what colors, fonts, spacing, and components to use (#935).
 
 ## 0.17.5 - 2026-04-11
 
