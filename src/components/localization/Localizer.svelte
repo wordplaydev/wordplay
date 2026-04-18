@@ -1,19 +1,40 @@
 <script lang="ts">
     import Subheader from '@components/app/Subheader.svelte';
+    import Notice from '@components/app/Notice.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
+    import { getLocalizing } from '@components/project/Contexts';
+    import Button from '@components/widgets/Button.svelte';
     import FormattedEditor from '@components/widgets/FormattedEditor.svelte';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import Note from '@components/widgets/Note.svelte';
     import Options from '@components/widgets/Options.svelte';
     import TextField from '@components/widgets/TextField.svelte';
     import { locales } from '@db/Database';
+    import {
+        deleteAllLocaleEdits,
+        localeEdits,
+    } from '@db/locales/LocalizationDexie';
+    import DefaultLocale from '@locale/DefaultLocale';
     import { isMachineTranslated } from '@locale/LocaleText';
     import { withoutAnnotations } from '@locale/withoutAnnotations';
-    import { Emotion } from '../../lore/Emotion';
-    import { MACHINE_TRANSLATED_SYMBOL } from '@parser/Symbols';
+    import { CONFIRM_SYMBOL, MACHINE_TRANSLATED_SYMBOL } from '@parser/Symbols';
     import { isName } from '@parser/Tokenizer';
     import { getKeyTemplatePairs } from '@util/verify-locales/LocalePath';
     import { onMount } from 'svelte';
+    import { Emotion } from '../../lore/Emotion';
+
+    let localizing = getLocalizing();
+    let submitted = $state(false);
+
+    $effect(() => {
+        if ($localeEdits.size > 0) submitted = false;
+    });
+    let focusedEnglishText = $derived.by(() => {
+        const accessor = localizing.focused;
+        if (!accessor) return undefined;
+        const result = accessor(DefaultLocale);
+        return Array.isArray(result) ? result.join('\n\n') : result;
+    });
 
     // Lazily fetched JSON Schema — not bundled
     let schema = $state<Record<string, unknown> | undefined>(undefined);
@@ -71,7 +92,9 @@
 
     type EditorType = 'plain' | 'formatted' | 'name' | 'emotion';
 
-    function getEditorType(description: string | undefined): EditorType | undefined {
+    function getEditorType(
+        description: string | undefined,
+    ): EditorType | undefined {
         if (!description) return undefined;
         if (description.includes('[emotion]')) return 'emotion';
         if (description.includes('[name]')) return 'name';
@@ -112,7 +135,10 @@
             }))
             .filter((opt) => {
                 // Once schema is loaded, only include keys with a recognized editor type
-                if (schema !== undefined && getEditorType(opt.description) === undefined)
+                if (
+                    schema !== undefined &&
+                    getEditorType(opt.description) === undefined
+                )
                     return false;
                 return (
                     query === '' ||
@@ -168,12 +194,14 @@
     ).map((e) => ({ value: e as string, label: e as string }));
 </script>
 
-<Subheader>
-    <LocalizedText path={(l) => l.ui.localize.header} />
-</Subheader>
+<Subheader text={(l) => l.ui.localize.header} />
 <MarkupHTMLView markup={(l) => l.ui.localize.description} />
 
-{#if allPaths.length > 0}
+{#if focusedEnglishText !== undefined}
+    <h3><LocalizedText path={(l) => l.ui.localize.reference} /></h3>
+    <p>{focusedEnglishText}</p>
+{:else if allPaths.length > 0}
+    <h3><LocalizedText path={(l) => l.ui.localize.unwritten} /></h3>
     <div class="mt-editor">
         <div class="selector-row">
             <TextField
@@ -197,12 +225,20 @@
                     width="100%"
                 >
                     {#snippet item(option, localized)}
-                        {@const typePrefix = editorTypePrefix[getEditorType(option.description) ?? 'plain'] ?? ''}
-                        {@const pair = allPaths.find((p) => p.toString() === option.value)}
+                        {@const typePrefix =
+                            editorTypePrefix[
+                                getEditorType(option.description) ?? 'plain'
+                            ] ?? ''}
+                        {@const pair = allPaths.find(
+                            (p) => p.toString() === option.value,
+                        )}
                         {@const mt = pair ? isMT(pair) : false}
                         <span class="option-item">
                             <span class="option-label"
-                                >{typePrefix}{mt ? ' ' + MACHINE_TRANSLATED_SYMBOL : ''} {@render localized(option.label)}</span
+                                >{typePrefix}{mt
+                                    ? ' ' + MACHINE_TRANSLATED_SYMBOL
+                                    : ''}
+                                {@render localized(option.label)}</span
                             >
                             {#if option.description}
                                 <Note>{option.description}</Note>
@@ -224,8 +260,10 @@
             {:else if editorType === 'formatted'}
                 <FormattedEditor
                     id="localize-mt-field"
-                    description={(l) => l.ui.localize.field.formatted.description}
-                    placeholder={(l) => l.ui.localize.field.formatted.placeholder}
+                    description={(l) =>
+                        l.ui.localize.field.formatted.description}
+                    placeholder={(l) =>
+                        l.ui.localize.field.formatted.placeholder}
                     bind:text={editedText}
                 />
             {:else if editorType === 'name'}
@@ -252,9 +290,45 @@
             {/if}
         {/if}
     </div>
+
+    {#if submitted}
+        <Notice text={(l) => l.ui.localize.submitted} />
+    {/if}
+
+    {#if $localeEdits.size > 0}
+        <h3><LocalizedText path={(l) => l.ui.localize.revised} /></h3>
+        <MarkupHTMLView markup={(l) => l.ui.localize.revisedDescription} />
+        <div class="revised-actions">
+            <span>{$localeEdits.size}</span>
+            <Button
+                tip={(l) => l.ui.localize.submitRevisions}
+                action={async () => { await deleteAllLocaleEdits(); submitted = true; }}
+                background
+                padding={true}
+                >{CONFIRM_SYMBOL}
+                <LocalizedText
+                    path={(l) => l.ui.localize.submitRevisions}
+                /></Button
+            >
+        </div>
+    {/if}
 {/if}
 
 <style>
+    .revised-actions {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: var(--wordplay-spacing);
+        margin-block-start: var(--wordplay-spacing);
+    }
+
+    h3 {
+        font-size: min(4vw, 14pt);
+        margin-block-start: 1em;
+        margin-block-end: var(--wordplay-spacing);
+    }
+
     .mt-editor {
         display: flex;
         flex-direction: column;

@@ -5889,7 +5889,8 @@
         "template": {
             "unwritten": "待定",
             "unparsable": "無法解析的模板: $1",
-            "machineTranslated": "$~這是機器翻譯的，所以可能不通順或不正確。"
+            "machineTranslated": "$~這是機器翻譯的，所以可能不通順或不正確。",
+            "locallyRevised": "$~本文已進行在地化修訂，與官方譯文有所不同。"
         },
         "collaborate": {
             "label": "$~合作",
@@ -6258,7 +6259,8 @@
             "button": {
                 "edit": "$~建議修改此文本",
                 "submit": "$~提交修改建議",
-                "cancel": "$~放棄建議的編輯"
+                "cancel": "$~放棄建議的編輯",
+                "revert": "$~恢復官方文本"
             },
             "field": {
                 "plain": {
@@ -6280,7 +6282,13 @@
             },
             "strings": "$~區域設定字串",
             "emotion": "$?",
-            "invalidName": "$~不是有效的文字遊戲名稱"
+            "invalidName": "$~不是有效的文字遊戲名稱",
+            "reference": "$~英文參考",
+            "unwritten": "$~未書寫的文本",
+            "revised": "$~修訂文本",
+            "revisedDescription": "$~這些修改已保存在本地，尚未提交審核。",
+            "submitRevisions": "$~提交修改稿",
+            "submitted": "$~謝謝！我們會審核您修改後的文本，可能很快就會發布。"
         }
     },
     "moderation": {

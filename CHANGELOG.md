@@ -12,6 +12,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - We added `/design` page so that anyone working on design or development for the platform have an easier guide on what colors, fonts, spacing, and components to use (#935).
 - We made the user interface components more consistent, usable, and visible.
 - We added a more salient button design, but we're not using it anywhere yet.
+- We made more progress on the in-app localization editing feature! It's not quite ready to release yet, but it's getting closer.
 
 ## Changed
 

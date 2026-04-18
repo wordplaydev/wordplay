@@ -5537,6 +5537,12 @@
         },
         "localize": {
             "header": "Localize",
+            "reference": "English reference",
+            "unwritten": "Unwritten text",
+            "revised": "Revised text",
+            "revisedDescription": "These revisions are saved locally and have not yet been submitted for review.",
+            "submitRevisions": "Submit revisions",
+            "submitted": "Thank you! Your revised text will be reviewed and may be posted soon.",
             "description": "Welcome to localization mode! You can suggest improvements to the text in the Wordplay interface. Choose any text to suggest an edit. Your suggestions will be reviewed, and if approved, will become part of the platform for everyone to see. Thanks for helping make Wordplay more accessible for everyone in the world!",
             "toggle": {
                 "mode": {
@@ -5547,7 +5553,8 @@
             "button": {
                 "edit": "Suggest an edit to this text",
                 "submit": "Submit suggested edit",
-                "cancel": "Discard suggested edit"
+                "cancel": "Discard suggested edit",
+                "revert": "Revert to official text"
             },
             "field": {
                 "plain": {
@@ -6296,7 +6303,8 @@
         "template": {
             "unwritten": "TBD",
             "unparsable": "Unparsable template: $1",
-            "machineTranslated": "This was machine translated, so it may not be readable or correct."
+            "machineTranslated": "This was machine translated, so it may not be readable or correct.",
+            "locallyRevised": "This text has been locally revised and differs from the official translation."
         },
         "emoji": {
             "noCharacters": "Create a custom character",

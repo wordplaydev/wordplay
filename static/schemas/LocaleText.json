@@ -11258,6 +11258,10 @@
                       "description": "[plain] Tooltip for the button that opens text editing",
                       "type": "string"
                     },
+                    "revert": {
+                      "description": "[plain] Tooltip for the button that reverts to the official text",
+                      "type": "string"
+                    },
                     "submit": {
                       "description": "[plain] Tooltip for the button that submits the suggested edit",
                       "type": "string"
@@ -11266,7 +11270,8 @@
                   "required": [
                     "edit",
                     "submit",
-                    "cancel"
+                    "cancel",
+                    "revert"
                   ],
                   "type": "object"
                 },
@@ -11314,8 +11319,28 @@
                   "description": "[plain] Error shown when a name is not a valid Wordplay name",
                   "type": "string"
                 },
+                "reference": {
+                  "description": "[plain] Label for the English reference text shown when an editor is focused",
+                  "type": "string"
+                },
+                "revised": {
+                  "description": "[plain] Subheader for the revised text section",
+                  "type": "string"
+                },
+                "revisedDescription": {
+                  "$ref": "#/definitions/FormattedText",
+                  "description": "[formatted] Explanation that revisions are local and not yet submitted"
+                },
                 "strings": {
                   "description": "[plain] The ARIA label for the dropdown that lists all locale strings available to review and edit",
+                  "type": "string"
+                },
+                "submitRevisions": {
+                  "description": "[plain] Label for the submit revisions button",
+                  "type": "string"
+                },
+                "submitted": {
+                  "description": "[plain] Notice shown after revisions are submitted",
                   "type": "string"
                 },
                 "toggle": {
@@ -11330,10 +11355,20 @@
                     "mode"
                   ],
                   "type": "object"
+                },
+                "unwritten": {
+                  "description": "[plain] Subheader above the unwritten text dropdown",
+                  "type": "string"
                 }
               },
               "required": [
                 "header",
+                "reference",
+                "unwritten",
+                "revised",
+                "revisedDescription",
+                "submitRevisions",
+                "submitted",
                 "description",
                 "toggle",
                 "button",
@@ -14795,6 +14830,10 @@
             "template": {
               "additionalProperties": false,
               "properties": {
+                "locallyRevised": {
+                  "description": "[plain] The tooltip for the locally-revised annotation",
+                  "type": "string"
+                },
                 "machineTranslated": {
                   "description": "[plain] The tooltip for the machine-translated annotation",
                   "type": "string"
@@ -14811,7 +14850,8 @@
               "required": [
                 "unwritten",
                 "unparsable",
-                "machineTranslated"
+                "machineTranslated",
+                "locallyRevised"
               ],
               "type": "object"
             },

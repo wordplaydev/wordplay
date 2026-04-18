@@ -5944,7 +5944,8 @@
         "template": {
             "unwritten": "$~미정",
             "unparsable": "$~구문 분석할 수 없는 템플릿: $1",
-            "machineTranslated": "$~이 내용은 기계 번역이므로 가독성이 떨어지거나 정확하지 않을 수 있습니다."
+            "machineTranslated": "$~이 내용은 기계 번역이므로 가독성이 떨어지거나 정확하지 않을 수 있습니다.",
+            "locallyRevised": "$~본 문서는 현지에서 수정되었으며 공식 번역본과 차이가 있습니다."
         },
         "collaborate": {
             "label": "$~협력하다",
@@ -6315,7 +6316,8 @@
             "button": {
                 "edit": "$~이 텍스트에 대한 수정 제안을 해주세요.",
                 "submit": "$~수정 제안 제출",
-                "cancel": "$~제안된 수정 사항을 폐기합니다."
+                "cancel": "$~제안된 수정 사항을 폐기합니다.",
+                "revert": "$~공식 텍스트로 되돌리기"
             },
             "field": {
                 "plain": {
@@ -6337,7 +6339,13 @@
             },
             "strings": "$~로케일 문자열",
             "emotion": "$?",
-            "invalidName": "$~유효한 말장난 이름이 아닙니다"
+            "invalidName": "$~유효한 말장난 이름이 아닙니다",
+            "reference": "$~영어 참고 자료",
+            "unwritten": "$~쓰여지지 않은 텍스트",
+            "revised": "$~수정된 텍스트",
+            "revisedDescription": "$~이러한 수정 사항은 로컬에 저장되었으며 아직 검토를 위해 제출되지 않았습니다.",
+            "submitRevisions": "$~수정본 제출",
+            "submitted": "$~감사합니다! 수정하신 내용을 검토 후 곧 게시될 예정입니다."
         }
     },
     "moderation": {

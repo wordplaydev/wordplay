@@ -929,6 +929,18 @@ type UITexts = {
     localize: {
         /** [plain] The header for the localization editor */
         header: string;
+        /** [plain] Label for the English reference text shown when an editor is focused */
+        reference: string;
+        /** [plain] Subheader above the unwritten text dropdown */
+        unwritten: string;
+        /** [plain] Subheader for the revised text section */
+        revised: string;
+        /** [formatted] Explanation that revisions are local and not yet submitted */
+        revisedDescription: FormattedText;
+        /** [plain] Label for the submit revisions button */
+        submitRevisions: string;
+        /** [plain] Notice shown after revisions are submitted */
+        submitted: string;
         /** [formatted] An explanation of the localization editor */
         description: FormattedText;
         toggle: {
@@ -942,6 +954,8 @@ type UITexts = {
             submit: string;
             /** [plain] Tooltip for the button that cancels the suggested edit */
             cancel: string;
+            /** [plain] Tooltip for the button that reverts to the official text */
+            revert: string;
         };
         field: {
             /** The description and placeholder of the localization plain text editor. */
@@ -1007,6 +1021,8 @@ type UITexts = {
         unparsable: string;
         /** [plain] The tooltip for the machine-translated annotation */
         machineTranslated: string;
+        /** [plain] The tooltip for the locally-revised annotation */
+        locallyRevised: string;
     };
     /** Emoji related text */
     emoji: {

@@ -5549,7 +5549,8 @@
             "button": {
                 "edit": "$~Sugira uma alteração para este texto.",
                 "submit": "$~Enviar sugestão de edição",
-                "cancel": "$~Descartar edição sugerida"
+                "cancel": "$~Descartar edição sugerida",
+                "revert": "$~Voltar ao texto oficial"
             },
             "field": {
                 "plain": {
@@ -5571,7 +5572,13 @@
             },
             "strings": "$~Cadeias de localização",
             "emotion": "Choose an emotion",
-            "invalidName": "$~Nome inválido para jogo de palavras"
+            "invalidName": "$~Nome inválido para jogo de palavras",
+            "reference": "$~Referência em inglês",
+            "unwritten": "$~Texto não escrito",
+            "revised": "$~Texto revisto",
+            "revisedDescription": "$~Estas revisões foram guardadas localmente e ainda não foram submetidas para revisão.",
+            "submitRevisions": "$~Enviar revisões",
+            "submitted": "$~Obrigado! O seu texto revisto será analisado e poderá ser publicado em breve."
         },
         "page": {
             "unknown": {
@@ -6298,7 +6305,8 @@
         "template": {
             "unwritten": "$~A definir",
             "unparsable": "$~Modelo não analisável: $1",
-            "machineTranslated": "$~Este texto foi traduzido automaticamente, pelo que pode não ser legível ou correto."
+            "machineTranslated": "$~Este texto foi traduzido automaticamente, pelo que pode não ser legível ou correto.",
+            "locallyRevised": "$~Este texto foi revisto localmente e difere da tradução oficial."
         },
         "emoji": {
             "noCharacters": "$~Crie um personagem personalizado",

@@ -6028,7 +6028,8 @@
         "template": {
             "unwritten": "$~Belirsiz",
             "unparsable": "$~Ayrıştırılamayan şablon: $1",
-            "machineTranslated": "$~Bu metin makine çevirisiyle oluşturulmuştur, bu nedenle okunabilir veya doğru olmayabilir."
+            "machineTranslated": "$~Bu metin makine çevirisiyle oluşturulmuştur, bu nedenle okunabilir veya doğru olmayabilir.",
+            "locallyRevised": "$~Bu metin yerel olarak gözden geçirilmiştir ve resmi çeviriden farklıdır."
         },
         "howto": {
             "galleryView": {
@@ -6315,7 +6316,8 @@
             "button": {
                 "edit": "$~Bu metne bir düzenleme önerin.",
                 "submit": "$~Önerilen düzenlemeyi gönder",
-                "cancel": "$~Önerilen düzenlemeyi iptal et"
+                "cancel": "$~Önerilen düzenlemeyi iptal et",
+                "revert": "$~Resmi metne geri dön"
             },
             "field": {
                 "plain": {
@@ -6337,7 +6339,13 @@
             },
             "strings": "$~Yerel ayar dizeleri",
             "emotion": "$?",
-            "invalidName": "$~Geçerli bir Wordplay adı değil."
+            "invalidName": "$~Geçerli bir Wordplay adı değil.",
+            "reference": "$~İngilizce referans",
+            "unwritten": "$~Yazılmamış metin",
+            "revised": "$~Gözden geçirilmiş metin",
+            "revisedDescription": "$~Bu revizyonlar yerel olarak kaydedildi ve henüz incelemeye gönderilmedi.",
+            "submitRevisions": "$~Düzeltmeleri gönder",
+            "submitted": "$~Teşekkürler! Revize edilmiş metniniz incelenecek ve yakında yayınlanabilir."
         }
     },
     "moderation": {

@@ -6032,7 +6032,8 @@
         "template": {
             "unwritten": "$~TBD",
             "unparsable": "$~Oparserbar mall: $1",
-            "machineTranslated": "$~Detta är maskinöversatt, så det kanske inte är läsbart eller korrekt."
+            "machineTranslated": "$~Detta är maskinöversatt, så det kanske inte är läsbart eller korrekt.",
+            "locallyRevised": "$~Denna text har reviderats lokalt och skiljer sig från den officiella översättningen."
         },
         "howto": {
             "galleryView": {
@@ -6319,7 +6320,8 @@
             "button": {
                 "edit": "$~Föreslå en redigering av den här texten",
                 "submit": "$~Skicka in föreslagen redigering",
-                "cancel": "$~Ignorera föreslagen redigering"
+                "cancel": "$~Ignorera föreslagen redigering",
+                "revert": "$~Återgå till officiell text"
             },
             "field": {
                 "plain": {
@@ -6341,7 +6343,13 @@
             },
             "strings": "$~Språksträngar",
             "emotion": "$?",
-            "invalidName": "$~Inte ett giltigt Wordplay-namn"
+            "invalidName": "$~Inte ett giltigt Wordplay-namn",
+            "reference": "$~Engelsk referens",
+            "unwritten": "$~Oskriven text",
+            "revised": "$~Reviderad text",
+            "revisedDescription": "$~Dessa ändringar sparas lokalt och har ännu inte skickats in för granskning.",
+            "submitRevisions": "$~Skicka in ändringar",
+            "submitted": "$~Tack! Din reviderade text kommer att granskas och kan komma att publiceras snart."
         }
     },
     "moderation": {

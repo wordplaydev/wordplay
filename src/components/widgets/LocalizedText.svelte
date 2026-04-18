@@ -5,6 +5,7 @@
 
 <script lang="ts">
     import MachineTranslatedAnnotation from '@components/app/MachineTranslatedAnnotation.svelte';
+    import LocallyRevisedAnnotation from '@components/app/LocallyRevisedAnnotation.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import { getLocalizing } from '@components/project/Contexts';
     import Button from '@components/widgets/Button.svelte';
@@ -13,8 +14,10 @@
     import type { LocaleTextAccessor } from '@locale/Locales';
     import { isMachineTranslated } from '@locale/LocaleText';
     import { withoutAnnotations } from '@locale/withoutAnnotations';
-    import { CANCEL_SYMBOL, CONFIRM_SYMBOL } from '@parser/Symbols';
+    import { CANCEL_SYMBOL, CONFIRM_SYMBOL, REVERT_SYMBOL } from '@parser/Symbols';
     import { tick } from 'svelte';
+    import { accessorToLocalePath } from '@components/localization/accessorToLocalePath';
+    import { localeEdits, saveLocaleEdit, deleteLocaleEdit } from '@db/locales/LocalizationDexie';
 
     interface Props {
         path: LocaleTextAccessor;
@@ -34,17 +37,29 @@
     let fieldView = $state<HTMLInputElement | undefined>(undefined);
     let cancelled = false;
 
+    let localePath = $derived(accessorToLocalePath(path));
+    let override = $derived($localeEdits.get(localePath?.toString() ?? ''));
+
     async function startEditing() {
-        editedText = withoutAnnotationsText;
+        editedText = override ?? withoutAnnotationsText;
         editing = true;
         await tick();
         fieldView?.focus();
+    }
+
+    function commitEdit(text: string) {
+        if (!localePath) return;
+        if (text === withoutAnnotationsText) deleteLocaleEdit(localePath.toString());
+        else saveLocaleEdit(localePath.toString(), text);
     }
 
     function handleKeydown(e: KeyboardEvent) {
         if (e.key === 'Escape') {
             cancelled = true;
             fieldView?.blur();
+        } else if (e.key === 'Enter') {
+            commitEdit(editedText);
+            editing = false;
         }
     }
 </script>
@@ -66,15 +81,22 @@
                 placeholder={(l) => l.ui.localize.field.plain.placeholder}
                 bind:text={editedText}
                 bind:view={fieldView}
+                focus={() => (localizing.focused = path)}
+                blur={() => (localizing.focused = undefined)}
                 done={() => {
                     if (cancelled) {
                         cancelled = false;
+                    } else {
+                        commitEdit(editedText);
                     }
                     editing = false;
                 }}
-            /><Button
+            /><span class="edit-actions"><Button
                 tip={(l) => l.ui.localize.button.submit}
-                action={() => (editing = false)}
+                action={() => {
+                    commitEdit(editedText);
+                    editing = false;
+                }}
                 background>{CONFIRM_SYMBOL}</Button
             ><Button
                 tip={(l) => l.ui.localize.button.cancel}
@@ -83,7 +105,15 @@
                     fieldView?.blur();
                 }}
                 background>{CANCEL_SYMBOL}</Button
-            >
+            >{#if override}<Button
+                tip={(l) => l.ui.localize.button.revert}
+                action={() => {
+                    if (localePath) deleteLocaleEdit(localePath.toString());
+                    cancelled = true;
+                    fieldView?.blur();
+                }}
+                background>{REVERT_SYMBOL}</Button
+            >{/if}</span>
         {:else}
             <Button
                 tip={(l) => l.ui.localize.button.edit}
@@ -91,8 +121,8 @@
                 padding={false}
                 background="salient"
                 size="inherit"
-                >{withoutAnnotationsText}{#if isMT}<MachineTranslatedAnnotation
-                    />{/if}</Button
+                >{override ?? withoutAnnotationsText}{#if isMT && !override}<MachineTranslatedAnnotation
+                    />{/if}{#if override}<LocallyRevisedAnnotation />{/if}</Button
             >
         {/if}
     </span>
@@ -107,6 +137,11 @@
 <style>
     .localized-wrapper {
         display: inline;
+    }
+
+    span.edit-actions {
+        display: inline-flex;
+        gap: var(--wordplay-spacing);
     }
 
     .localized-wrapper :global(button) {

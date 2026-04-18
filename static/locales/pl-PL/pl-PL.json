@@ -6037,7 +6037,8 @@
         "template": {
             "unwritten": "$~Do ustalenia",
             "unparsable": "$~Niemożliwy do przeanalizowania szablon: $1",
-            "machineTranslated": "$~Tekst został przetłumaczony maszynowo, więc może być nieczytelny lub niepoprawny."
+            "machineTranslated": "$~Tekst został przetłumaczony maszynowo, więc może być nieczytelny lub niepoprawny.",
+            "locallyRevised": "$~Tekst ten został lokalnie zrewidowany i różni się od oficjalnego tłumaczenia."
         },
         "howto": {
             "galleryView": {
@@ -6324,7 +6325,8 @@
             "button": {
                 "edit": "$~Zaproponuj edycję tego tekstu",
                 "submit": "$~Prześlij sugerowaną edycję",
-                "cancel": "$~Odrzuć sugerowaną edycję"
+                "cancel": "$~Odrzuć sugerowaną edycję",
+                "revert": "$~Powrót do oficjalnego tekstu"
             },
             "field": {
                 "plain": {
@@ -6346,7 +6348,13 @@
             },
             "strings": "$~Ciągi ustawień regionalnych",
             "emotion": "$?",
-            "invalidName": "$~Nieprawidłowa nazwa gry Wordplay"
+            "invalidName": "$~Nieprawidłowa nazwa gry Wordplay",
+            "reference": "$~Odniesienie do języka angielskiego",
+            "unwritten": "$~Niezapisany tekst",
+            "revised": "$~Zmieniony tekst",
+            "revisedDescription": "$~Te zmiany są zapisywane lokalnie i nie zostały jeszcze przesłane do recenzji.",
+            "submitRevisions": "$~Prześlij poprawki",
+            "submitted": "$~Dziękujemy! Twój poprawiony tekst zostanie sprawdzony i prawdopodobnie wkrótce zostanie opublikowany."
         }
     },
     "moderation": {

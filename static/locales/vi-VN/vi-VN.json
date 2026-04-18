@@ -6258,7 +6258,8 @@
         "template": {
             "unwritten": "$~Sẽ được xác định sau.",
             "unparsable": "$~Mẫu không thể phân tích cú pháp: $1",
-            "machineTranslated": "$~Đây là bản dịch máy, vì vậy có thể không dễ đọc hoặc không chính xác."
+            "machineTranslated": "$~Đây là bản dịch máy, vì vậy có thể không dễ đọc hoặc không chính xác.",
+            "locallyRevised": "$~Văn bản này đã được chỉnh sửa cục bộ và khác với bản dịch chính thức."
         },
         "emoji": {
             "noCharacters": "$~Tạo nhân vật tùy chỉnh",
@@ -6319,7 +6320,8 @@
             "button": {
                 "edit": "$~Hãy đề xuất chỉnh sửa cho văn bản này.",
                 "submit": "$~Gửi đề xuất chỉnh sửa",
-                "cancel": "$~Bỏ đề xuất chỉnh sửa"
+                "cancel": "$~Bỏ đề xuất chỉnh sửa",
+                "revert": "$~Trở lại văn bản chính thức"
             },
             "field": {
                 "plain": {
@@ -6341,7 +6343,13 @@
             },
             "strings": "$~Chuỗi ngôn ngữ",
             "emotion": "$?",
-            "invalidName": "$~Không phải là tên chơi chữ hợp lệ."
+            "invalidName": "$~Không phải là tên chơi chữ hợp lệ.",
+            "reference": "$~Tài liệu tham khảo tiếng Anh",
+            "unwritten": "$~Văn bản chưa được viết",
+            "revised": "$~Văn bản đã sửa đổi",
+            "revisedDescription": "$~Các bản sửa đổi này được lưu cục bộ và chưa được gửi để xem xét.",
+            "submitRevisions": "$~Gửi bản sửa đổi",
+            "submitted": "$~Cảm ơn bạn! Bản chỉnh sửa của bạn sẽ được xem xét và có thể sẽ được đăng tải sớm."
         }
     },
     "moderation": {

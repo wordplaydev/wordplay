@@ -5947,7 +5947,8 @@
         "template": {
             "unwritten": "$~Wird noch bekannt gegeben",
             "unparsable": "$~Nicht analysierbare Vorlage: $1",
-            "machineTranslated": "$~Dies wurde maschinell übersetzt, daher ist der Text möglicherweise nicht lesbar oder korrekt."
+            "machineTranslated": "$~Dies wurde maschinell übersetzt, daher ist der Text möglicherweise nicht lesbar oder korrekt.",
+            "locallyRevised": "$~Dieser Text wurde lokal überarbeitet und weicht von der offiziellen Übersetzung ab."
         },
         "collaborate": {
             "label": "$~zusammenarbeiten",
@@ -6318,7 +6319,8 @@
             "button": {
                 "edit": "$~Schlagen Sie eine Änderung an diesem Text vor",
                 "submit": "$~Vorschlag zur Bearbeitung einreichen",
-                "cancel": "$~Vorgeschlagene Bearbeitung verwerfen"
+                "cancel": "$~Vorgeschlagene Bearbeitung verwerfen",
+                "revert": "$~Zum offiziellen Text zurückkehren"
             },
             "field": {
                 "plain": {
@@ -6340,7 +6342,13 @@
             },
             "strings": "$~Gebietsschema-Zeichenketten",
             "emotion": "$?",
-            "invalidName": "$~Kein gültiger Wortspielname"
+            "invalidName": "$~Kein gültiger Wortspielname",
+            "reference": "$~Englische Referenz",
+            "unwritten": "$~Ungeschriebener Text",
+            "revised": "$~Überarbeiteter Text",
+            "revisedDescription": "$~Diese Änderungen wurden lokal gespeichert und noch nicht zur Überprüfung eingereicht.",
+            "submitRevisions": "$~Überarbeitungen einreichen",
+            "submitted": "$~Vielen Dank! Ihr überarbeiteter Text wird geprüft und gegebenenfalls bald veröffentlicht."
         }
     },
     "moderation": {

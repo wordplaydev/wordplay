@@ -5,7 +5,10 @@
 
 <script lang="ts">
     import MachineTranslatedAnnotation from '@components/app/MachineTranslatedAnnotation.svelte';
+    import LocallyRevisedAnnotation from '@components/app/LocallyRevisedAnnotation.svelte';
+    import { accessorToLocalePath } from '@components/localization/accessorToLocalePath';
     import { getLocalizing } from '@components/project/Contexts';
+    import { localeEdits, saveLocaleEdit, deleteLocaleEdit } from '@db/locales/LocalizationDexie';
     import Button from '@components/widgets/Button.svelte';
     import FormattedEditor from '@components/widgets/FormattedEditor.svelte';
     import type { LocaleTextsAccessor, TemplateInput } from '@locale/Locales';
@@ -17,6 +20,7 @@
         CONFIRM_SYMBOL,
         DOCS_SYMBOL,
         FORMATTED_SYMBOL,
+        REVERT_SYMBOL,
     } from '@parser/Symbols';
     import { parseDocs, parseFormattedLiteral } from '@parser/parseExpression';
     import { toTokens } from '@parser/toTokens';
@@ -132,14 +136,53 @@
         );
     });
 
+    let localePath = $derived(
+        markup instanceof Function ? accessorToLocalePath(markup) : undefined,
+    );
+    let override = $derived($localeEdits.get(localePath?.toString() ?? ''));
+
+    /** Parsed markup for display in localizing mode, using the override if one exists. */
+    let displayParsed = $derived(override ? Markup.words(override) : parsed);
+    let displaySpaces = $derived(displayParsed.spaces);
+    let displayParagraphsAndLists = $derived(
+        displayParsed.paragraphs.reduce(
+            (stuff: ParagraphOrList[], next: Paragraph) => {
+                if (next.isBulleted()) {
+                    const items = next.getBullets();
+                    const previous = stuff.at(-1);
+                    if (previous instanceof Paragraph)
+                        return [...stuff, { items }];
+                    else if (previous !== undefined) {
+                        previous.items.push(next);
+                        return stuff;
+                    } else return [{ items }];
+                } else return [...stuff, next];
+            },
+            [],
+        ),
+    );
+
+    $effect(() => {
+        if (localizing && markup instanceof Function)
+            localizing.focused = editing ? markup : undefined;
+    });
+
     async function startEditing() {
-        editedText = rawText;
+        editedText = override ?? rawText;
         editing = true;
         await tick();
         editorView?.focus();
     }
 
-    function stopEditing() {
+    function cancelEditing() {
+        editing = false;
+    }
+
+    function confirmEditing() {
+        if (localePath) {
+            if (editedText === rawText) deleteLocaleEdit(localePath.toString());
+            else saveLocaleEdit(localePath.toString(), editedText);
+        }
         editing = false;
     }
 </script>
@@ -164,16 +207,25 @@
             <div class="edit-actions">
                 <Button
                     tip={(l) => l.ui.localize.button.submit}
-                    action={stopEditing}
+                    action={confirmEditing}
                     background
                     padding={true}>{CONFIRM_SYMBOL}</Button
                 >
                 <Button
                     tip={(l) => l.ui.localize.button.cancel}
-                    action={stopEditing}
+                    action={cancelEditing}
                     background
                     padding={true}>{CANCEL_SYMBOL}</Button
                 >
+                {#if override}<Button
+                    tip={(l) => l.ui.localize.button.revert}
+                    action={() => {
+                        if (localePath) deleteLocaleEdit(localePath.toString());
+                        cancelEditing();
+                    }}
+                    background
+                    padding={true}>{REVERT_SYMBOL}</Button
+                >{/if}
             </div>
         {:else}
             <span class="edit-button"
@@ -185,18 +237,18 @@
                     size="inherit"
                     wrap={true}
                 >
-                    {#if spaces}
+                    {#if displaySpaces}
                         {#if inline}
-                            {#each parsed.asLine().paragraphs[0].segments as segment}
+                            {#each displayParsed.asLine().paragraphs[0].segments as segment}
                                 <SegmentHTMLView
                                     {segment}
-                                    {spaces}
+                                    spaces={displaySpaces}
                                     alone={false}
                                 />
                             {/each}
                         {:else}
                             <div class="markup" class:note>
-                                {#each paragraphsAndLists as paragraphOrList, index}
+                                {#each displayParagraphsAndLists as paragraphOrList, index}
                                     {#if paragraphOrList instanceof Paragraph}
                                         <p
                                             class="paragraph"
@@ -207,7 +259,7 @@
                                                 0.1}ms"
                                             >{#each paragraphOrList.segments as segment, index}<SegmentHTMLView
                                                     {segment}
-                                                    {spaces}
+                                                    spaces={displaySpaces}
                                                     alone={paragraphOrList
                                                         .segments.length === 1}
                                                     first={index === 0}
@@ -223,7 +275,7 @@
                                             >{#each paragraphOrList.items as paragraph}<li
                                                     >{#each paragraph.segments as segment, index}<SegmentHTMLView
                                                             {segment}
-                                                            {spaces}
+                                                            spaces={displaySpaces}
                                                             alone={paragraph
                                                                 .segments
                                                                 .length === 1}
@@ -232,13 +284,14 @@
                                                 >{/each}</ul
                                         >
                                     {/if}
-                                {/each}{#if parsed.isMachineTranslated()}<MachineTranslatedAnnotation
+                                {/each}{#if displayParsed.isMachineTranslated() && !override}<MachineTranslatedAnnotation
                                     />{/if}
                             </div>
                         {/if}
                     {:else}
                         unable to render markup without spaces
                     {/if}
+                    {#if override}<LocallyRevisedAnnotation />{/if}
                 </Button></span
             >
         {/if}

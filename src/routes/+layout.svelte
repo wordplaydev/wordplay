@@ -18,6 +18,7 @@
     import Hint, { ActiveHint } from '@components/widgets/Hint.svelte';
     import { firestore } from '@db/firebase';
     import { FaceSetting } from '@db/settings/FaceSetting';
+    import { type LocaleTextsAccessor } from '@locale/Locales';
     import type { User } from 'firebase/auth';
     import { onMount, type Snippet } from 'svelte';
     import { writable, type Writable } from 'svelte/store';
@@ -39,6 +40,7 @@
         Settings,
     } from '../db/Database';
     import { getLanguageDirection } from '../locale/LanguageCode';
+
     interface Props {
         children: Snippet;
     }
@@ -47,7 +49,10 @@
 
     let loaded = $state(false);
     let lag = $state(false);
-    let localizing = $state({ on: false });
+    let localizing = $state<{
+        on: boolean;
+        focused: LocaleTextsAccessor | undefined;
+    }>({ on: false, focused: undefined });
 
     /** Create a user store to share globally. Undefined means we don't know if the user is logged in yet. Null means not logged in. */
     const user = writable<User | null | undefined>(undefined);

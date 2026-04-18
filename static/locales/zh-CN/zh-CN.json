@@ -5893,7 +5893,8 @@
         "template": {
             "unwritten": "待定",
             "unparsable": "无法解析的模板: $1",
-            "machineTranslated": "$~这是机器翻译的，所以可能不通顺或不正确。"
+            "machineTranslated": "$~这是机器翻译的，所以可能不通顺或不正确。",
+            "locallyRevised": "$~本文已进行本地化修订，与官方译文有所不同。"
         },
         "collaborate": {
             "label": "$~合作",
@@ -6262,7 +6263,8 @@
             "button": {
                 "edit": "$~建议修改此文本",
                 "submit": "$~提交修改建议",
-                "cancel": "$~放弃建议的编辑"
+                "cancel": "$~放弃建议的编辑",
+                "revert": "$~恢复官方文本"
             },
             "field": {
                 "plain": {
@@ -6284,7 +6286,13 @@
             },
             "strings": "$~区域设置字符串",
             "emotion": "$?",
-            "invalidName": "$~不是有效的文字游戏名称"
+            "invalidName": "$~不是有效的文字游戏名称",
+            "reference": "$~英文参考",
+            "unwritten": "$~未书写的文本",
+            "revised": "$~修订文本",
+            "revisedDescription": "$~这些修改已保存在本地，尚未提交审核。",
+            "submitRevisions": "$~提交修改稿",
+            "submitted": "$~谢谢！我们会审核您修改后的文本，可能很快就会发布。"
         }
     },
     "moderation": {

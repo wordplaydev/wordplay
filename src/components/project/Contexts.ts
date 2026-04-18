@@ -7,7 +7,7 @@ import type Caret from '@edit/caret/Caret';
 import type { CaretPosition } from '@edit/caret/Caret';
 import type { AssignmentPoint, InsertionPoint } from '@edit/drag/Drag';
 import type Locale from '@locale/Locale';
-import type { LocaleTextAccessor } from '@locale/Locales';
+import type { LocaleTextAccessor, LocaleTextsAccessor } from '@locale/Locales';
 import type Node from '@nodes/Node';
 import type { FieldPosition } from '@nodes/Node';
 import type Root from '@nodes/Root';
@@ -55,7 +55,10 @@ export function isAuthenticated(user: PossibleUser): user is User {
 
 // Localization context
 
-export const [getLocalizing, setLocalizing] = createContext<{ on: boolean }>();
+export const [getLocalizing, setLocalizing] = createContext<{
+    on: boolean;
+    focused: LocaleTextsAccessor | undefined;
+}>();
 
 /**
  * These are lists of announcements rendered invisiblily in the project view

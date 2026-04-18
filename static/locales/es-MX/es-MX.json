@@ -5930,7 +5930,8 @@
         "template": {
             "unwritten": "Por determinar",
             "unparsable": "Plantilla no analizable: $1",
-            "machineTranslated": "$~Esta traducción es automática, por lo que puede que no sea legible o correcta."
+            "machineTranslated": "$~Esta traducción es automática, por lo que puede que no sea legible o correcta.",
+            "locallyRevised": "$~Este texto ha sido revisado localmente y difiere de la traducción oficial."
         },
         "collaborate": {
             "label": "$~colaborar",
@@ -6301,7 +6302,8 @@
             "button": {
                 "edit": "$~Sugiere una edición para este texto.",
                 "submit": "$~Enviar sugerencia de edición",
-                "cancel": "$~Descartar la edición sugerida"
+                "cancel": "$~Descartar la edición sugerida",
+                "revert": "$~Volver al texto oficial"
             },
             "field": {
                 "plain": {
@@ -6323,7 +6325,13 @@
             },
             "strings": "$~Cadenas de configuración regional",
             "emotion": "$?",
-            "invalidName": "$~No es un nombre válido para un juego de palabras."
+            "invalidName": "$~No es un nombre válido para un juego de palabras.",
+            "reference": "$~Referencia en inglés",
+            "unwritten": "$~Texto no escrito",
+            "revised": "$~Texto revisado",
+            "revisedDescription": "$~Estas revisiones se guardan localmente y aún no se han enviado para su revisión.",
+            "submitRevisions": "$~Enviar revisiones",
+            "submitted": "$~¡Gracias! Su texto revisado será examinado y posiblemente se publique pronto."
         }
     },
     "moderation": {
