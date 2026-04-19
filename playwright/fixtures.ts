@@ -38,30 +38,32 @@ export const test = baseTest.extend<
                 storageState: { cookies: [], origins: [] },
             });
 
-            // Acquire a unique account, for example create a new one.
-            // Alternatively, you can have a list of precreated accounts for testing.
-            // Make sure that accounts are unique, so that multiple team members
-            // can run tests at the same time without interference.
             const account = {
                 username: getUsernameForWorker(),
                 password: 'password',
             };
 
-            // Go to the join page.
-            await page.goto('/join');
+            // Try logging in first — on a retry the user may already exist in the emulator.
+            await page.goto('/login');
+            await page.locator('#login-username-field').fill(account.username);
+            await page.locator('#login-password-field').fill(account.password);
+            await page.getByTestId('login-button').click();
 
-            // Create a new account by filling out the form.
-            await page.getByTestId('username-field').fill(account.username);
-            await page.getByTestId('password-field').fill(account.password);
-            await page
-                .getByTestId('password-repeat-field')
-                .fill(account.password);
-            await page.getByTestId('join-button').click();
+            const loggedIn = await page
+                .waitForURL('/profile', { waitUntil: 'domcontentloaded', timeout: 5000 })
+                .then(() => true)
+                .catch(() => false);
 
-            // Wait for the final redirect URL to ensure that the cookies are actually set.
-            await page.waitForURL('/profile', {
-                waitUntil: 'domcontentloaded',
-            });
+            if (!loggedIn) {
+                // User doesn't exist yet — create the account.
+                await page.goto('/join');
+                await page.getByTestId('username-field').fill(account.username);
+                await page.getByTestId('password-field').fill(account.password);
+                await page.getByTestId('password-repeat-field').fill(account.password);
+                await page.getByTestId('join-button').click();
+
+                await page.waitForURL('/profile', { waitUntil: 'domcontentloaded' });
+            }
 
             // Ask Playwright to save the indexedDB data stored by Firebase.
             await page
