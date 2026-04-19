@@ -1,5 +1,39 @@
 [
   {
+    "version": "0.17.6",
+    "date": "2026-04-17",
+    "changes": {
+      "added": [],
+      "fixed": [],
+      "changed": [],
+      "removed": []
+    }
+  },
+  {
+    "version": "0.17.5",
+    "date": "2026-04-11",
+    "changes": {
+      "added": [
+        "We added search features to the projects and gallery pages, making it easier to find projects that have specific names, source file names, or text (#770).",
+        "We added a search box to the emoji toolbar at the bottom of the editor, to make it clearer how to search for emojis (#1037).",
+        "We added a new `Say` output, so you can make output that /speaks/ text, in addition to showing it on stage."
+      ],
+      "fixed": [
+        "We fixed the highlight of the emoji chooser in the editor (#1037).",
+        "We fixed a problem where code examples on Windows weren't being copied to the clipboard with the ctrl-C shortcut (#1038).",
+        "We fixed many little issues with palette sliders, including incorrect tooltips and a lack of visible change on stage when changing size (#1032).",
+        "Sometimes links in the guide had identical labels and subabels. Now they don't!",
+        "We made speech bubble animations respect the aniamtion off setting (#1040).",
+        "Some links concepts in the guide were not working, and were ambiguous, so we fixed the links and made them less ambiguous (#1035).",
+        "We fixed a problem where autocompleting a conversion expression would sometimes wrap the wrong code."
+      ],
+      "changed": [
+        "We upgraded internal tooling for stability."
+      ],
+      "removed": []
+    }
+  },
+  {
     "version": "0.17.4",
     "date": "2026-04-04",
     "changes": {
