@@ -67,7 +67,7 @@
                         ? (l) => l.ui.page.updates.tips.expand
                         : (l) => l.ui.page.updates.tips.collapse}
                     action={() => (collapsed[index] = !collapsed[index])}
-                    >{#if collapsed[index]}+{:else}-{/if}</Button
+                    >{#if collapsed[index]}+{:else}–{/if}</Button
                 ></Subheader
             >
 

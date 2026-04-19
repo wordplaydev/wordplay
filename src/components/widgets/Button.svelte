@@ -187,9 +187,9 @@
         width: fit-content;
         white-space: nowrap;
         transition:
-            transform calc(var(--animation-factor) * 100ms),
-            box-shadow calc(var(--animation-factor) * 100ms),
-            background-color calc(var(--animation-factor) * 100ms);
+            transform calc(var(--animation-factor) * 50ms),
+            box-shadow calc(var(--animation-factor) * 50ms),
+            background-color calc(var(--animation-factor) * 50ms);
         /* This allows command hints to be visible */
         position: relative;
         overflow: visible;
@@ -308,8 +308,7 @@
 
     /* Pressed background buttons: shadow collapses, button sinks into it */
     button.background.pressed {
-        box-shadow: inset var(--wordplay-border-width)
-            var(--wordplay-border-width) 0 var(--wordplay-foreground);
+        box-shadow: none;
         transform: translate(
             var(--wordplay-border-width),
             var(--wordplay-border-width)
