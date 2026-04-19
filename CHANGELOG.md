@@ -17,6 +17,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 ## Changed
 
 - We upgraded internal tooling for stability.
+- We made the website load faster by finding a different way to load everything we know about Unicode.
 
 ## 0.17.5 - 2026-04-11
 

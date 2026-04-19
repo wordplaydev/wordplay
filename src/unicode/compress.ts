@@ -127,4 +127,4 @@ for (const entry of text.split('\n')) {
     }
 }
 
-fs.writeFileSync('codes.txt', filtered.trim());
+fs.writeFileSync('../static/unicode/codes.txt', filtered.trim());
