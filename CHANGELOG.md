@@ -19,6 +19,10 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - We upgraded internal tooling for stability.
 - We made the website load faster by finding a different way to load everything we know about Unicode.
 
+### Fixed
+
+- We fixed a minor problem where a minor error message was shown if someone was a collaborator on a project in gallery they didn't have access to.
+
 ## 0.17.5 - 2026-04-11
 
 ### Added

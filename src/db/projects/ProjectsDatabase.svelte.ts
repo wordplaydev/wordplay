@@ -441,18 +441,21 @@ export default class ProjectsDatabase {
                     const project = await this.parseProject(projectDoc.data());
                     if (project !== undefined) {
                         const galleryID = project.getGallery();
-                        const gallery = galleryID
-                            ? await this.database.Galleries.get(galleryID)
-                            : undefined;
+                        const isOwnerOrCollaborator =
+                            user !== null &&
+                            (project.isOwner(user.uid) ||
+                                project.hasCollaborator(user.uid));
+                        const gallery =
+                            galleryID && !isOwnerOrCollaborator
+                                ? await this.database.Galleries.get(galleryID)
+                                : undefined;
 
                         this.track(
                             project,
-                            // The project is editable if the user is the owner, or the user is a collaborator, or the user
-                            user !== null &&
-                            (project.isOwner(user.uid) ||
-                                project.hasCollaborator(user.uid) ||
-                                (gallery !== undefined &&
-                                    gallery.hasCurator(user.uid))),
+                            isOwnerOrCollaborator ||
+                                (user !== null &&
+                                    gallery !== undefined &&
+                                    gallery.hasCurator(user.uid)),
                             PersistenceType.Online,
                             false,
                         );
