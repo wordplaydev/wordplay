@@ -32,6 +32,14 @@
     import { getTip } from '@components/project/Contexts';
     import { onDestroy } from 'svelte';
 
+    interface Props {
+        /** True when this Hint is rendered inside a <dialog>. Only shows tooltips whose
+         * target is also inside a dialog; the global Hint (inDialog=false) handles the rest. */
+        inDialog?: boolean;
+    }
+
+    let { inDialog = false }: Props = $props();
+
     const tip = getTip();
 
     const bounds = $state<{
@@ -45,8 +53,6 @@
     let width = $state<number | undefined>(undefined);
     let height = $state<number | undefined>(undefined);
 
-    let view = $state<HTMLDivElement | undefined>(undefined);
-
     function update() {
         // If there's a target and it's not in the document anymore, hide the tooltip.
         if (target && !document.contains(target)) tip.hide();
@@ -58,23 +64,29 @@
 
     const target = $derived(tip.getView());
 
+    // Only show this Hint instance when the target's dialog-membership matches ours:
+    // the dialog Hint shows targets inside a dialog; the global Hint shows all others.
+    const shouldShow = $derived(
+        target !== undefined &&
+            inDialog === (target.closest('dialog') !== null),
+    );
+
     onDestroy(() => {
         observer?.disconnect();
     });
 
     $effect(() => {
-        if (target) {
+        if (target && shouldShow) {
             // Listen to the document children changes so we hear about the target being removed.
             observer?.observe(document.body, {
                 subtree: true,
                 childList: true,
             });
 
-            // See if it's in a dialog, so we can adjust positioning.
-            const dialog =
-                view?.parentElement instanceof HTMLDialogElement
-                    ? view.parentElement
-                    : undefined;
+            // If the target is inside a dialog, position relative to that dialog.
+            const dialog = inDialog
+                ? (target.closest('dialog') as HTMLDialogElement | null)
+                : null;
 
             const rect = target.getBoundingClientRect();
 
@@ -98,7 +110,7 @@
             newTop = rect.top - height;
             newLeft = rect.left + (rect.width - width) / 2;
 
-            // If it's a dialog, account for the relative positioning.
+            // If it's a dialog, convert from viewport coords to dialog-relative coords.
             if (dialog) {
                 const parentRect = dialog.getBoundingClientRect();
                 newLeft = newLeft - parentRect.left + dialog.scrollLeft;
@@ -108,7 +120,9 @@
             if (newLeft < 0) newLeft = rect.right;
             if (newLeft + width + 5 >= containerWidth)
                 newLeft = containerWidth - width - 5;
-            if (newTop < 0) newTop = rect.bottom;
+            if (newTop < 0) newTop = dialog
+                ? rect.bottom - dialog.getBoundingClientRect().top + dialog.scrollTop
+                : rect.bottom;
             if (newTop + height + 5 >= containerHeight)
                 newTop = containerHeight - height - 5;
 
@@ -118,13 +132,12 @@
     });
 </script>
 
-<!-- Show if there's a target and either this hint is in a dialog that contains the target, or its not in a dialog -->
-{#if target}
+<!-- Show if there's a target and this hint's dialog scope matches the target's. -->
+{#if shouldShow}
     <!-- Hide it from screen readers. They get aria-labels. -->
     <div
         class="hint"
         role="presentation"
-        bind:this={view}
         bind:clientWidth={width}
         bind:clientHeight={height}
         class:visible={width !== undefined && width > 0}

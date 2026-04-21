@@ -89,7 +89,7 @@
             {@render children?.()}
         </div>
     </div>
-    <Hint></Hint>
+    <Hint inDialog={true}></Hint>
 </dialog>
 
 <style>

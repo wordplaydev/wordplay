@@ -10,6 +10,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 - We fixed a problem in the editor where clicking in a position would sometimes start a selection.
 - We prevented the editor from scrolling unexpectedly on click.
+- We fixed a problem where tooltips in dialogs were duplicated in incorrectly positioned.
 
 ## 0.17.6 - 2026-04-17
 
