@@ -273,6 +273,9 @@
     // The point at which a drag started.
     let dragPoint: { x: number; y: number } | undefined = $state(undefined);
 
+    // The caret position resolved at pointer-down, used as the anchor for drag-to-select.
+    let dragStartPosition: CaretPosition | undefined = $state(undefined);
+
     // The possible candidate for dragging
     let dragCandidate: Node | undefined = $state(undefined);
 
@@ -400,6 +403,7 @@
         if (dragged) dragged.set(undefined);
         dragCandidate = undefined;
         dragPoint = undefined;
+        dragStartPosition = undefined;
 
         // Reset the insertion points.
         insertion.set(undefined);
@@ -504,6 +508,7 @@
             caret.set($caret.withPosition(newPosition));
             resetIgnored(true);
             caretSetByPointer = true;
+            dragStartPosition = newPosition;
             setTimeout(() => {
                 caretSetByPointer = false;
             }, 100);
@@ -533,7 +538,7 @@
             Math.sqrt(
                 Math.pow(event.clientX - dragPoint.x, 2) +
                     Math.pow(event.clientY - dragPoint.y, 2),
-            ) >= 5
+            ) >= 10
         );
     }
 
@@ -547,13 +552,14 @@
         // Handle an edit
         handleEditHover(event);
 
-        // If dragging and there's no drag candidate,
-        // and we've exceeded the drag threshold,
-        // update the selection.
+        // If the primary button is held and we have a drag start position,
+        // update the selection if the pointer has moved to a different character position
+        // AND has moved enough pixels to indicate intentional dragging (not click micro-movement).
         if (
             event.buttons === 1 &&
             $dragged === undefined &&
             dragPoint !== undefined &&
+            dragStartPosition !== undefined &&
             exceededDragThreshold(event)
         ) {
             // Dragging to select. What's under the pointer?
@@ -566,14 +572,14 @@
                 $locales.getDirection(),
                 $blocks,
             );
-            // Update the selection range based on the caret position.
-            if (position !== undefined && !$blocks) {
-                if ($caret.isPosition() && $caret.position !== position)
-                    caret.set($caret.withPosition([$caret.position, position]));
-                else if ($caret.isRange() && $caret.position[0] !== position)
-                    caret.set(
-                        $caret.withPosition([$caret.position[0], position]),
-                    );
+            // Only create a range if the pointer resolved to a different numeric character position.
+            if (
+                typeof position === 'number' &&
+                !$blocks &&
+                typeof dragStartPosition === 'number' &&
+                position !== dragStartPosition
+            ) {
+                caret.set($caret.withPosition([dragStartPosition, position]));
             }
         }
 
@@ -1435,9 +1441,7 @@
     class:readonly={!editable}
     class:focused
     class:overwritten
-    class:dragging={dragCandidate !== undefined ||
-        $dragged !== undefined ||
-        dragPoint !== undefined}
+    class:dragging={dragCandidate !== undefined || $dragged !== undefined}
     data-uiid="editor"
     role="application"
     style:--zoom={`${zoom}pt`}

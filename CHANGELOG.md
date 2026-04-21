@@ -4,6 +4,12 @@ We'll note all notable changes in this file, including bug fixes, enhancements, 
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 These notes are publicly posted in [production](https://wordplay.dev/updates), so we write them to an audience of teachers and youth.
 
+## 0.17.7 - 2026-04-17
+
+### Fixed
+
+- We fixed a problem in the editor where clicking in a position would sometimes start a selection.
+
 ## 0.17.6 - 2026-04-17
 
 ### Added
