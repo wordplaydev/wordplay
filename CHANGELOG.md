@@ -9,6 +9,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 ### Fixed
 
 - We fixed a problem in the editor where clicking in a position would sometimes start a selection.
+- We prevented the editor from scrolling unexpectedly on click.
 
 ## 0.17.6 - 2026-04-17
 

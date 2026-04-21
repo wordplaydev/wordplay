@@ -1576,6 +1576,7 @@
         viewportWidth={editorWidth}
         viewportHeight={editorHeight}
         {zoom}
+        placedByPointer={caretSetByPointer}
         bind:location={caretLocation}
     />
     <!--

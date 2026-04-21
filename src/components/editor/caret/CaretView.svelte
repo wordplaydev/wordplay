@@ -125,6 +125,8 @@
         viewportHeight: number;
         /** Current zoom of the editor */
         zoom: number;
+        /** True if the caret was just placed by a pointer event; suppresses auto-scroll */
+        placedByPointer: boolean;
     }
 
     let {
@@ -137,6 +139,7 @@
         viewport,
         viewportWidth,
         zoom,
+        placedByPointer,
     }: Props = $props();
 
     /** The calculated padding of the editor. Determined from the DOM. */
@@ -229,11 +232,13 @@
     let lastScroll = 0;
     $effect(() => {
         // If the location is set and we're not playing, then scroll to it after updates are complete.
-        if (location) {
+        // Skip scrolling when the caret was just placed by a pointer event — the user already
+        // sees the position they clicked; scrolling would move the view unexpectedly.
+        if (location && !placedByPointer) {
             // If it's been more than 200ms since the last scroll, then scroll to the caret after the next update.
             // This prevents them from pooling up and causing the editor to hang.
             if (
-                performance.now() - lastScroll > 200 &&
+                performance.now() - lastScroll > 100 &&
                 element &&
                 !caret.isNode()
             ) {
@@ -560,8 +565,7 @@
                             : [];
                         const lastBreak = allBreaks.at(-1);
                         if (lastBreak) {
-                            const breakRect =
-                                lastBreak.getBoundingClientRect();
+                            const breakRect = lastBreak.getBoundingClientRect();
                             // Use the left of the last node-view in the same
                             // node-list as the inline start (same as case 2).
                             const nodeList = lastBreak.parentElement;
