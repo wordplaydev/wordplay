@@ -93,7 +93,7 @@
         "picomatch": "^4",
         "pitchy": "^4",
         "shared-types": "file:./functions/src/shared",
-        "uuid": "^13",
+        "uuid": "^14",
         "zod": "^4"
     },
     "overrides": {
