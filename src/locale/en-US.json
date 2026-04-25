@@ -6170,7 +6170,7 @@
                         "tip": "logout of your account",
                         "label": "logout"
                     },
-                    "login": "login with this email, sending a login link",
+                    "login": "create an account with this username and password",
                     "updateEmail": "change your email",
                     "delete": {
                         "tip": "delete your account",

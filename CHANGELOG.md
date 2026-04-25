@@ -14,6 +14,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - We improved dark mode documentation color contrast.
 - We prevented dark mode from flashing light mode on page load.
 - We fixed a problem where text selection and highlighting were the wrong color.
+- We corrected the tooltip on the create account button.
 
 ### Changed
 
