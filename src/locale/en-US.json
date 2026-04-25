@@ -122,7 +122,8 @@
         "Name": "name",
         "Locale": "locale",
         "Unknown": "unknown",
-        "End": "end"
+        "End": "end",
+        "Highlight": "highlighted example"
     },
     "node": {
         "Dimension": {
