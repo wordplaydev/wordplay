@@ -6,6 +6,10 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 ## 0.17.7 - 2026-04-17
 
+### Added
+
+- We added better menu suggestions for placeholders.
+
 ### Fixed
 
 - We fixed a problem in the editor where clicking in a position would sometimes start a selection.

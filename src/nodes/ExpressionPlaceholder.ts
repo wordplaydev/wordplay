@@ -1,6 +1,6 @@
 import type Conflict from '@conflicts/Conflict';
 import Placeholder from '@conflicts/Placeholder';
-import type { InsertContext } from '@edit/revision/EditContext';
+import type { InsertContext, ReplaceContext } from '@edit/revision/EditContext';
 import type { LocaleText } from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { TYPE_SYMBOL } from '@parser/Symbols';
@@ -32,6 +32,7 @@ import { Sym } from './Sym';
 import Token from './Token';
 import Type from './Type';
 import TypePlaceholder from './TypePlaceholder';
+import UnionType from './UnionType';
 import type TypeSet from './TypeSet';
 import TypeToken from './TypeToken';
 
@@ -63,8 +64,13 @@ export default class ExpressionPlaceholder extends SimpleExpression {
         );
     }
 
-    static getPossibleReplacements() {
-        return [];
+    static getPossibleReplacements({ node, context }: ReplaceContext) {
+        if (!(node instanceof ExpressionPlaceholder)) return [];
+        const type = node.computeType(context);
+        const types = type instanceof UnionType ? type.enumerate() : [type];
+        return types
+            .map((t) => t.getDefaultExpression(context))
+            .filter((e): e is Exclude<typeof e, undefined> => e !== undefined);
     }
 
     static getPossibleInsertions({ type }: InsertContext) {

@@ -1,6 +1,7 @@
 import { Purpose } from '@concepts/Purpose';
 import type Conflict from '@conflicts/Conflict';
-import type { InsertContext } from '@edit/revision/EditContext';
+import type { InsertContext, ReplaceContext } from '@edit/revision/EditContext';
+import UnionType from './UnionType';
 import Refer from '@edit/revision/Refer';
 import type Locales from '@locale/Locales';
 import type LocaleText from '@locale/LocaleText';
@@ -53,8 +54,36 @@ export default class Input extends Node {
         );
     }
 
-    static getPossibleReplacements() {
-        return [];
+    static getPossibleReplacements({ node, context }: ReplaceContext) {
+        if (!(node instanceof Input)) return [];
+        const parent = node.getParent(context);
+        if (!(parent instanceof Evaluate)) return [];
+        const mapping = parent.getInputMapping(context);
+        const expected = mapping?.inputs.find((i) => i.given === node)?.expected;
+        if (expected === undefined) return [];
+        const types =
+            expected.type instanceof UnionType
+                ? expected.type.enumerate()
+                : expected.type
+                  ? [expected.type]
+                  : undefined;
+        return (
+            types
+                ?.map((t) => t.getDefaultExpression(context))
+                .filter((e): e is Exclude<typeof e, undefined> => e !== undefined)
+                .map(
+                    (value) =>
+                        new Refer(
+                            (name) => Input.make(name, value),
+                            expected,
+                        ),
+                ) ?? [
+                new Refer(
+                    (name) => Input.make(name, ExpressionPlaceholder.make()),
+                    expected,
+                ),
+            ]
+        );
     }
 
     static getPossibleInsertions({ parent, context }: InsertContext) {
