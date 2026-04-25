@@ -15,6 +15,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - We prevented dark mode from flashing light mode on page load.
 - We fixed a problem where text selection and highlighting were the wrong color.
 - We corrected the tooltip on the create account button.
+- We clarified the differences between the full screen buttons and the eye button (#1058).
 
 ### Changed
 
