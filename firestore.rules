@@ -165,6 +165,7 @@ service cloud.firestore {
       allow read: 
         if resource.data != null && (
           ("mod" in request.auth.token && request.auth.token.mod) ||
+          ('isPublic' in resource.data && resource.data.isPublic) ||
           isRequestorOwnerCollaborator(request.auth.uid) ||
           ('galleryId' in resource.data && isGalleryPublic(resource.data.galleryId)) ||
           ("published" in resource.data && resource.data.published && (
