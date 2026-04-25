@@ -106,7 +106,7 @@
     .outline.selected path {
         stroke: var(--wordplay-highlight-color);
         stroke-width: var(--wordplay-focus-width);
-        fill: var(--wordplay-hover);
+        fill: var(--wordplay-hover-light);
     }
 
     .delimiter.outline path {
