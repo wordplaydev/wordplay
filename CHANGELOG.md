@@ -22,6 +22,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - We improved the rendering and behavior of text selections in text editing mode.
 - We clarified the differences between the full screen buttons and the eye button (#1058).
 - We upgraded internal tooling for stability.
+- We made auto-complete during typing less aggressive and annoying.
 
 ## 0.17.6 - 2026-04-17
 

@@ -262,8 +262,8 @@ function completeConvert({
     // selecting an inner node (e.g. the "1" inside "(1)") that happens to match
     // via the +1 fuzzy rule when a parent node ends exactly at the cursor.
     let precedingExpression: Expression | undefined =
-        (getPrecedingExpression(source, position, true)[0] ??
-            getPrecedingExpression(source, position, false)[0]);
+        getPrecedingExpression(source, position, true)[0] ??
+        getPrecedingExpression(source, position, false)[0];
     if (precedingExpression === undefined) return undefined;
 
     // Replace the preceding expression with a conversion of it.
@@ -353,9 +353,13 @@ function completeDelimiter({
             );
             if (newSource) return [newSource, placeholder];
         } else {
-            text += DelimiterCloseByOpen[text];
-            newSource = source.withGraphemesAt(text, position) ?? newSource;
-            if (newSource) return [newSource, position + 1];
+            const closeChar = DelimiterCloseByOpen[text];
+            // If the closing delimiter is already immediately after the cursor, don't insert it.
+            if (source.getGraphemeAt(position) !== closeChar) {
+                text += closeChar;
+                newSource = source.withGraphemesAt(text, position) ?? newSource;
+                if (newSource) return [newSource, position + 1];
+            }
         }
     }
     return undefined;
