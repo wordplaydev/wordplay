@@ -31,20 +31,12 @@ export default class Example extends Content {
         this.highlight = highlight;
     }
 
-    static make(program: Program) {
+    static make(program: Program, highlighted = false) {
         return new Example(
             new Token(CODE_SYMBOL, Sym.Code),
             program,
             new Token(CODE_SYMBOL, Sym.Code),
-        );
-    }
-
-    static makeHighlighted(program: Program) {
-        return new Example(
-            new Token(CODE_SYMBOL, Sym.Code),
-            program,
-            new Token(CODE_SYMBOL, Sym.Code),
-            new Token(HIGHLIGHT_SYMBOL, Sym.Highlight),
+            highlighted ? new Token(HIGHLIGHT_SYMBOL, Sym.Highlight) : undefined,
         );
     }
 

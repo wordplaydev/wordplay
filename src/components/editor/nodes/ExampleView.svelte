@@ -13,4 +13,8 @@
 <NodeView node={[node, 'open']} {format} /><NodeView
     node={[node, 'program']}
     {format}
-/><NodeView node={[node, 'close']} {format} empty="hide" />
+/><NodeView node={[node, 'close']} {format} empty="hide" /><NodeView
+    node={[node, 'highlight']}
+    {format}
+    empty="hide"
+/>
