@@ -474,15 +474,7 @@
                         tokenUnderPointer,
                         source.root.getParent(tokenUnderPointer),
                     )
-                  ? getCaretPositionAt(
-                        $caret,
-                        editor,
-                        event,
-                        getNodeView,
-                        getTokenViews,
-                        $locales.getDirection(),
-                        $blocks,
-                    )
+                  ? getCaretPositionAt($caret, event, getTokenViews, $blocks)
                   : // If shift is down or in blocks mode and not over an editable text token, select the non-token node at the position.
                     (event.shiftKey || $blocks) &&
                       nonTokenNodeUnderPointer !== undefined
@@ -496,11 +488,8 @@
                       : // Otherwise choose an index position under the mouse
                         getCaretPositionAt(
                             $caret,
-                            editor,
                             event,
-                            getNodeView,
                             getTokenViews,
-                            $locales.getDirection(),
                             $blocks,
                         );
         // If we found a position, set it and reset the ignore feedback.
@@ -565,11 +554,8 @@
             // Dragging to select. What's under the pointer?
             const position = getCaretPositionAt(
                 $caret,
-                editor,
                 event,
-                getNodeView,
                 getTokenViews,
-                $locales.getDirection(),
                 $blocks,
             );
             // Only create a range if the pointer resolved to a different numeric character position.
@@ -633,11 +619,8 @@
             else {
                 insertionPoint = getTextInsertionPointsAt(
                     $caret,
-                    editor,
                     event,
-                    getNodeView,
                     getTokenViews,
-                    $locales.getDirection(),
                     $blocks,
                 ).filter((insertion) => {
                     const kind = insertion.node.getFieldKind(insertion.field);
@@ -1388,6 +1371,9 @@
                     getNodeView,
                 );
             });
+        /** Remove the caret selection if in blocks mode and its a range. */
+        if ($blocks && $caret.isRange())
+            caret.set($caret.withPosition($caret.position[1]));
     });
 
     // When the caret changes, and it's a range, compute a range highlight.

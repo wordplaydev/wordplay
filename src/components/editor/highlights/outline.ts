@@ -1,6 +1,7 @@
+import { TAB_WIDTH } from '@parser/Spaces';
 import { measureTokenSegment } from './measureTokenSegment';
 
-type Rect = {
+export type Rect = {
     l: number;
     t: number;
     r: number;
@@ -127,18 +128,6 @@ export function getTokenRects(
         if (view instanceof HTMLElement) {
             // If the view is not hidden, include it in the rects.
             if (view.closest('.hide') === null) {
-                if (clip === undefined) {
-                    // Add rects for space prior to token
-                    const spaceViews = view.querySelectorAll(
-                        '.space[data-id="' +
-                            view.dataset.id +
-                            '"] [data-uiid="space-text"]',
-                    );
-                    for (const spaceView of spaceViews)
-                        if (spaceView instanceof HTMLElement)
-                            rects.push(getViewRect(offset, spaceView));
-                }
-
                 // Add rects for token
                 const tokenRect = getViewRect(offset, view);
 
@@ -397,4 +386,95 @@ export function getOutlineOfRows(lines: Rect[]): Outline {
         maxx: Math.max(...path.map((pos) => pos.x)),
         maxy: Math.max(...path.map((pos) => pos.y)),
     };
+}
+
+export type SpaceLineClip = {
+    /** First selected source-character index within this line (0-based). */
+    charStart: number;
+    /** Exclusive end of selected source characters within this line. */
+    charEnd: number;
+    /** Original source content of this line (spaces/tabs only, no '\n'). */
+    lineContent: string;
+};
+
+/**
+ * Return bounding rects for the .space-text spans that precede the given
+ * token view element.  The .space container is located by querying the
+ * editor ancestor by data-id, so it is found correctly regardless of where
+ * getSpaceRoot placed it in the DOM.
+ *
+ * lineClips maps each included line index (from space.split('\n')) to the
+ * source-char range that is selected within that line.  Only spans whose
+ * data-line attribute appears in the map are processed, and each is clipped
+ * horizontally to the selected character range using measureTokenSegment —
+ * the same technique used for token rects.  Tab characters are accounted for
+ * by converting source-char offsets to rendered-char offsets first.
+ *
+ * Empty lines (lineContent === '') receive a 4-px minimum-width sliver.
+ * Zero-height spans receive fallbackHeight.
+ */
+export function getSpaceRects(
+    tokenView: HTMLElement,
+    fallbackHeight: number,
+    blocks: boolean,
+    lineClips: Map<number, SpaceLineClip>,
+): Rect[] {
+    const id = tokenView.dataset.id;
+    const editorEl = tokenView.closest('.editor');
+    if (!id || !(editorEl instanceof HTMLElement)) return [];
+
+    const spaceEl = editorEl.querySelector(`.space[data-id="${id}"]`);
+    if (!(spaceEl instanceof HTMLElement)) return [];
+
+    const offset = getEditorOffset(tokenView);
+    const rects: Rect[] = [];
+
+    for (const span of spaceEl.querySelectorAll('[data-uiid="space-text"]')) {
+        if (!(span instanceof HTMLElement)) continue;
+        const lineAttr = span.dataset.line;
+        if (lineAttr === undefined) continue;
+        const clip = lineClips.get(parseInt(lineAttr, 10));
+        if (!clip) continue;
+
+        const raw = getViewRect(offset, span);
+        if (raw.w === 0 && raw.h === 0) continue;
+
+        const h = raw.h === 0 ? fallbackHeight : raw.h;
+
+        if (clip.lineContent.length === 0) {
+            // Empty line: show a minimum-width sliver at this line's position.
+            rects.push({ l: raw.l, t: raw.t, r: raw.l + 4, b: raw.t + h, w: 4, h });
+        } else {
+            // Non-empty line: clip horizontally to the selected character range.
+            // Tabs expand to TAB_WIDTH rendered characters, so convert source
+            // indices to rendered indices before calling measureTokenSegment.
+            const renderedStart = toRenderedOffset(
+                clip.lineContent,
+                clip.charStart,
+            );
+            const renderedEnd = toRenderedOffset(
+                clip.lineContent,
+                clip.charEnd,
+            );
+            const startW =
+                measureTokenSegment(span, renderedStart, blocks)?.[0] ?? 0;
+            const endW =
+                measureTokenSegment(span, renderedEnd, blocks)?.[0] ?? 0;
+            const w = endW - startW;
+            if (w <= 0) continue;
+            const l = raw.l + startW;
+            rects.push({ l, t: raw.t, r: l + w, b: raw.t + h, w, h });
+        }
+    }
+
+    return rects;
+}
+
+/** Convert a source character index within a space line to the corresponding
+ *  rendered character offset, expanding each tab to TAB_WIDTH characters. */
+function toRenderedOffset(lineContent: string, charIdx: number): number {
+    let rendered = 0;
+    for (let i = 0; i < charIdx && i < lineContent.length; i++)
+        rendered += lineContent[i] === '\t' ? TAB_WIDTH : 1;
+    return rendered;
 }

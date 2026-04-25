@@ -14,11 +14,13 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - We improved dark mode documentation color contrast.
 - We prevented dark mode from flashing light mode on page load.
 - We fixed a problem where text selection and highlighting were the wrong color.
-- We corrected the tooltip on the create account button.
-- We clarified the differences between the full screen buttons and the eye button (#1058).
+- We fixed the tooltip on the create account button.
+- When switching from blocks to text mode with a text range selected, the range is now set to just the first position, since selections aren't allowed in blocks mode.
 
 ### Changed
 
+- We improved the rendering and behavior of text selections in text editing mode.
+- We clarified the differences between the full screen buttons and the eye button (#1058).
 - We upgraded internal tooling for stability.
 
 ## 0.17.6 - 2026-04-17
