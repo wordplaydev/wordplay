@@ -273,6 +273,10 @@ export default class HowTo {
         return this.data.locales;
     }
 
+    isPublic(): boolean {
+        return this.data.isPublic;
+    }
+
     getSocial() {
         return this.data.social;
     }

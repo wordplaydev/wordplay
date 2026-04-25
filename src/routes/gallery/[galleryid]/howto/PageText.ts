@@ -82,6 +82,10 @@ type PageText = {
         accessMode: ModeText<[string, string]>;
         /** [plain] Label for options for translation */
         localeOptionsLabel: string;
+        /** [plain] Explanation for public/private visibility setting */
+        publicExplanation: string;
+        /** Mode text for setting the how-to to be publicly visible */
+        publicMode: ModeText<[string, string]>;
     };
     viewer: {
         /** Button text for viewing the how-to */
