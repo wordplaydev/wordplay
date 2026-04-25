@@ -13,6 +13,10 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - We fixed a problem where tooltips in dialogs were duplicated in incorrectly positioned.
 - We improved dark mode documentation color contrast.
 
+### Changed
+
+- We upgraded internal tooling for stability.
+
 ## 0.17.6 - 2026-04-17
 
 ### Added
