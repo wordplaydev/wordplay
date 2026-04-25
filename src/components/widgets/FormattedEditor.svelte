@@ -29,7 +29,7 @@
     let cursorPosition = $state(0);
 
     $effect(() => {
-        if (view === undefined) return;
+        if (!view) return;
         function updateCursor() {
             cursorPosition = view?.selectionStart ?? 0;
         }
@@ -50,13 +50,7 @@
         const positions: number[] = [];
         let i = 0;
         while (i < src.length) {
-            if (src[i] === '\\') {
-                if (i + 1 < src.length && src[i + 1] === '\\') {
-                    i += 2;
-                    continue;
-                }
-                positions.push(i);
-            }
+            if (src[i] === '\\') positions.push(i);
             i++;
         }
         for (let j = 0; j + 1 < positions.length; j += 2) {
@@ -110,8 +104,9 @@
                 start + 1 + selected.length + (start === end ? 0 : 1);
             }
         }
-        // Update the text box's text.
+        // Update the text box's text and cursor position state.
         text = formatted;
+        cursorPosition = cursorPos;
 
         // Update the cursor position.
         setTimeout(() => {
