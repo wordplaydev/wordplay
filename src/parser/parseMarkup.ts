@@ -6,9 +6,11 @@ import Mention from '../nodes/Mention';
 import type { Segment } from '../nodes/Paragraph';
 import Paragraph from '../nodes/Paragraph';
 import { Sym } from '../nodes/Sym';
+import Token from '../nodes/Token';
 import WebLink from '../nodes/WebLink';
 import Words from '../nodes/Words';
 import parseProgram from './parseProgram';
+import { HIGHLIGHT_SYMBOL } from './Symbols';
 import type Tokens from './Tokens';
 
 export default function parseMarkup(tokens: Tokens): Markup {
@@ -118,7 +120,21 @@ export function parseExample(tokens: Tokens): Example {
     const program = parseProgram(tokens, true);
     const close = tokens.readIf(Sym.Code);
 
-    return new Example(open, program, close);
+    let highlight: Token | undefined = undefined;
+    if (close !== undefined && tokens.nextIs(Sym.Words)) {
+        const text = tokens.peekText() ?? '';
+        if (text.startsWith(HIGHLIGHT_SYMBOL) || text.startsWith('highlight')) {
+            tokens.read(Sym.Words);
+            const prefix = text.startsWith(HIGHLIGHT_SYMBOL)
+                ? HIGHLIGHT_SYMBOL
+                : 'highlight';
+            highlight = new Token(HIGHLIGHT_SYMBOL, Sym.Highlight);
+            const remaining = text.slice(prefix.length);
+            if (remaining.length > 0) tokens.injectNext(new Token(remaining, Sym.Words));
+        }
+    }
+
+    return new Example(open, program, close, highlight);
 }
 
 function parseMention(tokens: Tokens): Mention | Branch {

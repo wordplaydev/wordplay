@@ -449,3 +449,41 @@ test("commas in complex programs don't crash", { timeout: 120000 }, () => {
         }
     }
 });
+
+test('highlighted example with ⭐', () => {
+    const doc = parseDoc(toTokens('¶\\1 + 1\\⭐¶'));
+    const example = doc.markup.paragraphs[0].segments[0];
+    expect(example).toBeInstanceOf(Example);
+    expect((example as Example).highlight).toBeDefined();
+    expect((example as Example).highlight?.getText()).toBe('⭐');
+});
+
+test('highlighted example with highlight keyword', () => {
+    const doc = parseDoc(toTokens('¶\\1 + 1\\highlight¶'));
+    const example = doc.markup.paragraphs[0].segments[0];
+    expect(example).toBeInstanceOf(Example);
+    expect((example as Example).highlight).toBeDefined();
+    expect((example as Example).highlight?.getText()).toBe('⭐');
+});
+
+test('highlighted example with highlight prefix leaves remainder in stream', () => {
+    const doc = parseDoc(toTokens('¶\\1 + 1\\highlight more text¶'));
+    const paragraph = doc.markup.paragraphs[0];
+    const example = paragraph.segments[0];
+    expect(example).toBeInstanceOf(Example);
+    expect((example as Example).highlight).toBeDefined();
+    expect(paragraph.segments.length).toBeGreaterThan(1);
+});
+
+test('non-highlighted example has no highlight', () => {
+    const doc = parseDoc(toTokens('¶\\1 + 1\\¶'));
+    const example = doc.markup.paragraphs[0].segments[0];
+    expect(example).toBeInstanceOf(Example);
+    expect((example as Example).highlight).toBeUndefined();
+});
+
+test('highlighted example roundtrips to ⭐ form', () => {
+    const doc = parseDoc(toTokens('¶\\1 + 1\\highlight¶'));
+    const example = doc.markup.paragraphs[0].segments[0] as Example;
+    expect(example.toWordplay()).toBe('\\1+1\\⭐');
+});

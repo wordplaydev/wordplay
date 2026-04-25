@@ -3,7 +3,7 @@ import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { Purpose } from '../concepts/Purpose';
 import Characters from '../lore/BasisCharacters';
-import { CODE_SYMBOL } from '../parser/Symbols';
+import { CODE_SYMBOL, HIGHLIGHT_SYMBOL } from '../parser/Symbols';
 import Content from './Content';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
 import { node, type Grammar, type Replacement } from './Node';
@@ -15,13 +15,20 @@ export default class Example extends Content {
     readonly open: Token;
     readonly program: Program;
     readonly close: Token | undefined;
+    readonly highlight: Token | undefined;
 
-    constructor(open: Token, program: Program, close: Token | undefined) {
+    constructor(
+        open: Token,
+        program: Program,
+        close: Token | undefined,
+        highlight?: Token,
+    ) {
         super();
 
         this.open = open;
         this.program = program;
         this.close = close;
+        this.highlight = highlight;
     }
 
     static make(program: Program) {
@@ -29,6 +36,15 @@ export default class Example extends Content {
             new Token(CODE_SYMBOL, Sym.Code),
             program,
             new Token(CODE_SYMBOL, Sym.Code),
+        );
+    }
+
+    static makeHighlighted(program: Program) {
+        return new Example(
+            new Token(CODE_SYMBOL, Sym.Code),
+            program,
+            new Token(CODE_SYMBOL, Sym.Code),
+            new Token(HIGHLIGHT_SYMBOL, Sym.Highlight),
         );
     }
 
@@ -49,6 +65,7 @@ export default class Example extends Content {
             { name: 'open', kind: node(Sym.Code), label: undefined },
             { name: 'program', kind: node(Program), label: undefined },
             { name: 'close', kind: node(Sym.Code), label: undefined },
+            { name: 'highlight', kind: node(Sym.Highlight), label: undefined },
         ];
     }
 
@@ -61,6 +78,7 @@ export default class Example extends Content {
             this.replaceChild('open', this.open, replace),
             this.replaceChild('program', this.program, replace),
             this.replaceChild('close', this.close, replace),
+            this.replaceChild('highlight', this.highlight, replace),
         ) as this;
     }
 
