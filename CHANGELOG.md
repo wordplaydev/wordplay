@@ -13,7 +13,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - We fixed a problem where tooltips in dialogs were duplicated in incorrectly positioned.
 - We improved dark mode documentation color contrast.
 - We prevented dark mode from flashing light mode on page load.
-- We fixed a problem where text selection was the wrong color.
+- We fixed a problem where text selection and highlighting were the wrong color.
 
 ### Changed
 
