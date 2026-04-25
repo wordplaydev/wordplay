@@ -305,8 +305,8 @@ export const StepForward: Command = {
     keySymbol: '→',
     active: (context) =>
         context.evaluator.isInPast() &&
-            context.evaluator.getStepIndex() !== undefined &&
-            context.evaluator.getStepIndex() < context.evaluator.getStepCount()
+        context.evaluator.getStepIndex() !== undefined &&
+        context.evaluator.getStepIndex() < context.evaluator.getStepCount()
             ? true
             : undefined,
     execute: (context) => context.evaluator.stepWithinProgram(),
@@ -739,10 +739,10 @@ const Commands: Command[] = [
         execute: ({ caret, blocks, view, getTokenViews }) =>
             caret
                 ? // Return true to swallow the event even if we can't move further.
-                blocks
+                  blocks
                     ? view && getTokenViews
                         ? (moveVisualVertical(-1, view, caret, getTokenViews) ??
-                            false)
+                          false)
                         : false
                     : (caret.moveVertical(-1) ?? true)
                 : false,
@@ -773,10 +773,10 @@ const Commands: Command[] = [
         execute: ({ caret, blocks, view, getTokenViews }) =>
             caret
                 ? // Return true to swallow the event even if we can't move further.
-                blocks
+                  blocks
                     ? view && getTokenViews
                         ? (moveVisualVertical(1, view, caret, getTokenViews) ??
-                            false)
+                          false)
                         : false
                     : (caret.moveVertical(1) ?? true)
                 : false,
@@ -809,11 +809,11 @@ const Commands: Command[] = [
                 ? blocks
                     ? caret.moveInlineBlock(-1)
                     : caret.moveInlineText(
-                        false,
-                        database.Locales.getWritingDirection() === 'ltr'
-                            ? -1
-                            : 1,
-                    )
+                          false,
+                          database.Locales.getWritingDirection() === 'ltr'
+                              ? -1
+                              : 1,
+                      )
                 : true,
     },
     {
@@ -844,11 +844,11 @@ const Commands: Command[] = [
                 ? blocks
                     ? caret.moveInlineBlock(1)
                     : caret.moveInlineText(
-                        false,
-                        database.Locales.getWritingDirection() === 'ltr'
-                            ? 1
-                            : -1,
-                    )
+                          false,
+                          database.Locales.getWritingDirection() === 'ltr'
+                              ? 1
+                              : -1,
+                      )
                 : false,
     },
     {
@@ -961,7 +961,7 @@ const Commands: Command[] = [
             else {
                 const token =
                     (caret.atTokenEnd() && caret.hasSpaceAfter()) ||
-                        caret.atEnd()
+                    caret.atEnd()
                         ? caret.tokenPrior
                         : caret.getToken();
                 if (token !== undefined) {
@@ -1367,8 +1367,8 @@ const Commands: Command[] = [
             !editor || caret === undefined
                 ? false
                 : caret.isNode()
-                    ? caret.enter(blocks)
-                    : caret.insert('\n', blocks, project),
+                  ? caret.enter(blocks)
+                  : caret.insert('\n', blocks, project),
     },
     {
         symbol: '⌫',
