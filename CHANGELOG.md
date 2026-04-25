@@ -12,6 +12,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - We prevented the editor from scrolling unexpectedly on click.
 - We fixed a problem where tooltips in dialogs were duplicated in incorrectly positioned.
 - We improved dark mode documentation color contrast.
+- We prevented dark mode from flashing light mode on page load.
 
 ### Changed
 
