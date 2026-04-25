@@ -360,7 +360,10 @@
             "emotion": "serious",
             "doc": [
                 "You can put examples in your @Doc, like this:",
-                "\\¶Here's an example of adding: \\1 + 2\\¶3 + 4\\"
+                "\\¶Here's an example of adding: \\1 + 2\\¶3 + 4\\",
+                "If you are using Examples in your how-tos, you can tag one Example as a highlight.",
+                "\\¶Here's a highlighted example: \\1 + 2\\⭐¶3 + 4\\",
+                "The highlighted example is shown as the preview in the how-to space and the Guide."
             ]
         },
         "Mention": {
