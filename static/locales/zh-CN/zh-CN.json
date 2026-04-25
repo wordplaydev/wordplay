@@ -4397,6 +4397,12 @@
             },
             "defaults": {
                 "starterCode": "¶欢迎来到您的空白项目！这是一条注释。\n\n您可以用它来描述您的项目、做笔记，以及\n\n解释您希望人们了解的关于您工作的信息。\n\n它支持粗体、斜体、<links@https://wordplay.dev> 等格式。¶\nPhrase('hi')"
+            },
+            "toggle": {
+                "fullscreen": {
+                    "on": "$~退出浏览器全屏模式",
+                    "off": "$~进入浏览器全屏模式"
+                }
             }
         },
         "gallery": {

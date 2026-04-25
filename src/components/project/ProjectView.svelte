@@ -1564,10 +1564,8 @@
     function stopPlaying() {
         const main = layout.getTileWithID(Layout.getSourceID(0));
         if (main) {
-            if (requestedPlay) {
-                requestedPlay = false;
-                setMode(main, TileMode.Expanded);
-            }
+            requestedPlay = false;
+            setMode(main, TileMode.Expanded);
             layout = layout.withoutFullscreen();
         }
     }
@@ -2035,7 +2033,7 @@
                         {canvasHeight}
                     />
                     <Toggle
-                        tips={(l) => l.ui.tile.toggle.fullscreen}
+                        tips={(l) => l.ui.project.toggle.fullscreen}
                         on={browserFullscreen}
                         command={browserFullscreen
                             ? ExitFullscreen

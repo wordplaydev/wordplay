@@ -14244,6 +14244,19 @@
                     "destination"
                   ],
                   "type": "object"
+                },
+                "toggle": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "fullscreen": {
+                      "$ref": "#/definitions/ToggleText",
+                      "description": "[plain] Tip text for the project full screen button"
+                    }
+                  },
+                  "required": [
+                    "fullscreen"
+                  ],
+                  "type": "object"
                 }
               },
               "required": [
@@ -14255,7 +14268,8 @@
                 "collapsed",
                 "save",
                 "dialog",
-                "subheader"
+                "subheader",
+                "toggle"
               ],
               "type": "object"
             },

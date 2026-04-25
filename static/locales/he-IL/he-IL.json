@@ -4436,6 +4436,12 @@
             "subheader": {
                 "source": "$~מָקוֹר",
                 "destination": "$~יַעַד"
+            },
+            "toggle": {
+                "fullscreen": {
+                    "on": "$~יציאה מדפדפן מסך מלא",
+                    "off": "$~היכנס לדפדפן למסך מלא"
+                }
             }
         },
         "checkpoints": {

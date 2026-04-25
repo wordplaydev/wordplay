@@ -4348,7 +4348,7 @@
             "toggle": {
                 "fullscreen": {
                     "on": "exit full screen",
-                    "off": "expand to full screen"
+                    "off": "expand window tile to full screen"
                 },
                 "show": {
                     "on": "hide",
@@ -4437,6 +4437,12 @@
             "subheader": {
                 "source": "Source",
                 "destination": "Destination"
+            },
+            "toggle": {
+                "fullscreen": {
+                    "on": "exit browser full screen",
+                    "off": "enter browser full screen"
+                }
             }
         },
         "checkpoints": {

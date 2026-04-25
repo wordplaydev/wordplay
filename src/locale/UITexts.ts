@@ -9,6 +9,7 @@ import type LandingPageText from '../routes/PageText';
 import type AboutPageText from '../routes/about/PageText';
 import type CharacterPageText from '../routes/character/[id]/PageText';
 import type CharactersPageText from '../routes/characters/PageText';
+import type DesignPageText from '../routes/design/PageText';
 import type DonatePageText from '../routes/donate/PageText';
 import type GalleriesPageText from '../routes/galleries/PageText';
 import type GalleryModerationPageText from '../routes/galleries/moderation/PageText';
@@ -24,7 +25,6 @@ import type TeachPageText from '../routes/teach/PageText';
 import type ClassPageText from '../routes/teach/class/[classid]/PageText';
 import type NewClassPageText from '../routes/teach/class/new/PageText';
 import type UpdatesPageText from '../routes/updates/PageText';
-import type DesignPageText from '../routes/design/PageText';
 import type EditTexts from './EditTexts';
 
 export type ButtonText = {
@@ -220,6 +220,10 @@ type UITexts = {
             source: FormattedText;
             /** [formatted] The header for the destination language */
             destination: FormattedText;
+        };
+        toggle: {
+            /** [plain] Tip text for the project full screen button */
+            fullscreen: ToggleText;
         };
     };
     /** Checkpoints text */

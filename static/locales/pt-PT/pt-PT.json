@@ -4436,6 +4436,12 @@
             "subheader": {
                 "source": "$~Fonte",
                 "destination": "$~Destino"
+            },
+            "toggle": {
+                "fullscreen": {
+                    "on": "$~sair do browser em ecrã inteiro",
+                    "off": "$~entrar no browser em ecrã inteiro"
+                }
             }
         },
         "checkpoints": {

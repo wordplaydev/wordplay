@@ -4436,6 +4436,12 @@
             "subheader": {
                 "source": "$~Nguồn",
                 "destination": "$~Điểm đến"
+            },
+            "toggle": {
+                "fullscreen": {
+                    "on": "$~Thoát khỏi chế độ toàn màn hình của trình duyệt",
+                    "off": "$~vào chế độ toàn màn hình trình duyệt"
+                }
             }
         },
         "checkpoints": {
