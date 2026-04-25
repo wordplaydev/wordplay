@@ -62,7 +62,7 @@
         display: inline-block;
     }
 
-    p {
+    div {
         text-align: center;
     }
 </style>
