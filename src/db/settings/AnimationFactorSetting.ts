@@ -7,9 +7,9 @@ export const AnimationFactorIcons = [
     '⅓',
     '½',
     '🏃',
-    '2x',
-    '5x',
-    '10x',
+    '2',
+    '5',
+    '10',
 ].map((i) => withMonoEmoji(i));
 
 export const AnimationFactors = [0, 4, 3, 2, 1, 0.5, 0.2, 0.1];
