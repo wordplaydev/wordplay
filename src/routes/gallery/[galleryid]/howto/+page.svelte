@@ -39,25 +39,43 @@
             gallery = undefined;
             return;
         }
-        Galleries.get(galleryID).then((gal) => {
-            // Found a store? Subscribe to it, updating the gallery when it changes.
-            if (gal) gallery = gal;
-            // Not found? No gallery.
-            else gallery = undefined;
-        });
+
+        // check if the user has permission to read the gallery. if not, don't try to get it.
+        if (
+            Galleries.accessibleGalleries.has(galleryID) ||
+            Galleries.expandedScopeGalleries.has(galleryID)
+        ) {
+            Galleries.get(galleryID).then((gal) => {
+                // Found a store? Subscribe to it, updating the gallery when it changes.
+                if (gal) gallery = gal;
+                // Not found? No gallery.
+                else gallery = undefined;
+            });
+        } else {
+            gallery = undefined;
+        }
     });
 
-    let galleryName = $derived(gallery?.getName($locales));
+    let galleryName: string = $derived(
+        gallery ? gallery.getName($locales) : '',
+    );
     const user = getUser();
 
     // get the how-tos in the gallery
     let howTos: HowTo[] = $state([]);
 
+    // get all of the how-tos for the gallery if the user has gallery access
+    // otherwise, see if there was a specific how-to id in the url and if so just get that one
     $effect(() => {
-        if (gallery)
+        if (gallery) {
             HowTos.getHowTos(gallery.getHowTos()).then((data) => {
                 if (data) howTos = data;
             });
+        } else if (urlID) {
+            HowTos.getHowTo(urlID).then((data) => {
+                if (data) howTos = [data];
+            });
+        }
     });
 
     // used for calculating if we should render the how-to
@@ -285,7 +303,7 @@
 
 {#if gallery === null}
     <Loading />
-{:else if gallery === undefined}
+{:else if !galleryID && gallery === undefined}
     <Writing>
         <Notice text={(l) => l.ui.howto.error.unknown} />
     </Writing>
@@ -295,13 +313,13 @@
             <div class="howtospaceheader">
                 <Header text={(l) => l.ui.howto.galleryView.header}></Header>
                 <Subheader>
-                    {#if ($user && (gallery.hasCurator($user.uid) || gallery.hasCreator($user.uid))) || gallery.isPublic()}
+                    {#if ($user && gallery && (gallery.hasCurator($user.uid) || gallery.hasCreator($user.uid))) || (gallery && gallery.isPublic())}
                         <Link
                             to="/gallery/{galleryID}"
                             tip={(l) => l.ui.howto.headerTooltip}
                             >{galleryName}</Link
                         >
-                    {:else}
+                    {:else if gallery && galleryName.length > 0}
                         {galleryName}
                     {/if}
                 </Subheader>
@@ -347,7 +365,7 @@
                         }}
                     ></Button>
 
-                    {#if isUserCurator}
+                    {#if gallery && isUserCurator}
                         <HowToConfiguration {gallery} />
                     {/if}
                 </div>
@@ -451,8 +469,10 @@
                                 bind:whichMoving
                                 bind:notPermittedAreas
                                 galleryCuratorCollaborators={gallery
-                                    .getCurators()
-                                    .concat(gallery.getCreators())}
+                                    ? gallery
+                                          .getCurators()
+                                          .concat(gallery.getCreators())
+                                    : []}
                                 bind:whichDialogOpen
                             />
                         {/if}
