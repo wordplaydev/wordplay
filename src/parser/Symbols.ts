@@ -68,6 +68,7 @@ export const FORMATTED_TYPE_SYMBOL = '`…`';
 export const PLACEHOLDER_SYMBOL = '_';
 export const ETC_SYMBOL = '…';
 export const CODE_SYMBOL = '\\';
+export const HIGHLIGHT_SYMBOL = '⭐';
 export const BASE_SYMBOL = ';';
 export const BASE_SYMBOL_FULL = '；';
 export const EXPONENT_SYMBOL = '^';

@@ -116,6 +116,8 @@ type UITexts = {
             edit: string;
             /** [plain] The preview mode */
             preview: string;
+            /** [plain] The highlight example button */
+            highlight: string;
         };
     };
     /** Controls for the tiled windows in the project */

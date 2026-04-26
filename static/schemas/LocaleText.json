@@ -8860,6 +8860,9 @@
             "Function": {
               "type": "string"
             },
+            "Highlight": {
+              "type": "string"
+            },
             "Infinity": {
               "type": "string"
             },
@@ -9062,6 +9065,7 @@
             "Match",
             "Text",
             "Code",
+            "Highlight",
             "Number",
             "Decimal",
             "Base",
@@ -15084,6 +15088,10 @@
                       "description": "[plain] The edit mode",
                       "type": "string"
                     },
+                    "highlight": {
+                      "description": "[plain] The highlight example button",
+                      "type": "string"
+                    },
                     "preview": {
                       "description": "[plain] The preview mode",
                       "type": "string"
@@ -15091,7 +15099,8 @@
                   },
                   "required": [
                     "edit",
-                    "preview"
+                    "preview",
+                    "highlight"
                   ],
                   "type": "object"
                 },
