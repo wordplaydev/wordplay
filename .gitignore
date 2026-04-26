@@ -17,3 +17,4 @@ firestore-debug.log
 /playwright/.cache/
 /playwright/.auth
 CLAUDE.md
+functions/.env.local

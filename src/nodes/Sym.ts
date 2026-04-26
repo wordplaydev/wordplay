@@ -70,6 +70,7 @@ const Sym = {
     // Text literals can also come in multiple formats, to encode multilingual apps in place.
     Text: 'text',
     Code: '\\',
+    Highlight: '⭐',
     // The optional negative sign allows for negative number literals.
     // The optional dash allows for a random number range.
     // The trailing text at the end encodes the unit.

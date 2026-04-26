@@ -122,7 +122,8 @@
         "Name": "名字",
         "Unknown": "不明",
         "Locale": "语言环境",
-        "End": "结束"
+        "End": "结束",
+        "Highlight": "$~突出显示的示例"
     },
     "node": {
         "Dimension": {
@@ -4301,7 +4302,8 @@
             },
             "formatted": {
                 "edit": "$~编辑格式化文本",
-                "preview": "$~预览格式化文本"
+                "preview": "$~预览格式化文本",
+                "highlight": "$~突出示例"
             }
         },
         "tile": {
@@ -4397,6 +4399,12 @@
             },
             "defaults": {
                 "starterCode": "¶欢迎来到您的空白项目！这是一条注释。\n\n您可以用它来描述您的项目、做笔记，以及\n\n解释您希望人们了解的关于您工作的信息。\n\n它支持粗体、斜体、<links@https://wordplay.dev> 等格式。¶\nPhrase('hi')"
+            },
+            "toggle": {
+                "fullscreen": {
+                    "on": "$~退出浏览器全屏模式",
+                    "off": "$~进入浏览器全屏模式"
+                }
             }
         },
         "gallery": {
@@ -4611,7 +4619,9 @@
             "button": {
                 "submit": "提交此聊天消息",
                 "zoomIn": "$~镜头拉近舞台",
-                "zoomOut": "$~镜头从舞台拉远。"
+                "zoomOut": "$~镜头从舞台拉远。",
+                "rotate": "$~旋转短语",
+                "resize": "$~调整短语大小"
             },
             "options": {
                 "locale": "$~选择输出语言",
@@ -4912,7 +4922,7 @@
                         ]
                     },
                     "animate": {
-                        "label": "动画",
+                        "label": "$~动画速度",
                         "labels": [
                             "$~离开",
                             "$~1/4",

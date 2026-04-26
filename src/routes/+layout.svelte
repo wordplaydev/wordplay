@@ -103,12 +103,19 @@
         );
     }
 
-    /** When dark mode changes, update the body's dark class */
+    /** When dark mode changes, update the html element's dark/light classes */
     $effect(() => {
         if (browser) {
-            if ($dark === true || ($dark === null && prefersDark()))
-                document.body.classList.add('dark');
-            else document.body.classList.remove('dark');
+            if ($dark === true || ($dark === null && prefersDark())) {
+                document.documentElement.classList.add('dark');
+                document.documentElement.classList.remove('light');
+            } else if ($dark === false) {
+                document.documentElement.classList.remove('dark');
+                document.documentElement.classList.add('light');
+            } else {
+                document.documentElement.classList.remove('dark');
+                document.documentElement.classList.remove('light');
+            }
         }
     });
 

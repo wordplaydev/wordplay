@@ -4,7 +4,6 @@ import {
     getInsertionPoint,
     InsertionPoint,
 } from '@edit/drag/Drag';
-import type { WritingDirection } from '@locale/Scripts';
 import Block from '@nodes/Block';
 import type Context from '@nodes/Context';
 import Expression from '@nodes/Expression';
@@ -291,11 +290,8 @@ function getListInsertionPoint(
 /** Given a pointer event, find the insertion points in text mode. */
 export function getTextInsertionPointsAt(
     caret: Caret,
-    editor: HTMLElement,
     event: PointerEvent,
-    getNodeView: (node: Node) => HTMLElement | undefined,
     getTokenViews: () => HTMLElement[],
-    direction: WritingDirection,
     blocks: boolean,
 ): InsertionPoint[] {
     const source = caret.source;
@@ -304,11 +300,8 @@ export function getTextInsertionPointsAt(
     // If so, are any of the token's parents inside a list in which we could insert something?
     const position = getCaretPositionAt(
         caret,
-        editor,
         event,
-        getNodeView,
         getTokenViews,
-        direction,
         blocks,
     );
 
@@ -375,11 +368,8 @@ export function getTextInsertionPointsAt(
 /** Determine an appropriate place for the text caret given a pointer event. */
 export function getCaretPositionAt(
     caret: Caret,
-    editor: HTMLElement,
     event: PointerEvent,
-    getNodeView: (node: Node) => HTMLElement | undefined,
     getTokenViews: () => HTMLElement[],
-    direction: WritingDirection,
     /** True if in blocks editing mode */
     blocks: boolean,
 ): number | undefined {
@@ -408,9 +398,7 @@ export function getCaretPositionAt(
             event,
             source,
             getTokenViews,
-            editor,
             caret,
-            direction,
         );
         if (endOfLinePosition !== undefined) return endOfLinePosition;
     }
@@ -425,11 +413,15 @@ function getTokenPosition(
     caret: Caret,
 ): number | undefined {
     // If we've selected a token view, figure out what position in the text to place the caret.
-    if (!elementAtCursor.classList.contains('token-view')) return undefined;
+    // Use closest() so that child elements inside a placeholder's .token-view are also handled.
+    const tokenViewEl = elementAtCursor.classList.contains('token-view')
+        ? elementAtCursor
+        : (elementAtCursor.closest('.token-view') as HTMLElement | null);
+    if (!(tokenViewEl instanceof HTMLElement)) return undefined;
 
     // Find the token this corresponds to.
     const [token, tokenView] =
-        getTokenFromElement(caret, elementAtCursor) ?? [];
+        getTokenFromElement(caret, tokenViewEl) ?? [];
 
     // If we found a token, find the position in it corresponding to the mouse position.
     if (!(token instanceof Token)) return undefined;
@@ -441,7 +433,7 @@ function getTokenPosition(
 
     // The mouse event's offset is relative to what was clicked on, not the element handling the click, so we have to compute the real offset.
     const targetRect = event.target.getBoundingClientRect();
-    const tokenRect = elementAtCursor.getBoundingClientRect();
+    const tokenRect = tokenViewEl.getBoundingClientRect();
     const offset = event.offsetX + (targetRect.left - tokenRect.left);
     const newPosition = Math.max(
         startIndex,
@@ -463,11 +455,7 @@ function getSpacePosition(
     elementAtCursor: HTMLElement,
     source: Source,
 ): number | undefined {
-    // Find the space text we're over
-    const spaceTextView = elementAtCursor.closest('.space-text');
-    if (!(spaceTextView instanceof HTMLElement)) return undefined;
-
-    // Find the overall space view it is in.
+    // Find the overall space view the cursor is in.
     const spaceView = elementAtCursor.closest('.space');
     if (!(spaceView instanceof HTMLElement)) return undefined;
 
@@ -478,6 +466,14 @@ function getSpacePosition(
     if (tokenID === null || isNaN(tokenID)) return undefined;
     const token = source.getNodeByID(tokenID);
     if (!(token instanceof Token)) return undefined;
+
+    // Find the space text we're over (may be absent when cursor is over a
+    // &ZeroWidthSpace; rendered in the .before span for empty or newline-only spaces).
+    const spaceTextView = elementAtCursor.closest('.space-text');
+    if (!(spaceTextView instanceof HTMLElement))
+        // Cursor is inside .space but not over a .space-text span.
+        // Return the start of this token's space as the best approximation.
+        return source.getTokenSpacePosition(token);
 
     // Get the line number of the space text
     const spaceLine = spaceTextView.dataset.line;
@@ -510,9 +506,7 @@ function getEndOfLinePosition(
     event: PointerEvent,
     source: Source,
     getTokenViews: () => Iterable<HTMLElement>,
-    editor: HTMLElement,
     caret: Caret,
-    direction: WritingDirection,
 ): number | undefined {
     // Otherwise, the pointer is over the editor. We only place the caret
     // in text mode, where there is a predictable grid layout.
@@ -578,73 +572,50 @@ function getEndOfLinePosition(
 
         return closestToken.textRight < event.clientX
             ? source.getEndOfTokenLine(token)
-            : source.getStartOfTokenLine(token);
+            : source.getTokenSpacePosition(token) ??
+              source.getStartOfTokenLine(token);
     }
 
-    // Otherwise, there is no token text on this line, so we have to find the closest line break.
-    type BreakInfo = {
-        token: Token;
-        offset: number;
-        index: number;
-        view: HTMLElement;
-    };
+    // No token is directly under the pointer (cursor is over empty space).
+    // Find the nearest visible token below the cursor and use its Y position
+    // and source line number—together with the line height derived from token
+    // rects—to compute which empty line the cursor is on.
+    //
+    // We avoid <br> element rects entirely: browsers frequently report their
+    // height as 0, so any Y-containment check against them is unreliable and
+    // causes getCaretPositionAt to always fall through to the end-of-source
+    // fallback, producing the selection flicker described above.
+    let nearestBelowTop = Number.POSITIVE_INFINITY;
+    let nearestBelowToken: Token | undefined;
+    let lineHeight = 0;
 
-    // Find all tokens with empty lines and choose the nearest.
-    const closestLine =
-        // Find all of the token line breaks, which are wrapped in spans to enable consistent measurement.
-        // This is because line breaks and getBoundingClientRect() are jumpy depending on what's around them.
-        Array.from(editor.querySelectorAll('.space .break'))
-            // Map each one to 1) the token, 2) token view, 3) line break top, 4) index within each token's space
-            .map((br) => {
-                const [token, tokenView] =
-                    getTokenFromLineBreak(caret, br) ?? [];
-                // Check the br container, which gives us a more accurate bounding client rect.
-                const rect = br.getBoundingClientRect();
-                if (tokenView === undefined || token === undefined)
-                    return undefined;
-                // Skip the line if it doesn't include the pointer's y.
-                if (event.clientY < rect.top || event.clientY > rect.bottom)
-                    return undefined;
-                return {
-                    token,
-                    offset: Math.abs(
-                        rect.top + rect.height / 2 - event.clientY,
-                    ),
-                    // Find the index of the break in the space view.
-                    index: Array.from(
-                        tokenView.querySelectorAll('.break'),
-                    ).indexOf(br),
-                    view: br as HTMLElement,
-                };
-            })
-            // Filter out any empty breaks that we couldn't find
-            .filter<BreakInfo>(
-                (br: BreakInfo | undefined): br is BreakInfo =>
-                    br !== undefined,
-            )
-            // Sort by increasing offset from mouse y
-            .sort((a, b) => a.offset - b.offset)[0]; // Chose the closest
+    for (const tokenView of getTokenViews()) {
+        if (tokenView.closest('.hide') !== null) continue;
+        const rect = tokenView.getBoundingClientRect();
+        if (rect.height > lineHeight) lineHeight = rect.height;
+        if (rect.top > event.clientY && rect.top < nearestBelowTop) {
+            const result = getTokenFromElement(caret, tokenView);
+            if (result !== undefined) {
+                nearestBelowTop = rect.top;
+                nearestBelowToken = result[0];
+            }
+        }
+    }
 
-    // If we have a closest line, find the line number
-    if (closestLine === undefined) return undefined;
+    // No token below the cursor: cursor is past the last line of content.
+    // Return undefined so the caller falls back to source.getCode().getLength().
+    if (nearestBelowToken === undefined || lineHeight === 0) return undefined;
 
-    // Get the line number of the token after the space.
-    const lineAfter = source.getLine(closestLine.token);
-    if (lineAfter === undefined) return undefined;
+    const lineBelow = source.getLine(nearestBelowToken);
+    if (lineBelow === undefined) return undefined;
 
-    // Find the space view of the closest line.
-    // Compute the horizontal position at which to place the caret.
-    // Find the width of a single space by finding the longest line,
-    // which determines its width.
-    const spaceView = closestLine.view.closest('.space');
-    if (spaceView == null) return undefined;
+    // Compute which source line the cursor is on by measuring its Y distance
+    // above the nearest-below token and dividing by the line height.
+    const linesAbove = Math.round(
+        (nearestBelowTop - event.clientY) / lineHeight,
+    );
+    const targetLine = lineBelow - linesAbove;
 
-    const breaks = Array.from(spaceView.querySelectorAll('.break'));
-
-    // The target line is the first line before the closest line's token, plus the number of breaks into it.
-    const targetLine = lineAfter - breaks.length + closestLine.index;
-
-    // Find the last position on the target line.
     return source.getEndOfLine(targetLine);
 }
 
@@ -662,18 +633,6 @@ function getTokenFromElement(
         : [token, tokenView];
 }
 
-function getTokenFromLineBreak(
-    caret: Caret,
-    textOrSpace: Element,
-): [Token, Element] | undefined {
-    const spaceView = textOrSpace.closest('.space') as HTMLElement;
-    const tokenID =
-        spaceView instanceof HTMLElement && spaceView.dataset.id
-            ? parseInt(spaceView.dataset.id)
-            : undefined;
-    const node = tokenID ? caret.source.getNodeByID(tokenID) : undefined;
-    return node instanceof Token ? [node, spaceView] : undefined;
-}
 
 function getTokenByView(program: Program, tokenView: Element) {
     if (

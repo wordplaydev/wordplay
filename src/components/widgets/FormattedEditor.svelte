@@ -3,6 +3,7 @@
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import { toShortcut } from '@components/editor/commands/Commands';
     import { locales } from '@db/Database';
+    import type LocaleText from '@locale/LocaleText';
     import type { LocaleTextAccessor } from '@locale/Locales';
     import Button from './Button.svelte';
     import Switch from './Switch.svelte';
@@ -25,6 +26,59 @@
     }: Props = $props();
 
     let preview = $state(false);
+    let cursorPosition = $state(0);
+
+    $effect(() => {
+        if (!view) return;
+        function updateCursor() {
+            cursorPosition = view?.selectionStart ?? 0;
+        }
+        view.addEventListener('input', updateCursor);
+        view.addEventListener('click', updateCursor);
+        view.addEventListener('keyup', updateCursor);
+        return () => {
+            view?.removeEventListener('input', updateCursor);
+            view?.removeEventListener('click', updateCursor);
+            view?.removeEventListener('keyup', updateCursor);
+        };
+    });
+
+    function findExampleRange(
+        src: string,
+        cursor: number,
+    ): { open: number; close: number } | null {
+        const positions: number[] = [];
+        let i = 0;
+        while (i < src.length) {
+            if (src[i] === '\\') positions.push(i);
+            i++;
+        }
+        for (let j = 0; j + 1 < positions.length; j += 2) {
+            const open = positions[j];
+            const close = positions[j + 1];
+            if (cursor > open && cursor <= close + 1) return { open, close };
+        }
+        return null;
+    }
+
+    let cursorInExample = $derived(
+        findExampleRange(text, cursorPosition) !== null,
+    );
+
+    function formatHighlight() {
+        if (view === undefined) return;
+        const cursor = view.selectionStart ?? 0;
+        const range = findExampleRange(text, cursor);
+        if (range === null) return;
+        const insertPos = range.close + 1;
+        text = text.slice(0, insertPos) + '⭐' + text.slice(insertPos);
+        const newCursor = insertPos + 1;
+        cursorPosition = newCursor;
+        setTimeout(() => {
+            view!.focus();
+            view!.setSelectionRange(newCursor, newCursor);
+        }, 0);
+    }
 
     function format(format: '*' | '^' | '/' | '_' | '\\' | '@') {
         if (view === undefined) return;
@@ -50,8 +104,9 @@
                 start + 1 + selected.length + (start === end ? 0 : 1);
             }
         }
-        // Update the text box's text.
+        // Update the text box's text and cursor position state.
         text = formatted;
+        cursorPosition = cursorPos;
 
         // Update the cursor position.
         setTimeout(() => {
@@ -97,6 +152,11 @@
                     event.preventDefault();
                     event.stopPropagation();
                     format('\\');
+                    break;
+                case '*':
+                    event.preventDefault();
+                    event.stopPropagation();
+                    formatHighlight();
                     break;
             }
         }
@@ -154,6 +214,13 @@
                 $locales.getPlainText((l) => l.token.Code) +
                 ` (${toShortcut({ control: true, alt: undefined, shift: undefined, key: '\\' })})`}
             action={() => format('\\')}><code>\\</code></Button
+        >
+        <Button
+            tip={(l: LocaleText) =>
+                l.ui.widget.formatted.highlight +
+                ` (${toShortcut({ control: true, alt: undefined, shift: true, key: '8' })})`}
+            action={formatHighlight}
+            active={!preview && cursorInExample}><Emoji>⭐</Emoji></Button
         >
         <Button
             tip={() =>

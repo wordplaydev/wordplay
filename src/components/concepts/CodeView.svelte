@@ -135,7 +135,7 @@
     .view {
         display: inline-flex;
         flex-direction: column;
-        touch-action: none;
+        touch-action: pan-y;
         gap: var(--wordplay-spacing);
     }
 
@@ -144,8 +144,8 @@
         vertical-align: middle;
         user-select: none;
 
-        /* Don't let iOS grab pointer move events, so we can do drag and drop. */
-        touch-action: none;
+        /* Allow vertical scroll of parent while still delivering pointer events for drag. */
+        touch-action: pan-y;
     }
 
     .outline {

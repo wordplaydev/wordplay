@@ -9,6 +9,7 @@
         getUser,
         setConceptIndex,
         setConceptPath,
+        setProject,
     } from '@components/project/Contexts';
     import type Concept from '@concepts/Concept';
     import ConceptIndex from '@concepts/ConceptIndex';
@@ -75,6 +76,13 @@
     let project = $derived(
         Project.make(null, 'guide', Source.make(''), [], $locales.getLocales()),
     );
+
+    // Expose the guide project so ExpressionPlaceholderView can resolve input placeholder labels.
+    let projectStore = writable<Project | undefined>(undefined);
+    setProject(projectStore);
+    $effect(() => {
+        projectStore.set(project);
+    });
 
     let howToStore = Locales.howTos;
 

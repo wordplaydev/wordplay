@@ -122,7 +122,8 @@
         "Name": "name",
         "Locale": "locale",
         "Unknown": "unknown",
-        "End": "end"
+        "End": "end",
+        "Highlight": "highlighted example"
     },
     "node": {
         "Dimension": {
@@ -359,7 +360,10 @@
             "emotion": "serious",
             "doc": [
                 "You can put examples in your @Doc, like this:",
-                "\\¶Here's an example of adding: \\1 + 2\\¶3 + 4\\"
+                "\\¶Here's an example of adding: \\1 + 2\\¶3 + 4\\",
+                "If you are using Examples in your how-tos, you can tag one Example as a highlight.",
+                "\\¶Here's a highlighted example: \\1 + 2\\⭐¶3 + 4\\",
+                "The highlighted example is shown as the preview in the how-to space and the Guide."
             ]
         },
         "Mention": {
@@ -4341,14 +4345,15 @@
             },
             "formatted": {
                 "edit": "edit formatted text",
-                "preview": "preview formatted text"
+                "preview": "preview formatted text",
+                "highlight": "highlight example"
             }
         },
         "tile": {
             "toggle": {
                 "fullscreen": {
                     "on": "exit full screen",
-                    "off": "expand to full screen"
+                    "off": "expand window tile to full screen"
                 },
                 "show": {
                     "on": "hide",
@@ -4437,6 +4442,12 @@
             "subheader": {
                 "source": "Source",
                 "destination": "Destination"
+            },
+            "toggle": {
+                "fullscreen": {
+                    "on": "exit browser full screen",
+                    "off": "enter browser full screen"
+                }
             }
         },
         "checkpoints": {
@@ -4906,7 +4917,9 @@
             "button": {
                 "submit": "submit this chat message",
                 "zoomIn": "zoom into the stage",
-                "zoomOut": "zoom out from the stage"
+                "zoomOut": "zoom out from the stage",
+                "rotate": "rotate phrase",
+                "resize": "resize phrase"
             },
             "options": {
                 "locale": "preferred language for output",
@@ -5210,7 +5223,7 @@
                         ]
                     },
                     "animate": {
-                        "label": "animations",
+                        "label": "animation speed",
                         "labels": [
                             "off",
                             "1/4",
@@ -6179,7 +6192,7 @@
                         "tip": "logout of your account",
                         "label": "logout"
                     },
-                    "login": "login with this email, sending a login link",
+                    "login": "create an account with this username and password",
                     "updateEmail": "change your email",
                     "delete": {
                         "tip": "delete your account",

@@ -189,7 +189,7 @@
     }
 
     .code {
-        min-width: 10em;
+        min-width: 0;
     }
 
     .code.inline {
@@ -211,8 +211,14 @@
         padding: var(--wordplay-spacing);
         border-radius: var(--wordplay-border-radius);
         border: var(--wordplay-border-width) solid var(--wordplay-border-color);
-        overflow-x: auto;
+        overflow: auto;
         white-space: nowrap;
+    }
+
+    /* Allow iOS horizontal scroll by overriding the touch-action: none set deep in CodeView */
+    .code.evaluated :global(.view),
+    .code.evaluated :global(.node) {
+        touch-action: pan-x;
     }
 
     .code.hasStage {

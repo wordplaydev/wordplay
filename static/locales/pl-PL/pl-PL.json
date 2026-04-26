@@ -122,7 +122,8 @@
         "Name": "$~nazwa",
         "Locale": "$~widownia",
         "Unknown": "$~nieznany",
-        "End": "$~koniec"
+        "End": "$~koniec",
+        "Highlight": "$~wyróżniony przykład"
     },
     "node": {
         "Dimension": {
@@ -4344,7 +4345,8 @@
             },
             "formatted": {
                 "edit": "$~edytuj sformatowany tekst",
-                "preview": "$~podgląd sformatowanego tekstu"
+                "preview": "$~podgląd sformatowanego tekstu",
+                "highlight": "$~wyróżnij przykład"
             }
         },
         "tile": {
@@ -4440,6 +4442,12 @@
             },
             "defaults": {
                 "starterCode": "¶Witaj w swoim pustym projekcie! To jest komentarz.\nMożesz go użyć do opisania swojego projektu, zrobienia notatek i\nwyjaśnienia, co chcesz, aby inni wiedzieli o Twojej pracy.\nObsługuje *pogrubienie*, /kursywa/, <links@https://wordplay.dev> i inne.¶\nPhrase('hi')"
+            },
+            "toggle": {
+                "fullscreen": {
+                    "on": "$~wyjdź z przeglądarki w trybie pełnoekranowym",
+                    "off": "$~przejdź do trybu pełnoekranowego przeglądarki"
+                }
             }
         },
         "checkpoints": {
@@ -4671,7 +4679,9 @@
             "button": {
                 "submit": "$~wyślij tę wiadomość czatu",
                 "zoomIn": "$~przybliż scenę",
-                "zoomOut": "$~oddalić się od sceny"
+                "zoomOut": "$~oddalić się od sceny",
+                "rotate": "$~obróć frazę",
+                "resize": "$~zmień rozmiar frazy"
             },
             "options": {
                 "locale": "$~wybierz język wyjścia",
@@ -4975,7 +4985,7 @@
                         ]
                     },
                     "animate": {
-                        "label": "$~animacje",
+                        "label": "$~prędkość animacji",
                         "labels": [
                             "$~wyłączony",
                             "$~1/4",

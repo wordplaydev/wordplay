@@ -243,6 +243,11 @@ export default class Tokens {
         } while (condition());
     }
 
+    /** Inject a token at the front of the unread queue (used when splitting a Words token). */
+    injectNext(token: Token): void {
+        this.#unread.unshift(token);
+    }
+
     /** Rollback to the given token. */
     unreadTo(token: Token) {
         while (this.#read.length > 0 && this.#unread[0] !== token) {

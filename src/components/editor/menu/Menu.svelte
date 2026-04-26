@@ -301,6 +301,8 @@
         left: 100%;
         top: 0;
         display: none;
+        flex-direction: column;
+        width: max-content;
         max-height: 20em;
         padding: var(--wordplay-spacing);
         overflow-y: auto;
@@ -312,7 +314,7 @@
     }
 
     .show + .submenu {
-        display: block;
+        display: flex;
     }
 
     .revisions {
