@@ -22,6 +22,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - We fixed the tooltip on the create account button.
 - When switching from blocks to text mode with a text range selected, the range is now set to just the first position, since selections aren't allowed in blocks mode.
 - We fixed the width of submenus in the editor's autocomplete menus.
+- We fixed the project loading feedback; it was showing an error during loading instead of loading feedback.
 
 ### Changed
 

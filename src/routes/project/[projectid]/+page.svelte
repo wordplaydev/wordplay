@@ -20,7 +20,7 @@
     let user = getUser();
 
     /** True if we're async loading the project, as opposed to getting it from the browser cache. */
-    let loading = $state(false);
+    let loading = $state(true);
     let error = $state(false);
 
     /** The project is set either by an effect on load or changes to the project history map in the database. **/
@@ -51,6 +51,7 @@
                         project = proj;
                     })
                     .catch(() => {
+                        loading = false;
                         error = true;
                     });
             });
