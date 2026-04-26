@@ -4902,7 +4902,9 @@
             "button": {
                 "submit": "$~Enviar esta mensagem de chat",
                 "zoomIn": "$~fazer zoom no palco",
-                "zoomOut": "$~zoom out do palco"
+                "zoomOut": "$~zoom out do palco",
+                "rotate": "$~frase rotativa",
+                "resize": "$~frase de redimensionamento"
             },
             "options": {
                 "locale": "$~idioma preferido para a saída",

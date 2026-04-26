@@ -4903,7 +4903,9 @@
             "button": {
                 "submit": "submit this chat message",
                 "zoomIn": "zoom into the stage",
-                "zoomOut": "zoom out from the stage"
+                "zoomOut": "zoom out from the stage",
+                "rotate": "rotate phrase",
+                "resize": "resize phrase"
             },
             "options": {
                 "locale": "preferred language for output",

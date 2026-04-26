@@ -4902,7 +4902,9 @@
             "button": {
                 "submit": "$~gửi tin nhắn trò chuyện này",
                 "zoomIn": "$~phóng to sân khấu",
-                "zoomOut": "$~thu nhỏ tầm nhìn sân khấu"
+                "zoomOut": "$~thu nhỏ tầm nhìn sân khấu",
+                "rotate": "$~xoay cụm từ",
+                "resize": "$~cụm từ thay đổi kích thước"
             },
             "options": {
                 "locale": "$~ngôn ngữ ưu tiên cho đầu ra",

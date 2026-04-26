@@ -908,6 +908,11 @@
         }
     });
 
+    /** Clear output selection when evaluation resumes, so stale handles don't linger. */
+    $effect(() => {
+        if ($evaluation.playing === true) selectedOutput.empty();
+    });
+
     /** When output selection changes, make the palette visible. */
     $effect(() => {
         const palette = untrack(() => layout).getPalette();

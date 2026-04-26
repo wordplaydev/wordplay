@@ -4655,7 +4655,9 @@
             "button": {
                 "submit": "$~soumettre ce message de discussion",
                 "zoomIn": "$~zoom sur la scène",
-                "zoomOut": "$~Dézoom arrière depuis la scène"
+                "zoomOut": "$~Dézoom arrière depuis la scène",
+                "rotate": "$~rotation de la phrase",
+                "resize": "$~phrase de redimensionnement"
             },
             "options": {
                 "locale": "$~choisir la langue de sortie",

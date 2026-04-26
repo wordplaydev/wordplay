@@ -4672,7 +4672,9 @@
             "button": {
                 "submit": "$~skicka detta chattmeddelande",
                 "zoomIn": "$~zooma in på scenen",
-                "zoomOut": "$~zooma ut från scenen"
+                "zoomOut": "$~zooma ut från scenen",
+                "rotate": "$~rotera frasen",
+                "resize": "$~ändra storlek på frasen"
             },
             "options": {
                 "locale": "$~välj språk för utmatning",

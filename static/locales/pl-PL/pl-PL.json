@@ -4677,7 +4677,9 @@
             "button": {
                 "submit": "$~wyślij tę wiadomość czatu",
                 "zoomIn": "$~przybliż scenę",
-                "zoomOut": "$~oddalić się od sceny"
+                "zoomOut": "$~oddalić się od sceny",
+                "rotate": "$~obróć frazę",
+                "resize": "$~zmień rozmiar frazy"
             },
             "options": {
                 "locale": "$~wybierz język wyjścia",

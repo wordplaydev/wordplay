@@ -475,6 +475,10 @@ type UITexts = {
             zoomIn: string;
             /** [plain] Zoom in output button */
             zoomOut: string;
+            /** [plain] The rotation handle on a selected phrase */
+            rotate: string;
+            /** [plain] The size handle on a selected phrase */
+            resize: string;
         };
         options: {
             /** [plain] The label for the locale chooser in output */

@@ -4672,7 +4672,9 @@
             "button": {
                 "submit": "$~bu sohbet mesajını gönder",
                 "zoomIn": "$~sahneye yakınlaştır",
-                "zoomOut": "$~sahneden uzaklaşarak yakınlaştırma yapın."
+                "zoomOut": "$~sahneden uzaklaşarak yakınlaştırma yapın.",
+                "rotate": "$~ifadeyi döndür",
+                "resize": "$~ifadeyi yeniden boyutlandır"
             },
             "options": {
                 "locale": "$~çıktı için dili seçin",
