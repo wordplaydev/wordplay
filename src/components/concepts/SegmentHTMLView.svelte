@@ -11,6 +11,7 @@
     import Words from '../../nodes/Words';
     import type Spaces from '../../parser/Spaces';
     import { unescapeMarkupSymbols } from '../../parser/Tokenizer';
+    import { BULLET_SYMBOL } from '../../parser/Symbols';
     import { withColorEmoji } from '../../unicode/emoji';
     import RootView from '../project/RootView.svelte';
     import ValueView from '../values/ValueView.svelte';
@@ -43,7 +44,7 @@
 
     function getTokenText(token: Token) {
         return withColorEmoji(
-            (token.startsWith('•')
+            (token.startsWith(BULLET_SYMBOL)
                 ? token.getText().substring(1).trimStart()
                 : withColorEmoji(unescapeMarkupSymbols(token.getText()))
             ).replaceAll('--', '—'),

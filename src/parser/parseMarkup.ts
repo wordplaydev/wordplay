@@ -9,6 +9,7 @@ import { Sym } from '../nodes/Sym';
 import WebLink from '../nodes/WebLink';
 import Words from '../nodes/Words';
 import parseProgram from './parseProgram';
+import { BULLET_SYMBOL } from './Symbols';
 import type Tokens from './Tokens';
 
 export default function parseMarkup(tokens: Tokens): Markup {
@@ -104,6 +105,13 @@ function parseWords(tokens: Tokens): Words {
                     : parseSegment(tokens),
             );
             if (tokens.nextHasMoreThanOneLineBreak()) return false;
+            // Stop before a bullet on a new line so each bullet gets its own Words node,
+            // allowing getBullets() to split them correctly even with single-newline separators.
+            if (
+                tokens.nextHasPrecedingLineBreak() === true &&
+                tokens.peekText()?.startsWith(BULLET_SYMBOL)
+            )
+                return false;
         },
     );
 

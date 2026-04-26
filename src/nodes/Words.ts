@@ -9,6 +9,7 @@ import NodeRef from '../locale/NodeRef';
 import ValueRef from '../locale/ValueRef';
 import Characters from '../lore/BasisCharacters';
 import { unescapeMarkupSymbols } from '../parser/Tokenizer';
+import { BULLET_SYMBOL } from '../parser/Symbols';
 import { withColorEmoji } from '../unicode/emoji';
 import Branch from './Branch';
 import ConceptLink from './ConceptLink';
@@ -221,7 +222,7 @@ export default class Words extends Content {
     isBulleted() {
         return (
             this.segments[0] instanceof Token &&
-            this.segments[0].getText().startsWith('•')
+            this.segments[0].getText().startsWith(BULLET_SYMBOL)
         );
     }
 
