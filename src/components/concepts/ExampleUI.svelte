@@ -215,6 +215,12 @@
         white-space: nowrap;
     }
 
+    /* Allow iOS horizontal scroll by overriding the touch-action: none set deep in CodeView */
+    .code.evaluated :global(.view),
+    .code.evaluated :global(.node) {
+        touch-action: pan-x;
+    }
+
     .code.hasStage {
         border-bottom-left-radius: 0;
         border-bottom-right-radius: 0;
