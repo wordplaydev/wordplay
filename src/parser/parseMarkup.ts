@@ -10,7 +10,7 @@ import Token from '../nodes/Token';
 import WebLink from '../nodes/WebLink';
 import Words from '../nodes/Words';
 import parseProgram from './parseProgram';
-import { HIGHLIGHT_SYMBOL } from './Symbols';
+import { BULLET_SYMBOL, HIGHLIGHT_SYMBOL } from './Symbols';
 import type Tokens from './Tokens';
 
 export default function parseMarkup(tokens: Tokens): Markup {
@@ -48,12 +48,12 @@ function parseSegment(tokens: Tokens) {
     return tokens.nextIs(Sym.TagOpen)
         ? parseWebLink(tokens)
         : tokens.nextIs(Sym.Concept)
-          ? parseConceptLink(tokens)
-          : tokens.nextIs(Sym.Code)
-            ? parseExample(tokens)
-            : tokens.nextIs(Sym.Mention)
-              ? parseMention(tokens)
-              : parseWords(tokens);
+            ? parseConceptLink(tokens)
+            : tokens.nextIs(Sym.Code)
+                ? parseExample(tokens)
+                : tokens.nextIs(Sym.Mention)
+                    ? parseMention(tokens)
+                    : parseWords(tokens);
 }
 
 function parseWebLink(tokens: Tokens): WebLink {
@@ -106,6 +106,13 @@ function parseWords(tokens: Tokens): Words {
                     : parseSegment(tokens),
             );
             if (tokens.nextHasMoreThanOneLineBreak()) return false;
+            // Stop before a bullet on a new line so each bullet gets its own Words node,
+            // allowing getBullets() to split them correctly even with single-newline separators.
+            if (
+                tokens.nextHasPrecedingLineBreak() === true &&
+                tokens.peekText()?.startsWith(BULLET_SYMBOL)
+            )
+                return false;
         },
     );
 

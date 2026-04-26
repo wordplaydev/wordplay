@@ -25,10 +25,6 @@
     import type Chat from '@db/chats/ChatDatabase.svelte';
     import type { Creator } from '@db/creators/CreatorDatabase';
     import type Project from '@db/projects/Project';
-    import {
-        AnimationFactorIcons,
-        AnimationFactors,
-    } from '@db/settings/AnimationFactorSetting';
     import type Locale from '@locale/Locale';
     import Node, { isFieldPosition } from '@nodes/Node';
     import Source from '@nodes/Source';
@@ -83,8 +79,13 @@
 
     import Toolbar from '@components/editor/commands/Toolbar.svelte';
     import Editor from '@components/editor/Editor.svelte';
+    import CommandButton from '@components/widgets/CommandButton.svelte';
     import type Gallery from '@db/galleries/Gallery';
     import GalleryHowTo from '@db/howtos/HowToDatabase.svelte';
+    import {
+        AnimationFactorIcons,
+        AnimationFactors,
+    } from '@db/settings/AnimationFactorSetting';
     import type MenuInfo from '@edit/menu/Menu';
     import type { LocaleTextAccessor } from '@locale/Locales';
     import type { HighlightSpec } from '../editor/highlights/Highlights';
@@ -94,7 +95,6 @@
     import type PaintingConfiguration from '../output/PaintingConfiguration';
     import Palette from '../palette/Palette.svelte';
     import Button from '../widgets/Button.svelte';
-    import CommandButton from '../widgets/CommandButton.svelte';
     import ConfirmButton from '../widgets/ConfirmButton.svelte';
     import Dialog from '../widgets/Dialog.svelte';
     import TextField from '../widgets/TextField.svelte';
@@ -908,6 +908,17 @@
         }
     });
 
+    /** Clear output selection when evaluation resumes, so stale handles don't linger. */
+    $effect(() => {
+        if ($evaluation.playing === true) {
+            selectedOutput.empty();
+            // Close the palette when playing resumes, since content can't be edited while playing.
+            const palette = untrack(() => layout).getPalette();
+            if (palette && palette.mode === TileMode.Expanded)
+                untrack(() => setMode(palette, TileMode.Collapsed));
+        }
+    });
+
     /** When output selection changes, make the palette visible. */
     $effect(() => {
         const palette = untrack(() => layout).getPalette();
@@ -1250,6 +1261,9 @@
         if (tile === layout.getPalette()) {
             if (tile.mode === TileMode.Expanded)
                 selectedOutput.setPaths(project, [], 'editor');
+            // Pause the evaluator when the palette opens, so content can be edited.
+            if (mode === TileMode.Expanded && $evaluator.isPlaying())
+                $evaluator.pause();
         }
 
         layout = layout
@@ -1564,10 +1578,8 @@
     function stopPlaying() {
         const main = layout.getTileWithID(Layout.getSourceID(0));
         if (main) {
-            if (requestedPlay) {
-                requestedPlay = false;
-                setMode(main, TileMode.Expanded);
-            }
+            requestedPlay = false;
+            setMode(main, TileMode.Expanded);
             layout = layout.withoutFullscreen();
         }
     }
@@ -2035,7 +2047,7 @@
                         {canvasHeight}
                     />
                     <Toggle
-                        tips={(l) => l.ui.tile.toggle.fullscreen}
+                        tips={(l) => l.ui.project.toggle.fullscreen}
                         on={browserFullscreen}
                         command={browserFullscreen
                             ? ExitFullscreen

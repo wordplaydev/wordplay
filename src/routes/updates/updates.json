@@ -1,5 +1,35 @@
 [
   {
+    "version": "0.17.7",
+    "date": "2026-04-17",
+    "changes": {
+      "added": [
+        "We added better menu suggestions for placeholders.",
+        "We added resize and rotate controls on PhraseViews when in edit mode, and made editing and movement easier, for faster manual layout of phrases on stage."
+      ],
+      "fixed": [
+        "We fixed a problem in the editor where clicking in a position would sometimes start a selection.",
+        "We prevented the editor from scrolling unexpectedly on click.",
+        "We fixed a problem where tooltips in dialogs were duplicated in incorrectly positioned.",
+        "We improved dark mode documentation color contrast.",
+        "We prevented dark mode from flashing light mode on page load.",
+        "We fixed a problem where text selection and highlighting were the wrong color.",
+        "We fixed the tooltip on the create account button.",
+        "When switching from blocks to text mode with a text range selected, the range is now set to just the first position, since selections aren't allowed in blocks mode.",
+        "We fixed the width of submenus in the editor's autocomplete menus.",
+        "We fixed the project loading feedback; it was showing an error during loading instead of loading feedback."
+      ],
+      "changed": [
+        "When the project is played, we close the palette, and when the palette is opened, we pause the project. That makes it clearer how to edit.",
+        "We improved the rendering and behavior of text selections in text editing mode.",
+        "We clarified the differences between the full screen buttons and the eye button (#1058).",
+        "We upgraded internal tooling for stability.",
+        "We made auto-complete during typing less aggressive and annoying."
+      ],
+      "removed": []
+    }
+  },
+  {
     "version": "0.17.6",
     "date": "2026-04-17",
     "changes": {
@@ -10,7 +40,9 @@
         "We added a more salient button design, but we're not using it anywhere yet.",
         "We made more progress on the in-app localization editing feature! It's not quite ready to release yet, but it's getting closer."
       ],
-      "fixed": [],
+      "fixed": [
+        "We fixed a minor problem where a minor error message was shown if someone was a collaborator on a project in gallery they didn't have access to."
+      ],
       "changed": [
         "We upgraded internal tooling for stability.",
         "We made the website load faster by finding a different way to load everything we know about Unicode."

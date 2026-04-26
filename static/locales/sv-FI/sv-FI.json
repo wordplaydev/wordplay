@@ -4435,6 +4435,12 @@
             },
             "defaults": {
                 "starterCode": "¶Välkommen till ditt tomma projekt! Detta är en kommentar.\nDu kan använda den för att beskriva ditt projekt, anteckna och\nförklara vad du vill att folk ska veta om ditt arbete.\nDen stöder *fet*, /kursiv/, <links@https://wordplay.dev> och mer.¶\nFrase('hej')"
+            },
+            "toggle": {
+                "fullscreen": {
+                    "on": "$~avsluta webbläsarens helskärm",
+                    "off": "$~öppna webbläsarens helskärm"
+                }
             }
         },
         "checkpoints": {
@@ -4666,7 +4672,9 @@
             "button": {
                 "submit": "$~skicka detta chattmeddelande",
                 "zoomIn": "$~zooma in på scenen",
-                "zoomOut": "$~zooma ut från scenen"
+                "zoomOut": "$~zooma ut från scenen",
+                "rotate": "$~rotera frasen",
+                "resize": "$~ändra storlek på frasen"
             },
             "options": {
                 "locale": "$~välj språk för utmatning",

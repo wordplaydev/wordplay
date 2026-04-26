@@ -4,12 +4,17 @@ import type { NodeDescriptor } from '../locale/NodeTexts';
 import Characters from '../lore/BasisCharacters';
 import { DOCS_SYMBOL } from '../parser/Symbols';
 import BasisType from './BasisType';
-import FormattedLiteral from './FormattedLiteral';
-import FormattedTranslation from './FormattedTranslation';
+import type Expression from './Expression';
 import { node, type Grammar, type Replacement } from './Node';
 import { Sym } from './Sym';
 import Token from './Token';
 import type TypeSet from './TypeSet';
+
+/** We created this little factory to avoid a cycle in FormattedType's default expression creation. */
+let _defaultFactory: (() => Expression) | undefined;
+export function registerFormattedDefaultExpression(factory: () => Expression) {
+    _defaultFactory = factory;
+}
 
 export default class FormattedType extends BasisType {
     readonly tick: Token;
@@ -50,6 +55,10 @@ export default class FormattedType extends BasisType {
         ) as this;
     }
 
+    getDefaultExpression() {
+        return _defaultFactory?.();
+    }
+
     getCharacter() {
         return Characters.Formatted;
     }
@@ -57,9 +66,5 @@ export default class FormattedType extends BasisType {
     static readonly LocalePath = (l: LocaleText) => l.node.FormattedType;
     getLocalePath() {
         return FormattedType.LocalePath;
-    }
-
-    getDefaultExpression() {
-        return new FormattedLiteral([FormattedTranslation.make()]);
     }
 }

@@ -24,10 +24,13 @@ import type Evaluator from '@runtime/Evaluator';
 import ExceptionValue from '@values/ExceptionValue';
 import getOutlineOf, {
     getOutlineOfRows,
+    getSpaceRects,
     getTokenRects,
     getUnderlineOf,
     rectsToRows,
     type Outline,
+    type Rect,
+    type SpaceLineClip,
 } from './outline';
 
 /** Highlight types and whether they are rendered above or below the code. True for above. */
@@ -487,35 +490,118 @@ export function getRangeOutline(
         start = end;
         end = temp;
     }
-    // Find all tokens in the range, and remember details about it.
-    const tokens = source.tokens
+
+    // Find all tokens whose TEXT overlaps [start, end].
+    type TextToken = { token: Token; start: number; end: number };
+    const textTokens: TextToken[] = source.tokens
         .map((token) => {
             const tokenStart = source.getTokenTextPosition(token);
             if (tokenStart === undefined) return undefined;
             const tokenEnd = tokenStart + token.getTextLength();
-            if (start <= tokenEnd && end >= tokenStart) {
-                return {
-                    token,
-                    start: tokenStart,
-                    end: tokenEnd,
-                };
-            } else return undefined;
+            if (start <= tokenEnd && end >= tokenStart)
+                return { token, start: tokenStart, end: tokenEnd };
+            return undefined;
         })
-        .filter((t) => t !== undefined);
+        .filter((t): t is TextToken => t !== undefined);
 
-    // Find views of all the tokens
-    const nodeViews = tokens
+    // Find views of the text tokens.
+    const nodeViews = textTokens
         .map((t) => getNodeView(t.token))
-        .filter((v) => v !== undefined);
+        .filter((v): v is HTMLElement => v !== undefined);
 
-    if (nodeViews.length === 0) return undefined;
+    // Derive a fallback line-height for zero-height space spans (empty lines).
+    // Prefer the rendered height of the first text-token view; fall back to 20 px.
+    const fallbackHeight =
+        nodeViews[0]?.getBoundingClientRect().height || 20;
 
-    // Convert the tokens into rectangles
-    const tokenRects = getTokenRects(nodeViews, blocks, {
-        start: start - tokens[0].start,
-        end: end - tokens[tokens.length - 1].start,
-    });
+    // Build all rects in document order: for every source token whose space
+    // OR text overlaps [start, end], emit space rects first then the token rect.
+    // This covers three cases that were previously broken:
+    //   • spaces between tokens on the same line
+    //   • selections that start or end inside whitespace / empty lines
+    //   • selections that contain ONLY whitespace with no token text
+    const allRects: Rect[] = [];
+    let textIdx = 0;
 
-    // Convert the rects into an outline of rows
-    return getOutlineOfRows(rectsToRows(tokenRects, horzontal, rtl));
+    for (const token of source.tokens) {
+        const textStart = source.getTokenTextPosition(token);
+        if (textStart === undefined) continue;
+
+        // Compute the text-position range of this token's preceding space.
+        const spaceStr = source.spaces.getSpace(token);
+        const spaceStart = textStart - spaceStr.length;
+
+        // A token's space overlaps [start, end] when spaceStart < end and
+        // textStart > start (the space ends after the selection begins, and
+        // the token text starts after the selection begins).
+        if (spaceStart < end && textStart > start) {
+            const tokenView = getNodeView(token);
+            if (tokenView !== undefined) {
+                // For each line of the space string, compute the source-char
+                // range that falls within [start, end] and store it as a clip.
+                // Each line k occupies [lineStart, nextLineStart) where
+                // nextLineStart = lineStart + lineLen + 1 (for the '\n'
+                // separator), except for the last line which has no '\n'.
+                const lines = spaceStr.split('\n');
+                const lineClips = new Map<number, SpaceLineClip>();
+                let lineStart = spaceStart;
+                for (let k = 0; k < lines.length; k++) {
+                    const isLastLine = k === lines.length - 1;
+                    const nextLineStart =
+                        lineStart + lines[k].length + (isLastLine ? 0 : 1);
+                    if (lineStart < end && nextLineStart > start) {
+                        const overlapStart = Math.max(start, lineStart);
+                        const overlapEnd = Math.min(
+                            end,
+                            lineStart + lines[k].length,
+                        );
+                        lineClips.set(k, {
+                            charStart: overlapStart - lineStart,
+                            charEnd: overlapEnd - lineStart,
+                            lineContent: lines[k],
+                        });
+                    }
+                    lineStart = nextLineStart;
+                }
+                allRects.push(
+                    ...getSpaceRects(
+                        tokenView,
+                        fallbackHeight,
+                        blocks,
+                        lineClips,
+                    ),
+                );
+            }
+        }
+
+        // If this token's text is also in the selection, clip and add its rect.
+        if (
+            textIdx < textTokens.length &&
+            textTokens[textIdx].token === token
+        ) {
+            const view = nodeViews[textIdx];
+            if (view !== undefined) {
+                const isFirst = textIdx === 0;
+                const isLast = textIdx === textTokens.length - 1;
+                // For a single-element getTokenRects call the "both-clip" path
+                // always runs. Set start=offset-within-first-token (or 0) and
+                // end=offset-within-last-token (or full length) so that:
+                //   first token  → left clip only  (end = full token length)
+                //   last token   → right clip only (start = 0)
+                //   middle token → no clip         (start=0, end=full length)
+                //   single token → both clips
+                const clip = {
+                    start: isFirst ? start - textTokens[0].start : 0,
+                    end: isLast
+                        ? end - textTokens[textIdx].start
+                        : textTokens[textIdx].end - textTokens[textIdx].start,
+                };
+                allRects.push(...getTokenRects([view], blocks, clip));
+            }
+            textIdx++;
+        }
+    }
+
+    if (allRects.length === 0) return undefined;
+    return getOutlineOfRows(rectsToRows(allRects, horzontal, rtl));
 }

@@ -11389,6 +11389,14 @@
                 "button": {
                   "additionalProperties": false,
                   "properties": {
+                    "resize": {
+                      "description": "[plain] The size handle on a selected phrase",
+                      "type": "string"
+                    },
+                    "rotate": {
+                      "description": "[plain] The rotation handle on a selected phrase",
+                      "type": "string"
+                    },
                     "submit": {
                       "description": "[plain] The chat submit button",
                       "type": "string"
@@ -11405,7 +11413,9 @@
                   "required": [
                     "submit",
                     "zoomIn",
-                    "zoomOut"
+                    "zoomOut",
+                    "rotate",
+                    "resize"
                   ],
                   "type": "object"
                 },
@@ -14248,6 +14258,19 @@
                     "destination"
                   ],
                   "type": "object"
+                },
+                "toggle": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "fullscreen": {
+                      "$ref": "#/definitions/ToggleText",
+                      "description": "[plain] Tip text for the project full screen button"
+                    }
+                  },
+                  "required": [
+                    "fullscreen"
+                  ],
+                  "type": "object"
                 }
               },
               "required": [
@@ -14259,7 +14282,8 @@
                 "collapsed",
                 "save",
                 "dialog",
-                "subheader"
+                "subheader",
+                "toggle"
               ],
               "type": "object"
             },

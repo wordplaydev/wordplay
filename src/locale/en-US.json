@@ -4353,7 +4353,7 @@
             "toggle": {
                 "fullscreen": {
                     "on": "exit full screen",
-                    "off": "expand to full screen"
+                    "off": "expand window tile to full screen"
                 },
                 "show": {
                     "on": "hide",
@@ -4442,6 +4442,12 @@
             "subheader": {
                 "source": "Source",
                 "destination": "Destination"
+            },
+            "toggle": {
+                "fullscreen": {
+                    "on": "exit browser full screen",
+                    "off": "enter browser full screen"
+                }
             }
         },
         "checkpoints": {
@@ -4902,7 +4908,9 @@
             "button": {
                 "submit": "submit this chat message",
                 "zoomIn": "zoom into the stage",
-                "zoomOut": "zoom out from the stage"
+                "zoomOut": "zoom out from the stage",
+                "rotate": "rotate phrase",
+                "resize": "resize phrase"
             },
             "options": {
                 "locale": "preferred language for output",
@@ -6175,7 +6183,7 @@
                         "tip": "logout of your account",
                         "label": "logout"
                     },
-                    "login": "login with this email, sending a login link",
+                    "login": "create an account with this username and password",
                     "updateEmail": "change your email",
                     "delete": {
                         "tip": "delete your account",

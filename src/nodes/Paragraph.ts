@@ -10,6 +10,7 @@ import NodeRef from '../locale/NodeRef';
 import ValueRef from '../locale/ValueRef';
 import Characters from '../lore/BasisCharacters';
 import { unescapeMarkupSymbols } from '../parser/Tokenizer';
+import { BULLET_SYMBOL } from '../parser/Symbols';
 import Branch from './Branch';
 import ConceptLink from './ConceptLink';
 import Content from './Content';
@@ -148,7 +149,7 @@ export default class Paragraph extends Content {
             (this.segments[0] instanceof Words &&
                 this.segments[0].isBulleted()) ||
             (this.segments[0] instanceof Token &&
-                this.segments[0].getText().startsWith('•'))
+                this.segments[0].getText().startsWith(BULLET_SYMBOL))
         );
     }
 
@@ -163,7 +164,7 @@ export default class Paragraph extends Content {
                 if (
                     (segment instanceof Words && segment.isBulleted()) ||
                     (segment instanceof Token &&
-                        segment.getText().startsWith('•'))
+                        segment.getText().startsWith(BULLET_SYMBOL))
                 ) {
                     if (current.length > 0)
                         bullets.push(new Paragraph(current));

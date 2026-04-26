@@ -4417,6 +4417,12 @@
             },
             "defaults": {
                 "starterCode": "¶¡Bienvenido a tu proyecto en blanco! Este es un comentario.\nPuedes usarlo para describir tu proyecto, tomar notas y explicar qué quieres que la gente sepa sobre tu trabajo.\nAdmite *negrita*, /cursiva/, <links@https://wordplay.dev> y más.¶\nPhrase('hola')"
+            },
+            "toggle": {
+                "fullscreen": {
+                    "on": "$~salir del navegador en pantalla completa",
+                    "off": "$~Ingrese al navegador en pantalla completa."
+                }
             }
         },
         "gallery": {
@@ -4631,7 +4637,9 @@
             "button": {
                 "submit": "enviar este mensaje de chat",
                 "zoomIn": "$~acercarse al escenario",
-                "zoomOut": "$~alejarse del escenario"
+                "zoomOut": "$~alejarse del escenario",
+                "rotate": "$~frase de rotación",
+                "resize": "$~redimensionar frase"
             },
             "options": {
                 "locale": "$~elegir el idioma de salida",

@@ -61,6 +61,7 @@ export const PROPERTY_SYMBOL_FULL = '。';
 export const BORROW_SYMBOL = '↓';
 export const SHARE_SYMBOL = '↑';
 export const DOCS_SYMBOL = '¶';
+export const BULLET_SYMBOL = '•';
 export const FORMATTED_SYMBOL = '`';
 export const FORMATTED_SYMBOL_FULL = '｀';
 export const FORMATTED_TYPE_SYMBOL = '`…`';

@@ -247,9 +247,7 @@ export default class FunctionDefinition extends DefinitionExpression {
                                       ExpressionPlaceholder.make(
                                           input.getType(context).clone(),
                                       ))
-                                    : ExpressionPlaceholder.make(
-                                          input.getType(context).clone(),
-                                      )
+                                    : ExpressionPlaceholder.make()
                                 : ExpressionPlaceholder.make(),
                         ),
                 );

@@ -6,11 +6,33 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 ## 0.17.7 - 2026-04-17
 
+### Added
+
+- We added better menu suggestions for placeholders.
+- We added resize and rotate controls on PhraseViews when in edit mode, and made editing and movement easier, for faster manual layout of phrases on stage.
+- We made the tutorial responsive to the aspect ratio of the window.
+
 ### Fixed
 
 - We fixed a problem in the editor where clicking in a position would sometimes start a selection.
 - We prevented the editor from scrolling unexpectedly on click.
 - We fixed a problem where tooltips in dialogs were duplicated in incorrectly positioned.
+- We improved dark mode documentation color contrast.
+- We prevented dark mode from flashing light mode on page load.
+- We fixed a problem where text selection and highlighting were the wrong color.
+- We fixed the tooltip on the create account button.
+- When switching from blocks to text mode with a text range selected, the range is now set to just the first position, since selections aren't allowed in blocks mode.
+- We fixed the width of submenus in the editor's autocomplete menus.
+- We fixed the project loading feedback; it was showing an error during loading instead of loading feedback.
+- Bullets in markup with only one line separating them weren't working. Now they do!
+
+### Changed
+
+- When the project is played, we close the palette, and when the palette is opened, we pause the project. That makes it clearer how to edit.
+- We improved the rendering and behavior of text selections in text editing mode.
+- We clarified the differences between the full screen buttons and the eye button (#1058).
+- We upgraded internal tooling for stability.
+- We made auto-complete during typing less aggressive and annoying.
 
 ## 0.17.6 - 2026-04-17
 
