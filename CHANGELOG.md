@@ -25,6 +25,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 ### Changed
 
+- When the project is played, we close the palette, and when the palette is opened, we pause the project. That makes it clearer how to edit.
 - We improved the rendering and behavior of text selections in text editing mode.
 - We clarified the differences between the full screen buttons and the eye button (#1058).
 - We upgraded internal tooling for stability.

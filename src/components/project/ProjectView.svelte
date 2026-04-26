@@ -910,7 +910,13 @@
 
     /** Clear output selection when evaluation resumes, so stale handles don't linger. */
     $effect(() => {
-        if ($evaluation.playing === true) selectedOutput.empty();
+        if ($evaluation.playing === true) {
+            selectedOutput.empty();
+            // Close the palette when playing resumes, since content can't be edited while playing.
+            const palette = untrack(() => layout).getPalette();
+            if (palette && palette.mode === TileMode.Expanded)
+                untrack(() => setMode(palette, TileMode.Collapsed));
+        }
     });
 
     /** When output selection changes, make the palette visible. */
@@ -1255,6 +1261,9 @@
         if (tile === layout.getPalette()) {
             if (tile.mode === TileMode.Expanded)
                 selectedOutput.setPaths(project, [], 'editor');
+            // Pause the evaluator when the palette opens, so content can be edited.
+            if (mode === TileMode.Expanded && $evaluator.isPlaying())
+                $evaluator.pause();
         }
 
         layout = layout
