@@ -5209,7 +5209,7 @@
                         ]
                     },
                     "animate": {
-                        "label": "animations",
+                        "label": "animation speed",
                         "labels": [
                             "off",
                             "1/4",

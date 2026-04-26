@@ -16,7 +16,7 @@
     import Speech from '@components/lore/Speech.svelte';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import Mode from '@components/widgets/Mode.svelte';
+    import Options from '@components/widgets/Options.svelte';
     import {
         getConceptFromURL,
         setConceptInURL,
@@ -85,6 +85,7 @@
     import {
         AnimationFactorIcons,
         AnimationFactors,
+        AnimationIcon,
     } from '@db/settings/AnimationFactorSetting';
     import type MenuInfo from '@edit/menu/Menu';
     import type { LocaleTextAccessor } from '@locale/Locales';
@@ -1759,26 +1760,29 @@
                                             >{#if fit}🔒{:else}🔓{/if}</Emoji
                                         ></Toggle
                                     >
-                                    <Mode
-                                        modes={(l) =>
-                                            l.ui.dialog.settings.mode.animate}
-                                        choice={AnimationFactors.indexOf(
-                                            $animationFactor,
-                                        )}
-                                        select={(choice) =>
-                                            Settings.setAnimationFactor(
-                                                AnimationFactors[choice],
-                                            )}
-                                        icons={AnimationFactorIcons}
-                                        modeLabels={false}
-                                        labeled={false}
-                                    />
-                                    {#if $animationFactor === 0}<LocalizedText
-                                            path={(l) =>
+                                    <label class="output-locale"
+                                        >{AnimationIcon}
+                                        <Options
+                                            value={String($animationFactor)}
+                                            label={(l) =>
                                                 l.ui.dialog.settings.mode
-                                                    .animate.labels[0]}
+                                                    .animate.label}
+                                            options={AnimationFactors.map(
+                                                (factor, i) => ({
+                                                    value: String(factor),
+                                                    label: AnimationFactorIcons[
+                                                        i
+                                                    ],
+                                                }),
+                                            )}
+                                            change={(v) =>
+                                                Settings.setAnimationFactor(
+                                                    v !== undefined
+                                                        ? Number(v)
+                                                        : 1,
+                                                )}
                                         />
-                                    {/if}
+                                    </label>
                                 {:else if tile.isSource()}
                                     {#if !editable}<CopyButton {project}
                                         ></CopyButton>{/if}
