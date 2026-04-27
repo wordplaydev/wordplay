@@ -8860,6 +8860,9 @@
             "Function": {
               "type": "string"
             },
+            "Highlight": {
+              "type": "string"
+            },
             "Infinity": {
               "type": "string"
             },
@@ -9062,6 +9065,7 @@
             "Match",
             "Text",
             "Code",
+            "Highlight",
             "Number",
             "Decimal",
             "Base",
@@ -11385,6 +11389,14 @@
                 "button": {
                   "additionalProperties": false,
                   "properties": {
+                    "resize": {
+                      "description": "[plain] The size handle on a selected phrase",
+                      "type": "string"
+                    },
+                    "rotate": {
+                      "description": "[plain] The rotation handle on a selected phrase",
+                      "type": "string"
+                    },
                     "submit": {
                       "description": "[plain] The chat submit button",
                       "type": "string"
@@ -11401,7 +11413,9 @@
                   "required": [
                     "submit",
                     "zoomIn",
-                    "zoomOut"
+                    "zoomOut",
+                    "rotate",
+                    "resize"
                   ],
                   "type": "object"
                 },
@@ -14244,6 +14258,19 @@
                     "destination"
                   ],
                   "type": "object"
+                },
+                "toggle": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "fullscreen": {
+                      "$ref": "#/definitions/ToggleText",
+                      "description": "[plain] Tip text for the project full screen button"
+                    }
+                  },
+                  "required": [
+                    "fullscreen"
+                  ],
+                  "type": "object"
                 }
               },
               "required": [
@@ -14255,7 +14282,8 @@
                 "collapsed",
                 "save",
                 "dialog",
-                "subheader"
+                "subheader",
+                "toggle"
               ],
               "type": "object"
             },
@@ -15060,6 +15088,10 @@
                       "description": "[plain] The edit mode",
                       "type": "string"
                     },
+                    "highlight": {
+                      "description": "[plain] The highlight example button",
+                      "type": "string"
+                    },
                     "preview": {
                       "description": "[plain] The preview mode",
                       "type": "string"
@@ -15067,7 +15099,8 @@
                   },
                   "required": [
                     "edit",
-                    "preview"
+                    "preview",
+                    "highlight"
                   ],
                   "type": "object"
                 },

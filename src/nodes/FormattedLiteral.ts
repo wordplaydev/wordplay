@@ -16,7 +16,9 @@ import type Value from '../values/Value';
 import type Context from './Context';
 import type Expression from './Expression';
 import FormattedTranslation from './FormattedTranslation';
-import FormattedType from './FormattedType';
+import FormattedType, {
+    registerFormattedDefaultExpression,
+} from './FormattedType';
 import { getPreferred } from './LanguageTagged';
 import Literal from './Literal';
 import type { Grammar, Replacement } from './Node';
@@ -220,3 +222,8 @@ export default class FormattedLiteral extends Literal {
         return locales.concretize((l) => l.node.FormattedLiteral.start);
     }
 }
+
+/** This avoids a cycle in FormattedType's default expression creation */
+registerFormattedDefaultExpression(
+    () => new FormattedLiteral([FormattedTranslation.make()]),
+);

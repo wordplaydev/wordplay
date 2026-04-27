@@ -80,8 +80,11 @@
         $derived.by(() => {
             let [markup, spaces] = toMarkup(text.join('\n\n'));
 
-            // step 1: determine if there are any examples in the how-to text
-            let example: Example | undefined = markup.getExamples()[0];
+            // step 1: determine which example to preview:
+            // prefer the first highlighted example, fall back to the first example
+            let examples = markup.getExamples();
+            let example: Example | undefined =
+                examples.find((e) => e.highlight !== undefined) ?? examples[0];
 
             // step 2: if undefined, just get the first character. if no first character, emdash
             if (!example) {

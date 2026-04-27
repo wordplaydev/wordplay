@@ -1,12 +1,14 @@
 import { withMonoEmoji } from '../../unicode/emoji';
 import Setting from './Setting';
 
+export const AnimationIcon = withMonoEmoji('🏃');
+
 export const AnimationFactorIcons = [
     '🧘',
     '¼',
     '⅓',
     '½',
-    '🏃',
+    '1x',
     '2x',
     '5x',
     '10x',

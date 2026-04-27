@@ -23,14 +23,14 @@
 </script>
 
 {#if inline}<span class="feedback">{@render children?.()}</span>{:else}
-    <p
+    <div
         class="feedback"
         data-testid={testid}
         transition:slide={{ duration: $animationDuration }}
         >{#if children}{@render children()}{:else if text}<LocalizedText
                 path={text}
                 {markup}
-            />{/if}</p
+            />{/if}</div
     >{/if}
 
 <style>
@@ -62,7 +62,7 @@
         display: inline-block;
     }
 
-    p {
+    div {
         text-align: center;
     }
 </style>

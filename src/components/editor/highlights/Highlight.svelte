@@ -100,13 +100,13 @@
     /* Definitions and uses get hover feedback without border */
     .related:not(:global(.selected)).outline path {
         stroke: none;
-        fill: var(--wordplay-hover);
+        fill: var(--wordplay-hover-light);
     }
 
     .outline.selected path {
         stroke: var(--wordplay-highlight-color);
         stroke-width: var(--wordplay-focus-width);
-        fill: var(--wordplay-hover);
+        fill: var(--wordplay-hover-light);
     }
 
     .delimiter.outline path {

@@ -267,6 +267,10 @@
             const availableWidth = viewportWidth * (3 / 4);
             const availableHeight = viewportHeight * (3 / 4);
 
+            // Skip if viewport dimensions aren't known yet; dividing by zero produces z = -Infinity
+            // which causes rootScale() to return 0 and renders all content invisible.
+            if (availableWidth <= 0 || availableHeight <= 0) return;
+
             // Figure out the fit dimension based on which scale would be smaller.
             // This ensures that we don't clip anything.
             const horizontal =
@@ -531,9 +535,6 @@
         color: var(--wordplay-foreground);
 
         --grid-color: currentColor;
-
-        /** Put the stage in a layer, since it's contents likely change frequently. */
-        will-change: contents;
 
         /** No touch actions on the stage, since we handle them ourselves. */
         touch-action: none;

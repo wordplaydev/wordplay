@@ -122,7 +122,8 @@
         "Name": "$~isim",
         "Locale": "$~yerel",
         "Unknown": "$~bilinmeyen",
-        "End": "$~son"
+        "End": "$~son",
+        "Highlight": "$~vurgulanmış örnek"
     },
     "node": {
         "Dimension": {
@@ -4339,7 +4340,8 @@
             },
             "formatted": {
                 "edit": "$~Biçimlendirilmiş metni düzenle",
-                "preview": "$~Biçimlendirilmiş metni önizle"
+                "preview": "$~Biçimlendirilmiş metni önizle",
+                "highlight": "$~vurgulama örneği"
             }
         },
         "tile": {
@@ -4435,6 +4437,12 @@
             },
             "defaults": {
                 "starterCode": "¶Boş projenize hoş geldiniz! Bu bir yorumdur.\n\nBunu projenizi açıklamak, not almak ve\nçalışmanız hakkında insanların bilmesini istediğiniz şeyleri açıklamak için kullanabilirsiniz.\n\n*Kalın*, /italik/, <links@https://wordplay.dev> ve daha fazlasını destekler.¶\nİfade('merhaba')"
+            },
+            "toggle": {
+                "fullscreen": {
+                    "on": "$~Tarayıcıyı tam ekran modundan çıkar.",
+                    "off": "$~Tarayıcıyı tam ekran moduna alın."
+                }
             }
         },
         "checkpoints": {
@@ -4666,7 +4674,9 @@
             "button": {
                 "submit": "$~bu sohbet mesajını gönder",
                 "zoomIn": "$~sahneye yakınlaştır",
-                "zoomOut": "$~sahneden uzaklaşarak yakınlaştırma yapın."
+                "zoomOut": "$~sahneden uzaklaşarak yakınlaştırma yapın.",
+                "rotate": "$~ifadeyi döndür",
+                "resize": "$~ifadeyi yeniden boyutlandır"
             },
             "options": {
                 "locale": "$~çıktı için dili seçin",
@@ -4970,7 +4980,7 @@
                         ]
                     },
                     "animate": {
-                        "label": "$~animasyonlar",
+                        "label": "$~animasyon hızı",
                         "labels": [
                             "$~kapalı",
                             "$~1/4",

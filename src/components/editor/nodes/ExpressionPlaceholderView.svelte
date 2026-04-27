@@ -43,8 +43,10 @@
     node={[node, 'dot']}
     empty="hide"
     format={{ ...format, editable: false }}
-/><NodeView node={[node, 'type']} format={{ ...format, editable: false }} />
-{#if format.editable && format.block}<MenuTrigger anchor={node} />{/if}
+/><NodeView
+    node={[node, 'type']}
+    format={{ ...format, editable: false }}
+/>{#if format.editable && format.block}<MenuTrigger anchor={node} />{/if}
 
 <style>
     .label {

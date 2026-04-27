@@ -122,7 +122,8 @@
         "Name": "$~tên",
         "Locale": "$~địa phương",
         "Unknown": "$~không rõ",
-        "End": "$~kết thúc"
+        "End": "$~kết thúc",
+        "Highlight": "$~ví dụ được đánh dấu"
     },
     "node": {
         "Dimension": {
@@ -4340,7 +4341,8 @@
             },
             "formatted": {
                 "edit": "$~chỉnh sửa văn bản đã định dạng",
-                "preview": "$~xem trước văn bản được định dạng"
+                "preview": "$~xem trước văn bản được định dạng",
+                "highlight": "$~ví dụ nổi bật"
             }
         },
         "tile": {
@@ -4436,6 +4438,12 @@
             "subheader": {
                 "source": "$~Nguồn",
                 "destination": "$~Điểm đến"
+            },
+            "toggle": {
+                "fullscreen": {
+                    "on": "$~Thoát khỏi chế độ toàn màn hình của trình duyệt",
+                    "off": "$~vào chế độ toàn màn hình trình duyệt"
+                }
             }
         },
         "checkpoints": {
@@ -4896,7 +4904,9 @@
             "button": {
                 "submit": "$~gửi tin nhắn trò chuyện này",
                 "zoomIn": "$~phóng to sân khấu",
-                "zoomOut": "$~thu nhỏ tầm nhìn sân khấu"
+                "zoomOut": "$~thu nhỏ tầm nhìn sân khấu",
+                "rotate": "$~xoay cụm từ",
+                "resize": "$~cụm từ thay đổi kích thước"
             },
             "options": {
                 "locale": "$~ngôn ngữ ưu tiên cho đầu ra",
@@ -5200,7 +5210,7 @@
                         ]
                     },
                     "animate": {
-                        "label": "$~hoạt hình",
+                        "label": "$~tốc độ hoạt hình",
                         "labels": [
                             "$~tắt",
                             "$~1/4",

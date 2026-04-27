@@ -122,7 +122,8 @@
         "Name": "Name",
         "Unknown": "Unbekannt",
         "Locale": "Gebietsschema",
-        "End": "Ende"
+        "End": "Ende",
+        "Highlight": "$~hervorgehobenes Beispiel"
     },
     "node": {
         "Dimension": {
@@ -4338,7 +4339,8 @@
             },
             "formatted": {
                 "edit": "$~formatierten Text bearbeiten",
-                "preview": "$~formatierten Text in Vorschau anzeigen"
+                "preview": "$~formatierten Text in Vorschau anzeigen",
+                "highlight": "$~Hervorhebungsbeispiel"
             }
         },
         "tile": {
@@ -4434,6 +4436,12 @@
             },
             "defaults": {
                 "starterCode": "¶Willkommen zu deinem leeren Projekt! Dies ist ein Kommentar.\n\nDu kannst ihn verwenden, um dein Projekt zu beschreiben, Notizen zu machen und\nzu erklären, was andere über deine Arbeit wissen sollen.\nEr unterstützt *fett*, /kursiv/, <links@https://wordplay.dev> und mehr.¶\nSatzglied('hi')"
+            },
+            "toggle": {
+                "fullscreen": {
+                    "on": "$~Browser im Vollbildmodus beenden",
+                    "off": "$~Browser im Vollbildmodus anzeigen"
+                }
             }
         },
         "gallery": {
@@ -4648,7 +4656,9 @@
             "button": {
                 "submit": "$~diese Chat-Nachricht senden",
                 "zoomIn": "$~Zoomen Sie auf die Bühne",
-                "zoomOut": "$~Zoomen Sie von der Bühne heraus."
+                "zoomOut": "$~Zoomen Sie von der Bühne heraus.",
+                "rotate": "$~Phrase drehen",
+                "resize": "$~Phrase „Größe ändern“"
             },
             "options": {
                 "locale": "$~Wählen Sie die Sprache für die Ausgabe",
@@ -4952,7 +4962,7 @@
                         ]
                     },
                     "animate": {
-                        "label": "$~Animationen",
+                        "label": "$~Animationsgeschwindigkeit",
                         "labels": [
                             "$~aus",
                             "$~1/4",

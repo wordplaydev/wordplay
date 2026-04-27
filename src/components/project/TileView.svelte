@@ -434,9 +434,9 @@
     .toolbar {
         display: flex;
         flex-direction: row;
-        flex-wrap: nowrap;
+        flex-wrap: wrap;
         align-items: center;
-        min-width: max-content;
+        flex: 1 1 0;
         gap: var(--wordplay-spacing);
     }
 
@@ -549,7 +549,7 @@
         display: flex;
         flex-direction: row;
         flex-wrap: nowrap;
-        align-items: center;
+        align-items: baseline;
         padding: var(--wordplay-spacing);
         gap: var(--wordplay-spacing);
         width: 100%;

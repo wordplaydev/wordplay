@@ -305,8 +305,8 @@ export const StepForward: Command = {
     keySymbol: '→',
     active: (context) =>
         context.evaluator.isInPast() &&
-            context.evaluator.getStepIndex() !== undefined &&
-            context.evaluator.getStepIndex() < context.evaluator.getStepCount()
+        context.evaluator.getStepIndex() !== undefined &&
+        context.evaluator.getStepIndex() < context.evaluator.getStepCount()
             ? true
             : undefined,
     execute: (context) => context.evaluator.stepWithinProgram(),
@@ -742,7 +742,7 @@ const Commands: Command[] = [
                   blocks
                     ? view && getTokenViews
                         ? (moveVisualVertical(-1, view, caret, getTokenViews) ??
-                            false)
+                          false)
                         : false
                     : (caret.moveVertical(-1) ?? true)
                 : false,
@@ -776,7 +776,7 @@ const Commands: Command[] = [
                   blocks
                     ? view && getTokenViews
                         ? (moveVisualVertical(1, view, caret, getTokenViews) ??
-                            false)
+                          false)
                         : false
                     : (caret.moveVertical(1) ?? true)
                 : false,

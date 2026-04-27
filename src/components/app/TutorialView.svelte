@@ -780,4 +780,24 @@
         font-size: var(--wordplay-small-font-size);
         color: var(--wordplay-inactive-color);
     }
+
+    /* A responsive design for vertical screens. */
+    @media (orientation: portrait) {
+        .content {
+            flex-direction: column;
+        }
+
+        .dialog {
+            width: 100%;
+            min-width: 0;
+            max-width: none;
+            max-height: fit-content;
+            border-right: none;
+            border-left: none;
+            border-top: var(--wordplay-border-width) solid
+                var(--wordplay-border-color);
+            border-bottom: var(--wordplay-border-width) solid
+                var(--wordplay-border-color);
+        }
+    }
 </style>
