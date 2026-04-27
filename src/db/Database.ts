@@ -49,23 +49,65 @@ export class Database {
     /** The database of loaded locales and settings. Encapsuled to avoid cluttering this central interface to persistence and caches. */
     readonly Locales: LocalesDatabase;
 
+    /** Lazily-instantiated sub-databases. Only constructed on first access so the
+     * landing page (and other surfaces that don't need them) avoid the IndexedDB
+     * hydration, Firestore listeners, and other startup work each one performs. */
+    private _projects: ProjectsDatabase | undefined;
+    private _galleries: GalleryDatabase | undefined;
+    private _creators: CreatorDatabase | undefined;
+    private _chats: ChatDatabase | undefined;
+    private _characters: CharactersDatabase | undefined;
+    private _howtos: HowToDatabase | undefined;
+
     /** An IndexedDB backed database of projects, allowing for scalability of local persistence. */
-    readonly Projects: ProjectsDatabase;
+    get Projects(): ProjectsDatabase {
+        if (this._projects === undefined) {
+            this._projects = new ProjectsDatabase(this);
+            // If a user is already known by the time this is first accessed,
+            // catch up so the new instance reflects the current auth state.
+            if (this.user !== null) this._projects.syncUser(false);
+        }
+        return this._projects;
+    }
 
     /** A collection of Galleries loaded from the database */
-    readonly Galleries: GalleryDatabase;
+    get Galleries(): GalleryDatabase {
+        // GalleryDatabase's constructor calls registerRealtimeUpdates() itself,
+        // so it already picks up the current user when constructed late.
+        return (this._galleries ??= new GalleryDatabase(this));
+    }
 
     /** A collection of creators loaded from the database */
-    readonly Creators: CreatorDatabase;
+    get Creators(): CreatorDatabase {
+        return (this._creators ??= new CreatorDatabase(this));
+    }
 
     /** A collection of chats loaded from the database */
-    readonly Chats: ChatDatabase;
+    get Chats(): ChatDatabase {
+        if (this._chats === undefined) {
+            this._chats = new ChatDatabase(this);
+            if (this.user !== null) this._chats.syncUser();
+        }
+        return this._chats;
+    }
 
     /** A collection of characters loaded from the database */
-    readonly Characters: CharactersDatabase;
+    get Characters(): CharactersDatabase {
+        if (this._characters === undefined) {
+            this._characters = new CharactersDatabase(this);
+            if (this.user !== null) this._characters.syncUser();
+        }
+        return this._characters;
+    }
 
     /** A collection of how-tos loaded from the database */
-    readonly HowTos: HowToDatabase;
+    get HowTos(): HowToDatabase {
+        if (this._howtos === undefined) {
+            this._howtos = new HowToDatabase(this);
+            if (this.user !== null) this._howtos.syncUser();
+        }
+        return this._howtos;
+    }
 
     /** The status of persisting the projects. */
     readonly Status: Writable<{
@@ -82,6 +124,8 @@ export class Database {
 
     constructor(locales: SupportedLocale[], defaultLocale: LocaleText) {
         // Set up in-memory stores of configuration settings and locale caches.
+        // Settings and Locales remain eager since the root layout depends on
+        // them for theming, fonts, and language direction on every page.
         this.Settings = new SettingsDatabase(this, locales);
         this.Locales = new LocalesDatabase(
             this,
@@ -90,12 +134,6 @@ export class Database {
             concretize,
             this.Settings.settings.locales,
         );
-        this.Projects = new ProjectsDatabase(this);
-        this.Galleries = new GalleryDatabase(this);
-        this.Creators = new CreatorDatabase(this);
-        this.Chats = new ChatDatabase(this);
-        this.Characters = new CharactersDatabase(this);
-        this.HowTos = new HowToDatabase(this);
     }
 
     getUser() {
@@ -153,8 +191,10 @@ export class Database {
             // Update the Projects with the new user, syncing with the database.
             this.updateUser(newUser);
 
-            // Update the galleries query with the new user.
-            this.Galleries.registerRealtimeUpdates();
+            // Update the galleries query with the new user, but only if the
+            // gallery database has been instantiated. Lazily-constructed
+            // galleries pick up the user via their own constructor.
+            this._galleries?.registerRealtimeUpdates();
         });
         this.authRefreshUnsubscribe = onIdTokenChanged(
             auth,
@@ -175,23 +215,15 @@ export class Database {
         // Update the user ID
         this.user = user;
 
-        // Tell the projects cache.
-        this.Projects.syncUser(remove);
-
-        // Tell the gallery about the new user
-        this.Galleries.clean();
-
-        // Tell the settings cache.
+        // Notify only sub-databases that have been instantiated. Anything not
+        // yet constructed will pick up the current user when its lazy getter
+        // first runs, so we don't need to wake it up here.
+        this._projects?.syncUser(remove);
+        this._galleries?.clean();
         this.Settings.syncUser();
-
-        // Tell the chat cache.
-        this.Chats.syncUser();
-
-        // Tell the characters database.
-        this.Characters.syncUser();
-
-        // Tell the how-to database.
-        this.HowTos.syncUser();
+        this._chats?.syncUser();
+        this._characters?.syncUser();
+        this._howtos?.syncUser();
     }
 
     /** Clean up listeners */
@@ -199,7 +231,7 @@ export class Database {
         if (this.authUnsubscribe) this.authUnsubscribe();
         if (this.authRefreshUnsubscribe) this.authRefreshUnsubscribe();
 
-        this.Galleries.clean();
+        this._galleries?.clean();
     }
 
     /** Delete account, including all projects, settings, and user. */
@@ -253,14 +285,54 @@ export const DB = new Database(
     DefaultLocale,
 );
 
+/** Build a Proxy that defers resolution of a sub-database until first access.
+ * This preserves the historical import shape (`import { Projects } from '@db/Database'`)
+ * while still routing through the lazy getter on `Database`, so the underlying
+ * sub-database is not constructed at module import time. */
+function lazySubDB<T extends object>(resolve: () => T): T {
+    return new Proxy({} as T, {
+        get(_, prop) {
+            const target = resolve();
+            const value = Reflect.get(target, prop, target);
+            return typeof value === 'function' ? value.bind(target) : value;
+        },
+        set(_, prop, value) {
+            return Reflect.set(resolve(), prop, value, resolve());
+        },
+        has(_, prop) {
+            return prop in resolve();
+        },
+        ownKeys() {
+            return Reflect.ownKeys(resolve());
+        },
+        getOwnPropertyDescriptor(_, prop) {
+            const target = resolve();
+            const desc = Reflect.getOwnPropertyDescriptor(target, prop);
+            // Proxies require descriptors of non-extensible targets to be
+            // configurable, so mark them as such here.
+            if (desc) desc.configurable = true;
+            return desc;
+        },
+        getPrototypeOf() {
+            return Reflect.getPrototypeOf(resolve());
+        },
+    });
+}
+
+// Settings and Locales are constructed eagerly by the Database constructor,
+// so these references are safe to take at module load.
 export const Settings = DB.Settings;
-export const Projects = DB.Projects;
 export const Locales = DB.Locales;
-export const Galleries = DB.Galleries;
-export const Creators = DB.Creators;
-export const Chats = DB.Chats;
-export const CharactersDB = DB.Characters;
-export const HowTos = DB.HowTos;
+
+// The remaining sub-databases are wrapped in lazy proxies so that simply
+// importing this module does not construct them. They are only realized
+// when a caller actually reads a property or invokes a method.
+export const Projects = lazySubDB(() => DB.Projects);
+export const Galleries = lazySubDB(() => DB.Galleries);
+export const Creators = lazySubDB(() => DB.Creators);
+export const Chats = lazySubDB(() => DB.Chats);
+export const CharactersDB = lazySubDB(() => DB.Characters);
+export const HowTos = lazySubDB(() => DB.HowTos);
 
 export const animationFactor = Settings.settings.animationFactor.value;
 export const animationDuration = Settings.animationDuration;
