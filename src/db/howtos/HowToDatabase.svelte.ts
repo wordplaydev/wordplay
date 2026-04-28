@@ -103,10 +103,28 @@ const HowToSchemaV1 = z.object({
     social: HowToSocialSchema,
 });
 
-const HowToSchemaLatestVersion = 1;
-const HowToSchema = HowToSchemaV1;
+const HowToSchemaV2 = HowToSchemaV1.extend({
+    v: z.literal(2),
+    /** Whether the how-to is public or not, independent of the gallery's permissions */
+    isPublic: z.boolean(),
+});
+
+const HowToSchemaLatestVersion = 2;
+const HowToSchema = HowToSchemaV2;
 
 export type HowToDocument = z.infer<typeof HowToSchema>;
+export type HowToUnknownVersion = z.infer<typeof HowToSchemaV1> | HowToDocument;
+
+export function upgradeHowTo(howTo: HowToUnknownVersion): HowToDocument {
+    switch (howTo.v) {
+        case 1:
+            return upgradeHowTo({ ...howTo, v: 2, isPublic: false });
+        case HowToSchemaLatestVersion:
+            return howTo;
+        default:
+            throw new Error('Unexpected how-to version', howTo);
+    }
+}
 
 ////////////////////////////////
 // APIs
@@ -253,6 +271,10 @@ export default class HowTo {
 
     getLocales(): string[] {
         return this.data.locales;
+    }
+
+    isPublic(): boolean {
+        return this.data.isPublic;
     }
 
     getSocial() {
@@ -418,6 +440,7 @@ export class HowToDatabase {
         reactionTypes: Record<string, string>,
         notify: boolean,
         overwriteAccessScope: boolean,
+        isPublic: boolean,
     ): Promise<HowTo | undefined | false> {
         if (firestore === undefined) return undefined;
         const user = this.db.getUser()?.uid;
@@ -459,6 +482,7 @@ export class HowToDatabase {
             viewersFlat: [] as string[],
             scopeOverwrite: overwriteAccessScope,
             locales: locales,
+            isPublic: isPublic,
             social: newHowToSocial,
         };
 
@@ -500,7 +524,7 @@ export class HowToDatabase {
                 const remoteHowTo = howToDoc.data();
                 if (remoteHowTo === undefined) return undefined;
 
-                const newHowTo = new HowTo(remoteHowTo as HowToDocument);
+                const newHowTo = new HowTo(upgradeHowTo(remoteHowTo as HowToUnknownVersion));
                 // Update the doc locally but do not persist, we already know it's in the database
                 this.updateHowTo(newHowTo, false);
 
@@ -586,10 +610,11 @@ export class HowToDatabase {
 
                     // try to parse the how-to and save on success.
                     try {
-                        HowToSchema.parse(howto);
+                        const upgraded: HowToDocument = upgradeHowTo(howto as HowToUnknownVersion);
+                        HowToSchema.parse(upgraded);
                         // Update the how-to in the local cache, but do not persist; we just got it from the DB.
                         this.updateHowTo(
-                            new HowTo(howto as HowToDocument),
+                            new HowTo(upgraded),
                             false,
                         );
                     } catch (error) {

@@ -4631,7 +4631,16 @@
                         "creators and curators in any gallery the curator curates can view"
                     ]
                 },
-                "localeOptionsLabel": "editor input language"
+                "localeOptionsLabel": "editor input language",
+                "publicExplanation": "If you want anyone with the link to be able to see your how-to, you can make your how-to public.",
+                "publicMode": {
+                    "label": "make this how-to public",
+                    "labels": ["private", "public"],
+                    "tips": [
+                        "only Wordplayers with direct access to this how-to can see it",
+                        "anyone with the link can see this how-to"
+                    ]
+                }
             },
             "viewer": {
                 "view": {

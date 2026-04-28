@@ -11052,6 +11052,14 @@
                       "$ref": "#/definitions/ButtonText",
                       "description": "Button text for submitting the how-to"
                     },
+                    "publicExplanation": {
+                      "description": "[plain] Explanation for public/private visibility setting",
+                      "type": "string"
+                    },
+                    "publicMode": {
+                      "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%5D%3E",
+                      "description": "Mode text for setting the how-to to be publicly visible"
+                    },
                     "save": {
                       "$ref": "#/definitions/ButtonText",
                       "description": "Button text for saving a how-to draft"
@@ -11079,7 +11087,9 @@
                     "access",
                     "accessToggle",
                     "accessMode",
-                    "localeOptionsLabel"
+                    "localeOptionsLabel",
+                    "publicExplanation",
+                    "publicMode"
                   ],
                   "type": "object"
                 },

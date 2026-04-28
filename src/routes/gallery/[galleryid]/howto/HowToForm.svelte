@@ -95,6 +95,7 @@
     // data from the how-to
     let isPublished: boolean = $derived(howTo ? howTo.isPublished() : false);
     let notify: boolean = $derived(howTo ? howTo.getNotifySubscribers() : true);
+    let isPublic: boolean = $derived(howTo ? howTo.isPublic() : false);
 
     // prompts and editing
     let allCollaborators: string[] = $state([]);
@@ -352,6 +353,7 @@
                 gallery ? gallery.getHowToReactions() : {},
                 notify,
                 overwriteAccess,
+                isPublic,
             );
 
             // pan the camera to the new how-to
@@ -386,6 +388,7 @@
                 collaborators: allCollaborators,
                 scopeOverwrite: overwriteAccess,
                 locales: [...usedLocales],
+                isPublic: isPublic,
                 social: {
                     ...howTo.getSocial(),
                     notifySubscribers: notify,
@@ -685,6 +688,14 @@
                         modes={(l) => l.ui.howto.editor.accessMode}
                         choice={overwriteAccess ? 0 : 1}
                         select={(num) => (overwriteAccess = num === 0)}
+                    />
+                    <MarkupHTMLView
+                        markup={(l) => l.ui.howto.editor.publicExplanation}
+                    />
+                    <Mode
+                        modes={(l) => l.ui.howto.editor.publicMode}
+                        choice={isPublic ? 1 : 0}
+                        select={(num) => (isPublic = num === 1)}
                     />
                 </div>
             {/if}
