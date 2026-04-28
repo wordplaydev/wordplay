@@ -6138,7 +6138,16 @@
                         "$~Les créateurs et les conservateurs de toute galerie dont le conservateur assure la conservation peuvent voir"
                     ]
                 },
-                "localeOptionsLabel": "$~langue de saisie de l'éditeur"
+                "localeOptionsLabel": "$~langue de saisie de l'éditeur",
+                "publicExplanation": "$~Si vous souhaitez que toute personne disposant du lien puisse consulter votre tutoriel, vous pouvez le rendre public.",
+                "publicMode": {
+                    "label": "$~Rendre ce tutoriel public",
+                    "labels": ["$~privé", "$~publique"],
+                    "tips": [
+                        "$~Seuls les joueurs de Wordplayers ayant un accès direct à ce tutoriel peuvent le voir.",
+                        "$~Toute personne disposant du lien peut consulter ce tutoriel."
+                    ]
+                }
             },
             "viewer": {
                 "view": {

@@ -6134,7 +6134,16 @@
                         "$~Bir galerideki yaratıcılar ve küratörler, küratörün küratörlüğünü yaptığı her galeride görüntüleyebilirler."
                     ]
                 },
-                "localeOptionsLabel": "$~editör giriş dili"
+                "localeOptionsLabel": "$~editör giriş dili",
+                "publicExplanation": "$~Eğer linke sahip herkesin nasıl yapılır kılavuzunuzu görebilmesini istiyorsanız, kılavuzunuzu herkese açık hale getirebilirsiniz.",
+                "publicMode": {
+                    "label": "$~Bu kılavuzu herkese açık hale getirin.",
+                    "labels": ["$~özel", "$~halk"],
+                    "tips": [
+                        "$~Bu kılavuza doğrudan erişimi olan Wordplayer oyuncuları bunu görebilir.",
+                        "$~Bağlantıya sahip herkes bu nasıl yapılır videosunu izleyebilir."
+                    ]
+                }
             },
             "viewer": {
                 "view": {

@@ -6138,7 +6138,16 @@
                         "$~skapare och kuratorer i vilket galleri som helst som kuratorn kurerar kan se"
                     ]
                 },
-                "localeOptionsLabel": "$~redigerarens inmatningsspråk"
+                "localeOptionsLabel": "$~redigerarens inmatningsspråk",
+                "publicExplanation": "$~Om du vill att alla med länken ska kunna se din instruktion kan du göra den offentlig.",
+                "publicMode": {
+                    "label": "$~offentliggör denna instruktion",
+                    "labels": ["$~privat", "$~offentlig"],
+                    "tips": [
+                        "$~Endast ordspelare med direktåtkomst till den här instruktionen kan se den.",
+                        "$~alla som har länken kan se den här instruktionen"
+                    ]
+                }
             },
             "viewer": {
                 "view": {

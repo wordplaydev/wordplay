@@ -4627,7 +4627,16 @@
                         "$~criadores e curadores em qualquer galeria que o curador organize podem visualizar"
                     ]
                 },
-                "localeOptionsLabel": "$~idioma de entrada do editor"
+                "localeOptionsLabel": "$~idioma de entrada do editor",
+                "publicExplanation": "$~Se quiser que qualquer pessoa com o link possa ver o seu tutorial, pode torná-lo público.",
+                "publicMode": {
+                    "label": "$~Torne este tutorial público",
+                    "labels": ["$~privado", "$~público"],
+                    "tips": [
+                        "$~Apenas os jogadores de Wordplayer com acesso direto a este tutorial podem vê-lo.",
+                        "$~Qualquer pessoa com o link pode ver este tutorial."
+                    ]
+                }
             },
             "viewer": {
                 "view": {

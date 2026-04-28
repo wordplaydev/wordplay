@@ -6120,7 +6120,16 @@
                         "$~Los creadores y curadores de cualquier galería que el curador seleccione pueden ver"
                     ]
                 },
-                "localeOptionsLabel": "$~idioma de entrada del editor"
+                "localeOptionsLabel": "$~idioma de entrada del editor",
+                "publicExplanation": "$~Si quieres que cualquier persona que tenga el enlace pueda ver tu tutorial, puedes hacerlo público.",
+                "publicMode": {
+                    "label": "$~Haz público este tutorial.",
+                    "labels": ["$~privado", "$~público"],
+                    "tips": [
+                        "$~Solo los jugadores de Word con acceso directo a este tutorial pueden verlo.",
+                        "$~Cualquiera que tenga el enlace puede ver este tutorial."
+                    ]
+                }
             },
             "viewer": {
                 "view": {

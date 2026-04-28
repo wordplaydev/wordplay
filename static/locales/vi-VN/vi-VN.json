@@ -4627,7 +4627,16 @@
                         "$~Người sáng tạo và người phụ trách trong bất kỳ phòng trưng bày nào mà người phụ trách quản lý đều có thể xem."
                     ]
                 },
-                "localeOptionsLabel": "$~ngôn ngữ đầu vào của trình soạn thảo"
+                "localeOptionsLabel": "$~ngôn ngữ đầu vào của trình soạn thảo",
+                "publicExplanation": "$~Nếu bạn muốn bất kỳ ai có liên kết đều có thể xem hướng dẫn của mình, bạn có thể đặt hướng dẫn đó ở chế độ công khai.",
+                "publicMode": {
+                    "label": "$~Hãy công khai hướng dẫn này.",
+                    "labels": ["$~riêng tư", "$~công cộng"],
+                    "tips": [
+                        "$~Chỉ những người chơi Word có quyền truy cập trực tiếp vào hướng dẫn này mới có thể xem được.",
+                        "$~Bất cứ ai có đường dẫn đều có thể xem hướng dẫn này."
+                    ]
+                }
             },
             "viewer": {
                 "view": {

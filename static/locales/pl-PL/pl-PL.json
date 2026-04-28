@@ -6143,7 +6143,16 @@
                         "$~twórcy i kuratorzy w każdej galerii, którą kurator kuratoruje, mogą oglądać"
                     ]
                 },
-                "localeOptionsLabel": "$~język wprowadzania danych edytora"
+                "localeOptionsLabel": "$~język wprowadzania danych edytora",
+                "publicExplanation": "$~Jeśli chcesz, aby każda osoba mająca link mogła zobaczyć Twój poradnik, możesz ustawić go jako publiczny.",
+                "publicMode": {
+                    "label": "$~upublicznij ten poradnik",
+                    "labels": ["$~prywatny", "$~publiczny"],
+                    "tips": [
+                        "$~Tylko gracze Wordplayer mający bezpośredni dostęp do tego poradnika mogą go zobaczyć",
+                        "$~każdy, kto ma link, może zobaczyć tę instrukcję"
+                    ]
+                }
             },
             "viewer": {
                 "view": {

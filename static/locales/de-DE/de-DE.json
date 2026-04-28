@@ -6137,7 +6137,16 @@
                         "$~Kreative und Kuratoren in jeder Galerie, die der Kurator betreut, können Folgendes einsehen:"
                     ]
                 },
-                "localeOptionsLabel": "$~Eingabesprache des Editors"
+                "localeOptionsLabel": "$~Eingabesprache des Editors",
+                "publicExplanation": "$~Wenn Sie möchten, dass jeder, der den Link hat, Ihre Anleitung sehen kann, können Sie Ihre Anleitung öffentlich machen.",
+                "publicMode": {
+                    "label": "$~Diese Anleitung öffentlich machen",
+                    "labels": ["$~Privat", "$~öffentlich"],
+                    "tips": [
+                        "$~Nur Wordplayer mit direktem Zugriff auf diese Anleitung können sie sehen.",
+                        "$~Jeder, der den Link hat, kann diese Anleitung sehen."
+                    ]
+                }
             },
             "viewer": {
                 "view": {
