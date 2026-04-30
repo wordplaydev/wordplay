@@ -37,6 +37,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - We fixed the width of submenus in the editor's autocomplete menus.
 - We fixed the project loading feedback; it was showing an error during loading instead of loading feedback.
 - Bullets in markup with only one line separating them weren't working. Now they do!
+- We removed a period floating around the error.
 
 ## 0.17.6 - 2026-04-17
 

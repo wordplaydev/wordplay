@@ -1639,7 +1639,6 @@
         </div>
     {/if}
 </div>
-.
 
 <style>
     .editor {
