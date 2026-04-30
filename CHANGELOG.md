@@ -12,10 +12,20 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - We added resize and rotate controls on PhraseViews when in edit mode, and made editing and movement easier, for faster manual layout of phrases on stage.
 - We made the tutorial responsive to the aspect ratio of the window.
 - We added the ability to make how to's public.
-- We added a bullet button to the formatted text editor.
+- We added a bullet button to the formatted text editor (#1072).
+
+### Changed
+
+- When the project is played, we close the palette, and when the palette is opened, we pause the project. That makes it clearer how to edit.
+- We improved the rendering and behavior of text selections in text editing mode.
+- We clarified the differences between the full screen buttons and the eye button (#1058).
+- We upgraded internal tooling for stability.
+- We made auto-complete during typing less aggressive and annoying.
+- We made the animation speed selector in the stage toolbar a drop down instead, so it takes up less space.
 
 ### Fixed
 
+- We fixed a problem where example code in markup didn't preserve space between lines (#1071).
 - We fixed a problem in the editor where clicking in a position would sometimes start a selection.
 - We prevented the editor from scrolling unexpectedly on click.
 - We fixed a problem where tooltips in dialogs were duplicated in incorrectly positioned.
@@ -27,15 +37,6 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - We fixed the width of submenus in the editor's autocomplete menus.
 - We fixed the project loading feedback; it was showing an error during loading instead of loading feedback.
 - Bullets in markup with only one line separating them weren't working. Now they do!
-
-### Changed
-
-- When the project is played, we close the palette, and when the palette is opened, we pause the project. That makes it clearer how to edit.
-- We improved the rendering and behavior of text selections in text editing mode.
-- We clarified the differences between the full screen buttons and the eye button (#1058).
-- We upgraded internal tooling for stability.
-- We made auto-complete during typing less aggressive and annoying.
-- We made the animation speed selector in the stage toolbar a drop down instead, so it takes up less space.
 
 ## 0.17.6 - 2026-04-17
 

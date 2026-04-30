@@ -122,7 +122,7 @@
             <CodeView
                 node={example.program}
                 {inline}
-                spaces={getPreferredSpaces(example.program)}
+                spaces={getPreferredSpaces(example.program, spaces)}
                 outline={false}
                 describe={false}
             />
