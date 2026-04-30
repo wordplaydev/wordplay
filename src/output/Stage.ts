@@ -285,12 +285,18 @@ export class NameGenerator {
         // and if it is, make it unique by appending a number.
         let newName: string;
         if (name) {
-            const existingNameCount = this.names.get(name);
-            if (existingNameCount !== undefined)
-                name = name + (existingNameCount + 1);
+            const base = name;
+            const existingNameCount = this.names.get(base);
+            if (existingNameCount !== undefined) {
+                // Find the first suffix that doesn't collide with any already-assigned name.
+                let count = existingNameCount + 1;
+                while (this.names.has(base + count)) count++;
+                name = base + count;
+            }
             newName = name;
             // Remember this name to prevent duplicates.
-            this.names.set(newName, (existingNameCount ?? 0) + 1);
+            this.names.set(base, (existingNameCount ?? 0) + 1);
+            if (newName !== base) this.names.set(newName, 1);
         } else {
             const nodeID = value.creator.id;
             const count = (this.counter.get(nodeID) ?? 0) + 1;
