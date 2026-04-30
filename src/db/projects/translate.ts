@@ -383,6 +383,7 @@ export default async function translateProject(
         // Return the revised project
         return newProject;
     } catch (e) {
+        console.error('translateProject failed:', e);
         return null;
     }
 }
