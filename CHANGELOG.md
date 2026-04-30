@@ -22,6 +22,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - We upgraded internal tooling for stability.
 - We made auto-complete during typing less aggressive and annoying.
 - We made the animation speed selector in the stage toolbar a drop down instead, so it takes up less space.
+- We sorted feedback by stars then creation date.
 
 ### Fixed
 

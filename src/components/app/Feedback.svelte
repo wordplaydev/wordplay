@@ -59,7 +59,10 @@
     function loadFeedback(reset: boolean = false) {
         getFeedback().then((f: Feedback[] | null) => {
             if (f === null) return;
-            feedback = f?.toSorted((a, b) => a.created - b.created);
+            // Sort first by number of votes, then by creation date.
+            feedback = f?.toSorted(
+                (a, b) => b.votes - a.votes || b.created - a.created,
+            );
             for (const feed of feedback) {
                 if (!(feed.id in githubURLs))
                     githubURLs[feed.id] = feed.github ?? '';
