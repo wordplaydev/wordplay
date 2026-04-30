@@ -38,6 +38,19 @@ export function parseParagraph(tokens: Tokens): Paragraph {
         () => {
             content.push(parseSegment(tokens));
             if (tokens.nextHasMoreThanOneLineBreak()) return false;
+            // If non-bullet content precedes a bullet on a new line, end the paragraph so
+            // the bullet opens a fresh one and is rendered as a list.
+            const first = content[0];
+            const firstIsBullet =
+                (first instanceof Words && first.isBulleted()) ||
+                (first instanceof Token &&
+                    first.getText().startsWith(BULLET_SYMBOL));
+            if (
+                !firstIsBullet &&
+                tokens.nextHasPrecedingLineBreak() === true &&
+                tokens.peekText()?.startsWith(BULLET_SYMBOL)
+            )
+                return false;
         },
     );
 
