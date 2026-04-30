@@ -5856,13 +5856,13 @@
                 "col": {
                     "component": "$~成分",
                     "preview": "$~预览",
-                    "variable": "$~多变的",
+                    "variable": "$~值",
                     "color": "$~颜色",
                     "hex": "$~十六进制",
                     "description": "$~描述",
                     "cssvalue": "$~CSS值",
                     "computed": "$~计算",
-                    "primaryface": "$~主要面部"
+                    "primaryface": "$~主要使用"
                 },
                 "demo": {
                     "button": "$~例子",
