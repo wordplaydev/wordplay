@@ -172,14 +172,16 @@ export default async function translateProject(
                 return {
                     names: markups,
                     original:
-                        docToTranslate instanceof Translation
-                            ? docToTranslate.segments
-                                  .filter((t): t is Token => t instanceof Token)
-                                  .map((t) => t.toWordplay())
-                                  .join('')
-                            : docToTranslate.markup.paragraphs
-                                  .map((p) => p.toWordplay())
-                                  .join('\n\n'),
+                        docToTranslate === undefined
+                            ? undefined
+                            : docToTranslate instanceof Translation
+                              ? docToTranslate.segments
+                                    .filter((t): t is Token => t instanceof Token)
+                                    .map((t) => t.toWordplay())
+                                    .join('')
+                              : docToTranslate.markup.paragraphs
+                                    .map((p) => p.toWordplay())
+                                    .join('\n\n'),
                     translation: existingTranslation?.toWordplay(),
                 };
             });
@@ -335,6 +337,7 @@ export default async function translateProject(
                 if (translations === null || translation !== undefined)
                     return [markups, markups];
 
+                if (original === undefined) return [markups, markups];
                 const originalIndex = originalTexts.indexOf(original);
                 if (originalIndex === -1) return [markups, markups];
 
