@@ -15094,6 +15094,10 @@
                   "additionalProperties": false,
                   "description": "Formatted text editor",
                   "properties": {
+                    "bullet": {
+                      "description": "[plain] The bullet list item button",
+                      "type": "string"
+                    },
                     "edit": {
                       "description": "[plain] The edit mode",
                       "type": "string"
@@ -15110,7 +15114,8 @@
                   "required": [
                     "edit",
                     "preview",
-                    "highlight"
+                    "highlight",
+                    "bullet"
                   ],
                   "type": "object"
                 },

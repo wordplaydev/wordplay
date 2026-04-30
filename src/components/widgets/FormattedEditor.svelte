@@ -5,6 +5,8 @@
     import { locales } from '@db/Database';
     import type LocaleText from '@locale/LocaleText';
     import type { LocaleTextAccessor } from '@locale/Locales';
+    import { BULLET_SYMBOL } from '@parser/Symbols';
+    import { tick } from 'svelte';
     import Button from './Button.svelte';
     import Switch from './Switch.svelte';
     import TextBox from './TextBox.svelte';
@@ -80,6 +82,32 @@
         }, 0);
     }
 
+    /** Add a bullet on a new line */
+    async function formatBullet() {
+        if (view === undefined) return;
+        const cursor = view.selectionStart ?? 0;
+        const atLineStart = cursor === 0 || text[cursor - 1] === '\n';
+        let insertion: string;
+        if (atLineStart) {
+            insertion = `${BULLET_SYMBOL} `;
+        } else {
+            const lineStart = text.lastIndexOf('\n', cursor - 1) + 1;
+            const currentLineStartsBullet = text
+                .slice(lineStart)
+                .startsWith(`${BULLET_SYMBOL} `);
+            insertion = currentLineStartsBullet
+                ? `\n${BULLET_SYMBOL} `
+                : `\n\n${BULLET_SYMBOL} `;
+        }
+        text = text.slice(0, cursor) + insertion + text.slice(cursor);
+        const newCursor = cursor + insertion.length;
+        cursorPosition = newCursor;
+        await tick();
+        view.focus();
+        view.setSelectionRange(newCursor, newCursor);
+        view.scrollIntoView({ block: 'nearest' });
+    }
+
     function format(format: '*' | '^' | '/' | '_' | '\\' | '@') {
         if (view === undefined) return;
         const start = view.selectionStart;
@@ -116,6 +144,52 @@
     }
 
     function handleKey(event: KeyboardEvent) {
+        // Add another bullet or replace an empty bullet line with an empty two lines.
+        if (
+            event.key === 'Enter' &&
+            !event.ctrlKey &&
+            !event.metaKey &&
+            view !== undefined
+        ) {
+            const cursor = view.selectionStart;
+            const collapsed = cursor === view.selectionEnd;
+            const atLineEnd = cursor === text.length || text[cursor] === '\n';
+            const lineStart = text.lastIndexOf('\n', cursor - 1) + 1;
+            if (
+                collapsed &&
+                atLineEnd &&
+                text.slice(lineStart).startsWith(`${BULLET_SYMBOL} `)
+            ) {
+                event.preventDefault();
+                event.stopPropagation();
+                const lineContent = text.slice(lineStart, cursor);
+                if (lineContent.trimEnd() === BULLET_SYMBOL) {
+                    // Empty bullet line: replace it with two empty lines
+                    text = text.slice(0, lineStart) + '\n' + text.slice(cursor);
+                    const newCursor = lineStart + 1;
+                    cursorPosition = newCursor;
+                    setTimeout(() => {
+                        view!.focus();
+                        view!.setSelectionRange(newCursor, newCursor);
+                        view!.scrollIntoView({ block: 'nearest' });
+                    }, 0);
+                } else {
+                    // Non-empty bullet line: continue with a new bullet
+                    const insertion = `\n${BULLET_SYMBOL} `;
+                    text =
+                        text.slice(0, cursor) + insertion + text.slice(cursor);
+                    const newCursor = cursor + insertion.length;
+                    cursorPosition = newCursor;
+                    setTimeout(() => {
+                        view!.focus();
+                        view!.setSelectionRange(newCursor, newCursor);
+                        view!.scrollIntoView({ block: 'nearest' });
+                    }, 0);
+                }
+            }
+        }
+
+        // Handle shortcuts.
         if (event.ctrlKey || event.metaKey) {
             switch (event.key.toLowerCase()) {
                 case 'enter':
@@ -157,6 +231,11 @@
                     event.preventDefault();
                     event.stopPropagation();
                     formatHighlight();
+                    break;
+                case '8':
+                    event.preventDefault();
+                    event.stopPropagation();
+                    formatBullet();
                     break;
             }
         }
@@ -227,6 +306,12 @@
                 $locales.getPlainText((l) => l.token.Link) +
                 ` (${toShortcut({ control: true, alt: undefined, shift: undefined, key: 'k' })})`}
             action={() => format('@')}><Emoji>🔗</Emoji></Button
+        >
+        <Button
+            tip={(l: LocaleText) =>
+                l.ui.widget.formatted.bullet +
+                ` (${toShortcut({ control: true, alt: undefined, shift: undefined, key: '8' })})`}
+            action={formatBullet}>{BULLET_SYMBOL}</Button
         >
     </div>
     {#if preview}

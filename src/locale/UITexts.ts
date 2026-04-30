@@ -118,6 +118,8 @@ type UITexts = {
             preview: string;
             /** [plain] The highlight example button */
             highlight: string;
+            /** [plain] The bullet list item button */
+            bullet: string;
         };
     };
     /** Controls for the tiled windows in the project */
