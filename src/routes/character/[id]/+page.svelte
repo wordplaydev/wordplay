@@ -36,7 +36,6 @@
     import type LocaleText from '@locale/LocaleText';
     import { type ModeText } from '@locale/UITexts';
     import ConceptLink, { CharacterName } from '@nodes/ConceptLink';
-    import { Sym } from '@nodes/Sym';
     import { RGBtoLCH } from '@output/ColorJS';
     import { toProgram } from '@parser/parseProgram';
     import {
@@ -51,7 +50,7 @@
         SHARE_SYMBOL,
         UNDO_SYMBOL,
     } from '@parser/Symbols';
-    import { toTokens } from '@parser/toTokens';
+    import { NameRegExPattern } from '@parser/Tokenizer';
     import { untrack } from 'svelte';
     import {
         CharacterSize,
@@ -397,9 +396,10 @@
         });
     });
 
+    const CharacterNameRegEx = new RegExp(`^${NameRegExPattern}$`, 'u');
+
     function isValidName(name: string) {
-        return name.length >= 1 &&
-            toTokens(name).nextAre(Sym.Name, Sym.End) &&
+        return CharacterNameRegEx.test(name) &&
             ConceptLink.parse(name) instanceof CharacterName
             ? true
             : (l: LocaleText) => l.ui.page.character.feedback.name;
