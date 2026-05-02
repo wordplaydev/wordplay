@@ -11,6 +11,10 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - We upgraded internal tooling for stability.
 - We added a default user of `creator/password` for developers who are testing on their computers.
 
+### Fixed
+
+- We improved the position of the say feedback on stage so it wouldn't overlap with a chat text box.
+
 ## 0.17.7 - 2026-04-25
 
 ### Added

@@ -1287,7 +1287,7 @@
 
     .say-overlay {
         position: absolute;
-        bottom: var(--wordplay-spacing);
+        top: var(--wordplay-spacing);
         right: var(--wordplay-spacing);
         display: flex;
         flex-direction: column;
