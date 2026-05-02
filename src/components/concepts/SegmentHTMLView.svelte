@@ -57,7 +57,6 @@
             example={segment}
             {spaces}
             evaluated={alone}
-            inline={false}
         />
     {:else}<CodeView
             node={segment.program}

@@ -491,6 +491,13 @@ function getSpacePosition(
 
     // Get the percent within the bounds of the space text that the pointer is.
     const spaceTextViewBounds = spaceTextView.getBoundingClientRect();
+
+    // Zero-width space text (e.g. a lone newline) has no horizontal extent to
+    // measure against — return the position at the start of this space line,
+    // which is the end of the previous line's content.
+    if (spaceTextViewBounds.width === 0)
+        return spaceStartPosition + spaceBefore.length;
+
     const proportion =
         (event.clientX - spaceTextViewBounds.left) / spaceTextViewBounds.width;
 

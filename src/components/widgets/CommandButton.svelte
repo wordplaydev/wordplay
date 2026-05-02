@@ -40,7 +40,7 @@
     let editor = $derived(
         sourceID
             ? $editors?.get(sourceID)
-            : Array.from($editors.values()).find(
+            : Array.from($editors?.values() ?? []).find(
                   (editor) => editor.sourceID === sourceID,
               ),
     );

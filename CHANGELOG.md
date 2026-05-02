@@ -8,8 +8,9 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 ### Changed
 
-- We upgraded internal tooling for stability.
+- We changed the example code viewer to be a full fledged read-only editor so that you can select, copy, and drag parts of the example and also see conflicts, highlights, and explanations of the current cursor position.
 - We added a default user of `creator/password` for developers who are testing on their computers.
+- We upgraded internal tooling for stability.
 
 ### Fixed
 

@@ -73,7 +73,7 @@ export type AnnouncerContext =
       ) => void)
     | undefined;
 export const [getAnnouncer, setAnnouncer] =
-    createContext<Writable<AnnouncerContext>>();
+    createOptionalContext<Writable<AnnouncerContext>>();
 
 /** Whether the site is in fullscreen mode. */
 export type FullscreenContext = Writable<{
@@ -156,10 +156,10 @@ export type EditorState = {
     setZoom: (z: number) => void;
 };
 export const [getEditors, setEditors] =
-    createContext<Writable<Map<string, EditorState>>>();
+    createOptionalContext<Writable<Map<string, EditorState>>>();
 
 /** The latest conflicts computed for a project. */
-export const [getConflicts, setConflicts] = createContext<
+export const [getConflicts, setConflicts] = createOptionalContext<
     Writable<Conflict[]> | undefined
 >();
 

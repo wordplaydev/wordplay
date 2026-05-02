@@ -35,7 +35,7 @@
     import type Evaluator from '@runtime/Evaluator';
     import ExceptionValue from '@values/ExceptionValue';
     import { onMount, tick, untrack } from 'svelte';
-    import { writable } from 'svelte/store';
+    import { get, writable } from 'svelte/store';
     import {
         DB,
         Projects,
@@ -102,9 +102,9 @@
         /** The source being edited */
         source: Source;
         /** The ID corresponding to which source this is in the project */
-        sourceID: string;
+        sourceID?: string;
         /** True if this editor's output is selected by the container. */
-        selected: boolean;
+        selected?: boolean;
         /** Whether to autofocus the editor */
         autofocus?: boolean;
         /** Whether the editor is editable */
@@ -116,23 +116,25 @@
         /** The bindable conflicts to show based caret and mouse position. */
         conflictsOfInterest?: Conflict[];
         /** An preview function that shows this editor */
-        setOutputPreview: () => void;
+        setOutputPreview?: () => void;
         /** A function for updating conflicts of interest */
-        updateConflicts: (source: Source, conflicts: Conflict[]) => void;
+        updateConflicts?: (source: Source, conflicts: Conflict[]) => void;
         /** Whether the code was revised by another creator */
         overwritten?: boolean;
         /** Function to set large deletion notification for this editor */
         setLargeDeletionNotification?: (
             message: LocaleTextAccessor | null,
         ) => void;
+        /** Bindable snapshot of the current caret, for parents that need to observe it */
+        caretSnapshot?: Caret | undefined;
     }
 
     let {
         evaluator,
         project,
         source,
-        sourceID,
-        selected,
+        sourceID = '',
+        selected = false,
         autofocus = true,
         editable,
         locale,
@@ -142,6 +144,7 @@
         updateConflicts,
         overwritten = false,
         setLargeDeletionNotification,
+        caretSnapshot = $bindable(undefined),
     }: Props = $props();
 
     // A per-editor store that contains the current editor's cursor. We expose it as context to children.
@@ -166,6 +169,11 @@
     // When source changes, make sure the caret is pointing to the source.
     $effect(() => {
         caret.set(untrack(() => $caret).withSource(source));
+    });
+
+    // Expose caret value to parent via bindable prop.
+    $effect(() => {
+        caretSnapshot = $caret;
     });
 
     let restoredPosition: CaretPosition | undefined = $state(undefined);
@@ -314,7 +322,7 @@
     /** Called when the program evaluates another step. */
     async function evalUpdate() {
         // No evaluator, or we're playing? No need to update the eval editor info.
-        if (evaluator === undefined || evaluator.isPlaying()) return;
+        if (evaluator.isPlaying()) return;
 
         // If the program contains this node, scroll it's first token into view.
         const stepNode = evaluator.getStepNode();
@@ -365,7 +373,9 @@
         // See if there's a node or value view that corresponds to this node.
         const view =
             document.getElementById(`node-${node.id}`) ??
-            document.getElementById(`value-${evaluator.getCurrentValue()?.id}`);
+            document.getElementById(
+                `value-${evaluator.getCurrentValue()?.id}`,
+            );
         if (view instanceof HTMLElement) {
             nodeViewCache.set(node, view);
             return view;
@@ -506,9 +516,8 @@
         // Mark that the creator might want to drag the node under the pointer and remember where the click started.
         dragPoint = { x: event.clientX, y: event.clientY };
         if (
-            editable &&
             nonTokenNodeUnderPointer &&
-            ($blocks || event.shiftKey)
+            (editable ? $blocks || event.shiftKey : $blocks)
         ) {
             dragCandidate = nonTokenNodeUnderPointer;
             // If the primary mouse button is down, start dragging and set insertion.
@@ -532,7 +541,6 @@
     }
 
     function handlePointerMove(event: PointerEvent) {
-        if (evaluator === undefined) return;
         if (editor === null) return;
 
         // Remove the touch action disabling now that we're moving.
@@ -641,8 +649,6 @@
     }
 
     function handleDebugHover(event: PointerEvent) {
-        if (evaluator === undefined) return;
-
         const node = getNodeAt(source, event, false);
 
         // If the node is associated with a step, set it, otherwise unset it.
@@ -978,7 +984,6 @@
         }
         // If we're in the middle of composing, ignore the key events.
         if (composing || event.isComposing) return;
-        if (evaluator === undefined) return;
         if (editor === null) return;
 
         // Assume we'll handle it.
@@ -1059,7 +1064,8 @@
     function handleCompositionStart() {
         composing = true;
 
-        if (insertedSymbol) DB.Projects.undoRedo(evaluator.project.getID(), -1);
+        if (insertedSymbol)
+            DB.Projects.undoRedo(evaluator.project.getID(), -1);
     }
 
     function handleCompositionEnd() {
@@ -1142,7 +1148,8 @@
 
     // Keep the project-level editors store in sync with this editor's state.
     $effect(() => {
-        if (untrack(() => editors)) {
+        const editorsRef = untrack(() => editors);
+        if (editorsRef) {
             const state: EditorState = {
                 caret: $caret,
                 edit: handleEdit,
@@ -1157,10 +1164,11 @@
                 setZoom,
             };
             untrack(() => {
+                const currentEditors = get(editorsRef);
                 // Update the editor state in the editors store.
-                $editors.set(sourceID, state);
+                currentEditors.set(sourceID, state);
                 // Update the store with the edited map.
-                editors.set($editors);
+                editorsRef.set(currentEditors);
                 // Update the local editor state.
                 editContext.set(state);
             });
@@ -1280,7 +1288,7 @@
                 // If we didn't find a selection, just get all conflicts in the project.
                 else newConflictsOfInterest = $nodeConflicts;
             }
-            untrack(() => updateConflicts(source, newConflictsOfInterest));
+            untrack(() => updateConflicts?.(source, newConflictsOfInterest));
 
             // Finally, update the conflicts of interest.
             conflictsOfInterest = newConflictsOfInterest;
@@ -1343,6 +1351,7 @@
         conflictsOfInterest;
         const newHighlights = getHighlights(
             source,
+            project,
             evaluator,
             $caret,
             $dragged,
@@ -1602,14 +1611,17 @@
                 {$caret.position.getLabel(
                     $locales,
                 )}{#if caretExpressionType}&nbsp;{TYPE_SYMBOL}&nbsp;{caretExpressionType.toWordplay()}{/if}
-                <MenuTrigger
-                    anchor={$caret.position}
-                />{/if}{#if keyIgnoredReason}<em>
+                {#if editable}<MenuTrigger
+                        anchor={$caret.position}
+                    />{/if}{/if}{#if keyIgnoredReason}<em>
                     &nbsp;<LocalizedText path={keyIgnoredReason} /></em
                 >{/if}</div
         >
     {/key}
-    {#if project.getSupplements().length > 0}
+    {#if !editable}<span class="readonly-indicator" aria-hidden="true"
+            ><Emoji>🔒</Emoji></span
+        >{/if}
+    {#if project.getSupplements().length > 0 && setOutputPreview}
         <div class="output-preview-container">
             <Button
                 tip={(l) => l.ui.source.button.selectOutput}
@@ -1658,36 +1670,13 @@
         font-size: calc(var(--wordplay-font-size) + var(--zoom));
     }
 
-    .editor.readonly {
-        --size: 10px;
-
-        background-image:
-            linear-gradient(
-                45deg,
-                var(--wordplay-alternating-color) 25%,
-                transparent 25%
-            ),
-            linear-gradient(
-                -45deg,
-                var(--wordplay-alternating-color) 25%,
-                transparent 25%
-            ),
-            linear-gradient(
-                45deg,
-                transparent 75%,
-                var(--wordplay-alternating-color) 75%
-            ),
-            linear-gradient(
-                -45deg,
-                transparent 75%,
-                var(--wordplay-alternating-color) 75%
-            );
-        background-size: var(--size) var(--size);
-        background-position:
-            0 0,
-            0 calc(var(--size) / 2),
-            calc(var(--size) / 2) calc(-1 * var(--size) / 2),
-            calc(-1 * var(--size) / 2) 0px;
+    .readonly-indicator {
+        position: absolute;
+        top: 0;
+        left: var(--wordplay-spacing-half);
+        pointer-events: none;
+        font-size: 0.75em;
+        line-height: 1;
     }
 
     .editor.dragging {

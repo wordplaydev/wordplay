@@ -52,8 +52,8 @@
     interface Props {
         /** The project for which annotations should be shown */
         project: Project;
-        /** The evaluator running the program */
-        evaluator: Evaluator;
+        /** The evaluator running the program, if any */
+        evaluator: Evaluator | undefined;
         /** The source who's annotations to show.*/
         source: Source;
         /** The source ID of the source */
@@ -64,6 +64,10 @@
         conflicts: Conflict[];
         /** The caret of the editor this is annotating */
         caret: Caret | undefined;
+        /** Optional local expanded override — when provided, ignores the global showAnnotations setting */
+        expanded?: boolean | undefined;
+        /** Optional toggle callback — when provided, called instead of the global Settings toggle */
+        onToggle?: (() => void) | undefined;
     }
 
     let {
@@ -74,7 +78,12 @@
         stepping,
         conflicts,
         caret,
+        expanded = undefined,
+        onToggle = undefined,
     }: Props = $props();
+
+    let isExpanded = $derived(expanded !== undefined ? expanded : $showAnnotations);
+    let toggle = $derived(onToggle !== undefined ? onToggle : () => Settings.setShowAnnotations(!$showAnnotations));
 
     let evaluation = getEvaluation();
 
@@ -86,7 +95,7 @@
 
     // Get the editor this corresponds to.
     const editors = getEditors();
-    let editor = $derived($editors.get(sourceID));
+    let editor = $derived($editors?.get(sourceID));
 
     async function updateAnnotations() {
         // Wait for DOM updates so that everything is in position before we layout annotations.
@@ -136,7 +145,7 @@
             .flat();
 
         // If stepping, add the current evaluation.
-        if (stepping) {
+        if (stepping && evaluator) {
             const [node, view] = getStepView();
 
             // Return a single annotation for the step.
@@ -178,6 +187,7 @@
     }
 
     function getStepView(): [Node | null, Element | null] {
+        if (!evaluator) return [null, null];
         // Find the node corresponding to the step being rendered.
         const node = evaluator.getStepNode() ?? null;
 
@@ -241,16 +251,16 @@
 <!-- Render annotations by node -->
 <section
     aria-label={$locales.getPlainText((l) => l.ui.annotations.label)}
-    class:expanded={$showAnnotations}
+    class:expanded={isExpanded}
     data-uiid="conflict"
 >
     <Expander
-        expanded={$showAnnotations}
-        toggle={() => Settings.setShowAnnotations(!$showAnnotations)}
+        expanded={isExpanded}
+        {toggle}
         vertical={false}
         label={(l) => l.ui.annotations.button.toggle}
     />
-    {#if $showAnnotations}
+    {#if isExpanded}
         <div class="annotations">
             {#if source.isEmpty()}
                 <Speech

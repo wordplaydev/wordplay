@@ -25,7 +25,7 @@
 
     // Get the editor this corresponds to.
     const editors = getEditors();
-    let editor = $derived($editors.get(sourceID));
+    let editor = $derived($editors?.get(sourceID));
 
     function resolveAnnotation(resolution: Resolution, context: Context) {
         const { newProject } = resolution.mediator(context, $locales);

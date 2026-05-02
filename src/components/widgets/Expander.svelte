@@ -57,6 +57,7 @@
         color: var(--wordplay-inactive-color);
         transition: transform ease-out;
         transition-duration: calc(var(--animation-factor) * 200ms);
+        user-select: none;
     }
 
     .expander.vertical {

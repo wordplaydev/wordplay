@@ -20,6 +20,7 @@ import type Source from '@nodes/Source';
 import StructureDefinition from '@nodes/StructureDefinition';
 import Token from '@nodes/Token';
 import TypePlaceholder from '@nodes/TypePlaceholder';
+import type Project from '@db/projects/Project';
 import type Evaluator from '@runtime/Evaluator';
 import ExceptionValue from '@values/ExceptionValue';
 import getOutlineOf, {
@@ -113,6 +114,8 @@ export type HighlightSpec = {
 export function getHighlights(
     /** What source we are highlighting */
     source: Source,
+    /** The project the source belongs to */
+    project: Project,
     /** The evaluation of the project */
     evaluator: Evaluator,
     /** Where the caret is */
@@ -134,7 +137,6 @@ export function getHighlights(
 ): Highlights {
     let highlights = new Highlights();
 
-    const project = evaluator.project;
     const context = project.getContext(source);
 
     const latestValue = evaluator.getLatestSourceValue(source);

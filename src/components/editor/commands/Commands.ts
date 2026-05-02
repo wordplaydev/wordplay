@@ -323,7 +323,8 @@ export const StepBackInput: Command = {
     control: true,
     key: 'ArrowLeft',
     keySymbol: '←',
-    active: (context) => !context.evaluator.isAtBeginning(),
+    active: (context) =>
+        !context.evaluator.isAtBeginning() ? true : undefined,
     execute: (context) => context.evaluator.stepBackToInput(),
 };
 
@@ -338,7 +339,8 @@ export const StepForwardInput: Command = {
     control: true,
     key: 'ArrowRight',
     keySymbol: '→',
-    active: (context) => context.evaluator.isInPast(),
+    active: (context) =>
+        context.evaluator.isInPast() ? true : undefined,
     execute: (context) => context.evaluator.stepToInput(),
 };
 
@@ -414,7 +416,8 @@ export const StepToStart: Command = {
     alt: false,
     control: true,
     key: 'Home',
-    active: (context) => !context.evaluator.isAtBeginning(),
+    active: (context) =>
+        !context.evaluator.isAtBeginning() ? true : undefined,
     execute: (context) => {
         context.evaluator.stepTo(0);
         return true;
@@ -431,7 +434,8 @@ export const StepToPresent: Command = {
     alt: false,
     control: true,
     key: 'End',
-    active: (context) => context.evaluator.isInPast(),
+    active: (context) =>
+        context.evaluator.isInPast() ? true : undefined,
     execute: (context) => {
         context.evaluator.stepToEnd();
         return true;
@@ -452,7 +456,9 @@ export const StepOut: Command = {
     active: (context) =>
         context.evaluator.isPlaying() &&
         context.evaluator.getCurrentStep() !== undefined &&
-        context.evaluator.getCurrentEvaluation() !== undefined,
+        context.evaluator.getCurrentEvaluation() !== undefined
+            ? true
+            : undefined,
     execute: (context) => {
         context.evaluator.stepOut();
         return true;
@@ -469,7 +475,8 @@ export const Play: Command = {
     alt: false,
     control: true,
     key: 'Enter',
-    active: (context) => !context.evaluator.isPlaying(),
+    active: (context) =>
+        !context.evaluator.isPlaying() ? true : undefined,
     execute: (context) => {
         context.evaluator.play();
         return true;
@@ -486,7 +493,8 @@ export const Pause: Command = {
     alt: false,
     control: true,
     key: 'Enter',
-    active: (context) => context.evaluator.isPlaying(),
+    active: (context) =>
+        context.evaluator.isPlaying() ? true : undefined,
     execute: (context) => {
         context.evaluator.pause();
         return true;
@@ -693,7 +701,9 @@ export const Undo: Command = {
     active: ({ database, evaluator }) =>
         database.Projects.getHistory(
             evaluator.project.getID(),
-        )?.isUndoable() === true,
+        )?.isUndoable() === true
+            ? true
+            : undefined,
     execute: ({ database, evaluator, clearLargeDeletionNotification }) => {
         database.Projects.undoRedo(evaluator.project.getID(), -1);
         // Clear large deletion notification when user undoes
@@ -717,7 +727,9 @@ export const Redo: Command = {
     active: ({ evaluator, database }) =>
         database.Projects.getHistory(
             evaluator.project.getID(),
-        )?.isRedoable() === true,
+        )?.isRedoable() === true
+            ? true
+            : undefined,
     execute: ({ database, evaluator }) => {
         database.Projects.undoRedo(evaluator.project.getID(), 1);
         // Always swallow the shortcut to avoid the browser or OS from handling it.
