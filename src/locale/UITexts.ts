@@ -448,6 +448,8 @@ type UITexts = {
         evaluating: FormattedText;
         /** [formatted] What function should say when the cursor is in space */
         space: FormattedText;
+        /** [formatted] The description of what the selected node does. $1: the node description. */
+        nodeDescription: FormattedText;
         button: {
             /** [formatted] How the resolution button should should be described */
             resolution: FormattedText;

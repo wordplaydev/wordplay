@@ -128,7 +128,7 @@
     "node": {
         "Dimension": {
             "name": "dimension",
-            "description": "dimension",
+            "description": "denote part of a unit",
             "emotion": "serious",
             "doc": [
                 "I am a /unit of measurement/!",
@@ -141,6 +141,7 @@
         },
         "Doc": {
             "name": "explanation",
+            "description": "document an expression with text",
             "emotion": "serious",
             "doc": [
                 "I richly format things with @Markup, like explanations of some of your @Program, or even the words you put on stage with @Phrase.",
@@ -161,6 +162,7 @@
         },
         "Docs": {
             "name": "explanation list",
+            "description": "list documentation in multiple languages",
             "emotion": "serious",
             "doc": [
                 "I'm a list of @Doc, useful when you have multiple translations of @Doc in different languages.",
@@ -171,6 +173,7 @@
         },
         "KeyValue": {
             "name": "mapping",
+            "description": "map a key to a value",
             "emotion": "kind",
             "doc": [
                 "I'm a mapping from a *key* to a *value*, always in a @Map.",
@@ -182,7 +185,7 @@
         },
         "Language": {
             "name": "language",
-            "description": "language $1[$1|unknown]",
+            "description": "tag names and text with a language",
             "emotion": "eager",
             "doc": [
                 "I'm a language tag and I work with @Name and @Doc!",
@@ -209,7 +212,7 @@
         },
         "Name": {
             "name": "name",
-            "description": "$1[$1 | unnamed]",
+            "description": "declare name $1[$1|unnamed]",
             "emotion": "kind",
             "doc": [
                 "I identify a value, and am a helpful way of giving a shorthand label to something that was hard to evaluate, or that you don't want to have to evaluate over and over.",
@@ -227,6 +230,7 @@
         },
         "Names": {
             "name": "name list",
+            "description": "list names in multiple languages",
             "emotion": "kind",
             "label": {
                 "names": "names"
@@ -239,6 +243,7 @@
         },
         "Row": {
             "name": "row",
+            "description": "represent a row in a table",
             "emotion": "shy",
             "doc": "I represent a row in a @Table. It's probably best to go talk to @Table, they know everything about me. I just sit around and keep values in line :(",
             "conflict": {
@@ -266,7 +271,7 @@
         },
         "Token": {
             "name": "token",
-            "description": "$1 $2",
+            "description": "$1",
             "emotion": "neutral",
             "doc": [
                 "How did you find me?",
@@ -275,11 +280,13 @@
         },
         "TypeInputs": {
             "name": "type inputs",
+            "description": "fill in type variable slots",
             "emotion": "curious",
             "doc": "I am a list of types that take the place of @TypeVariables in a @StructureDefinition or @FunctionDefinition. I help everyone know what kind of inputs they'll be receiving."
         },
         "TypeVariable": {
             "name": "type variable",
+            "description": "name a type given by caller",
             "emotion": "curious",
             "label": {
                 "type": "type"
@@ -294,12 +301,13 @@
         },
         "TypeVariables": {
             "name": "type variables",
+            "description": "list type variables on a definition",
             "emotion": "curious",
             "doc": "I am a list of @TypeVariable."
         },
         "Markup": {
             "name": "markup",
-            "description": "$1 paragraphs",
+            "description": "format documentation with $1 paragraphs",
             "emotion": "serious",
             "label": {
                 "paragraphs": "paragraphs"
@@ -310,6 +318,7 @@
         },
         "Paragraph": {
             "name": "paragraph",
+            "description": "group words into a paragraph",
             "emotion": "serious",
             "doc": [
                 "I'm a series of @Words, @ConceptLink, @WebLink, and @Example, separated by a blank line, and inside @Doc.",
@@ -321,7 +330,7 @@
         },
         "WebLink": {
             "name": "link",
-            "description": "link $1",
+            "description": "link to web address $1",
             "emotion": "serious",
             "doc": [
                 "I am a link to something on the internet. I just need a description and a URL:",
@@ -331,7 +340,7 @@
         },
         "ConceptLink": {
             "name": "character",
-            "description": "character $1",
+            "description": "link to $1 concept in docs",
             "emotion": "serious",
             "doc": [
                 "I'm a link to Verse character. I'm helpful when you want to write a @Doc and refer to one of us.",
@@ -346,6 +355,7 @@
         },
         "Words": {
             "name": "words",
+            "description": "write plain words in documentation",
             "emotion": "serious",
             "doc": [
                 "I'm any words you like in a @Doc. For example:",
@@ -357,6 +367,7 @@
         },
         "Example": {
             "name": "example",
+            "description": "show runnable code in documentation",
             "emotion": "serious",
             "doc": [
                 "You can put examples in your @Doc, like this:",
@@ -368,7 +379,7 @@
         },
         "Mention": {
             "name": "mention",
-            "description": "mention $1",
+            "description": "mention $1 in markup",
             "emotion": "serious",
             "doc": [
                 "I'm a reference to either terminology \\$program\\ or a dynamic input \\$1\\.",
@@ -377,6 +388,7 @@
         },
         "Branch": {
             "name": "branch",
+            "description": "choose between markup based on condition",
             "emotion": "serious",
             "doc": [
                 "I'm a way of choosing between two segments of explanation based on whether a explanation input value is defined or true.",
@@ -385,7 +397,7 @@
         },
         "BinaryEvaluate": {
             "name": "binary evaluate",
-            "description": "$1 operation",
+            "description": "apply $1 operator to two values",
             "emotion": "insecure",
             "doc": [
                 "I'm @Evaluate, but in a simpler form, helpful when you want to use a @FunctionDefinition that takes two inputs.",
@@ -415,7 +427,7 @@
         },
         "Bind": {
             "name": "bind",
-            "description": "bind $1",
+            "description": "name this value '$1'",
             "emotion": "excited",
             "doc": [
                 "I name *values*.",
@@ -491,7 +503,7 @@
         },
         "Block": {
             "name": "block",
-            "description": "$1 statements",
+            "description": "evaluate $1 statements in sequence",
             "emotion": "shy",
             "doc": [
                 "Hi. I make a little quiet, private space for evaluating things.",
@@ -531,14 +543,14 @@
         },
         "BooleanLiteral": {
             "name": "boolean literal",
-            "description": "$1[true|false]",
+            "description": "create $1[true|false] boolean value",
             "emotion": "precise",
             "doc": "I am either \\⊤\\ or \\⊥\\. See @Boolean to learn more about our beautiful logic.",
             "start": "$1!"
         },
         "Borrow": {
             "name": "borrow",
-            "description": "borrow $1[$1|missing name]",
+            "description": "borrow $1[$1|unnamed] from a source",
             "emotion": "excited",
             "label": {
                 "source": "source",
@@ -566,6 +578,7 @@
         },
         "Changed": {
             "name": "changed",
+            "description": "return true if stream changed",
             "emotion": "serious",
             "label": {
                 "stream": "stream"
@@ -580,6 +593,7 @@
         },
         "Conditional": {
             "name": "conditional",
+            "description": "check this condition and evaluate to one of two expressions",
             "emotion": "curious",
             "label": {
                 "condition": "condition",
@@ -606,7 +620,7 @@
         },
         "ConversionDefinition": {
             "name": "conversion definition",
-            "description": "$1 → $2",
+            "description": "define $1 to $2 conversion",
             "emotion": "excited",
             "label": {
                 "input": "input type",
@@ -629,6 +643,7 @@
         },
         "Convert": {
             "name": "convert",
+            "description": "convert value to another type",
             "emotion": "cheerful",
             "doc": [
                 "Yo. I turn values from one type to another. Check it out:",
@@ -656,6 +671,7 @@
         },
         "Delete": {
             "name": "delete",
+            "description": "remove matching rows from table",
             "emotion": "angry",
             "doc": [
                 "Sometimes you have a table and it JUST HAS TOO MUCH IN IT!",
@@ -668,6 +684,7 @@
         },
         "DocumentedExpression": {
             "name": "explained expression",
+            "description": "attach documentation to an expression",
             "emotion": "eager",
             "doc": [
                 "I'm any expression, but with a @Doc!",
@@ -679,7 +696,7 @@
         },
         "Evaluate": {
             "name": "evaluate",
-            "description": "evaluate $1[$1|anonymous]",
+            "description": "$3[create $1[$1|] value with these inputs|$2[create $1[$1|] stream with these inputs|apply $1[$1|function] to these inputs]]",
             "emotion": "shy",
             "label": {
                 "function": "function",
@@ -744,7 +761,7 @@
         },
         "Input": {
             "name": "Input",
-            "description": "named input",
+            "description": "declare a named function input",
             "emotion": "serious",
             "doc": [
                 "I'm an input given to an @Evaluate. My name corresponds to the name of input in the @FunctionDefinition or @StructureDefinition being evaluated.",
@@ -756,7 +773,7 @@
         },
         "ExpressionPlaceholder": {
             "name": "placeholder",
-            "description": "$1[$1|placeholder]",
+            "description": "mark an expression to fill in",
             "emotion": "scared",
             "label": {
                 "placeholder": "expression"
@@ -786,7 +803,7 @@
         },
         "FunctionDefinition": {
             "name": "function",
-            "description": "function $1",
+            "description": "define function $1",
             "emotion": "kind",
             "label": {
                 "inputs": "inputs",
@@ -819,6 +836,7 @@
         },
         "Iteration": {
             "name": "higher order function",
+            "description": "iterate over list values internally",
             "emotion": "kind",
             "doc": "I'm a very special kind of @FunctionDefinition that operates on lists of things. You don't need to know anything about me, other than I make functions like @List/translate possible. ",
             "start": "Evaluating the function given",
@@ -829,6 +847,7 @@
         },
         "Initial": {
             "name": "start",
+            "description": "return true on first evaluation",
             "emotion": "curious",
             "doc": [
                 "I tell you whether the current evaluation of @Program is the first one, evaluating to a @Boolean. For example:",
@@ -839,6 +858,7 @@
         },
         "Insert": {
             "name": "insert",
+            "description": "add a row to a table",
             "emotion": "kind",
             "doc": [
                 "You know when you have a @Table, and it just feels like it's missing something? I can add it!",
@@ -851,7 +871,7 @@
         },
         "Is": {
             "name": "is",
-            "description": "is",
+            "description": "check if value is type $1",
             "emotion": "curious",
             "doc": [
                 "You know what? There are so many kinds of values that mean so many different things. I help figure out what they are.",
@@ -879,7 +899,7 @@
         },
         "IsLocale": {
             "name": "is locale",
-            "description": "is locale",
+            "description": "return true if locale is selected",
             "emotion": "kind",
             "doc": [
                 "I'll help you check if the audience has selected a particular language or region:",
@@ -891,6 +911,7 @@
         },
         "ListAccess": {
             "name": "list access",
+            "description": "get value at list position",
             "emotion": "cheerful",
             "doc": [
                 "I work closely with @List to help them get values at a particular position. So like, if you had a list, and you wanted its second item, you'd write:",
@@ -901,7 +922,7 @@
         },
         "ListLiteral": {
             "name": "list literal",
-            "description": "$1 item list",
+            "description": "create a list of $1 values",
             "emotion": "eager",
             "doc": "I'm a specific @List of values! See @List to learn more about what you can do with me.",
             "start": "Let's evaluate the items first",
@@ -909,6 +930,7 @@
         },
         "Spread": {
             "name": "spread",
+            "description": "expand list into another list",
             "emotion": "serious",
             "doc": [
                 "A help you make lists with the values of other lists. Like this:",
@@ -917,7 +939,7 @@
         },
         "MapLiteral": {
             "name": "map literal",
-            "description": "$1 pairing map",
+            "description": "create a map of $1 key-value pairs",
             "emotion": "kind",
             "label": {
                 "values": "pair"
@@ -934,6 +956,7 @@
         },
         "Match": {
             "name": "match",
+            "description": "compare value to multiple cases",
             "emotion": "curious",
             "label": {
                 "case": "case",
@@ -953,7 +976,7 @@
         },
         "NumberLiteral": {
             "name": "number literal",
-            "description": "$1 $2[$2|]",
+            "description": "create number $1 $2[$2|]",
             "emotion": "excited",
             "doc": "I'm a specific @Number. You can write me with any kinds of digits from any kind of language. See @Number for everything I can do.",
             "start": "$1!",
@@ -966,18 +989,21 @@
         },
         "InternalExpression": {
             "name": "internal expression",
+            "description": "run a built-in creator expression",
             "emotion": "neutral",
             "doc": "How did you find me? I'm an expression that only the original creators use. To learn more about me, you'll need to talk to them.",
             "start": "Secret expression"
         },
         "NoneLiteral": {
             "name": "none literal",
+            "description": "create the nothing value",
             "emotion": "neutral",
             "doc": "/@FunctionDefinition here. This is just @None. They are one of a kind! See @None to learn more about them.",
             "start": "… ø"
         },
         "Otherwise": {
             "name": "otherwise",
+            "description": "provide backup value if none",
             "emotion": "curious",
             "doc": [
                 "/@FunctionDefinition here. This is a handy way to check if a value is @None, and if it is, provide a backup value./",
@@ -989,6 +1015,7 @@
         },
         "Previous": {
             "name": "previous",
+            "description": "get previous value of stream",
             "emotion": "serious",
             "doc": [
                 "Have you ever wanted to remember the past?",
@@ -1009,6 +1036,7 @@
         },
         "Program": {
             "name": "program",
+            "description": "contains all expressions in a program",
             "emotion": "serious",
             "doc": [
                 "I'm where a performance begins and ends, containing all of the other characters that choregraph a show.",
@@ -1053,7 +1081,7 @@
         },
         "PropertyBind": {
             "name": "refine",
-            "description": "refine $1[$1|missing name]",
+            "description": "refine property $1[$1|unnamed]",
             "emotion": "kind",
             "label": {
                 "property": "property",
@@ -1076,7 +1104,7 @@
         },
         "PropertyReference": {
             "name": "property",
-            "description": "property $1[$1|missing name]",
+            "description": "get property $1[$1|unnamed]",
             "emotion": "kind",
             "label": {
                 "property": "property"
@@ -1091,6 +1119,7 @@
         },
         "Reaction": {
             "name": "reaction",
+            "description": "create a value on stream change",
             "emotion": "excited",
             "label": {
                 "initial": "initial",
@@ -1115,7 +1144,7 @@
         },
         "Reference": {
             "name": "reference",
-            "description": "$1",
+            "description": "reference name $1",
             "emotion": "shy",
             "doc": [
                 "You know how @Bind gives things @Name? I'm how you refer to them. I see if any @Bind has that name, if so, give you its value. Like this:",
@@ -1150,6 +1179,7 @@
         },
         "Select": {
             "name": "select",
+            "description": "filter matching rows from table",
             "emotion": "excited",
             "doc": [
                 "Sometimes you have a table and you just want part of it. I can get it for you!",
@@ -1168,7 +1198,7 @@
         },
         "SetLiteral": {
             "name": "set literal",
-            "description": "$1 items",
+            "description": "create a set of $1 items",
             "emotion": "eager",
             "doc": "I'm a specific @Set of specific values. See @Set to learn more about how to work with me.",
             "start": "Let's evaluate the values first!",
@@ -1176,6 +1206,7 @@
         },
         "SetOrMapAccess": {
             "name": "set/map access",
+            "description": "check if set or map contains",
             "emotion": "kind",
             "doc": [
                 "I can see if a @Set or @Map has a value or key.",
@@ -1195,6 +1226,7 @@
         },
         "Source": {
             "name": "source",
+            "description": "name a program source file",
             "emotion": "curious",
             "doc": [
                 "Oh, you know @Program? I help you name them. Think of me like the window around a @Program, and the name you give them.",
@@ -1204,13 +1236,14 @@
         },
         "StreamDefinition": {
             "name": "stream",
+            "description": "define a new stream type",
             "emotion": "curious",
             "doc": "I /think/ I'm supposed make new streams. But I really don't know how to do that. For now, I guess just use the streams that exist?",
             "start": "Create this new kind of stream"
         },
         "StructureDefinition": {
             "name": "structure",
-            "description": "structure $1",
+            "description": "define structure $1",
             "emotion": "kind",
             "label": {
                 "docs": "documentation",
@@ -1251,15 +1284,15 @@
         },
         "StructureDefinitionType": {
             "name": "structure definition",
+            "description": "$1",
             "emotion": "kind",
-            "description": "definition of $1",
             "doc": [
                 "I refer to some kind of @StructureDefinition. People don't usually refer to me directly"
             ]
         },
         "TableLiteral": {
             "name": "table literal",
-            "description": "$1 row table",
+            "description": "create a table of $1 rows",
             "emotion": "angry",
             "doc": "I am a specific table with specific rows. See @Table about how I can help.",
             "start": "First evaluate the rows",
@@ -1267,7 +1300,7 @@
         },
         "TextLiteral": {
             "name": "text literal",
-            "description": "text $1",
+            "description": "create text value $1",
             "emotion": "serious",
             "label": {
                 "texts": "text"
@@ -1277,7 +1310,7 @@
         },
         "Translation": {
             "name": "translation",
-            "description": "translation $1",
+            "description": "create text '$1'",
             "emotion": "serious",
             "label": {
                 "segments": "text"
@@ -1314,14 +1347,14 @@
         },
         "FormattedLiteral": {
             "name": "formatted text",
-            "description": "text $1",
+            "description": "create formatted text $1",
             "emotion": "serious",
             "doc": "I represent many different @FormattedTranslation of formatted text. When I evaluate, I'll pick the best match based on the audience's selected languages.",
             "start": "Let's make text in the current locale"
         },
         "FormattedTranslation": {
             "name": "formatted translation",
-            "description": "text $1",
+            "description": "translate formatted text to $1",
             "emotion": "serious",
             "doc": [
                 "I represent some formatted text, with a @Language tag.",
@@ -1337,6 +1370,7 @@
         },
         "This": {
             "name": "this",
+            "description": "refer to current structure value",
             "emotion": "serious",
             "doc": [
                 "Sometimes, it's helpful to refer to a value implicitly, rather than having to name it.",
@@ -1358,7 +1392,7 @@
         },
         "UnaryEvaluate": {
             "name": "unary evaluate",
-            "description": "$1",
+            "description": "apply $1 unary operator",
             "emotion": "kind",
             "label": {
                 "input": "input"
@@ -1378,6 +1412,7 @@
         },
         "UnparsableExpression": {
             "name": "unparsable",
+            "description": "mark an unparsable expression",
             "emotion": "excited",
             "doc": [
                 "/Hi @FunctionDefinition here. I'm translating for @UnparsableExpression, since they're often hard to interpret./",
@@ -1412,6 +1447,7 @@
         },
         "Update": {
             "name": "update",
+            "description": "revise matching rows in table",
             "emotion": "kind",
             "doc": [
                 "I help revise a @Table, finding the rows that match a condition, and then creating revised rows with new values.",
@@ -1434,11 +1470,13 @@
         },
         "AnyType": {
             "name": "any",
+            "description": "match any possible type",
             "emotion": "curious",
             "doc": "I represent any possible type. Sometimes I show up because I don't know what kind of value something is, so it could be anything."
         },
         "BooleanType": {
             "name": "boolean",
+            "description": "type a boolean true/false value",
             "emotion": "kind",
             "doc": [
                 "I work with @Bind to declare that a name is a @Boolean value. Like this:",
@@ -1448,6 +1486,7 @@
         },
         "ConversionType": {
             "name": "conversion",
+            "description": "type a conversion definition",
             "emotion": "serious",
             "doc": [
                 "I work with @Bind to indicate that a name is a @ConversionDefinition. You probably don't need to use me, because not a lot of people pass me around as a value, but if you did, I would look like this:",
@@ -1456,6 +1495,7 @@
         },
         "FormattedType": {
             "name": "formatted",
+            "description": "type a formatted text value",
             "emotion": "serious",
             "doc": [
                 "I work with @Bind to note that a name is a @FormattedLiteral value. Like this:",
@@ -1465,12 +1505,13 @@
         },
         "ExceptionType": {
             "name": "exception",
+            "description": "type an exception value",
             "emotion": "neutral",
             "doc": "I represent an exception. There's no way to tell bind that I am one, because exceptions only ever halt @Program, so you can't use them as values."
         },
         "FunctionType": {
             "name": "function",
-            "description": "function with $1 inputs, $2 output",
+            "description": "type a function with $1 inputs",
             "emotion": "curious",
             "doc": [
                 "I represent a @FunctionDefinition. I'm really helpful if you want to say what kind of function a @Bind holds! Like this:",
@@ -1479,7 +1520,7 @@
         },
         "ListType": {
             "name": "list",
-            "description": "$1[list of $1|list]",
+            "description": "type a $1[list of $1|list]",
             "emotion": "cheerful",
             "doc": [
                 "I am /such/ a fan of @List. I get to tell @Bind what kind of list they are! Like this, I'm saying that it's a list of @Number:",
@@ -1488,7 +1529,7 @@
         },
         "MapType": {
             "name": "map ",
-            "description": "$1[$1|any] to $2[$2|any] map",
+            "description": "type a $1[$1|any] to $2[$2|any] map",
             "emotion": "kind",
             "doc": [
                 "Do you know how awesome @Map is? Like really awesome. I tell @Bind what kind of map they are all the time, like this map of numbers to lists:",
@@ -1497,7 +1538,7 @@
         },
         "NumberType": {
             "name": "number",
-            "description": "$1[$1 | number]",
+            "description": "type a $1[$1|number] value",
             "emotion": "precise",
             "doc": [
                 "You know what @Bind should be? A @Number. Because numbers are the best.",
@@ -1506,7 +1547,7 @@
         },
         "NameType": {
             "name": "structure",
-            "description": "$1",
+            "description": "reference type named $1",
             "emotion": "curious",
             "doc": [
                 "I represent a @StructureDefinition by its name. So like, if you had a structure like this, you could make a @Bind that stores the values it creates.",
@@ -1521,11 +1562,13 @@
         },
         "NeverType": {
             "name": "never",
+            "description": "represent an impossible type",
             "emotion": "curious",
             "doc": "I represent a type that is impossible. Like when you ask @Is if something is a @Number, but it can never be a number."
         },
         "NoneType": {
             "name": "none",
+            "description": "type a none value",
             "emotion": "neutral",
             "doc": [
                 "@None is the best nothing there is, and I am their faithful representative.",
@@ -1534,7 +1577,7 @@
         },
         "SetType": {
             "name": "set",
-            "description": "$1[$1 set|set]",
+            "description": "type a set of $1[$1|any]",
             "emotion": "kind",
             "doc": [
                 "@Set is the BEST, like seriously. I'm telling @Bind all the time, make things a set of something!",
@@ -1543,11 +1586,13 @@
         },
         "StreamDefinitionType": {
             "name": "stream definition",
+            "description": "type a defined stream",
             "emotion": "angry",
             "doc": "I represent a stream you have defined, which isn't possible, so why are you even reading this?"
         },
         "StreamType": {
             "name": "stream",
+            "description": "type a stream value",
             "emotion": "curious",
             "doc": [
                 "I celebrate the beauty and meaning of streams… by telling @Bind to store them:",
@@ -1556,18 +1601,20 @@
         },
         "StructureType": {
             "name": "structure",
-            "description": "$1",
+            "description": "represent structure $1",
             "emotion": "kind",
             "doc": "I am an internal type to represent the type of default value types."
         },
         "UnknownType": {
             "name": "unknown",
+            "description": "represent an undetermined type",
             "connector": ", because ",
             "emotion": "curious",
             "doc": "Umm... I don't know what I represent, but I really am curious. Do you know? It seems like we should know. You might need to tell us if we can't figure it out."
         },
         "TableType": {
             "name": "table",
+            "description": "type a table value",
             "emotion": "angry",
             "doc": "I represent a Table.",
             "conflict": {
@@ -1579,7 +1626,7 @@
         },
         "TextType": {
             "name": "text",
-            "description": "$1[$1|text]",
+            "description": "type a $1[$1|text] value",
             "emotion": "happy",
             "doc": [
                 "I fabulously represent the most fabulous kind of value there is, @Text.",
@@ -1588,12 +1635,13 @@
         },
         "TypePlaceholder": {
             "name": "placeholder",
+            "description": "hold a placeholder for a type",
             "emotion": "eager",
             "doc": "I hope to represent a type some day, kind of like my bestie @ExpressionPlaceholder represents an expression! Will you help me decide what kind?"
         },
         "UnionType": {
             "name": "option",
-            "description": "$1 | $2",
+            "description": "type either $1 or $2",
             "emotion": "curious",
             "doc": [
                 "Who should I represent, A or B or something else? I can never decide!",
@@ -1602,7 +1650,7 @@
         },
         "Unit": {
             "name": "unit",
-            "description": "$1",
+            "description": "specify unit $1",
             "emotion": "precise",
             "doc": [
                 "I represent any unit a @Number might have, including no unit, to the most complicated unit you can imagine. Like gravity, for example:",
@@ -1612,55 +1660,61 @@
         },
         "UnparsableType": {
             "name": "unparsable",
+            "description": "type an unparsable expression",
             "emotion": "curious",
             "doc": "I represent the type of an unknown expression. I show up when you try to use that expression for something."
         },
         "VariableType": {
             "name": "variable type",
+            "description": "represent a type variable in use",
             "emotion": "curious",
             "doc": "Do you know @TypeVariable, and how they represent some unknown kind of value? I represent them in all negotiations between values."
         },
         "CycleType": {
             "name": "cycle",
-            "description": "depends on itself",
+            "description": "depend on itself",
             "emotion": "curious",
             "doc": "Sometimes values depend on themselves, and so we don't know what kind of value they are. I represent that situation."
         },
         "UnknownVariableType": {
             "name": "unknown variable",
+            "description": "represent an unknown type variable",
             "emotion": "curious",
             "doc": "Sometimes we try to guess what kind of value something is; I show up when we don't know."
         },
         "NotAType": {
             "name": "unexpected",
-            "description": "not type $1",
+            "description": "mark $1 as an invalid type",
             "emotion": "curious",
             "doc": "Sometimes we know what kind of value something should be. Like @ListAccess needs a @Number. If we don't get it, I represent that something is a type other than what we expected."
         },
         "NoExpressionType": {
             "name": "no expression",
+            "description": "type an empty block",
             "emotion": "angry",
             "doc": "You know how @Block needs at least one expression? I'm what you get when you don't give one. So give one!"
         },
         "NotEnclosedType": {
             "name": "not in structure, conversion, or reaction",
+            "description": "mark this used outside a structure",
             "emotion": "curious",
             "doc": "@This, as neat as they are, only belongs in particular places. I show up when they get lost, and so no one knows what value they represent."
         },
         "NotImplementedType": {
             "name": "unimplemented",
+            "description": "type an unfilled placeholder",
             "emotion": "curious",
             "doc": "When you use @ExpressionPlaceholder, but don't say what type they are, I'm the type you get. Deal with it!"
         },
         "UnknownNameType": {
             "name": "unknown name",
-            "description": "$1[$1 isn't defined|a name wasn't given]",
+            "description": "mark $1[$1 as undefined|name not given]",
             "emotion": "curious",
             "doc": "You know how sometimes @Reference and @PropertyReference don't know the name you're talking about? I'm around when that happens, to represent that we don't know who you're talking about."
         },
         "NonFunctionType": {
             "name": "non-function",
-            "description": "non-function",
+            "description": "mark $1 as a non-function",
             "emotion": "confused",
             "doc": "Some of us expected functions; I show up when we don't get one."
         }
@@ -4882,11 +4936,12 @@
         },
         "annotations": {
             "label": "conflicts and help",
-            "cursor": "This is *$1*$2[ and they are of type $2|]. $3[ They're inside a *$3*.|]",
+            "cursor": "This is *$1*$2[ and they are of type $2|]$3[. They $3.|]",
             "cursorParent": "They're inside a *$1*$2[ of type $2|].",
             "learn": "/Learn more/",
             "evaluating": "Oh fun, let's evaluate!",
             "space": "This is space! Who knew nothing could say so much?",
+            "nodeDescription": "They $1.",
             "button": {
                 "resolution": "Resolve this conflict",
                 "toggle": "show and hide annotations",

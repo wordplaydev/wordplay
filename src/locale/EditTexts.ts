@@ -1,7 +1,7 @@
 import type { FormattedText } from './LocaleText';
 
 type EditTexts = {
-    /** [formatted] A way to say "on node of type [type]" */
+    /** [formatted] A way to say "on node of type [type], they [description]". $1: node label, $2: type, $3: description */
     node: FormattedText;
     /** [formatted] A way to say "before [token], at the beginning of the program" */
     before: FormattedText;

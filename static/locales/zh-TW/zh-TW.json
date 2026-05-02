@@ -143,6 +143,7 @@
         },
         "Doc": {
             "name": "解釋說明",
+            "description": "文件注釋 $1[$1|]",
             "emotion": "serious",
             "doc": [
                 "我用 @Markup 來格式化別的東西, 例如你的 @Program 的解釋說明, 甚至是你用 @Phrase 放上這個舞台的文字。",
@@ -163,6 +164,7 @@
         },
         "Docs": {
             "name": "解釋清單清單",
+            "description": "$1 文件",
             "emotion": "serious",
             "doc": [
                 "我是 @Doc 的一個列表， 在你有許多不同語言的 @Doc 的翻譯時會非常有用。",
@@ -173,6 +175,7 @@
         },
         "KeyValue": {
             "name": "映射",
+            "description": "$1 對應 $2",
             "emotion": "kind",
             "doc": [
                 "我是在一個 @Map 中從一個 *關鍵碼* 到一個 *值* 的映射。",
@@ -184,7 +187,7 @@
         },
         "Language": {
             "name": "語言",
-            "description": "語言 $1[$1|unknown]",
+            "description": "語言 $1[$1|未知]",
             "emotion": "eager",
             "doc": [
                 "我是一個語言標籤，我與 @Name 和 @Doc 一起工作!",
@@ -211,7 +214,7 @@
         },
         "Name": {
             "name": "命名",
-            "description": "$1[$1 | 未命名]",
+            "description": "$1[$1|未命名]",
             "emotion": "kind",
             "doc": [
                 "我會辨識一個數值，而且能夠幫你將難以運算的事物貼上簡潔的標籤，不然你就要一遍又一遍地運算它們。",
@@ -229,6 +232,7 @@
         },
         "Names": {
             "name": "命名清單",
+            "description": "$1 名稱",
             "emotion": "kind",
             "doc": [
                 "我是一個 @Name 的列表，當你想給一個值幾個名字的時候特別有用，常常是和不同的 @Language。",
@@ -241,6 +245,7 @@
         },
         "Row": {
             "name": "排",
+            "description": "$1 行",
             "emotion": "shy",
             "doc": "我代表了一個 @Table 中的一排。你最好和 @Table 聊聊這個，因為它知道我的所有事情。我只是在這裡確保所有值都在一行裡。 :(",
             "conflict": {
@@ -268,7 +273,7 @@
         },
         "Token": {
             "name": "令牌",
-            "description": "$1 $2",
+            "description": "$1",
             "emotion": "neutral",
             "doc": [
                 "你怎麼找到我的？",
@@ -277,11 +282,13 @@
         },
         "TypeInputs": {
             "name": "輸入類型",
+            "description": "$1 型態輸入",
             "emotion": "curious",
             "doc": "我是一個類型列表，可以代替 @StructureDefinition 或 @FunctionDefinition 中的 @TypeVariables。我可以幫助每個人知道他們將收到什麼樣的輸入。"
         },
         "TypeVariable": {
             "name": "變數類型",
+            "description": "型態變數 $1",
             "emotion": "curious",
             "doc": "我是 @FunctionDefinition 或 @StructureDefinition 上的神秘類型，由 @TypeInputs 在對其中任一類型進行求值時提供。@Set、@List 和 @Map 都可以使用我。",
             "conflict": {
@@ -296,6 +303,7 @@
         },
         "TypeVariables": {
             "name": "變數類型清單",
+            "description": "$1 型態變數",
             "emotion": "curious",
             "doc": "我是一個清單的 @TypeVariable 。"
         },
@@ -312,6 +320,7 @@
         },
         "Paragraph": {
             "name": "段落",
+            "description": "$1 段落",
             "emotion": "serious",
             "doc": [
                 "我是一系列的 @Words、@ConceptLink、@WebLink 和 @Example ，我們在 @Doc 內用空白行隔開。",
@@ -333,7 +342,7 @@
         },
         "ConceptLink": {
             "name": "概念",
-            "description": "概念連結",
+            "description": "概念連結 $1",
             "emotion": "serious",
             "doc": [
                 "$~我是 Verse 角色的一個連結。當您想要編寫@Doc 並參考我們其中一位時，我會提供幫助。",
@@ -348,6 +357,7 @@
         },
         "Words": {
             "name": "文字",
+            "description": "$1",
             "emotion": "serious",
             "doc": [
                 "我是你在一篇 @Doc 中喜愛的所有文字。例如:",
@@ -359,6 +369,7 @@
         },
         "Example": {
             "name": "範例",
+            "description": "範例 $1",
             "emotion": "serious",
             "doc": [
                 "我是一個例子，能夠幫助解釋 @Doc 中的一些功能是怎麼運用的！",
@@ -376,6 +387,7 @@
         },
         "Branch": {
             "name": "分支",
+            "description": "分支 $1",
             "emotion": "serious",
             "doc": [
                 "我是一個種在兩個部分之間根據有無定義和真假與否進行選擇的方法。",
@@ -565,6 +577,7 @@
         },
         "Changed": {
             "name": "改變",
+            "description": "已變更 $1[$1|]",
             "emotion": "serious",
             "doc": [
                 "我檢查流是否導致 @Program 重新評估，並產生一個 @Boolean 值。像這樣",
@@ -579,6 +592,7 @@
         },
         "Conditional": {
             "name": "有條件的",
+            "description": "若 $1 則 $2[$2|]",
             "emotion": "curious",
             "doc": [
                 "I我想我應該是來做決定的？就像這樣？",
@@ -628,6 +642,7 @@
         },
         "Convert": {
             "name": "轉換",
+            "description": "將 $1 轉換為 $2",
             "emotion": "cheerful",
             "doc": [
                 "嘿，我可以將一個類型的值轉換成另一個類型。看看這個例子：",
@@ -655,6 +670,7 @@
         },
         "Delete": {
             "name": "刪除",
+            "description": "從 $1 刪除",
             "emotion": "angry",
             "doc": [
                 "有時候你有一個表格，它裡面有太多東西了！",
@@ -667,6 +683,7 @@
         },
         "DocumentedExpression": {
             "name": "解釋表達式",
+            "description": "已記錄的 $1[$1|]",
             "emotion": "eager",
             "doc": [
                 "我是任何表達式，但附帶了 @Doc！",
@@ -678,7 +695,7 @@
         },
         "Evaluate": {
             "name": "評估",
-            "description": "評估 $1[$1|匿名]",
+            "description": "$3[用這些輸入建立$1[$1|]值|$2[用這些輸入建立$1[$1|]流|將$1[$1|函數]應用於這些輸入]]",
             "emotion": "shy",
             "doc": [
                 "嗨。我會評估我心愛的 @FunctionDefinition",
@@ -743,7 +760,7 @@
         },
         "Input": {
             "name": "$~輸入",
-            "description": "$~命名輸入",
+            "description": "命名輸入",
             "emotion": "serious",
             "doc": [
                 "$~我是向@Evaluate 提供的輸入。我的名字對應到正在評估的@FunctionDefinition 或@StructureDefinition 中的輸入名稱。",
@@ -818,6 +835,7 @@
         },
         "Iteration": {
             "name": "高階函數",
+            "description": "迭代清單",
             "emotion": "kind",
             "doc": "我是一種非常特殊的 @FunctionDefinition，用於操作物品列表。除了我使得像 @List/translate 這樣的函數成為可能之外，你不需要了解太多關於我。",
             "start": "評估給定的函數",
@@ -828,6 +846,7 @@
         },
         "Initial": {
             "name": "開始",
+            "description": "初始值",
             "emotion": "curious",
             "doc": [
                 "我告訴你 @Program 的當前評估是否是第一個，評估為一個 @BooleanLiteral",
@@ -838,6 +857,7 @@
         },
         "Insert": {
             "name": "插入",
+            "description": "插入至 $1",
             "emotion": "kind",
             "doc": [
                 "你知道當你有一個 @Table 時，總覺得缺了點什麼嗎？我可以幫你加！",
@@ -890,6 +910,7 @@
         },
         "ListAccess": {
             "name": "清單存取",
+            "description": "從 $1[$1|清單] 取得",
             "emotion": "cheerful",
             "doc": [
                 "我與 @List 密切合作，幫助它們在特定位置獲取值。所以，例如，如果你有一個列表，想要獲取它的第二個項目，你會寫成：",
@@ -908,6 +929,7 @@
         },
         "Spread": {
             "name": "清單展開",
+            "description": "展開 $1[$1|]",
             "emotion": "serious",
             "doc": [
                 "我幫助你使用其他清單的值來建立清單。就像這樣：",
@@ -933,6 +955,7 @@
         },
         "Match": {
             "name": "$~匹配",
+            "description": "配對 $1",
             "emotion": "curious",
             "doc": [
                 "$~我是所有條件檢查中最光榮的！我取一個值並將其與任意數量的案例進行比較，然後評估匹配的相應表達式。",
@@ -965,18 +988,21 @@
         },
         "InternalExpression": {
             "name": "內部表達式",
+            "description": "內部運算式",
             "emotion": "neutral",
             "doc": "你是怎麼找到我的？我是只有原創作者才使用的表達式。要了解更多關於我的信息，你需要和他們交談。",
             "start": "秘密表達式"
         },
         "NoneLiteral": {
             "name": "非字面意義",
+            "description": "無",
             "emotion": "neutral",
             "doc": "/@FunctionDefinition 在此。這只是 @None。它們是獨一無二的！查看 @None 以了解更多關於它們的信息。",
             "start": "…ø"
         },
         "Otherwise": {
             "name": "否則",
+            "description": "否則 $1[$1|]",
             "emotion": "curious",
             "doc": [
                 "/@FunctionDefinition 這裡。這是一種方便的方法，用於檢查一個值是否為@None，如果是，就提供一個備用值。/",
@@ -988,6 +1014,7 @@
         },
         "Previous": {
             "name": "之前",
+            "description": "前一個 $1[$1|]",
             "emotion": "serious",
             "doc": [
                 "你有沒有想過要記住過去？",
@@ -1008,6 +1035,7 @@
         },
         "Program": {
             "name": "節目",
+            "description": "含有 $1[$1|] 個運算式的程式",
             "emotion": "serious",
             "doc": [
                 "我是表演的開始和結束，包含了所有編排表演的其他角色。",
@@ -1052,7 +1080,7 @@
         },
         "PropertyBind": {
             "name": "精煉",
-            "description": "精煉$1[$1|缺名稱]",
+            "description": "精煉 $1[$1|缺名稱]",
             "emotion": "kind",
             "doc": [
                 "有時，當你創建一個@StructureDefinition 時，你想要改變它的最小的東西，而不必用所有相同的值創建一個新的。",
@@ -1075,7 +1103,7 @@
         },
         "PropertyReference": {
             "name": "性質",
-            "description": "屬性$1[$1|缺少名稱]",
+            "description": "屬性 $1[$1|缺少名稱]",
             "emotion": "kind",
             "doc": [
                 "當您建立一個@StructureDefinition 時，您如何獲得它的一個輸入?我如何",
@@ -1090,6 +1118,7 @@
         },
         "Reaction": {
             "name": "反應",
+            "description": "對 $1[$1|] 的反應",
             "emotion": "excited",
             "doc": [
                 "流是如此的棒!我可以根據它們的變化來製作新的，這太酷了!",
@@ -1149,6 +1178,7 @@
         },
         "Select": {
             "name": "選擇",
+            "description": "從 $1 選取",
             "emotion": "excited",
             "doc": [
                 "有時你有一張桌子，你只想佔有它的一部分。我可以幫你拿來!",
@@ -1167,7 +1197,7 @@
         },
         "SetLiteral": {
             "name": "具體組",
-            "description": "$1，物體",
+            "description": "$1 個元素的集合",
             "emotion": "eager",
             "doc": "我是特定值的特定集合。請參閱@Set 以了解更多關於如何與我合作的資訊。",
             "start": "讓我們先估計數值吧",
@@ -1175,6 +1205,7 @@
         },
         "SetOrMapAccess": {
             "name": "群組/映射群組的存取",
+            "description": "從 $1[$1|] 取得",
             "emotion": "kind",
             "doc": [
                 "我可以看到@Set 或@Map 是否有值或鍵。",
@@ -1194,6 +1225,7 @@
         },
         "Source": {
             "name": "資源",
+            "description": "來源檔案 $1[$1|]",
             "emotion": "curious",
             "doc": [
                 "哦，你知道 @Program 嗎?我幫你取名字。把我想像成 @Program 周圍的窗口，以及你給他們起的名字。",
@@ -1203,6 +1235,7 @@
         },
         "StreamDefinition": {
             "name": "流",
+            "description": "串流定義 $1",
             "emotion": "curious",
             "doc": "我/我想/我應該創造新的溪流。但我真的不知道該怎麼做。現在，我想就用現有的流吧?",
             "start": "建立這種新的流"
@@ -1250,8 +1283,8 @@
         },
         "StructureDefinitionType": {
             "name": "$~結構定義",
+            "description": "$1",
             "emotion": "kind",
-            "description": "$~$1 的定義",
             "doc": [
                 "$~我指的是某種@StructureDefinition。人們通常不會直接提到我"
             ]
@@ -1266,7 +1299,7 @@
         },
         "TextLiteral": {
             "name": "文字量",
-            "description": "文本 $1",
+            "description": "文字 $1",
             "emotion": "serious",
             "doc": "我代表一個或多個特定的文字翻譯。請參閱 @Text 以了解我可以做什麼！",
             "start": "讓我們在目前語言環境中建立文字",
@@ -1313,14 +1346,14 @@
         },
         "FormattedLiteral": {
             "name": "格式文字",
-            "description": "文本 $1",
+            "description": "格式化文字 $1",
             "emotion": "serious",
             "doc": "我代表許多不同的格式化文本的 @FormattedTranslation。當我進行評估時，我會根據受眾選擇的語言選擇最佳匹配。",
             "start": "讓我們建立目前語言環境下的文字"
         },
         "FormattedTranslation": {
             "name": "格式化",
-            "description": "文本 $1",
+            "description": "格式化翻譯 $1",
             "emotion": "serious",
             "doc": [
                 "我代表一些格式化的文本，帶有 @Language 標籤。",
@@ -1336,6 +1369,7 @@
         },
         "This": {
             "name": "這個",
+            "description": "目前結構",
             "emotion": "serious",
             "doc": [
                 "有時候，隱含地引用值比命名它更有幫助。",
@@ -1377,6 +1411,7 @@
         },
         "UnparsableExpression": {
             "name": "不可解析",
+            "description": "無法剖析的運算式",
             "emotion": "excited",
             "doc": [
                 "/嗨，這裡是 @FunctionDefinition。由於通常很難解釋 @UnparsableExpression，我將代為翻譯。",
@@ -1411,6 +1446,7 @@
         },
         "Update": {
             "name": "更新",
+            "description": "更新 $1[$1|]",
             "emotion": "kind",
             "doc": [
                 "我幫忙修訂 @Table，找到與條件相符的行，然後建立具有新值的修訂行。",
@@ -1433,11 +1469,13 @@
         },
         "AnyType": {
             "name": "任意",
+            "description": "任意型態",
             "emotion": "curious",
             "doc": "我代表任何可能的類型。有時我會出現，因為不知道某些東西是什麼類型，所以它可以是任何類型。"
         },
         "BooleanType": {
             "name": "布爾",
+            "description": "布林型態",
             "emotion": "kind",
             "doc": [
                 "我與 @Bind 一起工作，聲明名稱是 @Boolean 值。就像這樣：",
@@ -1447,6 +1485,7 @@
         },
         "ConversionType": {
             "name": "轉換",
+            "description": "$1 到 $2 的轉換",
             "emotion": "serious",
             "doc": [
                 "我與 @Bind 一起工作，指示名稱是 @ConversionDefinition。您可能不需要使用我，因為沒有多少人將我作為值傳遞，但如果您這樣做，我將如下所示：",
@@ -1455,6 +1494,7 @@
         },
         "FormattedType": {
             "name": "格式化",
+            "description": "格式化文字型態",
             "emotion": "serious",
             "doc": [
                 "我與 @Bind 一起註明名稱是 @FormattedLiteral 值。就像這樣：",
@@ -1464,6 +1504,7 @@
         },
         "ExceptionType": {
             "name": "異常",
+            "description": "例外型態",
             "emotion": "neutral",
             "doc": "我代表一個異常。沒有辦法告訴綁定我是一個異常，因為異常只會中止 @Program，所以無法將它們用作值。"
         },
@@ -1478,7 +1519,7 @@
         },
         "ListType": {
             "name": "列表",
-            "description": "$1[$1 列表|$1]",
+            "description": "$1[$1 清單|清單]",
             "emotion": "cheerful",
             "doc": [
                 "我是 @List 的狂熱愛好者。我可以告訴 @Bind 他們是什麼類型的列表！就像這樣，我告訴他們這是 @Number 的列表：",
@@ -1496,7 +1537,7 @@
         },
         "NumberType": {
             "name": "數值",
-            "description": "$1[$1 | 數值]",
+            "description": "$1[$1|數值]",
             "emotion": "precise",
             "doc": [
                 "你知道 @Bind 應該是什麼嗎？應該是 @Number。因為數值是最好的。",
@@ -1520,11 +1561,13 @@
         },
         "NeverType": {
             "name": "不可能",
+            "description": "永不型態",
             "emotion": "curious",
             "doc": "我代表一種不可能的類型。就像當你詢問 @Is 是否是 @Number，但它永遠不可能是一個數值時一樣。"
         },
         "NoneType": {
             "name": "無",
+            "description": "無型態",
             "emotion": "neutral",
             "doc": [
                 "@None 是最好的不存在之一，而我是它們的忠實代表。",
@@ -1533,7 +1576,7 @@
         },
         "SetType": {
             "name": "集合",
-            "description": "$1[$1 套|套]",
+            "description": "$1[$1 集合|集合]",
             "emotion": "kind",
             "doc": [
                 "@Set 是最好的，真的。我一直告訴 @Bind，讓事物成為某種東西的集合！",
@@ -1542,11 +1585,13 @@
         },
         "StreamDefinitionType": {
             "name": "流定義",
+            "description": "$1 串流型態",
             "emotion": "angry",
             "doc": "我代表你定義的流，這是不可能的，那麼為什麼你還在閱讀這個？"
         },
         "StreamType": {
             "name": "流",
+            "description": "$1 串流",
             "emotion": "curious",
             "doc": [
                 "我慶祝流的美麗和意義... 通過告訴 @Bind 來存儲它們：",
@@ -1561,12 +1606,14 @@
         },
         "UnknownType": {
             "name": "未知",
+            "description": "未知型態",
             "connector": "，因為",
             "emotion": "curious",
             "doc": "嗯…我不知道我代表什麼，但我真的很好奇。你知道嗎？似乎我們應該知道。如果我們無法弄清楚，你可能需要告訴我們。"
         },
         "TableType": {
             "name": "表",
+            "description": "$1[$1|] 行表格型態",
             "emotion": "angry",
             "doc": "我代表一個表。",
             "conflict": {
@@ -1578,7 +1625,7 @@
         },
         "TextType": {
             "name": "文字",
-            "description": "$1[$1|文本]",
+            "description": "$1[$1|文字]",
             "emotion": "happy",
             "doc": [
                 "我精彩地代表最精彩的數值，@Text。",
@@ -1587,12 +1634,13 @@
         },
         "TypePlaceholder": {
             "name": "佔位",
+            "description": "型態佔位符",
             "emotion": "eager",
             "doc": "我希望有一天能代表一種類型，有點像我的好朋友 @ExpressionPlaceholder 代表一個表達式！你會幫我決定是什麼類型嗎？"
         },
         "UnionType": {
             "name": "選項",
-            "description": "$1 | $2",
+            "description": "$1 或 $2",
             "emotion": "curious",
             "doc": [
                 "我應該代表誰，A 還是 B 還是其他什麼？我永遠無法決定！",
@@ -1611,11 +1659,13 @@
         },
         "UnparsableType": {
             "name": "無法解析",
+            "description": "無法剖析的型態",
             "emotion": "curious",
             "doc": "我代表未知表達式的類型。當你嘗試將該表達式用於某事時，我會出現。"
         },
         "VariableType": {
             "name": "變數類型",
+            "description": "變數型態 $1[$1|]",
             "emotion": "curious",
             "doc": "你了解 @TypeVariable, 以及它們代表某種未知類型的值嗎? 我在值之間的所有協商中代表它們。"
         },
@@ -1633,16 +1683,19 @@
         },
         "NoExpressionType": {
             "name": "無表達式",
+            "description": "無運算式型態",
             "emotion": "angry",
             "doc": "你知道 @Block 至少需要一個表達式嗎？當你不提供一個表達式時，我就是你得到的。所以，請提供一個！"
         },
         "NotEnclosedType": {
             "name": "不在結構、轉換或反應",
+            "description": "未封閉型態",
             "emotion": "curious",
             "doc": "@This，儘管它很好，但只適用於特定的地方。當它們迷路時，我會出現，所以沒有人知道它們代表什麼值。"
         },
         "NotImplementedType": {
             "name": "未實現",
+            "description": "未實作型態",
             "emotion": "curious",
             "doc": "當你使用 @ExpressionPlaceholder，但沒有說明它們的類型時，我就是你得到的類型。接受吧！"
         },
@@ -1660,6 +1713,7 @@
         },
         "UnknownVariableType": {
             "name": "未知變數",
+            "description": "未知變數型態 $1[$1|]",
             "emotion": "curious",
             "doc": "有時我們試著猜測某種值的類型；當我們不知道時，我會出現。"
         }
@@ -4971,7 +5025,8 @@
                 "toggle": "$~顯示和隱藏註釋",
                 "highlight": "$~在編輯器中顯示此程式碼"
             },
-            "cursorParent": "他們位於*$1*$2[ 類型為 $2|] 内。"
+            "cursorParent": "他們位於*$1*$2[ 類型為 $2|] 内。",
+            "nodeDescription": "$?"
         },
         "output": {
             "label": "程式輸出",

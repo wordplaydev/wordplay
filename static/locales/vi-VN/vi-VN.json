@@ -130,7 +130,7 @@
     "node": {
         "Dimension": {
             "name": "$~kíchthước",
-            "description": "$~kích thước",
+            "description": "$~biểu thị phần của một đơn vị",
             "emotion": "serious",
             "doc": [
                 "$~Tôi là một /đơn vị đo lường/!",
@@ -143,6 +143,7 @@
         },
         "Doc": {
             "name": "$~giảithích",
+            "description": "$~tài liệu hóa biểu thức bằng văn bản",
             "emotion": "serious",
             "doc": [
                 "$~Tôi sử dụng @Markup để định dạng mọi thứ rất chi tiết, ví dụ như phần giải thích về một số @Program của bạn, hoặc thậm chí cả những từ bạn dùng với @Phrase.",
@@ -163,6 +164,7 @@
         },
         "Docs": {
             "name": "$~danhsáchgiảithích",
+            "description": "$~liệt kê tài liệu theo nhiều ngôn ngữ",
             "emotion": "serious",
             "doc": [
                 "$~Tôi là một danh sách các @Doc, hữu ích khi bạn có nhiều bản dịch của @Doc trong các ngôn ngữ khác nhau.",
@@ -173,6 +175,7 @@
         },
         "KeyValue": {
             "name": "$~lậpbảnđồ",
+            "description": "$~ánh xạ khóa tới giá trị",
             "emotion": "kind",
             "doc": [
                 "$~Tôi là một ánh xạ từ *khóa* đến *giá trị*, luôn luôn trong một @Map.",
@@ -184,7 +187,7 @@
         },
         "Language": {
             "name": "$~ngônngữ",
-            "description": "$~ngôn ngữ $1[$1|không xác định]",
+            "description": "$~gắn nhãn tên và văn bản với ngôn ngữ $1[$1|không rõ]",
             "emotion": "eager",
             "doc": [
                 "$~Tôi là một thẻ ngôn ngữ và tôi làm việc với @Name và @Doc!",
@@ -211,7 +214,7 @@
         },
         "Name": {
             "name": "$~tên",
-            "description": "$~$1[$1 | không tên]",
+            "description": "$~khai báo tên $1[$1|không tên]",
             "emotion": "kind",
             "doc": [
                 "$~Tôi xác định một giá trị, và đó là một cách hữu ích để đặt nhãn ngắn gọn cho một thứ gì đó khó đánh giá, hoặc thứ mà bạn không muốn phải đánh giá đi đánh giá lại nhiều lần.",
@@ -229,6 +232,7 @@
         },
         "Names": {
             "name": "$~danhsáchtên",
+            "description": "$~liệt kê tên theo nhiều ngôn ngữ",
             "emotion": "kind",
             "label": {
                 "names": "$~tên"
@@ -241,6 +245,7 @@
         },
         "Row": {
             "name": "$~hàngngang",
+            "description": "$~biểu diễn hàng trong bảng",
             "emotion": "shy",
             "doc": "$~Tôi đại diện cho một hàng trong @Table. Có lẽ tốt nhất là nên nói chuyện với @Table, họ biết mọi thứ về tôi. Tôi chỉ ngồi đó và giữ cho các giá trị được thẳng hàng :(",
             "conflict": {
@@ -268,7 +273,7 @@
         },
         "Token": {
             "name": "$~mãthôngbáo",
-            "description": "$~1 đô la 2 đô la",
+            "description": "$1",
             "emotion": "neutral",
             "doc": [
                 "$~Bạn tìm thấy tôi bằng cách nào?",
@@ -277,11 +282,13 @@
         },
         "TypeInputs": {
             "name": "$~nhậpliệu",
+            "description": "$~điền vào các khe biến kiểu",
             "emotion": "curious",
             "doc": "$~Tôi là một danh sách các kiểu dữ liệu thay thế cho @TypeVariables trong @StructureDefinition hoặc @FunctionDefinition. Tôi giúp mọi người biết họ sẽ nhận được loại dữ liệu đầu vào nào."
         },
         "TypeVariable": {
             "name": "$~biếnkiểu",
+            "description": "$~đặt tên cho kiểu do người gọi cung cấp",
             "emotion": "curious",
             "label": {
                 "type": "$~kiểu"
@@ -296,12 +303,13 @@
         },
         "TypeVariables": {
             "name": "$~biếnkiểu",
+            "description": "$~liệt kê biến kiểu trong định nghĩa",
             "emotion": "curious",
             "doc": "$~Tôi là một danh sách các @TypeVariable."
         },
         "Markup": {
             "name": "$~đánhdấu",
-            "description": "$~Đoạn văn $1",
+            "description": "$~định dạng tài liệu với $1 đoạn văn",
             "emotion": "serious",
             "label": {
                 "paragraphs": "$~đoạn văn"
@@ -312,6 +320,7 @@
         },
         "Paragraph": {
             "name": "$~đoạnvăn",
+            "description": "$~nhóm từ thành đoạn văn",
             "emotion": "serious",
             "doc": [
                 "$~Tôi là một chuỗi các thẻ @Words, @ConceptLink, @WebLink và @Example, được phân tách bởi một dòng trống và nằm bên trong thẻ @Doc.",
@@ -323,7 +332,7 @@
         },
         "WebLink": {
             "name": "$~liênkết",
-            "description": "$~liên kết $1",
+            "description": "$~liên kết đến địa chỉ web $1",
             "emotion": "serious",
             "doc": [
                 "$~Tôi là một liên kết đến nội dung nào đó trên internet. Tôi chỉ cần một mô tả và một URL:",
@@ -333,7 +342,7 @@
         },
         "ConceptLink": {
             "name": "$~tínhcách",
-            "description": "$~ký tự $1",
+            "description": "$~liên kết đến khái niệm $1 trong tài liệu",
             "emotion": "serious",
             "doc": [
                 "$~Tôi là một liên kết đến nhân vật Verse. Tôi hữu ích khi bạn muốn viết một @Doc và tham khảo một trong số chúng tôi.",
@@ -348,6 +357,7 @@
         },
         "Words": {
             "name": "$~từ",
+            "description": "$~viết từ thuần túy trong tài liệu",
             "emotion": "serious",
             "doc": [
                 "$~Tôi có thể dùng bất kỳ từ nào bạn muốn trong @Doc. Ví dụ:",
@@ -359,6 +369,7 @@
         },
         "Example": {
             "name": "$~vídụ",
+            "description": "$~hiển thị mã có thể chạy trong tài liệu",
             "emotion": "serious",
             "doc": [
                 "$~Tôi là một ví dụ về cách thực hiện, hữu ích cho việc viết tài liệu hướng dẫn (@Doc) giải thích cách sử dụng một thứ gì đó!",
@@ -367,7 +378,7 @@
         },
         "Mention": {
             "name": "$~đềcậpđến",
-            "description": "$~đề cập đến $1",
+            "description": "$~đề cập $1 trong đánh dấu",
             "emotion": "serious",
             "doc": [
                 "$~Tôi là tham chiếu đến thuật ngữ \\$program\\ hoặc đầu vào động \\$1\\.",
@@ -376,6 +387,7 @@
         },
         "Branch": {
             "name": "$~chinhánh",
+            "description": "$~chọn giữa đánh dấu dựa trên điều kiện",
             "emotion": "serious",
             "doc": [
                 "$~Tôi sử dụng phương pháp lựa chọn giữa hai đoạn giải thích dựa trên việc giá trị đầu vào của đoạn giải thích đó được xác định hay là đúng.",
@@ -384,7 +396,7 @@
         },
         "BinaryEvaluate": {
             "name": "$~đánhgiánhịphân",
-            "description": "$~Hoạt động $1",
+            "description": "$~áp dụng toán tử $1 cho hai giá trị",
             "emotion": "insecure",
             "doc": [
                 "$~Tôi là @Evaluate, nhưng ở dạng đơn giản hơn, hữu ích khi bạn muốn sử dụng @FunctionDefinition nhận hai tham số đầu vào.",
@@ -414,7 +426,7 @@
         },
         "Bind": {
             "name": "$~liênkết",
-            "description": "$~ràng buộc $1",
+            "description": "$~đặt tên giá trị này là '$1'",
             "emotion": "excited",
             "doc": [
                 "$~Tôi đặt tên cho *các giá trị*.",
@@ -490,7 +502,7 @@
         },
         "Block": {
             "name": "$~khối",
-            "description": "$~Báo cáo $1",
+            "description": "$~đánh giá $1 câu lệnh theo thứ tự",
             "emotion": "shy",
             "doc": [
                 "$~Chào. Tôi tạo một không gian nhỏ yên tĩnh, riêng tư để đánh giá mọi thứ.",
@@ -530,14 +542,14 @@
         },
         "BooleanLiteral": {
             "name": "$~giátrịboolean",
-            "description": "$~$1[đúng|sai]",
+            "description": "$~tạo giá trị boolean $1[đúng|sai]",
             "emotion": "precise",
             "doc": "$~Tôi hoặc là \\⊤\\ hoặc là \\⊥\\. Xem @Boolean để tìm hiểu thêm về logic tuyệt vời của chúng tôi.",
             "start": "$~1 đô la!"
         },
         "Borrow": {
             "name": "$~vaymượn",
-            "description": "$~mượn $1[$1|tên bị thiếu]",
+            "description": "$~mượn $1[$1|không tên] từ nguồn",
             "emotion": "excited",
             "label": {
                 "source": "$~nguồn",
@@ -565,6 +577,7 @@
         },
         "Changed": {
             "name": "$~đãthayđổi",
+            "description": "$~trả về đúng nếu luồng thay đổi",
             "emotion": "serious",
             "label": {
                 "stream": "$~suối"
@@ -579,6 +592,7 @@
         },
         "Conditional": {
             "name": "$~cóđiềukiện",
+            "description": "$~kiểm tra điều kiện và đánh giá một trong hai biểu thức",
             "emotion": "curious",
             "label": {
                 "condition": "$~tình trạng",
@@ -605,7 +619,7 @@
         },
         "ConversionDefinition": {
             "name": "$~địnhnghĩachuyểnđổi",
-            "description": "$~1 đô la → 2 đô la",
+            "description": "$~định nghĩa chuyển đổi $1 sang $2",
             "emotion": "excited",
             "label": {
                 "input": "$~loại đầu vào",
@@ -628,6 +642,7 @@
         },
         "Convert": {
             "name": "$~chuyểnthành",
+            "description": "$~chuyển đổi giá trị sang kiểu khác",
             "emotion": "cheerful",
             "doc": [
                 "$~Này. Tôi chuyển đổi giá trị từ loại này sang loại khác. Xem này:",
@@ -655,6 +670,7 @@
         },
         "Delete": {
             "name": "$~xóabỏ",
+            "description": "$~xóa các hàng khớp khỏi bảng",
             "emotion": "angry",
             "doc": [
                 "$~Đôi khi bạn có một cái bàn và nó CÓ QUÁ NHIỀU THỨ!",
@@ -667,6 +683,7 @@
         },
         "DocumentedExpression": {
             "name": "$~biểuthứcđượcgiảithích",
+            "description": "$~đính kèm tài liệu vào biểu thức",
             "emotion": "eager",
             "doc": [
                 "$~Tôi có thể biểu lộ cảm xúc theo bất kỳ cách nào, nhưng kèm theo hashtag @Doc!",
@@ -678,7 +695,7 @@
         },
         "Evaluate": {
             "name": "$~đánhgiá",
-            "description": "$~đánh giá $1[$1|ẩn danh]",
+            "description": "$~$3[tạo $1[$1|] giá trị với các đầu vào này|$2[tạo $1[$1|] luồng với các đầu vào này|áp dụng $1[$1|hàm] vào các đầu vào này]]",
             "emotion": "shy",
             "label": {
                 "function": "$~chức năng",
@@ -743,7 +760,7 @@
         },
         "Input": {
             "name": "$~Đầuvào",
-            "description": "$~đầu vào được đặt tên",
+            "description": "$~khai báo đầu vào hàm được đặt tên",
             "emotion": "serious",
             "doc": [
                 "$~Tôi là một tham số đầu vào được truyền cho @Evaluate. Tên của tôi tương ứng với tên của tham số đầu vào trong @FunctionDefinition hoặc @StructureDefinition đang được đánh giá.",
@@ -755,7 +772,7 @@
         },
         "ExpressionPlaceholder": {
             "name": "$~chỗgiữchỗ",
-            "description": "$~$1[$1|placeholder]",
+            "description": "$~đánh dấu biểu thức cần điền",
             "emotion": "scared",
             "label": {
                 "placeholder": "$~sự biểu lộ"
@@ -785,7 +802,7 @@
         },
         "FunctionDefinition": {
             "name": "$~chứcnăng",
-            "description": "$~hàm $1",
+            "description": "$~định nghĩa hàm $1",
             "emotion": "kind",
             "label": {
                 "inputs": "$~đầu vào",
@@ -818,6 +835,7 @@
         },
         "Iteration": {
             "name": "$~hàmbậccaohơn",
+            "description": "$~lặp qua các giá trị danh sách nội bộ",
             "emotion": "kind",
             "doc": "$~Tôi là một loại @FunctionDefinition rất đặc biệt, hoạt động trên các danh sách đối tượng. Bạn không cần biết gì về tôi, ngoài việc tôi giúp cho các hàm như `@List/translate` trở nên khả thi.",
             "start": "$~Đánh giá hàm số đã cho",
@@ -828,6 +846,7 @@
         },
         "Initial": {
             "name": "$~bắtđầu",
+            "description": "$~trả về đúng ở lần đánh giá đầu tiên",
             "emotion": "curious",
             "doc": [
                 "$~Tôi sẽ cho bạn biết liệu giá trị đánh giá hiện tại của @Program có phải là giá trị đánh giá đầu tiên, trả về một giá trị @Boolean hay không. Ví dụ:",
@@ -838,6 +857,7 @@
         },
         "Insert": {
             "name": "$~chèn",
+            "description": "$~thêm hàng vào bảng",
             "emotion": "kind",
             "doc": [
                 "$~Bạn biết đấy, khi bạn có một bảng @Table, cảm giác như nó thiếu một cái gì đó? Tôi có thể thêm nó vào!",
@@ -850,7 +870,7 @@
         },
         "Is": {
             "name": "$~là",
-            "description": "$~là",
+            "description": "$~kiểm tra nếu giá trị là kiểu $1",
             "emotion": "curious",
             "doc": [
                 "$~Bạn biết không? Có rất nhiều loại giá trị với nhiều ý nghĩa khác nhau. Tôi giúp mọi người hiểu rõ chúng là gì.",
@@ -878,7 +898,7 @@
         },
         "IsLocale": {
             "name": "$~làđịaphương",
-            "description": "$~là địa phương",
+            "description": "$~trả về đúng nếu ngôn ngữ được chọn",
             "emotion": "kind",
             "doc": [
                 "$~Tôi sẽ giúp bạn kiểm tra xem khán giả đã chọn ngôn ngữ hoặc khu vực cụ thể nào:",
@@ -890,6 +910,7 @@
         },
         "ListAccess": {
             "name": "$~danhsáchtruycập",
+            "description": "$~lấy giá trị tại vị trí danh sách",
             "emotion": "cheerful",
             "doc": [
                 "$~Tôi hợp tác chặt chẽ với @List để giúp họ lấy giá trị tại một vị trí cụ thể. Ví dụ, nếu bạn có một danh sách và muốn lấy phần tử thứ hai của nó, bạn sẽ viết:",
@@ -900,7 +921,7 @@
         },
         "ListLiteral": {
             "name": "$~danhsáchchữ",
-            "description": "$~Danh sách mặt hàng $1",
+            "description": "$~tạo danh sách $1 giá trị",
             "emotion": "eager",
             "doc": "$~Tôi là một @List các giá trị cụ thể! Hãy xem @List để tìm hiểu thêm về những gì bạn có thể làm với tôi.",
             "start": "$~Trước tiên, hãy đánh giá các mặt hàng.",
@@ -908,6 +929,7 @@
         },
         "Spread": {
             "name": "$~lâylan",
+            "description": "$~mở rộng danh sách vào danh sách khác",
             "emotion": "serious",
             "doc": [
                 "$~Công cụ này giúp bạn tạo danh sách với các giá trị từ các danh sách khác. Ví dụ:",
@@ -916,7 +938,7 @@
         },
         "MapLiteral": {
             "name": "$~bảnđồtheonghĩađen",
-            "description": "$~Bản đồ ghép cặp $1",
+            "description": "$~tạo bản đồ $1 cặp khóa-giá trị",
             "emotion": "kind",
             "label": {
                 "values": "$~đôi"
@@ -933,6 +955,7 @@
         },
         "Match": {
             "name": "$~cuộcthiđấu",
+            "description": "$~so sánh giá trị với nhiều trường hợp",
             "emotion": "curious",
             "label": {
                 "case": "$~trường hợp",
@@ -952,7 +975,7 @@
         },
         "NumberLiteral": {
             "name": "$~chữsố",
-            "description": "$~$1 $2[$2|]",
+            "description": "$~tạo số $1 $2[$2|]",
             "emotion": "excited",
             "doc": "$~Tôi là một @Number cụ thể. Bạn có thể viết cho tôi bằng bất kỳ loại chữ số nào từ bất kỳ ngôn ngữ nào. Xem @Number để biết tất cả những gì tôi có thể làm.",
             "start": "$~1 đô la!",
@@ -965,18 +988,21 @@
         },
         "InternalExpression": {
             "name": "$~biểuhiệnnộibộ",
+            "description": "$~chạy biểu thức tạo dựng sẵn",
             "emotion": "neutral",
             "doc": "$~Bạn tìm thấy tôi bằng cách nào? Tôi là một cách diễn đạt mà chỉ những người sáng tạo ra nó mới sử dụng. Để biết thêm về tôi, bạn cần nói chuyện với họ.",
             "start": "$~Biểu thức bí mật"
         },
         "NoneLiteral": {
             "name": "$~khôngtheonghĩađen",
+            "description": "$~tạo giá trị không có gì",
             "emotion": "neutral",
             "doc": "$~/@FunctionDefinition ở đây. Đây chỉ là @None. Chúng là độc nhất vô nhị! Xem @None để tìm hiểu thêm về chúng.",
             "start": "$~… ø"
         },
         "Otherwise": {
             "name": "$~nếukhôngthì",
+            "description": "$~cung cấp giá trị dự phòng nếu không có",
             "emotion": "curious",
             "doc": [
                 "$~/@FunctionDefinition ở đây. Đây là một cách tiện dụng để kiểm tra xem một giá trị có phải là @None hay không, và nếu có, hãy cung cấp một giá trị dự phòng./",
@@ -988,6 +1014,7 @@
         },
         "Previous": {
             "name": "$~trước",
+            "description": "$~lấy giá trị trước đó của luồng",
             "emotion": "serious",
             "doc": [
                 "$~Bạn đã bao giờ muốn nhớ lại quá khứ chưa?",
@@ -1008,6 +1035,7 @@
         },
         "Program": {
             "name": "$~chươngtrình",
+            "description": "$~chứa tất cả biểu thức trong chương trình",
             "emotion": "serious",
             "doc": [
                 "$~Tôi là nơi mà một màn trình diễn bắt đầu và kết thúc, chứa đựng tất cả các nhân vật khác cùng dàn dựng nên vở diễn.",
@@ -1052,7 +1080,7 @@
         },
         "PropertyBind": {
             "name": "$~tinhchế",
-            "description": "$~tinh chỉnh $1[$1|tên bị thiếu]",
+            "description": "$~tinh chỉnh thuộc tính $1[$1|không tên]",
             "emotion": "kind",
             "label": {
                 "property": "$~tài sản",
@@ -1075,7 +1103,7 @@
         },
         "PropertyReference": {
             "name": "$~tàisản",
-            "description": "$~tài sản $1[$1|tên bị thiếu]",
+            "description": "$~lấy thuộc tính $1[$1|không tên]",
             "emotion": "kind",
             "label": {
                 "property": "$~tài sản"
@@ -1090,6 +1118,7 @@
         },
         "Reaction": {
             "name": "$~sựphảnứnglại",
+            "description": "$~tạo giá trị khi luồng thay đổi",
             "emotion": "excited",
             "label": {
                 "initial": "$~ban đầu",
@@ -1114,7 +1143,7 @@
         },
         "Reference": {
             "name": "$~thẩmquyềngiảiquyết",
-            "description": "$~1 đô la",
+            "description": "$~tham chiếu tên $1",
             "emotion": "shy",
             "doc": [
                 "$~Bạn biết cách chú thích @Bind gán cho các đối tượng @Name chứ? Tôi dùng nó để tham chiếu đến chúng. Tôi sẽ kiểm tra xem có @Bind nào có tên đó không, nếu có thì trả về giá trị của nó. Ví dụ như thế này:",
@@ -1149,6 +1178,7 @@
         },
         "Select": {
             "name": "$~lựachọn",
+            "description": "$~lọc các hàng khớp từ bảng",
             "emotion": "excited",
             "doc": [
                 "$~Đôi khi bạn có cả một cái bàn và bạn chỉ muốn một phần của nó. Tôi có thể lấy phần đó cho bạn!",
@@ -1167,7 +1197,7 @@
         },
         "SetLiteral": {
             "name": "$~đặtgiátrị",
-            "description": "$~Các mặt hàng giá 1 đô la",
+            "description": "$~tạo tập hợp $1 phần tử",
             "emotion": "eager",
             "doc": "$~Tôi là một @Set cụ thể gồm các giá trị cụ thể. Xem @Set để tìm hiểu thêm về cách làm việc với tôi.",
             "start": "$~Trước tiên hãy đánh giá các giá trị!",
@@ -1175,6 +1205,7 @@
         },
         "SetOrMapAccess": {
             "name": "$~thiếtlập/lậpbảnđồquyềntruycập",
+            "description": "$~kiểm tra nếu tập hợp hoặc bản đồ chứa",
             "emotion": "kind",
             "doc": [
                 "$~Tôi có thể kiểm tra xem một @Set hoặc @Map có giá trị hoặc khóa hay không.",
@@ -1194,6 +1225,7 @@
         },
         "Source": {
             "name": "$~nguồn",
+            "description": "$~đặt tên tệp mã nguồn chương trình",
             "emotion": "curious",
             "doc": [
                 "$~Ồ, bạn biết @Program chứ? Tôi giúp bạn đặt tên cho chúng. Hãy coi tôi như cửa sổ bao quanh một @Program, và cái tên bạn đặt cho nó.",
@@ -1203,13 +1235,14 @@
         },
         "StreamDefinition": {
             "name": "$~suối",
+            "description": "$~định nghĩa kiểu luồng mới",
             "emotion": "curious",
             "doc": "$~Tôi nghĩ là mình nên tạo các luồng phát trực tiếp mới. Nhưng tôi thực sự không biết phải làm thế nào. Hiện tại, có lẽ chỉ cần sử dụng các luồng phát hiện có thôi?",
             "start": "$~Tạo ra loại luồng mới này"
         },
         "StructureDefinition": {
             "name": "$~kếtcấu",
-            "description": "$~cấu trúc $1",
+            "description": "$~định nghĩa cấu trúc $1",
             "emotion": "kind",
             "label": {
                 "docs": "$~tài liệu",
@@ -1250,15 +1283,15 @@
         },
         "StructureDefinitionType": {
             "name": "$~địnhnghĩacấutrúc",
+            "description": "$1",
             "emotion": "kind",
-            "description": "$~định nghĩa của $1",
             "doc": [
                 "$~Tôi đang đề cập đến một dạng @StructureDefinition nào đó. Mọi người thường không trực tiếp nhắc đến tôi."
             ]
         },
         "TableLiteral": {
             "name": "$~bảnghằng",
-            "description": "$~Bảng hàng $1",
+            "description": "$~tạo bảng $1 hàng",
             "emotion": "angry",
             "doc": "$~Tôi là một bảng cụ thể với các hàng cụ thể. Xem @Table để biết cách tôi có thể giúp đỡ.",
             "start": "$~Đầu tiên, đánh giá các hàng.",
@@ -1266,7 +1299,7 @@
         },
         "TextLiteral": {
             "name": "$~vănbảntheonghĩađen",
-            "description": "$~văn bản $1",
+            "description": "$~tạo giá trị văn bản $1",
             "emotion": "serious",
             "label": {
                 "texts": "$~chữ"
@@ -1276,7 +1309,7 @@
         },
         "Translation": {
             "name": "$~bảndịch",
-            "description": "$~bản dịch $1",
+            "description": "$~tạo văn bản '$1'",
             "emotion": "serious",
             "label": {
                 "segments": "$~chữ"
@@ -1313,14 +1346,14 @@
         },
         "FormattedLiteral": {
             "name": "$~vănbảnđượcđịnhdạng",
-            "description": "$~văn bản $1",
+            "description": "$~tạo văn bản được định dạng $1",
             "emotion": "serious",
             "doc": "$~Tôi đại diện cho nhiều bản dịch định dạng khác nhau của văn bản được định dạng bởi @FormattedTranslation. Khi đánh giá, tôi sẽ chọn bản dịch phù hợp nhất dựa trên ngôn ngữ mà người dùng đã chọn.",
             "start": "$~Hãy tạo văn bản theo ngôn ngữ hiện tại."
         },
         "FormattedTranslation": {
             "name": "$~bảndịchđượcđịnhdạng",
-            "description": "$~văn bản $1",
+            "description": "$~dịch văn bản định dạng sang $1",
             "emotion": "serious",
             "doc": [
                 "$~Tôi biểu diễn một đoạn văn bản được định dạng, với thẻ @Language.",
@@ -1336,6 +1369,7 @@
         },
         "This": {
             "name": "$~cáinày",
+            "description": "$~tham chiếu đến giá trị cấu trúc hiện tại",
             "emotion": "serious",
             "doc": [
                 "$~Đôi khi, việc đề cập đến một giá trị một cách ngầm định sẽ hữu ích hơn là phải gọi tên nó.",
@@ -1357,7 +1391,7 @@
         },
         "UnaryEvaluate": {
             "name": "$~đánhgiáđơnnhất",
-            "description": "$~1 đô la",
+            "description": "$~áp dụng toán tử một ngôi $1",
             "emotion": "kind",
             "label": {
                 "input": "$~đầu vào"
@@ -1377,6 +1411,7 @@
         },
         "UnparsableExpression": {
             "name": "$~khôngthểphântíchcúpháp",
+            "description": "$~đánh dấu biểu thức không thể phân tích",
             "emotion": "excited",
             "doc": [
                 "$~Chào @FunctionDefinition đây. Mình đang dịch giúp @UnparsableExpression, vì chúng thường khó hiểu./",
@@ -1411,6 +1446,7 @@
         },
         "Update": {
             "name": "$~cậpnhật",
+            "description": "$~sửa đổi các hàng khớp trong bảng",
             "emotion": "kind",
             "doc": [
                 "$~Tôi giúp chỉnh sửa một bảng @Table, tìm các hàng thỏa mãn điều kiện, sau đó tạo các hàng đã chỉnh sửa với các giá trị mới.",
@@ -1433,11 +1469,13 @@
         },
         "AnyType": {
             "name": "$~bấtkì",
+            "description": "$~khớp với bất kỳ kiểu có thể",
             "emotion": "curious",
             "doc": "$~Tôi đại diện cho mọi loại hình có thể. Đôi khi tôi xuất hiện vì tôi không biết giá trị của một thứ gì đó là gì, vì vậy nó có thể là bất cứ thứ gì."
         },
         "BooleanType": {
             "name": "$~boolean",
+            "description": "$~định kiểu giá trị boolean đúng/sai",
             "emotion": "kind",
             "doc": [
                 "$~Tôi sử dụng chú thích @Bind để khai báo rằng một tên là một giá trị kiểu @Boolean. Ví dụ như thế này:",
@@ -1447,6 +1485,7 @@
         },
         "ConversionType": {
             "name": "$~chuyểnđổi",
+            "description": "$~định kiểu định nghĩa chuyển đổi",
             "emotion": "serious",
             "doc": [
                 "$~Tôi sử dụng chú thích @Bind để chỉ ra rằng một tên là @ConversionDefinition. Có lẽ bạn không cần dùng đến tôi, vì không nhiều người truyền tôi như một giá trị, nhưng nếu bạn cần, tôi sẽ trông như thế này:",
@@ -1455,6 +1494,7 @@
         },
         "FormattedType": {
             "name": "$~đãđịnhdạng",
+            "description": "$~định kiểu giá trị văn bản định dạng",
             "emotion": "serious",
             "doc": [
                 "$~Tôi sử dụng chú thích @Bind để đánh dấu rằng một tên là giá trị @FormattedLiteral. Ví dụ như thế này:",
@@ -1464,12 +1504,13 @@
         },
         "ExceptionType": {
             "name": "$~ngoạilệ",
+            "description": "$~định kiểu giá trị ngoại lệ",
             "emotion": "neutral",
             "doc": "$~Tôi đại diện cho một ngoại lệ. Không có cách nào để báo cho hàm `bind` biết rằng tôi là một ngoại lệ, bởi vì các ngoại lệ chỉ dừng hàm @Program, nên bạn không thể sử dụng chúng làm giá trị."
         },
         "FunctionType": {
             "name": "$~chứcnăng",
-            "description": "$~Hàm có đầu vào $1, đầu ra $2",
+            "description": "$~định kiểu hàm với $1 đầu vào",
             "emotion": "curious",
             "doc": [
                 "$~Tôi đại diện cho một @FunctionDefinition. Tôi rất hữu ích nếu bạn muốn chỉ định loại hàm mà @Bind chứa! Ví dụ như thế này:",
@@ -1478,7 +1519,7 @@
         },
         "ListType": {
             "name": "$~danhsách",
-            "description": "$~$1[danh sách $1|danh sách]",
+            "description": "$~định kiểu $1[danh sách $1|danh sách]",
             "emotion": "cheerful",
             "doc": [
                 "$~Tôi là một fan cuồng của @List. Tôi có thể cho @Bind biết chúng là loại danh sách nào! Ví dụ như thế này, tôi đang nói rằng đó là một danh sách gồm các @Number:",
@@ -1487,7 +1528,7 @@
         },
         "MapType": {
             "name": "$~bảnđồ",
-            "description": "$~Bản đồ $1[$1|bất kỳ] đến $2[$2|bất kỳ]",
+            "description": "$~định kiểu bản đồ từ $1[$1|bất kỳ] đến $2[$2|bất kỳ]",
             "emotion": "kind",
             "doc": [
                 "$~Bạn có biết @Map tuyệt vời đến mức nào không? Thật sự rất tuyệt vời. Tôi luôn nói với @Bind về loại bản đồ mà họ tạo ra, ví dụ như bản đồ chuyển đổi số thành danh sách này:",
@@ -1496,7 +1537,7 @@
         },
         "NumberType": {
             "name": "$~consố",
-            "description": "$~$1[$1 | số]",
+            "description": "$~định kiểu giá trị $1[$1|số]",
             "emotion": "precise",
             "doc": [
                 "$~Bạn biết @Bind nên là gì không? Là một @Number. Vì số là tuyệt nhất.",
@@ -1505,7 +1546,7 @@
         },
         "NameType": {
             "name": "$~kếtcấu",
-            "description": "$~1 đô la",
+            "description": "$~tham chiếu kiểu tên $1",
             "emotion": "curious",
             "doc": [
                 "$~Tôi biểu diễn một @StructureDefinition bằng tên của nó. Vì vậy, nếu bạn có một cấu trúc như thế này, bạn có thể tạo một @Bind để lưu trữ các giá trị mà nó tạo ra.",
@@ -1520,11 +1561,13 @@
         },
         "NeverType": {
             "name": "$~khôngbaogiờ",
+            "description": "$~biểu diễn kiểu không thể",
             "emotion": "curious",
             "doc": "$~Tôi đại diện cho một kiểu dữ liệu không thể tồn tại. Giống như khi bạn hỏi @Is xem một thứ gì đó có phải là @Number hay không, nhưng nó không bao giờ có thể là một số."
         },
         "NoneType": {
             "name": "$~khôngcó",
+            "description": "$~định kiểu giá trị không có gì",
             "emotion": "neutral",
             "doc": [
                 "$~@None là thứ \"không có gì\" tuyệt vời nhất, và tôi là người đại diện trung thành của họ.",
@@ -1533,7 +1576,7 @@
         },
         "SetType": {
             "name": "$~bộ",
-            "description": "$~$1[$1 set|set]",
+            "description": "$~định kiểu tập hợp $1[$1|bất kỳ]",
             "emotion": "kind",
             "doc": [
                 "$~@Set là tuyệt nhất, thật đấy. Mình luôn bảo @Bind, hãy biến mọi thứ thành một tập hợp các phần tử!",
@@ -1542,11 +1585,13 @@
         },
         "StreamDefinitionType": {
             "name": "$~địnhnghĩaluồng",
+            "description": "$~định kiểu luồng được định nghĩa",
             "emotion": "angry",
             "doc": "$~Tôi đại diện cho một luồng dữ liệu do chính bạn định nghĩa, điều này là không thể, vậy tại sao bạn lại đọc đoạn này?"
         },
         "StreamType": {
             "name": "$~suối",
+            "description": "$~định kiểu giá trị luồng",
             "emotion": "curious",
             "doc": [
                 "$~Tôi tôn vinh vẻ đẹp và ý nghĩa của các dòng chảy… bằng cách bảo @Bind lưu trữ chúng:",
@@ -1555,18 +1600,20 @@
         },
         "StructureType": {
             "name": "$~kếtcấu",
-            "description": "$~1 đô la",
+            "description": "$~biểu diễn cấu trúc $1",
             "emotion": "kind",
             "doc": "$~Tôi là một kiểu dữ liệu nội bộ dùng để đại diện cho kiểu giá trị mặc định."
         },
         "UnknownType": {
             "name": "$~khôngrõ",
+            "description": "$~biểu diễn kiểu chưa xác định",
             "connector": "$~, bởi vì",
             "emotion": "curious",
             "doc": "$~Ừm... Tôi không biết mình đại diện cho điều gì, nhưng tôi thực sự rất tò mò. Bạn có biết không? Hình như chúng ta nên biết. Nếu chúng ta không tìm ra, có lẽ bạn cần nói cho chúng tôi biết."
         },
         "TableType": {
             "name": "$~bàn",
+            "description": "$~định kiểu giá trị bảng",
             "emotion": "angry",
             "doc": "$~Tôi đại diện cho một Bảng.",
             "conflict": {
@@ -1578,7 +1625,7 @@
         },
         "TextType": {
             "name": "$~chữ",
-            "description": "$~$1[$1|text]",
+            "description": "$~định kiểu giá trị $1[$1|văn bản]",
             "emotion": "happy",
             "doc": [
                 "$~Tôi đại diện một cách xuất sắc cho loại giá trị tuyệt vời nhất hiện có, @Text.",
@@ -1587,12 +1634,13 @@
         },
         "TypePlaceholder": {
             "name": "$~chỗgiữchỗ",
+            "description": "$~giữ chỗ cho kiểu",
             "emotion": "eager",
             "doc": "$~Tôi hy vọng một ngày nào đó sẽ đại diện cho một kiểu biểu đạt nào đó, giống như người bạn thân của tôi, @ExpressionPlaceholder, đại diện cho một kiểu biểu đạt vậy! Bạn có thể giúp tôi quyết định đó là kiểu biểu đạt nào không?"
         },
         "UnionType": {
             "name": "$~lựachọn",
-            "description": "$~1 đô la | 2 đô la",
+            "description": "$~định kiểu $1 hoặc $2",
             "emotion": "curious",
             "doc": [
                 "$~Tôi nên đại diện cho ai, A hay B hay cái gì khác? Tôi không bao giờ quyết định được!",
@@ -1601,7 +1649,7 @@
         },
         "Unit": {
             "name": "$~đơnvị",
-            "description": "$~1 đô la",
+            "description": "$~chỉ định đơn vị $1",
             "emotion": "precise",
             "doc": [
                 "$~Tôi đại diện cho bất kỳ đơn vị nào mà một @Number có thể có, kể cả không có đơn vị, cho đến đơn vị phức tạp nhất mà bạn có thể tưởng tượng. Ví dụ như trọng lực chẳng hạn:",
@@ -1611,55 +1659,61 @@
         },
         "UnparsableType": {
             "name": "$~khôngthểphântíchcúpháp",
+            "description": "$~định kiểu biểu thức không thể phân tích",
             "emotion": "curious",
             "doc": "$~Tôi đại diện cho kiểu dữ liệu của một biểu thức chưa biết. Tôi xuất hiện khi bạn cố gắng sử dụng biểu thức đó cho một việc gì đó."
         },
         "VariableType": {
             "name": "$~kiểubiến",
+            "description": "$~biểu diễn biến kiểu đang sử dụng",
             "emotion": "curious",
             "doc": "$~Bạn có biết về @TypeVariable và cách chúng biểu diễn một số giá trị không xác định không? Tôi sử dụng chúng trong tất cả các cuộc đàm phán giữa các giá trị."
         },
         "CycleType": {
             "name": "$~xeđạp",
-            "description": "$~tự phụ thuộc vào chính nó",
+            "description": "$~phụ thuộc vào chính nó",
             "emotion": "curious",
             "doc": "$~Đôi khi các giá trị tự tồn tại, vì vậy chúng ta không biết chúng là loại giá trị gì. Tôi là hiện thân của tình huống đó."
         },
         "UnknownVariableType": {
             "name": "$~biếnsốchưabiết",
+            "description": "$~biểu diễn biến kiểu không xác định",
             "emotion": "curious",
             "doc": "$~Đôi khi chúng ta cố gắng đoán xem một thứ gì đó có giá trị như thế nào; tôi xuất hiện khi chúng ta không biết."
         },
         "NotAType": {
             "name": "$~khôngngờtới",
-            "description": "$~không phải loại $1",
+            "description": "$~đánh dấu $1 là kiểu không hợp lệ",
             "emotion": "curious",
             "doc": "$~Đôi khi chúng ta biết giá trị mà một thứ gì đó nên có. Ví dụ như @ListAccess cần một @Number. Nếu không nhận được @Number, điều đó có nghĩa là kiểu dữ liệu của thứ đó khác với kiểu chúng ta mong đợi."
         },
         "NoExpressionType": {
             "name": "$~khôngbiểucảm",
+            "description": "$~định kiểu khối rỗng",
             "emotion": "angry",
             "doc": "$~Bạn biết đấy, @Block cần ít nhất một biểu cảm? Tôi là thứ bạn nhận được khi bạn không cho đi biểu cảm nào. Vậy nên hãy cho đi một biểu cảm đi!"
         },
         "NotEnclosedType": {
             "name": "$~khôngliênquanđếncấutrúc,chuyểnđổihoặcphảnứng.",
+            "description": "$~đánh dấu sử dụng ngoài cấu trúc",
             "emotion": "curious",
             "doc": "$~@This thứ này, dù đẹp đến mấy, chỉ nên đặt ở những nơi nhất định. Tôi chỉ xuất hiện khi chúng bị thất lạc, và vì thế không ai biết giá trị thực sự của chúng là gì."
         },
         "NotImplementedType": {
             "name": "$~chưađượctriểnkhai",
+            "description": "$~định kiểu chỗ giữ chưa được điền",
             "emotion": "curious",
             "doc": "$~Khi bạn sử dụng @ExpressionPlaceholder nhưng không chỉ rõ kiểu dữ liệu của chúng, thì kiểu dữ liệu bạn nhận được chính là tôi. Hãy chấp nhận điều đó!"
         },
         "UnknownNameType": {
             "name": "$~tênkhôngrõ",
-            "description": "$~$1[$1 không được định nghĩa|không có tên nào được cung cấp]",
+            "description": "$~đánh dấu $1[$1 là không xác định|tên chưa được đặt]",
             "emotion": "curious",
             "doc": "$~Bạn biết đấy, đôi khi @Reference và @PropertyReference không biết tên mà bạn đang nói đến? Tôi có mặt khi điều đó xảy ra, để đại diện cho việc chúng tôi không biết bạn đang nói về ai."
         },
         "NonFunctionType": {
             "name": "$~khônghoạtđộng",
-            "description": "$~không hoạt động",
+            "description": "$~đánh dấu $1 là không phải hàm",
             "emotion": "confused",
             "doc": "$~Một số người trong chúng ta mong đợi các hoạt động; tôi xuất hiện khi chúng ta không có hoạt động nào cả."
         }
@@ -5294,7 +5348,8 @@
                 "resolution": "$~Giải quyết xung đột này",
                 "toggle": "$~hiển thị và ẩn chú thích",
                 "highlight": "$~Hiển thị đoạn mã này trong trình soạn thảo"
-            }
+            },
+            "nodeDescription": "$?"
         },
         "output": {
             "label": "$~đầu ra chương trình",

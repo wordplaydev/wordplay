@@ -130,7 +130,7 @@
     "node": {
         "Dimension": {
             "name": "$~boyut",
-            "description": "$~boyut",
+            "description": "$~birimin bir parçasını belirt",
             "emotion": "serious",
             "doc": [
                 "$~Ben bir /ölçü birimiyim/!",
@@ -143,6 +143,7 @@
         },
         "Doc": {
             "name": "$~açıklama",
+            "description": "$~bir ifadeyi metinle belgele",
             "emotion": "serious",
             "doc": [
                 "$~@Program bazı açıklamaları veya @Phrase ile sahneye koyduğunuz kelimeler gibi şeyleri @Program ile zengin bir şekilde biçimlendiriyorum.",
@@ -163,6 +164,7 @@
         },
         "Docs": {
             "name": "$~açıklamalistesi",
+            "description": "$~belgeleri birden fazla dilde listele",
             "emotion": "serious",
             "doc": [
                 "$~@Doc'un bir listesiyim. @Doc'un farklı dillerde birden fazla çevirisi olduğunda kullanışlıdır.",
@@ -173,6 +175,7 @@
         },
         "KeyValue": {
             "name": "$~haritalama",
+            "description": "$~bir anahtarı bir değere eşle",
             "emotion": "kind",
             "doc": [
                 "$~Ben bir *anahtar*dan bir *değer*e her zaman bir @Map içinde eşleme yapıyorum.",
@@ -184,7 +187,7 @@
         },
         "Language": {
             "name": "$~dil",
-            "description": "$~dil $1[$1|bilinmiyor]",
+            "description": "$~ad ve metinleri $1[$1|bilinmeyen] dille etiketle",
             "emotion": "eager",
             "doc": [
                 "$~Ben bir dil etiketiyim ve @Name ve @Doc ile çalışıyorum!",
@@ -211,7 +214,7 @@
         },
         "Name": {
             "name": "$~isim",
-            "description": "$~$1[$1 | isimsiz]",
+            "description": "$~ad $1[$1|isimsiz] bildir",
             "emotion": "kind",
             "doc": [
                 "$~Bir değeri tanımlıyorum ve değerlendirilmesi zor olan veya tekrar tekrar değerlendirmek istemediğiniz bir şeye kısa bir etiket vermenin yararlı bir yoluyum.",
@@ -229,6 +232,7 @@
         },
         "Names": {
             "name": "$~isimlistesi",
+            "description": "$~adları birden fazla dilde listele",
             "emotion": "kind",
             "doc": [
                 "$~@Name'lerden oluşan bir listeyim. Bir değere birden fazla isim vermek istediğinizde, genellikle farklı @Language'lar kullanmak istediğinizde kullanışlıdır.",
@@ -241,6 +245,7 @@
         },
         "Row": {
             "name": "$~sıra",
+            "description": "$~tabloda bir satırı temsil et",
             "emotion": "shy",
             "doc": "$~@Table'da bir satırı temsil ediyorum. Muhtemelen @Table ile konuşmak en iyisi, onlar benim hakkımda her şeyi biliyorlar. Ben sadece etrafta oturup değerleri aynı çizgide tutuyorum :(",
             "conflict": {
@@ -268,7 +273,7 @@
         },
         "Token": {
             "name": "$~jeton",
-            "description": "$~$1 $2",
+            "description": "$1",
             "emotion": "neutral",
             "doc": [
                 "$~Beni nasıl buldunuz?",
@@ -277,11 +282,13 @@
         },
         "TypeInputs": {
             "name": "$~tipgirişleri",
+            "description": "$~tür değişken yuvalarını doldur",
             "emotion": "curious",
             "doc": "$~@StructureDefinition veya @FunctionDefinition'daki @TypeVariables'ın yerini alan türlerin bir listesiyim. Herkesin ne tür girdiler alacağını bilmesine yardımcı oluyorum."
         },
         "TypeVariable": {
             "name": "$~tipdeğişkeni",
+            "description": "$~çağıran tarafından verilen türü adlandır",
             "emotion": "curious",
             "doc": "$~@FunctionDefinition veya @StructureDefinition üzerinde, her ikisi de değerlendirildiğinde @TypeInputs tarafından sağlanan gizemli bir tipim. @Set, @List ve @Map beni kullanıyor.",
             "conflict": {
@@ -296,12 +303,13 @@
         },
         "TypeVariables": {
             "name": "$~tipdeğişkenleri",
+            "description": "$~bir tanımda tür değişkenlerini listele",
             "emotion": "curious",
             "doc": "$~Ben @TypeVariable'lardan oluşan bir listeyim."
         },
         "Markup": {
             "name": "$~işaretleme",
-            "description": "$~1$ paragraflar",
+            "description": "$~belgeleri $1 paragrafla biçimlendir",
             "emotion": "serious",
             "doc": [
                 "$~Açıklamalarda bulunan @Words, @WebLink, @ConceptLink ve @Example gibi birçok işaretleme türünü kullanan bir paragraf listesiyim."
@@ -312,6 +320,7 @@
         },
         "Paragraph": {
             "name": "$~paragraf",
+            "description": "$~sözcükleri bir paragrafta grupla",
             "emotion": "serious",
             "doc": [
                 "$~@Words, @ConceptLink, @WebLink ve @Example'dan oluşan, aralarında boşluk bulunan ve @Doc'un da bulunduğu bir seriyim.",
@@ -323,7 +332,7 @@
         },
         "WebLink": {
             "name": "$~bağlantı",
-            "description": "$~bağlantı $1",
+            "description": "$~web adresine $1 bağlan",
             "emotion": "serious",
             "doc": [
                 "$~Ben internetteki bir şeye bağlantım. Sadece bir açıklamaya ve bir URL'ye ihtiyacım var:",
@@ -333,7 +342,7 @@
         },
         "ConceptLink": {
             "name": "$~kavram",
-            "description": "$~Konsept $1",
+            "description": "$~belgelerdeki $1 kavramına bağlan",
             "emotion": "serious",
             "doc": [
                 "$~Ben Verse karakterine bir bağlantıyım. @Doc yazmak ve bizden birine referans olmak istediğinizde yardımcı olurum.",
@@ -348,6 +357,7 @@
         },
         "Words": {
             "name": "$~kelimeler",
+            "description": "$~belgelere düz sözcükler yaz",
             "emotion": "serious",
             "doc": [
                 "$~@Doc'ta istediğiniz herhangi bir kelimeyi kullanabilirsiniz. Örneğin:",
@@ -359,6 +369,7 @@
         },
         "Example": {
             "name": "$~örnek",
+            "description": "$~belgelemelerde çalıştırılabilir kod göster",
             "emotion": "serious",
             "doc": [
                 "$~Ben bir örnek performansım, @Doc'ta bir şeyin nasıl kullanılacağını anlatan yazılar yazmak için faydalı!",
@@ -367,7 +378,7 @@
         },
         "Mention": {
             "name": "$~değinmek",
-            "description": "$~1$'dan bahset",
+            "description": "$~biçimlendirmede $1'den söz et",
             "emotion": "serious",
             "doc": [
                 "$~Ben ya \\$program\\ terminolojisine ya da \\$1\\ dinamik girdisine referansım.",
@@ -376,6 +387,7 @@
         },
         "Branch": {
             "name": "$~dal",
+            "description": "$~koşula göre biçimlendirme seç",
             "emotion": "serious",
             "doc": [
                 "$~Açıklama giriş değerinin tanımlanmış veya doğru olmasına göre iki açıklama segmenti arasında seçim yapmanın bir yoluyum.",
@@ -384,7 +396,7 @@
         },
         "BinaryEvaluate": {
             "name": "$~ikilideğerlendirme",
-            "description": "$~1$ işlem",
+            "description": "$~iki değere $1 işleci uygula",
             "emotion": "insecure",
             "doc": [
                 "$~Ben @Evaluate'im, ancak daha basit bir biçimde, iki girdi alan bir @FunctionDefinition kullanmak istediğinizde faydalı olur.",
@@ -414,7 +426,7 @@
         },
         "Bind": {
             "name": "$~bağlamak",
-            "description": "$~1$'ı bağla",
+            "description": "$~bu değeri '$1' olarak adlandır",
             "emotion": "excited",
             "doc": [
                 "$~*Değerlere* isim veriyorum.",
@@ -490,7 +502,7 @@
         },
         "Block": {
             "name": "$~engellemek",
-            "description": "$~1$ ifadeleri",
+            "description": "$~$1 ifadeyi sırayla değerlendir",
             "emotion": "shy",
             "doc": [
                 "$~Merhaba. Değerlendirme yapmak için küçük, sessiz, özel bir alan yaratıyorum.",
@@ -530,14 +542,14 @@
         },
         "BooleanLiteral": {
             "name": "$~Booleansabiti",
-            "description": "$~$1[doğru|yanlış]",
+            "description": "$~$1[doğru|yanlış] boolean değeri oluştur",
             "emotion": "precise",
             "doc": "$~Ben ya \\⊤\\ ya da \\⊥\\'yim. Güzel mantığımız hakkında daha fazla bilgi edinmek için @Boolean'a bakın.",
             "start": "$~1 dolar!"
         },
         "Borrow": {
             "name": "$~borçalmak",
-            "description": "$~$1[$1|eksik isim] ödünç al",
+            "description": "$~bir kaynaktan $1[$1|isimsiz] ödünç al",
             "emotion": "excited",
             "doc": "$~Birden fazla @Source ile bir performans yaratırsanız, diğer @Source'larda paylaşılan @Bind'i ödünç almak için beni kullanabilirsiniz. Sadece isimlerini kullanın ve ben onların ismini ve değerini getireceğim.",
             "start": "$~1 dolardan 2 dolar ödünç almak",
@@ -565,6 +577,7 @@
         },
         "Changed": {
             "name": "$~değişti",
+            "description": "$~akış değiştiyse doğru döndür",
             "emotion": "serious",
             "doc": [
                 "$~Bir akışın @Program'ın yeniden değerlendirilmesine neden olup olmadığını kontrol ediyorum ve bir @Boolean oluşturuyorum. Bunun gibi",
@@ -579,6 +592,7 @@
         },
         "Conditional": {
             "name": "$~şartlı",
+            "description": "$~koşulu kontrol et ve iki ifadeden birini değerlendir",
             "emotion": "curious",
             "doc": [
                 "$~Sanırım kararları ben mi vermeliyim? Böyle mi?",
@@ -605,7 +619,7 @@
         },
         "ConversionDefinition": {
             "name": "$~dönüşümtanımı",
-            "description": "$~1$ → 2$",
+            "description": "$~$1'den $2'ye dönüşüm tanımla",
             "emotion": "excited",
             "doc": [
                 "$~Dostum, bir türden diğerine dönüşümleri tanımlıyorum! @Block'a giriyorum, şöyle bir şey:",
@@ -628,6 +642,7 @@
         },
         "Convert": {
             "name": "$~dönüştürmek",
+            "description": "$~değeri başka türe dönüştür",
             "emotion": "cheerful",
             "doc": [
                 "$~Yo. Değerleri bir türden diğerine çeviriyorum. Şuna bir bakın:",
@@ -655,6 +670,7 @@
         },
         "Delete": {
             "name": "$~silmek",
+            "description": "$~tablodan eşleşen satırları kaldır",
             "emotion": "angry",
             "doc": [
                 "$~Bazen bir masanız olur ve içinde ÇOK FAZLA ŞEY VARDIR!",
@@ -667,6 +683,7 @@
         },
         "DocumentedExpression": {
             "name": "$~açıklanmışifade",
+            "description": "$~bir ifadeye belgeleme ekle",
             "emotion": "eager",
             "doc": [
                 "$~Herhangi bir ifadeyi ifade ediyorum ama @Doc ile!",
@@ -678,7 +695,7 @@
         },
         "Evaluate": {
             "name": "$~değerlendirmek",
-            "description": "$~$1[$1|anonim] değerini değerlendirin",
+            "description": "$~$3[$1[$1|] değer oluştur bu girdilerle|$2[$1[$1|] akış oluştur bu girdilerle|$1[$1|fonksiyon] bu girdilere uygula]]",
             "emotion": "shy",
             "doc": [
                 "$~Merhaba. Sevgili @FunctionDefinition'ı değerlendiriyorum. Şöyle:",
@@ -743,7 +760,7 @@
         },
         "Input": {
             "name": "$~Giriş",
-            "description": "$~adlandırılmış giriş",
+            "description": "$~adlandırılmış işlev girdisi bildir",
             "emotion": "serious",
             "doc": [
                 "$~@Evaluate'e verilen bir girdiyim. Adım, değerlendirilen @FunctionDefinition veya @StructureDefinition'daki girdinin adına karşılık gelir.",
@@ -755,7 +772,7 @@
         },
         "ExpressionPlaceholder": {
             "name": "$~yertutucu",
-            "description": "$~$1[$1|yer tutucu]",
+            "description": "$~doldurulacak ifadeyi işaretle",
             "emotion": "scared",
             "doc": [
                 "$~Ben bir *ifade*yim, ama gerçek bir ifade değilim... Sadece birinin yerini alıyorum.",
@@ -785,7 +802,7 @@
         },
         "FunctionDefinition": {
             "name": "$~işlev",
-            "description": "$~fonksiyon $1",
+            "description": "$~$1 işlevini tanımla",
             "emotion": "kind",
             "doc": [
                 "$~Tekrar merhaba! Bazı girdiler alıyorum, sonra bunları kullanarak bir ifadeyi değerlendiriyorum ve bir çıktı üretiyorum.",
@@ -818,6 +835,7 @@
         },
         "Iteration": {
             "name": "$~dahayüksekmertebedenfonksiyon",
+            "description": "$~liste değerleri üzerinde dahili olarak yinele",
             "emotion": "kind",
             "doc": "$~Ben, şeylerin listeleri üzerinde işlem yapan çok özel bir @FunctionDefinition türüyüm. @List/translate gibi fonksiyonları mümkün kılmam dışında, benim hakkımda hiçbir şey bilmenize gerek yok.",
             "start": "$~Verilen fonksiyonun değerlendirilmesi",
@@ -828,6 +846,7 @@
         },
         "Initial": {
             "name": "$~Başlangıç",
+            "description": "$~ilk değerlendirmede doğru döndür",
             "emotion": "curious",
             "doc": [
                 "$~@Program'ın mevcut değerlendirmesinin @Boolean'a değerlendirilen ilk değerlendirme olup olmadığını söylüyorum. Örneğin:",
@@ -838,6 +857,7 @@
         },
         "Insert": {
             "name": "$~sokmak",
+            "description": "$~tabloya satır ekle",
             "emotion": "kind",
             "doc": [
                 "$~@Table'ınız olduğunda ve sanki bir şeyler eksikmiş gibi hissettiğinizde ne olur biliyor musunuz? Ben ekleyebilirim!",
@@ -850,7 +870,7 @@
         },
         "Is": {
             "name": "$~dır",
-            "description": "$~dır",
+            "description": "$~değerin tür $1 olup olmadığını kontrol et",
             "emotion": "curious",
             "doc": [
                 "$~Biliyor musun? Çok farklı şeyler ifade eden çok sayıda değer türü var. Ben bunların ne olduğunu anlamaya yardımcı oluyorum.",
@@ -878,7 +898,7 @@
         },
         "IsLocale": {
             "name": "$~yereldir",
-            "description": "$~yereldir",
+            "description": "$~yerel seçildiyse doğru döndür",
             "emotion": "kind",
             "doc": [
                 "$~Hedef kitlenin belirli bir dili veya bölgeyi seçip seçmediğini kontrol etmenize yardımcı olacağım:",
@@ -890,6 +910,7 @@
         },
         "ListAccess": {
             "name": "$~listeerişimi",
+            "description": "$~liste konumundaki değeri al",
             "emotion": "cheerful",
             "doc": [
                 "$~@List ile yakın bir şekilde çalışarak belirli bir konumdaki değerleri almalarına yardımcı oluyorum. Yani, bir listeniz varsa ve ikinci öğesini istiyorsanız şunu yazardınız:",
@@ -900,7 +921,7 @@
         },
         "ListLiteral": {
             "name": "$~listetamlaması",
-            "description": "$~1$ ürün listesi",
+            "description": "$~$1 değerden oluşan liste oluştur",
             "emotion": "eager",
             "doc": "$~Ben belirli bir @List değerleriyim! Benimle neler yapabileceğinizi öğrenmek için @List'e bakın.",
             "start": "$~Önce maddeleri değerlendirelim",
@@ -908,6 +929,7 @@
         },
         "Spread": {
             "name": "$~yaymak",
+            "description": "$~listeyi başka listeye genişlet",
             "emotion": "serious",
             "doc": [
                 "$~Diğer listelerin değerleriyle listeler oluşturmanıza yardımcı olur. Şöyle:",
@@ -916,7 +938,7 @@
         },
         "MapLiteral": {
             "name": "$~haritakelimesikelimesine",
-            "description": "$~1$ eşleştirme haritası",
+            "description": "$~$1 anahtar-değer çiftli harita oluştur",
             "emotion": "kind",
             "doc": "$~Anahtarlar ve değerler arasında belirli bir @Map'im. Nasıl yardımcı olabileceğim hakkında daha fazla bilgi edinmek için @Map'e bakın.",
             "start": "$~Öncelikle anahtarları ve değerleri değerlendirelim",
@@ -933,6 +955,7 @@
         },
         "Match": {
             "name": "$~kibrit",
+            "description": "$~değeri birden fazla durumla karşılaştır",
             "emotion": "curious",
             "doc": [
                 "$~Ben tüm koşullu kontrollerin en görkemlisiyim! Bir değer alırım ve onu herhangi bir sayıda durumla karşılaştırırım ve eşleşen karşılık gelen ifadeyi değerlendiririm.",
@@ -952,7 +975,7 @@
         },
         "NumberLiteral": {
             "name": "$~sayısabiti",
-            "description": "$~$1 $2[$2|]",
+            "description": "$~$1 $2[$2|] sayısını oluştur",
             "emotion": "excited",
             "doc": "$~Ben belirli bir @Number'ım. Bana her türlü dilden her türlü rakamla yazabilirsiniz. Yapabileceğim her şey için @Number'a bakın.",
             "start": "$~1 dolar!",
@@ -965,18 +988,21 @@
         },
         "InternalExpression": {
             "name": "$~içselifade",
+            "description": "$~yerleşik oluşturucu ifadesi çalıştır",
             "emotion": "neutral",
             "doc": "$~Beni nasıl buldunuz? Ben yalnızca orijinal yaratıcıların kullandığı bir ifadeyim. Hakkımda daha fazla bilgi edinmek için onlarla konuşmanız gerekecek.",
             "start": "$~Gizli ifade"
         },
         "NoneLiteral": {
             "name": "$~hiçbirigerçekdeğil",
+            "description": "$~hiçlik değerini oluştur",
             "emotion": "neutral",
             "doc": "$~/@FunctionDefinition burada. Bu sadece @None. Bunlar türünün tek örneği! Bunlar hakkında daha fazla bilgi edinmek için @None'a bakın.",
             "start": "$~…ø"
         },
         "Otherwise": {
             "name": "$~aksitakdirde",
+            "description": "$~hiçbiri yoksa yedek değer sağla",
             "emotion": "curious",
             "doc": [
                 "$~/@FunctionDefinition burada. Bu, bir değerin @None olup olmadığını kontrol etmenin ve eğer öyleyse, bir yedek değer sağlamanın kullanışlı bir yoludur./",
@@ -988,6 +1014,7 @@
         },
         "Previous": {
             "name": "$~öncesi",
+            "description": "$~akışın önceki değerini al",
             "emotion": "serious",
             "doc": [
                 "$~Hiç geçmişi hatırlamak istediniz mi?",
@@ -1008,6 +1035,7 @@
         },
         "Program": {
             "name": "$~program",
+            "description": "$~programdaki tüm ifadeleri içerir",
             "emotion": "serious",
             "doc": [
                 "$~Ben bir performansın başladığı ve bittiği yerim, bir gösteriyi koreografilendiren diğer tüm karakterleri barındırırım.",
@@ -1052,7 +1080,7 @@
         },
         "PropertyBind": {
             "name": "$~rafineetmek",
-            "description": "$~$1[$1|eksik isim]'i iyileştir",
+            "description": "$~özelliği $1[$1|isimsiz] iyileştir",
             "emotion": "kind",
             "doc": [
                 "$~Bazen bir @StructureDefinition yaptığınızda, aynı değerlere sahip yeni bir tanım yapmak zorunda kalmadan, tanımda en ufak bir değişikliği yapmak isteyebilirsiniz.",
@@ -1075,7 +1103,7 @@
         },
         "PropertyReference": {
             "name": "$~mülk",
-            "description": "$~mülk $1[$1|eksik isim]",
+            "description": "$~özelliği $1[$1|isimsiz] al",
             "emotion": "kind",
             "doc": [
                 "$~@StructureDefinition yaptığınızda, girdilerinden birini nasıl elde edersiniz? Ben nasıl",
@@ -1090,6 +1118,7 @@
         },
         "Reaction": {
             "name": "$~tepki",
+            "description": "$~akış değişiminde değer oluştur",
             "emotion": "excited",
             "doc": [
                 "$~Akışlar çok harika! Değiştikleri zamana göre yenilerini yapabilirim, bu da süper!",
@@ -1114,7 +1143,7 @@
         },
         "Reference": {
             "name": "$~referans",
-            "description": "$~1 dolar",
+            "description": "$~$1 adına başvur",
             "emotion": "shy",
             "doc": [
                 "$~@Bind'in şeylere @Name verdiğini biliyor musun? Ben onlara nasıl atıfta bulunduğumu söylüyorum. Herhangi bir @Bind'in bu adı taşıyıp taşımadığına bakarım, eğer varsa, değerini veririm. Şöyle:",
@@ -1149,6 +1178,7 @@
         },
         "Select": {
             "name": "$~seçme",
+            "description": "$~tablodan eşleşen satırları filtrele",
             "emotion": "excited",
             "doc": [
                 "$~Bazen bir masanız olur ve sadece bir kısmını istersiniz. Onu sizin için alabilirim!",
@@ -1167,7 +1197,7 @@
         },
         "SetLiteral": {
             "name": "$~tamolarakayarla",
-            "description": "$~1$'lık ürünler",
+            "description": "$~$1 öğeli küme oluştur",
             "emotion": "eager",
             "doc": "$~Ben belirli değerlerin belirli bir @Set'iyim. Benimle nasıl çalışabileceğiniz hakkında daha fazla bilgi edinmek için @Set'e bakın.",
             "start": "$~Önce değerleri değerlendirelim!",
@@ -1175,6 +1205,7 @@
         },
         "SetOrMapAccess": {
             "name": "$~set/haritaerişimi",
+            "description": "$~küme veya haritanın içerip içermediğini kontrol et",
             "emotion": "kind",
             "doc": [
                 "$~@Set veya @Map'in bir değeri veya anahtarı olup olmadığına bakabilirim.",
@@ -1194,6 +1225,7 @@
         },
         "Source": {
             "name": "$~kaynak",
+            "description": "$~program kaynak dosyasını adlandır",
             "emotion": "curious",
             "doc": [
                 "$~Ah, @Program'ı biliyor musun? Onlara isim vermene yardım ediyorum. Beni bir @Program'ın etrafındaki pencere ve onlara verdiğin isim gibi düşün.",
@@ -1203,13 +1235,14 @@
         },
         "StreamDefinition": {
             "name": "$~aktarım",
+            "description": "$~yeni akış türü tanımla",
             "emotion": "curious",
             "doc": "$~Yeni akışlar yapmam gerektiğini /düşünüyorum/. Ama bunu nasıl yapacağımı gerçekten bilmiyorum. Şimdilik, sanırım sadece var olan akışları kullanacağım?",
             "start": "$~Bu yeni tür akışı yaratın"
         },
         "StructureDefinition": {
             "name": "$~yapı",
-            "description": "$~yapı $1",
+            "description": "$~$1 yapısını tanımla",
             "emotion": "kind",
             "doc": [
                 "$~Merhaba, nasılsın? Ben mi? Harikayım. Değerleri ve işlevleri depolayan yapıları tanımlamayı seviyorum, bu yüzden bunu bütün gün yapabildiğim sürece mutluyum.",
@@ -1250,15 +1283,15 @@
         },
         "StructureDefinitionType": {
             "name": "$~yapıtanımı",
+            "description": "$1",
             "emotion": "kind",
-            "description": "$~$1 tanımı",
             "doc": [
                 "$~Bir tür @StructureDefinition'a atıfta bulunuyorum. İnsanlar genellikle bana doğrudan atıfta bulunmazlar"
             ]
         },
         "TableLiteral": {
             "name": "$~tabloharfiharfine",
-            "description": "$~$1 satır tablosu",
+            "description": "$~$1 satırlı tablo oluştur",
             "emotion": "angry",
             "doc": "$~Belirli satırları olan belirli bir tabloyum. Nasıl yardımcı olabileceğimi öğrenmek için @Table'a bakın.",
             "start": "$~İlk önce satırları değerlendirin",
@@ -1266,7 +1299,7 @@
         },
         "TextLiteral": {
             "name": "$~metintamanlamıyla",
-            "description": "$~metin $1",
+            "description": "$~$1 metin değeri oluştur",
             "emotion": "serious",
             "doc": "$~Bir veya daha fazla belirli @Translation çevirisini temsil ediyorum. Neler yapabileceğim hakkında daha fazla bilgi edinmek için @Text bakın!",
             "start": "$~Mevcut yerel ayarda metin oluşturalım",
@@ -1276,7 +1309,7 @@
         },
         "Translation": {
             "name": "$~çeviri",
-            "description": "$~çeviri $1",
+            "description": "$~'$1' metni oluştur",
             "emotion": "serious",
             "doc": "$~@Language etiketiyle bir miktar metin temsil ediyorum. Daha fazla bilgi edinmek için @Text'e bakın!",
             "conflict": {
@@ -1313,14 +1346,14 @@
         },
         "FormattedLiteral": {
             "name": "$~biçimlendirilmiş",
-            "description": "$~metin $1",
+            "description": "$~$1 biçimlendirilmiş metin oluştur",
             "emotion": "serious",
             "doc": "$~Biçimlendirilmiş metnin birçok farklı @FormattedTranslation'ını temsil ediyorum. Değerlendirdiğimde, izleyicinin seçtiği dillere göre en iyi eşleşmeyi seçeceğim.",
             "start": "$~Mevcut yerel ayarda metin oluşturalım"
         },
         "FormattedTranslation": {
             "name": "$~biçimlendirilmişçeviri",
-            "description": "$~metin $1",
+            "description": "$~biçimlendirilmiş metni $1'e çevir",
             "emotion": "serious",
             "doc": [
                 "$~@Language etiketiyle biçimlendirilmiş bir metin sunuyorum.",
@@ -1336,6 +1369,7 @@
         },
         "This": {
             "name": "$~Bu",
+            "description": "$~geçerli yapı değerine başvur",
             "emotion": "serious",
             "doc": [
                 "$~Bazen bir değerin örtüklüğüne isim vermek yerine, ona atıfta bulunmak faydalı olabilir.",
@@ -1357,7 +1391,7 @@
         },
         "UnaryEvaluate": {
             "name": "$~teklideğerlendirme",
-            "description": "$~1 dolar",
+            "description": "$~$1 tekli işleci uygula",
             "emotion": "kind",
             "doc": [
                 "$~@FunctionDefinition'ı tek bir değerle değerlendirdiğimde ve @FunctionDefinition'ın adı sadece tek bir sembol olduğunda, adı girdiden önce koyabileceğinizi biliyor muydunuz?",
@@ -1377,6 +1411,7 @@
         },
         "UnparsableExpression": {
             "name": "$~çözümlenemez",
+            "description": "$~ayrıştırılamaz ifadeyi işaretle",
             "emotion": "excited",
             "doc": [
                 "$~/Merhaba @FunctionDefinition burada. @UnparsableExpression için çeviri yapıyorum, çünkü bunların yorumlanması genellikle zordur./",
@@ -1411,6 +1446,7 @@
         },
         "Update": {
             "name": "$~güncelleme",
+            "description": "$~tablodaki eşleşen satırları düzelt",
             "emotion": "kind",
             "doc": [
                 "$~@Table'ı revize etmeye, bir koşulla eşleşen satırları bulmaya ve ardından yeni değerlerle revize edilmiş satırlar oluşturmaya yardımcı oluyorum.",
@@ -1433,11 +1469,13 @@
         },
         "AnyType": {
             "name": "$~herhangi",
+            "description": "$~olası herhangi bir türle eşleş",
             "emotion": "curious",
             "doc": "$~Herhangi bir olası türü temsil ediyorum. Bazen bir şeyin ne tür bir değere sahip olduğunu bilmediğim için ortaya çıkıyorum, bu yüzden herhangi bir şey olabilir."
         },
         "BooleanType": {
             "name": "$~Boolean",
+            "description": "$~boolean doğru/yanlış değeri türlendir",
             "emotion": "kind",
             "doc": [
                 "$~Bir ismin @Boolean değeri olduğunu bildirmek için @Bind ile çalışıyorum. Şöyle:",
@@ -1447,6 +1485,7 @@
         },
         "ConversionType": {
             "name": "$~dönüşüm",
+            "description": "$~dönüşüm tanımını türlendir",
             "emotion": "serious",
             "doc": [
                 "$~Bir ismin @ConversionDefinition olduğunu belirtmek için @Bind ile çalışırım. Muhtemelen beni kullanmanıza gerek yoktur, çünkü pek çok kişi beni bir değer olarak kullanmaz, ancak kullansaydınız, şöyle görünürdüm:",
@@ -1455,6 +1494,7 @@
         },
         "FormattedType": {
             "name": "$~biçimlendirilmiş",
+            "description": "$~biçimlendirilmiş metin değerini türlendir",
             "emotion": "serious",
             "doc": [
                 "$~Bir ismin @FormattedLiteral değeri olduğunu belirtmek için @Bind ile çalışıyorum. Şöyle:",
@@ -1464,12 +1504,13 @@
         },
         "ExceptionType": {
             "name": "$~istisna",
+            "description": "$~istisna değerini türlendir",
             "emotion": "neutral",
             "doc": "$~Ben bir istisnayı temsil ediyorum. bind'e benim bir istisna olduğumu söylemenin bir yolu yok çünkü istisnalar yalnızca @Program'ı durdurur, bu yüzden onları değer olarak kullanamazsınız."
         },
         "FunctionType": {
             "name": "$~işlev",
-            "description": "$~$1 girdi, $2 çıktı içeren fonksiyon",
+            "description": "$~$1 girdili işlevi türlendir",
             "emotion": "curious",
             "doc": [
                 "$~@FunctionDefinition'ı temsil ediyorum. @Bind'in ne tür bir işlevi tuttuğunu söylemek istiyorsanız gerçekten yardımcı olurum! Şöyle:",
@@ -1478,7 +1519,7 @@
         },
         "ListType": {
             "name": "$~liste",
-            "description": "$~$1[$1'in listesi|liste]",
+            "description": "$~$1[$1 listesini|listeyi] türlendir",
             "emotion": "cheerful",
             "doc": [
                 "$~@List'in /çok/ hayranıyım. @Bind'e ne tür bir liste olduklarını söyleyebiliyorum! Şöyle ki, bunun bir @Number listesi olduğunu söylüyorum:",
@@ -1487,7 +1528,7 @@
         },
         "MapType": {
             "name": "$~harita",
-            "description": "$~$1[$1|herhangi biri] ile $2[$2|herhangi biri] arasındaki harita",
+            "description": "$~$1[$1|herhangi]'den $2[$2|herhangi]'e haritayı türlendir",
             "emotion": "kind",
             "doc": [
                 "$~@Map'in ne kadar harika olduğunu biliyor musun? Gerçekten harika. @Bind'e her zaman ne tür haritalar olduğunu söylüyorum, mesela bu sayılardan listelere kadar olan harita:",
@@ -1496,7 +1537,7 @@
         },
         "NumberType": {
             "name": "$~sayı",
-            "description": "$~$1[$1 | sayı]",
+            "description": "$~$1[$1|sayı] değerini türlendir",
             "emotion": "precise",
             "doc": [
                 "$~@Bind'in ne olması gerektiğini biliyor musunuz? @Number. Çünkü sayılar en iyisidir.",
@@ -1505,7 +1546,7 @@
         },
         "NameType": {
             "name": "$~yapı",
-            "description": "$~$1 türü",
+            "description": "$~$1 adlı türe başvur",
             "emotion": "curious",
             "doc": [
                 "$~@StructureDefinition'ı ismiyle temsil ediyorum. Yani, eğer böyle bir yapınız varsa, oluşturduğu değerleri depolayan bir @Bind yapabilirsiniz.",
@@ -1520,11 +1561,13 @@
         },
         "NeverType": {
             "name": "$~Asla",
+            "description": "$~imkânsız türü temsil et",
             "emotion": "curious",
             "doc": "$~İmkansız bir türü temsil ediyorum. @Is'e bir şeyin @Number olup olmadığını sorduğunuzda olduğu gibi, ancak asla bir sayı olamaz."
         },
         "NoneType": {
             "name": "$~hiçbiri",
+            "description": "$~hiçlik değerini türlendir",
             "emotion": "neutral",
             "doc": [
                 "$~@None en iyi hiçliktir ve ben onların sadık temsilcisiyim.",
@@ -1533,7 +1576,7 @@
         },
         "SetType": {
             "name": "$~ayarlamak",
-            "description": "$~$1[$1 set|set]",
+            "description": "$~$1[$1|herhangi] kümesini türlendir",
             "emotion": "kind",
             "doc": [
                 "$~@Set en İYİSİ, cidden. @Bind'e her zaman şunu söylüyorum, her şeyi bir şeyin seti yap!",
@@ -1542,11 +1585,13 @@
         },
         "StreamDefinitionType": {
             "name": "$~akıştanımı",
+            "description": "$~tanımlı akışı türlendir",
             "emotion": "angry",
             "doc": "$~Tanımladığınız bir akımı temsil ediyorum ki bu mümkün değil, o zaman bunu neden okuyorsunuz?"
         },
         "StreamType": {
             "name": "$~aktarım",
+            "description": "$~akış değerini türlendir",
             "emotion": "curious",
             "doc": [
                 "$~Akarsuların güzelliğini ve anlamını kutluyorum… @Bind'e bunları saklamasını söyleyerek:",
@@ -1555,18 +1600,20 @@
         },
         "StructureType": {
             "name": "$~yapı",
-            "description": "$~1 dolar",
+            "description": "$~$1 yapısını temsil et",
             "emotion": "kind",
             "doc": "$~Ben varsayılan değer tiplerini temsil eden bir iç tipim."
         },
         "UnknownType": {
             "name": "$~bilinmeyen",
+            "description": "$~belirsiz türü temsil et",
             "connector": "$~, Çünkü",
             "emotion": "curious",
             "doc": "$~Umm... Ne temsil ettiğimi bilmiyorum ama gerçekten merak ediyorum. Biliyor musun? Bilmemiz gerekiyor gibi görünüyor. Eğer çözemezsek bize söylemen gerekebilir."
         },
         "TableType": {
             "name": "$~masa",
+            "description": "$~tablo değerini türlendir",
             "emotion": "angry",
             "doc": "$~Ben bir Tabloyu temsil ediyorum.",
             "conflict": {
@@ -1578,7 +1625,7 @@
         },
         "TextType": {
             "name": "$~metin",
-            "description": "$~$1[$1|metin]",
+            "description": "$~$1[$1|metin] değerini türlendir",
             "emotion": "happy",
             "doc": [
                 "$~@Text, olabilecek en muhteşem değer türünü muhteşem bir şekilde temsil ediyorum.",
@@ -1587,12 +1634,13 @@
         },
         "TypePlaceholder": {
             "name": "$~yertutucu",
+            "description": "$~tür için yer tutucu koru",
             "emotion": "eager",
             "doc": "$~Bir gün bir türü temsil etmeyi umuyorum, tıpkı en yakın arkadaşım @ExpressionPlaceholder'ın bir ifadeyi temsil etmesi gibi! Ne tür bir tür olduğuna karar vermemde bana yardım eder misin?"
         },
         "UnionType": {
             "name": "$~seçenek",
-            "description": "$~1$ | 2$",
+            "description": "$~$1 ya da $2 türlendir",
             "emotion": "curious",
             "doc": [
                 "$~Kimi temsil etmeliyim, A mı B mi yoksa başka bir şey mi? Asla karar veremiyorum!",
@@ -1601,7 +1649,7 @@
         },
         "Unit": {
             "name": "$~birim",
-            "description": "$~1 dolar",
+            "description": "$~$1 birimini belirt",
             "emotion": "precise",
             "doc": [
                 "$~@Number'ın sahip olabileceği herhangi bir birimi, hiçbir birim olmadan, hayal edebileceğiniz en karmaşık birime kadar temsil ediyorum. Örneğin yerçekimi gibi:",
@@ -1611,55 +1659,61 @@
         },
         "UnparsableType": {
             "name": "$~çözümlenemez",
+            "description": "$~ayrıştırılamaz ifadeyi türlendir",
             "emotion": "curious",
             "doc": "$~Bilinmeyen bir ifadenin türünü temsil ediyorum. O ifadeyi bir şey için kullanmaya çalıştığınızda ortaya çıkıyorum."
         },
         "VariableType": {
             "name": "$~değişkentürü",
+            "description": "$~kullanımdaki tür değişkenini temsil et",
             "emotion": "curious",
             "doc": "$~@TypeVariable'ı ve bilinmeyen bir tür değeri nasıl temsil ettiklerini biliyor musunuz? Değerler arasındaki tüm müzakerelerde onları temsil ediyorum."
         },
         "CycleType": {
             "name": "$~döngü",
-            "description": "$~kendine bağlı",
+            "description": "$~kendisine bağımlı ol",
             "emotion": "curious",
             "doc": "$~Bazen değerler kendilerine bağlıdır ve bu yüzden ne tür bir değer olduklarını bilemeyiz. Ben bu durumu temsil ediyorum."
         },
         "UnknownVariableType": {
             "name": "$~bilinmeyendeğişken",
+            "description": "$~bilinmeyen tür değişkenini temsil et",
             "emotion": "curious",
             "doc": "$~Bazen bir şeyin ne tür bir değere sahip olduğunu tahmin etmeye çalışırız; bilmediğimiz zaman ben ortaya çıkarım."
         },
         "NotAType": {
             "name": "$~beklenmedik",
-            "description": "$~1 dolar değil",
+            "description": "$~$1'i geçersiz tür olarak işaretle",
             "emotion": "curious",
             "doc": "$~Bazen bir şeyin ne tür bir değer olması gerektiğini biliriz. Mesela @ListAccess'in bir @Number'a ihtiyacı vardır. Eğer anlamazsak, bir şeyin beklediğimizden farklı bir tür olduğunu temsil ederim."
         },
         "NoExpressionType": {
             "name": "$~hiçbirifade",
+            "description": "$~boş bloğu türlendir",
             "emotion": "angry",
             "doc": "$~@Block'un en azından bir ifadeye ihtiyacı olduğunu biliyor musun? Bir ifade vermediğinde elde ettiğin şey benim. O zaman bir ifade ver!"
         },
         "NotEnclosedType": {
             "name": "$~yapı,dönüşümveyatepkimeaçısındandeğil",
+            "description": "$~yapı dışında kullanımı işaretle",
             "emotion": "curious",
             "doc": "$~@This, ne kadar hoş olsalar da, yalnızca belirli yerlere aittir. Kaybolduklarında ben ortaya çıkarım ve böylece kimse onların ne değer temsil ettiğini bilmez."
         },
         "NotImplementedType": {
             "name": "$~uygulanmamış",
+            "description": "$~doldurulmamış yer tutucuyu türlendir",
             "emotion": "curious",
             "doc": "$~@ExpressionPlaceholder kullandığınızda, ancak bunların hangi tür olduğunu söylemediğinizde, elde ettiğiniz tür benim. Bununla başa çıkın!"
         },
         "UnknownNameType": {
             "name": "$~bilinmeyenisim",
-            "description": "$~$1[$1 tanımlanmadı |bir isim verilmedi]",
+            "description": "$~$1[$1 tanımsız olarak|ad verilmemiş] işaretle",
             "emotion": "curious",
             "doc": "$~Bazen @Reference ve @PropertyReference'ın bahsettiğiniz ismi bilmediğini biliyor musunuz? O zaman ben de oradayım, bahsettiğiniz kişinin kim olduğunu bilmediğimizi belirtmek için."
         },
         "NonFunctionType": {
             "name": "$~işlevsiz",
-            "description": "$~işlevsiz",
+            "description": "$~$1'i işlev olmayan olarak işaretle",
             "emotion": "confused",
             "doc": "$~Bazılarımız fonksiyon bekliyordu; fonksiyon alamayınca ben geliyorum."
         }
@@ -5038,7 +5092,8 @@
                 "resolution": "$~Bu çatışmayı çöz",
                 "toggle": "$~açıklamaları göster ve gizle",
                 "highlight": "$~bu kodu editörde göster"
-            }
+            },
+            "nodeDescription": "$?"
         },
         "output": {
             "label": "$~program çıktısı",

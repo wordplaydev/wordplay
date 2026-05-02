@@ -130,7 +130,7 @@
     "node": {
         "Dimension": {
             "name": "$~寸法",
-            "description": "$~寸法",
+            "description": "$~単位の一部を示す",
             "emotion": "serious",
             "doc": [
                 "$~私は /測定単位/ です!",
@@ -143,6 +143,7 @@
         },
         "Doc": {
             "name": "$~説明",
+            "description": "$~テキストで式をドキュメント化する",
             "emotion": "serious",
             "doc": [
                 "$~私は、@Program の一部の説明や、@Phrase でステージに載せた言葉など、さまざまなものを @Markup でリッチにフォーマットします。",
@@ -163,6 +164,7 @@
         },
         "Docs": {
             "name": "$~説明リスト",
+            "description": "$~複数言語のドキュメントを列挙する",
             "emotion": "serious",
             "doc": [
                 "$~これは @Doc のリストです。異なる言語で複数の @Doc の翻訳がある場合に便利です。",
@@ -173,6 +175,7 @@
         },
         "KeyValue": {
             "name": "$~マッピング",
+            "description": "$~キーを値にマップする",
             "emotion": "kind",
             "doc": [
                 "$~私は常に @Map 内の *キー* から *値* へのマッピングです。",
@@ -184,7 +187,7 @@
         },
         "Language": {
             "name": "$~言語",
-            "description": "$~言語 $1[$1|不明]",
+            "description": "$~名前とテキストを$1[$1|不明]言語でタグ付けする",
             "emotion": "eager",
             "doc": [
                 "$~私は言語タグであり、@Name と @Doc を使って作業します。",
@@ -211,7 +214,7 @@
         },
         "Name": {
             "name": "$~名前",
-            "description": "$~$1[$1 | 名前なし]",
+            "description": "$~名前$1[$1|無名]を宣言する",
             "emotion": "kind",
             "doc": [
                 "$~私は価値を識別し、評価が困難であったものや、何度も評価したくないものに簡潔なラベルを付ける便利な方法です。",
@@ -229,6 +232,7 @@
         },
         "Names": {
             "name": "$~名前リスト",
+            "description": "$~複数言語の名前を列挙する",
             "emotion": "kind",
             "doc": [
                 "$~これは @Name のリストです。値に複数の名前を付けたい場合、多くの場合 @Language が異なる場合に便利です。",
@@ -241,6 +245,7 @@
         },
         "Row": {
             "name": "$~行",
+            "description": "$~テーブルの行を表す",
             "emotion": "shy",
             "doc": "$~私は @Table の行を表します。@Table に話しかけるのが一番でしょう。彼らは私のことをすべて知っています。私はただ座って値を一列に並べるだけです :(",
             "conflict": {
@@ -268,7 +273,7 @@
         },
         "Token": {
             "name": "$~トークン",
-            "description": "$~1ドル 2ドル",
+            "description": "$1",
             "emotion": "neutral",
             "doc": [
                 "$~どうやって私を見つけたのですか?",
@@ -277,11 +282,13 @@
         },
         "TypeInputs": {
             "name": "$~入力する",
+            "description": "$~型変数スロットを埋める",
             "emotion": "curious",
             "doc": "$~私は、@StructureDefinition または @FunctionDefinition 内の @TypeVariables の代わりになる型のリストです。私は、誰もが受け取る入力の種類を知るのに役立ちます。"
         },
         "TypeVariable": {
             "name": "$~型変数",
+            "description": "$~呼び出し元が指定する型を命名する",
             "emotion": "curious",
             "doc": "$~私は @FunctionDefinition または @StructureDefinition の謎の型であり、どちらかが評価されるときに @TypeInputs によって提供されます。@Set、@List、および @Map は私を使用します。",
             "conflict": {
@@ -296,12 +303,13 @@
         },
         "TypeVariables": {
             "name": "$~型変数",
+            "description": "$~定義の型変数を列挙する",
             "emotion": "curious",
             "doc": "$~私は@TypeVariable。"
         },
         "Markup": {
             "name": "$~マークアップ",
-            "description": "$~$1 段落",
+            "description": "$~$1段落でドキュメントを書式設定する",
             "emotion": "serious",
             "doc": [
                 "$~私は、@Words、@WebLink、@ConceptLink、@Example など、説明で使用できるさまざまな種類のマークアップを使用した段落のリストです。"
@@ -312,6 +320,7 @@
         },
         "Paragraph": {
             "name": "$~段落",
+            "description": "$~単語を段落にまとめる",
             "emotion": "serious",
             "doc": [
                 "$~私は、@Words、@ConceptLink、@WebLink、@Example の連続で、空白行で区切られ、@Doc 内にあります。",
@@ -323,7 +332,7 @@
         },
         "WebLink": {
             "name": "$~リンク",
-            "description": "$~リンク $1",
+            "description": "$~ウェブアドレス$1にリンクする",
             "emotion": "serious",
             "doc": [
                 "$~私はインターネット上の何かへのリンクです。必要なのは説明と URL だけです。",
@@ -333,7 +342,7 @@
         },
         "ConceptLink": {
             "name": "$~コンセプト",
-            "description": "$~コンセプト $1",
+            "description": "$~ドキュメントの概念$1にリンクする",
             "emotion": "serious",
             "doc": [
                 "$~私は Verse キャラクターへのリンクです。@Doc を書いて私たちの 1 人を参照したいときに役立ちます。",
@@ -348,6 +357,7 @@
         },
         "Words": {
             "name": "$~言葉",
+            "description": "$~ドキュメントに普通の単語を書く",
             "emotion": "serious",
             "doc": [
                 "$~@Doc では好きな単語を何でも使えます。たとえば、次のようになります。",
@@ -359,6 +369,7 @@
         },
         "Example": {
             "name": "$~例",
+            "description": "$~ドキュメントに実行可能コードを示す",
             "emotion": "serious",
             "doc": [
                 "$~私はパフォーマンスの例であり、何かの使用方法を説明する @Doc を書くのに役立ちます。",
@@ -367,7 +378,7 @@
         },
         "Mention": {
             "name": "$~言及",
-            "description": "$~1ドル言及",
+            "description": "$~マークアップで$1に言及する",
             "emotion": "serious",
             "doc": [
                 "$~私は用語 \\$program\\ または動的入力 \\$1\\ のいずれかを参照しています。",
@@ -376,6 +387,7 @@
         },
         "Branch": {
             "name": "$~支店",
+            "description": "$~条件に基づいてマークアップを選択する",
             "emotion": "serious",
             "doc": [
                 "$~説明入力値が定義されているか true であるかに基づいて、説明の 2 つのセグメントを選択する方法です。",
@@ -384,7 +396,7 @@
         },
         "BinaryEvaluate": {
             "name": "$~バイナリ評価",
-            "description": "$~1ドルのオペレーション",
+            "description": "$~2つの値に$1演算子を適用する",
             "emotion": "insecure",
             "doc": [
                 "$~私は @Evaluate ですが、より単純な形式で、2 つの入力を受け取る @FunctionDefinition を使用する場合に役立ちます。",
@@ -414,7 +426,7 @@
         },
         "Bind": {
             "name": "$~バインド",
-            "description": "$~バインド $1",
+            "description": "$~この値に'$1'という名前をつける",
             "emotion": "excited",
             "doc": [
                 "$~私は*値*に名前を付けます。",
@@ -490,7 +502,7 @@
         },
         "Block": {
             "name": "$~ブロック",
-            "description": "$~$1 ステートメント",
+            "description": "$~$1個の文を順に評価する",
             "emotion": "shy",
             "doc": [
                 "$~こんにちは。物事を評価するために、静かでプライベートな小さなスペースを作ります。",
@@ -530,14 +542,14 @@
         },
         "BooleanLiteral": {
             "name": "$~ブールリテラル",
-            "description": "$~$1[真|偽]",
+            "description": "$~$1[真|偽]のブール値を作成する",
             "emotion": "precise",
             "doc": "$~私は \\⊤\\ または \\⊥\\ のいずれかです。私たちの美しいロジックの詳細については、@Boolean を参照してください。",
             "start": "$~1ドル！"
         },
         "Borrow": {
             "name": "$~借りる",
-            "description": "$~$1を借りる[$1|名前がありません]",
+            "description": "$~ソースから$1[$1|無名]を借用する",
             "emotion": "excited",
             "doc": "$~複数の @Source を含むパフォーマンスを作成する場合、他の @Source で共有されている @Bind を借用できます。名前を使用するだけで、名前と値を取り込みます。",
             "start": "$~1ドルから2ドルを借りる",
@@ -565,6 +577,7 @@
         },
         "Changed": {
             "name": "$~変更された",
+            "description": "$~ストリームが変化したら真を返す",
             "emotion": "serious",
             "doc": [
                 "$~ストリームが@Program、@Boolean。このように",
@@ -579,6 +592,7 @@
         },
         "Conditional": {
             "name": "$~条件付き",
+            "description": "$~条件を確認し2つの式のうち1つを評価する",
             "emotion": "curious",
             "doc": [
                 "$~僕が決断を下すべきだと思う？こんな感じ？",
@@ -605,7 +619,7 @@
         },
         "ConversionDefinition": {
             "name": "$~変換定義",
-            "description": "$~1ドル→2ドル",
+            "description": "$~$1から$2への変換を定義する",
             "emotion": "excited",
             "doc": [
                 "$~おい、私はある型から別の型への変換を定義しているんだ！ @Block で、こんな感じで書くんだ:",
@@ -628,6 +642,7 @@
         },
         "Convert": {
             "name": "$~変換する",
+            "description": "$~値を別の型に変換する",
             "emotion": "cheerful",
             "doc": [
                 "$~よし。値をある型から別の型に変換するんだ。見てみよう:",
@@ -655,6 +670,7 @@
         },
         "Delete": {
             "name": "$~消去",
+            "description": "$~テーブルから一致する行を削除する",
             "emotion": "angry",
             "doc": [
                 "$~時々、テーブルの上に物が多すぎることがあります。",
@@ -667,6 +683,7 @@
         },
         "DocumentedExpression": {
             "name": "$~説明された表現",
+            "description": "$~式にドキュメントを添付する",
             "emotion": "eager",
             "doc": [
                 "$~私はどんな表現でも、@Doc を使って表現します。",
@@ -678,7 +695,7 @@
         },
         "Evaluate": {
             "name": "$~評価する",
-            "description": "$~$1を評価する[$1|匿名]",
+            "description": "$~$3[$1[$1|]の値をこれらの入力で作成|$2[$1[$1|]のストリームをこれらの入力で作成|$1[$1|関数]をこれらの入力に適用]]",
             "emotion": "shy",
             "doc": [
                 "$~こんにちは。私の愛する @FunctionDefinition を評価します。次のようにします。",
@@ -743,7 +760,7 @@
         },
         "Input": {
             "name": "$~入力",
-            "description": "$~名前付き入力",
+            "description": "$~名前付き関数入力を宣言する",
             "emotion": "serious",
             "doc": [
                 "$~私は @Evaluate に与えられた入力です。私の名前は、評価される @FunctionDefinition または @StructureDefinition の入力名に対応します。",
@@ -755,7 +772,7 @@
         },
         "ExpressionPlaceholder": {
             "name": "$~プレースホルダー",
-            "description": "$~$1[$1|プレースホルダー]",
+            "description": "$~記入する式をマークする",
             "emotion": "scared",
             "doc": [
                 "$~私は*表現*ですが、本物の表現ではありません…ただ本物の表現の代わりをしているだけです。",
@@ -785,7 +802,7 @@
         },
         "FunctionDefinition": {
             "name": "$~関数",
-            "description": "$~関数 $1",
+            "description": "$~関数$1を定義する",
             "emotion": "kind",
             "doc": [
                 "$~こんにちは！いくつかの入力を受け取り、それらを使用して式を評価し、出力を生成します。",
@@ -818,6 +835,7 @@
         },
         "Iteration": {
             "name": "$~高階関数",
+            "description": "$~リスト値を内部的に反復する",
             "emotion": "kind",
             "doc": "$~私は、リストを操作する非常に特殊な種類の @FunctionDefinition です。@List/translate のような関数を可能にするということ以外、私について何も知る必要はありません。",
             "start": "$~与えられた関数を評価する",
@@ -828,6 +846,7 @@
         },
         "Initial": {
             "name": "$~始める",
+            "description": "$~最初の評価時に真を返す",
             "emotion": "curious",
             "doc": [
                 "$~@Program の現在の評価が最初の評価であるかどうかを、@Boolean に評価して伝えます。例:",
@@ -838,6 +857,7 @@
         },
         "Insert": {
             "name": "$~入れる",
+            "description": "$~テーブルに行を追加する",
             "emotion": "kind",
             "doc": [
                 "$~@Table を持っていて、何かが足りないように感じたことはありませんか? それを追加できます!",
@@ -850,7 +870,7 @@
         },
         "Is": {
             "name": "$~は",
-            "description": "$~は",
+            "description": "$~値が$1型かどうか確認する",
             "emotion": "curious",
             "doc": [
                 "$~ご存知ですか？ 非常に多くの種類の価値があり、それぞれに意味があります。私は、それらが何であるかを理解するお手伝いをします。",
@@ -878,7 +898,7 @@
         },
         "IsLocale": {
             "name": "$~ロケール",
-            "description": "$~ロケール",
+            "description": "$~ロケールが選択されたら真を返す",
             "emotion": "kind",
             "doc": [
                 "$~視聴者が特定の言語または地域を選択したかどうかを確認するお手伝いをします。",
@@ -890,6 +910,7 @@
         },
         "ListAccess": {
             "name": "$~リストアクセス",
+            "description": "$~リストの位置の値を取得する",
             "emotion": "cheerful",
             "doc": [
                 "$~私は @List と密接に連携して、特定の位置の値を取得できるようにしています。たとえば、リストがあり、その 2 番目の項目が必要な場合は、次のように記述します。",
@@ -900,7 +921,7 @@
         },
         "ListLiteral": {
             "name": "$~リストリテラル",
-            "description": "$~$1 アイテムリスト",
+            "description": "$~$1個の値のリストを作成する",
             "emotion": "eager",
             "doc": "$~私は特定の値の @List です。私を使って何ができるかについて詳しくは、@List を参照してください。",
             "start": "$~まずはアイテムを評価しましょう",
@@ -908,6 +929,7 @@
         },
         "Spread": {
             "name": "$~広める",
+            "description": "$~リストを別のリストに展開する",
             "emotion": "serious",
             "doc": [
                 "$~他のリストの値を使用してリストを作成するのに役立ちます。次のようになります。",
@@ -916,7 +938,7 @@
         },
         "MapLiteral": {
             "name": "$~マップリテラル",
-            "description": "$~1ドルペアリングマップ",
+            "description": "$~$1組のキーと値のマップを作成する",
             "emotion": "kind",
             "doc": "$~私はキーと値の間の特定の @Map です。私がどのように役立つかについて詳しくは、@Map を参照してください。",
             "start": "$~まずキーと値を評価しましょう",
@@ -933,6 +955,7 @@
         },
         "Match": {
             "name": "$~マッチ",
+            "description": "$~複数のケースと値を比較する",
             "emotion": "curious",
             "doc": [
                 "$~私はすべての条件チェックの中で最も素晴らしいものです! 値を取得して任意の数のケースと比較し、一致する対応する式を評価します。",
@@ -952,7 +975,7 @@
         },
         "NumberLiteral": {
             "name": "$~数値リテラル",
-            "description": "$~$1 $2[$2|]",
+            "description": "$~$1 $2[$2|]の数値を作成する",
             "emotion": "excited",
             "doc": "$~私は特定の @Number です。どんな言語のどんな数字でも私に書き込むことができます。私ができることすべてについては、@Number を参照してください。",
             "start": "$~1ドル！",
@@ -965,18 +988,21 @@
         },
         "InternalExpression": {
             "name": "$~内部表現",
+            "description": "$~組み込みのクリエーター式を実行する",
             "emotion": "neutral",
             "doc": "$~どうやって私を見つけたのですか? 私はオリジナルの作成者だけが使う表現です。私についてもっと知るには、彼らに話しかける必要があります。",
             "start": "$~秘密の表現"
         },
         "NoneLiteral": {
             "name": "$~文字通りではない",
+            "description": "$~空の値を作成する",
             "emotion": "neutral",
             "doc": "$~/@FunctionDefinition はここにあります。これは @None です。これらは他に類を見ないものです。詳細については、@None を参照してください。",
             "start": "$~… ø"
         },
         "Otherwise": {
             "name": "$~さもないと",
+            "description": "$~なければバックアップ値を提供する",
             "emotion": "curious",
             "doc": [
                 "$~/@FunctionDefinition をここに記述します。これは、値が @None であるかどうかをチェックし、そうである場合はバックアップ値を提供する便利な方法です。/",
@@ -988,6 +1014,7 @@
         },
         "Previous": {
             "name": "$~前の",
+            "description": "$~ストリームの前の値を取得する",
             "emotion": "serious",
             "doc": [
                 "$~過去を思い出したいと思ったことはありませんか?",
@@ -1008,6 +1035,7 @@
         },
         "Program": {
             "name": "$~プログラム",
+            "description": "$~プログラムのすべての式を含む",
             "emotion": "serious",
             "doc": [
                 "$~私はパフォーマンスの始まりと終わりの場所にいて、ショーの振り付けをする他のすべてのキャラクターが含まれています。",
@@ -1052,7 +1080,7 @@
         },
         "PropertyBind": {
             "name": "$~リファイン",
-            "description": "$~$1を絞り込む[$1|名前がありません]",
+            "description": "$~$1[$1|無名]プロパティを調整する",
             "emotion": "kind",
             "doc": [
                 "$~@StructureDefinition を作成するときに、すべて同じ値を持つ新しいものを作成せずに、その中のごく小さな部分を変更したい場合があります。",
@@ -1075,7 +1103,7 @@
         },
         "PropertyReference": {
             "name": "$~財産",
-            "description": "$~プロパティ $1[$1|名前がありません]",
+            "description": "$~$1[$1|無名]プロパティを取得する",
             "emotion": "kind",
             "doc": [
                 "$~@StructureDefinition、その入力の1つをどのように取得しますか？",
@@ -1090,6 +1118,7 @@
         },
         "Reaction": {
             "name": "$~反応",
+            "description": "$~ストリームの変化時に値を作成する",
             "emotion": "excited",
             "doc": [
                 "$~ストリームは本当に素晴らしいです! 変更されたタイミングに基づいて新しいストリームを作成できるので、とても便利です!",
@@ -1114,7 +1143,7 @@
         },
         "Reference": {
             "name": "$~参照",
-            "description": "$~1ドル",
+            "description": "$~名前$1を参照する",
             "emotion": "shy",
             "doc": [
                 "$~@Bind が @Name をどのように与えるかご存知ですか? 参照する方法です。@Bind にその名前があるかどうかを確認し、ある場合はその値を返します。次のようになります:",
@@ -1149,6 +1178,7 @@
         },
         "Select": {
             "name": "$~選択",
+            "description": "$~テーブルから一致する行をフィルタする",
             "emotion": "excited",
             "doc": [
                 "$~テーブルをお持ちで、その一部だけが必要な場合もあります。私がご用意いたします!",
@@ -1167,7 +1197,7 @@
         },
         "SetLiteral": {
             "name": "$~リテラルを設定する",
-            "description": "$~1 ドルのアイテム",
+            "description": "$~$1要素のセットを作成する",
             "emotion": "eager",
             "doc": "$~私は特定の値の特定の @Set です。私の使用方法の詳細については、@Set を参照してください。",
             "start": "$~まずは価値を評価しましょう！",
@@ -1175,6 +1205,7 @@
         },
         "SetOrMapAccess": {
             "name": "$~アクセスの設定/マップ",
+            "description": "$~セットまたはマップに含まれるか確認する",
             "emotion": "kind",
             "doc": [
                 "$~@Set または @Map に値またはキーがあるかどうかを確認できます。",
@@ -1194,6 +1225,7 @@
         },
         "Source": {
             "name": "$~ソース",
+            "description": "$~プログラムソースファイルに名前をつける",
             "emotion": "curious",
             "doc": [
                 "$~ああ、@Program って知ってる？名前の付け方を手伝うよ。私を @Program の周りの窓と、それに付ける名前だと思ってください。",
@@ -1203,13 +1235,14 @@
         },
         "StreamDefinition": {
             "name": "$~ストリーム",
+            "description": "$~新しいストリーム型を定義する",
             "emotion": "curious",
             "doc": "$~新しいストリームを作成する必要があると思います。しかし、それをどのように行うのか本当にわかりません。今のところ、既存のストリームを使用するだけでいいのでしょうか?",
             "start": "$~新しい種類のストリームを作成する"
         },
         "StructureDefinition": {
             "name": "$~構造",
-            "description": "$~構造 $1",
+            "description": "$~構造$1を定義する",
             "emotion": "kind",
             "doc": [
                 "$~こんにちは、お元気ですか？私は？私は元気です。値と機能を格納している構造を定義するのが好きなので、一日中それをできる限り幸せです。",
@@ -1250,15 +1283,15 @@
         },
         "StructureDefinitionType": {
             "name": "$~構造定義",
+            "description": "$1",
             "emotion": "kind",
-            "description": "$~1ドルの定義",
             "doc": [
                 "$~私は@StructureDefinition。人々は通常私を直接参照しません"
             ]
         },
         "TableLiteral": {
             "name": "$~テーブルリテラル",
-            "description": "$~$1 行テーブル",
+            "description": "$~$1行のテーブルを作成する",
             "emotion": "angry",
             "doc": "$~私は特定の行を持つ特定のテーブルです。私がどのようにお手伝いできるかについては、@Table を参照してください。",
             "start": "$~まず行を評価する",
@@ -1266,7 +1299,7 @@
         },
         "TextLiteral": {
             "name": "$~テキストリテラル",
-            "description": "$~テキスト $1",
+            "description": "$~テキスト値$1を作成する",
             "emotion": "serious",
             "doc": "$~私は 1 つ以上の特定の @Translation テキストを表します。私が何ができるかについて詳しくは、@Text を参照してください。",
             "start": "$~現在のロケールでテキストを作成しましょう",
@@ -1276,7 +1309,7 @@
         },
         "Translation": {
             "name": "$~翻訳",
-            "description": "$~翻訳 $1",
+            "description": "$~'$1'テキストを作成する",
             "emotion": "serious",
             "doc": "$~@Language タグを使用してテキストを表現します。詳細については、@Text を参照してください。",
             "conflict": {
@@ -1313,14 +1346,14 @@
         },
         "FormattedLiteral": {
             "name": "$~フォーマット済み",
-            "description": "$~テキスト $1",
+            "description": "$~書式付きテキスト$1を作成する",
             "emotion": "serious",
             "doc": "$~私はさまざまな @FormattedTranslation 形式のフォーマットされたテキストを代表しています。評価する際には、ユーザーが選択した言語に基づいて最適なものを選択します。",
             "start": "$~現在のロケールでテキストを作成しましょう"
         },
         "FormattedTranslation": {
             "name": "$~フォーマットされた翻訳",
-            "description": "$~テキスト $1",
+            "description": "$~書式付きテキストを$1に翻訳する",
             "emotion": "serious",
             "doc": [
                 "$~@Language タグを使用して、フォーマットされたテキストを表します。",
@@ -1336,6 +1369,7 @@
         },
         "This": {
             "name": "$~これ",
+            "description": "$~現在の構造値を参照する",
             "emotion": "serious",
             "doc": [
                 "$~場合によっては、値に名前を付けるのではなく、値の暗黙性を参照する方が便利なことがあります。",
@@ -1357,7 +1391,7 @@
         },
         "UnaryEvaluate": {
             "name": "$~単項評価",
-            "description": "$~1ドル",
+            "description": "$~単項演算子$1を適用する",
             "emotion": "kind",
             "doc": [
                 "$~1 つの値のみで @FunctionDefinition を評価するときに、@FunctionDefinition の名前が 1 つのシンボルだけの場合、入力の前に名前を置くことができることをご存知ですか?",
@@ -1377,6 +1411,7 @@
         },
         "UnparsableExpression": {
             "name": "$~解析不能",
+            "description": "$~解析できない式をマークする",
             "emotion": "excited",
             "doc": [
                 "$~/こんにちは、@FunctionDefinition です。@UnparsableExpression は解釈が難しいことが多いので、翻訳しています。/",
@@ -1411,6 +1446,7 @@
         },
         "Update": {
             "name": "$~アップデート",
+            "description": "$~テーブルの一致する行を修正する",
             "emotion": "kind",
             "doc": [
                 "$~私は @Table を修正し、条件に一致する行を見つけて、新しい値で修正された行を作成するのを手伝います。",
@@ -1433,11 +1469,13 @@
         },
         "AnyType": {
             "name": "$~どれでも",
+            "description": "$~どんな型にも一致する",
             "emotion": "curious",
             "doc": "$~あらゆる可能な型を表します。何かがどのような値であるかわからないために現れることもあります。そのため、何でもあり得ます。"
         },
         "BooleanType": {
             "name": "$~ブール値",
+            "description": "$~ブール真偽値の型",
             "emotion": "kind",
             "doc": [
                 "$~@Bind を使用して、名前が @Boolean 値であることを宣言します。次のようになります。",
@@ -1447,6 +1485,7 @@
         },
         "ConversionType": {
             "name": "$~変換",
+            "description": "$~変換定義の型",
             "emotion": "serious",
             "doc": [
                 "$~@Bind を使用して、名前が @ConversionDefinition であることを示します。値として渡す人はあまりいないので、おそらくこれを使用する必要はないでしょうが、渡す場合は次のようになります。",
@@ -1455,6 +1494,7 @@
         },
         "FormattedType": {
             "name": "$~フォーマット済み",
+            "description": "$~書式付きテキスト値の型",
             "emotion": "serious",
             "doc": [
                 "$~名前が @FormattedLiteral 値であることを示すために @Bind を使用します。次のようになります。",
@@ -1464,12 +1504,13 @@
         },
         "ExceptionType": {
             "name": "$~例外",
+            "description": "$~例外値の型",
             "emotion": "neutral",
             "doc": "$~私は例外を表します。例外は @Program を停止するだけなので、bind に私が例外であることを伝える方法はありません。したがって、例外を値として使用することはできません。"
         },
         "FunctionType": {
             "name": "$~関数",
-            "description": "$~$1 入力、$2 出力の関数",
+            "description": "$~$1個の入力を持つ関数の型",
             "emotion": "curious",
             "doc": [
                 "$~私は @FunctionDefinition を表します。@Bind がどのような関数を保持するかを伝えたい場合に非常に役立ちます。次のようになります。",
@@ -1478,7 +1519,7 @@
         },
         "ListType": {
             "name": "$~リスト",
-            "description": "$~$1[$1のリスト|リスト]",
+            "description": "$~$1[リスト$1|リスト]の型",
             "emotion": "cheerful",
             "doc": [
                 "$~私は @List の大ファンです。@Bind に、それがどんなリストであるかを伝えることができます。次のように、@Number のリストであると言っています。",
@@ -1487,7 +1528,7 @@
         },
         "MapType": {
             "name": "$~地図",
-            "description": "$~$1[$1|任意]から$2[$2|任意]へのマップ",
+            "description": "$~$1[$1|任意]から$2[$2|任意]へのマップの型",
             "emotion": "kind",
             "doc": [
                 "$~@Map がどれだけすごいかご存知ですか? 本当にすごいです。私は @Bind に、これが数値からリストへのマップのように、どんな種類のマップであるかを常に伝えています。",
@@ -1496,7 +1537,7 @@
         },
         "NumberType": {
             "name": "$~番号",
-            "description": "$~$1[$1 | 数値]",
+            "description": "$~$1[$1|数値]値の型",
             "emotion": "precise",
             "doc": [
                 "$~@Bind が何であるべきかご存知ですか? @Number です。数字が最適だからです。",
@@ -1505,7 +1546,7 @@
         },
         "NameType": {
             "name": "$~構造",
-            "description": "$~$1 タイプ",
+            "description": "$~名前$1による型",
             "emotion": "curious",
             "doc": [
                 "$~@StructureDefinition を名前で表します。つまり、このような構造があれば、それが作成する値を格納する @Bind を作成できます。",
@@ -1520,11 +1561,13 @@
         },
         "NeverType": {
             "name": "$~一度もない",
+            "description": "$~不可能な型を表す",
             "emotion": "curious",
             "doc": "$~不可能な型を表しています。たとえば、@Is に何かが @Number かどうかを尋ねても、数値になることはありません。"
         },
         "NoneType": {
             "name": "$~なし",
+            "description": "$~空の値の型",
             "emotion": "neutral",
             "doc": [
                 "$~@None、私は彼らの忠実な代表者です。",
@@ -1533,7 +1576,7 @@
         },
         "SetType": {
             "name": "$~セット",
-            "description": "$~$1[$1 セット|セット]",
+            "description": "$~$1[$1|任意]のセットの型",
             "emotion": "kind",
             "doc": [
                 "$~@Set は最高です。本当に。私はいつも @Bind に、何かをセットにするように言っています。",
@@ -1542,11 +1585,13 @@
         },
         "StreamDefinitionType": {
             "name": "$~ストリームの定義",
+            "description": "$~定義済みストリームの型",
             "emotion": "angry",
             "doc": "$~私が表現しているのは、あなたが定義したストリームですが、それは不可能です。では、なぜこれを読んでいるのでしょうか?"
         },
         "StreamType": {
             "name": "$~ストリーム",
+            "description": "$~ストリーム値の型",
             "emotion": "curious",
             "doc": [
                 "$~私はストリームの美しさと意味を称賛します… @Bind にストリームを保存するように指示することで:",
@@ -1555,18 +1600,20 @@
         },
         "StructureType": {
             "name": "$~構造",
-            "description": "$~1ドル",
+            "description": "$~構造$1を表す",
             "emotion": "kind",
             "doc": "$~デフォルト値型の型を表す内部型です。"
         },
         "UnknownType": {
             "name": "$~未知",
+            "description": "$~不定の型を表す",
             "connector": "$~、 なぜなら",
             "emotion": "curious",
             "doc": "$~うーん... 自分が何を表しているのか分かりませんが、とても興味があります。ご存知ですか? 私たちには分かるはずです。分からない場合は、教えていただく必要があるかもしれません。"
         },
         "TableType": {
             "name": "$~テーブル",
+            "description": "$~テーブル値の型",
             "emotion": "angry",
             "doc": "$~私はテーブルを表します。",
             "conflict": {
@@ -1578,7 +1625,7 @@
         },
         "TextType": {
             "name": "$~文章",
-            "description": "$~$1[$1|テキスト]",
+            "description": "$~$1[$1|テキスト]値の型",
             "emotion": "happy",
             "doc": [
                 "$~私は、最も素晴らしい種類の価値である @Text を素晴らしく表現しています。",
@@ -1587,12 +1634,13 @@
         },
         "TypePlaceholder": {
             "name": "$~プレースホルダー",
+            "description": "$~型のプレースホルダーを保持する",
             "emotion": "eager",
             "doc": "$~いつか、親友の @ExpressionPlaceholder が式を表すのと同じように、型を表したいと思っています。どんな型か決めるのを手伝ってくれませんか?"
         },
         "UnionType": {
             "name": "$~オプション",
-            "description": "$~1ドル | 2ドル",
+            "description": "$~$1または$2の型",
             "emotion": "curious",
             "doc": [
                 "$~私は誰を代表するべきでしょうか、A か B か、それとも何か他のものでしょうか? 決して決められません!",
@@ -1601,7 +1649,7 @@
         },
         "Unit": {
             "name": "$~ユニット",
-            "description": "$~1ドル",
+            "description": "$~単位$1を指定する",
             "emotion": "precise",
             "doc": [
                 "$~@Number が持つ可能性のあるあらゆる単位（単位なしも含む）を、想像できる最も複雑な単位で表します。たとえば、重力などです。",
@@ -1611,55 +1659,61 @@
         },
         "UnparsableType": {
             "name": "$~解析不能",
+            "description": "$~解析できない式の型",
             "emotion": "curious",
             "doc": "$~私は未知の表現のタイプを表します。その表現を何かに使用しようとすると表示されます。"
         },
         "VariableType": {
             "name": "$~変数型",
+            "description": "$~使用中の型変数を表す",
             "emotion": "curious",
             "doc": "$~@TypeVariable と、それが未知の種類の値をどのように表すのかをご存知ですか? 私は値間のすべてのネゴシエーションでそれらを表します。"
         },
         "CycleType": {
             "name": "$~サイクル",
-            "description": "$~それ自体に依存する",
+            "description": "$~自分自身に依存している",
             "emotion": "curious",
             "doc": "$~価値はそれ自体に依存していることもあり、それがどのような価値なのかわからないことがあります。私はその状況を表現します。"
         },
         "UnknownVariableType": {
             "name": "$~未知の変数",
+            "description": "$~未知の型変数を表す",
             "emotion": "curious",
             "doc": "$~時々、私たちは何かがどんな価値があるかを推測しようとします。わからないときに私が現れます。"
         },
         "NotAType": {
             "name": "$~予想外の",
-            "description": "$~1ドルではない",
+            "description": "$~$1を無効な型としてマークする",
             "emotion": "curious",
             "doc": "$~ときには、何かがどのような値であるべきかがわかっています。たとえば、@ListAccess には @Number が必要です。それが取得できない場合は、何かが予想とは異なる型であることを表します。"
         },
         "NoExpressionType": {
             "name": "$~無表情",
+            "description": "$~空のブロックの型",
             "emotion": "angry",
             "doc": "$~@Block には少なくとも 1 つの式が必要であることをご存知ですか? 式を指定しないと、I という結果になります。だから、式を指定してください。"
         },
         "NotEnclosedType": {
             "name": "$~構造、変換、反応ではない",
+            "description": "$~構造の外での使用をマークする",
             "emotion": "curious",
             "doc": "$~@This、とてもきれいなものですが、特定の場所にしか置けません。私が現れるのは、それらが紛失したときなので、誰もそれがどんな価値を表しているか知りません。"
         },
         "NotImplementedType": {
             "name": "$~未実装",
+            "description": "$~未記入のプレースホルダーの型",
             "emotion": "curious",
             "doc": "$~@ExpressionPlaceholder を使用するが、その型を指定しない場合は、I という型が返されます。 それでいいのです!"
         },
         "UnknownNameType": {
             "name": "$~名前不明",
-            "description": "$~$1[$1 は定義されていません | 名前が指定されていません]",
+            "description": "$~$1[$1は未定義|名前が与えられていない]をマークする",
             "emotion": "curious",
             "doc": "$~@Reference と @PropertyReference が、あなたが話している名前を知らないことがあるのはご存知ですか? そういうとき、私がそこにいて、あなたが誰について話しているのか分からないことを表します。"
         },
         "NonFunctionType": {
             "name": "$~機能しない",
-            "description": "$~機能しない",
+            "description": "$~$1を非関数としてマークする",
             "emotion": "confused",
             "doc": "$~私たちの中には、何らかの機能を期待している人もいます。それが得られなかったときに私が現れます。"
         }
@@ -5038,7 +5092,8 @@
                 "resolution": "$~この対立を解決する",
                 "toggle": "$~注釈の表示と非表示",
                 "highlight": "$~このコードをエディタで表示する"
-            }
+            },
+            "nodeDescription": "$?"
         },
         "output": {
             "label": "$~プログラム出力",

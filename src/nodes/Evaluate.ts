@@ -1089,8 +1089,13 @@ export default class Evaluate extends Expression {
     }
 
     getDescriptionInputs(locales: Locales, context: Context) {
-        const names = this.getFunction(context)?.names;
-        return [names ? locales.getName(names) : undefined];
+        const fun = this.getFunction(context);
+        const names = fun?.names;
+        return [
+            names ? locales.getName(names) : undefined,
+            fun instanceof StreamDefinition ? true : undefined,
+            fun instanceof StructureDefinition ? true : undefined,
+        ];
     }
 
     getCharacter() {

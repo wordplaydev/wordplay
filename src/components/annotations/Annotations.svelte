@@ -33,6 +33,7 @@
     import Context from '@nodes/Context';
     import Expression from '@nodes/Expression';
     import Node from '@nodes/Node';
+    import Token from '@nodes/Token';
     import { DOCUMENTATION_SYMBOL } from '@parser/Symbols';
     import type Evaluator from '@runtime/Evaluator';
     import type Step from '@runtime/Step';
@@ -82,8 +83,14 @@
         onToggle = undefined,
     }: Props = $props();
 
-    let isExpanded = $derived(expanded !== undefined ? expanded : $showAnnotations);
-    let toggle = $derived(onToggle !== undefined ? onToggle : () => Settings.setShowAnnotations(!$showAnnotations));
+    let isExpanded = $derived(
+        expanded !== undefined ? expanded : $showAnnotations,
+    );
+    let toggle = $derived(
+        onToggle !== undefined
+            ? onToggle
+            : () => Settings.setShowAnnotations(!$showAnnotations),
+    );
 
     let evaluation = getEvaluation();
 
@@ -306,6 +313,14 @@
                                                       $locales,
                                                       context,
                                                   )
+                                                : undefined,
+                                            !(caretNode instanceof Token)
+                                                ? caretNode
+                                                      .getDescription(
+                                                          $locales,
+                                                          context,
+                                                      )
+                                                      .toText()
                                                 : undefined,
                                         ]}
                                     />

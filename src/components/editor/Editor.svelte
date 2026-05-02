@@ -373,9 +373,7 @@
         // See if there's a node or value view that corresponds to this node.
         const view =
             document.getElementById(`node-${node.id}`) ??
-            document.getElementById(
-                `value-${evaluator.getCurrentValue()?.id}`,
-            );
+            document.getElementById(`value-${evaluator.getCurrentValue()?.id}`);
         if (view instanceof HTMLElement) {
             nodeViewCache.set(node, view);
             return view;
@@ -1064,8 +1062,7 @@
     function handleCompositionStart() {
         composing = true;
 
-        if (insertedSymbol)
-            DB.Projects.undoRedo(evaluator.project.getID(), -1);
+        if (insertedSymbol) DB.Projects.undoRedo(evaluator.project.getID(), -1);
     }
 
     function handleCompositionEnd() {
@@ -1602,18 +1599,25 @@
                 {@const relevantConcept = concepts?.getRelevantConcept(
                     $caret.position,
                 )}
-                <!-- Make a link to the node's documentation -->
-                {#if relevantConcept}<ConceptLinkUI
-                        link={relevantConcept}
-                        label={DOCUMENTATION_SYMBOL}
-                    />{/if}
-                <!-- Show the node's label and type -->
-                {$caret.position.getLabel(
-                    $locales,
-                )}{#if caretExpressionType}&nbsp;{TYPE_SYMBOL}&nbsp;{caretExpressionType.toWordplay()}{/if}
-                {#if editable}<MenuTrigger
-                        anchor={$caret.position}
-                    />{/if}{/if}{#if keyIgnoredReason}<em>
+                <span class="node-label">
+                    <!-- Make a link to the node's documentation -->
+                    {#if relevantConcept}<ConceptLinkUI
+                            link={relevantConcept}
+                            label={DOCUMENTATION_SYMBOL}
+                        />{/if}
+                    <!-- Show the node's label and type -->
+                    {$caret.position.getLabel(
+                        $locales,
+                    )}{#if caretExpressionType}&nbsp;{TYPE_SYMBOL}&nbsp;{caretExpressionType.toWordplay()}{/if}
+                    {#if editable}<MenuTrigger
+                            anchor={$caret.position}
+                        />{/if}
+                </span>{#if !($caret.position instanceof Token)}<em
+                    class="node-description"
+                    >{$caret.position
+                        .getDescription($locales, context)
+                        .toText()}</em
+                >{/if}{/if}{#if keyIgnoredReason}<em>
                     &nbsp;<LocalizedText path={keyIgnoredReason} /></em
                 >{/if}</div
         >
@@ -1718,6 +1722,8 @@
         padding-right: var(--wordplay-spacing-half);
         border-radius: var(--wordplay-border-radius);
         opacity: 0;
+        display: flex;
+        flex-direction: column;
     }
 
     .caret-description.visible {
@@ -1726,6 +1732,18 @@
 
     .caret-description.ignored {
         animation: shake calc(var(--animation-factor) * 250ms) linear;
+    }
+
+    .node-label {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--wordplay-spacing-half);
+    }
+
+    .node-description {
+        display: block;
+        font-size: var(--wordplay-small-font-size);
+        opacity: 0.75;
     }
 
     .output-preview-container {

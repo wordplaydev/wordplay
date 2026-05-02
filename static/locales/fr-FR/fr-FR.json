@@ -130,7 +130,7 @@
     "node": {
         "Dimension": {
             "name": "$~dimension",
-            "description": "$~dimension",
+            "description": "$~désigne une partie d'une unité",
             "emotion": "$?",
             "doc": [
                 "$~Je suis une /unité de mesure/!",
@@ -143,6 +143,7 @@
         },
         "Doc": {
             "name": "$~explication",
+            "description": "$~documente une expression avec du texte",
             "emotion": "$?",
             "doc": [
                 "$~Je formate richement les choses avec @Markup, comme les explications de certains de vos @Program, ou même les mots que vous mettez en scène avec @Phrase.",
@@ -163,6 +164,7 @@
         },
         "Docs": {
             "name": "$~listed'explication",
+            "description": "$~liste la documentation en plusieurs langues",
             "emotion": "$?",
             "doc": [
                 "$~Voici une liste de @Doc, utile lorsque vous avez plusieurs traductions de @Doc dans différentes langues.",
@@ -173,6 +175,7 @@
         },
         "KeyValue": {
             "name": "$~cartographie",
+            "description": "$~associe une clé à une valeur",
             "emotion": "$?",
             "doc": [
                 "$~Je fais un mappage d'une *clé* vers une *valeur*, toujours dans une @Map.",
@@ -184,7 +187,7 @@
         },
         "Language": {
             "name": "$~langue",
-            "description": "$~langue $1[$1|inconnu]",
+            "description": "$~étiquette les noms et textes avec une langue",
             "emotion": "$?",
             "doc": [
                 "$~Je suis un tag de langue et je travaille avec @Name et @Doc !",
@@ -211,7 +214,7 @@
         },
         "Name": {
             "name": "$~nom",
-            "description": "$~$1 [$1 | sans nom]",
+            "description": "$~déclare le nom $1[$1|sans nom]",
             "emotion": "$?",
             "doc": [
                 "$~J'identifie une valeur et je suis un moyen utile de donner une étiquette abrégée à quelque chose qui était difficile à évaluer ou que vous ne voulez pas avoir à évaluer encore et encore.",
@@ -229,6 +232,7 @@
         },
         "Names": {
             "name": "$~listedenoms",
+            "description": "$~liste les noms en plusieurs langues",
             "emotion": "$?",
             "doc": [
                 "$~Je suis une liste de @Name, utile lorsque vous souhaitez donner à une valeur plusieurs noms, souvent avec des @Language différents.",
@@ -241,6 +245,7 @@
         },
         "Row": {
             "name": "$~rangée",
+            "description": "$~représente une ligne dans un tableau",
             "emotion": "$?",
             "doc": "$~Je représente une ligne dans une @Table. Il est probablement préférable d'aller parler à @Table, ils savent tout de moi. Je reste assis et je garde les valeurs en ligne :(",
             "conflict": {
@@ -268,7 +273,7 @@
         },
         "Token": {
             "name": "$~jeton",
-            "description": "$~$1 $2",
+            "description": "$1",
             "emotion": "$?",
             "doc": [
                 "$~Comment m'as-tu trouvé ?",
@@ -277,11 +282,13 @@
         },
         "TypeInputs": {
             "name": "$~entréesdetype",
+            "description": "$~remplis les emplacements de variables de type",
             "emotion": "$?",
             "doc": "$~Je suis une liste de types qui remplacent les @TypeVariables dans une @StructureDefinition ou une @FunctionDefinition. J'aide tout le monde à savoir quel type d'entrées ils recevront."
         },
         "TypeVariable": {
             "name": "$~variabledetype",
+            "description": "$~nomme un type donné par l'appelant",
             "emotion": "$?",
             "doc": "$~Je suis un type mystère sur @FunctionDefinition ou @StructureDefinition, fourni par @TypeInputs lorsque l'un ou l'autre est évalué. @Set, @List et @Map m'utilisent.",
             "conflict": {
@@ -296,12 +303,13 @@
         },
         "TypeVariables": {
             "name": "$~variablesdetype",
+            "description": "$~liste les variables de type d'une définition",
             "emotion": "$?",
             "doc": "$~Je suis une liste de @TypeVariable."
         },
         "Markup": {
             "name": "$~balisage",
-            "description": "$~1 paragraphe",
+            "description": "$~formate la documentation avec $1 paragraphes",
             "emotion": "$?",
             "doc": [
                 "$~Je suis une liste de paragraphes, utilisant les nombreux types de balisage disponibles dans les explications, tels que @Words, @WebLink, @ConceptLink et @Example."
@@ -312,6 +320,7 @@
         },
         "Paragraph": {
             "name": "$~paragraphe",
+            "description": "$~regroupe des mots en un paragraphe",
             "emotion": "$?",
             "doc": [
                 "$~Je suis une série de @Words, @ConceptLink, @WebLink et @Example, séparés par une ligne vide et à l'intérieur de @Doc.",
@@ -323,7 +332,7 @@
         },
         "WebLink": {
             "name": "$~lien",
-            "description": "$~lien 1$",
+            "description": "$~lie à l'adresse web $1",
             "emotion": "$?",
             "doc": [
                 "$~Je suis un lien vers quelque chose sur Internet. J'ai juste besoin d'une description et d'une URL :",
@@ -333,7 +342,7 @@
         },
         "ConceptLink": {
             "name": "$~concept",
-            "description": "$~concept 1",
+            "description": "$~lie au concept $1 dans les docs",
             "emotion": "$?",
             "doc": [
                 "$~Je suis un lien vers le personnage de Verse. Je peux vous aider si vous souhaitez rédiger un @Doc et faire référence à l'un d'entre nous.",
@@ -348,6 +357,7 @@
         },
         "Words": {
             "name": "$~mots",
+            "description": "$~écris des mots simples dans la documentation",
             "emotion": "$?",
             "doc": [
                 "$~Je mets tous les mots que vous voulez dans un @Doc. Par exemple :",
@@ -359,6 +369,7 @@
         },
         "Example": {
             "name": "$~exemple",
+            "description": "$~montre du code exécutable dans la documentation",
             "emotion": "$?",
             "doc": [
                 "$~Je suis un exemple de performance, utile pour écrire un @Doc qui explique comment utiliser quelque chose!",
@@ -367,7 +378,7 @@
         },
         "Mention": {
             "name": "$~mention",
-            "description": "$~mentionner $1",
+            "description": "$~mentionne $1 dans le balisage",
             "emotion": "$?",
             "doc": [
                 "$~Je fais référence soit à une terminologie \\$programme\\ soit à une entrée dynamique \\$1\\.",
@@ -376,6 +387,7 @@
         },
         "Branch": {
             "name": "$~bifurquer",
+            "description": "$~choisit le balisage selon la condition",
             "emotion": "$?",
             "doc": [
                 "$~Je suis un moyen de choisir entre deux segments d'explication en fonction du fait qu'une valeur d'entrée d'explication est définie ou vraie.",
@@ -384,7 +396,7 @@
         },
         "BinaryEvaluate": {
             "name": "$~évaluationbinaire",
-            "description": "$~Opération $1",
+            "description": "$~applique l'opérateur $1 à deux valeurs",
             "emotion": "$?",
             "doc": [
                 "$~Je suis @Evaluate, mais sous une forme plus simple, utile lorsque vous souhaitez utiliser une @FunctionDefinition qui prend deux entrées.",
@@ -414,7 +426,7 @@
         },
         "Bind": {
             "name": "$~lier",
-            "description": "$~lier 1",
+            "description": "$~nomme cette valeur '$1'",
             "emotion": "$?",
             "doc": [
                 "$~Je nomme des *valeurs*.",
@@ -490,7 +502,7 @@
         },
         "Block": {
             "name": "$~bloc",
-            "description": "$~Relevés de $1",
+            "description": "$~évalue $1 instructions en séquence",
             "emotion": "$?",
             "doc": [
                 "$~Bonjour, je crée un petit espace calme et privé pour évaluer les choses.",
@@ -530,14 +542,14 @@
         },
         "BooleanLiteral": {
             "name": "$~littéralbooléen",
-            "description": "$~$1[vrai|faux]",
+            "description": "$~crée une valeur booléenne $1[vraie|fausse]",
             "emotion": "$?",
             "doc": "$~Je suis soit \\⊤\\, soit \\⊥\\. Voir @Boolean pour en savoir plus sur notre belle logique.",
             "start": "$~$1!"
         },
         "Borrow": {
             "name": "$~emprunter",
-            "description": "$~emprunter $1 [$1|nom manquant]",
+            "description": "$~emprunte $1[$1|sans nom] d'une source",
             "emotion": "$?",
             "doc": "$~Si vous créez une performance avec plusieurs @Source, vous pouvez m'utiliser pour emprunter les @Bind partagés dans ces autres @Source. Utilisez simplement leur nom et j'apporterai leur nom et leur valeur.",
             "start": "$~Emprunter $2 à partir de $1",
@@ -565,6 +577,7 @@
         },
         "Changed": {
             "name": "$~modifié",
+            "description": "$~retourne vrai si le flux a changé",
             "emotion": "$?",
             "doc": [
                 "$~Je vérifie si un flux a provoqué la réévaluation de @Program et crée un @Boolean. Comme ça",
@@ -579,6 +592,7 @@
         },
         "Conditional": {
             "name": "$~conditionnel",
+            "description": "$~vérifie la condition et évalue l'une de deux expressions",
             "emotion": "$?",
             "doc": [
                 "$~Je pense que je suis censé prendre des décisions ? Comme ça ?",
@@ -605,7 +619,7 @@
         },
         "ConversionDefinition": {
             "name": "$~définitiondeconversion",
-            "description": "$1 → $2",
+            "description": "$~définit la conversion de $1 vers $2",
             "emotion": "$?",
             "doc": [
                 "$~Mec, je définis des conversions d'un type à un autre ! Je vais dans @Block, quelque chose comme ça :",
@@ -628,6 +642,7 @@
         },
         "Convert": {
             "name": "$~convertir",
+            "description": "$~convertit une valeur en un autre type",
             "emotion": "$?",
             "doc": [
                 "$~Yo. Je transforme les valeurs d'un type à un autre. Regardez ça :",
@@ -655,6 +670,7 @@
         },
         "Delete": {
             "name": "$~supprimer",
+            "description": "$~supprime les lignes correspondantes du tableau",
             "emotion": "$?",
             "doc": [
                 "$~Parfois, vous avez une table et il y a TROP DE CHOSES DEDANS !",
@@ -667,6 +683,7 @@
         },
         "DocumentedExpression": {
             "name": "$~expressionexpliquée",
+            "description": "$~attache la documentation à une expression",
             "emotion": "$?",
             "doc": [
                 "$~Je suis n'importe quelle expression, mais avec un @Doc !",
@@ -678,7 +695,7 @@
         },
         "Evaluate": {
             "name": "$~évaluer",
-            "description": "$~évaluer $1[$1|anonyme]",
+            "description": "$~$2[crée $1[$1|] $2 avec ces entrées|applique $1[$1|fonction] à ces entrées]",
             "emotion": "$?",
             "doc": [
                 "$~Salut. J'évalue ma très chère @FunctionDefinition. Comme ça :",
@@ -743,7 +760,7 @@
         },
         "Input": {
             "name": "$~Saisir",
-            "description": "$~entrée nommée",
+            "description": "$~déclare une entrée de fonction nommée",
             "emotion": "$?",
             "doc": [
                 "$~Je suis une entrée donnée à un @Evaluate. Mon nom correspond au nom de l'entrée dans la @FunctionDefinition ou la @StructureDefinition en cours d'évaluation.",
@@ -755,7 +772,7 @@
         },
         "ExpressionPlaceholder": {
             "name": "$~espaceréservé",
-            "description": "$~$1[$1|espace réservé]",
+            "description": "$~marque une expression à remplir",
             "emotion": "$?",
             "doc": [
                 "$~Je suis une *expression*, mais pas une vraie… Je prends juste la place d'une.",
@@ -785,7 +802,7 @@
         },
         "FunctionDefinition": {
             "name": "$~fonction",
-            "description": "$~fonction $1",
+            "description": "$~définit la fonction $1",
             "emotion": "$?",
             "doc": [
                 "$~Bonjour à nouveau ! Je prends quelques entrées, puis j'évalue une expression en les utilisant, produisant une sortie.",
@@ -818,6 +835,7 @@
         },
         "Iteration": {
             "name": "$~fonctiond'ordresupérieur",
+            "description": "$~itère sur les valeurs de liste en interne",
             "emotion": "$?",
             "doc": "$~Je suis un type très spécial de @FunctionDefinition qui opère sur des listes d'éléments. Vous n'avez pas besoin de savoir quoi que ce soit sur moi, à part que je rends possibles des fonctions comme @List/translate.",
             "start": "$~Évaluation de la fonction donnée",
@@ -828,6 +846,7 @@
         },
         "Initial": {
             "name": "$~Commencer",
+            "description": "$~retourne vrai à la première évaluation",
             "emotion": "$?",
             "doc": [
                 "$~Je vous indique si l'évaluation actuelle de @Program est la première, évaluée en @Boolean. Par exemple :",
@@ -838,6 +857,7 @@
         },
         "Insert": {
             "name": "$~insérer",
+            "description": "$~ajoute une ligne à un tableau",
             "emotion": "$?",
             "doc": [
                 "$~Vous savez quand vous avez une @Table et que vous avez l'impression qu'il manque quelque chose ? Je peux l'ajouter !",
@@ -850,7 +870,7 @@
         },
         "Is": {
             "name": "$~est",
-            "description": "$~est",
+            "description": "$~vérifie si la valeur est de type $1",
             "emotion": "$?",
             "doc": [
                 "$~Vous savez quoi ? Il existe tellement de valeurs qui signifient tellement de choses différentes. Je vous aide à les comprendre.",
@@ -878,7 +898,7 @@
         },
         "IsLocale": {
             "name": "$~estlocal",
-            "description": "$~est local",
+            "description": "$~retourne vrai si la locale est sélectionnée",
             "emotion": "$?",
             "doc": [
                 "$~Je vous aiderai à vérifier si le public a sélectionné une langue ou une région particulière:",
@@ -890,6 +910,7 @@
         },
         "ListAccess": {
             "name": "$~accèsàlaliste",
+            "description": "$~obtient la valeur à la position dans la liste",
             "emotion": "$?",
             "doc": [
                 "$~Je travaille en étroite collaboration avec @List pour les aider à obtenir des valeurs à une position particulière. Ainsi, si vous aviez une liste et que vous vouliez son deuxième élément, vous écririez :",
@@ -900,7 +921,7 @@
         },
         "ListLiteral": {
             "name": "$~listelittérale",
-            "description": "$~Liste d'articles à $1",
+            "description": "$~crée une liste de $1 valeurs",
             "emotion": "$?",
             "doc": "$~Je suis une @List de valeurs spécifique ! Consultez @List pour en savoir plus sur ce que vous pouvez faire avec moi.",
             "start": "$~Commençons par évaluer les éléments",
@@ -908,6 +929,7 @@
         },
         "Spread": {
             "name": "$~propagé",
+            "description": "$~développe une liste dans une autre liste",
             "emotion": "serious",
             "doc": [
                 "$~Une aide pour créer des listes avec les valeurs d'autres listes.",
@@ -916,7 +938,7 @@
         },
         "MapLiteral": {
             "name": "$~cartelittérale",
-            "description": "$~Carte de jumelage à $1",
+            "description": "$~crée une carte de $1 paires clé-valeur",
             "emotion": "$?",
             "doc": "$~Je suis une @Map spécifique entre les clés et les valeurs. Consultez @Map pour en savoir plus sur mon utilité.",
             "start": "$~Commençons par évaluer les clés et les valeurs",
@@ -933,6 +955,7 @@
         },
         "Match": {
             "name": "$~correspondre",
+            "description": "$~compare la valeur à plusieurs cas",
             "emotion": "curious",
             "doc": [
                 "$~Je suis le plus glorieux de tous les contrôles conditionnels! Je prends une valeur et la compare à un certain nombre de cas, puis j'évalue l'expression correspondante qui correspond.",
@@ -952,7 +975,7 @@
         },
         "NumberLiteral": {
             "name": "$~nombrelittéral",
-            "description": "$~$1 2 [$ 2 |]",
+            "description": "$~crée le nombre $1 $2[$2|]",
             "emotion": "$?",
             "doc": "$~Je suis un @Number spécifique. Vous pouvez m'écrire avec n'importe quel type de chiffres et dans n'importe quelle langue. Voir @Number pour tout ce que je peux faire.",
             "start": "$~$1!",
@@ -965,18 +988,21 @@
         },
         "InternalExpression": {
             "name": "$~expressioninterne",
+            "description": "$~exécute une expression créateur intégrée",
             "emotion": "$?",
             "doc": "$~Comment m'as-tu trouvé ? Je suis une expression que seuls les créateurs originaux utilisent. Pour en savoir plus sur moi, tu devras leur parler.",
             "start": "$~Expression secrète"
         },
         "NoneLiteral": {
             "name": "$~aucunlittéral",
+            "description": "$~crée la valeur rien",
             "emotion": "$?",
             "doc": "$~/@FunctionDefinition ici. Il s'agit simplement de @None. Ils sont uniques en leur genre! Consultez @None pour en savoir plus à leur sujet.",
             "start": "$~… ø"
         },
         "Otherwise": {
             "name": "$~sinon",
+            "description": "$~fournit une valeur de secours si aucune",
             "emotion": "curious",
             "doc": [
                 "$~/@FunctionDefinition ici. C'est un moyen pratique de vérifier si une valeur est @None et, si c'est le cas, de fournir une valeur de sauvegarde./",
@@ -988,6 +1014,7 @@
         },
         "Previous": {
             "name": "$~précédent",
+            "description": "$~obtient la valeur précédente du flux",
             "emotion": "$?",
             "doc": [
                 "$~Avez-vous déjà voulu vous souvenir du passé ?",
@@ -1008,6 +1035,7 @@
         },
         "Program": {
             "name": "$~programme",
+            "description": "$~contient toutes les expressions d'un programme",
             "emotion": "$?",
             "doc": [
                 "$~Je suis là où une performance commence et se termine, contenant tous les autres personnages qui chorégraphient un spectacle.",
@@ -1052,7 +1080,7 @@
         },
         "PropertyBind": {
             "name": "$~affiner",
-            "description": "$~affiner $1[$1|nom manquant]",
+            "description": "$~affine la propriété $1[$1|sans nom]",
             "emotion": "$?",
             "doc": [
                 "$~Parfois, lorsque vous créez une @StructureDefinition, vous souhaitez modifier la moindre petite chose à son sujet, sans avoir à en créer une nouvelle avec toutes les mêmes valeurs.",
@@ -1075,7 +1103,7 @@
         },
         "PropertyReference": {
             "name": "$~propriété",
-            "description": "$~propriété $1[$1|nom manquant]",
+            "description": "$~obtient la propriété $1[$1|sans nom]",
             "emotion": "$?",
             "doc": [
                 "$~Lorsque vous créez une @StructureDefinition, comment obtenez-vous l'une de ses entrées ? Je suis comment",
@@ -1090,6 +1118,7 @@
         },
         "Reaction": {
             "name": "$~réaction",
+            "description": "$~crée une valeur lors d'un changement de flux",
             "emotion": "$?",
             "doc": [
                 "$~Les streams sont vraiment géniaux ! Je peux en créer de nouveaux en fonction de leurs changements, ce qui est super cool !",
@@ -1114,7 +1143,7 @@
         },
         "Reference": {
             "name": "$~référence",
-            "description": "$~$1",
+            "description": "$~référence le nom $1",
             "emotion": "$?",
             "doc": [
                 "$~Vous savez comment @Bind donne aux choses @Name ? Je suis la façon dont vous les appelez. Je vois si un @Bind a ce nom, si c'est le cas, je vous donne sa valeur. Comme ça :",
@@ -1149,6 +1178,7 @@
         },
         "Select": {
             "name": "$~sélectionner",
+            "description": "$~filtre les lignes correspondantes du tableau",
             "emotion": "$?",
             "doc": [
                 "$~Parfois, vous avez une table et vous n'en voulez qu'une partie. Je peux vous l'obtenir !",
@@ -1167,7 +1197,7 @@
         },
         "SetLiteral": {
             "name": "$~définirunlittéral",
-            "description": "$~Articles à $1",
+            "description": "$~crée un ensemble de $1 éléments",
             "emotion": "$?",
             "doc": "$~Je suis un @Set spécifique de valeurs spécifiques. Consultez @Set pour en savoir plus sur la façon de travailler avec moi.",
             "start": "$~Évaluons d’abord les valeurs !",
@@ -1175,6 +1205,7 @@
         },
         "SetOrMapAccess": {
             "name": "$~accèsàl'ensemble/àlacarte",
+            "description": "$~vérifie si l'ensemble ou la carte contient",
             "emotion": "$?",
             "doc": [
                 "$~Je peux voir si un @Set ou @Map a une valeur ou une clé.",
@@ -1194,6 +1225,7 @@
         },
         "Source": {
             "name": "$~source",
+            "description": "$~nomme un fichier source de programme",
             "emotion": "$?",
             "doc": [
                 "$~Oh, tu connais @Program ? Je t'aide à les nommer. Pense à moi comme à la fenêtre qui entoure un @Program, et au nom que tu leur donnes.",
@@ -1203,13 +1235,14 @@
         },
         "StreamDefinition": {
             "name": "$~flux",
+            "description": "$~définit un nouveau type de flux",
             "emotion": "$?",
             "doc": "$~Je pense que je suis censé créer de nouveaux flux. Mais je ne sais vraiment pas comment faire. Pour l'instant, je suppose qu'il suffit d'utiliser les flux existants ?",
             "start": "$~Créer ce nouveau type de flux"
         },
         "StructureDefinition": {
             "name": "$~structure",
-            "description": "$~structure 1",
+            "description": "$~définit la structure $1",
             "emotion": "$?",
             "doc": [
                 "$~Bonjour, comment vas-tu ? Moi ? Je vais bien. J'aime définir des structures qui stockent des valeurs et des fonctions, donc tant que je peux faire ça toute la journée, je suis heureuse.",
@@ -1250,15 +1283,15 @@
         },
         "StructureDefinitionType": {
             "name": "$~définitiondelastructure",
+            "description": "$1",
             "emotion": "$?",
-            "description": "$~définition de 1$",
             "doc": [
                 "$~Je fais référence à une sorte de @StructureDefinition. Les gens ne font généralement pas référence à moi directement"
             ]
         },
         "TableLiteral": {
             "name": "$~littéraldetable",
-            "description": "$~Tableau à 1 ligne",
+            "description": "$~crée un tableau de $1 lignes",
             "emotion": "$?",
             "doc": "$~Je suis une table spécifique avec des lignes spécifiques. Voir @Table pour savoir comment je peux vous aider.",
             "start": "$~Évaluez d'abord les lignes",
@@ -1266,7 +1299,7 @@
         },
         "TextLiteral": {
             "name": "$~textelittéral",
-            "description": "$~texte $1",
+            "description": "$~crée la valeur texte $1",
             "emotion": "$?",
             "doc": "$~Je représente une ou plusieurs @Translation de texte spécifiques. Voir @Text pour en savoir plus sur ce que je peux faire!",
             "start": "$~Créons du texte dans les paramètres régionaux actuels",
@@ -1276,7 +1309,7 @@
         },
         "Translation": {
             "name": "$~traduction",
-            "description": "$~traduction $1",
+            "description": "$~crée le texte '$1'",
             "emotion": "$?",
             "doc": "$~Je représente un texte avec une balise @Language. Voir @Text pour en savoir plus!",
             "conflict": {
@@ -1313,14 +1346,14 @@
         },
         "FormattedLiteral": {
             "name": "$~formaté",
-            "description": "$~texte $1",
+            "description": "$~crée le texte formaté $1",
             "emotion": "$?",
             "doc": "$~Je représente de nombreux @FormattedTranslation différents de textes formatés. Lors de l'évaluation, je choisirai la meilleure correspondance en fonction des langues sélectionnées par le public.",
             "start": "$~Créons du texte dans les paramètres régionaux actuels"
         },
         "FormattedTranslation": {
             "name": "$~traductionformatée",
-            "description": "$~texte $1",
+            "description": "$~traduit le texte formaté en $1",
             "emotion": "$?",
             "doc": [
                 "$~Je représente un texte formaté, avec une balise @Language.",
@@ -1336,6 +1369,7 @@
         },
         "This": {
             "name": "$~ce",
+            "description": "$~fait référence à la valeur de structure actuelle",
             "emotion": "$?",
             "doc": [
                 "$~Parfois, il est utile de faire référence à une valeur de manière implicite, plutôt que de devoir la nommer.",
@@ -1357,7 +1391,7 @@
         },
         "UnaryEvaluate": {
             "name": "$~évaluerunaire",
-            "description": "$~$1",
+            "description": "$~applique l'opérateur unaire $1",
             "emotion": "$?",
             "doc": [
                 "$~Saviez-vous que lorsque j'évalue une @FunctionDefinition avec une seule valeur et que le nom de @FunctionDefinition n'est qu'un seul symbole, vous pouvez placer le nom avant l'entrée ?",
@@ -1377,6 +1411,7 @@
         },
         "UnparsableExpression": {
             "name": "$~nonanalysable",
+            "description": "$~marque une expression non analysable",
             "emotion": "$?",
             "doc": [
                 "$~/Bonjour @FunctionDefinition ici. Je traduis pour @UnparsableExpression, car elles sont souvent difficiles à interpréter./",
@@ -1411,6 +1446,7 @@
         },
         "Update": {
             "name": "$~miseàjour",
+            "description": "$~révise les lignes correspondantes dans le tableau",
             "emotion": "$?",
             "doc": [
                 "$~J'aide à réviser une @Table, en trouvant les lignes qui correspondent à une condition, puis en créant des lignes révisées avec de nouvelles valeurs.",
@@ -1433,11 +1469,13 @@
         },
         "AnyType": {
             "name": "$~n'importelequel",
+            "description": "$~correspond à tout type possible",
             "emotion": "$?",
             "doc": "$~Je représente n'importe quel type possible. Parfois, je me présente parce que je ne sais pas quelle valeur a quelque chose, alors cela pourrait être n'importe quoi."
         },
         "BooleanType": {
             "name": "$~booléen",
+            "description": "$~type une valeur booléenne vrai/faux",
             "emotion": "$?",
             "doc": [
                 "$~Je travaille avec @Bind pour déclarer qu'un nom est une valeur @Boolean. Comme ceci :",
@@ -1447,6 +1485,7 @@
         },
         "ConversionType": {
             "name": "$~conversion",
+            "description": "$~type une définition de conversion",
             "emotion": "$?",
             "doc": [
                 "$~Je travaille avec @Bind pour indiquer qu'un nom est une @ConversionDefinition. Vous n'avez probablement pas besoin de m'utiliser, car peu de gens me transmettent comme valeur, mais si vous le faisiez, je ressemblerais à ceci:",
@@ -1455,6 +1494,7 @@
         },
         "FormattedType": {
             "name": "$~formaté",
+            "description": "$~type une valeur texte formatée",
             "emotion": "$?",
             "doc": [
                 "$~Je travaille avec @Bind pour noter qu'un nom est une valeur @FormattedLiteral. Comme ceci :",
@@ -1464,12 +1504,13 @@
         },
         "ExceptionType": {
             "name": "$~exception",
+            "description": "$~type une valeur d'exception",
             "emotion": "$?",
             "doc": "$~Je représente une exception. Il n'y a aucun moyen de dire à bind que j'en suis une, car les exceptions ne font qu'arrêter @Program, vous ne pouvez donc pas les utiliser comme valeurs."
         },
         "FunctionType": {
             "name": "$~fonction",
-            "description": "$~fonction avec $1 entrées, $2 sorties",
+            "description": "$~type une fonction avec $1 entrées",
             "emotion": "$?",
             "doc": [
                 "$~Je représente une @FunctionDefinition. Je suis vraiment utile si vous voulez dire quel type de fonction contient un @Bind! Comme ça:",
@@ -1478,7 +1519,7 @@
         },
         "ListType": {
             "name": "$~liste",
-            "description": "$~$1[liste de $1|liste]",
+            "description": "$~type $1[liste de $1|liste]",
             "emotion": "$?",
             "doc": [
                 "$~Je suis un fan inconditionnel de @List. Je peux dire à @Bind de quel genre de liste il s'agit ! Comme ça, je dis que c'est une liste de @Number :",
@@ -1487,7 +1528,7 @@
         },
         "MapType": {
             "name": "$~carte",
-            "description": "$~carte de $1[$1|any] à $2[$2|any]",
+            "description": "$~type une carte de $1[$1|tout] vers $2[$2|tout]",
             "emotion": "$?",
             "doc": [
                 "$~Savez-vous à quel point @Map est génial ? Vraiment génial. Je dis à @Bind de quel type de carte il s'agit tout le temps, comme cette carte de nombres en listes :",
@@ -1496,7 +1537,7 @@
         },
         "NumberType": {
             "name": "$~nombre",
-            "description": "$~$1[$1 | nombre]",
+            "description": "$~type une valeur $1[$1|nombre]",
             "emotion": "$?",
             "doc": [
                 "$~Vous savez ce que @Bind devrait être ? Un @Number. Parce que les nombres sont les meilleurs.",
@@ -1505,7 +1546,7 @@
         },
         "NameType": {
             "name": "$~structure",
-            "description": "$~1 type",
+            "description": "$~référence le type nommé $1",
             "emotion": "$?",
             "doc": [
                 "$~Je représente une @StructureDefinition par son nom. Ainsi, si vous aviez une structure comme celle-ci, vous pourriez créer un @Bind qui stocke les valeurs qu'il crée.",
@@ -1520,11 +1561,13 @@
         },
         "NeverType": {
             "name": "$~jamais",
+            "description": "$~représente un type impossible",
             "emotion": "$?",
             "doc": "$~Je représente un type qui est impossible. Comme quand vous demandez à @Is si quelque chose est un @Number, mais cela ne peut jamais être un nombre."
         },
         "NoneType": {
             "name": "$~aucun",
+            "description": "$~type une valeur rien",
             "emotion": "$?",
             "doc": [
                 "$~@None est le meilleur rien qui existe, et je suis leur fidèle représentant.",
@@ -1533,7 +1576,7 @@
         },
         "SetType": {
             "name": "$~ensemble",
-            "description": "$~$1[$1 ensemble|ensemble]",
+            "description": "$~type un ensemble de $1[$1|tout]",
             "emotion": "$?",
             "doc": [
                 "$~@Set est le MEILLEUR, sérieusement. Je dis tout le temps à @Bind de faire un ensemble de choses !",
@@ -1542,11 +1585,13 @@
         },
         "StreamDefinitionType": {
             "name": "$~définitionduflux",
+            "description": "$~type un flux défini",
             "emotion": "$?",
             "doc": "$~Je représente un flux que vous avez défini, ce qui n'est pas possible, alors pourquoi lisez-vous même ceci ?"
         },
         "StreamType": {
             "name": "$~flux",
+            "description": "$~type une valeur de flux",
             "emotion": "$?",
             "doc": [
                 "$~Je célèbre la beauté et la signification des flux… en disant à @Bind de les stocker:",
@@ -1555,12 +1600,13 @@
         },
         "StructureType": {
             "name": "$~structure",
-            "description": "$1",
+            "description": "$~représente la structure $1",
             "emotion": "$?",
             "doc": "$~Je suis un type interne pour représenter le type de types de valeurs par défaut."
         },
         "TableType": {
             "name": "$~tableau",
+            "description": "$~type une valeur de tableau",
             "emotion": "$?",
             "doc": "$~Je représente une Table.",
             "conflict": {
@@ -1572,7 +1618,7 @@
         },
         "TextType": {
             "name": "$~texte",
-            "description": "$~$1[$1|texte]",
+            "description": "$~type une valeur $1[$1|texte]",
             "emotion": "$?",
             "doc": [
                 "$~Je représente fabuleusement le type de valeur le plus fabuleux qui soit, @Text.",
@@ -1581,12 +1627,13 @@
         },
         "TypePlaceholder": {
             "name": "$~espaceréservé",
+            "description": "$~tient un espace réservé pour un type",
             "emotion": "$?",
             "doc": "$~J'espère représenter un type un jour, un peu comme ma meilleure amie @ExpressionPlaceholder représente une expression ! Peux-tu m'aider à décider quel type ?"
         },
         "UnionType": {
             "name": "$~option",
-            "description": "$~$1 | $2",
+            "description": "$~type soit $1 soit $2",
             "emotion": "$?",
             "doc": [
                 "$~Qui dois-je représenter, A ou B ou autre chose ? Je n'arrive jamais à décider !",
@@ -1595,7 +1642,7 @@
         },
         "Unit": {
             "name": "$~unité",
-            "description": "$~$1",
+            "description": "$~spécifie l'unité $1",
             "emotion": "$?",
             "doc": [
                 "$~Je représente n'importe quelle unité qu'un @Number pourrait avoir, y compris l'absence d'unité, jusqu'à l'unité la plus compliquée que vous puissiez imaginer. Comme la gravité, par exemple:",
@@ -1605,16 +1652,19 @@
         },
         "UnparsableType": {
             "name": "$~nonanalysable",
+            "description": "$~type une expression non analysable",
             "emotion": "$?",
             "doc": "$~Je représente le type d'une expression inconnue. J'apparais lorsque vous essayez d'utiliser cette expression pour quelque chose."
         },
         "VariableType": {
             "name": "$~typedevariable",
+            "description": "$~représente une variable de type en usage",
             "emotion": "$?",
             "doc": "$~Connaissez-vous @TypeVariable et comment ils représentent un type de valeur inconnu ? Je les représente dans toutes les négociations entre valeurs."
         },
         "UnknownType": {
             "name": "$~inconnu",
+            "description": "$~représente un type indéterminé",
             "connector": "$~, parce que",
             "emotion": "$?",
             "doc": "$~Euh... Je ne sais pas ce que je représente, mais je suis vraiment curieuse. Le savez-vous ? Il semblerait que nous devrions le savoir. Vous devrez peut-être nous le dire si nous ne parvenons pas à le comprendre."
@@ -1627,39 +1677,43 @@
         },
         "NotAType": {
             "name": "$~inattendu",
-            "description": "$~pas un 1$",
+            "description": "$~marque $1 comme type invalide",
             "emotion": "$?",
             "doc": "$~Parfois, nous savons quel type de valeur doit avoir quelque chose. Par exemple, @ListAccess a besoin d'un @Number. Si nous ne l'obtenons pas, cela signifie que quelque chose est d'un type différent de celui que nous attendions."
         },
         "NoExpressionType": {
             "name": "$~aucuneexpression",
+            "description": "$~type un bloc vide",
             "emotion": "$?",
             "doc": "$~Vous savez que @Block a besoin d'au moins une expression ? Je suis ce que vous obtenez lorsque vous n'en donnez pas une. Alors donnez-en une !"
         },
         "NotEnclosedType": {
             "name": "$~pasdanslastructure,laconversionoularéaction",
+            "description": "$~marque une utilisation hors d'une structure",
             "emotion": "$?",
             "doc": "$~@This objets, aussi soignés soient-ils, n'appartiennent qu'à des endroits particuliers. Je les retrouve quand ils sont perdus, et donc personne ne sait quelle valeur ils représentent."
         },
         "NotImplementedType": {
             "name": "$~nonimplémenté",
+            "description": "$~type un espace réservé non rempli",
             "emotion": "$?",
             "doc": "$~Lorsque vous utilisez @ExpressionPlaceholder, mais que vous ne précisez pas de quel type il s'agit, je suis le type que vous obtenez. Faites avec !"
         },
         "UnknownNameType": {
             "name": "$~nominconnu",
-            "description": "$~$1[$1 n'est pas défini |aucun nom n'a été donné]",
+            "description": "$~marque $1[$1 comme indéfini|nom non fourni]",
             "emotion": "$?",
             "doc": "$~Vous savez comment parfois @Reference et @PropertyReference ne connaissent pas le nom dont vous parlez ? Je suis là quand cela arrive, pour vous montrer que nous ne savons pas de qui vous parlez."
         },
         "NonFunctionType": {
             "name": "$~non-fonction",
-            "description": "$~non-fonction",
+            "description": "$~marque $1 comme non-fonction",
             "emotion": "$?",
             "doc": "$~Certains d'entre nous s'attendaient à des fonctions ; j'arrive quand nous n'en avons pas."
         },
         "UnknownVariableType": {
             "name": "$~variableinconnue",
+            "description": "$~représente une variable de type inconnue",
             "emotion": "$?",
             "doc": "$~Parfois, nous essayons de deviner quelle est la valeur de quelque chose ; j'interviens alors que nous ne le savons pas."
         }
@@ -5005,7 +5059,8 @@
                 "resolution": "$~Résoudre ce conflit",
                 "toggle": "$~afficher et masquer les annotations",
                 "highlight": "$~afficher ce code dans l'éditeur"
-            }
+            },
+            "nodeDescription": "$?"
         },
         "output": {
             "label": "$~sortie du programme",

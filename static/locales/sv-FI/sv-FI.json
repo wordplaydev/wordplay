@@ -143,6 +143,7 @@
         },
         "Doc": {
             "name": "$~förklaring",
+            "description": "$~dokumenterar ett uttryck med text",
             "emotion": "serious",
             "doc": [
                 "$~Jag formaterar saker rikt med @Markup, som förklaringar av några av ditt @Program, eller till och med orden du sätter på scenen med @Phrase.",
@@ -163,6 +164,7 @@
         },
         "Docs": {
             "name": "$~förklaringslista",
+            "description": "$~listar dokumentation på flera språk",
             "emotion": "serious",
             "doc": [
                 "$~Jag är en lista över @Doc, användbar när du har flera översättningar av @Doc på olika språk.",
@@ -173,6 +175,7 @@
         },
         "KeyValue": {
             "name": "$~kartläggning",
+            "description": "$~mappar en nyckel till ett värde",
             "emotion": "kind",
             "doc": [
                 "$~Jag är en mappning från en *nyckel* till ett *värde*, alltid i en @Map.",
@@ -229,6 +232,7 @@
         },
         "Names": {
             "name": "$~namnlista",
+            "description": "$~listar namn på flera språk",
             "emotion": "kind",
             "doc": [
                 "$~Jag är en lista med @Name, användbar när du vill ge ett värde flera namn, ofta med olika @Language.",
@@ -241,6 +245,7 @@
         },
         "Row": {
             "name": "$~rad",
+            "description": "$~representerar en rad i en tabell",
             "emotion": "shy",
             "doc": "$~Jag representerar en rad i en @Table. Det är nog bäst att gå och prata med @Table, de vet allt om mig. Jag sitter bara och håller värderingar i linje :(",
             "conflict": {
@@ -277,11 +282,13 @@
         },
         "TypeInputs": {
             "name": "$~typingångar",
+            "description": "$~fyller i typvariabelplatser",
             "emotion": "curious",
             "doc": "$~Jag är en lista över typer som ersätter @TypeVariables i en @StructureDefinition eller @FunctionDefinition. Jag hjälper alla att veta vilken typ av input de kommer att få."
         },
         "TypeVariable": {
             "name": "$~typvariabel",
+            "description": "$~namnger en typ given av anroparen",
             "emotion": "curious",
             "doc": "$~Jag är en mysterietyp på @FunctionDefinition eller @StructureDefinition, tillhandahållen av @TypeInputs när någon av dem utvärderas. @Set, @List och @Map använder mig.",
             "conflict": {
@@ -296,6 +303,7 @@
         },
         "TypeVariables": {
             "name": "$~typvariabler",
+            "description": "$~listar typvariabler i en definition",
             "emotion": "curious",
             "doc": "$~Jag är en lista med @TypeVariable."
         },
@@ -312,6 +320,7 @@
         },
         "Paragraph": {
             "name": "$~stycke",
+            "description": "$~grupperar ord i ett stycke",
             "emotion": "serious",
             "doc": [
                 "$~Jag är en serie av @Words, @ConceptLink, @WebLink och @Example, åtskilda av en tom rad och inuti @Doc.",
@@ -348,6 +357,7 @@
         },
         "Words": {
             "name": "$~ord",
+            "description": "$~skriver vanliga ord i dokumentation",
             "emotion": "serious",
             "doc": [
                 "$~Jag är alla ord du gillar i en @Doc. Till exempel:",
@@ -359,6 +369,7 @@
         },
         "Example": {
             "name": "$~exempel",
+            "description": "$~visar körbar kod i dokumentation",
             "emotion": "serious",
             "doc": [
                 "$~Jag är ett exempel på prestanda, användbart för att skriva @Doc som förklarar hur man använder något!",
@@ -376,6 +387,7 @@
         },
         "Branch": {
             "name": "$~gren",
+            "description": "$~väljer uppmärkning baserat på villkor",
             "emotion": "serious",
             "doc": [
                 "$~Jag är ett sätt att välja mellan två förklaringssegment baserat på om ett förklaringsinmatningsvärde är definierat eller sant.",
@@ -565,6 +577,7 @@
         },
         "Changed": {
             "name": "$~ändrats",
+            "description": "$~returnerar sant om strömmen ändrades",
             "emotion": "serious",
             "doc": [
                 "$~Jag kontrollerar om en stream fick @Program att omvärdera och gör en @Boolean. Så här",
@@ -579,6 +592,7 @@
         },
         "Conditional": {
             "name": "$~villkorlig",
+            "description": "$~kontrollerar villkor och utvärderar ett av två uttryck",
             "emotion": "curious",
             "doc": [
                 "$~Jag tror att jag ska fatta beslut? Så här?",
@@ -628,6 +642,7 @@
         },
         "Convert": {
             "name": "$~konvertera",
+            "description": "$~konverterar värde till en annan typ",
             "emotion": "cheerful",
             "doc": [
                 "$~Yo. Jag vänder värden från en typ till en annan. Kolla in det:",
@@ -655,6 +670,7 @@
         },
         "Delete": {
             "name": "$~radera",
+            "description": "$~tar bort matchande rader från tabellen",
             "emotion": "angry",
             "doc": [
                 "$~Ibland har man ett bord och det HAR BARA FÖR MYCKET I DET!",
@@ -667,6 +683,7 @@
         },
         "DocumentedExpression": {
             "name": "$~förklaratuttryck",
+            "description": "$~bifogar dokumentation till ett uttryck",
             "emotion": "eager",
             "doc": [
                 "$~Jag är vilket uttryck som helst, men med en @Doc!",
@@ -678,7 +695,7 @@
         },
         "Evaluate": {
             "name": "$~utvärdera",
-            "description": "$~utvärdera $1[$1|anonym]",
+            "description": "$~$3[skapa $1[$1|] värde med dessa indata|$2[skapa $1[$1|] ström med dessa indata|tillämpa $1[$1|funktion] på dessa indata]]",
             "emotion": "shy",
             "doc": [
                 "$~Hej. Jag utvärderar min käraste @FunctionDefinition. Så här:",
@@ -818,6 +835,7 @@
         },
         "Iteration": {
             "name": "$~högreordningsfunktion",
+            "description": "$~itererar internt över listvärden",
             "emotion": "kind",
             "doc": "$~Jag är en väldigt speciell sorts @FunctionDefinition som fungerar på listor med saker. Du behöver inte veta något om mig, förutom att jag gör funktioner som @List/translate möjliga.",
             "start": "$~Utvärdera den angivna funktionen",
@@ -828,6 +846,7 @@
         },
         "Initial": {
             "name": "$~Start",
+            "description": "$~returnerar sant vid första utvärdering",
             "emotion": "curious",
             "doc": [
                 "$~Jag berättar om den nuvarande utvärderingen av @Program är den första, utvärderar till en @Boolean. Till exempel:",
@@ -838,6 +857,7 @@
         },
         "Insert": {
             "name": "$~infoga",
+            "description": "$~lägger till en rad i en tabell",
             "emotion": "kind",
             "doc": [
                 "$~Du vet när du har ett @Table och det bara känns som att det saknas något? Jag kan lägga till det!",
@@ -890,6 +910,7 @@
         },
         "ListAccess": {
             "name": "$~liståtkomst",
+            "description": "$~hämtar värde vid listposition",
             "emotion": "cheerful",
             "doc": [
                 "$~Jag arbetar nära @List för att hjälpa dem att få värderingar på en viss position. Så om du hade en lista och du ville ha dess andra objekt, skulle du skriva:",
@@ -908,6 +929,7 @@
         },
         "Spread": {
             "name": "$~sprida",
+            "description": "$~expanderar lista till en annan lista",
             "emotion": "serious",
             "doc": [
                 "$~En hjälp för att göra listor med värden från andra listor. Så här:",
@@ -933,6 +955,7 @@
         },
         "Match": {
             "name": "$~match",
+            "description": "$~jämför värde med flera fall",
             "emotion": "curious",
             "doc": [
                 "$~Jag är den härligaste av alla villkorade kontroller! Jag tar ett värde och jämför det med valfritt antal fall, och utvärderar motsvarande uttryck som matchar.",
@@ -965,18 +988,21 @@
         },
         "InternalExpression": {
             "name": "$~inreuttryck",
+            "description": "$~kör ett inbyggt skaparuttryck",
             "emotion": "neutral",
             "doc": "$~Hur hittade du mig? Jag är ett uttryck som bara de ursprungliga skaparna använder. För att lära dig mer om mig måste du prata med dem.",
             "start": "$~Hemligt uttryck"
         },
         "NoneLiteral": {
             "name": "$~ingenbokstavlig",
+            "description": "$~skapar ingenting-värdet",
             "emotion": "neutral",
             "doc": "$~/@FunctionDefinition här. Det här är bara @FunctionDefinition. De är unika! Se @FunctionDefinition för att lära dig mer om dem.",
             "start": "$~… ø"
         },
         "Otherwise": {
             "name": "$~annat",
+            "description": "$~ger reservvärde om inget finns",
             "emotion": "curious",
             "doc": [
                 "$~/@FunctionDefinition här. Det här är ett praktiskt sätt att kontrollera om ett värde är @FunctionDefinition, och om det är det, ange ett reservvärde./",
@@ -988,6 +1014,7 @@
         },
         "Previous": {
             "name": "$~tidigare",
+            "description": "$~hämtar föregående värde i strömmen",
             "emotion": "serious",
             "doc": [
                 "$~Har du någonsin velat minnas det förflutna?",
@@ -1008,6 +1035,7 @@
         },
         "Program": {
             "name": "$~programmera",
+            "description": "$~innehåller alla uttryck i ett program",
             "emotion": "serious",
             "doc": [
                 "$~Jag är där en föreställning börjar och slutar, som innehåller alla andra karaktärer som koregraferar en show.",
@@ -1090,6 +1118,7 @@
         },
         "Reaction": {
             "name": "$~reaktion",
+            "description": "$~skapar ett värde vid strömändring",
             "emotion": "excited",
             "doc": [
                 "$~Strömmar är så fantastiska! Jag kan göra nya baserat på när de ändras, vilket är supercoolt!",
@@ -1149,6 +1178,7 @@
         },
         "Select": {
             "name": "$~välja",
+            "description": "$~filtrerar matchande rader från tabellen",
             "emotion": "excited",
             "doc": [
                 "$~Ibland har man ett bord och vill bara ha en del av det. Jag kan hämta det åt dig!",
@@ -1175,6 +1205,7 @@
         },
         "SetOrMapAccess": {
             "name": "$~set/kartaåtkomst",
+            "description": "$~kontrollerar om mängd eller karta innehåller",
             "emotion": "kind",
             "doc": [
                 "$~Jag kan se om en @Set eller @Map har ett värde eller nyckel.",
@@ -1194,6 +1225,7 @@
         },
         "Source": {
             "name": "$~källa",
+            "description": "$~namnger en programkällfil",
             "emotion": "curious",
             "doc": [
                 "$~Åh, du vet @Program? Jag hjälper dig att namnge dem. Tänk på mig som fönstret runt ett @Program och namnet du ger dem.",
@@ -1203,6 +1235,7 @@
         },
         "StreamDefinition": {
             "name": "$~strömma",
+            "description": "$~definierar en ny strömtyp",
             "emotion": "curious",
             "doc": "$~Jag /tror/ att jag ska skapa nya strömmar. Men jag vet verkligen inte hur jag ska göra det. För nu antar jag att bara använda de strömmar som finns?",
             "start": "$~Skapa den här nya typen av stream"
@@ -1250,8 +1283,8 @@
         },
         "StructureDefinitionType": {
             "name": "$~strukturdefinition",
-            "emotion": "kind",
             "description": "$~definition av $1",
+            "emotion": "kind",
             "doc": [
                 "$~Jag hänvisar till någon form av @StructureDefinition. Folk brukar inte hänvisa till mig direkt"
             ]
@@ -1336,6 +1369,7 @@
         },
         "This": {
             "name": "$~detta",
+            "description": "$~refererar till aktuellt strukturvärde",
             "emotion": "serious",
             "doc": [
                 "$~Ibland är det bra att hänvisa till ett värde implicit, snarare än att behöva namnge det.",
@@ -1377,6 +1411,7 @@
         },
         "UnparsableExpression": {
             "name": "$~omöjligatttolka",
+            "description": "$~markerar ett uttryck som inte kan tolkas",
             "emotion": "excited",
             "doc": [
                 "$~/Hej @FunctionDefinition här. Jag översätter för @UnparsableExpression, eftersom de ofta är svåra att tolka./",
@@ -1411,6 +1446,7 @@
         },
         "Update": {
             "name": "$~uppdatera",
+            "description": "$~reviderar matchande rader i tabellen",
             "emotion": "kind",
             "doc": [
                 "$~Jag hjälper till att revidera en @Table, hitta raderna som matchar ett villkor och sedan skapa reviderade rader med nya värden.",
@@ -1433,11 +1469,13 @@
         },
         "AnyType": {
             "name": "$~några",
+            "description": "$~matchar vilken typ som helst",
             "emotion": "curious",
             "doc": "$~Jag representerar vilken typ som helst. Ibland dyker jag upp för att jag inte vet vad något är för värde, så det kan vara vad som helst."
         },
         "BooleanType": {
             "name": "$~booleskt",
+            "description": "$~typbestämmer ett booleskt sant/falskt-värde",
             "emotion": "kind",
             "doc": [
                 "$~Jag arbetar med @Bind för att deklarera att ett namn är ett @Bind värde. Så här:",
@@ -1447,6 +1485,7 @@
         },
         "ConversionType": {
             "name": "$~omvandling",
+            "description": "$~typbestämmer en konverteringsdefinition",
             "emotion": "serious",
             "doc": [
                 "$~Jag arbetar med @Bind för att indikera att ett namn är en @ConversionDefinition. Du behöver förmodligen inte använda mig, för det är inte många som förmedlar mig som ett värde, men om du gjorde det skulle jag se ut så här:",
@@ -1455,6 +1494,7 @@
         },
         "FormattedType": {
             "name": "$~formaterad",
+            "description": "$~typbestämmer ett formaterat textvärde",
             "emotion": "serious",
             "doc": [
                 "$~Jag arbetar med @Bind för att notera att ett namn är ett @FormattedLiteral-värde. Så här:",
@@ -1464,6 +1504,7 @@
         },
         "ExceptionType": {
             "name": "$~undantag",
+            "description": "$~typbestämmer ett undantagsvärde",
             "emotion": "neutral",
             "doc": "$~Jag representerar ett undantag. Det finns inget sätt att säga till bind att jag är en, eftersom undantag bara stoppar @Program, så du kan inte använda dem som värden."
         },
@@ -1520,11 +1561,13 @@
         },
         "NeverType": {
             "name": "$~aldrig",
+            "description": "$~representerar en omöjlig typ",
             "emotion": "curious",
             "doc": "$~Jag representerar en typ som är omöjlig. Som när du frågar @Is om något är ett @Number, men det kan aldrig vara ett nummer."
         },
         "NoneType": {
             "name": "$~ingen",
+            "description": "$~typbestämmer ett inget-värde",
             "emotion": "neutral",
             "doc": [
                 "$~@None är det bästa ingenting som finns, och jag är deras trogna representant.",
@@ -1542,11 +1585,13 @@
         },
         "StreamDefinitionType": {
             "name": "$~strömdefinition",
+            "description": "$~typbestämmer en definierad ström",
             "emotion": "angry",
             "doc": "$~Jag representerar en ström som du har definierat, vilket inte är möjligt, så varför läser du ens detta?"
         },
         "StreamType": {
             "name": "$~strömma",
+            "description": "$~typbestämmer ett strömvärde",
             "emotion": "curious",
             "doc": [
                 "$~Jag hyllar skönheten och innebörden av strömmar... genom att säga till @Bind att lagra dem:",
@@ -1561,12 +1606,14 @@
         },
         "UnknownType": {
             "name": "$~okänd",
+            "description": "$~representerar en obestämd typ",
             "connector": "$~, eftersom",
             "emotion": "curious",
             "doc": "$~Umm... Jag vet inte vad jag representerar, men jag är verkligen nyfiken. Vet du? Det verkar som att vi borde veta. Du kanske måste berätta för oss om vi inte kan ta reda på det."
         },
         "TableType": {
             "name": "$~tabell",
+            "description": "$~typbestämmer ett tabellvärde",
             "emotion": "angry",
             "doc": "$~Jag representerar ett bord.",
             "conflict": {
@@ -1587,6 +1634,7 @@
         },
         "TypePlaceholder": {
             "name": "$~platshållare",
+            "description": "$~håller en platshållare för en typ",
             "emotion": "eager",
             "doc": "$~Jag hoppas kunna representera en typ någon dag, ungefär som min bästis @ExpressionPlaceholder representerar ett uttryck! Kan du hjälpa mig att bestämma vilken sort?"
         },
@@ -1611,11 +1659,13 @@
         },
         "UnparsableType": {
             "name": "$~omöjligatttolka",
+            "description": "$~typbestämmer ett icke-tolkbart uttryck",
             "emotion": "curious",
             "doc": "$~Jag representerar typen av ett okänt uttryck. Jag dyker upp när du försöker använda det uttrycket för något."
         },
         "VariableType": {
             "name": "$~variabeltyp",
+            "description": "$~representerar en typvariabel i bruk",
             "emotion": "curious",
             "doc": "$~Känner du till @TypeVariable och hur de representerar någon okänd typ av värde? Jag representerar dem i alla förhandlingar mellan värderingar."
         },
@@ -1627,6 +1677,7 @@
         },
         "UnknownVariableType": {
             "name": "$~okändvariabel",
+            "description": "$~representerar en okänd typvariabel",
             "emotion": "curious",
             "doc": "$~Ibland försöker vi gissa vad något är för värde; Jag dyker upp när vi inte vet."
         },
@@ -1638,16 +1689,19 @@
         },
         "NoExpressionType": {
             "name": "$~ingetuttryck",
+            "description": "$~typbestämmer ett tomt block",
             "emotion": "angry",
             "doc": "$~Vet du hur @Block behöver minst ett uttryck? Jag är vad du får när du inte ger en. Så ge en!"
         },
         "NotEnclosedType": {
             "name": "$~inteistruktur,omvandlingellerreaktion",
+            "description": "$~markerar användning utanför en struktur",
             "emotion": "curious",
             "doc": "$~@This, hur snyggt de än är, hör bara hemma på vissa ställen. Jag dyker upp när de går vilse, så ingen vet vilket värde de representerar."
         },
         "NotImplementedType": {
             "name": "$~oimplementerad",
+            "description": "$~typbestämmer en ofylld platshållare",
             "emotion": "curious",
             "doc": "$~När du använder @ExpressionPlaceholder, men inte säg vilken typ de är, är jag typen du får. Ta itu med det!"
         },
@@ -5038,7 +5092,8 @@
                 "resolution": "$~Lös denna konflikt",
                 "toggle": "$~visa och dölj anteckningar",
                 "highlight": "$~visa den här koden i editorn"
-            }
+            },
+            "nodeDescription": "$?"
         },
         "output": {
             "label": "$~programutgång",

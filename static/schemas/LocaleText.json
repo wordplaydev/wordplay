@@ -2562,7 +2562,7 @@
           "description": "Names, descriptions, and documentation for all node types, as well as descriptions of start and end of expression evaluations for debugging.",
           "properties": {
             "AnyType": {
-              "$ref": "#/definitions/NodeText",
+              "$ref": "#/definitions/DescriptiveNodeText",
               "description": "Any type. Not actually written in code, but can be generated internally."
             },
             "BinaryEvaluate": {
@@ -3011,7 +3011,7 @@
               "type": "object"
             },
             "BooleanType": {
-              "$ref": "#/definitions/NodeText",
+              "$ref": "#/definitions/DescriptiveNodeText",
               "description": "A boolean type, e.g., `?`"
             },
             "Borrow": {
@@ -3130,13 +3130,17 @@
               "type": "object"
             },
             "Branch": {
-              "$ref": "#/definitions/NodeText",
+              "$ref": "#/definitions/DescriptiveNodeText",
               "description": "A branch in `Markup` that renders different text depending on an input, e.g., ` ¶$1[I am $1|I am nothing]¶ `"
             },
             "Changed": {
               "additionalProperties": false,
               "description": "A change predicate expression, true if the stream changed, causing this reevaluation, e.g., `∆ Key()` Start inputs: $1 = stream that changed",
               "properties": {
+                "description": {
+                  "$ref": "#/definitions/FormattedText",
+                  "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+                },
                 "doc": {
                   "$ref": "#/definitions/DocText",
                   "description": "Documentation text that appears in the documentation view"
@@ -3189,6 +3193,7 @@
                 }
               },
               "required": [
+                "description",
                 "doc",
                 "emotion",
                 "label",
@@ -3222,6 +3227,10 @@
                     "ExpectedBooleanCondition"
                   ],
                   "type": "object"
+                },
+                "description": {
+                  "$ref": "#/definitions/FormattedText",
+                  "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
@@ -3296,6 +3305,7 @@
               "required": [
                 "afterthen",
                 "conflict",
+                "description",
                 "doc",
                 "else",
                 "emotion",
@@ -3399,7 +3409,7 @@
               "type": "object"
             },
             "ConversionType": {
-              "$ref": "#/definitions/NodeText",
+              "$ref": "#/definitions/DescriptiveNodeText",
               "description": "A conversion type, e.g., `? → ''`"
             },
             "Convert": {
@@ -3419,6 +3429,10 @@
                     "UnknownConversion"
                   ],
                   "type": "object"
+                },
+                "description": {
+                  "$ref": "#/definitions/FormattedText",
+                  "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
@@ -3479,6 +3493,7 @@
               },
               "required": [
                 "conflict",
+                "description",
                 "doc",
                 "emotion",
                 "exception",
@@ -3496,6 +3511,10 @@
               "additionalProperties": false,
               "description": "A row delete expression, e.g., `table ⎡- 1 < 2` Start inputs: $1 = table expression Finish inputs: $1 = resulting value",
               "properties": {
+                "description": {
+                  "$ref": "#/definitions/FormattedText",
+                  "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+                },
                 "doc": {
                   "$ref": "#/definitions/DocText",
                   "description": "Documentation text that appears in the documentation view"
@@ -3540,6 +3559,7 @@
                 }
               },
               "required": [
+                "description",
                 "doc",
                 "emotion",
                 "finish",
@@ -3553,13 +3573,17 @@
               "description": "A part of a number's unit, such as the `m` in `1m`, or the `s` in `1m/s^2`"
             },
             "Doc": {
-              "$ref": "#/definitions/NodeText",
+              "$ref": "#/definitions/DescriptiveNodeText",
               "description": "A single language tagged documentation text, ` ¶I am documentation¶/en`"
             },
             "Docs": {
               "additionalProperties": false,
               "description": "Multiple language tagged documentation texts, ` ¶Hi docs¶/en¶Hola docs¶/es`",
               "properties": {
+                "description": {
+                  "$ref": "#/definitions/FormattedText",
+                  "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+                },
                 "doc": {
                   "$ref": "#/definitions/DocText",
                   "description": "Documentation text that appears in the documentation view"
@@ -3600,6 +3624,7 @@
                 }
               },
               "required": [
+                "description",
                 "doc",
                 "emotion",
                 "name",
@@ -3611,6 +3636,10 @@
               "additionalProperties": false,
               "description": "A expression with a doc, e.g., ` ¶my doc¶1 + 1 ¶",
               "properties": {
+                "description": {
+                  "$ref": "#/definitions/FormattedText",
+                  "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+                },
                 "doc": {
                   "$ref": "#/definitions/DocText",
                   "description": "Documentation text that appears in the documentation view"
@@ -3651,6 +3680,7 @@
                 }
               },
               "required": [
+                "description",
                 "doc",
                 "emotion",
                 "name",
@@ -3830,11 +3860,11 @@
               "type": "object"
             },
             "Example": {
-              "$ref": "#/definitions/NodeText",
+              "$ref": "#/definitions/DescriptiveNodeText",
               "description": "Code inside `Markup`, e.g., ` ¶This is how you add: \\1 + 1\\¶ `"
             },
             "ExceptionType": {
-              "$ref": "#/definitions/NodeText",
+              "$ref": "#/definitions/DescriptiveNodeText",
               "description": "An exception type, e.g., `!`"
             },
             "ExpressionPlaceholder": {
@@ -3996,7 +4026,7 @@
               "description": "One alternate translation of a formatted text literal, e.g., ` `*hello*`/en`*hola*`/es` ` Description inputs: $1 = the text"
             },
             "FormattedType": {
-              "$ref": "#/definitions/NodeText",
+              "$ref": "#/definitions/DescriptiveNodeText",
               "description": "A formatted type, e.g., ` ¶ `"
             },
             "FunctionDefinition": {
@@ -4096,7 +4126,7 @@
               "description": "A function type, e.g., `ƒ(magic•#)•#`"
             },
             "Initial": {
-              "$ref": "#/definitions/NodeText",
+              "$ref": "#/definitions/DescriptiveNodeText",
               "description": "Whether the evaluation happening is the first one, e.g., `◆` in `◆ ? 'first' 'later'`"
             },
             "Input": {
@@ -4158,6 +4188,10 @@
               "additionalProperties": false,
               "description": "Inserting a table row, e.g., `table ⎡+ 1⎦` Start inputs: $1 = table expression Finish inputs: $1: resulting value",
               "properties": {
+                "description": {
+                  "$ref": "#/definitions/FormattedText",
+                  "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+                },
                 "doc": {
                   "$ref": "#/definitions/DocText",
                   "description": "Documentation text that appears in the documentation view"
@@ -4202,6 +4236,7 @@
                 }
               },
               "required": [
+                "description",
                 "doc",
                 "emotion",
                 "finish",
@@ -4214,6 +4249,10 @@
               "additionalProperties": false,
               "description": "An internal expression, used to implement core APIs.",
               "properties": {
+                "description": {
+                  "$ref": "#/definitions/FormattedText",
+                  "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+                },
                 "doc": {
                   "$ref": "#/definitions/DocText",
                   "description": "Documentation text that appears in the documentation view"
@@ -4254,6 +4293,7 @@
                 }
               },
               "required": [
+                "description",
                 "doc",
                 "emotion",
                 "name",
@@ -4416,6 +4456,10 @@
                   "$ref": "#/definitions/FormattedText",
                   "description": "[formatted] What to say when the next value is being checked to decide whether to continue"
                 },
+                "description": {
+                  "$ref": "#/definitions/FormattedText",
+                  "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+                },
                 "doc": {
                   "$ref": "#/definitions/DocText",
                   "description": "Documentation text that appears in the documentation view"
@@ -4469,6 +4513,7 @@
               },
               "required": [
                 "check",
+                "description",
                 "doc",
                 "emotion",
                 "finish",
@@ -4480,7 +4525,7 @@
               "type": "object"
             },
             "KeyValue": {
-              "$ref": "#/definitions/NodeText",
+              "$ref": "#/definitions/DescriptiveNodeText",
               "description": "A key value pair in a map, such as `a: 1` in `{ a: 1 b: 2}`"
             },
             "Language": {
@@ -4556,6 +4601,10 @@
               "additionalProperties": false,
               "description": "Getting the value of a list at a particular index, e.g., `list[5]` Start inputs: $1 = list value Finish inputs: $1: resulting value",
               "properties": {
+                "description": {
+                  "$ref": "#/definitions/FormattedText",
+                  "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+                },
                 "doc": {
                   "$ref": "#/definitions/DocText",
                   "description": "Documentation text that appears in the documentation view"
@@ -4600,6 +4649,7 @@
                 }
               },
               "required": [
+                "description",
                 "doc",
                 "emotion",
                 "finish",
@@ -4838,6 +4888,10 @@
                   "$ref": "#/definitions/FormattedText",
                   "description": "[formatted] How to describe when a case is checked"
                 },
+                "description": {
+                  "$ref": "#/definitions/FormattedText",
+                  "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+                },
                 "doc": {
                   "$ref": "#/definitions/DocText",
                   "description": "Documentation text that appears in the documentation view"
@@ -4901,6 +4955,7 @@
               },
               "required": [
                 "case",
+                "description",
                 "doc",
                 "emotion",
                 "finish",
@@ -4988,6 +5043,10 @@
               "additionalProperties": false,
               "description": "A list of names, e.g., `hi,hello,hey`",
               "properties": {
+                "description": {
+                  "$ref": "#/definitions/FormattedText",
+                  "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+                },
                 "doc": {
                   "$ref": "#/definitions/DocText",
                   "description": "Documentation text that appears in the documentation view"
@@ -5036,6 +5095,7 @@
                 }
               },
               "required": [
+                "description",
                 "doc",
                 "emotion",
                 "label",
@@ -5044,11 +5104,11 @@
               "type": "object"
             },
             "NeverType": {
-              "$ref": "#/definitions/NodeText",
+              "$ref": "#/definitions/DescriptiveNodeText",
               "description": "A type that is not possible"
             },
             "NoExpressionType": {
-              "$ref": "#/definitions/NodeText",
+              "$ref": "#/definitions/DescriptiveNodeText",
               "description": "An unknown type because no expression was given in a block, e.g., ()"
             },
             "NonFunctionType": {
@@ -5059,6 +5119,10 @@
               "additionalProperties": false,
               "description": "A none literal, e.g., `ø`",
               "properties": {
+                "description": {
+                  "$ref": "#/definitions/FormattedText",
+                  "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+                },
                 "doc": {
                   "$ref": "#/definitions/DocText",
                   "description": "Documentation text that appears in the documentation view"
@@ -5099,6 +5163,7 @@
                 }
               },
               "required": [
+                "description",
                 "doc",
                 "emotion",
                 "name",
@@ -5107,7 +5172,7 @@
               "type": "object"
             },
             "NoneType": {
-              "$ref": "#/definitions/NodeText",
+              "$ref": "#/definitions/DescriptiveNodeText",
               "description": "A type representing nothing, e.g., `ø`"
             },
             "NotAType": {
@@ -5115,11 +5180,11 @@
               "description": "Something that does not have a specific expected type, e.g., `list['hi']` Description inputs: $1 = type expected"
             },
             "NotEnclosedType": {
-              "$ref": "#/definitions/NodeText",
+              "$ref": "#/definitions/DescriptiveNodeText",
               "description": "An unknown type because `.` is not defined in scope, e.g., `a: 1 + .`"
             },
             "NotImplementedType": {
-              "$ref": "#/definitions/NodeText",
+              "$ref": "#/definitions/DescriptiveNodeText",
               "description": "An unknown type because of a placeholder expression, e.g., `a: 1 + _`"
             },
             "NumberLiteral": {
@@ -5201,6 +5266,10 @@
               "additionalProperties": false,
               "description": "A none coalesce expression, e.g., `value ?? 'default', to choose between a possibly none value and a default.",
               "properties": {
+                "description": {
+                  "$ref": "#/definitions/FormattedText",
+                  "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+                },
                 "doc": {
                   "$ref": "#/definitions/DocText",
                   "description": "Documentation text that appears in the documentation view"
@@ -5245,6 +5314,7 @@
                 }
               },
               "required": [
+                "description",
                 "doc",
                 "emotion",
                 "finish",
@@ -5254,13 +5324,17 @@
               "type": "object"
             },
             "Paragraph": {
-              "$ref": "#/definitions/NodeText",
+              "$ref": "#/definitions/DescriptiveNodeText",
               "description": "A paragraph of text in `Markup`, e.g.,  `Paragraph 1` in ` ¶Paragraph 1\\n\\nParagraph 2¶ ` Description inputs: $1 = number, $2 = unit"
             },
             "Previous": {
               "additionalProperties": false,
               "description": "A previous value of a stream, `← 1 Key()` or `←← 10 Key()` Start inputs: $1 = the stream expression being checked Finish inputs: $1 = resulting value",
               "properties": {
+                "description": {
+                  "$ref": "#/definitions/FormattedText",
+                  "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+                },
                 "doc": {
                   "$ref": "#/definitions/DocText",
                   "description": "Documentation text that appears in the documentation view"
@@ -5317,6 +5391,7 @@
                 }
               },
               "required": [
+                "description",
                 "doc",
                 "emotion",
                 "finish",
@@ -5330,6 +5405,10 @@
               "additionalProperties": false,
               "description": "A program, e.g., `1 + 1`, `hello()`, etc. Start inputs: $1 = the stream that caused the evaluation, or nothing Finish inputs: $1 = resulting value",
               "properties": {
+                "description": {
+                  "$ref": "#/definitions/FormattedText",
+                  "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+                },
                 "doc": {
                   "$ref": "#/definitions/DocText",
                   "description": "Documentation text that appears in the documentation view"
@@ -5436,6 +5515,7 @@
                 }
               },
               "required": [
+                "description",
                 "doc",
                 "done",
                 "emotion",
@@ -5633,6 +5713,10 @@
                   ],
                   "type": "object"
                 },
+                "description": {
+                  "$ref": "#/definitions/FormattedText",
+                  "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+                },
                 "doc": {
                   "$ref": "#/definitions/DocText",
                   "description": "Documentation text that appears in the documentation view"
@@ -5701,6 +5785,7 @@
               },
               "required": [
                 "conflict",
+                "description",
                 "doc",
                 "emotion",
                 "finish",
@@ -5857,6 +5942,10 @@
                   ],
                   "type": "object"
                 },
+                "description": {
+                  "$ref": "#/definitions/FormattedText",
+                  "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+                },
                 "doc": {
                   "$ref": "#/definitions/DocText",
                   "description": "Documentation text that appears in the documentation view"
@@ -5894,6 +5983,7 @@
               },
               "required": [
                 "conflict",
+                "description",
                 "doc",
                 "emotion",
                 "name"
@@ -5917,6 +6007,10 @@
                     "ExpectedSelectName"
                   ],
                   "type": "object"
+                },
+                "description": {
+                  "$ref": "#/definitions/FormattedText",
+                  "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
@@ -5963,6 +6057,7 @@
               },
               "required": [
                 "conflict",
+                "description",
                 "doc",
                 "emotion",
                 "finish",
@@ -6050,6 +6145,10 @@
                   ],
                   "type": "object"
                 },
+                "description": {
+                  "$ref": "#/definitions/FormattedText",
+                  "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+                },
                 "doc": {
                   "$ref": "#/definitions/DocText",
                   "description": "Documentation text that appears in the documentation view"
@@ -6095,6 +6194,7 @@
               },
               "required": [
                 "conflict",
+                "description",
                 "doc",
                 "emotion",
                 "finish",
@@ -6108,17 +6208,21 @@
               "description": "A set type, e.g., `{#}` Description inputs: $1 = type or undefined"
             },
             "Source": {
-              "$ref": "#/definitions/NodeText",
+              "$ref": "#/definitions/DescriptiveNodeText",
               "description": "A source file that contains a name and program."
             },
             "Spread": {
-              "$ref": "#/definitions/NodeText",
+              "$ref": "#/definitions/DescriptiveNodeText",
               "description": "A way of spreading a list's values into a list literal, e.g., `[ [ 1 2 3]… 4 5]` Description inputs: none"
             },
             "StreamDefinition": {
               "additionalProperties": false,
               "description": "A stream definition. Not typically written, since all streams are defined internally, but basically like a structure definition, e.g., `… Key()`",
               "properties": {
+                "description": {
+                  "$ref": "#/definitions/FormattedText",
+                  "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+                },
                 "doc": {
                   "$ref": "#/definitions/DocText",
                   "description": "Documentation text that appears in the documentation view"
@@ -6159,6 +6263,7 @@
                 }
               },
               "required": [
+                "description",
                 "doc",
                 "emotion",
                 "name",
@@ -6167,11 +6272,11 @@
               "type": "object"
             },
             "StreamDefinitionType": {
-              "$ref": "#/definitions/NodeText",
+              "$ref": "#/definitions/DescriptiveNodeText",
               "description": "A type of stream, internally generated"
             },
             "StreamType": {
-              "$ref": "#/definitions/NodeText",
+              "$ref": "#/definitions/DescriptiveNodeText",
               "description": "A type of stream, e.g., `… #`"
             },
             "StructureDefinition": {
@@ -6371,6 +6476,10 @@
                   ],
                   "type": "object"
                 },
+                "description": {
+                  "$ref": "#/definitions/FormattedText",
+                  "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+                },
                 "doc": {
                   "$ref": "#/definitions/DocText",
                   "description": "Documentation text that appears in the documentation view"
@@ -6408,6 +6517,7 @@
               },
               "required": [
                 "conflict",
+                "description",
                 "doc",
                 "emotion",
                 "name"
@@ -6504,6 +6614,10 @@
                   ],
                   "type": "object"
                 },
+                "description": {
+                  "$ref": "#/definitions/FormattedText",
+                  "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+                },
                 "doc": {
                   "$ref": "#/definitions/DocText",
                   "description": "Documentation text that appears in the documentation view"
@@ -6545,6 +6659,7 @@
               },
               "required": [
                 "conflict",
+                "description",
                 "doc",
                 "emotion",
                 "name",
@@ -6665,11 +6780,11 @@
               "type": "object"
             },
             "TypeInputs": {
-              "$ref": "#/definitions/NodeText",
+              "$ref": "#/definitions/DescriptiveNodeText",
               "description": "A list of type inputs to something that takes type variables, e.g., `⸨# #⸩` in `myfun⸨# #⸩(b c)`"
             },
             "TypePlaceholder": {
-              "$ref": "#/definitions/NodeText",
+              "$ref": "#/definitions/DescriptiveNodeText",
               "description": "A type placeholder, `_`"
             },
             "TypeVariable": {
@@ -6689,6 +6804,10 @@
                     "DuplicateTypeVariable"
                   ],
                   "type": "object"
+                },
+                "description": {
+                  "$ref": "#/definitions/FormattedText",
+                  "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
@@ -6739,6 +6858,7 @@
               },
               "required": [
                 "conflict",
+                "description",
                 "doc",
                 "emotion",
                 "label",
@@ -6747,7 +6867,7 @@
               "type": "object"
             },
             "TypeVariables": {
-              "$ref": "#/definitions/NodeText",
+              "$ref": "#/definitions/DescriptiveNodeText",
               "description": "A list of type variables in a function or structure definition, e.g. `⸨T⸩` in `ƒ⸨T⸩(a: T b: T)`"
             },
             "UnaryEvaluate": {
@@ -6844,6 +6964,10 @@
                   "description": "[plain] The connector between reasons, e.g., \"because \"",
                   "type": "string"
                 },
+                "description": {
+                  "$ref": "#/definitions/FormattedText",
+                  "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+                },
                 "doc": {
                   "$ref": "#/definitions/DocText",
                   "description": "Documentation text that appears in the documentation view"
@@ -6881,6 +7005,7 @@
               },
               "required": [
                 "connector",
+                "description",
                 "doc",
                 "emotion",
                 "name"
@@ -6888,7 +7013,7 @@
               "type": "object"
             },
             "UnknownVariableType": {
-              "$ref": "#/definitions/NodeText",
+              "$ref": "#/definitions/DescriptiveNodeText",
               "description": "A variable type that is not defined, e.g., `C` in `ƒ help⸨A⸩(b•C)`"
             },
             "UnparsableExpression": {
@@ -6926,6 +7051,10 @@
                     "UnclosedDelimiter"
                   ],
                   "type": "object"
+                },
+                "description": {
+                  "$ref": "#/definitions/FormattedText",
+                  "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
@@ -6982,6 +7111,7 @@
               },
               "required": [
                 "conflict",
+                "description",
                 "doc",
                 "emotion",
                 "exception",
@@ -6991,7 +7121,7 @@
               "type": "object"
             },
             "UnparsableType": {
-              "$ref": "#/definitions/NodeText",
+              "$ref": "#/definitions/DescriptiveNodeText",
               "description": "A type that can't be parsed."
             },
             "Update": {
@@ -7016,6 +7146,10 @@
                     "IncompatibleCellType"
                   ],
                   "type": "object"
+                },
+                "description": {
+                  "$ref": "#/definitions/FormattedText",
+                  "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
@@ -7062,6 +7196,7 @@
               },
               "required": [
                 "conflict",
+                "description",
                 "doc",
                 "emotion",
                 "finish",
@@ -7071,7 +7206,7 @@
               "type": "object"
             },
             "VariableType": {
-              "$ref": "#/definitions/NodeText",
+              "$ref": "#/definitions/DescriptiveNodeText",
               "description": "A type representing an unknown type variable"
             },
             "WebLink": {
@@ -7079,7 +7214,7 @@
               "description": "A link in `Markup`, e.g., ` ¶<wordplay@https://wordplay.div>¶ ` Description inputs: $1 = the url"
             },
             "Words": {
-              "$ref": "#/definitions/NodeText",
+              "$ref": "#/definitions/DescriptiveNodeText",
               "description": "A sequence of characters in `Markup` that aren't other markup content, e.g., ` ¶These are just words.¶ `"
             }
           },
@@ -9127,6 +9262,10 @@
                   "$ref": "#/definitions/FormattedText",
                   "description": "[formatted] The prompt to line more about the cursor node"
                 },
+                "nodeDescription": {
+                  "$ref": "#/definitions/FormattedText",
+                  "description": "[formatted] The description of what the selected node does. $1: the node description."
+                },
                 "space": {
                   "$ref": "#/definitions/FormattedText",
                   "description": "[formatted] What function should say when the cursor is in space"
@@ -9139,6 +9278,7 @@
                 "learn",
                 "evaluating",
                 "space",
+                "nodeDescription",
                 "button"
               ],
               "type": "object"
@@ -15596,51 +15736,6 @@
         }
       ],
       "description": "A single name or a list of names, all valid Wordplay names"
-    },
-    "NodeText": {
-      "additionalProperties": false,
-      "properties": {
-        "doc": {
-          "$ref": "#/definitions/DocText",
-          "description": "Documentation text that appears in the documentation view"
-        },
-        "emotion": {
-          "description": "[emotion] The emotion that should be conveyed in animations of the node type",
-          "enum": [
-            "$?",
-            "angry",
-            "arrogant",
-            "bored",
-            "cheerful",
-            "curious",
-            "confused",
-            "eager",
-            "excited",
-            "grumpy",
-            "happy",
-            "insecure",
-            "kind",
-            "neutral",
-            "sad",
-            "scared",
-            "serious",
-            "shy",
-            "surprised",
-            "precise"
-          ],
-          "type": "string"
-        },
-        "name": {
-          "description": "[name] The name that should be used to refer to the node type",
-          "type": "string"
-        }
-      },
-      "required": [
-        "name",
-        "doc",
-        "emotion"
-      ],
-      "type": "object"
     },
     "RegionCode": {
       "type": [

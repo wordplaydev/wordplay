@@ -54,11 +54,11 @@ type NodeTexts = {
     /** A part of a number's unit, such as the `m` in `1m`, or the `s` in `1m/s^2` */
     Dimension: DescriptiveNodeText;
     /** A single language tagged documentation text, ` ¶I am documentation¶/en` */
-    Doc: NodeText;
+    Doc: DescriptiveNodeText;
     /** Multiple language tagged documentation texts, ` ¶Hi docs¶/en¶Hola docs¶/es`  */
-    Docs: NodeText & SimpleExpressionText;
+    Docs: DescriptiveNodeText & SimpleExpressionText;
     /** A key value pair in a map, such as `a: 1` in `{ a: 1 b: 2}`  */
-    KeyValue: NodeText;
+    KeyValue: DescriptiveNodeText;
     /** A language tag appearing in a doc or name, such as `/en` in `name/en: 1` or ` ¶My doc¶/en` */
     Language: DescriptiveNodeText &
         Conflicts<{
@@ -71,9 +71,9 @@ type NodeTexts = {
      */
     Name: DescriptiveNodeText;
     /** A list of names, e.g., `hi,hello,hey` */
-    Names: NodeText & { label: { names: string } };
+    Names: DescriptiveNodeText & { label: { names: string } };
     /** A row in a table, e.g., `⎡1 2⎦` */
-    Row: NodeText &
+    Row: DescriptiveNodeText &
         Conflicts<{
             /** When a row does not form to it's table's type definition */
             InvalidRow: ConflictText;
@@ -99,15 +99,15 @@ type NodeTexts = {
      */
     Token: DescriptiveNodeText;
     /** A list of type inputs to something that takes type variables, e.g., `⸨# #⸩` in `myfun⸨# #⸩(b c)` */
-    TypeInputs: NodeText;
+    TypeInputs: DescriptiveNodeText;
     /** A type variable in function or structure definition, `T` in `ƒ⸨T⸩(a: T)` */
-    TypeVariable: NodeText &
+    TypeVariable: DescriptiveNodeText &
         Conflicts<{
             /** When a type variable name is the same as another. $1: The duplicate name */
             DuplicateTypeVariable: ConflictText;
         }> & { label: { type: string } };
     /** A list of type variables in a function or structure definition, e.g. `⸨T⸩` in `ƒ⸨T⸩(a: T b: T)` */
-    TypeVariables: NodeText;
+    TypeVariables: DescriptiveNodeText;
     /**
      * Markup text used in documentation or phrase text, e.g., ` ¶Hello, I am *bold*¶ `
      * Description inputs: $1 = paragraph count
@@ -117,7 +117,7 @@ type NodeTexts = {
      * A paragraph of text in `Markup`, e.g.,  `Paragraph 1` in ` ¶Paragraph 1\n\nParagraph 2¶ `
      * Description inputs: $1 = number, $2 = unit
      */
-    Paragraph: NodeText;
+    Paragraph: DescriptiveNodeText;
     /**
      * A link in `Markup`, e.g., ` ¶<wordplay@https://wordplay.div>¶ `
      * Description inputs: $1 = the url
@@ -129,9 +129,9 @@ type NodeTexts = {
      */
     ConceptLink: DescriptiveNodeText;
     /** A sequence of characters in `Markup` that aren't other markup content, e.g., ` ¶These are just words.¶ ` */
-    Words: NodeText;
+    Words: DescriptiveNodeText;
     /** Code inside `Markup`, e.g., ` ¶This is how you add: \1 + 1\¶ ` */
-    Example: NodeText;
+    Example: DescriptiveNodeText;
     /**
      * A placeholder for some template input or terminology name in a localization string, e.g., the `$1` in  ` ¶My value is $1¶ or `$bind` in ` ¶I am a $bind¶ `
      * Description inputs: $1 = the name or number mentioned
@@ -140,7 +140,7 @@ type NodeTexts = {
     /**
      * A branch in `Markup` that renders different text depending on an input, e.g., ` ¶$1[I am $1|I am nothing]¶ `
      */
-    Branch: NodeText;
+    Branch: DescriptiveNodeText;
     /**
      * An infix formatted binary operation, e.g., `1 + 1` or `2 ÷ 3`
      * Description inputs: $1 = the operator
@@ -248,13 +248,13 @@ type NodeTexts = {
      * A change predicate expression, true if the stream changed, causing this reevaluation, e.g., `∆ Key()`
      * Start inputs: $1 = stream that changed
      */
-    Changed: NodeText & SimpleExpressionText & { label: { stream: string } };
+    Changed: DescriptiveNodeText & SimpleExpressionText & { label: { stream: string } };
     /**
      * A conditional expression, e.g., `truth ? 'yes' 'no'`
      * Start inputs: $1 = description of condition to check
      * Finish inputs: $1 = resulting value
      */
-    Conditional: NodeText &
+    Conditional: DescriptiveNodeText &
         ExpressionText & {
             /** [formatted] When the else case is chosen. Description inputs: $1: true if jumping to the "else" expression */
             afterthen: FormattedText;
@@ -279,12 +279,12 @@ type NodeTexts = {
     /**
      * A none coalesce expression, e.g., `value ?? 'default', to choose between a possibly none value and a default.
      */
-    Otherwise: NodeText & ExpressionText;
+    Otherwise: DescriptiveNodeText & ExpressionText;
     /**
      * A match expression, e.g., `value ??? 1: 'one' 2: 'two' 'other'
      * Start inputs: $1 = description of value expression
      */
-    Match: NodeText &
+    Match: DescriptiveNodeText &
         ExpressionText & {
             label: {
                 /** [formatted] The label for the default value if none of the cases match */
@@ -313,7 +313,7 @@ type NodeTexts = {
      * Start inputs: $1 = expression to convert
      * Finish inputs: $1 = resulting value
      */
-    Convert: NodeText &
+    Convert: DescriptiveNodeText &
         ExpressionText &
         Conflicts<{
             /**
@@ -334,12 +334,12 @@ type NodeTexts = {
      * Start inputs: $1 = table expression
      * Finish inputs: $1 = resulting value
      */
-    Delete: NodeText & ExpressionText;
+    Delete: DescriptiveNodeText & ExpressionText;
     /** A expression with a doc, e.g., ` ¶my doc¶1 + 1 ¶ */
-    DocumentedExpression: NodeText & SimpleExpressionText;
+    DocumentedExpression: DescriptiveNodeText & SimpleExpressionText;
     /**
      * An evaluation of a function with inputs, e.g., `myfun(1 2 3)`
-     * Description inputs: $1 = name of function being evaluated
+     * Description inputs: $1 = name of function being evaluated, $2 = defined if stream, $3 = defined if structure/value
      * Start inputs: none
      * Finish inputs: $1 = resulting value
      */
@@ -427,7 +427,7 @@ type NodeTexts = {
      * An internal node used by higher order functions to iterate over a list of values.
      * Finish inputs: $1 = resulting value
      */
-    Iteration: NodeText &
+    Iteration: DescriptiveNodeText &
         ExpressionText & {
             /** [formatted] What to say when the iteration initialization begins */
             initialize: FormattedText;
@@ -441,11 +441,11 @@ type NodeTexts = {
      * Start inputs: $1 = table expression
      * Finish inputs: $1: resulting value
      */
-    Insert: NodeText & ExpressionText;
+    Insert: DescriptiveNodeText & ExpressionText;
     /**
      * Whether the evaluation happening is the first one, e.g., `◆` in `◆ ? 'first' 'later'`
      */
-    Initial: NodeText;
+    Initial: DescriptiveNodeText;
     /**
      * A predict to check if a value's type matches, e.g., `1•#`
      * Description inputs: $1 = The type being checked for
@@ -474,7 +474,7 @@ type NodeTexts = {
      * Start inputs: $1 = list value
      * Finish inputs: $1: resulting value
      */
-    ListAccess: NodeText & ExpressionText;
+    ListAccess: DescriptiveNodeText & ExpressionText;
     /**
      * A list, e.g., `[1 2 3]`
      * Description inputs: $1 = item count
@@ -485,7 +485,7 @@ type NodeTexts = {
      * A way of spreading a list's values into a list literal, e.g., `[ [ 1 2 3]… 4 5]`
      * Description inputs: none
      */
-    Spread: NodeText;
+    Spread: DescriptiveNodeText;
     /**
      * A map literal, e.g., `{1:1 2:2 3:3}`
      * Finish inputs: $1 = resulting value
@@ -506,21 +506,21 @@ type NodeTexts = {
             NotANumber: ConflictText;
         }>;
     /** An internal expression, used to implement core APIs. */
-    InternalExpression: NodeText & SimpleExpressionText;
+    InternalExpression: DescriptiveNodeText & SimpleExpressionText;
     /** A none literal, e.g., `ø` */
-    NoneLiteral: NodeText & SimpleExpressionText;
+    NoneLiteral: DescriptiveNodeText & SimpleExpressionText;
     /**
      * A previous value of a stream, `← 1 Key()` or `←← 10 Key()`
      * Start inputs: $1 = the stream expression being checked
      * Finish inputs: $1 = resulting value
      */
-    Previous: NodeText & ExpressionText & { label: { range: string } };
+    Previous: DescriptiveNodeText & ExpressionText & { label: { range: string } };
     /**
      * A program, e.g., `1 + 1`, `hello()`, etc.
      * Start inputs: $1 = the stream that caused the evaluation, or nothing
      * Finish inputs: $1 = resulting value
      */
-    Program: NodeText &
+    Program: DescriptiveNodeText &
         ExpressionText & {
             /** [formatted] What to say when the program is halting because of a fatal error */
             halt: FormattedText;
@@ -567,7 +567,7 @@ type NodeTexts = {
      * Generating a stream of values from other streams, e.g., `a: 1 … ∆ Time() … a + 1`
      * Finish inputs: $1 = resulting value
      */
-    Reaction: NodeText &
+    Reaction: DescriptiveNodeText &
         ExpressionText & {
             label: {
                 /** [formatted] Placeholder label for the initial value */
@@ -615,7 +615,7 @@ type NodeTexts = {
      * A table select, e.g., `table ⎡? one⎦ 1 < 2`
      * Finish inputs: $1 = the table, $2: the result
      */
-    Select: NodeText &
+    Select: DescriptiveNodeText &
         ExpressionText &
         Conflicts<{
             /**
@@ -632,7 +632,7 @@ type NodeTexts = {
      * A set or map access, e.g., `set{1}`
      * Finish inputs: $1 = the set/map value
      */
-    SetOrMapAccess: NodeText &
+    SetOrMapAccess: DescriptiveNodeText &
         ExpressionText &
         Conflicts<{
             /**
@@ -644,11 +644,11 @@ type NodeTexts = {
     /**
      * A source file that contains a name and program.
      */
-    Source: NodeText;
+    Source: DescriptiveNodeText;
     /**
      * A stream definition.
      * Not typically written, since all streams are defined internally, but basically like a structure definition, e.g., `… Key()` */
-    StreamDefinition: NodeText & SimpleExpressionText;
+    StreamDefinition: DescriptiveNodeText & SimpleExpressionText;
     /**
      * A structure type, e.g., `•Kitty(name•'')`
      * Description inputs: $1 = name of the structure
@@ -720,7 +720,7 @@ type NodeTexts = {
      * A reference to the containing value of a structure, conversion, or reaction, e.g., the `.` in `1 … ∆ Key() ? . + 1
      * Finish inputs: $1 = resulting value
      */
-    This: NodeText &
+    This: DescriptiveNodeText &
         SimpleExpressionText &
         Conflicts<{ MisplacedThis: ConflictText }>;
     /**
@@ -732,7 +732,7 @@ type NodeTexts = {
         ExpressionText & { label: { input: string } };
     /**
      * An unparsable expression, e.g., `]a[` */
-    UnparsableExpression: NodeText &
+    UnparsableExpression: DescriptiveNodeText &
         SimpleExpressionText &
         Conflicts<{
             /**
@@ -758,7 +758,7 @@ type NodeTexts = {
      * Start inputs: $1 = the table
      * Finish inputs: $1 = resulting value
      */
-    Update: NodeText &
+    Update: DescriptiveNodeText &
         ExpressionText &
         Conflicts<{
             /** When a column name was expected but not given */
@@ -770,15 +770,15 @@ type NodeTexts = {
             IncompatibleCellType: ConflictText;
         }>;
     /** Any type. Not actually written in code, but can be generated internally. */
-    AnyType: NodeText;
+    AnyType: DescriptiveNodeText;
     /** A boolean type, e.g., `?` */
-    BooleanType: NodeText;
+    BooleanType: DescriptiveNodeText;
     /** A conversion type, e.g., `? → ''` */
-    ConversionType: NodeText;
+    ConversionType: DescriptiveNodeText;
     /** A formatted type, e.g., ` ¶ ` */
-    FormattedType: NodeText;
+    FormattedType: DescriptiveNodeText;
     /** An exception type, e.g., `!` */
-    ExceptionType: NodeText;
+    ExceptionType: DescriptiveNodeText;
     /** A function type, e.g., `ƒ(magic•#)•#` */
     FunctionType: DescriptiveNodeText;
     /**
@@ -811,20 +811,20 @@ type NodeTexts = {
     /**
      * A type that is not possible
      */
-    NeverType: NodeText;
+    NeverType: DescriptiveNodeText;
     /**
      * A type representing nothing, e.g., `ø`
      */
-    NoneType: NodeText;
+    NoneType: DescriptiveNodeText;
     /**
      * A set type, e.g., `{#}`
      * Description inputs: $1 = type or undefined
      */
     SetType: DescriptiveNodeText;
     /** A type of stream, internally generated */
-    StreamDefinitionType: NodeText;
+    StreamDefinitionType: DescriptiveNodeText;
     /** A type of stream, e.g., `… #` */
-    StreamType: NodeText;
+    StreamType: DescriptiveNodeText;
     /**
      * A structure type, internally generated to represent a structure definition.
      * Description inputs: $1 = name of structure
@@ -833,7 +833,7 @@ type NodeTexts = {
     /**
      * A table type, e.g., `⎡a•# b•"" c•Cat⎦`
      */
-    TableType: NodeText &
+    TableType: DescriptiveNodeText &
         Conflicts<{
             /**
              * When a column's type is missing
@@ -848,7 +848,7 @@ type NodeTexts = {
     /**
      * A type placeholder, `_`
      */
-    TypePlaceholder: NodeText;
+    TypePlaceholder: DescriptiveNodeText;
     /**
      * Two possible types, e.g., `# | ''`
      * Description inputs: $1 = first type, $2 = second type
@@ -857,7 +857,7 @@ type NodeTexts = {
     /**
      * A type that can't be parsed.
      */
-    UnparsableType: NodeText;
+    UnparsableType: DescriptiveNodeText;
     /**
      * A unit of a number, e.g., `m` in `1m`
      * Description inputs: $1 = unit description
@@ -866,11 +866,11 @@ type NodeTexts = {
     /**
      * A type representing an unknown type variable
      */
-    VariableType: NodeText;
+    VariableType: DescriptiveNodeText;
     /**
      * A type that is not known. All unknown types are rendered as a sequence of reasons, e.g., 'unknown type because X because Y because Z..."".
      * The unknown type description is used for the beginning of this message, and then the connector below is used to string them together. */
-    UnknownType: NodeText & {
+    UnknownType: DescriptiveNodeText & {
         /** [plain] The connector between reasons, e.g., "because " */
         connector: string;
     };
@@ -882,13 +882,13 @@ type NodeTexts = {
     /** A type that depends on itself and is therefore unknown, e.g., `a: a + 1`. */
     CycleType: DescriptiveNodeText;
     /** A variable type that is not defined, e.g., `C` in `ƒ help⸨A⸩(b•C)` */
-    UnknownVariableType: NodeText;
+    UnknownVariableType: DescriptiveNodeText;
     /** An unknown type because no expression was given in a block, e.g., () */
-    NoExpressionType: NodeText;
+    NoExpressionType: DescriptiveNodeText;
     /** An unknown type because `.` is not defined in scope, e.g., `a: 1 + .` */
-    NotEnclosedType: NodeText;
+    NotEnclosedType: DescriptiveNodeText;
     /** An unknown type because of a placeholder expression, e.g., `a: 1 + _` */
-    NotImplementedType: NodeText;
+    NotImplementedType: DescriptiveNodeText;
     /**
      * Something that does not have a specific expected type, e.g., `list['hi']`
      * Description inputs: $1 = type expected
