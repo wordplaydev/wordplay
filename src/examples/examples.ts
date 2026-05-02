@@ -158,6 +158,7 @@ export function getExampleGalleries(locales: Locales): Gallery[] {
                 'Pumpkin',
                 'Size',
                 'FloatingFoods',
+                'AditiAnimatedName'
             ],
             locales,
         ),
