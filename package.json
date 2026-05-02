@@ -12,7 +12,7 @@
         "test:coverage": "vitest run --coverage",
         "end2end": "npm run build && firebase emulators:exec \"npx playwright test\" --project=demo-wordplay --log-verbosity QUIET",
         "dev": "vite dev",
-        "emu": "firebase emulators:start --project=demo-wordplay",
+        "emu": "node scripts/seed.js & firebase emulators:start --project=demo-wordplay",
         "env": "run-script-os",
         "env:default": "cp .env.${GCLOUD_PROJECT:-template} .env",
         "env:windows": "copy .env.template .env",

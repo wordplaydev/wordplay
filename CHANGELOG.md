@@ -9,6 +9,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 ### Changed
 
 - We upgraded internal tooling for stability.
+- We added a default user of `creator/password` for developers who are testing on their computers.
 
 ## 0.17.7 - 2026-04-25
 
