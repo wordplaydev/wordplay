@@ -299,8 +299,6 @@
     let notPermittedAreas = $state<
         SvelteMap<string, [number, number, number, number]>
     >(new SvelteMap());
-
-    $inspect(howTos).with(console.log);
 </script>
 
 {#if gallery === null}
