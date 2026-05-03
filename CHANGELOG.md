@@ -6,6 +6,10 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 ## 0.17.8 - 2026-05-02
 
+### Added
+
+- We added a thank you page showing all of our GitHub contributors and thanking youth and funders (#279).
+
 ### Changed
 
 - We changed the example code viewer to be a full fledged read-only editor so that you can select, copy, and drag parts of the example and also see conflicts, highlights, and explanations of the current cursor position.

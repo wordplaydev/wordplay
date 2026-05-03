@@ -5687,6 +5687,7 @@
                     "characters": "Create custom emojis and symbols",
                     "rights": "Responsibilities, ours and yours",
                     "about": "Why does this place exist?",
+                    "thanks": "Who helped make this?",
                     "updates": "See what's new in Wordplay",
                     "community": {
                         "label": "Community",
@@ -6358,6 +6359,10 @@
                     "optionb": "Option B",
                     "optionc": "Option C"
                 }
+            },
+            "thanks": {
+                "header": "Thanks",
+                "intro": "Thank you to our *$count* contributors for contributing to Wordplay's design, development, localization, and content! And thank you to the many teachers and youth who've guided our design in focus groups, design sessions, and classrooms, who we don't list here to maintain their privacy.\n\nThis project has been supported by the National Science Foundation under awards 2318257, 2031265, 2100296, and 2122950, the University of Washington, and generous <gifts@://donate> from people like you."
             }
         },
         "edit": {
