@@ -1,0 +1,23 @@
+name: Unit tests, type check, and locales
+on:
+    workflow_call:
+
+jobs:
+    verify:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+            - uses: actions/setup-node@v4
+              with:
+                  node-version: 22.x
+                  cache: 'npm'
+            - run: npm ci
+              name: Install dependencies
+            - run: npm test
+              name: Run vitest
+            - run: npx svelte-kit sync
+              name: Sync svelte-kit
+            - run: npx svelte-check --tsconfig ./tsconfig.json .svelte-kit
+              name: Run svelte-check
+            - run: npm run locales-ci
+              name: Verify locales
