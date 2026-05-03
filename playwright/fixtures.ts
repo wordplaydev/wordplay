@@ -50,7 +50,7 @@ export const test = baseTest.extend<
             await page.getByTestId('login-button').click();
 
             const loggedIn = await page
-                .waitForURL('/profile', { waitUntil: 'domcontentloaded', timeout: 5000 })
+                .waitForURL(/\/profile$/, { waitUntil: 'domcontentloaded', timeout: 5000 })
                 .then(() => true)
                 .catch(() => false);
 
@@ -62,7 +62,7 @@ export const test = baseTest.extend<
                 await page.getByTestId('password-repeat-field').fill(account.password);
                 await page.getByTestId('join-button').click();
 
-                await page.waitForURL('/profile', { waitUntil: 'domcontentloaded' });
+                await page.waitForURL(/\/profile$/, { waitUntil: 'domcontentloaded' });
             }
 
             // Ask Playwright to save the indexedDB data stored by Firebase.
