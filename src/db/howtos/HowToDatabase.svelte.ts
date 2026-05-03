@@ -109,7 +109,7 @@ const HowToSchemaV2 = HowToSchemaV1.extend({
     isPublic: z.boolean(),
 });
 
-const HowToSchemaLatestVersion = 2;
+export const HowToSchemaLatestVersion = 2;
 const HowToSchema = HowToSchemaV2;
 
 export type HowToDocument = z.infer<typeof HowToSchema>;
