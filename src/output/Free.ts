@@ -1,13 +1,13 @@
 import { getBind } from '@locale/getBind';
 import type Value from '@values/Value';
-import toStructure from '../basis/toStructure';
-import type Locales from '../locale/Locales';
-import Arrangement from './Arrangement';
-import type Color from './Color';
-import type Output from './Output';
-import Phrase from './Phrase';
-import Place from './Place';
-import type RenderContext from './RenderContext';
+import toStructure from '@basis/toStructure';
+import type Locales from '@locale/Locales';
+import Arrangement from '@output/Arrangement';
+import type Color from '@output/Color';
+import type Output from '@output/Output';
+import Phrase from '@output/Phrase';
+import Place from '@output/Place';
+import type RenderContext from '@output/RenderContext';
 
 export function createFreeType(locales: Locales) {
     return toStructure(`

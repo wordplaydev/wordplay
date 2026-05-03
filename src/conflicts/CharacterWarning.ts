@@ -1,7 +1,7 @@
 import type LocaleText from '@locale/LocaleText';
 import type Translation from '@nodes/Translation';
-import type Locales from '../locale/Locales';
-import Conflict from './Conflict';
+import type Locales from '@locale/Locales';
+import Conflict from '@conflicts/Conflict';
 
 export class CharacterWarning extends Conflict {
     /** The node containing text */

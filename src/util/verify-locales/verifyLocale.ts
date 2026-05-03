@@ -16,11 +16,11 @@ import { Sym } from '@nodes/Sym';
 import Token from '@nodes/Token';
 import { tokenize } from '@parser/Tokenizer';
 import { toTokens } from '@parser/toTokens';
-import LocalePath, { getKeyTemplatePairs } from './LocalePath';
-import { LocaleValidator } from './LocaleSchema';
-import type Log from './Log';
-import type { RevisedString } from './start';
-import translate, { getGoogleTranslateTargetLocale } from './translate';
+import LocalePath, { getKeyTemplatePairs } from '@util/verify-locales/LocalePath';
+import { LocaleValidator } from '@util/verify-locales/LocaleSchema';
+import type Log from '@util/verify-locales/Log';
+import type { RevisedString } from '@util/verify-locales/start';
+import translate, { getGoogleTranslateTargetLocale } from '@util/verify-locales/translate';
 
 /** Create a copy of the default tutorial with all dialog marked unwritten */
 export function createUnwrittenLocale(): LocaleText {

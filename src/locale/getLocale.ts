@@ -1,5 +1,5 @@
-import type LanguageCode from './LanguageCode';
-import type LocaleText from './LocaleText';
+import type LanguageCode from '@locale/LanguageCode';
+import type LocaleText from '@locale/LocaleText';
 
 export async function getLocale(
     language: LanguageCode,

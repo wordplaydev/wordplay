@@ -8,10 +8,10 @@ import UnionType from '@nodes/UnionType';
 import type Evaluation from '@runtime/Evaluation';
 import BoolValue from '@values/BoolValue';
 import SingletonStreamValue from '@values/SingletonStreamValue';
-import type Locales from '../locale/Locales';
-import BooleanLiteral from '../nodes/BooleanLiteral';
-import BooleanType from '../nodes/BooleanType';
-import createStreamEvaluator from './createStreamEvaluator';
+import type Locales from '@locale/Locales';
+import BooleanLiteral from '@nodes/BooleanLiteral';
+import BooleanType from '@nodes/BooleanType';
+import createStreamEvaluator from '@input/createStreamEvaluator';
 
 export default class Button extends SingletonStreamValue<BoolValue, boolean> {
     on = false;

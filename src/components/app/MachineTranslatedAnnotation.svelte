@@ -2,7 +2,7 @@
     import { getLocalizing, getTip } from '@components/project/Contexts';
     import { locales } from '@db/Database';
     import { MACHINE_TRANSLATED_SYMBOL } from '@parser/Symbols';
-    import Emoji from './Emoji.svelte';
+    import Emoji from '@components/app/Emoji.svelte';
 
     let hint = getTip();
     let localize = getLocalizing();

@@ -4,10 +4,10 @@ import ExceptionValue from '@values/ExceptionValue';
 import { readFileSync } from 'fs';
 import path from 'path';
 import { expect, test } from 'vitest';
-import { DB, Locales } from '../db/Database';
-import Project from '../db/projects/Project';
-import type { SerializedProject } from '../db/projects/ProjectSchemas';
-import DefaultLocales from '../locale/DefaultLocales';
+import { DB, Locales } from '@db/Database';
+import Project from '@db/projects/Project';
+import type { SerializedProject } from '@db/projects/ProjectSchemas';
+import DefaultLocales from '@locale/DefaultLocales';
 import { getExampleGalleries } from './examples';
 import { readProjects } from './readProjects';
 

@@ -99,11 +99,11 @@
         animationDuration,
         locales,
         spaceIndicator,
-    } from '../../../db/Database';
-    import UnicodeString from '../../../unicode/UnicodeString';
-    import { getEditor, getEvaluation } from '../../project/Contexts';
-    import { measureTokenSegment } from '../highlights/measureTokenSegment';
-    import MenuTrigger from '../menu/MenuTrigger.svelte';
+    } from '@db/Database';
+    import UnicodeString from '@unicode/UnicodeString';
+    import { getEditor, getEvaluation } from '@components/project/Contexts';
+    import { measureTokenSegment } from '@components/editor/highlights/measureTokenSegment';
+    import MenuTrigger from '@components/editor/menu/MenuTrigger.svelte';
 
     interface Props {
         /** The current caret state to render */

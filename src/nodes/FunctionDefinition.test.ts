@@ -5,10 +5,10 @@ import RequiredAfterOptional from '@conflicts/RequiredAfterOptional';
 import { testConflict } from '@conflicts/TestUtilities';
 import EvaluationLimitException from '@values/EvaluationLimitException';
 import { expect, test } from 'vitest';
-import IncompatibleType from '../conflicts/IncompatibleType';
-import evaluateCode from '../runtime/evaluate';
-import FunctionDefinition from './FunctionDefinition';
-import TypeVariables from './TypeVariables';
+import IncompatibleType from '@conflicts/IncompatibleType';
+import evaluateCode from '@runtime/evaluate';
+import FunctionDefinition from '@nodes/FunctionDefinition';
+import TypeVariables from '@nodes/TypeVariables';
 
 test.each([
     ['ƒ(a b) 1', 'ƒ(a a) 1', FunctionDefinition, DuplicateName],

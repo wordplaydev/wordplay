@@ -27,7 +27,7 @@
 
 <script lang="ts">
     import { onDestroy } from 'svelte';
-    import { animationFactor } from '../../db/Database';
+    import { animationFactor } from '@db/Database';
     import type { Emotion } from '../../lore/Emotion';
 
     interface Props {

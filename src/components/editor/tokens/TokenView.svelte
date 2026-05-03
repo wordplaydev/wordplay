@@ -3,20 +3,20 @@
     import Reference from '@nodes/Reference';
     import { Sym } from '@nodes/Sym';
     import Token from '@nodes/Token';
-    import { locales } from '../../../db/Database';
-    import { withColorEmoji } from '../../../unicode/emoji';
+    import { locales } from '@db/Database';
+    import { withColorEmoji } from '@unicode/emoji';
     import {
         getCaret,
         getHidden,
         getLocalize,
         getProject,
         getRoot,
-    } from '../../project/Contexts';
-    import MenuTrigger from '../menu/MenuTrigger.svelte';
-    import type { Format } from '../nodes/NodeView.svelte';
-    import BooleanTokenEditor from './BooleanTokenEditor.svelte';
-    import TextOrPlaceholder from './TextOrPlaceholder.svelte';
-    import TokenCategories from './TokenCategories';
+    } from '@components/project/Contexts';
+    import MenuTrigger from '@components/editor/menu/MenuTrigger.svelte';
+    import type { Format } from '@components/editor/nodes/NodeView.svelte';
+    import BooleanTokenEditor from '@components/editor/tokens/BooleanTokenEditor.svelte';
+    import TextOrPlaceholder from '@components/editor/tokens/TextOrPlaceholder.svelte';
+    import TokenCategories from '@components/editor/tokens/TokenCategories';
 
     interface TokenProps {
         node: Token;

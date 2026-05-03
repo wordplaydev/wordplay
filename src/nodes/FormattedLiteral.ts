@@ -8,27 +8,27 @@ import Finish from '@runtime/Finish';
 import Start from '@runtime/Start';
 import type Step from '@runtime/Step';
 import MarkupValue from '@values/MarkupValue';
-import { Purpose } from '../concepts/Purpose';
-import type Locales from '../locale/Locales';
+import { Purpose } from '@concepts/Purpose';
+import type Locales from '@locale/Locales';
 import Characters from '../lore/BasisCharacters';
-import TextValue from '../values/TextValue';
-import type Value from '../values/Value';
-import type Context from './Context';
-import type Expression from './Expression';
-import FormattedTranslation from './FormattedTranslation';
+import TextValue from '@values/TextValue';
+import type Value from '@values/Value';
+import type Context from '@nodes/Context';
+import type Expression from '@nodes/Expression';
+import FormattedTranslation from '@nodes/FormattedTranslation';
 import FormattedType, {
     registerFormattedDefaultExpression,
-} from './FormattedType';
-import { getPreferred } from './LanguageTagged';
-import Literal from './Literal';
-import type { Grammar, Replacement } from './Node';
-import Node, { list, node } from './Node';
-import Paragraph from './Paragraph';
-import { Sym } from './Sym';
-import Token from './Token';
-import type Type from './Type';
-import type TypeSet from './TypeSet';
-import Words from './Words';
+} from '@nodes/FormattedType';
+import { getPreferred } from '@nodes/LanguageTagged';
+import Literal from '@nodes/Literal';
+import type { Grammar, Replacement } from '@nodes/Node';
+import Node, { list, node } from '@nodes/Node';
+import Paragraph from '@nodes/Paragraph';
+import { Sym } from '@nodes/Sym';
+import Token from '@nodes/Token';
+import type Type from '@nodes/Type';
+import type TypeSet from '@nodes/TypeSet';
+import Words from '@nodes/Words';
 
 export default class FormattedLiteral extends Literal {
     readonly texts: FormattedTranslation[];

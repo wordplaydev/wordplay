@@ -2,7 +2,7 @@ import Translate from '@google-cloud/translate';
 import type LanguageCode from '@locale/LanguageCode';
 import type { RegionCode } from '@locale/Regions';
 import { ConceptRegExPattern, MentionRegEx } from '@parser/Tokenizer';
-import type Log from './Log';
+import type Log from '@util/verify-locales/Log';
 
 export const GoogleTranslate = new Translate.v2.Translate();
 

@@ -17,17 +17,17 @@ import NumberValue from '@values/NumberValue';
 import SetValue from '@values/SetValue';
 import TextValue from '@values/TextValue';
 import type Value from '@values/Value';
-import type Locales from '../locale/Locales';
-import type Expression from '../nodes/Expression';
-import ListType from '../nodes/ListType';
-import NumberType from '../nodes/NumberType';
-import TextType from '../nodes/TextType';
+import type Locales from '@locale/Locales';
+import type Expression from '@nodes/Expression';
+import ListType from '@nodes/ListType';
+import NumberType from '@nodes/NumberType';
+import TextType from '@nodes/TextType';
 import {
     createBasisConversion,
     createBasisFunction,
     createEqualsFunction,
-} from './Basis';
-import { Iteration } from './Iteration';
+} from '@basis/Basis';
+import { Iteration } from '@basis/Iteration';
 
 export default function bootstrapSet(locales: Locales) {
     const SetTypeVariableNames = getNameLocales(

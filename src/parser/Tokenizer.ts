@@ -1,7 +1,7 @@
 import { Sym, type SymType } from '@nodes/Sym';
 import Token from '@nodes/Token';
 import { withoutVariationSelectors } from '@unicode/emoji';
-import ReservedSymbols from './ReservedSymbols';
+import ReservedSymbols from '@parser/ReservedSymbols';
 import {
     BIND_SYMBOL,
     BIND_SYMBOL_FULL,
@@ -83,9 +83,9 @@ import {
     TYPE_SYMBOL,
     UNDERSCORE_SYMBOL,
     UPDATE_SYMBOL,
-} from './Symbols';
-import TokenList from './TokenList';
-import { toTokens } from './toTokens';
+} from '@parser/Symbols';
+import TokenList from '@parser/TokenList';
+import { toTokens } from '@parser/toTokens';
 
 const TEXT_SEPARATORS = '\'‘’"“”„«»‹›「」『』';
 const OPERATORS = `${NOT_SYMBOL}\\-\\^${SUM_SYMBOL}\\${DIFFERENCE_SYMBOL}${PRODUCT_SYMBOL}${DOT_SYMBOL}÷%<≤=≠≥>&|~?\\u2200-\\u22FF\\u2A00-\\u2AFF\\u2190-\\u21FF\\u27F0-\\u27FF\\u2900-\\u297F`;

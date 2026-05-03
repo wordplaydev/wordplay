@@ -17,9 +17,9 @@ import FunctionValue from '@values/FunctionValue';
 import NumberValue from '@values/NumberValue';
 import TextValue from '@values/TextValue';
 import Value from '@values/Value';
-import type { BasisTypeName } from '../basis/BasisConstants';
-import type Locales from '../locale/Locales';
-import type Expression from '../nodes/Expression';
+import type { BasisTypeName } from '@basis/BasisConstants';
+import type Locales from '@locale/Locales';
+import type Expression from '@nodes/Expression';
 
 export default class StructureValue extends Value {
     readonly type: StructureDefinition;

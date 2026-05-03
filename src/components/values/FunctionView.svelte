@@ -3,7 +3,7 @@
     import { Sym } from '@nodes/Sym';
     import { FUNCTION_SYMBOL } from '@parser/Symbols';
     import type FunctionValue from '@values/FunctionValue';
-    import SymbolView from './SymbolView.svelte';
+    import SymbolView from '@components/values/SymbolView.svelte';
 
     interface Props {
         value: FunctionValue;

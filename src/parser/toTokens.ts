@@ -1,5 +1,5 @@
-import { tokenize } from './Tokenizer';
-import Tokens from './Tokens';
+import { tokenize } from '@parser/Tokenizer';
+import Tokens from '@parser/Tokens';
 
 export function toTokens(code: string): Tokens {
     const tokens = tokenize(code);

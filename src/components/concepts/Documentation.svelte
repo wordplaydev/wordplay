@@ -58,30 +58,30 @@
         Projects,
         blocks,
         locales,
-    } from '../../db/Database';
-    import type Project from '../../db/projects/Project';
-    import ConceptLink from '../../nodes/ConceptLink';
-    import TutorialHighlight from '../app/TutorialHighlight.svelte';
+    } from '@db/Database';
+    import type Project from '@db/projects/Project';
+    import ConceptLink from '@nodes/ConceptLink';
+    import TutorialHighlight from '@components/app/TutorialHighlight.svelte';
     import {
         getConceptIndex,
         getConceptPath,
         getDragged,
         type ConceptPath,
-    } from '../project/Contexts';
-    import getScrollParent from '../util/getScrollParent';
-    import Button from '../widgets/Button.svelte';
-    import Note from '../widgets/Note.svelte';
-    import TextField from '../widgets/TextField.svelte';
-    import CodeView from './CodeView.svelte';
-    import ConceptGroupView from './ConceptGroupView.svelte';
-    import ConceptLinkUI from './ConceptLinkUI.svelte';
-    import ConceptsView from './ConceptsView.svelte';
-    import ConceptView from './ConceptView.svelte';
-    import FunctionConceptView from './FunctionConceptView.svelte';
-    import HowConceptView from './HowConceptView.svelte';
-    import NodeConceptView from './NodeConceptView.svelte';
-    import StreamConceptView from './StreamConceptView.svelte';
-    import StructureConceptView from './StructureConceptView.svelte';
+    } from '@components/project/Contexts';
+    import getScrollParent from '@components/util/getScrollParent';
+    import Button from '@components/widgets/Button.svelte';
+    import Note from '@components/widgets/Note.svelte';
+    import TextField from '@components/widgets/TextField.svelte';
+    import CodeView from '@components/concepts/CodeView.svelte';
+    import ConceptGroupView from '@components/concepts/ConceptGroupView.svelte';
+    import ConceptLinkUI from '@components/concepts/ConceptLinkUI.svelte';
+    import ConceptsView from '@components/concepts/ConceptsView.svelte';
+    import ConceptView from '@components/concepts/ConceptView.svelte';
+    import FunctionConceptView from '@components/concepts/FunctionConceptView.svelte';
+    import HowConceptView from '@components/concepts/HowConceptView.svelte';
+    import NodeConceptView from '@components/concepts/NodeConceptView.svelte';
+    import StreamConceptView from '@components/concepts/StreamConceptView.svelte';
+    import StructureConceptView from '@components/concepts/StructureConceptView.svelte';
 
     interface Props {
         project: Project;

@@ -1,5 +1,4 @@
 <script lang="ts">
-    import { goto } from '$app/navigation';
     import { page } from '$app/state';
     import AddProject from '@components/app/AddProject.svelte';
     import Header from '@components/app/Header.svelte';
@@ -24,13 +23,14 @@
         getClasses,
         type Class,
     } from '@db/teachers/TeacherDatabase.svelte';
-    import type Project from '../../../db/projects/Project';
+    import type Project from '@db/projects/Project';
     import {
         CANCEL_SYMBOL,
         COPY_SYMBOL,
         EDIT_SYMBOL,
-    } from '../../../parser/Symbols';
+    } from '@parser/Symbols';
     import HowToGalleryView from './howto/HowToGalleryView.svelte';
+    import { localeGoto } from '@util/localeGoto';
 
     const user = getUser();
 
@@ -182,7 +182,7 @@
                                 Galleries.edit(
                                     gallery.withProject(newProjectID),
                                 );
-                                goto(`/project/${newProjectID}`);
+                                localeGoto(`/project/${newProjectID}`);
                             }
                         }}
                     />
@@ -198,14 +198,14 @@
                                   description: (l) =>
                                       l.ui.page.projects.button.editproject,
                                   action: (project) =>
-                                      goto(project.getLink(false)),
+                                      localeGoto(project.getLink(false)),
                                   label: EDIT_SYMBOL,
                               }
                             : false}
                         copy={{
                             description: (l) => l.ui.project.button.duplicate,
                             action: (project) =>
-                                goto(
+                                localeGoto(
                                     Projects.duplicate(project).getLink(false),
                                 ),
                             label: COPY_SYMBOL,
@@ -336,7 +336,7 @@
                         action={async () => {
                             if (gallery) {
                                 await Galleries.delete(gallery);
-                                goto('/galleries');
+                                localeGoto('/galleries');
                             }
                         }}
                         label={(l) => l.ui.gallery.confirm.delete.prompt}

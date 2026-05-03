@@ -3,18 +3,18 @@ import { TYPE_SYMBOL } from '@parser/Symbols';
 import StructureValue from '@values/StructureValue';
 import type Value from '@values/Value';
 import Decimal from 'decimal.js';
-import toStructure from '../basis/toStructure';
-import type Project from '../db/projects/Project';
-import type Locales from '../locale/Locales';
-import Color from './Color';
-import Output, { DefaultStyle } from './Output';
-import { toText } from './Phrase';
-import Place from './Place';
-import { DefinitePose } from './Pose';
-import type RenderContext from './RenderContext';
-import type { NameGenerator } from './Stage';
-import TextLang from './TextLang';
-import { getOutputInput } from './Valued';
+import toStructure from '@basis/toStructure';
+import type Project from '@db/projects/Project';
+import type Locales from '@locale/Locales';
+import Color from '@output/Color';
+import Output, { DefaultStyle } from '@output/Output';
+import { toText } from '@output/Phrase';
+import Place from '@output/Place';
+import { DefinitePose } from '@output/Pose';
+import type RenderContext from '@output/RenderContext';
+import type { NameGenerator } from '@output/Stage';
+import TextLang from '@output/TextLang';
+import { getOutputInput } from '@output/Valued';
 
 export function createSayType(locales: Locales) {
     return toStructure(`

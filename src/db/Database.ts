@@ -11,17 +11,17 @@ import {
 } from 'firebase/auth';
 import { deleteDoc, doc, setDoc } from 'firebase/firestore';
 import { writable, type Writable } from 'svelte/store';
-import DefaultLocale from '../locale/DefaultLocale';
-import type LocaleText from '../locale/LocaleText';
-import { type FormattedText } from '../locale/LocaleText';
-import { CharactersDatabase } from './characters/CharacterDatabase.svelte';
-import { ChatDatabase } from './chats/ChatDatabase.svelte';
-import CreatorDatabase, { CreatorCollection } from './creators/CreatorDatabase';
-import GalleryDatabase from './galleries/GalleryDatabase.svelte';
-import { HowToDatabase } from './howtos/HowToDatabase.svelte';
-import LocalesDatabase from './locales/LocalesDatabase';
-import ProjectsDatabase from './projects/ProjectsDatabase.svelte';
-import SettingsDatabase from './settings/SettingsDatabase';
+import DefaultLocale from '@locale/DefaultLocale';
+import type LocaleText from '@locale/LocaleText';
+import { type FormattedText } from '@locale/LocaleText';
+import { CharactersDatabase } from '@db/characters/CharacterDatabase.svelte';
+import { ChatDatabase } from '@db/chats/ChatDatabase.svelte';
+import CreatorDatabase, { CreatorCollection } from '@db/creators/CreatorDatabase';
+import GalleryDatabase from '@db/galleries/GalleryDatabase.svelte';
+import { HowToDatabase } from '@db/howtos/HowToDatabase.svelte';
+import LocalesDatabase from '@db/locales/LocalesDatabase';
+import ProjectsDatabase from '@db/projects/ProjectsDatabase.svelte';
+import SettingsDatabase from '@db/settings/SettingsDatabase';
 
 // Intercept console.log and console.error
 
@@ -267,6 +267,7 @@ export const animationDuration = Settings.animationDuration;
 export const tutorialProgress = Settings.settings.tutorial.value;
 export const arrangement = Settings.settings.arrangement.value;
 export const locales = DB.Locales.locales;
+export const localesReady = DB.Locales.localesReady;
 export const writingLayout = Settings.settings.writingLayout.value;
 export const camera = Settings.settings.camera.value;
 export const dark = Settings.settings.dark.value;

@@ -5,7 +5,7 @@
     import type { LocaleTextAccessor } from '@locale/Locales';
     import Decimal from 'decimal.js';
     import { tick } from 'svelte';
-    import LocalizedText from './LocalizedText.svelte';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
 
     interface Props {
         value: number | undefined;

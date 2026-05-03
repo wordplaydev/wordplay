@@ -1,23 +1,23 @@
-import type Markup from '../nodes/Markup';
-import { Sym } from '../nodes/Sym';
-import parseDoc from '../parser/parseDoc';
-import { DOCS_SYMBOL } from '../parser/Symbols';
-import { toTokens } from '../parser/toTokens';
-import { MachineTranslated, Revised, Unwritten } from './Annotations';
-import type BasisTexts from './BasisTexts';
-import type { GalleryTexts } from './GalleryTexts';
-import type InputTexts from './InputTexts';
-import type LanguageCode from './LanguageCode';
-import { Languages } from './LanguageCode';
-import type Locale from './Locale';
-import type { ModerationTexts } from './ModerationTexts';
-import type NodeTexts from './NodeTexts';
-import type OutputTexts from './OutputTexts';
-import { Regions, type RegionCode } from './Regions';
-import { DraftLocales } from './SupportedLocales';
-import type TermTexts from './TermTexts';
-import type UITexts from './UITexts';
-import { withoutAnnotations } from './withoutAnnotations';
+import type Markup from '@nodes/Markup';
+import { Sym } from '@nodes/Sym';
+import parseDoc from '@parser/parseDoc';
+import { DOCS_SYMBOL } from '@parser/Symbols';
+import { toTokens } from '@parser/toTokens';
+import { MachineTranslated, Revised, Unwritten } from '@locale/Annotations';
+import type BasisTexts from '@locale/BasisTexts';
+import type { GalleryTexts } from '@locale/GalleryTexts';
+import type InputTexts from '@locale/InputTexts';
+import type LanguageCode from '@locale/LanguageCode';
+import { Languages } from '@locale/LanguageCode';
+import type Locale from '@locale/Locale';
+import type { ModerationTexts } from '@locale/ModerationTexts';
+import type NodeTexts from '@locale/NodeTexts';
+import type OutputTexts from '@locale/OutputTexts';
+import { Regions, type RegionCode } from '@locale/Regions';
+import { DraftLocales } from '@locale/SupportedLocales';
+import type TermTexts from '@locale/TermTexts';
+import type UITexts from '@locale/UITexts';
+import { withoutAnnotations } from '@locale/withoutAnnotations';
 
 /**
  * Represents a complete translation for Wordplay,

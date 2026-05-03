@@ -11,15 +11,15 @@ import type BoolValue from '@values/BoolValue';
 import NumberValue from '@values/NumberValue';
 import TextValue from '@values/TextValue';
 import type Value from '@values/Value';
-import type Locales from '../locale/Locales';
-import type LocaleText from '../locale/LocaleText';
-import type { FunctionText, NameAndDoc } from '../locale/LocaleText';
-import ListType from '../nodes/ListType';
+import type Locales from '@locale/Locales';
+import type LocaleText from '@locale/LocaleText';
+import type { FunctionText, NameAndDoc } from '@locale/LocaleText';
+import ListType from '@nodes/ListType';
 import {
     createBasisConversion,
     createBasisFunction,
     createEqualsFunction,
-} from './Basis';
+} from '@basis/Basis';
 
 const MAX_TEXT_LENGTH = 65536;
 

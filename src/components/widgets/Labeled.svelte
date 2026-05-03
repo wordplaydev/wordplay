@@ -1,7 +1,7 @@
 <script lang="ts">
     import type { LocaleTextAccessor } from '@locale/Locales';
     import { type Snippet } from 'svelte';
-    import LocalizedText from './LocalizedText.svelte';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
 
     const {
         label,

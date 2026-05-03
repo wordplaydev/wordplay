@@ -1,9 +1,9 @@
 <script lang="ts">
     import type ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
-    import { locales } from '../../../db/Database';
-    import { getProject, getRoot } from '../../project/Contexts';
-    import MenuTrigger from '../menu/MenuTrigger.svelte';
-    import NodeView, { type Format } from './NodeView.svelte';
+    import { locales } from '@db/Database';
+    import { getProject, getRoot } from '@components/project/Contexts';
+    import MenuTrigger from '@components/editor/menu/MenuTrigger.svelte';
+    import NodeView, { type Format } from '@components/editor/nodes/NodeView.svelte';
 
     interface Props {
         node: ExpressionPlaceholder;

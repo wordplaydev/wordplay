@@ -1,9 +1,9 @@
 <script lang="ts">
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import BigLink from '../../components/app/BigLink.svelte';
-    import Header from '../../components/app/Header.svelte';
-    import Writing from '../../components/app/Writing.svelte';
-    import MarkupHTMLView from '../../components/concepts/MarkupHTMLView.svelte';
+    import BigLink from '@components/app/BigLink.svelte';
+    import Header from '@components/app/Header.svelte';
+    import Writing from '@components/app/Writing.svelte';
+    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
 </script>
 
 <Writing>

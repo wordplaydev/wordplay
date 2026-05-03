@@ -1,4 +1,4 @@
-import type { SupportedFace } from '../../basis/Fonts';
+import type { SupportedFace } from '@basis/Fonts';
 
 type PaintingConfiguration = {
     characters: string;

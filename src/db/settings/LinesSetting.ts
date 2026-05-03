@@ -1,4 +1,4 @@
-import Setting from './Setting';
+import Setting from '@db/settings/Setting';
 
 export const LineSetting = new Setting<boolean>(
     'lines',

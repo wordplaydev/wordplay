@@ -1,6 +1,6 @@
 import { withoutVariationSelectors } from '@unicode/emoji';
-import { Sym } from './Sym';
-import Token from './Token';
+import { Sym } from '@nodes/Sym';
+import Token from '@nodes/Token';
 
 export default class NameToken extends Token {
     constructor(name: string) {

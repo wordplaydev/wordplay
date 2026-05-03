@@ -11,9 +11,9 @@ import type Input from '@nodes/Input';
 import type StructureDefinition from '@nodes/StructureDefinition';
 import type Token from '@nodes/Token';
 import type UnaryEvaluate from '@nodes/UnaryEvaluate';
-import type Locales from '../locale/Locales';
-import type StreamDefinition from '../nodes/StreamDefinition';
-import Conflict from './Conflict';
+import type Locales from '@locale/Locales';
+import type StreamDefinition from '@nodes/StreamDefinition';
+import Conflict from '@conflicts/Conflict';
 
 export default class MissingInput extends Conflict {
     readonly func: FunctionDefinition | StructureDefinition | StreamDefinition;

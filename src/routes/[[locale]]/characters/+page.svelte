@@ -15,7 +15,7 @@
     import {
         characterToSVG,
         type Character,
-    } from '../../db/characters/Character';
+    } from '@db/characters/Character';
     import NewCharacterButton from './NewCharacterButton.svelte';
 
     const user = getUser();

@@ -4,10 +4,10 @@
     import Templates from '@concepts/Templates';
     import type Project from '@db/projects/Project';
     import type Source from '@nodes/Source';
-    import { locales } from '../../db/Database';
+    import { locales } from '@db/Database';
     import Characters from '../../lore/BasisCharacters';
-    import Toggle from '../widgets/Toggle.svelte';
-    import { getConflicts } from './Contexts';
+    import Toggle from '@components/widgets/Toggle.svelte';
+    import { getConflicts } from '@components/project/Contexts';
 
     interface Props {
         project: Project;

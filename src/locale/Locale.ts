@@ -1,6 +1,6 @@
-import type LanguageCode from './LanguageCode';
-import { getLocaleLanguage, getLocaleRegions } from './LocaleText';
-import type { RegionCode } from './Regions';
+import type LanguageCode from '@locale/LanguageCode';
+import { getLocaleLanguage, getLocaleRegions } from '@locale/LocaleText';
+import type { RegionCode } from '@locale/Regions';
 
 export type Locale = {
     /** An ISO 639-1 language code */

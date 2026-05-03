@@ -5,21 +5,21 @@ import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { DOT_SYMBOL, EXPONENT_SYMBOL, LANGUAGE_SYMBOL } from '@parser/Symbols';
 import NumberValue from '@values/NumberValue';
-import type { BasisTypeName } from '../basis/BasisConstants';
-import type Locales from '../locale/Locales';
+import type { BasisTypeName } from '@basis/BasisConstants';
+import type Locales from '@locale/Locales';
 import { Emotion } from '../lore/Emotion';
-import Dimension from './Dimension';
-import LanguageToken from './LanguageToken';
+import Dimension from '@nodes/Dimension';
+import LanguageToken from '@nodes/LanguageToken';
 import Node, {
     list,
     node,
     optional,
     type Grammar,
     type Replacement,
-} from './Node';
-import { Sym } from './Sym';
-import Token from './Token';
-import type TypeSet from './TypeSet';
+} from '@nodes/Node';
+import { Sym } from '@nodes/Sym';
+import Token from '@nodes/Token';
+import type TypeSet from '@nodes/TypeSet';
 
 export default class Unit extends Node {
     /** In case this was parsed, we keep the original tokens around. */

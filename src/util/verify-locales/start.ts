@@ -4,29 +4,29 @@ import { withoutAnnotations } from '@locale/withoutAnnotations';
 import fs from 'fs';
 import path from 'path';
 import * as prettier from 'prettier';
-import type LocaleText from '../../locale/LocaleText';
+import type LocaleText from '@locale/LocaleText';
 import {
     getLocaleLanguage,
     getLocaleRegions,
     isRevised,
     toLocaleString,
-} from '../../locale/LocaleText';
-import type LocalePath from './LocalePath';
+} from '@locale/LocaleText';
+import type LocalePath from '@util/verify-locales/LocalePath';
 import {
     DefaultLocale,
     getLocaleJSON,
     getLocalePath,
     LocaleValidator,
-} from './LocaleSchema';
-import Log from './Log';
-import { getTutorialJSON, getTutorialPath } from './TutorialSchema';
-import { verifyHowTo } from './verifyHowTo';
+} from '@util/verify-locales/LocaleSchema';
+import Log from '@util/verify-locales/Log';
+import { getTutorialJSON, getTutorialPath } from '@util/verify-locales/TutorialSchema';
+import { verifyHowTo } from '@util/verify-locales/verifyHowTo';
 import {
     createUnwrittenLocale,
     getCheckableLocalePairs,
     verifyLocale,
-} from './verifyLocale';
-import { createUnwrittenTutorial, verifyTutorial } from './verifyTutorial';
+} from '@util/verify-locales/verifyLocale';
+import { createUnwrittenTutorial, verifyTutorial } from '@util/verify-locales/verifyTutorial';
 
 // We're we asked to translate? Let's see if there was a specific locale we're focusing on.
 const TranslationRequested =

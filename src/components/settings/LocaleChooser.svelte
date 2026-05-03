@@ -1,7 +1,9 @@
 <svelte:options />
 
 <script lang="ts">
-    import { DB, locales } from '@db/Database';
+    import { goto } from '$app/navigation';
+    import { page } from '$app/state';
+    import { locales } from '@db/Database';
     import type LanguageCode from '@locale/LanguageCode';
     import { getLanguageLayout, PossibleLanguages } from '@locale/LanguageCode';
     import {
@@ -14,17 +16,17 @@
         EMOJI_SYMBOL,
         LOCALE_SYMBOL,
     } from '@parser/Symbols';
-    import { Settings } from '../../db/Database';
-    import { localeToString } from '../../locale/Locale';
+    import { Settings } from '@db/Database';
+    import { localeToString } from '@locale/Locale';
     import {
         getLocaleLanguage,
         getLocaleLanguageName,
         isLocaleDraft,
-    } from '../../locale/LocaleText';
-    import Link from '../app/Link.svelte';
-    import Button from '../widgets/Button.svelte';
-    import Dialog from '../widgets/Dialog.svelte';
-    import LocaleName from './LocaleName.svelte';
+    } from '@locale/LocaleText';
+    import Link from '@components/app/Link.svelte';
+    import Button from '@components/widgets/Button.svelte';
+    import Dialog from '@components/widgets/Dialog.svelte';
+    import LocaleName from '@components/settings/LocaleName.svelte';
 
     interface Props {
         /** Determines whether to show locale menu button (footer vs. speech bubble) */
@@ -57,16 +59,24 @@
                   : // Put the selected locale at the end, removing it from the beginning if included
                     [...selectedLocales.filter((l) => l !== locale), locale];
 
+        if (selectedLocales.length === 0) return;
+
         // Set the layout and direction based on the preferred language.
-        if (selectedLocales.length > 0) {
-            Settings.setWritingLayout(
-                getLanguageLayout(
-                    getLocaleLanguage(selectedLocales[0]) as LanguageCode,
-                ),
-            );
-            // Save setLocales
-            DB.Locales.setLocales(selectedLocales as SupportedLocale[]);
-        }
+        Settings.setWritingLayout(
+            getLanguageLayout(
+                getLocaleLanguage(selectedLocales[0]) as LanguageCode,
+            ),
+        );
+
+        // All selected locales go into the URL joined by '+' (e.g. "en-US+es-MX").
+        // The layout's $effect will call DB.Locales.setLocales() after navigation.
+        const localeParam = selectedLocales.join('+');
+        const currentLocale = page.params.locale;
+        const currentPath = page.url.pathname;
+        const pathWithoutLocale = currentLocale
+            ? currentPath.slice(('/' + currentLocale).length) || '/'
+            : currentPath;
+        goto(`/${localeParam}${pathWithoutLocale === '/' ? '' : pathWithoutLocale}${page.url.search}`);
     }
 </script>
 

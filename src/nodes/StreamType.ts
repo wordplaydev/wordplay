@@ -2,15 +2,15 @@ import { Purpose } from '@concepts/Purpose';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { STREAM_SYMBOL } from '@parser/Symbols';
-import type { BasisTypeName } from '../basis/BasisConstants';
+import type { BasisTypeName } from '@basis/BasisConstants';
 import Characters from '../lore/BasisCharacters';
-import AnyType from './AnyType';
-import type Context from './Context';
-import { node, type Grammar, type Replacement } from './Node';
-import { Sym } from './Sym';
-import Token from './Token';
-import Type from './Type';
-import type TypeSet from './TypeSet';
+import AnyType from '@nodes/AnyType';
+import type Context from '@nodes/Context';
+import { node, type Grammar, type Replacement } from '@nodes/Node';
+import { Sym } from '@nodes/Sym';
+import Token from '@nodes/Token';
+import Type from '@nodes/Type';
+import type TypeSet from '@nodes/TypeSet';
 
 export const STREAM_NATIVE_TYPE_NAME = 'stream';
 

@@ -4,8 +4,8 @@
     import type LocaleText from '@locale/LocaleText';
     import type { ModeText } from '@locale/UITexts';
     import { withoutAnnotations } from '@locale/withoutAnnotations';
-    import { withMonoEmoji } from '../../unicode/emoji';
-    import LocalizedText from './LocalizedText.svelte';
+    import { withMonoEmoji } from '@unicode/emoji';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
 
     interface Props {
         /** Localized text for the labels and tooltips */

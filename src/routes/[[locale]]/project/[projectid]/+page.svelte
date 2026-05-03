@@ -15,7 +15,7 @@
     import type Project from '@db/projects/Project';
     import { untrack } from 'svelte';
     import { writable } from 'svelte/store';
-    import Writing from '../../../components/app/Writing.svelte';
+    import Writing from '@components/app/Writing.svelte';
 
     let user = getUser();
 

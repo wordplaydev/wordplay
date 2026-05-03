@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest';
-import { ConceptPattern, MentionPattern, restoreReferences } from './translate';
+import { ConceptPattern, MentionPattern, restoreReferences } from '@util/verify-locales/translate';
 
 test.each([
     ['Hello $blah', 'Hola $boo', 'Hola $blah', MentionPattern],

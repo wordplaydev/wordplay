@@ -1,5 +1,4 @@
 <script lang="ts">
-    import { goto } from '$app/navigation';
     import CreatorView from '@components/app/CreatorView.svelte';
     import Button from '@components/widgets/Button.svelte';
     import Labeled from '@components/widgets/Labeled.svelte';
@@ -7,6 +6,7 @@
     import type { SerializedMessage } from '@db/chats/ChatDatabase.svelte';
     import type { Creator } from '@db/creators/CreatorDatabase';
     import { Creators } from '@db/Database';
+    import { localeGoto } from '@util/localeGoto';
 
     interface Props {
         message: SerializedMessage;
@@ -50,8 +50,8 @@
             label={(l) => l.ui.gallerymoderation.view.label}
             action={() => {
                 chat.getType() === 'project'
-                    ? goto(`/project/${chat.getProjectID()}`)
-                    : goto(
+                    ? localeGoto(`/project/${chat.getProjectID()}`)
+                    : localeGoto(
                           `/gallery/${galleryID}/howto?id=${chat.getProjectID()}`,
                       );
             }}

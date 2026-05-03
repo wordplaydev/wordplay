@@ -12,6 +12,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - We added descriptions to the editor's cursor selection and the conflict pane to help explain what the selected code does. It should be a useful shorthand, supplementing the full documentation.
 - We added a default user of `creator/password` for developers who are testing on their computers.
 - We upgraded internal tooling for stability.
+- We updated the URLs of the application always include the currently selected langauge(s). This makes the current language setting more reliable on page refresh and link sharing (#809).
 
 ### Fixed
 

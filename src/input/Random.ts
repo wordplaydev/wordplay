@@ -3,13 +3,13 @@ import NoneType from '@nodes/NoneType';
 import NumberType from '@nodes/NumberType';
 import UnionType from '@nodes/UnionType';
 import NumberValue from '@values/NumberValue';
-import { createBasisFunction } from '../basis/Basis';
-import type Locales from '../locale/Locales';
-import type Expression from '../nodes/Expression';
-import TypeVariable from '../nodes/TypeVariable';
-import TypeVariables from '../nodes/TypeVariables';
-import type Evaluation from '../runtime/Evaluation';
-import NoneValue from '../values/NoneValue';
+import { createBasisFunction } from '@basis/Basis';
+import type Locales from '@locale/Locales';
+import type Expression from '@nodes/Expression';
+import TypeVariable from '@nodes/TypeVariable';
+import TypeVariables from '@nodes/TypeVariables';
+import type Evaluation from '@runtime/Evaluation';
+import NoneValue from '@values/NoneValue';
 
 function getRandomInRange(
     random: number,

@@ -10,19 +10,19 @@
     import Evaluator from '@runtime/Evaluator';
     import ExceptionValue from '@values/ExceptionValue';
     import StructureValue from '@values/StructureValue';
-    import type { Character } from '../../db/characters/Character';
-    import { characterToSVG } from '../../db/characters/Character';
-    import { Chats, Creators, DB, locales } from '../../db/Database';
-    import { isFlagged } from '../../db/projects/Moderation';
-    import { isAudience } from '../../db/projects/ModerationUtils';
-    import ConceptLink, { CharacterName } from '../../nodes/ConceptLink';
-    import UnicodeString from '../../unicode/UnicodeString';
-    import MarkupValue from '../../values/MarkupValue';
-    import Value from '../../values/Value';
-    import { getUser, isAuthenticated } from '../project/Contexts';
-    import CreatorView from './CreatorView.svelte';
-    import Link from './Link.svelte';
-    import Spinning from './Spinning.svelte';
+    import type { Character } from '@db/characters/Character';
+    import { characterToSVG } from '@db/characters/Character';
+    import { Chats, Creators, DB, locales } from '@db/Database';
+    import { isFlagged } from '@db/projects/Moderation';
+    import { isAudience } from '@db/projects/ModerationUtils';
+    import ConceptLink, { CharacterName } from '@nodes/ConceptLink';
+    import UnicodeString from '@unicode/UnicodeString';
+    import MarkupValue from '@values/MarkupValue';
+    import Value from '@values/Value';
+    import { getUser, isAuthenticated } from '@components/project/Contexts';
+    import CreatorView from '@components/app/CreatorView.svelte';
+    import Link from '@components/app/Link.svelte';
+    import Spinning from '@components/app/Spinning.svelte';
 
     interface Props {
         project: Project;

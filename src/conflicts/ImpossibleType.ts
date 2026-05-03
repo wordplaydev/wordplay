@@ -3,8 +3,8 @@ import NodeRef from '@locale/NodeRef';
 import type Context from '@nodes/Context';
 import type Expression from '@nodes/Expression';
 import type Type from '@nodes/Type';
-import type Locales from '../locale/Locales';
-import Conflict from './Conflict';
+import type Locales from '@locale/Locales';
+import Conflict from '@conflicts/Conflict';
 
 export class ImpossibleType extends Conflict {
     readonly expression: Expression;

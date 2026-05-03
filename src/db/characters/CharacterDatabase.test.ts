@@ -1,7 +1,7 @@
 import ConceptLink from '@nodes/ConceptLink';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import type { Character } from './Character';
-import { CharactersDatabase } from './CharacterDatabase.svelte';
+import type { Character } from '@db/characters/Character';
+import { CharactersDatabase } from '@db/characters/CharacterDatabase.svelte';
 
 // Without this mock, we get a "TypeError: CharactersDatabase is not a constructor" error
 vi.mock('../Database', () => ({}));

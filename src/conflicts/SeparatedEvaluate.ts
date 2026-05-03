@@ -3,8 +3,8 @@ import NodeRef from '@locale/NodeRef';
 import type Block from '@nodes/Block';
 import type Context from '@nodes/Context';
 import type Reference from '@nodes/Reference';
-import type Locales from '../locale/Locales';
-import Conflict from './Conflict';
+import type Locales from '@locale/Locales';
+import Conflict from '@conflicts/Conflict';
 
 export default class SeparatedEvaluate extends Conflict {
     readonly name: Reference;

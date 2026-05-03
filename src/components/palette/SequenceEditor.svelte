@@ -6,7 +6,7 @@
     import OutputPropertyValueSet from '@edit/output/OutputPropertyValueSet';
     import getSequenceProperties from '@edit/output/SequenceProperties';
     import { untrack } from 'svelte';
-    import PaletteProperty from './PaletteProperty.svelte';
+    import PaletteProperty from '@components/palette/PaletteProperty.svelte';
 
     interface Props {
         project: Project;

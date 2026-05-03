@@ -2,7 +2,7 @@
     import { getTip } from '@components/project/Contexts';
     import { locales } from '@db/Database';
     import { LOCALLY_REVISED_SYMBOL } from '@parser/Symbols';
-    import Emoji from './Emoji.svelte';
+    import Emoji from '@components/app/Emoji.svelte';
 
     let hint = getTip();
     let annotation: HTMLSpanElement | undefined = undefined;

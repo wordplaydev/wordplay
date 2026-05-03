@@ -1,8 +1,8 @@
 <script lang="ts">
     import NameToken from '@nodes/NameToken';
     import type StructureType from '@nodes/StructureType';
-    import { locales } from '../../../db/Database';
-    import NodeView, { type Format } from './NodeView.svelte';
+    import { locales } from '@db/Database';
+    import NodeView, { type Format } from '@components/editor/nodes/NodeView.svelte';
 
     interface Props {
         node: StructureType;

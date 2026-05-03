@@ -1,5 +1,5 @@
 import type { Emotion } from '../lore/Emotion';
-import type { DocText, FormattedText } from './LocaleText';
+import type { DocText, FormattedText } from '@locale/LocaleText';
 
 export type NodeText = {
     /** [name] The name that should be used to refer to the node type */

@@ -1,16 +1,16 @@
 import Scene from '@input/Scene';
 import type Node from '@nodes/Node';
 import type Evaluator from '@runtime/Evaluator';
-import type Value from '../values/Value';
-import type Output from './Output';
-import OutputAnimation, { AnimationState } from './OutputAnimation';
-import Physics from './Physics';
-import Place, { createPlace } from './Place';
-import Pose from './Pose';
-import type RenderContext from './RenderContext';
-import Sequence from './Sequence';
-import Stage from './Stage';
-import type Transition from './Transition';
+import type Value from '@values/Value';
+import type Output from '@output/Output';
+import OutputAnimation, { AnimationState } from '@output/OutputAnimation';
+import Physics from '@output/Physics';
+import Place, { createPlace } from '@output/Place';
+import Pose from '@output/Pose';
+import type RenderContext from '@output/RenderContext';
+import Sequence from '@output/Sequence';
+import Stage from '@output/Stage';
+import type Transition from '@output/Transition';
 
 export type OutputName = string;
 

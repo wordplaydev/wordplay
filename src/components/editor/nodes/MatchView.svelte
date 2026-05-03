@@ -1,8 +1,8 @@
 <script lang="ts">
     import type Match from '@nodes/Match';
-    import Flow from '../blocks/Flow.svelte';
-    import NodeSequenceView from './NodeSequenceView.svelte';
-    import NodeView, { type Format } from './NodeView.svelte';
+    import Flow from '@components/editor/blocks/Flow.svelte';
+    import NodeSequenceView from '@components/editor/nodes/NodeSequenceView.svelte';
+    import NodeView, { type Format } from '@components/editor/nodes/NodeView.svelte';
 
     interface Props {
         node: Match;

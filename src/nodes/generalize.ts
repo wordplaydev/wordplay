@@ -1,10 +1,10 @@
-import type Context from './Context';
-import ListType from './ListType';
-import NumberType from './NumberType';
-import TextType from './TextType';
-import type Type from './Type';
-import UnionType from './UnionType';
-import Unit from './Unit';
+import type Context from '@nodes/Context';
+import ListType from '@nodes/ListType';
+import NumberType from '@nodes/NumberType';
+import TextType from '@nodes/TextType';
+import type Type from '@nodes/Type';
+import UnionType from '@nodes/UnionType';
+import Unit from '@nodes/Unit';
 
 export default function generalize(types: Type, context: Context) {
     // Are all of the types in the union list types? If so, collapse them into a single list type.

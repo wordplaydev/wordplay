@@ -4,13 +4,13 @@ import ConversionDefinition from '@nodes/ConversionDefinition';
 import Convert, { getConversionPath } from '@nodes/Convert';
 import Expression from '@nodes/Expression';
 import type Type from '@nodes/Type';
-import type Locales from '../locale/Locales';
-import type LocaleText from '../locale/LocaleText';
-import type { FormattedText } from '../locale/LocaleText';
-import Block from '../nodes/Block';
-import NumberLiteral from '../nodes/NumberLiteral';
-import NumberType from '../nodes/NumberType';
-import type { Resolution } from './Conflict';
+import type Locales from '@locale/Locales';
+import type LocaleText from '@locale/LocaleText';
+import type { FormattedText } from '@locale/LocaleText';
+import Block from '@nodes/Block';
+import NumberLiteral from '@nodes/NumberLiteral';
+import NumberType from '@nodes/NumberType';
+import type { Resolution } from '@conflicts/Conflict';
 
 /**
  * Returns conversion resolutions for any conflict where an expression has a type

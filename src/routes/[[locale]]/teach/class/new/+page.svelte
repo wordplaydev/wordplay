@@ -6,7 +6,6 @@
 </script>
 
 <script lang="ts">
-    import { goto } from '$app/navigation';
     import Centered from '@components/app/Centered.svelte';
     import Header from '@components/app/Header.svelte';
     import Link from '@components/app/Link.svelte';
@@ -37,6 +36,7 @@
         createCredentials,
         type StudentWithCredentials,
     } from '../credentials';
+    import { localeGoto } from '@util/localeGoto';
 
     /** The state to store the name of the class. */
     let name = $state('');
@@ -197,7 +197,7 @@
                 document.body.removeChild(link);
                 // Tell the UI that the download info is ready to show.
                 download = true;
-            } else goto(`/teach/class/${classid}`);
+            } else localeGoto(`/teach/class/${classid}`);
         }
     }
 </script>

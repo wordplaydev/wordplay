@@ -31,28 +31,28 @@ import type {
     Edit,
     ProjectRevision,
     Revision,
-} from '../../components/editor/commands/Commands';
-import type Conflict from '../../conflicts/Conflict';
-import Project from '../../db/projects/Project';
-import type LanguageCode from '../../locale/LanguageCode';
-import NodeRef from '../../locale/NodeRef';
-import Bind from '../../nodes/Bind';
-import BooleanLiteral from '../../nodes/BooleanLiteral';
-import Context from '../../nodes/Context';
-import type Definition from '../../nodes/Definition';
-import DefinitionExpression from '../../nodes/DefinitionExpression';
-import { LanguageTagged } from '../../nodes/LanguageTagged';
-import Literal from '../../nodes/Literal';
-import Name from '../../nodes/Name';
-import NameType from '../../nodes/NameType';
-import NumberLiteral from '../../nodes/NumberLiteral';
-import Reference from '../../nodes/Reference';
-import SetLiteral from '../../nodes/SetLiteral';
-import Translation from '../../nodes/Translation';
-import Type from '../../nodes/Type';
-import TypeVariable from '../../nodes/TypeVariable';
-import UnicodeString from '../../unicode/UnicodeString';
-import { completeInsertion } from './Complete';
+} from '@components/editor/commands/Commands';
+import type Conflict from '@conflicts/Conflict';
+import Project from '@db/projects/Project';
+import type LanguageCode from '@locale/LanguageCode';
+import NodeRef from '@locale/NodeRef';
+import Bind from '@nodes/Bind';
+import BooleanLiteral from '@nodes/BooleanLiteral';
+import Context from '@nodes/Context';
+import type Definition from '@nodes/Definition';
+import DefinitionExpression from '@nodes/DefinitionExpression';
+import { LanguageTagged } from '@nodes/LanguageTagged';
+import Literal from '@nodes/Literal';
+import Name from '@nodes/Name';
+import NameType from '@nodes/NameType';
+import NumberLiteral from '@nodes/NumberLiteral';
+import Reference from '@nodes/Reference';
+import SetLiteral from '@nodes/SetLiteral';
+import Translation from '@nodes/Translation';
+import Type from '@nodes/Type';
+import TypeVariable from '@nodes/TypeVariable';
+import UnicodeString from '@unicode/UnicodeString';
+import { completeInsertion } from '@edit/caret/Complete';
 
 /**
  * Conflicts that are permitted on insertion. We permit these to allow for some

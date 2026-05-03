@@ -1,5 +1,4 @@
 <script lang="ts">
-    import { goto } from '$app/navigation';
     import Speech from '@components/lore/Speech.svelte';
     import ProjectView from '@components/project/ProjectView.svelte';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
@@ -19,18 +18,18 @@
         setDragged,
         setProject,
         type ConceptIndexContext,
-    } from '../../components/project/Contexts';
-    import Note from '../../components/widgets/Note.svelte';
-    import type ConceptIndex from '../../concepts/ConceptIndex';
-    import { moderatedFlags } from '../../db/projects/Moderation';
-    import { PersistenceType } from '../../db/projects/ProjectHistory.svelte';
+    } from '@components/project/Contexts';
+    import Note from '@components/widgets/Note.svelte';
+    import type ConceptIndex from '@concepts/ConceptIndex';
+    import { moderatedFlags } from '@db/projects/Moderation';
+    import { PersistenceType } from '@db/projects/ProjectHistory.svelte';
     import BasisCharacters from '../../lore/BasisCharacters';
     import { Emotion } from '../../lore/Emotion';
-    import ConceptLink from '../../nodes/ConceptLink';
-    import type Markup from '../../nodes/Markup';
-    import Source from '../../nodes/Source';
-    import type Spaces from '../../parser/Spaces';
-    import { toMarkup } from '../../parser/toMarkup';
+    import ConceptLink from '@nodes/ConceptLink';
+    import type Markup from '@nodes/Markup';
+    import Source from '@nodes/Source';
+    import type Spaces from '@parser/Spaces';
+    import { toMarkup } from '@parser/toMarkup';
     import { Performances } from '../../tutorial/Performances';
     import Progress from '../../tutorial/Progress';
     import {
@@ -39,12 +38,13 @@
         type PeformanceModeType,
         type Performance,
     } from '../../tutorial/Tutorial';
-    import MarkupHTMLView from '../concepts/MarkupHTMLView.svelte';
-    import Button from '../widgets/Button.svelte';
-    import TextField from '../widgets/TextField.svelte';
-    import Header from './Header.svelte';
-    import PlayView from './PlayView.svelte';
-    import TutorialHighlight from './TutorialHighlight.svelte';
+    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
+    import Button from '@components/widgets/Button.svelte';
+    import TextField from '@components/widgets/TextField.svelte';
+    import Header from '@components/app/Header.svelte';
+    import PlayView from '@components/app/PlayView.svelte';
+    import TutorialHighlight from '@components/app/TutorialHighlight.svelte';
+    import { localeGoto } from '@util/localeGoto';
 
     interface Props {
         progress: Progress;
@@ -388,7 +388,7 @@
             focusView = nextButton;
             const next = progress.nextPause();
             if (next) nav(next);
-            else goto('/projects');
+            else localeGoto('/projects');
         }
 
         await tick();

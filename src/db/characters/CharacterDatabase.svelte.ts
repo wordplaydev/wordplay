@@ -24,9 +24,9 @@ import {
 } from 'firebase/firestore';
 import { SvelteMap } from 'svelte/reactivity';
 import { v4 as uuidv4 } from 'uuid';
-import { SaveStatus, type Database } from '../Database';
-import { firestore } from '../firebase';
-import { CharacterSchema, type Character } from './Character';
+import { SaveStatus, type Database } from '@db/Database';
+import { firestore } from '@db/firebase';
+import { CharacterSchema, type Character } from '@db/characters/Character';
 
 const CharactersCollection = 'characters';
 

@@ -25,7 +25,7 @@
     } from '@parser/Symbols';
     import { toTokens } from '@parser/toTokens';
     import MarkupValue from '@values/MarkupValue';
-    import NamedControl from './NamedControl.svelte';
+    import NamedControl from '@components/palette/NamedControl.svelte';
 
     interface Props {
         project: Project;

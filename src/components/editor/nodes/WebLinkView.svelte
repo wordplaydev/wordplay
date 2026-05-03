@@ -1,7 +1,7 @@
 <script lang="ts">
     import type WebLink from '@nodes/WebLink';
-    import { getCaret } from '../../project/Contexts';
-    import NodeView, { type Format } from './NodeView.svelte';
+    import { getCaret } from '@components/project/Contexts';
+    import NodeView, { type Format } from '@components/editor/nodes/NodeView.svelte';
 
     interface Props {
         node: WebLink;

@@ -1,11 +1,11 @@
 import { getBind } from '@locale/getBind';
 import type { EvaluationNode } from '@runtime/Evaluation';
 import type Evaluator from '@runtime/Evaluator';
-import toStructure from '../basis/toStructure';
-import type Locales from '../locale/Locales';
-import StructureValue from '../values/StructureValue';
-import TextValue from '../values/TextValue';
-import { createDirectionStructure } from './Direction';
+import toStructure from '@basis/toStructure';
+import type Locales from '@locale/Locales';
+import StructureValue from '@values/StructureValue';
+import TextValue from '@values/TextValue';
+import { createDirectionStructure } from '@output/Direction';
 
 export function createReboundType(locales: Locales) {
     return toStructure(`

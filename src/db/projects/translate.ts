@@ -19,7 +19,7 @@ import Translation from '@nodes/Translation';
 import getPreferredSpaces from '@parser/getPreferredSpaces';
 import { toMarkup } from '@parser/toMarkup';
 import { httpsCallable, type Functions } from 'firebase/functions';
-import type Project from './Project';
+import type Project from '@db/projects/Project';
 
 // Convert any camel cased word into space separated words.
 const SeparateWords = /[A-Z-_](?=[a-z0-9]+)|[A-Z-_]+(?![a-z0-9])/g;

@@ -3,13 +3,13 @@ import type Conflict from '@conflicts/Conflict';
 import Placeholder from '@conflicts/Placeholder';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
-import type { BasisTypeName } from '../basis/BasisConstants';
+import type { BasisTypeName } from '@basis/BasisConstants';
 import Characters from '../lore/BasisCharacters';
-import { node, type Grammar, type Replacement } from './Node';
-import PlaceholderToken from './PlaceholderToken';
-import { Sym } from './Sym';
-import type Token from './Token';
-import Type from './Type';
+import { node, type Grammar, type Replacement } from '@nodes/Node';
+import PlaceholderToken from '@nodes/PlaceholderToken';
+import { Sym } from '@nodes/Sym';
+import type Token from '@nodes/Token';
+import Type from '@nodes/Type';
 
 export default class TypePlaceholder extends Type {
     readonly placeholder: Token;

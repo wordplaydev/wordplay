@@ -6,7 +6,7 @@
         getLocaleLanguageName,
         getLocaleRegionNames,
         isLocaleDraft,
-    } from '../../locale/LocaleText';
+    } from '@locale/LocaleText';
 
     interface Props {
         locale: string | Locale;

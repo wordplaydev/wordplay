@@ -1,6 +1,6 @@
 import { FALSE_SYMBOL, NONE_SYMBOL, TRUE_SYMBOL } from '@parser/Symbols';
 import { expect, test } from 'vitest';
-import evaluateCode from '../runtime/evaluate';
+import evaluateCode from '@runtime/evaluate';
 
 test('Test equality', () => {
     expect(evaluateCode(`${TRUE_SYMBOL} = ${TRUE_SYMBOL}`)?.toString()).toBe(

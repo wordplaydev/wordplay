@@ -6,8 +6,8 @@ import type FunctionDefinition from '@nodes/FunctionDefinition';
 import type NameType from '@nodes/NameType';
 import type StructureDefinition from '@nodes/StructureDefinition';
 import type Type from '@nodes/Type';
-import type Locales from '../locale/Locales';
-import Conflict from './Conflict';
+import type Locales from '@locale/Locales';
+import Conflict from '@conflicts/Conflict';
 
 export default class UnexpectedTypeInput extends Conflict {
     readonly evaluate: NameType | Evaluate;

@@ -4,9 +4,9 @@ import StructureDefinition from '@nodes/StructureDefinition';
 import type { DefinitionNode } from '@runtime/Evaluation';
 import type Evaluator from '@runtime/Evaluator';
 import ExceptionValue from '@values/ExceptionValue';
-import type Locales from '../locale/Locales';
-import type Program from '../nodes/Program';
-import StreamDefinition from '../nodes/StreamDefinition';
+import type Locales from '@locale/Locales';
+import type Program from '@nodes/Program';
+import StreamDefinition from '@nodes/StreamDefinition';
 
 export default class EvaluationLimitException extends ExceptionValue {
     readonly program: Program;

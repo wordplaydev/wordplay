@@ -1,5 +1,4 @@
 <script lang="ts">
-    import { goto } from '$app/navigation';
     import Spinning from '@components/app/Spinning.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import Button from '@components/widgets/Button.svelte';
@@ -19,11 +18,12 @@
         signInWithEmailLink,
     } from 'firebase/auth';
     import { onMount } from 'svelte';
-    import Header from '../../components/app/Header.svelte';
-    import { emailAccountExists } from '../../db/creators/accountExists';
+    import Header from '@components/app/Header.svelte';
+    import { emailAccountExists } from '@db/creators/accountExists';
     import getAuthErrorDescription from './getAuthErrorDescription';
     import isValidPassword from './IsValidPassword';
     import LoginForm from './LoginForm.svelte';
+    import { localeGoto } from '@util/localeGoto';
 
     /** The username typed into the text field */
     let username = $state('');
@@ -56,7 +56,7 @@
         loading = true;
         try {
             await signInWithEmailAndPassword(auth, wordplayEmail, password);
-            goto('/profile');
+            localeGoto('/profile');
         } catch (error) {
             if (error instanceof FirebaseError)
                 usernameFeedback = getAuthErrorDescription(error);
@@ -134,7 +134,7 @@
                         if (analytics) logEvent(analytics, 'login');
 
                         // Remove the query on the URL, showing the profile view.
-                        goto('/profile');
+                        localeGoto('/profile');
                     });
                 }
             } catch (err) {

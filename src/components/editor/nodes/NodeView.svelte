@@ -20,9 +20,9 @@
     import type Root from '@nodes/Root';
     import Source from '@nodes/Source';
     import { EVAL_CLOSE_SYMBOL, EVAL_OPEN_SYMBOL } from '@parser/Symbols';
-    import { locales } from '../../../db/Database';
-    import Token from '../../../nodes/Token';
-    import type KeysOfType from '../../../util/KeysOfType';
+    import { locales } from '@db/Database';
+    import Token from '@nodes/Token';
+    import type KeysOfType from '@util/KeysOfType';
     import {
         getDragTarget,
         getEvaluation,
@@ -30,11 +30,11 @@
         getHighlights,
         getRoot,
         getSpaces,
-    } from '../../project/Contexts';
-    import EmptyView from '../blocks/EmptyView.svelte';
-    import MenuTrigger from '../menu/MenuTrigger.svelte';
-    import getNodeView from './nodeToView';
-    import Space from './Space.svelte';
+    } from '@components/project/Contexts';
+    import EmptyView from '@components/editor/blocks/EmptyView.svelte';
+    import MenuTrigger from '@components/editor/menu/MenuTrigger.svelte';
+    import getNodeView from '@components/editor/nodes/nodeToView';
+    import Space from '@components/editor/nodes/Space.svelte';
 
     interface Props {
         /** The parent node containing the field to render. We take this instead of the field value so we can render a placeholder for empty values in blocks mode. */

@@ -1,6 +1,6 @@
 import { BIND_SYMBOL } from '@parser/Symbols';
-import { Sym } from './Sym';
-import Token from './Token';
+import { Sym } from '@nodes/Sym';
+import Token from '@nodes/Token';
 
 export default class BindToken extends Token {
     constructor() {

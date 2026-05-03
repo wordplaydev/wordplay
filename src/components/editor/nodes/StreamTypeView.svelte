@@ -1,6 +1,6 @@
 <script lang="ts">
     import type StreamType from '@nodes/StreamType';
-    import NodeView, { type Format } from './NodeView.svelte';
+    import NodeView, { type Format } from '@components/editor/nodes/NodeView.svelte';
 
     interface Props {
         node: StreamType;

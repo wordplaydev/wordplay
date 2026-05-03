@@ -16,14 +16,14 @@ import NumberValue from '@values/NumberValue';
 import StructureDefinitionValue from '@values/StructureDefinitionValue';
 import UnimplementedException from '@values/UnimplementedException';
 import type Value from '@values/Value';
-import { Purpose } from '../concepts/Purpose';
-import type Locales from '../locale/Locales';
+import { Purpose } from '@concepts/Purpose';
+import type Locales from '@locale/Locales';
 import Characters from '../lore/BasisCharacters';
-import StreamDefinitionValue from '../values/StreamDefinitionValue';
-import Bind from './Bind';
-import type Context from './Context';
-import Expression from './Expression';
-import FunctionDefinition from './FunctionDefinition';
+import StreamDefinitionValue from '@values/StreamDefinitionValue';
+import Bind from '@nodes/Bind';
+import type Context from '@nodes/Context';
+import Expression from '@nodes/Expression';
+import FunctionDefinition from '@nodes/FunctionDefinition';
 import {
     any,
     node,
@@ -31,18 +31,18 @@ import {
     optional,
     type Grammar,
     type Replacement,
-} from './Node';
-import Reference from './Reference';
-import SimpleExpression from './SimpleExpression';
-import Source from './Source';
-import StreamDefinition from './StreamDefinition';
-import StructureDefinition from './StructureDefinition';
-import { Sym } from './Sym';
-import Token from './Token';
-import type Type from './Type';
-import type TypeSet from './TypeSet';
-import Unit from './Unit';
-import UnknownNameType from './UnknownNameType';
+} from '@nodes/Node';
+import Reference from '@nodes/Reference';
+import SimpleExpression from '@nodes/SimpleExpression';
+import Source from '@nodes/Source';
+import StreamDefinition from '@nodes/StreamDefinition';
+import StructureDefinition from '@nodes/StructureDefinition';
+import { Sym } from '@nodes/Sym';
+import Token from '@nodes/Token';
+import type Type from '@nodes/Type';
+import type TypeSet from '@nodes/TypeSet';
+import Unit from '@nodes/Unit';
+import UnknownNameType from '@nodes/UnknownNameType';
 
 export type SharedDefinition =
     | Source

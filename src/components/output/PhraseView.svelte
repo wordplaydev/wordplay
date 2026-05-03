@@ -24,12 +24,12 @@
     import type Place from '@output/Place';
     import type RenderContext from '@output/RenderContext';
     import { tick, untrack } from 'svelte';
-    import { DB, Projects, locales } from '../../db/Database';
-    import Markup from '../../nodes/Markup';
-    import TextLang from '../../output/TextLang';
-    import MarkupHTMLView from '../concepts/MarkupHTMLView.svelte';
-    import moveOutput from '../palette/editOutput';
-    import { getProject, getSelectedOutput } from '../project/Contexts';
+    import { DB, Projects, locales } from '@db/Database';
+    import Markup from '@nodes/Markup';
+    import TextLang from '@output/TextLang';
+    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
+    import moveOutput from '@components/palette/editOutput';
+    import { getProject, getSelectedOutput } from '@components/project/Contexts';
 
     interface Props {
         phrase: Phrase;

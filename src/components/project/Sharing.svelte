@@ -4,14 +4,14 @@
     import Button from '@components/widgets/Button.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import { CONFIRM_SYMBOL, COPY_SYMBOL } from '@parser/Symbols';
-    import { Galleries, Projects, locales } from '../../db/Database';
-    import type Project from '../../db/projects/Project';
-    import Subheader from '../app/Subheader.svelte';
-    import MarkupHTMLView from '../concepts/MarkupHTMLView.svelte';
-    import Options from '../widgets/Options.svelte';
-    import { getUser } from './Contexts';
-    import PII from './PII.svelte';
-    import Public from './Public.svelte';
+    import { Galleries, Projects, locales } from '@db/Database';
+    import type Project from '@db/projects/Project';
+    import Subheader from '@components/app/Subheader.svelte';
+    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
+    import Options from '@components/widgets/Options.svelte';
+    import { getUser } from '@components/project/Contexts';
+    import PII from '@components/project/PII.svelte';
+    import Public from '@components/project/Public.svelte';
 
     interface Props {
         project: Project;

@@ -13,18 +13,18 @@ import JumpIfUnequal from '@runtime/JumpIfEqual';
 import Start from '@runtime/Start';
 import type Step from '@runtime/Step';
 import type Value from '@values/Value';
-import type Locales from '../locale/Locales';
+import type Locales from '@locale/Locales';
 import Characters from '../lore/BasisCharacters';
-import type Context from './Context';
-import Expression from './Expression';
-import ExpressionPlaceholder from './ExpressionPlaceholder';
-import KeyValue from './KeyValue';
-import { list, node, type Grammar, type Replacement } from './Node';
-import { Sym } from './Sym';
-import Token from './Token';
-import type Type from './Type';
-import type TypeSet from './TypeSet';
-import UnionType from './UnionType';
+import type Context from '@nodes/Context';
+import Expression from '@nodes/Expression';
+import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
+import KeyValue from '@nodes/KeyValue';
+import { list, node, type Grammar, type Replacement } from '@nodes/Node';
+import { Sym } from '@nodes/Sym';
+import Token from '@nodes/Token';
+import type Type from '@nodes/Type';
+import type TypeSet from '@nodes/TypeSet';
+import UnionType from '@nodes/UnionType';
 
 /**
  * A condition for any value, like a switch statement in other languages. For example:

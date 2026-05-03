@@ -6,8 +6,8 @@ import { Sym } from '@nodes/Sym';
 import Token from '@nodes/Token';
 import fs from 'fs';
 import path from 'path';
-import type Log from './Log';
-import translate, { getGoogleTranslateTargetLocale } from './translate';
+import type Log from '@util/verify-locales/Log';
+import translate, { getGoogleTranslateTargetLocale } from '@util/verify-locales/translate';
 
 /**
  * Verify and optionally translate how-to content for a locale

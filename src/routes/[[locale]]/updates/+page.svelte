@@ -6,9 +6,9 @@
     import type Concept from '@concepts/Concept';
     import { Settings } from '@db/Database';
     import { writable } from 'svelte/store';
-    import Header from '../../components/app/Header.svelte';
-    import Writing from '../../components/app/Writing.svelte';
-    import MarkupHTMLView from '../../components/concepts/MarkupHTMLView.svelte';
+    import Header from '@components/app/Header.svelte';
+    import Writing from '@components/app/Writing.svelte';
+    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import updates from './updates.json';
 
     // Get the dated updates in reverse chronological order.

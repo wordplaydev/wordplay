@@ -21,21 +21,21 @@
     } from 'firebase/firestore';
     import { onMount } from 'svelte';
     import { writable } from 'svelte/store';
-    import Spinning from '../../components/app/Spinning.svelte';
-    import { getUser, setConceptPath } from '../../components/project/Contexts';
-    import Button from '../../components/widgets/Button.svelte';
-    import { Projects, locales } from '../../db/Database';
-    import { firestore } from '../../db/firebase';
-    import type { Flag, ModerationState } from '../../db/projects/Moderation';
+    import Spinning from '@components/app/Spinning.svelte';
+    import { getUser, setConceptPath } from '@components/project/Contexts';
+    import Button from '@components/widgets/Button.svelte';
+    import { Projects, locales } from '@db/Database';
+    import { firestore } from '@db/firebase';
+    import type { Flag, ModerationState } from '@db/projects/Moderation';
     import {
         Flags,
         getFlagDescription,
         isModerator,
         unknownFlags,
         withFlag,
-    } from '../../db/projects/Moderation';
-    import type Project from '../../db/projects/Project';
-    import { ProjectsCollection } from '../../db/projects/ProjectsDatabase.svelte';
+    } from '@db/projects/Moderation';
+    import type Project from '@db/projects/Project';
+    import { ProjectsCollection } from '@db/projects/ProjectsDatabase.svelte';
 
     const user = getUser();
 

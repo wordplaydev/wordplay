@@ -4,16 +4,16 @@ import type Node from '@nodes/Node';
 import type StructureDefinition from '@nodes/StructureDefinition';
 import StructureType from '@nodes/StructureType';
 import type Type from '@nodes/Type';
-import type Locales from '../locale/Locales';
-import { withoutAnnotations } from '../locale/withoutAnnotations';
+import type Locales from '@locale/Locales';
+import { withoutAnnotations } from '@locale/withoutAnnotations';
 import { Emotion } from '../lore/Emotion';
-import type Markup from '../nodes/Markup';
+import type Markup from '@nodes/Markup';
 import type { CharacterName } from '../tutorial/Tutorial';
-import BindConcept from './BindConcept';
-import Concept from './Concept';
-import ConversionConcept from './ConversionConcept';
-import FunctionConcept from './FunctionConcept';
-import type { PurposeType } from './Purpose';
+import BindConcept from '@concepts/BindConcept';
+import Concept from '@concepts/Concept';
+import ConversionConcept from '@concepts/ConversionConcept';
+import FunctionConcept from '@concepts/FunctionConcept';
+import type { PurposeType } from '@concepts/Purpose';
 
 export default class StructureConcept extends Concept {
     /** The type this concept represents. */

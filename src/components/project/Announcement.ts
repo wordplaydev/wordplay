@@ -1,4 +1,4 @@
-import type LanguageCode from '../../locale/LanguageCode';
+import type LanguageCode from '@locale/LanguageCode';
 
 export default class Announcement {
     readonly kind: string;

@@ -1,6 +1,6 @@
 <script lang="ts">
     import Text from '@components/widgets/LocalizedText.svelte';
-    import Spinning from './Spinning.svelte';
+    import Spinning from '@components/app/Spinning.svelte';
 </script>
 
 <div class="container">

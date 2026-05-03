@@ -1,17 +1,17 @@
 <script lang="ts">
     import { browser } from '$app/environment';
-    import { goto } from '$app/navigation';
     import { getUser, isAuthenticated } from '@components/project/Contexts';
     import { auth } from '@db/firebase';
-    import Feedback from '../../components/app/Notice.svelte';
-    import Writing from '../../components/app/Writing.svelte';
+    import Feedback from '@components/app/Notice.svelte';
+    import Writing from '@components/app/Writing.svelte';
     import Login from './Login.svelte';
+    import { localeGoto } from '@util/localeGoto';
 
     let user = getUser();
 
     /** Go to profile if logged in. */
     $effect(() => {
-        if (browser && isAuthenticated($user)) goto('/profile');
+        if (browser && isAuthenticated($user)) localeGoto('/profile');
     });
 </script>
 

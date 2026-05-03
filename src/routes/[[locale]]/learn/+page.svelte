@@ -7,19 +7,19 @@
     import TutorialView from '@components/app/TutorialView.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import { untrack } from 'svelte';
-    import Header from '../../components/app/Header.svelte';
-    import Link from '../../components/app/Link.svelte';
-    import Writing from '../../components/app/Writing.svelte';
-    import Speech from '../../components/lore/Speech.svelte';
+    import Header from '@components/app/Header.svelte';
+    import Link from '@components/app/Link.svelte';
+    import Writing from '@components/app/Writing.svelte';
+    import Speech from '@components/lore/Speech.svelte';
     import {
         Locales,
         Settings,
         locales,
         tutorialProgress,
-    } from '../../db/Database';
-    import Characters from '../../lore/BasisCharacters';
-    import Progress from '../../tutorial/Progress';
-    import type Tutorial from '../../tutorial/Tutorial';
+    } from '@db/Database';
+    import Characters from '../../../lore/BasisCharacters';
+    import Progress from '../../../tutorial/Progress';
+    import type Tutorial from '../../../tutorial/Tutorial';
 
     let tutorial: Tutorial | undefined | null = $state(undefined);
 

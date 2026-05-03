@@ -1,5 +1,5 @@
-import { ExpressionKind } from './Expression';
-import SimpleExpression from './SimpleExpression';
+import { ExpressionKind } from '@nodes/Expression';
+import SimpleExpression from '@nodes/SimpleExpression';
 
 export default abstract class DefinitionExpression extends SimpleExpression {
     getKind() {

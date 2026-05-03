@@ -1,8 +1,8 @@
 import type Unit from '@nodes/Unit';
 import type Evaluation from '@runtime/Evaluation';
 import NumberValue from '@values/NumberValue';
-import NumberType from '../nodes/NumberType';
-import TemporalStreamValue from '../values/TemporalStreamValue';
+import NumberType from '@nodes/NumberType';
+import TemporalStreamValue from '@values/TemporalStreamValue';
 
 /** We want more deail in the frequency domain and less in the amplitude domain, but we also want to minimize how much data we analyze. */
 export const DEFAULT_FREQUENCY = 33;

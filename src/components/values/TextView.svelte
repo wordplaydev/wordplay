@@ -1,9 +1,9 @@
 <script lang="ts">
     import { Sym } from '@nodes/Sym';
     import type TextValue from '@values/TextValue';
-    import UnicodeString from '../../unicode/UnicodeString';
-    import Expandable from './Expandable.svelte';
-    import SymbolView from './SymbolView.svelte';
+    import UnicodeString from '@unicode/UnicodeString';
+    import Expandable from '@components/values/Expandable.svelte';
+    import SymbolView from '@components/values/SymbolView.svelte';
 
     interface Props {
         value: TextValue;

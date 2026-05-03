@@ -11,8 +11,8 @@
     import MapLiteral from '@nodes/MapLiteral';
     import NumberLiteral from '@nodes/NumberLiteral';
     import Reference from '@nodes/Reference';
-    import Button from '../widgets/Button.svelte';
-    import PaletteProperty from './PaletteProperty.svelte';
+    import Button from '@components/widgets/Button.svelte';
+    import PaletteProperty from '@components/palette/PaletteProperty.svelte';
 
     interface Props {
         project: Project;

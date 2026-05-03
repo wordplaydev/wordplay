@@ -2,11 +2,11 @@ import Caret from '@edit/caret/Caret';
 import type Context from '@nodes/Context';
 import Node from '@nodes/Node';
 import getPreferredSpaces from '@parser/getPreferredSpaces';
-import type { Edit } from '../../components/editor/commands/Commands';
-import type Locales from '../../locale/Locales';
-import Bind from '../../nodes/Bind';
-import Refer from './Refer';
-import Revision from './Revision';
+import type { Edit } from '@components/editor/commands/Commands';
+import type Locales from '@locale/Locales';
+import Bind from '@nodes/Bind';
+import Refer from '@edit/revision/Refer';
+import Revision from '@edit/revision/Revision';
 
 export default class Append<NodeType extends Node> extends Revision {
     /** The source index where the insertion occurs */

@@ -1,7 +1,7 @@
 <script lang="ts">
     import type Conditional from '@nodes/Conditional';
-    import Flow from '../blocks/Flow.svelte';
-    import NodeView, { type Format } from './NodeView.svelte';
+    import Flow from '@components/editor/blocks/Flow.svelte';
+    import NodeView, { type Format } from '@components/editor/nodes/NodeView.svelte';
 
     interface Props {
         node: Conditional;

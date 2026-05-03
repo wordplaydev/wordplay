@@ -1,7 +1,7 @@
 <script lang="ts">
     import type UnparsableType from '@nodes/UnparsableType';
-    import type { Format } from './NodeView.svelte';
-    import UnparsableView from './UnparsableView.svelte';
+    import type { Format } from '@components/editor/nodes/NodeView.svelte';
+    import UnparsableView from '@components/editor/nodes/UnparsableView.svelte';
 
     interface Props {
         node: UnparsableType;

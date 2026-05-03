@@ -1,18 +1,18 @@
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
-import { Purpose } from '../concepts/Purpose';
+import { Purpose } from '@concepts/Purpose';
 import Characters from '../lore/BasisCharacters';
-import { TYPE_SYMBOL } from '../parser/Symbols';
-import type Definition from './Definition';
-import Names from './Names';
-import NameType from './NameType';
-import type { Grammar, Replacement } from './Node';
-import Node, { any, node, none } from './Node';
-import { Sym } from './Sym';
-import Token from './Token';
-import Type from './Type';
-import TypePlaceholder from './TypePlaceholder';
-import TypeToken from './TypeToken';
+import { TYPE_SYMBOL } from '@parser/Symbols';
+import type Definition from '@nodes/Definition';
+import Names from '@nodes/Names';
+import NameType from '@nodes/NameType';
+import type { Grammar, Replacement } from '@nodes/Node';
+import Node, { any, node, none } from '@nodes/Node';
+import { Sym } from '@nodes/Sym';
+import Token from '@nodes/Token';
+import Type from '@nodes/Type';
+import TypePlaceholder from '@nodes/TypePlaceholder';
+import TypeToken from '@nodes/TypeToken';
 
 export default class TypeVariable extends Node {
     readonly names: Names;

@@ -38,17 +38,17 @@
     import type Evaluator from '@runtime/Evaluator';
     import type Step from '@runtime/Step';
     import { tick } from 'svelte';
-    import { locales, Settings, showAnnotations } from '../../db/Database';
-    import type Project from '../../db/projects/Project';
+    import { locales, Settings, showAnnotations } from '@db/Database';
+    import type Project from '@db/projects/Project';
     import Characters from '../../lore/BasisCharacters';
-    import type Markup from '../../nodes/Markup';
-    import type Source from '../../nodes/Source';
+    import type Markup from '@nodes/Markup';
+    import type Source from '@nodes/Source';
     import {
         getConceptIndex,
         getEditors,
         getEvaluation,
-    } from '../project/Contexts';
-    import Annotation from './Annotation.svelte';
+    } from '@components/project/Contexts';
+    import Annotation from '@components/annotations/Annotation.svelte';
 
     interface Props {
         /** The project for which annotations should be shown */

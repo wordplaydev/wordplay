@@ -62,12 +62,12 @@
     import { CharactersDB, locales } from '@db/Database';
     import { SEARCH_SYMBOL } from '@parser/Symbols';
     import { onMount } from 'svelte';
-    import { getCodepoints, type Codepoint } from '../../unicode/Unicode';
-    import Button from './Button.svelte';
-    import LocalizedText from './LocalizedText.svelte';
-    import Mode from './Mode.svelte';
-    import Options, { type Option } from './Options.svelte';
-    import TextField from './TextField.svelte';
+    import { getCodepoints, type Codepoint } from '@unicode/Unicode';
+    import Button from '@components/widgets/Button.svelte';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
+    import Mode from '@components/widgets/Mode.svelte';
+    import Options, { type Option } from '@components/widgets/Options.svelte';
+    import TextField from '@components/widgets/TextField.svelte';
 
     interface Props {
         /** Callback for when a glyph is chosen */

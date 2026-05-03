@@ -1,4 +1,4 @@
-import Setting from './Setting';
+import Setting from '@db/settings/Setting';
 
 export const MicSetting = new Setting<string | null>(
     'mic',

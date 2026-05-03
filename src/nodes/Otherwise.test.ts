@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest';
-import evaluateCode from '../runtime/evaluate';
+import evaluateCode from '@runtime/evaluate';
 
 test.each([
     ['1 ?? 2', '1'],

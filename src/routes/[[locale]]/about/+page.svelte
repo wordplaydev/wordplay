@@ -1,7 +1,7 @@
 <script lang="ts">
-    import Header from '../../components/app/Header.svelte';
-    import Writing from '../../components/app/Writing.svelte';
-    import MarkupHTMLView from '../../components/concepts/MarkupHTMLView.svelte';
+    import Header from '@components/app/Header.svelte';
+    import Writing from '@components/app/Writing.svelte';
+    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
 </script>
 
 <Writing>

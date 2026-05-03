@@ -4,9 +4,9 @@
         Arrangement,
         type ArrangementType,
     } from '@db/settings/Arrangement';
-    import { withMonoEmoji } from '../../unicode/emoji';
-    import { getTip } from './Contexts';
-    import Layout, { LayoutIcons } from './Layout';
+    import { withMonoEmoji } from '@unicode/emoji';
+    import { getTip } from '@components/project/Contexts';
+    import Layout, { LayoutIcons } from '@components/project/Layout';
 
     interface Props {
         arrangement: ArrangementType;

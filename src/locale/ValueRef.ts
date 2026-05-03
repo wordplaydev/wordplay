@@ -1,6 +1,6 @@
 import type Context from '@nodes/Context';
 import type Value from '@values/Value';
-import type Locales from './Locales';
+import type Locales from '@locale/Locales';
 
 export default class ValueRef {
     readonly value: Value;

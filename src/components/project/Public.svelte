@@ -9,7 +9,7 @@
         getBlocks,
         getWarnings,
         type ModerationState,
-    } from '../../db/projects/Moderation';
+    } from '@db/projects/Moderation';
     import Notice from '@components/app/Notice.svelte';
 
     interface Props {

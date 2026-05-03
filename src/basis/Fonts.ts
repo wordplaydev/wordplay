@@ -1,12 +1,12 @@
 import { OR_SYMBOL } from '@parser/Symbols';
 import { writable } from 'svelte/store';
-import type LocaleText from '../locale/LocaleText';
+import type LocaleText from '@locale/LocaleText';
 import {
     Latin,
     LatinCyrillicGreek,
     Scripts,
     type Script,
-} from '../locale/Scripts';
+} from '@locale/Scripts';
 
 export type FontWeight = 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900;
 export type FontWeightRange = { min: FontWeight; max: FontWeight };

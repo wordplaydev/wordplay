@@ -6,10 +6,10 @@
     import NumberLiteral from '@nodes/NumberLiteral';
     import Reference from '@nodes/Reference';
     import Unit from '@nodes/Unit';
-    import { locales, Projects } from '../../db/Database';
-    import type Bind from '../../nodes/Bind';
-    import { getProject, getSelectedOutput } from '../project/Contexts';
-    import ColorChooser from '../widgets/ColorChooser.svelte';
+    import { locales, Projects } from '@db/Database';
+    import type Bind from '@nodes/Bind';
+    import { getProject, getSelectedOutput } from '@components/project/Contexts';
+    import ColorChooser from '@components/widgets/ColorChooser.svelte';
 
     interface Props {
         property: OutputProperty;

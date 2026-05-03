@@ -1,17 +1,17 @@
 <script lang="ts">
     import { browser } from '$app/environment';
-    import { goto } from '$app/navigation';
     import Header from '@components/app/Header.svelte';
     import Loading from '@components/app/Loading.svelte';
     import Writing from '@components/app/Writing.svelte';
     import { getUser } from '@components/project/Contexts';
     import Profile from '../login/Profile.svelte';
+    import { localeGoto } from '@util/localeGoto';
 
     const user = getUser();
 
     // Go to the login page if on the profile and not logged in.
     $effect(() => {
-        if (browser && $user === null) goto('/login');
+        if (browser && $user === null) localeGoto('/login');
     });
 </script>
 

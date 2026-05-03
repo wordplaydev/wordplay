@@ -17,22 +17,22 @@ import {
 import { SvelteMap } from 'svelte/reactivity';
 import { v4 as uuidv4 } from 'uuid';
 import { getExampleGalleries } from '../../examples/examples';
-import { localeToString } from '../../locale/Locale';
-import type Locales from '../../locale/Locales';
-import { type Database } from '../Database';
-import { firestore } from '../firebase';
-import type Project from '../projects/Project';
+import { localeToString } from '@locale/Locale';
+import type Locales from '@locale/Locales';
+import { type Database } from '@db/Database';
+import { firestore } from '@db/firebase';
+import type Project from '@db/projects/Project';
 import {
     ClassesCollection,
     ClassSchema,
     getClass,
     setClass,
-} from '../teachers/TeacherDatabase.svelte';
+} from '@db/teachers/TeacherDatabase.svelte';
 import Gallery, {
     deserializeGallery,
     GallerySchemaLatestVersion,
     type SerializedGallery,
-} from './Gallery';
+} from '@db/galleries/Gallery';
 
 /** The name of the galleries collection in Firebase */
 export const GalleriesCollection = 'galleries';

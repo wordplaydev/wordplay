@@ -1,8 +1,8 @@
 import type LocaleText from '@locale/LocaleText';
 import type Bind from '@nodes/Bind';
 import type Token from '@nodes/Token';
-import type Locales from '../locale/Locales';
-import Conflict from './Conflict';
+import type Locales from '@locale/Locales';
+import Conflict from '@conflicts/Conflict';
 
 export default class UnexpectedEtc extends Conflict {
     readonly etc: Token;

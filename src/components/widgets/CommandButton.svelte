@@ -2,16 +2,16 @@
     import Emoji from '@components/app/Emoji.svelte';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import { tick } from 'svelte';
-    import { locales } from '../../db/Database';
-    import { tokenize } from '../../parser/Tokenizer';
-    import { toShortcut, type Command } from '../editor/commands/Commands';
-    import TokenView from '../editor/tokens/TokenView.svelte';
+    import { locales } from '@db/Database';
+    import { tokenize } from '@parser/Tokenizer';
+    import { toShortcut, type Command } from '@components/editor/commands/Commands';
+    import TokenView from '@components/editor/tokens/TokenView.svelte';
     import {
         IdleKind,
         getEditors,
         getProjectCommandContext,
-    } from '../project/Contexts';
-    import Button from './Button.svelte';
+    } from '@components/project/Contexts';
+    import Button from '@components/widgets/Button.svelte';
 
     interface Props {
         /** If source ID isn't provided, then the one with focus is used. */

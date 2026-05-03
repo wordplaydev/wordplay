@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest';
-import segmentWraps from './segmentWraps';
+import segmentWraps from '@output/segmentWraps';
 
 test.each([
     ['hello world', 'hello -world'],

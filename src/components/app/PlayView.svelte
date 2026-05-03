@@ -5,7 +5,7 @@
     import Evaluator from '@runtime/Evaluator';
     import type Value from '@values/Value';
     import { untrack } from 'svelte';
-    import { DB, locales } from '../../db/Database';
+    import { DB, locales } from '@db/Database';
 
     interface Props {
         project: Project;

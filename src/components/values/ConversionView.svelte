@@ -2,7 +2,7 @@
     import { Sym } from '@nodes/Sym';
     import { CONVERT_SYMBOL } from '@parser/Symbols';
     import type ConversionDefinitionValue from '@values/ConversionDefinitionValue';
-    import SymbolView from './SymbolView.svelte';
+    import SymbolView from '@components/values/SymbolView.svelte';
 
     interface Props {
         value: ConversionDefinitionValue;

@@ -1,5 +1,4 @@
 <script lang="ts">
-    import { goto } from '$app/navigation';
     import AddProject from '@components/app/AddProject.svelte';
     import Header from '@components/app/Header.svelte';
     import Notice from '@components/app/Notice.svelte';
@@ -17,7 +16,8 @@
         CANCEL_SYMBOL,
         COPY_SYMBOL,
         EDIT_SYMBOL,
-    } from '../../parser/Symbols';
+    } from '@parser/Symbols';
+    import { localeGoto } from '@util/localeGoto';
 
     const user = getUser();
 
@@ -126,7 +126,7 @@
                     $user?.uid ?? null,
                     null,
                 );
-                goto(`/project/${newProjectID}`);
+                localeGoto(`/project/${newProjectID}`);
             }}
         />
     </div>
@@ -143,13 +143,13 @@
             matchTexts={ownedMatchTexts}
             edit={{
                 description: (l) => l.ui.page.projects.button.editproject,
-                action: (project) => goto(project.getLink(false)),
+                action: (project) => localeGoto(project.getLink(false)),
                 label: EDIT_SYMBOL,
             }}
             copy={{
                 description: (l) => l.ui.project.button.duplicate,
                 action: (project) =>
-                    goto(Projects.duplicate(project).getLink(false)),
+                    localeGoto(Projects.duplicate(project).getLink(false)),
                 label: COPY_SYMBOL,
             }}
             remove={(project) => {
@@ -176,13 +176,13 @@
             matchTexts={sharedMatchTexts}
             edit={{
                 description: (l) => l.ui.page.projects.button.editproject,
-                action: (project) => goto(project.getLink(false)),
+                action: (project) => localeGoto(project.getLink(false)),
                 label: EDIT_SYMBOL,
             }}
             copy={{
                 description: (l) => l.ui.project.button.duplicate,
                 action: (project) =>
-                    goto(Projects.duplicate(project).getLink(false)),
+                    localeGoto(Projects.duplicate(project).getLink(false)),
                 label: COPY_SYMBOL,
             }}
             remove={() => false}

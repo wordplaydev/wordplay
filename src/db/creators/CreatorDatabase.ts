@@ -1,9 +1,9 @@
 import type { UserIdentifier } from 'firebase-admin/auth';
 import type { User } from 'firebase/auth';
 import { httpsCallable } from 'firebase/functions';
-import type { Database } from '../Database';
-import { functions } from '../firebase';
-import isValidEmail from './isValidEmail';
+import type { Database } from '@db/Database';
+import { functions } from '@db/firebase';
+import isValidEmail from '@db/creators/isValidEmail';
 
 export const CreatorCollection = 'creators';
 

@@ -6,10 +6,10 @@ import Source from '@nodes/Source';
 import UnparsableExpression from '@nodes/UnparsableExpression';
 import UnparsableType from '@nodes/UnparsableType';
 import { expect, test } from 'vitest';
-import Project from '../db/projects/Project';
-import DefaultLocale from '../locale/DefaultLocale';
-import Example from '../nodes/Example';
-import { Basis } from './Basis';
+import Project from '@db/projects/Project';
+import DefaultLocale from '@locale/DefaultLocale';
+import Example from '@nodes/Example';
+import { Basis } from '@basis/Basis';
 
 const basis = Basis.getLocalizedBasis(DefaultLocales);
 

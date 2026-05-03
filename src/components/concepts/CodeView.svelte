@@ -6,13 +6,13 @@
     import Expression, { ExpressionKind } from '@nodes/Expression';
     import type Node from '@nodes/Node';
     import getPreferredSpaces from '@parser/getPreferredSpaces';
-    import type Type from '../../nodes/Type';
-    import Spaces from '../../parser/Spaces';
-    import { copyNode } from '../editor/commands/Clipboard';
-    import { getConceptIndex, getDragged } from '../project/Contexts';
-    import RootView from '../project/RootView.svelte';
-    import ConceptLinkUI from './ConceptLinkUI.svelte';
-    import TypeView from './TypeView.svelte';
+    import type Type from '@nodes/Type';
+    import Spaces from '@parser/Spaces';
+    import { copyNode } from '@components/editor/commands/Clipboard';
+    import { getConceptIndex, getDragged } from '@components/project/Contexts';
+    import RootView from '@components/project/RootView.svelte';
+    import ConceptLinkUI from '@components/concepts/ConceptLinkUI.svelte';
+    import TypeView from '@components/concepts/TypeView.svelte';
 
     interface Props {
         node: Node;

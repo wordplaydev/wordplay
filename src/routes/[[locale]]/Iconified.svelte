@@ -1,7 +1,7 @@
 <script lang="ts">
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import type LocaleText from '@locale/LocaleText';
-    import { withMonoEmoji } from '../unicode/emoji';
+    import { withMonoEmoji } from '@unicode/emoji';
 
     interface Props {
         icon: string;

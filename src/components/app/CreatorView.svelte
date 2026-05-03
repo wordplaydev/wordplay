@@ -1,8 +1,8 @@
 <script lang="ts">
     import Text from '@components/widgets/LocalizedText.svelte';
     import type { Creator } from '@db/creators/CreatorDatabase';
-    import CreatorSymbolView from './CreatorCharacterView.svelte';
-    import Feedback from './Notice.svelte';
+    import CreatorSymbolView from '@components/app/CreatorCharacterView.svelte';
+    import Feedback from '@components/app/Notice.svelte';
 
     interface Props {
         creator: Creator | null;

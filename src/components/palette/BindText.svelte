@@ -15,8 +15,8 @@
     import { toTokens } from '@parser/toTokens';
     import MarkupValue from '@values/MarkupValue';
     import { tick } from 'svelte';
-    import { getProject, getSelectedOutput } from '../project/Contexts';
-    import TextField from '../widgets/TextField.svelte';
+    import { getProject, getSelectedOutput } from '@components/project/Contexts';
+    import TextField from '@components/widgets/TextField.svelte';
 
     interface Props {
         property: OutputProperty;

@@ -1,6 +1,6 @@
-import Language from '../nodes/Language';
-import { Sym } from '../nodes/Sym';
-import type Tokens from './Tokens';
+import Language from '@nodes/Language';
+import { Sym } from '@nodes/Sym';
+import type Tokens from '@parser/Tokens';
 
 /** LANGUAGE :: /NAME */
 export default function parseLanguage(tokens: Tokens): Language {

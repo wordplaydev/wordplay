@@ -1,6 +1,6 @@
 <script lang="ts">
     import type Language from '@nodes/Language';
-    import NodeView, { type Format } from './NodeView.svelte';
+    import NodeView, { type Format } from '@components/editor/nodes/NodeView.svelte';
 
     interface Props {
         node: Language;

@@ -4,12 +4,12 @@
     import { Projects, locales } from '@db/Database';
     import type Project from '@db/projects/Project';
     import { onMount } from 'svelte';
-    import type Gallery from '../../db/galleries/Gallery';
-    import MarkupHTMLView from '../concepts/MarkupHTMLView.svelte';
-    import Link from './Link.svelte';
-    import ProjectPreview from './ProjectPreview.svelte';
-    import Spinning from './Spinning.svelte';
-    import Subheader from './Subheader.svelte';
+    import type Gallery from '@db/galleries/Gallery';
+    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
+    import Link from '@components/app/Link.svelte';
+    import ProjectPreview from '@components/app/ProjectPreview.svelte';
+    import Spinning from '@components/app/Spinning.svelte';
+    import Subheader from '@components/app/Subheader.svelte';
 
     interface Props {
         gallery: Gallery;

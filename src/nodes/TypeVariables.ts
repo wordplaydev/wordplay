@@ -3,14 +3,14 @@ import DuplicateTypeVariable from '@conflicts/DuplicateTypeVariable';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { TYPE_CLOSE_SYMBOL, TYPE_OPEN_SYMBOL } from '@parser/Symbols';
-import { Purpose } from '../concepts/Purpose';
+import { Purpose } from '@concepts/Purpose';
 import Characters from '../lore/BasisCharacters';
-import Names from './Names';
-import type { Grammar, Replacement } from './Node';
-import Node, { node } from './Node';
-import { Sym } from './Sym';
-import Token from './Token';
-import type TypeVariable from './TypeVariable';
+import Names from '@nodes/Names';
+import type { Grammar, Replacement } from '@nodes/Node';
+import Node, { node } from '@nodes/Node';
+import { Sym } from '@nodes/Sym';
+import Token from '@nodes/Token';
+import type TypeVariable from '@nodes/TypeVariable';
 
 export default class TypeVariables extends Node {
     readonly open: Token;

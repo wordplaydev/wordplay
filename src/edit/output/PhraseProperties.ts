@@ -7,16 +7,16 @@ import Evaluate from '@nodes/Evaluate';
 import FormattedLiteral from '@nodes/FormattedLiteral';
 import Reference from '@nodes/Reference';
 import TextLiteral from '@nodes/TextLiteral';
-import type Project from '../../db/projects/Project';
-import type Locales from '../../locale/Locales';
-import Language from '../../nodes/Language';
-import NumberLiteral from '../../nodes/NumberLiteral';
-import Unit from '../../nodes/Unit';
-import { getTypeOutputProperties } from './OutputProperties';
-import OutputProperty from './OutputProperty';
-import OutputPropertyOptions from './OutputPropertyOptions';
-import OutputPropertyRange from './OutputPropertyRange';
-import OutputPropertyText from './OutputPropertyText';
+import type Project from '@db/projects/Project';
+import type Locales from '@locale/Locales';
+import Language from '@nodes/Language';
+import NumberLiteral from '@nodes/NumberLiteral';
+import Unit from '@nodes/Unit';
+import { getTypeOutputProperties } from '@edit/output/OutputProperties';
+import OutputProperty from '@edit/output/OutputProperty';
+import OutputPropertyOptions from '@edit/output/OutputPropertyOptions';
+import OutputPropertyRange from '@edit/output/OutputPropertyRange';
+import OutputPropertyText from '@edit/output/OutputPropertyText';
 
 export default function getPhraseProperties(
     project: Project,

@@ -1,22 +1,22 @@
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
-import type { BasisTypeName } from '../basis/BasisConstants';
-import type Locales from '../locale/Locales';
+import type { BasisTypeName } from '@basis/BasisConstants';
+import type Locales from '@locale/Locales';
 import Characters from '../lore/BasisCharacters';
-import type Spaces from '../parser/Spaces';
-import BasisType from './BasisType';
-import type Bind from './Bind';
-import type Context from './Context';
-import type ConversionDefinition from './ConversionDefinition';
-import type Definition from './Definition';
-import type Expression from './Expression';
-import NameType from './NameType';
-import type Node from './Node';
-import type { Grammar } from './Node';
-import StructureDefinition from './StructureDefinition';
-import StructureDefinitionType from './StructureDefinitionType';
-import type Type from './Type';
-import type TypeSet from './TypeSet';
+import type Spaces from '@parser/Spaces';
+import BasisType from '@nodes/BasisType';
+import type Bind from '@nodes/Bind';
+import type Context from '@nodes/Context';
+import type ConversionDefinition from '@nodes/ConversionDefinition';
+import type Definition from '@nodes/Definition';
+import type Expression from '@nodes/Expression';
+import NameType from '@nodes/NameType';
+import type Node from '@nodes/Node';
+import type { Grammar } from '@nodes/Node';
+import StructureDefinition from '@nodes/StructureDefinition';
+import StructureDefinitionType from '@nodes/StructureDefinitionType';
+import type Type from '@nodes/Type';
+import type TypeSet from '@nodes/TypeSet';
 
 export const STRUCTURE_NATIVE_TYPE_NAME = 'structure';
 

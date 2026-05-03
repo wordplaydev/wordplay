@@ -4,16 +4,16 @@ import type { NodeDescriptor } from '@locale/NodeTexts';
 import type Evaluator from '@runtime/Evaluator';
 import type Step from '@runtime/Step';
 import type Value from '@values/Value';
-import { Purpose } from '../concepts/Purpose';
-import type Locales from '../locale/Locales';
+import { Purpose } from '@concepts/Purpose';
+import type Locales from '@locale/Locales';
 import Characters from '../lore/BasisCharacters';
-import type Context from './Context';
-import Docs from './Docs';
-import Expression, { type GuardContext } from './Expression';
-import { node, type Grammar, type Replacement } from './Node';
-import SimpleExpression from './SimpleExpression';
-import type Type from './Type';
-import type TypeSet from './TypeSet';
+import type Context from '@nodes/Context';
+import Docs from '@nodes/Docs';
+import Expression, { type GuardContext } from '@nodes/Expression';
+import { node, type Grammar, type Replacement } from '@nodes/Node';
+import SimpleExpression from '@nodes/SimpleExpression';
+import type Type from '@nodes/Type';
+import type TypeSet from '@nodes/TypeSet';
 
 export default class DocumentedExpression extends SimpleExpression {
     readonly docs: Docs;

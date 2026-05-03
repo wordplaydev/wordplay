@@ -43,12 +43,12 @@
         blocks,
         locales,
         showLines,
-    } from '../../db/Database';
-    import Expression from '../../nodes/Expression';
-    import { DOCUMENTATION_SYMBOL, TYPE_SYMBOL } from '../../parser/Symbols';
-    import UnicodeString from '../../unicode/UnicodeString';
-    import ConceptLinkUI from '../concepts/ConceptLinkUI.svelte';
-    import OutputView from '../output/OutputView.svelte';
+    } from '@db/Database';
+    import Expression from '@nodes/Expression';
+    import { DOCUMENTATION_SYMBOL, TYPE_SYMBOL } from '@parser/Symbols';
+    import UnicodeString from '@unicode/UnicodeString';
+    import ConceptLinkUI from '@components/concepts/ConceptLinkUI.svelte';
+    import OutputView from '@components/output/OutputView.svelte';
     import {
         type EditorState,
         IdleKind,
@@ -66,33 +66,33 @@
         setEditor,
         setHighlights,
         setSetMenuAnchor,
-    } from '../project/Contexts';
-    import RootView from '../project/RootView.svelte';
-    import Button from '../widgets/Button.svelte';
-    import CaretView, { type CaretBounds } from './caret/CaretView.svelte';
+    } from '@components/project/Contexts';
+    import RootView from '@components/project/RootView.svelte';
+    import Button from '@components/widgets/Button.svelte';
+    import CaretView, { type CaretBounds } from '@components/editor/caret/CaretView.svelte';
     import {
         type Edit,
         type ProjectRevision,
         InsertSymbol,
         handleKeyCommand,
-    } from './commands/Commands';
-    import Highlight from './highlights/Highlight.svelte';
+    } from '@components/editor/commands/Commands';
+    import Highlight from '@components/editor/highlights/Highlight.svelte';
     import {
         type HighlightSpec,
         Highlights,
         getHighlights,
         getRangeOutline,
         updateOutlines,
-    } from './highlights/Highlights';
-    import { type Outline, OutlinePadding } from './highlights/outline';
-    import MenuTrigger from './menu/MenuTrigger.svelte';
+    } from '@components/editor/highlights/Highlights';
+    import { type Outline, OutlinePadding } from '@components/editor/highlights/outline';
+    import MenuTrigger from '@components/editor/menu/MenuTrigger.svelte';
     import {
         getBlockInsertionPoint,
         getCaretPositionAt,
         getEmptyList,
         getNodeAt,
         getTextInsertionPointsAt,
-    } from './pointer/PointerUtilities';
+    } from '@components/editor/pointer/PointerUtilities';
 
     interface Props {
         /** The evaluator evaluating the source being edited. */

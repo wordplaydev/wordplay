@@ -1,4 +1,4 @@
-import Setting from './Setting';
+import Setting from '@db/settings/Setting';
 
 export const CameraSetting = new Setting<string | null>(
     'camera',

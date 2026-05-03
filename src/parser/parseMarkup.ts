@@ -1,17 +1,17 @@
-import Branch from '../nodes/Branch';
-import ConceptLink from '../nodes/ConceptLink';
-import Example from '../nodes/Example';
-import Markup from '../nodes/Markup';
-import Mention from '../nodes/Mention';
-import type { Segment } from '../nodes/Paragraph';
-import Paragraph from '../nodes/Paragraph';
-import { Sym } from '../nodes/Sym';
-import Token from '../nodes/Token';
-import WebLink from '../nodes/WebLink';
-import Words from '../nodes/Words';
-import parseProgram from './parseProgram';
-import { BULLET_SYMBOL, HIGHLIGHT_SYMBOL } from './Symbols';
-import type Tokens from './Tokens';
+import Branch from '@nodes/Branch';
+import ConceptLink from '@nodes/ConceptLink';
+import Example from '@nodes/Example';
+import Markup from '@nodes/Markup';
+import Mention from '@nodes/Mention';
+import type { Segment } from '@nodes/Paragraph';
+import Paragraph from '@nodes/Paragraph';
+import { Sym } from '@nodes/Sym';
+import Token from '@nodes/Token';
+import WebLink from '@nodes/WebLink';
+import Words from '@nodes/Words';
+import parseProgram from '@parser/parseProgram';
+import { BULLET_SYMBOL, HIGHLIGHT_SYMBOL } from '@parser/Symbols';
+import type Tokens from '@parser/Tokens';
 
 export default function parseMarkup(tokens: Tokens): Markup {
     const content: Paragraph[] = [];

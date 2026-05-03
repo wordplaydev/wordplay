@@ -14,10 +14,10 @@
         StepToPresent,
         StepToStart,
         toShortcut,
-    } from '../editor/commands/Commands';
-    import { getEvaluation } from '../project/Contexts';
-    import CommandButton from '../widgets/CommandButton.svelte';
-    import Switch from '../widgets/Switch.svelte';
+    } from '@components/editor/commands/Commands';
+    import { getEvaluation } from '@components/project/Contexts';
+    import CommandButton from '@components/widgets/CommandButton.svelte';
+    import Switch from '@components/widgets/Switch.svelte';
 
     interface Props {
         evaluator: Evaluator;

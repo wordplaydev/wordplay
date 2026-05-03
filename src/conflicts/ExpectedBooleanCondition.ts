@@ -3,9 +3,9 @@ import NodeRef from '@locale/NodeRef';
 import Conditional from '@nodes/Conditional';
 import type Context from '@nodes/Context';
 import type Type from '@nodes/Type';
-import type Locales from '../locale/Locales';
-import type Reaction from '../nodes/Reaction';
-import Conflict from './Conflict';
+import type Locales from '@locale/Locales';
+import type Reaction from '@nodes/Reaction';
+import Conflict from '@conflicts/Conflict';
 
 export default class ExpectedBooleanCondition extends Conflict {
     readonly conditional: Conditional | Reaction;

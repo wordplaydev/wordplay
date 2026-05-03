@@ -1,14 +1,14 @@
 import type LocaleText from '@locale/LocaleText';
-import type { BasisTypeName } from '../basis/BasisConstants';
-import type { NodeDescriptor } from '../locale/NodeTexts';
+import type { BasisTypeName } from '@basis/BasisConstants';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 import Characters from '../lore/BasisCharacters';
-import { DOCS_SYMBOL } from '../parser/Symbols';
-import BasisType from './BasisType';
-import type Expression from './Expression';
-import { node, type Grammar, type Replacement } from './Node';
-import { Sym } from './Sym';
-import Token from './Token';
-import type TypeSet from './TypeSet';
+import { DOCS_SYMBOL } from '@parser/Symbols';
+import BasisType from '@nodes/BasisType';
+import type Expression from '@nodes/Expression';
+import { node, type Grammar, type Replacement } from '@nodes/Node';
+import { Sym } from '@nodes/Sym';
+import Token from '@nodes/Token';
+import type TypeSet from '@nodes/TypeSet';
 
 /** We created this little factory to avoid a cycle in FormattedType's default expression creation. */
 let _defaultFactory: (() => Expression) | undefined;

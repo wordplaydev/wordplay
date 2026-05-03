@@ -1,13 +1,13 @@
-import type Project from '../../db/projects/Project';
-import type Locales from '../../locale/Locales';
-import BooleanLiteral from '../../nodes/BooleanLiteral';
-import Evaluate from '../../nodes/Evaluate';
-import NumberLiteral from '../../nodes/NumberLiteral';
-import Reference from '../../nodes/Reference';
-import Unit from '../../nodes/Unit';
-import { createColorLiteral } from '../../output/Color';
-import OutputProperty from './OutputProperty';
-import OutputPropertyRange from './OutputPropertyRange';
+import type Project from '@db/projects/Project';
+import type Locales from '@locale/Locales';
+import BooleanLiteral from '@nodes/BooleanLiteral';
+import Evaluate from '@nodes/Evaluate';
+import NumberLiteral from '@nodes/NumberLiteral';
+import Reference from '@nodes/Reference';
+import Unit from '@nodes/Unit';
+import { createColorLiteral } from '@output/Color';
+import OutputProperty from '@edit/output/OutputProperty';
+import OutputPropertyRange from '@edit/output/OutputPropertyRange';
 
 export default function getPoseProperties(
     project: Project,

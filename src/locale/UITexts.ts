@@ -1,31 +1,31 @@
 import type { TileKind } from '@components/project/TileKind';
-import type { SupportedFace } from '../basis/Fonts';
-import type { DocText, FormattedText } from './LocaleText';
+import type { SupportedFace } from '@basis/Fonts';
+import type { DocText, FormattedText } from '@locale/LocaleText';
 
 import type DocumentationText from '@components/concepts/DocumentationText';
 import type CheckpointsText from '@components/project/CheckpointsText';
 import type ErrorText from '../routes/ErrorText';
-import type LandingPageText from '../routes/PageText';
-import type AboutPageText from '../routes/about/PageText';
-import type CharacterPageText from '../routes/character/[id]/PageText';
-import type CharactersPageText from '../routes/characters/PageText';
-import type DesignPageText from '../routes/design/PageText';
-import type DonatePageText from '../routes/donate/PageText';
-import type GalleriesPageText from '../routes/galleries/PageText';
-import type GalleryModerationPageText from '../routes/galleries/moderation/PageText';
-import type GalleryPageText from '../routes/gallery/[galleryid]/PageText';
-import type HowToPageText from '../routes/gallery/[galleryid]/howto/PageText';
-import type { default as GuidePageText } from '../routes/guide/PageText';
-import type JoinPageText from '../routes/join/PageText';
-import type LearnPageText from '../routes/learn/PageText';
-import type LoginPageText from '../routes/login/PageText';
-import type ProjectsPageText from '../routes/projects/PageText';
-import type RightsPageText from '../routes/rights/PageText';
-import type TeachPageText from '../routes/teach/PageText';
-import type ClassPageText from '../routes/teach/class/[classid]/PageText';
-import type NewClassPageText from '../routes/teach/class/new/PageText';
-import type UpdatesPageText from '../routes/updates/PageText';
-import type EditTexts from './EditTexts';
+import type LandingPageText from '../routes/[[locale]]/PageText';
+import type AboutPageText from '../routes/[[locale]]/about/PageText';
+import type CharacterPageText from '../routes/[[locale]]/character/[id]/PageText';
+import type CharactersPageText from '../routes/[[locale]]/characters/PageText';
+import type DesignPageText from '../routes/[[locale]]/design/PageText';
+import type DonatePageText from '../routes/[[locale]]/donate/PageText';
+import type GalleriesPageText from '../routes/[[locale]]/galleries/PageText';
+import type GalleryModerationPageText from '../routes/[[locale]]/galleries/moderation/PageText';
+import type GalleryPageText from '../routes/[[locale]]/gallery/[galleryid]/PageText';
+import type HowToPageText from '../routes/[[locale]]/gallery/[galleryid]/howto/PageText';
+import type { default as GuidePageText } from '../routes/[[locale]]/guide/PageText';
+import type JoinPageText from '../routes/[[locale]]/join/PageText';
+import type LearnPageText from '../routes/[[locale]]/learn/PageText';
+import type LoginPageText from '../routes/[[locale]]/login/PageText';
+import type ProjectsPageText from '../routes/[[locale]]/projects/PageText';
+import type RightsPageText from '../routes/[[locale]]/rights/PageText';
+import type TeachPageText from '../routes/[[locale]]/teach/PageText';
+import type ClassPageText from '../routes/[[locale]]/teach/class/[classid]/PageText';
+import type NewClassPageText from '../routes/[[locale]]/teach/class/new/PageText';
+import type UpdatesPageText from '../routes/[[locale]]/updates/PageText';
+import type EditTexts from '@locale/EditTexts';
 
 export type ButtonText = {
     /** [plain] The buttons label */

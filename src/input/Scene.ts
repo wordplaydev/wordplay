@@ -13,13 +13,13 @@ import ListValue from '@values/ListValue';
 import NoneValue from '@values/NoneValue';
 import StreamValue from '@values/StreamValue';
 import StructureValue from '@values/StructureValue';
-import { getDocLocales } from '../locale/getDocLocales';
-import { getNameLocales } from '../locale/getNameLocales';
-import type Locales from '../locale/Locales';
-import Bind from '../nodes/Bind';
-import StreamDefinition from '../nodes/StreamDefinition';
-import StreamType from '../nodes/StreamType';
-import createStreamEvaluator from './createStreamEvaluator';
+import { getDocLocales } from '@locale/getDocLocales';
+import { getNameLocales } from '@locale/getNameLocales';
+import type Locales from '@locale/Locales';
+import Bind from '@nodes/Bind';
+import StreamDefinition from '@nodes/StreamDefinition';
+import StreamType from '@nodes/StreamType';
+import createStreamEvaluator from '@input/createStreamEvaluator';
 
 export default class Scene extends StreamValue<
     StructureValue | NoneValue,

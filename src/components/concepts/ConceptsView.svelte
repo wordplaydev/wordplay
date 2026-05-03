@@ -2,7 +2,7 @@
     import Subheader from '@components/app/Subheader.svelte';
     import type Concept from '@concepts/Concept';
     import type { LocaleTextAccessor } from '@locale/Locales';
-    import ConceptGroupView from './ConceptGroupView.svelte';
+    import ConceptGroupView from '@components/concepts/ConceptGroupView.svelte';
 
     interface Props {
         category: LocaleTextAccessor;

@@ -3,10 +3,10 @@ import NodeRef from '@locale/NodeRef';
 import type Context from '@nodes/Context';
 import type Expression from '@nodes/Expression';
 import type Type from '@nodes/Type';
-import type Locales from '../locale/Locales';
-import type Node from '../nodes/Node';
-import Conflict from './Conflict';
-import { makeConversionResolutions } from './ConversionResolutions';
+import type Locales from '@locale/Locales';
+import type Node from '@nodes/Node';
+import Conflict from '@conflicts/Conflict';
+import { makeConversionResolutions } from '@conflicts/ConversionResolutions';
 
 export default class IncompatibleType extends Conflict {
     readonly receiver: Node;

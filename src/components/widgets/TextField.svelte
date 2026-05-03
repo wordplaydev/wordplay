@@ -4,8 +4,8 @@
     import type { LocaleTextAccessor } from '@locale/Locales';
     import { CONFIRM_SYMBOL } from '@parser/Symbols';
     import { onMount, tick } from 'svelte';
-    import { withMonoEmoji } from '../../unicode/emoji';
-    import LocalizedText from './LocalizedText.svelte';
+    import { withMonoEmoji } from '@unicode/emoji';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
 
     interface Props {
         /** The current text to show */

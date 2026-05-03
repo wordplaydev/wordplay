@@ -1,7 +1,7 @@
 import type Node from '@nodes/Node';
 import type Source from '@nodes/Source';
 import Token from '@nodes/Token';
-import TokenList from './TokenList';
+import TokenList from '@parser/TokenList';
 
 export const TAB_SYMBOL = '⇥';
 export const TAB_WIDTH = 2;

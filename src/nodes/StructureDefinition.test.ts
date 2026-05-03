@@ -7,8 +7,8 @@ import RequiredAfterOptional from '@conflicts/RequiredAfterOptional';
 import { testConflict } from '@conflicts/TestUtilities';
 import { UnimplementedInterface } from '@conflicts/UnimplementedInterface';
 import { test } from 'vitest';
-import StructureDefinition from './StructureDefinition';
-import TypeVariables from './TypeVariables';
+import StructureDefinition from '@nodes/StructureDefinition';
+import TypeVariables from '@nodes/TypeVariables';
 
 test.each([
     ['•Cat(a b)', '•Cat(a a)', StructureDefinition, DuplicateName],

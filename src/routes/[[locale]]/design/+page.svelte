@@ -1,22 +1,22 @@
 <script lang="ts">
     import { browser } from '$app/environment';
-    import Header from '../../components/app/Header.svelte';
-    import Link from '../../components/app/Link.svelte';
-    import Notice from '../../components/app/Notice.svelte';
-    import Subheader from '../../components/app/Subheader.svelte';
-    import Writing from '../../components/app/Writing.svelte';
-    import MarkupHTMLView from '../../components/concepts/MarkupHTMLView.svelte';
-    import Button from '../../components/widgets/Button.svelte';
-    import Checkbox from '../../components/widgets/Checkbox.svelte';
-    import LocalizedText from '../../components/widgets/LocalizedText.svelte';
-    import Mode from '../../components/widgets/Mode.svelte';
-    import Note from '../../components/widgets/Note.svelte';
-    import Options from '../../components/widgets/Options.svelte';
-    import Slider from '../../components/widgets/Slider.svelte';
-    import Switch from '../../components/widgets/Switch.svelte';
-    import TextField from '../../components/widgets/TextField.svelte';
-    import Toggle from '../../components/widgets/Toggle.svelte';
-    import { dark, locales, Settings } from '../../db/Database';
+    import Header from '@components/app/Header.svelte';
+    import Link from '@components/app/Link.svelte';
+    import Notice from '@components/app/Notice.svelte';
+    import Subheader from '@components/app/Subheader.svelte';
+    import Writing from '@components/app/Writing.svelte';
+    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
+    import Button from '@components/widgets/Button.svelte';
+    import Checkbox from '@components/widgets/Checkbox.svelte';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
+    import Mode from '@components/widgets/Mode.svelte';
+    import Note from '@components/widgets/Note.svelte';
+    import Options from '@components/widgets/Options.svelte';
+    import Slider from '@components/widgets/Slider.svelte';
+    import Switch from '@components/widgets/Switch.svelte';
+    import TextField from '@components/widgets/TextField.svelte';
+    import Toggle from '@components/widgets/Toggle.svelte';
+    import { dark, locales, Settings } from '@db/Database';
 
     // Demo state for interactive component examples
     let toggleOn = $state(false);

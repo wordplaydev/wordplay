@@ -1,4 +1,4 @@
-import { withMonoEmoji } from '../unicode/emoji';
+import { withMonoEmoji } from '@unicode/emoji';
 
 export const TYPE_SYMBOL = '•';
 export const LITERAL_SYMBOL = '!';

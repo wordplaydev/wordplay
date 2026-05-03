@@ -1,7 +1,7 @@
 <script lang="ts">
     import type Docs from '@nodes/Docs';
-    import NodeSequenceView from './NodeSequenceView.svelte';
-    import type { Format } from './NodeView.svelte';
+    import NodeSequenceView from '@components/editor/nodes/NodeSequenceView.svelte';
+    import type { Format } from '@components/editor/nodes/NodeView.svelte';
 
     interface DocsProps {
         node: Docs;

@@ -1,11 +1,11 @@
 import {
     Arrangement,
     type ArrangementType,
-} from '../../db/settings/Arrangement';
-import type Bounds from './Bounds';
-import Tile, { TileMode } from './Tile';
-import { TileKind } from './TileKind';
-import TileKinds from './TileKinds';
+} from '@db/settings/Arrangement';
+import type Bounds from '@components/project/Bounds';
+import Tile, { TileMode } from '@components/project/Tile';
+import { TileKind } from '@components/project/TileKind';
+import TileKinds from '@components/project/TileKinds';
 
 export const LAYOUT_ICON_RESPONSIVE = '📐';
 export const LAYOUT_ICON_HORIZONTAL = '↔️';

@@ -1,4 +1,4 @@
-import type { DocText, FunctionText, NameAndDoc, NameText } from './LocaleText';
+import type { DocText, FunctionText, NameAndDoc, NameText } from '@locale/LocaleText';
 
 const Empty = [] as const;
 type EmptyInputs = typeof Empty;

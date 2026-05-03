@@ -1,7 +1,7 @@
 import { expect, test } from 'vitest';
-import DefaultLocale from './DefaultLocale';
-import DefaultLocales from './DefaultLocales';
-import type { TemplateInput } from './Locales';
+import DefaultLocale from '@locale/DefaultLocale';
+import DefaultLocales from '@locale/DefaultLocales';
+import type { TemplateInput } from '@locale/Locales';
 
 test.each([
     ['', 'TBD', []],

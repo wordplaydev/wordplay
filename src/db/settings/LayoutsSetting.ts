@@ -1,5 +1,5 @@
-import type { SerializedLayout } from '../../components/project/Layout';
-import Setting from './Setting';
+import type { SerializedLayout } from '@components/project/Layout';
+import Setting from '@db/settings/Setting';
 
 export const LayoutsSetting = new Setting<Record<string, SerializedLayout>>(
     'layouts',

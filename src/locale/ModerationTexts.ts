@@ -1,6 +1,6 @@
 import type { FlagDescriptions } from '@db/projects/Moderation';
-import type { FormattedText } from './LocaleText';
-import type { ButtonText, HeaderAndExplanationText } from './UITexts';
+import type { FormattedText } from '@locale/LocaleText';
+import type { ButtonText, HeaderAndExplanationText } from '@locale/UITexts';
 
 export type ModerationTexts = {
     /** What to say to warn viewers before showing content with warnings. */

@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 
-import { EmojiGroups, EmojiSubgroups } from './emoji.ts';
+import { EmojiGroups, EmojiSubgroups } from '@unicode/emoji.ts';
 
 // Shorter versions of categories
 

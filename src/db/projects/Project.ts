@@ -24,21 +24,21 @@ import type StructureDefinition from '@nodes/StructureDefinition';
 import { DOCS_SYMBOL } from '@parser/Symbols';
 import type createDefaultShares from '@runtime/createDefaultShares';
 import { v4 as uuidv4 } from 'uuid';
-import { Basis } from '../../basis/Basis';
-import DefaultLocale from '../../locale/DefaultLocale';
-import Locales from '../../locale/Locales';
-import type LocaleText from '../../locale/LocaleText';
-import FunctionType from '../../nodes/FunctionType';
-import type { Path } from '../../nodes/Root';
-import Root from '../../nodes/Root';
-import { parseNames } from '../../parser/parseBind';
-import { toTokens } from '../../parser/toTokens';
+import { Basis } from '@basis/Basis';
+import DefaultLocale from '@locale/DefaultLocale';
+import Locales from '@locale/Locales';
+import type LocaleText from '@locale/LocaleText';
+import FunctionType from '@nodes/FunctionType';
+import type { Path } from '@nodes/Root';
+import Root from '@nodes/Root';
+import { parseNames } from '@parser/parseBind';
+import { toTokens } from '@parser/toTokens';
 import {
     PROJECT_PARAM_EDIT,
     PROJECT_PARAM_PLAY,
-} from '../../routes/project/constants';
-import type LocalesDatabase from '../locales/LocalesDatabase';
-import { type ModerationState, unknownFlags } from './Moderation';
+} from '../../routes/[[locale]]/project/constants';
+import type LocalesDatabase from '@db/locales/LocalesDatabase';
+import { type ModerationState, unknownFlags } from '@db/projects/Moderation';
 import {
     type ProjectID,
     ProjectSchemaLatestVersion,
@@ -48,7 +48,7 @@ import {
     type SerializedSource,
     type SerializedSourceCheckpoint,
     upgradeProject,
-} from './ProjectSchemas';
+} from '@db/projects/ProjectSchemas';
 
 /**
  * How we store projects in memory, mirroring the data in the deserialized form.

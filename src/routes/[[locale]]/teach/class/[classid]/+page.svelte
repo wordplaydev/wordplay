@@ -1,5 +1,4 @@
 <script lang="ts">
-    import { goto } from '$app/navigation';
 
     import { page } from '$app/state';
     import Centered from '@components/app/Centered.svelte';
@@ -28,6 +27,7 @@
     } from '@db/teachers/TeacherDatabase.svelte';
     import { CANCEL_SYMBOL, PREVIOUS_SYMBOL } from '@parser/Symbols';
     import { getTeachData } from '../../+layout.svelte';
+    import { localeGoto } from '@util/localeGoto';
 
     let teach = getTeachData();
     let classData = $derived(
@@ -50,7 +50,7 @@
                 group.learners,
                 page.params.classid,
             );
-            goto(`/gallery/${newGalleryID}`);
+            localeGoto(`/gallery/${newGalleryID}`);
         } catch (error) {
             console.error(error);
             newGalleryError = true;
@@ -208,7 +208,7 @@
             action={async () => {
                 if (classData) {
                     await deleteClass(classData);
-                    goto('/teach');
+                    localeGoto('/teach');
                 }
             }}
             >{CANCEL_SYMBOL}

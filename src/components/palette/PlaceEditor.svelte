@@ -7,15 +7,15 @@
     import Unit from '@nodes/Unit';
     import NumberValue from '@values/NumberValue';
     import { tick } from 'svelte';
-    import { Projects, locales } from '../../db/Database';
-    import type Bind from '../../nodes/Bind';
-    import Evaluate from '../../nodes/Evaluate';
-    import Expression from '../../nodes/Expression';
-    import NumberType from '../../nodes/NumberType';
-    import Button from '../widgets/Button.svelte';
-    import Note from '../widgets/Note.svelte';
-    import TextField from '../widgets/TextField.svelte';
-    import { getNumber } from './editOutput';
+    import { Projects, locales } from '@db/Database';
+    import type Bind from '@nodes/Bind';
+    import Evaluate from '@nodes/Evaluate';
+    import Expression from '@nodes/Expression';
+    import NumberType from '@nodes/NumberType';
+    import Button from '@components/widgets/Button.svelte';
+    import Note from '@components/widgets/Note.svelte';
+    import TextField from '@components/widgets/TextField.svelte';
+    import { getNumber } from '@components/palette/editOutput';
 
     interface Props {
         project: Project;

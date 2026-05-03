@@ -2,7 +2,7 @@ import MissingLanguage from '@conflicts/MissingLanguage';
 import { testConflict } from '@conflicts/TestUtilities';
 import UnknownLanguage from '@conflicts/UnknownLanguage';
 import { test } from 'vitest';
-import Language from './Language';
+import Language from '@nodes/Language';
 
 test.each([
     ['a/en: 5', 'a/aaa: 5', Language, UnknownLanguage],

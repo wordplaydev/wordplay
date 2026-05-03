@@ -1,5 +1,4 @@
 <script lang="ts">
-    import { goto } from '$app/navigation';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import { getUser } from '@components/project/Contexts';
     import TileMessage from '@components/project/TileMessage.svelte';
@@ -19,8 +18,9 @@
     import type Project from '@db/projects/Project';
     import { CANCEL_SYMBOL } from '@parser/Symbols';
     import { tick, untrack } from 'svelte';
-    import CreatorView from '../CreatorView.svelte';
-    import Loading from '../Loading.svelte';
+    import CreatorView from '@components/app/CreatorView.svelte';
+    import Loading from '@components/app/Loading.svelte';
+    import { localeGoto } from '@util/localeGoto';
 
     interface Props {
         chat: Chat | undefined | null | false;
@@ -204,7 +204,7 @@
                 tip={(l) => l.ui.collaborate.moderation.moderate.tip}
                 label={(l) => l.ui.collaborate.moderation.moderate.label}
                 action={() => {
-                    goto('/galleries/moderation');
+                    localeGoto('/galleries/moderation');
                 }}
             />
         {/if}

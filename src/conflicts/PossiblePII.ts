@@ -3,10 +3,10 @@ import type Context from '@nodes/Context';
 import type { LanguageTagged } from '@nodes/LanguageTagged';
 import { Sym } from '@nodes/Sym';
 import Token from '@nodes/Token';
-import type Locales from '../locale/Locales';
+import type Locales from '@locale/Locales';
 import type { PII } from '../pii/getPII';
 import getPII from '../pii/getPII';
-import Conflict from './Conflict';
+import Conflict from '@conflicts/Conflict';
 
 export class PossiblePII extends Conflict {
     /** The node containing text */

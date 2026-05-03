@@ -1,9 +1,9 @@
 <script lang="ts">
-    import type Locales from '../../locale/Locales';
-    import type { LocaleTextAccessor } from '../../locale/Locales';
-    import MarkupHTMLView from '../concepts/MarkupHTMLView.svelte';
-    import Speech from '../lore/Speech.svelte';
-    import Button from '../widgets/Button.svelte';
+    import type Locales from '@locale/Locales';
+    import type { LocaleTextAccessor } from '@locale/Locales';
+    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
+    import Speech from '@components/lore/Speech.svelte';
+    import Button from '@components/widgets/Button.svelte';
 
     interface Props {
         symbols: string;

@@ -5,10 +5,10 @@ import BoolValue from '@values/BoolValue';
 import ListValue from '@values/ListValue';
 import NumberValue from '@values/NumberValue';
 import type Value from '@values/Value';
-import type { BasisTypeName } from '../basis/BasisConstants';
-import type Expression from '../nodes/Expression';
-import UnicodeString from '../unicode/UnicodeString';
-import SimpleValue from './SimpleValue';
+import type { BasisTypeName } from '@basis/BasisConstants';
+import type Expression from '@nodes/Expression';
+import UnicodeString from '@unicode/UnicodeString';
+import SimpleValue from '@values/SimpleValue';
 
 export default class TextValue extends SimpleValue {
     readonly text: string;

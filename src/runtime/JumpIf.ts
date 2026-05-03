@@ -1,10 +1,10 @@
 import BooleanType from '@nodes/BooleanType';
 import type Evaluator from '@runtime/Evaluator';
 import BoolValue from '@values/BoolValue';
-import type Locales from '../locale/Locales';
-import type Expression from '../nodes/Expression';
-import type Value from '../values/Value';
-import Step from './Step';
+import type Locales from '@locale/Locales';
+import type Expression from '@nodes/Expression';
+import type Value from '@values/Value';
+import Step from '@runtime/Step';
 
 export default class JumpIf extends Step {
     readonly peek: boolean;

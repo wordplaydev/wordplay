@@ -23,18 +23,18 @@ import NumberValue from '@values/NumberValue';
 import SetValue from '@values/SetValue';
 import TextValue from '@values/TextValue';
 import Value from '@values/Value';
-import type Locales from '../locale/Locales';
-import AnyType from '../nodes/AnyType';
-import Bind from '../nodes/Bind';
-import type Expression from '../nodes/Expression';
-import FunctionDefinition from '../nodes/FunctionDefinition';
-import Names from '../nodes/Names';
-import NoneLiteral from '../nodes/NoneLiteral';
-import SetType from '../nodes/SetType';
-import ValueException from '../values/ValueException';
-import { createBasisConversion, createBasisFunction } from './Basis';
-import InternalExpression from './InternalExpression';
-import { Iteration } from './Iteration';
+import type Locales from '@locale/Locales';
+import AnyType from '@nodes/AnyType';
+import Bind from '@nodes/Bind';
+import type Expression from '@nodes/Expression';
+import FunctionDefinition from '@nodes/FunctionDefinition';
+import Names from '@nodes/Names';
+import NoneLiteral from '@nodes/NoneLiteral';
+import SetType from '@nodes/SetType';
+import ValueException from '@values/ValueException';
+import { createBasisConversion, createBasisFunction } from '@basis/Basis';
+import InternalExpression from '@basis/InternalExpression';
+import { Iteration } from '@basis/Iteration';
 
 export default function bootstrapList(locales: Locales) {
     const ListTypeVarNames = getNameLocales(

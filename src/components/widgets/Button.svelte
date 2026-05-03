@@ -7,9 +7,9 @@
     import { getTip } from '@components/project/Contexts';
     import { locales } from '@db/Database';
     import type { LocaleTextAccessor } from '@locale/Locales';
-    import { withMonoEmoji } from '../../unicode/emoji';
-    import Spinning from '../app/Spinning.svelte';
-    import LocalizedText from './LocalizedText.svelte';
+    import { withMonoEmoji } from '@unicode/emoji';
+    import Spinning from '@components/app/Spinning.svelte';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
 
     interface Props {
         /** Tooltip and ARIA label for the button. LocaleTextAccessor to support multilingual tooltips, or a zero-argument function if computed. */

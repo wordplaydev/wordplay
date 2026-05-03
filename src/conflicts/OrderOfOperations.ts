@@ -1,7 +1,7 @@
 import type LocaleText from '@locale/LocaleText';
 import type BinaryEvaluate from '@nodes/BinaryEvaluate';
-import type Locales from '../locale/Locales';
-import Conflict from './Conflict';
+import type Locales from '@locale/Locales';
+import Conflict from '@conflicts/Conflict';
 
 export default class OrderOfOperations extends Conflict {
     readonly operation: BinaryEvaluate;

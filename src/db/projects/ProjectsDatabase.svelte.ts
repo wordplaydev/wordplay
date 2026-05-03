@@ -18,22 +18,22 @@ import {
 } from 'firebase/firestore';
 import { SvelteMap } from 'svelte/reactivity';
 import { ExamplePrefix, getExample } from '../../examples/examples';
-import type LocaleText from '../../locale/LocaleText';
-import type Node from '../../nodes/Node';
-import Source from '../../nodes/Source';
-import { Galleries, Locales, SaveStatus, type Database } from '../Database';
-import { firestore } from '../firebase';
-import { EditFailure } from './EditFailure';
-import { unknownFlags } from './Moderation';
-import Project from './Project';
-import { PersistenceType, ProjectHistory } from './ProjectHistory.svelte';
+import type LocaleText from '@locale/LocaleText';
+import type Node from '@nodes/Node';
+import Source from '@nodes/Source';
+import { Galleries, Locales, SaveStatus, type Database } from '@db/Database';
+import { firestore } from '@db/firebase';
+import { EditFailure } from '@db/projects/EditFailure';
+import { unknownFlags } from '@db/projects/Moderation';
+import Project from '@db/projects/Project';
+import { PersistenceType, ProjectHistory } from '@db/projects/ProjectHistory.svelte';
 import {
     ProjectSchema,
     upgradeProject,
     type SerializedProject,
     type SerializedProjectUnknownVersion,
-} from './ProjectSchemas';
-import { ProjectsDexie } from './ProjectsDexie';
+} from '@db/projects/ProjectSchemas';
+import { ProjectsDexie } from '@db/projects/ProjectsDexie';
 
 /** The name of the projects collection in Firebase */
 export const ProjectsCollection = 'projects';

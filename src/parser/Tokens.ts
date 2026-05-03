@@ -1,6 +1,6 @@
-import { Sym, type SymType } from '../nodes/Sym';
-import Token from '../nodes/Token';
-import type Spaces from './Spaces';
+import { Sym, type SymType } from '@nodes/Sym';
+import Token from '@nodes/Token';
+import type Spaces from '@parser/Spaces';
 
 export default class Tokens {
     /** The tokens that have yet to be read. */

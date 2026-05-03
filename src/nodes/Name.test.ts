@@ -2,7 +2,7 @@ import { testConflict } from '@conflicts/TestUtilities';
 import { UnexpectedTypeVariable } from '@conflicts/UnexpectedTypeVariable';
 import { UnknownName } from '@conflicts/UnknownName';
 import { test } from 'vitest';
-import Reference from './Reference';
+import Reference from '@nodes/Reference';
 
 test('Test name conflicts', () => {
     testConflict('a: 1\na', 'b: 1\na', Reference, UnknownName);

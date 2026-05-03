@@ -1,7 +1,7 @@
 import type LocaleText from '@locale/LocaleText';
 import type This from '@nodes/This';
-import type Locales from '../locale/Locales';
-import Conflict from './Conflict';
+import type Locales from '@locale/Locales';
+import Conflict from '@conflicts/Conflict';
 
 export class MisplacedThis extends Conflict {
     readonly dis: This;

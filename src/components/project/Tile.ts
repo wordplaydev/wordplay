@@ -1,9 +1,9 @@
-import type Project from '../../db/projects/Project';
-import type Locales from '../../locale/Locales';
-import type Bounds from './Bounds';
-import Layout from './Layout';
-import { TileKind } from './TileKind';
-import TileKinds from './TileKinds';
+import type Project from '@db/projects/Project';
+import type Locales from '@locale/Locales';
+import type Bounds from '@components/project/Bounds';
+import Layout from '@components/project/Layout';
+import { TileKind } from '@components/project/TileKind';
+import TileKinds from '@components/project/TileKinds';
 
 export const TileMode = {
     Expanded: 'expanded',

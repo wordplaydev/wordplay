@@ -1,4 +1,4 @@
-import isValidEmail from './isValidEmail';
+import isValidEmail from '@db/creators/isValidEmail';
 
 export const UsernameLength = 5;
 

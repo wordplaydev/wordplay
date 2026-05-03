@@ -25,7 +25,7 @@
     import type Value from '@values/Value';
     import { untrack } from 'svelte';
     import type { SvelteMap } from 'svelte/reactivity';
-    import UnicodeString from '../../../../unicode/UnicodeString';
+    import UnicodeString from '@unicode/UnicodeString';
     import HowToForm from './HowToForm.svelte';
     import { movePermitted } from './HowToMovement';
 

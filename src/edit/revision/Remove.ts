@@ -2,9 +2,9 @@ import Caret from '@edit/caret/Caret';
 import type Context from '@nodes/Context';
 import type Node from '@nodes/Node';
 import getPreferredSpaces from '@parser/getPreferredSpaces';
-import type { Edit } from '../../components/editor/commands/Commands';
-import type Locales from '../../locale/Locales';
-import Revision from './Revision';
+import type { Edit } from '@components/editor/commands/Commands';
+import type Locales from '@locale/Locales';
+import Revision from '@edit/revision/Revision';
 
 /**
  * Remove one or more nodes from sequence of nodes in a parent.

@@ -1,5 +1,5 @@
-import type { SupportedFace } from '../basis/Fonts';
-import type Locales from '../locale/Locales';
+import type { SupportedFace } from '@basis/Fonts';
+import type Locales from '@locale/Locales';
 
 export default class RenderContext {
     /** A single typeface name with no text delimiters */

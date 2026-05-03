@@ -1,5 +1,4 @@
 <script lang="ts">
-    import { goto } from '$app/navigation';
     import Header from '@components/app/Header.svelte';
     import Spinning from '@components/app/Spinning.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
@@ -12,10 +11,11 @@
     import type { LocaleTextAccessor } from '@locale/Locales';
     import { SEARCH_SYMBOL } from '@parser/Symbols';
     import { createUserWithEmailAndPassword } from 'firebase/auth';
-    import { usernameAccountExists } from '../../db/creators/accountExists';
+    import { usernameAccountExists } from '@db/creators/accountExists';
     import getAuthErrorDescription from '../login/getAuthErrorDescription';
     import isValidPassword from '../login/IsValidPassword';
     import LoginForm from '../login/LoginForm.svelte';
+    import { localeGoto } from '@util/localeGoto';
 
     let username = $state('');
     let password = $state('');
@@ -57,7 +57,7 @@
                 );
 
                 // If successful, navigate to the login page to show the profile.
-                goto('/profile');
+                localeGoto('/profile');
             } catch (error) {
                 feedback = getAuthErrorDescription(error);
             } finally {

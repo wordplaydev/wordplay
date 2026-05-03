@@ -1,7 +1,7 @@
 import type Evaluator from '@runtime/Evaluator';
 import FunctionValue from '@values/FunctionValue';
 import Value from '@values/Value';
-import { StructureTypeName } from '../basis/BasisConstants';
+import { StructureTypeName } from '@basis/BasisConstants';
 
 export default abstract class SimpleValue extends Value {
     resolve(name: string, evaluator: Evaluator): Value | undefined {

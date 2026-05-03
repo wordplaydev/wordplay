@@ -8,16 +8,16 @@
         animationDuration,
         blocks,
         locales,
-    } from '../../db/Database';
-    import type LocaleText from '../../locale/LocaleText';
-    import type Type from '../../nodes/Type';
-    import type TypeVariables from '../../nodes/TypeVariables';
+    } from '@db/Database';
+    import type LocaleText from '@locale/LocaleText';
+    import type Type from '@nodes/Type';
+    import type TypeVariables from '@nodes/TypeVariables';
     import Progress from '../../tutorial/Progress';
-    import Link from '../app/Link.svelte';
-    import Speech from '../lore/Speech.svelte';
-    import RootView from '../project/RootView.svelte';
-    import CodeView from './CodeView.svelte';
-    import MarkupHTMLView from './MarkupHTMLView.svelte';
+    import Link from '@components/app/Link.svelte';
+    import Speech from '@components/lore/Speech.svelte';
+    import RootView from '@components/project/RootView.svelte';
+    import CodeView from '@components/concepts/CodeView.svelte';
+    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
 
     interface Props {
         concept: Concept;

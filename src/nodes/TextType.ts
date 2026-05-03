@@ -1,18 +1,18 @@
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { TEXT_SYMBOL } from '@parser/Symbols';
-import type { BasisTypeName } from '../basis/BasisConstants';
+import type { BasisTypeName } from '@basis/BasisConstants';
 import { Emotion } from '../lore/Emotion';
-import BasisType from './BasisType';
-import type Context from './Context';
-import Language from './Language';
-import { node, optional, type Grammar, type Replacement } from './Node';
-import { Sym } from './Sym';
-import TextLiteral from './TextLiteral';
-import Token from './Token';
-import type Type from './Type';
-import type TypeSet from './TypeSet';
-import UnionType from './UnionType';
+import BasisType from '@nodes/BasisType';
+import type Context from '@nodes/Context';
+import Language from '@nodes/Language';
+import { node, optional, type Grammar, type Replacement } from '@nodes/Node';
+import { Sym } from '@nodes/Sym';
+import TextLiteral from '@nodes/TextLiteral';
+import Token from '@nodes/Token';
+import type Type from '@nodes/Type';
+import type TypeSet from '@nodes/TypeSet';
+import UnionType from '@nodes/UnionType';
 
 /** Any string or a specific string, depending on whether the given token is an empty text literal. */
 export default class TextType extends BasisType {

@@ -3,9 +3,9 @@ import type Evaluator from '@runtime/Evaluator';
 import StartFinish from '@runtime/StartFinish';
 import type Step from '@runtime/Step';
 import type Value from '@values/Value';
-import type Context from './Context';
-import type Expression from './Expression';
-import SimpleExpression from './SimpleExpression';
+import type Context from '@nodes/Context';
+import type Expression from '@nodes/Expression';
+import SimpleExpression from '@nodes/SimpleExpression';
 
 export default abstract class Literal extends SimpleExpression {
     constructor() {

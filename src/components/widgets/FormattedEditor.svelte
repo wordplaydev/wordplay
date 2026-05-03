@@ -7,9 +7,9 @@
     import type { LocaleTextAccessor } from '@locale/Locales';
     import { BULLET_SYMBOL } from '@parser/Symbols';
     import { tick } from 'svelte';
-    import Button from './Button.svelte';
-    import Switch from './Switch.svelte';
-    import TextBox from './TextBox.svelte';
+    import Button from '@components/widgets/Button.svelte';
+    import Switch from '@components/widgets/Switch.svelte';
+    import TextBox from '@components/widgets/TextBox.svelte';
 
     interface Props {
         id: string;

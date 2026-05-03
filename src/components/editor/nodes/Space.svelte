@@ -2,14 +2,14 @@
     import { getShowLines } from '@components/project/Contexts';
     import type { InsertionPoint } from '@edit/drag/Drag';
     import type Token from '@nodes/Token';
-    import { spaceIndicator } from '../../../db/Database';
+    import { spaceIndicator } from '@db/Database';
     import {
         EXPLICIT_SPACE_TEXT,
         EXPLICIT_TAB_TEXT,
         SPACE_TEXT,
         TAB_TEXT,
-    } from '../../../parser/Spaces';
-    import InsertionPointView from './../caret/InsertionPointView.svelte';
+    } from '@parser/Spaces';
+    import InsertionPointView from '@components/editor/caret/InsertionPointView.svelte';
 
     interface Props {
         /** The token which this space precedes */

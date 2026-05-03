@@ -1,7 +1,7 @@
 <script lang="ts">
     import { onMount } from 'svelte';
-    import type LanguageCode from '../../locale/LanguageCode';
-    import Announcement from './Announcement';
+    import type LanguageCode from '@locale/LanguageCode';
+    import Announcement from '@components/project/Announcement';
 
     /** How long to wait before updating the live region. */
     const delay = 200;

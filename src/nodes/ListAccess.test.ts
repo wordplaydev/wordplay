@@ -1,10 +1,10 @@
 import { testConflict } from '@conflicts/TestUtilities';
 import { UnknownName } from '@conflicts/UnknownName';
 import { expect, test } from 'vitest';
-import IncompatibleInput from '../conflicts/IncompatibleInput';
-import evaluateCode from '../runtime/evaluate';
-import ListAccess from './ListAccess';
-import Reference from './Reference';
+import IncompatibleInput from '@conflicts/IncompatibleInput';
+import evaluateCode from '@runtime/evaluate';
+import ListAccess from '@nodes/ListAccess';
+import Reference from '@nodes/Reference';
 
 test.each([
     ['[1 2 3][0]', '[1 2 "hi"]["hi"]', ListAccess, IncompatibleInput, 0],

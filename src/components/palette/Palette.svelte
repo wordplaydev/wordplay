@@ -5,21 +5,21 @@
     import OutputPropertyValueSet from '@edit/output/OutputPropertyValueSet';
     import Evaluate from '@nodes/Evaluate';
     import { untrack } from 'svelte';
-    import { DB, locales } from '../../db/Database';
+    import { DB, locales } from '@db/Database';
     import {
         GROUP_SYMBOL,
         PALETTE_SYMBOL,
         PHRASE_SYMBOL,
         STAGE_SYMBOL,
-    } from '../../parser/Symbols';
-    import MarkupHtmlView from '../concepts/MarkupHTMLView.svelte';
-    import Speech from '../lore/Speech.svelte';
+    } from '@parser/Symbols';
+    import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
+    import Speech from '@components/lore/Speech.svelte';
     import {
         getConceptIndex,
         getSelectedOutput,
         type EditorState,
-    } from '../project/Contexts';
-    import EditOffer from './EditOffer.svelte';
+    } from '@components/project/Contexts';
+    import EditOffer from '@components/palette/EditOffer.svelte';
     import {
         addGroup,
         addSoloPhrase,
@@ -27,9 +27,9 @@
         getSoloGroup,
         getSoloPhrase,
         getStage,
-    } from './editOutput';
-    import PaletteProperty from './PaletteProperty.svelte';
-    import TextStyleEditor from './TextStyleEditor.svelte';
+    } from '@components/palette/editOutput';
+    import PaletteProperty from '@components/palette/PaletteProperty.svelte';
+    import TextStyleEditor from '@components/palette/TextStyleEditor.svelte';
 
     interface Props {
         project: Project;

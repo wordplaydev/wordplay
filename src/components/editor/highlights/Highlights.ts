@@ -32,7 +32,7 @@ import getOutlineOf, {
     type Outline,
     type Rect,
     type SpaceLineClip,
-} from './outline';
+} from '@components/editor/highlights/outline';
 
 /** Highlight types and whether they are rendered above or below the code. True for above. */
 export const HighlightTypes = {

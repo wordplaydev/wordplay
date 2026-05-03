@@ -7,16 +7,16 @@ import Halt from '@runtime/Halt';
 import type Step from '@runtime/Step';
 import UnparsableException from '@values/UnparsableException';
 import type Value from '@values/Value';
-import { Purpose } from '../concepts/Purpose';
-import type Locales from '../locale/Locales';
+import { Purpose } from '@concepts/Purpose';
+import type Locales from '@locale/Locales';
 import Characters from '../lore/BasisCharacters';
-import type Context from './Context';
-import type Expression from './Expression';
-import Node, { list, node, type Grammar, type Replacement } from './Node';
-import SimpleExpression from './SimpleExpression';
-import type Token from './Token';
-import type TypeSet from './TypeSet';
-import UnparsableType from './UnparsableType';
+import type Context from '@nodes/Context';
+import type Expression from '@nodes/Expression';
+import Node, { list, node, type Grammar, type Replacement } from '@nodes/Node';
+import SimpleExpression from '@nodes/SimpleExpression';
+import type Token from '@nodes/Token';
+import type TypeSet from '@nodes/TypeSet';
+import UnparsableType from '@nodes/UnparsableType';
 
 export default class UnparsableExpression extends SimpleExpression {
     readonly unparsables: Token[];

@@ -3,16 +3,16 @@ import { getNameLocales } from '@locale/getNameLocales';
 import Block, { BlockKind } from '@nodes/Block';
 import StructureDefinition from '@nodes/StructureDefinition';
 import ListValue from '@values/ListValue';
-import type Locales from '../locale/Locales';
-import type Expression from '../nodes/Expression';
-import ListType from '../nodes/ListType';
-import TableType from '../nodes/TableType';
-import TextType from '../nodes/TextType';
-import TypeVariable from '../nodes/TypeVariable';
-import TypeVariables from '../nodes/TypeVariables';
-import type TableValue from '../values/TableValue';
-import TextValue from '../values/TextValue';
-import { createBasisConversion, createEqualsFunction } from './Basis';
+import type Locales from '@locale/Locales';
+import type Expression from '@nodes/Expression';
+import ListType from '@nodes/ListType';
+import TableType from '@nodes/TableType';
+import TextType from '@nodes/TextType';
+import TypeVariable from '@nodes/TypeVariable';
+import TypeVariables from '@nodes/TypeVariables';
+import type TableValue from '@values/TableValue';
+import TextValue from '@values/TextValue';
+import { createBasisConversion, createEqualsFunction } from '@basis/Basis';
 
 export default function bootstrapTable(locales: Locales) {
     /** This type variable represents the StructureDefinition of a row. */

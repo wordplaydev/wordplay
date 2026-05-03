@@ -1,6 +1,6 @@
 import type { LocaleTextAccessor } from '@locale/Locales';
 import type Node from '@nodes/Node';
-import type Spaces from '../../../parser/Spaces';
+import type Spaces from '@parser/Spaces';
 
 export function copyNode(
     node: Node,

@@ -17,7 +17,7 @@ import {
 } from '@locale/SupportedLocales';
 import { get, writable, type Writable } from 'svelte/store';
 import type Tutorial from '../../tutorial/Tutorial';
-import type Setting from '../settings/Setting';
+import type Setting from '@db/settings/Setting';
 
 /** A singleton cache of loaded locales */
 export default class LocalesDatabase {
@@ -32,6 +32,9 @@ export default class LocalesDatabase {
 
     /** A reactive store of preferred locales based on the selected languages. */
     readonly locales: Writable<Locales> = writable(DefaultLocales);
+
+    /** True once the initial preferred locales have finished loading, preventing a flash of the default locale. */
+    readonly localesReady: Writable<boolean> = writable(false);
 
     /** The locales loaded, loading, or failed to load. */
     private localesLoaded: Record<
@@ -70,9 +73,10 @@ export default class LocalesDatabase {
         this.setting = setting;
 
         // Load the requested locales, combining those given (from the browser) and those from the local storage settings.
+        // Mark ready once the initial preferred locales are loaded, so the UI can avoid rendering in the default locale first.
         this.loadLocales(
             Array.from(new Set([...locales, ...this.setting.get()])),
-        );
+        ).then(() => this.localesReady.set(true));
     }
 
     async refreshLocales() {

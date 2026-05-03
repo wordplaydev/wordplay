@@ -1,16 +1,16 @@
 <script lang="ts">
     import Mode from '@components/widgets/Mode.svelte';
     import { blocks, Settings } from '@db/Database';
-    import type Locale from '../../../locale/Locale';
+    import type Locale from '@locale/Locale';
     import {
         BLOCK_EDITING_SYMBOL,
         LOCALE_SYMBOL,
         TEXT_EDITING_SYMBOL,
-    } from '../../../parser/Symbols';
-    import EditorLocaleChooser from '../../project/EditorLocaleChooser.svelte';
-    import Button from '../../widgets/Button.svelte';
-    import CommandButton from '../../widgets/CommandButton.svelte';
-    import type { Command } from './Commands';
+    } from '@parser/Symbols';
+    import EditorLocaleChooser from '@components/project/EditorLocaleChooser.svelte';
+    import Button from '@components/widgets/Button.svelte';
+    import CommandButton from '@components/widgets/CommandButton.svelte';
+    import type { Command } from '@components/editor/commands/Commands';
 
     interface Props {
         sourceID: string;

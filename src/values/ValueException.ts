@@ -1,7 +1,7 @@
 import type Expression from '@nodes/Expression';
 import type Evaluator from '@runtime/Evaluator';
 import ExceptionValue from '@values/ExceptionValue';
-import type Locales from '../locale/Locales';
+import type Locales from '@locale/Locales';
 
 export default class ValueException extends ExceptionValue {
     readonly expression: Expression;

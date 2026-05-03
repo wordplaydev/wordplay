@@ -6,14 +6,14 @@ import UnexpectedInput from '@conflicts/UnexpectedInput';
 import UnexpectedTypeInput from '@conflicts/UnexpectedTypeInput';
 import UnknownInput from '@conflicts/UnknownInput';
 import { expect, test } from 'vitest';
-import type Conflict from '../conflicts/Conflict';
-import evaluateCode from '../runtime/evaluate';
-import BinaryEvaluate from './BinaryEvaluate';
-import Evaluate from './Evaluate';
-import MapType from './MapType';
-import type Node from './Node';
-import NumberType from './NumberType';
-import SetType from './SetType';
+import type Conflict from '@conflicts/Conflict';
+import evaluateCode from '@runtime/evaluate';
+import BinaryEvaluate from '@nodes/BinaryEvaluate';
+import Evaluate from '@nodes/Evaluate';
+import MapType from '@nodes/MapType';
+import type Node from '@nodes/Node';
+import NumberType from '@nodes/NumberType';
+import SetType from '@nodes/SetType';
 
 test.each([
     [

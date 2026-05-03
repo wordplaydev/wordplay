@@ -2,7 +2,7 @@
     import { locales } from '@db/Database';
     import type { LocaleTextAccessor } from '@locale/Locales';
     import { CONFIRM_SYMBOL } from '@parser/Symbols';
-    import LocalizedText from './LocalizedText.svelte';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
 
     interface Props {
         text: string;

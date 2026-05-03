@@ -3,14 +3,14 @@
     import isValidUsername from '@db/creators/isValidUsername';
     import type LocaleText from '@locale/LocaleText';
     import { CANCEL_SYMBOL } from '@parser/Symbols';
-    import { Creator } from '../../db/creators/CreatorDatabase';
-    import validEmail from '../../db/creators/isValidEmail';
-    import { DB } from '../../db/Database';
-    import CreatorView from '../app/CreatorView.svelte';
-    import Feedback from '../app/Notice.svelte';
-    import Spinning from '../app/Spinning.svelte';
-    import Button from '../widgets/Button.svelte';
-    import TextField from '../widgets/TextField.svelte';
+    import { Creator } from '@db/creators/CreatorDatabase';
+    import validEmail from '@db/creators/isValidEmail';
+    import { DB } from '@db/Database';
+    import CreatorView from '@components/app/CreatorView.svelte';
+    import Feedback from '@components/app/Notice.svelte';
+    import Spinning from '@components/app/Spinning.svelte';
+    import Button from '@components/widgets/Button.svelte';
+    import TextField from '@components/widgets/TextField.svelte';
 
     interface Props {
         uids: string[];

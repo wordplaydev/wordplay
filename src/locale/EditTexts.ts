@@ -1,4 +1,4 @@
-import type { FormattedText } from './LocaleText';
+import type { FormattedText } from '@locale/LocaleText';
 
 type EditTexts = {
     /** [formatted] A way to say "on node of type [type], they [description]". $1: node label, $2: type, $3: description */

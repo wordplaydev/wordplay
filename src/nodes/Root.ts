@@ -1,6 +1,6 @@
-import Expression from './Expression';
-import type Node from './Node';
-import type { Field } from './Node';
+import Expression from '@nodes/Expression';
+import type Node from '@nodes/Node';
+import type { Field } from '@nodes/Node';
 
 export type Path = { type: string; index: number }[];
 type Cache = {

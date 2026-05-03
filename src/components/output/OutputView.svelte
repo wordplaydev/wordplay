@@ -15,23 +15,23 @@
         locales,
         Projects,
         voice,
-    } from '../../db/Database';
-    import Button from '../../input/Button';
-    import Chat from '../../input/Chat';
-    import Choice from '../../input/Choice';
-    import Key from '../../input/Key';
-    import Placement from '../../input/Placement';
-    import Pointer from '../../input/Pointer';
-    import Evaluate from '../../nodes/Evaluate';
-    import type Color from '../../output/Color';
-    import { getOrCreatePlace } from '../../output/getOrCreatePlace';
-    import { PX_PER_METER, rootScale } from '../../output/outputToCSS';
-    import Place, { createPlace } from '../../output/Place';
-    import { toStage } from '../../output/Stage';
-    import { toExpression } from '../../parser/parseExpression';
-    import MarkupHTMLView from '../concepts/MarkupHTMLView.svelte';
-    import Speech from '../lore/Speech.svelte';
-    import moveOutput, { addStageContent } from '../palette/editOutput';
+    } from '@db/Database';
+    import Button from '@input/Button';
+    import Chat from '@input/Chat';
+    import Choice from '@input/Choice';
+    import Key from '@input/Key';
+    import Placement from '@input/Placement';
+    import Pointer from '@input/Pointer';
+    import Evaluate from '@nodes/Evaluate';
+    import type Color from '@output/Color';
+    import { getOrCreatePlace } from '@output/getOrCreatePlace';
+    import { PX_PER_METER, rootScale } from '@output/outputToCSS';
+    import Place, { createPlace } from '@output/Place';
+    import { toStage } from '@output/Stage';
+    import { toExpression } from '@parser/parseExpression';
+    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
+    import Speech from '@components/lore/Speech.svelte';
+    import moveOutput, { addStageContent } from '@components/palette/editOutput';
     import {
         getAnnouncer,
         getConceptIndex,
@@ -39,12 +39,12 @@
         getKeyboardEditIdle,
         getSelectedOutput,
         IdleKind,
-    } from '../project/Contexts';
-    import ValueView from '../values/ValueView.svelte';
-    import { default as ButtonUI } from '../widgets/Button.svelte';
-    import type PaintingConfiguration from './PaintingConfiguration';
-    import StageView from './StageView.svelte';
-    import { DOMRectCenter, DOMRectDistance } from './utilities';
+    } from '@components/project/Contexts';
+    import ValueView from '@components/values/ValueView.svelte';
+    import { default as ButtonUI } from '@components/widgets/Button.svelte';
+    import type PaintingConfiguration from '@components/output/PaintingConfiguration';
+    import StageView from '@components/output/StageView.svelte';
+    import { DOMRectCenter, DOMRectDistance } from '@components/output/utilities';
 
     interface Props {
         project: Project;

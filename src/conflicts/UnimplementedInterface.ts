@@ -3,8 +3,8 @@ import NodeRef from '@locale/NodeRef';
 import type Context from '@nodes/Context';
 import type FunctionDefinition from '@nodes/FunctionDefinition';
 import type StructureDefinition from '@nodes/StructureDefinition';
-import type Locales from '../locale/Locales';
-import Conflict from './Conflict';
+import type Locales from '@locale/Locales';
+import Conflict from '@conflicts/Conflict';
 
 export class UnimplementedInterface extends Conflict {
     readonly structure: StructureDefinition;

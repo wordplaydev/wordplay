@@ -1,9 +1,9 @@
 import type Expression from '@nodes/Expression';
 import type Evaluator from '@runtime/Evaluator';
-import type Locales from '../locale/Locales';
-import type Value from '../values/Value';
-import { shouldSkip } from './Start';
-import Step from './Step';
+import type Locales from '@locale/Locales';
+import type Value from '@values/Value';
+import { shouldSkip } from '@runtime/Start';
+import Step from '@runtime/Step';
 
 export default class Finish extends Step {
     constructor(node: Expression) {

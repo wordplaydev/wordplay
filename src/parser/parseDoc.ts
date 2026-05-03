@@ -1,8 +1,8 @@
-import Doc from '../nodes/Doc';
-import { Sym } from '../nodes/Sym';
-import type Tokens from './Tokens';
-import parseLanguage from './parseLanguage';
-import parseMarkup from './parseMarkup';
+import Doc from '@nodes/Doc';
+import { Sym } from '@nodes/Sym';
+import type Tokens from '@parser/Tokens';
+import parseLanguage from '@parser/parseLanguage';
+import parseMarkup from '@parser/parseMarkup';
 
 export default function parseDoc(tokens: Tokens): Doc {
     const open = tokens.read(Sym.Doc);

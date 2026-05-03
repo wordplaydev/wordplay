@@ -14,8 +14,8 @@
     import { Creators, Galleries, locales, Projects } from '@db/Database';
     import type Gallery from '@db/galleries/Gallery';
     import type Project from '@db/projects/Project';
-    import CreatorView from '../CreatorView.svelte';
-    import ChatView from './ChatView.svelte';
+    import CreatorView from '@components/app/CreatorView.svelte';
+    import ChatView from '@components/app/chat/ChatView.svelte';
 
     const {
         project,

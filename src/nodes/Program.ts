@@ -10,18 +10,18 @@ import Start from '@runtime/Start';
 import type Step from '@runtime/Step';
 import BlankException from '@values/BlankException';
 import type Value from '@values/Value';
-import { Purpose } from '../concepts/Purpose';
-import type Locales from '../locale/Locales';
-import ValueRef from '../locale/ValueRef';
+import { Purpose } from '@concepts/Purpose';
+import type Locales from '@locale/Locales';
+import ValueRef from '@locale/ValueRef';
 import Characters from '../lore/BasisCharacters';
-import Borrow from './Borrow';
-import type Context from './Context';
-import type Definition from './Definition';
-import Dimension from './Dimension';
-import Docs from './Docs';
-import Expression, { ExpressionKind } from './Expression';
-import Language from './Language';
-import type Node from './Node';
+import Borrow from '@nodes/Borrow';
+import type Context from '@nodes/Context';
+import type Definition from '@nodes/Definition';
+import Dimension from '@nodes/Dimension';
+import Docs from '@nodes/Docs';
+import Expression, { ExpressionKind } from '@nodes/Expression';
+import Language from '@nodes/Language';
+import type Node from '@nodes/Node';
 import {
     any,
     list,
@@ -30,13 +30,13 @@ import {
     optional,
     type Grammar,
     type Replacement,
-} from './Node';
-import Reference from './Reference';
-import { Sym } from './Sym';
-import Token from './Token';
-import type Type from './Type';
-import type TypeSet from './TypeSet';
-import Unit from './Unit';
+} from '@nodes/Node';
+import Reference from '@nodes/Reference';
+import { Sym } from '@nodes/Sym';
+import Token from '@nodes/Token';
+import type Type from '@nodes/Type';
+import type TypeSet from '@nodes/TypeSet';
+import Unit from '@nodes/Unit';
 
 export default class Program extends Expression {
     readonly docs: Docs;

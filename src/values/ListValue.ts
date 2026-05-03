@@ -6,12 +6,12 @@ import { LIST_CLOSE_SYMBOL, LIST_OPEN_SYMBOL } from '@parser/Symbols';
 import BoolValue from '@values/BoolValue';
 import NoneValue from '@values/NoneValue';
 import NumberValue from '@values/NumberValue';
-import type { BasisTypeName } from '../basis/BasisConstants';
-import type Locales from '../locale/Locales';
-import type Expression from '../nodes/Expression';
-import TextValue from '../values/TextValue';
-import type Value from '../values/Value';
-import SimpleValue from './SimpleValue';
+import type { BasisTypeName } from '@basis/BasisConstants';
+import type Locales from '@locale/Locales';
+import type Expression from '@nodes/Expression';
+import TextValue from '@values/TextValue';
+import type Value from '@values/Value';
+import SimpleValue from '@values/SimpleValue';
 
 export default class ListValue extends SimpleValue {
     readonly values: Value[] = [];

@@ -1,5 +1,4 @@
 <script lang="ts">
-    import { goto } from '$app/navigation';
     import { page } from '$app/state';
     import { Basis } from '@basis/Basis';
     import Header from '@components/app/Header.svelte';
@@ -66,8 +65,9 @@
         type CharacterRectangle,
         type CharacterShape,
         type Point,
-    } from '../../../db/characters/Character';
-    import UnicodeString from '../../../unicode/UnicodeString';
+    } from '@db/characters/Character';
+    import UnicodeString from '@unicode/UnicodeString';
+    import { localeGoto } from '@util/localeGoto';
 
     // svelte-ignore non_reactive_update
     enum DrawingMode {
@@ -2426,7 +2426,7 @@
                                 CharactersDB.deleteCharacter(
                                     editedCharacter.id,
                                 );
-                                goto('/characters');
+                                localeGoto('/characters');
                             }
                         }}
                         prompt={(l) => l.ui.page.character.share.delete.tip}

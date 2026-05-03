@@ -19,7 +19,7 @@
     import type { LocaleTextAccessor } from '@locale/Locales';
 
     import { tick, type Snippet } from 'svelte';
-    import LocalizedText from './LocalizedText.svelte';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
 
     interface Props {
         value: string | undefined;

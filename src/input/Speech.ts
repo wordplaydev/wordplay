@@ -3,22 +3,22 @@ import type Evaluator from '@runtime/Evaluator';
 import BoolValue from '@values/BoolValue';
 import NumberValue from '@values/NumberValue';
 import StreamValue from '@values/StreamValue';
-import { getDocLocales } from '../locale/getDocLocales';
-import { getNameLocales } from '../locale/getNameLocales';
-import type Locales from '../locale/Locales';
-import type LocaleText from '../locale/LocaleText';
-import Bind from '../nodes/Bind';
-import BooleanType from '../nodes/BooleanType';
-import NoneLiteral from '../nodes/NoneLiteral';
-import NoneType from '../nodes/NoneType';
-import NumberType from '../nodes/NumberType';
-import StreamDefinition from '../nodes/StreamDefinition';
-import StreamType from '../nodes/StreamType';
-import TextLiteral from '../nodes/TextLiteral';
-import TextType from '../nodes/TextType';
-import UnionType from '../nodes/UnionType';
-import TextValue from '../values/TextValue';
-import createStreamEvaluator from './createStreamEvaluator';
+import { getDocLocales } from '@locale/getDocLocales';
+import { getNameLocales } from '@locale/getNameLocales';
+import type Locales from '@locale/Locales';
+import type LocaleText from '@locale/LocaleText';
+import Bind from '@nodes/Bind';
+import BooleanType from '@nodes/BooleanType';
+import NoneLiteral from '@nodes/NoneLiteral';
+import NoneType from '@nodes/NoneType';
+import NumberType from '@nodes/NumberType';
+import StreamDefinition from '@nodes/StreamDefinition';
+import StreamType from '@nodes/StreamType';
+import TextLiteral from '@nodes/TextLiteral';
+import TextType from '@nodes/TextType';
+import UnionType from '@nodes/UnionType';
+import TextValue from '@values/TextValue';
+import createStreamEvaluator from '@input/createStreamEvaluator';
 
 // Types for Web Speech API (browser compatibility handling)
 // The Web Speech API is *NOT* fully typed in TypeScript's lib.dom.d.ts

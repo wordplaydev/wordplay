@@ -1,14 +1,14 @@
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { NONE_SYMBOL } from '@parser/Symbols';
-import type { BasisTypeName } from '../basis/BasisConstants';
+import type { BasisTypeName } from '@basis/BasisConstants';
 import Characters from '../lore/BasisCharacters';
-import BasisType from './BasisType';
-import { node, type Grammar, type Replacement } from './Node';
-import NoneLiteral from './NoneLiteral';
-import { Sym } from './Sym';
-import Token from './Token';
-import type TypeSet from './TypeSet';
+import BasisType from '@nodes/BasisType';
+import { node, type Grammar, type Replacement } from '@nodes/Node';
+import NoneLiteral from '@nodes/NoneLiteral';
+import { Sym } from '@nodes/Sym';
+import Token from '@nodes/Token';
+import type TypeSet from '@nodes/TypeSet';
 
 export default class NoneType extends BasisType {
     readonly none: Token;

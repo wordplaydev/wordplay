@@ -1,6 +1,6 @@
 <script lang="ts">
     import type UnaryEvaluate from '@nodes/UnaryEvaluate';
-    import NodeView, { type Format } from './NodeView.svelte';
+    import NodeView, { type Format } from '@components/editor/nodes/NodeView.svelte';
 
     interface Props {
         node: UnaryEvaluate;

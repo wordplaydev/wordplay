@@ -4,9 +4,9 @@
 </script>
 
 <script lang="ts">
-    import type Bounds from './Bounds';
-    import type Layout from './Layout';
-    import type { Axis } from './Layout';
+    import type Bounds from '@components/project/Bounds';
+    import type Layout from '@components/project/Layout';
+    import type { Axis } from '@components/project/Layout';
 
     interface Props {
         /** The axis that this adjuster is on **/

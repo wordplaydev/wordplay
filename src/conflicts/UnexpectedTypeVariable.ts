@@ -1,7 +1,7 @@
 import type LocaleText from '@locale/LocaleText';
 import type Reference from '@nodes/Reference';
-import type Locales from '../locale/Locales';
-import Conflict from './Conflict';
+import type Locales from '@locale/Locales';
+import Conflict from '@conflicts/Conflict';
 
 export class UnexpectedTypeVariable extends Conflict {
     readonly name: Reference;

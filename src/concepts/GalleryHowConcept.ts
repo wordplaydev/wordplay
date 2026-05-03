@@ -9,8 +9,8 @@ import type CharacterSymbols from '../lore/BasisCharacter';
 import Characters from '../lore/BasisCharacters';
 import { Emotion } from '../lore/Emotion';
 import type { CharacterName } from '../tutorial/Tutorial';
-import Concept from './Concept';
-import { Purpose } from './Purpose';
+import Concept from '@concepts/Concept';
+import { Purpose } from '@concepts/Purpose';
 
 // modified from HowConcept.ts
 

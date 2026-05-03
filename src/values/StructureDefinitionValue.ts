@@ -4,9 +4,9 @@ import StructureType from '@nodes/StructureType';
 import { TYPE_SYMBOL } from '@parser/Symbols';
 import type Evaluation from '@runtime/Evaluation';
 import type Value from '@values/Value';
-import type { BasisTypeName } from '../basis/BasisConstants';
-import type Locales from '../locale/Locales';
-import SimpleValue from './SimpleValue';
+import type { BasisTypeName } from '@basis/BasisConstants';
+import type Locales from '@locale/Locales';
+import SimpleValue from '@values/SimpleValue';
 
 export default class StructureDefinitionValue extends SimpleValue {
     /** The definition from the AST. */

@@ -2,18 +2,18 @@ import { getBind } from '@locale/getBind';
 import NumberValue from '@values/NumberValue';
 import TextValue from '@values/TextValue';
 import type Value from '@values/Value';
-import toStructure from '../basis/toStructure';
-import type Locales from '../locale/Locales';
-import StructureValue from '../values/StructureValue';
-import type Alignment from './Alignment';
-import Arrangement from './Arrangement';
-import type Color from './Color';
-import Group from './Group';
-import type Output from './Output';
-import Phrase from './Phrase';
-import Place from './Place';
-import type RenderContext from './RenderContext';
-import { getOutputInput } from './Valued';
+import toStructure from '@basis/toStructure';
+import type Locales from '@locale/Locales';
+import StructureValue from '@values/StructureValue';
+import type Alignment from '@output/Alignment';
+import Arrangement from '@output/Arrangement';
+import type Color from '@output/Color';
+import Group from '@output/Group';
+import type Output from '@output/Output';
+import Phrase from '@output/Phrase';
+import Place from '@output/Place';
+import type RenderContext from '@output/RenderContext';
+import { getOutputInput } from '@output/Valued';
 
 export function createRowType(locales: Locales) {
     return toStructure(`

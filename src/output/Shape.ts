@@ -1,22 +1,22 @@
 import type { SupportedFace } from '@basis/Fonts';
-import toStructure from '../basis/toStructure';
-import type Project from '../db/projects/Project';
-import type Locales from '../locale/Locales';
-import { getBind } from '../locale/getBind';
-import { TYPE_SYMBOL } from '../parser/Symbols';
-import StructureValue from '../values/StructureValue';
-import type Value from '../values/Value';
-import type Color from './Color';
-import { Form, toForm } from './Form';
-import Output, { DefaultStyle } from './Output';
-import Place from './Place';
-import type Pose from './Pose';
-import type { DefinitePose } from './Pose';
-import type Sequence from './Sequence';
-import type { NameGenerator } from './Stage';
-import type TextLang from './TextLang';
-import { getOutputInput } from './Valued';
-import { getStyle } from './toOutput';
+import toStructure from '@basis/toStructure';
+import type Project from '@db/projects/Project';
+import type Locales from '@locale/Locales';
+import { getBind } from '@locale/getBind';
+import { TYPE_SYMBOL } from '@parser/Symbols';
+import StructureValue from '@values/StructureValue';
+import type Value from '@values/Value';
+import type Color from '@output/Color';
+import { Form, toForm } from '@output/Form';
+import Output, { DefaultStyle } from '@output/Output';
+import Place from '@output/Place';
+import type Pose from '@output/Pose';
+import type { DefinitePose } from '@output/Pose';
+import type Sequence from '@output/Sequence';
+import type { NameGenerator } from '@output/Stage';
+import type TextLang from '@output/TextLang';
+import { getOutputInput } from '@output/Valued';
+import { getStyle } from '@output/toOutput';
 
 export function createShapeType(locales: Locales) {
     return toStructure(`

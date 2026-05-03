@@ -6,7 +6,7 @@
         DROP_DOWN_SYMBOL,
         LOCALE_SYMBOL,
     } from '@parser/Symbols';
-    import { getSetMenuAnchor } from '../../project/Contexts';
+    import { getSetMenuAnchor } from '@components/project/Contexts';
 
     interface Props {
         anchor: CaretPosition | FieldPosition;

@@ -2,9 +2,9 @@ import { BlockKind } from '@nodes/Block';
 import Borrow from '@nodes/Borrow';
 import Program from '@nodes/Program';
 import { Sym } from '@nodes/Sym';
-import type Tokens from './Tokens';
-import { parseBlock, parseDocs, parseReference } from './parseExpression';
-import { toTokens } from './toTokens';
+import type Tokens from '@parser/Tokens';
+import { parseBlock, parseDocs, parseReference } from '@parser/parseExpression';
+import { toTokens } from '@parser/toTokens';
 
 export function toProgram(code: string): Program {
     return parseProgram(toTokens(code));

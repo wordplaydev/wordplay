@@ -1,7 +1,7 @@
 import type Locales from '@locale/Locales';
 import type Evaluator from '@runtime/Evaluator';
 import ExceptionValue from '@values/ExceptionValue';
-import type Expression from '../nodes/Expression';
+import type Expression from '@nodes/Expression';
 
 export default class InternalException extends ExceptionValue {
     readonly reason: string;

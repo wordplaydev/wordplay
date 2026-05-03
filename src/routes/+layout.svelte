@@ -13,23 +13,28 @@
 
 <script lang="ts">
     import { browser } from '$app/environment';
+    import { page } from '$app/state';
     import Loading from '@components/app/Loading.svelte';
     import Announcer from '@components/project/Announcer.svelte';
     import Hint, { ActiveHint } from '@components/widgets/Hint.svelte';
     import { firestore } from '@db/firebase';
     import { FaceSetting } from '@db/settings/FaceSetting';
     import { type LocaleTextsAccessor } from '@locale/Locales';
+    import {
+        SupportedLocales,
+        type SupportedLocale,
+    } from '@locale/SupportedLocales';
     import type { User } from 'firebase/auth';
     import { onMount, type Snippet } from 'svelte';
     import { writable, type Writable } from 'svelte/store';
-    import Fonts from '../basis/Fonts';
+    import Fonts from '@basis/Fonts';
     import {
         setAnnouncer,
         setLocalizing,
         setTip,
         setUser,
         type AnnouncerContext,
-    } from '../components/project/Contexts';
+    } from '@components/project/Contexts';
     import {
         animationFactor,
         dark,
@@ -37,9 +42,10 @@
         howToNotifications,
         HowTos,
         locales,
+        localesReady,
         Settings,
-    } from '../db/Database';
-    import { getLanguageDirection } from '../locale/LanguageCode';
+    } from '@db/Database';
+    import { getLanguageDirection } from '@locale/LanguageCode';
 
     interface Props {
         children: Snippet;
@@ -74,6 +80,12 @@
                 getLanguageDirection(language),
             );
         }
+    });
+
+    /** Remove the locale-loading class added by locale-preload.js once the preferred locale is ready. */
+    $effect(() => {
+        if (browser && $localesReady)
+            document.documentElement.classList.remove('locale-loading');
     });
 
     onMount(() => {
@@ -179,6 +191,19 @@
             HowTos.listen(firestore, $user.uid);
         }
     });
+
+    // When the URL locale param changes, sync it into the Database so all
+    // components see the correct locale(s) without requiring a page reload.
+    // The param may contain multiple locales joined by '+' (e.g. "en-US+es-MX").
+    $effect(() => {
+        const urlLocale = page.params.locale as string | undefined;
+        if (browser && urlLocale) {
+            const valid = urlLocale
+                .split('+')
+                .filter((l) => SupportedLocales.includes(l as SupportedLocale)) as SupportedLocale[];
+            if (valid.length > 0) DB.Locales.setLocales(valid);
+        }
+    });
 </script>
 
 <!-- svelte-ignore a11y_no_static_element_interactions -->
@@ -191,7 +216,9 @@
     lang={$locales.getLocale().language}
     ontouchstart={() => hint.hide()}
 >
-    {#if !loaded && lag}
+    {#if !$localesReady}
+        {#if lag}<Loading />{/if}
+    {:else if !loaded && lag}
         <Loading />
     {:else}
         {@render children()}

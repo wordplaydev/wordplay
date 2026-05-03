@@ -1,13 +1,13 @@
 import { EMOJI_SYMBOL } from '@parser/Symbols';
 import { TextCloseByTextOpen } from '@parser/Tokenizer';
-import type Locale from './Locale';
-import type { RegionCode } from './Regions';
+import type Locale from '@locale/Locale';
+import type { RegionCode } from '@locale/Regions';
 import {
     Scripts,
     type Script,
     type WritingDirection,
     type WritingLayout,
-} from './Scripts';
+} from '@locale/Scripts';
 
 type LanguageMetadata = {
     /** The language name, in its basis script */

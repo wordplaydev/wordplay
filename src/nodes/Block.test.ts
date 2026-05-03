@@ -2,10 +2,10 @@ import { ExpectedEndingExpression } from '@conflicts/ExpectedEndingExpression';
 import { IgnoredExpression } from '@conflicts/IgnoredExpression';
 import { testConflict } from '@conflicts/TestUtilities';
 import { expect, test } from 'vitest';
-import IncompatibleInput from '../conflicts/IncompatibleInput';
-import evaluateCode from '../runtime/evaluate';
-import Block from './Block';
-import Evaluate from './Evaluate';
+import IncompatibleInput from '@conflicts/IncompatibleInput';
+import evaluateCode from '@runtime/evaluate';
+import Block from '@nodes/Block';
+import Evaluate from '@nodes/Evaluate';
 
 test.each([
     ['(1)', '()', Block, ExpectedEndingExpression],

@@ -1,5 +1,5 @@
 <script module lang="ts">
-    import Slider from './Slider.svelte';
+    import Slider from '@components/widgets/Slider.svelte';
 
     // Create a list of hues in the LCH color space from 0 to 360
     function getColors(lightness: number, chroma: number) {
@@ -49,8 +49,8 @@
 
 <script lang="ts">
     import { LCHtoCSS } from '@output/ColorJS';
-    import { getFirstText } from '../../locale/LocaleText';
-    import Button from './Button.svelte';
+    import { getFirstText } from '@locale/LocaleText';
+    import Button from '@components/widgets/Button.svelte';
 
     interface Props {
         /** a degree (any number remainder 360) */

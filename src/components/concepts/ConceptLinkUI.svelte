@@ -9,12 +9,12 @@
         HowToName,
         UIName,
     } from '@nodes/ConceptLink';
-    import { locales } from '../../db/Database';
-    import ConceptRef from '../../locale/ConceptRef';
-    import { withMonoEmoji } from '../../unicode/emoji';
-    import TutorialHighlight from '../app/TutorialHighlight.svelte';
-    import { getConceptIndex, getConceptPath } from '../project/Contexts';
-    import Button from '../widgets/Button.svelte';
+    import { locales } from '@db/Database';
+    import ConceptRef from '@locale/ConceptRef';
+    import { withMonoEmoji } from '@unicode/emoji';
+    import TutorialHighlight from '@components/app/TutorialHighlight.svelte';
+    import { getConceptIndex, getConceptPath } from '@components/project/Contexts';
+    import Button from '@components/widgets/Button.svelte';
 
     interface Props {
         link: ConceptRef | ConceptLink | Concept | string;

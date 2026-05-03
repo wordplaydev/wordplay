@@ -5,14 +5,14 @@
     import StructureValue from '@values/StructureValue';
     import { tick, untrack } from 'svelte';
     import { slide } from 'svelte/transition';
-    import { animationDuration, locales } from '../../db/Database';
-    import Button from '../../input/Button';
-    import Key from '../../input/Key';
-    import { DEFECT_SYMBOL } from '../../parser/Symbols';
-    import Emoji from '../app/Emoji.svelte';
-    import Subheader from '../app/Subheader.svelte';
-    import { getEvaluation } from '../project/Contexts';
-    import Controls from './Controls.svelte';
+    import { animationDuration, locales } from '@db/Database';
+    import Button from '@input/Button';
+    import Key from '@input/Key';
+    import { DEFECT_SYMBOL } from '@parser/Symbols';
+    import Emoji from '@components/app/Emoji.svelte';
+    import Subheader from '@components/app/Subheader.svelte';
+    import { getEvaluation } from '@components/project/Contexts';
+    import Controls from '@components/evaluator/Controls.svelte';
 
     interface Props {
         /** The evaluator running the program */

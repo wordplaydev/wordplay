@@ -4,10 +4,10 @@ import NodeRef from '@locale/NodeRef';
 import type Context from '@nodes/Context';
 import Token from '@nodes/Token';
 import type Type from '@nodes/Type';
-import type Locales from '../locale/Locales';
-import type NameType from '../nodes/NameType';
-import Reference from '../nodes/Reference';
-import Conflict from './Conflict';
+import type Locales from '@locale/Locales';
+import type NameType from '@nodes/NameType';
+import Reference from '@nodes/Reference';
+import Conflict from '@conflicts/Conflict';
 
 export class UnknownName extends Conflict {
     readonly name: Reference | NameType | Token;

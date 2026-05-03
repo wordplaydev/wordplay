@@ -1,17 +1,17 @@
 import { Purpose } from '@concepts/Purpose';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
-import type { BasisTypeName } from '../basis/BasisConstants';
-import type Locales from '../locale/Locales';
+import type { BasisTypeName } from '@basis/BasisConstants';
+import type Locales from '@locale/Locales';
 import Characters from '../lore/BasisCharacters';
-import { UNKNOWN_SYMBOL } from '../parser/Symbols';
-import type Context from './Context';
-import type Markup from './Markup';
-import type Node from './Node';
-import type { Grammar } from './Node';
-import { Sym } from './Sym';
-import Token from './Token';
-import Type from './Type';
+import { UNKNOWN_SYMBOL } from '@parser/Symbols';
+import type Context from '@nodes/Context';
+import type Markup from '@nodes/Markup';
+import type Node from '@nodes/Node';
+import type { Grammar } from '@nodes/Node';
+import { Sym } from '@nodes/Sym';
+import Token from '@nodes/Token';
+import Type from '@nodes/Type';
 
 export default abstract class UnknownType<
     ExpressionType extends Node,

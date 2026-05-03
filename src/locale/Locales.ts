@@ -1,20 +1,20 @@
 import type Markup from '@nodes/Markup';
 import { MACHINE_TRANSLATED_SYMBOL } from '@parser/Symbols';
 import { withMonoEmoji } from '@unicode/emoji';
-import type Names from '../nodes/Names';
-import { getKeyTemplatePairs } from '../util/verify-locales/LocalePath';
-import { MachineTranslated, Unwritten } from './Annotations';
-import type ConceptRef from './ConceptRef';
-import type { Concretizer } from './concretize';
-import type LanguageCode from './LanguageCode';
-import { getLanguageDirection, getLanguageScripts } from './LanguageCode';
-import { localeToString } from './Locale';
-import type LocaleText from './LocaleText';
-import { isUnwritten, toLocaleString } from './LocaleText';
-import type NodeRef from './NodeRef';
-import type { Script } from './Scripts';
-import type ValueRef from './ValueRef';
-import { withoutAnnotations } from './withoutAnnotations';
+import type Names from '@nodes/Names';
+import { getKeyTemplatePairs } from '@util/verify-locales/LocalePath';
+import { MachineTranslated, Unwritten } from '@locale/Annotations';
+import type ConceptRef from '@locale/ConceptRef';
+import type { Concretizer } from '@locale/concretize';
+import type LanguageCode from '@locale/LanguageCode';
+import { getLanguageDirection, getLanguageScripts } from '@locale/LanguageCode';
+import { localeToString } from '@locale/Locale';
+import type LocaleText from '@locale/LocaleText';
+import { isUnwritten, toLocaleString } from '@locale/LocaleText';
+import type NodeRef from '@locale/NodeRef';
+import type { Script } from '@locale/Scripts';
+import type ValueRef from '@locale/ValueRef';
+import { withoutAnnotations } from '@locale/withoutAnnotations';
 
 export type TemplateInput =
     | number

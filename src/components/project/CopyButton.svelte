@@ -6,7 +6,7 @@
     import type Project from '@db/projects/Project';
     import { PersistenceType } from '@db/projects/ProjectHistory.svelte';
     import { COPY_SYMBOL } from '@parser/Symbols';
-    import { getUser } from './Contexts';
+    import { getUser } from '@components/project/Contexts';
 
     interface Props {
         project: Project;

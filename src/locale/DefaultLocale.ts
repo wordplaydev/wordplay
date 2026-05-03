@@ -1,5 +1,5 @@
-import en from '../locale/en-US.json';
-import type LocaleText from './LocaleText';
+import en from '@locale/en-US.json';
+import type LocaleText from '@locale/LocaleText';
 
 const DefaultLocale = en as unknown as LocaleText;
 

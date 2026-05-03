@@ -1,7 +1,7 @@
 <script lang="ts">
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import type { LocaleTextAccessor } from '@locale/Locales';
-    import Link from './Link.svelte';
+    import Link from '@components/app/Link.svelte';
 
     interface Props {
         to: string;

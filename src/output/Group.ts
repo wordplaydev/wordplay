@@ -1,26 +1,26 @@
 import StructureValue from '@values/StructureValue';
-import { SupportedFontsFamiliesType, type SupportedFace } from '../basis/Fonts';
-import toStructure from '../basis/toStructure';
-import { getBind } from '../locale/getBind';
-import type Locales from '../locale/Locales';
-import { getFirstText } from '../locale/LocaleText';
-import { GROUP_SYMBOL, TYPE_SYMBOL } from '../parser/Symbols';
-import type Evaluator from '../runtime/Evaluator';
-import type Value from '../values/Value';
-import Arrangement from './Arrangement';
-import type Color from './Color';
-import Matter, { toMatter } from './Matter';
-import Output, { DefaultStyle } from './Output';
-import type Place from './Place';
-import type Pose from './Pose';
-import type { DefinitePose } from './Pose';
-import type RenderContext from './RenderContext';
-import Say from './Say';
-import type Sequence from './Sequence';
-import type { NameGenerator } from './Stage';
-import TextLang from './TextLang';
-import { getTypeStyle, toArrangement, toOutputList } from './toOutput';
-import { getOutputInput } from './Valued';
+import { SupportedFontsFamiliesType, type SupportedFace } from '@basis/Fonts';
+import toStructure from '@basis/toStructure';
+import { getBind } from '@locale/getBind';
+import type Locales from '@locale/Locales';
+import { getFirstText } from '@locale/LocaleText';
+import { GROUP_SYMBOL, TYPE_SYMBOL } from '@parser/Symbols';
+import type Evaluator from '@runtime/Evaluator';
+import type Value from '@values/Value';
+import Arrangement from '@output/Arrangement';
+import type Color from '@output/Color';
+import Matter, { toMatter } from '@output/Matter';
+import Output, { DefaultStyle } from '@output/Output';
+import type Place from '@output/Place';
+import type Pose from '@output/Pose';
+import type { DefinitePose } from '@output/Pose';
+import type RenderContext from '@output/RenderContext';
+import Say from '@output/Say';
+import type Sequence from '@output/Sequence';
+import type { NameGenerator } from '@output/Stage';
+import TextLang from '@output/TextLang';
+import { getTypeStyle, toArrangement, toOutputList } from '@output/toOutput';
+import { getOutputInput } from '@output/Valued';
 
 export function createGroupType(locales: Locales) {
     return toStructure(`

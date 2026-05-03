@@ -6,22 +6,22 @@ import type Evaluator from '@runtime/Evaluator';
 import StartFinish from '@runtime/StartFinish';
 import type Step from '@runtime/Step';
 import type Value from '@values/Value';
-import { Purpose } from '../concepts/Purpose';
-import type Locales from '../locale/Locales';
+import { Purpose } from '@concepts/Purpose';
+import type Locales from '@locale/Locales';
 import Characters from '../lore/BasisCharacters';
-import StreamDefinitionValue from '../values/StreamDefinitionValue';
-import Bind from './Bind';
-import type Context from './Context';
-import type Definition from './Definition';
-import DefinitionExpression from './DefinitionExpression';
-import Docs from './Docs';
-import EvalCloseToken from './EvalCloseToken';
-import EvalOpenToken from './EvalOpenToken';
-import Evaluate from './Evaluate';
-import type Expression from './Expression';
-import ExpressionPlaceholder from './ExpressionPlaceholder';
-import Names from './Names';
-import type Node from './Node';
+import StreamDefinitionValue from '@values/StreamDefinitionValue';
+import Bind from '@nodes/Bind';
+import type Context from '@nodes/Context';
+import type Definition from '@nodes/Definition';
+import DefinitionExpression from '@nodes/DefinitionExpression';
+import Docs from '@nodes/Docs';
+import EvalCloseToken from '@nodes/EvalCloseToken';
+import EvalOpenToken from '@nodes/EvalOpenToken';
+import Evaluate from '@nodes/Evaluate';
+import type Expression from '@nodes/Expression';
+import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
+import Names from '@nodes/Names';
+import type Node from '@nodes/Node';
 import {
     any,
     list,
@@ -30,16 +30,16 @@ import {
     optional,
     type Grammar,
     type Replacement,
-} from './Node';
-import Reference from './Reference';
-import StreamDefinitionType from './StreamDefinitionType';
-import { Sym } from './Sym';
-import Token from './Token';
-import Type from './Type';
-import TypePlaceholder from './TypePlaceholder';
-import type TypeSet from './TypeSet';
-import TypeToken from './TypeToken';
-import { getEvaluationInputConflicts } from './util';
+} from '@nodes/Node';
+import Reference from '@nodes/Reference';
+import StreamDefinitionType from '@nodes/StreamDefinitionType';
+import { Sym } from '@nodes/Sym';
+import Token from '@nodes/Token';
+import Type from '@nodes/Type';
+import TypePlaceholder from '@nodes/TypePlaceholder';
+import type TypeSet from '@nodes/TypeSet';
+import TypeToken from '@nodes/TypeToken';
+import { getEvaluationInputConflicts } from '@nodes/util';
 
 export default class StreamDefinition extends DefinitionExpression {
     readonly docs: Docs;

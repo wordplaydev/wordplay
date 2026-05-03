@@ -11,13 +11,13 @@ import Unit from '@nodes/Unit';
 import getPreferredSpaces from '@parser/getPreferredSpaces';
 import { TRUE_SYMBOL } from '@parser/Symbols';
 import { expect, test } from 'vitest';
-import DefaultLocale from '../../locale/DefaultLocale';
-import NumberLiteral from '../../nodes/NumberLiteral';
-import Append from '../revision/Append';
-import Assign from '../revision/Assign';
-import Replace from '../revision/Replace';
-import type Revision from '../revision/Revision';
-import { getEditsAt } from './PossibleEdits';
+import DefaultLocale from '@locale/DefaultLocale';
+import NumberLiteral from '@nodes/NumberLiteral';
+import Append from '@edit/revision/Append';
+import Assign from '@edit/revision/Assign';
+import Replace from '@edit/revision/Replace';
+import type Revision from '@edit/revision/Revision';
+import { getEditsAt } from '@edit/menu/PossibleEdits';
 
 test.each([
     ['blank programs suggest numbers', '**', undefined, Append, '0'],

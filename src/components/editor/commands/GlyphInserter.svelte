@@ -2,12 +2,12 @@
     import GlyphChooser from '@components/widgets/GlyphChooser.svelte';
     import TextField from '@components/widgets/TextField.svelte';
     import Toggle from '@components/widgets/Toggle.svelte';
-    import { type Character } from '../../../db/characters/Character';
-    import { SEARCH_SYMBOL } from '../../../parser/Symbols';
-    import { withColorEmoji } from '../../../unicode/emoji';
-    import { IdleKind, getEditors } from '../../project/Contexts';
-    import CommandButton from '../../widgets/CommandButton.svelte';
-    import Commands, { Category } from './Commands';
+    import { type Character } from '@db/characters/Character';
+    import { SEARCH_SYMBOL } from '@parser/Symbols';
+    import { withColorEmoji } from '@unicode/emoji';
+    import { IdleKind, getEditors } from '@components/project/Contexts';
+    import CommandButton from '@components/widgets/CommandButton.svelte';
+    import Commands, { Category } from '@components/editor/commands/Commands';
 
     interface Props {
         sourceID: string;

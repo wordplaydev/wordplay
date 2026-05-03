@@ -2,9 +2,9 @@ import type LocaleText from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
 import type Context from '@nodes/Context';
 import type Name from '@nodes/Name';
-import type Locales from '../locale/Locales';
-import type Bind from '../nodes/Bind';
-import Conflict from './Conflict';
+import type Locales from '@locale/Locales';
+import type Bind from '@nodes/Bind';
+import Conflict from '@conflicts/Conflict';
 
 export default class DuplicateName extends Conflict {
     readonly bind: Bind;

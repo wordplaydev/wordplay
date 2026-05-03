@@ -1,8 +1,8 @@
 <script lang="ts">
     import type { LocaleTextAccessor } from '@locale/Locales';
-    import Labeled from './Labeled.svelte';
-    import TextBox from './TextBox.svelte';
-    import TextField from './TextField.svelte';
+    import Labeled from '@components/widgets/Labeled.svelte';
+    import TextBox from '@components/widgets/TextBox.svelte';
+    import TextField from '@components/widgets/TextField.svelte';
 
     let {
         placeholder,

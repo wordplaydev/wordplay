@@ -1,8 +1,8 @@
 /** Reusable functions for getting and setting concepts in the page URL */
 
 import type Locales from '@locale/Locales';
-import type Concept from './Concept';
-import type ConceptIndex from './ConceptIndex';
+import type Concept from '@concepts/Concept';
+import type ConceptIndex from '@concepts/ConceptIndex';
 
 export const PARAM_CONCEPT = 'concept';
 

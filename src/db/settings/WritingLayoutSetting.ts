@@ -1,5 +1,5 @@
-import type { WritingLayout } from '../../locale/Scripts';
-import Setting from './Setting';
+import type { WritingLayout } from '@locale/Scripts';
+import Setting from '@db/settings/Setting';
 
 export const WritingLayoutSetting = new Setting<WritingLayout>(
     'writingLayout',

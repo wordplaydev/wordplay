@@ -1,16 +1,16 @@
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
-import { Purpose } from '../concepts/Purpose';
-import type Locales from '../locale/Locales';
-import type { TemplateInput } from '../locale/Locales';
+import { Purpose } from '@concepts/Purpose';
+import type Locales from '@locale/Locales';
+import type { TemplateInput } from '@locale/Locales';
 import Characters from '../lore/BasisCharacters';
-import Content from './Content';
-import Mention from './Mention';
-import type Node from './Node';
-import { type Grammar, list, node, optional, type Replacement } from './Node';
-import { Sym } from './Sym';
-import Token from './Token';
-import Words from './Words';
+import Content from '@nodes/Content';
+import Mention from '@nodes/Mention';
+import type Node from '@nodes/Node';
+import { type Grammar, list, node, optional, type Replacement } from '@nodes/Node';
+import { Sym } from '@nodes/Sym';
+import Token from '@nodes/Token';
+import Words from '@nodes/Words';
 
 /**
  * To conditionally select a string, use ??, followed by an input that is either a boolean or possibly undefined value,

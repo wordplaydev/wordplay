@@ -1,34 +1,34 @@
 import type { SupportedLocale } from '@locale/SupportedLocales';
 import { doc, getDoc } from 'firebase/firestore';
 import { derived } from 'svelte/store';
-import type { SerializedLayout } from '../../components/project/Layout';
-import Layout from '../../components/project/Layout';
-import type { WritingLayout } from '../../locale/Scripts';
+import type { SerializedLayout } from '@components/project/Layout';
+import Layout from '@components/project/Layout';
+import type { WritingLayout } from '@locale/Scripts';
 import type Progress from '../../tutorial/Progress';
-import { CreatorCollection } from '../creators/CreatorDatabase';
-import type { Database } from '../Database';
-import { firestore } from '../firebase';
-import { AnimationFactorSetting } from './AnimationFactorSetting';
-import { AnnotationsSetting } from './AnnotationsSetting';
-import type { ArrangementType } from './Arrangement';
-import { ArrangementSetting } from './ArrangementSetting';
-import { BlocksSetting } from './BlocksSetting';
-import { CameraSetting } from './CameraSetting';
-import { DarkSetting } from './DarkSetting';
-import { FaceSetting } from './FaceSetting';
-import { HowToNotificationsSetting } from './HowToNotificationsSetting';
-import { LayoutsSetting } from './LayoutsSetting';
-import { LineSetting } from './LinesSetting';
-import { LocalesSetting } from './LocalesSetting';
-import { MicSetting } from './MicSetting';
-import { SaySetting } from './SaySetting';
-import { SpaceSetting } from './SpaceSetting';
+import { CreatorCollection } from '@db/creators/CreatorDatabase';
+import type { Database } from '@db/Database';
+import { firestore } from '@db/firebase';
+import { AnimationFactorSetting } from '@db/settings/AnimationFactorSetting';
+import { AnnotationsSetting } from '@db/settings/AnnotationsSetting';
+import type { ArrangementType } from '@db/settings/Arrangement';
+import { ArrangementSetting } from '@db/settings/ArrangementSetting';
+import { BlocksSetting } from '@db/settings/BlocksSetting';
+import { CameraSetting } from '@db/settings/CameraSetting';
+import { DarkSetting } from '@db/settings/DarkSetting';
+import { FaceSetting } from '@db/settings/FaceSetting';
+import { HowToNotificationsSetting } from '@db/settings/HowToNotificationsSetting';
+import { LayoutsSetting } from '@db/settings/LayoutsSetting';
+import { LineSetting } from '@db/settings/LinesSetting';
+import { LocalesSetting } from '@db/settings/LocalesSetting';
+import { MicSetting } from '@db/settings/MicSetting';
+import { SaySetting } from '@db/settings/SaySetting';
+import { SpaceSetting } from '@db/settings/SpaceSetting';
 import {
     TutorialProgressSetting,
     type TutorialProgress,
-} from './TutorialProgressSetting';
-import { UpdatesSetting } from './UpdatesSetting';
-import { WritingLayoutSetting } from './WritingLayoutSetting';
+} from '@db/settings/TutorialProgressSetting';
+import { UpdatesSetting } from '@db/settings/UpdatesSetting';
+import { WritingLayoutSetting } from '@db/settings/WritingLayoutSetting';
 
 /** The schema of the record written to the creators collection. */
 export type SettingsSchemaV1 = {

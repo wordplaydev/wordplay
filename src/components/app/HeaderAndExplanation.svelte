@@ -2,8 +2,8 @@
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import type LocaleText from '@locale/LocaleText';
     import { type HeaderAndExplanationText } from '@locale/UITexts';
-    import Header from './Header.svelte';
-    import Subheader from './Subheader.svelte';
+    import Header from '@components/app/Header.svelte';
+    import Subheader from '@components/app/Subheader.svelte';
 
     interface Props {
         text: (l: LocaleText) => HeaderAndExplanationText;

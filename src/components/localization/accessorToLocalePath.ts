@@ -1,4 +1,4 @@
-import LocalePath from '../../util/verify-locales/LocalePath';
+import LocalePath from '@util/verify-locales/LocalePath';
 import type { LocaleTextAccessor, LocaleTextsAccessor } from '@locale/Locales';
 
 /**

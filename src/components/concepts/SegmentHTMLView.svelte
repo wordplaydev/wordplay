@@ -1,26 +1,26 @@
 <script lang="ts">
-    import ConceptRef from '../../locale/ConceptRef';
-    import NodeRef from '../../locale/NodeRef';
-    import ValueRef from '../../locale/ValueRef';
-    import ConceptLink from '../../nodes/ConceptLink';
-    import Example from '../../nodes/Example';
-    import type { Segment } from '../../nodes/Paragraph';
-    import Token from '../../nodes/Token';
-    import UnknownType from '../../nodes/UnknownType';
-    import WebLink from '../../nodes/WebLink';
-    import Words from '../../nodes/Words';
-    import type Spaces from '../../parser/Spaces';
-    import { unescapeMarkupSymbols } from '../../parser/Tokenizer';
-    import { BULLET_SYMBOL } from '../../parser/Symbols';
-    import { withColorEmoji } from '../../unicode/emoji';
-    import RootView from '../project/RootView.svelte';
-    import ValueView from '../values/ValueView.svelte';
-    import CodeView from './CodeView.svelte';
-    import ConceptLinkUI from './ConceptLinkUI.svelte';
-    import ExampleUI from './ExampleUI.svelte';
-    import MarkupHTMLView from './MarkupHTMLView.svelte';
-    import WebLinkHTMLView from './WebLinkHTMLView.svelte';
-    import WordsHTMLView from './WordsHTMLView.svelte';
+    import ConceptRef from '@locale/ConceptRef';
+    import NodeRef from '@locale/NodeRef';
+    import ValueRef from '@locale/ValueRef';
+    import ConceptLink from '@nodes/ConceptLink';
+    import Example from '@nodes/Example';
+    import type { Segment } from '@nodes/Paragraph';
+    import Token from '@nodes/Token';
+    import UnknownType from '@nodes/UnknownType';
+    import WebLink from '@nodes/WebLink';
+    import Words from '@nodes/Words';
+    import type Spaces from '@parser/Spaces';
+    import { unescapeMarkupSymbols } from '@parser/Tokenizer';
+    import { BULLET_SYMBOL } from '@parser/Symbols';
+    import { withColorEmoji } from '@unicode/emoji';
+    import RootView from '@components/project/RootView.svelte';
+    import ValueView from '@components/values/ValueView.svelte';
+    import CodeView from '@components/concepts/CodeView.svelte';
+    import ConceptLinkUI from '@components/concepts/ConceptLinkUI.svelte';
+    import ExampleUI from '@components/concepts/ExampleUI.svelte';
+    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
+    import WebLinkHTMLView from '@components/concepts/WebLinkHTMLView.svelte';
+    import WordsHTMLView from '@components/concepts/WordsHTMLView.svelte';
 
     interface Props {
         segment: Segment;

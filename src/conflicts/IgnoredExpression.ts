@@ -6,9 +6,9 @@ import type Expression from '@nodes/Expression';
 import FunctionDefinition from '@nodes/FunctionDefinition';
 import Names from '@nodes/Names';
 import UnaryEvaluate from '@nodes/UnaryEvaluate';
-import type Locales from '../locale/Locales';
-import Block from '../nodes/Block';
-import Conflict, { type Resolution } from './Conflict';
+import type Locales from '@locale/Locales';
+import Block from '@nodes/Block';
+import Conflict, { type Resolution } from '@conflicts/Conflict';
 
 export class IgnoredExpression extends Conflict {
     readonly block: Block;

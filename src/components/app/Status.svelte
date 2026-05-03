@@ -4,9 +4,9 @@
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import type LocaleText from '@locale/LocaleText';
     import { CANCEL_SYMBOL } from '@parser/Symbols';
-    import { SaveStatus, status } from '../../db/Database';
-    import { withMonoEmoji } from '../../unicode/emoji';
-    import { getUser } from '../project/Contexts';
+    import { SaveStatus, status } from '@db/Database';
+    import { withMonoEmoji } from '@unicode/emoji';
+    import { getUser } from '@components/project/Contexts';
 
     const user = getUser();
     let device = $derived($user === null);

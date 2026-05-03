@@ -23,7 +23,6 @@
 </script>
 
 <script lang="ts">
-    import { goto } from '$app/navigation';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import { getAnnouncer, getUser } from '@components/project/Contexts';
     import Button from '@components/widgets/Button.svelte';
@@ -49,6 +48,7 @@
     import { untrack } from 'svelte';
     import { SvelteMap } from 'svelte/reactivity';
     import { notifications } from '../../routes/+layout.svelte';
+    import { localeGoto } from '@util/localeGoto';
 
     let showDialog: boolean = $state(false);
     let showPopup: boolean = $state(false);
@@ -228,7 +228,7 @@
                     icon={'🔗'}
                     action={() => {
                         showDialog = false;
-                        goto(`/project/${notification.itemID}`);
+                        localeGoto(`/project/${notification.itemID}`);
                     }}
                 />
             {:else if notification.type === 'projectmoderation' || notification.type === 'howtomoderation'}
@@ -237,7 +237,7 @@
                     icon={'🔗'}
                     action={() => {
                         showDialog = false;
-                        goto('/galleries/moderation');
+                        localeGoto('/galleries/moderation');
                     }}
                 />
             {:else}
@@ -246,7 +246,7 @@
                     icon={'🔗'}
                     action={() => {
                         showDialog = false;
-                        goto(
+                        localeGoto(
                             `/gallery/${notification.galleryID}/howto?id=${notification.itemID}`,
                         );
                     }}

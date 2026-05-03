@@ -1,6 +1,6 @@
 <script lang="ts">
     import { browser } from '$app/environment';
-    import { afterNavigate, goto } from '$app/navigation';
+    import { afterNavigate } from '$app/navigation';
     import { page } from '$app/state';
     import Header from '@components/app/Header.svelte';
     import Documentation from '@components/concepts/Documentation.svelte';
@@ -19,20 +19,12 @@
     } from '@concepts/ConceptParams';
     import { HowTos, Locales, locales } from '@db/Database';
     import Project from '@db/projects/Project';
-    import { toLocaleString } from '@locale/LocaleText';
     import Source from '@nodes/Source';
     import { onMount } from 'svelte';
     import { writable } from 'svelte/store';
+    import { localeGoto } from '@util/localeGoto';
 
-    function getLocaleInURL() {
-        return (
-            page.url.searchParams.get('locale') ??
-            toLocaleString($locales.getLocales()[0])
-        );
-    }
-
-    // Initialize locale and concept with URL.
-    let locale: string | null = $state(null);
+    // Initialize concept with URL.
     let concept: Concept | undefined = $state(undefined);
 
     // Create a concept path for children, initialized
@@ -43,19 +35,15 @@
     onMount(() => {
         // Before showing, wait for how tos to load.
         Locales.loadHowTos($locales.getLocaleString()).then(() => {
-            locale = getLocaleInURL();
             concept = getConceptFromURL(index, page.url.searchParams);
-
             path.set(concept ? [concept] : []);
             mounted = true;
         });
     });
 
-    // After any navigation, extract the locale and concept from the URL and
-    // ensure the concepts are set to match it.
+    // After any navigation, extract the concept from the URL and
+    // ensure the concept path is set to match it.
     afterNavigate(() => {
-        // Set the current locale.
-        locale = getLocaleInURL();
         concept = getConceptFromURL(index, page.url.searchParams);
         // Only update the path if the concept exists and is not already in the path.
         if (
@@ -120,15 +108,11 @@
     $effect(() => {
         if (browser && $path && mounted) {
             const newParams = new URLSearchParams();
-
-            if (locale) newParams.set('locale', locale);
-            else newParams.delete('locale');
-
             setConceptInURL($locales, concept ?? undefined, index, newParams);
 
-            if (window.location.search !== `?${newParams.toString()}`) {
-                // If the path was empty, just replace the state, so we can go back.
-                goto(`/guide?${newParams.toString()}`, {
+            const newSearch = newParams.toString() ? `?${newParams.toString()}` : '';
+            if (window.location.search !== newSearch) {
+                localeGoto(`/guide${newSearch}`, {
                     replaceState: window.location.search === '',
                 });
             }

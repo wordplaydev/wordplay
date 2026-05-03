@@ -17,7 +17,7 @@
         TEXT_EDITING_SYMBOL,
     } from '@parser/Symbols';
     import { onMount } from 'svelte';
-    import { Creator } from '../../db/creators/CreatorDatabase';
+    import { Creator } from '@db/creators/CreatorDatabase';
     import {
         animationFactor,
         arrangement,
@@ -30,18 +30,18 @@
         showLines,
         spaceIndicator,
         voice,
-    } from '../../db/Database';
-    import { Arrangement } from '../../db/settings/Arrangement';
-    import CreatorView from '../app/CreatorView.svelte';
-    import Link from '../app/Link.svelte';
-    import Status from '../app/Status.svelte';
-    import { getLocalizing, getUser } from '../project/Contexts';
-    import Dialog from '../widgets/Dialog.svelte';
-    import Mode from '../widgets/Mode.svelte';
-    import Options from '../widgets/Options.svelte';
-    import FaceName from './FaceName.svelte';
-    import LocaleChooser from './LocaleChooser.svelte';
-    import Notifications from './Notifications.svelte';
+    } from '@db/Database';
+    import { Arrangement } from '@db/settings/Arrangement';
+    import CreatorView from '@components/app/CreatorView.svelte';
+    import Link from '@components/app/Link.svelte';
+    import Status from '@components/app/Status.svelte';
+    import { getLocalizing, getUser } from '@components/project/Contexts';
+    import Dialog from '@components/widgets/Dialog.svelte';
+    import Mode from '@components/widgets/Mode.svelte';
+    import Options from '@components/widgets/Options.svelte';
+    import FaceName from '@components/settings/FaceName.svelte';
+    import LocaleChooser from '@components/settings/LocaleChooser.svelte';
+    import Notifications from '@components/settings/Notifications.svelte';
 
     let user = getUser();
 

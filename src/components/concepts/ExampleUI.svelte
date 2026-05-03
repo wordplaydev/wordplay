@@ -17,18 +17,18 @@
     import Evaluator from '@runtime/Evaluator';
     import { onMount } from 'svelte';
     import { writable } from 'svelte/store';
-    import { blocks, DB, locales, Settings } from '../../db/Database';
-    import Stage, { NameGenerator, toStage } from '../../output/Stage';
-    import type Value from '../../values/Value';
-    import Annotations from '../annotations/Annotations.svelte';
-    import Editor from '../editor/Editor.svelte';
-    import OutputView from '../output/OutputView.svelte';
+    import { blocks, DB, locales, Settings } from '@db/Database';
+    import Stage, { NameGenerator, toStage } from '@output/Stage';
+    import type Value from '@values/Value';
+    import Annotations from '@components/annotations/Annotations.svelte';
+    import Editor from '@components/editor/Editor.svelte';
+    import OutputView from '@components/output/OutputView.svelte';
     import {
         getConceptIndex,
         setConflicts,
         setProject,
-    } from '../project/Contexts';
-    import ValueView from '../values/ValueView.svelte';
+    } from '@components/project/Contexts';
+    import ValueView from '@components/values/ValueView.svelte';
 
     interface Props {
         example: Example;

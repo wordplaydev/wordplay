@@ -9,8 +9,8 @@ import UnparsableExpression from '@nodes/UnparsableExpression';
 import type UnparsableType from '@nodes/UnparsableType';
 import parseExpression from '@parser/parseExpression';
 import { toTokens } from '@parser/toTokens';
-import type Locales from '../locale/Locales';
-import Conflict, { type Resolution } from './Conflict';
+import type Locales from '@locale/Locales';
+import Conflict, { type Resolution } from '@conflicts/Conflict';
 
 export class UnparsableConflict extends Conflict {
     readonly unparsable: UnparsableType | UnparsableExpression;

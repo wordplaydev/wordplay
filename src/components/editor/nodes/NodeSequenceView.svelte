@@ -8,12 +8,12 @@
     import type NodeRef from '@locale/NodeRef';
     import type ValueRef from '@locale/ValueRef';
     import Node from '@nodes/Node';
-    import type KeysOfType from '../../../util/KeysOfType';
-    import { getCaret, getDragTarget } from '../../project/Contexts';
-    import Button from '../../widgets/Button.svelte';
-    import EmptyView from '../blocks/EmptyView.svelte';
-    import MenuTrigger from '../menu/MenuTrigger.svelte';
-    import NodeView, { type Format } from './NodeView.svelte';
+    import type KeysOfType from '@util/KeysOfType';
+    import { getCaret, getDragTarget } from '@components/project/Contexts';
+    import Button from '@components/widgets/Button.svelte';
+    import EmptyView from '@components/editor/blocks/EmptyView.svelte';
+    import MenuTrigger from '@components/editor/menu/MenuTrigger.svelte';
+    import NodeView, { type Format } from '@components/editor/nodes/NodeView.svelte';
 
     interface Props {
         /** The node containing a list of nodes to render */

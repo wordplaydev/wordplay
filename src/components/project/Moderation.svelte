@@ -1,15 +1,15 @@
 <script lang="ts">
     import Dialog from '@components/widgets/Dialog.svelte';
-    import { locales } from '../../db/Database';
+    import { locales } from '@db/Database';
     import {
         getBlocks,
         getUnmoderated,
         getWarnings,
-    } from '../../db/projects/Moderation';
-    import { isAudience } from '../../db/projects/ModerationUtils';
-    import type Project from '../../db/projects/Project';
-    import MarkupHTMLView from '../concepts/MarkupHTMLView.svelte';
-    import { getUser } from './Contexts';
+    } from '@db/projects/Moderation';
+    import { isAudience } from '@db/projects/ModerationUtils';
+    import type Project from '@db/projects/Project';
+    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
+    import { getUser } from '@components/project/Contexts';
 
     interface Props {
         project: Project;

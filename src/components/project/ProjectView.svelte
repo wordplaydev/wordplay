@@ -33,8 +33,8 @@
     import Evaluator from '@runtime/Evaluator';
     import { onDestroy, onMount, tick, untrack } from 'svelte';
     import { writable, type Writable } from 'svelte/store';
-    import type Concept from '../../concepts/Concept';
-    import ConceptIndex from '../../concepts/ConceptIndex';
+    import type Concept from '@concepts/Concept';
+    import ConceptIndex from '@concepts/ConceptIndex';
     import {
         animationFactor,
         arrangement,
@@ -50,22 +50,22 @@
         mic,
         Projects,
         Settings,
-    } from '../../db/Database';
-    import { isFlagged } from '../../db/projects/Moderation';
+    } from '@db/Database';
+    import { isFlagged } from '@db/projects/Moderation';
     import Arrangement, {
         isResizeable,
         type ArrangementType,
-    } from '../../db/settings/Arrangement';
+    } from '@db/settings/Arrangement';
     import Characters from '../../lore/BasisCharacters';
-    import type Color from '../../output/Color';
+    import type Color from '@output/Color';
     import {
         PROJECT_PARAM_EDIT,
         PROJECT_PARAM_PLAY,
-    } from '../../routes/project/constants';
-    import type Value from '../../values/Value';
-    import Annotations from '../annotations/Annotations.svelte';
-    import CreatorView from '../app/CreatorView.svelte';
-    import Emoji from '../app/Emoji.svelte';
+    } from '../../routes/[[locale]]/project/constants';
+    import type Value from '@values/Value';
+    import Annotations from '@components/annotations/Annotations.svelte';
+    import CreatorView from '@components/app/CreatorView.svelte';
+    import Emoji from '@components/app/Emoji.svelte';
     import {
         EnterFullscreen,
         ExitFullscreen,
@@ -75,7 +75,7 @@
         VisibleModifyCommands,
         VisibleNavigateCommands,
         type CommandContext,
-    } from '../editor/commands/Commands';
+    } from '@components/editor/commands/Commands';
 
     import Toolbar from '@components/editor/commands/Toolbar.svelte';
     import Editor from '@components/editor/Editor.svelte';
@@ -89,19 +89,19 @@
     } from '@db/settings/AnimationFactorSetting';
     import type MenuInfo from '@edit/menu/Menu';
     import type { LocaleTextAccessor } from '@locale/Locales';
-    import type { HighlightSpec } from '../editor/highlights/Highlights';
-    import getOutlineOf, { getUnderlineOf } from '../editor/highlights/outline';
-    import Timeline from '../evaluator/Timeline.svelte';
-    import OutputView from '../output/OutputView.svelte';
-    import type PaintingConfiguration from '../output/PaintingConfiguration';
-    import Palette from '../palette/Palette.svelte';
-    import Button from '../widgets/Button.svelte';
-    import ConfirmButton from '../widgets/ConfirmButton.svelte';
-    import Dialog from '../widgets/Dialog.svelte';
-    import TextField from '../widgets/TextField.svelte';
-    import Toggle from '../widgets/Toggle.svelte';
-    import type Bounds from './Bounds';
-    import Checkpoints from './Checkpoints.svelte';
+    import type { HighlightSpec } from '@components/editor/highlights/Highlights';
+    import getOutlineOf, { getUnderlineOf } from '@components/editor/highlights/outline';
+    import Timeline from '@components/evaluator/Timeline.svelte';
+    import OutputView from '@components/output/OutputView.svelte';
+    import type PaintingConfiguration from '@components/output/PaintingConfiguration';
+    import Palette from '@components/palette/Palette.svelte';
+    import Button from '@components/widgets/Button.svelte';
+    import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
+    import Dialog from '@components/widgets/Dialog.svelte';
+    import TextField from '@components/widgets/TextField.svelte';
+    import Toggle from '@components/widgets/Toggle.svelte';
+    import type Bounds from '@components/project/Bounds';
+    import Checkpoints from '@components/project/Checkpoints.svelte';
     import {
         getAnnouncer,
         getConceptPath,
@@ -122,25 +122,25 @@
         type ConceptPath,
         type EditorState,
         type KeyModifierState,
-    } from './Contexts';
-    import CopyButton from './CopyButton.svelte';
-    import CurrentLayout from './CurrentLayout.svelte';
-    import FullscreenIcon from './FullscreenIcon.svelte';
-    import Layout from './Layout';
-    import Moderation from './Moderation.svelte';
-    import NonSourceTileToggle from './NonSourceTileToggle.svelte';
-    import OutputLocaleChooser from './OutputLocaleChooser.svelte';
-    import PositionAdjuster from './PositionAdjuster.svelte';
-    import RootView from './RootView.svelte';
-    import SelectedOutput from './SelectedOutput.svelte';
-    import Separator from './Separator.svelte';
-    import Sharing from './Sharing.svelte';
-    import Shortcuts from './Shortcuts.svelte';
-    import SourceTileToggle from './SourceTileToggle.svelte';
-    import Tile, { TileMode } from './Tile';
-    import { TileKind } from './TileKind';
-    import TileView, { type ResizeDirection } from './TileView.svelte';
-    import Translate from './Translate.svelte';
+    } from '@components/project/Contexts';
+    import CopyButton from '@components/project/CopyButton.svelte';
+    import CurrentLayout from '@components/project/CurrentLayout.svelte';
+    import FullscreenIcon from '@components/project/FullscreenIcon.svelte';
+    import Layout from '@components/project/Layout';
+    import Moderation from '@components/project/Moderation.svelte';
+    import NonSourceTileToggle from '@components/project/NonSourceTileToggle.svelte';
+    import OutputLocaleChooser from '@components/project/OutputLocaleChooser.svelte';
+    import PositionAdjuster from '@components/project/PositionAdjuster.svelte';
+    import RootView from '@components/project/RootView.svelte';
+    import SelectedOutput from '@components/project/SelectedOutput.svelte';
+    import Separator from '@components/project/Separator.svelte';
+    import Sharing from '@components/project/Sharing.svelte';
+    import Shortcuts from '@components/project/Shortcuts.svelte';
+    import SourceTileToggle from '@components/project/SourceTileToggle.svelte';
+    import Tile, { TileMode } from '@components/project/Tile';
+    import { TileKind } from '@components/project/TileKind';
+    import TileView, { type ResizeDirection } from '@components/project/TileView.svelte';
+    import Translate from '@components/project/Translate.svelte';
 
     interface Props {
         project: Project;

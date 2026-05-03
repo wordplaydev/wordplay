@@ -1,13 +1,13 @@
 import { expect, test } from 'vitest';
-import parseExpression from '../parser/parseExpression';
-import { toTokens } from '../parser/toTokens';
-import Bind from './Bind';
-import Doc from './Doc';
-import Language from './Language';
-import type Node from './Node';
-import NumberLiteral from './NumberLiteral';
-import Reference from './Reference';
-import Token from './Token';
+import parseExpression from '@parser/parseExpression';
+import { toTokens } from '@parser/toTokens';
+import Bind from '@nodes/Bind';
+import Doc from '@nodes/Doc';
+import Language from '@nodes/Language';
+import type Node from '@nodes/Node';
+import NumberLiteral from '@nodes/NumberLiteral';
+import Reference from '@nodes/Reference';
+import Token from '@nodes/Token';
 
 test.each([
     '1',

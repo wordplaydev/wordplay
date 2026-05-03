@@ -17,12 +17,12 @@ import {
     type PeformanceModeType,
     type Performance,
 } from '../../tutorial/Tutorial';
-import type LocalePath from './LocalePath';
-import { getKeyTemplatePairs } from './LocalePath';
-import type Log from './Log';
-import TutorialSchema, { DefaultTutorial } from './TutorialSchema';
-import Validator from './Validator';
-import translate, { getGoogleTranslateTargetLocale } from './translate';
+import type LocalePath from '@util/verify-locales/LocalePath';
+import { getKeyTemplatePairs } from '@util/verify-locales/LocalePath';
+import type Log from '@util/verify-locales/Log';
+import TutorialSchema, { DefaultTutorial } from '@util/verify-locales/TutorialSchema';
+import Validator from '@util/verify-locales/Validator';
+import translate, { getGoogleTranslateTargetLocale } from '@util/verify-locales/translate';
 
 /** Load, validate, and check the tutorial, and optionally translate. */
 export async function verifyTutorial(

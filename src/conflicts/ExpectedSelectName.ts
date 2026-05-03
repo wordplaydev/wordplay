@@ -3,9 +3,9 @@ import NodeRef from '@locale/NodeRef';
 import type Context from '@nodes/Context';
 import type Expression from '@nodes/Expression';
 import type Input from '@nodes/Input';
-import type Locales from '../locale/Locales';
-import type Select from '../nodes/Select';
-import Conflict from './Conflict';
+import type Locales from '@locale/Locales';
+import type Select from '@nodes/Select';
+import Conflict from '@conflicts/Conflict';
 
 export default class ExpectedSelectName extends Conflict {
     readonly select: Select;

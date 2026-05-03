@@ -3,9 +3,9 @@ import ValueRef from '@locale/ValueRef';
 import type Token from '@nodes/Token';
 import type Evaluator from '@runtime/Evaluator';
 import ExceptionValue from '@values/ExceptionValue';
-import type Locales from '../locale/Locales';
-import type Expression from '../nodes/Expression';
-import Value from '../values/Value';
+import type Locales from '@locale/Locales';
+import type Expression from '@nodes/Expression';
+import Value from '@values/Value';
 
 export default class NameException extends ExceptionValue {
     readonly name: Token | undefined;

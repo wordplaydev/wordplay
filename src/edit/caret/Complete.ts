@@ -55,7 +55,7 @@ import {
     FormattingSymbols,
     tokens,
 } from '@parser/Tokenizer';
-import type Caret from './Caret';
+import type Caret from '@edit/caret/Caret';
 
 type InsertInfo = {
     /** The caret where the insertion is happening */

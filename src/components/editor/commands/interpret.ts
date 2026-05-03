@@ -1,5 +1,5 @@
 import getPreferredSpaces from '@parser/getPreferredSpaces';
-import TableLiteral from '../../../nodes/TableLiteral';
+import TableLiteral from '@nodes/TableLiteral';
 
 export function isCSV(text: string): boolean {
     return /^(('|“|"|”)?[a-zA-Z0-9.%&-() _]*('|"|“|”)?(,|\n|\\Z)\s*){5,}/g.test(

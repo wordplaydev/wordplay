@@ -29,8 +29,8 @@
         animationDuration,
         animationFactor,
         locales,
-    } from '../../db/Database';
-    import SegmentHTMLView from './SegmentHTMLView.svelte';
+    } from '@db/Database';
+    import SegmentHTMLView from '@components/concepts/SegmentHTMLView.svelte';
 
     interface Props {
         markup:

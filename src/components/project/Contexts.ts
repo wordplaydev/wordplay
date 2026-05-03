@@ -19,14 +19,14 @@ import type Step from '@runtime/Step';
 import type { User } from 'firebase/auth';
 import { createContext, getContext, setContext } from 'svelte';
 import { type Writable } from 'svelte/store';
-import type LanguageCode from '../../locale/LanguageCode';
+import type LanguageCode from '@locale/LanguageCode';
 import type {
     CommandContext,
     Edit,
     ProjectRevision,
-} from '../editor/commands/Commands';
-import type { Highlights } from '../editor/highlights/Highlights';
-import type SelectedOutput from './SelectedOutput.svelte';
+} from '@components/editor/commands/Commands';
+import type { Highlights } from '@components/editor/highlights/Highlights';
+import type SelectedOutput from '@components/project/SelectedOutput.svelte';
 
 /** A helper for creating an optional context. Svelte's createContext throws if the context is not set. */
 function createOptionalContext<T>(): [() => T | undefined, (value: T) => void] {

@@ -2,22 +2,22 @@ import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { MEASUREMENT_SYMBOL as NUMBER_SYMBOL } from '@parser/Symbols';
 import NumberValue from '@values/NumberValue';
-import type { BasisTypeName } from '../basis/BasisConstants';
-import type Locales from '../locale/Locales';
-import NodeRef from '../locale/NodeRef';
+import type { BasisTypeName } from '@basis/BasisConstants';
+import type Locales from '@locale/Locales';
+import NodeRef from '@locale/NodeRef';
 import Characters from '../lore/BasisCharacters';
-import BasisType from './BasisType';
-import BinaryEvaluate from './BinaryEvaluate';
-import type Context from './Context';
-import Evaluate from './Evaluate';
-import { node, type Grammar, type Replacement } from './Node';
-import NumberLiteral from './NumberLiteral';
-import PropertyReference from './PropertyReference';
-import { Sym } from './Sym';
-import Token from './Token';
-import type TypeSet from './TypeSet';
-import UnaryEvaluate from './UnaryEvaluate';
-import Unit from './Unit';
+import BasisType from '@nodes/BasisType';
+import BinaryEvaluate from '@nodes/BinaryEvaluate';
+import type Context from '@nodes/Context';
+import Evaluate from '@nodes/Evaluate';
+import { node, type Grammar, type Replacement } from '@nodes/Node';
+import NumberLiteral from '@nodes/NumberLiteral';
+import PropertyReference from '@nodes/PropertyReference';
+import { Sym } from '@nodes/Sym';
+import Token from '@nodes/Token';
+import type TypeSet from '@nodes/TypeSet';
+import UnaryEvaluate from '@nodes/UnaryEvaluate';
+import Unit from '@nodes/Unit';
 
 export type UnitDeriver = (
     left: Unit,

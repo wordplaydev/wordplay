@@ -1,7 +1,7 @@
 import type LanguageCode from '@locale/LanguageCode';
 import type Locale from '@locale/Locale';
-import type Language from './Language';
-import Node from './Node';
+import type Language from '@nodes/Language';
+import Node from '@nodes/Node';
 
 export abstract class LanguageTagged extends Node {
     readonly language?: Language | undefined;

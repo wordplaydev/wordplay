@@ -15,16 +15,16 @@
         SYMBOL_SYMBOL,
         TEACH_SYMBOL,
     } from '@parser/Symbols';
-    import Background from '../components/app/Background.svelte';
-    import BigLink from '../components/app/BigLink.svelte';
-    import Writing from '../components/app/Writing.svelte';
-    import MarkupHTMLView from '../components/concepts/MarkupHTMLView.svelte';
-    import LocaleChooser from '../components/settings/LocaleChooser.svelte';
-    import { DB, Settings } from '../db/Database';
-    import { getLocaleLanguageName } from '../locale/LocaleText';
-    import { SupportedLocales } from '../locale/SupportedLocales';
-    import Characters from '../lore/BasisCharacters';
-    import { Emotion } from '../lore/Emotion';
+    import Background from '@components/app/Background.svelte';
+    import BigLink from '@components/app/BigLink.svelte';
+    import Writing from '@components/app/Writing.svelte';
+    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
+    import LocaleChooser from '@components/settings/LocaleChooser.svelte';
+    import { DB, Settings } from '@db/Database';
+    import { getLocaleLanguageName } from '@locale/LocaleText';
+    import { SupportedLocales } from '@locale/SupportedLocales';
+    import Characters from '../../lore/BasisCharacters';
+    import { Emotion } from '../../lore/Emotion';
     import Beta from './Beta.svelte';
     import Iconified from './Iconified.svelte';
     import date from './updates/date.json';

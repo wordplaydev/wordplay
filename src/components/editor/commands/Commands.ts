@@ -44,11 +44,11 @@ import Source from '@nodes/Source';
 import { TAB_SYMBOL } from '@parser/Spaces';
 import getPreferredSpaces from '@parser/getPreferredSpaces';
 import type Evaluator from '@runtime/Evaluator';
-import type Project from '../../../db/projects/Project';
-import { Sym } from '../../../nodes/Sym';
-import { moveVisualVertical } from '../caret/CaretView.svelte';
-import { copyNode, toClipboard } from './Clipboard';
-import interpret from './interpret';
+import type Project from '@db/projects/Project';
+import { Sym } from '@nodes/Sym';
+import { moveVisualVertical } from '@components/editor/caret/CaretView.svelte';
+import { copyNode, toClipboard } from '@components/editor/commands/Clipboard';
+import interpret from '@components/editor/commands/interpret';
 
 export type Command = {
     /** The iconographic text symbol to use */

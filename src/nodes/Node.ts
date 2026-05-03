@@ -11,17 +11,17 @@ import type {
 } from '@locale/NodeTexts';
 import { withoutAnnotations } from '@locale/withoutAnnotations';
 import type Spaces from '@parser/Spaces';
-import type { BasisTypeName } from '../basis/BasisConstants';
-import type Locales from '../locale/Locales';
-import type { LocaleTextAccessor, TemplateInput } from '../locale/Locales';
+import type { BasisTypeName } from '@basis/BasisConstants';
+import type Locales from '@locale/Locales';
+import type { LocaleTextAccessor, TemplateInput } from '@locale/Locales';
 import type BasisCharacter from '../lore/BasisCharacter';
-import type Context from './Context';
-import type Definition from './Definition';
-import type Markup from './Markup';
-import type Root from './Root';
-import type { SymType } from './Sym';
-import type Token from './Token';
-import type Type from './Type';
+import type Context from '@nodes/Context';
+import type Definition from '@nodes/Definition';
+import type Markup from '@nodes/Markup';
+import type Root from '@nodes/Root';
+import type { SymType } from '@nodes/Sym';
+import type Token from '@nodes/Token';
+import type Type from '@nodes/Type';
 
 /* A global ID for nodes, for helping index them */
 let NODE_ID_COUNTER = 0;

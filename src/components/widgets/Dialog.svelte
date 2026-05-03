@@ -6,11 +6,11 @@
         LocaleTextsAccessor,
     } from '@locale/Locales';
     import { tick } from 'svelte';
-    import Header from '../app/Header.svelte';
-    import MarkupHTMLView from '../concepts/MarkupHTMLView.svelte';
-    import Button from './Button.svelte';
-    import Hint from './Hint.svelte';
-    import LocalizedText from './LocalizedText.svelte';
+    import Header from '@components/app/Header.svelte';
+    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
+    import Button from '@components/widgets/Button.svelte';
+    import Hint from '@components/widgets/Hint.svelte';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
 
     interface Props {
         show?: boolean;

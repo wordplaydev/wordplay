@@ -1,11 +1,11 @@
 import type Context from '@nodes/Context';
 import type Expression from '@nodes/Expression';
-import { getFirstText } from '../../locale/LocaleText';
-import type Locales from '../../locale/Locales';
-import type { LocaleTextsAccessor } from '../../locale/Locales';
-import type OutputPropertyOptions from './OutputPropertyOptions';
-import type OutputPropertyRange from './OutputPropertyRange';
-import type OutputPropertyText from './OutputPropertyText';
+import { getFirstText } from '@locale/LocaleText';
+import type Locales from '@locale/Locales';
+import type { LocaleTextsAccessor } from '@locale/Locales';
+import type OutputPropertyOptions from '@edit/output/OutputPropertyOptions';
+import type OutputPropertyRange from '@edit/output/OutputPropertyRange';
+import type OutputPropertyText from '@edit/output/OutputPropertyText';
 
 type OutputPropertyType =
     | OutputPropertyRange

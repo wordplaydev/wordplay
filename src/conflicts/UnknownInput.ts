@@ -4,10 +4,10 @@ import type Evaluate from '@nodes/Evaluate';
 import type FunctionDefinition from '@nodes/FunctionDefinition';
 import type Input from '@nodes/Input';
 import type StructureDefinition from '@nodes/StructureDefinition';
-import type Locales from '../locale/Locales';
-import type BinaryEvaluate from '../nodes/BinaryEvaluate';
-import type StreamDefinition from '../nodes/StreamDefinition';
-import Conflict from './Conflict';
+import type Locales from '@locale/Locales';
+import type BinaryEvaluate from '@nodes/BinaryEvaluate';
+import type StreamDefinition from '@nodes/StreamDefinition';
+import Conflict from '@conflicts/Conflict';
 
 export default class UnknownInput extends Conflict {
     readonly func: FunctionDefinition | StructureDefinition | StreamDefinition;

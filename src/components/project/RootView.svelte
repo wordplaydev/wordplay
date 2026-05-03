@@ -14,8 +14,8 @@
     import { EMOJI_SYMBOL } from '@parser/Symbols';
     import { SvelteSet } from 'svelte/reactivity';
     import { writable } from 'svelte/store';
-    import FormattedLiteral from '../../nodes/FormattedLiteral';
-    import TextLiteral from '../../nodes/TextLiteral';
+    import FormattedLiteral from '@nodes/FormattedLiteral';
+    import TextLiteral from '@nodes/TextLiteral';
     import {
         setCaret,
         setHidden,
@@ -23,7 +23,7 @@
         setRoot,
         setShowLines,
         setSpaces,
-    } from './Contexts';
+    } from '@components/project/Contexts';
 
     interface Props {
         node: Node;

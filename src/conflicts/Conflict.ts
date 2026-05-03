@@ -3,8 +3,8 @@ import type LocaleText from '@locale/LocaleText';
 import type { ConflictText } from '@locale/NodeTexts';
 import type Context from '@nodes/Context';
 import Node from '@nodes/Node';
-import type Locales from '../locale/Locales';
-import type Markup from '../nodes/Markup';
+import type Locales from '@locale/Locales';
+import type Markup from '@nodes/Markup';
 
 type ConflictingNode = {
     node: Node;

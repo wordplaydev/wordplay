@@ -11,10 +11,10 @@ import NumberValue from '@values/NumberValue';
 import SingletonStreamValue from '@values/SingletonStreamValue';
 import StructureValue, { createStructure } from '@values/StructureValue';
 import type Value from '@values/Value';
-import type Locales from '../locale/Locales';
-import type StructureDefinition from '../nodes/StructureDefinition';
-import type Type from '../nodes/Type';
-import createStreamEvaluator from './createStreamEvaluator';
+import type Locales from '@locale/Locales';
+import type StructureDefinition from '@nodes/StructureDefinition';
+import type Type from '@nodes/Type';
+import createStreamEvaluator from '@input/createStreamEvaluator';
 
 function position(evaluator: Evaluator, x: number, y: number) {
     const PlaceType = evaluator.project.shares.output.Place;

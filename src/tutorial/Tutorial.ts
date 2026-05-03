@@ -2,9 +2,9 @@ import type { HowToID } from '@concepts/HowTo';
 import type InputTexts from '@locale/InputTexts';
 import type NodeTexts from '@locale/NodeTexts';
 import type OutputTexts from '@locale/OutputTexts';
-import type BasisTexts from '../locale/BasisTexts';
-import type LanguageCode from '../locale/LanguageCode';
-import type { RegionCode } from '../locale/Regions';
+import type BasisTexts from '@locale/BasisTexts';
+import type LanguageCode from '@locale/LanguageCode';
+import type { RegionCode } from '@locale/Regions';
 import type { Emotion } from '../lore/Emotion';
 
 export type Tutorial = {

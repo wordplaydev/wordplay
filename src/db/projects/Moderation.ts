@@ -1,8 +1,8 @@
 import type { User } from 'firebase/auth';
-import type Locales from '../../locale/Locales';
-import type LocaleText from '../../locale/LocaleText';
-import type { FormattedText } from '../../locale/LocaleText';
-import getClaim from '../creators/getClaim';
+import type Locales from '@locale/Locales';
+import type LocaleText from '@locale/LocaleText';
+import type { FormattedText } from '@locale/LocaleText';
+import getClaim from '@db/creators/getClaim';
 
 /** Ways the platform can respond to a content moderation flag */
 export enum Remedy {

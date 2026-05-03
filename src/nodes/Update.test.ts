@@ -3,10 +3,10 @@ import IncompatibleCellType from '@conflicts/IncompatibleCellType';
 import { testConflict } from '@conflicts/TestUtilities';
 import UnknownColumn from '@conflicts/UnknownColumn';
 import { expect, test } from 'vitest';
-import IncompatibleInput from '../conflicts/IncompatibleInput';
-import DefaultLocales from '../locale/DefaultLocales';
-import evaluateCode from '../runtime/evaluate';
-import Update from './Update';
+import IncompatibleInput from '@conflicts/IncompatibleInput';
+import DefaultLocales from '@locale/DefaultLocales';
+import evaluateCode from '@runtime/evaluate';
+import Update from '@nodes/Update';
 
 test.each([
     [

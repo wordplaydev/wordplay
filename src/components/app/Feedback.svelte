@@ -24,10 +24,10 @@
         DEFECT_SYMBOL,
         IDEA_SYMBOL,
     } from '@parser/Symbols';
-    import Link from './Link.svelte';
-    import Notice from './Notice.svelte';
-    import Spinning from './Spinning.svelte';
-    import Subheader from './Subheader.svelte';
+    import Link from '@components/app/Link.svelte';
+    import Notice from '@components/app/Notice.svelte';
+    import Spinning from '@components/app/Spinning.svelte';
+    import Subheader from '@components/app/Subheader.svelte';
 
     let mode: 'defect' | 'idea' = $state('defect');
     let title = $state('');

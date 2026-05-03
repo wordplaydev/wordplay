@@ -1,14 +1,14 @@
 import Gallery, { GallerySchemaLatestVersion } from '@db/galleries/Gallery';
 import type Locales from '@locale/Locales';
-import { moderatedFlags } from '../db/projects/Moderation';
+import { moderatedFlags } from '@db/projects/Moderation';
 import {
     ProjectSchemaLatestVersion,
     type SerializedProject,
-} from '../db/projects/ProjectSchemas';
-import type { GalleryText } from '../locale/GalleryTexts';
-import { localeToString } from '../locale/Locale';
-import { parseNames } from '../parser/parseBind';
-import { toTokens } from '../parser/toTokens';
+} from '@db/projects/ProjectSchemas';
+import type { GalleryText } from '@locale/GalleryTexts';
+import { localeToString } from '@locale/Locale';
+import { parseNames } from '@parser/parseBind';
+import { toTokens } from '@parser/toTokens';
 
 /** This mirrors the static path to examples, but also helps distinguish project IDs from example project names. */
 export const ExamplePrefix = 'example-';

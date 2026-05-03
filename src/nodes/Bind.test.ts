@@ -4,8 +4,8 @@ import { MissingShareLanguages } from '@conflicts/MissingShareLanguages';
 import { testConflict } from '@conflicts/TestUtilities';
 import UnusedBind from '@conflicts/UnusedBind';
 import { expect, test } from 'vitest';
-import evaluateCode from '../runtime/evaluate';
-import Bind from './Bind';
+import evaluateCode from '@runtime/evaluate';
+import Bind from '@nodes/Bind';
 
 test.each([
     ['a•#: 1\na', 'a•"": 1\na', Bind, IncompatibleType],

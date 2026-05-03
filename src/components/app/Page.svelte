@@ -1,5 +1,4 @@
 <script lang="ts">
-    import { goto } from '$app/navigation';
     import { page } from '$app/state';
     import Localizer from '@components/localization/Localizer.svelte';
     import {
@@ -12,10 +11,11 @@
     import { type Snippet } from 'svelte';
     import { writable } from 'svelte/store';
     import { slide } from 'svelte/transition';
-    import Color from '../../output/Color';
-    import Settings from '../settings/Settings.svelte';
-    import Emoji from './Emoji.svelte';
-    import Link from './Link.svelte';
+    import Color from '@output/Color';
+    import Settings from '@components/settings/Settings.svelte';
+    import Emoji from '@components/app/Emoji.svelte';
+    import Link from '@components/app/Link.svelte';
+    import { localeGoto } from '@util/localeGoto';
 
     interface Props {
         children: Snippet;
@@ -56,7 +56,7 @@
             event.key === 'Escape' &&
             page.route.id !== null
         ) {
-            goto('/');
+            localeGoto('/');
         }
     }
 </script>

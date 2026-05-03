@@ -1,6 +1,6 @@
 <script lang="ts">
-    import type FormattedType from '../../../nodes/FormattedType';
-    import NodeView, { type Format } from './NodeView.svelte';
+    import type FormattedType from '@nodes/FormattedType';
+    import NodeView, { type Format } from '@components/editor/nodes/NodeView.svelte';
 
     interface Props {
         node: FormattedType;

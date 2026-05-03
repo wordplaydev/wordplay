@@ -5,10 +5,10 @@
     import { getFirstText } from '@locale/LocaleText';
     import { parseNumber } from '@parser/parseExpression';
     import type Decimal from 'decimal.js';
-    import { locales, Projects } from '../../db/Database';
-    import { toTokens } from '../../parser/toTokens';
-    import { getProject, getSelectedOutput } from '../project/Contexts';
-    import Slider from '../widgets/Slider.svelte';
+    import { locales, Projects } from '@db/Database';
+    import { toTokens } from '@parser/toTokens';
+    import { getProject, getSelectedOutput } from '@components/project/Contexts';
+    import Slider from '@components/widgets/Slider.svelte';
 
     interface Props {
         property: OutputProperty;

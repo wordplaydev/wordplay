@@ -551,6 +551,12 @@
                 }
             }
 
+            /* Applied by locale-preload.js when the preferred locale is not en-US,
+               removed by +layout.svelte once the correct locale has loaded. */
+            html.locale-loading > body {
+                visibility: hidden;
+            }
+
             body {
                 background-color: var(--wordplay-background);
                 padding: 0;
@@ -699,6 +705,7 @@
                 it is disabled.</p
             >
         </noscript>
+        <script src="/scripts/locale-preload.js"></script>
         <div>%sveltekit.body%</div>
         <div id="unsupported" style="display: none; margin: 1em">
             <h1>Unsupported Browser</h1>

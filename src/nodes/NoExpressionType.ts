@@ -1,6 +1,6 @@
-import type Locales from '../locale/Locales';
-import type Expression from './Expression';
-import UnknownType from './UnknownType';
+import type Locales from '@locale/Locales';
+import type Expression from '@nodes/Expression';
+import UnknownType from '@nodes/UnknownType';
 
 export default class NoExpressionType extends UnknownType<Expression> {
     constructor(expression: Expression) {

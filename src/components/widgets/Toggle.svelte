@@ -3,8 +3,8 @@
     import { locales } from '@db/Database';
     import type LocaleText from '@locale/LocaleText';
     import { type Snippet } from 'svelte';
-    import type { ToggleText } from '../../locale/UITexts';
-    import { toShortcut, type Command } from '../editor/commands/Commands';
+    import type { ToggleText } from '@locale/UITexts';
+    import { toShortcut, type Command } from '@components/editor/commands/Commands';
 
     interface Props {
         tips: (locale: LocaleText) => ToggleText;

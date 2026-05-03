@@ -9,11 +9,11 @@
     import { auth } from '@db/firebase';
     import type { LocaleTextAccessor } from '@locale/Locales';
     import { signInWithEmailAndPassword, type User } from 'firebase/auth';
-    import TextField from '../../components/widgets/TextField.svelte';
+    import TextField from '@components/widgets/TextField.svelte';
     import {
         default as isValidEmail,
         default as validEmail,
-    } from '../../db/creators/isValidEmail';
+    } from '@db/creators/isValidEmail';
     import isValidPassword from './IsValidPassword';
 
     interface Props {

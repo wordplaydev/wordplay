@@ -1,17 +1,17 @@
 import { getBind } from '@locale/getBind';
 import { TYPE_SYMBOL } from '@parser/Symbols';
 import type Value from '@values/Value';
-import { type SupportedFace } from '../basis/Fonts';
-import toStructure from '../basis/toStructure';
-import type Locales from '../locale/Locales';
-import type Color from './Color';
-import type Place from './Place';
-import type Pose from './Pose';
-import type { DefinitePose } from './Pose';
-import type RenderContext from './RenderContext';
-import Sequence from './Sequence';
-import TextLang from './TextLang';
-import Valued from './Valued';
+import { type SupportedFace } from '@basis/Fonts';
+import toStructure from '@basis/toStructure';
+import type Locales from '@locale/Locales';
+import type Color from '@output/Color';
+import type Place from '@output/Place';
+import type Pose from '@output/Pose';
+import type { DefinitePose } from '@output/Pose';
+import type RenderContext from '@output/RenderContext';
+import Sequence from '@output/Sequence';
+import TextLang from '@output/TextLang';
+import Valued from '@output/Valued';
 
 export function createOutputType(locales: Locales) {
     return toStructure(`

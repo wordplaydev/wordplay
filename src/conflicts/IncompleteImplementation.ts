@@ -1,7 +1,7 @@
 import type LocaleText from '@locale/LocaleText';
 import type StructureDefinition from '@nodes/StructureDefinition';
-import type Locales from '../locale/Locales';
-import Conflict from './Conflict';
+import type Locales from '@locale/Locales';
+import Conflict from '@conflicts/Conflict';
 
 export class IncompleteImplementation extends Conflict {
     readonly structure: StructureDefinition;

@@ -17,24 +17,24 @@
     import Subheader from '@components/app/Subheader.svelte';
     import type { Snippet } from 'svelte';
     import { onMount } from 'svelte';
-    import { animationDuration, locales } from '../../db/Database';
-    import type Project from '../../db/projects/Project';
+    import { animationDuration, locales } from '@db/Database';
+    import type Project from '@db/projects/Project';
     import {
         Arrangement,
         type ArrangementType,
-    } from '../../db/settings/Arrangement';
+    } from '@db/settings/Arrangement';
     import Characters from '../../lore/BasisCharacters';
-    import Color from '../../output/Color';
-    import { isName } from '../../parser/Tokenizer';
-    import Button from '../widgets/Button.svelte';
-    import TextField from '../widgets/TextField.svelte';
-    import Toggle from '../widgets/Toggle.svelte';
-    import type Bounds from './Bounds';
-    import FullscreenIcon from './FullscreenIcon.svelte';
-    import type Layout from './Layout';
-    import type Tile from './Tile';
-    import { TileMode } from './Tile';
-    import TileKinds from './TileKinds';
+    import Color from '@output/Color';
+    import { isName } from '@parser/Tokenizer';
+    import Button from '@components/widgets/Button.svelte';
+    import TextField from '@components/widgets/TextField.svelte';
+    import Toggle from '@components/widgets/Toggle.svelte';
+    import type Bounds from '@components/project/Bounds';
+    import FullscreenIcon from '@components/project/FullscreenIcon.svelte';
+    import type Layout from '@components/project/Layout';
+    import type Tile from '@components/project/Tile';
+    import { TileMode } from '@components/project/Tile';
+    import TileKinds from '@components/project/TileKinds';
 
     interface Props {
         project: Project;

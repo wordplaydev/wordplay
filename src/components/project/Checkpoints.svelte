@@ -14,7 +14,7 @@
     import type Project from '@db/projects/Project';
     import { CANCEL_SYMBOL } from '@parser/Symbols';
     import { onMount } from 'svelte';
-    import { withMonoEmoji } from '../../unicode/emoji';
+    import { withMonoEmoji } from '@unicode/emoji';
 
     let {
         project,

@@ -14,30 +14,30 @@ import Fonts, {
     SupportedFontsFamiliesType,
     type FontWeight,
     type SupportedFace,
-} from '../basis/Fonts';
-import toStructure from '../basis/toStructure';
-import type Project from '../db/projects/Project';
-import type Locales from '../locale/Locales';
-import Markup from '../nodes/Markup';
-import StructureValue from '../values/StructureValue';
-import type Aura from './Aura';
-import { toAura } from './Aura';
-import type Color from './Color';
-import type Matter from './Matter';
-import { toMatter } from './Matter';
-import Output, { DefaultStyle } from './Output';
-import type Place from './Place';
-import type { DefinitePose } from './Pose';
-import Pose from './Pose';
-import type RenderContext from './RenderContext';
-import Sequence from './Sequence';
-import { CSSFallbackFaces, toNumber, type NameGenerator } from './Stage';
-import TextLang from './TextLang';
-import { getOutputInput } from './Valued';
-import getTextMetrics from './getTextMetrics';
-import { PX_PER_METER, sizeToPx } from './outputToCSS';
-import segmentWraps from './segmentWraps';
-import { getTypeStyle } from './toOutput';
+} from '@basis/Fonts';
+import toStructure from '@basis/toStructure';
+import type Project from '@db/projects/Project';
+import type Locales from '@locale/Locales';
+import Markup from '@nodes/Markup';
+import StructureValue from '@values/StructureValue';
+import type Aura from '@output/Aura';
+import { toAura } from '@output/Aura';
+import type Color from '@output/Color';
+import type Matter from '@output/Matter';
+import { toMatter } from '@output/Matter';
+import Output, { DefaultStyle } from '@output/Output';
+import type Place from '@output/Place';
+import type { DefinitePose } from '@output/Pose';
+import Pose from '@output/Pose';
+import type RenderContext from '@output/RenderContext';
+import Sequence from '@output/Sequence';
+import { CSSFallbackFaces, toNumber, type NameGenerator } from '@output/Stage';
+import TextLang from '@output/TextLang';
+import { getOutputInput } from '@output/Valued';
+import getTextMetrics from '@output/getTextMetrics';
+import { PX_PER_METER, sizeToPx } from '@output/outputToCSS';
+import segmentWraps from '@output/segmentWraps';
+import { getTypeStyle } from '@output/toOutput';
 
 export function createPhraseType(locales: Locales) {
     return toStructure(`

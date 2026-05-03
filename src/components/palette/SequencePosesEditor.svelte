@@ -11,10 +11,10 @@
     import Unit from '@nodes/Unit';
     import { createPoseLiteral } from '@output/Pose';
     import { CANCEL_SYMBOL } from '@parser/Symbols';
-    import Button from '../widgets/Button.svelte';
-    import Note from '../widgets/Note.svelte';
-    import TextField from '../widgets/TextField.svelte';
-    import PoseEditor from './PoseEditor.svelte';
+    import Button from '@components/widgets/Button.svelte';
+    import Note from '@components/widgets/Note.svelte';
+    import TextField from '@components/widgets/TextField.svelte';
+    import PoseEditor from '@components/palette/PoseEditor.svelte';
 
     interface Props {
         project: Project;

@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest';
-import { tokens } from './Tokenizer';
+import { tokens } from '@parser/Tokenizer';
 
 test.each([
     ['hello', 'hello|'],

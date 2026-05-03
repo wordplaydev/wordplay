@@ -2,7 +2,7 @@ import NodeRef from '@locale/NodeRef';
 import type Borrow from '@nodes/Borrow';
 import type Evaluator from '@runtime/Evaluator';
 import ExceptionValue from '@values/ExceptionValue';
-import type Locales from '../locale/Locales';
+import type Locales from '@locale/Locales';
 
 export default class CycleException extends ExceptionValue {
     readonly borrow: Borrow;

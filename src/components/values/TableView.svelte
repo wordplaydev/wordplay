@@ -2,11 +2,11 @@
     import { Sym } from '@nodes/Sym';
     import { TABLE_CLOSE_SYMBOL, TABLE_OPEN_SYMBOL } from '@parser/Symbols';
     import type TableValue from '@values/TableValue';
-    import { locales } from '../../db/Database';
-    import Expandable from './Expandable.svelte';
-    import RowView from './RowView.svelte';
-    import SymbolView from './SymbolView.svelte';
-    import ValueView from './ValueView.svelte';
+    import { locales } from '@db/Database';
+    import Expandable from '@components/values/Expandable.svelte';
+    import RowView from '@components/values/RowView.svelte';
+    import SymbolView from '@components/values/SymbolView.svelte';
+    import ValueView from '@components/values/ValueView.svelte';
 
     export let value: TableValue;
     export let inline = true;

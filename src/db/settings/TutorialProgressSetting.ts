@@ -1,6 +1,6 @@
-import type LanguageCode from '../../locale/LanguageCode';
-import type { RegionCode } from '../../locale/Regions';
-import Setting from './Setting';
+import type LanguageCode from '@locale/LanguageCode';
+import type { RegionCode } from '@locale/Regions';
+import Setting from '@db/settings/Setting';
 
 export type TutorialProgress = {
     language: LanguageCode;

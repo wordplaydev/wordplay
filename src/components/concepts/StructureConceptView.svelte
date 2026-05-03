@@ -4,10 +4,10 @@
     import type StructureConcept from '@concepts/StructureConcept';
     import { locales } from '@db/Database';
     import { onMount } from 'svelte';
-    import BindConceptView from './BindConceptView.svelte';
-    import CodeView from './CodeView.svelte';
-    import ConceptView from './ConceptView.svelte';
-    import Names from './NamesView.svelte';
+    import BindConceptView from '@components/concepts/BindConceptView.svelte';
+    import CodeView from '@components/concepts/CodeView.svelte';
+    import ConceptView from '@components/concepts/ConceptView.svelte';
+    import Names from '@components/concepts/NamesView.svelte';
 
     interface Props {
         concept: StructureConcept;

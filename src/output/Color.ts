@@ -2,16 +2,16 @@ import { getBind } from '@locale/getBind';
 import { TYPE_SYMBOL } from '@parser/Symbols';
 import type Value from '@values/Value';
 import Decimal from 'decimal.js';
-import toStructure from '../basis/toStructure';
-import type Project from '../db/projects/Project';
-import type Locales from '../locale/Locales';
-import Evaluate from '../nodes/Evaluate';
-import NumberLiteral from '../nodes/NumberLiteral';
-import Reference from '../nodes/Reference';
-import Unit from '../nodes/Unit';
-import StructureValue from '../values/StructureValue';
-import { toDecimal } from './Stage';
-import Valued, { getOutputInputs } from './Valued';
+import toStructure from '@basis/toStructure';
+import type Project from '@db/projects/Project';
+import type Locales from '@locale/Locales';
+import Evaluate from '@nodes/Evaluate';
+import NumberLiteral from '@nodes/NumberLiteral';
+import Reference from '@nodes/Reference';
+import Unit from '@nodes/Unit';
+import StructureValue from '@values/StructureValue';
+import { toDecimal } from '@output/Stage';
+import Valued, { getOutputInputs } from '@output/Valued';
 
 export function createColorType(locales: Locales) {
     return toStructure(`

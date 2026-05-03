@@ -1,11 +1,11 @@
-import BinaryEvaluate from './BinaryEvaluate';
-import Conditional from './Conditional';
-import type Context from './Context';
-import type ListAccess from './ListAccess';
-import type Node from './Node';
-import type PropertyReference from './PropertyReference';
-import type Reference from './Reference';
-import type SetOrMapAccess from './SetOrMapAccess';
+import BinaryEvaluate from '@nodes/BinaryEvaluate';
+import Conditional from '@nodes/Conditional';
+import type Context from '@nodes/Context';
+import type ListAccess from '@nodes/ListAccess';
+import type Node from '@nodes/Node';
+import type PropertyReference from '@nodes/PropertyReference';
+import type Reference from '@nodes/Reference';
+import type SetOrMapAccess from '@nodes/SetOrMapAccess';
 
 export default function getGuards(
     reference: Reference | PropertyReference | ListAccess | SetOrMapAccess,

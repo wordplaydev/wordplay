@@ -5,7 +5,7 @@
     import Subheader from '@components/app/Subheader.svelte';
     import Title from '@components/widgets/Title.svelte';
     import { type Class } from '@db/teachers/TeacherDatabase.svelte';
-    import MarkupHTMLView from '../../components/concepts/MarkupHTMLView.svelte';
+    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import { getTeachData } from './+layout.svelte';
     import TeachersOnly from './TeachersOnly.svelte';
 

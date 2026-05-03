@@ -9,10 +9,10 @@
     import type Context from '@nodes/Context';
     import { CONFIRM_SYMBOL, SEARCH_SYMBOL } from '@parser/Symbols';
     import { fade } from 'svelte/transition';
-    import { Projects, animationDuration, locales } from '../../db/Database';
-    import { default as MarkupHTMLView } from '../concepts/MarkupHTMLView.svelte';
-    import Speech from '../lore/Speech.svelte';
-    import type { AnnotationInfo } from './Annotations.svelte';
+    import { Projects, animationDuration, locales } from '@db/Database';
+    import { default as MarkupHTMLView } from '@components/concepts/MarkupHTMLView.svelte';
+    import Speech from '@components/lore/Speech.svelte';
+    import type { AnnotationInfo } from '@components/annotations/Annotations.svelte';
 
     interface Props {
         id: number;

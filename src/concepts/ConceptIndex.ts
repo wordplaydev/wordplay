@@ -5,29 +5,29 @@ import type Node from '@nodes/Node';
 import StructureDefinition from '@nodes/StructureDefinition';
 import type Type from '@nodes/Type';
 import type TypeSet from '@nodes/TypeSet';
-import type Project from '../db/projects/Project';
-import type Locales from '../locale/Locales';
-import BinaryEvaluate from '../nodes/BinaryEvaluate';
-import Evaluate from '../nodes/Evaluate';
-import FunctionType from '../nodes/FunctionType';
-import Reference from '../nodes/Reference';
-import StreamDefinition from '../nodes/StreamDefinition';
-import UnaryEvaluate from '../nodes/UnaryEvaluate';
-import BindConcept from './BindConcept';
-import type Concept from './Concept';
+import type Project from '@db/projects/Project';
+import type Locales from '@locale/Locales';
+import BinaryEvaluate from '@nodes/BinaryEvaluate';
+import Evaluate from '@nodes/Evaluate';
+import FunctionType from '@nodes/FunctionType';
+import Reference from '@nodes/Reference';
+import StreamDefinition from '@nodes/StreamDefinition';
+import UnaryEvaluate from '@nodes/UnaryEvaluate';
+import BindConcept from '@concepts/BindConcept';
+import type Concept from '@concepts/Concept';
 import {
     getBasisConcepts,
     getNodeConcepts,
     getOutputConcepts,
-} from './DefaultConcepts';
-import FunctionConcept from './FunctionConcept';
-import GalleryHowConcept from './GalleryHowConcept';
-import HowConcept from './HowConcept';
-import type HowTo from './HowTo';
-import NodeConcept from './NodeConcept';
-import { Purpose, type PurposeType } from './Purpose';
-import StreamConcept from './StreamConcept';
-import StructureConcept from './StructureConcept';
+} from '@concepts/DefaultConcepts';
+import FunctionConcept from '@concepts/FunctionConcept';
+import GalleryHowConcept from '@concepts/GalleryHowConcept';
+import HowConcept from '@concepts/HowConcept';
+import type HowTo from '@concepts/HowTo';
+import NodeConcept from '@concepts/NodeConcept';
+import { Purpose, type PurposeType } from '@concepts/Purpose';
+import StreamConcept from '@concepts/StreamConcept';
+import StructureConcept from '@concepts/StructureConcept';
 
 export default class ConceptIndex {
     readonly project: Project;

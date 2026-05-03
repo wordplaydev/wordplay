@@ -2,8 +2,8 @@ import type LocaleText from '@locale/LocaleText';
 import type Evaluate from '@nodes/Evaluate';
 import type FunctionDefinition from '@nodes/FunctionDefinition';
 import type StructureDefinition from '@nodes/StructureDefinition';
-import Locales from '../locale/Locales';
-import Conflict from './Conflict';
+import Locales from '@locale/Locales';
+import Conflict from '@conflicts/Conflict';
 
 export default class NotInstantiable extends Conflict {
     readonly evaluate: Evaluate;

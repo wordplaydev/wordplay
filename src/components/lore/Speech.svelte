@@ -5,12 +5,12 @@
 <script lang="ts">
     import { locales } from '@db/Database';
     import { type Snippet } from 'svelte';
-    import Concept from '../../concepts/Concept';
+    import Concept from '@concepts/Concept';
     import type BasisCharacter from '../../lore/BasisCharacter';
     import { Emotion } from '../../lore/Emotion';
-    import { withColorEmoji } from '../../unicode/emoji';
-    import ConceptLinkUI from '../concepts/ConceptLinkUI.svelte';
-    import Eyes from './Eyes.svelte';
+    import { withColorEmoji } from '@unicode/emoji';
+    import ConceptLinkUI from '@components/concepts/ConceptLinkUI.svelte';
+    import Eyes from '@components/lore/Eyes.svelte';
 
     interface Props {
         character: BasisCharacter | Concept;

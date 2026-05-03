@@ -23,22 +23,22 @@
     import { DefaultSize } from '@output/Stage';
     import type Evaluator from '@runtime/Evaluator';
     import { onDestroy, onMount, tick, untrack } from 'svelte';
-    import { animationFactor, locales } from '../../db/Database';
-    import type Output from '../../output/Output';
-    import range from '../../util/range';
+    import { animationFactor, locales } from '@db/Database';
+    import type Output from '@output/Output';
+    import range from '@util/range';
     import {
         getAnimatingNodes,
         getAnnouncer,
         getEvaluation,
         getSelectedOutput,
-    } from '../project/Contexts';
-    import GroupView from './GroupView.svelte';
+    } from '@components/project/Contexts';
+    import GroupView from '@components/output/GroupView.svelte';
     import {
         describeEnteredOutput,
         describeMovedOutput,
         describedChangedOutput,
-    } from './OutputDescriptions';
-    import PhraseView from './PhraseView.svelte';
+    } from '@components/output/OutputDescriptions';
+    import PhraseView from '@components/output/PhraseView.svelte';
 
     interface Props {
         project: Project;

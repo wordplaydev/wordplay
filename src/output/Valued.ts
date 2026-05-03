@@ -1,5 +1,5 @@
 import type Value from '@values/Value';
-import type StructureValue from '../values/StructureValue';
+import type StructureValue from '@values/StructureValue';
 
 /**
  * A base class that represents some part of Stage output.

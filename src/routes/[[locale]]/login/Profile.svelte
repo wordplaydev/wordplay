@@ -1,21 +1,21 @@
 <script lang="ts">
-    import { goto } from '$app/navigation';
     import Action from '@components/app/Action.svelte';
     import CreatorCharacterView from '@components/app/CreatorCharacterView.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import { updateProfile, type User } from 'firebase/auth';
-    import Header from '../../components/app/Header.svelte';
-    import Link from '../../components/app/Link.svelte';
-    import MarkupHTMLView from '../../components/concepts/MarkupHTMLView.svelte';
-    import ConfirmButton from '../../components/widgets/ConfirmButton.svelte';
-    import EmojiChooser from '../../components/widgets/GlyphChooser.svelte';
-    import { Creator } from '../../db/creators/CreatorDatabase';
-    import { SaveStatus, status } from '../../db/Database';
-    import { auth } from '../../db/firebase';
-    import { isModerator } from '../../db/projects/Moderation';
+    import Header from '@components/app/Header.svelte';
+    import Link from '@components/app/Link.svelte';
+    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
+    import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
+    import EmojiChooser from '@components/widgets/GlyphChooser.svelte';
+    import { Creator } from '@db/creators/CreatorDatabase';
+    import { SaveStatus, status } from '@db/Database';
+    import { auth } from '@db/firebase';
+    import { isModerator } from '@db/projects/Moderation';
     import ChangeEmail from './ChangeEmail.svelte';
     import ChangePassword from './ChangePassword.svelte';
     import DeleteAccount from './DeleteAccount.svelte';
+    import { localeGoto } from '@util/localeGoto';
 
     interface Props {
         user: User;
@@ -43,7 +43,7 @@
         // Then sign out. (Projects will be deleted locally by the project database when user updates.)
         if (auth) {
             await auth.signOut();
-            goto('/login');
+            localeGoto('/login');
         }
     }
 </script>

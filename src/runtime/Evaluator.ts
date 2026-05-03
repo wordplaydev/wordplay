@@ -7,16 +7,16 @@ import Reaction from '@nodes/Reaction';
 import Source from '@nodes/Source';
 import StructureDefinition from '@nodes/StructureDefinition';
 import type Type from '@nodes/Type';
-import Project from '../db/projects/Project';
-import ExceptionValue from '../values/ExceptionValue';
-import type StreamValue from '../values/StreamValue';
-import Value from '../values/Value';
-import ValueException from '../values/ValueException';
+import Project from '@db/projects/Project';
+import ExceptionValue from '@values/ExceptionValue';
+import type StreamValue from '@values/StreamValue';
+import Value from '@values/Value';
+import ValueException from '@values/ValueException';
 import Evaluation, {
     type DefinitionNode,
     type EvaluationNode,
-} from './Evaluation';
-import type Step from './Step';
+} from '@runtime/Evaluation';
+import type Step from '@runtime/Step';
 
 // Import this last, after everything else, to avoid cycles.
 import { EditFailure } from '@db/projects/EditFailure';
@@ -31,22 +31,22 @@ import ReadOnlyEditException from '@values/ReadOnlyEditException';
 import SingletonStreamValue from '@values/SingletonStreamValue';
 import StructureValue from '@values/StructureValue';
 import TextValue from '@values/TextValue';
-import type { Basis } from '../basis/Basis';
-import type { Database } from '../db/Database';
-import DefaultLocale from '../locale/DefaultLocale';
-import type LocaleText from '../locale/LocaleText';
-import Evaluate from '../nodes/Evaluate';
-import type { Path } from '../nodes/Root';
-import type Animator from '../output/Animator';
-import EvaluationLimitException from '../values/EvaluationLimitException';
-import ReactionStream from '../values/ReactionStream';
-import StepLimitException from '../values/StepLimitException';
-import { MAX_STREAM_LENGTH } from '../values/StreamValue';
-import TemporalStreamValue from '../values/TemporalStreamValue';
-import TypeException from '../values/TypeException';
-import Finish from './Finish';
-import Start from './Start';
-import StartFinish from './StartFinish';
+import type { Basis } from '@basis/Basis';
+import type { Database } from '@db/Database';
+import DefaultLocale from '@locale/DefaultLocale';
+import type LocaleText from '@locale/LocaleText';
+import Evaluate from '@nodes/Evaluate';
+import type { Path } from '@nodes/Root';
+import type Animator from '@output/Animator';
+import EvaluationLimitException from '@values/EvaluationLimitException';
+import ReactionStream from '@values/ReactionStream';
+import StepLimitException from '@values/StepLimitException';
+import { MAX_STREAM_LENGTH } from '@values/StreamValue';
+import TemporalStreamValue from '@values/TemporalStreamValue';
+import TypeException from '@values/TypeException';
+import Finish from '@runtime/Finish';
+import Start from '@runtime/Start';
+import StartFinish from '@runtime/StartFinish';
 
 /** Anything that wants to listen to changes in the state of this evaluator */
 export type EvaluationObserver = () => void;

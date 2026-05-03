@@ -5,7 +5,7 @@
         characterToSVG,
         unknownCharacterSVG,
         type Character,
-    } from '../../db/characters/Character';
+    } from '@db/characters/Character';
 
     let { name }: { name: CharacterName } = $props();
 

@@ -21,6 +21,22 @@
         label,
         children,
     }: Props = $props();
+
+    // Prefix internal paths with the current locale segment.
+    let href = $derived.by(() => {
+        if (external || to.startsWith('http')) return to;
+        const locale = page.params.locale;
+        if (!locale) return to;
+        return `/${locale}${to === '/' ? '' : to}`;
+    });
+
+    // A link is "active" when the current route matches the destination.
+    // With [[locale]] wrapping all pages, route IDs look like /[[locale]] or /[[locale]]/guide.
+    let isActive = $derived.by(() => {
+        const id = page.route.id ?? '';
+        if (to === '/') return id === '/[[locale]]';
+        return id.endsWith(to);
+    });
 </script>
 
 {#snippet labelOrChildren()}
@@ -29,12 +45,12 @@
         />{/if}
 {/snippet}
 
-{#if to === '/' ? page.route.id === '/' : page.route.id?.endsWith(to)}
+{#if isActive}
     {@render labelOrChildren()}
 {:else}<a
         data-sveltekit-preload-data="tap"
         title={tip ? $locales.getPlainText(tip) : undefined}
-        href={to}
+        {href}
         target={external ? '_blank' : null}
         class:nowrap
         >{@render labelOrChildren()}{#if external}<span class="external">↗</span

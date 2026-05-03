@@ -1,5 +1,5 @@
-import type { FormattedText, NameAndDoc, NameText } from './LocaleText';
-import type { ExceptionText } from './NodeTexts';
+import type { FormattedText, NameAndDoc, NameText } from '@locale/LocaleText';
+import type { ExceptionText } from '@locale/NodeTexts';
 
 export type TypeTexts = {
     /** How tall characters in a phrase, group, or stage should be */

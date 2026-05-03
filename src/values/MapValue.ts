@@ -10,10 +10,10 @@ import {
 import NoneValue from '@values/NoneValue';
 import NumberValue from '@values/NumberValue';
 import type Value from '@values/Value';
-import type { BasisTypeName } from '../basis/BasisConstants';
-import type Locales from '../locale/Locales';
-import type Expression from '../nodes/Expression';
-import SimpleValue from './SimpleValue';
+import type { BasisTypeName } from '@basis/BasisConstants';
+import type Locales from '@locale/Locales';
+import type Expression from '@nodes/Expression';
+import SimpleValue from '@values/SimpleValue';
 
 export default class MapValue extends SimpleValue {
     readonly values: [Value, Value][];

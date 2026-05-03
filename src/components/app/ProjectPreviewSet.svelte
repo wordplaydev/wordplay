@@ -1,11 +1,11 @@
 <script lang="ts">
     import type { LocaleTextAccessor } from '@locale/Locales';
     import { type Snippet } from 'svelte';
-    import { locales } from '../../db/Database';
-    import type Project from '../../db/projects/Project';
-    import Button from '../widgets/Button.svelte';
-    import ConfirmButton from '../widgets/ConfirmButton.svelte';
-    import ProjectPreview from './ProjectPreview.svelte';
+    import { locales } from '@db/Database';
+    import type Project from '@db/projects/Project';
+    import Button from '@components/widgets/Button.svelte';
+    import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
+    import ProjectPreview from '@components/app/ProjectPreview.svelte';
 
     interface Props {
         set: Project[];

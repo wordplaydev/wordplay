@@ -1,5 +1,5 @@
 import { TAB_WIDTH } from '@parser/Spaces';
-import { measureTokenSegment } from './measureTokenSegment';
+import { measureTokenSegment } from '@components/editor/highlights/measureTokenSegment';
 
 export type Rect = {
     l: number;
