@@ -8,6 +8,7 @@ const outputPath = path.join(
     process.cwd(),
     'src',
     'routes',
+    '[[locale]]',
     'updates',
     'updates.json',
 );
@@ -15,6 +16,7 @@ const datePath = path.join(
     process.cwd(),
     'src',
     'routes',
+    '[[locale]]',
     'updates',
     'date.json',
 );
