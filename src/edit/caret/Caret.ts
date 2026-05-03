@@ -1300,6 +1300,7 @@ export default class Caret {
         // No autocomplete,
         else {
             // Insert the possibly revised text.
+            const lengthBeforeInsert = newSource.getCode().getLength();
             newSource = newSource.withGraphemesAt(text, newPosition);
 
             // Did we somehow get no source? Bail.
@@ -1309,8 +1310,12 @@ export default class Caret {
             // What's the new token we added?
             const newToken = newSource.getTokenAt(originalPosition, false);
 
-            // Find the position.
-            newPosition = newPosition + new UnicodeString(text).getLength();
+            // Advance by however many graphemes were actually added. Combining characters
+            // (e.g., Hindi vowel signs) merge with the preceding grapheme rather than
+            // adding a new one, so the source length may not grow by UnicodeString(text).getLength().
+            newPosition =
+                newPosition +
+                (newSource.getCode().getLength() - lengthBeforeInsert);
 
             // Finally, if we're in blocks mode, verify that the insertion was valid.
             if (blocks) {
