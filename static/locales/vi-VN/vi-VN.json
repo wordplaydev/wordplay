@@ -4942,7 +4942,7 @@
                 "toggle": "$~hiển thị và ẩn chú thích",
                 "highlight": "$~Hiển thị đoạn mã này trong trình soạn thảo"
             },
-            "nodeDescription": "$?"
+            "nodeDescription": "$~Chúng có giá 1 đô la."
         },
         "output": {
             "label": "$~đầu ra chương trình",
@@ -5649,7 +5649,7 @@
                         "subtitle": "$~Hãy giúp chúng tôi tạo ra trò chơi chữ Wordplay"
                     },
                     "design": "$~Tài liệu tham khảo về hệ thống thiết kế dành cho người đóng góp.",
-                    "thanks": "$?"
+                    "thanks": "$~Ai đã giúp tạo ra cái này?"
                 }
             },
             "learn": {
@@ -6313,8 +6313,8 @@
                 }
             },
             "thanks": {
-                "header": "$?",
-                "intro": "$?"
+                "header": "$~Cảm ơn",
+                "intro": "$~Cảm ơn *$1* người đóng góp đã tham gia vào thiết kế, phát triển, bản địa hóa và nội dung của Wordplay! Và cảm ơn rất nhiều giáo viên và bạn trẻ đã hướng dẫn thiết kế của chúng tôi trong các nhóm thảo luận, các buổi thiết kế và trong lớp học, những người mà chúng tôi không liệt kê ở đây để bảo vệ quyền riêng tư của họ.\n\nDự án này được hỗ trợ bởi Quỹ Khoa học Quốc gia theo các giải thưởng 2318257, 2031265, 2100296 và 2122950, Đại học Washington, và những khoản đóng góp hào phóng <gifts//donate> từ những người như bạn."
             }
         },
         "edit": {

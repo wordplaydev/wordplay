@@ -3,7 +3,6 @@
     import Link from '@components/app/Link.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import Page from '@components/app/Page.svelte';
-    import { locales } from '@db/Database';
     import contributorsData from './contributors.json';
     import type { Contributor } from './types';
 
@@ -14,9 +13,7 @@
     <div class="content">
         <Header text={(l) => l.ui.page.thanks.header} />
         <MarkupHTMLView
-            markup={$locales
-                .getPlainText((l) => l.ui.page.thanks.intro)
-                .replace('$count', String(contributors.length))}
+            markup={[(l) => l.ui.page.thanks.intro, contributors.length]}
         />
         {#if contributors.length > 0}
             <div class="grid">

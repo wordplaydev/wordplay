@@ -4708,7 +4708,7 @@
                 "toggle": "$~pokaż i ukryj adnotacje",
                 "highlight": "$~pokaż ten kod w edytorze"
             },
-            "nodeDescription": "$?"
+            "nodeDescription": "$~Oni za 1 dolara."
         },
         "output": {
             "label": "$~wyjście programu",
@@ -5419,7 +5419,7 @@
                     "characters": "$~Twórz własne emotikony i symbole",
                     "updates": "$~Zobacz, co nowego w Wordplay",
                     "design": "$~Odniesienie do systemu projektowania dla współpracowników",
-                    "thanks": "$?"
+                    "thanks": "$~Kto pomógł to stworzyć?"
                 }
             },
             "learn": {
@@ -6083,8 +6083,8 @@
                 }
             },
             "thanks": {
-                "header": "$?",
-                "intro": "$?"
+                "header": "$~Dzięki",
+                "intro": "$~Dziękujemy naszym *$1* współpracownikom za wkład w projekt, rozwój, lokalizację i treść Wordplay! Dziękujemy również licznym nauczycielom i młodzieży, którzy kierowali naszym projektem w grupach fokusowych, sesjach projektowych i klasach, których nie wymieniamy tutaj ze względu na ochronę ich prywatności.\n\nTen projekt został wsparty przez National Science Foundation w ramach nagród 2318257, 2031265, 2100296 i 2122950, Uniwersytet Waszyngtoński oraz hojne <gifts//donate> od osób takich jak Ty."
             }
         },
         "edit": {

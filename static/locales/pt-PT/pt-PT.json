@@ -4942,7 +4942,7 @@
                 "toggle": "$~Mostrar e ocultar anotações",
                 "highlight": "$~Visualizar este código no editor"
             },
-            "nodeDescription": "$?"
+            "nodeDescription": "$~Custam 1 dólar."
         },
         "output": {
             "label": "$~saída do programa",
@@ -5696,7 +5696,7 @@
                         "subtitle": "$~Ajude-nos a criar jogos de palavras."
                     },
                     "design": "$~Sistema de referência de design para colaboradores",
-                    "thanks": "$?"
+                    "thanks": "$~Quem ajudou a fazê-lo?"
                 }
             },
             "learn": {
@@ -6360,8 +6360,8 @@
                 }
             },
             "thanks": {
-                "header": "$?",
-                "intro": "$?"
+                "header": "$~Obrigado",
+                "intro": "$~Agradecemos aos nossos *$1* colaboradores por contribuírem para o design, desenvolvimento, localização e conteúdo do Wordplay! E agradecemos também aos muitos professores e jovens que orientaram o nosso design em grupos de foco, sessões de design e salas de aula, cujos nomes não listamos aqui para preservar a sua privacidade.\n\nEste projeto foi financiado pela National Science Foundation sob os números de subvenção 2318257, 2031265, 2100296 e 2122950, pela Universidade de Washington e por generosas doações de pessoas como você."
             }
         },
         "edit": {

@@ -4685,7 +4685,7 @@
                 "toggle": "$~Anmerkungen ein- und ausblenden",
                 "highlight": "$~diesen Code im Editor anzeigen"
             },
-            "nodeDescription": "$?"
+            "nodeDescription": "$~Sie kosteten 1 Dollar."
         },
         "output": {
             "label": "$~Programmausgabe",
@@ -5329,7 +5329,7 @@
                     "characters": "$~Erstellen Sie benutzerdefinierte Emojis und Symbole",
                     "updates": "$~Entdecken Sie die Neuigkeiten in Wordplay.",
                     "design": "$~Designsystem-Referenz für Mitwirkende",
-                    "thanks": "$?"
+                    "thanks": "$~Wer hat bei der Erstellung dieses Projekts mitgewirkt?"
                 }
             },
             "learn": {
@@ -5993,8 +5993,8 @@
                 }
             },
             "thanks": {
-                "header": "$?",
-                "intro": "$?"
+                "header": "$~Danke",
+                "intro": "$~Vielen Dank an unsere *$1* Mitwirkenden für ihren Beitrag zu Design, Entwicklung, Lokalisierung und Inhalten von Wordplay! Ein besonderer Dank gilt auch den vielen Lehrkräften und Jugendlichen, die uns in Fokusgruppen, Design-Workshops und im Unterricht unterstützt haben. Aus Gründen des Datenschutzes verzichten wir hier auf die Nennung ihrer Namen.\n\nDieses Projekt wurde gefördert von der National Science Foundation (Fördernummern 2318257, 2031265, 2100296 und 2122950), der University of Washington sowie durch großzügige Spenden an <gifts//donate> von Menschen wie Ihnen."
             }
         },
         "edit": {

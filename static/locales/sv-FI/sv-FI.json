@@ -4703,7 +4703,7 @@
                 "toggle": "$~visa och dölj anteckningar",
                 "highlight": "$~visa den här koden i editorn"
             },
-            "nodeDescription": "$?"
+            "nodeDescription": "$~De 1 dollar."
         },
         "output": {
             "label": "$~programutgång",
@@ -5414,7 +5414,7 @@
                     "characters": "$~Skapa anpassade emojis och symboler",
                     "updates": "$~Se vad som är nytt i Wordplay",
                     "design": "$~Referens för designsystem för bidragsgivare",
-                    "thanks": "$?"
+                    "thanks": "$~Vem hjälpte till att göra detta?"
                 }
             },
             "learn": {
@@ -6078,8 +6078,8 @@
                 }
             },
             "thanks": {
-                "header": "$?",
-                "intro": "$?"
+                "header": "$~Tack",
+                "intro": "$~Tack till våra *$1* bidragsgivare för att de bidragit till Wordplays design, utveckling, lokalisering och innehåll! Och tack till de många lärare och ungdomar som har väglett vår design i fokusgrupper, designsessioner och klassrum, som vi inte listar här för att skydda deras integritet.\n\nDetta projekt har stöttats av National Science Foundation under utmärkelserna 2318257, 2031265, 2100296 och 2122950, University of Washington och generösa <gifts//donate> från människor som du."
             }
         },
         "edit": {

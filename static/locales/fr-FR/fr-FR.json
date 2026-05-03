@@ -4686,7 +4686,7 @@
                 "toggle": "$~afficher et masquer les annotations",
                 "highlight": "$~afficher ce code dans l'éditeur"
             },
-            "nodeDescription": "$?"
+            "nodeDescription": "$~Ils ont 1 $."
         },
         "output": {
             "label": "$~sortie du programme",
@@ -5330,7 +5330,7 @@
                     "characters": "$~Créez des émojis et des symboles personnalisés",
                     "updates": "$~Découvrez les nouveautés de Wordplay",
                     "design": "$~Référence du système de conception pour les contributeurs",
-                    "thanks": "$?"
+                    "thanks": "$~Qui a contribué à sa réalisation ?"
                 }
             },
             "learn": {
@@ -5994,8 +5994,8 @@
                 }
             },
             "thanks": {
-                "header": "$?",
-                "intro": "$?"
+                "header": "$~Merci",
+                "intro": "$~Merci à nos *$1* contributeurs pour leur contribution à la conception, au développement, à la localisation et au contenu de Wordplay ! Merci également aux nombreux enseignants et jeunes qui ont guidé notre conception lors de groupes de discussion, d’ateliers de conception et en classe, et dont nous ne mentionnons pas les noms ici afin de préserver leur anonymat.\n\nCe projet a bénéficié du soutien de la National Science Foundation (subventions n° 2318257, 2031265, 2100296 et 2122950), de l’Université de Washington et de généreux dons (via <gifts//donate>) de personnes comme vous."
             }
         },
         "edit": {

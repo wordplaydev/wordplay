@@ -4703,7 +4703,7 @@
                 "toggle": "$~açıklamaları göster ve gizle",
                 "highlight": "$~bu kodu editörde göster"
             },
-            "nodeDescription": "$?"
+            "nodeDescription": "$~Onlar 1 dolar."
         },
         "output": {
             "label": "$~program çıktısı",
@@ -5410,7 +5410,7 @@
                     "characters": "$~Özel emojiler ve semboller yaratın",
                     "updates": "$~Wordplay'deki yeniliklere göz atın.",
                     "design": "$~Katkıda bulunanlar için tasarım sistemi referansı",
-                    "thanks": "$?"
+                    "thanks": "$~Bunu yapmaya kimler yardımcı oldu?"
                 }
             },
             "learn": {
@@ -6074,8 +6074,8 @@
                 }
             },
             "thanks": {
-                "header": "$?",
-                "intro": "$?"
+                "header": "$~Teşekkürler",
+                "intro": "$~Wordplay'in tasarımına, geliştirilmesine, yerelleştirilmesine ve içeriğine katkıda bulunan *$1* sayıda katılımcımıza teşekkür ederiz! Ayrıca, gizliliklerini korumak amacıyla burada isimlerini vermediğimiz, odak gruplarında, tasarım oturumlarında ve sınıflarda tasarımımıza rehberlik eden birçok öğretmen ve gence de teşekkür ederiz.\n\nBu proje, Ulusal Bilim Vakfı'nın 2318257, 2031265, 2100296 ve 2122950 numaralı ödülleri, Washington Üniversitesi ve sizin gibi kişilerin cömert bağışları (<gifts//donate>) ile desteklenmiştir."
             }
         },
         "edit": {
