@@ -13,6 +13,8 @@ type PageText = {
     link: {
         /** [plain] What content is on the about page */
         about: string;
+        /** [plain] What content is on the thanks page */
+        thanks: string;
         /** [plain] What content is on the learn page */
         learn: string;
         /** [plain] What content is on the teach page */

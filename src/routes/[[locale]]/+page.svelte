@@ -238,6 +238,17 @@
         <Action kind="meta">
             <BigLink
                 smaller
+                to="/thanks"
+                subtitle={(l) => l.ui.page.landing.link.thanks}
+                ><Iconified
+                    icon="🙏"
+                    text={(l) => l.ui.page.thanks.header}
+                /></BigLink
+            >
+        </Action>
+        <Action kind="meta">
+            <BigLink
+                smaller
                 to="/rights"
                 subtitle={(l) => l.ui.page.landing.link.rights}
                 ><Iconified

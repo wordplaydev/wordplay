@@ -24,6 +24,7 @@ import type RightsPageText from '../routes/[[locale]]/rights/PageText';
 import type TeachPageText from '../routes/[[locale]]/teach/PageText';
 import type ClassPageText from '../routes/[[locale]]/teach/class/[classid]/PageText';
 import type NewClassPageText from '../routes/[[locale]]/teach/class/new/PageText';
+import type ThanksPageText from '../routes/[[locale]]/thanks/PageText';
 import type UpdatesPageText from '../routes/[[locale]]/updates/PageText';
 import type EditTexts from '@locale/EditTexts';
 
@@ -1025,6 +1026,8 @@ type UITexts = {
         donate: DonatePageText;
         /** Design system page text */
         design: DesignPageText;
+        /** Thanks/contributors page text */
+        thanks: ThanksPageText;
     };
     /** Descriptions of cursor positions and code transformations */
     edit: EditTexts;

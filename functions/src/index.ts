@@ -17,6 +17,10 @@ import {
     type EmailExistsInputs,
     type EmailExistsOutput,
 } from 'shared-types';
+import {
+    createContributorsPR,
+    fetchContributorsData,
+} from './contributors.js';
 
 initializeApp();
 const db = getFirestore();
@@ -347,6 +351,15 @@ export const createClass = onCall<
 });
 
 const emailPassword = defineString('SMTP_PASSWORD');
+/** Fetches all GitHub contributors and opens a PR with the updated JSON every Friday at 2 am PT. */
+export const refreshContributors = onSchedule(
+    { schedule: '0 2 * * 5', timeZone: 'America/Los_Angeles', timeoutSeconds: 540, memory: '512MiB' },
+    async () => {
+        const token = process.env.GITHUB_TOKEN ?? '';
+        const data = await fetchContributorsData(token);
+        await createContributorsPR(token, data);
+    },
+);
 
 /** When new feedback is created, post it to the GitHub repository. */
 export const postFeedback = onDocumentCreated(

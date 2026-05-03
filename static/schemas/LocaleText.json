@@ -12809,6 +12809,10 @@
                           "description": "[plain] What content is on the teach page",
                           "type": "string"
                         },
+                        "thanks": {
+                          "description": "[plain] What content is on the thanks page",
+                          "type": "string"
+                        },
                         "updates": {
                           "description": "[plain] What content is on the updates page",
                           "type": "string"
@@ -12816,6 +12820,7 @@
                       },
                       "required": [
                         "about",
+                        "thanks",
                         "learn",
                         "teach",
                         "guide",
@@ -13724,6 +13729,25 @@
                   ],
                   "type": "object"
                 },
+                "thanks": {
+                  "additionalProperties": false,
+                  "description": "Thanks/contributors page text",
+                  "properties": {
+                    "header": {
+                      "description": "[plain] The page heading",
+                      "type": "string"
+                    },
+                    "intro": {
+                      "description": "[formatted] Introductory paragraph (use $count as a placeholder for the contributor count)",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "header",
+                    "intro"
+                  ],
+                  "type": "object"
+                },
                 "unknown": {
                   "additionalProperties": false,
                   "description": "The unknown route page",
@@ -13834,7 +13858,8 @@
                 "join",
                 "rights",
                 "donate",
-                "design"
+                "design",
+                "thanks"
               ],
               "type": "object"
             },
