@@ -5191,7 +5191,11 @@
                     "video": "$~sử dụng máy ảnh",
                     "gallery": "$~Được tạo bởi các đồng nghiệp giám đốc Wordplay của bạn"
                 },
-                "related": "$~Không phải thứ bạn đang tìm kiếm?"
+                "related": "$~Không phải thứ bạn đang tìm kiếm?",
+                "howToGalleryButton": {
+                    "label": "$~Hãy xem hướng dẫn chi tiết ở phần tiếp theo.",
+                    "tip": "$~Hãy xem hướng dẫn chi tiết ở phần tiếp theo."
+                }
             }
         },
         "dialog": {

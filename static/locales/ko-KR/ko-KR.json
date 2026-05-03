@@ -4817,7 +4817,11 @@
                     "video": "$~카메라를 사용하다",
                     "gallery": "$~Wordplay의 다른 디렉터들이 제작했습니다."
                 },
-                "related": "$~원하시는 내용이 아닌가요?"
+                "related": "$~원하시는 내용이 아닌가요?",
+                "howToGalleryButton": {
+                    "label": "$~해당 공간의 사용법을 확인하세요",
+                    "tip": "$~해당 공간의 사용법을 확인하세요"
+                }
             },
             "mode": {
                 "browse": {
