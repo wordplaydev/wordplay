@@ -299,11 +299,13 @@
     let notPermittedAreas = $state<
         SvelteMap<string, [number, number, number, number]>
     >(new SvelteMap());
+
+    $inspect(howTos).with(console.log);
 </script>
 
 {#if gallery === null}
     <Loading />
-{:else if !galleryID && gallery === undefined}
+{:else if (!galleryID && gallery === undefined) || (galleryID && gallery === undefined && howTos.length === 0)}
     <Writing>
         <Notice text={(l) => l.ui.howto.error.unknown} />
     </Writing>
