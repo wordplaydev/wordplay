@@ -3,7 +3,7 @@ import { expect, test } from '@playwright/test';
 test('create project and check for command buttons and their functionalities ', async ({
     page,
 }) => {
-    await page.goto('/projects');
+    await page.goto('/en-US/projects');
 
     // Create a new blank project
     await page.getByTestId('addproject').click();

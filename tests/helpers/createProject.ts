@@ -2,7 +2,7 @@ import type { Page } from '@playwright/test';
 
 export async function createTestProject(page: Page): Promise<string> {
     // Create a new project
-    await page.goto('/projects');
+    await page.goto('/en-US/projects');
     await page.getByTestId('addproject').click();
 
     // Wait for the page to redirect to the new project

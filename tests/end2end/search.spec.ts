@@ -3,7 +3,7 @@ import { expect, test } from '@playwright/test';
 test.describe('Project Search Feature', () => {
     test.beforeEach(async ({ page }) => {
         // Navigate to projects page
-        await page.goto('/projects');
+        await page.goto('/en-US/projects');
     });
 
     test('should display search bar', async ({ page }) => {
@@ -121,8 +121,8 @@ test.describe('Project Search Feature', () => {
         await page.waitForTimeout(500);
 
         // Navigate away and back
-        await page.goto('/');
-        await page.goto('/projects');
+        await page.goto('/en-US/');
+        await page.goto('/en-US/projects');
 
         // Search term should be preserved
         await expect(searchInput).toHaveValue('test');

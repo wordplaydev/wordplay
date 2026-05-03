@@ -2,7 +2,7 @@ import type { Page } from '@playwright/test';
 
 export async function createTestCharacter(page: Page): Promise<string> {
     // Create a new character 
-    await page.goto('/characters');
+    await page.goto('/en-US/characters');
     await page.getByTestId('newcharacter').click();
 
     // Wait for the URL to redirect to the new character page

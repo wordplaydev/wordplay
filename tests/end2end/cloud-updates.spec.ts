@@ -88,7 +88,7 @@ test('changing a character name updates its project references', async ({
     await updateProjectSource(projectId, sourceCodeWithCharacterRef);
 
     // Now, rename the character
-    await page.goto(`/character/${characterId}`);
+    await page.goto(`/en-US/character/${characterId}`);
     const newCharacterName = 'New';
     await page.locator('#character-name').fill(newCharacterName);
 

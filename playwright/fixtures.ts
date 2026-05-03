@@ -44,7 +44,7 @@ export const test = baseTest.extend<
             };
 
             // Try logging in first — on a retry the user may already exist in the emulator.
-            await page.goto('/login');
+            await page.goto('/en-US/login');
             await page.locator('#login-username-field').fill(account.username);
             await page.locator('#login-password-field').fill(account.password);
             await page.getByTestId('login-button').click();
@@ -56,7 +56,7 @@ export const test = baseTest.extend<
 
             if (!loggedIn) {
                 // User doesn't exist yet — create the account.
-                await page.goto('/join');
+                await page.goto('/en-US/join');
                 await page.getByTestId('username-field').fill(account.username);
                 await page.getByTestId('password-field').fill(account.password);
                 await page.getByTestId('password-repeat-field').fill(account.password);

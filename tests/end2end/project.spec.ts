@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test';
 
 test('create project and visit its tiles ', async ({ page }) => {
-    await page.goto('/projects');
+    await page.goto('/en-US/projects');
 
     // Create a new blank project
     await page.getByTestId('addproject').click();
