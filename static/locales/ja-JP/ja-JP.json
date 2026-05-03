@@ -3540,7 +3540,7 @@
                 "$~@FunctionDefinition はこちら、@Camera については説明できます!",
                 "$~したがって、@Camera は、あなたの世界から @Color の @List を提供します。そのリストは基本的に画像を表しますが、それをどうするかはあなた次第です。",
                 "$~画像をたくさんの @Phrase で表現してみると、かなりかっこよく見えるかもしれません。これをコピーしてみてください...",
-                "$~\\colors: カメラ(32px 24px 33ms)\n\nステージ(\ncolors.combine(\n[] \nƒ(phrases•[フレーズ] row•[色] y•#) \nphrases.append(\nrow.translate(\nƒ(色•色 x•#)\nPhrase('o' place: Place((x - 1) × 0.5m y × -0.5m) color: color 期間: 0s\n)\n)\n)\n)\n)\\",
+                "$~\\colors: カメラ(32px 24px 33ms)\n\nステージ(\ncolors.combine(\n[] \nƒ(phrases•[フレーズ] row•[色] y•#) \nphrases.append(\nrow.translate(\nƒ(いろ•色 x•#)\nPhrase('o' place: Place((x - 1) × 0.5m y × -0.5m) 色: いろ 期間: 0s\n)\n)\n)\n)\n)\\",
                 "$~しかし、色を分析して、ライトがオンかオフか、または特定の色が一般的かどうかを判断することもできます。これにより、観客は表示される色によってパフォーマンスに影響を与えることができます。"
             ],
             "names": [

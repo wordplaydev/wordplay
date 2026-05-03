@@ -17,6 +17,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 - We improved the position of the say feedback on stage so it wouldn't overlap with a chat text box.
 - We fixed typing for languages that have combining character inputs, like Hindi vowels (#1079).
+- We fixed several problems with the Japanese locale (#1048).
 
 ## 0.17.7 - 2026-04-25
 

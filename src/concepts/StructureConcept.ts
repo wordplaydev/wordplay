@@ -5,6 +5,7 @@ import type StructureDefinition from '@nodes/StructureDefinition';
 import StructureType from '@nodes/StructureType';
 import type Type from '@nodes/Type';
 import type Locales from '../locale/Locales';
+import { withoutAnnotations } from '../locale/withoutAnnotations';
 import { Emotion } from '../lore/Emotion';
 import type Markup from '../nodes/Markup';
 import type { CharacterName } from '../tutorial/Tutorial';
@@ -178,8 +179,12 @@ export default class StructureConcept extends Concept {
             for (const [key, text] of Object.entries(locale.output))
                 if (
                     'names' in text &&
-                    ((typeof text.names === 'string' && text.names === name) ||
-                        text.names.includes(name))
+                    ((typeof text.names === 'string' &&
+                        withoutAnnotations(text.names) === name) ||
+                        (Array.isArray(text.names) &&
+                            text.names.some(
+                                (n) => withoutAnnotations(n) === name,
+                            )))
                 )
                     return key as CharacterName;
             for (const [key, text] of Object.entries(locale.basis))

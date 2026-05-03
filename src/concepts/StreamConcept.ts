@@ -3,6 +3,7 @@ import type Node from '@nodes/Node';
 import Reference from '@nodes/Reference';
 import { COMMA_SYMBOL } from '@parser/Symbols';
 import type Locales from '../locale/Locales';
+import { withoutAnnotations } from '../locale/withoutAnnotations';
 import { Emotion } from '../lore/Emotion';
 import Evaluate from '../nodes/Evaluate';
 import ExpressionPlaceholder from '../nodes/ExpressionPlaceholder';
@@ -102,8 +103,12 @@ export default class StreamConcept extends Concept {
             for (const [key, text] of Object.entries(locale.input))
                 if (
                     'names' in text &&
-                    ((typeof text.names === 'string' && text.names === name) ||
-                        text.names.includes(name))
+                    ((typeof text.names === 'string' &&
+                        withoutAnnotations(text.names) === name) ||
+                        (Array.isArray(text.names) &&
+                            text.names.some(
+                                (n) => withoutAnnotations(n) === name,
+                            )))
                 )
                     return key as CharacterName;
         }

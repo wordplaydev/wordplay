@@ -77,17 +77,17 @@ export default class Context {
                 this.visit(node);
                 // Compute the type.
                 cache = node.computeType(this);
+                // Cache before unvisiting so the visited check catches re-entry during getTypeSet
+                // (if getTypeSet calls getType on the same node, it should detect the cycle).
+                if (
+                    !cache
+                        .getTypeSet(this)
+                        .list()
+                        .some((t) => t instanceof UnknownType)
+                )
+                    this.types.set(node, cache);
                 this.unvisit();
             }
-            // Cache the type in this context for later, unless it contains a cycle,
-            // in which case the type will be lazily computed elsewhere.
-            if (
-                !cache
-                    .getTypeSet(this)
-                    .list()
-                    .some((t) => t instanceof UnknownType)
-            )
-                this.types.set(node, cache);
         }
         return cache;
     }
