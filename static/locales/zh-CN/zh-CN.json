@@ -4779,7 +4779,11 @@
                     "video": "$~使用相机",
                     "gallery": "$~由您的 Wordplay 同行导演创作"
                 },
-                "related": "$~这不是您要找的吗？"
+                "related": "$~这不是您要找的吗？",
+                "howToGalleryButton": {
+                    "label": "$~请查看空间中的操作方法",
+                    "tip": "$~请查看空间中的操作方法"
+                }
             },
             "mode": {
                 "browse": {

@@ -4816,7 +4816,11 @@
                     "video": "$~eine Kamera benutzen",
                     "gallery": "$~erstellt von euren Wordplay-Regisseurkollegen"
                 },
-                "related": "$~Nicht das, wonach Sie suchen?"
+                "related": "$~Nicht das, wonach Sie suchen?",
+                "howToGalleryButton": {
+                    "label": "$~Die Anleitung dazu finden Sie im entsprechenden Abschnitt.",
+                    "tip": "$~Die Anleitung dazu finden Sie im entsprechenden Abschnitt."
+                }
             },
             "mode": {
                 "browse": {

@@ -82,6 +82,7 @@
     import NodeConceptView from '@components/concepts/NodeConceptView.svelte';
     import StreamConceptView from '@components/concepts/StreamConceptView.svelte';
     import StructureConceptView from '@components/concepts/StructureConceptView.svelte';
+    import HowToConceptView from './HowToConceptView.svelte';
 
     interface Props {
         project: Project;
@@ -436,6 +437,8 @@
                     <NodeConceptView concept={currentConcept} />
                 {:else if currentConcept instanceof HowConcept}
                     <HowConceptView concept={currentConcept} />
+                {:else if currentConcept instanceof GalleryHowConcept}
+                    <HowToConceptView concept={currentConcept} />
                 {:else}
                     <CodeView
                         node={currentConcept.getRepresentation($locales)}
