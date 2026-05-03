@@ -1,8 +1,8 @@
 <script lang="ts">
     import Header from '@components/app/Header.svelte';
     import Link from '@components/app/Link.svelte';
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import Page from '@components/app/Page.svelte';
+    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import contributorsData from './contributors.json';
     import type { Contributor } from './types';
 
@@ -86,6 +86,5 @@
 
     .login {
         font-size: calc(var(--wordplay-font-size) - 2pt);
-        opacity: 0.7;
     }
 </style>
