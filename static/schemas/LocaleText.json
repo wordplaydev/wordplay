@@ -10443,6 +10443,10 @@
                       ],
                       "type": "object"
                     },
+                    "howToGalleryButton": {
+                      "$ref": "#/definitions/ButtonText",
+                      "description": "Button text to go to the how-to in the space"
+                    },
                     "related": {
                       "description": "[plain] The subheader for related how to's",
                       "type": "string"
@@ -10450,7 +10454,8 @@
                   },
                   "required": [
                     "category",
-                    "related"
+                    "related",
+                    "howToGalleryButton"
                   ],
                   "type": "object"
                 },

@@ -83,6 +83,38 @@
         TYPE_SYMBOL,
     } from '@parser/Symbols';
     import { onDestroy, tick } from 'svelte';
+    import {
+        Galleries,
+        HowTos,
+        Locales,
+        Projects,
+        blocks,
+        locales,
+    } from '@db/Database';
+    import type Project from '@db/projects/Project';
+    import ConceptLink from '@nodes/ConceptLink';
+    import TutorialHighlight from '@components/app/TutorialHighlight.svelte';
+    import {
+        getConceptIndex,
+        getConceptPath,
+        getDragged,
+        type ConceptPath,
+    } from '@components/project/Contexts';
+    import getScrollParent from '@components/util/getScrollParent';
+    import Button from '@components/widgets/Button.svelte';
+    import Note from '@components/widgets/Note.svelte';
+    import TextField from '@components/widgets/TextField.svelte';
+    import CodeView from '@components/concepts/CodeView.svelte';
+    import ConceptGroupView from '@components/concepts/ConceptGroupView.svelte';
+    import ConceptLinkUI from '@components/concepts/ConceptLinkUI.svelte';
+    import ConceptsView from '@components/concepts/ConceptsView.svelte';
+    import ConceptView from '@components/concepts/ConceptView.svelte';
+    import FunctionConceptView from '@components/concepts/FunctionConceptView.svelte';
+    import HowConceptView from '@components/concepts/HowConceptView.svelte';
+    import NodeConceptView from '@components/concepts/NodeConceptView.svelte';
+    import StreamConceptView from '@components/concepts/StreamConceptView.svelte';
+    import StructureConceptView from '@components/concepts/StructureConceptView.svelte';
+    import HowToConceptView from './HowToConceptView.svelte';
 
     interface Props {
         project: Project;
@@ -439,6 +471,8 @@
                     <NodeConceptView concept={currentConcept} />
                 {:else if currentConcept instanceof HowConcept}
                     <HowConceptView concept={currentConcept} />
+                {:else if currentConcept instanceof GalleryHowConcept}
+                    <HowToConceptView concept={currentConcept} />
                 {:else}
                     <CodeView
                         node={currentConcept.getRepresentation($locales)}
