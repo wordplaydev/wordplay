@@ -351,7 +351,7 @@ export const createClass = onCall<
 });
 
 const emailPassword = defineString('SMTP_PASSWORD');
-const githubToken = defineString('GITHUB_TOKEN');
+const githubToken = defineString('GITHUB_TOKEN', { default: '' });
 
 /** Fetches all GitHub contributors and opens a PR with the updated JSON every Friday at 2 am PT. */
 export const refreshContributors = onSchedule(
