@@ -207,7 +207,10 @@ export function createRectangleOutlineOf(
     } L ${lm - OutlinePadding} ${bm + OutlinePadding} Z`;
 }
 
-function nodeToRows(
+/** Compute the per-row rects of a node's content. Exported so callers can cache
+ * the result and derive both outline and underline paths from the same rows
+ * without re-querying the DOM twice. */
+export function getRowsOf(
     nodeView: HTMLElement,
     horizontal: boolean,
     rtl: boolean,
@@ -228,6 +231,7 @@ function nodeToRows(
 
     return rectsToRows(rects, horizontal, rtl);
 }
+
 
 export function rectsToRows(
     rects: Rect[],
@@ -268,16 +272,14 @@ export function rectsToRows(
     });
 }
 
-export function getUnderlineOf(
+/** Derive an underline path from pre-computed rows, applying a vertical offset
+ * non-destructively so callers can reuse the same row array. */
+export function underlineFromRows(
+    rows: Rect[],
     nodeView: HTMLElement,
     horizontal: boolean,
-    rtl: boolean,
-    blocks: boolean,
     offset = 0,
-) {
-    const rows = nodeToRows(nodeView, horizontal, rtl, blocks);
-
-    // If the rows are empty, draw an arrow where the element is
+): Outline {
     if (rows.length === 0) {
         const radius = 10;
         const rect = getViewRect(getEditorOffset(nodeView), nodeView);
@@ -291,28 +293,45 @@ export function getUnderlineOf(
             maxy: rect.b + radius,
         };
     }
-    // Generate a path from the bottom edge (horizontal) or left edge (vertical) of each line's rectangle.
-    // Each line starts with a move to, and then a single line to to the edge of the rectangle.
-    else {
-        rows.forEach((row) => {
-            row.t += offset;
-            row.b += offset;
-        });
 
-        return {
-            path: horizontal
-                ? rows
-                      .map((row) => `M ${row.l} ${row.b} L ${row.r} ${row.b}`)
-                      .join(' ')
-                : rows
-                      .map((row) => `M ${row.l} ${row.t} L ${row.l} ${row.b}`)
-                      .join(' '),
-            minx: Math.min(...rows.map((row) => row.l)),
-            miny: Math.min(...rows.map((row) => row.t)),
-            maxx: Math.max(...rows.map((row) => row.r)),
-            maxy: Math.max(...rows.map((row) => row.b)),
-        };
+    const path = horizontal
+        ? rows
+              .map((row) => `M ${row.l} ${row.b + offset} L ${row.r} ${row.b + offset}`)
+              .join(' ')
+        : rows
+              .map(
+                  (row) =>
+                      `M ${row.l} ${row.t + offset} L ${row.l} ${row.b + offset}`,
+              )
+              .join(' ');
+    let minx = Infinity,
+        miny = Infinity,
+        maxx = -Infinity,
+        maxy = -Infinity;
+    for (const row of rows) {
+        if (row.l < minx) minx = row.l;
+        if (row.r > maxx) maxx = row.r;
+        const t = row.t + offset;
+        const b = row.b + offset;
+        if (t < miny) miny = t;
+        if (b > maxy) maxy = b;
     }
+    return { path, minx, miny, maxx, maxy };
+}
+
+export function getUnderlineOf(
+    nodeView: HTMLElement,
+    horizontal: boolean,
+    rtl: boolean,
+    blocks: boolean,
+    offset = 0,
+) {
+    return underlineFromRows(
+        getRowsOf(nodeView, horizontal, rtl, blocks),
+        nodeView,
+        horizontal,
+        offset,
+    );
 }
 
 export default function getOutlineOf(
@@ -321,7 +340,7 @@ export default function getOutlineOf(
     rtl: boolean,
     blocks: boolean,
 ): Outline {
-    const lines = nodeToRows(nodeView, horizontal, rtl, blocks);
+    const lines = getRowsOf(nodeView, horizontal, rtl, blocks);
 
     return getOutlineOfRows(lines);
 }

@@ -23,12 +23,13 @@ import TypePlaceholder from '@nodes/TypePlaceholder';
 import type Project from '@db/projects/Project';
 import type Evaluator from '@runtime/Evaluator';
 import ExceptionValue from '@values/ExceptionValue';
-import getOutlineOf, {
+import {
     getOutlineOfRows,
+    getRowsOf,
     getSpaceRects,
     getTokenRects,
-    getUnderlineOf,
     rectsToRows,
+    underlineFromRows,
     type Outline,
     type Rect,
     type SpaceLineClip,
@@ -447,9 +448,30 @@ export function updateOutlines(
     rtl: boolean,
     blocks: boolean,
     getNodeView: (node: Node) => HTMLElement | undefined,
+    /** Optional cross-call cache of node-view → measured rows. Caller is
+     * responsible for invalidating on layout-affecting changes (source/blocks/
+     * zoom toggles, window resize). When provided, lets caret moves that
+     * change which highlight is active reuse measurements for the highlights
+     * that didn't change (e.g. existing conflict outlines). */
+    rowsCache?: WeakMap<HTMLElement, Rect[]>,
 ): HighlightSpec[] {
     const outlines: HighlightSpec[] = [];
     const nodeViews = new Map<HighlightSpec, HTMLElement>();
+    // Cache of rows per view for THIS call, so getRowsOf is invoked once per
+    // node-view even though we derive both an outline and an underline from it.
+    const callRows = new Map<HTMLElement, Rect[]>();
+    function getRowsForView(view: HTMLElement): Rect[] {
+        let rows = callRows.get(view);
+        if (rows !== undefined) return rows;
+        rows = rowsCache?.get(view);
+        if (rows === undefined) {
+            rows = getRowsOf(view, horizontal, rtl, blocks);
+            rowsCache?.set(view, rows);
+        }
+        callRows.set(view, rows);
+        return rows;
+    }
+
     // Convert all of the highlighted views into outlines of the nodes.
     for (const [node, types] of highlights.entries()) {
         const nodeView = getNodeView(node);
@@ -461,38 +483,29 @@ export function updateOutlines(
                     const fieldView = nodeView.querySelector(
                         `[data-field="${fieldName}"]`,
                     );
-                    if (fieldView) {
+                    if (fieldView instanceof HTMLElement) {
+                        const rows = getRowsForView(fieldView);
                         const emptyOutline = {
                             types: types,
-                            outline: getOutlineOf(
-                                fieldView as HTMLElement,
+                            outline: getOutlineOfRows(rows),
+                            underline: underlineFromRows(
+                                rows,
+                                fieldView,
                                 horizontal,
-                                rtl,
-                                blocks,
-                            ),
-                            underline: getUnderlineOf(
-                                fieldView as HTMLElement,
-                                horizontal,
-                                rtl,
-                                blocks,
                             ),
                         };
                         outlines.push(emptyOutline);
-                        nodeViews.set(emptyOutline, fieldView as HTMLElement);
+                        nodeViews.set(emptyOutline, fieldView);
                     }
                 }
             }
             // No empty highlight? Just highlight the node.
             else {
+                const rows = getRowsForView(nodeView);
                 const outline = {
                     types: types,
-                    outline: getOutlineOf(nodeView, horizontal, rtl, blocks),
-                    underline: getUnderlineOf(
-                        nodeView,
-                        horizontal,
-                        rtl,
-                        blocks,
-                    ),
+                    outline: getOutlineOfRows(rows),
+                    underline: underlineFromRows(rows, nodeView, horizontal),
                 };
                 outlines.push(outline);
                 nodeViews.set(outline, nodeView);
@@ -545,16 +558,17 @@ export function updateOutlines(
 
         // If the offset is more than zero, update the underline positioning.
         if (offset !== 0) {
-            const index = outlines.indexOf(outline);
             const view = nodeViews.get(outline);
-            if (index >= 0 && view)
-                outlines[index].underline = getUnderlineOf(
+            if (view) {
+                // Reuse the cached rows; just re-derive the path with offset
+                // applied. No DOM measurements.
+                outline.underline = underlineFromRows(
+                    getRowsForView(view),
                     view,
                     horizontal,
-                    rtl,
-                    blocks,
                     offset,
                 );
+            }
         }
     }
 

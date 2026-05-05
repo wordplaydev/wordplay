@@ -86,7 +86,11 @@
         getRangeOutline,
         updateOutlines,
     } from '@components/editor/highlights/Highlights';
-    import { type Outline, OutlinePadding } from '@components/editor/highlights/outline';
+    import {
+        type Outline,
+        OutlinePadding,
+        type Rect,
+    } from '@components/editor/highlights/outline';
     import MenuTrigger from '@components/editor/menu/MenuTrigger.svelte';
     import {
         getBlockInsertionPoint,
@@ -1519,6 +1523,22 @@
         if (!current.equals(newHighlights)) highlights.set(newHighlights);
     });
 
+    // Cache of measured per-row Rects keyed by node-view. updateOutlines
+    // populates and reads it so a highlight refresh that adds/removes one
+    // entry doesn't re-measure every other entry's rows. Invalidated whenever
+    // layout-affecting state changes (source/blocks/zoom) or the editor
+    // resizes.
+    let outlineRowsCache = new WeakMap<HTMLElement, Rect[]>();
+    $effect(() => {
+        // Tracking these intentionally so the cache is reset on layout changes.
+        source;
+        $blocks;
+        zoom;
+        editorWidth;
+        editorHeight;
+        outlineRowsCache = new WeakMap();
+    });
+
     // Update the outline positions any time the highlights change, but only after we're done rendering.
     let outlines = $state<HighlightSpec[]>([]);
     $effect(() => {
@@ -1532,6 +1552,7 @@
                     $locales.getDirection() === 'rtl',
                     $blocks,
                     getNodeView,
+                    outlineRowsCache,
                 );
             });
         /** Remove the caret selection if in blocks mode and its a range. */
