@@ -1557,6 +1557,7 @@
     <CaretView
         caret={$caret}
         blocks={$blocks}
+        {editable}
         blink={$keyboardEditIdle === IdleKind.Idle &&
             focused &&
             editable &&

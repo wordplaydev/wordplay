@@ -114,6 +114,8 @@
         ignored: boolean;
         /** Whether the caret is in blocks mode */
         blocks: boolean;
+        /** Whether the editor is editable; when false, the caret is rendered with higher contrast and width */
+        editable: boolean;
         /** The current location of the caret */
         location: CaretBounds | undefined;
         /** A function for getting the editor's token views */
@@ -134,6 +136,7 @@
         blink,
         ignored,
         blocks,
+        editable,
         location = $bindable(undefined),
         getTokenViews,
         viewport,
@@ -959,6 +962,7 @@
         ? 'blocks'
         : ''}"
     class:focused={$editor?.focused}
+    class:readonly={!editable}
     class:node={caret && caret.isNode() && !caret.isPlaceholderNode()}
     style:display={location === undefined ? 'none' : null}
     style:left={location ? `${location.left}px` : null}
@@ -967,7 +971,7 @@
     ><span
         class="bar"
         style:width={location
-            ? blocks
+            ? !editable || blocks
                 ? 'var(--wordplay-focus-width)'
                 : `2px`
             : null}
@@ -983,7 +987,8 @@
         opacity: 0.25;
     }
 
-    .focused {
+    .focused,
+    .readonly {
         opacity: 1;
     }
 

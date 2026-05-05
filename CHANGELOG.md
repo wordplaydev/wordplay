@@ -26,6 +26,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - We fixed several problems with the Japanese locale (#1048).
 - We made some of our tests more reliable.
 - We fixed a rare project saving bug.
+- We fixed the contrast of the text cursor when the editor is in read only mode.
 
 ## 0.17.7 - 2026-04-25
 
