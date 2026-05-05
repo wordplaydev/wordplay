@@ -162,6 +162,8 @@
     );
 
     export function setCaretPosition(position: CaretPosition) {
+        // Programmatic placement is discrete — show the description immediately.
+        deferDisplayUpdate = false;
         caret.set($caret.withPosition(position));
     }
 
@@ -256,6 +258,7 @@
         edit: handleEdit,
         sourceID: sourceID,
         caret: $caret,
+        displayedCaret: $caret,
         blocks: $blocks,
         project,
         focused: false,
@@ -461,6 +464,9 @@
 
     function handlePointerDown(event: PointerEvent) {
         if (event.button !== 0) return;
+
+        // A click is a discrete action — show the description immediately.
+        deferDisplayUpdate = false;
 
         // Clear any existing large deletion notification when user clicks to clear selection
         setLargeDeletionNotification?.(null);
@@ -752,6 +758,8 @@
                 menu = menu.withSelection([newIndex, 0]);
                 return false;
             } else {
+                // Menu commands are discrete — show the description immediately.
+                deferDisplayUpdate = false;
                 handleEdit(selection, IdleKind.Typed, true);
                 return true;
             }
@@ -888,6 +896,9 @@
         // Blocks mode? No text input support. It's all handled by text fields.
         if ($blocks) return;
 
+        // Text input is a flurry — defer the description update until idle.
+        deferDisplayUpdate = true;
+
         resetIgnored(true);
 
         let edit: Edit | ProjectRevision | LocaleTextAccessor | undefined;
@@ -992,6 +1003,12 @@
         // If we're in the middle of composing, ignore the key events.
         if (composing || event.isComposing) return;
         if (editor === null) return;
+
+        // A held key auto-repeats — defer the description update to idle so we
+        // don't recompute it on every repeat. A single press (event.repeat
+        // false, e.g., one arrow press, Escape, a command shortcut) updates
+        // immediately for responsive feedback.
+        deferDisplayUpdate = event.repeat;
 
         // Assume we'll handle it.
         resetIgnored(true);
@@ -1127,6 +1144,30 @@
             : undefined,
     );
 
+    // A caret snapshot used by the caret-description block. We want immediate
+    // feedback for discrete actions (single arrow press, click, menu command,
+    // Escape) but not for rapid input (held arrow keys auto-repeating, fast
+    // text typing). `deferDisplayUpdate` is set true by the rapid input paths
+    // (handleKeyDown when event.repeat is true; handleTextInput) and false by
+    // discrete paths. The effect updates displayedCaret on every caret change
+    // unless deferred; even when deferred, it'll catch up when keyboardEditIdle
+    // returns to Idle.
+    let deferDisplayUpdate = $state(false);
+    let displayedCaret = $state<Caret>(untrack(() => $caret));
+    $effect(() => {
+        $caret; // track caret moves so non-deferred updates publish immediately
+        if (
+            $keyboardEditIdle === IdleKind.Idle ||
+            !untrack(() => deferDisplayUpdate)
+        )
+            displayedCaret = untrack(() => $caret);
+    });
+    let displayedCaretExpressionType = $derived(
+        displayedCaret.position instanceof Expression
+            ? displayedCaret.position.getType(context).simplify(context)
+            : undefined,
+    );
+
     let concepts = $derived(indexContext?.index);
 
     /** When the current step, step index, or playing state changes, update the evaluation view of the editor.
@@ -1161,6 +1202,7 @@
         if (editorsRef) {
             const state: EditorState = {
                 caret: $caret,
+                displayedCaret,
                 edit: handleEdit,
                 sourceID: sourceID,
                 blocks: $blocks,
@@ -1691,7 +1733,7 @@
         This is a localized description of the current caret position, a live region for screen readers,
         and a visual label for sighted folks.
      -->
-    {#key $caret.position}
+    {#key displayedCaret.position}
         {@const descriptionLeft =
             caretLocation === undefined
                 ? undefined
@@ -1704,16 +1746,19 @@
         <div
             class="caret-description"
             class:ignored={shakeCaret}
-            class:visible={$caret.isNode() || keyIgnoredReason !== undefined}
+            class:visible={(($keyboardEditIdle === IdleKind.Idle ||
+                !deferDisplayUpdate) &&
+                displayedCaret.isNode()) ||
+                keyIgnoredReason !== undefined}
             onpointerdown={(event) => event.stopPropagation()}
             style:left={descriptionLeft
                 ? `calc(${descriptionLeft}px - ${OutlinePadding}px)`
                 : undefined}
             style:top={descriptionTop ? `${descriptionTop}px` : undefined}
             data-left={descriptionLeft}
-            >{#if $caret.position instanceof Node}
+            >{#if displayedCaret.position instanceof Node}
                 {@const relevantConcept = concepts?.getRelevantConcept(
-                    $caret.position,
+                    displayedCaret.position,
                 )}
                 <span class="node-label">
                     <!-- Make a link to the node's documentation -->
@@ -1722,15 +1767,15 @@
                             label={DOCUMENTATION_SYMBOL}
                         />{/if}
                     <!-- Show the node's label and type -->
-                    {$caret.position.getLabel(
+                    {displayedCaret.position.getLabel(
                         $locales,
-                    )}{#if caretExpressionType}&nbsp;{TYPE_SYMBOL}&nbsp;{caretExpressionType.toWordplay()}{/if}
+                    )}{#if displayedCaretExpressionType}&nbsp;{TYPE_SYMBOL}&nbsp;{displayedCaretExpressionType.toWordplay()}{/if}
                     {#if editable}<MenuTrigger
-                            anchor={$caret.position}
+                            anchor={displayedCaret.position}
                         />{/if}
-                </span>{#if !($caret.position instanceof Token)}<em
+                </span>{#if !(displayedCaret.position instanceof Token)}<em
                     class="node-description"
-                    >{$caret.position
+                    >{displayedCaret.position
                         .getDescription($locales, context)
                         .toText()}</em
                 >{/if}{/if}{#if keyIgnoredReason}<em>

@@ -144,6 +144,10 @@ export type EditHandler = (
 ) => Promise<void>;
 export type EditorState = {
     caret: Caret;
+    /** A snapshot of the caret that lags the live one and only catches up on
+     * idle or discrete (non-repeat) input events. Use this when driving UI
+     * that should remain stable during rapid input flurries. */
+    displayedCaret: Caret;
     sourceID: string;
     project: Project;
     edit: EditHandler;

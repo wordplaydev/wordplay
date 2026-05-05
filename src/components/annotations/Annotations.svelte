@@ -220,6 +220,9 @@
             `.editor .node-view[data-id="${node.id}"]`,
         );
     }
+    // The `caret` prop is wired to EditorState.displayedCaret in ProjectView,
+    // so it already lags during rapid input flurries — no debouncing needed
+    // here. caretNode et al. recompute only when displayedCaret changes.
     let caretNode = $derived(
         caret
             ? caret.position instanceof Node

@@ -1935,7 +1935,8 @@
                                             conflicts={visibleConflicts}
                                             stepping={$evaluation.playing ===
                                                 false}
-                                            caret={$editors.get(tile.id)?.caret}
+                                            caret={$editors.get(tile.id)
+                                                ?.displayedCaret}
                                         />{/if}
                                 {/if}
                             {/snippet}

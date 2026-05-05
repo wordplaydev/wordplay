@@ -18,6 +18,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - We upgraded internal tooling for stability.
 - We updated the URLs of the application always include the currently selected language(s). This makes the current language setting more reliable on page refresh and link sharing (#809).
 - We made it faster to load the home page.
+- We made the editor a bit faster to use; it was getting sluggish.
 
 ### Fixed
 
