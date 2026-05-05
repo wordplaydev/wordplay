@@ -86,6 +86,12 @@ export class Highlights {
         }
     }
 
+    /** Add without checking source membership; used internally for merging slices. */
+    private addUnchecked(node: Node, type: HighlightType) {
+        if (!this.map.has(node)) this.map.set(node, []);
+        this.map.get(node)?.push(type);
+    }
+
     addEmpty(node: Node, field: string) {
         if (!this.empty.has(node)) this.empty.set(node, []);
         this.empty.get(node)?.push(field);
@@ -102,6 +108,53 @@ export class Highlights {
     getEmpty(node: Node): string[] | undefined {
         return this.empty.get(node);
     }
+
+    /** Structural equality check used to skip downstream reactivity when nothing changed. */
+    equals(other: Highlights): boolean {
+        if (this.map.size !== other.map.size) return false;
+        if (this.empty.size !== other.empty.size) return false;
+        for (const [node, types] of this.map) {
+            const otherTypes = other.map.get(node);
+            if (otherTypes === undefined || otherTypes.length !== types.length)
+                return false;
+            for (let i = 0; i < types.length; i++)
+                if (types[i] !== otherTypes[i]) return false;
+        }
+        for (const [node, fields] of this.empty) {
+            const otherFields = other.empty.get(node);
+            if (otherFields === undefined || otherFields.length !== fields.length)
+                return false;
+            for (let i = 0; i < fields.length; i++)
+                if (fields[i] !== otherFields[i]) return false;
+        }
+        return true;
+    }
+
+    /** Merge several Highlights instances into one, preserving order of types per node. */
+    static merge(...slices: Highlights[]): Highlights {
+        const merged = new Highlights();
+        for (const slice of slices) {
+            for (const [node, types] of slice.map)
+                for (const type of types) merged.addUnchecked(node, type);
+            for (const [node, fields] of slice.empty)
+                for (const field of fields) merged.addEmpty(node, field);
+        }
+        return merged;
+    }
+}
+
+/** Per-source cache of Reference/NameType leaves so we don't walk the tree to find them every caret move. */
+const referenceIndexCache = new WeakMap<Source, (Reference | NameType)[]>();
+function getReferenceIndex(source: Source): (Reference | NameType)[] {
+    let index = referenceIndexCache.get(source);
+    if (index === undefined) {
+        index = source.nodes(
+            (n): n is Reference | NameType =>
+                n instanceof Reference || n instanceof NameType,
+        );
+        referenceIndexCache.set(source, index);
+    }
+    return index;
 }
 
 export type HighlightType = keyof typeof HighlightTypes;
@@ -111,43 +164,22 @@ export type HighlightSpec = {
     underline: Outline;
 };
 
-export function getHighlights(
-    /** What source we are highlighting */
+/** Highlights that depend only on project/evaluator state — independent of caret position. */
+export function getProjectHighlights(
     source: Source,
-    /** The project the source belongs to */
     project: Project,
-    /** The evaluation of the project */
     evaluator: Evaluator,
-    /** Where the caret is */
-    caret: Caret,
-    /** What is being dragged */
-    dragged: Node | undefined,
-    /** What the pointer is over */
-    hovered: Node | undefined,
-    /** Where an insertion is happening */
-    insertion: InsertionPoint | AssignmentPoint | undefined,
-    /** Nodes that are currently being animated */
     animatingNodes: Set<Node> | undefined,
-    /** Output that is selected */
     selectedOutput: Evaluate[] | undefined,
-    /** True if in blocks mode */
     blocks: boolean,
-    /** True if selecting nodes (e.g., shift key) */
-    selecting: boolean,
 ): Highlights {
-    let highlights = new Highlights();
-
-    const context = project.getContext(source);
+    const highlights = new Highlights();
 
     const latestValue = evaluator.getLatestSourceValue(source);
 
-    // Is there a step we're actively evaluating? Highlight it!
     const stepNode = evaluator.getStepNode();
-    if (stepNode) {
-        highlights.add(source, stepNode, 'evaluating');
-    }
+    if (stepNode) highlights.add(source, stepNode, 'evaluating');
 
-    // Is there an exception on the last step? Highlight the node that created it!
     if (
         latestValue instanceof ExceptionValue &&
         latestValue.step !== undefined &&
@@ -155,24 +187,138 @@ export function getHighlights(
     )
         highlights.add(source, latestValue.step.node, 'exception');
 
-    // Is the caret selecting a non-placeholder node? Highlight it.
-    if (caret.position instanceof Node) {
+    for (const [node, conflicts] of project.getConflictedNodes())
+        highlights.add(
+            source,
+            node,
+            conflicts.every((c) => !c.isMinor())
+                ? blocks
+                    ? 'blockmajor'
+                    : 'major'
+                : blocks
+                  ? 'blockminor'
+                  : 'minor',
+        );
+
+    if (animatingNodes)
+        for (const animating of animatingNodes)
+            if (source.has(animating))
+                highlights.add(source, animating, 'animating');
+
+    if (selectedOutput)
+        for (const node of selectedOutput)
+            highlights.add(source, node, blocks ? 'blockoutput' : 'output');
+
+    return highlights;
+}
+
+/** Highlights that depend on caret position. */
+export function getCaretHighlights(
+    source: Source,
+    project: Project,
+    caret: Caret,
+    blocks: boolean,
+    animatingNodes: Set<Node> | undefined,
+): Highlights {
+    const highlights = new Highlights();
+
+    const context = project.getContext(source);
+
+    if (caret.position instanceof Node)
         highlights.add(
             source,
             caret.position,
             !blocks ? 'selected' : 'blockselected',
         );
-    }
 
-    // Does the selected node have a matching delimiter?
     if (caret.position instanceof Token) {
         const match = source.getMatchedDelimiter(caret.position);
-        if (match) {
-            highlights.add(source, match, 'delimiter');
+        if (match) highlights.add(source, match, 'delimiter');
+    }
+
+    let caretParent: Node | undefined;
+    if (caret.position instanceof Node)
+        caretParent = source.root.getParent(caret.position);
+    else if (caret.isPosition() && caret.insideToken()) {
+        const token = source.getTokenAt(caret.position);
+        if (token) caretParent = source.root.getParent(token);
+    }
+
+    if (
+        !blocks &&
+        caretParent &&
+        !caret.isNode() &&
+        (animatingNodes === undefined ||
+            !Array.from(animatingNodes).some((node) =>
+                node.contains(caretParent as Node),
+            )) &&
+        !(caretParent instanceof Program) &&
+        !(caretParent instanceof Block && caretParent.isRoot())
+    )
+        highlights.add(source, caretParent, 'hovered');
+
+    const reference =
+        caret.position instanceof Reference ||
+        caret.position instanceof NameType
+            ? caret.position
+            : caretParent instanceof Reference ||
+                caretParent instanceof NameType
+              ? caretParent
+              : undefined;
+
+    const name =
+        caret.position instanceof Name
+            ? caret.position
+            : caretParent instanceof Name
+              ? caretParent
+              : undefined;
+    const definition = reference
+        ? reference.resolve(context)
+        : name
+          ? source.root
+                .getAncestors(name)
+                .find(
+                    (def): def is DefinitionExpression | Bind =>
+                        def instanceof DefinitionExpression ||
+                        def instanceof Bind,
+                )
+          : undefined;
+    if (definition) {
+        if (reference) {
+            highlights.add(
+                source,
+                definition instanceof FunctionDefinition ||
+                    definition instanceof StructureDefinition ||
+                    definition instanceof Bind
+                    ? definition.names
+                    : definition,
+                'related',
+            );
+        } else {
+            if ('names' in definition)
+                highlights.add(source, definition.names, 'related');
+            // Use the cached Reference/NameType index instead of walking the tree.
+            for (const ref of getReferenceIndex(source))
+                if (ref.resolve(context) === definition)
+                    highlights.add(source, ref, 'related');
         }
     }
 
-    // Is a node being dragged?
+    return highlights;
+}
+
+/** Highlights that depend on drag/hover state. */
+export function getDragHighlights(
+    source: Source,
+    project: Project,
+    dragged: Node | undefined,
+    hovered: Node | undefined,
+    insertion: InsertionPoint | AssignmentPoint | undefined,
+    blocks: boolean,
+    selecting: boolean,
+): Highlights {
+    const highlights = new Highlights();
+
     if (dragged !== undefined) {
         // Highlight the dragged node.
         highlights.add(source, dragged, 'dragged');
@@ -249,111 +395,47 @@ export function getHighlights(
         highlights.add(source, hovered, 'hovered');
     }
 
-    // Tag all nodes with conflicts in text mode
-    for (const [node, conflicts] of project.getConflictedNodes())
-        highlights.add(
-            source,
-            node,
-            conflicts.every((c) => !c.isMinor())
-                ? blocks
-                    ? 'blockmajor'
-                    : 'major'
-                : blocks
-                  ? 'blockminor'
-                  : 'minor',
-        );
-
-    // Are there any poses in this file being animated?
-    if (animatingNodes)
-        for (const animating of animatingNodes) {
-            if (source.has(animating))
-                highlights.add(source, animating, 'animating');
-        }
-
-    // Is any output selected?
-    if (selectedOutput) {
-        for (const node of selectedOutput)
-            highlights.add(source, node, blocks ? 'blockoutput' : 'output');
-    }
-
-    // Get the caret's parent (if it's inside a token) and give it a hover highlight
-    let caretParent: Node | undefined;
-    if (caret.position instanceof Node)
-        caretParent = source.root.getParent(caret.position);
-    else if (caret.isPosition() && caret.insideToken()) {
-        const token = source.getTokenAt(caret.position);
-        if (token) caretParent = source.root.getParent(token);
-    }
-
-    // Should we highlight a node that the caret is hovering over?
-    if (
-        !blocks &&
-        caretParent &&
-        !caret.isNode() &&
-        (animatingNodes === undefined ||
-            !Array.from(animatingNodes).some((node) =>
-                node.contains(caretParent as Node),
-            )) &&
-        !(caretParent instanceof Program) &&
-        !(caretParent instanceof Block && caretParent.isRoot())
-    )
-        highlights.add(source, caretParent, 'hovered');
-
-    // Highlight definitions and uses
-    const reference =
-        caret.position instanceof Reference ||
-        caret.position instanceof NameType
-            ? caret.position
-            : caretParent instanceof Reference ||
-                caretParent instanceof NameType
-              ? caretParent
-              : undefined;
-
-    const name =
-        caret.position instanceof Name
-            ? caret.position
-            : caretParent instanceof Name
-              ? caretParent
-              : undefined;
-    const definition = reference
-        ? reference.resolve(context)
-        : name
-          ? source.root
-                .getAncestors(name)
-                .find(
-                    (def): def is DefinitionExpression | Bind =>
-                        def instanceof DefinitionExpression ||
-                        def instanceof Bind,
-                )
-          : undefined;
-    if (definition) {
-        if (reference) {
-            if (definition !== undefined)
-                highlights.add(
-                    source,
-                    definition instanceof FunctionDefinition ||
-                        definition instanceof StructureDefinition ||
-                        definition instanceof Bind
-                        ? definition.names
-                        : definition,
-                    'related',
-                );
-        } else {
-            if ('names' in definition)
-                highlights.add(source, definition.names, 'related');
-            for (const ref of source
-                .nodes()
-                .filter(
-                    (def): def is Reference | NameType =>
-                        (def instanceof Reference || def instanceof NameType) &&
-                        def.resolve(context) === definition,
-                ))
-                highlights.add(source, ref, 'related');
-        }
-    }
-
-    // Update the store, broadcasting the highlights to all node views for rendering.
     return highlights;
+}
+
+/**
+ * Back-compat wrapper combining all three slices. Prefer calling the slice
+ * functions directly so callers can cache the project/drag slices and only
+ * recompute the caret slice on caret movement.
+ */
+export function getHighlights(
+    source: Source,
+    project: Project,
+    evaluator: Evaluator,
+    caret: Caret,
+    dragged: Node | undefined,
+    hovered: Node | undefined,
+    insertion: InsertionPoint | AssignmentPoint | undefined,
+    animatingNodes: Set<Node> | undefined,
+    selectedOutput: Evaluate[] | undefined,
+    blocks: boolean,
+    selecting: boolean,
+): Highlights {
+    return Highlights.merge(
+        getProjectHighlights(
+            source,
+            project,
+            evaluator,
+            animatingNodes,
+            selectedOutput,
+            blocks,
+        ),
+        getCaretHighlights(source, project, caret, blocks, animatingNodes),
+        getDragHighlights(
+            source,
+            project,
+            dragged,
+            hovered,
+            insertion,
+            blocks,
+            selecting,
+        ),
+    );
 }
 
 /** Populate the given Set with nodes to highlight. */

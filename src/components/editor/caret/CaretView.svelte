@@ -222,12 +222,16 @@
             $evaluation;
         tick().then(() => {
             location = computeLocation();
-            // Because some elements fade out when caret changes, affecting layout, we also need to recompute
-            // the caret position after the default animation duration to ensure it's positioned correctly.
             if (animationDelayTimeout) clearTimeout(animationDelayTimeout);
-            animationDelayTimeout = setTimeout(() => {
-                location = computeLocation();
-            }, $animationDuration);
+            // Block-mode padding transitions over $animationDuration when the
+            // selected block changes, so re-measure once the transition has
+            // settled. In text mode, caret movement does not trigger any layout
+            // transitions, so the delayed re-measure is pure waste.
+            if (blocks) {
+                animationDelayTimeout = setTimeout(() => {
+                    location = computeLocation();
+                }, $animationDuration);
+            }
         });
     });
 
@@ -280,11 +284,47 @@
         return null;
     }
 
+    // Line height only depends on the font (fixed per session), zoom, blocks
+    // mode, and writing direction. It does NOT change as the caret moves, so we
+    // cache it across caret movements. The cache is keyed by source identity
+    // because a new source may rerender with different fonts/structure.
+    let cachedLineHeight:
+        | {
+              source: typeof caret.source;
+              zoom: number;
+              blocks: boolean;
+              horizontal: boolean;
+              lineHeight: number;
+          }
+        | undefined;
+
     function computeCaretAndLineHeight(
         currentToken: Token,
         currentTokenRect: DOMRect,
         horizontal: boolean,
     ): [number, number] {
+        let caretHeight = horizontal
+            ? currentTokenRect.height
+            : currentTokenRect.width;
+
+        // If the caret height is invisible, try to find a token before and get its height.
+        if (caretHeight === 0) {
+            const before = caret.source.getTokenBefore(currentToken);
+            const beforeView = before ? getNodeView(before) : undefined;
+            caretHeight = beforeView?.getBoundingClientRect().height ?? 0;
+        }
+
+        // Reuse the cached line height when the only thing that changed is caret
+        // position. Avoids walking every token-view looking for a <br>.
+        if (
+            cachedLineHeight !== undefined &&
+            cachedLineHeight.source === caret.source &&
+            cachedLineHeight.zoom === zoom &&
+            cachedLineHeight.blocks === blocks &&
+            cachedLineHeight.horizontal === horizontal
+        )
+            return [caretHeight, cachedLineHeight.lineHeight];
+
         // To compute line height, find two tokens on adjacent lines and difference their tops.
         const tokenViews = getTokenViews();
         let firstTokenView: Element | undefined = undefined;
@@ -300,18 +340,6 @@
                     break;
                 }
             }
-        }
-
-        let caretHeight = horizontal
-            ? currentTokenRect.height
-            : currentTokenRect.width;
-
-        // If the caret height is invisible, try to find a token before and get its height.
-        // And if that's not visible, then set a minimum.
-        if (caretHeight === 0) {
-            const before = caret.source.getTokenBefore(currentToken);
-            const beforeView = before ? getNodeView(before) : undefined;
-            caretHeight = beforeView?.getBoundingClientRect().height ?? 0;
         }
 
         let lineHeight;
@@ -340,6 +368,14 @@
                 ? currentTokenRect.height
                 : currentTokenRect.width;
         }
+
+        cachedLineHeight = {
+            source: caret.source,
+            zoom,
+            blocks,
+            horizontal,
+            lineHeight,
+        };
 
         return [caretHeight, lineHeight];
     }

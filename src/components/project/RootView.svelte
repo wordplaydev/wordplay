@@ -121,23 +121,73 @@
         showLines.set(lines);
     });
 
+    // Cache the language-tagged-nodes list per AST root. Node trees are immutable,
+    // so this list is stable for the lifetime of `node` and the WeakMap auto-evicts
+    // when the AST is replaced.
+    type TaggedNode = Names | Docs | TextLiteral | FormattedLiteral;
+    const taggedCache = new WeakMap<Node, TaggedNode[]>();
+    function getTaggedNodes(n: Node): TaggedNode[] {
+        let list = taggedCache.get(n);
+        if (list === undefined) {
+            list = n.nodes(
+                (m): m is TaggedNode =>
+                    m instanceof Names ||
+                    m instanceof Docs ||
+                    m instanceof TextLiteral ||
+                    m instanceof FormattedLiteral,
+            );
+            taggedCache.set(n, list);
+        }
+        return list;
+    }
+
+    // Cache key for the hidden-nodes effect. Most caret moves don't cross a
+    // tagged-node boundary, so we can skip the recomputation entirely.
+    let prevHiddenKey:
+        | {
+              node: Node;
+              localize: Locale | null;
+              elide: boolean;
+              inline: boolean;
+              taggedAtCaret: TaggedNode | undefined;
+          }
+        | undefined;
+
     // Update what's hidden when locales or localized changes.
     $effect(() => {
+        // Compute the (only) caret-derived input we care about: which tagged
+        // node contains the caret, if any. Stable across in-token caret moves.
+        const taggedList = getTaggedNodes(node);
+        const taggedAtCaret =
+            caret === undefined
+                ? undefined
+                : taggedList.find((t) => caret.isIn(t, true));
+
+        if (
+            prevHiddenKey !== undefined &&
+            prevHiddenKey.node === node &&
+            prevHiddenKey.localize === $localize &&
+            prevHiddenKey.elide === elide &&
+            prevHiddenKey.inline === inline &&
+            prevHiddenKey.taggedAtCaret === taggedAtCaret
+        )
+            return;
+
+        prevHiddenKey = {
+            node,
+            localize: $localize,
+            elide,
+            inline,
+            taggedAtCaret,
+        };
+
         const newHidden = new Set<Node>();
 
         // If the locale is not null, hide non-preferred locales
         if ($localize !== null) {
             // Hide any language tagged nodes that 1) the caret isn't in, and 2) either have no language tag or aren't the selected locale.
             // Also hide any separators if the first visible name has one.
-            for (const tagged of node
-                .nodes()
-                .filter(
-                    (n): n is Names | Docs | TextLiteral | FormattedLiteral =>
-                        n instanceof Names ||
-                        n instanceof Docs ||
-                        n instanceof TextLiteral ||
-                        n instanceof FormattedLiteral,
-                )) {
+            for (const tagged of taggedList) {
                 // Get the language tags on the nodes.
                 const tags = tagged.getTagged();
 

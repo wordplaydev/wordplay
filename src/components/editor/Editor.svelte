@@ -80,7 +80,9 @@
     import {
         type HighlightSpec,
         Highlights,
-        getHighlights,
+        getCaretHighlights,
+        getDragHighlights,
+        getProjectHighlights,
         getRangeOutline,
         updateOutlines,
     } from '@components/editor/highlights/Highlights';
@@ -1177,119 +1179,162 @@
         if ($caret) hideMenu();
     });
 
+    // Cache of the inputs to the conflictsOfInterest computation. Caret moves
+    // within a single token don't change any of these, so we can bail without
+    // re-running the work — which previously did a full source.nodes() walk.
+    let prevConflictsKey: {
+        project: Project;
+        nodeConflicts: Conflict[] | undefined;
+        dragged: Node | undefined;
+        hoveredAny: Node | undefined;
+        caretNode: Node | undefined;
+        tokenAtCaret: Token | undefined;
+        tokenPrior: Token | undefined;
+        atTokenEnd: boolean;
+    } | undefined;
+
     $effect(() => {
         // The project and source can update at different times, so we only do this if the current source is in the project.
-        if (project.contains(source)) {
-            let newConflictsOfInterest: Conflict[] = [];
+        if (!project.contains(source)) return;
 
-            // If dragging, don't show conlicts.
-            if ($dragged !== undefined) return;
+        // Build a cache key from the effect's true inputs. If they're all
+        // unchanged, the result is the same as last time and we can skip the
+        // entire computation (which is the hot path for arrow-key movement).
+        const tokenAtCaret = $caret.isPosition()
+            ? source.getTokenAt($caret.position, false)
+            : undefined;
+        const atTokenEnd = $caret.isPosition() && !!$caret.atTokenEnd();
+        const tokenPrior = atTokenEnd ? $caret.tokenPrior : undefined;
+        const caretNode = $caret.position instanceof Node ? $caret.position : undefined;
 
-            // If there are any conflicts in the project...
-            if ($nodeConflicts !== undefined && $nodeConflicts.length > 0) {
-                let conflictSelection: Node | undefined = undefined;
+        if (
+            prevConflictsKey !== undefined &&
+            prevConflictsKey.project === project &&
+            prevConflictsKey.nodeConflicts === $nodeConflicts &&
+            prevConflictsKey.dragged === $dragged &&
+            prevConflictsKey.hoveredAny === $hoveredAny &&
+            prevConflictsKey.caretNode === caretNode &&
+            prevConflictsKey.tokenAtCaret === tokenAtCaret &&
+            prevConflictsKey.tokenPrior === tokenPrior &&
+            prevConflictsKey.atTokenEnd === atTokenEnd
+        )
+            return;
 
-                // Is the mouse hovering over one? Get the node at the mouse, including tokens
-                // and see if it, or any of its parents, are involved in node conflicts.
-                const conflictedHover =
-                    $hoveredAny === undefined
-                        ? undefined
-                        : (
-                              project
-                                  .getRoot($hoveredAny)
-                                  ?.getSelfAndAncestors($hoveredAny) ?? []
-                          ).find((node) =>
-                              project.nodeInvolvedInConflicts(node),
-                          );
-                if (conflictedHover) conflictSelection = conflictedHover;
+        prevConflictsKey = {
+            project,
+            nodeConflicts: $nodeConflicts,
+            dragged: $dragged,
+            hoveredAny: $hoveredAny,
+            caretNode,
+            tokenAtCaret,
+            tokenPrior,
+            atTokenEnd,
+        };
 
-                // If not, is there a node selected?
-                if (
-                    conflictSelection === undefined &&
-                    $caret.position instanceof Node &&
-                    project.nodeInvolvedInConflicts($caret.position)
-                )
-                    conflictSelection = $caret.position;
+        let newConflictsOfInterest: Conflict[] = [];
 
-                // If not, what is the "nearest" conflicted node at the caret position?
-                if (conflictSelection === undefined) {
-                    if ($caret.isPosition()) {
-                        // Try:
-                        // 1) the token just before
-                        // 2) the token before if we're at it's end.
-                        // 3) any nodes whose first position is at the caret.
-                        let conflictsAtPosition = [
-                            ...source
-                                .nodes()
-                                .filter(
-                                    (node) =>
-                                        source.getNodeFirstPosition(node) ===
-                                        $caret.position,
-                                ),
-                            source.getTokenAt($caret.position, false),
-                            $caret.atTokenEnd() ? $caret.tokenPrior : undefined,
-                        ].reduce(
-                            (conflicted: Node[], token: Node | undefined) => {
-                                let nodesAtPosition =
-                                    token === undefined
-                                        ? []
-                                        : (project
-                                              .getRoot(token)
-                                              ?.getSelfAndAncestors(token) ??
-                                          []);
-                                let nodesInConflict = nodesAtPosition.find(
-                                    (node) =>
-                                        project.nodeInvolvedInConflicts(node),
-                                );
-                                return [
-                                    ...conflicted,
-                                    ...(nodesInConflict
-                                        ? [nodesInConflict]
-                                        : []),
-                                ];
-                            },
-                            [],
-                        );
+        // If dragging, don't show conlicts.
+        if ($dragged !== undefined) {
+            untrack(() => updateConflicts?.(source, newConflictsOfInterest));
+            conflictsOfInterest = newConflictsOfInterest;
+            return;
+        }
 
-                        if (conflictsAtPosition !== undefined)
-                            conflictSelection = conflictsAtPosition[0];
+        // If there are any conflicts in the project...
+        if ($nodeConflicts !== undefined && $nodeConflicts.length > 0) {
+            let conflictSelection: Node | undefined = undefined;
+
+            // Is the mouse hovering over one? Get the node at the mouse, including tokens
+            // and see if it, or any of its parents, are involved in node conflicts.
+            const conflictedHover =
+                $hoveredAny === undefined
+                    ? undefined
+                    : (
+                          project
+                              .getRoot($hoveredAny)
+                              ?.getSelfAndAncestors($hoveredAny) ?? []
+                      ).find((node) =>
+                          project.nodeInvolvedInConflicts(node),
+                      );
+            if (conflictedHover) conflictSelection = conflictedHover;
+
+            // If not, is there a node selected?
+            if (
+                conflictSelection === undefined &&
+                caretNode !== undefined &&
+                project.nodeInvolvedInConflicts(caretNode)
+            )
+                conflictSelection = caretNode;
+
+            // If not, what is the "nearest" conflicted node at the caret position?
+            if (conflictSelection === undefined) {
+                if ($caret.isPosition()) {
+                    // 1) Find any conflicted node whose first position is at the caret.
+                    //    Iterate the conflicted-nodes map directly instead of walking
+                    //    every node in the source.
+                    for (const node of project.getConflictedNodes().keys()) {
+                        if (
+                            source.has(node) &&
+                            source.getNodeFirstPosition(node) ===
+                                $caret.position
+                        ) {
+                            conflictSelection = node;
+                            break;
+                        }
                     }
-                    // If there's a node selection, see if it or any of it's ancestors are involved in conflicts
-                    else if ($caret.isNode()) {
-                        const conflictedAncestor = [
-                            $caret.position,
-                            ...source.root.getAncestors($caret.position),
-                        ].find((node) => project.nodeInvolvedInConflicts(node));
-                        if (conflictedAncestor)
-                            conflictSelection = conflictedAncestor;
+                    // 2) Else: walk ancestors of the token at/just-before the caret
+                    //    looking for a conflicted ancestor.
+                    if (conflictSelection === undefined) {
+                        for (const token of [tokenAtCaret, tokenPrior]) {
+                            if (token === undefined) continue;
+                            const ancestors =
+                                project
+                                    .getRoot(token)
+                                    ?.getSelfAndAncestors(token) ?? [];
+                            const conflicted = ancestors.find((n) =>
+                                project.nodeInvolvedInConflicts(n),
+                            );
+                            if (conflicted) {
+                                conflictSelection = conflicted;
+                                break;
+                            }
+                        }
                     }
                 }
-
-                // If we found a selection, get its conflicts.
-                if (conflictSelection)
-                    // Get all conflicts involving the selection
-                    newConflictsOfInterest = [
-                        ...(project.getConflictsInvolvingNode(
-                            conflictSelection,
-                        ) ?? []),
-                        ...$nodeConflicts,
-                    ]
-                        // Eliminate duplicate conflicts
-                        .filter(
-                            (c1, i1, list) =>
-                                !list.some(
-                                    (c2, i2) =>
-                                        c1 === c2 && i2 > i1 && i1 !== i2,
-                                ),
-                        );
-                // If we didn't find a selection, just get all conflicts in the project.
-                else newConflictsOfInterest = $nodeConflicts;
+                // If there's a node selection, see if it or any of it's ancestors are involved in conflicts
+                else if (caretNode !== undefined) {
+                    const conflictedAncestor = [
+                        caretNode,
+                        ...source.root.getAncestors(caretNode),
+                    ].find((node) => project.nodeInvolvedInConflicts(node));
+                    if (conflictedAncestor) conflictSelection = conflictedAncestor;
+                }
             }
-            untrack(() => updateConflicts?.(source, newConflictsOfInterest));
 
-            // Finally, update the conflicts of interest.
-            conflictsOfInterest = newConflictsOfInterest;
+            // If we found a selection, get its conflicts.
+            if (conflictSelection)
+                // Get all conflicts involving the selection
+                newConflictsOfInterest = [
+                    ...(project.getConflictsInvolvingNode(
+                        conflictSelection,
+                    ) ?? []),
+                    ...$nodeConflicts,
+                ]
+                    // Eliminate duplicate conflicts
+                    .filter(
+                        (c1, i1, list) =>
+                            !list.some(
+                                (c2, i2) =>
+                                    c1 === c2 && i2 > i1 && i1 !== i2,
+                            ),
+                    );
+            // If we didn't find a selection, just get all conflicts in the project.
+            else newConflictsOfInterest = $nodeConflicts;
         }
+        untrack(() => updateConflicts?.(source, newConflictsOfInterest));
+
+        // Finally, update the conflicts of interest.
+        conflictsOfInterest = newConflictsOfInterest;
     });
 
     /** Announce symbol insertion (character echo) or caret position (navigation) to screen readers.
@@ -1342,24 +1387,54 @@
         }
     });
 
-    // Update the highlights when any of these stores values change
-    $effect(() => {
+    // Cache the project-level slice. It only depends on project, evaluator state,
+    // animating nodes, selected output, and blocks mode — none of which change on
+    // a caret move.
+    let projectHighlights = $derived.by(() => {
+        // Tracking $evaluation here keeps step/exception highlights fresh while debugging.
         $evaluation;
-        conflictsOfInterest;
-        const newHighlights = getHighlights(
+        return getProjectHighlights(
             source,
             project,
             evaluator,
-            $caret,
-            $dragged,
-            $hovered,
-            $insertion,
             $animatingNodes,
             selection?.getOutput(project),
             $blocks,
-            selectingWithShift,
         );
-        highlights.set(newHighlights);
+    });
+
+    // Caret-derived slice. Recomputed on every caret move, but cheap.
+    let caretHighlights = $derived(
+        getCaretHighlights(source, project, $caret, $blocks, $animatingNodes),
+    );
+
+    // Drag-derived slice. Skip when there is no drag/hover-select to avoid the
+    // O(n) drop-target walk in getDragHighlights.
+    let dragHighlights = $derived.by(() => {
+        if ($dragged !== undefined || (selectingWithShift && !$blocks))
+            return getDragHighlights(
+                source,
+                project,
+                $dragged,
+                $hovered,
+                $insertion,
+                $blocks,
+                selectingWithShift,
+            );
+        return new Highlights();
+    });
+
+    // Merge the slices and publish only when the result actually changed.
+    // Skipping the store set on no-op caret moves prevents updateOutlines, the
+    // scroll effect, and every NodeView's highlight derived from re-running.
+    $effect(() => {
+        const newHighlights = Highlights.merge(
+            projectHighlights,
+            caretHighlights,
+            dragHighlights,
+        );
+        const current = untrack(() => get(highlights));
+        if (!current.equals(newHighlights)) highlights.set(newHighlights);
     });
 
     // Update the outline positions any time the highlights change, but only after we're done rendering.
