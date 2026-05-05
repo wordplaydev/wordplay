@@ -175,8 +175,14 @@
     setCaret(caret);
 
     // When source changes, make sure the caret is pointing to the source.
+    // Short-circuit when caret is already on this source: handleEdit already
+    // sets the caret with the new source before reviseProject fires, so when
+    // the new source prop catches up the caret is already aligned. Without
+    // this guard caret.set() fires every keystroke and re-runs every caret
+    // subscriber for nothing.
     $effect(() => {
-        caret.set(untrack(() => $caret).withSource(source));
+        const cur = untrack(() => $caret);
+        if (cur.source !== source) caret.set(cur.withSource(source));
     });
 
     // Expose caret value to parent via bindable prop.
@@ -1008,12 +1014,6 @@
         if (composing || event.isComposing) return;
         if (editor === null) return;
 
-        // A held key auto-repeats — defer the description update to idle so we
-        // don't recompute it on every repeat. A single press (event.repeat
-        // false, e.g., one arrow press, Escape, a command shortcut) updates
-        // immediately for responsive feedback.
-        deferDisplayUpdate = event.repeat;
-
         // Assume we'll handle it.
         resetIgnored(true);
 
@@ -1053,6 +1053,14 @@
             command === InsertSymbol && event.key.length === 1
                 ? event.key
                 : undefined;
+
+        // Defer the displayed-caret description update for rapid input —
+        // a held key auto-repeating, OR a typing-kind command (e.g.,
+        // InsertSymbol when the user is typing characters). Discrete
+        // commands like Escape, a single arrow press, or a menu shortcut
+        // fall through with deferDisplayUpdate=false and update the
+        // description immediately.
+        deferDisplayUpdate = event.repeat || command?.typing === true;
 
         // If it produced a new caret and optionally a new project, update the stores.
         const idle =
@@ -1473,21 +1481,35 @@
     // new array reference on every read of selection.getOutput().
     let selectedOutputs = $derived(selection?.getOutput(project));
 
-    // Cache the project-level slice. With stepNode/exceptionNode/selectedOutputs
-    // stable across most frames, this derived's value also stays stable, which
-    // keeps the highlights diff (below) cheap and prevents the outline pass and
-    // every NodeView highlight derived from re-running.
-    let projectHighlights = $derived(
-        getProjectHighlights(
-            source,
-            project,
-            projectStepNode,
-            projectExceptionNode,
-            $animatingNodes,
-            selectedOutputs,
-            $blocks,
-        ),
-    );
+    // The project-level slice (conflicts, animating nodes, output, evaluating
+    // step) is computed via an effect rather than a $derived so we can FREEZE
+    // it while $keyboardEditIdle is Typing. The conflicts in `project` are
+    // always empty during typing — we defer project.analyze() until idle for
+    // performance — and a $derived would drop them every keystroke and bring
+    // them back 1s later, making conflict outlines flicker. Holding the
+    // previous slice keeps stale-but-useful conflict outlines visible while
+    // the user types, and they refresh as soon as analysis runs.
+    let projectHighlights = $state<Highlights>(new Highlights());
+    $effect(() => {
+        // Track every input but bail before recomputing if typing.
+        const stepNode = projectStepNode;
+        const exceptionNode = projectExceptionNode;
+        const animating = $animatingNodes;
+        const outputs = selectedOutputs;
+        const inBlocks = $blocks;
+        const _src = source;
+        const _project = project;
+        if ($keyboardEditIdle === IdleKind.Typing) return;
+        projectHighlights = getProjectHighlights(
+            _src,
+            _project,
+            stepNode,
+            exceptionNode,
+            animating,
+            outputs,
+            inBlocks,
+        );
+    });
 
     // Caret-derived slice. Recomputed on every caret move, but cheap.
     let caretHighlights = $derived(
