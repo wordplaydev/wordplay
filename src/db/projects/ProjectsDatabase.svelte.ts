@@ -647,9 +647,17 @@ export default class ProjectsDatabase {
             let skipped = false;
 
             try {
-                // Create a batch of all of the new and updated projects.
+                // Create a batch of the unsaved projects, remembering exactly
+                // which version of each history we sent. We need this so that if
+                // an edit lands during the await batch.commit() below, we don't
+                // mistakenly mark the history as saved — that would clobber the
+                // new edit's saved=false flag and the next saveSoon would skip it.
                 const batch = writeBatch(firestore);
-                for (const project of unsaved.map((history) => {
+                const sentVersions = new Map<
+                    (typeof unsaved)[number],
+                    Project
+                >();
+                for (const history of unsaved) {
                     const current = history.getCurrent();
 
                     // Does the current one have any PII? If so, don't save it.
@@ -658,23 +666,30 @@ export default class ProjectsDatabase {
                         current
                             .getConflicts()
                             .some((conflict) => conflict instanceof PossiblePII)
-                    )
-                        return undefined;
+                    ) {
+                        skipped = true;
+                        continue;
+                    }
 
                     // Mark it as persisted, since we're about to save it that way.
-                    return current.asPersisted().serialize();
-                })) {
-                    if (project)
-                        batch.set(
-                            doc(firestore, ProjectsCollection, project.id),
-                            project,
-                        );
-                    else skipped = true;
+                    const serialized = current.asPersisted().serialize();
+                    batch.set(
+                        doc(firestore, ProjectsCollection, serialized.id),
+                        serialized,
+                    );
+                    sentVersions.set(history, current);
                 }
                 await batch.commit();
 
-                // Mark all projects saved to the cloud if successful.
-                this.projectHistories.forEach((history) => history.markSaved());
+                // Only mark a history as saved if its current version is still
+                // the exact one we just sent. If reviseProject() ran during the
+                // await above, history.getCurrent() will point to a new object
+                // (history.edit always assigns a fresh Project), and we leave
+                // saved=false so the next saveSoon round picks up the change.
+                for (const [history, sentVersion] of sentVersions) {
+                    if (history.getCurrent() === sentVersion)
+                        history.markSaved();
+                }
 
                 // Mark status as saved
                 this.database.setStatus(

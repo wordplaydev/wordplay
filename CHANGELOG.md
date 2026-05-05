@@ -25,6 +25,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - We fixed typing for languages that have combining character inputs, like Hindi vowels (#1079).
 - We fixed several problems with the Japanese locale (#1048).
 - We made some of our tests more reliable.
+- We fixed a rare project saving bug.
 
 ## 0.17.7 - 2026-04-25
 
