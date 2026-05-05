@@ -69,37 +69,56 @@
     }
 
     onMount(() => {
-        mounted = true;
-        const random: string[] = [];
-        // Compute a number of characters roughly proportional to the window size.
-        const count = Math.min(
-            20,
-            Math.round(windowWidth * windowHeight) / 100000,
-        );
-        for (let i = 0; i < count; i++)
-            random.push(symbols[Math.floor(Math.random() * symbols.length)]);
+        // Wait for fonts to settle before showing the background, so emoji
+        // don't flash unstyled while CSS chunks / fonts are still loading.
+        // Aligned with the layout's loaded gate (document.fonts.ready).
+        let alive = true;
 
-        scene = random.map((symbol, index) => {
-            return {
-                symbol,
-                index,
-                size: Math.round(Math.random() * 128 + 128),
-                x: Math.random() * windowWidth,
-                y: Math.random() * windowHeight,
-                angle: Math.round(Math.random() * 360),
-                vx: Math.round(Math.random() * 100 - 50),
-                vy: Math.round(Math.random() * 100 - 50),
-                va: Math.round(Math.random() * 30 - 50),
-            };
-        });
+        const start = () => {
+            if (!alive) return;
 
-        if (
-            typeof window !== 'undefined' &&
-            typeof window.requestAnimationFrame !== 'undefined'
-        )
-            window.requestAnimationFrame(step);
+            const random: string[] = [];
+            // Compute a number of characters roughly proportional to the window size.
+            const count = Math.min(
+                20,
+                Math.round(windowWidth * windowHeight) / 100000,
+            );
+            for (let i = 0; i < count; i++)
+                random.push(
+                    symbols[Math.floor(Math.random() * symbols.length)],
+                );
 
-        return () => (mounted = false);
+            scene = random.map((symbol, index) => {
+                return {
+                    symbol,
+                    index,
+                    size: Math.round(Math.random() * 128 + 128),
+                    x: Math.random() * windowWidth,
+                    y: Math.random() * windowHeight,
+                    angle: Math.round(Math.random() * 360),
+                    vx: Math.round(Math.random() * 100 - 50),
+                    vy: Math.round(Math.random() * 100 - 50),
+                    va: Math.round(Math.random() * 30 - 50),
+                };
+            });
+
+            mounted = true;
+
+            if (
+                typeof window !== 'undefined' &&
+                typeof window.requestAnimationFrame !== 'undefined'
+            )
+                window.requestAnimationFrame(step);
+        };
+
+        if (typeof document !== 'undefined' && document.fonts?.ready)
+            document.fonts.ready.then(start);
+        else start();
+
+        return () => {
+            alive = false;
+            mounted = false;
+        };
     });
 </script>
 
@@ -128,6 +147,16 @@
         height: 100%;
         z-index: -1;
         overflow: hidden;
+        animation: background-fade-in 1s ease-in;
+    }
+
+    @keyframes background-fade-in {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
     }
 
     .character {
