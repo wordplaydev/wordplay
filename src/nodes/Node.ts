@@ -36,6 +36,12 @@ export default abstract class Node {
     /** A cache of leaves in this node */
     _leaves: Token[] | undefined = undefined;
 
+    /** A cache of this node's structural hash. Nodes are immutable, so the
+     * hash never changes, and Source.reparse calls hash() repeatedly during
+     * the node-reuse pass — once for every new node and again for each
+     * candidate old node it inspects. */
+    _hash: string | undefined = undefined;
+
     constructor() {
         this.id = NODE_ID_COUNTER++;
     }
@@ -160,11 +166,13 @@ export default abstract class Node {
     }
 
     hash(): string {
-        return this.isLeaf()
-            ? '' + this.id
-            : `•${this.getChildren()
-                  .map((n) => n.hash())
-                  .join(' ')}•`;
+        if (this._hash === undefined)
+            this._hash = this.isLeaf()
+                ? '' + this.id
+                : `•${this.getChildren()
+                      .map((n) => n.hash())
+                      .join(' ')}•`;
+        return this._hash;
     }
 
     //filter<S extends T>(predicate: (value: T, index: number, array: T[]) => value is S, thisArg?: any): S[];

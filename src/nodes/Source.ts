@@ -308,6 +308,16 @@ export default class Source extends Expression {
         const newTokens = tokenList.getTokens();
         const newSpaces = tokenList.getSpaces();
 
+        // FAST PATH: a same-shape token list. If the new tokenization produces
+        // the same number of tokens with the same Sym types in the same order,
+        // and at most one of them differs only in text, the parser would
+        // produce the same AST shape. We can swap that one token (or just the
+        // spaces) into the existing AST and skip parseProgram and the node-
+        // reuse pass entirely. This handles the common case of typing inside
+        // a string, name, number, comment, or doc.
+        const fast = this.tryTextOnlyEdit(newTokens, newSpaces);
+        if (fast !== undefined) return fast;
+
         // Make a mutable list of the old tokens
         const oldTokens = [...this.tokens];
         const added: Token[] = [];
@@ -350,30 +360,51 @@ export default class Source extends Expression {
         // Create a set of all of the old program's nodes, except the program itself.
         const unmatchedOldNodes = new Set(this.expression.traverseTopDown());
         unmatchedOldNodes.delete(this.expression);
+
+        // Build a (constructor → (hash → nodes)) index over the unmatched old
+        // nodes so the reuse pass can find candidates in O(1) by hash instead
+        // of scanning every old node for every new node. This turns the match
+        // pass from O(N²) to O(N) on a tree with N nodes — the dominant per-
+        // keystroke cost on large files before this change.
+        const oldByConstructorAndHash = new Map<Function, Map<string, Node[]>>();
+        for (const oldNode of unmatchedOldNodes) {
+            let byHash = oldByConstructorAndHash.get(oldNode.constructor);
+            if (byHash === undefined) {
+                byHash = new Map();
+                oldByConstructorAndHash.set(oldNode.constructor, byHash);
+            }
+            const key = oldNode.hash();
+            const bucket = byHash.get(key);
+            if (bucket === undefined) byHash.set(key, [oldNode]);
+            else bucket.push(oldNode);
+        }
+
         // Create a list of new nodes to iterate through to find matches. Skip the program, which always changes.
         const newNodes = newProgram.traverseTopDown();
         newNodes.shift();
         // Remember what we've matched so we don't redundantly match subtrees.
         const matched = new Set<Node>();
-        // Cache old node token ID sequences for speed.
-        const oldNodeTokenIDSequences = new Map<Node, string>();
 
         // Iterate through all of the new nodes in the program
         for (const newNode of newNodes) {
             // If we've already matched this node, skip it. Also skip the program; it always changes and is large.
             if (matched.has(newNode)) continue;
-            // Get the (likely cached) tokens in the new node
-            const newTokens = newNode.hash();
-            // Iterate through all of the unmatched old nodes to see if there's a match.
-            let match = undefined;
-            for (const oldNode of unmatchedOldNodes) {
-                if (newNode.constructor === oldNode.constructor) {
-                    const oldTokens =
-                        oldNodeTokenIDSequences.get(oldNode) ?? oldNode.hash();
-                    if (oldTokens === newTokens) {
-                        match = oldNode;
+            // Find the matching constructor's bucket and look up by hash.
+            const byHash = oldByConstructorAndHash.get(newNode.constructor);
+            const bucket = byHash?.get(newNode.hash());
+            // The bucket may contain old nodes that have already been claimed
+            // (because an ancestor was matched earlier and they were removed
+            // from unmatchedOldNodes). Skip past any of those.
+            let match: Node | undefined;
+            if (bucket !== undefined) {
+                while (bucket.length > 0) {
+                    const candidate = bucket[0];
+                    if (unmatchedOldNodes.has(candidate)) {
+                        match = candidate;
+                        bucket.shift();
                         break;
                     }
+                    bucket.shift();
                 }
             }
             if (match) {
@@ -385,14 +416,6 @@ export default class Source extends Expression {
                 // Remember the replacement.
                 replacements.push([match, newNode]);
             }
-            // FOR DEBUGGING
-            // else {
-            //     console.log(
-            //         `Couldn't find match for ${
-            //             newNode.getDescriptor()
-            //         } ${newNode.toWordplay()}`
-            //     );
-            // }
         }
 
         // If we found old subtrees to preserve, replace them in the new tree.
@@ -413,6 +436,58 @@ export default class Source extends Expression {
         //     console.log(node.getDescriptor() + ' ' + node.toWordplay());
 
         // Otherwise, reparse the program with the reused tokens and return a new source file
+        return new Source(this.names, [newProgram, newSpaces]);
+    }
+
+    /**
+     * Try to short-circuit reparse when the only change is a single token's
+     * text (e.g., typing inside a string/name/number/comment/doc) or a
+     * whitespace-only change. Both cases preserve the token list's length and
+     * Sym order, so the parser would produce the same AST shape — we can swap
+     * the affected token into the existing AST (or just adopt the new spaces)
+     * without running parseProgram or the O(N) node-reuse pass.
+     *
+     * Returns undefined if the edit doesn't qualify; the caller falls back to
+     * the full reparse.
+     */
+    private tryTextOnlyEdit(
+        newTokens: Token[],
+        newSpaces: Spaces,
+    ): Source | undefined {
+        if (newTokens.length !== this.tokens.length) return undefined;
+
+        // Walk pairwise looking for at most one text-only difference.
+        // Reject any difference in Sym types — those would change the parse.
+        let differingIndex = -1;
+        for (let i = 0; i < newTokens.length; i++) {
+            const newT = newTokens[i];
+            const oldT = this.tokens[i];
+            // Sym type lists must match exactly.
+            if (newT.types.length !== oldT.types.length) return undefined;
+            for (let j = 0; j < newT.types.length; j++)
+                if (newT.types[j] !== oldT.types[j]) return undefined;
+            if (newT.getText() === oldT.getText()) continue;
+            if (differingIndex !== -1) return undefined;
+            differingIndex = i;
+        }
+
+        // Re-key the new spaces map so unchanged token slots use the OLD
+        // token instances. The differing slot keeps its new instance.
+        for (let i = 0; i < newTokens.length; i++)
+            if (i !== differingIndex)
+                newSpaces.replace(newTokens[i], this.tokens[i]);
+
+        // Whitespace-only change: keep the existing AST, swap in the new spaces.
+        if (differingIndex === -1)
+            return new Source(this.names, [this.expression, newSpaces]);
+
+        // Single-token text change: clone the path from root to the affected
+        // token, replacing the old token with the new one. Everything else in
+        // the tree is reused by reference.
+        const newProgram = this.expression.replace(
+            this.tokens[differingIndex],
+            newTokens[differingIndex],
+        );
         return new Source(this.names, [newProgram, newSpaces]);
     }
 
