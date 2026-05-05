@@ -93,13 +93,9 @@
     import type { LocaleTextAccessor } from '@locale/Locales';
     import Node from '@nodes/Node';
     import Token from '@nodes/Token';
-    import { EXPLICIT_TAB_TEXT, TAB_TEXT } from '@parser/Spaces';
+    import { TAB_TEXT } from '@parser/Spaces';
     import { tick, untrack } from 'svelte';
-    import {
-        animationDuration,
-        locales,
-        spaceIndicator,
-    } from '@db/Database';
+    import { animationDuration, locales } from '@db/Database';
     import UnicodeString from '@unicode/UnicodeString';
     import { getEditor, getEvaluation } from '@components/project/Contexts';
     import { measureTokenSegment } from '@components/editor/highlights/measureTokenSegment';
@@ -391,79 +387,80 @@
         beforeSpaceWidth: number;
         beforeSpaceHeight: number;
     } {
-        // Get some measurements on spaces and tab.
+        const zero = {
+            beforeSpaceLeft: 0,
+            beforeSpaceTop: 0,
+            beforeSpaceWidth: 0,
+            beforeSpaceHeight: 0,
+        };
+
+        // Get the .space wrapper for this token.
         const spaceElement = editor.querySelector(
             `.space[data-id="${currentToken.id}"]`,
         );
-        // Couldn't find the space for some reason? Return zero dimensions.
-        if (!(spaceElement instanceof HTMLElement))
-            return {
-                beforeSpaceLeft: 0,
-                beforeSpaceTop: 0,
-                beforeSpaceWidth: 0,
-                beforeSpaceHeight: 0,
-            };
+        if (!(spaceElement instanceof HTMLElement)) return zero;
 
-        // Remember the original HTML
-        const originalHTML = spaceElement.innerHTML;
-
-        // Get the lines in the HTML (which are separated by line breaks). This depends closely on the structure created in Space.svelte.
+        // Find the .space-text line containing caretIndex (counted in original
+        // characters, with each \n separating lines).
         const lines = Array.from(spaceElement.querySelectorAll('.space-text'));
-
-        // The line that contains the caret index
-        let containingLine: UnicodeString | undefined = undefined;
+        let containingLine: HTMLElement | undefined;
+        let lineCaretIndex = caretIndex;
         let currentIndex = 0;
-        for (let lineIndex = 0; lineIndex < lines.length; lineIndex++) {
-            const nextLine = lines[lineIndex];
-            if (nextLine instanceof HTMLElement) {
-                // Replace tab text with actual tabs for an accurate count.
-                const lineText = new UnicodeString(
-                    nextLine.dataset.space ?? '',
-                );
-
-                // If the caret index is between and the end of this line (inclusive), then we found our line.
-                if (currentIndex + lineText.getLength() >= caretIndex) {
-                    containingLine = lineText;
-                    // Adjust the caret index to be relative to this line's text so we can compute the dimensions of the text on this line.
-                    caretIndex -= currentIndex;
-                    // Found it, so we stop looping through lines.
-                    break;
-                } else {
-                    // Increment the character count by the number of characters in this line, plus one for the newline.
-                    currentIndex += lineText.getLength() + 1;
-                }
+        for (const line of lines) {
+            if (!(line instanceof HTMLElement)) continue;
+            const lineLength = new UnicodeString(
+                line.dataset.space ?? '',
+            ).getLength();
+            if (currentIndex + lineLength >= caretIndex) {
+                containingLine = line;
+                lineCaretIndex = caretIndex - currentIndex;
+                break;
             }
+            // +1 for the newline that separates lines.
+            currentIndex += lineLength + 1;
+        }
+        if (!containingLine) return zero;
+
+        // Translate caretIndex (in original chars) to an offset in the rendered
+        // text node. Space.svelte's render() replaces ' ' → 1 char (NBSP or ·)
+        // and '\t' → TAB_WIDTH chars (TAB_TEXT or EXPLICIT_TAB_TEXT — both have
+        // the same length), so this is a simple sum.
+        const dataSpace = containingLine.dataset.space ?? '';
+        let renderedOffset = 0;
+        for (let i = 0; i < lineCaretIndex && i < dataSpace.length; i++)
+            renderedOffset += dataSpace[i] === '\t' ? TAB_TEXT.length : 1;
+
+        // Use a Range to measure without mutating the DOM. The previous
+        // implementation set innerHTML and read getBoundingClientRect,
+        // forcing two synchronous layout flushes per call — the bulk of the
+        // cost of vertical caret movement on long files, since DOWN-arrow
+        // typically lands in indentation whitespace.
+        const textNode = containingLine.firstChild;
+        if (!textNode || textNode.nodeType !== textNode.TEXT_NODE) return zero;
+        const textLength = textNode.nodeValue?.length ?? 0;
+        const range = document.createRange();
+        range.setStart(textNode, 0);
+        range.setEnd(textNode, Math.min(renderedOffset, textLength));
+        const rect = range.getBoundingClientRect();
+
+        // For an empty range or empty line, the rect is degenerate; fall back
+        // to the line element's left/top so the caller still gets a usable
+        // anchor for the caret.
+        if (rect.width === 0 && rect.height === 0) {
+            const lineRect = containingLine.getBoundingClientRect();
+            return {
+                beforeSpaceLeft: lineRect.left,
+                beforeSpaceTop: lineRect.top,
+                beforeSpaceWidth: 0,
+                beforeSpaceHeight: lineRect.height,
+            };
         }
 
-        // If we didn't find a line, return zero dimensions.
-        if (containingLine === undefined)
-            return {
-                beforeSpaceLeft: 0,
-                beforeSpaceTop: 0,
-                beforeSpaceWidth: 0,
-                beforeSpaceHeight: 0,
-            };
-
-        // If we found the line, find the characters before the caret index.
-        const beforeSpace = containingLine.substring(0, caretIndex);
-
-        // Temporarily assign the inner HTML of the space component to the text before the caret on the line.
-        spaceElement.innerHTML = beforeSpace
-            .toString()
-            .replaceAll('\t', $spaceIndicator ? EXPLICIT_TAB_TEXT : TAB_TEXT);
-        const beforeSpaceBounds = spaceElement.getBoundingClientRect();
-        const beforeSpaceWidth = beforeSpaceBounds.width;
-        const beforeSpaceHeight = beforeSpaceBounds.height;
-
-        // Restore the original HTML
-        spaceElement.innerHTML = originalHTML;
-
-        // Return the computed space.
         return {
-            beforeSpaceLeft: beforeSpaceBounds.left,
-            beforeSpaceTop: beforeSpaceBounds.top,
-            beforeSpaceWidth,
-            beforeSpaceHeight,
+            beforeSpaceLeft: rect.left,
+            beforeSpaceTop: rect.top,
+            beforeSpaceWidth: rect.width,
+            beforeSpaceHeight: rect.height,
         };
     }
 
