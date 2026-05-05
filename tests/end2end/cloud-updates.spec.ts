@@ -87,6 +87,14 @@ test('changing a character name updates its project references', async ({
     const sourceCodeWithCharacterRef = `Phrase(\`@${initialCharacterNameFull}\`)`;
     await updateProjectSource(projectId, sourceCodeWithCharacterRef);
 
+    // Wait for the project page to render the new character reference before
+    // navigating away. This proves the Firestore snapshot has been delivered
+    // to the in-memory Projects store; otherwise the rename below may run
+    // against a stale project that has no reference to revise.
+    await expect(
+        page.getByTestId('editor').first(),
+    ).toContainText(`@${initialCharacterNameFull}`);
+
     // Now, rename the character
     await page.goto(`/en-US/character/${characterId}`);
     const newCharacterName = 'New';
