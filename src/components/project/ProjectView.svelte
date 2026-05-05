@@ -867,28 +867,38 @@
     });
 
     function updateConflicts() {
+        // During a typing flurry skip the analysis entirely. project.analyze()
+        // walks every source node, computes types and conflicts, and is
+        // 50-200ms on a 100+ line program. Running it on every keystroke (and
+        // throwing the result away on the next stroke) is the dominant cost
+        // of typing in large files. The effect below re-fires when
+        // $keyboardEditIdle leaves Typing, at which point we'll catch up.
+        if ($keyboardEditIdle === IdleKind.Typing) return;
+
         // Analyzed? Update the conflicts immediately.
         if (project.analyzed === 'analyzed') {
             conflicts.set(project.getConflicts());
         }
-        // Not yet analyzed? Analyze in a bit.
+        // Not yet analyzed? Run analysis now and publish.
         else if (project.analyzed === 'unanalyzed') {
             project.analyze();
-            updateTimer = setTimeout(() => {
-                project.analyze();
-                updateConflicts();
-            }, KeyboardIdleWaitTime);
+            conflicts.set(project.getConflicts());
         }
-        // Still analyzing? Try again later.
+        // Still analyzing (re-entrant case)? Try again shortly.
         else {
             if (updateTimer) clearTimeout(updateTimer);
             updateTimer = setTimeout(updateConflicts, KeyboardIdleWaitTime);
         }
     }
 
-    /** Any time the project changes, update the conflicts soon */
+    /** Any time the project changes or typing settles, update the conflicts. */
     $effect(() => {
-        if (project) updateConflicts();
+        // Track both: project change re-fires (post-edit) and idle transitions
+        // re-fire (typing → typed/idle) so analysis happens as soon as the user
+        // pauses.
+        project;
+        $keyboardEditIdle;
+        updateConflicts();
         return () => {
             if (updateTimer) clearTimeout(updateTimer);
         };
