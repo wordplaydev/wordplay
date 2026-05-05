@@ -16,13 +16,15 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - We added descriptions to the editor's cursor selection and the conflict pane to help explain what the selected code does. It should be a useful shorthand, supplementing the full documentation.
 - We added a default user of `creator/password` for developers who are testing on their computers.
 - We upgraded internal tooling for stability.
-- We updated the URLs of the application always include the currently selected langauge(s). This makes the current language setting more reliable on page refresh and link sharing (#809).
+- We updated the URLs of the application always include the currently selected language(s). This makes the current language setting more reliable on page refresh and link sharing (#809).
+- We made it faster to load the home page.
 
 ### Fixed
 
 - We improved the position of the say feedback on stage so it wouldn't overlap with a chat text box.
 - We fixed typing for languages that have combining character inputs, like Hindi vowels (#1079).
 - We fixed several problems with the Japanese locale (#1048).
+- We made some of our tests more reliable.
 
 ## 0.17.7 - 2026-04-25
 

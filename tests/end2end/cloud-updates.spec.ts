@@ -12,7 +12,11 @@ test('editing a project saves it to the cloud', async ({ page }) => {
     const newProjectName = "What's in a name";
     const projectNameField = page.locator('#project-name');
     await projectNameField.fill(newProjectName);
-    expect(await projectNameField.inputValue()).toBe(newProjectName);
+
+    // Auto-retrying assertion: if a follow-up Firestore snapshot re-renders the
+    // bound input and wipes the just-typed value, this fails fast with a clear
+    // error instead of letting the test chase the downstream save symptom.
+    await expect(projectNameField).toHaveValue(newProjectName);
 
     // Wait for the project to be updated in Firestore
     const updatedProjectData = await waitForDocumentUpdate(
