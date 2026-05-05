@@ -5195,7 +5195,11 @@
                     "video": "use a camera",
                     "gallery": "created by your fellow Wordplay directors"
                 },
-                "related": "Not what you're looking for?"
+                "related": "Not what you're looking for?",
+                "howToGalleryButton": {
+                    "label": "see to the how-to in the space",
+                    "tip": "see to the how-to in the space"
+                }
             }
         },
         "dialog": {

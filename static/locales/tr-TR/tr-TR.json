@@ -4834,7 +4834,11 @@
                     "video": "$~bir kamera kullan",
                     "gallery": "$~Diğer Wordplay yöneticileriniz tarafından oluşturuldu"
                 },
-                "related": "$~Aradığınız bu değil mi?"
+                "related": "$~Aradığınız bu değil mi?",
+                "howToGalleryButton": {
+                    "label": "$~Bu alandaki \"nasıl yapılır\" bölümüne bakın.",
+                    "tip": "$~Bu alandaki \"nasıl yapılır\" bölümüne bakın."
+                }
             },
             "mode": {
                 "browse": {

@@ -4775,7 +4775,11 @@
                     "video": "錄影",
                     "gallery": "$~由您的 Wordplay 同儕導演創作"
                 },
-                "related": "這些不是您要找的嗎？"
+                "related": "這些不是您要找的嗎？",
+                "howToGalleryButton": {
+                    "label": "$~請查看空間中的操作方法",
+                    "tip": "$~請查看空間中的操作方法"
+                }
             },
             "mode": {
                 "browse": {

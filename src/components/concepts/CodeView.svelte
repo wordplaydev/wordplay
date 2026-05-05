@@ -1,18 +1,16 @@
 <script lang="ts">
-    import Link from '@components/app/Link.svelte';
-    import type Concept from '@concepts/Concept';
-    import GalleryHowConcept from '@concepts/GalleryHowConcept';
-    import { blocks, locales } from '@db/Database';
-    import Expression, { ExpressionKind } from '@nodes/Expression';
-    import type Node from '@nodes/Node';
-    import getPreferredSpaces from '@parser/getPreferredSpaces';
-    import type Type from '@nodes/Type';
-    import Spaces from '@parser/Spaces';
+    import ConceptLinkUI from '@components/concepts/ConceptLinkUI.svelte';
+    import TypeView from '@components/concepts/TypeView.svelte';
     import { copyNode } from '@components/editor/commands/Clipboard';
     import { getConceptIndex, getDragged } from '@components/project/Contexts';
     import RootView from '@components/project/RootView.svelte';
-    import ConceptLinkUI from '@components/concepts/ConceptLinkUI.svelte';
-    import TypeView from '@components/concepts/TypeView.svelte';
+    import type Concept from '@concepts/Concept';
+    import { blocks, locales } from '@db/Database';
+    import Expression, { ExpressionKind } from '@nodes/Expression';
+    import type Node from '@nodes/Node';
+    import type Type from '@nodes/Type';
+    import getPreferredSpaces from '@parser/getPreferredSpaces';
+    import Spaces from '@parser/Spaces';
 
     interface Props {
         node: Node;
@@ -110,13 +108,7 @@
 {#snippet link()}
     {#if describe && concept}
         <div class="link">
-            {#if concept instanceof GalleryHowConcept}
-                <Link to={concept.getPath()} external
-                    >{concept.getName($locales)}</Link
-                >
-            {:else}
-                <ConceptLinkUI link={concept} symbolic={false} />
-            {/if}
+            <ConceptLinkUI link={concept} symbolic={false} />
         </div>
     {/if}
 {/snippet}

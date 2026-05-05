@@ -4799,7 +4799,11 @@
                     "video": "$~usa una cámara",
                     "gallery": "$~Creado por tus compañeros directores de Wordplay"
                 },
-                "related": "$~¿No es lo que estás buscando?"
+                "related": "$~¿No es lo que estás buscando?",
+                "howToGalleryButton": {
+                    "label": "$~Consulta las instrucciones en el espacio",
+                    "tip": "$~Consulta las instrucciones en el espacio"
+                }
             },
             "mode": {
                 "browse": {

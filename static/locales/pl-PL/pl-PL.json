@@ -4839,7 +4839,11 @@
                     "video": "$~użyj aparatu",
                     "gallery": "$~stworzone przez waszych kolegów reżyserów Wordplay"
                 },
-                "related": "$~Nie znalazłeś tego, czego szukasz?"
+                "related": "$~Nie znalazłeś tego, czego szukasz?",
+                "howToGalleryButton": {
+                    "label": "$~zobacz instrukcję w przestrzeni",
+                    "tip": "$~zobacz instrukcję w przestrzeni"
+                }
             },
             "mode": {
                 "browse": {

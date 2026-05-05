@@ -4834,7 +4834,11 @@
                     "video": "$~använda en kamera",
                     "gallery": "$~skapad av dina Wordplay-regissörskollegor"
                 },
-                "related": "$~Inte vad du letar efter?"
+                "related": "$~Inte vad du letar efter?",
+                "howToGalleryButton": {
+                    "label": "$~se hur man gör i utrymmet",
+                    "tip": "$~se hur man gör i utrymmet"
+                }
             },
             "mode": {
                 "browse": {

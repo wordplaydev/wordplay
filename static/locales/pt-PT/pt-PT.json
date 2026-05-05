@@ -5191,7 +5191,11 @@
                     "video": "$~usar uma câmara",
                     "gallery": "$~Criado pelos seus colegas diretores do Wordplay"
                 },
-                "related": "$~Não é o que procura?"
+                "related": "$~Não é o que procura?",
+                "howToGalleryButton": {
+                    "label": "$~Veja o passo a passo no espaço",
+                    "tip": "$~Veja o passo a passo no espaço"
+                }
             }
         },
         "dialog": {

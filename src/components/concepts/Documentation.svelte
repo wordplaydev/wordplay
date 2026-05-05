@@ -7,8 +7,30 @@
     import HeaderAndExplanation from '@components/app/HeaderAndExplanation.svelte';
     import Spinning from '@components/app/Spinning.svelte';
     import Subheader from '@components/app/Subheader.svelte';
+    import TutorialHighlight from '@components/app/TutorialHighlight.svelte';
+    import CodeView from '@components/concepts/CodeView.svelte';
+    import ConceptGroupView from '@components/concepts/ConceptGroupView.svelte';
+    import ConceptLinkUI from '@components/concepts/ConceptLinkUI.svelte';
+    import ConceptsView from '@components/concepts/ConceptsView.svelte';
+    import ConceptView from '@components/concepts/ConceptView.svelte';
+    import FunctionConceptView from '@components/concepts/FunctionConceptView.svelte';
+    import HowConceptView from '@components/concepts/HowConceptView.svelte';
+    import NodeConceptView from '@components/concepts/NodeConceptView.svelte';
+    import StreamConceptView from '@components/concepts/StreamConceptView.svelte';
+    import StructureConceptView from '@components/concepts/StructureConceptView.svelte';
+    import {
+        getConceptIndex,
+        getConceptPath,
+        getDragged,
+        getUser,
+        type ConceptPath,
+    } from '@components/project/Contexts';
+    import getScrollParent from '@components/util/getScrollParent';
+    import Button from '@components/widgets/Button.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import Mode from '@components/widgets/Mode.svelte';
+    import Note from '@components/widgets/Note.svelte';
+    import TextField from '@components/widgets/TextField.svelte';
     import BindConcept from '@concepts/BindConcept';
     import type Concept from '@concepts/Concept';
     import ConversionConcept from '@concepts/ConversionConcept';
@@ -21,13 +43,23 @@
     import { Purpose, type PurposeType } from '@concepts/Purpose';
     import StreamConcept from '@concepts/StreamConcept';
     import StructureConcept from '@concepts/StructureConcept';
+    import {
+        Galleries,
+        HowTos,
+        Locales,
+        Projects,
+        blocks,
+        locales,
+    } from '@db/Database';
     import type Gallery from '@db/galleries/Gallery';
     import GalleryHowTo from '@db/howtos/HowToDatabase.svelte';
+    import type Project from '@db/projects/Project';
     import {
         getLanguageQuoteClose,
         getLanguageQuoteOpen,
     } from '@locale/LanguageCode';
     import CompositeLiteral from '@nodes/CompositeLiteral';
+    import ConceptLink from '@nodes/ConceptLink';
     import Expression from '@nodes/Expression';
     import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
     import Literal from '@nodes/Literal';
@@ -51,37 +83,7 @@
         TYPE_SYMBOL,
     } from '@parser/Symbols';
     import { onDestroy, tick } from 'svelte';
-    import {
-        Galleries,
-        HowTos,
-        Locales,
-        Projects,
-        blocks,
-        locales,
-    } from '@db/Database';
-    import type Project from '@db/projects/Project';
-    import ConceptLink from '@nodes/ConceptLink';
-    import TutorialHighlight from '@components/app/TutorialHighlight.svelte';
-    import {
-        getConceptIndex,
-        getConceptPath,
-        getDragged,
-        type ConceptPath,
-    } from '@components/project/Contexts';
-    import getScrollParent from '@components/util/getScrollParent';
-    import Button from '@components/widgets/Button.svelte';
-    import Note from '@components/widgets/Note.svelte';
-    import TextField from '@components/widgets/TextField.svelte';
-    import CodeView from '@components/concepts/CodeView.svelte';
-    import ConceptGroupView from '@components/concepts/ConceptGroupView.svelte';
-    import ConceptLinkUI from '@components/concepts/ConceptLinkUI.svelte';
-    import ConceptsView from '@components/concepts/ConceptsView.svelte';
-    import ConceptView from '@components/concepts/ConceptView.svelte';
-    import FunctionConceptView from '@components/concepts/FunctionConceptView.svelte';
-    import HowConceptView from '@components/concepts/HowConceptView.svelte';
-    import NodeConceptView from '@components/concepts/NodeConceptView.svelte';
-    import StreamConceptView from '@components/concepts/StreamConceptView.svelte';
-    import StructureConceptView from '@components/concepts/StructureConceptView.svelte';
+    import HowToConceptView from './HowToConceptView.svelte';
 
     interface Props {
         project: Project;
@@ -107,6 +109,8 @@
     function isContentPurpose(p: PurposeType): p is ContentPurpose {
         return (contentPurposes as readonly PurposeType[]).includes(p);
     }
+
+    const user = getUser();
 
     /**
      * The palette is hybrid documentation/drag and drop palette, organized by types.
@@ -436,6 +440,8 @@
                     <NodeConceptView concept={currentConcept} />
                 {:else if currentConcept instanceof HowConcept}
                     <HowConceptView concept={currentConcept} />
+                {:else if currentConcept instanceof GalleryHowConcept}
+                    <HowToConceptView concept={currentConcept} />
                 {:else}
                     <CodeView
                         node={currentConcept.getRepresentation($locales)}
@@ -449,9 +455,19 @@
                         <Spinning></Spinning>
                     {:else}
                         {#if galleryHowTos.length > 0}
-                            {@const galleryHow = index.concepts.filter(
-                                (c) => c instanceof GalleryHowConcept,
-                            )}
+                            {@const galleryHow = index.concepts
+                                .filter((c) => c instanceof GalleryHowConcept)
+                                .toSorted((a, b) => {
+                                    return a.howTo.hasBookmarker(
+                                        $user?.uid ?? '',
+                                    ) == b.howTo.hasBookmarker($user?.uid ?? '')
+                                        ? 0
+                                        : a.howTo.hasBookmarker(
+                                                $user?.uid ?? '',
+                                            )
+                                          ? -1
+                                          : 1;
+                                })}
                             <Subheader
                                 text={(l) => l.ui.docs.how.category.gallery}
                             />

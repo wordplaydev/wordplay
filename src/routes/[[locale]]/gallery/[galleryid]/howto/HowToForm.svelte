@@ -25,7 +25,9 @@
         locales,
     } from '@db/Database';
     import type Gallery from '@db/galleries/Gallery';
-    import HowTo from '@db/howtos/HowToDatabase.svelte';
+    import HowTo, {
+        HowToSchemaLatestVersion,
+    } from '@db/howtos/HowToDatabase.svelte';
     import type Locale from '@locale/Locale';
     import { localeToString, stringToLocale } from '@locale/Locale';
     import {
@@ -380,6 +382,7 @@
 
             howTo = new HowTo({
                 ...howTo.getData(),
+                v: HowToSchemaLatestVersion,
                 published: publish,
                 title: title,
                 text: multilingualText,
