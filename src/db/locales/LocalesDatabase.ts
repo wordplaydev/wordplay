@@ -33,8 +33,14 @@ export default class LocalesDatabase {
     /** A reactive store of preferred locales based on the selected languages. */
     readonly locales: Writable<Locales> = writable(DefaultLocales);
 
-    /** True once the initial preferred locales have finished loading, preventing a flash of the default locale. */
-    readonly localesReady: Writable<boolean> = writable(false);
+    /**
+     * True once the initial preferred locales have finished loading, preventing
+     * a flash of the default locale. Initialized in the constructor based on
+     * whether all requested locales are already available synchronously (i.e.,
+     * the en-US-only case where the bundled defaultLocale is enough), so that
+     * hydration of the prerendered landing page doesn't briefly hide content.
+     */
+    readonly localesReady: Writable<boolean>;
 
     /** The locales loaded, loading, or failed to load. */
     private localesLoaded: Record<
@@ -74,9 +80,22 @@ export default class LocalesDatabase {
 
         // Load the requested locales, combining those given (from the browser) and those from the local storage settings.
         // Mark ready once the initial preferred locales are loaded, so the UI can avoid rendering in the default locale first.
-        this.loadLocales(
-            Array.from(new Set([...locales, ...this.setting.get()])),
-        ).then(() => this.localesReady.set(true));
+        const requested = Array.from(
+            new Set([...locales, ...this.setting.get()]),
+        );
+
+        // If everything we need is already loaded synchronously (the common
+        // en-US case, since the defaultLocale was just inserted above), start
+        // ready=true so the prerendered landing page doesn't get hidden during
+        // hydration. Non-en-US users start ready=false; the locale-loading
+        // CSS class set by /scripts/locale-preload.js keeps the body invisible
+        // for them until this writable flips true.
+        const allAvailable = requested.every(
+            (l) => this.localesLoaded[l] !== undefined,
+        );
+        this.localesReady = writable(allAvailable);
+
+        this.loadLocales(requested).then(() => this.localesReady.set(true));
     }
 
     async refreshLocales() {
