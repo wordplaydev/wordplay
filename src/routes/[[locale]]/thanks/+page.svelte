@@ -2,11 +2,24 @@
     import Header from '@components/app/Header.svelte';
     import Link from '@components/app/Link.svelte';
     import Page from '@components/app/Page.svelte';
+    import Subheader from '@components/app/Subheader.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import contributorsData from './contributors.json';
-    import type { Contributor } from './types';
+    import teachersData from './teachers.json';
+    import type { Contributor, Teacher } from './types';
 
-    const contributors = contributorsData.contributors as Contributor[];
+    const total = (c: Contributor) =>
+        Object.values(c.counts).reduce((sum, n) => sum + n, 0);
+
+    const contributors = (contributorsData.contributors as Contributor[])
+        .slice()
+        .sort((a, b) => {
+            const dayCompare = b.latest
+                .slice(0, 10)
+                .localeCompare(a.latest.slice(0, 10));
+            return dayCompare !== 0 ? dayCompare : total(b) - total(a);
+        });
+    const teachers = teachersData.teachers as Teacher[];
 </script>
 
 <Page>
@@ -15,7 +28,23 @@
         <MarkupHTMLView
             markup={[(l) => l.ui.page.thanks.intro, contributors.length]}
         />
+        {#if teachers.length > 0}
+            <Subheader text={(l) => l.ui.page.thanks.teachers} />
+            <div class="grid">
+                {#each teachers as teacher}
+                    <Link to={teacher.url}>
+                        <div class="card">
+                            <div class="info">
+                                <span class="name">{teacher.name}</span>
+                                <span class="login">{teacher.school}</span>
+                            </div>
+                        </div>
+                    </Link>
+                {/each}
+            </div>
+        {/if}
         {#if contributors.length > 0}
+            <Subheader text={(l) => l.ui.page.thanks.contributors} />
             <div class="grid">
                 {#each contributors as contributor}
                     <Link to={contributor.html_url}>

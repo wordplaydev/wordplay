@@ -6084,7 +6084,9 @@
             },
             "thanks": {
                 "header": "$~Dzięki",
-                "intro": "$~Dziękujemy naszym *$1* współpracownikom za wkład w projekt, rozwój, lokalizację i treść Wordplay! Dziękujemy również licznym nauczycielom i młodzieży, którzy kierowali naszym projektem w grupach fokusowych, sesjach projektowych i klasach, których nie wymieniamy tutaj ze względu na ochronę ich prywatności.\n\nTen projekt został wsparty przez National Science Foundation w ramach nagród 2318257, 2031265, 2100296 i 2122950, Uniwersytet Waszyngtoński oraz hojne <gifts//donate> od osób takich jak Ty."
+                "intro": "$~Dziękujemy naszym *$1* współpracownikom za wkład w projekt, rozwój, lokalizację i treść Wordplay! Dziękujemy również licznym nauczycielom i młodzieży, którzy kierowali naszym projektem w grupach fokusowych, sesjach projektowych i klasach, których nie wymieniamy tutaj ze względu na ochronę ich prywatności.\n\nTen projekt został wsparty przez National Science Foundation w ramach nagród 2318257, 2031265, 2100296 i 2122950, Uniwersytet Waszyngtoński oraz hojne <gifts//donate> od osób takich jak Ty.",
+                "teachers": "$~Nauczycielstwo",
+                "contributors": "$~Współtwórcy"
             }
         },
         "edit": {

@@ -5995,7 +5995,9 @@
             },
             "thanks": {
                 "header": "$~Merci",
-                "intro": "$~Merci à nos *$1* contributeurs pour leur contribution à la conception, au développement, à la localisation et au contenu de Wordplay ! Merci également aux nombreux enseignants et jeunes qui ont guidé notre conception lors de groupes de discussion, d’ateliers de conception et en classe, et dont nous ne mentionnons pas les noms ici afin de préserver leur anonymat.\n\nCe projet a bénéficié du soutien de la National Science Foundation (subventions n° 2318257, 2031265, 2100296 et 2122950), de l’Université de Washington et de généreux dons (via <gifts//donate>) de personnes comme vous."
+                "intro": "$~Merci à nos *$1* contributeurs pour leur contribution à la conception, au développement, à la localisation et au contenu de Wordplay ! Merci également aux nombreux enseignants et jeunes qui ont guidé notre conception lors de groupes de discussion, d’ateliers de conception et en classe, et dont nous ne mentionnons pas les noms ici afin de préserver leur anonymat.\n\nCe projet a bénéficié du soutien de la National Science Foundation (subventions n° 2318257, 2031265, 2100296 et 2122950), de l’Université de Washington et de généreux dons (via <gifts//donate>) de personnes comme vous.",
+                "teachers": "$~Enseignants",
+                "contributors": "$~Contributeurs"
             }
         },
         "edit": {

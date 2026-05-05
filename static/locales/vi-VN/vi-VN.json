@@ -6314,7 +6314,9 @@
             },
             "thanks": {
                 "header": "$~Cảm ơn",
-                "intro": "$~Cảm ơn *$1* người đóng góp đã tham gia vào thiết kế, phát triển, bản địa hóa và nội dung của Wordplay! Và cảm ơn rất nhiều giáo viên và bạn trẻ đã hướng dẫn thiết kế của chúng tôi trong các nhóm thảo luận, các buổi thiết kế và trong lớp học, những người mà chúng tôi không liệt kê ở đây để bảo vệ quyền riêng tư của họ.\n\nDự án này được hỗ trợ bởi Quỹ Khoa học Quốc gia theo các giải thưởng 2318257, 2031265, 2100296 và 2122950, Đại học Washington, và những khoản đóng góp hào phóng <gifts//donate> từ những người như bạn."
+                "intro": "$~Cảm ơn *$1* người đóng góp đã tham gia vào thiết kế, phát triển, bản địa hóa và nội dung của Wordplay! Và cảm ơn rất nhiều giáo viên và bạn trẻ đã hướng dẫn thiết kế của chúng tôi trong các nhóm thảo luận, các buổi thiết kế và trong lớp học, những người mà chúng tôi không liệt kê ở đây để bảo vệ quyền riêng tư của họ.\n\nDự án này được hỗ trợ bởi Quỹ Khoa học Quốc gia theo các giải thưởng 2318257, 2031265, 2100296 và 2122950, Đại học Washington, và những khoản đóng góp hào phóng <gifts//donate> từ những người như bạn.",
+                "teachers": "$~Giáo viên",
+                "contributors": "$~Người đóng góp"
             }
         },
         "edit": {

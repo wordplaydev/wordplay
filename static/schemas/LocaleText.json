@@ -13728,6 +13728,10 @@
                   "additionalProperties": false,
                   "description": "Thanks/contributors page text",
                   "properties": {
+                    "contributors": {
+                      "description": "[plain] The subheader for the GitHub contributors section",
+                      "type": "string"
+                    },
                     "header": {
                       "description": "[plain] The page heading",
                       "type": "string"
@@ -13735,11 +13739,17 @@
                     "intro": {
                       "description": "[formatted] Introductory paragraph (use $count as a placeholder for the contributor count)",
                       "type": "string"
+                    },
+                    "teachers": {
+                      "description": "[plain] The subheader for the teacher partners section",
+                      "type": "string"
                     }
                   },
                   "required": [
                     "header",
-                    "intro"
+                    "intro",
+                    "teachers",
+                    "contributors"
                   ],
                   "type": "object"
                 },

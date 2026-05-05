@@ -10,6 +10,7 @@ type GitHubCommit = {
 };
 
 type GitHubIssue = {
+    number: number;
     html_url: string;
     title: string;
     created_at: string;
@@ -24,19 +25,29 @@ type GitHubComment = {
     user: GitHubUser | null;
 };
 
-export type Contribution = {
-    type: 'commit' | 'issue' | 'pull_request' | 'issue_comment';
-    date: string;
-    title: string;
-    url: string;
+type GitHubReview = {
+    html_url: string;
+    body: string;
+    state: 'APPROVED' | 'CHANGES_REQUESTED' | 'COMMENTED' | 'DISMISSED' | 'PENDING';
+    submitted_at: string | null;
+    user: GitHubUser | null;
 };
+
+export type ContributionType =
+    | 'commit'
+    | 'issue'
+    | 'pull_request'
+    | 'issue_comment'
+    | 'pr_review'
+    | 'pr_review_comment';
 
 export type Contributor = {
     login: string;
     name: string | null;
     avatar_url: string;
     html_url: string;
-    contributions: Contribution[];
+    counts: Record<ContributionType, number>;
+    latest: string;
 };
 
 export type ContributorsData = {
@@ -81,6 +92,10 @@ async function paginate<T>(token: string, url: string): Promise<T[]> {
     return all;
 }
 
+function isBot(user: GitHubUser): boolean {
+    return user.login.endsWith('[bot]');
+}
+
 function getOrAdd(
     map: Map<string, Contributor>,
     user: GitHubUser,
@@ -92,10 +107,27 @@ function getOrAdd(
             name: fallbackName,
             avatar_url: user.avatar_url,
             html_url: user.html_url,
-            contributions: [],
+            counts: {
+                commit: 0,
+                issue: 0,
+                pull_request: 0,
+                issue_comment: 0,
+                pr_review: 0,
+                pr_review_comment: 0,
+            },
+            latest: '',
         });
     }
     return map.get(user.login)!;
+}
+
+function record(
+    contributor: Contributor,
+    type: ContributionType,
+    date: string,
+): void {
+    contributor.counts[type]++;
+    if (date > contributor.latest) contributor.latest = date;
 }
 
 export async function fetchContributorsData(
@@ -110,13 +142,12 @@ export async function fetchContributorsData(
     const commits = await paginate<GitHubCommit>(token, `${base}/commits`);
     log(`  ${commits.length} commits fetched.`);
     for (const c of commits) {
-        if (!c.author) continue;
-        getOrAdd(byLogin, c.author, c.commit.author.name).contributions.push({
-            type: 'commit',
-            date: c.commit.author.date,
-            title: c.commit.message.split('\n')[0].slice(0, 120),
-            url: c.html_url,
-        });
+        if (!c.author || isBot(c.author)) continue;
+        record(
+            getOrAdd(byLogin, c.author, c.commit.author.name),
+            'commit',
+            c.commit.author.date,
+        );
     }
 
     log('Fetching issues...');
@@ -126,29 +157,20 @@ export async function fetchContributorsData(
     );
     log(`  ${issues.length} issues fetched.`);
     for (const issue of issues) {
-        if (!issue.user || issue.pull_request) continue;
-        getOrAdd(byLogin, issue.user, null).contributions.push({
-            type: 'issue',
-            date: issue.created_at,
-            title: issue.title,
-            url: issue.html_url,
-        });
+        if (!issue.user || issue.pull_request || isBot(issue.user)) continue;
+        record(getOrAdd(byLogin, issue.user, null), 'issue', issue.created_at);
     }
 
     log('Fetching pull requests...');
-    const prs = await paginate<GitHubIssue>(
-        token,
-        `${base}/pulls?state=all`,
-    );
+    const prs = await paginate<GitHubIssue>(token, `${base}/pulls?state=all`);
     log(`  ${prs.length} pull requests fetched.`);
     for (const pr of prs) {
-        if (!pr.user) continue;
-        getOrAdd(byLogin, pr.user, null).contributions.push({
-            type: 'pull_request',
-            date: pr.created_at,
-            title: pr.title,
-            url: pr.html_url,
-        });
+        if (!pr.user || isBot(pr.user)) continue;
+        record(
+            getOrAdd(byLogin, pr.user, null),
+            'pull_request',
+            pr.created_at,
+        );
     }
 
     log('Fetching issue comments...');
@@ -156,23 +178,58 @@ export async function fetchContributorsData(
         token,
         `${base}/issues/comments`,
     );
+    log(`  ${comments.length} comments fetched.`);
     for (const comment of comments) {
-        if (!comment.user) continue;
-        getOrAdd(byLogin, comment.user, null).contributions.push({
-            type: 'issue_comment',
-            date: comment.created_at,
-            title: comment.body.slice(0, 120),
-            url: comment.html_url,
-        });
+        if (!comment.user || isBot(comment.user)) continue;
+        record(
+            getOrAdd(byLogin, comment.user, null),
+            'issue_comment',
+            comment.created_at,
+        );
     }
 
-    log(`  ${comments.length} comments fetched.`);
+    log('Fetching PR review comments...');
+    const reviewComments = await paginate<GitHubComment>(
+        token,
+        `${base}/pulls/comments`,
+    );
+    log(`  ${reviewComments.length} PR review comments fetched.`);
+    for (const comment of reviewComments) {
+        if (!comment.user || isBot(comment.user)) continue;
+        record(
+            getOrAdd(byLogin, comment.user, null),
+            'pr_review_comment',
+            comment.created_at,
+        );
+    }
 
-    const contributors = [...byLogin.values()].sort((a, b) => {
-        const latest = (c: Contributor) =>
-            Math.max(...c.contributions.map((x) => new Date(x.date).getTime()));
-        return latest(b) - latest(a);
-    });
+    log(`Fetching PR reviews for ${prs.length} PRs...`);
+    let reviewCount = 0;
+    for (const pr of prs) {
+        const reviews = await paginate<GitHubReview>(
+            token,
+            `${base}/pulls/${pr.number}/reviews`,
+        );
+        for (const review of reviews) {
+            if (
+                !review.user ||
+                isBot(review.user) ||
+                review.submitted_at === null
+            )
+                continue;
+            reviewCount++;
+            record(
+                getOrAdd(byLogin, review.user, null),
+                'pr_review',
+                review.submitted_at,
+            );
+        }
+    }
+    log(`  ${reviewCount} PR reviews fetched.`);
+
+    const contributors = [...byLogin.values()].sort((a, b) =>
+        b.latest.localeCompare(a.latest),
+    );
 
     log(`Done. Found ${contributors.length} unique contributors.`);
     return { created: new Date().toISOString(), contributors };

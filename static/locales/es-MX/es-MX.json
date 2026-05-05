@@ -5977,7 +5977,9 @@
             },
             "thanks": {
                 "header": "$~Gracias",
-                "intro": "$~¡Gracias a nuestros *$1* colaboradores por su contribución al diseño, desarrollo, localización y contenido de Wordplay! Y gracias también a los numerosos profesores y jóvenes que han guiado nuestro diseño en grupos focales, sesiones de diseño y aulas, cuyos nombres no mencionamos aquí para proteger su privacidad.\n\nEste proyecto ha recibido el apoyo de la Fundación Nacional de Ciencias (NSF) mediante las subvenciones 2318257, 2031265, 2100296 y 2122950, la Universidad de Washington y las generosas donaciones de personas como usted."
+                "intro": "$~¡Gracias a nuestros *$1* colaboradores por su contribución al diseño, desarrollo, localización y contenido de Wordplay! Y gracias también a los numerosos profesores y jóvenes que han guiado nuestro diseño en grupos focales, sesiones de diseño y aulas, cuyos nombres no mencionamos aquí para proteger su privacidad.\n\nEste proyecto ha recibido el apoyo de la Fundación Nacional de Ciencias (NSF) mediante las subvenciones 2318257, 2031265, 2100296 y 2122950, la Universidad de Washington y las generosas donaciones de personas como usted.",
+                "teachers": "$~profesores",
+                "contributors": "$~Colaboradores"
             }
         },
         "edit": {

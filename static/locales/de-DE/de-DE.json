@@ -5994,7 +5994,9 @@
             },
             "thanks": {
                 "header": "$~Danke",
-                "intro": "$~Vielen Dank an unsere *$1* Mitwirkenden für ihren Beitrag zu Design, Entwicklung, Lokalisierung und Inhalten von Wordplay! Ein besonderer Dank gilt auch den vielen Lehrkräften und Jugendlichen, die uns in Fokusgruppen, Design-Workshops und im Unterricht unterstützt haben. Aus Gründen des Datenschutzes verzichten wir hier auf die Nennung ihrer Namen.\n\nDieses Projekt wurde gefördert von der National Science Foundation (Fördernummern 2318257, 2031265, 2100296 und 2122950), der University of Washington sowie durch großzügige Spenden an <gifts//donate> von Menschen wie Ihnen."
+                "intro": "$~Vielen Dank an unsere *$1* Mitwirkenden für ihren Beitrag zu Design, Entwicklung, Lokalisierung und Inhalten von Wordplay! Ein besonderer Dank gilt auch den vielen Lehrkräften und Jugendlichen, die uns in Fokusgruppen, Design-Workshops und im Unterricht unterstützt haben. Aus Gründen des Datenschutzes verzichten wir hier auf die Nennung ihrer Namen.\n\nDieses Projekt wurde gefördert von der National Science Foundation (Fördernummern 2318257, 2031265, 2100296 und 2122950), der University of Washington sowie durch großzügige Spenden an <gifts//donate> von Menschen wie Ihnen.",
+                "teachers": "$~Lehrer",
+                "contributors": "$~Mitwirkende"
             }
         },
         "edit": {

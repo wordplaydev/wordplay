@@ -6075,7 +6075,9 @@
             },
             "thanks": {
                 "header": "$~Teşekkürler",
-                "intro": "$~Wordplay'in tasarımına, geliştirilmesine, yerelleştirilmesine ve içeriğine katkıda bulunan *$1* sayıda katılımcımıza teşekkür ederiz! Ayrıca, gizliliklerini korumak amacıyla burada isimlerini vermediğimiz, odak gruplarında, tasarım oturumlarında ve sınıflarda tasarımımıza rehberlik eden birçok öğretmen ve gence de teşekkür ederiz.\n\nBu proje, Ulusal Bilim Vakfı'nın 2318257, 2031265, 2100296 ve 2122950 numaralı ödülleri, Washington Üniversitesi ve sizin gibi kişilerin cömert bağışları (<gifts//donate>) ile desteklenmiştir."
+                "intro": "$~Wordplay'in tasarımına, geliştirilmesine, yerelleştirilmesine ve içeriğine katkıda bulunan *$1* sayıda katılımcımıza teşekkür ederiz! Ayrıca, gizliliklerini korumak amacıyla burada isimlerini vermediğimiz, odak gruplarında, tasarım oturumlarında ve sınıflarda tasarımımıza rehberlik eden birçok öğretmen ve gence de teşekkür ederiz.\n\nBu proje, Ulusal Bilim Vakfı'nın 2318257, 2031265, 2100296 ve 2122950 numaralı ödülleri, Washington Üniversitesi ve sizin gibi kişilerin cömert bağışları (<gifts//donate>) ile desteklenmiştir.",
+                "teachers": "$~Öğretmenler",
+                "contributors": "$~Katkıda Bulunanlar"
             }
         },
         "edit": {
