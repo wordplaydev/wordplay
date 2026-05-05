@@ -359,14 +359,21 @@
 
     /**
      * Given a node, find its rendered counterpart. This is expensive, so we do some caching.
-     * resetting the cache whenever the source or evaluation state changes, since we will likely have new nodes.
      * null represents that the node could not be found when we first checked.
      */
     let nodeViewCache = new Map<Node, HTMLElement | null>();
     $effect(() => {
-        // If blocks mode changes, reset cache.
+        // Reset on real DOM-shape changes only: source replacement (new AST
+        // means new ids and rendered elements), blocks mode toggle, or a
+        // stepping advance that swaps in value-rendered elements. We deliberately
+        // do NOT depend on $evaluation directly, which fires every animation
+        // frame during play and would otherwise blow this cache away 60 Hz.
         $blocks;
-        if (source && $evaluation) nodeViewCache = new Map();
+        source;
+        // Tracking the projectStepNode derived rather than $evaluation: its value
+        // stays undefined during play and only changes when stepping advances.
+        projectStepNode;
+        nodeViewCache = new Map();
     });
     function getNodeView(node: Node): HTMLElement | undefined {
         if (editor === null) return undefined;
@@ -1122,9 +1129,12 @@
 
     let concepts = $derived(indexContext?.index);
 
-    /** When the current step, step index, or playing state changes, update the evaluation view of the editor */
+    /** When the current step, step index, or playing state changes, update the evaluation view of the editor.
+     *  evalUpdate() bails when playing, so depending on $evaluation directly
+     *  (which broadcasts every animation frame) is wasteful. projectStepNode
+     *  changes only when stepping advances and stays undefined during play. */
     $effect(() => {
-        $evaluation;
+        projectStepNode;
         evalUpdate();
     });
 
@@ -1387,21 +1397,51 @@
         }
     });
 
-    // Cache the project-level slice. It only depends on project, evaluator state,
-    // animating nodes, selected output, and blocks mode — none of which change on
-    // a caret move.
-    let projectHighlights = $derived.by(() => {
-        // Tracking $evaluation here keeps step/exception highlights fresh while debugging.
+    // The evaluator's broadcast() fires on every requestAnimationFrame while a
+    // program with temporal streams is playing, which means $evaluation is
+    // replaced ~60 times per second. We derive the editor-relevant pieces
+    // separately so their values are *stable* during steady-state play
+    // (Svelte 5 deriveds only re-trigger downstream when their value changes).
+    //
+    // stepNode: only meaningful while paused/stepping. During play it stays
+    // undefined so the 'evaluating' highlight doesn't flicker every frame.
+    let projectStepNode = $derived.by(() => {
+        if ($evaluation === undefined || $evaluation.playing) return undefined;
+        return $evaluation.evaluator.getStepNode();
+    });
+
+    // exceptionNode: returns undefined unless the latest source value is an
+    // ExceptionValue, so during normal play the value stays === undefined and
+    // downstream consumers don't re-run.
+    let projectExceptionNode = $derived.by(() => {
         $evaluation;
-        return getProjectHighlights(
+        const latest = evaluator.getLatestSourceValue(source);
+        return latest instanceof ExceptionValue &&
+            latest.step !== undefined &&
+            latest.step.node instanceof Node
+            ? latest.step.node
+            : undefined;
+    });
+
+    // Memoize the resolved selected outputs so projectHighlights doesn't see a
+    // new array reference on every read of selection.getOutput().
+    let selectedOutputs = $derived(selection?.getOutput(project));
+
+    // Cache the project-level slice. With stepNode/exceptionNode/selectedOutputs
+    // stable across most frames, this derived's value also stays stable, which
+    // keeps the highlights diff (below) cheap and prevents the outline pass and
+    // every NodeView highlight derived from re-running.
+    let projectHighlights = $derived(
+        getProjectHighlights(
             source,
             project,
-            evaluator,
+            projectStepNode,
+            projectExceptionNode,
             $animatingNodes,
-            selection?.getOutput(project),
+            selectedOutputs,
             $blocks,
-        );
-    });
+        ),
+    );
 
     // Caret-derived slice. Recomputed on every caret move, but cheap.
     let caretHighlights = $derived(

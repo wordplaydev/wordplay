@@ -168,24 +168,18 @@ export type HighlightSpec = {
 export function getProjectHighlights(
     source: Source,
     project: Project,
-    evaluator: Evaluator,
+    /** The currently-evaluating step's node, if any. Undefined when not stepping. */
+    stepNode: Node | undefined,
+    /** The node responsible for the latest source-level exception, if any. */
+    exceptionNode: Node | undefined,
     animatingNodes: Set<Node> | undefined,
     selectedOutput: Evaluate[] | undefined,
     blocks: boolean,
 ): Highlights {
     const highlights = new Highlights();
 
-    const latestValue = evaluator.getLatestSourceValue(source);
-
-    const stepNode = evaluator.getStepNode();
     if (stepNode) highlights.add(source, stepNode, 'evaluating');
-
-    if (
-        latestValue instanceof ExceptionValue &&
-        latestValue.step !== undefined &&
-        latestValue.step.node instanceof Node
-    )
-        highlights.add(source, latestValue.step.node, 'exception');
+    if (exceptionNode) highlights.add(source, exceptionNode, 'exception');
 
     for (const [node, conflicts] of project.getConflictedNodes())
         highlights.add(
@@ -416,11 +410,19 @@ export function getHighlights(
     blocks: boolean,
     selecting: boolean,
 ): Highlights {
+    const latestValue = evaluator.getLatestSourceValue(source);
+    const exceptionNode =
+        latestValue instanceof ExceptionValue &&
+        latestValue.step !== undefined &&
+        latestValue.step.node instanceof Node
+            ? latestValue.step.node
+            : undefined;
     return Highlights.merge(
         getProjectHighlights(
             source,
             project,
-            evaluator,
+            evaluator.getStepNode(),
+            exceptionNode,
             animatingNodes,
             selectedOutput,
             blocks,
