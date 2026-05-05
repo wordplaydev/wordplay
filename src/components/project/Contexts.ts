@@ -106,6 +106,16 @@ export type IdleKind = (typeof IdleKind)[keyof typeof IdleKind];
 export const [getKeyboardEditIdle, setKeyboardEditIdle] =
     createOptionalContext<Writable<IdleKind>>();
 
+/**
+ * A function that resets the keyboard idle timer without writing to the
+ * keyboardEditIdle store. Editors call this on every keystroke (so the
+ * 1s idle timeout debounces correctly) while leaving the store alone when
+ * the idle state hasn't transitioned — that prevents a fanout of
+ * idempotent subscriber re-runs across every typed character.
+ */
+export const [getResetKeyboardIdle, setResetKeyboardIdle] =
+    createOptionalContext<() => void>();
+
 export type KeyModifierState = {
     control: boolean;
     alt: boolean;

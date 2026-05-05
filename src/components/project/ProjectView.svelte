@@ -117,6 +117,7 @@
         setEvaluation,
         setKeyboardEditIdle,
         setKeyboardModifiers,
+        setResetKeyboardIdle,
         setProjectCommandContext,
         setSelectedOutput,
         type ConceptPath,
@@ -311,7 +312,25 @@
     const keyboardEditIdle = writable<IdleKind>(IdleKind.Idle);
     setKeyboardEditIdle(keyboardEditIdle);
 
-    let keyboardIdleTimeout = $state<NodeJS.Timeout | undefined>(undefined);
+    let keyboardIdleTimeout: NodeJS.Timeout | undefined = undefined;
+
+    /** Reset the keyboard idle timeout. Called on every keystroke so the
+     * 1s idle window correctly debounces, but does NOT touch the
+     * keyboardEditIdle store — that would re-fire every subscriber on
+     * every keystroke (the timer-arming effect, the conflicts gate, the
+     * displayedCaret defer effect, etc.) most of which are idempotent
+     * when the idle state hasn't actually changed. */
+    function resetKeyboardIdle() {
+        if (keyboardIdleTimeout) clearTimeout(keyboardIdleTimeout);
+        keyboardIdleTimeout = setTimeout(
+            () => keyboardEditIdle.set(IdleKind.Idle),
+            KeyboardIdleWaitTime,
+        );
+    }
+    setResetKeyboardIdle(resetKeyboardIdle);
+    onDestroy(() => {
+        if (keyboardIdleTimeout) clearTimeout(keyboardIdleTimeout);
+    });
 
     /** Keep a project global store indicating modifier key state, so that controls can highlight themselves */
     const keyModifiers = writable<KeyModifierState>({
@@ -329,23 +348,6 @@
 
     /** Keep a reactive map from source to EditorLocale chosen for the source */
     let editorLocales = $state<Record<string, Locale | null>>({});
-
-    // When keyboard isn't idle, set a timeout to set it to idle later.
-    // to reset it to false after a delay.
-    $effect(() => {
-        if ($keyboardEditIdle !== IdleKind.Idle) {
-            untrack(() => {
-                if (keyboardIdleTimeout) clearTimeout(keyboardIdleTimeout);
-                keyboardIdleTimeout = setTimeout(
-                    () => keyboardEditIdle.set(IdleKind.Idle),
-                    KeyboardIdleWaitTime,
-                );
-            });
-        }
-        return () => {
-            if (keyboardIdleTimeout) clearTimeout(keyboardIdleTimeout);
-        };
-    });
 
     /** Make the project global selected output and set it in a context. */
     let selectedOutput = new SelectedOutput();

@@ -60,6 +60,7 @@
         getEditors,
         getEvaluation,
         getKeyboardEditIdle,
+        getResetKeyboardIdle,
         getSelectedOutput,
         setCaret,
         setDragTarget,
@@ -198,6 +199,7 @@
     const animatingNodes = getAnimatingNodes();
     const nodeConflicts = getConflicts();
     const keyboardEditIdle = getKeyboardEditIdle();
+    const resetKeyboardIdle = getResetKeyboardIdle();
     const editors = getEditors();
 
     /** Get the concept index context */
@@ -803,8 +805,14 @@
         let newCaret = navigation ? edit : edit[1];
         const newSource = navigation ? undefined : edit[0];
 
-        // Update the idle state.
-        if (keyboardEditIdle) keyboardEditIdle.set(idle);
+        // Always reset the 1s idle timer, even when the store value isn't
+        // changing — the timer is what debounces "is the user still typing?".
+        if (resetKeyboardIdle) resetKeyboardIdle();
+        // Only fire the keyboardEditIdle store on actual transitions. Hitting
+        // .set() with the same value still notifies every subscriber and
+        // produces a fanout cascade across the project per keystroke.
+        if (keyboardEditIdle && get(keyboardEditIdle) !== idle)
+            keyboardEditIdle.set(idle);
 
         // See if the caret is inside a node that's currently being displayed as a value, and if
         // so, select the expression who's value is being displayed instead.
