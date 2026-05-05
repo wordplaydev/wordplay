@@ -4,8 +4,13 @@ on:
 
 jobs:
     test:
+        name: test (${{ matrix.browser }})
         timeout-minutes: 60
         runs-on: ubuntu-latest
+        strategy:
+            fail-fast: false
+            matrix:
+                browser: [chromium, firefox]
         steps:
             - uses: actions/checkout@v5
             - uses: actions/setup-node@v5
@@ -15,7 +20,7 @@ jobs:
             - name: Install dependencies
               run: npm ci
             - name: Install Playwright browsers
-              run: npx playwright install --with-deps chromium firefox
+              run: npx playwright install --with-deps ${{ matrix.browser }}
             - run: echo "${{ secrets.ENV_DEMO }}" > .env
             - run: echo "${{ secrets.FUNCTIONS_ENV_DEMO }}" > functions/.env && echo "SMTP_PASSWORD=" >> functions/.env
             - name: Set up JDK 21 # Firebase emulator requires >=21
@@ -31,10 +36,10 @@ jobs:
             - name: Build project
               run: npm run build
             - name: Run end-to-end tests with emulator
-              run: npx firebase emulators:exec "npx playwright test --reporter=list" --project=demo-wordplay --log-verbosity QUIET
+              run: npx firebase emulators:exec "npx playwright test --project=${{ matrix.browser }} --reporter=list" --project=demo-wordplay --log-verbosity QUIET
             - uses: actions/upload-artifact@v6
               if: always()
               with:
-                  name: playwright-report
+                  name: playwright-report-${{ matrix.browser }}
                   path: test-results/
                   retention-days: 30
