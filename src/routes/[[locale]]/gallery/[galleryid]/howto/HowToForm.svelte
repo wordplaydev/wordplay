@@ -72,13 +72,14 @@
     // Load the gallery if it exists.
     let gallery = $state<Gallery | undefined>(undefined);
     let galleryQuestions: string[] = $state([]);
-    onMount(async () => {
+    $effect(() => {
         if (galleryID) {
-            gallery = await Galleries.get(galleryID);
-
-            if (gallery) {
-                galleryQuestions = gallery.getHowToGuidingQuestions();
-            }
+            Galleries.get(galleryID).then((g) => {
+                if (g) {
+                    gallery = g;
+                    galleryQuestions = gallery.getHowToGuidingQuestions();
+                }
+            });
         } else {
             gallery = undefined;
         }

@@ -536,16 +536,8 @@ export class HowToDatabase {
     }
 
     async getHowTos(howToIds: string[]): Promise<HowTo[]> {
-        let howTos: HowTo[] = [];
-
-        howToIds.forEach(async (howToId) => {
-            const howTo = await this.getHowTo(howToId);
-            if (howTo) {
-                howTos.push(howTo);
-            }
-        });
-
-        return Promise.resolve(howTos);
+        const results = await Promise.all(howToIds.map((id) => this.getHowTo(id)));
+        return results.filter((ht): ht is HowTo => ht !== undefined && ht !== false);
     }
 
     ignore() {
