@@ -4716,7 +4716,7 @@
                 "zoomOut": "$~Dézoom arrière depuis la scène",
                 "rotate": "$~rotation de la phrase",
                 "resize": "$~phrase de redimensionnement",
-                "resetZoom": "$?"
+                "resetZoom": "$~Réinitialiser le zoom sur la scène"
             },
             "options": {
                 "locale": "$~choisir la langue de sortie",

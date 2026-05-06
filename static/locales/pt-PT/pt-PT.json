@@ -4972,7 +4972,7 @@
                 "zoomOut": "$~zoom out do palco",
                 "rotate": "$~frase rotativa",
                 "resize": "$~frase de redimensionamento",
-                "resetZoom": "$?"
+                "resetZoom": "$~repor o zoom para o local do palco"
             },
             "options": {
                 "locale": "$~idioma preferido para a saída",

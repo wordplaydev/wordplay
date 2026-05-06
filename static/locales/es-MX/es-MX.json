@@ -4698,7 +4698,7 @@
                 "zoomOut": "$~alejarse del escenario",
                 "rotate": "$~frase de rotación",
                 "resize": "$~redimensionar frase",
-                "resetZoom": "$?"
+                "resetZoom": "$~restablecer el zoom a la posición del escenario"
             },
             "options": {
                 "locale": "$~elegir el idioma de salida",

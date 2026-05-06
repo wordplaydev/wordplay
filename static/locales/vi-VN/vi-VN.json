@@ -4972,7 +4972,7 @@
                 "zoomOut": "$~thu nhỏ tầm nhìn sân khấu",
                 "rotate": "$~xoay cụm từ",
                 "resize": "$~cụm từ thay đổi kích thước",
-                "resetZoom": "$?"
+                "resetZoom": "$~Đặt lại mức thu phóng về vị trí của sân khấu."
             },
             "options": {
                 "locale": "$~ngôn ngữ ưu tiên cho đầu ra",

@@ -4738,7 +4738,7 @@
                 "zoomOut": "$~oddalić się od sceny",
                 "rotate": "$~obróć frazę",
                 "resize": "$~zmień rozmiar frazy",
-                "resetZoom": "$?"
+                "resetZoom": "$~zresetuj zoom do miejsca sceny"
             },
             "options": {
                 "locale": "$~wybierz język wyjścia",

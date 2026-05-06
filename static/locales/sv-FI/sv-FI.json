@@ -4733,7 +4733,7 @@
                 "zoomOut": "$~zooma ut från scenen",
                 "rotate": "$~rotera frasen",
                 "resize": "$~ändra storlek på frasen",
-                "resetZoom": "$?"
+                "resetZoom": "$~återställ zoomen till scenens plats"
             },
             "options": {
                 "locale": "$~välj språk för utmatning",

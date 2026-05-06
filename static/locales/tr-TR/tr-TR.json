@@ -4733,7 +4733,7 @@
                 "zoomOut": "$~sahneden uzaklaşarak yakınlaştırma yapın.",
                 "rotate": "$~ifadeyi döndür",
                 "resize": "$~ifadeyi yeniden boyutlandır",
-                "resetZoom": "$?"
+                "resetZoom": "$~Yakınlaştırmayı sahnenin yerine sıfırla"
             },
             "options": {
                 "locale": "$~çıktı için dili seçin",
