@@ -482,6 +482,8 @@ type UITexts = {
             zoomIn: string;
             /** [plain] Zoom in output button */
             zoomOut: string;
+            /** [plain] Reset the zoom to the stage's computed place when one is set */
+            resetZoom: string;
             /** [plain] The rotation handle on a selected phrase */
             rotate: string;
             /** [plain] The size handle on a selected phrase */

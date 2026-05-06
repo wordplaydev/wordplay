@@ -1,5 +1,4 @@
 <script lang="ts">
-    import type Evaluator from '@runtime/Evaluator';
     import {
         Pause,
         Play,
@@ -18,6 +17,7 @@
     import { getEvaluation } from '@components/project/Contexts';
     import CommandButton from '@components/widgets/CommandButton.svelte';
     import Switch from '@components/widgets/Switch.svelte';
+    import type Evaluator from '@runtime/Evaluator';
 
     interface Props {
         evaluator: Evaluator;
@@ -28,7 +28,7 @@
     const evaluation = getEvaluation();
 </script>
 
-<CommandButton command={Restart} />
+<CommandButton padding background command={Restart} />
 <Switch
     on={$evaluation?.playing === true}
     toggle={(play) => (play ? evaluator.play() : evaluator.pause())}

@@ -4974,6 +4974,7 @@
                 "submit": "submit this chat message",
                 "zoomIn": "zoom into the stage",
                 "zoomOut": "zoom out from the stage",
+                "resetZoom": "reset zoom to the stage's place",
                 "rotate": "rotate phrase",
                 "resize": "resize phrase"
             },

@@ -4714,7 +4714,8 @@
                 "zoomIn": "$~Zoomen Sie auf die Bühne",
                 "zoomOut": "$~Zoomen Sie von der Bühne heraus.",
                 "rotate": "$~Phrase drehen",
-                "resize": "$~Phrase „Größe ändern“"
+                "resize": "$~Phrase „Größe ändern“",
+                "resetZoom": "$?"
             },
             "options": {
                 "locale": "$~Wählen Sie die Sprache für die Ausgabe",

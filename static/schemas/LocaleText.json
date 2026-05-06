@@ -11544,6 +11544,10 @@
                 "button": {
                   "additionalProperties": false,
                   "properties": {
+                    "resetZoom": {
+                      "description": "[plain] Reset the zoom to the stage's computed place when one is set",
+                      "type": "string"
+                    },
                     "resize": {
                       "description": "[plain] The size handle on a selected phrase",
                       "type": "string"
@@ -11569,6 +11573,7 @@
                     "submit",
                     "zoomIn",
                     "zoomOut",
+                    "resetZoom",
                     "rotate",
                     "resize"
                   ],

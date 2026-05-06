@@ -59,6 +59,10 @@
         background?: Color | string | null;
         /** Whether to process mouse wheel events without the shift key. Useful to disable for examples embedded in scrollable pages. */
         wheel?: boolean;
+        /** Reflects whether the current stage value has an explicit place set. */
+        hasStagePlace?: boolean;
+        /** Reflects whether the audience has overridden the stage's computed focus via zoom/pan controls. */
+        focusOverridden?: boolean;
     }
 
     let {
@@ -73,6 +77,8 @@
         mini = false,
         background = $bindable(null),
         wheel = true,
+        hasStagePlace = $bindable(false),
+        focusOverridden = $bindable(false),
     }: Props = $props();
 
     let indexContext = getConceptIndex();
@@ -127,6 +133,10 @@
         stage?.adjustFocus(0, 0, dz);
     }
 
+    export function resetZoom() {
+        stage?.resetFocus();
+    }
+
     /** Every time the stage value changes, load any new fonts we might need */
     $effect(() => {
         if (stageValue) {
@@ -154,6 +164,11 @@
             value instanceof ExceptionValue
                 ? 'var(--wordplay-error)'
                 : (stageValue?.background ?? null);
+    });
+
+    /** Keep the bindable hasStagePlace flag up to date. */
+    $effect(() => {
+        hasStagePlace = stageValue?.place !== undefined;
     });
 
     /** Keep track of streams that listen for keyboard input */
@@ -1077,6 +1092,7 @@
                 bind:painting
                 bind:this={stage}
                 bind:renderedFocus
+                bind:focusOverridden
                 interactive={!mini}
                 {editable}
             />

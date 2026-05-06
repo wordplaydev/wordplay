@@ -53,6 +53,8 @@
         /** Decide what focus to render. Explicitly set verse focus takes priority, then the fit focus if fitting content to viewport,
          * then the adjusted focus if providedWhenever the verse focus, fit setting, or adjusted focus change, updated the rendered focus */
         renderedFocus: Place;
+        /** Reflects whether the audience has overridden the stage's place via zoom/pan controls. */
+        focusOverridden?: boolean;
     }
 
     let {
@@ -66,6 +68,7 @@
         painting = $bindable(),
         background,
         renderedFocus = $bindable(),
+        focusOverridden = $bindable(false),
     }: Props = $props();
 
     const evaluation = getEvaluation();
@@ -137,6 +140,9 @@
     /** The creator or audience adjusted focus. */
     let adjustedFocus: Place = $state(createPlace(evaluator, 0, 0, -12));
 
+    /** Whether the audience has overridden the stage's place via zoom/pan controls. */
+    let focusOverride = $state(false);
+
     /** A stage to manage entries, exits, animations. A new one each time the for each project. */
     let animator = $state<Animator | undefined>();
 
@@ -166,6 +172,13 @@
         adjustedFocus = createPlace(evaluator, x, y, z);
         // Stop fitting
         fit = false;
+        // The audience has taken control of the focus; override any stage.place.
+        focusOverride = true;
+    };
+
+    /** Clear any audience override so the stage's computed focus is used again. */
+    export const resetFocus = () => {
+        focusOverride = false;
     };
 
     let editing = $derived($evaluation?.playing === false);
@@ -302,11 +315,18 @@
 
     /** Define the rendered focused based on the stage's place, fit, and other states. Not derived since it is a bindable prop. */
     $effect(() => {
-        renderedFocus = stage.place
-            ? stage.place.flipX()
-            : fit && fitFocus && $evaluation?.playing === true
-              ? fitFocus
-              : adjustedFocus;
+        renderedFocus = focusOverride
+            ? adjustedFocus
+            : stage.place
+              ? stage.place.flipX()
+              : fit && fitFocus && $evaluation?.playing === true
+                ? fitFocus
+                : adjustedFocus;
+    });
+
+    /** Mirror the override flag out to the parent so the toolbar can reflect it. */
+    $effect(() => {
+        focusOverridden = focusOverride;
     });
 
     /** Whenever the stage, languages, fonts, or rendered focus changes, update the rendered scene accordingly. */

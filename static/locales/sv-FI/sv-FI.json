@@ -4732,7 +4732,8 @@
                 "zoomIn": "$~zooma in på scenen",
                 "zoomOut": "$~zooma ut från scenen",
                 "rotate": "$~rotera frasen",
-                "resize": "$~ändra storlek på frasen"
+                "resize": "$~ändra storlek på frasen",
+                "resetZoom": "$?"
             },
             "options": {
                 "locale": "$~välj språk för utmatning",

@@ -962,6 +962,12 @@
 
     let outputView = $state<OutputView | undefined>(undefined);
 
+    /** Tracks whether the current stage value has an explicit place set, so the toolbar can show a reset-zoom button. */
+    let hasStagePlace = $state(false);
+
+    /** Tracks whether the audience has overridden the stage's computed focus, so the reset-zoom button can be disabled when there is nothing to reset. */
+    let focusOverridden = $state(false);
+
     let adjusting = $state(false);
 
     /** Take the given axis, group, and split, and adjust it. */
@@ -1727,7 +1733,6 @@
                                     {#if (requestedPlay || showOutput) && layout.isFullscreen()}<Button
                                             uiid="editProject"
                                             background
-                                            padding={false}
                                             tip={(l) =>
                                                 l.ui.page.projects.button
                                                     .viewcode}
@@ -1736,6 +1741,7 @@
                                         ></Button>{/if}
                                     <CommandButton
                                         background
+                                        padding
                                         command={Restart}
                                     />
                                     {#if localesUsed.length > 0}<OutputLocaleChooser
@@ -1751,18 +1757,29 @@
                                             bind:painting
                                         />{/if} -->
                                     <Button
+                                        background
                                         action={() =>
                                             outputView?.adjustZoom(-1)}
                                         tip={(l) => l.ui.output.button.zoomOut}
-                                        padding={false}
                                         ><Emoji>–🔎</Emoji></Button
                                     >
                                     <Button
+                                        background
                                         action={() => outputView?.adjustZoom(1)}
                                         tip={(l) => l.ui.output.button.zoomIn}
-                                        padding={false}
                                         ><Emoji>+🔎</Emoji></Button
                                     >
+                                    {#if hasStagePlace}
+                                        <Button
+                                            action={() =>
+                                                outputView?.resetZoom()}
+                                            tip={(l) =>
+                                                l.ui.output.button.resetZoom}
+                                            background
+                                            active={focusOverridden}
+                                            ><Emoji>⟲🔎</Emoji></Button
+                                        >
+                                    {/if}
                                     <Toggle
                                         tips={(l) => l.ui.output.toggle.grid}
                                         on={grid}
@@ -1836,6 +1853,8 @@
                                         bind:fit
                                         bind:grid
                                         bind:painting
+                                        bind:hasStagePlace
+                                        bind:focusOverridden
                                         {paintingConfig}
                                         bind:background={outputBackground}
                                         editable={editableAndCurrent}

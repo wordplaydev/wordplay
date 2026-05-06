@@ -4677,7 +4677,8 @@
                 "zoomIn": "$~镜头拉近舞台",
                 "zoomOut": "$~镜头从舞台拉远。",
                 "rotate": "$~旋转短语",
-                "resize": "$~调整短语大小"
+                "resize": "$~调整短语大小",
+                "resetZoom": "$?"
             },
             "options": {
                 "locale": "$~选择输出语言",
