@@ -1559,10 +1559,30 @@
         );
     });
 
-    // Caret-derived slice. Recomputed on every caret move, but cheap.
-    let caretHighlights = $derived(
-        getCaretHighlights(source, project, $caret, $blocks, $animatingNodes),
-    );
+    // Caret-derived slice (selected/hovered/delimiter/related entries).
+    // During a held-key or typing flurry we return an empty Highlights so
+    // the decorative outlines disappear rather than stick to the old
+    // position the caret has visually moved away from. Together with the
+    // merged-highlights diff below, this means the publish during the
+    // flurry is a single emit-empty at the start; subsequent presses see
+    // an unchanged merged result and don't fire the highlights store
+    // (which would otherwise trigger updateOutlines and re-measure
+    // caretParent's rows — the dominant per-press JS cost on vertical
+    // movement, since each press lands in a different token whose parent
+    // often contains many descendants). The outlines snap back to the
+    // final position when $keyboardEditIdle flips to Idle and
+    // displayedCaret catches up.
+    let caretHighlights = $derived.by(() => {
+        if (deferDisplayUpdate && $keyboardEditIdle !== IdleKind.Idle)
+            return new Highlights();
+        return getCaretHighlights(
+            source,
+            project,
+            displayedCaret,
+            $blocks,
+            $animatingNodes,
+        );
+    });
 
     // Drag-derived slice. Skip when there is no drag/hover-select to avoid the
     // O(n) drop-target walk in getDragHighlights.

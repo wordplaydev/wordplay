@@ -1,15 +1,28 @@
 <script module lang="ts">
     /** How long to wait until considering typing idle. */
-    export const KeyboardIdleWaitTime = 1000;
+    export const KeyboardIdleWaitTime = 500;
 </script>
 
 <!-- svelte-ignore state_referenced_locally -->
 <script lang="ts">
     import { goto } from '$app/navigation';
     import { page } from '$app/state';
+    import Annotations from '@components/annotations/Annotations.svelte';
     import CollaborateView from '@components/app/chat/CollaborateView.svelte';
+    import CreatorView from '@components/app/CreatorView.svelte';
+    import Emoji from '@components/app/Emoji.svelte';
     import Subheader from '@components/app/Subheader.svelte';
     import Documentation from '@components/concepts/Documentation.svelte';
+    import {
+        EnterFullscreen,
+        ExitFullscreen,
+        handleKeyCommand,
+        Restart,
+        ShowKeyboardHelp,
+        VisibleModifyCommands,
+        VisibleNavigateCommands,
+        type CommandContext,
+    } from '@components/editor/commands/Commands';
     import GlyphInserter from '@components/editor/commands/GlyphInserter.svelte';
     import Highlight from '@components/editor/highlights/Highlight.svelte';
     import Menu from '@components/editor/menu/Menu.svelte';
@@ -17,6 +30,8 @@
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import Options from '@components/widgets/Options.svelte';
+    import type Concept from '@concepts/Concept';
+    import ConceptIndex from '@concepts/ConceptIndex';
     import {
         getConceptFromURL,
         setConceptInURL,
@@ -24,17 +39,6 @@
     import type Conflict from '@conflicts/Conflict';
     import type Chat from '@db/chats/ChatDatabase.svelte';
     import type { Creator } from '@db/creators/CreatorDatabase';
-    import type Project from '@db/projects/Project';
-    import type Locale from '@locale/Locale';
-    import Node, { isFieldPosition } from '@nodes/Node';
-    import Source from '@nodes/Source';
-    import { CANCEL_SYMBOL } from '@parser/Symbols';
-    import { isName } from '@parser/Tokenizer';
-    import Evaluator from '@runtime/Evaluator';
-    import { onDestroy, onMount, tick, untrack } from 'svelte';
-    import { writable, type Writable } from 'svelte/store';
-    import type Concept from '@concepts/Concept';
-    import ConceptIndex from '@concepts/ConceptIndex';
     import {
         animationFactor,
         arrangement,
@@ -52,54 +56,37 @@
         Settings,
     } from '@db/Database';
     import { isFlagged } from '@db/projects/Moderation';
+    import type Project from '@db/projects/Project';
     import Arrangement, {
         isResizeable,
         type ArrangementType,
     } from '@db/settings/Arrangement';
-    import Characters from '../../lore/BasisCharacters';
+    import type Locale from '@locale/Locale';
+    import Node, { isFieldPosition } from '@nodes/Node';
+    import Source from '@nodes/Source';
     import type Color from '@output/Color';
+    import { CANCEL_SYMBOL } from '@parser/Symbols';
+    import { isName } from '@parser/Tokenizer';
+    import Evaluator from '@runtime/Evaluator';
+    import type Value from '@values/Value';
+    import { onDestroy, onMount, tick, untrack } from 'svelte';
+    import { writable, type Writable } from 'svelte/store';
+    import Characters from '../../lore/BasisCharacters';
     import {
         PROJECT_PARAM_EDIT,
         PROJECT_PARAM_PLAY,
     } from '../../routes/[[locale]]/project/constants';
-    import type Value from '@values/Value';
-    import Annotations from '@components/annotations/Annotations.svelte';
-    import CreatorView from '@components/app/CreatorView.svelte';
-    import Emoji from '@components/app/Emoji.svelte';
-    import {
-        EnterFullscreen,
-        ExitFullscreen,
-        handleKeyCommand,
-        Restart,
-        ShowKeyboardHelp,
-        VisibleModifyCommands,
-        VisibleNavigateCommands,
-        type CommandContext,
-    } from '@components/editor/commands/Commands';
 
     import Toolbar from '@components/editor/commands/Toolbar.svelte';
     import Editor from '@components/editor/Editor.svelte';
-    import CommandButton from '@components/widgets/CommandButton.svelte';
-    import type Gallery from '@db/galleries/Gallery';
-    import GalleryHowTo from '@db/howtos/HowToDatabase.svelte';
-    import {
-        AnimationFactorIcons,
-        AnimationFactors,
-        AnimationIcon,
-    } from '@db/settings/AnimationFactorSetting';
-    import type MenuInfo from '@edit/menu/Menu';
-    import type { LocaleTextAccessor } from '@locale/Locales';
     import type { HighlightSpec } from '@components/editor/highlights/Highlights';
-    import getOutlineOf, { getUnderlineOf } from '@components/editor/highlights/outline';
+    import getOutlineOf, {
+        getUnderlineOf,
+    } from '@components/editor/highlights/outline';
     import Timeline from '@components/evaluator/Timeline.svelte';
     import OutputView from '@components/output/OutputView.svelte';
     import type PaintingConfiguration from '@components/output/PaintingConfiguration';
     import Palette from '@components/palette/Palette.svelte';
-    import Button from '@components/widgets/Button.svelte';
-    import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
-    import Dialog from '@components/widgets/Dialog.svelte';
-    import TextField from '@components/widgets/TextField.svelte';
-    import Toggle from '@components/widgets/Toggle.svelte';
     import type Bounds from '@components/project/Bounds';
     import Checkpoints from '@components/project/Checkpoints.svelte';
     import {
@@ -117,8 +104,8 @@
         setEvaluation,
         setKeyboardEditIdle,
         setKeyboardModifiers,
-        setResetKeyboardIdle,
         setProjectCommandContext,
+        setResetKeyboardIdle,
         setSelectedOutput,
         type ConceptPath,
         type EditorState,
@@ -140,8 +127,25 @@
     import SourceTileToggle from '@components/project/SourceTileToggle.svelte';
     import Tile, { TileMode } from '@components/project/Tile';
     import { TileKind } from '@components/project/TileKind';
-    import TileView, { type ResizeDirection } from '@components/project/TileView.svelte';
+    import TileView, {
+        type ResizeDirection,
+    } from '@components/project/TileView.svelte';
     import Translate from '@components/project/Translate.svelte';
+    import Button from '@components/widgets/Button.svelte';
+    import CommandButton from '@components/widgets/CommandButton.svelte';
+    import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
+    import Dialog from '@components/widgets/Dialog.svelte';
+    import TextField from '@components/widgets/TextField.svelte';
+    import Toggle from '@components/widgets/Toggle.svelte';
+    import type Gallery from '@db/galleries/Gallery';
+    import GalleryHowTo from '@db/howtos/HowToDatabase.svelte';
+    import {
+        AnimationFactorIcons,
+        AnimationFactors,
+        AnimationIcon,
+    } from '@db/settings/AnimationFactorSetting';
+    import type MenuInfo from '@edit/menu/Menu';
+    import type { LocaleTextAccessor } from '@locale/Locales';
 
     interface Props {
         project: Project;
