@@ -167,7 +167,10 @@
     );
 
     export function setCaretPosition(position: CaretPosition) {
-        // Programmatic placement is discrete — show the description immediately.
+        // Programmatic placement is a discrete action — clear any defer flag
+        // left set by a prior held-key flurry so the description block, the
+        // editors-store publish, and the announcer all update on this caret
+        // change instead of waiting for the 1s idle timeout.
         deferDisplayUpdate = false;
         caret.set($caret.withPosition(position));
     }
@@ -477,7 +480,10 @@
     function handlePointerDown(event: PointerEvent) {
         if (event.button !== 0) return;
 
-        // A click is a discrete action — show the description immediately.
+        // A click is a discrete action — clear any defer flag left set by a
+        // prior held-key flurry so the description block, editors-store
+        // publish, and announcer all update immediately on the new caret
+        // rather than waiting for the 1s idle timeout.
         deferDisplayUpdate = false;
 
         // Clear any existing large deletion notification when user clicks to clear selection
@@ -770,7 +776,10 @@
                 menu = menu.withSelection([newIndex, 0]);
                 return false;
             } else {
-                // Menu commands are discrete — show the description immediately.
+                // Menu commands are discrete user actions — clear any defer
+                // flag left set by a prior held-key flurry so consumers
+                // (description block, editors store, announcer) update on
+                // this edit instead of waiting for the 1s idle timeout.
                 deferDisplayUpdate = false;
                 handleEdit(selection, IdleKind.Typed, true);
                 return true;
@@ -914,7 +923,11 @@
         // Blocks mode? No text input support. It's all handled by text fields.
         if ($blocks) return;
 
-        // Text input is a flurry — defer the description update until idle.
+        // Text input is treated as a flurry: every typed character calls
+        // handleEdit which would otherwise update displayedCaret + publish
+        // editors + run the announcer per character. Defer all of those
+        // until the 1s idle timer fires (or some other discrete action
+        // resets the flag).
         deferDisplayUpdate = true;
 
         resetIgnored(true);

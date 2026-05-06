@@ -315,13 +315,17 @@ export default class Source extends Expression {
         const newTokens = tokenList.getTokens();
         const newSpaces = tokenList.getSpaces();
 
-        // FAST PATH: a same-shape token list. If the new tokenization produces
-        // the same number of tokens with the same Sym types in the same order,
-        // and at most one of them differs only in text, the parser would
-        // produce the same AST shape. We can swap that one token (or just the
-        // spaces) into the existing AST and skip parseProgram and the node-
-        // reuse pass entirely. This handles the common case of typing inside
-        // a string, name, number, comment, or doc.
+        // FAST PATH for same-shape token lists. If the new tokenization
+        // produces the same number of tokens with the same Sym types in the
+        // same order, and at most one differs only in text, the parser would
+        // produce the same AST shape — so we can swap that one token (or
+        // just the spaces) into the existing AST and skip both parseProgram
+        // (full recursive descent over all tokens) and the node-reuse pass
+        // below (O(N) build of the constructor+hash index plus an O(N) walk
+        // of the new tree). This handles the common case of typing inside a
+        // string, name, number, comment, or doc, where a single token's text
+        // changes but no boundary moves. tryTextOnlyEdit returns undefined
+        // if the edit doesn't qualify, falling through to the slow path.
         const fast = this.tryTextOnlyEdit(newTokens, newSpaces);
         if (fast !== undefined) return fast;
 
@@ -369,10 +373,13 @@ export default class Source extends Expression {
         unmatchedOldNodes.delete(this.expression);
 
         // Build a (constructor → (hash → nodes)) index over the unmatched old
-        // nodes so the reuse pass can find candidates in O(1) by hash instead
-        // of scanning every old node for every new node. This turns the match
-        // pass from O(N²) to O(N) on a tree with N nodes — the dominant per-
-        // keystroke cost on large files before this change.
+        // nodes so the reuse pass can find candidates by hash in O(1) instead
+        // of scanning every old node for every new node. This turns the
+        // overall match pass from O(N²) to O(N) on a tree with N nodes —
+        // before this change, that quadratic scan was the dominant per-
+        // keystroke cost on large files. (Combined with the memoized
+        // Node.hash() this replaces, the overall character-of-text-edit
+        // path is closer to O(N) than to O(N²).)
         const oldByConstructorAndHash = new Map<Function, Map<string, Node[]>>();
         for (const oldNode of unmatchedOldNodes) {
             let byHash = oldByConstructorAndHash.get(oldNode.constructor);
@@ -447,12 +454,22 @@ export default class Source extends Expression {
     }
 
     /**
-     * Try to short-circuit reparse when the only change is a single token's
-     * text (e.g., typing inside a string/name/number/comment/doc) or a
-     * whitespace-only change. Both cases preserve the token list's length and
-     * Sym order, so the parser would produce the same AST shape — we can swap
-     * the affected token into the existing AST (or just adopt the new spaces)
-     * without running parseProgram or the O(N) node-reuse pass.
+     * Short-circuit reparse for the common in-token edit. Qualifying edits
+     * are those where the new tokenization has the same length and Sym types
+     * in the same order as the existing one, with at most one token differing
+     * in text — i.e., typing inside a string / name / number / comment / doc,
+     * or a whitespace-only change between tokens. In those cases the parse
+     * tree's shape is identical, so we can build the new Source by either
+     * (a) reusing the entire AST and only swapping the Spaces map, or (b)
+     * cloning the path from the program root to the one affected token and
+     * reusing every other subtree by reference.
+     *
+     * Cost: a single pairwise walk of the two token lists (O(N) comparisons
+     * with early exit) plus, for the single-token-text case, one
+     * expression.replace() that clones only the depth-deep path. The full
+     * reparse path that this avoids does a full parseProgram (~O(N) recursive
+     * descent) plus a constructor+hash-indexed node-reuse pass (~O(N) build
+     * of the index, O(N) lookups against it).
      *
      * Returns undefined if the edit doesn't qualify; the caller falls back to
      * the full reparse.
@@ -720,8 +737,11 @@ export default class Source extends Expression {
         return undefined;
     }
 
-    /** Build/return the lazy line-start index. Walks this.code's graphemes
-     * once and records grapheme positions where '\n' occurs. */
+    /** Build/return the lazy line-start index — one O(N) grapheme walk of
+     * this.code, amortized to O(1) per subsequent call for the lifetime of
+     * this Source. Replaces the per-call O(N) token walks that
+     * getRenderedLineAndColumnFromPhysicalPosition and
+     * getPhysicalPositionFromLineAndColumn used to do via scanLines. */
     private getLineStarts(): number[] {
         if (this._lineStarts === undefined) {
             const graphemes = this.code.getGraphemes();
@@ -733,9 +753,12 @@ export default class Source extends Expression {
         return this._lineStarts;
     }
 
-    /** Just the line for a physical position, no column. Useful when the
-     * caller (e.g. Caret.moveVertical) only cares about the line — saves
-     * the substring + split that computing the column entails. */
+    /** Just the line for a physical position, no column — O(log N) binary
+     * search on the cached lineStarts. Use this in preference to
+     * getRenderedLineAndColumnFromPhysicalPosition when the caller (e.g.
+     * Caret.moveVertical) only needs the line, since the line+column
+     * variant additionally builds and discards a substring representing
+     * "everything on this line up to position". */
     getLineFromPhysicalPosition(position: number): number | undefined {
         const len = this.code.getLength();
         if (position < 0 || position > len) return undefined;

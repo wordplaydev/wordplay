@@ -36,10 +36,12 @@ export default abstract class Node {
     /** A cache of leaves in this node */
     _leaves: Token[] | undefined = undefined;
 
-    /** A cache of this node's structural hash. Nodes are immutable, so the
-     * hash never changes, and Source.reparse calls hash() repeatedly during
-     * the node-reuse pass — once for every new node and again for each
-     * candidate old node it inspects. */
+    /** A cache of this node's structural hash. hash() is recursive — without
+     * caching, computing it for one node is O(subtree size), and Source.reparse
+     * calls hash() once per new node plus once per old candidate it inspects,
+     * which is O(N²) of recursive string-building per keystroke on a tree of
+     * size N. Nodes are immutable so the value never changes, making this a
+     * safe one-time-fill cache. */
     _hash: string | undefined = undefined;
 
     constructor() {

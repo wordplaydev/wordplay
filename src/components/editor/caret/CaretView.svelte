@@ -281,9 +281,13 @@
     }
 
     // Line height only depends on the font (fixed per session), zoom, blocks
-    // mode, and writing direction. It does NOT change as the caret moves, so we
-    // cache it across caret movements. The cache is keyed by source identity
-    // because a new source may rerender with different fonts/structure.
+    // mode, and writing direction — it does NOT change as the caret moves.
+    // Without this cache, every caret update would re-run the line-height
+    // search below, which iterates getTokenViews() looking for the first
+    // token following a <br>. That's O(tokens) DOM iteration plus a
+    // querySelectorAll('br') per token visited, on every arrow press. The
+    // cache is keyed by source identity so a new source (after edits or
+    // navigation) refills it.
     let cachedLineHeight:
         | {
               source: typeof caret.source;

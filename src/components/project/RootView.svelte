@@ -121,9 +121,13 @@
         showLines.set(lines);
     });
 
-    // Cache the language-tagged-nodes list per AST root. Node trees are immutable,
-    // so this list is stable for the lifetime of `node` and the WeakMap auto-evicts
-    // when the AST is replaced.
+    // Cache the language-tagged-nodes list per AST root. The hidden-locales
+    // effect below needs this list to decide which Names/Docs/TextLiteral/
+    // FormattedLiteral nodes to hide; without this cache it would call
+    // node.nodes(...) every time the effect runs (every caret move while
+    // typing in a localized region), which is an O(N) tree walk. Node trees
+    // are immutable, so the filter is stable per `node`; the WeakMap
+    // auto-evicts when the AST is replaced.
     type TaggedNode = Names | Docs | TextLiteral | FormattedLiteral;
     const taggedCache = new WeakMap<Node, TaggedNode[]>();
     function getTaggedNodes(n: Node): TaggedNode[] {
@@ -141,8 +145,12 @@
         return list;
     }
 
-    // Cache key for the hidden-nodes effect. Most caret moves don't cross a
-    // tagged-node boundary, so we can skip the recomputation entirely.
+    // Cache key for the hidden-nodes effect. The effect's only caret-derived
+    // input is "which tagged node contains the caret"; most caret moves stay
+    // within the same tagged node (or none at all), so the answer is the
+    // same as last time. When the key matches, we skip rebuilding the hidden
+    // Set — which would otherwise run an O(tagged) caret.isIn() pass and
+    // fire hidden.set() to every NodeView subscriber.
     let prevHiddenKey:
         | {
               node: Node;

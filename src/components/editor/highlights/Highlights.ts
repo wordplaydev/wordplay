@@ -110,7 +110,11 @@ export class Highlights {
         return this.empty.get(node);
     }
 
-    /** Structural equality check used to skip downstream reactivity when nothing changed. */
+    /** Structural equality check. Lets the publisher skip highlights.set()
+     * when a caret move produces a Highlights with the same entries — which
+     * avoids re-running every NodeView's highlight derived (one per node in
+     * the editor, hundreds on a 100-line file) and re-measuring outlines.
+     * O(highlighted) per call vs the O(NodeViews) fan-out it prevents. */
     equals(other: Highlights): boolean {
         if (this.map.size !== other.map.size) return false;
         if (this.empty.size !== other.empty.size) return false;
@@ -144,7 +148,11 @@ export class Highlights {
     }
 }
 
-/** Per-source cache of Reference/NameType leaves so we don't walk the tree to find them every caret move. */
+/** Per-source cache of Reference/NameType nodes. The "highlight related uses"
+ * branch in getCaretHighlights needs this list every time the caret is on a
+ * Name; without the cache it falls through to source.nodes() filtered to
+ * Reference/NameType, which is an O(N) tree walk per caret move. With the
+ * cache it's O(1) lookup; the WeakMap auto-evicts when the source is replaced. */
 const referenceIndexCache = new WeakMap<Source, (Reference | NameType)[]>();
 function getReferenceIndex(source: Source): (Reference | NameType)[] {
     let index = referenceIndexCache.get(source);
