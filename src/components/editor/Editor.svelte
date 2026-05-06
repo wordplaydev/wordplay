@@ -1217,21 +1217,41 @@
     });
 
     // Keep the project-level editors store in sync with this editor's state.
+    // Every CommandButton in the toolbar subscribes to this store and re-runs
+    // command.active() (often AST-walking) on each fire, so during a held-key
+    // or typing flurry we'd otherwise be doing 20+ reactivity-driven AST
+    // queries per character at 30Hz. Defer the publish until the flurry
+    // settles — when deferDisplayUpdate clears or $keyboardEditIdle returns
+    // to Idle, this effect re-fires and consumers catch up to the latest
+    // state.
     $effect(() => {
+        // Read all reactive dependencies up front so the effect re-fires on
+        // any of them even when we bail below.
+        const c = $caret;
+        const dc = displayedCaret;
+        const inBlocks = $blocks;
+        const _project = project;
+        const isFocused = focused;
+        const z = zoom;
+        const defer = deferDisplayUpdate;
+        const idle = $keyboardEditIdle;
+
+        if (defer && idle !== IdleKind.Idle) return;
+
         const editorsRef = untrack(() => editors);
         if (editorsRef) {
             const state: EditorState = {
-                caret: $caret,
-                displayedCaret,
+                caret: c,
+                displayedCaret: dc,
                 edit: handleEdit,
                 sourceID: sourceID,
-                blocks: $blocks,
-                project,
-                focused,
+                blocks: inBlocks,
+                project: _project,
+                focused: isFocused,
                 toggleMenu,
                 grabFocus,
                 setCaretPosition,
-                zoom,
+                zoom: z,
                 setZoom,
             };
             untrack(() => {
@@ -1415,6 +1435,13 @@
      *  On navigation: announce the cursor's contextual description. */
     $effect(() => {
         if ($announce && document.activeElement === input && $caret) {
+            // Defer announcements during held-key/typing flurries. Screen readers
+            // can't keep up with 30Hz updates anyway and the user gets a clear
+            // announcement of the final position when the flurry settles.
+            // caret.getDescription() does locale-template concretization and
+            // string building per call, which adds up on long key holds.
+            if (deferDisplayUpdate && $keyboardEditIdle !== IdleKind.Idle)
+                return;
             // Read lastInsertedKey before entering untrack so the value is captured
             // at the time the reactive effect fires (i.e. after the caret update).
             const key = lastInsertedKey;

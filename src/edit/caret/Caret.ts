@@ -1973,12 +1973,11 @@ export default class Caret {
     }
 
     getVertical(direction: 1 | -1, position: number): Caret | undefined {
-        // Get the current rendered line and column. Iterate through the tokens, and along the way, tracking the physical position and rendered position.
-        // When we find the physical position, we'll have the rendered line and column.
-        const match =
-            this.source.getRenderedLineAndColumnFromPhysicalPosition(position);
-        if (match === undefined) return;
-        const [line] = match;
+        // Use the line-only variant — we don't need the column for this caret;
+        // we use this.column (the caret's "remembered" column from the last
+        // horizontal move) to land at the same visual offset on the new line.
+        const line = this.source.getLineFromPhysicalPosition(position);
+        if (line === undefined) return;
         const newLine = line + direction;
 
         const newPosition = this.source.getPhysicalPositionFromLineAndColumn(
