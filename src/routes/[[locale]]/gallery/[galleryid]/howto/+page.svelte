@@ -12,14 +12,22 @@
         getAnnouncer,
         getUser,
         isAuthenticated,
+        setConceptIndex,
+        setConceptPath,
+        setProject,
     } from '@components/project/Contexts';
     import Button from '@components/widgets/Button.svelte';
     import Options, { type Option } from '@components/widgets/Options.svelte';
-    import { Galleries, HowTos, locales } from '@db/Database';
+    import type Concept from '@concepts/Concept';
+    import ConceptIndex from '@concepts/ConceptIndex';
+    import { Galleries, HowTos, Locales, locales } from '@db/Database';
     import type Gallery from '@db/galleries/Gallery';
     import HowTo from '@db/howtos/HowToDatabase.svelte';
+    import Project from '@db/projects/Project';
+    import Source from '@nodes/Source';
     import { untrack } from 'svelte';
     import { SvelteMap } from 'svelte/reactivity';
+    import { writable } from 'svelte/store';
     import HowToConfiguration from './HowToConfiguration.svelte';
     import HowToForm from './HowToForm.svelte';
     import HowToPreview from './HowToPreview.svelte';
@@ -299,6 +307,43 @@
     let notPermittedAreas = $state<
         SvelteMap<string, [number, number, number, number]>
     >(new SvelteMap());
+
+    // Provide a placeholder concept index, path, and project so that
+    // Any ConceptLinkUI inside how-to markup (and example annotations) can resolve.
+    // Mirrors the standalone guide setup in Guide.svelte.
+    setConceptPath(writable<Concept[]>([]));
+
+    let placeholderProject = $derived(
+        Project.make(null, 'howto', Source.make(''), [], $locales.getLocales()),
+    );
+
+    let placeholderProjectStore = writable<Project | undefined>(undefined);
+    setProject(placeholderProjectStore);
+    $effect(() => {
+        placeholderProjectStore.set(placeholderProject);
+    });
+
+    let howToStore = Locales.howTos;
+    $effect(() => {
+        Locales.loadHowTos($locales.getLocaleString());
+    });
+    let localeHowTos = $derived($howToStore[$locales.getLocaleString()]);
+
+    let placeholderIndex = $derived(
+        ConceptIndex.make(
+            placeholderProject,
+            $locales,
+            localeHowTos instanceof Promise ? [] : localeHowTos,
+            $user ? HowTos.allAccessiblePublishedHowTos : [],
+        ),
+    );
+
+    // svelte-ignore state_referenced_locally
+    let indexContext = $state({ index: placeholderIndex });
+    setConceptIndex(indexContext);
+    $effect(() => {
+        indexContext.index = placeholderIndex;
+    });
 </script>
 
 {#if gallery === null}
