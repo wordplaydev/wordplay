@@ -1,0 +1,21 @@
+Gumawa ng video mula sa camera
+
+Ang @Camera Ang stream ay isang mahusay na paraan upang makakuha ng isang grid ng mga kulay mula sa mundo.Paano kung gusto nating makita ang mga kulay na iyon, na muling likhain ang imahe @Camera nakikita?
+
+Maaari nating gamitin ang @Grid layout para sa isang @Group , at @List/combine tungkuling i-convert ang mga kulay sa isang listahan ng @Phrase na ibinibigay natin sa mga @Grid .
+
+\width: 24
+height: 24
+colors: Camera(width × 1px height × 1px 33ms)
+Stage([
+		Group(Grid(height width 0m) colors.combine([] ƒ(phrases row) [
+						:phrases
+						:row.translate(ƒ(color) Phrase("⬤" color: color duration: 0s))
+					]))
+	])\
+
+Ang halimbawang ito ay bubuo ng isang listahan ng mga parirala, na sumasaklaw sa bawat kulay sa isang bilog na may partikular na kulay.
+
+Mag-ingat sa @Camera mga stream: nakakagawa sila ng maraming input! Gugustuhin mong panatilihing maliit ang lapad at taas ng imahe.
+
+interactive-scene

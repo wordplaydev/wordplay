@@ -1,0 +1,17 @@
+Pag-uulit ng isang galaw
+
+Minsan gusto nating igalaw ang isang karakter sa parehong paraan nang ilang beses!Nakakapagod na ring paulit-ulit na i-type ang parehong mga linya.
+
+Sa halip, maaari nating gamitin ang @Sequence kasama @Phrase para ulitin ang isang bagay nang maraming beses! Sa partikular,magagamit natin ang bilang sa @Sequence at piliin kung ilang beses nangyayari ang isang set ng mga pose. Halimbawa,Narito ang isang basketball na tumatalbog pataas at pababa nang dalawang beses.
+
+\Stage([
+		Phrase('🏀' entering: Sequence({
+					0%: Pose(offset: Place(y: 0.25m))
+					25%: Pose(offset: Place(y: 0m))
+					50%: Pose(offset: Place(y: -0.25m))
+					75%: Pose(offset: Place(y: 0m))
+					100%: Pose(offset: Place(y: 0.25m))
+				} count: 2x duration: 2s))
+	])\
+
+animate-phrase, shake-phrase

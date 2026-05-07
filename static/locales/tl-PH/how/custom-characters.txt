@@ -1,0 +1,15 @@
+Magpakita ng pasadyang karakter
+
+Maganda ang mga emoji, letra, at simbolo! Pero minsan gusto mo ring gumawa ng sarili mong mga karakter.Paano ka makakalikha at makakapagpakita ng sarili mo?
+
+Una, simulan sa pamamagitan ng paglikha ng isang karakter sa<Mga Karakter@://characters>pahina.Maaari kang gumamit ng mga pixel, parihaba, bilog, at mga path.Bigyan ito ng pangalan, ilarawan ito, at pagkatapos ay maaari mong gamitin ang iyong username at ang pangalan ng karakter tulad nito:
+
+\Phrase(`Tingnan mo ang aking pagnanasa @username/charactername !`)\
+
+Hindi umiiral ang username at pangalan ng karakter na iyan, kaya ipapakita ito bilang isang walang laman na parihaba.Siguraduhing gamitin ang iyong aktwal na username at character name
+
+Nakikita mo ba kung paano ginagamit ng teksto ang backtick sa halip na simbolo ng panipi? Mahalaga iyon.Ibig sabihin niyan ay gumagamit ka ng rich text mode, at kinakailangan iyon para tumukoy sa isang custom na karakter.
+
+Maaari kang matuto nang higit pa tungkol sa pag-format ng teksto mula sa @Phrase .
+
+animate-phrase

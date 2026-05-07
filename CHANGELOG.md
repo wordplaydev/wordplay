@@ -6,6 +6,10 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 ## 0.17.9 - 2026-05-09
 
+### Added
+
+- Added a machine translated Tagalog locale (#1089).
+
 ### Changed
 
 - We made the toolbar wrapping a bit better.

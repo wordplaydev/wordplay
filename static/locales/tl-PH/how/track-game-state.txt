@@ -1,0 +1,30 @@
+Subaybayan ang estado ng laro
+
+Karamihan sa mga laro ay sumusubaybay sa maraming bagay habang umuusad ang laro: mga puntos, posisyon ng manlalaro, at iba pang mga detalye ay pawang mahalaga.Sa bawat oras na mayroong ilang input, nagbabago ang estado na iyon, at pagkatapos ay gusto nating magpakita ng bagong output, bilang tugon.
+
+Ang pangkalahatang padron para sa anumang laro ay may tatlong ginagawa:
+
+• Magtakda ng istruktura ng datos ng estado ng laro, upang iimbak ang lahat ng estado ng laro• Magtakda ng reaksyon na bubuo ng bagong estado ng laro batay sa nakaraang estado ng laro tuwing may bagong input• Gumawa ng @Stage kasama @Group at @Phrase upang ipakita ang estado ng laro
+
+Halimbawa, isipin natin ang isang simpleng laro na kinabibilangan ng pag-type ng mga sikretong salita sa isang text box, at pagkuha ng puntos sa bawat oras na mahulaan ang isang sikretong salita:
+
+\•Game(secrets•[''] points•#)
+state: Game(['pusa' 'aso'] 0) … state.secrets.has(Chat()) … state.points:state.points + 1
+Stage(state.points = state.secrets.length() ? [Phrase("panalo ka!")] [
+			Group(Stack() [
+					Phrase("hulaan ang aking mga sikretong salita")
+					Phrase(`\state.secrets.length() - state.points\mas maraming sikreto`)
+				])
+		])\
+
+Suriin natin ito.
+
+• Ang unang linya,\•Game(secrets•[''] points•#)\sabi,/Gumawa ng istruktura ng datos na tinatawag na\Game\na nag-iimbak ng listahan ng mga sikreto at mga punto/• Ang pangalawang linya ay nagsasabing/Ang estado ng laro ay nagsisimula sa isang listahan ng mga sikreto at mga sero puntos. Sa bawat oras na ang\Chat\mga pagbabago, kung ang salitang ipinasok ay nasa listahan ng mga sikreto, gumawa ng bagong estado ng laro na may mga puntos na nadaragdagan ng isa/.• Sa bawat pagkakataong muling susuriin ng programa (kapag ang\Chat\(mga pagbabago), magpakita ng isang yugto. Kung ang bilang ng mga puntos ay katumbas ng bilang ng mga sikreto, ipapakita ang isang panalong yugto. Kung hindi, magpakita ng isang prompt at ang bilang ng mga natitirang sikreto.
+
+Ang halimbawang ito ay may ilang mga problema:
+
+• Kung mahulaan nila ang isang sikretong salita nang maraming beses, makakakuha sila ng mas maraming puntos! Maaaring kailanganin din ng ating estado ng laro na matandaan kung ano ang nahulaan, kaya ang bawat salita ay binibilang lamang nang dalawang beses.• Kung maraming salita ang ilalagay ng manlalaro, dapat ba itong mabilang?
+
+Ang mas sopistikadong mga estado ng laro at mga update sa laro ay makakatulong sa amin na mahawakan ang mga kasong ito.
+
+track-points

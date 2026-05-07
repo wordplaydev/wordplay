@@ -1,0 +1,19 @@
+Gawing animated ang isang karakter
+
+Ang mga karakter ay maaaring magkaroon ng resting animation na nauulit habang hindi sila gumagalaw.
+
+Halimbawa, hayaan nating sumayaw nang kaunti ang pusang ito sa pamamagitan ng pagpapaikot at pagpapagalaw nito:
+
+\Phrase('🐈' resting: Sequence({
+			0%: Pose(rotation: 0°)
+			15%: Pose(rotation: 15°)
+			30%: Pose(rotation: 0°)
+			45%: Pose(offset: Place(-0.25m))
+			60%: Pose(offset: Place(0.25m))
+			75%: Pose(offset: Place(-0.25m))
+			90%: Pose(offset: Place(0m))
+		} 2s))\
+
+Ang halimbawang ito ay gumagamit ng isang @Sequence ng iba't ibang @Pose .
+
+move-phrase, shake-phrase

@@ -1,0 +1,23 @@
+Gumawa ng pag-iling ng karakter
+
+Minsan nakakatulong na ipakita na parang nanginginig ang isang karakter.May ilang paraan para maisakatuparan natin iyon.
+
+Maaari nating gamitin @Phrase/offset kasama @Random at @Time para mangyari iyon.
+
+\offset: 0m … ∆ Time() … Random(-0.1m 0.1m)
+Phrase('kumusta' offset: Place(offset 0m))\
+
+Lumilikha ito ng isang halaga na tinatawag na\offset\na nagbabago sa isang bagong random na halaga sa bawat pag-ikot ng orasan.Pagkatapos, ginagamit nito ang offset na iyon upang ipakita ang @Phrase na-offset ng halagang iyon.
+
+Kung gusto nating mas tumpak na kontrolin ang pagyanig, maaari tayong gumamit ng @Sequence para gumawa ng random na animation ng pag-alog na nauulit.
+
+\Phrase('kumusta' resting: Sequence({
+			0%: Pose(offset: Place(Random(-.2m .2m)))
+			15%: Pose(offset: Place(Random(-.2m .2m)))
+			60%: Pose(offset: Place(Random(-.2m .2m)))
+			75%: Pose(offset: Place(Random(-.2m .2m)))
+		} 0.1s))\
+
+Ang halimbawang ito ay pumipili lamang ng mga random na halaga nang isang beses, ngunit ginagawa itong isang paulit-ulit na pagkakasunod-sunod.
+
+move-phrase

@@ -1,0 +1,32 @@
+Ipakita ang mga pagpipiliang maaaring piliin
+
+Minsan gusto mong magpakita ng maraming pagpipilian sa screen, at gumawa ng isang bagay gamit ang pinipili ng mga manonood. Para magawa ito, kailangan natin ng dalawang bagay:
+
+• Isa o higit pa @Phrase na minarkahan bilang mapipili at may natatanging pangalan (hal.,\Phrase('opsyon 1' selectable: ⊤ name: 'isa')\)• Isang @Choice , na nagbabago sa @Phrase pangalang pinakahuling napili.
+
+Halimbawa, ipinapakita namin dito ang tatlong pagpipilian, bawat isa ay may natatanging pangalan.
+
+\option: Choice()
+Group(Stack() [
+		Phrase('opsyon 1' selectable: ⊤ name: 'isa')
+		Phrase('opsyon 2' selectable: ⊤ name: 'dalawa')
+		Phrase('opsyon 3' selectable: ⊤ name: 'tatlo')
+		Phrase(option)
+	])\
+
+Sa bawat oras na may mapipili, ang huli @Phrase ipinapakita ang pangalang napili.
+
+Maaari mong gamitin ang pattern na ito upang gawin ang mga bagay bilang tugon sa isang pagpipilian. Halimbawa, maaari nating baguhin ang proyekto sa itaas upang magpakita ng isang sikretong emoji batay sa pagpipilian:
+
+\option: Choice()
+option = '' ? Group(Stack() [
+			Phrase('opsyon 1' selectable: ⊤ name: 'isa')
+			Phrase('opsyon 2' selectable: ⊤ name: 'dalawa')
+			Phrase('opsyon 3' selectable: ⊤ name: 'tatlo')
+		]) Phrase({'isa': '😡' 'dalawa': '🏀' 'tatlo': '❤'}{option} ?? '?')\
+
+Ang @Choice nagsisimula bilang isang walang laman @Text , kaya kapag nagsimula na ang proyekto, sinusuri namin iyon, at ipinapakita ang tatlong pagpipilian.Kapag nagawa na ang isang pagpili, ito ay nagiging isa sa tatlo @Phrase mga pangalan.
+
+Para magpakita ng emoji batay sa napili, maaari nating gamitin ang @Map para i-convert ang pangalan sa isang sikretong emoji.Kapag nakakuha tayo ng halaga mula sa isang @Map , kung walang tugma, susuriin ito sa\ø\, kaya ginagamit namin ang\??\para maging default sa\'?'\kung wala sa mapa ang opsyon.Sa kasong ito, hindi iyon maaaring mangyari, ngunit hindi tayo sapat na matalino para malaman ito!
+
+move-phrase

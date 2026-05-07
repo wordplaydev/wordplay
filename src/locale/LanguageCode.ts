@@ -337,7 +337,12 @@ export const Languages = {
     te: { name: 'తెలుగు', en: 'Telugu', scripts: ['Telu'], regions: [] },
     tg: { name: 'Тоҷикӣ', en: 'Tajik', scripts: ['Cyrl'], regions: [] },
     th: { name: 'ไทย', en: 'Thai', scripts: ['Thai'], regions: [] },
-    tl: { name: 'ᜏᜒᜃᜅ᜔ ᜆᜄᜎᜓᜄ᜔', en: 'Tagalog', scripts: ['Latn'], regions: [] },
+    tl: {
+        name: 'ᜏᜒᜃᜅ᜔ ᜆᜄᜎᜓᜄ᜔',
+        en: 'Tagalog',
+        scripts: ['Latn'],
+        regions: ['PH'],
+    },
     tn: { name: 'Setswana', en: 'Tswana', scripts: ['Latn'], regions: [] },
     tr: { name: 'Türkçe', en: 'Turkish', scripts: ['Latn'], regions: [] },
     tt: { name: 'Татарча', en: 'Tatar', scripts: ['Arab'], regions: [] },

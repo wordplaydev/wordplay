@@ -1,0 +1,31 @@
+Gumawa ng isang pakikipagsapalaran sa teksto
+
+Isang masayang uri ng laro ay/piliin ang sarili mong pakikipagsapalaran/laro, kung saan ang isang manlalaro ay pipili ng isang serye ng mga pagpipilian, at susubukang makahanap ng paraan tungo sa masayang wakas.
+
+Para makagawa ng isa sa mga ito, maaari nating gamitin ang @Structure , @Key , @Reaction , at @List magkasama upang gumawa ng isang koleksyon ng mga desisyon, bawat isa ay may hanay ng mga opsyon, tulad nito:
+
+\¶Gumagawa ito ng istruktura ng datos na nag-iimbak ng isang pagpipilian at kung aling desisyon ang pupuntahan nito.¶•Option(text•'' decision•#)
+¶Ang istrukturang ito ng datos ay nag-iimbak ng isang listahan ng mga pagpipilian¶•Decision(options: [Option])
+¶Ito ang nilalaman ng laro! Baguhin ang teksto sa Mga Pagpipilian upang lumikha ng kapaligiran at mahihirap na mga pagpipilian.Magdagdag ng mga opsyon upang lumikha ng isang lambat ng mga mahihirap na pagpipilian.¶
+decisions: [
+		Decision([Option('simulan' 2)])
+		Decision([
+				Option('kaliwa' 3)
+				Option('tuwid' 4)
+				Option('kanan' 4)
+			])
+		Decision([Option('manalo' 1)])
+		Decision([Option('matalo' 1)])
+	]
+¶I-convert ang susi sa isang numero, kung ito ay isa¶
+key: Key()
+choice: key → #
+¶Ang halagang ito ay kumakatawan sa kasalukuyang desisyon sa listahan sa itaas.Kapag pinindot ang key, ginagawa namin ang isa sa mga sumusunod.Kung iisa lang ang pagpipilian para sa desisyong ito, babaguhin natin ang kasalukuyang desisyonsa target na desisyon ng opsyon kahit anong key ang pinindot.Kung ang key na pinindot ay nasa pagitan ng 1 at ng bilang ng mga opsyon, pupunta tayo sa target na desisyon ng opsyong iyon.Kung hindi, pananatilihin na lang natin ang kasalukuyang desisyon.¶
+current•#: 1 … ∆ key … decisions[current].options.length() = 1 ? decisions[current].options[1].decision ((choice ≥ 1) & (choice ≤ decisions[current].options.length())) ? decisions[current].options[choice].decision current
+¶Ipinapakita lang nito ang mga opsyon bilang isang salansan ng mga parirala. Maaari mo itong baguhin para magdagdag ng mga tagubilin, animation, at iba pang anghang!¶Stage([
+		Group(Stack() decisions[current].options.translate(ƒ(option) Phrase(option.text)))
+	])\
+
+Mukhang kumplikado ang pattern na ito, ngunit ang ginagawa lang talaga nito ay ipinapakita ang kasalukuyang hanay ng mga opsyon at sa bawat pagbabago ng isang susi, patungo sa desisyon ng napiling opsyon. Ang pagdidisenyo ng isang laro ay tungkol sa pagbabago ng nilalaman sa itaas!
+
+offer-choices
