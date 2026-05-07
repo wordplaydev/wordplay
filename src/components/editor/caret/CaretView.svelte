@@ -89,17 +89,17 @@
 </script>
 
 <script lang="ts">
-    import { measureTokenSegment } from '@components/editor/highlights/measureTokenSegment';
-    import MenuTrigger from '@components/editor/menu/MenuTrigger.svelte';
-    import { getEditor, getEvaluation } from '@components/project/Contexts';
-    import { animationDuration, locales } from '@db/Database';
     import Caret from '@edit/caret/Caret';
     import type { LocaleTextAccessor } from '@locale/Locales';
     import Node from '@nodes/Node';
     import Token from '@nodes/Token';
     import { TAB_TEXT } from '@parser/Spaces';
-    import UnicodeString from '@unicode/UnicodeString';
     import { tick, untrack } from 'svelte';
+    import { animationDuration, locales } from '@db/Database';
+    import UnicodeString from '@unicode/UnicodeString';
+    import { getEditor, getEvaluation } from '@components/project/Contexts';
+    import { measureTokenSegment } from '@components/editor/highlights/measureTokenSegment';
+    import MenuTrigger from '@components/editor/menu/MenuTrigger.svelte';
 
     interface Props {
         /** The current caret state to render */
