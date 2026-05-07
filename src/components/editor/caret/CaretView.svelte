@@ -89,17 +89,17 @@
 </script>
 
 <script lang="ts">
+    import { measureTokenSegment } from '@components/editor/highlights/measureTokenSegment';
+    import MenuTrigger from '@components/editor/menu/MenuTrigger.svelte';
+    import { getEditor, getEvaluation } from '@components/project/Contexts';
+    import { animationDuration, locales } from '@db/Database';
     import Caret from '@edit/caret/Caret';
     import type { LocaleTextAccessor } from '@locale/Locales';
     import Node from '@nodes/Node';
     import Token from '@nodes/Token';
     import { TAB_TEXT } from '@parser/Spaces';
-    import { tick, untrack } from 'svelte';
-    import { animationDuration, locales } from '@db/Database';
     import UnicodeString from '@unicode/UnicodeString';
-    import { getEditor, getEvaluation } from '@components/project/Contexts';
-    import { measureTokenSegment } from '@components/editor/highlights/measureTokenSegment';
-    import MenuTrigger from '@components/editor/menu/MenuTrigger.svelte';
+    import { tick, untrack } from 'svelte';
 
     interface Props {
         /** The current caret state to render */
@@ -146,6 +146,9 @@
 
     /** The HTMLElement rendering this view. */
     let element = $state<HTMLElement | null>(null);
+    let isElementInEditor: boolean = $derived(
+        element ? element.closest('.editor-viewport') !== null : false,
+    );
 
     /** Derive the current token we're on. */
     let token = $derived(caret?.getToken());
@@ -246,7 +249,12 @@
                 !caret.isNode()
             ) {
                 tick().then(() => {
-                    if (element) element.scrollIntoView({ block: 'nearest' });
+                    // Only scroll when inside an editor tile (class set by TileView for source tiles).
+                    // Skipping this in embedded-example contexts (e.g. guide panel how-tos) prevents
+                    // the caret scroll from overriding the panel's own scroll-to-top and causing the
+                    // how-to to appear to open mid-page.
+                    if (element && isElementInEditor)
+                        element.scrollIntoView({ block: 'nearest' });
                     lastScroll = performance.now();
                 });
             }
