@@ -1530,13 +1530,12 @@
     let selectedOutputs = $derived(selection?.getOutput(project));
 
     // The project-level slice (conflicts, animating nodes, output, evaluating
-    // step) is computed via an effect rather than a $derived so we can FREEZE
-    // it while $keyboardEditIdle is Typing. The conflicts in `project` are
-    // always empty during typing — we defer project.analyze() until idle for
-    // performance — and a $derived would drop them every keystroke and bring
-    // them back 1s later, making conflict outlines flicker. Holding the
-    // previous slice keeps stale-but-useful conflict outlines visible while
-    // the user types, and they refresh as soon as analysis runs.
+    // step) is computed via an effect rather than a $derived so we can clear
+    // it as soon as $keyboardEditIdle enters Typing. The previous outlines
+    // are stale the moment the first edit lands (the source has changed but
+    // project.analyze() is deferred until idle for performance), so we wipe
+    // them rather than leave misleading outlines hovering over moved code.
+    // They repopulate when the flurry settles and analysis runs.
     let projectHighlights = $state<Highlights>(new Highlights());
     $effect(() => {
         // Track every input but bail before recomputing if typing.
@@ -1547,7 +1546,10 @@
         const inBlocks = $blocks;
         const _src = source;
         const _project = project;
-        if ($keyboardEditIdle === IdleKind.Typing) return;
+        if ($keyboardEditIdle === IdleKind.Typing) {
+            projectHighlights = new Highlights();
+            return;
+        }
         projectHighlights = getProjectHighlights(
             _src,
             _project,
