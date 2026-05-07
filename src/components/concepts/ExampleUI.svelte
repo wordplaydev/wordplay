@@ -28,11 +28,18 @@
         IdleKind,
         setAnimatingNodes,
         setConflicts,
+        setDragged,
+        setEditors,
         setEvaluation,
         setKeyboardEditIdle,
         setProject,
+        setProjectCommandContext,
         setResetKeyboardIdle,
+        setSelectedOutput,
+        type EditorState,
     } from '@components/project/Contexts';
+    import SelectedOutput from '@components/project/SelectedOutput.svelte';
+    import type { CommandContext } from '@components/editor/commands/Commands';
     import type Node from '@nodes/Node';
     import ValueView from '@components/values/ValueView.svelte';
 
@@ -111,6 +118,38 @@
     // returns to Idle.
     setKeyboardEditIdle(writable(IdleKind.Idle));
     setResetKeyboardIdle(() => {});
+
+    // Isolate every other project-scoped context so the example is fully
+    // independent from the parent ProjectView. Without these, the parent's
+    // selection, drag state, editor map, and command context leak into the
+    // example's Editor / OutputView / Annotations / CommandButtons.
+    setSelectedOutput(new SelectedOutput());
+    setEditors(writable(new Map<string, EditorState>()));
+    setDragged(writable<Node | undefined>(undefined));
+
+    // Provide a minimal command context bound to this example's project and
+    // evaluator. CommandButtons inside the example's Annotations consult this
+    // for `command.active(...)`. Optional fields (toggleMenu, setFullscreen,
+    // focusOrCycleTile, etc.) are left undefined — those are project-shell
+    // actions that don't apply to a read-only example.
+    let exampleCommandContext = $derived<CommandContext>({
+        caret: currentCaret,
+        editor: false,
+        project: project as Project,
+        locales: $locales,
+        evaluator,
+        database: DB,
+        dragging: false,
+        blocks: $blocks,
+        view: undefined,
+        zoom: undefined,
+    });
+    // svelte-ignore state_referenced_locally
+    let commandContextState = $state({ context: exampleCommandContext });
+    setProjectCommandContext(commandContextState);
+    $effect(() => {
+        commandContextState.context = exampleCommandContext;
+    });
 
     function getEvalContext() {
         return {
