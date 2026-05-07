@@ -25,9 +25,15 @@
     import OutputView from '@components/output/OutputView.svelte';
     import {
         getConceptIndex,
+        IdleKind,
+        setAnimatingNodes,
         setConflicts,
+        setEvaluation,
+        setKeyboardEditIdle,
         setProject,
+        setResetKeyboardIdle,
     } from '@components/project/Contexts';
+    import type Node from '@nodes/Node';
     import ValueView from '@components/values/ValueView.svelte';
 
     interface Props {
@@ -41,31 +47,9 @@
 
     let value: Value | undefined = $state(undefined);
     let stage: Stage | undefined = $state(undefined);
-    let evaluator: Evaluator | undefined = $state();
     let copied = $state(false);
     let currentCaret: Caret | undefined = $state(undefined);
     let annotationsExpanded = $state(false);
-
-    function update() {
-        if (evaluator && project) {
-            value = evaluator.getLatestSourceValue(project.getMain());
-            stage = value
-                ? toStage(evaluator, value, new NameGenerator())
-                : undefined;
-        }
-    }
-
-    onMount(() => {
-        return () => {
-            // Remove the example from the index. We guard here because of a Svelte bug, which seems to change the prop to something else.
-            if (example instanceof Example)
-                index?.removeExample(example.program.expression);
-            if (evaluator) {
-                evaluator.stop();
-                evaluator.ignore(update);
-            }
-        };
-    });
 
     let indexContext = getConceptIndex();
     let index = $derived(indexContext?.index);
@@ -101,18 +85,92 @@
         conflictsStore.set(project ? project.analyze().conflicts : []);
     });
 
+    // Eagerly construct the evaluator so we can populate the evaluation
+    // context at script init, before child components mount. project is a
+    // $derived that returns a Project synchronously here.
+    // svelte-ignore state_referenced_locally
+    let evaluator = $state<Evaluator>(
+        new Evaluator(project as Project, DB, $locales.getLocales()),
+    );
+
+    // Isolate the evaluation and animating-nodes contexts from the parent
+    // ProjectView. Without this, parent broadcasts (~60Hz while playing) and
+    // parent stage animations would re-fire highlight/annotation effects in
+    // every example mounted in the open guide tile.
+    const evaluation = writable(getEvalContext());
+    setEvaluation(evaluation);
+
+    const animatingNodes = writable<Set<Node>>(new Set());
+    setAnimatingNodes(animatingNodes);
+
+    // Isolate the keyboardEditIdle context too: the example is read-only,
+    // so its typing state should always be Idle. Without this, typing in
+    // the parent's main editor flips its keyboardEditIdle to Typing, and
+    // the example's Editor projectHighlights effect clears the example's
+    // highlights (including outlines on animating nodes) until the parent
+    // returns to Idle.
+    setKeyboardEditIdle(writable(IdleKind.Idle));
+    setResetKeyboardIdle(() => {});
+
+    function getEvalContext() {
+        return {
+            evaluator,
+            playing: evaluator.isPlaying(),
+            step: evaluator.getCurrentStep(),
+            stepIndex: evaluator.getStepIndex(),
+            streams: evaluator.reactions,
+        };
+    }
+
+    function updateEvaluatorStores() {
+        evaluation.set(getEvalContext());
+    }
+
+    function update() {
+        if (evaluator && project) {
+            value = evaluator.getLatestSourceValue(project.getMain());
+            stage = value
+                ? toStage(evaluator, value, new NameGenerator())
+                : undefined;
+        }
+    }
+
+    // Wire the eager evaluator's observers and start it. reset() handles
+    // subsequent project changes.
+    // svelte-ignore state_referenced_locally
+    if (evaluated) evaluator.observe(update);
+    // svelte-ignore state_referenced_locally
+    evaluator.observe(updateEvaluatorStores);
+    // svelte-ignore state_referenced_locally
+    evaluator.start();
+
+    onMount(() => {
+        return () => {
+            // Remove the example from the index. We guard here because of a Svelte bug, which seems to change the prop to something else.
+            if (example instanceof Example)
+                index?.removeExample(example.program.expression);
+            if (evaluator) {
+                evaluator.stop();
+                evaluator.ignore(update);
+                evaluator.ignore(updateEvaluatorStores);
+            }
+        };
+    });
+
     function reset(hard: boolean) {
         // Don't create a new evaluator if the project is the same.
         if (!hard && evaluator && evaluator.project === project) return;
 
         evaluator?.ignore(update);
+        evaluator?.ignore(updateEvaluatorStores);
+        evaluator?.stop();
 
         if (project) {
             evaluator = new Evaluator(project, DB, $locales.getLocales());
             if (evaluated) evaluator.observe(update);
+            evaluator.observe(updateEvaluatorStores);
             evaluator.start();
-        } else {
-            evaluator = undefined;
+            updateEvaluatorStores();
         }
     }
 
@@ -203,6 +261,7 @@
                             grid
                             editable={false}
                             wheel={false}
+                            blurOnTyping={false}
                         />
                     </div>
                 {:else}<ValueView {value} inline={false} />{/if}

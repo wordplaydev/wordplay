@@ -757,10 +757,14 @@
     // When dependencies change, create a new concept index.
     $effect(() => {
         // Read reactive inputs in the outer scope so the effect re-runs when
-        // they change (howTos loading, gallery changes, project idle swap).
+        // they change (howTos loading, gallery changes, project edit).
         const resolvedHowTos = howTos instanceof Promise ? [] : howTos;
         const currentGalleryHowTos = galleryHowTos;
-        const isIdle = $keyboardEditIdle === IdleKind.Idle;
+        // Rebuild after the user finishes typing (Idle) or on a single
+        // atomic edit (Typed) — but never mid-flurry, since walking the
+        // source for StructureDefinition/FunctionDefinition/Bind concepts
+        // is expensive and the result would be discarded on the next key.
+        const notTyping = $keyboardEditIdle !== IdleKind.Typing;
         const currentProject = project;
 
         // Wrap the rebuild logic in untrack() so that reads and writes of
@@ -769,7 +773,7 @@
         untrack(() => {
             if (
                 index === undefined ||
-                (isIdle && latestProject !== currentProject) ||
+                (notTyping && latestProject !== currentProject) ||
                 resolvedHowTos !== latestHowTos ||
                 currentGalleryHowTos !== latestGalleryHowTos
             ) {

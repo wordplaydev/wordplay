@@ -63,6 +63,8 @@
         hasStagePlace?: boolean;
         /** Reflects whether the audience has overridden the stage's computed focus via zoom/pan controls. */
         focusOverridden?: boolean;
+        /** Whether to blur the output while the user is typing in the project's editor. True for the main stage; false for embedded examples that are unaffected by the user's typing. */
+        blurOnTyping?: boolean;
     }
 
     let {
@@ -79,6 +81,7 @@
         wheel = true,
         hasStagePlace = $bindable(false),
         focusOverridden = $bindable(false),
+        blurOnTyping = true,
     }: Props = $props();
 
     let indexContext = getConceptIndex();
@@ -153,7 +156,8 @@
 
     /** Keep track of whether the creator is typing, so we can blur output until the next change. */
     const typing = $derived(
-        !mini &&
+        blurOnTyping &&
+            !mini &&
             $evaluation?.playing === true &&
             $keyboardEditIdle === IdleKind.Typing,
     );
