@@ -468,13 +468,19 @@ export function updateOutlines(
     // Cache of rows per view for THIS call, so getRowsOf is invoked once per
     // node-view even though we derive both an outline and an underline from it.
     const callRows = new Map<HTMLElement, Rect[]>();
-    function getRowsForView(view: HTMLElement): Rect[] {
+    function getRowsForView(view: HTMLElement, skipCrossCall: boolean): Rect[] {
         let rows = callRows.get(view);
         if (rows !== undefined) return rows;
-        rows = rowsCache?.get(view);
+        // Animating highlights bypass the cross-call cache: the cache may
+        // have been populated from a transient layout (e.g. before the
+        // editor's surrounding tile finished laying out) and the highlight
+        // would otherwise stick at that stale position until something
+        // resizes the editor or toggles blocks. Always remeasure here so
+        // the position tracks the current node-view location.
+        if (!skipCrossCall) rows = rowsCache?.get(view);
         if (rows === undefined) {
             rows = getRowsOf(view, horizontal, rtl, blocks);
-            rowsCache?.set(view, rows);
+            if (!skipCrossCall) rowsCache?.set(view, rows);
         }
         callRows.set(view, rows);
         return rows;
@@ -484,6 +490,7 @@ export function updateOutlines(
     for (const [node, types] of highlights.entries()) {
         const nodeView = getNodeView(node);
         if (nodeView) {
+            const skipCache = types.includes('animating');
             // If this node has empty fields to highlight, add outlines for those too.
             const emptyFields = highlights.getEmpty(node);
             if (emptyFields && emptyFields.length > 0) {
@@ -492,7 +499,7 @@ export function updateOutlines(
                         `[data-field="${fieldName}"]`,
                     );
                     if (fieldView instanceof HTMLElement) {
-                        const rows = getRowsForView(fieldView);
+                        const rows = getRowsForView(fieldView, skipCache);
                         const emptyOutline = {
                             types: types,
                             outline: getOutlineOfRows(rows),
@@ -509,7 +516,7 @@ export function updateOutlines(
             }
             // No empty highlight? Just highlight the node.
             else {
-                const rows = getRowsForView(nodeView);
+                const rows = getRowsForView(nodeView, skipCache);
                 const outline = {
                     types: types,
                     outline: getOutlineOfRows(rows),
@@ -571,7 +578,10 @@ export function updateOutlines(
                 // Reuse the cached rows; just re-derive the path with offset
                 // applied. No DOM measurements.
                 outline.underline = underlineFromRows(
-                    getRowsForView(view),
+                    // The view was already measured this call, so callRows
+                    // resolves the lookup before the cross-call cache
+                    // setting matters.
+                    getRowsForView(view, false),
                     view,
                     horizontal,
                     offset,

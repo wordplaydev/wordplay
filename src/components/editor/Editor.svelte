@@ -1631,11 +1631,56 @@
         outlineRowsCache = new WeakMap();
     });
 
+    // Re-measure outlines when an ancestor of the editor finishes a CSS
+    // animation. Matters for the editor inside ExampleUI: its container
+    // paragraph in MarkupHTMLView animates from transform: scaleY(0) to
+    // scaleY(1), and getBoundingClientRect on descendants reflects the
+    // mid-animation transform. If $animatingNodes populates while the
+    // ancestor is mid-pop, the cached rects stay collapsed and the
+    // animating outline ends up rendering above the editor. ResizeObserver
+    // does not fire on transform changes, so we listen for animationend
+    // bubbling up and refresh once the ancestor is at its final transform.
+    $effect(() => {
+        if (editor === null) return;
+        const editorEl = editor;
+        const handler = (event: AnimationEvent) => {
+            if (
+                event.target instanceof Element &&
+                event.target !== editorEl &&
+                event.target.contains(editorEl)
+            ) {
+                outlineRowsCache = new WeakMap();
+                if ($highlights)
+                    tick().then(() => {
+                        outlines = updateOutlines(
+                            $highlights,
+                            true,
+                            $locales.getDirection() === 'rtl',
+                            $blocks,
+                            getNodeView,
+                            outlineRowsCache,
+                        );
+                    });
+            }
+        };
+        document.addEventListener('animationend', handler);
+        return () =>
+            document.removeEventListener('animationend', handler);
+    });
+
     // Update the outline positions any time the highlights change, but only after we're done rendering.
     let outlines = $state<HighlightSpec[]>([]);
     $effect(() => {
         /** Update outlines when blocks mode changes. */
         $blocks;
+        /** Re-run on layout-affecting state too. The highlights store skips
+         * publishing when the highlighted node set is unchanged (e.g. the
+         * same nodes stay in $animatingNodes frame-to-frame), so without
+         * this the outlines would keep their stale positions after the
+         * editor reflows (a tile opens, zoom changes, etc.). */
+        editorWidth;
+        editorHeight;
+        zoom;
         if ($highlights)
             tick().then(() => {
                 outlines = updateOutlines(
