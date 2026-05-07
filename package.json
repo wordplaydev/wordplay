@@ -27,6 +27,8 @@
         "locales-ci": "npx tsx src/util/verify-locales/start.ts ci",
         "locales-fix": "npx tsx src/util/verify-locales/start.ts fix",
         "locales-translate": "npx tsx src/util/verify-locales/start.ts translate",
+        "locales-emojis": "node scripts/generate-emojis.mjs",
+        "codes": "npx tsx src/unicode/compress.ts",
         "override": "npx tsx src/util/verify-locales/start.ts override",
         "schemas": "npm-watch create-schemas",
         "merge": "git checkout main && git merge dev && git push origin main && git checkout dev",

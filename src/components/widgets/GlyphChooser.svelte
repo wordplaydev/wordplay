@@ -59,15 +59,24 @@
     import Link from '@components/app/Link.svelte';
     import Spinning from '@components/app/Spinning.svelte';
     import { characterToSVG } from '@db/characters/Character';
-    import { CharactersDB, locales } from '@db/Database';
+    import { CharactersDB, Locales, locales } from '@db/Database';
     import { SEARCH_SYMBOL } from '@parser/Symbols';
     import { onMount } from 'svelte';
-    import { getCodepoints, type Codepoint } from '@unicode/Unicode';
+    import {
+        codepointKey,
+        getCodepoints,
+        type Codepoint,
+    } from '@unicode/Unicode';
     import Button from '@components/widgets/Button.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import Mode from '@components/widgets/Mode.svelte';
     import Options, { type Option } from '@components/widgets/Options.svelte';
     import TextField from '@components/widgets/TextField.svelte';
+    import type { EmojiMap } from '@db/locales/LocalesDatabase';
+    import { toLocaleString } from '@locale/LocaleText';
+    import type { SupportedLocale } from '@locale/SupportedLocales';
+
+    const emojiMaps = Locales.emojis;
 
     interface Props {
         /** Callback for when a glyph is chosen */
@@ -139,6 +148,23 @@
         getCodepoints().then((cp) => {
             codepoints = cp;
         });
+        // Kick off emoji-translation loading for the currently selected
+        // locales so cross-language search works without blocking the
+        // picker. New translations will arrive via the emojiMaps store.
+        Locales.loadEmojisForCurrentLocales();
+    });
+
+    /** The supported-locale codes for the currently selected locales, used
+     * to look up emoji translations in the emojiMaps store. */
+    let selectedLocaleCodes = $derived(
+        $locales.getLocales().map(
+            (l) => toLocaleString(l) as SupportedLocale,
+        ),
+    );
+
+    /** When the user switches locales, fetch any newly-needed emoji maps. */
+    $effect(() => {
+        for (const code of selectedLocaleCodes) Locales.loadEmojis(code);
     });
 
     /** Map an emoji group string to its visible category index. Used to search, as the tooltips are where the text is stored. */
@@ -146,28 +172,64 @@
         return VisibleCategories.findIndex((cat) => cat.endsWith(`-${group}`));
     }
 
-    /** The filtered codepoints */
-    let results = $derived(
-        query.length < 3 || codepoints === null
-            ? []
-            : codepoints.filter(
-                  (code) =>
-                      code.name.includes(query) ||
-                      (code.emoji &&
-                          $locales
-                              .getTextStructure((l) => l.ui.emoji.groups.tips)
-                              [
-                                  getEmojiGroupIndex(code.emoji.group)
-                              ].includes(query)),
-              ),
-    );
+    /** True if any localized name or keyword for `code` (across the currently
+     * selected locales) contains the query. Case-insensitive. */
+    function matchesLocalizedKeywords(
+        code: Codepoint,
+        normalizedQuery: string,
+        maps: Partial<Record<SupportedLocale, EmojiMap>>,
+    ): boolean {
+        const key = codepointKey(code.hex);
+        for (const localeCode of selectedLocaleCodes) {
+            const entry = maps[localeCode]?.[key];
+            if (!entry) continue;
+            for (const term of entry)
+                if (term.toLowerCase().includes(normalizedQuery)) return true;
+        }
+        return false;
+    }
+
+    /** Display name for a codepoint, preferring the user's primary selected
+     * locale's CLDR translation, then any other selected locale that has
+     * loaded data. Returns an empty string when no locale has an entry —
+     * codepoints without translations (non-emoji glyphs, or emojis whose
+     * locale data hasn't loaded yet) get an unlabeled tooltip. */
+    function localizedNameFor(hex: number[]): string {
+        const key = codepointKey(hex);
+        const maps = $emojiMaps;
+        for (const localeCode of selectedLocaleCodes) {
+            const entry = maps[localeCode]?.[key];
+            if (entry && entry.length > 0) return entry[0];
+        }
+        return '';
+    }
+
+    /** The filtered codepoints. Search now relies entirely on localized
+     * emoji translations and the emoji-group tooltip text from the active
+     * locale; codes.txt no longer carries English names to fall back to. */
+    let results = $derived.by(() => {
+        if (query.length < 3 || codepoints === null) return [];
+        const normalized = query.toLowerCase();
+        const groupTips = $locales.getTextStructure(
+            (l) => l.ui.emoji.groups.tips,
+        );
+        const maps = $emojiMaps;
+        return codepoints.filter(
+            (code) =>
+                (code.emoji &&
+                    groupTips[getEmojiGroupIndex(code.emoji.group)].includes(
+                        normalized,
+                    )) ||
+                matchesLocalizedKeywords(code, normalized, maps),
+        );
+    });
 </script>
 
-{#snippet choice(hex: number[], name: string)}
+{#snippet choice(hex: number[])}
     <div class="emoji" class:selected={String.fromCodePoint(...hex) === glyph}
         ><Button
             padding={false}
-            tip={() => name}
+            tip={() => localizedNameFor(hex)}
             action={() => pick(String.fromCodePoint(...hex))}
             ><span class="emoji">{String.fromCodePoint(...hex)}</span></Button
         ></div
@@ -209,7 +271,7 @@
         {#if query.length > 2 && codepoints !== null}
             <!-- Show the search results if there's a query. -->
             {#each results as code}
-                {@render choice(code.hex, code.name)}
+                {@render choice(code.hex)}
             {/each}
         {:else if showCustom && category === 'Custom'}
             <!-- Show the public custom characters -->
@@ -257,7 +319,7 @@
                             code.hex.includes(parseInt(skinTone)))),
             )}
             {#each filtered as code}
-                {@render choice(code.hex, code.name)}
+                {@render choice(code.hex)}
             {/each}
         {:else if category === 'Shapes' || category === 'Arrows'}
             <!-- Is this composite category? Show all the codepoints in its ranges. -->
@@ -271,12 +333,12 @@
                 ),
             )}
             {#each glyphs as code}
-                {@render choice(code.hex, code.name)}
+                {@render choice(code.hex)}
             {/each}
         {:else if category.length === 2}
             <!-- Is this a Unicode category? Show all the codepoints with that category. -->
             {#each codepoints.filter((code) => code.category === category) as code}
-                {@render choice(code.hex, code.name)}
+                {@render choice(code.hex)}
             {/each}
         {/if}
     </div>
