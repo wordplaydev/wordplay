@@ -105,7 +105,7 @@ export function parseBlock(
     const root = kind === BlockKind.Root;
 
     // Grab any documentation if this isn't a root.
-    const docs = tokens.nextIs(Sym.Doc) ? parseDocs(tokens) : undefined;
+    const docs = !doc && tokens.nextIs(Sym.Doc) ? parseDocs(tokens) : undefined;
 
     const open = root
         ? undefined
