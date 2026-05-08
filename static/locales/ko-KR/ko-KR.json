@@ -4570,11 +4570,14 @@
                 "characters": {
                     "on": "$~일치하는 글리프 축소",
                     "off": "$~일치하는 문자 확장"
+                },
+                "expandSequence": {
+                    "on": "$?",
+                    "off": "$?"
                 }
             },
             "button": {
                 "selectOutput": "$~이 출력을 무대에 표시",
-                "expandSequence": "$~이 접힌 코드를 확장하세요",
                 "expandControls": "$~추가 편집 명령 표시",
                 "collapseControls": "$~추가 편집 명령 숨기기",
                 "zoomIn": "$~코드 크기를 늘리세요",
@@ -6016,7 +6019,6 @@
             "unwrap": "$~풀다",
             "bind": "$~이 표현의 이름을 지정하세요",
             "range": "$~$1에서 $2까지 선택 가능",
-            "show": "$~… 더 보기",
             "area": "$~유형 코드"
         },
         "template": {

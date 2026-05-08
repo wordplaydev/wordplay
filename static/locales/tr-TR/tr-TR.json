@@ -4587,11 +4587,14 @@
                 "characters": {
                     "on": "$~eşleşen karakterleri daralt",
                     "off": "$~eşleşen karakterleri genişlet"
+                },
+                "expandSequence": {
+                    "on": "$?",
+                    "off": "$?"
                 }
             },
             "button": {
                 "selectOutput": "$~bu çıktıyı sahnede göster",
-                "expandSequence": "$~bu daraltılmış kodu genişlet",
                 "expandControls": "$~ek düzenleme komutlarını göster",
                 "collapseControls": "$~ek düzenleme komutlarını gizle",
                 "zoomIn": "$~Kodu daha büyük yapın",
@@ -6100,7 +6103,6 @@
             "unwrap": "$~açmak",
             "bind": "$~bu ifadeyi adlandırın",
             "range": "$~1$'dan $2'a kadar seçim",
-            "show": "$~… daha fazlasını göster",
             "area": "$~tip kodu"
         },
         "template": {

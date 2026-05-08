@@ -1,9 +1,10 @@
-import type { TileKind } from '@components/project/TileKind';
 import type { SupportedFace } from '@basis/Fonts';
+import type { TileKind } from '@components/project/TileKind';
 import type { DocText, FormattedText } from '@locale/LocaleText';
 
 import type DocumentationText from '@components/concepts/DocumentationText';
 import type CheckpointsText from '@components/project/CheckpointsText';
+import type EditTexts from '@locale/EditTexts';
 import type ErrorText from '../routes/ErrorText';
 import type LandingPageText from '../routes/[[locale]]/PageText';
 import type AboutPageText from '../routes/[[locale]]/about/PageText';
@@ -26,7 +27,6 @@ import type ClassPageText from '../routes/[[locale]]/teach/class/[classid]/PageT
 import type NewClassPageText from '../routes/[[locale]]/teach/class/new/PageText';
 import type ThanksPageText from '../routes/[[locale]]/thanks/PageText';
 import type UpdatesPageText from '../routes/[[locale]]/updates/PageText';
-import type EditTexts from '@locale/EditTexts';
 
 export type ButtonText = {
     /** [plain] The buttons label */
@@ -250,20 +250,20 @@ type UITexts = {
         /** [plain] When some other device had a more recent edit that overrode this device's version. */
         overwritten: string;
         confirm: {
-            /** The confirm button that deletes a source file */
+            /** [plain] The confirm button that deletes a source file */
             delete: ConfirmText;
         };
         toggle: {
-            /** The blocks/text toggle */
+            /** [plain] The blocks/text toggle */
             blocks: ToggleText;
-            /** The character chooser expand/collapse toggle */
+            /** [plain] The character chooser expand/collapse toggle */
             characters: ToggleText;
+            /** [plain] The toggle for expanding and collapsing a long list of items in the editor */
+            expandSequence: ToggleText;
         };
         button: {
             /** [plain] Output preview button for selecting output for display in output tile */
             selectOutput: string;
-            /** [plain] The button shown when a list of code is ellided; clicking it shows the hidden code. */
-            expandSequence: string;
             /** [plain] The button tooltip for expanding the controls accordion */
             expandControls: string;
             /** [plain] The button tooltip for collapsing the controls accordion */

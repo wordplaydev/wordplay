@@ -29,8 +29,6 @@ type EditTexts = {
     unwrap: string;
     /** [plain] Shown in menus to offer to name an expression with a bind */
     bind: string;
-    /** [formatted] Show elided data structure $1 count */
-    show: FormattedText;
     /** [plain] A label for the textarea in which text is typed */
     area: string;
 };

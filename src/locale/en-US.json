@@ -4831,6 +4831,10 @@
                 "characters": {
                     "on": "hide the emoji and symbol chooser",
                     "off": "show the emoji and symbol chooser"
+                },
+                "expandSequence": {
+                    "on": "collapse items",
+                    "off": "expand items"
                 }
             },
             "options": {
@@ -4841,7 +4845,6 @@
             },
             "button": {
                 "selectOutput": "show this output on stage",
-                "expandSequence": "expand this collapsed code",
                 "expandControls": "show additional editing commands",
                 "collapseControls": "hide additional editing commands",
                 "zoomIn": "Make the code larger",
@@ -6387,7 +6390,6 @@
             "wrap": "parenthesize",
             "unwrap": "unwrap",
             "bind": "name this expression",
-            "show": "… show more",
             "area": "type code"
         },
         "template": {

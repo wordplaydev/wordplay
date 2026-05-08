@@ -10657,10 +10657,6 @@
                   "$ref": "#/definitions/FormattedText",
                   "description": "[formatted] $1: node description or undefined"
                 },
-                "show": {
-                  "$ref": "#/definitions/FormattedText",
-                  "description": "[formatted] Show elided data structure $1 count"
-                },
                 "unwrap": {
                   "description": "[plain] Shown in menus to offer to unwrap an expression in parentheses",
                   "type": "string"
@@ -10685,7 +10681,6 @@
                 "wrap",
                 "unwrap",
                 "bind",
-                "show",
                 "area"
               ],
               "type": "object"
@@ -14526,10 +14521,6 @@
                       "description": "[plain] The button tooltip for expanding the controls accordion",
                       "type": "string"
                     },
-                    "expandSequence": {
-                      "description": "[plain] The button shown when a list of code is ellided; clicking it shows the hidden code.",
-                      "type": "string"
-                    },
                     "selectOutput": {
                       "description": "[plain] Output preview button for selecting output for display in output tile",
                       "type": "string"
@@ -14545,7 +14536,6 @@
                   },
                   "required": [
                     "selectOutput",
-                    "expandSequence",
                     "expandControls",
                     "collapseControls",
                     "zoomIn",
@@ -14558,7 +14548,7 @@
                   "properties": {
                     "delete": {
                       "$ref": "#/definitions/ConfirmText",
-                      "description": "The confirm button that deletes a source file"
+                      "description": "[plain] The confirm button that deletes a source file"
                     }
                   },
                   "required": [
@@ -15020,16 +15010,21 @@
                   "properties": {
                     "blocks": {
                       "$ref": "#/definitions/ToggleText",
-                      "description": "The blocks/text toggle"
+                      "description": "[plain] The blocks/text toggle"
                     },
                     "characters": {
                       "$ref": "#/definitions/ToggleText",
-                      "description": "The character chooser expand/collapse toggle"
+                      "description": "[plain] The character chooser expand/collapse toggle"
+                    },
+                    "expandSequence": {
+                      "$ref": "#/definitions/ToggleText",
+                      "description": "[plain] The toggle for expanding and collapsing a long list of items in the editor"
                     }
                   },
                   "required": [
                     "blocks",
-                    "characters"
+                    "characters",
+                    "expandSequence"
                   ],
                   "type": "object"
                 }

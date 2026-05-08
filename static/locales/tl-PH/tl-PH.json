@@ -4830,6 +4830,10 @@
                 "characters": {
                     "on": "$~itago ang tagapili ng emoji at simbolo",
                     "off": "$~ipakita ang tagapili ng emoji at simbolo"
+                },
+                "expandSequence": {
+                    "on": "$?",
+                    "off": "$?"
                 }
             },
             "options": {
@@ -4840,7 +4844,6 @@
             },
             "button": {
                 "selectOutput": "$~ipakita ang output na ito sa entablado",
-                "expandSequence": "$~palawakin ang nakatiklop na code na ito",
                 "expandControls": "$~magpakita ng mga karagdagang utos sa pag-edit",
                 "collapseControls": "$~itago ang mga karagdagang utos sa pag-edit",
                 "zoomIn": "$~Gawing mas malaki ang code",
@@ -6389,7 +6392,6 @@
             "wrap": "$~panaklong",
             "unwrap": "$~magbukas",
             "bind": "$~pangalanan ang ekspresyong ito",
-            "show": "$~... magpakita pa",
             "area": "$~uri ng kodigo"
         },
         "template": {

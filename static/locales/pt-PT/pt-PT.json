@@ -4827,6 +4827,10 @@
                 "characters": {
                     "on": "$~ocultar o seletor de emojis e símbolos",
                     "off": "$~Mostrar o seletor de emojis e símbolos"
+                },
+                "expandSequence": {
+                    "on": "$?",
+                    "off": "$?"
                 }
             },
             "options": {
@@ -4837,7 +4841,6 @@
             },
             "button": {
                 "selectOutput": "$~Exibir este resultado no palco",
-                "expandSequence": "$~expandir este código recolhido",
                 "expandControls": "$~Mostrar comandos de edição adicionais",
                 "collapseControls": "$~ocultar comandos de edição adicionais",
                 "zoomIn": "$~Aumente o tamanho do código.",
@@ -6386,7 +6389,6 @@
             "wrap": "$~parênteses",
             "unwrap": "$~desembrulhar",
             "bind": "$~Dê um nome a esta expressão.",
-            "show": "$~… mostrar mais",
             "area": "$~código de tipo"
         },
         "template": {

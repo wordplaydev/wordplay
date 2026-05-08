@@ -166,6 +166,10 @@ export type EditorState = {
     toggleMenu: () => void;
     grabFocus: (message: string) => void;
     setCaretPosition: (position: CaretPosition) => void;
+    /** Invalidate the editor's cached highlight measurements and remeasure.
+     * Call after a descendant changes its rendered shape (e.g. an elided
+     * sequence expanded/collapsed) so selection outlines don't go stale. */
+    refreshHighlights: () => void;
     zoom: number;
     setZoom: (z: number) => void;
 };

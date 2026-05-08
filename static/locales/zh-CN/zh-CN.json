@@ -4532,11 +4532,14 @@
                 "characters": {
                     "on": "折叠匹配的字形",
                     "off": "展开匹配的字形"
+                },
+                "expandSequence": {
+                    "on": "$?",
+                    "off": "$?"
                 }
             },
             "button": {
                 "selectOutput": "在舞台上显示此输出",
-                "expandSequence": "展开此折叠的代码",
                 "expandControls": "$~显示附加编辑命令",
                 "collapseControls": "$~隐藏附加编辑命令",
                 "zoomIn": "$~增加代码量",
@@ -5965,7 +5968,6 @@
             "unwrap": "揭开",
             "bind": "给这个表达命名",
             "range": "$~选择从 $1 美元到 $2 美元",
-            "show": "$~… 显示更多",
             "area": "$~类型代码"
         },
         "template": {

@@ -4570,11 +4570,14 @@
                 "characters": {
                     "on": "$~réduire les caractères correspondants",
                     "off": "$~développer les caractères correspondants"
+                },
+                "expandSequence": {
+                    "on": "$?",
+                    "off": "$?"
                 }
             },
             "button": {
                 "selectOutput": "$~montrer cette sortie sur scène",
-                "expandSequence": "$~développer ce code réduit",
                 "expandControls": "$~afficher des commandes d'édition supplémentaires",
                 "collapseControls": "$~masquer les commandes d'édition supplémentaires",
                 "zoomIn": "$~Agrandir le code",
@@ -6020,7 +6023,6 @@
             "unwrap": "$~déballer",
             "bind": "$~nomme cette expression",
             "range": "$~sélection de $1 à $2",
-            "show": "$~… afficher plus",
             "area": "$~code de type"
         },
         "template": {

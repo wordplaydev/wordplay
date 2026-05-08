@@ -4587,11 +4587,14 @@
                 "characters": {
                     "on": "$~komprimera de matchande tecknen",
                     "off": "$~utöka de matchande tecknen"
+                },
+                "expandSequence": {
+                    "on": "$?",
+                    "off": "$?"
                 }
             },
             "button": {
                 "selectOutput": "$~visa denna produktion på scenen",
-                "expandSequence": "$~expandera den här komprimerade koden",
                 "expandControls": "$~visa ytterligare redigeringskommandon",
                 "collapseControls": "$~dölj ytterligare redigeringskommandon",
                 "zoomIn": "$~Gör koden större",
@@ -6104,7 +6107,6 @@
             "unwrap": "$~packa upp",
             "bind": "$~namnge detta uttryck",
             "range": "$~urval från $1 till $2",
-            "show": "$~… visa mer",
             "area": "$~typkod"
         },
         "template": {

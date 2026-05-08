@@ -4569,11 +4569,14 @@
                 "characters": {
                     "on": "$~die übereinstimmenden Zeichen ausblenden",
                     "off": "$~Erweitern Sie die passenden Zeichen"
+                },
+                "expandSequence": {
+                    "on": "$?",
+                    "off": "$?"
                 }
             },
             "button": {
                 "selectOutput": "$~diese Ausgabe auf der Bühne zeigen",
-                "expandSequence": "$~Erweitern Sie diesen ausgeblendeten Code",
                 "expandControls": "$~zusätzliche Bearbeitungsbefehle anzeigen",
                 "collapseControls": "$~zusätzliche Bearbeitungsbefehle ausblenden",
                 "zoomIn": "$~Vergrößern Sie den Code",
@@ -6019,7 +6022,6 @@
             "unwrap": "$~auspacken",
             "bind": "$~Nennen Sie diesen Ausdruck",
             "range": "$~Auswahl von $1 bis $2",
-            "show": "$~… mehr anzeigen",
             "area": "$~Typenschlüssel"
         },
         "template": {

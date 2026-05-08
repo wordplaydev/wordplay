@@ -4552,11 +4552,14 @@
                 "characters": {
                     "on": "colapsar los glifos coincidentes",
                     "off": "expandir los glifos coincidentes"
+                },
+                "expandSequence": {
+                    "on": "$?",
+                    "off": "$?"
                 }
             },
             "button": {
                 "selectOutput": "mostrar este resultado en el escenario",
-                "expandSequence": "expandir este código colapsado",
                 "expandControls": "$~mostrar comandos de edición adicionales",
                 "collapseControls": "$~ocultar comandos de edición adicionales",
                 "zoomIn": "$~Aumentar el tamaño del código",
@@ -6002,7 +6005,6 @@
             "unwrap": "desenvolver",
             "bind": "nombrar esta expresión",
             "range": "$~Selección desde $1 a $2",
-            "show": "$~… mostrar más",
             "area": "$~código de tipo"
         },
         "template": {

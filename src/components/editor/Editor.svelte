@@ -280,6 +280,7 @@
         toggleMenu,
         grabFocus,
         setCaretPosition,
+        refreshHighlights,
         zoom,
         setZoom,
     });
@@ -1264,6 +1265,7 @@
                 toggleMenu,
                 grabFocus,
                 setCaretPosition,
+                refreshHighlights,
                 zoom: z,
                 setZoom,
             };
@@ -1631,6 +1633,15 @@
         outlineRowsCache = new WeakMap();
     });
 
+    // Bumped by descendants whose visible content changed shape (e.g. a
+    // sequence expanded/collapsed). Drives the outline effect to re-measure,
+    // since neither editor size nor the highlight set will have changed.
+    let outlineRevision = $state(0);
+    function refreshHighlights() {
+        outlineRowsCache = new WeakMap();
+        outlineRevision++;
+    }
+
     // Re-measure outlines when an ancestor of the editor finishes a CSS
     // animation. Matters for the editor inside ExampleUI: its container
     // paragraph in MarkupHTMLView animates from transform: scaleY(0) to
@@ -1681,6 +1692,7 @@
         editorWidth;
         editorHeight;
         zoom;
+        outlineRevision;
         if ($highlights)
             tick().then(() => {
                 outlines = updateOutlines(

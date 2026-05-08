@@ -4826,6 +4826,10 @@
                 "characters": {
                     "on": "$~thu gọn các ký tự trùng khớp",
                     "off": "$~mở rộng các ký tự phù hợp"
+                },
+                "expandSequence": {
+                    "on": "$?",
+                    "off": "$?"
                 }
             },
             "options": {
@@ -4836,7 +4840,6 @@
             },
             "button": {
                 "selectOutput": "$~Hiển thị kết quả này trên sân khấu",
-                "expandSequence": "$~mở rộng đoạn mã bị thu gọn này",
                 "expandControls": "$~Hiển thị các lệnh chỉnh sửa bổ sung",
                 "collapseControls": "$~ẩn các lệnh chỉnh sửa bổ sung",
                 "zoomIn": "$~Làm cho mã lớn hơn",
@@ -6339,7 +6342,6 @@
             "wrap": "$~đặt trong ngoặc",
             "unwrap": "$~mở gói",
             "bind": "$~Đặt tên cho biểu thức này",
-            "show": "$~… hiển thị thêm",
             "area": "$~mã loại"
         },
         "template": {
