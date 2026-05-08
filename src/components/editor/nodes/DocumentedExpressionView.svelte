@@ -1,6 +1,8 @@
 <script lang="ts">
+    import NodeView, {
+        type Format,
+    } from '@components/editor/nodes/NodeView.svelte';
     import type DocumentedExpression from '@nodes/DocumentedExpression';
-    import NodeView, { type Format } from '@components/editor/nodes/NodeView.svelte';
 
     interface Props {
         node: DocumentedExpression;
@@ -14,11 +16,8 @@
 
 <NodeView node={[node, 'docs']} {format} />{#if highlighted}<span
         class="attention"
-        style:display={format.block ? 'flex' : 'inline'}
-    ><NodeView node={[node, 'expression']} {format} /></span>{:else}<NodeView
-    node={[node, 'expression']}
-    {format}
-/>{/if}
+        ><NodeView node={[node, 'expression']} {format} /></span
+    >{:else}<NodeView node={[node, 'expression']} {format} />{/if}
 
 <style>
     .attention {
