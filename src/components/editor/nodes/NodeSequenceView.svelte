@@ -128,7 +128,7 @@
                 // The selection outline is measured from the rendered DOM, so
                 // toggling visibility leaves it stale until something else
                 // forces a remeasure. Refresh after the next render.
-                tick().then(() => $editor.refreshHighlights());
+                tick().then(() => $editor?.refreshHighlights());
             }}
             ><span class="elide-label"
                 >{#if expanded}–{:else}+ {nodes.length} …{/if}</span

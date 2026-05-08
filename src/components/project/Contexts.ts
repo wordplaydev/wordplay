@@ -193,8 +193,11 @@ export const [getCaret, setCaret] = createOptionalContext<
     Writable<Caret> | undefined
 >();
 
-/** The current editor, inside an Editor view. */
-export const [getEditor, setEditor] = createContext<Writable<EditorState>>();
+/** The current editor, inside an Editor view. Optional because RootView is
+ * also rendered outside any Editor (e.g. inside menu items, docs previews),
+ * where descendants like NodeSequenceView still call getEditor(). */
+export const [getEditor, setEditor] =
+    createOptionalContext<Writable<EditorState>>();
 
 /** The current drag target being rendered. */
 export const [getDragTarget, setDragTarget] = createOptionalContext<

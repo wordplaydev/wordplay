@@ -16,6 +16,10 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - We made the toolbar wrapping a bit better.
 - We improved the list expand/collapse behavior when there are more than 10 items.
 
+### Fixed
+
+- We found and fixed a problem where the autocomplete menu wouldn't appear when activated in the menu.
+
 ## 0.17.8 - 2026-05-02
 
 ### Added
