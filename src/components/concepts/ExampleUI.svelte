@@ -379,6 +379,13 @@
         align-items: stretch;
     }
 
+    /* Annotations sets height: 100% on its <section>, which doesn't
+       resolve against this auto-sized .code-row. Switch to auto so
+       align-items: stretch fills the row height instead. */
+    .code-row :global(section[data-uiid='conflict']) {
+        height: auto;
+    }
+
     .code {
         min-width: 0;
     }
