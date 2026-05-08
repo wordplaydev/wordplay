@@ -18,6 +18,9 @@ import Assign from '@edit/revision/Assign';
 import Replace from '@edit/revision/Replace';
 import type Revision from '@edit/revision/Revision';
 import { getEditsAt } from '@edit/menu/PossibleEdits';
+import Language from '@nodes/Language';
+import Token from '@nodes/Token';
+import { Sym } from '@nodes/Sym';
 
 test.each([
     ['blank programs suggest numbers', '**', undefined, Append, '0'],
@@ -132,6 +135,23 @@ test.each([
         (node) => node instanceof NumberLiteral,
         Replace,
         '-5',
+    ],
+    [
+        'suggest locale with region when Language is selected',
+        "'hi'/en",
+        (node) => node instanceof Language,
+        Replace,
+        '/es-MX',
+    ],
+    [
+        'suggest locale with region when Language name token is selected',
+        "'hi'/en",
+        (node) =>
+            node instanceof Token &&
+            node.isSymbol(Sym.Name) &&
+            node.getText() === 'en',
+        Replace,
+        '/es-MX',
     ],
 ])(
     '%s: %s',

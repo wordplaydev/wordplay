@@ -7,6 +7,7 @@ import type Locale from '@locale/Locale';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import type { RegionCode } from '@locale/Regions';
+import { SupportedLocales } from '@locale/SupportedLocales';
 import { Purpose } from '@concepts/Purpose';
 import Characters from '../lore/BasisCharacters';
 import LanguageToken from '@nodes/LanguageToken';
@@ -14,7 +15,7 @@ import NameToken from '@nodes/NameToken';
 import type { Grammar, Replacement } from '@nodes/Node';
 import Node, { node, optional } from '@nodes/Node';
 import { Sym } from '@nodes/Sym';
-import type Token from '@nodes/Token';
+import Token from '@nodes/Token';
 
 export default class Language extends Node {
     readonly slash: Token;
@@ -33,27 +34,39 @@ export default class Language extends Node {
         this.computeChildren();
     }
 
-    static make(lang: string | undefined) {
+    static make(lang: string | undefined, region?: string) {
         return new Language(
             new LanguageToken(),
             lang ? new NameToken(lang) : undefined,
+            region ? new Token('-', Sym.Region) : undefined,
+            region ? new NameToken(region) : undefined,
         );
+    }
+
+    /** Bare language codes plus supported locales with regions, used by autocomplete. */
+    static getPossibleLanguages(): Language[] {
+        const bare = Object.keys(Languages).map((language) =>
+            Language.make(language),
+        );
+        const localized = SupportedLocales.map((locale) => {
+            const [language, region] = locale.split('-');
+            return Language.make(language, region);
+        });
+        return [...localized, ...bare];
     }
 
     static getPossibleReplacements() {
-        // const prefix =
-        //     node instanceof Language && node.language
-        //         ? node.language.getText()
-        //         : '';
-        return Object.keys(Languages).map((language) =>
-            Language.make(language),
-        );
+        return Language.getPossibleLanguages();
     }
 
     static getPossibleInsertions() {
-        return Object.keys(Languages).map((language) =>
-            Language.make(language),
-        );
+        return Language.getPossibleLanguages();
+    }
+
+    /** A Language is just slash + name + dash + name, so selecting any of its
+     *  tokens should still surface locale options as parent-level replacements. */
+    getReplacementsForTokenAnchor(): Node[] {
+        return Language.getPossibleLanguages();
     }
 
     getDescriptor(): NodeDescriptor {
