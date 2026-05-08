@@ -723,7 +723,7 @@
         display: flex;
         flex-direction: row;
         flex-wrap: nowrap;
-        overflow-x: scroll;
+        overflow-x: auto;
         font-size: var(--wordplay-small-font-size);
         gap: var(--wordplay-spacing);
         padding-left: var(--wordplay-spacing);

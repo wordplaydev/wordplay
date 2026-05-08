@@ -437,6 +437,7 @@
 <style>
     section {
         padding: var(--wordplay-spacing);
+        overflow-x: hidden;
         overflow-y: auto;
         height: 100%;
         border-inline-start: solid var(--wordplay-border-width)
