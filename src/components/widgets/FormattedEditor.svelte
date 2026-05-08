@@ -346,7 +346,8 @@
             tip={(l: LocaleText) =>
                 l.ui.source.cursor.insertDocs +
                 ` (${toShortcut({ control: undefined, alt: true, shift: undefined, key: '7' })})`}
-            action={() => format('¶')}>¶</Button
+            action={() => format('¶')}
+            active={!preview && cursorInExample}>¶</Button
         >
         <Button
             tip={(l: LocaleText) =>
