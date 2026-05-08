@@ -53,6 +53,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - We fixed a problem with how to errors crashing the browser.
 - We separated the updates of the example views and the project views to prevent lag (#1093).
 - We fixed a problem with duplicate translations crashing.
+- We made copy and paste within the app more reliable and fast.
 
 ## 0.17.7 - 2026-04-25
 

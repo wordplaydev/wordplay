@@ -78,6 +78,8 @@
         InsertSymbol,
         handleKeyCommand,
     } from '@components/editor/commands/Commands';
+    import { getInternalClipboard } from '@components/editor/commands/InternalClipboard';
+    import interpret from '@components/editor/commands/interpret';
     import Highlight from '@components/editor/highlights/Highlight.svelte';
     import {
         type HighlightSpec,
@@ -1051,10 +1053,15 @@
         // just let the character with diacritic remark be typed, and handle it in the input handler above.
         if (replacePreviousWithNext) return;
 
-        // Let Ctrl/Cmd+V fall through to the textarea's native paste event.
-        // Why: the PASTE command uses navigator.clipboard.read(), which requires
-        // clipboard-read permission. Edge re-prompts on every invocation, so
-        // students see a permission dialog each time they paste.
+        // Ctrl/Cmd+V handling. If a copy from inside the app is still fresh,
+        // paste from the in-app clipboard directly and skip the native paste
+        // event — this avoids per-paste clipboard scanning that some browsers
+        // (notably Edge on managed Windows) do, which can freeze the page for
+        // a second or two. If the in-app clipboard is stale, fall through to
+        // the textarea's native paste event so cross-app paste still works.
+        // We don't use the PASTE command for the cross-app case because it
+        // calls navigator.clipboard.read(), which prompts for clipboard-read
+        // permission on each invocation in Edge.
         if (
             (event.ctrlKey || event.metaKey) &&
             !event.shiftKey &&
@@ -1062,8 +1069,22 @@
             (event.code === 'KeyV' ||
                 event.key === 'v' ||
                 event.key === 'V')
-        )
+        ) {
+            const internal = getInternalClipboard();
+            if (internal === undefined) return;
+
+            const edit = $caret.insert(
+                interpret(internal),
+                $blocks,
+                project,
+                false,
+            );
+            event.preventDefault();
+            event.stopPropagation();
+            if (typeof edit === 'function') setIgnored(edit);
+            else handleEdit(edit, IdleKind.Typed, true);
             return;
+        }
 
         const [command, result] = handleKeyCommand(event, {
             caret: $caret,

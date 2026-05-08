@@ -1,5 +1,6 @@
 <script lang="ts">
     import { page } from '$app/state';
+    import { toClipboard } from '@components/editor/commands/Clipboard';
     import ChatView from '@components/app/chat/ChatView.svelte';
     import Header from '@components/app/Header.svelte';
     import Subheader from '@components/app/Subheader.svelte';
@@ -829,7 +830,7 @@
                 tip={(l) => l.ui.howto.viewer.link.tip}
                 label={(l) => l.ui.howto.viewer.link.label}
                 action={async () => {
-                    await navigator.clipboard.writeText(
+                    await toClipboard(
                         `${window.location.origin}/gallery/${galleryID}/howto?id=${howToId}`,
                     );
                 }}
