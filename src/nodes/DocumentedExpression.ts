@@ -10,8 +10,10 @@ import Characters from '../lore/BasisCharacters';
 import type Context from '@nodes/Context';
 import Docs from '@nodes/Docs';
 import Expression, { type GuardContext } from '@nodes/Expression';
-import { node, type Grammar, type Replacement } from '@nodes/Node';
+import Node, { node, type Grammar, type Replacement } from '@nodes/Node';
 import SimpleExpression from '@nodes/SimpleExpression';
+import { Sym } from '@nodes/Sym';
+import Token from '@nodes/Token';
 import type Type from '@nodes/Type';
 import type TypeSet from '@nodes/TypeSet';
 
@@ -103,6 +105,25 @@ export default class DocumentedExpression extends SimpleExpression {
 
     getStartExplanations(locales: Locales) {
         return locales.concretize((l) => l.node.DocumentedExpression.start);
+    }
+
+    /** Checks if the 👀 emoji is present in the doc -- if so, highlight the expression */
+    hasAttentionEmoji(): boolean {
+        return this.docs.docs.some((doc) => {
+            const insideExamples = new Set<Node>(
+                doc.markup
+                    .nodes((n): n is Node => n.getDescriptor() === 'Example')
+                    .flatMap((e) => e.nodes()),
+            );
+            return doc.markup
+                .nodes(
+                    (n): n is Token =>
+                        n instanceof Token && n.isSymbol(Sym.Words),
+                )
+                .some(
+                    (t) => !insideExamples.has(t) && t.getText().includes('👀'),
+                );
+        });
     }
 
     getCharacter() {

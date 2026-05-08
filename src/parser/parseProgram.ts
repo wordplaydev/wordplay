@@ -11,7 +11,7 @@ export function toProgram(code: string): Program {
 }
 
 export default function parseProgram(tokens: Tokens, doc = false): Program {
-    const docs = tokens.nextIs(Sym.Doc) ? parseDocs(tokens) : undefined;
+    const docs = !doc && tokens.nextIs(Sym.Doc) ? parseDocs(tokens) : undefined;
 
     const borrows: Borrow[] = [];
     tokens.whileDo(
