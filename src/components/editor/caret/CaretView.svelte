@@ -146,6 +146,9 @@
 
     /** The HTMLElement rendering this view. */
     let element = $state<HTMLElement | null>(null);
+    let isElementInEditor: boolean = $derived(
+        element ? element.closest('.editor-viewport') !== null : false,
+    );
 
     /** Derive the current token we're on. */
     let token = $derived(caret?.getToken());
@@ -246,7 +249,12 @@
                 !caret.isNode()
             ) {
                 tick().then(() => {
-                    if (element) element.scrollIntoView({ block: 'nearest' });
+                    // Only scroll when inside an editor tile (class set by TileView for source tiles).
+                    // Skipping this in embedded-example contexts (e.g. guide panel how-tos) prevents
+                    // the caret scroll from overriding the panel's own scroll-to-top and causing the
+                    // how-to to appear to open mid-page.
+                    if (element && isElementInEditor)
+                        element.scrollIntoView({ block: 'nearest' });
                     lastScroll = performance.now();
                 });
             }
