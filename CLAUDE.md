@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ```bash
 # Development
-npm run check         # TypeScript + Svelte type checking (watch mode)
+npm run check:now     # TypeScript + Svelte type checking
 
 # Building
 npm run build         # Full production build
@@ -18,7 +18,7 @@ npm run end2end       # Playwright e2e tests (requires Firebase emulator)
 # Localization
 npm run locales       # Verify locale files
 npm run locales-fix   # Auto-fix locale issues
-npm run schemas       # Derive schema for locale files from TypeScript
+npm run create-schemas # Derive schema for locale files from TypeScript
 ```
 
 ## Architecture

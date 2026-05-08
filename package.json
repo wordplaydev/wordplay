@@ -8,6 +8,7 @@
         "postinstall:default": "npm run sync && cp .env.template .env",
         "postinstall:windows": "npm run sync && copy .env.template .env",
         "check": "svelte-check --tsconfig ./tsconfig.json --watch .svelte-kit",
+        "check:now": "svelte-check --tsconfig ./tsconfig.json .svelte-kit",
         "test": "vitest",
         "test:coverage": "vitest run --coverage",
         "end2end": "npm run build && firebase emulators:exec \"npx playwright test\" --project=demo-wordplay --log-verbosity QUIET",
