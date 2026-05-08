@@ -5353,6 +5353,11 @@
                             "$~patayong teksto, binabasa mula kanan pakaliwa",
                             "$~patayong teksto, binabasa mula kaliwa pakanan"
                         ]
+                    },
+                    "blockDensity": {
+                        "label": "$?",
+                        "labels": ["$?", "$?", "$?"],
+                        "tips": ["$?", "$?", "$?"]
                     }
                 },
                 "options": {

@@ -5076,6 +5076,11 @@
                             "$~editar código como texto",
                             "$~editar código como bloques"
                         ]
+                    },
+                    "blockDensity": {
+                        "label": "$?",
+                        "labels": ["$?", "$?", "$?"],
+                        "tips": ["$?", "$?", "$?"]
                     }
                 },
                 "options": {

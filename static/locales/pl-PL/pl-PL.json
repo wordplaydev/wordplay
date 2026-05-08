@@ -5116,6 +5116,11 @@
                             "$~edytuj kod jako tekst",
                             "$~edytuj kod jako bloki"
                         ]
+                    },
+                    "blockDensity": {
+                        "label": "$?",
+                        "labels": ["$?", "$?", "$?"],
+                        "tips": ["$?", "$?", "$?"]
                     }
                 },
                 "options": {

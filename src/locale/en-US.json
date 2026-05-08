@@ -5323,6 +5323,15 @@
                         "labels": ["text", "blocks"],
                         "tips": ["edit code as text", "edit code as blocks"]
                     },
+                    "blockDensity": {
+                        "label": "block spacing",
+                        "labels": ["compact", "normal", "spacious"],
+                        "tips": [
+                            "tighter blocks to fit more code on screen",
+                            "default block spacing",
+                            "looser blocks for easier selection and dragging"
+                        ]
+                    },
                     "space": {
                         "label": "space, tab, and new line markers",
                         "labels": ["hide", "show"],

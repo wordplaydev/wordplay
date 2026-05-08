@@ -40,6 +40,7 @@
         DB,
         Projects,
         animationFactor,
+        blockDensity,
         blocks,
         locales,
         showLines,
@@ -1775,6 +1776,8 @@
     class:focused
     class:overwritten
     class:dragging={dragCandidate !== undefined || $dragged !== undefined}
+    class:density-compact={$blockDensity === 'compact'}
+    class:density-spacious={$blockDensity === 'spacious'}
     data-uiid="editor"
     role="application"
     style:--zoom={`${zoom}pt`}

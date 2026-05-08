@@ -10042,6 +10042,10 @@
                           "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%5D%3E",
                           "description": "The animation on/off/slowdown mode"
                         },
+                        "blockDensity": {
+                          "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%5D%3E",
+                          "description": "The block-editing density mode (compact/normal/spacious)"
+                        },
                         "blocks": {
                           "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%5D%3E",
                           "description": "The blocks on/off mode"
@@ -10073,6 +10077,7 @@
                         "dark",
                         "writing",
                         "blocks",
+                        "blockDensity",
                         "space",
                         "lines"
                       ],

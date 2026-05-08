@@ -796,6 +796,8 @@ type UITexts = {
                 writing: ModeText<[string, string, string]>;
                 /** The blocks on/off mode */
                 blocks: ModeText<[string, string]>;
+                /** The block-editing density mode (compact/normal/spacious) */
+                blockDensity: ModeText<[string, string, string]>;
                 /** The space_indicator on/off mode */
                 space: ModeText<[string, string]>;
                 /** The line number on/off mode */

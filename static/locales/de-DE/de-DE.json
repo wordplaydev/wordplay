@@ -5093,6 +5093,11 @@
                             "$~Code als Text bearbeiten",
                             "$~Code als Blöcke bearbeiten"
                         ]
+                    },
+                    "blockDensity": {
+                        "label": "$?",
+                        "labels": ["$?", "$?", "$?"],
+                        "tips": ["$?", "$?", "$?"]
                     }
                 },
                 "options": {

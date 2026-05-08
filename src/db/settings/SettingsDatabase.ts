@@ -12,6 +12,10 @@ import { AnimationFactorSetting } from '@db/settings/AnimationFactorSetting';
 import { AnnotationsSetting } from '@db/settings/AnnotationsSetting';
 import type { ArrangementType } from '@db/settings/Arrangement';
 import { ArrangementSetting } from '@db/settings/ArrangementSetting';
+import {
+    BlockDensitySetting,
+    type BlockDensity,
+} from '@db/settings/BlockDensitySetting';
 import { BlocksSetting } from '@db/settings/BlocksSetting';
 import { CameraSetting } from '@db/settings/CameraSetting';
 import { DarkSetting } from '@db/settings/DarkSetting';
@@ -81,6 +85,7 @@ export default class SettingsDatabase {
         camera: CameraSetting,
         mic: MicSetting,
         blocks: BlocksSetting,
+        blockDensity: BlockDensitySetting,
         dark: DarkSetting,
         space: SpaceSetting,
         lines: LineSetting,
@@ -236,6 +241,14 @@ export default class SettingsDatabase {
 
     getBlocks() {
         return this.settings.blocks.get();
+    }
+
+    setBlockDensity(density: BlockDensity) {
+        this.settings.blockDensity.set(this.database, density);
+    }
+
+    getBlockDensity() {
+        return this.settings.blockDensity.get();
     }
 
     setHowToNotifications(on: boolean) {

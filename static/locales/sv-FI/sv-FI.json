@@ -5111,6 +5111,11 @@
                             "$~redigera kod som text",
                             "$~redigera kod som block"
                         ]
+                    },
+                    "blockDensity": {
+                        "label": "$?",
+                        "labels": ["$?", "$?", "$?"],
+                        "tips": ["$?", "$?", "$?"]
                     }
                 },
                 "options": {

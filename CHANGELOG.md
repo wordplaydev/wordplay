@@ -12,6 +12,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - We added additional keywords to all emojis to improve searching (#1090), but also translated all of those keywords, so that works in all supported locales (#639).
 - We added much more robust menu suggestions for locales and locale parts (#1099).
 - We added better unit suggestions in the autocomplete menu.
+- We added a setting to control the spacing in blocks mode, for accessibility.
 
 ### Changed
 

@@ -5094,6 +5094,11 @@
                             "$~modifier le code sous forme de texte",
                             "$~modifier le code sous forme de blocs"
                         ]
+                    },
+                    "blockDensity": {
+                        "label": "$?",
+                        "labels": ["$?", "$?", "$?"],
+                        "tips": ["$?", "$?", "$?"]
                     }
                 },
                 "options": {

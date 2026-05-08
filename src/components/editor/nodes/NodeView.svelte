@@ -297,7 +297,8 @@
         transition-duration: calc(var(--animation-factor) * 200ms);
         transition-timing-function: ease-out;
 
-        padding: var(--wordplay-spacing);
+        padding: var(--wordplay-block-padding-block)
+            var(--wordplay-block-padding-inline);
         box-shadow: var(--color-shadow) 0px 0px 4px;
         border-radius: var(--wordplay-border-radius);
 

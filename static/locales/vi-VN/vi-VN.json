@@ -5346,6 +5346,11 @@
                             "$~Văn bản dọc, đọc từ phải sang trái",
                             "$~Văn bản dọc, đọc từ trái sang phải"
                         ]
+                    },
+                    "blockDensity": {
+                        "label": "$?",
+                        "labels": ["$?", "$?", "$?"],
+                        "tips": ["$?", "$?", "$?"]
                     }
                 },
                 "options": {

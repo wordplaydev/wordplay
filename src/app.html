@@ -125,6 +125,10 @@
                 --wordplay-editor-radius: 3px;
                 --wordplay-spacing: 0.5rem;
                 --wordplay-spacing-half: 0.25rem;
+                /* Block-editor density. Defaults match 'normal'; .editor.density-{compact|spacious} overrides below. */
+                --wordplay-block-padding-block: 0.25rem;
+                --wordplay-block-padding-inline: 0.25rem;
+                --wordplay-block-insertion-margin: 0.25rem;
                 --wordplay-font-weight: 400;
                 --wordplay-font-size: 12pt;
                 --wordplay-small-font-size: 10pt;
@@ -139,6 +143,19 @@
 
                 --bounce-height: 0.2em;
                 --wobble-rotation: 2deg;
+            }
+
+            /* Block-editor density overrides. Vertical compresses more aggressively
+               than horizontal because 2px horizontal padding cramps adjacent tokens. */
+            .editor.density-compact {
+                --wordplay-block-padding-block: 0.125rem;
+                --wordplay-block-padding-inline: 0.25rem;
+                --wordplay-block-insertion-margin: 0.125rem;
+            }
+            .editor.density-spacious {
+                --wordplay-block-padding-block: 0.5rem;
+                --wordplay-block-padding-inline: 0.5rem;
+                --wordplay-block-insertion-margin: 0.5rem;
             }
 
             @media (prefers-color-scheme: dark) {

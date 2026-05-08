@@ -21,6 +21,7 @@
     import {
         animationFactor,
         arrangement,
+        blockDensity,
         blocks,
         camera,
         dark,
@@ -302,20 +303,46 @@
                     Settings.setBlocks(choice === 1 ? true : false)}
                 icons={[TEXT_EDITING_SYMBOL, BLOCK_EDITING_SYMBOL]}
             />
-            <Mode
-                modes={(l) => l.ui.dialog.settings.mode.lines}
-                choice={$showLines ? 1 : 0}
-                select={(choice) =>
-                    Settings.setLines(choice === 1 ? true : false)}
-                icons={[CANCEL_SYMBOL, CONFIRM_SYMBOL]}
-            />
-            <Mode
-                modes={(l) => l.ui.dialog.settings.mode.space}
-                choice={$spaceIndicator ? 1 : 0}
-                select={(choice) =>
-                    Settings.setSpace(choice === 1 ? true : false)}
-                icons={[CANCEL_SYMBOL, CONFIRM_SYMBOL]}
-            />
+            {#if $blocks}
+                <div class="indented">
+                    <Mode
+                        modes={(l) =>
+                            l.ui.dialog.settings.mode.blockDensity}
+                        choice={$blockDensity === 'compact'
+                            ? 0
+                            : $blockDensity === 'spacious'
+                              ? 2
+                              : 1}
+                        select={(choice) =>
+                            Settings.setBlockDensity(
+                                choice === 0
+                                    ? 'compact'
+                                    : choice === 2
+                                      ? 'spacious'
+                                      : 'normal',
+                            )}
+                    />
+                </div>
+            {:else}
+                <div class="indented">
+                    <Mode
+                        modes={(l) => l.ui.dialog.settings.mode.lines}
+                        choice={$showLines ? 1 : 0}
+                        select={(choice) =>
+                            Settings.setLines(choice === 1 ? true : false)}
+                        icons={[CANCEL_SYMBOL, CONFIRM_SYMBOL]}
+                    />
+                </div>
+            {/if}
+            <div class="indented">
+                <Mode
+                    modes={(l) => l.ui.dialog.settings.mode.space}
+                    choice={$spaceIndicator ? 1 : 0}
+                    select={(choice) =>
+                        Settings.setSpace(choice === 1 ? true : false)}
+                    icons={[CANCEL_SYMBOL, CONFIRM_SYMBOL]}
+                />
+            </div>
         </div>
     </Dialog>
 </div>
@@ -343,6 +370,10 @@
         flex-direction: row;
         align-items: baseline;
         gap: var(--wordplay-spacing-half);
+    }
+
+    .indented {
+        margin-inline-start: var(--wordplay-spacing);
     }
 
     label > :global(span) {

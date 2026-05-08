@@ -274,8 +274,8 @@
     [data-direction='block'] > .insertion-feedback {
         width: 100%;
         height: var(--wordplay-focus-width);
-        margin-block-start: var(--wordplay-spacing);
-        margin-block-end: var(--wordplay-spacing);
+        margin-block-start: var(--wordplay-block-insertion-margin);
+        margin-block-end: var(--wordplay-block-insertion-margin);
     }
 
     .append {

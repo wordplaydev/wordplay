@@ -5107,6 +5107,11 @@
                             "$~kodu metin olarak düzenle",
                             "$~Kodu bloklar halinde düzenle"
                         ]
+                    },
+                    "blockDensity": {
+                        "label": "$?",
+                        "labels": ["$?", "$?", "$?"],
+                        "tips": ["$?", "$?", "$?"]
                     }
                 },
                 "options": {

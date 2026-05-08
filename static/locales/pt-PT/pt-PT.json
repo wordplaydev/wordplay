@@ -5350,6 +5350,11 @@
                             "$~Texto vertical, lido da direita para a esquerda.",
                             "$~Texto vertical, lido da esquerda para a direita."
                         ]
+                    },
+                    "blockDensity": {
+                        "label": "$?",
+                        "labels": ["$?", "$?", "$?"],
+                        "tips": ["$?", "$?", "$?"]
                     }
                 },
                 "options": {

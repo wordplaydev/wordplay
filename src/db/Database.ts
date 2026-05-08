@@ -277,6 +277,7 @@ export const showAnnotations = Settings.settings.annotations.value;
 export const mic = Settings.settings.mic.value;
 export const voice = Settings.settings.say.value;
 export const blocks = Settings.settings.blocks.value;
+export const blockDensity = Settings.settings.blockDensity.value;
 export const howToNotifications = Settings.settings.howToNotifications.value;
 export const status = DB.Status;
 
