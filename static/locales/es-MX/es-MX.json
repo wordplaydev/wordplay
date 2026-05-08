@@ -4554,8 +4554,8 @@
                     "off": "expandir los glifos coincidentes"
                 },
                 "expandSequence": {
-                    "on": "$?",
-                    "off": "$?"
+                    "on": "$~elementos colapsados",
+                    "off": "$~expandir elementos"
                 }
             },
             "button": {

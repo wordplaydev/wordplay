@@ -4829,8 +4829,8 @@
                     "off": "$~Mostrar o seletor de emojis e símbolos"
                 },
                 "expandSequence": {
-                    "on": "$?",
-                    "off": "$?"
+                    "on": "$~itens de recolha",
+                    "off": "$~expandir itens"
                 }
             },
             "options": {

@@ -4589,8 +4589,8 @@
                     "off": "$~eşleşen karakterleri genişlet"
                 },
                 "expandSequence": {
-                    "on": "$?",
-                    "off": "$?"
+                    "on": "$~öğeleri daralt",
+                    "off": "$~öğeleri genişlet"
                 }
             },
             "button": {

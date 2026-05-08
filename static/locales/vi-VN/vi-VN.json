@@ -4828,8 +4828,8 @@
                     "off": "$~mở rộng các ký tự phù hợp"
                 },
                 "expandSequence": {
-                    "on": "$?",
-                    "off": "$?"
+                    "on": "$~thu gọn các mục",
+                    "off": "$~mở rộng các mục"
                 }
             },
             "options": {

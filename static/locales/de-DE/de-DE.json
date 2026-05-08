@@ -4571,8 +4571,8 @@
                     "off": "$~Erweitern Sie die passenden Zeichen"
                 },
                 "expandSequence": {
-                    "on": "$?",
-                    "off": "$?"
+                    "on": "$~Elemente ausblenden",
+                    "off": "$~Elemente erweitern"
                 }
             },
             "button": {

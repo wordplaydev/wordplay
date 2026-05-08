@@ -4572,8 +4572,8 @@
                     "off": "$~développer les caractères correspondants"
                 },
                 "expandSequence": {
-                    "on": "$?",
-                    "off": "$?"
+                    "on": "$~réduire les éléments",
+                    "off": "$~développer les éléments"
                 }
             },
             "button": {

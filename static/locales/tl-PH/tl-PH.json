@@ -4832,8 +4832,8 @@
                     "off": "$~ipakita ang tagapili ng emoji at simbolo"
                 },
                 "expandSequence": {
-                    "on": "$?",
-                    "off": "$?"
+                    "on": "$~mga item na tiklupin",
+                    "off": "$~palawakin ang mga item"
                 }
             },
             "options": {

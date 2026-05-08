@@ -4589,8 +4589,8 @@
                     "off": "$~utöka de matchande tecknen"
                 },
                 "expandSequence": {
-                    "on": "$?",
-                    "off": "$?"
+                    "on": "$~komprimera objekt",
+                    "off": "$~expandera objekt"
                 }
             },
             "button": {

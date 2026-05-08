@@ -4594,8 +4594,8 @@
                     "off": "$~rozwiń pasujące znaki"
                 },
                 "expandSequence": {
-                    "on": "$?",
-                    "off": "$?"
+                    "on": "$~zwiń elementy",
+                    "off": "$~rozwiń elementy"
                 }
             },
             "button": {
