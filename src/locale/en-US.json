@@ -4397,7 +4397,8 @@
                 "edit": "edit formatted text",
                 "preview": "preview formatted text",
                 "highlight": "highlight example",
-                "bullet": "bullet"
+                "bullet": "bullet",
+                "attention": "highlight this expression"
             }
         },
         "tile": {

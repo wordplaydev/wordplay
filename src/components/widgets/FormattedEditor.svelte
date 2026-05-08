@@ -2,14 +2,14 @@
     import Emoji from '@components/app/Emoji.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import { toShortcut } from '@components/editor/commands/Commands';
+    import Button from '@components/widgets/Button.svelte';
+    import Switch from '@components/widgets/Switch.svelte';
+    import TextBox from '@components/widgets/TextBox.svelte';
     import { locales } from '@db/Database';
     import type LocaleText from '@locale/LocaleText';
     import type { LocaleTextAccessor } from '@locale/Locales';
     import { BULLET_SYMBOL } from '@parser/Symbols';
     import { tick } from 'svelte';
-    import Button from '@components/widgets/Button.svelte';
-    import Switch from '@components/widgets/Switch.svelte';
-    import TextBox from '@components/widgets/TextBox.svelte';
 
     interface Props {
         id: string;
@@ -67,19 +67,44 @@
         findExampleRange(text, cursorPosition) !== null,
     );
 
-    function formatHighlight() {
-        if (view === undefined) return;
-        const cursor = view.selectionStart ?? 0;
-        const range = findExampleRange(text, cursor);
-        if (range === null) return;
-        const insertPos = range.close + 1;
-        text = text.slice(0, insertPos) + '⭐' + text.slice(insertPos);
-        const newCursor = insertPos + 1;
+    function findDocInExampleRange(src: string, cursor: number): boolean {
+        const example = findExampleRange(src, cursor);
+        if (example === null) return false;
+        const positions: number[] = [];
+        for (let i = example.open + 1; i < example.close; i++) {
+            if (src[i] === '¶') positions.push(i);
+        }
+        for (let j = 0; j + 1 < positions.length; j += 2) {
+            if (cursor > positions[j] && cursor <= positions[j + 1] + 1)
+                return true;
+        }
+        return false;
+    }
+
+    let cursorInDocInExample = $derived(
+        findDocInExampleRange(text, cursorPosition),
+    );
+
+    function insertAtCursor(str: string, pos: number) {
+        text = text.slice(0, pos) + str + text.slice(pos);
+        const newCursor = pos + str.length;
         cursorPosition = newCursor;
         setTimeout(() => {
             view!.focus();
             view!.setSelectionRange(newCursor, newCursor);
         }, 0);
+    }
+
+    function formatHighlight() {
+        if (view === undefined) return;
+        const range = findExampleRange(text, view.selectionStart ?? 0);
+        if (range === null) return;
+        insertAtCursor('⭐', range.close + 1);
+    }
+
+    function formatAttention() {
+        if (view === undefined) return;
+        insertAtCursor('👀', view.selectionStart ?? 0);
     }
 
     /** Add a bullet on a new line */
@@ -108,7 +133,7 @@
         view.scrollIntoView({ block: 'nearest' });
     }
 
-    function format(format: '*' | '^' | '/' | '_' | '\\' | '@') {
+    function format(format: '*' | '^' | '/' | '_' | '\\' | '@' | '¶') {
         if (view === undefined) return;
         const start = view.selectionStart;
         const end = view.selectionEnd;
@@ -237,6 +262,22 @@
                     event.stopPropagation();
                     formatBullet();
                     break;
+                case '>':
+                    event.preventDefault();
+                    event.stopPropagation();
+                    formatAttention();
+                    break;
+            }
+        }
+
+        if (event.altKey && !event.ctrlKey && !event.metaKey) {
+            switch (event.key) {
+                case '7':
+                case '¶':
+                    event.preventDefault();
+                    event.stopPropagation();
+                    format('¶');
+                    break;
             }
         }
     }
@@ -300,6 +341,19 @@
                 ` (${toShortcut({ control: true, alt: undefined, shift: true, key: '8' })})`}
             action={formatHighlight}
             active={!preview && cursorInExample}><Emoji>⭐</Emoji></Button
+        >
+        <Button
+            tip={(l: LocaleText) =>
+                l.ui.source.cursor.insertDocs +
+                ` (${toShortcut({ control: undefined, alt: true, shift: undefined, key: '7' })})`}
+            action={() => format('¶')}>¶</Button
+        >
+        <Button
+            tip={(l: LocaleText) =>
+                l.ui.widget.formatted.attention +
+                ` (${toShortcut({ control: true, alt: undefined, shift: true, key: '.' })})`}
+            action={formatAttention}
+            active={!preview && cursorInDocInExample}><Emoji>👀</Emoji></Button
         >
         <Button
             tip={() =>
