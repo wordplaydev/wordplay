@@ -1050,6 +1050,20 @@
         // just let the character with diacritic remark be typed, and handle it in the input handler above.
         if (replacePreviousWithNext) return;
 
+        // Let Ctrl/Cmd+V fall through to the textarea's native paste event.
+        // Why: the PASTE command uses navigator.clipboard.read(), which requires
+        // clipboard-read permission. Edge re-prompts on every invocation, so
+        // students see a permission dialog each time they paste.
+        if (
+            (event.ctrlKey || event.metaKey) &&
+            !event.shiftKey &&
+            !event.altKey &&
+            (event.code === 'KeyV' ||
+                event.key === 'v' ||
+                event.key === 'V')
+        )
+            return;
+
         const [command, result] = handleKeyCommand(event, {
             caret: $caret,
             project,

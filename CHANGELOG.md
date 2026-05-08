@@ -22,6 +22,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 - We found and fixed a problem where the autocomplete menu wouldn't appear when activated in the menu.
 - We removed some unnecessary scroll bars (#1098).
+- We fixed a problem with pasting in Edge (#1092).
 
 ## 0.17.8 - 2026-05-02
 
