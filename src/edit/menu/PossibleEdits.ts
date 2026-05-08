@@ -405,14 +405,17 @@ function getNodeRevisions(anchor: Node, context: Context, locales: Locales) {
         }
     }
 
-    // For nodes that are essentially defined by their tokens (e.g. Language),
-    // selecting an inner token has no useful field-level replacements. The
-    // node opts in by overriding getReplacementsForTokenAnchor() to surface
-    // alternative versions of itself at the grandparent level.
+    // For nodes that are essentially defined by their tokens (e.g. Language,
+    // Dimension), selecting an inner token has no useful field-level
+    // replacements. The node opts in by overriding
+    // getReplacementsForTokenAnchor() to surface alternative versions of
+    // itself at the grandparent level.
     if (anchor instanceof Token && parent) {
         const grandparent = parent.getParent(context);
         if (grandparent && grandparent.getFieldOfChild(parent)) {
-            for (const replacement of parent.getReplacementsForTokenAnchor()) {
+            for (const replacement of parent.getReplacementsForTokenAnchor(
+                context,
+            )) {
                 if (!replacement.isEqualTo(parent))
                     edits.push(
                         new Replace(context, grandparent, parent, replacement),

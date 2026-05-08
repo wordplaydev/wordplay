@@ -1,6 +1,7 @@
 import { Purpose } from '@concepts/Purpose';
 import { getPossibleDimensions } from '@edit/menu/getPossibleUnits';
 import type { InsertContext, ReplaceContext } from '@edit/revision/EditContext';
+import type Context from '@nodes/Context';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { DOT_SYMBOL, EXPONENT_SYMBOL, LANGUAGE_SYMBOL } from '@parser/Symbols';
@@ -136,27 +137,36 @@ export default class Unit extends Node {
     }
 
     static getPossibleReplacements({ node, context }: ReplaceContext) {
-        // What dimensions are possible?
-        const dimensions = getPossibleDimensions(context);
-
-        return node instanceof Unit
-            ? [
-                  // Suggest replacing this dimension
-                  ...dimensions.map((dim) => Unit.create([dim])),
-                  // Suggest adding a dimension to the numerator, except any existing numerators
-                  ...dimensions
-                      .filter((dim) => !node.hasDimension(dim))
-                      .map((dim) => node.withNumerator(dim)),
-                  // Suggest adding a dimension to the denominator, except any existing numerators
-                  ...dimensions
-                      .filter((dim) => !node.hasDimension(dim))
-                      .map((dim) => node.withDenominator(dim)),
-              ]
-            : [];
+        return node instanceof Unit ? node.getAlternativeUnits(context) : [];
     }
 
     static getPossibleInsertions({ context }: InsertContext) {
         return getPossibleDimensions(context).map((dim) => Unit.create([dim]));
+    }
+
+    /** Selecting the slash token of a Unit (e.g. `m/s`) has no useful
+     *  field-level replacements, so surface alternative whole-unit options
+     *  at the grandparent level. */
+    getReplacementsForTokenAnchor(context: Context): Unit[] {
+        return this.getAlternativeUnits(context);
+    }
+
+    /** Whole-unit alternatives, shared by getPossibleReplacements (Unit-
+     *  anchor case) and getReplacementsForTokenAnchor (token-anchor case). */
+    getAlternativeUnits(context: Context): Unit[] {
+        const dimensions = getPossibleDimensions(context);
+        return [
+            // Replace with a single-dimension unit.
+            ...dimensions.map((dim) => Unit.create([dim])),
+            // Add a dimension to the numerator (skipping ones already present).
+            ...dimensions
+                .filter((dim) => !this.hasDimension(dim))
+                .map((dim) => this.withNumerator(dim)),
+            // Add a dimension to the denominator (skipping ones already present).
+            ...dimensions
+                .filter((dim) => !this.hasDimension(dim))
+                .map((dim) => this.withDenominator(dim)),
+        ];
     }
 
     static Empty = new Unit();

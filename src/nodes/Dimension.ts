@@ -4,6 +4,7 @@ import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { DOT_SYMBOL, EXPONENT_SYMBOL } from '@parser/Symbols';
 import { Purpose } from '@concepts/Purpose';
+import type Context from '@nodes/Context';
 import type Locales from '@locale/Locales';
 import Characters from '../lore/BasisCharacters';
 import Markup from '@nodes/Markup';
@@ -47,17 +48,19 @@ export default class Dimension extends Node {
     }
 
     static getPossibleReplacements({ node, context }: ReplaceContext) {
-        // Offer to wrap the dimension in a power.
         return node instanceof Dimension
             ? [
-                  // A power of two
+                  // Wrap in a power of two if there isn't one already —
+                  // listed first because adding an exponent to the same
+                  // dimension is usually a more relevant edit than swapping
+                  // the unit entirely.
                   ...(node.exponent === undefined ? [node.withPower(2)] : []),
+                  // Other dimensions, preserving this dimension's structure.
+                  ...node.getAlternativeDimensions(context),
               ]
-            : [
-                  getPossibleDimensions(context).map((dim) =>
-                      Dimension.make(false, dim, -1),
-                  ),
-              ].flat();
+            : getPossibleDimensions(context).map((dim) =>
+                  Dimension.make(false, dim, -1),
+              );
     }
 
     static getPossibleInsertions({ context, index }: InsertContext) {
@@ -70,6 +73,33 @@ export default class Dimension extends Node {
                 Dimension.make(index !== undefined && index > 0, dim, -1),
             ),
         ];
+    }
+
+    /** A Dimension is just product + name + caret + exponent (all tokens), so
+     *  selecting any of them should swap to a different dimension while
+     *  preserving structure (leading product op and exponent). */
+    getReplacementsForTokenAnchor(context: Context): Dimension[] {
+        return this.getAlternativeDimensions(context);
+    }
+
+    /** Other dimensions in scope, with this dimension's surrounding tokens
+     *  preserved. Shared by getReplacementsForTokenAnchor (token-anchor
+     *  case) and getPossibleReplacements (Dimension-anchor case, reached
+     *  either by direct selection or single-child walk-up from the name
+     *  token). */
+    getAlternativeDimensions(context: Context): Dimension[] {
+        const current = this.getName();
+        return getPossibleDimensions(context)
+            .filter((dim) => dim !== current)
+            .map(
+                (dim) =>
+                    new Dimension(
+                        this.product,
+                        new NameToken(dim),
+                        this.caret,
+                        this.exponent,
+                    ),
+            );
     }
 
     getDescriptor(): NodeDescriptor {

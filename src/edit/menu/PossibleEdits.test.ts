@@ -21,6 +21,7 @@ import { getEditsAt } from '@edit/menu/PossibleEdits';
 import Language from '@nodes/Language';
 import Token from '@nodes/Token';
 import { Sym } from '@nodes/Sym';
+import Dimension from '@nodes/Dimension';
 
 test.each([
     ['blank programs suggest numbers', '**', undefined, Append, '0'],
@@ -152,6 +153,33 @@ test.each([
             node.getText() === 'en',
         Replace,
         '/es-MX',
+    ],
+    [
+        'suggest alternative dimensions when Dimension name token is selected',
+        '1m^2',
+        (node) =>
+            node instanceof Token &&
+            node.isSymbol(Sym.Name) &&
+            node.getText() === 'm',
+        Replace,
+        's^2',
+    ],
+    [
+        'suggest alternative dimensions when a Unit denominator Dimension is selected',
+        '1m/s',
+        (node) => node instanceof Dimension && node.getName() === 's',
+        Replace,
+        'day',
+    ],
+    [
+        'suggest whole-unit alternatives when the Unit slash token is selected',
+        '1m/s',
+        (node) =>
+            node instanceof Token &&
+            node.isSymbol(Sym.Language) &&
+            node.getText() === '/',
+        Replace,
+        'day',
     ],
 ])(
     '%s: %s',

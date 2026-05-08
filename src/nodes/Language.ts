@@ -65,7 +65,7 @@ export default class Language extends Node {
 
     /** A Language is just slash + name + dash + name, so selecting any of its
      *  tokens should still surface locale options as parent-level replacements. */
-    getReplacementsForTokenAnchor(): Node[] {
+    getReplacementsForTokenAnchor(): Language[] {
         return Language.getPossibleLanguages();
     }
 

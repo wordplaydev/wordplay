@@ -638,9 +638,9 @@ export default abstract class Node {
     /** When a token child of this node is the autocomplete anchor, the menu
      *  offers each of these as a replacement for this whole node. Override on
      *  compound nodes whose meaning is encoded entirely in their tokens (e.g.
-     *  Language), where token-level replacements aren't useful but parent-
-     *  level replacements are. Default is none. */
-    getReplacementsForTokenAnchor(): Node[] {
+     *  Language, Dimension), where token-level replacements aren't useful but
+     *  parent-level replacements are. Default is none. */
+    getReplacementsForTokenAnchor(context: Context): Node[] {
         return [];
     }
 
