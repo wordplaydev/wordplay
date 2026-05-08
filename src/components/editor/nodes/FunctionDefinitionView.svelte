@@ -10,6 +10,17 @@
     }
 
     let { node, format }: Props = $props();
+
+    /** Render inputs as a column when the source has newlines between any of
+        them. A wrapping inline list forces its container to fill editor width
+        because of flex-basis: 100% line breaks; a column fits its content. */
+    let vertical = $derived(
+        format.block &&
+            format.spaces !== undefined &&
+            node.inputs.some((v) =>
+                format.spaces!.getSpace(v).includes('\n'),
+            ),
+    );
 </script>
 
 {#snippet docs()}
@@ -35,8 +46,9 @@
             field="inputs"
             {format}
             empty="menu"
-            breaks
-            wrap
+            direction={vertical ? 'block' : 'inline'}
+            wrap={!vertical}
+            breaks={!vertical}
         /><NodeView node={[node, 'close']} {format} /><NodeView
             node={[node, 'dot']}
             {format}

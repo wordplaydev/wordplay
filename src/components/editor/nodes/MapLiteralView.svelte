@@ -9,6 +9,18 @@
     }
 
     let { node, format }: Props = $props();
+
+    /** When the source has newlines between any of the values, lay out the
+        values as a column rather than a wrapping inline row. A wrapping row
+        forces its container to fill the editor's width because of the
+        flex-basis: 100% line breaks; a column fits its content naturally. */
+    let vertical = $derived(
+        format.block &&
+            format.spaces !== undefined &&
+            node.values.some((v) =>
+                format.spaces!.getSpace(v).includes('\n'),
+            ),
+    );
 </script>
 
 {#if format.block}
@@ -19,8 +31,9 @@
         {format}
         elide
         empty="label"
-        wrap
-        breaks
+        direction={vertical ? 'block' : 'inline'}
+        wrap={!vertical}
+        breaks={!vertical}
     />
     <NodeView node={[node, 'close']} {format} />
     <NodeView node={[node, 'literal']} {format} />

@@ -9,6 +9,17 @@
     }
 
     let { node, format }: Props = $props();
+
+    /** Render values as a column when the source has newlines between any of
+        them. A wrapping inline list forces its container to fill editor width
+        because of flex-basis: 100% line breaks; a column fits its content. */
+    let vertical = $derived(
+        format.block &&
+            format.spaces !== undefined &&
+            node.values.some((v) =>
+                format.spaces!.getSpace(v).includes('\n'),
+            ),
+    );
 </script>
 
 {#if format.block}
@@ -19,8 +30,9 @@
         {format}
         elide
         empty="label"
-        wrap
-        breaks
+        direction={vertical ? 'block' : 'inline'}
+        wrap={!vertical}
+        breaks={!vertical}
     />
     <NodeView node={[node, 'close']} {format} />
     <!-- Too advanced of a feature. Let's hide it for now. -->

@@ -289,6 +289,10 @@
         flex-direction: column;
         gap: 0;
         align-items: start;
+        /* baseline aligns inline-row siblings by their text baselines, and
+           falls back to start in column-direction parents (per CSS Box
+           Alignment), so the block also doesn't stretch in column lists. */
+        align-self: baseline;
         width: fit-content;
         height: fit-content;
 

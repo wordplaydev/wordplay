@@ -4,6 +4,7 @@
     import type Token from '@nodes/Token';
     import { spaceIndicator } from '@db/Database';
     import {
+        EXPLICIT_NEWLINE_TEXT,
         EXPLICIT_SPACE_TEXT,
         EXPLICIT_TAB_TEXT,
         SPACE_TEXT,
@@ -95,7 +96,11 @@
                                 ? invisible || !$spaceIndicator
                                     ? SPACE_TEXT
                                     : EXPLICIT_SPACE_TEXT
-                                : s,
+                                : s === '\n'
+                                  ? invisible || !$spaceIndicator
+                                      ? ''
+                                      : EXPLICIT_NEWLINE_TEXT
+                                  : s,
                         )
                         .join('')}</span
                 >{/if}

@@ -3,22 +3,24 @@
 </script>
 
 <script lang="ts" generics="NodeType extends Node">
-    import { InsertionPoint } from '@edit/drag/Drag';
-    import type NodeRef from '@locale/NodeRef';
-    import type ValueRef from '@locale/ValueRef';
-    import Node from '@nodes/Node';
-    import type KeysOfType from '@util/KeysOfType';
+    import EmptyView from '@components/editor/blocks/EmptyView.svelte';
+    import MenuTrigger from '@components/editor/menu/MenuTrigger.svelte';
+    import NodeView, {
+        type Format,
+    } from '@components/editor/nodes/NodeView.svelte';
     import {
         getCaret,
         getDragTarget,
         getEditor,
     } from '@components/project/Contexts';
-    import { tick } from 'svelte';
     import Button from '@components/widgets/Button.svelte';
     import { locales } from '@db/Database';
-    import EmptyView from '@components/editor/blocks/EmptyView.svelte';
-    import MenuTrigger from '@components/editor/menu/MenuTrigger.svelte';
-    import NodeView, { type Format } from '@components/editor/nodes/NodeView.svelte';
+    import { InsertionPoint } from '@edit/drag/Drag';
+    import type NodeRef from '@locale/NodeRef';
+    import type ValueRef from '@locale/ValueRef';
+    import Node from '@nodes/Node';
+    import type KeysOfType from '@util/KeysOfType';
+    import { tick } from 'svelte';
 
     interface Props {
         /** The node containing a list of nodes to render */
@@ -117,8 +119,7 @@
             classes="elide-toggle"
             background
             padding={false}
-            tip={() =>
-                $locales.getPlainText(expanded ? text.on : text.off)}
+            tip={() => $locales.getPlainText(expanded ? text.on : text.off)}
             action={() => {
                 // If we're about to collapse and the caret is inside the list,
                 // move it onto the parent node so the list actually collapses.
@@ -179,7 +180,7 @@
         {#if insertion?.index === nodes.length}
             {@render insertFeedback()}
         {/if}
-        {#if direction === 'inline'}{@render append()}{/if}
+        {@render append()}
     {/if}
 {/snippet}
 
@@ -204,14 +205,7 @@
 {/snippet}
 
 {#if format.block}
-    {#if direction === 'block'}
-        <div class="flow">
-            {@render list()}
-            {@render append()}
-        </div>
-    {:else}
-        {@render list()}
-    {/if}
+    {@render list()}
 {:else}
     {@render toggleControl()}{#if expanded}{#each nodes as node, index}<NodeView
                 {node}
@@ -243,6 +237,9 @@
 
     [data-direction='block'].node-list {
         flex-direction: column;
+        /* Don't stretch column children (e.g. the .append button) to the
+           column's full width — they should size to their content. */
+        align-items: start;
         gap: var(--wordplay-spacing-half);
         padding-block-start: var(--wordplay-spacing-half);
         padding-block-end: var(--wordplay-spacing-half);
@@ -282,20 +279,29 @@
         margin-inline-start: var(--wordplay-spacing-half);
     }
 
-    .flow {
-        display: flex;
-        flex-direction: row;
-        align-items: end;
-    }
-
     .break {
         display: block;
+        color: var(--wordplay-inactive-color);
+    }
+
+    /* In an inline-direction node-list, breaks force a wrap by occupying a
+       full row (flex-basis: 100%) and add a line-height of vertical space. */
+    [data-direction='inline'] > .break {
         flex-basis: 100%;
         min-height: var(--wordplay-min-line-height);
     }
 
-    /* When a break is first, we render it, but we don't give it space.
-    This helps with caret positioning in CaretView.svelte. */
+    /* In a column list, breaks add space for blank-line newlines (e.g.
+       MarkupView paragraph separation). The newline marker itself is
+       rendered inline by Space.svelte before the next token, so the
+       break div is empty. */
+    [data-direction='block'] > .break {
+        min-height: var(--wordplay-min-line-height);
+    }
+
+    /* The first break in a leading whitespace's break sequence is the
+       implicit one that pairs with the column gap or inline wrap, so
+       collapse it to zero. CaretView.svelte depends on it being in the DOM. */
     .break.first {
         min-height: 0;
         max-height: 0;

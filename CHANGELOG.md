@@ -18,6 +18,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 - We made the toolbar wrapping a bit better.
 - We improved the list expand/collapse behavior when there are more than 10 items.
+- We improved layout in blocks mode.
 
 ### Fixed
 

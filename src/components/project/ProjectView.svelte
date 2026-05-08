@@ -1516,8 +1516,17 @@
 
         if (isFieldPosition(anchor)) {
             // Is it a field position? Position near the field.
-            const trigger = editor.querySelector(
+            // The descendant combinator would also match triggers inside
+            // nested .node-view children (which can reuse the same field
+            // name, e.g. inner and outer Evaluate.inputs), so filter to the
+            // trigger whose closest .node-view ancestor is the actual parent.
+            const candidates = editor.querySelectorAll(
                 `.node-view[data-id="${anchor.parent.id}"] .trigger[data-field="${anchor.field}"]`,
+            );
+            const trigger = Array.from(candidates).find(
+                (t) =>
+                    t.closest('.node-view')?.getAttribute('data-id') ===
+                    String(anchor.parent.id),
             );
             if (trigger == null) return undefined;
             const triggerBounds = trigger.getBoundingClientRect();
