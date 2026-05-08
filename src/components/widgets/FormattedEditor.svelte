@@ -45,44 +45,34 @@
         };
     });
 
-    function findExampleRange(
+    function findRange(
         src: string,
         cursor: number,
+        delimiter: string,
+        start = 0,
+        end = src.length,
     ): { open: number; close: number } | null {
-        const positions: number[] = [];
-        let i = 0;
-        while (i < src.length) {
-            if (src[i] === '\\') positions.push(i);
-            i++;
-        }
-        for (let j = 0; j + 1 < positions.length; j += 2) {
-            const open = positions[j];
-            const close = positions[j + 1];
+        let open = src.indexOf(delimiter, start);
+        while (open !== -1 && open < end) {
+            const close = src.indexOf(delimiter, open + 1);
+            if (close === -1 || close >= end) return null;
             if (cursor > open && cursor <= close + 1) return { open, close };
+            open = src.indexOf(delimiter, close + 1);
         }
         return null;
     }
 
-    let cursorInExample = $derived(
-        findExampleRange(text, cursorPosition) !== null,
-    );
-
-    function findDocInExampleRange(src: string, cursor: number): boolean {
-        const example = findExampleRange(src, cursor);
-        if (example === null) return false;
-        const positions: number[] = [];
-        for (let i = example.open + 1; i < example.close; i++) {
-            if (src[i] === '¶') positions.push(i);
-        }
-        for (let j = 0; j + 1 < positions.length; j += 2) {
-            if (cursor > positions[j] && cursor <= positions[j + 1] + 1)
-                return true;
-        }
-        return false;
-    }
-
+    let exampleRange = $derived(findRange(text, cursorPosition, '\\'));
+    let cursorInExample = $derived(exampleRange !== null);
     let cursorInDocInExample = $derived(
-        findDocInExampleRange(text, cursorPosition),
+        exampleRange !== null &&
+            findRange(
+                text,
+                cursorPosition,
+                '¶',
+                exampleRange.open + 1,
+                exampleRange.close,
+            ) !== null,
     );
 
     function insertAtCursor(str: string, pos: number) {
@@ -97,7 +87,7 @@
 
     function formatHighlight() {
         if (view === undefined) return;
-        const range = findExampleRange(text, view.selectionStart ?? 0);
+        const range = findRange(text, view.selectionStart ?? 0, '\\');
         if (range === null) return;
         insertAtCursor('⭐', range.close + 1);
     }
@@ -347,7 +337,9 @@
                 l.ui.source.cursor.insertDocs +
                 ` (${toShortcut({ control: undefined, alt: true, shift: undefined, key: '7' })})`}
             action={() => format('¶')}
-            active={!preview && cursorInExample}>¶</Button
+            active={!preview &&
+                exampleRange !== null &&
+                cursorPosition <= exampleRange.close}>¶</Button
         >
         <Button
             tip={(l: LocaleText) =>
