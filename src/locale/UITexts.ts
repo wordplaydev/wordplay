@@ -121,6 +121,8 @@ type UITexts = {
             highlight: string;
             /** [plain] The bullet list item button */
             bullet: string;
+            /** [plain] The highlight line of code button (👀) */
+            attention: string;
         };
     };
     /** Controls for the tiled windows in the project */

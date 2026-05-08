@@ -15279,6 +15279,10 @@
                   "additionalProperties": false,
                   "description": "Formatted text editor",
                   "properties": {
+                    "attention": {
+                      "description": "[plain] The highlight line of code button (👀)",
+                      "type": "string"
+                    },
                     "bullet": {
                       "description": "[plain] The bullet list item button",
                       "type": "string"
@@ -15300,7 +15304,8 @@
                     "edit",
                     "preview",
                     "highlight",
-                    "bullet"
+                    "bullet",
+                    "attention"
                   ],
                   "type": "object"
                 },
