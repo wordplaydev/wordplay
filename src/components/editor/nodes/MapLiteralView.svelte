@@ -1,7 +1,9 @@
 <script lang="ts">
     import type MapLiteral from '@nodes/MapLiteral';
+    import Flow from '@components/editor/blocks/Flow.svelte';
     import NodeSequenceView from '@components/editor/nodes/NodeSequenceView.svelte';
     import NodeView, { type Format } from '@components/editor/nodes/NodeView.svelte';
+    import { isVerticalList } from '@components/editor/nodes/verticalLayout';
 
     interface Props {
         node: MapLiteral;
@@ -10,33 +12,47 @@
 
     let { node, format }: Props = $props();
 
-    /** When the source has newlines between any of the values, lay out the
-        values as a column rather than a wrapping inline row. A wrapping row
-        forces its container to fill the editor's width because of the
-        flex-basis: 100% line breaks; a column fits its content naturally. */
     let vertical = $derived(
-        format.block &&
-            format.spaces !== undefined &&
-            node.values.some((v) =>
-                format.spaces!.getSpace(v).includes('\n'),
-            ),
+        format.block && isVerticalList(node.values, format.spaces),
     );
 </script>
 
 {#if format.block}
-    <NodeView node={[node, 'open']} {format} />
-    <NodeSequenceView
-        {node}
-        field="values"
-        {format}
-        elide
-        empty="label"
-        direction={vertical ? 'block' : 'inline'}
-        wrap={!vertical}
-        breaks={!vertical}
-    />
-    <NodeView node={[node, 'close']} {format} />
-    <NodeView node={[node, 'literal']} {format} />
+    {#if vertical}
+        <Flow direction="column">
+            <NodeView node={[node, 'open']} {format} />
+            <Flow direction="row" indent>
+                <NodeSequenceView
+                    {node}
+                    field="values"
+                    {format}
+                    elide
+                    empty="label"
+                    direction="block"
+                    wrap={false}
+                    breaks={false}
+                />
+            </Flow>
+            <Flow direction="row">
+                <NodeView node={[node, 'close']} {format} />
+                <NodeView node={[node, 'literal']} {format} />
+            </Flow>
+        </Flow>
+    {:else}
+        <NodeView node={[node, 'open']} {format} />
+        <NodeSequenceView
+            {node}
+            field="values"
+            {format}
+            elide
+            empty="label"
+            direction="inline"
+            wrap
+            breaks
+        />
+        <NodeView node={[node, 'close']} {format} />
+        <NodeView node={[node, 'literal']} {format} />
+    {/if}
 {:else}
     <NodeView node={[node, 'open']} {format} /><NodeSequenceView
         {node}

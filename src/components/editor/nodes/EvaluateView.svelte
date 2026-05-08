@@ -1,8 +1,10 @@
 <script lang="ts">
     import { getProject, getRoot } from '@components/project/Contexts';
     import Evaluate from '@nodes/Evaluate';
+    import Flow from '@components/editor/blocks/Flow.svelte';
     import NodeSequenceView from '@components/editor/nodes/NodeSequenceView.svelte';
     import NodeView, { type Format } from '@components/editor/nodes/NodeView.svelte';
+    import { isVerticalList } from '@components/editor/nodes/verticalLayout';
 
     interface Props {
         node: Evaluate;
@@ -23,32 +25,51 @@
         context === undefined ? undefined : node.getFunction(context),
     );
 
-    /** Render inputs as a column when the source has newlines between any of
-        them. A wrapping inline list forces its container to fill editor width
-        because of flex-basis: 100% line breaks; a column fits its content. */
     let vertical = $derived(
-        format.block &&
-            format.spaces !== undefined &&
-            node.inputs.some((v) =>
-                format.spaces!.getSpace(v).includes('\n'),
-            ),
+        format.block && isVerticalList(node.inputs, format.spaces),
     );
 </script>
 
 {#if format.block}
-    <NodeView node={[node, 'fun']} {format} />
-    <NodeView node={[node, 'types']} {format} empty="hide" />
-    <NodeView node={[node, 'open']} {format} />
-    <NodeSequenceView
-        {node}
-        {format}
-        field="inputs"
-        empty={fun !== undefined && fun.inputs.length > 0 ? 'label' : 'hide'}
-        direction={vertical ? 'block' : 'inline'}
-        wrap={!vertical}
-        breaks={!vertical}
-    />
-    <NodeView node={[node, 'close']} {format} />
+    {#if vertical}
+        <Flow direction="column">
+            <Flow direction="row">
+                <NodeView node={[node, 'fun']} {format} />
+                <NodeView node={[node, 'types']} {format} empty="hide" />
+                <NodeView node={[node, 'open']} {format} />
+            </Flow>
+            <Flow direction="row" indent>
+                <NodeSequenceView
+                    {node}
+                    {format}
+                    field="inputs"
+                    empty={fun !== undefined && fun.inputs.length > 0
+                        ? 'label'
+                        : 'hide'}
+                    direction="block"
+                    wrap={false}
+                    breaks={false}
+                />
+            </Flow>
+            <NodeView node={[node, 'close']} {format} />
+        </Flow>
+    {:else}
+        <NodeView node={[node, 'fun']} {format} />
+        <NodeView node={[node, 'types']} {format} empty="hide" />
+        <NodeView node={[node, 'open']} {format} />
+        <NodeSequenceView
+            {node}
+            {format}
+            field="inputs"
+            empty={fun !== undefined && fun.inputs.length > 0
+                ? 'label'
+                : 'hide'}
+            direction="inline"
+            wrap
+            breaks
+        />
+        <NodeView node={[node, 'close']} {format} />
+    {/if}
 {:else}
     <NodeView node={[node, 'fun']} {format} /><NodeView
         node={[node, 'types']}

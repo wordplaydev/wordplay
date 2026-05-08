@@ -3,6 +3,7 @@
     import Flow from '@components/editor/blocks/Flow.svelte';
     import NodeSequenceView from '@components/editor/nodes/NodeSequenceView.svelte';
     import NodeView, { type Format } from '@components/editor/nodes/NodeView.svelte';
+    import { isVerticalList } from '@components/editor/nodes/verticalLayout';
 
     interface Props {
         node: FunctionDefinition;
@@ -11,15 +12,8 @@
 
     let { node, format }: Props = $props();
 
-    /** Render inputs as a column when the source has newlines between any of
-        them. A wrapping inline list forces its container to fill editor width
-        because of flex-basis: 100% line breaks; a column fits its content. */
     let vertical = $derived(
-        format.block &&
-            format.spaces !== undefined &&
-            node.inputs.some((v) =>
-                format.spaces!.getSpace(v).includes('\n'),
-            ),
+        format.block && isVerticalList(node.inputs, format.spaces),
     );
 </script>
 
@@ -33,28 +27,64 @@
 
 {#if format.block}
     {#if !node.docs.isEmpty()}{@render docs()}{/if}
-    <Flow direction="row"
-        >{#if node.docs.isEmpty()}{@render docs()}{/if}<NodeView
-            node={[node, 'fun']}
-            {format}
-        /><NodeView node={[node, 'names']} {format} /><NodeView
-            node={[node, 'types']}
-            {format}
-            empty="hide"
-        /><NodeView node={[node, 'open']} {format} /><NodeSequenceView
-            {node}
-            field="inputs"
-            {format}
-            empty="menu"
-            direction={vertical ? 'block' : 'inline'}
-            wrap={!vertical}
-            breaks={!vertical}
-        /><NodeView node={[node, 'close']} {format} /><NodeView
-            node={[node, 'dot']}
-            {format}
-            empty="hide"
-        /><NodeView node={[node, 'output']} {format} />
-    </Flow>
+    {#if vertical}
+        <Flow direction="column">
+            <Flow direction="row"
+                >{#if node.docs.isEmpty()}{@render docs()}{/if}<NodeView
+                    node={[node, 'fun']}
+                    {format}
+                /><NodeView node={[node, 'names']} {format} /><NodeView
+                    node={[node, 'types']}
+                    {format}
+                    empty="hide"
+                /><NodeView node={[node, 'open']} {format} />
+            </Flow>
+            <Flow direction="row" indent>
+                <NodeSequenceView
+                    {node}
+                    field="inputs"
+                    {format}
+                    empty="menu"
+                    direction="block"
+                    wrap={false}
+                    breaks={false}
+                />
+            </Flow>
+            <Flow direction="row"
+                ><NodeView
+                    node={[node, 'close']}
+                    {format}
+                /><NodeView
+                    node={[node, 'dot']}
+                    {format}
+                    empty="hide"
+                /><NodeView node={[node, 'output']} {format} />
+            </Flow>
+        </Flow>
+    {:else}
+        <Flow direction="row"
+            >{#if node.docs.isEmpty()}{@render docs()}{/if}<NodeView
+                node={[node, 'fun']}
+                {format}
+            /><NodeView node={[node, 'names']} {format} /><NodeView
+                node={[node, 'types']}
+                {format}
+                empty="hide"
+            /><NodeView node={[node, 'open']} {format} /><NodeSequenceView
+                {node}
+                field="inputs"
+                {format}
+                empty="menu"
+                direction="inline"
+                wrap
+                breaks
+            /><NodeView node={[node, 'close']} {format} /><NodeView
+                node={[node, 'dot']}
+                {format}
+                empty="hide"
+            /><NodeView node={[node, 'output']} {format} />
+        </Flow>
+    {/if}
     <Flow direction="column" indent>
         <NodeView node={[node, 'expression']} {format} empty="label" />
     </Flow>
