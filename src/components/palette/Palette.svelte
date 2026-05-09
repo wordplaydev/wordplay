@@ -139,6 +139,7 @@
 <section
     class="palette"
     data-testid="palette"
+    data-uiid="palette"
     aria-label={$locales.getPlainText((l) => l.ui.palette.label)}
 >
     {#if propertyValues.size > 0}

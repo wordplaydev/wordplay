@@ -140,6 +140,8 @@ type UITexts = {
     };
     /** Project settings and controls */
     project: {
+        /** [plain] The label for the bottom-row project controls section */
+        label: string;
         defaults: {
             /** [plain] The default template shown when opening a new project */
             starterCode: string;
@@ -229,6 +231,25 @@ type UITexts = {
         toggle: {
             /** [plain] Tip text for the project full screen button */
             fullscreen: ToggleText;
+        };
+        /** Interactive tour explaining the bottom-row project controls */
+        tour: {
+            /** [plain] Tooltip on the help button that opens the tour */
+            launch: string;
+            /** Markup describing the project controls bar overall */
+            controls: FormattedText;
+            /** Markup describing the project name field */
+            name: FormattedText;
+            /** Markup describing the source-tile toggles */
+            sourceToggle: FormattedText;
+            /** Markup describing the add-source button */
+            addSource: FormattedText;
+            /** Markup describing the share dialog button */
+            share: FormattedText;
+            /** Markup describing the translate button */
+            translate: FormattedText;
+            /** Markup describing the checkpoints/revisions panel */
+            checkpoints: FormattedText;
         };
     };
     /** Checkpoints text */
@@ -434,6 +455,21 @@ type UITexts = {
             /** [plain] Invalid words in a words token editor */
             invalidWords: string;
         };
+        /** Interactive tour explaining the source/code tile */
+        tour: {
+            /** [plain] Tooltip on the help button that opens the tour */
+            launch: string;
+            /** Markup describing the editor */
+            editor: FormattedText;
+            /** Markup describing the text/blocks toggle */
+            textBlocks: FormattedText;
+            /** Markup describing the toolbar group of editing actions */
+            toolbar: FormattedText;
+            /** Markup describing the expand toggle for advanced tools */
+            expand: FormattedText;
+            /** Markup describing the keyboard shortcuts dialog trigger */
+            shortcuts: FormattedText;
+        };
     };
     /** The conflicts area in the margin of the editor. */
     annotations: {
@@ -494,6 +530,23 @@ type UITexts = {
             locale: string;
             /** [plain] The default locale for the output */
             default: string;
+        };
+        /** Interactive tour explaining the stage tile */
+        tour: {
+            /** [plain] Tooltip on the help button that opens the tour */
+            launch: string;
+            /** Markup describing the stage area */
+            stage: FormattedText;
+            /** Markup describing the reset zoom button */
+            reset: FormattedText;
+            /** Markup describing the two zoom buttons */
+            zoom: FormattedText;
+            /** Markup describing the grid toggle */
+            grid: FormattedText;
+            /** Markup describing the lock/fit toggle */
+            lock: FormattedText;
+            /** Markup describing the animation speed control */
+            animationSpeed: FormattedText;
         };
     };
     /** The documentation browser */
@@ -568,6 +621,21 @@ type UITexts = {
             explanation: FormattedText;
             /** The toggle mode for restricting project visibility to owner and curators only */
             mode: ModeText<[string, string]>;
+        };
+        /** Interactive tour explaining the collaborate tile */
+        tour: {
+            /** [plain] Tooltip on the help button that opens the tour */
+            launch: string;
+            /** Markup describing the collaborate panel */
+            collaborate: FormattedText;
+            /** Markup describing the collaborators field */
+            collaborators: FormattedText;
+            /** Markup describing the commenters field */
+            commenters: FormattedText;
+            /** Markup describing the viewers field */
+            viewers: FormattedText;
+            /** Markup describing the restrict-gallery toggle */
+            restrict: FormattedText;
         };
     };
 
@@ -685,6 +753,23 @@ type UITexts = {
             /** [plain] Sequence precent must be less than the next */
             lessThanNext: string;
         };
+        /** Interactive tour explaining the palette tile */
+        tour: {
+            /** [plain] Tooltip on the help button that opens the tour */
+            launch: string;
+            /** Markup describing the palette panel */
+            palette: FormattedText;
+            /** Markup describing the property text field */
+            text: FormattedText;
+            /** Markup describing the pencil button that promotes a default to an explicit value */
+            set: FormattedText;
+            /** Markup describing the X button that removes an explicit value */
+            unset: FormattedText;
+            /** Markup describing the editor's role for palette edits */
+            editor: FormattedText;
+            /** Markup describing how phrases can be manipulated on stage */
+            stage: FormattedText;
+        };
     };
     /** The timeline view below the output */
     timeline: {
@@ -720,6 +805,40 @@ type UITexts = {
             /** [plain] Reset the input history to restart the performance */
             reset: string;
         };
+        /** Interactive tour explaining the timeline UI */
+        tour: {
+            /** [plain] The tooltip on the help button that opens the tour */
+            launch: string;
+            /** Markup describing the entire timeline panel */
+            timeline: FormattedText;
+            /** Markup describing the reset evaluation button */
+            reset: FormattedText;
+            /** Markup describing play mode (after starting evaluation) */
+            playMode: FormattedText;
+            /** Markup describing pause mode (after pausing) */
+            pauseMode: FormattedText;
+            /** Markup describing the annotations window */
+            annotations: FormattedText;
+            /** Markup describing the editor */
+            editor: FormattedText;
+            /** Markup describing the history slider */
+            history: FormattedText;
+            /** Markup describing the step button controls */
+            stepControls: FormattedText;
+        };
+    };
+    /** Generic chrome for the Tour overlay component */
+    tour: {
+        /** [plain] ARIA label for the tour overlay */
+        label: string;
+        /** [plain] Tooltip for the close button */
+        close: string;
+        /** [plain] Tooltip for the previous step button */
+        previous: string;
+        /** [plain] Tooltip for the next step button */
+        next: string;
+        /** [plain] Message shown when the targeted UI is not visible on screen */
+        offscreen: string;
     };
     dialog: {
         /** The sharing dialog */

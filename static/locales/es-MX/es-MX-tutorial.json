@@ -301,7 +301,11 @@
                             "kind",
                             "¿Quieres decir lo que haces?"
                         ],
-                        ["ExpressionPlaceholder", "scared", "Lo puedes hacer tu?"],
+                        [
+                            "ExpressionPlaceholder",
+                            "scared",
+                            "Lo puedes hacer tu?"
+                        ],
                         null,
                         [
                             "FunctionDefinition",
@@ -4344,7 +4348,15 @@
                             "kind",
                             "Y así, otra cosa que @Block puede hacer es algo que ya has visto. @Block te permite nombrar cosas con @Bind. Pero cualquier nombre definido en @Block solo se define entre paréntesis. No antes y no después. Por ejemplo, mira esto: \\a\\ se define como \\1\\, luego comienza un bloque, \\b\\ se define como \\2\\, luego \\c\\ como su suma, y luego escribo \\c\\ por sí solo. Las declaraciones @Bind son efectos secundarios — introducen nombres pero no tienen un valor propio. Así que mi valor es lo que produzcan las expresiones que no son @Bind. Aquí, eso es solo \\c\\, que es \\3\\. ¿Verdad?"
                         ],
-                        ["conflict", "a: 1", "(", "  b: 2", "  c: a + b", "  c", ")"],
+                        [
+                            "conflict",
+                            "a: 1",
+                            "(",
+                            "  b: 2",
+                            "  c: a + b",
+                            "  c",
+                            ")"
+                        ],
                         null,
                         [
                             "FunctionDefinition",
@@ -4371,11 +4383,7 @@
                             "neutral",
                             "Y una cosa más, ¿creo? Dado que @Block es una lista de expresiones, los valores de todas las expresiones que no son @Bind se convierten en mi valor. Si solo hay una, obtienes ese único valor. Si hay varias, obtienes una lista de todas, en orden. Así que aquí, el \\3\\, el \\5\\, el \\7\\ y el \\9\\ se convierten todos en una lista: \\[3 5 7 9]\\. ¿Entendí bien, @Block?"
                         ],
-                        [
-                            "Block",
-                            "shy",
-                            "… mhm. Todos, en una lista."
-                        ],
+                        ["Block", "shy", "… mhm. Todos, en una lista."],
                         [
                             "conflict",
                             "(",
@@ -4396,13 +4404,7 @@
                             "shy",
                             "… entonces no tendría nada que dar. Necesito al menos una expresión que no sea @Bind, o tengo que decirte que falta algo."
                         ],
-                        [
-                            "conflict",
-                            "(",
-                            "  a: 1",
-                            "  b: 2",
-                            ")"
-                        ],
+                        ["conflict", "(", "  a: 1", "  b: 2", ")"],
                         null,
                         [
                             "FunctionDefinition",

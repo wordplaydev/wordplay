@@ -11,22 +11,22 @@ test('create project and check for command buttons and their functionalities ', 
     // Wait for the URL redirect to the project.
     await page.waitForURL(/\/project\/.+/);
 
-    const StepBackButton = page.locator('[data-uiid="4"]');
+    const StepBackButton = page.locator('[data-uiid="stepBack"]');
     await expect(StepBackButton).toBeVisible();
 
-    const StepForwardButton = page.locator('[data-uiid="5"]');
+    const StepForwardButton = page.locator('[data-uiid="stepForward"]');
     await expect(StepForwardButton).toBeVisible();
 
-    const StepOut = page.locator('[data-uiid="12"]');
+    const StepOut = page.locator('[data-uiid="stepOut"]');
     await expect(StepOut).toBeVisible();
 
-    const BackOneInput = page.locator('[data-uiid="6"]');
+    const BackOneInput = page.locator('[data-uiid="stepBackInput"]');
     await expect(BackOneInput).toBeVisible();
 
-    const StepBackOne = page.locator('[data-uiid="8"]');
+    const StepBackOne = page.locator('[data-uiid="stepBackNode"]');
     await expect(StepBackOne).toBeVisible();
 
-    const ToEnd = page.locator('[data-uiid="12"]');
+    const ToEnd = page.locator('[data-uiid="stepOut"]');
     await expect(ToEnd).toBeVisible();
 
     const TimeLineSlider = page.locator('[data-uiid="timeline"]');

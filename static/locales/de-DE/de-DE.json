@@ -4491,6 +4491,17 @@
                     "on": "$~Browser im Vollbildmodus beenden",
                     "off": "$~Browser im Vollbildmodus anzeigen"
                 }
+            },
+            "label": "$~Projektsteuerung",
+            "tour": {
+                "launch": "$~Machen Sie eine Tour durch die Projektsteuerung",
+                "controls": "$~Diese /Steuerelemente/ am unteren Rand gelten für das *Projekt als Ganzes*, unabhängig davon, in welchem Bereich Sie gerade arbeiten.",
+                "name": "$~DasFeld/name/enthältdenNamenIhresProjekts.Namenwerdeninder*Projekt*-und*Galerie*-Ansichtangezeigt.",
+                "sourceToggle": "$~Dieser Schalter blendet die *Quelldatei* ein oder aus. Die *anderen Schalter* in dieser Zeile bewirken dasselbe für die anderen Kacheln.",
+                "addSource": "$~Manche Projekte profitieren von *mehreren* Quelldateien, in denen die Daten in einer Datei gespeichert und in die *Hauptquelldatei* importiert werden. Mit der Schaltfläche „Quelle hinzufügen“ wird eine neue Quelldatei erstellt.",
+                "share": "$~Über den Dialog „Teilen“ können Sie Ihr Projekt mit *Galerien*, mit der *Öffentlichkeit* teilen oder es als *Text* kopieren, um es an anderer Stelle zu teilen.",
+                "translate": "$~Mit der Schaltfläche „/translate/“ können Sie *Übersetzungen* der *Namen*, *Texte* und *Dokumentation* Ihres Projekts in andere Sprachen hinzufügen.",
+                "checkpoints": "$~Über das Panel /revisions/ können Sie zu früheren Versionen Ihres Projekts zurückkehren und Momentaufnahmen von Versionen erstellen, die Sie sich merken möchten."
             }
         },
         "gallery": {
@@ -4668,7 +4679,15 @@
                 "invalidName": "$~Dies muss ein gültiger Wortspielname sein.",
                 "invalidWords": "$~Wörter dürfen nicht leer sein oder reservierte Symbole enthalten."
             },
-            "title": "$~Code"
+            "title": "$~Code",
+            "tour": {
+                "launch": "$~Machen Sie eine Tour durch den Editor",
+                "editor": "$~Ihr gesamter Code gehört in den Editor. Jedes Wordplay-Programm wird zu einem Wert ausgewertet, und dieser Wert wird auf der Bühne angezeigt.",
+                "textBlocks": "$~Dieser Schalter wechselt zwischen zwei Bearbeitungsmodi: /text/ und /blocks/. *Text* ist flexibler, aber fehleranfälliger. *Blocks* sind weniger fehleranfällig, aber langsamer und unflexibler.",
+                "toolbar": "$~Mit diesen Steuerelementen in der Symbolleiste können Sie *alles auswählen*, *vergrößern* und *verkleinern*, *rückgängig machen*, *wiederherstellen*, *ausschneiden*, *kopieren* und *einfügen*.",
+                "expand": "$~Über den Schalter /expand/ werden weitere *erweiterte* Bearbeitungswerkzeuge angezeigt.",
+                "shortcuts": "$~Über die Schaltfläche „Tastenkombinationen“ wird eine Liste mit *Tastenkombinationen* geöffnet, mit denen Sie schneller bearbeiten können."
+            }
         },
         "annotations": {
             "label": "$~Konflikte und Hilfe",
@@ -4717,6 +4736,15 @@
             "options": {
                 "locale": "$~Wählen Sie die Sprache für die Ausgabe",
                 "default": "$~Standard"
+            },
+            "tour": {
+                "launch": "$~Machen Sie einen Rundgang über die Bühne",
+                "stage": "$~Die Variable /stage/ zeigt den *aktuellen Wert* Ihres Programms an. Dieser Wert kann ein *Rohwert* wie eine Zahl oder Liste, eine *visuelle Ausgabe*, die Sie sehen können, oder sogar ein *Ton*, den Sie hören können, sein.",
+                "reset": "$~Mit der Schaltfläche „Zurücksetzen“ wird die Auswertung Ihres Programms bis zum *Anfang* zurückgespult, wobei alle Zeit-, Tasten- oder Eingabeströme von Grund auf neu abgespielt werden.",
+                "zoom": "$~Mit den /zoom/-Tasten können Sie in die Bühne hinein- und herauszoomen, um Ihre Ausgabe klarer oder detaillierter zu sehen.",
+                "grid": "$~Die Schaltfläche /grid/ zeigt ein *Raster* auf der Bühne an, das beim Entwerfen hilfreich ist, um Elemente präzise zu platzieren.",
+                "lock": "$~Die Schaltfläche „Sperren“ fixiert die Bühnenansicht. Im gesperrten Zustand bleibt die Bühne still; im entsperrten Zustand können Sie frei schwenken und zoomen.",
+                "animationSpeed": "$~Mit dem Regler /animation speed/ legen Sie fest, wie schnell Animationen abgespielt werden. Derselbe Regler befindet sich auch in den *Einstellungen*, sodass Sie ihn an beiden Stellen ändern können."
             }
         },
         "timeline": {
@@ -4736,7 +4764,18 @@
                 "start": "$~zu Beginn",
                 "reset": "$~Leistung neu starten"
             },
-            "debug": "$~debuggen"
+            "debug": "$~debuggen",
+            "tour": {
+                "launch": "$~Machen Sie eine Tour durch die Zeitleiste",
+                "timeline": "$~Die Zeitleiste ermöglicht es Ihnen, die Auswertung Ihres Programms Schritt für Schritt vorwärts und rückwärts zu verfolgen. So können Sie optimal nachvollziehen, wie Ihr Programm seinen Wert berechnet und sich ein Bild davon machen, wie Wordplay-Programme ausgewertet werden – insbesondere, wenn Sie nicht die gewünschten Ergebnisse erzielen.",
+                "reset": "$~Mit der Schaltfläche „Zurücksetzen“ wird die Auswertung Ihres Programms ganz an den *Anfang* zurückgesetzt, sodass Sie die Auswertung von Grund auf neu ansehen können.",
+                "annotations": "$~Im Fenster „/annotations/“ werden die Erläuterungen zu jedem einzelnen Schritt angezeigt. Während Sie Ihr Programm schrittweise ausführen, können Sie hier nachlesen, was gerade passiert ist.",
+                "editor": "$~Der Editor zeigt Ihren Code an. Beim schrittweisen Ausführen wird der *Wert* jedes Programmteils neben diesem Teil angezeigt, *nachdem* er ausgewertet wurde. So können Sie beobachten, wie sich die Werte während der Programmausführung ansammeln.",
+                "history": "$~Das Verzeichnis /history/ zeigt alle *Eingaben* an, die Ihr Programm erhalten hat, wie z. B. Tastatureingaben, Zeitstempel und Mausereignisse. Es ist *verschiebbar*, sodass Sie durch einfaches Ziehen zu jedem beliebigen Zeitpunkt in der Programmhistorie zurückkehren können.",
+                "stepControls": "$~Die Schrittsteuerung ermöglicht eine präzise Navigation durch die Auswertung. Sie können zum *Anfang* oder *Ende* springen, schrittweise *vorwärts* oder *rückwärts* gehen, um *eine Eingabe* springen, eine Funktion *verlassen* oder zum *aktuell ausgewählten* Teil des Codes springen.",
+                "playMode": "$~Das Programm wird nun /gespielt/. Im *Wiedergabemodus* läuft Ihr Programm so lange, bis es beendet ist (falls überhaupt), und reagiert dabei in Echtzeit auf Eingaben.",
+                "pauseMode": "$~Das Programm ist jetzt pausiert. Im Pausenmodus können Sie die Auswertung schrittweise vor- und zurückspulen. Das Fenster „Anmerkungen“ zeigt nun den aktuellen Stand jedes Programmschritts an, und der jeweilige Wert jedes Programmteils wird im Editor daneben angezeigt."
+            }
         },
         "docs": {
             "label": "$~Dokumentationsbrowser",
@@ -4937,6 +4976,14 @@
             },
             "note": {
                 "empty": "$~Die in Ihrem Projekt definierten Namen werden hier angezeigt."
+            },
+            "tour": {
+                "launch": "$~Nehmen Sie an einer Führung teil",
+                "guide": "$~Der Leitfaden enthält die Dokumentation zu allen Konzepten und Funktionen der Programmiersprache Wordplay.",
+                "mode": "$~Verwenden Sie diesen Schalter, um selbst zwischen den Abschnitten *Code* und *Anleitung* umzuschalten.",
+                "search": "$~Das Suchfeld ist hilfreich, um Funktionen zu *entdecken* oder eine Funktion schnell *anhand ihres Namens* zu finden.",
+                "code": "$~Dies ist der Abschnitt /code/. Er enthält die Dokumentation der *Programmiersprache* – die Bausteine, die Sie zu Programmen kombinieren können.",
+                "howto": "$~Dies ist der Abschnitt „Anleitung“. Er enthält *nützliche Muster*, um bestimmte Verhaltensweisen in Ihren Projekten zu erzielen."
             }
         },
         "dialog": {
@@ -5089,9 +5136,13 @@
                         ]
                     },
                     "blockDensity": {
-                        "label": "$?",
-                        "labels": ["$?", "$?", "$?"],
-                        "tips": ["$?", "$?", "$?"]
+                        "label": "$~Blockabstand",
+                        "labels": ["$~kompakt", "$~Normal", "$~geräumig"],
+                        "tips": [
+                            "$~engere Blöcke, um mehr Code auf dem Bildschirm anzuzeigen",
+                            "$~Standard-Blockabstand",
+                            "$~Lose Blöcke für einfachere Auswahl und Verschiebung"
+                        ]
                     }
                 },
                 "options": {
@@ -5287,6 +5338,15 @@
                 "percent": "$~Muss ein Prozentsatz zwischen 0 und 100 sein.",
                 "lessThanNext": "$~Dieser muss kleiner sein als der nächste Eintrag.",
                 "moreThanPrevious": "$~Dies muss mehr sein als der vorherige Eintrag."
+            },
+            "tour": {
+                "launch": "$~Machen Sie einen Rundgang durch die Farbpalette",
+                "palette": "$~Wenn das Projekt *pausiert* ist, können Sie über die /Palette/ *Phrasen*, *Gruppen* und die *Phase* bearbeiten.",
+                "text": "$~Alle Eigenschaften eines Satzes können hier bearbeitet werden. Dies ist der *Text* des Satzes, aber andere Eigenschaften haben ihre eigenen Steuerelemente.",
+                "set": "$~Wenn eine Eigenschaft aktuell ihren Standardwert verwendet, können Sie mit der *Stift*-Schaltfläche einen *expliziten* Wert dafür festlegen.",
+                "unset": "$~Wenn für eine Eigenschaft ein /expliziter/ Wert festgelegt ist, entfernt die Schaltfläche *X* diesen Wert und stellt die Eigenschaft auf ihren *Standardwert* zurück.",
+                "editor": "$~Alle Änderungen, die Sie in der Farbpalette vornehmen, werden im Code widergespiegelt, der im Editor angezeigt wird.",
+                "stage": "$~Phrasen können auch direkt auf der *Bühne* verschoben, in ihrer Größe verändert und gedreht werden."
             }
         },
         "save": {
@@ -6094,12 +6154,20 @@
                         "$~Nur die Kuratoren der Galerie können Ihr Projekt sehen."
                     ]
                 }
+            },
+            "tour": {
+                "launch": "$~Machen Sie eine Tour durch die Zusammenarbeit",
+                "collaborate": "$~Projekte können mit anderen Personen geteilt werden, und Sie können direkt hier mit allen Personen chatten, mit denen das Projekt geteilt wird.",
+                "collaborators": "$~/Mitarbeiter/ können das Projekt *bearbeiten* und sich mit Ihnen darüber *unterhalten*.",
+                "commenters": "$~Die Kommentatoren können das Projekt mit Ihnen *diskutieren*, aber sie können es nicht *bearbeiten*.",
+                "viewers": "$~Betrachter können das Projekt und seinen Code ansehen, aber sie können ihn weder diskutieren noch bearbeiten.",
+                "restrict": "$~Wenn sich ein Projekt in einer Galerie befindet, kann standardmäßig jeder, der die Galerie sehen kann, auch Ihr Projekt sehen. Mit dem Schalter /restrict/ wird es für alle außer Ihnen und den Kuratoren der Galerie ausgeblendet."
             }
         },
         "checkpoints": {
             "label": {
                 "now": "$~Jetzt",
-                "history": "$~wiederherstellen",
+                "history": "$~Versionen",
                 "restore": "$~Dies ist eine frühere Version dieses Projekts.",
                 "ago": "$~$1 $2 vor"
             },
@@ -6437,6 +6505,13 @@
             "revisedDescription": "$~Diese Änderungen wurden lokal gespeichert und noch nicht zur Überprüfung eingereicht.",
             "submitRevisions": "$~Überarbeitungen einreichen",
             "submitted": "$~Vielen Dank! Ihr überarbeiteter Text wird geprüft und gegebenenfalls bald veröffentlicht."
+        },
+        "tour": {
+            "label": "$~Tour",
+            "close": "$~Tourende",
+            "previous": "$~vorheriger Schritt",
+            "next": "$~nächster Schritt",
+            "offscreen": "$~Dieser Teil der Benutzeroberfläche ist derzeit nicht auf dem Bildschirm sichtbar."
         }
     },
     "moderation": {

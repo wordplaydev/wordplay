@@ -5,14 +5,16 @@
     import StructureValue from '@values/StructureValue';
     import { tick, untrack } from 'svelte';
     import { slide } from 'svelte/transition';
-    import { animationDuration, locales } from '@db/Database';
+    import { animationDuration, locales, Settings } from '@db/Database';
     import Button from '@input/Button';
     import Key from '@input/Key';
-    import { DEFECT_SYMBOL } from '@parser/Symbols';
+    import { DEFECT_SYMBOL, INFO_SYMBOL } from '@parser/Symbols';
     import Emoji from '@components/app/Emoji.svelte';
     import Subheader from '@components/app/Subheader.svelte';
     import { getEvaluation } from '@components/project/Contexts';
     import Controls from '@components/evaluator/Controls.svelte';
+    import ButtonWidget from '@components/widgets/Button.svelte';
+    import Tour, { type UIExplanation } from '@components/widgets/Tour.svelte';
 
     interface Props {
         /** The evaluator running the program */
@@ -22,6 +24,46 @@
     let { evaluator }: Props = $props();
 
     let evaluation = getEvaluation();
+
+    /** When true, the Tour overlay is shown. */
+    let touring = $state(false);
+
+    /** The sequence of explanations shown by the Tour, by `data-uiid`. */
+    const tourExplanations: UIExplanation[] = [
+        {
+            uiid: 'timelinePanel',
+            explanation: (l) => l.ui.timeline.tour.timeline,
+        },
+        {
+            uiid: 'timelineReset',
+            explanation: (l) => l.ui.timeline.tour.reset,
+        },
+        {
+            uiid: 'playToggle',
+            explanation: (l) => l.ui.timeline.tour.playMode,
+            onEnter: () => evaluator.play(),
+        },
+        {
+            uiid: 'playToggle',
+            explanation: (l) => l.ui.timeline.tour.pauseMode,
+            onEnter: () => {
+                evaluator.pause();
+                // Expand the annotations window so the next step's target
+                // and the program's values are visible.
+                Settings.setShowAnnotations(true);
+            },
+        },
+        {
+            uiid: 'conflict',
+            explanation: (l) => l.ui.timeline.tour.annotations,
+        },
+        { uiid: 'editor', explanation: (l) => l.ui.timeline.tour.editor },
+        { uiid: 'timeline', explanation: (l) => l.ui.timeline.tour.history },
+        {
+            uiid: 'stepControls',
+            explanation: (l) => l.ui.timeline.tour.stepControls,
+        },
+    ];
 
     /** The view of the timeline, for dragging calculations. */
     let timeline = $state<HTMLElement | undefined>();
@@ -200,11 +242,25 @@
     class="evaluation"
     aria-label={$locales.getPlainText((l) => l.ui.timeline.label)}
     class:stepping={$evaluation?.playing === false}
+    data-uiid="timelinePanel"
 >
     <Subheader compact
         ><Emoji>{DEFECT_SYMBOL}</Emoji>
         {$locales.getUnannotatedText((l) => l.ui.timeline.debug)}</Subheader
     >
+    <ButtonWidget
+        tip={(l) => l.ui.timeline.tour.launch}
+        background="circular"
+        icon={INFO_SYMBOL}
+        action={() => (touring = true)}
+    ></ButtonWidget>
+    {#if touring}
+        <Tour
+            explanations={tourExplanations}
+            subheader={(l) => l.ui.timeline.debug}
+            close={() => (touring = false)}
+        />
+    {/if}
     {#if $evaluation}
         <Controls {evaluator} />
         <div

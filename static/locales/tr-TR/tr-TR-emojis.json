@@ -9,38 +9,13 @@
         "yağmur",
         "yağmurlu"
     ],
-    "2615": [
-        "sıcak içecek",
-        "çay",
-        "dumanı tüten",
-        "içecek",
-        "kahve",
-        "sıcak"
-    ],
-    "2648": [
-        "koç burcu",
-        "burçlar"
-    ],
-    "2649": [
-        "boğa burcu",
-        "burçlar"
-    ],
-    "2650": [
-        "yay burcu",
-        "burçlar"
-    ],
-    "2651": [
-        "oğlak burcu",
-        "burçlar"
-    ],
-    "2652": [
-        "kova burcu",
-        "burçlar"
-    ],
-    "2653": [
-        "balık burcu",
-        "burçlar"
-    ],
+    "2615": ["sıcak içecek", "çay", "dumanı tüten", "içecek", "kahve", "sıcak"],
+    "2648": ["koç burcu", "burçlar"],
+    "2649": ["boğa burcu", "burçlar"],
+    "2650": ["yay burcu", "burçlar"],
+    "2651": ["oğlak burcu", "burçlar"],
+    "2652": ["kova burcu", "burçlar"],
+    "2653": ["balık burcu", "burçlar"],
     "2693": [
         "çıpa",
         "çapa",
@@ -79,20 +54,8 @@
         "soru",
         "soru işareti"
     ],
-    "2754": [
-        "beyaz soru işareti",
-        "?",
-        "işaret",
-        "noktalama",
-        "soru"
-    ],
-    "2755": [
-        "beyaz ünlem işareti",
-        "!",
-        "işaret",
-        "noktalama",
-        "ünlem"
-    ],
+    "2754": ["beyaz soru işareti", "?", "işaret", "noktalama", "soru"],
+    "2755": ["beyaz ünlem işareti", "!", "işaret", "noktalama", "ünlem"],
     "2757": [
         "kırmızı ünlem işareti",
         "!",
@@ -101,11 +64,7 @@
         "ünlem",
         "ünlem işareti"
     ],
-    "2764": [
-        "kırmızı kalp",
-        "aşk",
-        "kalp"
-    ],
+    "2764": ["kırmızı kalp", "aşk", "kalp"],
     "2795": [
         "artı",
         "+",
@@ -131,131 +90,33 @@
         "koyu renk bölü işareti",
         "matematik"
     ],
-    "0023": [
-        "sayı işareti",
-        "etiket",
-        "hashtag",
-        "kare",
-        "karma",
-        "sayı"
-    ],
-    "0023 FE0F 20E3": [
-        "tuş: #",
-        "tuş"
-    ],
-    "002A": [
-        "asterisk",
-        "joker",
-        "yıldız"
-    ],
-    "002A FE0F 20E3": [
-        "tuş: *",
-        "tuş"
-    ],
-    "0030": [
-        "digit zero"
-    ],
-    "0030 FE0F 20E3": [
-        "tuş: 0",
-        "0",
-        "sıfır",
-        "tuş"
-    ],
-    "0031": [
-        "digit one"
-    ],
-    "0031 FE0F 20E3": [
-        "tuş: 1",
-        "1",
-        "bir",
-        "tuş"
-    ],
-    "0032": [
-        "digit two"
-    ],
-    "0032 FE0F 20E3": [
-        "tuş: 2",
-        "2",
-        "iki",
-        "tuş"
-    ],
-    "0033": [
-        "digit three"
-    ],
-    "0033 FE0F 20E3": [
-        "tuş: 3",
-        "3",
-        "tuş",
-        "üç"
-    ],
-    "0034": [
-        "digit four"
-    ],
-    "0034 FE0F 20E3": [
-        "tuş: 4",
-        "4",
-        "dört",
-        "tuş"
-    ],
-    "0035": [
-        "digit five"
-    ],
-    "0035 FE0F 20E3": [
-        "tuş: 5",
-        "5",
-        "beş",
-        "tuş"
-    ],
-    "0036": [
-        "digit six"
-    ],
-    "0036 FE0F 20E3": [
-        "tuş: 6",
-        "6",
-        "altı",
-        "tuş"
-    ],
-    "0037": [
-        "digit seven"
-    ],
-    "0037 FE0F 20E3": [
-        "tuş: 7",
-        "7",
-        "tuş",
-        "yedi"
-    ],
-    "0038": [
-        "digit eight"
-    ],
-    "0038 FE0F 20E3": [
-        "tuş: 8",
-        "8",
-        "sekiz",
-        "tuş"
-    ],
-    "0039": [
-        "digit nine"
-    ],
-    "0039 FE0F 20E3": [
-        "tuş: 9",
-        "9",
-        "dokuz",
-        "tuş"
-    ],
-    "231A": [
-        "kol saati",
-        "saat"
-    ],
-    "231B": [
-        "kum saati",
-        "kum"
-    ],
-    "23E9": [
-        "ileri sarma düğmesi",
-        "ok",
-        "sağ",
-        "sağa çift ok"
-    ],
+    "0023": ["sayı işareti", "etiket", "hashtag", "kare", "karma", "sayı"],
+    "0023 FE0F 20E3": ["tuş: #", "tuş"],
+    "002A": ["asterisk", "joker", "yıldız"],
+    "002A FE0F 20E3": ["tuş: *", "tuş"],
+    "0030": ["digit zero"],
+    "0030 FE0F 20E3": ["tuş: 0", "0", "sıfır", "tuş"],
+    "0031": ["digit one"],
+    "0031 FE0F 20E3": ["tuş: 1", "1", "bir", "tuş"],
+    "0032": ["digit two"],
+    "0032 FE0F 20E3": ["tuş: 2", "2", "iki", "tuş"],
+    "0033": ["digit three"],
+    "0033 FE0F 20E3": ["tuş: 3", "3", "tuş", "üç"],
+    "0034": ["digit four"],
+    "0034 FE0F 20E3": ["tuş: 4", "4", "dört", "tuş"],
+    "0035": ["digit five"],
+    "0035 FE0F 20E3": ["tuş: 5", "5", "beş", "tuş"],
+    "0036": ["digit six"],
+    "0036 FE0F 20E3": ["tuş: 6", "6", "altı", "tuş"],
+    "0037": ["digit seven"],
+    "0037 FE0F 20E3": ["tuş: 7", "7", "tuş", "yedi"],
+    "0038": ["digit eight"],
+    "0038 FE0F 20E3": ["tuş: 8", "8", "sekiz", "tuş"],
+    "0039": ["digit nine"],
+    "0039 FE0F 20E3": ["tuş: 9", "9", "dokuz", "tuş"],
+    "231A": ["kol saati", "saat"],
+    "231B": ["kum saati", "kum"],
+    "23E9": ["ileri sarma düğmesi", "ok", "sağ", "sağa çift ok"],
     "23EA": [
         "hızlı geri düğmesi",
         "geri sarma düğmesi",
@@ -263,23 +124,9 @@
         "sol",
         "sola çift ok"
     ],
-    "23EB": [
-        "hızlı yukarı düğmesi",
-        "ok",
-        "yukarı",
-        "yukarı çift ok"
-    ],
-    "23EC": [
-        "hızlı aşağı düğmesi",
-        "aşağı",
-        "aşağı çift ok",
-        "ok"
-    ],
-    "23F0": [
-        "çalar saat",
-        "alarm",
-        "saat"
-    ],
+    "23EB": ["hızlı yukarı düğmesi", "ok", "yukarı", "yukarı çift ok"],
+    "23EC": ["hızlı aşağı düğmesi", "aşağı", "aşağı çift ok", "ok"],
+    "23F0": ["çalar saat", "alarm", "saat"],
     "23F3": [
         "akan kum saati",
         "kum akan kum saati",
@@ -287,17 +134,8 @@
         "sayaç",
         "zamanlayıcı"
     ],
-    "25FD": [
-        "küçük-orta beyaz kare",
-        "geometri",
-        "gri",
-        "kare"
-    ],
-    "25FE": [
-        "küçük-orta siyah kare",
-        "geometri",
-        "kare"
-    ],
+    "25FD": ["küçük-orta beyaz kare", "geometri", "gri", "kare"],
+    "25FE": ["küçük-orta siyah kare", "geometri", "kare"],
     "261D": [
         "yukarıyı gösteren işaret parmağı",
         "beden",
@@ -368,30 +206,12 @@
         "yukarı",
         "yukarıyı gösteren işaret parmağı"
     ],
-    "264A": [
-        "ikizler burcu",
-        "burçlar"
-    ],
-    "264B": [
-        "yengeç burcu",
-        "burçlar"
-    ],
-    "264C": [
-        "aslan burcu",
-        "burçlar"
-    ],
-    "264D": [
-        "başak burcu",
-        "burçlar"
-    ],
-    "264E": [
-        "terazi burcu",
-        "burçlar"
-    ],
-    "264F": [
-        "akrep burcu",
-        "burçlar"
-    ],
+    "264A": ["ikizler burcu", "burçlar"],
+    "264B": ["yengeç burcu", "burçlar"],
+    "264C": ["aslan burcu", "burçlar"],
+    "264D": ["başak burcu", "burçlar"],
+    "264E": ["terazi burcu", "burçlar"],
+    "264F": ["akrep burcu", "burçlar"],
     "267F": [
         "tekerlekli sandalye sembolü",
         "erişim",
@@ -414,29 +234,10 @@
         "yüksek voltaj işareti",
         "yüksek voltaj tehlikesi"
     ],
-    "26AA": [
-        "beyaz daire",
-        "daire",
-        "geometri"
-    ],
-    "26AB": [
-        "siyah daire",
-        "daire",
-        "geometri"
-    ],
-    "26BD": [
-        "futbol topu",
-        "futbol",
-        "spor",
-        "top",
-        "topu"
-    ],
-    "26BE": [
-        "beyzbol",
-        "beyzbol topu",
-        "spor",
-        "top"
-    ],
+    "26AA": ["beyaz daire", "daire", "geometri"],
+    "26AB": ["siyah daire", "daire", "geometri"],
+    "26BD": ["futbol topu", "futbol", "spor", "top", "topu"],
+    "26BE": ["beyzbol", "beyzbol topu", "spor", "top"],
     "26C4": [
         "kar yağmadan kardan adam",
         "kar",
@@ -453,17 +254,8 @@
         "hava",
         "parçalı bulutlu"
     ],
-    "26CE": [
-        "Yılancı",
-        "burçlar",
-        "hain",
-        "iblis",
-        "yılan",
-        "zodyak"
-    ],
-    "26D3": [
-        "zincir"
-    ],
+    "26CE": ["Yılancı", "burçlar", "hain", "iblis", "yılan", "zodyak"],
+    "26D3": ["zincir"],
     "26D3 FE0F 200D 1F4A5": [
         "zincirleri kırmak",
         "kelepçe",
@@ -474,32 +266,10 @@
         "zincir",
         "zincirler"
     ],
-    "26D4": [
-        "girilmez",
-        "girilmez işareti",
-        "hayır",
-        "işaret",
-        "yasak"
-    ],
-    "26EA": [
-        "kilise",
-        "bina",
-        "din",
-        "haç",
-        "hristiyan",
-        "papaz"
-    ],
-    "26F2": [
-        "fıskiye",
-        "çeşme",
-        "süs havuzu"
-    ],
-    "26F3": [
-        "delikteki bayrak",
-        "delik",
-        "golf",
-        "golf bayrağı"
-    ],
+    "26D4": ["girilmez", "girilmez işareti", "hayır", "işaret", "yasak"],
+    "26EA": ["kilise", "bina", "din", "haç", "hristiyan", "papaz"],
+    "26F2": ["fıskiye", "çeşme", "süs havuzu"],
+    "26F3": ["delikteki bayrak", "delik", "golf", "golf bayrağı"],
     "26F5": [
         "yelkenli tekne",
         "deniz tatil yeri",
@@ -590,11 +360,7 @@
         "top sürme",
         "vücut"
     ],
-    "26FA": [
-        "çadır",
-        "kamp",
-        "kamp yeri"
-    ],
+    "26FA": ["çadır", "kamp", "kamp yeri"],
     "26FD": [
         "akaryakıt istasyonu",
         "benzin",
@@ -606,12 +372,7 @@
         "yakıt",
         "yakıt pompası"
     ],
-    "270A": [
-        "yumruk kaldırma",
-        "el",
-        "havada yumruk",
-        "yumruk"
-    ],
+    "270A": ["yumruk kaldırma", "el", "havada yumruk", "yumruk"],
     "270A 1F3FB": [
         "yumruk kaldırma: açık cilt tonu",
         "açık cilt tonu",
@@ -710,14 +471,7 @@
         "havada el",
         "koyu cilt tonu"
     ],
-    "270C": [
-        "zafer işareti",
-        "barış",
-        "el",
-        "oleey",
-        "zafer",
-        "zafer eli"
-    ],
+    "270C": ["zafer işareti", "barış", "el", "oleey", "zafer", "zafer eli"],
     "270C 1F3FB": [
         "zafer işareti: açık cilt tonu",
         "açık cilt tonu",
@@ -768,13 +522,7 @@
         "zafer eli",
         "zafer işareti"
     ],
-    "270D": [
-        "yazı yazan el",
-        "beden",
-        "el",
-        "kalem tutma",
-        "yazma"
-    ],
+    "270D": ["yazı yazan el", "beden", "el", "kalem tutma", "yazma"],
     "270D 1F3FB": [
         "yazı yazan el: açık cilt tonu",
         "açık cilt tonu",
@@ -820,15 +568,7 @@
         "yazı yazan el",
         "yazma"
     ],
-    "274C": [
-        "çarpı işareti",
-        "×",
-        "çarpı",
-        "çarpma",
-        "iptal",
-        "işaret",
-        "x"
-    ],
+    "274C": ["çarpı işareti", "×", "çarpı", "çarpma", "iptal", "işaret", "x"],
     "274E": [
         "çarpı işareti düğmesi",
         "×",
@@ -854,41 +594,12 @@
         "iyileşen",
         "onarılan"
     ],
-    "27B0": [
-        "kıvrık döngü",
-        "döngü",
-        "dönüş"
-    ],
-    "27BF": [
-        "çift kıvrık döngü",
-        "Japonya",
-        "kıvrık döngü",
-        "ücretsiz numara"
-    ],
-    "2B1B": [
-        "büyük siyah kare",
-        "geometri",
-        "kare",
-        "siyah kare"
-    ],
-    "2B1C": [
-        "büyük beyaz kare",
-        "geometri",
-        "kare"
-    ],
-    "2B50": [
-        "yıldız",
-        "beyaz orta yıldız",
-        "gece",
-        "gökyüzü",
-        "kutup yıldızı"
-    ],
-    "2B55": [
-        "kalın kırmızı çember",
-        "çember",
-        "kalın çember",
-        "o"
-    ],
+    "27B0": ["kıvrık döngü", "döngü", "dönüş"],
+    "27BF": ["çift kıvrık döngü", "Japonya", "kıvrık döngü", "ücretsiz numara"],
+    "2B1B": ["büyük siyah kare", "geometri", "kare", "siyah kare"],
+    "2B1C": ["büyük beyaz kare", "geometri", "kare"],
+    "2B50": ["yıldız", "beyaz orta yıldız", "gece", "gökyüzü", "kutup yıldızı"],
+    "2B55": ["kalın kırmızı çember", "çember", "kalın çember", "o"],
     "1F004": [
         "kızıl ejder mahjong taşı",
         "Ejderha",
@@ -896,11 +607,7 @@
         "mahjong",
         "taş"
     ],
-    "1F0CF": [
-        "joker",
-        "iskambil kartı",
-        "kart"
-    ],
+    "1F0CF": ["joker", "iskambil kartı", "kart"],
     "1F18E": [
         "AB düğmesi (kan grubu)",
         "AB",
@@ -909,19 +616,8 @@
         "kan grubu",
         "kan grubu AB"
     ],
-    "1F191": [
-        "CL düğmesi",
-        "CL",
-        "CL işareti",
-        "sil"
-    ],
-    "1F192": [
-        "COOL düğmesi",
-        "harika",
-        "hoş",
-        "serin",
-        "serin işareti"
-    ],
+    "1F191": ["CL düğmesi", "CL", "CL işareti", "sil"],
+    "1F192": ["COOL düğmesi", "harika", "hoş", "serin", "serin işareti"],
     "1F193": [
         "FREE düğmesi",
         "bedava",
@@ -930,43 +626,12 @@
         "ücretsiz",
         "ücretsiz işareti"
     ],
-    "1F194": [
-        "ID düğmesi",
-        "işaret",
-        "kimlik",
-        "kimlik işareti"
-    ],
-    "1F195": [
-        "NEW düğmesi",
-        "işaret",
-        "yeni",
-        "Yeni işareti"
-    ],
-    "1F196": [
-        "NG düğmesi",
-        "işaret",
-        "ng",
-        "NG işareti"
-    ],
-    "1F197": [
-        "OK düğmesi",
-        "OK işareti",
-        "tamam",
-        "tamam işareti"
-    ],
-    "1F198": [
-        "SOS düğmesi",
-        "işaret",
-        "SOS",
-        "SOS işareti",
-        "Yardım"
-    ],
-    "1F199": [
-        "UP! düğmesi",
-        "işaret",
-        "YUKARI!",
-        "YUKARI! işareti"
-    ],
+    "1F194": ["ID düğmesi", "işaret", "kimlik", "kimlik işareti"],
+    "1F195": ["NEW düğmesi", "işaret", "yeni", "Yeni işareti"],
+    "1F196": ["NG düğmesi", "işaret", "ng", "NG işareti"],
+    "1F197": ["OK düğmesi", "OK işareti", "tamam", "tamam işareti"],
+    "1F198": ["SOS düğmesi", "işaret", "SOS", "SOS işareti", "Yardım"],
+    "1F199": ["UP! düğmesi", "işaret", "YUKARI!", "YUKARI! işareti"],
     "1F19A": [
         "VS düğmesi",
         "işaret",
@@ -974,1120 +639,294 @@
         "karşılaştırma işareti",
         "vs"
     ],
-    "1F1E6": [
-        "regional indicator symbol letter a"
-    ],
-    "1F1E6 1F1E8": [
-        "bayrak: Ascension Adası",
-        "bayrak"
-    ],
-    "1F1E6 1F1E9": [
-        "bayrak: Andorra",
-        "bayrak"
-    ],
-    "1F1E6 1F1EA": [
-        "bayrak: Birleşik Arap Emirlikleri",
-        "bayrak"
-    ],
-    "1F1E6 1F1EB": [
-        "bayrak: Afganistan",
-        "bayrak"
-    ],
-    "1F1E6 1F1EC": [
-        "bayrak: Antigua ve Barbuda",
-        "bayrak"
-    ],
-    "1F1E6 1F1EE": [
-        "bayrak: Anguilla",
-        "bayrak"
-    ],
-    "1F1E6 1F1F1": [
-        "bayrak: Arnavutluk",
-        "bayrak"
-    ],
-    "1F1E6 1F1F2": [
-        "bayrak: Ermenistan",
-        "bayrak"
-    ],
-    "1F1E6 1F1F4": [
-        "bayrak: Angola",
-        "bayrak"
-    ],
-    "1F1E6 1F1F6": [
-        "bayrak: Antarktika",
-        "bayrak"
-    ],
-    "1F1E6 1F1F7": [
-        "bayrak: Arjantin",
-        "bayrak"
-    ],
-    "1F1E6 1F1F8": [
-        "bayrak: Amerikan Samoası",
-        "bayrak"
-    ],
-    "1F1E6 1F1F9": [
-        "bayrak: Avusturya",
-        "bayrak"
-    ],
-    "1F1E6 1F1FA": [
-        "bayrak: Avustralya",
-        "bayrak"
-    ],
-    "1F1E6 1F1FC": [
-        "bayrak: Aruba",
-        "bayrak"
-    ],
-    "1F1E6 1F1FD": [
-        "bayrak: Åland Adaları",
-        "bayrak"
-    ],
-    "1F1E6 1F1FF": [
-        "bayrak: Azerbaycan",
-        "bayrak"
-    ],
-    "1F1E7": [
-        "regional indicator symbol letter b"
-    ],
-    "1F1E7 1F1E6": [
-        "bayrak: Bosna-Hersek",
-        "bayrak"
-    ],
-    "1F1E7 1F1E7": [
-        "bayrak: Barbados",
-        "bayrak"
-    ],
-    "1F1E7 1F1E9": [
-        "bayrak: Bangladeş",
-        "bayrak"
-    ],
-    "1F1E7 1F1EA": [
-        "bayrak: Belçika",
-        "bayrak"
-    ],
-    "1F1E7 1F1EB": [
-        "bayrak: Burkina Faso",
-        "bayrak"
-    ],
-    "1F1E7 1F1EC": [
-        "bayrak: Bulgaristan",
-        "bayrak"
-    ],
-    "1F1E7 1F1ED": [
-        "bayrak: Bahreyn",
-        "bayrak"
-    ],
-    "1F1E7 1F1EE": [
-        "bayrak: Burundi",
-        "bayrak"
-    ],
-    "1F1E7 1F1EF": [
-        "bayrak: Benin",
-        "bayrak"
-    ],
-    "1F1E7 1F1F1": [
-        "bayrak: Saint Barthelemy",
-        "bayrak"
-    ],
-    "1F1E7 1F1F2": [
-        "bayrak: Bermuda",
-        "bayrak"
-    ],
-    "1F1E7 1F1F3": [
-        "bayrak: Brunei",
-        "bayrak"
-    ],
-    "1F1E7 1F1F4": [
-        "bayrak: Bolivya",
-        "bayrak"
-    ],
-    "1F1E7 1F1F6": [
-        "bayrak: Karayip Hollandası",
-        "bayrak"
-    ],
-    "1F1E7 1F1F7": [
-        "bayrak: Brezilya",
-        "bayrak"
-    ],
-    "1F1E7 1F1F8": [
-        "bayrak: Bahamalar",
-        "bayrak"
-    ],
-    "1F1E7 1F1F9": [
-        "bayrak: Butan",
-        "bayrak"
-    ],
-    "1F1E7 1F1FB": [
-        "bayrak: Bouvet Adası",
-        "bayrak"
-    ],
-    "1F1E7 1F1FC": [
-        "bayrak: Botsvana",
-        "bayrak"
-    ],
-    "1F1E7 1F1FE": [
-        "bayrak: Belarus",
-        "bayrak"
-    ],
-    "1F1E7 1F1FF": [
-        "bayrak: Belize",
-        "bayrak"
-    ],
-    "1F1E8": [
-        "regional indicator symbol letter c"
-    ],
-    "1F1E8 1F1E6": [
-        "bayrak: Kanada",
-        "bayrak"
-    ],
-    "1F1E8 1F1E8": [
-        "bayrak: Cocos (Keeling) Adaları",
-        "bayrak"
-    ],
-    "1F1E8 1F1E9": [
-        "bayrak: Kongo - Kinşasa",
-        "bayrak"
-    ],
-    "1F1E8 1F1EB": [
-        "bayrak: Orta Afrika Cumhuriyeti",
-        "bayrak"
-    ],
-    "1F1E8 1F1EC": [
-        "bayrak: Kongo - Brazavil",
-        "bayrak"
-    ],
-    "1F1E8 1F1ED": [
-        "bayrak: İsviçre",
-        "bayrak"
-    ],
-    "1F1E8 1F1EE": [
-        "bayrak: Côte d’Ivoire",
-        "bayrak"
-    ],
-    "1F1E8 1F1F0": [
-        "bayrak: Cook Adaları",
-        "bayrak"
-    ],
-    "1F1E8 1F1F1": [
-        "bayrak: Şili",
-        "bayrak"
-    ],
-    "1F1E8 1F1F2": [
-        "bayrak: Kamerun",
-        "bayrak"
-    ],
-    "1F1E8 1F1F3": [
-        "bayrak: Çin",
-        "bayrak"
-    ],
-    "1F1E8 1F1F4": [
-        "bayrak: Kolombiya",
-        "bayrak"
-    ],
-    "1F1E8 1F1F5": [
-        "bayrak: Clipperton Adası",
-        "bayrak"
-    ],
-    "1F1E8 1F1F6": [
-        "bayrak: Sark",
-        "bayrak"
-    ],
-    "1F1E8 1F1F7": [
-        "bayrak: Kosta Rika",
-        "bayrak"
-    ],
-    "1F1E8 1F1FA": [
-        "bayrak: Küba",
-        "bayrak"
-    ],
-    "1F1E8 1F1FB": [
-        "bayrak: Cabo Verde",
-        "bayrak"
-    ],
-    "1F1E8 1F1FC": [
-        "bayrak: Curaçao",
-        "bayrak"
-    ],
-    "1F1E8 1F1FD": [
-        "bayrak: Christmas Adası",
-        "bayrak"
-    ],
-    "1F1E8 1F1FE": [
-        "bayrak: Kıbrıs",
-        "bayrak"
-    ],
-    "1F1E8 1F1FF": [
-        "bayrak: Çekya",
-        "bayrak"
-    ],
-    "1F1E9": [
-        "regional indicator symbol letter d"
-    ],
-    "1F1E9 1F1EA": [
-        "bayrak: Almanya",
-        "bayrak"
-    ],
-    "1F1E9 1F1EC": [
-        "bayrak: Diego Garcia",
-        "bayrak"
-    ],
-    "1F1E9 1F1EF": [
-        "bayrak: Cibuti",
-        "bayrak"
-    ],
-    "1F1E9 1F1F0": [
-        "bayrak: Danimarka",
-        "bayrak"
-    ],
-    "1F1E9 1F1F2": [
-        "bayrak: Dominika",
-        "bayrak"
-    ],
-    "1F1E9 1F1F4": [
-        "bayrak: Dominik Cumhuriyeti",
-        "bayrak"
-    ],
-    "1F1E9 1F1FF": [
-        "bayrak: Cezayir",
-        "bayrak"
-    ],
-    "1F1EA": [
-        "regional indicator symbol letter e"
-    ],
-    "1F1EA 1F1E6": [
-        "bayrak: Ceuta ve Melilla",
-        "bayrak"
-    ],
-    "1F1EA 1F1E8": [
-        "bayrak: Ekvador",
-        "bayrak"
-    ],
-    "1F1EA 1F1EA": [
-        "bayrak: Estonya",
-        "bayrak"
-    ],
-    "1F1EA 1F1EC": [
-        "bayrak: Mısır",
-        "bayrak"
-    ],
-    "1F1EA 1F1ED": [
-        "bayrak: Batı Sahra",
-        "bayrak"
-    ],
-    "1F1EA 1F1F7": [
-        "bayrak: Eritre",
-        "bayrak"
-    ],
-    "1F1EA 1F1F8": [
-        "bayrak: İspanya",
-        "bayrak"
-    ],
-    "1F1EA 1F1F9": [
-        "bayrak: Etiyopya",
-        "bayrak"
-    ],
-    "1F1EA 1F1FA": [
-        "bayrak: Avrupa Birliği",
-        "bayrak"
-    ],
-    "1F1EB": [
-        "regional indicator symbol letter f"
-    ],
-    "1F1EB 1F1EE": [
-        "bayrak: Finlandiya",
-        "bayrak"
-    ],
-    "1F1EB 1F1EF": [
-        "bayrak: Fiji",
-        "bayrak"
-    ],
-    "1F1EB 1F1F0": [
-        "bayrak: Falkland Adaları",
-        "bayrak"
-    ],
-    "1F1EB 1F1F2": [
-        "bayrak: Mikronezya",
-        "bayrak"
-    ],
-    "1F1EB 1F1F4": [
-        "bayrak: Faroe Adaları",
-        "bayrak"
-    ],
-    "1F1EB 1F1F7": [
-        "bayrak: Fransa",
-        "bayrak"
-    ],
-    "1F1EC": [
-        "regional indicator symbol letter g"
-    ],
-    "1F1EC 1F1E6": [
-        "bayrak: Gabon",
-        "bayrak"
-    ],
-    "1F1EC 1F1E7": [
-        "bayrak: Birleşik Krallık",
-        "bayrak"
-    ],
-    "1F1EC 1F1E9": [
-        "bayrak: Grenada",
-        "bayrak"
-    ],
-    "1F1EC 1F1EA": [
-        "bayrak: Gürcistan",
-        "bayrak"
-    ],
-    "1F1EC 1F1EB": [
-        "bayrak: Fransız Guyanası",
-        "bayrak"
-    ],
-    "1F1EC 1F1EC": [
-        "bayrak: Guernsey",
-        "bayrak"
-    ],
-    "1F1EC 1F1ED": [
-        "bayrak: Gana",
-        "bayrak"
-    ],
-    "1F1EC 1F1EE": [
-        "bayrak: Cebelitarık",
-        "bayrak"
-    ],
-    "1F1EC 1F1F1": [
-        "bayrak: Grönland",
-        "bayrak"
-    ],
-    "1F1EC 1F1F2": [
-        "bayrak: Gambiya",
-        "bayrak"
-    ],
-    "1F1EC 1F1F3": [
-        "bayrak: Gine",
-        "bayrak"
-    ],
-    "1F1EC 1F1F5": [
-        "bayrak: Guadeloupe",
-        "bayrak"
-    ],
-    "1F1EC 1F1F6": [
-        "bayrak: Ekvator Ginesi",
-        "bayrak"
-    ],
-    "1F1EC 1F1F7": [
-        "bayrak: Yunanistan",
-        "bayrak"
-    ],
+    "1F1E6": ["regional indicator symbol letter a"],
+    "1F1E6 1F1E8": ["bayrak: Ascension Adası", "bayrak"],
+    "1F1E6 1F1E9": ["bayrak: Andorra", "bayrak"],
+    "1F1E6 1F1EA": ["bayrak: Birleşik Arap Emirlikleri", "bayrak"],
+    "1F1E6 1F1EB": ["bayrak: Afganistan", "bayrak"],
+    "1F1E6 1F1EC": ["bayrak: Antigua ve Barbuda", "bayrak"],
+    "1F1E6 1F1EE": ["bayrak: Anguilla", "bayrak"],
+    "1F1E6 1F1F1": ["bayrak: Arnavutluk", "bayrak"],
+    "1F1E6 1F1F2": ["bayrak: Ermenistan", "bayrak"],
+    "1F1E6 1F1F4": ["bayrak: Angola", "bayrak"],
+    "1F1E6 1F1F6": ["bayrak: Antarktika", "bayrak"],
+    "1F1E6 1F1F7": ["bayrak: Arjantin", "bayrak"],
+    "1F1E6 1F1F8": ["bayrak: Amerikan Samoası", "bayrak"],
+    "1F1E6 1F1F9": ["bayrak: Avusturya", "bayrak"],
+    "1F1E6 1F1FA": ["bayrak: Avustralya", "bayrak"],
+    "1F1E6 1F1FC": ["bayrak: Aruba", "bayrak"],
+    "1F1E6 1F1FD": ["bayrak: Åland Adaları", "bayrak"],
+    "1F1E6 1F1FF": ["bayrak: Azerbaycan", "bayrak"],
+    "1F1E7": ["regional indicator symbol letter b"],
+    "1F1E7 1F1E6": ["bayrak: Bosna-Hersek", "bayrak"],
+    "1F1E7 1F1E7": ["bayrak: Barbados", "bayrak"],
+    "1F1E7 1F1E9": ["bayrak: Bangladeş", "bayrak"],
+    "1F1E7 1F1EA": ["bayrak: Belçika", "bayrak"],
+    "1F1E7 1F1EB": ["bayrak: Burkina Faso", "bayrak"],
+    "1F1E7 1F1EC": ["bayrak: Bulgaristan", "bayrak"],
+    "1F1E7 1F1ED": ["bayrak: Bahreyn", "bayrak"],
+    "1F1E7 1F1EE": ["bayrak: Burundi", "bayrak"],
+    "1F1E7 1F1EF": ["bayrak: Benin", "bayrak"],
+    "1F1E7 1F1F1": ["bayrak: Saint Barthelemy", "bayrak"],
+    "1F1E7 1F1F2": ["bayrak: Bermuda", "bayrak"],
+    "1F1E7 1F1F3": ["bayrak: Brunei", "bayrak"],
+    "1F1E7 1F1F4": ["bayrak: Bolivya", "bayrak"],
+    "1F1E7 1F1F6": ["bayrak: Karayip Hollandası", "bayrak"],
+    "1F1E7 1F1F7": ["bayrak: Brezilya", "bayrak"],
+    "1F1E7 1F1F8": ["bayrak: Bahamalar", "bayrak"],
+    "1F1E7 1F1F9": ["bayrak: Butan", "bayrak"],
+    "1F1E7 1F1FB": ["bayrak: Bouvet Adası", "bayrak"],
+    "1F1E7 1F1FC": ["bayrak: Botsvana", "bayrak"],
+    "1F1E7 1F1FE": ["bayrak: Belarus", "bayrak"],
+    "1F1E7 1F1FF": ["bayrak: Belize", "bayrak"],
+    "1F1E8": ["regional indicator symbol letter c"],
+    "1F1E8 1F1E6": ["bayrak: Kanada", "bayrak"],
+    "1F1E8 1F1E8": ["bayrak: Cocos (Keeling) Adaları", "bayrak"],
+    "1F1E8 1F1E9": ["bayrak: Kongo - Kinşasa", "bayrak"],
+    "1F1E8 1F1EB": ["bayrak: Orta Afrika Cumhuriyeti", "bayrak"],
+    "1F1E8 1F1EC": ["bayrak: Kongo - Brazavil", "bayrak"],
+    "1F1E8 1F1ED": ["bayrak: İsviçre", "bayrak"],
+    "1F1E8 1F1EE": ["bayrak: Côte d’Ivoire", "bayrak"],
+    "1F1E8 1F1F0": ["bayrak: Cook Adaları", "bayrak"],
+    "1F1E8 1F1F1": ["bayrak: Şili", "bayrak"],
+    "1F1E8 1F1F2": ["bayrak: Kamerun", "bayrak"],
+    "1F1E8 1F1F3": ["bayrak: Çin", "bayrak"],
+    "1F1E8 1F1F4": ["bayrak: Kolombiya", "bayrak"],
+    "1F1E8 1F1F5": ["bayrak: Clipperton Adası", "bayrak"],
+    "1F1E8 1F1F6": ["bayrak: Sark", "bayrak"],
+    "1F1E8 1F1F7": ["bayrak: Kosta Rika", "bayrak"],
+    "1F1E8 1F1FA": ["bayrak: Küba", "bayrak"],
+    "1F1E8 1F1FB": ["bayrak: Cabo Verde", "bayrak"],
+    "1F1E8 1F1FC": ["bayrak: Curaçao", "bayrak"],
+    "1F1E8 1F1FD": ["bayrak: Christmas Adası", "bayrak"],
+    "1F1E8 1F1FE": ["bayrak: Kıbrıs", "bayrak"],
+    "1F1E8 1F1FF": ["bayrak: Çekya", "bayrak"],
+    "1F1E9": ["regional indicator symbol letter d"],
+    "1F1E9 1F1EA": ["bayrak: Almanya", "bayrak"],
+    "1F1E9 1F1EC": ["bayrak: Diego Garcia", "bayrak"],
+    "1F1E9 1F1EF": ["bayrak: Cibuti", "bayrak"],
+    "1F1E9 1F1F0": ["bayrak: Danimarka", "bayrak"],
+    "1F1E9 1F1F2": ["bayrak: Dominika", "bayrak"],
+    "1F1E9 1F1F4": ["bayrak: Dominik Cumhuriyeti", "bayrak"],
+    "1F1E9 1F1FF": ["bayrak: Cezayir", "bayrak"],
+    "1F1EA": ["regional indicator symbol letter e"],
+    "1F1EA 1F1E6": ["bayrak: Ceuta ve Melilla", "bayrak"],
+    "1F1EA 1F1E8": ["bayrak: Ekvador", "bayrak"],
+    "1F1EA 1F1EA": ["bayrak: Estonya", "bayrak"],
+    "1F1EA 1F1EC": ["bayrak: Mısır", "bayrak"],
+    "1F1EA 1F1ED": ["bayrak: Batı Sahra", "bayrak"],
+    "1F1EA 1F1F7": ["bayrak: Eritre", "bayrak"],
+    "1F1EA 1F1F8": ["bayrak: İspanya", "bayrak"],
+    "1F1EA 1F1F9": ["bayrak: Etiyopya", "bayrak"],
+    "1F1EA 1F1FA": ["bayrak: Avrupa Birliği", "bayrak"],
+    "1F1EB": ["regional indicator symbol letter f"],
+    "1F1EB 1F1EE": ["bayrak: Finlandiya", "bayrak"],
+    "1F1EB 1F1EF": ["bayrak: Fiji", "bayrak"],
+    "1F1EB 1F1F0": ["bayrak: Falkland Adaları", "bayrak"],
+    "1F1EB 1F1F2": ["bayrak: Mikronezya", "bayrak"],
+    "1F1EB 1F1F4": ["bayrak: Faroe Adaları", "bayrak"],
+    "1F1EB 1F1F7": ["bayrak: Fransa", "bayrak"],
+    "1F1EC": ["regional indicator symbol letter g"],
+    "1F1EC 1F1E6": ["bayrak: Gabon", "bayrak"],
+    "1F1EC 1F1E7": ["bayrak: Birleşik Krallık", "bayrak"],
+    "1F1EC 1F1E9": ["bayrak: Grenada", "bayrak"],
+    "1F1EC 1F1EA": ["bayrak: Gürcistan", "bayrak"],
+    "1F1EC 1F1EB": ["bayrak: Fransız Guyanası", "bayrak"],
+    "1F1EC 1F1EC": ["bayrak: Guernsey", "bayrak"],
+    "1F1EC 1F1ED": ["bayrak: Gana", "bayrak"],
+    "1F1EC 1F1EE": ["bayrak: Cebelitarık", "bayrak"],
+    "1F1EC 1F1F1": ["bayrak: Grönland", "bayrak"],
+    "1F1EC 1F1F2": ["bayrak: Gambiya", "bayrak"],
+    "1F1EC 1F1F3": ["bayrak: Gine", "bayrak"],
+    "1F1EC 1F1F5": ["bayrak: Guadeloupe", "bayrak"],
+    "1F1EC 1F1F6": ["bayrak: Ekvator Ginesi", "bayrak"],
+    "1F1EC 1F1F7": ["bayrak: Yunanistan", "bayrak"],
     "1F1EC 1F1F8": [
         "bayrak: Güney Georgia ve Güney Sandwich Adaları",
         "bayrak"
     ],
-    "1F1EC 1F1F9": [
-        "bayrak: Guatemala",
-        "bayrak"
-    ],
-    "1F1EC 1F1FA": [
-        "bayrak: Guam",
-        "bayrak"
-    ],
-    "1F1EC 1F1FC": [
-        "bayrak: Gine-Bissau",
-        "bayrak"
-    ],
-    "1F1EC 1F1FE": [
-        "bayrak: Guyana",
-        "bayrak"
-    ],
-    "1F1ED": [
-        "regional indicator symbol letter h"
-    ],
-    "1F1ED 1F1F0": [
-        "bayrak: Çin Hong Kong ÖİB",
-        "bayrak"
-    ],
-    "1F1ED 1F1F2": [
-        "bayrak: Heard Adası ve McDonald Adaları",
-        "bayrak"
-    ],
-    "1F1ED 1F1F3": [
-        "bayrak: Honduras",
-        "bayrak"
-    ],
-    "1F1ED 1F1F7": [
-        "bayrak: Hırvatistan",
-        "bayrak"
-    ],
-    "1F1ED 1F1F9": [
-        "bayrak: Haiti",
-        "bayrak"
-    ],
-    "1F1ED 1F1FA": [
-        "bayrak: Macaristan",
-        "bayrak"
-    ],
-    "1F1EE": [
-        "regional indicator symbol letter i"
-    ],
-    "1F1EE 1F1E8": [
-        "bayrak: Kanarya Adaları",
-        "bayrak"
-    ],
-    "1F1EE 1F1E9": [
-        "bayrak: Endonezya",
-        "bayrak"
-    ],
-    "1F1EE 1F1EA": [
-        "bayrak: İrlanda",
-        "bayrak"
-    ],
-    "1F1EE 1F1F1": [
-        "bayrak: İsrail",
-        "bayrak"
-    ],
-    "1F1EE 1F1F2": [
-        "bayrak: Man Adası",
-        "bayrak"
-    ],
-    "1F1EE 1F1F3": [
-        "bayrak: Hindistan",
-        "bayrak"
-    ],
-    "1F1EE 1F1F4": [
-        "bayrak: Britanya Hint Okyanusu Toprakları",
-        "bayrak"
-    ],
-    "1F1EE 1F1F6": [
-        "bayrak: Irak",
-        "bayrak"
-    ],
-    "1F1EE 1F1F7": [
-        "bayrak: İran",
-        "bayrak"
-    ],
-    "1F1EE 1F1F8": [
-        "bayrak: İzlanda",
-        "bayrak"
-    ],
-    "1F1EE 1F1F9": [
-        "bayrak: İtalya",
-        "bayrak"
-    ],
-    "1F1EF": [
-        "regional indicator symbol letter j"
-    ],
-    "1F1EF 1F1EA": [
-        "bayrak: Jersey",
-        "bayrak"
-    ],
-    "1F1EF 1F1F2": [
-        "bayrak: Jamaika",
-        "bayrak"
-    ],
-    "1F1EF 1F1F4": [
-        "bayrak: Ürdün",
-        "bayrak"
-    ],
-    "1F1EF 1F1F5": [
-        "bayrak: Japonya",
-        "bayrak"
-    ],
-    "1F1F0": [
-        "regional indicator symbol letter k"
-    ],
-    "1F1F0 1F1EA": [
-        "bayrak: Kenya",
-        "bayrak"
-    ],
-    "1F1F0 1F1EC": [
-        "bayrak: Kırgızistan",
-        "bayrak"
-    ],
-    "1F1F0 1F1ED": [
-        "bayrak: Kamboçya",
-        "bayrak"
-    ],
-    "1F1F0 1F1EE": [
-        "bayrak: Kiribati",
-        "bayrak"
-    ],
-    "1F1F0 1F1F2": [
-        "bayrak: Komorlar",
-        "bayrak"
-    ],
-    "1F1F0 1F1F3": [
-        "bayrak: Saint Kitts ve Nevis",
-        "bayrak"
-    ],
-    "1F1F0 1F1F5": [
-        "bayrak: Kuzey Kore",
-        "bayrak"
-    ],
-    "1F1F0 1F1F7": [
-        "bayrak: Güney Kore",
-        "bayrak"
-    ],
-    "1F1F0 1F1FC": [
-        "bayrak: Kuveyt",
-        "bayrak"
-    ],
-    "1F1F0 1F1FE": [
-        "bayrak: Cayman Adaları",
-        "bayrak"
-    ],
-    "1F1F0 1F1FF": [
-        "bayrak: Kazakistan",
-        "bayrak"
-    ],
-    "1F1F1": [
-        "regional indicator symbol letter l"
-    ],
-    "1F1F1 1F1E6": [
-        "bayrak: Laos",
-        "bayrak"
-    ],
-    "1F1F1 1F1E7": [
-        "bayrak: Lübnan",
-        "bayrak"
-    ],
-    "1F1F1 1F1E8": [
-        "bayrak: Saint Lucia",
-        "bayrak"
-    ],
-    "1F1F1 1F1EE": [
-        "bayrak: Liechtenstein",
-        "bayrak"
-    ],
-    "1F1F1 1F1F0": [
-        "bayrak: Sri Lanka",
-        "bayrak"
-    ],
-    "1F1F1 1F1F7": [
-        "bayrak: Liberya",
-        "bayrak"
-    ],
-    "1F1F1 1F1F8": [
-        "bayrak: Lesotho",
-        "bayrak"
-    ],
-    "1F1F1 1F1F9": [
-        "bayrak: Litvanya",
-        "bayrak"
-    ],
-    "1F1F1 1F1FA": [
-        "bayrak: Lüksemburg",
-        "bayrak"
-    ],
-    "1F1F1 1F1FB": [
-        "bayrak: Letonya",
-        "bayrak"
-    ],
-    "1F1F1 1F1FE": [
-        "bayrak: Libya",
-        "bayrak"
-    ],
-    "1F1F2": [
-        "regional indicator symbol letter m"
-    ],
-    "1F1F2 1F1E6": [
-        "bayrak: Fas",
-        "bayrak"
-    ],
-    "1F1F2 1F1E8": [
-        "bayrak: Monako",
-        "bayrak"
-    ],
-    "1F1F2 1F1E9": [
-        "bayrak: Moldova",
-        "bayrak"
-    ],
-    "1F1F2 1F1EA": [
-        "bayrak: Karadağ",
-        "bayrak"
-    ],
-    "1F1F2 1F1EB": [
-        "bayrak: Saint Martin",
-        "bayrak"
-    ],
-    "1F1F2 1F1EC": [
-        "bayrak: Madagaskar",
-        "bayrak"
-    ],
-    "1F1F2 1F1ED": [
-        "bayrak: Marshall Adaları",
-        "bayrak"
-    ],
-    "1F1F2 1F1F0": [
-        "bayrak: Kuzey Makedonya",
-        "bayrak"
-    ],
-    "1F1F2 1F1F1": [
-        "bayrak: Mali",
-        "bayrak"
-    ],
-    "1F1F2 1F1F2": [
-        "bayrak: Myanmar (Burma)",
-        "bayrak"
-    ],
-    "1F1F2 1F1F3": [
-        "bayrak: Moğolistan",
-        "bayrak"
-    ],
-    "1F1F2 1F1F4": [
-        "bayrak: Çin Makao ÖİB",
-        "bayrak"
-    ],
-    "1F1F2 1F1F5": [
-        "bayrak: Kuzey Mariana Adaları",
-        "bayrak"
-    ],
-    "1F1F2 1F1F6": [
-        "bayrak: Martinik",
-        "bayrak"
-    ],
-    "1F1F2 1F1F7": [
-        "bayrak: Moritanya",
-        "bayrak"
-    ],
-    "1F1F2 1F1F8": [
-        "bayrak: Montserrat",
-        "bayrak"
-    ],
-    "1F1F2 1F1F9": [
-        "bayrak: Malta",
-        "bayrak"
-    ],
-    "1F1F2 1F1FA": [
-        "bayrak: Mauritius",
-        "bayrak"
-    ],
-    "1F1F2 1F1FB": [
-        "bayrak: Maldivler",
-        "bayrak"
-    ],
-    "1F1F2 1F1FC": [
-        "bayrak: Malavi",
-        "bayrak"
-    ],
-    "1F1F2 1F1FD": [
-        "bayrak: Meksika",
-        "bayrak"
-    ],
-    "1F1F2 1F1FE": [
-        "bayrak: Malezya",
-        "bayrak"
-    ],
-    "1F1F2 1F1FF": [
-        "bayrak: Mozambik",
-        "bayrak"
-    ],
-    "1F1F3": [
-        "regional indicator symbol letter n"
-    ],
-    "1F1F3 1F1E6": [
-        "bayrak: Namibya",
-        "bayrak"
-    ],
-    "1F1F3 1F1E8": [
-        "bayrak: Yeni Kaledonya",
-        "bayrak"
-    ],
-    "1F1F3 1F1EA": [
-        "bayrak: Nijer",
-        "bayrak"
-    ],
-    "1F1F3 1F1EB": [
-        "bayrak: Norfolk Adası",
-        "bayrak"
-    ],
-    "1F1F3 1F1EC": [
-        "bayrak: Nijerya",
-        "bayrak"
-    ],
-    "1F1F3 1F1EE": [
-        "bayrak: Nikaragua",
-        "bayrak"
-    ],
-    "1F1F3 1F1F1": [
-        "bayrak: Hollanda",
-        "bayrak"
-    ],
-    "1F1F3 1F1F4": [
-        "bayrak: Norveç",
-        "bayrak"
-    ],
-    "1F1F3 1F1F5": [
-        "bayrak: Nepal",
-        "bayrak"
-    ],
-    "1F1F3 1F1F7": [
-        "bayrak: Nauru",
-        "bayrak"
-    ],
-    "1F1F3 1F1FA": [
-        "bayrak: Niue",
-        "bayrak"
-    ],
-    "1F1F3 1F1FF": [
-        "bayrak: Yeni Zelanda",
-        "bayrak"
-    ],
-    "1F1F4": [
-        "regional indicator symbol letter o"
-    ],
-    "1F1F4 1F1F2": [
-        "bayrak: Umman",
-        "bayrak"
-    ],
-    "1F1F5": [
-        "regional indicator symbol letter p"
-    ],
-    "1F1F5 1F1E6": [
-        "bayrak: Panama",
-        "bayrak"
-    ],
-    "1F1F5 1F1EA": [
-        "bayrak: Peru",
-        "bayrak"
-    ],
-    "1F1F5 1F1EB": [
-        "bayrak: Fransız Polinezyası",
-        "bayrak"
-    ],
-    "1F1F5 1F1EC": [
-        "bayrak: Papua Yeni Gine",
-        "bayrak"
-    ],
-    "1F1F5 1F1ED": [
-        "bayrak: Filipinler",
-        "bayrak"
-    ],
-    "1F1F5 1F1F0": [
-        "bayrak: Pakistan",
-        "bayrak"
-    ],
-    "1F1F5 1F1F1": [
-        "bayrak: Polonya",
-        "bayrak"
-    ],
-    "1F1F5 1F1F2": [
-        "bayrak: Saint Pierre ve Miquelon",
-        "bayrak"
-    ],
-    "1F1F5 1F1F3": [
-        "bayrak: Pitcairn Adaları",
-        "bayrak"
-    ],
-    "1F1F5 1F1F7": [
-        "bayrak: Porto Riko",
-        "bayrak"
-    ],
-    "1F1F5 1F1F8": [
-        "bayrak: Filistin Bölgeleri",
-        "bayrak"
-    ],
-    "1F1F5 1F1F9": [
-        "bayrak: Portekiz",
-        "bayrak"
-    ],
-    "1F1F5 1F1FC": [
-        "bayrak: Palau",
-        "bayrak"
-    ],
-    "1F1F5 1F1FE": [
-        "bayrak: Paraguay",
-        "bayrak"
-    ],
-    "1F1F6": [
-        "regional indicator symbol letter q"
-    ],
-    "1F1F6 1F1E6": [
-        "bayrak: Katar",
-        "bayrak"
-    ],
-    "1F1F7": [
-        "regional indicator symbol letter r"
-    ],
-    "1F1F7 1F1EA": [
-        "bayrak: Reunion",
-        "bayrak"
-    ],
-    "1F1F7 1F1F4": [
-        "bayrak: Romanya",
-        "bayrak"
-    ],
-    "1F1F7 1F1F8": [
-        "bayrak: Sırbistan",
-        "bayrak"
-    ],
-    "1F1F7 1F1FA": [
-        "bayrak: Rusya",
-        "bayrak"
-    ],
-    "1F1F7 1F1FC": [
-        "bayrak: Ruanda",
-        "bayrak"
-    ],
-    "1F1F8": [
-        "regional indicator symbol letter s"
-    ],
-    "1F1F8 1F1E6": [
-        "bayrak: Suudi Arabistan",
-        "bayrak"
-    ],
-    "1F1F8 1F1E7": [
-        "bayrak: Solomon Adaları",
-        "bayrak"
-    ],
-    "1F1F8 1F1E8": [
-        "bayrak: Seyşeller",
-        "bayrak"
-    ],
-    "1F1F8 1F1E9": [
-        "bayrak: Sudan",
-        "bayrak"
-    ],
-    "1F1F8 1F1EA": [
-        "bayrak: İsveç",
-        "bayrak"
-    ],
-    "1F1F8 1F1EC": [
-        "bayrak: Singapur",
-        "bayrak"
-    ],
-    "1F1F8 1F1ED": [
-        "bayrak: Saint Helena",
-        "bayrak"
-    ],
-    "1F1F8 1F1EE": [
-        "bayrak: Slovenya",
-        "bayrak"
-    ],
-    "1F1F8 1F1EF": [
-        "bayrak: Svalbard ve Jan Mayen",
-        "bayrak"
-    ],
-    "1F1F8 1F1F0": [
-        "bayrak: Slovakya",
-        "bayrak"
-    ],
-    "1F1F8 1F1F1": [
-        "bayrak: Sierra Leone",
-        "bayrak"
-    ],
-    "1F1F8 1F1F2": [
-        "bayrak: San Marino",
-        "bayrak"
-    ],
-    "1F1F8 1F1F3": [
-        "bayrak: Senegal",
-        "bayrak"
-    ],
-    "1F1F8 1F1F4": [
-        "bayrak: Somali",
-        "bayrak"
-    ],
-    "1F1F8 1F1F7": [
-        "bayrak: Surinam",
-        "bayrak"
-    ],
-    "1F1F8 1F1F8": [
-        "bayrak: Güney Sudan",
-        "bayrak"
-    ],
-    "1F1F8 1F1F9": [
-        "bayrak: Sao Tome ve Principe",
-        "bayrak"
-    ],
-    "1F1F8 1F1FB": [
-        "bayrak: El Salvador",
-        "bayrak"
-    ],
-    "1F1F8 1F1FD": [
-        "bayrak: Sint Maarten",
-        "bayrak"
-    ],
-    "1F1F8 1F1FE": [
-        "bayrak: Suriye",
-        "bayrak"
-    ],
-    "1F1F8 1F1FF": [
-        "bayrak: Esvatini",
-        "bayrak"
-    ],
-    "1F1F9": [
-        "regional indicator symbol letter t"
-    ],
-    "1F1F9 1F1E6": [
-        "bayrak: Tristan da Cunha",
-        "bayrak"
-    ],
-    "1F1F9 1F1E8": [
-        "bayrak: Turks ve Caicos Adaları",
-        "bayrak"
-    ],
-    "1F1F9 1F1E9": [
-        "bayrak: Çad",
-        "bayrak"
-    ],
-    "1F1F9 1F1EB": [
-        "bayrak: Fransız Güney Toprakları",
-        "bayrak"
-    ],
-    "1F1F9 1F1EC": [
-        "bayrak: Togo",
-        "bayrak"
-    ],
-    "1F1F9 1F1ED": [
-        "bayrak: Tayland",
-        "bayrak"
-    ],
-    "1F1F9 1F1EF": [
-        "bayrak: Tacikistan",
-        "bayrak"
-    ],
-    "1F1F9 1F1F0": [
-        "bayrak: Tokelau",
-        "bayrak"
-    ],
-    "1F1F9 1F1F1": [
-        "bayrak: Timor-Leste",
-        "bayrak"
-    ],
-    "1F1F9 1F1F2": [
-        "bayrak: Türkmenistan",
-        "bayrak"
-    ],
-    "1F1F9 1F1F3": [
-        "bayrak: Tunus",
-        "bayrak"
-    ],
-    "1F1F9 1F1F4": [
-        "bayrak: Tonga",
-        "bayrak"
-    ],
-    "1F1F9 1F1F7": [
-        "bayrak: Türkiye",
-        "bayrak"
-    ],
-    "1F1F9 1F1F9": [
-        "bayrak: Trinidad ve Tobago",
-        "bayrak"
-    ],
-    "1F1F9 1F1FB": [
-        "bayrak: Tuvalu",
-        "bayrak"
-    ],
-    "1F1F9 1F1FC": [
-        "bayrak: Tayvan",
-        "bayrak"
-    ],
-    "1F1F9 1F1FF": [
-        "bayrak: Tanzanya",
-        "bayrak"
-    ],
-    "1F1FA": [
-        "regional indicator symbol letter u"
-    ],
-    "1F1FA 1F1E6": [
-        "bayrak: Ukrayna",
-        "bayrak"
-    ],
-    "1F1FA 1F1EC": [
-        "bayrak: Uganda",
-        "bayrak"
-    ],
-    "1F1FA 1F1F2": [
-        "bayrak: ABD Küçük Harici Adaları",
-        "bayrak"
-    ],
-    "1F1FA 1F1F3": [
-        "bayrak: Birleşmiş Milletler",
-        "bayrak"
-    ],
-    "1F1FA 1F1F8": [
-        "bayrak: Amerika Birleşik Devletleri",
-        "bayrak"
-    ],
-    "1F1FA 1F1FE": [
-        "bayrak: Uruguay",
-        "bayrak"
-    ],
-    "1F1FA 1F1FF": [
-        "bayrak: Özbekistan",
-        "bayrak"
-    ],
-    "1F1FB": [
-        "regional indicator symbol letter v"
-    ],
-    "1F1FB 1F1E6": [
-        "bayrak: Vatikan",
-        "bayrak"
-    ],
-    "1F1FB 1F1E8": [
-        "bayrak: Saint Vincent ve Grenadinler",
-        "bayrak"
-    ],
-    "1F1FB 1F1EA": [
-        "bayrak: Venezuela",
-        "bayrak"
-    ],
-    "1F1FB 1F1EC": [
-        "bayrak: Britanya Virjin Adaları",
-        "bayrak"
-    ],
-    "1F1FB 1F1EE": [
-        "bayrak: ABD Virjin Adaları",
-        "bayrak"
-    ],
-    "1F1FB 1F1F3": [
-        "bayrak: Vietnam",
-        "bayrak"
-    ],
-    "1F1FB 1F1FA": [
-        "bayrak: Vanuatu",
-        "bayrak"
-    ],
-    "1F1FC": [
-        "regional indicator symbol letter w"
-    ],
-    "1F1FC 1F1EB": [
-        "bayrak: Wallis ve Futuna",
-        "bayrak"
-    ],
-    "1F1FC 1F1F8": [
-        "bayrak: Samoa",
-        "bayrak"
-    ],
-    "1F1FD": [
-        "regional indicator symbol letter x"
-    ],
-    "1F1FD 1F1F0": [
-        "bayrak: Kosova",
-        "bayrak"
-    ],
-    "1F1FE": [
-        "regional indicator symbol letter y"
-    ],
-    "1F1FE 1F1EA": [
-        "bayrak: Yemen",
-        "bayrak"
-    ],
-    "1F1FE 1F1F9": [
-        "bayrak: Mayotte",
-        "bayrak"
-    ],
-    "1F1FF": [
-        "regional indicator symbol letter z"
-    ],
-    "1F1FF 1F1E6": [
-        "bayrak: Güney Afrika",
-        "bayrak"
-    ],
-    "1F1FF 1F1F2": [
-        "bayrak: Zambiya",
-        "bayrak"
-    ],
-    "1F1FF 1F1FC": [
-        "bayrak: Zimbabve",
-        "bayrak"
-    ],
+    "1F1EC 1F1F9": ["bayrak: Guatemala", "bayrak"],
+    "1F1EC 1F1FA": ["bayrak: Guam", "bayrak"],
+    "1F1EC 1F1FC": ["bayrak: Gine-Bissau", "bayrak"],
+    "1F1EC 1F1FE": ["bayrak: Guyana", "bayrak"],
+    "1F1ED": ["regional indicator symbol letter h"],
+    "1F1ED 1F1F0": ["bayrak: Çin Hong Kong ÖİB", "bayrak"],
+    "1F1ED 1F1F2": ["bayrak: Heard Adası ve McDonald Adaları", "bayrak"],
+    "1F1ED 1F1F3": ["bayrak: Honduras", "bayrak"],
+    "1F1ED 1F1F7": ["bayrak: Hırvatistan", "bayrak"],
+    "1F1ED 1F1F9": ["bayrak: Haiti", "bayrak"],
+    "1F1ED 1F1FA": ["bayrak: Macaristan", "bayrak"],
+    "1F1EE": ["regional indicator symbol letter i"],
+    "1F1EE 1F1E8": ["bayrak: Kanarya Adaları", "bayrak"],
+    "1F1EE 1F1E9": ["bayrak: Endonezya", "bayrak"],
+    "1F1EE 1F1EA": ["bayrak: İrlanda", "bayrak"],
+    "1F1EE 1F1F1": ["bayrak: İsrail", "bayrak"],
+    "1F1EE 1F1F2": ["bayrak: Man Adası", "bayrak"],
+    "1F1EE 1F1F3": ["bayrak: Hindistan", "bayrak"],
+    "1F1EE 1F1F4": ["bayrak: Britanya Hint Okyanusu Toprakları", "bayrak"],
+    "1F1EE 1F1F6": ["bayrak: Irak", "bayrak"],
+    "1F1EE 1F1F7": ["bayrak: İran", "bayrak"],
+    "1F1EE 1F1F8": ["bayrak: İzlanda", "bayrak"],
+    "1F1EE 1F1F9": ["bayrak: İtalya", "bayrak"],
+    "1F1EF": ["regional indicator symbol letter j"],
+    "1F1EF 1F1EA": ["bayrak: Jersey", "bayrak"],
+    "1F1EF 1F1F2": ["bayrak: Jamaika", "bayrak"],
+    "1F1EF 1F1F4": ["bayrak: Ürdün", "bayrak"],
+    "1F1EF 1F1F5": ["bayrak: Japonya", "bayrak"],
+    "1F1F0": ["regional indicator symbol letter k"],
+    "1F1F0 1F1EA": ["bayrak: Kenya", "bayrak"],
+    "1F1F0 1F1EC": ["bayrak: Kırgızistan", "bayrak"],
+    "1F1F0 1F1ED": ["bayrak: Kamboçya", "bayrak"],
+    "1F1F0 1F1EE": ["bayrak: Kiribati", "bayrak"],
+    "1F1F0 1F1F2": ["bayrak: Komorlar", "bayrak"],
+    "1F1F0 1F1F3": ["bayrak: Saint Kitts ve Nevis", "bayrak"],
+    "1F1F0 1F1F5": ["bayrak: Kuzey Kore", "bayrak"],
+    "1F1F0 1F1F7": ["bayrak: Güney Kore", "bayrak"],
+    "1F1F0 1F1FC": ["bayrak: Kuveyt", "bayrak"],
+    "1F1F0 1F1FE": ["bayrak: Cayman Adaları", "bayrak"],
+    "1F1F0 1F1FF": ["bayrak: Kazakistan", "bayrak"],
+    "1F1F1": ["regional indicator symbol letter l"],
+    "1F1F1 1F1E6": ["bayrak: Laos", "bayrak"],
+    "1F1F1 1F1E7": ["bayrak: Lübnan", "bayrak"],
+    "1F1F1 1F1E8": ["bayrak: Saint Lucia", "bayrak"],
+    "1F1F1 1F1EE": ["bayrak: Liechtenstein", "bayrak"],
+    "1F1F1 1F1F0": ["bayrak: Sri Lanka", "bayrak"],
+    "1F1F1 1F1F7": ["bayrak: Liberya", "bayrak"],
+    "1F1F1 1F1F8": ["bayrak: Lesotho", "bayrak"],
+    "1F1F1 1F1F9": ["bayrak: Litvanya", "bayrak"],
+    "1F1F1 1F1FA": ["bayrak: Lüksemburg", "bayrak"],
+    "1F1F1 1F1FB": ["bayrak: Letonya", "bayrak"],
+    "1F1F1 1F1FE": ["bayrak: Libya", "bayrak"],
+    "1F1F2": ["regional indicator symbol letter m"],
+    "1F1F2 1F1E6": ["bayrak: Fas", "bayrak"],
+    "1F1F2 1F1E8": ["bayrak: Monako", "bayrak"],
+    "1F1F2 1F1E9": ["bayrak: Moldova", "bayrak"],
+    "1F1F2 1F1EA": ["bayrak: Karadağ", "bayrak"],
+    "1F1F2 1F1EB": ["bayrak: Saint Martin", "bayrak"],
+    "1F1F2 1F1EC": ["bayrak: Madagaskar", "bayrak"],
+    "1F1F2 1F1ED": ["bayrak: Marshall Adaları", "bayrak"],
+    "1F1F2 1F1F0": ["bayrak: Kuzey Makedonya", "bayrak"],
+    "1F1F2 1F1F1": ["bayrak: Mali", "bayrak"],
+    "1F1F2 1F1F2": ["bayrak: Myanmar (Burma)", "bayrak"],
+    "1F1F2 1F1F3": ["bayrak: Moğolistan", "bayrak"],
+    "1F1F2 1F1F4": ["bayrak: Çin Makao ÖİB", "bayrak"],
+    "1F1F2 1F1F5": ["bayrak: Kuzey Mariana Adaları", "bayrak"],
+    "1F1F2 1F1F6": ["bayrak: Martinik", "bayrak"],
+    "1F1F2 1F1F7": ["bayrak: Moritanya", "bayrak"],
+    "1F1F2 1F1F8": ["bayrak: Montserrat", "bayrak"],
+    "1F1F2 1F1F9": ["bayrak: Malta", "bayrak"],
+    "1F1F2 1F1FA": ["bayrak: Mauritius", "bayrak"],
+    "1F1F2 1F1FB": ["bayrak: Maldivler", "bayrak"],
+    "1F1F2 1F1FC": ["bayrak: Malavi", "bayrak"],
+    "1F1F2 1F1FD": ["bayrak: Meksika", "bayrak"],
+    "1F1F2 1F1FE": ["bayrak: Malezya", "bayrak"],
+    "1F1F2 1F1FF": ["bayrak: Mozambik", "bayrak"],
+    "1F1F3": ["regional indicator symbol letter n"],
+    "1F1F3 1F1E6": ["bayrak: Namibya", "bayrak"],
+    "1F1F3 1F1E8": ["bayrak: Yeni Kaledonya", "bayrak"],
+    "1F1F3 1F1EA": ["bayrak: Nijer", "bayrak"],
+    "1F1F3 1F1EB": ["bayrak: Norfolk Adası", "bayrak"],
+    "1F1F3 1F1EC": ["bayrak: Nijerya", "bayrak"],
+    "1F1F3 1F1EE": ["bayrak: Nikaragua", "bayrak"],
+    "1F1F3 1F1F1": ["bayrak: Hollanda", "bayrak"],
+    "1F1F3 1F1F4": ["bayrak: Norveç", "bayrak"],
+    "1F1F3 1F1F5": ["bayrak: Nepal", "bayrak"],
+    "1F1F3 1F1F7": ["bayrak: Nauru", "bayrak"],
+    "1F1F3 1F1FA": ["bayrak: Niue", "bayrak"],
+    "1F1F3 1F1FF": ["bayrak: Yeni Zelanda", "bayrak"],
+    "1F1F4": ["regional indicator symbol letter o"],
+    "1F1F4 1F1F2": ["bayrak: Umman", "bayrak"],
+    "1F1F5": ["regional indicator symbol letter p"],
+    "1F1F5 1F1E6": ["bayrak: Panama", "bayrak"],
+    "1F1F5 1F1EA": ["bayrak: Peru", "bayrak"],
+    "1F1F5 1F1EB": ["bayrak: Fransız Polinezyası", "bayrak"],
+    "1F1F5 1F1EC": ["bayrak: Papua Yeni Gine", "bayrak"],
+    "1F1F5 1F1ED": ["bayrak: Filipinler", "bayrak"],
+    "1F1F5 1F1F0": ["bayrak: Pakistan", "bayrak"],
+    "1F1F5 1F1F1": ["bayrak: Polonya", "bayrak"],
+    "1F1F5 1F1F2": ["bayrak: Saint Pierre ve Miquelon", "bayrak"],
+    "1F1F5 1F1F3": ["bayrak: Pitcairn Adaları", "bayrak"],
+    "1F1F5 1F1F7": ["bayrak: Porto Riko", "bayrak"],
+    "1F1F5 1F1F8": ["bayrak: Filistin Bölgeleri", "bayrak"],
+    "1F1F5 1F1F9": ["bayrak: Portekiz", "bayrak"],
+    "1F1F5 1F1FC": ["bayrak: Palau", "bayrak"],
+    "1F1F5 1F1FE": ["bayrak: Paraguay", "bayrak"],
+    "1F1F6": ["regional indicator symbol letter q"],
+    "1F1F6 1F1E6": ["bayrak: Katar", "bayrak"],
+    "1F1F7": ["regional indicator symbol letter r"],
+    "1F1F7 1F1EA": ["bayrak: Reunion", "bayrak"],
+    "1F1F7 1F1F4": ["bayrak: Romanya", "bayrak"],
+    "1F1F7 1F1F8": ["bayrak: Sırbistan", "bayrak"],
+    "1F1F7 1F1FA": ["bayrak: Rusya", "bayrak"],
+    "1F1F7 1F1FC": ["bayrak: Ruanda", "bayrak"],
+    "1F1F8": ["regional indicator symbol letter s"],
+    "1F1F8 1F1E6": ["bayrak: Suudi Arabistan", "bayrak"],
+    "1F1F8 1F1E7": ["bayrak: Solomon Adaları", "bayrak"],
+    "1F1F8 1F1E8": ["bayrak: Seyşeller", "bayrak"],
+    "1F1F8 1F1E9": ["bayrak: Sudan", "bayrak"],
+    "1F1F8 1F1EA": ["bayrak: İsveç", "bayrak"],
+    "1F1F8 1F1EC": ["bayrak: Singapur", "bayrak"],
+    "1F1F8 1F1ED": ["bayrak: Saint Helena", "bayrak"],
+    "1F1F8 1F1EE": ["bayrak: Slovenya", "bayrak"],
+    "1F1F8 1F1EF": ["bayrak: Svalbard ve Jan Mayen", "bayrak"],
+    "1F1F8 1F1F0": ["bayrak: Slovakya", "bayrak"],
+    "1F1F8 1F1F1": ["bayrak: Sierra Leone", "bayrak"],
+    "1F1F8 1F1F2": ["bayrak: San Marino", "bayrak"],
+    "1F1F8 1F1F3": ["bayrak: Senegal", "bayrak"],
+    "1F1F8 1F1F4": ["bayrak: Somali", "bayrak"],
+    "1F1F8 1F1F7": ["bayrak: Surinam", "bayrak"],
+    "1F1F8 1F1F8": ["bayrak: Güney Sudan", "bayrak"],
+    "1F1F8 1F1F9": ["bayrak: Sao Tome ve Principe", "bayrak"],
+    "1F1F8 1F1FB": ["bayrak: El Salvador", "bayrak"],
+    "1F1F8 1F1FD": ["bayrak: Sint Maarten", "bayrak"],
+    "1F1F8 1F1FE": ["bayrak: Suriye", "bayrak"],
+    "1F1F8 1F1FF": ["bayrak: Esvatini", "bayrak"],
+    "1F1F9": ["regional indicator symbol letter t"],
+    "1F1F9 1F1E6": ["bayrak: Tristan da Cunha", "bayrak"],
+    "1F1F9 1F1E8": ["bayrak: Turks ve Caicos Adaları", "bayrak"],
+    "1F1F9 1F1E9": ["bayrak: Çad", "bayrak"],
+    "1F1F9 1F1EB": ["bayrak: Fransız Güney Toprakları", "bayrak"],
+    "1F1F9 1F1EC": ["bayrak: Togo", "bayrak"],
+    "1F1F9 1F1ED": ["bayrak: Tayland", "bayrak"],
+    "1F1F9 1F1EF": ["bayrak: Tacikistan", "bayrak"],
+    "1F1F9 1F1F0": ["bayrak: Tokelau", "bayrak"],
+    "1F1F9 1F1F1": ["bayrak: Timor-Leste", "bayrak"],
+    "1F1F9 1F1F2": ["bayrak: Türkmenistan", "bayrak"],
+    "1F1F9 1F1F3": ["bayrak: Tunus", "bayrak"],
+    "1F1F9 1F1F4": ["bayrak: Tonga", "bayrak"],
+    "1F1F9 1F1F7": ["bayrak: Türkiye", "bayrak"],
+    "1F1F9 1F1F9": ["bayrak: Trinidad ve Tobago", "bayrak"],
+    "1F1F9 1F1FB": ["bayrak: Tuvalu", "bayrak"],
+    "1F1F9 1F1FC": ["bayrak: Tayvan", "bayrak"],
+    "1F1F9 1F1FF": ["bayrak: Tanzanya", "bayrak"],
+    "1F1FA": ["regional indicator symbol letter u"],
+    "1F1FA 1F1E6": ["bayrak: Ukrayna", "bayrak"],
+    "1F1FA 1F1EC": ["bayrak: Uganda", "bayrak"],
+    "1F1FA 1F1F2": ["bayrak: ABD Küçük Harici Adaları", "bayrak"],
+    "1F1FA 1F1F3": ["bayrak: Birleşmiş Milletler", "bayrak"],
+    "1F1FA 1F1F8": ["bayrak: Amerika Birleşik Devletleri", "bayrak"],
+    "1F1FA 1F1FE": ["bayrak: Uruguay", "bayrak"],
+    "1F1FA 1F1FF": ["bayrak: Özbekistan", "bayrak"],
+    "1F1FB": ["regional indicator symbol letter v"],
+    "1F1FB 1F1E6": ["bayrak: Vatikan", "bayrak"],
+    "1F1FB 1F1E8": ["bayrak: Saint Vincent ve Grenadinler", "bayrak"],
+    "1F1FB 1F1EA": ["bayrak: Venezuela", "bayrak"],
+    "1F1FB 1F1EC": ["bayrak: Britanya Virjin Adaları", "bayrak"],
+    "1F1FB 1F1EE": ["bayrak: ABD Virjin Adaları", "bayrak"],
+    "1F1FB 1F1F3": ["bayrak: Vietnam", "bayrak"],
+    "1F1FB 1F1FA": ["bayrak: Vanuatu", "bayrak"],
+    "1F1FC": ["regional indicator symbol letter w"],
+    "1F1FC 1F1EB": ["bayrak: Wallis ve Futuna", "bayrak"],
+    "1F1FC 1F1F8": ["bayrak: Samoa", "bayrak"],
+    "1F1FD": ["regional indicator symbol letter x"],
+    "1F1FD 1F1F0": ["bayrak: Kosova", "bayrak"],
+    "1F1FE": ["regional indicator symbol letter y"],
+    "1F1FE 1F1EA": ["bayrak: Yemen", "bayrak"],
+    "1F1FE 1F1F9": ["bayrak: Mayotte", "bayrak"],
+    "1F1FF": ["regional indicator symbol letter z"],
+    "1F1FF 1F1E6": ["bayrak: Güney Afrika", "bayrak"],
+    "1F1FF 1F1F2": ["bayrak: Zambiya", "bayrak"],
+    "1F1FF 1F1FC": ["bayrak: Zimbabve", "bayrak"],
     "1F201": [
         "Japonca \"burada\" düğmesi",
         "burada",
@@ -2113,21 +952,9 @@
         "japon \"yasak\" sembolü",
         "Japonca"
     ],
-    "1F233": [
-        "Japonca \"yer var\" düğmesi",
-        "çince",
-        "Japonca"
-    ],
-    "1F234": [
-        "Japonca \"geçer not\" düğmesi",
-        "geçer not",
-        "Japonca"
-    ],
-    "1F235": [
-        "Japonca \"yer yok\" düğmesi",
-        "Japonca",
-        "yer yok"
-    ],
+    "1F233": ["Japonca \"yer var\" düğmesi", "çince", "Japonca"],
+    "1F234": ["Japonca \"geçer not\" düğmesi", "geçer not", "Japonca"],
+    "1F235": ["Japonca \"yer yok\" düğmesi", "Japonca", "yer yok"],
     "1F236": [
         "Japonca \"ücretsiz değil\" düğmesi",
         "bedava değil",
@@ -2168,28 +995,10 @@
         "japonca \"kabul edilebilir\" işareti",
         "kabul edilebilir"
     ],
-    "1F300": [
-        "siklon",
-        "baş dönmesi",
-        "hortum",
-        "tayfun"
-    ],
-    "1F301": [
-        "sisli",
-        "sis"
-    ],
-    "1F302": [
-        "kapalı şemsiye",
-        "şemsiye",
-        "yağmur",
-        "yağmurlu"
-    ],
-    "1F303": [
-        "yıldızlı gece",
-        "gece",
-        "şehir",
-        "yıldızlar"
-    ],
+    "1F300": ["siklon", "baş dönmesi", "hortum", "tayfun"],
+    "1F301": ["sisli", "sis"],
+    "1F302": ["kapalı şemsiye", "şemsiye", "yağmur", "yağmurlu"],
+    "1F303": ["yıldızlı gece", "gece", "şehir", "yıldızlar"],
     "1F304": [
         "dağların arasından güneşin doğuşu",
         "dağ",
@@ -2240,24 +1049,9 @@
         "köprü",
         "manzara"
     ],
-    "1F30A": [
-        "dalga",
-        "okyanus dalgası",
-        "sörf",
-        "su dalgası"
-    ],
-    "1F30B": [
-        "yanardağ",
-        "dağ",
-        "doğa",
-        "volkan",
-        "yanardağ patlaması"
-    ],
-    "1F30C": [
-        "samanyolu",
-        "gökyüzü",
-        "uzay"
-    ],
+    "1F30A": ["dalga", "okyanus dalgası", "sörf", "su dalgası"],
+    "1F30B": ["yanardağ", "dağ", "doğa", "volkan", "yanardağ patlaması"],
+    "1F30C": ["samanyolu", "gökyüzü", "uzay"],
     "1F30D": [
         "yerkürede Avrupa-Afrika",
         "Afrika",
@@ -2286,48 +1080,13 @@
         "meridyen",
         "yerküre"
     ],
-    "1F311": [
-        "yeni ay",
-        "ay",
-        "karanlık",
-        "yeni"
-    ],
-    "1F312": [
-        "büyüyen ay",
-        "ay",
-        "hilal",
-        "yükselen"
-    ],
-    "1F313": [
-        "ilk dördün",
-        "ay",
-        "uzay"
-    ],
-    "1F314": [
-        "geniş ay",
-        "ay",
-        "şişkin",
-        "yükselen"
-    ],
-    "1F315": [
-        "dolunay",
-        "ay",
-        "dolu",
-        "parlak",
-        "tam ay"
-    ],
-    "1F316": [
-        "küçülen ay",
-        "ay",
-        "şişkin",
-        "solgun",
-        "uzay"
-    ],
-    "1F317": [
-        "son dördün",
-        "ay",
-        "dördün"
-    ],
+    "1F311": ["yeni ay", "ay", "karanlık", "yeni"],
+    "1F312": ["büyüyen ay", "ay", "hilal", "yükselen"],
+    "1F313": ["ilk dördün", "ay", "uzay"],
+    "1F314": ["geniş ay", "ay", "şişkin", "yükselen"],
+    "1F315": ["dolunay", "ay", "dolu", "parlak", "tam ay"],
+    "1F316": ["küçülen ay", "ay", "şişkin", "solgun", "uzay"],
+    "1F317": ["son dördün", "ay", "dördün"],
     "1F318": [
         "ince ay",
         "ay",
@@ -2339,15 +1098,7 @@
         "solgun",
         "uzay"
     ],
-    "1F319": [
-        "hilal",
-        "ay",
-        "dilek",
-        "gece",
-        "gökyüzü",
-        "uzay",
-        "yeni ay"
-    ],
+    "1F319": ["hilal", "ay", "dilek", "gece", "gökyüzü", "uzay", "yeni ay"],
     "1F31A": [
         "yeni ay yüzü",
         "ay",
@@ -2383,14 +1134,7 @@
         "yüzü olan ay",
         "yüzü olan dolunay"
     ],
-    "1F31E": [
-        "güneş yüz",
-        "güneş",
-        "parlak",
-        "sıcak",
-        "yaz",
-        "yüz"
-    ],
+    "1F31E": ["güneş yüz", "güneş", "parlak", "sıcak", "yaz", "yüz"],
     "1F31F": [
         "parıldayan yıldız",
         "dilek",
@@ -2411,38 +1155,11 @@
         "uzay",
         "yıldız"
     ],
-    "1F32D": [
-        "sosisli sandviç",
-        "gıda",
-        "hot dog",
-        "sosis"
-    ],
-    "1F32E": [
-        "tako",
-        "gıda",
-        "meksika sandviçi"
-    ],
-    "1F32F": [
-        "burito",
-        "dürüm",
-        "gıda",
-        "meksika dürümü",
-        "yemek"
-    ],
-    "1F330": [
-        "kestane",
-        "ağaç",
-        "bitki",
-        "gıda"
-    ],
-    "1F331": [
-        "filizlenme",
-        "fide",
-        "filiz",
-        "genç",
-        "genç bitki",
-        "yeşil"
-    ],
+    "1F32D": ["sosisli sandviç", "gıda", "hot dog", "sosis"],
+    "1F32E": ["tako", "gıda", "meksika sandviçi"],
+    "1F32F": ["burito", "dürüm", "gıda", "meksika dürümü", "yemek"],
+    "1F330": ["kestane", "ağaç", "bitki", "gıda"],
+    "1F331": ["filizlenme", "fide", "filiz", "genç", "genç bitki", "yeşil"],
     "1F332": [
         "yaprak dökmeyen ağaç",
         "ağaç",
@@ -2460,76 +1177,17 @@
         "yaprak döken",
         "yeşil ağaç"
     ],
-    "1F334": [
-        "palmiye ağacı",
-        "ağaç",
-        "palmiye",
-        "yaz",
-        "yeşil"
-    ],
-    "1F335": [
-        "kaktüs",
-        "bitki",
-        "çöl",
-        "diken"
-    ],
-    "1F337": [
-        "lale",
-        "bitki",
-        "çiçek",
-        "kırmızı lale"
-    ],
-    "1F338": [
-        "kiraz çiçeği",
-        "bahar",
-        "çiçek",
-        "çiçek izleme",
-        "kiraz"
-    ],
-    "1F339": [
-        "gül",
-        "aşk",
-        "bitki",
-        "çiçek",
-        "kırmızı gül"
-    ],
-    "1F33A": [
-        "çingülü",
-        "Atatürk çiçeği",
-        "bitki",
-        "çiçek",
-        "hatmi çiçeği"
-    ],
-    "1F33B": [
-        "ayçiçeği",
-        "bitki",
-        "çiçek",
-        "güneş"
-    ],
-    "1F33C": [
-        "çiçek açma",
-        "bitki",
-        "çiçek",
-        "sarı çiçek"
-    ],
-    "1F33D": [
-        "mısır koçanı",
-        "başak",
-        "gıda",
-        "mısır",
-        "mısır başağı"
-    ],
-    "1F33E": [
-        "pirinç bitkisi",
-        "başak",
-        "pirinç",
-        "pirinç başağı"
-    ],
-    "1F33F": [
-        "ot",
-        "bitki",
-        "yaprak"
-    ],
+    "1F334": ["palmiye ağacı", "ağaç", "palmiye", "yaz", "yeşil"],
+    "1F335": ["kaktüs", "bitki", "çöl", "diken"],
+    "1F337": ["lale", "bitki", "çiçek", "kırmızı lale"],
+    "1F338": ["kiraz çiçeği", "bahar", "çiçek", "çiçek izleme", "kiraz"],
+    "1F339": ["gül", "aşk", "bitki", "çiçek", "kırmızı gül"],
+    "1F33A": ["çingülü", "Atatürk çiçeği", "bitki", "çiçek", "hatmi çiçeği"],
+    "1F33B": ["ayçiçeği", "bitki", "çiçek", "güneş"],
+    "1F33C": ["çiçek açma", "bitki", "çiçek", "sarı çiçek"],
+    "1F33D": ["mısır koçanı", "başak", "gıda", "mısır", "mısır başağı"],
+    "1F33E": ["pirinç bitkisi", "başak", "pirinç", "pirinç başağı"],
+    "1F33F": ["ot", "bitki", "yaprak"],
     "1F340": [
         "dört yapraklı yonca",
         "bitki",
@@ -2559,18 +1217,8 @@
         "yaprak",
         "yapraklar"
     ],
-    "1F343": [
-        "rüzgardaki yaprak",
-        "esen",
-        "rüzgar",
-        "yaprak"
-    ],
-    "1F344": [
-        "mantar",
-        "bitki",
-        "kırmızı mantar",
-        "masal"
-    ],
+    "1F343": ["rüzgardaki yaprak", "esen", "rüzgar", "yaprak"],
+    "1F344": ["mantar", "bitki", "kırmızı mantar", "masal"],
     "1F344 200D 1F7EB": [
         "kahverengi mantar",
         "doğa",
@@ -2583,50 +1231,13 @@
         "trüf",
         "yiyecek"
     ],
-    "1F345": [
-        "domates",
-        "gıda",
-        "meyve",
-        "sebze"
-    ],
-    "1F346": [
-        "patlıcan",
-        "gıda",
-        "sebze",
-        "yemek"
-    ],
-    "1F347": [
-        "üzüm",
-        "gıda",
-        "meyve",
-        "salkım"
-    ],
-    "1F348": [
-        "kavun",
-        "gıda",
-        "meyve",
-        "meze",
-        "rakı",
-        "yemek"
-    ],
-    "1F349": [
-        "karpuz",
-        "gıda",
-        "meyve"
-    ],
-    "1F34A": [
-        "mandalina",
-        "gıda",
-        "meyve",
-        "portakal",
-        "turunç"
-    ],
-    "1F34B": [
-        "limon",
-        "gıda",
-        "meyve",
-        "narenciye"
-    ],
+    "1F345": ["domates", "gıda", "meyve", "sebze"],
+    "1F346": ["patlıcan", "gıda", "sebze", "yemek"],
+    "1F347": ["üzüm", "gıda", "meyve", "salkım"],
+    "1F348": ["kavun", "gıda", "meyve", "meze", "rakı", "yemek"],
+    "1F349": ["karpuz", "gıda", "meyve"],
+    "1F34A": ["mandalina", "gıda", "meyve", "portakal", "turunç"],
+    "1F34B": ["limon", "gıda", "meyve", "narenciye"],
     "1F34B 200D 1F7E9": [
         "misket limonu",
         "lim",
@@ -2641,25 +1252,9 @@
         "yeşil",
         "yiyecek"
     ],
-    "1F34C": [
-        "muz",
-        "gıda",
-        "maymun",
-        "meyve"
-    ],
-    "1F34D": [
-        "ananas",
-        "gıda",
-        "meyve",
-        "tropik"
-    ],
-    "1F34E": [
-        "kırmızı elma",
-        "elma",
-        "gıda",
-        "kırmızı",
-        "meyve"
-    ],
+    "1F34C": ["muz", "gıda", "maymun", "meyve"],
+    "1F34D": ["ananas", "gıda", "meyve", "tropik"],
+    "1F34E": ["kırmızı elma", "elma", "gıda", "kırmızı", "meyve"],
     "1F34F": [
         "yeşil elma",
         "ekşi elma",
@@ -2669,36 +1264,11 @@
         "yeşil",
         "yiyecek"
     ],
-    "1F350": [
-        "armut",
-        "ayı",
-        "gıda",
-        "meyve"
-    ],
-    "1F351": [
-        "şeftali",
-        "gıda",
-        "meyve"
-    ],
-    "1F352": [
-        "kiraz",
-        "gıda",
-        "meyve"
-    ],
-    "1F353": [
-        "çilek",
-        "gıda",
-        "meyve",
-        "yumuşak meyve"
-    ],
-    "1F354": [
-        "hamburger",
-        "çizburger",
-        "gıda",
-        "restoran",
-        "yemek",
-        "yiyecek"
-    ],
+    "1F350": ["armut", "ayı", "gıda", "meyve"],
+    "1F351": ["şeftali", "gıda", "meyve"],
+    "1F352": ["kiraz", "gıda", "meyve"],
+    "1F353": ["çilek", "gıda", "meyve", "yumuşak meyve"],
+    "1F354": ["hamburger", "çizburger", "gıda", "restoran", "yemek", "yiyecek"],
     "1F355": [
         "pizza dilimi",
         "dilim",
@@ -2708,27 +1278,9 @@
         "restoran",
         "yiyecek"
     ],
-    "1F356": [
-        "kemikli et",
-        "et",
-        "gıda",
-        "restoran",
-        "yemek"
-    ],
-    "1F357": [
-        "tavuk butu",
-        "but",
-        "gıda",
-        "restoran",
-        "tavuk",
-        "yemek"
-    ],
-    "1F358": [
-        "pirinç gevreği",
-        "gıda",
-        "pirinç",
-        "yemek"
-    ],
+    "1F356": ["kemikli et", "et", "gıda", "restoran", "yemek"],
+    "1F357": ["tavuk butu", "but", "gıda", "restoran", "tavuk", "yemek"],
+    "1F358": ["pirinç gevreği", "gıda", "pirinç", "yemek"],
     "1F359": [
         "pirinç topu",
         "gıda",
@@ -2738,20 +1290,8 @@
         "yemek",
         "yiyecek"
     ],
-    "1F35A": [
-        "pilav",
-        "gıda",
-        "pirinç",
-        "restoran"
-    ],
-    "1F35B": [
-        "körili pilav",
-        "gıda",
-        "köri",
-        "pirinç",
-        "restoran",
-        "yemek"
-    ],
+    "1F35A": ["pilav", "gıda", "pirinç", "restoran"],
+    "1F35B": ["körili pilav", "gıda", "köri", "pirinç", "restoran", "yemek"],
     "1F35C": [
         "erişte",
         "buharda pişmiş",
@@ -2762,21 +1302,8 @@
         "restoran",
         "tabak"
     ],
-    "1F35D": [
-        "spagetti",
-        "gıda",
-        "makarna",
-        "restoran",
-        "yemek"
-    ],
-    "1F35E": [
-        "ekmek",
-        "ekmek dilimi",
-        "gıda",
-        "kahvaltı",
-        "restoran",
-        "yemek"
-    ],
+    "1F35D": ["spagetti", "gıda", "makarna", "restoran", "yemek"],
+    "1F35E": ["ekmek", "ekmek dilimi", "gıda", "kahvaltı", "restoran", "yemek"],
     "1F35F": [
         "patates kızartması",
         "gıda",
@@ -2848,21 +1375,8 @@
         "restoran",
         "vanilyalı dondurma"
     ],
-    "1F367": [
-        "meyveli buz",
-        "buz",
-        "meyveli",
-        "restoran"
-    ],
-    "1F368": [
-        "dondurma",
-        "buz",
-        "gıda",
-        "krema",
-        "kup",
-        "restoran",
-        "tatlı"
-    ],
+    "1F367": ["meyveli buz", "buz", "meyveli", "restoran"],
+    "1F368": ["dondurma", "buz", "gıda", "krema", "kup", "restoran", "tatlı"],
     "1F369": [
         "donut",
         "çikolatalı donut",
@@ -2874,27 +1388,9 @@
         "tatlı",
         "yiyecek"
     ],
-    "1F36A": [
-        "kurabiye",
-        "çikolatalı kurabiye",
-        "cookie",
-        "gıda",
-        "restoran"
-    ],
-    "1F36B": [
-        "çikolata",
-        "bar",
-        "çikolata barı",
-        "gıda",
-        "restoran",
-        "tatlı"
-    ],
-    "1F36C": [
-        "şekerleme",
-        "bayram",
-        "restoran",
-        "şeker"
-    ],
+    "1F36A": ["kurabiye", "çikolatalı kurabiye", "cookie", "gıda", "restoran"],
+    "1F36B": ["çikolata", "bar", "çikolata barı", "gıda", "restoran", "tatlı"],
+    "1F36C": ["şekerleme", "bayram", "restoran", "şeker"],
     "1F36D": [
         "lolipop",
         "bayram",
@@ -2904,13 +1400,7 @@
         "şeker",
         "şekerleme"
     ],
-    "1F36E": [
-        "krem karamel",
-        "gıda",
-        "puding",
-        "restoran",
-        "tatlı"
-    ],
+    "1F36E": ["krem karamel", "gıda", "puding", "restoran", "tatlı"],
     "1F36F": [
         "bal kabı",
         "bal",
@@ -2978,12 +1468,7 @@
         "yemek",
         "yiyecek"
     ],
-    "1F375": [
-        "çay fincanı",
-        "çay",
-        "içecek",
-        "yeşil çay"
-    ],
+    "1F375": ["çay fincanı", "çay", "içecek", "yeşil çay"],
     "1F376": [
         "sake",
         "bar",
@@ -3020,12 +1505,7 @@
         "restoran",
         "tropik"
     ],
-    "1F37A": [
-        "bira kupası",
-        "bar",
-        "kupa",
-        "restoran"
-    ],
+    "1F37A": ["bira kupası", "bar", "kupa", "restoran"],
     "1F37B": [
         "bira kupaları tokuşturma",
         "bar",
@@ -3035,14 +1515,7 @@
         "kupalar",
         "restoran"
     ],
-    "1F37C": [
-        "biberon",
-        "bebek",
-        "içecek",
-        "küçük şişe",
-        "şişe",
-        "süt"
-    ],
+    "1F37C": ["biberon", "bebek", "içecek", "küçük şişe", "şişe", "süt"],
     "1F37E": [
         "patlayan mantarlı şişe",
         "bar",
@@ -3052,18 +1525,8 @@
         "şampanya",
         "şişe"
     ],
-    "1F37F": [
-        "patlamış mısır",
-        "gıda",
-        "mısır",
-        "sinema"
-    ],
-    "1F380": [
-        "kurdele",
-        "kız",
-        "kutlama",
-        "pembe kurdele"
-    ],
+    "1F37F": ["patlamış mısır", "gıda", "mısır", "sinema"],
+    "1F380": ["kurdele", "kız", "kutlama", "pembe kurdele"],
     "1F381": [
         "paketlenmiş hediye",
         "doğum günü",
@@ -3100,21 +1563,8 @@
         "kabak",
         "kutlama"
     ],
-    "1F384": [
-        "Noel ağacı",
-        "ağaç",
-        "çam",
-        "kutlama",
-        "süs",
-        "yılbaşı"
-    ],
-    "1F385": [
-        "Noel Baba",
-        "insan",
-        "kutlama",
-        "noel",
-        "santa claus"
-    ],
+    "1F384": ["Noel ağacı", "ağaç", "çam", "kutlama", "süs", "yılbaşı"],
+    "1F385": ["Noel Baba", "insan", "kutlama", "noel", "santa claus"],
     "1F385 1F3FB": [
         "Noel Baba: açık cilt tonu",
         "açık cilt tonu",
@@ -3160,26 +1610,9 @@
         "noel baba",
         "santa claus"
     ],
-    "1F386": [
-        "havai fişek",
-        "eğlence",
-        "ışık",
-        "kutlama"
-    ],
-    "1F387": [
-        "fişek",
-        "havai fişek",
-        "kıvılcım",
-        "kutlama",
-        "patlama"
-    ],
-    "1F388": [
-        "balon",
-        "doğumgünü",
-        "kırmızı balon",
-        "kutlama",
-        "parti"
-    ],
+    "1F386": ["havai fişek", "eğlence", "ışık", "kutlama"],
+    "1F387": ["fişek", "havai fişek", "kıvılcım", "kutlama", "patlama"],
+    "1F388": ["balon", "doğumgünü", "kırmızı balon", "kutlama", "parti"],
     "1F389": [
         "parti konfetisi",
         "harika",
@@ -3188,12 +1621,7 @@
         "parti",
         "tebrikler"
     ],
-    "1F38A": [
-        "konfeti",
-        "konfeti topu",
-        "kutlama",
-        "top"
-    ],
+    "1F38A": ["konfeti", "konfeti topu", "kutlama", "top"],
     "1F38B": [
         "tanabata ağacı",
         "ağaç",
@@ -3211,14 +1639,7 @@
         "japon",
         "kutlama"
     ],
-    "1F38D": [
-        "çam süsleme",
-        "bambu",
-        "çam",
-        "Japon",
-        "kutlama",
-        "Yeni Yıl"
-    ],
+    "1F38D": ["çam süsleme", "bambu", "çam", "Japon", "kutlama", "Yeni Yıl"],
     "1F38E": [
         "Japon oyuncak bebekleri",
         "Bebek Festivali",
@@ -3226,22 +1647,9 @@
         "Japon",
         "kutlama"
     ],
-    "1F38F": [
-        "sazan şekilli flama",
-        "flama",
-        "kutlama"
-    ],
-    "1F390": [
-        "rüzgar çanı",
-        "çan"
-    ],
-    "1F391": [
-        "ay izleme",
-        "ay",
-        "ay izleme töreni",
-        "izleme",
-        "kutlama"
-    ],
+    "1F38F": ["sazan şekilli flama", "flama", "kutlama"],
+    "1F390": ["rüzgar çanı", "çan"],
+    "1F391": ["ay izleme", "ay", "ay izleme töreni", "izleme", "kutlama"],
     "1F392": [
         "okul çantası",
         "kırmızı sırt çantası",
@@ -3249,12 +1657,7 @@
         "okul sırt çantası",
         "sırt çantası"
     ],
-    "1F393": [
-        "mezuniyet kepi",
-        "kep",
-        "kutlama",
-        "mezuniyet"
-    ],
+    "1F393": ["mezuniyet kepi", "kep", "kutlama", "mezuniyet"],
     "1F3A0": [
         "atlıkarınca",
         "at",
@@ -3289,30 +1692,10 @@
         "kamış",
         "kamış olta ve balık"
     ],
-    "1F3A4": [
-        "mikrofon",
-        "eğlence",
-        "Karaoke",
-        "müzik",
-        "şarkı",
-        "şarkıcı"
-    ],
-    "1F3A5": [
-        "film kamerası",
-        "eğlence",
-        "film",
-        "sinema"
-    ],
-    "1F3A6": [
-        "sinema",
-        "eğlence",
-        "film işareti"
-    ],
-    "1F3A7": [
-        "kulaklık",
-        "eğlence",
-        "müzik"
-    ],
+    "1F3A4": ["mikrofon", "eğlence", "Karaoke", "müzik", "şarkı", "şarkıcı"],
+    "1F3A5": ["film kamerası", "eğlence", "film", "sinema"],
+    "1F3A6": ["sinema", "eğlence", "film işareti"],
+    "1F3A7": ["kulaklık", "eğlence", "müzik"],
     "1F3A8": [
         "boya paleti",
         "boya",
@@ -3322,29 +1705,10 @@
         "sanatçı",
         "sanatçı paleti"
     ],
-    "1F3A9": [
-        "silindir şapka",
-        "eğlence",
-        "şapka",
-        "sihirbaz"
-    ],
-    "1F3AA": [
-        "sirk çadırı",
-        "çadır",
-        "eğlence",
-        "sirk"
-    ],
-    "1F3AB": [
-        "bilet",
-        "eğlence",
-        "giriş"
-    ],
-    "1F3AC": [
-        "film tahtası",
-        "eğlence",
-        "film",
-        "tahta"
-    ],
+    "1F3A9": ["silindir şapka", "eğlence", "şapka", "sihirbaz"],
+    "1F3AA": ["sirk çadırı", "çadır", "eğlence", "sirk"],
+    "1F3AB": ["bilet", "eğlence", "giriş"],
+    "1F3AC": ["film tahtası", "eğlence", "film", "tahta"],
     "1F3AD": [
         "sahne sanatları",
         "eğlence",
@@ -3369,31 +1733,10 @@
         "on ikiden vurma",
         "oyun"
     ],
-    "1F3B0": [
-        "kumar makinesi",
-        "kollu makina",
-        "kumar",
-        "oyun",
-        "şans oyunu"
-    ],
-    "1F3B1": [
-        "bilardo",
-        "oyun",
-        "sekiz top"
-    ],
-    "1F3B2": [
-        "oyun zarı",
-        "oyun",
-        "tavla",
-        "zar"
-    ],
-    "1F3B3": [
-        "bovling",
-        "bovling ekipmanı",
-        "bovling topu",
-        "oyun",
-        "top"
-    ],
+    "1F3B0": ["kumar makinesi", "kollu makina", "kumar", "oyun", "şans oyunu"],
+    "1F3B1": ["bilardo", "oyun", "sekiz top"],
+    "1F3B2": ["oyun zarı", "oyun", "tavla", "zar"],
+    "1F3B3": ["bovling", "bovling ekipmanı", "bovling topu", "oyun", "top"],
     "1F3B4": [
         "çiçekli oyun kağıtları",
         "çiçek",
@@ -3403,30 +1746,10 @@
         "kart",
         "oyun"
     ],
-    "1F3B5": [
-        "müzik notası",
-        "müzik",
-        "nota"
-    ],
-    "1F3B6": [
-        "müzik notaları",
-        "müzik",
-        "nota",
-        "notalar"
-    ],
-    "1F3B7": [
-        "saksafon",
-        "alet",
-        "müzik",
-        "müzik aleti"
-    ],
-    "1F3B8": [
-        "gitar",
-        "alet",
-        "elektrik gitar",
-        "müzik",
-        "müzik aleti"
-    ],
+    "1F3B5": ["müzik notası", "müzik", "nota"],
+    "1F3B6": ["müzik notaları", "müzik", "nota", "notalar"],
+    "1F3B7": ["saksafon", "alet", "müzik", "müzik aleti"],
+    "1F3B8": ["gitar", "alet", "elektrik gitar", "müzik", "müzik aleti"],
     "1F3B9": [
         "müzik klavyesi",
         "alet",
@@ -3435,24 +1758,9 @@
         "müzik aleti",
         "piyano"
     ],
-    "1F3BA": [
-        "trompet",
-        "alet",
-        "müzik",
-        "müzik aleti"
-    ],
-    "1F3BB": [
-        "keman",
-        "alet",
-        "müzik",
-        "müzik aleti"
-    ],
-    "1F3BC": [
-        "sol anahtarı",
-        "müzik",
-        "müzik partisyonu",
-        "partisyon"
-    ],
+    "1F3BA": ["trompet", "alet", "müzik", "müzik aleti"],
+    "1F3BB": ["keman", "alet", "müzik", "müzik aleti"],
+    "1F3BC": ["sol anahtarı", "müzik", "müzik partisyonu", "partisyon"],
     "1F3BD": [
         "koşu tişörtü",
         "çizgi",
@@ -3461,19 +1769,8 @@
         "spor",
         "tişört"
     ],
-    "1F3BE": [
-        "tenis",
-        "spor",
-        "tenis raketi ve topu",
-        "tenis topu",
-        "top"
-    ],
-    "1F3BF": [
-        "kayak",
-        "bot",
-        "kayak ve bot",
-        "spor"
-    ],
+    "1F3BE": ["tenis", "spor", "tenis raketi ve topu", "tenis topu", "top"],
+    "1F3BF": ["kayak", "bot", "kayak ve bot", "spor"],
     "1F3C0": [
         "basketbol",
         "basketbol potası",
@@ -3719,24 +2016,9 @@
         "spor",
         "vücut"
     ],
-    "1F3C5": [
-        "spor madalyası",
-        "altın madalya",
-        "madalya"
-    ],
-    "1F3C6": [
-        "zafer kupası",
-        "kupa",
-        "ödül"
-    ],
-    "1F3C7": [
-        "at yarışı",
-        "at",
-        "jokey",
-        "spor",
-        "yarış",
-        "yarış atı"
-    ],
+    "1F3C5": ["spor madalyası", "altın madalya", "madalya"],
+    "1F3C6": ["zafer kupası", "kupa", "ödül"],
+    "1F3C7": ["at yarışı", "at", "jokey", "spor", "yarış", "yarış atı"],
     "1F3C7 1F3FB": [
         "at yarışı: açık cilt tonu",
         "açık cilt tonu",
@@ -3787,12 +2069,7 @@
         "yarış",
         "yarış atı"
     ],
-    "1F3C8": [
-        "amerikan futbolu",
-        "amerikan",
-        "spor",
-        "top"
-    ],
+    "1F3C8": ["amerikan futbolu", "amerikan", "spor", "top"],
     "1F3C9": [
         "ragbi",
         "futbol topu",
@@ -4041,26 +2318,9 @@
         "vücut",
         "vuruş"
     ],
-    "1F3CF": [
-        "kriket",
-        "maç",
-        "sopa",
-        "top"
-    ],
-    "1F3D0": [
-        "voleybol",
-        "maç",
-        "top",
-        "voleybol topu"
-    ],
-    "1F3D1": [
-        "çim hokeyi",
-        "hokey",
-        "maç",
-        "saha",
-        "sopa",
-        "top"
-    ],
+    "1F3CF": ["kriket", "maç", "sopa", "top"],
+    "1F3D0": ["voleybol", "maç", "top", "voleybol topu"],
+    "1F3D1": ["çim hokeyi", "hokey", "maç", "saha", "sopa", "top"],
     "1F3D2": [
         "buz hokeyi",
         "buz",
@@ -4070,19 +2330,8 @@
         "maç",
         "sopa"
     ],
-    "1F3D3": [
-        "masa tenisi",
-        "maç",
-        "pinpon",
-        "raket",
-        "top"
-    ],
-    "1F3E0": [
-        "ev",
-        "bina",
-        "konut",
-        "yuva"
-    ],
+    "1F3D3": ["masa tenisi", "maç", "pinpon", "raket", "top"],
+    "1F3E0": ["ev", "bina", "konut", "yuva"],
     "1F3E1": [
         "bahçeli ev",
         "bahçe",
@@ -4091,55 +2340,14 @@
         "evim evim güzel evim",
         "yazlık"
     ],
-    "1F3E2": [
-        "ofis binası",
-        "belediye",
-        "bina",
-        "devlet dairesi",
-        "ofis"
-    ],
-    "1F3E3": [
-        "Japon postanesi",
-        "bina",
-        "Japon",
-        "posta",
-        "postane"
-    ],
-    "1F3E4": [
-        "postane",
-        "Avrupa",
-        "Avrupa postanesi",
-        "bina",
-        "posta"
-    ],
-    "1F3E5": [
-        "hastane",
-        "bina",
-        "klinik",
-        "sağlık ocağı"
-    ],
-    "1F3E6": [
-        "banka",
-        "bina",
-        "dolar",
-        "para"
-    ],
-    "1F3E7": [
-        "ATM işareti",
-        "otomatik",
-        "vezne"
-    ],
-    "1F3E8": [
-        "otel",
-        "bina",
-        "kalacak yer"
-    ],
-    "1F3E9": [
-        "aşk oteli",
-        "aşk",
-        "bina",
-        "otel"
-    ],
+    "1F3E2": ["ofis binası", "belediye", "bina", "devlet dairesi", "ofis"],
+    "1F3E3": ["Japon postanesi", "bina", "Japon", "posta", "postane"],
+    "1F3E4": ["postane", "Avrupa", "Avrupa postanesi", "bina", "posta"],
+    "1F3E5": ["hastane", "bina", "klinik", "sağlık ocağı"],
+    "1F3E6": ["banka", "bina", "dolar", "para"],
+    "1F3E7": ["ATM işareti", "otomatik", "vezne"],
+    "1F3E8": ["otel", "bina", "kalacak yer"],
+    "1F3E9": ["aşk oteli", "aşk", "bina", "otel"],
     "1F3EA": [
         "sürekli açık market",
         "24 saat açık",
@@ -4147,24 +2355,9 @@
         "market",
         "sürekli açık"
     ],
-    "1F3EB": [
-        "okul",
-        "bina",
-        "ilkokul",
-        "lise",
-        "okul binası"
-    ],
-    "1F3EC": [
-        "çok katlı mağaza",
-        "büyük mağaza",
-        "çok katlı",
-        "mağaza"
-    ],
-    "1F3ED": [
-        "fabrika",
-        "bina",
-        "sanayi"
-    ],
+    "1F3EB": ["okul", "bina", "ilkokul", "lise", "okul binası"],
+    "1F3EC": ["çok katlı mağaza", "büyük mağaza", "çok katlı", "mağaza"],
+    "1F3ED": ["fabrika", "bina", "sanayi"],
     "1F3EE": [
         "kırmızı kağıt fener",
         "bar",
@@ -4173,24 +2366,9 @@
         "kırmızı",
         "restoran"
     ],
-    "1F3EF": [
-        "Japon şatosu",
-        "bina",
-        "japon kalesi",
-        "kale",
-        "şato"
-    ],
-    "1F3F0": [
-        "şato",
-        "avrupalı",
-        "bina",
-        "kale"
-    ],
-    "1F3F3": [
-        "beyaz bayrak",
-        "bayrak",
-        "dalgalanan bayrak"
-    ],
+    "1F3EF": ["Japon şatosu", "bina", "japon kalesi", "kale", "şato"],
+    "1F3F0": ["şato", "avrupalı", "bina", "kale"],
+    "1F3F3": ["beyaz bayrak", "bayrak", "dalgalanan bayrak"],
     "1F3F3 FE0F 200D 1F308": [
         "gökkuşağı bayrağı",
         "bayrak",
@@ -4202,80 +2380,21 @@
         "lgbt",
         "trans"
     ],
-    "1F3F4": [
-        "siyah bayrak",
-        "bayrak",
-        "dalgalanan siyah bayrak"
-    ],
+    "1F3F4": ["siyah bayrak", "bayrak", "dalgalanan siyah bayrak"],
     "1F3F4 E0067 E0062 E0065 E006E E0067 E007F": [
         "bayrak: İngiltere",
         "bayrak"
     ],
-    "1F3F4 E0067 E0062 E0073 E0063 E0074 E007F": [
-        "bayrak: İskoçya",
-        "bayrak"
-    ],
-    "1F3F4 E0067 E0062 E0077 E006C E0073 E007F": [
-        "bayrak: Galler",
-        "bayrak"
-    ],
-    "1F3F8": [
-        "badminton",
-        "maç",
-        "raket",
-        "tüylü top"
-    ],
-    "1F3F9": [
-        "ok ve yay",
-        "araç",
-        "burç",
-        "ok",
-        "okçu",
-        "silah",
-        "yay"
-    ],
-    "1F3FA": [
-        "amfora",
-        "alet",
-        "antika",
-        "içecek",
-        "kap",
-        "silah"
-    ],
-    "1F400": [
-        "sıçan",
-        "hayvan",
-        "kemirgen",
-        "lağım faresi"
-    ],
-    "1F401": [
-        "fare",
-        "beyaz fare",
-        "fil",
-        "hayvan",
-        "kemirgen"
-    ],
-    "1F402": [
-        "öküz",
-        "boğa",
-        "boğa burcu",
-        "burçlar",
-        "çiftlik",
-        "hayvan"
-    ],
-    "1F403": [
-        "manda",
-        "buffalo",
-        "hayvan",
-        "su"
-    ],
-    "1F404": [
-        "inek",
-        "büyükbaş hayvan",
-        "çiftlik",
-        "siyah beyaz",
-        "süt"
-    ],
+    "1F3F4 E0067 E0062 E0073 E0063 E0074 E007F": ["bayrak: İskoçya", "bayrak"],
+    "1F3F4 E0067 E0062 E0077 E006C E0073 E007F": ["bayrak: Galler", "bayrak"],
+    "1F3F8": ["badminton", "maç", "raket", "tüylü top"],
+    "1F3F9": ["ok ve yay", "araç", "burç", "ok", "okçu", "silah", "yay"],
+    "1F3FA": ["amfora", "alet", "antika", "içecek", "kap", "silah"],
+    "1F400": ["sıçan", "hayvan", "kemirgen", "lağım faresi"],
+    "1F401": ["fare", "beyaz fare", "fil", "hayvan", "kemirgen"],
+    "1F402": ["öküz", "boğa", "boğa burcu", "burçlar", "çiftlik", "hayvan"],
+    "1F403": ["manda", "buffalo", "hayvan", "su"],
+    "1F404": ["inek", "büyükbaş hayvan", "çiftlik", "siyah beyaz", "süt"],
     "1F405": [
         "kaplan",
         "büyük kedi",
@@ -4302,12 +2421,7 @@
         "şirin",
         "zıp zıp"
     ],
-    "1F408": [
-        "kedi",
-        "hayvan",
-        "pisi pisi",
-        "sarman"
-    ],
+    "1F408": ["kedi", "hayvan", "pisi pisi", "sarman"],
     "1F408 200D 2B1B": [
         "kara kedi",
         "cadılar bayramı",
@@ -4318,46 +2432,13 @@
         "miyav",
         "uğursuz"
     ],
-    "1F409": [
-        "ejderha",
-        "çin",
-        "efsane",
-        "hayvan",
-        "masal"
-    ],
-    "1F40A": [
-        "timsah",
-        "hayvan"
-    ],
-    "1F40B": [
-        "balina",
-        "hayvan",
-        "okyanus"
-    ],
-    "1F40C": [
-        "salyangoz",
-        "böcek",
-        "hayvan",
-        "sümüklü böcek",
-        "yavaş"
-    ],
-    "1F40D": [
-        "yılan",
-        "hayvan"
-    ],
-    "1F40E": [
-        "at",
-        "hayvan",
-        "yarış",
-        "yarış atı"
-    ],
-    "1F40F": [
-        "koç",
-        "burç",
-        "hayvan",
-        "koç burcu",
-        "orman"
-    ],
+    "1F409": ["ejderha", "çin", "efsane", "hayvan", "masal"],
+    "1F40A": ["timsah", "hayvan"],
+    "1F40B": ["balina", "hayvan", "okyanus"],
+    "1F40C": ["salyangoz", "böcek", "hayvan", "sümüklü böcek", "yavaş"],
+    "1F40D": ["yılan", "hayvan"],
+    "1F40E": ["at", "hayvan", "yarış", "yarış atı"],
+    "1F40F": ["koç", "burç", "hayvan", "koç burcu", "orman"],
     "1F410": [
         "keçi",
         "burçlar",
@@ -4370,36 +2451,11 @@
         "peynir",
         "süt"
     ],
-    "1F411": [
-        "koyun",
-        "çiftlik",
-        "dişi koyun",
-        "küçük baş hayvan",
-        "yün"
-    ],
-    "1F412": [
-        "maymun",
-        "hayvan",
-        "muz",
-        "orman"
-    ],
-    "1F413": [
-        "horoz",
-        "hayvan",
-        "kuş"
-    ],
-    "1F414": [
-        "tavuk",
-        "hayvan",
-        "kuş"
-    ],
-    "1F415": [
-        "köpek",
-        "hav hav",
-        "hayvan",
-        "kuçu kuçu",
-        "süs köpeği"
-    ],
+    "1F411": ["koyun", "çiftlik", "dişi koyun", "küçük baş hayvan", "yün"],
+    "1F412": ["maymun", "hayvan", "muz", "orman"],
+    "1F413": ["horoz", "hayvan", "kuş"],
+    "1F414": ["tavuk", "hayvan", "kuş"],
+    "1F415": ["köpek", "hav hav", "hayvan", "kuçu kuçu", "süs köpeği"],
     "1F415 200D 1F9BA": [
         "yardımcı köpek",
         "erişilebilirlik",
@@ -4408,29 +2464,10 @@
         "rehberlik",
         "yardım"
     ],
-    "1F416": [
-        "domuz",
-        "çiftlik",
-        "dişi domuz",
-        "pembe domuz",
-        "şişko"
-    ],
-    "1F417": [
-        "yaban domuzu",
-        "domuz",
-        "hayvan",
-        "inatçı"
-    ],
-    "1F418": [
-        "fil",
-        "hayvan",
-        "safari"
-    ],
-    "1F419": [
-        "ahtapot",
-        "hayvan",
-        "okyanus"
-    ],
+    "1F416": ["domuz", "çiftlik", "dişi domuz", "pembe domuz", "şişko"],
+    "1F417": ["yaban domuzu", "domuz", "hayvan", "inatçı"],
+    "1F418": ["fil", "hayvan", "safari"],
+    "1F419": ["ahtapot", "hayvan", "okyanus"],
     "1F41A": [
         "deniz kabuğu",
         "deniz",
@@ -4440,26 +2477,9 @@
         "okyanus",
         "spiral deniz kabuğu"
     ],
-    "1F41B": [
-        "tırtıl",
-        "böcek",
-        "hayvan",
-        "kırkayak"
-    ],
-    "1F41C": [
-        "karınca",
-        "bahçe",
-        "böcek",
-        "çalışkan",
-        "hayvan"
-    ],
-    "1F41D": [
-        "bal arısı",
-        "arı",
-        "hayvan",
-        "iğne",
-        "vız vız"
-    ],
+    "1F41B": ["tırtıl", "böcek", "hayvan", "kırkayak"],
+    "1F41C": ["karınca", "bahçe", "böcek", "çalışkan", "hayvan"],
+    "1F41D": ["bal arısı", "arı", "hayvan", "iğne", "vız vız"],
     "1F41E": [
         "uğur böceği",
         "benekli",
@@ -4468,28 +2488,10 @@
         "hanımböceği",
         "hayvan"
     ],
-    "1F41F": [
-        "balık",
-        "burç",
-        "deniz",
-        "hayvan",
-        "mavi balık"
-    ],
-    "1F420": [
-        "tropikal balık",
-        "balık",
-        "hayvan",
-        "okyanus"
-    ],
-    "1F421": [
-        "balon balığı",
-        "balık",
-        "hayvan"
-    ],
-    "1F422": [
-        "kaplumbağa",
-        "hayvan"
-    ],
+    "1F41F": ["balık", "burç", "deniz", "hayvan", "mavi balık"],
+    "1F420": ["tropikal balık", "balık", "hayvan", "okyanus"],
+    "1F421": ["balon balığı", "balık", "hayvan"],
+    "1F422": ["kaplumbağa", "hayvan"],
     "1F423": [
         "yumurtadan çıkan civciv",
         "civciv",
@@ -4500,14 +2502,7 @@
         "tavuk",
         "yavru"
     ],
-    "1F424": [
-        "civciv",
-        "civciv başı",
-        "hayvan",
-        "piliç",
-        "tavuk",
-        "yavru"
-    ],
+    "1F424": ["civciv", "civciv başı", "hayvan", "piliç", "tavuk", "yavru"],
     "1F425": [
         "önden civciv",
         "civciv",
@@ -4519,10 +2514,7 @@
         "yavru",
         "yüzü dönük civciv"
     ],
-    "1F426": [
-        "kuş",
-        "hayvan"
-    ],
+    "1F426": ["kuş", "hayvan"],
     "1F426 200D 2B1B": [
         "siyah kuş",
         "gaga",
@@ -4549,29 +2541,10 @@
         "yenilenme",
         "zafer"
     ],
-    "1F427": [
-        "penguen",
-        "antartika",
-        "buz",
-        "hayvan",
-        "soğuk"
-    ],
-    "1F428": [
-        "koala",
-        "hayvan",
-        "koala ayısı"
-    ],
-    "1F429": [
-        "kaniş",
-        "hayvan",
-        "köpek"
-    ],
-    "1F42A": [
-        "deve",
-        "hayvan",
-        "hecin devesi",
-        "hörgüç"
-    ],
+    "1F427": ["penguen", "antartika", "buz", "hayvan", "soğuk"],
+    "1F428": ["koala", "hayvan", "koala ayısı"],
+    "1F429": ["kaniş", "hayvan", "köpek"],
+    "1F42A": ["deve", "hayvan", "hecin devesi", "hörgüç"],
     "1F42B": [
         "iki hörgüçlü deve",
         "çöl",
@@ -4581,27 +2554,9 @@
         "kinci",
         "sahara"
     ],
-    "1F42C": [
-        "yunus",
-        "balık",
-        "deniz",
-        "hayvan",
-        "mavi yunus",
-        "okyanus"
-    ],
-    "1F42D": [
-        "fare yüzü",
-        "fare",
-        "hayvan",
-        "sıçan",
-        "yüz"
-    ],
-    "1F42E": [
-        "inek yüzü",
-        "hayvan",
-        "inek",
-        "yüz"
-    ],
+    "1F42C": ["yunus", "balık", "deniz", "hayvan", "mavi yunus", "okyanus"],
+    "1F42D": ["fare yüzü", "fare", "hayvan", "sıçan", "yüz"],
+    "1F42E": ["inek yüzü", "hayvan", "inek", "yüz"],
     "1F42F": [
         "kaplan yüzü",
         "büyük kedi",
@@ -4612,14 +2567,7 @@
         "vahşi",
         "yüz"
     ],
-    "1F430": [
-        "tavşan yüzü",
-        "havuç",
-        "hayvan",
-        "kemirgen",
-        "tavşan",
-        "yüz"
-    ],
+    "1F430": ["tavşan yüzü", "havuç", "hayvan", "kemirgen", "tavşan", "yüz"],
     "1F431": [
         "kedi yüzü",
         "ev hayvanı",
@@ -4632,13 +2580,7 @@
         "şirin",
         "yüz"
     ],
-    "1F432": [
-        "ejderha yüzü",
-        "ejderha",
-        "hayvan",
-        "masal",
-        "yüz"
-    ],
+    "1F432": ["ejderha yüzü", "ejderha", "hayvan", "masal", "yüz"],
     "1F433": [
         "su püskürten balina",
         "balina",
@@ -4648,12 +2590,7 @@
         "okyanus",
         "su püskürten"
     ],
-    "1F434": [
-        "at yüzü",
-        "at",
-        "hayvan",
-        "yüz"
-    ],
+    "1F434": ["at yüzü", "at", "hayvan", "yüz"],
     "1F435": [
         "maymun yüzü",
         "hayvan",
@@ -4664,26 +2601,9 @@
         "neşeli",
         "yüz"
     ],
-    "1F436": [
-        "köpek yüzü",
-        "hayvan",
-        "köpek",
-        "yüz"
-    ],
-    "1F437": [
-        "domuz yüzü",
-        "domuz",
-        "hayvan",
-        "yüz"
-    ],
-    "1F438": [
-        "kurbağa",
-        "hayvan",
-        "kurbağa yüzü",
-        "vırak",
-        "yüz",
-        "zıp zıp"
-    ],
+    "1F436": ["köpek yüzü", "hayvan", "köpek", "yüz"],
+    "1F437": ["domuz yüzü", "domuz", "hayvan", "yüz"],
+    "1F438": ["kurbağa", "hayvan", "kurbağa yüzü", "vırak", "yüz", "zıp zıp"],
     "1F439": [
         "hamster",
         "evcil hayvan",
@@ -4692,56 +2612,13 @@
         "kemirgen",
         "yüz"
     ],
-    "1F43A": [
-        "kurt",
-        "hayvan",
-        "kurt yüzü",
-        "orman",
-        "yüz"
-    ],
-    "1F43B": [
-        "ayı",
-        "ayı yüzü",
-        "hayvan",
-        "orman",
-        "yüz"
-    ],
-    "1F43C": [
-        "panda",
-        "bambu",
-        "hayvan",
-        "panda yüzü",
-        "tembel",
-        "yüz"
-    ],
-    "1F43D": [
-        "domuz burnu",
-        "burun",
-        "domuz",
-        "hayvan",
-        "yüz"
-    ],
-    "1F43E": [
-        "pençe izi",
-        "hayvan",
-        "iz",
-        "pati izi"
-    ],
-    "1F440": [
-        "gözler",
-        "bakmak",
-        "görmek",
-        "gözcü",
-        "gözetlemek",
-        "yüz"
-    ],
-    "1F442": [
-        "kulak",
-        "dinlemek",
-        "gövde",
-        "gürültü",
-        "ses"
-    ],
+    "1F43A": ["kurt", "hayvan", "kurt yüzü", "orman", "yüz"],
+    "1F43B": ["ayı", "ayı yüzü", "hayvan", "orman", "yüz"],
+    "1F43C": ["panda", "bambu", "hayvan", "panda yüzü", "tembel", "yüz"],
+    "1F43D": ["domuz burnu", "burun", "domuz", "hayvan", "yüz"],
+    "1F43E": ["pençe izi", "hayvan", "iz", "pati izi"],
+    "1F440": ["gözler", "bakmak", "görmek", "gözcü", "gözetlemek", "yüz"],
+    "1F442": ["kulak", "dinlemek", "gövde", "gürültü", "ses"],
     "1F442 1F3FB": [
         "kulak: açık cilt tonu",
         "açık cilt tonu",
@@ -4787,14 +2664,7 @@
         "kulak",
         "ses"
     ],
-    "1F443": [
-        "burun",
-        "gövde",
-        "koklamak",
-        "koku",
-        "nefes",
-        "yüz"
-    ],
+    "1F443": ["burun", "gövde", "koklamak", "koku", "nefes", "yüz"],
     "1F443 1F3FB": [
         "burun: açık cilt tonu",
         "açık cilt tonu",
@@ -4855,13 +2725,7 @@
         "öpücük",
         "yüz"
     ],
-    "1F445": [
-        "dil",
-        "ağız",
-        "gövde",
-        "yalamak",
-        "yüz"
-    ],
+    "1F445": ["dil", "ağız", "gövde", "yalamak", "yüz"],
     "1F446": [
         "elinin tersiyle yukarıyı gösteren işaret parmağı",
         "el",
@@ -5413,13 +3277,7 @@
         "onay",
         "tamam"
     ],
-    "1F44E": [
-        "baş parmak aşağıda",
-        "aşağı",
-        "baş parmak",
-        "el",
-        "işaret"
-    ],
+    "1F44E": ["baş parmak aşağıda", "aşağı", "baş parmak", "el", "işaret"],
     "1F44E 1F3FB": [
         "baş parmak aşağıda: açık cilt tonu",
         "açık cilt tonu",
@@ -5530,13 +3388,7 @@
         "koyu cilt tonu",
         "tebrik"
     ],
-    "1F450": [
-        "eller açık",
-        "açık",
-        "el",
-        "eller açık işareti",
-        "işaret"
-    ],
+    "1F450": ["eller açık", "açık", "el", "eller açık işareti", "işaret"],
     "1F450 1F3FB": [
         "eller açık: açık cilt tonu",
         "açık",
@@ -5582,35 +3434,11 @@
         "işaret",
         "koyu cilt tonu"
     ],
-    "1F451": [
-        "taç",
-        "giyim",
-        "kral",
-        "kraliçe",
-        "kraliyet"
-    ],
-    "1F452": [
-        "kadın şapkası",
-        "giyim",
-        "şapka"
-    ],
-    "1F453": [
-        "gözlük",
-        "giyim"
-    ],
-    "1F454": [
-        "kravat",
-        "giyim",
-        "gömlek",
-        "iş adamı",
-        "takım kıyafet"
-    ],
-    "1F455": [
-        "tişört",
-        "alışveriş",
-        "giyim",
-        "gömlek"
-    ],
+    "1F451": ["taç", "giyim", "kral", "kraliçe", "kraliyet"],
+    "1F452": ["kadın şapkası", "giyim", "şapka"],
+    "1F453": ["gözlük", "giyim"],
+    "1F454": ["kravat", "giyim", "gömlek", "iş adamı", "takım kıyafet"],
+    "1F455": ["tişört", "alışveriş", "giyim", "gömlek"],
     "1F456": [
         "kot",
         "blucin",
@@ -5628,11 +3456,7 @@
         "şık",
         "tek parça"
     ],
-    "1F458": [
-        "kimono",
-        "elbise",
-        "giyim"
-    ],
+    "1F458": ["kimono", "elbise", "giyim"],
     "1F459": [
         "bikini",
         "benekli bikini",
@@ -5644,42 +3468,12 @@
         "tatil",
         "yaz"
     ],
-    "1F45A": [
-        "kadın giysisi",
-        "alışveriş",
-        "bluz",
-        "giyim",
-        "giysiler"
-    ],
-    "1F45B": [
-        "cüzdan",
-        "bozuk para",
-        "bozuk para çantası",
-        "giyim"
-    ],
-    "1F45C": [
-        "el çantası",
-        "çanta",
-        "giyim",
-        "kadın el çantası"
-    ],
-    "1F45D": [
-        "para kesesi",
-        "çanta",
-        "giyim"
-    ],
-    "1F45E": [
-        "erkek ayakkabısı",
-        "ayakkabı",
-        "giyim"
-    ],
-    "1F45F": [
-        "koşu ayakkabısı",
-        "ayakkabı",
-        "bez ayakkabı",
-        "giyim",
-        "spor"
-    ],
+    "1F45A": ["kadın giysisi", "alışveriş", "bluz", "giyim", "giysiler"],
+    "1F45B": ["cüzdan", "bozuk para", "bozuk para çantası", "giyim"],
+    "1F45C": ["el çantası", "çanta", "giyim", "kadın el çantası"],
+    "1F45D": ["para kesesi", "çanta", "giyim"],
+    "1F45E": ["erkek ayakkabısı", "ayakkabı", "giyim"],
+    "1F45F": ["koşu ayakkabısı", "ayakkabı", "bez ayakkabı", "giyim", "spor"],
     "1F460": [
         "yüksek topuklu ayakkabı",
         "ayakkabı",
@@ -5695,39 +3489,11 @@
         "sandalet",
         "topuklu ayakkabı"
     ],
-    "1F462": [
-        "kadın botu",
-        "bot",
-        "çizme",
-        "giyim",
-        "kadın",
-        "kadın çizmesi"
-    ],
-    "1F463": [
-        "ayak izi",
-        "ayak",
-        "gövde",
-        "iz"
-    ],
-    "1F464": [
-        "siluet büst",
-        "büst",
-        "kişiler",
-        "siluet"
-    ],
-    "1F465": [
-        "siluet büstler",
-        "büst",
-        "kişiler",
-        "siluet"
-    ],
-    "1F466": [
-        "erkek çocuk",
-        "erkek",
-        "insan",
-        "kişiler",
-        "oğlan çocuk"
-    ],
+    "1F462": ["kadın botu", "bot", "çizme", "giyim", "kadın", "kadın çizmesi"],
+    "1F463": ["ayak izi", "ayak", "gövde", "iz"],
+    "1F464": ["siluet büst", "büst", "kişiler", "siluet"],
+    "1F465": ["siluet büstler", "büst", "kişiler", "siluet"],
+    "1F466": ["erkek çocuk", "erkek", "insan", "kişiler", "oğlan çocuk"],
     "1F466 1F3FB": [
         "erkek çocuk: açık cilt tonu",
         "açık cilt tonu",
@@ -5773,13 +3539,7 @@
         "koyu cilt tonu",
         "oğlan çocuk"
     ],
-    "1F467": [
-        "kız çocuk",
-        "genç",
-        "insan",
-        "kişiler",
-        "kız"
-    ],
+    "1F467": ["kız çocuk", "genç", "insan", "kişiler", "kız"],
     "1F467 1F3FB": [
         "kız çocuk: açık cilt tonu",
         "açık cilt tonu",
@@ -5825,13 +3585,7 @@
         "kız çocuk",
         "koyu cilt tonu"
     ],
-    "1F468": [
-        "erkek",
-        "adam",
-        "insan",
-        "kişiler",
-        "sarışın erkek"
-    ],
+    "1F468": ["erkek", "adam", "insan", "kişiler", "sarışın erkek"],
     "1F468 1F3FB": [
         "erkek: açık cilt tonu",
         "açık cilt tonu",
@@ -6113,13 +3867,7 @@
         "koyu cilt tonu",
         "sarışın erkek"
     ],
-    "1F468 200D 1F393": [
-        "erkek öğrenci",
-        "adam",
-        "erkek",
-        "mezun",
-        "öğrenci"
-    ],
+    "1F468 200D 1F393": ["erkek öğrenci", "adam", "erkek", "mezun", "öğrenci"],
     "1F468 1F3FB 200D 1F393": [
         "erkek öğrenci: açık cilt tonu",
         "açık cilt tonu",
@@ -8849,12 +6597,7 @@
         "kişiler",
         "kız çocuk"
     ],
-    "1F469": [
-        "kadın",
-        "insan",
-        "kişiler",
-        "sarışın kadın"
-    ],
+    "1F469": ["kadın", "insan", "kişiler", "sarışın kadın"],
     "1F469 1F3FB": [
         "kadın: açık cilt tonu",
         "açık cilt tonu",
@@ -9107,13 +6850,7 @@
         "koyu cilt tonu",
         "sarışın kadın"
     ],
-    "1F469 200D 1F393": [
-        "kız öğrenci",
-        "bayan",
-        "kadın",
-        "mezun",
-        "öğrenci"
-    ],
+    "1F469 200D 1F393": ["kız öğrenci", "bayan", "kadın", "mezun", "öğrenci"],
     "1F469 1F3FB 200D 1F393": [
         "kız öğrenci: açık cilt tonu",
         "açık cilt tonu",
@@ -13215,13 +10952,7 @@
         "tavşan kulaklı kişiler",
         "vücut"
     ],
-    "1F470": [
-        "duvaklı gelin",
-        "duvak",
-        "evlilik",
-        "gelin",
-        "kişiler"
-    ],
+    "1F470": ["duvaklı gelin", "duvak", "evlilik", "gelin", "kişiler"],
     "1F470 1F3FB": [
         "duvaklı gelin: açık cilt tonu",
         "açık cilt tonu",
@@ -13608,10 +11339,7 @@
         "koyu cilt tonu",
         "yaşlı"
     ],
-    "1F476": [
-        "bebek",
-        "kişiler"
-    ],
+    "1F476": ["bebek", "kişiler"],
     "1F476 1F3FB": [
         "bebek: açık cilt tonu",
         "açık cilt tonu",
@@ -13736,13 +11464,7 @@
         "tamirat",
         "vücut"
     ],
-    "1F478": [
-        "prenses",
-        "insan",
-        "kişiler",
-        "kraliçe",
-        "peri masalı"
-    ],
+    "1F478": ["prenses", "insan", "kişiler", "kraliçe", "peri masalı"],
     "1F478 1F3FB": [
         "prenses: açık cilt tonu",
         "açık cilt tonu",
@@ -13812,20 +11534,8 @@
         "yaratık",
         "yüz"
     ],
-    "1F47B": [
-        "hayalet",
-        "cadılar bayramı",
-        "öcü",
-        "peri masalı",
-        "yüz"
-    ],
-    "1F47C": [
-        "bebek melek",
-        "bebek",
-        "melek",
-        "peri masalı",
-        "yüz"
-    ],
+    "1F47B": ["hayalet", "cadılar bayramı", "öcü", "peri masalı", "yüz"],
+    "1F47C": ["bebek melek", "bebek", "melek", "peri masalı", "yüz"],
     "1F47C 1F3FB": [
         "bebek melek: açık cilt tonu",
         "açık cilt tonu",
@@ -13998,13 +11708,7 @@
         "sen bilirsin",
         "umurumda değil"
     ],
-    "1F482": [
-        "muhafız",
-        "bekçi",
-        "kişiler",
-        "koruma görevlisi",
-        "londra"
-    ],
+    "1F482": ["muhafız", "bekçi", "kişiler", "koruma görevlisi", "londra"],
     "1F482 1F3FB": [
         "muhafız: açık cilt tonu",
         "açık cilt tonu",
@@ -14120,12 +11824,7 @@
         "meslek",
         "tango"
     ],
-    "1F484": [
-        "ruj",
-        "kırmızı ruj",
-        "kozmetik",
-        "makyaj"
-    ],
+    "1F484": ["ruj", "kırmızı ruj", "kozmetik", "makyaj"],
     "1F485": [
         "oje sürme",
         "kozmetik",
@@ -14360,23 +12059,9 @@
         "salon",
         "tarz"
     ],
-    "1F488": [
-        "berber dükkanı",
-        "berber",
-        "berber işareti",
-        "işaret"
-    ],
-    "1F489": [
-        "şırınga",
-        "doktor",
-        "iğne",
-        "ilaç"
-    ],
-    "1F48A": [
-        "hap",
-        "doktor",
-        "ilaç"
-    ],
+    "1F488": ["berber dükkanı", "berber", "berber işareti", "işaret"],
+    "1F489": ["şırınga", "doktor", "iğne", "ilaç"],
+    "1F48A": ["hap", "doktor", "ilaç"],
     "1F48B": [
         "öpücük izi",
         "aşk",
@@ -14386,13 +12071,7 @@
         "romantizm",
         "seksi"
     ],
-    "1F48C": [
-        "aşk mektubu",
-        "kalp",
-        "kalpli mektup",
-        "mektup",
-        "romantizm"
-    ],
+    "1F48C": ["aşk mektubu", "kalp", "kalpli mektup", "mektup", "romantizm"],
     "1F48D": [
         "yüzük",
         "alyans",
@@ -14403,13 +12082,7 @@
         "romantizm",
         "tek taş"
     ],
-    "1F48E": [
-        "mücevher",
-        "elmas",
-        "mücevher taşı",
-        "pırlanta",
-        "romantizm"
-    ],
+    "1F48E": ["mücevher", "elmas", "mücevher taşı", "pırlanta", "romantizm"],
     "1F48F": [
         "öpücük",
         "aşk",
@@ -14474,14 +12147,7 @@
         "seni seviyorum",
         "yıldönümü"
     ],
-    "1F490": [
-        "buket",
-        "aşk",
-        "çiçek",
-        "doğum günü",
-        "gül",
-        "romantizm"
-    ],
+    "1F490": ["buket", "aşk", "çiçek", "doğum günü", "gül", "romantizm"],
     "1F491": [
         "kalpli çift",
         "aşk",
@@ -14540,29 +12206,9 @@
         "koyu cilt tonu",
         "romantizm"
     ],
-    "1F492": [
-        "düğün",
-        "evlenme",
-        "kilise",
-        "kilisede evlenme",
-        "romantizm"
-    ],
-    "1F493": [
-        "çarpan kalp",
-        "aşk",
-        "duygu",
-        "heyecan",
-        "kalp",
-        "kalp atışı"
-    ],
-    "1F494": [
-        "kırık kalp",
-        "duygu",
-        "hüsran",
-        "kalp",
-        "kırılmış",
-        "kırma"
-    ],
+    "1F492": ["düğün", "evlenme", "kilise", "kilisede evlenme", "romantizm"],
+    "1F493": ["çarpan kalp", "aşk", "duygu", "heyecan", "kalp", "kalp atışı"],
+    "1F494": ["kırık kalp", "duygu", "hüsran", "kalp", "kırılmış", "kırma"],
     "1F495": [
         "iki kalp",
         "aşıklar",
@@ -14580,64 +12226,15 @@
         "pembe kalp",
         "pırıldayan"
     ],
-    "1F497": [
-        "büyüyen kalp",
-        "aşk",
-        "coşkulu",
-        "duygu",
-        "kalp",
-        "sinirli"
-    ],
-    "1F498": [
-        "ok saplanmış kalp",
-        "aşk",
-        "duygu",
-        "kalp",
-        "ok"
-    ],
-    "1F499": [
-        "mavi kalp",
-        "duygu",
-        "kalp",
-        "mavi"
-    ],
-    "1F49A": [
-        "yeşil kalp",
-        "duygu",
-        "kalp",
-        "yeşil"
-    ],
-    "1F49B": [
-        "sarı kalp",
-        "duygu",
-        "kalp",
-        "sarı"
-    ],
-    "1F49C": [
-        "mor kalp",
-        "duygu",
-        "kalp",
-        "mor"
-    ],
-    "1F49D": [
-        "kurdeleli kalp",
-        "duygu",
-        "kalp",
-        "kurdele",
-        "sevgililer günü"
-    ],
-    "1F49E": [
-        "dönen kalpler",
-        "aşk",
-        "dönen",
-        "kalp",
-        "kawaii",
-        "sevimli"
-    ],
-    "1F49F": [
-        "kalpli dekorasyon",
-        "kalp"
-    ],
+    "1F497": ["büyüyen kalp", "aşk", "coşkulu", "duygu", "kalp", "sinirli"],
+    "1F498": ["ok saplanmış kalp", "aşk", "duygu", "kalp", "ok"],
+    "1F499": ["mavi kalp", "duygu", "kalp", "mavi"],
+    "1F49A": ["yeşil kalp", "duygu", "kalp", "yeşil"],
+    "1F49B": ["sarı kalp", "duygu", "kalp", "sarı"],
+    "1F49C": ["mor kalp", "duygu", "kalp", "mor"],
+    "1F49D": ["kurdeleli kalp", "duygu", "kalp", "kurdele", "sevgililer günü"],
+    "1F49E": ["dönen kalpler", "aşk", "dönen", "kalp", "kawaii", "sevimli"],
+    "1F49F": ["kalpli dekorasyon", "kalp"],
     "1F4A0": [
         "içinde noktalı karo",
         "baklava",
@@ -14649,13 +12246,7 @@
         "içinde noktalı elmas biçimi",
         "karo"
     ],
-    "1F4A1": [
-        "ampul",
-        "bir fikrim var",
-        "çizgi roman",
-        "elektrik",
-        "ışık"
-    ],
+    "1F4A1": ["ampul", "bir fikrim var", "çizgi roman", "elektrik", "ışık"],
     "1F4A2": [
         "öfke simgesi",
         "çizgi roman",
@@ -14664,11 +12255,7 @@
         "öfke işareti",
         "öfkeli"
     ],
-    "1F4A3": [
-        "bomba",
-        "çizgi roman",
-        "duygu"
-    ],
+    "1F4A3": ["bomba", "çizgi roman", "duygu"],
     "1F4A4": [
         "zzz",
         "çizgi roman",
@@ -14699,14 +12286,7 @@
         "ter",
         "terli"
     ],
-    "1F4A7": [
-        "damlacık",
-        "çizgi roman",
-        "damla",
-        "su",
-        "ter",
-        "terli"
-    ],
+    "1F4A7": ["damlacık", "çizgi roman", "damla", "su", "ter", "terli"],
     "1F4A8": [
         "hızla fırlama",
         "çizgi roman",
@@ -14719,13 +12299,7 @@
         "koşma",
         "rüzgar"
     ],
-    "1F4A9": [
-        "kaka",
-        "kaka yığını",
-        "leş",
-        "pislik",
-        "yığın"
-    ],
+    "1F4A9": ["kaka", "kaka yığını", "leş", "pislik", "yığın"],
     "1F4AA": [
         "pazı",
         "çizgi roman",
@@ -14824,13 +12398,7 @@
         "damga",
         "iyi çalışma damgası"
     ],
-    "1F4AF": [
-        "yüz puan",
-        "100",
-        "100 puan",
-        "skor",
-        "yuz"
-    ],
+    "1F4AF": ["yüz puan", "100", "100 puan", "skor", "yuz"],
     "1F4B0": [
         "para torbası",
         "çanta",
@@ -14839,38 +12407,11 @@
         "para çuvalı",
         "zengin"
     ],
-    "1F4B1": [
-        "kambiyo",
-        "bozdurma",
-        "döviz",
-        "para"
-    ],
-    "1F4B2": [
-        "dolar işareti",
-        "dolar",
-        "koyu renk dolar işareti",
-        "para"
-    ],
-    "1F4B3": [
-        "kredi kartı",
-        "kart",
-        "kredi"
-    ],
-    "1F4B4": [
-        "yen banknot",
-        "banknot",
-        "döviz",
-        "para",
-        "yen"
-    ],
-    "1F4B5": [
-        "dolar banknot",
-        "banknot",
-        "dolar",
-        "döviz",
-        "fatura",
-        "para"
-    ],
+    "1F4B1": ["kambiyo", "bozdurma", "döviz", "para"],
+    "1F4B2": ["dolar işareti", "dolar", "koyu renk dolar işareti", "para"],
+    "1F4B3": ["kredi kartı", "kart", "kredi"],
+    "1F4B4": ["yen banknot", "banknot", "döviz", "para", "yen"],
+    "1F4B5": ["dolar banknot", "banknot", "dolar", "döviz", "fatura", "para"],
     "1F4B6": [
         "euro banknot",
         "avro",
@@ -14880,20 +12421,8 @@
         "fatura",
         "para"
     ],
-    "1F4B7": [
-        "sterlin banknot",
-        "banknot",
-        "döviz",
-        "para",
-        "sterlin"
-    ],
-    "1F4B8": [
-        "kanatlı para",
-        "banka",
-        "banknot",
-        "para",
-        "uçan banknot"
-    ],
+    "1F4B7": ["sterlin banknot", "banknot", "döviz", "para", "sterlin"],
+    "1F4B8": ["kanatlı para", "banka", "banknot", "para", "uçan banknot"],
     "1F4B9": [
         "yen simgeli artış grafiği",
         "banka",
@@ -14904,58 +12433,16 @@
         "yukarı giden grafik",
         "yukarı yönlü"
     ],
-    "1F4BA": [
-        "koltuk",
-        "sandalye"
-    ],
-    "1F4BB": [
-        "dizüstü bilgisayar",
-        "bilgisayar",
-        "kişisel"
-    ],
-    "1F4BC": [
-        "evrak çantası",
-        "müfettiş",
-        "ofis"
-    ],
-    "1F4BD": [
-        "mini disk",
-        "bilgisayar",
-        "disk"
-    ],
-    "1F4BE": [
-        "disket",
-        "floppy"
-    ],
-    "1F4BF": [
-        "optik disk",
-        "CD",
-        "disk",
-        "DVD"
-    ],
-    "1F4C0": [
-        "dvd",
-        "blu-ray",
-        "CD",
-        "disk",
-        "müzik"
-    ],
-    "1F4C1": [
-        "dosya klasörü",
-        "dosya",
-        "klasör"
-    ],
-    "1F4C2": [
-        "açık dosya klasörü",
-        "açık",
-        "dosya",
-        "klasör"
-    ],
-    "1F4C3": [
-        "kıvrık sayfa",
-        "kenarı kıvrılmış sayfa",
-        "sayfa"
-    ],
+    "1F4BA": ["koltuk", "sandalye"],
+    "1F4BB": ["dizüstü bilgisayar", "bilgisayar", "kişisel"],
+    "1F4BC": ["evrak çantası", "müfettiş", "ofis"],
+    "1F4BD": ["mini disk", "bilgisayar", "disk"],
+    "1F4BE": ["disket", "floppy"],
+    "1F4BF": ["optik disk", "CD", "disk", "DVD"],
+    "1F4C0": ["dvd", "blu-ray", "CD", "disk", "müzik"],
+    "1F4C1": ["dosya klasörü", "dosya", "klasör"],
+    "1F4C2": ["açık dosya klasörü", "açık", "dosya", "klasör"],
+    "1F4C3": ["kıvrık sayfa", "kenarı kıvrılmış sayfa", "sayfa"],
     "1F4C4": [
         "yüzü yukarıda sayfa",
         "doküman",
@@ -14963,191 +12450,46 @@
         "ön yüzü görünen sayfa",
         "sayfa"
     ],
-    "1F4C5": [
-        "takvim",
-        "tarih"
-    ],
-    "1F4C6": [
-        "koparmalı takvim",
-        "takvim",
-        "takvim sayfası",
-        "tarih"
-    ],
-    "1F4C7": [
-        "kart dizini",
-        "dizin",
-        "rolodeks"
-    ],
-    "1F4C8": [
-        "artış grafiği",
-        "grafik",
-        "yukarı yönlü",
-        "yükselen grafik"
-    ],
-    "1F4C9": [
-        "iniş grafiği",
-        "alçalan grafik",
-        "aşağı yönlü",
-        "grafik"
-    ],
-    "1F4CA": [
-        "çubuk grafiği",
-        "grafik"
-    ],
-    "1F4CB": [
-        "pano",
-        "duyuru"
-    ],
-    "1F4CC": [
-        "raptiye",
-        "iğne"
-    ],
-    "1F4CD": [
-        "yuvarlak raptiye",
-        "iğne",
-        "raptiye"
-    ],
-    "1F4CE": [
-        "ataş",
-        "klips"
-    ],
-    "1F4CF": [
-        "düz cetvel",
-        "cetvel"
-    ],
-    "1F4D0": [
-        "gönye",
-        "cetvel",
-        "üçgen"
-    ],
-    "1F4D1": [
-        "sayfa ayraçları",
-        "ayraçlar",
-        "işaretçi",
-        "sayfa işareti"
-    ],
-    "1F4D2": [
-        "resmi defter",
-        "not defteri"
-    ],
-    "1F4D3": [
-        "not defteri",
-        "defter"
-    ],
+    "1F4C5": ["takvim", "tarih"],
+    "1F4C6": ["koparmalı takvim", "takvim", "takvim sayfası", "tarih"],
+    "1F4C7": ["kart dizini", "dizin", "rolodeks"],
+    "1F4C8": ["artış grafiği", "grafik", "yukarı yönlü", "yükselen grafik"],
+    "1F4C9": ["iniş grafiği", "alçalan grafik", "aşağı yönlü", "grafik"],
+    "1F4CA": ["çubuk grafiği", "grafik"],
+    "1F4CB": ["pano", "duyuru"],
+    "1F4CC": ["raptiye", "iğne"],
+    "1F4CD": ["yuvarlak raptiye", "iğne", "raptiye"],
+    "1F4CE": ["ataş", "klips"],
+    "1F4CF": ["düz cetvel", "cetvel"],
+    "1F4D0": ["gönye", "cetvel", "üçgen"],
+    "1F4D1": ["sayfa ayraçları", "ayraçlar", "işaretçi", "sayfa işareti"],
+    "1F4D2": ["resmi defter", "not defteri"],
+    "1F4D3": ["not defteri", "defter"],
     "1F4D4": [
         "süslü not defteri",
         "dekorasyonlu not defteri",
         "kapak",
         "not defteri"
     ],
-    "1F4D5": [
-        "kapalı kitap",
-        "kitap",
-        "kırmızı kitap"
-    ],
-    "1F4D6": [
-        "açık kitap",
-        "açık defter",
-        "defter",
-        "kitap",
-        "okul"
-    ],
-    "1F4D7": [
-        "yeşil kitap",
-        "eğitim",
-        "kitap",
-        "kütüphane",
-        "okul"
-    ],
-    "1F4D8": [
-        "mavi kitap",
-        "kitap"
-    ],
-    "1F4D9": [
-        "turuncu kitap",
-        "kitap"
-    ],
-    "1F4DA": [
-        "kitaplar",
-        "kitap"
-    ],
-    "1F4DB": [
-        "ad rozeti",
-        "ad",
-        "rozet"
-    ],
-    "1F4DC": [
-        "parşömen",
-        "bildiri",
-        "kağıt"
-    ],
-    "1F4DD": [
-        "not",
-        "ders",
-        "iletişim",
-        "kalem",
-        "kalem kağıt",
-        "not defteri"
-    ],
-    "1F4DE": [
-        "ahize",
-        "alıcı",
-        "telefon"
-    ],
-    "1F4DF": [
-        "çağrı cihazı",
-        "iletişim"
-    ],
-    "1F4E0": [
-        "faks makinesi",
-        "iletişim"
-    ],
-    "1F4E1": [
-        "uydu anteni",
-        "anten",
-        "çanak",
-        "iletişim",
-        "uydu"
-    ],
-    "1F4E2": [
-        "hoparlör",
-        "halka hitap",
-        "iletişim",
-        "megafon"
-    ],
-    "1F4E3": [
-        "megafon",
-        "iletişim",
-        "karşılama"
-    ],
-    "1F4E4": [
-        "giden kutusu",
-        "giden",
-        "iletişim",
-        "kutu",
-        "posta",
-        "tepsi"
-    ],
-    "1F4E5": [
-        "gelen kutusu",
-        "gelen",
-        "iletişim",
-        "kutu",
-        "posta",
-        "tepsi"
-    ],
-    "1F4E6": [
-        "paket",
-        "kutu",
-        "posta"
-    ],
-    "1F4E7": [
-        "e-posta",
-        "ileti",
-        "iletişim",
-        "mektup",
-        "posta"
-    ],
+    "1F4D5": ["kapalı kitap", "kitap", "kırmızı kitap"],
+    "1F4D6": ["açık kitap", "açık defter", "defter", "kitap", "okul"],
+    "1F4D7": ["yeşil kitap", "eğitim", "kitap", "kütüphane", "okul"],
+    "1F4D8": ["mavi kitap", "kitap"],
+    "1F4D9": ["turuncu kitap", "kitap"],
+    "1F4DA": ["kitaplar", "kitap"],
+    "1F4DB": ["ad rozeti", "ad", "rozet"],
+    "1F4DC": ["parşömen", "bildiri", "kağıt"],
+    "1F4DD": ["not", "ders", "iletişim", "kalem", "kalem kağıt", "not defteri"],
+    "1F4DE": ["ahize", "alıcı", "telefon"],
+    "1F4DF": ["çağrı cihazı", "iletişim"],
+    "1F4E0": ["faks makinesi", "iletişim"],
+    "1F4E1": ["uydu anteni", "anten", "çanak", "iletişim", "uydu"],
+    "1F4E2": ["hoparlör", "halka hitap", "iletişim", "megafon"],
+    "1F4E3": ["megafon", "iletişim", "karşılama"],
+    "1F4E4": ["giden kutusu", "giden", "iletişim", "kutu", "posta", "tepsi"],
+    "1F4E5": ["gelen kutusu", "gelen", "iletişim", "kutu", "posta", "tepsi"],
+    "1F4E6": ["paket", "kutu", "posta"],
+    "1F4E7": ["e-posta", "ileti", "iletişim", "mektup", "posta"],
     "1F4E8": [
         "gelen zarf",
         "alınan posta",
@@ -15196,28 +12538,10 @@
         "işareti indirilmiş açık posta kutusu",
         "posta"
     ],
-    "1F4EE": [
-        "posta kutusu",
-        "posta"
-    ],
-    "1F4EF": [
-        "posta klaksonu",
-        "borozan",
-        "klakson",
-        "posta"
-    ],
-    "1F4F0": [
-        "gazete",
-        "haber",
-        "kağıt",
-        "kâğıt"
-    ],
-    "1F4F1": [
-        "cep telefonu",
-        "iPhone",
-        "mobil telefon",
-        "telefon"
-    ],
+    "1F4EE": ["posta kutusu", "posta"],
+    "1F4EF": ["posta klaksonu", "borozan", "klakson", "posta"],
+    "1F4F0": ["gazete", "haber", "kağıt", "kâğıt"],
+    "1F4F1": ["cep telefonu", "iPhone", "mobil telefon", "telefon"],
     "1F4F2": [
         "ok işaretli cep telefonu",
         "çağrı yapmak",
@@ -15225,13 +12549,7 @@
         "mobil telefon",
         "telefon"
     ],
-    "1F4F3": [
-        "titreşim modu",
-        "cep telefonu",
-        "mobil",
-        "mod",
-        "telefon"
-    ],
+    "1F4F3": ["titreşim modu", "cep telefonu", "mobil", "mod", "telefon"],
     "1F4F4": [
         "cep telefonu kapalı",
         "cep telefonu",
@@ -15239,12 +12557,7 @@
         "mobil",
         "telefon"
     ],
-    "1F4F5": [
-        "cep telefonu yasak",
-        "çağrı yapılmaz",
-        "mobil",
-        "telefon"
-    ],
+    "1F4F5": ["cep telefonu yasak", "çağrı yapılmaz", "mobil", "telefon"],
     "1F4F6": [
         "sinyal gücü",
         "anten",
@@ -15253,55 +12566,15 @@
         "sinyal",
         "telefon"
     ],
-    "1F4F7": [
-        "fotoğraf makinesi",
-        "video"
-    ],
-    "1F4F8": [
-        "flaşlı fotoğraf makinesi",
-        "flaş",
-        "kamera",
-        "video"
-    ],
-    "1F4F9": [
-        "video kamera",
-        "kamera",
-        "video"
-    ],
-    "1F4FA": [
-        "televizyon",
-        "tv",
-        "video"
-    ],
-    "1F4FB": [
-        "radyo",
-        "video"
-    ],
-    "1F4FC": [
-        "videokaset",
-        "teyp",
-        "video",
-        "video kaseti"
-    ],
-    "1F4FF": [
-        "tespih",
-        "boncuk",
-        "din",
-        "dua",
-        "giyim",
-        "kolye",
-        "tesbih"
-    ],
-    "1F500": [
-        "parça karıştırma düğmesi",
-        "çapraz sağ oklar",
-        "oklar"
-    ],
-    "1F501": [
-        "tekrarlama düğmesi",
-        "oklar",
-        "saat yönünde"
-    ],
+    "1F4F7": ["fotoğraf makinesi", "video"],
+    "1F4F8": ["flaşlı fotoğraf makinesi", "flaş", "kamera", "video"],
+    "1F4F9": ["video kamera", "kamera", "video"],
+    "1F4FA": ["televizyon", "tv", "video"],
+    "1F4FB": ["radyo", "video"],
+    "1F4FC": ["videokaset", "teyp", "video", "video kaseti"],
+    "1F4FF": ["tespih", "boncuk", "din", "dua", "giyim", "kolye", "tesbih"],
+    "1F500": ["parça karıştırma düğmesi", "çapraz sağ oklar", "oklar"],
+    "1F501": ["tekrarlama düğmesi", "oklar", "saat yönünde"],
     "1F502": [
         "tek parça tekrarlama düğmesi",
         "1 sayısı",
@@ -15341,29 +12614,11 @@
         "lütfen sessiz olun",
         "sessiz olun"
     ],
-    "1F508": [
-        "kısık ses",
-        "hoparlör ses düzeyi",
-        "ses düzeyi"
-    ],
-    "1F509": [
-        "ses açık",
-        "düşük",
-        "düşük ses",
-        "düşük sesli hoparlör"
-    ],
-    "1F50A": [
-        "yüksek ses",
-        "yüksek",
-        "yüksek sesli hoparlör"
-    ],
-    "1F50B": [
-        "pil"
-    ],
-    "1F50C": [
-        "elektrik fişi",
-        "elektrik"
-    ],
+    "1F508": ["kısık ses", "hoparlör ses düzeyi", "ses düzeyi"],
+    "1F509": ["ses açık", "düşük", "düşük ses", "düşük sesli hoparlör"],
+    "1F50A": ["yüksek ses", "yüksek", "yüksek sesli hoparlör"],
+    "1F50B": ["pil"],
+    "1F50C": ["elektrik fişi", "elektrik"],
     "1F50D": [
         "sola dönük büyüteç",
         "arama",
@@ -15386,34 +12641,11 @@
         "mürekkepli kalem",
         "mürekkepli kalemli kilit"
     ],
-    "1F510": [
-        "anahtarlı kapalı kilit",
-        "anahtarlı kilit",
-        "güvenli"
-    ],
-    "1F511": [
-        "anahtar",
-        "kilit",
-        "parola",
-        "şifre"
-    ],
-    "1F512": [
-        "kilit",
-        "kapalı kilit"
-    ],
-    "1F513": [
-        "açık kilit",
-        "açık",
-        "kilidini açma",
-        "kilit"
-    ],
-    "1F514": [
-        "zil",
-        "çan",
-        "kilise",
-        "ses",
-        "tenefüs"
-    ],
+    "1F510": ["anahtarlı kapalı kilit", "anahtarlı kilit", "güvenli"],
+    "1F511": ["anahtar", "kilit", "parola", "şifre"],
+    "1F512": ["kilit", "kapalı kilit"],
+    "1F513": ["açık kilit", "açık", "kilidini açma", "kilit"],
+    "1F514": ["zil", "çan", "kilise", "ses", "tenefüs"],
     "1F515": [
         "üzeri çizili zil",
         "çan",
@@ -15422,36 +12654,11 @@
         "ses yok",
         "sessiz"
     ],
-    "1F516": [
-        "yer işareti",
-        "defter",
-        "işaret",
-        "kitap",
-        "not"
-    ],
-    "1F517": [
-        "bağlantı işareti",
-        "bağlantılar",
-        "iki halka"
-    ],
-    "1F518": [
-        "radyo düğmesi",
-        "düğme",
-        "radyo"
-    ],
-    "1F519": [
-        "geri oku",
-        "geri ok",
-        "ok",
-        "sol geri ok",
-        "sol ok"
-    ],
-    "1F51A": [
-        "bitiş oku",
-        "ok",
-        "sol bitiş oku",
-        "sol ok"
-    ],
+    "1F516": ["yer işareti", "defter", "işaret", "kitap", "not"],
+    "1F517": ["bağlantı işareti", "bağlantılar", "iki halka"],
+    "1F518": ["radyo düğmesi", "düğme", "radyo"],
+    "1F519": ["geri oku", "geri ok", "ok", "sol geri ok", "sol ok"],
+    "1F51A": ["bitiş oku", "ok", "sol bitiş oku", "sol ok"],
     "1F51B": [
         "açık oku",
         "ok",
@@ -15459,12 +12666,7 @@
         "ünlem işareti",
         "ünlem işareti ve okla AÇIK"
     ],
-    "1F51C": [
-        "yakında işareti",
-        "ok",
-        "sağ okla Yakında",
-        "Yakında"
-    ],
+    "1F51C": ["yakında işareti", "ok", "sağ okla Yakında", "Yakında"],
     "1F51D": [
         "yukarı oku",
         "yukarı",
@@ -15479,10 +12681,7 @@
         "18 yaş altı yasaktır",
         "18‘den küçükler giremez"
     ],
-    "1F51F": [
-        "tuş: 10",
-        "tuş"
-    ],
+    "1F51F": ["tuş: 10", "tuş"],
     "1F520": [
         "büyük harfler",
         "ABCD",
@@ -15500,15 +12699,8 @@
         "Latin küçük harfleri",
         "Latin küçük harfleriyle giriş"
     ],
-    "1F522": [
-        "sayılar",
-        "1234",
-        "sayı girişi"
-    ],
-    "1F523": [
-        "işaretler",
-        "işaret girişi"
-    ],
+    "1F522": ["sayılar", "1234", "sayı girişi"],
+    "1F523": ["işaretler", "işaret girişi"],
     "1F524": [
         "Latin alfabesi",
         "ABC",
@@ -15516,62 +12708,16 @@
         "Latin",
         "Latin alfabesiyle giriş"
     ],
-    "1F525": [
-        "ateş",
-        "alev",
-        "sıcak",
-        "yakmak"
-    ],
-    "1F526": [
-        "el feneri",
-        "elektrik",
-        "ışık"
-    ],
-    "1F527": [
-        "somun anahtarı",
-        "araç",
-        "ingiliz anahtarı"
-    ],
-    "1F528": [
-        "çekiç",
-        "araç"
-    ],
-    "1F529": [
-        "somun ve vida",
-        "araç",
-        "somun",
-        "vida"
-    ],
-    "1F52A": [
-        "mutfak bıçağı",
-        "bıçak"
-    ],
-    "1F52B": [
-        "su tabancası",
-        "revolver",
-        "silah",
-        "tabanca"
-    ],
-    "1F52C": [
-        "mikroskop",
-        "alet",
-        "bilim",
-        "labrotuar",
-        "test"
-    ],
-    "1F52D": [
-        "teleskop",
-        "alet",
-        "uzay",
-        "uzay gözlemleme"
-    ],
-    "1F52E": [
-        "kristal küre",
-        "fal",
-        "fal bakma",
-        "kristal",
-        "küre"
-    ],
+    "1F525": ["ateş", "alev", "sıcak", "yakmak"],
+    "1F526": ["el feneri", "elektrik", "ışık"],
+    "1F527": ["somun anahtarı", "araç", "ingiliz anahtarı"],
+    "1F528": ["çekiç", "araç"],
+    "1F529": ["somun ve vida", "araç", "somun", "vida"],
+    "1F52A": ["mutfak bıçağı", "bıçak"],
+    "1F52B": ["su tabancası", "revolver", "silah", "tabanca"],
+    "1F52C": ["mikroskop", "alet", "bilim", "labrotuar", "test"],
+    "1F52D": ["teleskop", "alet", "uzay", "uzay gözlemleme"],
+    "1F52E": ["kristal küre", "fal", "fal bakma", "kristal", "küre"],
     "1F52F": [
         "altı köşeli yıldız",
         "altı köşeli",
@@ -15586,54 +12732,15 @@
         "yeşil ve sarı",
         "yeşil ve sarı yaprak"
     ],
-    "1F531": [
-        "üçlü çatal işareti",
-        "amblem",
-        "çıpa",
-        "üçlü çatal"
-    ],
-    "1F532": [
-        "siyah kare düğme",
-        "düğme",
-        "kare"
-    ],
-    "1F533": [
-        "beyaz kare düğme",
-        "düğme",
-        "kare"
-    ],
-    "1F534": [
-        "kırmızı daire",
-        "büyük kırmızı çember",
-        "çember",
-        "kırmızı"
-    ],
-    "1F535": [
-        "mavi daire",
-        "büyük mavi çember",
-        "çember",
-        "mavi"
-    ],
-    "1F536": [
-        "büyük turuncu karo",
-        "karo",
-        "turuncu"
-    ],
-    "1F537": [
-        "büyük mavi karo",
-        "karo",
-        "mavi"
-    ],
-    "1F538": [
-        "küçük turuncu karo",
-        "karo",
-        "turuncu"
-    ],
-    "1F539": [
-        "küçük mavi karo",
-        "karo",
-        "mavi"
-    ],
+    "1F531": ["üçlü çatal işareti", "amblem", "çıpa", "üçlü çatal"],
+    "1F532": ["siyah kare düğme", "düğme", "kare"],
+    "1F533": ["beyaz kare düğme", "düğme", "kare"],
+    "1F534": ["kırmızı daire", "büyük kırmızı çember", "çember", "kırmızı"],
+    "1F535": ["mavi daire", "büyük mavi çember", "çember", "mavi"],
+    "1F536": ["büyük turuncu karo", "karo", "turuncu"],
+    "1F537": ["büyük mavi karo", "karo", "mavi"],
+    "1F538": ["küçük turuncu karo", "karo", "turuncu"],
+    "1F539": ["küçük mavi karo", "karo", "mavi"],
     "1F53A": [
         "yukarı bakan kırmızı üçgen",
         "kırmızı",
@@ -15646,25 +12753,9 @@
         "kırmızı",
         "üçgen"
     ],
-    "1F53C": [
-        "yukarı düğmesi",
-        "düğme",
-        "üçgen",
-        "yukarı üçgen düğmesi"
-    ],
-    "1F53D": [
-        "aşağı düğmesi",
-        "aşağı üçgen düğmesi",
-        "düğme",
-        "üçgen"
-    ],
-    "1F54B": [
-        "Kâbe",
-        "din",
-        "islam",
-        "kabe",
-        "müslüman"
-    ],
+    "1F53C": ["yukarı düğmesi", "düğme", "üçgen", "yukarı üçgen düğmesi"],
+    "1F53D": ["aşağı düğmesi", "aşağı üçgen düğmesi", "düğme", "üçgen"],
+    "1F54B": ["Kâbe", "din", "islam", "kabe", "müslüman"],
     "1F54C": [
         "cami",
         "din",
@@ -15675,155 +12766,32 @@
         "mescit",
         "müslüman"
     ],
-    "1F54D": [
-        "sinagog",
-        "din",
-        "musevi",
-        "tapınak",
-        "yahudi"
-    ],
-    "1F54E": [
-        "Yahudi şamdanı",
-        "din",
-        "menora",
-        "mum",
-        "mumluk",
-        "şamdan"
-    ],
-    "1F550": [
-        "saat 1",
-        "1:00",
-        "bir",
-        "saat"
-    ],
-    "1F551": [
-        "saat 2",
-        "2:00",
-        "iki",
-        "saat"
-    ],
-    "1F552": [
-        "saat 3",
-        "3:00",
-        "saat",
-        "üç"
-    ],
-    "1F553": [
-        "saat 4",
-        "4:00",
-        "dört",
-        "saat"
-    ],
-    "1F554": [
-        "saat 5",
-        "5:00",
-        "beş",
-        "saat"
-    ],
-    "1F555": [
-        "saat 6",
-        "6:00",
-        "altı",
-        "saat"
-    ],
-    "1F556": [
-        "saat 7",
-        "7:00",
-        "saat",
-        "yedi"
-    ],
-    "1F557": [
-        "saat 8",
-        "8:00",
-        "saat",
-        "sekiz"
-    ],
-    "1F558": [
-        "saat 9",
-        "9:00",
-        "dokuz",
-        "saat"
-    ],
-    "1F559": [
-        "saat 10",
-        "10:00",
-        "on",
-        "saat"
-    ],
-    "1F55A": [
-        "saat 11",
-        "11:00",
-        "on bir",
-        "saat"
-    ],
-    "1F55B": [
-        "saat 12",
-        "12:00",
-        "on iki",
-        "saat"
-    ],
-    "1F55C": [
-        "bir buçuk",
-        "1:30",
-        "saat"
-    ],
-    "1F55D": [
-        "iki buçuk",
-        "2:30",
-        "saat"
-    ],
-    "1F55E": [
-        "üç buçuk",
-        "3:30",
-        "saat"
-    ],
-    "1F55F": [
-        "dört buçuk",
-        "4:30",
-        "saat"
-    ],
-    "1F560": [
-        "beş buçuk",
-        "5:30",
-        "saat"
-    ],
-    "1F561": [
-        "altı buçuk",
-        "6:30",
-        "saat"
-    ],
-    "1F562": [
-        "yedi buçuk",
-        "7:30",
-        "saat"
-    ],
-    "1F563": [
-        "sekiz buçuk",
-        "8:30",
-        "saat"
-    ],
-    "1F564": [
-        "dokuz buçuk",
-        "9:30",
-        "saat"
-    ],
-    "1F565": [
-        "on buçuk",
-        "10:30",
-        "saat"
-    ],
-    "1F566": [
-        "on bir buçuk",
-        "11:30",
-        "saat"
-    ],
-    "1F567": [
-        "on iki buçuk",
-        "12:30",
-        "on iki otuz",
-        "saat",
-        "yarım"
-    ],
+    "1F54D": ["sinagog", "din", "musevi", "tapınak", "yahudi"],
+    "1F54E": ["Yahudi şamdanı", "din", "menora", "mum", "mumluk", "şamdan"],
+    "1F550": ["saat 1", "1:00", "bir", "saat"],
+    "1F551": ["saat 2", "2:00", "iki", "saat"],
+    "1F552": ["saat 3", "3:00", "saat", "üç"],
+    "1F553": ["saat 4", "4:00", "dört", "saat"],
+    "1F554": ["saat 5", "5:00", "beş", "saat"],
+    "1F555": ["saat 6", "6:00", "altı", "saat"],
+    "1F556": ["saat 7", "7:00", "saat", "yedi"],
+    "1F557": ["saat 8", "8:00", "saat", "sekiz"],
+    "1F558": ["saat 9", "9:00", "dokuz", "saat"],
+    "1F559": ["saat 10", "10:00", "on", "saat"],
+    "1F55A": ["saat 11", "11:00", "on bir", "saat"],
+    "1F55B": ["saat 12", "12:00", "on iki", "saat"],
+    "1F55C": ["bir buçuk", "1:30", "saat"],
+    "1F55D": ["iki buçuk", "2:30", "saat"],
+    "1F55E": ["üç buçuk", "3:30", "saat"],
+    "1F55F": ["dört buçuk", "4:30", "saat"],
+    "1F560": ["beş buçuk", "5:30", "saat"],
+    "1F561": ["altı buçuk", "6:30", "saat"],
+    "1F562": ["yedi buçuk", "7:30", "saat"],
+    "1F563": ["sekiz buçuk", "8:30", "saat"],
+    "1F564": ["dokuz buçuk", "9:30", "saat"],
+    "1F565": ["on buçuk", "10:30", "saat"],
+    "1F566": ["on bir buçuk", "11:30", "saat"],
+    "1F567": ["on iki buçuk", "12:30", "on iki otuz", "saat", "yarım"],
     "1F574": [
         "havalanan takım elbiseli adam",
         "erkek",
@@ -15882,13 +12850,7 @@
         "takım elbise",
         "yukarıda süzülen takım elbiseli iş adamı"
     ],
-    "1F575": [
-        "dedektif",
-        "casus",
-        "erkek casus",
-        "hafiye",
-        "meslek"
-    ],
+    "1F575": ["dedektif", "casus", "erkek casus", "hafiye", "meslek"],
     "1F575 1F3FB": [
         "dedektif: açık cilt tonu",
         "açık cilt tonu",
@@ -15934,12 +12896,7 @@
         "koyu cilt tonu",
         "meslek"
     ],
-    "1F57A": [
-        "dans eden adam",
-        "adam",
-        "dans",
-        "meslek"
-    ],
+    "1F57A": ["dans eden adam", "adam", "dans", "meslek"],
     "1F57A 1F3FB": [
         "dans eden adam: açık cilt tonu",
         "açık cilt tonu",
@@ -16044,12 +13001,7 @@
         "parmak",
         "parmaklar açık el kaldırma"
     ],
-    "1F595": [
-        "orta parmak",
-        "beden",
-        "el",
-        "parmak"
-    ],
+    "1F595": ["orta parmak", "beden", "el", "parmak"],
     "1F595 1F3FB": [
         "orta parmak: açık cilt tonu",
         "açık cilt tonu",
@@ -16178,40 +13130,12 @@
         "vulkan",
         "Vulkan selamı"
     ],
-    "1F5A4": [
-        "siyah kalp",
-        "fena",
-        "kalp",
-        "kötü",
-        "siyah"
-    ],
-    "1F5FB": [
-        "Fuji Dağı",
-        "dağ"
-    ],
-    "1F5FC": [
-        "Tokyo kulesi",
-        "kule",
-        "Tokyo"
-    ],
-    "1F5FD": [
-        "Özgürlük Heykeli",
-        "heykel",
-        "new york",
-        "nyc",
-        "özgürlük"
-    ],
-    "1F5FE": [
-        "Japonya haritası",
-        "harita",
-        "Japonya"
-    ],
-    "1F5FF": [
-        "moyai heykeli",
-        "heykel",
-        "Moyai",
-        "taştan surat"
-    ],
+    "1F5A4": ["siyah kalp", "fena", "kalp", "kötü", "siyah"],
+    "1F5FB": ["Fuji Dağı", "dağ"],
+    "1F5FC": ["Tokyo kulesi", "kule", "Tokyo"],
+    "1F5FD": ["Özgürlük Heykeli", "heykel", "new york", "nyc", "özgürlük"],
+    "1F5FE": ["Japonya haritası", "harita", "Japonya"],
+    "1F5FF": ["moyai heykeli", "heykel", "Moyai", "taştan surat"],
     "1F600": [
         "sırıtan yüz",
         "gülen yüz",
@@ -16309,12 +13233,7 @@
         "şeytani gülümseme",
         "yüz"
     ],
-    "1F609": [
-        "göz kırpan yüz",
-        "cilve",
-        "göz kırpma",
-        "yüz"
-    ],
+    "1F609": ["göz kırpan yüz", "cilve", "göz kırpma", "yüz"],
     "1F60A": [
         "ağzı açık gülme",
         "gülen gözlerle gülümseme",
@@ -16334,12 +13253,7 @@
         "oh oh harika",
         "yüz"
     ],
-    "1F60C": [
-        "rahatlamış yüz",
-        "huzur",
-        "rahatlamış",
-        "yüz"
-    ],
+    "1F60C": ["rahatlamış yüz", "huzur", "rahatlamış", "yüz"],
     "1F60D": [
         "kalp gözlü gülümseme",
         "aşk",
@@ -16401,13 +13315,7 @@
         "sıkılmış",
         "yüz"
     ],
-    "1F613": [
-        "soğuk ter",
-        "baş ağrısı",
-        "endişeli",
-        "soğuk terli yüz",
-        "yüz"
-    ],
+    "1F613": ["soğuk ter", "baş ağrısı", "endişeli", "soğuk terli yüz", "yüz"],
     "1F614": [
         "düşünceli yüz",
         "dargın",
@@ -16504,20 +13412,8 @@
         "umutsuz",
         "yüz"
     ],
-    "1F61F": [
-        "endişeli yüz",
-        "endişeli",
-        "gergin",
-        "yüz"
-    ],
-    "1F620": [
-        "öfkeli yüz",
-        "deli gibi",
-        "kızgın",
-        "mutsuz",
-        "öfkeli",
-        "yüz"
-    ],
+    "1F61F": ["endişeli yüz", "endişeli", "gergin", "yüz"],
+    "1F620": ["öfkeli yüz", "deli gibi", "kızgın", "mutsuz", "öfkeli", "yüz"],
     "1F621": [
         "somurtkan yüz",
         "deli gibi",
@@ -16579,21 +13475,8 @@
         "korkmuş",
         "yüz"
     ],
-    "1F627": [
-        "kederli yüz",
-        "acı çeken",
-        "kederli",
-        "mutsuz",
-        "şaşkın",
-        "yüz"
-    ],
-    "1F628": [
-        "korkulu yüz",
-        "endişeli",
-        "korkmuş",
-        "korkulu",
-        "yüz"
-    ],
+    "1F627": ["kederli yüz", "acı çeken", "kederli", "mutsuz", "şaşkın", "yüz"],
+    "1F628": ["korkulu yüz", "endişeli", "korkmuş", "korkulu", "yüz"],
     "1F629": [
         "çok yorgun",
         "acıkmış",
@@ -16605,12 +13488,7 @@
         "yorulmuş",
         "yüz"
     ],
-    "1F62A": [
-        "uykulu yüz",
-        "ağlayan yüz",
-        "yorgun",
-        "yüz"
-    ],
+    "1F62A": ["uykulu yüz", "ağlayan yüz", "yorgun", "yüz"],
     "1F62B": [
         "yorgun yüz",
         "hapşuran yüz",
@@ -16661,12 +13539,7 @@
         "üfleme",
         "yorgun"
     ],
-    "1F62F": [
-        "şaşkın yüz",
-        "şaşırmış",
-        "şok olmuş",
-        "yüz"
-    ],
+    "1F62F": ["şaşkın yüz", "şaşırmış", "şok olmuş", "yüz"],
     "1F630": [
         "terli ve endişeli yüz",
         "açık ağız",
@@ -16861,12 +13734,7 @@
         "şaşkın kedi yüzü",
         "yüz"
     ],
-    "1F641": [
-        "biraz asık surat",
-        "asık surat",
-        "endişeli",
-        "yüz"
-    ],
+    "1F641": ["biraz asık surat", "asık surat", "endişeli", "yüz"],
     "1F642": [
         "hafifçe gülümseyen yüz",
         "gülme",
@@ -16876,13 +13744,7 @@
         "neşeli",
         "yüz"
     ],
-    "1F643": [
-        "ters yüz",
-        "gülme",
-        "gülümseme",
-        "hehe",
-        "yüz"
-    ],
+    "1F643": ["ters yüz", "gülme", "gülümseme", "hehe", "yüz"],
     "1F644": [
         "gözlerini deviren yüz",
         "bana ne",
@@ -17531,13 +14393,7 @@
         "surat asma",
         "üzgün"
     ],
-    "1F64F": [
-        "birleşen eller",
-        "dua",
-        "dua etme",
-        "el",
-        "hareket"
-    ],
+    "1F64F": ["birleşen eller", "dua", "dua etme", "el", "hareket"],
     "1F64F 1F3FB": [
         "birleşen eller: açık cilt tonu",
         "açık cilt tonu",
@@ -17583,17 +14439,8 @@
         "hareket",
         "koyu cilt tonu"
     ],
-    "1F680": [
-        "roket",
-        "çıkış",
-        "taşıt",
-        "uzay",
-        "yolculuk"
-    ],
-    "1F681": [
-        "helikopter",
-        "taşıt"
-    ],
+    "1F680": ["roket", "çıkış", "taşıt", "uzay", "yolculuk"],
+    "1F681": ["helikopter", "taşıt"],
     "1F682": [
         "buharlı lokomotif",
         "buhar",
@@ -17631,19 +14478,8 @@
         "taşıt",
         "tren"
     ],
-    "1F686": [
-        "tren",
-        "demiryolu",
-        "taşıt"
-    ],
-    "1F687": [
-        "metro",
-        "marmaray",
-        "taşıt",
-        "toplu taşıma",
-        "tren",
-        "ulaşım"
-    ],
+    "1F686": ["tren", "demiryolu", "taşıt"],
+    "1F687": ["metro", "marmaray", "taşıt", "toplu taşıma", "tren", "ulaşım"],
     "1F688": [
         "hafif raylı",
         "demiryolu",
@@ -17653,31 +14489,10 @@
         "tren yolculuğu",
         "tren yolu"
     ],
-    "1F689": [
-        "tren istasyonu",
-        "istasyon",
-        "taşıt",
-        "tren",
-        "tren yolu"
-    ],
-    "1F68A": [
-        "tramvay",
-        "metrobüs",
-        "taşıt"
-    ],
-    "1F68B": [
-        "tramvay vagonu",
-        "taşıt",
-        "toplu taşıma",
-        "tramvay",
-        "vagon"
-    ],
-    "1F68C": [
-        "otobüs",
-        "minibüs",
-        "taşıt",
-        "toplu taşıma"
-    ],
+    "1F689": ["tren istasyonu", "istasyon", "taşıt", "tren", "tren yolu"],
+    "1F68A": ["tramvay", "metrobüs", "taşıt"],
+    "1F68B": ["tramvay vagonu", "taşıt", "toplu taşıma", "tramvay", "vagon"],
+    "1F68C": ["otobüs", "minibüs", "taşıt", "toplu taşıma"],
     "1F68D": [
         "yaklaşan otobüs",
         "araba",
@@ -17687,13 +14502,7 @@
         "toplu taşıma",
         "yaklaşan"
     ],
-    "1F68E": [
-        "troleybüs",
-        "otobüs",
-        "taşıt",
-        "toplu taşıma",
-        "troley"
-    ],
+    "1F68E": ["troleybüs", "otobüs", "taşıt", "toplu taşıma", "troley"],
     "1F68F": [
         "otobüs durağı",
         "durak",
@@ -17701,17 +14510,8 @@
         "otobüs",
         "toplu taşıma"
     ],
-    "1F690": [
-        "minibüs",
-        "otobüs",
-        "taşıt",
-        "toplu taşıma"
-    ],
-    "1F691": [
-        "ambulans",
-        "acil",
-        "taşıt"
-    ],
+    "1F690": ["minibüs", "otobüs", "taşıt", "toplu taşıma"],
+    "1F691": ["ambulans", "acil", "taşıt"],
     "1F692": [
         "itfaiye arabası",
         "araba",
@@ -17720,36 +14520,11 @@
         "taşıt",
         "yangın"
     ],
-    "1F693": [
-        "polis arabası",
-        "araba",
-        "devriye arabası",
-        "polis",
-        "taşıt"
-    ],
-    "1F694": [
-        "yaklaşan polis arabası",
-        "polis",
-        "polis arabası",
-        "taşıt"
-    ],
-    "1F695": [
-        "taksi",
-        "araba",
-        "sarı taksi",
-        "taşıt"
-    ],
-    "1F696": [
-        "yaklaşan taksi",
-        "taksi",
-        "taşıt"
-    ],
-    "1F697": [
-        "araba",
-        "araç",
-        "otomobil",
-        "taşıt"
-    ],
+    "1F693": ["polis arabası", "araba", "devriye arabası", "polis", "taşıt"],
+    "1F694": ["yaklaşan polis arabası", "polis", "polis arabası", "taşıt"],
+    "1F695": ["taksi", "araba", "sarı taksi", "taşıt"],
+    "1F696": ["yaklaşan taksi", "taksi", "taşıt"],
+    "1F697": ["araba", "araç", "otomobil", "taşıt"],
     "1F698": [
         "yaklaşan araba",
         "araba",
@@ -17777,26 +14552,9 @@
         "teslimat kamyonu",
         "ulaştırma"
     ],
-    "1F69B": [
-        "tır",
-        "araba",
-        "araç",
-        "çekici",
-        "kamyon",
-        "taşıt",
-        "treyler"
-    ],
-    "1F69C": [
-        "traktör",
-        "taşıt"
-    ],
-    "1F69D": [
-        "monoray",
-        "araç",
-        "metro",
-        "taşıt",
-        "tramvay"
-    ],
+    "1F69B": ["tır", "araba", "araç", "çekici", "kamyon", "taşıt", "treyler"],
+    "1F69C": ["traktör", "taşıt"],
+    "1F69D": ["monoray", "araç", "metro", "taşıt", "tramvay"],
     "1F69E": [
         "dağ demiryolu",
         "dağ",
@@ -17808,12 +14566,7 @@
         "vagon",
         "yolculuk"
     ],
-    "1F69F": [
-        "asma demiryolu",
-        "asma",
-        "demiryolu",
-        "taşıt"
-    ],
+    "1F69F": ["asma demiryolu", "asma", "demiryolu", "taşıt"],
     "1F6A0": [
         "dağ teleferik hattı",
         "dağ",
@@ -17930,12 +14683,7 @@
         "taşıt",
         "tekne"
     ],
-    "1F6A4": [
-        "sürat teknesi",
-        "bot",
-        "taşıt",
-        "tekne"
-    ],
+    "1F6A4": ["sürat teknesi", "bot", "taşıt", "tekne"],
     "1F6A5": [
         "yatay trafik ışıkları",
         "ışık",
@@ -17953,11 +14701,7 @@
         "trafik lambası",
         "trafik sinyalleri"
     ],
-    "1F6A7": [
-        "inşaat",
-        "inşaat işareti",
-        "işaret"
-    ],
+    "1F6A7": ["inşaat", "inşaat işareti", "işaret"],
     "1F6A8": [
         "polis lambası",
         "alarm",
@@ -17978,14 +14722,8 @@
         "üçgen işaret",
         "üçgen konum işareti"
     ],
-    "1F6AA": [
-        "kapı"
-    ],
-    "1F6AB": [
-        "girmek yasak",
-        "Girilmez",
-        "işaret"
-    ],
+    "1F6AA": ["kapı"],
+    "1F6AB": ["girmek yasak", "Girilmez", "işaret"],
     "1F6AC": [
         "sigara",
         "duman",
@@ -18001,18 +14739,8 @@
         "tütün",
         "yasak"
     ],
-    "1F6AE": [
-        "çöp kutusu işareti",
-        "çöp kutusu",
-        "çöpü yerine atın",
-        "işaret"
-    ],
-    "1F6AF": [
-        "çöp atılmaz",
-        "çöp atmayın",
-        "çöp atmayın işareti",
-        "işaret"
-    ],
+    "1F6AE": ["çöp kutusu işareti", "çöp kutusu", "çöpü yerine atın", "işaret"],
+    "1F6AF": ["çöp atılmaz", "çöp atmayın", "çöp atmayın işareti", "işaret"],
     "1F6B0": [
         "içilebilir su",
         "içme suyu",
@@ -18021,25 +14749,9 @@
         "musluk ve bardak",
         "su"
     ],
-    "1F6B1": [
-        "içilmeyen su",
-        "içilmeyen",
-        "içilmez",
-        "su"
-    ],
-    "1F6B2": [
-        "bisiklet",
-        "bisiklete binmek",
-        "cycling",
-        "sürüş",
-        "taşıt"
-    ],
-    "1F6B3": [
-        "bisiklet yasak",
-        "bisiklet",
-        "bisiklet giremez",
-        "taşıt"
-    ],
+    "1F6B1": ["içilmeyen su", "içilmeyen", "içilmez", "su"],
+    "1F6B2": ["bisiklet", "bisiklete binmek", "cycling", "sürüş", "taşıt"],
+    "1F6B3": ["bisiklet yasak", "bisiklet", "bisiklet giremez", "taşıt"],
     "1F6B4": [
         "bisiklet süren kişi",
         "antrenman",
@@ -18287,61 +14999,21 @@
         "yürüyen adam",
         "yürüyüş"
     ],
-    "1F6B7": [
-        "yayalara yasak",
-        "işaret",
-        "yaya",
-        "yayalar giremez",
-        "yürüyen"
-    ],
-    "1F6B8": [
-        "karşıya geçen çocuklar",
-        "çocuklar",
-        "işaret",
-        "karşıya geçiş"
-    ],
-    "1F6B9": [
-        "erkekler tuvaleti",
-        "işaret",
-        "tuvalet"
-    ],
-    "1F6BA": [
-        "kadınlar tuvaleti",
-        "bayanlar tuvaleti",
-        "işaret",
-        "tuvalet"
-    ],
-    "1F6BB": [
-        "tuvalet",
-        "lavabo",
-        "wc"
-    ],
+    "1F6B7": ["yayalara yasak", "işaret", "yaya", "yayalar giremez", "yürüyen"],
+    "1F6B8": ["karşıya geçen çocuklar", "çocuklar", "işaret", "karşıya geçiş"],
+    "1F6B9": ["erkekler tuvaleti", "işaret", "tuvalet"],
+    "1F6BA": ["kadınlar tuvaleti", "bayanlar tuvaleti", "işaret", "tuvalet"],
+    "1F6BB": ["tuvalet", "lavabo", "wc"],
     "1F6BC": [
         "bebek işareti",
         "bebek",
         "bebek alt değiştirme yeri",
         "bebek teknede"
     ],
-    "1F6BD": [
-        "klozet",
-        "alafranga tuvalet",
-        "tuvalet",
-        "wc"
-    ],
-    "1F6BE": [
-        "wc",
-        "lavabo",
-        "tuvalet"
-    ],
-    "1F6BF": [
-        "duş",
-        "su"
-    ],
-    "1F6C0": [
-        "banyo yapan kişi",
-        "banyo",
-        "küvet"
-    ],
+    "1F6BD": ["klozet", "alafranga tuvalet", "tuvalet", "wc"],
+    "1F6BE": ["wc", "lavabo", "tuvalet"],
+    "1F6BF": ["duş", "su"],
+    "1F6C0": ["banyo yapan kişi", "banyo", "küvet"],
     "1F6C0 1F3FB": [
         "banyo yapan kişi: açık cilt tonu",
         "açık cilt tonu",
@@ -18377,20 +15049,9 @@
         "koyu cilt tonu",
         "küvet"
     ],
-    "1F6C1": [
-        "banyo küveti",
-        "banyo",
-        "köpük",
-        "köpüklü banyo"
-    ],
-    "1F6C2": [
-        "pasaport kontrolü",
-        "kontrol",
-        "pasaport"
-    ],
-    "1F6C3": [
-        "gümrük"
-    ],
+    "1F6C1": ["banyo küveti", "banyo", "köpük", "köpüklü banyo"],
+    "1F6C2": ["pasaport kontrolü", "kontrol", "pasaport"],
+    "1F6C3": ["gümrük"],
     "1F6C4": [
         "bagaj teslim",
         "bagaj",
@@ -18399,13 +15060,7 @@
         "çanta",
         "seyahat"
     ],
-    "1F6C5": [
-        "eşya emanet",
-        "bagaj",
-        "bagaj hizmeti",
-        "kasa",
-        "kayıp bagaj"
-    ],
+    "1F6C5": ["eşya emanet", "bagaj", "bagaj hizmeti", "kasa", "kayıp bagaj"],
     "1F6CC": [
         "yatakta yatan kişi",
         "gece",
@@ -18501,37 +15156,11 @@
         "yatmak",
         "zzz"
     ],
-    "1F6D0": [
-        "ibadethane",
-        "din",
-        "tapınma"
-    ],
-    "1F6D1": [
-        "dur işareti",
-        "dur",
-        "işaret",
-        "sekizgen"
-    ],
-    "1F6D2": [
-        "alışveriş arabası",
-        "alışveriş",
-        "araba",
-        "pazar arabası"
-    ],
-    "1F6D5": [
-        "Hindu tapınağı",
-        "hindu",
-        "tapınak"
-    ],
-    "1F6D6": [
-        "kulübe",
-        "baraka",
-        "ev",
-        "seyahat",
-        "sığınak",
-        "yer",
-        "yurt"
-    ],
+    "1F6D0": ["ibadethane", "din", "tapınma"],
+    "1F6D1": ["dur işareti", "dur", "işaret", "sekizgen"],
+    "1F6D2": ["alışveriş arabası", "alışveriş", "araba", "pazar arabası"],
+    "1F6D5": ["Hindu tapınağı", "hindu", "tapınak"],
+    "1F6D6": ["kulübe", "baraka", "ev", "seyahat", "sığınak", "yer", "yurt"],
     "1F6D7": [
         "asansör",
         "alt kat",
@@ -18604,14 +15233,7 @@
         "simit",
         "yüzme"
     ],
-    "1F6EB": [
-        "kalkan uçak",
-        "check in",
-        "chek in",
-        "kalkış",
-        "taşıt",
-        "uçak"
-    ],
+    "1F6EB": ["kalkan uçak", "check in", "chek in", "kalkış", "taşıt", "uçak"],
     "1F6EC": [
         "inen uçak",
         "iniş",
@@ -18622,32 +15244,11 @@
         "varış",
         "varmak"
     ],
-    "1F6F4": [
-        "ayakla sürülen skuter",
-        "ayak",
-        "skuter"
-    ],
-    "1F6F5": [
-        "motorlu skuter",
-        "motor",
-        "skuter"
-    ],
-    "1F6F6": [
-        "kano",
-        "bot",
-        "kayık",
-        "tekne"
-    ],
-    "1F6F7": [
-        "kızak",
-        "kar",
-        "kaymak"
-    ],
-    "1F6F8": [
-        "uçan daire",
-        "ufo",
-        "uzaylı"
-    ],
+    "1F6F4": ["ayakla sürülen skuter", "ayak", "skuter"],
+    "1F6F5": ["motorlu skuter", "motor", "skuter"],
+    "1F6F6": ["kano", "bot", "kayık", "tekne"],
+    "1F6F7": ["kızak", "kar", "kaymak"],
+    "1F6F8": ["uçan daire", "ufo", "uzaylı"],
     "1F6F9": [
         "kaykay",
         "kaykaycı",
@@ -18657,10 +15258,7 @@
         "tahta",
         "tekerlek"
     ],
-    "1F6FA": [
-        "elektrikli çekçek",
-        "tuk tuk"
-    ],
+    "1F6FA": ["elektrikli çekçek", "tuk tuk"],
     "1F6FB": [
         "pikap",
         "araba",
@@ -18685,66 +15283,18 @@
         "tekerlekli paten",
         "tekerlekli patenler"
     ],
-    "1F7E0": [
-        "turuncu daire",
-        "daire",
-        "turuncu"
-    ],
-    "1F7E1": [
-        "sarı daire",
-        "daire",
-        "sarı"
-    ],
-    "1F7E2": [
-        "yeşil daire",
-        "daire",
-        "yeşil"
-    ],
-    "1F7E3": [
-        "mor daire",
-        "daire",
-        "mor"
-    ],
-    "1F7E4": [
-        "kahverengi daire",
-        "daire",
-        "kahverengi"
-    ],
-    "1F7E5": [
-        "kırmızı kare",
-        "kare",
-        "kırmızı"
-    ],
-    "1F7E6": [
-        "mavi kare",
-        "kare",
-        "mavi"
-    ],
-    "1F7E7": [
-        "turuncu kare",
-        "kare",
-        "turuncu"
-    ],
-    "1F7E8": [
-        "sarı kare",
-        "kare",
-        "sarı"
-    ],
-    "1F7E9": [
-        "yeşil kare",
-        "kare",
-        "yeşil"
-    ],
-    "1F7EA": [
-        "mor kare",
-        "kare",
-        "mor"
-    ],
-    "1F7EB": [
-        "kahverengi kare",
-        "kahverengi",
-        "kare"
-    ],
+    "1F7E0": ["turuncu daire", "daire", "turuncu"],
+    "1F7E1": ["sarı daire", "daire", "sarı"],
+    "1F7E2": ["yeşil daire", "daire", "yeşil"],
+    "1F7E3": ["mor daire", "daire", "mor"],
+    "1F7E4": ["kahverengi daire", "daire", "kahverengi"],
+    "1F7E5": ["kırmızı kare", "kare", "kırmızı"],
+    "1F7E6": ["mavi kare", "kare", "mavi"],
+    "1F7E7": ["turuncu kare", "kare", "turuncu"],
+    "1F7E8": ["sarı kare", "kare", "sarı"],
+    "1F7E9": ["yeşil kare", "kare", "yeşil"],
+    "1F7EA": ["mor kare", "kare", "mor"],
+    "1F7EB": ["kahverengi kare", "kahverengi", "kare"],
     "1F7F0": [
         "kalın eşittir işareti",
         "eşit",
@@ -18825,16 +15375,8 @@
         "lezzetli",
         "parmaklar"
     ],
-    "1F90D": [
-        "beyaz kalp",
-        "beyaz",
-        "kalp"
-    ],
-    "1F90E": [
-        "kahverengi kalp",
-        "kahverengi",
-        "kalp"
-    ],
+    "1F90D": ["beyaz kalp", "beyaz", "kalp"],
+    "1F90E": ["kahverengi kalp", "kahverengi", "kalp"],
     "1F90F": [
         "kıstırma hareketi yapan el",
         "azıcık",
@@ -18938,23 +15480,9 @@
         "yüz",
         "zeki"
     ],
-    "1F914": [
-        "düşünen yüz",
-        "düşünme",
-        "yüz"
-    ],
-    "1F915": [
-        "kafası sarılı yüz",
-        "bandaj",
-        "yara",
-        "yaralı",
-        "yüz"
-    ],
-    "1F916": [
-        "robot",
-        "canavar",
-        "yüz"
-    ],
+    "1F914": ["düşünen yüz", "düşünme", "yüz"],
+    "1F915": ["kafası sarılı yüz", "bandaj", "yara", "yaralı", "yüz"],
+    "1F916": ["robot", "canavar", "yüz"],
     "1F917": [
         "kucaklayarak gülümseme",
         "heyecanlı",
@@ -19050,12 +15578,7 @@
         "yeah",
         "yes"
     ],
-    "1F919": [
-        "beni ara işareti",
-        "ara",
-        "el",
-        "elle beni ara işareti"
-    ],
+    "1F919": ["beni ara işareti", "ara", "el", "elle beni ara işareti"],
     "1F919 1F3FB": [
         "beni ara işareti: açık cilt tonu",
         "açık cilt tonu",
@@ -19096,12 +15619,7 @@
         "elle beni ara işareti",
         "koyu cilt tonu"
     ],
-    "1F91A": [
-        "elinin tersini kaldırma",
-        "el",
-        "elinin tersi",
-        "kaldırma"
-    ],
+    "1F91A": ["elinin tersini kaldırma", "el", "elinin tersi", "kaldırma"],
     "1F91A 1F3FB": [
         "elinin tersini kaldırma: açık cilt tonu",
         "açık cilt tonu",
@@ -19142,13 +15660,7 @@
         "kaldırma",
         "koyu cilt tonu"
     ],
-    "1F91B": [
-        "sola bakan yumruk",
-        "el",
-        "güm",
-        "sola doğru",
-        "yumruk"
-    ],
+    "1F91B": ["sola bakan yumruk", "el", "güm", "sola doğru", "yumruk"],
     "1F91B 1F3FB": [
         "sola bakan yumruk: açık cilt tonu",
         "açık cilt tonu",
@@ -19194,13 +15706,7 @@
         "sola doğru",
         "yumruk"
     ],
-    "1F91C": [
-        "sağa bakan yumruk",
-        "el",
-        "güm",
-        "sağa doğru",
-        "yumruk"
-    ],
+    "1F91C": ["sağa bakan yumruk", "el", "güm", "sağa doğru", "yumruk"],
     "1F91C 1F3FB": [
         "sağa bakan yumruk: açık cilt tonu",
         "açık cilt tonu",
@@ -19246,13 +15752,7 @@
         "sağa doğru",
         "yumruk"
     ],
-    "1F91D": [
-        "el sıkışma",
-        "anlaşma",
-        "el",
-        "sallama",
-        "toplantı"
-    ],
+    "1F91D": ["el sıkışma", "anlaşma", "el", "sallama", "toplantı"],
     "1F91D 1F3FB": [
         "el sıkışma: açık cilt tonu",
         "açık cilt tonu",
@@ -19298,14 +15798,7 @@
         "sallama",
         "toplantı"
     ],
-    "1F91E": [
-        "şans dileme",
-        "çapraz",
-        "el",
-        "parmak",
-        "şans",
-        "söz verme"
-    ],
+    "1F91E": ["şans dileme", "çapraz", "el", "parmak", "şans", "söz verme"],
     "1F91E 1F3FB": [
         "şans dileme: açık cilt tonu",
         "açık cilt tonu",
@@ -19356,12 +15849,7 @@
         "şans dileme",
         "söz verme"
     ],
-    "1F91F": [
-        "seni seviyorum işareti",
-        "el",
-        "seni seviyorum",
-        "SS"
-    ],
+    "1F91F": ["seni seviyorum işareti", "el", "seni seviyorum", "SS"],
     "1F91F 1F3FB": [
         "seni seviyorum işareti: açık cilt tonu",
         "açık cilt tonu",
@@ -19410,11 +15898,7 @@
         "şapka",
         "yüz"
     ],
-    "1F921": [
-        "palyaço yüzü",
-        "palyaço",
-        "yüz"
-    ],
+    "1F921": ["palyaço yüzü", "palyaço", "yüz"],
     "1F922": [
         "kusmak üzere olan yüz",
         "iğrenç",
@@ -19438,18 +15922,8 @@
         "yerlere yatmak",
         "yüz"
     ],
-    "1F924": [
-        "salya akıtan yüz",
-        "ağzı sulanmış",
-        "salya akıtma",
-        "yüz"
-    ],
-    "1F925": [
-        "yalan söyleyen yüz",
-        "pinokyo",
-        "yalan söyleme",
-        "yüz"
-    ],
+    "1F924": ["salya akıtan yüz", "ağzı sulanmış", "salya akıtma", "yüz"],
+    "1F925": ["yalan söyleyen yüz", "pinokyo", "yalan söyleme", "yüz"],
     "1F926": [
         "yüzünü eliyle kapama",
         "aman tanrım",
@@ -19568,13 +16042,7 @@
         "küçük",
         "surat"
     ],
-    "1F92B": [
-        "sus işareti yapan yüz",
-        "sessiz",
-        "şişt",
-        "şş",
-        "surat"
-    ],
+    "1F92B": ["sus işareti yapan yüz", "sessiz", "şişt", "şş", "surat"],
     "1F92C": [
         "ağzında semboller olan yüz",
         "kızgın",
@@ -19594,14 +16062,7 @@
         "surat",
         "tüh"
     ],
-    "1F92E": [
-        "kusan yüz",
-        "hasta",
-        "istifra",
-        "kusmak",
-        "kusmuk",
-        "surat"
-    ],
+    "1F92E": ["kusan yüz", "hasta", "istifra", "kusmak", "kusmuk", "surat"],
     "1F92F": [
         "patlayan kafa",
         "aklını başından almak",
@@ -19610,11 +16071,7 @@
         "şoke",
         "surat"
     ],
-    "1F930": [
-        "hamile kadın",
-        "hamile",
-        "kadın"
-    ],
+    "1F930": ["hamile kadın", "hamile", "kadın"],
     "1F930 1F3FB": [
         "hamile kadın: açık cilt tonu",
         "açık cilt tonu",
@@ -19825,11 +16282,7 @@
         "selfie",
         "telefon"
     ],
-    "1F934": [
-        "prens",
-        "insan",
-        "kraliyet"
-    ],
+    "1F934": ["prens", "insan", "kraliyet"],
     "1F934 1F3FB": [
         "prens: açık cilt tonu",
         "açık cilt tonu",
@@ -19929,13 +16382,7 @@
         "smokinli adam",
         "smokinli kişi"
     ],
-    "1F936": [
-        "Noel Anne",
-        "anne",
-        "insan",
-        "noel",
-        "noel annesi"
-    ],
+    "1F936": ["Noel Anne", "anne", "insan", "noel", "noel annesi"],
     "1F936 1F3FB": [
         "Noel Anne: açık cilt tonu",
         "açık cilt tonu",
@@ -20222,13 +16669,7 @@
         "vücut",
         "yetenek"
     ],
-    "1F93A": [
-        "eskrimci",
-        "birey",
-        "eskrim",
-        "kılıç",
-        "spor"
-    ],
+    "1F93A": ["eskrimci", "birey", "eskrim", "kılıç", "spor"],
     "1F93C": [
         "güreşen kişiler",
         "birey",
@@ -20499,13 +16940,7 @@
         "solmuş",
         "üzgün"
     ],
-    "1F941": [
-        "davul",
-        "bateri",
-        "müzik",
-        "ramazan davulu",
-        "tokmak"
-    ],
+    "1F941": ["davul", "bateri", "müzik", "ramazan davulu", "tokmak"],
     "1F942": [
         "kadeh tokuşturma",
         "bardak",
@@ -20523,23 +16958,9 @@
         "tek içki",
         "viski"
     ],
-    "1F944": [
-        "kaşık",
-        "yemek",
-        "yemek takımı"
-    ],
-    "1F945": [
-        "kale ağı",
-        "ağ",
-        "kale",
-        "spor"
-    ],
-    "1F947": [
-        "birincilik madalyası",
-        "altın",
-        "birinci",
-        "madalya"
-    ],
+    "1F944": ["kaşık", "yemek", "yemek takımı"],
+    "1F945": ["kale ağı", "ağ", "kale", "spor"],
+    "1F947": ["birincilik madalyası", "altın", "birinci", "madalya"],
     "1F948": [
         "ikincilik madalyası",
         "gümüş",
@@ -20547,18 +16968,8 @@
         "İkincilik madalyası",
         "madalya"
     ],
-    "1F949": [
-        "üçüncülük madalyası",
-        "bronz",
-        "madalya",
-        "üçüncü"
-    ],
-    "1F94A": [
-        "boks eldiveni",
-        "boks",
-        "eldiven",
-        "spor"
-    ],
+    "1F949": ["üçüncülük madalyası", "bronz", "madalya", "üçüncü"],
+    "1F94A": ["boks eldiveni", "boks", "eldiven", "spor"],
     "1F94B": [
         "dövüş sporu forması",
         "dövüş sporu",
@@ -20622,50 +17033,12 @@
         "pastane",
         "yiyecek"
     ],
-    "1F951": [
-        "avokado",
-        "gıda",
-        "meyve",
-        "tropik",
-        "yiyecek"
-    ],
-    "1F952": [
-        "salatalık",
-        "gıda",
-        "hıyar",
-        "sebze",
-        "turşu",
-        "yiyecek"
-    ],
-    "1F953": [
-        "domuz pastırması",
-        "bacon",
-        "et",
-        "gıda",
-        "kahvaltı",
-        "yiyecek"
-    ],
-    "1F954": [
-        "patates",
-        "gıda",
-        "sebze",
-        "yiyecek"
-    ],
-    "1F955": [
-        "havuç",
-        "gıda",
-        "sebze",
-        "tavşan",
-        "yiyecek"
-    ],
-    "1F956": [
-        "baget ekmek",
-        "baget",
-        "ekmek",
-        "fransız",
-        "gıda",
-        "yiyecek"
-    ],
+    "1F951": ["avokado", "gıda", "meyve", "tropik", "yiyecek"],
+    "1F952": ["salatalık", "gıda", "hıyar", "sebze", "turşu", "yiyecek"],
+    "1F953": ["domuz pastırması", "bacon", "et", "gıda", "kahvaltı", "yiyecek"],
+    "1F954": ["patates", "gıda", "sebze", "yiyecek"],
+    "1F955": ["havuç", "gıda", "sebze", "tavşan", "yiyecek"],
+    "1F956": ["baget ekmek", "baget", "ekmek", "fransız", "gıda", "yiyecek"],
     "1F957": [
         "yeşil salata",
         "gıda",
@@ -20700,20 +17073,8 @@
         "sarma",
         "yiyecek"
     ],
-    "1F95A": [
-        "yumurta",
-        "gıda",
-        "kahvaltı",
-        "tavuk",
-        "yiyecek"
-    ],
-    "1F95B": [
-        "süt bardağı",
-        "bardak",
-        "gıda",
-        "içecek",
-        "süt"
-    ],
+    "1F95A": ["yumurta", "gıda", "kahvaltı", "tavuk", "yiyecek"],
+    "1F95B": ["süt bardağı", "bardak", "gıda", "içecek", "süt"],
     "1F95C": [
         "yer fıstığı",
         "fındık",
@@ -20723,12 +17084,7 @@
         "sebze",
         "yiyecek"
     ],
-    "1F95D": [
-        "kivi",
-        "gıda",
-        "meyve",
-        "yiyecek"
-    ],
+    "1F95D": ["kivi", "gıda", "meyve", "yiyecek"],
     "1F95E": [
         "krep",
         "gıda",
@@ -20820,12 +17176,7 @@
         "tatlı",
         "yemek"
     ],
-    "1F968": [
-        "pretzel",
-        "burgu",
-        "çubuk kraker",
-        "gıda"
-    ],
+    "1F968": ["pretzel", "burgu", "çubuk kraker", "gıda"],
     "1F969": [
         "parça et",
         "biftek",
@@ -20839,18 +17190,8 @@
         "steak",
         "yemek"
     ],
-    "1F96A": [
-        "sandviç",
-        "ekmek",
-        "gıda",
-        "tost",
-        "yemek"
-    ],
-    "1F96B": [
-        "konserve gıda",
-        "konserve",
-        "konserve domates"
-    ],
+    "1F96A": ["sandviç", "ekmek", "gıda", "tost", "yemek"],
+    "1F96B": ["konserve gıda", "konserve", "konserve domates"],
     "1F96C": [
         "yeşil yapraklı sebze",
         "çin lahanası",
@@ -20865,13 +17206,7 @@
         "yeşillik",
         "yiyecek"
     ],
-    "1F96D": [
-        "mango",
-        "meyve",
-        "tropik",
-        "tropikal",
-        "yiyecek"
-    ],
+    "1F96D": ["mango", "meyve", "tropik", "tropikal", "yiyecek"],
     "1F96E": [
         "ay pastası",
         "çörek",
@@ -21126,11 +17461,7 @@
         "yalvarırım",
         "yüz ifadesi"
     ],
-    "1F97B": [
-        "sari",
-        "elbise",
-        "giysi"
-    ],
+    "1F97B": ["sari", "elbise", "giysi"],
     "1F97C": [
         "laboratuvar önlüğü",
         "beyaz önlük",
@@ -21195,12 +17526,7 @@
         "yürümek",
         "yürüyüş"
     ],
-    "1F980": [
-        "yengeç",
-        "burç",
-        "deniz",
-        "ıstakoz"
-    ],
+    "1F980": ["yengeç", "burç", "deniz", "ıstakoz"],
     "1F981": [
         "aslan",
         "aslan yüzü",
@@ -21209,19 +17535,8 @@
         "ormanların kralı",
         "yüz"
     ],
-    "1F982": [
-        "akrep",
-        "burç",
-        "hayvan",
-        "iğne",
-        "zehir"
-    ],
-    "1F983": [
-        "hindi",
-        "hayvan",
-        "kuş",
-        "şükran günü"
-    ],
+    "1F982": ["akrep", "burç", "hayvan", "iğne", "zehir"],
+    "1F983": ["hindi", "hayvan", "kuş", "şükran günü"],
     "1F984": [
         "tek boynuzlu at",
         "hayal",
@@ -21240,12 +17555,7 @@
         "kara kartal",
         "kuş"
     ],
-    "1F986": [
-        "ördek",
-        "hayvan",
-        "kuş",
-        "suna"
-    ],
+    "1F986": ["ördek", "hayvan", "kuş", "suna"],
     "1F987": [
         "yarasa",
         "drakula",
@@ -21257,55 +17567,14 @@
         "siyah",
         "vampir"
     ],
-    "1F988": [
-        "köpek balığı",
-        "balık",
-        "deniz",
-        "hayvan",
-        "jaws",
-        "okyanus"
-    ],
-    "1F989": [
-        "baykuş",
-        "bilge",
-        "hayvan",
-        "kuş"
-    ],
-    "1F98A": [
-        "tilki",
-        "akıllı",
-        "hayvan",
-        "kurnaz",
-        "tilki yüzü",
-        "yüz"
-    ],
-    "1F98B": [
-        "kelebek",
-        "böcek",
-        "şirin"
-    ],
-    "1F98C": [
-        "geyik",
-        "boynuz",
-        "hayvan",
-        "orman",
-        "ren geyiği"
-    ],
-    "1F98D": [
-        "goril",
-        "hayvan"
-    ],
-    "1F98E": [
-        "kertenkele",
-        "hayvan",
-        "sürüngen"
-    ],
-    "1F98F": [
-        "gergedan",
-        "afrika",
-        "hayvan",
-        "safari"
-    ],
+    "1F988": ["köpek balığı", "balık", "deniz", "hayvan", "jaws", "okyanus"],
+    "1F989": ["baykuş", "bilge", "hayvan", "kuş"],
+    "1F98A": ["tilki", "akıllı", "hayvan", "kurnaz", "tilki yüzü", "yüz"],
+    "1F98B": ["kelebek", "böcek", "şirin"],
+    "1F98C": ["geyik", "boynuz", "hayvan", "orman", "ren geyiği"],
+    "1F98D": ["goril", "hayvan"],
+    "1F98E": ["kertenkele", "hayvan", "sürüngen"],
+    "1F98F": ["gergedan", "afrika", "hayvan", "safari"],
     "1F990": [
         "karides",
         "deniz",
@@ -21315,33 +17584,10 @@
         "okyanus",
         "yiyecek"
     ],
-    "1F991": [
-        "mürekkep balığı",
-        "okyanus",
-        "yiyecek",
-        "yumuşakçalar sınıfı"
-    ],
-    "1F992": [
-        "zürafa",
-        "hayvan",
-        "noktalar",
-        "puanlar",
-        "uzun"
-    ],
-    "1F993": [
-        "zebra",
-        "çizgili",
-        "hayvan",
-        "hızlı",
-        "şeritli"
-    ],
-    "1F994": [
-        "kirpi",
-        "diken",
-        "dikenli",
-        "hayvan",
-        "şirin"
-    ],
+    "1F991": ["mürekkep balığı", "okyanus", "yiyecek", "yumuşakçalar sınıfı"],
+    "1F992": ["zürafa", "hayvan", "noktalar", "puanlar", "uzun"],
+    "1F993": ["zebra", "çizgili", "hayvan", "hızlı", "şeritli"],
+    "1F994": ["kirpi", "diken", "dikenli", "hayvan", "şirin"],
     "1F995": [
         "soropod",
         "brachiosaurus",
@@ -21352,19 +17598,8 @@
         "hayvan",
         "korkunç"
     ],
-    "1F996": [
-        "T-Rex",
-        "dinazor",
-        "hayvan",
-        "korkunç",
-        "Tyrannosaurus Rex"
-    ],
-    "1F997": [
-        "cırcır böceği",
-        "böcek",
-        "çekirge",
-        "hayvan"
-    ],
+    "1F996": ["T-Rex", "dinazor", "hayvan", "korkunç", "Tyrannosaurus Rex"],
+    "1F997": ["cırcır böceği", "böcek", "çekirge", "hayvan"],
     "1F998": [
         "kanguru",
         "avustralya",
@@ -21420,13 +17655,7 @@
         "kuş",
         "renkli kuş"
     ],
-    "1F99D": [
-        "rakun",
-        "gri",
-        "hayvan",
-        "meraklı",
-        "sinsi"
-    ],
+    "1F99D": ["rakun", "gri", "hayvan", "meraklı", "sinsi"],
     "1F99E": [
         "ıstakoz",
         "bisque",
@@ -21436,14 +17665,7 @@
         "kırmızı",
         "kıskaç"
     ],
-    "1F99F": [
-        "sivrisinek",
-        "ateş",
-        "böcek",
-        "hastalık",
-        "sıtma",
-        "virüs"
-    ],
+    "1F99F": ["sivrisinek", "ateş", "böcek", "hastalık", "sıtma", "virüs"],
     "1F9A0": [
         "mikrop",
         "amip",
@@ -21456,13 +17678,7 @@
         "tek hücreli",
         "virüs"
     ],
-    "1F9A1": [
-        "porsuk",
-        "bal porsuğu",
-        "bela",
-        "hayvan",
-        "sevimli"
-    ],
+    "1F9A1": ["porsuk", "bal porsuğu", "bela", "hayvan", "sevimli"],
     "1F9A2": [
         "kuğu",
         "beyaz",
@@ -21495,35 +17711,12 @@
         "nesli tükenmiş",
         "soyu tükenmiş"
     ],
-    "1F9A5": [
-        "tembel hayvan",
-        "tembel",
-        "yavaş"
-    ],
-    "1F9A6": [
-        "su samuru",
-        "balık avlayan",
-        "oyuncu"
-    ],
-    "1F9A7": [
-        "orangutan",
-        "hayvan",
-        "maymun"
-    ],
-    "1F9A8": [
-        "kokarca",
-        "kokan"
-    ],
-    "1F9A9": [
-        "flamingo",
-        "gösterişli",
-        "tropikal"
-    ],
-    "1F9AA": [
-        "istiridye",
-        "dalma",
-        "inci"
-    ],
+    "1F9A5": ["tembel hayvan", "tembel", "yavaş"],
+    "1F9A6": ["su samuru", "balık avlayan", "oyuncu"],
+    "1F9A7": ["orangutan", "hayvan", "maymun"],
+    "1F9A8": ["kokarca", "kokan"],
+    "1F9A9": ["flamingo", "gösterişli", "tropikal"],
+    "1F9AA": ["istiridye", "dalma", "inci"],
     "1F9AB": [
         "kunduz",
         "baraj",
@@ -21533,13 +17726,7 @@
         "kemirmek",
         "kuyruk"
     ],
-    "1F9AC": [
-        "bizon",
-        "boynuz",
-        "bufalo",
-        "hayvan",
-        "sürü"
-    ],
+    "1F9AC": ["bizon", "boynuz", "bufalo", "hayvan", "sürü"],
     "1F9AD": [
         "fok",
         "ayı balığı",
@@ -21552,32 +17739,10 @@
         "hayvan",
         "okyanus"
     ],
-    "1F9AE": [
-        "rehber köpek",
-        "erişilebilirlik",
-        "görme engelli",
-        "rehber"
-    ],
-    "1F9AF": [
-        "görme engelli bastonu",
-        "erişilebilirlik",
-        "görme engelli"
-    ],
-    "1F9B4": [
-        "kemik",
-        "iskelet",
-        "köpek",
-        "köpek kemiği",
-        "mama"
-    ],
-    "1F9B5": [
-        "bacak",
-        "ayak",
-        "diz",
-        "tekme",
-        "tekme atmak",
-        "uzuv"
-    ],
+    "1F9AE": ["rehber köpek", "erişilebilirlik", "görme engelli", "rehber"],
+    "1F9AF": ["görme engelli bastonu", "erişilebilirlik", "görme engelli"],
+    "1F9B4": ["kemik", "iskelet", "köpek", "köpek kemiği", "mama"],
+    "1F9B5": ["bacak", "ayak", "diz", "tekme", "tekme atmak", "uzuv"],
     "1F9B5 1F3FB": [
         "bacak: açık cilt tonu",
         "açık cilt tonu",
@@ -21628,13 +17793,7 @@
         "tekme atmak",
         "uzuv"
     ],
-    "1F9B6": [
-        "ayak",
-        "bilek",
-        "parmak",
-        "tekme",
-        "topuk"
-    ],
+    "1F9B6": ["ayak", "bilek", "parmak", "tekme", "topuk"],
     "1F9B6 1F3FB": [
         "ayak: açık cilt tonu",
         "açık cilt tonu",
@@ -21858,17 +18017,8 @@
         "vampir",
         "zalim"
     ],
-    "1F9BA": [
-        "güvenlik yeleği",
-        "acil durum",
-        "güvenlik",
-        "yelek"
-    ],
-    "1F9BB": [
-        "işitme cihazı olan kulak",
-        "erişilebilirlik",
-        "işitme güçlüğü"
-    ],
+    "1F9BA": ["güvenlik yeleği", "acil durum", "güvenlik", "yelek"],
+    "1F9BB": ["işitme cihazı olan kulak", "erişilebilirlik", "işitme güçlüğü"],
     "1F9BB 1F3FB": [
         "işitme cihazı olan kulak: açık cilt tonu",
         "açık cilt tonu",
@@ -21909,26 +18059,10 @@
         "akülü tekerlekli sandalye",
         "erişilebilirlik"
     ],
-    "1F9BD": [
-        "tekerlekli sandalye",
-        "erişilebilirlik"
-    ],
-    "1F9BE": [
-        "mekanik kol",
-        "erişilebilirlik",
-        "protez"
-    ],
-    "1F9BF": [
-        "mekanik bacak",
-        "erişilebilirlik",
-        "protez"
-    ],
-    "1F9C0": [
-        "peynir dilimi",
-        "fare",
-        "gıda",
-        "peynir"
-    ],
+    "1F9BD": ["tekerlekli sandalye", "erişilebilirlik"],
+    "1F9BE": ["mekanik kol", "erişilebilirlik", "protez"],
+    "1F9BF": ["mekanik bacak", "erişilebilirlik", "protez"],
+    "1F9C0": ["peynir dilimi", "fare", "gıda", "peynir"],
     "1F9C1": [
         "cupcake",
         "fırın",
@@ -21961,42 +18095,13 @@
         "meyve suyu",
         "pipet"
     ],
-    "1F9C4": [
-        "sarımsak",
-        "baharat"
-    ],
-    "1F9C5": [
-        "soğan",
-        "baharat",
-        "sebze",
-        "yiyecek"
-    ],
-    "1F9C6": [
-        "falafel",
-        "köfte",
-        "nohut"
-    ],
-    "1F9C7": [
-        "waffle",
-        "hamur",
-        "kahvaltı",
-        "vafıl"
-    ],
-    "1F9C8": [
-        "tereyağı",
-        "süt ürünü",
-        "tereyağ"
-    ],
-    "1F9C9": [
-        "mate çayı",
-        "içecek"
-    ],
-    "1F9CA": [
-        "buz küpü",
-        "aysberg",
-        "buz",
-        "soğuk"
-    ],
+    "1F9C4": ["sarımsak", "baharat"],
+    "1F9C5": ["soğan", "baharat", "sebze", "yiyecek"],
+    "1F9C6": ["falafel", "köfte", "nohut"],
+    "1F9C7": ["waffle", "hamur", "kahvaltı", "vafıl"],
+    "1F9C8": ["tereyağı", "süt ürünü", "tereyağ"],
+    "1F9C9": ["mate çayı", "içecek"],
+    "1F9CA": ["buz küpü", "aysberg", "buz", "soğuk"],
     "1F9CB": [
         "bubble tea",
         "baloncuk",
@@ -22021,11 +18126,7 @@
         "yaratık",
         "yeşil dev"
     ],
-    "1F9CD": [
-        "ayakta duran kişi",
-        "ayakta duran",
-        "ayakta durma"
-    ],
+    "1F9CD": ["ayakta duran kişi", "ayakta duran", "ayakta durma"],
     "1F9CD 1F3FB": [
         "ayakta duran kişi: açık cilt tonu",
         "açık cilt tonu",
@@ -22061,12 +18162,7 @@
         "ayakta durma",
         "koyu cilt tonu"
     ],
-    "1F9CE": [
-        "diz çöken kişi",
-        "diz çöken",
-        "diz çökme",
-        "dizler"
-    ],
+    "1F9CE": ["diz çöken kişi", "diz çöken", "diz çökme", "dizler"],
     "1F9CE 1F3FB": [
         "diz çöken kişi: açık cilt tonu",
         "açık cilt tonu",
@@ -22175,13 +18271,7 @@
         "varlıklı",
         "zengin"
     ],
-    "1F9D1": [
-        "yetişkin",
-        "adam",
-        "insan",
-        "kişi",
-        "yüz"
-    ],
+    "1F9D1": ["yetişkin", "adam", "insan", "kişi", "yüz"],
     "1F9D1 1F3FB": [
         "yetişkin: açık cilt tonu",
         "açık cilt tonu",
@@ -22463,11 +18553,7 @@
         "yetişkin",
         "yüz"
     ],
-    "1F9D1 200D 1F393": [
-        "öğrenci",
-        "mezun",
-        "talebe"
-    ],
+    "1F9D1 200D 1F393": ["öğrenci", "mezun", "talebe"],
     "1F9D1 1F3FB 200D 1F393": [
         "öğrenci: açık cilt tonu",
         "açık cilt tonu",
@@ -22503,12 +18589,7 @@
         "öğrenci",
         "talebe"
     ],
-    "1F9D1 200D 1F3EB": [
-        "öğretmen",
-        "doçent",
-        "eğitimci",
-        "profesör"
-    ],
+    "1F9D1 200D 1F3EB": ["öğretmen", "doçent", "eğitimci", "profesör"],
     "1F9D1 1F3FB 200D 1F3EB": [
         "öğretmen: açık cilt tonu",
         "açık cilt tonu",
@@ -22549,11 +18630,7 @@
         "öğretmen",
         "profesör"
     ],
-    "1F9D1 200D 1F33E": [
-        "çiftçi",
-        "bahçıvan",
-        "rençper"
-    ],
+    "1F9D1 200D 1F33E": ["çiftçi", "bahçıvan", "rençper"],
     "1F9D1 1F3FB 200D 1F33E": [
         "çiftçi: açık cilt tonu",
         "açık cilt tonu",
@@ -22589,10 +18666,7 @@
         "koyu cilt tonu",
         "rençper"
     ],
-    "1F9D1 200D 1F373": [
-        "aşçı",
-        "yemek pişirme"
-    ],
+    "1F9D1 200D 1F373": ["aşçı", "yemek pişirme"],
     "1F9D1 1F3FB 200D 1F373": [
         "aşçı: açık cilt tonu",
         "açık cilt tonu",
@@ -22623,11 +18697,7 @@
         "koyu cilt tonu",
         "yemek pişirme"
     ],
-    "1F9D1 200D 1F527": [
-        "tamirci",
-        "elektrikçi",
-        "tesisatçı"
-    ],
+    "1F9D1 200D 1F527": ["tamirci", "elektrikçi", "tesisatçı"],
     "1F9D1 1F3FB 200D 1F527": [
         "tamirci: açık cilt tonu",
         "açık cilt tonu",
@@ -22953,11 +19023,7 @@
         "star",
         "yıldız"
     ],
-    "1F9D1 200D 1F3A8": [
-        "ressam",
-        "palet",
-        "sanatçı"
-    ],
+    "1F9D1 200D 1F3A8": ["ressam", "palet", "sanatçı"],
     "1F9D1 1F3FB 200D 1F3A8": [
         "ressam: açık cilt tonu",
         "açık cilt tonu",
@@ -22993,11 +19059,7 @@
         "ressam",
         "sanatçı"
     ],
-    "1F9D1 200D 1F680": [
-        "astronot",
-        "roket",
-        "uzay"
-    ],
+    "1F9D1 200D 1F680": ["astronot", "roket", "uzay"],
     "1F9D1 1F3FB 200D 1F680": [
         "astronot: açık cilt tonu",
         "açık cilt tonu",
@@ -23033,10 +19095,7 @@
         "roket",
         "uzay"
     ],
-    "1F9D1 200D 1F692": [
-        "itfaiyeci",
-        "itfaiye aracı"
-    ],
+    "1F9D1 200D 1F692": ["itfaiyeci", "itfaiye aracı"],
     "1F9D1 1F3FB 200D 1F692": [
         "itfaiyeci: açık cilt tonu",
         "açık cilt tonu",
@@ -23393,11 +19452,7 @@
         "tekerlekli sandalye",
         "tekerlekli sandalyede kişi"
     ],
-    "1F9D1 200D 1FA70": [
-        "bale dansçısı",
-        "bale",
-        "dansçı"
-    ],
+    "1F9D1 200D 1FA70": ["bale dansçısı", "bale", "dansçı"],
     "1F9D1 1F3FB 200D 1FA70": [
         "bale dansçısı: açık cilt tonu",
         "açık cilt tonu",
@@ -24884,26 +20939,14 @@
         "çocuk",
         "yetişkin"
     ],
-    "1F9D1 200D 1F9D2": [
-        "aile: yetişkin, çocuk",
-        "aile",
-        "çocuk",
-        "yetişkin"
-    ],
+    "1F9D1 200D 1F9D2": ["aile: yetişkin, çocuk", "aile", "çocuk", "yetişkin"],
     "1F9D1 200D 1F9D2 200D 1F9D2": [
         "aile: yetişkin, çocuk, çocuk",
         "aile",
         "çocuk",
         "yetişkin"
     ],
-    "1F9D2": [
-        "çocuk",
-        "genç",
-        "insan",
-        "kişi",
-        "küçük çocuk",
-        "surat"
-    ],
+    "1F9D2": ["çocuk", "genç", "insan", "kişi", "küçük çocuk", "surat"],
     "1F9D2 1F3FB": [
         "çocuk: açık cilt tonu",
         "açık cilt tonu",
@@ -24954,12 +20997,7 @@
         "küçük çocuk",
         "surat"
     ],
-    "1F9D3": [
-        "yaşlı yetişkin",
-        "insan",
-        "kişi",
-        "yaşlı"
-    ],
+    "1F9D3": ["yaşlı yetişkin", "insan", "kişi", "yaşlı"],
     "1F9D3 1F3FB": [
         "yaşlı yetişkin: açık cilt tonu",
         "açık cilt tonu",
@@ -25000,13 +21038,7 @@
         "yaşlı",
         "yaşlı yetişkin"
     ],
-    "1F9D4": [
-        "sakallı kişi",
-        "insan",
-        "sakal",
-        "sakallı",
-        "yüz"
-    ],
+    "1F9D4": ["sakallı kişi", "insan", "sakal", "sakallı", "yüz"],
     "1F9D4 1F3FB": [
         "sakallı kişi: açık cilt tonu",
         "açık cilt tonu",
@@ -25052,13 +21084,7 @@
         "sakallı kişi",
         "yüz"
     ],
-    "1F9D5": [
-        "başörtülü kadın",
-        "baş örtüsü",
-        "insan",
-        "türban",
-        "türbanlı"
-    ],
+    "1F9D5": ["başörtülü kadın", "baş örtüsü", "insan", "türban", "türbanlı"],
     "1F9D5 1F3FB": [
         "başörtülü kadın: açık cilt tonu",
         "açık cilt tonu",
@@ -25278,13 +21304,7 @@
         "rahatlamak",
         "yoga"
     ],
-    "1F9D9": [
-        "büyücü",
-        "büyü",
-        "cadı",
-        "sihir",
-        "sihirbaz"
-    ],
+    "1F9D9": ["büyücü", "büyü", "cadı", "sihir", "sihirbaz"],
     "1F9D9 1F3FB": [
         "büyücü: açık cilt tonu",
         "açık cilt tonu",
@@ -25394,12 +21414,7 @@
         "Puck",
         "Titania"
     ],
-    "1F9DB": [
-        "vampir",
-        "drakula",
-        "hortlak",
-        "kan"
-    ],
+    "1F9DB": ["vampir", "drakula", "hortlak", "kan"],
     "1F9DB 1F3FB": [
         "vampir: açık cilt tonu",
         "açık cilt tonu",
@@ -25516,12 +21531,7 @@
         "su altı",
         "üç dişli çatal"
     ],
-    "1F9DD": [
-        "elf",
-        "legolas",
-        "sihirli",
-        "sivri kulak"
-    ],
+    "1F9DD": ["elf", "legolas", "sihirli", "sivri kulak"],
     "1F9DD 1F3FB": [
         "elf: açık cilt tonu",
         "açık cilt tonu",
@@ -25581,45 +21591,13 @@
         "yaşayan ölü",
         "yürüyen ölü"
     ],
-    "1F9E0": [
-        "beyin",
-        "akıllı",
-        "zeka",
-        "zeki"
-    ],
-    "1F9E1": [
-        "turuncu kalp",
-        "kalp",
-        "portakal",
-        "turuncu"
-    ],
-    "1F9E2": [
-        "siperli şapka",
-        "beyzbol şapkası",
-        "şapka"
-    ],
-    "1F9E3": [
-        "atkı",
-        "sıkı giyinmek",
-        "soğuk",
-        "yaka"
-    ],
-    "1F9E4": [
-        "eldiven",
-        "el",
-        "mavi eldiven"
-    ],
-    "1F9E5": [
-        "kaban",
-        "ceket",
-        "manto",
-        "mont",
-        "sıkı giyinmek",
-        "soğuk"
-    ],
-    "1F9E6": [
-        "çorap"
-    ],
+    "1F9E0": ["beyin", "akıllı", "zeka", "zeki"],
+    "1F9E1": ["turuncu kalp", "kalp", "portakal", "turuncu"],
+    "1F9E2": ["siperli şapka", "beyzbol şapkası", "şapka"],
+    "1F9E3": ["atkı", "sıkı giyinmek", "soğuk", "yaka"],
+    "1F9E4": ["eldiven", "el", "mavi eldiven"],
+    "1F9E5": ["kaban", "ceket", "manto", "mont", "sıkı giyinmek", "soğuk"],
+    "1F9E6": ["çorap"],
     "1F9E7": [
         "kırmızı zarf",
         "çin hediyesi",
@@ -25691,13 +21669,7 @@
         "oryantiring",
         "yön bulma"
     ],
-    "1F9EE": [
-        "abaküs",
-        "çocuk",
-        "hesap",
-        "hesaplama",
-        "renkli abaküs"
-    ],
+    "1F9EE": ["abaküs", "çocuk", "hesap", "hesaplama", "renkli abaküs"],
     "1F9EF": [
         "yangın söndürücü",
         "ateş",
@@ -25913,30 +21885,10 @@
         "nazar değmesin",
         "tılsım"
     ],
-    "1FA70": [
-        "bale ayakkabıları",
-        "bale",
-        "bale pabucu",
-        "dans"
-    ],
-    "1FA71": [
-        "tek parça mayo",
-        "mayo"
-    ],
-    "1FA72": [
-        "slip mayo",
-        "alt",
-        "iç çamaşırı",
-        "mayo",
-        "slip",
-        "tek parça"
-    ],
-    "1FA73": [
-        "şort",
-        "alt",
-        "iç çamaşırı",
-        "mayo"
-    ],
+    "1FA70": ["bale ayakkabıları", "bale", "bale pabucu", "dans"],
+    "1FA71": ["tek parça mayo", "mayo"],
+    "1FA72": ["slip mayo", "alt", "iç çamaşırı", "mayo", "slip", "tek parça"],
+    "1FA73": ["şort", "alt", "iç çamaşırı", "mayo"],
     "1FA74": [
         "parmak arası terlik",
         "ayakkabı",
@@ -26000,18 +21952,8 @@
         "tıp",
         "yaralanma"
     ],
-    "1FA79": [
-        "yara bandı",
-        "bandaj",
-        "bant",
-        "yapışkanlı bandaj"
-    ],
-    "1FA7A": [
-        "stetoskop",
-        "doktor",
-        "kalp",
-        "tıp"
-    ],
+    "1FA79": ["yara bandı", "bandaj", "bant", "yapışkanlı bandaj"],
+    "1FA7A": ["stetoskop", "doktor", "kalp", "tıp"],
     "1FA7B": [
         "x ışını",
         "doktor",
@@ -26039,22 +21981,9 @@
         "yürüme engelli",
         "yürüme yardımı"
     ],
-    "1FA80": [
-        "yoyo",
-        "inip çıkma",
-        "oyuncak"
-    ],
-    "1FA81": [
-        "uçurtma",
-        "süzülme",
-        "uçma"
-    ],
-    "1FA82": [
-        "paraşüt",
-        "delta kanat",
-        "deniz paraşütü",
-        "paraşütle atlama"
-    ],
+    "1FA80": ["yoyo", "inip çıkma", "oyuncak"],
+    "1FA81": ["uçurtma", "süzülme", "uçma"],
+    "1FA82": ["paraşüt", "delta kanat", "deniz paraşütü", "paraşütle atlama"],
     "1FA83": [
         "bumerang",
         "aborjin",
@@ -26139,14 +22068,7 @@
         "recorder",
         "üflemeli"
     ],
-    "1FA89": [
-        "arp",
-        "aşk",
-        "enstrüman",
-        "eros",
-        "müzik",
-        "orkestra"
-    ],
+    "1FA89": ["arp", "aşk", "enstrüman", "eros", "müzik", "orkestra"],
     "1FA8A": [
         "trombon",
         "bakır",
@@ -26169,46 +22091,13 @@
         "para",
         "zenginlik"
     ],
-    "1FA8F": [
-        "kürek",
-        "çukur",
-        "kazı",
-        "kazmak"
-    ],
-    "1FA90": [
-        "halkalı gezegen",
-        "satürn"
-    ],
-    "1FA91": [
-        "sandalye",
-        "iskemle",
-        "oturma"
-    ],
-    "1FA92": [
-        "ustura",
-        "jilet",
-        "keskin",
-        "tıraş"
-    ],
-    "1FA93": [
-        "balta",
-        "ağaç",
-        "kesme",
-        "kısa balta",
-        "odun",
-        "yarma"
-    ],
-    "1FA94": [
-        "diya lamba",
-        "diya",
-        "lamba",
-        "yağ"
-    ],
-    "1FA95": [
-        "banjo",
-        "müzik",
-        "yaylı"
-    ],
+    "1FA8F": ["kürek", "çukur", "kazı", "kazmak"],
+    "1FA90": ["halkalı gezegen", "satürn"],
+    "1FA91": ["sandalye", "iskemle", "oturma"],
+    "1FA92": ["ustura", "jilet", "keskin", "tıraş"],
+    "1FA93": ["balta", "ağaç", "kesme", "kısa balta", "odun", "yarma"],
+    "1FA94": ["diya lamba", "diya", "lamba", "yağ"],
+    "1FA95": ["banjo", "müzik", "yaylı"],
     "1FA96": [
         "asker kaskı",
         "asker",
@@ -26527,19 +22416,8 @@
         "sinek",
         "uçmak"
     ],
-    "1FAB1": [
-        "solucan",
-        "hayvan",
-        "kurt",
-        "kurtçuk",
-        "parazit",
-        "sürüngen"
-    ],
-    "1FAB2": [
-        "böcek",
-        "haşere",
-        "hayvan"
-    ],
+    "1FAB1": ["solucan", "hayvan", "kurt", "kurtçuk", "parazit", "sürüngen"],
+    "1FAB2": ["böcek", "haşere", "hayvan"],
     "1FAB3": [
         "hamam böceği",
         "böcek",
@@ -26561,15 +22439,7 @@
         "yeşil",
         "yetiştirme"
     ],
-    "1FAB5": [
-        "kütük",
-        "ağaç",
-        "ahşap",
-        "kereste",
-        "odun",
-        "seyahat",
-        "tomruk"
-    ],
+    "1FAB5": ["kütük", "ağaç", "ahşap", "kereste", "odun", "seyahat", "tomruk"],
     "1FAB6": [
         "kuş tüyü",
         "gıdıklamak",
@@ -26605,14 +22475,7 @@
         "resif",
         "su altı"
     ],
-    "1FAB9": [
-        "boş yuva",
-        "dal",
-        "doğa",
-        "ev",
-        "kuş",
-        "yuva"
-    ],
+    "1FAB9": ["boş yuva", "dal", "doğa", "ev", "kuş", "yuva"],
     "1FABA": [
         "yumurta bulunan yuva",
         "dal",
@@ -26668,12 +22531,7 @@
         "uçma",
         "uçuş"
     ],
-    "1FABE": [
-        "yapraksız ağaç",
-        "çorak",
-        "kış",
-        "kurak"
-    ],
+    "1FABE": ["yapraksız ağaç", "çorak", "kış", "kurak"],
     "1FABF": [
         "kaz",
         "hayvan",
@@ -26975,12 +22833,7 @@
         "taç takmış insan",
         "taht"
     ],
-    "1FAC6": [
-        "parmak izi",
-        "adli tıp",
-        "güvenlik",
-        "kimlik"
-    ],
+    "1FAC6": ["parmak izi", "adli tıp", "güvenlik", "kimlik"],
     "1FAC8": [
         "tüylü yaratık",
         "dev",
@@ -26990,12 +22843,7 @@
         "tüylü",
         "yeti"
     ],
-    "1FACD": [
-        "orka",
-        "balina",
-        "deniz",
-        "okyanus"
-    ],
+    "1FACD": ["orka", "balina", "deniz", "okyanus"],
     "1FACE": [
         "sığın",
         "boynuz",
@@ -27007,15 +22855,7 @@
         "memeli",
         "mus"
     ],
-    "1FACF": [
-        "eşek",
-        "hayvan",
-        "inatçı",
-        "katır",
-        "memeli",
-        "merkep",
-        "sıpa"
-    ],
+    "1FACF": ["eşek", "hayvan", "inatçı", "katır", "memeli", "merkep", "sıpa"],
     "1FAD0": [
         "yaban mersini",
         "dağ mersini",
@@ -27056,13 +22896,7 @@
         "yemek",
         "yiyecek"
     ],
-    "1FAD4": [
-        "tamale",
-        "dürüm",
-        "Meksika yemeği",
-        "yemek",
-        "yiyecek"
-    ],
+    "1FAD4": ["tamale", "dürüm", "Meksika yemeği", "yemek", "yiyecek"],
     "1FAD5": [
         "fondü",
         "çikolata",
@@ -27145,14 +22979,7 @@
         "sebze",
         "vejetaryen"
     ],
-    "1FADC": [
-        "kök sebze",
-        "bahçe",
-        "kök",
-        "pancar",
-        "sebze",
-        "turp"
-    ],
+    "1FADC": ["kök sebze", "bahçe", "kök", "pancar", "sebze", "turp"],
     "1FADF": [
         "sıçratma",
         "boya",
@@ -27284,12 +23111,7 @@
         "titreyen yüz",
         "yüz"
     ],
-    "1FAE9": [
-        "gözlerinin altı torbalı yüz",
-        "tükenmiş",
-        "uykulu",
-        "yorgun"
-    ],
+    "1FAE9": ["gözlerinin altı torbalı yüz", "tükenmiş", "uykulu", "yorgun"],
     "1FAEA": [
         "biçimsiz yüz",
         "kaygı",

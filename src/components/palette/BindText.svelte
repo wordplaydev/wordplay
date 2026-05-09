@@ -24,9 +24,19 @@
         validator: (text: string) => LocaleTextAccessor | true;
         editable: boolean;
         id: string;
+        /** Optional `data-uiid` for tour or tutorial targeting; left to the
+         * caller because each BindText represents a distinct property. */
+        uiid?: string | undefined;
     }
 
-    let { property, values, validator, editable, id }: Props = $props();
+    let {
+        property,
+        values,
+        validator,
+        editable,
+        id,
+        uiid = undefined,
+    }: Props = $props();
 
     let project = getProject();
     let selection = getSelectedOutput();
@@ -64,7 +74,7 @@
     }
 </script>
 
-<div class="text">
+<div class="text" data-uiid={uiid}>
     {isMarkup
         ? FORMATTED_SYMBOL
         : getLanguageQuoteOpen($locales.getLocale().language)}

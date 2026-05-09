@@ -4493,12 +4493,23 @@
                     "on": "$~Thoát khỏi chế độ toàn màn hình của trình duyệt",
                     "off": "$~vào chế độ toàn màn hình trình duyệt"
                 }
+            },
+            "label": "$~kiểm soát dự án",
+            "tour": {
+                "launch": "$~Hãy tham quan hệ thống điều khiển dự án.",
+                "controls": "$~Các nút điều khiển ở phía dưới này áp dụng cho *toàn bộ dự án*, bất kể bạn đang làm việc trên ô nào.",
+                "name": "$~Trường/name/làtêndựáncủabạn.Têndựánsẽhiểnthịtrongcảhaichếđộxem*dựán*và*thưviện*.",
+                "sourceToggle": "$~Nút /toggle/ này hiển thị hoặc ẩn *tệp nguồn*. *Các nút toggle khác* trên hàng này thực hiện chức năng tương tự đối với các ô khác.",
+                "addSource": "$~Một số dự án sẽ hiệu quả hơn nếu sử dụng *nhiều* tập tin nguồn, trong đó dữ liệu được lưu trữ trong một tập tin và được nhập vào tập tin nguồn *chính*. Nút /thêm nguồn/ sẽ tạo một tập tin nguồn mới.",
+                "share": "$~Hộp thoại /share/ cho phép bạn chia sẻ dự án của mình với *các thư viện ảnh*, với *công chúng*, hoặc sao chép nó dưới dạng *văn bản* để chia sẻ ở nơi khác.",
+                "translate": "$~Nút /translate/ cho phép bạn thêm bản dịch các *tên*, *văn bản* và *tài liệu* của dự án sang các ngôn ngữ khác.",
+                "checkpoints": "$~Mục /revisions/ cho phép bạn quay lại các phiên bản trước đó của dự án và chụp ảnh màn hình các phiên bản mà bạn muốn lưu lại."
             }
         },
         "checkpoints": {
             "label": {
                 "now": "$~Hiện nay",
-                "history": "$~khôi phục",
+                "history": "$~các phiên bản",
                 "restore": "$~Đây là phiên bản trước của dự án này.",
                 "ago": "$~$1 $2 trước đây"
             },
@@ -4925,7 +4936,15 @@
                 "invalidName": "$~Đây phải là một tên chơi chữ hợp lệ.",
                 "invalidWords": "$~Từ ngữ không được trống rỗng hoặc chứa các ký hiệu dành riêng."
             },
-            "title": "$~mã số"
+            "title": "$~mã số",
+            "tour": {
+                "launch": "$~Hãy cùng khám phá trình chỉnh sửa.",
+                "editor": "$~Tất cả mã của bạn đều nằm trong trình soạn thảo. Mỗi chương trình Wordplay đều được đánh giá thành một giá trị, và giá trị đó sẽ hiển thị trên màn hình.",
+                "textBlocks": "$~Nút chuyển đổi này cho phép bạn chuyển đổi giữa hai chế độ chỉnh sửa: /văn bản/ và /khối/. *Văn bản* linh hoạt hơn nhưng dễ mắc lỗi hơn. *Khối* ít dễ mắc lỗi hơn nhưng chậm hơn và cứng nhắc hơn.",
+                "toolbar": "$~Các điều khiển trên thanh công cụ này cho phép bạn *chọn tất cả*, *phóng to* và *thu nhỏ*, *hoàn tác*, *làm lại*, *cắt*, *sao chép* và *dán*.",
+                "expand": "$~Nút chuyển đổi /expand/ sẽ hiển thị thêm các công cụ chỉnh sửa *nâng cao*.",
+                "shortcuts": "$~Nút /phím tắt/ sẽ mở ra danh sách các phím tắt mà bạn có thể sử dụng để chỉnh sửa nhanh hơn."
+            }
         },
         "annotations": {
             "label": "$~xung đột và giúp đỡ",
@@ -4974,6 +4993,15 @@
             "options": {
                 "locale": "$~ngôn ngữ ưu tiên cho đầu ra",
                 "default": "$~mặc định"
+            },
+            "tour": {
+                "launch": "$~tham quan sân khấu",
+                "stage": "$~Khung /stage/ hiển thị *giá trị hiện tại* của chương trình. Giá trị đó có thể là *giá trị thô* như số hoặc danh sách, *kết quả trực quan* mà bạn có thể nhìn thấy, hoặc thậm chí là *âm thanh* mà bạn có thể nghe thấy.",
+                "reset": "$~Nút /reset/ sẽ tua lại quá trình đánh giá chương trình về *đầu tiên*, phát lại bất kỳ luồng thời gian, phím hoặc đầu vào nào từ đầu.",
+                "zoom": "$~Các nút /zoom/ cho phép bạn phóng to và thu nhỏ khung hình để xem kết quả rõ ràng hơn hoặc chi tiết hơn.",
+                "grid": "$~Nút /grid/ hiển thị một *lưới* trên khung làm việc, hữu ích để đặt các đối tượng một cách chính xác trong quá trình thiết kế.",
+                "lock": "$~Nút /khóa/ khóa khung nhìn của sân khấu. Khi *khóa*, sân khấu sẽ đứng yên; khi *mở khóa*, bạn có thể lia và phóng to thu nhỏ tự do.",
+                "animationSpeed": "$~Nút điều khiển /tốc độ hoạt ảnh/ thiết lập tốc độ phát hoạt ảnh. Nút điều khiển tương tự cũng có trong *cài đặt*, vì vậy bạn có thể thay đổi nó từ cả hai nơi."
             }
         },
         "timeline": {
@@ -4993,7 +5021,18 @@
                 "start": "$~Trở lại điểm khởi đầu",
                 "reset": "$~hiệu suất khởi động lại"
             },
-            "debug": "$~gỡ lỗi"
+            "debug": "$~gỡ lỗi",
+            "tour": {
+                "launch": "$~Hãy cùng tham quan dòng thời gian.",
+                "timeline": "$~Công cụ /timeline/ cho phép bạn tiến *về phía trước* và lùi *về phía sau* trong quá trình đánh giá chương trình của mình, từng bước một. Đây là một cách tuyệt vời để xem *cách* chương trình tính toán giá trị của nó, và để xây dựng mô hình tư duy về cách các chương trình Wordplay đánh giá, đặc biệt nếu bạn không thấy hành vi mình mong muốn.",
+                "reset": "$~Nút /reset/ sẽ tua lại quá trình đánh giá chương trình về *đầu tiên*, để bạn có thể bắt đầu xem lại toàn bộ quá trình đánh giá.",
+                "annotations": "$~Cửa sổ /annotations/ là nơi hiển thị giải thích cho từng bước. Khi bạn thực thi chương trình từng bước, đây là nơi bạn sẽ đọc những gì vừa xảy ra.",
+                "editor": "$~Cửa sổ /editor/ hiển thị mã của bạn. Trong quá trình chạy từng bước, *giá trị* của mỗi phần trong chương trình sẽ xuất hiện bên cạnh phần đó *sau* khi nó được đánh giá, vì vậy bạn có thể theo dõi sự tăng lên của các giá trị khi chương trình chạy.",
+                "history": "$~Cửa sổ /history/ hiển thị mọi *đầu vào* mà chương trình của bạn đã nhận được, chẳng hạn như phím bấm, thời gian cập nhật và sự kiện con trỏ. Cửa sổ này *có thể kéo thả*, vì vậy bạn có thể quay lại bất kỳ thời điểm nào trong lịch sử thực thi của chương trình chỉ bằng cách kéo.",
+                "stepControls": "$~Các điều khiển /step/ cho phép bạn di chuyển chính xác trong quá trình đánh giá. Bạn có thể nhảy đến *đầu* hoặc *cuối*, tiến *về* hoặc lùi *về* từng bước một, nhảy theo *một đầu vào*, thoát khỏi *một hàm* hoặc nhảy đến phần mã *đang được chọn*.",
+                "playMode": "$~Chương trình hiện đang /chạy/. Ở chế độ *chạy*, chương trình của bạn sẽ chạy cho đến khi hoàn thành (nếu có), phản hồi các đầu vào trong thời gian thực.",
+                "pauseMode": "$~Chương trình hiện đang ở trạng thái /tạm dừng/. Ở chế độ *tạm dừng*, bạn có thể thực hiện từng bước *tiến* và *lùi* trong quá trình đánh giá. Cửa sổ /chú thích/ hiện hiển thị những gì đang xảy ra ở mỗi bước và *giá trị hiện tại* của mỗi phần trong chương trình sẽ xuất hiện bên cạnh nó trong trình soạn thảo."
+            }
         },
         "docs": {
             "label": "$~trình duyệt tài liệu",
@@ -5194,6 +5233,14 @@
                     "label": "$~Hãy xem hướng dẫn chi tiết ở phần tiếp theo.",
                     "tip": "$~Hãy xem hướng dẫn chi tiết ở phần tiếp theo."
                 }
+            },
+            "tour": {
+                "launch": "$~tham quan hướng dẫn viên.",
+                "guide": "$~Tệp /guide/ chứa *tài liệu* hướng dẫn về tất cả các khái niệm và *khả năng* của *ngôn ngữ lập trình* Wordplay.",
+                "mode": "$~Sử dụng nút /toggle/ này để tự chuyển đổi giữa phần *mã nguồn* và phần *hướng dẫn*.",
+                "search": "$~Hộp tìm kiếm rất hữu ích để *khám phá* các tính năng, hoặc tìm kiếm nhanh một tính năng *theo tên*.",
+                "code": "$~Đây là phần /code/. Nó chứa tài liệu về *ngôn ngữ lập trình* — những khối xây dựng mà bạn có thể kết hợp để tạo ra các chương trình.",
+                "howto": "$~Đây là phần hướng dẫn. Nó chứa các *mẫu hữu ích* để đạt được các hành vi cụ thể trong dự án của bạn."
             }
         },
         "dialog": {
@@ -5342,9 +5389,13 @@
                         ]
                     },
                     "blockDensity": {
-                        "label": "$?",
-                        "labels": ["$?", "$?", "$?"],
-                        "tips": ["$?", "$?", "$?"]
+                        "label": "$~khoảng cách khối",
+                        "labels": ["$~nhỏ gọn", "$~Bình thường", "$~rộng rãi"],
+                        "tips": [
+                            "$~Các khối mã được thu gọn hơn để hiển thị nhiều mã hơn trên màn hình.",
+                            "$~khoảng cách khối mặc định",
+                            "$~các khối rời rạc hơn để dễ dàng chọn và kéo"
+                        ]
                     }
                 },
                 "options": {
@@ -5543,6 +5594,14 @@
                         "$~Chỉ những người phụ trách phòng trưng bày mới có thể xem dự án của bạn."
                     ]
                 }
+            },
+            "tour": {
+                "launch": "$~Hãy cùng khám phá quá trình hợp tác.",
+                "collaborate": "$~Bạn có thể chia sẻ dự án với người khác và trò chuyện với tất cả những người được chia sẻ dự án ngay tại đây.",
+                "collaborators": "$~Các cộng tác viên có thể *chỉnh sửa* dự án và *thảo luận* về dự án với bạn.",
+                "commenters": "$~Người bình luận có thể *thảo luận* về dự án với bạn, nhưng không được phép *chỉnh sửa* nó.",
+                "viewers": "$~Người xem có thể xem dự án và mã nguồn của nó, nhưng không thể thảo luận hoặc chỉnh sửa.",
+                "restrict": "$~Khi một dự án nằm trong *thư viện ảnh*, theo mặc định *mọi người* có thể xem thư viện đều có thể thấy dự án của bạn. Nút /restrict/ sẽ *ẩn* dự án đó khỏi mọi người ngoại trừ bạn và người quản lý thư viện."
             }
         },
         "palette": {
@@ -5607,6 +5666,15 @@
                 "percent": "$~Phải là tỷ lệ phần trăm nằm giữa 0 và 100.",
                 "lessThanNext": "$~Giá trị này phải nhỏ hơn giá trị của mục tiếp theo.",
                 "moreThanPrevious": "$~Mục này phải dài hơn mục trước."
+            },
+            "tour": {
+                "launch": "$~Hãy cùng khám phá bảng màu.",
+                "palette": "$~Khi dự án *tạm dừng*, bạn có thể sử dụng bảng màu để chỉnh sửa *cụm từ*, *nhóm* và *giai đoạn*.",
+                "text": "$~Tất cả các thuộc tính của một cụm từ đều có thể được chỉnh sửa ở đây. Đây là *văn bản* của cụm từ, nhưng các thuộc tính khác có các điều khiển riêng.",
+                "set": "$~Khi một thuộc tính hiện đang sử dụng giá trị mặc định, nút *hình bút chì* cho phép bạn đặt một giá trị cụ thể cho thuộc tính đó.",
+                "unset": "$~Khi một thuộc tính có giá trị được thiết lập rõ ràng, nút *X* sẽ xóa giá trị đó, đưa thuộc tính trở về giá trị *mặc định* của nó.",
+                "editor": "$~Tất cả những thay đổi bạn thực hiện trong bảng màu đều được phản ánh trong mã hiển thị trong trình chỉnh sửa.",
+                "stage": "$~Các cụm từ cũng có thể được /di chuyển/, /thay đổi kích thước/ và /xoay/ trực tiếp trên *sân khấu*."
             }
         },
         "save": {
@@ -6438,6 +6506,13 @@
             "revisedDescription": "$~Các bản sửa đổi này được lưu cục bộ và chưa được gửi để xem xét.",
             "submitRevisions": "$~Gửi bản sửa đổi",
             "submitted": "$~Cảm ơn bạn! Bản chỉnh sửa của bạn sẽ được xem xét và có thể sẽ được đăng tải sớm."
+        },
+        "tour": {
+            "label": "$~chuyến du lịch",
+            "close": "$~kết thúc chuyến tham quan",
+            "previous": "$~bước trước",
+            "next": "$~bước tiếp theo",
+            "offscreen": "$~Phần này của giao diện hiện không hiển thị trên màn hình."
         }
     },
     "moderation": {

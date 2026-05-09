@@ -4492,12 +4492,23 @@
                     "on": "$~avsluta webbläsarens helskärm",
                     "off": "$~öppna webbläsarens helskärm"
                 }
+            },
+            "label": "$~projektkontroller",
+            "tour": {
+                "launch": "$~ta en rundtur i projektkontrollerna",
+                "controls": "$~Dessa /controls/ längst ner gäller för *projektet som helhet*, oavsett vilken panel du arbetar i.",
+                "name": "$~Fältet/name/ärdittprojektsnamn.Namnenvisasivyerna*projekt*och*galleri*.",
+                "sourceToggle": "$~Denna /toggle/ visar eller döljer *källfilen*. De *andra växlarna* på den här raden gör detsamma för de andra panelerna.",
+                "addSource": "$~Vissa projekt drar nytta av *flera* källfiler, där data lagras i en och importeras till *huvud*källan. Knappen /lägg till källa/ skapar en ny.",
+                "share": "$~I dialogrutan /share/ kan du dela ditt projekt med *gallerier*, med *allmänheten*, eller kopiera det som *text* för att dela det någon annanstans.",
+                "translate": "$~Knappen /translate/ kan lägga till *översättningar* av ditt projekts *namn*, *text* och *dokumentation* till andra språk.",
+                "checkpoints": "$~Panelen /revisions/ låter dig gå *tillbaka* till tidigare versioner av ditt projekt och *ögonblicksbilder* av versioner som du vill komma ihåg."
             }
         },
         "checkpoints": {
             "label": {
                 "now": "$~nu",
-                "history": "$~återställa",
+                "history": "$~versioner",
                 "restore": "$~Detta är en tidigare version av detta projekt.",
                 "ago": "$~$1 $2 sedan"
             },
@@ -4686,7 +4697,15 @@
                 "invalidName": "$~Detta måste vara ett giltigt ordspelsnamn.",
                 "invalidWords": "$~Ord får inte vara tomma eller innehålla reserverade symboler."
             },
-            "title": "$~koda"
+            "title": "$~koda",
+            "tour": {
+                "launch": "$~ta en rundtur i redaktören",
+                "editor": "$~All din /kod/ hamnar i *editorn*. Varje Wordplay-program *utvärderas till ett värde*, och det värdet är vad som visas på *scenen*.",
+                "textBlocks": "$~Denna växlingsknapp växlar mellan två sätt att redigera: /text/ och /block/. *Text* är mer flexibelt men lättare att göra misstag i. *Block* är mindre felbenägna men långsammare och mer stela.",
+                "toolbar": "$~Dessa /toolbar/-kontroller låter dig *markera alla*, *zooma in* och *ut*, *ångra*, *göra om*, *klipp ut*, *kopiera* och *klistra in*.",
+                "expand": "$~/expand/-knappen visar fler *avancerade* redigeringsverktyg.",
+                "shortcuts": "$~Knappen /genvägar/ öppnar en lista med *kortkommandon* som du kan använda för att redigera snabbare."
+            }
         },
         "annotations": {
             "label": "$~konflikter och hjälp",
@@ -4735,6 +4754,15 @@
             "options": {
                 "locale": "$~välj språk för utmatning",
                 "default": "$~standard"
+            },
+            "tour": {
+                "launch": "$~ta en rundtur på scenen",
+                "stage": "$~`/stage/` visar ditt programs *nuvarande värde*. Det värdet kan vara ett *råvärde* som ett tal eller en lista, *visuell utdata* som du kan se, eller till och med *ljud* som du kan höra.",
+                "reset": "$~Knappen /reset/ spolar tillbaka programmets utvärdering till *början* och spelar upp valfri tid, tangent eller inmatningsström från grunden.",
+                "zoom": "$~Med /zoom/-knapparna kan du zooma *in* och *ut* på scenen så att du kan se dina resultat tydligare eller mer detaljerat.",
+                "grid": "$~Knappen /grid/ visar ett *rutnät* på scenen, vilket är praktiskt för att placera saker exakt medan du designar.",
+                "lock": "$~Knappen /lock/ låser scenens vy. När den är *låst* förblir scenen stilla; när den är *upplåst* kan du panorera och zooma fritt.",
+                "animationSpeed": "$~Kontrollen /animation speed/ ställer in hur snabbt animationer spelas upp. Samma kontroll finns i *inställningar*, så du kan ändra den från båda ställena."
             }
         },
         "timeline": {
@@ -4754,7 +4782,18 @@
                 "start": "$~Till början",
                 "reset": "$~starta om prestandan"
             },
-            "debug": "$~felsöka"
+            "debug": "$~felsöka",
+            "tour": {
+                "launch": "$~ta en rundtur i tidslinjen",
+                "timeline": "$~Med /tidslinjen/ kan du gå *framåt* och *bakåt* genom programmets utvärdering, ett steg i taget. Det är ett bra sätt att se *hur* ditt program beräknar sitt värde, och att bygga en mental modell av hur Wordplay-program utvärderar, särskilt om du inte ser det beteende du vill ha.",
+                "reset": "$~Knappen /reset/ spolar tillbaka programmets utvärdering hela vägen tillbaka till *början*, så att du kan börja titta på utvärderingen från början.",
+                "annotations": "$~I fönstret /annotations/ visas förklaringar av varje steg. När du går igenom programmet kan du läsa vad som just hände.",
+                "editor": "$~/Editor/ visar din kod. När du stegar kommer *värdet* för varje del av ditt program att visas bredvid den delen *efter* att den har utvärderats, så att du kan se värdena byggas upp medan programmet körs.",
+                "history": "$~/History/ visar alla *indata* som ditt program har mottagit, som tangenter, tidstick och pekarhändelser. Den är *drabar*, så du kan återgå till när som helst i programmets utvärderingshistorik genom att bara dra.",
+                "stepControls": "$~Med /step-kontrollerna/ kan du gå igenom utvärderingen exakt. Du kan hoppa till *start* eller *slut*, gå *framåt* eller *bakåt* ett steg i taget, hoppa *en inmatning*, gå *ut* ur en funktion eller hoppa till den *nu valda* delen av koden.",
+                "playMode": "$~Programmet spelar nu upp. I *spela upp*-läge körs programmet tills det är klart (om det någonsin är klart) och svarar på inmatningar i realtid.",
+                "pauseMode": "$~Programmet är nu /pausat/. I *paus*-läge kan du stega *framåt* och *bakåt* genom utvärderingen. Fönstret /annotations/ visar nu vad som händer i varje steg, och det *nuvarande värdet* för varje del av ditt program visas bredvid det i redigeraren."
+            }
         },
         "docs": {
             "label": "$~dokumentwebbläsare",
@@ -4955,6 +4994,14 @@
             },
             "note": {
                 "empty": "$~Namn som du definierar i ditt projekt kommer att visas här."
+            },
+            "tour": {
+                "launch": "$~ta en rundtur med guiden",
+                "guide": "$~/Guiden/ innehåller *dokumentation* för alla Wordplays *programmeringsspråk*-koncept och *funktioner*.",
+                "mode": "$~Använd denna /toggle/ för att själv växla mellan *kod*- och *instruktioner*-avsnitten.",
+                "search": "$~Sökrutan är användbar för att *upptäcka* funktioner, eller för att snabbt hitta en *med namn*.",
+                "code": "$~Detta är /code/-avsnittet. Det innehåller dokumentation för *programmeringsspråk* — byggstenarna du kan kombinera för att skapa program.",
+                "howto": "$~Detta är avsnittet /hur-gör-det-själv/. Det innehåller *användbara mönster* för att uppnå specifika beteenden i dina projekt."
             }
         },
         "dialog": {
@@ -5107,9 +5154,13 @@
                         ]
                     },
                     "blockDensity": {
-                        "label": "$?",
-                        "labels": ["$?", "$?", "$?"],
-                        "tips": ["$?", "$?", "$?"]
+                        "label": "$~blockavstånd",
+                        "labels": ["$~kompakt", "$~normal", "$~rymlig"],
+                        "tips": [
+                            "$~tätare block för att få plats med mer kod på skärmen",
+                            "$~standardblockavstånd",
+                            "$~lösare block för enklare val och dra"
+                        ]
                     }
                 },
                 "options": {
@@ -5308,6 +5359,14 @@
                         "$~Endast galleriets intendenter kan se ditt projekt"
                     ]
                 }
+            },
+            "tour": {
+                "launch": "$~ta en rundtur i samarbetet",
+                "collaborate": "$~Projekt kan /delas/ med andra personer, och du kan *chatta* med alla som projektet delas med här.",
+                "collaborators": "$~/Samarbetare/ kan *redigera* projektet och *chatta* om det med dig.",
+                "commenters": "$~/Kommentatorer/ kan *diskutera* projektet med dig, men de kan inte *redigera* det.",
+                "viewers": "$~/Tittare/ kan *se* projektet och dess *kod*, men de kan inte *diskutera* eller *redigera* det.",
+                "restrict": "$~När ett projekt finns i ett *galleri* kan som standard *alla* som kan se galleriet se ditt projekt. /restrict/-knappen *döljer* det för alla utom dig och galleriets kuratorer."
             }
         },
         "palette": {
@@ -5372,6 +5431,15 @@
                 "percent": "$~Måste vara en procent mellan 0 och 100.",
                 "lessThanNext": "$~Detta måste vara mindre än nästa post.",
                 "moreThanPrevious": "$~Detta måste vara mer än föregående post."
+            },
+            "tour": {
+                "launch": "$~ta en rundtur i paletten",
+                "palette": "$~När projektet är *pausat* kan du använda /paletten/ för att redigera *fraser*, *grupper* och *scenen*.",
+                "text": "$~Alla /egenskaper/ för en fras kan redigeras här. Detta är frasens *text*, men andra egenskaper har sina egna kontroller.",
+                "set": "$~När en egenskap för närvarande använder sitt /default/-värde kan du med *pennan*-knappen ange ett *explicit*-värde för den.",
+                "unset": "$~När en egenskap har ett /explicit/-värde satt, tar *X*-knappen bort det värdet och återställer egenskapen till dess *standard*.",
+                "editor": "$~Alla ändringar du gör i paletten återspeglas i /code/ som visas i *editorn*.",
+                "stage": "$~Fraser kan också /flyttas/, /ändras i storlek/ och /roteras/ direkt på *scenen*."
             }
         },
         "save": {
@@ -6438,6 +6506,13 @@
             "revisedDescription": "$~Dessa ändringar sparas lokalt och har ännu inte skickats in för granskning.",
             "submitRevisions": "$~Skicka in ändringar",
             "submitted": "$~Tack! Din reviderade text kommer att granskas och kan komma att publiceras snart."
+        },
+        "tour": {
+            "label": "$~tur",
+            "close": "$~stäng rundturen",
+            "previous": "$~föregående steg",
+            "next": "$~nästa steg",
+            "offscreen": "$~Den här delen av gränssnittet syns för närvarande inte på skärmen."
         }
     },
     "moderation": {

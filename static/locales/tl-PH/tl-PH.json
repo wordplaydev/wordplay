@@ -4496,12 +4496,23 @@
                     "on": "$~lumabas sa browser nang buong screen",
                     "off": "$~ipasok ang buong screen ng browser"
                 }
+            },
+            "label": "$~mga kontrol sa proyekto",
+            "tour": {
+                "launch": "$~maglibot sa mga kontrol ng proyekto",
+                "controls": "$~Ang mga /controls/ na ito sa ibaba ay nalalapat sa *kabuuang proyekto*, kahit anong tile ang gamitin mo.",
+                "name": "$~Angfieldna/name/ayangpangalanngiyongproyekto.Lumalabasangmgapangalansamgaviewna*project*at*gallery*.",
+                "sourceToggle": "$~Ipinapakita o itinatago ng /toggle/ na ito ang *source file*. Ganito rin ang gagawin ng *iba pang mga toggle* sa row na ito para sa iba pang mga tile.",
+                "addSource": "$~Ang ilang proyekto ay nakikinabang mula sa *maraming* source file, kung saan ang data ay iniimbak sa isa at ini-import sa *pangunahing* source. Ang button na /add source/ ay lumilikha ng bago.",
+                "share": "$~Ang dialog na /share/ ay nagbibigay-daan sa iyong ibahagi ang iyong proyekto sa mga *gallery*, sa *publiko*, o kopyahin ito bilang *text* upang ibahagi sa ibang lugar.",
+                "translate": "$~Ang buton na /translate/ ay maaaring magdagdag ng mga *salin* ng mga *pangalan*, *teksto*, at *dokumentasyon* ng iyong proyekto sa ibang mga wika.",
+                "checkpoints": "$~Ang panel na /revisions/ ay nagbibigay-daan sa iyong *bumalik* sa mga nakaraang bersyon ng iyong proyekto, at mga *snapshot* na bersyong gusto mong matandaan."
             }
         },
         "checkpoints": {
             "label": {
                 "now": "$~ngayon",
-                "history": "$~ibalik",
+                "history": "$~mga bersyon",
                 "restore": "$~Ito ay isang nakaraang bersyon ng proyektong ito.",
                 "ago": "$~$1 $2 ang nakalipas"
             },
@@ -4928,6 +4939,14 @@
             "error": {
                 "invalidName": "$~Dapat itong isang wastong pangalan ng Wordplay.",
                 "invalidWords": "$~Hindi maaaring walang laman ang mga salita o maglaman ng mga nakalaan na simbolo."
+            },
+            "tour": {
+                "launch": "$~maglibot sa editor",
+                "editor": "$~Lahat ng /code/ mo ay nasa *editor*. Bawat programa ng Wordplay *ay sumusuri sa isang halaga*, at ang halagang iyon ang lumalabas sa *stage*.",
+                "textBlocks": "$~Ang toggle na ito ay nagpapalipat-lipat sa pagitan ng dalawang paraan ng pag-eedit: /text/ at /blocks/. Ang *Text* ay mas flexible ngunit mas madaling magkamali. Ang *Blocks* ay hindi gaanong madaling magkamali ngunit mas mabagal at mas matibay.",
+                "toolbar": "$~Ang mga kontrol na ito sa /toolbar/ ay nagbibigay-daan sa iyong *piliin lahat*, *mag-zoom in* at *mag-zoom out*, *mag-undo*, *mag-redo*, *mag-cut*, *magkopya*, at *mag-paste*.",
+                "expand": "$~Ipinapakita ng toggle na /expand/ ang mas *advanced* na mga tool sa pag-eedit.",
+                "shortcuts": "$~Ang button na /shortcuts/ ay magbubukas ng listahan ng mga *keyboard shortcut* na maaari mong gamitin para mas mabilis na mag-edit."
             }
         },
         "annotations": {
@@ -4977,6 +4996,15 @@
             "options": {
                 "locale": "$~ginustong wika para sa output",
                 "default": "$~paunang"
+            },
+            "tour": {
+                "launch": "$~maglibot sa entablado",
+                "stage": "$~Ipinapakita ng /stage/ ang *kasalukuyang halaga* ng iyong programa. Ang halagang iyon ay maaaring isang *raw na halaga* tulad ng isang numero o listahan, *visual output* na nakikita mo, o kahit na *tunog* na naririnig mo.",
+                "reset": "$~Nire-rewind ng button na /reset/ ang ebalwasyon ng iyong programa pabalik sa *simula*, na nire-replay ang anumang oras, key, o input stream mula sa simula.",
+                "zoom": "$~Ang mga buton na /zoom/ ay nagbibigay-daan sa iyong mag-zoom *in* at *out* sa entablado para mas malinaw o mas detalyado mong makita ang iyong output.",
+                "grid": "$~Ang buton na /grid/ ay nagpapakita ng *grid* sa entablado, na nakakatulong para sa eksaktong paglalagay ng mga bagay habang nagdidisenyo ka.",
+                "lock": "$~Nila-lock ng buton na /lock/ ang view ng entablado sa lugar nito. Kapag *naka-lock*, nananatili itong hindi gumagalaw; kapag *naka-unlock*, malaya kang makakapag-pan at makakapag-zoom.",
+                "animationSpeed": "$~Ang kontrol na /animation speed/ ay nagtatakda kung gaano kabilis tumutugtog ang mga animation. Ang parehong kontrol ay nasa *settings*, kaya maaari mo itong baguhin mula sa alinmang lugar."
             }
         },
         "timeline": {
@@ -4996,6 +5024,17 @@
                 "present": "$~hanggang sa dulo",
                 "start": "$~Sa simula",
                 "reset": "$~i-restart ang pagganap"
+            },
+            "tour": {
+                "launch": "$~libutin ang timeline",
+                "timeline": "$~Ang /timeline/ ay nagbibigay-daan sa iyong humakbang *pasulong* at *paatras* sa pagsusuri ng iyong programa, nang paisa-isang hakbang. Isa itong mahusay na paraan upang makita *kung paano* kinukuwenta ng iyong programa ang halaga nito, at upang bumuo ng isang mental na modelo kung paano sinusuri ng mga programang Wordplay, lalo na kung hindi mo nakikita ang gawi na gusto mo.",
+                "reset": "$~Ire-rewind ng button na /reset/ ang ebalwasyon ng iyong programa pabalik sa *simula*, para masimulan mo nang panoorin ang ebalwasyon mula sa simula.",
+                "annotations": "$~Ang window na /annotations/ ay kung saan lumalabas ang mga paliwanag ng bawat hakbang. Habang tinatahak mo ang iyong programa, dito mo mababasa ang nangyari.",
+                "editor": "$~Ipinapakita ng /editor/ ang iyong code. Habang nag-step, ang *value* ng bawat bahagi ng iyong programa ay lilitaw sa tabi ng bahaging iyon *pagkatapos* itong masuri, para mapanood mo ang pagtaas ng mga value habang tumatakbo ang programa.",
+                "history": "$~Ipinapakita ng /history/ ang bawat *input* na natanggap ng iyong programa, tulad ng mga key, time tick, at pointer event. Ito ay *maaaring i-drag*, kaya maaari kang bumalik sa anumang sandali sa evaluation history ng programa sa pamamagitan lamang ng pag-drag.",
+                "stepControls": "$~Ang /step ang kumokontrol sa/ na nagbibigay-daan sa iyong tumpak na pag-usad sa pagsusuri. Maaari kang tumalon sa *simula* o *dulo*, humakbang *pasulong* o *paatras* nang paisa-isang hakbang, tumalon sa *isang input*, humakbang *palabas* ng isang function, o tumalon sa *kasalukuyang napili* na bahagi ng code.",
+                "playMode": "$~Ang programa ay /nagpe-play/ na ngayon. Sa *play* mode, tatakbo ang iyong programa hanggang sa matapos ito (kung sakaling mangyari), na tumutugon sa mga input nang real time.",
+                "pauseMode": "$~Ang programa ay /naka-pause/ na ngayon. Sa *pause* mode, maaari kang humakbang *pasulong* at *paatras* sa pagsusuri. Ipinapakita na ngayon ng /annotations/ window kung ano ang nangyayari sa bawat hakbang, at ang *kasalukuyang halaga* ng bawat bahagi ng iyong programa ay lilitaw sa tabi nito sa editor."
             }
         },
         "docs": {
@@ -5197,6 +5236,14 @@
                     "label": "$~tingnan ang mga paraan sa espasyo",
                     "tip": "$~tingnan ang mga paraan sa espasyo"
                 }
+            },
+            "tour": {
+                "launch": "$~maglibot sa gabay",
+                "guide": "$~Ang /gabay/ ay naglalaman ng *dokumentasyon* para sa lahat ng konsepto at *kakayahan* ng *wikang pamprograma* ng Wordplay.",
+                "mode": "$~Gamitin ang /toggle/ na ito para lumipat sa pagitan ng mga seksyong *code* at *how-to*.",
+                "search": "$~Ang kahon na /search/ ay nakakatulong para sa *pagtuklas* ng mga tampok, o mabilis na paghahanap ng isa *ayon sa pangalan*.",
+                "code": "$~Ito ang seksyong /code/. Naglalaman ito ng dokumentasyon ng *programming language* — ang mga building block na maaari mong pagsamahin upang makagawa ng mga programa.",
+                "howto": "$~Ito ang seksyong /paano-gawin/. Naglalaman ito ng *mga kapaki-pakinabang na pattern* para sa pagkamit ng mga partikular na gawi sa iyong mga proyekto."
             }
         },
         "dialog": {
@@ -5349,9 +5396,13 @@
                         ]
                     },
                     "blockDensity": {
-                        "label": "$?",
-                        "labels": ["$?", "$?", "$?"],
-                        "tips": ["$?", "$?", "$?"]
+                        "label": "$~pagitan ng bloke",
+                        "labels": ["$~siksik", "$~normal", "$~maluwang"],
+                        "tips": [
+                            "$~mas mahigpit na mga bloke upang magkasya ang mas maraming code sa screen",
+                            "$~default na espasyo sa bloke",
+                            "$~mas maluwag na mga bloke para sa mas madaling pagpili at pag-drag"
+                        ]
                     }
                 },
                 "options": {
@@ -5550,6 +5601,14 @@
                         "$~tanging ang mga curator ng gallery lamang ang makakakita ng iyong proyekto"
                     ]
                 }
+            },
+            "tour": {
+                "launch": "$~maglibot sa pakikipagtulungan",
+                "collaborate": "$~Maaaring /ibahagi/ ang mga proyekto sa ibang tao, at maaari kang *makipag-chat* sa lahat ng taong pinagbabahagian ng proyekto rito mismo.",
+                "collaborators": "$~Maaaring *i-edit* ng /Mga Kolaborator/ ang proyekto at *makipag-usap* tungkol dito sa iyo.",
+                "commenters": "$~Maaaring *talakayin* ng mga /tagapagkomento/ ang proyekto sa iyo, ngunit hindi nila ito maaaring *i-edit*.",
+                "viewers": "$~Maaaring *tingnan* ng mga /tumitingin/ ang proyekto at ang *code* nito, ngunit hindi nila ito maaaring *talakayin* o *i-edit*.",
+                "restrict": "$~Kapag ang isang proyekto ay nasa isang *gallery*, bilang default, *lahat* ng makakakita sa gallery ay makakakita ng iyong proyekto. *Itinatago* ito ng /restrict/ toggle mula sa lahat maliban sa iyo at sa mga curator ng gallery."
             }
         },
         "palette": {
@@ -5614,6 +5673,15 @@
                 "percent": "$~Dapat ay isang porsyento sa pagitan ng 0 at 100.",
                 "lessThanNext": "$~Dapat mas mababa ito kaysa sa susunod na entry.",
                 "moreThanPrevious": "$~Dapat ay higit pa ito kaysa sa nakaraang entry."
+            },
+            "tour": {
+                "launch": "$~maglibot sa paleta",
+                "palette": "$~Kapag *naka-pause* ang proyekto, maaari mong gamitin ang /palette/ para i-edit ang mga *parirala*, *grupo*, at ang *stage*.",
+                "text": "$~Maaaring i-edit dito ang lahat ng /properties/ ng isang parirala. Ito ang *teksto* ng parirala, ngunit ang ibang mga katangian ay may sariling mga kontrol.",
+                "set": "$~Kapag kasalukuyang ginagamit ng isang property ang value nito na /default/, hinahayaan ka ng button na *pencil* na magtakda ng *explicit* value para dito.",
+                "unset": "$~Kapag ang isang property ay may nakatakdang halagang /explicit/, aalisin ng button na *X* ang halagang iyon, at ibabalik ang property sa *default* nito.",
+                "editor": "$~Ang lahat ng mga pagbabagong gagawin mo sa palette ay makikita sa /code/ na ipinapakita sa *editor*.",
+                "stage": "$~Maaari ding /ilipat/, /ibahin ang laki/, at /iikot/ ang mga parirala nang direkta sa *entablado*."
             }
         },
         "save": {
@@ -6445,6 +6513,13 @@
                     "$~pera"
                 ]
             }
+        },
+        "tour": {
+            "label": "$~paglilibot",
+            "close": "$~isara ang paglilibot",
+            "previous": "$~nakaraang hakbang",
+            "next": "$~susunod na hakbang",
+            "offscreen": "$~Ang bahaging ito ng interface ay hindi nakikita sa screen sa kasalukuyan."
         }
     },
     "moderation": {

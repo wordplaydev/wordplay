@@ -1,11 +1,5 @@
 {
-    "2614": [
-        "payong na nauulanan",
-        "ambon",
-        "patak",
-        "payong",
-        "ulan"
-    ],
+    "2614": ["payong na nauulanan", "ambon", "patak", "payong", "ulan"],
     "2615": [
         "mainit na inumin",
         "inumin",
@@ -15,46 +9,13 @@
         "tsaa",
         "umuusok"
     ],
-    "2648": [
-        "Aries",
-        "horoscope",
-        "ram",
-        "zodiac"
-    ],
-    "2649": [
-        "Taurus",
-        "horoscope",
-        "toro",
-        "zodiac"
-    ],
-    "2650": [
-        "Sagittarius",
-        "archer",
-        "pana",
-        "zodiac"
-    ],
-    "2651": [
-        "Capricorn",
-        "kambing",
-        "zodiac"
-    ],
-    "2652": [
-        "Aquarius",
-        "tubig",
-        "zodiac"
-    ],
-    "2653": [
-        "Pisces",
-        "isda",
-        "zodiac"
-    ],
-    "2693": [
-        "angkla",
-        "anchor",
-        "bangka",
-        "barko",
-        "kagamitan"
-    ],
+    "2648": ["Aries", "horoscope", "ram", "zodiac"],
+    "2649": ["Taurus", "horoscope", "toro", "zodiac"],
+    "2650": ["Sagittarius", "archer", "pana", "zodiac"],
+    "2651": ["Capricorn", "kambing", "zodiac"],
+    "2652": ["Aquarius", "tubig", "zodiac"],
+    "2653": ["Pisces", "isda", "zodiac"],
+    "2693": ["angkla", "anchor", "bangka", "barko", "kagamitan"],
     "2705": [
         "puting tsek",
         "ayos",
@@ -68,13 +29,7 @@
         "tapos na",
         "tsek"
     ],
-    "2728": [
-        "kumikinang",
-        "bituin",
-        "kinang",
-        "kislap",
-        "kumikislap"
-    ],
+    "2728": ["kumikinang", "bituin", "kinang", "kislap", "kumikislap"],
     "2753": [
         "pulang tandang pananong",
         "bantas",
@@ -100,20 +55,8 @@
         "pananda",
         "puti"
     ],
-    "2757": [
-        "tandang padamdam",
-        "!",
-        "bantas",
-        "padamdam",
-        "pananda",
-        "tanda"
-    ],
-    "2764": [
-        "pulang puso",
-        "mahal kita",
-        "pag-ibig",
-        "puso"
-    ],
+    "2757": ["tandang padamdam", "!", "bantas", "padamdam", "pananda", "tanda"],
+    "2764": ["pulang puso", "mahal kita", "pag-ibig", "puso"],
     "2795": [
         "plus",
         "+",
@@ -143,125 +86,32 @@
         "sign",
         "simbolo"
     ],
-    "0023": [
-        "hash sign"
-    ],
-    "0023 FE0F 20E3": [
-        "keycap: #",
-        "keycap"
-    ],
-    "002A": [
-        "asterisk",
-        "bituin",
-        "wildcard"
-    ],
-    "002A FE0F 20E3": [
-        "keycap: *",
-        "keycap"
-    ],
-    "0030": [
-        "digit zero"
-    ],
-    "0030 FE0F 20E3": [
-        "keycap: 0",
-        "0",
-        "keycap",
-        "walâ"
-    ],
-    "0031": [
-        "digit one"
-    ],
-    "0031 FE0F 20E3": [
-        "keycap: 1",
-        "1",
-        "isa",
-        "keycap"
-    ],
-    "0032": [
-        "digit two"
-    ],
-    "0032 FE0F 20E3": [
-        "keycap: 2",
-        "2",
-        "dalawá",
-        "keycap"
-    ],
-    "0033": [
-        "digit three"
-    ],
-    "0033 FE0F 20E3": [
-        "keycap: 3",
-        "3",
-        "keycap",
-        "tatló"
-    ],
-    "0034": [
-        "digit four"
-    ],
-    "0034 FE0F 20E3": [
-        "keycap: 4",
-        "4",
-        "ápat",
-        "keycap"
-    ],
-    "0035": [
-        "digit five"
-    ],
-    "0035 FE0F 20E3": [
-        "keycap: 5",
-        "5",
-        "keycap",
-        "limá"
-    ],
-    "0036": [
-        "digit six"
-    ],
-    "0036 FE0F 20E3": [
-        "keycap: 6",
-        "6",
-        "anim",
-        "keycap"
-    ],
-    "0037": [
-        "digit seven"
-    ],
-    "0037 FE0F 20E3": [
-        "keycap: 7",
-        "7",
-        "keycap",
-        "pitó"
-    ],
-    "0038": [
-        "digit eight"
-    ],
-    "0038 FE0F 20E3": [
-        "keycap: 8",
-        "8",
-        "keycap",
-        "waló"
-    ],
-    "0039": [
-        "digit nine"
-    ],
-    "0039 FE0F 20E3": [
-        "keycap: 9",
-        "9",
-        "keycap",
-        "siyám"
-    ],
-    "231A": [
-        "relo",
-        "orasan",
-        "relos",
-        "wristwatch"
-    ],
-    "231B": [
-        "hourglass",
-        "buhangin",
-        "orasan",
-        "sandglass",
-        "timer"
-    ],
+    "0023": ["hash sign"],
+    "0023 FE0F 20E3": ["keycap: #", "keycap"],
+    "002A": ["asterisk", "bituin", "wildcard"],
+    "002A FE0F 20E3": ["keycap: *", "keycap"],
+    "0030": ["digit zero"],
+    "0030 FE0F 20E3": ["keycap: 0", "0", "keycap", "walâ"],
+    "0031": ["digit one"],
+    "0031 FE0F 20E3": ["keycap: 1", "1", "isa", "keycap"],
+    "0032": ["digit two"],
+    "0032 FE0F 20E3": ["keycap: 2", "2", "dalawá", "keycap"],
+    "0033": ["digit three"],
+    "0033 FE0F 20E3": ["keycap: 3", "3", "keycap", "tatló"],
+    "0034": ["digit four"],
+    "0034 FE0F 20E3": ["keycap: 4", "4", "ápat", "keycap"],
+    "0035": ["digit five"],
+    "0035 FE0F 20E3": ["keycap: 5", "5", "keycap", "limá"],
+    "0036": ["digit six"],
+    "0036 FE0F 20E3": ["keycap: 6", "6", "anim", "keycap"],
+    "0037": ["digit seven"],
+    "0037 FE0F 20E3": ["keycap: 7", "7", "keycap", "pitó"],
+    "0038": ["digit eight"],
+    "0038 FE0F 20E3": ["keycap: 8", "8", "keycap", "waló"],
+    "0039": ["digit nine"],
+    "0039 FE0F 20E3": ["keycap: 9", "9", "keycap", "siyám"],
+    "231A": ["relo", "orasan", "relos", "wristwatch"],
+    "231B": ["hourglass", "buhangin", "orasan", "sandglass", "timer"],
     "23E9": [
         "button na i-fast forward",
         "arrow",
@@ -297,14 +147,7 @@
         "pahinaan",
         "pindutan"
     ],
-    "23F0": [
-        "alarm clock",
-        "alarm",
-        "huli",
-        "late",
-        "oras",
-        "orasan"
-    ],
+    "23F0": ["alarm clock", "alarm", "huli", "late", "oras", "orasan"],
     "23F3": [
         "hourglass na may bumabagsak na buhangin",
         "buhangin",
@@ -398,29 +241,10 @@
         "kamay",
         "pataas"
     ],
-    "264A": [
-        "Gemini",
-        "horoscope",
-        "kambal",
-        "zodiac"
-    ],
-    "264B": [
-        "Cancer",
-        "alimango",
-        "horoscope",
-        "zodiac"
-    ],
-    "264C": [
-        "Leo",
-        "horoscope",
-        "leon",
-        "zodiac"
-    ],
-    "264D": [
-        "Virgo",
-        "horoscope",
-        "zodiac"
-    ],
+    "264A": ["Gemini", "horoscope", "kambal", "zodiac"],
+    "264B": ["Cancer", "alimango", "horoscope", "zodiac"],
+    "264C": ["Leo", "horoscope", "leon", "zodiac"],
+    "264D": ["Virgo", "horoscope", "zodiac"],
     "264E": [
         "Libra",
         "balanse",
@@ -437,12 +261,7 @@
         "scorpius",
         "zodiac"
     ],
-    "267F": [
-        "wheelchair",
-        "kapansanan",
-        "magagamit",
-        "simbolo ng wheelchair"
-    ],
+    "267F": ["wheelchair", "kapansanan", "magagamit", "simbolo ng wheelchair"],
     "26A1": [
         "may mataas na boltahe",
         "high voltage",
@@ -451,18 +270,8 @@
         "mataas na boltahe",
         "panganib"
     ],
-    "26AA": [
-        "puting bilog",
-        "bilog",
-        "hugis",
-        "puti"
-    ],
-    "26AB": [
-        "itim na bilog",
-        "bilog",
-        "hugis",
-        "itim"
-    ],
+    "26AA": ["puting bilog", "bilog", "hugis", "puti"],
+    "26AB": ["itim na bilog", "bilog", "hugis", "itim"],
     "26BD": [
         "bola ng soccer",
         "bola",
@@ -471,10 +280,7 @@
         "ronaldo",
         "soccer"
     ],
-    "26BE": [
-        "baseball",
-        "bola"
-    ],
+    "26BE": ["baseball", "bola"],
     "26C4": [
         "snowman na walang niyebe",
         "lagay ng panahon",
@@ -490,16 +296,8 @@
         "panahon",
         "ulap"
     ],
-    "26CE": [
-        "Ophiuchus",
-        "ahas",
-        "serpiyente",
-        "zodiac"
-    ],
-    "26D3": [
-        "kadena",
-        "mga kadena"
-    ],
+    "26CE": ["Ophiuchus", "ahas", "serpiyente", "zodiac"],
+    "26D3": ["kadena", "mga kadena"],
     "26D3 FE0F 200D 1F4A5": [
         "lagot na kadena",
         "lagot, nalalagot, kadena, posas, kalayaan"
@@ -522,15 +320,8 @@
         "relihiyon",
         "sambahan"
     ],
-    "26F2": [
-        "fountain"
-    ],
-    "26F3": [
-        "flag sa butas",
-        "butas",
-        "flag",
-        "golf"
-    ],
+    "26F2": ["fountain"],
+    "26F3": ["flag sa butas", "butas", "flag", "golf"],
     "26F5": [
         "bangkang may layag",
         "bangka",
@@ -596,18 +387,8 @@
         "laro",
         "taong naglalaro ng bola"
     ],
-    "26FA": [
-        "tent",
-        "camping",
-        "scout"
-    ],
-    "26FD": [
-        "fuel pump",
-        "diesel",
-        "gas",
-        "gasolinahan",
-        "pump"
-    ],
+    "26FA": ["tent", "camping", "scout"],
+    "26FD": ["fuel pump", "diesel", "gas", "gasolinahan", "pump"],
     "270A": [
         "nakataas na kamao",
         "kamao",
@@ -782,12 +563,7 @@
         "tagumpay",
         "v sign"
     ],
-    "270D": [
-        "nagsusulat na kamay",
-        "kamay",
-        "nagsusulat",
-        "sulat-kamay"
-    ],
+    "270D": ["nagsusulat na kamay", "kamay", "nagsusulat", "sulat-kamay"],
     "270D 1F3FB": [
         "nagsusulat na kamay: light na kulay ng balat",
         "kamay",
@@ -828,14 +604,7 @@
         "nagsusulat na kamay",
         "sulat-kamay"
     ],
-    "274C": [
-        "ekis",
-        "kansela",
-        "marka",
-        "multiplication",
-        "multiply",
-        "x"
-    ],
+    "274C": ["ekis", "kansela", "marka", "multiplication", "multiply", "x"],
     "274E": [
         "button na ekis",
         "ekis",
@@ -845,25 +614,10 @@
         "parisukat",
         "x"
     ],
-    "2764 FE0F 200D 1F525": [
-        "pusong nasa apoy"
-    ],
-    "2764 FE0F 200D 1FA79": [
-        "pag-ayos sa puso"
-    ],
-    "27B0": [
-        "curly loop",
-        "kulot",
-        "loop",
-        "silo"
-    ],
-    "27BF": [
-        "dobleng curly loop",
-        "doble",
-        "kulot",
-        "loop",
-        "silo"
-    ],
+    "2764 FE0F 200D 1F525": ["pusong nasa apoy"],
+    "2764 FE0F 200D 1FA79": ["pag-ayos sa puso"],
+    "27B0": ["curly loop", "kulot", "loop", "silo"],
+    "27BF": ["dobleng curly loop", "doble", "kulot", "loop", "silo"],
     "2B1B": [
         "malaking itim na parisukat",
         "hugis",
@@ -885,26 +639,9 @@
         "puti",
         "tala"
     ],
-    "2B55": [
-        "malaking bilog",
-        "bilog",
-        "makapal",
-        "malaki",
-        "o"
-    ],
-    "1F004": [
-        "mahjong red dragon",
-        "laro",
-        "mahjong",
-        "pula",
-        "sugal"
-    ],
-    "1F0CF": [
-        "joker",
-        "baraha",
-        "sugal",
-        "wildcard"
-    ],
+    "2B55": ["malaking bilog", "bilog", "makapal", "malaki", "o"],
+    "1F004": ["mahjong red dragon", "laro", "mahjong", "pula", "sugal"],
+    "1F0CF": ["joker", "baraha", "sugal", "wildcard"],
     "1F18E": [
         "button na AB",
         "AB",
@@ -914,1179 +651,304 @@
         "uri",
         "uri ng dugo"
     ],
-    "1F191": [
-        "button na CL",
-        "CL",
-        "pindutan"
-    ],
-    "1F192": [
-        "button na COOL",
-        "astig",
-        "COOL",
-        "pindutan"
-    ],
-    "1F193": [
-        "button na FREE",
-        "FREE",
-        "LIBRE",
-        "pindutan"
-    ],
-    "1F194": [
-        "button na ID",
-        "ID",
-        "ID button",
-        "pagkakakilanlan",
-        "pindutan"
-    ],
-    "1F195": [
-        "button na NEW",
-        "BAGO",
-        "NEW",
-        "pindutan"
-    ],
-    "1F196": [
-        "button na NG",
-        "NG",
-        "pindutan"
-    ],
-    "1F197": [
-        "button na OK",
-        "ok",
-        "okay",
-        "pindutan"
-    ],
-    "1F198": [
-        "button na SOS",
-        "pindutan",
-        "SOS",
-        "tulong"
-    ],
-    "1F199": [
-        "button na UP!",
-        "marka",
-        "pindutan",
-        "UP!"
-    ],
-    "1F19A": [
-        "button na VS",
-        "pindutan",
-        "versus",
-        "VS"
-    ],
-    "1F1E6": [
-        "regional indicator symbol letter a"
-    ],
-    "1F1E6 1F1E8": [
-        "bandila: Acsencion island",
-        "bandila"
-    ],
-    "1F1E6 1F1E9": [
-        "bandila: Andorra",
-        "bandila"
-    ],
-    "1F1E6 1F1EA": [
-        "bandila: United Arab Emirates",
-        "bandila"
-    ],
-    "1F1E6 1F1EB": [
-        "bandila: Afghanistan",
-        "bandila"
-    ],
-    "1F1E6 1F1EC": [
-        "bandila: Antigua & Barbuda",
-        "bandila"
-    ],
-    "1F1E6 1F1EE": [
-        "bandila: Anguilla",
-        "bandila"
-    ],
-    "1F1E6 1F1F1": [
-        "bandila: Albania",
-        "bandila"
-    ],
-    "1F1E6 1F1F2": [
-        "bandila: Armenia",
-        "bandila"
-    ],
-    "1F1E6 1F1F4": [
-        "bandila: Angola",
-        "bandila"
-    ],
-    "1F1E6 1F1F6": [
-        "bandila: Antarctica",
-        "bandila"
-    ],
-    "1F1E6 1F1F7": [
-        "bandila: Argentina",
-        "bandila"
-    ],
-    "1F1E6 1F1F8": [
-        "bandila: American Samoa",
-        "bandila"
-    ],
-    "1F1E6 1F1F9": [
-        "bandila: Austria",
-        "bandila"
-    ],
-    "1F1E6 1F1FA": [
-        "bandila: Australia",
-        "bandila"
-    ],
-    "1F1E6 1F1FC": [
-        "bandila: Aruba",
-        "bandila"
-    ],
-    "1F1E6 1F1FD": [
-        "bandila: Åland Islands",
-        "bandila"
-    ],
-    "1F1E6 1F1FF": [
-        "bandila: Azerbaijan",
-        "bandila"
-    ],
-    "1F1E7": [
-        "regional indicator symbol letter b"
-    ],
-    "1F1E7 1F1E6": [
-        "bandila: Bosnia and Herzegovina",
-        "bandila"
-    ],
-    "1F1E7 1F1E7": [
-        "bandila: Barbados",
-        "bandila"
-    ],
-    "1F1E7 1F1E9": [
-        "bandila: Bangladesh",
-        "bandila"
-    ],
-    "1F1E7 1F1EA": [
-        "bandila: Belgium",
-        "bandila"
-    ],
-    "1F1E7 1F1EB": [
-        "bandila: Burkina Faso",
-        "bandila"
-    ],
-    "1F1E7 1F1EC": [
-        "bandila: Bulgaria",
-        "bandila"
-    ],
-    "1F1E7 1F1ED": [
-        "bandila: Bahrain",
-        "bandila"
-    ],
-    "1F1E7 1F1EE": [
-        "bandila: Burundi",
-        "bandila"
-    ],
-    "1F1E7 1F1EF": [
-        "bandila: Benin",
-        "bandila"
-    ],
-    "1F1E7 1F1F1": [
-        "bandila: St. Barthélemy",
-        "bandila"
-    ],
-    "1F1E7 1F1F2": [
-        "bandila: Bermuda",
-        "bandila"
-    ],
-    "1F1E7 1F1F3": [
-        "bandila: Brunei",
-        "bandila"
-    ],
-    "1F1E7 1F1F4": [
-        "bandila: Bolivia",
-        "bandila"
-    ],
-    "1F1E7 1F1F6": [
-        "bandila: Caribbean Netherlands",
-        "bandila"
-    ],
-    "1F1E7 1F1F7": [
-        "bandila: Brazil",
-        "bandila"
-    ],
-    "1F1E7 1F1F8": [
-        "bandila: Bahamas",
-        "bandila"
-    ],
-    "1F1E7 1F1F9": [
-        "bandila: Bhutan",
-        "bandila"
-    ],
-    "1F1E7 1F1FB": [
-        "bandila: Bouvet Island",
-        "bandila"
-    ],
-    "1F1E7 1F1FC": [
-        "bandila: Botswana",
-        "bandila"
-    ],
-    "1F1E7 1F1FE": [
-        "bandila: Belarus",
-        "bandila"
-    ],
-    "1F1E7 1F1FF": [
-        "bandila: Belize",
-        "bandila"
-    ],
-    "1F1E8": [
-        "regional indicator symbol letter c"
-    ],
-    "1F1E8 1F1E6": [
-        "bandila: Canada",
-        "bandila"
-    ],
-    "1F1E8 1F1E8": [
-        "bandila: Cocos (Keeling) Islands",
-        "bandila"
-    ],
-    "1F1E8 1F1E9": [
-        "bandila: Congo - Kinshasa",
-        "bandila"
-    ],
-    "1F1E8 1F1EB": [
-        "bandila: Central African Republic",
-        "bandila"
-    ],
-    "1F1E8 1F1EC": [
-        "bandila: Congo - Brazzaville",
-        "bandila"
-    ],
-    "1F1E8 1F1ED": [
-        "bandila: Switzerland",
-        "bandila"
-    ],
-    "1F1E8 1F1EE": [
-        "bandila: Côte d’Ivoire",
-        "bandila"
-    ],
-    "1F1E8 1F1F0": [
-        "bandila: Cook Islands",
-        "bandila"
-    ],
-    "1F1E8 1F1F1": [
-        "bandila: Chile",
-        "bandila"
-    ],
-    "1F1E8 1F1F2": [
-        "bandila: Cameroon",
-        "bandila"
-    ],
-    "1F1E8 1F1F3": [
-        "bandila: China",
-        "bandila"
-    ],
-    "1F1E8 1F1F4": [
-        "bandila: Colombia",
-        "bandila"
-    ],
-    "1F1E8 1F1F5": [
-        "bandila: Clipperton Island",
-        "bandila"
-    ],
-    "1F1E8 1F1F6": [
-        "bandila: Sark",
-        "bandila"
-    ],
-    "1F1E8 1F1F7": [
-        "bandila: Costa Rica",
-        "bandila"
-    ],
-    "1F1E8 1F1FA": [
-        "bandila: Cuba",
-        "bandila"
-    ],
-    "1F1E8 1F1FB": [
-        "bandila: Cape Verde",
-        "bandila"
-    ],
-    "1F1E8 1F1FC": [
-        "bandila: Curaçao",
-        "bandila"
-    ],
-    "1F1E8 1F1FD": [
-        "bandila: Christmas Island",
-        "bandila"
-    ],
-    "1F1E8 1F1FE": [
-        "bandila: Cyprus",
-        "bandila"
-    ],
-    "1F1E8 1F1FF": [
-        "bandila: Czechia",
-        "bandila"
-    ],
-    "1F1E9": [
-        "regional indicator symbol letter d"
-    ],
-    "1F1E9 1F1EA": [
-        "bandila: Germany",
-        "bandila"
-    ],
-    "1F1E9 1F1EC": [
-        "bandila: Diego Garcia",
-        "bandila"
-    ],
-    "1F1E9 1F1EF": [
-        "bandila: Djibouti",
-        "bandila"
-    ],
-    "1F1E9 1F1F0": [
-        "bandila: Denmark",
-        "bandila"
-    ],
-    "1F1E9 1F1F2": [
-        "bandila: Dominica",
-        "bandila"
-    ],
-    "1F1E9 1F1F4": [
-        "bandila: Dominican Republic",
-        "bandila"
-    ],
-    "1F1E9 1F1FF": [
-        "bandila: Algeria",
-        "bandila"
-    ],
-    "1F1EA": [
-        "regional indicator symbol letter e"
-    ],
-    "1F1EA 1F1E6": [
-        "bandila: Ceuta & Melilla",
-        "bandila"
-    ],
-    "1F1EA 1F1E8": [
-        "bandila: Ecuador",
-        "bandila"
-    ],
-    "1F1EA 1F1EA": [
-        "bandila: Estonia",
-        "bandila"
-    ],
-    "1F1EA 1F1EC": [
-        "bandila: Egypt",
-        "bandila"
-    ],
-    "1F1EA 1F1ED": [
-        "bandila: Kanlurang Sahara",
-        "bandila"
-    ],
-    "1F1EA 1F1F7": [
-        "bandila: Eritrea",
-        "bandila"
-    ],
-    "1F1EA 1F1F8": [
-        "bandila: Spain",
-        "bandila"
-    ],
-    "1F1EA 1F1F9": [
-        "bandila: Ethiopia",
-        "bandila"
-    ],
-    "1F1EA 1F1FA": [
-        "bandila: European Union",
-        "bandila"
-    ],
-    "1F1EB": [
-        "regional indicator symbol letter f"
-    ],
-    "1F1EB 1F1EE": [
-        "bandila: Finland",
-        "bandila"
-    ],
-    "1F1EB 1F1EF": [
-        "bandila: Fiji",
-        "bandila"
-    ],
-    "1F1EB 1F1F0": [
-        "bandila: Falkland Islands",
-        "bandila"
-    ],
-    "1F1EB 1F1F2": [
-        "bandila: Micronesia",
-        "bandila"
-    ],
-    "1F1EB 1F1F4": [
-        "bandila: Faroe Islands",
-        "bandila"
-    ],
-    "1F1EB 1F1F7": [
-        "bandila: France",
-        "bandila"
-    ],
-    "1F1EC": [
-        "regional indicator symbol letter g"
-    ],
-    "1F1EC 1F1E6": [
-        "bandila: Gabon",
-        "bandila"
-    ],
-    "1F1EC 1F1E7": [
-        "bandila: United Kingdom",
-        "bandila"
-    ],
-    "1F1EC 1F1E9": [
-        "bandila: Grenada",
-        "bandila"
-    ],
-    "1F1EC 1F1EA": [
-        "bandila: Georgia",
-        "bandila"
-    ],
-    "1F1EC 1F1EB": [
-        "bandila: French Guiana",
-        "bandila"
-    ],
-    "1F1EC 1F1EC": [
-        "bandila: Guernsey",
-        "bandila"
-    ],
-    "1F1EC 1F1ED": [
-        "bandila: Ghana",
-        "bandila"
-    ],
-    "1F1EC 1F1EE": [
-        "bandila: Gibraltar",
-        "bandila"
-    ],
-    "1F1EC 1F1F1": [
-        "bandila: Greenland",
-        "bandila"
-    ],
-    "1F1EC 1F1F2": [
-        "bandila: Gambia",
-        "bandila"
-    ],
-    "1F1EC 1F1F3": [
-        "bandila: Guinea",
-        "bandila"
-    ],
-    "1F1EC 1F1F5": [
-        "bandila: Guadeloupe",
-        "bandila"
-    ],
-    "1F1EC 1F1F6": [
-        "bandila: Equatorial Guinea",
-        "bandila"
-    ],
-    "1F1EC 1F1F7": [
-        "bandila: Greece",
-        "bandila"
-    ],
+    "1F191": ["button na CL", "CL", "pindutan"],
+    "1F192": ["button na COOL", "astig", "COOL", "pindutan"],
+    "1F193": ["button na FREE", "FREE", "LIBRE", "pindutan"],
+    "1F194": ["button na ID", "ID", "ID button", "pagkakakilanlan", "pindutan"],
+    "1F195": ["button na NEW", "BAGO", "NEW", "pindutan"],
+    "1F196": ["button na NG", "NG", "pindutan"],
+    "1F197": ["button na OK", "ok", "okay", "pindutan"],
+    "1F198": ["button na SOS", "pindutan", "SOS", "tulong"],
+    "1F199": ["button na UP!", "marka", "pindutan", "UP!"],
+    "1F19A": ["button na VS", "pindutan", "versus", "VS"],
+    "1F1E6": ["regional indicator symbol letter a"],
+    "1F1E6 1F1E8": ["bandila: Acsencion island", "bandila"],
+    "1F1E6 1F1E9": ["bandila: Andorra", "bandila"],
+    "1F1E6 1F1EA": ["bandila: United Arab Emirates", "bandila"],
+    "1F1E6 1F1EB": ["bandila: Afghanistan", "bandila"],
+    "1F1E6 1F1EC": ["bandila: Antigua & Barbuda", "bandila"],
+    "1F1E6 1F1EE": ["bandila: Anguilla", "bandila"],
+    "1F1E6 1F1F1": ["bandila: Albania", "bandila"],
+    "1F1E6 1F1F2": ["bandila: Armenia", "bandila"],
+    "1F1E6 1F1F4": ["bandila: Angola", "bandila"],
+    "1F1E6 1F1F6": ["bandila: Antarctica", "bandila"],
+    "1F1E6 1F1F7": ["bandila: Argentina", "bandila"],
+    "1F1E6 1F1F8": ["bandila: American Samoa", "bandila"],
+    "1F1E6 1F1F9": ["bandila: Austria", "bandila"],
+    "1F1E6 1F1FA": ["bandila: Australia", "bandila"],
+    "1F1E6 1F1FC": ["bandila: Aruba", "bandila"],
+    "1F1E6 1F1FD": ["bandila: Åland Islands", "bandila"],
+    "1F1E6 1F1FF": ["bandila: Azerbaijan", "bandila"],
+    "1F1E7": ["regional indicator symbol letter b"],
+    "1F1E7 1F1E6": ["bandila: Bosnia and Herzegovina", "bandila"],
+    "1F1E7 1F1E7": ["bandila: Barbados", "bandila"],
+    "1F1E7 1F1E9": ["bandila: Bangladesh", "bandila"],
+    "1F1E7 1F1EA": ["bandila: Belgium", "bandila"],
+    "1F1E7 1F1EB": ["bandila: Burkina Faso", "bandila"],
+    "1F1E7 1F1EC": ["bandila: Bulgaria", "bandila"],
+    "1F1E7 1F1ED": ["bandila: Bahrain", "bandila"],
+    "1F1E7 1F1EE": ["bandila: Burundi", "bandila"],
+    "1F1E7 1F1EF": ["bandila: Benin", "bandila"],
+    "1F1E7 1F1F1": ["bandila: St. Barthélemy", "bandila"],
+    "1F1E7 1F1F2": ["bandila: Bermuda", "bandila"],
+    "1F1E7 1F1F3": ["bandila: Brunei", "bandila"],
+    "1F1E7 1F1F4": ["bandila: Bolivia", "bandila"],
+    "1F1E7 1F1F6": ["bandila: Caribbean Netherlands", "bandila"],
+    "1F1E7 1F1F7": ["bandila: Brazil", "bandila"],
+    "1F1E7 1F1F8": ["bandila: Bahamas", "bandila"],
+    "1F1E7 1F1F9": ["bandila: Bhutan", "bandila"],
+    "1F1E7 1F1FB": ["bandila: Bouvet Island", "bandila"],
+    "1F1E7 1F1FC": ["bandila: Botswana", "bandila"],
+    "1F1E7 1F1FE": ["bandila: Belarus", "bandila"],
+    "1F1E7 1F1FF": ["bandila: Belize", "bandila"],
+    "1F1E8": ["regional indicator symbol letter c"],
+    "1F1E8 1F1E6": ["bandila: Canada", "bandila"],
+    "1F1E8 1F1E8": ["bandila: Cocos (Keeling) Islands", "bandila"],
+    "1F1E8 1F1E9": ["bandila: Congo - Kinshasa", "bandila"],
+    "1F1E8 1F1EB": ["bandila: Central African Republic", "bandila"],
+    "1F1E8 1F1EC": ["bandila: Congo - Brazzaville", "bandila"],
+    "1F1E8 1F1ED": ["bandila: Switzerland", "bandila"],
+    "1F1E8 1F1EE": ["bandila: Côte d’Ivoire", "bandila"],
+    "1F1E8 1F1F0": ["bandila: Cook Islands", "bandila"],
+    "1F1E8 1F1F1": ["bandila: Chile", "bandila"],
+    "1F1E8 1F1F2": ["bandila: Cameroon", "bandila"],
+    "1F1E8 1F1F3": ["bandila: China", "bandila"],
+    "1F1E8 1F1F4": ["bandila: Colombia", "bandila"],
+    "1F1E8 1F1F5": ["bandila: Clipperton Island", "bandila"],
+    "1F1E8 1F1F6": ["bandila: Sark", "bandila"],
+    "1F1E8 1F1F7": ["bandila: Costa Rica", "bandila"],
+    "1F1E8 1F1FA": ["bandila: Cuba", "bandila"],
+    "1F1E8 1F1FB": ["bandila: Cape Verde", "bandila"],
+    "1F1E8 1F1FC": ["bandila: Curaçao", "bandila"],
+    "1F1E8 1F1FD": ["bandila: Christmas Island", "bandila"],
+    "1F1E8 1F1FE": ["bandila: Cyprus", "bandila"],
+    "1F1E8 1F1FF": ["bandila: Czechia", "bandila"],
+    "1F1E9": ["regional indicator symbol letter d"],
+    "1F1E9 1F1EA": ["bandila: Germany", "bandila"],
+    "1F1E9 1F1EC": ["bandila: Diego Garcia", "bandila"],
+    "1F1E9 1F1EF": ["bandila: Djibouti", "bandila"],
+    "1F1E9 1F1F0": ["bandila: Denmark", "bandila"],
+    "1F1E9 1F1F2": ["bandila: Dominica", "bandila"],
+    "1F1E9 1F1F4": ["bandila: Dominican Republic", "bandila"],
+    "1F1E9 1F1FF": ["bandila: Algeria", "bandila"],
+    "1F1EA": ["regional indicator symbol letter e"],
+    "1F1EA 1F1E6": ["bandila: Ceuta & Melilla", "bandila"],
+    "1F1EA 1F1E8": ["bandila: Ecuador", "bandila"],
+    "1F1EA 1F1EA": ["bandila: Estonia", "bandila"],
+    "1F1EA 1F1EC": ["bandila: Egypt", "bandila"],
+    "1F1EA 1F1ED": ["bandila: Kanlurang Sahara", "bandila"],
+    "1F1EA 1F1F7": ["bandila: Eritrea", "bandila"],
+    "1F1EA 1F1F8": ["bandila: Spain", "bandila"],
+    "1F1EA 1F1F9": ["bandila: Ethiopia", "bandila"],
+    "1F1EA 1F1FA": ["bandila: European Union", "bandila"],
+    "1F1EB": ["regional indicator symbol letter f"],
+    "1F1EB 1F1EE": ["bandila: Finland", "bandila"],
+    "1F1EB 1F1EF": ["bandila: Fiji", "bandila"],
+    "1F1EB 1F1F0": ["bandila: Falkland Islands", "bandila"],
+    "1F1EB 1F1F2": ["bandila: Micronesia", "bandila"],
+    "1F1EB 1F1F4": ["bandila: Faroe Islands", "bandila"],
+    "1F1EB 1F1F7": ["bandila: France", "bandila"],
+    "1F1EC": ["regional indicator symbol letter g"],
+    "1F1EC 1F1E6": ["bandila: Gabon", "bandila"],
+    "1F1EC 1F1E7": ["bandila: United Kingdom", "bandila"],
+    "1F1EC 1F1E9": ["bandila: Grenada", "bandila"],
+    "1F1EC 1F1EA": ["bandila: Georgia", "bandila"],
+    "1F1EC 1F1EB": ["bandila: French Guiana", "bandila"],
+    "1F1EC 1F1EC": ["bandila: Guernsey", "bandila"],
+    "1F1EC 1F1ED": ["bandila: Ghana", "bandila"],
+    "1F1EC 1F1EE": ["bandila: Gibraltar", "bandila"],
+    "1F1EC 1F1F1": ["bandila: Greenland", "bandila"],
+    "1F1EC 1F1F2": ["bandila: Gambia", "bandila"],
+    "1F1EC 1F1F3": ["bandila: Guinea", "bandila"],
+    "1F1EC 1F1F5": ["bandila: Guadeloupe", "bandila"],
+    "1F1EC 1F1F6": ["bandila: Equatorial Guinea", "bandila"],
+    "1F1EC 1F1F7": ["bandila: Greece", "bandila"],
     "1F1EC 1F1F8": [
         "bandila: South Georgia & South Sandwich Islands",
         "bandila"
     ],
-    "1F1EC 1F1F9": [
-        "bandila: Guatemala",
-        "bandila"
-    ],
-    "1F1EC 1F1FA": [
-        "bandila: Guam",
-        "bandila"
-    ],
-    "1F1EC 1F1FC": [
-        "bandila: Guinea-Bissau",
-        "bandila"
-    ],
-    "1F1EC 1F1FE": [
-        "bandila: Guyana",
-        "bandila"
-    ],
-    "1F1ED": [
-        "regional indicator symbol letter h"
-    ],
-    "1F1ED 1F1F0": [
-        "bandila: Hong Kong SAR China",
-        "bandila"
-    ],
-    "1F1ED 1F1F2": [
-        "bandila: Heard & McDonald Islands",
-        "bandila"
-    ],
-    "1F1ED 1F1F3": [
-        "bandila: Honduras",
-        "bandila"
-    ],
-    "1F1ED 1F1F7": [
-        "bandila: Croatia",
-        "bandila"
-    ],
-    "1F1ED 1F1F9": [
-        "bandila: Haiti",
-        "bandila"
-    ],
-    "1F1ED 1F1FA": [
-        "bandila: Hungary",
-        "bandila"
-    ],
-    "1F1EE": [
-        "regional indicator symbol letter i"
-    ],
-    "1F1EE 1F1E8": [
-        "bandila: Canary Islands",
-        "bandila"
-    ],
-    "1F1EE 1F1E9": [
-        "bandila: Indonesia",
-        "bandila"
-    ],
-    "1F1EE 1F1EA": [
-        "bandila: Ireland",
-        "bandila"
-    ],
-    "1F1EE 1F1F1": [
-        "bandila: Israel",
-        "bandila"
-    ],
-    "1F1EE 1F1F2": [
-        "bandila: Isle of Man",
-        "bandila"
-    ],
-    "1F1EE 1F1F3": [
-        "bandila: India",
-        "bandila"
-    ],
-    "1F1EE 1F1F4": [
-        "bandila: British Indian Ocean Territory",
-        "bandila"
-    ],
-    "1F1EE 1F1F6": [
-        "bandila: Iraq",
-        "bandila"
-    ],
-    "1F1EE 1F1F7": [
-        "bandila: Iran",
-        "bandila"
-    ],
-    "1F1EE 1F1F8": [
-        "bandila: Iceland",
-        "bandila"
-    ],
-    "1F1EE 1F1F9": [
-        "bandila: Italy",
-        "bandila"
-    ],
-    "1F1EF": [
-        "regional indicator symbol letter j"
-    ],
-    "1F1EF 1F1EA": [
-        "bandila: Jersey",
-        "bandila"
-    ],
-    "1F1EF 1F1F2": [
-        "bandila: Jamaica",
-        "bandila"
-    ],
-    "1F1EF 1F1F4": [
-        "bandila: Jordan",
-        "bandila"
-    ],
-    "1F1EF 1F1F5": [
-        "bandila: Japan",
-        "bandila"
-    ],
-    "1F1F0": [
-        "regional indicator symbol letter k"
-    ],
-    "1F1F0 1F1EA": [
-        "bandila: Kenya",
-        "bandila"
-    ],
-    "1F1F0 1F1EC": [
-        "bandila: Kyrgyzstan",
-        "bandila"
-    ],
-    "1F1F0 1F1ED": [
-        "bandila: Cambodia",
-        "bandila"
-    ],
-    "1F1F0 1F1EE": [
-        "bandila: Kiribati",
-        "bandila"
-    ],
-    "1F1F0 1F1F2": [
-        "bandila: Comoros",
-        "bandila"
-    ],
-    "1F1F0 1F1F3": [
-        "bandila: St. Kitts & Nevis",
-        "bandila"
-    ],
-    "1F1F0 1F1F5": [
-        "bandila: Hilagang Korea",
-        "bandila"
-    ],
-    "1F1F0 1F1F7": [
-        "bandila: Timog Korea",
-        "bandila"
-    ],
-    "1F1F0 1F1FC": [
-        "bandila: Kuwait",
-        "bandila"
-    ],
-    "1F1F0 1F1FE": [
-        "bandila: Cayman Islands",
-        "bandila"
-    ],
-    "1F1F0 1F1FF": [
-        "bandila: Kazakhstan",
-        "bandila"
-    ],
-    "1F1F1": [
-        "regional indicator symbol letter l"
-    ],
-    "1F1F1 1F1E6": [
-        "bandila: Laos",
-        "bandila"
-    ],
-    "1F1F1 1F1E7": [
-        "bandila: Lebanon",
-        "bandila"
-    ],
-    "1F1F1 1F1E8": [
-        "bandila: Saint Lucia",
-        "bandila"
-    ],
-    "1F1F1 1F1EE": [
-        "bandila: Liechtenstein",
-        "bandila"
-    ],
-    "1F1F1 1F1F0": [
-        "bandila: Sri Lanka",
-        "bandila"
-    ],
-    "1F1F1 1F1F7": [
-        "bandila: Liberia",
-        "bandila"
-    ],
-    "1F1F1 1F1F8": [
-        "bandila: Lesotho",
-        "bandila"
-    ],
-    "1F1F1 1F1F9": [
-        "bandila: Lithuania",
-        "bandila"
-    ],
-    "1F1F1 1F1FA": [
-        "bandila: Luxembourg",
-        "bandila"
-    ],
-    "1F1F1 1F1FB": [
-        "bandila: Latvia",
-        "bandila"
-    ],
-    "1F1F1 1F1FE": [
-        "bandila: Libya",
-        "bandila"
-    ],
-    "1F1F2": [
-        "regional indicator symbol letter m"
-    ],
-    "1F1F2 1F1E6": [
-        "bandila: Morocco",
-        "bandila"
-    ],
-    "1F1F2 1F1E8": [
-        "bandila: Monaco",
-        "bandila"
-    ],
-    "1F1F2 1F1E9": [
-        "bandila: Moldova",
-        "bandila"
-    ],
-    "1F1F2 1F1EA": [
-        "bandila: Montenegro",
-        "bandila"
-    ],
-    "1F1F2 1F1EB": [
-        "bandila: Saint Martin",
-        "bandila"
-    ],
-    "1F1F2 1F1EC": [
-        "bandila: Madagascar",
-        "bandila"
-    ],
-    "1F1F2 1F1ED": [
-        "bandila: Marshall Islands",
-        "bandila"
-    ],
-    "1F1F2 1F1F0": [
-        "bandila: North Macedonia",
-        "bandila"
-    ],
-    "1F1F2 1F1F1": [
-        "bandila: Mali",
-        "bandila"
-    ],
-    "1F1F2 1F1F2": [
-        "bandila: Myanmar (Burma)",
-        "bandila"
-    ],
-    "1F1F2 1F1F3": [
-        "bandila: Mongolia",
-        "bandila"
-    ],
-    "1F1F2 1F1F4": [
-        "bandila: Macau SAR China",
-        "bandila"
-    ],
-    "1F1F2 1F1F5": [
-        "bandila: Northern Mariana Islands",
-        "bandila"
-    ],
-    "1F1F2 1F1F6": [
-        "bandila: Martinique",
-        "bandila"
-    ],
-    "1F1F2 1F1F7": [
-        "bandila: Mauritania",
-        "bandila"
-    ],
-    "1F1F2 1F1F8": [
-        "bandila: Montserrat",
-        "bandila"
-    ],
-    "1F1F2 1F1F9": [
-        "bandila: Malta",
-        "bandila"
-    ],
-    "1F1F2 1F1FA": [
-        "bandila: Mauritius",
-        "bandila"
-    ],
-    "1F1F2 1F1FB": [
-        "bandila: Maldives",
-        "bandila"
-    ],
-    "1F1F2 1F1FC": [
-        "bandila: Malawi",
-        "bandila"
-    ],
-    "1F1F2 1F1FD": [
-        "bandila: Mexico",
-        "bandila"
-    ],
-    "1F1F2 1F1FE": [
-        "bandila: Malaysia",
-        "bandila"
-    ],
-    "1F1F2 1F1FF": [
-        "bandila: Mozambique",
-        "bandila"
-    ],
-    "1F1F3": [
-        "regional indicator symbol letter n"
-    ],
-    "1F1F3 1F1E6": [
-        "bandila: Namibia",
-        "bandila"
-    ],
-    "1F1F3 1F1E8": [
-        "bandila: New Caledonia",
-        "bandila"
-    ],
-    "1F1F3 1F1EA": [
-        "bandila: Niger",
-        "bandila"
-    ],
-    "1F1F3 1F1EB": [
-        "bandila: Norfolk Island",
-        "bandila"
-    ],
-    "1F1F3 1F1EC": [
-        "bandila: Nigeria",
-        "bandila"
-    ],
-    "1F1F3 1F1EE": [
-        "bandila: Nicaragua",
-        "bandila"
-    ],
-    "1F1F3 1F1F1": [
-        "bandila: Netherlands",
-        "bandila"
-    ],
-    "1F1F3 1F1F4": [
-        "bandila: Norway",
-        "bandila"
-    ],
-    "1F1F3 1F1F5": [
-        "bandila: Nepal",
-        "bandila"
-    ],
-    "1F1F3 1F1F7": [
-        "bandila: Nauru",
-        "bandila"
-    ],
-    "1F1F3 1F1FA": [
-        "bandila: Niue",
-        "bandila"
-    ],
-    "1F1F3 1F1FF": [
-        "bandila: New Zealand",
-        "bandila"
-    ],
-    "1F1F4": [
-        "regional indicator symbol letter o"
-    ],
-    "1F1F4 1F1F2": [
-        "bandila: Oman",
-        "bandila"
-    ],
-    "1F1F5": [
-        "regional indicator symbol letter p"
-    ],
-    "1F1F5 1F1E6": [
-        "bandila: Panama",
-        "bandila"
-    ],
-    "1F1F5 1F1EA": [
-        "bandila: Peru",
-        "bandila"
-    ],
-    "1F1F5 1F1EB": [
-        "bandila: French Polynesia",
-        "bandila"
-    ],
-    "1F1F5 1F1EC": [
-        "bandila: Papua New Guinea",
-        "bandila"
-    ],
-    "1F1F5 1F1ED": [
-        "bandila: Pilipinas",
-        "bandila"
-    ],
-    "1F1F5 1F1F0": [
-        "bandila: Pakistan",
-        "bandila"
-    ],
-    "1F1F5 1F1F1": [
-        "bandila: Poland",
-        "bandila"
-    ],
-    "1F1F5 1F1F2": [
-        "bandila: St. Pierre & Miquelon",
-        "bandila"
-    ],
-    "1F1F5 1F1F3": [
-        "bandila: Pitcairn Islands",
-        "bandila"
-    ],
-    "1F1F5 1F1F7": [
-        "bandila: Puerto Rico",
-        "bandila"
-    ],
-    "1F1F5 1F1F8": [
-        "bandila: Palestinian Territories",
-        "bandila"
-    ],
-    "1F1F5 1F1F9": [
-        "bandila: Portugal",
-        "bandila"
-    ],
-    "1F1F5 1F1FC": [
-        "bandila: Palau",
-        "bandila"
-    ],
-    "1F1F5 1F1FE": [
-        "bandila: Paraguay",
-        "bandila"
-    ],
-    "1F1F6": [
-        "regional indicator symbol letter q"
-    ],
-    "1F1F6 1F1E6": [
-        "bandila: Qatar",
-        "bandila"
-    ],
-    "1F1F7": [
-        "regional indicator symbol letter r"
-    ],
-    "1F1F7 1F1EA": [
-        "bandila: Réunion",
-        "bandila"
-    ],
-    "1F1F7 1F1F4": [
-        "bandila: Romania",
-        "bandila"
-    ],
-    "1F1F7 1F1F8": [
-        "bandila: Serbia",
-        "bandila"
-    ],
-    "1F1F7 1F1FA": [
-        "bandila: Russia",
-        "bandila"
-    ],
-    "1F1F7 1F1FC": [
-        "bandila: Rwanda",
-        "bandila"
-    ],
-    "1F1F8": [
-        "regional indicator symbol letter s"
-    ],
-    "1F1F8 1F1E6": [
-        "bandila: Saudi Arabia",
-        "bandila"
-    ],
-    "1F1F8 1F1E7": [
-        "bandila: Solomon Islands",
-        "bandila"
-    ],
-    "1F1F8 1F1E8": [
-        "bandila: Seychelles",
-        "bandila"
-    ],
-    "1F1F8 1F1E9": [
-        "bandila: Sudan",
-        "bandila"
-    ],
-    "1F1F8 1F1EA": [
-        "bandila: Sweden",
-        "bandila"
-    ],
-    "1F1F8 1F1EC": [
-        "bandila: Singapore",
-        "bandila"
-    ],
-    "1F1F8 1F1ED": [
-        "bandila: St. Helena",
-        "bandila"
-    ],
-    "1F1F8 1F1EE": [
-        "bandila: Slovenia",
-        "bandila"
-    ],
-    "1F1F8 1F1EF": [
-        "bandila: Svalbard & Jan Mayen",
-        "bandila"
-    ],
-    "1F1F8 1F1F0": [
-        "bandila: Slovakia",
-        "bandila"
-    ],
-    "1F1F8 1F1F1": [
-        "bandila: Sierra Leone",
-        "bandila"
-    ],
-    "1F1F8 1F1F2": [
-        "bandila: San Marino",
-        "bandila"
-    ],
-    "1F1F8 1F1F3": [
-        "bandila: Senegal",
-        "bandila"
-    ],
-    "1F1F8 1F1F4": [
-        "bandila: Somalia",
-        "bandila"
-    ],
-    "1F1F8 1F1F7": [
-        "bandila: Suriname",
-        "bandila"
-    ],
-    "1F1F8 1F1F8": [
-        "bandila: Timog Sudan",
-        "bandila"
-    ],
-    "1F1F8 1F1F9": [
-        "bandila: São Tomé & Príncipe",
-        "bandila"
-    ],
-    "1F1F8 1F1FB": [
-        "bandila: El Salvador",
-        "bandila"
-    ],
-    "1F1F8 1F1FD": [
-        "bandila: Sint Maarten",
-        "bandila"
-    ],
-    "1F1F8 1F1FE": [
-        "bandila: Syria",
-        "bandila"
-    ],
-    "1F1F8 1F1FF": [
-        "bandila: Swaziland",
-        "bandila"
-    ],
-    "1F1F9": [
-        "regional indicator symbol letter t"
-    ],
-    "1F1F9 1F1E6": [
-        "bandila: Tristan de Cunha",
-        "bandila"
-    ],
-    "1F1F9 1F1E8": [
-        "bandila: Turks & Caicos Islands",
-        "bandila"
-    ],
-    "1F1F9 1F1E9": [
-        "bandila: Chad",
-        "bandila"
-    ],
-    "1F1F9 1F1EB": [
-        "bandila: French Southern Territories",
-        "bandila"
-    ],
-    "1F1F9 1F1EC": [
-        "bandila: Togo",
-        "bandila"
-    ],
-    "1F1F9 1F1ED": [
-        "bandila: Thailand",
-        "bandila"
-    ],
-    "1F1F9 1F1EF": [
-        "bandila: Tajikistan",
-        "bandila"
-    ],
-    "1F1F9 1F1F0": [
-        "bandila: Tokelau",
-        "bandila"
-    ],
-    "1F1F9 1F1F1": [
-        "bandila: Timor-Leste",
-        "bandila"
-    ],
-    "1F1F9 1F1F2": [
-        "bandila: Turkmenistan",
-        "bandila"
-    ],
-    "1F1F9 1F1F3": [
-        "bandila: Tunisia",
-        "bandila"
-    ],
-    "1F1F9 1F1F4": [
-        "bandila: Tonga",
-        "bandila"
-    ],
-    "1F1F9 1F1F7": [
-        "bandila: Türkiye",
-        "bandila"
-    ],
-    "1F1F9 1F1F9": [
-        "bandila: Trinidad & Tobago",
-        "bandila"
-    ],
-    "1F1F9 1F1FB": [
-        "bandila: Tuvalu",
-        "bandila"
-    ],
-    "1F1F9 1F1FC": [
-        "bandila: Taiwan",
-        "bandila"
-    ],
-    "1F1F9 1F1FF": [
-        "bandila: Tanzania",
-        "bandila"
-    ],
-    "1F1FA": [
-        "regional indicator symbol letter u"
-    ],
-    "1F1FA 1F1E6": [
-        "bandila: Ukraine",
-        "bandila"
-    ],
-    "1F1FA 1F1EC": [
-        "bandila: Uganda",
-        "bandila"
-    ],
-    "1F1FA 1F1F2": [
-        "bandila: U.S. Outlying Islands",
-        "bandila"
-    ],
-    "1F1FA 1F1F3": [
-        "bandila: United Nations",
-        "bandila"
-    ],
-    "1F1FA 1F1F8": [
-        "bandila: Estados Unidos",
-        "bandila"
-    ],
-    "1F1FA 1F1FE": [
-        "bandila: Uruguay",
-        "bandila"
-    ],
-    "1F1FA 1F1FF": [
-        "bandila: Uzbekistan",
-        "bandila"
-    ],
-    "1F1FB": [
-        "regional indicator symbol letter v"
-    ],
-    "1F1FB 1F1E6": [
-        "bandila: Vatican City",
-        "bandila"
-    ],
-    "1F1FB 1F1E8": [
-        "bandila: St. Vincent & Grenadines",
-        "bandila"
-    ],
-    "1F1FB 1F1EA": [
-        "bandila: Venezuela",
-        "bandila"
-    ],
-    "1F1FB 1F1EC": [
-        "bandila: British Virgin Islands",
-        "bandila"
-    ],
-    "1F1FB 1F1EE": [
-        "bandila: U.S. Virgin Islands",
-        "bandila"
-    ],
-    "1F1FB 1F1F3": [
-        "bandila: Vietnam",
-        "bandila"
-    ],
-    "1F1FB 1F1FA": [
-        "bandila: Vanuatu",
-        "bandila"
-    ],
-    "1F1FC": [
-        "regional indicator symbol letter w"
-    ],
-    "1F1FC 1F1EB": [
-        "bandila: Wallis & Futuna",
-        "bandila"
-    ],
-    "1F1FC 1F1F8": [
-        "bandila: Samoa",
-        "bandila"
-    ],
-    "1F1FD": [
-        "regional indicator symbol letter x"
-    ],
-    "1F1FD 1F1F0": [
-        "bandila: Kosovo",
-        "bandila"
-    ],
-    "1F1FE": [
-        "regional indicator symbol letter y"
-    ],
-    "1F1FE 1F1EA": [
-        "bandila: Yemen",
-        "bandila"
-    ],
-    "1F1FE 1F1F9": [
-        "bandila: Mayotte",
-        "bandila"
-    ],
-    "1F1FF": [
-        "regional indicator symbol letter z"
-    ],
-    "1F1FF 1F1E6": [
-        "bandila: South Africa",
-        "bandila"
-    ],
-    "1F1FF 1F1F2": [
-        "bandila: Zambia",
-        "bandila"
-    ],
-    "1F1FF 1F1FC": [
-        "bandila: Zimbabwe",
-        "bandila"
-    ],
+    "1F1EC 1F1F9": ["bandila: Guatemala", "bandila"],
+    "1F1EC 1F1FA": ["bandila: Guam", "bandila"],
+    "1F1EC 1F1FC": ["bandila: Guinea-Bissau", "bandila"],
+    "1F1EC 1F1FE": ["bandila: Guyana", "bandila"],
+    "1F1ED": ["regional indicator symbol letter h"],
+    "1F1ED 1F1F0": ["bandila: Hong Kong SAR China", "bandila"],
+    "1F1ED 1F1F2": ["bandila: Heard & McDonald Islands", "bandila"],
+    "1F1ED 1F1F3": ["bandila: Honduras", "bandila"],
+    "1F1ED 1F1F7": ["bandila: Croatia", "bandila"],
+    "1F1ED 1F1F9": ["bandila: Haiti", "bandila"],
+    "1F1ED 1F1FA": ["bandila: Hungary", "bandila"],
+    "1F1EE": ["regional indicator symbol letter i"],
+    "1F1EE 1F1E8": ["bandila: Canary Islands", "bandila"],
+    "1F1EE 1F1E9": ["bandila: Indonesia", "bandila"],
+    "1F1EE 1F1EA": ["bandila: Ireland", "bandila"],
+    "1F1EE 1F1F1": ["bandila: Israel", "bandila"],
+    "1F1EE 1F1F2": ["bandila: Isle of Man", "bandila"],
+    "1F1EE 1F1F3": ["bandila: India", "bandila"],
+    "1F1EE 1F1F4": ["bandila: British Indian Ocean Territory", "bandila"],
+    "1F1EE 1F1F6": ["bandila: Iraq", "bandila"],
+    "1F1EE 1F1F7": ["bandila: Iran", "bandila"],
+    "1F1EE 1F1F8": ["bandila: Iceland", "bandila"],
+    "1F1EE 1F1F9": ["bandila: Italy", "bandila"],
+    "1F1EF": ["regional indicator symbol letter j"],
+    "1F1EF 1F1EA": ["bandila: Jersey", "bandila"],
+    "1F1EF 1F1F2": ["bandila: Jamaica", "bandila"],
+    "1F1EF 1F1F4": ["bandila: Jordan", "bandila"],
+    "1F1EF 1F1F5": ["bandila: Japan", "bandila"],
+    "1F1F0": ["regional indicator symbol letter k"],
+    "1F1F0 1F1EA": ["bandila: Kenya", "bandila"],
+    "1F1F0 1F1EC": ["bandila: Kyrgyzstan", "bandila"],
+    "1F1F0 1F1ED": ["bandila: Cambodia", "bandila"],
+    "1F1F0 1F1EE": ["bandila: Kiribati", "bandila"],
+    "1F1F0 1F1F2": ["bandila: Comoros", "bandila"],
+    "1F1F0 1F1F3": ["bandila: St. Kitts & Nevis", "bandila"],
+    "1F1F0 1F1F5": ["bandila: Hilagang Korea", "bandila"],
+    "1F1F0 1F1F7": ["bandila: Timog Korea", "bandila"],
+    "1F1F0 1F1FC": ["bandila: Kuwait", "bandila"],
+    "1F1F0 1F1FE": ["bandila: Cayman Islands", "bandila"],
+    "1F1F0 1F1FF": ["bandila: Kazakhstan", "bandila"],
+    "1F1F1": ["regional indicator symbol letter l"],
+    "1F1F1 1F1E6": ["bandila: Laos", "bandila"],
+    "1F1F1 1F1E7": ["bandila: Lebanon", "bandila"],
+    "1F1F1 1F1E8": ["bandila: Saint Lucia", "bandila"],
+    "1F1F1 1F1EE": ["bandila: Liechtenstein", "bandila"],
+    "1F1F1 1F1F0": ["bandila: Sri Lanka", "bandila"],
+    "1F1F1 1F1F7": ["bandila: Liberia", "bandila"],
+    "1F1F1 1F1F8": ["bandila: Lesotho", "bandila"],
+    "1F1F1 1F1F9": ["bandila: Lithuania", "bandila"],
+    "1F1F1 1F1FA": ["bandila: Luxembourg", "bandila"],
+    "1F1F1 1F1FB": ["bandila: Latvia", "bandila"],
+    "1F1F1 1F1FE": ["bandila: Libya", "bandila"],
+    "1F1F2": ["regional indicator symbol letter m"],
+    "1F1F2 1F1E6": ["bandila: Morocco", "bandila"],
+    "1F1F2 1F1E8": ["bandila: Monaco", "bandila"],
+    "1F1F2 1F1E9": ["bandila: Moldova", "bandila"],
+    "1F1F2 1F1EA": ["bandila: Montenegro", "bandila"],
+    "1F1F2 1F1EB": ["bandila: Saint Martin", "bandila"],
+    "1F1F2 1F1EC": ["bandila: Madagascar", "bandila"],
+    "1F1F2 1F1ED": ["bandila: Marshall Islands", "bandila"],
+    "1F1F2 1F1F0": ["bandila: North Macedonia", "bandila"],
+    "1F1F2 1F1F1": ["bandila: Mali", "bandila"],
+    "1F1F2 1F1F2": ["bandila: Myanmar (Burma)", "bandila"],
+    "1F1F2 1F1F3": ["bandila: Mongolia", "bandila"],
+    "1F1F2 1F1F4": ["bandila: Macau SAR China", "bandila"],
+    "1F1F2 1F1F5": ["bandila: Northern Mariana Islands", "bandila"],
+    "1F1F2 1F1F6": ["bandila: Martinique", "bandila"],
+    "1F1F2 1F1F7": ["bandila: Mauritania", "bandila"],
+    "1F1F2 1F1F8": ["bandila: Montserrat", "bandila"],
+    "1F1F2 1F1F9": ["bandila: Malta", "bandila"],
+    "1F1F2 1F1FA": ["bandila: Mauritius", "bandila"],
+    "1F1F2 1F1FB": ["bandila: Maldives", "bandila"],
+    "1F1F2 1F1FC": ["bandila: Malawi", "bandila"],
+    "1F1F2 1F1FD": ["bandila: Mexico", "bandila"],
+    "1F1F2 1F1FE": ["bandila: Malaysia", "bandila"],
+    "1F1F2 1F1FF": ["bandila: Mozambique", "bandila"],
+    "1F1F3": ["regional indicator symbol letter n"],
+    "1F1F3 1F1E6": ["bandila: Namibia", "bandila"],
+    "1F1F3 1F1E8": ["bandila: New Caledonia", "bandila"],
+    "1F1F3 1F1EA": ["bandila: Niger", "bandila"],
+    "1F1F3 1F1EB": ["bandila: Norfolk Island", "bandila"],
+    "1F1F3 1F1EC": ["bandila: Nigeria", "bandila"],
+    "1F1F3 1F1EE": ["bandila: Nicaragua", "bandila"],
+    "1F1F3 1F1F1": ["bandila: Netherlands", "bandila"],
+    "1F1F3 1F1F4": ["bandila: Norway", "bandila"],
+    "1F1F3 1F1F5": ["bandila: Nepal", "bandila"],
+    "1F1F3 1F1F7": ["bandila: Nauru", "bandila"],
+    "1F1F3 1F1FA": ["bandila: Niue", "bandila"],
+    "1F1F3 1F1FF": ["bandila: New Zealand", "bandila"],
+    "1F1F4": ["regional indicator symbol letter o"],
+    "1F1F4 1F1F2": ["bandila: Oman", "bandila"],
+    "1F1F5": ["regional indicator symbol letter p"],
+    "1F1F5 1F1E6": ["bandila: Panama", "bandila"],
+    "1F1F5 1F1EA": ["bandila: Peru", "bandila"],
+    "1F1F5 1F1EB": ["bandila: French Polynesia", "bandila"],
+    "1F1F5 1F1EC": ["bandila: Papua New Guinea", "bandila"],
+    "1F1F5 1F1ED": ["bandila: Pilipinas", "bandila"],
+    "1F1F5 1F1F0": ["bandila: Pakistan", "bandila"],
+    "1F1F5 1F1F1": ["bandila: Poland", "bandila"],
+    "1F1F5 1F1F2": ["bandila: St. Pierre & Miquelon", "bandila"],
+    "1F1F5 1F1F3": ["bandila: Pitcairn Islands", "bandila"],
+    "1F1F5 1F1F7": ["bandila: Puerto Rico", "bandila"],
+    "1F1F5 1F1F8": ["bandila: Palestinian Territories", "bandila"],
+    "1F1F5 1F1F9": ["bandila: Portugal", "bandila"],
+    "1F1F5 1F1FC": ["bandila: Palau", "bandila"],
+    "1F1F5 1F1FE": ["bandila: Paraguay", "bandila"],
+    "1F1F6": ["regional indicator symbol letter q"],
+    "1F1F6 1F1E6": ["bandila: Qatar", "bandila"],
+    "1F1F7": ["regional indicator symbol letter r"],
+    "1F1F7 1F1EA": ["bandila: Réunion", "bandila"],
+    "1F1F7 1F1F4": ["bandila: Romania", "bandila"],
+    "1F1F7 1F1F8": ["bandila: Serbia", "bandila"],
+    "1F1F7 1F1FA": ["bandila: Russia", "bandila"],
+    "1F1F7 1F1FC": ["bandila: Rwanda", "bandila"],
+    "1F1F8": ["regional indicator symbol letter s"],
+    "1F1F8 1F1E6": ["bandila: Saudi Arabia", "bandila"],
+    "1F1F8 1F1E7": ["bandila: Solomon Islands", "bandila"],
+    "1F1F8 1F1E8": ["bandila: Seychelles", "bandila"],
+    "1F1F8 1F1E9": ["bandila: Sudan", "bandila"],
+    "1F1F8 1F1EA": ["bandila: Sweden", "bandila"],
+    "1F1F8 1F1EC": ["bandila: Singapore", "bandila"],
+    "1F1F8 1F1ED": ["bandila: St. Helena", "bandila"],
+    "1F1F8 1F1EE": ["bandila: Slovenia", "bandila"],
+    "1F1F8 1F1EF": ["bandila: Svalbard & Jan Mayen", "bandila"],
+    "1F1F8 1F1F0": ["bandila: Slovakia", "bandila"],
+    "1F1F8 1F1F1": ["bandila: Sierra Leone", "bandila"],
+    "1F1F8 1F1F2": ["bandila: San Marino", "bandila"],
+    "1F1F8 1F1F3": ["bandila: Senegal", "bandila"],
+    "1F1F8 1F1F4": ["bandila: Somalia", "bandila"],
+    "1F1F8 1F1F7": ["bandila: Suriname", "bandila"],
+    "1F1F8 1F1F8": ["bandila: Timog Sudan", "bandila"],
+    "1F1F8 1F1F9": ["bandila: São Tomé & Príncipe", "bandila"],
+    "1F1F8 1F1FB": ["bandila: El Salvador", "bandila"],
+    "1F1F8 1F1FD": ["bandila: Sint Maarten", "bandila"],
+    "1F1F8 1F1FE": ["bandila: Syria", "bandila"],
+    "1F1F8 1F1FF": ["bandila: Swaziland", "bandila"],
+    "1F1F9": ["regional indicator symbol letter t"],
+    "1F1F9 1F1E6": ["bandila: Tristan de Cunha", "bandila"],
+    "1F1F9 1F1E8": ["bandila: Turks & Caicos Islands", "bandila"],
+    "1F1F9 1F1E9": ["bandila: Chad", "bandila"],
+    "1F1F9 1F1EB": ["bandila: French Southern Territories", "bandila"],
+    "1F1F9 1F1EC": ["bandila: Togo", "bandila"],
+    "1F1F9 1F1ED": ["bandila: Thailand", "bandila"],
+    "1F1F9 1F1EF": ["bandila: Tajikistan", "bandila"],
+    "1F1F9 1F1F0": ["bandila: Tokelau", "bandila"],
+    "1F1F9 1F1F1": ["bandila: Timor-Leste", "bandila"],
+    "1F1F9 1F1F2": ["bandila: Turkmenistan", "bandila"],
+    "1F1F9 1F1F3": ["bandila: Tunisia", "bandila"],
+    "1F1F9 1F1F4": ["bandila: Tonga", "bandila"],
+    "1F1F9 1F1F7": ["bandila: Türkiye", "bandila"],
+    "1F1F9 1F1F9": ["bandila: Trinidad & Tobago", "bandila"],
+    "1F1F9 1F1FB": ["bandila: Tuvalu", "bandila"],
+    "1F1F9 1F1FC": ["bandila: Taiwan", "bandila"],
+    "1F1F9 1F1FF": ["bandila: Tanzania", "bandila"],
+    "1F1FA": ["regional indicator symbol letter u"],
+    "1F1FA 1F1E6": ["bandila: Ukraine", "bandila"],
+    "1F1FA 1F1EC": ["bandila: Uganda", "bandila"],
+    "1F1FA 1F1F2": ["bandila: U.S. Outlying Islands", "bandila"],
+    "1F1FA 1F1F3": ["bandila: United Nations", "bandila"],
+    "1F1FA 1F1F8": ["bandila: Estados Unidos", "bandila"],
+    "1F1FA 1F1FE": ["bandila: Uruguay", "bandila"],
+    "1F1FA 1F1FF": ["bandila: Uzbekistan", "bandila"],
+    "1F1FB": ["regional indicator symbol letter v"],
+    "1F1FB 1F1E6": ["bandila: Vatican City", "bandila"],
+    "1F1FB 1F1E8": ["bandila: St. Vincent & Grenadines", "bandila"],
+    "1F1FB 1F1EA": ["bandila: Venezuela", "bandila"],
+    "1F1FB 1F1EC": ["bandila: British Virgin Islands", "bandila"],
+    "1F1FB 1F1EE": ["bandila: U.S. Virgin Islands", "bandila"],
+    "1F1FB 1F1F3": ["bandila: Vietnam", "bandila"],
+    "1F1FB 1F1FA": ["bandila: Vanuatu", "bandila"],
+    "1F1FC": ["regional indicator symbol letter w"],
+    "1F1FC 1F1EB": ["bandila: Wallis & Futuna", "bandila"],
+    "1F1FC 1F1F8": ["bandila: Samoa", "bandila"],
+    "1F1FD": ["regional indicator symbol letter x"],
+    "1F1FD 1F1F0": ["bandila: Kosovo", "bandila"],
+    "1F1FE": ["regional indicator symbol letter y"],
+    "1F1FE 1F1EA": ["bandila: Yemen", "bandila"],
+    "1F1FE 1F1F9": ["bandila: Mayotte", "bandila"],
+    "1F1FF": ["regional indicator symbol letter z"],
+    "1F1FF 1F1E6": ["bandila: South Africa", "bandila"],
+    "1F1FF 1F1F2": ["bandila: Zambia", "bandila"],
+    "1F1FF 1F1FC": ["bandila: Zimbabwe", "bandila"],
     "1F201": [
         "Hapones na button para sa salitang \"dito\"",
         "“dito”",
@@ -2232,13 +1094,7 @@
         "pindutan",
         "tanggap"
     ],
-    "1F300": [
-        "buhawi",
-        "bagyo",
-        "ipu-ipo",
-        "nahihilo",
-        "panahon"
-    ],
+    "1F300": ["buhawi", "bagyo", "ipu-ipo", "nahihilo", "panahon"],
     "1F301": [
         "mahamog",
         "bundok",
@@ -2271,12 +1127,7 @@
         "pagsikat ng araw",
         "umaga"
     ],
-    "1F305": [
-        "pagsikat ng araw",
-        "araw",
-        "dagat",
-        "umaga"
-    ],
+    "1F305": ["pagsikat ng araw", "araw", "dagat", "umaga"],
     "1F306": [
         "cityscape sa takipsilim",
         "cityscape",
@@ -2306,19 +1157,8 @@
         "transgender",
         "ulan"
     ],
-    "1F309": [
-        "tulay sa gabi",
-        "bituin",
-        "gabi",
-        "tulay"
-    ],
-    "1F30A": [
-        "alon",
-        "dagat",
-        "karagatan",
-        "lagay ng panahon",
-        "tsunami"
-    ],
+    "1F309": ["tulay sa gabi", "bituin", "gabi", "tulay"],
+    "1F30A": ["alon", "dagat", "karagatan", "lagay ng panahon", "tsunami"],
     "1F30B": [
         "bulkan",
         "aktibidad ng bulkan",
@@ -2328,12 +1168,7 @@
         "pagsabog",
         "putok"
     ],
-    "1F30C": [
-        "milky way",
-        "bituin",
-        "galaxy",
-        "kalawakan"
-    ],
+    "1F30C": ["milky way", "bituin", "galaxy", "kalawakan"],
     "1F30D": [
         "globong nagpapakita sa europe at africa",
         "africa",
@@ -2365,12 +1200,7 @@
         "mundo",
         "worldwide web"
     ],
-    "1F311": [
-        "new moon",
-        "buwan",
-        "kalawakan",
-        "madilim"
-    ],
+    "1F311": ["new moon", "buwan", "kalawakan", "madilim"],
     "1F312": [
         "waxing crescent moon",
         "buwan",
@@ -2385,13 +1215,7 @@
         "kalawakan",
         "quarter"
     ],
-    "1F314": [
-        "waxing gibbous moon",
-        "buwan",
-        "gibbous",
-        "kalawakan",
-        "waxing"
-    ],
+    "1F314": ["waxing gibbous moon", "buwan", "gibbous", "kalawakan", "waxing"],
     "1F315": [
         "full moon",
         "bilog na buwan",
@@ -2399,13 +1223,7 @@
         "kabilugan ng buwan",
         "kalawakan"
     ],
-    "1F316": [
-        "waning gibbous moon",
-        "buwan",
-        "gibbous",
-        "kalawakan",
-        "waning"
-    ],
+    "1F316": ["waning gibbous moon", "buwan", "gibbous", "kalawakan", "waning"],
     "1F317": [
         "last quarter moon",
         "buwan",
@@ -2420,13 +1238,7 @@
         "kalawakan",
         "waning"
     ],
-    "1F319": [
-        "crescent moon",
-        "buwan",
-        "crescent",
-        "kalawakan",
-        "ramadan"
-    ],
+    "1F319": ["crescent moon", "buwan", "crescent", "kalawakan", "ramadan"],
     "1F31A": [
         "new moon na may mukha",
         "buwan",
@@ -2455,26 +1267,9 @@
         "full moon",
         "mukha"
     ],
-    "1F31E": [
-        "araw na may mukha",
-        "araw",
-        "maliwanag",
-        "mukha",
-        "sinag"
-    ],
-    "1F31F": [
-        "kumikinang na bituin",
-        "bituin",
-        "kumikinang",
-        "kumikislap"
-    ],
-    "1F320": [
-        "bulalakaw",
-        "bituin",
-        "kalawakan",
-        "shooting star",
-        "tala"
-    ],
+    "1F31E": ["araw na may mukha", "araw", "maliwanag", "mukha", "sinag"],
+    "1F31F": ["kumikinang na bituin", "bituin", "kumikinang", "kumikislap"],
+    "1F320": ["bulalakaw", "bituin", "kalawakan", "shooting star", "tala"],
     "1F32D": [
         "hot dog",
         "frankfurter",
@@ -2483,37 +1278,11 @@
         "sausage",
         "tinapay"
     ],
-    "1F32E": [
-        "taco",
-        "mexican",
-        "pagkain"
-    ],
-    "1F32F": [
-        "burrito",
-        "mexican",
-        "pagkain"
-    ],
-    "1F330": [
-        "kastanyas",
-        "almond",
-        "bunga",
-        "chestnut",
-        "halaman",
-        "mani"
-    ],
-    "1F331": [
-        "binhi",
-        "halaman",
-        "punla",
-        "seedling",
-        "tibtib"
-    ],
-    "1F332": [
-        "evergreen",
-        "christmas tree",
-        "halaman",
-        "puno"
-    ],
+    "1F32E": ["taco", "mexican", "pagkain"],
+    "1F32F": ["burrito", "mexican", "pagkain"],
+    "1F330": ["kastanyas", "almond", "bunga", "chestnut", "halaman", "mani"],
+    "1F331": ["binhi", "halaman", "punla", "seedling", "tibtib"],
+    "1F332": ["evergreen", "christmas tree", "halaman", "puno"],
     "1F333": [
         "punong nalalagas ang dahon",
         "deciduous",
@@ -2522,31 +1291,10 @@
         "naglalagas ng dahon",
         "puno"
     ],
-    "1F334": [
-        "palmera",
-        "halaman",
-        "palm",
-        "puno",
-        "tropical"
-    ],
-    "1F335": [
-        "cactus",
-        "disyerto",
-        "halaman",
-        "kalikasan",
-        "tagtuyot"
-    ],
-    "1F337": [
-        "tulip",
-        "bulaklak",
-        "halaman"
-    ],
-    "1F338": [
-        "cherry blossom",
-        "bulaklak",
-        "halaman",
-        "sakura"
-    ],
+    "1F334": ["palmera", "halaman", "palm", "puno", "tropical"],
+    "1F335": ["cactus", "disyerto", "halaman", "kalikasan", "tagtuyot"],
+    "1F337": ["tulip", "bulaklak", "halaman"],
+    "1F338": ["cherry blossom", "bulaklak", "halaman", "sakura"],
     "1F339": [
         "rosas",
         "bulaklak",
@@ -2556,32 +1304,10 @@
         "romansa",
         "valentine"
     ],
-    "1F33A": [
-        "gumamela",
-        "bulaklak",
-        "halaman",
-        "hibiscus"
-    ],
-    "1F33B": [
-        "mirasol",
-        "araw",
-        "bulaklak",
-        "halaman",
-        "sunflower"
-    ],
-    "1F33C": [
-        "bulaklak",
-        "buttercup",
-        "dandelion",
-        "halaman"
-    ],
-    "1F33D": [
-        "busal ng mais",
-        "busal",
-        "corn",
-        "halaman",
-        "mais"
-    ],
+    "1F33A": ["gumamela", "bulaklak", "halaman", "hibiscus"],
+    "1F33B": ["mirasol", "araw", "bulaklak", "halaman", "sunflower"],
+    "1F33C": ["bulaklak", "buttercup", "dandelion", "halaman"],
+    "1F33D": ["busal ng mais", "busal", "corn", "halaman", "mais"],
     "1F33E": [
         "bigkis ng palay",
         "agrikultura",
@@ -2590,33 +1316,10 @@
         "pagkain",
         "palay"
     ],
-    "1F33F": [
-        "halamang-gamot",
-        "dahon",
-        "gamot",
-        "halaman",
-        "herb"
-    ],
-    "1F340": [
-        "four-leaf clover",
-        "4",
-        "apat",
-        "clover",
-        "dahon"
-    ],
-    "1F341": [
-        "dahon ng maple",
-        "dahon",
-        "halaman",
-        "maple",
-        "taglagas"
-    ],
-    "1F342": [
-        "nalagas na dahon",
-        "dahon",
-        "halaman",
-        "taglagas"
-    ],
+    "1F33F": ["halamang-gamot", "dahon", "gamot", "halaman", "herb"],
+    "1F340": ["four-leaf clover", "4", "apat", "clover", "dahon"],
+    "1F341": ["dahon ng maple", "dahon", "halaman", "maple", "taglagas"],
+    "1F342": ["nalagas na dahon", "dahon", "halaman", "taglagas"],
     "1F343": [
         "dahong nililipad ng hangin",
         "dahon",
@@ -2624,12 +1327,7 @@
         "hangin",
         "nililipad"
     ],
-    "1F344": [
-        "kabute",
-        "halaman",
-        "mario",
-        "mushroom"
-    ],
+    "1F344": ["kabute", "halaman", "mario", "mushroom"],
     "1F344 200D 1F7EB": [
         "kayumanggi na kabute",
         "brown na kabute",
@@ -2639,51 +1337,13 @@
         "pagkain",
         "pagkain, kabute, kalikasan, gulay"
     ],
-    "1F345": [
-        "kamatis",
-        "bunga",
-        "gulay",
-        "halaman",
-        "prutas"
-    ],
-    "1F346": [
-        "talong",
-        "bunga",
-        "eggplant",
-        "gulay",
-        "halaman"
-    ],
-    "1F347": [
-        "ubas",
-        "grapes",
-        "halaman",
-        "prutas"
-    ],
-    "1F348": [
-        "melon",
-        "halaman",
-        "prutas"
-    ],
-    "1F349": [
-        "pakwan",
-        "halaman",
-        "prutas",
-        "watermelon"
-    ],
-    "1F34A": [
-        "dalanghita",
-        "halaman",
-        "orange",
-        "prutas",
-        "vitamin c"
-    ],
-    "1F34B": [
-        "lemon",
-        "citrus",
-        "halaman",
-        "limon",
-        "prutas"
-    ],
+    "1F345": ["kamatis", "bunga", "gulay", "halaman", "prutas"],
+    "1F346": ["talong", "bunga", "eggplant", "gulay", "halaman"],
+    "1F347": ["ubas", "grapes", "halaman", "prutas"],
+    "1F348": ["melon", "halaman", "prutas"],
+    "1F349": ["pakwan", "halaman", "prutas", "watermelon"],
+    "1F34A": ["dalanghita", "halaman", "orange", "prutas", "vitamin c"],
+    "1F34B": ["lemon", "citrus", "halaman", "limon", "prutas"],
     "1F34B 200D 1F7E9": [
         "dayap",
         "asim",
@@ -2695,20 +1355,8 @@
         "salsa",
         "tropikal"
     ],
-    "1F34C": [
-        "saging",
-        "banana",
-        "halaman",
-        "potassium",
-        "prutas",
-        "saba"
-    ],
-    "1F34D": [
-        "pinya",
-        "halaman",
-        "pineapple",
-        "prutas"
-    ],
+    "1F34C": ["saging", "banana", "halaman", "potassium", "prutas", "saba"],
+    "1F34D": ["pinya", "halaman", "pineapple", "prutas"],
     "1F34E": [
         "pulang mansanas",
         "apple",
@@ -2725,49 +1373,13 @@
         "mansanas",
         "prutas"
     ],
-    "1F350": [
-        "peras",
-        "halaman",
-        "pear",
-        "prutas"
-    ],
-    "1F351": [
-        "peach",
-        "halaman",
-        "prutas"
-    ],
-    "1F352": [
-        "cherry",
-        "halaman",
-        "prutas"
-    ],
-    "1F353": [
-        "strawberry",
-        "baguio",
-        "berry",
-        "halaman",
-        "prutas"
-    ],
-    "1F354": [
-        "hamburger",
-        "burger",
-        "fast food",
-        "gutom",
-        "pagkain"
-    ],
-    "1F355": [
-        "pizza",
-        "italian",
-        "keso",
-        "pagkain",
-        "slice"
-    ],
-    "1F356": [
-        "karneng may buto",
-        "buto",
-        "karne",
-        "pagkain"
-    ],
+    "1F350": ["peras", "halaman", "pear", "prutas"],
+    "1F351": ["peach", "halaman", "prutas"],
+    "1F352": ["cherry", "halaman", "prutas"],
+    "1F353": ["strawberry", "baguio", "berry", "halaman", "prutas"],
+    "1F354": ["hamburger", "burger", "fast food", "gutom", "pagkain"],
+    "1F355": ["pizza", "italian", "keso", "pagkain", "slice"],
+    "1F356": ["karneng may buto", "buto", "karne", "pagkain"],
     "1F357": [
         "binti ng manok",
         "buto",
@@ -2778,13 +1390,7 @@
         "paa ng manok",
         "pagkain"
     ],
-    "1F358": [
-        "rice cracker",
-        "ampao",
-        "ampaw",
-        "kanin",
-        "pagkain"
-    ],
+    "1F358": ["rice cracker", "ampao", "ampaw", "kanin", "pagkain"],
     "1F359": [
         "rice ball",
         "japanese",
@@ -2793,24 +1399,9 @@
         "onigiri",
         "pagkain"
     ],
-    "1F35A": [
-        "kanin",
-        "pagkain",
-        "sinaing"
-    ],
-    "1F35B": [
-        "curry rice",
-        "curry",
-        "kanin",
-        "pagkain"
-    ],
-    "1F35C": [
-        "mainit na noodles",
-        "mangkok",
-        "noodle",
-        "pagkain",
-        "ramen"
-    ],
+    "1F35A": ["kanin", "pagkain", "sinaing"],
+    "1F35B": ["curry rice", "curry", "kanin", "pagkain"],
+    "1F35C": ["mainit na noodles", "mangkok", "noodle", "pagkain", "ramen"],
     "1F35D": [
         "spaghetti",
         "italian",
@@ -2819,22 +1410,9 @@
         "pasta",
         "restaurant"
     ],
-    "1F35E": [
-        "tinapay",
-        "pagkain"
-    ],
-    "1F35F": [
-        "french fries",
-        "fries",
-        "meryenda",
-        "pagkain"
-    ],
-    "1F360": [
-        "inihaw na kamote",
-        "inihaw",
-        "kamote",
-        "pagkain"
-    ],
+    "1F35E": ["tinapay", "pagkain"],
+    "1F35F": ["french fries", "fries", "meryenda", "pagkain"],
+    "1F360": ["inihaw na kamote", "inihaw", "kamote", "pagkain"],
     "1F361": [
         "dango",
         "dessert",
@@ -2854,20 +1432,8 @@
         "seafood",
         "tuhog"
     ],
-    "1F363": [
-        "sushi",
-        "japanese",
-        "kanin",
-        "pagkain",
-        "seafood"
-    ],
-    "1F364": [
-        "piniritong hipon",
-        "hipon",
-        "pagkain",
-        "prito",
-        "tempura"
-    ],
+    "1F363": ["sushi", "japanese", "kanin", "pagkain", "seafood"],
+    "1F364": ["piniritong hipon", "hipon", "pagkain", "prito", "tempura"],
     "1F365": [
         "fish cake na may swirl",
         "fish cake",
@@ -2926,18 +1492,8 @@
         "pagkain",
         "panghimagas"
     ],
-    "1F36C": [
-        "kendi",
-        "candy",
-        "matamis",
-        "pagkain"
-    ],
-    "1F36D": [
-        "lollipop",
-        "candy",
-        "matamis",
-        "pagkain"
-    ],
+    "1F36C": ["kendi", "candy", "matamis", "pagkain"],
+    "1F36D": ["lollipop", "candy", "matamis", "pagkain"],
     "1F36E": [
         "pudding",
         "custard",
@@ -2946,12 +1502,7 @@
         "pagkain",
         "panghimagas"
     ],
-    "1F36F": [
-        "pulot-pukyutan",
-        "honey",
-        "matamis",
-        "pagkain"
-    ],
+    "1F36F": ["pulot-pukyutan", "honey", "matamis", "pagkain"],
     "1F370": [
         "shortcake",
         "cake",
@@ -2961,20 +1512,8 @@
         "panghimagas",
         "pastry"
     ],
-    "1F371": [
-        "bento box",
-        "baon",
-        "baunan",
-        "bento",
-        "pagkain"
-    ],
-    "1F372": [
-        "kaserola ng pagkain",
-        "kaserola",
-        "nilaga",
-        "pagkain",
-        "sabaw"
-    ],
+    "1F371": ["bento box", "baon", "baunan", "bento", "pagkain"],
+    "1F372": ["kaserola ng pagkain", "kaserola", "nilaga", "pagkain", "sabaw"],
     "1F373": [
         "nagluluto",
         "itlog",
@@ -2999,14 +1538,7 @@
         "teacup",
         "tsaa"
     ],
-    "1F376": [
-        "sake",
-        "alak",
-        "bar",
-        "bote",
-        "inumin",
-        "tasa"
-    ],
+    "1F376": ["sake", "alak", "bar", "bote", "inumin", "tasa"],
     "1F377": [
         "wine glass",
         "alak",
@@ -3060,15 +1592,7 @@
         "inom",
         "tagay"
     ],
-    "1F37C": [
-        "dede",
-        "anak",
-        "baby",
-        "bote",
-        "gatas",
-        "inumin",
-        "sanggol"
-    ],
+    "1F37C": ["dede", "anak", "baby", "bote", "gatas", "inumin", "sanggol"],
     "1F37E": [
         "boteng naalis ang takip",
         "bar",
@@ -3077,17 +1601,8 @@
         "cork",
         "wine"
     ],
-    "1F37F": [
-        "popcorn",
-        "chichirya",
-        "pagkain",
-        "pikapika"
-    ],
-    "1F380": [
-        "ribbon",
-        "laso",
-        "pagdiriwang"
-    ],
+    "1F37F": ["popcorn", "chichirya", "pagkain", "pikapika"],
+    "1F380": ["ribbon", "laso", "pagdiriwang"],
     "1F381": [
         "nakabalot na regalo",
         "bday",
@@ -3119,13 +1634,7 @@
         "lantern",
         "pumpkin"
     ],
-    "1F384": [
-        "christmas tree",
-        "christmas",
-        "holiday",
-        "kapaskuhan",
-        "pasko"
-    ],
+    "1F384": ["christmas tree", "christmas", "holiday", "kapaskuhan", "pasko"],
     "1F385": [
         "santa claus",
         "Christmas",
@@ -3203,18 +1712,8 @@
         "paputok",
         "selebrasyon"
     ],
-    "1F387": [
-        "sparkler",
-        "bagong taon",
-        "kuwitis",
-        "paputok",
-        "selebrasyon"
-    ],
-    "1F388": [
-        "lobo",
-        "kaarawan",
-        "pagdiriwang"
-    ],
+    "1F387": ["sparkler", "bagong taon", "kuwitis", "paputok", "selebrasyon"],
+    "1F388": ["lobo", "kaarawan", "pagdiriwang"],
     "1F389": [
         "party popper",
         "confetti",
@@ -3223,12 +1722,7 @@
         "party",
         "woohoo"
     ],
-    "1F38A": [
-        "confetti ball",
-        "confetti",
-        "pagdiriwang",
-        "party"
-    ],
+    "1F38A": ["confetti ball", "confetti", "pagdiriwang", "party"],
     "1F38B": [
         "tanabata tree",
         "banner",
@@ -3247,13 +1741,7 @@
         "magkaekis na bandila",
         "magkakrus"
     ],
-    "1F38D": [
-        "pine decoration",
-        "dekorasyon",
-        "Hapon",
-        "kawayan",
-        "pine"
-    ],
+    "1F38D": ["pine decoration", "dekorasyon", "Hapon", "kawayan", "pine"],
     "1F38E": [
         "japanese na manika",
         "festival",
@@ -3271,12 +1759,7 @@
         "pagdiriwang",
         "streamer"
     ],
-    "1F390": [
-        "wind chime",
-        "bell",
-        "chime",
-        "hangin"
-    ],
+    "1F390": ["wind chime", "bell", "chime", "hangin"],
     "1F391": [
         "moon viewing ceremony",
         "buwan",
@@ -3324,20 +1807,8 @@
         "rides",
         "roller"
     ],
-    "1F3A3": [
-        "pamingwit",
-        "fishing rod",
-        "isda",
-        "pangingisda",
-        "pole"
-    ],
-    "1F3A4": [
-        "mikropono",
-        "karaoke",
-        "mic",
-        "mik",
-        "tunog"
-    ],
+    "1F3A3": ["pamingwit", "fishing rod", "isda", "pangingisda", "pole"],
+    "1F3A4": ["mikropono", "karaoke", "mic", "mik", "tunog"],
     "1F3A5": [
         "movie camera",
         "bollywood",
@@ -3348,19 +1819,8 @@
         "pelikula",
         "record"
     ],
-    "1F3A6": [
-        "sinehan",
-        "camera",
-        "kamera",
-        "palabas",
-        "pelikula",
-        "sine"
-    ],
-    "1F3A7": [
-        "headphone",
-        "earbud",
-        "earphone"
-    ],
+    "1F3A6": ["sinehan", "camera", "kamera", "palabas", "pelikula", "sine"],
+    "1F3A7": ["headphone", "earbud", "earphone"],
     "1F3A8": [
         "paleta ng pintor",
         "art",
@@ -3382,17 +1842,8 @@
         "sumbrero",
         "tophat"
     ],
-    "1F3AA": [
-        "circus tent",
-        "circus",
-        "tent"
-    ],
-    "1F3AB": [
-        "tiket",
-        "admission",
-        "stub",
-        "ticket"
-    ],
+    "1F3AA": ["circus tent", "circus", "tent"],
+    "1F3AB": ["tiket", "admission", "stub", "ticket"],
     "1F3AC": [
         "clapper board",
         "action",
@@ -3422,11 +1873,7 @@
         "playstation",
         "xbox"
     ],
-    "1F3AF": [
-        "bullseye",
-        "dart",
-        "target"
-    ],
+    "1F3AF": ["bullseye", "dart", "target"],
     "1F3B0": [
         "slot machine",
         "casino",
@@ -3435,26 +1882,9 @@
         "pachinko",
         "sugal"
     ],
-    "1F3B1": [
-        "billiards",
-        "8",
-        "billiard",
-        "bilyar",
-        "bola",
-        "eight",
-        "pool"
-    ],
-    "1F3B2": [
-        "dice",
-        "die",
-        "laro",
-        "sugal"
-    ],
-    "1F3B3": [
-        "bowling",
-        "bola",
-        "pin"
-    ],
+    "1F3B1": ["billiards", "8", "billiard", "bilyar", "bola", "eight", "pool"],
+    "1F3B2": ["dice", "die", "laro", "sugal"],
+    "1F3B3": ["bowling", "bola", "pin"],
     "1F3B4": [
         "flower playing card",
         "baraha",
@@ -3464,33 +1894,10 @@
         "hanafuda",
         "laro"
     ],
-    "1F3B5": [
-        "notang pangmusika",
-        "kanta",
-        "musika",
-        "nota",
-        "tunog"
-    ],
-    "1F3B6": [
-        "mga notang pangmusika",
-        "kanta",
-        "musika",
-        "nota",
-        "tunog"
-    ],
-    "1F3B7": [
-        "saxophone",
-        "instrumento",
-        "musika",
-        "sax"
-    ],
-    "1F3B8": [
-        "gitara",
-        "instrumento",
-        "musika",
-        "pangtugtog",
-        "stratocaster"
-    ],
+    "1F3B5": ["notang pangmusika", "kanta", "musika", "nota", "tunog"],
+    "1F3B6": ["mga notang pangmusika", "kanta", "musika", "nota", "tunog"],
+    "1F3B7": ["saxophone", "instrumento", "musika", "sax"],
+    "1F3B8": ["gitara", "instrumento", "musika", "pangtugtog", "stratocaster"],
     "1F3B9": [
         "keyboard na pangmusika",
         "instrumento",
@@ -3498,25 +1905,9 @@
         "musika",
         "piano"
     ],
-    "1F3BA": [
-        "trumpeta",
-        "instrumento",
-        "musika"
-    ],
-    "1F3BB": [
-        "biyulin",
-        "instrumento",
-        "musika",
-        "stradivarius",
-        "violin"
-    ],
-    "1F3BC": [
-        "musical score",
-        "iskor",
-        "kanta",
-        "musika",
-        "tugtog"
-    ],
+    "1F3BA": ["trumpeta", "instrumento", "musika"],
+    "1F3BB": ["biyulin", "instrumento", "musika", "stradivarius", "violin"],
+    "1F3BC": ["musical score", "iskor", "kanta", "musika", "tugtog"],
     "1F3BD": [
         "running shirt",
         "atleta",
@@ -3526,27 +1917,9 @@
         "shirt",
         "takbo"
     ],
-    "1F3BE": [
-        "tennis",
-        "bola",
-        "bola ng tennis",
-        "sport",
-        "tennis ball"
-    ],
-    "1F3BF": [
-        "mga ski",
-        "niyebe",
-        "ski",
-        "snow",
-        "sports"
-    ],
-    "1F3C0": [
-        "basketball",
-        "basketbol",
-        "bola",
-        "shoot",
-        "sport"
-    ],
+    "1F3BE": ["tennis", "bola", "bola ng tennis", "sport", "tennis ball"],
+    "1F3BF": ["mga ski", "niyebe", "ski", "snow", "sports"],
+    "1F3C0": ["basketball", "basketbol", "bola", "shoot", "sport"],
     "1F3C1": [
         "checkered na bandila",
         "bandila",
@@ -3554,14 +1927,7 @@
         "checkered flag",
         "karera"
     ],
-    "1F3C2": [
-        "snowboarder",
-        "niyebe",
-        "ski",
-        "snow",
-        "snowboard",
-        "sport"
-    ],
+    "1F3C2": ["snowboarder", "niyebe", "ski", "snow", "snowboard", "sport"],
     "1F3C2 1F3FB": [
         "snowboarder: light na kulay ng balat",
         "light na kulay ng balat",
@@ -3835,18 +2201,8 @@
         "karera ng kabayo",
         "karerahan ng kabayo"
     ],
-    "1F3C8": [
-        "american football",
-        "american",
-        "bola",
-        "football"
-    ],
-    "1F3C9": [
-        "rugby football",
-        "bola",
-        "football",
-        "rugby"
-    ],
+    "1F3C8": ["american football", "american", "bola", "football"],
+    "1F3C9": ["rugby football", "bola", "football", "rugby"],
     "1F3CA": [
         "swimmer",
         "lalaking lumalangoy",
@@ -4069,23 +2425,9 @@
         "taong naggo-golf",
         "tee"
     ],
-    "1F3CF": [
-        "cricket",
-        "bat",
-        "bola",
-        "laro"
-    ],
-    "1F3D0": [
-        "volleyball",
-        "bola",
-        "laro"
-    ],
-    "1F3D1": [
-        "field hockey",
-        "bola",
-        "hockey",
-        "stick"
-    ],
+    "1F3CF": ["cricket", "bat", "bola", "laro"],
+    "1F3D0": ["volleyball", "bola", "laro"],
+    "1F3D1": ["field hockey", "bola", "hockey", "stick"],
     "1F3D2": [
         "stick at puck sa ice hockey",
         "hockey",
@@ -4095,59 +2437,14 @@
         "stick",
         "stick at puck"
     ],
-    "1F3D3": [
-        "ping pong",
-        "bat",
-        "bola",
-        "paddle",
-        "table tennis"
-    ],
-    "1F3E0": [
-        "bahay",
-        "gusali",
-        "tahanan",
-        "umuwi",
-        "uwi"
-    ],
-    "1F3E1": [
-        "bahay na may hardin",
-        "bahay",
-        "gusali",
-        "hardin",
-        "tahanan"
-    ],
-    "1F3E2": [
-        "office building",
-        "gusali",
-        "opisina",
-        "trabaho"
-    ],
-    "1F3E3": [
-        "japanese post office",
-        "gusali",
-        "japanese",
-        "post office"
-    ],
-    "1F3E4": [
-        "post office",
-        "gusali",
-        "koreo",
-        "liham",
-        "padala",
-        "sulat"
-    ],
-    "1F3E5": [
-        "ospital",
-        "doktor",
-        "gusali",
-        "medisina",
-        "pagamutan"
-    ],
-    "1F3E6": [
-        "bangko",
-        "gusali",
-        "pera"
-    ],
+    "1F3D3": ["ping pong", "bat", "bola", "paddle", "table tennis"],
+    "1F3E0": ["bahay", "gusali", "tahanan", "umuwi", "uwi"],
+    "1F3E1": ["bahay na may hardin", "bahay", "gusali", "hardin", "tahanan"],
+    "1F3E2": ["office building", "gusali", "opisina", "trabaho"],
+    "1F3E3": ["japanese post office", "gusali", "japanese", "post office"],
+    "1F3E4": ["post office", "gusali", "koreo", "liham", "padala", "sulat"],
+    "1F3E5": ["ospital", "doktor", "gusali", "medisina", "pagamutan"],
+    "1F3E6": ["bangko", "gusali", "pera"],
     "1F3E7": [
         "tanda ng ATM",
         "ATM",
@@ -4157,40 +2454,12 @@
         "pera",
         "teller"
     ],
-    "1F3E8": [
-        "hotel",
-        "gusali"
-    ],
-    "1F3E9": [
-        "motel",
-        "gusali",
-        "hotel",
-        "love hotel"
-    ],
-    "1F3EA": [
-        "convenience store",
-        "24 hours",
-        "gusali",
-        "tindahan"
-    ],
-    "1F3EB": [
-        "paaralan",
-        "eskwelahan",
-        "gusali",
-        "school"
-    ],
-    "1F3EC": [
-        "department store",
-        "gusali",
-        "mall",
-        "tindahan"
-    ],
-    "1F3ED": [
-        "pagawaan",
-        "factory",
-        "gusali",
-        "pabrika"
-    ],
+    "1F3E8": ["hotel", "gusali"],
+    "1F3E9": ["motel", "gusali", "hotel", "love hotel"],
+    "1F3EA": ["convenience store", "24 hours", "gusali", "tindahan"],
+    "1F3EB": ["paaralan", "eskwelahan", "gusali", "school"],
+    "1F3EC": ["department store", "gusali", "mall", "tindahan"],
+    "1F3ED": ["pagawaan", "factory", "gusali", "pabrika"],
     "1F3EE": [
         "pulang paper lantern",
         "bar",
@@ -4208,20 +2477,8 @@
         "kuta",
         "palasyo"
     ],
-    "1F3F0": [
-        "kastilyo",
-        "european",
-        "fairy tale",
-        "gusali",
-        "palasyo"
-    ],
-    "1F3F3": [
-        "puting bandila",
-        "bandila",
-        "iwinawagayway",
-        "karera",
-        "puti"
-    ],
+    "1F3F0": ["kastilyo", "european", "fairy tale", "gusali", "palasyo"],
+    "1F3F3": ["puting bandila", "bandila", "iwinawagayway", "karera", "puti"],
     "1F3F3 FE0F 200D 1F308": [
         "bahagharing bandila",
         "bahaghari",
@@ -4234,12 +2491,7 @@
         "transgender",
         "watawat"
     ],
-    "1F3F4": [
-        "itim na bandila",
-        "bandila",
-        "itim",
-        "iwinawagayway"
-    ],
+    "1F3F4": ["itim na bandila", "bandila", "itim", "iwinawagayway"],
     "1F3F4 E0067 E0062 E0065 E006E E0067 E007F": [
         "bandila: England",
         "bandila"
@@ -4248,17 +2500,8 @@
         "bandila: Scotland",
         "bandila"
     ],
-    "1F3F4 E0067 E0062 E0077 E006C E0073 E007F": [
-        "bandila: Wales",
-        "bandila"
-    ],
-    "1F3F8": [
-        "badminton",
-        "racket",
-        "racquet",
-        "raketa",
-        "shuttlecock"
-    ],
+    "1F3F4 E0067 E0062 E0077 E006C E0073 E007F": ["bandila: Wales", "bandila"],
+    "1F3F8": ["badminton", "racket", "racquet", "raketa", "shuttlecock"],
     "1F3F9": [
         "pana",
         "archer",
@@ -4277,62 +2520,15 @@
         "sisidlan",
         "zodiac"
     ],
-    "1F400": [
-        "daga",
-        "hayop",
-        "peste"
-    ],
-    "1F401": [
-        "bubuwit",
-        "daga",
-        "hayop",
-        "peste"
-    ],
-    "1F402": [
-        "toro",
-        "baka",
-        "hayop",
-        "ox",
-        "taurus",
-        "zodiac"
-    ],
-    "1F403": [
-        "kalabaw",
-        "buffalo",
-        "hayop",
-        "pagsasaka",
-        "zoo"
-    ],
-    "1F404": [
-        "baka",
-        "dairy",
-        "gatas",
-        "hayop",
-        "moo"
-    ],
-    "1F405": [
-        "tigre",
-        "hayop",
-        "malaking pusa",
-        "zoo"
-    ],
-    "1F406": [
-        "leopard",
-        "hayop",
-        "zoo"
-    ],
-    "1F407": [
-        "kuneho",
-        "alaga",
-        "hayop",
-        "pet"
-    ],
-    "1F408": [
-        "pusa",
-        "alaga",
-        "hayop",
-        "pet"
-    ],
+    "1F400": ["daga", "hayop", "peste"],
+    "1F401": ["bubuwit", "daga", "hayop", "peste"],
+    "1F402": ["toro", "baka", "hayop", "ox", "taurus", "zodiac"],
+    "1F403": ["kalabaw", "buffalo", "hayop", "pagsasaka", "zoo"],
+    "1F404": ["baka", "dairy", "gatas", "hayop", "moo"],
+    "1F405": ["tigre", "hayop", "malaking pusa", "zoo"],
+    "1F406": ["leopard", "hayop", "zoo"],
+    "1F407": ["kuneho", "alaga", "hayop", "pet"],
+    "1F408": ["pusa", "alaga", "hayop", "pet"],
     "1F408 200D 2B1B": [
         "itim na pusa",
         "halloween",
@@ -4343,84 +2539,19 @@
         "pusa",
         "takot"
     ],
-    "1F409": [
-        "dragon",
-        "fairy tale",
-        "fantasy"
-    ],
-    "1F40A": [
-        "buwaya",
-        "hayop"
-    ],
-    "1F40B": [
-        "balyena",
-        "hayop",
-        "isda",
-        "willy"
-    ],
-    "1F40C": [
-        "kuhol",
-        "hayop",
-        "lamang-dagat",
-        "snail",
-        "suso"
-    ],
-    "1F40D": [
-        "ahas",
-        "hayop",
-        "ophiuchus",
-        "serpiyente",
-        "zodiac"
-    ],
-    "1F40E": [
-        "kabayo",
-        "hayop",
-        "karera"
-    ],
-    "1F40F": [
-        "lalaking tupa",
-        "aries",
-        "hayop",
-        "ram",
-        "tupa",
-        "zodiac"
-    ],
-    "1F410": [
-        "kambing",
-        "capricorn",
-        "hayop",
-        "zodiac"
-    ],
-    "1F411": [
-        "tupa",
-        "hayop"
-    ],
-    "1F412": [
-        "unggoy",
-        "hayop",
-        "saging"
-    ],
-    "1F413": [
-        "tandang",
-        "hayop",
-        "ibon",
-        "lalaki",
-        "manok",
-        "sabong"
-    ],
-    "1F414": [
-        "manok",
-        "hayop",
-        "ibon",
-        "poultry"
-    ],
-    "1F415": [
-        "aso",
-        "alaga",
-        "bantay",
-        "hayop",
-        "pet"
-    ],
+    "1F409": ["dragon", "fairy tale", "fantasy"],
+    "1F40A": ["buwaya", "hayop"],
+    "1F40B": ["balyena", "hayop", "isda", "willy"],
+    "1F40C": ["kuhol", "hayop", "lamang-dagat", "snail", "suso"],
+    "1F40D": ["ahas", "hayop", "ophiuchus", "serpiyente", "zodiac"],
+    "1F40E": ["kabayo", "hayop", "karera"],
+    "1F40F": ["lalaking tupa", "aries", "hayop", "ram", "tupa", "zodiac"],
+    "1F410": ["kambing", "capricorn", "hayop", "zodiac"],
+    "1F411": ["tupa", "hayop"],
+    "1F412": ["unggoy", "hayop", "saging"],
+    "1F413": ["tandang", "hayop", "ibon", "lalaki", "manok", "sabong"],
+    "1F414": ["manok", "hayop", "ibon", "poultry"],
+    "1F415": ["aso", "alaga", "bantay", "hayop", "pet"],
     "1F415 200D 1F9BA": [
         "asong panserbisyo",
         "aso",
@@ -4428,51 +2559,14 @@
         "serbisyo",
         "tulong"
     ],
-    "1F416": [
-        "baboy",
-        "agrikultura",
-        "babuyan",
-        "biik",
-        "bukid",
-        "hayop"
-    ],
-    "1F417": [
-        "baboy-ramo",
-        "baboy",
-        "hayop"
-    ],
-    "1F418": [
-        "elepante",
-        "hayop"
-    ],
-    "1F419": [
-        "pugita",
-        "hayop",
-        "lamang-dagat",
-        "octopus"
-    ],
-    "1F41A": [
-        "pilipit na kabibe",
-        "hayop",
-        "kabibe",
-        "lamang-dagat"
-    ],
-    "1F41B": [
-        "insekto",
-        "bug",
-        "uod"
-    ],
-    "1F41C": [
-        "langgam",
-        "hardin",
-        "hayop",
-        "insekto"
-    ],
-    "1F41D": [
-        "bubuyog",
-        "honeybee",
-        "insekto"
-    ],
+    "1F416": ["baboy", "agrikultura", "babuyan", "biik", "bukid", "hayop"],
+    "1F417": ["baboy-ramo", "baboy", "hayop"],
+    "1F418": ["elepante", "hayop"],
+    "1F419": ["pugita", "hayop", "lamang-dagat", "octopus"],
+    "1F41A": ["pilipit na kabibe", "hayop", "kabibe", "lamang-dagat"],
+    "1F41B": ["insekto", "bug", "uod"],
+    "1F41C": ["langgam", "hardin", "hayop", "insekto"],
+    "1F41D": ["bubuyog", "honeybee", "insekto"],
     "1F41E": [
         "ladybug",
         "insekto",
@@ -4481,29 +2575,10 @@
         "salagubang",
         "uang"
     ],
-    "1F41F": [
-        "isda",
-        "hayop",
-        "pisces",
-        "zodiac"
-    ],
-    "1F420": [
-        "tropical fish",
-        "hayop",
-        "isda",
-        "tropical"
-    ],
-    "1F421": [
-        "blowfish",
-        "hayop",
-        "isda"
-    ],
-    "1F422": [
-        "pagong",
-        "hayop",
-        "pawikan",
-        "tortoise"
-    ],
+    "1F41F": ["isda", "hayop", "pisces", "zodiac"],
+    "1F420": ["tropical fish", "hayop", "isda", "tropical"],
+    "1F421": ["blowfish", "hayop", "isda"],
+    "1F422": ["pagong", "hayop", "pawikan", "tortoise"],
     "1F423": [
         "bagong-pisang sisiw",
         "bagong pisang sisiw",
@@ -4512,23 +2587,9 @@
         "manok",
         "sisiw"
     ],
-    "1F424": [
-        "sisiw",
-        "hayop",
-        "ibon",
-        "manok"
-    ],
-    "1F425": [
-        "nakaharap na sisiw",
-        "hayop",
-        "ibon",
-        "manok",
-        "sisiw"
-    ],
-    "1F426": [
-        "ibon",
-        "hayop"
-    ],
+    "1F424": ["sisiw", "hayop", "ibon", "manok"],
+    "1F425": ["nakaharap na sisiw", "hayop", "ibon", "manok", "sisiw"],
+    "1F426": ["ibon", "hayop"],
     "1F426 200D 2B1B": [
         "itim na ibon",
         "caw",
@@ -4547,31 +2608,10 @@
         "pantasya, firebird, muling pagsilang, reinkarnasyon",
         "reinkarnasyon"
     ],
-    "1F427": [
-        "penguin",
-        "antartica",
-        "hayop",
-        "ibon"
-    ],
-    "1F428": [
-        "koala",
-        "australia",
-        "hayop",
-        "mukha"
-    ],
-    "1F429": [
-        "poodle",
-        "alaga",
-        "aso",
-        "hayop",
-        "pet"
-    ],
-    "1F42A": [
-        "camel",
-        "disyerto",
-        "dromedary",
-        "hayop"
-    ],
+    "1F427": ["penguin", "antartica", "hayop", "ibon"],
+    "1F428": ["koala", "australia", "hayop", "mukha"],
+    "1F429": ["poodle", "alaga", "aso", "hayop", "pet"],
+    "1F42A": ["camel", "disyerto", "dromedary", "hayop"],
     "1F42B": [
         "camel na may dalawang umbok sa likod",
         "bactrian",
@@ -4579,54 +2619,13 @@
         "disyerto",
         "hayop"
     ],
-    "1F42C": [
-        "dolphin",
-        "flipper",
-        "hayop",
-        "isda"
-    ],
-    "1F42D": [
-        "mukha ng daga",
-        "bubuwit",
-        "bubwit",
-        "daga",
-        "hayop",
-        "mukha"
-    ],
-    "1F42E": [
-        "mukha ng baka",
-        "baka",
-        "dairy",
-        "gatas",
-        "hayop",
-        "mukha"
-    ],
-    "1F42F": [
-        "mukha ng tigre",
-        "hayop",
-        "mukha",
-        "tigre"
-    ],
-    "1F430": [
-        "mukha ng kuneho",
-        "alaga",
-        "hayop",
-        "kuneho",
-        "mukha"
-    ],
-    "1F431": [
-        "mukha ng pusa",
-        "alaga",
-        "hayop",
-        "pusa"
-    ],
-    "1F432": [
-        "mukha ng dragon",
-        "dragon",
-        "fairy tale",
-        "fantasy",
-        "mukha"
-    ],
+    "1F42C": ["dolphin", "flipper", "hayop", "isda"],
+    "1F42D": ["mukha ng daga", "bubuwit", "bubwit", "daga", "hayop", "mukha"],
+    "1F42E": ["mukha ng baka", "baka", "dairy", "gatas", "hayop", "mukha"],
+    "1F42F": ["mukha ng tigre", "hayop", "mukha", "tigre"],
+    "1F430": ["mukha ng kuneho", "alaga", "hayop", "kuneho", "mukha"],
+    "1F431": ["mukha ng pusa", "alaga", "hayop", "pusa"],
+    "1F432": ["mukha ng dragon", "dragon", "fairy tale", "fantasy", "mukha"],
     "1F433": [
         "balyenang bumubuga ng tubig",
         "balyena",
@@ -4635,19 +2634,8 @@
         "isda",
         "karagatan"
     ],
-    "1F434": [
-        "mukha ng kabayo",
-        "hayop",
-        "kabayo",
-        "mukha"
-    ],
-    "1F435": [
-        "mukha ng unggoy",
-        "hayop",
-        "mukha",
-        "saging",
-        "unggoy"
-    ],
+    "1F434": ["mukha ng kabayo", "hayop", "kabayo", "mukha"],
+    "1F435": ["mukha ng unggoy", "hayop", "mukha", "saging", "unggoy"],
     "1F436": [
         "mukha ng aso",
         "alaga",
@@ -4658,52 +2646,13 @@
         "pet",
         "tuta"
     ],
-    "1F437": [
-        "mukha ng baboy",
-        "agrikultura",
-        "baboy",
-        "hayop",
-        "mukha"
-    ],
-    "1F438": [
-        "palaka",
-        "hayop",
-        "mukha",
-        "prinsesa",
-        "prinsipe"
-    ],
-    "1F439": [
-        "hamster",
-        "alaga",
-        "hayop",
-        "mukha",
-        "pet"
-    ],
-    "1F43A": [
-        "mukha ng lobo",
-        "hayop",
-        "lobo",
-        "mukha"
-    ],
-    "1F43B": [
-        "oso",
-        "bear",
-        "hayop",
-        "mukha"
-    ],
-    "1F43C": [
-        "panda",
-        "hayop",
-        "mukha",
-        "panda bear"
-    ],
-    "1F43D": [
-        "ilong ng baboy",
-        "baboy",
-        "hayop",
-        "ilong",
-        "oink"
-    ],
+    "1F437": ["mukha ng baboy", "agrikultura", "baboy", "hayop", "mukha"],
+    "1F438": ["palaka", "hayop", "mukha", "prinsesa", "prinsipe"],
+    "1F439": ["hamster", "alaga", "hayop", "mukha", "pet"],
+    "1F43A": ["mukha ng lobo", "hayop", "lobo", "mukha"],
+    "1F43B": ["oso", "bear", "hayop", "mukha"],
+    "1F43C": ["panda", "hayop", "mukha", "panda bear"],
+    "1F43D": ["ilong ng baboy", "baboy", "hayop", "ilong", "oink"],
     "1F43E": [
         "mga bakas ng paa ng hayop",
         "bakas",
@@ -4714,22 +2663,8 @@
         "paw print",
         "pawprint"
     ],
-    "1F440": [
-        "mga mata",
-        "dalawang mata",
-        "katawan",
-        "mata",
-        "omg",
-        "silip"
-    ],
-    "1F442": [
-        "tainga",
-        "dinig",
-        "katawan",
-        "makinig",
-        "rinig",
-        "tenga"
-    ],
+    "1F440": ["mga mata", "dalawang mata", "katawan", "mata", "omg", "silip"],
+    "1F442": ["tainga", "dinig", "katawan", "makinig", "rinig", "tenga"],
     "1F442 1F3FB": [
         "tainga: light na kulay ng balat",
         "dinig",
@@ -4780,12 +2715,7 @@
         "tainga",
         "tenga"
     ],
-    "1F443": [
-        "ilong",
-        "amoy",
-        "katawan",
-        "pang-amoy"
-    ],
+    "1F443": ["ilong", "amoy", "katawan", "pang-amoy"],
     "1F443 1F3FB": [
         "ilong: light na kulay ng balat",
         "amoy",
@@ -4826,19 +2756,8 @@
         "katawan",
         "pang-amoy"
     ],
-    "1F444": [
-        "bibig",
-        "ganda",
-        "halik",
-        "labi",
-        "lipstick",
-        "maganda"
-    ],
-    "1F445": [
-        "dila",
-        "belat",
-        "panlasa"
-    ],
+    "1F444": ["bibig", "ganda", "halik", "labi", "lipstick", "maganda"],
+    "1F445": ["dila", "belat", "panlasa"],
     "1F446": [
         "backhand ng hintuturo na nakaturo sa itaas",
         "backhand",
@@ -5059,13 +2978,7 @@
         "kamay",
         "nakaturo"
     ],
-    "1F44A": [
-        "pasuntok na kamao",
-        "kamao",
-        "kamay",
-        "nakasara",
-        "suntok"
-    ],
+    "1F44A": ["pasuntok na kamao", "kamao", "kamay", "nakasara", "suntok"],
     "1F44A 1F3FB": [
         "pasuntok na kamao: light na kulay ng balat",
         "kamao",
@@ -5533,13 +3446,7 @@
         "tuwa",
         "yehey"
     ],
-    "1F450": [
-        "bukas-palad",
-        "gesture",
-        "kamay",
-        "palad",
-        "yakap"
-    ],
+    "1F450": ["bukas-palad", "gesture", "kamay", "palad", "yakap"],
     "1F450 1F3FB": [
         "bukas-palad: light na kulay ng balat",
         "bukas-palad",
@@ -5585,13 +3492,7 @@
         "palad",
         "yakap"
     ],
-    "1F451": [
-        "korona",
-        "hari",
-        "kaharian",
-        "kasuotan",
-        "reyna"
-    ],
+    "1F451": ["korona", "hari", "kaharian", "kasuotan", "reyna"],
     "1F452": [
         "sumbrerong pambabae",
         "kasuotan",
@@ -5599,13 +3500,7 @@
         "sombrero",
         "sumbrero"
     ],
-    "1F453": [
-        "salamin sa mata",
-        "eyeglasses",
-        "mata",
-        "salamin",
-        "shades"
-    ],
+    "1F453": ["salamin sa mata", "eyeglasses", "mata", "salamin", "shades"],
     "1F454": [
         "kurbata",
         "damit",
@@ -5625,14 +3520,7 @@
         "shopping",
         "t-shirt"
     ],
-    "1F456": [
-        "pantalon",
-        "damit",
-        "jeans",
-        "kasuotan",
-        "maong",
-        "pang-ibaba"
-    ],
+    "1F456": ["pantalon", "damit", "jeans", "kasuotan", "maong", "pang-ibaba"],
     "1F457": [
         "bestida",
         "damit",
@@ -5668,30 +3556,10 @@
         "pambabae",
         "shopping"
     ],
-    "1F45B": [
-        "pitaka",
-        "barya",
-        "coin purse",
-        "purse",
-        "shopping"
-    ],
-    "1F45C": [
-        "handbag",
-        "bag",
-        "pambabae"
-    ],
-    "1F45D": [
-        "clutch bag",
-        "bag",
-        "handbag",
-        "pouch"
-    ],
-    "1F45E": [
-        "sapatos na panlalaki",
-        "kasuotan",
-        "panlalaki",
-        "sapatos"
-    ],
+    "1F45B": ["pitaka", "barya", "coin purse", "purse", "shopping"],
+    "1F45C": ["handbag", "bag", "pambabae"],
+    "1F45D": ["clutch bag", "bag", "handbag", "pouch"],
+    "1F45E": ["sapatos na panlalaki", "kasuotan", "panlalaki", "sapatos"],
     "1F45F": [
         "running shoes",
         "kasuotan",
@@ -5728,32 +3596,10 @@
         "sapatos",
         "shopping"
     ],
-    "1F463": [
-        "mga bakas ng paa",
-        "bakas",
-        "disenyo",
-        "paa",
-        "yapak"
-    ],
-    "1F464": [
-        "silhouette ng bust",
-        "anino",
-        "bust",
-        "silhouette"
-    ],
-    "1F465": [
-        "silhouette ng mga bust",
-        "anino",
-        "bff",
-        "bust",
-        "silhouette"
-    ],
-    "1F466": [
-        "batang lalaki",
-        "bata",
-        "binatilyo",
-        "lalaki"
-    ],
+    "1F463": ["mga bakas ng paa", "bakas", "disenyo", "paa", "yapak"],
+    "1F464": ["silhouette ng bust", "anino", "bust", "silhouette"],
+    "1F465": ["silhouette ng mga bust", "anino", "bff", "bust", "silhouette"],
+    "1F466": ["batang lalaki", "bata", "binatilyo", "lalaki"],
     "1F466 1F3FB": [
         "batang lalaki: light na kulay ng balat",
         "bata",
@@ -5858,13 +3704,7 @@
         "dark na kulay ng balat",
         "pigtails"
     ],
-    "1F468": [
-        "lalaki",
-        "bro",
-        "kaibigan",
-        "matanda",
-        "pare"
-    ],
+    "1F468": ["lalaki", "bro", "kaibigan", "matanda", "pare"],
     "1F468 1F3FB": [
         "lalaki: light na kulay ng balat",
         "bro",
@@ -8912,12 +6752,7 @@
         "pamilya",
         "tatay"
     ],
-    "1F469": [
-        "babae",
-        "blonde",
-        "blondie",
-        "matanda"
-    ],
+    "1F469": ["babae", "blonde", "blondie", "matanda"],
     "1F469 1F3FB": [
         "babae: light na kulay ng balat",
         "babae",
@@ -9350,13 +7185,7 @@
         "magsasaka",
         "rantsero"
     ],
-    "1F469 200D 1F373": [
-        "kusinera",
-        "babae",
-        "chef",
-        "cook",
-        "tagaluto"
-    ],
+    "1F469 200D 1F373": ["kusinera", "babae", "chef", "cook", "tagaluto"],
     "1F469 1F3FB 200D 1F373": [
         "kusinera: light na kulay ng balat",
         "babae",
@@ -12916,15 +10745,7 @@
         "pamilya",
         "tatay"
     ],
-    "1F46A": [
-        "pamilya",
-        "ama",
-        "anak",
-        "bata",
-        "ina",
-        "nanay",
-        "tatay"
-    ],
+    "1F46A": ["pamilya", "ama", "anak", "bata", "ina", "nanay", "tatay"],
     "1F46B": [
         "lalaki at babaeng magkahawak-kamay",
         "babae",
@@ -13731,12 +11552,7 @@
         "matandang babae",
         "pangit na gupit"
     ],
-    "1F476": [
-        "sanggol",
-        "anak",
-        "bagong silang",
-        "bata"
-    ],
+    "1F476": ["sanggol", "anak", "bagong silang", "bata"],
     "1F476 1F3FB": [
         "sanggol: light na kulay ng balat",
         "anak",
@@ -14322,13 +12138,7 @@
         "sayaw",
         "sumasayaw"
     ],
-    "1F484": [
-        "lipstick",
-        "cosmetics",
-        "date",
-        "kolorete",
-        "makeup"
-    ],
+    "1F484": ["lipstick", "cosmetics", "date", "kolorete", "makeup"],
     "1F485": [
         "nail polish",
         "cosmetics",
@@ -14569,21 +12379,8 @@
         "shot",
         "turok"
     ],
-    "1F48A": [
-        "pill",
-        "bitamina",
-        "doktor",
-        "gamot",
-        "sakit"
-    ],
-    "1F48B": [
-        "marka ng halik",
-        "halik",
-        "labi",
-        "lipstick",
-        "mwah",
-        "tsup"
-    ],
+    "1F48A": ["pill", "bitamina", "doktor", "gamot", "sakit"],
+    "1F48B": ["marka ng halik", "halik", "labi", "lipstick", "mwah", "tsup"],
     "1F48C": [
         "liham ng pag-ibig",
         "liham",
@@ -14847,32 +12644,10 @@
         "romansa",
         "valentine"
     ],
-    "1F499": [
-        "asul na puso",
-        "asul",
-        "labyu",
-        "mahal kita",
-        "puso"
-    ],
-    "1F49A": [
-        "berdeng puso",
-        "berde",
-        "labyu",
-        "mahal kita",
-        "puso"
-    ],
-    "1F49B": [
-        "dilaw na puso",
-        "dilaw",
-        "mahal kita",
-        "puso"
-    ],
-    "1F49C": [
-        "purple na puso",
-        "I love you",
-        "purple",
-        "puso"
-    ],
+    "1F499": ["asul na puso", "asul", "labyu", "mahal kita", "puso"],
+    "1F49A": ["berdeng puso", "berde", "labyu", "mahal kita", "puso"],
+    "1F49B": ["dilaw na puso", "dilaw", "mahal kita", "puso"],
+    "1F49C": ["purple na puso", "I love you", "purple", "puso"],
     "1F49D": [
         "pusong may ribbon",
         "143",
@@ -14883,11 +12658,7 @@
         "puso na may ribbon",
         "valentine"
     ],
-    "1F49E": [
-        "umiikot na mga puso",
-        "puso",
-        "umiikot"
-    ],
+    "1F49E": ["umiikot na mga puso", "puso", "umiikot"],
     "1F49F": [
         "dekorasyong puso",
         "mahal kita",
@@ -14912,21 +12683,8 @@
         "ideya",
         "ilaw"
     ],
-    "1F4A2": [
-        "simbolo ng galit",
-        "galit",
-        "inis",
-        "pikon",
-        "yamot"
-    ],
-    "1F4A3": [
-        "bomba",
-        "armas",
-        "komiks",
-        "pampasabog",
-        "sabog",
-        "sandata"
-    ],
+    "1F4A2": ["simbolo ng galit", "galit", "inis", "pikon", "yamot"],
+    "1F4A3": ["bomba", "armas", "komiks", "pampasabog", "sabog", "sandata"],
     "1F4A4": [
         "zzz",
         "idlip",
@@ -14937,21 +12695,8 @@
         "smiley",
         "tulog"
     ],
-    "1F4A5": [
-        "banggaan",
-        "boom",
-        "kislap",
-        "komiks",
-        "pagsabog",
-        "sabog"
-    ],
-    "1F4A6": [
-        "mga patak ng pawis",
-        "komiks",
-        "laway",
-        "pawis",
-        "tumatalsik"
-    ],
+    "1F4A5": ["banggaan", "boom", "kislap", "komiks", "pagsabog", "sabog"],
+    "1F4A6": ["mga patak ng pawis", "komiks", "laway", "pawis", "tumatalsik"],
     "1F4A7": [
         "maliit na patak",
         "lagay ng panahon",
@@ -14972,14 +12717,7 @@
         "naglaho",
         "tumatakbo"
     ],
-    "1F4A9": [
-        "tumpok ng tae",
-        "dumi",
-        "jebs",
-        "mukha",
-        "poop",
-        "tae"
-    ],
+    "1F4A9": ["tumpok ng tae", "dumi", "jebs", "mukha", "poop", "tae"],
     "1F4AA": [
         "pinalaking biceps",
         "biceps",
@@ -15074,11 +12812,7 @@
         "komiks",
         "nag-iisip"
     ],
-    "1F4AE": [
-        "white flower",
-        "bulaklak",
-        "puti"
-    ],
+    "1F4AE": ["white flower", "bulaklak", "puti"],
     "1F4AF": [
         "sandaang puntos",
         "100",
@@ -15093,20 +12827,8 @@
         "puntos",
         "sandaan"
     ],
-    "1F4B0": [
-        "supot ng pera",
-        "bag",
-        "balot",
-        "pera",
-        "supot"
-    ],
-    "1F4B1": [
-        "palitan ng pera",
-        "bangko",
-        "palitan",
-        "pera",
-        "salapi"
-    ],
+    "1F4B0": ["supot ng pera", "bag", "balot", "pera", "supot"],
+    "1F4B1": ["palitan ng pera", "bangko", "palitan", "pera", "salapi"],
     "1F4B2": [
         "malaking dollar sign",
         "dolyar",
@@ -15123,23 +12845,8 @@
         "pera",
         "utang"
     ],
-    "1F4B4": [
-        "yen bill",
-        "banknote",
-        "bill",
-        "note",
-        "pera",
-        "salapi",
-        "yen"
-    ],
-    "1F4B5": [
-        "dollar bill",
-        "banknote",
-        "bill",
-        "dolyar",
-        "pera",
-        "salapi"
-    ],
+    "1F4B4": ["yen bill", "banknote", "bill", "note", "pera", "salapi", "yen"],
+    "1F4B5": ["dollar bill", "banknote", "bill", "dolyar", "pera", "salapi"],
     "1F4B6": [
         "euro bill",
         "banknote",
@@ -15177,38 +12884,11 @@
         "tsart",
         "yen"
     ],
-    "1F4BA": [
-        "upuan",
-        "silya"
-    ],
-    "1F4BB": [
-        "laptop computer",
-        "computer",
-        "laptop",
-        "pc",
-        "personal"
-    ],
-    "1F4BC": [
-        "briefcase",
-        "attache case",
-        "bagahe",
-        "opisina"
-    ],
-    "1F4BD": [
-        "minidisc",
-        "computer",
-        "disk",
-        "minidisk",
-        "optical",
-        "optikal"
-    ],
-    "1F4BE": [
-        "floppy disk",
-        "computer",
-        "disk",
-        "diskette",
-        "floppy"
-    ],
+    "1F4BA": ["upuan", "silya"],
+    "1F4BB": ["laptop computer", "computer", "laptop", "pc", "personal"],
+    "1F4BC": ["briefcase", "attache case", "bagahe", "opisina"],
+    "1F4BD": ["minidisc", "computer", "disk", "minidisk", "optical", "optikal"],
+    "1F4BE": ["floppy disk", "computer", "disk", "diskette", "floppy"],
     "1F4BF": [
         "optical disc",
         "blu-ray",
@@ -15219,27 +12899,9 @@
         "optical",
         "optikal"
     ],
-    "1F4C0": [
-        "dvd",
-        "blu-ray",
-        "cd",
-        "computer",
-        "disk",
-        "optical",
-        "optikal"
-    ],
-    "1F4C1": [
-        "file folder",
-        "dokumento",
-        "file",
-        "folder"
-    ],
-    "1F4C2": [
-        "nakabukas na file folder",
-        "file",
-        "folder",
-        "nakabukas"
-    ],
+    "1F4C0": ["dvd", "blu-ray", "cd", "computer", "disk", "optical", "optikal"],
+    "1F4C1": ["file folder", "dokumento", "file", "folder"],
+    "1F4C2": ["nakabukas na file folder", "file", "folder", "nakabukas"],
     "1F4C3": [
         "pahinang bahagyang nakarolyo",
         "dokumento",
@@ -15247,29 +12909,10 @@
         "pahina na may tupi",
         "tupi"
     ],
-    "1F4C4": [
-        "pahinang nakaharap",
-        "dokumento",
-        "page",
-        "pahina",
-        "papel"
-    ],
-    "1F4C5": [
-        "kalendaryo",
-        "petsa"
-    ],
-    "1F4C6": [
-        "pinipilas na kalendaryo",
-        "kalendaryo",
-        "petsa",
-        "pinunit"
-    ],
-    "1F4C7": [
-        "card index",
-        "card",
-        "index",
-        "rolodex"
-    ],
+    "1F4C4": ["pahinang nakaharap", "dokumento", "page", "pahina", "papel"],
+    "1F4C5": ["kalendaryo", "petsa"],
+    "1F4C6": ["pinipilas na kalendaryo", "kalendaryo", "petsa", "pinunit"],
+    "1F4C7": ["card index", "card", "index", "rolodex"],
     "1F4C8": [
         "tumataas na chart",
         "graph",
@@ -15286,23 +12929,9 @@
         "tsart",
         "uso"
     ],
-    "1F4CA": [
-        "bar chart",
-        "bar",
-        "graph",
-        "tsart"
-    ],
-    "1F4CB": [
-        "clipboard",
-        "memo",
-        "notes",
-        "sulatan"
-    ],
-    "1F4CC": [
-        "pushpin",
-        "aspile",
-        "pin"
-    ],
+    "1F4CA": ["bar chart", "bar", "graph", "tsart"],
+    "1F4CB": ["clipboard", "memo", "notes", "sulatan"],
+    "1F4CC": ["pushpin", "aspile", "pin"],
     "1F4CD": [
         "bilog na pushpin",
         "aspile",
@@ -15312,17 +12941,8 @@
         "pin",
         "pushpin"
     ],
-    "1F4CE": [
-        "paperclip",
-        "clip",
-        "pang-ipit",
-        "papel"
-    ],
-    "1F4CF": [
-        "tuwid na ruler",
-        "ruler",
-        "tuwid"
-    ],
+    "1F4CE": ["paperclip", "clip", "pang-ipit", "papel"],
+    "1F4CF": ["tuwid na ruler", "ruler", "tuwid"],
     "1F4D0": [
         "tatsulok na ruler",
         "anggulo",
@@ -15338,14 +12958,8 @@
         "mga tab",
         "palatandaan"
     ],
-    "1F4D2": [
-        "ledger",
-        "notebook",
-        "sulatan"
-    ],
-    "1F4D3": [
-        "notebook"
-    ],
+    "1F4D2": ["ledger", "notebook", "sulatan"],
+    "1F4D3": ["notebook"],
     "1F4D4": [
         "notebook na may disenyo ang pabalat",
         "aklat",
@@ -15410,21 +13024,9 @@
         "mga libro",
         "paaralan"
     ],
-    "1F4DB": [
-        "badge ng pangalan",
-        "badge",
-        "pangalan"
-    ],
-    "1F4DC": [
-        "kalatas",
-        "dokumento"
-    ],
-    "1F4DD": [
-        "memo",
-        "lapis",
-        "panulat",
-        "tala"
-    ],
+    "1F4DB": ["badge ng pangalan", "badge", "pangalan"],
+    "1F4DC": ["kalatas", "dokumento"],
+    "1F4DD": ["memo", "lapis", "panulat", "tala"],
     "1F4DE": [
         "receiver ng telepono",
         "phone",
@@ -15433,22 +13035,9 @@
         "telepono",
         "voip"
     ],
-    "1F4DF": [
-        "pager",
-        "device",
-        "komunikasyon"
-    ],
-    "1F4E0": [
-        "fax machine",
-        "fax",
-        "telepono"
-    ],
-    "1F4E1": [
-        "satellite antenna",
-        "antenna",
-        "dish",
-        "satellite"
-    ],
+    "1F4DF": ["pager", "device", "komunikasyon"],
+    "1F4E0": ["fax machine", "fax", "telepono"],
+    "1F4E1": ["satellite antenna", "antenna", "dish", "satellite"],
     "1F4E2": [
         "loudspeaker",
         "anunsyo",
@@ -15456,12 +13045,7 @@
         "pampublikong address",
         "public address"
     ],
-    "1F4E3": [
-        "megaphone",
-        "announcement",
-        "anunsyo",
-        "malakas"
-    ],
+    "1F4E3": ["megaphone", "announcement", "anunsyo", "malakas"],
     "1F4E4": [
         "outbox tray",
         "box",
@@ -15486,18 +13070,8 @@
         "tray",
         "tumanggap"
     ],
-    "1F4E6": [
-        "package",
-        "kahon",
-        "padala",
-        "parsela"
-    ],
-    "1F4E7": [
-        "e-mail",
-        "email",
-        "koreo",
-        "sulat"
-    ],
+    "1F4E6": ["package", "kahon", "padala", "parsela"],
+    "1F4E7": ["e-mail", "email", "koreo", "sulat"],
     "1F4E8": [
         "papasok na sobre",
         "e-mail",
@@ -15568,26 +13142,9 @@
         "nakabukas na mailbox",
         "sulat"
     ],
-    "1F4EE": [
-        "hulugan ng sulat",
-        "koreo",
-        "liham",
-        "mailbox",
-        "sulat"
-    ],
-    "1F4EF": [
-        "post horn",
-        "horn",
-        "post",
-        "postal",
-        "trumpeta"
-    ],
-    "1F4F0": [
-        "dyaryo",
-        "balita",
-        "komunikasyon",
-        "papel"
-    ],
+    "1F4EE": ["hulugan ng sulat", "koreo", "liham", "mailbox", "sulat"],
+    "1F4EF": ["post horn", "horn", "post", "postal", "trumpeta"],
+    "1F4F0": ["dyaryo", "balita", "komunikasyon", "papel"],
     "1F4F1": [
         "mobile phone",
         "cell",
@@ -15638,34 +13195,11 @@
         "signal",
         "telepono"
     ],
-    "1F4F7": [
-        "camera",
-        "kamera",
-        "video"
-    ],
-    "1F4F8": [
-        "camera na may flash",
-        "camera",
-        "flash",
-        "kamera",
-        "video"
-    ],
-    "1F4F9": [
-        "video camera",
-        "camera",
-        "tbt",
-        "video"
-    ],
-    "1F4FA": [
-        "telebisyon",
-        "tv",
-        "video"
-    ],
-    "1F4FB": [
-        "radyo",
-        "tbt",
-        "video"
-    ],
+    "1F4F7": ["camera", "kamera", "video"],
+    "1F4F8": ["camera na may flash", "camera", "flash", "kamera", "video"],
+    "1F4F9": ["video camera", "camera", "tbt", "video"],
+    "1F4FA": ["telebisyon", "tv", "video"],
+    "1F4FB": ["radyo", "tbt", "video"],
     "1F4FC": [
         "videotape",
         "luma",
@@ -15676,13 +13210,7 @@
         "video cassette",
         "videocassette"
     ],
-    "1F4FF": [
-        "prayer beads",
-        "beads",
-        "kuwintas",
-        "pagdarasal",
-        "rosaryo"
-    ],
+    "1F4FF": ["prayer beads", "beads", "kuwintas", "pagdarasal", "rosaryo"],
     "1F500": [
         "button na i-shuffle ang mga track",
         "arrow",
@@ -15744,12 +13272,7 @@
         "maliwanag",
         "pindutan"
     ],
-    "1F506": [
-        "button na liwanagan",
-        "liwanag",
-        "maliwanag",
-        "pindutan"
-    ],
+    "1F506": ["button na liwanagan", "liwanag", "maliwanag", "pindutan"],
     "1F507": [
         "naka-off ang speaker",
         "mute",
@@ -15758,11 +13281,7 @@
         "speaker",
         "tahimik"
     ],
-    "1F508": [
-        "speaker na mahina ang sound",
-        "speaker",
-        "volume"
-    ],
+    "1F508": ["speaker na mahina ang sound", "speaker", "volume"],
     "1F509": [
         "speaker na katamtaman ang sound",
         "naka-medium",
@@ -15770,23 +13289,9 @@
         "speaker",
         "volume"
     ],
-    "1F50A": [
-        "malakas ang speaker",
-        "maingay",
-        "malakas",
-        "speaker",
-        "volume"
-    ],
-    "1F50B": [
-        "baterya"
-    ],
-    "1F50C": [
-        "electric plug",
-        "de-kuryente",
-        "kuryente",
-        "plug",
-        "saksakan"
-    ],
+    "1F50A": ["malakas ang speaker", "maingay", "malakas", "speaker", "volume"],
+    "1F50B": ["baterya"],
+    "1F50C": ["electric plug", "de-kuryente", "kuryente", "plug", "saksakan"],
     "1F50D": [
         "magnifying glass na nakahilig sa kaliwa",
         "glass",
@@ -15826,29 +13331,15 @@
         "sarado",
         "susi"
     ],
-    "1F511": [
-        "susi",
-        "naka-lock",
-        "password"
-    ],
-    "1F512": [
-        "kandado",
-        "naka-lock",
-        "nakasara",
-        "sarado"
-    ],
+    "1F511": ["susi", "naka-lock", "password"],
+    "1F512": ["kandado", "naka-lock", "nakasara", "sarado"],
     "1F513": [
         "nakabukas na kandado",
         "hindi naka-lock",
         "kandado",
         "nakabukas"
     ],
-    "1F514": [
-        "bell",
-        "kampana",
-        "kuliling",
-        "timbre"
-    ],
+    "1F514": ["bell", "kampana", "kuliling", "timbre"],
     "1F515": [
         "bell na may slash",
         "bawal",
@@ -15858,14 +13349,8 @@
         "tahimik",
         "timbre"
     ],
-    "1F516": [
-        "bookmark",
-        "palatandaan"
-    ],
-    "1F517": [
-        "kawing",
-        "kadena"
-    ],
+    "1F516": ["bookmark", "palatandaan"],
+    "1F517": ["kawing", "kadena"],
     "1F518": [
         "button ng radyo",
         "bilog",
@@ -15875,37 +13360,11 @@
         "radio",
         "radyo"
     ],
-    "1F519": [
-        "back arrow",
-        "arrow",
-        "bumalik",
-        "PABALIK"
-    ],
-    "1F51A": [
-        "end arrow",
-        "arrow",
-        "DULO",
-        "katapusan"
-    ],
-    "1F51B": [
-        "on! arrow",
-        "arrow",
-        "naka-on",
-        "ON!"
-    ],
-    "1F51C": [
-        "soon arrow",
-        "arrow",
-        "malapit na",
-        "soon"
-    ],
-    "1F51D": [
-        "top arrow",
-        "arrow",
-        "IBABAW",
-        "itaas",
-        "tuktok"
-    ],
+    "1F519": ["back arrow", "arrow", "bumalik", "PABALIK"],
+    "1F51A": ["end arrow", "arrow", "DULO", "katapusan"],
+    "1F51B": ["on! arrow", "arrow", "naka-on", "ON!"],
+    "1F51C": ["soon arrow", "arrow", "malapit na", "soon"],
+    "1F51D": ["top arrow", "arrow", "IBABAW", "itaas", "tuktok"],
     "1F51E": [
         "bawal ang hindi pa disiotso",
         "18",
@@ -15916,10 +13375,7 @@
         "menor de edad",
         "paghihigpit sa edad"
     ],
-    "1F51F": [
-        "keycap: 10",
-        "keycap"
-    ],
+    "1F51F": ["keycap: 10", "keycap"],
     "1F520": [
         "input na latin na uppercase",
         "ABCD",
@@ -15942,20 +13398,8 @@
         "maliliit",
         "titik"
     ],
-    "1F522": [
-        "input na mga numero",
-        "1234",
-        "ilagay",
-        "input",
-        "numero"
-    ],
-    "1F523": [
-        "input na mga simbolo",
-        "〒♪&%",
-        "ilagay",
-        "input",
-        "simbolo"
-    ],
+    "1F522": ["input na mga numero", "1234", "ilagay", "input", "numero"],
+    "1F523": ["input na mga simbolo", "〒♪&%", "ilagay", "input", "simbolo"],
     "1F524": [
         "input na mga latin na titik",
         "abakada",
@@ -15965,26 +13409,9 @@
         "latin",
         "titik"
     ],
-    "1F525": [
-        "apoy",
-        "baga",
-        "hot",
-        "init",
-        "mainit"
-    ],
-    "1F526": [
-        "flashlight",
-        "de-kuryente",
-        "ilaw",
-        "tool",
-        "torch"
-    ],
-    "1F527": [
-        "liyabe",
-        "kagamitan",
-        "lyabe",
-        "spanner"
-    ],
+    "1F525": ["apoy", "baga", "hot", "init", "mainit"],
+    "1F526": ["flashlight", "de-kuryente", "ilaw", "tool", "torch"],
+    "1F527": ["liyabe", "kagamitan", "lyabe", "spanner"],
     "1F528": [
         "martilyo",
         "kagamitan",
@@ -15994,19 +13421,8 @@
         "pagkakarpintero",
         "tool"
     ],
-    "1F529": [
-        "nut at bolt",
-        "bolt",
-        "kagamitan",
-        "nut"
-    ],
-    "1F52A": [
-        "kutsilyo",
-        "armas",
-        "pagluluto",
-        "patalim",
-        "sandata"
-    ],
+    "1F529": ["nut at bolt", "bolt", "kagamitan", "nut"],
+    "1F52A": ["kutsilyo", "armas", "pagluluto", "patalim", "sandata"],
     "1F52B": [
         "water gun",
         "armas",
@@ -16095,18 +13511,8 @@
         "parisukat",
         "puti"
     ],
-    "1F534": [
-        "pulang bilog",
-        "bilog",
-        "hugis",
-        "pula"
-    ],
-    "1F535": [
-        "asul na bilog",
-        "asul",
-        "bilog",
-        "hugis"
-    ],
+    "1F534": ["pulang bilog", "bilog", "hugis", "pula"],
+    "1F535": ["asul na bilog", "asul", "bilog", "hugis"],
     "1F536": [
         "malaking orange na diamond",
         "diamante",
@@ -16174,22 +13580,8 @@
         "pindutan",
         "pula"
     ],
-    "1F54B": [
-        "kaaba",
-        "cube",
-        "hajj",
-        "islam",
-        "muslim",
-        "relihiyon",
-        "umrah"
-    ],
-    "1F54C": [
-        "mosque",
-        "islam",
-        "muslim",
-        "relihiyon",
-        "sambahan"
-    ],
+    "1F54B": ["kaaba", "cube", "hajj", "islam", "muslim", "relihiyon", "umrah"],
+    "1F54C": ["mosque", "islam", "muslim", "relihiyon", "sambahan"],
     "1F54D": [
         "sinagoga",
         "Hudyo",
@@ -16208,68 +13600,14 @@
         "kandila",
         "relihiyon"
     ],
-    "1F550": [
-        "a la una",
-        "00",
-        "1",
-        "1:00",
-        "one",
-        "oras",
-        "orasan"
-    ],
-    "1F551": [
-        "a las dos",
-        "00",
-        "2",
-        "2:00",
-        "orasan",
-        "two"
-    ],
-    "1F552": [
-        "a las tres",
-        "00",
-        "3",
-        "3:00",
-        "alas tres",
-        "oras",
-        "orasan"
-    ],
-    "1F553": [
-        "a las quatro",
-        "00",
-        "4",
-        "4:00",
-        "oras"
-    ],
-    "1F554": [
-        "a las singko",
-        "00",
-        "5",
-        "5:00",
-        "orasan"
-    ],
-    "1F555": [
-        "a las sais",
-        "00",
-        "6",
-        "6:00",
-        "orasan"
-    ],
-    "1F556": [
-        "a las siyete",
-        "00",
-        "7",
-        "7:00",
-        "orasan"
-    ],
-    "1F557": [
-        "a las otso",
-        "00",
-        "8",
-        "8:00",
-        "alas otso",
-        "orasan"
-    ],
+    "1F550": ["a la una", "00", "1", "1:00", "one", "oras", "orasan"],
+    "1F551": ["a las dos", "00", "2", "2:00", "orasan", "two"],
+    "1F552": ["a las tres", "00", "3", "3:00", "alas tres", "oras", "orasan"],
+    "1F553": ["a las quatro", "00", "4", "4:00", "oras"],
+    "1F554": ["a las singko", "00", "5", "5:00", "orasan"],
+    "1F555": ["a las sais", "00", "6", "6:00", "orasan"],
+    "1F556": ["a las siyete", "00", "7", "7:00", "orasan"],
+    "1F557": ["a las otso", "00", "8", "8:00", "alas otso", "orasan"],
     "1F558": [
         "a las nuwebe",
         "00",
@@ -16289,15 +13627,7 @@
         "oras",
         "orasan"
     ],
-    "1F55A": [
-        "a las onse",
-        "00",
-        "11",
-        "11:00",
-        "alas onse",
-        "oras",
-        "orasan"
-    ],
+    "1F55A": ["a las onse", "00", "11", "11:00", "alas onse", "oras", "orasan"],
     "1F55B": [
         "a las dose",
         "00",
@@ -16318,13 +13648,7 @@
         "oras",
         "orasan"
     ],
-    "1F55D": [
-        "a las dos y medya",
-        "2",
-        "2:30",
-        "30",
-        "oras"
-    ],
+    "1F55D": ["a las dos y medya", "2", "2:30", "30", "oras"],
     "1F55E": [
         "a las tres y medya",
         "3",
@@ -16341,55 +13665,13 @@
         "alas quatro y medya",
         "orasan"
     ],
-    "1F560": [
-        "a las singko y medya",
-        "30",
-        "5",
-        "5:30",
-        "orasan"
-    ],
-    "1F561": [
-        "a las sais y medya",
-        "30",
-        "6",
-        "6:30",
-        "orasan"
-    ],
-    "1F562": [
-        "a las siyete y medya",
-        "30",
-        "7",
-        "7:30",
-        "orasan"
-    ],
-    "1F563": [
-        "a las otso y medya",
-        "30",
-        "8",
-        "8:30",
-        "orasan"
-    ],
-    "1F564": [
-        "a las nuwebe y medya",
-        "30",
-        "9",
-        "9:30",
-        "orasan"
-    ],
-    "1F565": [
-        "a las dies y medya",
-        "10",
-        "10:30",
-        "30",
-        "orasan"
-    ],
-    "1F566": [
-        "a las onse y medya",
-        "11",
-        "11:30",
-        "30",
-        "orasan"
-    ],
+    "1F560": ["a las singko y medya", "30", "5", "5:30", "orasan"],
+    "1F561": ["a las sais y medya", "30", "6", "6:30", "orasan"],
+    "1F562": ["a las siyete y medya", "30", "7", "7:30", "orasan"],
+    "1F563": ["a las otso y medya", "30", "8", "8:30", "orasan"],
+    "1F564": ["a las nuwebe y medya", "30", "9", "9:30", "orasan"],
+    "1F565": ["a las dies y medya", "10", "10:30", "30", "orasan"],
+    "1F566": ["a las onse y medya", "11", "11:30", "30", "orasan"],
     "1F567": [
         "a las dose y medya",
         "12",
@@ -16453,12 +13735,7 @@
         "lumulutang na lalaking nakapormal",
         "nakapormal"
     ],
-    "1F575": [
-        "imbestigador",
-        "detective",
-        "espiya",
-        "tiktik"
-    ],
+    "1F575": ["imbestigador", "detective", "espiya", "tiktik"],
     "1F575 1F3FB": [
         "imbestigador: light na kulay ng balat",
         "detective",
@@ -16621,13 +13898,7 @@
         "palad",
         "tumigil"
     ],
-    "1F595": [
-        "hinlalato",
-        "daliri",
-        "gesture",
-        "kamay",
-        "middle finger"
-    ],
+    "1F595": ["hinlalato", "daliri", "gesture", "kamay", "middle finger"],
     "1F595 1F3FB": [
         "hinlalato: light na kulay ng balat",
         "daliri",
@@ -16673,13 +13944,7 @@
         "kamay",
         "middle finger"
     ],
-    "1F596": [
-        "vulcan salute",
-        "daliri",
-        "kamay",
-        "spock",
-        "star trek"
-    ],
+    "1F596": ["vulcan salute", "daliri", "kamay", "spock", "star trek"],
     "1F596 1F3FB": [
         "vulcan salute: light na kulay ng balat",
         "daliri",
@@ -16725,13 +13990,7 @@
         "star trek",
         "vulcan salute"
     ],
-    "1F5A4": [
-        "itim na puso",
-        "itim",
-        "masama",
-        "puso",
-        "sama"
-    ],
+    "1F5A4": ["itim na puso", "itim", "masama", "puso", "sama"],
     "1F5FB": [
         "bundok fuji",
         "bundok",
@@ -16741,12 +14000,7 @@
         "mount fuji",
         "mt fuji"
     ],
-    "1F5FC": [
-        "tokyo tower",
-        "japan",
-        "tokyo",
-        "tore"
-    ],
+    "1F5FC": ["tokyo tower", "japan", "tokyo", "tore"],
     "1F5FD": [
         "statue of liberty",
         "america",
@@ -16758,18 +14012,8 @@
         "rebulto",
         "usa"
     ],
-    "1F5FE": [
-        "mapa ng japan",
-        "hapon",
-        "japan",
-        "mapa"
-    ],
-    "1F5FF": [
-        "moai",
-        "bantayog",
-        "mukha",
-        "rebulto"
-    ],
+    "1F5FE": ["mapa ng japan", "hapon", "japan", "mapa"],
+    "1F5FF": ["moai", "bantayog", "mukha", "rebulto"],
     "1F600": [
         "mukhang nakangiti",
         "malaking ngiti",
@@ -16863,12 +14107,7 @@
         "nakangiti",
         "sungay"
     ],
-    "1F609": [
-        "kumikindat",
-        "flirt",
-        "kindat",
-        "mukha"
-    ],
+    "1F609": ["kumikindat", "flirt", "kindat", "mukha"],
     "1F60A": [
         "nakangiti kasama ang mga mata",
         "blush",
@@ -17002,15 +14241,7 @@
         "nandidiri",
         "taranta"
     ],
-    "1F617": [
-        "humahalik",
-        "halik",
-        "kiss",
-        "labyu",
-        "mukha",
-        "mwah",
-        "nguso"
-    ],
+    "1F617": ["humahalik", "halik", "kiss", "labyu", "mukha", "mwah", "nguso"],
     "1F618": [
         "flying kiss",
         "halik",
@@ -17049,13 +14280,7 @@
         "tsup",
         "xoxo"
     ],
-    "1F61B": [
-        "nakadila",
-        "belat",
-        "dila",
-        "mukha",
-        "nakabelat"
-    ],
+    "1F61B": ["nakadila", "belat", "dila", "mukha", "nakabelat"],
     "1F61C": [
         "kumikindat nang nakadila",
         "biro",
@@ -17065,13 +14290,7 @@
         "nakadila",
         "nakakindat"
     ],
-    "1F61D": [
-        "nakadila nang nakapikit",
-        "dila",
-        "lasa",
-        "mata",
-        "nakadila"
-    ],
+    "1F61D": ["nakadila nang nakapikit", "dila", "lasa", "mata", "nakadila"],
     "1F61E": [
         "dismayado",
         "dehado",
@@ -17081,19 +14300,8 @@
         "nalulumbay",
         "talo"
     ],
-    "1F61F": [
-        "nag-aalala",
-        "balisa",
-        "mukha",
-        "nase-stress",
-        "ninenerbyos"
-    ],
-    "1F620": [
-        "galit",
-        "mukha",
-        "nakasimangot",
-        "simangot"
-    ],
+    "1F61F": ["nag-aalala", "balisa", "mukha", "nase-stress", "ninenerbyos"],
+    "1F620": ["galit", "mukha", "nakasimangot", "simangot"],
     "1F621": [
         "nakasimangot at nakakunot ang noo",
         "galit",
@@ -17157,15 +14365,7 @@
         "takot",
         "wow"
     ],
-    "1F627": [
-        "nagdurusa",
-        "gulat",
-        "hala",
-        "mukha",
-        "stress",
-        "takot",
-        "wow"
-    ],
+    "1F627": ["nagdurusa", "gulat", "hala", "mukha", "stress", "takot", "wow"],
     "1F628": [
         "natatakot",
         "duwag",
@@ -17196,12 +14396,7 @@
         "natutulog",
         "tulog"
     ],
-    "1F62B": [
-        "pagod na mukha",
-        "bumabahing",
-        "mukha",
-        "umiidlip"
-    ],
+    "1F62B": ["pagod na mukha", "bumabahing", "mukha", "umiidlip"],
     "1F62C": [
         "nakangiwi",
         "mukha",
@@ -17272,12 +14467,7 @@
         "takot",
         "tumitili"
     ],
-    "1F632": [
-        "gulat na gulat",
-        "mukha",
-        "nabigla",
-        "nagulat"
-    ],
+    "1F632": ["gulat na gulat", "mukha", "nabigla", "nagulat"],
     "1F633": [
         "namumula",
         "blush",
@@ -17296,13 +14486,7 @@
         "tulog",
         "zzz"
     ],
-    "1F635": [
-        "mukhang nahihilo",
-        "hikab",
-        "inaantok",
-        "mukha",
-        "naghihikab"
-    ],
+    "1F635": ["mukhang nahihilo", "hikab", "inaantok", "mukha", "naghihikab"],
     "1F635 200D 1F4AB": [
         "mukang may spiral na mata",
         "hilo",
@@ -17393,13 +14577,7 @@
         "pusa",
         "tsup"
     ],
-    "1F63E": [
-        "pusang nakasimangot",
-        "galit",
-        "mukha",
-        "nakasimangot",
-        "pusa"
-    ],
+    "1F63E": ["pusang nakasimangot", "galit", "mukha", "nakasimangot", "pusa"],
     "1F63F": [
         "pusang umiiyak",
         "luha",
@@ -17421,24 +14599,9 @@
         "pusa",
         "takot"
     ],
-    "1F641": [
-        "medyo nakasimangot",
-        "malungkot",
-        "mukha",
-        "simangot"
-    ],
-    "1F642": [
-        "medyo nakangiti",
-        "mukha",
-        "nakangiti",
-        "ngiti"
-    ],
-    "1F643": [
-        "baligtad na mukha",
-        "baligtad",
-        "hehe",
-        "mukha"
-    ],
+    "1F641": ["medyo nakasimangot", "malungkot", "mukha", "simangot"],
+    "1F642": ["medyo nakangiti", "mukha", "nakangiti", "ngiti"],
+    "1F643": ["baligtad na mukha", "baligtad", "hehe", "mukha"],
     "1F644": [
         "itinitirik ang mga mata",
         "haay",
@@ -18057,25 +15220,9 @@
         "sana",
         "yuko"
     ],
-    "1F680": [
-        "rocket",
-        "kalawakan",
-        "paglalakbay",
-        "sasakyan"
-    ],
-    "1F681": [
-        "helicopter",
-        "sasakyan",
-        "sasakyang panghimpapawid"
-    ],
-    "1F682": [
-        "makina ng tren",
-        "engine",
-        "makina",
-        "pnr",
-        "sasakyan",
-        "tren"
-    ],
+    "1F680": ["rocket", "kalawakan", "paglalakbay", "sasakyan"],
+    "1F681": ["helicopter", "sasakyan", "sasakyang panghimpapawid"],
+    "1F682": ["makina ng tren", "engine", "makina", "pnr", "sasakyan", "tren"],
     "1F683": [
         "railway car",
         "biyahe",
@@ -18100,11 +15247,7 @@
         "shinkansen",
         "tren"
     ],
-    "1F686": [
-        "tren",
-        "choo choo",
-        "sasakyan"
-    ],
+    "1F686": ["tren", "choo choo", "sasakyan"],
     "1F687": [
         "subway",
         "biyahe",
@@ -18113,30 +15256,9 @@
         "sasakyan",
         "underground"
     ],
-    "1F688": [
-        "light rail",
-        "lrt",
-        "mrt",
-        "sasakyan",
-        "tren"
-    ],
-    "1F689": [
-        "istasyon",
-        "lrt",
-        "mrt",
-        "platform",
-        "sasakyan",
-        "tren"
-    ],
-    "1F68A": [
-        "tram",
-        "lrt",
-        "mrt",
-        "sasakyan",
-        "trambiya",
-        "tren",
-        "trolley"
-    ],
+    "1F688": ["light rail", "lrt", "mrt", "sasakyan", "tren"],
+    "1F689": ["istasyon", "lrt", "mrt", "platform", "sasakyan", "tren"],
+    "1F68A": ["tram", "lrt", "mrt", "sasakyan", "trambiya", "tren", "trolley"],
     "1F68B": [
         "tram car",
         "sasakyan",
@@ -18147,44 +15269,12 @@
         "trolley bus",
         "trolleybus"
     ],
-    "1F68C": [
-        "bus",
-        "hatid",
-        "sasakyan",
-        "school bus",
-        "sundo"
-    ],
-    "1F68D": [
-        "paparating na bus",
-        "bus",
-        "paparating",
-        "sasakyan"
-    ],
-    "1F68E": [
-        "trolleybus",
-        "bus",
-        "sasakyan",
-        "tram",
-        "trambiya",
-        "trolley"
-    ],
-    "1F68F": [
-        "bus stop",
-        "babaan",
-        "sakayan"
-    ],
-    "1F690": [
-        "minibus",
-        "bus",
-        "sasakyan",
-        "van"
-    ],
-    "1F691": [
-        "ambulansya",
-        "emergency",
-        "ospital",
-        "sasakyan"
-    ],
+    "1F68C": ["bus", "hatid", "sasakyan", "school bus", "sundo"],
+    "1F68D": ["paparating na bus", "bus", "paparating", "sasakyan"],
+    "1F68E": ["trolleybus", "bus", "sasakyan", "tram", "trambiya", "trolley"],
+    "1F68F": ["bus stop", "babaan", "sakayan"],
+    "1F690": ["minibus", "bus", "sasakyan", "van"],
+    "1F691": ["ambulansya", "emergency", "ospital", "sasakyan"],
     "1F692": [
         "fire truck",
         "emergency",
@@ -18215,13 +15305,7 @@
         "sirena",
         "wangwang"
     ],
-    "1F695": [
-        "taxi",
-        "cab",
-        "grab",
-        "sasakyan",
-        "uber"
-    ],
+    "1F695": ["taxi", "cab", "grab", "sasakyan", "uber"],
     "1F696": [
         "paparating na taxi",
         "grab",
@@ -18246,11 +15330,7 @@
         "paparating",
         "sasakyan"
     ],
-    "1F699": [
-        "recreational vehicle",
-        "rv",
-        "sasakyan"
-    ],
+    "1F699": ["recreational vehicle", "rv", "sasakyan"],
     "1F69A": [
         "delivery truck",
         "delivery",
@@ -18259,37 +15339,11 @@
         "trak",
         "truck"
     ],
-    "1F69B": [
-        "semi-trailer truck",
-        "sasakyan",
-        "trailer",
-        "trak",
-        "truck"
-    ],
-    "1F69C": [
-        "traktora",
-        "sasakyan",
-        "tractor"
-    ],
-    "1F69D": [
-        "monorail",
-        "lrt",
-        "mrt",
-        "sasakyan",
-        "tren"
-    ],
-    "1F69E": [
-        "mountain railway",
-        "bundok",
-        "sasakyan",
-        "tren"
-    ],
-    "1F69F": [
-        "suspension railway",
-        "sasakyan",
-        "suspension",
-        "tren"
-    ],
+    "1F69B": ["semi-trailer truck", "sasakyan", "trailer", "trak", "truck"],
+    "1F69C": ["traktora", "sasakyan", "tractor"],
+    "1F69D": ["monorail", "lrt", "mrt", "sasakyan", "tren"],
+    "1F69E": ["mountain railway", "bundok", "sasakyan", "tren"],
+    "1F69F": ["suspension railway", "sasakyan", "suspension", "tren"],
     "1F6A0": [
         "mountain cable car",
         "bundok",
@@ -18297,11 +15351,7 @@
         "gondola lift",
         "sasakyan"
     ],
-    "1F6A1": [
-        "cable car",
-        "gondola lift",
-        "sasakyan"
-    ],
+    "1F6A1": ["cable car", "gondola lift", "sasakyan"],
     "1F6A2": [
         "barko",
         "bangka",
@@ -18407,12 +15457,7 @@
         "traffic light",
         "trapiko"
     ],
-    "1F6A7": [
-        "construction",
-        "barrier",
-        "ginagawa",
-        "harang"
-    ],
+    "1F6A7": ["construction", "barrier", "ginagawa", "harang"],
     "1F6A8": [
         "ilaw ng police car",
         "alerto",
@@ -18432,23 +15477,9 @@
         "poste",
         "tatsulok"
     ],
-    "1F6AA": [
-        "pinto",
-        "labasan",
-        "pasukan",
-        "pintuan"
-    ],
-    "1F6AB": [
-        "bawal",
-        "huwag",
-        "ipinagbabawal",
-        "wag"
-    ],
-    "1F6AC": [
-        "sigarilyo",
-        "naninigarilyo",
-        "usok"
-    ],
+    "1F6AA": ["pinto", "labasan", "pasukan", "pintuan"],
+    "1F6AB": ["bawal", "huwag", "ipinagbabawal", "wag"],
+    "1F6AC": ["sigarilyo", "naninigarilyo", "usok"],
     "1F6AD": [
         "bawal manigarilyo",
         "bawal",
@@ -18474,12 +15505,7 @@
         "kalat",
         "magkalat"
     ],
-    "1F6B0": [
-        "naiinom na tubig",
-        "inumin",
-        "naiinom",
-        "tubig"
-    ],
+    "1F6B0": ["naiinom na tubig", "inumin", "naiinom", "tubig"],
     "1F6B1": [
         "hindi pwedeng inumin",
         "bawal",
@@ -18488,12 +15514,7 @@
         "ipinagbabawal",
         "tubig"
     ],
-    "1F6B2": [
-        "bisikleta",
-        "bicycle",
-        "bike",
-        "sasakyan"
-    ],
+    "1F6B2": ["bisikleta", "bicycle", "bike", "sasakyan"],
     "1F6B3": [
         "bawal ang mga bisikleta",
         "bisikleta",
@@ -18732,14 +15753,7 @@
         "pambabae",
         "rest room"
     ],
-    "1F6BB": [
-        "banyo",
-        "cr",
-        "palikuran",
-        "rest room",
-        "restroom",
-        "toilet"
-    ],
+    "1F6BB": ["banyo", "cr", "palikuran", "rest room", "restroom", "toilet"],
     "1F6BC": [
         "pansanggol",
         "anak",
@@ -18749,13 +15763,7 @@
         "simbolo",
         "simbolo ng sanggol"
     ],
-    "1F6BD": [
-        "inodoro",
-        "banyo",
-        "cr",
-        "palikuran",
-        "toilet"
-    ],
+    "1F6BD": ["inodoro", "banyo", "cr", "palikuran", "toilet"],
     "1F6BE": [
         "comfort room",
         "aparador",
@@ -18768,19 +15776,8 @@
         "washroom",
         "water closet"
     ],
-    "1F6BF": [
-        "shower",
-        "ligo",
-        "tubig"
-    ],
-    "1F6C0": [
-        "taong naliligo",
-        "bathtub",
-        "ligo",
-        "naliligo",
-        "tub",
-        "tubig"
-    ],
+    "1F6BF": ["shower", "ligo", "tubig"],
+    "1F6C0": ["taong naliligo", "bathtub", "ligo", "naliligo", "tub", "tubig"],
     "1F6C0 1F3FB": [
         "taong naliligo: light na kulay ng balat",
         "bathtub",
@@ -18831,23 +15828,9 @@
         "tub",
         "tubig"
     ],
-    "1F6C1": [
-        "bathtub",
-        "ligo",
-        "maligo",
-        "tubig"
-    ],
-    "1F6C2": [
-        "passport control",
-        "kontrol",
-        "pasaporte",
-        "passport"
-    ],
-    "1F6C3": [
-        "customs",
-        "empake",
-        "padala"
-    ],
+    "1F6C1": ["bathtub", "ligo", "maligo", "tubig"],
+    "1F6C2": ["passport control", "kontrol", "pasaporte", "passport"],
+    "1F6C3": ["customs", "empake", "padala"],
     "1F6C4": [
         "kuhanan ng bagahe",
         "bagahe",
@@ -18859,13 +15842,7 @@
         "lakbay",
         "maleta"
     ],
-    "1F6C5": [
-        "naiwang bagahe",
-        "bagahe",
-        "locker",
-        "maleta",
-        "naiwan"
-    ],
+    "1F6C5": ["naiwang bagahe", "bagahe", "locker", "maleta", "naiwan"],
     "1F6CC": [
         "taong nakahiga",
         "hotel",
@@ -18938,37 +15915,11 @@
         "relihiyon",
         "simbahan"
     ],
-    "1F6D1": [
-        "stop sign",
-        "hinto",
-        "octagonal",
-        "sign"
-    ],
-    "1F6D2": [
-        "shopping cart",
-        "cart",
-        "pamimili",
-        "shopping",
-        "trolley"
-    ],
-    "1F6D5": [
-        "hindu temple",
-        "hindu",
-        "sambahan",
-        "temple",
-        "templo"
-    ],
-    "1F6D6": [
-        "kubo",
-        "bahay",
-        "roundhouse",
-        "tahanan",
-        "tuloy"
-    ],
-    "1F6D7": [
-        "elevator",
-        "pagiging naa-access"
-    ],
+    "1F6D1": ["stop sign", "hinto", "octagonal", "sign"],
+    "1F6D2": ["shopping cart", "cart", "pamimili", "shopping", "trolley"],
+    "1F6D5": ["hindu temple", "hindu", "sambahan", "temple", "templo"],
+    "1F6D6": ["kubo", "bahay", "roundhouse", "tahanan", "tuloy"],
+    "1F6D7": ["elevator", "pagiging naa-access"],
     "1F6D8": [
         "landslide",
         "avalanche",
@@ -18979,32 +15930,10 @@
         "mudslide",
         "panganib"
     ],
-    "1F6DC": [
-        "wireless",
-        "computer",
-        "internet",
-        "network"
-    ],
-    "1F6DD": [
-        "padulas sa playground",
-        "laro",
-        "playground",
-        "slide"
-    ],
-    "1F6DE": [
-        "gulong",
-        "bilog",
-        "goma",
-        "kotse",
-        "sasakyan"
-    ],
-    "1F6DF": [
-        "salbabida",
-        "lifesaver",
-        "palutang",
-        "sagip",
-        "sagip-buhay"
-    ],
+    "1F6DC": ["wireless", "computer", "internet", "network"],
+    "1F6DD": ["padulas sa playground", "laro", "playground", "slide"],
+    "1F6DE": ["gulong", "bilog", "goma", "kotse", "sasakyan"],
+    "1F6DF": ["salbabida", "lifesaver", "palutang", "sagip", "sagip-buhay"],
     "1F6EB": [
         "pag-alis ng eroplano",
         "eroplano",
@@ -19020,38 +15949,13 @@
         "paglapag",
         "sasakyang panghimpapawid"
     ],
-    "1F6F4": [
-        "micro scooter",
-        "scooter"
-    ],
-    "1F6F5": [
-        "motor scooter",
-        "motor",
-        "motorsiklo",
-        "scooter"
-    ],
-    "1F6F6": [
-        "canoe",
-        "bangka"
-    ],
-    "1F6F7": [
-        "sled",
-        "nyebe",
-        "sledge",
-        "sleigh"
-    ],
-    "1F6F8": [
-        "flying saucer",
-        "UFO"
-    ],
-    "1F6F9": [
-        "skateboard",
-        "board"
-    ],
-    "1F6FA": [
-        "auto rickshaw",
-        "tuk tuk"
-    ],
+    "1F6F4": ["micro scooter", "scooter"],
+    "1F6F5": ["motor scooter", "motor", "motorsiklo", "scooter"],
+    "1F6F6": ["canoe", "bangka"],
+    "1F6F7": ["sled", "nyebe", "sledge", "sleigh"],
+    "1F6F8": ["flying saucer", "UFO"],
+    "1F6F9": ["skateboard", "board"],
+    "1F6FA": ["auto rickshaw", "tuk tuk"],
     "1F6FB": [
         "pickup truck",
         "pick-up",
@@ -19060,68 +15964,22 @@
         "trak",
         "transportasyon"
     ],
-    "1F6FC": [
-        "roller skate",
-        "roller",
-        "roller blade",
-        "skate",
-        "sports"
-    ],
-    "1F7E0": [
-        "orange na bilog",
-        "bilog",
-        "orange",
-        "pabilog na orange"
-    ],
-    "1F7E1": [
-        "dilaw na bilog",
-        "bilog",
-        "dilaw"
-    ],
-    "1F7E2": [
-        "berdeng bilog",
-        "berde",
-        "bilog"
-    ],
-    "1F7E3": [
-        "lilang bilog",
-        "bilog",
-        "lila",
-        "purple"
-    ],
-    "1F7E4": [
-        "brown na bilog",
-        "bilog",
-        "bilog na kulay brown",
-        "brown"
-    ],
-    "1F7E5": [
-        "pulang parisukat",
-        "parisukat",
-        "pula"
-    ],
-    "1F7E6": [
-        "asul na parisukat",
-        "asul",
-        "parisukat"
-    ],
+    "1F6FC": ["roller skate", "roller", "roller blade", "skate", "sports"],
+    "1F7E0": ["orange na bilog", "bilog", "orange", "pabilog na orange"],
+    "1F7E1": ["dilaw na bilog", "bilog", "dilaw"],
+    "1F7E2": ["berdeng bilog", "berde", "bilog"],
+    "1F7E3": ["lilang bilog", "bilog", "lila", "purple"],
+    "1F7E4": ["brown na bilog", "bilog", "bilog na kulay brown", "brown"],
+    "1F7E5": ["pulang parisukat", "parisukat", "pula"],
+    "1F7E6": ["asul na parisukat", "asul", "parisukat"],
     "1F7E7": [
         "orange na parisukat",
         "orange",
         "parisukat",
         "parisukat na orange"
     ],
-    "1F7E8": [
-        "dilaw na parisukat",
-        "dilaw",
-        "parisukat"
-    ],
-    "1F7E9": [
-        "berdeng parisukat",
-        "berde",
-        "luntian",
-        "parisukat"
-    ],
+    "1F7E8": ["dilaw na parisukat", "dilaw", "parisukat"],
+    "1F7E9": ["berdeng parisukat", "berde", "luntian", "parisukat"],
     "1F7EA": [
         "lilang parisukat",
         "lila",
@@ -19136,12 +15994,7 @@
         "kwadrado",
         "parisukat"
     ],
-    "1F7F0": [
-        "madiin na equals sign",
-        "equal",
-        "equals",
-        "sagot"
-    ],
+    "1F7F0": ["madiin na equals sign", "equal", "equals", "sagot"],
     "1F90C": [
         "pakurot na daliri",
         "daliri",
@@ -19212,20 +16065,9 @@
         "relax",
         "tahimik"
     ],
-    "1F90D": [
-        "puting puso",
-        "puso",
-        "puti"
-    ],
-    "1F90E": [
-        "kayumangging puso",
-        "kayumanggi",
-        "puso"
-    ],
-    "1F90F": [
-        "kamay na kumukurot",
-        "maliit na halaga"
-    ],
+    "1F90D": ["puting puso", "puso", "puti"],
+    "1F90E": ["kayumangging puso", "kayumanggi", "puso"],
+    "1F90F": ["kamay na kumukurot", "maliit na halaga"],
     "1F90F 1F3FB": [
         "kamay na kumukurot: light na kulay ng balat",
         "kamay na kumukurot",
@@ -19267,12 +16109,7 @@
         "tameme",
         "zipper"
     ],
-    "1F911": [
-        "mukhang pera",
-        "bayad",
-        "mukha",
-        "pera"
-    ],
+    "1F911": ["mukhang pera", "bayad", "mukha", "pera"],
     "1F912": [
         "may thermometer sa bibig",
         "lagnat",
@@ -19281,20 +16118,8 @@
         "thermometer",
         "trangkaso"
     ],
-    "1F913": [
-        "nerd",
-        "geek",
-        "hippie",
-        "mukha",
-        "salamin"
-    ],
-    "1F914": [
-        "nag-iisip",
-        "hmm",
-        "isip",
-        "mukha",
-        "nagtataka"
-    ],
+    "1F913": ["nerd", "geek", "hippie", "mukha", "salamin"],
+    "1F914": ["nag-iisip", "hmm", "isip", "mukha", "nagtataka"],
     "1F915": [
         "may benda sa ulo",
         "aksidente",
@@ -19304,18 +16129,8 @@
         "nasaktan",
         "sugat"
     ],
-    "1F916": [
-        "mukha ng robot",
-        "mukha",
-        "robot"
-    ],
-    "1F917": [
-        "nangyayakap",
-        "gesture",
-        "mukha",
-        "mukhang yumayakap",
-        "yakap"
-    ],
+    "1F916": ["mukha ng robot", "mukha", "robot"],
+    "1F917": ["nangyayakap", "gesture", "mukha", "mukhang yumayakap", "yakap"],
     "1F918": [
         "rock ’n’ roll",
         "astig",
@@ -19386,11 +16201,7 @@
         "rock-on",
         "sungay"
     ],
-    "1F919": [
-        "tawagan mo ko",
-        "kamay",
-        "tawag"
-    ],
+    "1F919": ["tawagan mo ko", "kamay", "tawag"],
     "1F919 1F3FB": [
         "tawagan mo ko: light na kulay ng balat",
         "kamay",
@@ -19426,11 +16237,7 @@
         "tawag",
         "tawagan mo ko"
     ],
-    "1F91A": [
-        "nakataas na baliktad na kamay",
-        "baliktad",
-        "nakataas"
-    ],
+    "1F91A": ["nakataas na baliktad na kamay", "baliktad", "nakataas"],
     "1F91A 1F3FB": [
         "nakataas na baliktad na kamay: light na kulay ng balat",
         "baliktad",
@@ -19466,11 +16273,7 @@
         "nakataas",
         "nakataas na baliktad na kamay"
     ],
-    "1F91B": [
-        "pakaliwang kamao",
-        "kamao",
-        "pakaliwa"
-    ],
+    "1F91B": ["pakaliwang kamao", "kamao", "pakaliwa"],
     "1F91B 1F3FB": [
         "pakaliwang kamao: light na kulay ng balat",
         "kamao",
@@ -19506,11 +16309,7 @@
         "pakaliwa",
         "pakaliwang kamao"
     ],
-    "1F91C": [
-        "pakanang kamao",
-        "kamao",
-        "pakanan"
-    ],
+    "1F91C": ["pakanang kamao", "kamao", "pakanan"],
     "1F91C 1F3FB": [
         "pakanang kamao: light na kulay ng balat",
         "kamao",
@@ -19604,13 +16403,7 @@
         "pagkakamay",
         "shake hands"
     ],
-    "1F91E": [
-        "naka-cross na mga daliri",
-        "cross",
-        "daliri",
-        "kamay",
-        "swerte"
-    ],
+    "1F91E": ["naka-cross na mga daliri", "cross", "daliri", "kamay", "swerte"],
     "1F91E 1F3FB": [
         "naka-cross na mga daliri: light na kulay ng balat",
         "cross",
@@ -19656,13 +16449,7 @@
         "naka-cross na mga daliri",
         "swerte"
     ],
-    "1F91F": [
-        "love-you gesture",
-        "astig",
-        "ILY",
-        "kamay",
-        "rak-en-rol"
-    ],
+    "1F91F": ["love-you gesture", "astig", "ILY", "kamay", "rak-en-rol"],
     "1F91F 1F3FB": [
         "love-you gesture: light na kulay ng balat",
         "astig",
@@ -19716,12 +16503,7 @@
         "sombrero",
         "sumbrero"
     ],
-    "1F921": [
-        "payaso",
-        "clown",
-        "mukha",
-        "mukha ng payaso"
-    ],
+    "1F921": ["payaso", "clown", "mukha", "mukha ng payaso"],
     "1F922": [
         "nasusuka",
         "kadiri",
@@ -19743,23 +16525,9 @@
         "tawang tawa",
         "tumatawa"
     ],
-    "1F924": [
-        "naglalaway",
-        "mukha"
-    ],
-    "1F925": [
-        "nagsisinungaling",
-        "liar",
-        "mukha",
-        "pinocchio",
-        "sinungaling"
-    ],
-    "1F926": [
-        "naka-facepalm",
-        "di makapaniwala",
-        "mukha",
-        "palad"
-    ],
+    "1F924": ["naglalaway", "mukha"],
+    "1F925": ["nagsisinungaling", "liar", "mukha", "pinocchio", "sinungaling"],
+    "1F926": ["naka-facepalm", "di makapaniwala", "mukha", "palad"],
     "1F926 1F3FB": [
         "naka-facepalm: light na kulay ng balat",
         "di makapaniwala",
@@ -19800,14 +16568,7 @@
         "naka-facepalm",
         "palad"
     ],
-    "1F927": [
-        "bumabahing",
-        "bahing",
-        "mukha",
-        "singa",
-        "sinisipon",
-        "sipon"
-    ],
+    "1F927": ["bumabahing", "bahing", "mukha", "singa", "sinisipon", "sipon"],
     "1F928": [
         "mukhang nakataas ang kilay",
         "ano",
@@ -19824,19 +16585,8 @@
         "ngumingisi",
         "wow"
     ],
-    "1F92A": [
-        "baliw na mukha",
-        "baliw na mata",
-        "malaki",
-        "maliit",
-        "mata"
-    ],
-    "1F92B": [
-        "mukha na nagpapatahimik",
-        "quiet",
-        "shush",
-        "tahimik"
-    ],
+    "1F92A": ["baliw na mukha", "baliw na mata", "malaki", "maliit", "mata"],
+    "1F92B": ["mukha na nagpapatahimik", "quiet", "shush", "tahimik"],
     "1F92C": [
         "mukha na may mga simbolo sa bibig",
         "asar",
@@ -19851,20 +16601,9 @@
         "sorpresa",
         "whoops"
     ],
-    "1F92E": [
-        "mukha na nagsusuka",
-        "nasusuka",
-        "suka"
-    ],
-    "1F92F": [
-        "sumasabog na ulo",
-        "nabigla"
-    ],
-    "1F930": [
-        "buntis",
-        "babae",
-        "nagdadalang-tao"
-    ],
+    "1F92E": ["mukha na nagsusuka", "nasusuka", "suka"],
+    "1F92F": ["sumasabog na ulo", "nabigla"],
+    "1F930": ["buntis", "babae", "nagdadalang-tao"],
     "1F930 1F3FB": [
         "buntis: light na kulay ng balat",
         "babae",
@@ -20068,9 +16807,7 @@
         "selpon",
         "telepono"
     ],
-    "1F934": [
-        "prinsipe"
-    ],
+    "1F934": ["prinsipe"],
     "1F934 1F3FB": [
         "prinsipe: light na kulay ng balat",
         "light na kulay ng balat",
@@ -20166,13 +16903,7 @@
         "taong naka-tuxedo",
         "tuxedo"
     ],
-    "1F936": [
-        "Mrs Claus",
-        "mother christmas",
-        "Mrs. Claus",
-        "nanay",
-        "pasko"
-    ],
+    "1F936": ["Mrs Claus", "mother christmas", "Mrs. Claus", "nanay", "pasko"],
     "1F936 1F3FB": [
         "Mrs Claus: light na kulay ng balat",
         "light na kulay ng balat",
@@ -20352,13 +17083,7 @@
         "tao",
         "taong nagka-cartwheel"
     ],
-    "1F939": [
-        "taong nagja-juggle",
-        "balanse",
-        "juggle",
-        "multitask",
-        "skill"
-    ],
+    "1F939": ["taong nagja-juggle", "balanse", "juggle", "multitask", "skill"],
     "1F939 1F3FB": [
         "taong nagja-juggle: light na kulay ng balat",
         "balanse",
@@ -20404,13 +17129,7 @@
         "skill",
         "taong nagja-juggle"
     ],
-    "1F93A": [
-        "fencer",
-        "espada",
-        "fencing",
-        "sport",
-        "tao"
-    ],
+    "1F93A": ["fencer", "espada", "fencing", "sport", "tao"],
     "1F93C": [
         "mga taong nagre-wrestling",
         "laban",
@@ -20617,23 +17336,9 @@
         "scuba mask",
         "snorkeling"
     ],
-    "1F940": [
-        "nalantang bulaklak",
-        "bulaklak",
-        "lanta"
-    ],
-    "1F941": [
-        "drum",
-        "drumsticks",
-        "musika"
-    ],
-    "1F942": [
-        "toast",
-        "baso",
-        "cheers",
-        "inumin",
-        "mag-celebrate"
-    ],
+    "1F940": ["nalantang bulaklak", "bulaklak", "lanta"],
+    "1F941": ["drum", "drumsticks", "musika"],
+    "1F942": ["toast", "baso", "cheers", "inumin", "mag-celebrate"],
     "1F943": [
         "tumbler glass",
         "alak",
@@ -20643,24 +17348,9 @@
         "whiskey",
         "whisky"
     ],
-    "1F944": [
-        "kutsara",
-        "kain",
-        "kubyertos"
-    ],
-    "1F945": [
-        "net ng goal",
-        "goal",
-        "net",
-        "sport",
-        "sports"
-    ],
-    "1F947": [
-        "medalyang 1st place",
-        "ginto",
-        "medalya",
-        "una"
-    ],
+    "1F944": ["kutsara", "kain", "kubyertos"],
+    "1F945": ["net ng goal", "goal", "net", "sport", "sports"],
+    "1F947": ["medalyang 1st place", "ginto", "medalya", "una"],
     "1F948": [
         "medalyang 2nd place",
         "2nd",
@@ -20679,13 +17369,7 @@
         "pangatlo",
         "tanso"
     ],
-    "1F94A": [
-        "boxing glove",
-        "boksing",
-        "boxing",
-        "glove",
-        "sport"
-    ],
+    "1F94A": ["boxing glove", "boksing", "boxing", "glove", "sport"],
     "1F94B": [
         "martial arts uniform",
         "judo",
@@ -20695,76 +17379,18 @@
         "uniform",
         "uniporme"
     ],
-    "1F94C": [
-        "curling stone",
-        "bato",
-        "laro"
-    ],
-    "1F94D": [
-        "lacrosse",
-        "bola",
-        "goal",
-        "sports",
-        "stick"
-    ],
-    "1F94E": [
-        "softball",
-        "bola",
-        "glab",
-        "glove",
-        "sports"
-    ],
-    "1F94F": [
-        "lumilipad na disk",
-        "disc",
-        "frisbee",
-        "lumilipad na disc"
-    ],
-    "1F950": [
-        "croissant",
-        "french",
-        "pagkain",
-        "tinapay"
-    ],
-    "1F951": [
-        "abokado",
-        "avocado",
-        "pagkain",
-        "prutas"
-    ],
-    "1F952": [
-        "pipino",
-        "gulay",
-        "pagkain",
-        "pickle"
-    ],
-    "1F953": [
-        "bacon",
-        "karne",
-        "pagkain"
-    ],
-    "1F954": [
-        "patatas",
-        "gulay",
-        "pagkain"
-    ],
-    "1F955": [
-        "carrot",
-        "gulay",
-        "pagkain"
-    ],
-    "1F956": [
-        "baguette",
-        "french",
-        "pagkain",
-        "tinapay"
-    ],
-    "1F957": [
-        "salad na gulay",
-        "berde",
-        "pagkain",
-        "salad"
-    ],
+    "1F94C": ["curling stone", "bato", "laro"],
+    "1F94D": ["lacrosse", "bola", "goal", "sports", "stick"],
+    "1F94E": ["softball", "bola", "glab", "glove", "sports"],
+    "1F94F": ["lumilipad na disk", "disc", "frisbee", "lumilipad na disc"],
+    "1F950": ["croissant", "french", "pagkain", "tinapay"],
+    "1F951": ["abokado", "avocado", "pagkain", "prutas"],
+    "1F952": ["pipino", "gulay", "pagkain", "pickle"],
+    "1F953": ["bacon", "karne", "pagkain"],
+    "1F954": ["patatas", "gulay", "pagkain"],
+    "1F955": ["carrot", "gulay", "pagkain"],
+    "1F956": ["baguette", "french", "pagkain", "tinapay"],
+    "1F957": ["salad na gulay", "berde", "pagkain", "salad"],
     "1F958": [
         "shallow pan ng pagkain",
         "casserole",
@@ -20773,42 +17399,12 @@
         "pagkain",
         "pagkain sa kaserola"
     ],
-    "1F959": [
-        "stuffed flatbread",
-        "falafel",
-        "flatbread",
-        "kebab",
-        "pagkain"
-    ],
-    "1F95A": [
-        "itlog",
-        "pagkain"
-    ],
-    "1F95B": [
-        "baso ng gatas",
-        "baso",
-        "gatas",
-        "inumin"
-    ],
-    "1F95C": [
-        "mani",
-        "gulay",
-        "pagkain"
-    ],
-    "1F95D": [
-        "kiwi",
-        "food",
-        "fruit",
-        "pagkain",
-        "prutas"
-    ],
-    "1F95E": [
-        "pancakes",
-        "crêpe",
-        "hotcake",
-        "pagkain",
-        "pancake"
-    ],
+    "1F959": ["stuffed flatbread", "falafel", "flatbread", "kebab", "pagkain"],
+    "1F95A": ["itlog", "pagkain"],
+    "1F95B": ["baso ng gatas", "baso", "gatas", "inumin"],
+    "1F95C": ["mani", "gulay", "pagkain"],
+    "1F95D": ["kiwi", "food", "fruit", "pagkain", "prutas"],
+    "1F95E": ["pancakes", "crêpe", "hotcake", "pagkain", "pancake"],
     "1F95F": [
         "dumpling",
         "empanada",
@@ -20819,54 +17415,15 @@
         "siomai",
         "siopao"
     ],
-    "1F960": [
-        "fortune cookie",
-        "hula"
-    ],
-    "1F961": [
-        "takeout box",
-        "balot",
-        "oyster pail",
-        "takeout"
-    ],
-    "1F962": [
-        "chopsticks",
-        "hashi"
-    ],
-    "1F963": [
-        "mangkok na may kutsara",
-        "agahan",
-        "cereal",
-        "lugaw",
-        "oatmeal"
-    ],
-    "1F964": [
-        "baso na may straw",
-        "inumin",
-        "juice",
-        "soda"
-    ],
-    "1F965": [
-        "niyog",
-        "gata",
-        "palmera",
-        "piña colada"
-    ],
-    "1F966": [
-        "broccoli",
-        "gulay",
-        "wild cabbage"
-    ],
-    "1F967": [
-        "pie",
-        "palaman",
-        "pastry",
-        "slice ng pie"
-    ],
-    "1F968": [
-        "pretzel",
-        "baluktot"
-    ],
+    "1F960": ["fortune cookie", "hula"],
+    "1F961": ["takeout box", "balot", "oyster pail", "takeout"],
+    "1F962": ["chopsticks", "hashi"],
+    "1F963": ["mangkok na may kutsara", "agahan", "cereal", "lugaw", "oatmeal"],
+    "1F964": ["baso na may straw", "inumin", "juice", "soda"],
+    "1F965": ["niyog", "gata", "palmera", "piña colada"],
+    "1F966": ["broccoli", "gulay", "wild cabbage"],
+    "1F967": ["pie", "palaman", "pastry", "slice ng pie"],
+    "1F968": ["pretzel", "baluktot"],
     "1F969": [
         "hiwa ng karne",
         "chop",
@@ -20875,14 +17432,8 @@
         "porkchop",
         "steak"
     ],
-    "1F96A": [
-        "sandwich",
-        "tinapay"
-    ],
-    "1F96B": [
-        "de-latang pagkain",
-        "lata"
-    ],
+    "1F96A": ["sandwich", "tinapay"],
+    "1F96B": ["de-latang pagkain", "lata"],
     "1F96C": [
         "madahong gulay",
         "bok choy",
@@ -20891,18 +17442,8 @@
         "petsay",
         "repolyo"
     ],
-    "1F96D": [
-        "mangga",
-        "prutas",
-        "tropical"
-    ],
-    "1F96E": [
-        "moon cake",
-        "fall",
-        "festival",
-        "pagkain",
-        "taglagas"
-    ],
+    "1F96D": ["mangga", "prutas", "tropical"],
+    "1F96E": ["moon cake", "fall", "festival", "pagkain", "taglagas"],
     "1F96F": [
         "bagel",
         "bake",
@@ -21077,11 +17618,7 @@
         "nagmamakaawa",
         "please"
     ],
-    "1F97B": [
-        "sari",
-        "bestida",
-        "damit"
-    ],
+    "1F97B": ["sari", "bestida", "damit"],
     "1F97C": [
         "kapa sa lab",
         "doktor",
@@ -21089,12 +17626,7 @@
         "lab coat",
         "siyentista"
     ],
-    "1F97D": [
-        "goggles",
-        "proteksyon sa mata",
-        "swimming",
-        "welding"
-    ],
+    "1F97D": ["goggles", "proteksyon sa mata", "swimming", "welding"],
     "1F97E": [
         "pang-hiking na bota",
         "backpacking",
@@ -21120,14 +17652,7 @@
         "talangka",
         "zodiac"
     ],
-    "1F981": [
-        "mukha ng leon",
-        "hayop",
-        "leo",
-        "leon",
-        "mukha",
-        "zodiac"
-    ],
+    "1F981": ["mukha ng leon", "hayop", "leo", "leon", "mukha", "zodiac"],
     "1F982": [
         "alakdan",
         "insekto",
@@ -21136,97 +17661,24 @@
         "scorpius",
         "zodiac"
     ],
-    "1F983": [
-        "pabo",
-        "hayop",
-        "thanksgiving",
-        "turkey"
-    ],
-    "1F984": [
-        "unicorn",
-        "mukha",
-        "mukha ng unicorn"
-    ],
-    "1F985": [
-        "agila",
-        "ibon"
-    ],
-    "1F986": [
-        "bibi",
-        "ibon",
-        "pato"
-    ],
-    "1F987": [
-        "paniki",
-        "bampira",
-        "hayop"
-    ],
-    "1F988": [
-        "pating",
-        "hayop",
-        "isda"
-    ],
-    "1F989": [
-        "kuwago",
-        "ibon",
-        "matalino",
-        "owl"
-    ],
-    "1F98A": [
-        "mukha ng fox",
-        "fox",
-        "hayop",
-        "mukha"
-    ],
-    "1F98B": [
-        "paru-paro",
-        "insekto",
-        "maganda",
-        "mariposa"
-    ],
-    "1F98C": [
-        "usa",
-        "deer",
-        "hayop"
-    ],
-    "1F98D": [
-        "gorilya",
-        "hayop"
-    ],
-    "1F98E": [
-        "butiki",
-        "hayop",
-        "reptile"
-    ],
-    "1F98F": [
-        "rhinoceros",
-        "hayop"
-    ],
-    "1F990": [
-        "hipon",
-        "maliit",
-        "pagkain",
-        "shellfish",
-        "sugpo"
-    ],
-    "1F991": [
-        "pusit",
-        "hayop",
-        "pagkain",
-        "pugita"
-    ],
-    "1F992": [
-        "giraffe",
-        "batik-batik"
-    ],
-    "1F993": [
-        "zebra",
-        "stripe"
-    ],
-    "1F994": [
-        "hedgehog",
-        "matinik"
-    ],
+    "1F983": ["pabo", "hayop", "thanksgiving", "turkey"],
+    "1F984": ["unicorn", "mukha", "mukha ng unicorn"],
+    "1F985": ["agila", "ibon"],
+    "1F986": ["bibi", "ibon", "pato"],
+    "1F987": ["paniki", "bampira", "hayop"],
+    "1F988": ["pating", "hayop", "isda"],
+    "1F989": ["kuwago", "ibon", "matalino", "owl"],
+    "1F98A": ["mukha ng fox", "fox", "hayop", "mukha"],
+    "1F98B": ["paru-paro", "insekto", "maganda", "mariposa"],
+    "1F98C": ["usa", "deer", "hayop"],
+    "1F98D": ["gorilya", "hayop"],
+    "1F98E": ["butiki", "hayop", "reptile"],
+    "1F98F": ["rhinoceros", "hayop"],
+    "1F990": ["hipon", "maliit", "pagkain", "shellfish", "sugpo"],
+    "1F991": ["pusit", "hayop", "pagkain", "pugita"],
+    "1F992": ["giraffe", "batik-batik"],
+    "1F993": ["zebra", "stripe"],
+    "1F994": ["hedgehog", "matinik"],
     "1F995": [
         "sauropod",
         "brachiosaurus",
@@ -21234,61 +17686,15 @@
         "dinosaur",
         "diplodocus"
     ],
-    "1F996": [
-        "T-Rex",
-        "dinosaur",
-        "Tyrannosaurus Rex"
-    ],
-    "1F997": [
-        "kuliglig",
-        "insekto",
-        "tipaklong"
-    ],
-    "1F998": [
-        "kangaroo",
-        "Australia",
-        "hayop",
-        "joey",
-        "tumatalon"
-    ],
-    "1F999": [
-        "llama",
-        "alpaca",
-        "hayop",
-        "wool"
-    ],
-    "1F99A": [
-        "peacock",
-        "ibon",
-        "makulay",
-        "pabo"
-    ],
-    "1F99B": [
-        "hippopotamus",
-        "hayop",
-        "hippo"
-    ],
-    "1F99C": [
-        "loro",
-        "ibon",
-        "nagsasalitang ibon",
-        "pirata"
-    ],
-    "1F99D": [
-        "raccoon",
-        "hayop",
-        "mausisa",
-        "mautak",
-        "may maitim na mata"
-    ],
-    "1F99E": [
-        "lobster",
-        "claws",
-        "hayop",
-        "pagkain",
-        "panipit",
-        "seafood"
-    ],
+    "1F996": ["T-Rex", "dinosaur", "Tyrannosaurus Rex"],
+    "1F997": ["kuliglig", "insekto", "tipaklong"],
+    "1F998": ["kangaroo", "Australia", "hayop", "joey", "tumatalon"],
+    "1F999": ["llama", "alpaca", "hayop", "wool"],
+    "1F99A": ["peacock", "ibon", "makulay", "pabo"],
+    "1F99B": ["hippopotamus", "hayop", "hippo"],
+    "1F99C": ["loro", "ibon", "nagsasalitang ibon", "pirata"],
+    "1F99D": ["raccoon", "hayop", "mausisa", "mautak", "may maitim na mata"],
+    "1F99E": ["lobster", "claws", "hayop", "pagkain", "panipit", "seafood"],
     "1F99F": [
         "lamok",
         "dengue",
@@ -21307,12 +17713,7 @@
         "siyensya",
         "virus"
     ],
-    "1F9A1": [
-        "badger",
-        "gray at itim",
-        "hayop",
-        "honey badger"
-    ],
+    "1F9A1": ["badger", "gray at itim", "hayop", "honey badger"],
     "1F9A2": [
         "swan",
         "gansa",
@@ -21320,13 +17721,7 @@
         "ibong mahaba ang leeg",
         "ugly duckling"
     ],
-    "1F9A3": [
-        "mammoth",
-        "extinct",
-        "hayop",
-        "mabalahibo",
-        "malaki"
-    ],
+    "1F9A3": ["mammoth", "extinct", "hayop", "mabalahibo", "malaki"],
     "1F9A4": [
         "dodo",
         "hayop",
@@ -21336,58 +17731,15 @@
         "pagkaubos",
         "pagkawala"
     ],
-    "1F9A5": [
-        "Sloth",
-        "mabagal",
-        "tamad"
-    ],
-    "1F9A6": [
-        "otter",
-        "mapaglaro",
-        "pangingisda"
-    ],
-    "1F9A7": [
-        "orangutan",
-        "ape",
-        "hayop",
-        "tsonggo"
-    ],
-    "1F9A8": [
-        "skunk",
-        "mabaho"
-    ],
-    "1F9A9": [
-        "flamingo",
-        "magarbo",
-        "tropikal"
-    ],
-    "1F9AA": [
-        "talaba",
-        "pagsisid",
-        "perlas"
-    ],
-    "1F9AB": [
-        "beaver",
-        "dam",
-        "hayop",
-        "ngatngat",
-        "ngipin",
-        "nguya"
-    ],
-    "1F9AC": [
-        "bison",
-        "baka",
-        "damulag",
-        "hayop",
-        "kalabaw"
-    ],
-    "1F9AD": [
-        "seal",
-        "dagat",
-        "hayop",
-        "karagatan",
-        "sea Lion"
-    ],
+    "1F9A5": ["Sloth", "mabagal", "tamad"],
+    "1F9A6": ["otter", "mapaglaro", "pangingisda"],
+    "1F9A7": ["orangutan", "ape", "hayop", "tsonggo"],
+    "1F9A8": ["skunk", "mabaho"],
+    "1F9A9": ["flamingo", "magarbo", "tropikal"],
+    "1F9AA": ["talaba", "pagsisid", "perlas"],
+    "1F9AB": ["beaver", "dam", "hayop", "ngatngat", "ngipin", "nguya"],
+    "1F9AC": ["bison", "baka", "damulag", "hayop", "kalabaw"],
+    "1F9AD": ["seal", "dagat", "hayop", "karagatan", "sea Lion"],
     "1F9AE": [
         "gabay na aso",
         "bulag",
@@ -21395,22 +17747,9 @@
         "guide dog",
         "pagiging naa-access"
     ],
-    "1F9AF": [
-        "baston",
-        "blind",
-        "bulag",
-        "pagiging naa-access",
-        "pwd"
-    ],
-    "1F9B4": [
-        "buto",
-        "kalansay"
-    ],
-    "1F9B5": [
-        "hita",
-        "biyas",
-        "sipa"
-    ],
+    "1F9AF": ["baston", "blind", "bulag", "pagiging naa-access", "pwd"],
+    "1F9B4": ["buto", "kalansay"],
+    "1F9B5": ["hita", "biyas", "sipa"],
     "1F9B5 1F3FB": [
         "hita: light na kulay ng balat",
         "biyas",
@@ -21446,12 +17785,7 @@
         "hita",
         "sipa"
     ],
-    "1F9B6": [
-        "paa",
-        "apakan",
-        "sipa",
-        "tapakan"
-    ],
+    "1F9B6": ["paa", "apakan", "sipa", "tapakan"],
     "1F9B6 1F3FB": [
         "paa: light na kulay ng balat",
         "apakan",
@@ -21492,12 +17826,7 @@
         "sipa",
         "tapakan"
     ],
-    "1F9B7": [
-        "ngipin",
-        "dentista",
-        "puti",
-        "puting ngipin"
-    ],
+    "1F9B7": ["ngipin", "dentista", "puti", "puting ngipin"],
     "1F9B8": [
         "superhero",
         "babaeng superhero",
@@ -21638,11 +17967,7 @@
         "superpower",
         "supervillain"
     ],
-    "1F9BA": [
-        "life vest",
-        "kaligtasan",
-        "pang-emergency"
-    ],
+    "1F9BA": ["life vest", "kaligtasan", "pang-emergency"],
     "1F9BB": [
         "tainga na may hearing aid",
         "hirap makarinig",
@@ -21711,12 +18036,7 @@
         "pagiging naa-access",
         "prosthetic"
     ],
-    "1F9C0": [
-        "piraso ng keso",
-        "dairy",
-        "keso",
-        "pagkain"
-    ],
+    "1F9C0": ["piraso ng keso", "dairy", "keso", "pagkain"],
     "1F9C1": [
         "cupcake",
         "bake",
@@ -21727,51 +18047,15 @@
         "panghimagas",
         "sweet"
     ],
-    "1F9C2": [
-        "asin",
-        "condiment",
-        "shaker"
-    ],
-    "1F9C3": [
-        "kahon ng inumin",
-        "inumin",
-        "juice",
-        "kahon ng juice"
-    ],
-    "1F9C4": [
-        "bawang",
-        "pampalasa"
-    ],
-    "1F9C5": [
-        "sibuyas",
-        "pampalasa"
-    ],
-    "1F9C6": [
-        "falafel",
-        "chickpea",
-        "meatball"
-    ],
-    "1F9C7": [
-        "waffle",
-        "hindi makapagdesisyon",
-        "hindi makapagpasya",
-        "iron"
-    ],
-    "1F9C8": [
-        "mantikilya",
-        "dairy",
-        "produktong gawa sa gatas"
-    ],
-    "1F9C9": [
-        "mate",
-        "inumin"
-    ],
-    "1F9CA": [
-        "ice cube",
-        "iceberg",
-        "malamig",
-        "yelo"
-    ],
+    "1F9C2": ["asin", "condiment", "shaker"],
+    "1F9C3": ["kahon ng inumin", "inumin", "juice", "kahon ng juice"],
+    "1F9C4": ["bawang", "pampalasa"],
+    "1F9C5": ["sibuyas", "pampalasa"],
+    "1F9C6": ["falafel", "chickpea", "meatball"],
+    "1F9C7": ["waffle", "hindi makapagdesisyon", "hindi makapagpasya", "iron"],
+    "1F9C8": ["mantikilya", "dairy", "produktong gawa sa gatas"],
+    "1F9C9": ["mate", "inumin"],
+    "1F9CA": ["ice cube", "iceberg", "malamig", "yelo"],
     "1F9CB": [
         "bubble tea",
         "bubble",
@@ -21782,16 +18066,8 @@
         "taiwan",
         "tsaa"
     ],
-    "1F9CC": [
-        "troll",
-        "halimaw",
-        "trolling"
-    ],
-    "1F9CD": [
-        "nakatayong tao",
-        "nakatayo",
-        "tumayo"
-    ],
+    "1F9CC": ["troll", "halimaw", "trolling"],
+    "1F9CD": ["nakatayong tao", "nakatayo", "tumayo"],
     "1F9CD 1F3FB": [
         "nakatayong tao: light na kulay ng balat",
         "light na kulay ng balat",
@@ -21827,11 +18103,7 @@
         "nakatayong tao",
         "tumayo"
     ],
-    "1F9CE": [
-        "taong nakaluhod",
-        "lumuhod",
-        "nakaluhod"
-    ],
+    "1F9CE": ["taong nakaluhod", "lumuhod", "nakaluhod"],
     "1F9CE 1F3FB": [
         "taong nakaluhod: light na kulay ng balat",
         "light na kulay ng balat",
@@ -21919,12 +18191,7 @@
         "tainga",
         "taong bingi"
     ],
-    "1F9D0": [
-        "mukha na may monocle",
-        "mayaman",
-        "sosyal",
-        "stuffy"
-    ],
+    "1F9D0": ["mukha na may monocle", "mayaman", "sosyal", "stuffy"],
     "1F9D1": [
         "tao",
         "adult",
@@ -22213,12 +18480,7 @@
         "matanda",
         "tao"
     ],
-    "1F9D1 200D 1F393": [
-        "estudyante",
-        "graduate",
-        "mag-aaral",
-        "nakapagtapos"
-    ],
+    "1F9D1 200D 1F393": ["estudyante", "graduate", "mag-aaral", "nakapagtapos"],
     "1F9D1 1F3FB 200D 1F393": [
         "estudyante: light na kulay ng balat",
         "estudyante",
@@ -22259,11 +18521,7 @@
         "mag-aaral",
         "nakapagtapos"
     ],
-    "1F9D1 200D 1F3EB": [
-        "guro",
-        "propesor",
-        "tagaturo"
-    ],
+    "1F9D1 200D 1F3EB": ["guro", "propesor", "tagaturo"],
     "1F9D1 1F3FB 200D 1F3EB": [
         "guro: light na kulay ng balat",
         "guro",
@@ -22299,11 +18557,7 @@
         "propesor",
         "tagaturo"
     ],
-    "1F9D1 200D 1F33E": [
-        "magsasaka",
-        "hardinero",
-        "rantsero"
-    ],
+    "1F9D1 200D 1F33E": ["magsasaka", "hardinero", "rantsero"],
     "1F9D1 1F3FB 200D 1F33E": [
         "magsasaka: light na kulay ng balat",
         "hardinero",
@@ -22339,10 +18593,7 @@
         "magsasaka",
         "rantsero"
     ],
-    "1F9D1 200D 1F373": [
-        "tagaluto",
-        "chef"
-    ],
+    "1F9D1 200D 1F373": ["tagaluto", "chef"],
     "1F9D1 1F3FB 200D 1F373": [
         "tagaluto: light na kulay ng balat",
         "chef",
@@ -22373,11 +18624,7 @@
         "dark na kulay ng balat",
         "tagaluto"
     ],
-    "1F9D1 200D 1F527": [
-        "mekaniko",
-        "elektrisyan",
-        "tubero"
-    ],
+    "1F9D1 200D 1F527": ["mekaniko", "elektrisyan", "tubero"],
     "1F9D1 1F3FB 200D 1F527": [
         "mekaniko: light na kulay ng balat",
         "elektrisyan",
@@ -22517,12 +18764,7 @@
         "puting collar",
         "trabahador sa opisina"
     ],
-    "1F9D1 200D 1F52C": [
-        "siyentipiko",
-        "biologist",
-        "chemist",
-        "inhinyero"
-    ],
+    "1F9D1 200D 1F52C": ["siyentipiko", "biologist", "chemist", "inhinyero"],
     "1F9D1 1F3FB 200D 1F52C": [
         "siyentipiko: light na kulay ng balat",
         "biologist",
@@ -22667,10 +18909,7 @@
         "rakista",
         "star"
     ],
-    "1F9D1 200D 1F3A8": [
-        "pintor",
-        "palette"
-    ],
+    "1F9D1 200D 1F3A8": ["pintor", "palette"],
     "1F9D1 1F3FB 200D 1F3A8": [
         "pintor: light na kulay ng balat",
         "light na kulay ng balat",
@@ -22701,11 +18940,7 @@
         "palette",
         "pintor"
     ],
-    "1F9D1 200D 1F680": [
-        "astronaut",
-        "kalawakan",
-        "rocket"
-    ],
+    "1F9D1 200D 1F680": ["astronaut", "kalawakan", "rocket"],
     "1F9D1 1F3FB 200D 1F680": [
         "astronaut: light na kulay ng balat",
         "astronaut",
@@ -22741,10 +18976,7 @@
         "kalawakan",
         "rocket"
     ],
-    "1F9D1 200D 1F692": [
-        "bumbero",
-        "trak ng bumbero"
-    ],
+    "1F9D1 200D 1F692": ["bumbero", "trak ng bumbero"],
     "1F9D1 1F3FB 200D 1F692": [
         "bumbero: light na kulay ng balat",
         "bumbero",
@@ -22903,11 +19135,7 @@
         "tao",
         "xmas"
     ],
-    "1F9D1 200D 1F9AF": [
-        "taong may tungkod",
-        "bulag",
-        "tungkod"
-    ],
+    "1F9D1 200D 1F9AF": ["taong may tungkod", "bulag", "tungkod"],
     "1F9D1 1F3FB 200D 1F9AF": [
         "taong may tungkod: light na kulay ng balat",
         "bulag",
@@ -23023,11 +19251,7 @@
         "tao sa manu-manong wheelchair",
         "wheelchair"
     ],
-    "1F9D1 200D 1FA70": [
-        "ballet dancer",
-        "ballet",
-        "dancer"
-    ],
+    "1F9D1 200D 1FA70": ["ballet dancer", "ballet", "dancer"],
     "1F9D1 1F3FB 200D 1FA70": [
         "ballet dancer: light na kulay ng balat",
         "ballet",
@@ -24634,22 +20858,13 @@
         "bata",
         "pamilya: adulto"
     ],
-    "1F9D1 200D 1F9D2": [
-        "pamilya: adulto, bata",
-        "bata",
-        "pamilya: adulto"
-    ],
+    "1F9D1 200D 1F9D2": ["pamilya: adulto, bata", "bata", "pamilya: adulto"],
     "1F9D1 200D 1F9D2 200D 1F9D2": [
         "pamilya: adulto, bata, bata",
         "bata",
         "pamilya: adulto"
     ],
-    "1F9D2": [
-        "bata",
-        "anak",
-        "hindi tinukoy na kasarian",
-        "kasarian-neutral"
-    ],
+    "1F9D2": ["bata", "anak", "hindi tinukoy na kasarian", "kasarian-neutral"],
     "1F9D2 1F3FB": [
         "bata: light na kulay ng balat",
         "anak",
@@ -24934,13 +21149,7 @@
         "tao na nasa sauna",
         "unwind"
     ],
-    "1F9D7": [
-        "tao na umaakyat",
-        "akyat",
-        "bundok",
-        "climber",
-        "rock climber"
-    ],
+    "1F9D7": ["tao na umaakyat", "akyat", "bundok", "climber", "rock climber"],
     "1F9D7 1F3FB": [
         "tao na umaakyat: light na kulay ng balat",
         "akyat",
@@ -25044,13 +21253,7 @@
         "yoga",
         "zen"
     ],
-    "1F9D9": [
-        "salamangkero",
-        "mahika",
-        "mangkukulam",
-        "pantasya",
-        "wizard"
-    ],
+    "1F9D9": ["salamangkero", "mahika", "mangkukulam", "pantasya", "wizard"],
     "1F9D9 1F3FB": [
         "salamangkero: light na kulay ng balat",
         "light na kulay ng balat",
@@ -25294,12 +21497,7 @@
         "sirena",
         "syokoy"
     ],
-    "1F9DD": [
-        "duwende",
-        "mahiwaga",
-        "mitikal",
-        "pantasya"
-    ],
+    "1F9DD": ["duwende", "mahiwaga", "mitikal", "pantasya"],
     "1F9DD 1F3FB": [
         "duwende: light na kulay ng balat",
         "duwende",
@@ -25358,42 +21556,18 @@
         "nakakatakot",
         "walking dead"
     ],
-    "1F9E0": [
-        "utak",
-        "matalas",
-        "matalino"
-    ],
-    "1F9E1": [
-        "pusong dalandan",
-        "dalandan",
-        "orange",
-        "orange na puso"
-    ],
+    "1F9E0": ["utak", "matalas", "matalino"],
+    "1F9E1": ["pusong dalandan", "dalandan", "orange", "orange na puso"],
     "1F9E2": [
         "sinisingil na sombrero",
         "bent hat",
         "cap",
         "sombrero ng baseball"
     ],
-    "1F9E3": [
-        "bandana",
-        "leeg",
-        "scarf"
-    ],
-    "1F9E4": [
-        "guwantes",
-        "kamay"
-    ],
-    "1F9E5": [
-        "kapa",
-        "jacket",
-        "lamig",
-        "panlamig"
-    ],
-    "1F9E6": [
-        "medyas",
-        "stocking"
-    ],
+    "1F9E3": ["bandana", "leeg", "scarf"],
+    "1F9E4": ["guwantes", "kamay"],
+    "1F9E5": ["kapa", "jacket", "lamig", "panlamig"],
+    "1F9E6": ["medyas", "stocking"],
     "1F9E7": [
         "ampao",
         "ampaw",
@@ -25403,18 +21577,8 @@
         "pulang envelope",
         "regalo"
     ],
-    "1F9E8": [
-        "paputok",
-        "dinamita",
-        "ilaw",
-        "kislap",
-        "pampasabog"
-    ],
-    "1F9E9": [
-        "jigsaw",
-        "clue",
-        "puzzle"
-    ],
+    "1F9E8": ["paputok", "dinamita", "ilaw", "kislap", "pampasabog"],
+    "1F9E9": ["jigsaw", "clue", "puzzle"],
     "1F9EA": [
         "test tube",
         "chemist",
@@ -25434,25 +21598,9 @@
         "laboratoryo",
         "mikrobyo"
     ],
-    "1F9EC": [
-        "dna",
-        "biologist",
-        "buhay",
-        "ebolusyon",
-        "gene",
-        "genetics"
-    ],
-    "1F9ED": [
-        "compass",
-        "direksyon",
-        "magnetic",
-        "nabigasyon"
-    ],
-    "1F9EE": [
-        "abacus",
-        "kalkulasyon",
-        "pambilang"
-    ],
+    "1F9EC": ["dna", "biologist", "buhay", "ebolusyon", "gene", "genetics"],
+    "1F9ED": ["compass", "direksyon", "magnetic", "nabigasyon"],
+    "1F9EE": ["abacus", "kalkulasyon", "pambilang"],
     "1F9EF": [
         "pamatay apoy",
         "apoy",
@@ -25469,27 +21617,9 @@
         "pulang kahon",
         "toolbox"
     ],
-    "1F9F1": [
-        "brick",
-        "bricks",
-        "dingding",
-        "mortar",
-        "pader",
-        "semento"
-    ],
-    "1F9F2": [
-        "magneto",
-        "atraksyon",
-        "horseshoe",
-        "magnet",
-        "magnetic"
-    ],
-    "1F9F3": [
-        "maleta",
-        "bagahe",
-        "pag-empake",
-        "pagbiyahe"
-    ],
+    "1F9F1": ["brick", "bricks", "dingding", "mortar", "pader", "semento"],
+    "1F9F2": ["magneto", "atraksyon", "horseshoe", "magnet", "magnetic"],
+    "1F9F3": ["maleta", "bagahe", "pag-empake", "pagbiyahe"],
     "1F9F4": [
         "bote ng losyon",
         "bote ng lotion",
@@ -25498,69 +21628,16 @@
         "shampoo",
         "sunscreen"
     ],
-    "1F9F5": [
-        "sinulid",
-        "karayom",
-        "pananahi",
-        "spool",
-        "tali"
-    ],
-    "1F9F6": [
-        "yarn",
-        "paggantsilyo",
-        "pagtatahi"
-    ],
-    "1F9F7": [
-        "perdible",
-        "diaper",
-        "punk rock"
-    ],
-    "1F9F8": [
-        "teddy bear",
-        "laruan",
-        "malambot",
-        "stuffed toy"
-    ],
-    "1F9F9": [
-        "walis",
-        "bruha",
-        "maglinis",
-        "magwalis",
-        "mangkukulam"
-    ],
-    "1F9FA": [
-        "basket",
-        "paglalaba",
-        "pagsasaka",
-        "picnic"
-    ],
-    "1F9FB": [
-        "rolyo ng tisyu",
-        "pangbanyo",
-        "papel",
-        "tisyu",
-        "toilet tissue"
-    ],
-    "1F9FC": [
-        "sabon",
-        "bareta",
-        "habonera",
-        "pangligo",
-        "panglinis"
-    ],
-    "1F9FD": [
-        "espongha",
-        "panglinis",
-        "porous",
-        "sumipsip"
-    ],
-    "1F9FE": [
-        "resibo",
-        "accounting",
-        "bookkeeping",
-        "katibayan",
-        "patunay"
-    ],
+    "1F9F5": ["sinulid", "karayom", "pananahi", "spool", "tali"],
+    "1F9F6": ["yarn", "paggantsilyo", "pagtatahi"],
+    "1F9F7": ["perdible", "diaper", "punk rock"],
+    "1F9F8": ["teddy bear", "laruan", "malambot", "stuffed toy"],
+    "1F9F9": ["walis", "bruha", "maglinis", "magwalis", "mangkukulam"],
+    "1F9FA": ["basket", "paglalaba", "pagsasaka", "picnic"],
+    "1F9FB": ["rolyo ng tisyu", "pangbanyo", "papel", "tisyu", "toilet tissue"],
+    "1F9FC": ["sabon", "bareta", "habonera", "pangligo", "panglinis"],
+    "1F9FD": ["espongha", "panglinis", "porous", "sumipsip"],
+    "1F9FE": ["resibo", "accounting", "bookkeeping", "katibayan", "patunay"],
     "1F9FF": [
         "nazar amulet",
         "agimat",
@@ -25602,32 +21679,10 @@
         "trunks",
         "underwear"
     ],
-    "1FA74": [
-        "tsinelas",
-        "pang-beach na tsinelas",
-        "sandals",
-        "slippers"
-    ],
-    "1FA75": [
-        "light blue na puso",
-        "cyan",
-        "light blue",
-        "puso",
-        "teal"
-    ],
-    "1FA76": [
-        "grey na puso",
-        "gray",
-        "puso",
-        "silver"
-    ],
-    "1FA77": [
-        "pink na puso",
-        "cute",
-        "gusto",
-        "kulay rosas",
-        "puso"
-    ],
+    "1FA74": ["tsinelas", "pang-beach na tsinelas", "sandals", "slippers"],
+    "1FA75": ["light blue na puso", "cyan", "light blue", "puso", "teal"],
+    "1FA76": ["grey na puso", "gray", "puso", "silver"],
+    "1FA77": ["pink na puso", "cute", "gusto", "kulay rosas", "puso"],
     "1FA78": [
         "patak ng dugo",
         "blood",
@@ -25638,43 +21693,12 @@
         "regla",
         "sugat"
     ],
-    "1FA79": [
-        "adhesive na bandaid",
-        "bandage",
-        "bandaid"
-    ],
-    "1FA7A": [
-        "stethoscope",
-        "doktor",
-        "gamot",
-        "medicine",
-        "medisina",
-        "puso"
-    ],
-    "1FA7B": [
-        "x-ray",
-        "buto",
-        "kalansay",
-        "skeleton"
-    ],
-    "1FA7C": [
-        "saklay",
-        "injured",
-        "kapansanan",
-        "pilay",
-        "tungkod"
-    ],
-    "1FA80": [
-        "yoyo",
-        "laruan",
-        "pabalik-balik",
-        "pataas-pababa"
-    ],
-    "1FA81": [
-        "saranggola",
-        "lumipad",
-        "pumailanlang"
-    ],
+    "1FA79": ["adhesive na bandaid", "bandage", "bandaid"],
+    "1FA7A": ["stethoscope", "doktor", "gamot", "medicine", "medisina", "puso"],
+    "1FA7B": ["x-ray", "buto", "kalansay", "skeleton"],
+    "1FA7C": ["saklay", "injured", "kapansanan", "pilay", "tungkod"],
+    "1FA80": ["yoyo", "laruan", "pabalik-balik", "pataas-pababa"],
+    "1FA81": ["saranggola", "lumipad", "pumailanlang"],
     "1FA82": [
         "parachute",
         "hang-glide",
@@ -25683,12 +21707,7 @@
         "parasail",
         "skydive"
     ],
-    "1FA83": [
-        "boomerang",
-        "australia",
-        "rebound",
-        "repercussion"
-    ],
+    "1FA83": ["boomerang", "australia", "rebound", "repercussion"],
     "1FA84": [
         "magic wand",
         "magic",
@@ -25705,11 +21724,7 @@
         "piyesta",
         "selebrasyon"
     ],
-    "1FA86": [
-        "manikang matryoshka",
-        "manika",
-        "russia"
-    ],
+    "1FA86": ["manikang matryoshka", "manika", "russia"],
     "1FA87": [
         "maracas",
         "alogn",
@@ -25720,13 +21735,7 @@
         "rattle",
         "tambol"
     ],
-    "1FA88": [
-        "plawta",
-        "fife",
-        "musika",
-        "rekorder",
-        "woodwind"
-    ],
+    "1FA88": ["plawta", "fife", "musika", "rekorder", "woodwind"],
     "1FA89": [
         "alpa",
         "instrumento",
@@ -25756,28 +21765,10 @@
         "pilak",
         "premyo"
     ],
-    "1FA8F": [
-        "pala",
-        "butas",
-        "dakot",
-        "humukay"
-    ],
-    "1FA90": [
-        "planetang may singsing",
-        "planet",
-        "saturn",
-        "saturnine"
-    ],
-    "1FA91": [
-        "silya",
-        "umupo",
-        "upuan"
-    ],
-    "1FA92": [
-        "razor",
-        "matalas",
-        "pang-ahit"
-    ],
+    "1FA8F": ["pala", "butas", "dakot", "humukay"],
+    "1FA90": ["planetang may singsing", "planet", "saturn", "saturnine"],
+    "1FA91": ["silya", "umupo", "upuan"],
+    "1FA92": ["razor", "matalas", "pang-ahit"],
     "1FA93": [
         "palakol",
         "biyakin",
@@ -25787,18 +21778,8 @@
         "pamputol",
         "pansibak"
     ],
-    "1FA94": [
-        "lamparang diya",
-        "diya",
-        "lampara",
-        "langis"
-    ],
-    "1FA95": [
-        "banjo",
-        "kwerdas",
-        "musika",
-        "stringed"
-    ],
+    "1FA94": ["lamparang diya", "diya", "lampara", "langis"],
+    "1FA95": ["banjo", "kwerdas", "musika", "stringed"],
     "1FA96": [
         "helmet pang-militar",
         "helmet",
@@ -25806,85 +21787,19 @@
         "militar",
         "sundalo"
     ],
-    "1FA97": [
-        "accordion",
-        "instrumento",
-        "musika"
-    ],
-    "1FA98": [
-        "mahabang drum",
-        "conga",
-        "drum",
-        "instrumento",
-        "tunog"
-    ],
-    "1FA99": [
-        "barya",
-        "bakal",
-        "ginto",
-        "kayamanan",
-        "pera",
-        "pilak"
-    ],
-    "1FA9A": [
-        "lagari",
-        "gamit",
-        "kahoy",
-        "karpintero"
-    ],
-    "1FA9B": [
-        "screwdriver",
-        "gamit",
-        "tornilyo"
-    ],
-    "1FA9C": [
-        "hagdan",
-        "akyat",
-        "hakbang"
-    ],
-    "1FA9D": [
-        "kawit",
-        "huli",
-        "sabit",
-        "selling point"
-    ],
-    "1FA9E": [
-        "salamin",
-        "makeup",
-        "reflector",
-        "repleksyon"
-    ],
-    "1FA9F": [
-        "bintana",
-        "bukasan",
-        "frame",
-        "sariwang hangin",
-        "view"
-    ],
-    "1FAA0": [
-        "plunger",
-        "kubeta"
-    ],
-    "1FAA1": [
-        "karayom",
-        "burda",
-        "pananahi",
-        "sinulid",
-        "sulsi",
-        "tahi"
-    ],
-    "1FAA2": [
-        "buhol",
-        "nakapalupot",
-        "tali"
-    ],
-    "1FAA3": [
-        "timba",
-        "balde",
-        "igib",
-        "ligo",
-        "tubig"
-    ],
+    "1FA97": ["accordion", "instrumento", "musika"],
+    "1FA98": ["mahabang drum", "conga", "drum", "instrumento", "tunog"],
+    "1FA99": ["barya", "bakal", "ginto", "kayamanan", "pera", "pilak"],
+    "1FA9A": ["lagari", "gamit", "kahoy", "karpintero"],
+    "1FA9B": ["screwdriver", "gamit", "tornilyo"],
+    "1FA9C": ["hagdan", "akyat", "hakbang"],
+    "1FA9D": ["kawit", "huli", "sabit", "selling point"],
+    "1FA9E": ["salamin", "makeup", "reflector", "repleksyon"],
+    "1FA9F": ["bintana", "bukasan", "frame", "sariwang hangin", "view"],
+    "1FAA0": ["plunger", "kubeta"],
+    "1FAA1": ["karayom", "burda", "pananahi", "sinulid", "sulsi", "tahi"],
+    "1FAA2": ["buhol", "nakapalupot", "tali"],
+    "1FAA3": ["timba", "balde", "igib", "ligo", "tubig"],
     "1FAA4": [
         "panghuli ng daga",
         "daga",
@@ -25893,53 +21808,13 @@
         "silo",
         "trap"
     ],
-    "1FAA5": [
-        "sipilyo",
-        "banyo",
-        "kalinisan",
-        "malinis",
-        "ngipin"
-    ],
-    "1FAA6": [
-        "lapida",
-        "alaala",
-        "libingan",
-        "patay",
-        "puntod",
-        "sementeryo"
-    ],
-    "1FAA7": [
-        "karatula",
-        "demonstrasyon",
-        "protesta",
-        "welga"
-    ],
-    "1FAA8": [
-        "bato",
-        "mabigat",
-        "malaking bato",
-        "matigas"
-    ],
-    "1FAA9": [
-        "disco ball",
-        "disco",
-        "kinang",
-        "party",
-        "sayaw",
-        "sayawan"
-    ],
-    "1FAAA": [
-        "identification card",
-        "card",
-        "ID",
-        "lisensya"
-    ],
-    "1FAAB": [
-        "paubos ang baterya",
-        "low bat",
-        "low battery",
-        "paubos"
-    ],
+    "1FAA5": ["sipilyo", "banyo", "kalinisan", "malinis", "ngipin"],
+    "1FAA6": ["lapida", "alaala", "libingan", "patay", "puntod", "sementeryo"],
+    "1FAA7": ["karatula", "demonstrasyon", "protesta", "welga"],
+    "1FAA8": ["bato", "mabigat", "malaking bato", "matigas"],
+    "1FAA9": ["disco ball", "disco", "kinang", "party", "sayaw", "sayawan"],
+    "1FAAA": ["identification card", "card", "ID", "lisensya"],
+    "1FAAB": ["paubos ang baterya", "low bat", "low battery", "paubos"],
     "1FAAC": [
         "hamsa",
         "gabay",
@@ -25967,11 +21842,7 @@
         "suklay",
         "suyod"
     ],
-    "1FAAF": [
-        "khanda",
-        "relihiyon",
-        "Sikh"
-    ],
+    "1FAAF": ["khanda", "relihiyon", "Sikh"],
     "1FAB0": [
         "langaw",
         "bangaw",
@@ -25991,18 +21862,8 @@
         "lupa",
         "parasite"
     ],
-    "1FAB2": [
-        "salaginto",
-        "hayop",
-        "insekto",
-        "kulisap"
-    ],
-    "1FAB3": [
-        "ipis",
-        "hayop",
-        "insekto",
-        "peste"
-    ],
+    "1FAB2": ["salaginto", "hayop", "insekto", "kulisap"],
+    "1FAB3": ["ipis", "hayop", "insekto", "peste"],
     "1FAB4": [
         "nakapasong halaman",
         "bahay",
@@ -26013,38 +21874,11 @@
         "palakihin",
         "walang silbi"
     ],
-    "1FAB5": [
-        "kahoy",
-        "lumber",
-        "puno",
-        "tabla",
-        "troso"
-    ],
-    "1FAB6": [
-        "balahibo",
-        "ibon",
-        "lumilipad",
-        "magaan",
-        "pluma"
-    ],
-    "1FAB7": [
-        "lotus",
-        "bulaklak",
-        "ganda",
-        "kapayapaan"
-    ],
-    "1FAB8": [
-        "korales",
-        "climate change",
-        "corals",
-        "dagat",
-        "reef"
-    ],
-    "1FAB9": [
-        "bakanteng pugad",
-        "kanlungan",
-        "pugad"
-    ],
+    "1FAB5": ["kahoy", "lumber", "puno", "tabla", "troso"],
+    "1FAB6": ["balahibo", "ibon", "lumilipad", "magaan", "pluma"],
+    "1FAB7": ["lotus", "bulaklak", "ganda", "kapayapaan"],
+    "1FAB8": ["korales", "climate change", "corals", "dagat", "reef"],
+    "1FAB9": ["bakanteng pugad", "kanlungan", "pugad"],
     "1FABA": [
         "pugad na may mga itlog",
         "kanlungan",
@@ -26077,25 +21911,9 @@
         "mitolohiya",
         "paglalayag"
     ],
-    "1FABE": [
-        "puno na walang dahon",
-        "taglamig",
-        "tigang",
-        "tuyot"
-    ],
-    "1FABF": [
-        "gansa",
-        "bumubusina",
-        "fowl",
-        "hangal",
-        "ibon"
-    ],
-    "1FAC0": [
-        "puso",
-        "organ",
-        "pulso",
-        "tibok ng puso"
-    ],
+    "1FABE": ["puno na walang dahon", "taglamig", "tigang", "tuyot"],
+    "1FABF": ["gansa", "bumubusina", "fowl", "hangal", "ibon"],
+    "1FAC0": ["puso", "organ", "pulso", "tibok ng puso"],
     "1FAC1": [
         "baga",
         "organ",
@@ -26114,12 +21932,7 @@
         "salamat",
         "yakap"
     ],
-    "1FAC3": [
-        "lalaking buntis",
-        "bundat",
-        "busog",
-        "lalaki"
-    ],
+    "1FAC3": ["lalaking buntis", "bundat", "busog", "lalaki"],
     "1FAC3 1F3FB": [
         "lalaking buntis: light na kulay ng balat",
         "bundat",
@@ -26160,11 +21973,7 @@
         "lalaki",
         "lalaking buntis"
     ],
-    "1FAC4": [
-        "taong buntis",
-        "bundat",
-        "busog"
-    ],
+    "1FAC4": ["taong buntis", "bundat", "busog"],
     "1FAC4 1F3FB": [
         "taong buntis: light na kulay ng balat",
         "bundat",
@@ -26275,27 +22084,9 @@
         "woodwose",
         "yeti"
     ],
-    "1FACD": [
-        "orca",
-        "balyena",
-        "dagat",
-        "marine"
-    ],
-    "1FACE": [
-        "moose",
-        "antler",
-        "elk",
-        "hayop",
-        "mamalya"
-    ],
-    "1FACF": [
-        "asno",
-        "burro",
-        "hayop",
-        "mamalya",
-        "matigas ang ulo",
-        "mule"
-    ],
+    "1FACD": ["orca", "balyena", "dagat", "marine"],
+    "1FACE": ["moose", "antler", "elk", "hayop", "mamalya"],
+    "1FACF": ["asno", "burro", "hayop", "mamalya", "matigas ang ulo", "mule"],
     "1FAD0": [
         "blueberries",
         "asul",
@@ -26304,18 +22095,8 @@
         "blueberry",
         "pagkain"
     ],
-    "1FAD1": [
-        "bell pepper",
-        "capsicum",
-        "gulay",
-        "pagkain",
-        "sili"
-    ],
-    "1FAD2": [
-        "olive",
-        "pagkain",
-        "salad"
-    ],
+    "1FAD1": ["bell pepper", "capsicum", "gulay", "pagkain", "sili"],
+    "1FAD2": ["olive", "pagkain", "salad"],
     "1FAD3": [
         "flatbread",
         "arepa",
@@ -26325,13 +22106,7 @@
         "pagkain",
         "pita"
     ],
-    "1FAD4": [
-        "tamale",
-        "meryenda",
-        "mexican",
-        "nakabalot",
-        "pagkain"
-    ],
+    "1FAD4": ["tamale", "meryenda", "mexican", "nakabalot", "pagkain"],
     "1FAD5": [
         "fondue",
         "keso",
@@ -26341,12 +22116,7 @@
         "swiss",
         "tsokolate"
     ],
-    "1FAD6": [
-        "teapot",
-        "inumin",
-        "pagkain",
-        "tsaa"
-    ],
+    "1FAD6": ["teapot", "inumin", "pagkain", "tsaa"],
     "1FAD7": [
         "binubuhos na likido",
         "aksidente",
@@ -26355,25 +22125,9 @@
         "tapon",
         "tubig"
     ],
-    "1FAD8": [
-        "beans",
-        "munggo",
-        "pagkain",
-        "sitaw"
-    ],
-    "1FAD9": [
-        "garapon",
-        "container",
-        "garapa",
-        "lalagyan",
-        "walang laman"
-    ],
-    "1FADA": [
-        "luya",
-        "beer",
-        "rekado",
-        "ugat"
-    ],
+    "1FAD8": ["beans", "munggo", "pagkain", "sitaw"],
+    "1FAD9": ["garapon", "container", "garapa", "lalagyan", "walang laman"],
+    "1FADA": ["luya", "beer", "rekado", "ugat"],
     "1FADB": [
         "gisante",
         "beans",
@@ -26383,21 +22137,8 @@
         "munggo",
         "pod"
     ],
-    "1FADC": [
-        "ugat na gulay",
-        "beet",
-        "gulay",
-        "hardin",
-        "turnip",
-        "ugat"
-    ],
-    "1FADF": [
-        "tilamsik",
-        "holi",
-        "mantsa",
-        "natapon",
-        "pintura"
-    ],
+    "1FADC": ["ugat na gulay", "beet", "gulay", "hardin", "turnip", "ugat"],
+    "1FADF": ["tilamsik", "holi", "mantsa", "natapon", "pintura"],
     "1FAE0": [
         "natutunaw na mukha",
         "banas",
@@ -26408,13 +22149,7 @@
         "sarcastic",
         "tunaw"
     ],
-    "1FAE1": [
-        "saludo",
-        "maaraw",
-        "ok",
-        "oo",
-        "tropa"
-    ],
+    "1FAE1": ["saludo", "maaraw", "ok", "oo", "tropa"],
     "1FAE2": [
         "mukha na may mga nakabukas na mata at kamay sa bibig",
         "di makapaniwala",
@@ -26899,14 +22634,7 @@
         "kamay",
         "pakaliwang kamay"
     ],
-    "1FAF3": [
-        "nakataob na palad",
-        "bitaw",
-        "dampot",
-        "kamay",
-        "kuha",
-        "pulot"
-    ],
+    "1FAF3": ["nakataob na palad", "bitaw", "dampot", "kamay", "kuha", "pulot"],
     "1FAF3 1F3FB": [
         "nakataob na palad: light na kulay ng balat",
         "bitaw",

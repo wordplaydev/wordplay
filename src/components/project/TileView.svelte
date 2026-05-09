@@ -15,26 +15,26 @@
 <script lang="ts">
     import Emoji from '@components/app/Emoji.svelte';
     import Subheader from '@components/app/Subheader.svelte';
-    import type { Snippet } from 'svelte';
-    import { onMount } from 'svelte';
-    import { animationDuration, locales } from '@db/Database';
-    import type Project from '@db/projects/Project';
-    import {
-        Arrangement,
-        type ArrangementType,
-    } from '@db/settings/Arrangement';
-    import Characters from '../../lore/BasisCharacters';
-    import Color from '@output/Color';
-    import { isName } from '@parser/Tokenizer';
-    import Button from '@components/widgets/Button.svelte';
-    import TextField from '@components/widgets/TextField.svelte';
-    import Toggle from '@components/widgets/Toggle.svelte';
     import type Bounds from '@components/project/Bounds';
     import FullscreenIcon from '@components/project/FullscreenIcon.svelte';
     import type Layout from '@components/project/Layout';
     import type Tile from '@components/project/Tile';
     import { TileMode } from '@components/project/Tile';
     import TileKinds from '@components/project/TileKinds';
+    import Button from '@components/widgets/Button.svelte';
+    import TextField from '@components/widgets/TextField.svelte';
+    import Toggle from '@components/widgets/Toggle.svelte';
+    import { animationDuration, locales } from '@db/Database';
+    import type Project from '@db/projects/Project';
+    import {
+        Arrangement,
+        type ArrangementType,
+    } from '@db/settings/Arrangement';
+    import Color from '@output/Color';
+    import { isName } from '@parser/Tokenizer';
+    import type { Snippet } from 'svelte';
+    import { onMount } from 'svelte';
+    import Characters from '../../lore/BasisCharacters';
 
     interface Props {
         project: Project;
@@ -49,6 +49,11 @@
         animated: boolean;
         title: Snippet;
         content: Snippet;
+        /** Optional content rendered immediately after the tile's
+         * `<Subheader>` — typically a tour-launch button. Kept separate
+         * from `extra` so tour triggers have a consistent home next to
+         * the tile name rather than mixed in with the toolbar. */
+        help?: Snippet;
         extra?: Snippet;
         margin?: Snippet;
         footer?: Snippet;
@@ -77,6 +82,7 @@
         editable,
         animated,
         title,
+        help,
         extra,
         content,
         margin,
@@ -157,8 +163,7 @@
                             : tStyle.columnGap,
                     ) || 0;
                 for (let i = 0; i < toolbarChildren.length; i++) {
-                    toolbarW += (toolbarChildren[i] as HTMLElement)
-                        .offsetWidth;
+                    toolbarW += (toolbarChildren[i] as HTMLElement).offsetWidth;
                 }
                 if (toolbarChildren.length > 1)
                     toolbarW += tGap * (toolbarChildren.length - 1);
@@ -447,6 +452,7 @@
                         {@render title()}
                     </div>
                 </Subheader>
+                {#if help}{@render help()}{/if}
             </div>
             {#if extra}
                 <div class="toolbar" bind:this={toolbarEl}>
@@ -641,7 +647,7 @@
         display: grid;
         grid-template-columns: auto minmax(0, 1fr) auto;
         grid-template-areas: 'name toolbar controls';
-        align-items: baseline;
+        align-items: center;
         padding: var(--wordplay-spacing);
         gap: var(--wordplay-spacing);
         width: 100%;
@@ -665,6 +671,12 @@
     .name-section {
         grid-area: name;
         min-width: 0;
+        /* Lay out the Subheader and (optional) help button inline so the tour
+           trigger sits immediately to the right of the tile's name. */
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: var(--wordplay-spacing);
     }
 
     .focus-indicator {

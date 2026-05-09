@@ -4405,7 +4405,15 @@
                             "kind",
                             "Och en annan sak som @Block kan göra är något du redan har sett. @Block låter dig namnge saker med @Bind. Men alla namn som definieras i @Block definieras bara mellan parentesen. Inte före och inte efter. Kolla till exempel detta: \\a\\ definieras som \\1\\, sedan startar ett block, \\b\\ definieras som \\2\\, sedan \\c\\ som deras summa, och sedan skriver jag \\c\\ ensamt. @Bind-satser är sidoeffekter — de introducerar namn men har inget eget värde. Så mitt värde är vad uttrycken som inte är @Bind ger. Här är det bara \\c\\, vilket är \\3\\. Rätt?"
                         ],
-                        ["conflict", "a: 1", "(", "  b: 2", "  c: a + b", "  c", ")"],
+                        [
+                            "conflict",
+                            "a: 1",
+                            "(",
+                            "  b: 2",
+                            "  c: a + b",
+                            "  c",
+                            ")"
+                        ],
                         null,
                         [
                             "FunctionDefinition",
@@ -4432,11 +4440,7 @@
                             "neutral",
                             "Och en sak till, tror jag? Eftersom @Block är en lista med uttryck blir värdena på alla uttryck som inte är @Bind mitt värde. Om det bara finns ett får du det enda värdet. Om det finns flera får du en lista med dem alla, i ordning. Så här blir \\3\\, \\5\\, \\7\\ och \\9\\ alla en lista: \\[3 5 7 9]\\. Har jag fattat det rätt, @Block?"
                         ],
-                        [
-                            "Block",
-                            "shy",
-                            "… mhm. Alla, i en lista."
-                        ],
+                        ["Block", "shy", "… mhm. Alla, i en lista."],
                         [
                             "conflict",
                             "(",
@@ -4457,13 +4461,7 @@
                             "shy",
                             "… då skulle jag inte ha något att ge. Jag behöver minst ett uttryck som inte är @Bind, annars måste jag säga att något saknas."
                         ],
-                        [
-                            "conflict",
-                            "(",
-                            "  a: 1",
-                            "  b: 2",
-                            ")"
-                        ],
+                        ["conflict", "(", "  a: 1", "  b: 2", ")"],
                         null,
                         [
                             "FunctionDefinition",

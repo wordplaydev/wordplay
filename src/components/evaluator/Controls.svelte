@@ -28,7 +28,7 @@
     const evaluation = getEvaluation();
 </script>
 
-<CommandButton padding background command={Restart} />
+<CommandButton padding background command={Restart} uiid="timelineReset" />
 <Switch
     on={$evaluation?.playing === true}
     toggle={(play) => (play ? evaluator.play() : evaluator.pause())}
@@ -39,12 +39,23 @@
     uiid="playToggle"
     shortcut={toShortcut(Play)}
 />
-<CommandButton command={StepToStart} />
-<CommandButton command={StepBackInput} />
-<CommandButton command={StepBackNode} />
-<CommandButton command={StepBack} />
-<CommandButton command={StepOut} />
-<CommandButton command={StepForward} />
-<CommandButton command={StepForwardNode} />
-<CommandButton command={StepForwardInput} />
-<CommandButton command={StepToPresent} />
+<div class="step-controls" data-uiid="stepControls">
+    <CommandButton command={StepToStart} />
+    <CommandButton command={StepBackInput} />
+    <CommandButton command={StepBackNode} />
+    <CommandButton command={StepBack} />
+    <CommandButton command={StepOut} />
+    <CommandButton command={StepForward} />
+    <CommandButton command={StepForwardNode} />
+    <CommandButton command={StepForwardInput} />
+    <CommandButton command={StepToPresent} />
+</div>
+
+<style>
+    .step-controls {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: var(--wordplay-spacing);
+    }
+</style>

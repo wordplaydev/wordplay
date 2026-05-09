@@ -21,49 +21,13 @@
         "steaming",
         "tea"
     ],
-    "2648": [
-        "Aries",
-        "horoscope",
-        "ram",
-        "zodiac"
-    ],
-    "2649": [
-        "Taurus",
-        "bull",
-        "horoscope",
-        "ox",
-        "zodiac"
-    ],
-    "2650": [
-        "Sagittarius",
-        "archer",
-        "horoscope",
-        "zodiac"
-    ],
-    "2651": [
-        "Capricorn",
-        "goat",
-        "horoscope",
-        "zodiac"
-    ],
-    "2652": [
-        "Aquarius",
-        "bearer",
-        "horoscope",
-        "water",
-        "zodiac"
-    ],
-    "2653": [
-        "Pisces",
-        "fish",
-        "horoscope",
-        "zodiac"
-    ],
-    "2693": [
-        "anchor",
-        "ship",
-        "tool"
-    ],
+    "2648": ["Aries", "horoscope", "ram", "zodiac"],
+    "2649": ["Taurus", "bull", "horoscope", "ox", "zodiac"],
+    "2650": ["Sagittarius", "archer", "horoscope", "zodiac"],
+    "2651": ["Capricorn", "goat", "horoscope", "zodiac"],
+    "2652": ["Aquarius", "bearer", "horoscope", "water", "zodiac"],
+    "2653": ["Pisces", "fish", "horoscope", "zodiac"],
+    "2693": ["anchor", "ship", "tool"],
     "2705": [
         "check mark button",
         "✓",
@@ -78,13 +42,7 @@
         "mark",
         "tick"
     ],
-    "2728": [
-        "sparkles",
-        "*",
-        "magic",
-        "sparkle",
-        "star"
-    ],
+    "2728": ["sparkles", "*", "magic", "sparkle", "star"],
     "2753": [
         "red question mark",
         "?",
@@ -121,158 +79,36 @@
         "punctuation",
         "red"
     ],
-    "2764": [
-        "red heart",
-        "emotion",
-        "heart",
-        "love",
-        "red"
-    ],
-    "2795": [
-        "plus",
-        "+"
-    ],
-    "2796": [
-        "minus",
-        "-",
-        "−",
-        "heavy",
-        "math",
-        "sign"
-    ],
-    "2797": [
-        "divide",
-        "÷",
-        "division",
-        "heavy",
-        "math",
-        "sign"
-    ],
-    "0023": [
-        "hash sign",
-        "hash",
-        "hashtag",
-        "lb",
-        "number",
-        "pound",
-        "sign"
-    ],
-    "0023 FE0F 20E3": [
-        "keycap: #",
-        "keycap"
-    ],
-    "002A": [
-        "asterisk",
-        "star",
-        "wildcard"
-    ],
-    "002A FE0F 20E3": [
-        "keycap: *",
-        "keycap"
-    ],
-    "0030": [
-        "digit zero"
-    ],
-    "0030 FE0F 20E3": [
-        "keycap: 0",
-        "0",
-        "keycap",
-        "zero"
-    ],
-    "0031": [
-        "digit one"
-    ],
-    "0031 FE0F 20E3": [
-        "keycap: 1",
-        "1",
-        "keycap",
-        "one"
-    ],
-    "0032": [
-        "digit two"
-    ],
-    "0032 FE0F 20E3": [
-        "keycap: 2",
-        "2",
-        "keycap",
-        "two"
-    ],
-    "0033": [
-        "digit three"
-    ],
-    "0033 FE0F 20E3": [
-        "keycap: 3",
-        "3",
-        "keycap",
-        "three"
-    ],
-    "0034": [
-        "digit four"
-    ],
-    "0034 FE0F 20E3": [
-        "keycap: 4",
-        "4",
-        "four",
-        "keycap"
-    ],
-    "0035": [
-        "digit five"
-    ],
-    "0035 FE0F 20E3": [
-        "keycap: 5",
-        "5",
-        "five",
-        "keycap"
-    ],
-    "0036": [
-        "digit six"
-    ],
-    "0036 FE0F 20E3": [
-        "keycap: 6",
-        "6",
-        "keycap",
-        "six"
-    ],
-    "0037": [
-        "digit seven"
-    ],
-    "0037 FE0F 20E3": [
-        "keycap: 7",
-        "7",
-        "keycap",
-        "seven"
-    ],
-    "0038": [
-        "digit eight"
-    ],
-    "0038 FE0F 20E3": [
-        "keycap: 8",
-        "8",
-        "eight",
-        "keycap"
-    ],
-    "0039": [
-        "digit nine"
-    ],
-    "0039 FE0F 20E3": [
-        "keycap: 9",
-        "9",
-        "keycap",
-        "nine"
-    ],
-    "231A": [
-        "watch",
-        "clock",
-        "time"
-    ],
-    "231B": [
-        "hourglass done",
-        "done",
-        "hourglass",
-        "sand",
-        "time",
-        "timer"
-    ],
+    "2764": ["red heart", "emotion", "heart", "love", "red"],
+    "2795": ["plus", "+"],
+    "2796": ["minus", "-", "−", "heavy", "math", "sign"],
+    "2797": ["divide", "÷", "division", "heavy", "math", "sign"],
+    "0023": ["hash sign", "hash", "hashtag", "lb", "number", "pound", "sign"],
+    "0023 FE0F 20E3": ["keycap: #", "keycap"],
+    "002A": ["asterisk", "star", "wildcard"],
+    "002A FE0F 20E3": ["keycap: *", "keycap"],
+    "0030": ["digit zero"],
+    "0030 FE0F 20E3": ["keycap: 0", "0", "keycap", "zero"],
+    "0031": ["digit one"],
+    "0031 FE0F 20E3": ["keycap: 1", "1", "keycap", "one"],
+    "0032": ["digit two"],
+    "0032 FE0F 20E3": ["keycap: 2", "2", "keycap", "two"],
+    "0033": ["digit three"],
+    "0033 FE0F 20E3": ["keycap: 3", "3", "keycap", "three"],
+    "0034": ["digit four"],
+    "0034 FE0F 20E3": ["keycap: 4", "4", "four", "keycap"],
+    "0035": ["digit five"],
+    "0035 FE0F 20E3": ["keycap: 5", "5", "five", "keycap"],
+    "0036": ["digit six"],
+    "0036 FE0F 20E3": ["keycap: 6", "6", "keycap", "six"],
+    "0037": ["digit seven"],
+    "0037 FE0F 20E3": ["keycap: 7", "7", "keycap", "seven"],
+    "0038": ["digit eight"],
+    "0038 FE0F 20E3": ["keycap: 8", "8", "eight", "keycap"],
+    "0039": ["digit nine"],
+    "0039 FE0F 20E3": ["keycap: 9", "9", "keycap", "nine"],
+    "231A": ["watch", "clock", "time"],
+    "231B": ["hourglass done", "done", "hourglass", "sand", "time", "timer"],
     "23E9": [
         "fast-forward button",
         "arrow",
@@ -291,22 +127,8 @@
         "reverse",
         "rewind"
     ],
-    "23EB": [
-        "fast up button",
-        "arrow",
-        "button",
-        "double",
-        "fast",
-        "up"
-    ],
-    "23EC": [
-        "fast down button",
-        "arrow",
-        "button",
-        "double",
-        "down",
-        "fast"
-    ],
+    "23EB": ["fast up button", "arrow", "button", "double", "fast", "up"],
+    "23EC": ["fast down button", "arrow", "button", "double", "down", "fast"],
     "23F0": [
         "alarm clock",
         "alarm",
@@ -408,51 +230,13 @@
         "this",
         "up"
     ],
-    "264A": [
-        "Gemini",
-        "horoscope",
-        "twins",
-        "zodiac"
-    ],
-    "264B": [
-        "Cancer",
-        "crab",
-        "horoscope",
-        "zodiac"
-    ],
-    "264C": [
-        "Leo",
-        "horoscope",
-        "lion",
-        "zodiac"
-    ],
-    "264D": [
-        "Virgo",
-        "horoscope",
-        "zodiac"
-    ],
-    "264E": [
-        "Libra",
-        "balance",
-        "horoscope",
-        "justice",
-        "scales",
-        "zodiac"
-    ],
-    "264F": [
-        "Scorpio",
-        "horoscope",
-        "scorpion",
-        "Scorpius",
-        "zodiac"
-    ],
-    "267F": [
-        "wheelchair symbol",
-        "access",
-        "handicap",
-        "symbol",
-        "wheelchair"
-    ],
+    "264A": ["Gemini", "horoscope", "twins", "zodiac"],
+    "264B": ["Cancer", "crab", "horoscope", "zodiac"],
+    "264C": ["Leo", "horoscope", "lion", "zodiac"],
+    "264D": ["Virgo", "horoscope", "zodiac"],
+    "264E": ["Libra", "balance", "horoscope", "justice", "scales", "zodiac"],
+    "264F": ["Scorpio", "horoscope", "scorpion", "Scorpius", "zodiac"],
+    "267F": ["wheelchair symbol", "access", "handicap", "symbol", "wheelchair"],
     "26A1": [
         "high voltage",
         "danger",
@@ -466,57 +250,14 @@
         "voltage",
         "zap"
     ],
-    "26AA": [
-        "white circle",
-        "circle",
-        "geometric",
-        "white"
-    ],
-    "26AB": [
-        "black circle",
-        "black",
-        "circle",
-        "geometric"
-    ],
-    "26BD": [
-        "soccer ball",
-        "ball",
-        "football",
-        "futbol",
-        "soccer",
-        "sport"
-    ],
-    "26BE": [
-        "baseball",
-        "ball",
-        "sport"
-    ],
-    "26C4": [
-        "snowman without snow",
-        "cold",
-        "man",
-        "snow",
-        "snowman"
-    ],
-    "26C5": [
-        "sun behind cloud",
-        "behind",
-        "cloud",
-        "cloudy",
-        "sun",
-        "weather"
-    ],
-    "26CE": [
-        "Ophiuchus",
-        "bearer",
-        "serpent",
-        "snake",
-        "zodiac"
-    ],
-    "26D3": [
-        "chains",
-        "chain"
-    ],
+    "26AA": ["white circle", "circle", "geometric", "white"],
+    "26AB": ["black circle", "black", "circle", "geometric"],
+    "26BD": ["soccer ball", "ball", "football", "futbol", "soccer", "sport"],
+    "26BE": ["baseball", "ball", "sport"],
+    "26C4": ["snowman without snow", "cold", "man", "snow", "snowman"],
+    "26C5": ["sun behind cloud", "behind", "cloud", "cloudy", "sun", "weather"],
+    "26CE": ["Ophiuchus", "bearer", "serpent", "snake", "zodiac"],
+    "26D3": ["chains", "chain"],
     "26D3 FE0F 200D 1F4A5": [
         "broken chain",
         "break",
@@ -538,32 +279,10 @@
         "prohibited",
         "traffic"
     ],
-    "26EA": [
-        "church",
-        "bless",
-        "chapel",
-        "Christian",
-        "cross",
-        "religion"
-    ],
-    "26F2": [
-        "fountain"
-    ],
-    "26F3": [
-        "flag in hole",
-        "flag",
-        "golf",
-        "hole",
-        "sport"
-    ],
-    "26F5": [
-        "sailboat",
-        "boat",
-        "resort",
-        "sailing",
-        "sea",
-        "yacht"
-    ],
+    "26EA": ["church", "bless", "chapel", "Christian", "cross", "religion"],
+    "26F2": ["fountain"],
+    "26F3": ["flag in hole", "flag", "golf", "hole", "sport"],
+    "26F5": ["sailboat", "boat", "resort", "sailing", "sea", "yacht"],
     "26F9": [
         "person bouncing ball",
         "athletic",
@@ -647,10 +366,7 @@
         "player",
         "throw"
     ],
-    "26FA": [
-        "tent",
-        "camping"
-    ],
+    "26FA": ["tent", "camping"],
     "26FD": [
         "fuel pump",
         "diesel",
@@ -720,15 +436,7 @@
         "raised",
         "solidarity"
     ],
-    "270B": [
-        "raised hand",
-        "5",
-        "five",
-        "hand",
-        "high",
-        "raised",
-        "stop"
-    ],
+    "270B": ["raised hand", "5", "five", "hand", "high", "raised", "stop"],
     "270B 1F3FB": [
         "raised hand: light skin tone",
         "5",
@@ -779,13 +487,7 @@
         "raised",
         "stop"
     ],
-    "270C": [
-        "victory hand",
-        "hand",
-        "peace",
-        "v",
-        "victory"
-    ],
+    "270C": ["victory hand", "hand", "peace", "v", "victory"],
     "270C 1F3FB": [
         "victory hand: light skin tone",
         "hand",
@@ -826,12 +528,7 @@
         "v",
         "victory"
     ],
-    "270D": [
-        "writing hand",
-        "hand",
-        "write",
-        "writing"
-    ],
+    "270D": ["writing hand", "hand", "write", "writing"],
     "270D 1F3FB": [
         "writing hand: light skin tone",
         "hand",
@@ -907,40 +604,11 @@
         "recuperating",
         "well"
     ],
-    "27B0": [
-        "curly loop",
-        "curl",
-        "curly",
-        "loop"
-    ],
-    "27BF": [
-        "double curly loop",
-        "curl",
-        "curly",
-        "double",
-        "loop"
-    ],
-    "2B1B": [
-        "black large square",
-        "black",
-        "geometric",
-        "large",
-        "square"
-    ],
-    "2B1C": [
-        "white large square",
-        "geometric",
-        "large",
-        "square",
-        "white"
-    ],
-    "2B50": [
-        "star",
-        "astronomy",
-        "medium",
-        "stars",
-        "white"
-    ],
+    "27B0": ["curly loop", "curl", "curly", "loop"],
+    "27BF": ["double curly loop", "curl", "curly", "double", "loop"],
+    "2B1B": ["black large square", "black", "geometric", "large", "square"],
+    "2B1C": ["white large square", "geometric", "large", "square", "white"],
+    "2B50": ["star", "astronomy", "medium", "stars", "white"],
     "2B55": [
         "hollow red circle",
         "circle",
@@ -950,1196 +618,304 @@
         "o",
         "red"
     ],
-    "1F004": [
-        "mahjong red dragon",
-        "dragon",
-        "game",
-        "mahjong",
-        "red"
-    ],
-    "1F0CF": [
-        "joker",
-        "card",
-        "game",
-        "wildcard"
-    ],
-    "1F18E": [
-        "AB button (blood type)",
-        "AB",
-        "blood",
-        "button",
-        "type"
-    ],
-    "1F191": [
-        "CL button",
-        "button",
-        "CL"
-    ],
-    "1F192": [
-        "COOL button",
-        "button",
-        "COOL"
-    ],
-    "1F193": [
-        "FREE button",
-        "button",
-        "FREE"
-    ],
-    "1F194": [
-        "ID button",
-        "button",
-        "ID",
-        "identity"
-    ],
-    "1F195": [
-        "NEW button",
-        "button",
-        "NEW"
-    ],
-    "1F196": [
-        "NG button",
-        "button",
-        "NG"
-    ],
-    "1F197": [
-        "OK button",
-        "button",
-        "OK",
-        "okay"
-    ],
-    "1F198": [
-        "SOS button",
-        "button",
-        "help",
-        "SOS"
-    ],
-    "1F199": [
-        "UP! button",
-        "button",
-        "mark",
-        "UP",
-        "UP!"
-    ],
-    "1F19A": [
-        "VS button",
-        "button",
-        "versus",
-        "VS"
-    ],
-    "1F1E6": [
-        "regional indicator symbol letter a"
-    ],
-    "1F1E6 1F1E8": [
-        "flag: Ascension Island",
-        "flag"
-    ],
-    "1F1E6 1F1E9": [
-        "flag: Andorra",
-        "flag"
-    ],
-    "1F1E6 1F1EA": [
-        "flag: United Arab Emirates",
-        "flag"
-    ],
-    "1F1E6 1F1EB": [
-        "flag: Afghanistan",
-        "flag"
-    ],
-    "1F1E6 1F1EC": [
-        "flag: Antigua & Barbuda",
-        "flag"
-    ],
-    "1F1E6 1F1EE": [
-        "flag: Anguilla",
-        "flag"
-    ],
-    "1F1E6 1F1F1": [
-        "flag: Albania",
-        "flag"
-    ],
-    "1F1E6 1F1F2": [
-        "flag: Armenia",
-        "flag"
-    ],
-    "1F1E6 1F1F4": [
-        "flag: Angola",
-        "flag"
-    ],
-    "1F1E6 1F1F6": [
-        "flag: Antarctica",
-        "flag"
-    ],
-    "1F1E6 1F1F7": [
-        "flag: Argentina",
-        "flag"
-    ],
-    "1F1E6 1F1F8": [
-        "flag: American Samoa",
-        "flag"
-    ],
-    "1F1E6 1F1F9": [
-        "flag: Austria",
-        "flag"
-    ],
-    "1F1E6 1F1FA": [
-        "flag: Australia",
-        "flag"
-    ],
-    "1F1E6 1F1FC": [
-        "flag: Aruba",
-        "flag"
-    ],
-    "1F1E6 1F1FD": [
-        "flag: Åland Islands",
-        "flag"
-    ],
-    "1F1E6 1F1FF": [
-        "flag: Azerbaijan",
-        "flag"
-    ],
-    "1F1E7": [
-        "regional indicator symbol letter b"
-    ],
-    "1F1E7 1F1E6": [
-        "flag: Bosnia & Herzegovina",
-        "flag"
-    ],
-    "1F1E7 1F1E7": [
-        "flag: Barbados",
-        "flag"
-    ],
-    "1F1E7 1F1E9": [
-        "flag: Bangladesh",
-        "flag"
-    ],
-    "1F1E7 1F1EA": [
-        "flag: Belgium",
-        "flag"
-    ],
-    "1F1E7 1F1EB": [
-        "flag: Burkina Faso",
-        "flag"
-    ],
-    "1F1E7 1F1EC": [
-        "flag: Bulgaria",
-        "flag"
-    ],
-    "1F1E7 1F1ED": [
-        "flag: Bahrain",
-        "flag"
-    ],
-    "1F1E7 1F1EE": [
-        "flag: Burundi",
-        "flag"
-    ],
-    "1F1E7 1F1EF": [
-        "flag: Benin",
-        "flag"
-    ],
-    "1F1E7 1F1F1": [
-        "flag: St. Barthélemy",
-        "flag"
-    ],
-    "1F1E7 1F1F2": [
-        "flag: Bermuda",
-        "flag"
-    ],
-    "1F1E7 1F1F3": [
-        "flag: Brunei",
-        "flag"
-    ],
-    "1F1E7 1F1F4": [
-        "flag: Bolivia",
-        "flag"
-    ],
-    "1F1E7 1F1F6": [
-        "flag: Caribbean Netherlands",
-        "flag"
-    ],
-    "1F1E7 1F1F7": [
-        "flag: Brazil",
-        "flag"
-    ],
-    "1F1E7 1F1F8": [
-        "flag: Bahamas",
-        "flag"
-    ],
-    "1F1E7 1F1F9": [
-        "flag: Bhutan",
-        "flag"
-    ],
-    "1F1E7 1F1FB": [
-        "flag: Bouvet Island",
-        "flag"
-    ],
-    "1F1E7 1F1FC": [
-        "flag: Botswana",
-        "flag"
-    ],
-    "1F1E7 1F1FE": [
-        "flag: Belarus",
-        "flag"
-    ],
-    "1F1E7 1F1FF": [
-        "flag: Belize",
-        "flag"
-    ],
-    "1F1E8": [
-        "regional indicator symbol letter c"
-    ],
-    "1F1E8 1F1E6": [
-        "flag: Canada",
-        "flag"
-    ],
-    "1F1E8 1F1E8": [
-        "flag: Cocos (Keeling) Islands",
-        "flag"
-    ],
-    "1F1E8 1F1E9": [
-        "flag: Congo - Kinshasa",
-        "flag"
-    ],
-    "1F1E8 1F1EB": [
-        "flag: Central African Republic",
-        "flag"
-    ],
-    "1F1E8 1F1EC": [
-        "flag: Congo - Brazzaville",
-        "flag"
-    ],
-    "1F1E8 1F1ED": [
-        "flag: Switzerland",
-        "flag"
-    ],
-    "1F1E8 1F1EE": [
-        "flag: Côte d’Ivoire",
-        "flag"
-    ],
-    "1F1E8 1F1F0": [
-        "flag: Cook Islands",
-        "flag"
-    ],
-    "1F1E8 1F1F1": [
-        "flag: Chile",
-        "flag"
-    ],
-    "1F1E8 1F1F2": [
-        "flag: Cameroon",
-        "flag"
-    ],
-    "1F1E8 1F1F3": [
-        "flag: China",
-        "flag"
-    ],
-    "1F1E8 1F1F4": [
-        "flag: Colombia",
-        "flag"
-    ],
-    "1F1E8 1F1F5": [
-        "flag: Clipperton Island",
-        "flag"
-    ],
-    "1F1E8 1F1F6": [
-        "flag: Sark",
-        "flag"
-    ],
-    "1F1E8 1F1F7": [
-        "flag: Costa Rica",
-        "flag"
-    ],
-    "1F1E8 1F1FA": [
-        "flag: Cuba",
-        "flag"
-    ],
-    "1F1E8 1F1FB": [
-        "flag: Cape Verde",
-        "flag"
-    ],
-    "1F1E8 1F1FC": [
-        "flag: Curaçao",
-        "flag"
-    ],
-    "1F1E8 1F1FD": [
-        "flag: Christmas Island",
-        "flag"
-    ],
-    "1F1E8 1F1FE": [
-        "flag: Cyprus",
-        "flag"
-    ],
-    "1F1E8 1F1FF": [
-        "flag: Czechia",
-        "flag"
-    ],
-    "1F1E9": [
-        "regional indicator symbol letter d"
-    ],
-    "1F1E9 1F1EA": [
-        "flag: Germany",
-        "flag"
-    ],
-    "1F1E9 1F1EC": [
-        "flag: Diego Garcia",
-        "flag"
-    ],
-    "1F1E9 1F1EF": [
-        "flag: Djibouti",
-        "flag"
-    ],
-    "1F1E9 1F1F0": [
-        "flag: Denmark",
-        "flag"
-    ],
-    "1F1E9 1F1F2": [
-        "flag: Dominica",
-        "flag"
-    ],
-    "1F1E9 1F1F4": [
-        "flag: Dominican Republic",
-        "flag"
-    ],
-    "1F1E9 1F1FF": [
-        "flag: Algeria",
-        "flag"
-    ],
-    "1F1EA": [
-        "regional indicator symbol letter e"
-    ],
-    "1F1EA 1F1E6": [
-        "flag: Ceuta & Melilla",
-        "flag"
-    ],
-    "1F1EA 1F1E8": [
-        "flag: Ecuador",
-        "flag"
-    ],
-    "1F1EA 1F1EA": [
-        "flag: Estonia",
-        "flag"
-    ],
-    "1F1EA 1F1EC": [
-        "flag: Egypt",
-        "flag"
-    ],
-    "1F1EA 1F1ED": [
-        "flag: Western Sahara",
-        "flag"
-    ],
-    "1F1EA 1F1F7": [
-        "flag: Eritrea",
-        "flag"
-    ],
-    "1F1EA 1F1F8": [
-        "flag: Spain",
-        "flag"
-    ],
-    "1F1EA 1F1F9": [
-        "flag: Ethiopia",
-        "flag"
-    ],
-    "1F1EA 1F1FA": [
-        "flag: European Union",
-        "flag"
-    ],
-    "1F1EB": [
-        "regional indicator symbol letter f"
-    ],
-    "1F1EB 1F1EE": [
-        "flag: Finland",
-        "flag"
-    ],
-    "1F1EB 1F1EF": [
-        "flag: Fiji",
-        "flag"
-    ],
-    "1F1EB 1F1F0": [
-        "flag: Falkland Islands",
-        "flag"
-    ],
-    "1F1EB 1F1F2": [
-        "flag: Micronesia",
-        "flag"
-    ],
-    "1F1EB 1F1F4": [
-        "flag: Faroe Islands",
-        "flag"
-    ],
-    "1F1EB 1F1F7": [
-        "flag: France",
-        "flag"
-    ],
-    "1F1EC": [
-        "regional indicator symbol letter g"
-    ],
-    "1F1EC 1F1E6": [
-        "flag: Gabon",
-        "flag"
-    ],
-    "1F1EC 1F1E7": [
-        "flag: United Kingdom",
-        "flag"
-    ],
-    "1F1EC 1F1E9": [
-        "flag: Grenada",
-        "flag"
-    ],
-    "1F1EC 1F1EA": [
-        "flag: Georgia",
-        "flag"
-    ],
-    "1F1EC 1F1EB": [
-        "flag: French Guiana",
-        "flag"
-    ],
-    "1F1EC 1F1EC": [
-        "flag: Guernsey",
-        "flag"
-    ],
-    "1F1EC 1F1ED": [
-        "flag: Ghana",
-        "flag"
-    ],
-    "1F1EC 1F1EE": [
-        "flag: Gibraltar",
-        "flag"
-    ],
-    "1F1EC 1F1F1": [
-        "flag: Greenland",
-        "flag"
-    ],
-    "1F1EC 1F1F2": [
-        "flag: Gambia",
-        "flag"
-    ],
-    "1F1EC 1F1F3": [
-        "flag: Guinea",
-        "flag"
-    ],
-    "1F1EC 1F1F5": [
-        "flag: Guadeloupe",
-        "flag"
-    ],
-    "1F1EC 1F1F6": [
-        "flag: Equatorial Guinea",
-        "flag"
-    ],
-    "1F1EC 1F1F7": [
-        "flag: Greece",
-        "flag"
-    ],
-    "1F1EC 1F1F8": [
-        "flag: South Georgia & South Sandwich Islands",
-        "flag"
-    ],
-    "1F1EC 1F1F9": [
-        "flag: Guatemala",
-        "flag"
-    ],
-    "1F1EC 1F1FA": [
-        "flag: Guam",
-        "flag"
-    ],
-    "1F1EC 1F1FC": [
-        "flag: Guinea-Bissau",
-        "flag"
-    ],
-    "1F1EC 1F1FE": [
-        "flag: Guyana",
-        "flag"
-    ],
-    "1F1ED": [
-        "regional indicator symbol letter h"
-    ],
-    "1F1ED 1F1F0": [
-        "flag: Hong Kong SAR China",
-        "flag"
-    ],
-    "1F1ED 1F1F2": [
-        "flag: Heard Island & McDonald Islands",
-        "flag"
-    ],
-    "1F1ED 1F1F3": [
-        "flag: Honduras",
-        "flag"
-    ],
-    "1F1ED 1F1F7": [
-        "flag: Croatia",
-        "flag"
-    ],
-    "1F1ED 1F1F9": [
-        "flag: Haiti",
-        "flag"
-    ],
-    "1F1ED 1F1FA": [
-        "flag: Hungary",
-        "flag"
-    ],
-    "1F1EE": [
-        "regional indicator symbol letter i"
-    ],
-    "1F1EE 1F1E8": [
-        "flag: Canary Islands",
-        "flag"
-    ],
-    "1F1EE 1F1E9": [
-        "flag: Indonesia",
-        "flag"
-    ],
-    "1F1EE 1F1EA": [
-        "flag: Ireland",
-        "flag"
-    ],
-    "1F1EE 1F1F1": [
-        "flag: Israel",
-        "flag"
-    ],
-    "1F1EE 1F1F2": [
-        "flag: Isle of Man",
-        "flag"
-    ],
-    "1F1EE 1F1F3": [
-        "flag: India",
-        "flag"
-    ],
-    "1F1EE 1F1F4": [
-        "flag: British Indian Ocean Territory",
-        "flag"
-    ],
-    "1F1EE 1F1F6": [
-        "flag: Iraq",
-        "flag"
-    ],
-    "1F1EE 1F1F7": [
-        "flag: Iran",
-        "flag"
-    ],
-    "1F1EE 1F1F8": [
-        "flag: Iceland",
-        "flag"
-    ],
-    "1F1EE 1F1F9": [
-        "flag: Italy",
-        "flag"
-    ],
-    "1F1EF": [
-        "regional indicator symbol letter j"
-    ],
-    "1F1EF 1F1EA": [
-        "flag: Jersey",
-        "flag"
-    ],
-    "1F1EF 1F1F2": [
-        "flag: Jamaica",
-        "flag"
-    ],
-    "1F1EF 1F1F4": [
-        "flag: Jordan",
-        "flag"
-    ],
-    "1F1EF 1F1F5": [
-        "flag: Japan",
-        "flag"
-    ],
-    "1F1F0": [
-        "regional indicator symbol letter k"
-    ],
-    "1F1F0 1F1EA": [
-        "flag: Kenya",
-        "flag"
-    ],
-    "1F1F0 1F1EC": [
-        "flag: Kyrgyzstan",
-        "flag"
-    ],
-    "1F1F0 1F1ED": [
-        "flag: Cambodia",
-        "flag"
-    ],
-    "1F1F0 1F1EE": [
-        "flag: Kiribati",
-        "flag"
-    ],
-    "1F1F0 1F1F2": [
-        "flag: Comoros",
-        "flag"
-    ],
-    "1F1F0 1F1F3": [
-        "flag: St. Kitts & Nevis",
-        "flag"
-    ],
-    "1F1F0 1F1F5": [
-        "flag: North Korea",
-        "flag"
-    ],
-    "1F1F0 1F1F7": [
-        "flag: South Korea",
-        "flag"
-    ],
-    "1F1F0 1F1FC": [
-        "flag: Kuwait",
-        "flag"
-    ],
-    "1F1F0 1F1FE": [
-        "flag: Cayman Islands",
-        "flag"
-    ],
-    "1F1F0 1F1FF": [
-        "flag: Kazakhstan",
-        "flag"
-    ],
-    "1F1F1": [
-        "regional indicator symbol letter l"
-    ],
-    "1F1F1 1F1E6": [
-        "flag: Laos",
-        "flag"
-    ],
-    "1F1F1 1F1E7": [
-        "flag: Lebanon",
-        "flag"
-    ],
-    "1F1F1 1F1E8": [
-        "flag: St. Lucia",
-        "flag"
-    ],
-    "1F1F1 1F1EE": [
-        "flag: Liechtenstein",
-        "flag"
-    ],
-    "1F1F1 1F1F0": [
-        "flag: Sri Lanka",
-        "flag"
-    ],
-    "1F1F1 1F1F7": [
-        "flag: Liberia",
-        "flag"
-    ],
-    "1F1F1 1F1F8": [
-        "flag: Lesotho",
-        "flag"
-    ],
-    "1F1F1 1F1F9": [
-        "flag: Lithuania",
-        "flag"
-    ],
-    "1F1F1 1F1FA": [
-        "flag: Luxembourg",
-        "flag"
-    ],
-    "1F1F1 1F1FB": [
-        "flag: Latvia",
-        "flag"
-    ],
-    "1F1F1 1F1FE": [
-        "flag: Libya",
-        "flag"
-    ],
-    "1F1F2": [
-        "regional indicator symbol letter m"
-    ],
-    "1F1F2 1F1E6": [
-        "flag: Morocco",
-        "flag"
-    ],
-    "1F1F2 1F1E8": [
-        "flag: Monaco",
-        "flag"
-    ],
-    "1F1F2 1F1E9": [
-        "flag: Moldova",
-        "flag"
-    ],
-    "1F1F2 1F1EA": [
-        "flag: Montenegro",
-        "flag"
-    ],
-    "1F1F2 1F1EB": [
-        "flag: St. Martin",
-        "flag"
-    ],
-    "1F1F2 1F1EC": [
-        "flag: Madagascar",
-        "flag"
-    ],
-    "1F1F2 1F1ED": [
-        "flag: Marshall Islands",
-        "flag"
-    ],
-    "1F1F2 1F1F0": [
-        "flag: North Macedonia",
-        "flag"
-    ],
-    "1F1F2 1F1F1": [
-        "flag: Mali",
-        "flag"
-    ],
-    "1F1F2 1F1F2": [
-        "flag: Myanmar (Burma)",
-        "flag"
-    ],
-    "1F1F2 1F1F3": [
-        "flag: Mongolia",
-        "flag"
-    ],
-    "1F1F2 1F1F4": [
-        "flag: Macao SAR China",
-        "flag"
-    ],
-    "1F1F2 1F1F5": [
-        "flag: Northern Mariana Islands",
-        "flag"
-    ],
-    "1F1F2 1F1F6": [
-        "flag: Martinique",
-        "flag"
-    ],
-    "1F1F2 1F1F7": [
-        "flag: Mauritania",
-        "flag"
-    ],
-    "1F1F2 1F1F8": [
-        "flag: Montserrat",
-        "flag"
-    ],
-    "1F1F2 1F1F9": [
-        "flag: Malta",
-        "flag"
-    ],
-    "1F1F2 1F1FA": [
-        "flag: Mauritius",
-        "flag"
-    ],
-    "1F1F2 1F1FB": [
-        "flag: Maldives",
-        "flag"
-    ],
-    "1F1F2 1F1FC": [
-        "flag: Malawi",
-        "flag"
-    ],
-    "1F1F2 1F1FD": [
-        "flag: Mexico",
-        "flag"
-    ],
-    "1F1F2 1F1FE": [
-        "flag: Malaysia",
-        "flag"
-    ],
-    "1F1F2 1F1FF": [
-        "flag: Mozambique",
-        "flag"
-    ],
-    "1F1F3": [
-        "regional indicator symbol letter n"
-    ],
-    "1F1F3 1F1E6": [
-        "flag: Namibia",
-        "flag"
-    ],
-    "1F1F3 1F1E8": [
-        "flag: New Caledonia",
-        "flag"
-    ],
-    "1F1F3 1F1EA": [
-        "flag: Niger",
-        "flag"
-    ],
-    "1F1F3 1F1EB": [
-        "flag: Norfolk Island",
-        "flag"
-    ],
-    "1F1F3 1F1EC": [
-        "flag: Nigeria",
-        "flag"
-    ],
-    "1F1F3 1F1EE": [
-        "flag: Nicaragua",
-        "flag"
-    ],
-    "1F1F3 1F1F1": [
-        "flag: Netherlands",
-        "flag"
-    ],
-    "1F1F3 1F1F4": [
-        "flag: Norway",
-        "flag"
-    ],
-    "1F1F3 1F1F5": [
-        "flag: Nepal",
-        "flag"
-    ],
-    "1F1F3 1F1F7": [
-        "flag: Nauru",
-        "flag"
-    ],
-    "1F1F3 1F1FA": [
-        "flag: Niue",
-        "flag"
-    ],
-    "1F1F3 1F1FF": [
-        "flag: New Zealand",
-        "flag"
-    ],
-    "1F1F4": [
-        "regional indicator symbol letter o"
-    ],
-    "1F1F4 1F1F2": [
-        "flag: Oman",
-        "flag"
-    ],
-    "1F1F5": [
-        "regional indicator symbol letter p"
-    ],
-    "1F1F5 1F1E6": [
-        "flag: Panama",
-        "flag"
-    ],
-    "1F1F5 1F1EA": [
-        "flag: Peru",
-        "flag"
-    ],
-    "1F1F5 1F1EB": [
-        "flag: French Polynesia",
-        "flag"
-    ],
-    "1F1F5 1F1EC": [
-        "flag: Papua New Guinea",
-        "flag"
-    ],
-    "1F1F5 1F1ED": [
-        "flag: Philippines",
-        "flag"
-    ],
-    "1F1F5 1F1F0": [
-        "flag: Pakistan",
-        "flag"
-    ],
-    "1F1F5 1F1F1": [
-        "flag: Poland",
-        "flag"
-    ],
-    "1F1F5 1F1F2": [
-        "flag: St. Pierre & Miquelon",
-        "flag"
-    ],
-    "1F1F5 1F1F3": [
-        "flag: Pitcairn Islands",
-        "flag"
-    ],
-    "1F1F5 1F1F7": [
-        "flag: Puerto Rico",
-        "flag"
-    ],
-    "1F1F5 1F1F8": [
-        "flag: Palestinian Territories",
-        "flag"
-    ],
-    "1F1F5 1F1F9": [
-        "flag: Portugal",
-        "flag"
-    ],
-    "1F1F5 1F1FC": [
-        "flag: Palau",
-        "flag"
-    ],
-    "1F1F5 1F1FE": [
-        "flag: Paraguay",
-        "flag"
-    ],
-    "1F1F6": [
-        "regional indicator symbol letter q"
-    ],
-    "1F1F6 1F1E6": [
-        "flag: Qatar",
-        "flag"
-    ],
-    "1F1F7": [
-        "regional indicator symbol letter r"
-    ],
-    "1F1F7 1F1EA": [
-        "flag: Réunion",
-        "flag"
-    ],
-    "1F1F7 1F1F4": [
-        "flag: Romania",
-        "flag"
-    ],
-    "1F1F7 1F1F8": [
-        "flag: Serbia",
-        "flag"
-    ],
-    "1F1F7 1F1FA": [
-        "flag: Russia",
-        "flag"
-    ],
-    "1F1F7 1F1FC": [
-        "flag: Rwanda",
-        "flag"
-    ],
-    "1F1F8": [
-        "regional indicator symbol letter s"
-    ],
-    "1F1F8 1F1E6": [
-        "flag: Saudi Arabia",
-        "flag"
-    ],
-    "1F1F8 1F1E7": [
-        "flag: Solomon Islands",
-        "flag"
-    ],
-    "1F1F8 1F1E8": [
-        "flag: Seychelles",
-        "flag"
-    ],
-    "1F1F8 1F1E9": [
-        "flag: Sudan",
-        "flag"
-    ],
-    "1F1F8 1F1EA": [
-        "flag: Sweden",
-        "flag"
-    ],
-    "1F1F8 1F1EC": [
-        "flag: Singapore",
-        "flag"
-    ],
-    "1F1F8 1F1ED": [
-        "flag: St. Helena, Ascension & Tristan da Cunha",
-        "flag"
-    ],
-    "1F1F8 1F1EE": [
-        "flag: Slovenia",
-        "flag"
-    ],
-    "1F1F8 1F1EF": [
-        "flag: Svalbard & Jan Mayen",
-        "flag"
-    ],
-    "1F1F8 1F1F0": [
-        "flag: Slovakia",
-        "flag"
-    ],
-    "1F1F8 1F1F1": [
-        "flag: Sierra Leone",
-        "flag"
-    ],
-    "1F1F8 1F1F2": [
-        "flag: San Marino",
-        "flag"
-    ],
-    "1F1F8 1F1F3": [
-        "flag: Senegal",
-        "flag"
-    ],
-    "1F1F8 1F1F4": [
-        "flag: Somalia",
-        "flag"
-    ],
-    "1F1F8 1F1F7": [
-        "flag: Suriname",
-        "flag"
-    ],
-    "1F1F8 1F1F8": [
-        "flag: South Sudan",
-        "flag"
-    ],
-    "1F1F8 1F1F9": [
-        "flag: São Tomé & Príncipe",
-        "flag"
-    ],
-    "1F1F8 1F1FB": [
-        "flag: El Salvador",
-        "flag"
-    ],
-    "1F1F8 1F1FD": [
-        "flag: Sint Maarten",
-        "flag"
-    ],
-    "1F1F8 1F1FE": [
-        "flag: Syria",
-        "flag"
-    ],
-    "1F1F8 1F1FF": [
-        "flag: Eswatini",
-        "flag"
-    ],
-    "1F1F9": [
-        "regional indicator symbol letter t"
-    ],
-    "1F1F9 1F1E6": [
-        "flag: Tristan da Cunha",
-        "flag"
-    ],
-    "1F1F9 1F1E8": [
-        "flag: Turks & Caicos Islands",
-        "flag"
-    ],
-    "1F1F9 1F1E9": [
-        "flag: Chad",
-        "flag"
-    ],
-    "1F1F9 1F1EB": [
-        "flag: French Southern and Antarctic Lands",
-        "flag"
-    ],
-    "1F1F9 1F1EC": [
-        "flag: Togo",
-        "flag"
-    ],
-    "1F1F9 1F1ED": [
-        "flag: Thailand",
-        "flag"
-    ],
-    "1F1F9 1F1EF": [
-        "flag: Tajikistan",
-        "flag"
-    ],
-    "1F1F9 1F1F0": [
-        "flag: Tokelau",
-        "flag"
-    ],
-    "1F1F9 1F1F1": [
-        "flag: Timor-Leste",
-        "flag"
-    ],
-    "1F1F9 1F1F2": [
-        "flag: Turkmenistan",
-        "flag"
-    ],
-    "1F1F9 1F1F3": [
-        "flag: Tunisia",
-        "flag"
-    ],
-    "1F1F9 1F1F4": [
-        "flag: Tonga",
-        "flag"
-    ],
-    "1F1F9 1F1F7": [
-        "flag: Türkiye",
-        "flag"
-    ],
-    "1F1F9 1F1F9": [
-        "flag: Trinidad & Tobago",
-        "flag"
-    ],
-    "1F1F9 1F1FB": [
-        "flag: Tuvalu",
-        "flag"
-    ],
-    "1F1F9 1F1FC": [
-        "flag: Taiwan",
-        "flag"
-    ],
-    "1F1F9 1F1FF": [
-        "flag: Tanzania",
-        "flag"
-    ],
-    "1F1FA": [
-        "regional indicator symbol letter u"
-    ],
-    "1F1FA 1F1E6": [
-        "flag: Ukraine",
-        "flag"
-    ],
-    "1F1FA 1F1EC": [
-        "flag: Uganda",
-        "flag"
-    ],
-    "1F1FA 1F1F2": [
-        "flag: U.S. Outlying Islands",
-        "flag"
-    ],
-    "1F1FA 1F1F3": [
-        "flag: United Nations",
-        "flag"
-    ],
-    "1F1FA 1F1F8": [
-        "flag: United States",
-        "flag"
-    ],
-    "1F1FA 1F1FE": [
-        "flag: Uruguay",
-        "flag"
-    ],
-    "1F1FA 1F1FF": [
-        "flag: Uzbekistan",
-        "flag"
-    ],
-    "1F1FB": [
-        "regional indicator symbol letter v"
-    ],
-    "1F1FB 1F1E6": [
-        "flag: Vatican City",
-        "flag"
-    ],
-    "1F1FB 1F1E8": [
-        "flag: St. Vincent & Grenadines",
-        "flag"
-    ],
-    "1F1FB 1F1EA": [
-        "flag: Venezuela",
-        "flag"
-    ],
-    "1F1FB 1F1EC": [
-        "flag: British Virgin Islands",
-        "flag"
-    ],
-    "1F1FB 1F1EE": [
-        "flag: U.S. Virgin Islands",
-        "flag"
-    ],
-    "1F1FB 1F1F3": [
-        "flag: Vietnam",
-        "flag"
-    ],
-    "1F1FB 1F1FA": [
-        "flag: Vanuatu",
-        "flag"
-    ],
-    "1F1FC": [
-        "regional indicator symbol letter w"
-    ],
-    "1F1FC 1F1EB": [
-        "flag: Wallis & Futuna",
-        "flag"
-    ],
-    "1F1FC 1F1F8": [
-        "flag: Samoa",
-        "flag"
-    ],
-    "1F1FD": [
-        "regional indicator symbol letter x"
-    ],
-    "1F1FD 1F1F0": [
-        "flag: Kosovo",
-        "flag"
-    ],
-    "1F1FE": [
-        "regional indicator symbol letter y"
-    ],
-    "1F1FE 1F1EA": [
-        "flag: Yemen",
-        "flag"
-    ],
-    "1F1FE 1F1F9": [
-        "flag: Mayotte",
-        "flag"
-    ],
-    "1F1FF": [
-        "regional indicator symbol letter z"
-    ],
-    "1F1FF 1F1E6": [
-        "flag: South Africa",
-        "flag"
-    ],
-    "1F1FF 1F1F2": [
-        "flag: Zambia",
-        "flag"
-    ],
-    "1F1FF 1F1FC": [
-        "flag: Zimbabwe",
-        "flag"
-    ],
+    "1F004": ["mahjong red dragon", "dragon", "game", "mahjong", "red"],
+    "1F0CF": ["joker", "card", "game", "wildcard"],
+    "1F18E": ["AB button (blood type)", "AB", "blood", "button", "type"],
+    "1F191": ["CL button", "button", "CL"],
+    "1F192": ["COOL button", "button", "COOL"],
+    "1F193": ["FREE button", "button", "FREE"],
+    "1F194": ["ID button", "button", "ID", "identity"],
+    "1F195": ["NEW button", "button", "NEW"],
+    "1F196": ["NG button", "button", "NG"],
+    "1F197": ["OK button", "button", "OK", "okay"],
+    "1F198": ["SOS button", "button", "help", "SOS"],
+    "1F199": ["UP! button", "button", "mark", "UP", "UP!"],
+    "1F19A": ["VS button", "button", "versus", "VS"],
+    "1F1E6": ["regional indicator symbol letter a"],
+    "1F1E6 1F1E8": ["flag: Ascension Island", "flag"],
+    "1F1E6 1F1E9": ["flag: Andorra", "flag"],
+    "1F1E6 1F1EA": ["flag: United Arab Emirates", "flag"],
+    "1F1E6 1F1EB": ["flag: Afghanistan", "flag"],
+    "1F1E6 1F1EC": ["flag: Antigua & Barbuda", "flag"],
+    "1F1E6 1F1EE": ["flag: Anguilla", "flag"],
+    "1F1E6 1F1F1": ["flag: Albania", "flag"],
+    "1F1E6 1F1F2": ["flag: Armenia", "flag"],
+    "1F1E6 1F1F4": ["flag: Angola", "flag"],
+    "1F1E6 1F1F6": ["flag: Antarctica", "flag"],
+    "1F1E6 1F1F7": ["flag: Argentina", "flag"],
+    "1F1E6 1F1F8": ["flag: American Samoa", "flag"],
+    "1F1E6 1F1F9": ["flag: Austria", "flag"],
+    "1F1E6 1F1FA": ["flag: Australia", "flag"],
+    "1F1E6 1F1FC": ["flag: Aruba", "flag"],
+    "1F1E6 1F1FD": ["flag: Åland Islands", "flag"],
+    "1F1E6 1F1FF": ["flag: Azerbaijan", "flag"],
+    "1F1E7": ["regional indicator symbol letter b"],
+    "1F1E7 1F1E6": ["flag: Bosnia & Herzegovina", "flag"],
+    "1F1E7 1F1E7": ["flag: Barbados", "flag"],
+    "1F1E7 1F1E9": ["flag: Bangladesh", "flag"],
+    "1F1E7 1F1EA": ["flag: Belgium", "flag"],
+    "1F1E7 1F1EB": ["flag: Burkina Faso", "flag"],
+    "1F1E7 1F1EC": ["flag: Bulgaria", "flag"],
+    "1F1E7 1F1ED": ["flag: Bahrain", "flag"],
+    "1F1E7 1F1EE": ["flag: Burundi", "flag"],
+    "1F1E7 1F1EF": ["flag: Benin", "flag"],
+    "1F1E7 1F1F1": ["flag: St. Barthélemy", "flag"],
+    "1F1E7 1F1F2": ["flag: Bermuda", "flag"],
+    "1F1E7 1F1F3": ["flag: Brunei", "flag"],
+    "1F1E7 1F1F4": ["flag: Bolivia", "flag"],
+    "1F1E7 1F1F6": ["flag: Caribbean Netherlands", "flag"],
+    "1F1E7 1F1F7": ["flag: Brazil", "flag"],
+    "1F1E7 1F1F8": ["flag: Bahamas", "flag"],
+    "1F1E7 1F1F9": ["flag: Bhutan", "flag"],
+    "1F1E7 1F1FB": ["flag: Bouvet Island", "flag"],
+    "1F1E7 1F1FC": ["flag: Botswana", "flag"],
+    "1F1E7 1F1FE": ["flag: Belarus", "flag"],
+    "1F1E7 1F1FF": ["flag: Belize", "flag"],
+    "1F1E8": ["regional indicator symbol letter c"],
+    "1F1E8 1F1E6": ["flag: Canada", "flag"],
+    "1F1E8 1F1E8": ["flag: Cocos (Keeling) Islands", "flag"],
+    "1F1E8 1F1E9": ["flag: Congo - Kinshasa", "flag"],
+    "1F1E8 1F1EB": ["flag: Central African Republic", "flag"],
+    "1F1E8 1F1EC": ["flag: Congo - Brazzaville", "flag"],
+    "1F1E8 1F1ED": ["flag: Switzerland", "flag"],
+    "1F1E8 1F1EE": ["flag: Côte d’Ivoire", "flag"],
+    "1F1E8 1F1F0": ["flag: Cook Islands", "flag"],
+    "1F1E8 1F1F1": ["flag: Chile", "flag"],
+    "1F1E8 1F1F2": ["flag: Cameroon", "flag"],
+    "1F1E8 1F1F3": ["flag: China", "flag"],
+    "1F1E8 1F1F4": ["flag: Colombia", "flag"],
+    "1F1E8 1F1F5": ["flag: Clipperton Island", "flag"],
+    "1F1E8 1F1F6": ["flag: Sark", "flag"],
+    "1F1E8 1F1F7": ["flag: Costa Rica", "flag"],
+    "1F1E8 1F1FA": ["flag: Cuba", "flag"],
+    "1F1E8 1F1FB": ["flag: Cape Verde", "flag"],
+    "1F1E8 1F1FC": ["flag: Curaçao", "flag"],
+    "1F1E8 1F1FD": ["flag: Christmas Island", "flag"],
+    "1F1E8 1F1FE": ["flag: Cyprus", "flag"],
+    "1F1E8 1F1FF": ["flag: Czechia", "flag"],
+    "1F1E9": ["regional indicator symbol letter d"],
+    "1F1E9 1F1EA": ["flag: Germany", "flag"],
+    "1F1E9 1F1EC": ["flag: Diego Garcia", "flag"],
+    "1F1E9 1F1EF": ["flag: Djibouti", "flag"],
+    "1F1E9 1F1F0": ["flag: Denmark", "flag"],
+    "1F1E9 1F1F2": ["flag: Dominica", "flag"],
+    "1F1E9 1F1F4": ["flag: Dominican Republic", "flag"],
+    "1F1E9 1F1FF": ["flag: Algeria", "flag"],
+    "1F1EA": ["regional indicator symbol letter e"],
+    "1F1EA 1F1E6": ["flag: Ceuta & Melilla", "flag"],
+    "1F1EA 1F1E8": ["flag: Ecuador", "flag"],
+    "1F1EA 1F1EA": ["flag: Estonia", "flag"],
+    "1F1EA 1F1EC": ["flag: Egypt", "flag"],
+    "1F1EA 1F1ED": ["flag: Western Sahara", "flag"],
+    "1F1EA 1F1F7": ["flag: Eritrea", "flag"],
+    "1F1EA 1F1F8": ["flag: Spain", "flag"],
+    "1F1EA 1F1F9": ["flag: Ethiopia", "flag"],
+    "1F1EA 1F1FA": ["flag: European Union", "flag"],
+    "1F1EB": ["regional indicator symbol letter f"],
+    "1F1EB 1F1EE": ["flag: Finland", "flag"],
+    "1F1EB 1F1EF": ["flag: Fiji", "flag"],
+    "1F1EB 1F1F0": ["flag: Falkland Islands", "flag"],
+    "1F1EB 1F1F2": ["flag: Micronesia", "flag"],
+    "1F1EB 1F1F4": ["flag: Faroe Islands", "flag"],
+    "1F1EB 1F1F7": ["flag: France", "flag"],
+    "1F1EC": ["regional indicator symbol letter g"],
+    "1F1EC 1F1E6": ["flag: Gabon", "flag"],
+    "1F1EC 1F1E7": ["flag: United Kingdom", "flag"],
+    "1F1EC 1F1E9": ["flag: Grenada", "flag"],
+    "1F1EC 1F1EA": ["flag: Georgia", "flag"],
+    "1F1EC 1F1EB": ["flag: French Guiana", "flag"],
+    "1F1EC 1F1EC": ["flag: Guernsey", "flag"],
+    "1F1EC 1F1ED": ["flag: Ghana", "flag"],
+    "1F1EC 1F1EE": ["flag: Gibraltar", "flag"],
+    "1F1EC 1F1F1": ["flag: Greenland", "flag"],
+    "1F1EC 1F1F2": ["flag: Gambia", "flag"],
+    "1F1EC 1F1F3": ["flag: Guinea", "flag"],
+    "1F1EC 1F1F5": ["flag: Guadeloupe", "flag"],
+    "1F1EC 1F1F6": ["flag: Equatorial Guinea", "flag"],
+    "1F1EC 1F1F7": ["flag: Greece", "flag"],
+    "1F1EC 1F1F8": ["flag: South Georgia & South Sandwich Islands", "flag"],
+    "1F1EC 1F1F9": ["flag: Guatemala", "flag"],
+    "1F1EC 1F1FA": ["flag: Guam", "flag"],
+    "1F1EC 1F1FC": ["flag: Guinea-Bissau", "flag"],
+    "1F1EC 1F1FE": ["flag: Guyana", "flag"],
+    "1F1ED": ["regional indicator symbol letter h"],
+    "1F1ED 1F1F0": ["flag: Hong Kong SAR China", "flag"],
+    "1F1ED 1F1F2": ["flag: Heard Island & McDonald Islands", "flag"],
+    "1F1ED 1F1F3": ["flag: Honduras", "flag"],
+    "1F1ED 1F1F7": ["flag: Croatia", "flag"],
+    "1F1ED 1F1F9": ["flag: Haiti", "flag"],
+    "1F1ED 1F1FA": ["flag: Hungary", "flag"],
+    "1F1EE": ["regional indicator symbol letter i"],
+    "1F1EE 1F1E8": ["flag: Canary Islands", "flag"],
+    "1F1EE 1F1E9": ["flag: Indonesia", "flag"],
+    "1F1EE 1F1EA": ["flag: Ireland", "flag"],
+    "1F1EE 1F1F1": ["flag: Israel", "flag"],
+    "1F1EE 1F1F2": ["flag: Isle of Man", "flag"],
+    "1F1EE 1F1F3": ["flag: India", "flag"],
+    "1F1EE 1F1F4": ["flag: British Indian Ocean Territory", "flag"],
+    "1F1EE 1F1F6": ["flag: Iraq", "flag"],
+    "1F1EE 1F1F7": ["flag: Iran", "flag"],
+    "1F1EE 1F1F8": ["flag: Iceland", "flag"],
+    "1F1EE 1F1F9": ["flag: Italy", "flag"],
+    "1F1EF": ["regional indicator symbol letter j"],
+    "1F1EF 1F1EA": ["flag: Jersey", "flag"],
+    "1F1EF 1F1F2": ["flag: Jamaica", "flag"],
+    "1F1EF 1F1F4": ["flag: Jordan", "flag"],
+    "1F1EF 1F1F5": ["flag: Japan", "flag"],
+    "1F1F0": ["regional indicator symbol letter k"],
+    "1F1F0 1F1EA": ["flag: Kenya", "flag"],
+    "1F1F0 1F1EC": ["flag: Kyrgyzstan", "flag"],
+    "1F1F0 1F1ED": ["flag: Cambodia", "flag"],
+    "1F1F0 1F1EE": ["flag: Kiribati", "flag"],
+    "1F1F0 1F1F2": ["flag: Comoros", "flag"],
+    "1F1F0 1F1F3": ["flag: St. Kitts & Nevis", "flag"],
+    "1F1F0 1F1F5": ["flag: North Korea", "flag"],
+    "1F1F0 1F1F7": ["flag: South Korea", "flag"],
+    "1F1F0 1F1FC": ["flag: Kuwait", "flag"],
+    "1F1F0 1F1FE": ["flag: Cayman Islands", "flag"],
+    "1F1F0 1F1FF": ["flag: Kazakhstan", "flag"],
+    "1F1F1": ["regional indicator symbol letter l"],
+    "1F1F1 1F1E6": ["flag: Laos", "flag"],
+    "1F1F1 1F1E7": ["flag: Lebanon", "flag"],
+    "1F1F1 1F1E8": ["flag: St. Lucia", "flag"],
+    "1F1F1 1F1EE": ["flag: Liechtenstein", "flag"],
+    "1F1F1 1F1F0": ["flag: Sri Lanka", "flag"],
+    "1F1F1 1F1F7": ["flag: Liberia", "flag"],
+    "1F1F1 1F1F8": ["flag: Lesotho", "flag"],
+    "1F1F1 1F1F9": ["flag: Lithuania", "flag"],
+    "1F1F1 1F1FA": ["flag: Luxembourg", "flag"],
+    "1F1F1 1F1FB": ["flag: Latvia", "flag"],
+    "1F1F1 1F1FE": ["flag: Libya", "flag"],
+    "1F1F2": ["regional indicator symbol letter m"],
+    "1F1F2 1F1E6": ["flag: Morocco", "flag"],
+    "1F1F2 1F1E8": ["flag: Monaco", "flag"],
+    "1F1F2 1F1E9": ["flag: Moldova", "flag"],
+    "1F1F2 1F1EA": ["flag: Montenegro", "flag"],
+    "1F1F2 1F1EB": ["flag: St. Martin", "flag"],
+    "1F1F2 1F1EC": ["flag: Madagascar", "flag"],
+    "1F1F2 1F1ED": ["flag: Marshall Islands", "flag"],
+    "1F1F2 1F1F0": ["flag: North Macedonia", "flag"],
+    "1F1F2 1F1F1": ["flag: Mali", "flag"],
+    "1F1F2 1F1F2": ["flag: Myanmar (Burma)", "flag"],
+    "1F1F2 1F1F3": ["flag: Mongolia", "flag"],
+    "1F1F2 1F1F4": ["flag: Macao SAR China", "flag"],
+    "1F1F2 1F1F5": ["flag: Northern Mariana Islands", "flag"],
+    "1F1F2 1F1F6": ["flag: Martinique", "flag"],
+    "1F1F2 1F1F7": ["flag: Mauritania", "flag"],
+    "1F1F2 1F1F8": ["flag: Montserrat", "flag"],
+    "1F1F2 1F1F9": ["flag: Malta", "flag"],
+    "1F1F2 1F1FA": ["flag: Mauritius", "flag"],
+    "1F1F2 1F1FB": ["flag: Maldives", "flag"],
+    "1F1F2 1F1FC": ["flag: Malawi", "flag"],
+    "1F1F2 1F1FD": ["flag: Mexico", "flag"],
+    "1F1F2 1F1FE": ["flag: Malaysia", "flag"],
+    "1F1F2 1F1FF": ["flag: Mozambique", "flag"],
+    "1F1F3": ["regional indicator symbol letter n"],
+    "1F1F3 1F1E6": ["flag: Namibia", "flag"],
+    "1F1F3 1F1E8": ["flag: New Caledonia", "flag"],
+    "1F1F3 1F1EA": ["flag: Niger", "flag"],
+    "1F1F3 1F1EB": ["flag: Norfolk Island", "flag"],
+    "1F1F3 1F1EC": ["flag: Nigeria", "flag"],
+    "1F1F3 1F1EE": ["flag: Nicaragua", "flag"],
+    "1F1F3 1F1F1": ["flag: Netherlands", "flag"],
+    "1F1F3 1F1F4": ["flag: Norway", "flag"],
+    "1F1F3 1F1F5": ["flag: Nepal", "flag"],
+    "1F1F3 1F1F7": ["flag: Nauru", "flag"],
+    "1F1F3 1F1FA": ["flag: Niue", "flag"],
+    "1F1F3 1F1FF": ["flag: New Zealand", "flag"],
+    "1F1F4": ["regional indicator symbol letter o"],
+    "1F1F4 1F1F2": ["flag: Oman", "flag"],
+    "1F1F5": ["regional indicator symbol letter p"],
+    "1F1F5 1F1E6": ["flag: Panama", "flag"],
+    "1F1F5 1F1EA": ["flag: Peru", "flag"],
+    "1F1F5 1F1EB": ["flag: French Polynesia", "flag"],
+    "1F1F5 1F1EC": ["flag: Papua New Guinea", "flag"],
+    "1F1F5 1F1ED": ["flag: Philippines", "flag"],
+    "1F1F5 1F1F0": ["flag: Pakistan", "flag"],
+    "1F1F5 1F1F1": ["flag: Poland", "flag"],
+    "1F1F5 1F1F2": ["flag: St. Pierre & Miquelon", "flag"],
+    "1F1F5 1F1F3": ["flag: Pitcairn Islands", "flag"],
+    "1F1F5 1F1F7": ["flag: Puerto Rico", "flag"],
+    "1F1F5 1F1F8": ["flag: Palestinian Territories", "flag"],
+    "1F1F5 1F1F9": ["flag: Portugal", "flag"],
+    "1F1F5 1F1FC": ["flag: Palau", "flag"],
+    "1F1F5 1F1FE": ["flag: Paraguay", "flag"],
+    "1F1F6": ["regional indicator symbol letter q"],
+    "1F1F6 1F1E6": ["flag: Qatar", "flag"],
+    "1F1F7": ["regional indicator symbol letter r"],
+    "1F1F7 1F1EA": ["flag: Réunion", "flag"],
+    "1F1F7 1F1F4": ["flag: Romania", "flag"],
+    "1F1F7 1F1F8": ["flag: Serbia", "flag"],
+    "1F1F7 1F1FA": ["flag: Russia", "flag"],
+    "1F1F7 1F1FC": ["flag: Rwanda", "flag"],
+    "1F1F8": ["regional indicator symbol letter s"],
+    "1F1F8 1F1E6": ["flag: Saudi Arabia", "flag"],
+    "1F1F8 1F1E7": ["flag: Solomon Islands", "flag"],
+    "1F1F8 1F1E8": ["flag: Seychelles", "flag"],
+    "1F1F8 1F1E9": ["flag: Sudan", "flag"],
+    "1F1F8 1F1EA": ["flag: Sweden", "flag"],
+    "1F1F8 1F1EC": ["flag: Singapore", "flag"],
+    "1F1F8 1F1ED": ["flag: St. Helena, Ascension & Tristan da Cunha", "flag"],
+    "1F1F8 1F1EE": ["flag: Slovenia", "flag"],
+    "1F1F8 1F1EF": ["flag: Svalbard & Jan Mayen", "flag"],
+    "1F1F8 1F1F0": ["flag: Slovakia", "flag"],
+    "1F1F8 1F1F1": ["flag: Sierra Leone", "flag"],
+    "1F1F8 1F1F2": ["flag: San Marino", "flag"],
+    "1F1F8 1F1F3": ["flag: Senegal", "flag"],
+    "1F1F8 1F1F4": ["flag: Somalia", "flag"],
+    "1F1F8 1F1F7": ["flag: Suriname", "flag"],
+    "1F1F8 1F1F8": ["flag: South Sudan", "flag"],
+    "1F1F8 1F1F9": ["flag: São Tomé & Príncipe", "flag"],
+    "1F1F8 1F1FB": ["flag: El Salvador", "flag"],
+    "1F1F8 1F1FD": ["flag: Sint Maarten", "flag"],
+    "1F1F8 1F1FE": ["flag: Syria", "flag"],
+    "1F1F8 1F1FF": ["flag: Eswatini", "flag"],
+    "1F1F9": ["regional indicator symbol letter t"],
+    "1F1F9 1F1E6": ["flag: Tristan da Cunha", "flag"],
+    "1F1F9 1F1E8": ["flag: Turks & Caicos Islands", "flag"],
+    "1F1F9 1F1E9": ["flag: Chad", "flag"],
+    "1F1F9 1F1EB": ["flag: French Southern and Antarctic Lands", "flag"],
+    "1F1F9 1F1EC": ["flag: Togo", "flag"],
+    "1F1F9 1F1ED": ["flag: Thailand", "flag"],
+    "1F1F9 1F1EF": ["flag: Tajikistan", "flag"],
+    "1F1F9 1F1F0": ["flag: Tokelau", "flag"],
+    "1F1F9 1F1F1": ["flag: Timor-Leste", "flag"],
+    "1F1F9 1F1F2": ["flag: Turkmenistan", "flag"],
+    "1F1F9 1F1F3": ["flag: Tunisia", "flag"],
+    "1F1F9 1F1F4": ["flag: Tonga", "flag"],
+    "1F1F9 1F1F7": ["flag: Türkiye", "flag"],
+    "1F1F9 1F1F9": ["flag: Trinidad & Tobago", "flag"],
+    "1F1F9 1F1FB": ["flag: Tuvalu", "flag"],
+    "1F1F9 1F1FC": ["flag: Taiwan", "flag"],
+    "1F1F9 1F1FF": ["flag: Tanzania", "flag"],
+    "1F1FA": ["regional indicator symbol letter u"],
+    "1F1FA 1F1E6": ["flag: Ukraine", "flag"],
+    "1F1FA 1F1EC": ["flag: Uganda", "flag"],
+    "1F1FA 1F1F2": ["flag: U.S. Outlying Islands", "flag"],
+    "1F1FA 1F1F3": ["flag: United Nations", "flag"],
+    "1F1FA 1F1F8": ["flag: United States", "flag"],
+    "1F1FA 1F1FE": ["flag: Uruguay", "flag"],
+    "1F1FA 1F1FF": ["flag: Uzbekistan", "flag"],
+    "1F1FB": ["regional indicator symbol letter v"],
+    "1F1FB 1F1E6": ["flag: Vatican City", "flag"],
+    "1F1FB 1F1E8": ["flag: St. Vincent & Grenadines", "flag"],
+    "1F1FB 1F1EA": ["flag: Venezuela", "flag"],
+    "1F1FB 1F1EC": ["flag: British Virgin Islands", "flag"],
+    "1F1FB 1F1EE": ["flag: U.S. Virgin Islands", "flag"],
+    "1F1FB 1F1F3": ["flag: Vietnam", "flag"],
+    "1F1FB 1F1FA": ["flag: Vanuatu", "flag"],
+    "1F1FC": ["regional indicator symbol letter w"],
+    "1F1FC 1F1EB": ["flag: Wallis & Futuna", "flag"],
+    "1F1FC 1F1F8": ["flag: Samoa", "flag"],
+    "1F1FD": ["regional indicator symbol letter x"],
+    "1F1FD 1F1F0": ["flag: Kosovo", "flag"],
+    "1F1FE": ["regional indicator symbol letter y"],
+    "1F1FE 1F1EA": ["flag: Yemen", "flag"],
+    "1F1FE 1F1F9": ["flag: Mayotte", "flag"],
+    "1F1FF": ["regional indicator symbol letter z"],
+    "1F1FF 1F1E6": ["flag: South Africa", "flag"],
+    "1F1FF 1F1F2": ["flag: Zambia", "flag"],
+    "1F1FF 1F1FC": ["flag: Zimbabwe", "flag"],
     "1F201": [
         "Japanese “here” button",
         "button",
@@ -2237,31 +1013,10 @@
         "ideograph",
         "Japanese"
     ],
-    "1F300": [
-        "cyclone",
-        "dizzy",
-        "hurricane",
-        "twister",
-        "typhoon",
-        "weather"
-    ],
-    "1F301": [
-        "foggy",
-        "fog"
-    ],
-    "1F302": [
-        "closed umbrella",
-        "closed",
-        "clothing",
-        "rain",
-        "umbrella"
-    ],
-    "1F303": [
-        "night with stars",
-        "night",
-        "star",
-        "stars"
-    ],
+    "1F300": ["cyclone", "dizzy", "hurricane", "twister", "typhoon", "weather"],
+    "1F301": ["foggy", "fog"],
+    "1F302": ["closed umbrella", "closed", "clothing", "rain", "umbrella"],
+    "1F303": ["night with stars", "night", "star", "stars"],
     "1F304": [
         "sunrise over mountains",
         "morning",
@@ -2270,12 +1025,7 @@
         "sun",
         "sunrise"
     ],
-    "1F305": [
-        "sunrise",
-        "morning",
-        "nature",
-        "sun"
-    ],
+    "1F305": ["sunrise", "morning", "nature", "sun"],
     "1F306": [
         "cityscape at dusk",
         "at",
@@ -2288,12 +1038,7 @@
         "sun",
         "sunset"
     ],
-    "1F307": [
-        "sunset",
-        "building",
-        "dusk",
-        "sun"
-    ],
+    "1F307": ["sunset", "building", "dusk", "sun"],
     "1F308": [
         "rainbow",
         "gay",
@@ -2312,12 +1057,7 @@
         "transgender",
         "weather"
     ],
-    "1F309": [
-        "bridge at night",
-        "at",
-        "bridge",
-        "night"
-    ],
+    "1F309": ["bridge at night", "at", "bridge", "night"],
     "1F30A": [
         "water wave",
         "nature",
@@ -2328,18 +1068,8 @@
         "water",
         "wave"
     ],
-    "1F30B": [
-        "volcano",
-        "eruption",
-        "mountain",
-        "nature"
-    ],
-    "1F30C": [
-        "milky way",
-        "milky",
-        "space",
-        "way"
-    ],
+    "1F30B": ["volcano", "eruption", "mountain", "nature"],
+    "1F30C": ["milky way", "milky", "space", "way"],
     "1F30D": [
         "globe showing Europe-Africa",
         "Africa",
@@ -2378,13 +1108,7 @@
         "world",
         "worldwide"
     ],
-    "1F311": [
-        "new moon",
-        "dark",
-        "moon",
-        "new",
-        "space"
-    ],
+    "1F311": ["new moon", "dark", "moon", "new", "space"],
     "1F312": [
         "waxing crescent moon",
         "crescent",
@@ -2393,61 +1117,14 @@
         "space",
         "waxing"
     ],
-    "1F313": [
-        "first quarter moon",
-        "first",
-        "moon",
-        "quarter",
-        "space"
-    ],
-    "1F314": [
-        "waxing gibbous moon",
-        "gibbous",
-        "moon",
-        "space",
-        "waxing"
-    ],
-    "1F315": [
-        "full moon",
-        "full",
-        "moon",
-        "space"
-    ],
-    "1F316": [
-        "waning gibbous moon",
-        "gibbous",
-        "moon",
-        "space",
-        "waning"
-    ],
-    "1F317": [
-        "last quarter moon",
-        "last",
-        "moon",
-        "quarter",
-        "space"
-    ],
-    "1F318": [
-        "waning crescent moon",
-        "crescent",
-        "moon",
-        "space",
-        "waning"
-    ],
-    "1F319": [
-        "crescent moon",
-        "crescent",
-        "moon",
-        "ramadan",
-        "space"
-    ],
-    "1F31A": [
-        "new moon face",
-        "face",
-        "moon",
-        "new",
-        "space"
-    ],
+    "1F313": ["first quarter moon", "first", "moon", "quarter", "space"],
+    "1F314": ["waxing gibbous moon", "gibbous", "moon", "space", "waxing"],
+    "1F315": ["full moon", "full", "moon", "space"],
+    "1F316": ["waning gibbous moon", "gibbous", "moon", "space", "waning"],
+    "1F317": ["last quarter moon", "last", "moon", "quarter", "space"],
+    "1F318": ["waning crescent moon", "crescent", "moon", "space", "waning"],
+    "1F319": ["crescent moon", "crescent", "moon", "ramadan", "space"],
+    "1F31A": ["new moon face", "face", "moon", "new", "space"],
     "1F31B": [
         "first quarter moon face",
         "face",
@@ -2464,13 +1141,7 @@
         "moon",
         "quarter"
     ],
-    "1F31D": [
-        "full moon face",
-        "bright",
-        "face",
-        "full",
-        "moon"
-    ],
+    "1F31D": ["full moon face", "bright", "face", "full", "moon"],
     "1F31E": [
         "sun with face",
         "beach",
@@ -2495,43 +1166,12 @@
         "star",
         "win"
     ],
-    "1F320": [
-        "shooting star",
-        "falling",
-        "night",
-        "shooting",
-        "space",
-        "star"
-    ],
-    "1F32D": [
-        "hot dog",
-        "dog",
-        "frankfurter",
-        "hot",
-        "hotdog",
-        "sausage"
-    ],
-    "1F32E": [
-        "taco",
-        "mexican"
-    ],
-    "1F32F": [
-        "burrito",
-        "mexican",
-        "wrap"
-    ],
-    "1F330": [
-        "chestnut",
-        "almond",
-        "plant"
-    ],
-    "1F331": [
-        "seedling",
-        "plant",
-        "sapling",
-        "sprout",
-        "young"
-    ],
+    "1F320": ["shooting star", "falling", "night", "shooting", "space", "star"],
+    "1F32D": ["hot dog", "dog", "frankfurter", "hot", "hotdog", "sausage"],
+    "1F32E": ["taco", "mexican"],
+    "1F32F": ["burrito", "mexican", "wrap"],
+    "1F330": ["chestnut", "almond", "plant"],
+    "1F331": ["seedling", "plant", "sapling", "sprout", "young"],
     "1F332": [
         "evergreen tree",
         "christmas",
@@ -2549,28 +1189,9 @@
         "shedding",
         "tree"
     ],
-    "1F334": [
-        "palm tree",
-        "beach",
-        "palm",
-        "plant",
-        "tree",
-        "tropical"
-    ],
-    "1F335": [
-        "cactus",
-        "desert",
-        "drought",
-        "nature",
-        "plant"
-    ],
-    "1F337": [
-        "tulip",
-        "blossom",
-        "flower",
-        "growth",
-        "plant"
-    ],
+    "1F334": ["palm tree", "beach", "palm", "plant", "tree", "tropical"],
+    "1F335": ["cactus", "desert", "drought", "nature", "plant"],
+    "1F337": ["tulip", "blossom", "flower", "growth", "plant"],
     "1F338": [
         "cherry blossom",
         "blossom",
@@ -2590,34 +1211,10 @@
         "red",
         "valentine"
     ],
-    "1F33A": [
-        "hibiscus",
-        "flower",
-        "plant"
-    ],
-    "1F33B": [
-        "sunflower",
-        "flower",
-        "outdoors",
-        "plant",
-        "sun"
-    ],
-    "1F33C": [
-        "blossom",
-        "buttercup",
-        "dandelion",
-        "flower",
-        "plant"
-    ],
-    "1F33D": [
-        "ear of corn",
-        "corn",
-        "crops",
-        "ear",
-        "farm",
-        "maize",
-        "maze"
-    ],
+    "1F33A": ["hibiscus", "flower", "plant"],
+    "1F33B": ["sunflower", "flower", "outdoors", "plant", "sun"],
+    "1F33C": ["blossom", "buttercup", "dandelion", "flower", "plant"],
+    "1F33D": ["ear of corn", "corn", "crops", "ear", "farm", "maize", "maze"],
     "1F33E": [
         "sheaf of rice",
         "ear",
@@ -2627,11 +1224,7 @@
         "rice",
         "sheaf"
     ],
-    "1F33F": [
-        "herb",
-        "leaf",
-        "plant"
-    ],
+    "1F33F": ["herb", "leaf", "plant"],
     "1F340": [
         "four leaf clover",
         "4",
@@ -2643,20 +1236,8 @@
         "lucky",
         "plant"
     ],
-    "1F341": [
-        "maple leaf",
-        "falling",
-        "leaf",
-        "maple"
-    ],
-    "1F342": [
-        "fallen leaf",
-        "autumn",
-        "fall",
-        "fallen",
-        "falling",
-        "leaf"
-    ],
+    "1F341": ["maple leaf", "falling", "leaf", "maple"],
+    "1F342": ["fallen leaf", "autumn", "fall", "fallen", "falling", "leaf"],
     "1F343": [
         "leaf fluttering in wind",
         "blow",
@@ -2665,11 +1246,7 @@
         "leaf",
         "wind"
     ],
-    "1F344": [
-        "mushroom",
-        "fungus",
-        "toadstool"
-    ],
+    "1F344": ["mushroom", "fungus", "toadstool"],
     "1F344 200D 1F7EB": [
         "brown mushroom",
         "food",
@@ -2689,32 +1266,11 @@
         "vegetarian",
         "veggie"
     ],
-    "1F345": [
-        "tomato",
-        "food",
-        "fruit",
-        "vegetable"
-    ],
-    "1F346": [
-        "eggplant",
-        "aubergine",
-        "vegetable"
-    ],
-    "1F347": [
-        "grapes",
-        "Dionysus",
-        "fruit",
-        "grape"
-    ],
-    "1F348": [
-        "melon",
-        "cantaloupe",
-        "fruit"
-    ],
-    "1F349": [
-        "watermelon",
-        "fruit"
-    ],
+    "1F345": ["tomato", "food", "fruit", "vegetable"],
+    "1F346": ["eggplant", "aubergine", "vegetable"],
+    "1F347": ["grapes", "Dionysus", "fruit", "grape"],
+    "1F348": ["melon", "cantaloupe", "fruit"],
+    "1F349": ["watermelon", "fruit"],
     "1F34A": [
         "tangerine",
         "c",
@@ -2724,12 +1280,7 @@
         "orange",
         "vitamin"
     ],
-    "1F34B": [
-        "lemon",
-        "citrus",
-        "fruit",
-        "sour"
-    ],
+    "1F34B": ["lemon", "citrus", "fruit", "sour"],
     "1F34B 200D 1F7E9": [
         "lime",
         "acidity",
@@ -2748,18 +1299,8 @@
         "tropical",
         "zest"
     ],
-    "1F34C": [
-        "banana",
-        "fruit",
-        "potassium"
-    ],
-    "1F34D": [
-        "pineapple",
-        "colada",
-        "fruit",
-        "pina",
-        "tropical"
-    ],
+    "1F34C": ["banana", "fruit", "potassium"],
+    "1F34D": ["pineapple", "colada", "fruit", "pina", "tropical"],
     "1F34E": [
         "red apple",
         "apple",
@@ -2770,53 +1311,14 @@
         "red",
         "ripe"
     ],
-    "1F34F": [
-        "green apple",
-        "apple",
-        "fruit",
-        "green"
-    ],
-    "1F350": [
-        "pear",
-        "fruit"
-    ],
-    "1F351": [
-        "peach",
-        "fruit"
-    ],
-    "1F352": [
-        "cherries",
-        "berries",
-        "cherry",
-        "fruit",
-        "red"
-    ],
-    "1F353": [
-        "strawberry",
-        "berry",
-        "fruit"
-    ],
-    "1F354": [
-        "hamburger",
-        "burger",
-        "eat",
-        "fast",
-        "food",
-        "hungry"
-    ],
-    "1F355": [
-        "pizza",
-        "cheese",
-        "food",
-        "hungry",
-        "pepperoni",
-        "slice"
-    ],
-    "1F356": [
-        "meat on bone",
-        "bone",
-        "meat"
-    ],
+    "1F34F": ["green apple", "apple", "fruit", "green"],
+    "1F350": ["pear", "fruit"],
+    "1F351": ["peach", "fruit"],
+    "1F352": ["cherries", "berries", "cherry", "fruit", "red"],
+    "1F353": ["strawberry", "berry", "fruit"],
+    "1F354": ["hamburger", "burger", "eat", "fast", "food", "hungry"],
+    "1F355": ["pizza", "cheese", "food", "hungry", "pepperoni", "slice"],
+    "1F356": ["meat on bone", "bone", "meat"],
     "1F357": [
         "poultry leg",
         "bone",
@@ -2827,31 +1329,10 @@
         "poultry",
         "turkey"
     ],
-    "1F358": [
-        "rice cracker",
-        "cracker",
-        "food",
-        "rice"
-    ],
-    "1F359": [
-        "rice ball",
-        "ball",
-        "food",
-        "Japanese",
-        "rice"
-    ],
-    "1F35A": [
-        "cooked rice",
-        "cooked",
-        "food",
-        "rice"
-    ],
-    "1F35B": [
-        "curry rice",
-        "curry",
-        "food",
-        "rice"
-    ],
+    "1F358": ["rice cracker", "cracker", "food", "rice"],
+    "1F359": ["rice ball", "ball", "food", "Japanese", "rice"],
+    "1F35A": ["cooked rice", "cooked", "food", "rice"],
+    "1F35B": ["curry rice", "curry", "food", "rice"],
     "1F35C": [
         "steaming bowl",
         "bowl",
@@ -2863,13 +1344,7 @@
         "soup",
         "steaming"
     ],
-    "1F35D": [
-        "spaghetti",
-        "food",
-        "meatballs",
-        "pasta",
-        "restaurant"
-    ],
+    "1F35D": ["spaghetti", "food", "meatballs", "pasta", "restaurant"],
     "1F35E": [
         "bread",
         "carbs",
@@ -2880,28 +1355,9 @@
         "toast",
         "wheat"
     ],
-    "1F35F": [
-        "french fries",
-        "fast",
-        "food",
-        "french",
-        "fries"
-    ],
-    "1F360": [
-        "roasted sweet potato",
-        "food",
-        "potato",
-        "roasted",
-        "sweet"
-    ],
-    "1F361": [
-        "dango",
-        "dessert",
-        "Japanese",
-        "skewer",
-        "stick",
-        "sweet"
-    ],
+    "1F35F": ["french fries", "fast", "food", "french", "fries"],
+    "1F360": ["roasted sweet potato", "food", "potato", "roasted", "sweet"],
+    "1F361": ["dango", "dessert", "Japanese", "skewer", "stick", "sweet"],
     "1F362": [
         "oden",
         "food",
@@ -2911,17 +1367,8 @@
         "skewer",
         "stick"
     ],
-    "1F363": [
-        "sushi",
-        "food"
-    ],
-    "1F364": [
-        "fried shrimp",
-        "fried",
-        "prawn",
-        "shrimp",
-        "tempura"
-    ],
+    "1F363": ["sushi", "food"],
+    "1F364": ["fried shrimp", "fried", "prawn", "shrimp", "tempura"],
     "1F365": [
         "fish cake with swirl",
         "cake",
@@ -2943,14 +1390,7 @@
         "soft",
         "sweet"
     ],
-    "1F367": [
-        "shaved ice",
-        "dessert",
-        "ice",
-        "restaurant",
-        "shaved",
-        "sweet"
-    ],
+    "1F367": ["shaved ice", "dessert", "ice", "restaurant", "shaved", "sweet"],
     "1F368": [
         "ice cream",
         "cream",
@@ -2960,21 +1400,8 @@
         "restaurant",
         "sweet"
     ],
-    "1F369": [
-        "doughnut",
-        "breakfast",
-        "dessert",
-        "donut",
-        "food",
-        "sweet"
-    ],
-    "1F36A": [
-        "cookie",
-        "chip",
-        "chocolate",
-        "dessert",
-        "sweet"
-    ],
+    "1F369": ["doughnut", "breakfast", "dessert", "donut", "food", "sweet"],
+    "1F36A": ["cookie", "chip", "chocolate", "dessert", "sweet"],
     "1F36B": [
         "chocolate bar",
         "bar",
@@ -2995,20 +1422,8 @@
         "tooth",
         "wrapper"
     ],
-    "1F36D": [
-        "lollipop",
-        "candy",
-        "dessert",
-        "food",
-        "restaurant",
-        "sweet"
-    ],
-    "1F36E": [
-        "custard",
-        "dessert",
-        "pudding",
-        "sweet"
-    ],
+    "1F36D": ["lollipop", "candy", "dessert", "food", "restaurant", "sweet"],
+    "1F36E": ["custard", "dessert", "pudding", "sweet"],
     "1F36F": [
         "honey pot",
         "barrel",
@@ -3020,27 +1435,9 @@
         "pot",
         "sweet"
     ],
-    "1F370": [
-        "shortcake",
-        "cake",
-        "dessert",
-        "pastry",
-        "slice",
-        "sweet"
-    ],
-    "1F371": [
-        "bento box",
-        "bento",
-        "box",
-        "food"
-    ],
-    "1F372": [
-        "pot of food",
-        "food",
-        "pot",
-        "soup",
-        "stew"
-    ],
+    "1F370": ["shortcake", "cake", "dessert", "pastry", "slice", "sweet"],
+    "1F371": ["bento box", "bento", "box", "food"],
+    "1F372": ["pot of food", "food", "pot", "soup", "stew"],
     "1F373": [
         "cooking",
         "breakfast",
@@ -3190,16 +1587,8 @@
         "drink",
         "popping"
     ],
-    "1F37F": [
-        "popcorn",
-        "corn",
-        "movie",
-        "pop"
-    ],
-    "1F380": [
-        "ribbon",
-        "celebration"
-    ],
+    "1F37F": ["popcorn", "corn", "movie", "pop"],
+    "1F380": ["ribbon", "celebration"],
     "1F381": [
         "wrapped gift",
         "birthday",
@@ -3231,12 +1620,7 @@
         "lantern",
         "pumpkin"
     ],
-    "1F384": [
-        "Christmas tree",
-        "celebration",
-        "Christmas",
-        "tree"
-    ],
+    "1F384": ["Christmas tree", "celebration", "Christmas", "tree"],
     "1F385": [
         "Santa Claus",
         "celebration",
@@ -3326,26 +1710,9 @@
         "tale",
         "xmas"
     ],
-    "1F386": [
-        "fireworks",
-        "boom",
-        "celebration",
-        "entertainment",
-        "yolo"
-    ],
-    "1F387": [
-        "sparkler",
-        "boom",
-        "celebration",
-        "fireworks",
-        "sparkle"
-    ],
-    "1F388": [
-        "balloon",
-        "birthday",
-        "celebrate",
-        "celebration"
-    ],
+    "1F386": ["fireworks", "boom", "celebration", "entertainment", "yolo"],
+    "1F387": ["sparkler", "boom", "celebration", "fireworks", "sparkle"],
+    "1F388": ["balloon", "birthday", "celebrate", "celebration"],
     "1F389": [
         "party popper",
         "awesome",
@@ -3401,19 +1768,8 @@
         "festival",
         "Japanese"
     ],
-    "1F38F": [
-        "carp streamer",
-        "carp",
-        "celebration",
-        "streamer"
-    ],
-    "1F390": [
-        "wind chime",
-        "bell",
-        "celebration",
-        "chime",
-        "wind"
-    ],
+    "1F38F": ["carp streamer", "carp", "celebration", "streamer"],
+    "1F390": ["wind chime", "bell", "celebration", "chime", "wind"],
     "1F391": [
         "moon viewing ceremony",
         "celebration",
@@ -3441,20 +1797,8 @@
         "hat",
         "scholar"
     ],
-    "1F3A0": [
-        "carousel horse",
-        "carousel",
-        "entertainment",
-        "horse"
-    ],
-    "1F3A1": [
-        "ferris wheel",
-        "amusement",
-        "ferris",
-        "park",
-        "theme",
-        "wheel"
-    ],
+    "1F3A0": ["carousel horse", "carousel", "entertainment", "horse"],
+    "1F3A1": ["ferris wheel", "amusement", "ferris", "park", "theme", "wheel"],
     "1F3A2": [
         "roller coaster",
         "amusement",
@@ -3471,14 +1815,7 @@
         "pole",
         "sport"
     ],
-    "1F3A4": [
-        "microphone",
-        "karaoke",
-        "mic",
-        "music",
-        "sing",
-        "sound"
-    ],
+    "1F3A4": ["microphone", "karaoke", "mic", "music", "sing", "sound"],
     "1F3A5": [
         "movie camera",
         "bollywood",
@@ -3489,17 +1826,8 @@
         "movie",
         "record"
     ],
-    "1F3A6": [
-        "cinema",
-        "camera",
-        "film",
-        "movie"
-    ],
-    "1F3A7": [
-        "headphone",
-        "earbud",
-        "sound"
-    ],
+    "1F3A6": ["cinema", "camera", "film", "movie"],
+    "1F3A7": ["headphone", "earbud", "sound"],
     "1F3A8": [
         "artist palette",
         "art",
@@ -3525,23 +1853,9 @@
         "top",
         "tophat"
     ],
-    "1F3AA": [
-        "circus tent",
-        "circus",
-        "tent"
-    ],
-    "1F3AB": [
-        "ticket",
-        "admission",
-        "stub"
-    ],
-    "1F3AC": [
-        "clapper board",
-        "action",
-        "board",
-        "clapper",
-        "movie"
-    ],
+    "1F3AA": ["circus tent", "circus", "tent"],
+    "1F3AB": ["ticket", "admission", "stub"],
+    "1F3AC": ["clapper board", "action", "board", "clapper", "movie"],
     "1F3AD": [
         "performing arts",
         "actor",
@@ -3555,13 +1869,7 @@
         "theatre",
         "thespian"
     ],
-    "1F3AE": [
-        "video game",
-        "controller",
-        "entertainment",
-        "game",
-        "video"
-    ],
+    "1F3AE": ["video game", "controller", "entertainment", "game", "video"],
     "1F3AF": [
         "bullseye",
         "bull",
@@ -3592,20 +1900,8 @@
         "game",
         "pool"
     ],
-    "1F3B2": [
-        "game die",
-        "dice",
-        "die",
-        "entertainment",
-        "game"
-    ],
-    "1F3B3": [
-        "bowling",
-        "ball",
-        "game",
-        "sport",
-        "strike"
-    ],
+    "1F3B2": ["game die", "dice", "die", "entertainment", "game"],
+    "1F3B3": ["bowling", "ball", "game", "sport", "strike"],
     "1F3B4": [
         "flower playing cards",
         "card",
@@ -3615,33 +1911,10 @@
         "Japanese",
         "playing"
     ],
-    "1F3B5": [
-        "musical note",
-        "music",
-        "musical",
-        "note",
-        "sound"
-    ],
-    "1F3B6": [
-        "musical notes",
-        "music",
-        "musical",
-        "note",
-        "notes",
-        "sound"
-    ],
-    "1F3B7": [
-        "saxophone",
-        "instrument",
-        "music",
-        "sax"
-    ],
-    "1F3B8": [
-        "guitar",
-        "instrument",
-        "music",
-        "strat"
-    ],
+    "1F3B5": ["musical note", "music", "musical", "note", "sound"],
+    "1F3B6": ["musical notes", "music", "musical", "note", "notes", "sound"],
+    "1F3B7": ["saxophone", "instrument", "music", "sax"],
+    "1F3B8": ["guitar", "instrument", "music", "strat"],
     "1F3B9": [
         "musical keyboard",
         "instrument",
@@ -3650,48 +1923,13 @@
         "musical",
         "piano"
     ],
-    "1F3BA": [
-        "trumpet",
-        "instrument",
-        "music"
-    ],
-    "1F3BB": [
-        "violin",
-        "instrument",
-        "music"
-    ],
-    "1F3BC": [
-        "musical score",
-        "music",
-        "musical",
-        "note",
-        "score"
-    ],
-    "1F3BD": [
-        "running shirt",
-        "athletics",
-        "running",
-        "sash",
-        "shirt"
-    ],
-    "1F3BE": [
-        "tennis",
-        "ball",
-        "racquet",
-        "sport"
-    ],
-    "1F3BF": [
-        "skis",
-        "ski",
-        "snow",
-        "sport"
-    ],
-    "1F3C0": [
-        "basketball",
-        "ball",
-        "hoop",
-        "sport"
-    ],
+    "1F3BA": ["trumpet", "instrument", "music"],
+    "1F3BB": ["violin", "instrument", "music"],
+    "1F3BC": ["musical score", "music", "musical", "note", "score"],
+    "1F3BD": ["running shirt", "athletics", "running", "sash", "shirt"],
+    "1F3BE": ["tennis", "ball", "racquet", "sport"],
+    "1F3BF": ["skis", "ski", "snow", "sport"],
+    "1F3C0": ["basketball", "ball", "hoop", "sport"],
     "1F3C1": [
         "chequered flag",
         "checkered",
@@ -3705,13 +1943,7 @@
         "sport",
         "win"
     ],
-    "1F3C2": [
-        "snowboarder",
-        "ski",
-        "snow",
-        "snowboard",
-        "sport"
-    ],
+    "1F3C2": ["snowboarder", "ski", "snow", "snowboard", "sport"],
     "1F3C2 1F3FB": [
         "snowboarder: light skin tone",
         "light skin tone",
@@ -3923,14 +2155,7 @@
         "swell",
         "waves"
     ],
-    "1F3C5": [
-        "sports medal",
-        "award",
-        "gold",
-        "medal",
-        "sports",
-        "winner"
-    ],
+    "1F3C5": ["sports medal", "award", "gold", "medal", "sports", "winner"],
     "1F3C6": [
         "trophy",
         "champion",
@@ -4010,13 +2235,7 @@
         "sport",
         "super"
     ],
-    "1F3C9": [
-        "rugby football",
-        "ball",
-        "football",
-        "rugby",
-        "sport"
-    ],
+    "1F3C9": ["rugby football", "ball", "football", "rugby", "sport"],
     "1F3CA": [
         "person swimming",
         "freestyle",
@@ -4266,34 +2485,10 @@
         "range",
         "tee"
     ],
-    "1F3CF": [
-        "cricket game",
-        "ball",
-        "bat",
-        "cricket",
-        "game"
-    ],
-    "1F3D0": [
-        "volleyball",
-        "ball",
-        "game"
-    ],
-    "1F3D1": [
-        "field hockey",
-        "ball",
-        "field",
-        "game",
-        "hockey",
-        "stick"
-    ],
-    "1F3D2": [
-        "ice hockey",
-        "game",
-        "hockey",
-        "ice",
-        "puck",
-        "stick"
-    ],
+    "1F3CF": ["cricket game", "ball", "bat", "cricket", "game"],
+    "1F3D0": ["volleyball", "ball", "game"],
+    "1F3D1": ["field hockey", "ball", "field", "game", "hockey", "stick"],
+    "1F3D2": ["ice hockey", "game", "hockey", "ice", "puck", "stick"],
     "1F3D3": [
         "ping pong",
         "ball",
@@ -4342,30 +2537,10 @@
         "job",
         "office"
     ],
-    "1F3E3": [
-        "Japanese post office",
-        "building",
-        "Japanese",
-        "office",
-        "post"
-    ],
-    "1F3E4": [
-        "post office",
-        "building",
-        "European",
-        "office",
-        "post"
-    ],
-    "1F3E5": [
-        "hospital",
-        "building",
-        "doctor",
-        "medicine"
-    ],
-    "1F3E6": [
-        "bank",
-        "building"
-    ],
+    "1F3E3": ["Japanese post office", "building", "Japanese", "office", "post"],
+    "1F3E4": ["post office", "building", "European", "office", "post"],
+    "1F3E5": ["hospital", "building", "doctor", "medicine"],
+    "1F3E6": ["bank", "building"],
     "1F3E7": [
         "ATM sign",
         "ATM",
@@ -4376,16 +2551,8 @@
         "sign",
         "teller"
     ],
-    "1F3E8": [
-        "hotel",
-        "building"
-    ],
-    "1F3E9": [
-        "love hotel",
-        "building",
-        "hotel",
-        "love"
-    ],
+    "1F3E8": ["hotel", "building"],
+    "1F3E9": ["love hotel", "building", "hotel", "love"],
     "1F3EA": [
         "convenience store",
         "24",
@@ -4394,20 +2561,9 @@
         "hours",
         "store"
     ],
-    "1F3EB": [
-        "school",
-        "building"
-    ],
-    "1F3EC": [
-        "department store",
-        "building",
-        "department",
-        "store"
-    ],
-    "1F3ED": [
-        "factory",
-        "building"
-    ],
+    "1F3EB": ["school", "building"],
+    "1F3EC": ["department store", "building", "department", "store"],
+    "1F3ED": ["factory", "building"],
     "1F3EE": [
         "red paper lantern",
         "bar",
@@ -4417,23 +2573,9 @@
         "red",
         "restaurant"
     ],
-    "1F3EF": [
-        "Japanese castle",
-        "building",
-        "castle",
-        "Japanese"
-    ],
-    "1F3F0": [
-        "castle",
-        "building",
-        "European"
-    ],
-    "1F3F3": [
-        "white flag",
-        "flag",
-        "waving",
-        "white"
-    ],
+    "1F3EF": ["Japanese castle", "building", "castle", "Japanese"],
+    "1F3F0": ["castle", "building", "European"],
+    "1F3F3": ["white flag", "flag", "waving", "white"],
     "1F3F3 FE0F 200D 1F308": [
         "rainbow flag",
         "bisexual",
@@ -4452,31 +2594,11 @@
         "trans",
         "transgender"
     ],
-    "1F3F4": [
-        "black flag",
-        "black",
-        "flag",
-        "waving"
-    ],
-    "1F3F4 E0067 E0062 E0065 E006E E0067 E007F": [
-        "flag: England",
-        "flag"
-    ],
-    "1F3F4 E0067 E0062 E0073 E0063 E0074 E007F": [
-        "flag: Scotland",
-        "flag"
-    ],
-    "1F3F4 E0067 E0062 E0077 E006C E0073 E007F": [
-        "flag: Wales",
-        "flag"
-    ],
-    "1F3F8": [
-        "badminton",
-        "birdie",
-        "game",
-        "racquet",
-        "shuttlecock"
-    ],
+    "1F3F4": ["black flag", "black", "flag", "waving"],
+    "1F3F4 E0067 E0062 E0065 E006E E0067 E007F": ["flag: England", "flag"],
+    "1F3F4 E0067 E0062 E0073 E0063 E0074 E007F": ["flag: Scotland", "flag"],
+    "1F3F4 E0067 E0062 E0077 E006C E0073 E007F": ["flag: Wales", "flag"],
+    "1F3F8": ["badminton", "birdie", "game", "racquet", "shuttlecock"],
     "1F3F9": [
         "bow and arrow",
         "archer",
@@ -4498,69 +2620,15 @@
         "weapon",
         "zodiac"
     ],
-    "1F400": [
-        "rat",
-        "animal"
-    ],
-    "1F401": [
-        "mouse",
-        "animal",
-        "animals"
-    ],
-    "1F402": [
-        "ox",
-        "animal",
-        "animals",
-        "bull",
-        "farm",
-        "Taurus",
-        "zodiac"
-    ],
-    "1F403": [
-        "water buffalo",
-        "animal",
-        "buffalo",
-        "water",
-        "zoo"
-    ],
-    "1F404": [
-        "cow",
-        "animal",
-        "animals",
-        "farm",
-        "milk",
-        "moo"
-    ],
-    "1F405": [
-        "tiger",
-        "animal",
-        "big",
-        "cat",
-        "predator",
-        "zoo"
-    ],
-    "1F406": [
-        "leopard",
-        "animal",
-        "big",
-        "cat",
-        "predator",
-        "zoo"
-    ],
-    "1F407": [
-        "rabbit",
-        "animal",
-        "bunny",
-        "pet"
-    ],
-    "1F408": [
-        "cat",
-        "animal",
-        "animals",
-        "cats",
-        "kitten",
-        "pet"
-    ],
+    "1F400": ["rat", "animal"],
+    "1F401": ["mouse", "animal", "animals"],
+    "1F402": ["ox", "animal", "animals", "bull", "farm", "Taurus", "zodiac"],
+    "1F403": ["water buffalo", "animal", "buffalo", "water", "zoo"],
+    "1F404": ["cow", "animal", "animals", "farm", "milk", "moo"],
+    "1F405": ["tiger", "animal", "big", "cat", "predator", "zoo"],
+    "1F406": ["leopard", "animal", "big", "cat", "predator", "zoo"],
+    "1F407": ["rabbit", "animal", "bunny", "pet"],
+    "1F408": ["cat", "animal", "animals", "cats", "kitten", "pet"],
     "1F408 200D 2B1B": [
         "black cat",
         "animal",
@@ -4571,49 +2639,12 @@
         "meow",
         "unlucky"
     ],
-    "1F409": [
-        "dragon",
-        "animal",
-        "fairy",
-        "fairytale",
-        "knights",
-        "tale"
-    ],
-    "1F40A": [
-        "crocodile",
-        "animal",
-        "zoo"
-    ],
-    "1F40B": [
-        "whale",
-        "animal",
-        "beach",
-        "ocean"
-    ],
-    "1F40C": [
-        "snail",
-        "animal",
-        "escargot",
-        "garden",
-        "nature",
-        "slug"
-    ],
-    "1F40D": [
-        "snake",
-        "animal",
-        "bearer",
-        "Ophiuchus",
-        "serpent",
-        "zodiac"
-    ],
-    "1F40E": [
-        "horse",
-        "animal",
-        "equestrian",
-        "farm",
-        "racehorse",
-        "racing"
-    ],
+    "1F409": ["dragon", "animal", "fairy", "fairytale", "knights", "tale"],
+    "1F40A": ["crocodile", "animal", "zoo"],
+    "1F40B": ["whale", "animal", "beach", "ocean"],
+    "1F40C": ["snail", "animal", "escargot", "garden", "nature", "slug"],
+    "1F40D": ["snake", "animal", "bearer", "Ophiuchus", "serpent", "zodiac"],
+    "1F40E": ["horse", "animal", "equestrian", "farm", "racehorse", "racing"],
     "1F40F": [
         "ram",
         "animal",
@@ -4624,14 +2655,7 @@
         "zodiac",
         "zoo"
     ],
-    "1F410": [
-        "goat",
-        "animal",
-        "Capricorn",
-        "farm",
-        "milk",
-        "zodiac"
-    ],
+    "1F410": ["goat", "animal", "Capricorn", "farm", "milk", "zodiac"],
     "1F411": [
         "ewe",
         "animal",
@@ -4643,30 +2667,10 @@
         "sheep",
         "wool"
     ],
-    "1F412": [
-        "monkey",
-        "animal",
-        "banana"
-    ],
-    "1F413": [
-        "rooster",
-        "animal",
-        "bird",
-        "ornithology"
-    ],
-    "1F414": [
-        "chicken",
-        "animal",
-        "bird",
-        "ornithology"
-    ],
-    "1F415": [
-        "dog",
-        "animal",
-        "animals",
-        "dogs",
-        "pet"
-    ],
+    "1F412": ["monkey", "animal", "banana"],
+    "1F413": ["rooster", "animal", "bird", "ornithology"],
+    "1F414": ["chicken", "animal", "bird", "ornithology"],
+    "1F415": ["dog", "animal", "animals", "dogs", "pet"],
     "1F415 200D 1F9BA": [
         "service dog",
         "accessibility",
@@ -4675,29 +2679,10 @@
         "dog",
         "service"
     ],
-    "1F416": [
-        "pig",
-        "animal",
-        "bacon",
-        "farm",
-        "pork",
-        "sow"
-    ],
-    "1F417": [
-        "boar",
-        "animal",
-        "pig"
-    ],
-    "1F418": [
-        "elephant",
-        "animal"
-    ],
-    "1F419": [
-        "octopus",
-        "animal",
-        "creature",
-        "ocean"
-    ],
+    "1F416": ["pig", "animal", "bacon", "farm", "pork", "sow"],
+    "1F417": ["boar", "animal", "pig"],
+    "1F418": ["elephant", "animal"],
+    "1F419": ["octopus", "animal", "creature", "ocean"],
     "1F41A": [
         "spiral shell",
         "animal",
@@ -4707,18 +2692,8 @@
         "shell",
         "spiral"
     ],
-    "1F41B": [
-        "bug",
-        "animal",
-        "garden",
-        "insect"
-    ],
-    "1F41C": [
-        "ant",
-        "animal",
-        "garden",
-        "insect"
-    ],
+    "1F41B": ["bug", "animal", "garden", "insect"],
+    "1F41C": ["ant", "animal", "garden", "insect"],
     "1F41D": [
         "honeybee",
         "animal",
@@ -4749,24 +2724,9 @@
         "Pisces",
         "zodiac"
     ],
-    "1F420": [
-        "tropical fish",
-        "animal",
-        "fish",
-        "fishes",
-        "tropical"
-    ],
-    "1F421": [
-        "blowfish",
-        "animal",
-        "fish"
-    ],
-    "1F422": [
-        "turtle",
-        "animal",
-        "terrapin",
-        "tortoise"
-    ],
+    "1F420": ["tropical fish", "animal", "fish", "fishes", "tropical"],
+    "1F421": ["blowfish", "animal", "fish"],
+    "1F422": ["turtle", "animal", "terrapin", "tortoise"],
     "1F423": [
         "hatching chick",
         "animal",
@@ -4776,14 +2736,7 @@
         "egg",
         "hatching"
     ],
-    "1F424": [
-        "baby chick",
-        "animal",
-        "baby",
-        "bird",
-        "chick",
-        "ornithology"
-    ],
+    "1F424": ["baby chick", "animal", "baby", "bird", "chick", "ornithology"],
     "1F425": [
         "front-facing baby chick",
         "animal",
@@ -4794,11 +2747,7 @@
         "newborn",
         "ornithology"
     ],
-    "1F426": [
-        "bird",
-        "animal",
-        "ornithology"
-    ],
+    "1F426": ["bird", "animal", "ornithology"],
     "1F426 200D 2B1B": [
         "black bird",
         "animal",
@@ -4830,13 +2779,7 @@
         "rise",
         "transform"
     ],
-    "1F427": [
-        "penguin",
-        "animal",
-        "antarctica",
-        "bird",
-        "ornithology"
-    ],
+    "1F427": ["penguin", "animal", "antarctica", "bird", "ornithology"],
     "1F428": [
         "koala",
         "animal",
@@ -4847,20 +2790,8 @@
         "marsupial",
         "under"
     ],
-    "1F429": [
-        "poodle",
-        "animal",
-        "dog",
-        "fluffy"
-    ],
-    "1F42A": [
-        "camel",
-        "animal",
-        "desert",
-        "dromedary",
-        "hump",
-        "one"
-    ],
+    "1F429": ["poodle", "animal", "dog", "fluffy"],
+    "1F42A": ["camel", "animal", "desert", "dromedary", "hump", "one"],
     "1F42B": [
         "two-hump camel",
         "animal",
@@ -4871,28 +2802,9 @@
         "two",
         "two-hump"
     ],
-    "1F42C": [
-        "dolphin",
-        "animal",
-        "beach",
-        "flipper",
-        "ocean"
-    ],
-    "1F42D": [
-        "mouse face",
-        "animal",
-        "face",
-        "mouse"
-    ],
-    "1F42E": [
-        "cow face",
-        "animal",
-        "cow",
-        "face",
-        "farm",
-        "milk",
-        "moo"
-    ],
+    "1F42C": ["dolphin", "animal", "beach", "flipper", "ocean"],
+    "1F42D": ["mouse face", "animal", "face", "mouse"],
+    "1F42E": ["cow face", "animal", "cow", "face", "farm", "milk", "moo"],
     "1F42F": [
         "tiger face",
         "animal",
@@ -4902,23 +2814,8 @@
         "predator",
         "tiger"
     ],
-    "1F430": [
-        "rabbit face",
-        "animal",
-        "bunny",
-        "face",
-        "pet",
-        "rabbit"
-    ],
-    "1F431": [
-        "cat face",
-        "animal",
-        "cat",
-        "face",
-        "kitten",
-        "kitty",
-        "pet"
-    ],
+    "1F430": ["rabbit face", "animal", "bunny", "face", "pet", "rabbit"],
+    "1F431": ["cat face", "animal", "cat", "face", "kitten", "kitty", "pet"],
     "1F432": [
         "dragon face",
         "animal",
@@ -4947,13 +2844,7 @@
         "horse",
         "horses"
     ],
-    "1F435": [
-        "monkey face",
-        "animal",
-        "banana",
-        "face",
-        "monkey"
-    ],
+    "1F435": ["monkey face", "animal", "banana", "face", "monkey"],
     "1F436": [
         "dog face",
         "adorbs",
@@ -4964,45 +2855,12 @@
         "puppies",
         "puppy"
     ],
-    "1F437": [
-        "pig face",
-        "animal",
-        "bacon",
-        "face",
-        "farm",
-        "pig",
-        "pork"
-    ],
-    "1F438": [
-        "frog",
-        "animal",
-        "face"
-    ],
-    "1F439": [
-        "hamster",
-        "animal",
-        "face",
-        "pet"
-    ],
-    "1F43A": [
-        "wolf",
-        "animal",
-        "face"
-    ],
-    "1F43B": [
-        "bear",
-        "animal",
-        "face",
-        "grizzly",
-        "growl",
-        "honey"
-    ],
-    "1F43C": [
-        "panda",
-        "animal",
-        "bamboo",
-        "face"
-    ],
+    "1F437": ["pig face", "animal", "bacon", "face", "farm", "pig", "pork"],
+    "1F438": ["frog", "animal", "face"],
+    "1F439": ["hamster", "animal", "face", "pet"],
+    "1F43A": ["wolf", "animal", "face"],
+    "1F43B": ["bear", "animal", "face", "grizzly", "growl", "honey"],
+    "1F43C": ["panda", "animal", "bamboo", "face"],
     "1F43D": [
         "pig nose",
         "animal",
@@ -5013,14 +2871,7 @@
         "smell",
         "snout"
     ],
-    "1F43E": [
-        "paw prints",
-        "feet",
-        "paw",
-        "paws",
-        "print",
-        "prints"
-    ],
+    "1F43E": ["paw prints", "feet", "paw", "paws", "print", "prints"],
     "1F440": [
         "eyes",
         "body",
@@ -5104,15 +2955,7 @@
         "listening",
         "sound"
     ],
-    "1F443": [
-        "nose",
-        "body",
-        "noses",
-        "nosey",
-        "odor",
-        "smell",
-        "smells"
-    ],
+    "1F443": ["nose", "body", "noses", "nosey", "odor", "smell", "smells"],
     "1F443 1F3FB": [
         "nose: light skin tone",
         "body",
@@ -5168,21 +3011,8 @@
         "smell",
         "smells"
     ],
-    "1F444": [
-        "mouth",
-        "beauty",
-        "body",
-        "kiss",
-        "kissing",
-        "lips",
-        "lipstick"
-    ],
-    "1F445": [
-        "tongue",
-        "body",
-        "lick",
-        "slurp"
-    ],
+    "1F444": ["mouth", "beauty", "body", "kiss", "kissing", "lips", "lipstick"],
+    "1F445": ["tongue", "body", "lick", "slurp"],
     "1F446": [
         "backhand index pointing up",
         "backhand",
@@ -5800,16 +3630,7 @@
         "sweet",
         "three"
     ],
-    "1F44D": [
-        "thumbs up",
-        "+1",
-        "good",
-        "hand",
-        "like",
-        "thumb",
-        "up",
-        "yes"
-    ],
+    "1F44D": ["thumbs up", "+1", "good", "hand", "like", "thumb", "up", "yes"],
     "1F44D 1F3FB": [
         "thumbs up: light skin tone",
         "+1",
@@ -6067,15 +3888,7 @@
         "well",
         "yay"
     ],
-    "1F450": [
-        "open hands",
-        "hand",
-        "hands",
-        "hug",
-        "jazz",
-        "open",
-        "swerve"
-    ],
+    "1F450": ["open hands", "hand", "hands", "hug", "jazz", "open", "swerve"],
     "1F450 1F3FB": [
         "open hands: light skin tone",
         "hand",
@@ -6148,21 +3961,8 @@
         "woman",
         "woman’s"
     ],
-    "1F453": [
-        "glasses",
-        "clothing",
-        "eye",
-        "eyeglasses",
-        "eyewear"
-    ],
-    "1F454": [
-        "necktie",
-        "clothing",
-        "employed",
-        "serious",
-        "shirt",
-        "tie"
-    ],
+    "1F453": ["glasses", "clothing", "eye", "eyeglasses", "eyewear"],
+    "1F454": ["necktie", "clothing", "employed", "serious", "shirt", "tie"],
     "1F455": [
         "t-shirt",
         "blue",
@@ -6189,28 +3989,9 @@
         "trousers",
         "weekend"
     ],
-    "1F457": [
-        "dress",
-        "clothes",
-        "clothing",
-        "dressed",
-        "fancy",
-        "shopping"
-    ],
-    "1F458": [
-        "kimono",
-        "clothing",
-        "comfortable"
-    ],
-    "1F459": [
-        "bikini",
-        "bathing",
-        "beach",
-        "clothing",
-        "pool",
-        "suit",
-        "swim"
-    ],
+    "1F457": ["dress", "clothes", "clothing", "dressed", "fancy", "shopping"],
+    "1F458": ["kimono", "clothing", "comfortable"],
+    "1F459": ["bikini", "bathing", "beach", "clothing", "pool", "suit", "swim"],
     "1F45A": [
         "woman’s clothes",
         "blouse",
@@ -6498,11 +4279,7 @@
         "younger",
         "zodiac"
     ],
-    "1F468": [
-        "man",
-        "adult",
-        "bro"
-    ],
+    "1F468": ["man", "adult", "bro"],
     "1F468 1F3FB": [
         "man: light skin tone",
         "adult",
@@ -6538,13 +4315,7 @@
         "dark skin tone",
         "man"
     ],
-    "1F468 200D 1F9B0": [
-        "man: red hair",
-        "adult",
-        "bro",
-        "man",
-        "red hair"
-    ],
+    "1F468 200D 1F9B0": ["man: red hair", "adult", "bro", "man", "red hair"],
     "1F468 1F3FB 200D 1F9B0": [
         "man: light skin tone, red hair",
         "adult",
@@ -6679,13 +4450,7 @@
         "man",
         "white hair"
     ],
-    "1F468 200D 1F9B2": [
-        "man: bald",
-        "adult",
-        "bald",
-        "bro",
-        "man"
-    ],
+    "1F468 200D 1F9B2": ["man: bald", "adult", "bald", "bro", "man"],
     "1F468 1F3FB 200D 1F9B2": [
         "man: light skin tone, bald",
         "adult",
@@ -6726,12 +4491,7 @@
         "dark skin tone",
         "man"
     ],
-    "1F468 200D 1F393": [
-        "man student",
-        "graduate",
-        "man",
-        "student"
-    ],
+    "1F468 200D 1F393": ["man student", "graduate", "man", "student"],
     "1F468 1F3FB 200D 1F393": [
         "man student: light skin tone",
         "graduate",
@@ -6820,13 +4580,7 @@
         "professor",
         "teacher"
     ],
-    "1F468 200D 1F33E": [
-        "man farmer",
-        "farmer",
-        "gardener",
-        "man",
-        "rancher"
-    ],
+    "1F468 200D 1F33E": ["man farmer", "farmer", "gardener", "man", "rancher"],
     "1F468 1F3FB 200D 1F33E": [
         "man farmer: light skin tone",
         "farmer",
@@ -6867,12 +4621,7 @@
         "man",
         "rancher"
     ],
-    "1F468 200D 1F373": [
-        "man cook",
-        "chef",
-        "cook",
-        "man"
-    ],
+    "1F468 200D 1F373": ["man cook", "chef", "cook", "man"],
     "1F468 1F3FB 200D 1F373": [
         "man cook: light skin tone",
         "chef",
@@ -7274,12 +5023,7 @@
         "singer",
         "star"
     ],
-    "1F468 200D 1F3A8": [
-        "man artist",
-        "artist",
-        "man",
-        "palette"
-    ],
+    "1F468 200D 1F3A8": ["man artist", "artist", "man", "palette"],
     "1F468 1F3FB 200D 1F3A8": [
         "man artist: light skin tone",
         "artist",
@@ -9756,13 +7500,7 @@
         "girl",
         "man"
     ],
-    "1F468 200D 1F466": [
-        "family: man, boy",
-        "boy",
-        "child",
-        "family",
-        "man"
-    ],
+    "1F468 200D 1F466": ["family: man, boy", "boy", "child", "family", "man"],
     "1F468 200D 1F466 200D 1F466": [
         "family: man, boy, boy",
         "boy",
@@ -9770,13 +7508,7 @@
         "family",
         "man"
     ],
-    "1F468 200D 1F467": [
-        "family: man, girl",
-        "child",
-        "family",
-        "girl",
-        "man"
-    ],
+    "1F468 200D 1F467": ["family: man, girl", "child", "family", "girl", "man"],
     "1F468 200D 1F467 200D 1F466": [
         "family: man, girl, boy",
         "boy",
@@ -9792,11 +7524,7 @@
         "girl",
         "man"
     ],
-    "1F469": [
-        "woman",
-        "adult",
-        "lady"
-    ],
+    "1F469": ["woman", "adult", "lady"],
     "1F469 1F3FB": [
         "woman: light skin tone",
         "adult",
@@ -9973,13 +7701,7 @@
         "white hair",
         "woman"
     ],
-    "1F469 200D 1F9B2": [
-        "woman: bald",
-        "adult",
-        "bald",
-        "lady",
-        "woman"
-    ],
+    "1F469 200D 1F9B2": ["woman: bald", "adult", "bald", "lady", "woman"],
     "1F469 1F3FB 200D 1F9B2": [
         "woman: light skin tone, bald",
         "adult",
@@ -10020,12 +7742,7 @@
         "lady",
         "woman"
     ],
-    "1F469 200D 1F393": [
-        "woman student",
-        "graduate",
-        "student",
-        "woman"
-    ],
+    "1F469 200D 1F393": ["woman student", "graduate", "student", "woman"],
     "1F469 1F3FB 200D 1F393": [
         "woman student: light skin tone",
         "graduate",
@@ -10161,12 +7878,7 @@
         "rancher",
         "woman"
     ],
-    "1F469 200D 1F373": [
-        "woman cook",
-        "chef",
-        "cook",
-        "woman"
-    ],
+    "1F469 200D 1F373": ["woman cook", "chef", "cook", "woman"],
     "1F469 1F3FB 200D 1F373": [
         "woman cook: light skin tone",
         "chef",
@@ -10568,12 +8280,7 @@
         "star",
         "woman"
     ],
-    "1F469 200D 1F3A8": [
-        "woman artist",
-        "artist",
-        "palette",
-        "woman"
-    ],
+    "1F469 200D 1F3A8": ["woman artist", "artist", "palette", "woman"],
     "1F469 1F3FB 200D 1F3A8": [
         "woman artist: light skin tone",
         "artist",
@@ -14437,10 +12144,7 @@
         "girl",
         "woman"
     ],
-    "1F46A": [
-        "family",
-        "child"
-    ],
+    "1F46A": ["family", "child"],
     "1F46B": [
         "woman and man holding hands",
         "bae",
@@ -14934,12 +12638,7 @@
         "twin",
         "twinsies"
     ],
-    "1F470": [
-        "person with veil",
-        "person",
-        "veil",
-        "wedding"
-    ],
+    "1F470": ["person with veil", "person", "veil", "wedding"],
     "1F470 1F3FB": [
         "person with veil: light skin tone",
         "light skin tone",
@@ -14975,13 +12674,7 @@
         "veil",
         "wedding"
     ],
-    "1F471": [
-        "person: blond hair",
-        "blond",
-        "blond-haired",
-        "human",
-        "person"
-    ],
+    "1F471": ["person: blond hair", "blond", "blond-haired", "human", "person"],
     "1F471 1F3FB": [
         "person: light skin tone, blond hair",
         "blond",
@@ -15104,12 +12797,7 @@
         "pi",
         "skullcap"
     ],
-    "1F473": [
-        "person wearing turban",
-        "person",
-        "turban",
-        "wearing"
-    ],
+    "1F473": ["person wearing turban", "person", "turban", "wearing"],
     "1F473 1F3FB": [
         "person wearing turban: light skin tone",
         "light skin tone",
@@ -15810,13 +13498,7 @@
         "tipping",
         "whatever"
     ],
-    "1F482": [
-        "guard",
-        "buckingham",
-        "helmet",
-        "london",
-        "palace"
-    ],
+    "1F482": ["guard", "buckingham", "helmet", "london", "palace"],
     "1F482 1F3FB": [
         "guard: light skin tone",
         "buckingham",
@@ -15957,12 +13639,7 @@
         "tango",
         "woman"
     ],
-    "1F484": [
-        "lipstick",
-        "cosmetics",
-        "date",
-        "makeup"
-    ],
+    "1F484": ["lipstick", "cosmetics", "date", "makeup"],
     "1F485": [
         "nail polish",
         "bored",
@@ -16526,13 +14203,7 @@
         "together",
         "you"
     ],
-    "1F492": [
-        "wedding",
-        "chapel",
-        "hitched",
-        "nuptials",
-        "romance"
-    ],
+    "1F492": ["wedding", "chapel", "hitched", "nuptials", "romance"],
     "1F493": [
         "beating heart",
         "143",
@@ -16689,21 +14360,8 @@
         "purple",
         "white"
     ],
-    "1F4A0": [
-        "diamond with a dot",
-        "comic",
-        "diamond",
-        "dot",
-        "geometric"
-    ],
-    "1F4A1": [
-        "light bulb",
-        "bulb",
-        "comic",
-        "electric",
-        "idea",
-        "light"
-    ],
+    "1F4A0": ["diamond with a dot", "comic", "diamond", "dot", "geometric"],
+    "1F4A1": ["light bulb", "bulb", "comic", "electric", "idea", "light"],
     "1F4A2": [
         "anger symbol",
         "anger",
@@ -16713,14 +14371,7 @@
         "symbol",
         "upset"
     ],
-    "1F4A3": [
-        "bomb",
-        "boom",
-        "comic",
-        "dangerous",
-        "explosion",
-        "hot"
-    ],
+    "1F4A3": ["bomb", "boom", "comic", "dangerous", "explosion", "hot"],
     "1F4A4": [
         "ZZZ",
         "comic",
@@ -16732,14 +14383,7 @@
         "sleepy",
         "tired"
     ],
-    "1F4A5": [
-        "collision",
-        "bomb",
-        "boom",
-        "collide",
-        "comic",
-        "explode"
-    ],
+    "1F4A5": ["collision", "bomb", "boom", "collide", "comic", "explode"],
     "1F4A6": [
         "sweat droplets",
         "comic",
@@ -16920,14 +14564,7 @@
         "strong",
         "weightlift"
     ],
-    "1F4AB": [
-        "dizzy",
-        "comic",
-        "shining",
-        "shooting",
-        "star",
-        "stars"
-    ],
+    "1F4AB": ["dizzy", "comic", "shining", "shooting", "star", "stars"],
     "1F4AC": [
         "speech balloon",
         "balloon",
@@ -16959,11 +14596,7 @@
         "thoughts",
         "wonder"
     ],
-    "1F4AE": [
-        "white flower",
-        "flower",
-        "white"
-    ],
+    "1F4AE": ["white flower", "flower", "white"],
     "1F4AF": [
         "hundred points",
         "100",
@@ -17002,13 +14635,7 @@
         "rich",
         "win"
     ],
-    "1F4B1": [
-        "currency exchange",
-        "bank",
-        "currency",
-        "exchange",
-        "money"
-    ],
+    "1F4B1": ["currency exchange", "bank", "currency", "exchange", "money"],
     "1F4B2": [
         "heavy dollar sign",
         "billion",
@@ -17107,34 +14734,11 @@
         "upward",
         "yen"
     ],
-    "1F4BA": [
-        "seat",
-        "chair"
-    ],
-    "1F4BB": [
-        "laptop",
-        "computer",
-        "office",
-        "pc",
-        "personal"
-    ],
-    "1F4BC": [
-        "briefcase",
-        "office"
-    ],
-    "1F4BD": [
-        "computer disk",
-        "computer",
-        "disk",
-        "minidisk",
-        "optical"
-    ],
-    "1F4BE": [
-        "floppy disk",
-        "computer",
-        "disk",
-        "floppy"
-    ],
+    "1F4BA": ["seat", "chair"],
+    "1F4BB": ["laptop", "computer", "office", "pc", "personal"],
+    "1F4BC": ["briefcase", "office"],
+    "1F4BD": ["computer disk", "computer", "disk", "minidisk", "optical"],
+    "1F4BE": ["floppy disk", "computer", "disk", "floppy"],
     "1F4BF": [
         "optical disk",
         "blu-ray",
@@ -17144,57 +14748,14 @@
         "dvd",
         "optical"
     ],
-    "1F4C0": [
-        "dvd",
-        "Blu-ray",
-        "cd",
-        "computer",
-        "disk",
-        "optical"
-    ],
-    "1F4C1": [
-        "file folder",
-        "file",
-        "folder"
-    ],
-    "1F4C2": [
-        "open file folder",
-        "file",
-        "folder",
-        "open"
-    ],
-    "1F4C3": [
-        "page with curl",
-        "curl",
-        "document",
-        "page",
-        "paper"
-    ],
-    "1F4C4": [
-        "page facing up",
-        "document",
-        "facing",
-        "page",
-        "paper",
-        "up"
-    ],
-    "1F4C5": [
-        "calendar",
-        "date"
-    ],
-    "1F4C6": [
-        "tear-off calendar",
-        "calendar",
-        "tear-off"
-    ],
-    "1F4C7": [
-        "card index",
-        "card",
-        "index",
-        "old",
-        "rolodex",
-        "school"
-    ],
+    "1F4C0": ["dvd", "Blu-ray", "cd", "computer", "disk", "optical"],
+    "1F4C1": ["file folder", "file", "folder"],
+    "1F4C2": ["open file folder", "file", "folder", "open"],
+    "1F4C3": ["page with curl", "curl", "document", "page", "paper"],
+    "1F4C4": ["page facing up", "document", "facing", "page", "paper", "up"],
+    "1F4C5": ["calendar", "date"],
+    "1F4C6": ["tear-off calendar", "calendar", "tear-off"],
+    "1F4C7": ["card index", "card", "index", "old", "rolodex", "school"],
     "1F4C8": [
         "chart increasing",
         "chart",
@@ -17218,35 +14779,11 @@
         "negative",
         "trend"
     ],
-    "1F4CA": [
-        "bar chart",
-        "bar",
-        "chart",
-        "data",
-        "graph"
-    ],
-    "1F4CB": [
-        "clipboard",
-        "do",
-        "list",
-        "notes"
-    ],
-    "1F4CC": [
-        "pushpin",
-        "collage",
-        "pin"
-    ],
-    "1F4CD": [
-        "round pushpin",
-        "location",
-        "map",
-        "pin",
-        "pushpin",
-        "round"
-    ],
-    "1F4CE": [
-        "paperclip"
-    ],
+    "1F4CA": ["bar chart", "bar", "chart", "data", "graph"],
+    "1F4CB": ["clipboard", "do", "list", "notes"],
+    "1F4CC": ["pushpin", "collage", "pin"],
+    "1F4CD": ["round pushpin", "location", "map", "pin", "pushpin", "round"],
+    "1F4CE": ["paperclip"],
     "1F4CF": [
         "straight ruler",
         "angle",
@@ -17267,20 +14804,9 @@
         "triangle",
         "triangular"
     ],
-    "1F4D1": [
-        "bookmark tabs",
-        "bookmark",
-        "mark",
-        "marker",
-        "tabs"
-    ],
-    "1F4D2": [
-        "ledger",
-        "notebook"
-    ],
-    "1F4D3": [
-        "notebook"
-    ],
+    "1F4D1": ["bookmark tabs", "bookmark", "mark", "marker", "tabs"],
+    "1F4D2": ["ledger", "notebook"],
+    "1F4D3": ["notebook"],
     "1F4D4": [
         "notebook with decorative cover",
         "book",
@@ -17292,12 +14818,7 @@
         "school",
         "writing"
     ],
-    "1F4D5": [
-        "closed book",
-        "book",
-        "closed",
-        "education"
-    ],
+    "1F4D5": ["closed book", "book", "closed", "education"],
     "1F4D6": [
         "open book",
         "book",
@@ -17348,22 +14869,9 @@
         "school",
         "study"
     ],
-    "1F4DB": [
-        "name badge",
-        "badge",
-        "name"
-    ],
-    "1F4DC": [
-        "scroll",
-        "paper"
-    ],
-    "1F4DD": [
-        "memo",
-        "communication",
-        "media",
-        "notes",
-        "pencil"
-    ],
+    "1F4DB": ["name badge", "badge", "name"],
+    "1F4DC": ["scroll", "paper"],
+    "1F4DD": ["memo", "communication", "media", "notes", "pencil"],
     "1F4DE": [
         "telephone receiver",
         "communication",
@@ -17372,16 +14880,8 @@
         "telephone",
         "voip"
     ],
-    "1F4DF": [
-        "pager",
-        "communication"
-    ],
-    "1F4E0": [
-        "fax machine",
-        "communication",
-        "fax",
-        "machine"
-    ],
+    "1F4DF": ["pager", "communication"],
+    "1F4E0": ["fax machine", "communication", "fax", "machine"],
     "1F4E1": [
         "satellite antenna",
         "aliens",
@@ -17399,11 +14899,7 @@
         "public",
         "sound"
     ],
-    "1F4E3": [
-        "megaphone",
-        "cheering",
-        "sound"
-    ],
+    "1F4E3": ["megaphone", "cheering", "sound"],
     "1F4E4": [
         "outbox tray",
         "box",
@@ -17433,12 +14929,7 @@
         "parcel",
         "shipping"
     ],
-    "1F4E7": [
-        "e-mail",
-        "email",
-        "letter",
-        "mail"
-    ],
+    "1F4E7": ["e-mail", "email", "letter", "mail"],
     "1F4E8": [
         "incoming envelope",
         "delivering",
@@ -17502,23 +14993,9 @@
         "open",
         "postbox"
     ],
-    "1F4EE": [
-        "postbox",
-        "mail",
-        "mailbox"
-    ],
-    "1F4EF": [
-        "postal horn",
-        "horn",
-        "post",
-        "postal"
-    ],
-    "1F4F0": [
-        "newspaper",
-        "communication",
-        "news",
-        "paper"
-    ],
+    "1F4EE": ["postbox", "mail", "mailbox"],
+    "1F4EF": ["postal horn", "horn", "post", "postal"],
+    "1F4F0": ["newspaper", "communication", "news", "paper"],
     "1F4F1": [
         "mobile phone",
         "cell",
@@ -17581,48 +15058,12 @@
         "signal",
         "telephone"
     ],
-    "1F4F7": [
-        "camera",
-        "photo",
-        "selfie",
-        "snap",
-        "tbt",
-        "trip",
-        "video"
-    ],
-    "1F4F8": [
-        "camera with flash",
-        "camera",
-        "flash",
-        "video"
-    ],
-    "1F4F9": [
-        "video camera",
-        "camcorder",
-        "camera",
-        "tbt",
-        "video"
-    ],
-    "1F4FA": [
-        "television",
-        "tv",
-        "video"
-    ],
-    "1F4FB": [
-        "radio",
-        "entertainment",
-        "tbt",
-        "video"
-    ],
-    "1F4FC": [
-        "videocassette",
-        "old",
-        "school",
-        "tape",
-        "vcr",
-        "vhs",
-        "video"
-    ],
+    "1F4F7": ["camera", "photo", "selfie", "snap", "tbt", "trip", "video"],
+    "1F4F8": ["camera with flash", "camera", "flash", "video"],
+    "1F4F9": ["video camera", "camcorder", "camera", "tbt", "video"],
+    "1F4FA": ["television", "tv", "video"],
+    "1F4FB": ["radio", "entertainment", "tbt", "video"],
+    "1F4FC": ["videocassette", "old", "school", "tape", "vcr", "vhs", "video"],
     "1F4FF": [
         "prayer beads",
         "beads",
@@ -17639,13 +15080,7 @@
         "shuffle",
         "tracks"
     ],
-    "1F501": [
-        "repeat button",
-        "arrow",
-        "button",
-        "clockwise",
-        "repeat"
-    ],
+    "1F501": ["repeat button", "arrow", "button", "clockwise", "repeat"],
     "1F502": [
         "repeat single button",
         "arrow",
@@ -17677,20 +15112,8 @@
         "rewindershins",
         "vu"
     ],
-    "1F505": [
-        "dim button",
-        "brightness",
-        "button",
-        "dim",
-        "low"
-    ],
-    "1F506": [
-        "bright button",
-        "bright",
-        "brightness",
-        "button",
-        "light"
-    ],
+    "1F505": ["dim button", "brightness", "button", "dim", "low"],
+    "1F506": ["bright button", "bright", "brightness", "button", "light"],
     "1F507": [
         "muted speaker",
         "mute",
@@ -17708,13 +15131,7 @@
         "speaker",
         "volume"
     ],
-    "1F509": [
-        "speaker medium volume",
-        "medium",
-        "sound",
-        "speaker",
-        "volume"
-    ],
+    "1F509": ["speaker medium volume", "medium", "sound", "speaker", "volume"],
     "1F50A": [
         "speaker high volume",
         "high",
@@ -17724,15 +15141,8 @@
         "speaker",
         "volume"
     ],
-    "1F50B": [
-        "battery"
-    ],
-    "1F50C": [
-        "electric plug",
-        "electric",
-        "electricity",
-        "plug"
-    ],
+    "1F50B": ["battery"],
+    "1F50C": ["electric plug", "electric", "electricity", "plug"],
     "1F50D": [
         "magnifying glass tilted left",
         "glass",
@@ -17776,33 +15186,10 @@
         "locked",
         "secure"
     ],
-    "1F511": [
-        "key",
-        "keys",
-        "lock",
-        "major",
-        "password",
-        "unlock"
-    ],
-    "1F512": [
-        "locked",
-        "closed",
-        "lock",
-        "private"
-    ],
-    "1F513": [
-        "unlocked",
-        "cracked",
-        "lock",
-        "open",
-        "unlock"
-    ],
-    "1F514": [
-        "bell",
-        "break",
-        "church",
-        "sound"
-    ],
+    "1F511": ["key", "keys", "lock", "major", "password", "unlock"],
+    "1F512": ["locked", "closed", "lock", "private"],
+    "1F513": ["unlocked", "cracked", "lock", "open", "unlock"],
+    "1F514": ["bell", "break", "church", "sound"],
     "1F515": [
         "bell with slash",
         "bell",
@@ -17816,50 +15203,14 @@
         "slash",
         "sound"
     ],
-    "1F516": [
-        "bookmark",
-        "mark"
-    ],
-    "1F517": [
-        "link",
-        "links"
-    ],
-    "1F518": [
-        "radio button",
-        "button",
-        "geometric",
-        "radio"
-    ],
-    "1F519": [
-        "BACK arrow",
-        "arrow",
-        "BACK"
-    ],
-    "1F51A": [
-        "END arrow",
-        "arrow",
-        "END"
-    ],
-    "1F51B": [
-        "ON! arrow",
-        "arrow",
-        "mark",
-        "ON!"
-    ],
-    "1F51C": [
-        "SOON arrow",
-        "arrow",
-        "brb",
-        "omw",
-        "SOON"
-    ],
-    "1F51D": [
-        "TOP arrow",
-        "arrow",
-        "homie",
-        "TOP",
-        "up"
-    ],
+    "1F516": ["bookmark", "mark"],
+    "1F517": ["link", "links"],
+    "1F518": ["radio button", "button", "geometric", "radio"],
+    "1F519": ["BACK arrow", "arrow", "BACK"],
+    "1F51A": ["END arrow", "arrow", "END"],
+    "1F51B": ["ON! arrow", "arrow", "mark", "ON!"],
+    "1F51C": ["SOON arrow", "arrow", "brb", "omw", "SOON"],
+    "1F51D": ["TOP arrow", "arrow", "homie", "TOP", "up"],
     "1F51E": [
         "no one under eighteen",
         "18",
@@ -17873,10 +15224,7 @@
         "restriction",
         "underage"
     ],
-    "1F51F": [
-        "keycap: 10",
-        "keycap"
-    ],
+    "1F51F": ["keycap: 10", "keycap"],
     "1F520": [
         "input latin uppercase",
         "ABCD",
@@ -17893,21 +15241,8 @@
         "letters",
         "lowercase"
     ],
-    "1F522": [
-        "input numbers",
-        "1234",
-        "input",
-        "numbers"
-    ],
-    "1F523": [
-        "input symbols",
-        "&",
-        "%",
-        "♪",
-        "〒",
-        "input",
-        "symbols"
-    ],
+    "1F522": ["input numbers", "1234", "input", "numbers"],
+    "1F523": ["input symbols", "&", "%", "♪", "〒", "input", "symbols"],
     "1F524": [
         "input latin letters",
         "abc",
@@ -17916,45 +15251,11 @@
         "latin",
         "letters"
     ],
-    "1F525": [
-        "fire",
-        "af",
-        "burn",
-        "flame",
-        "hot",
-        "lit",
-        "litaf",
-        "tool"
-    ],
-    "1F526": [
-        "flashlight",
-        "electric",
-        "light",
-        "tool",
-        "torch"
-    ],
-    "1F527": [
-        "wrench",
-        "home",
-        "improvement",
-        "spanner",
-        "tool"
-    ],
-    "1F528": [
-        "hammer",
-        "home",
-        "improvement",
-        "repairs",
-        "tool"
-    ],
-    "1F529": [
-        "nut and bolt",
-        "bolt",
-        "home",
-        "improvement",
-        "nut",
-        "tool"
-    ],
+    "1F525": ["fire", "af", "burn", "flame", "hot", "lit", "litaf", "tool"],
+    "1F526": ["flashlight", "electric", "light", "tool", "torch"],
+    "1F527": ["wrench", "home", "improvement", "spanner", "tool"],
+    "1F528": ["hammer", "home", "improvement", "repairs", "tool"],
+    "1F529": ["nut and bolt", "bolt", "home", "improvement", "nut", "tool"],
     "1F52A": [
         "kitchen knife",
         "chef",
@@ -17975,20 +15276,8 @@
         "water",
         "weapon"
     ],
-    "1F52C": [
-        "microscope",
-        "experiment",
-        "lab",
-        "science",
-        "tool"
-    ],
-    "1F52D": [
-        "telescope",
-        "contact",
-        "extraterrestrial",
-        "science",
-        "tool"
-    ],
+    "1F52C": ["microscope", "experiment", "lab", "science", "tool"],
+    "1F52D": ["telescope", "contact", "extraterrestrial", "science", "tool"],
     "1F52E": [
         "crystal ball",
         "ball",
@@ -18031,13 +15320,7 @@
         "tool",
         "trident"
     ],
-    "1F532": [
-        "black square button",
-        "black",
-        "button",
-        "geometric",
-        "square"
-    ],
+    "1F532": ["black square button", "black", "button", "geometric", "square"],
     "1F533": [
         "white square button",
         "button",
@@ -18046,18 +15329,8 @@
         "square",
         "white"
     ],
-    "1F534": [
-        "red circle",
-        "circle",
-        "geometric",
-        "red"
-    ],
-    "1F535": [
-        "blue circle",
-        "blue",
-        "circle",
-        "geometric"
-    ],
+    "1F534": ["red circle", "circle", "geometric", "red"],
+    "1F535": ["blue circle", "blue", "circle", "geometric"],
     "1F536": [
         "large orange diamond",
         "diamond",
@@ -18065,13 +15338,7 @@
         "large",
         "orange"
     ],
-    "1F537": [
-        "large blue diamond",
-        "blue",
-        "diamond",
-        "geometric",
-        "large"
-    ],
+    "1F537": ["large blue diamond", "blue", "diamond", "geometric", "large"],
     "1F538": [
         "small orange diamond",
         "diamond",
@@ -18079,13 +15346,7 @@
         "orange",
         "small"
     ],
-    "1F539": [
-        "small blue diamond",
-        "blue",
-        "diamond",
-        "geometric",
-        "small"
-    ],
+    "1F539": ["small blue diamond", "blue", "diamond", "geometric", "small"],
     "1F53A": [
         "red triangle pointed up",
         "geometric",
@@ -18102,14 +15363,7 @@
         "red",
         "triangle"
     ],
-    "1F53C": [
-        "upwards button",
-        "arrow",
-        "button",
-        "red",
-        "up",
-        "upwards"
-    ],
+    "1F53C": ["upwards button", "arrow", "button", "red", "up", "upwards"],
     "1F53D": [
         "downwards button",
         "arrow",
@@ -18118,29 +15372,9 @@
         "downwards",
         "red"
     ],
-    "1F54B": [
-        "kaaba",
-        "hajj",
-        "islam",
-        "Muslim",
-        "religion",
-        "umrah"
-    ],
-    "1F54C": [
-        "mosque",
-        "islam",
-        "masjid",
-        "Muslim",
-        "religion"
-    ],
-    "1F54D": [
-        "synagogue",
-        "Jew",
-        "Jewish",
-        "judaism",
-        "religion",
-        "temple"
-    ],
+    "1F54B": ["kaaba", "hajj", "islam", "Muslim", "religion", "umrah"],
+    "1F54C": ["mosque", "islam", "masjid", "Muslim", "religion"],
+    "1F54D": ["synagogue", "Jew", "Jewish", "judaism", "religion", "temple"],
     "1F54E": [
         "menorah",
         "candelabrum",
@@ -18150,24 +15384,8 @@
         "judaism",
         "religion"
     ],
-    "1F550": [
-        "one o’clock",
-        "1",
-        "1:00",
-        "clock",
-        "o’clock",
-        "one",
-        "time"
-    ],
-    "1F551": [
-        "two o’clock",
-        "2",
-        "2:00",
-        "clock",
-        "o’clock",
-        "time",
-        "two"
-    ],
+    "1F550": ["one o’clock", "1", "1:00", "clock", "o’clock", "one", "time"],
+    "1F551": ["two o’clock", "2", "2:00", "clock", "o’clock", "time", "two"],
     "1F552": [
         "three o’clock",
         "3",
@@ -18177,42 +15395,10 @@
         "three",
         "time"
     ],
-    "1F553": [
-        "four o’clock",
-        "4",
-        "4:00",
-        "clock",
-        "four",
-        "o’clock",
-        "time"
-    ],
-    "1F554": [
-        "five o’clock",
-        "5",
-        "5:00",
-        "clock",
-        "five",
-        "o’clock",
-        "time"
-    ],
-    "1F555": [
-        "six o’clock",
-        "6",
-        "6:00",
-        "clock",
-        "o’clock",
-        "six",
-        "time"
-    ],
-    "1F556": [
-        "seven o’clock",
-        "0",
-        "7",
-        "7:00",
-        "clock",
-        "o’clock",
-        "seven"
-    ],
+    "1F553": ["four o’clock", "4", "4:00", "clock", "four", "o’clock", "time"],
+    "1F554": ["five o’clock", "5", "5:00", "clock", "five", "o’clock", "time"],
+    "1F555": ["six o’clock", "6", "6:00", "clock", "o’clock", "six", "time"],
+    "1F556": ["seven o’clock", "0", "7", "7:00", "clock", "o’clock", "seven"],
     "1F557": [
         "eight o’clock",
         "8",
@@ -18222,24 +15408,8 @@
         "o’clock",
         "time"
     ],
-    "1F558": [
-        "nine o’clock",
-        "9",
-        "9:00",
-        "clock",
-        "nine",
-        "o’clock",
-        "time"
-    ],
-    "1F559": [
-        "ten o’clock",
-        "0",
-        "10",
-        "10:00",
-        "clock",
-        "o’clock",
-        "ten"
-    ],
+    "1F558": ["nine o’clock", "9", "9:00", "clock", "nine", "o’clock", "time"],
+    "1F559": ["ten o’clock", "0", "10", "10:00", "clock", "o’clock", "ten"],
     "1F55A": [
         "eleven o’clock",
         "11",
@@ -18308,24 +15478,8 @@
         "thirty",
         "time"
     ],
-    "1F561": [
-        "six-thirty",
-        "30",
-        "6",
-        "6:30",
-        "clock",
-        "six",
-        "thirty"
-    ],
-    "1F562": [
-        "seven-thirty",
-        "30",
-        "7",
-        "7:30",
-        "clock",
-        "seven",
-        "thirty"
-    ],
+    "1F561": ["six-thirty", "30", "6", "6:30", "clock", "six", "thirty"],
+    "1F562": ["seven-thirty", "30", "7", "7:30", "clock", "seven", "thirty"],
     "1F563": [
         "eight-thirty",
         "30",
@@ -18423,11 +15577,7 @@
         "person",
         "suit"
     ],
-    "1F575": [
-        "detective",
-        "sleuth",
-        "spy"
-    ],
+    "1F575": ["detective", "sleuth", "spy"],
     "1F575 1F3FB": [
         "detective: light skin tone",
         "detective",
@@ -18617,12 +15767,7 @@
         "splayed",
         "stop"
     ],
-    "1F595": [
-        "middle finger",
-        "finger",
-        "hand",
-        "middle"
-    ],
+    "1F595": ["middle finger", "finger", "hand", "middle"],
     "1F595 1F3FB": [
         "middle finger: light skin tone",
         "finger",
@@ -18658,14 +15803,7 @@
         "hand",
         "middle"
     ],
-    "1F596": [
-        "vulcan salute",
-        "finger",
-        "hand",
-        "hands",
-        "salute",
-        "Vulcan"
-    ],
+    "1F596": ["vulcan salute", "finger", "hand", "hands", "salute", "Vulcan"],
     "1F596 1F3FB": [
         "vulcan salute: light skin tone",
         "finger",
@@ -18711,25 +15849,9 @@
         "salute",
         "Vulcan"
     ],
-    "1F5A4": [
-        "black heart",
-        "black",
-        "evil",
-        "heart",
-        "wicked"
-    ],
-    "1F5FB": [
-        "mount fuji",
-        "fuji",
-        "mount",
-        "mountain",
-        "nature"
-    ],
-    "1F5FC": [
-        "Tokyo tower",
-        "Tokyo",
-        "tower"
-    ],
+    "1F5A4": ["black heart", "black", "evil", "heart", "wicked"],
+    "1F5FB": ["mount fuji", "fuji", "mount", "mountain", "nature"],
+    "1F5FC": ["Tokyo tower", "Tokyo", "tower"],
     "1F5FD": [
         "Statue of Liberty",
         "liberty",
@@ -18739,19 +15861,8 @@
         "statue",
         "york"
     ],
-    "1F5FE": [
-        "map of Japan",
-        "Japan",
-        "map"
-    ],
-    "1F5FF": [
-        "moai",
-        "face",
-        "moyai",
-        "statue",
-        "stoneface",
-        "travel"
-    ],
+    "1F5FE": ["map of Japan", "Japan", "map"],
+    "1F5FF": ["moai", "face", "moyai", "statue", "stoneface", "travel"],
     "1F600": [
         "grinning face",
         "cheerful",
@@ -19688,13 +16799,7 @@
         "kiss",
         "kissing"
     ],
-    "1F63E": [
-        "pouting cat",
-        "animal",
-        "cat",
-        "face",
-        "pouting"
-    ],
+    "1F63E": ["pouting cat", "animal", "cat", "face", "pouting"],
     "1F63F": [
         "crying cat",
         "animal",
@@ -19705,15 +16810,7 @@
         "sad",
         "tear"
     ],
-    "1F640": [
-        "weary cat",
-        "animal",
-        "cat",
-        "face",
-        "oh",
-        "surprised",
-        "weary"
-    ],
+    "1F640": ["weary cat", "animal", "cat", "face", "oh", "surprised", "weary"],
     "1F641": [
         "slightly frowning face",
         "face",
@@ -19730,13 +16827,7 @@
         "smile",
         "smiling"
     ],
-    "1F643": [
-        "upside-down face",
-        "face",
-        "hehe",
-        "smile",
-        "upside-down"
-    ],
+    "1F643": ["upside-down face", "face", "hehe", "smile", "upside-down"],
     "1F644": [
         "face with rolling eyes",
         "eyeroll",
@@ -20476,20 +17567,8 @@
         "thanks",
         "thx"
     ],
-    "1F680": [
-        "rocket",
-        "launch",
-        "rockets",
-        "space",
-        "travel"
-    ],
-    "1F681": [
-        "helicopter",
-        "copter",
-        "roflcopter",
-        "travel",
-        "vehicle"
-    ],
+    "1F680": ["rocket", "launch", "rockets", "space", "travel"],
+    "1F681": ["helicopter", "copter", "roflcopter", "travel", "vehicle"],
     "1F682": [
         "locomotive",
         "caboose",
@@ -20529,106 +17608,22 @@
         "train",
         "travel"
     ],
-    "1F686": [
-        "train",
-        "arrived",
-        "choo",
-        "railway"
-    ],
-    "1F687": [
-        "metro",
-        "subway",
-        "travel"
-    ],
-    "1F688": [
-        "light rail",
-        "arrived",
-        "light",
-        "monorail",
-        "rail",
-        "railway"
-    ],
-    "1F689": [
-        "station",
-        "railway",
-        "train"
-    ],
-    "1F68A": [
-        "tram",
-        "trolleybus"
-    ],
-    "1F68B": [
-        "tram car",
-        "bus",
-        "car",
-        "tram",
-        "trolley",
-        "trolleybus"
-    ],
-    "1F68C": [
-        "bus",
-        "school",
-        "vehicle"
-    ],
-    "1F68D": [
-        "oncoming bus",
-        "bus",
-        "cars",
-        "oncoming"
-    ],
-    "1F68E": [
-        "trolleybus",
-        "bus",
-        "tram",
-        "trolley"
-    ],
-    "1F68F": [
-        "bus stop",
-        "bus",
-        "busstop",
-        "stop"
-    ],
-    "1F690": [
-        "minibus",
-        "bus",
-        "drive",
-        "van",
-        "vehicle"
-    ],
-    "1F691": [
-        "ambulance",
-        "emergency",
-        "vehicle"
-    ],
-    "1F692": [
-        "fire engine",
-        "engine",
-        "fire",
-        "truck"
-    ],
-    "1F693": [
-        "police car",
-        "5–0",
-        "car",
-        "cops",
-        "patrol",
-        "police"
-    ],
-    "1F694": [
-        "oncoming police car",
-        "car",
-        "oncoming",
-        "police"
-    ],
-    "1F695": [
-        "taxi",
-        "cab",
-        "cabbie",
-        "car",
-        "drive",
-        "vehicle",
-        "yellow"
-    ],
+    "1F686": ["train", "arrived", "choo", "railway"],
+    "1F687": ["metro", "subway", "travel"],
+    "1F688": ["light rail", "arrived", "light", "monorail", "rail", "railway"],
+    "1F689": ["station", "railway", "train"],
+    "1F68A": ["tram", "trolleybus"],
+    "1F68B": ["tram car", "bus", "car", "tram", "trolley", "trolleybus"],
+    "1F68C": ["bus", "school", "vehicle"],
+    "1F68D": ["oncoming bus", "bus", "cars", "oncoming"],
+    "1F68E": ["trolleybus", "bus", "tram", "trolley"],
+    "1F68F": ["bus stop", "bus", "busstop", "stop"],
+    "1F690": ["minibus", "bus", "drive", "van", "vehicle"],
+    "1F691": ["ambulance", "emergency", "vehicle"],
+    "1F692": ["fire engine", "engine", "fire", "truck"],
+    "1F693": ["police car", "5–0", "car", "cops", "patrol", "police"],
+    "1F694": ["oncoming police car", "car", "oncoming", "police"],
+    "1F695": ["taxi", "cab", "cabbie", "car", "drive", "vehicle", "yellow"],
     "1F696": [
         "oncoming taxi",
         "cab",
@@ -20640,12 +17635,7 @@
         "taxi",
         "yellow"
     ],
-    "1F697": [
-        "automobile",
-        "car",
-        "driving",
-        "vehicle"
-    ],
+    "1F697": ["automobile", "car", "driving", "vehicle"],
     "1F698": [
         "oncoming automobile",
         "automobile",
@@ -20665,14 +17655,7 @@
         "utility",
         "vehicle"
     ],
-    "1F69A": [
-        "delivery truck",
-        "car",
-        "delivery",
-        "drive",
-        "truck",
-        "vehicle"
-    ],
+    "1F69A": ["delivery truck", "car", "delivery", "drive", "truck", "vehicle"],
     "1F69B": [
         "articulated lorry",
         "articulated",
@@ -20684,26 +17667,10 @@
         "truck",
         "vehicle"
     ],
-    "1F69C": [
-        "tractor",
-        "vehicle"
-    ],
-    "1F69D": [
-        "monorail",
-        "vehicle"
-    ],
-    "1F69E": [
-        "mountain railway",
-        "car",
-        "mountain",
-        "railway",
-        "trip"
-    ],
-    "1F69F": [
-        "suspension railway",
-        "railway",
-        "suspension"
-    ],
+    "1F69C": ["tractor", "vehicle"],
+    "1F69D": ["monorail", "vehicle"],
+    "1F69E": ["mountain railway", "car", "mountain", "railway", "trip"],
+    "1F69F": ["suspension railway", "railway", "suspension"],
     "1F6A0": [
         "mountain cableway",
         "cable",
@@ -20722,12 +17689,7 @@
         "ropeway",
         "tramway"
     ],
-    "1F6A2": [
-        "ship",
-        "boat",
-        "passenger",
-        "travel"
-    ],
+    "1F6A2": ["ship", "boat", "passenger", "travel"],
     "1F6A3": [
         "person rowing boat",
         "boat",
@@ -20860,10 +17822,7 @@
         "traffic",
         "vertical"
     ],
-    "1F6A7": [
-        "construction",
-        "barrier"
-    ],
+    "1F6A7": ["construction", "barrier"],
     "1F6A8": [
         "police car light",
         "alarm",
@@ -20884,24 +17843,9 @@
         "post",
         "triangular"
     ],
-    "1F6AA": [
-        "door",
-        "back",
-        "closet",
-        "front"
-    ],
-    "1F6AB": [
-        "prohibited",
-        "entry",
-        "forbidden",
-        "no",
-        "not",
-        "smoke"
-    ],
-    "1F6AC": [
-        "cigarette",
-        "smoking"
-    ],
+    "1F6AA": ["door", "back", "closet", "front"],
+    "1F6AB": ["prohibited", "entry", "forbidden", "no", "not", "smoke"],
+    "1F6AC": ["cigarette", "smoking"],
     "1F6AD": [
         "no smoking",
         "forbidden",
@@ -20911,13 +17855,7 @@
         "smoke",
         "smoking"
     ],
-    "1F6AE": [
-        "litter in bin sign",
-        "bin",
-        "litter",
-        "litterbin",
-        "sign"
-    ],
+    "1F6AE": ["litter in bin sign", "bin", "litter", "litterbin", "sign"],
     "1F6AF": [
         "no littering",
         "forbidden",
@@ -20927,12 +17865,7 @@
         "not",
         "prohibited"
     ],
-    "1F6B0": [
-        "potable water",
-        "drinking",
-        "potable",
-        "water"
-    ],
+    "1F6B0": ["potable water", "drinking", "potable", "water"],
     "1F6B1": [
         "non-potable water",
         "dry",
@@ -21251,23 +18184,9 @@
         "woman",
         "women’s"
     ],
-    "1F6BB": [
-        "restroom",
-        "bathroom",
-        "lavatory",
-        "toilet",
-        "WC"
-    ],
-    "1F6BC": [
-        "baby symbol",
-        "baby",
-        "changing",
-        "symbol"
-    ],
-    "1F6BD": [
-        "toilet",
-        "bathroom"
-    ],
+    "1F6BB": ["restroom", "bathroom", "lavatory", "toilet", "WC"],
+    "1F6BC": ["baby symbol", "baby", "changing", "symbol"],
+    "1F6BD": ["toilet", "bathroom"],
     "1F6BE": [
         "water closet",
         "bathroom",
@@ -21278,10 +18197,7 @@
         "water",
         "WC"
     ],
-    "1F6BF": [
-        "shower",
-        "water"
-    ],
+    "1F6BF": ["shower", "water"],
     "1F6C0": [
         "person taking bath",
         "bath",
@@ -21335,19 +18251,9 @@
         "taking",
         "tub"
     ],
-    "1F6C1": [
-        "bathtub",
-        "bath"
-    ],
-    "1F6C2": [
-        "passport control",
-        "control",
-        "passport"
-    ],
-    "1F6C3": [
-        "customs",
-        "packing"
-    ],
+    "1F6C1": ["bathtub", "bath"],
+    "1F6C2": ["passport control", "control", "passport"],
+    "1F6C3": ["customs", "packing"],
     "1F6C4": [
         "baggage claim",
         "arrived",
@@ -21363,14 +18269,7 @@
         "travel",
         "trip"
     ],
-    "1F6C5": [
-        "left luggage",
-        "baggage",
-        "case",
-        "left",
-        "locker",
-        "luggage"
-    ],
+    "1F6C5": ["left luggage", "baggage", "case", "left", "locker", "luggage"],
     "1F6CC": [
         "person in bed",
         "bed",
@@ -21460,44 +18359,12 @@
         "tired",
         "zzz"
     ],
-    "1F6D0": [
-        "place of worship",
-        "place",
-        "pray",
-        "religion",
-        "worship"
-    ],
-    "1F6D1": [
-        "stop sign",
-        "octagonal",
-        "sign",
-        "stop"
-    ],
-    "1F6D2": [
-        "shopping cart",
-        "cart",
-        "shopping",
-        "trolley"
-    ],
-    "1F6D5": [
-        "hindu temple",
-        "hindu",
-        "temple"
-    ],
-    "1F6D6": [
-        "hut",
-        "home",
-        "house",
-        "roundhouse",
-        "shelter",
-        "yurt"
-    ],
-    "1F6D7": [
-        "elevator",
-        "accessibility",
-        "hoist",
-        "lift"
-    ],
+    "1F6D0": ["place of worship", "place", "pray", "religion", "worship"],
+    "1F6D1": ["stop sign", "octagonal", "sign", "stop"],
+    "1F6D2": ["shopping cart", "cart", "shopping", "trolley"],
+    "1F6D5": ["hindu temple", "hindu", "temple"],
+    "1F6D6": ["hut", "home", "house", "roundhouse", "shelter", "yurt"],
+    "1F6D7": ["elevator", "accessibility", "hoist", "lift"],
     "1F6D8": [
         "landslide",
         "avalanche",
@@ -21533,14 +18400,7 @@
         "sliding",
         "theme"
     ],
-    "1F6DE": [
-        "wheel",
-        "car",
-        "circle",
-        "tire",
-        "turn",
-        "vehicle"
-    ],
+    "1F6DE": ["wheel", "car", "circle", "tire", "turn", "vehicle"],
     "1F6DF": [
         "ring buoy",
         "buoy",
@@ -21574,28 +18434,10 @@
         "landing",
         "plane"
     ],
-    "1F6F4": [
-        "kick scooter",
-        "kick",
-        "scooter"
-    ],
-    "1F6F5": [
-        "motor scooter",
-        "motor",
-        "scooter"
-    ],
-    "1F6F6": [
-        "canoe",
-        "boat"
-    ],
-    "1F6F7": [
-        "sled",
-        "luge",
-        "sledge",
-        "sleigh",
-        "snow",
-        "toboggan"
-    ],
+    "1F6F4": ["kick scooter", "kick", "scooter"],
+    "1F6F5": ["motor scooter", "motor", "scooter"],
+    "1F6F6": ["canoe", "boat"],
+    "1F6F7": ["sled", "luge", "sledge", "sleigh", "snow", "toboggan"],
     "1F6F8": [
         "flying saucer",
         "aliens",
@@ -21605,19 +18447,8 @@
         "terrestrial",
         "UFO"
     ],
-    "1F6F9": [
-        "skateboard",
-        "board",
-        "skate",
-        "skater",
-        "wheels"
-    ],
-    "1F6FA": [
-        "auto rickshaw",
-        "auto",
-        "rickshaw",
-        "tuk"
-    ],
+    "1F6F9": ["skateboard", "board", "skate", "skater", "wheels"],
+    "1F6FA": ["auto rickshaw", "auto", "rickshaw", "tuk"],
     "1F6FB": [
         "pickup truck",
         "automobile",
@@ -21628,78 +18459,19 @@
         "transportation",
         "truck"
     ],
-    "1F6FC": [
-        "roller skate",
-        "blades",
-        "roller",
-        "skate",
-        "skates",
-        "sport"
-    ],
-    "1F7E0": [
-        "orange circle",
-        "circle",
-        "orange"
-    ],
-    "1F7E1": [
-        "yellow circle",
-        "circle",
-        "yellow"
-    ],
-    "1F7E2": [
-        "green circle",
-        "circle",
-        "green"
-    ],
-    "1F7E3": [
-        "purple circle",
-        "circle",
-        "purple"
-    ],
-    "1F7E4": [
-        "brown circle",
-        "brown",
-        "circle"
-    ],
-    "1F7E5": [
-        "red square",
-        "card",
-        "penalty",
-        "red",
-        "square"
-    ],
-    "1F7E6": [
-        "blue square",
-        "blue",
-        "square"
-    ],
-    "1F7E7": [
-        "orange square",
-        "orange",
-        "square"
-    ],
-    "1F7E8": [
-        "yellow square",
-        "card",
-        "penalty",
-        "square",
-        "yellow"
-    ],
-    "1F7E9": [
-        "green square",
-        "green",
-        "square"
-    ],
-    "1F7EA": [
-        "purple square",
-        "purple",
-        "square"
-    ],
-    "1F7EB": [
-        "brown square",
-        "brown",
-        "square"
-    ],
+    "1F6FC": ["roller skate", "blades", "roller", "skate", "skates", "sport"],
+    "1F7E0": ["orange circle", "circle", "orange"],
+    "1F7E1": ["yellow circle", "circle", "yellow"],
+    "1F7E2": ["green circle", "circle", "green"],
+    "1F7E3": ["purple circle", "circle", "purple"],
+    "1F7E4": ["brown circle", "brown", "circle"],
+    "1F7E5": ["red square", "card", "penalty", "red", "square"],
+    "1F7E6": ["blue square", "blue", "square"],
+    "1F7E7": ["orange square", "orange", "square"],
+    "1F7E8": ["yellow square", "card", "penalty", "square", "yellow"],
+    "1F7E9": ["green square", "green", "square"],
+    "1F7EA": ["purple square", "purple", "square"],
+    "1F7EB": ["brown square", "brown", "square"],
     "1F7F0": [
         "heavy equals sign",
         "answer",
@@ -21811,18 +18583,8 @@
         "what",
         "zip"
     ],
-    "1F90D": [
-        "white heart",
-        "143",
-        "heart",
-        "white"
-    ],
-    "1F90E": [
-        "brown heart",
-        "143",
-        "brown",
-        "heart"
-    ],
+    "1F90D": ["white heart", "143", "heart", "white"],
+    "1F90E": ["brown heart", "143", "brown", "heart"],
     "1F90F": [
         "pinching hand",
         "amount",
@@ -21914,13 +18676,7 @@
         "mouth",
         "paid"
     ],
-    "1F912": [
-        "face with thermometer",
-        "face",
-        "ill",
-        "sick",
-        "thermometer"
-    ],
+    "1F912": ["face with thermometer", "face", "ill", "sick", "thermometer"],
     "1F913": [
         "nerd face",
         "brainy",
@@ -21954,11 +18710,7 @@
         "injury",
         "ouch"
     ],
-    "1F916": [
-        "robot",
-        "face",
-        "monster"
-    ],
+    "1F916": ["robot", "face", "monster"],
     "1F917": [
         "smiling face with open hands",
         "face",
@@ -22021,15 +18773,7 @@
         "rock-on",
         "sign"
     ],
-    "1F919": [
-        "call me hand",
-        "call",
-        "hand",
-        "hang",
-        "loose",
-        "me",
-        "Shaka"
-    ],
+    "1F919": ["call me hand", "call", "hand", "hang", "loose", "me", "Shaka"],
     "1F919 1F3FB": [
         "call me hand: light skin tone",
         "call",
@@ -22080,13 +18824,7 @@
         "me",
         "Shaka"
     ],
-    "1F91A": [
-        "raised back of hand",
-        "back",
-        "backhand",
-        "hand",
-        "raised"
-    ],
+    "1F91A": ["raised back of hand", "back", "backhand", "hand", "raised"],
     "1F91A 1F3FB": [
         "raised back of hand: light skin tone",
         "back",
@@ -22127,12 +18865,7 @@
         "hand",
         "raised"
     ],
-    "1F91B": [
-        "left-facing fist",
-        "fist",
-        "left-facing",
-        "leftwards"
-    ],
+    "1F91B": ["left-facing fist", "fist", "left-facing", "leftwards"],
     "1F91B 1F3FB": [
         "left-facing fist: light skin tone",
         "fist",
@@ -22168,12 +18901,7 @@
         "left-facing",
         "leftwards"
     ],
-    "1F91C": [
-        "right-facing fist",
-        "fist",
-        "right-facing",
-        "rightwards"
-    ],
+    "1F91C": ["right-facing fist", "fist", "right-facing", "rightwards"],
     "1F91C 1F3FB": [
         "right-facing fist: light skin tone",
         "fist",
@@ -22209,14 +18937,7 @@
         "right-facing",
         "rightwards"
     ],
-    "1F91D": [
-        "handshake",
-        "agreement",
-        "deal",
-        "hand",
-        "meeting",
-        "shake"
-    ],
+    "1F91D": ["handshake", "agreement", "deal", "hand", "meeting", "shake"],
     "1F91D 1F3FB": [
         "handshake: light skin tone",
         "agreement",
@@ -22397,18 +19118,8 @@
         "three",
         "you"
     ],
-    "1F920": [
-        "cowboy hat face",
-        "cowboy",
-        "cowgirl",
-        "face",
-        "hat"
-    ],
-    "1F921": [
-        "clown face",
-        "clown",
-        "face"
-    ],
+    "1F920": ["cowboy hat face", "cowboy", "cowgirl", "face", "hat"],
+    "1F921": ["clown face", "clown", "face"],
     "1F922": [
         "nauseated face",
         "face",
@@ -22437,19 +19148,8 @@
         "rolling",
         "tear"
     ],
-    "1F924": [
-        "drooling face",
-        "drooling",
-        "face"
-    ],
-    "1F925": [
-        "lying face",
-        "face",
-        "liar",
-        "lie",
-        "lying",
-        "pinocchio"
-    ],
+    "1F924": ["drooling face", "drooling", "face"],
+    "1F925": ["lying face", "face", "liar", "lie", "lying", "pinocchio"],
     "1F926": [
         "person facepalming",
         "again",
@@ -22594,14 +19294,7 @@
         "small",
         "zany"
     ],
-    "1F92B": [
-        "shushing face",
-        "face",
-        "quiet",
-        "shh",
-        "shush",
-        "shushing"
-    ],
+    "1F92B": ["shushing face", "face", "quiet", "shh", "shush", "shushing"],
     "1F92C": [
         "face with symbols on mouth",
         "censor",
@@ -22655,11 +19348,7 @@
         "shocked",
         "way"
     ],
-    "1F930": [
-        "pregnant woman",
-        "pregnant",
-        "woman"
-    ],
+    "1F930": ["pregnant woman", "pregnant", "woman"],
     "1F930 1F3FB": [
         "pregnant woman: light skin tone",
         "light skin tone",
@@ -22837,11 +19526,7 @@
         "up",
         "wish"
     ],
-    "1F933": [
-        "selfie",
-        "camera",
-        "phone"
-    ],
+    "1F933": ["selfie", "camera", "phone"],
     "1F933 1F3FB": [
         "selfie: light skin tone",
         "camera",
@@ -22953,13 +19638,7 @@
         "royalty",
         "tale"
     ],
-    "1F935": [
-        "person in tuxedo",
-        "formal",
-        "person",
-        "tuxedo",
-        "wedding"
-    ],
+    "1F935": ["person in tuxedo", "formal", "person", "tuxedo", "wedding"],
     "1F935 1F3FB": [
         "person in tuxedo: light skin tone",
         "formal",
@@ -23356,13 +20035,7 @@
         "person",
         "skill"
     ],
-    "1F93A": [
-        "person fencing",
-        "fencer",
-        "fencing",
-        "person",
-        "sword"
-    ],
+    "1F93A": ["person fencing", "fencer", "fencing", "person", "sword"],
     "1F93C": [
         "people wrestling",
         "combat",
@@ -23600,24 +20273,9 @@
         "throw",
         "toss"
     ],
-    "1F93F": [
-        "diving mask",
-        "diving",
-        "mask",
-        "scuba",
-        "snorkeling"
-    ],
-    "1F940": [
-        "wilted flower",
-        "dying",
-        "flower",
-        "wilted"
-    ],
-    "1F941": [
-        "drum",
-        "drumsticks",
-        "music"
-    ],
+    "1F93F": ["diving mask", "diving", "mask", "scuba", "snorkeling"],
+    "1F940": ["wilted flower", "dying", "flower", "wilted"],
+    "1F941": ["drum", "drumsticks", "music"],
     "1F942": [
         "clinking glasses",
         "celebrate",
@@ -23637,45 +20295,12 @@
         "whiskey",
         "whisky"
     ],
-    "1F944": [
-        "spoon",
-        "eat",
-        "tableware"
-    ],
-    "1F945": [
-        "goal net",
-        "goal",
-        "net"
-    ],
-    "1F947": [
-        "1st place medal",
-        "1st",
-        "first",
-        "gold",
-        "medal",
-        "place"
-    ],
-    "1F948": [
-        "2nd place medal",
-        "2nd",
-        "medal",
-        "place",
-        "second",
-        "silver"
-    ],
-    "1F949": [
-        "3rd place medal",
-        "3rd",
-        "bronze",
-        "medal",
-        "place",
-        "third"
-    ],
-    "1F94A": [
-        "boxing glove",
-        "boxing",
-        "glove"
-    ],
+    "1F944": ["spoon", "eat", "tableware"],
+    "1F945": ["goal net", "goal", "net"],
+    "1F947": ["1st place medal", "1st", "first", "gold", "medal", "place"],
+    "1F948": ["2nd place medal", "2nd", "medal", "place", "second", "silver"],
+    "1F949": ["3rd place medal", "3rd", "bronze", "medal", "place", "third"],
+    "1F94A": ["boxing glove", "boxing", "glove"],
     "1F94B": [
         "martial arts uniform",
         "arts",
@@ -23685,33 +20310,10 @@
         "taekwondo",
         "uniform"
     ],
-    "1F94C": [
-        "curling stone",
-        "curling",
-        "game",
-        "rock",
-        "stone"
-    ],
-    "1F94D": [
-        "lacrosse",
-        "ball",
-        "goal",
-        "sports",
-        "stick"
-    ],
-    "1F94E": [
-        "softball",
-        "ball",
-        "glove",
-        "sports",
-        "underarm"
-    ],
-    "1F94F": [
-        "flying disc",
-        "disc",
-        "flying",
-        "ultimate"
-    ],
+    "1F94C": ["curling stone", "curling", "game", "rock", "stone"],
+    "1F94D": ["lacrosse", "ball", "goal", "sports", "stick"],
+    "1F94E": ["softball", "ball", "glove", "sports", "underarm"],
+    "1F94F": ["flying disc", "disc", "flying", "ultimate"],
     "1F950": [
         "croissant",
         "bread",
@@ -23721,46 +20323,13 @@
         "french",
         "roll"
     ],
-    "1F951": [
-        "avocado",
-        "food",
-        "fruit"
-    ],
-    "1F952": [
-        "cucumber",
-        "food",
-        "pickle",
-        "vegetable"
-    ],
-    "1F953": [
-        "bacon",
-        "breakfast",
-        "food",
-        "meat"
-    ],
-    "1F954": [
-        "potato",
-        "food",
-        "vegetable"
-    ],
-    "1F955": [
-        "carrot",
-        "food",
-        "vegetable"
-    ],
-    "1F956": [
-        "baguette bread",
-        "baguette",
-        "bread",
-        "food",
-        "french"
-    ],
-    "1F957": [
-        "green salad",
-        "food",
-        "green",
-        "salad"
-    ],
+    "1F951": ["avocado", "food", "fruit"],
+    "1F952": ["cucumber", "food", "pickle", "vegetable"],
+    "1F953": ["bacon", "breakfast", "food", "meat"],
+    "1F954": ["potato", "food", "vegetable"],
+    "1F955": ["carrot", "food", "vegetable"],
+    "1F956": ["baguette bread", "baguette", "bread", "food", "french"],
+    "1F957": ["green salad", "food", "green", "salad"],
     "1F958": [
         "shallow pan of food",
         "casserole",
@@ -23778,38 +20347,11 @@
         "kebab",
         "stuffed"
     ],
-    "1F95A": [
-        "egg",
-        "breakfast",
-        "food"
-    ],
-    "1F95B": [
-        "glass of milk",
-        "drink",
-        "glass",
-        "milk"
-    ],
-    "1F95C": [
-        "peanuts",
-        "food",
-        "nut",
-        "peanut",
-        "vegetable"
-    ],
-    "1F95D": [
-        "kiwi fruit",
-        "food",
-        "fruit",
-        "kiwi"
-    ],
-    "1F95E": [
-        "pancakes",
-        "breakfast",
-        "crêpe",
-        "food",
-        "hotcake",
-        "pancake"
-    ],
+    "1F95A": ["egg", "breakfast", "food"],
+    "1F95B": ["glass of milk", "drink", "glass", "milk"],
+    "1F95C": ["peanuts", "food", "nut", "peanut", "vegetable"],
+    "1F95D": ["kiwi fruit", "food", "fruit", "kiwi"],
+    "1F95E": ["pancakes", "breakfast", "crêpe", "food", "hotcake", "pancake"],
     "1F95F": [
         "dumpling",
         "empanada",
@@ -23818,12 +20360,7 @@
         "pierogi",
         "potsticker"
     ],
-    "1F960": [
-        "fortune cookie",
-        "cookie",
-        "fortune",
-        "prophecy"
-    ],
+    "1F960": ["fortune cookie", "cookie", "fortune", "prophecy"],
     "1F961": [
         "takeout box",
         "box",
@@ -23834,12 +20371,7 @@
         "pail",
         "takeout"
     ],
-    "1F962": [
-        "chopsticks",
-        "hashi",
-        "jeotgarak",
-        "kuaizi"
-    ],
+    "1F962": ["chopsticks", "hashi", "jeotgarak", "kuaizi"],
     "1F963": [
         "bowl with spoon",
         "bowl",
@@ -23861,17 +20393,8 @@
         "straw",
         "water"
     ],
-    "1F965": [
-        "coconut",
-        "colada",
-        "palm",
-        "piña"
-    ],
-    "1F966": [
-        "broccoli",
-        "cabbage",
-        "wild"
-    ],
+    "1F965": ["coconut", "colada", "palm", "piña"],
+    "1F966": ["broccoli", "cabbage", "wild"],
     "1F967": [
         "pie",
         "apple",
@@ -23882,11 +20405,7 @@
         "pumpkin",
         "slice"
     ],
-    "1F968": [
-        "pretzel",
-        "convoluted",
-        "twisted"
-    ],
+    "1F968": ["pretzel", "convoluted", "twisted"],
     "1F969": [
         "cut of meat",
         "chop",
@@ -23897,16 +20416,8 @@
         "red",
         "steak"
     ],
-    "1F96A": [
-        "sandwich",
-        "bread"
-    ],
-    "1F96B": [
-        "canned food",
-        "can",
-        "canned",
-        "food"
-    ],
+    "1F96A": ["sandwich", "bread"],
+    "1F96B": ["canned food", "can", "canned", "food"],
     "1F96C": [
         "leafy green",
         "bok",
@@ -23919,27 +20430,9 @@
         "lettuce",
         "salad"
     ],
-    "1F96D": [
-        "mango",
-        "food",
-        "fruit",
-        "tropical"
-    ],
-    "1F96E": [
-        "moon cake",
-        "autumn",
-        "cake",
-        "festival",
-        "moon",
-        "yuèbǐng"
-    ],
-    "1F96F": [
-        "bagel",
-        "bakery",
-        "bread",
-        "breakfast",
-        "schmear"
-    ],
+    "1F96D": ["mango", "food", "fruit", "tropical"],
+    "1F96E": ["moon cake", "autumn", "cake", "festival", "moon", "yuèbǐng"],
+    "1F96F": ["bagel", "bakery", "bread", "breakfast", "schmear"],
     "1F970": [
         "smiling face with hearts",
         "3",
@@ -24183,11 +20676,7 @@
         "sad",
         "why"
     ],
-    "1F97B": [
-        "sari",
-        "clothing",
-        "dress"
-    ],
+    "1F97B": ["sari", "clothing", "dress"],
     "1F97C": [
         "lab coat",
         "clothes",
@@ -24229,11 +20718,7 @@
         "slip-on",
         "slipper"
     ],
-    "1F980": [
-        "crab",
-        "Cancer",
-        "zodiac"
-    ],
+    "1F980": ["crab", "Cancer", "zodiac"],
     "1F981": [
         "lion",
         "alpha",
@@ -24248,105 +20733,25 @@
         "strong",
         "zodiac"
     ],
-    "1F982": [
-        "scorpion",
-        "Scorpio",
-        "Scorpius",
-        "zodiac"
-    ],
-    "1F983": [
-        "turkey",
-        "bird",
-        "gobble",
-        "thanksgiving"
-    ],
-    "1F984": [
-        "unicorn",
-        "face"
-    ],
-    "1F985": [
-        "eagle",
-        "animal",
-        "bird",
-        "ornithology"
-    ],
-    "1F986": [
-        "duck",
-        "animal",
-        "bird",
-        "ornithology"
-    ],
-    "1F987": [
-        "bat",
-        "animal",
-        "vampire"
-    ],
-    "1F988": [
-        "shark",
-        "animal",
-        "fish"
-    ],
-    "1F989": [
-        "owl",
-        "animal",
-        "bird",
-        "ornithology",
-        "wise"
-    ],
-    "1F98A": [
-        "fox",
-        "animal",
-        "face"
-    ],
-    "1F98B": [
-        "butterfly",
-        "insect",
-        "pretty"
-    ],
-    "1F98C": [
-        "deer",
-        "animal"
-    ],
-    "1F98D": [
-        "gorilla",
-        "animal"
-    ],
-    "1F98E": [
-        "lizard",
-        "animal",
-        "reptile"
-    ],
-    "1F98F": [
-        "rhinoceros",
-        "animal"
-    ],
-    "1F990": [
-        "shrimp",
-        "food",
-        "shellfish",
-        "small"
-    ],
-    "1F991": [
-        "squid",
-        "animal",
-        "food",
-        "mollusk"
-    ],
-    "1F992": [
-        "giraffe",
-        "animal",
-        "spots"
-    ],
-    "1F993": [
-        "zebra",
-        "animal",
-        "stripe"
-    ],
-    "1F994": [
-        "hedgehog",
-        "animal",
-        "spiny"
-    ],
+    "1F982": ["scorpion", "Scorpio", "Scorpius", "zodiac"],
+    "1F983": ["turkey", "bird", "gobble", "thanksgiving"],
+    "1F984": ["unicorn", "face"],
+    "1F985": ["eagle", "animal", "bird", "ornithology"],
+    "1F986": ["duck", "animal", "bird", "ornithology"],
+    "1F987": ["bat", "animal", "vampire"],
+    "1F988": ["shark", "animal", "fish"],
+    "1F989": ["owl", "animal", "bird", "ornithology", "wise"],
+    "1F98A": ["fox", "animal", "face"],
+    "1F98B": ["butterfly", "insect", "pretty"],
+    "1F98C": ["deer", "animal"],
+    "1F98D": ["gorilla", "animal"],
+    "1F98E": ["lizard", "animal", "reptile"],
+    "1F98F": ["rhinoceros", "animal"],
+    "1F990": ["shrimp", "food", "shellfish", "small"],
+    "1F991": ["squid", "animal", "food", "mollusk"],
+    "1F992": ["giraffe", "animal", "spots"],
+    "1F993": ["zebra", "animal", "stripe"],
+    "1F994": ["hedgehog", "animal", "spiny"],
     "1F995": [
         "sauropod",
         "brachiosaurus",
@@ -24354,13 +20759,7 @@
         "dinosaur",
         "diplodocus"
     ],
-    "1F996": [
-        "T-Rex",
-        "dinosaur",
-        "Rex",
-        "T",
-        "Tyrannosaurus"
-    ],
+    "1F996": ["T-Rex", "dinosaur", "Rex", "T", "Tyrannosaurus"],
     "1F997": [
         "cricket",
         "animal",
@@ -24369,21 +20768,8 @@
         "insect",
         "Orthoptera"
     ],
-    "1F998": [
-        "kangaroo",
-        "animal",
-        "joey",
-        "jump",
-        "marsupial"
-    ],
-    "1F999": [
-        "llama",
-        "alpaca",
-        "animal",
-        "guanaco",
-        "vicuña",
-        "wool"
-    ],
+    "1F998": ["kangaroo", "animal", "joey", "jump", "marsupial"],
+    "1F999": ["llama", "alpaca", "animal", "guanaco", "vicuña", "wool"],
     "1F99A": [
         "peacock",
         "animal",
@@ -24395,32 +20781,10 @@
         "pretty",
         "proud"
     ],
-    "1F99B": [
-        "hippopotamus",
-        "animal",
-        "hippo"
-    ],
-    "1F99C": [
-        "parrot",
-        "animal",
-        "bird",
-        "ornithology",
-        "pirate",
-        "talk"
-    ],
-    "1F99D": [
-        "raccoon",
-        "animal",
-        "curious",
-        "sly"
-    ],
-    "1F99E": [
-        "lobster",
-        "animal",
-        "bisque",
-        "claws",
-        "seafood"
-    ],
+    "1F99B": ["hippopotamus", "animal", "hippo"],
+    "1F99C": ["parrot", "animal", "bird", "ornithology", "pirate", "talk"],
+    "1F99D": ["raccoon", "animal", "curious", "sly"],
+    "1F99E": ["lobster", "animal", "bisque", "claws", "seafood"],
     "1F99F": [
         "mosquito",
         "bite",
@@ -24431,19 +20795,8 @@
         "pest",
         "virus"
     ],
-    "1F9A0": [
-        "microbe",
-        "amoeba",
-        "bacteria",
-        "science",
-        "virus"
-    ],
-    "1F9A1": [
-        "badger",
-        "animal",
-        "honey",
-        "pester"
-    ],
+    "1F9A0": ["microbe", "amoeba", "bacteria", "science", "virus"],
+    "1F9A1": ["badger", "animal", "honey", "pester"],
     "1F9A2": [
         "swan",
         "animal",
@@ -24453,44 +20806,12 @@
         "ornithology",
         "ugly"
     ],
-    "1F9A3": [
-        "mammoth",
-        "animal",
-        "extinction",
-        "large",
-        "tusk",
-        "wooly"
-    ],
-    "1F9A4": [
-        "dodo",
-        "animal",
-        "bird",
-        "extinction",
-        "large",
-        "ornithology"
-    ],
-    "1F9A5": [
-        "sloth",
-        "lazy",
-        "slow"
-    ],
-    "1F9A6": [
-        "otter",
-        "animal",
-        "fishing",
-        "playful"
-    ],
-    "1F9A7": [
-        "orangutan",
-        "animal",
-        "ape",
-        "monkey"
-    ],
-    "1F9A8": [
-        "skunk",
-        "animal",
-        "stink"
-    ],
+    "1F9A3": ["mammoth", "animal", "extinction", "large", "tusk", "wooly"],
+    "1F9A4": ["dodo", "animal", "bird", "extinction", "large", "ornithology"],
+    "1F9A5": ["sloth", "lazy", "slow"],
+    "1F9A6": ["otter", "animal", "fishing", "playful"],
+    "1F9A7": ["orangutan", "animal", "ape", "monkey"],
+    "1F9A8": ["skunk", "animal", "stink"],
     "1F9A9": [
         "flamingo",
         "animal",
@@ -24499,39 +20820,11 @@
         "ornithology",
         "tropical"
     ],
-    "1F9AA": [
-        "oyster",
-        "diving",
-        "pearl"
-    ],
-    "1F9AB": [
-        "beaver",
-        "animal",
-        "dam",
-        "teeth"
-    ],
-    "1F9AC": [
-        "bison",
-        "animal",
-        "buffalo",
-        "herd",
-        "wisent"
-    ],
-    "1F9AD": [
-        "seal",
-        "animal",
-        "lion",
-        "ocean",
-        "sea"
-    ],
-    "1F9AE": [
-        "guide dog",
-        "accessibility",
-        "animal",
-        "blind",
-        "dog",
-        "guide"
-    ],
+    "1F9AA": ["oyster", "diving", "pearl"],
+    "1F9AB": ["beaver", "animal", "dam", "teeth"],
+    "1F9AC": ["bison", "animal", "buffalo", "herd", "wisent"],
+    "1F9AD": ["seal", "animal", "lion", "ocean", "sea"],
+    "1F9AE": ["guide dog", "accessibility", "animal", "blind", "dog", "guide"],
     "1F9AF": [
         "white cane",
         "accessibility",
@@ -24540,21 +20833,8 @@
         "probing",
         "white"
     ],
-    "1F9B4": [
-        "bone",
-        "bones",
-        "dog",
-        "skeleton",
-        "wishbone"
-    ],
-    "1F9B5": [
-        "leg",
-        "bent",
-        "foot",
-        "kick",
-        "knee",
-        "limb"
-    ],
+    "1F9B4": ["bone", "bones", "dog", "skeleton", "wishbone"],
+    "1F9B5": ["leg", "bent", "foot", "kick", "knee", "limb"],
     "1F9B5 1F3FB": [
         "leg: light skin tone",
         "bent",
@@ -24605,13 +20885,7 @@
         "leg",
         "limb"
     ],
-    "1F9B6": [
-        "foot",
-        "ankle",
-        "feet",
-        "kick",
-        "stomp"
-    ],
+    "1F9B6": ["foot", "ankle", "feet", "kick", "stomp"],
     "1F9B6 1F3FB": [
         "foot: light skin tone",
         "ankle",
@@ -24657,19 +20931,8 @@
         "kick",
         "stomp"
     ],
-    "1F9B7": [
-        "tooth",
-        "dentist",
-        "pearly",
-        "teeth",
-        "white"
-    ],
-    "1F9B8": [
-        "superhero",
-        "good",
-        "hero",
-        "superpower"
-    ],
+    "1F9B7": ["tooth", "dentist", "pearly", "teeth", "white"],
+    "1F9B8": ["superhero", "good", "hero", "superpower"],
     "1F9B8 1F3FB": [
         "superhero: light skin tone",
         "good",
@@ -24768,12 +21031,7 @@
         "supervillain",
         "villain"
     ],
-    "1F9BA": [
-        "safety vest",
-        "emergency",
-        "safety",
-        "vest"
-    ],
+    "1F9BA": ["safety vest", "emergency", "safety", "vest"],
     "1F9BB": [
         "ear with hearing aid",
         "accessibility",
@@ -24833,12 +21091,7 @@
         "motorized",
         "wheelchair"
     ],
-    "1F9BD": [
-        "manual wheelchair",
-        "accessibility",
-        "manual",
-        "wheelchair"
-    ],
+    "1F9BD": ["manual wheelchair", "accessibility", "manual", "wheelchair"],
     "1F9BE": [
         "mechanical arm",
         "accessibility",
@@ -24853,11 +21106,7 @@
         "mechanical",
         "prosthetic"
     ],
-    "1F9C0": [
-        "cheese wedge",
-        "cheese",
-        "wedge"
-    ],
+    "1F9C0": ["cheese wedge", "cheese", "wedge"],
     "1F9C1": [
         "cupcake",
         "bakery",
@@ -24877,70 +21126,17 @@
         "taste",
         "upset"
     ],
-    "1F9C3": [
-        "beverage box",
-        "beverage",
-        "box",
-        "juice",
-        "straw",
-        "sweet"
-    ],
-    "1F9C4": [
-        "garlic",
-        "flavoring"
-    ],
-    "1F9C5": [
-        "onion",
-        "flavoring"
-    ],
-    "1F9C6": [
-        "falafel",
-        "chickpea",
-        "meatball"
-    ],
-    "1F9C7": [
-        "waffle",
-        "breakfast",
-        "indecisive",
-        "iron"
-    ],
-    "1F9C8": [
-        "butter",
-        "dairy"
-    ],
-    "1F9C9": [
-        "mate",
-        "drink"
-    ],
-    "1F9CA": [
-        "ice",
-        "cold",
-        "cube",
-        "iceberg"
-    ],
-    "1F9CB": [
-        "bubble tea",
-        "boba",
-        "bubble",
-        "food",
-        "milk",
-        "pearl",
-        "tea"
-    ],
-    "1F9CC": [
-        "troll",
-        "fairy",
-        "fantasy",
-        "monster",
-        "tale",
-        "trolling"
-    ],
-    "1F9CD": [
-        "person standing",
-        "person",
-        "stand",
-        "standing"
-    ],
+    "1F9C3": ["beverage box", "beverage", "box", "juice", "straw", "sweet"],
+    "1F9C4": ["garlic", "flavoring"],
+    "1F9C5": ["onion", "flavoring"],
+    "1F9C6": ["falafel", "chickpea", "meatball"],
+    "1F9C7": ["waffle", "breakfast", "indecisive", "iron"],
+    "1F9C8": ["butter", "dairy"],
+    "1F9C9": ["mate", "drink"],
+    "1F9CA": ["ice", "cold", "cube", "iceberg"],
+    "1F9CB": ["bubble tea", "boba", "bubble", "food", "milk", "pearl", "tea"],
+    "1F9CC": ["troll", "fairy", "fantasy", "monster", "tale", "trolling"],
+    "1F9CD": ["person standing", "person", "stand", "standing"],
     "1F9CD 1F3FB": [
         "person standing: light skin tone",
         "light skin tone",
@@ -24976,13 +21172,7 @@
         "stand",
         "standing"
     ],
-    "1F9CE": [
-        "person kneeling",
-        "kneel",
-        "kneeling",
-        "knees",
-        "person"
-    ],
+    "1F9CE": ["person kneeling", "kneel", "kneeling", "knees", "person"],
     "1F9CE 1F3FB": [
         "person kneeling: light skin tone",
         "kneel",
@@ -25092,10 +21282,7 @@
         "stuffy",
         "wealthy"
     ],
-    "1F9D1": [
-        "person",
-        "adult"
-    ],
+    "1F9D1": ["person", "adult"],
     "1F9D1 1F3FB": [
         "person: light skin tone",
         "adult",
@@ -25126,12 +21313,7 @@
         "dark skin tone",
         "person"
     ],
-    "1F9D1 200D 1F9B0": [
-        "person: red hair",
-        "adult",
-        "person",
-        "red hair"
-    ],
+    "1F9D1 200D 1F9B0": ["person: red hair", "adult", "person", "red hair"],
     "1F9D1 1F3FB 200D 1F9B0": [
         "person: light skin tone, red hair",
         "adult",
@@ -25167,12 +21349,7 @@
         "person",
         "red hair"
     ],
-    "1F9D1 200D 1F9B1": [
-        "person: curly hair",
-        "adult",
-        "curly hair",
-        "person"
-    ],
+    "1F9D1 200D 1F9B1": ["person: curly hair", "adult", "curly hair", "person"],
     "1F9D1 1F3FB 200D 1F9B1": [
         "person: light skin tone, curly hair",
         "adult",
@@ -25208,12 +21385,7 @@
         "dark skin tone",
         "person"
     ],
-    "1F9D1 200D 1F9B3": [
-        "person: white hair",
-        "adult",
-        "person",
-        "white hair"
-    ],
+    "1F9D1 200D 1F9B3": ["person: white hair", "adult", "person", "white hair"],
     "1F9D1 1F3FB 200D 1F9B3": [
         "person: light skin tone, white hair",
         "adult",
@@ -25249,12 +21421,7 @@
         "person",
         "white hair"
     ],
-    "1F9D1 200D 1F9B2": [
-        "person: bald",
-        "adult",
-        "bald",
-        "person"
-    ],
+    "1F9D1 200D 1F9B2": ["person: bald", "adult", "bald", "person"],
     "1F9D1 1F3FB 200D 1F9B2": [
         "person: light skin tone, bald",
         "adult",
@@ -25290,10 +21457,7 @@
         "dark skin tone",
         "person"
     ],
-    "1F9D1 200D 1F393": [
-        "student",
-        "graduate"
-    ],
+    "1F9D1 200D 1F393": ["student", "graduate"],
     "1F9D1 1F3FB 200D 1F393": [
         "student: light skin tone",
         "graduate",
@@ -25324,12 +21488,7 @@
         "graduate",
         "student"
     ],
-    "1F9D1 200D 1F3EB": [
-        "teacher",
-        "instructor",
-        "lecturer",
-        "professor"
-    ],
+    "1F9D1 200D 1F3EB": ["teacher", "instructor", "lecturer", "professor"],
     "1F9D1 1F3FB 200D 1F3EB": [
         "teacher: light skin tone",
         "instructor",
@@ -25370,11 +21529,7 @@
         "professor",
         "teacher"
     ],
-    "1F9D1 200D 1F33E": [
-        "farmer",
-        "gardener",
-        "rancher"
-    ],
+    "1F9D1 200D 1F33E": ["farmer", "gardener", "rancher"],
     "1F9D1 1F3FB 200D 1F33E": [
         "farmer: light skin tone",
         "farmer",
@@ -25410,10 +21565,7 @@
         "gardener",
         "rancher"
     ],
-    "1F9D1 200D 1F373": [
-        "cook",
-        "chef"
-    ],
+    "1F9D1 200D 1F373": ["cook", "chef"],
     "1F9D1 1F3FB 200D 1F373": [
         "cook: light skin tone",
         "chef",
@@ -25444,12 +21596,7 @@
         "cook",
         "dark skin tone"
     ],
-    "1F9D1 200D 1F527": [
-        "mechanic",
-        "electrician",
-        "plumber",
-        "tradesperson"
-    ],
+    "1F9D1 200D 1F527": ["mechanic", "electrician", "plumber", "tradesperson"],
     "1F9D1 1F3FB 200D 1F527": [
         "mechanic: light skin tone",
         "electrician",
@@ -25770,10 +21917,7 @@
         "singer",
         "star"
     ],
-    "1F9D1 200D 1F3A8": [
-        "artist",
-        "palette"
-    ],
+    "1F9D1 200D 1F3A8": ["artist", "palette"],
     "1F9D1 1F3FB 200D 1F3A8": [
         "artist: light skin tone",
         "artist",
@@ -25804,11 +21948,7 @@
         "dark skin tone",
         "palette"
     ],
-    "1F9D1 200D 1F680": [
-        "astronaut",
-        "rocket",
-        "space"
-    ],
+    "1F9D1 200D 1F680": ["astronaut", "rocket", "space"],
     "1F9D1 1F3FB 200D 1F680": [
         "astronaut: light skin tone",
         "astronaut",
@@ -25844,11 +21984,7 @@
         "rocket",
         "space"
     ],
-    "1F9D1 200D 1F692": [
-        "firefighter",
-        "fire",
-        "firetruck"
-    ],
+    "1F9D1 200D 1F692": ["firefighter", "fire", "firetruck"],
     "1F9D1 1F3FB 200D 1F692": [
         "firefighter: light skin tone",
         "fire",
@@ -26191,11 +22327,7 @@
         "person",
         "wheelchair"
     ],
-    "1F9D1 200D 1FA70": [
-        "ballet dancer",
-        "ballet",
-        "dancer"
-    ],
+    "1F9D1 200D 1FA70": ["ballet dancer", "ballet", "dancer"],
     "1F9D1 1F3FB 200D 1FA70": [
         "ballet dancer: light skin tone",
         "ballet",
@@ -28047,26 +24179,14 @@
         "child",
         "family"
     ],
-    "1F9D1 200D 1F9D2": [
-        "family: adult, child",
-        "adult",
-        "child",
-        "family"
-    ],
+    "1F9D1 200D 1F9D2": ["family: adult, child", "adult", "child", "family"],
     "1F9D1 200D 1F9D2 200D 1F9D2": [
         "family: adult, child, child",
         "adult",
         "child",
         "family"
     ],
-    "1F9D2": [
-        "child",
-        "bright-eyed",
-        "grandchild",
-        "kid",
-        "young",
-        "younger"
-    ],
+    "1F9D2": ["child", "bright-eyed", "grandchild", "kid", "young", "younger"],
     "1F9D2 1F3FB": [
         "child: light skin tone",
         "bright-eyed",
@@ -28176,13 +24296,7 @@
         "person",
         "wise"
     ],
-    "1F9D4": [
-        "person: beard",
-        "beard",
-        "bearded",
-        "person",
-        "whiskers"
-    ],
+    "1F9D4": ["person: beard", "beard", "bearded", "person", "whiskers"],
     "1F9D4 1F3FB": [
         "person: light skin tone, beard",
         "beard",
@@ -28949,49 +25063,13 @@
         "undead",
         "walking"
     ],
-    "1F9E0": [
-        "brain",
-        "intelligent",
-        "smart"
-    ],
-    "1F9E1": [
-        "orange heart",
-        "143",
-        "heart",
-        "orange"
-    ],
-    "1F9E2": [
-        "billed cap",
-        "baseball",
-        "bent",
-        "billed",
-        "cap",
-        "dad",
-        "hat"
-    ],
-    "1F9E3": [
-        "scarf",
-        "bundle",
-        "cold",
-        "neck",
-        "up"
-    ],
-    "1F9E4": [
-        "gloves",
-        "hand"
-    ],
-    "1F9E5": [
-        "coat",
-        "brr",
-        "bundle",
-        "cold",
-        "jacket",
-        "up"
-    ],
-    "1F9E6": [
-        "socks",
-        "stocking"
-    ],
+    "1F9E0": ["brain", "intelligent", "smart"],
+    "1F9E1": ["orange heart", "143", "heart", "orange"],
+    "1F9E2": ["billed cap", "baseball", "bent", "billed", "cap", "dad", "hat"],
+    "1F9E3": ["scarf", "bundle", "cold", "neck", "up"],
+    "1F9E4": ["gloves", "hand"],
+    "1F9E5": ["coat", "brr", "bundle", "cold", "jacket", "up"],
+    "1F9E6": ["socks", "stocking"],
     "1F9E7": [
         "red envelope",
         "envelope",
@@ -29043,26 +25121,9 @@
         "lab",
         "petri"
     ],
-    "1F9EC": [
-        "dna",
-        "biologist",
-        "evolution",
-        "gene",
-        "genetics",
-        "life"
-    ],
-    "1F9ED": [
-        "compass",
-        "direction",
-        "magnetic",
-        "navigation",
-        "orienteering"
-    ],
-    "1F9EE": [
-        "abacus",
-        "calculation",
-        "calculator"
-    ],
+    "1F9EC": ["dna", "biologist", "evolution", "gene", "genetics", "life"],
+    "1F9ED": ["compass", "direction", "magnetic", "navigation", "orienteering"],
+    "1F9EE": ["abacus", "calculation", "calculator"],
     "1F9EF": [
         "fire extinguisher",
         "extinguish",
@@ -29070,21 +25131,8 @@
         "fire",
         "quench"
     ],
-    "1F9F0": [
-        "toolbox",
-        "box",
-        "chest",
-        "mechanic",
-        "red",
-        "tool"
-    ],
-    "1F9F1": [
-        "brick",
-        "bricks",
-        "clay",
-        "mortar",
-        "wall"
-    ],
+    "1F9F0": ["toolbox", "box", "chest", "mechanic", "red", "tool"],
+    "1F9F1": ["brick", "bricks", "clay", "mortar", "wall"],
     "1F9F2": [
         "magnet",
         "attraction",
@@ -29095,14 +25143,7 @@
         "shape",
         "u"
     ],
-    "1F9F3": [
-        "luggage",
-        "bag",
-        "packing",
-        "roller",
-        "suitcase",
-        "travel"
-    ],
+    "1F9F3": ["luggage", "bag", "packing", "roller", "suitcase", "travel"],
     "1F9F4": [
         "lotion bottle",
         "bottle",
@@ -29111,27 +25152,9 @@
         "shampoo",
         "sunscreen"
     ],
-    "1F9F5": [
-        "thread",
-        "needle",
-        "sewing",
-        "spool",
-        "string"
-    ],
-    "1F9F6": [
-        "yarn",
-        "ball",
-        "crochet",
-        "knit"
-    ],
-    "1F9F7": [
-        "safety pin",
-        "diaper",
-        "pin",
-        "punk",
-        "rock",
-        "safety"
-    ],
+    "1F9F5": ["thread", "needle", "sewing", "spool", "string"],
+    "1F9F6": ["yarn", "ball", "crochet", "knit"],
+    "1F9F7": ["safety pin", "diaper", "pin", "punk", "rock", "safety"],
     "1F9F8": [
         "teddy bear",
         "bear",
@@ -29141,25 +25164,9 @@
         "teddy",
         "toy"
     ],
-    "1F9F9": [
-        "broom",
-        "cleaning",
-        "sweeping",
-        "witch"
-    ],
-    "1F9FA": [
-        "basket",
-        "farming",
-        "laundry",
-        "picnic"
-    ],
-    "1F9FB": [
-        "roll of paper",
-        "paper",
-        "roll",
-        "toilet",
-        "towels"
-    ],
+    "1F9F9": ["broom", "cleaning", "sweeping", "witch"],
+    "1F9FA": ["basket", "farming", "laundry", "picnic"],
+    "1F9FB": ["roll of paper", "paper", "roll", "toilet", "towels"],
     "1F9FC": [
         "soap",
         "bar",
@@ -29169,13 +25176,7 @@
         "lather",
         "soapdish"
     ],
-    "1F9FD": [
-        "sponge",
-        "absorbing",
-        "cleaning",
-        "porous",
-        "soak"
-    ],
+    "1F9FD": ["sponge", "absorbing", "cleaning", "porous", "soak"],
     "1F9FE": [
         "receipt",
         "accounting",
@@ -29194,19 +25195,8 @@
         "nazar",
         "talisman"
     ],
-    "1FA70": [
-        "ballet shoes",
-        "ballet",
-        "dance",
-        "shoes"
-    ],
-    "1FA71": [
-        "one-piece swimsuit",
-        "bathing",
-        "one-piece",
-        "suit",
-        "swimsuit"
-    ],
+    "1FA70": ["ballet shoes", "ballet", "dance", "shoes"],
+    "1FA71": ["one-piece swimsuit", "bathing", "one-piece", "suit", "swimsuit"],
     "1FA72": [
         "briefs",
         "bathing",
@@ -29215,14 +25205,7 @@
         "swimsuit",
         "underwear"
     ],
-    "1FA73": [
-        "shorts",
-        "bathing",
-        "pants",
-        "suit",
-        "swimsuit",
-        "underwear"
-    ],
+    "1FA73": ["shorts", "bathing", "pants", "suit", "swimsuit", "underwear"],
     "1FA74": [
         "thong sandal",
         "beach",
@@ -29288,17 +25271,8 @@
         "medicine",
         "menstruation"
     ],
-    "1FA79": [
-        "adhesive bandage",
-        "adhesive",
-        "bandage"
-    ],
-    "1FA7A": [
-        "stethoscope",
-        "doctor",
-        "heart",
-        "medicine"
-    ],
+    "1FA79": ["adhesive bandage", "adhesive", "bandage"],
+    "1FA7A": ["stethoscope", "doctor", "heart", "medicine"],
     "1FA7B": [
         "x-ray",
         "bones",
@@ -29319,36 +25293,11 @@
         "mobility",
         "stick"
     ],
-    "1FA80": [
-        "yo-yo",
-        "fluctuate",
-        "toy"
-    ],
-    "1FA81": [
-        "kite",
-        "fly",
-        "soar"
-    ],
-    "1FA82": [
-        "parachute",
-        "hang-glide",
-        "parasail",
-        "skydive"
-    ],
-    "1FA83": [
-        "boomerang",
-        "rebound",
-        "repercussion",
-        "weapon"
-    ],
-    "1FA84": [
-        "magic wand",
-        "magic",
-        "magician",
-        "wand",
-        "witch",
-        "wizard"
-    ],
+    "1FA80": ["yo-yo", "fluctuate", "toy"],
+    "1FA81": ["kite", "fly", "soar"],
+    "1FA82": ["parachute", "hang-glide", "parasail", "skydive"],
+    "1FA83": ["boomerang", "rebound", "repercussion", "weapon"],
+    "1FA84": ["magic wand", "magic", "magician", "wand", "witch", "wizard"],
     "1FA85": [
         "piñata",
         "candy",
@@ -29399,14 +25348,7 @@
         "recorder",
         "woodwind"
     ],
-    "1FA89": [
-        "harp",
-        "cupid",
-        "instrument",
-        "love",
-        "music",
-        "orchestra"
-    ],
+    "1FA89": ["harp", "cupid", "instrument", "love", "music", "orchestra"],
     "1FA8A": [
         "trombone",
         "brass",
@@ -29439,43 +25381,12 @@
         "snow",
         "spade"
     ],
-    "1FA90": [
-        "ringed planet",
-        "planet",
-        "ringed",
-        "saturn",
-        "saturnine"
-    ],
-    "1FA91": [
-        "chair",
-        "seat",
-        "sit"
-    ],
-    "1FA92": [
-        "razor",
-        "sharp",
-        "shave"
-    ],
-    "1FA93": [
-        "axe",
-        "ax",
-        "chop",
-        "hatchet",
-        "split",
-        "wood"
-    ],
-    "1FA94": [
-        "diya lamp",
-        "diya",
-        "lamp",
-        "light",
-        "oil"
-    ],
-    "1FA95": [
-        "banjo",
-        "music",
-        "stringed"
-    ],
+    "1FA90": ["ringed planet", "planet", "ringed", "saturn", "saturnine"],
+    "1FA91": ["chair", "seat", "sit"],
+    "1FA92": ["razor", "sharp", "shave"],
+    "1FA93": ["axe", "ax", "chop", "hatchet", "split", "wood"],
+    "1FA94": ["diya lamp", "diya", "lamp", "light", "oil"],
+    "1FA95": ["banjo", "music", "stringed"],
     "1FA96": [
         "military helmet",
         "army",
@@ -29524,35 +25435,10 @@
         "tool",
         "trim"
     ],
-    "1FA9B": [
-        "screwdriver",
-        "flathead",
-        "handy",
-        "screw",
-        "tool"
-    ],
-    "1FA9C": [
-        "ladder",
-        "climb",
-        "rung",
-        "step"
-    ],
-    "1FA9D": [
-        "hook",
-        "catch",
-        "crook",
-        "curve",
-        "ensnare",
-        "point",
-        "selling"
-    ],
-    "1FA9E": [
-        "mirror",
-        "makeup",
-        "reflection",
-        "reflector",
-        "speculum"
-    ],
+    "1FA9B": ["screwdriver", "flathead", "handy", "screw", "tool"],
+    "1FA9C": ["ladder", "climb", "rung", "step"],
+    "1FA9D": ["hook", "catch", "crook", "curve", "ensnare", "point", "selling"],
+    "1FA9E": ["mirror", "makeup", "reflection", "reflector", "speculum"],
     "1FA9F": [
         "window",
         "air",
@@ -29582,21 +25468,8 @@
         "tailoring",
         "thread"
     ],
-    "1FAA2": [
-        "knot",
-        "cord",
-        "rope",
-        "tangled",
-        "tie",
-        "twine",
-        "twist"
-    ],
-    "1FAA3": [
-        "bucket",
-        "cask",
-        "pail",
-        "vat"
-    ],
+    "1FAA2": ["knot", "cord", "rope", "tangled", "tie", "twine", "twist"],
+    "1FAA3": ["bucket", "cask", "pail", "vat"],
     "1FAA4": [
         "mouse trap",
         "bait",
@@ -29638,14 +25511,7 @@
         "protest",
         "sign"
     ],
-    "1FAA8": [
-        "rock",
-        "boulder",
-        "heavy",
-        "solid",
-        "stone",
-        "tough"
-    ],
+    "1FAA8": ["rock", "boulder", "heavy", "solid", "stone", "tough"],
     "1FAA9": [
         "mirror ball",
         "ball",
@@ -29702,14 +25568,7 @@
         "hot",
         "shy"
     ],
-    "1FAAE": [
-        "hair pick",
-        "Afro",
-        "comb",
-        "groom",
-        "hair",
-        "pick"
-    ],
+    "1FAAE": ["hair pick", "Afro", "comb", "groom", "hair", "pick"],
     "1FAAF": [
         "khanda",
         "Deg",
@@ -29729,26 +25588,9 @@
         "pest",
         "rotting"
     ],
-    "1FAB1": [
-        "worm",
-        "animal",
-        "annelid",
-        "earthworm",
-        "parasite"
-    ],
-    "1FAB2": [
-        "beetle",
-        "animal",
-        "bug",
-        "insect"
-    ],
-    "1FAB3": [
-        "cockroach",
-        "animal",
-        "insect",
-        "pest",
-        "roach"
-    ],
+    "1FAB1": ["worm", "animal", "annelid", "earthworm", "parasite"],
+    "1FAB2": ["beetle", "animal", "bug", "insect"],
+    "1FAB3": ["cockroach", "animal", "insect", "pest", "roach"],
     "1FAB4": [
         "potted plant",
         "decor",
@@ -29759,19 +25601,8 @@
         "pot",
         "potted"
     ],
-    "1FAB5": [
-        "wood",
-        "log",
-        "lumber",
-        "timber"
-    ],
-    "1FAB6": [
-        "feather",
-        "bird",
-        "flight",
-        "light",
-        "plumage"
-    ],
+    "1FAB5": ["wood", "log", "lumber", "timber"],
+    "1FAB6": ["feather", "bird", "flight", "light", "plumage"],
     "1FAB7": [
         "lotus",
         "beauty",
@@ -29783,22 +25614,8 @@
         "purity",
         "serenity"
     ],
-    "1FAB8": [
-        "coral",
-        "change",
-        "climate",
-        "ocean",
-        "reef",
-        "sea"
-    ],
-    "1FAB9": [
-        "empty nest",
-        "branch",
-        "empty",
-        "home",
-        "nest",
-        "nesting"
-    ],
+    "1FAB8": ["coral", "change", "climate", "ocean", "reef", "sea"],
+    "1FAB9": ["empty nest", "branch", "empty", "home", "nest", "nesting"],
     "1FABA": [
         "nest with eggs",
         "bird",
@@ -30128,20 +25945,8 @@
         "woodwose",
         "yeti"
     ],
-    "1FACD": [
-        "orca",
-        "marine",
-        "ocean",
-        "whale"
-    ],
-    "1FACE": [
-        "moose",
-        "alces",
-        "animal",
-        "antlers",
-        "elk",
-        "mammal"
-    ],
+    "1FACD": ["orca", "marine", "ocean", "whale"],
+    "1FACE": ["moose", "alces", "animal", "antlers", "elk", "mammal"],
     "1FACF": [
         "donkey",
         "animal",
@@ -30162,18 +25967,8 @@
         "food",
         "fruit"
     ],
-    "1FAD1": [
-        "bell pepper",
-        "bell",
-        "capsicum",
-        "food",
-        "pepper",
-        "vegetable"
-    ],
-    "1FAD2": [
-        "olive",
-        "food"
-    ],
+    "1FAD1": ["bell pepper", "bell", "capsicum", "food", "pepper", "vegetable"],
+    "1FAD2": ["olive", "food"],
     "1FAD3": [
         "flatbread",
         "arepa",
@@ -30184,30 +25979,9 @@
         "naan",
         "pita"
     ],
-    "1FAD4": [
-        "tamale",
-        "food",
-        "mexican",
-        "pamonha",
-        "wrapped"
-    ],
-    "1FAD5": [
-        "fondue",
-        "cheese",
-        "chocolate",
-        "food",
-        "melted",
-        "pot",
-        "ski"
-    ],
-    "1FAD6": [
-        "teapot",
-        "brew",
-        "drink",
-        "food",
-        "pot",
-        "tea"
-    ],
+    "1FAD4": ["tamale", "food", "mexican", "pamonha", "wrapped"],
+    "1FAD5": ["fondue", "cheese", "chocolate", "food", "melted", "pot", "ski"],
+    "1FAD6": ["teapot", "brew", "drink", "food", "pot", "tea"],
     "1FAD7": [
         "pouring liquid",
         "accident",
@@ -30221,13 +25995,7 @@
         "spill",
         "water"
     ],
-    "1FAD8": [
-        "beans",
-        "food",
-        "kidney",
-        "legume",
-        "small"
-    ],
+    "1FAD8": ["beans", "food", "kidney", "legume", "small"],
     "1FAD9": [
         "jar",
         "condiment",
@@ -31141,14 +26909,7 @@
         "viewer",
         "you"
     ],
-    "1FAF6": [
-        "heart hands",
-        "<3",
-        "hands",
-        "heart",
-        "love",
-        "you"
-    ],
+    "1FAF6": ["heart hands", "<3", "hands", "heart", "love", "you"],
     "1FAF6 1F3FB": [
         "heart hands: light skin tone",
         "<3",

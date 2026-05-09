@@ -30,6 +30,7 @@
 <script lang="ts">
     import { browser } from '$app/environment';
     import { getTip } from '@components/project/Contexts';
+    import { placeNearTarget } from '@components/widgets/placeNearTarget';
     import { onDestroy } from 'svelte';
 
     interface Props {
@@ -83,51 +84,48 @@
                 childList: true,
             });
 
-            // If the target is inside a dialog, position relative to that dialog.
-            const dialog = inDialog
-                ? (target.closest('dialog') as HTMLDialogElement | null)
-                : null;
-
-            const rect = target.getBoundingClientRect();
-
-            // Get the container bounds
-            const containerWidth = dialog
-                ? dialog.clientWidth
-                : window.innerWidth;
-            const containerHeight = dialog
-                ? dialog.clientHeight
-                : window.innerHeight;
-
-            let newLeft = 0;
-            let newTop = 0;
-
             if (width === undefined || height === undefined) {
                 bounds.top = 0;
                 bounds.left = 0;
                 return;
             }
 
-            newTop = rect.top - height;
-            newLeft = rect.left + (rect.width - width) / 2;
+            // If the target is inside a dialog, position relative to that dialog.
+            const dialog = inDialog
+                ? (target.closest('dialog') as HTMLDialogElement | null)
+                : null;
+            const rect = target.getBoundingClientRect();
 
-            // If it's a dialog, convert from viewport coords to dialog-relative coords.
-            if (dialog) {
-                const parentRect = dialog.getBoundingClientRect();
-                newLeft = newLeft - parentRect.left + dialog.scrollLeft;
-                newTop = newTop - parentRect.top + dialog.scrollTop;
-            }
+            // Convert the target rect into the same coordinate system as the
+            // hint's positioning context (the dialog, or the viewport).
+            const targetRect = dialog
+                ? (() => {
+                      const dr = dialog.getBoundingClientRect();
+                      return {
+                          left: rect.left - dr.left + dialog.scrollLeft,
+                          top: rect.top - dr.top + dialog.scrollTop,
+                          width: rect.width,
+                          height: rect.height,
+                      };
+                  })()
+                : {
+                      left: rect.left,
+                      top: rect.top,
+                      width: rect.width,
+                      height: rect.height,
+                  };
 
-            if (newLeft < 0) newLeft = rect.right;
-            if (newLeft + width + 5 >= containerWidth)
-                newLeft = containerWidth - width - 5;
-            if (newTop < 0) newTop = dialog
-                ? rect.bottom - dialog.getBoundingClientRect().top + dialog.scrollTop
-                : rect.bottom;
-            if (newTop + height + 5 >= containerHeight)
-                newTop = containerHeight - height - 5;
+            const container = dialog
+                ? { width: dialog.clientWidth, height: dialog.clientHeight }
+                : { width: window.innerWidth, height: window.innerHeight };
 
-            bounds.top = newTop;
-            bounds.left = newLeft;
+            const { left, top } = placeNearTarget(
+                targetRect,
+                { width, height },
+                container,
+            );
+            bounds.top = top;
+            bounds.left = left;
         }
     });
 </script>
@@ -149,8 +147,9 @@
 <style>
     .hint {
         position: absolute;
-        background: var(--wordplay-highlight-color);
-        color: var(--wordplay-background);
+        background: var(--wordplay-background);
+        color: var(--wordplay-foreground);
+        border: var(--wordplay-border-width) solid var(--wordplay-border-color);
         font-size: var(--wordplay-small-font-size);
         font-family: var(--wordplay-app-font);
         padding: var(--wordplay-spacing);

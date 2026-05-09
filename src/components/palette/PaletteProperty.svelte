@@ -81,6 +81,7 @@
                     ? (l) => l.ui.palette.button.revert
                     : (l) => l.ui.palette.button.set}
                 bind:view={toggleView}
+                uiid={valuesAreSet ? 'paletteUnset' : 'paletteSet'}
                 action={() => toggleValues(!valuesAreSet)}
                 icon={valuesAreSet ? CANCEL_SYMBOL : EDIT_SYMBOL}
             ></Button>{/if}
@@ -136,6 +137,12 @@
                 {values}
                 validator={property.type.validator}
                 {editable}
+                uiid={property.isName(
+                    $locales,
+                    (l) => l.output.Phrase.text.names,
+                )
+                    ? 'paletteText'
+                    : undefined}
             />
         {:else if property.type === 'color'}
             <BindColor id={propertyID} {property} {values} {editable} />

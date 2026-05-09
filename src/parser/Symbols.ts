@@ -147,3 +147,5 @@ export const DROP_DOWN_SYMBOL = '▾';
 export const MACHINE_TRANSLATED_SYMBOL = withMonoEmoji('🤖');
 export const LOCALLY_REVISED_SYMBOL = withMonoEmoji('✏️');
 export const REVERT_SYMBOL = UNDO_SYMBOL;
+
+export const INFO_SYMBOL = withMonoEmoji('❓');

@@ -21,6 +21,11 @@
         focusAfter?: boolean;
         background?: boolean;
         padding?: boolean;
+        /** Override for the rendered `data-uiid`. Use when the same Command
+         * is rendered in more than one place and each instance needs a
+         * unique id (e.g. Restart appears in both the timeline and the
+         * output toolbar). Defaults to `command.uiid`. */
+        uiid?: string | undefined;
     }
 
     let {
@@ -30,6 +35,7 @@
         focusAfter = false,
         background = false,
         padding = false,
+        uiid = undefined,
     }: Props = $props();
 
     const editors = getEditors();
@@ -68,7 +74,7 @@
         ` (${toShortcut(command)})`}
     shortcut={toShortcut(command)}
     bind:view
-    uiid={command.uiid}
+    uiid={uiid ?? command.uiid}
     {active}
     {padding}
     action={async () => {

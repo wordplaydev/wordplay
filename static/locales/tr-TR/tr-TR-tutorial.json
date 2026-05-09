@@ -4417,7 +4417,15 @@
                             "kind",
                             "Ve @Block'un yapabileceği bir diğer şey de daha önce gördüğünüz bir şey. @Block, @Bind ile şeylere isim vermenizi sağlar. Ancak @Block'ta tanımlanan tüm isimler yalnızca parantezlerin arasında tanımlanır. Öncesinde veya sonrasında değil. Örneğin, buna bir bakın: \\a\\, \\1\\ olarak tanımlanır, sonra bir blok başlar, \\b\\, \\2\\ olarak tanımlanır, sonra \\c\\ ikisinin toplamı olarak tanımlanır ve sonunda \\c\\'yi tek başına yazarım. @Bind ifadeleri yan etkidir — isimleri tanıtırlar ama kendi başlarına bir değerleri yoktur. Yani benim değerim, @Bind olmayan ifadelerin ürettiğidir. Burada bu sadece \\c\\, yani \\3\\. Değil mi?"
                         ],
-                        ["conflict", "a: 1", "(", "  b: 2", "  c: a + b", "  c", ")"],
+                        [
+                            "conflict",
+                            "a: 1",
+                            "(",
+                            "  b: 2",
+                            "  c: a + b",
+                            "  c",
+                            ")"
+                        ],
                         null,
                         [
                             "FunctionDefinition",
@@ -4444,11 +4452,7 @@
                             "neutral",
                             "Ve bir şey daha, sanırım? @Block bir ifadeler listesi olduğundan, @Bind olmayan tüm ifadelerin değerleri benim değerim olur. Sadece bir tane varsa, o tek değeri alırsın. Birden fazlaysa, hepsinin sırayla bir listesini alırsın. Yani burada \\3\\, \\5\\, \\7\\ ve \\9\\ hepsi bir liste olur: \\[3 5 7 9]\\. Doğru anladım mı, @Block?"
                         ],
-                        [
-                            "Block",
-                            "shy",
-                            "… mhm. Hepsi, bir listede."
-                        ],
+                        ["Block", "shy", "… mhm. Hepsi, bir listede."],
                         [
                             "conflict",
                             "(",
@@ -4469,13 +4473,7 @@
                             "shy",
                             "… o zaman verecek hiçbir şeyim olmaz. @Bind olmayan en az bir ifadeye ihtiyacım var, yoksa sana bir şeyin eksik olduğunu söylemem gerekir."
                         ],
-                        [
-                            "conflict",
-                            "(",
-                            "  a: 1",
-                            "  b: 2",
-                            ")"
-                        ],
+                        ["conflict", "(", "  a: 1", "  b: 2", ")"],
                         null,
                         [
                             "FunctionDefinition",

@@ -25,5 +25,5 @@
     toggle={() => toggle()}
     highlight={notification}
     ><Emoji>{TileKinds[tile.kind].symbol}</Emoji>
-    {tile.getName(project, $locales)}</Toggle
+    <span class="toggle-label">{tile.getName(project, $locales)}</span></Toggle
 >

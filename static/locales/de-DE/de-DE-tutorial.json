@@ -4385,7 +4385,15 @@
                             "kind",
                             "Und eine weitere Sache, die @Block kann, haben Sie bereits gesehen. @Block lässt Sie Dinge mit @Bind benennen. Aber alle in @Block definierten Namen werden nur zwischen den Klammern definiert. Nicht davor und nicht danach. Sehen Sie sich zum Beispiel Folgendes an: \\a\\ wird als \\1\\ definiert, dann beginnt ein Block, \\b\\ wird als \\2\\ definiert, dann \\c\\ als ihre Summe, und dann schreibe ich \\c\\ allein. @Bind-Anweisungen sind Nebeneffekte — sie führen Namen ein, haben aber selbst keinen Wert. Mein Wert ist also das, was die Nicht-@Bind-Ausdrücke ergeben. Hier ist das nur \\c\\, was \\3\\ ist. Richtig?"
                         ],
-                        ["conflict", "a: 1", "(", "  b: 2", "  c: a + b", "  c", ")"],
+                        [
+                            "conflict",
+                            "a: 1",
+                            "(",
+                            "  b: 2",
+                            "  c: a + b",
+                            "  c",
+                            ")"
+                        ],
                         null,
                         [
                             "FunctionDefinition",
@@ -4412,11 +4420,7 @@
                             "neutral",
                             "Und noch eins, glaube ich? Da @Block eine Liste von Ausdrücken ist, werden die Werte aller Nicht-@Bind-Ausdrücke zu meinem Wert. Wenn es nur einen gibt, bekommst du diesen einen Wert. Wenn es mehrere gibt, bekommst du eine Liste von allen, in Reihenfolge. Hier werden also \\3\\, \\5\\, \\7\\ und \\9\\ alle zu einer Liste: \\[3 5 7 9]\\. Habe ich das richtig verstanden, @Block?"
                         ],
-                        [
-                            "Block",
-                            "shy",
-                            "… mhm. Alle, in einer Liste."
-                        ],
+                        ["Block", "shy", "… mhm. Alle, in einer Liste."],
                         [
                             "conflict",
                             "(",
@@ -4437,13 +4441,7 @@
                             "shy",
                             "… dann hätte ich nichts zu geben. Ich brauche mindestens einen Ausdruck, der kein @Bind ist, sonst muss ich dir sagen, dass etwas fehlt."
                         ],
-                        [
-                            "conflict",
-                            "(",
-                            "  a: 1",
-                            "  b: 2",
-                            ")"
-                        ],
+                        ["conflict", "(", "  a: 1", "  b: 2", ")"],
                         null,
                         [
                             "FunctionDefinition",

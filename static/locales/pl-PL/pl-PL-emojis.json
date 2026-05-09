@@ -19,44 +19,13 @@
         "parująca",
         "picie"
     ],
-    "2648": [
-        "Baran",
-        "znak zodiaku",
-        "zodiak"
-    ],
-    "2649": [
-        "Byk",
-        "znak zodiaku",
-        "zodiak"
-    ],
-    "2650": [
-        "Strzelec",
-        "znak zodiaku",
-        "zodiak"
-    ],
-    "2651": [
-        "Koziorożec",
-        "znak zodiaku",
-        "zodiak"
-    ],
-    "2652": [
-        "Wodnik",
-        "znak zodiaku",
-        "zodiak"
-    ],
-    "2653": [
-        "Ryby",
-        "znak zodiaku",
-        "zodiak"
-    ],
-    "2693": [
-        "kotwica",
-        "morze",
-        "ocean",
-        "okręt",
-        "przyrząd",
-        "statek"
-    ],
+    "2648": ["Baran", "znak zodiaku", "zodiak"],
+    "2649": ["Byk", "znak zodiaku", "zodiak"],
+    "2650": ["Strzelec", "znak zodiaku", "zodiak"],
+    "2651": ["Koziorożec", "znak zodiaku", "zodiak"],
+    "2652": ["Wodnik", "znak zodiaku", "zodiak"],
+    "2653": ["Ryby", "znak zodiaku", "zodiak"],
+    "2693": ["kotwica", "morze", "ocean", "okręt", "przyrząd", "statek"],
     "2705": [
         "przycisk ze znacznikiem wyboru",
         "parafka",
@@ -95,27 +64,9 @@
         "pytanie",
         "znak zapytania"
     ],
-    "2755": [
-        "biały wykrzyknik",
-        "!",
-        "krzyk",
-        "okrzyk",
-        "wykrzyknik"
-    ],
-    "2757": [
-        "czerwony wykrzyknik",
-        "!",
-        "krzyk",
-        "okrzyk",
-        "wykrzyknik"
-    ],
-    "2764": [
-        "czerwone serce",
-        "czerwone",
-        "kocham",
-        "miłość",
-        "serce"
-    ],
+    "2755": ["biały wykrzyknik", "!", "krzyk", "okrzyk", "wykrzyknik"],
+    "2757": ["czerwony wykrzyknik", "!", "krzyk", "okrzyk", "wykrzyknik"],
+    "2764": ["czerwone serce", "czerwone", "kocham", "miłość", "serce"],
     "2795": [
         "znak plus",
         "+",
@@ -136,133 +87,33 @@
         "odjąć",
         "znak"
     ],
-    "2797": [
-        "znak dzielenia",
-        "÷",
-        "dzielenie",
-        "matematyka",
-        "znak"
-    ],
-    "0023": [
-        "kratka",
-        "hash",
-        "krzyżyk",
-        "numer",
-        "płotek"
-    ],
-    "0023 FE0F 20E3": [
-        "klawisz: #",
-        "klawisz"
-    ],
-    "002A": [
-        "gwiazdka",
-        "symbol gwiazdki",
-        "wieloznacznik"
-    ],
-    "002A FE0F 20E3": [
-        "klawisz: *",
-        "klawisz"
-    ],
-    "0030": [
-        "digit zero"
-    ],
-    "0030 FE0F 20E3": [
-        "klawisz: 0",
-        "0",
-        "klawisz",
-        "zero"
-    ],
-    "0031": [
-        "digit one"
-    ],
-    "0031 FE0F 20E3": [
-        "klawisz: 1",
-        "1",
-        "jeden",
-        "klawisz"
-    ],
-    "0032": [
-        "digit two"
-    ],
-    "0032 FE0F 20E3": [
-        "klawisz: 2",
-        "2",
-        "dwa",
-        "klawisz"
-    ],
-    "0033": [
-        "digit three"
-    ],
-    "0033 FE0F 20E3": [
-        "klawisz: 3",
-        "3",
-        "klawisz",
-        "trzy"
-    ],
-    "0034": [
-        "digit four"
-    ],
-    "0034 FE0F 20E3": [
-        "klawisz: 4",
-        "4",
-        "cztery",
-        "klawisz"
-    ],
-    "0035": [
-        "digit five"
-    ],
-    "0035 FE0F 20E3": [
-        "klawisz: 5",
-        "5",
-        "klawisz",
-        "pięć"
-    ],
-    "0036": [
-        "digit six"
-    ],
-    "0036 FE0F 20E3": [
-        "klawisz: 6",
-        "6",
-        "klawisz",
-        "sześć"
-    ],
-    "0037": [
-        "digit seven"
-    ],
-    "0037 FE0F 20E3": [
-        "klawisz: 7",
-        "7",
-        "klawisz",
-        "siedem"
-    ],
-    "0038": [
-        "digit eight"
-    ],
-    "0038 FE0F 20E3": [
-        "klawisz: 8",
-        "8",
-        "klawisz",
-        "osiem"
-    ],
-    "0039": [
-        "digit nine"
-    ],
-    "0039 FE0F 20E3": [
-        "klawisz: 9",
-        "9",
-        "dziewięć",
-        "klawisz"
-    ],
-    "231A": [
-        "zegarek",
-        "godzina"
-    ],
-    "231B": [
-        "klepsydra",
-        "czas",
-        "odmierzać",
-        "piasek"
-    ],
+    "2797": ["znak dzielenia", "÷", "dzielenie", "matematyka", "znak"],
+    "0023": ["kratka", "hash", "krzyżyk", "numer", "płotek"],
+    "0023 FE0F 20E3": ["klawisz: #", "klawisz"],
+    "002A": ["gwiazdka", "symbol gwiazdki", "wieloznacznik"],
+    "002A FE0F 20E3": ["klawisz: *", "klawisz"],
+    "0030": ["digit zero"],
+    "0030 FE0F 20E3": ["klawisz: 0", "0", "klawisz", "zero"],
+    "0031": ["digit one"],
+    "0031 FE0F 20E3": ["klawisz: 1", "1", "jeden", "klawisz"],
+    "0032": ["digit two"],
+    "0032 FE0F 20E3": ["klawisz: 2", "2", "dwa", "klawisz"],
+    "0033": ["digit three"],
+    "0033 FE0F 20E3": ["klawisz: 3", "3", "klawisz", "trzy"],
+    "0034": ["digit four"],
+    "0034 FE0F 20E3": ["klawisz: 4", "4", "cztery", "klawisz"],
+    "0035": ["digit five"],
+    "0035 FE0F 20E3": ["klawisz: 5", "5", "klawisz", "pięć"],
+    "0036": ["digit six"],
+    "0036 FE0F 20E3": ["klawisz: 6", "6", "klawisz", "sześć"],
+    "0037": ["digit seven"],
+    "0037 FE0F 20E3": ["klawisz: 7", "7", "klawisz", "siedem"],
+    "0038": ["digit eight"],
+    "0038 FE0F 20E3": ["klawisz: 8", "8", "klawisz", "osiem"],
+    "0039": ["digit nine"],
+    "0039 FE0F 20E3": ["klawisz: 9", "9", "dziewięć", "klawisz"],
+    "231A": ["zegarek", "godzina"],
+    "231B": ["klepsydra", "czas", "odmierzać", "piasek"],
     "23E9": [
         "przycisk szybkiego przewijania do przodu",
         "do przodu",
@@ -297,10 +148,7 @@
         "strzałka",
         "w dół"
     ],
-    "23F0": [
-        "budzik",
-        "zegar"
-    ],
+    "23F0": ["budzik", "zegar"],
     "23F3": [
         "klepsydra z przesypującym się piaskiem",
         "czas",
@@ -386,36 +234,12 @@
         "w górę",
         "wskazujący"
     ],
-    "264A": [
-        "Bliźnięta",
-        "znak zodiaku",
-        "zodiak"
-    ],
-    "264B": [
-        "Rak",
-        "znak zodiaku",
-        "zodiak"
-    ],
-    "264C": [
-        "Lew",
-        "znak zodiaku",
-        "zodiak"
-    ],
-    "264D": [
-        "Panna",
-        "znak zodiaku",
-        "zodiak"
-    ],
-    "264E": [
-        "Waga",
-        "znak zodiaku",
-        "zodiak"
-    ],
-    "264F": [
-        "Skorpion",
-        "znak zodiaku",
-        "zodiak"
-    ],
+    "264A": ["Bliźnięta", "znak zodiaku", "zodiak"],
+    "264B": ["Rak", "znak zodiaku", "zodiak"],
+    "264C": ["Lew", "znak zodiaku", "zodiak"],
+    "264D": ["Panna", "znak zodiaku", "zodiak"],
+    "264E": ["Waga", "znak zodiaku", "zodiak"],
+    "264F": ["Skorpion", "znak zodiaku", "zodiak"],
     "267F": [
         "symbol wózka inwalidzkiego",
         "dostępność",
@@ -440,34 +264,10 @@
         "piorun",
         "prąd"
     ],
-    "26AA": [
-        "białe koło",
-        "białe",
-        "figura geometryczna",
-        "kółko",
-        "koło"
-    ],
-    "26AB": [
-        "czarne koło",
-        "czarne",
-        "figura geometryczna",
-        "kółko",
-        "koło"
-    ],
-    "26BD": [
-        "piłka nożna",
-        "futbolówka",
-        "mecz",
-        "nożna",
-        "piłka",
-        "sport"
-    ],
-    "26BE": [
-        "baseball",
-        "mecz",
-        "piłka",
-        "sport"
-    ],
+    "26AA": ["białe koło", "białe", "figura geometryczna", "kółko", "koło"],
+    "26AB": ["czarne koło", "czarne", "figura geometryczna", "kółko", "koło"],
+    "26BD": ["piłka nożna", "futbolówka", "mecz", "nożna", "piłka", "sport"],
+    "26BE": ["baseball", "mecz", "piłka", "sport"],
     "26C4": [
         "bałwanek bez śniegu",
         "bałwan",
@@ -478,22 +278,9 @@
         "zabawa na śniegu",
         "zimno"
     ],
-    "26C5": [
-        "słońce zza chmury",
-        "chmura",
-        "pogoda",
-        "słońce"
-    ],
-    "26CE": [
-        "Wężownik",
-        "znak zodiaku",
-        "zodiak"
-    ],
-    "26D3": [
-        "łańcuchy",
-        "łańcuch",
-        "ogniwa"
-    ],
+    "26C5": ["słońce zza chmury", "chmura", "pogoda", "słońce"],
+    "26CE": ["Wężownik", "znak zodiaku", "zodiak"],
+    "26D3": ["łańcuchy", "łańcuch", "ogniwa"],
     "26D3 FE0F 200D 1F4A5": [
         "zerwany łańcuch",
         "kajdany",
@@ -502,30 +289,10 @@
         "zerwać",
         "zerwanie"
     ],
-    "26D4": [
-        "zakaz wjazdu",
-        "wejście",
-        "wstęp",
-        "zabroniony",
-        "zakaz"
-    ],
-    "26EA": [
-        "kościół",
-        "chrześcijański",
-        "krzyż",
-        "religia",
-        "świątynia"
-    ],
-    "26F2": [
-        "fontanna"
-    ],
-    "26F3": [
-        "flaga w dołku",
-        "golf",
-        "otwór",
-        "pole golfowe",
-        "sport"
-    ],
+    "26D4": ["zakaz wjazdu", "wejście", "wstęp", "zabroniony", "zakaz"],
+    "26EA": ["kościół", "chrześcijański", "krzyż", "religia", "świątynia"],
+    "26F2": ["fontanna"],
+    "26F3": ["flaga w dołku", "golf", "otwór", "pole golfowe", "sport"],
     "26F5": [
         "żaglówka",
         "jacht",
@@ -612,12 +379,7 @@
         "piłka",
         "sport"
     ],
-    "26FA": [
-        "namiot",
-        "kemping",
-        "obóz",
-        "pole namiotowe"
-    ],
+    "26FA": ["namiot", "kemping", "obóz", "pole namiotowe"],
     "26FD": [
         "dystrybutor paliwa",
         "benzyna",
@@ -626,13 +388,7 @@
         "stacja paliw",
         "tankować"
     ],
-    "270A": [
-        "wzniesiona pięść",
-        "pięść",
-        "ręka",
-        "uniesiona",
-        "zaciśnięta"
-    ],
+    "270A": ["wzniesiona pięść", "pięść", "ręka", "uniesiona", "zaciśnięta"],
     "270A 1F3FB": [
         "wzniesiona pięść: karnacja jasna",
         "karnacja jasna",
@@ -678,13 +434,7 @@
         "wzniesiona pięść",
         "zaciśnięta"
     ],
-    "270B": [
-        "wzniesiona dłoń",
-        "dłoń",
-        "ręka",
-        "stop",
-        "uwaga"
-    ],
+    "270B": ["wzniesiona dłoń", "dłoń", "ręka", "stop", "uwaga"],
     "270B 1F3FB": [
         "wzniesiona dłoń: karnacja jasna",
         "dłoń",
@@ -912,17 +662,8 @@
         "lepsze samopoczucie",
         "zdrowsze"
     ],
-    "27B0": [
-        "pętla",
-        "zawijas",
-        "znak"
-    ],
-    "27BF": [
-        "podwójna pętla",
-        "pętla",
-        "podwójna",
-        "zawijas"
-    ],
+    "27B0": ["pętla", "zawijas", "znak"],
+    "27BF": ["podwójna pętla", "pętla", "podwójna", "zawijas"],
     "2B1B": [
         "duży czarny kwadrat",
         "czarny",
@@ -938,19 +679,8 @@
         "figura geometryczna",
         "kwadrat"
     ],
-    "2B50": [
-        "gwiazda",
-        "gwiazdka",
-        "noc"
-    ],
-    "2B55": [
-        "gruby czerwony okrąg",
-        "czerwone",
-        "kółko",
-        "koło",
-        "o",
-        "okrąg"
-    ],
+    "2B50": ["gwiazda", "gwiazdka", "noc"],
+    "2B55": ["gruby czerwony okrąg", "czerwone", "kółko", "koło", "o", "okrąg"],
     "1F004": [
         "madżong: czerwony smok",
         "czerwony",
@@ -960,22 +690,9 @@
         "mahjong",
         "smok"
     ],
-    "1F0CF": [
-        "dżoker",
-        "gra",
-        "joker",
-        "karta"
-    ],
-    "1F18E": [
-        "grupa krwi AB",
-        "AB",
-        "grupa AB",
-        "krew"
-    ],
-    "1F191": [
-        "przycisk CL",
-        "znak CL"
-    ],
+    "1F0CF": ["dżoker", "gra", "joker", "karta"],
+    "1F18E": ["grupa krwi AB", "AB", "grupa AB", "krew"],
+    "1F191": ["przycisk CL", "znak CL"],
     "1F192": [
         "przycisk COOL",
         "aprobata",
@@ -984,31 +701,10 @@
         "zachwyt",
         "znak"
     ],
-    "1F193": [
-        "przycisk FREE",
-        "za darmo",
-        "znak braku opłaty",
-        "znak FREE"
-    ],
-    "1F194": [
-        "przycisk ID",
-        "ID",
-        "identyfikator",
-        "znak ID"
-    ],
-    "1F195": [
-        "przycisk NEW",
-        "NEW",
-        "nowość",
-        "nowy"
-    ],
-    "1F196": [
-        "przycisk NG",
-        "NG",
-        "niedobrze",
-        "źle",
-        "znak"
-    ],
+    "1F193": ["przycisk FREE", "za darmo", "znak braku opłaty", "znak FREE"],
+    "1F194": ["przycisk ID", "ID", "identyfikator", "znak ID"],
+    "1F195": ["przycisk NEW", "NEW", "nowość", "nowy"],
+    "1F196": ["przycisk NG", "NG", "niedobrze", "źle", "znak"],
     "1F197": [
         "przycisk OK",
         "dobrze",
@@ -1026,1131 +722,299 @@
         "ratunku",
         "SOS"
     ],
-    "1F199": [
-        "przycisk UP!",
-        "do góry",
-        "znak UP!"
-    ],
-    "1F19A": [
-        "przycisk VS",
-        "kontra",
-        "versus",
-        "VS"
-    ],
-    "1F1E6": [
-        "regional indicator symbol letter a"
-    ],
-    "1F1E6 1F1E8": [
-        "flaga: Wyspa Wniebowstąpienia",
-        "flaga"
-    ],
-    "1F1E6 1F1E9": [
-        "flaga: Andora",
-        "flaga"
-    ],
-    "1F1E6 1F1EA": [
-        "flaga: Zjednoczone Emiraty Arabskie",
-        "flaga"
-    ],
-    "1F1E6 1F1EB": [
-        "flaga: Afganistan",
-        "flaga"
-    ],
-    "1F1E6 1F1EC": [
-        "flaga: Antigua i Barbuda",
-        "flaga"
-    ],
-    "1F1E6 1F1EE": [
-        "flaga: Anguilla",
-        "flaga"
-    ],
-    "1F1E6 1F1F1": [
-        "flaga: Albania",
-        "flaga"
-    ],
-    "1F1E6 1F1F2": [
-        "flaga: Armenia",
-        "flaga"
-    ],
-    "1F1E6 1F1F4": [
-        "flaga: Angola",
-        "flaga"
-    ],
-    "1F1E6 1F1F6": [
-        "flaga: Antarktyda",
-        "flaga"
-    ],
-    "1F1E6 1F1F7": [
-        "flaga: Argentyna",
-        "flaga"
-    ],
-    "1F1E6 1F1F8": [
-        "flaga: Samoa Amerykańskie",
-        "flaga"
-    ],
-    "1F1E6 1F1F9": [
-        "flaga: Austria",
-        "flaga"
-    ],
-    "1F1E6 1F1FA": [
-        "flaga: Australia",
-        "flaga"
-    ],
-    "1F1E6 1F1FC": [
-        "flaga: Aruba",
-        "flaga"
-    ],
-    "1F1E6 1F1FD": [
-        "flaga: Wyspy Alandzkie",
-        "flaga"
-    ],
-    "1F1E6 1F1FF": [
-        "flaga: Azerbejdżan",
-        "flaga"
-    ],
-    "1F1E7": [
-        "regional indicator symbol letter b"
-    ],
-    "1F1E7 1F1E6": [
-        "flaga: Bośnia i Hercegowina",
-        "flaga"
-    ],
-    "1F1E7 1F1E7": [
-        "flaga: Barbados",
-        "flaga"
-    ],
-    "1F1E7 1F1E9": [
-        "flaga: Bangladesz",
-        "flaga"
-    ],
-    "1F1E7 1F1EA": [
-        "flaga: Belgia",
-        "flaga"
-    ],
-    "1F1E7 1F1EB": [
-        "flaga: Burkina Faso",
-        "flaga"
-    ],
-    "1F1E7 1F1EC": [
-        "flaga: Bułgaria",
-        "flaga"
-    ],
-    "1F1E7 1F1ED": [
-        "flaga: Bahrajn",
-        "flaga"
-    ],
-    "1F1E7 1F1EE": [
-        "flaga: Burundi",
-        "flaga"
-    ],
-    "1F1E7 1F1EF": [
-        "flaga: Benin",
-        "flaga"
-    ],
-    "1F1E7 1F1F1": [
-        "flaga: Saint-Barthélemy",
-        "flaga"
-    ],
-    "1F1E7 1F1F2": [
-        "flaga: Bermudy",
-        "flaga"
-    ],
-    "1F1E7 1F1F3": [
-        "flaga: Brunei",
-        "flaga"
-    ],
-    "1F1E7 1F1F4": [
-        "flaga: Boliwia",
-        "flaga"
-    ],
-    "1F1E7 1F1F6": [
-        "flaga: Niderlandy Karaibskie",
-        "flaga"
-    ],
-    "1F1E7 1F1F7": [
-        "flaga: Brazylia",
-        "flaga"
-    ],
-    "1F1E7 1F1F8": [
-        "flaga: Bahamy",
-        "flaga"
-    ],
-    "1F1E7 1F1F9": [
-        "flaga: Bhutan",
-        "flaga"
-    ],
-    "1F1E7 1F1FB": [
-        "flaga: Wyspa Bouveta",
-        "flaga"
-    ],
-    "1F1E7 1F1FC": [
-        "flaga: Botswana",
-        "flaga"
-    ],
-    "1F1E7 1F1FE": [
-        "flaga: Białoruś",
-        "flaga"
-    ],
-    "1F1E7 1F1FF": [
-        "flaga: Belize",
-        "flaga"
-    ],
-    "1F1E8": [
-        "regional indicator symbol letter c"
-    ],
-    "1F1E8 1F1E6": [
-        "flaga: Kanada",
-        "flaga"
-    ],
-    "1F1E8 1F1E8": [
-        "flaga: Wyspy Kokosowe",
-        "flaga"
-    ],
-    "1F1E8 1F1E9": [
-        "flaga: Demokratyczna Republika Konga",
-        "flaga"
-    ],
-    "1F1E8 1F1EB": [
-        "flaga: Republika Środkowoafrykańska",
-        "flaga"
-    ],
-    "1F1E8 1F1EC": [
-        "flaga: Kongo",
-        "flaga"
-    ],
-    "1F1E8 1F1ED": [
-        "flaga: Szwajcaria",
-        "flaga"
-    ],
-    "1F1E8 1F1EE": [
-        "flaga: Côte d’Ivoire",
-        "flaga"
-    ],
-    "1F1E8 1F1F0": [
-        "flaga: Wyspy Cooka",
-        "flaga"
-    ],
-    "1F1E8 1F1F1": [
-        "flaga: Chile",
-        "flaga"
-    ],
-    "1F1E8 1F1F2": [
-        "flaga: Kamerun",
-        "flaga"
-    ],
-    "1F1E8 1F1F3": [
-        "flaga: Chiny",
-        "flaga"
-    ],
-    "1F1E8 1F1F4": [
-        "flaga: Kolumbia",
-        "flaga"
-    ],
-    "1F1E8 1F1F5": [
-        "flaga: Wyspa Clippertona",
-        "flaga"
-    ],
-    "1F1E8 1F1F6": [
-        "flaga: Sark",
-        "flaga"
-    ],
-    "1F1E8 1F1F7": [
-        "flaga: Kostaryka",
-        "flaga"
-    ],
-    "1F1E8 1F1FA": [
-        "flaga: Kuba",
-        "flaga"
-    ],
-    "1F1E8 1F1FB": [
-        "flaga: Republika Zielonego Przylądka",
-        "flaga"
-    ],
-    "1F1E8 1F1FC": [
-        "flaga: Curaçao",
-        "flaga"
-    ],
-    "1F1E8 1F1FD": [
-        "flaga: Wyspa Bożego Narodzenia",
-        "flaga"
-    ],
-    "1F1E8 1F1FE": [
-        "flaga: Cypr",
-        "flaga"
-    ],
-    "1F1E8 1F1FF": [
-        "flaga: Czechy",
-        "flaga"
-    ],
-    "1F1E9": [
-        "regional indicator symbol letter d"
-    ],
-    "1F1E9 1F1EA": [
-        "flaga: Niemcy",
-        "flaga"
-    ],
-    "1F1E9 1F1EC": [
-        "flaga: Diego Garcia",
-        "flaga"
-    ],
-    "1F1E9 1F1EF": [
-        "flaga: Dżibuti",
-        "flaga"
-    ],
-    "1F1E9 1F1F0": [
-        "flaga: Dania",
-        "flaga"
-    ],
-    "1F1E9 1F1F2": [
-        "flaga: Dominika",
-        "flaga"
-    ],
-    "1F1E9 1F1F4": [
-        "flaga: Dominikana",
-        "flaga"
-    ],
-    "1F1E9 1F1FF": [
-        "flaga: Algieria",
-        "flaga"
-    ],
-    "1F1EA": [
-        "regional indicator symbol letter e"
-    ],
-    "1F1EA 1F1E6": [
-        "flaga: Ceuta i Melilla",
-        "flaga"
-    ],
-    "1F1EA 1F1E8": [
-        "flaga: Ekwador",
-        "flaga"
-    ],
-    "1F1EA 1F1EA": [
-        "flaga: Estonia",
-        "flaga"
-    ],
-    "1F1EA 1F1EC": [
-        "flaga: Egipt",
-        "flaga"
-    ],
-    "1F1EA 1F1ED": [
-        "flaga: Sahara Zachodnia",
-        "flaga"
-    ],
-    "1F1EA 1F1F7": [
-        "flaga: Erytrea",
-        "flaga"
-    ],
-    "1F1EA 1F1F8": [
-        "flaga: Hiszpania",
-        "flaga"
-    ],
-    "1F1EA 1F1F9": [
-        "flaga: Etiopia",
-        "flaga"
-    ],
-    "1F1EA 1F1FA": [
-        "flaga: Unia Europejska",
-        "flaga"
-    ],
-    "1F1EB": [
-        "regional indicator symbol letter f"
-    ],
-    "1F1EB 1F1EE": [
-        "flaga: Finlandia",
-        "flaga"
-    ],
-    "1F1EB 1F1EF": [
-        "flaga: Fidżi",
-        "flaga"
-    ],
-    "1F1EB 1F1F0": [
-        "flaga: Falklandy",
-        "flaga"
-    ],
-    "1F1EB 1F1F2": [
-        "flaga: Mikronezja",
-        "flaga"
-    ],
-    "1F1EB 1F1F4": [
-        "flaga: Wyspy Owcze",
-        "flaga"
-    ],
-    "1F1EB 1F1F7": [
-        "flaga: Francja",
-        "flaga"
-    ],
-    "1F1EC": [
-        "regional indicator symbol letter g"
-    ],
-    "1F1EC 1F1E6": [
-        "flaga: Gabon",
-        "flaga"
-    ],
-    "1F1EC 1F1E7": [
-        "flaga: Wielka Brytania",
-        "flaga"
-    ],
-    "1F1EC 1F1E9": [
-        "flaga: Grenada",
-        "flaga"
-    ],
-    "1F1EC 1F1EA": [
-        "flaga: Gruzja",
-        "flaga"
-    ],
-    "1F1EC 1F1EB": [
-        "flaga: Gujana Francuska",
-        "flaga"
-    ],
-    "1F1EC 1F1EC": [
-        "flaga: Guernsey",
-        "flaga"
-    ],
-    "1F1EC 1F1ED": [
-        "flaga: Ghana",
-        "flaga"
-    ],
-    "1F1EC 1F1EE": [
-        "flaga: Gibraltar",
-        "flaga"
-    ],
-    "1F1EC 1F1F1": [
-        "flaga: Grenlandia",
-        "flaga"
-    ],
-    "1F1EC 1F1F2": [
-        "flaga: Gambia",
-        "flaga"
-    ],
-    "1F1EC 1F1F3": [
-        "flaga: Gwinea",
-        "flaga"
-    ],
-    "1F1EC 1F1F5": [
-        "flaga: Gwadelupa",
-        "flaga"
-    ],
-    "1F1EC 1F1F6": [
-        "flaga: Gwinea Równikowa",
-        "flaga"
-    ],
-    "1F1EC 1F1F7": [
-        "flaga: Grecja",
-        "flaga"
-    ],
-    "1F1EC 1F1F8": [
-        "flaga: Georgia Południowa i Sandwich Południowy",
-        "flaga"
-    ],
-    "1F1EC 1F1F9": [
-        "flaga: Gwatemala",
-        "flaga"
-    ],
-    "1F1EC 1F1FA": [
-        "flaga: Guam",
-        "flaga"
-    ],
-    "1F1EC 1F1FC": [
-        "flaga: Gwinea Bissau",
-        "flaga"
-    ],
-    "1F1EC 1F1FE": [
-        "flaga: Gujana",
-        "flaga"
-    ],
-    "1F1ED": [
-        "regional indicator symbol letter h"
-    ],
-    "1F1ED 1F1F0": [
-        "flaga: SRA Hongkong (Chiny)",
-        "flaga"
-    ],
-    "1F1ED 1F1F2": [
-        "flaga: Wyspy Heard i McDonalda",
-        "flaga"
-    ],
-    "1F1ED 1F1F3": [
-        "flaga: Honduras",
-        "flaga"
-    ],
-    "1F1ED 1F1F7": [
-        "flaga: Chorwacja",
-        "flaga"
-    ],
-    "1F1ED 1F1F9": [
-        "flaga: Haiti",
-        "flaga"
-    ],
-    "1F1ED 1F1FA": [
-        "flaga: Węgry",
-        "flaga"
-    ],
-    "1F1EE": [
-        "regional indicator symbol letter i"
-    ],
-    "1F1EE 1F1E8": [
-        "flaga: Wyspy Kanaryjskie",
-        "flaga"
-    ],
-    "1F1EE 1F1E9": [
-        "flaga: Indonezja",
-        "flaga"
-    ],
-    "1F1EE 1F1EA": [
-        "flaga: Irlandia",
-        "flaga"
-    ],
-    "1F1EE 1F1F1": [
-        "flaga: Izrael",
-        "flaga"
-    ],
-    "1F1EE 1F1F2": [
-        "flaga: Wyspa Man",
-        "flaga"
-    ],
-    "1F1EE 1F1F3": [
-        "flaga: Indie",
-        "flaga"
-    ],
-    "1F1EE 1F1F4": [
-        "flaga: Brytyjskie Terytorium Oceanu Indyjskiego",
-        "flaga"
-    ],
-    "1F1EE 1F1F6": [
-        "flaga: Irak",
-        "flaga"
-    ],
-    "1F1EE 1F1F7": [
-        "flaga: Iran",
-        "flaga"
-    ],
-    "1F1EE 1F1F8": [
-        "flaga: Islandia",
-        "flaga"
-    ],
-    "1F1EE 1F1F9": [
-        "flaga: Włochy",
-        "flaga"
-    ],
-    "1F1EF": [
-        "regional indicator symbol letter j"
-    ],
-    "1F1EF 1F1EA": [
-        "flaga: Jersey",
-        "flaga"
-    ],
-    "1F1EF 1F1F2": [
-        "flaga: Jamajka",
-        "flaga"
-    ],
-    "1F1EF 1F1F4": [
-        "flaga: Jordania",
-        "flaga"
-    ],
-    "1F1EF 1F1F5": [
-        "flaga: Japonia",
-        "flaga"
-    ],
-    "1F1F0": [
-        "regional indicator symbol letter k"
-    ],
-    "1F1F0 1F1EA": [
-        "flaga: Kenia",
-        "flaga"
-    ],
-    "1F1F0 1F1EC": [
-        "flaga: Kirgistan",
-        "flaga"
-    ],
-    "1F1F0 1F1ED": [
-        "flaga: Kambodża",
-        "flaga"
-    ],
-    "1F1F0 1F1EE": [
-        "flaga: Kiribati",
-        "flaga"
-    ],
-    "1F1F0 1F1F2": [
-        "flaga: Komory",
-        "flaga"
-    ],
-    "1F1F0 1F1F3": [
-        "flaga: Saint Kitts i Nevis",
-        "flaga"
-    ],
-    "1F1F0 1F1F5": [
-        "flaga: Korea Północna",
-        "flaga"
-    ],
-    "1F1F0 1F1F7": [
-        "flaga: Korea Południowa",
-        "flaga"
-    ],
-    "1F1F0 1F1FC": [
-        "flaga: Kuwejt",
-        "flaga"
-    ],
-    "1F1F0 1F1FE": [
-        "flaga: Kajmany",
-        "flaga"
-    ],
-    "1F1F0 1F1FF": [
-        "flaga: Kazachstan",
-        "flaga"
-    ],
-    "1F1F1": [
-        "regional indicator symbol letter l"
-    ],
-    "1F1F1 1F1E6": [
-        "flaga: Laos",
-        "flaga"
-    ],
-    "1F1F1 1F1E7": [
-        "flaga: Liban",
-        "flaga"
-    ],
-    "1F1F1 1F1E8": [
-        "flaga: Saint Lucia",
-        "flaga"
-    ],
-    "1F1F1 1F1EE": [
-        "flaga: Liechtenstein",
-        "flaga"
-    ],
-    "1F1F1 1F1F0": [
-        "flaga: Sri Lanka",
-        "flaga"
-    ],
-    "1F1F1 1F1F7": [
-        "flaga: Liberia",
-        "flaga"
-    ],
-    "1F1F1 1F1F8": [
-        "flaga: Lesotho",
-        "flaga"
-    ],
-    "1F1F1 1F1F9": [
-        "flaga: Litwa",
-        "flaga"
-    ],
-    "1F1F1 1F1FA": [
-        "flaga: Luksemburg",
-        "flaga"
-    ],
-    "1F1F1 1F1FB": [
-        "flaga: Łotwa",
-        "flaga"
-    ],
-    "1F1F1 1F1FE": [
-        "flaga: Libia",
-        "flaga"
-    ],
-    "1F1F2": [
-        "regional indicator symbol letter m"
-    ],
-    "1F1F2 1F1E6": [
-        "flaga: Maroko",
-        "flaga"
-    ],
-    "1F1F2 1F1E8": [
-        "flaga: Monako",
-        "flaga"
-    ],
-    "1F1F2 1F1E9": [
-        "flaga: Mołdawia",
-        "flaga"
-    ],
-    "1F1F2 1F1EA": [
-        "flaga: Czarnogóra",
-        "flaga"
-    ],
-    "1F1F2 1F1EB": [
-        "flaga: Saint-Martin",
-        "flaga"
-    ],
-    "1F1F2 1F1EC": [
-        "flaga: Madagaskar",
-        "flaga"
-    ],
-    "1F1F2 1F1ED": [
-        "flaga: Wyspy Marshalla",
-        "flaga"
-    ],
-    "1F1F2 1F1F0": [
-        "flaga: Macedonia Północna",
-        "flaga"
-    ],
-    "1F1F2 1F1F1": [
-        "flaga: Mali",
-        "flaga"
-    ],
-    "1F1F2 1F1F2": [
-        "flaga: Mjanma (Birma)",
-        "flaga"
-    ],
-    "1F1F2 1F1F3": [
-        "flaga: Mongolia",
-        "flaga"
-    ],
-    "1F1F2 1F1F4": [
-        "flaga: SRA Makau (Chiny)",
-        "flaga"
-    ],
-    "1F1F2 1F1F5": [
-        "flaga: Mariany Północne",
-        "flaga"
-    ],
-    "1F1F2 1F1F6": [
-        "flaga: Martynika",
-        "flaga"
-    ],
-    "1F1F2 1F1F7": [
-        "flaga: Mauretania",
-        "flaga"
-    ],
-    "1F1F2 1F1F8": [
-        "flaga: Montserrat",
-        "flaga"
-    ],
-    "1F1F2 1F1F9": [
-        "flaga: Malta",
-        "flaga"
-    ],
-    "1F1F2 1F1FA": [
-        "flaga: Mauritius",
-        "flaga"
-    ],
-    "1F1F2 1F1FB": [
-        "flaga: Malediwy",
-        "flaga"
-    ],
-    "1F1F2 1F1FC": [
-        "flaga: Malawi",
-        "flaga"
-    ],
-    "1F1F2 1F1FD": [
-        "flaga: Meksyk",
-        "flaga"
-    ],
-    "1F1F2 1F1FE": [
-        "flaga: Malezja",
-        "flaga"
-    ],
-    "1F1F2 1F1FF": [
-        "flaga: Mozambik",
-        "flaga"
-    ],
-    "1F1F3": [
-        "regional indicator symbol letter n"
-    ],
-    "1F1F3 1F1E6": [
-        "flaga: Namibia",
-        "flaga"
-    ],
-    "1F1F3 1F1E8": [
-        "flaga: Nowa Kaledonia",
-        "flaga"
-    ],
-    "1F1F3 1F1EA": [
-        "flaga: Niger",
-        "flaga"
-    ],
-    "1F1F3 1F1EB": [
-        "flaga: Norfolk",
-        "flaga"
-    ],
-    "1F1F3 1F1EC": [
-        "flaga: Nigeria",
-        "flaga"
-    ],
-    "1F1F3 1F1EE": [
-        "flaga: Nikaragua",
-        "flaga"
-    ],
-    "1F1F3 1F1F1": [
-        "flaga: Holandia",
-        "flaga"
-    ],
-    "1F1F3 1F1F4": [
-        "flaga: Norwegia",
-        "flaga"
-    ],
-    "1F1F3 1F1F5": [
-        "flaga: Nepal",
-        "flaga"
-    ],
-    "1F1F3 1F1F7": [
-        "flaga: Nauru",
-        "flaga"
-    ],
-    "1F1F3 1F1FA": [
-        "flaga: Niue",
-        "flaga"
-    ],
-    "1F1F3 1F1FF": [
-        "flaga: Nowa Zelandia",
-        "flaga"
-    ],
-    "1F1F4": [
-        "regional indicator symbol letter o"
-    ],
-    "1F1F4 1F1F2": [
-        "flaga: Oman",
-        "flaga"
-    ],
-    "1F1F5": [
-        "regional indicator symbol letter p"
-    ],
-    "1F1F5 1F1E6": [
-        "flaga: Panama",
-        "flaga"
-    ],
-    "1F1F5 1F1EA": [
-        "flaga: Peru",
-        "flaga"
-    ],
-    "1F1F5 1F1EB": [
-        "flaga: Polinezja Francuska",
-        "flaga"
-    ],
-    "1F1F5 1F1EC": [
-        "flaga: Papua-Nowa Gwinea",
-        "flaga"
-    ],
-    "1F1F5 1F1ED": [
-        "flaga: Filipiny",
-        "flaga"
-    ],
-    "1F1F5 1F1F0": [
-        "flaga: Pakistan",
-        "flaga"
-    ],
-    "1F1F5 1F1F1": [
-        "flaga: Polska",
-        "flaga"
-    ],
-    "1F1F5 1F1F2": [
-        "flaga: Saint-Pierre i Miquelon",
-        "flaga"
-    ],
-    "1F1F5 1F1F3": [
-        "flaga: Pitcairn",
-        "flaga"
-    ],
-    "1F1F5 1F1F7": [
-        "flaga: Portoryko",
-        "flaga"
-    ],
-    "1F1F5 1F1F8": [
-        "flaga: Terytoria Palestyńskie",
-        "flaga"
-    ],
-    "1F1F5 1F1F9": [
-        "flaga: Portugalia",
-        "flaga"
-    ],
-    "1F1F5 1F1FC": [
-        "flaga: Palau",
-        "flaga"
-    ],
-    "1F1F5 1F1FE": [
-        "flaga: Paragwaj",
-        "flaga"
-    ],
-    "1F1F6": [
-        "regional indicator symbol letter q"
-    ],
-    "1F1F6 1F1E6": [
-        "flaga: Katar",
-        "flaga"
-    ],
-    "1F1F7": [
-        "regional indicator symbol letter r"
-    ],
-    "1F1F7 1F1EA": [
-        "flaga: Reunion",
-        "flaga"
-    ],
-    "1F1F7 1F1F4": [
-        "flaga: Rumunia",
-        "flaga"
-    ],
-    "1F1F7 1F1F8": [
-        "flaga: Serbia",
-        "flaga"
-    ],
-    "1F1F7 1F1FA": [
-        "flaga: Rosja",
-        "flaga"
-    ],
-    "1F1F7 1F1FC": [
-        "flaga: Rwanda",
-        "flaga"
-    ],
-    "1F1F8": [
-        "regional indicator symbol letter s"
-    ],
-    "1F1F8 1F1E6": [
-        "flaga: Arabia Saudyjska",
-        "flaga"
-    ],
-    "1F1F8 1F1E7": [
-        "flaga: Wyspy Salomona",
-        "flaga"
-    ],
-    "1F1F8 1F1E8": [
-        "flaga: Seszele",
-        "flaga"
-    ],
-    "1F1F8 1F1E9": [
-        "flaga: Sudan",
-        "flaga"
-    ],
-    "1F1F8 1F1EA": [
-        "flaga: Szwecja",
-        "flaga"
-    ],
-    "1F1F8 1F1EC": [
-        "flaga: Singapur",
-        "flaga"
-    ],
-    "1F1F8 1F1ED": [
-        "flaga: Wyspa Świętej Heleny",
-        "flaga"
-    ],
-    "1F1F8 1F1EE": [
-        "flaga: Słowenia",
-        "flaga"
-    ],
-    "1F1F8 1F1EF": [
-        "flaga: Svalbard i Jan Mayen",
-        "flaga"
-    ],
-    "1F1F8 1F1F0": [
-        "flaga: Słowacja",
-        "flaga"
-    ],
-    "1F1F8 1F1F1": [
-        "flaga: Sierra Leone",
-        "flaga"
-    ],
-    "1F1F8 1F1F2": [
-        "flaga: San Marino",
-        "flaga"
-    ],
-    "1F1F8 1F1F3": [
-        "flaga: Senegal",
-        "flaga"
-    ],
-    "1F1F8 1F1F4": [
-        "flaga: Somalia",
-        "flaga"
-    ],
-    "1F1F8 1F1F7": [
-        "flaga: Surinam",
-        "flaga"
-    ],
-    "1F1F8 1F1F8": [
-        "flaga: Sudan Południowy",
-        "flaga"
-    ],
-    "1F1F8 1F1F9": [
-        "flaga: Wyspy Świętego Tomasza i Książęca",
-        "flaga"
-    ],
-    "1F1F8 1F1FB": [
-        "flaga: Salwador",
-        "flaga"
-    ],
-    "1F1F8 1F1FD": [
-        "flaga: Sint Maarten",
-        "flaga"
-    ],
-    "1F1F8 1F1FE": [
-        "flaga: Syria",
-        "flaga"
-    ],
-    "1F1F8 1F1FF": [
-        "flaga: Eswatini",
-        "flaga"
-    ],
-    "1F1F9": [
-        "regional indicator symbol letter t"
-    ],
-    "1F1F9 1F1E6": [
-        "flaga: Tristan da Cunha",
-        "flaga"
-    ],
-    "1F1F9 1F1E8": [
-        "flaga: Turks i Caicos",
-        "flaga"
-    ],
-    "1F1F9 1F1E9": [
-        "flaga: Czad",
-        "flaga"
-    ],
+    "1F199": ["przycisk UP!", "do góry", "znak UP!"],
+    "1F19A": ["przycisk VS", "kontra", "versus", "VS"],
+    "1F1E6": ["regional indicator symbol letter a"],
+    "1F1E6 1F1E8": ["flaga: Wyspa Wniebowstąpienia", "flaga"],
+    "1F1E6 1F1E9": ["flaga: Andora", "flaga"],
+    "1F1E6 1F1EA": ["flaga: Zjednoczone Emiraty Arabskie", "flaga"],
+    "1F1E6 1F1EB": ["flaga: Afganistan", "flaga"],
+    "1F1E6 1F1EC": ["flaga: Antigua i Barbuda", "flaga"],
+    "1F1E6 1F1EE": ["flaga: Anguilla", "flaga"],
+    "1F1E6 1F1F1": ["flaga: Albania", "flaga"],
+    "1F1E6 1F1F2": ["flaga: Armenia", "flaga"],
+    "1F1E6 1F1F4": ["flaga: Angola", "flaga"],
+    "1F1E6 1F1F6": ["flaga: Antarktyda", "flaga"],
+    "1F1E6 1F1F7": ["flaga: Argentyna", "flaga"],
+    "1F1E6 1F1F8": ["flaga: Samoa Amerykańskie", "flaga"],
+    "1F1E6 1F1F9": ["flaga: Austria", "flaga"],
+    "1F1E6 1F1FA": ["flaga: Australia", "flaga"],
+    "1F1E6 1F1FC": ["flaga: Aruba", "flaga"],
+    "1F1E6 1F1FD": ["flaga: Wyspy Alandzkie", "flaga"],
+    "1F1E6 1F1FF": ["flaga: Azerbejdżan", "flaga"],
+    "1F1E7": ["regional indicator symbol letter b"],
+    "1F1E7 1F1E6": ["flaga: Bośnia i Hercegowina", "flaga"],
+    "1F1E7 1F1E7": ["flaga: Barbados", "flaga"],
+    "1F1E7 1F1E9": ["flaga: Bangladesz", "flaga"],
+    "1F1E7 1F1EA": ["flaga: Belgia", "flaga"],
+    "1F1E7 1F1EB": ["flaga: Burkina Faso", "flaga"],
+    "1F1E7 1F1EC": ["flaga: Bułgaria", "flaga"],
+    "1F1E7 1F1ED": ["flaga: Bahrajn", "flaga"],
+    "1F1E7 1F1EE": ["flaga: Burundi", "flaga"],
+    "1F1E7 1F1EF": ["flaga: Benin", "flaga"],
+    "1F1E7 1F1F1": ["flaga: Saint-Barthélemy", "flaga"],
+    "1F1E7 1F1F2": ["flaga: Bermudy", "flaga"],
+    "1F1E7 1F1F3": ["flaga: Brunei", "flaga"],
+    "1F1E7 1F1F4": ["flaga: Boliwia", "flaga"],
+    "1F1E7 1F1F6": ["flaga: Niderlandy Karaibskie", "flaga"],
+    "1F1E7 1F1F7": ["flaga: Brazylia", "flaga"],
+    "1F1E7 1F1F8": ["flaga: Bahamy", "flaga"],
+    "1F1E7 1F1F9": ["flaga: Bhutan", "flaga"],
+    "1F1E7 1F1FB": ["flaga: Wyspa Bouveta", "flaga"],
+    "1F1E7 1F1FC": ["flaga: Botswana", "flaga"],
+    "1F1E7 1F1FE": ["flaga: Białoruś", "flaga"],
+    "1F1E7 1F1FF": ["flaga: Belize", "flaga"],
+    "1F1E8": ["regional indicator symbol letter c"],
+    "1F1E8 1F1E6": ["flaga: Kanada", "flaga"],
+    "1F1E8 1F1E8": ["flaga: Wyspy Kokosowe", "flaga"],
+    "1F1E8 1F1E9": ["flaga: Demokratyczna Republika Konga", "flaga"],
+    "1F1E8 1F1EB": ["flaga: Republika Środkowoafrykańska", "flaga"],
+    "1F1E8 1F1EC": ["flaga: Kongo", "flaga"],
+    "1F1E8 1F1ED": ["flaga: Szwajcaria", "flaga"],
+    "1F1E8 1F1EE": ["flaga: Côte d’Ivoire", "flaga"],
+    "1F1E8 1F1F0": ["flaga: Wyspy Cooka", "flaga"],
+    "1F1E8 1F1F1": ["flaga: Chile", "flaga"],
+    "1F1E8 1F1F2": ["flaga: Kamerun", "flaga"],
+    "1F1E8 1F1F3": ["flaga: Chiny", "flaga"],
+    "1F1E8 1F1F4": ["flaga: Kolumbia", "flaga"],
+    "1F1E8 1F1F5": ["flaga: Wyspa Clippertona", "flaga"],
+    "1F1E8 1F1F6": ["flaga: Sark", "flaga"],
+    "1F1E8 1F1F7": ["flaga: Kostaryka", "flaga"],
+    "1F1E8 1F1FA": ["flaga: Kuba", "flaga"],
+    "1F1E8 1F1FB": ["flaga: Republika Zielonego Przylądka", "flaga"],
+    "1F1E8 1F1FC": ["flaga: Curaçao", "flaga"],
+    "1F1E8 1F1FD": ["flaga: Wyspa Bożego Narodzenia", "flaga"],
+    "1F1E8 1F1FE": ["flaga: Cypr", "flaga"],
+    "1F1E8 1F1FF": ["flaga: Czechy", "flaga"],
+    "1F1E9": ["regional indicator symbol letter d"],
+    "1F1E9 1F1EA": ["flaga: Niemcy", "flaga"],
+    "1F1E9 1F1EC": ["flaga: Diego Garcia", "flaga"],
+    "1F1E9 1F1EF": ["flaga: Dżibuti", "flaga"],
+    "1F1E9 1F1F0": ["flaga: Dania", "flaga"],
+    "1F1E9 1F1F2": ["flaga: Dominika", "flaga"],
+    "1F1E9 1F1F4": ["flaga: Dominikana", "flaga"],
+    "1F1E9 1F1FF": ["flaga: Algieria", "flaga"],
+    "1F1EA": ["regional indicator symbol letter e"],
+    "1F1EA 1F1E6": ["flaga: Ceuta i Melilla", "flaga"],
+    "1F1EA 1F1E8": ["flaga: Ekwador", "flaga"],
+    "1F1EA 1F1EA": ["flaga: Estonia", "flaga"],
+    "1F1EA 1F1EC": ["flaga: Egipt", "flaga"],
+    "1F1EA 1F1ED": ["flaga: Sahara Zachodnia", "flaga"],
+    "1F1EA 1F1F7": ["flaga: Erytrea", "flaga"],
+    "1F1EA 1F1F8": ["flaga: Hiszpania", "flaga"],
+    "1F1EA 1F1F9": ["flaga: Etiopia", "flaga"],
+    "1F1EA 1F1FA": ["flaga: Unia Europejska", "flaga"],
+    "1F1EB": ["regional indicator symbol letter f"],
+    "1F1EB 1F1EE": ["flaga: Finlandia", "flaga"],
+    "1F1EB 1F1EF": ["flaga: Fidżi", "flaga"],
+    "1F1EB 1F1F0": ["flaga: Falklandy", "flaga"],
+    "1F1EB 1F1F2": ["flaga: Mikronezja", "flaga"],
+    "1F1EB 1F1F4": ["flaga: Wyspy Owcze", "flaga"],
+    "1F1EB 1F1F7": ["flaga: Francja", "flaga"],
+    "1F1EC": ["regional indicator symbol letter g"],
+    "1F1EC 1F1E6": ["flaga: Gabon", "flaga"],
+    "1F1EC 1F1E7": ["flaga: Wielka Brytania", "flaga"],
+    "1F1EC 1F1E9": ["flaga: Grenada", "flaga"],
+    "1F1EC 1F1EA": ["flaga: Gruzja", "flaga"],
+    "1F1EC 1F1EB": ["flaga: Gujana Francuska", "flaga"],
+    "1F1EC 1F1EC": ["flaga: Guernsey", "flaga"],
+    "1F1EC 1F1ED": ["flaga: Ghana", "flaga"],
+    "1F1EC 1F1EE": ["flaga: Gibraltar", "flaga"],
+    "1F1EC 1F1F1": ["flaga: Grenlandia", "flaga"],
+    "1F1EC 1F1F2": ["flaga: Gambia", "flaga"],
+    "1F1EC 1F1F3": ["flaga: Gwinea", "flaga"],
+    "1F1EC 1F1F5": ["flaga: Gwadelupa", "flaga"],
+    "1F1EC 1F1F6": ["flaga: Gwinea Równikowa", "flaga"],
+    "1F1EC 1F1F7": ["flaga: Grecja", "flaga"],
+    "1F1EC 1F1F8": ["flaga: Georgia Południowa i Sandwich Południowy", "flaga"],
+    "1F1EC 1F1F9": ["flaga: Gwatemala", "flaga"],
+    "1F1EC 1F1FA": ["flaga: Guam", "flaga"],
+    "1F1EC 1F1FC": ["flaga: Gwinea Bissau", "flaga"],
+    "1F1EC 1F1FE": ["flaga: Gujana", "flaga"],
+    "1F1ED": ["regional indicator symbol letter h"],
+    "1F1ED 1F1F0": ["flaga: SRA Hongkong (Chiny)", "flaga"],
+    "1F1ED 1F1F2": ["flaga: Wyspy Heard i McDonalda", "flaga"],
+    "1F1ED 1F1F3": ["flaga: Honduras", "flaga"],
+    "1F1ED 1F1F7": ["flaga: Chorwacja", "flaga"],
+    "1F1ED 1F1F9": ["flaga: Haiti", "flaga"],
+    "1F1ED 1F1FA": ["flaga: Węgry", "flaga"],
+    "1F1EE": ["regional indicator symbol letter i"],
+    "1F1EE 1F1E8": ["flaga: Wyspy Kanaryjskie", "flaga"],
+    "1F1EE 1F1E9": ["flaga: Indonezja", "flaga"],
+    "1F1EE 1F1EA": ["flaga: Irlandia", "flaga"],
+    "1F1EE 1F1F1": ["flaga: Izrael", "flaga"],
+    "1F1EE 1F1F2": ["flaga: Wyspa Man", "flaga"],
+    "1F1EE 1F1F3": ["flaga: Indie", "flaga"],
+    "1F1EE 1F1F4": ["flaga: Brytyjskie Terytorium Oceanu Indyjskiego", "flaga"],
+    "1F1EE 1F1F6": ["flaga: Irak", "flaga"],
+    "1F1EE 1F1F7": ["flaga: Iran", "flaga"],
+    "1F1EE 1F1F8": ["flaga: Islandia", "flaga"],
+    "1F1EE 1F1F9": ["flaga: Włochy", "flaga"],
+    "1F1EF": ["regional indicator symbol letter j"],
+    "1F1EF 1F1EA": ["flaga: Jersey", "flaga"],
+    "1F1EF 1F1F2": ["flaga: Jamajka", "flaga"],
+    "1F1EF 1F1F4": ["flaga: Jordania", "flaga"],
+    "1F1EF 1F1F5": ["flaga: Japonia", "flaga"],
+    "1F1F0": ["regional indicator symbol letter k"],
+    "1F1F0 1F1EA": ["flaga: Kenia", "flaga"],
+    "1F1F0 1F1EC": ["flaga: Kirgistan", "flaga"],
+    "1F1F0 1F1ED": ["flaga: Kambodża", "flaga"],
+    "1F1F0 1F1EE": ["flaga: Kiribati", "flaga"],
+    "1F1F0 1F1F2": ["flaga: Komory", "flaga"],
+    "1F1F0 1F1F3": ["flaga: Saint Kitts i Nevis", "flaga"],
+    "1F1F0 1F1F5": ["flaga: Korea Północna", "flaga"],
+    "1F1F0 1F1F7": ["flaga: Korea Południowa", "flaga"],
+    "1F1F0 1F1FC": ["flaga: Kuwejt", "flaga"],
+    "1F1F0 1F1FE": ["flaga: Kajmany", "flaga"],
+    "1F1F0 1F1FF": ["flaga: Kazachstan", "flaga"],
+    "1F1F1": ["regional indicator symbol letter l"],
+    "1F1F1 1F1E6": ["flaga: Laos", "flaga"],
+    "1F1F1 1F1E7": ["flaga: Liban", "flaga"],
+    "1F1F1 1F1E8": ["flaga: Saint Lucia", "flaga"],
+    "1F1F1 1F1EE": ["flaga: Liechtenstein", "flaga"],
+    "1F1F1 1F1F0": ["flaga: Sri Lanka", "flaga"],
+    "1F1F1 1F1F7": ["flaga: Liberia", "flaga"],
+    "1F1F1 1F1F8": ["flaga: Lesotho", "flaga"],
+    "1F1F1 1F1F9": ["flaga: Litwa", "flaga"],
+    "1F1F1 1F1FA": ["flaga: Luksemburg", "flaga"],
+    "1F1F1 1F1FB": ["flaga: Łotwa", "flaga"],
+    "1F1F1 1F1FE": ["flaga: Libia", "flaga"],
+    "1F1F2": ["regional indicator symbol letter m"],
+    "1F1F2 1F1E6": ["flaga: Maroko", "flaga"],
+    "1F1F2 1F1E8": ["flaga: Monako", "flaga"],
+    "1F1F2 1F1E9": ["flaga: Mołdawia", "flaga"],
+    "1F1F2 1F1EA": ["flaga: Czarnogóra", "flaga"],
+    "1F1F2 1F1EB": ["flaga: Saint-Martin", "flaga"],
+    "1F1F2 1F1EC": ["flaga: Madagaskar", "flaga"],
+    "1F1F2 1F1ED": ["flaga: Wyspy Marshalla", "flaga"],
+    "1F1F2 1F1F0": ["flaga: Macedonia Północna", "flaga"],
+    "1F1F2 1F1F1": ["flaga: Mali", "flaga"],
+    "1F1F2 1F1F2": ["flaga: Mjanma (Birma)", "flaga"],
+    "1F1F2 1F1F3": ["flaga: Mongolia", "flaga"],
+    "1F1F2 1F1F4": ["flaga: SRA Makau (Chiny)", "flaga"],
+    "1F1F2 1F1F5": ["flaga: Mariany Północne", "flaga"],
+    "1F1F2 1F1F6": ["flaga: Martynika", "flaga"],
+    "1F1F2 1F1F7": ["flaga: Mauretania", "flaga"],
+    "1F1F2 1F1F8": ["flaga: Montserrat", "flaga"],
+    "1F1F2 1F1F9": ["flaga: Malta", "flaga"],
+    "1F1F2 1F1FA": ["flaga: Mauritius", "flaga"],
+    "1F1F2 1F1FB": ["flaga: Malediwy", "flaga"],
+    "1F1F2 1F1FC": ["flaga: Malawi", "flaga"],
+    "1F1F2 1F1FD": ["flaga: Meksyk", "flaga"],
+    "1F1F2 1F1FE": ["flaga: Malezja", "flaga"],
+    "1F1F2 1F1FF": ["flaga: Mozambik", "flaga"],
+    "1F1F3": ["regional indicator symbol letter n"],
+    "1F1F3 1F1E6": ["flaga: Namibia", "flaga"],
+    "1F1F3 1F1E8": ["flaga: Nowa Kaledonia", "flaga"],
+    "1F1F3 1F1EA": ["flaga: Niger", "flaga"],
+    "1F1F3 1F1EB": ["flaga: Norfolk", "flaga"],
+    "1F1F3 1F1EC": ["flaga: Nigeria", "flaga"],
+    "1F1F3 1F1EE": ["flaga: Nikaragua", "flaga"],
+    "1F1F3 1F1F1": ["flaga: Holandia", "flaga"],
+    "1F1F3 1F1F4": ["flaga: Norwegia", "flaga"],
+    "1F1F3 1F1F5": ["flaga: Nepal", "flaga"],
+    "1F1F3 1F1F7": ["flaga: Nauru", "flaga"],
+    "1F1F3 1F1FA": ["flaga: Niue", "flaga"],
+    "1F1F3 1F1FF": ["flaga: Nowa Zelandia", "flaga"],
+    "1F1F4": ["regional indicator symbol letter o"],
+    "1F1F4 1F1F2": ["flaga: Oman", "flaga"],
+    "1F1F5": ["regional indicator symbol letter p"],
+    "1F1F5 1F1E6": ["flaga: Panama", "flaga"],
+    "1F1F5 1F1EA": ["flaga: Peru", "flaga"],
+    "1F1F5 1F1EB": ["flaga: Polinezja Francuska", "flaga"],
+    "1F1F5 1F1EC": ["flaga: Papua-Nowa Gwinea", "flaga"],
+    "1F1F5 1F1ED": ["flaga: Filipiny", "flaga"],
+    "1F1F5 1F1F0": ["flaga: Pakistan", "flaga"],
+    "1F1F5 1F1F1": ["flaga: Polska", "flaga"],
+    "1F1F5 1F1F2": ["flaga: Saint-Pierre i Miquelon", "flaga"],
+    "1F1F5 1F1F3": ["flaga: Pitcairn", "flaga"],
+    "1F1F5 1F1F7": ["flaga: Portoryko", "flaga"],
+    "1F1F5 1F1F8": ["flaga: Terytoria Palestyńskie", "flaga"],
+    "1F1F5 1F1F9": ["flaga: Portugalia", "flaga"],
+    "1F1F5 1F1FC": ["flaga: Palau", "flaga"],
+    "1F1F5 1F1FE": ["flaga: Paragwaj", "flaga"],
+    "1F1F6": ["regional indicator symbol letter q"],
+    "1F1F6 1F1E6": ["flaga: Katar", "flaga"],
+    "1F1F7": ["regional indicator symbol letter r"],
+    "1F1F7 1F1EA": ["flaga: Reunion", "flaga"],
+    "1F1F7 1F1F4": ["flaga: Rumunia", "flaga"],
+    "1F1F7 1F1F8": ["flaga: Serbia", "flaga"],
+    "1F1F7 1F1FA": ["flaga: Rosja", "flaga"],
+    "1F1F7 1F1FC": ["flaga: Rwanda", "flaga"],
+    "1F1F8": ["regional indicator symbol letter s"],
+    "1F1F8 1F1E6": ["flaga: Arabia Saudyjska", "flaga"],
+    "1F1F8 1F1E7": ["flaga: Wyspy Salomona", "flaga"],
+    "1F1F8 1F1E8": ["flaga: Seszele", "flaga"],
+    "1F1F8 1F1E9": ["flaga: Sudan", "flaga"],
+    "1F1F8 1F1EA": ["flaga: Szwecja", "flaga"],
+    "1F1F8 1F1EC": ["flaga: Singapur", "flaga"],
+    "1F1F8 1F1ED": ["flaga: Wyspa Świętej Heleny", "flaga"],
+    "1F1F8 1F1EE": ["flaga: Słowenia", "flaga"],
+    "1F1F8 1F1EF": ["flaga: Svalbard i Jan Mayen", "flaga"],
+    "1F1F8 1F1F0": ["flaga: Słowacja", "flaga"],
+    "1F1F8 1F1F1": ["flaga: Sierra Leone", "flaga"],
+    "1F1F8 1F1F2": ["flaga: San Marino", "flaga"],
+    "1F1F8 1F1F3": ["flaga: Senegal", "flaga"],
+    "1F1F8 1F1F4": ["flaga: Somalia", "flaga"],
+    "1F1F8 1F1F7": ["flaga: Surinam", "flaga"],
+    "1F1F8 1F1F8": ["flaga: Sudan Południowy", "flaga"],
+    "1F1F8 1F1F9": ["flaga: Wyspy Świętego Tomasza i Książęca", "flaga"],
+    "1F1F8 1F1FB": ["flaga: Salwador", "flaga"],
+    "1F1F8 1F1FD": ["flaga: Sint Maarten", "flaga"],
+    "1F1F8 1F1FE": ["flaga: Syria", "flaga"],
+    "1F1F8 1F1FF": ["flaga: Eswatini", "flaga"],
+    "1F1F9": ["regional indicator symbol letter t"],
+    "1F1F9 1F1E6": ["flaga: Tristan da Cunha", "flaga"],
+    "1F1F9 1F1E8": ["flaga: Turks i Caicos", "flaga"],
+    "1F1F9 1F1E9": ["flaga: Czad", "flaga"],
     "1F1F9 1F1EB": [
         "flaga: Francuskie Terytoria Południowe i Antarktyczne",
         "flaga"
     ],
-    "1F1F9 1F1EC": [
-        "flaga: Togo",
-        "flaga"
-    ],
-    "1F1F9 1F1ED": [
-        "flaga: Tajlandia",
-        "flaga"
-    ],
-    "1F1F9 1F1EF": [
-        "flaga: Tadżykistan",
-        "flaga"
-    ],
-    "1F1F9 1F1F0": [
-        "flaga: Tokelau",
-        "flaga"
-    ],
-    "1F1F9 1F1F1": [
-        "flaga: Timor Wschodni",
-        "flaga"
-    ],
-    "1F1F9 1F1F2": [
-        "flaga: Turkmenistan",
-        "flaga"
-    ],
-    "1F1F9 1F1F3": [
-        "flaga: Tunezja",
-        "flaga"
-    ],
-    "1F1F9 1F1F4": [
-        "flaga: Tonga",
-        "flaga"
-    ],
-    "1F1F9 1F1F7": [
-        "flaga: Turcja",
-        "flaga"
-    ],
-    "1F1F9 1F1F9": [
-        "flaga: Trynidad i Tobago",
-        "flaga"
-    ],
-    "1F1F9 1F1FB": [
-        "flaga: Tuvalu",
-        "flaga"
-    ],
-    "1F1F9 1F1FC": [
-        "flaga: Tajwan",
-        "flaga"
-    ],
-    "1F1F9 1F1FF": [
-        "flaga: Tanzania",
-        "flaga"
-    ],
-    "1F1FA": [
-        "regional indicator symbol letter u"
-    ],
-    "1F1FA 1F1E6": [
-        "flaga: Ukraina",
-        "flaga"
-    ],
-    "1F1FA 1F1EC": [
-        "flaga: Uganda",
-        "flaga"
-    ],
+    "1F1F9 1F1EC": ["flaga: Togo", "flaga"],
+    "1F1F9 1F1ED": ["flaga: Tajlandia", "flaga"],
+    "1F1F9 1F1EF": ["flaga: Tadżykistan", "flaga"],
+    "1F1F9 1F1F0": ["flaga: Tokelau", "flaga"],
+    "1F1F9 1F1F1": ["flaga: Timor Wschodni", "flaga"],
+    "1F1F9 1F1F2": ["flaga: Turkmenistan", "flaga"],
+    "1F1F9 1F1F3": ["flaga: Tunezja", "flaga"],
+    "1F1F9 1F1F4": ["flaga: Tonga", "flaga"],
+    "1F1F9 1F1F7": ["flaga: Turcja", "flaga"],
+    "1F1F9 1F1F9": ["flaga: Trynidad i Tobago", "flaga"],
+    "1F1F9 1F1FB": ["flaga: Tuvalu", "flaga"],
+    "1F1F9 1F1FC": ["flaga: Tajwan", "flaga"],
+    "1F1F9 1F1FF": ["flaga: Tanzania", "flaga"],
+    "1F1FA": ["regional indicator symbol letter u"],
+    "1F1FA 1F1E6": ["flaga: Ukraina", "flaga"],
+    "1F1FA 1F1EC": ["flaga: Uganda", "flaga"],
     "1F1FA 1F1F2": [
         "flaga: Dalekie Wyspy Mniejsze Stanów Zjednoczonych",
         "flaga"
     ],
-    "1F1FA 1F1F3": [
-        "flaga: Organizacja Narodów Zjednoczonych",
-        "flaga"
-    ],
-    "1F1FA 1F1F8": [
-        "flaga: Stany Zjednoczone",
-        "flaga"
-    ],
-    "1F1FA 1F1FE": [
-        "flaga: Urugwaj",
-        "flaga"
-    ],
-    "1F1FA 1F1FF": [
-        "flaga: Uzbekistan",
-        "flaga"
-    ],
-    "1F1FB": [
-        "regional indicator symbol letter v"
-    ],
-    "1F1FB 1F1E6": [
-        "flaga: Watykan",
-        "flaga"
-    ],
-    "1F1FB 1F1E8": [
-        "flaga: Saint Vincent i Grenadyny",
-        "flaga"
-    ],
-    "1F1FB 1F1EA": [
-        "flaga: Wenezuela",
-        "flaga"
-    ],
-    "1F1FB 1F1EC": [
-        "flaga: Brytyjskie Wyspy Dziewicze",
-        "flaga"
-    ],
-    "1F1FB 1F1EE": [
-        "flaga: Wyspy Dziewicze Stanów Zjednoczonych",
-        "flaga"
-    ],
-    "1F1FB 1F1F3": [
-        "flaga: Wietnam",
-        "flaga"
-    ],
-    "1F1FB 1F1FA": [
-        "flaga: Vanuatu",
-        "flaga"
-    ],
-    "1F1FC": [
-        "regional indicator symbol letter w"
-    ],
-    "1F1FC 1F1EB": [
-        "flaga: Wallis i Futuna",
-        "flaga"
-    ],
-    "1F1FC 1F1F8": [
-        "flaga: Samoa",
-        "flaga"
-    ],
-    "1F1FD": [
-        "regional indicator symbol letter x"
-    ],
-    "1F1FD 1F1F0": [
-        "flaga: Kosowo",
-        "flaga"
-    ],
-    "1F1FE": [
-        "regional indicator symbol letter y"
-    ],
-    "1F1FE 1F1EA": [
-        "flaga: Jemen",
-        "flaga"
-    ],
-    "1F1FE 1F1F9": [
-        "flaga: Majotta",
-        "flaga"
-    ],
-    "1F1FF": [
-        "regional indicator symbol letter z"
-    ],
-    "1F1FF 1F1E6": [
-        "flaga: Republika Południowej Afryki",
-        "flaga"
-    ],
-    "1F1FF 1F1F2": [
-        "flaga: Zambia",
-        "flaga"
-    ],
-    "1F1FF 1F1FC": [
-        "flaga: Zimbabwe",
-        "flaga"
-    ],
+    "1F1FA 1F1F3": ["flaga: Organizacja Narodów Zjednoczonych", "flaga"],
+    "1F1FA 1F1F8": ["flaga: Stany Zjednoczone", "flaga"],
+    "1F1FA 1F1FE": ["flaga: Urugwaj", "flaga"],
+    "1F1FA 1F1FF": ["flaga: Uzbekistan", "flaga"],
+    "1F1FB": ["regional indicator symbol letter v"],
+    "1F1FB 1F1E6": ["flaga: Watykan", "flaga"],
+    "1F1FB 1F1E8": ["flaga: Saint Vincent i Grenadyny", "flaga"],
+    "1F1FB 1F1EA": ["flaga: Wenezuela", "flaga"],
+    "1F1FB 1F1EC": ["flaga: Brytyjskie Wyspy Dziewicze", "flaga"],
+    "1F1FB 1F1EE": ["flaga: Wyspy Dziewicze Stanów Zjednoczonych", "flaga"],
+    "1F1FB 1F1F3": ["flaga: Wietnam", "flaga"],
+    "1F1FB 1F1FA": ["flaga: Vanuatu", "flaga"],
+    "1F1FC": ["regional indicator symbol letter w"],
+    "1F1FC 1F1EB": ["flaga: Wallis i Futuna", "flaga"],
+    "1F1FC 1F1F8": ["flaga: Samoa", "flaga"],
+    "1F1FD": ["regional indicator symbol letter x"],
+    "1F1FD 1F1F0": ["flaga: Kosowo", "flaga"],
+    "1F1FE": ["regional indicator symbol letter y"],
+    "1F1FE 1F1EA": ["flaga: Jemen", "flaga"],
+    "1F1FE 1F1F9": ["flaga: Majotta", "flaga"],
+    "1F1FF": ["regional indicator symbol letter z"],
+    "1F1FF 1F1E6": ["flaga: Republika Południowej Afryki", "flaga"],
+    "1F1FF 1F1F2": ["flaga: Zambia", "flaga"],
+    "1F1FF 1F1FC": ["flaga: Zimbabwe", "flaga"],
     "1F201": [
         "japoński przycisk „tutaj”",
         "ideogram",
@@ -2273,12 +1137,7 @@
         "japoński",
         "przycisk"
     ],
-    "1F300": [
-        "cyklon",
-        "pogoda",
-        "spirala",
-        "tajfun"
-    ],
+    "1F300": ["cyklon", "pogoda", "spirala", "tajfun"],
     "1F301": [
         "zamglenie",
         "mgła",
@@ -2288,13 +1147,7 @@
         "pogoda",
         "zamglone"
     ],
-    "1F302": [
-        "złożony parasol",
-        "deszcz",
-        "parasolka",
-        "pogoda",
-        "złożona"
-    ],
+    "1F302": ["złożony parasol", "deszcz", "parasolka", "pogoda", "złożona"],
     "1F303": [
         "noc z gwiazdami",
         "gwiazdy",
@@ -2310,11 +1163,7 @@
         "świt",
         "wschód"
     ],
-    "1F305": [
-        "wschód słońca",
-        "brzask",
-        "słońce"
-    ],
+    "1F305": ["wschód słońca", "brzask", "słońce"],
     "1F306": [
         "miasto o zmierzchu",
         "budynki",
@@ -2323,12 +1172,7 @@
         "zachód słońca",
         "zmierzch"
     ],
-    "1F307": [
-        "zachód słońca",
-        "budynki",
-        "miasto",
-        "zmierzch"
-    ],
+    "1F307": ["zachód słońca", "budynki", "miasto", "zmierzch"],
     "1F308": [
         "tęcza",
         "deszcz",
@@ -2346,11 +1190,7 @@
         "słońce",
         "transpłciowość"
     ],
-    "1F309": [
-        "most nocą",
-        "most",
-        "most w nocy"
-    ],
+    "1F309": ["most nocą", "most", "most w nocy"],
     "1F30A": [
         "fala",
         "fale",
@@ -2362,18 +1202,8 @@
         "tsunami",
         "wielka fala"
     ],
-    "1F30B": [
-        "wulkan",
-        "erupcja",
-        "góra",
-        "lawa"
-    ],
-    "1F30C": [
-        "Droga Mleczna",
-        "gwiazdy",
-        "niebo",
-        "noc"
-    ],
+    "1F30B": ["wulkan", "erupcja", "góra", "lawa"],
+    "1F30C": ["Droga Mleczna", "gwiazdy", "niebo", "noc"],
     "1F30D": [
         "kula ziemska przedstawiająca Europę i Afrykę",
         "Afryka",
@@ -2411,12 +1241,7 @@
         "równoleżniki",
         "ziemia"
     ],
-    "1F311": [
-        "nów",
-        "ciemny księżyc",
-        "księżyc",
-        "noc"
-    ],
+    "1F311": ["nów", "ciemny księżyc", "księżyc", "noc"],
     "1F312": [
         "narastający półksiężyc",
         "cieniutki księżyc",
@@ -2424,12 +1249,7 @@
         "noc",
         "sierp"
     ],
-    "1F313": [
-        "pierwsza kwadra księżyca",
-        "księżyc",
-        "kwadra",
-        "noc"
-    ],
+    "1F313": ["pierwsza kwadra księżyca", "księżyc", "kwadra", "noc"],
     "1F314": [
         "narastający księżyc między pierwszą kwadrą a pełnią",
         "księżyc",
@@ -2437,13 +1257,7 @@
         "noc",
         "tłusty księżyc"
     ],
-    "1F315": [
-        "pełnia",
-        "jasny księżyc",
-        "księżyc",
-        "noc",
-        "pełny księżyc"
-    ],
+    "1F315": ["pełnia", "jasny księżyc", "księżyc", "noc", "pełny księżyc"],
     "1F316": [
         "zanikający księżyc między pełnią a ostatnią kwadrą",
         "chudnący",
@@ -2466,13 +1280,7 @@
         "noc",
         "sierp"
     ],
-    "1F319": [
-        "półksiężyc",
-        "księżyc",
-        "noc",
-        "sierp",
-        "sierp księżyca"
-    ],
+    "1F319": ["półksiężyc", "księżyc", "noc", "sierp", "sierp księżyca"],
     "1F31A": [
         "nów z twarzą",
         "bajka",
@@ -2540,39 +1348,11 @@
         "spadająca",
         "życzenie"
     ],
-    "1F32D": [
-        "hot dog",
-        "frankfurterka",
-        "hotdog",
-        "parówka"
-    ],
-    "1F32E": [
-        "taco",
-        "jedzenie",
-        "meksykańskie"
-    ],
-    "1F32F": [
-        "burrito",
-        "burito",
-        "jedzenie",
-        "meksykańskie",
-        "wrap"
-    ],
-    "1F330": [
-        "kasztan",
-        "jedzenie",
-        "kasztan jadalny",
-        "orzech",
-        "orzeszek"
-    ],
-    "1F331": [
-        "sadzonka",
-        "kiełek",
-        "młoda",
-        "pęd",
-        "roślina",
-        "roślinka"
-    ],
+    "1F32D": ["hot dog", "frankfurterka", "hotdog", "parówka"],
+    "1F32E": ["taco", "jedzenie", "meksykańskie"],
+    "1F32F": ["burrito", "burito", "jedzenie", "meksykańskie", "wrap"],
+    "1F330": ["kasztan", "jedzenie", "kasztan jadalny", "orzech", "orzeszek"],
+    "1F331": ["sadzonka", "kiełek", "młoda", "pęd", "roślina", "roślinka"],
     "1F332": [
         "wiecznie zielone drzewo",
         "choinka",
@@ -2583,32 +1363,10 @@
         "roślina",
         "wiecznie zielone"
     ],
-    "1F333": [
-        "drzewo liściaste",
-        "drzewo",
-        "liściaste",
-        "roślina"
-    ],
-    "1F334": [
-        "palma",
-        "drzewo",
-        "roślina",
-        "tropiki",
-        "wyspa"
-    ],
-    "1F335": [
-        "kaktus",
-        "kłuje",
-        "kolce",
-        "pustynia",
-        "roślina"
-    ],
-    "1F337": [
-        "tulipan",
-        "kwiat",
-        "pąk",
-        "roślina"
-    ],
+    "1F333": ["drzewo liściaste", "drzewo", "liściaste", "roślina"],
+    "1F334": ["palma", "drzewo", "roślina", "tropiki", "wyspa"],
+    "1F335": ["kaktus", "kłuje", "kolce", "pustynia", "roślina"],
+    "1F337": ["tulipan", "kwiat", "pąk", "roślina"],
     "1F338": [
         "kwiat wiśni",
         "kwiat",
@@ -2617,32 +1375,10 @@
         "sakura",
         "wiśnia"
     ],
-    "1F339": [
-        "róża",
-        "czerwony",
-        "kwiat",
-        "miłość",
-        "roślina"
-    ],
-    "1F33A": [
-        "kwiat hibiskusa",
-        "hibiskus",
-        "hibiskusa",
-        "kwiat",
-        "roślina"
-    ],
-    "1F33B": [
-        "słonecznik",
-        "kwiat",
-        "roślina",
-        "słońce"
-    ],
-    "1F33C": [
-        "kwiat",
-        "kwiatek",
-        "kwitnie",
-        "roślina"
-    ],
+    "1F339": ["róża", "czerwony", "kwiat", "miłość", "roślina"],
+    "1F33A": ["kwiat hibiskusa", "hibiskus", "hibiskusa", "kwiat", "roślina"],
+    "1F33B": ["słonecznik", "kwiat", "roślina", "słońce"],
+    "1F33C": ["kwiat", "kwiatek", "kwitnie", "roślina"],
     "1F33D": [
         "kolba kukurydzy",
         "jedzenie",
@@ -2651,19 +1387,8 @@
         "kukurydzy",
         "warzywo"
     ],
-    "1F33E": [
-        "pędy ryżu",
-        "roślina",
-        "ryż",
-        "ziarno",
-        "żniwa"
-    ],
-    "1F33F": [
-        "zioło",
-        "liście",
-        "roślina",
-        "zioła"
-    ],
+    "1F33E": ["pędy ryżu", "roślina", "ryż", "ziarno", "żniwa"],
+    "1F33F": ["zioło", "liście", "roślina", "zioła"],
     "1F340": [
         "czterolistna koniczyna",
         "czterolistna",
@@ -2698,12 +1423,7 @@
         "wiatr",
         "wicher"
     ],
-    "1F344": [
-        "grzyb",
-        "muchomor",
-        "muchomorek",
-        "trujący"
-    ],
+    "1F344": ["grzyb", "muchomor", "muchomorek", "trujący"],
     "1F344 200D 1F7EB": [
         "brązowy grzyb",
         "borowik",
@@ -2714,51 +1434,13 @@
         "shiitake",
         "warzywo"
     ],
-    "1F345": [
-        "pomidor",
-        "jedzenie",
-        "szklarniowe",
-        "warzywo"
-    ],
-    "1F346": [
-        "bakłażan",
-        "jedzenie",
-        "oberżyna",
-        "warzywo"
-    ],
-    "1F347": [
-        "winogrona",
-        "jedzenie",
-        "owoce"
-    ],
-    "1F348": [
-        "melon",
-        "jedzenie",
-        "owoc"
-    ],
-    "1F349": [
-        "arbuz",
-        "arbuza",
-        "jedzenie",
-        "kawałek",
-        "lato",
-        "owoc"
-    ],
-    "1F34A": [
-        "mandarynka",
-        "cytrus",
-        "jedzenie",
-        "owoc",
-        "pomarańcza"
-    ],
-    "1F34B": [
-        "cytryna",
-        "cytrus",
-        "jedzenie",
-        "kwaśny",
-        "owoc",
-        "żółty"
-    ],
+    "1F345": ["pomidor", "jedzenie", "szklarniowe", "warzywo"],
+    "1F346": ["bakłażan", "jedzenie", "oberżyna", "warzywo"],
+    "1F347": ["winogrona", "jedzenie", "owoce"],
+    "1F348": ["melon", "jedzenie", "owoc"],
+    "1F349": ["arbuz", "arbuza", "jedzenie", "kawałek", "lato", "owoc"],
+    "1F34A": ["mandarynka", "cytrus", "jedzenie", "owoc", "pomarańcza"],
+    "1F34B": ["cytryna", "cytrus", "jedzenie", "kwaśny", "owoc", "żółty"],
     "1F34B 200D 1F7E9": [
         "limonka",
         "cytrus",
@@ -2770,18 +1452,8 @@
         "tequila",
         "tropikalny"
     ],
-    "1F34C": [
-        "banan",
-        "egzotyczny",
-        "jedzenie",
-        "owoc"
-    ],
-    "1F34D": [
-        "ananas",
-        "egzotyczny",
-        "jedzenie",
-        "owoc"
-    ],
+    "1F34C": ["banan", "egzotyczny", "jedzenie", "owoc"],
+    "1F34D": ["ananas", "egzotyczny", "jedzenie", "owoc"],
     "1F34E": [
         "czerwone jabłko",
         "czerwone",
@@ -2797,70 +1469,16 @@
         "owoc",
         "zielone jabłuszko"
     ],
-    "1F350": [
-        "gruszka",
-        "jedzenie",
-        "owoc"
-    ],
-    "1F351": [
-        "brzoskwinia",
-        "jedzenie",
-        "owoc"
-    ],
-    "1F352": [
-        "wiśnie",
-        "czereśnie",
-        "jedzenie",
-        "owoce"
-    ],
-    "1F353": [
-        "truskawka",
-        "jedzenie",
-        "owoc"
-    ],
-    "1F354": [
-        "hamburger",
-        "bułka",
-        "burger",
-        "fast food",
-        "jedzenie"
-    ],
-    "1F355": [
-        "pizza",
-        "fast food",
-        "jedzenie",
-        "kawałek",
-        "pizzy"
-    ],
-    "1F356": [
-        "mięso z kością",
-        "jedzenie",
-        "kość",
-        "mięso"
-    ],
-    "1F357": [
-        "udko kurczaka",
-        "jedzenie",
-        "kurczak",
-        "mięso",
-        "nóżka",
-        "udko"
-    ],
-    "1F358": [
-        "krakers ryżowy",
-        "jedzenie",
-        "krakers",
-        "ryż",
-        "ryżowy"
-    ],
-    "1F359": [
-        "kulka ryżowa",
-        "jedzenie",
-        "kulka",
-        "onigiri",
-        "ryż",
-        "ryżowa"
-    ],
+    "1F350": ["gruszka", "jedzenie", "owoc"],
+    "1F351": ["brzoskwinia", "jedzenie", "owoc"],
+    "1F352": ["wiśnie", "czereśnie", "jedzenie", "owoce"],
+    "1F353": ["truskawka", "jedzenie", "owoc"],
+    "1F354": ["hamburger", "bułka", "burger", "fast food", "jedzenie"],
+    "1F355": ["pizza", "fast food", "jedzenie", "kawałek", "pizzy"],
+    "1F356": ["mięso z kością", "jedzenie", "kość", "mięso"],
+    "1F357": ["udko kurczaka", "jedzenie", "kurczak", "mięso", "nóżka", "udko"],
+    "1F358": ["krakers ryżowy", "jedzenie", "krakers", "ryż", "ryżowy"],
+    "1F359": ["kulka ryżowa", "jedzenie", "kulka", "onigiri", "ryż", "ryżowa"],
     "1F35A": [
         "gotowany ryż",
         "gotowany",
@@ -2869,14 +1487,7 @@
         "ryż",
         "z ryżem"
     ],
-    "1F35B": [
-        "ryż curry",
-        "curry",
-        "jedzenie",
-        "ryż",
-        "sos",
-        "z sosem"
-    ],
+    "1F35B": ["ryż curry", "curry", "jedzenie", "ryż", "sos", "z sosem"],
     "1F35C": [
         "miska parującego jedzenia",
         "jedzenie",
@@ -2896,19 +1507,8 @@
         "pasta",
         "spagetti"
     ],
-    "1F35E": [
-        "chleb",
-        "bochenek",
-        "chleba",
-        "jedzenie",
-        "kawałek",
-        "pieczywo"
-    ],
-    "1F35F": [
-        "frytki",
-        "fast food",
-        "jedzenie"
-    ],
+    "1F35E": ["chleb", "bochenek", "chleba", "jedzenie", "kawałek", "pieczywo"],
+    "1F35F": ["frytki", "fast food", "jedzenie"],
     "1F360": [
         "pieczony batat",
         "batat",
@@ -2917,32 +1517,10 @@
         "słodki ziemniak",
         "ziemniak"
     ],
-    "1F361": [
-        "dango",
-        "deser",
-        "jedzenie",
-        "kulki mochi",
-        "mochi"
-    ],
-    "1F362": [
-        "oden",
-        "jedzenie",
-        "na patyku",
-        "owoce morza",
-        "szaszłyk"
-    ],
-    "1F363": [
-        "sushi",
-        "jedzenie",
-        "suszi"
-    ],
-    "1F364": [
-        "smażona krewetka",
-        "jedzenie",
-        "krewetka",
-        "smażona",
-        "tempura"
-    ],
+    "1F361": ["dango", "deser", "jedzenie", "kulki mochi", "mochi"],
+    "1F362": ["oden", "jedzenie", "na patyku", "owoce morza", "szaszłyk"],
+    "1F363": ["sushi", "jedzenie", "suszi"],
+    "1F364": ["smażona krewetka", "jedzenie", "krewetka", "smażona", "tempura"],
     "1F365": [
         "ciastko rybne",
         "ciastko",
@@ -2962,18 +1540,8 @@
         "w kubku",
         "włoskie"
     ],
-    "1F367": [
-        "lody hawajskie",
-        "deser",
-        "hawajskie",
-        "jedzenie",
-        "lody"
-    ],
-    "1F368": [
-        "lody",
-        "deser",
-        "jedzenie"
-    ],
+    "1F367": ["lody hawajskie", "deser", "hawajskie", "jedzenie", "lody"],
+    "1F368": ["lody", "deser", "jedzenie"],
     "1F369": [
         "pączek z dziurką",
         "ciasto",
@@ -2983,13 +1551,7 @@
         "słodki",
         "z dziurką"
     ],
-    "1F36A": [
-        "ciastko",
-        "deser",
-        "jedzenie",
-        "słodki",
-        "słodkie"
-    ],
+    "1F36A": ["ciastko", "deser", "jedzenie", "słodki", "słodkie"],
     "1F36B": [
         "tabliczka czekolady",
         "czekolada",
@@ -2997,20 +1559,8 @@
         "jedzenie",
         "słodycze"
     ],
-    "1F36C": [
-        "cukierek",
-        "deser",
-        "jedzenie",
-        "słodki",
-        "słodycze"
-    ],
-    "1F36D": [
-        "lizak",
-        "deser",
-        "jedzenie",
-        "słodki",
-        "słodycze"
-    ],
+    "1F36C": ["cukierek", "deser", "jedzenie", "słodki", "słodycze"],
+    "1F36D": ["lizak", "deser", "jedzenie", "słodki", "słodycze"],
     "1F36E": [
         "deser typu krem angielski",
         "ciastko kremowe",
@@ -3032,21 +1582,8 @@
         "słoik",
         "z miodem"
     ],
-    "1F370": [
-        "tort",
-        "ciasto",
-        "deser",
-        "jedzenie",
-        "przyjęcie",
-        "słodycze"
-    ],
-    "1F371": [
-        "pudełko bento",
-        "bento",
-        "jedzenie",
-        "pudełko",
-        "ryż"
-    ],
+    "1F370": ["tort", "ciasto", "deser", "jedzenie", "przyjęcie", "słodycze"],
+    "1F371": ["pudełko bento", "bento", "jedzenie", "pudełko", "ryż"],
     "1F372": [
         "garnek z jedzeniem",
         "danie",
@@ -3057,13 +1594,7 @@
         "z jedzeniem",
         "zupa"
     ],
-    "1F373": [
-        "gotowanie",
-        "jajko",
-        "jedzenie",
-        "patelnia",
-        "smażyć"
-    ],
+    "1F373": ["gotowanie", "jajko", "jedzenie", "patelnia", "smażyć"],
     "1F374": [
         "widelec i nóż",
         "gotowanie",
@@ -3085,11 +1616,7 @@
         "miseczka",
         "spodek"
     ],
-    "1F376": [
-        "sake",
-        "alkohol",
-        "butelka i kubek"
-    ],
+    "1F376": ["sake", "alkohol", "butelka i kubek"],
     "1F377": [
         "kieliszek wina",
         "alkohol",
@@ -3167,12 +1694,7 @@
         "szampan",
         "toast"
     ],
-    "1F37F": [
-        "popcorn",
-        "jedzenie",
-        "kino",
-        "kukurydza"
-    ],
+    "1F37F": ["popcorn", "jedzenie", "kino", "kukurydza"],
     "1F380": [
         "wstążka",
         "kokarda",
@@ -3204,11 +1726,7 @@
         "urodziny",
         "zdmuchnąć"
     ],
-    "1F383": [
-        "dynia na halloween",
-        "dynia",
-        "halloween"
-    ],
+    "1F383": ["dynia na halloween", "dynia", "halloween"],
     "1F384": [
         "choinka bożonarodzeniowa",
         "bombki",
@@ -3322,27 +1840,9 @@
         "sztuczne",
         "zimne"
     ],
-    "1F388": [
-        "balon",
-        "balonik",
-        "impreza",
-        "uroczystość",
-        "urodziny"
-    ],
-    "1F389": [
-        "tuba z konfetti",
-        "bal",
-        "impreza",
-        "konfetti",
-        "uroczystość"
-    ],
-    "1F38A": [
-        "kula z konfetti",
-        "bal",
-        "impreza",
-        "konfetti",
-        "uroczystość"
-    ],
+    "1F388": ["balon", "balonik", "impreza", "uroczystość", "urodziny"],
+    "1F389": ["tuba z konfetti", "bal", "impreza", "konfetti", "uroczystość"],
+    "1F38A": ["kula z konfetti", "bal", "impreza", "konfetti", "uroczystość"],
     "1F38B": [
         "drzewko na Tanabata",
         "bambus",
@@ -3359,28 +1859,10 @@
         "skrzyżowane",
         "uroczystość"
     ],
-    "1F38D": [
-        "japońska dekoracja kadomatsu",
-        "bambus",
-        "roślina",
-        "sosna"
-    ],
-    "1F38E": [
-        "japońskie lalki",
-        "Japonia",
-        "lalki"
-    ],
-    "1F38F": [
-        "flaga w kształcie karpia",
-        "flaga",
-        "ryby"
-    ],
-    "1F390": [
-        "dzwonek wietrzny",
-        "dzwonek",
-        "dzwonki",
-        "wietrzny"
-    ],
+    "1F38D": ["japońska dekoracja kadomatsu", "bambus", "roślina", "sosna"],
+    "1F38E": ["japońskie lalki", "Japonia", "lalki"],
+    "1F38F": ["flaga w kształcie karpia", "flaga", "ryby"],
+    "1F390": ["dzwonek wietrzny", "dzwonek", "dzwonki", "wietrzny"],
     "1F391": [
         "ceremonia oglądania księżyca",
         "Jugoya",
@@ -3390,12 +1872,7 @@
         "świętować",
         "tsukimi"
     ],
-    "1F392": [
-        "tornister",
-        "edukacja",
-        "plecak",
-        "szkoła"
-    ],
+    "1F392": ["tornister", "edukacja", "plecak", "szkoła"],
     "1F393": [
         "biret",
         "absolwenta",
@@ -3408,11 +1885,7 @@
         "uniwersytet",
         "uroczystość"
     ],
-    "1F3A0": [
-        "koń z karuzeli",
-        "karuzela",
-        "konik"
-    ],
+    "1F3A0": ["koń z karuzeli", "karuzela", "konik"],
     "1F3A1": [
         "diabelski młyn",
         "diabelski",
@@ -3427,36 +1900,11 @@
         "rollercoaster",
         "wesołe miasteczko"
     ],
-    "1F3A3": [
-        "wędka",
-        "łowienie ryb",
-        "wędka z rybą",
-        "złowić"
-    ],
-    "1F3A4": [
-        "mikrofon",
-        "karaoke",
-        "muzyka",
-        "śpiewać"
-    ],
-    "1F3A5": [
-        "kamera filmowa",
-        "film",
-        "kamera",
-        "kinematografia",
-        "kino"
-    ],
-    "1F3A6": [
-        "kino",
-        "film",
-        "kamera",
-        "kręcić film"
-    ],
-    "1F3A7": [
-        "słuchawki",
-        "muzyka",
-        "słuchawka"
-    ],
+    "1F3A3": ["wędka", "łowienie ryb", "wędka z rybą", "złowić"],
+    "1F3A4": ["mikrofon", "karaoke", "muzyka", "śpiewać"],
+    "1F3A5": ["kamera filmowa", "film", "kamera", "kinematografia", "kino"],
+    "1F3A6": ["kino", "film", "kamera", "kręcić film"],
+    "1F3A7": ["słuchawki", "muzyka", "słuchawka"],
     "1F3A8": [
         "paleta malarska",
         "farby",
@@ -3467,25 +1915,10 @@
         "paleta",
         "sztuka"
     ],
-    "1F3A9": [
-        "cylinder",
-        "kapelusz",
-        "męskie nakrycie głowy"
-    ],
-    "1F3AA": [
-        "namiot cyrkowy",
-        "cyrk",
-        "namiot"
-    ],
-    "1F3AB": [
-        "bilet",
-        "wstęp"
-    ],
-    "1F3AC": [
-        "klaps",
-        "film",
-        "kino"
-    ],
+    "1F3A9": ["cylinder", "kapelusz", "męskie nakrycie głowy"],
+    "1F3AA": ["namiot cyrkowy", "cyrk", "namiot"],
+    "1F3AB": ["bilet", "wstęp"],
+    "1F3AC": ["klaps", "film", "kino"],
     "1F3AD": [
         "maski teatralne",
         "maski",
@@ -3523,29 +1956,9 @@
         "jednoręki bandyta",
         "kasyno"
     ],
-    "1F3B1": [
-        "bila 8",
-        "8",
-        "bila",
-        "bilard",
-        "gra",
-        "kula",
-        "kula bilardowa"
-    ],
-    "1F3B2": [
-        "kostka do gry",
-        "gra",
-        "hazard",
-        "kości",
-        "kostka",
-        "w kości"
-    ],
-    "1F3B3": [
-        "kręgle",
-        "bowling",
-        "kula",
-        "sport"
-    ],
+    "1F3B1": ["bila 8", "8", "bila", "bilard", "gra", "kula", "kula bilardowa"],
+    "1F3B2": ["kostka do gry", "gra", "hazard", "kości", "kostka", "w kości"],
+    "1F3B3": ["kręgle", "bowling", "kula", "sport"],
     "1F3B4": [
         "gra karciana hanafuda",
         "gra",
@@ -3555,26 +1968,10 @@
         "karta",
         "kwiat"
     ],
-    "1F3B5": [
-        "nuta",
-        "muzyka"
-    ],
-    "1F3B6": [
-        "nuty",
-        "muzyka",
-        "nuta"
-    ],
-    "1F3B7": [
-        "saksofon",
-        "instrument",
-        "muzyka",
-        "orkiestra"
-    ],
-    "1F3B8": [
-        "gitara",
-        "instrument",
-        "muzyka"
-    ],
+    "1F3B5": ["nuta", "muzyka"],
+    "1F3B6": ["nuty", "muzyka", "nuta"],
+    "1F3B7": ["saksofon", "instrument", "muzyka", "orkiestra"],
+    "1F3B8": ["gitara", "instrument", "muzyka"],
     "1F3B9": [
         "klawisze",
         "fortepian",
@@ -3584,13 +1981,7 @@
         "muzyka",
         "pianino"
     ],
-    "1F3BA": [
-        "trąbka",
-        "grać",
-        "instrument",
-        "muzyka",
-        "orkiestra"
-    ],
+    "1F3BA": ["trąbka", "grać", "instrument", "muzyka", "orkiestra"],
     "1F3BB": [
         "skrzypce",
         "altówka",
@@ -3620,21 +2011,8 @@
         "szarfa",
         "t-shirt"
     ],
-    "1F3BE": [
-        "tenis",
-        "do tenisa",
-        "piłka",
-        "rakieta",
-        "sport",
-        "tenisowa"
-    ],
-    "1F3BF": [
-        "narty",
-        "śnieg",
-        "sport",
-        "stok",
-        "zima"
-    ],
+    "1F3BE": ["tenis", "do tenisa", "piłka", "rakieta", "sport", "tenisowa"],
+    "1F3BF": ["narty", "śnieg", "sport", "stok", "zima"],
     "1F3C0": [
         "koszykówka",
         "do kosza",
@@ -3651,12 +2029,7 @@
         "sport",
         "wyścigi"
     ],
-    "1F3C2": [
-        "snowboardzista",
-        "snowboard",
-        "sport",
-        "zima"
-    ],
+    "1F3C2": ["snowboardzista", "snowboard", "sport", "zima"],
     "1F3C2 1F3FB": [
         "snowboardzista: karnacja jasna",
         "karnacja jasna",
@@ -3869,20 +2242,8 @@
         "surfing",
         "surfująca"
     ],
-    "1F3C5": [
-        "medal sportowy",
-        "medal",
-        "nagroda",
-        "sport",
-        "zawody"
-    ],
-    "1F3C6": [
-        "puchar",
-        "nagroda",
-        "sport",
-        "trofeum",
-        "zwycięstwo"
-    ],
+    "1F3C5": ["medal sportowy", "medal", "nagroda", "sport", "zawody"],
+    "1F3C6": ["puchar", "nagroda", "sport", "trofeum", "zwycięstwo"],
     "1F3C7": [
         "wyścigi konne",
         "dżokej",
@@ -3956,13 +2317,7 @@
         "piłka",
         "sport"
     ],
-    "1F3C9": [
-        "piłka do rugby",
-        "do rugby",
-        "piłka",
-        "rugby",
-        "sport"
-    ],
+    "1F3C9": ["piłka do rugby", "do rugby", "piłka", "rugby", "sport"],
     "1F3CA": [
         "pływająca osoba",
         "basen",
@@ -4199,13 +2554,7 @@
         "karnacja ciemna",
         "osoba"
     ],
-    "1F3CF": [
-        "krykiet",
-        "do krykieta",
-        "kij",
-        "piłka",
-        "sport"
-    ],
+    "1F3CF": ["krykiet", "do krykieta", "kij", "piłka", "sport"],
     "1F3D0": [
         "siatkówka",
         "do siatki",
@@ -4247,54 +2596,15 @@
         "stołowy",
         "tenis"
     ],
-    "1F3E0": [
-        "dom",
-        "budynek",
-        "mieszkalny"
-    ],
-    "1F3E1": [
-        "dom z ogrodem",
-        "budynek",
-        "dom",
-        "drzewo",
-        "ogród"
-    ],
-    "1F3E2": [
-        "biurowiec",
-        "blok",
-        "budynek"
-    ],
-    "1F3E3": [
-        "japońska poczta",
-        "budynek",
-        "poczta"
-    ],
-    "1F3E4": [
-        "urząd pocztowy",
-        "budynek",
-        "poczta"
-    ],
-    "1F3E5": [
-        "szpital",
-        "budynek",
-        "lecznica",
-        "lekarz",
-        "medycyna"
-    ],
-    "1F3E6": [
-        "bank",
-        "budynek"
-    ],
-    "1F3E7": [
-        "znak bankomatu",
-        "ATM",
-        "bankomat",
-        "pieniądze"
-    ],
-    "1F3E8": [
-        "hotel",
-        "budynek"
-    ],
+    "1F3E0": ["dom", "budynek", "mieszkalny"],
+    "1F3E1": ["dom z ogrodem", "budynek", "dom", "drzewo", "ogród"],
+    "1F3E2": ["biurowiec", "blok", "budynek"],
+    "1F3E3": ["japońska poczta", "budynek", "poczta"],
+    "1F3E4": ["urząd pocztowy", "budynek", "poczta"],
+    "1F3E5": ["szpital", "budynek", "lecznica", "lekarz", "medycyna"],
+    "1F3E6": ["bank", "budynek"],
+    "1F3E7": ["znak bankomatu", "ATM", "bankomat", "pieniądze"],
+    "1F3E8": ["hotel", "budynek"],
     "1F3E9": [
         "hotel miłości",
         "budynek",
@@ -4303,28 +2613,10 @@
         "miłość",
         "serce"
     ],
-    "1F3EA": [
-        "sklep całodobowy",
-        "budynek",
-        "sklep"
-    ],
-    "1F3EB": [
-        "szkoła",
-        "budynek",
-        "zegar"
-    ],
-    "1F3EC": [
-        "dom towarowy",
-        "budynek",
-        "sklep",
-        "supermarket"
-    ],
-    "1F3ED": [
-        "fabryka",
-        "budynek",
-        "produkcyjny",
-        "zakład pracy"
-    ],
+    "1F3EA": ["sklep całodobowy", "budynek", "sklep"],
+    "1F3EB": ["szkoła", "budynek", "zegar"],
+    "1F3EC": ["dom towarowy", "budynek", "sklep", "supermarket"],
+    "1F3ED": ["fabryka", "budynek", "produkcyjny", "zakład pracy"],
     "1F3EE": [
         "czerwony lampion",
         "bar izakaya",
@@ -4333,18 +2625,8 @@
         "lampa",
         "lampion"
     ],
-    "1F3EF": [
-        "japoński zamek",
-        "budynek",
-        "japoński",
-        "zamek"
-    ],
-    "1F3F0": [
-        "zamek",
-        "budynek",
-        "europejski",
-        "średniowiecze"
-    ],
+    "1F3EF": ["japoński zamek", "budynek", "japoński", "zamek"],
+    "1F3F0": ["zamek", "budynek", "europejski", "średniowiecze"],
     "1F3F3": [
         "biała flaga",
         "biały",
@@ -4370,24 +2652,10 @@
         "tęcza",
         "trans"
     ],
-    "1F3F4": [
-        "czarna flaga",
-        "flaga",
-        "na wietrze",
-        "żałoba"
-    ],
-    "1F3F4 E0067 E0062 E0065 E006E E0067 E007F": [
-        "flaga: Anglia",
-        "flaga"
-    ],
-    "1F3F4 E0067 E0062 E0073 E0063 E0074 E007F": [
-        "flaga: Szkocja",
-        "flaga"
-    ],
-    "1F3F4 E0067 E0062 E0077 E006C E0073 E007F": [
-        "flaga: Walia",
-        "flaga"
-    ],
+    "1F3F4": ["czarna flaga", "flaga", "na wietrze", "żałoba"],
+    "1F3F4 E0067 E0062 E0065 E006E E0067 E007F": ["flaga: Anglia", "flaga"],
+    "1F3F4 E0067 E0062 E0073 E0063 E0074 E007F": ["flaga: Szkocja", "flaga"],
+    "1F3F4 E0067 E0062 E0077 E006C E0073 E007F": ["flaga: Walia", "flaga"],
     "1F3F8": [
         "badminton",
         "gra",
@@ -4416,63 +2684,15 @@
         "wodnik",
         "zodiak"
     ],
-    "1F400": [
-        "szczur",
-        "gryzoń",
-        "mysz",
-        "szczurek",
-        "zwierzę"
-    ],
-    "1F401": [
-        "mysz",
-        "myszka",
-        "zwierzę"
-    ],
-    "1F402": [
-        "wół",
-        "byk",
-        "krowa",
-        "zodiak",
-        "zwierzę"
-    ],
-    "1F403": [
-        "wół domowy",
-        "bawół",
-        "wół",
-        "zwierzę"
-    ],
-    "1F404": [
-        "krowa",
-        "krówka",
-        "łaty",
-        "mleko",
-        "zwierzę"
-    ],
-    "1F405": [
-        "tygrys",
-        "paski",
-        "tygrysek",
-        "zwierzę"
-    ],
-    "1F406": [
-        "lampart",
-        "cętki",
-        "drapieżnik",
-        "dziki",
-        "kot",
-        "zwierzę"
-    ],
-    "1F407": [
-        "królik",
-        "króliczek",
-        "zając",
-        "zwierzę"
-    ],
-    "1F408": [
-        "kot",
-        "kotek",
-        "zwierzę"
-    ],
+    "1F400": ["szczur", "gryzoń", "mysz", "szczurek", "zwierzę"],
+    "1F401": ["mysz", "myszka", "zwierzę"],
+    "1F402": ["wół", "byk", "krowa", "zodiak", "zwierzę"],
+    "1F403": ["wół domowy", "bawół", "wół", "zwierzę"],
+    "1F404": ["krowa", "krówka", "łaty", "mleko", "zwierzę"],
+    "1F405": ["tygrys", "paski", "tygrysek", "zwierzę"],
+    "1F406": ["lampart", "cętki", "drapieżnik", "dziki", "kot", "zwierzę"],
+    "1F407": ["królik", "króliczek", "zając", "zwierzę"],
+    "1F408": ["kot", "kotek", "zwierzę"],
     "1F408 200D 2B1B": [
         "czarny kot",
         "czarny",
@@ -4483,42 +2703,11 @@
         "zabobon",
         "zwierzę"
     ],
-    "1F409": [
-        "smok",
-        "bajka",
-        "baśń",
-        "fantasy",
-        "legenda",
-        "zwierzę"
-    ],
-    "1F40A": [
-        "krokodyl",
-        "aligator",
-        "gad",
-        "jaszczur",
-        "zwierzę"
-    ],
-    "1F40B": [
-        "wieloryb",
-        "morze",
-        "ocean",
-        "zwierzę"
-    ],
-    "1F40C": [
-        "ślimak",
-        "mięczak",
-        "muszla",
-        "powolny",
-        "wolny",
-        "zwierzę"
-    ],
-    "1F40D": [
-        "wąż",
-        "dusiciel",
-        "jadowity",
-        "żmija",
-        "zwierzę"
-    ],
+    "1F409": ["smok", "bajka", "baśń", "fantasy", "legenda", "zwierzę"],
+    "1F40A": ["krokodyl", "aligator", "gad", "jaszczur", "zwierzę"],
+    "1F40B": ["wieloryb", "morze", "ocean", "zwierzę"],
+    "1F40C": ["ślimak", "mięczak", "muszla", "powolny", "wolny", "zwierzę"],
+    "1F40D": ["wąż", "dusiciel", "jadowity", "żmija", "zwierzę"],
     "1F40E": [
         "koń",
         "konne",
@@ -4537,14 +2726,7 @@
         "zodiak",
         "zwierzę"
     ],
-    "1F410": [
-        "koza",
-        "koziorożec",
-        "kózka",
-        "rogi",
-        "zodiak",
-        "zwierzę"
-    ],
+    "1F410": ["koza", "koziorożec", "kózka", "rogi", "zodiak", "zwierzę"],
     "1F411": [
         "owca",
         "baran",
@@ -4556,32 +2738,10 @@
         "Wielkanoc",
         "zwierzę"
     ],
-    "1F412": [
-        "małpa",
-        "małpka",
-        "zwierzę"
-    ],
-    "1F413": [
-        "kogut",
-        "ornitologia",
-        "ptak",
-        "zwierzę"
-    ],
-    "1F414": [
-        "kura",
-        "głowa",
-        "kogut",
-        "kurczak",
-        "ptak",
-        "zwierzę"
-    ],
-    "1F415": [
-        "pies",
-        "piesek",
-        "psiaczek",
-        "psinka",
-        "zwierzę"
-    ],
+    "1F412": ["małpa", "małpka", "zwierzę"],
+    "1F413": ["kogut", "ornitologia", "ptak", "zwierzę"],
+    "1F414": ["kura", "głowa", "kogut", "kurczak", "ptak", "zwierzę"],
+    "1F415": ["pies", "piesek", "psiaczek", "psinka", "zwierzę"],
     "1F415 200D 1F9BA": [
         "pies pomocnik",
         "dostępność",
@@ -4591,33 +2751,10 @@
         "pomocnik",
         "zwierzę"
     ],
-    "1F416": [
-        "świnia",
-        "świnka",
-        "zwierzę"
-    ],
-    "1F417": [
-        "dzik",
-        "dzika",
-        "głowa",
-        "knur",
-        "las",
-        "świnia",
-        "zwierzę"
-    ],
-    "1F418": [
-        "słoń",
-        "trąba",
-        "zwierzę"
-    ],
-    "1F419": [
-        "ośmiornica",
-        "macki",
-        "morze",
-        "ocean",
-        "osiem",
-        "zwierzę"
-    ],
+    "1F416": ["świnia", "świnka", "zwierzę"],
+    "1F417": ["dzik", "dzika", "głowa", "knur", "las", "świnia", "zwierzę"],
+    "1F418": ["słoń", "trąba", "zwierzę"],
+    "1F419": ["ośmiornica", "macki", "morze", "ocean", "osiem", "zwierzę"],
     "1F41A": [
         "muszla spiralna",
         "morze",
@@ -4627,24 +2764,9 @@
         "spirala",
         "zwierzę"
     ],
-    "1F41B": [
-        "gąsienica",
-        "owad",
-        "robak",
-        "zwierzę"
-    ],
-    "1F41C": [
-        "mrówka",
-        "owad",
-        "zwierzę"
-    ],
-    "1F41D": [
-        "pszczoła",
-        "owad",
-        "pszczółka",
-        "wiosna",
-        "zwierzę"
-    ],
+    "1F41B": ["gąsienica", "owad", "robak", "zwierzę"],
+    "1F41C": ["mrówka", "owad", "zwierzę"],
+    "1F41D": ["pszczoła", "owad", "pszczółka", "wiosna", "zwierzę"],
     "1F41E": [
         "biedronka",
         "chrabąszcz",
@@ -4675,20 +2797,8 @@
         "woda",
         "zwierzę"
     ],
-    "1F421": [
-        "ryba rozdymka",
-        "morze",
-        "ocean",
-        "rozdymka",
-        "ryba",
-        "zwierzę"
-    ],
-    "1F422": [
-        "żółw",
-        "powolny",
-        "skorupa",
-        "zwierzę"
-    ],
+    "1F421": ["ryba rozdymka", "morze", "ocean", "rozdymka", "ryba", "zwierzę"],
+    "1F422": ["żółw", "powolny", "skorupa", "zwierzę"],
     "1F423": [
         "wykluwające się kurczątko",
         "kura",
@@ -4719,11 +2829,7 @@
         "ptak",
         "zwierzę"
     ],
-    "1F426": [
-        "ptak",
-        "ornitologia",
-        "zwierzę"
-    ],
+    "1F426": ["ptak", "ornitologia", "zwierzę"],
     "1F426 200D 2B1B": [
         "czarny ptak",
         "czarny",
@@ -4747,12 +2853,7 @@
         "reinkarnacja",
         "z popiołów"
     ],
-    "1F427": [
-        "pingwin",
-        "antarktyda",
-        "ptak",
-        "zwierzę"
-    ],
+    "1F427": ["pingwin", "antarktyda", "ptak", "zwierzę"],
     "1F428": [
         "koala",
         "australia",
@@ -4789,20 +2890,8 @@
         "wielbłąd",
         "zwierzę"
     ],
-    "1F42C": [
-        "delfin",
-        "morze",
-        "ocean",
-        "zwierzę"
-    ],
-    "1F42D": [
-        "głowa myszy",
-        "buźka",
-        "głowa",
-        "mysz",
-        "myszka",
-        "zwierzę"
-    ],
+    "1F42C": ["delfin", "morze", "ocean", "zwierzę"],
+    "1F42D": ["głowa myszy", "buźka", "głowa", "mysz", "myszka", "zwierzę"],
     "1F42E": [
         "głowa krowy",
         "buźka",
@@ -4883,13 +2972,7 @@
         "łeb",
         "zwierzę"
     ],
-    "1F435": [
-        "głowa małpy",
-        "buźka",
-        "głowa",
-        "małpka",
-        "zwierzę"
-    ],
+    "1F435": ["głowa małpy", "buźka", "głowa", "małpka", "zwierzę"],
     "1F436": [
         "głowa psa",
         "buźka",
@@ -4972,27 +3055,9 @@
         "świński",
         "zwierzę"
     ],
-    "1F43E": [
-        "ślady łap",
-        "łapki",
-        "łapy",
-        "odciski",
-        "ślady",
-        "tropy"
-    ],
-    "1F440": [
-        "oczy",
-        "obserwacja",
-        "obserwowanie",
-        "oko",
-        "twarz",
-        "wow"
-    ],
-    "1F442": [
-        "ucho",
-        "ciało",
-        "słyszeć"
-    ],
+    "1F43E": ["ślady łap", "łapki", "łapy", "odciski", "ślady", "tropy"],
+    "1F440": ["oczy", "obserwacja", "obserwowanie", "oko", "twarz", "wow"],
+    "1F442": ["ucho", "ciało", "słyszeć"],
     "1F442 1F3FB": [
         "ucho: karnacja jasna",
         "ciało",
@@ -5028,16 +3093,8 @@
         "słyszeć",
         "ucho"
     ],
-    "1F443": [
-        "nos",
-        "ciało"
-    ],
-    "1F443 1F3FB": [
-        "nos: karnacja jasna",
-        "ciało",
-        "karnacja jasna",
-        "nos"
-    ],
+    "1F443": ["nos", "ciało"],
+    "1F443 1F3FB": ["nos: karnacja jasna", "ciało", "karnacja jasna", "nos"],
     "1F443 1F3FC": [
         "nos: karnacja średnio jasna",
         "ciało",
@@ -5056,22 +3113,9 @@
         "karnacja średnio ciemna",
         "nos"
     ],
-    "1F443 1F3FF": [
-        "nos: karnacja ciemna",
-        "ciało",
-        "karnacja ciemna",
-        "nos"
-    ],
-    "1F444": [
-        "usta",
-        "ciało",
-        "wargi"
-    ],
-    "1F445": [
-        "język",
-        "ciało",
-        "mniam"
-    ],
+    "1F443 1F3FF": ["nos: karnacja ciemna", "ciało", "karnacja ciemna", "nos"],
+    "1F444": ["usta", "ciało", "wargi"],
+    "1F445": ["język", "ciało", "mniam"],
     "1F446": [
         "dłoń z palcem wskazującym w górę",
         "do góry",
@@ -5844,13 +3888,7 @@
         "ręce",
         "ręka"
     ],
-    "1F450": [
-        "otwarte dłonie",
-        "puste ręce",
-        "ręce",
-        "ręka",
-        "złapać"
-    ],
+    "1F450": ["otwarte dłonie", "puste ręce", "ręce", "ręka", "złapać"],
     "1F450 1F3FB": [
         "otwarte dłonie: karnacja jasna",
         "karnacja jasna",
@@ -5896,11 +3934,7 @@
         "ręka",
         "złapać"
     ],
-    "1F451": [
-        "korona",
-        "król",
-        "królowa"
-    ],
+    "1F451": ["korona", "król", "królowa"],
     "1F452": [
         "kapelusz damski",
         "damski",
@@ -5908,18 +3942,8 @@
         "nakrycie głowy",
         "ze wstążką"
     ],
-    "1F453": [
-        "okulary",
-        "oczy",
-        "szkła"
-    ],
-    "1F454": [
-        "krawat",
-        "koszula",
-        "męski",
-        "ozdoba",
-        "praca"
-    ],
+    "1F453": ["okulary", "oczy", "szkła"],
+    "1F454": ["krawat", "koszula", "męski", "ozdoba", "praca"],
     "1F455": [
         "koszulka",
         "krótkie rękawy",
@@ -5927,39 +3951,11 @@
         "t-shirt",
         "z krótkimi rękawami"
     ],
-    "1F456": [
-        "dżinsy",
-        "jeansy",
-        "spodnie",
-        "ubiór",
-        "ubranie"
-    ],
-    "1F457": [
-        "sukienka",
-        "lato",
-        "suknia",
-        "ubiór",
-        "ubranie"
-    ],
-    "1F458": [
-        "kimono",
-        "ubiór",
-        "ubranie"
-    ],
-    "1F459": [
-        "bikini",
-        "do pływania",
-        "strój kąpielowy",
-        "ubiór",
-        "ubranie"
-    ],
-    "1F45A": [
-        "ubranie damskie",
-        "bluzka",
-        "damska",
-        "ubiór",
-        "ubranie"
-    ],
+    "1F456": ["dżinsy", "jeansy", "spodnie", "ubiór", "ubranie"],
+    "1F457": ["sukienka", "lato", "suknia", "ubiór", "ubranie"],
+    "1F458": ["kimono", "ubiór", "ubranie"],
+    "1F459": ["bikini", "do pływania", "strój kąpielowy", "ubiór", "ubranie"],
+    "1F45A": ["ubranie damskie", "bluzka", "damska", "ubiór", "ubranie"],
     "1F45B": [
         "portmonetka",
         "monety",
@@ -5968,31 +3964,10 @@
         "różowa",
         "torebka"
     ],
-    "1F45C": [
-        "torebka",
-        "bagaż",
-        "damska",
-        "torba"
-    ],
-    "1F45D": [
-        "saszetka",
-        "damska",
-        "portmonetka",
-        "torba",
-        "torebka"
-    ],
-    "1F45E": [
-        "but męski",
-        "but",
-        "męski"
-    ],
-    "1F45F": [
-        "but do biegania",
-        "bieganie",
-        "but",
-        "sport",
-        "trampek"
-    ],
+    "1F45C": ["torebka", "bagaż", "damska", "torba"],
+    "1F45D": ["saszetka", "damska", "portmonetka", "torba", "torebka"],
+    "1F45E": ["but męski", "but", "męski"],
+    "1F45F": ["but do biegania", "bieganie", "but", "sport", "trampek"],
     "1F460": [
         "but na wysokim obcasie",
         "but",
@@ -6028,28 +4003,10 @@
         "odzież",
         "ubranie"
     ],
-    "1F463": [
-        "ślady stóp",
-        "odciski stóp",
-        "ślady",
-        "stopy"
-    ],
-    "1F464": [
-        "sylwetka popiersia",
-        "osoba",
-        "sylwetka"
-    ],
-    "1F465": [
-        "sylwetki popiersi",
-        "osoby",
-        "sylwetki"
-    ],
-    "1F466": [
-        "chłopiec",
-        "dziecko",
-        "głowa",
-        "młody"
-    ],
+    "1F463": ["ślady stóp", "odciski stóp", "ślady", "stopy"],
+    "1F464": ["sylwetka popiersia", "osoba", "sylwetka"],
+    "1F465": ["sylwetki popiersi", "osoby", "sylwetki"],
+    "1F466": ["chłopiec", "dziecko", "głowa", "młody"],
     "1F466 1F3FB": [
         "chłopiec: karnacja jasna",
         "chłopiec",
@@ -6154,10 +4111,7 @@
         "znak zodiaku",
         "zodiak"
     ],
-    "1F468": [
-        "mężczyzna",
-        "głowa"
-    ],
+    "1F468": ["mężczyzna", "głowa"],
     "1F468 1F3FB": [
         "mężczyzna: karnacja jasna",
         "głowa",
@@ -6311,12 +4265,7 @@
         "karnacja ciemna",
         "mężczyzna"
     ],
-    "1F468 200D 1F9B2": [
-        "mężczyzna: łysy",
-        "głowa",
-        "łysy",
-        "mężczyzna"
-    ],
+    "1F468 200D 1F9B2": ["mężczyzna: łysy", "głowa", "łysy", "mężczyzna"],
     "1F468 1F3FB 200D 1F9B2": [
         "mężczyzna: karnacja jasna i łysy",
         "głowa",
@@ -9282,10 +7231,7 @@
         "rodzina",
         "tata"
     ],
-    "1F469": [
-        "kobieta",
-        "głowa"
-    ],
+    "1F469": ["kobieta", "głowa"],
     "1F469 1F3FB": [
         "kobieta: karnacja jasna",
         "głowa",
@@ -9439,12 +7385,7 @@
         "karnacja ciemna",
         "kobieta"
     ],
-    "1F469 200D 1F9B2": [
-        "kobieta: łysy",
-        "głowa",
-        "kobieta",
-        "łysy"
-    ],
+    "1F469 200D 1F9B2": ["kobieta: łysy", "głowa", "kobieta", "łysy"],
     "1F469 1F3FB 200D 1F9B2": [
         "kobieta: karnacja jasna i łysy",
         "głowa",
@@ -9480,12 +7421,7 @@
         "kobieta",
         "łysy"
     ],
-    "1F469 200D 1F393": [
-        "studentka",
-        "kobieta",
-        "osoba",
-        "szkoła"
-    ],
+    "1F469 200D 1F393": ["studentka", "kobieta", "osoba", "szkoła"],
     "1F469 1F3FB 200D 1F393": [
         "studentka: karnacja jasna",
         "karnacja jasna",
@@ -14399,12 +12335,7 @@
         "starsza",
         "staruszka"
     ],
-    "1F476": [
-        "niemowlę",
-        "bobas",
-        "dziecko",
-        "głowa"
-    ],
+    "1F476": ["niemowlę", "bobas", "dziecko", "głowa"],
     "1F476 1F3FB": [
         "niemowlę: karnacja jasna",
         "bobas",
@@ -14509,14 +12440,7 @@
         "w kasku",
         "zawód"
     ],
-    "1F478": [
-        "księżniczka",
-        "bajka",
-        "baśń",
-        "głowa",
-        "królewna",
-        "królowa"
-    ],
+    "1F478": ["księżniczka", "bajka", "baśń", "głowa", "królewna", "królowa"],
     "1F478 1F3FB": [
         "księżniczka: karnacja jasna",
         "bajka",
@@ -14567,22 +12491,8 @@
         "królowa",
         "księżniczka"
     ],
-    "1F479": [
-        "ogr",
-        "diabeł",
-        "Japonia",
-        "maska",
-        "potwór",
-        "zły"
-    ],
-    "1F47A": [
-        "goblin",
-        "diabeł",
-        "maska",
-        "potwór",
-        "stwór",
-        "zły"
-    ],
+    "1F479": ["ogr", "diabeł", "Japonia", "maska", "potwór", "zły"],
+    "1F47A": ["goblin", "diabeł", "maska", "potwór", "stwór", "zły"],
     "1F47B": [
         "duch",
         "biały",
@@ -14593,13 +12503,7 @@
         "potwór",
         "wesoły duch"
     ],
-    "1F47C": [
-        "aniołek",
-        "bajka",
-        "buzia aniołka",
-        "fantasy",
-        "głowa"
-    ],
+    "1F47C": ["aniołek", "bajka", "buzia aniołka", "fantasy", "głowa"],
     "1F47C 1F3FB": [
         "aniołek: karnacja jasna",
         "aniołek",
@@ -14756,12 +12660,7 @@
         "ręka",
         "sarkazm"
     ],
-    "1F482": [
-        "gwardzista",
-        "Anglia",
-        "Londyn",
-        "strażnik"
-    ],
+    "1F482": ["gwardzista", "Anglia", "Londyn", "strażnik"],
     "1F482 1F3FB": [
         "gwardzista: karnacja jasna",
         "Anglia",
@@ -14873,13 +12772,7 @@
         "zabawa",
         "zawód"
     ],
-    "1F484": [
-        "szminka",
-        "kosmetyki",
-        "makijaż",
-        "malować usta",
-        "pomadka"
-    ],
+    "1F484": ["szminka", "kosmetyki", "makijaż", "malować usta", "pomadka"],
     "1F485": [
         "lakier do paznokci",
         "ciało",
@@ -15104,10 +12997,7 @@
         "włosów",
         "włosy"
     ],
-    "1F488": [
-        "słup fryzjerski",
-        "fryzjer"
-    ],
+    "1F488": ["słup fryzjerski", "fryzjer"],
     "1F489": [
         "strzykawka",
         "chory",
@@ -15119,19 +13009,8 @@
         "szczepionka",
         "zastrzyk"
     ],
-    "1F48A": [
-        "kapsułka",
-        "lek",
-        "lekarstwo",
-        "pigułka",
-        "tabletka"
-    ],
-    "1F48B": [
-        "ślad po pocałunku",
-        "odcisk ust",
-        "pocałunek",
-        "usta"
-    ],
+    "1F48A": ["kapsułka", "lek", "lekarstwo", "pigułka", "tabletka"],
+    "1F48B": ["ślad po pocałunku", "odcisk ust", "pocałunek", "usta"],
     "1F48C": [
         "list miłosny",
         "kocham",
@@ -15141,12 +13020,7 @@
         "serce",
         "wiadomość"
     ],
-    "1F48D": [
-        "pierścionek",
-        "diament",
-        "miłość",
-        "zaręczyny"
-    ],
+    "1F48D": ["pierścionek", "diament", "miłość", "zaręczyny"],
     "1F48E": [
         "kamień szlachetny",
         "diament",
@@ -15237,13 +13111,7 @@
         "zakochani",
         "związek"
     ],
-    "1F490": [
-        "bukiet kwiatów",
-        "bukiet",
-        "kwiaty",
-        "miłość",
-        "roślina"
-    ],
+    "1F490": ["bukiet kwiatów", "bukiet", "kwiaty", "miłość", "roślina"],
     "1F491": [
         "para z sercem",
         "kocham",
@@ -15338,33 +13206,10 @@
         "zakochani",
         "związek"
     ],
-    "1F492": [
-        "ślub",
-        "kaplica",
-        "kościół",
-        "miłość",
-        "serce",
-        "uroczystość"
-    ],
-    "1F493": [
-        "bijące serce",
-        "kocham",
-        "kocham cię",
-        "miłość",
-        "serce"
-    ],
-    "1F494": [
-        "złamane serce",
-        "kocham",
-        "pęknięte",
-        "serce"
-    ],
-    "1F495": [
-        "dwa serca",
-        "kocham",
-        "miłość",
-        "serca"
-    ],
+    "1F492": ["ślub", "kaplica", "kościół", "miłość", "serce", "uroczystość"],
+    "1F493": ["bijące serce", "kocham", "kocham cię", "miłość", "serce"],
+    "1F494": ["złamane serce", "kocham", "pęknięte", "serce"],
+    "1F495": ["dwa serca", "kocham", "miłość", "serca"],
     "1F496": [
         "migoczące serce",
         "błyszczące serce",
@@ -15391,34 +13236,10 @@
         "serce",
         "serce ze strzałą"
     ],
-    "1F499": [
-        "niebieskie serce",
-        "kocham",
-        "miłość",
-        "niebieskie",
-        "serce"
-    ],
-    "1F49A": [
-        "zielone serce",
-        "kocham",
-        "miłość",
-        "serce",
-        "zielone"
-    ],
-    "1F49B": [
-        "żółte serce",
-        "kocham",
-        "miłość",
-        "serce",
-        "żółte"
-    ],
-    "1F49C": [
-        "purpurowe serce",
-        "fioletowe",
-        "kocham",
-        "miłość",
-        "serce"
-    ],
+    "1F499": ["niebieskie serce", "kocham", "miłość", "niebieskie", "serce"],
+    "1F49A": ["zielone serce", "kocham", "miłość", "serce", "zielone"],
+    "1F49B": ["żółte serce", "kocham", "miłość", "serce", "żółte"],
+    "1F49C": ["purpurowe serce", "fioletowe", "kocham", "miłość", "serce"],
     "1F49D": [
         "serce ze wstążką",
         "kocham",
@@ -15435,33 +13256,10 @@
         "serca dwa",
         "tańczące serca"
     ],
-    "1F49F": [
-        "dekoracja z sercem",
-        "dekoracja",
-        "kocham",
-        "ozdoba",
-        "serce"
-    ],
-    "1F4A0": [
-        "romb z kropką",
-        "diament",
-        "klejnot",
-        "kryształ",
-        "romb"
-    ],
-    "1F4A1": [
-        "żarówka",
-        "idea",
-        "pomysł",
-        "prąd",
-        "światło"
-    ],
-    "1F4A2": [
-        "symbol gniewu",
-        "gniew",
-        "komiks",
-        "złość"
-    ],
+    "1F49F": ["dekoracja z sercem", "dekoracja", "kocham", "ozdoba", "serce"],
+    "1F4A0": ["romb z kropką", "diament", "klejnot", "kryształ", "romb"],
+    "1F4A1": ["żarówka", "idea", "pomysł", "prąd", "światło"],
+    "1F4A2": ["symbol gniewu", "gniew", "komiks", "złość"],
     "1F4A3": [
         "bomba",
         "bum",
@@ -15485,27 +13283,9 @@
         "znudzenie",
         "zzz"
     ],
-    "1F4A5": [
-        "kolizja",
-        "komiks",
-        "wybuch",
-        "zderzenie"
-    ],
-    "1F4A6": [
-        "krople potu",
-        "deszcz",
-        "krople",
-        "pot",
-        "wilgoć",
-        "woda"
-    ],
-    "1F4A7": [
-        "kropla",
-        "kropelka",
-        "łza",
-        "pot",
-        "woda"
-    ],
+    "1F4A5": ["kolizja", "komiks", "wybuch", "zderzenie"],
+    "1F4A6": ["krople potu", "deszcz", "krople", "pot", "wilgoć", "woda"],
+    "1F4A7": ["kropla", "kropelka", "łza", "pot", "woda"],
     "1F4A8": [
         "szybkie poruszanie się",
         "pęd",
@@ -15626,32 +13406,10 @@
         "orbita",
         "spadająca gwiazda"
     ],
-    "1F4AC": [
-        "dymek",
-        "dialog",
-        "rozmowa"
-    ],
-    "1F4AD": [
-        "dymek myśli",
-        "chmurka",
-        "dymek",
-        "myśl",
-        "myśleć"
-    ],
-    "1F4AE": [
-        "biały kwiat",
-        "kontury",
-        "kwiatek",
-        "pieczątka"
-    ],
-    "1F4AF": [
-        "sto punktów",
-        "100",
-        "setka",
-        "sto",
-        "stówa",
-        "stówka"
-    ],
+    "1F4AC": ["dymek", "dialog", "rozmowa"],
+    "1F4AD": ["dymek myśli", "chmurka", "dymek", "myśl", "myśleć"],
+    "1F4AE": ["biały kwiat", "kontury", "kwiatek", "pieczątka"],
+    "1F4AF": ["sto punktów", "100", "setka", "sto", "stówa", "stówka"],
     "1F4B0": [
         "worek z pieniędzmi",
         "bogaty",
@@ -15662,13 +13420,7 @@
         "worek",
         "z pieniędzmi"
     ],
-    "1F4B1": [
-        "wymiana walut",
-        "kantor",
-        "waluta",
-        "wymiana",
-        "wymiana waluty"
-    ],
+    "1F4B1": ["wymiana walut", "kantor", "waluta", "wymiana", "wymiana waluty"],
     "1F4B2": [
         "gruby symbol dolara",
         "dolar",
@@ -15677,13 +13429,7 @@
         "usd",
         "waluta"
     ],
-    "1F4B3": [
-        "karta kredytowa",
-        "bank",
-        "karta",
-        "kredyt",
-        "pieniądze"
-    ],
+    "1F4B3": ["karta kredytowa", "bank", "karta", "kredyt", "pieniądze"],
     "1F4B4": [
         "banknot jena",
         "bank",
@@ -15748,25 +13494,9 @@
         "wykres",
         "wzrost"
     ],
-    "1F4BA": [
-        "fotel",
-        "krzesło",
-        "samolot",
-        "siedzenie"
-    ],
-    "1F4BB": [
-        "laptop",
-        "komputer",
-        "notebook",
-        "osobisty",
-        "wyświetlacz"
-    ],
-    "1F4BC": [
-        "teczka",
-        "aktówka",
-        "biuro",
-        "neseser"
-    ],
+    "1F4BA": ["fotel", "krzesło", "samolot", "siedzenie"],
+    "1F4BB": ["laptop", "komputer", "notebook", "osobisty", "wyświetlacz"],
+    "1F4BC": ["teczka", "aktówka", "biuro", "neseser"],
     "1F4BD": [
         "dysk komputerowy",
         "dysk",
@@ -15776,11 +13506,7 @@
         "minidysk",
         "płyta"
     ],
-    "1F4BE": [
-        "dyskietka",
-        "dysk",
-        "komputer"
-    ],
+    "1F4BE": ["dyskietka", "dysk", "komputer"],
     "1F4BF": [
         "dysk optyczny",
         "Blu-ray",
@@ -15799,12 +13525,7 @@
         "komputer",
         "płyta"
     ],
-    "1F4C1": [
-        "folder",
-        "dokumenty",
-        "katalog",
-        "teczka"
-    ],
+    "1F4C1": ["folder", "dokumenty", "katalog", "teczka"],
     "1F4C2": [
         "otwarty folder",
         "dokumenty",
@@ -15821,17 +13542,8 @@
         "strona",
         "zawinięta"
     ],
-    "1F4C4": [
-        "strona",
-        "dokument",
-        "kartka",
-        "maszynopis",
-        "pismo"
-    ],
-    "1F4C5": [
-        "kalendarz",
-        "data"
-    ],
+    "1F4C4": ["strona", "dokument", "kartka", "maszynopis", "pismo"],
+    "1F4C5": ["kalendarz", "data"],
     "1F4C6": [
         "kalendarz z wyrywanymi kartkami",
         "data",
@@ -15840,11 +13552,7 @@
         "z wyrywanymi kartkami",
         "zdzierany"
     ],
-    "1F4C7": [
-        "wizytownik",
-        "wizytówka",
-        "wizytówki"
-    ],
+    "1F4C7": ["wizytownik", "wizytówka", "wizytówki"],
     "1F4C8": [
         "wykres wzrostu",
         "akcje",
@@ -15876,13 +13584,7 @@
         "zniżkowa",
         "zniżkowy"
     ],
-    "1F4CA": [
-        "wykres słupkowy",
-        "diagram",
-        "słupek",
-        "słupkowy",
-        "wykres"
-    ],
+    "1F4CA": ["wykres słupkowy", "diagram", "słupek", "słupkowy", "wykres"],
     "1F4CB": [
         "podkładka do pisania",
         "do pisania",
@@ -15893,10 +13595,7 @@
         "podkładka",
         "referat"
     ],
-    "1F4CC": [
-        "pinezka",
-        "przypiąć"
-    ],
+    "1F4CC": ["pinezka", "przypiąć"],
     "1F4CD": [
         "okrągła pinezka",
         "miejsce",
@@ -15905,26 +13604,9 @@
         "szpilka",
         "z główką"
     ],
-    "1F4CE": [
-        "spinacz",
-        "biuro",
-        "do papieru",
-        "druciany",
-        "spinać"
-    ],
-    "1F4CF": [
-        "linijka",
-        "krawędź",
-        "linia",
-        "prosta"
-    ],
-    "1F4D0": [
-        "ekierka",
-        "linia",
-        "linijka",
-        "prosta",
-        "trójkąt"
-    ],
+    "1F4CE": ["spinacz", "biuro", "do papieru", "druciany", "spinać"],
+    "1F4CF": ["linijka", "krawędź", "linia", "prosta"],
+    "1F4D0": ["ekierka", "linia", "linijka", "prosta", "trójkąt"],
     "1F4D1": [
         "karty zakładek",
         "dokument",
@@ -15937,19 +13619,8 @@
         "zakładka",
         "zakładki"
     ],
-    "1F4D2": [
-        "skoroszyt",
-        "notatki",
-        "notatnik",
-        "zeszyt",
-        "żółty"
-    ],
-    "1F4D3": [
-        "notes",
-        "notatnik",
-        "szary",
-        "zeszyt"
-    ],
+    "1F4D2": ["skoroszyt", "notatki", "notatnik", "zeszyt", "żółty"],
+    "1F4D3": ["notes", "notatnik", "szary", "zeszyt"],
     "1F4D4": [
         "notes z dekoracyjną okładką",
         "książka",
@@ -15958,11 +13629,7 @@
         "okładka",
         "ozdobna"
     ],
-    "1F4D5": [
-        "zamknięta książka",
-        "książka",
-        "zamknięta"
-    ],
+    "1F4D5": ["zamknięta książka", "książka", "zamknięta"],
     "1F4D6": [
         "otwarta książka",
         "czytać",
@@ -15971,13 +13638,7 @@
         "otwarta",
         "uczyć się"
     ],
-    "1F4D7": [
-        "zielona książka",
-        "biblioteka",
-        "czytać",
-        "książka",
-        "zielona"
-    ],
+    "1F4D7": ["zielona książka", "biblioteka", "czytać", "książka", "zielona"],
     "1F4D8": [
         "niebieska książka",
         "biblioteka",
@@ -15992,24 +13653,9 @@
         "książka",
         "pomarańczowa"
     ],
-    "1F4DA": [
-        "książki",
-        "biblioteka",
-        "czytać",
-        "książka",
-        "nauka"
-    ],
-    "1F4DB": [
-        "plakietka",
-        "z imieniem"
-    ],
-    "1F4DC": [
-        "zwój",
-        "edykt",
-        "papier",
-        "pergamin",
-        "pismo"
-    ],
+    "1F4DA": ["książki", "biblioteka", "czytać", "książka", "nauka"],
+    "1F4DB": ["plakietka", "z imieniem"],
+    "1F4DC": ["zwój", "edykt", "papier", "pergamin", "pismo"],
     "1F4DD": [
         "notatka",
         "kartka",
@@ -16026,13 +13672,8 @@
         "telefon",
         "telefoniczna"
     ],
-    "1F4DF": [
-        "pager"
-    ],
-    "1F4E0": [
-        "faks",
-        "biuro"
-    ],
+    "1F4DF": ["pager"],
+    "1F4E0": ["faks", "biuro"],
     "1F4E1": [
         "antena satelitarna",
         "antena",
@@ -16050,10 +13691,7 @@
         "komunikaty publiczne",
         "tuba głośnikowa"
     ],
-    "1F4E3": [
-        "megafon",
-        "kibicować"
-    ],
+    "1F4E3": ["megafon", "kibicować"],
     "1F4E4": [
         "skrzynka nadawcza",
         "e-mail",
@@ -16082,19 +13720,8 @@
         "skrzynka",
         "ze strzałką"
     ],
-    "1F4E6": [
-        "paczka",
-        "pakunek",
-        "przesyłka",
-        "pudełko"
-    ],
-    "1F4E7": [
-        "e-mail",
-        "email",
-        "list",
-        "mail",
-        "poczta elektroniczna"
-    ],
+    "1F4E6": ["paczka", "pakunek", "przesyłka", "pudełko"],
+    "1F4E7": ["e-mail", "email", "list", "mail", "poczta elektroniczna"],
     "1F4E8": [
         "koperta przychodząca",
         "e-mail",
@@ -16155,13 +13782,7 @@
         "skrzynka",
         "z opuszczoną flagą"
     ],
-    "1F4EE": [
-        "skrzynka na listy",
-        "listy",
-        "na listy",
-        "pocztowa",
-        "skrzynka"
-    ],
+    "1F4EE": ["skrzynka na listy", "listy", "na listy", "pocztowa", "skrzynka"],
     "1F4EF": [
         "trąbka pocztowa",
         "poczta",
@@ -16170,17 +13791,8 @@
         "róg",
         "trąbka"
     ],
-    "1F4F0": [
-        "gazeta",
-        "wiadomości"
-    ],
-    "1F4F1": [
-        "telefon komórkowy",
-        "komóra",
-        "komórka",
-        "smartfon",
-        "telefon"
-    ],
+    "1F4F0": ["gazeta", "wiadomości"],
+    "1F4F1": ["telefon komórkowy", "komóra", "komórka", "smartfon", "telefon"],
     "1F4F2": [
         "telefon komórkowy ze strzałką",
         "dzwonić",
@@ -16216,11 +13828,7 @@
         "zabroniony",
         "zakaz"
     ],
-    "1F4F6": [
-        "siła sygnału",
-        "sieć komórkowa",
-        "zasięg"
-    ],
+    "1F4F6": ["siła sygnału", "sieć komórkowa", "zasięg"],
     "1F4F7": [
         "aparat fotograficzny",
         "aparat",
@@ -16241,12 +13849,7 @@
         "z lampą",
         "zdjęcie"
     ],
-    "1F4F9": [
-        "kamera wideo",
-        "kamera",
-        "nagrywać",
-        "wideo"
-    ],
+    "1F4F9": ["kamera wideo", "kamera", "nagrywać", "wideo"],
     "1F4FA": [
         "telewizja",
         "kineskop",
@@ -16256,17 +13859,8 @@
         "telewizor",
         "z anteną"
     ],
-    "1F4FB": [
-        "radio",
-        "odbiornik",
-        "radioodbiornik",
-        "radiowy"
-    ],
-    "1F4FC": [
-        "kaseta wideo",
-        "taśma",
-        "VHS"
-    ],
+    "1F4FB": ["radio", "odbiornik", "radioodbiornik", "radiowy"],
+    "1F4FC": ["kaseta wideo", "taśma", "VHS"],
     "1F4FF": [
         "sznur modlitewny",
         "korale",
@@ -16374,12 +13968,7 @@
         "głośność",
         "wysoka głośność"
     ],
-    "1F50B": [
-        "bateria",
-        "akumulator",
-        "akumulatorek",
-        "energia"
-    ],
+    "1F50B": ["bateria", "akumulator", "akumulatorek", "energia"],
     "1F50C": [
         "wtyczka elektryczna",
         "elektryczna",
@@ -16425,12 +14014,7 @@
         "zamknięcie",
         "zamknięta"
     ],
-    "1F511": [
-        "klucz",
-        "hasło",
-        "zamek",
-        "zamknąć"
-    ],
+    "1F511": ["klucz", "hasło", "zamek", "zamknąć"],
     "1F512": [
         "zamknięta kłódka",
         "kłódka",
@@ -16438,16 +14022,8 @@
         "zamknięta",
         "zamknięte"
     ],
-    "1F513": [
-        "otwarta kłódka",
-        "kłódka",
-        "odblokować",
-        "otwarta"
-    ],
-    "1F514": [
-        "dzwonek",
-        "dzwon"
-    ],
+    "1F513": ["otwarta kłódka", "kłódka", "odblokować", "otwarta"],
+    "1F514": ["dzwonek", "dzwon"],
     "1F515": [
         "przekreślony dzwonek",
         "cicho",
@@ -16457,17 +14033,8 @@
         "zabroniony",
         "zakazany"
     ],
-    "1F516": [
-        "zakładka",
-        "zaznaczenie"
-    ],
-    "1F517": [
-        "ogniwa",
-        "hiperłącze",
-        "link",
-        "ogniwo",
-        "połączenie"
-    ],
+    "1F516": ["zakładka", "zaznaczenie"],
+    "1F517": ["ogniwa", "hiperłącze", "link", "ogniwo", "połączenie"],
     "1F518": [
         "przycisk radiowy",
         "figura geometryczna",
@@ -16475,33 +14042,16 @@
         "przycisk",
         "przycisk wyboru opcji"
     ],
-    "1F519": [
-        "strzałka z napisem BACK",
-        "strzałka",
-        "wstecz"
-    ],
-    "1F51A": [
-        "strzałka z napisem END",
-        "koniec",
-        "strzałka"
-    ],
+    "1F519": ["strzałka z napisem BACK", "strzałka", "wstecz"],
+    "1F51A": ["strzałka z napisem END", "koniec", "strzałka"],
     "1F51B": [
         "strzałka z napisem ON!",
         "strzałka",
         "strzałka w obie strony",
         "włączone"
     ],
-    "1F51C": [
-        "strzałka z napisem SOON",
-        "strzałka",
-        "wkrótce"
-    ],
-    "1F51D": [
-        "strzałka z napisem TOP",
-        "góra",
-        "strzałka",
-        "w górę"
-    ],
+    "1F51C": ["strzałka z napisem SOON", "strzałka", "wkrótce"],
+    "1F51D": ["strzałka z napisem TOP", "góra", "strzałka", "w górę"],
     "1F51E": [
         "zakaz poniżej osiemnastego roku życia",
         "18",
@@ -16517,10 +14067,7 @@
         "zabronione",
         "zakaz"
     ],
-    "1F51F": [
-        "klawisz: 10",
-        "klawisz"
-    ],
+    "1F51F": ["klawisz: 10", "klawisz"],
     "1F520": [
         "wielkie litery (alfabet łaciński)",
         "abcd",
@@ -16545,19 +14092,8 @@
         "pisać",
         "wprowadzać"
     ],
-    "1F522": [
-        "cyfry",
-        "1234",
-        "kalkulator",
-        "liczby",
-        "wprowadzać"
-    ],
-    "1F523": [
-        "symbole",
-        "pisać",
-        "wprowadzać",
-        "znaki"
-    ],
+    "1F522": ["cyfry", "1234", "kalkulator", "liczby", "wprowadzać"],
+    "1F523": ["symbole", "pisać", "wprowadzać", "znaki"],
     "1F524": [
         "litery (alfabet łaciński)",
         "abc",
@@ -16569,17 +14105,8 @@
         "pierwsze litery",
         "wprowadzać"
     ],
-    "1F525": [
-        "ogień",
-        "płomień",
-        "pożar"
-    ],
-    "1F526": [
-        "latarka",
-        "elektryczna",
-        "lampka",
-        "światło"
-    ],
+    "1F525": ["ogień", "płomień", "pożar"],
+    "1F526": ["latarka", "elektryczna", "lampka", "światło"],
     "1F527": [
         "klucz warsztatowy",
         "klucz",
@@ -16588,13 +14115,7 @@
         "narzędzie",
         "warsztat"
     ],
-    "1F528": [
-        "młotek",
-        "młot",
-        "naprawa",
-        "narzędzia",
-        "narzędzie"
-    ],
+    "1F528": ["młotek", "młot", "naprawa", "narzędzia", "narzędzie"],
     "1F529": [
         "śruba i nakrętka",
         "gwint",
@@ -16612,13 +14133,7 @@
         "narzędzie",
         "nóż"
     ],
-    "1F52B": [
-        "pistolet na wodę",
-        "broń",
-        "broń palna",
-        "pistolet",
-        "rewolwer"
-    ],
+    "1F52B": ["pistolet na wodę", "broń", "broń palna", "pistolet", "rewolwer"],
     "1F52C": [
         "mikroskop",
         "laboratorium",
@@ -16626,12 +14141,7 @@
         "obserwacja",
         "powiększenie"
     ],
-    "1F52D": [
-        "teleskop",
-        "luneta",
-        "obserwacja",
-        "powiększenie"
-    ],
+    "1F52D": ["teleskop", "luneta", "obserwacja", "powiększenie"],
     "1F52E": [
         "kryształowa kula",
         "fortuna",
@@ -16751,40 +14261,11 @@
         "w dół",
         "wierzchołkiem"
     ],
-    "1F53C": [
-        "przycisk „w górę”",
-        "do góry",
-        "strzałka",
-        "trójkąt",
-        "w górę"
-    ],
-    "1F53D": [
-        "przycisk „w dół”",
-        "na dół",
-        "strzałka",
-        "trójkąt",
-        "w dół"
-    ],
-    "1F54B": [
-        "kaaba",
-        "islam",
-        "muzułmanin",
-        "religia"
-    ],
-    "1F54C": [
-        "meczet",
-        "islam",
-        "muzułmanin",
-        "religia",
-        "świątynia"
-    ],
-    "1F54D": [
-        "synagoga",
-        "religia",
-        "świątynia",
-        "żyd",
-        "żydowski"
-    ],
+    "1F53C": ["przycisk „w górę”", "do góry", "strzałka", "trójkąt", "w górę"],
+    "1F53D": ["przycisk „w dół”", "na dół", "strzałka", "trójkąt", "w dół"],
+    "1F54B": ["kaaba", "islam", "muzułmanin", "religia"],
+    "1F54C": ["meczet", "islam", "muzułmanin", "religia", "świątynia"],
+    "1F54D": ["synagoga", "religia", "świątynia", "żyd", "żydowski"],
     "1F54E": [
         "menora",
         "Chanuka",
@@ -17117,14 +14598,7 @@
         "lewitujący mężczyzna w garniturze",
         "mężczyzna"
     ],
-    "1F575": [
-        "detektyw",
-        "mężczyzna",
-        "praca",
-        "śledczy",
-        "szpieg",
-        "zawód"
-    ],
+    "1F575": ["detektyw", "mężczyzna", "praca", "śledczy", "szpieg", "zawód"],
     "1F575 1F3FB": [
         "detektyw: karnacja jasna",
         "detektyw",
@@ -17322,13 +14796,7 @@
         "rozpostarte palce",
         "uniesiona otwarta dłoń"
     ],
-    "1F595": [
-        "środkowy palec",
-        "gest",
-        "palec",
-        "ręka",
-        "wulgarny gest"
-    ],
+    "1F595": ["środkowy palec", "gest", "palec", "ręka", "wulgarny gest"],
     "1F595 1F3FB": [
         "środkowy palec: karnacja jasna",
         "gest",
@@ -17457,26 +14925,9 @@
         "wolkańskie",
         "żyj długo i pomyślnie"
     ],
-    "1F5A4": [
-        "czarne serce",
-        "czarny",
-        "kocham",
-        "miłość",
-        "serce",
-        "zło"
-    ],
-    "1F5FB": [
-        "góra Fudżi",
-        "Fudżi",
-        "góra",
-        "natura"
-    ],
-    "1F5FC": [
-        "Tokyo Tower",
-        "tokio",
-        "tokyo",
-        "wieża"
-    ],
+    "1F5A4": ["czarne serce", "czarny", "kocham", "miłość", "serce", "zło"],
+    "1F5FB": ["góra Fudżi", "Fudżi", "góra", "natura"],
+    "1F5FC": ["Tokyo Tower", "tokio", "tokyo", "wieża"],
     "1F5FD": [
         "Statua Wolności",
         "Stany Zjednoczone",
@@ -17484,18 +14935,8 @@
         "USA",
         "wolności"
     ],
-    "1F5FE": [
-        "mapa Japonii",
-        "japonia",
-        "mapa"
-    ],
-    "1F5FF": [
-        "moai",
-        "głowa",
-        "posąg",
-        "twarz",
-        "wyspa wielkanocna"
-    ],
+    "1F5FE": ["mapa Japonii", "japonia", "mapa"],
+    "1F5FF": ["moai", "głowa", "posąg", "twarz", "wyspa wielkanocna"],
     "1F600": [
         "szeroko uśmiechnięta twarz",
         "haha",
@@ -17895,12 +15336,7 @@
         "zdziwienie",
         "złość"
     ],
-    "1F628": [
-        "przestraszona twarz",
-        "buźka",
-        "strach",
-        "wystraszona buźka"
-    ],
+    "1F628": ["przestraszona twarz", "buźka", "strach", "wystraszona buźka"],
     "1F629": [
         "znużona twarz",
         "buźka",
@@ -17909,14 +15345,7 @@
         "zmęczenie",
         "zmęczona buźka"
     ],
-    "1F62A": [
-        "senna twarz",
-        "buźka",
-        "sen",
-        "senność",
-        "spać",
-        "śpiąca buźka"
-    ],
+    "1F62A": ["senna twarz", "buźka", "sen", "senność", "spać", "śpiąca buźka"],
     "1F62B": [
         "zmęczona twarz",
         "buźka",
@@ -18849,13 +16278,7 @@
         "obrażona",
         "osoba"
     ],
-    "1F64F": [
-        "złożone ręce",
-        "dziękuję",
-        "modlitwa",
-        "prosić",
-        "ręka"
-    ],
+    "1F64F": ["złożone ręce", "dziękuję", "modlitwa", "prosić", "ręka"],
     "1F64F 1F3FB": [
         "złożone ręce: karnacja jasna",
         "dziękuję",
@@ -18901,18 +16324,8 @@
         "ręka",
         "złożone ręce"
     ],
-    "1F680": [
-        "rakieta",
-        "kosmiczny",
-        "kosmos",
-        "pojazd",
-        "statek"
-    ],
-    "1F681": [
-        "helikopter",
-        "pojazd",
-        "śmigłowiec"
-    ],
+    "1F680": ["rakieta", "kosmiczny", "kosmos", "pojazd", "statek"],
+    "1F681": ["helikopter", "pojazd", "śmigłowiec"],
     "1F682": [
         "lokomotywa",
         "ciuchcia",
@@ -18952,19 +16365,8 @@
         "szybki",
         "szynowy"
     ],
-    "1F686": [
-        "pociąg",
-        "kolej",
-        "podróż",
-        "pojazd"
-    ],
-    "1F687": [
-        "metro",
-        "kolejka",
-        "pociąg",
-        "pojazd",
-        "tunel"
-    ],
+    "1F686": ["pociąg", "kolej", "podróż", "pojazd"],
+    "1F687": ["metro", "kolejka", "pociąg", "pojazd", "tunel"],
     "1F688": [
         "kolej miejska",
         "kolej",
@@ -18985,13 +16387,7 @@
         "podróż",
         "pojazd"
     ],
-    "1F68A": [
-        "tramwaj",
-        "pociąg",
-        "pojazd",
-        "szynowy",
-        "trolejbus"
-    ],
+    "1F68A": ["tramwaj", "pociąg", "pojazd", "szynowy", "trolejbus"],
     "1F68B": [
         "wagon tramwajowy",
         "pojazd",
@@ -19001,11 +16397,7 @@
         "trolejbus",
         "wagon"
     ],
-    "1F68C": [
-        "autobus",
-        "autokar",
-        "pojazd"
-    ],
+    "1F68C": ["autobus", "autokar", "pojazd"],
     "1F68D": [
         "nadjeżdżający autobus",
         "autobus",
@@ -19015,24 +16407,9 @@
         "przód",
         "samochód"
     ],
-    "1F68E": [
-        "trolejbus",
-        "autobus",
-        "elektryczny",
-        "pojazd"
-    ],
-    "1F68F": [
-        "przystanek autobusowy",
-        "przystanek"
-    ],
-    "1F690": [
-        "minibus",
-        "auto",
-        "bus",
-        "busik",
-        "pojazd",
-        "samochód"
-    ],
+    "1F68E": ["trolejbus", "autobus", "elektryczny", "pojazd"],
+    "1F68F": ["przystanek autobusowy", "przystanek"],
+    "1F690": ["minibus", "auto", "bus", "busik", "pojazd", "samochód"],
     "1F691": [
         "karetka pogotowia",
         "ambulans",
@@ -19093,11 +16470,7 @@
         "żółta",
         "żółty"
     ],
-    "1F697": [
-        "samochód",
-        "auto",
-        "pojazd"
-    ],
+    "1F697": ["samochód", "auto", "pojazd"],
     "1F698": [
         "nadjeżdżający samochód",
         "auto",
@@ -19133,13 +16506,7 @@
         "samochód",
         "tir"
     ],
-    "1F69C": [
-        "ciągnik",
-        "pojazd",
-        "rolniczy",
-        "rolnik",
-        "traktor"
-    ],
+    "1F69C": ["ciągnik", "pojazd", "rolniczy", "rolnik", "traktor"],
     "1F69D": [
         "kolej jednoszynowa",
         "jednoszynowa",
@@ -19157,13 +16524,7 @@
         "pojazd",
         "wagon"
     ],
-    "1F69F": [
-        "kolej podwieszana",
-        "kolej",
-        "pociąg",
-        "podwieszana",
-        "pojazd"
-    ],
+    "1F69F": ["kolej podwieszana", "kolej", "pociąg", "podwieszana", "pojazd"],
     "1F6A0": [
         "górska kolej linowa",
         "gondola",
@@ -19187,12 +16548,7 @@
         "podwieszana",
         "wagonik"
     ],
-    "1F6A2": [
-        "statek",
-        "łódka",
-        "łódź",
-        "pasażerski"
-    ],
+    "1F6A2": ["statek", "łódka", "łódź", "pasażerski"],
     "1F6A3": [
         "osoba wiosłująca w łodzi",
         "łódka",
@@ -19284,11 +16640,7 @@
         "sygnalizacja",
         "uliczna"
     ],
-    "1F6A7": [
-        "prace drogowe",
-        "bariera",
-        "znak drogowy"
-    ],
+    "1F6A7": ["prace drogowe", "bariera", "znak drogowy"],
     "1F6A8": [
         "kogut policyjny",
         "kogut",
@@ -19305,24 +16657,9 @@
         "słupek",
         "trójkątna chorągiewka"
     ],
-    "1F6AA": [
-        "drzwi"
-    ],
-    "1F6AB": [
-        "zakaz",
-        "brak przejścia",
-        "wejście",
-        "zabronione",
-        "znak"
-    ],
-    "1F6AC": [
-        "papieros",
-        "dla palących",
-        "dym",
-        "dymek",
-        "palacz",
-        "palić"
-    ],
+    "1F6AA": ["drzwi"],
+    "1F6AB": ["zakaz", "brak przejścia", "wejście", "zabronione", "znak"],
+    "1F6AC": ["papieros", "dla palących", "dym", "dymek", "palacz", "palić"],
     "1F6AD": [
         "zakaz palenia",
         "nie wolno",
@@ -19348,14 +16685,7 @@
         "zabronione",
         "zakaz"
     ],
-    "1F6B0": [
-        "woda pitna",
-        "kran",
-        "pić",
-        "pitna",
-        "szklanka",
-        "woda"
-    ],
+    "1F6B0": ["woda pitna", "kran", "pić", "pitna", "szklanka", "woda"],
     "1F6B1": [
         "woda niezdatna do picia",
         "nie pić",
@@ -19365,11 +16695,7 @@
         "zabronione",
         "zakaz"
     ],
-    "1F6B2": [
-        "rower",
-        "pojazd",
-        "rowerek"
-    ],
+    "1F6B2": ["rower", "pojazd", "rowerek"],
     "1F6B3": [
         "zakaz wjazdu rowerów",
         "nie wolno",
@@ -19657,14 +16983,7 @@
         "ustęp",
         "WC"
     ],
-    "1F6BB": [
-        "toalety",
-        "łazienka",
-        "szalet",
-        "toaleta",
-        "ubikacja",
-        "WC"
-    ],
+    "1F6BB": ["toalety", "łazienka", "szalet", "toaleta", "ubikacja", "WC"],
     "1F6BC": [
         "symbol niemowlęcia",
         "dziecko",
@@ -19674,25 +16993,9 @@
         "symbol",
         "znak"
     ],
-    "1F6BD": [
-        "muszla klozetowa",
-        "dolnopłuk",
-        "sedes",
-        "toaleta",
-        "ubikacja"
-    ],
-    "1F6BE": [
-        "WC",
-        "szalet",
-        "toaleta",
-        "ubikacja",
-        "ustęp"
-    ],
-    "1F6BF": [
-        "prysznic",
-        "łazienka",
-        "woda"
-    ],
+    "1F6BD": ["muszla klozetowa", "dolnopłuk", "sedes", "toaleta", "ubikacja"],
+    "1F6BE": ["WC", "szalet", "toaleta", "ubikacja", "ustęp"],
+    "1F6BF": ["prysznic", "łazienka", "woda"],
     "1F6C0": [
         "osoba biorąca kąpiel",
         "biorąca kąpiel",
@@ -19746,10 +17049,7 @@
         "w wannie",
         "wanna"
     ],
-    "1F6C1": [
-        "wanna",
-        "kąpiel"
-    ],
+    "1F6C1": ["wanna", "kąpiel"],
     "1F6C2": [
         "kontrola paszportowa",
         "granica",
@@ -19764,13 +17064,7 @@
         "kontrola",
         "lotnisko"
     ],
-    "1F6C4": [
-        "odbiór bagażu",
-        "bagaż",
-        "bagażu",
-        "lotnisko",
-        "odbiór"
-    ],
+    "1F6C4": ["odbiór bagażu", "bagaż", "bagażu", "lotnisko", "odbiór"],
     "1F6C5": [
         "przechowalnia bagażu",
         "bagaż",
@@ -19892,24 +17186,9 @@
         "religia",
         "świątynia"
     ],
-    "1F6D1": [
-        "znak stopu",
-        "stop",
-        "znak",
-        "znak drogowy"
-    ],
-    "1F6D2": [
-        "wózek sklepowy",
-        "koszyk",
-        "sklep",
-        "wózek",
-        "zakupy"
-    ],
-    "1F6D5": [
-        "świątynia hinduistyczna",
-        "hinduizm",
-        "świątynia"
-    ],
+    "1F6D1": ["znak stopu", "stop", "znak", "znak drogowy"],
+    "1F6D2": ["wózek sklepowy", "koszyk", "sklep", "wózek", "zakupy"],
+    "1F6D5": ["świątynia hinduistyczna", "hinduizm", "świątynia"],
     "1F6D6": [
         "chata",
         "chatka",
@@ -19960,13 +17239,7 @@
         "wesołe miasteczko",
         "zabawa"
     ],
-    "1F6DE": [
-        "koło pojazdu",
-        "koło",
-        "kręcić",
-        "opona",
-        "samochód"
-    ],
+    "1F6DE": ["koło pojazdu", "koło", "kręcić", "opona", "samochód"],
     "1F6DF": [
         "koło ratunkowe",
         "bezpieczeństwo",
@@ -19994,31 +17267,10 @@
         "samolot",
         "samolotu"
     ],
-    "1F6F4": [
-        "hulajnoga",
-        "pojazd"
-    ],
-    "1F6F5": [
-        "skuter",
-        "motor",
-        "pojazd"
-    ],
-    "1F6F6": [
-        "kajak",
-        "biwak",
-        "jezioro",
-        "łódka",
-        "łódź",
-        "wakacje"
-    ],
-    "1F6F7": [
-        "sanie",
-        "sanki",
-        "śnieg",
-        "sport",
-        "zabawa",
-        "zima"
-    ],
+    "1F6F4": ["hulajnoga", "pojazd"],
+    "1F6F5": ["skuter", "motor", "pojazd"],
+    "1F6F6": ["kajak", "biwak", "jezioro", "łódka", "łódź", "wakacje"],
+    "1F6F7": ["sanie", "sanki", "śnieg", "sport", "zabawa", "zima"],
     "1F6F8": [
         "latający talerz",
         "fantastyka",
@@ -20031,18 +17283,8 @@
         "talerz",
         "ufo"
     ],
-    "1F6F9": [
-        "deskorolka",
-        "deska",
-        "kółka",
-        "skate",
-        "skateboard",
-        "skater"
-    ],
-    "1F6FA": [
-        "autoriksza",
-        "tuk-tuk"
-    ],
+    "1F6F9": ["deskorolka", "deska", "kółka", "skate", "skateboard", "skater"],
+    "1F6FA": ["autoriksza", "tuk-tuk"],
     "1F6FB": [
         "pick-up",
         "auto",
@@ -20062,78 +17304,18 @@
         "wrotkarstwo",
         "wrotki"
     ],
-    "1F7E0": [
-        "pomarańczowe koło",
-        "kółko",
-        "koło",
-        "pomarańczowe"
-    ],
-    "1F7E1": [
-        "żółte koło",
-        "kółko",
-        "koło",
-        "żółte"
-    ],
-    "1F7E2": [
-        "zielone koło",
-        "kółko",
-        "koło",
-        "zielone"
-    ],
-    "1F7E3": [
-        "fioletowe koło",
-        "fioletowe",
-        "kółko",
-        "koło"
-    ],
-    "1F7E4": [
-        "brązowe koło",
-        "brązowe",
-        "kółko",
-        "koło"
-    ],
-    "1F7E5": [
-        "czerwony kwadrat",
-        "czerwony",
-        "kwadrat",
-        "kwadratowy"
-    ],
-    "1F7E6": [
-        "niebieski kwadrat",
-        "kwadrat",
-        "kwadratowy",
-        "niebieski"
-    ],
-    "1F7E7": [
-        "pomarańczowy kwadrat",
-        "kwadrat",
-        "kwadratowy",
-        "pomarańczowy"
-    ],
-    "1F7E8": [
-        "żółty kwadrat",
-        "kwadrat",
-        "kwadratowy",
-        "żółty"
-    ],
-    "1F7E9": [
-        "zielony kwadrat",
-        "kwadrat",
-        "kwadratowy",
-        "zielony"
-    ],
-    "1F7EA": [
-        "fioletowy kwadrat",
-        "fioletowy",
-        "kwadrat",
-        "kwadratowy"
-    ],
-    "1F7EB": [
-        "brązowy kwadrat",
-        "brązowy",
-        "kwadrat",
-        "kwadratowy"
-    ],
+    "1F7E0": ["pomarańczowe koło", "kółko", "koło", "pomarańczowe"],
+    "1F7E1": ["żółte koło", "kółko", "koło", "żółte"],
+    "1F7E2": ["zielone koło", "kółko", "koło", "zielone"],
+    "1F7E3": ["fioletowe koło", "fioletowe", "kółko", "koło"],
+    "1F7E4": ["brązowe koło", "brązowe", "kółko", "koło"],
+    "1F7E5": ["czerwony kwadrat", "czerwony", "kwadrat", "kwadratowy"],
+    "1F7E6": ["niebieski kwadrat", "kwadrat", "kwadratowy", "niebieski"],
+    "1F7E7": ["pomarańczowy kwadrat", "kwadrat", "kwadratowy", "pomarańczowy"],
+    "1F7E8": ["żółty kwadrat", "kwadrat", "kwadratowy", "żółty"],
+    "1F7E9": ["zielony kwadrat", "kwadrat", "kwadratowy", "zielony"],
+    "1F7EA": ["fioletowy kwadrat", "fioletowy", "kwadrat", "kwadratowy"],
+    "1F7EB": ["brązowy kwadrat", "brązowy", "kwadrat", "kwadratowy"],
     "1F7F0": [
         "gruby znak równości",
         "matematyka",
@@ -20217,16 +17399,8 @@
         "włochy",
         "złączone palce"
     ],
-    "1F90D": [
-        "białe serce",
-        "białe",
-        "serce"
-    ],
-    "1F90E": [
-        "brązowe serce",
-        "brązowe",
-        "serce"
-    ],
+    "1F90D": ["białe serce", "białe", "serce"],
+    "1F90E": ["brązowe serce", "brązowe", "serce"],
     "1F90F": [
         "dłoń z gestem „trochę”",
         "ciut",
@@ -20348,13 +17522,7 @@
         "skaleczenie",
         "smutny"
     ],
-    "1F916": [
-        "głowa robota",
-        "monstrum",
-        "potwór",
-        "robot",
-        "twarz"
-    ],
+    "1F916": ["głowa robota", "monstrum", "potwór", "robot", "twarz"],
     "1F917": [
         "twarz z gestem przytulania",
         "buźka",
@@ -20919,12 +18087,7 @@
         "kowbojka",
         "wesoły"
     ],
-    "1F921": [
-        "twarz klauna",
-        "buźka",
-        "cyrk",
-        "klown"
-    ],
+    "1F921": ["twarz klauna", "buźka", "cyrk", "klown"],
     "1F922": [
         "twarz z mdłościami",
         "buźka",
@@ -21150,13 +18313,7 @@
         "szok",
         "wybuch"
     ],
-    "1F930": [
-        "kobieta w ciąży",
-        "ciąża",
-        "ciężarna",
-        "kobieta",
-        "w ciąży"
-    ],
+    "1F930": ["kobieta w ciąży", "ciąża", "ciężarna", "kobieta", "w ciąży"],
     "1F930 1F3FB": [
         "kobieta w ciąży: karnacja jasna",
         "ciąża",
@@ -21343,12 +18500,7 @@
         "ręce",
         "ręka"
     ],
-    "1F933": [
-        "selfie",
-        "aparat",
-        "telefon",
-        "zdjęcie"
-    ],
+    "1F933": ["selfie", "aparat", "telefon", "zdjęcie"],
     "1F933 1F3FB": [
         "selfie: karnacja jasna",
         "aparat",
@@ -22145,12 +19297,7 @@
         "więdnąć",
         "zwiędły"
     ],
-    "1F941": [
-        "bęben",
-        "bębenek",
-        "grać",
-        "muzyka"
-    ],
+    "1F941": ["bęben", "bębenek", "grać", "muzyka"],
     "1F942": [
         "stukające się kieliszki",
         "alkohol",
@@ -22174,18 +19321,8 @@
         "whisky",
         "z grubym dnem"
     ],
-    "1F944": [
-        "łyżka",
-        "łyżeczka",
-        "sztućce"
-    ],
-    "1F945": [
-        "bramka",
-        "gol",
-        "mecz",
-        "sport",
-        "zawody"
-    ],
+    "1F944": ["łyżka", "łyżeczka", "sztućce"],
+    "1F945": ["bramka", "gol", "mecz", "sport", "zawody"],
     "1F947": [
         "medal za 1. miejsce",
         "medal",
@@ -22214,13 +19351,7 @@
         "trzecie miejsce",
         "zawody"
     ],
-    "1F94A": [
-        "rękawica bokserska",
-        "boks",
-        "rękawica",
-        "sport",
-        "zawody"
-    ],
+    "1F94A": ["rękawica bokserska", "boks", "rękawica", "sport", "zawody"],
     "1F94B": [
         "strój do sztuk walki",
         "judo",
@@ -22239,25 +19370,9 @@
         "kamień",
         "sport"
     ],
-    "1F94D": [
-        "lacrosse",
-        "bramka",
-        "kij",
-        "piłka",
-        "sport"
-    ],
-    "1F94E": [
-        "softball",
-        "piłka",
-        "sport",
-        "tenis"
-    ],
-    "1F94F": [
-        "frisbee",
-        "dysk",
-        "frizbi",
-        "sport"
-    ],
+    "1F94D": ["lacrosse", "bramka", "kij", "piłka", "sport"],
+    "1F94E": ["softball", "piłka", "sport", "tenis"],
+    "1F94F": ["frisbee", "dysk", "frizbi", "sport"],
     "1F950": [
         "rogalik",
         "croissant",
@@ -22266,51 +19381,13 @@
         "pieczywo",
         "rogal"
     ],
-    "1F951": [
-        "awokado",
-        "jedzenie",
-        "owoc",
-        "roślina"
-    ],
-    "1F952": [
-        "ogórek",
-        "jedzenie",
-        "korniszon",
-        "pikle",
-        "warzywo"
-    ],
-    "1F953": [
-        "boczek",
-        "bekon",
-        "jedzenie",
-        "mięso"
-    ],
-    "1F954": [
-        "ziemniak",
-        "jedzenie",
-        "kartofel",
-        "pyra",
-        "warzywo"
-    ],
-    "1F955": [
-        "marchew",
-        "jedzenie",
-        "marchewka",
-        "warzywo"
-    ],
-    "1F956": [
-        "bagietka",
-        "bułka",
-        "chleb",
-        "jedzenie",
-        "pieczywo"
-    ],
-    "1F957": [
-        "sałatka",
-        "jedzenie",
-        "sałata",
-        "surówka"
-    ],
+    "1F951": ["awokado", "jedzenie", "owoc", "roślina"],
+    "1F952": ["ogórek", "jedzenie", "korniszon", "pikle", "warzywo"],
+    "1F953": ["boczek", "bekon", "jedzenie", "mięso"],
+    "1F954": ["ziemniak", "jedzenie", "kartofel", "pyra", "warzywo"],
+    "1F955": ["marchew", "jedzenie", "marchewka", "warzywo"],
+    "1F956": ["bagietka", "bułka", "chleb", "jedzenie", "pieczywo"],
+    "1F957": ["sałatka", "jedzenie", "sałata", "surówka"],
     "1F958": [
         "danie z patelni",
         "jedzenie",
@@ -22328,14 +19405,7 @@
         "kebab",
         "tortilla"
     ],
-    "1F95A": [
-        "jajko",
-        "jajo",
-        "jedzenie",
-        "kura",
-        "kurczak",
-        "nabiał"
-    ],
+    "1F95A": ["jajko", "jajo", "jedzenie", "kura", "kurczak", "nabiał"],
     "1F95B": [
         "szklanka mleka",
         "biały",
@@ -22345,30 +19415,10 @@
         "napój",
         "szklanka"
     ],
-    "1F95C": [
-        "orzeszki ziemne",
-        "fistaszki",
-        "jedzenie",
-        "orzech",
-        "orzeszki"
-    ],
-    "1F95D": [
-        "owoc kiwi",
-        "jedzenie",
-        "kiwi",
-        "owoc"
-    ],
-    "1F95E": [
-        "naleśniki",
-        "jedzenie",
-        "placki"
-    ],
-    "1F95F": [
-        "pieróg",
-        "gyoza",
-        "jedzenie",
-        "pierogi"
-    ],
+    "1F95C": ["orzeszki ziemne", "fistaszki", "jedzenie", "orzech", "orzeszki"],
+    "1F95D": ["owoc kiwi", "jedzenie", "kiwi", "owoc"],
+    "1F95E": ["naleśniki", "jedzenie", "placki"],
+    "1F95F": ["pieróg", "gyoza", "jedzenie", "pierogi"],
     "1F960": [
         "ciastko z wróżbą",
         "ciasteczko",
@@ -22386,15 +19436,8 @@
         "pudełko",
         "ryż"
     ],
-    "1F962": [
-        "pałeczki"
-    ],
-    "1F963": [
-        "miska z łyżką",
-        "jedzenie",
-        "miska",
-        "zupa"
-    ],
+    "1F962": ["pałeczki"],
+    "1F963": ["miska z łyżką", "jedzenie", "miska", "zupa"],
     "1F964": [
         "szklanka ze słomką",
         "drink",
@@ -22404,28 +19447,10 @@
         "słomka",
         "soda"
     ],
-    "1F965": [
-        "kokos",
-        "orzech",
-        "tropiki"
-    ],
-    "1F966": [
-        "brokuł",
-        "jedzenie",
-        "warzywo",
-        "zielone"
-    ],
-    "1F967": [
-        "ciasto",
-        "jedzenie",
-        "placek",
-        "szarlotka"
-    ],
-    "1F968": [
-        "precel",
-        "ciastko",
-        "jedzenie"
-    ],
+    "1F965": ["kokos", "orzech", "tropiki"],
+    "1F966": ["brokuł", "jedzenie", "warzywo", "zielone"],
+    "1F967": ["ciasto", "jedzenie", "placek", "szarlotka"],
+    "1F968": ["precel", "ciastko", "jedzenie"],
     "1F969": [
         "kawałek mięsa",
         "jedzenie",
@@ -22437,17 +19462,8 @@
         "wieprzowina",
         "wołowina"
     ],
-    "1F96A": [
-        "kanapka",
-        "jedzenie",
-        "śniadanie"
-    ],
-    "1F96B": [
-        "jedzenie w puszce",
-        "jedzenie",
-        "puszka",
-        "w puszce"
-    ],
+    "1F96A": ["kanapka", "jedzenie", "śniadanie"],
+    "1F96B": ["jedzenie w puszce", "jedzenie", "puszka", "w puszce"],
     "1F96C": [
         "warzywo liściaste",
         "bok choy",
@@ -22757,13 +19773,7 @@
         "żebrać",
         "żebranie"
     ],
-    "1F97B": [
-        "sari",
-        "odzież",
-        "sukienka",
-        "suknia",
-        "ubranie"
-    ],
+    "1F97B": ["sari", "odzież", "sukienka", "suknia", "ubranie"],
     "1F97C": [
         "biały fartuch",
         "biały",
@@ -22821,15 +19831,7 @@
         "płaskie obuwie",
         "wygodne"
     ],
-    "1F980": [
-        "krab",
-        "morze",
-        "ocean",
-        "plaża",
-        "rak",
-        "zodiak",
-        "zwierzę"
-    ],
+    "1F980": ["krab", "morze", "ocean", "plaża", "rak", "zodiak", "zwierzę"],
     "1F981": [
         "głowa lwa",
         "buźka",
@@ -22851,11 +19853,7 @@
         "zodiak",
         "zwierzę"
     ],
-    "1F983": [
-        "indyk",
-        "ptak",
-        "zwierzę"
-    ],
+    "1F983": ["indyk", "ptak", "zwierzę"],
     "1F984": [
         "głowa jednorożca",
         "głowa",
@@ -22866,31 +19864,10 @@
         "różowy",
         "zwierzę"
     ],
-    "1F985": [
-        "orzeł",
-        "Bielik",
-        "ptak",
-        "zwierzę"
-    ],
-    "1F986": [
-        "kaczka",
-        "kaczor",
-        "ptak",
-        "woda",
-        "zwierzę"
-    ],
-    "1F987": [
-        "nietoperz",
-        "wampir",
-        "zwierzę"
-    ],
-    "1F988": [
-        "rekin",
-        "morze",
-        "ocean",
-        "ryba",
-        "zwierzę"
-    ],
+    "1F985": ["orzeł", "Bielik", "ptak", "zwierzę"],
+    "1F986": ["kaczka", "kaczor", "ptak", "woda", "zwierzę"],
+    "1F987": ["nietoperz", "wampir", "zwierzę"],
+    "1F988": ["rekin", "morze", "ocean", "ryba", "zwierzę"],
     "1F989": [
         "sowa",
         "mądrość",
@@ -22913,32 +19890,11 @@
         "rudy",
         "zwierzę"
     ],
-    "1F98B": [
-        "motyl",
-        "kolorowy",
-        "owad",
-        "zwierzę"
-    ],
-    "1F98C": [
-        "jeleń",
-        "rogacz",
-        "rogi",
-        "zwierzę"
-    ],
-    "1F98D": [
-        "goryl",
-        "zwierzę"
-    ],
-    "1F98E": [
-        "jaszczurka",
-        "gad",
-        "zwierzę"
-    ],
-    "1F98F": [
-        "nosorożec",
-        "róg",
-        "zwierzę"
-    ],
+    "1F98B": ["motyl", "kolorowy", "owad", "zwierzę"],
+    "1F98C": ["jeleń", "rogacz", "rogi", "zwierzę"],
+    "1F98D": ["goryl", "zwierzę"],
+    "1F98E": ["jaszczurka", "gad", "zwierzę"],
+    "1F98F": ["nosorożec", "róg", "zwierzę"],
     "1F990": [
         "krewetka",
         "jedzenie",
@@ -22961,61 +19917,14 @@
         "tusz",
         "zwierzę"
     ],
-    "1F992": [
-        "żyrafa",
-        "głowa",
-        "sawanna",
-        "zwierzę"
-    ],
-    "1F993": [
-        "zebra",
-        "koń",
-        "paski",
-        "sawanna",
-        "zwierzę"
-    ],
-    "1F994": [
-        "jeż",
-        "jeżyk",
-        "kolce",
-        "zwierzę"
-    ],
-    "1F995": [
-        "zauropod",
-        "dinozaur",
-        "głowa",
-        "zwierzę"
-    ],
-    "1F996": [
-        "t-rex",
-        "dinozaur",
-        "głowa",
-        "tyranozaur",
-        "zwierzę"
-    ],
-    "1F997": [
-        "świerszcz",
-        "konik",
-        "owad",
-        "polny",
-        "zwierzę"
-    ],
-    "1F998": [
-        "kangur",
-        "skakać",
-        "skoczny",
-        "skok",
-        "torbacz",
-        "zwierzę"
-    ],
-    "1F999": [
-        "lama",
-        "alpaka",
-        "gwanako",
-        "wełna",
-        "wikunia",
-        "zwierzę"
-    ],
+    "1F992": ["żyrafa", "głowa", "sawanna", "zwierzę"],
+    "1F993": ["zebra", "koń", "paski", "sawanna", "zwierzę"],
+    "1F994": ["jeż", "jeżyk", "kolce", "zwierzę"],
+    "1F995": ["zauropod", "dinozaur", "głowa", "zwierzę"],
+    "1F996": ["t-rex", "dinozaur", "głowa", "tyranozaur", "zwierzę"],
+    "1F997": ["świerszcz", "konik", "owad", "polny", "zwierzę"],
+    "1F998": ["kangur", "skakać", "skoczny", "skok", "torbacz", "zwierzę"],
+    "1F999": ["lama", "alpaka", "gwanako", "wełna", "wikunia", "zwierzę"],
     "1F99A": [
         "paw",
         "dumna",
@@ -23032,11 +19941,7 @@
         "śliczny ptak",
         "zwierzę"
     ],
-    "1F99B": [
-        "hipopotam",
-        "hipcio",
-        "zwierzę"
-    ],
+    "1F99B": ["hipopotam", "hipcio", "zwierzę"],
     "1F99C": [
         "papuga",
         "gadająca",
@@ -23046,22 +19951,8 @@
         "ptak",
         "zwierzę"
     ],
-    "1F99D": [
-        "szop",
-        "buźka",
-        "ciekawość",
-        "ciekawski",
-        "pracz",
-        "zwierzę"
-    ],
-    "1F99E": [
-        "homar",
-        "czerwony",
-        "owoce morza",
-        "rak",
-        "szczypce",
-        "zwierzę"
-    ],
+    "1F99D": ["szop", "buźka", "ciekawość", "ciekawski", "pracz", "zwierzę"],
+    "1F99E": ["homar", "czerwony", "owoce morza", "rak", "szczypce", "zwierzę"],
     "1F99F": [
         "komar",
         "choroba",
@@ -23085,12 +19976,7 @@
         "nauka",
         "wirus"
     ],
-    "1F9A1": [
-        "borsuk",
-        "ratel",
-        "ratel miodożerny",
-        "zwierzę"
-    ],
+    "1F9A1": ["borsuk", "ratel", "ratel miodożerny", "zwierzę"],
     "1F9A2": [
         "łabędź",
         "biały",
@@ -23119,67 +20005,15 @@
         "wymarły",
         "zwierzę"
     ],
-    "1F9A5": [
-        "leniwiec",
-        "leniwy",
-        "powolny"
-    ],
-    "1F9A6": [
-        "wydra",
-        "bystre",
-        "łapanie ryb",
-        "zabawne",
-        "zwierzę"
-    ],
-    "1F9A7": [
-        "orangutan",
-        "człekokształtna",
-        "goryl",
-        "małpa",
-        "zwierzę"
-    ],
-    "1F9A8": [
-        "skunks",
-        "smród",
-        "zwierzę"
-    ],
-    "1F9A9": [
-        "flaming",
-        "ekstrawagancja",
-        "tropikalny",
-        "zwierzę"
-    ],
-    "1F9AA": [
-        "ostryga",
-        "małże",
-        "nurkowanie",
-        "perła",
-        "perły",
-        "zwierzę"
-    ],
-    "1F9AB": [
-        "bóbr",
-        "gryzoń",
-        "tama",
-        "zęby",
-        "zwierzę"
-    ],
-    "1F9AC": [
-        "żubr",
-        "bizon",
-        "puszcza",
-        "stado",
-        "wół",
-        "zwierzę"
-    ],
-    "1F9AD": [
-        "foka",
-        "foczka",
-        "lew",
-        "morski",
-        "ssak",
-        "zwierzę"
-    ],
+    "1F9A5": ["leniwiec", "leniwy", "powolny"],
+    "1F9A6": ["wydra", "bystre", "łapanie ryb", "zabawne", "zwierzę"],
+    "1F9A7": ["orangutan", "człekokształtna", "goryl", "małpa", "zwierzę"],
+    "1F9A8": ["skunks", "smród", "zwierzę"],
+    "1F9A9": ["flaming", "ekstrawagancja", "tropikalny", "zwierzę"],
+    "1F9AA": ["ostryga", "małże", "nurkowanie", "perła", "perły", "zwierzę"],
+    "1F9AB": ["bóbr", "gryzoń", "tama", "zęby", "zwierzę"],
+    "1F9AC": ["żubr", "bizon", "puszcza", "stado", "wół", "zwierzę"],
+    "1F9AD": ["foka", "foczka", "lew", "morski", "ssak", "zwierzę"],
     "1F9AE": [
         "pies przewodnik",
         "dostępność",
@@ -23188,17 +20022,8 @@
         "przewodnik",
         "zwierzę"
     ],
-    "1F9AF": [
-        "biała laska",
-        "dostępność",
-        "niewidomy"
-    ],
-    "1F9B4": [
-        "kość",
-        "kości",
-        "pies",
-        "szkielet"
-    ],
+    "1F9AF": ["biała laska", "dostępność", "niewidomy"],
+    "1F9B4": ["kość", "kości", "pies", "szkielet"],
     "1F9B5": [
         "noga",
         "kolano",
@@ -23339,13 +20164,7 @@
         "tupanie",
         "zdeptać"
     ],
-    "1F9B7": [
-        "ząb",
-        "białe",
-        "dentysta",
-        "stomatolog",
-        "zęby"
-    ],
+    "1F9B7": ["ząb", "białe", "dentysta", "stomatolog", "zęby"],
     "1F9B8": [
         "superbohater",
         "bohater",
@@ -23599,21 +20418,9 @@
         "dostępność",
         "elektryczny wózek inwalidzki"
     ],
-    "1F9BD": [
-        "wózek inwalidzki ręczny",
-        "dostępność",
-        "wózek inwalidzki"
-    ],
-    "1F9BE": [
-        "mechaniczne ramię",
-        "dostępność",
-        "proteza"
-    ],
-    "1F9BF": [
-        "proteza nogi",
-        "dostępność",
-        "proteza"
-    ],
+    "1F9BD": ["wózek inwalidzki ręczny", "dostępność", "wózek inwalidzki"],
+    "1F9BE": ["mechaniczne ramię", "dostępność", "proteza"],
+    "1F9BF": ["proteza nogi", "dostępność", "proteza"],
     "1F9C0": [
         "kawałek sera",
         "jedzenie",
@@ -23652,18 +20459,8 @@
         "sok",
         "w kartoniku"
     ],
-    "1F9C4": [
-        "czosnek",
-        "aromatyczny",
-        "jedzenie",
-        "warzywo"
-    ],
-    "1F9C5": [
-        "cebula",
-        "aromatyczna",
-        "jedzenie",
-        "warzywo"
-    ],
+    "1F9C4": ["czosnek", "aromatyczny", "jedzenie", "warzywo"],
+    "1F9C5": ["cebula", "aromatyczna", "jedzenie", "warzywo"],
     "1F9C6": [
         "falafel",
         "ciecierzyca",
@@ -23671,29 +20468,10 @@
         "kotlecik",
         "kotlecik z ciecierzycy"
     ],
-    "1F9C7": [
-        "gofr",
-        "gofrownica",
-        "jedzenie",
-        "śniadanie"
-    ],
-    "1F9C8": [
-        "masło",
-        "jedzenie",
-        "nabiał"
-    ],
-    "1F9C9": [
-        "yerba mate",
-        "napój"
-    ],
-    "1F9CA": [
-        "kostka lodu",
-        "kostka",
-        "lód",
-        "lodu",
-        "zimno",
-        "zimny"
-    ],
+    "1F9C7": ["gofr", "gofrownica", "jedzenie", "śniadanie"],
+    "1F9C8": ["masło", "jedzenie", "nabiał"],
+    "1F9C9": ["yerba mate", "napój"],
+    "1F9CA": ["kostka lodu", "kostka", "lód", "lodu", "zimno", "zimny"],
     "1F9CB": [
         "napój bubble tea",
         "bubble tea",
@@ -23706,17 +20484,8 @@
         "tapioka",
         "z tapioką"
     ],
-    "1F9CC": [
-        "troll",
-        "bajka",
-        "fantazja",
-        "potwór"
-    ],
-    "1F9CD": [
-        "stojąca osoba",
-        "stać",
-        "stoi"
-    ],
+    "1F9CC": ["troll", "bajka", "fantazja", "potwór"],
+    "1F9CD": ["stojąca osoba", "stać", "stoi"],
     "1F9CD 1F3FB": [
         "stojąca osoba: karnacja jasna",
         "karnacja jasna",
@@ -23752,13 +20521,7 @@
         "stoi",
         "stojąca osoba"
     ],
-    "1F9CE": [
-        "klęcząca osoba",
-        "klęczeć",
-        "klęczki",
-        "kolana",
-        "na kolanach"
-    ],
+    "1F9CE": ["klęcząca osoba", "klęczeć", "klęczki", "kolana", "na kolanach"],
     "1F9CE 1F3FB": [
         "klęcząca osoba: karnacja jasna",
         "karnacja jasna",
@@ -23804,13 +20567,7 @@
         "kolana",
         "na kolanach"
     ],
-    "1F9CF": [
-        "osoba głucha",
-        "dostępność",
-        "głuchota",
-        "słuch",
-        "ucho"
-    ],
+    "1F9CF": ["osoba głucha", "dostępność", "głuchota", "słuch", "ucho"],
     "1F9CF 1F3FB": [
         "osoba głucha: karnacja jasna",
         "dostępność",
@@ -24186,10 +20943,7 @@
         "płeć neutralna",
         "twarz"
     ],
-    "1F9D1 200D 1F393": [
-        "student",
-        "absolwent"
-    ],
+    "1F9D1 200D 1F393": ["student", "absolwent"],
     "1F9D1 1F3FB 200D 1F393": [
         "student: karnacja jasna",
         "absolwent",
@@ -24220,12 +20974,7 @@
         "karnacja ciemna",
         "student"
     ],
-    "1F9D1 200D 1F3EB": [
-        "nauczyciel",
-        "instruktor",
-        "pedagog",
-        "profesor"
-    ],
+    "1F9D1 200D 1F3EB": ["nauczyciel", "instruktor", "pedagog", "profesor"],
     "1F9D1 1F3FB 200D 1F3EB": [
         "nauczyciel: karnacja jasna",
         "instruktor",
@@ -24266,11 +21015,7 @@
         "pedagog",
         "profesor"
     ],
-    "1F9D1 200D 1F33E": [
-        "rolnik",
-        "farmer",
-        "ogrodnik"
-    ],
+    "1F9D1 200D 1F33E": ["rolnik", "farmer", "ogrodnik"],
     "1F9D1 1F3FB 200D 1F33E": [
         "rolnik: karnacja jasna",
         "farmer",
@@ -24306,10 +21051,7 @@
         "ogrodnik",
         "rolnik"
     ],
-    "1F9D1 200D 1F373": [
-        "kucharz",
-        "szef kuchni"
-    ],
+    "1F9D1 200D 1F373": ["kucharz", "szef kuchni"],
     "1F9D1 1F3FB 200D 1F373": [
         "kucharz: karnacja jasna",
         "karnacja jasna",
@@ -24340,11 +21082,7 @@
         "kucharz",
         "szef kuchni"
     ],
-    "1F9D1 200D 1F527": [
-        "mechanik",
-        "elektryk",
-        "hydraulik"
-    ],
+    "1F9D1 200D 1F527": ["mechanik", "elektryk", "hydraulik"],
     "1F9D1 1F3FB 200D 1F527": [
         "mechanik: karnacja jasna",
         "elektryk",
@@ -24478,13 +21216,7 @@
         "praca biurowa",
         "pracownik biurowy"
     ],
-    "1F9D1 200D 1F52C": [
-        "naukowiec",
-        "biolog",
-        "chemik",
-        "fizyk",
-        "inżynier"
-    ],
+    "1F9D1 200D 1F52C": ["naukowiec", "biolog", "chemik", "fizyk", "inżynier"],
     "1F9D1 1F3FB 200D 1F52C": [
         "naukowiec: karnacja jasna",
         "biolog",
@@ -24582,13 +21314,7 @@
         "technolog",
         "wynalazca"
     ],
-    "1F9D1 200D 1F3A4": [
-        "piosenkarz",
-        "aktor",
-        "artysta",
-        "gwiazda",
-        "muzyka"
-    ],
+    "1F9D1 200D 1F3A4": ["piosenkarz", "aktor", "artysta", "gwiazda", "muzyka"],
     "1F9D1 1F3FB 200D 1F3A4": [
         "piosenkarz: karnacja jasna",
         "aktor",
@@ -24634,11 +21360,7 @@
         "muzyka",
         "piosenkarz"
     ],
-    "1F9D1 200D 1F3A8": [
-        "artysta",
-        "malarz",
-        "paleta"
-    ],
+    "1F9D1 200D 1F3A8": ["artysta", "malarz", "paleta"],
     "1F9D1 1F3FB 200D 1F3A8": [
         "artysta: karnacja jasna",
         "artysta",
@@ -24674,11 +21396,7 @@
         "malarz",
         "paleta"
     ],
-    "1F9D1 200D 1F680": [
-        "astronauta",
-        "rakieta",
-        "statek kosmiczny"
-    ],
+    "1F9D1 200D 1F680": ["astronauta", "rakieta", "statek kosmiczny"],
     "1F9D1 1F3FB 200D 1F680": [
         "astronauta: karnacja jasna",
         "astronauta",
@@ -24714,11 +21432,7 @@
         "rakieta",
         "statek kosmiczny"
     ],
-    "1F9D1 200D 1F692": [
-        "strażak",
-        "straż pożarna",
-        "wóz strażacki"
-    ],
+    "1F9D1 200D 1F692": ["strażak", "straż pożarna", "wóz strażacki"],
     "1F9D1 1F3FB 200D 1F692": [
         "strażak: karnacja jasna",
         "karnacja jasna",
@@ -25044,12 +21758,7 @@
         "osoba na wózku inwalidzkim",
         "wózek inwalidzki"
     ],
-    "1F9D1 200D 1FA70": [
-        "baletnica",
-        "balet",
-        "tancerka",
-        "tancerz"
-    ],
+    "1F9D1 200D 1FA70": ["baletnica", "balet", "tancerka", "tancerz"],
     "1F9D1 1F3FB 200D 1FA70": [
         "baletnica: karnacja jasna",
         "balet",
@@ -26707,23 +23416,13 @@
         "dorosły",
         "dziecko"
     ],
-    "1F9D1 200D 1F9D2": [
-        "rodzina: dorosły, dziecko",
-        "dorosły",
-        "dziecko"
-    ],
+    "1F9D1 200D 1F9D2": ["rodzina: dorosły, dziecko", "dorosły", "dziecko"],
     "1F9D1 200D 1F9D2 200D 1F9D2": [
         "rodzina: dorosły, dziecko, dziecko",
         "dorosły",
         "dziecko"
     ],
-    "1F9D2": [
-        "dziecko",
-        "głowa",
-        "młoda",
-        "młody",
-        "osoba"
-    ],
+    "1F9D2": ["dziecko", "głowa", "młoda", "młody", "osoba"],
     "1F9D2 1F3FB": [
         "dziecko: karnacja jasna",
         "dziecko",
@@ -26858,11 +23557,7 @@
         "stary",
         "starzec"
     ],
-    "1F9D4": [
-        "osoba z brodą",
-        "broda",
-        "osoba"
-    ],
+    "1F9D4": ["osoba z brodą", "broda", "osoba"],
     "1F9D4 1F3FB": [
         "osoba z brodą: karnacja jasna",
         "broda",
@@ -27247,15 +23942,7 @@
         "karnacja ciemna",
         "magia"
     ],
-    "1F9DA": [
-        "wróżka",
-        "bajka",
-        "baśń",
-        "fantasy",
-        "Oberon",
-        "Puk",
-        "Tytania"
-    ],
+    "1F9DA": ["wróżka", "bajka", "baśń", "fantasy", "Oberon", "Puk", "Tytania"],
     "1F9DA 1F3FB": [
         "wróżka: karnacja jasna",
         "bajka",
@@ -27311,11 +23998,7 @@
         "Tytania",
         "wróżka"
     ],
-    "1F9DB": [
-        "wampir",
-        "Drakula",
-        "nieumarły"
-    ],
+    "1F9DB": ["wampir", "Drakula", "nieumarły"],
     "1F9DB 1F3FB": [
         "wampir: karnacja jasna",
         "Drakula",
@@ -27421,13 +24104,7 @@
         "tryton",
         "Warszawa"
     ],
-    "1F9DD": [
-        "elf",
-        "bajka",
-        "baśń",
-        "fantasy",
-        "magia"
-    ],
+    "1F9DD": ["elf", "bajka", "baśń", "fantasy", "magia"],
     "1F9DD 1F3FB": [
         "elf: karnacja jasna",
         "bajka",
@@ -27491,47 +24168,13 @@
         "strach",
         "straszny"
     ],
-    "1F9E0": [
-        "mózg",
-        "inteligentny",
-        "myśleć"
-    ],
-    "1F9E1": [
-        "pomarańczowe serce",
-        "kocham",
-        "pomarańczowe",
-        "serce"
-    ],
-    "1F9E2": [
-        "bejsbolówka",
-        "czapeczka",
-        "czapka",
-        "czapka z daszkiem"
-    ],
-    "1F9E3": [
-        "szalik",
-        "szyja",
-        "ubranie",
-        "zima",
-        "zimno"
-    ],
-    "1F9E4": [
-        "rękawiczki",
-        "ręka",
-        "rękawiczka"
-    ],
-    "1F9E5": [
-        "płaszcz",
-        "kurtka",
-        "zima",
-        "zimno"
-    ],
-    "1F9E6": [
-        "skarpetki",
-        "skarpety",
-        "stopy",
-        "ubranie"
-    ],
+    "1F9E0": ["mózg", "inteligentny", "myśleć"],
+    "1F9E1": ["pomarańczowe serce", "kocham", "pomarańczowe", "serce"],
+    "1F9E2": ["bejsbolówka", "czapeczka", "czapka", "czapka z daszkiem"],
+    "1F9E3": ["szalik", "szyja", "ubranie", "zima", "zimno"],
+    "1F9E4": ["rękawiczki", "ręka", "rękawiczka"],
+    "1F9E5": ["płaszcz", "kurtka", "zima", "zimno"],
+    "1F9E6": ["skarpetki", "skarpety", "stopy", "ubranie"],
     "1F9E7": [
         "czerwona koperta",
         "chiny",
@@ -27587,15 +24230,7 @@
         "laboratorium",
         "szalka Petriego"
     ],
-    "1F9EC": [
-        "dna",
-        "biolog",
-        "ewolucja",
-        "gen",
-        "genetyka",
-        "geny",
-        "życie"
-    ],
+    "1F9EC": ["dna", "biolog", "ewolucja", "gen", "genetyka", "geny", "życie"],
     "1F9ED": [
         "kompas",
         "kierunek",
@@ -27615,14 +24250,7 @@
         "obliczanie",
         "obliczenia"
     ],
-    "1F9EF": [
-        "gaśnica",
-        "gasić",
-        "ogień",
-        "pożar",
-        "ugasić",
-        "zgasić"
-    ],
+    "1F9EF": ["gaśnica", "gasić", "ogień", "pożar", "ugasić", "zgasić"],
     "1F9F0": [
         "skrzynka na narzędzia",
         "czerwona",
@@ -27695,12 +24323,7 @@
         "szydełkowanie",
         "wełna"
     ],
-    "1F9F7": [
-        "agrafka",
-        "pielucha",
-        "punk",
-        "punk rock"
-    ],
+    "1F9F7": ["agrafka", "pielucha", "punk", "punk rock"],
     "1F9F8": [
         "miś pluszowy",
         "miś",
@@ -27793,11 +24416,7 @@
         "talizman",
         "złe oko"
     ],
-    "1FA70": [
-        "baletki",
-        "balet",
-        "taniec"
-    ],
+    "1FA70": ["baletki", "balet", "taniec"],
     "1FA71": [
         "strój kąpielowy jednoczęściowy",
         "jednoczęściowy strój kąpielowy",
@@ -27812,13 +24431,7 @@
         "slipy",
         "strój do kąpieli"
     ],
-    "1FA73": [
-        "szorty",
-        "bermudy",
-        "bielizna",
-        "spodenki",
-        "strój do kąpieli"
-    ],
+    "1FA73": ["szorty", "bermudy", "bielizna", "spodenki", "strój do kąpieli"],
     "1FA74": [
         "japonka",
         "buty",
@@ -27882,17 +24495,8 @@
         "oddawanie krwi",
         "rana"
     ],
-    "1FA79": [
-        "plaster",
-        "opatrunek"
-    ],
-    "1FA7A": [
-        "stetoskop",
-        "lekarz",
-        "medycyna",
-        "praca",
-        "serce"
-    ],
+    "1FA79": ["plaster", "opatrunek"],
+    "1FA7A": ["stetoskop", "lekarz", "medycyna", "praca", "serce"],
     "1FA7B": [
         "zdjęcie rentgenowskie",
         "klatka piersiowa",
@@ -27911,16 +24515,8 @@
         "niepełnosprawność",
         "pomoc w chodzeniu"
     ],
-    "1FA80": [
-        "jojo",
-        "zabawka"
-    ],
-    "1FA81": [
-        "latawiec",
-        "latanie",
-        "na wietrze",
-        "wiatr"
-    ],
+    "1FA80": ["jojo", "zabawka"],
+    "1FA81": ["latawiec", "latanie", "na wietrze", "wiatr"],
     "1FA82": [
         "spadochron",
         "lotnia",
@@ -27933,12 +24529,7 @@
         "sport",
         "za łodzią"
     ],
-    "1FA83": [
-        "bumerang",
-        "broń",
-        "pocisk",
-        "wracający"
-    ],
+    "1FA83": ["bumerang", "broń", "pocisk", "wracający"],
     "1FA84": [
         "czarodziejska różdżka",
         "abrakadabra",
@@ -28004,14 +24595,7 @@
         "piszczałka",
         "prosty"
     ],
-    "1FA89": [
-        "harfa",
-        "amorek",
-        "instrument",
-        "miłość",
-        "muzyka",
-        "orkiestra"
-    ],
+    "1FA89": ["harfa", "amorek", "instrument", "miłość", "muzyka", "orkiestra"],
     "1FA8A": [
         "puzon",
         "instrument",
@@ -28033,12 +24617,7 @@
         "srebro",
         "złoto"
     ],
-    "1FA8F": [
-        "łopata",
-        "dziura",
-        "kopać",
-        "szpadel"
-    ],
+    "1FA8F": ["łopata", "dziura", "kopać", "szpadel"],
     "1FA90": [
         "planeta z pierścieniami",
         "pierścienie",
@@ -28046,11 +24625,7 @@
         "saturn",
         "saturnowy"
     ],
-    "1FA91": [
-        "krzesło",
-        "siadać",
-        "siedzenie"
-    ],
+    "1FA91": ["krzesło", "siadać", "siedzenie"],
     "1FA92": [
         "brzytwa",
         "golarka",
@@ -28059,24 +24634,9 @@
         "ostre narzędzie",
         "żyletka"
     ],
-    "1FA93": [
-        "siekiera",
-        "drewno",
-        "rąbać",
-        "rozłupywać",
-        "topór"
-    ],
-    "1FA94": [
-        "dipa",
-        "lampka",
-        "oliwna"
-    ],
-    "1FA95": [
-        "banjo",
-        "instrument",
-        "muzyka",
-        "strunowy"
-    ],
+    "1FA93": ["siekiera", "drewno", "rąbać", "rozłupywać", "topór"],
+    "1FA94": ["dipa", "lampka", "oliwna"],
+    "1FA95": ["banjo", "instrument", "muzyka", "strunowy"],
     "1FA96": [
         "hełm wojskowy",
         "armia",
@@ -28130,13 +24690,7 @@
         "tarcica",
         "zębate ostrze"
     ],
-    "1FA9B": [
-        "śrubokręt",
-        "narzędzie",
-        "śruba",
-        "wkręt",
-        "wkrętak"
-    ],
+    "1FA9B": ["śrubokręt", "narzędzie", "śruba", "wkręt", "wkrętak"],
     "1FA9C": [
         "drabina",
         "do góry",
@@ -28380,21 +24934,8 @@
         "pierścienice",
         "zwierzę"
     ],
-    "1FAB2": [
-        "chrząszcz",
-        "chrabąszcz",
-        "owad",
-        "żuk",
-        "zwierzę"
-    ],
-    "1FAB3": [
-        "karaluch",
-        "karaczan",
-        "owad",
-        "prusak",
-        "szkodnik",
-        "zwierzę"
-    ],
+    "1FAB2": ["chrząszcz", "chrabąszcz", "owad", "żuk", "zwierzę"],
+    "1FAB3": ["karaluch", "karaczan", "owad", "prusak", "szkodnik", "zwierzę"],
     "1FAB4": [
         "roślina doniczkowa",
         "doniczka",
@@ -28403,13 +24944,7 @@
         "kwiat",
         "roślina"
     ],
-    "1FAB5": [
-        "drewno",
-        "kłoda",
-        "pień",
-        "polano",
-        "tarcica"
-    ],
+    "1FAB5": ["drewno", "kłoda", "pień", "polano", "tarcica"],
     "1FAB6": [
         "pióro",
         "fruwać",
@@ -28430,12 +24965,7 @@
         "piękno",
         "spokój"
     ],
-    "1FAB8": [
-        "koralowiec",
-        "koralowa",
-        "ocean",
-        "rafa"
-    ],
+    "1FAB8": ["koralowiec", "koralowa", "ocean", "rafa"],
     "1FAB9": [
         "puste gniazdo",
         "gniazdo",
@@ -28495,13 +25025,7 @@
         "ptak",
         "wznosić się"
     ],
-    "1FABE": [
-        "drzewo bez liści",
-        "bez liści",
-        "drzewo",
-        "susza",
-        "zima"
-    ],
+    "1FABE": ["drzewo bez liści", "bez liści", "drzewo", "susza", "zima"],
     "1FABF": [
         "gęś",
         "drób",
@@ -28748,11 +25272,7 @@
         "osoba w koronie",
         "szlachta"
     ],
-    "1FAC6": [
-        "odcisk palca",
-        "bezpieczeństwo",
-        "tożsamość"
-    ],
+    "1FAC6": ["odcisk palca", "bezpieczeństwo", "tożsamość"],
     "1FAC8": [
         "włochate stworzenie",
         "człowiek z lasu",
@@ -28764,26 +25284,9 @@
         "włochate",
         "yeti"
     ],
-    "1FACD": [
-        "orka",
-        "morski",
-        "ocean",
-        "wieloryb"
-    ],
-    "1FACE": [
-        "łoś",
-        "poroże",
-        "ssak",
-        "zwierzę"
-    ],
-    "1FACF": [
-        "osioł",
-        "muł",
-        "osiołek",
-        "ssak",
-        "uparty",
-        "zwierzę"
-    ],
+    "1FACD": ["orka", "morski", "ocean", "wieloryb"],
+    "1FACE": ["łoś", "poroże", "ssak", "zwierzę"],
+    "1FACF": ["osioł", "muł", "osiołek", "ssak", "uparty", "zwierzę"],
     "1FAD0": [
         "borówka amerykańska",
         "antyoksydanty",
@@ -28858,13 +25361,7 @@
         "szklanka",
         "wylewanie"
     ],
-    "1FAD8": [
-        "fasola",
-        "fasolka",
-        "jedzenie",
-        "nerkowata",
-        "strąk"
-    ],
+    "1FAD8": ["fasola", "fasolka", "jedzenie", "nerkowata", "strąk"],
     "1FAD9": [
         "słoik",
         "pojemnik",
@@ -28909,13 +25406,7 @@
         "rzepa",
         "warzywo"
     ],
-    "1FADF": [
-        "rozbryzg",
-        "farba",
-        "holi",
-        "plama",
-        "rozlanie"
-    ],
+    "1FADF": ["rozbryzg", "farba", "holi", "plama", "rozlanie"],
     "1FAE0": [
         "roztapiająca się twarz",
         "gorąco",
@@ -28994,14 +25485,7 @@
         "usta",
         "zmartwienie"
     ],
-    "1FAE7": [
-        "bąbelki",
-        "mycie",
-        "mydło",
-        "piana",
-        "plusk",
-        "pod wodą"
-    ],
+    "1FAE7": ["bąbelki", "mycie", "mydło", "piana", "plusk", "pod wodą"],
     "1FAE8": [
         "wstrząśnięta twarz",
         "drganie",
@@ -29644,11 +26128,7 @@
         "skinienie",
         "wyciągnięta ręka"
     ],
-    "1FAF5": [
-        "palec wskazujący skierowany na patrzącego",
-        "ty",
-        "wskazywanie"
-    ],
+    "1FAF5": ["palec wskazujący skierowany na patrzącego", "ty", "wskazywanie"],
     "1FAF5 1F3FB": [
         "palec wskazujący skierowany na patrzącego: karnacja jasna",
         "karnacja jasna",
@@ -29684,12 +26164,7 @@
         "ty",
         "wskazywanie"
     ],
-    "1FAF6": [
-        "dłonie tworzące serce",
-        "<3",
-        "miłość",
-        "serce"
-    ],
+    "1FAF6": ["dłonie tworzące serce", "<3", "miłość", "serce"],
     "1FAF6 1F3FB": [
         "dłonie tworzące serce: karnacja jasna",
         "<3",

@@ -8,6 +8,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 ### Added
 
+- We added a new "tour" help feature for each tile in the project view, explaining its purpose and core features. Try them out and let us know if we should expand the explanations! (#687).
 - We added a machine translated Tagalog locale (#1089).
 - We added additional keywords to all emojis to improve searching (#1090), but also translated all of those keywords, so that works in all supported locales (#639).
 - We added much more robust menu suggestions for locales and locale parts (#1099).
@@ -16,7 +17,8 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 ### Changed
 
-- We made the toolbar wrapping a bit better.
+- We made the tile toolbar wrapping a bit better.
+- We rearranged the project view footer to make the layout work better on smaller devices.
 - We improved the list expand/collapse behavior when there are more than 10 items.
 - We improved layout in blocks mode.
 - We changed how blocks evaluate! Now, a Block with multiple non-`Bind` expressions will wrap the values in a list, instead of giving a warning and only evaluating to the last value. If your program had several expressions in a row and you only meant the last to be the result, wrap the earlier ones in `Bind` statements (or remove them). This will make it easier to create lists of values, including multiple `Phrase`s in a `Group`.

@@ -89,6 +89,7 @@
         tip: (l) => l.ui.project.button.translate.tip,
         icon: LOCALE_SYMBOL,
         label: (l) => l.ui.project.button.translate.label,
+        background: true,
     }}
 >
     <Subheader text={(l) => l.ui.project.subheader.source} />

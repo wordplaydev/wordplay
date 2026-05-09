@@ -47,12 +47,14 @@
         >{/if}
     {#if conflictCount === 0}<Emoji>{Characters.Program.symbols}</Emoji>{/if}
     <!-- Only one source? Use a label to indicate that this is where the code is. Otherwise, use the source names. -->
-    {#if project.getSources().length > 1}{$locales.getName(
-            source.names,
-        )}{:else}<em
-            ><LocalizedText path={(locale) => locale.term.code}
-            ></LocalizedText></em
-        >{/if}
+    <span class="toggle-label"
+        >{#if project.getSources().length > 1}{$locales.getName(
+                source.names,
+            )}{:else}<em
+                ><LocalizedText path={(locale) => locale.term.code}
+                ></LocalizedText></em
+            >{/if}</span
+    >
 </Toggle>
 
 <style>

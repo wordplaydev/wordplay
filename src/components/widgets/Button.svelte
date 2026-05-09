@@ -4,12 +4,12 @@
 </script>
 
 <script lang="ts">
+    import Spinning from '@components/app/Spinning.svelte';
     import { getTip } from '@components/project/Contexts';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import { locales } from '@db/Database';
     import type { LocaleTextAccessor } from '@locale/Locales';
     import { withMonoEmoji } from '@unicode/emoji';
-    import Spinning from '@components/app/Spinning.svelte';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
 
     interface Props {
         /** Tooltip and ARIA label for the button. LocaleTextAccessor to support multilingual tooltips, or a zero-argument function if computed. */
@@ -30,8 +30,11 @@
         view?: HTMLButtonElement | undefined;
         large?: boolean;
         size?: undefined | 'inherit';
-        /** Whether it should have a background */
-        background?: boolean | 'salient';
+        /** Whether it should have a background. `true` and `'salient'` use
+         * the existing rectangular elevated card look. `'circular'` is a
+         * round variant — use it for distinct controls like tour-launch
+         * buttons that should stand out from the surrounding rectangular UI. */
+        background?: boolean | 'salient' | 'circular';
         /** Whether it should have padding */
         padding?: boolean;
         /** An ID to add for reference in the tutorial */
@@ -112,8 +115,9 @@
 -->
 <button
     class:stretch
-    class:background={background === true}
+    class:background={background === true || background === 'circular'}
     class:salient={background === 'salient'}
+    class:circular={background === 'circular'}
     class:inherit={size === 'inherit'}
     class:padding
     class:scale
@@ -227,6 +231,19 @@
             var(--color-shadow-transparent);
     }
 
+    /* Circular variant — same elevated look as `.background`, but a round
+       shape with equal padding so the button reads as a distinct
+       always-clickable control (used for tour-launch buttons). */
+    .circular {
+        border-radius: 50%;
+        aspect-ratio: 1;
+        padding: var(--wordplay-spacing-half);
+        min-width: var(--wordplay-widget-height);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+
     .salient {
         outline: var(--wordplay-highlight-color) solid
             var(--wordplay-border-width);
@@ -252,6 +269,7 @@
 
     button:focus {
         background: var(--wordplay-focus-color);
+        color: var(--wordplay-foreground);
         fill: var(--wordplay-background);
     }
 
@@ -264,6 +282,7 @@
             var(--wordplay-border-color);
         text-shadow: 0 var(--wordplay-border-width) var(--wordplay-border-width)
             var(--color-shadow);
+        color: var(--wordplay-foreground);
         fill: var(--wordplay-background);
         outline: none;
     }

@@ -298,26 +298,30 @@
 <svelte:window onblur={() => dragged?.set(undefined)} />
 
 <div class="header">
-    <TextField
-        id="concept-search"
-        placeholder={SEARCH_SYMBOL}
-        description={(l) => l.ui.docs.field.search}
-        bind:text={query}
-        fill
-    />
-    {#if query.length === 0}
-        <Mode
-            modes={(l) => l.ui.docs.mode.browse}
-            icons={[DOCUMENTATION_SYMBOL, IDEA_SYMBOL]}
-            choice={Modes.indexOf(mode)}
-            select={(choice) => {
-                const newMode = Modes[choice];
-                if (mode !== newMode) {
-                    mode = newMode;
-                    path.set([]);
-                }
-            }}
+    <span data-uiid="docsSearch" class="search-wrap">
+        <TextField
+            id="concept-search"
+            placeholder={SEARCH_SYMBOL}
+            description={(l) => l.ui.docs.field.search}
+            bind:text={query}
+            fill
         />
+    </span>
+    {#if query.length === 0}
+        <span data-uiid="docsModeToggle">
+            <Mode
+                modes={(l) => l.ui.docs.mode.browse}
+                icons={[DOCUMENTATION_SYMBOL, IDEA_SYMBOL]}
+                choice={Modes.indexOf(mode)}
+                select={(choice) => {
+                    const newMode = Modes[choice];
+                    if (mode !== newMode) {
+                        mode = newMode;
+                        path.set([]);
+                    }
+                }}
+            />
+        </span>
         {#if mode === 'language'}
             <Mode
                 modes={(l) => l.ui.docs.mode.purpose}
@@ -372,6 +376,7 @@
 <section
     class="documentation"
     data-testid="documentation"
+    data-uiid="documentation"
     aria-label={$locales.getPlainText((l) => l.ui.docs.label)}
     onpointerup={handleDrop}
     bind:this={view}
@@ -717,6 +722,11 @@
         z-index: 1;
         margin-left: var(--wordplay-spacing-half);
         margin-right: var(--wordplay-spacing-half);
+    }
+
+    /* The search field's parent needs to be block so the field fills width. */
+    .search-wrap {
+        display: block;
     }
 
     .path {

@@ -4381,7 +4381,15 @@
                             "kind",
                             "And so another thing @Block can do is something you've already seen. @Block lets you name things with @Bind. But any names defined in the @Block are only defined between the parentheses. Not before and not after. For example, check this out. \\a\\ is defined as \\1\\, then a block starts and \\b\\ is defined as \\2\\, then \\c\\ is defined as their sum, then I write \\c\\ on its own. @Bind statements are side effects — they introduce names but don't have a value of their own. So my value is whatever the non-@Bind expressions produce. Here that's just \\c\\, which is \\3\\. Right?"
                         ],
-                        ["conflict", "a: 1", "(", "  b: 2", "  c: a + b", "  c", ")"],
+                        [
+                            "conflict",
+                            "a: 1",
+                            "(",
+                            "  b: 2",
+                            "  c: a + b",
+                            "  c",
+                            ")"
+                        ],
                         null,
                         [
                             "FunctionDefinition",
@@ -4408,11 +4416,7 @@
                             "neutral",
                             "And one more thing, I think? Since @Block is a list of expressions, the values of all the non-@Bind expressions become my value. If there's just one, you get that one value. If there are several, you get a list of all of them, in order. So here, the \\3\\, the \\5\\, the \\7\\, and the \\9\\ all become a list: \\[3 5 7 9]\\. Did I get that right, @Block?"
                         ],
-                        [
-                            "Block",
-                            "shy",
-                            "… mhm. All of them, in a list."
-                        ],
+                        ["Block", "shy", "… mhm. All of them, in a list."],
                         [
                             "conflict",
                             "(",
@@ -4433,13 +4437,7 @@
                             "shy",
                             "… then I'd have nothing to give. I need at least one expression that isn't a @Bind, otherwise I have to tell you something is missing."
                         ],
-                        [
-                            "conflict",
-                            "(",
-                            "  a: 1",
-                            "  b: 2",
-                            ")"
-                        ],
+                        ["conflict", "(", "  a: 1", "  b: 2", ")"],
                         null,
                         [
                             "FunctionDefinition",

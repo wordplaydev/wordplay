@@ -94,6 +94,21 @@ type DocumentationText = {
         /** Button text to go to the how-to in the space */
         howToGalleryButton: ButtonText;
     };
+    /** Interactive tour explaining the documentation tile */
+    tour: {
+        /** [plain] Tooltip on the help button that opens the tour */
+        launch: string;
+        /** Markup describing the guide overall */
+        guide: FormattedText;
+        /** Markup describing the code (programming language) section */
+        code: FormattedText;
+        /** Markup describing the how-to section */
+        howto: FormattedText;
+        /** Markup describing the code/how-to mode toggle */
+        mode: FormattedText;
+        /** Markup describing the search field */
+        search: FormattedText;
+    };
 };
 
 export { type DocumentationText as default };

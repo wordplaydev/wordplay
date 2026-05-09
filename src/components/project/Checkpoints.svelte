@@ -61,6 +61,7 @@
     {withMonoEmoji('🕐')}
     <LocalizedText path={(l) => l.ui.checkpoints.label.history} />
     <Button
+        background
         tip={(l) => l.ui.checkpoints.button.checkpoint}
         action={() => {
             Projects.reviseProject(project.withCheckpoint());
@@ -72,6 +73,7 @@
         &mdash;
     {:else}
         <ConfirmButton
+            background
             tip={(l) => l.ui.checkpoints.button.clear}
             prompt={(l) => l.ui.checkpoints.button.clear}
             action={() => {
@@ -81,6 +83,7 @@
             }}>{CANCEL_SYMBOL}</ConfirmButton
         >
         <Button
+            background
             tip={(l) => l.ui.checkpoints.button.back}
             active={checkpoint < history.length - 1}
             action={() => {
@@ -90,6 +93,7 @@
             icon="⏴"
         ></Button>
         <Button
+            background
             tip={(l) => l.ui.checkpoints.button.forward}
             active={checkpoint > -1}
             action={() => {
@@ -99,6 +103,7 @@
             icon="⏵"
         ></Button>
         <Button
+            background
             tip={(l) => l.ui.checkpoints.button.now}
             active={checkpoint > -1}
             action={() => {
@@ -132,10 +137,10 @@
 <style>
     section {
         display: flex;
-        flex-wrap: nowrap;
+        flex-direction: row;
+        flex-wrap: wrap;
         gap: var(--wordplay-spacing);
-        align-items: baseline;
-        white-space: nowrap;
+        align-items: center;
     }
 
     .time {

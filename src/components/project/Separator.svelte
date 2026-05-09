@@ -5,7 +5,10 @@
         margin-inline-start: var(--wordplay-spacing-half);
         margin-inline-end: var(--wordplay-spacing-half);
         width: 0;
-        height: 100%;
+        /* Stretch to the surrounding row's height instead of `height: 100%`,
+           which can resolve relative to an indefinite container and leak
+           extra height into the row. */
+        align-self: stretch;
         border-left: var(--wordplay-border-width) solid
             var(--wordplay-inactive-color);
     }

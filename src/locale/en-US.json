@@ -4421,6 +4421,7 @@
             }
         },
         "project": {
+            "label": "project",
             "defaults": {
                 "starterCode": "¶Welcome to your blank project! This is a comment.\nYou can use it to describe your project, take notes, and\nexplain what you want people to know about your work.\nIt supports *bold*, /italic/, <links@https://wordplay.dev> and more.¶\nPhrase('hi')"
             },
@@ -4497,12 +4498,22 @@
                     "on": "exit browser full screen",
                     "off": "enter browser full screen"
                 }
+            },
+            "tour": {
+                "launch": "take a tour of the project controls",
+                "controls": "These /controls/ at the bottom apply to the *project as a whole*, no matter which tile you're working in.",
+                "name": "The /name/ field is your project's name. Names show up in the *project* and *gallery* views.",
+                "sourceToggle": "This /toggle/ shows or hides the *source file*. The *other toggles* on this row do the same for the other tiles.",
+                "addSource": "Some projects benefit from *multiple* source files, where data is stored in one and imported into the *main* source. The /add source/ button creates a new one.",
+                "share": "The /share/ dialog lets you share your project with *galleries*, with the *public*, or copy it as *text* to share elsewhere.",
+                "translate": "The /translate/ button can add *translations* of your project's *names*, *text*, and *documentation* into other languages.",
+                "checkpoints": "The /revisions/ panel lets you go *back* to previous versions of your project, and *snapshot* versions you want to remember."
             }
         },
         "checkpoints": {
             "label": {
                 "now": "now",
-                "history": "restore",
+                "history": "versions",
                 "restore": "This is a previous version of this project.",
                 "ago": "$1 $2 ago"
             },
@@ -4800,7 +4811,7 @@
             }
         },
         "source": {
-            "label": "program editor",
+            "label": "source",
             "title": "code",
             "empty": [
                 "Let's get started! You can …",
@@ -4929,6 +4940,14 @@
             "error": {
                 "invalidName": "This must be a valid Wordplay name.",
                 "invalidWords": "Words can't be empty or contain reserved symbols."
+            },
+            "tour": {
+                "launch": "take a tour of the editor",
+                "editor": "All your /code/ goes in the *editor*. Every Wordplay program *evaluates to a value*, and that value is what shows up on the *stage*.",
+                "textBlocks": "This toggle switches between two ways of editing: /text/ and /blocks/. *Text* is more flexible but easier to make mistakes in. *Blocks* are less error prone but slower and more rigid.",
+                "toolbar": "These /toolbar/ controls let you *select all*, *zoom in* and *out*, *undo*, *redo*, *cut*, *copy*, and *paste*.",
+                "expand": "The /expand/ toggle reveals more *advanced* editing tools.",
+                "shortcuts": "The /shortcuts/ button opens a list of *keyboard shortcuts* you can use to edit more quickly."
             }
         },
         "annotations": {
@@ -4946,7 +4965,7 @@
             }
         },
         "output": {
-            "label": "program output",
+            "label": "stage",
             "toggle": {
                 "grid": {
                     "on": "hide grid lines",
@@ -4978,6 +4997,15 @@
             "options": {
                 "locale": "preferred language for output",
                 "default": "default"
+            },
+            "tour": {
+                "launch": "take a tour of the stage",
+                "stage": "The /stage/ shows your program's *current value*. That value might be a *raw value* like a number or list, *visual output* you can see, or even *sound* you can hear.",
+                "reset": "The /reset/ button rewinds your program's evaluation back to the *beginning*, replaying any time, key, or input streams from scratch.",
+                "zoom": "The /zoom/ buttons let you zoom *in* and *out* on the stage so you can see your output more clearly or in greater detail.",
+                "grid": "The /grid/ button shows a *grid* on the stage, helpful for placing things precisely while you design.",
+                "lock": "The /lock/ button locks the stage's view in place. When *locked*, the stage stays still; when *unlocked*, you can pan and zoom freely.",
+                "animationSpeed": "The /animation speed/ control sets how fast animations play. The same control is in *settings*, so you can change it from either place."
             }
         },
         "timeline": {
@@ -4997,10 +5025,28 @@
                 "present": "to the end",
                 "start": "To the beginning",
                 "reset": "restart performance"
+            },
+            "tour": {
+                "launch": "take a tour of the timeline",
+                "timeline": "The /timeline/ lets you step *forward* and *backward* through your program's evaluation, one step at a time. It's a great way to see *how* your program computes its value, and to build a mental model of how Wordplay programs evaluate, especially if you're not seeing the behavior you want.",
+                "reset": "The /reset/ button rewinds your program's evaluation all the way back to the *beginning*, so you can start watching the evaluation from scratch.",
+                "playMode": "The program is now /playing/. In *play* mode, your program runs until it's done (if ever), responding to inputs in real time.",
+                "pauseMode": "The program is now /paused/. In *pause* mode, you can step *forward* and *backward* through evaluation. The /annotations/ window now shows what's happening at each step, and the *current value* of each part of your program appears next to it in the editor.",
+                "annotations": "The /annotations/ window is where explanations of each step appear. As you step through your program, this is where you'll read what just happened.",
+                "editor": "The /editor/ shows your code. While stepping, the *value* of each part of your program will appear next to that part *after* it's been evaluated, so you can watch values build up as the program runs.",
+                "history": "The /history/ shows every *input* your program has received, like keys, time ticks, and pointer events. It's *draggable*, so you can return to any moment in the program's evaluation history just by dragging.",
+                "stepControls": "The /step controls/ let you move through evaluation precisely. You can jump to the *start* or *end*, step *forward* or *backward* one step at a time, jump by *one input*, step *out* of a function, or jump to the *currently selected* part of the code."
             }
         },
+        "tour": {
+            "label": "tour",
+            "close": "close the tour",
+            "previous": "previous step",
+            "next": "next step",
+            "offscreen": "This part of the interface isn't currently visible on screen."
+        },
         "docs": {
-            "label": "documentation browser",
+            "label": "guide",
             "link": "show \"$1\" in documentation",
             "learn": "learn more …",
             "nodoc": "Who am I? What am I? What is my purpose?",
@@ -5198,6 +5244,14 @@
                     "label": "see to the how-to in the space",
                     "tip": "see to the how-to in the space"
                 }
+            },
+            "tour": {
+                "launch": "take a tour of the guide",
+                "guide": "The /guide/ contains *documentation* for all of Wordplay's *programming language* concepts and *capabilities*.",
+                "code": "This is the /code/ section. It contains *programming language* documentation — the building blocks you can combine to make programs.",
+                "howto": "This is the /how-to/ section. It contains *useful patterns* for achieving particular behaviors in your projects.",
+                "mode": "Use this /toggle/ to switch between the *code* and *how-to* sections yourself.",
+                "search": "The /search/ box is helpful for *discovering* features, or finding one quickly *by name*."
             }
         },
         "dialog": {
@@ -5552,6 +5606,14 @@
                         "only the gallery curators can see your project"
                     ]
                 }
+            },
+            "tour": {
+                "launch": "take a tour of collaborating",
+                "collaborate": "Projects can be /shared/ with other people, and you can *chat* with everyone the project is shared with right here.",
+                "collaborators": "/Collaborators/ can *edit* the project and *chat* about it with you.",
+                "commenters": "/Commenters/ can *discuss* the project with you, but they cannot *edit* it.",
+                "viewers": "/Viewers/ can *view* the project and its *code*, but they cannot *discuss* or *edit* it.",
+                "restrict": "When a project is in a *gallery*, by default *everyone* who can see the gallery can see your project. The /restrict/ toggle *hides* it from everyone except you and the gallery curators."
             }
         },
         "palette": {
@@ -5616,6 +5678,15 @@
                 "percent": "Must be a percent between 0 and 100.",
                 "lessThanNext": "This must be less than the next entry.",
                 "moreThanPrevious": "This must be more than the previous entry."
+            },
+            "tour": {
+                "launch": "take a tour of the palette",
+                "palette": "When the project is *paused*, you can use the /palette/ to edit *phrases*, *groups*, and the *stage*.",
+                "text": "All the /properties/ of a phrase can be edited here. This is the *text* of the phrase, but other properties have their own controls.",
+                "set": "When a property is currently using its /default/ value, the *pencil* button lets you set an *explicit* value for it.",
+                "unset": "When a property has an /explicit/ value set, the *X* button removes that value, returning the property to its *default*.",
+                "editor": "All of the changes you make in the palette are reflected in the /code/ shown in the *editor*.",
+                "stage": "Phrases can also be /moved/, /resized/, and /rotated/ directly on the *stage*."
             }
         },
         "save": {

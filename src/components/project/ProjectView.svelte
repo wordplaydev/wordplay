@@ -9,16 +9,11 @@
     import { page } from '$app/state';
     import Annotations from '@components/annotations/Annotations.svelte';
     import CollaborateView from '@components/app/chat/CollaborateView.svelte';
-    import CreatorView from '@components/app/CreatorView.svelte';
     import Emoji from '@components/app/Emoji.svelte';
-    import Subheader from '@components/app/Subheader.svelte';
     import Documentation from '@components/concepts/Documentation.svelte';
     import {
-        EnterFullscreen,
-        ExitFullscreen,
         handleKeyCommand,
         Restart,
-        ShowKeyboardHelp,
         VisibleModifyCommands,
         VisibleNavigateCommands,
         type CommandContext,
@@ -55,7 +50,6 @@
         Projects,
         Settings,
     } from '@db/Database';
-    import { isFlagged } from '@db/projects/Moderation';
     import type Project from '@db/projects/Project';
     import Arrangement, {
         isResizeable,
@@ -65,7 +59,11 @@
     import Node, { isFieldPosition } from '@nodes/Node';
     import Source from '@nodes/Source';
     import type Color from '@output/Color';
-    import { CANCEL_SYMBOL } from '@parser/Symbols';
+    import { CANCEL_SYMBOL, INFO_SYMBOL } from '@parser/Symbols';
+    import Evaluate from '@nodes/Evaluate';
+    import Tour, {
+        type UIExplanation,
+    } from '@components/widgets/Tour.svelte';
     import { isName } from '@parser/Tokenizer';
     import Evaluator from '@runtime/Evaluator';
     import type Value from '@values/Value';
@@ -88,14 +86,11 @@
     import type PaintingConfiguration from '@components/output/PaintingConfiguration';
     import Palette from '@components/palette/Palette.svelte';
     import type Bounds from '@components/project/Bounds';
-    import Checkpoints from '@components/project/Checkpoints.svelte';
     import {
         getAnnouncer,
         getConceptPath,
         getFullscreen,
-        getUser,
         IdleKind,
-        isAuthenticated,
         setAnimatingNodes,
         setConceptIndex,
         setConflicts,
@@ -112,30 +107,21 @@
         type KeyModifierState,
     } from '@components/project/Contexts';
     import CopyButton from '@components/project/CopyButton.svelte';
-    import CurrentLayout from '@components/project/CurrentLayout.svelte';
-    import FullscreenIcon from '@components/project/FullscreenIcon.svelte';
     import Layout from '@components/project/Layout';
     import Moderation from '@components/project/Moderation.svelte';
-    import NonSourceTileToggle from '@components/project/NonSourceTileToggle.svelte';
     import OutputLocaleChooser from '@components/project/OutputLocaleChooser.svelte';
     import PositionAdjuster from '@components/project/PositionAdjuster.svelte';
+    import ProjectFooter from '@components/project/ProjectFooter.svelte';
     import RootView from '@components/project/RootView.svelte';
     import SelectedOutput from '@components/project/SelectedOutput.svelte';
-    import Separator from '@components/project/Separator.svelte';
-    import Sharing from '@components/project/Sharing.svelte';
-    import Shortcuts from '@components/project/Shortcuts.svelte';
-    import SourceTileToggle from '@components/project/SourceTileToggle.svelte';
     import Tile, { TileMode } from '@components/project/Tile';
     import { TileKind } from '@components/project/TileKind';
     import TileView, {
         type ResizeDirection,
     } from '@components/project/TileView.svelte';
-    import Translate from '@components/project/Translate.svelte';
     import Button from '@components/widgets/Button.svelte';
     import CommandButton from '@components/widgets/CommandButton.svelte';
     import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
-    import Dialog from '@components/widgets/Dialog.svelte';
-    import TextField from '@components/widgets/TextField.svelte';
     import Toggle from '@components/widgets/Toggle.svelte';
     import type Gallery from '@db/galleries/Gallery';
     import GalleryHowTo from '@db/howtos/HowToDatabase.svelte';
@@ -281,7 +267,6 @@
         page.url.searchParams.get(PROJECT_PARAM_EDIT) !== null,
     );
 
-    const user = getUser();
 
     /** The fullscreen context of the page that this is in. */
     const pageFullscreen = getFullscreen();
@@ -691,6 +676,170 @@
 
     /** True if the output should show a grid */
     let grid = $state(false);
+
+    /** Which tile-level tour is currently open, if any. */
+    let openTour = $state<
+        | undefined
+        | 'stage'
+        | 'source'
+        | 'docs'
+        | 'palette'
+        | 'collaborate'
+        | 'project'
+    >(undefined);
+
+    const stageTourSteps: UIExplanation[] = [
+        { uiid: 'stage', explanation: (l) => l.ui.output.tour.stage },
+        {
+            uiid: 'resetEvaluator',
+            explanation: (l) => l.ui.output.tour.reset,
+        },
+        { uiid: 'stageZoom', explanation: (l) => l.ui.output.tour.zoom },
+        { uiid: 'stageGrid', explanation: (l) => l.ui.output.tour.grid },
+        { uiid: 'stageLock', explanation: (l) => l.ui.output.tour.lock },
+        {
+            uiid: 'stageAnimationSpeed',
+            explanation: (l) => l.ui.output.tour.animationSpeed,
+        },
+    ];
+
+    const sourceTourSteps: UIExplanation[] = [
+        { uiid: 'editor', explanation: (l) => l.ui.source.tour.editor },
+        {
+            uiid: 'textBlocksToggle',
+            explanation: (l) => l.ui.source.tour.textBlocks,
+        },
+        {
+            uiid: 'editorToolbar',
+            explanation: (l) => l.ui.source.tour.toolbar,
+        },
+        {
+            uiid: 'editorExpand',
+            explanation: (l) => l.ui.source.tour.expand,
+        },
+        {
+            uiid: 'shortcutsDialog',
+            explanation: (l) => l.ui.source.tour.shortcuts,
+        },
+    ];
+
+    const projectTourSteps: UIExplanation[] = [
+        {
+            uiid: 'projectControls',
+            explanation: (l) => l.ui.project.tour.controls,
+        },
+        {
+            uiid: 'projectName',
+            explanation: (l) => l.ui.project.tour.name,
+        },
+        {
+            uiid: 'sourceToggle',
+            explanation: (l) => l.ui.project.tour.sourceToggle,
+        },
+        {
+            uiid: 'addSource',
+            explanation: (l) => l.ui.project.tour.addSource,
+        },
+        {
+            uiid: 'shareDialog',
+            explanation: (l) => l.ui.project.tour.share,
+        },
+        {
+            uiid: 'translateButton',
+            explanation: (l) => l.ui.project.tour.translate,
+        },
+        {
+            uiid: 'checkpoints',
+            explanation: (l) => l.ui.project.tour.checkpoints,
+        },
+    ];
+
+    /** Programmatically click the docs mode toggle for the given index
+     * (0 = code/language, 1 = how-to). Mode listens to `pointerdown`, so a
+     * synthesized event is what actually triggers selection. */
+    function setDocsMode(index: number) {
+        const buttons = document.querySelectorAll<HTMLButtonElement>(
+            '[data-uiid="docsModeToggle"] button',
+        );
+        const target = buttons[index];
+        if (target && target.getAttribute('aria-checked') !== 'true')
+            target.dispatchEvent(
+                new PointerEvent('pointerdown', {
+                    bubbles: true,
+                    button: 0,
+                    pointerType: 'mouse',
+                }),
+            );
+    }
+
+    const docsTourSteps: UIExplanation[] = [
+        { uiid: 'documentation', explanation: (l) => l.ui.docs.tour.guide },
+        {
+            uiid: 'documentation',
+            explanation: (l) => l.ui.docs.tour.code,
+            onEnter: () => setDocsMode(0),
+        },
+        {
+            uiid: 'documentation',
+            explanation: (l) => l.ui.docs.tour.howto,
+            onEnter: () => setDocsMode(1),
+        },
+        { uiid: 'docsModeToggle', explanation: (l) => l.ui.docs.tour.mode },
+        { uiid: 'docsSearch', explanation: (l) => l.ui.docs.tour.search },
+    ];
+
+    const paletteTourSteps: UIExplanation[] = [
+        { uiid: 'palette', explanation: (l) => l.ui.palette.tour.palette },
+        { uiid: 'paletteText', explanation: (l) => l.ui.palette.tour.text },
+        { uiid: 'paletteSet', explanation: (l) => l.ui.palette.tour.set },
+        { uiid: 'paletteUnset', explanation: (l) => l.ui.palette.tour.unset },
+        { uiid: 'editor', explanation: (l) => l.ui.palette.tour.editor },
+        { uiid: 'stage', explanation: (l) => l.ui.palette.tour.stage },
+    ];
+
+    const collaborateTourSteps: UIExplanation[] = [
+        {
+            uiid: 'collaborate',
+            explanation: (l) => l.ui.collaborate.tour.collaborate,
+        },
+        {
+            uiid: 'collaborators',
+            explanation: (l) => l.ui.collaborate.tour.collaborators,
+        },
+        {
+            uiid: 'commenters',
+            explanation: (l) => l.ui.collaborate.tour.commenters,
+        },
+        {
+            uiid: 'viewers',
+            explanation: (l) => l.ui.collaborate.tour.viewers,
+        },
+        {
+            uiid: 'restrictGallery',
+            explanation: (l) => l.ui.collaborate.tour.restrict,
+        },
+    ];
+
+    /** Open the palette tour, first selecting any Phrase in the project so
+     * the palette has properties to display. Falls back to highlighting the
+     * empty palette if no Phrase exists. */
+    function startPaletteTour() {
+        for (const source of project.getSources()) {
+            const phrases = source.root.root.nodes(
+                (node): node is Evaluate =>
+                    node instanceof Evaluate &&
+                    node.is(
+                        project.shares.output.Phrase,
+                        project.getNodeContext(node),
+                    ),
+            );
+            if (phrases.length > 0) {
+                selectedOutput.setPaths(project, [phrases[0]], 'palette');
+                break;
+            }
+        }
+        openTour = 'palette';
+    }
 
     /** Undefined or an object defining painting configuration */
     let painting = $state(false);
@@ -1722,6 +1871,59 @@
                         >
                             {#snippet title()}{/snippet}
 
+                            {#snippet help()}
+                                {#if tile.kind === TileKind.Output}
+                                    <Button
+                                        tip={(l) => l.ui.output.tour.launch}
+                                        background="circular"
+                                        icon={INFO_SYMBOL}
+                                        uiid="stageTourLaunch"
+                                        action={() => {
+                                            openTour = 'stage';
+                                        }}
+                                    ></Button>
+                                {:else if tile.kind === TileKind.Source}
+                                    <Button
+                                        tip={(l) => l.ui.source.tour.launch}
+                                        background="circular"
+                                        icon={INFO_SYMBOL}
+                                        uiid="sourceTourLaunch"
+                                        action={() => {
+                                            openTour = 'source';
+                                        }}
+                                    ></Button>
+                                {:else if tile.kind === TileKind.Documentation}
+                                    <Button
+                                        tip={(l) => l.ui.docs.tour.launch}
+                                        background="circular"
+                                        icon={INFO_SYMBOL}
+                                        uiid="docsTourLaunch"
+                                        action={() => {
+                                            openTour = 'docs';
+                                        }}
+                                    ></Button>
+                                {:else if tile.kind === TileKind.Palette}
+                                    <Button
+                                        tip={(l) => l.ui.palette.tour.launch}
+                                        background="circular"
+                                        icon={INFO_SYMBOL}
+                                        uiid="paletteTourLaunch"
+                                        action={startPaletteTour}
+                                    ></Button>
+                                {:else if tile.kind === TileKind.Collaborate}
+                                    <Button
+                                        tip={(l) =>
+                                            l.ui.collaborate.tour.launch}
+                                        background="circular"
+                                        icon={INFO_SYMBOL}
+                                        uiid="collaborateTourLaunch"
+                                        action={() => {
+                                            openTour = 'collaborate';
+                                        }}
+                                    ></Button>
+                                {/if}
+                            {/snippet}
+
                             {#snippet extra()}
                                 {#if tile.kind === TileKind.Source}
                                     {@const source = getSourceByTileID(tile.id)}
@@ -1769,19 +1971,24 @@
                                     <Painting
                                             bind:painting
                                         />{/if} -->
-                                    <Button
-                                        background
-                                        action={() =>
-                                            outputView?.adjustZoom(-1)}
-                                        tip={(l) => l.ui.output.button.zoomOut}
-                                        ><Emoji>–🔎</Emoji></Button
-                                    >
-                                    <Button
-                                        background
-                                        action={() => outputView?.adjustZoom(1)}
-                                        tip={(l) => l.ui.output.button.zoomIn}
-                                        ><Emoji>+🔎</Emoji></Button
-                                    >
+                                    <span class="zoom-group" data-uiid="stageZoom">
+                                        <Button
+                                            background
+                                            action={() =>
+                                                outputView?.adjustZoom(-1)}
+                                            tip={(l) =>
+                                                l.ui.output.button.zoomOut}
+                                            ><Emoji>–🔎</Emoji></Button
+                                        >
+                                        <Button
+                                            background
+                                            action={() =>
+                                                outputView?.adjustZoom(1)}
+                                            tip={(l) =>
+                                                l.ui.output.button.zoomIn}
+                                            ><Emoji>+🔎</Emoji></Button
+                                        >
+                                    </span>
                                     {#if hasStagePlace}
                                         <Button
                                             action={() =>
@@ -1794,11 +2001,13 @@
                                         >
                                     {/if}
                                     <Toggle
+                                        uiid="stageGrid"
                                         tips={(l) => l.ui.output.toggle.grid}
                                         on={grid}
                                         toggle={() => (grid = !grid)}
                                         ><Emoji>▦</Emoji></Toggle
                                     ><Toggle
+                                        uiid="stageLock"
                                         tips={(l) => l.ui.output.toggle.fit}
                                         on={fit}
                                         toggle={() => (fit = !fit)}
@@ -1806,7 +2015,9 @@
                                             >{#if fit}🔒{:else}🔓{/if}</Emoji
                                         ></Toggle
                                     >
-                                    <label class="output-locale"
+                                    <label
+                                        class="output-locale"
+                                        data-uiid="stageAnimationSpeed"
                                         >{AnimationIcon}
                                         <Options
                                             value={String($animationFactor)}
@@ -2021,128 +2232,30 @@
     </div>
 
     {#if !layout.isFullscreen() && !requestedPlay}
-        <nav class="footer">
-            <div class="footer-row">
-                {#if original}<Button
-                        uiid="revertProject"
-                        tip={(l) => l.ui.project.button.revert}
-                        active={!project.equals(original)}
-                        action={() => revert()}
-                        icon="↺"
-                    ></Button>{/if}
-                {#if creator}
-                    <CreatorView {creator} />
-                {/if}
-                <Subheader compact>
-                    {#if editable}
-                        <TextField
-                            id="project-name"
-                            text={project.getName()}
-                            description={(l) =>
-                                l.ui.project.field.name.description}
-                            placeholder={(l) =>
-                                l.ui.project.field.name.placeholder}
-                            changed={(name) =>
-                                Projects.reviseProject(project.withName(name))}
-                            max="7em"
-                        />
-                    {:else}{project.getName()}{/if}
-                </Subheader>
-                {#if editable}
-                    <Button
-                        uiid="addSource"
-                        tip={(l) => l.ui.project.button.addSource}
-                        action={addSource}
-                        icon="+{Characters.Program.symbols}"
-                    ></Button>{/if}
-                {#each sources as source, index (index)}
-                    {@const tile = layout.getTileWithID(
-                        Layout.getSourceID(index),
-                    )}
-                    {#if tile}
-                        <!-- Source toggle is expanded if it's mode is expanded and it's not empty -->
-                        <SourceTileToggle
-                            {project}
-                            {source}
-                            expanded={tile.mode === TileMode.Expanded &&
-                                !tile.isInvisible()}
-                            toggle={() => toggleTile(tile)}
-                        />
-                    {/if}
-                {/each}
-                {#each layout.getNonSources() as tile (tile.id)}
-                    <!-- No need to show the tile if not visible when not editable. -->
-                    <!-- Show collaborate tile if the user is a commenter -->
-                    {#if tile.isVisibleCollapsed(editable || (tile.kind === TileKind.Collaborate && isCommenter))}
-                        <NonSourceTileToggle
-                            {project}
-                            {tile}
-                            toggle={() => toggleTile(tile)}
-                            notification={tile.kind === TileKind.Collaborate &&
-                                !!chat &&
-                                isAuthenticated($user) &&
-                                chat.hasUnread($user.uid)}
-                        />
-                    {/if}
-                {/each}
-                <span class="right-align">
-                    <Dialog
-                        header={(l) => l.ui.dialog.help.header}
-                        explanation={(l) => l.ui.dialog.help.explanation}
-                        button={{
-                            tip: ShowKeyboardHelp.description,
-                            icon: ShowKeyboardHelp.symbol,
-                        }}><Shortcuts /></Dialog
-                    >
-                    <CurrentLayout
-                        arrangement={$arrangement}
-                        {canvasWidth}
-                        {canvasHeight}
-                    />
-                    <Toggle
-                        tips={(l) => l.ui.project.toggle.fullscreen}
-                        on={browserFullscreen}
-                        command={browserFullscreen
-                            ? ExitFullscreen
-                            : EnterFullscreen}
-                        toggle={() => setBrowserFullscreen(!browserFullscreen)}
-                    >
-                        <FullscreenIcon />
-                    </Toggle>
-                </span>
-            </div>
-            {#if editable}
-                <div class="footer-row">
-                    {#if shareable}
-                        <Dialog
-                            header={(l) => l.ui.dialog.share.header}
-                            explanation={(l) => l.ui.dialog.share.explanation}
-                            button={{
-                                tip: (l) => l.ui.project.button.share.tip,
-                                icon:
-                                    project.isPublic() &&
-                                    isFlagged(project.getFlags())
-                                        ? '‼️'
-                                        : '↗',
-                                label: (l) => l.ui.project.button.share.label,
-                            }}
-                        >
-                            <Sharing {project} />
-                        </Dialog>
-                    {/if}
-                    <Separator />
-                    <Translate
-                        {project}
-                        showAll={() => {
-                            for (const id of Object.keys(editorLocales))
-                                editorLocales[id] = null;
-                        }}
-                    ></Translate>
-                    <Separator />
-                    <Checkpoints {project} bind:checkpoint></Checkpoints>
-                </div>
-            {/if}
-        </nav>
+        <ProjectFooter
+            {project}
+            {layout}
+            {editable}
+            {shareable}
+            {creator}
+            {chat}
+            {isCommenter}
+            {original}
+            arrangement={$arrangement}
+            {canvasWidth}
+            {canvasHeight}
+            {sources}
+            {editorLocales}
+            {browserFullscreen}
+            {setBrowserFullscreen}
+            {revert}
+            {addSource}
+            {toggleTile}
+            launchTour={() => {
+                openTour = 'project';
+            }}
+            bind:checkpoint
+        />
 
         <!-- Render the menu on top of the annotations -->
         {#if menu && menuPosition}
@@ -2174,6 +2287,44 @@
         {/if}
     {/if}
 </main>
+
+{#if openTour === 'stage'}
+    <Tour
+        explanations={stageTourSteps}
+        subheader={(l) => l.ui.tile.label.output}
+        close={() => (openTour = undefined)}
+    />
+{:else if openTour === 'source'}
+    <Tour
+        explanations={sourceTourSteps}
+        subheader={(l) => l.ui.tile.label.source}
+        close={() => (openTour = undefined)}
+    />
+{:else if openTour === 'docs'}
+    <Tour
+        explanations={docsTourSteps}
+        subheader={(l) => l.ui.tile.label.docs}
+        close={() => (openTour = undefined)}
+    />
+{:else if openTour === 'palette'}
+    <Tour
+        explanations={paletteTourSteps}
+        subheader={(l) => l.ui.tile.label.palette}
+        close={() => (openTour = undefined)}
+    />
+{:else if openTour === 'collaborate'}
+    <Tour
+        explanations={collaborateTourSteps}
+        subheader={(l) => l.ui.tile.label.collaborate}
+        close={() => (openTour = undefined)}
+    />
+{:else if openTour === 'project'}
+    <Tour
+        explanations={projectTourSteps}
+        subheader={(l) => l.ui.project.label}
+        close={() => (openTour = undefined)}
+    />
+{/if}
 
 <style>
     :global(body) {
@@ -2225,17 +2376,6 @@
         height: 100%;
     }
 
-    nav {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        flex-wrap: nowrap;
-        padding: var(--wordplay-spacing);
-        gap: var(--wordplay-spacing);
-        border-top: var(--wordplay-border-width) solid
-            var(--wordplay-border-color);
-    }
-
     .drag-outline {
         z-index: 2;
         pointer-events: none;
@@ -2270,32 +2410,6 @@
         height: 100%;
     }
 
-    .right-align {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: nowrap;
-        align-items: center;
-        margin-left: auto;
-        gap: var(--wordplay-spacing);
-    }
-
-    .footer {
-        overflow-x: auto;
-        display: flex;
-        flex-direction: column;
-        gap: var(--wordplay-spacing);
-        align-items: flex-start;
-    }
-
-    .footer-row {
-        width: 100%;
-        display: flex;
-        flex-direction: row;
-        flex-wrap: nowrap;
-        gap: var(--wordplay-spacing);
-        align-items: center;
-    }
-
     .editor-warning {
         width: 100%;
         padding: var(--wordplay-spacing);
@@ -2324,5 +2438,12 @@
         100% {
             transform: scale(1);
         }
+    }
+
+    /* Group the two zoom buttons so the Tour can highlight them together. */
+    .zoom-group {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--wordplay-spacing);
     }
 </style>

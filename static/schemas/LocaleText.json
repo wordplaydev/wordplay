@@ -9527,6 +9527,45 @@
                     "viewers"
                   ],
                   "type": "object"
+                },
+                "tour": {
+                  "additionalProperties": false,
+                  "description": "Interactive tour explaining the collaborate tile",
+                  "properties": {
+                    "collaborate": {
+                      "$ref": "#/definitions/FormattedText",
+                      "description": "Markup describing the collaborate panel"
+                    },
+                    "collaborators": {
+                      "$ref": "#/definitions/FormattedText",
+                      "description": "Markup describing the collaborators field"
+                    },
+                    "commenters": {
+                      "$ref": "#/definitions/FormattedText",
+                      "description": "Markup describing the commenters field"
+                    },
+                    "launch": {
+                      "description": "[plain] Tooltip on the help button that opens the tour",
+                      "type": "string"
+                    },
+                    "restrict": {
+                      "$ref": "#/definitions/FormattedText",
+                      "description": "Markup describing the restrict-gallery toggle"
+                    },
+                    "viewers": {
+                      "$ref": "#/definitions/FormattedText",
+                      "description": "Markup describing the viewers field"
+                    }
+                  },
+                  "required": [
+                    "launch",
+                    "collaborate",
+                    "collaborators",
+                    "commenters",
+                    "viewers",
+                    "restrict"
+                  ],
+                  "type": "object"
                 }
               },
               "required": [
@@ -9537,7 +9576,8 @@
                 "moderation",
                 "error",
                 "prompt",
-                "restrictGalleryCreatorAccess"
+                "restrictGalleryCreatorAccess",
+                "tour"
               ],
               "type": "object"
             },
@@ -10548,6 +10588,45 @@
                     "GalleryHow"
                   ],
                   "type": "object"
+                },
+                "tour": {
+                  "additionalProperties": false,
+                  "description": "Interactive tour explaining the documentation tile",
+                  "properties": {
+                    "code": {
+                      "$ref": "#/definitions/FormattedText",
+                      "description": "Markup describing the code (programming language) section"
+                    },
+                    "guide": {
+                      "$ref": "#/definitions/FormattedText",
+                      "description": "Markup describing the guide overall"
+                    },
+                    "howto": {
+                      "$ref": "#/definitions/FormattedText",
+                      "description": "Markup describing the how-to section"
+                    },
+                    "launch": {
+                      "description": "[plain] Tooltip on the help button that opens the tour",
+                      "type": "string"
+                    },
+                    "mode": {
+                      "$ref": "#/definitions/FormattedText",
+                      "description": "Markup describing the code/how-to mode toggle"
+                    },
+                    "search": {
+                      "$ref": "#/definitions/FormattedText",
+                      "description": "Markup describing the search field"
+                    }
+                  },
+                  "required": [
+                    "launch",
+                    "guide",
+                    "code",
+                    "howto",
+                    "mode",
+                    "search"
+                  ],
+                  "type": "object"
                 }
               },
               "required": [
@@ -10561,7 +10640,8 @@
                 "mode",
                 "header",
                 "purposes",
-                "how"
+                "how",
+                "tour"
               ],
               "type": "object"
             },
@@ -11595,6 +11675,50 @@
                     "paint"
                   ],
                   "type": "object"
+                },
+                "tour": {
+                  "additionalProperties": false,
+                  "description": "Interactive tour explaining the stage tile",
+                  "properties": {
+                    "animationSpeed": {
+                      "$ref": "#/definitions/FormattedText",
+                      "description": "Markup describing the animation speed control"
+                    },
+                    "grid": {
+                      "$ref": "#/definitions/FormattedText",
+                      "description": "Markup describing the grid toggle"
+                    },
+                    "launch": {
+                      "description": "[plain] Tooltip on the help button that opens the tour",
+                      "type": "string"
+                    },
+                    "lock": {
+                      "$ref": "#/definitions/FormattedText",
+                      "description": "Markup describing the lock/fit toggle"
+                    },
+                    "reset": {
+                      "$ref": "#/definitions/FormattedText",
+                      "description": "Markup describing the reset zoom button"
+                    },
+                    "stage": {
+                      "$ref": "#/definitions/FormattedText",
+                      "description": "Markup describing the stage area"
+                    },
+                    "zoom": {
+                      "$ref": "#/definitions/FormattedText",
+                      "description": "Markup describing the two zoom buttons"
+                    }
+                  },
+                  "required": [
+                    "launch",
+                    "stage",
+                    "reset",
+                    "zoom",
+                    "grid",
+                    "lock",
+                    "animationSpeed"
+                  ],
+                  "type": "object"
                 }
               },
               "required": [
@@ -11602,7 +11726,8 @@
                 "toggle",
                 "field",
                 "button",
-                "options"
+                "options",
+                "tour"
               ],
               "type": "object"
             },
@@ -14139,6 +14264,50 @@
                     "field"
                   ],
                   "type": "object"
+                },
+                "tour": {
+                  "additionalProperties": false,
+                  "description": "Interactive tour explaining the palette tile",
+                  "properties": {
+                    "editor": {
+                      "$ref": "#/definitions/FormattedText",
+                      "description": "Markup describing the editor's role for palette edits"
+                    },
+                    "launch": {
+                      "description": "[plain] Tooltip on the help button that opens the tour",
+                      "type": "string"
+                    },
+                    "palette": {
+                      "$ref": "#/definitions/FormattedText",
+                      "description": "Markup describing the palette panel"
+                    },
+                    "set": {
+                      "$ref": "#/definitions/FormattedText",
+                      "description": "Markup describing the pencil button that promotes a default to an explicit value"
+                    },
+                    "stage": {
+                      "$ref": "#/definitions/FormattedText",
+                      "description": "Markup describing how phrases can be manipulated on stage"
+                    },
+                    "text": {
+                      "$ref": "#/definitions/FormattedText",
+                      "description": "Markup describing the property text field"
+                    },
+                    "unset": {
+                      "$ref": "#/definitions/FormattedText",
+                      "description": "Markup describing the X button that removes an explicit value"
+                    }
+                  },
+                  "required": [
+                    "launch",
+                    "palette",
+                    "text",
+                    "set",
+                    "unset",
+                    "editor",
+                    "stage"
+                  ],
+                  "type": "object"
                 }
               },
               "required": [
@@ -14148,7 +14317,8 @@
                 "prompt",
                 "field",
                 "sequence",
-                "error"
+                "error",
+                "tour"
               ],
               "type": "object"
             },
@@ -14356,6 +14526,10 @@
                   "description": "[plain] The keyboard shortcut to show the shortcut menu",
                   "type": "string"
                 },
+                "label": {
+                  "description": "[plain] The label for the bottom-row project controls section",
+                  "type": "string"
+                },
                 "save": {
                   "additionalProperties": false,
                   "description": "The messages shown for save status",
@@ -14425,9 +14599,59 @@
                     "fullscreen"
                   ],
                   "type": "object"
+                },
+                "tour": {
+                  "additionalProperties": false,
+                  "description": "Interactive tour explaining the bottom-row project controls",
+                  "properties": {
+                    "addSource": {
+                      "$ref": "#/definitions/FormattedText",
+                      "description": "Markup describing the add-source button"
+                    },
+                    "checkpoints": {
+                      "$ref": "#/definitions/FormattedText",
+                      "description": "Markup describing the checkpoints/revisions panel"
+                    },
+                    "controls": {
+                      "$ref": "#/definitions/FormattedText",
+                      "description": "Markup describing the project controls bar overall"
+                    },
+                    "launch": {
+                      "description": "[plain] Tooltip on the help button that opens the tour",
+                      "type": "string"
+                    },
+                    "name": {
+                      "$ref": "#/definitions/FormattedText",
+                      "description": "Markup describing the project name field"
+                    },
+                    "share": {
+                      "$ref": "#/definitions/FormattedText",
+                      "description": "Markup describing the share dialog button"
+                    },
+                    "sourceToggle": {
+                      "$ref": "#/definitions/FormattedText",
+                      "description": "Markup describing the source-tile toggles"
+                    },
+                    "translate": {
+                      "$ref": "#/definitions/FormattedText",
+                      "description": "Markup describing the translate button"
+                    }
+                  },
+                  "required": [
+                    "launch",
+                    "controls",
+                    "name",
+                    "sourceToggle",
+                    "addSource",
+                    "share",
+                    "translate",
+                    "checkpoints"
+                  ],
+                  "type": "object"
                 }
               },
               "required": [
+                "label",
                 "defaults",
                 "error",
                 "button",
@@ -14437,7 +14661,8 @@
                 "save",
                 "dialog",
                 "subheader",
-                "toggle"
+                "toggle",
+                "tour"
               ],
               "type": "object"
             },
@@ -14991,6 +15216,45 @@
                     "expandSequence"
                   ],
                   "type": "object"
+                },
+                "tour": {
+                  "additionalProperties": false,
+                  "description": "Interactive tour explaining the source/code tile",
+                  "properties": {
+                    "editor": {
+                      "$ref": "#/definitions/FormattedText",
+                      "description": "Markup describing the editor"
+                    },
+                    "expand": {
+                      "$ref": "#/definitions/FormattedText",
+                      "description": "Markup describing the expand toggle for advanced tools"
+                    },
+                    "launch": {
+                      "description": "[plain] Tooltip on the help button that opens the tour",
+                      "type": "string"
+                    },
+                    "shortcuts": {
+                      "$ref": "#/definitions/FormattedText",
+                      "description": "Markup describing the keyboard shortcuts dialog trigger"
+                    },
+                    "textBlocks": {
+                      "$ref": "#/definitions/FormattedText",
+                      "description": "Markup describing the text/blocks toggle"
+                    },
+                    "toolbar": {
+                      "$ref": "#/definitions/FormattedText",
+                      "description": "Markup describing the toolbar group of editing actions"
+                    }
+                  },
+                  "required": [
+                    "launch",
+                    "editor",
+                    "textBlocks",
+                    "toolbar",
+                    "expand",
+                    "shortcuts"
+                  ],
+                  "type": "object"
                 }
               },
               "required": [
@@ -15005,7 +15269,8 @@
                 "field",
                 "options",
                 "cursor",
-                "error"
+                "error",
+                "tour"
               ],
               "type": "object"
             },
@@ -15192,13 +15457,102 @@
                 "slider": {
                   "description": "[plain] The description of the timeline slider",
                   "type": "string"
+                },
+                "tour": {
+                  "additionalProperties": false,
+                  "description": "Interactive tour explaining the timeline UI",
+                  "properties": {
+                    "annotations": {
+                      "$ref": "#/definitions/FormattedText",
+                      "description": "Markup describing the annotations window"
+                    },
+                    "editor": {
+                      "$ref": "#/definitions/FormattedText",
+                      "description": "Markup describing the editor"
+                    },
+                    "history": {
+                      "$ref": "#/definitions/FormattedText",
+                      "description": "Markup describing the history slider"
+                    },
+                    "launch": {
+                      "description": "[plain] The tooltip on the help button that opens the tour",
+                      "type": "string"
+                    },
+                    "pauseMode": {
+                      "$ref": "#/definitions/FormattedText",
+                      "description": "Markup describing pause mode (after pausing)"
+                    },
+                    "playMode": {
+                      "$ref": "#/definitions/FormattedText",
+                      "description": "Markup describing play mode (after starting evaluation)"
+                    },
+                    "reset": {
+                      "$ref": "#/definitions/FormattedText",
+                      "description": "Markup describing the reset evaluation button"
+                    },
+                    "stepControls": {
+                      "$ref": "#/definitions/FormattedText",
+                      "description": "Markup describing the step button controls"
+                    },
+                    "timeline": {
+                      "$ref": "#/definitions/FormattedText",
+                      "description": "Markup describing the entire timeline panel"
+                    }
+                  },
+                  "required": [
+                    "launch",
+                    "timeline",
+                    "reset",
+                    "playMode",
+                    "pauseMode",
+                    "annotations",
+                    "editor",
+                    "history",
+                    "stepControls"
+                  ],
+                  "type": "object"
                 }
               },
               "required": [
                 "label",
                 "debug",
                 "slider",
-                "button"
+                "button",
+                "tour"
+              ],
+              "type": "object"
+            },
+            "tour": {
+              "additionalProperties": false,
+              "description": "Generic chrome for the Tour overlay component",
+              "properties": {
+                "close": {
+                  "description": "[plain] Tooltip for the close button",
+                  "type": "string"
+                },
+                "label": {
+                  "description": "[plain] ARIA label for the tour overlay",
+                  "type": "string"
+                },
+                "next": {
+                  "description": "[plain] Tooltip for the next step button",
+                  "type": "string"
+                },
+                "offscreen": {
+                  "description": "[plain] Message shown when the targeted UI is not visible on screen",
+                  "type": "string"
+                },
+                "previous": {
+                  "description": "[plain] Tooltip for the previous step button",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "label",
+                "close",
+                "previous",
+                "next",
+                "offscreen"
               ],
               "type": "object"
             },
@@ -15334,6 +15688,7 @@
             "collaborate",
             "palette",
             "timeline",
+            "tour",
             "dialog",
             "save",
             "localize",

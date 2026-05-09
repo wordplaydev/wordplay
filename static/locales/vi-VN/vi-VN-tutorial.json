@@ -4417,7 +4417,15 @@
                             "kind",
                             "Và một điều nữa mà @Block có thể làm là điều bạn đã thấy rồi. @Block cho phép bạn đặt tên cho các thứ bằng @Bind. Nhưng bất kỳ tên nào được định nghĩa trong @Block chỉ được định nghĩa giữa dấu ngoặc đơn. Không phải trước và không phải sau. Ví dụ, hãy xem điều này: \\a\\ được định nghĩa là \\1\\, sau đó một khối bắt đầu, \\b\\ được định nghĩa là \\2\\, rồi \\c\\ được định nghĩa là tổng của chúng, và sau đó tôi viết riêng \\c\\. Các câu lệnh @Bind là tác dụng phụ — chúng đặt tên nhưng không có giá trị riêng. Vì vậy giá trị của tôi là cái mà các biểu thức không phải @Bind tạo ra. Ở đây chỉ có \\c\\, và đó là \\3\\. Đúng không?"
                         ],
-                        ["conflict", "a: 1", "(", "  b: 2", "  c: a + b", "  c", ")"],
+                        [
+                            "conflict",
+                            "a: 1",
+                            "(",
+                            "  b: 2",
+                            "  c: a + b",
+                            "  c",
+                            ")"
+                        ],
                         null,
                         [
                             "FunctionDefinition",
@@ -4444,11 +4452,7 @@
                             "neutral",
                             "Và còn một điều nữa, tôi nghĩ vậy? Vì @Block là một danh sách các biểu thức, nên giá trị của tất cả các biểu thức không phải @Bind sẽ trở thành giá trị của tôi. Nếu chỉ có một, bạn nhận được giá trị đó. Nếu có nhiều, bạn nhận được một danh sách của tất cả, theo thứ tự. Vậy nên ở đây, \\3\\, \\5\\, \\7\\ và \\9\\ đều trở thành một danh sách: \\[3 5 7 9]\\. Tôi hiểu đúng chứ, @Block?"
                         ],
-                        [
-                            "Block",
-                            "shy",
-                            "… ừm. Tất cả, trong một danh sách."
-                        ],
+                        ["Block", "shy", "… ừm. Tất cả, trong một danh sách."],
                         [
                             "conflict",
                             "(",
@@ -4469,13 +4473,7 @@
                             "shy",
                             "… vậy thì tôi sẽ không có gì để đưa cho bạn. Tôi cần ít nhất một biểu thức không phải @Bind, nếu không tôi phải nói với bạn rằng có gì đó còn thiếu."
                         ],
-                        [
-                            "conflict",
-                            "(",
-                            "  a: 1",
-                            "  b: 2",
-                            ")"
-                        ],
+                        ["conflict", "(", "  a: 1", "  b: 2", ")"],
                         null,
                         [
                             "FunctionDefinition",

@@ -54,6 +54,14 @@ Text input → **Parser** ([src/parser/](src/parser/)) → AST nodes ([src/nodes
 
 All user-visible strings live in locale JSON files ([static/locales/](static/locales/), 38+ languages) validated against a schema. `Database` exposes the active locale as a Svelte store. Nodes, conflicts, values, and APIs all define localized descriptions via `Locale.ts`. Run `npm run locales` to verify and `npm run locales-fix` to repair issues.
 
+**After every edit to a locale or tutorial JSON file** (anything under [static/locales/](static/locales/) — including the per-locale `*-tutorial.json` and `*-emojis.json` files — or [src/locale/en-US.json](src/locale/en-US.json)), run prettier on the changed files:
+
+```bash
+npx prettier --write '<changed files>'
+```
+
+Translation tools (e.g. `npm run locales-translate`) and direct script edits often produce inconsistent indentation, trailing newlines, or escape styles that diverge from the rest of the codebase. Running prettier keeps diffs clean and avoids spurious churn on later edits.
+
 ### Immutability convention
 
 Immutable data structures and pure functions are the norm everywhere except: Svelte components (internal state + global context), `Evaluator` (stack-based evaluation state), and `Database` (persistence). Most bugs will be in those three areas.

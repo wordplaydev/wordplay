@@ -4421,7 +4421,15 @@
                             "kind",
                             "Kaya isa pang bagay na magagawa ng @Block ay isang bagay na nakita mo na. Binibigyang-daan ka ng @Block na pangalanan ang mga bagay gamit ang @Bind. Ngunit ang anumang mga pangalang tinukoy sa @Block ay tinukoy lamang sa pagitan ng mga panaklong. Hindi bago at hindi pagkatapos. Halimbawa, tingnan ito: ang \\a\\ ay tinukoy bilang \\1\\, pagkatapos ay magsisimula ang isang bloke, ang \\b\\ ay tinukoy bilang \\2\\, pagkatapos ay ang \\c\\ bilang kanilang kabuuan, at sa huli ay isulat ko ang \\c\\ nang nag-iisa. Ang mga @Bind ay mga side effect — nagpapakilala sila ng mga pangalan ngunit walang sariling halaga. Kaya ang halaga ko ay kung ano ang ibinibigay ng mga ekspresyon na hindi @Bind. Dito, ito ay \\c\\ lamang, na \\3\\. Tama ba?"
                         ],
-                        ["conflict", "a: 1", "(", "  b: 2", "  c: a + b", "  c", ")"],
+                        [
+                            "conflict",
+                            "a: 1",
+                            "(",
+                            "  b: 2",
+                            "  c: a + b",
+                            "  c",
+                            ")"
+                        ],
                         null,
                         [
                             "FunctionDefinition",
@@ -4448,11 +4456,7 @@
                             "neutral",
                             "At isa pa, sa palagay ko? Dahil ang @Block ay isang listahan ng mga ekspresyon, ang mga halaga ng lahat ng ekspresyon na hindi @Bind ay nagiging halaga ko. Kung iisa lang, makukuha mo ang isang halagang iyon. Kung marami, makukuha mo ang listahan ng lahat, ayon sa pagkakasunod-sunod. Kaya dito, ang \\3\\, \\5\\, \\7\\, at \\9\\ ay nagiging isang listahan: \\[3 5 7 9]\\. Tama ba ang nakuha ko, @Block?"
                         ],
-                        [
-                            "Block",
-                            "shy",
-                            "… mhm. Lahat, sa isang listahan."
-                        ],
+                        ["Block", "shy", "… mhm. Lahat, sa isang listahan."],
                         [
                             "conflict",
                             "(",
@@ -4473,13 +4477,7 @@
                             "shy",
                             "… kung gayon ay wala akong maibibigay sa iyo. Kailangan ko ng kahit isang ekspresyon na hindi @Bind, kung hindi kailangan kong sabihin sa iyo na may kulang."
                         ],
-                        [
-                            "conflict",
-                            "(",
-                            "  a: 1",
-                            "  b: 2",
-                            ")"
-                        ],
+                        ["conflict", "(", "  a: 1", "  b: 2", ")"],
                         null,
                         [
                             "FunctionDefinition",

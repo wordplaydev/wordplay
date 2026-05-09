@@ -54,69 +54,82 @@
     );
 </script>
 
-<Mode
-    icons={[TEXT_EDITING_SYMBOL, BLOCK_EDITING_SYMBOL]}
-    modes={(l) => l.ui.dialog.settings.mode.blocks}
-    choice={$blocks ? 1 : 0}
-    select={(mode) => Settings.setBlocks(mode === 1)}
-    labeled={false}
-    modeLabels={false}
-/>
-
-<!-- Navigate commands are always visible -->
-{#each importantNavigateCommands as command}
-    <CommandButton {command} {sourceID} />
-{/each}
-
-<!-- If there are multiple locales, show the locale chooser -->
-{#if localesUsed.length > 0}
-    {LOCALE_SYMBOL}
-    <EditorLocaleChooser
-        locale={editorLocales[sourceID]}
-        options={localesUsed}
-        change={(locale) => {
-            onChangeLocale(locale);
-        }}
+<span data-uiid="textBlocksToggle">
+    <Mode
+        icons={[TEXT_EDITING_SYMBOL, BLOCK_EDITING_SYMBOL]}
+        modes={(l) => l.ui.dialog.settings.mode.blocks}
+        choice={$blocks ? 1 : 0}
+        select={(mode) => Settings.setBlocks(mode === 1)}
+        labeled={false}
+        modeLabels={false}
     />
-{/if}
+</span>
 
-<!-- Make a Button for every modify command if editable -->
-{#if editable}
-    <!-- Important modify commands are always visible -->
-    {#each importantModifyCommands as command}
+<!-- The command-button group, highlighted as a single tour step. -->
+<span class="toolbar-commands" data-uiid="editorToolbar">
+    <!-- Navigate commands are always visible -->
+    {#each importantNavigateCommands as command}
         <CommandButton {command} {sourceID} />
     {/each}
 
-    <!-- Show accordion button only if there are collapsed commands -->
-    {#if collapsedModifyCommands.length > 0 || collapsedNavigateCommands.length > 0}
-        <!-- Accordion control button -->
-        <Button
-            tip={(l) =>
-                expanded
-                    ? l.ui.source.button.collapseControls
-                    : l.ui.source.button.expandControls}
-            active={true}
-            action={toggleExpanded}
-            icon={expanded ? '⋮' : '⋯'}
+    <!-- If there are multiple locales, show the locale chooser -->
+    {#if localesUsed.length > 0}
+        {LOCALE_SYMBOL}
+        <EditorLocaleChooser
+            locale={editorLocales[sourceID]}
+            options={localesUsed}
+            change={(locale) => {
+                onChangeLocale(locale);
+            }}
         />
+    {/if}
 
-        <!-- Accordion content (expanded when clicked) -->
-        {#if expanded}
-            <div class="accordion-content">
-                {#each collapsedNavigateCommands as command}
-                    <CommandButton {command} {sourceID} />
-                {/each}
-                {#each collapsedModifyCommands as command}
-                    <CommandButton {command} {sourceID} />
-                {/each}
-            </div>
-        {/if}
+    <!-- Make a Button for every modify command if editable -->
+    {#if editable}
+        <!-- Important modify commands are always visible -->
+        {#each importantModifyCommands as command}
+            <CommandButton {command} {sourceID} />
+        {/each}
+    {/if}
+</span>
+
+<!-- Show accordion button only if there are collapsed commands -->
+{#if editable && (collapsedModifyCommands.length > 0 || collapsedNavigateCommands.length > 0)}
+    <!-- Accordion control button -->
+    <Button
+        uiid="editorExpand"
+        tip={(l) =>
+            expanded
+                ? l.ui.source.button.collapseControls
+                : l.ui.source.button.expandControls}
+        active={true}
+        action={toggleExpanded}
+        icon={expanded ? '⋮' : '⋯'}
+    />
+
+    <!-- Accordion content (expanded when clicked) -->
+    {#if expanded}
+        <div class="accordion-content">
+            {#each collapsedNavigateCommands as command}
+                <CommandButton {command} {sourceID} />
+            {/each}
+            {#each collapsedModifyCommands as command}
+                <CommandButton {command} {sourceID} />
+            {/each}
+        </div>
     {/if}
 {/if}
 
 <style>
     .accordion-content {
         display: inline-flex;
+        gap: var(--wordplay-spacing);
+    }
+
+    /* Group the toolbar commands so the Tour can highlight them all at once. */
+    .toolbar-commands {
+        display: inline-flex;
+        align-items: center;
         gap: var(--wordplay-spacing);
     }
 </style>
