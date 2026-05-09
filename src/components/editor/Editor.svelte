@@ -1893,7 +1893,7 @@
         spaces={source.spaces}
         {locale}
         caret={$caret}
-        editable={true}
+        {editable}
         blocks={$blocks}
         lines={$showLines}
         inline={false}

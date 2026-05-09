@@ -190,6 +190,7 @@ type BlockKind =
     | 'evaluate'
     | 'type'
     | 'predicate'
+    | 'doc'
     | 'none';
 
 type BlockStyle = {
@@ -220,8 +221,8 @@ map(Program, ProgramView, {
     direction: 'block',
     size: 'normal',
 });
-map(Doc, DocView, { kind: 'plain', direction: 'inline', size: 'normal' });
-map(Docs, DocsView, { kind: 'none', direction: 'inline', size: 'normal' });
+map(Doc, DocView, { kind: 'none', direction: 'inline', size: 'normal' });
+map(Docs, DocsView, { kind: 'doc', direction: 'inline', size: 'normal' });
 map(Paragraph, ParagraphView, {
     kind: 'none',
     direction: 'inline',
@@ -244,7 +245,7 @@ map(Words, WordsView, {
 });
 map(DocumentedExpression, DocumentedExpressionView, {
     kind: 'none',
-    direction: 'inline',
+    direction: 'block',
     size: 'normal',
 });
 map(Example, ExampleView, {
@@ -380,7 +381,7 @@ map(Evaluate, EvaluateView, {
     size: 'normal',
 });
 map(Input, InputView, {
-    kind: 'plain',
+    kind: 'definition',
     direction: 'inline',
     size: 'normal',
 });

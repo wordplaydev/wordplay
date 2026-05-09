@@ -43,7 +43,9 @@
                     {node}
                     {format}
                     field="inputs"
-                    empty={fun !== undefined && fun.inputs.length > 0
+                    empty={format.editable &&
+                    fun !== undefined &&
+                    fun.inputs.length > 0
                         ? 'label'
                         : 'hide'}
                     direction="block"
@@ -61,7 +63,9 @@
             {node}
             {format}
             field="inputs"
-            empty={fun !== undefined && fun.inputs.length > 0
+            empty={format.editable &&
+            fun !== undefined &&
+            fun.inputs.length > 0
                 ? 'label'
                 : 'hide'}
             direction="inline"

@@ -74,6 +74,22 @@
     // True if this is the recently added token.
     let added = $derived($caret?.addition?.contains(node) ?? false);
 
+    // Structural bracket pairs that should "pop" in blocks mode. Excludes
+    // separators, language tags, and markup tags — they share the delimiter
+    // category but aren't structural brackets.
+    let isBracket = $derived(
+        node.isSymbol(Sym.EvalOpen) ||
+            node.isSymbol(Sym.EvalClose) ||
+            node.isSymbol(Sym.SetOpen) ||
+            node.isSymbol(Sym.SetClose) ||
+            node.isSymbol(Sym.ListOpen) ||
+            node.isSymbol(Sym.ListClose) ||
+            node.isSymbol(Sym.TableOpen) ||
+            node.isSymbol(Sym.TableClose) ||
+            node.isSymbol(Sym.TypeOpen) ||
+            node.isSymbol(Sym.TypeClose),
+    );
+
     // If requesed, localize the token's text.
     // Don't localize the name if the caret is in the name.
     let text = $derived(
@@ -114,6 +130,7 @@
         class:blockText={format.editable &&
             Caret.isTokenTextBlockEditable(node, parent)}
         class:added
+        class:bracket={isBracket}
         data-id={node.id}
     >
         {#if editable && $project && node.isSymbol(Sym.Boolean)}<BooleanTokenEditor
@@ -199,6 +216,12 @@
         color: var(--wordplay-doc-color);
     }
 
+    /* Language tags are a kind of type annotation — color all their tokens
+       (slash, language code, dash, region) with the type color for parity. */
+    :global(.Language) .token-view {
+        color: var(--wordplay-type-color);
+    }
+
     .token-category-docs {
         font-size: small;
         color: var(--wordplay-doc-color);
@@ -207,6 +230,13 @@
     .token-category-delimiter,
     :global(.Example) .token-category-delimiter {
         color: var(--color-dark-grey);
+    }
+
+    /* Structural brackets pop in blocks mode to make group boundaries
+       visually obvious. Text mode keeps the existing token sizing. */
+    .token-view.blocks.bracket {
+        font-weight: bold;
+        font-size: 1.2em;
     }
     .token-category-relation,
     :global(.Example) .token-category-relation {

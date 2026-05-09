@@ -11,18 +11,10 @@
 </script>
 
 <script lang="ts" generics="NodeType extends Node">
-    import ValueView from '@components/values/ValueView.svelte';
-    import { InsertionPoint } from '@edit/drag/Drag';
-    import type Definition from '@nodes/Definition';
-    import Expression from '@nodes/Expression';
-    import Node from '@nodes/Node';
-    import type { UnitDeriver } from '@nodes/NumberType';
-    import type Root from '@nodes/Root';
-    import Source from '@nodes/Source';
-    import { EVAL_CLOSE_SYMBOL, EVAL_OPEN_SYMBOL } from '@parser/Symbols';
-    import { locales } from '@db/Database';
-    import Token from '@nodes/Token';
-    import type KeysOfType from '@util/KeysOfType';
+    import EmptyView from '@components/editor/blocks/EmptyView.svelte';
+    import MenuTrigger from '@components/editor/menu/MenuTrigger.svelte';
+    import getNodeView from '@components/editor/nodes/nodeToView';
+    import Space from '@components/editor/nodes/Space.svelte';
     import {
         getDragTarget,
         getEvaluation,
@@ -31,10 +23,19 @@
         getRoot,
         getSpaces,
     } from '@components/project/Contexts';
-    import EmptyView from '@components/editor/blocks/EmptyView.svelte';
-    import MenuTrigger from '@components/editor/menu/MenuTrigger.svelte';
-    import getNodeView from '@components/editor/nodes/nodeToView';
-    import Space from '@components/editor/nodes/Space.svelte';
+    import ValueView from '@components/values/ValueView.svelte';
+    import { locales } from '@db/Database';
+    import { InsertionPoint } from '@edit/drag/Drag';
+    import Block from '@nodes/Block';
+    import type Definition from '@nodes/Definition';
+    import Expression from '@nodes/Expression';
+    import Node from '@nodes/Node';
+    import type { UnitDeriver } from '@nodes/NumberType';
+    import type Root from '@nodes/Root';
+    import Source from '@nodes/Source';
+    import Token from '@nodes/Token';
+    import { EVAL_CLOSE_SYMBOL, EVAL_OPEN_SYMBOL } from '@parser/Symbols';
+    import type KeysOfType from '@util/KeysOfType';
 
     interface Props {
         /** The parent node containing the field to render. We take this instead of the field value so we can render a placeholder for empty values in blocks mode. */
@@ -123,6 +124,10 @@
     let view = $derived(node ? getNodeView(node) : undefined);
     let ComponentView = $derived(view ? view.component : undefined);
     let style = $derived(view ? view.style : undefined);
+
+    // The root Block is structural — it always exists and can't be removed,
+    // so it shouldn't carry the visible block chrome (background, padding, shadow).
+    let isRootBlock = $derived(node instanceof Block && node.isRoot());
 </script>
 
 {#snippet textSpace()}
@@ -180,6 +185,7 @@
                     Token: node instanceof Token,
                     highlighted: highlight !== undefined,
                     editable: format.editable,
+                    'root-block': isRootBlock,
                 },
                 style?.kind,
             ]}
@@ -201,7 +207,7 @@
         </div>
     {:else}
         !
-    {/if}{#if replaceable && format.block && node !== undefined}<MenuTrigger
+    {/if}{#if replaceable && format.block && format.editable && node !== undefined}<MenuTrigger
             anchor={node}
         />{/if}
 {:else if node === undefined && format.block && Array.isArray(path)}
@@ -303,8 +309,14 @@
 
         padding: var(--wordplay-block-padding-block)
             var(--wordplay-block-padding-inline);
-        box-shadow: var(--color-shadow) 0px 0px 4px;
+        /* Sharp 1px outline — uses box-shadow with 0 blur so it doesn't
+           affect layout and respects border-radius. */
+        box-shadow: 0 0 0 var(--wordplay-border-width)
+            var(--wordplay-border-color);
         border-radius: var(--wordplay-border-radius);
+        /* Opaque by default so ancestor fills don't bleed through.
+           Kinds with their own fill override below; .none and .root-block opt out. */
+        background: var(--wordplay-background);
 
         animation: calc(var(--animation-factor) * 200ms) ease-out 0s 1 entry;
     }
@@ -353,9 +365,7 @@
     }
 
     .block.definition {
-        border-inline-start: var(--wordplay-focus-width) solid var(--color-blue);
-        border-top-left-radius: 0;
-        border-bottom-left-radius: 0;
+        background: var(--wordplay-block-fill-definition);
     }
 
     .block.reference {
@@ -365,35 +375,62 @@
     }
 
     .block.evaluate {
-        border-block-end: var(--wordplay-focus-width) solid var(--color-purple);
-        border-bottom-left-radius: 0;
-        border-bottom-right-radius: 0;
+        background: var(--wordplay-block-fill-evaluate);
     }
 
     .block.type {
         font-size: var(--wordplay-small-font-size);
-        box-shadow: inset var(--wordplay-border-color) 0px 0px
-            var(--wordplay-border-width);
-        background: var(--wordplay-alternating-color);
-        padding: var(--wordplay-spacing) var(--wordplay-spacing-half);
+        padding: 0 var(--wordplay-spacing-half);
+        /* Pastel-orange fill marks types/language tags. No outline or border —
+           the fill alone is enough, and reads cleanly over any block color. */
+        background: var(--wordplay-block-fill-type);
+        box-shadow: none;
     }
 
     .block.predicate {
-        border-inline-start: var(--wordplay-focus-width) solid var(--color-pink);
-        border-top-left-radius: 0;
-        border-bottom-left-radius: 0;
+        background: var(--wordplay-block-fill-predicate);
     }
 
     .block.data {
-        box-shadow: inset var(--color-shadow) 0px 0px
-            var(--wordplay-focus-width);
         padding: var(--wordplay-spacing-half);
-        border: dashed var(--wordplay-border-width) var(--wordplay-border-color);
-        background: var(--color-shadow-transparent);
+        background: var(--wordplay-block-fill-data);
+    }
+
+    .block.doc {
+        padding: var(--wordplay-spacing-half);
+        background: var(--wordplay-block-fill-doc);
+        /* Inset border instead of the default outer outline, so the docs
+           panel reads as a recessed/embedded surface. */
+        box-shadow: inset 0 0 0 var(--wordplay-border-width)
+            var(--wordplay-border-color);
+    }
+
+    /* When the docs panel has no content, NodeSequenceView shows its empty
+       placeholder at the top level of the panel. Drop the panel's own
+       chrome — the placeholder/menu trigger alone is enough. */
+    .block.doc:has(
+            > :global(.node-list[data-direction='block'] > .empty)
+        ) {
+        padding: 0;
+        background: transparent;
+        box-shadow: none;
+    }
+
+    /* Tighten the gap between stacked Doc entries inside a docs panel so
+       they read as continuous text rather than separated paragraphs. */
+    .block.doc :global(.node-list[data-direction='block']) {
+        gap: 0;
     }
 
     .block.none {
         padding: 0;
+        box-shadow: none;
+        background: transparent;
+    }
+
+    .block.root-block {
+        padding: 0;
+        background: transparent;
         box-shadow: none;
     }
 

@@ -33,7 +33,7 @@
 {#if format.block}
     {#if node.docs.isEmpty()}
         <Flow direction="row">
-            {#if format.editable}{@render docs()}{/if}
+            {#if format.editable && !node.isRoot()}{@render docs()}{/if}
             <Flow direction={node.statements.length > 1 ? 'column' : 'row'}
                 >{@render statements()}
             </Flow>
@@ -47,7 +47,11 @@
         </Flow>
     {/if}
 {:else}
-    <NodeView node={[node, 'docs']} {format} empty="menu" /><NodeView
+    {#if !(node.isRoot() && node.docs.isEmpty())}<NodeView
+            node={[node, 'docs']}
+            {format}
+            empty="menu"
+        />{/if}<NodeView
         node={[node, 'open']}
         {format}
         empty="hide"

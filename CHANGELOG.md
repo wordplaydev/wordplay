@@ -15,6 +15,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - We added better unit suggestions in the autocomplete menu.
 - We added a setting to control the spacing in blocks mode, for accessibility.
 - We added a way to highlight expressions by adding 👀 inside some code's preceding explanatio, e.g., \¶👀¶"I'm highlighted!" This is helpful for how-to authors who want to emphasize some code.
+- We added a new visual style for blocks editing mode, for improved readability. It also accounts for whether an editor is read only, hiding editing controls for more compactness.
 
 ### Changed
 

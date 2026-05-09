@@ -240,7 +240,7 @@
         /* Don't stretch column children (e.g. the .append button) to the
            column's full width — they should size to their content. */
         align-items: start;
-        gap: var(--wordplay-spacing-half);
+        gap: var(--wordplay-block-stack-gap);
         padding-block-start: var(--wordplay-spacing-half);
         padding-block-end: var(--wordplay-spacing-half);
     }

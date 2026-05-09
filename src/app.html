@@ -130,6 +130,39 @@
                 --wordplay-operator-color: var(--color-orange);
                 --wordplay-type-color: var(--color-orange);
 
+                /* Pastel fills for container-y block kinds. Mixed against the
+                   background so they auto-track light/dark mode. */
+                --wordplay-block-fill-definition: color-mix(
+                    in srgb,
+                    var(--color-blue) 15%,
+                    var(--wordplay-background)
+                );
+                --wordplay-block-fill-predicate: color-mix(
+                    in srgb,
+                    var(--color-pink) 15%,
+                    var(--wordplay-background)
+                );
+                --wordplay-block-fill-evaluate: color-mix(
+                    in srgb,
+                    var(--color-purple) 15%,
+                    var(--wordplay-background)
+                );
+                --wordplay-block-fill-data: color-mix(
+                    in srgb,
+                    var(--color-yellow) 15%,
+                    var(--wordplay-background)
+                );
+                --wordplay-block-fill-doc: color-mix(
+                    in srgb,
+                    var(--color-purple) 15%,
+                    var(--wordplay-background)
+                );
+                --wordplay-block-fill-type: color-mix(
+                    in srgb,
+                    var(--color-orange) 15%,
+                    var(--wordplay-background)
+                );
+
                 /* Fonts */
                 --wordplay-app-font:
                     'Noto Sans', 'Noto Color Emoji', 'Noto Emoji', sans-serif;
@@ -146,6 +179,7 @@
                 --wordplay-block-padding-block: 0.25rem;
                 --wordplay-block-padding-inline: 0.25rem;
                 --wordplay-block-insertion-margin: 0.25rem;
+                --wordplay-block-stack-gap: var(--wordplay-spacing-half);
                 --wordplay-font-weight: 400;
                 --wordplay-font-size: 12pt;
                 --wordplay-small-font-size: 10pt;
@@ -168,6 +202,11 @@
                 --wordplay-block-padding-block: 0.125rem;
                 --wordplay-block-padding-inline: 0.25rem;
                 --wordplay-block-insertion-margin: 0.125rem;
+                /* Compact blocks lose internal vertical padding, so add 1px to
+                   the inter-block gap to keep stacked blocks visually distinct. */
+                --wordplay-block-stack-gap: calc(
+                    var(--wordplay-spacing-half) + 1px
+                );
             }
             .editor.density-spacious {
                 --wordplay-block-padding-block: 0.5rem;
