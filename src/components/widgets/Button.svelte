@@ -245,11 +245,7 @@
     }
 
     .salient {
-        outline: var(--wordplay-highlight-color) solid
-            var(--wordplay-border-width);
-        outline-offset: calc(var(--wordplay-border-width) * -1);
-        background: var(--wordplay-alternating-color);
-        border-radius: 0;
+        background: var(--wordplay-highlight-color);
     }
 
     [aria-disabled='true'] {

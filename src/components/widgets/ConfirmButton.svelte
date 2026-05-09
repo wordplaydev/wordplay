@@ -40,9 +40,9 @@
         active={enabled}
         {label}
         {testid}
-        >{#if confirming}{CANCEL_SYMBOL}{:else if children}{@render children()}{:else if label}<LocalizedText
+        >{#if confirming}{CANCEL_SYMBOL}{:else}{#if children}{@render children()}{:else if label}<LocalizedText
                 path={label}
-            />{/if}</Button
+            />{/if}…{/if}</Button
     >
     {#if confirming}
         <Button

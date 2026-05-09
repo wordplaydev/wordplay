@@ -77,16 +77,19 @@
                         tip={edit.description}
                         action={() => (edit ? edit.action(project) : undefined)}
                         icon={edit.label}
+                        background
                     ></Button>{/if}{#if copy}<Button
                         tip={copy.description}
                         action={() => copy.action(project)}
                         icon={copy.label}
+                        background
                     ></Button>{/if}{#if removeMeta}<ConfirmButton
                         prompt={removeMeta.prompt}
                         tip={removeMeta.description}
                         action={() =>
                             removeMeta ? removeMeta.action() : undefined}
                         icon={removeMeta.label}
+                        background
                     ></ConfirmButton>{/if}</div
             >{@render children?.()}</ProjectPreview
         >

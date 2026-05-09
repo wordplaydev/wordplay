@@ -334,6 +334,7 @@
     .name {
         display: flex;
         flex-direction: column;
+        gap: var(--wordplay-spacing);
     }
 
     .untitled {
@@ -383,7 +384,6 @@
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
-        margin-block-start: var(--wordplay-spacing);
         gap: var(--wordplay-spacing);
         row-gap: var(--wordplay-spacing);
     }
