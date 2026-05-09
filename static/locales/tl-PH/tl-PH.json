@@ -4394,7 +4394,8 @@
                 "edit": "$~i-edit ang naka-format na teksto",
                 "preview": "$~preview na naka-format na teksto",
                 "highlight": "$~i-highlight ang halimbawa",
-                "bullet": "$~bala"
+                "bullet": "$~bala",
+                "attention": "$~i-highlight ang ekspresyong ito"
             }
         },
         "tile": {

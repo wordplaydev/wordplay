@@ -4390,7 +4390,8 @@
                 "edit": "$~Biçimlendirilmiş metni düzenle",
                 "preview": "$~Biçimlendirilmiş metni önizle",
                 "highlight": "$~vurgulama örneği",
-                "bullet": "$~madde işareti"
+                "bullet": "$~madde işareti",
+                "attention": "$~bu ifadeyi vurgulayın"
             }
         },
         "tile": {

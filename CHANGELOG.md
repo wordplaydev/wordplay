@@ -14,6 +14,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - We added much more robust menu suggestions for locales and locale parts (#1099).
 - We added better unit suggestions in the autocomplete menu.
 - We added a setting to control the spacing in blocks mode, for accessibility.
+- We added a way to highlight expressions by adding 👀 inside some code's preceding explanatio, e.g., \¶👀¶"I'm highlighted!" This is helpful for how-to authors who want to emphasize some code.
 
 ### Changed
 
