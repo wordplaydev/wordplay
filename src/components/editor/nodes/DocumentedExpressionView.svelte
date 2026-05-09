@@ -1,6 +1,8 @@
 <script lang="ts">
+    import NodeView, {
+        type Format,
+    } from '@components/editor/nodes/NodeView.svelte';
     import type DocumentedExpression from '@nodes/DocumentedExpression';
-    import NodeView, { type Format } from '@components/editor/nodes/NodeView.svelte';
 
     interface Props {
         node: DocumentedExpression;
@@ -8,16 +10,21 @@
     }
 
     let { node, format }: Props = $props();
+
+    let highlighted = $derived(node.hasAttentionEmoji());
 </script>
 
-{#if format.block}
-    <NodeView node={[node, 'docs']} {format} /><NodeView
-        node={[node, 'expression']}
-        {format}
-    />
-{:else}
-    <NodeView node={[node, 'docs']} {format} /><NodeView
-        node={[node, 'expression']}
-        {format}
-    />
-{/if}
+<NodeView node={[node, 'docs']} {format} />{#if highlighted}<span
+        class="attention"
+        ><NodeView node={[node, 'expression']} {format} /></span
+    >{:else}<NodeView node={[node, 'expression']} {format} />{/if}
+
+<style>
+    .attention {
+        border-radius: var(--wordplay-editor-radius);
+        background: var(--color-yellow-transparent);
+        flex-direction: column;
+        align-items: start;
+        width: fit-content;
+    }
+</style>

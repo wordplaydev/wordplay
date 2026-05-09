@@ -4391,7 +4391,8 @@
                 "edit": "$~editar texto formatado",
                 "preview": "$~texto formatado de pré-visualização",
                 "highlight": "$~exemplo de destaque",
-                "bullet": "$~marcador"
+                "bullet": "$~marcador",
+                "attention": "$~Destaque esta expressão"
             }
         },
         "tile": {

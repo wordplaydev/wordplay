@@ -2,14 +2,14 @@
     import Emoji from '@components/app/Emoji.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import { toShortcut } from '@components/editor/commands/Commands';
+    import Button from '@components/widgets/Button.svelte';
+    import Switch from '@components/widgets/Switch.svelte';
+    import TextBox from '@components/widgets/TextBox.svelte';
     import { locales } from '@db/Database';
     import type LocaleText from '@locale/LocaleText';
     import type { LocaleTextAccessor } from '@locale/Locales';
     import { BULLET_SYMBOL } from '@parser/Symbols';
     import { tick } from 'svelte';
-    import Button from '@components/widgets/Button.svelte';
-    import Switch from '@components/widgets/Switch.svelte';
-    import TextBox from '@components/widgets/TextBox.svelte';
 
     interface Props {
         id: string;
@@ -45,41 +45,56 @@
         };
     });
 
-    function findExampleRange(
+    function findRange(
         src: string,
         cursor: number,
+        delimiter: string,
+        start = 0,
+        end = src.length,
     ): { open: number; close: number } | null {
-        const positions: number[] = [];
-        let i = 0;
-        while (i < src.length) {
-            if (src[i] === '\\') positions.push(i);
-            i++;
-        }
-        for (let j = 0; j + 1 < positions.length; j += 2) {
-            const open = positions[j];
-            const close = positions[j + 1];
+        let open = src.indexOf(delimiter, start);
+        while (open !== -1 && open < end) {
+            const close = src.indexOf(delimiter, open + 1);
+            if (close === -1 || close >= end) return null;
             if (cursor > open && cursor <= close + 1) return { open, close };
+            open = src.indexOf(delimiter, close + 1);
         }
         return null;
     }
 
-    let cursorInExample = $derived(
-        findExampleRange(text, cursorPosition) !== null,
+    let exampleRange = $derived(findRange(text, cursorPosition, '\\'));
+    let cursorInExample = $derived(exampleRange !== null);
+    let cursorInDocInExample = $derived(
+        exampleRange !== null &&
+            findRange(
+                text,
+                cursorPosition,
+                '¶',
+                exampleRange.open + 1,
+                exampleRange.close,
+            ) !== null,
     );
 
-    function formatHighlight() {
-        if (view === undefined) return;
-        const cursor = view.selectionStart ?? 0;
-        const range = findExampleRange(text, cursor);
-        if (range === null) return;
-        const insertPos = range.close + 1;
-        text = text.slice(0, insertPos) + '⭐' + text.slice(insertPos);
-        const newCursor = insertPos + 1;
+    function insertAtCursor(str: string, pos: number) {
+        text = text.slice(0, pos) + str + text.slice(pos);
+        const newCursor = pos + str.length;
         cursorPosition = newCursor;
         setTimeout(() => {
             view!.focus();
             view!.setSelectionRange(newCursor, newCursor);
         }, 0);
+    }
+
+    function formatHighlight() {
+        if (view === undefined) return;
+        const range = findRange(text, view.selectionStart ?? 0, '\\');
+        if (range === null) return;
+        insertAtCursor('⭐', range.close + 1);
+    }
+
+    function formatAttention() {
+        if (view === undefined) return;
+        insertAtCursor('👀', view.selectionStart ?? 0);
     }
 
     /** Add a bullet on a new line */
@@ -108,7 +123,7 @@
         view.scrollIntoView({ block: 'nearest' });
     }
 
-    function format(format: '*' | '^' | '/' | '_' | '\\' | '@') {
+    function format(format: '*' | '^' | '/' | '_' | '\\' | '@' | '¶') {
         if (view === undefined) return;
         const start = view.selectionStart;
         const end = view.selectionEnd;
@@ -237,6 +252,22 @@
                     event.stopPropagation();
                     formatBullet();
                     break;
+                case '>':
+                    event.preventDefault();
+                    event.stopPropagation();
+                    formatAttention();
+                    break;
+            }
+        }
+
+        if (event.altKey && !event.ctrlKey && !event.metaKey) {
+            switch (event.key) {
+                case '7':
+                case '¶':
+                    event.preventDefault();
+                    event.stopPropagation();
+                    format('¶');
+                    break;
             }
         }
     }
@@ -300,6 +331,22 @@
                 ` (${toShortcut({ control: true, alt: undefined, shift: true, key: '8' })})`}
             action={formatHighlight}
             active={!preview && cursorInExample}><Emoji>⭐</Emoji></Button
+        >
+        <Button
+            tip={(l: LocaleText) =>
+                l.ui.source.cursor.insertDocs +
+                ` (${toShortcut({ control: undefined, alt: true, shift: undefined, key: '7' })})`}
+            action={() => format('¶')}
+            active={!preview &&
+                exampleRange !== null &&
+                cursorPosition <= exampleRange.close}>¶</Button
+        >
+        <Button
+            tip={(l: LocaleText) =>
+                l.ui.widget.formatted.attention +
+                ` (${toShortcut({ control: true, alt: undefined, shift: true, key: '.' })})`}
+            action={formatAttention}
+            active={!preview && cursorInDocInExample}><Emoji>👀</Emoji></Button
         >
         <Button
             tip={() =>

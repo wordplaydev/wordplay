@@ -4390,7 +4390,8 @@
                 "edit": "$~redigera formaterad text",
                 "preview": "$~förhandsgranska formaterad text",
                 "highlight": "$~exempel på framhävning",
-                "bullet": "$~punkt"
+                "bullet": "$~punkt",
+                "attention": "$~markera detta uttryck"
             }
         },
         "tile": {

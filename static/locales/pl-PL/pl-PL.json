@@ -4395,7 +4395,8 @@
                 "edit": "$~edytuj sformatowany tekst",
                 "preview": "$~podgląd sformatowanego tekstu",
                 "highlight": "$~wyróżnij przykład",
-                "bullet": "$~punkt listy"
+                "bullet": "$~punkt listy",
+                "attention": "$~zaznacz to wyrażenie"
             }
         },
         "tile": {

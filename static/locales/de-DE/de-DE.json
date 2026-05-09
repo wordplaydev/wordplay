@@ -4389,7 +4389,8 @@
                 "edit": "$~formatierten Text bearbeiten",
                 "preview": "$~formatierten Text in Vorschau anzeigen",
                 "highlight": "$~Hervorhebungsbeispiel",
-                "bullet": "$~Aufzählungszeichen"
+                "bullet": "$~Aufzählungszeichen",
+                "attention": "$~Diesen Ausdruck hervorheben"
             }
         },
         "tile": {

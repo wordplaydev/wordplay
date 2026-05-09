@@ -4372,7 +4372,8 @@
                 "edit": "$~editar texto formateado",
                 "preview": "$~vista previa del texto formateado",
                 "highlight": "$~ejemplo destacado",
-                "bullet": "$~viñeta"
+                "bullet": "$~viñeta",
+                "attention": "$~resaltar esta expresión"
             }
         },
         "tile": {

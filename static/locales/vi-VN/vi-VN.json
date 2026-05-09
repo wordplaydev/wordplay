@@ -4391,7 +4391,8 @@
                 "edit": "$~chỉnh sửa văn bản đã định dạng",
                 "preview": "$~xem trước văn bản được định dạng",
                 "highlight": "$~ví dụ nổi bật",
-                "bullet": "$~dấu đầu dòng"
+                "bullet": "$~dấu đầu dòng",
+                "attention": "$~nhấn mạnh biểu thức này"
             }
         },
         "tile": {
