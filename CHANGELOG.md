@@ -32,6 +32,8 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - We made copy and paste within the app more reliable and fast.
 - We made collision detection more reliable and less flickery.
 - We made Phrases with custom characters also eligible to drag, rotate, and scale.
+- We fixed the region on the Swedish locale.
+- We improved the contrast of links in light mode.
 
 ## 0.17.8 - 2026-05-02
 
