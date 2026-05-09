@@ -40,6 +40,19 @@ export default class Physics {
         engine: MatterJS.Engine;
     }[] = [];
 
+    /** Simulated time owed to the engine but not yet stepped, in ms.
+     *  We feed Matter.js fixed-size sub-steps to keep collision detection
+     *  frame-rate-independent (variable elapsed values cause tunneling). */
+    private accumulator = 0;
+
+    /** Bodies whose Placement-driven displacement this frame is large enough
+     *  to risk tunneling. tick() interpolates them across sub-steps so the
+     *  engine can catch overlaps along the path. */
+    private sweepingBodies: Map<
+        OutputBody,
+        { from: { x: number; y: number }; to: { x: number; y: number } }
+    > = new Map();
+
     constructor(evaluator: Evaluator) {
         this.evaluator = evaluator;
     }
@@ -58,13 +71,9 @@ export default class Physics {
                 enableSleeping: false,
             });
 
-            // Set timing to match animation factor
-            const animationFactor =
-                this.evaluator.database.Settings.settings.animationFactor.get();
-            if (animationFactor > 0)
-                engine.timing.timeScale = 1 / animationFactor;
-
-            // Set the engine.
+            // Set the engine. animationFactor is applied per-tick when
+            // converting wall-clock elapsed to simulated time, so the engine's
+            // own timeScale stays at 1.
             this.enginesByZ.set(z, engine);
 
             // Cap velocity
@@ -280,23 +289,34 @@ export default class Physics {
                         MatterJS.Composite.add(engine.world, shape.body);
                     }
 
-                    // Does the output have no motion but does have matter? Move it to its latest position and apply a velocity.
+                    // No motion but has matter? Either teleport directly or,
+                    // if the displacement is large enough to risk skipping
+                    // through another body, defer to tick() which will sweep
+                    // across sub-steps.
                     if (motion === undefined) {
-                        MatterJS.Body.setPosition(
-                            shape.body,
-                            shape.getPosition(
-                                info.global.x,
-                                info.global.y,
-                                info.width,
-                                info.height,
-                            ),
+                        const target = shape.getPosition(
+                            info.global.x,
+                            info.global.y,
+                            info.width,
+                            info.height,
                         );
-                        // const delta = {
-                        //     x: PX_PER_METER * (info.global.x - previousPlace.x),
-                        //     y: PX_PER_METER * (info.global.y - previousPlace.y),
-                        // };
-                        // MatterJS.Body.applyForce();
-                        // MatterJS.Body.setVelocity(shape.body, delta);
+                        const dx = target.x - shape.body.position.x;
+                        const dy = target.y - shape.body.position.y;
+                        const halfMin =
+                            (PX_PER_METER *
+                                Math.min(shape.width, shape.height)) /
+                            2;
+                        if (dx * dx + dy * dy <= halfMin * halfMin) {
+                            MatterJS.Body.setPosition(shape.body, target);
+                        } else {
+                            this.sweepingBodies.set(shape, {
+                                from: {
+                                    x: shape.body.position.x,
+                                    y: shape.body.position.y,
+                                },
+                                to: target,
+                            });
+                        }
                     }
 
                     // Did we make or find a corresponding body? Apply any Place or Velocity overrides in the Motion.
@@ -318,6 +338,15 @@ export default class Physics {
 
                     // Set the collision filter based on the matter settings.
                     shape.body.collisionFilter = getCollisionFilter(matter);
+
+                    // Bodies whose position is set externally (by Placement or
+                    // a static Place) become sensors: they still fire collision
+                    // events, but the solver doesn't apply separation impulses
+                    // that would fight the per-frame setPosition. Without this,
+                    // the solver pushes overlapping bodies apart every step,
+                    // sync teleports them back, and Collision oscillates between
+                    // start/end at frame rate.
+                    shape.body.isSensor = motion === undefined;
 
                     // If no motion, set inertia to infinity, since the output is immovable.
                     MatterJS.Body.setInertia(shape.body, Infinity);
@@ -377,14 +406,58 @@ export default class Physics {
     }
 
     tick(elapsed: number) {
-        // UPDATE all the engines forward by the duration that has elapsed with the new arrangement.
-        // Only do this if we haven't done it for the current delta.
-        if (
-            this.evaluator.database.Settings.settings.animationFactor.get() > 0
-        ) {
-            for (const engine of this.enginesByZ.values())
-                MatterJS.Engine.update(engine, elapsed);
+        const factor =
+            this.evaluator.database.Settings.settings.animationFactor.get();
+
+        // Frozen world (animationFactor 0 / calm mode): finalize any deferred
+        // moves so bodies stay where Placement put them, then skip simulation.
+        if (factor <= 0) {
+            for (const [shape, move] of this.sweepingBodies)
+                MatterJS.Body.setPosition(shape.body, move.to);
+            this.sweepingBodies.clear();
+            return;
         }
+
+        // Convert wall-clock elapsed to simulated elapsed. animationFactor
+        // is an inverse-speed multiplier (4 = ¼ speed, 0.1 = 10× speed).
+        // Cap the per-call delta so a long pause / hidden tab doesn't dump
+        // huge time into the accumulator.
+        this.accumulator += Math.min(elapsed / factor, 100);
+
+        // Run as many fixed sub-steps as fit. Cap iterations so very slow
+        // machines don't spiral; better to let simulated time fall behind
+        // real time than feed huge variable steps to the engine, which
+        // causes tunneling and missed collisions.
+        const FIXED_STEP_MS = 16;
+        const MAX_STEPS = 4;
+        const steps = Math.min(
+            Math.floor(this.accumulator / FIXED_STEP_MS),
+            MAX_STEPS,
+        );
+
+        if (steps > 0) {
+            for (let i = 1; i <= steps; i++) {
+                // Interpolate sweeping bodies along their path so the engine
+                // can detect overlaps at intermediate positions.
+                const t = i / steps;
+                for (const [shape, move] of this.sweepingBodies) {
+                    MatterJS.Body.setPosition(shape.body, {
+                        x: move.from.x + (move.to.x - move.from.x) * t,
+                        y: move.from.y + (move.to.y - move.from.y) * t,
+                    });
+                }
+                for (const engine of this.enginesByZ.values())
+                    MatterJS.Engine.update(engine, FIXED_STEP_MS);
+            }
+            this.accumulator -= steps * FIXED_STEP_MS;
+            // Drop remainder when we hit the cap so it doesn't grow forever.
+            if (steps === MAX_STEPS) this.accumulator = 0;
+        }
+
+        // Ensure sweeping bodies reach their final target (covers steps == 0).
+        for (const [shape, move] of this.sweepingBodies)
+            MatterJS.Body.setPosition(shape.body, move.to);
+        this.sweepingBodies.clear();
     }
 
     removeOutputBody(name: string) {
@@ -418,14 +491,13 @@ export default class Physics {
     }
 
     createOutputBody(info: OutputInfo, matter: Matter | undefined) {
-        const { width, height, ascent } = info.output.getLayout(info.context);
+        const { width, height } = info.output.getLayout(info.context);
         return new OutputBody(
             info.output.getName(),
             info.global.x,
             info.global.y,
             width,
             height,
-            ascent,
             ((info.output.pose.rotation ?? 0) * Math.PI) / 180,
             // Round corners by a fraction of their size
             (matter?.roundedness ?? 0.1) *
@@ -473,7 +545,6 @@ export class OutputBody {
         bottom: number,
         width: number,
         height: number,
-        ascent: number,
         angle: number,
         corner: number,
         matter: Matter | undefined,
@@ -484,7 +555,7 @@ export class OutputBody {
             position.x,
             position.y,
             PX_PER_METER * width,
-            PX_PER_METER * ascent,
+            PX_PER_METER * height,
             // Round corners by a fraction of their size
             {
                 chamfer: { radius: corner * PX_PER_METER },

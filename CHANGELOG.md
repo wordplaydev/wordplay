@@ -25,6 +25,9 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - We found and fixed a problem where the autocomplete menu wouldn't appear when activated in the menu.
 - We removed some unnecessary scroll bars (#1098).
 - We fixed a problem with pasting in Edge (#1092).
+- We fixed a problem with duplicate translations crashing.
+- We made copy and paste within the app more reliable and fast.
+- We made collision detection more reliable and less flickery.
 
 ## 0.17.8 - 2026-05-02
 
@@ -52,8 +55,6 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - We fixed the contrast of the text cursor when the editor is in read only mode.
 - We fixed a problem with how to errors crashing the browser.
 - We separated the updates of the example views and the project views to prevent lag (#1093).
-- We fixed a problem with duplicate translations crashing.
-- We made copy and paste within the app more reliable and fast.
 
 ## 0.17.7 - 2026-04-25
 
