@@ -18,12 +18,13 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 ### Changed
 
+- We changed how blocks evaluate! Now, a Block with multiple non-`Bind` expressions will wrap the values in a list, instead of giving a warning and only evaluating to the last value. If your program had several expressions in a row and you only meant the last to be the result, wrap the earlier ones in `Bind` statements (or remove them). This will make it easier to create lists of values, including multiple `Phrase`s in a `Group`.
 - We made the tile toolbar wrapping a bit better.
 - We rearranged the project view footer to make the layout work better on smaller devices.
 - We improved the list expand/collapse behavior when there are more than 10 items.
 - We improved layout in blocks mode.
-- We changed how blocks evaluate! Now, a Block with multiple non-`Bind` expressions will wrap the values in a list, instead of giving a warning and only evaluating to the last value. If your program had several expressions in a row and you only meant the last to be the result, wrap the earlier ones in `Bind` statements (or remove them). This will make it easier to create lists of values, including multiple `Phrase`s in a `Group`.
 - We upgraded internal tooling for stability.
+- We improved the layout of code in the chat view (#1107).
 
 ### Fixed
 
@@ -37,6 +38,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - We fixed the region on the Swedish locale.
 - We improved the contrast of links in light mode.
 - We added loading feedback when a new project is greated on the projects or gallery page.
+- We fixed the very cramped width of chat messages when they have example code (#1107).
 
 ## 0.17.8 - 2026-05-02
 

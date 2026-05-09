@@ -287,6 +287,17 @@
                     labeled={false}
                     modeLabels={false}
                 />
+
+                {#if evaluated && value}
+                    <div class="reset">
+                        <Button
+                            tip={(l) => l.ui.timeline.button.reset}
+                            icon="↻"
+                            background={true}
+                            action={() => reset(true)}
+                        ></Button>
+                    </div>
+                {/if}
             </div>
         </div>
         {#if evaluated && value}
@@ -304,14 +315,6 @@
                         />
                     </div>
                 {:else}<ValueView {value} inline={false} />{/if}
-                <div class="reset">
-                    <Button
-                        tip={(l) => l.ui.timeline.button.reset}
-                        icon="↻"
-                        background={true}
-                        action={() => reset(true)}
-                    ></Button>
-                </div>
             </div>
         {/if}
     </div>
@@ -322,6 +325,10 @@
         display: flex;
         flex-direction: column;
         container-type: inline-size;
+        /* Inline-size containment hides the children's intrinsic size from
+           ancestors that size via fit-content (e.g. chat bubbles). Provide a
+           fallback so those ancestors can still grow to show the example. */
+        contain-intrinsic-inline-size: auto 30em;
     }
 
     .value {
@@ -334,7 +341,7 @@
 
     .reset {
         display: flex;
-        justify-content: center;
+        margin-inline-start: auto;
     }
 
     .example {
@@ -388,6 +395,7 @@
 
     .code {
         min-width: 0;
+        flex: 1;
     }
 
     .code-panel.evaluated .code {

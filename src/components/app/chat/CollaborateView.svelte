@@ -2,6 +2,8 @@
  This chat component enables communication between project collaborators and owners of the gallery that a project is in. 
  -->
 <script lang="ts">
+    import ChatView from '@components/app/chat/ChatView.svelte';
+    import CreatorView from '@components/app/CreatorView.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import { getUser, isAuthenticated } from '@components/project/Contexts';
     import CreatorList from '@components/project/CreatorList.svelte';
@@ -14,8 +16,6 @@
     import { Creators, Galleries, locales, Projects } from '@db/Database';
     import type Gallery from '@db/galleries/Gallery';
     import type Project from '@db/projects/Project';
-    import CreatorView from '@components/app/CreatorView.svelte';
-    import ChatView from '@components/app/chat/ChatView.svelte';
 
     const {
         project,
@@ -74,19 +74,19 @@
         data-uiid="collaborate"
         aria-label={$locales.getPlainText((l) => l.ui.collaborate.label)}
     >
-        <MarkupHTMLView
-            markup={editable
-                ? project.getCollaborators().length === 0
-                    ? (l) => l.ui.collaborate.prompt.solo
-                    : (l) => l.ui.collaborate.prompt.owner
-                : collaborator
-                  ? (l) => l.ui.collaborate.prompt.collaborator
-                  : commenter
-                    ? (l) => l.ui.collaborate.prompt.commenter
-                    : (l) => l.ui.collaborate.prompt.curator}
-        ></MarkupHTMLView>
+        <div class="header">
+            <MarkupHTMLView
+                markup={editable
+                    ? project.getCollaborators().length === 0
+                        ? (l) => l.ui.collaborate.prompt.solo
+                        : (l) => l.ui.collaborate.prompt.owner
+                    : collaborator
+                      ? (l) => l.ui.collaborate.prompt.collaborator
+                      : commenter
+                        ? (l) => l.ui.collaborate.prompt.commenter
+                        : (l) => l.ui.collaborate.prompt.curator}
+            ></MarkupHTMLView>
 
-        <div class="everyone">
             <!-- If not the owner, show it -->
             {#if isAuthenticated($user) && owner !== $user.uid}
                 <Labeled label={(l) => l.ui.collaborate.role.owner}>
@@ -101,9 +101,7 @@
             <!-- Show all of the collaborators -->
             {#if owner == $user?.uid || project.getCollaborators().length > 0}
                 <div data-uiid="collaborators">
-                    <Labeled
-                        label={(l) => l.ui.collaborate.role.collaborators}
-                    >
+                    <Labeled label={(l) => l.ui.collaborate.role.collaborators}>
                         <CreatorList
                             anonymize={false}
                             uids={project.getCollaborators()}
@@ -213,11 +211,23 @@
         height: 100%;
         padding: var(--wordplay-spacing);
         gap: var(--wordplay-spacing);
+        container-type: size;
     }
 
-    .everyone {
+    .header {
         display: flex;
         flex-direction: column;
         gap: var(--wordplay-spacing);
+        flex-shrink: 0;
+    }
+
+    @container (orientation: landscape) {
+        .header {
+            flex-direction: row;
+            flex-wrap: wrap;
+            align-items: baseline;
+            row-gap: 0;
+            column-gap: var(--wordplay-spacing);
+        }
     }
 </style>
