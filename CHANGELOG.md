@@ -34,6 +34,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - We made Phrases with custom characters also eligible to drag, rotate, and scale.
 - We fixed the region on the Swedish locale.
 - We improved the contrast of links in light mode.
+- We added loading feedback when a new project is greated on the projects or gallery page.
 
 ## 0.17.8 - 2026-05-02
 
