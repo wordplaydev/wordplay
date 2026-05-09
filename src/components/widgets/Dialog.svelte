@@ -1,16 +1,16 @@
 <script lang="ts">
     import { clickOutside } from '@components/app/clickOutside';
+    import Header from '@components/app/Header.svelte';
+    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
+    import Button from '@components/widgets/Button.svelte';
+    import Hint from '@components/widgets/Hint.svelte';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import type {
         LocaleTextAccessor,
         LocaleTextsAccessor,
     } from '@locale/Locales';
     import { tick } from 'svelte';
-    import Header from '@components/app/Header.svelte';
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import Button from '@components/widgets/Button.svelte';
-    import Hint from '@components/widgets/Hint.svelte';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
 
     interface Props {
         show?: boolean;
@@ -57,7 +57,12 @@
 </script>
 
 {#if button}
-    <Button tip={button.tip} action={() => (show = true)} icon={button.icon} background={button.background ?? false}>
+    <Button
+        tip={button.tip}
+        action={() => (show = true)}
+        icon={button.icon}
+        background={button.background ?? false}
+    >
         {#if button.label}{#if typeof button.label === 'string'}{button.label}{:else}<LocalizedText
                     path={button.label}
                 />{/if}{/if}</Button
@@ -78,6 +83,7 @@
                 <Button
                     tip={(l) => l.ui.widget.dialog.close}
                     action={() => (show = false)}
+                    background
                     icon="❌"
                 ></Button>
             </div>
