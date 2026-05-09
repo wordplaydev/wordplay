@@ -21,7 +21,8 @@ test.each([
     [`Time() + 500ms`, makeOne, ['500ms', '501ms']],
     // Check reaction binding.
     [`a: 1 … ∆ Time() … a + 1\na`, makeOne, ['1', '2']],
-    // Check reactions in evaluations.
+    // Check reactions in evaluations. The program returns a list of its two
+    // non-Bind result expressions: the function definition and `b`.
     [
         `
         ƒ mult(a•# b•#) a × b
@@ -29,7 +30,7 @@ test.each([
         b
         `,
         makeOne,
-        ['2', '4'],
+        ['[ƒ mult() 2]', '[ƒ mult() 4]'],
     ],
     // Ensure that reactions are evaluated by count, just like other reactions.
     [

@@ -198,15 +198,15 @@
                             "Program",
                             "serious",
                             "$~Instruktionerna kan bli så sofistikerade som du vill, men det finns några regler.",
-                            "$~Jag kan till exempel bara utvärdera till ett *värde* och visa det värdet på scenen. Det där värdet kan vara hur komplicerat du vill, och så länge jag vet hur jag ska visa det kommer jag att göra det.",
-                            "$~Men om du ger mig två saker, så visar jag bara det sista du ger mig.",
+                            "Jag utvärderar till exempel till ett *värde* och visar det värdet på scenen. Det värdet kan vara hur komplicerat du vill, och så länge jag vet hur jag ska visa det kommer jag att göra det.",
+                            "Om du ger mig fler än ett uttryck samlar jag deras värden i en *lista* och visar den.",
                             "$~Försök till exempel att lägga till en annan rad och skriv sedan vilket ord du vill, inom citattecken."
                         ],
                         null,
                         [
                             "Program",
                             "serious",
-                            "$~Se? Jag visade precis din andra fras, inte din första. Du vet att du bröt mot min regel eftersom jag underströk din första fras och vi sa till dig att vi skulle ignorera den."
+                            "Ser du? Jag samlade båda fraserna i en lista och satte dem på scenen."
                         ],
                         null,
                         ["use", "fit", "Symbol", "🎭"],
@@ -218,7 +218,7 @@
                         [
                             "Program",
                             "serious",
-                            "$~Både ja och nej. Jag kan göra mycket, men det är bara för att jag arbetar med alla andra i *Versen*. Det är de som tar med alla spännande möjligheter till *scenen*. Allt jag egentligen gör är att låta dem göra sin grej och sedan ta det sista de skapade och visa det på scen. Jag är mer som en eskort som tar det slutliga *värdet* till scenen, som siffror, texter, fraser eller andra värden."
+                            "Både ja och nej. Jag kan göra mycket, men det är bara för att jag arbetar med alla andra i *Versen*. Det är de som tar med alla spännande möjligheter till *scenen*. Allt jag egentligen gör är att låta dem göra sin grej och sedan ta värdet de skapade — ett tal, en text, en fras eller en lista av värden — till scenen."
                         ],
                         null,
                         [
@@ -4403,9 +4403,9 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "$~Och så en annan sak som @Block kan göra är något du redan har sett. @Block låter dig namnge saker med @Bind. Men alla namn som definieras i @Block definieras bara mellan parentesen. Inte före och inte efter. Kolla till exempel upp detta. \\a\\ definieras som \\1\\, sedan startar ett block och \\b\\ definieras som \\2\\, sedan definieras \\c\\ som deras summa. Vad @Block utvärderar till är det värde som är sist i dess lista med uttryck. Det är @Bind, som utvärderar till vad \\c\\ är, vilket är \\3\\. Rätt?"
+                            "Och en annan sak som @Block kan göra är något du redan har sett. @Block låter dig namnge saker med @Bind. Men alla namn som definieras i @Block definieras bara mellan parentesen. Inte före och inte efter. Kolla till exempel detta: \\a\\ definieras som \\1\\, sedan startar ett block, \\b\\ definieras som \\2\\, sedan \\c\\ som deras summa, och sedan skriver jag \\c\\ ensamt. @Bind-satser är sidoeffekter — de introducerar namn men har inget eget värde. Så mitt värde är vad uttrycken som inte är @Bind ger. Här är det bara \\c\\, vilket är \\3\\. Rätt?"
                         ],
-                        ["conflict", "a: 1", "(", "  b: 2", "  c: a + b", ")"],
+                        ["conflict", "a: 1", "(", "  b: 2", "  c: a + b", "  c", ")"],
                         null,
                         [
                             "FunctionDefinition",
@@ -4418,6 +4418,7 @@
                             "(",
                             "  b: 2",
                             "  c: a + b",
+                            "  c",
                             ") + c"
                         ],
                         [
@@ -4429,12 +4430,12 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~Och en sak till, tror jag? Eftersom @Block är en lista med uttryck och det bara utvärderas till det sista uttrycket i listan, ignoreras alla uttryck i listan som inte är ett @Bind i princip. Till exempel, här ignoreras all aritmetik före den sista. \\3\\, \\5\\, \\7\\ ignoreras alla, och @Block utvärderas bara till den sista, \\9\\. Har jag fattat det rätt, @Block?"
+                            "Och en sak till, tror jag? Eftersom @Block är en lista med uttryck blir värdena på alla uttryck som inte är @Bind mitt värde. Om det bara finns ett får du det enda värdet. Om det finns flera får du en lista med dem alla, i ordning. Så här blir \\3\\, \\5\\, \\7\\ och \\9\\ alla en lista: \\[3 5 7 9]\\. Har jag fattat det rätt, @Block?"
                         ],
                         [
                             "Block",
                             "shy",
-                            "$~… mhm. Bara den sista. De andra... Jag vet inte vad de är till för!!"
+                            "… mhm. Alla, i en lista."
                         ],
                         [
                             "conflict",
@@ -4445,6 +4446,36 @@
                             "  4 + 5",
                             ")"
                         ],
+                        null,
+                        [
+                            "FunctionDefinition",
+                            "serious",
+                            "Men vad händer om det inte finns några uttryck att behålla? Bara @Bind-satser?"
+                        ],
+                        [
+                            "Block",
+                            "shy",
+                            "… då skulle jag inte ha något att ge. Jag behöver minst ett uttryck som inte är @Bind, annars måste jag säga att något saknas."
+                        ],
+                        [
+                            "conflict",
+                            "(",
+                            "  a: 1",
+                            "  b: 2",
+                            ")"
+                        ],
+                        null,
+                        [
+                            "FunctionDefinition",
+                            "kind",
+                            "Åh, och en trevlig sak till! När du vill ha en lista behöver du inte alltid skriva hakparenteserna. Du kan bara sätta varje element på sin egen rad inuti @Block, och det gör samma sak."
+                        ],
+                        [
+                            "Block",
+                            "shy",
+                            "… och det är finare när varje rad blir lång. Lättare att läsa."
+                        ],
+                        ["edit", "(", "  1 + 1", "  2 + 2", "  3 + 3", ")"],
                         null,
                         [
                             "fit",
@@ -4523,7 +4554,7 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "$~Funktioner kan vara hur komplicerade du vill. Du kan använda enkla uttryck eller @Block och till och med skapa funktioner inuti funktioner. Kolla till exempel in den här funktionen som en före detta regissör skrev. Den använder @Block med många @Bind för att ta reda på hur många unika vokaler ett ord har (jag tror att de försökte ta reda på om ett ord var \"komplicerat\" eller något). Ser du hur det har många linjer? Tja, detta har fortfarande bara ett uttryck: ett enda @Block, och @Block har alla raderna. Och som alla @Block, är den sista raden vad den utvärderas till: det totala antalet unika vokaler. Allt annat - som den första raden, som omvandlar texten till en bokstäverlista, sedan listan med bokstäver till en uppsättning - är bara förberedelser för att summera dessa räkningar i mitten."
+                            "Funktioner kan vara hur komplicerade du vill. Du kan använda enkla uttryck eller @Block och till och med skapa funktioner inuti funktioner. Kolla till exempel in den här funktionen som en före detta regissör skrev. Den använder @Block med många @Bind för att ta reda på hur många unika vokaler ett ord har (jag tror att de försökte ta reda på om ett ord var \"komplicerat\" eller något). Ser du hur den har många rader? Tja, detta har fortfarande bara ett uttryck: ett enda @Block, och @Block har alla raderna. @Bind-raderna introducerar bara namn; det enda uttrycket som inte är @Bind på slutet är vad @Block — och därmed funktionen — utvärderas till: det totala antalet unika vokaler. Allt innan dess — som den första raden som omvandlar texten till en lista med bokstäver, och sedan listan med bokstäver till en uppsättning — är bara förberedelse för det sista uttrycket."
                         ],
                         [
                             "edit",

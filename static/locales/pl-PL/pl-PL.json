@@ -512,26 +512,20 @@
                 "$~Widzisz jak @Bind zrobił \\count\\? Nazwano to tylko we mnie. Więc to nie zadziała:",
                 "$~\\(liczba: 10 liczba ^ liczba) + liczba\\",
                 "$~Ponieważ liczba została nazwana tylko we mnie.",
-                "$~Możesz umieścić we mnie tyle wyrażeń, ile chcesz. Ale mnie interesuje tylko ostatnie:",
-                "$~(1 2 3 4 5)",
-                "$~Zazwyczaj jestem po prostu zbiorem @Bind i jakimś wyrażeniem na końcu.",
-                "$~\\(\na: 1\nb: 2\nc: 3\nd: 4\na + b + c + d\n)\\"
+                "Jeśli dasz mi jedno wyrażenie, po prostu zwracam ci jego wartość:",
+                "\\(1 + 1)\\",
+                "Jeśli dasz mi więcej niż jedno, zbieram je w listę, po kolei:",
+                "\\(1 2 3 4 5)\\",
+                "Instrukcje @Bind są efektami ubocznymi, nie wartościami, więc nie pojawiają się na liście:",
+                "\\(\n  a: 1\n  b: 2\n  a + b\n  a × b\n)\\",
+                "To daje \\[3 2]\\: tylko wartości dwóch wyrażeń, które nie są @Bind."
             ],
             "start": "$~Pierwsze wyrażenie",
             "finish": "$~Zrobione, mam 1 dolara",
             "conflict": {
                 "ExpectedEndingExpression": {
                     "name": "$~brakującewyrażenie",
-                    "explanation": "$~Potrzebuję wyrażenia."
-                },
-                "IgnoredExpression": {
-                    "resolution": {
-                        "binary": "$~Czy miałeś na myśli, żeby to było @BinaryEvaluate zamiast @UnaryEvaluate? Mogę dodać spację, więc wiem, że o to ci chodziło.",
-                        "evaluate": "$~Czy miałeś na myśli, że to będzie @Evaluate? Mogę usunąć tę spację, aby zrobić z tego jedno, zamiast dwóch oddzielnych wyrażeń.",
-                        "name": "$~Czychciałeśnazwaćtowyrażenie@Bind,abymócgoużyćdoobliczeniawartościtego@Bind?"
-                    },
-                    "name": "$~zignorowanewyrażenie",
-                    "explanation": "$~Zostałem zignorowany, ponieważ wartość @Block jest oparta na ostatnim wyrażeniu."
+                    "explanation": "Potrzebuję co najmniej jednego wyrażenia, które nie jest @Bind, żebym miał wartość do zwrócenia."
                 }
             },
             "label": {

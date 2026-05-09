@@ -200,15 +200,15 @@
                             "Program",
                             "serious",
                             "The instructions can get as sophisticated as you want, but there are a few rules.",
-                            "For example, I can only evaluate to one *value* and show that value on stage. That one value can be as complex as you want, and as long as I know how to show it, I will.",
-                            "But if you give me two things, I'll only show the last thing you give me.",
+                            "For example, I evaluate to one *value* and show that value on stage. That one value can be as complex as you want, and as long as I know how to show it, I will.",
+                            "If you give me more than one expression, I'll collect their values into a *list* and show that.",
                             "For example, try adding another line and then typing whatever word you want, in quotes."
                         ],
                         null,
                         [
                             "Program",
                             "serious",
-                            "See? I just showed your second phrase, not your first. You know you broke my rule because I underlined your first phrase and we told you that we'd be ignoring it."
+                            "See? I gathered both phrases into a list and put them on stage."
                         ],
                         null,
                         ["use", "fit", "Symbol", "🎭"],
@@ -220,7 +220,7 @@
                         [
                             "Program",
                             "serious",
-                            "Yes and no. I can do a lot, but that's only because I work with everyone else in the *Verse*. They're the ones that bring all of the exciting possibilities to the *stage*. All I really do is let them do their thing then take the last thing they created and show it on stage. I'm more like an escort that brings the final *value* to stage, like numbers, texts, phrases, or other values."
+                            "Yes and no. I can do a lot, but that's only because I work with everyone else in the *Verse*. They're the ones that bring all of the exciting possibilities to the *stage*. All I really do is let them do their thing then bring whatever value they made — a number, a text, a phrase, or a list of values — onto the stage."
                         ],
                         null,
                         [
@@ -4379,9 +4379,9 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "And so another thing @Block can do is something you've already seen. @Block lets you name things with @Bind. But any names defined in the @Block are only defined between the parentheses. Not before and not after. For example, check this out. \\a\\ is defined as \\1\\, then a block starts and \\b\\ is defined as \\2\\, then \\c\\ is defined as their sum. What @Block evaluates to is whatever value is last in its list of expressions. That's @Bind, which evaluates to whatever \\c\\ is, which is \\3\\. Right?"
+                            "And so another thing @Block can do is something you've already seen. @Block lets you name things with @Bind. But any names defined in the @Block are only defined between the parentheses. Not before and not after. For example, check this out. \\a\\ is defined as \\1\\, then a block starts and \\b\\ is defined as \\2\\, then \\c\\ is defined as their sum, then I write \\c\\ on its own. @Bind statements are side effects — they introduce names but don't have a value of their own. So my value is whatever the non-@Bind expressions produce. Here that's just \\c\\, which is \\3\\. Right?"
                         ],
-                        ["conflict", "a: 1", "(", "  b: 2", "  c: a + b", ")"],
+                        ["conflict", "a: 1", "(", "  b: 2", "  c: a + b", "  c", ")"],
                         null,
                         [
                             "FunctionDefinition",
@@ -4394,6 +4394,7 @@
                             "(",
                             "  b: 2",
                             "  c: a + b",
+                            "  c",
                             ") + c"
                         ],
                         [
@@ -4405,12 +4406,12 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "And one more thing, I think? Since @Block is a list of expressions and it only evaluates to the last expression in the list, any expressions in the list that aren't a @Bind are basically ignored. For example, here, all of the arithmetic before the last one is ignored. The \\3\\, the \\5\\, the \\7\\, all ignored, and @Block just evaluates to the last one, \\9\\. Did I get that right, @Block?"
+                            "And one more thing, I think? Since @Block is a list of expressions, the values of all the non-@Bind expressions become my value. If there's just one, you get that one value. If there are several, you get a list of all of them, in order. So here, the \\3\\, the \\5\\, the \\7\\, and the \\9\\ all become a list: \\[3 5 7 9]\\. Did I get that right, @Block?"
                         ],
                         [
                             "Block",
                             "shy",
-                            "… mhm. Just the last one. The others… I don't know what they're for!!"
+                            "… mhm. All of them, in a list."
                         ],
                         [
                             "conflict",
@@ -4421,6 +4422,36 @@
                             "  4 + 5",
                             ")"
                         ],
+                        null,
+                        [
+                            "FunctionDefinition",
+                            "serious",
+                            "But what if there are no expressions to keep? Just @Bind statements?"
+                        ],
+                        [
+                            "Block",
+                            "shy",
+                            "… then I'd have nothing to give. I need at least one expression that isn't a @Bind, otherwise I have to tell you something is missing."
+                        ],
+                        [
+                            "conflict",
+                            "(",
+                            "  a: 1",
+                            "  b: 2",
+                            ")"
+                        ],
+                        null,
+                        [
+                            "FunctionDefinition",
+                            "kind",
+                            "Oh, and one more nice thing! When you want a list, you don't always have to type the brackets. You can just put each item on its own line inside @Block, and it does the same thing."
+                        ],
+                        [
+                            "Block",
+                            "shy",
+                            "… and it's nicer when each line gets long. Easier to read."
+                        ],
+                        ["edit", "(", "  1 + 1", "  2 + 2", "  3 + 3", ")"],
                         null,
                         [
                             "fit",
@@ -4499,7 +4530,7 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "Functions can be as complex as you want. You can use simple expressions or @Block and even make functions inside of functions. For example, check out this function a former director wrote. It uses @Block with many @Bind to figure out how many unique vowels a word has (I think they were trying to figure out if a word was “complicated” or something). See how it has a lot of lines? Well, this still only has one expression: a single @Block, and the @Block has all the lines. And like any @Block, the last line is what it evaluates to: the total number of unique vowels. Everything else — like the first line, which converts the text into a list of letters, then the list of letters into a set — is just preparation for summing those counts in the middle."
+                            "Functions can be as complex as you want. You can use simple expressions or @Block and even make functions inside of functions. For example, check out this function a former director wrote. It uses @Block with many @Bind to figure out how many unique vowels a word has (I think they were trying to figure out if a word was “complicated” or something). See how it has a lot of lines? Well, this still only has one expression: a single @Block, and the @Block has all the lines. The @Bind lines just introduce names; the one non-@Bind expression at the end is what the @Block — and so the function — evaluates to: the total number of unique vowels. Everything before it — like the first line, which converts the text into a list of letters, then the list of letters into a set — is just preparation for that final expression."
                         ],
                         [
                             "edit",

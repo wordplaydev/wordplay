@@ -4,6 +4,7 @@ import BoolValue from '@values/BoolValue';
 import ListValue from '@values/ListValue';
 import NumberValue from '@values/NumberValue';
 import StructureValue from '@values/StructureValue';
+import TextValue from '@values/TextValue';
 import type Value from '@values/Value';
 import Decimal from 'decimal.js';
 import { SupportedFontsFamiliesType, type SupportedFace } from '@basis/Fonts';
@@ -21,6 +22,7 @@ import type RenderContext from '@output/RenderContext';
 import Say from '@output/Say';
 import type Sequence from '@output/Sequence';
 import Shape from '@output/Shape';
+import { Stack } from '@output/Stack';
 import TextLang from '@output/TextLang';
 import { getTypeStyle, toOutput, toOutputList } from '@output/toOutput';
 import { getOutputInput } from '@output/Valued';
@@ -312,12 +314,74 @@ export function toStage(
     value: Value,
     namer?: NameGenerator,
 ): Stage | undefined {
-    // If it's a list, find the last stage in the list, if there is one.
-    if (value instanceof ListValue)
-        return value.values
-            .map((val) => toStage(evaluator, val, namer))
-            .filter((stage): stage is Stage => stage instanceof Stage)
-            .at(-1);
+    // Lists are produced when a program (or any block) has multiple non-Bind
+    // result expressions. Decide how to render based on the list's contents.
+    if (value instanceof ListValue) {
+        if (namer === undefined) namer = new NameGenerator();
+
+        // Convert each list element to an Output. Categorize: Stages get
+        // priority (existing behavior); other Outputs (Phrase/Group/Shape/Say)
+        // get collected for stacking.
+        const stages: Stage[] = [];
+        const outputs: Output[] = [];
+        for (const val of value.values) {
+            const output = toOutput(evaluator, val, namer);
+            if (output instanceof Stage) stages.push(output);
+            else if (output !== undefined) outputs.push(output);
+        }
+
+        // If any element was a Stage, prefer the last one — preserves prior
+        // behavior for programs that explicitly produce multiple Stages.
+        if (stages.length > 0) return stages.at(-1);
+
+        // No stages and no other outputs: nothing renderable.
+        if (outputs.length === 0) return undefined;
+
+        // One non-Stage output: wrap it directly in a Stage, just like a
+        // program that returned that single Phrase/Group.
+        if (outputs.length === 1)
+            return wrapInStage(evaluator, value, outputs[0], namer);
+
+        // Multiple non-Stage outputs: collect them into a Group with a Stack
+        // arrangement, then wrap that Group in a Stage. This is the same
+        // implicit wrap idea as a single Phrase becoming a Stage — just
+        // extended to "multiple things become a stacked group on a Stage."
+        const stackArrangement = new Stack(
+            value,
+            new TextValue(value.creator, '|'),
+            new NumberValue(value.creator, new Decimal(1)),
+        );
+        const group = new Group(
+            value,
+            stackArrangement,
+            outputs,
+            undefined, // matter
+            undefined, // size
+            undefined, // face
+            undefined, // place
+            namer.getName(undefined, value),
+            undefined, // description
+            false, // selectable
+            undefined, // background
+            new DefinitePose(
+                value,
+                undefined,
+                1,
+                new Place(value, 0, 0, 0),
+                0,
+                1,
+                false,
+                false,
+            ),
+            undefined, // entering
+            undefined, // resting
+            undefined, // moving
+            undefined, // exiting
+            0, // duration
+            DefaultStyle,
+        );
+        return wrapInStage(evaluator, value, group, namer);
+    }
 
     // Otherwise, we require a structure value.
     if (!(value instanceof StructureValue)) return undefined;
@@ -387,50 +451,51 @@ export function toStage(
     // Just a phrase or group? Wrap it in a stage.
     else {
         const type = toOutput(evaluator, value, namer);
-
         return type === undefined
             ? undefined
-            : new Stage(
-                  value,
-                  false,
-                  [type],
-                  new Color(
-                      value,
-                      new Decimal(100),
-                      new Decimal(0),
-                      new Decimal(0),
-                  ),
-                  undefined,
-                  DefaultSize,
-                  evaluator.getLocales()[0].ui.font.app,
-                  undefined,
-                  namer.getName(undefined, value),
-                  undefined,
-                  type.selectable,
-                  new DefinitePose(
-                      value,
-                      new Color(
-                          value,
-                          new Decimal(0),
-                          new Decimal(0),
-                          new Decimal(0),
-                      ),
-                      1,
-                      new Place(value, 0, 0, 0),
-                      0,
-                      1,
-                      false,
-                      false,
-                  ),
-                  undefined,
-                  undefined,
-                  undefined,
-                  undefined,
-                  0,
-                  DefaultStyle,
-                  DefaultGravity,
-              );
+            : wrapInStage(evaluator, value, type, namer);
     }
+}
+
+/** Build a default Stage that contains a single child Output. The child can be
+ *  a single Phrase produced directly by the program, or a synthesized Group
+ *  collecting multiple Phrases from a list result. */
+function wrapInStage(
+    evaluator: Evaluator,
+    value: Value,
+    child: Output,
+    namer: NameGenerator,
+): Stage {
+    return new Stage(
+        value,
+        false,
+        [child],
+        new Color(value, new Decimal(100), new Decimal(0), new Decimal(0)),
+        undefined,
+        DefaultSize,
+        evaluator.getLocales()[0].ui.font.app,
+        undefined,
+        namer.getName(undefined, value),
+        undefined,
+        child.selectable,
+        new DefinitePose(
+            value,
+            new Color(value, new Decimal(0), new Decimal(0), new Decimal(0)),
+            1,
+            new Place(value, 0, 0, 0),
+            0,
+            1,
+            false,
+            false,
+        ),
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        0,
+        DefaultStyle,
+        DefaultGravity,
+    );
 }
 
 export function toDecimal(value: Value | undefined): Decimal | undefined {

@@ -512,26 +512,20 @@
                 "$~Vous voyez comment @Bind a créé \\count\\ ? Il n'est nommé qu'à l'intérieur de moi. Donc cela ne fonctionnera pas :",
                 "$~\\(compte: 10compte ^compte) +compte\\",
                 "$~Parce que le nom du comte n'était mentionné qu'à l'intérieur de moi.",
-                "$~Vous pouvez me mettre autant d'expressions que vous voulez. Mais je ne m'intéresse qu'à la dernière :",
-                "$~\\(1 2 3 4 5)\\",
-                "$~Donc, généralement, je suis juste un tas de @Bind suivi d'une expression à la fin.",
-                "$~\\(\na: 1\nb: 2\nc: 3\nd: 4\na + b + c + d\n)\\"
+                "Si tu me donnes une expression, je te rends simplement sa valeur :",
+                "\\(1 + 1)\\",
+                "Si tu m'en donnes plusieurs, je les rassemble dans une liste, dans l'ordre :",
+                "\\(1 2 3 4 5)\\",
+                "Les instructions @Bind sont des effets de bord, pas des valeurs, donc elles n'apparaissent pas dans la liste :",
+                "\\(\n  a: 1\n  b: 2\n  a + b\n  a × b\n)\\",
+                "Cela donne \\[3 2]\\ : juste les valeurs des deux expressions qui ne sont pas des @Bind."
             ],
             "start": "$~Première expression",
             "finish": "$~C'est fait, j'ai $1",
             "conflict": {
                 "ExpectedEndingExpression": {
                     "name": "$~expressionmanquante",
-                    "explanation": "$~J'ai besoin d'une expression."
-                },
-                "IgnoredExpression": {
-                    "resolution": {
-                        "binary": "$~Vouliez-vous dire que ce serait un @BinaryEvaluate au lieu d'un @UnaryEvaluate ? Je peux ajouter un espace, donc je sais que c'est ce que vous vouliez dire.",
-                        "evaluate": "$~Vouliez-vous que ce soit une @Evaluate? Je peux supprimer cet espace pour en faire une seule expression, au lieu de deux expressions distinctes.",
-                        "name": "$~Souhaitiez-vousnommercetteexpressionavec@Bind,afindepouvoirl'utiliserpourcalculerlavaleurdece@Bind?"
-                    },
-                    "name": "$~expressionignorée",
-                    "explanation": "$~Je suis ignoré car la valeur d'un @Block dépend de la dernière expression."
+                    "explanation": "J'ai besoin d'au moins une expression qui ne soit pas un @Bind, pour avoir une valeur à retourner."
                 }
             },
             "label": {

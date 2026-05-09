@@ -512,10 +512,13 @@
                 "$~Vê como o @Bind criou o \\count\\? Ele só tem esse nome dentro de mim. Portanto, isto não vai funcionar:",
                 "$~\\(contagem: 10 contagem ^ contagem) + contagem\\",
                 "$~Porque o \"count\" só existia dentro de mim.",
-                "$~Podes colocar quantas expressões quiseres em mim. Mas só me importo com a última:",
-                "$~\\(1 2 3 4 5)\\",
-                "$~Normalmente utilizo apenas um conjunto de @Bind e depois uma expressão no final.",
-                "$~(a: 1\n\nb: 2\n\nc: 3\n\nd: 4\n\na + b + c + d\n)"
+                "Se me deres uma expressão, eu simplesmente devolvo-te o seu valor:",
+                "\\(1 + 1)\\",
+                "Se me deres mais do que uma, junto-as numa lista, por ordem:",
+                "\\(1 2 3 4 5)\\",
+                "As declarações @Bind são efeitos secundários, não valores, por isso não aparecem na lista:",
+                "\\(\n  a: 1\n  b: 2\n  a + b\n  a × b\n)\\",
+                "Isso dá \\[3 2]\\: apenas os valores das duas expressões que não são @Bind."
             ],
             "label": {
                 "statements": "$~expressões"
@@ -525,16 +528,7 @@
             "conflict": {
                 "ExpectedEndingExpression": {
                     "name": "$~expressãoausente",
-                    "explanation": "$~Preciso de uma expressão."
-                },
-                "IgnoredExpression": {
-                    "name": "$~expressãoignorada",
-                    "explanation": "$~Sou ignorado porque o valor de um @Block é baseado na última expressão.",
-                    "resolution": {
-                        "name": "$~Querianomearessaexpressãocom@Bind,parapoderusá-laparacalcularovalordesse@Block?",
-                        "binary": "$~Queria que fosse um @BinaryEvaluate em vez de um @UnaryEvaluate? Posso acrescentar um espaço, por isso sei que era isso que queria dizer.",
-                        "evaluate": "$~Querias que isto fosse um @Evaluate? Posso remover este espaço para que seja apenas uma expressão, em vez de duas separadas."
-                    }
+                    "explanation": "Preciso de pelo menos uma expressão que não seja um @Bind, para ter um valor para devolver."
                 }
             }
         },

@@ -515,10 +515,13 @@
                 "See how @Bind made \\count\\? It's only named inside me. So this won't work:",
                 "\\(count: 10 count ^ count) + count\\",
                 "Because count was only named inside me.",
-                "You can put as many expressions as you like in me. But I only care about the last:",
+                "If you give me one expression, I just give you back its value:",
+                "\\(1 + 1)\\",
+                "If you give me more than one, I collect them into a list, in order:",
                 "\\(1 2 3 4 5)\\",
-                "So usually I'm just a bunch of @Bind and then an expression at the end.",
-                "\\(\n  a: 1\n  b: 2\n  c: 3\n  d: 4\n  a + b + c + d\n)\\"
+                "@Bind statements are side effects, not values, so they don't appear in the list:",
+                "\\(\n  a: 1\n  b: 2\n  a + b\n  a × b\n)\\",
+                "That gives \\[3 2]\\: just the values from the two non-@Bind expressions."
             ],
             "label": {
                 "statements": "expressions"
@@ -528,16 +531,7 @@
             "conflict": {
                 "ExpectedEndingExpression": {
                     "name": "missing expression",
-                    "explanation": "I need an expression."
-                },
-                "IgnoredExpression": {
-                    "name": "ignored expression",
-                    "explanation": "I'm ignored, because a @Block's value is based on the last expression.",
-                    "resolution": {
-                        "name": "Did you want to name this expression with @Bind, so you can use it to compute this @Block's value?",
-                        "binary": "Did you mean for this to be a @BinaryEvaluate instead of a @UnaryEvaluate? I can add a space, so I know that's what you meant.",
-                        "evaluate": "Did you mean for this to be an @Evaluate? I can remove this space to make it one, instead of two separate expressions."
-                    }
+                    "explanation": "I need at least one expression that isn't a @Bind, so I have a value to return."
                 }
             }
         },

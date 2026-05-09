@@ -485,26 +485,20 @@
                 "¿Ves cómo @Bind hizo \\count\\? Solo está nombrado dentro de mí. Así que esto no funcionará:",
                 "\\(count: 10 count ^ count) + count\\",
                 "Porque count solo fue nombrado dentro de mí.",
-                "Puedes poner tantas expresiones como quieras en mí. Pero solo me importa la última:",
+                "Si me das una expresión, simplemente te devuelvo su valor:",
+                "\\(1 + 1)\\",
+                "Si me das más de una, las junto en una lista, en orden:",
                 "\\(1 2 3 4 5)\\",
-                "Así que normalmente soy solo un montón de @Bind y luego una expresión al final.",
-                "\\(\n  a: 1\n  b: 2\n  c: 3\n  d: 4\n  a + b + c + d\n)\\"
+                "Las declaraciones @Bind son efectos secundarios, no valores, así que no aparecen en la lista:",
+                "\\(\n  a: 1\n  b: 2\n  a + b\n  a × b\n)\\",
+                "Eso da \\[3 2]\\: solo los valores de las dos expresiones que no son @Bind."
             ],
             "start": "primera expresión",
             "finish": "listo, obtuve $1",
             "conflict": {
                 "ExpectedEndingExpression": {
                     "name": "$~expresiónfaltante",
-                    "explanation": "$~Necesito una expresión."
-                },
-                "IgnoredExpression": {
-                    "resolution": {
-                        "binary": "$~¿Querías decir que esto fuera @BinaryEvaluate en lugar de @UnaryEvaluate? Puedo agregar un espacio, así sé que eso es lo que quisiste decir.",
-                        "evaluate": "$~¿Querías que esto fuera @Evaluate? Puedo quitar este espacio para que sea una sola expresión, en lugar de dos.",
-                        "name": "$~¿Queríasnombrarestaexpresióncon@Bind,parapoderusarlaparacalcularelvalordeeste@Block?"
-                    },
-                    "name": "$~expresiónignorada",
-                    "explanation": "$~Me ignoran porque el valor de un @Block se basa en la última expresión."
+                    "explanation": "Necesito al menos una expresión que no sea @Bind, para tener un valor que devolver."
                 }
             },
             "label": {

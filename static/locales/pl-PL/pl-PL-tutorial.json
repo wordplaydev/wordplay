@@ -198,15 +198,15 @@
                             "Program",
                             "serious",
                             "$~Instrukcje mogą być dowolnie skomplikowane, jednak istnieje kilka zasad.",
-                            "$~Na przykład mogę ocenić tylko jedną *wartość* i pokazać tę wartość na scenie. Ta jedna wartość może być tak złożona, jak chcesz, i dopóki wiem, jak ją pokazać, zrobię to.",
-                            "$~Ale jeśli dasz mi dwie rzeczy, pokażę ci tylko tę ostatnią, którą mi dasz.",
+                            "Na przykład oceniam do jednej *wartości* i pokazuję tę wartość na scenie. Ta jedna wartość może być tak złożona, jak chcesz, i dopóki wiem, jak ją pokazać, zrobię to.",
+                            "Jeśli dasz mi więcej niż jedno wyrażenie, zbiorę ich wartości w *listę* i pokażę ją.",
                             "$~Na przykład, spróbuj dodać kolejny wiersz, a następnie wpisz dowolne słowo w cudzysłowie."
                         ],
                         null,
                         [
                             "Program",
                             "serious",
-                            "$~Widzisz? Właśnie pokazałem twoje drugie zdanie, nie pierwsze. Wiesz, że złamałeś moją zasadę, ponieważ podkreśliłem twoje pierwsze zdanie, a my powiedzieliśmy ci, że je zignorujemy."
+                            "Widzisz? Zebrałem obie frazy w listę i umieściłem je na scenie."
                         ],
                         null,
                         ["use", "fit", "Symbol", "🎭"],
@@ -218,7 +218,7 @@
                         [
                             "Program",
                             "serious",
-                            "$~Tak i nie. Mogę zrobić wiele, ale to tylko dlatego, że pracuję ze wszystkimi innymi w *Verse*. To oni wnoszą wszystkie ekscytujące możliwości na *scenę*. Tak naprawdę pozwalam im robić swoje, a potem biorę ostatnią rzecz, którą stworzyli i pokazuję ją na scenie. Jestem raczej eskortą, która wnosi na scenę ostateczną *wartość*, taką jak liczby, teksty, frazy lub inne wartości."
+                            "Tak i nie. Mogę zrobić wiele, ale to tylko dlatego, że pracuję ze wszystkimi innymi w *Verse*. To oni wnoszą wszystkie ekscytujące możliwości na *scenę*. Tak naprawdę pozwalam im robić swoje, a potem przynoszę na scenę wartość, którą stworzyli — liczbę, tekst, frazę lub listę wartości."
                         ],
                         null,
                         [
@@ -4387,9 +4387,9 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "$~I tak oto @Block potrafi jeszcze coś, co już widziałeś. @Block pozwala ci nazywać rzeczy za pomocą @Bind. Ale wszelkie nazwy zdefiniowane w @Block są definiowane tylko pomiędzy nawiasami. Nie przed i nie po. Na przykład sprawdź to. \\a\\ jest zdefiniowane jako \\1\\, następnie blok się zaczyna, a \\b\\ jest zdefiniowane jako \\2\\, następnie \\c\\ jest zdefiniowane jako ich suma. @Block ocenia to, jaka wartość jest ostatnia na liście wyrażeń. To jest @Bind, które ocenia to, jaka jest \\c\\, czyli \\3\\. Tak?"
+                            "I tak oto @Block potrafi jeszcze coś, co już widziałeś. @Block pozwala ci nazywać rzeczy za pomocą @Bind. Ale wszelkie nazwy zdefiniowane w @Block są definiowane tylko pomiędzy nawiasami. Nie przed i nie po. Na przykład spójrz na to: \\a\\ jest zdefiniowane jako \\1\\, następnie zaczyna się blok, \\b\\ jest zdefiniowane jako \\2\\, potem \\c\\ jako ich suma, a na końcu piszę samo \\c\\. Instrukcje @Bind są efektami ubocznymi — wprowadzają nazwy, ale same nie mają wartości. Więc moja wartość to to, co dają wyrażenia, które nie są @Bind. Tutaj jest to tylko \\c\\, czyli \\3\\. Tak?"
                         ],
-                        ["conflict", "a: 1", "(", "  b: 2", "  c: a + b", ")"],
+                        ["conflict", "a: 1", "(", "  b: 2", "  c: a + b", "  c", ")"],
                         null,
                         [
                             "FunctionDefinition",
@@ -4402,6 +4402,7 @@
                             "(",
                             "  b: 2",
                             "  c: a + b",
+                            "  c",
                             ") + c"
                         ],
                         [
@@ -4413,12 +4414,12 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~I jeszcze jedno, jak sądzę? Ponieważ @Block jest listą wyrażeń i ocenia się tylko do ostatniego wyrażenia na liście, wszelkie wyrażenia na liście, które nie są @Bind, są zasadniczo ignorowane. Na przykład tutaj, cała arytmetyka przed ostatnim jest ignorowana. \\3\\, \\5\\, \\7\\, wszystkie są ignorowane, a @Block ocenia się po prostu do ostatniego, \\9\\. Czy dobrze zrozumiałem, @Block?"
+                            "I jeszcze jedno, jak sądzę? Ponieważ @Block jest listą wyrażeń, wartości wszystkich wyrażeń, które nie są @Bind, stają się moją wartością. Jeśli jest tylko jedno, dostajesz tę jedną wartość. Jeśli jest ich kilka, dostajesz listę wszystkich, po kolei. Więc tutaj \\3\\, \\5\\, \\7\\ i \\9\\ stają się listą: \\[3 5 7 9]\\. Czy dobrze zrozumiałem, @Block?"
                         ],
                         [
                             "Block",
                             "shy",
-                            "$~… mhm. Tylko ostatni. Pozostałe… Nie wiem, do czego służą!!"
+                            "… mhm. Wszystkie, na liście."
                         ],
                         [
                             "conflict",
@@ -4429,6 +4430,36 @@
                             "  4 + 5",
                             ")"
                         ],
+                        null,
+                        [
+                            "FunctionDefinition",
+                            "serious",
+                            "Ale co, jeśli nie ma żadnych wyrażeń do zachowania? Tylko instrukcje @Bind?"
+                        ],
+                        [
+                            "Block",
+                            "shy",
+                            "… wtedy nie miałbym nic do zaoferowania. Potrzebuję co najmniej jednego wyrażenia, które nie jest @Bind, inaczej muszę ci powiedzieć, że czegoś brakuje."
+                        ],
+                        [
+                            "conflict",
+                            "(",
+                            "  a: 1",
+                            "  b: 2",
+                            ")"
+                        ],
+                        null,
+                        [
+                            "FunctionDefinition",
+                            "kind",
+                            "Ach, i jeszcze jedna miła rzecz! Kiedy chcesz listę, nie zawsze musisz wpisywać nawiasy. Możesz po prostu umieścić każdy element w osobnej linii w @Block, i robi to samo."
+                        ],
+                        [
+                            "Block",
+                            "shy",
+                            "… i ładniej wygląda, gdy każda linia staje się długa. Łatwiej czytać."
+                        ],
+                        ["edit", "(", "  1 + 1", "  2 + 2", "  3 + 3", ")"],
                         null,
                         [
                             "fit",
@@ -4507,7 +4538,7 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "$~Funkcje mogą być tak złożone, jak chcesz. Możesz używać prostych wyrażeń lub @Block, a nawet tworzyć funkcje wewnątrz funkcji. Na przykład sprawdź tę funkcję, którą napisał były dyrektor. Używa @Block z wieloma @Bind, aby ustalić, ile unikalnych samogłosek ma słowo (myślę, że próbowali ustalić, czy słowo jest „skomplikowane” lub coś w tym stylu). Widzisz, jak wiele jest wersów? Cóż, to nadal ma tylko jedno wyrażenie: pojedynczy @Block, a @Block ma wszystkie wersy. I jak każdy @Block, ostatni wers to to, do czego jest oceniany: całkowita liczba unikalnych samogłosek. Wszystko inne — jak pierwszy wers, który konwertuje tekst na listę liter, a następnie listę liter na zestaw — to tylko przygotowanie do zsumowania tych liczb w środku."
+                            "Funkcje mogą być tak złożone, jak chcesz. Możesz używać prostych wyrażeń lub @Block, a nawet tworzyć funkcje wewnątrz funkcji. Na przykład sprawdź tę funkcję, którą napisał były dyrektor. Używa @Block z wieloma @Bind, aby ustalić, ile unikalnych samogłosek ma słowo (myślę, że próbowali ustalić, czy słowo jest „skomplikowane” lub coś w tym stylu). Widzisz, jak wiele jest linii? Cóż, to nadal jest tylko jedno wyrażenie: pojedynczy @Block, a @Block zawiera wszystkie linie. Linie @Bind tylko wprowadzają nazwy; jedyne wyrażenie, które nie jest @Bind, na końcu jest tym, do czego @Block — a więc i funkcja — się ocenia: całkowita liczba unikalnych samogłosek. Wszystko, co je poprzedza — jak pierwsza linia, która konwertuje tekst na listę liter, a następnie listę liter na zbiór — to tylko przygotowanie do tego ostatniego wyrażenia."
                         ],
                         [
                             "edit",

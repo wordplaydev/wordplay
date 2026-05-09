@@ -512,26 +512,20 @@
                 "$~Se hur @Bind gjorde \\count\\? Det heter bara inom mig. Så det här kommer inte att fungera:",
                 "$~\\(count: 10 count ^ count) + count\\",
                 "$~För greven hette bara inom mig.",
-                "$~Du kan lägga hur många uttryck du vill i mig. Men jag bryr mig bara om det sista:",
-                "$~\\(1 2 3 4 5)\\",
-                "$~Så vanligtvis är jag bara ett gäng @Bind och sedan ett uttryck på slutet.",
-                "$~\\(\n  a: 1\n  b: 2\n  c: 3\n  d: 4\n  a + b + c + d\n)\\"
+                "Om du ger mig ett uttryck ger jag dig bara tillbaka dess värde:",
+                "\\(1 + 1)\\",
+                "Om du ger mig fler än ett samlar jag dem i en lista, i ordning:",
+                "\\(1 2 3 4 5)\\",
+                "@Bind-satser är sidoeffekter, inte värden, så de visas inte i listan:",
+                "\\(\n  a: 1\n  b: 2\n  a + b\n  a × b\n)\\",
+                "Det ger \\[3 2]\\: bara värdena från de två uttrycken som inte är @Bind."
             ],
             "start": "$~Första uttrycket",
             "finish": "$~Klart, jag fick $1",
             "conflict": {
                 "ExpectedEndingExpression": {
                     "name": "$~saknatuttryck",
-                    "explanation": "$~Jag behöver ett uttryck."
-                },
-                "IgnoredExpression": {
-                    "resolution": {
-                        "binary": "$~Menade du att detta skulle vara en @BinaryEvaluate istället för en @UnaryEvaluate? Jag kan lägga till ett mellanslag, så jag vet att det var det du menade.",
-                        "evaluate": "$~Menade du att detta skulle vara en @Evaluate? Jag kan ta bort det här utrymmet för att göra det till ett istället för två separata uttryck.",
-                        "name": "$~Villedunamngedethäruttrycketmed@Bind,såattdukananvändadetförattberäknavärdetpådetta@Block?"
-                    },
-                    "name": "$~ignoreratuttryck",
-                    "explanation": "$~Jag ignoreras eftersom ett @Block värde är baserat på det sista uttrycket."
+                    "explanation": "Jag behöver minst ett uttryck som inte är @Bind, så att jag har ett värde att returnera."
                 }
             },
             "label": {

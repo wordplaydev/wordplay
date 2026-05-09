@@ -512,26 +512,20 @@
                 "$~@Bind'in \\count\\'u nasıl yaptığını görün? Sadece içimde adlandırılıyor. Bu yüzden bu işe yaramayacak:",
                 "$~\\(sayım: 10 sayım ^ sayım) + sayım\\",
                 "$~Çünkü sayım sadece içimde adlandırılıyordu.",
-                "$~Bana istediğin kadar ifade koyabilirsin. Ama ben sadece sonuncusuyla ilgileniyorum:",
-                "$~\\(1 2 3 4 5)\\",
-                "$~Yani genelde ben sadece bir sürü @Bind ve sonunda bir ifadeden ibaretim.",
-                "$~\\(\na: 1\nb: 2\nc: 3\nd: 4\na + b + c + d\n)\\"
+                "Bana bir ifade verirsen, sana sadece değerini geri veririm:",
+                "\\(1 + 1)\\",
+                "Birden fazla verirsen, hepsini sırayla bir listede toplarım:",
+                "\\(1 2 3 4 5)\\",
+                "@Bind ifadeleri yan etkilerdir, değer değil, bu yüzden listede görünmezler:",
+                "\\(\n  a: 1\n  b: 2\n  a + b\n  a × b\n)\\",
+                "Bu \\[3 2]\\ verir: sadece @Bind olmayan iki ifadenin değerleri."
             ],
             "start": "$~İlk ifade",
             "finish": "$~Tamamdır, 1$ kazandım",
             "conflict": {
                 "ExpectedEndingExpression": {
                     "name": "$~eksikifade",
-                    "explanation": "$~Bir ifadeye ihtiyacım var."
-                },
-                "IgnoredExpression": {
-                    "resolution": {
-                        "binary": "$~Bunun @UnaryEvaluate yerine @BinaryEvaluate olmasını mı kastettiniz? Bir boşluk ekleyebilirim, bu yüzden ne demek istediğinizi biliyorum.",
-                        "evaluate": "$~Bunun bir @Evaluate olmasını mı istediniz? İki ayrı ifade yerine, tek bir ifade yapmak için bu alanı kaldırabilirim.",
-                        "name": "$~Buifadeyi@Bindileadlandırmakveböylece@Block'undeğerinihesaplamakiçinkullanmakmıistiyorsunuz?"
-                    },
-                    "name": "$~görmezdengelinenifade",
-                    "explanation": "$~@Block'un değeri son ifadeye bağlı olduğu için beni görmezden geliyorlar."
+                    "explanation": "Geri döndürebileceğim bir değerim olabilmesi için, @Bind olmayan en az bir ifadeye ihtiyacım var."
                 }
             },
             "label": {

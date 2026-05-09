@@ -2833,52 +2833,11 @@
                   "properties": {
                     "ExpectedEndingExpression": {
                       "$ref": "#/definitions/ConflictText",
-                      "description": "When there's no ending expression"
-                    },
-                    "IgnoredExpression": {
-                      "additionalProperties": false,
-                      "description": "When a statement is ignored because it's not last and not a bind",
-                      "properties": {
-                        "explanation": {
-                          "$ref": "#/definitions/FormattedText",
-                          "description": "[formatted] The text that describes this conflict on the node which generated it."
-                        },
-                        "name": {
-                          "description": "[name] The short header to describe the conflict",
-                          "type": "string"
-                        },
-                        "resolution": {
-                          "additionalProperties": false,
-                          "properties": {
-                            "binary": {
-                              "$ref": "#/definitions/FormattedText"
-                            },
-                            "evaluate": {
-                              "$ref": "#/definitions/FormattedText"
-                            },
-                            "name": {
-                              "$ref": "#/definitions/FormattedText"
-                            }
-                          },
-                          "required": [
-                            "name",
-                            "binary",
-                            "evaluate"
-                          ],
-                          "type": "object"
-                        }
-                      },
-                      "required": [
-                        "explanation",
-                        "name",
-                        "resolution"
-                      ],
-                      "type": "object"
+                      "description": "When there's no non-Bind expression to produce a value"
                     }
                   },
                   "required": [
-                    "ExpectedEndingExpression",
-                    "IgnoredExpression"
+                    "ExpectedEndingExpression"
                   ],
                   "type": "object"
                 },

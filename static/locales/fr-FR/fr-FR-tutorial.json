@@ -198,15 +198,15 @@
                             "Program",
                             "serious",
                             "$~Les instructions peuvent être aussi sophistiquées que vous le souhaitez, mais il existe quelques règles.",
-                            "$~Par exemple, je ne peux évaluer qu'une seule *valeur* et afficher cette valeur sur scène. Cette valeur peut être aussi complexe que vous le souhaitez, et tant que je sais comment la montrer, je le ferai.",
-                            "$~Mais si tu me donnes deux choses, je ne te montrerai que la dernière chose que tu me donneras.",
+                            "Par exemple, j'évalue une seule *valeur* et je montre cette valeur sur scène. Cette valeur peut être aussi complexe que vous le souhaitez, et tant que je sais comment la montrer, je le ferai.",
+                            "Si tu me donnes plus d'une expression, je rassemblerai leurs valeurs dans une *liste* et je montrerai celle-ci.",
                             "$~Par exemple, essayez d'ajouter une autre ligne, puis de taper le mot que vous voulez, entre guillemets."
                         ],
                         null,
                         [
                             "Program",
                             "serious",
-                            "$~Tu vois ? Je viens de montrer ta deuxième phrase, pas la première. Tu sais que tu as enfreint ma règle parce que j'ai souligné ta première phrase et nous t'avons dit que nous l'ignorerions."
+                            "Tu vois ? J'ai rassemblé les deux phrases dans une liste et je les ai mises sur scène."
                         ],
                         null,
                         ["use", "fit", "Symbol", "🎭"],
@@ -218,7 +218,7 @@
                         [
                             "Program",
                             "serious",
-                            "$~Oui et non. Je peux faire beaucoup de choses, mais c'est seulement parce que je travaille avec tous les autres dans le *Verse*. Ce sont eux qui amènent toutes les possibilités passionnantes sur la *scène*. Tout ce que je fais vraiment, c'est les laisser faire leur truc, puis prendre la dernière chose qu'ils ont créée et la montrer sur scène. Je suis plutôt comme une escorte qui amène la *valeur* finale sur scène, comme des nombres, des textes, des phrases ou d'autres valeurs."
+                            "Oui et non. Je peux faire beaucoup de choses, mais c'est seulement parce que je travaille avec tous les autres dans le *Verse*. Ce sont eux qui amènent toutes les possibilités passionnantes sur la *scène*. Tout ce que je fais vraiment, c'est les laisser faire leur truc, puis amener la valeur qu'ils ont créée — un nombre, un texte, une phrase ou une liste de valeurs — sur la scène."
                         ],
                         null,
                         [
@@ -4403,9 +4403,9 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "$~Et donc une autre chose que @Block peut faire est quelque chose que vous avez déjà vu. @Block vous permet de nommer des choses avec @Bind. Mais tous les noms définis dans @Block ne sont définis qu'entre parenthèses. Ni avant ni après. Par exemple, regardez ceci. \\a\\ est défini comme \\1\\, puis un bloc commence et \\b\\ est défini comme \\2\\, puis \\c\\ est défini comme leur somme. Ce que @Block évalue est la valeur qui est la dernière de sa liste d'expressions. C'est @Bind, qui évalue à la valeur de \\c\\, qui est \\3\\. N'est-ce pas ?"
+                            "Et donc une autre chose que @Block peut faire est quelque chose que vous avez déjà vu. @Block vous permet de nommer des choses avec @Bind. Mais tous les noms définis dans @Block ne sont définis qu'entre parenthèses. Ni avant ni après. Par exemple, regardez ceci : \\a\\ est défini comme \\1\\, puis un bloc commence, \\b\\ est défini comme \\2\\, puis \\c\\ comme leur somme, et ensuite j'écris \\c\\ tout seul. Les instructions @Bind sont des effets de bord — elles introduisent des noms mais n'ont pas de valeur propre. Donc ma valeur est ce que produisent les expressions qui ne sont pas des @Bind. Ici, c'est juste \\c\\, qui est \\3\\. N'est-ce pas ?"
                         ],
-                        ["conflict", "a: 1", "(", "  b: 2", "  c: a + b", ")"],
+                        ["conflict", "a: 1", "(", "  b: 2", "  c: a + b", "  c", ")"],
                         null,
                         [
                             "FunctionDefinition",
@@ -4418,6 +4418,7 @@
                             "(",
                             "  b: 2",
                             "  c: a + b",
+                            "  c",
                             ") + c"
                         ],
                         [
@@ -4429,12 +4430,12 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~Et encore une chose, je pense ? Étant donné que @Block est une liste d'expressions et qu'elle évalue uniquement la dernière expression de la liste, toutes les expressions de la liste qui ne sont pas un @Bind sont fondamentalement ignorées. Par exemple, ici, toute l'arithmétique avant la dernière est ignorée. Le \\3\\, le \\5\\, le \\7\\, tous ignorés, et @Block évalue simplement la dernière, \\9\\. Ai-je bien compris, @Block ?"
+                            "Et encore une chose, je pense ? Étant donné que @Block est une liste d'expressions, les valeurs de toutes les expressions qui ne sont pas des @Bind deviennent ma valeur. S'il n'y en a qu'une, tu obtiens cette unique valeur. S'il y en a plusieurs, tu obtiens une liste de toutes, dans l'ordre. Donc ici, le \\3\\, le \\5\\, le \\7\\ et le \\9\\ deviennent tous une liste : \\[3 5 7 9]\\. Ai-je bien compris, @Block ?"
                         ],
                         [
                             "Block",
                             "shy",
-                            "$~… mhm. Juste le dernier. Les autres… je ne sais pas à quoi ils servent !!"
+                            "… mhm. Tous, dans une liste."
                         ],
                         [
                             "conflict",
@@ -4445,6 +4446,36 @@
                             "  4 + 5",
                             ")"
                         ],
+                        null,
+                        [
+                            "FunctionDefinition",
+                            "serious",
+                            "Mais s'il n'y a aucune expression à garder ? Juste des instructions @Bind ?"
+                        ],
+                        [
+                            "Block",
+                            "shy",
+                            "… alors je n'aurais rien à donner. J'ai besoin d'au moins une expression qui ne soit pas un @Bind, sinon je dois te dire qu'il manque quelque chose."
+                        ],
+                        [
+                            "conflict",
+                            "(",
+                            "  a: 1",
+                            "  b: 2",
+                            ")"
+                        ],
+                        null,
+                        [
+                            "FunctionDefinition",
+                            "kind",
+                            "Oh, et encore une chose sympa ! Quand tu veux une liste, tu n'as pas toujours besoin de taper les crochets. Tu peux juste mettre chaque élément sur sa propre ligne dans un @Block, et il fait la même chose."
+                        ],
+                        [
+                            "Block",
+                            "shy",
+                            "… et c'est plus joli quand chaque ligne devient longue. Plus facile à lire."
+                        ],
+                        ["edit", "(", "  1 + 1", "  2 + 2", "  3 + 3", ")"],
                         null,
                         [
                             "fit",
@@ -4523,7 +4554,7 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "$~Les fonctions peuvent être aussi complexes que vous le souhaitez. Vous pouvez utiliser des expressions simples ou @Block et même créer des fonctions à l'intérieur de fonctions. Par exemple, regardez cette fonction qu'un ancien réalisateur a écrite. Elle utilise @Block avec de nombreux @Bind pour déterminer le nombre de voyelles uniques d'un mot (je pense qu'ils essayaient de déterminer si un mot était « compliqué » ou quelque chose comme ça). Vous voyez qu'il y a beaucoup de lignes ? Eh bien, cela n'a toujours qu'une seule expression : un seul @Block, et le @Block a toutes les lignes. Et comme tout @Block, la dernière ligne est ce à quoi elle correspond : le nombre total de voyelles uniques. Tout le reste — comme la première ligne, qui convertit le texte en une liste de lettres, puis la liste de lettres en un ensemble — n'est qu'une préparation pour additionner ces nombres au milieu."
+                            "Les fonctions peuvent être aussi complexes que vous le souhaitez. Vous pouvez utiliser des expressions simples ou @Block et même créer des fonctions à l'intérieur de fonctions. Par exemple, regardez cette fonction qu'un ancien réalisateur a écrite. Elle utilise @Block avec de nombreux @Bind pour déterminer le nombre de voyelles uniques d'un mot (je pense qu'ils essayaient de déterminer si un mot était « compliqué » ou quelque chose comme ça). Vous voyez qu'il y a beaucoup de lignes ? Eh bien, cela n'a toujours qu'une seule expression : un seul @Block, et le @Block a toutes les lignes. Les lignes @Bind ne font qu'introduire des noms ; la seule expression qui n'est pas un @Bind à la fin est ce à quoi le @Block — et donc la fonction — correspond : le nombre total de voyelles uniques. Tout ce qui précède — comme la première ligne, qui convertit le texte en une liste de lettres, puis la liste de lettres en un ensemble — n'est qu'une préparation pour cette dernière expression."
                         ],
                         [
                             "edit",

@@ -203,16 +203,8 @@ type NodeTexts = {
                 statements: string;
             };
         } & Conflicts<{
-            /** When there's no ending expression */
+            /** When there's no non-Bind expression to produce a value */
             ExpectedEndingExpression: ConflictText;
-            /** When a statement is ignored because it's not last and not a bind */
-            IgnoredExpression: ConflictText & {
-                resolution: {
-                    name: FormattedText;
-                    binary: FormattedText;
-                    evaluate: FormattedText;
-                };
-            };
         }>;
     /**
      * A single boolean literal, e.g., `⊤` or `⊥`

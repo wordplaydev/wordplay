@@ -200,15 +200,15 @@
                             "Program",
                             "serious",
                             "$~Ang mga tagubilin ay maaaring maging kasing sopistikado hangga't gusto mo, ngunit may ilang mga patakaran.",
-                            "$~Halimbawa, isa lang ang *halaga* na kaya kong suriin at ipakita ang halagang iyon sa entablado. Ang isang halagang iyon ay maaaring maging kasing kumplikado ng gusto mo, at hangga't alam ko kung paano ito ipakita, gagawin ko.",
-                            "$~Pero kung bibigyan mo ako ng dalawang bagay, ang huling bagay na ibibigay mo lang ang ipapakita ko.",
+                            "Halimbawa, sinusuri ko ang isang *halaga* at ipinapakita ang halagang iyon sa entablado. Ang isang halagang iyon ay maaaring maging kasing kumplikado ng gusto mo, at hangga't alam ko kung paano ito ipakita, gagawin ko.",
+                            "Kung bibigyan mo ako ng higit sa isang ekspresyon, kokolektahin ko ang mga halaga nila sa isang *listahan* at ipapakita iyon.",
                             "$~Halimbawa, subukang magdagdag ng isa pang linya at pagkatapos ay i-type ang anumang salitang gusto mo, gamit ang mga panipi."
                         ],
                         null,
                         [
                             "Program",
                             "serious",
-                            "$~Kita mo? Ipinakita ko lang ang pangalawang parirala mo, hindi ang una. Alam mong nilabag mo ang patakaran ko dahil sinalungguhitan ko ang unang parirala mo at sinabihan ka naming hindi namin ito papansinin."
+                            "Kita mo? Kinolekta ko ang dalawang parirala sa isang listahan at inilagay sa entablado."
                         ],
                         null,
                         ["use", "fit", "Symbol", "🎭"],
@@ -220,7 +220,7 @@
                         [
                             "Program",
                             "serious",
-                            "$~Oo at hindi. Marami akong magagawa, pero dahil lang iyon sa nakikipagtulungan ako sa lahat ng iba pa sa *Verse*. Sila ang nagdadala ng lahat ng kapanapanabik na posibilidad sa *stage*. Ang ginagawa ko lang talaga ay hinahayaan silang gawin ang gusto nila, pagkatapos ay kukunin ko ang huling bagay na nilikha nila at ipakita ito sa entablado. Para akong isang escort na nagdadala ng pangwakas na *halaga* sa entablado, tulad ng mga numero, teksto, parirala, o iba pang mga halaga."
+                            "Oo at hindi. Marami akong magagawa, pero dahil lang iyon sa nakikipagtulungan ako sa lahat ng iba pa sa *Verse*. Sila ang nagdadala ng lahat ng kapanapanabik na posibilidad sa *stage*. Ang ginagawa ko lang talaga ay hayaan silang gumawa ng kanilang gusto, at pagkatapos ay dalhin ang halagang ginawa nila — isang numero, teksto, parirala, o listahan ng mga halaga — sa entablado."
                         ],
                         null,
                         [
@@ -4419,9 +4419,9 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "$~Kaya isa pang bagay na magagawa ng @Block ay isang bagay na nakita mo na. Binibigyang-daan ka ng @Block na pangalanan ang mga bagay gamit ang @Bind. Ngunit ang anumang mga pangalang tinukoy sa @Block ay tinukoy lamang sa pagitan ng mga panaklong. Hindi bago at hindi pagkatapos. Halimbawa, tingnan ito. Ang \\a\\ ay tinukoy bilang \\1\\, pagkatapos ay magsisimula ang isang bloke at ang \\b\\ ay tinukoy bilang \\2\\, pagkatapos ay ang \\c\\ ay tinukoy bilang kanilang kabuuan. Ang sinusuri ng @Block ay ang anumang halaga na nasa huli sa listahan ng mga expression nito. Iyan ay @Bind, na sinusuri sa anumang \\c\\, na kung saan ay \\3\\. Tama ba?"
+                            "Kaya isa pang bagay na magagawa ng @Block ay isang bagay na nakita mo na. Binibigyang-daan ka ng @Block na pangalanan ang mga bagay gamit ang @Bind. Ngunit ang anumang mga pangalang tinukoy sa @Block ay tinukoy lamang sa pagitan ng mga panaklong. Hindi bago at hindi pagkatapos. Halimbawa, tingnan ito: ang \\a\\ ay tinukoy bilang \\1\\, pagkatapos ay magsisimula ang isang bloke, ang \\b\\ ay tinukoy bilang \\2\\, pagkatapos ay ang \\c\\ bilang kanilang kabuuan, at sa huli ay isulat ko ang \\c\\ nang nag-iisa. Ang mga @Bind ay mga side effect — nagpapakilala sila ng mga pangalan ngunit walang sariling halaga. Kaya ang halaga ko ay kung ano ang ibinibigay ng mga ekspresyon na hindi @Bind. Dito, ito ay \\c\\ lamang, na \\3\\. Tama ba?"
                         ],
-                        ["conflict", "a: 1", "(", "  b: 2", "  c: a + b", ")"],
+                        ["conflict", "a: 1", "(", "  b: 2", "  c: a + b", "  c", ")"],
                         null,
                         [
                             "FunctionDefinition",
@@ -4434,6 +4434,7 @@
                             "(",
                             "  b: 2",
                             "  c: a + b",
+                            "  c",
                             ") + c"
                         ],
                         [
@@ -4445,12 +4446,12 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~At isa pa, sa palagay ko? Dahil ang @Block ay isang listahan ng mga ekspresyon at sinusuri lamang nito ang huling ekspresyon sa listahan, anumang mga ekspresyon sa listahan na hindi isang @Bind ay karaniwang binabalewala. Halimbawa, dito, lahat ng aritmetika bago ang huli ay binabalewala. Ang \\3\\, ang \\5\\, ang \\7\\, ay binabalewala lahat, at ang @Block ay sinusuri lamang ang huli, ang \\9\\. Tama ba ang nakuha ko, @Block?"
+                            "At isa pa, sa palagay ko? Dahil ang @Block ay isang listahan ng mga ekspresyon, ang mga halaga ng lahat ng ekspresyon na hindi @Bind ay nagiging halaga ko. Kung iisa lang, makukuha mo ang isang halagang iyon. Kung marami, makukuha mo ang listahan ng lahat, ayon sa pagkakasunod-sunod. Kaya dito, ang \\3\\, \\5\\, \\7\\, at \\9\\ ay nagiging isang listahan: \\[3 5 7 9]\\. Tama ba ang nakuha ko, @Block?"
                         ],
                         [
                             "Block",
                             "shy",
-                            "$~… mhm. Yung huli lang. Yung iba… Hindi ko alam kung para saan!!"
+                            "… mhm. Lahat, sa isang listahan."
                         ],
                         [
                             "conflict",
@@ -4461,6 +4462,36 @@
                             "  4 + 5",
                             ")"
                         ],
+                        null,
+                        [
+                            "FunctionDefinition",
+                            "serious",
+                            "Pero paano kung walang mga ekspresyon na pananatilihin? Mga @Bind lamang?"
+                        ],
+                        [
+                            "Block",
+                            "shy",
+                            "… kung gayon ay wala akong maibibigay sa iyo. Kailangan ko ng kahit isang ekspresyon na hindi @Bind, kung hindi kailangan kong sabihin sa iyo na may kulang."
+                        ],
+                        [
+                            "conflict",
+                            "(",
+                            "  a: 1",
+                            "  b: 2",
+                            ")"
+                        ],
+                        null,
+                        [
+                            "FunctionDefinition",
+                            "kind",
+                            "Naku, at isa pang magandang bagay! Kapag gusto mo ng listahan, hindi mo kailangang isulat ang mga panaklong. Maaari mong ilagay ang bawat item sa sarili nitong linya sa loob ng @Block, at ginagawa nito ang parehong bagay."
+                        ],
+                        [
+                            "Block",
+                            "shy",
+                            "… at mas maganda kapag mahaba ang bawat linya. Mas madaling basahin."
+                        ],
+                        ["edit", "(", "  1 + 1", "  2 + 2", "  3 + 3", ")"],
                         null,
                         [
                             "fit",
@@ -4539,7 +4570,7 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "$~Ang mga function ay maaaring maging kasing kumplikado ng gusto mo. Maaari kang gumamit ng mga simpleng expression o @Block at gumawa pa ng mga function sa loob ng mga function. Halimbawa, tingnan ang function na ito na isinulat ng isang dating direktor. Ginagamit nito ang @Block na may maraming @Bind upang malaman kung gaano karaming natatanging patinig ang mayroon ang isang salita (sa palagay ko ay sinusubukan nilang alamin kung ang isang salita ay \"kumplikado\" o kung ano pa man). Nakikita mo ba kung paano ito maraming linya? Buweno, mayroon pa rin itong isang expression: isang @Block, at ang @Block ay naglalaman ng lahat ng linya. At tulad ng anumang @Block, ang huling linya ang sinusuri nito: ang kabuuang bilang ng mga natatanging patinig. Ang lahat ng iba pa — tulad ng unang linya, na nagko-convert ng teksto sa isang listahan ng mga letra, pagkatapos ay ang listahan ng mga letra sa isang set — ay paghahanda lamang para sa pagbubuod ng mga bilang na iyon sa gitna."
+                            "Ang mga function ay maaaring maging kasing kumplikado ng gusto mo. Maaari kang gumamit ng mga simpleng ekspresyon o @Block at gumawa pa ng mga function sa loob ng mga function. Halimbawa, tingnan ang function na ito na isinulat ng isang dating direktor. Ginagamit nito ang @Block na may maraming @Bind upang malaman kung ilang natatanging patinig mayroon ang isang salita (sa palagay ko ay sinusubukan nilang alamin kung ang isang salita ay \"kumplikado\" o kung ano pa man). Nakikita mo ba kung gaano karaming linya ito? Buweno, mayroon pa rin itong isang ekspresyon: isang @Block, at ang @Block ay naglalaman ng lahat ng linya. Ang mga linyang @Bind ay nagpapakilala lang ng mga pangalan; ang nag-iisang ekspresyon na hindi @Bind sa dulo ang kung ano ang ineevaluate ng @Block — at samakatuwid, ng function: ang kabuuang bilang ng mga natatanging patinig. Ang lahat ng nasa unahan — tulad ng unang linya na nagko-convert ng teksto sa isang listahan ng mga letra, pagkatapos ay ang listahan ng mga letra sa isang set — ay paghahanda lamang para sa huling ekspresyong iyon."
                         ],
                         [
                             "edit",

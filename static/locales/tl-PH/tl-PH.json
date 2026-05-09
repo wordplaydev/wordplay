@@ -515,10 +515,13 @@
                 "$~Nakikita mo ba kung paano ginawa ni @Bind ang \\count\\? Nakapangalan lang ito sa loob ko. Kaya hindi ito gagana:",
                 "$~\\(bilang: 10 bilang ^ bilang) + bilang\\",
                 "$~Dahil ang bilang ay pinangalanan lamang sa loob ko.",
-                "$~Maaari kang maglagay ng kahit gaano karaming ekspresyon na gusto mo sa akin. Pero ang huli lang ang mahalaga sa akin:",
-                "$~\\(1 2 3 4 5)\\",
-                "$~Kaya kadalasan isa lang akong grupo ng @Bind at pagkatapos ay isang ekspresyon sa huli.",
-                "$~\\(\na: 1\nb: 2\nc: 3\nd: 4\na + b + c + d\n)\\"
+                "Kung bibigyan mo ako ng isang ekspresyon, ibabalik ko lang sa iyo ang halaga nito:",
+                "\\(1 + 1)\\",
+                "Kung bibigyan mo ako ng higit sa isa, kokolektahin ko ang mga ito sa isang listahan, ayon sa pagkakasunod-sunod:",
+                "\\(1 2 3 4 5)\\",
+                "Ang mga @Bind ay mga side effect, hindi mga halaga, kaya hindi sila lumilitaw sa listahan:",
+                "\\(\n  a: 1\n  b: 2\n  a + b\n  a × b\n)\\",
+                "Magbibigay iyan ng \\[3 2]\\: ang mga halaga lang ng dalawang ekspresyon na hindi @Bind."
             ],
             "label": {
                 "statements": "$~mga ekspresyon"
@@ -528,16 +531,7 @@
             "conflict": {
                 "ExpectedEndingExpression": {
                     "name": "$~nawawalangekspresyon",
-                    "explanation": "$~Kailangan ko ng ekspresyon."
-                },
-                "IgnoredExpression": {
-                    "name": "$~hindipinansinnaekspresyon",
-                    "explanation": "$~Hindi ako pinapansin, dahil ang halaga ng isang @Block ay batay sa huling expression.",
-                    "resolution": {
-                        "name": "$~Gustomobangpangalananangexpressionnaitogamitang@Bind,paramagamitmoitoparakalkulahinangvalueng@Blocknaito?",
-                        "binary": "$~Ibig mo bang sabihin na ito ay isang @BinaryEvaluate sa halip na isang @UnaryEvaluate? Maaari akong magdagdag ng espasyo, kaya alam kong iyon ang ibig mong sabihin.",
-                        "evaluate": "$~Ibig mo bang sabihin na ito ay isang @Evaluate? Maaari kong alisin ang espasyong ito para gawin itong isa, sa halip na dalawang magkahiwalay na expression."
-                    }
+                    "explanation": "Kailangan ko ng kahit isang ekspresyon na hindi @Bind, para may halaga akong ibalik."
                 }
             }
         },

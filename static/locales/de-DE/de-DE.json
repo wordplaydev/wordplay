@@ -512,26 +512,20 @@
                 "$~Sehen Sie, wie @Bind \\count\\ erstellt hat? Es ist nur in mir benannt. Das hier funktioniert also nicht:",
                 "$~\\(Anzahl: 10 Anzahl ^ Anzahl) + Anzahl\\",
                 "$~Denn Graf wurde erst in mir selbst benannt.",
-                "$~Du kannst so viele Ausdrücke in mich einfügen, wie du möchtest. Aber mich interessiert nur der letzte:",
-                "$~\\(1 2 3 4 5)\\",
-                "$~Normalerweise verwende ich also einfach ein paar @Bind-Befehle und am Ende einen Ausdruck.",
-                "$~\\(\na: 1\nb: 2\nc: 3\nd: 4\na + b + c + d\n)\\"
+                "Wenn du mir einen Ausdruck gibst, gebe ich dir einfach seinen Wert zurück:",
+                "\\(1 + 1)\\",
+                "Wenn du mir mehrere gibst, sammle ich sie der Reihe nach in einer Liste:",
+                "\\(1 2 3 4 5)\\",
+                "@Bind-Anweisungen sind Nebeneffekte, keine Werte, also erscheinen sie nicht in der Liste:",
+                "\\(\n  a: 1\n  b: 2\n  a + b\n  a × b\n)\\",
+                "Das ergibt \\[3 2]\\: nur die Werte der beiden Nicht-@Bind-Ausdrücke."
             ],
             "start": "$~erster Ausdruck",
             "finish": "$~erledigt, ich habe $1 bekommen",
             "conflict": {
                 "ExpectedEndingExpression": {
                     "name": "$~fehlenderAusdruck",
-                    "explanation": "$~Ich brauche einen Ausdruck."
-                },
-                "IgnoredExpression": {
-                    "resolution": {
-                        "binary": "$~Meinten Sie, dass dies ein @BinaryEvaluate statt eines @UnaryEvaluate sein sollte? Ich kann ein Leerzeichen hinzufügen, damit ich weiß, dass Sie das gemeint haben.",
-                        "evaluate": "$~Wollten Sie, dass dies ein @Evaluate ist? Ich kann dieses Leerzeichen entfernen, um daraus einen statt zwei separate Ausdrücke zu machen.",
-                        "name": "$~WolltenSiediesenAusdruckmit@Bindbenennen,umdamitdenWertdieses@Bindberechnenzukönnen?"
-                    },
-                    "name": "$~ignorierterAusdruck",
-                    "explanation": "$~Ich werde ignoriert, weil der Wert eines @Block auf dem letzten Ausdruck basiert."
+                    "explanation": "Ich brauche mindestens einen Ausdruck, der kein @Bind ist, damit ich einen Wert zurückgeben kann."
                 }
             },
             "label": {

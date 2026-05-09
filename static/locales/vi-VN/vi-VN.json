@@ -512,10 +512,13 @@
                 "$~Bạn thấy cách @Bind tạo ra \\count\\ không? Nó chỉ được đặt tên bên trong tôi thôi. Vì vậy, điều này sẽ không hoạt động:",
                 "$~\\(count: 10 count ^ count) + count\\",
                 "$~Vì bá tước chỉ được đặt tên trong tâm trí tôi.",
-                "$~Bạn có thể gán cho tôi bao nhiêu biểu cảm tùy thích. Nhưng tôi chỉ quan tâm đến biểu cảm cuối cùng:",
-                "$~\\(1 2 3 4 5)\\",
-                "$~Thông thường, tôi chỉ dùng một loạt lệnh @Bind và sau đó là một biểu thức ở cuối.",
-                "$~\\(\n\na: 1\n\nb: 2\n\nc: 3\n\nd: 4\n\na + b + c + d\n)\\"
+                "Nếu bạn cho tôi một biểu thức, tôi chỉ trả lại giá trị của nó:",
+                "\\(1 + 1)\\",
+                "Nếu bạn cho tôi nhiều hơn một, tôi sẽ tập hợp chúng thành một danh sách, theo thứ tự:",
+                "\\(1 2 3 4 5)\\",
+                "Các câu lệnh @Bind là tác dụng phụ, không phải giá trị, nên chúng không xuất hiện trong danh sách:",
+                "\\(\n  a: 1\n  b: 2\n  a + b\n  a × b\n)\\",
+                "Cái đó cho ra \\[3 2]\\: chỉ là giá trị của hai biểu thức không phải @Bind."
             ],
             "label": {
                 "statements": "$~biểu thức"
@@ -525,16 +528,7 @@
             "conflict": {
                 "ExpectedEndingExpression": {
                     "name": "$~biểuthứcbịthiếu",
-                    "explanation": "$~Tôi cần một cách diễn đạt."
-                },
-                "IgnoredExpression": {
-                    "name": "$~biểuthứcbịbỏqua",
-                    "explanation": "$~Tôi bị phớt lờ vì giá trị của @Block dựa trên biểu thức cuối cùng.",
-                    "resolution": {
-                        "name": "$~Bạncómuốnđặttênchobiểuthứcnàybằng@Bindđểcóthểsửdụngnóđểtínhtoángiátrịcủa@Blocknàykhông?",
-                        "binary": "$~Có phải bạn muốn sử dụng @BinaryEvaluate thay vì @UnaryEvaluate không? Tôi có thể thêm dấu cách, nên tôi biết đó là ý bạn.",
-                        "evaluate": "$~Bạn có ý định sử dụng @Evaluate cho câu lệnh này không? Tôi có thể xóa khoảng trắng này để tạo thành một câu lệnh duy nhất, thay vì hai biểu thức riêng biệt."
-                    }
+                    "explanation": "Tôi cần ít nhất một biểu thức không phải @Bind, để có một giá trị để trả về."
                 }
             }
         },
