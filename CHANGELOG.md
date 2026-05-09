@@ -22,6 +22,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - We improved the list expand/collapse behavior when there are more than 10 items.
 - We improved layout in blocks mode.
 - We changed how blocks evaluate! Now, a Block with multiple non-`Bind` expressions will wrap the values in a list, instead of giving a warning and only evaluating to the last value. If your program had several expressions in a row and you only meant the last to be the result, wrap the earlier ones in `Bind` statements (or remove them). This will make it easier to create lists of values, including multiple `Phrase`s in a `Group`.
+- We upgraded internal tooling for stability.
 
 ### Fixed
 
