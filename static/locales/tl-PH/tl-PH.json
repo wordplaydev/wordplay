@@ -4400,7 +4400,8 @@
                 "edit": "$~i-edit ang naka-format na teksto",
                 "preview": "$~preview na naka-format na teksto",
                 "highlight": "$~i-highlight ang halimbawa",
-                "bullet": "$~bala"
+                "bullet": "$~bala",
+                "attention": "$~i-highlight ang ekspresyong ito"
             }
         },
         "tile": {
@@ -5355,9 +5356,13 @@
                         ]
                     },
                     "blockDensity": {
-                        "label": "$?",
-                        "labels": ["$?", "$?", "$?"],
-                        "tips": ["$?", "$?", "$?"]
+                        "label": "$~pagitan ng bloke",
+                        "labels": ["$~siksik", "$~normal", "$~maluwang"],
+                        "tips": [
+                            "$~mas mahigpit na mga bloke upang magkasya ang mas maraming code sa screen",
+                            "$~default na espasyo sa bloke",
+                            "$~mas maluwag na mga bloke para sa mas madaling pagpili at pag-drag"
+                        ]
                     }
                 },
                 "options": {

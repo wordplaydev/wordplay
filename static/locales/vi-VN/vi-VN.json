@@ -4397,7 +4397,8 @@
                 "edit": "$~chỉnh sửa văn bản đã định dạng",
                 "preview": "$~xem trước văn bản được định dạng",
                 "highlight": "$~ví dụ nổi bật",
-                "bullet": "$~dấu đầu dòng"
+                "bullet": "$~dấu đầu dòng",
+                "attention": "$~nhấn mạnh biểu thức này"
             }
         },
         "tile": {
@@ -5348,9 +5349,13 @@
                         ]
                     },
                     "blockDensity": {
-                        "label": "$?",
-                        "labels": ["$?", "$?", "$?"],
-                        "tips": ["$?", "$?", "$?"]
+                        "label": "$~khoảng cách khối",
+                        "labels": ["$~nhỏ gọn", "$~Bình thường", "$~rộng rãi"],
+                        "tips": [
+                            "$~Các khối mã được thu gọn hơn để hiển thị nhiều mã hơn trên màn hình.",
+                            "$~khoảng cách khối mặc định",
+                            "$~các khối rời rạc hơn để dễ dàng chọn và kéo"
+                        ]
                     }
                 },
                 "options": {

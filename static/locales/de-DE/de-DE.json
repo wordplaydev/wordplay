@@ -4395,7 +4395,8 @@
                 "edit": "$~formatierten Text bearbeiten",
                 "preview": "$~formatierten Text in Vorschau anzeigen",
                 "highlight": "$~Hervorhebungsbeispiel",
-                "bullet": "$~Aufzählungszeichen"
+                "bullet": "$~Aufzählungszeichen",
+                "attention": "$~Diesen Ausdruck hervorheben"
             }
         },
         "tile": {
@@ -5095,9 +5096,13 @@
                         ]
                     },
                     "blockDensity": {
-                        "label": "$?",
-                        "labels": ["$?", "$?", "$?"],
-                        "tips": ["$?", "$?", "$?"]
+                        "label": "$~Blockabstand",
+                        "labels": ["$~kompakt", "$~Normal", "$~geräumig"],
+                        "tips": [
+                            "$~engere Blöcke, um mehr Code auf dem Bildschirm anzuzeigen",
+                            "$~Standard-Blockabstand",
+                            "$~Lose Blöcke für einfachere Auswahl und Verschiebung"
+                        ]
                     }
                 },
                 "options": {

@@ -4396,7 +4396,8 @@
                 "edit": "$~modifier le texte formaté",
                 "preview": "$~prévisualisation du texte formaté",
                 "highlight": "$~exemple de surbrillance",
-                "bullet": "$~puce"
+                "bullet": "$~puce",
+                "attention": "$~mettre en évidence cette expression"
             }
         },
         "tile": {
@@ -5096,9 +5097,13 @@
                         ]
                     },
                     "blockDensity": {
-                        "label": "$?",
-                        "labels": ["$?", "$?", "$?"],
-                        "tips": ["$?", "$?", "$?"]
+                        "label": "$~espacement des blocs",
+                        "labels": ["$~compact", "$~normale", "$~spacieux"],
+                        "tips": [
+                            "$~Des blocs plus serrés pour afficher plus de code à l'écran",
+                            "$~espacement par défaut des blocs",
+                            "$~Des blocs plus lâches pour faciliter la sélection et le déplacement."
+                        ]
                     }
                 },
                 "options": {

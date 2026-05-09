@@ -4397,7 +4397,8 @@
                 "edit": "$~editar texto formatado",
                 "preview": "$~texto formatado de pré-visualização",
                 "highlight": "$~exemplo de destaque",
-                "bullet": "$~marcador"
+                "bullet": "$~marcador",
+                "attention": "$~Destaque esta expressão"
             }
         },
         "tile": {
@@ -5352,9 +5353,13 @@
                         ]
                     },
                     "blockDensity": {
-                        "label": "$?",
-                        "labels": ["$?", "$?", "$?"],
-                        "tips": ["$?", "$?", "$?"]
+                        "label": "$~espaçamento entre blocos",
+                        "labels": ["$~compactar", "$~normal", "$~espaçoso"],
+                        "tips": [
+                            "$~Blocos mais compactos para exibir mais código no ecrã.",
+                            "$~espaçamento padrão entre blocos",
+                            "$~Blocos mais soltos para facilitar a seleção e o arrastamento."
+                        ]
                     }
                 },
                 "options": {

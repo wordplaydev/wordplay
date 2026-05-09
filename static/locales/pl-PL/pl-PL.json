@@ -4401,7 +4401,8 @@
                 "edit": "$~edytuj sformatowany tekst",
                 "preview": "$~podgląd sformatowanego tekstu",
                 "highlight": "$~wyróżnij przykład",
-                "bullet": "$~punkt listy"
+                "bullet": "$~punkt listy",
+                "attention": "$~zaznacz to wyrażenie"
             }
         },
         "tile": {
@@ -5118,9 +5119,17 @@
                         ]
                     },
                     "blockDensity": {
-                        "label": "$?",
-                        "labels": ["$?", "$?", "$?"],
-                        "tips": ["$?", "$?", "$?"]
+                        "label": "$~odstępy między blokami",
+                        "labels": [
+                            "$~kompaktowy",
+                            "$~normalna",
+                            "$~przestronny"
+                        ],
+                        "tips": [
+                            "$~ciaśniejsze bloki, aby zmieścić więcej kodu na ekranie",
+                            "$~domyślne odstępy między blokami",
+                            "$~luźniejsze bloki ułatwiające zaznaczanie i przeciąganie"
+                        ]
                     }
                 },
                 "options": {

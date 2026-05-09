@@ -4396,7 +4396,8 @@
                 "edit": "$~redigera formaterad text",
                 "preview": "$~förhandsgranska formaterad text",
                 "highlight": "$~exempel på framhävning",
-                "bullet": "$~punkt"
+                "bullet": "$~punkt",
+                "attention": "$~markera detta uttryck"
             }
         },
         "tile": {
@@ -5113,9 +5114,13 @@
                         ]
                     },
                     "blockDensity": {
-                        "label": "$?",
-                        "labels": ["$?", "$?", "$?"],
-                        "tips": ["$?", "$?", "$?"]
+                        "label": "$~blockavstånd",
+                        "labels": ["$~kompakt", "$~normal", "$~rymlig"],
+                        "tips": [
+                            "$~tätare block för att få plats med mer kod på skärmen",
+                            "$~standardblockavstånd",
+                            "$~lösare block för enklare val och dra"
+                        ]
                     }
                 },
                 "options": {

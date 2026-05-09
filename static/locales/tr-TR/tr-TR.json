@@ -4396,7 +4396,8 @@
                 "edit": "$~Biçimlendirilmiş metni düzenle",
                 "preview": "$~Biçimlendirilmiş metni önizle",
                 "highlight": "$~vurgulama örneği",
-                "bullet": "$~madde işareti"
+                "bullet": "$~madde işareti",
+                "attention": "$~bu ifadeyi vurgulayın"
             }
         },
         "tile": {
@@ -5109,9 +5110,13 @@
                         ]
                     },
                     "blockDensity": {
-                        "label": "$?",
-                        "labels": ["$?", "$?", "$?"],
-                        "tips": ["$?", "$?", "$?"]
+                        "label": "$~blok aralığı",
+                        "labels": ["$~kompakt", "$~normal", "$~ferah"],
+                        "tips": [
+                            "$~Ekrana daha fazla kod sığdırmak için daha sıkı bloklar",
+                            "$~varsayılan blok aralığı",
+                            "$~Daha kolay seçim ve sürükleme için daha gevşek bloklar"
+                        ]
                     }
                 },
                 "options": {
