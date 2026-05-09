@@ -852,9 +852,14 @@
         event: PointerEvent | MouseEvent,
     ): number | undefined {
         // Find the nearest .output element and get its node-id data attribute.
+        // Accept any Element here, not just HTMLElement: clicks landing on
+        // inline SVG (e.g. a custom character glyph rendered by CharacterView)
+        // return SVGElements, which still support .closest() and walk up to
+        // the enclosing .phrase div correctly.
         const element = document.elementFromPoint(event.clientX, event.clientY);
-        if (!(element instanceof HTMLElement)) return;
-        return getOutputNodeIDFromElement(element.closest('.output'));
+        return getOutputNodeIDFromElement(
+            element?.closest('.output') ?? null,
+        );
     }
     function recordSelection(event: Event) {
         if (stageValue === undefined) return;

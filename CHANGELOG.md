@@ -28,6 +28,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - We fixed a problem with duplicate translations crashing.
 - We made copy and paste within the app more reliable and fast.
 - We made collision detection more reliable and less flickery.
+- We made Phrases with custom characters also eligible to drag, rotate, and scale.
 
 ## 0.17.8 - 2026-05-02
 
