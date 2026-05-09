@@ -7,7 +7,7 @@ export const DraftLocales = [
     'hi-IN',
     'pa-IN',
     'ta-IN-LK-SG',
-    'sv-FI',
+    'sv-SE',
     'sr-RS',
     'mr-IN',
     'pl-PL',
