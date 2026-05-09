@@ -4,7 +4,10 @@
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import { blocks, locales } from '@db/Database';
     import Menu, { RevisionSet } from '@edit/menu/Menu';
+    import Replace from '@edit/revision/Replace';
     import Revision from '@edit/revision/Revision';
+    import type Node from '@nodes/Node';
+    import getPreferredSpaces from '@parser/getPreferredSpaces';
 
     interface Props {
         entry: Revision;
@@ -25,6 +28,34 @@
 
     /** If a removal, get a duplicated parent node, and list of nodes to be removed */
     let [parent, removed] = $derived(entry.getRemovalContext());
+
+    /** For a Replace, find descendants of the rendered node that are reused
+     *  (reference-equal) from the original being replaced and whose serialized
+     *  form spans more than 3 lines. Those are elided to "…" so the menu item
+     *  doesn't get dominated by unchanged code. Top-down walk: once a subtree
+     *  is elided, we don't descend into it (no double-eliding). */
+    let elided = $derived.by<Node[]>(() => {
+        if (isRemoval || !(entry instanceof Replace) || newNode === undefined)
+            return [];
+        const originalNodes = new Set<Node>(entry.node.nodes());
+        // Use preferred spaces so multi-line constructs report real line counts.
+        // toWordplay() with no spaces collapses everything onto one line.
+        const spaces = getPreferredSpaces(newNode);
+        const result: Node[] = [];
+        function walk(n: Node) {
+            if (
+                n !== newNode &&
+                originalNodes.has(n) &&
+                n.toWordplay(spaces).split('\n').length > 3
+            ) {
+                result.push(n);
+                return;
+            }
+            for (const child of n.getChildren()) walk(child);
+        }
+        walk(newNode);
+        return result;
+    });
 </script>
 
 <div
@@ -59,6 +90,7 @@
             blocks={$blocks}
             inline={true}
             removed={isRemoval ? removed : []}
+            {elided}
         />
     {:else}
         <MarkupHTMLView markup={entry.getDescription($locales)} />

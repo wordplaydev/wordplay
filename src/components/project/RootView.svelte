@@ -47,6 +47,8 @@
         lines?: boolean;
         /** Whether any particular nodes should be rendered as removed */
         removed?: Node[];
+        /** Nodes that should render as "…" instead of their full subtree. */
+        elided?: Node[];
     }
 
     let {
@@ -61,6 +63,7 @@
         editable = false,
         lines = false,
         removed = [],
+        elided = [],
     }: Props = $props();
 
     /** Get the root, or make one if it's not a source. */
@@ -70,9 +73,11 @@
     let rootContext = $state<{
         root: Root | undefined;
         removed: SvelteSet<Node>;
+        elided: SvelteSet<Node>;
     }>({
         root: undefined,
         removed: new SvelteSet<Node>(),
+        elided: new SvelteSet<Node>(),
     });
     setRoot(rootContext);
 
@@ -80,6 +85,8 @@
         rootContext.root = root;
         rootContext.removed.clear();
         for (const node of removed) rootContext.removed.add(node);
+        rootContext.elided.clear();
+        for (const node of elided) rootContext.elided.add(node);
     });
 
     // When the spaces change, update the rendered spaces

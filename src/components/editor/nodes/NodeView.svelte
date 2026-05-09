@@ -113,6 +113,11 @@
         node && rootContext ? rootContext.removed.has(node) : false,
     );
 
+    // Determine if the node should be elided ("…" instead of full subtree).
+    let elided = $derived(
+        node && rootContext ? rootContext.elided.has(node) : false,
+    );
+
     // Get the insertion point
     let dragTarget = getDragTarget();
 
@@ -194,16 +199,19 @@
             id={`node-${node.id}`}
             aria-hidden={hide ? 'true' : null}
             aria-label={description}
-            ><!--Render the available value if debugging, node view otherwise -->{#if value && node.isUndelimited()}<span
-                    class="eval">{EVAL_OPEN_SYMBOL}</span
-                >{/if}<ComponentView
-                {node}
-                {format}
-            />{#if value}{#if node.isUndelimited()}<span class="eval"
-                        >{EVAL_CLOSE_SYMBOL}</span
-                    >{/if}<div class="value"
-                    ><ValueView {value} {node} interactive /></div
-                >{/if}
+            ><!--Render the available value if debugging, node view otherwise -->{#if elided}<span
+                    class="elided"
+                    aria-label="elided">…</span
+                >{:else}{#if value && node.isUndelimited()}<span
+                        class="eval">{EVAL_OPEN_SYMBOL}</span
+                    >{/if}<ComponentView
+                    {node}
+                    {format}
+                />{#if value}{#if node.isUndelimited()}<span class="eval"
+                            >{EVAL_CLOSE_SYMBOL}</span
+                        >{/if}<div class="value"
+                        ><ValueView {value} {node} interactive /></div
+                    >{/if}{/if}
         </div>
     {:else}
         !
@@ -288,6 +296,11 @@
 
     .eval {
         color: var(--wordplay-evaluation-color);
+    }
+
+    .elided {
+        color: var(--wordplay-inactive-color);
+        padding: 0 var(--wordplay-spacing-half);
     }
 
     .block {

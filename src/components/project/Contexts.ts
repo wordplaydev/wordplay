@@ -223,6 +223,9 @@ export const [getSetMenuAnchor, setSetMenuAnchor] =
 export const [getRoot, setRoot] = createOptionalContext<{
     root: Root | undefined;
     removed: Set<Node>;
+    /** Nodes that should render as a single ellipsis ("…") instead of their
+     *  full subtree. Used in menu item previews to elide large unchanged code. */
+    elided: Set<Node>;
 }>();
 
 /** White space of the root */
