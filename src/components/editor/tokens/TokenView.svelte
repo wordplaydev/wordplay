@@ -1,5 +1,6 @@
 <script lang="ts">
     import Caret from '@edit/caret/Caret';
+    import Input from '@nodes/Input';
     import Reference from '@nodes/Reference';
     import { Sym } from '@nodes/Sym';
     import Token from '@nodes/Token';
@@ -144,6 +145,8 @@
             />{/if}
     </div>{#if format.editable && parent instanceof Reference}<MenuTrigger
             anchor={parent}
+        ></MenuTrigger>{:else if format.editable && parent instanceof Input && parent.name === node}<MenuTrigger
+            anchor={node}
         ></MenuTrigger>{/if}
 {:else}
     <span

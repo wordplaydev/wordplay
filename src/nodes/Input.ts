@@ -86,6 +86,37 @@ export default class Input extends Node {
         );
     }
 
+    /** When the name token of an Input is the menu anchor, surface Input
+     *  variants whose name picks a different parameter of the parent Evaluate's
+     *  function — restricted to parameters whose declared type accepts the
+     *  current value's type. The current value (and surrounding tokens) are
+     *  preserved so the user is just renaming, not editing the value. */
+    getReplacementsForTokenAnchor(context: Context): Input[] {
+        const parent = this.getParent(context);
+        if (!(parent instanceof Evaluate)) return [];
+        const fun = parent.getFunction(context);
+        if (fun === undefined) return [];
+
+        const valueType = this.value.getType(context);
+        const currentName = this.name.getText();
+
+        return fun.inputs
+            .filter((bind) => {
+                if (bind.getNames().includes(currentName)) return false;
+                const expected = bind.getType(context);
+                return expected.accepts(valueType, context);
+            })
+            .map(
+                (bind) =>
+                    new Input(
+                        new Token(bind.getNames()[0], Sym.Name),
+                        this.bind,
+                        this.value,
+                        this.separator,
+                    ),
+            );
+    }
+
     static getPossibleInsertions({ parent, context }: InsertContext) {
         // If the parent is an evaluate, offer inputs.
         if (parent instanceof Evaluate) {
