@@ -4434,7 +4434,10 @@
                     "label": "$~metin olarak kopyala"
                 },
                 "addSource": "$~yeni bir $source oluştur",
-                "duplicate": "$~bu projeyi kopyala",
+                "duplicate": {
+                    "tip": "$~Bu projeyi kopyala",
+                    "label": "$~kopyalamak"
+                },
                 "revert": "$~orijinal koda geri dön",
                 "focusOutput": "$~sahnede klavyeye odaklan",
                 "focusSource": "$~bir sonraki kaynağa odaklan",

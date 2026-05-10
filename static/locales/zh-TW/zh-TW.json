@@ -4388,7 +4388,10 @@
                     "label": "$~複製為文字"
                 },
                 "addSource": "建立新的$source",
-                "duplicate": "複製這個項目",
+                "duplicate": {
+                    "tip": "$~複製此項目",
+                    "label": "$~複製"
+                },
                 "revert": "恢復到原始碼",
                 "focusOutput": "聚焦舞台上的鍵盤樂器",
                 "focusSource": "聚焦到下一個來源",

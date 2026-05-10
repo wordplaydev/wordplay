@@ -7,6 +7,7 @@
     import Emoji from '@components/app/Emoji.svelte';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
+    import { computeCaretDescriptionPosition } from '@components/editor/caretDescriptionPosition';
     import type Conflict from '@conflicts/Conflict';
     import Project from '@db/projects/Project';
     import Caret, {
@@ -298,6 +299,40 @@
 
     // Caret location comes from the caret
     let caretLocation: CaretBounds | undefined = $state(undefined);
+
+    // The caret-description div, used to measure its rendered size so we
+    // can pick a non-clipped position around the selected block.
+    let descriptionElement: HTMLDivElement | undefined = $state(undefined);
+    // Computed editor-relative position for the caret-description in blocks
+    // mode. Falls back to the simple caretLocation-based placement when
+    // unavailable.
+    let descriptionPos: { left: number; top: number } | undefined =
+        $state(undefined);
+
+    /** In blocks mode, position the caret-description so it doesn't get
+     *  clipped by the editor's actual visible viewport. See
+     *  computeCaretDescriptionPosition for placement details. */
+    $effect(() => {
+        const pos = displayedCaret.position;
+        // Reading these keeps the effect reactive to layout-affecting changes.
+        void $blocks;
+        void caretLocation;
+        const blockEl = pos instanceof Node ? getNodeView(pos) : undefined;
+        if (
+            !descriptionElement ||
+            !$blocks ||
+            !blockEl ||
+            editor === null
+        ) {
+            descriptionPos = undefined;
+            return;
+        }
+        descriptionPos = computeCaretDescriptionPosition({
+            editor,
+            descriptionElement,
+            blockElement: blockEl,
+        });
+    });
 
     // The store the contains the current node being dragged.
     let dragged = getDragged();
@@ -1959,11 +1994,20 @@
                 displayedCaret.isNode()) ||
                 keyIgnoredReason !== undefined}
             onpointerdown={(event) => event.stopPropagation()}
-            style:left={descriptionLeft
-                ? `calc(${descriptionLeft}px - ${OutlinePadding}px)`
-                : undefined}
-            style:top={descriptionTop ? `${descriptionTop}px` : undefined}
-            data-left={descriptionLeft}
+            bind:this={descriptionElement}
+            style:left={descriptionPos
+                ? `${descriptionPos.left}px`
+                : descriptionLeft
+                  ? `calc(${descriptionLeft}px - ${OutlinePadding}px)`
+                  : undefined}
+            style:top={descriptionPos
+                ? `${descriptionPos.top}px`
+                : descriptionTop
+                  ? `${descriptionTop}px`
+                  : undefined}
+            data-left={descriptionPos
+                ? descriptionPos.left
+                : descriptionLeft}
             >{#if displayedCaret.position instanceof Node}
                 {@const relevantConcept = concepts?.getRelevantConcept(
                     displayedCaret.position,

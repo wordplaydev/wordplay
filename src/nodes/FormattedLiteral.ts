@@ -1,4 +1,7 @@
-import type { InsertContext } from '@edit/revision/EditContext';
+import type {
+    InsertContext,
+    ReplaceContext,
+} from '@edit/revision/EditContext';
 import type LanguageCode from '@locale/LanguageCode';
 import type Locale from '@locale/Locale';
 import type LocaleText from '@locale/LocaleText';
@@ -14,6 +17,7 @@ import Characters from '../lore/BasisCharacters';
 import TextValue from '@values/TextValue';
 import type Value from '@values/Value';
 import type Context from '@nodes/Context';
+import Example from '@nodes/Example';
 import type Expression from '@nodes/Expression';
 import FormattedTranslation from '@nodes/FormattedTranslation';
 import FormattedType, {
@@ -23,11 +27,13 @@ import { getPreferred } from '@nodes/LanguageTagged';
 import Literal from '@nodes/Literal';
 import type { Grammar, Replacement } from '@nodes/Node';
 import Node, { list, node } from '@nodes/Node';
-import Paragraph from '@nodes/Paragraph';
+import Paragraph, { type Segment } from '@nodes/Paragraph';
 import { Sym } from '@nodes/Sym';
 import Token from '@nodes/Token';
+import TextLiteral from '@nodes/TextLiteral';
 import type Type from '@nodes/Type';
 import type TypeSet from '@nodes/TypeSet';
+import { unescaped } from '@nodes/Translation';
 import Words from '@nodes/Words';
 
 export default class FormattedLiteral extends Literal {
@@ -41,7 +47,40 @@ export default class FormattedLiteral extends Literal {
         this.computeChildren();
     }
 
-    static getPossibleReplacements() {
+    static getPossibleReplacements({ node }: ReplaceContext) {
+        // Offer "convert to formatted text" when replacing a plain TextLiteral.
+        // Each translation becomes a single-paragraph FormattedTranslation,
+        // preserving the language tag and any \…\ Example template segments.
+        // Plain-text runs are merged into Words; Examples are kept verbatim.
+        if (node instanceof TextLiteral) {
+            return [
+                new FormattedLiteral(
+                    node.texts.map((t) => {
+                        const segments: Segment[] = [];
+                        let textBuffer = '';
+                        const flush = () => {
+                            if (textBuffer.length > 0) {
+                                segments.push(Words.make(textBuffer));
+                                textBuffer = '';
+                            }
+                        };
+                        for (const seg of t.segments) {
+                            if (seg instanceof Example) {
+                                flush();
+                                segments.push(seg);
+                            } else if (seg instanceof Token) {
+                                textBuffer += unescaped(seg.getText());
+                            }
+                        }
+                        flush();
+                        return FormattedTranslation.make(
+                            [new Paragraph(segments)],
+                            t.language,
+                        );
+                    }),
+                ),
+            ];
+        }
         return [];
     }
 

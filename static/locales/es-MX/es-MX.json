@@ -4412,7 +4412,10 @@
                     "label": "$~copiar como texto"
                 },
                 "addSource": "crear una nueva $source",
-                "duplicate": "copia este proyecto",
+                "duplicate": {
+                    "tip": "$~Duplicar este proyecto",
+                    "label": "$~duplicado"
+                },
                 "revert": "volver al código original ",
                 "focusOutput": "enfoque el teclado en el escenario",
                 "focusSource": "enfoque en la siguiente fuente ",

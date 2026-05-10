@@ -188,6 +188,49 @@ export function getTokenRects(
     return rects;
 }
 
+/** Build a rounded-rect Outline that traces the node's outer bounding box.
+ *  Used in blocks mode for exception highlights so the marching-dashes
+ *  pattern wraps around the whole block instead of sitting on its baseline.
+ *  Border radius is read from the element's computed style (with an 8px
+ *  fallback if not measurable). */
+export function getRoundedBlockOutline(view: HTMLElement): Outline {
+    const offset = getEditorOffset(view);
+    const rect = getViewRect(offset, view);
+
+    let radius = 8;
+    try {
+        const parsed = parseFloat(getComputedStyle(view).borderRadius);
+        if (!Number.isNaN(parsed) && parsed > 0) radius = parsed;
+    } catch {
+        // getComputedStyle may not be available in non-DOM environments.
+    }
+    const r = Math.min(radius, rect.w / 2, rect.h / 2);
+    const x = rect.l;
+    const y = rect.t;
+    const w = rect.w;
+    const h = rect.h;
+
+    const path =
+        `M ${x + r} ${y} ` +
+        `L ${x + w - r} ${y} ` +
+        `A ${r} ${r} 0 0 1 ${x + w} ${y + r} ` +
+        `L ${x + w} ${y + h - r} ` +
+        `A ${r} ${r} 0 0 1 ${x + w - r} ${y + h} ` +
+        `L ${x + r} ${y + h} ` +
+        `A ${r} ${r} 0 0 1 ${x} ${y + h - r} ` +
+        `L ${x} ${y + r} ` +
+        `A ${r} ${r} 0 0 1 ${x + r} ${y} ` +
+        `Z`;
+
+    return {
+        path,
+        minx: x,
+        miny: y,
+        maxx: x + w,
+        maxy: y + h,
+    };
+}
+
 export function createRectangleOutlineOf(
     nodeView: HTMLElement,
     blocks: boolean,

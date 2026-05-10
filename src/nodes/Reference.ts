@@ -20,14 +20,20 @@ import Bind from '@nodes/Bind';
 import Borrow from '@nodes/Borrow';
 import type Context from '@nodes/Context';
 import type Definition from '@nodes/Definition';
+import Delete from '@nodes/Delete';
 import Expression, { type GuardContext } from '@nodes/Expression';
 import FunctionDefinition from '@nodes/FunctionDefinition';
 import FunctionType from '@nodes/FunctionType';
 import getGuards from '@nodes/getGuards';
+import Insert from '@nodes/Insert';
 import NameToken from '@nodes/NameToken';
 import type Node from '@nodes/Node';
 import { ListOf, node, type Grammar, type Replacement } from '@nodes/Node';
 import PropertyReference from '@nodes/PropertyReference';
+import Row from '@nodes/Row';
+import Select from '@nodes/Select';
+import TableType from '@nodes/TableType';
+import Update from '@nodes/Update';
 import Reaction from '@nodes/Reaction';
 import SimpleExpression from '@nodes/SimpleExpression';
 import Source from '@nodes/Source';
@@ -89,15 +95,50 @@ export default class Reference extends SimpleExpression {
                 ? reference.getName()
                 : undefined;
 
+        // Pick the right pool of definitions to suggest:
+        //  - A Reference that's the name of a PropertyReference: only the
+        //    subject's properties (a typo'd name shouldn't fall back to the
+        //    whole scope).
+        //  - A Reference that's a cell of a table-operation Row: only the
+        //    table's columns.
+        //  - A PropertyReference being autocompleted (existing behavior).
+        //  - Otherwise: walk the surrounding scope.
+        const refParent = parent;
+        const contextual: Definition[] | undefined = (() => {
+            if (refParent instanceof PropertyReference)
+                return refParent.getDefinitions(refParent, context);
+            if (refParent instanceof Row) {
+                const op = refParent.getParent(context);
+                const tableExpr =
+                    op instanceof Select
+                        ? op.table
+                        : op instanceof Insert
+                          ? op.table
+                          : op instanceof Update
+                            ? op.table
+                            : op instanceof Delete
+                              ? op.table
+                              : undefined;
+                if (tableExpr) {
+                    const tt = tableExpr.getType(context);
+                    if (tt instanceof TableType) return tt.getDefinitions();
+                }
+                return [];
+            }
+            return undefined;
+        })();
+
         // If the anchor is being replaced but isn't a reference, suggest nothing.
         // Otherwise, suggest references in the anchor node's scope that complete the prefix.
         return (
             [
                 // Find all the definitions in scope. If the anchor happens to be a property reference and we're completing,
                 // only find definitions in it's scope.
-                ...(reference instanceof PropertyReference && complete
-                    ? reference.getDefinitions(reference, context)
-                    : reference.getDefinitionsInScope(context)),
+                ...(contextual !== undefined
+                    ? contextual
+                    : reference instanceof PropertyReference && complete
+                      ? reference.getDefinitions(reference, context)
+                      : reference.getDefinitionsInScope(context)),
                 // Find all the sources in scope if the context is a borrow.
                 ...(reference instanceof Borrow
                     ? context.project

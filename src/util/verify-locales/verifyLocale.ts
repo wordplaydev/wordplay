@@ -1,4 +1,4 @@
-import { MachineTranslated, Unwritten } from '@locale/Annotations';
+import { MachineTranslated, Revised, Unwritten } from '@locale/Annotations';
 import { concretizeOrUndefined } from '@locale/concretize';
 import DefaultLocale from '@locale/DefaultLocale';
 import DefaultLocales from '@locale/DefaultLocales';
@@ -395,15 +395,20 @@ async function translateLocale(
 ) {
     const revised = JSON.parse(JSON.stringify(target)) as LocaleText;
 
-    // Resolve all of the source strings
+    // Resolve all of the source strings, stripping any Unwritten/Revised
+    // annotation prefixes so Google Translate doesn't see them as part of
+    // the input (otherwise "$!duplicate" can come back with the marker
+    // literally embedded in the translation).
+    const stripMarkers = (s: string) =>
+        s.replace(Unwritten, '').replace(Revised, '');
     const sourceStrings = unwritten
         .map((path) => {
             const match = path.resolve(source);
             return match === undefined
                 ? undefined
                 : Array.isArray(match)
-                  ? match.map((s) => s.replace(Unwritten, ''))
-                  : match.replace(Unwritten, '');
+                  ? match.map(stripMarkers)
+                  : stripMarkers(match);
         })
         .filter((s) => s !== undefined)
         .flat();

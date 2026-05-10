@@ -4439,7 +4439,10 @@
                     "label": "$~skopiuj jako tekst"
                 },
                 "addSource": "$~utwórz nowy $source",
-                "duplicate": "$~skopiuj ten projekt",
+                "duplicate": {
+                    "tip": "$~zduplikuj ten projekt",
+                    "label": "$~duplikat"
+                },
                 "revert": "$~powrót do oryginalnego kodu",
                 "focusOutput": "$~skup klawiaturę na scenie",
                 "focusSource": "$~skup się na następnym źródle",

@@ -168,8 +168,8 @@ type UITexts = {
             copy: ButtonText;
             /** [plain] Add a source file */
             addSource: string;
-            /** [plain] Duplicate the project */
-            duplicate: string;
+            /** Duplicate the project */
+            duplicate: ButtonText;
             /** [plain] Revert project to original code */
             revert: string;
             /** [plain] Keyboard shortcut to focus output tile */

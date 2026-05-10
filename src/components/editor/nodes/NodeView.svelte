@@ -316,7 +316,7 @@
         height: fit-content;
 
         /** Animate some of the visual distinctions that come and go*/
-        transition-property: padding, border-color;
+        transition-property: padding, border-color, box-shadow, transform;
         transition-duration: calc(var(--animation-factor) * 200ms);
         transition-timing-function: ease-out;
 
@@ -334,20 +334,33 @@
         animation: calc(var(--animation-factor) * 200ms) ease-out 0s 1 entry;
     }
 
-    /** Hover background and scale for blocks without hovered children */
+    /** Hover background and raised effect for blocks without hovered children.
+        Mirrors the Button widget: hard offset shadow + 1px translate so the
+        block reads as lifted.
+        The :has() ignores Token wrappers so hovering over the inner text of
+        a token still lifts its containing block (Tokens are .node-view.block
+        too, but they're chrome — they shouldn't suppress the parent). */
     :global(.editor:not(.dragging))
         .node-view.block.editable:not(.blockselected):not(
-            :has(.node-view.block:hover)
-        ):not(.Token):hover {
+            :has(.node-view.block:not(.Token):hover)
+        ):not(.Token):hover,
+    .node-view.block.editable:focus-visible {
         outline: var(--wordplay-focus-width) solid var(--wordplay-hover-light);
-        box-shadow: var(--color-shadow) 4px 4px 4px;
+        box-shadow: var(--wordplay-border-width) var(--wordplay-border-width) 0
+            var(--wordplay-border-color);
+        transform: translate(-1px, -1px);
         cursor: grab;
     }
 
+    /* Selected block: same raised treatment as hover/focus, with a
+       stronger highlight outline. Drops the tinted background since it
+       collides with kind fills. */
     .blockselected {
         outline: var(--wordplay-focus-width) solid
             var(--wordplay-highlight-color);
-        background: var(--wordplay-hover-light);
+        box-shadow: var(--wordplay-border-width) var(--wordplay-border-width) 0
+            var(--wordplay-border-color);
+        transform: translate(-1px, -1px);
     }
 
     /** An empty block has different padding */

@@ -439,10 +439,20 @@ export default class StructureDefinition extends DefinitionExpression {
         // Does an input delare the name that isn't the one asking?
         let definitions = this.#definitionsCache.get(node);
         if (definitions === undefined) {
+            // Inputs aren't bound until the object is fully constructed, so
+            // an input's default-value expression can't reference its sibling
+            // inputs. Exclude all inputs from scope when the asking node is
+            // inside any input (the existing `i !== node` only handled the
+            // case where the asker IS the input itself).
+            const askerInsideInput = this.inputs.some(
+                (i) => i instanceof Bind && i.contains(node),
+            );
             definitions = [
-                ...(this.inputs.filter(
-                    (i) => i instanceof Bind && i !== node,
-                ) as Bind[]),
+                ...(askerInsideInput
+                    ? []
+                    : (this.inputs.filter(
+                          (i) => i instanceof Bind && i !== node,
+                      ) as Bind[])),
                 ...(this.types ? this.types.variables : []),
                 ...(this.expression instanceof Block
                     ? (this.expression.statements.filter(

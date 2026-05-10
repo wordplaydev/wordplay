@@ -9,13 +9,12 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 ### Added
 
 - We added a new "tour" help feature for each tile in the project view, explaining its purpose and core features. Try them out and let us know if we should expand the explanations! (#687).
-- We added a machine translated Tagalog locale (#1089).
 - We added additional keywords to all emojis to improve searching (#1090), but also translated all of those keywords, so that works in all supported locales (#639).
-- We added much more robust menu suggestions for locales and locale parts (#1099).
-- We added better unit suggestions in the autocomplete menu.
-- We added a setting to control the spacing in blocks mode, for accessibility.
-- We added a way to highlight expressions by adding 👀 inside some code's preceding explanatio, e.g., \¶👀¶"I'm highlighted!" This is helpful for how-to authors who want to emphasize some code.
 - We added a new visual style for blocks editing mode, for improved readability. It also accounts for whether an editor is read only, hiding editing controls for more compactness.
+- We added much more robust menu suggestions for locales (#1099), text and formatted literals (#635), and unit suggestions.
+- We added a way to highlight expressions by adding 👀 inside some code's preceding explanatio, e.g., \¶👀¶"I'm highlighted!" This is helpful for how-to authors who want to emphasize some code.
+- We added a setting to control the spacing in blocks mode, for accessibility.
+- We added a machine translated Tagalog locale (#1089).
 
 ### Changed
 
@@ -23,10 +22,9 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - We made the tile toolbar wrapping a bit better.
 - We rearranged the project view footer to make the layout work better on smaller devices.
 - We improved the list expand/collapse behavior when there are more than 10 items.
-- We improved layout in blocks mode.
-- We upgraded internal tooling for stability.
 - We improved the layout of code in the chat view (#1107).
 - We made input names in a blocks mode a drop down instead of editable text.
+- We upgraded internal tooling for stability.
 
 ### Fixed
 

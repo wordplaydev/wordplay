@@ -4429,7 +4429,10 @@
                     "label": "$~als Text kopieren"
                 },
                 "addSource": "$~erstelle eine neue $source",
-                "duplicate": "$~Dieses Projekt kopieren",
+                "duplicate": {
+                    "tip": "$~Dieses Projekt duplizieren",
+                    "label": "$~Duplikat"
+                },
                 "revert": "$~zum Originalcode zurückkehren",
                 "focusOutput": "$~Fokus Tastatur auf der Bühne",
                 "focusSource": "$~Konzentrieren Sie sich auf die nächste Quelle",

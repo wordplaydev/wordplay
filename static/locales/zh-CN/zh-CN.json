@@ -4392,7 +4392,10 @@
                     "label": "$~复制为文本"
                 },
                 "addSource": "创建新的源",
-                "duplicate": "复制这个项目",
+                "duplicate": {
+                    "tip": "$~复制此项目",
+                    "label": "$~复制"
+                },
                 "revert": "恢复到原始代码",
                 "focusOutput": "聚焦舞台上的键盘乐器",
                 "focusSource": "聚焦到下一个源",

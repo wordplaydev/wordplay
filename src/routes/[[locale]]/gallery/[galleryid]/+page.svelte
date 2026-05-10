@@ -203,7 +203,8 @@
                               }
                             : false}
                         copy={{
-                            description: (l) => l.ui.project.button.duplicate,
+                            description: (l) =>
+                                l.ui.project.button.duplicate.tip,
                             action: (project) =>
                                 localeGoto(
                                     Projects.duplicate(project).getLink(false),

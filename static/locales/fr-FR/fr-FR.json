@@ -4430,7 +4430,10 @@
                     "label": "$~copier comme texte"
                 },
                 "addSource": "$~créer une nouvelle $source",
-                "duplicate": "$~copier ce projet",
+                "duplicate": {
+                    "tip": "$~dupliquer ce projet",
+                    "label": "$~double"
+                },
                 "revert": "$~revenir au code d'origine",
                 "focusOutput": "$~clavier de mise au point sur la scène",
                 "focusSource": "$~se concentrer sur la source suivante",

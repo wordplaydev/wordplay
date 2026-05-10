@@ -4438,7 +4438,10 @@
                     "label": "$~copiar como texto"
                 },
                 "addSource": "$~criar uma nova fonte de valor",
-                "duplicate": "$~copie este projeto",
+                "duplicate": {
+                    "tip": "$~duplicar este projeto",
+                    "label": "$~duplicado"
+                },
                 "revert": "$~reverter para o código original",
                 "focusOutput": "$~teclado de foco no palco",
                 "focusSource": "$~concentre-se na próxima fonte",

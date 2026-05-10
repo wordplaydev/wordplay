@@ -4430,7 +4430,10 @@
                     "label": "$~텍스트로 복사"
                 },
                 "addSource": "$~새로운 $source 생성",
-                "duplicate": "$~이 프로젝트를 복사하세요",
+                "duplicate": {
+                    "tip": "$~이 프로젝트를 복제하세요",
+                    "label": "$~복제하다"
+                },
                 "revert": "$~원래 코드로 되돌리기",
                 "focusOutput": "$~무대에 키보드 집중",
                 "focusSource": "$~다음 소스에 집중하세요",

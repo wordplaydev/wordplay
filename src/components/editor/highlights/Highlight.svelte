@@ -178,7 +178,11 @@
 
     .underline.exception path {
         stroke: var(--wordplay-error);
-        fill: var(--wordplay-error);
+        /* No fill — for text mode the underline path is open M…L… segments
+           where fill is invisible anyway, and in blocks mode the path is a
+           closed rounded rect around the block, where filling would obscure
+           the block's contents. */
+        fill: none;
         stroke-width: calc(2 * var(--wordplay-border-width));
         stroke-dasharray: calc(2 * var(--wordplay-border-width));
     }

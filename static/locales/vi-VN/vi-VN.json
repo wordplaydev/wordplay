@@ -4438,7 +4438,10 @@
                     "label": "$~sao chép dưới dạng văn bản"
                 },
                 "addSource": "$~tạo một nguồn mới $source",
-                "duplicate": "$~sao chép dự án này",
+                "duplicate": {
+                    "tip": "$~sao chép dự án này",
+                    "label": "$~nhân bản"
+                },
                 "revert": "$~khôi phục lại mã gốc",
                 "focusOutput": "$~tập trung bàn phím trên sân khấu",
                 "focusSource": "$~tập trung vào nguồn tiếp theo",

@@ -47,6 +47,7 @@ import Name from '@nodes/Name';
 import NameType from '@nodes/NameType';
 import NumberLiteral from '@nodes/NumberLiteral';
 import Input from '@nodes/Input';
+import Language from '@nodes/Language';
 import Reference from '@nodes/Reference';
 import SetLiteral from '@nodes/SetLiteral';
 import Translation from '@nodes/Translation';
@@ -616,8 +617,8 @@ export default class Caret {
     }
 
     /** A block editable token is a non-reference name, words, or a number.
-     *  Input names are excluded — they're chosen via the input-name menu, not
-     *  free-typed. */
+     *  Input names and Language tag tokens are excluded — they're chosen via
+     *  their respective menus, not free-typed. */
     static isTokenTextBlockEditable(
         token: Token,
         parent: Node | undefined,
@@ -629,7 +630,8 @@ export default class Caret {
             (token.isSymbol(Sym.Name) &&
                 parent !== undefined &&
                 !(parent instanceof Reference) &&
-                !(parent instanceof Input))
+                !(parent instanceof Input) &&
+                !(parent instanceof Language))
         );
     }
 

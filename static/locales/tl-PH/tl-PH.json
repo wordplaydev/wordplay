@@ -4441,7 +4441,10 @@
                     "label": "$~kopyahin bilang teksto"
                 },
                 "addSource": "$~lumikha ng bagong $source",
-                "duplicate": "$~kopyahin ang proyektong ito",
+                "duplicate": {
+                    "tip": "$~kopyahin ang proyektong ito",
+                    "label": "$~doble"
+                },
                 "revert": "$~bumalik sa orihinal na code",
                 "focusOutput": "$~itutok ang keyboard sa entablado",
                 "focusSource": "$~tumuon sa susunod na mapagkukunan",

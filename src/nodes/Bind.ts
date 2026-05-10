@@ -117,6 +117,29 @@ export default class Bind extends Expression {
         type,
         locales,
     }: ReplaceContext) {
+        // If the anchor is a Bind that has a declared type but no default
+        // value, suggest the same Bind with a default value of the declared
+        // type. Lets the user add a default in one click instead of finding
+        // the empty value slot.
+        if (
+            node instanceof Bind &&
+            node.value === undefined &&
+            node.type instanceof Type
+        ) {
+            const defaultValue = node.type.getDefaultExpression(context);
+            if (defaultValue) {
+                return [
+                    Bind.make(
+                        node.docs.isEmpty() ? undefined : node.docs,
+                        node.names,
+                        node.type,
+                        defaultValue,
+                        node.isVariableLength(),
+                    ),
+                ];
+            }
+        }
+
         if (node instanceof Expression) {
             if (type === undefined || node.getParent(context) instanceof Block)
                 return [
@@ -136,13 +159,17 @@ export default class Bind extends Expression {
         return [
             parent instanceof StructureDefinition ||
             parent instanceof FunctionDefinition
-                ? Bind.make(
+                ? // Inputs to a definition: include a default value so adding
+                  //   the input doesn't break existing call sites with
+                  //   MissingInput conflicts. The user can then refine the
+                  //   type and the default.
+                  Bind.make(
                       undefined,
                       Names.make([
                           locales.getUnannotatedText((l) => l.term.name),
                       ]),
                       TypePlaceholder.make(),
-                      undefined,
+                      ExpressionPlaceholder.make(),
                   )
                 : Bind.make(
                       undefined,

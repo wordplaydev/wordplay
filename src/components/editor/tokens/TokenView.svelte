@@ -1,8 +1,13 @@
 <script lang="ts">
     import Caret from '@edit/caret/Caret';
+    import Convert from '@nodes/Convert';
+    import Dimension from '@nodes/Dimension';
+    import Evaluate from '@nodes/Evaluate';
     import Input from '@nodes/Input';
+    import Language from '@nodes/Language';
     import Reference from '@nodes/Reference';
     import { Sym } from '@nodes/Sym';
+    import Unit from '@nodes/Unit';
     import Token from '@nodes/Token';
     import { locales } from '@db/Database';
     import { withColorEmoji } from '@unicode/emoji';
@@ -118,6 +123,7 @@
 
 {#if format.block && root}
     {@const parent = root.getParent(node)}
+    {@const grandparent = parent ? root.getParent(parent) : undefined}
     <div
         class="token-view blocks token-category-{TokenCategories.get(
             Array.isArray(node.types)
@@ -143,9 +149,17 @@
                 rendered={renderedText}
                 {format}
             />{/if}
-    </div>{#if format.editable && parent instanceof Reference}<MenuTrigger
+    </div>{#if format.editable && parent instanceof Reference && !(grandparent instanceof Evaluate && grandparent.fun === parent)}<MenuTrigger
             anchor={parent}
         ></MenuTrigger>{:else if format.editable && parent instanceof Input && parent.name === node}<MenuTrigger
+            anchor={node}
+        ></MenuTrigger>{:else if format.editable && parent instanceof Language && parent.slash === node}<MenuTrigger
+            anchor={node}
+        ></MenuTrigger>{:else if format.editable && parent instanceof Dimension && parent.name === node}<MenuTrigger
+            anchor={node}
+        ></MenuTrigger>{:else if format.editable && parent instanceof Unit && parent.slash === node}<MenuTrigger
+            anchor={node}
+        ></MenuTrigger>{:else if format.editable && parent instanceof Convert && parent.convert === node}<MenuTrigger
             anchor={node}
         ></MenuTrigger>{/if}
 {:else}
@@ -236,10 +250,12 @@
     }
 
     /* Structural brackets pop in blocks mode to make group boundaries
-       visually obvious. Text mode keeps the existing token sizing. */
+       visually obvious. Text mode keeps the existing token sizing.
+       Uses rem (not em) so deeply-nested brackets don't compound to ever-
+       larger sizes — every bracket is the same fixed size. */
     .token-view.blocks.bracket {
         font-weight: bold;
-        font-size: 1.2em;
+        font-size: calc(var(--wordplay-font-size) * 1.2);
     }
     .token-category-relation,
     :global(.Example) .token-category-relation {

@@ -16,14 +16,18 @@ import { Emotion } from '../lore/Emotion';
 import { getCodepointFromString } from '@unicode/getCodepoint';
 import type Value from '@values/Value';
 import type Context from '@nodes/Context';
+import Example from '@nodes/Example';
 import type Expression from '@nodes/Expression';
+import FormattedLiteral from '@nodes/FormattedLiteral';
 import type Language from '@nodes/Language';
+import Node from '@nodes/Node';
 import { getPreferred } from '@nodes/LanguageTagged';
 import Literal from '@nodes/Literal';
 import { list, node, type Grammar, type Replacement } from '@nodes/Node';
 import { Sym } from '@nodes/Sym';
 import TextType from '@nodes/TextType';
 import Token from '@nodes/Token';
+import Words from '@nodes/Words';
 import Translation from '@nodes/Translation';
 import type Type from '@nodes/Type';
 import type TypeSet from '@nodes/TypeSet';
@@ -60,7 +64,74 @@ export default class TextLiteral extends Literal {
             : [TextLiteral.make()];
     }
 
-    static getPossibleReplacements({ type, context }: ReplaceContext) {
+    static getPossibleReplacements({ type, node, context }: ReplaceContext) {
+        // Offer "convert to plain text" when replacing a FormattedLiteral —
+        // strips formatting (bold, italic, links, etc.) but preserves any
+        // \…\ Example template segments and the language tag of each
+        // translation.
+        if (node instanceof FormattedLiteral) {
+            // Walk a Markup tree, returning interleaved text/Example chunks
+            // in document order. Words wrappers are unwrapped (their open/
+            // close formatting tokens dropped); Examples are preserved
+            // verbatim; any other Node's leaf Tokens contribute to the text
+            // stream.
+            type Chunk =
+                | { kind: 'text'; value: string }
+                | { kind: 'example'; value: Example };
+            const collect = (n: Node): Chunk[] => {
+                if (n instanceof Example)
+                    return [{ kind: 'example', value: n }];
+                if (n instanceof Words)
+                    return n.segments.flatMap((s) =>
+                        s instanceof Node ? collect(s) : [],
+                    );
+                if (n instanceof Token)
+                    return [{ kind: 'text', value: n.getText() }];
+                return n
+                    .getChildren()
+                    .flatMap((c) => (c instanceof Node ? collect(c) : []));
+            };
+
+            return [
+                new TextLiteral(
+                    node.texts.map((t) => {
+                        const chunks: Chunk[] = [];
+                        t.markup.paragraphs.forEach((p, i) => {
+                            if (i > 0)
+                                chunks.push({ kind: 'text', value: '\n\n' });
+                            chunks.push(...collect(p));
+                        });
+
+                        // Merge adjacent text chunks into Sym.Words tokens,
+                        // keep Examples in place.
+                        const segments: (Token | Example)[] = [];
+                        let textBuffer = '';
+                        const flush = () => {
+                            if (textBuffer.length > 0) {
+                                segments.push(new Token(textBuffer, Sym.Words));
+                                textBuffer = '';
+                            }
+                        };
+                        for (const c of chunks) {
+                            if (c.kind === 'text') textBuffer += c.value;
+                            else {
+                                flush();
+                                segments.push(c.value);
+                            }
+                        }
+                        flush();
+
+                        return new Translation(
+                            new Token("'", Sym.Text),
+                            segments,
+                            new Token("'", Sym.Text),
+                            t.language,
+                            undefined,
+                        );
+                    }),
+                ),
+            ];
+        }
         return this.getPossibleText(type, context);
     }
 

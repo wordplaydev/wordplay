@@ -14351,8 +14351,8 @@
                       "description": "Copy the project as text to the clipboard"
                     },
                     "duplicate": {
-                      "description": "[plain] Duplicate the project",
-                      "type": "string"
+                      "$ref": "#/definitions/ButtonText",
+                      "description": "Duplicate the project"
                     },
                     "focusCycle": {
                       "description": "[plain] Keyboard shortcut to cycle between tiles",

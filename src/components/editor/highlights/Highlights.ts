@@ -25,6 +25,7 @@ import type Evaluator from '@runtime/Evaluator';
 import ExceptionValue from '@values/ExceptionValue';
 import {
     getOutlineOfRows,
+    getRoundedBlockOutline,
     getRowsOf,
     getSpaceRects,
     getTokenRects,
@@ -491,6 +492,14 @@ export function updateOutlines(
         const nodeView = getNodeView(node);
         if (nodeView) {
             const skipCache = types.includes('animating');
+            // In blocks mode, exception highlights wrap the whole block with
+            // a rounded marching-dashes outline instead of a baseline
+            // underline (which is easy to miss against block chrome). The
+            // CSS in Highlight.svelte styles the underline path with the
+            // exception animation, so we set both outline and underline to
+            // the rounded path: outline.exception has no specific styling
+            // and renders invisibly, underline.exception gets the dashes.
+            const useBlockOutline = blocks && types.includes('exception');
             // If this node has empty fields to highlight, add outlines for those too.
             const emptyFields = highlights.getEmpty(node);
             if (emptyFields && emptyFields.length > 0) {
@@ -500,15 +509,25 @@ export function updateOutlines(
                     );
                     if (fieldView instanceof HTMLElement) {
                         const rows = getRowsForView(fieldView, skipCache);
-                        const emptyOutline = {
-                            types: types,
-                            outline: getOutlineOfRows(rows),
-                            underline: underlineFromRows(
-                                rows,
-                                fieldView,
-                                horizontal,
-                            ),
-                        };
+                        const emptyOutline = useBlockOutline
+                            ? (() => {
+                                  const round =
+                                      getRoundedBlockOutline(fieldView);
+                                  return {
+                                      types,
+                                      outline: round,
+                                      underline: round,
+                                  };
+                              })()
+                            : {
+                                  types: types,
+                                  outline: getOutlineOfRows(rows),
+                                  underline: underlineFromRows(
+                                      rows,
+                                      fieldView,
+                                      horizontal,
+                                  ),
+                              };
                         outlines.push(emptyOutline);
                         nodeViews.set(emptyOutline, fieldView);
                     }
@@ -517,11 +536,24 @@ export function updateOutlines(
             // No empty highlight? Just highlight the node.
             else {
                 const rows = getRowsForView(nodeView, skipCache);
-                const outline = {
-                    types: types,
-                    outline: getOutlineOfRows(rows),
-                    underline: underlineFromRows(rows, nodeView, horizontal),
-                };
+                const outline = useBlockOutline
+                    ? (() => {
+                          const round = getRoundedBlockOutline(nodeView);
+                          return {
+                              types,
+                              outline: round,
+                              underline: round,
+                          };
+                      })()
+                    : {
+                          types: types,
+                          outline: getOutlineOfRows(rows),
+                          underline: underlineFromRows(
+                              rows,
+                              nodeView,
+                              horizontal,
+                          ),
+                      };
                 outlines.push(outline);
                 nodeViews.set(outline, nodeView);
             }

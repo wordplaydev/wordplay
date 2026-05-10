@@ -107,6 +107,41 @@ export default class Convert extends Expression {
         ) as this;
     }
 
+    /** When the convert (→) token is the menu anchor, surface alternative
+     *  Convert variants whose target type is one of the conversions reachable
+     *  from the expression's type (one-hop, type-defined and scope-defined).
+     *  Excludes the current target. */
+    getReplacementsForTokenAnchor(context: Context): Convert[] {
+        const inputType = this.expression.getType(context);
+        const typeConversions = inputType.getAllConversions(context);
+        const scopeConversions =
+            context
+                .getRoot(this)
+                ?.getAncestors(this)
+                ?.filter((a): a is Block => a instanceof Block)
+                ?.reduce(
+                    (list: ConversionDefinition[], block) => [
+                        ...list,
+                        ...block.statements.filter(
+                            (s): s is ConversionDefinition =>
+                                s instanceof ConversionDefinition,
+                        ),
+                    ],
+                    [],
+                ) ?? [];
+        const seen = new Set<string>();
+        seen.add(this.type.toWordplay());
+        return [...typeConversions, ...scopeConversions]
+            .map((conv) => conv.output)
+            .filter((output) => {
+                const key = output.toWordplay();
+                if (seen.has(key)) return false;
+                seen.add(key);
+                return true;
+            })
+            .map((output) => new Convert(this.expression, this.convert, output));
+    }
+
     getConversionSequence(
         context: Context,
     ): ConversionDefinition[] | undefined {

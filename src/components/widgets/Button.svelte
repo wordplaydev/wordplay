@@ -209,7 +209,8 @@
         white-space: normal;
     }
 
-    .padding {
+    .padding,
+    .salient {
         padding-left: var(--wordplay-spacing);
         padding-right: var(--wordplay-spacing);
     }
@@ -300,7 +301,8 @@
         font-size: 24pt;
     }
 
-    .background.padding {
+    .background.padding,
+    .salient.padding {
         padding-top: var(--wordplay-spacing);
         padding-bottom: var(--wordplay-spacing);
     }

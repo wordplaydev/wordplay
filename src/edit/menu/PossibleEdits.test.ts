@@ -1,6 +1,7 @@
 import Project from '@db/projects/Project';
 import Caret from '@edit/caret/Caret';
 import DefaultLocales from '@locale/DefaultLocales';
+import Bind from '@nodes/Bind';
 import BooleanLiteral from '@nodes/BooleanLiteral';
 import Evaluate from '@nodes/Evaluate';
 import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
@@ -10,6 +11,7 @@ import StreamType from '@nodes/StreamType';
 import Unit from '@nodes/Unit';
 import getPreferredSpaces from '@parser/getPreferredSpaces';
 import { TRUE_SYMBOL } from '@parser/Symbols';
+import StructureDefinition from '@nodes/StructureDefinition';
 import { expect, test } from 'vitest';
 import DefaultLocale from '@locale/DefaultLocale';
 import NumberLiteral from '@nodes/NumberLiteral';
@@ -22,6 +24,7 @@ import Language from '@nodes/Language';
 import Token from '@nodes/Token';
 import { Sym } from '@nodes/Sym';
 import Dimension from '@nodes/Dimension';
+import Reference from '@nodes/Reference';
 
 test.each([
     ['blank programs suggest numbers', '**', undefined, Append, '0'],
@@ -83,6 +86,14 @@ test.each([
         undefined,
         Replace,
         'boomy.hat',
+    ],
+    [
+        'suggest sibling property when property reference is selected',
+        `•Fun(a•# b•#)\nFun(1).a + 1`,
+        (node: Node) =>
+            node instanceof Reference && node.getName() === 'a',
+        Replace,
+        'b',
     ],
     [
         'suggest reference to replace node',
@@ -249,3 +260,133 @@ test.each([
         }
     },
 );
+
+test('default-value suggestions for an input only include values of its declared type', () => {
+    // For an input typed `#`, the menu opened on its value placeholder should
+    // not suggest values of incompatible types (booleans, text, etc.).
+    const code = '•Fun(a•# b•# c•#: _)\nFun(1 2)';
+    const source = new Source('test', code);
+    const project = Project.make(null, 'test', source, [], DefaultLocale);
+    const placeholder = source
+        .nodes()
+        .find(
+            (n): n is ExpressionPlaceholder =>
+                n instanceof ExpressionPlaceholder,
+        );
+    expect(placeholder).toBeDefined();
+    if (!placeholder) return;
+
+    const caret = new Caret(
+        source,
+        placeholder,
+        undefined,
+        undefined,
+        undefined,
+    );
+    const transforms = getEditsAt(project, caret, undefined, DefaultLocales);
+
+    const replacementCodes = transforms
+        .filter((t) => t instanceof Replace)
+        .map((t) => t.getNewNode(DefaultLocales)?.toWordplay() ?? '');
+
+    // None of the replacements should be obviously wrong-typed literals.
+    expect(replacementCodes).not.toContain('⊤');
+    expect(replacementCodes).not.toContain('⊥');
+    expect(replacementCodes).not.toContain("''");
+});
+
+test("default-value suggestions for a struct input do not include sibling inputs", () => {
+    // In •Fun(a•# b•#), the default for b should not be allowed to reference
+    // a — struct inputs aren't bound until after the object is constructed,
+    // so a default-value expression can't resolve sibling inputs at runtime.
+    const code = '•Fun(a•# b•#)';
+    const source = new Source('test', code);
+    const project = Project.make(null, 'test', source, [], DefaultLocale);
+    const b = source
+        .nodes()
+        .find(
+            (n): n is Bind =>
+                n instanceof Bind && n.names.getNames()[0] === 'b',
+        );
+    expect(b).toBeDefined();
+    if (!b) return;
+
+    const transforms = getEditsAt(
+        project,
+        new Caret(source, 0, undefined, undefined, undefined),
+        { parent: b, field: 'value', index: undefined },
+        DefaultLocales,
+    );
+
+    const replacementCodes = transforms
+        .map((t) => t.getNewNode(DefaultLocales)?.toWordplay() ?? '');
+    expect(replacementCodes).not.toContain('a');
+});
+
+test('selecting a typed Bind with no default value suggests adding one', () => {
+    // Clicking on a Bind like `a•#` (declared type, no default value)
+    // should suggest a Replace adding a default value of the declared type.
+    const code = '•Fun(a•# b•#)\nFun(1 2)';
+    const source = new Source('test', code);
+    const project = Project.make(null, 'test', source, [], DefaultLocale);
+    const bind = source
+        .nodes()
+        .find(
+            (n): n is Bind =>
+                n instanceof Bind && n.names.getNames()[0] === 'a',
+        );
+    expect(bind).toBeDefined();
+    if (!bind) return;
+    const caret = new Caret(source, bind, undefined, undefined, undefined);
+    const transforms = getEditsAt(project, caret, undefined, DefaultLocales);
+
+    const replacements = transforms
+        .filter((t) => t instanceof Replace)
+        .map((t) => t.getNewNode(DefaultLocales))
+        .filter((n): n is Bind => n instanceof Bind);
+
+    // At least one Replace produces a Bind that's like the original but
+    // with a default value of the declared (#) type.
+    const withDefault = replacements.find(
+        (b) =>
+            b.names.getNames().includes('a') &&
+            b.type !== undefined &&
+            b.value !== undefined,
+    );
+    expect(withDefault, 'expected a Bind suggestion with a default value').toBeDefined();
+});
+
+test('appending an input to a struct in use suggests a Bind with a default value', () => {
+    // The "+" button on a struct's input list opens the menu with a
+    // FieldPosition anchor (parent = StructureDefinition, field = 'inputs',
+    // index = end). The proposed Bind must include a default value or a
+    // MissingInput conflict at the existing call site (Fun(1 3)) blocks
+    // the suggestion in blocks mode.
+    const code = '•Fun(a•# b•#)\nFun(1 3)';
+    const source = new Source('test', code);
+    const project = Project.make(null, 'test', source, [], DefaultLocale);
+    const struct = source
+        .nodes()
+        .find((n): n is StructureDefinition => n instanceof StructureDefinition);
+    expect(struct).toBeDefined();
+    if (!struct) return;
+
+    const caret = new Caret(source, 0, undefined, undefined, undefined);
+    const transforms = getEditsAt(
+        project,
+        caret,
+        { parent: struct, field: 'inputs', index: struct.inputs.length },
+        DefaultLocales,
+    );
+
+    const newBinds = transforms
+        .map((t) => t.getNewNode(DefaultLocales))
+        .filter((n): n is Bind => n instanceof Bind);
+
+    expect(newBinds.length).toBeGreaterThan(0);
+    // Every suggested Bind for a struct input must have a default value so
+    // existing call sites don't get a MissingInput conflict.
+    for (const bind of newBinds) {
+        expect(bind.value, 'suggested input should have a default').toBeDefined();
+    }
+});
