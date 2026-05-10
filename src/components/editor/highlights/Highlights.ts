@@ -492,14 +492,24 @@ export function updateOutlines(
         const nodeView = getNodeView(node);
         if (nodeView) {
             const skipCache = types.includes('animating');
-            // In blocks mode, exception highlights wrap the whole block with
-            // a rounded marching-dashes outline instead of a baseline
-            // underline (which is easy to miss against block chrome). The
-            // CSS in Highlight.svelte styles the underline path with the
-            // exception animation, so we set both outline and underline to
-            // the rounded path: outline.exception has no specific styling
-            // and renders invisibly, underline.exception gets the dashes.
-            const useBlockOutline = blocks && types.includes('exception');
+            // In blocks mode, certain highlights (exceptions, drag hover/
+            // target feedback, the dragged node itself) trace the whole
+            // block instead of token rows, because rows-based outlines
+            // assume newline-separated text and look jagged on block-laid-
+            // out content. Both outline and underline get the rounded path:
+            // .outline.exception is invisible (no rule) while
+            // .underline.exception gets the marching dashes; .outline.match
+            // / .outline.hovered / .outline.target etc. already have stroke
+            // rules that render the rounded border cleanly.
+            const useBlockOutline =
+                blocks &&
+                (types.includes('exception') ||
+                    types.includes('hovered') ||
+                    types.includes('target') ||
+                    types.includes('match') ||
+                    types.includes('empty') ||
+                    types.includes('dragged') ||
+                    types.includes('dragging'));
             // If this node has empty fields to highlight, add outlines for those too.
             const emptyFields = highlights.getEmpty(node);
             if (emptyFields && emptyFields.length > 0) {
