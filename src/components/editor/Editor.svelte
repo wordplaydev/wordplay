@@ -615,9 +615,13 @@
         // suppression is deferred to the moment a drag actually starts (in
         // handleEditHover for mouse, or the long-press timer for touch).
         dragPoint = { x: event.clientX, y: event.clientY };
+        // Drag requires the editor to be editable. The previous condition
+        // (`editable ? $blocks || event.shiftKey : $blocks`) inadvertently
+        // allowed dragging in read-only blocks mode.
         if (
+            editable &&
             nonTokenNodeUnderPointer &&
-            (editable ? $blocks || event.shiftKey : $blocks)
+            ($blocks || event.shiftKey)
         ) {
             dragCandidate = nonTokenNodeUnderPointer;
 
