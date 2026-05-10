@@ -340,6 +340,23 @@
     // The point at which a drag started.
     let dragPoint: { x: number; y: number } | undefined = $state(undefined);
 
+    // Touch input uses a long-press to enter drag mode (the iOS reorder
+    // convention) so a typical scroll swipe still scrolls. Mouse/trackpad
+    // input keeps the existing 10px-threshold drag start.
+    let dragLongPressTimer: NodeJS.Timeout | undefined;
+    /** ms a touch must be held still before a drag commits */
+    const DRAG_LONG_PRESS_MS = 250;
+    /** px a touch can drift during the hold before the long-press is
+     *  cancelled (i.e. the user is scrolling, not pressing-and-holding) */
+    const DRAG_LONG_PRESS_CANCEL_PX = 5;
+
+    function clearDragLongPress() {
+        if (dragLongPressTimer !== undefined) {
+            clearTimeout(dragLongPressTimer);
+            dragLongPressTimer = undefined;
+        }
+    }
+
     // The caret position resolved at pointer-down, used as the anchor for drag-to-select.
     let dragStartPosition: CaretPosition | undefined = $state(undefined);
 
@@ -479,8 +496,16 @@
         dragPoint = undefined;
         dragStartPosition = undefined;
 
+        // Cancel any pending touch long-press.
+        clearDragLongPress();
+
         // Reset the insertion points.
         insertion.set(undefined);
+
+        // Restore native touch behavior (scroll, etc.) for the next gesture.
+        // We only set touch-action on actual drag-start so this is a no-op
+        // for non-drag pointerups, but it keeps the editor in a clean state.
+        if (editor) editor.style.removeProperty('touchAction');
     }
 
     async function drop() {
@@ -584,18 +609,45 @@
         }
 
         // Mark that the creator might want to drag the node under the pointer and remember where the click started.
+        // We deliberately do NOT preventDefault or set touch-action here:
+        // doing so on touch-start commits iOS to "this isn't a scroll" before
+        // we know the user's intent, breaking scrolling in blocks mode. The
+        // suppression is deferred to the moment a drag actually starts (in
+        // handleEditHover for mouse, or the long-press timer for touch).
         dragPoint = { x: event.clientX, y: event.clientY };
         if (
             nonTokenNodeUnderPointer &&
             (editable ? $blocks || event.shiftKey : $blocks)
         ) {
             dragCandidate = nonTokenNodeUnderPointer;
-            // If the primary mouse button is down, start dragging and set insertion.
-            // We don't actually start dragging until the cursor has moved more than a certain amount since last click.
-            if (dragCandidate && event.buttons === 1) {
-                event.preventDefault();
-                event.stopPropagation();
-                if (editor) editor.style.touchAction = 'none';
+
+            // Touch input: gate drag on a long-press so scroll swipes still
+            // scroll. Mouse/trackpad still uses the existing pixel
+            // threshold check in handleEditHover.
+            if (
+                event.pointerType === 'touch' &&
+                dragged !== undefined &&
+                dragCandidate !== undefined
+            ) {
+                const candidate = dragCandidate;
+                clearDragLongPress();
+                dragLongPressTimer = setTimeout(() => {
+                    dragLongPressTimer = undefined;
+                    // Only commit if still the same candidate (the user
+                    // didn't release or move enough to cancel) and we
+                    // haven't already started a drag.
+                    if (
+                        dragCandidate === candidate &&
+                        $dragged === undefined &&
+                        dragged !== undefined
+                    ) {
+                        dragged.set(candidate);
+                        dragCandidate = undefined;
+                        dragPoint = undefined;
+                        if (editor)
+                            editor.style.touchAction = 'none';
+                    }
+                }, DRAG_LONG_PRESS_MS);
             }
         }
     }
@@ -613,8 +665,20 @@
     function handlePointerMove(event: PointerEvent) {
         if (editor === null) return;
 
-        // Remove the touch action disabling now that we're moving.
-        editor.style.removeProperty('touchAction');
+        // Touch input: if the finger drifts during the long-press window,
+        // the user is scrolling, not pressing-and-holding. Cancel the
+        // pending drag so subsequent moves go to the browser as scroll.
+        if (
+            dragLongPressTimer !== undefined &&
+            dragPoint !== undefined &&
+            Math.sqrt(
+                Math.pow(event.clientX - dragPoint.x, 2) +
+                    Math.pow(event.clientY - dragPoint.y, 2),
+            ) >= DRAG_LONG_PRESS_CANCEL_PX
+        ) {
+            clearDragLongPress();
+            dragCandidate = undefined;
+        }
 
         // Handle an edit
         handleEditHover(event);
@@ -671,6 +735,12 @@
             dragged.set(dragCandidate);
             dragCandidate = undefined;
             dragPoint = undefined;
+            // Drag has actually started — now suppress native scroll/zoom
+            // for the rest of this gesture. Doing this on pointerdown would
+            // break iOS scrolling because Safari commits the gesture's
+            // intent (scroll vs custom) at touch-start.
+            event.preventDefault();
+            if (editor) editor.style.touchAction = 'none';
         }
 
         // Update insertion points if something is dragged and hovered isn't a placeholder.
