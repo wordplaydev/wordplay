@@ -936,7 +936,7 @@
                           currentProject,
                           $locales,
                           resolvedHowTos ?? [],
-                          currentGalleryHowTos,
+                          HowTos.allAccessiblePublishedHowTos,
                       ).withExamples(
                           index === undefined ? new Map() : index.examples,
                       )

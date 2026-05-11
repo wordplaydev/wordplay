@@ -1,18 +1,3 @@
-import GalleryHowTo from '@db/howtos/HowToDatabase.svelte';
-import Bind from '@nodes/Bind';
-import FunctionDefinition from '@nodes/FunctionDefinition';
-import type Node from '@nodes/Node';
-import StructureDefinition from '@nodes/StructureDefinition';
-import type Type from '@nodes/Type';
-import type TypeSet from '@nodes/TypeSet';
-import type Project from '@db/projects/Project';
-import type Locales from '@locale/Locales';
-import BinaryEvaluate from '@nodes/BinaryEvaluate';
-import Evaluate from '@nodes/Evaluate';
-import FunctionType from '@nodes/FunctionType';
-import Reference from '@nodes/Reference';
-import StreamDefinition from '@nodes/StreamDefinition';
-import UnaryEvaluate from '@nodes/UnaryEvaluate';
 import BindConcept from '@concepts/BindConcept';
 import type Concept from '@concepts/Concept';
 import {
@@ -28,6 +13,21 @@ import NodeConcept from '@concepts/NodeConcept';
 import { Purpose, type PurposeType } from '@concepts/Purpose';
 import StreamConcept from '@concepts/StreamConcept';
 import StructureConcept from '@concepts/StructureConcept';
+import GalleryHowTo from '@db/howtos/HowToDatabase.svelte';
+import type Project from '@db/projects/Project';
+import type Locales from '@locale/Locales';
+import BinaryEvaluate from '@nodes/BinaryEvaluate';
+import Bind from '@nodes/Bind';
+import Evaluate from '@nodes/Evaluate';
+import FunctionDefinition from '@nodes/FunctionDefinition';
+import FunctionType from '@nodes/FunctionType';
+import type Node from '@nodes/Node';
+import Reference from '@nodes/Reference';
+import StreamDefinition from '@nodes/StreamDefinition';
+import StructureDefinition from '@nodes/StructureDefinition';
+import type Type from '@nodes/Type';
+import type TypeSet from '@nodes/TypeSet';
+import UnaryEvaluate from '@nodes/UnaryEvaluate';
 
 export default class ConceptIndex {
     readonly project: Project;
@@ -140,13 +140,13 @@ export default class ConceptIndex {
                 def instanceof StreamDefinition
                     ? makeStreamConcept(def)
                     : new FunctionConcept(
-                          Purpose.Inputs,
-                          undefined,
-                          def,
-                          undefined,
-                          locales,
-                          context,
-                      ),
+                        Purpose.Inputs,
+                        undefined,
+                        def,
+                        undefined,
+                        locales,
+                        context,
+                    ),
             );
 
         const constructs = getNodeConcepts(context);
@@ -196,24 +196,24 @@ export default class ConceptIndex {
         const context = this.project.getNodeContext(node);
         const definition =
             node instanceof Evaluate ||
-            node instanceof BinaryEvaluate ||
-            node instanceof UnaryEvaluate
+                node instanceof BinaryEvaluate ||
+                node instanceof UnaryEvaluate
                 ? node.getFunction(context)
                 : node instanceof Reference
-                  ? node.resolve(context)
-                  : node instanceof Bind
-                    ? node
-                    : undefined;
+                    ? node.resolve(context)
+                    : node instanceof Bind
+                        ? node
+                        : undefined;
         const definitionConcept =
             definition instanceof FunctionDefinition
                 ? this.getFunctionConcept(definition)
                 : definition instanceof StructureDefinition
-                  ? this.getStructureConcept(definition)
-                  : definition instanceof StreamDefinition
-                    ? this.getStreamConcept(definition)
-                    : definition instanceof Bind
-                      ? this.getBindConcept(definition)
-                      : undefined;
+                    ? this.getStructureConcept(definition)
+                    : definition instanceof StreamDefinition
+                        ? this.getStreamConcept(definition)
+                        : definition instanceof Bind
+                            ? this.getBindConcept(definition)
+                            : undefined;
 
         return definitionConcept ?? this.getNodeConcept(node);
     }
@@ -264,6 +264,12 @@ export default class ConceptIndex {
         );
     }
 
+    getGalleryHowConcept(howToId: string): GalleryHowConcept | undefined {
+        return this.concepts.find((concept): concept is GalleryHowConcept =>
+            concept instanceof GalleryHowConcept && concept.getHowToId() === howToId,
+        );
+    }
+
     getEquivalent(concept: Concept): Concept | undefined {
         return this.concepts.find((c) => c.isEqualTo(concept));
     }
@@ -296,8 +302,8 @@ export default class ConceptIndex {
         const subconcepts = this.getConceptByName(owner)?.getSubConcepts();
         return subconcepts
             ? Array.from(subconcepts).find((c) =>
-                  c.hasName(concept, this.locales),
-              )
+                c.hasName(concept, this.locales),
+            )
             : undefined;
     }
 
