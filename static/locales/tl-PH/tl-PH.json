@@ -5147,6 +5147,11 @@
                         "$~dokumentasyon at mga komento",
                         "$~mga konsepto ng wika na mas mataas ang antas"
                     ]
+                },
+                "howToFilter": {
+                    "label": "$?",
+                    "labels": ["$?"],
+                    "tips": ["$?"]
                 }
             },
             "note": {

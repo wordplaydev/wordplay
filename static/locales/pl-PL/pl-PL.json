@@ -4929,6 +4929,11 @@
                         "$~dokumentacja i komentarze",
                         "$~zaawansowane koncepcje językowe"
                     ]
+                },
+                "howToFilter": {
+                    "label": "$?",
+                    "labels": ["$?"],
+                    "tips": ["$?"]
                 }
             },
             "purposes": {

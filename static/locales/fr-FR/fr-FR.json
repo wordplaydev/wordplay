@@ -4907,6 +4907,11 @@
                         "$~documentation et commentaires",
                         "$~concepts linguistiques avancés"
                     ]
+                },
+                "howToFilter": {
+                    "label": "$?",
+                    "labels": ["$?"],
+                    "tips": ["$?"]
                 }
             },
             "purposes": {
