@@ -1601,7 +1601,7 @@
         },
         "UnknownType": {
             "name": "$~hindialam",
-            "description": "$~kumakatawan sa isang hindi natukoy na uri",
+            "description": "$~hindi alam",
             "connector": "$~, dahil",
             "emotion": "curious",
             "doc": "$~Umm... Hindi ko alam kung ano ang kinakatawan ko, pero talagang interesado ako. Alam mo ba? Mukhang dapat naming malaman. Baka kailangan mong sabihin sa amin kung hindi namin maintindihan."
@@ -1702,7 +1702,7 @@
         },
         "UnknownNameType": {
             "name": "$~hindikilalangpangalan",
-            "description": "$~markahan ang $1[$1 bilang hindi natukoy|hindi ibinigay ang pangalan]",
+            "description": "$~$1[Hindi pa natutukoy ang $1|hindi pa naibibigay ang pangalan]",
             "emotion": "curious",
             "doc": "$~Alam mo ba kung paano minsan hindi alam nina @Reference at @PropertyReference ang pangalang tinutukoy mo? Nandito ako kapag nangyayari iyon, para ipakita na hindi namin alam kung sino ang tinutukoy mo."
         },
@@ -5149,9 +5149,12 @@
                     ]
                 },
                 "howToFilter": {
-                    "label": "$?",
-                    "labels": ["$?", "$?"],
-                    "tips": ["$?", "$?"]
+                    "label": "$~mga tagubiling ginawa ng gumagamit",
+                    "labels": ["$~lahat", "$~gallery at mga bookmark"],
+                    "tips": [
+                        "$~tingnan ang lahat ng mga how-to na ginawa ng user",
+                        "$~tingnan lamang ang mga how-to na ginawa ng user mula sa gallery ng proyektong ito at lahat ng bookmark"
+                    ]
                 }
             },
             "note": {

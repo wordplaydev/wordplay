@@ -1598,7 +1598,7 @@
         },
         "UnknownType": {
             "name": "$~khôngrõ",
-            "description": "$~biểu diễn kiểu chưa xác định",
+            "description": "$~không rõ",
             "connector": "$~, bởi vì",
             "emotion": "curious",
             "doc": "$~Ừm... Tôi không biết mình đại diện cho điều gì, nhưng tôi thực sự rất tò mò. Bạn có biết không? Hình như chúng ta nên biết. Nếu chúng ta không tìm ra, có lẽ bạn cần nói cho chúng tôi biết."
@@ -1699,7 +1699,7 @@
         },
         "UnknownNameType": {
             "name": "$~tênkhôngrõ",
-            "description": "$~đánh dấu $1[$1 là không xác định|tên chưa được đặt]",
+            "description": "$~$1[$1 chưa được định nghĩa|tên chưa được cung cấp]",
             "emotion": "curious",
             "doc": "$~Bạn biết đấy, đôi khi @Reference và @PropertyReference không biết tên mà bạn đang nói đến? Tôi có mặt khi điều đó xảy ra, để đại diện cho việc chúng tôi không biết bạn đang nói về ai."
         },
@@ -5146,9 +5146,12 @@
                     ]
                 },
                 "howToFilter": {
-                    "label": "$?",
-                    "labels": ["$?", "$?"],
-                    "tips": ["$?", "$?"]
+                    "label": "$~hướng dẫn do người dùng tạo",
+                    "labels": ["$~tất cả", "$~thư viện ảnh & dấu trang"],
+                    "tips": [
+                        "$~Xem tất cả các hướng dẫn do người dùng tạo",
+                        "$~Chỉ hiển thị các hướng dẫn do người dùng tạo từ thư viện của dự án này và tất cả các dấu trang."
+                    ]
                 }
             },
             "note": {

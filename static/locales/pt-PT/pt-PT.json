@@ -1598,7 +1598,7 @@
         },
         "UnknownType": {
             "name": "$~desconhecido",
-            "description": "$~representa um tipo indeterminado",
+            "description": "$~desconhecido",
             "connector": "$~, porque",
             "emotion": "curious",
             "doc": "$~Hum... Não sei o que represento, mas estou mesmo curioso. Você sabe? Parece que devíamos saber. Talvez precise de nos dizer se não conseguirmos descobrir."
@@ -1699,7 +1699,7 @@
         },
         "UnknownNameType": {
             "name": "$~nomedesconhecido",
-            "description": "$~marca $1[$1 como indefinido|nome não fornecido]",
+            "description": "$~$1[$1 ainda não está definido|o nome não foi fornecido]",
             "emotion": "curious",
             "doc": "$~Sabe quando o @Reference e o @PropertyReference não sabem o nome de quem está a falar? Eu estou por perto quando isso acontece, para representar que não sabemos de quem se está a falar."
         },
@@ -5146,9 +5146,12 @@
                     ]
                 },
                 "howToFilter": {
-                    "label": "$?",
-                    "labels": ["$?", "$?"],
-                    "tips": ["$?", "$?"]
+                    "label": "$~tutoriais criados pelos utilizadores",
+                    "labels": ["$~tudo", "$~galeria e favoritos"],
+                    "tips": [
+                        "$~Veja todos os tutoriais criados pelos utilizadores.",
+                        "$~Veja apenas os tutoriais criados pelos utilizadores na galeria deste projeto e todos os favoritos."
+                    ]
                 }
             },
             "note": {

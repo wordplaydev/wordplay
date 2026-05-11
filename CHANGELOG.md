@@ -8,13 +8,14 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 ### Added
 
-- We added a new "tour" help feature for each tile in the project view, explaining its purpose and core features. Try them out and let us know if we should expand the explanations! (#687).
-- We added additional keywords to all emojis to improve searching (#1090), but also translated all of those keywords, so that works in all supported locales (#639).
-- We added a new visual style for blocks editing mode, for improved readability. It also accounts for whether an editor is read only, hiding editing controls for more compactness.
-- We added much more robust menu suggestions for locales (#1099), text and formatted literals (#635), and unit suggestions.
-- We added a way to highlight expressions by adding 👀 inside some code's preceding explanatio, e.g., \¶👀¶"I'm highlighted!" This is helpful for how-to authors who want to emphasize some code.
-- We added a setting to control the spacing in blocks mode, for accessibility.
+- There's a new "tour" help feature for each tile in the project view, explaining its purpose and core features. Try them out and let us know if we should expand the explanations! (#687).
+- Emoji searching now supports many more keywords (#1090), but also translations all of those keywords, so that works in all supported locales (#639).
+- Blocks have a new visual style for blocks editing mode, for improved readability. It also accounts for whether an editor is read only, hiding editing controls for more compactness.
+- Menu suggestions in the editor are now much more helpful for locales (#1099), text and formatted literals (#635), and unit suggestions.
+- How-to authors can now highlight expressions by adding 👀 inside some code's preceding explanatio, e.g., \¶👀¶"I'm highlighted!" This is helpful for how-to authors who want to emphasize some code.
+- Block spacing can now be controlled.
 - We added a machine translated Tagalog locale (#1089).
+- The guide in the project view now shows _all_ how-tos a creator has access to, can filter between just all and gallery-specific how-tos (#1087).
 
 ### Changed
 
