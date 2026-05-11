@@ -10483,6 +10483,10 @@
                       "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%5D%3E",
                       "description": "Toggle between browsing all concepts and filtering by purpose"
                     },
+                    "howToFilter": {
+                      "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%5D%3E",
+                      "description": "Toggle between seeing all user-created how-tos or only those in the project's gallery"
+                    },
                     "purpose": {
                       "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%5D%3E",
                       "description": "Filter concepts by purpose category"
@@ -10490,7 +10494,8 @@
                   },
                   "required": [
                     "browse",
-                    "purpose"
+                    "purpose",
+                    "howToFilter"
                   ],
                   "type": "object"
                 },

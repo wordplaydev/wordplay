@@ -1598,7 +1598,7 @@
         },
         "UnknownType": {
             "name": "$~bilinmeyen",
-            "description": "$~belirsiz türü temsil et",
+            "description": "$~bilinmiyor",
             "connector": "$~, Çünkü",
             "emotion": "curious",
             "doc": "$~Umm... Ne temsil ettiğimi bilmiyorum ama gerçekten merak ediyorum. Biliyor musun? Bilmemiz gerekiyor gibi görünüyor. Eğer çözemezsek bize söylemen gerekebilir."
@@ -1699,7 +1699,7 @@
         },
         "UnknownNameType": {
             "name": "$~bilinmeyenisim",
-            "description": "$~$1[$1 tanımsız olarak|ad verilmemiş] işaretle",
+            "description": "$~$1[$1 henüz tanımlanmadı|adı verilmedi]",
             "emotion": "curious",
             "doc": "$~Bazen @Reference ve @PropertyReference'ın bahsettiğiniz ismi bilmediğini biliyor musunuz? O zaman ben de oradayım, bahsettiğiniz kişinin kim olduğunu bilmediğimizi belirtmek için."
         },
@@ -4923,6 +4923,14 @@
                         "$~veri türleri, dönüşümler ve tür kontrolleri",
                         "$~dokümantasyon ve yorumlar",
                         "$~ileri dil kavramları"
+                    ]
+                },
+                "howToFilter": {
+                    "label": "$~kullanıcı tarafından oluşturulan nasıl yapılır kılavuzları",
+                    "labels": ["$~Tümü", "$~galeri ve yer işaretleri"],
+                    "tips": [
+                        "$~Kullanıcılar tarafından oluşturulan tüm nasıl yapılır kılavuzlarını görün",
+                        "$~Bu projenin galerisindeki yalnızca kullanıcılar tarafından oluşturulan \"nasıl yapılır\" kılavuzlarını ve tüm yer işaretlerini görüntüleyin."
                     ]
                 }
             },

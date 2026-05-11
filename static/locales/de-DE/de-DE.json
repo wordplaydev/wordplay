@@ -1636,7 +1636,7 @@
         },
         "UnknownType": {
             "name": "$~Unbekannt",
-            "description": "$~stelle einen unbestimmten Typ dar",
+            "description": "$~unbekannt",
             "connector": "$~, Weil",
             "emotion": "$?",
             "doc": "$~Ähm... ich weiß nicht, was ich darstelle, aber ich bin wirklich neugierig. Wissen Sie es? Es scheint, als ob wir es wissen sollten. Sie müssen es uns vielleicht sagen, wenn wir es nicht herausfinden können."
@@ -1673,7 +1673,7 @@
         },
         "UnknownNameType": {
             "name": "$~unbekannterName",
-            "description": "$~markiere $1[$1 als undefiniert|Name nicht angegeben]",
+            "description": "$~$1[$1 ist noch nicht definiert|der Name ist nicht angegeben]",
             "emotion": "$?",
             "doc": "$~Wissen Sie, dass @Reference und @PropertyReference manchmal den Namen nicht kennen, von dem Sie sprechen? Ich bin in solchen Fällen dabei, um zu zeigen, dass wir nicht wissen, von wem Sie sprechen."
         },
@@ -4905,6 +4905,14 @@
                         "$~Datentypen, Konvertierungen und Typüberprüfungen",
                         "$~Dokumentation und Kommentare",
                         "$~fortgeschrittene Sprachkonzepte"
+                    ]
+                },
+                "howToFilter": {
+                    "label": "$~von Nutzern erstellte Anleitungen",
+                    "labels": ["$~alle", "$~Galerie & Lesezeichen"],
+                    "tips": [
+                        "$~Alle von Benutzern erstellten Anleitungen anzeigen",
+                        "$~Es werden nur die von Nutzern erstellten Anleitungen aus der Galerie dieses Projekts und alle Lesezeichen angezeigt."
                     ]
                 }
             },

@@ -1598,7 +1598,7 @@
         },
         "UnknownType": {
             "name": "$~okänd",
-            "description": "$~representerar en obestämd typ",
+            "description": "$~okänd",
             "connector": "$~, eftersom",
             "emotion": "curious",
             "doc": "$~Umm... Jag vet inte vad jag representerar, men jag är verkligen nyfiken. Vet du? Det verkar som att vi borde veta. Du kanske måste berätta för oss om vi inte kan ta reda på det."
@@ -1699,7 +1699,7 @@
         },
         "UnknownNameType": {
             "name": "$~okäntnamn",
-            "description": "$~$1[$1 är inte definierad |ett namn gavs inte]",
+            "description": "$~$1[$1 är inte definierat ännu|namnet är inte angivet]",
             "emotion": "curious",
             "doc": "$~Du vet hur ibland @Reference och @PropertyReference inte känner till namnet du pratar om? Jag är med när det händer, för att visa att vi inte vet vem du pratar om."
         },
@@ -4923,6 +4923,14 @@
                         "$~datatyper, konverteringar och typkontroller",
                         "$~dokumentation och kommentarer",
                         "$~avancerade språkbegrepp"
+                    ]
+                },
+                "howToFilter": {
+                    "label": "$~användarskapade instruktioner",
+                    "labels": ["$~alla", "$~galleri och bokmärken"],
+                    "tips": [
+                        "$~se alla användarskapade instruktioner",
+                        "$~se endast användarskapade instruktioner från det här projektets galleri och alla bokmärken"
                     ]
                 }
             },

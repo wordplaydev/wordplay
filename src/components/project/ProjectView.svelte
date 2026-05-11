@@ -25,6 +25,9 @@
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import Options from '@components/widgets/Options.svelte';
+    import Tour, {
+        type UIExplanation,
+    } from '@components/widgets/Tour.svelte';
     import type Concept from '@concepts/Concept';
     import ConceptIndex from '@concepts/ConceptIndex';
     import {
@@ -56,14 +59,11 @@
         type ArrangementType,
     } from '@db/settings/Arrangement';
     import type Locale from '@locale/Locale';
+    import Evaluate from '@nodes/Evaluate';
     import Node, { isFieldPosition } from '@nodes/Node';
     import Source from '@nodes/Source';
     import type Color from '@output/Color';
     import { CANCEL_SYMBOL, INFO_SYMBOL } from '@parser/Symbols';
-    import Evaluate from '@nodes/Evaluate';
-    import Tour, {
-        type UIExplanation,
-    } from '@components/widgets/Tour.svelte';
     import { isName } from '@parser/Tokenizer';
     import Evaluator from '@runtime/Evaluator';
     import type Value from '@values/Value';
@@ -936,7 +936,7 @@
                           currentProject,
                           $locales,
                           resolvedHowTos ?? [],
-                          currentGalleryHowTos,
+                          HowTos.allAccessiblePublishedHowTos,
                       ).withExamples(
                           index === undefined ? new Map() : index.examples,
                       )
