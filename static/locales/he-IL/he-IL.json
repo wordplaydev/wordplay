@@ -5145,8 +5145,8 @@
                 },
                 "howToFilter": {
                     "label": "$?",
-                    "labels": ["$?"],
-                    "tips": ["$?"]
+                    "labels": ["$?", "$?"],
+                    "tips": ["$?", "$?"]
                 }
             },
             "note": {

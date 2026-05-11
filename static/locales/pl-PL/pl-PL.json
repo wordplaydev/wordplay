@@ -4932,8 +4932,8 @@
                 },
                 "howToFilter": {
                     "label": "$?",
-                    "labels": ["$?"],
-                    "tips": ["$?"]
+                    "labels": ["$?", "$?"],
+                    "tips": ["$?", "$?"]
                 }
             },
             "purposes": {
