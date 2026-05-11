@@ -47,7 +47,7 @@
                     empty="menu"
                     direction="block"
                     wrap={false}
-                    breaks={false}
+                    breaks
                 />
             </Flow>
             <Flow direction="row"

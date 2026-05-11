@@ -4,7 +4,6 @@
     import type Token from '@nodes/Token';
     import { spaceIndicator } from '@db/Database';
     import {
-        EXPLICIT_NEWLINE_TEXT,
         EXPLICIT_SPACE_TEXT,
         EXPLICIT_TAB_TEXT,
         SPACE_TEXT,
@@ -88,7 +87,9 @@
 -->
 {#key [$spaceIndicator, space, line, $showLines, insertionIndex]}
     <span class="space" role="none" data-id={token.id} data-uiid="space">
-        {#if block}{#if space !== ''}<span class="space-text" data-space={space}
+        {#if block}{#if space !== '' && !space.includes('\n')}<span
+                    class="space-text"
+                    data-space={space}
                     >{space
                         .split('')
                         .map((s) =>
@@ -96,11 +97,7 @@
                                 ? invisible || !$spaceIndicator
                                     ? SPACE_TEXT
                                     : EXPLICIT_SPACE_TEXT
-                                : s === '\n'
-                                  ? invisible || !$spaceIndicator
-                                      ? ''
-                                      : EXPLICIT_NEWLINE_TEXT
-                                  : s,
+                                : s,
                         )
                         .join('')}</span
                 >{/if}

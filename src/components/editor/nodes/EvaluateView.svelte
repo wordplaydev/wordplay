@@ -50,7 +50,7 @@
                         : 'hide'}
                     direction="block"
                     wrap={false}
-                    breaks={false}
+                    breaks
                 />
             </Flow>
             <NodeView node={[node, 'close']} {format} />

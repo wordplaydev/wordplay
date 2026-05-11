@@ -39,6 +39,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - We improved the contrast of links in light mode.
 - We added loading feedback when a new project is greated on the projects or gallery page.
 - We fixed the very cramped width of chat messages when they have example code (#1107).
+- We improved line break rendering in blocks mode.
 
 ## 0.17.8 - 2026-05-02
 
