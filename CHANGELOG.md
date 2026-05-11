@@ -25,6 +25,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - We improved the layout of code in the chat view (#1107).
 - We made input names in a blocks mode a drop down instead of editable text.
 - We upgraded internal tooling for stability.
+- We updated documentation for developers.
 
 ### Fixed
 

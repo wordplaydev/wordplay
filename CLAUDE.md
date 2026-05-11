@@ -45,14 +45,14 @@ Text input → **Parser** ([src/parser/](src/parser/)) → AST nodes ([src/nodes
 | [src/nodes/Node.ts](src/nodes/Node.ts)                                                 | Base class for all AST nodes; grammar, children, lexical scope   |
 | [src/nodes/Expression.ts](src/nodes/Expression.ts)                                     | Adds `computeType()`, `compile()`, evaluation descriptions       |
 | [src/runtime/Evaluator.ts](src/runtime/Evaluator.ts)                                   | Runs compiled steps; manages call stack, streams, reevaluation   |
-| [src/models/Project.ts](src/models/Project.ts)                                         | A named collection of `Source` files; entry point for analysis   |
+| [src/db/projects/Project.ts](src/db/projects/Project.ts)                               | A named collection of `Source` files; entry point for analysis   |
 | [src/db/Database.ts](src/db/Database.ts)                                               | All persistence (Firebase + localStorage); exposes Svelte stores |
 | [src/runtime/createDefaultShares.ts](src/runtime/createDefaultShares.ts)               | Registers built-in APIs (output types, streams, basis functions) |
 | [src/components/project/ProjectView.svelte](src/components/project/ProjectView.svelte) | Top-level window manager and global context store                |
 
 ### Localization
 
-All user-visible strings live in locale JSON files ([static/locales/](static/locales/), 38+ languages) validated against a schema. `Database` exposes the active locale as a Svelte store. Nodes, conflicts, values, and APIs all define localized descriptions via `Locale.ts`. Run `npm run locales` to verify and `npm run locales-fix` to repair issues.
+All user-visible strings live in locale JSON files ([static/locales/](static/locales/), 26 languages) validated against a schema. `Database` exposes the active locale as a Svelte store. Nodes, conflicts, values, and APIs all define localized descriptions via `Locale.ts`. Run `npm run locales` to verify and `npm run locales-fix` to repair issues.
 
 **After every edit to a locale or tutorial JSON file** (anything under [static/locales/](static/locales/) — including the per-locale `*-tutorial.json` and `*-emojis.json` files — or [src/locale/en-US.json](src/locale/en-US.json)), run prettier on the changed files:
 
@@ -65,6 +65,14 @@ Translation tools (e.g. `npm run locales-translate`) and direct script edits oft
 ### Immutability convention
 
 Immutable data structures and pure functions are the norm everywhere except: Svelte components (internal state + global context), `Evaluator` (stack-based evaluation state), and `Database` (persistence). Most bugs will be in those three areas.
+
+### Keep ARCHITECTURE.md in sync
+
+[ARCHITECTURE.md](ARCHITECTURE.md) is the high-level orientation document for the codebase. After any change that affects content described there — renaming/moving a file it references, changing the responsibilities of a component it describes, adding or removing a major subsystem, or altering the core pipeline — update ARCHITECTURE.md in the same change. If a fact in this CLAUDE.md (e.g., file paths, locale count, node count) also appears in ARCHITECTURE.md, update both.
+
+### Keep LANGUAGE.md in sync
+
+[LANGUAGE.md](LANGUAGE.md) is the Wordplay programming language specification: lexical grammar, syntactic grammar, evaluation semantics, types, and conflicts. After any change that affects the language — adding/removing a token or symbol, adding/removing a node type or grammar production, changing parsing rules, adding/removing a built-in stream, output type, or conversion, altering evaluation semantics for an expression, or changing how a conflict is detected — update LANGUAGE.md in the same change. Touch only the sections affected; do not rewrite untouched sections.
 
 ### Behavior
 

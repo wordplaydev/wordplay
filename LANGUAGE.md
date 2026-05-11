@@ -76,20 +76,22 @@ Text literals can be opened and closed with numerous delimiters:
 
 > textopen → `"` | `“` | `„` | `'` | `‘` | `‹` | `«` | `「` | `『`  
 > textclose → `"` | `„` | `”` | `'` | `’` | `›` | `»` | `」` | `』`  
-> markup → `\`  
+> markup → `` ` ``  
+> doc → `¶`  
 > text → _any sequence of characters between open/close and markup delimiters_
 
-Wordplay has a secondary notation for markup, delimited by backticks, as in ¶ `I am \*bold\*\` ¶. Between backticks, these tokens are valid:
+Wordplay has a secondary notation for markup, delimited by backticks, as in ¶ `` `I am *bold*` `` ¶. Between backticks, these tokens are valid:
 
 > linkopen → `<`  
 > linkclose → `>`  
-> italics → language  
+> italics → `/`  
 > code → `\`  
 > light → `~`  
 > underscore → `_`  
 > bold → `*`  
 > extrabold → `^`  
 > link → `@`  
+> mention → `$`  
 > concept → `/@(?!(https?)?://)[a-zA-Z/]*`  
 > words → _any sequence of characters between `markup` that aren't markup delimeters above_
 
@@ -110,7 +112,7 @@ Some are associated with reactive values:
 
 > reaction → `…` | `...`  
 > initial → `◆`  
-> change → `∆`  
+> change → `∆` | `∂`  
 > previous → `←`
 
 The language uses a placeholder token extensively to allow for unifinished syntactially valid code.
@@ -138,6 +140,8 @@ Some are associated with particular types of expressions:
 > evalopen → `(`  
 > evalclose → `)`  
 > question → `?` | `¿`  
+> otherwise → `??`  
+> match → `???`
 > conversion → `→` | `->` | `=>`  
 > access → `.`
 
@@ -300,6 +304,8 @@ For example, these are all valid text values:
 If `en-US` were the preferred locale, they would all evaluate to `'hi'`. But in the latter case, if Spanish or Japanese were selected, they would evaluate to `'hola'` or `『こんにちは』`'
 
 It's possible to check whether an environment has a particular locale selected with the locale predicate:
+
+> ISLOCALE → 🌎 LANGUAGE?
 
 ```
 🌎/en
@@ -467,8 +473,8 @@ Sets are equal when they have the same size and equivalent values.
 
 ### Map
 
-> MAP → setopen (bind | KEYVALUE\*) setopen  
-> KEYVALUE → EXPRESSION bind VALUE
+> MAP → setopen (bind | KEYVALUE\*) setclose  
+> KEYVALUE → EXPRESSION bind EXPRESSION
 
 Maps create a mapping between values and other values. They're like sets in that they only contain unique keys, but values can reoccur. Here are some valid maps literals:
 
@@ -569,7 +575,7 @@ There three different syntaxes for evaluating functions on values.
 
 ### Evaluate
 
-> EVALUTE → EXPRESSION evalopen EXPRESSION evalclose
+> EVALUATE → EXPRESSION evalopen (BIND | EXPRESSION)\* evalclose
 
 The standard way is to provide a function value, and then parentheses delimited sequence of values:
 
@@ -687,6 +693,50 @@ Note that there's no separator between the true anf false cases in this synatax 
 #### _evaluation_
 
 Conditions first evaluate their condition. If the condition does not evaluate to a boolean value, a type exception is generated, and the program halts. If the condition was true, it evaluates the true expression, otherwise it evaluates the false expression. The conditional then evaluates to the result.
+
+### Otherwise
+
+> OTHERWISE → EXPRESSION otherwise EXPRESSION
+
+The otherwise (`??`) operator is a none-coalescing shorthand: it evaluates to its left expression unless that expression is `ø`, in which case it evaluates to its right expression. It's useful when working with values that might be `ø`, such as list accesses out of range or map lookups for missing keys:
+
+```
+{'amy': 43}{'jen'} ?? 0
+```
+
+This evaluates to `0`, because the map lookup is `ø`.
+
+### _conflicts_
+
+- The left expression's type does not include `ø` (the operator is unnecessary)
+
+#### _evaluation_
+
+Evaluates the left expression. If the result is `ø`, evaluates and returns the right expression; otherwise returns the left value.
+
+### Match
+
+> MATCH → EXPRESSION match (EXPRESSION bind EXPRESSION)\* EXPRESSION
+
+Match expressions select one of several expressions based on equality with a key. The first expression is the value being matched; pairs of `key: result` follow; and a final expression is the default when no key matches. For example:
+
+```
+sound ???
+    'meow': 'cat'
+    'woof': 'dog'
+    'unknown'
+```
+
+If `sound` equals `'meow'`, this evaluates to `'cat'`; if `'woof'`, `'dog'`; otherwise `'unknown'`.
+
+### _conflicts_
+
+- A key's type is incompatible with the matched value's type
+- The default expression is missing
+
+#### _evaluation_
+
+Evaluates the matched value, then evaluates each key in reading order, comparing for equality with the matched value. The first matching key's value expression is evaluated and returned. If no key matches, the default expression is evaluated and returned.
 
 ### Convert
 
@@ -910,6 +960,7 @@ Choice()
 Key()
 Placement()
 Pointer()
+Speech()
 ```
 
 Some are events from the physics engine:
@@ -934,8 +985,8 @@ When a built in stream definition is evaluated, the evaluator keeps track of whi
 
 ### Reaction
 
-> REACTION → EXPRESSION reaction question reaction EXPRESSION
-> CHANGE → change EXPRESSION
+> REACTION → EXPRESSION reaction EXPRESSION (reaction EXPRESSION)?  
+> CHANGED → change EXPRESSION
 
 It's possible to derive new streams from existing streams. For example, here we take `Time()` and convert it to stream of even and odd values:
 
@@ -1015,13 +1066,13 @@ The combined set of all of the expressions above mean that most of Wordplay is e
 
 > PROGRAM → BORROW* (BIND | EXPRESSION)*
 > BORROW → borrow name (access name)? numeral?  
-> EXPRESSION → CONDITIONAL | REACTION | BINARYEVALUATE | ATOMIC  
-> ATOMIC → LITERAL | REF | PLACEHOLDER | EVAL | DEFINITION | PROPERTYBIND | CONVERT | CHECK | QUERY | DOCUMENTED
-> LITERAL → NONE | NUMBER | BOOLEAN | LIST | SET | MAP | TABLE  
+> EXPRESSION → REACTION | CONDITIONAL | MATCH | OTHERWISE | BINARYEVALUATE | ATOMIC  
+> ATOMIC → LITERAL | REF | PLACEHOLDER | EVAL | DEFINITION | PROPERTYBIND | CONVERT | CHECK | QUERY | DOCUMENTED | PREVIOUS | INITIAL | ISLOCALE  
+> LITERAL → NONE | NUMBER | BOOLEAN | TEXT | MARKUP | LIST | SET | MAP | TABLE  
 > REF → REFERENCE | PROPERTY | this  
 > EVAL → EVALUATE | UNARYEVALUATE | BLOCK  
 > DEFINITION → FUNCTION | STRUCTURE | CONVERSION  
-> CHECK → CHANGE | IS  
+> CHECK → CHANGED | IS  
 > QUERY → INSERT | UPDATE | SELECT | DELETE
 
 If any sequences of tokens cannot be parsed according to this grammar, all of the tokens on the line are converted into an `UNPARSABLE` node.

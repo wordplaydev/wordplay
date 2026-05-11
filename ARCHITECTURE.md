@@ -36,6 +36,8 @@ The database should generally be fairly opaque; it shouldn't matter to code usin
 
 All Wordplay code starts as strings and is converted to an _abstract syntax tree_ by [parseProgram](https://github.com/wordplaydev/wordplay/blob/main/src/parser/parseProgram.ts). Parser first tokenizes the strings using [Tokenizer.ts](https://github.com/wordplaydev/wordplay/blob/main/src/parser/Tokenizer.ts) to segment the text into a sequence of [Token](https://github.com/wordplaydev/wordplay/blob/main/src/nodes/Token.ts) nodes. Parser then translates the sequence of `Token` nodes into a tree. Root nodes of programs are [Source](https://github.com/wordplaydev/wordplay/blob/main/src/nodes/Source.ts) nodes, and then inside [/src/nodes](https://github.com/wordplaydev/wordplay/tree/main/src/nodes) are all of the different types of abstract syntax tree nodes that can appear in a Wordplay program.
 
+For the full lexical grammar, syntactic grammar, and evaluation semantics of each construct, see [LANGUAGE.md](LANGUAGE.md) — it's the language specification companion to this architecture document.
+
 Abstract syntax tree nodes follow a common interface defined by [Node.ts](https://github.com/wordplaydev/wordplay/blob/main/src/nodes/Node.ts). Some of the key concepts are that all nodes have a list of child nodes, and a grammar that defines their order, names, and whitespace rules, and other metadata. This metadata is used extensively in editing. `Node` also provides many interfaces for managing lexical scoping, edits to the tree, and localized descriptions of the node, connecting to the localization components.
 
 Some nodes add additional interfaces, especially [Expression.ts](https://github.com/wordplaydev/wordplay/blob/main/src/nodes/Expression.ts) and [Type.ts](https://github.com/wordplaydev/wordplay/blob/main/src/nodes/Type.ts). Expression defines interfaces for compiling expressions to evaluable steps, for getting the type of the expression, and for providing localized descriptions of their evaluation. `Type` defines all of the different types of values that can exist and the rules for how they can be computed upon.
@@ -79,7 +81,7 @@ Wordplay programs are _evaluated_, in that they are purely functional. A Wordpla
 
 Only `Expression` nodes are evaluable. Each one defines a `compile()` function that converts the node and its children into a series of [Step](https://github.com/wordplaydev/wordplay/blob/main/src/runtime/Step.ts). There are fewer than a dozen types of steps; most do things like bind values to a name in scope, start a function evaluation, jump past some step based on some condition, or do some other low-level operation. Every Wordplay `Source` therefore compiles down to a sequence of `Step`s that are evaluated one at a time.
 
-The component that evaluates steps is [Evaluator.ts](https://github.com/wordplaydev/wordplay/blob/main/src/runtime/Evaluator.ts). It takes a [Project](https://github.com/wordplaydev/wordplay/blob/main/src/models/Project.ts), compiles its `Source`, and evaluates each sequence of steps according to the rules of each step. As it does this, it maintains a stack of function evaluations, and for each evaluation, a stack of values, and named scope of key/`Value` bindings. As each step evaluates, values are pushed and popped onto the value stack, bound to names in memory, and passed as inputs to function evaluations. If any expression ever evaluates to an [ExceptionValue](https://github.com/wordplaydev/wordplay/blob/main/src/values/ExceptionValue.ts) value, the `Evaluator` halts and evaluates to the exception.
+The component that evaluates steps is [Evaluator.ts](https://github.com/wordplaydev/wordplay/blob/main/src/runtime/Evaluator.ts). It takes a [Project](https://github.com/wordplaydev/wordplay/blob/main/src/db/projects/Project.ts), compiles its `Source`, and evaluates each sequence of steps according to the rules of each step. As it does this, it maintains a stack of function evaluations, and for each evaluation, a stack of values, and named scope of key/`Value` bindings. As each step evaluates, values are pushed and popped onto the value stack, bound to names in memory, and passed as inputs to function evaluations. If any expression ever evaluates to an [ExceptionValue](https://github.com/wordplaydev/wordplay/blob/main/src/values/ExceptionValue.ts) value, the `Evaluator` halts and evaluates to the exception.
 
 A key aspect of Wordplay is that some of its values are [StreamValues](https://github.com/wordplaydev/wordplay/tree/main/src/values), which change over time. Streams are sequences of values that are input by the external world, including things like time, mouse buttons, keyboard presses, and other events. Every time a stream has a new value, `Evaluator` reevaluates the `Source` that references it. This is what creates interactivity; every time there is some input, the program gets a chance to respond to it by reevaluating.
 
@@ -97,6 +99,14 @@ Creating new output APIs in the language means following that pattern, and doing
 Once these are done, the new API structure should appear in documentation and work in programs.
 
 Other APIs, like streams, and value APIs on things like numbers and lists, are defined elsewhere (e.g., `NumberBasis.ts` is an example of a basic value structure definition, `Key.ts` is an example of a stream definition), but follow similar patterns for localization.
+
+### Basis
+
+[src/basis/](https://github.com/wordplaydev/wordplay/tree/main/src/basis) defines the standard-library methods and operators on built-in value types. Each primitive — `BoolBasis`, `NumberBasis`, `TextBasis`, `ListBasis`, `SetBasis`, `MapBasis`, `TableBasis`, `NoneBasis`, `StructureBasis` — exports a bootstrap function that builds a `StructureDefinition` containing that type's `FunctionDefinition`s and `ConversionDefinition`s (e.g., `+` on numbers, `length` on lists, `not` on booleans). [Basis.ts](https://github.com/wordplaydev/wordplay/blob/main/src/basis/Basis.ts) is the registry: it instantiates one `Basis` per active locale combination, caches the result, and exposes the structure definitions to the rest of the system.
+
+The bodies of basis functions are not Wordplay code — they're TypeScript callbacks wrapped in [InternalExpression.ts](https://github.com/wordplaydev/wordplay/blob/main/src/basis/InternalExpression.ts), which `Evaluator` invokes when a basis function is called. Names and documentation come from `locale.basis.<TypeName>`, so the standard library is fully localized at construction time.
+
+`BasisType.getScope()` is how the type system finds these definitions: when `5 + 3` is type-checked or evaluated, the lookup of `+` walks through the `NumberBasis` structure definition registered here. `createDefaultShares` is the sibling registry for _global_ definitions (output types, streams); basis is specifically for methods that belong to a type.
 
 ### Localization
 
@@ -124,13 +134,37 @@ Editing comes in three forms:
 
 - Drag and drop involves a global `ProjectView ` state that manages a selected node from an `Editor`, or `Documentation.svelte`. The editor uses Node facilities such as their grammar and types to decide what can be dropped where.
 
-- Menu edits involve taking the caret's current position and asking `Autocomplete` to generate a set of `Revision` that are valid for the current selection. These appear as an autocomplete menu. Revisions perform an edit on the AST, usually replacing one node with another, or removing one, and then revising the project with the edited node.
+- Menu edits involve taking the caret's current position and asking `Menu` (in [src/edit/menu/Menu.ts](https://github.com/wordplaydev/wordplay/blob/main/src/edit/menu/Menu.ts)) to generate a set of `Revision` that are valid for the current selection. These appear as an autocomplete menu. Revisions perform an edit on the AST, usually replacing one node with another, or removing one, and then revising the project with the edited node.
 
 The editor does many other things, including:
 
 - Rendering conflicts based on the current caret position
 - Highlighting based on the mouse, touch screen, and drag interactions, defined by `Highlights.ts`
 - Providing descriptions for screen readers
+
+### Edit operations
+
+[src/edit/](https://github.com/wordplaydev/wordplay/tree/main/src/edit) groups all of the machinery that turns user intents — typing, dragging, choosing from a menu, tweaking an output property — into new ASTs. Like the rest of Wordplay, edits never mutate; each operation produces a new `Source` and `Project`.
+
+The subdirectories:
+
+- [caret/Caret.ts](https://github.com/wordplaydev/wordplay/blob/main/src/edit/caret/Caret.ts) — an immutable snapshot of the editor's cursor: source, position (a text offset, a selected `Node`, or a range), column, and entry direction. `Caret` methods compute neighboring tokens and the expression at the cursor.
+
+- [menu/](https://github.com/wordplaydev/wordplay/tree/main/src/edit/menu) — the autocomplete menu shown at the caret. `PossibleEdits.ts` analyzes caret context and generates the candidate `Revision`s; `Menu.ts` is an immutable container that organizes them by `Purpose` (Outputs, Inputs, Decisions, Text, …) into a `MenuOrganization` and tracks the user's selection.
+
+- [revision/](https://github.com/wordplaydev/wordplay/tree/main/src/edit/revision) — `Revision` is the base type for one AST transformation. Subclasses include `Replace`, `Remove`, `Append`, `Assign`, and `Refer`. Each exposes `getEditedNode()` (the new node and its revised parent) and `getEdit()` (an `Edit` for the command system to apply).
+
+- [drag/Drag.ts](https://github.com/wordplaydev/wordplay/blob/main/src/edit/drag/Drag.ts) — drag-and-drop. `InsertionPoint` and `AssignmentPoint` describe where a dragged node would land; `isValidDropTarget()` and `dropNodeOnSource()` validate and produce the revised source.
+
+- [output/](https://github.com/wordplaydev/wordplay/tree/main/src/edit/output) — the palette's bridge to AST edits. `OutputExpression` wraps an `Evaluate` representing a `Stage`, `Phrase`, `Group`, `Shape`, etc., and exposes `OutputProperty` accessors that the palette uses to read and revise individual inputs (color, place, rotation, …).
+
+When a user types, the editor builds a new `Caret`, asks `PossibleEdits` for the available `Revision`s, builds a `Menu`, and applies the selected revision back to the project. Dragging and palette edits skip the menu but follow the same immutable revision pattern.
+
+### Blocks editor
+
+Blocks mode is an alternative visual rendering of the same AST, toggled by the `$blocks` setting. It is not a separate editor: the same `Editor.svelte` and the same node views are reused, with a `Format.block` flag propagated through the view hierarchy. When `format.block` is true, node views render as nested visual blocks with rounded outlines; when false, they render the standard text syntax. Both modes share caret, menu, drag, and palette edits, so any transformation works in either mode.
+
+The dedicated files in [src/components/editor/blocks/](https://github.com/wordplaydev/wordplay/tree/main/src/components/editor/blocks) are small: `Flow.svelte` is a flex-layout primitive for arranging block children, and `EmptyView.svelte` renders localized placeholders (via `FieldInfo.label()`) for empty optional fields, with menu triggers for inserting a child. Drag-and-drop is fully supported in blocks mode but disabled when the editor is read-only.
 
 ### Conflicts and resolutions
 
@@ -162,6 +196,14 @@ Most documentation is written in `Locale`, as all of it needs to be localized. B
 ### Project View
 
 [ProjectView.svelte](https://github.com/wordplaydev/wordplay/blob/main/src/components/project/ProjectView.svelte) defines a set of [Tile](https://github.com/wordplaydev/wordplay/blob/main/src/components/project/Tile.ts) that represent source files, documentation windows, palettes, output, and other project-level settings. It's basically a window manager and global context store. It also reacts to project revisions, pushing the revised project down to its views to update its appearance. It relies heavily on Svelte to make these updates minimal and fast.
+
+### Tutorial and Lore
+
+Wordplay ships with an in-app tutorial that uses language constructs themselves as characters in a guided story.
+
+The tutorial is structured as a small theatrical hierarchy in [Tutorial.ts](https://github.com/wordplaydev/wordplay/blob/main/src/tutorial/Tutorial.ts): a `Tutorial` contains `Act`s, each act contains `Scene`s, and each scene contains `Line`s — a `Dialog` (a character speaking with an `Emotion`), a `Performance` (an embedded Wordplay snippet), or a pause. Lesson content lives in `static/locales/<locale>/<locale>-tutorial.json`. [Performances.ts](https://github.com/wordplaydev/wordplay/blob/main/src/tutorial/Performances.ts) is a library of canned Wordplay programs the scenes reference by name (e.g., `RainingEmoji`, `EvaluateDance*`). [Progress.ts](https://github.com/wordplaydev/wordplay/blob/main/src/tutorial/Progress.ts) models the learner's `(act, scene, pause)` position and is persisted as a `TutorialProgressSetting` in the settings database; URLs like `/learn?act=1&scene=2&pause=3` map back to a Progress. The UI is rendered by [TutorialView.svelte](https://github.com/wordplaydev/wordplay/blob/main/src/components/app/TutorialView.svelte).
+
+The cast of characters is defined in [src/lore/](https://github.com/wordplaydev/wordplay/tree/main/src/lore). [BasisCharacters.ts](https://github.com/wordplaydev/wordplay/blob/main/src/lore/BasisCharacters.ts) maps language construct names (parentheses, keywords, operators, types, …) to `BasisCharacter` records, each with the symbol the character uses on stage. [Emotion.ts](https://github.com/wordplaydev/wordplay/blob/main/src/lore/Emotion.ts) enumerates the emotional states a character can be in. The components in [src/components/lore/](https://github.com/wordplaydev/wordplay/tree/main/src/components/lore) — chiefly `Speech.svelte` and `Eyes.svelte` — render a character speaking, animating the eyes to match the supplied `Emotion`. The "conflict" terminology used earlier is part of this same metaphor: language constructs are the cast, and disagreements between them are dramatic conflicts.
 
 ## Immutability
 
