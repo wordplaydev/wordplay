@@ -144,11 +144,26 @@
         animation-duration: calc(var(--animation-factor) * 1s);
     }
 
-    /* Make the text legible inside animating nodes */
+    /* In blocks mode, the SVG fill would be hidden behind the block's own
+       opaque background, so we treat animating differently: outline the
+       block in the evaluation color and animate the block itself with the
+       same shift. The text inside keeps its normal color (the SVG isn't
+       visible in this mode, so making text white would just be unreadable). */
+    :global(.node-view.block.animating) {
+        box-shadow: 0 0 0 var(--wordplay-focus-width)
+            var(--wordplay-evaluation-color);
+        animation: shift ease-in-out infinite;
+        animation-duration: calc(var(--animation-factor) * 1s);
+    }
+
+    /* Make the text legible inside animating/evaluating/dragging nodes —
+       only in text mode (i.e. NOT inside .block), where the pink SVG fill
+       is what's behind the text. In blocks mode the block keeps its normal
+       fill and the text should keep its normal color too. */
     :global(
-        .node-view.evaluating .token-view,
-        .node-view.animating .token-view,
-        .node-view.dragging .token-view
+        .node-view:not(.block).evaluating .token-view,
+        .node-view:not(.block).animating .token-view,
+        .node-view:not(.block).dragging .token-view
     ) {
         color: var(--wordplay-background) !important;
     }
