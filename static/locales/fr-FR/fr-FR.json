@@ -1656,7 +1656,7 @@
         },
         "UnknownType": {
             "name": "$~inconnu",
-            "description": "$~représente un type indéterminé",
+            "description": "$~inconnu",
             "connector": "$~, parce que",
             "emotion": "$?",
             "doc": "$~Euh... Je ne sais pas ce que je représente, mais je suis vraiment curieuse. Le savez-vous ? Il semblerait que nous devrions le savoir. Vous devrez peut-être nous le dire si nous ne parvenons pas à le comprendre."
@@ -1693,7 +1693,7 @@
         },
         "UnknownNameType": {
             "name": "$~nominconnu",
-            "description": "$~marque $1[$1 comme indéfini|nom non fourni]",
+            "description": "$~$1[$1 n'est pas encore défini|le nom n'est pas donné]",
             "emotion": "$?",
             "doc": "$~Vous savez comment parfois @Reference et @PropertyReference ne connaissent pas le nom dont vous parlez ? Je suis là quand cela arrive, pour vous montrer que nous ne savons pas de qui vous parlez."
         },
@@ -4906,6 +4906,14 @@
                         "$~types de données, conversions et vérifications de type",
                         "$~documentation et commentaires",
                         "$~concepts linguistiques avancés"
+                    ]
+                },
+                "howToFilter": {
+                    "label": "$~tutoriels créés par les utilisateurs",
+                    "labels": ["$~tous", "$~galerie et signets"],
+                    "tips": [
+                        "$~Voir tous les tutoriels créés par les utilisateurs",
+                        "$~Afficher uniquement les tutoriels créés par les utilisateurs dans la galerie de ce projet et tous les favoris."
                     ]
                 }
             },

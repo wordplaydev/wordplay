@@ -477,7 +477,7 @@
                 const outputView =
                     output === stageValue
                         ? valueView
-                        : document.querySelector(
+                        : valueView?.querySelector(
                               `[data-id="${output.getHTMLID()}"]`,
                           );
                 // Couldn't find the view? Move on to the next one.

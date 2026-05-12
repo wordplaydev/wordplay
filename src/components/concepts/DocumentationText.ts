@@ -54,6 +54,8 @@ type DocumentationText = {
                 string,
             ]
         >;
+        /** Toggle between seeing all user-created how-tos or only those in the project's gallery */
+        howToFilter: ModeText<[string, string]>;
     };
     header: {
         /** Names header */

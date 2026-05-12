@@ -5157,6 +5157,14 @@
                         "documentation and comments",
                         "advanced language concepts"
                     ]
+                },
+                "howToFilter": {
+                    "label": "user-created how-tos",
+                    "labels": ["all", "gallery & bookmarks"],
+                    "tips": [
+                        "see all user-created how-tos",
+                        "see only the user-created how-tos from this project's gallery and all bookmarks"
+                    ]
                 }
             },
             "note": {

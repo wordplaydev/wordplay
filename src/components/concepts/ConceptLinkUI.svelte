@@ -1,7 +1,17 @@
 <script lang="ts">
     import Link from '@components/app/Link.svelte';
+    import TutorialHighlight from '@components/app/TutorialHighlight.svelte';
     import CharacterView from '@components/output/CharacterView.svelte';
+    import {
+        getConceptIndex,
+        getConceptPath,
+        getUser,
+    } from '@components/project/Contexts';
+    import Button from '@components/widgets/Button.svelte';
     import Concept from '@concepts/Concept';
+    import GalleryHowConcept from '@concepts/GalleryHowConcept';
+    import { locales } from '@db/Database';
+    import ConceptRef from '@locale/ConceptRef';
     import ConceptLink, {
         CharacterName,
         CodepointName,
@@ -9,12 +19,8 @@
         HowToName,
         UIName,
     } from '@nodes/ConceptLink';
-    import { locales } from '@db/Database';
-    import ConceptRef from '@locale/ConceptRef';
     import { withMonoEmoji } from '@unicode/emoji';
-    import TutorialHighlight from '@components/app/TutorialHighlight.svelte';
-    import { getConceptIndex, getConceptPath } from '@components/project/Contexts';
-    import Button from '@components/widgets/Button.svelte';
+    import MarkupHTMLView from './MarkupHTMLView.svelte';
 
     interface Props {
         link: ConceptRef | ConceptLink | Concept | string;
@@ -135,6 +141,12 @@
             : undefined,
     );
 
+    let isConceptGalleryHow: boolean = $derived(
+        concept instanceof GalleryHowConcept,
+    );
+
+    let user = getUser();
+
     let longName: string = $derived(concept?.getName($locales, false) ?? '');
     let symbolicName: string = $derived(concept?.getName($locales, true) ?? '');
 
@@ -166,6 +178,9 @@
 </script>
 
 {#if concept}
+    {#if isConceptGalleryHow && (concept as GalleryHowConcept).howTo.hasBookmarker($user?.uid ?? '')}
+        <MarkupHTMLView inline markup={'🔖'} />
+    {/if}
     <Button
         padding={false}
         action={navigate}
