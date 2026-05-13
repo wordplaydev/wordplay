@@ -1,22 +1,20 @@
 <script lang="ts">
     import { dev } from '$app/environment';
     import { Faces, getFaceDescription } from '@basis/Fonts';
+    import CreatorView from '@components/app/CreatorView.svelte';
     import Feedback from '@components/app/Feedback.svelte';
+    import Link from '@components/app/Link.svelte';
+    import Status from '@components/app/Status.svelte';
+    import { getLocalizing, getUser } from '@components/project/Contexts';
     import { LayoutIcons } from '@components/project/Layout';
+    import FaceName from '@components/settings/FaceName.svelte';
+    import LocaleChooser from '@components/settings/LocaleChooser.svelte';
+    import Notifications from '@components/settings/Notifications.svelte';
+    import Dialog from '@components/widgets/Dialog.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
+    import Mode from '@components/widgets/Mode.svelte';
+    import Options from '@components/widgets/Options.svelte';
     import Toggle from '@components/widgets/Toggle.svelte';
-    import {
-        AnimationFactorIcons,
-        AnimationFactors,
-    } from '@db/settings/AnimationFactorSetting';
-    import { FaceSetting } from '@db/settings/FaceSetting';
-    import {
-        BLOCK_EDITING_SYMBOL,
-        CANCEL_SYMBOL,
-        CONFIRM_SYMBOL,
-        TEXT_EDITING_SYMBOL,
-    } from '@parser/Symbols';
-    import { onMount } from 'svelte';
     import { Creator } from '@db/creators/CreatorDatabase';
     import {
         animationFactor,
@@ -32,17 +30,19 @@
         spaceIndicator,
         voice,
     } from '@db/Database';
+    import {
+        AnimationFactorIcons,
+        AnimationFactors,
+    } from '@db/settings/AnimationFactorSetting';
     import { Arrangement } from '@db/settings/Arrangement';
-    import CreatorView from '@components/app/CreatorView.svelte';
-    import Link from '@components/app/Link.svelte';
-    import Status from '@components/app/Status.svelte';
-    import { getLocalizing, getUser } from '@components/project/Contexts';
-    import Dialog from '@components/widgets/Dialog.svelte';
-    import Mode from '@components/widgets/Mode.svelte';
-    import Options from '@components/widgets/Options.svelte';
-    import FaceName from '@components/settings/FaceName.svelte';
-    import LocaleChooser from '@components/settings/LocaleChooser.svelte';
-    import Notifications from '@components/settings/Notifications.svelte';
+    import { FaceSetting } from '@db/settings/FaceSetting';
+    import {
+        BLOCK_EDITING_SYMBOL,
+        CANCEL_SYMBOL,
+        CONFIRM_SYMBOL,
+        TEXT_EDITING_SYMBOL,
+    } from '@parser/Symbols';
+    import { onMount } from 'svelte';
 
     let user = getUser();
 
@@ -89,25 +89,6 @@
 </script>
 
 <div class="settings">
-    <Status />
-    <Link nowrap to="/login">
-        <CreatorView
-            anonymize={false}
-            creator={$user ? Creator.from($user) : null}
-            chrome={$user !== null}
-            prompt
-        />
-    </Link>
-    <Notifications />
-    {#if dev}
-        <Toggle
-            on={localizing.on}
-            tips={(l) => l.ui.localize.toggle.mode}
-            toggle={() => (localizing.on = !localizing.on)}>✎</Toggle
-        >
-    {/if}
-    <LocaleChooser />
-    <Feedback />
     <Dialog
         button={{
             tip: (l) => l.ui.dialog.settings.button.show,
@@ -306,8 +287,7 @@
             {#if $blocks}
                 <div class="indented">
                     <Mode
-                        modes={(l) =>
-                            l.ui.dialog.settings.mode.blockDensity}
+                        modes={(l) => l.ui.dialog.settings.mode.blockDensity}
                         choice={$blockDensity === 'compact'
                             ? 0
                             : $blockDensity === 'spacious'
@@ -345,6 +325,25 @@
             </div>
         </div>
     </Dialog>
+    {#if dev}
+        <Toggle
+            on={localizing.on}
+            tips={(l) => l.ui.localize.toggle.mode}
+            toggle={() => (localizing.on = !localizing.on)}>✎</Toggle
+        >
+    {/if}
+    <LocaleChooser />
+    <Feedback />
+    <Notifications />
+    <Link nowrap to="/login">
+        <CreatorView
+            anonymize={false}
+            creator={$user ? Creator.from($user) : null}
+            chrome={$user !== null}
+            prompt
+        />
+    </Link>
+    <Status />
 </div>
 
 <style>
