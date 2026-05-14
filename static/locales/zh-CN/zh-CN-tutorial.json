@@ -395,7 +395,7 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "就这样，@ExpressionPlaceholder 被其他角色替换了。我把所有内容都说清楚了吗，@ExpressionPlaceholder？"
+                            "如此这般，@ExpressionPlaceholder 被成功其他角色替换了。我把所有内容都说明白了吗，@ExpressionPlaceholder？"
                         ],
                         [
                             "ExpressionPlaceholder",
@@ -422,13 +422,13 @@
                         [
                             "FunctionDefinition",
                             "cheerful",
-                            "它们不喜欢在舞台上，甚至不喜欢在节目中呆很长时间。它们永远不会承认这一点，但它们确实是蛮重要的，因为大多数导演没有它们就无法工作。 想象一下，它就像一位乐于助人的舞台工作人员，会提醒你尚未弄清楚的事情。"
+                            "它们不喜欢在舞台上或者节目中呆很久。虽然他们为人谦逊，但它们确实很重要，因为大多数导演没有它们就无法工作。 想象一下，它就像一位乐于助人的舞台工作人员，会提醒你尚未弄清楚的事情。"
                         ]
                     ]
                 },
                 {
-                    "title": "再说一遍？",
-                    "subtitle": "无法解析",
+                    "title": "请重复一遍？",
+                    "subtitle": "难以解析的乱码",
                     "concept": "UnparsableExpression",
                     "performance": [
                         "use",
@@ -457,7 +457,7 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "我也很高兴见到你！ 已经过去这么久了。 在这一切的沉默中你在做什么？"
+                            "好久不见呀！我也很高兴见到你！这一段沉默的时间里你在做些什么？"
                         ],
                         [
                             "UnparsableExpression",
@@ -467,7 +467,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "（听起来你们在海滩上度过了很多时间。你们结识了一些新朋友，并练习什么都不做。）"
+                            "（听起来他们在海滩上度过了很长一段时光。他们结识了一些新朋友，但是一直以来都无所事事。）"
                         ],
                         null,
                         [
@@ -479,7 +479,7 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "我想向你介绍我们潜在的新导演。 它们刚刚抵达并正在学习基础知识。 我刚刚向它们介绍了@Program 和@ExpressionPlaceholder."
+                            "我想向你介绍我们的新实习导演。他/她刚来这儿，正在学习基础知识。我刚刚向他/她介绍了@Program 和@ExpressionPlaceholder."
                         ],
                         [
                             "UnparsableExpression",
@@ -489,7 +489,7 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "（它们只是说见到你真是太棒了，它们认为你会成为一名伟大的导演。）"
+                            "（它们只是在说，见到你真是太棒了，它们认为你会成为一名很棒的导演！）"
                         ],
                         null,
                         [
@@ -501,7 +501,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "我想知道你是否想解释一下你是做什么的？ 我可以翻译。"
+                            "你想不想解释一下你是做什么的？ 我可以做翻译。"
                         ],
                         [
                             "UnparsableExpression",
@@ -526,7 +526,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "（例如，尝试输入 \\][\\。看到我们完全困惑了吗？我想在这里说这没有任何意义。）"
+                            "（比如，试着输入 \\][\\。怎么样？是不是很难在不造成冲突的情况下输入这些文字？因为如果你在用方块🖱️输入，我们就没法让你输入这个\\]\\。而当你以文字的方式输入，又会造成冲突。）"
                         ],
                         null,
                         [
@@ -541,7 +541,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "（当我出现时，这意味着我们不知道你想表达的意思。）"
+                            "（当我出现时，就代表着我们不理解你的意图。）"
                         ],
                         null,
                         [
@@ -551,8 +551,8 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "谢谢 @UnparsableExpression!",
-                            "就像它们说的，当你说了一些我们不明白的事情时，不可解析的出现就是等于“我们不明白”。 当这种情况发生时，我希望我们能帮上更多的忙，但我们经常有点迟钝，所以不太擅长猜测你的意思。"
+                            "谢谢你，@UnparsableExpression!",
+                            "就像它们说的，当你说了一些难以理喻的事情时，不可解析的出现就是代表着“我们不明白”。 当这种情况发生时，我希望我们能帮上更多的忙，但我们经常会些许迟钝，所以不太擅长猜测你的意思。"
                         ],
                         null,
                         [
@@ -563,7 +563,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "所以，@UnparsableExpression 希望你尝试制作尽可能多的它们。 （你可以通过按键混合一堆随机字符，你可能会得到很多）。"
+                            "所以，@UnparsableExpression 希望你尝试尽可能地制造它们。 （你可以在键盘上大肆喧泄，你可能会得到更多@UnparsableExpression）。"
                         ],
                         [
                             "edit",
@@ -578,7 +578,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "它们真的很喜欢，谢谢！ 写出一些我们真正无法理解的东西是非常困难的。 但这并不意味着你写的所有内容都有意义。 例如，我很确定你只是输入了一堆随机单词。 但这代表什么意义呢？"
+                            "它们真的很开心，谢谢你！ 写出一些我们真正无法理解的东西是非常困难的。 但这并不意味着你写的所有内容都有意义。 有时候，我很确定你只是输入了一堆随机单词。但这意味着什么呢？"
                         ],
                         [
                             "UnparsableExpression",
@@ -594,13 +594,13 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "它们想知道你是否对表演有什么想法。"
+                            "它们想知道你对表演有什么想法。"
                         ],
                         null,
                         [
                             "FunctionDefinition",
                             "kind",
-                            "没有想法？ 没关系。 我们才刚刚开始向你展示可能性。 让我们去见见@Evaluate。 再见无法解析，很高兴见到你们！ 我们晚点一起玩。"
+                            "没有想法？没关系的。 我们才刚刚开始向你展示冰山的一角。 让我们去见见@Evaluate。 再见@UnparsableExpression，很高兴见到你们！ 我们晚点再一起玩儿。"
                         ],
                         [
                             "UnparsableExpression",
