@@ -21,6 +21,8 @@ type PageText = {
         newgallery: string;
         /** Button for showing more galleries */
         more: ButtonText;
+        /** Button for collapsing galleries back to initial count */
+        less: ButtonText;
     };
     /** Error messages on the galleries page */
     error: {
