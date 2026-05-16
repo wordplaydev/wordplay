@@ -9,6 +9,7 @@ import FormattedLiteral from '@nodes/FormattedLiteral';
 import FormattedTranslation from '@nodes/FormattedTranslation';
 import Input from '@nodes/Input';
 import Language from '@nodes/Language';
+import Markup from '@nodes/Markup';
 import Names from '@nodes/Names';
 import Reference from '@nodes/Reference';
 import type Source from '@nodes/Source';
@@ -23,6 +24,24 @@ import type Project from '@db/projects/Project';
 
 // Convert any camel cased word into space separated words.
 const SeparateWords = /[A-Z-_](?=[a-z0-9]+)|[A-Z-_]+(?![a-z0-9])/g;
+
+/**
+ * Doc.make() and FormattedTranslation.make() build their inner Markup with
+ * no Spaces, but the stage renderer ([MarkupHTMLView](src/components/concepts/MarkupHTMLView.svelte))
+ * falls back to "unable to render markup without spaces" when that field is
+ * undefined. We reattach computed spaces here so the translated Doc /
+ * FormattedTranslation render the same way the original source-parsed one
+ * does. Same pattern as the source-level `getPreferredSpaces` call below.
+ */
+function withFormattedMarkupSpaces<T extends Doc | FormattedTranslation>(
+    node: T,
+): T {
+    const inner = node.markup;
+    return node.replace(
+        inner,
+        new Markup(inner.paragraphs, getPreferredSpaces(inner)),
+    ) as T;
+}
 
 /** Given a reference to Firebase functions, a project, and a target language, translate the project's names, documentation, and text literals
  * using a combination of the text already in the project and translations from Google's Translate API. Subsequent calls the project should
@@ -365,15 +384,19 @@ export default async function translateProject(
                           )
                         : markups instanceof Docs
                           ? markups.withOption(
-                                Doc.make(
-                                    markup.paragraphs,
-                                    Language.make(targetLanguage),
+                                withFormattedMarkupSpaces(
+                                    Doc.make(
+                                        markup.paragraphs,
+                                        Language.make(targetLanguage),
+                                    ),
                                 ),
                             )
                           : markups.withOption(
-                                FormattedTranslation.make(
-                                    markup.paragraphs,
-                                    Language.make(targetLanguage),
+                                withFormattedMarkupSpaces(
+                                    FormattedTranslation.make(
+                                        markup.paragraphs,
+                                        Language.make(targetLanguage),
+                                    ),
                                 ),
                             ),
                 ];
