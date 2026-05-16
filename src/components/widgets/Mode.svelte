@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { getTip } from '@components/project/Contexts';
+    import { getLocalizing, getTip } from '@components/project/Contexts';
     import { locales } from '@db/Database';
     import type LocaleText from '@locale/LocaleText';
     import type { ModeText } from '@locale/UITexts';
@@ -44,6 +44,11 @@
     let label = $derived(withoutAnnotations(modeText.label));
 
     let hint = getTip();
+    let localizing = getLocalizing();
+    // Per-index edit state so we can hide a mode button's tip badge while its
+    // label is being edited (and vice versa).
+    let labelEditing = $state<Record<number, boolean>>({});
+    let tipEditing = $state<Record<number, boolean>>({});
     function showTip(view: HTMLButtonElement, tip: string) {
         hint.show(tip, view);
     }
@@ -111,9 +116,16 @@
                     {#if icons}{#if index < icons.length}{withMonoEmoji(
                                 icons[index],
                             )}{:else}?{/if}{/if}
-                    {#if modeLabels}<LocalizedText
+                    {#if modeLabels && !tipEditing[index]}<LocalizedText
                             path={modes}
                             extras={['labels', index]}
+                            onEditingChange={(e) =>
+                                (labelEditing[index] = e)}
+                        />{/if}{#if localizing?.on && !labelEditing[index]}<LocalizedText
+                            path={modes}
+                            extras={['tips', index]}
+                            tipIcon
+                            onEditingChange={(e) => (tipEditing[index] = e)}
                         />{/if}
                 </button>
             {/if}

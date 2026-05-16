@@ -1110,6 +1110,8 @@ type UITexts = {
         button: {
             /** [plain] Tooltip for the button that opens text editing */
             edit: string;
+            /** [plain] Tooltip for the button that opens editing of a tooltip (the tip-icon badge attached to widgets without a visible label) */
+            editTip: string;
             /** [plain] Tooltip for the button that submits the suggested edit */
             submit: string;
             /** [plain] Tooltip for the button that cancels the suggested edit */

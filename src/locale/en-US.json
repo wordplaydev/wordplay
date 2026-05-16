@@ -5786,6 +5786,7 @@
             },
             "button": {
                 "edit": "Suggest an edit to this text",
+                "editTip": "Suggest an edit to this control's tooltip",
                 "submit": "Submit suggested edit",
                 "cancel": "Discard suggested edit",
                 "revert": "Revert to official text",

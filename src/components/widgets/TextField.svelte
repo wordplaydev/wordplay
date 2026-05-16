@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { getLocalizing } from '@components/project/Contexts';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import { locales } from '@db/Database';
     import type { LocaleTextAccessor } from '@locale/Locales';
@@ -39,6 +40,11 @@
         id: string;
         /** Whether to put validation messages inline instead of floating */
         inlineValidation?: boolean;
+        /** Suppress the auto-injected description tip-edit badge that normally appears
+         *  in localizing mode. Set to true when embedding this TextField inside another
+         *  localization editor (e.g., LocalizedText's own inline editor uses TextField
+         *  internally, and the nested badge would be redundant). */
+        noTipBadge?: boolean;
     }
 
     let {
@@ -62,6 +68,7 @@
         kind = undefined,
         max = undefined,
         inlineValidation = false,
+        noTipBadge = false,
     }: Props = $props();
 
     let width = $state(0);
@@ -73,6 +80,7 @@
             : $locales.getPlainText(placeholder),
     );
     let savingDone = $state<false | undefined | true>(false);
+    let localizing = getLocalizing();
 
     let timeout: NodeJS.Timeout | undefined = undefined;
 
@@ -149,63 +157,83 @@
     });
 </script>
 
-<div class="field" class:fill class:focused class:inline={inlineValidation}>
-    <input
-        type="text"
-        class={classes?.join(' ')}
-        class:border
-        class:right
-        {id}
-        data-id={id}
-        data-testid={id}
-        data-defaultfocus={defaultFocus ? '' : null}
-        class:error={typeof message === 'function'}
-        aria-label={title}
-        aria-placeholder={placeholderText}
-        placeholder={withMonoEmoji(placeholderText)}
-        aria-invalid={typeof message === 'function'}
-        aria-describedby="{id}-error"
-        style:width={fill ? null : `${width + 5}px`}
-        style:max-width={max}
-        disabled={!editable}
-        bind:value={text}
-        bind:this={view}
-        oninput={handleInput}
-        onkeydown={handleKeyDown}
-        onpointerdown={(event) => event.stopPropagation()}
-        onblur={async () => {
-            focused = false;
-            blur?.();
-            if (done) {
-                savingDone = undefined;
-                await done(text);
-                savingDone = true;
-                setTimeout(() => {
-                    savingDone = false;
-                }, 1500);
-            }
-        }}
-        onfocus={() => { focused = true; focus?.(); }}
-    />
-    <span class="measurer" bind:clientWidth={width}
-        >{text.length === 0
-            ? placeholderText
-            : kind === 'password'
-              ? '•'.repeat(text.length)
-              : text.replaceAll(' ', '\xa0')}</span
-    >
-    {#if typeof message === 'function'}
-        <div class="message" class:inline={inlineValidation} id="{id}-error"
-            ><LocalizedText path={message} /></div
+<div class="field-group" class:fill>
+    <div class="field" class:fill class:focused class:inline={inlineValidation}>
+        <input
+            type="text"
+            class={classes?.join(' ')}
+            class:border
+            class:right
+            {id}
+            data-id={id}
+            data-testid={id}
+            data-defaultfocus={defaultFocus ? '' : null}
+            class:error={typeof message === 'function'}
+            aria-label={title}
+            aria-placeholder={placeholderText}
+            placeholder={withMonoEmoji(placeholderText)}
+            aria-invalid={typeof message === 'function'}
+            aria-describedby="{id}-error"
+            style:width={fill ? null : `${width + 5}px`}
+            style:max-width={max}
+            disabled={!editable}
+            bind:value={text}
+            bind:this={view}
+            oninput={handleInput}
+            onkeydown={handleKeyDown}
+            onpointerdown={(event) => event.stopPropagation()}
+            onblur={async () => {
+                focused = false;
+                blur?.();
+                if (done) {
+                    savingDone = undefined;
+                    await done(text);
+                    savingDone = true;
+                    setTimeout(() => {
+                        savingDone = false;
+                    }, 1500);
+                }
+            }}
+            onfocus={() => { focused = true; focus?.(); }}
+        />
+        <span class="measurer" bind:clientWidth={width}
+            >{text.length === 0
+                ? placeholderText
+                : kind === 'password'
+                  ? '•'.repeat(text.length)
+                  : text.replaceAll(' ', '\xa0')}</span
         >
-    {/if}
-    {#if savingDone !== false}
-        <div class="done"
-            >{#if savingDone === undefined}…{:else if savingDone === true}{CONFIRM_SYMBOL}{/if}</div
-        >{/if}
+        {#if typeof message === 'function'}
+            <div class="message" class:inline={inlineValidation} id="{id}-error"
+                ><LocalizedText path={message} /></div
+            >
+        {/if}
+        {#if savingDone !== false}
+            <div class="done"
+                >{#if savingDone === undefined}…{:else if savingDone === true}{CONFIRM_SYMBOL}{/if}</div
+            >{/if}
+    </div>
+    {#if localizing?.on && !noTipBadge}<LocalizedText
+            path={description}
+            tipIcon
+        />{/if}
 </div>
 
 <style>
+    /* Wraps the input field and its localizing tip badge. Becomes a wrappable
+       flex row so the inline tip editor, when expanded, can break to a new line
+       (growing the wrapper's height) instead of overlapping the next form field. */
+    .field-group {
+        display: inline-flex;
+        flex-wrap: wrap;
+        align-items: baseline;
+        gap: var(--wordplay-spacing-half);
+    }
+
+    .field-group.fill {
+        width: 100%;
+    }
+
     .field {
         display: inline-block;
         position: relative;

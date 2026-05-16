@@ -335,6 +335,7 @@
                     id="localize-mt-field"
                     description={(l) => l.ui.localize.field.plain.description}
                     placeholder={(l) => l.ui.localize.field.plain.placeholder}
+                    noTipBadge
                     bind:text={editedText}
                     fill
                 />
@@ -356,6 +357,7 @@
                         isName(text) || text === ''
                             ? true
                             : (l) => l.ui.localize.invalidName}
+                    noTipBadge
                     bind:text={editedText}
                     fill
                 />

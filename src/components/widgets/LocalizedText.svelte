@@ -4,21 +4,30 @@
 </script>
 
 <script lang="ts">
-    import MachineTranslatedAnnotation from '@components/app/MachineTranslatedAnnotation.svelte';
     import LocallyRevisedAnnotation from '@components/app/LocallyRevisedAnnotation.svelte';
+    import MachineTranslatedAnnotation from '@components/app/MachineTranslatedAnnotation.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
+    import { accessorToLocalePath } from '@components/localization/accessorToLocalePath';
     import { getLocalizing } from '@components/project/Contexts';
     import Button from '@components/widgets/Button.svelte';
     import TextField from '@components/widgets/TextField.svelte';
     import { locales } from '@db/Database';
-    import type LocaleText from '@locale/LocaleText';
+    import {
+        deleteLocaleEdit,
+        localeEdits,
+        saveLocaleEdit,
+    } from '@db/locales/LocalizationDexie';
     import type { LocaleTextAccessor } from '@locale/Locales';
+    import type LocaleText from '@locale/LocaleText';
     import { isMachineTranslated } from '@locale/LocaleText';
     import { withoutAnnotations } from '@locale/withoutAnnotations';
-    import { CANCEL_SYMBOL, CONFIRM_SYMBOL, REVERT_SYMBOL } from '@parser/Symbols';
+    import {
+        CANCEL_SYMBOL,
+        CONFIRM_SYMBOL,
+        REVERT_SYMBOL,
+        TOOLTIP_SYMBOL,
+    } from '@parser/Symbols';
     import { tick } from 'svelte';
-    import { accessorToLocalePath } from '@components/localization/accessorToLocalePath';
-    import { localeEdits, saveLocaleEdit, deleteLocaleEdit } from '@db/locales/LocalizationDexie';
 
     interface Props {
         /** A property-access accessor on the locale tree. Must be a literal `(l) => l.a.b.c`
@@ -29,9 +38,23 @@
         /** Trailing path segments applied after `path` resolves. Used to address a sub-field
          *  (string) or an element of a fixed-length tuple (e.g., ['labels', 0]). */
         extras?: (string | number)[];
+        /** When true, the salient button renders a 💭 tooltip icon instead of the resolved
+         *  text. Use for tip-only editors (e.g., a tip on an icon-only button or unlabeled control)
+         *  so the visible affordance signals "edit this tip" rather than displaying the tip text. */
+        tipIcon?: boolean;
+        /** Called when the inline editor opens or closes. Parents that render a pair of
+         *  LocalizedTexts (e.g., a Button with both a label and a tip) can use this to hide
+         *  the sibling while one is being edited. */
+        onEditingChange?: (editing: boolean) => void;
     }
 
-    let { path, markup = false, extras = [] }: Props = $props();
+    let {
+        path,
+        markup = false,
+        extras = [],
+        tipIcon = false,
+        onEditingChange,
+    }: Props = $props();
 
     const fieldId = `localize-field-${idCounter++}`;
 
@@ -45,11 +68,16 @@
         return node;
     }
 
-    const text = $derived(((): string => {
-        const value = walk($locales.getWithAnnotations(path), extras);
+    function resolveString(
+        accessor: (locale: LocaleText) => unknown,
+        segments: (string | number)[],
+    ): string {
+        const value = walk($locales.getWithAnnotations(accessor), segments);
         return typeof value === 'string' ? value : '';
-    })());
+    }
 
+    // The text this slot represents (path + extras → string).
+    const text = $derived(resolveString(path, extras));
     const isMT = $derived(isMachineTranslated(text));
     const withoutAnnotationsText = $derived(withoutAnnotations(text));
 
@@ -58,6 +86,11 @@
     let editedText = $state('');
     let fieldView = $state<HTMLInputElement | undefined>(undefined);
     let cancelled = false;
+
+    // Notify parents whenever editing state flips, so they can hide a sibling LocalizedText.
+    $effect(() => {
+        onEditingChange?.(editing);
+    });
 
     let localePath = $derived(accessorToLocalePath(path, ...extras));
     let override = $derived($localeEdits.get(localePath?.toString() ?? ''));
@@ -90,6 +123,8 @@
 {#if localizing?.on}
     <span
         class="localized-wrapper"
+        class:tip-badge={tipIcon && !editing}
+        class:editing
         role="none"
         onclick={(e) => {
             e.stopPropagation();
@@ -102,10 +137,11 @@
                 id={fieldId}
                 description={(l) => l.ui.localize.field.plain.description}
                 placeholder={(l) => l.ui.localize.field.plain.placeholder}
+                max="6em"
+                noTipBadge
                 bind:text={editedText}
                 bind:view={fieldView}
-                focus={() =>
-                    (localizing.focused = path as LocaleTextAccessor)}
+                focus={() => (localizing.focused = path as LocaleTextAccessor)}
                 blur={() => (localizing.focused = undefined)}
                 done={() => {
                     if (cancelled) {
@@ -115,7 +151,8 @@
                     }
                     editing = false;
                 }}
-            /><span class="edit-actions"><Button
+            /><span class="edit-actions"
+                ><Button
                     tip={(l) => l.ui.localize.button.submit}
                     action={() => {
                         commitEdit(editedText);
@@ -142,13 +179,17 @@
             >
         {:else}
             <Button
-                tip={(l) => l.ui.localize.button.edit}
+                tip={tipIcon
+                    ? (l) => l.ui.localize.button.editTip
+                    : (l) => l.ui.localize.button.edit}
                 action={startEditing}
                 padding={false}
                 background="salient"
                 size="inherit"
-                >{override ?? withoutAnnotationsText}{#if isMT && !override}<MachineTranslatedAnnotation
-                    />{/if}{#if override}<LocallyRevisedAnnotation />{/if}</Button
+                >{#if tipIcon}{TOOLTIP_SYMBOL}{:else}{override ??
+                        withoutAnnotationsText}{/if}{#if isMT && !override}<MachineTranslatedAnnotation
+                    />{/if}{#if override}<LocallyRevisedAnnotation
+                    />{/if}</Button
             >
         {/if}
     </span>
@@ -165,6 +206,19 @@
         display: inline;
     }
 
+    /* When the inline editor is open, take a full block-level row of space.
+       Becoming block-level (not inline-flex) guarantees the parent widget's height
+       grows to fit the editor and its action buttons, instead of overflowing below
+       and overlapping the next form field. */
+    .localized-wrapper.editing {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: var(--wordplay-spacing-half);
+        width: 100%;
+        margin-block: var(--wordplay-spacing-half);
+    }
+
     span.edit-actions {
         display: inline-flex;
         gap: var(--wordplay-spacing);
@@ -179,5 +233,22 @@
         text-overflow: ellipsis;
         white-space: nowrap;
         vertical-align: bottom;
+    }
+
+    /* Tip-icon badge: a small affordance attached to widgets without a visible
+       label. Override Button's widget-sized defaults so the badge fits into
+       toolbars, form rows, and inline flows without dominating the layout. */
+    .localized-wrapper.tip-badge {
+        display: inline-flex;
+        vertical-align: middle;
+    }
+
+    .localized-wrapper.tip-badge :global(button) {
+        font-size: var(--wordplay-small-font-size);
+        line-height: 1;
+        min-height: 0;
+        min-width: 0;
+        padding: 0 var(--wordplay-spacing-half);
+        vertical-align: middle;
     }
 </style>

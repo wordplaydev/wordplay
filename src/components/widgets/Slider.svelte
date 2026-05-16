@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { getTip } from '@components/project/Contexts';
+    import { getLocalizing, getTip } from '@components/project/Contexts';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import { locales } from '@db/Database';
     import type { LocaleTextAccessor } from '@locale/Locales';
@@ -54,6 +54,7 @@
     }
 
     let hint = getTip();
+    let localizing = getLocalizing();
     function showTip() {
         if (view) hint.show(tooltip, view);
     }
@@ -105,6 +106,7 @@
             ) + unit}
         {/if}
     </div>
+    {#if localizing?.on}<LocalizedText path={tip} tipIcon />{/if}
 </div>
 
 <style>
