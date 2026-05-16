@@ -246,7 +246,7 @@
     }
 
     .salient {
-        background: var(--wordplay-highlight-color);
+        background: var(--color-yellow-transparent);
     }
 
     [aria-disabled='true'] {

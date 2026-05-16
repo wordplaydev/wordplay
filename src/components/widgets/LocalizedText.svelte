@@ -146,5 +146,12 @@
 
     .localized-wrapper :global(button) {
         font-weight: inherit;
+        max-width: 100%;
+        min-width: 0;
+        flex-shrink: 1;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        vertical-align: bottom;
     }
 </style>
