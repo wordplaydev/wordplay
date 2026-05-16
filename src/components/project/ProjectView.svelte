@@ -13,7 +13,10 @@
     import Documentation from '@components/concepts/Documentation.svelte';
     import {
         handleKeyCommand,
+        Pause,
+        Play,
         Restart,
+        toShortcut,
         VisibleModifyCommands,
         VisibleNavigateCommands,
         type CommandContext,
@@ -122,6 +125,7 @@
     import Button from '@components/widgets/Button.svelte';
     import CommandButton from '@components/widgets/CommandButton.svelte';
     import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
+    import Switch from '@components/widgets/Switch.svelte';
     import Toggle from '@components/widgets/Toggle.svelte';
     import type Gallery from '@db/galleries/Gallery';
     import GalleryHowTo from '@db/howtos/HowToDatabase.svelte';
@@ -1971,6 +1975,21 @@
                                         padding
                                         command={Restart}
                                     />
+                                    {#if requestedPlay || showOutput}
+                                        <Switch
+                                            on={$evaluation?.playing === true}
+                                            toggle={(play) =>
+                                                play
+                                                    ? $evaluator.play()
+                                                    : $evaluator.pause()}
+                                            offTip={Pause.description}
+                                            onTip={Play.description}
+                                            offLabel={Pause.symbol}
+                                            onLabel={Play.symbol}
+                                            uiid="playToggle"
+                                            shortcut={toShortcut(Play)}
+                                        />
+                                    {/if}
                                     {#if localesUsed.length > 0}<OutputLocaleChooser
                                             {localesUsed}
                                             locale={evaluationLocale}
@@ -2191,7 +2210,7 @@
                                             />
                                         </div>
                                     {/if}
-                                {:else if tile.kind === TileKind.Output && layout.fullscreenID !== tile.id && !requestedPlay && !showOutput}
+                                {:else if tile.kind === TileKind.Output && !requestedPlay && !showOutput}
                                     <Timeline evaluator={$evaluator} />{/if}
                             {/snippet}
                             {#snippet margin()}

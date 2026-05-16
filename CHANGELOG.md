@@ -14,6 +14,8 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 - We upgraded internal tooling for stability.
 - We added more flexible custom character insertion.
+- We added a play/pause button when playing a project
+- We now show the debug panel when the output tile is in full screen mode.
 
 ### Fixed
 
