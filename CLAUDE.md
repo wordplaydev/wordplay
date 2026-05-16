@@ -80,4 +80,5 @@ Immutable data structures and pure functions are the norm everywhere except: Sve
 2. Minimum code that solves the problem. Nothing speculative.
 3. Touch only what you must. Clean up only your own mess.
 4. Define success criteria. Loop until verified.
-5. Always resolve all TypeScript errors, and never use `as`.
+5. After every code change, run `npm run check:now` and `npm test`. Both must pass before declaring a change done — IDE-reported diagnostics are not a substitute for a clean full type-check, and unit tests catch regressions in branches that hand-testing misses (especially environment-sensitive code like UA sniffing, where JSDOM and the locale verifier's tsx runtime differ from the browser).
+6. Always resolve all TypeScript errors, and never use `as`.

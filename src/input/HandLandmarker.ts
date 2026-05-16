@@ -38,7 +38,10 @@ const RECREATE_INTERVAL_MS = 30_000;
  */
 export function isWebKit(): boolean {
     if (typeof navigator === 'undefined') return true;
-    return navigator.vendor.includes('Apple');
+    // JSDOM and some Node test runtimes leave `vendor` undefined; treat
+    // that as "not Apple" so test environments don't trigger Safari-only
+    // code paths.
+    return navigator.vendor?.includes('Apple') ?? false;
 }
 
 type LoadingObserver = (loading: boolean) => void;
