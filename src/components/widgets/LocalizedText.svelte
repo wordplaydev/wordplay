@@ -11,6 +11,7 @@
     import Button from '@components/widgets/Button.svelte';
     import TextField from '@components/widgets/TextField.svelte';
     import { locales } from '@db/Database';
+    import type LocaleText from '@locale/LocaleText';
     import type { LocaleTextAccessor } from '@locale/Locales';
     import { isMachineTranslated } from '@locale/LocaleText';
     import { withoutAnnotations } from '@locale/withoutAnnotations';
@@ -20,14 +21,35 @@
     import { localeEdits, saveLocaleEdit, deleteLocaleEdit } from '@db/locales/LocalizationDexie';
 
     interface Props {
-        path: LocaleTextAccessor;
+        /** A property-access accessor on the locale tree. Must be a literal `(l) => l.a.b.c`
+         *  for the inline editor's path extraction to work. May resolve to any subtree;
+         *  use `extras` to navigate the rest of the way to a string. */
+        path: ((locale: LocaleText) => unknown) | LocaleTextAccessor;
         markup?: boolean;
+        /** Trailing path segments applied after `path` resolves. Used to address a sub-field
+         *  (string) or an element of a fixed-length tuple (e.g., ['labels', 0]). */
+        extras?: (string | number)[];
     }
 
-    let { path, markup = false }: Props = $props();
+    let { path, markup = false, extras = [] }: Props = $props();
 
     const fieldId = `localize-field-${idCounter++}`;
-    const text = $derived($locales.getWithAnnotations(path));
+
+    function walk(root: unknown, segments: (string | number)[]): unknown {
+        let node: unknown = root;
+        for (const seg of segments) {
+            if (node === null || node === undefined) return undefined;
+            if (typeof node !== 'object') return undefined;
+            node = (node as Record<string | number, unknown>)[seg];
+        }
+        return node;
+    }
+
+    const text = $derived(((): string => {
+        const value = walk($locales.getWithAnnotations(path), extras);
+        return typeof value === 'string' ? value : '';
+    })());
+
     const isMT = $derived(isMachineTranslated(text));
     const withoutAnnotationsText = $derived(withoutAnnotations(text));
 
@@ -37,7 +59,7 @@
     let fieldView = $state<HTMLInputElement | undefined>(undefined);
     let cancelled = false;
 
-    let localePath = $derived(accessorToLocalePath(path));
+    let localePath = $derived(accessorToLocalePath(path, ...extras));
     let override = $derived($localeEdits.get(localePath?.toString() ?? ''));
 
     async function startEditing() {
@@ -49,8 +71,9 @@
 
     function commitEdit(text: string) {
         if (!localePath) return;
-        if (text === withoutAnnotationsText) deleteLocaleEdit(localePath.toString());
-        else saveLocaleEdit(localePath.toString(), text);
+        const key = localePath.toString();
+        if (text === withoutAnnotationsText) deleteLocaleEdit(key);
+        else saveLocaleEdit(key, text);
     }
 
     function handleKeydown(e: KeyboardEvent) {
@@ -81,7 +104,8 @@
                 placeholder={(l) => l.ui.localize.field.plain.placeholder}
                 bind:text={editedText}
                 bind:view={fieldView}
-                focus={() => (localizing.focused = path)}
+                focus={() =>
+                    (localizing.focused = path as LocaleTextAccessor)}
                 blur={() => (localizing.focused = undefined)}
                 done={() => {
                     if (cancelled) {
@@ -92,28 +116,30 @@
                     editing = false;
                 }}
             /><span class="edit-actions"><Button
-                tip={(l) => l.ui.localize.button.submit}
-                action={() => {
-                    commitEdit(editedText);
-                    editing = false;
-                }}
-                background>{CONFIRM_SYMBOL}</Button
-            ><Button
-                tip={(l) => l.ui.localize.button.cancel}
-                action={() => {
-                    cancelled = true;
-                    fieldView?.blur();
-                }}
-                background>{CANCEL_SYMBOL}</Button
-            >{#if override}<Button
-                tip={(l) => l.ui.localize.button.revert}
-                action={() => {
-                    if (localePath) deleteLocaleEdit(localePath.toString());
-                    cancelled = true;
-                    fieldView?.blur();
-                }}
-                background>{REVERT_SYMBOL}</Button
-            >{/if}</span>
+                    tip={(l) => l.ui.localize.button.submit}
+                    action={() => {
+                        commitEdit(editedText);
+                        editing = false;
+                    }}
+                    background>{CONFIRM_SYMBOL}</Button
+                ><Button
+                    tip={(l) => l.ui.localize.button.cancel}
+                    action={() => {
+                        cancelled = true;
+                        fieldView?.blur();
+                    }}
+                    background>{CANCEL_SYMBOL}</Button
+                >{#if override}<Button
+                        tip={(l) => l.ui.localize.button.revert}
+                        action={() => {
+                            if (localePath)
+                                deleteLocaleEdit(localePath.toString());
+                            cancelled = true;
+                            fieldView?.blur();
+                        }}
+                        background>{REVERT_SYMBOL}</Button
+                    >{/if}</span
+            >
         {:else}
             <Button
                 tip={(l) => l.ui.localize.button.edit}

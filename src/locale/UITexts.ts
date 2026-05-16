@@ -1116,6 +1116,10 @@ type UITexts = {
             cancel: string;
             /** [plain] Tooltip for the button that reverts to the official text */
             revert: string;
+            /** [plain] Tooltip for the button that navigates to the previous element when editing a tuple-typed key (e.g., ModeText.tips) in the localizer panel */
+            prev: string;
+            /** [plain] Tooltip for the button that navigates to the next element when editing a tuple-typed key (e.g., ModeText.tips) in the localizer panel */
+            next: string;
         };
         field: {
             /** The description and placeholder of the localization plain text editor. */

@@ -112,8 +112,8 @@
                                 icons[index],
                             )}{:else}?{/if}{/if}
                     {#if modeLabels}<LocalizedText
-                            path={() =>
-                                $locales.getPlainText(modeText.labels[index])}
+                            path={modes}
+                            extras={['labels', index]}
                         />{/if}
                 </button>
             {/if}

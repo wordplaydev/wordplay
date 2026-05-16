@@ -12,12 +12,19 @@
     import { locales } from '@db/Database';
     import {
         deleteAllLocaleEdits,
+        deleteLocaleEdit,
         localeEdits,
+        saveLocaleEdit,
     } from '@db/locales/LocalizationDexie';
     import DefaultLocale from '@locale/DefaultLocale';
     import { isMachineTranslated } from '@locale/LocaleText';
     import { withoutAnnotations } from '@locale/withoutAnnotations';
-    import { CONFIRM_SYMBOL, MACHINE_TRANSLATED_SYMBOL } from '@parser/Symbols';
+    import {
+        CANCEL_SYMBOL,
+        CONFIRM_SYMBOL,
+        MACHINE_TRANSLATED_SYMBOL,
+        REVERT_SYMBOL,
+    } from '@parser/Symbols';
     import { isName } from '@parser/Tokenizer';
     import { getKeyTemplatePairs } from '@util/verify-locales/LocalePath';
     import { onMount } from 'svelte';
@@ -174,20 +181,75 @@
 
     const editorType = $derived(getEditorType(selectedDescription));
 
-    const selectedText = $derived.by(() => {
+    // For tuple-typed values, which element the editor is currently focused on.
+    // `undefined` means the value is a single string (no element selection).
+    let selectedIndex = $state<number | undefined>(undefined);
+
+    const arrayLength = $derived(
+        selectedPair && Array.isArray(selectedPair.value)
+            ? selectedPair.value.length
+            : 0,
+    );
+
+    // Reset element index when the selected path changes.
+    $effect(() => {
+        if (!selectedPair) selectedIndex = undefined;
+        else if (Array.isArray(selectedPair.value)) selectedIndex = 0;
+        else selectedIndex = undefined;
+    });
+
+    // The original (source-of-truth) string at the currently-targeted cell.
+    const currentSourceText = $derived.by(() => {
         if (!selectedPair) return '';
         const val = selectedPair.value;
         if (typeof val === 'string') return withoutAnnotations(val);
-        if (Array.isArray(val))
-            return val.map((v) => withoutAnnotations(v)).join('\n');
+        if (Array.isArray(val) && selectedIndex !== undefined)
+            return withoutAnnotations(val[selectedIndex] ?? '');
         return '';
     });
 
+    // The serialized override key for the currently-targeted cell.
+    const currentKey = $derived.by(() => {
+        if (selectedPath === undefined) return undefined;
+        return selectedIndex !== undefined
+            ? `${selectedPath}.${selectedIndex}`
+            : selectedPath;
+    });
+
+    const currentOverride = $derived(
+        currentKey !== undefined ? $localeEdits.get(currentKey) : undefined,
+    );
+
     let editedText = $state('');
 
+    // Whenever the targeted cell changes (path or index), reset the editor to the override or source.
     $effect(() => {
-        editedText = selectedText;
+        editedText = currentOverride ?? currentSourceText;
     });
+
+    async function saveEdit() {
+        if (currentKey === undefined) return;
+        if (editedText === currentSourceText)
+            await deleteLocaleEdit(currentKey);
+        else await saveLocaleEdit(currentKey, editedText);
+    }
+
+    async function cancelEdit() {
+        editedText = currentOverride ?? currentSourceText;
+    }
+
+    async function revertEdit() {
+        if (currentKey === undefined) return;
+        await deleteLocaleEdit(currentKey);
+    }
+
+    async function moveToIndex(next: number) {
+        if (arrayLength === 0) return;
+        const clamped = Math.max(0, Math.min(arrayLength - 1, next));
+        if (clamped === selectedIndex) return;
+        await saveEdit();
+        selectedIndex = clamped;
+    }
 
     const emotionOptions: { value: string; label: string }[] = Object.values(
         Emotion,
@@ -249,6 +311,25 @@
             </div>
         </div>
         {#if selectedPath !== undefined}
+            {#if arrayLength > 1}
+                <div class="nav-row">
+                    <Button
+                        tip={(l) => l.ui.localize.button.prev}
+                        active={(selectedIndex ?? 0) > 0}
+                        action={() => moveToIndex((selectedIndex ?? 0) - 1)}
+                        background>←</Button
+                    >
+                    <span class="index-indicator"
+                        >{(selectedIndex ?? 0) + 1} / {arrayLength}</span
+                    >
+                    <Button
+                        tip={(l) => l.ui.localize.button.next}
+                        active={(selectedIndex ?? 0) < arrayLength - 1}
+                        action={() => moveToIndex((selectedIndex ?? 0) + 1)}
+                        background>→</Button
+                    >
+                </div>
+            {/if}
             {#if editorType === 'plain'}
                 <TextField
                     id="localize-mt-field"
@@ -288,6 +369,27 @@
                     }}
                 />
             {/if}
+            <div class="editor-actions">
+                <Button
+                    tip={(l) => l.ui.localize.button.submit}
+                    active={editedText !== (currentOverride ?? currentSourceText)}
+                    action={saveEdit}
+                    background>{CONFIRM_SYMBOL}</Button
+                >
+                <Button
+                    tip={(l) => l.ui.localize.button.cancel}
+                    active={editedText !== (currentOverride ?? currentSourceText)}
+                    action={cancelEdit}
+                    background>{CANCEL_SYMBOL}</Button
+                >
+                {#if currentOverride !== undefined}
+                    <Button
+                        tip={(l) => l.ui.localize.button.revert}
+                        action={revertEdit}
+                        background>{REVERT_SYMBOL}</Button
+                    >
+                {/if}
+            </div>
         {/if}
     </div>
 
@@ -355,5 +457,22 @@
         display: flex;
         flex-direction: column;
         color: var(--wordplay-foreground);
+    }
+
+    .nav-row,
+    .editor-actions {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: var(--wordplay-spacing);
+    }
+
+    .index-indicator {
+        font-size: var(--wordplay-small-font-size);
+        color: var(--wordplay-inactive-color);
+        white-space: nowrap;
+        min-width: 2.5em;
+        text-align: center;
+        font-variant-numeric: tabular-nums;
     }
 </style>

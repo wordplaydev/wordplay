@@ -5788,7 +5788,9 @@
                 "edit": "Suggest an edit to this text",
                 "submit": "Submit suggested edit",
                 "cancel": "Discard suggested edit",
-                "revert": "Revert to official text"
+                "revert": "Revert to official text",
+                "prev": "Edit the previous item",
+                "next": "Edit the next item"
             },
             "field": {
                 "plain": {

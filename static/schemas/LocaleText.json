@@ -11602,6 +11602,14 @@
                       "description": "[plain] Tooltip for the button that opens text editing",
                       "type": "string"
                     },
+                    "next": {
+                      "description": "[plain] Tooltip for the button that navigates to the next element when editing a tuple-typed key (e.g., ModeText.tips) in the localizer panel",
+                      "type": "string"
+                    },
+                    "prev": {
+                      "description": "[plain] Tooltip for the button that navigates to the previous element when editing a tuple-typed key (e.g., ModeText.tips) in the localizer panel",
+                      "type": "string"
+                    },
                     "revert": {
                       "description": "[plain] Tooltip for the button that reverts to the official text",
                       "type": "string"
@@ -11615,7 +11623,9 @@
                     "edit",
                     "submit",
                     "cancel",
-                    "revert"
+                    "revert",
+                    "prev",
+                    "next"
                   ],
                   "type": "object"
                 },
