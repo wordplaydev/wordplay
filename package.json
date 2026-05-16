@@ -5,8 +5,8 @@
     "scripts": {
         "sync": "svelte-kit sync",
         "postinstall": "run-script-os",
-        "postinstall:default": "npm run sync && cp .env.template .env",
-        "postinstall:windows": "npm run sync && copy .env.template .env",
+        "postinstall:default": "npm run sync && cp .env.template .env && npm run updates",
+        "postinstall:windows": "npm run sync && copy .env.template .env && npm run updates",
         "check": "svelte-check --tsconfig ./tsconfig.json --watch .svelte-kit",
         "check:now": "svelte-check --tsconfig ./tsconfig.json .svelte-kit",
         "test": "vitest",
