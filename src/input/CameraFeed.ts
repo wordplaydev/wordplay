@@ -122,6 +122,32 @@ export default class CameraFeed {
         return this.config?.video;
     }
 
+    /**
+     * Draw the current video frame into the internal canvas at the target
+     * sampling resolution and return the canvas. Callers (typically ML
+     * models like MediaPipe) get a small, ready-to-process frame without
+     * any pixel-array allocation — and crucially, without the model
+     * processing the camera's full native resolution, which can be 10–30x
+     * larger than needed and cause noticeable WASM heap growth.
+     */
+    getCanvasFrame(): HTMLCanvasElement | undefined {
+        if (!this.config) return undefined;
+        const { context, video, sourceX, sourceY, sourceWidth, sourceHeight } =
+            this.config;
+        context.drawImage(
+            video,
+            sourceX,
+            sourceY,
+            sourceWidth,
+            sourceHeight,
+            0,
+            0,
+            this.targetWidth,
+            this.effectiveHeight,
+        );
+        return this.config.canvas;
+    }
+
     start() {
         if (
             typeof navigator === 'undefined' ||

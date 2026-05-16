@@ -29,8 +29,18 @@ import StructureValue from '@values/StructureValue';
 import TemporalStreamValue from '@values/TemporalStreamValue';
 
 /* Fallbacks for optional inputs. */
-const DEFAULT_FREQUENCY = 33;
-const DEFAULT_RESOLUTION = 256;
+/**
+ * 50ms = 20 fps target. MediaPipe hand-landmarker runs comfortably here on
+ * most laptops; pushing to 30 fps stresses Safari's WASM and produces a
+ * stuttery result anyway. Creators who need faster updates can override.
+ */
+const DEFAULT_FREQUENCY = 50;
+/**
+ * MediaPipe's hand-landmarker model takes ~192px internally regardless of
+ * input size; feeding it the camera's native 720p+ frames just wastes work
+ * (and grows the WASM heap). Downsample to a square 192 before detection.
+ */
+const DEFAULT_RESOLUTION = 192;
 
 /**
  * Camera frame edges map to ±STAGE_EXTENT_METERS / 2 in stage meters on each
@@ -91,6 +101,13 @@ const LM = {
 export default class Hand extends TemporalStreamValue<StructureValue, HandLandmarkerResult> {
     feed: CameraFeed;
     lastTime: DOMHighResTimeStamp | undefined = undefined;
+    /**
+     * The `<video>.currentTime` of the last frame we ran detection on. Lets
+     * us skip ticks where the camera hasn't actually advanced (e.g. when our
+     * tick cadence is faster than the camera's delivery rate), saving the
+     * MediaPipe pass and its WASM-side allocations.
+     */
+    private lastVideoTime: number | undefined = undefined;
 
     frequency: number;
     resolution: number;
@@ -300,13 +317,33 @@ export default class Hand extends TemporalStreamValue<StructureValue, HandLandma
         const video = this.feed.getVideoElement();
         if (!video || video.readyState < 2) return;
 
+        // Skip if the video hasn't actually advanced since our last detect.
+        // The browser may deliver frames at a slower rate than our tick
+        // cadence, so without this check we'd re-detect the same frame
+        // (burning CPU on identical work).
+        if (
+            this.lastVideoTime !== undefined &&
+            video.currentTime === this.lastVideoTime
+        )
+            return;
+        this.lastVideoTime = video.currentTime;
+
+        // Draw the camera frame into our internal canvas (downsized to
+        // `resolution`) and detect against that, rather than against the
+        // raw video element. MediaPipe's hand-landmarker re-scales whatever
+        // input it gets to ~192px internally; feeding it the full 720p+
+        // camera stream just wastes processing time and grows the WASM
+        // heap (which is the most likely cause of the eventual tab crash).
+        const frame = this.feed.getCanvasFrame();
+        if (!frame) return;
+
         this.lastTime = time;
         // MediaPipe requires strictly monotonic timestamps across the whole
         // landmarker lifetime, which spans Wordplay re-runs that reset
         // `time`. nextDetectTimestamp() bridges those by tracking
         // performance.now() across the page session.
         const result = this.landmarker.detectForVideo(
-            video,
+            frame,
             nextDetectTimestamp(),
         );
         this.react(result);
