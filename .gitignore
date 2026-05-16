@@ -19,3 +19,5 @@ firestore-debug.log
 CLAUDE.md
 functions/.env.local
 static/wasm
+src/routes/\[\[locale\]\]/updates/updates.json
+src/routes/\[\[locale\]\]/updates/date.json
