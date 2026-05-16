@@ -134,6 +134,12 @@ type PageText = {
             limited: string;
             /** [plain] Name of visibility option for making how-tos visible to anyone who has access to the curator's galleries */
             expanded: string;
+            /** [plain] Label for options for galleries to add as expanded permissions */
+            expandedOptions: string;
+            /** [plain] Label for adding a gallery to expanded list */
+            expandedAdd: string;
+            /** [plain] Label for removing a gallery from expanded list */
+            expandedRemove: string;
         };
         /** Subheaders and descriptions for configuring guiding questions */
         guidingQuestions: {
