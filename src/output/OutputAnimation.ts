@@ -375,6 +375,12 @@ export default class OutputAnimation {
         // Don't start any animations if there's no verse.
         if (this.animator.stage === undefined) return;
 
+        // Don't start animations after the animator has been stopped. stop()
+        // nulls this.animator.evaluator to break the Animator ↔ Evaluator
+        // retention cycle (see Animator.stop); a late-firing callback can
+        // still land here but has no valid context to animate against.
+        if (this.animator.evaluator === undefined) return;
+
         // Cancel any current animation.
         if (this.animation) {
             this.animation.onfinish = null;
@@ -537,8 +543,10 @@ export default class OutputAnimation {
                 totalDuration;
 
             keyframe.offset = Math.max(0, Math.min(1, currentOffset));
+            // Safe: the start() guard above already returned when
+            // animator.evaluator was undefined, so it can't be undefined here.
             keyframe.easing = styleToCSSEasing(
-                this.animator.evaluator.project.getLocales(),
+                this.animator.evaluator!.project.getLocales(),
                 transition.style,
             );
 
