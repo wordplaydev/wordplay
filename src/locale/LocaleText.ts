@@ -61,7 +61,7 @@ export type FormattedText = string;
 export type NameAndDoc = {
     /** [name] One or more names for this definition. Be careful not to introduce duplicates. */
     names: NameText;
-    /** Documentation for this definition, to appear in the documentation browser. */
+    /** [formatted] Documentation for this definition, to appear in the documentation browser. */
     doc: DocText;
 };
 
