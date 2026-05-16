@@ -151,9 +151,14 @@ export class ProjectHistory {
         // Update overwrite
         this.overwrite = overwrite;
 
-        // Trim the history if we've exceeded our limit.
+        // Trim the history if we've exceeded our limit. splice(0, n) drops
+        // the n oldest entries; n must be positive (negative is treated as 0,
+        // which silently leaks the entire history past the cap).
         if (this.history.length > PROJECT_HISTORY_LIMIT)
-            this.history.splice(0, PROJECT_HISTORY_LIMIT - this.history.length);
+            this.history.splice(
+                0,
+                this.history.length - PROJECT_HISTORY_LIMIT,
+            );
 
         // Ping the store, so everyone knows about the edit.
         this.current = project;
