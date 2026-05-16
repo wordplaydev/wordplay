@@ -3522,6 +3522,26 @@
                 "names": "$~taon",
                 "doc": "$~Ang direksyon at magnitude ng direksyon sa kahabaan ng y-axis."
             }
+        },
+        "Hand": {
+            "doc": [
+                "$~/kumawag-kawag/",
+                "$~@FunctionDefinition narito! Hayaan mong ikuwento ko sa iyo ang tungkol kay @Hand.",
+                "$~Tinitingnan ni @Hand ang iyong kamera para sa isang kamay at sinasabi sa iyo kung nasaan ito, kung aling mga daliri ang nakaunat, at kung ang palad o likod ng iyong kamay ay nakaharap sa kamera. Itaas ang iyong kamay, iwagayway ito, bilangin gamit ang iyong mga daliri — Sumusunod si @Hand.",
+                "$~Sa likod ng mga eksena, gumagamit ang @Hand ng isang machine-learning model. Sa unang pagkakataon na gagamitin mo ito sa isang programa, aabutin lamang ng ilang segundo bago ma-download ang modelo, at isang maliit na umiikot na kamay ang lilitaw sa kanang sulok sa itaas ng stage habang naglo-load ito. Pagkatapos nito, mananatili itong naka-cache at agad na magsisimula.",
+                "$~Ang bawat frame na @Hand ay nagbabalik ng istruktura na may mga field tulad ng place (kung nasaan ang kamay), open (true kung bukas ang iyong kamay), fingers (ilang daliri ang nakataas), mga indibidwal na boolean para sa hinlalaki, hintuturo, gitna, singsing, at maliit na daliri, at palm (true kung ang iyong palad ay nakaharap sa camera).",
+                "$~Subukan ito — nagpapakita ito ng emoji na tumutugma sa postura ng iyong kamay kung nasaan man ang iyong totoong kamay:",
+                "$~\\kamay: Kamay()\nParirala((kamay.bukas ? '🖐️' '✊') lugar: kamay.lugar)\\"
+            ],
+            "names": ["$~🖐️", "$~Kamay"],
+            "frequency": {
+                "names": ["$~dalas"],
+                "doc": "$~Ang oras sa pagitan ng mga sample."
+            },
+            "resolution": {
+                "names": ["$~resolusyon"],
+                "doc": "$~Ang lapad sa mga pixel kung saan susuriin ang kamera bago patakbuhin ang modelo ng kamay. Ang mas mataas na mga halaga ay maaaring magbigay ng bahagyang mas tumpak na mga landmark ngunit mas matagal ang oras na ginugugol sa bawat frame."
+            }
         }
     },
     "output": {
@@ -4360,6 +4380,46 @@
             "ProjectSizeLimitException": {
                 "description": "$~limitasyon sa laki ng proyekto",
                 "explanation": "$~Masyadong maraming teksto ang proyektong ito, kaya hindi natin ito ma-save."
+            }
+        },
+        "Hand": {
+            "doc": "$~Isa akong kamay na nade-detect ng kamera. Sinasabi sa iyo ng aking mga field kung nasaan ang kamay sa entablado, kung aling mga daliri ang nakaunat, at kung ang palad o likod ng kamay ay nakaharap sa kamera.",
+            "names": ["$~🖐️", "$~Kamay"],
+            "place": {
+                "doc": "$~Kung saan nasa entablado ang kamay.",
+                "names": ["$~lugar"]
+            },
+            "open": {
+                "doc": "$~@True kung nakabukas ang kamay (nakaunat ang 3+ daliri), @False kung ito ay kamao.",
+                "names": ["$~bukas"]
+            },
+            "fingers": {
+                "doc": "$~Ilang daliri ang nakaunat, mula 0 (kamao) hanggang 5 (lahat ng daliri ay nakataas, kasama ang hinlalaki).",
+                "names": ["$~mgadaliri"]
+            },
+            "thumb": {
+                "doc": "$~@True kung nakaunat ang hinlalaki.",
+                "names": ["$~hinlalaki"]
+            },
+            "index": {
+                "doc": "$~@True kung nakaunat ang hintuturo.",
+                "names": ["$~indeks"]
+            },
+            "middle": {
+                "doc": "$~@True kung nakaunat ang gitnang daliri.",
+                "names": ["$~gitna"]
+            },
+            "ring": {
+                "doc": "$~@True kung nakaunat ang daliring palasingsingan.",
+                "names": ["$~singsing"]
+            },
+            "pinky": {
+                "doc": "$~@True kung nakaunat ang hintuturo.",
+                "names": ["$~pinky"]
+            },
+            "palm": {
+                "doc": "$~@True kung ang palad ay nakaharap sa kamera, @False kung ang likod ng kamay ay nakaharap.",
+                "names": ["$~palad"]
             }
         }
     },

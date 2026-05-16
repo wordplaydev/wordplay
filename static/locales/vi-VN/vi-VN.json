@@ -3519,6 +3519,26 @@
                 "languageNotSupported": "$~Ngôn ngữ không được hỗ trợ",
                 "limit": "$~Thất bại sau nhiều lần thử."
             }
+        },
+        "Hand": {
+            "doc": [
+                "$~/lắc lư lắc lư/",
+                "$~@FunctionDefinition đây! Để tôi giới thiệu về @Hand.",
+                "$~@Hand sẽ quan sát camera để tìm bàn tay của bạn và cho bạn biết vị trí của bàn tay, những ngón tay nào đang duỗi ra, và lòng bàn tay hay mu bàn tay đang hướng về phía camera. Giơ tay lên, vẫy tay xung quanh, đếm trên các ngón tay — @Hand sẽ theo dõi.",
+                "$~Về mặt kỹ thuật, @Hand sử dụng mô hình máy học. Lần đầu tiên bạn sử dụng nó trong một chương trình, mô hình cần vài giây để tải xuống, và một bàn tay nhỏ xoay tròn sẽ xuất hiện ở góc trên bên phải màn hình trong khi tải. Sau đó, nó được lưu vào bộ nhớ cache và bắt đầu hoạt động ngay lập tức.",
+                "$~Mỗi khung hình @Hand trả về một cấu trúc với các trường như place (vị trí của bàn tay), open (true nếu bàn tay bạn đang mở), fingers (số ngón tay đang giơ lên), các giá trị boolean riêng biệt cho ngón cái, ngón trỏ, ngón giữa, ngón áp út và ngón út, và palm (true nếu lòng bàn tay bạn hướng về phía camera).",
+                "$~Hãy thử cách này — nó sẽ hiển thị biểu tượng cảm xúc phù hợp với tư thế tay của bạn bất kể tay thật của bạn đang ở đâu:",
+                "$~\\hand: Hand()\nPhrase((hand.open ? '🖐️' '✊') place: hand.place)\\"
+            ],
+            "names": ["$~🖐️", "$~Tay"],
+            "frequency": {
+                "names": ["$~Tínhthườngxuyên"],
+                "doc": "$~Khoảng thời gian giữa các lần lấy mẫu."
+            },
+            "resolution": {
+                "names": ["$~nghịquyết"],
+                "doc": "$~Độ rộng tính bằng pixel mà camera lấy mẫu trước khi chạy mô hình bàn tay. Giá trị cao hơn có thể cho ra các điểm mốc chính xác hơn một chút nhưng tốn nhiều thời gian hơn cho mỗi khung hình."
+            }
         }
     },
     "output": {
@@ -4358,6 +4378,46 @@
                 "names": "$~chữ"
             },
             "defaultDescription": "$~Ví dụ 1 đô la"
+        },
+        "Hand": {
+            "doc": "$~Tôi là một bàn tay được camera nhận diện. Các trường thông tin của tôi cho bạn biết vị trí của bàn tay trên sân khấu, những ngón tay nào đang duỗi ra và lòng bàn tay hay mu bàn tay đang hướng về phía camera.",
+            "names": ["$~🖐️", "$~Tay"],
+            "place": {
+                "doc": "$~Vị trí bàn tay trên sân khấu.",
+                "names": ["$~địađiểm"]
+            },
+            "open": {
+                "doc": "$~@True nếu bàn tay mở (duỗi từ 3 ngón trở lên), @False nếu nắm tay lại.",
+                "names": ["$~mở"]
+            },
+            "fingers": {
+                "doc": "$~Có bao nhiêu ngón tay được duỗi ra, từ 0 (nắm đấm) đến 5 (tất cả các ngón tay đều giơ lên, kể cả ngón cái)?",
+                "names": ["$~ngóntay"]
+            },
+            "thumb": {
+                "doc": "$~@True nếu ngón tay cái được duỗi ra.",
+                "names": ["$~ngóntaycái"]
+            },
+            "index": {
+                "doc": "$~@True nếu ngón trỏ duỗi thẳng.",
+                "names": ["$~chỉmục"]
+            },
+            "middle": {
+                "doc": "$~@True nếu ngón giữa được duỗi thẳng.",
+                "names": ["$~ởgiữa"]
+            },
+            "ring": {
+                "doc": "$~@True nếu ngón áp út duỗi thẳng.",
+                "names": ["$~nhẫn"]
+            },
+            "pinky": {
+                "doc": "$~@True nếu ngón út duỗi thẳng.",
+                "names": ["$~ngónút"]
+            },
+            "palm": {
+                "doc": "$~@True nếu lòng bàn tay hướng về phía camera, @False nếu mu bàn tay hướng về phía camera.",
+                "names": ["$~câycọ"]
+            }
         }
     },
     "ui": {

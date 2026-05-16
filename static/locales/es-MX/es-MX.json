@@ -3501,6 +3501,26 @@
                 "languageNotSupported": "$~idioma no compatible",
                 "limit": "$~Falló después de múltiples intentos"
             }
+        },
+        "Hand": {
+            "doc": [
+                "$~/mezclar mezclar/",
+                "$~¡Aquí está @FunctionDefinition! Déjame contarte sobre @Hand.",
+                "$~@Hand detecta tu mano en la cámara y te indica dónde está, qué dedos están extendidos y si la palma o el dorso de la mano están mirando a la cámara. Levanta la mano, muévela, cuenta con los dedos: @Hand te sigue.",
+                "$~En segundo plano, @Hand utiliza un modelo de aprendizaje automático. La primera vez que lo uses en un programa, el modelo tardará unos segundos en descargarse y aparecerá una pequeña mano giratoria en la esquina superior derecha del escenario mientras se carga. Después, permanece en caché y se ejecuta al instante.",
+                "$~Cada fotograma @Hand devuelve una estructura con campos como place (dónde está la mano), open (verdadero si la mano está abierta), fingers (cuántos dedos están levantados), valores booleanos individuales para el pulgar, el índice, el dedo medio, el anular y el meñique, y palm (verdadero si la palma de la mano mira hacia la cámara).",
+                "$~Prueba esto: te mostrará un emoji que coincide con la posición de tu mano dondequiera que esté tu mano real:",
+                "$~\\mano: Mano()\nFrase((mano.abrir ? '🖐️' '✊') lugar: mano.lugar)\\"
+            ],
+            "names": ["$~🖐️", "$~Mano"],
+            "frequency": {
+                "names": ["$~frecuencia"],
+                "doc": "$~El tiempo entre muestras."
+            },
+            "resolution": {
+                "names": ["$~resolución"],
+                "doc": "$~El ancho en píxeles con el que se muestrea la cámara antes de ejecutar el modelo de la mano. Valores más altos pueden proporcionar puntos de referencia ligeramente más precisos, pero consumen más tiempo por fotograma."
+            }
         }
     },
     "output": {
@@ -4339,6 +4359,46 @@
                 "names": "$~texto"
             },
             "defaultDescription": "$~Digamos $1"
+        },
+        "Hand": {
+            "doc": "$~Soy una mano detectada por la cámara. Mis datos te indican dónde está la mano en el escenario, qué dedos están extendidos y si la palma o el dorso de la mano están orientados hacia la cámara.",
+            "names": ["$~🖐️", "$~Mano"],
+            "place": {
+                "doc": "$~Donde está la mano en el escenario.",
+                "names": ["$~lugar"]
+            },
+            "open": {
+                "doc": "$~@True si la mano está abierta (3 o más dedos extendidos), @False si es un puño.",
+                "names": ["$~abierto"]
+            },
+            "fingers": {
+                "doc": "$~¿Cuántos dedos están extendidos, desde 0 (puño) hasta 5 (todos los dedos levantados, incluido el pulgar)?",
+                "names": ["$~dedos"]
+            },
+            "thumb": {
+                "doc": "$~@True si el pulgar está extendido.",
+                "names": ["$~pulgar"]
+            },
+            "index": {
+                "doc": "$~@True si el dedo índice está extendido.",
+                "names": ["$~índice"]
+            },
+            "middle": {
+                "doc": "$~@True si el dedo medio está extendido.",
+                "names": ["$~medio"]
+            },
+            "ring": {
+                "doc": "$~@True si el dedo anular está extendido.",
+                "names": ["$~anillo"]
+            },
+            "pinky": {
+                "doc": "$~@True si el dedo meñique está extendido.",
+                "names": ["$~meñique"]
+            },
+            "palm": {
+                "doc": "$~@True si la palma de la mano mira hacia la cámara, @False si mira hacia el dorso de la mano.",
+                "names": ["$~palmera"]
+            }
         }
     },
     "ui": {

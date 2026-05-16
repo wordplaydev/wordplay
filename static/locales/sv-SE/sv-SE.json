@@ -3519,6 +3519,26 @@
                 "languageNotSupported": "$~språk stöds inte",
                 "limit": "$~misslyckades efter flera försök"
             }
+        },
+        "Hand": {
+            "doc": [
+                "$~/vigla vicka/",
+                "$~@FunctionDefinition här! Låt mig berätta om @Hand.",
+                "$~@Hand tittar på din kamera efter en hand och talar om för dig var den är, vilka fingrar som är utsträckta och om handflatan eller baksidan av din hand är vänd mot kameran. Håll upp handen, vifta med den, räkna på dina fingrar – @Hand följer efter.",
+                "$~Bakom kulisserna använder @Hand en maskininlärningsmodell. Första gången du använder den i ett program tar det några sekunder att ladda ner modellen, och en liten snurrande hand visas i det övre högra hörnet av scenen medan den laddas. Därefter förblir den cachad och startar direkt.",
+                "$~Varje bildruta @Hand returnerar en struktur med fält som plats (där handen är), öppen (sant om din hand är öppen), fingrar (hur många fingrar är uppe), individuella booleska värden för tumme, pekfingrar, långfingrar, ringfingrar och lillfingrar, samt handflata (sant om din handflata är vänd mot kameran).",
+                "$~Prova detta — det visar en emoji som matchar din handposition var din riktiga hand än är:",
+                "$~\\hand: Hand()\nPhrase((hand.open ? '🖐️' '✊') place: hand.place)\\"
+            ],
+            "names": ["$~🖐️", "$~Hand"],
+            "frequency": {
+                "names": ["$~frekvens"],
+                "doc": "$~Tiden mellan proverna."
+            },
+            "resolution": {
+                "names": ["$~upplösning"],
+                "doc": "$~Bredden i pixlar för att ta prover från kameran innan handmodellen körs. Högre värden kan ge något mer exakta landmärken men kostar mer tid per bildruta."
+            }
         }
     },
     "output": {
@@ -4357,6 +4377,46 @@
                 "names": "$~text"
             },
             "defaultDescription": "$~Säg 1 dollar"
+        },
+        "Hand": {
+            "doc": "$~Jag är en hand som kameran upptäcker. Mina fält visar var handen är på scenen, vilka fingrar som är utsträckta och om handflatan eller handryggen är vänd mot kameran.",
+            "names": ["$~🖐️", "$~Hand"],
+            "place": {
+                "doc": "$~Där handen är på scenen.",
+                "names": ["$~plats"]
+            },
+            "open": {
+                "doc": "$~@True om handen är öppen (3+ fingrar utsträckta), @False om det är en knytnäve.",
+                "names": ["$~öppna"]
+            },
+            "fingers": {
+                "doc": "$~Hur många fingrar är utsträckta, från 0 (knuten näve) till 5 (alla fingrar uppåt, inklusive tummen).",
+                "names": ["$~fingrar"]
+            },
+            "thumb": {
+                "doc": "$~@True om tummen är utsträckt.",
+                "names": ["$~tumme"]
+            },
+            "index": {
+                "doc": "$~@True om pekfingret är utsträckt.",
+                "names": ["$~index"]
+            },
+            "middle": {
+                "doc": "$~@True om långfingret är utsträckt.",
+                "names": ["$~mitten"]
+            },
+            "ring": {
+                "doc": "$~@True om ringfingret är utsträckt.",
+                "names": ["$~ringa"]
+            },
+            "pinky": {
+                "doc": "$~@True om lillfingret är utsträckt.",
+                "names": ["$~lillfingret"]
+            },
+            "palm": {
+                "doc": "$~@True om handflatan är vänd mot kameran, @False om handryggen är vänd mot kameran.",
+                "names": ["$~palm"]
+            }
         }
     },
     "ui": {

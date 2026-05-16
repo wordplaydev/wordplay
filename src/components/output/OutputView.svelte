@@ -19,6 +19,7 @@
     import Button from '@input/Button';
     import Chat from '@input/Chat';
     import Choice from '@input/Choice';
+    import { handLandmarkerStatus } from '@input/HandLandmarkerLoader.svelte';
     import Key from '@input/Key';
     import Placement from '@input/Placement';
     import Pointer from '@input/Pointer';
@@ -1106,8 +1107,15 @@
                 {editable}
             />
         {/if}
-        {#if says.length > 0}
+        {#if says.length > 0 || handLandmarkerStatus.loading}
             <div class="say-overlay" aria-live="polite" aria-atomic="false">
+                {#if handLandmarkerStatus.loading}
+                    <span
+                        class="say-item hand-loading"
+                        title="Loading hand tracker…"
+                        aria-label="Loading hand tracker">{withMonoEmoji('🖐')}</span
+                    >
+                {/if}
                 {#each says as say, i (say.text.text + i)}
                     <span
                         class="say-item"
@@ -1323,9 +1331,28 @@
     }
 
     .say-item {
-        color: var(--wordplay-background);
+        /* White + mix-blend-mode: difference inverts the indicator against
+           whatever is rendered behind it — visible against any stage
+           background color (white, black, or anywhere in between). */
+        color: white;
+        mix-blend-mode: difference;
         font-size: 1em;
         line-height: 1;
         user-select: none;
+    }
+
+    .hand-loading {
+        animation: hand-loading-spin 1.5s linear infinite;
+        display: inline-block;
+        transform-origin: center;
+    }
+
+    @keyframes hand-loading-spin {
+        from {
+            transform: rotate(0deg);
+        }
+        to {
+            transform: rotate(360deg);
+        }
     }
 </style>

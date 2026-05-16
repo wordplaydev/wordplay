@@ -3519,6 +3519,26 @@
                 "languageNotSupported": "$~Langue non prise en charge",
                 "limit": "$~échec après plusieurs tentatives"
             }
+        },
+        "Hand": {
+            "doc": [
+                "$~/remuer remuer/",
+                "$~@FunctionDefinition ici ! Laissez-moi vous parler de @Hand.",
+                "$~@Hand surveille votre caméra à la recherche d'une main et vous indique sa position, les doigts levés et si la paume ou le dos de votre main est face à la caméra. Levez la main, agitez-la, comptez vos doigts : @Hand vous suit.",
+                "$~En coulisses, @Hand utilise un modèle d'apprentissage automatique. Lors de sa première utilisation dans un programme, le modèle prend quelques secondes à se télécharger, et une petite main qui tourne apparaît dans le coin supérieur droit de la scène pendant le chargement. Ensuite, il reste en cache et démarre instantanément.",
+                "$~Chaque image @Hand renvoie une structure avec des champs comme place (où se trouve la main), open (vrai si votre main est ouverte), fingers (combien de doigts sont levés), des booléens individuels pour le pouce, l'index, le majeur, l'annulaire et l'auriculaire, et palm (vrai si votre paume est face à la caméra).",
+                "$~Essayez ceci : cela affiche un emoji correspondant à la position de votre main, quelle que soit la position réelle de votre main :",
+                "$~main : Main()\n\nPhrase((main.ouverte ? '🖐️' '✊') place : main.place)"
+            ],
+            "names": ["$~🖐️", "$~Main"],
+            "frequency": {
+                "names": ["$~fréquence"],
+                "doc": "$~L'intervalle entre les prélèvements."
+            },
+            "resolution": {
+                "names": ["$~résolution"],
+                "doc": "$~Largeur en pixels de l'échantillonnage de la caméra avant l'exécution du modèle de main. Des valeurs plus élevées permettent d'obtenir des points de repère légèrement plus précis, mais augmentent le temps de calcul par image."
+            }
         }
     },
     "output": {
@@ -4357,6 +4377,46 @@
                 "names": "$~texte"
             },
             "defaultDescription": "$~Disons 1 $"
+        },
+        "Hand": {
+            "doc": "$~Je suis une main détectée par la caméra. Mes champs indiquent où se trouve la main sur scène, quels doigts sont étendus et si la paume ou le dos de la main est orienté vers la caméra.",
+            "names": ["$~🖐️", "$~Main"],
+            "place": {
+                "doc": "$~Où se trouve la main sur scène.",
+                "names": ["$~lieu"]
+            },
+            "open": {
+                "doc": "$~@True si la main est ouverte (3 doigts ou plus étendus), @False si c'est un poing.",
+                "names": ["$~ouvrir"]
+            },
+            "fingers": {
+                "doc": "$~Combien de doigts sont étendus, de 0 (poing fermé) à 5 (tous les doigts levés, y compris le pouce).",
+                "names": ["$~doigts"]
+            },
+            "thumb": {
+                "doc": "$~@True si le pouce est étendu.",
+                "names": ["$~pouce"]
+            },
+            "index": {
+                "doc": "$~@True si l'index est étendu.",
+                "names": ["$~indice"]
+            },
+            "middle": {
+                "doc": "$~@True si le majeur est levé.",
+                "names": ["$~milieu"]
+            },
+            "ring": {
+                "doc": "$~@True si l'annulaire est étendu.",
+                "names": ["$~anneau"]
+            },
+            "pinky": {
+                "doc": "$~@True si l'auriculaire est étendu.",
+                "names": ["$~petitdoigt"]
+            },
+            "palm": {
+                "doc": "$~@True si la paume est face à la caméra, @False si c'est le dos de la main.",
+                "names": ["$~palmier"]
+            }
         }
     },
     "ui": {

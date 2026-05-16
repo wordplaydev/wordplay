@@ -3522,6 +3522,26 @@
                 "languageNotSupported": "$~Sprache wird nicht unterstützt",
                 "limit": "$~Nach mehreren Versuchen fehlgeschlagen."
             }
+        },
+        "Hand": {
+            "doc": [
+                "$~/Wackel wackel/",
+                "$~@FunctionDefinition hier! Ich möchte euch etwas über @Hand erzählen.",
+                "$~@Hand beobachtet Ihre Hand vor der Kamera und zeigt Ihnen deren Position, welche Finger ausgestreckt sind und ob die Handfläche oder der Handrücken zur Kamera zeigt. Halten Sie Ihre Hand hoch, bewegen Sie sie, zählen Sie an Ihren Fingern – @Hand macht es nach.",
+                "$~Im Hintergrund nutzt @Hand ein Modell für maschinelles Lernen. Beim ersten Einsatz in einem Programm dauert das Herunterladen des Modells einige Sekunden. Währenddessen erscheint eine kleine, sich drehende Hand in der oberen rechten Ecke des Bildschirms. Danach bleibt das Modell im Cache gespeichert und ist sofort einsatzbereit.",
+                "$~Jedes Frame @Hand gibt eine Struktur mit Feldern wie place (wo sich die Hand befindet), open (true, wenn Ihre Hand geöffnet ist), fingers (wie viele Finger ausgestreckt sind), einzelnen booleschen Werten für Daumen, Zeigefinger, Mittelfinger, Ringfinger und kleinen Finger sowie palm (true, wenn Ihre Handfläche zur Kamera zeigt) zurück.",
+                "$~Probieren Sie das aus – es zeigt ein Emoji an, das Ihrer Handhaltung entspricht, egal wo sich Ihre echte Hand befindet:",
+                "$~\\hand: Hand()\nPhrase((hand.open ? '🖐️' '✊') place: hand.place)\\"
+            ],
+            "names": ["$~🖐️", "$~Hand"],
+            "frequency": {
+                "names": ["$~Frequenz"],
+                "doc": "$~Die Zeit zwischen den Proben."
+            },
+            "resolution": {
+                "names": ["$~Auflösung"],
+                "doc": "$~Die Breite in Pixeln, mit der die Kamera vor der Berechnung des Handmodells abgetastet wird. Höhere Werte können zu etwas genaueren Landmarken führen, benötigen aber mehr Zeit pro Frame."
+            }
         }
     },
     "output": {
@@ -4356,6 +4376,46 @@
                 "names": "$~Text"
             },
             "defaultDescription": "$~Sagen wir 1 Dollar"
+        },
+        "Hand": {
+            "doc": "$~Ich bin eine von der Kamera erfasste Hand. Meine Felder zeigen Ihnen, wo sich die Hand auf der Bühne befindet, welche Finger ausgestreckt sind und ob die Handfläche oder der Handrücken zur Kamera zeigt.",
+            "names": ["$~🖐️", "$~Hand"],
+            "place": {
+                "doc": "$~Wo sich die Hand auf der Bühne befindet.",
+                "names": ["$~Ort"]
+            },
+            "open": {
+                "doc": "$~@True, wenn die Hand geöffnet ist (mindestens 3 Finger ausgestreckt), @False, wenn es sich um eine Faust handelt.",
+                "names": ["$~offen"]
+            },
+            "fingers": {
+                "doc": "$~Wie viele Finger sind ausgestreckt, von 0 (Faust) bis 5 (alle Finger, einschließlich des Daumens, ausgestreckt).",
+                "names": ["$~Finger"]
+            },
+            "thumb": {
+                "doc": "$~@True, wenn der Daumen ausgestreckt ist.",
+                "names": ["$~Daumen"]
+            },
+            "index": {
+                "doc": "$~@True, wenn der Zeigefinger ausgestreckt ist.",
+                "names": ["$~Index"]
+            },
+            "middle": {
+                "doc": "$~@True, wenn der Mittelfinger ausgestreckt ist.",
+                "names": ["$~Mitte"]
+            },
+            "ring": {
+                "doc": "$~@True, wenn der Ringfinger ausgestreckt ist.",
+                "names": ["$~Ring"]
+            },
+            "pinky": {
+                "doc": "$~@True, wenn der kleine Finger ausgestreckt ist.",
+                "names": ["$~kleinerFinger"]
+            },
+            "palm": {
+                "doc": "$~@True, wenn die Handfläche zur Kamera zeigt, @False, wenn der Handrücken zur Kamera zeigt.",
+                "names": ["$~Palme"]
+            }
         }
     },
     "ui": {

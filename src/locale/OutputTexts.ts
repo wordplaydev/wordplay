@@ -229,6 +229,27 @@ type OutputTexts = {
         /** optional rotation */
         rotation: NameAndDoc;
     };
+    /** A hand detected in the camera image */
+    Hand: NameAndDoc & {
+        /** Where the hand is on stage */
+        place: NameAndDoc;
+        /** True when the hand is open, false when it's a fist */
+        open: NameAndDoc;
+        /** Count of extended fingers, 0–5 */
+        fingers: NameAndDoc;
+        /** True if the thumb is extended */
+        thumb: NameAndDoc;
+        /** True if the index finger is extended */
+        index: NameAndDoc;
+        /** True if the middle finger is extended */
+        middle: NameAndDoc;
+        /** True if the ring finger is extended */
+        ring: NameAndDoc;
+        /** True if the pinky finger is extended */
+        pinky: NameAndDoc;
+        /** True if the palm faces the camera, false if the back of the hand does */
+        palm: NameAndDoc;
+    };
     /** A velocity vector */
     Velocity: NameAndDoc & {
         /** x-coordinate */

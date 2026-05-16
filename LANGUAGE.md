@@ -947,6 +947,7 @@ These are created by evaluating their pre-defined stream definitions. Some strea
 Volume()
 Pitch()
 Camera()
+Hand()
 Motion()
 Time()
 ```

@@ -71,6 +71,13 @@ type InputTexts = {
         /** The frequdncy with which color matrices should be sensed */
         frequency: NameAndDoc;
     };
+    /** A stream that tracks a hand in the camera image using MediaPipe's hand landmarker */
+    Hand: NameAndDoc & {
+        /** The time between samples */
+        frequency: NameAndDoc;
+        /** The width (in pixels) at which to sample the camera */
+        resolution: NameAndDoc;
+    };
     /** A stream of animated outputs */
     Scene: NameAndDoc & {
         /** A list of outputs to show in sequence */

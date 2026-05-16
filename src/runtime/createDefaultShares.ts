@@ -18,6 +18,7 @@ import { createPitchDefinition } from '@input/Pitch';
 import { createPlacementDefinition } from '@input/Placement';
 import { createPointerDefinition } from '@input/Pointer';
 import { createRandomFunction } from '@input/Random';
+import { createHandDefinition } from '@input/Hand';
 import { createSpeechDefinition } from '@input/Speech';
 import { createTimeType } from '@input/Time';
 import { createVolumeDefinition } from '@input/Volume';
@@ -30,6 +31,7 @@ import { createDirectionType } from '@output/Direction';
 import { createFreeType } from '@output/Free';
 import { createGridType } from '@output/Grid';
 import { createGroupType } from '@output/Group';
+import { createHandType } from '@output/Hand';
 import { createMatterType } from '@output/Matter';
 import { createOutputType } from '@output/Output';
 import { createPhraseType } from '@output/Phrase';
@@ -57,6 +59,8 @@ export default function createDefaultShares(locales: Locales) {
     const GroupType = createGroupType(locales);
     const ShapeType = createShapeType(locales);
 
+    const HandType = createHandType(locales);
+
     const OutputTypes = {
         Output: OutputType,
         Phrase: PhraseType,
@@ -72,6 +76,7 @@ export default function createDefaultShares(locales: Locales) {
         Velocity: VelocityType,
         Direction: DirectionType,
         Rebound: ReboundType,
+        Hand: HandType,
         Form: createFormType(locales),
         Rectangle: createRectangleType(locales),
         Circle: createCircleType(locales),
@@ -98,6 +103,7 @@ export default function createDefaultShares(locales: Locales) {
         Pitch: createPitchDefinition(locales),
         Speech: createSpeechDefinition(locales),
         Camera: createCameraDefinition(locales, ColorType),
+        Hand: createHandDefinition(locales, HandType),
         Webpage: createWebpageDefinition(locales),
         Chat: createChatDefinition(locales),
         Collision: createCollisionDefinition(locales, ReboundType),

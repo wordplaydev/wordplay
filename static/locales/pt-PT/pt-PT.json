@@ -3519,6 +3519,26 @@
                 "names": "$~y",
                 "doc": "$~A direção e a magnitude da direção ao longo do eixo y."
             }
+        },
+        "Hand": {
+            "doc": [
+                "$~/mexe mexe/",
+                "$~@FunctionDefinition aqui! Deixe-me falar sobre @Hand.",
+                "$~@Hand observa a sua câmara em busca de uma mão e diz-lhe onde está, quais os dedos estendidos e se a palma ou o dorso da mão está virado para a câmara. Levante a mão, acene com ela, conte pelos dedos — @Hand acompanha.",
+                "$~Nos bastidores, o @Hand utiliza um modelo de aprendizagem automática. Na primeira vez que o utiliza num programa, o modelo demora alguns segundos a ser descarregado, e uma pequena mão giratória aparece no canto superior direito do ecrã enquanto carrega. Depois disso, permanece em cache e inicia instantaneamente.",
+                "$~Cada frame @Hand devolve uma estrutura com campos como place (onde está a mão), open (verdadeiro se a mão estiver aberta), fingers (quantos dedos estão levantados), valores booleanos individuais para thumb, indicator, middle, ring, mindy e palm (verdadeiro se a palma da mão estiver virada para a câmara).",
+                "$~Experimente isto — mostra um emoji que corresponde à posição da sua mão, independentemente de onde a sua mão está de facto:",
+                "$~\\mão: Mão()\nFrase((mão. abrir ? '🖐️' '✊') lugar: mão. lugar)\\"
+            ],
+            "names": ["$~🖐️", "$~Mão"],
+            "frequency": {
+                "names": ["$~frequência"],
+                "doc": "$~O intervalo de tempo entre as amostras."
+            },
+            "resolution": {
+                "names": ["$~resolução"],
+                "doc": "$~A largura em pixéis a que a câmara deve ser amostrada antes de executar o modelo da mão. Valores mais elevados podem fornecer pontos de referência ligeiramente mais precisos, mas requerem mais tempo por fotograma."
+            }
         }
     },
     "output": {
@@ -4357,6 +4377,46 @@
             "ProjectSizeLimitException": {
                 "description": "$~limite de tamanho do projeto",
                 "explanation": "$~Este projeto contém texto em excesso, pelo que não o podemos guardar."
+            }
+        },
+        "Hand": {
+            "doc": "$~Sou uma mão detectada pela câmara. Os meus campos indicam a posição da mão no palco, quais os dedos que estão estendidos e se a palma ou o dorso da mão está virado para a câmara.",
+            "names": ["$~🖐️", "$~Mão"],
+            "place": {
+                "doc": "$~Onde a mão está no palco.",
+                "names": ["$~local"]
+            },
+            "open": {
+                "doc": "$~@True se a mão estiver aberta (3 ou mais dedos estendidos), @False se estiver fechada em punho.",
+                "names": ["$~aberto"]
+            },
+            "fingers": {
+                "doc": "$~Quantos dedos estão estendidos, de 0 (punho fechado) a 5 (todos os dedos levantados, incluindo o polegar)?",
+                "names": ["$~dedos"]
+            },
+            "thumb": {
+                "doc": "$~@True se o polegar estiver estendido.",
+                "names": ["$~polegar"]
+            },
+            "index": {
+                "doc": "$~@True se o dedo indicador estiver estendido.",
+                "names": ["$~índice"]
+            },
+            "middle": {
+                "doc": "$~@True se o dedo médio estiver estendido.",
+                "names": ["$~meio"]
+            },
+            "ring": {
+                "doc": "$~@True se o dedo anelar estiver estendido.",
+                "names": ["$~anel"]
+            },
+            "pinky": {
+                "doc": "$~@True se o dedo mindinho estiver estendido.",
+                "names": ["$~mindinho"]
+            },
+            "palm": {
+                "doc": "$~@True se a palma da mão estiver virada para a câmara, @False se for o dorso da mão.",
+                "names": ["$~palma"]
             }
         }
     },

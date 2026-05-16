@@ -190,6 +190,7 @@ export function getExampleGalleries(locales: Locales): Gallery[] {
                 'RainingLetters',
                 'Video',
                 'ASCII',
+                'Hand',
             ],
             locales,
         ),

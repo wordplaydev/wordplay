@@ -3519,6 +3519,26 @@
                 "languageNotSupported": "$~Dil desteklenmiyor.",
                 "limit": "$~birden fazla denemeden sonra başarısız oldu."
             }
+        },
+        "Hand": {
+            "doc": [
+                "$~/kıvrılıp kıpırdama/",
+                "$~@FunctionDefinition burada! Size @Hand'den bahsedeyim.",
+                "$~@Hand, kameranızda elinizi görür ve nerede olduğunu, hangi parmakların açık olduğunu ve avuç içi mi yoksa elinizin sırtı mı kameraya dönük olduğunu size söyler. Elinizi kaldırın, sallayın, parmaklarınızı sayın — @Hand sizi takip eder.",
+                "$~@Hand, perde arkasında bir makine öğrenme modeli kullanıyor. Programda ilk kez kullandığınızda modelin indirilmesi birkaç saniye sürüyor ve yükleme sırasında sahnenin sağ üst köşesinde küçük, dönen bir el beliriyor. Bundan sonra önbellekte kalıyor ve anında çalışmaya başlıyor.",
+                "$~@Hand parametresinin her karesi, place (elin bulunduğu yer), open (el açıksa true), fingers (kaç parmak yukarıda), başparmak, işaret parmağı, orta parmak, yüzük parmağı ve serçe parmağı için ayrı ayrı boolean değerler ve palm (avuç içi kameraya dönükse true) gibi alanlara sahip bir yapı döndürür.",
+                "$~Şunu deneyin — gerçek elinizin olduğu yere karşılık gelen bir emoji gösterir:",
+                "$~\\el: El()\nİfade((el.açık ? '🖐️' '✊') yer: el.yer)\\"
+            ],
+            "names": ["$~🖐️", "$~El"],
+            "frequency": {
+                "names": ["$~sıklık"],
+                "doc": "$~Örnekler arasındaki süre."
+            },
+            "resolution": {
+                "names": ["$~çözünürlük"],
+                "doc": "$~El modelini çalıştırmadan önce kameranın örnekleme yapacağı piksel cinsinden genişlik. Daha yüksek değerler biraz daha doğru referans noktaları sağlayabilir, ancak kare başına daha fazla zaman kaybına neden olur."
+            }
         }
     },
     "output": {
@@ -4357,6 +4377,46 @@
                 "names": "$~metin"
             },
             "defaultDescription": "$~1 dolar diyelim."
+        },
+        "Hand": {
+            "doc": "$~Ben kamera tarafından algılanan bir elim. Alan verilerim, elin sahnede nerede olduğunu, hangi parmakların açık olduğunu ve avuç içi mi yoksa elin sırtı mı kameraya dönük olduğunu gösteriyor.",
+            "names": ["$~🖐️", "$~El"],
+            "place": {
+                "doc": "$~Elin sahnede bulunduğu yer.",
+                "names": ["$~yer"]
+            },
+            "open": {
+                "doc": "$~El açıksa (3 veya daha fazla parmak uzatılmışsa) @True, yumruksa @False.",
+                "names": ["$~açık"]
+            },
+            "fingers": {
+                "doc": "$~0'dan (yumruk) 5'e (başparmak dahil tüm parmaklar yukarıda) kadar kaç parmak uzatılmış?",
+                "names": ["$~parmaklar"]
+            },
+            "thumb": {
+                "doc": "$~Başparmak uzatılmışsa @True.",
+                "names": ["$~başparmak"]
+            },
+            "index": {
+                "doc": "$~İşaret parmağı uzatılmışsa @True.",
+                "names": ["$~indeks"]
+            },
+            "middle": {
+                "doc": "$~Orta parmak uzatılmışsa @True.",
+                "names": ["$~orta"]
+            },
+            "ring": {
+                "doc": "$~Yüzük parmağı uzatılmışsa @True.",
+                "names": ["$~yüzük"]
+            },
+            "pinky": {
+                "doc": "$~Serçe parmağı uzatılmışsa @True.",
+                "names": ["$~serçeparmak"]
+            },
+            "palm": {
+                "doc": "$~Avuç içi kameraya dönükse @True, elin arkası dönükse @False.",
+                "names": ["$~avuçiçi"]
+            }
         }
     },
     "ui": {

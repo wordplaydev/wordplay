@@ -1,0 +1,27 @@
+Hand
+===
+hand: Hand()
+
+Stage([
+		Phrase(
+			(hand.fingers = 0 ? '✊'
+					hand.fingers = 1 ? '☝'
+						hand.fingers = 2 ? '✌'
+							hand.fingers = 3 ? '🤟'
+								hand.fingers = 4 ? '🖖'
+									'🖐')
+			place: hand.place
+			size: 2m
+			offset: Place(-1m)
+		)
+		Phrase('1⃣' place: Place(-6m 8m) size: (hand.thumb ? 2.5m 1m))
+		Phrase('2⃣' place: Place(-3m 8m) size: (hand.index ? 2.5m 1m))
+		Phrase('3⃣' place: Place(0m 8m) size: (hand.middle ? 2.5m 1m))
+		Phrase('4⃣' place: Place(3m 8m) size: (hand.ring ? 2.5m 1m))
+		Phrase('5⃣' place: Place(6m 8m) size: (hand.pinky ? 2.5m 1m))
+		Group(Stack('|') [
+				Phrase((hand.palm ? '🤚' '🤛') size: 2m)
+				Phrase((hand.open ? 'open' 'closed') size: 1.5m)
+			] place: Place(-2m -8m))
+		Phrase(`/Show the camera your hand/` place: Place(-6m -10m) size: 1m)
+	])

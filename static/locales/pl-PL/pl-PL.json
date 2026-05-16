@@ -3524,6 +3524,26 @@
                 "languageNotSupported": "$~język nieobsługiwany",
                 "limit": "$~nie powiodło się po wielu próbach"
             }
+        },
+        "Hand": {
+            "doc": [
+                "$~/wiggle wiggle/",
+                "$~Tutaj @FunctionDefinition! Opowiem ci o @Hand.",
+                "$~@Hand obserwuje kamerę w poszukiwaniu dłoni i mówi, gdzie ona jest, które palce są wyciągnięte i czy wnętrze, czy wierzch dłoni jest skierowany w stronę kamery. Unieś dłoń, pomachaj nią, policz na palcach — @Hand podąża za nią.",
+                "$~W tle @Hand wykorzystuje model uczenia maszynowego. Przy pierwszym użyciu w programie, model pobiera się w ciągu kilku sekund, a w prawym górnym rogu sceny pojawia się maleńka, wirująca dłoń. Następnie model pozostaje w pamięci podręcznej i uruchamia się natychmiast.",
+                "$~Każda klatka @Hand zwraca strukturę z polami, takimi jak miejsce (gdzie znajduje się dłoń), otwarcie (prawda, jeśli dłoń jest otwarta), palce (ile palców jest uniesionych), poszczególne wartości logiczne dla kciuka, palca wskazującego, środkowego, serdecznego i małego oraz dłoń (prawda, jeśli dłoń jest zwrócona w stronę kamery).",
+                "$~Wypróbuj to — pokaże Ci emoji, które odpowiada pozie Twojej dłoni, niezależnie od tego, gdzie znajduje się Twoja prawdziwa dłoń:",
+                "$~\\hand: Hand()\nFraza((hand.open ? '🖐️' '✊') miejsce: hand.place)\\"
+            ],
+            "names": ["$~🖐️", "$~Ręka"],
+            "frequency": {
+                "names": ["$~częstotliwość"],
+                "doc": "$~Czas pomiędzy próbkami."
+            },
+            "resolution": {
+                "names": ["$~rezolucja"],
+                "doc": "$~Szerokość w pikselach, przy której próbkowane jest zdjęcie kamery przed uruchomieniem modelu dłoni. Wyższe wartości mogą zapewnić nieco dokładniejsze punkty orientacyjne, ale kosztują więcej czasu na klatkę."
+            }
         }
     },
     "output": {
@@ -4362,6 +4382,46 @@
                 "names": "$~tekst"
             },
             "defaultDescription": "$~Powiedz 1$"
+        },
+        "Hand": {
+            "doc": "$~Jestem dłonią wykrytą przez kamerę. Moje pola wskazują, gdzie dłoń znajduje się na scenie, które palce są wyciągnięte i czy wnętrze dłoni, czy jej grzbiet są skierowane w stronę kamery.",
+            "names": ["$~🖐️", "$~Ręka"],
+            "place": {
+                "doc": "$~Gdzie ręka jest na scenie.",
+                "names": ["$~miejsce"]
+            },
+            "open": {
+                "doc": "$~@True jeśli dłoń jest otwarta (3+ palców wyciągniętych), @False jeśli jest zaciśnięta w pięść.",
+                "names": ["$~Otwarte"]
+            },
+            "fingers": {
+                "doc": "$~Ile palców jest wyciągniętych, od 0 (pięść) do 5 (wszystkie palce w górze, łącznie z kciukiem).",
+                "names": ["$~palce"]
+            },
+            "thumb": {
+                "doc": "$~@True jeśli kciuk jest wyciągnięty.",
+                "names": ["$~kciuk"]
+            },
+            "index": {
+                "doc": "$~@True jeśli palec wskazujący jest wyprostowany.",
+                "names": ["$~indeks"]
+            },
+            "middle": {
+                "doc": "$~@True jeśli środkowy palec jest wyprostowany.",
+                "names": ["$~środek"]
+            },
+            "ring": {
+                "doc": "$~@True jeśli palec serdeczny jest wyprostowany.",
+                "names": ["$~pierścień"]
+            },
+            "pinky": {
+                "doc": "$~@True jeśli mały palec jest wyprostowany.",
+                "names": ["$~małypalec"]
+            },
+            "palm": {
+                "doc": "$~@True jeśli dłoń jest zwrócona w stronę aparatu, @False jeśli jest zwrócona w stronę grzbietu dłoni.",
+                "names": ["$~palma"]
+            }
         }
     },
     "ui": {

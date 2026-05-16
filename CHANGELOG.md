@@ -4,6 +4,12 @@ We'll note all notable changes in this file, including bug fixes, enhancements, 
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 These notes are publicly posted in [production](https://wordplay.dev/updates), so we write them to an audience of teachers and youth.
 
+## 0.18.0 - 2026-05-15
+
+### Added
+
+- There's a new `Hand` input! It uses the camera to check the location of your hand, which fingers are up, how many fingers are up, whether your hand is open or closed, and whether your palm is showing. What a handy input!
+
 ## 0.17.9 - 2026-05-09
 
 ### Added
