@@ -4379,9 +4379,9 @@
             },
             "defaultDescription": "$~Ví dụ 1 đô la"
         },
-        "Hand": {
-            "doc": "$~Tôi là một bàn tay được camera nhận diện. Các trường thông tin của tôi cho bạn biết vị trí của bàn tay trên sân khấu, những ngón tay nào đang duỗi ra và lòng bàn tay hay mu bàn tay đang hướng về phía camera.",
-            "names": ["$~🖐️", "$~Tay"],
+        "Gesture": {
+            "doc": "$~Tôi là một cử chỉ tay được camera nhận diện. Các trường thông tin của tôi cho biết vị trí của bàn tay trên sân khấu, những ngón tay nào đang duỗi ra và lòng bàn tay hay mu bàn tay đang hướng về phía camera. @Hand sẽ trả về một trong những cử chỉ của tôi.",
+            "names": ["$~✋", "$~Cửchỉ"],
             "place": {
                 "doc": "$~Vị trí bàn tay trên sân khấu.",
                 "names": ["$~địađiểm"]

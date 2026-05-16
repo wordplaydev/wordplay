@@ -4378,9 +4378,9 @@
             },
             "defaultDescription": "$~Disons 1 $"
         },
-        "Hand": {
-            "doc": "$~Je suis une main détectée par la caméra. Mes champs indiquent où se trouve la main sur scène, quels doigts sont étendus et si la paume ou le dos de la main est orienté vers la caméra.",
-            "names": ["$~🖐️", "$~Main"],
+        "Gesture": {
+            "doc": "$~Je suis un geste de la main détecté par la caméra. Mes champs indiquent la position de la main sur scène, les doigts étendus et si la paume ou le dos de la main est orienté vers la caméra. @Hand renvoie une instance de moi.",
+            "names": ["$~✋", "$~Geste"],
             "place": {
                 "doc": "$~Où se trouve la main sur scène.",
                 "names": ["$~lieu"]

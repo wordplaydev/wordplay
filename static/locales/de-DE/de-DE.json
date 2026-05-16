@@ -4377,9 +4377,9 @@
             },
             "defaultDescription": "$~Sagen wir 1 Dollar"
         },
-        "Hand": {
-            "doc": "$~Ich bin eine von der Kamera erfasste Hand. Meine Felder zeigen Ihnen, wo sich die Hand auf der Bühne befindet, welche Finger ausgestreckt sind und ob die Handfläche oder der Handrücken zur Kamera zeigt.",
-            "names": ["$~🖐️", "$~Hand"],
+        "Gesture": {
+            "doc": "$~Ich bin eine von der Kamera erkannte Handgeste. Meine Felder geben Auskunft darüber, wo sich die Hand auf der Bühne befindet, welche Finger ausgestreckt sind und ob die Handfläche oder der Handrücken zur Kamera zeigt. @Hand liefert ein Ergebnis von mir.",
+            "names": ["$~✋", "$~Geste"],
             "place": {
                 "doc": "$~Wo sich die Hand auf der Bühne befindet.",
                 "names": ["$~Ort"]

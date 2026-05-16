@@ -4378,9 +4378,9 @@
             },
             "defaultDescription": "$~1 dolar diyelim."
         },
-        "Hand": {
-            "doc": "$~Ben kamera tarafından algılanan bir elim. Alan verilerim, elin sahnede nerede olduğunu, hangi parmakların açık olduğunu ve avuç içi mi yoksa elin sırtı mı kameraya dönük olduğunu gösteriyor.",
-            "names": ["$~🖐️", "$~El"],
+        "Gesture": {
+            "doc": "$~Ben kamera tarafından algılanan bir el hareketiyim. Alanlarım, elin sahnede nerede olduğunu, hangi parmakların uzatıldığını ve avuç içi mi yoksa elin sırtı mı kameraya dönük olduğunu gösterir. @Hand, benim bir örneğimi döndürür.",
+            "names": ["$~✋", "$~Jestyapmak"],
             "place": {
                 "doc": "$~Elin sahnede bulunduğu yer.",
                 "names": ["$~yer"]

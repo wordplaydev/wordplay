@@ -4135,9 +4135,9 @@
                 "names": ["📐", "rotation"]
             }
         },
-        "Hand": {
-            "doc": "I'm a hand detected by the camera. My fields tell you where the hand is on stage, which fingers are extended, and whether the palm or back of the hand is facing the camera.",
-            "names": ["🖐️", "Hand"],
+        "Gesture": {
+            "doc": "I'm a hand gesture detected by the camera. My fields tell you where the hand is on stage, which fingers are extended, and whether the palm or back of the hand is facing the camera.",
+            "names": ["✋", "Gesture"],
             "place": {
                 "doc": "Where the hand is on stage.",
                 "names": ["place"]

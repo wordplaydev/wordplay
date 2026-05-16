@@ -76,7 +76,7 @@ export default function createDefaultShares(locales: Locales) {
         Velocity: VelocityType,
         Direction: DirectionType,
         Rebound: ReboundType,
-        Hand: HandType,
+        Gesture: HandType,
         Form: createFormType(locales),
         Rectangle: createRectangleType(locales),
         Circle: createCircleType(locales),

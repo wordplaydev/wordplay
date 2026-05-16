@@ -4379,9 +4379,9 @@
                 "explanation": "$~Este projeto contém texto em excesso, pelo que não o podemos guardar."
             }
         },
-        "Hand": {
-            "doc": "$~Sou uma mão detectada pela câmara. Os meus campos indicam a posição da mão no palco, quais os dedos que estão estendidos e se a palma ou o dorso da mão está virado para a câmara.",
-            "names": ["$~🖐️", "$~Mão"],
+        "Gesture": {
+            "doc": "$~Sou um gesto de mão detetado pela câmara. Os meus campos indicam a posição da mão no palco, quais os dedos que estão estendidos e se a palma ou o dorso da mão está virado para a câmara. @Hand devolve uma das minhas representações.",
+            "names": ["$~✋", "$~Gesto"],
             "place": {
                 "doc": "$~Onde a mão está no palco.",
                 "names": ["$~local"]

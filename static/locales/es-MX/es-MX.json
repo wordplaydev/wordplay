@@ -4360,9 +4360,9 @@
             },
             "defaultDescription": "$~Digamos $1"
         },
-        "Hand": {
-            "doc": "$~Soy una mano detectada por la cámara. Mis datos te indican dónde está la mano en el escenario, qué dedos están extendidos y si la palma o el dorso de la mano están orientados hacia la cámara.",
-            "names": ["$~🖐️", "$~Mano"],
+        "Gesture": {
+            "doc": "$~Soy un gesto de la mano detectado por la cámara. Mis campos indican dónde se encuentra la mano en el escenario, qué dedos están extendidos y si la palma o el dorso de la mano miran hacia la cámara. @Hand devuelve una copia de mí.",
+            "names": ["$~✋", "$~Gesto"],
             "place": {
                 "doc": "$~Donde está la mano en el escenario.",
                 "names": ["$~lugar"]
