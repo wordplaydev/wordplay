@@ -1,12 +1,14 @@
 import type {
-    HandLandmarker,
     HandLandmarkerResult,
     NormalizedLandmark,
 } from '@mediapipe/tasks-vision';
 import CameraFeed from '@input/CameraFeed';
 import createStreamEvaluator from '@input/createStreamEvaluator';
 import {
+    currentHandLandmarker,
     getHandLandmarker,
+    isWebKit,
+    maybeRecreateHandLandmarker,
     nextDetectTimestamp,
 } from '@input/HandLandmarker';
 import { getDocLocales } from '@locale/getDocLocales';
@@ -35,6 +37,22 @@ import TemporalStreamValue from '@values/TemporalStreamValue';
  * stuttery result anyway. Creators who need faster updates can override.
  */
 const DEFAULT_FREQUENCY = 50;
+
+/**
+ * Minimum frame interval on WebKit (Safari desktop, all iOS browsers).
+ * Hand tracking on Safari is bottlenecked by WASM heap growth: every
+ * detection allocates internal MediaPipe tensors that don't shrink, and
+ * each emission cascades into a full Evaluator re-evaluation. At 20 fps
+ * iOS hits its per-process memory ceiling within ~10 seconds. Capping at
+ * 10 fps halves the per-second pressure with negligible perceptible
+ * lag for hand visualization. Desktop Chrome/Firefox keep the full 20 fps.
+ */
+const WEBKIT_MIN_FREQUENCY = 100;
+
+/** Apply the platform-specific floor to a requested frequency. */
+function clampFrequencyForPlatform(frequency: number): number {
+    return isWebKit() ? Math.max(WEBKIT_MIN_FREQUENCY, frequency) : frequency;
+}
 /**
  * MediaPipe's hand-landmarker model takes ~192px internally regardless of
  * input size; feeding it the camera's native 720p+ frames just wastes work
@@ -112,7 +130,6 @@ export default class Hand extends TemporalStreamValue<StructureValue, HandLandma
     frequency: number;
     resolution: number;
 
-    private landmarker: HandLandmarker | undefined;
     /** Most recent emitted state — held when MediaPipe misses for a few frames. */
     private state: HandState;
     private consecutiveMisses = 0;
@@ -166,7 +183,7 @@ export default class Hand extends TemporalStreamValue<StructureValue, HandLandma
             emptyResult,
         );
 
-        this.frequency = frequency;
+        this.frequency = clampFrequencyForPlatform(frequency);
         this.resolution = Math.max(64, Math.floor(resolution));
         this.lastDevice = this.evaluator.database.Settings.getCamera();
         this.state = defaultState;
@@ -191,7 +208,7 @@ export default class Hand extends TemporalStreamValue<StructureValue, HandLandma
             this.resolution = newResolution;
             this.feed.setResolution(newResolution, null);
         }
-        this.frequency = frequency;
+        this.frequency = clampFrequencyForPlatform(frequency);
 
         const currentDevice = this.evaluator.database.Settings.getCamera();
         if (currentDevice !== this.lastDevice) {
@@ -362,14 +379,17 @@ export default class Hand extends TemporalStreamValue<StructureValue, HandLandma
         )
             return;
 
-        // Lazy-load MediaPipe on first tick. After the await, the next tick
-        // will find this.landmarker set and start detecting.
-        if (this.landmarker === undefined) {
-            void getHandLandmarker().then((lm) => {
-                this.landmarker = lm;
-            });
-            return;
-        }
+        // Read the live landmarker each tick (instead of caching) so that
+        // when HandLandmarker.ts periodically tears down + replaces the
+        // singleton to release MediaPipe's WASM heap, we pick up the fresh
+        // one without ever holding a reference to a closed instance.
+        const landmarker = currentHandLandmarker();
+        if (landmarker === undefined) return;
+
+        // Periodically recreate the landmarker so its WebAssembly.Memory
+        // (which only grows) gets fully released back to the OS. Cheap
+        // call — no-ops until the interval elapses.
+        maybeRecreateHandLandmarker();
 
         const video = this.feed.getVideoElement();
         if (!video || video.readyState < 2) return;
@@ -399,20 +419,16 @@ export default class Hand extends TemporalStreamValue<StructureValue, HandLandma
         // landmarker lifetime, which spans Wordplay re-runs that reset
         // `time`. nextDetectTimestamp() bridges those by tracking
         // performance.now() across the page session.
-        const result = this.landmarker.detectForVideo(
-            frame,
-            nextDetectTimestamp(),
-        );
+        const result = landmarker.detectForVideo(frame, nextDetectTimestamp());
         this.react(result);
     }
 
     start() {
         this.feed.start();
         // Kick off MediaPipe loading early so it can overlap with the camera
-        // permission prompt and video stream warm-up.
-        void getHandLandmarker().then((lm) => {
-            this.landmarker = lm;
-        });
+        // permission prompt and video stream warm-up. We don't store the
+        // result — tick() reads the live singleton via currentHandLandmarker().
+        void getHandLandmarker();
     }
 
     stop() {

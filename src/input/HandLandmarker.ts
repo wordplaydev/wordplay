@@ -11,6 +11,22 @@ import type { HandLandmarker } from '@mediapipe/tasks-vision';
 
 let landmarker: HandLandmarker | undefined;
 let loadingPromise: Promise<HandLandmarker> | undefined;
+let landmarkerCreatedAt = 0;
+let recreatePromise: Promise<HandLandmarker> | undefined;
+
+/**
+ * How long a single MediaPipe HandLandmarker instance is allowed to live
+ * before it gets torn down and re-created. `WebAssembly.Memory` only ever
+ * grows — MediaPipe's per-frame tensor allocations accumulate in the WASM
+ * heap and never shrink, which on iOS Safari (with its ~1GB per-process
+ * memory ceiling) causes the tab to be killed within ~10s of active hand
+ * tracking. Periodically closing the landmarker fully releases its WASM
+ * heap back to the OS. 30s is a tradeoff: short enough that growth stays
+ * bounded, long enough that the ~300ms creation hiccup is rare. Detection
+ * never stalls — the old landmarker keeps serving frames until the new
+ * one is ready, then the swap is atomic.
+ */
+const RECREATE_INTERVAL_MS = 30_000;
 
 /**
  * True on Safari desktop and every browser on iOS (all WebKit). UA sniffing
@@ -20,7 +36,7 @@ let loadingPromise: Promise<HandLandmarker> | undefined;
  * `navigator.vendor` is set to an Apple string by every WebKit-based
  * browser, which catches "Chrome on iOS" too (also WebKit underneath).
  */
-function isWebKit(): boolean {
+export function isWebKit(): boolean {
     if (typeof navigator === 'undefined') return true;
     return navigator.vendor.includes('Apple');
 }
@@ -47,6 +63,28 @@ function notifyLoading(loading: boolean) {
 }
 
 /**
+ * Construct a fresh HandLandmarker. Shared between initial load and
+ * periodic recreate. WebKit (Safari desktop, all iOS browsers) gets the
+ * CPU delegate because its WebGL texture GC lags until the OS kills the
+ * tab; Chromium/Gecko keep the GPU speedup.
+ */
+async function createLandmarker(): Promise<HandLandmarker> {
+    const { HandLandmarker, FilesetResolver } = await import(
+        '@mediapipe/tasks-vision'
+    );
+    const fileset = await FilesetResolver.forVisionTasks('/wasm');
+    return await HandLandmarker.createFromOptions(fileset, {
+        baseOptions: {
+            modelAssetPath:
+                'https://storage.googleapis.com/mediapipe-models/hand_landmarker/hand_landmarker/float16/1/hand_landmarker.task',
+            delegate: isWebKit() ? 'CPU' : 'GPU',
+        },
+        runningMode: 'VIDEO',
+        numHands: 1,
+    });
+}
+
+/**
  * Get the shared HandLandmarker instance, lazy-loading MediaPipe Tasks
  * Vision (~3–4MB gzipped WASM + ~5MB model) on first call. Subsequent
  * calls return the existing instance.
@@ -57,24 +95,9 @@ export async function getHandLandmarker(): Promise<HandLandmarker> {
 
     notifyLoading(true);
     loadingPromise = (async () => {
-        const { HandLandmarker, FilesetResolver } = await import(
-            '@mediapipe/tasks-vision'
-        );
-        const fileset = await FilesetResolver.forVisionTasks('/wasm');
-        // WebKit (Safari desktop, all iOS browsers) doesn't reclaim
-        // MediaPipe's WebGL textures fast enough — memory climbs to ~2GB
-        // and the tab dies. Force CPU there. Chromium/Gecko handle the
-        // GC fine and keep the GPU speedup.
-        const result = await HandLandmarker.createFromOptions(fileset, {
-            baseOptions: {
-                modelAssetPath:
-                    'https://storage.googleapis.com/mediapipe-models/hand_landmarker/hand_landmarker/float16/1/hand_landmarker.task',
-                delegate: isWebKit() ? 'CPU' : 'GPU',
-            },
-            runningMode: 'VIDEO',
-            numHands: 1,
-        });
+        const result = await createLandmarker();
         landmarker = result;
+        landmarkerCreatedAt = performance.now();
         notifyLoading(false);
         return result;
     })();
@@ -86,6 +109,46 @@ export async function getHandLandmarker(): Promise<HandLandmarker> {
         loadingPromise = undefined;
         throw e;
     }
+}
+
+/**
+ * Synchronous accessor — returns the currently-active landmarker (or
+ * undefined if still loading or being swapped). Hand.tick() uses this so
+ * its main per-frame path stays sync. Always returns the *latest*
+ * landmarker; an in-flight recreate keeps the old one usable until the
+ * new one is ready, then atomically swaps.
+ */
+export function currentHandLandmarker(): HandLandmarker | undefined {
+    return landmarker;
+}
+
+/**
+ * Kick off a background recreate if enough time has passed. Cheap to call
+ * every tick — only does work when the interval has elapsed and no other
+ * recreate is already in flight. The actual close+swap happens after the
+ * new landmarker is ready, so detection never stalls.
+ */
+export function maybeRecreateHandLandmarker(): void {
+    if (!landmarker || recreatePromise) return;
+    if (performance.now() - landmarkerCreatedAt < RECREATE_INTERVAL_MS) return;
+
+    recreatePromise = (async () => {
+        try {
+            const fresh = await createLandmarker();
+            // Atomic swap: until this point all detect() calls used the
+            // old instance; after this point new calls use the fresh one.
+            // JS single-threading guarantees no detect() is mid-call here.
+            const old = landmarker;
+            landmarker = fresh;
+            landmarkerCreatedAt = performance.now();
+            // Releasing the old one frees its WebAssembly.Memory back to
+            // the OS — the whole point of this dance.
+            if (old) old.close();
+            return fresh;
+        } finally {
+            recreatePromise = undefined;
+        }
+    })();
 }
 
 /** True if the landmarker has already loaded (subsequent Hand() streams skip the spinner). */
