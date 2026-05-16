@@ -4382,9 +4382,9 @@
                 "explanation": "$~Masyadong maraming teksto ang proyektong ito, kaya hindi natin ito ma-save."
             }
         },
-        "Hand": {
-            "doc": "$~Isa akong kamay na nade-detect ng kamera. Sinasabi sa iyo ng aking mga field kung nasaan ang kamay sa entablado, kung aling mga daliri ang nakaunat, at kung ang palad o likod ng kamay ay nakaharap sa kamera.",
-            "names": ["$~🖐️", "$~Kamay"],
+        "Gesture": {
+            "doc": "$~Ang \"Ako\" ay isang kilos ng kamay na nade-detect ng kamera. Sinasabi sa iyo ng aking mga field kung nasaan ang kamay sa entablado, kung aling mga daliri ang nakaunat, at kung ang palad o likod ng kamay ay nakaharap sa kamera. Ang \"@Hand\" ay nagbabalik ng \"Ako\".",
+            "names": ["$~✋", "$~Kilos"],
             "place": {
                 "doc": "$~Kung saan nasa entablado ang kamay.",
                 "names": ["$~lugar"]

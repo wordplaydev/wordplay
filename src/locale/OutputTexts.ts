@@ -229,8 +229,8 @@ type OutputTexts = {
         /** optional rotation */
         rotation: NameAndDoc;
     };
-    /** A hand detected in the camera image */
-    Hand: NameAndDoc & {
+    /** A hand gesture detected in the camera image (returned by the Hand input stream) */
+    Gesture: NameAndDoc & {
         /** Where the hand is on stage */
         place: NameAndDoc;
         /** True when the hand is open, false when it's a fist */

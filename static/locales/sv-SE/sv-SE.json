@@ -4378,9 +4378,9 @@
             },
             "defaultDescription": "$~Säg 1 dollar"
         },
-        "Hand": {
-            "doc": "$~Jag är en hand som kameran upptäcker. Mina fält visar var handen är på scenen, vilka fingrar som är utsträckta och om handflatan eller handryggen är vänd mot kameran.",
-            "names": ["$~🖐️", "$~Hand"],
+        "Gesture": {
+            "doc": "$~Jag är en handgest som kameran upptäcker. Mina fält visar var handen är på scenen, vilka fingrar som är utsträckta och om handflatan eller handryggen är vänd mot kameran. @Hand visar en av mig.",
+            "names": ["$~✋", "$~Gest"],
             "place": {
                 "doc": "$~Där handen är på scenen.",
                 "names": ["$~plats"]

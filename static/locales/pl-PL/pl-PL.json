@@ -4383,9 +4383,9 @@
             },
             "defaultDescription": "$~Powiedz 1$"
         },
-        "Hand": {
-            "doc": "$~Jestem dłonią wykrytą przez kamerę. Moje pola wskazują, gdzie dłoń znajduje się na scenie, które palce są wyciągnięte i czy wnętrze dłoni, czy jej grzbiet są skierowane w stronę kamery.",
-            "names": ["$~🖐️", "$~Ręka"],
+        "Gesture": {
+            "doc": "$~Jestem gestem dłoni wykrytym przez kamerę. Moje pola wskazują, gdzie dłoń znajduje się na scenie, które palce są wyciągnięte i czy wnętrze dłoni, czy jej wierzch jest skierowany w stronę kamery. @Hand odwzajemnia jedno ze mnie.",
+            "names": ["$~✋", "$~Gest"],
             "place": {
                 "doc": "$~Gdzie ręka jest na scenie.",
                 "names": ["$~miejsce"]

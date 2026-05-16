@@ -728,6 +728,10 @@
           "type": "string"
         },
         {
+          "const": "Gesture",
+          "type": "string"
+        },
+        {
           "const": "Velocity",
           "type": "string"
         },

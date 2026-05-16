@@ -9,16 +9,16 @@ import StructureValue from '@values/StructureValue';
 
 export function createHandType(locales: Locales) {
     return toStructure(`
-    ${getBind(locales, (locale) => locale.output.Hand, TYPE_SYMBOL)}(
-        ${getBind(locales, (locale) => locale.output.Hand.place)}•Place: Place()
-        ${getBind(locales, (locale) => locale.output.Hand.open)}•?: ${FALSE_SYMBOL}
-        ${getBind(locales, (locale) => locale.output.Hand.fingers)}•#: 0
-        ${getBind(locales, (locale) => locale.output.Hand.thumb)}•?: ${FALSE_SYMBOL}
-        ${getBind(locales, (locale) => locale.output.Hand.index)}•?: ${FALSE_SYMBOL}
-        ${getBind(locales, (locale) => locale.output.Hand.middle)}•?: ${FALSE_SYMBOL}
-        ${getBind(locales, (locale) => locale.output.Hand.ring)}•?: ${FALSE_SYMBOL}
-        ${getBind(locales, (locale) => locale.output.Hand.pinky)}•?: ${FALSE_SYMBOL}
-        ${getBind(locales, (locale) => locale.output.Hand.palm)}•?: ${FALSE_SYMBOL}
+    ${getBind(locales, (locale) => locale.output.Gesture, TYPE_SYMBOL)}(
+        ${getBind(locales, (locale) => locale.output.Gesture.place)}•Place: Place()
+        ${getBind(locales, (locale) => locale.output.Gesture.open)}•?: ${FALSE_SYMBOL}
+        ${getBind(locales, (locale) => locale.output.Gesture.fingers)}•#: 0
+        ${getBind(locales, (locale) => locale.output.Gesture.thumb)}•?: ${FALSE_SYMBOL}
+        ${getBind(locales, (locale) => locale.output.Gesture.index)}•?: ${FALSE_SYMBOL}
+        ${getBind(locales, (locale) => locale.output.Gesture.middle)}•?: ${FALSE_SYMBOL}
+        ${getBind(locales, (locale) => locale.output.Gesture.ring)}•?: ${FALSE_SYMBOL}
+        ${getBind(locales, (locale) => locale.output.Gesture.pinky)}•?: ${FALSE_SYMBOL}
+        ${getBind(locales, (locale) => locale.output.Gesture.palm)}•?: ${FALSE_SYMBOL}
     )
 `);
 }
@@ -43,7 +43,7 @@ export function createHandStructure(
     return StructureValue.make(
         evaluator,
         creator,
-        evaluator.project.shares.output.Hand,
+        evaluator.project.shares.output.Gesture,
         state.place,
         new BoolValue(creator, state.open),
         new NumberValue(creator, state.fingers),

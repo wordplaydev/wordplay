@@ -7491,6 +7491,70 @@
               ],
               "type": "object"
             },
+            "Gesture": {
+              "additionalProperties": false,
+              "description": "A hand gesture detected in the camera image (returned by the Hand input stream)",
+              "properties": {
+                "doc": {
+                  "$ref": "#/definitions/DocText",
+                  "description": "Documentation for this definition, to appear in the documentation browser."
+                },
+                "fingers": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Count of extended fingers, 0–5"
+                },
+                "index": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "True if the index finger is extended"
+                },
+                "middle": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "True if the middle finger is extended"
+                },
+                "names": {
+                  "$ref": "#/definitions/NameText",
+                  "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
+                },
+                "open": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "True when the hand is open, false when it's a fist"
+                },
+                "palm": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "True if the palm faces the camera, false if the back of the hand does"
+                },
+                "pinky": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "True if the pinky finger is extended"
+                },
+                "place": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Where the hand is on stage"
+                },
+                "ring": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "True if the ring finger is extended"
+                },
+                "thumb": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "True if the thumb is extended"
+                }
+              },
+              "required": [
+                "doc",
+                "fingers",
+                "index",
+                "middle",
+                "names",
+                "open",
+                "palm",
+                "pinky",
+                "place",
+                "ring",
+                "thumb"
+              ],
+              "type": "object"
+            },
             "Grid": {
               "additionalProperties": false,
               "description": "A grid arrangement, like a table",
@@ -7676,70 +7740,6 @@
                 "selectable",
                 "size",
                 "style"
-              ],
-              "type": "object"
-            },
-            "Hand": {
-              "additionalProperties": false,
-              "description": "A hand detected in the camera image",
-              "properties": {
-                "doc": {
-                  "$ref": "#/definitions/DocText",
-                  "description": "Documentation for this definition, to appear in the documentation browser."
-                },
-                "fingers": {
-                  "$ref": "#/definitions/NameAndDoc",
-                  "description": "Count of extended fingers, 0–5"
-                },
-                "index": {
-                  "$ref": "#/definitions/NameAndDoc",
-                  "description": "True if the index finger is extended"
-                },
-                "middle": {
-                  "$ref": "#/definitions/NameAndDoc",
-                  "description": "True if the middle finger is extended"
-                },
-                "names": {
-                  "$ref": "#/definitions/NameText",
-                  "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
-                },
-                "open": {
-                  "$ref": "#/definitions/NameAndDoc",
-                  "description": "True when the hand is open, false when it's a fist"
-                },
-                "palm": {
-                  "$ref": "#/definitions/NameAndDoc",
-                  "description": "True if the palm faces the camera, false if the back of the hand does"
-                },
-                "pinky": {
-                  "$ref": "#/definitions/NameAndDoc",
-                  "description": "True if the pinky finger is extended"
-                },
-                "place": {
-                  "$ref": "#/definitions/NameAndDoc",
-                  "description": "Where the hand is on stage"
-                },
-                "ring": {
-                  "$ref": "#/definitions/NameAndDoc",
-                  "description": "True if the ring finger is extended"
-                },
-                "thumb": {
-                  "$ref": "#/definitions/NameAndDoc",
-                  "description": "True if the thumb is extended"
-                }
-              },
-              "required": [
-                "doc",
-                "fingers",
-                "index",
-                "middle",
-                "names",
-                "open",
-                "palm",
-                "pinky",
-                "place",
-                "ring",
-                "thumb"
               ],
               "type": "object"
             },
@@ -8706,7 +8706,7 @@
             "Sequence",
             "Color",
             "Place",
-            "Hand",
+            "Gesture",
             "Velocity",
             "Matter",
             "Arrangement",
