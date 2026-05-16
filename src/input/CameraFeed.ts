@@ -158,7 +158,15 @@ export default class CameraFeed {
 
         const base: MediaTrackConstraints = {
             width: { min: this.targetWidth },
-            frameRate: { ideal: 1000 / this.idealFrequency },
+            // Cap the camera's frame production at our consumption rate.
+            // `ideal` is only a hint — Safari will happily produce at the
+            // sensor's native 30fps regardless, and the unread frames pool
+            // up inside the <video> element (~3MB each at 720p YUV). That
+            // accumulates Page memory at ~30MB/s and was the dominant
+            // source of the iOS tab crash and macOS Safari frame-rate
+            // degradation. `max` is a hard upper bound the browser must
+            // respect.
+            frameRate: { max: 1000 / this.idealFrequency },
         };
         // Only constrain height when caller pinned it; otherwise let the sensor
         // pick its native size so we can read its aspect ratio.

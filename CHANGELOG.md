@@ -20,6 +20,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - The to front and back buttons in the character editor didn't work.
 - Repaired a translation bug that prevented rendering of translated formatted text.
 - Stopped autocomplete from preventing percent typing.
+- We reduced how much memory projects use when they are running or edited.
 
 ## 0.17.9 - 2026-05-09
 

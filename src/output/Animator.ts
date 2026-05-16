@@ -44,7 +44,15 @@ export type Orientation = { place: Place; rotation: number | undefined };
  * any time the project reevaluates.
  * */
 export default class Animator {
-    readonly evaluator: Evaluator;
+    /**
+     * Not readonly so that stop() can null it. The Animator ↔ Evaluator
+     * cycle must be severable from either side: if the Animator is externally
+     * retained (e.g. a Svelte $state wrapper held by an effect closure that
+     * survived a remount), the only way to release the Evaluator and its
+     * temporalStreams (Hand, the camera DOM it owns, and its MediaPipe
+     * WebAssembly.Memory) is to clear this back-reference.
+     */
+    evaluator: Evaluator | undefined;
 
     /** The current verse being displayed */
     stage: Stage | undefined = undefined;
@@ -366,6 +374,22 @@ export default class Animator {
         this.animations.forEach((animation) => animation.done());
 
         this.physics.stop();
+
+        // Break the Animator ↔ Evaluator cycle. The constructor sets
+        // `evaluator.scene = this` for runtime access; if we leave both
+        // refs in place on stop, any leftover external reference to either
+        // half (e.g. a Svelte $effect closure that still has the old
+        // `animator` $state wrapper in scope after a remount) keeps the
+        // entire graph alive — Evaluator, all of its temporalStreams
+        // (including Hand, its camera DOM, its MediaPipe
+        // WebAssembly.Memory), the physics engine, and so on. Nulling both
+        // sides lets the cycle collapse even when one half is still weakly
+        // retained from outside.
+        if (this.evaluator) {
+            if (this.evaluator.scene === this)
+                this.evaluator.scene = undefined;
+            this.evaluator = undefined;
+        }
     }
 
     /** The exit animation is complete, so we remove it from animations, scenes, and notify listeners the exit callback */
@@ -392,6 +416,11 @@ export default class Animator {
     }
 
     updatedAnimationState(animation: OutputAnimation) {
+        // After stop() the evaluator reference is cleared to break the
+        // retention cycle (see stop()). Late-firing animation callbacks can
+        // still reach this method, but with no live evaluator there are no
+        // scene streams to notify — bail.
+        if (!this.evaluator) return;
         // Notify any scene streams about the updated animations
         const scenes = this.evaluator.getBasisStreamsOfType(Scene);
         for (const sc of scenes) sc.handleAnimationStateChange(animation);

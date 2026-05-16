@@ -1281,9 +1281,21 @@
     // false: couldn't load it.
     let chat = $state<Chat | undefined | null | false>(null);
     $effect(() => {
-        // When the project or chat change, get the chat.
-        Chats.getChat(project).then((retrievedChat) => {
-            chat = retrievedChat;
+        // Re-fetch whenever the project changes; do NOT subscribe to the
+        // chats $state map. Doing so would register this effect's closure
+        // as a reaction on Chats.chats — and that closure transitively
+        // captures the whole ProjectView script scope (including the
+        // commandContext $derived, which exposes the live evaluator and
+        // its temporalStreams). On any kind of remount the stale reaction
+        // would pin an old Evaluator (and therefore the old Hand stream,
+        // its camera DOM, and its MediaPipe WebAssembly.Memory) until the
+        // ChatDatabase singleton itself goes away — which never happens
+        // during a page session.
+        const currentProject = project;
+        untrack(() => {
+            Chats.getChat(currentProject).then((retrievedChat) => {
+                chat = retrievedChat;
+            });
         });
     });
 

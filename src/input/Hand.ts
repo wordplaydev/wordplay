@@ -119,6 +119,19 @@ export default class Hand extends TemporalStreamValue<StructureValue, HandLandma
     /** Smoothed place in pixel-normalized space (0..1) so frequency changes don't reset the EMA. */
     private smoothedX: number | undefined;
     private smoothedY: number | undefined;
+    /**
+     * Last-emitted coords + packed boolean/finger flags. Used to dedup
+     * `add()` calls when nothing material has changed: a stationary hand
+     * would otherwise trigger 20 full Evaluator re-evaluations per second,
+     * each rebuilding the entire Stage output and allocating dozens of
+     * StructureValues. Safari can't incrementally GC fast enough at that
+     * rate, so the heap spikes until a full collection fires (visible as
+     * a hang). Skipping emits on no-op detections keeps the allocation
+     * rate well below WebKit's GC threshold.
+     */
+    private lastEmittedX: number | undefined = undefined;
+    private lastEmittedY: number | undefined = undefined;
+    private lastEmittedFlags = -1;
     /** The camera device id we last started the feed with. */
     private lastDevice: string | null;
 
@@ -215,7 +228,7 @@ export default class Hand extends TemporalStreamValue<StructureValue, HandLandma
                     palm: false,
                 };
             }
-            this.add(createHandStructure(this.evaluator, this.state), result);
+            this.emitIfChanged(undefined, undefined, 0, result);
             return;
         }
 
@@ -301,6 +314,39 @@ export default class Hand extends TemporalStreamValue<StructureValue, HandLandma
             palm,
         };
 
+        const flags = packFlags(thumb, index, middle, ring, pinky, palm, open, fingers);
+        this.emitIfChanged(this.smoothedX, this.smoothedY, flags, result);
+    }
+
+    /**
+     * Push a fresh Hand structure to subscribers only if the new state is
+     * materially different from the last emission. "Materially" = a smoothed
+     * position shift larger than NO_MOTION_THRESHOLD in normalized units
+     * (~0.06m in stage meters, sub-pixel-ish on a typical view), or any
+     * change in the packed finger/handed flags. A perfectly still hand
+     * would otherwise re-emit 20×/sec and force the Evaluator to rebuild
+     * the whole Stage output graph each time — that's the allocation rate
+     * that overwhelms Safari's incremental GC.
+     */
+    private emitIfChanged(
+        x: number | undefined,
+        y: number | undefined,
+        flags: number,
+        result: HandLandmarkerResult,
+    ) {
+        const NO_MOTION_THRESHOLD = 0.003;
+        const positionUnchanged =
+            x === undefined ||
+            y === undefined ||
+            (this.lastEmittedX !== undefined &&
+                this.lastEmittedY !== undefined &&
+                Math.abs(x - this.lastEmittedX) < NO_MOTION_THRESHOLD &&
+                Math.abs(y - this.lastEmittedY) < NO_MOTION_THRESHOLD);
+        if (positionUnchanged && flags === this.lastEmittedFlags) return;
+
+        this.lastEmittedX = x;
+        this.lastEmittedY = y;
+        this.lastEmittedFlags = flags;
         this.add(createHandStructure(this.evaluator, this.state), result);
     }
 
@@ -376,6 +422,33 @@ export default class Hand extends TemporalStreamValue<StructureValue, HandLandma
     getType() {
         return NumberType.make();
     }
+}
+
+/**
+ * Pack the seven Hand booleans plus the finger count into a single integer
+ * so the dedup check in emitIfChanged is one === comparison. Finger count
+ * is 0–5 so it fits in the high bits without overlap.
+ */
+function packFlags(
+    thumb: boolean,
+    index: boolean,
+    middle: boolean,
+    ring: boolean,
+    pinky: boolean,
+    palm: boolean,
+    open: boolean,
+    fingers: number,
+): number {
+    return (
+        (thumb ? 1 : 0) |
+        (index ? 2 : 0) |
+        (middle ? 4 : 0) |
+        (ring ? 8 : 0) |
+        (pinky ? 16 : 0) |
+        (palm ? 32 : 0) |
+        (open ? 64 : 0) |
+        (fingers << 8)
+    );
 }
 
 /**
