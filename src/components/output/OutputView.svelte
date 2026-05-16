@@ -427,6 +427,9 @@
         // Add event to pointer event cache for
         pointersByIndex.push(event);
 
+        // A second pointer turns this into a pinch gesture, so abandon any in-progress pan.
+        if (pointersByIndex.length >= 2) drag = undefined;
+
         // Focus the keyboard input if it exists.
         if (keyboardInputView) {
             setKeyboardFocus(
@@ -587,9 +590,10 @@
 
         // If there are two pointers down, check for a pinch
         if (pointersByIndex.length === 2) {
-            // Find the difference on the x axis
-            const currentPointerDifference = Math.abs(
+            // Find the Euclidean distance between the two pointers
+            const currentPointerDifference = Math.hypot(
                 pointersByIndex[0].clientX - pointersByIndex[1].clientX,
+                pointersByIndex[0].clientY - pointersByIndex[1].clientY,
             );
             // No differences yet? Initialize to the current difference, which
             // is the anchor difference. Also initialize to the current rendered focus.
@@ -622,7 +626,12 @@
         // POINTER PANNING AND ZOOMING
 
         // Handle focus or output moves..
-        if (event.buttons === 1 && drag && renderedFocus) {
+        if (
+            pointersByIndex.length < 2 &&
+            event.buttons === 1 &&
+            drag &&
+            renderedFocus
+        ) {
             const valueRect = valueView?.getBoundingClientRect();
             if (valueRect !== undefined) {
                 const mouseXDelta = event.clientX - valueRect.left - drag.left;

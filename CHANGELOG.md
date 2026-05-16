@@ -23,6 +23,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - Repaired a translation bug that prevented rendering of translated formatted text.
 - Stopped autocomplete from preventing percent typing.
 - We reduced how much memory projects use when they are running or edited.
+- Pinch to zoom on stage was broken on touch screens.
 
 ## 0.17.9 - 2026-05-09
 
