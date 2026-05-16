@@ -2,7 +2,10 @@
     import GlyphChooser from '@components/widgets/GlyphChooser.svelte';
     import TextField from '@components/widgets/TextField.svelte';
     import Toggle from '@components/widgets/Toggle.svelte';
-    import { type Character } from '@db/characters/Character';
+    import type Caret from '@edit/caret/Caret';
+    import FormattedLiteral from '@nodes/FormattedLiteral';
+    import Node from '@nodes/Node';
+    import TextLiteral from '@nodes/TextLiteral';
     import { SEARCH_SYMBOL } from '@parser/Symbols';
     import { withColorEmoji } from '@unicode/emoji';
     import { IdleKind, getEditors } from '@components/project/Contexts';
@@ -36,21 +39,83 @@
         if (!expanded) query = '';
     }
 
-    function insert(character: string | Character) {
+    /** The node closest to the caret — for ancestor walks. */
+    function caretAnchor(caret: Caret): Node | undefined {
+        if (caret.position instanceof Node) return caret.position;
+        if (typeof caret.position === 'number')
+            return caret.tokenIncludingSpace ?? caret.tokenExcludingSpace;
+        return caret.source.getTokenAt(caret.position[0]);
+    }
+
+    function insert(text: string) {
         const editorState = $editors?.get(sourceID);
-        if (editorState) {
-            editorState.edit(
-                editorState.caret.insert(
-                    typeof character === 'string'
-                        ? character
-                        : `\`@${character.name}\``,
-                    editorState.blocks,
-                    editorState.project,
-                ),
-                IdleKind.Typed,
-                false,
-            );
+        if (!editorState) return;
+        const caret = editorState.caret;
+        const isCharacterRef = text.startsWith('@');
+
+        // Custom-character refs need different treatment depending on what
+        // the caret is inside — TextLiteral can't hold them, FormattedLiteral
+        // can. The strategy is to compute the right insertion text + caret
+        // selection and then route everything through caret.insert(), which
+        // already returns LocaleTextAccessor on failure so caret-shake
+        // feedback flows naturally.
+        let target = caret;
+        let payload = text;
+
+        if (isCharacterRef) {
+            const anchor = caretAnchor(caret);
+            const literal = anchor
+                ? [anchor, ...caret.source.root.getAncestors(anchor)].find(
+                      (n): n is TextLiteral | FormattedLiteral =>
+                          n instanceof TextLiteral ||
+                          n instanceof FormattedLiteral,
+                  )
+                : undefined;
+
+            if (literal) {
+                // Did the user select the whole literal as a node? That's an
+                // explicit "replace this entire thing" gesture, and it
+                // overrides the multi-translation skip below.
+                const wholeSelected = caret.position === literal;
+
+                // Caret sits inside one specific translation among many:
+                // there's no single right answer for where to put the
+                // character, and converting a TextLiteral would silently
+                // drop the others. Refuse with a caret shake.
+                if (!wholeSelected && literal.texts.length > 1) {
+                    editorState.edit(
+                        (l) => l.ui.source.cursor.ignored.noInsert,
+                        IdleKind.Typed,
+                        false,
+                    );
+                    return;
+                }
+
+                if (literal instanceof TextLiteral || wholeSelected) {
+                    // Replace the whole literal with a fresh FormattedLiteral
+                    // text. caret.insert(node-position, text) does the
+                    // delete-and-insert in one step; the parser turns the
+                    // backtick-wrapped payload into a FormattedLiteral.
+                    // Preserve the first translation's language tag if any.
+                    const lang =
+                        literal.texts[0]?.language?.toWordplay() ?? '';
+                    target = caret.withPosition(literal);
+                    payload = `\`${text}\`${lang}`;
+                }
+                // Otherwise: FormattedLiteral with one translation, caret
+                // inside its markup. Insert the bare @ref — no backtick wrap.
+            } else {
+                // Outside any text/format literal: wrap in backticks so the
+                // bare @ref parses as a new FormattedLiteral.
+                payload = `\`${text}\``;
+            }
         }
+
+        editorState.edit(
+            target.insert(payload, editorState.blocks, editorState.project),
+            IdleKind.Typed,
+            false,
+        );
     }
 </script>
 

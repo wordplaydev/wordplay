@@ -13,6 +13,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 ### Changed
 
 - We upgraded internal tooling for stability.
+- We added more flexible custom character insertion.
 
 ### Fixed
 
