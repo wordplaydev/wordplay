@@ -12,6 +12,19 @@ import type { HandLandmarker } from '@mediapipe/tasks-vision';
 let landmarker: HandLandmarker | undefined;
 let loadingPromise: Promise<HandLandmarker> | undefined;
 
+/**
+ * True on Safari desktop and every browser on iOS (all WebKit). UA sniffing
+ * is appropriate here because the underlying issue — WebGL texture GC
+ * lagging until the OS kills the tab — is browser-engine-specific and has
+ * no feature-detect equivalent that surfaces in less than a few minutes.
+ * `navigator.vendor` is set to an Apple string by every WebKit-based
+ * browser, which catches "Chrome on iOS" too (also WebKit underneath).
+ */
+function isWebKit(): boolean {
+    if (typeof navigator === 'undefined') return true;
+    return navigator.vendor.includes('Apple');
+}
+
 type LoadingObserver = (loading: boolean) => void;
 const observers: LoadingObserver[] = [];
 
@@ -48,11 +61,15 @@ export async function getHandLandmarker(): Promise<HandLandmarker> {
             '@mediapipe/tasks-vision'
         );
         const fileset = await FilesetResolver.forVisionTasks('/wasm');
+        // WebKit (Safari desktop, all iOS browsers) doesn't reclaim
+        // MediaPipe's WebGL textures fast enough — memory climbs to ~2GB
+        // and the tab dies. Force CPU there. Chromium/Gecko handle the
+        // GC fine and keep the GPU speedup.
         const result = await HandLandmarker.createFromOptions(fileset, {
             baseOptions: {
                 modelAssetPath:
                     'https://storage.googleapis.com/mediapipe-models/hand_landmarker/hand_landmarker/float16/1/hand_landmarker.task',
-                delegate: 'GPU',
+                delegate: isWebKit() ? 'CPU' : 'GPU',
             },
             runningMode: 'VIDEO',
             numHands: 1,

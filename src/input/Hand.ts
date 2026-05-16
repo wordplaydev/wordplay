@@ -158,13 +158,19 @@ export default class Hand extends TemporalStreamValue<StructureValue, HandLandma
         this.lastDevice = this.evaluator.database.Settings.getCamera();
         this.state = defaultState;
 
+        // Square sampling: MediaPipe complains "Using NORM_RECT without
+        // IMAGE_DIMENSIONS is only supported for the square ROI" when the
+        // input is non-square, and it also rescales internally to a square
+        // ~192px anyway. Doing the crop ourselves at the camera-canvas
+        // stage skips one rescale and quiets the warning.
         this.feed = new CameraFeed(
             this.evaluator.database,
             this.resolution,
-            null,
+            this.resolution,
             frequency,
         );
     }
+
 
     configure(frequency: number, resolution: number) {
         const newResolution = Math.max(64, Math.floor(resolution));
@@ -299,6 +305,11 @@ export default class Hand extends TemporalStreamValue<StructureValue, HandLandma
     }
 
     tick(time: DOMHighResTimeStamp) {
+        // Skip while the tab is backgrounded. MediaPipe's WASM heap doesn't
+        // shrink, but at least we stop feeding it frames the user can't see,
+        // which slows the climb significantly on mobile.
+        if (typeof document !== 'undefined' && document.hidden) return;
+
         if (
             this.lastTime !== undefined &&
             time - this.lastTime < this.frequency
