@@ -1,6 +1,5 @@
-import type Evaluation from '@runtime/Evaluation';
-import ListValue from '@values/ListValue';
-import NumberValue from '@values/NumberValue';
+import CameraFeed from '@input/CameraFeed';
+import createStreamEvaluator from '@input/createStreamEvaluator';
 import { getDocLocales } from '@locale/getDocLocales';
 import { getNameLocales } from '@locale/getNameLocales';
 import type Locales from '@locale/Locales';
@@ -16,12 +15,13 @@ import type StructureDefinition from '@nodes/StructureDefinition';
 import StructureType from '@nodes/StructureType';
 import UnionType from '@nodes/UnionType';
 import Unit from '@nodes/Unit';
+import { RGBtoLCH } from '@output/ColorJS';
+import type Evaluation from '@runtime/Evaluation';
+import ListValue from '@values/ListValue';
+import NumberValue from '@values/NumberValue';
 import StructureValue, { createStructure } from '@values/StructureValue';
 import TemporalStreamValue from '@values/TemporalStreamValue';
 import type Value from '@values/Value';
-import { RGBtoLCH } from '@output/ColorJS';
-import createStreamEvaluator from '@input/createStreamEvaluator';
-import CameraFeed from '@input/CameraFeed';
 
 /** A single pixel in LCH color space. */
 type LCHPixel = { l: number; c: number; h: number };

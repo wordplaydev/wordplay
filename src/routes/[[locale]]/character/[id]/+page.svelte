@@ -1603,6 +1603,7 @@
                 const newShapes = [...shapes];
                 newShapes.splice(currentIndex, 1);
                 newShapes.splice(newIndex, 0, shape);
+                shapes = newShapes;
                 rememberShapes();
             }
         }

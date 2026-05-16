@@ -10,6 +10,10 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 - There's a new `Hand` input! It uses the camera to check the location of your hand, which fingers are up, how many fingers are up, whether your hand is open or closed, and whether your palm is showing. What a handy input!
 
+### Fixed
+
+- The to front and back buttons in the character editor didn't work.
+
 ## 0.17.9 - 2026-05-09
 
 ### Added
