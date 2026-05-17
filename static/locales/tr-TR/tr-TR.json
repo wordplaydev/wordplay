@@ -6228,7 +6228,9 @@
             },
             "localize": {
                 "header": "$~Yerelleştir",
-                "description": "$~Platformdaki yerelleştirilebilir tüm metinleri inceleyin, yazılmamış olanları düzenleyin ve hazır olduğunuzda revizyonlarınızı gönderin.",
+                "description": [
+                    "$~Platformdaki yerelleştirilebilir tüm metinleri inceleyin, yazılmamış olanları düzenleyin ve hazır olduğunuzda revizyonlarınızı gönderin."
+                ],
                 "workspaceLink": "$~Yerelleştirme çalışma alanını açın.",
                 "workspaceHeader": "$~Yazılacak veya incelenecek metin",
                 "submitHeader": "$~Göndermek",

@@ -6122,7 +6122,9 @@
             },
             "localize": {
                 "header": "$~Localizar",
-                "description": "$~Explora todas las cadenas de texto localizables de la plataforma, edita las que no estén escritas y envía tus revisiones cuando estés listo.",
+                "description": [
+                    "$~Explora todas las cadenas de texto localizables de la plataforma, edita las que no estén escritas y envía tus revisiones cuando estés listo."
+                ],
                 "workspaceLink": "$~Abra el espacio de trabajo de localización",
                 "workspaceHeader": "$~Texto para escribir o revisar",
                 "submitHeader": "$~Entregar",

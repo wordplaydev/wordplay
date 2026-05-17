@@ -6139,7 +6139,9 @@
             },
             "localize": {
                 "header": "$~Lokalisieren",
-                "description": "$~Durchsuchen Sie alle lokalisierbaren Zeichenketten der Plattform, bearbeiten Sie die nicht geschriebenen und reichen Sie Ihre Änderungen ein, wenn Sie fertig sind.",
+                "description": [
+                    "$~Durchsuchen Sie alle lokalisierbaren Zeichenketten der Plattform, bearbeiten Sie die nicht geschriebenen und reichen Sie Ihre Änderungen ein, wenn Sie fertig sind."
+                ],
                 "workspaceLink": "$~Öffnen Sie den Lokalisierungsarbeitsbereich",
                 "workspaceHeader": "$~Text zum Schreiben oder Überprüfen",
                 "submitHeader": "$~Einreichen",

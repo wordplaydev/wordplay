@@ -6467,7 +6467,9 @@
             },
             "localize": {
                 "header": "$~Bản địa hóa",
-                "description": "$~Duyệt qua tất cả các chuỗi văn bản có thể bản địa hóa trên nền tảng, chỉnh sửa những chuỗi chưa được dịch và gửi bản sửa đổi của bạn khi bạn đã sẵn sàng.",
+                "description": [
+                    "$~Duyệt qua tất cả các chuỗi văn bản có thể bản địa hóa trên nền tảng, chỉnh sửa những chuỗi chưa được dịch và gửi bản sửa đổi của bạn khi bạn đã sẵn sàng."
+                ],
                 "workspaceLink": "$~Mở không gian làm việc bản địa hóa",
                 "workspaceHeader": "$~Văn bản cần viết hoặc đánh giá",
                 "submitHeader": "$~Nộp",

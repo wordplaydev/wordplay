@@ -6241,7 +6241,9 @@
             },
             "localize": {
                 "header": "$~Zlokalizować",
-                "description": "$~Przeglądaj każdy możliwy do lokalizacji ciąg znaków na platformie, edytuj te niepisane i przesyłaj swoje poprawki, gdy będziesz gotowy.",
+                "description": [
+                    "$~Przeglądaj każdy możliwy do lokalizacji ciąg znaków na platformie, edytuj te niepisane i przesyłaj swoje poprawki, gdy będziesz gotowy."
+                ],
                 "workspaceLink": "$~Otwórz obszar roboczy lokalizacji",
                 "workspaceHeader": "$~Tekst do napisania lub przejrzenia",
                 "submitHeader": "$~Składać",

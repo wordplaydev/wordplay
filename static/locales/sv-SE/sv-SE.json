@@ -6232,7 +6232,9 @@
             },
             "localize": {
                 "header": "$~Lokalisera",
-                "description": "$~Bläddra bland alla lokaliserbara strängar i plattformen, redigera de oskrivna och skicka in dina ändringar när du är redo.",
+                "description": [
+                    "$~Bläddra bland alla lokaliserbara strängar i plattformen, redigera de oskrivna och skicka in dina ändringar när du är redo."
+                ],
                 "workspaceLink": "$~Öppna lokaliseringsarbetsytan",
                 "workspaceHeader": "$~Text att skriva eller recensera",
                 "submitHeader": "$~Överlämna",

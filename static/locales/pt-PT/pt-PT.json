@@ -6518,7 +6518,9 @@
             },
             "localize": {
                 "header": "$~Localizar",
-                "description": "$~Navegue por todas as strings localizáveis na plataforma, edite as que ainda não foram escritas e envie as suas revisões quando estiver pronto.",
+                "description": [
+                    "$~Navegue por todas as strings localizáveis na plataforma, edite as que ainda não foram escritas e envie as suas revisões quando estiver pronto."
+                ],
                 "workspaceLink": "$~Abra o espaço de trabalho de localização.",
                 "workspaceHeader": "$~Texto para escrever ou rever",
                 "submitHeader": "$~Submeter",

@@ -6140,7 +6140,9 @@
             },
             "localize": {
                 "header": "$~Localiser",
-                "description": "$~Parcourez toutes les chaînes localisables de la plateforme, modifiez celles qui ne sont pas encore écrites et soumettez vos modifications lorsque vous serez prêt.",
+                "description": [
+                    "$~Parcourez toutes les chaînes localisables de la plateforme, modifiez celles qui ne sont pas encore écrites et soumettez vos modifications lorsque vous serez prêt."
+                ],
                 "workspaceLink": "$~Ouvrir l'espace de travail de localisation",
                 "workspaceHeader": "$~Texte à rédiger ou à réviser",
                 "submitHeader": "$~Soumettre",

@@ -6521,7 +6521,9 @@
             },
             "localize": {
                 "header": "$~I-localize",
-                "description": "$~I-browse ang bawat localizable string sa platform, i-edit ang mga hindi nakasulat, at isumite ang iyong mga rebisyon kapag handa ka na.",
+                "description": [
+                    "$~I-browse ang bawat localizable string sa platform, i-edit ang mga hindi nakasulat, at isumite ang iyong mga rebisyon kapag handa ka na."
+                ],
                 "workspaceLink": "$~Buksan ang workspace ng lokalisasyon",
                 "workspaceHeader": "$~Tekstong isusulat o rerepasuhin",
                 "submitHeader": "$~Isumite",
