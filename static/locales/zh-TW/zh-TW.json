@@ -6361,7 +6361,10 @@
                         ]
                     },
                     "expanded": "$~擴充",
-                    "limited": "$~有限的"
+                    "limited": "$~有限的",
+                    "expandedOptions": "$?",
+                    "expandedAdd": "$?",
+                    "expandedRemove": "$?"
                 },
                 "guidingQuestions": {
                     "subheader": {

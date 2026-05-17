@@ -4806,7 +4806,10 @@
                         ]
                     },
                     "expanded": "$~αναπτυγμένος",
-                    "limited": "$~περιωρισμένος"
+                    "limited": "$~περιωρισμένος",
+                    "expandedOptions": "$?",
+                    "expandedAdd": "$?",
+                    "expandedRemove": "$?"
                 },
                 "guidingQuestions": {
                     "subheader": {

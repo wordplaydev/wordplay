@@ -6420,7 +6420,10 @@
                         ]
                     },
                     "expanded": "$~विस्तारित",
-                    "limited": "$~मर्यादित"
+                    "limited": "$~मर्यादित",
+                    "expandedOptions": "$?",
+                    "expandedAdd": "$?",
+                    "expandedRemove": "$?"
                 },
                 "guidingQuestions": {
                     "subheader": {

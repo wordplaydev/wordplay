@@ -4824,7 +4824,10 @@
                         ]
                     },
                     "expanded": "$~mở rộng",
-                    "limited": "$~giới hạn"
+                    "limited": "$~giới hạn",
+                    "expandedOptions": "$?",
+                    "expandedAdd": "$?",
+                    "expandedRemove": "$?"
                 },
                 "guidingQuestions": {
                     "subheader": {

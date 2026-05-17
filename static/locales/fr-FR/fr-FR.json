@@ -6420,7 +6420,10 @@
                         ]
                     },
                     "expanded": "$~étendu",
-                    "limited": "$~limité"
+                    "limited": "$~limité",
+                    "expandedOptions": "$?",
+                    "expandedAdd": "$?",
+                    "expandedRemove": "$?"
                 },
                 "guidingQuestions": {
                     "subheader": {

@@ -6433,7 +6433,10 @@
                         ]
                     },
                     "expanded": "$~விரிவாக்கப்பட்டது",
-                    "limited": "$~வரையறுக்கப்பட்ட"
+                    "limited": "$~வரையறுக்கப்பட்ட",
+                    "expandedOptions": "$?",
+                    "expandedAdd": "$?",
+                    "expandedRemove": "$?"
                 },
                 "guidingQuestions": {
                     "subheader": {

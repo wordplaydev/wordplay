@@ -6420,7 +6420,10 @@
                         ]
                     },
                     "expanded": "$~проширено",
-                    "limited": "$~ограничен"
+                    "limited": "$~ограничен",
+                    "expandedOptions": "$?",
+                    "expandedAdd": "$?",
+                    "expandedRemove": "$?"
                 },
                 "guidingQuestions": {
                     "subheader": {

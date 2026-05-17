@@ -4798,7 +4798,10 @@
                         ]
                     },
                     "expanded": "$~تم توسيع",
-                    "limited": "$~محدود"
+                    "limited": "$~محدود",
+                    "expandedOptions": "$?",
+                    "expandedAdd": "$?",
+                    "expandedRemove": "$?"
                 },
                 "guidingQuestions": {
                     "subheader": {

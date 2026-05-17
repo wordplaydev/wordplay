@@ -4824,7 +4824,10 @@
                         ]
                     },
                     "expanded": "$~expandido",
-                    "limited": "$~limitado"
+                    "limited": "$~limitado",
+                    "expandedOptions": "$?",
+                    "expandedAdd": "$?",
+                    "expandedRemove": "$?"
                 },
                 "guidingQuestions": {
                     "subheader": {

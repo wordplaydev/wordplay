@@ -4827,7 +4827,10 @@
                         ]
                     },
                     "expanded": "$~pinalawak",
-                    "limited": "$~limitado"
+                    "limited": "$~limitado",
+                    "expandedOptions": "$?",
+                    "expandedAdd": "$?",
+                    "expandedRemove": "$?"
                 },
                 "guidingQuestions": {
                     "subheader": {

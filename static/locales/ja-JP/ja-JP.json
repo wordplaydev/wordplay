@@ -6416,7 +6416,10 @@
                         ]
                     },
                     "expanded": "$~拡大",
-                    "limited": "$~限定"
+                    "limited": "$~限定",
+                    "expandedOptions": "$?",
+                    "expandedAdd": "$?",
+                    "expandedRemove": "$?"
                 },
                 "guidingQuestions": {
                     "subheader": {

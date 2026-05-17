@@ -6416,7 +6416,10 @@
                         ]
                     },
                     "expanded": "$~ਫੈਲਾਇਆ ਗਿਆ",
-                    "limited": "$~ਸੀਮਤ"
+                    "limited": "$~ਸੀਮਤ",
+                    "expandedOptions": "$?",
+                    "expandedAdd": "$?",
+                    "expandedRemove": "$?"
                 },
                 "guidingQuestions": {
                     "subheader": {

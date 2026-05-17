@@ -4824,7 +4824,10 @@
                         ]
                     },
                     "expanded": "$~מוּרחָב",
-                    "limited": "$~מוּגבָּל"
+                    "limited": "$~מוּגבָּל",
+                    "expandedOptions": "$?",
+                    "expandedAdd": "$?",
+                    "expandedRemove": "$?"
                 },
                 "guidingQuestions": {
                     "subheader": {

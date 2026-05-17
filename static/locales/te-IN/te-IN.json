@@ -4798,7 +4798,10 @@
                         ]
                     },
                     "expanded": "$~విస్తరించబడింది",
-                    "limited": "$~పరిమితం"
+                    "limited": "$~పరిమితం",
+                    "expandedOptions": "$?",
+                    "expandedAdd": "$?",
+                    "expandedRemove": "$?"
                 },
                 "guidingQuestions": {
                     "subheader": {

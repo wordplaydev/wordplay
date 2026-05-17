@@ -6416,7 +6416,10 @@
                         ]
                     },
                     "expanded": "$~genişletilmiş",
-                    "limited": "$~sınırlı"
+                    "limited": "$~sınırlı",
+                    "expandedOptions": "$?",
+                    "expandedAdd": "$?",
+                    "expandedRemove": "$?"
                 },
                 "guidingQuestions": {
                     "subheader": {

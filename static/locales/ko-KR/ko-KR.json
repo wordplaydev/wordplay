@@ -6416,7 +6416,10 @@
                         ]
                     },
                     "expanded": "$~퍼지는",
-                    "limited": "$~제한된"
+                    "limited": "$~제한된",
+                    "expandedOptions": "$?",
+                    "expandedAdd": "$?",
+                    "expandedRemove": "$?"
                 },
                 "guidingQuestions": {
                     "subheader": {
