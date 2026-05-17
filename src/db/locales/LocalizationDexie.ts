@@ -17,16 +17,15 @@ class LocalizationDexie extends Dexie {
         super('wordplay-localization');
         // v1 used `path` as the primary key, with no locale dimension.
         this.version(1).stores({ edits: 'path' });
-        // v2 keys edits by [locale, path] so a contributor reviewing one locale
-        // can't overwrite an in-progress edit they made under a different one.
-        // Existing v1 rows have no locale and would be orphaned by the composite
-        // key, so we clear the table on upgrade — in-flight edits are local and
-        // ephemeral; a contributor who's mid-bundle just re-enters them.
-        this.version(2)
-            .stores({ edits: '[locale+path], locale' })
-            .upgrade(async (tx) => {
-                await tx.table('edits').clear();
-            });
+        // Dexie doesn't allow changing a table's primary key in-place, so we
+        // drop the table at v2 and recreate it with a composite [locale, path]
+        // key at v3. In-flight edits are local and ephemeral; a contributor
+        // who's mid-bundle just re-enters them.
+        this.version(2).stores({ edits: null });
+        // v3 keys edits by [locale, path] so a contributor reviewing one
+        // locale can't overwrite an in-progress edit they made under a
+        // different one.
+        this.version(3).stores({ edits: '[locale+path], locale' });
     }
 }
 
