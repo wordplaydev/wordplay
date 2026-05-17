@@ -4,7 +4,11 @@
     import Feedback from '@components/app/Feedback.svelte';
     import Link from '@components/app/Link.svelte';
     import Status from '@components/app/Status.svelte';
-    import { getLocalizing, getUser } from '@components/project/Contexts';
+    import {
+        getLocalizing,
+        getUser,
+        isAuthenticated,
+    } from '@components/project/Contexts';
     import { LayoutIcons } from '@components/project/Layout';
     import FaceName from '@components/settings/FaceName.svelte';
     import LocaleChooser from '@components/settings/LocaleChooser.svelte';
@@ -85,6 +89,13 @@
     );
 
     let localizing = getLocalizing();
+
+    // Force localizing mode off whenever the visitor is signed out, so badges
+    // and inline editors disappear on sign-out and don't reappear for an
+    // anonymous session that has no way to submit edits.
+    $effect(() => {
+        if (!isAuthenticated($user) && localizing.on) localizing.on = false;
+    });
 </script>
 
 <div class="settings">
@@ -324,11 +335,18 @@
             </div>
         </div>
     </Dialog>
-    <Toggle
-        on={localizing.on}
-        tips={(l) => l.ui.localize.toggle.mode}
-        toggle={() => (localizing.on = !localizing.on)}>✎</Toggle
-    >
+    <!-- The localization toggle is only useful for signed-in users since
+         submitting an edit bundle requires authentication. Hide the toggle
+         from anonymous visitors entirely; if an anonymous user had localizing
+         turned on previously, turn it off so they don't see ✎/💭 badges they
+         can't submit. -->
+    {#if isAuthenticated($user)}
+        <Toggle
+            on={localizing.on}
+            tips={(l) => l.ui.localize.toggle.mode}
+            toggle={() => (localizing.on = !localizing.on)}>✎</Toggle
+        >
+    {/if}
     <LocaleChooser />
     <Feedback />
     <Notifications />
