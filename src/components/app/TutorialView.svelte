@@ -38,6 +38,12 @@
         type PeformanceModeType,
         type Performance,
     } from '../../tutorial/Tutorial';
+    import {
+        actTitlePath,
+        dialogTextPath,
+        sceneSubtitlePath,
+        sceneTitlePath,
+    } from '../../tutorial/TutorialPath';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import Button from '@components/widgets/Button.svelte';
     import TextField from '@components/widgets/TextField.svelte';
@@ -104,17 +110,32 @@
         dragged = $localDragged;
     });
 
+    /** Each dialog turn paired with its index in `scene.lines`, so we can build a
+     *  stable override key for inline editing. */
+    let dialogWithIndices = $derived(progress.getDialogWithIndices());
+
     /** Convert the instructions into a sequence of docs/space pairs */
-    let turns: { speech: Markup; spaces: Spaces; dialog: Dialog }[] = $derived(
-        dialog
-            ? dialog.map((line) => {
+    let turns: {
+        speech: Markup;
+        spaces: Spaces;
+        dialog: Dialog;
+        /** Joined raw markup text (Dialog[2..].join('\n\n')) used as the editor source. */
+        rawText: string;
+        /** Index of this dialog line in `scene.lines`; used for override keys. */
+        lineIndex: number;
+    }[] = $derived(
+        dialogWithIndices
+            ? dialogWithIndices.map(({ dialog: line, lineIndex }) => {
                   const [, , ...text] = line;
+                  const rawText = text.join('\n\n');
                   // Convert the list of paragraphs into a single doc.
-                  const [markup, spaces] = toMarkup(text.join('\n\n'));
+                  const [markup, spaces] = toMarkup(rawText);
                   return {
                       speech: markup,
                       spaces: spaces,
                       dialog: line,
+                      rawText,
+                      lineIndex,
                   };
               })
             : [],
@@ -531,16 +552,43 @@
                         <div class="title act"
                             ><LocalizedText path={(l) => l.term.act} />
                             {progress.act}<p
-                                ><em>{withoutAnnotations(act.title)}</em></p
+                                ><em
+                                    ><LocalizedText
+                                        overrideKey={actTitlePath(
+                                            progress.act - 1,
+                                        )}
+                                        sourceText={withoutAnnotations(
+                                            act.title,
+                                        )}
+                                    /></em
+                                ></p
                             ></div
                         >
                     {:else if dialog === undefined}
                         <div class="title scene"
                             ><LocalizedText path={(l) => l.term.scene} />
                             {progress.scene}<p
-                                ><em>{withoutAnnotations(scene.title)}</em></p
+                                ><em
+                                    ><LocalizedText
+                                        overrideKey={sceneTitlePath(
+                                            progress.act - 1,
+                                            progress.scene - 1,
+                                        )}
+                                        sourceText={withoutAnnotations(
+                                            scene.title,
+                                        )}
+                                    /></em
+                                ></p
                             >{#if scene.subtitle}<em
-                                    >{withoutAnnotations(scene.subtitle)}</em
+                                    ><LocalizedText
+                                        overrideKey={sceneSubtitlePath(
+                                            progress.act - 1,
+                                            progress.scene - 1,
+                                        )}
+                                        sourceText={withoutAnnotations(
+                                            scene.subtitle,
+                                        )}
+                                    /></em
                                 >{/if}</div
                         >
                     {:else}
@@ -564,7 +612,15 @@
                                     emotion={Emotion[turn.dialog[1]]}
                                 >
                                     {#snippet content()}
-                                        <MarkupHTMLView markup={turn.speech} />
+                                        <MarkupHTMLView
+                                            markup={turn.speech}
+                                            overrideKey={dialogTextPath(
+                                                progress.act - 1,
+                                                progress.scene - 1,
+                                                turn.lineIndex,
+                                            )}
+                                            sourceText={turn.rawText}
+                                        />
                                     {/snippet}
                                 </Speech>
                             {/each}

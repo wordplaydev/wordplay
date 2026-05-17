@@ -32,8 +32,11 @@
     interface Props {
         /** A property-access accessor on the locale tree. Must be a literal `(l) => l.a.b.c`
          *  for the inline editor's path extraction to work. May resolve to any subtree;
-         *  use `extras` to navigate the rest of the way to a string. */
-        path: ((locale: LocaleText) => unknown) | LocaleTextAccessor;
+         *  use `extras` to navigate the rest of the way to a string.
+         *
+         *  Optional only because tutorial-text usage may supply `overrideKey` +
+         *  `sourceText` instead, which bypasses locale-tree path resolution. */
+        path?: ((locale: LocaleText) => unknown) | LocaleTextAccessor;
         markup?: boolean;
         /** Trailing path segments applied after `path` resolves. Used to address a sub-field
          *  (string) or an element of a fixed-length tuple (e.g., ['labels', 0]). */
@@ -46,6 +49,13 @@
          *  LocalizedTexts (e.g., a Button with both a label and a tip) can use this to hide
          *  the sibling while one is being edited. */
         onEditingChange?: (editing: boolean) => void;
+        /** Storage key for an override, used in place of a parsed `path`. Pass this for
+         *  text that doesn't live in the regular locale tree — e.g., tutorial titles. The
+         *  override is read from / written to `LocalizationDexie` under this key. */
+        overrideKey?: string;
+        /** The current source text used when `overrideKey` is provided. Acts as the
+         *  initial editor value and the "no-override" fallback for display. */
+        sourceText?: string;
     }
 
     let {
@@ -54,6 +64,8 @@
         extras = [],
         tipIcon = false,
         onEditingChange,
+        overrideKey,
+        sourceText,
     }: Props = $props();
 
     const fieldId = `localize-field-${idCounter++}`;
@@ -76,8 +88,15 @@
         return typeof value === 'string' ? value : '';
     }
 
-    // The text this slot represents (path + extras → string).
-    const text = $derived(resolveString(path, extras));
+    // The text this slot represents (path + extras → string), or the provided
+    // sourceText when the caller is using the overrideKey API.
+    const text = $derived(
+        overrideKey !== undefined
+            ? (sourceText ?? '')
+            : path !== undefined
+              ? resolveString(path, extras)
+              : '',
+    );
     const isMT = $derived(isMachineTranslated(text));
     const withoutAnnotationsText = $derived(withoutAnnotations(text));
 
@@ -92,8 +111,16 @@
         onEditingChange?.(editing);
     });
 
-    let localePath = $derived(accessorToLocalePath(path, ...extras));
-    let override = $derived($localeEdits.get(localePath?.toString() ?? ''));
+    /** Effective storage key for the override: caller-supplied `overrideKey` wins;
+     *  otherwise we parse it from the accessor + extras. */
+    let storageKey = $derived.by(() => {
+        if (overrideKey !== undefined) return overrideKey;
+        if (path === undefined) return undefined;
+        return accessorToLocalePath(path, ...extras)?.toString();
+    });
+    let override = $derived(
+        storageKey !== undefined ? $localeEdits.get(storageKey) : undefined,
+    );
 
     async function startEditing() {
         editedText = override ?? withoutAnnotationsText;
@@ -103,10 +130,9 @@
     }
 
     function commitEdit(text: string) {
-        if (!localePath) return;
-        const key = localePath.toString();
-        if (text === withoutAnnotationsText) deleteLocaleEdit(key);
-        else saveLocaleEdit(key, text);
+        if (storageKey === undefined) return;
+        if (text === withoutAnnotationsText) deleteLocaleEdit(storageKey);
+        else saveLocaleEdit(storageKey, text);
     }
 
     function handleKeydown(e: KeyboardEvent) {
@@ -141,7 +167,11 @@
                 noTipBadge
                 bind:text={editedText}
                 bind:view={fieldView}
-                focus={() => (localizing.focused = path as LocaleTextAccessor)}
+                focus={() =>
+                    (localizing.focused =
+                        path !== undefined
+                            ? (path as LocaleTextAccessor)
+                            : undefined)}
                 blur={() => (localizing.focused = undefined)}
                 done={() => {
                     if (cancelled) {
@@ -169,8 +199,8 @@
                 >{#if override}<Button
                         tip={(l) => l.ui.localize.button.revert}
                         action={() => {
-                            if (localePath)
-                                deleteLocaleEdit(localePath.toString());
+                            if (storageKey !== undefined)
+                                deleteLocaleEdit(storageKey);
                             cancelled = true;
                             fieldView?.blur();
                         }}

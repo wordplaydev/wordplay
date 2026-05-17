@@ -5772,7 +5772,10 @@
                 "edit": "$~Sugira uma alteração para este texto.",
                 "submit": "$~Enviar sugestão de edição",
                 "cancel": "$~Descartar edição sugerida",
-                "revert": "$~Voltar ao texto oficial"
+                "revert": "$~Voltar ao texto oficial",
+                "editTip": "$~Sugira uma alteração na dica de ferramenta deste controlo.",
+                "prev": "$~Editar o item anterior",
+                "next": "$~Edite o próximo item"
             },
             "field": {
                 "plain": {
@@ -5800,7 +5803,8 @@
             "revised": "$~Texto revisto",
             "revisedDescription": "$~Estas revisões foram guardadas localmente e ainda não foram submetidas para revisão.",
             "submitRevisions": "$~Enviar revisões",
-            "submitted": "$~Obrigado! O seu texto revisto será analisado e poderá ser publicado em breve."
+            "submitted": "$~Obrigado! O seu texto revisto será analisado e poderá ser publicado em breve.",
+            "invalidConceptLinks": "$~Estes links conceptuais não funcionam na configuração local atual. Digitou algum deles incorretamente ou removeu-o de propósito?"
         },
         "page": {
             "unknown": {
@@ -6511,6 +6515,89 @@
                 "intro": "$~Agradecemos aos nossos *$1* colaboradores por contribuírem para o design, desenvolvimento, localização e conteúdo do Wordplay! E agradecemos também aos muitos professores e jovens que orientaram o nosso design em grupos de foco, sessões de design e salas de aula, cujos nomes não listamos aqui para preservar a sua privacidade.\n\nEste projeto foi financiado pela National Science Foundation sob os números de subvenção 2318257, 2031265, 2100296 e 2122950, pela Universidade de Washington e por generosas doações de pessoas como você.",
                 "teachers": "$~Professores",
                 "contributors": "$~Colaboradores"
+            },
+            "localize": {
+                "header": "$~Localizar",
+                "description": "$~Navegue por todas as strings localizáveis na plataforma, edite as que ainda não foram escritas e envie as suas revisões quando estiver pronto.",
+                "workspaceLink": "$~Abra o espaço de trabalho de localização.",
+                "workspaceHeader": "$~Texto para escrever ou rever",
+                "submitHeader": "$~Submeter",
+                "submitPrompt": "$~Quando estiver pronto para propor este conjunto de edições, pode enviá-lo abaixo.",
+                "bundleSummary": "$~Edições neste lote",
+                "editEntry": "$~Voltar para editar esta string",
+                "revertEntry": "$~Eliminar esta edição do lote",
+                "prevBundleItem": "$~Rever a edição anterior",
+                "nextBundleItem": "$~Reveja a próxima edição.",
+                "descriptionField": {
+                    "description": "$~Uma breve descrição do conjunto de edições, para ajudar os revisores a compreenderem as alterações.",
+                    "placeholder": "$~O que mudou e porquê?"
+                },
+                "notSpamLabel": "$~Prometo que estas edições não são spam.",
+                "notSpamNote": "$~O Wordplay é um projeto sem fins lucrativos, liderado por voluntários.",
+                "requireLogin": "$~Precisa de estar conectado para contribuir com sugestões de localização.",
+                "submit": {
+                    "description": "$~Enviar este lote de edições",
+                    "prompt": "$~Submeter"
+                },
+                "submitSuccess": "$~Obrigado! As suas edições foram enviadas e serão analisadas em breve.",
+                "submitError": "$~Ocorreu um erro ao enviar. As suas edições ainda estão guardadas neste dispositivo — tente novamente.",
+                "empty": "$~Nenhuma sequência de caracteres corresponde a este filtro.",
+                "prevEntry": "$~Edite a string anterior",
+                "nextEntry": "$~Edite a sequência de caracteres seguinte.",
+                "qualityMode": {
+                    "label": "$~espetáculo",
+                    "labels": [
+                        "$~tudo",
+                        "$~traduzido por máquina ou não escrito"
+                    ],
+                    "tips": [
+                        "$~mostrar todas as strings",
+                        "$~Mostrar apenas strings traduzidas automaticamente ou não escritas."
+                    ]
+                },
+                "sectionMode": {
+                    "label": "$~secção",
+                    "labels": [
+                        "$~tudo",
+                        "$~plataforma",
+                        "$~termo",
+                        "$~token",
+                        "$~nó",
+                        "$~base",
+                        "$~entrada",
+                        "$~saída",
+                        "$~interface do utilizador",
+                        "$~galeria",
+                        "$~moderação"
+                    ],
+                    "tips": [
+                        "$~Mostrar todas as secções",
+                        "$~nome da plataforma",
+                        "$~terminologia partilhada",
+                        "$~descrições de tokens",
+                        "$~construções de linguagem de programação",
+                        "$~tipos predefinidos como número, texto, lista",
+                        "$~Descrição do caudal e da fonte de entrada",
+                        "$~descrições dos tipos de saída",
+                        "$~a interface do utilizador da aplicação",
+                        "$~conteúdo padrão da galeria",
+                        "$~mensagens de moderação de conteúdos"
+                    ]
+                },
+                "section": {
+                    "wordplay": "$~Plataforma",
+                    "term": "$~Terminologia",
+                    "token": "$~Fichas",
+                    "node": "$~construções da linguagem",
+                    "basis": "$~Tipos integrados",
+                    "input": "$~Entradas",
+                    "output": "$~Saídas",
+                    "ui": "$~Interface do utilizador",
+                    "gallery": "$~Galeria",
+                    "moderation": "$~Moderação"
+                },
+                "singletonWordsWarning": "$~Algumas palavras do seu rascunho aparecem apenas uma vez em todo o texto. Tem a certeza de que estão escritas corretamente e em consonância com o restante texto?",
+                "viewPR": "$~Veja a solicitação de pull request"
             }
         },
         "edit": {

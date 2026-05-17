@@ -35,7 +35,7 @@ export type LocaleText = {
     wordplay: string;
     /** Common vocabulary that can be used in documentation and descriptions. */
     term: TermTexts;
-    /** Descriptions of all token categories. See Sym.ts for the symbol or symbol category that each represents. */
+    /** [plain] Descriptions of all token categories. See Sym.ts for the symbol or symbol category that each represents. */
     token: Record<keyof typeof Sym, string>;
     /** Names, descriptions, and documentation for all node types, as well as descriptions of start and end of expression evaluations for debugging. */
     node: NodeTexts;

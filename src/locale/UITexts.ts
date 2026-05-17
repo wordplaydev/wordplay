@@ -19,6 +19,7 @@ import type HowToPageText from '../routes/[[locale]]/gallery/[galleryid]/howto/P
 import type { default as GuidePageText } from '../routes/[[locale]]/guide/PageText';
 import type JoinPageText from '../routes/[[locale]]/join/PageText';
 import type LearnPageText from '../routes/[[locale]]/learn/PageText';
+import type LocalizePageText from '../routes/[[locale]]/localize/PageText';
 import type LoginPageText from '../routes/[[locale]]/login/PageText';
 import type ProjectsPageText from '../routes/[[locale]]/projects/PageText';
 import type RightsPageText from '../routes/[[locale]]/rights/PageText';
@@ -1139,6 +1140,11 @@ type UITexts = {
         emotion: string;
         /** [plain] Error shown when a name is not a valid Wordplay name */
         invalidName: string;
+        /** [plain] Warning shown below a formatted editor when the draft markup
+         *  references one or more concept links (e.g., `@FunctionDefinition`) that
+         *  don't resolve in the current locale. The list of unresolved names is
+         *  rendered separately. */
+        invalidConceptLinks: string;
     };
     page: {
         /** The unknown route page */
@@ -1147,6 +1153,8 @@ type UITexts = {
         landing: LandingPageText;
         /** Tutorial page text */
         learn: LearnPageText;
+        /** Localization workspace page text */
+        localize: LocalizePageText;
         /** Teacher landing page text */
         teach: TeachPageText;
         /** New class page text */

@@ -6238,6 +6238,89 @@
                 "intro": "$~Dziękujemy naszym *$1* współpracownikom za wkład w projekt, rozwój, lokalizację i treść Wordplay! Dziękujemy również licznym nauczycielom i młodzieży, którzy kierowali naszym projektem w grupach fokusowych, sesjach projektowych i klasach, których nie wymieniamy tutaj ze względu na ochronę ich prywatności.\n\nTen projekt został wsparty przez National Science Foundation w ramach nagród 2318257, 2031265, 2100296 i 2122950, Uniwersytet Waszyngtoński oraz hojne <gifts//donate> od osób takich jak Ty.",
                 "teachers": "$~Nauczycielstwo",
                 "contributors": "$~Współtwórcy"
+            },
+            "localize": {
+                "header": "$~Zlokalizować",
+                "description": "$~Przeglądaj każdy możliwy do lokalizacji ciąg znaków na platformie, edytuj te niepisane i przesyłaj swoje poprawki, gdy będziesz gotowy.",
+                "workspaceLink": "$~Otwórz obszar roboczy lokalizacji",
+                "workspaceHeader": "$~Tekst do napisania lub przejrzenia",
+                "submitHeader": "$~Składać",
+                "submitPrompt": "$~Gdy będziesz gotowy zaproponować tę partię zmian, możesz przesłać ją poniżej.",
+                "bundleSummary": "$~Edycje w tej partii",
+                "editEntry": "$~Wróć, aby edytować ten ciąg",
+                "revertEntry": "$~Odrzuć tę edycję z partii",
+                "prevBundleItem": "$~Przejrzyj poprzednią edycję",
+                "nextBundleItem": "$~Przejrzyj następną edycję",
+                "descriptionField": {
+                    "description": "$~Krótki opis partii edycji, aby pomóc recenzentom zrozumieć zmiany",
+                    "placeholder": "$~Co zmieniłeś i dlaczego?"
+                },
+                "notSpamLabel": "$~Obiecuję, że te edycje nie są spamem",
+                "notSpamNote": "$~Wordplay jest projektem non-profit, prowadzonym przez wolontariuszy.",
+                "requireLogin": "$~Aby móc przesyłać sugestie dotyczące lokalizacji, musisz się zalogować.",
+                "submit": {
+                    "description": "$~Prześlij tę partię edycji",
+                    "prompt": "$~Składać"
+                },
+                "submitSuccess": "$~Dziękujemy! Twoje zmiany zostały przesłane i wkrótce zostaną sprawdzone.",
+                "submitError": "$~Wystąpił błąd podczas przesyłania. Twoje zmiany są nadal zapisane na tym urządzeniu — spróbuj ponownie.",
+                "empty": "$~Żaden ciąg znaków nie pasuje do tego filtra.",
+                "prevEntry": "$~Edytuj poprzedni ciąg",
+                "nextEntry": "$~Edytuj następny ciąg",
+                "qualityMode": {
+                    "label": "$~pokazywać",
+                    "labels": [
+                        "$~Wszystko",
+                        "$~przetłumaczone maszynowo lub niepisane"
+                    ],
+                    "tips": [
+                        "$~pokaż wszystkie ciągi znaków",
+                        "$~pokaż tylko ciągi przetłumaczone maszynowo lub niezapisane"
+                    ]
+                },
+                "sectionMode": {
+                    "label": "$~sekcja",
+                    "labels": [
+                        "$~Wszystko",
+                        "$~platforma",
+                        "$~termin",
+                        "$~znak",
+                        "$~węzeł",
+                        "$~podstawa",
+                        "$~wejście",
+                        "$~wyjście",
+                        "$~interfejs użytkownika",
+                        "$~galeria",
+                        "$~umiar"
+                    ],
+                    "tips": [
+                        "$~pokaż wszystkie sekcje",
+                        "$~nazwa platformy",
+                        "$~wspólna terminologia",
+                        "$~opisy tokenów",
+                        "$~konstrukcje języka programowania",
+                        "$~wbudowane typy, takie jak liczba, tekst, lista",
+                        "$~opisy strumieni i źródeł wejściowych",
+                        "$~opisy typów wyjściowych",
+                        "$~interfejs użytkownika aplikacji",
+                        "$~domyślna zawartość galerii",
+                        "$~wiadomości o moderacji treści"
+                    ]
+                },
+                "section": {
+                    "wordplay": "$~Platforma",
+                    "term": "$~Terminologia",
+                    "token": "$~Tokeny",
+                    "node": "$~Konstrukcje językowe",
+                    "basis": "$~Wbudowane typy",
+                    "input": "$~Wejścia",
+                    "output": "$~Wyjścia",
+                    "ui": "$~Interfejs użytkownika",
+                    "gallery": "$~Galeria",
+                    "moderation": "$~Umiar"
+                },
+                "singletonWordsWarning": "$~Niektóre słowa w Twoim szkicu pojawiają się tylko raz w całej lokalizacji. Czy jesteś pewien, że są poprawnie napisane i spójne z resztą tekstu?",
+                "viewPR": "$~Wyświetl żądanie ściągnięcia"
             }
         },
         "edit": {
@@ -6558,7 +6641,10 @@
                 "edit": "$~Zaproponuj edycję tego tekstu",
                 "submit": "$~Prześlij sugerowaną edycję",
                 "cancel": "$~Odrzuć sugerowaną edycję",
-                "revert": "$~Powrót do oficjalnego tekstu"
+                "revert": "$~Powrót do oficjalnego tekstu",
+                "editTip": "$~Zaproponuj edycję podpowiedzi tego elementu sterującego",
+                "prev": "$~Edytuj poprzedni element",
+                "next": "$~Edytuj następny element"
             },
             "field": {
                 "plain": {
@@ -6586,7 +6672,8 @@
             "revised": "$~Zmieniony tekst",
             "revisedDescription": "$~Te zmiany są zapisywane lokalnie i nie zostały jeszcze przesłane do recenzji.",
             "submitRevisions": "$~Prześlij poprawki",
-            "submitted": "$~Dziękujemy! Twój poprawiony tekst zostanie sprawdzony i prawdopodobnie wkrótce zostanie opublikowany."
+            "submitted": "$~Dziękujemy! Twój poprawiony tekst zostanie sprawdzony i prawdopodobnie wkrótce zostanie opublikowany.",
+            "invalidConceptLinks": "$~Te linki koncepcyjne nie działają w obecnej lokalizacji. Czy popełniłeś błąd ortograficzny, czy celowo je usunąłeś?"
         },
         "tour": {
             "label": "$~wycieczka",

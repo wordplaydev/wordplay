@@ -1,5 +1,4 @@
 <script lang="ts">
-    import { dev } from '$app/environment';
     import { Faces, getFaceDescription } from '@basis/Fonts';
     import CreatorView from '@components/app/CreatorView.svelte';
     import Feedback from '@components/app/Feedback.svelte';
@@ -325,13 +324,11 @@
             </div>
         </div>
     </Dialog>
-    {#if dev}
-        <Toggle
-            on={localizing.on}
-            tips={(l) => l.ui.localize.toggle.mode}
-            toggle={() => (localizing.on = !localizing.on)}>✎</Toggle
-        >
-    {/if}
+    <Toggle
+        on={localizing.on}
+        tips={(l) => l.ui.localize.toggle.mode}
+        toggle={() => (localizing.on = !localizing.on)}>✎</Toggle
+    >
     <LocaleChooser />
     <Feedback />
     <Notifications />

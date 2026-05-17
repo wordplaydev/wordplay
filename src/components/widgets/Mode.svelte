@@ -26,6 +26,9 @@
         wrap?: boolean;
         /** Buttons to omit, allowing for conditional display of modes */
         omit?: readonly number[];
+        /** Optional annotation text appended after each mode's label (e.g. a count).
+         *  Use `undefined` at a given index to skip annotating that button. */
+        annotations?: readonly (string | undefined)[];
     }
 
     let {
@@ -38,6 +41,7 @@
         modeLabels = true,
         wrap = false,
         omit = [],
+        annotations,
     }: Props = $props();
 
     let modeText = $derived($locales.getTextStructure(modes));
@@ -121,7 +125,9 @@
                             extras={['labels', index]}
                             onEditingChange={(e) =>
                                 (labelEditing[index] = e)}
-                        />{/if}{#if localizing?.on && !labelEditing[index]}<LocalizedText
+                        />{/if}{#if annotations && annotations[index] !== undefined}<span
+                            class="annotation">{annotations[index]}</span
+                        >{/if}{#if localizing?.on && !labelEditing[index]}<LocalizedText
                             path={modes}
                             extras={['tips', index]}
                             tipIcon
@@ -134,6 +140,19 @@
 </div>
 
 <style>
+    .annotation {
+        margin-inline-start: var(--wordplay-spacing-half);
+        font-variant-numeric: tabular-nums;
+        color: var(--wordplay-inactive-color);
+    }
+
+    /* Match the active/focused label color so the count stays legible on the
+       highlight or focus background instead of fading into it. */
+    button.selected .annotation,
+    button:focus .annotation {
+        color: inherit;
+    }
+
     .mode {
         display: flex;
         flex-direction: row;

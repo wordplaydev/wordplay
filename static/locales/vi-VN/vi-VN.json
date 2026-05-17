@@ -6464,6 +6464,89 @@
                 "intro": "$~Cảm ơn *$1* người đóng góp đã tham gia vào thiết kế, phát triển, bản địa hóa và nội dung của Wordplay! Và cảm ơn rất nhiều giáo viên và bạn trẻ đã hướng dẫn thiết kế của chúng tôi trong các nhóm thảo luận, các buổi thiết kế và trong lớp học, những người mà chúng tôi không liệt kê ở đây để bảo vệ quyền riêng tư của họ.\n\nDự án này được hỗ trợ bởi Quỹ Khoa học Quốc gia theo các giải thưởng 2318257, 2031265, 2100296 và 2122950, Đại học Washington, và những khoản đóng góp hào phóng <gifts//donate> từ những người như bạn.",
                 "teachers": "$~Giáo viên",
                 "contributors": "$~Người đóng góp"
+            },
+            "localize": {
+                "header": "$~Bản địa hóa",
+                "description": "$~Duyệt qua tất cả các chuỗi văn bản có thể bản địa hóa trên nền tảng, chỉnh sửa những chuỗi chưa được dịch và gửi bản sửa đổi của bạn khi bạn đã sẵn sàng.",
+                "workspaceLink": "$~Mở không gian làm việc bản địa hóa",
+                "workspaceHeader": "$~Văn bản cần viết hoặc đánh giá",
+                "submitHeader": "$~Nộp",
+                "submitPrompt": "$~Khi bạn đã sẵn sàng đề xuất đợt chỉnh sửa này, bạn có thể gửi bên dưới.",
+                "bundleSummary": "$~Các chỉnh sửa trong đợt này",
+                "editEntry": "$~Quay lại để chỉnh sửa chuỗi này",
+                "revertEntry": "$~Loại bỏ chỉnh sửa này khỏi lô",
+                "prevBundleItem": "$~Xem lại bản chỉnh sửa trước đó",
+                "nextBundleItem": "$~Xem lại bản chỉnh sửa tiếp theo",
+                "descriptionField": {
+                    "description": "$~Mô tả ngắn gọn về loạt chỉnh sửa, giúp người đánh giá hiểu rõ các thay đổi.",
+                    "placeholder": "$~Bạn đã thay đổi điều gì và tại sao?"
+                },
+                "notSpamLabel": "$~Tôi cam đoan những chỉnh sửa này không phải là thư rác.",
+                "notSpamNote": "$~Wordplay là một dự án phi lợi nhuận do các tình nguyện viên điều hành.",
+                "requireLogin": "$~Bạn phải đăng nhập để đóng góp ý kiến về bản địa hóa.",
+                "submit": {
+                    "description": "$~Gửi lô chỉnh sửa này",
+                    "prompt": "$~Nộp"
+                },
+                "submitSuccess": "$~Cảm ơn bạn! Các chỉnh sửa của bạn đã được gửi và sẽ được xem xét sớm.",
+                "submitError": "$~Đã xảy ra lỗi trong quá trình gửi. Các chỉnh sửa của bạn vẫn được lưu trên thiết bị này — vui lòng thử lại.",
+                "empty": "$~Không có chuỗi nào khớp với bộ lọc này.",
+                "prevEntry": "$~Chỉnh sửa chuỗi trước đó",
+                "nextEntry": "$~Chỉnh sửa chuỗi tiếp theo",
+                "qualityMode": {
+                    "label": "$~trình diễn",
+                    "labels": [
+                        "$~tất cả",
+                        "$~được dịch bằng máy hoặc không được viết"
+                    ],
+                    "tips": [
+                        "$~hiển thị tất cả các chuỗi",
+                        "$~Chỉ hiển thị các chuỗi được dịch bằng máy hoặc chưa được viết."
+                    ]
+                },
+                "sectionMode": {
+                    "label": "$~phần",
+                    "labels": [
+                        "$~tất cả",
+                        "$~nền tảng",
+                        "$~thuật ngữ",
+                        "$~mã thông báo",
+                        "$~nút",
+                        "$~cơ sở",
+                        "$~đầu vào",
+                        "$~đầu ra",
+                        "$~giao diện người dùng",
+                        "$~phòng trưng bày",
+                        "$~sự điều độ"
+                    ],
+                    "tips": [
+                        "$~hiển thị tất cả các phần",
+                        "$~tên nền tảng",
+                        "$~thuật ngữ chung",
+                        "$~mô tả mã thông báo",
+                        "$~cấu trúc ngôn ngữ lập trình",
+                        "$~các kiểu dữ liệu tích hợp sẵn như số, văn bản, danh sách",
+                        "$~Mô tả nguồn luồng và nguồn đầu vào",
+                        "$~mô tả loại đầu ra",
+                        "$~giao diện người dùng ứng dụng",
+                        "$~nội dung thư viện mặc định",
+                        "$~tin nhắn kiểm duyệt nội dung"
+                    ]
+                },
+                "section": {
+                    "wordplay": "$~Nền tảng",
+                    "term": "$~Thuật ngữ",
+                    "token": "$~Mã thông báo",
+                    "node": "$~Cấu trúc ngôn ngữ",
+                    "basis": "$~Các loại tích hợp sẵn",
+                    "input": "$~Đầu vào",
+                    "output": "$~Đầu ra",
+                    "ui": "$~Giao diện người dùng",
+                    "gallery": "$~Phòng trưng bày",
+                    "moderation": "$~Sự điều độ"
+                },
+                "singletonWordsWarning": "$~Một số từ trong bản nháp của bạn chỉ xuất hiện một lần duy nhất trong toàn bộ đoạn văn. Bạn có chắc chắn rằng chúng được viết đúng chính tả và nhất quán với các văn bản khác không?",
+                "viewPR": "$~Xem yêu cầu kéo (pull request)"
             }
         },
         "edit": {
@@ -6549,7 +6632,10 @@
                 "edit": "$~Hãy đề xuất chỉnh sửa cho văn bản này.",
                 "submit": "$~Gửi đề xuất chỉnh sửa",
                 "cancel": "$~Bỏ đề xuất chỉnh sửa",
-                "revert": "$~Trở lại văn bản chính thức"
+                "revert": "$~Trở lại văn bản chính thức",
+                "editTip": "$~Đề xuất chỉnh sửa chú thích công cụ của điều khiển này.",
+                "prev": "$~Chỉnh sửa mục trước đó",
+                "next": "$~Chỉnh sửa mục tiếp theo"
             },
             "field": {
                 "plain": {
@@ -6577,7 +6663,8 @@
             "revised": "$~Văn bản đã sửa đổi",
             "revisedDescription": "$~Các bản sửa đổi này được lưu cục bộ và chưa được gửi để xem xét.",
             "submitRevisions": "$~Gửi bản sửa đổi",
-            "submitted": "$~Cảm ơn bạn! Bản chỉnh sửa của bạn sẽ được xem xét và có thể sẽ được đăng tải sớm."
+            "submitted": "$~Cảm ơn bạn! Bản chỉnh sửa của bạn sẽ được xem xét và có thể sẽ được đăng tải sớm.",
+            "invalidConceptLinks": "$~Các liên kết khái niệm này không hoạt động trong ngôn ngữ hiện tại. Bạn có viết sai chính tả một trong số chúng, hay đã cố tình xóa chúng đi?"
         },
         "tour": {
             "label": "$~chuyến du lịch",

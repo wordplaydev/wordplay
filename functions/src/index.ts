@@ -21,6 +21,7 @@ import {
     createContributorsPR,
     fetchContributorsData,
 } from './contributors.js';
+export { submitLocalizationBundle } from './submitLocalization.js';
 
 initializeApp();
 const db = getFirestore();
