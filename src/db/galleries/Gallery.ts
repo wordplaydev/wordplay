@@ -264,7 +264,6 @@ export default class Gallery {
         newData.howToExpandedGalleries = [...newData.howToExpandedGalleries, galleryID];
         newData.howToViewers[galleryID] = viewers;
         newData.howToViewersFlat = Array.from(new Set([...newData.howToViewersFlat, ...viewers]));
-        newData.howToExpandedVisibility = true;
         return new Gallery(newData);
     }
 

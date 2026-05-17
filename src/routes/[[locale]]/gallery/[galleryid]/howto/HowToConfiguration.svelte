@@ -39,6 +39,8 @@
         gallery.getHowToExpandedGalleries(),
     );
     let expandedGalleryToAdd: string | undefined = $state(undefined);
+    let galleryAddQueue: string[] = $state([]);
+    let galleryRemoveQueue: string[] = $state([]);
     let expandedGalleryOptions: Option[] = $derived([
         { value: undefined, label: '—' },
         ...($user
@@ -46,41 +48,34 @@
                   (g) =>
                       g.hasCurator($user.uid) &&
                       g.getID() !== gallery.getID() &&
-                      !expandedGalleries.includes(g.getID()),
+                      !expandedGalleries.includes(g.getID()) &&
+                      !galleryAddQueue.includes(g.getID()),
               )
             : []
-        )
-            .filter((g) => !expandedGalleries.includes(g.getID()))
-            .map((g) => ({
-                label: g.getName($locales),
-                value: g.getID(),
-            })),
+        ).map((g) => ({
+            label: g.getName($locales),
+            value: g.getID(),
+        })),
     ]);
 
     function addExpandedGalleryToList() {
         if (expandedGalleryToAdd) {
-            let toAddGalleryObject: Gallery | undefined =
-                Galleries.accessibleGalleries.get(expandedGalleryToAdd);
-            let toAddGalleryViewers: string[] = toAddGalleryObject
-                ? [
-                      ...toAddGalleryObject.getCurators(),
-                      ...toAddGalleryObject.getCreators(),
-                  ]
-                : [];
-
-            Galleries.edit(
-                gallery.withExpandedGallery(
-                    expandedGalleryToAdd,
-                    toAddGalleryViewers,
-                ),
-            );
-
+            galleryAddQueue.push(expandedGalleryToAdd);
             expandedGalleryToAdd = undefined;
         }
     }
 
-    function removeExpandedGalleryFromList(galleryId: string) {
-        Galleries.edit(gallery.withoutExpandedGallery(galleryId));
+    function addExpansionToGallery(toModify: Gallery, toAdd: string): Gallery {
+        let toAddGalleryObject: Gallery | undefined =
+            Galleries.accessibleGalleries.get(toAdd);
+        let toAddGalleryViewers: string[] = toAddGalleryObject
+            ? [
+                  ...toAddGalleryObject.getCurators(),
+                  ...toAddGalleryObject.getCreators(),
+              ]
+            : [];
+
+        return toModify.withExpandedGallery(toAdd, toAddGalleryViewers);
     }
 
     async function submitChanges() {
@@ -105,7 +100,18 @@
             howToReactions: reactionsObject,
         });
 
+        galleryAddQueue.forEach((galleryId) => {
+            gallery = addExpansionToGallery(gallery, galleryId);
+        });
+
+        galleryRemoveQueue.forEach((galleryId) => {
+            gallery = gallery.withoutExpandedGallery(galleryId);
+        });
+
         Galleries.edit(gallery);
+
+        galleryAddQueue = [];
+        galleryRemoveQueue = [];
     }
 </script>
 
@@ -117,7 +123,7 @@
             padding={false}
             tip={(l) => l.ui.howto.configuration.visibility.expandedRemove}
             action={() => {
-                removeExpandedGalleryFromList(id);
+                galleryRemoveQueue.push(id);
             }}
             icon={CANCEL_SYMBOL}
         ></Button>
@@ -148,7 +154,10 @@
         select={(num) => (expandedScope = num === 1)}
     />
     {#if expandedScope}
-        {#each expandedGalleries as galleryId}
+        {@const showGallery = [...expandedGalleries, ...galleryAddQueue].filter(
+            (id) => !galleryRemoveQueue.includes(id),
+        )}
+        {#each showGallery as galleryId}
             {@const gallery = Galleries.accessibleGalleries.get(galleryId)}
             {#if gallery}
                 {@render expandedGallery(gallery.getName($locales), galleryId)}
