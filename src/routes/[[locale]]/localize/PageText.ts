@@ -14,6 +14,10 @@ type PageText = {
     submitHeader: string;
     /** [formatted] Paragraph shown at the top of the publish section */
     submitPrompt: FormattedText;
+    /** [formatted] Note explaining that each submission targets one locale at
+     *  a time. Rendered alongside the submit prompt. The active locale is
+     *  inserted via a `$1` template placeholder. */
+    oneLocaleNote: FormattedText;
     /** [plain] Header above the bundle review viewer */
     bundleSummary: string;
     /** [plain] Tooltip for the bundle-item viewer body that jumps back to the editor and scrolls to the top */

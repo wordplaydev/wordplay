@@ -6233,7 +6233,8 @@
             "localize": {
                 "header": "$~Lokalisera",
                 "description": [
-                    "$~Bläddra bland alla lokaliserbara strängar i plattformen, redigera de oskrivna och skicka in dina ändringar när du är redo."
+                    "$~Här kan du bläddra bland alla lokaliserbara strängar i plattformen och föreslå översättningar eller revideringar av oskriven och maskinöversatt text. Du kan skicka in dina revideringar för granskning när du är redo.",
+                    "$~När du skriver, kom ihåg att skriva på ett enkelt sätt som är anpassat till en ung publik som kanske ännu inte känner till avancerade ordförråd. Var också konsekvent och använd samma terminologi i olika texter, när det är tillämpligt."
                 ],
                 "workspaceLink": "$~Öppna lokaliseringsarbetsytan",
                 "workspaceHeader": "$~Text att skriva eller recensera",
@@ -6310,7 +6311,8 @@
                     "moderation": "$~Måtta"
                 },
                 "singletonWordsWarning": "$~Vissa ord i ditt utkast förekommer bara en gång i hela språket. Är du säker på att de är korrekt stavade och överensstämmer med annan text?",
-                "viewPR": "$~Visa pull-förfrågan"
+                "viewPR": "$~Visa pull-förfrågan",
+                "oneLocaleNote": "$~Varje bidrag täcker en språkinställning i taget. Denna grupp kommer att skickas in som redigeringar till $1. Om du vill bidra till en annan språkinställning, byt språkinställning först; redigeringar som du sparar under varje språkinställning sparas separat."
             }
         },
         "edit": {

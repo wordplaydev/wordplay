@@ -566,8 +566,18 @@
             : selectedPath;
     });
 
+    /** BCP-47 string for the locale the contributor is currently editing.
+     *  Used as the scoping key for all reads/writes to LocalizationDexie so
+     *  edits made under one locale don't surface under another. */
+    const activeLocaleString = $derived(toLocaleString($locales.getLocale()));
+
+    /** Pending edits for just the active locale (path → revised text). */
+    const activeLocaleEdits = $derived(
+        $localeEdits.get(activeLocaleString) ?? new Map<string, string>(),
+    );
+
     const currentOverride = $derived(
-        currentKey !== undefined ? $localeEdits.get(currentKey) : undefined,
+        currentKey !== undefined ? activeLocaleEdits.get(currentKey) : undefined,
     );
 
     let editedText = $state('');
@@ -580,8 +590,9 @@
     async function saveEdit() {
         if (currentKey === undefined) return;
         if (editedText === currentSourceText)
-            await deleteLocaleEdit(currentKey);
-        else await saveLocaleEdit(currentKey, editedText);
+            await deleteLocaleEdit(activeLocaleString, currentKey);
+        else
+            await saveLocaleEdit(activeLocaleString, currentKey, editedText);
     }
 
     /** Discard any in-progress changes and snap the editor back to the saved value
@@ -593,7 +604,7 @@
     /** Remove the override for the current cell entirely, restoring the source text. */
     async function revertEdit() {
         if (currentKey === undefined) return;
-        await deleteLocaleEdit(currentKey);
+        await deleteLocaleEdit(activeLocaleString, currentKey);
     }
 
     /** Within a tuple-typed value, move the editor to a sibling element after
@@ -640,7 +651,7 @@
      *  the workspace. Those edits remain in storage and continue to be editable
      *  inline on /learn; they'll get their own submission path later. */
     const bundleItems = $derived.by(() =>
-        [...$localeEdits.entries()]
+        [...activeLocaleEdits.entries()]
             .filter(([key]) => !isTutorialKey(key))
             .sort(([a], [b]) => a.localeCompare(b))
             .map(([key, value]) => ({
@@ -710,7 +721,8 @@
             console.error('Localization submit failed', e);
             return { status: 'error' };
         }
-        for (const key of Object.keys(edits)) await deleteLocaleEdit(key);
+        for (const key of Object.keys(edits))
+            await deleteLocaleEdit(activeLocaleString, key);
         bundleDescription = '';
         return { status: 'success', prUrl };
     }
@@ -974,6 +986,12 @@
                 {/if}
             </h2>
             <MarkupHTMLView markup={(l) => l.ui.page.localize.submitPrompt} />
+            <MarkupHTMLView
+                markup={[
+                    (l) => l.ui.page.localize.oneLocaleNote,
+                    activeLocaleString,
+                ]}
+            />
 
             {#if submitResult === 'success'}
                 <Notice>
@@ -1078,7 +1096,10 @@
                         <Button
                             tip={(l) => l.ui.page.localize.revertEntry}
                             action={() =>
-                                deleteLocaleEdit(currentBundleItem.key)}
+                                deleteLocaleEdit(
+                                    activeLocaleString,
+                                    currentBundleItem.key,
+                                )}
                             background>{REVERT_SYMBOL}</Button
                         >
                     </div>

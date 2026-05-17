@@ -26,6 +26,7 @@
 
 import Translate from '@google-cloud/translate';
 import { HttpsError, onCall } from 'firebase-functions/v2/https';
+import prettier from 'prettier';
 
 const REPO_OWNER = 'wordplaydev';
 const REPO_NAME = 'wordplay';
@@ -518,17 +519,28 @@ export const submitLocalizationBundle = onCall<
     })`;
     const body = composePrBody({ contributor, locale, description, rows });
 
+    // Format JSON with Prettier so the PR diff only shows the contributor's
+    // text changes, not whitespace churn from re-serializing the file. The
+    // options here mirror the repo's .prettierrc.json (tabWidth: 4); Prettier's
+    // JSON printer keeps short arrays inline, unlike JSON.stringify which
+    // always expands them.
+    const formatJson = (json: Record<string, unknown>) =>
+        prettier.format(JSON.stringify(json), {
+            parser: 'json',
+            tabWidth: 4,
+        });
+
     const files: { path: string; content: string; existingSha?: string }[] = [];
     if (targetLocaleFile)
         files.push({
             path: localeFilePath(locale),
-            content: JSON.stringify(targetLocaleFile.json, null, 4) + '\n',
+            content: await formatJson(targetLocaleFile.json),
             existingSha: targetLocaleFile.sha,
         });
     if (targetTutorialFile)
         files.push({
             path: tutorialFilePath(locale),
-            content: JSON.stringify(targetTutorialFile.json, null, 4) + '\n',
+            content: await formatJson(targetTutorialFile.json),
             existingSha: targetTutorialFile.sha,
         });
 

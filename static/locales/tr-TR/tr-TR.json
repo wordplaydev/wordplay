@@ -6229,7 +6229,8 @@
             "localize": {
                 "header": "$~Yerelleştir",
                 "description": [
-                    "$~Platformdaki yerelleştirilebilir tüm metinleri inceleyin, yazılmamış olanları düzenleyin ve hazır olduğunuzda revizyonlarınızı gönderin."
+                    "$~Burada platformdaki yerelleştirilebilir tüm metinleri inceleyebilir ve yazılmamış veya makine çevirisi yapılmış metinler için çeviri veya düzeltme önerilerinde bulunabilirsiniz. Hazır olduğunuzda düzeltmelerinizi inceleme için gönderebilirsiniz.",
+                    "$~Yazarken, henüz ileri düzey kelime bilgisine sahip olmayan genç bir okuyucu kitlesi için basit bir dil kullanmaya özen gösterin. Ayrıca, mümkün olduğunca farklı metinlerde aynı terminolojiyi kullanarak tutarlı olun."
                 ],
                 "workspaceLink": "$~Yerelleştirme çalışma alanını açın.",
                 "workspaceHeader": "$~Yazılacak veya incelenecek metin",
@@ -6309,7 +6310,8 @@
                     "moderation": "$~Ölçülülük"
                 },
                 "singletonWordsWarning": "$~Taslağınızdaki bazı kelimeler, tüm yerel ayarda yalnızca bir kez geçiyor. Bu kelimelerin doğru yazıldığından ve metnin geri kalanıyla tutarlı olduğundan emin misiniz?",
-                "viewPR": "$~Çekme isteğini görüntüle"
+                "viewPR": "$~Çekme isteğini görüntüle",
+                "oneLocaleNote": "$~Her gönderim aynı anda yalnızca bir dil seçeneğini kapsar. Bu parti, 1$'lık düzenleme olarak gönderilecektir. Farklı bir dil seçeneğine katkıda bulunmak istiyorsanız, önce dil seçeneğini değiştirin; her dil seçeneği altında kaydettiğiniz düzenlemeler ayrı ayrı saklanır."
             }
         },
         "edit": {

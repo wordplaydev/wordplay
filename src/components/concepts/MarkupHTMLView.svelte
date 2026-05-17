@@ -14,6 +14,7 @@
     import FormattedEditor from '@components/widgets/FormattedEditor.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import type { LocaleTextsAccessor, TemplateInput } from '@locale/Locales';
+    import { toLocaleString } from '@locale/LocaleText';
     import { withoutAnnotations } from '@locale/withoutAnnotations';
     import ConceptLink from '@nodes/ConceptLink';
     import Markup from '@nodes/Markup';
@@ -171,8 +172,11 @@
               ? accessorToLocalePath(markup)?.toString()
               : undefined,
     );
+    const activeLocaleString = $derived(toLocaleString($locales.getLocale()));
     let override = $derived(
-        storageKey !== undefined ? $localeEdits.get(storageKey) : undefined,
+        storageKey !== undefined
+            ? $localeEdits.get(activeLocaleString)?.get(storageKey)
+            : undefined,
     );
 
     /** Parsed markup for display in localizing mode, using the override if one exists. */
@@ -214,8 +218,9 @@
 
     function confirmEditing() {
         if (storageKey !== undefined) {
-            if (editedText === rawText) deleteLocaleEdit(storageKey);
-            else saveLocaleEdit(storageKey, editedText);
+            if (editedText === rawText)
+                deleteLocaleEdit(activeLocaleString, storageKey);
+            else saveLocaleEdit(activeLocaleString, storageKey, editedText);
         }
         editing = false;
     }
@@ -314,7 +319,7 @@
                     tip={(l) => l.ui.localize.button.revert}
                     action={() => {
                         if (storageKey !== undefined)
-                            deleteLocaleEdit(storageKey);
+                            deleteLocaleEdit(activeLocaleString, storageKey);
                         cancelEditing();
                     }}
                     background

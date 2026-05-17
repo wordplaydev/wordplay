@@ -6519,7 +6519,8 @@
             "localize": {
                 "header": "$~Localizar",
                 "description": [
-                    "$~Navegue por todas as strings localizáveis na plataforma, edite as que ainda não foram escritas e envie as suas revisões quando estiver pronto."
+                    "$~Aqui pode navegar por todas as strings localizáveis na plataforma e sugerir traduções ou revisões para textos não escritos e traduzidos automaticamente. Pode enviar as suas revisões para análise quando estiver pronto.",
+                    "$~Ao escrever, lembre-se de utilizar uma linguagem simples, adequada a um público jovem que pode ainda não dominar vocabulário avançado. Além disso, seja consistente, utilizando a mesma terminologia em diferentes textos, quando aplicável."
                 ],
                 "workspaceLink": "$~Abra o espaço de trabalho de localização.",
                 "workspaceHeader": "$~Texto para escrever ou rever",
@@ -6599,7 +6600,8 @@
                     "moderation": "$~Moderação"
                 },
                 "singletonWordsWarning": "$~Algumas palavras do seu rascunho aparecem apenas uma vez em todo o texto. Tem a certeza de que estão escritas corretamente e em consonância com o restante texto?",
-                "viewPR": "$~Veja a solicitação de pull request"
+                "viewPR": "$~Veja a solicitação de pull request",
+                "oneLocaleNote": "$~Cada contribuição abrange um idioma de cada vez. Este lote será enviado como edições de $1. Se quiser contribuir para um idioma diferente, altere primeiro o idioma; as edições guardadas em cada idioma são guardadas separadamente."
             }
         },
         "edit": {

@@ -6468,7 +6468,8 @@
             "localize": {
                 "header": "$~Bản địa hóa",
                 "description": [
-                    "$~Duyệt qua tất cả các chuỗi văn bản có thể bản địa hóa trên nền tảng, chỉnh sửa những chuỗi chưa được dịch và gửi bản sửa đổi của bạn khi bạn đã sẵn sàng."
+                    "$~Tại đây, bạn có thể xem tất cả các chuỗi văn bản có thể bản địa hóa trên nền tảng và đề xuất bản dịch hoặc chỉnh sửa cho văn bản chưa được viết và văn bản được dịch máy. Bạn có thể gửi bản chỉnh sửa của mình để được xem xét khi bạn đã sẵn sàng.",
+                    "$~Khi viết, hãy nhớ sử dụng ngôn từ đơn giản, dễ hiểu cho đối tượng độc giả trẻ tuổi, những người có thể chưa biết đến vốn từ vựng nâng cao. Đồng thời, hãy nhất quán, sử dụng cùng một thuật ngữ trong các văn bản khác nhau, nếu có thể."
                 ],
                 "workspaceLink": "$~Mở không gian làm việc bản địa hóa",
                 "workspaceHeader": "$~Văn bản cần viết hoặc đánh giá",
@@ -6548,7 +6549,8 @@
                     "moderation": "$~Sự điều độ"
                 },
                 "singletonWordsWarning": "$~Một số từ trong bản nháp của bạn chỉ xuất hiện một lần duy nhất trong toàn bộ đoạn văn. Bạn có chắc chắn rằng chúng được viết đúng chính tả và nhất quán với các văn bản khác không?",
-                "viewPR": "$~Xem yêu cầu kéo (pull request)"
+                "viewPR": "$~Xem yêu cầu kéo (pull request)",
+                "oneLocaleNote": "$~Mỗi bài gửi chỉ dành cho một ngôn ngữ/vùng miền tại một thời điểm. Lô bài gửi này sẽ được gửi dưới dạng các chỉnh sửa với giá 1 đô la. Nếu bạn muốn đóng góp cho một ngôn ngữ/vùng miền khác, hãy chuyển đổi ngôn ngữ/vùng miền trước; các chỉnh sửa bạn lưu dưới mỗi ngôn ngữ/vùng miền sẽ được giữ riêng biệt."
             }
         },
         "edit": {

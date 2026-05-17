@@ -8,6 +8,7 @@
     import { locales } from '@db/Database';
     import { localeEdits } from '@db/locales/LocalizationDexie';
     import DefaultLocale from '@locale/DefaultLocale';
+    import { toLocaleString } from '@locale/LocaleText';
     import { withMonoEmoji } from '@unicode/emoji';
 
     let localizing = getLocalizing();
@@ -29,6 +30,13 @@
     const workspaceTip = $derived(
         $locales.getPlainText((l) => l.ui.page.localize.workspaceLink),
     );
+
+    /** Number of pending edits for the currently-active locale. Edits made
+     *  under other locales aren't counted here; submissions are one locale
+     *  at a time. */
+    const activeLocaleEditCount = $derived(
+        $localeEdits.get(toLocaleString($locales.getLocale()))?.size ?? 0,
+    );
 </script>
 
 <div class="localizer-header">
@@ -39,8 +47,8 @@
         <a href={workspaceHref} title={workspaceTip} class="workspace-link"
             >{withMonoEmoji('🔗')}</a
         >
-        {#if $localeEdits.size > 0}
-            <Note>{$localeEdits.size}</Note>
+        {#if activeLocaleEditCount > 0}
+            <Note>{activeLocaleEditCount}</Note>
         {/if}
     </div>
     <MarkupHTMLView markup={(l) => l.ui.localize.description} />

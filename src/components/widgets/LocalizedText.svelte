@@ -19,11 +19,12 @@
     } from '@db/locales/LocalizationDexie';
     import type { LocaleTextAccessor } from '@locale/Locales';
     import type LocaleText from '@locale/LocaleText';
-    import { isMachineTranslated } from '@locale/LocaleText';
+    import { isMachineTranslated, toLocaleString } from '@locale/LocaleText';
     import { withoutAnnotations } from '@locale/withoutAnnotations';
     import {
         CANCEL_SYMBOL,
         CONFIRM_SYMBOL,
+        EDIT_SYMBOL,
         REVERT_SYMBOL,
         TOOLTIP_SYMBOL,
     } from '@parser/Symbols';
@@ -118,8 +119,11 @@
         if (path === undefined) return undefined;
         return accessorToLocalePath(path, ...extras)?.toString();
     });
+    const activeLocaleString = $derived(toLocaleString($locales.getLocale()));
     let override = $derived(
-        storageKey !== undefined ? $localeEdits.get(storageKey) : undefined,
+        storageKey !== undefined
+            ? $localeEdits.get(activeLocaleString)?.get(storageKey)
+            : undefined,
     );
 
     async function startEditing() {
@@ -131,8 +135,9 @@
 
     function commitEdit(text: string) {
         if (storageKey === undefined) return;
-        if (text === withoutAnnotationsText) deleteLocaleEdit(storageKey);
-        else saveLocaleEdit(storageKey, text);
+        if (text === withoutAnnotationsText)
+            deleteLocaleEdit(activeLocaleString, storageKey);
+        else saveLocaleEdit(activeLocaleString, storageKey, text);
     }
 
     function handleKeydown(e: KeyboardEvent) {
@@ -200,7 +205,10 @@
                         tip={(l) => l.ui.localize.button.revert}
                         action={() => {
                             if (storageKey !== undefined)
-                                deleteLocaleEdit(storageKey);
+                                deleteLocaleEdit(
+                                    activeLocaleString,
+                                    storageKey,
+                                );
                             cancelled = true;
                             fieldView?.blur();
                         }}
@@ -216,7 +224,7 @@
                 padding={false}
                 background="salient"
                 size="inherit"
-                >{#if tipIcon}{TOOLTIP_SYMBOL}{:else}{override ??
+                >{#if tipIcon}{TOOLTIP_SYMBOL}{:else}{#if override}{EDIT_SYMBOL}{/if}{override ??
                         withoutAnnotationsText}{/if}{#if isMT && !override}<MachineTranslatedAnnotation
                     />{/if}{#if override}<LocallyRevisedAnnotation
                     />{/if}</Button

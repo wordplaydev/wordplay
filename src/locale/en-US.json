@@ -5885,6 +5885,7 @@
                 "workspaceHeader": "Text to write or review",
                 "submitHeader": "Submit",
                 "submitPrompt": "When you are ready to propose this batch of edits, you can submit below.",
+                "oneLocaleNote": "Each submission covers one locale at a time. This batch will be submitted as edits to $1. If you want to contribute to a different locale, switch locales first; edits you save under each locale are kept separately.",
                 "bundleSummary": "Edits in this batch",
                 "editEntry": "Jump back to edit this string",
                 "revertEntry": "Discard this edit from the batch",

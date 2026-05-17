@@ -6140,7 +6140,8 @@
             "localize": {
                 "header": "$~Lokalisieren",
                 "description": [
-                    "$~Durchsuchen Sie alle lokalisierbaren Zeichenketten der Plattform, bearbeiten Sie die nicht geschriebenen und reichen Sie Ihre Änderungen ein, wenn Sie fertig sind."
+                    "$~Hier können Sie alle lokalisierbaren Texte der Plattform durchsuchen und Übersetzungen oder Überarbeitungen für ungeschriebene und maschinell übersetzte Texte vorschlagen. Sobald Sie fertig sind, können Sie Ihre Änderungen zur Überprüfung einreichen.",
+                    "$~Denken Sie beim Schreiben daran, einfach und verständlich zu schreiben, insbesondere für ein junges Publikum, das möglicherweise noch keinen fortgeschrittenen Wortschatz besitzt. Verwenden Sie außerdem, wenn möglich, in verschiedenen Texten dieselbe Terminologie."
                 ],
                 "workspaceLink": "$~Öffnen Sie den Lokalisierungsarbeitsbereich",
                 "workspaceHeader": "$~Text zum Schreiben oder Überprüfen",
@@ -6220,7 +6221,8 @@
                     "moderation": "$~Mäßigung"
                 },
                 "singletonWordsWarning": "$~Einige Wörter in Ihrem Entwurf kommen im gesamten Text nur einmal vor. Sind Sie sicher, dass sie korrekt geschrieben sind und mit dem übrigen Text übereinstimmen?",
-                "viewPR": "$~Pull-Anfrage ansehen"
+                "viewPR": "$~Pull-Anfrage ansehen",
+                "oneLocaleNote": "$~Jeder Beitrag bezieht sich jeweils auf eine Sprache. Diese Bearbeitungen werden als Änderungen an $1 übermittelt. Wenn Sie zu einer anderen Sprache beitragen möchten, wechseln Sie zuerst die Sprache; die unter jeder Sprache gespeicherten Änderungen werden separat aufbewahrt."
             }
         },
         "edit": {

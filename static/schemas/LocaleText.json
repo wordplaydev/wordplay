@@ -13224,6 +13224,10 @@
                       "description": "[plain] Note shown below the not-spam checkbox explaining the project context",
                       "type": "string"
                     },
+                    "oneLocaleNote": {
+                      "$ref": "#/definitions/FormattedText",
+                      "description": "[formatted] Note explaining that each submission targets one locale at a time. Rendered alongside the submit prompt. The active locale is inserted via a `$1` template placeholder."
+                    },
                     "prevBundleItem": {
                       "description": "[plain] Tooltip for the back arrow that moves to the previous edit in the bundle",
                       "type": "string"
@@ -13351,6 +13355,7 @@
                     "workspaceHeader",
                     "submitHeader",
                     "submitPrompt",
+                    "oneLocaleNote",
                     "bundleSummary",
                     "editEntry",
                     "revertEntry",

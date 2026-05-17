@@ -6522,7 +6522,8 @@
             "localize": {
                 "header": "$~I-localize",
                 "description": [
-                    "$~I-browse ang bawat localizable string sa platform, i-edit ang mga hindi nakasulat, at isumite ang iyong mga rebisyon kapag handa ka na."
+                    "$~Dito mo mababasa ang bawat lokalisadong string sa platform, at makapagmungkahi ng mga pagsasalin o rebisyon sa mga hindi nakasulat at isinalin ng makinang teksto. Maaari mong isumite ang iyong mga rebisyon para sa pagsusuri kapag handa ka na.",
+                    "$~Habang nagsusulat ka, tandaan na magsulat sa mga simpleng paraan, para sa mga batang mambabasa na maaaring hindi pa nakakaalam ng mga advanced na bokabularyo. Maging pare-pareho rin, gamit ang parehong terminolohiya sa iba't ibang teksto, kung naaangkop."
                 ],
                 "workspaceLink": "$~Buksan ang workspace ng lokalisasyon",
                 "workspaceHeader": "$~Tekstong isusulat o rerepasuhin",
@@ -6602,7 +6603,8 @@
                     "moderation": "$~Moderasyon"
                 },
                 "singletonWordsWarning": "$~Ang ilang salita sa iyong draft ay lumilitaw nang isang beses lamang sa buong lokal. Sigurado ka bang tama ang baybay ng mga ito at naaayon sa ibang teksto?",
-                "viewPR": "$~Tingnan ang kahilingan sa paghila"
+                "viewPR": "$~Tingnan ang kahilingan sa paghila",
+                "oneLocaleNote": "$~Ang bawat pagsusumite ay sumasaklaw sa isang lokal sa bawat pagkakataon. Ang batch na ito ay isusumite bilang mga pag-edit sa $1. Kung gusto mong mag-ambag sa ibang lokal, lumipat muna ng mga lokal; ang mga pag-edit na iyong sine-save sa ilalim ng bawat lokal ay itinatago nang hiwalay."
             }
         },
         "edit": {

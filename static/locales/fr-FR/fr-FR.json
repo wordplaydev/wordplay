@@ -6141,7 +6141,8 @@
             "localize": {
                 "header": "$~Localiser",
                 "description": [
-                    "$~Parcourez toutes les chaînes localisables de la plateforme, modifiez celles qui ne sont pas encore écrites et soumettez vos modifications lorsque vous serez prêt."
+                    "$~Ici, vous pouvez consulter toutes les chaînes localisables de la plateforme et proposer des traductions ou des corrections pour les textes non écrits et les traductions automatiques. Vous pouvez soumettre vos corrections pour examen lorsque vous serez prêt.",
+                    "$~Lorsque vous écrivez, veillez à utiliser un langage simple, adapté à un jeune public qui ne maîtrise peut-être pas encore un vocabulaire soutenu. Soyez également cohérent et utilisez la même terminologie dans différents textes, lorsque cela est pertinent."
                 ],
                 "workspaceLink": "$~Ouvrir l'espace de travail de localisation",
                 "workspaceHeader": "$~Texte à rédiger ou à réviser",
@@ -6221,7 +6222,8 @@
                     "moderation": "$~Modération"
                 },
                 "singletonWordsWarning": "$~Certains mots de votre brouillon n'apparaissent qu'une seule fois dans l'ensemble du texte. Êtes-vous certain(e) de leur orthographe correcte et de leur cohérence avec le reste du texte ?",
-                "viewPR": "$~Consulter la demande de fusion"
+                "viewPR": "$~Consulter la demande de fusion",
+                "oneLocaleNote": "$~Chaque contribution concerne une langue à la fois. Ce lot sera soumis sous forme de modifications à $1. Si vous souhaitez contribuer à une autre langue, veuillez d'abord la changer ; les modifications enregistrées pour chaque langue sont conservées séparément."
             }
         },
         "edit": {

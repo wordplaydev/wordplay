@@ -6242,7 +6242,8 @@
             "localize": {
                 "header": "$~Zlokalizować",
                 "description": [
-                    "$~Przeglądaj każdy możliwy do lokalizacji ciąg znaków na platformie, edytuj te niepisane i przesyłaj swoje poprawki, gdy będziesz gotowy."
+                    "$~Tutaj możesz przeglądać każdy lokalizowalny ciąg znaków na platformie i proponować tłumaczenia lub poprawki do tekstów niepisanych i przetłumaczonych maszynowo. Możesz przesłać swoje poprawki do recenzji, gdy będziesz gotowy.",
+                    "$~Pisząc, pamiętaj, aby pisać w sposób prosty, z myślą o młodych odbiorcach, którzy mogą jeszcze nie znać zaawansowanego słownictwa. Zachowaj również spójność, używając tej samej terminologii w różnych tekstach, gdy jest to możliwe."
                 ],
                 "workspaceLink": "$~Otwórz obszar roboczy lokalizacji",
                 "workspaceHeader": "$~Tekst do napisania lub przejrzenia",
@@ -6322,7 +6323,8 @@
                     "moderation": "$~Umiar"
                 },
                 "singletonWordsWarning": "$~Niektóre słowa w Twoim szkicu pojawiają się tylko raz w całej lokalizacji. Czy jesteś pewien, że są poprawnie napisane i spójne z resztą tekstu?",
-                "viewPR": "$~Wyświetl żądanie ściągnięcia"
+                "viewPR": "$~Wyświetl żądanie ściągnięcia",
+                "oneLocaleNote": "$~Każde zgłoszenie dotyczy jednej lokalizacji na raz. Ta partia zostanie przesłana jako edycje do $1. Jeśli chcesz dodać zmiany do innej lokalizacji, najpierw zmień lokalizację; zmiany zapisane w każdej lokalizacji są przechowywane osobno."
             }
         },
         "edit": {
