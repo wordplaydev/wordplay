@@ -5,7 +5,7 @@
 
 <script lang="ts">
     import Spinning from '@components/app/Spinning.svelte';
-    import { getTip } from '@components/project/Contexts';
+    import { getLocalizing, getTip } from '@components/project/Contexts';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import { locales } from '@db/Database';
     import type { LocaleTextAccessor } from '@locale/Locales';
@@ -48,7 +48,7 @@
         /** Whether to wrap the text in the button */
         wrap?: boolean;
         /** The label */
-        children?: import('svelte').Snippet;
+        children?: import('svelte').Snippet | undefined;
     }
 
     let {
@@ -87,6 +87,11 @@
     let pressed = $state(false);
 
     let hint = getTip();
+    let localizing = getLocalizing();
+    // Track edit state of the label and tip LocalizedTexts so we can hide one
+    // when the other is being edited (avoids a redundant 💭 next to the editor).
+    let labelEditing = $state(false);
+    let tipEditing = $state(false);
     function showTip() {
         if (_) hint.show(tooltip, _);
     }
@@ -166,8 +171,13 @@
                   ? doAction(event)
                   : undefined}
     >{#if loading}<Spinning />{:else}{#if icon}{withMonoEmoji(icon)}{/if}
-        {#if children}{@render children()}{:else if label}<LocalizedText
+        {#if children}{@render children()}{:else if label && !tipEditing}<LocalizedText
                 path={label}
+                onEditingChange={(e) => (labelEditing = e)}
+            />{/if}{#if !children && localizing?.on && !isComputedTooltip(tip) && !labelEditing}<LocalizedText
+                path={tip}
+                tipIcon
+                onEditingChange={(e) => (tipEditing = e)}
             />{/if}{/if}
 </button>
 
@@ -246,7 +256,7 @@
     }
 
     .salient {
-        background: var(--wordplay-highlight-color);
+        background: var(--color-yellow-transparent);
     }
 
     [aria-disabled='true'] {

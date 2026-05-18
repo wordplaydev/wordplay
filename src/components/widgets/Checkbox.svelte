@@ -1,4 +1,6 @@
 <script lang="ts">
+    import { getLocalizing } from '@components/project/Contexts';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import { locales } from '@db/Database';
     import type { LocaleTextAccessor } from '@locale/Locales';
 
@@ -20,24 +22,34 @@
     }: Props = $props();
 
     let labelText = $derived($locales.getPlainText(label));
+    let localizing = getLocalizing();
 
     function handleInput() {
         if (changed) changed(on);
     }
 </script>
 
-<input
-    type="checkbox"
-    aria-label={labelText}
-    title={labelText}
-    {id}
-    disabled={!editable}
-    bind:checked={on}
-    indeterminate={on === undefined}
-    onchange={handleInput}
-/>
+<span class="checkbox-group"
+    ><input
+        type="checkbox"
+        aria-label={labelText}
+        title={labelText}
+        {id}
+        disabled={!editable}
+        bind:checked={on}
+        indeterminate={on === undefined}
+        onchange={handleInput}
+    />{#if localizing?.on}<LocalizedText path={label} tipIcon />{/if}</span
+>
 
 <style>
+    .checkbox-group {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--wordplay-spacing-half);
+        width: fit-content;
+    }
+
     [type='checkbox'] {
         appearance: none;
         border: var(--wordplay-border-width) solid var(--wordplay-border-color);

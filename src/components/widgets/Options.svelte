@@ -12,7 +12,7 @@
 </script>
 
 <script lang="ts" generics="Item extends Option">
-    import { getTip } from '@components/project/Contexts';
+    import { getLocalizing, getTip } from '@components/project/Contexts';
 
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import { locales } from '@db/Database';
@@ -69,6 +69,7 @@
     }
 
     let hint = getTip();
+    let localizing = getLocalizing();
     function showTip() {
         if (view) hint.show(title, view);
     }
@@ -85,7 +86,8 @@
     {/if}
 {/snippet}
 
-<select
+<span class="options-group"
+    ><select
     {id}
     aria-label={title}
     bind:value
@@ -141,9 +143,19 @@
             >
         {/if}
     {/each}
-</select>
+</select>{#if localizing?.on && typeof label !== 'string'}<LocalizedText
+        path={label}
+        tipIcon
+    />{/if}</span>
 
 <style>
+    .options-group {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--wordplay-spacing-half);
+        width: fit-content;
+    }
+
     ::picker(select),
     select {
         appearance: base-select;

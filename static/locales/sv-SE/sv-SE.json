@@ -6229,6 +6229,90 @@
                 "intro": "$~Tack till våra *$1* bidragsgivare för att de bidragit till Wordplays design, utveckling, lokalisering och innehåll! Och tack till de många lärare och ungdomar som har väglett vår design i fokusgrupper, designsessioner och klassrum, som vi inte listar här för att skydda deras integritet.\n\nDetta projekt har stöttats av National Science Foundation under utmärkelserna 2318257, 2031265, 2100296 och 2122950, University of Washington och generösa <gifts//donate> från människor som du.",
                 "teachers": "$~Lärare",
                 "contributors": "$~Bidragsgivare"
+            },
+            "localize": {
+                "header": "$~Lokalisera",
+                "description": [
+                    "$~Här kan du bläddra bland alla lokaliserbara strängar i plattformen och föreslå översättningar eller revideringar av oskriven och maskinöversatt text. Du kan skicka in dina revideringar för granskning när du är redo.",
+                    "$~När du skriver, kom ihåg att skriva på ett enkelt sätt som är anpassat till en ung publik som kanske ännu inte känner till avancerade ordförråd. Var också konsekvent och använd samma terminologi i olika texter, när det är tillämpligt."
+                ],
+                "workspaceLink": "$~Öppna lokaliseringsarbetsytan",
+                "workspaceHeader": "$~Text att skriva eller recensera",
+                "submitHeader": "$~Överlämna",
+                "submitPrompt": "$~När du är redo att föreslå den här omgången redigeringar kan du skicka in dem nedan.",
+                "bundleSummary": "$~Redigeringar i den här batchen",
+                "editEntry": "$~Hoppa tillbaka för att redigera den här strängen",
+                "revertEntry": "$~Ignorera den här redigeringen från bunten",
+                "prevBundleItem": "$~Granska den föregående redigeringen",
+                "nextBundleItem": "$~Granska nästa redigering",
+                "descriptionField": {
+                    "description": "$~En kort beskrivning av redigeringsgruppen för att hjälpa granskare att förstå ändringarna",
+                    "placeholder": "$~Vad ändrade du, och varför?"
+                },
+                "notSpamLabel": "$~Jag lovar att dessa redigeringar inte är spam",
+                "notSpamNote": "$~Wordplay är ett ideellt projekt som leds av volontärer.",
+                "requireLogin": "$~Du måste vara inloggad för att bidra med lokaliseringsförslag.",
+                "submit": {
+                    "description": "$~Skicka in den här omgången redigeringar",
+                    "prompt": "$~Överlämna"
+                },
+                "submitSuccess": "$~Tack! Dina redigeringar har skickats in och kommer att granskas snart.",
+                "submitError": "$~Något gick fel när det skickades. Dina redigeringar är fortfarande sparade på den här enheten – försök igen.",
+                "empty": "$~Inga strängar matchar detta filter.",
+                "prevEntry": "$~Redigera föregående sträng",
+                "nextEntry": "$~Redigera nästa sträng",
+                "qualityMode": {
+                    "label": "$~visa",
+                    "labels": ["$~alla", "$~maskinöversatt eller oskriven"],
+                    "tips": [
+                        "$~visa alla strängar",
+                        "$~visa endast maskinöversatta eller oskrivna strängar"
+                    ]
+                },
+                "sectionMode": {
+                    "label": "$~avsnitt",
+                    "labels": [
+                        "$~alla",
+                        "$~plattform",
+                        "$~kalla",
+                        "$~tecken",
+                        "$~nod",
+                        "$~grund",
+                        "$~input",
+                        "$~produktion",
+                        "$~användargränssnitt",
+                        "$~galleri",
+                        "$~måtta"
+                    ],
+                    "tips": [
+                        "$~visa alla avsnitt",
+                        "$~plattformsnamn",
+                        "$~delad terminologi",
+                        "$~tokenbeskrivningar",
+                        "$~programmeringsspråkskonstruktioner",
+                        "$~inbyggda typer som nummer, text, lista",
+                        "$~beskrivningar av strömmar och ingångskällor",
+                        "$~beskrivningar av utdatatyper",
+                        "$~applikationens användargränssnitt",
+                        "$~standardgalleriinnehåll",
+                        "$~meddelanden om innehållsmoderering"
+                    ]
+                },
+                "section": {
+                    "wordplay": "$~Plattform",
+                    "term": "$~Terminologi",
+                    "token": "$~Polletter",
+                    "node": "$~Språkkonstruktioner",
+                    "basis": "$~Inbyggda typer",
+                    "input": "$~Ingångar",
+                    "output": "$~Utgångar",
+                    "ui": "$~Gräns-snittet",
+                    "gallery": "$~Galleri",
+                    "moderation": "$~Måtta"
+                },
+                "singletonWordsWarning": "$~Vissa ord i ditt utkast förekommer bara en gång i hela språket. Är du säker på att de är korrekt stavade och överensstämmer med annan text?",
+                "viewPR": "$~Visa pull-förfrågan",
+                "oneLocaleNote": "$~Varje bidrag täcker en språkinställning i taget. Denna grupp kommer att skickas in som redigeringar till $1. Om du vill bidra till en annan språkinställning, byt språkinställning först; redigeringar som du sparar under varje språkinställning sparas separat."
             }
         },
         "edit": {
@@ -6552,7 +6636,10 @@
                 "edit": "$~Föreslå en redigering av den här texten",
                 "submit": "$~Skicka in föreslagen redigering",
                 "cancel": "$~Ignorera föreslagen redigering",
-                "revert": "$~Återgå till officiell text"
+                "revert": "$~Återgå till officiell text",
+                "editTip": "$~Föreslå en redigering av den här kontrollens verktygstips",
+                "prev": "$~Redigera föregående objekt",
+                "next": "$~Redigera nästa objekt"
             },
             "field": {
                 "plain": {
@@ -6580,7 +6667,8 @@
             "revised": "$~Reviderad text",
             "revisedDescription": "$~Dessa ändringar sparas lokalt och har ännu inte skickats in för granskning.",
             "submitRevisions": "$~Skicka in ändringar",
-            "submitted": "$~Tack! Din reviderade text kommer att granskas och kan komma att publiceras snart."
+            "submitted": "$~Tack! Din reviderade text kommer att granskas och kan komma att publiceras snart.",
+            "invalidConceptLinks": "$~Dessa konceptlänkar fungerar inte i den aktuella språkinställningen. Stavade du fel på en, eller tog du bort den med flit?"
         },
         "tour": {
             "label": "$~tur",

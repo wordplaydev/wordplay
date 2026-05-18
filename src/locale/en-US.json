@@ -5789,9 +5789,12 @@
             },
             "button": {
                 "edit": "Suggest an edit to this text",
+                "editTip": "Suggest an edit to this control's tooltip",
                 "submit": "Submit suggested edit",
                 "cancel": "Discard suggested edit",
-                "revert": "Revert to official text"
+                "revert": "Revert to official text",
+                "prev": "Edit the previous item",
+                "next": "Edit the next item"
             },
             "field": {
                 "plain": {
@@ -5813,7 +5816,8 @@
             },
             "strings": "Locale strings",
             "emotion": "Choose an emotion",
-            "invalidName": "Not a valid Wordplay name"
+            "invalidName": "Not a valid Wordplay name",
+            "invalidConceptLinks": "These concept links don't resolve in the current locale. Did you misspell one, or remove it on purpose?"
         },
         "page": {
             "unknown": {
@@ -5872,6 +5876,90 @@
                 "search": {
                     "placeholder": "search",
                     "noResults": "No results found"
+                }
+            },
+            "localize": {
+                "header": "Localize",
+                "description": [
+                    "Here you can browse every localizable string in the platform, and propose translationns or revisions to unwritten and machine translated text. You can submit your revisions for review when you're ready.",
+                    "As you write, remember to write in ways that are simple, for a young audience that may not yet know advanced vocabulary. Also be consistent, using the same terminology across different text, when applicable."
+                ],
+                "workspaceLink": "Open the localization workspace",
+                "workspaceHeader": "Text to write or review",
+                "submitHeader": "Submit",
+                "submitPrompt": "When you are ready to propose this batch of edits, you can submit below.",
+                "oneLocaleNote": "Each submission covers one locale at a time. This batch will be submitted as edits to $1. If you want to contribute to a different locale, switch locales first; edits you save under each locale are kept separately.",
+                "bundleSummary": "Edits in this batch",
+                "editEntry": "Jump back to edit this string",
+                "revertEntry": "Discard this edit from the batch",
+                "prevBundleItem": "Review the previous edit",
+                "nextBundleItem": "Review the next edit",
+                "descriptionField": {
+                    "description": "A short description of the batch of edits, to help reviewers understand the changes",
+                    "placeholder": "What did you change, and why?"
+                },
+                "notSpamLabel": "I promise that these edits are not spam",
+                "notSpamNote": "Wordplay is a not-for-profit project led by volunteers.",
+                "requireLogin": "You must be logged in to contribute localization suggestions.",
+                "singletonWordsWarning": "Some words in your draft only appear once across the entire locale. Are you sure they are spelled correctly and consistent with other text?",
+                "submit": {
+                    "description": "Submit this batch of edits",
+                    "prompt": "Submit"
+                },
+                "submitSuccess": "Thanks! Your edits were submitted and will be reviewed soon.",
+                "viewPR": "View the pull request",
+                "submitError": "Something went wrong while submitting. Your edits are still saved on this device — please try again.",
+                "empty": "No strings match this filter.",
+                "prevEntry": "Edit the previous string",
+                "nextEntry": "Edit the next string",
+                "qualityMode": {
+                    "label": "show",
+                    "labels": ["all", "machine translated or unwritten"],
+                    "tips": [
+                        "show all strings",
+                        "show only machine-translated or unwritten strings"
+                    ]
+                },
+                "sectionMode": {
+                    "label": "section",
+                    "labels": [
+                        "all",
+                        "platform",
+                        "term",
+                        "token",
+                        "node",
+                        "basis",
+                        "input",
+                        "output",
+                        "ui",
+                        "gallery",
+                        "moderation"
+                    ],
+                    "tips": [
+                        "show all sections",
+                        "platform name",
+                        "shared terminology",
+                        "token descriptions",
+                        "programming language constructs",
+                        "built-in types like number, text, list",
+                        "stream and input source descriptions",
+                        "output type descriptions",
+                        "the application user interface",
+                        "default gallery content",
+                        "content moderation messages"
+                    ]
+                },
+                "section": {
+                    "wordplay": "Platform",
+                    "term": "Terminology",
+                    "token": "Tokens",
+                    "node": "Language constructs",
+                    "basis": "Built-in types",
+                    "input": "Inputs",
+                    "output": "Outputs",
+                    "ui": "User interface",
+                    "gallery": "Gallery",
+                    "moderation": "Moderation"
                 }
             },
             "teach": {

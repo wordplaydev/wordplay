@@ -6225,6 +6225,93 @@
                 "intro": "$~Wordplay'in tasarımına, geliştirilmesine, yerelleştirilmesine ve içeriğine katkıda bulunan *$1* sayıda katılımcımıza teşekkür ederiz! Ayrıca, gizliliklerini korumak amacıyla burada isimlerini vermediğimiz, odak gruplarında, tasarım oturumlarında ve sınıflarda tasarımımıza rehberlik eden birçok öğretmen ve gence de teşekkür ederiz.\n\nBu proje, Ulusal Bilim Vakfı'nın 2318257, 2031265, 2100296 ve 2122950 numaralı ödülleri, Washington Üniversitesi ve sizin gibi kişilerin cömert bağışları (<gifts//donate>) ile desteklenmiştir.",
                 "teachers": "$~Öğretmenler",
                 "contributors": "$~Katkıda Bulunanlar"
+            },
+            "localize": {
+                "header": "$~Yerelleştir",
+                "description": [
+                    "$~Burada platformdaki yerelleştirilebilir tüm metinleri inceleyebilir ve yazılmamış veya makine çevirisi yapılmış metinler için çeviri veya düzeltme önerilerinde bulunabilirsiniz. Hazır olduğunuzda düzeltmelerinizi inceleme için gönderebilirsiniz.",
+                    "$~Yazarken, henüz ileri düzey kelime bilgisine sahip olmayan genç bir okuyucu kitlesi için basit bir dil kullanmaya özen gösterin. Ayrıca, mümkün olduğunca farklı metinlerde aynı terminolojiyi kullanarak tutarlı olun."
+                ],
+                "workspaceLink": "$~Yerelleştirme çalışma alanını açın.",
+                "workspaceHeader": "$~Yazılacak veya incelenecek metin",
+                "submitHeader": "$~Göndermek",
+                "submitPrompt": "$~Bu düzenleme paketini önermeye hazır olduğunuzda, aşağıdan gönderebilirsiniz.",
+                "bundleSummary": "$~Bu partideki düzenlemeler",
+                "editEntry": "$~Bu metni düzenlemek için geri dön",
+                "revertEntry": "$~Bu düzenlemeyi toplu işlemden çıkarın.",
+                "prevBundleItem": "$~Önceki düzenlemeyi inceleyin",
+                "nextBundleItem": "$~Sonraki düzenlemeyi inceleyin",
+                "descriptionField": {
+                    "description": "$~Yapılan düzenlemelerin kısa bir açıklaması, gözden geçirenlerin değişiklikleri anlamalarına yardımcı olmak amacıyla aşağıda yer almaktadır.",
+                    "placeholder": "$~Neyi değiştirdiniz ve neden?"
+                },
+                "notSpamLabel": "$~Bu düzenlemelerin spam olmadığını garanti ederim.",
+                "notSpamNote": "$~Wordplay, gönüllüler tarafından yürütülen kar amacı gütmeyen bir projedir.",
+                "requireLogin": "$~Yerelleştirme önerilerinde bulunmak için giriş yapmanız gerekmektedir.",
+                "submit": {
+                    "description": "$~Bu düzenleme grubunu gönder",
+                    "prompt": "$~Göndermek"
+                },
+                "submitSuccess": "$~Teşekkürler! Düzenlemeleriniz gönderildi ve yakında incelenecek.",
+                "submitError": "$~Gönderim sırasında bir sorun oluştu. Düzenlemeleriniz bu cihazda hala kayıtlı durumda; lütfen tekrar deneyin.",
+                "empty": "$~Bu filtreyle eşleşen hiçbir dize bulunamadı.",
+                "prevEntry": "$~Önceki metni düzenle",
+                "nextEntry": "$~Sonraki dizeyi düzenle",
+                "qualityMode": {
+                    "label": "$~göstermek",
+                    "labels": [
+                        "$~Tümü",
+                        "$~makine çevirisi veya yazılı olmayan"
+                    ],
+                    "tips": [
+                        "$~tüm dizeleri göster",
+                        "$~yalnızca makine çevirisi yapılmış veya yazılmamış metinleri göster"
+                    ]
+                },
+                "sectionMode": {
+                    "label": "$~bölüm",
+                    "labels": [
+                        "$~Tümü",
+                        "$~platform",
+                        "$~terim",
+                        "$~belirteç",
+                        "$~düğüm",
+                        "$~temel",
+                        "$~giriş",
+                        "$~çıktı",
+                        "$~kullanıcı arayüzü",
+                        "$~galeri",
+                        "$~ılımlılık"
+                    ],
+                    "tips": [
+                        "$~tüm bölümleri göster",
+                        "$~platform adı",
+                        "$~ortak terminoloji",
+                        "$~belirteç açıklamaları",
+                        "$~programlama dili yapıları",
+                        "$~sayı, metin, liste gibi yerleşik türler",
+                        "$~akış ve giriş kaynağı açıklamaları",
+                        "$~çıktı türü açıklamaları",
+                        "$~uygulama kullanıcı arayüzü",
+                        "$~varsayılan galeri içeriği",
+                        "$~içerik denetimi mesajları"
+                    ]
+                },
+                "section": {
+                    "wordplay": "$~Platform",
+                    "term": "$~Terminoloji",
+                    "token": "$~Jetonlar",
+                    "node": "$~Dil yapıları",
+                    "basis": "$~Dahili tipler",
+                    "input": "$~Girişler",
+                    "output": "$~Çıktılar",
+                    "ui": "$~Kullanıcı arayüzü",
+                    "gallery": "$~Galeri",
+                    "moderation": "$~Ölçülülük"
+                },
+                "singletonWordsWarning": "$~Taslağınızdaki bazı kelimeler, tüm yerel ayarda yalnızca bir kez geçiyor. Bu kelimelerin doğru yazıldığından ve metnin geri kalanıyla tutarlı olduğundan emin misiniz?",
+                "viewPR": "$~Çekme isteğini görüntüle",
+                "oneLocaleNote": "$~Her gönderim aynı anda yalnızca bir dil seçeneğini kapsar. Bu parti, 1$'lık düzenleme olarak gönderilecektir. Farklı bir dil seçeneğine katkıda bulunmak istiyorsanız, önce dil seçeneğini değiştirin; her dil seçeneği altında kaydettiğiniz düzenlemeler ayrı ayrı saklanır."
             }
         },
         "edit": {
@@ -6548,7 +6635,10 @@
                 "edit": "$~Bu metne bir düzenleme önerin.",
                 "submit": "$~Önerilen düzenlemeyi gönder",
                 "cancel": "$~Önerilen düzenlemeyi iptal et",
-                "revert": "$~Resmi metne geri dön"
+                "revert": "$~Resmi metne geri dön",
+                "editTip": "$~Bu denetimin ipucu metnine bir düzenleme önerin.",
+                "prev": "$~Önceki öğeyi düzenle",
+                "next": "$~Sonraki öğeyi düzenle"
             },
             "field": {
                 "plain": {
@@ -6576,7 +6666,8 @@
             "revised": "$~Gözden geçirilmiş metin",
             "revisedDescription": "$~Bu revizyonlar yerel olarak kaydedildi ve henüz incelemeye gönderilmedi.",
             "submitRevisions": "$~Düzeltmeleri gönder",
-            "submitted": "$~Teşekkürler! Revize edilmiş metniniz incelenecek ve yakında yayınlanabilir."
+            "submitted": "$~Teşekkürler! Revize edilmiş metniniz incelenecek ve yakında yayınlanabilir.",
+            "invalidConceptLinks": "$~Bu kavram bağlantıları mevcut yerel ayarda çözümlenmiyor. Birini yanlış mı yazdınız, yoksa bilerek mi kaldırdınız?"
         },
         "tour": {
             "label": "$~tur",

@@ -1,5 +1,6 @@
 <script lang="ts">
-    import { getTip } from '@components/project/Contexts';
+    import { getLocalizing, getTip } from '@components/project/Contexts';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import { locales } from '@db/Database';
     import type { LocaleTextAccessor } from '@locale/Locales';
     import { withMonoEmoji } from '@unicode/emoji';
@@ -30,6 +31,9 @@
     let offTipText = $derived($locales.getPlainText(offTip));
 
     let hint = getTip();
+    let localizing = getLocalizing();
+    let offEditing = $state(false);
+    let onEditing = $state(false);
     function showTip(view: HTMLSpanElement, tip: string) {
         hint.show(tip + (shortcut ? ` (${shortcut})` : ''), view);
     }
@@ -87,6 +91,15 @@
     >
         {withMonoEmoji(onLabel)}
     </span>
+    {#if localizing?.on}{#if !onEditing}<LocalizedText
+                path={offTip}
+                tipIcon
+                onEditingChange={(e) => (offEditing = e)}
+            />{/if}{#if !offEditing}<LocalizedText
+                path={onTip}
+                tipIcon
+                onEditingChange={(e) => (onEditing = e)}
+            />{/if}{/if}
 </span>
 
 <style>

@@ -6136,6 +6136,93 @@
                 "intro": "$~Vielen Dank an unsere *$1* Mitwirkenden für ihren Beitrag zu Design, Entwicklung, Lokalisierung und Inhalten von Wordplay! Ein besonderer Dank gilt auch den vielen Lehrkräften und Jugendlichen, die uns in Fokusgruppen, Design-Workshops und im Unterricht unterstützt haben. Aus Gründen des Datenschutzes verzichten wir hier auf die Nennung ihrer Namen.\n\nDieses Projekt wurde gefördert von der National Science Foundation (Fördernummern 2318257, 2031265, 2100296 und 2122950), der University of Washington sowie durch großzügige Spenden an <gifts//donate> von Menschen wie Ihnen.",
                 "teachers": "$~Lehrer",
                 "contributors": "$~Mitwirkende"
+            },
+            "localize": {
+                "header": "$~Lokalisieren",
+                "description": [
+                    "$~Hier können Sie alle lokalisierbaren Texte der Plattform durchsuchen und Übersetzungen oder Überarbeitungen für ungeschriebene und maschinell übersetzte Texte vorschlagen. Sobald Sie fertig sind, können Sie Ihre Änderungen zur Überprüfung einreichen.",
+                    "$~Denken Sie beim Schreiben daran, einfach und verständlich zu schreiben, insbesondere für ein junges Publikum, das möglicherweise noch keinen fortgeschrittenen Wortschatz besitzt. Verwenden Sie außerdem, wenn möglich, in verschiedenen Texten dieselbe Terminologie."
+                ],
+                "workspaceLink": "$~Öffnen Sie den Lokalisierungsarbeitsbereich",
+                "workspaceHeader": "$~Text zum Schreiben oder Überprüfen",
+                "submitHeader": "$~Einreichen",
+                "submitPrompt": "$~Wenn Sie bereit sind, diese Änderungsvorschläge einzureichen, können Sie dies unten tun.",
+                "bundleSummary": "$~Änderungen in diesem Batch",
+                "editEntry": "$~Zurück zum Bearbeiten dieses Strings",
+                "revertEntry": "$~Diese Bearbeitung aus dem Batch entfernen.",
+                "prevBundleItem": "$~Überprüfen Sie die vorherige Bearbeitung.",
+                "nextBundleItem": "$~Überprüfen Sie die nächste Bearbeitung",
+                "descriptionField": {
+                    "description": "$~Eine kurze Beschreibung der vorgenommenen Änderungen, um den Prüfern das Verständnis der Änderungen zu erleichtern.",
+                    "placeholder": "$~Was haben Sie geändert und warum?"
+                },
+                "notSpamLabel": "$~Ich verspreche, dass diese Bearbeitungen kein Spam sind.",
+                "notSpamNote": "$~Wordplay ist ein gemeinnütziges Projekt, das von Freiwilligen geleitet wird.",
+                "requireLogin": "$~Sie müssen angemeldet sein, um Lokalisierungsvorschläge beitragen zu können.",
+                "submit": {
+                    "description": "$~Reichen Sie diese Bearbeitungsschritte ein.",
+                    "prompt": "$~Einreichen"
+                },
+                "submitSuccess": "$~Danke! Ihre Änderungen wurden eingereicht und werden in Kürze geprüft.",
+                "submitError": "$~Beim Absenden ist ein Fehler aufgetreten. Ihre Änderungen sind weiterhin auf diesem Gerät gespeichert – bitte versuchen Sie es erneut.",
+                "empty": "$~Keine Zeichenketten entsprechen diesem Filter.",
+                "prevEntry": "$~Bearbeiten Sie die vorherige Zeichenkette",
+                "nextEntry": "$~Bearbeiten Sie die nächste Zeichenkette",
+                "qualityMode": {
+                    "label": "$~zeigen",
+                    "labels": [
+                        "$~alle",
+                        "$~maschinell übersetzt oder ungeschrieben"
+                    ],
+                    "tips": [
+                        "$~Alle Zeichenketten anzeigen",
+                        "$~Es werden nur maschinell übersetzte oder ungeschriebene Zeichenketten angezeigt."
+                    ]
+                },
+                "sectionMode": {
+                    "label": "$~Abschnitt",
+                    "labels": [
+                        "$~alle",
+                        "$~Plattform",
+                        "$~Begriff",
+                        "$~Token",
+                        "$~Knoten",
+                        "$~Basis",
+                        "$~Eingang",
+                        "$~Ausgabe",
+                        "$~Benutzeroberfläche",
+                        "$~Galerie",
+                        "$~Mäßigung"
+                    ],
+                    "tips": [
+                        "$~Alle Abschnitte anzeigen",
+                        "$~Plattformname",
+                        "$~gemeinsame Terminologie",
+                        "$~Token-Beschreibungen",
+                        "$~Programmiersprachenkonstrukte",
+                        "$~Eingebaute Datentypen wie Zahl, Text, Liste",
+                        "$~Beschreibungen von Datenströmen und Eingangsquellen",
+                        "$~Beschreibungen der Ausgabetypen",
+                        "$~die Benutzeroberfläche der Anwendung",
+                        "$~Standardgalerieinhalt",
+                        "$~Inhaltsmoderationsnachrichten"
+                    ]
+                },
+                "section": {
+                    "wordplay": "$~Plattform",
+                    "term": "$~Terminologie",
+                    "token": "$~Token",
+                    "node": "$~Sprachkonstrukte",
+                    "basis": "$~Eingebaute Typen",
+                    "input": "$~Eingaben",
+                    "output": "$~Ausgaben",
+                    "ui": "$~Benutzeroberfläche",
+                    "gallery": "$~Galerie",
+                    "moderation": "$~Mäßigung"
+                },
+                "singletonWordsWarning": "$~Einige Wörter in Ihrem Entwurf kommen im gesamten Text nur einmal vor. Sind Sie sicher, dass sie korrekt geschrieben sind und mit dem übrigen Text übereinstimmen?",
+                "viewPR": "$~Pull-Anfrage ansehen",
+                "oneLocaleNote": "$~Jeder Beitrag bezieht sich jeweils auf eine Sprache. Diese Bearbeitungen werden als Änderungen an $1 übermittelt. Wenn Sie zu einer anderen Sprache beitragen möchten, wechseln Sie zuerst die Sprache; die unter jeder Sprache gespeicherten Änderungen werden separat aufbewahrt."
             }
         },
         "edit": {
@@ -6551,7 +6638,10 @@
                 "edit": "$~Schlagen Sie eine Änderung an diesem Text vor",
                 "submit": "$~Vorschlag zur Bearbeitung einreichen",
                 "cancel": "$~Vorgeschlagene Bearbeitung verwerfen",
-                "revert": "$~Zum offiziellen Text zurückkehren"
+                "revert": "$~Zum offiziellen Text zurückkehren",
+                "editTip": "$~Schlagen Sie eine Änderung am Tooltip dieses Steuerelements vor.",
+                "prev": "$~Bearbeiten Sie den vorherigen Eintrag",
+                "next": "$~Bearbeiten Sie den nächsten Eintrag"
             },
             "field": {
                 "plain": {
@@ -6579,7 +6669,8 @@
             "revised": "$~Überarbeiteter Text",
             "revisedDescription": "$~Diese Änderungen wurden lokal gespeichert und noch nicht zur Überprüfung eingereicht.",
             "submitRevisions": "$~Überarbeitungen einreichen",
-            "submitted": "$~Vielen Dank! Ihr überarbeiteter Text wird geprüft und gegebenenfalls bald veröffentlicht."
+            "submitted": "$~Vielen Dank! Ihr überarbeiteter Text wird geprüft und gegebenenfalls bald veröffentlicht.",
+            "invalidConceptLinks": "$~Diese Konzeptlinks funktionieren in der aktuellen Sprache nicht. Haben Sie einen davon falsch geschrieben oder absichtlich entfernt?"
         },
         "tour": {
             "label": "$~Tour",

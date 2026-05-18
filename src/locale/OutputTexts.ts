@@ -333,13 +333,13 @@ type OutputTexts = {
     };
     /** Localized descriptions of transition styles */
     Easing: {
-        /** CSS linear */
+        /** [name] CSS linear */
         straight: NameText;
-        /** CSS ease-in */
+        /** [name] CSS ease-in */
         pokey: NameText;
-        /** CSS ease-in-out */
+        /** [name] CSS ease-in-out */
         cautious: NameText;
-        /** CSS ease-out */
+        /** [name] CSS ease-out */
         zippy: NameText;
     };
     /** Convenience functions for generating maps for Sequences */

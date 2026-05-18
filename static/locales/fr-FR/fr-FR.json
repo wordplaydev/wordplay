@@ -6137,6 +6137,93 @@
                 "intro": "$~Merci à nos *$1* contributeurs pour leur contribution à la conception, au développement, à la localisation et au contenu de Wordplay ! Merci également aux nombreux enseignants et jeunes qui ont guidé notre conception lors de groupes de discussion, d’ateliers de conception et en classe, et dont nous ne mentionnons pas les noms ici afin de préserver leur anonymat.\n\nCe projet a bénéficié du soutien de la National Science Foundation (subventions n° 2318257, 2031265, 2100296 et 2122950), de l’Université de Washington et de généreux dons (via <gifts//donate>) de personnes comme vous.",
                 "teachers": "$~Enseignants",
                 "contributors": "$~Contributeurs"
+            },
+            "localize": {
+                "header": "$~Localiser",
+                "description": [
+                    "$~Ici, vous pouvez consulter toutes les chaînes localisables de la plateforme et proposer des traductions ou des corrections pour les textes non écrits et les traductions automatiques. Vous pouvez soumettre vos corrections pour examen lorsque vous serez prêt.",
+                    "$~Lorsque vous écrivez, veillez à utiliser un langage simple, adapté à un jeune public qui ne maîtrise peut-être pas encore un vocabulaire soutenu. Soyez également cohérent et utilisez la même terminologie dans différents textes, lorsque cela est pertinent."
+                ],
+                "workspaceLink": "$~Ouvrir l'espace de travail de localisation",
+                "workspaceHeader": "$~Texte à rédiger ou à réviser",
+                "submitHeader": "$~Soumettre",
+                "submitPrompt": "$~Lorsque vous serez prêt à proposer cette série de modifications, vous pourrez les soumettre ci-dessous.",
+                "bundleSummary": "$~Modifications dans ce lot",
+                "editEntry": "$~Retournez en arrière pour modifier cette chaîne.",
+                "revertEntry": "$~Supprimer cette modification du lot",
+                "prevBundleItem": "$~Consultez la modification précédente",
+                "nextBundleItem": "$~Examinez la prochaine modification",
+                "descriptionField": {
+                    "description": "$~Une brève description du lot de modifications, afin d'aider les réviseurs à comprendre les changements.",
+                    "placeholder": "$~Qu'avez-vous changé, et pourquoi ?"
+                },
+                "notSpamLabel": "$~Je vous assure que ces modifications ne sont pas du spam.",
+                "notSpamNote": "$~Wordplay est un projet à but non lucratif mené par des bénévoles.",
+                "requireLogin": "$~Vous devez être connecté pour soumettre des suggestions de localisation.",
+                "submit": {
+                    "description": "$~Soumettez ce lot de modifications",
+                    "prompt": "$~Soumettre"
+                },
+                "submitSuccess": "$~Merci ! Vos modifications ont été soumises et seront examinées prochainement.",
+                "submitError": "$~Une erreur s'est produite lors de l'envoi. Vos modifications sont toujours enregistrées sur cet appareil ; veuillez réessayer.",
+                "empty": "$~Aucune chaîne ne correspond à ce filtre.",
+                "prevEntry": "$~Modifier la chaîne précédente",
+                "nextEntry": "$~Modifier la chaîne suivante",
+                "qualityMode": {
+                    "label": "$~montrer",
+                    "labels": [
+                        "$~tous",
+                        "$~traduit automatiquement ou non écrit"
+                    ],
+                    "tips": [
+                        "$~afficher toutes les chaînes",
+                        "$~n'afficher que les chaînes traduites automatiquement ou non écrites"
+                    ]
+                },
+                "sectionMode": {
+                    "label": "$~section",
+                    "labels": [
+                        "$~tous",
+                        "$~plate-forme",
+                        "$~terme",
+                        "$~jeton",
+                        "$~nœud",
+                        "$~base",
+                        "$~saisir",
+                        "$~sortir",
+                        "$~interface utilisateur",
+                        "$~galerie",
+                        "$~modération"
+                    ],
+                    "tips": [
+                        "$~afficher toutes les sections",
+                        "$~nom de la plateforme",
+                        "$~terminologie partagée",
+                        "$~descriptions des jetons",
+                        "$~constructions du langage de programmation",
+                        "$~types intégrés comme nombre, texte, liste",
+                        "$~Descriptions des flux et des sources d'entrée",
+                        "$~descriptions des types de sortie",
+                        "$~l'interface utilisateur de l'application",
+                        "$~contenu par défaut de la galerie",
+                        "$~messages de modération de contenu"
+                    ]
+                },
+                "section": {
+                    "wordplay": "$~Plate-forme",
+                    "term": "$~Terminologie",
+                    "token": "$~Jetons",
+                    "node": "$~constructions du langage",
+                    "basis": "$~Types intégrés",
+                    "input": "$~Entrées",
+                    "output": "$~Sorties",
+                    "ui": "$~interface utilisateur",
+                    "gallery": "$~Galerie",
+                    "moderation": "$~Modération"
+                },
+                "singletonWordsWarning": "$~Certains mots de votre brouillon n'apparaissent qu'une seule fois dans l'ensemble du texte. Êtes-vous certain(e) de leur orthographe correcte et de leur cohérence avec le reste du texte ?",
+                "viewPR": "$~Consulter la demande de fusion",
+                "oneLocaleNote": "$~Chaque contribution concerne une langue à la fois. Ce lot sera soumis sous forme de modifications à $1. Si vous souhaitez contribuer à une autre langue, veuillez d'abord la changer ; les modifications enregistrées pour chaque langue sont conservées séparément."
             }
         },
         "edit": {
@@ -6552,7 +6639,10 @@
                 "edit": "$~Suggérer une modification à ce texte",
                 "submit": "$~Soumettre une modification suggérée",
                 "cancel": "$~Rejeter la modification suggérée",
-                "revert": "$~Retour au texte officiel"
+                "revert": "$~Retour au texte officiel",
+                "editTip": "$~Suggérer une modification de l'infobulle de cette commande",
+                "prev": "$~Modifier l'élément précédent",
+                "next": "$~Modifier l'élément suivant"
             },
             "field": {
                 "plain": {
@@ -6580,7 +6670,8 @@
             "revised": "$~Texte révisé",
             "revisedDescription": "$~Ces modifications sont enregistrées localement et n'ont pas encore été soumises à l'examen.",
             "submitRevisions": "$~Soumettre les révisions",
-            "submitted": "$~Merci ! Votre texte révisé sera examiné et pourrait être publié prochainement."
+            "submitted": "$~Merci ! Votre texte révisé sera examiné et pourrait être publié prochainement.",
+            "invalidConceptLinks": "$~Ces liens conceptuels ne fonctionnent pas dans la langue actuelle. Avez-vous fait une faute de frappe ou les avez-vous supprimés intentionnellement ?"
         },
         "tour": {
             "label": "$~tournée",

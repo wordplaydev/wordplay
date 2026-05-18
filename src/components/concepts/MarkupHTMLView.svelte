@@ -6,13 +6,17 @@
 <script lang="ts">
     import MachineTranslatedAnnotation from '@components/app/MachineTranslatedAnnotation.svelte';
     import LocallyRevisedAnnotation from '@components/app/LocallyRevisedAnnotation.svelte';
+    import Notice from '@components/app/Notice.svelte';
     import { accessorToLocalePath } from '@components/localization/accessorToLocalePath';
     import { getLocalizing } from '@components/project/Contexts';
     import { localeEdits, saveLocaleEdit, deleteLocaleEdit } from '@db/locales/LocalizationDexie';
     import Button from '@components/widgets/Button.svelte';
     import FormattedEditor from '@components/widgets/FormattedEditor.svelte';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import type { LocaleTextsAccessor, TemplateInput } from '@locale/Locales';
+    import { toLocaleString } from '@locale/LocaleText';
     import { withoutAnnotations } from '@locale/withoutAnnotations';
+    import ConceptLink from '@nodes/ConceptLink';
     import Markup from '@nodes/Markup';
     import Paragraph from '@nodes/Paragraph';
     import {
@@ -23,6 +27,7 @@
         REVERT_SYMBOL,
     } from '@parser/Symbols';
     import { parseDocs, parseFormattedLiteral } from '@parser/parseExpression';
+    import { toMarkup } from '@parser/toMarkup';
     import { toTokens } from '@parser/toTokens';
     import { tick } from 'svelte';
     import {
@@ -41,9 +46,24 @@
             | [LocaleTextsAccessor, ...TemplateInput[]];
         inline?: boolean;
         note?: boolean;
+        /** Storage key for an override, used when the markup doesn't live in the
+         *  regular locale tree (e.g., tutorial dialog). When provided, the
+         *  component becomes localizable just as it is for `LocaleTextsAccessor`
+         *  markup, looking up `LocalizationDexie` under this key. */
+        overrideKey?: string;
+        /** Raw text used as the editor's initial value and the "no-override"
+         *  fallback when `overrideKey` is supplied. Should already be in
+         *  Wordplay markup syntax. */
+        sourceText?: string;
     }
 
-    let { markup, inline = false, note = false }: Props = $props();
+    let {
+        markup,
+        inline = false,
+        note = false,
+        overrideKey,
+        sourceText,
+    }: Props = $props();
 
     const fieldId = `markup-editor-${idCounter++}`;
 
@@ -122,24 +142,42 @@
     let editedText = $state('');
     let editorView = $state<HTMLTextAreaElement | undefined>(undefined);
 
-    /** True only when markup is a plain locale accessor (not a template array). */
+    /** Localizable in two modes:
+     *   1. `markup` is a plain locale accessor (not a template array).
+     *   2. Caller supplies an explicit `overrideKey` + `sourceText` (used by
+     *      tutorial dialog, whose markup doesn't live in the locale tree). */
     let isLocalizable = $derived(
-        markup instanceof Function && !(markup instanceof Markup),
+        overrideKey !== undefined ||
+            (markup instanceof Function && !(markup instanceof Markup)),
     );
 
-    /** The raw annotated text from the locale, for use as the editor's initial value. */
+    /** The raw text used as the editor's initial value. For locale-accessor markup
+     *  this is the resolved annotation-free locale string; for an explicit
+     *  `overrideKey` it's the caller-supplied `sourceText`. */
     let rawText = $derived.by(() => {
-        if (!isLocalizable || !(markup instanceof Function)) return '';
+        if (overrideKey !== undefined) return sourceText ?? '';
+        if (!(markup instanceof Function)) return '';
         const text = $locales.getWithAnnotations(markup);
         return withoutAnnotations(
             Array.isArray(text) ? text.join('\n\n') : text,
         );
     });
 
-    let localePath = $derived(
-        markup instanceof Function ? accessorToLocalePath(markup) : undefined,
+    /** Storage key for the override: caller-supplied `overrideKey` wins; otherwise
+     *  we parse it from the accessor. */
+    let storageKey = $derived(
+        overrideKey !== undefined
+            ? overrideKey
+            : markup instanceof Function
+              ? accessorToLocalePath(markup)?.toString()
+              : undefined,
     );
-    let override = $derived($localeEdits.get(localePath?.toString() ?? ''));
+    const activeLocaleString = $derived(toLocaleString($locales.getLocale()));
+    let override = $derived(
+        storageKey !== undefined
+            ? $localeEdits.get(activeLocaleString)?.get(storageKey)
+            : undefined,
+    );
 
     /** Parsed markup for display in localizing mode, using the override if one exists. */
     let displayParsed = $derived(override ? Markup.words(override) : parsed);
@@ -179,12 +217,58 @@
     }
 
     function confirmEditing() {
-        if (localePath) {
-            if (editedText === rawText) deleteLocaleEdit(localePath.toString());
-            else saveLocaleEdit(localePath.toString(), editedText);
+        if (storageKey !== undefined) {
+            if (editedText === rawText)
+                deleteLocaleEdit(activeLocaleString, storageKey);
+            else saveLocaleEdit(activeLocaleString, storageKey, editedText);
         }
         editing = false;
     }
+
+    /** Names of concept links found in the current draft that don't resolve in the
+     *  active locale. Populated by a dwell after the contributor stops typing and
+     *  rendered as a warning Notice below the editor. */
+    let invalidConceptLinks = $state<string[]>([]);
+
+    /** Parse the draft as markup and return the set of unresolved concept names
+     *  (e.g. `@FunctionDefinition`, `@UI/foo`). Robust to parse failures: any error
+     *  yields no warnings, since the formatted-editor's own validation will surface
+     *  bigger syntax problems on save. */
+    function findInvalidConceptLinks(text: string): string[] {
+        if (text.trim().length === 0) return [];
+        let parsed: Markup;
+        try {
+            parsed = toMarkup(text)[0];
+        } catch {
+            return [];
+        }
+        const locale = $locales.getLocale();
+        const seen = new Set<string>();
+        const result: string[] = [];
+        for (const node of parsed.nodes()) {
+            if (!(node instanceof ConceptLink)) continue;
+            if (node.isValid(locale)) continue;
+            const name = node.getName();
+            if (seen.has(name)) continue;
+            seen.add(name);
+            result.push(name);
+        }
+        return result;
+    }
+
+    // Debounced concept-link validation: re-check ~1s after the contributor stops
+    // typing. Cleared when the editor closes or the targeted cell changes.
+    $effect(() => {
+        if (!editing) {
+            invalidConceptLinks = [];
+            return;
+        }
+        const text = editedText;
+        const timer = setTimeout(() => {
+            invalidConceptLinks = findInvalidConceptLinks(text);
+        }, 1000);
+        return () => clearTimeout(timer);
+    });
 </script>
 
 {#if localizing?.on && isLocalizable}
@@ -204,6 +288,20 @@
                 bind:text={editedText}
                 bind:view={editorView}
             />
+            {#if invalidConceptLinks.length > 0}
+                <Notice>
+                    <p>
+                        <LocalizedText
+                            path={(l) => l.ui.localize.invalidConceptLinks}
+                        />
+                    </p>
+                    <p class="invalid-concept-links"
+                        >{invalidConceptLinks
+                            .map((n) => `@${n}`)
+                            .join(', ')}</p
+                    >
+                </Notice>
+            {/if}
             <div class="edit-actions">
                 <Button
                     tip={(l) => l.ui.localize.button.submit}
@@ -220,7 +318,8 @@
                 {#if override}<Button
                     tip={(l) => l.ui.localize.button.revert}
                     action={() => {
-                        if (localePath) deleteLocaleEdit(localePath.toString());
+                        if (storageKey !== undefined)
+                            deleteLocaleEdit(activeLocaleString, storageKey);
                         cancelEditing();
                     }}
                     background
@@ -407,5 +506,10 @@
 
     .edit-actions :global(button) {
         width: fit-content;
+    }
+
+    .invalid-concept-links {
+        font-family: var(--wordplay-code-font);
+        margin-block-start: var(--wordplay-spacing-half);
     }
 </style>

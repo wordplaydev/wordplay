@@ -1,5 +1,6 @@
 <script lang="ts">
-    import { getTip } from '@components/project/Contexts';
+    import { getLocalizing, getTip } from '@components/project/Contexts';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import { locales } from '@db/Database';
     import type { LocaleTextAccessor } from '@locale/Locales';
 
@@ -16,6 +17,7 @@
     let view = $state<HTMLDivElement | undefined>(undefined);
 
     let hint = getTip();
+    let localizing = getLocalizing();
     function showTip() {
         if (view) hint.show($locales.getPlainText(label), view);
     }
@@ -24,33 +26,42 @@
     }
 </script>
 
-<div
-    role="button"
-    class="expander {vertical ? 'vertical' : 'horizontal'}"
-    class:expanded
-    tabindex="0"
-    aria-label={$locales.getPlainText(label)}
-    onpointerdown={(event) => {
-        if (event.button !== 0) return;
-        event.stopPropagation();
-        toggle();
-    }}
-    onkeydown={(event) =>
-        event.key === ' ' || event.key === 'Enter' ? toggle() : undefined}
-    onpointerenter={showTip}
-    onpointerleave={hideTip}
-    onfocus={showTip}
-    onblur={hideTip}
-    ontouchstart={showTip}
-    ontouchend={hideTip}
-    ontouchcancel={hideTip}
-    bind:this={view}
-    >{#if expanded}{icons ? icons[0] : '▲'}{:else}{icons
-            ? icons[1]
-            : '▼'}{/if}</div
+<span class="expander-group"
+    ><div
+        role="button"
+        class="expander {vertical ? 'vertical' : 'horizontal'}"
+        class:expanded
+        tabindex="0"
+        aria-label={$locales.getPlainText(label)}
+        onpointerdown={(event) => {
+            if (event.button !== 0) return;
+            event.stopPropagation();
+            toggle();
+        }}
+        onkeydown={(event) =>
+            event.key === ' ' || event.key === 'Enter' ? toggle() : undefined}
+        onpointerenter={showTip}
+        onpointerleave={hideTip}
+        onfocus={showTip}
+        onblur={hideTip}
+        ontouchstart={showTip}
+        ontouchend={hideTip}
+        ontouchcancel={hideTip}
+        bind:this={view}
+        >{#if expanded}{icons ? icons[0] : '▲'}{:else}{icons
+                ? icons[1]
+                : '▼'}{/if}</div
+    >{#if localizing?.on}<LocalizedText path={label} tipIcon />{/if}</span
 >
 
 <style>
+    .expander-group {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--wordplay-spacing-half);
+        width: fit-content;
+    }
+
     .expander {
         display: inline-block;
         cursor: pointer;

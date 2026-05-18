@@ -5784,7 +5784,10 @@
                 "edit": "$~Magmungkahi ng pag-edit sa tekstong ito",
                 "submit": "$~Isumite ang iminungkahing pag-edit",
                 "cancel": "$~Itapon ang iminungkahing pag-edit",
-                "revert": "$~Ibalik sa opisyal na teksto"
+                "revert": "$~Ibalik sa opisyal na teksto",
+                "editTip": "$~Magmungkahi ng pag-edit sa tooltip ng kontrol na ito",
+                "prev": "$~I-edit ang nakaraang item",
+                "next": "$~I-edit ang susunod na item"
             },
             "field": {
                 "plain": {
@@ -5806,7 +5809,8 @@
             },
             "strings": "$~Mga string ng lokal",
             "emotion": "Choose an emotion",
-            "invalidName": "$~Hindi wastong pangalan ng Wordplay"
+            "invalidName": "$~Hindi wastong pangalan ng Wordplay",
+            "invalidConceptLinks": "$~Hindi mareresolba ang mga concept link na ito sa kasalukuyang locale. Mali ba ang spelling mo, o sinasadya mo itong alisin?"
         },
         "page": {
             "unknown": {
@@ -6517,6 +6521,93 @@
                 "intro": "$~Salamat sa aming mga *$1* na kontribyutor sa pag-aambag sa disenyo, pagbuo, lokalisasyon, at nilalaman ng Wordplay! At salamat din sa maraming guro at kabataan na gumabay sa aming disenyo sa mga focus group, sesyon ng disenyo, at mga silid-aralan, na hindi namin nakalista rito upang mapanatili ang kanilang privacy.\n\nAng proyektong ito ay sinuportahan ng National Science Foundation sa ilalim ng mga parangal na 2318257, 2031265, 2100296, at 2122950, ng University of Washington, at bukas-palad na <gifts//donate> mula sa mga taong katulad mo.",
                 "teachers": "$~Mga Guro",
                 "contributors": "$~Mga Kontribyutor"
+            },
+            "localize": {
+                "header": "$~I-localize",
+                "description": [
+                    "$~Dito mo mababasa ang bawat lokalisadong string sa platform, at makapagmungkahi ng mga pagsasalin o rebisyon sa mga hindi nakasulat at isinalin ng makinang teksto. Maaari mong isumite ang iyong mga rebisyon para sa pagsusuri kapag handa ka na.",
+                    "$~Habang nagsusulat ka, tandaan na magsulat sa mga simpleng paraan, para sa mga batang mambabasa na maaaring hindi pa nakakaalam ng mga advanced na bokabularyo. Maging pare-pareho rin, gamit ang parehong terminolohiya sa iba't ibang teksto, kung naaangkop."
+                ],
+                "workspaceLink": "$~Buksan ang workspace ng lokalisasyon",
+                "workspaceHeader": "$~Tekstong isusulat o rerepasuhin",
+                "submitHeader": "$~Isumite",
+                "submitPrompt": "$~Kapag handa ka nang imungkahi ang pangkat na ito ng mga pag-edit, maaari kang magsumite sa ibaba.",
+                "bundleSummary": "$~Mga pag-edit sa batch na ito",
+                "editEntry": "$~Bumalik para i-edit ang string na ito",
+                "revertEntry": "$~Itapon ang pag-edit na ito mula sa batch",
+                "prevBundleItem": "$~Suriin ang nakaraang pag-edit",
+                "nextBundleItem": "$~Suriin ang susunod na pag-edit",
+                "descriptionField": {
+                    "description": "$~Isang maikling paglalarawan ng pangkat ng mga pag-edit, upang matulungan ang mga tagasuri na maunawaan ang mga pagbabago",
+                    "placeholder": "$~Ano ang binago mo, at bakit?"
+                },
+                "notSpamLabel": "$~Ipinapangako ko na ang mga pag-edit na ito ay hindi spam.",
+                "notSpamNote": "$~Ang Wordplay ay isang proyektong hindi pangkalakal na pinamumunuan ng mga boluntaryo.",
+                "requireLogin": "$~Dapat kang naka-log in upang makapag-ambag ng mga mungkahi sa lokalisasyon.",
+                "submit": {
+                    "description": "$~Isumite ang batch na ito ng mga pag-edit",
+                    "prompt": "$~Isumite"
+                },
+                "submitSuccess": "$~Salamat! Naisumite na ang iyong mga pag-edit at susuriin ito sa lalong madaling panahon.",
+                "submitError": "$~May nangyaring mali habang nagsusumite. Naka-save pa rin ang iyong mga pag-edit sa device na ito — pakisubukang muli.",
+                "empty": "$~Walang mga string na tumutugma sa filter na ito.",
+                "prevEntry": "$~I-edit ang nakaraang string",
+                "nextEntry": "$~I-edit ang susunod na string",
+                "qualityMode": {
+                    "label": "$~palabas",
+                    "labels": [
+                        "$~lahat",
+                        "$~isinalin ng makina o hindi nakasulat"
+                    ],
+                    "tips": [
+                        "$~ipakita ang lahat ng mga string",
+                        "$~ipakita lamang ang mga string na isinalin ng makina o hindi nakasulat"
+                    ]
+                },
+                "sectionMode": {
+                    "label": "$~seksyon",
+                    "labels": [
+                        "$~lahat",
+                        "$~plataporma",
+                        "$~termino",
+                        "$~token",
+                        "$~buhol",
+                        "$~batayan",
+                        "$~input",
+                        "$~output",
+                        "$~ui",
+                        "$~galeriya",
+                        "$~moderasyon"
+                    ],
+                    "tips": [
+                        "$~ipakita ang lahat ng seksyon",
+                        "$~pangalan ng plataporma",
+                        "$~ibinahaging terminolohiya",
+                        "$~mga paglalarawan ng token",
+                        "$~mga konstruksyon ng wikang pamprograma",
+                        "$~mga built-in na uri tulad ng numero, teksto, listahan",
+                        "$~mga paglalarawan ng stream at input source",
+                        "$~mga paglalarawan ng uri ng output",
+                        "$~interface ng gumagamit ng aplikasyon",
+                        "$~default na nilalaman ng gallery",
+                        "$~mga mensahe sa pagmo-moderate ng nilalaman"
+                    ]
+                },
+                "section": {
+                    "wordplay": "$~Plataporma",
+                    "term": "$~Terminolohiya",
+                    "token": "$~Mga Token",
+                    "node": "$~Mga konstruksyon ng wika",
+                    "basis": "$~Mga built-in na uri",
+                    "input": "$~Mga Input",
+                    "output": "$~Mga Output",
+                    "ui": "$~Interface ng gumagamit",
+                    "gallery": "$~Galeriya",
+                    "moderation": "$~Moderasyon"
+                },
+                "singletonWordsWarning": "$~Ang ilang salita sa iyong draft ay lumilitaw nang isang beses lamang sa buong lokal. Sigurado ka bang tama ang baybay ng mga ito at naaayon sa ibang teksto?",
+                "viewPR": "$~Tingnan ang kahilingan sa paghila",
+                "oneLocaleNote": "$~Ang bawat pagsusumite ay sumasaklaw sa isang lokal sa bawat pagkakataon. Ang batch na ito ay isusumite bilang mga pag-edit sa $1. Kung gusto mong mag-ambag sa ibang lokal, lumipat muna ng mga lokal; ang mga pag-edit na iyong sine-save sa ilalim ng bawat lokal ay itinatago nang hiwalay."
             }
         },
         "edit": {

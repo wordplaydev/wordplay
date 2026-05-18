@@ -57,16 +57,18 @@
 </script>
 
 {#if button}
+    {#snippet buttonLabel()}
+        {#if typeof button?.label === 'string'}{button.label}{:else if button?.label}<LocalizedText
+                path={button.label}
+            />{/if}
+    {/snippet}
     <Button
         tip={button.tip}
         action={() => (show = true)}
         icon={button.icon}
         background={button.background ?? false}
-    >
-        {#if button.label}{#if typeof button.label === 'string'}{button.label}{:else}<LocalizedText
-                    path={button.label}
-                />{/if}{/if}</Button
-    >
+        children={button.label !== undefined ? buttonLabel : undefined}
+    />
 {/if}
 <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
 <dialog

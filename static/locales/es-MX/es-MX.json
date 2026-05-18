@@ -6119,6 +6119,93 @@
                 "intro": "$~¡Gracias a nuestros *$1* colaboradores por su contribución al diseño, desarrollo, localización y contenido de Wordplay! Y gracias también a los numerosos profesores y jóvenes que han guiado nuestro diseño en grupos focales, sesiones de diseño y aulas, cuyos nombres no mencionamos aquí para proteger su privacidad.\n\nEste proyecto ha recibido el apoyo de la Fundación Nacional de Ciencias (NSF) mediante las subvenciones 2318257, 2031265, 2100296 y 2122950, la Universidad de Washington y las generosas donaciones de personas como usted.",
                 "teachers": "$~profesores",
                 "contributors": "$~Colaboradores"
+            },
+            "localize": {
+                "header": "$~Localizar",
+                "description": [
+                    "$~Aquí puedes explorar todas las cadenas de texto localizables de la plataforma y proponer traducciones o revisiones a textos no escritos y traducidos automáticamente. Puedes enviar tus revisiones para su revisión cuando estés listo.",
+                    "$~Al escribir, recuerde utilizar un lenguaje sencillo, dirigido a un público joven que quizás aún no conozca vocabulario avanzado. Además, sea coherente y utilice la misma terminología en distintos textos, cuando sea pertinente."
+                ],
+                "workspaceLink": "$~Abra el espacio de trabajo de localización",
+                "workspaceHeader": "$~Texto para escribir o revisar",
+                "submitHeader": "$~Entregar",
+                "submitPrompt": "$~Cuando estés listo para proponer este conjunto de ediciones, puedes enviarlo a continuación.",
+                "bundleSummary": "$~Ediciones en este lote",
+                "editEntry": "$~Volver atrás para editar esta cadena",
+                "revertEntry": "$~Descartar esta edición del lote",
+                "prevBundleItem": "$~Revisar la edición anterior",
+                "nextBundleItem": "$~Revisar la siguiente edición",
+                "descriptionField": {
+                    "description": "$~Una breve descripción del conjunto de ediciones, para ayudar a los revisores a comprender los cambios.",
+                    "placeholder": "$~¿Qué cambiaste y por qué?"
+                },
+                "notSpamLabel": "$~Prometo que estas ediciones no son spam.",
+                "notSpamNote": "$~Wordplay es un proyecto sin ánimo de lucro dirigido por voluntarios.",
+                "requireLogin": "$~Debes iniciar sesión para contribuir con sugerencias de localización.",
+                "submit": {
+                    "description": "$~Enviar este lote de ediciones",
+                    "prompt": "$~Entregar"
+                },
+                "submitSuccess": "$~¡Gracias! Tus ediciones se han enviado y se revisarán pronto.",
+                "submitError": "$~Se produjo un error al enviar el formulario. Tus ediciones aún están guardadas en este dispositivo; inténtalo de nuevo.",
+                "empty": "$~Ninguna cadena coincide con este filtro.",
+                "prevEntry": "$~Edita la cadena anterior",
+                "nextEntry": "$~Edita la siguiente cadena",
+                "qualityMode": {
+                    "label": "$~espectáculo",
+                    "labels": [
+                        "$~todo",
+                        "$~traducido automáticamente o no escrito"
+                    ],
+                    "tips": [
+                        "$~mostrar todas las cadenas",
+                        "$~Mostrar solo cadenas traducidas automáticamente o no escritas."
+                    ]
+                },
+                "sectionMode": {
+                    "label": "$~sección",
+                    "labels": [
+                        "$~todo",
+                        "$~plataforma",
+                        "$~término",
+                        "$~simbólico",
+                        "$~nodo",
+                        "$~base",
+                        "$~aporte",
+                        "$~producción",
+                        "$~interfaz de usuario",
+                        "$~galería",
+                        "$~moderación"
+                    ],
+                    "tips": [
+                        "$~mostrar todas las secciones",
+                        "$~nombre de la plataforma",
+                        "$~terminología compartida",
+                        "$~descripciones de tokens",
+                        "$~construcciones de lenguajes de programación",
+                        "$~tipos integrados como número, texto, lista",
+                        "$~Descripciones de flujos y fuentes de entrada",
+                        "$~descripciones de tipos de salida",
+                        "$~la interfaz de usuario de la aplicación",
+                        "$~contenido predeterminado de la galería",
+                        "$~mensajes de moderación de contenido"
+                    ]
+                },
+                "section": {
+                    "wordplay": "$~Plataforma",
+                    "term": "$~Terminología",
+                    "token": "$~Fichas",
+                    "node": "$~Construcciones del lenguaje",
+                    "basis": "$~Tipos integrados",
+                    "input": "$~Entradas",
+                    "output": "$~Salidas",
+                    "ui": "$~Interfaz de usuario",
+                    "gallery": "$~Galería",
+                    "moderation": "$~Moderación"
+                },
+                "singletonWordsWarning": "$~Algunas palabras de tu borrador aparecen solo una vez en todo el texto. ¿Estás seguro de que están escritas correctamente y son coherentes con el resto del texto?",
+                "viewPR": "$~Ver la solicitud de extracción",
+                "oneLocaleNote": "$~Cada envío abarca una configuración regional a la vez. Este lote se enviará como ediciones a $1. Si desea contribuir a una configuración regional diferente, cambie primero de configuración regional; las ediciones que guarde en cada configuración regional se conservarán por separado."
             }
         },
         "edit": {
@@ -6534,7 +6621,10 @@
                 "edit": "$~Sugiere una edición para este texto.",
                 "submit": "$~Enviar sugerencia de edición",
                 "cancel": "$~Descartar la edición sugerida",
-                "revert": "$~Volver al texto oficial"
+                "revert": "$~Volver al texto oficial",
+                "editTip": "$~Sugiera una edición para la información sobre herramientas de este control.",
+                "prev": "$~Editar el elemento anterior",
+                "next": "$~Editar el siguiente elemento"
             },
             "field": {
                 "plain": {
@@ -6562,7 +6652,8 @@
             "revised": "$~Texto revisado",
             "revisedDescription": "$~Estas revisiones se guardan localmente y aún no se han enviado para su revisión.",
             "submitRevisions": "$~Enviar revisiones",
-            "submitted": "$~¡Gracias! Su texto revisado será examinado y posiblemente se publique pronto."
+            "submitted": "$~¡Gracias! Su texto revisado será examinado y posiblemente se publique pronto.",
+            "invalidConceptLinks": "$~Estos enlaces conceptuales no funcionan en la configuración regional actual. ¿Escribiste mal alguno o lo eliminaste a propósito?"
         },
         "tour": {
             "label": "$~recorrido",

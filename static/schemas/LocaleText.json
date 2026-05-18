@@ -186,12 +186,12 @@
       "description": "Represents a string that is in Wordplay markup formatted syntax.",
       "type": "string"
     },
-    "FunctionText<[def-alias-1170802340-2601-2854-1170802340-0-5589,def-alias-1170802340-2601-2854-1170802340-0-5589]>": {
+    "FunctionText<[def-alias-1170802340-2609-2874-1170802340-0-5609,def-alias-1170802340-2609-2874-1170802340-0-5609]>": {
       "additionalProperties": false,
       "properties": {
         "doc": {
           "$ref": "#/definitions/DocText",
-          "description": "Documentation for this definition, to appear in the documentation browser."
+          "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
         },
         "inputs": {
           "description": "Bind definitions for the inputs this function takes",
@@ -214,12 +214,12 @@
       ],
       "type": "object"
     },
-    "FunctionText<[def-alias-1170802340-2601-2854-1170802340-0-5589]>": {
+    "FunctionText<[def-alias-1170802340-2609-2874-1170802340-0-5609]>": {
       "additionalProperties": false,
       "properties": {
         "doc": {
           "$ref": "#/definitions/DocText",
-          "description": "Documentation for this definition, to appear in the documentation browser."
+          "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
         },
         "inputs": {
           "description": "Bind definitions for the inputs this function takes",
@@ -247,7 +247,7 @@
       "properties": {
         "doc": {
           "$ref": "#/definitions/DocText",
-          "description": "Documentation for this definition, to appear in the documentation browser."
+          "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
         },
         "inputs": {
           "description": "Bind definitions for the inputs this function takes",
@@ -338,7 +338,7 @@
               "type": "array"
             }
           ],
-          "description": "The explanation text just below the header."
+          "description": "[formatted] The explanation text just below the header."
         },
         "header": {
           "description": "[plain] The header to be shown at the top of the dialog",
@@ -390,11 +390,11 @@
                   "description": "Functions in the type",
                   "properties": {
                     "and": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2601-2854-1170802340-0-5589%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2609-2874-1170802340-0-5609%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "equals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2601-2854-1170802340-0-5589%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2609-2874-1170802340-0-5609%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "not": {
@@ -402,11 +402,11 @@
                       "description": "See `en-US.json` for documentation"
                     },
                     "notequal": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2601-2854-1170802340-0-5589%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2609-2874-1170802340-0-5609%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "or": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2601-2854-1170802340-0-5589%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2609-2874-1170802340-0-5609%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     }
                   },
@@ -462,7 +462,7 @@
                   "description": "Functions in the type",
                   "properties": {
                     "add": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2601-2854-1170802340-0-5589%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2609-2874-1170802340-0-5609%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "all": {
@@ -479,7 +479,7 @@
                         },
                         "doc": {
                           "$ref": "#/definitions/DocText",
-                          "description": "Documentation for this definition, to appear in the documentation browser."
+                          "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
                         },
                         "inputs": {
                           "description": "Bind definitions for the inputs this function takes",
@@ -504,7 +504,7 @@
                       "type": "object"
                     },
                     "append": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2601-2854-1170802340-0-5589%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2609-2874-1170802340-0-5609%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "combine": {
@@ -521,7 +521,7 @@
                         },
                         "doc": {
                           "$ref": "#/definitions/DocText",
-                          "description": "Documentation for this definition, to appear in the documentation browser."
+                          "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
                         },
                         "inputs": {
                           "description": "Bind definitions for the inputs this function takes",
@@ -546,7 +546,7 @@
                       "type": "object"
                     },
                     "equals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2601-2854-1170802340-0-5589%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2609-2874-1170802340-0-5609%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "filter": {
@@ -563,7 +563,7 @@
                         },
                         "doc": {
                           "$ref": "#/definitions/DocText",
-                          "description": "Documentation for this definition, to appear in the documentation browser."
+                          "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
                         },
                         "inputs": {
                           "description": "Bind definitions for the inputs this function takes",
@@ -601,7 +601,7 @@
                         },
                         "doc": {
                           "$ref": "#/definitions/DocText",
-                          "description": "Documentation for this definition, to appear in the documentation browser."
+                          "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
                         },
                         "inputs": {
                           "description": "Bind definitions for the inputs this function takes",
@@ -630,11 +630,11 @@
                       "description": "See `en-US.json` for documentation"
                     },
                     "has": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2601-2854-1170802340-0-5589%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2609-2874-1170802340-0-5609%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "join": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2601-2854-1170802340-0-5589%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2609-2874-1170802340-0-5609%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "last": {
@@ -646,7 +646,7 @@
                       "description": "See `en-US.json` for documentation"
                     },
                     "notequals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2601-2854-1170802340-0-5589%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2609-2874-1170802340-0-5609%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "random": {
@@ -654,7 +654,7 @@
                       "description": "See `en-US.json` for documentation"
                     },
                     "replace": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2601-2854-1170802340-0-5589%2Cdef-alias-1170802340-2601-2854-1170802340-0-5589%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2609-2874-1170802340-0-5609%2Cdef-alias-1170802340-2609-2874-1170802340-0-5609%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "reverse": {
@@ -662,11 +662,11 @@
                       "description": "See `en-US.json` for documentation"
                     },
                     "sans": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2601-2854-1170802340-0-5589%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2609-2874-1170802340-0-5609%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "sansAll": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2601-2854-1170802340-0-5589%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2609-2874-1170802340-0-5609%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "sansFirst": {
@@ -687,7 +687,7 @@
                       "properties": {
                         "doc": {
                           "$ref": "#/definitions/DocText",
-                          "description": "Documentation for this definition, to appear in the documentation browser."
+                          "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
                         },
                         "inputs": {
                           "description": "Bind definitions for the inputs this function takes",
@@ -720,7 +720,7 @@
                       "type": "object"
                     },
                     "subsequence": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2601-2854-1170802340-0-5589%2Cdef-alias-1170802340-2601-2854-1170802340-0-5589%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2609-2874-1170802340-0-5609%2Cdef-alias-1170802340-2609-2874-1170802340-0-5609%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "translate": {
@@ -729,7 +729,7 @@
                       "properties": {
                         "doc": {
                           "$ref": "#/definitions/DocText",
-                          "description": "Documentation for this definition, to appear in the documentation browser."
+                          "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
                         },
                         "inputs": {
                           "description": "Bind definitions for the inputs this function takes",
@@ -775,7 +775,7 @@
                         },
                         "doc": {
                           "$ref": "#/definitions/DocText",
-                          "description": "Documentation for this definition, to appear in the documentation browser."
+                          "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
                         },
                         "inputs": {
                           "description": "Bind definitions for the inputs this function takes",
@@ -893,7 +893,7 @@
                   "description": "Functions in the type",
                   "properties": {
                     "equals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2601-2854-1170802340-0-5589%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2609-2874-1170802340-0-5609%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "filter": {
@@ -910,7 +910,7 @@
                         },
                         "doc": {
                           "$ref": "#/definitions/DocText",
-                          "description": "Documentation for this definition, to appear in the documentation browser."
+                          "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
                         },
                         "inputs": {
                           "description": "Bind definitions for the inputs this function takes",
@@ -935,15 +935,15 @@
                       "type": "object"
                     },
                     "notequals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2601-2854-1170802340-0-5589%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2609-2874-1170802340-0-5609%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "remove": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2601-2854-1170802340-0-5589%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2609-2874-1170802340-0-5609%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "set": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2601-2854-1170802340-0-5589%2Cdef-alias-1170802340-2601-2854-1170802340-0-5589%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2609-2874-1170802340-0-5609%2Cdef-alias-1170802340-2609-2874-1170802340-0-5609%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "size": {
@@ -956,7 +956,7 @@
                       "properties": {
                         "doc": {
                           "$ref": "#/definitions/DocText",
-                          "description": "Documentation for this definition, to appear in the documentation browser."
+                          "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
                         },
                         "inputs": {
                           "description": "Bind definitions for the inputs this function takes",
@@ -989,7 +989,7 @@
                       "type": "object"
                     },
                     "unset": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2601-2854-1170802340-0-5589%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2609-2874-1170802340-0-5609%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     }
                   },
@@ -1060,11 +1060,11 @@
                   "description": "Functions in the type",
                   "properties": {
                     "equals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2601-2854-1170802340-0-5589%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2609-2874-1170802340-0-5609%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "notequals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2601-2854-1170802340-0-5589%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2609-2874-1170802340-0-5609%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     }
                   },
@@ -1349,7 +1349,7 @@
                   "description": "Functions in the type",
                   "properties": {
                     "add": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2601-2854-1170802340-0-5589%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2609-2874-1170802340-0-5609%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "cos": {
@@ -1357,43 +1357,43 @@
                       "description": "See `en-US.json` for documentation"
                     },
                     "divide": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2601-2854-1170802340-0-5589%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2609-2874-1170802340-0-5609%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "equal": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2601-2854-1170802340-0-5589%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2609-2874-1170802340-0-5609%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "greaterOrEqual": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2601-2854-1170802340-0-5589%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2609-2874-1170802340-0-5609%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "greaterThan": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2601-2854-1170802340-0-5589%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2609-2874-1170802340-0-5609%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "lessOrEqual": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2601-2854-1170802340-0-5589%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2609-2874-1170802340-0-5609%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "lessThan": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2601-2854-1170802340-0-5589%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2609-2874-1170802340-0-5609%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "max": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2601-2854-1170802340-0-5589%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2609-2874-1170802340-0-5609%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "min": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2601-2854-1170802340-0-5589%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2609-2874-1170802340-0-5609%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "multiply": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2601-2854-1170802340-0-5589%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2609-2874-1170802340-0-5609%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "notequal": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2601-2854-1170802340-0-5589%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2609-2874-1170802340-0-5609%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "positive": {
@@ -1401,15 +1401,15 @@
                       "description": "See `en-US.json` for documentation"
                     },
                     "power": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2601-2854-1170802340-0-5589%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2609-2874-1170802340-0-5609%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "remainder": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2601-2854-1170802340-0-5589%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2609-2874-1170802340-0-5609%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "root": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2601-2854-1170802340-0-5589%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2609-2874-1170802340-0-5609%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "round": {
@@ -1429,7 +1429,7 @@
                       "description": "See `en-US.json` for documentation"
                     },
                     "subtract": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2601-2854-1170802340-0-5589%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2609-2874-1170802340-0-5609%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     }
                   },
@@ -1503,15 +1503,15 @@
                   "description": "Functions in the type",
                   "properties": {
                     "add": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2601-2854-1170802340-0-5589%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2609-2874-1170802340-0-5609%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "difference": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2601-2854-1170802340-0-5589%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2609-2874-1170802340-0-5609%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "equals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2601-2854-1170802340-0-5589%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2609-2874-1170802340-0-5609%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "filter": {
@@ -1528,7 +1528,7 @@
                         },
                         "doc": {
                           "$ref": "#/definitions/DocText",
-                          "description": "Documentation for this definition, to appear in the documentation browser."
+                          "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
                         },
                         "inputs": {
                           "description": "Bind definitions for the inputs this function takes",
@@ -1553,15 +1553,15 @@
                       "type": "object"
                     },
                     "intersection": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2601-2854-1170802340-0-5589%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2609-2874-1170802340-0-5609%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "notequals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2601-2854-1170802340-0-5589%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2609-2874-1170802340-0-5609%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "remove": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2601-2854-1170802340-0-5589%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2609-2874-1170802340-0-5609%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "size": {
@@ -1574,7 +1574,7 @@
                       "properties": {
                         "doc": {
                           "$ref": "#/definitions/DocText",
-                          "description": "Documentation for this definition, to appear in the documentation browser."
+                          "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
                         },
                         "inputs": {
                           "description": "Bind definitions for the inputs this function takes",
@@ -1607,7 +1607,7 @@
                       "type": "object"
                     },
                     "union": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2601-2854-1170802340-0-5589%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2609-2874-1170802340-0-5609%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     }
                   },
@@ -1675,11 +1675,11 @@
                   "description": "Functions in the type",
                   "properties": {
                     "equals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2601-2854-1170802340-0-5589%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2609-2874-1170802340-0-5609%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "notequal": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2601-2854-1170802340-0-5589%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2609-2874-1170802340-0-5609%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     }
                   },
@@ -1734,11 +1734,11 @@
                   "description": "Functions in the type",
                   "properties": {
                     "equals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2601-2854-1170802340-0-5589%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2609-2874-1170802340-0-5609%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "notequal": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2601-2854-1170802340-0-5589%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2609-2874-1170802340-0-5609%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     }
                   },
@@ -1798,19 +1798,19 @@
                   "description": "Functions in the type",
                   "properties": {
                     "combine": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2601-2854-1170802340-0-5589%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2609-2874-1170802340-0-5609%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "ends": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2601-2854-1170802340-0-5589%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2609-2874-1170802340-0-5609%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "equals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2601-2854-1170802340-0-5589%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2609-2874-1170802340-0-5609%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "has": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2601-2854-1170802340-0-5589%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2609-2874-1170802340-0-5609%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "length": {
@@ -1818,19 +1818,19 @@
                       "description": "See `en-US.json` for documentation"
                     },
                     "notequals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2601-2854-1170802340-0-5589%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2609-2874-1170802340-0-5609%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "repeat": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2601-2854-1170802340-0-5589%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2609-2874-1170802340-0-5609%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "segment": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2601-2854-1170802340-0-5589%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2609-2874-1170802340-0-5609%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "starts": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2601-2854-1170802340-0-5589%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-2609-2874-1170802340-0-5609%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     }
                   },
@@ -1888,7 +1888,7 @@
               "properties": {
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation for this definition, to appear in the documentation browser."
+                  "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
                 },
                 "down": {
                   "$ref": "#/definitions/NameAndDoc"
@@ -1911,7 +1911,7 @@
               "properties": {
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation for this definition, to appear in the documentation browser."
+                  "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
                 },
                 "frequency": {
                   "$ref": "#/definitions/NameAndDoc",
@@ -1953,7 +1953,7 @@
               "properties": {
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation for this definition, to appear in the documentation browser."
+                  "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
                 },
                 "names": {
                   "$ref": "#/definitions/NameText",
@@ -1982,7 +1982,7 @@
               "properties": {
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation for this definition, to appear in the documentation browser."
+                  "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
                 },
                 "names": {
                   "$ref": "#/definitions/NameText",
@@ -2011,7 +2011,7 @@
               "properties": {
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation for this definition, to appear in the documentation browser."
+                  "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
                 },
                 "frequency": {
                   "$ref": "#/definitions/NameAndDoc",
@@ -2040,7 +2040,7 @@
               "properties": {
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation for this definition, to appear in the documentation browser."
+                  "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
                 },
                 "down": {
                   "$ref": "#/definitions/NameAndDoc",
@@ -2069,7 +2069,7 @@
               "properties": {
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation for this definition, to appear in the documentation browser."
+                  "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
                 },
                 "names": {
                   "$ref": "#/definitions/NameText",
@@ -2108,7 +2108,7 @@
               "properties": {
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation for this definition, to appear in the documentation browser."
+                  "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
                 },
                 "frequency": {
                   "$ref": "#/definitions/NameAndDoc",
@@ -2132,7 +2132,7 @@
               "properties": {
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation for this definition, to appear in the documentation browser."
+                  "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
                 },
                 "inputs": {
                   "description": "[ A starting place, how much to move when moved, whether to move on x-axis, whether to move on y-axes, whether to move on z-axis]",
@@ -2165,7 +2165,7 @@
               "properties": {
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation for this definition, to appear in the documentation browser."
+                  "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
                 },
                 "inputs": {
                   "description": "Min and max value inputs",
@@ -2198,7 +2198,7 @@
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation for this definition, to appear in the documentation browser."
+                  "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
                 },
                 "names": {
                   "$ref": "#/definitions/NameText",
@@ -2228,7 +2228,7 @@
               "properties": {
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation for this definition, to appear in the documentation browser."
+                  "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
                 },
                 "names": {
                   "$ref": "#/definitions/NameText",
@@ -2252,7 +2252,7 @@
               "properties": {
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation for this definition, to appear in the documentation browser."
+                  "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
                 },
                 "error": {
                   "additionalProperties": false,
@@ -2331,7 +2331,7 @@
               "properties": {
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation for this definition, to appear in the documentation browser."
+                  "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
                 },
                 "frequency": {
                   "$ref": "#/definitions/NameAndDoc",
@@ -2360,7 +2360,7 @@
               "properties": {
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation for this definition, to appear in the documentation browser."
+                  "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
                 },
                 "frequency": {
                   "$ref": "#/definitions/NameAndDoc",
@@ -2384,7 +2384,7 @@
               "properties": {
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation for this definition, to appear in the documentation browser."
+                  "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
                 },
                 "error": {
                   "additionalProperties": false,
@@ -2655,6 +2655,7 @@
                   "additionalProperties": false,
                   "properties": {
                     "operator": {
+                      "description": "[plain] The placeholder label for the operator",
                       "type": "string"
                     }
                   },
@@ -2705,7 +2706,8 @@
                           "$ref": "#/definitions/ConflictText"
                         },
                         "resolution": {
-                          "$ref": "#/definitions/FormattedText"
+                          "$ref": "#/definitions/FormattedText",
+                          "description": "[formatted] Suggested fix when names conflict"
                         }
                       },
                       "required": [
@@ -2731,7 +2733,8 @@
                           "type": "string"
                         },
                         "resolution": {
-                          "$ref": "#/definitions/FormattedText"
+                          "$ref": "#/definitions/FormattedText",
+                          "description": "[formatted] Suggested fix when bind type and value type are incompatible"
                         }
                       },
                       "required": [
@@ -2816,12 +2819,15 @@
                   "additionalProperties": false,
                   "properties": {
                     "names": {
+                      "description": "[plain] The placeholder label for the names",
                       "type": "string"
                     },
                     "type": {
+                      "description": "[plain] The placeholder label for the type annotation",
                       "type": "string"
                     },
                     "value": {
+                      "description": "[plain] The placeholder label for the bound value expression",
                       "type": "string"
                     }
                   },
@@ -3164,6 +3170,7 @@
                   "additionalProperties": false,
                   "properties": {
                     "stream": {
+                      "description": "[plain] The placeholder label for the stream expression",
                       "type": "string"
                     }
                   },
@@ -3263,16 +3270,16 @@
                   "additionalProperties": false,
                   "properties": {
                     "condition": {
-                      "$ref": "#/definitions/FormattedText",
-                      "description": "[formatted] A placeholder label for the condition"
+                      "description": "[plain] A placeholder label for the condition",
+                      "type": "string"
                     },
                     "no": {
-                      "$ref": "#/definitions/FormattedText",
-                      "description": "[formatted] A placeholder label for else condition"
+                      "description": "[plain] A placeholder label for the else expression",
+                      "type": "string"
                     },
                     "yes": {
-                      "$ref": "#/definitions/FormattedText",
-                      "description": "[formatted] A placeholder label for then expression"
+                      "description": "[plain] A placeholder label for the then expression",
+                      "type": "string"
                     }
                   },
                   "required": [
@@ -3361,12 +3368,15 @@
                   "additionalProperties": false,
                   "properties": {
                     "expression": {
+                      "description": "[plain] The placeholder label for the conversion expression",
                       "type": "string"
                     },
                     "input": {
+                      "description": "[plain] The placeholder label for the input type",
                       "type": "string"
                     },
                     "output": {
+                      "description": "[plain] The placeholder label for the output type",
                       "type": "string"
                     }
                   },
@@ -3698,7 +3708,8 @@
                           "type": "string"
                         },
                         "resolution": {
-                          "$ref": "#/definitions/FormattedText"
+                          "$ref": "#/definitions/FormattedText",
+                          "description": "[formatted] Suggested fix when an input's type does not match the expected type"
                         }
                       },
                       "required": [
@@ -3809,12 +3820,15 @@
                   "additionalProperties": false,
                   "properties": {
                     "function": {
+                      "description": "[plain] The placeholder label for the function being evaluated",
                       "type": "string"
                     },
                     "inputs": {
+                      "description": "[plain] The placeholder label for the value inputs",
                       "type": "string"
                     },
                     "types": {
+                      "description": "[plain] The placeholder label for the type inputs",
                       "type": "string"
                     }
                   },
@@ -3925,6 +3939,7 @@
                   "additionalProperties": false,
                   "properties": {
                     "placeholder": {
+                      "description": "[plain] The placeholder label shown for the empty expression slot",
                       "type": "string"
                     }
                   },
@@ -4074,12 +4089,15 @@
                   "additionalProperties": false,
                   "properties": {
                     "expression": {
+                      "description": "[plain] The placeholder label for the function's body expression",
                       "type": "string"
                     },
                     "inputs": {
+                      "description": "[plain] The placeholder label for the function's inputs",
                       "type": "string"
                     },
                     "output": {
+                      "description": "[plain] The placeholder label for the function's output type",
                       "type": "string"
                     }
                   },
@@ -4772,6 +4790,7 @@
                   "additionalProperties": false,
                   "properties": {
                     "values": {
+                      "description": "[plain] The placeholder label for the list of key-value pairs",
                       "type": "string"
                     }
                   },
@@ -4847,6 +4866,7 @@
                   "additionalProperties": false,
                   "properties": {
                     "paragraphs": {
+                      "description": "[plain] The placeholder label for the list of paragraphs",
                       "type": "string"
                     }
                   },
@@ -4919,12 +4939,12 @@
                   "additionalProperties": false,
                   "properties": {
                     "case": {
-                      "$ref": "#/definitions/FormattedText",
-                      "description": "[formatted] The label for the case being checked"
+                      "description": "[plain] The placeholder label for the case being checked",
+                      "type": "string"
                     },
                     "other": {
-                      "$ref": "#/definitions/FormattedText",
-                      "description": "[formatted] The label for the default value if none of the cases match"
+                      "description": "[plain] The placeholder label for the default value if none of the cases match",
+                      "type": "string"
                     }
                   },
                   "required": [
@@ -5070,6 +5090,7 @@
                   "additionalProperties": false,
                   "properties": {
                     "names": {
+                      "description": "[plain] The placeholder label for the list of names",
                       "type": "string"
                     }
                   },
@@ -5362,6 +5383,7 @@
                   "additionalProperties": false,
                   "properties": {
                     "range": {
+                      "description": "[plain] The placeholder label for the range (how many previous values)",
                       "type": "string"
                     }
                   },
@@ -5478,9 +5500,11 @@
                   "additionalProperties": false,
                   "properties": {
                     "borrows": {
+                      "description": "[plain] The placeholder label for the program's borrow statements",
                       "type": "string"
                     },
                     "expression": {
+                      "description": "[plain] The placeholder label for the program's main expression",
                       "type": "string"
                     }
                   },
@@ -5577,10 +5601,12 @@
                   "additionalProperties": false,
                   "properties": {
                     "property": {
-                      "$ref": "#/definitions/FormattedText"
+                      "description": "[plain] The placeholder label for the property being revised",
+                      "type": "string"
                     },
                     "value": {
-                      "$ref": "#/definitions/FormattedText"
+                      "description": "[plain] The placeholder label for the new property value",
+                      "type": "string"
                     }
                   },
                   "required": [
@@ -5656,7 +5682,8 @@
                   "additionalProperties": false,
                   "properties": {
                     "property": {
-                      "$ref": "#/definitions/FormattedText"
+                      "description": "[plain] The placeholder label for the property name being referenced",
+                      "type": "string"
                     }
                   },
                   "required": [
@@ -5744,16 +5771,16 @@
                   "additionalProperties": false,
                   "properties": {
                     "condition": {
-                      "$ref": "#/definitions/FormattedText",
-                      "description": "[formatted] Placeholder label for the condition to check"
+                      "description": "[plain] Placeholder label for the condition to check",
+                      "type": "string"
                     },
                     "initial": {
-                      "$ref": "#/definitions/FormattedText",
-                      "description": "[formatted] Placeholder label for the initial value"
+                      "description": "[plain] Placeholder label for the initial value",
+                      "type": "string"
                     },
                     "next": {
-                      "$ref": "#/definitions/FormattedText",
-                      "description": "[formatted] Placeholder label for the next value"
+                      "description": "[plain] Placeholder label for the next value",
+                      "type": "string"
                     }
                   },
                   "required": [
@@ -5808,7 +5835,8 @@
                           "$ref": "#/definitions/ConflictText"
                         },
                         "resolution": {
-                          "$ref": "#/definitions/FormattedText"
+                          "$ref": "#/definitions/FormattedText",
+                          "description": "[formatted] Suggested fix when a name doesn't resolve to a bind in scope"
                         }
                       },
                       "required": [
@@ -6339,15 +6367,19 @@
                   "additionalProperties": false,
                   "properties": {
                     "docs": {
+                      "description": "[plain] The placeholder label for the structure's documentation",
                       "type": "string"
                     },
                     "expression": {
+                      "description": "[plain] The placeholder label for the structure's body expression",
                       "type": "string"
                     },
                     "inputs": {
+                      "description": "[plain] The placeholder label for the structure's inputs",
                       "type": "string"
                     },
                     "interfaces": {
+                      "description": "[plain] The placeholder label for the structure's implemented interfaces",
                       "type": "string"
                     }
                   },
@@ -6555,6 +6587,7 @@
                   "additionalProperties": false,
                   "properties": {
                     "texts": {
+                      "description": "[plain] The placeholder label for the list of translation segments",
                       "type": "string"
                     }
                   },
@@ -6745,6 +6778,7 @@
                   "additionalProperties": false,
                   "properties": {
                     "segments": {
+                      "description": "[plain] The placeholder label for the translation's segments",
                       "type": "string"
                     }
                   },
@@ -6832,6 +6866,7 @@
                   "additionalProperties": false,
                   "properties": {
                     "type": {
+                      "description": "[plain] The placeholder label for the type variable's name",
                       "type": "string"
                     }
                   },
@@ -6905,6 +6940,7 @@
                   "additionalProperties": false,
                   "properties": {
                     "input": {
+                      "description": "[plain] The placeholder label for the input expression",
                       "type": "string"
                     }
                   },
@@ -7336,7 +7372,7 @@
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation for this definition, to appear in the documentation browser."
+                  "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
                 },
                 "names": {
                   "$ref": "#/definitions/NameText",
@@ -7367,7 +7403,7 @@
               "properties": {
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation for this definition, to appear in the documentation browser."
+                  "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
                 },
                 "names": {
                   "$ref": "#/definitions/NameText",
@@ -7410,7 +7446,7 @@
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation for this definition, to appear in the documentation browser."
+                  "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
                 },
                 "hue": {
                   "$ref": "#/definitions/NameAndDoc",
@@ -7440,19 +7476,19 @@
               "properties": {
                 "cautious": {
                   "$ref": "#/definitions/NameText",
-                  "description": "CSS ease-in-out"
+                  "description": "[name] CSS ease-in-out"
                 },
                 "pokey": {
                   "$ref": "#/definitions/NameText",
-                  "description": "CSS ease-in"
+                  "description": "[name] CSS ease-in"
                 },
                 "straight": {
                   "$ref": "#/definitions/NameText",
-                  "description": "CSS linear"
+                  "description": "[name] CSS linear"
                 },
                 "zippy": {
                   "$ref": "#/definitions/NameText",
-                  "description": "CSS ease-out"
+                  "description": "[name] CSS ease-out"
                 }
               },
               "required": [
@@ -7477,7 +7513,7 @@
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation for this definition, to appear in the documentation browser."
+                  "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
                 },
                 "names": {
                   "$ref": "#/definitions/NameText",
@@ -7497,7 +7533,7 @@
               "properties": {
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation for this definition, to appear in the documentation browser."
+                  "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
                 },
                 "fingers": {
                   "$ref": "#/definitions/NameAndDoc",
@@ -7577,7 +7613,7 @@
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation for this definition, to appear in the documentation browser."
+                  "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
                 },
                 "names": {
                   "$ref": "#/definitions/NameText",
@@ -7630,7 +7666,7 @@
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation for this definition, to appear in the documentation browser."
+                  "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
                 },
                 "duration": {
                   "$ref": "#/definitions/NameAndDoc",
@@ -7753,7 +7789,7 @@
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation for this definition, to appear in the documentation browser."
+                  "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
                 },
                 "friction": {
                   "$ref": "#/definitions/NameAndDoc",
@@ -7830,7 +7866,7 @@
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation for this definition, to appear in the documentation browser."
+                  "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
                 },
                 "duration": {
                   "$ref": "#/definitions/NameAndDoc",
@@ -7956,7 +7992,7 @@
               "properties": {
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation for this definition, to appear in the documentation browser."
+                  "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
                 },
                 "names": {
                   "$ref": "#/definitions/NameText",
@@ -7995,7 +8031,7 @@
               "properties": {
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation for this definition, to appear in the documentation browser."
+                  "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
                 },
                 "names": {
                   "$ref": "#/definitions/NameText",
@@ -8046,7 +8082,7 @@
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation for this definition, to appear in the documentation browser."
+                  "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
                 },
                 "flipx": {
                   "$ref": "#/definitions/NameAndDoc"
@@ -8099,7 +8135,7 @@
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation for this definition, to appear in the documentation browser."
+                  "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
                 },
                 "left": {
                   "$ref": "#/definitions/NameAndDoc",
@@ -8147,7 +8183,7 @@
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation for this definition, to appear in the documentation browser."
+                  "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
                 },
                 "names": {
                   "$ref": "#/definitions/NameText",
@@ -8177,7 +8213,7 @@
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation for this definition, to appear in the documentation browser."
+                  "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
                 },
                 "names": {
                   "$ref": "#/definitions/NameText",
@@ -8210,7 +8246,7 @@
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation for this definition, to appear in the documentation browser."
+                  "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
                 },
                 "duration": {
                   "$ref": "#/definitions/NameAndDoc",
@@ -8258,7 +8294,7 @@
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation for this definition, to appear in the documentation browser."
+                  "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
                 },
                 "duration": {
                   "$ref": "#/definitions/NameAndDoc",
@@ -8371,7 +8407,7 @@
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation for this definition, to appear in the documentation browser."
+                  "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
                 },
                 "name": {
                   "$ref": "#/definitions/NameAndDoc",
@@ -8412,7 +8448,7 @@
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation for this definition, to appear in the documentation browser."
+                  "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
                 },
                 "names": {
                   "$ref": "#/definitions/NameText",
@@ -8458,7 +8494,7 @@
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation for this definition, to appear in the documentation browser."
+                  "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
                 },
                 "duration": {
                   "$ref": "#/definitions/NameAndDoc",
@@ -8581,7 +8617,7 @@
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
-                  "description": "Documentation for this definition, to appear in the documentation browser."
+                  "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
                 },
                 "names": {
                   "$ref": "#/definitions/NameText",
@@ -8615,7 +8651,7 @@
                   "properties": {
                     "doc": {
                       "$ref": "#/definitions/DocText",
-                      "description": "Documentation for this definition, to appear in the documentation browser."
+                      "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
                     },
                     "height": {
                       "$ref": "#/definitions/NameAndDoc",
@@ -8663,7 +8699,7 @@
                     },
                     "doc": {
                       "$ref": "#/definitions/DocText",
-                      "description": "Documentation for this definition, to appear in the documentation browser."
+                      "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
                     },
                     "names": {
                       "$ref": "#/definitions/NameText",
@@ -8978,7 +9014,7 @@
         },
         "token": {
           "additionalProperties": false,
-          "description": "Descriptions of all token categories. See Sym.ts for the symbol or symbol category that each represents.",
+          "description": "[plain] Descriptions of all token categories. See Sym.ts for the symbol or symbol category that each represents.",
           "properties": {
             "Access": {
               "type": "string"
@@ -9504,26 +9540,31 @@
                           "type": "array"
                         }
                       ],
-                      "description": "The explanation text just below the header."
+                      "description": "[formatted] The explanation text just below the header."
                     },
                     "header": {
                       "description": "[plain] The header to be shown at the top of the dialog",
                       "type": "string"
                     },
                     "inGallery": {
-                      "$ref": "#/definitions/FormattedText"
+                      "$ref": "#/definitions/FormattedText",
+                      "description": "[formatted] Notice shown when the project is in a gallery, explaining moderator visibility"
                     },
                     "moderate": {
-                      "$ref": "#/definitions/ButtonText"
+                      "$ref": "#/definitions/ButtonText",
+                      "description": "The \"moderate\" button shown to moderators on a chat message"
                     },
                     "pending": {
+                      "description": "[plain] Shown in place of a message that is awaiting moderation",
                       "type": "string"
                     },
                     "removed": {
+                      "description": "[plain] Shown in place of a message that moderators removed",
                       "type": "string"
                     },
                     "report": {
-                      "$ref": "#/definitions/ButtonText"
+                      "$ref": "#/definitions/ButtonText",
+                      "description": "The \"report\" button shown on a chat message"
                     }
                   },
                   "required": [
@@ -9629,15 +9670,15 @@
                   "properties": {
                     "collaborate": {
                       "$ref": "#/definitions/FormattedText",
-                      "description": "Markup describing the collaborate panel"
+                      "description": "[formatted] Markup describing the collaborate panel"
                     },
                     "collaborators": {
                       "$ref": "#/definitions/FormattedText",
-                      "description": "Markup describing the collaborators field"
+                      "description": "[formatted] Markup describing the collaborators field"
                     },
                     "commenters": {
                       "$ref": "#/definitions/FormattedText",
-                      "description": "Markup describing the commenters field"
+                      "description": "[formatted] Markup describing the commenters field"
                     },
                     "launch": {
                       "description": "[plain] Tooltip on the help button that opens the tour",
@@ -9645,11 +9686,11 @@
                     },
                     "restrict": {
                       "$ref": "#/definitions/FormattedText",
-                      "description": "Markup describing the restrict-gallery toggle"
+                      "description": "[formatted] Markup describing the restrict-gallery toggle"
                     },
                     "viewers": {
                       "$ref": "#/definitions/FormattedText",
-                      "description": "Markup describing the viewers field"
+                      "description": "[formatted] Markup describing the viewers field"
                     }
                   },
                   "required": [
@@ -9766,7 +9807,7 @@
                           "type": "array"
                         }
                       ],
-                      "description": "The explanation text just below the header."
+                      "description": "[formatted] The explanation text just below the header."
                     },
                     "field": {
                       "additionalProperties": false,
@@ -9880,7 +9921,7 @@
                           "type": "array"
                         }
                       ],
-                      "description": "The explanation text just below the header."
+                      "description": "[formatted] The explanation text just below the header."
                     },
                     "header": {
                       "description": "[plain] The header to be shown at the top of the dialog",
@@ -9888,17 +9929,22 @@
                     },
                     "subheader": {
                       "additionalProperties": false,
+                      "description": "Section subheaders grouping related keyboard shortcuts",
                       "properties": {
                         "debug": {
+                          "description": "[plain] Subheader for shortcuts related to debugging/evaluation",
                           "type": "string"
                         },
                         "editCode": {
+                          "description": "[plain] Subheader for shortcuts that edit existing code",
                           "type": "string"
                         },
                         "insertCode": {
+                          "description": "[plain] Subheader for shortcuts that insert new code",
                           "type": "string"
                         },
                         "moveCursor": {
+                          "description": "[plain] Subheader for shortcuts that move the cursor",
                           "type": "string"
                         }
                       },
@@ -9931,7 +9977,7 @@
                           "type": "string"
                         },
                         "menu": {
-                          "description": "Menu button label for \"other languages\" (landing page)",
+                          "description": "[plain] Menu button label for \"other languages\" (landing page)",
                           "type": "string"
                         },
                         "remove": {
@@ -9968,7 +10014,7 @@
                           "type": "array"
                         }
                       ],
-                      "description": "The explanation text just below the header."
+                      "description": "[formatted] The explanation text just below the header."
                     },
                     "header": {
                       "description": "[plain] The header to be shown at the top of the dialog",
@@ -10030,7 +10076,7 @@
                           "type": "array"
                         }
                       ],
-                      "description": "The explanation text just below the header."
+                      "description": "[formatted] The explanation text just below the header."
                     },
                     "header": {
                       "description": "[plain] The header to be shown at the top of the dialog",
@@ -10123,7 +10169,7 @@
                           "type": "array"
                         }
                       ],
-                      "description": "The explanation text just below the header."
+                      "description": "[formatted] The explanation text just below the header."
                     },
                     "header": {
                       "description": "[plain] The header to be shown at the top of the dialog",
@@ -10230,7 +10276,7 @@
                       "properties": {
                         "sensitive": {
                           "$ref": "#/definitions/ButtonText",
-                          "description": "Description and label for the button to mark PII as sensitive again."
+                          "description": "The button that marks a previously-flagged piece of PII as sensitive again"
                         },
                         "submit": {
                           "description": "[plain] Description for the email submission button.",
@@ -10279,7 +10325,7 @@
                           "type": "array"
                         }
                       ],
-                      "description": "The explanation text just below the header."
+                      "description": "[formatted] The explanation text just below the header."
                     },
                     "field": {
                       "additionalProperties": false,
@@ -10287,7 +10333,7 @@
                       "properties": {
                         "emailOrUsername": {
                           "$ref": "#/definitions/FieldText",
-                          "description": "The email or username of the collaborator being added"
+                          "description": "The email or username field for the collaborator being added"
                         }
                       },
                       "required": [
@@ -10305,7 +10351,7 @@
                       "properties": {
                         "public": {
                           "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%5D%3E",
-                          "description": "The private and public mode descriptions"
+                          "description": "The public/private toggle mode widget"
                         }
                       },
                       "required": [
@@ -11571,6 +11617,18 @@
                       "description": "[plain] Tooltip for the button that opens text editing",
                       "type": "string"
                     },
+                    "editTip": {
+                      "description": "[plain] Tooltip for the button that opens editing of a tooltip (the tip-icon badge attached to widgets without a visible label)",
+                      "type": "string"
+                    },
+                    "next": {
+                      "description": "[plain] Tooltip for the button that navigates to the next element when editing a tuple-typed key (e.g., ModeText.tips) in the localizer panel",
+                      "type": "string"
+                    },
+                    "prev": {
+                      "description": "[plain] Tooltip for the button that navigates to the previous element when editing a tuple-typed key (e.g., ModeText.tips) in the localizer panel",
+                      "type": "string"
+                    },
                     "revert": {
                       "description": "[plain] Tooltip for the button that reverts to the official text",
                       "type": "string"
@@ -11582,9 +11640,12 @@
                   },
                   "required": [
                     "edit",
+                    "editTip",
                     "submit",
                     "cancel",
-                    "revert"
+                    "revert",
+                    "prev",
+                    "next"
                   ],
                   "type": "object"
                 },
@@ -11626,6 +11687,10 @@
                 },
                 "header": {
                   "description": "[plain] The header for the localization editor",
+                  "type": "string"
+                },
+                "invalidConceptLinks": {
+                  "description": "[plain] Warning shown below a formatted editor when the draft markup references one or more concept links (e.g., `@FunctionDefinition`) that don't resolve in the current locale. The list of unresolved names is rendered separately.",
                   "type": "string"
                 },
                 "invalidName": {
@@ -11688,7 +11753,8 @@
                 "field",
                 "strings",
                 "emotion",
-                "invalidName"
+                "invalidName",
+                "invalidConceptLinks"
               ],
               "type": "object"
             },
@@ -11797,11 +11863,11 @@
                   "properties": {
                     "animationSpeed": {
                       "$ref": "#/definitions/FormattedText",
-                      "description": "Markup describing the animation speed control"
+                      "description": "[formatted] Markup describing the animation speed control"
                     },
                     "grid": {
                       "$ref": "#/definitions/FormattedText",
-                      "description": "Markup describing the grid toggle"
+                      "description": "[formatted] Markup describing the grid toggle"
                     },
                     "launch": {
                       "description": "[plain] Tooltip on the help button that opens the tour",
@@ -11809,19 +11875,19 @@
                     },
                     "lock": {
                       "$ref": "#/definitions/FormattedText",
-                      "description": "Markup describing the lock/fit toggle"
+                      "description": "[formatted] Markup describing the lock/fit toggle"
                     },
                     "reset": {
                       "$ref": "#/definitions/FormattedText",
-                      "description": "Markup describing the reset zoom button"
+                      "description": "[formatted] Markup describing the reset zoom button"
                     },
                     "stage": {
                       "$ref": "#/definitions/FormattedText",
-                      "description": "Markup describing the stage area"
+                      "description": "[formatted] Markup describing the stage area"
                     },
                     "zoom": {
                       "$ref": "#/definitions/FormattedText",
-                      "description": "Markup describing the two zoom buttons"
+                      "description": "[formatted] Markup describing the two zoom buttons"
                     }
                   },
                   "required": [
@@ -13126,6 +13192,208 @@
                   ],
                   "type": "object"
                 },
+                "localize": {
+                  "additionalProperties": false,
+                  "description": "Localization workspace page text",
+                  "properties": {
+                    "bundleSummary": {
+                      "description": "[plain] Header above the bundle review viewer",
+                      "type": "string"
+                    },
+                    "description": {
+                      "description": "[formatted] Introduction to the workspace shown above the dropdown",
+                      "items": {
+                        "$ref": "#/definitions/FormattedText"
+                      },
+                      "type": "array"
+                    },
+                    "descriptionField": {
+                      "$ref": "#/definitions/FieldText",
+                      "description": "Multiline text box for the contributor's description of the batch of edits"
+                    },
+                    "editEntry": {
+                      "description": "[plain] Tooltip for the bundle-item viewer body that jumps back to the editor and scrolls to the top",
+                      "type": "string"
+                    },
+                    "empty": {
+                      "description": "[plain] Notice text shown when no strings match the current filter",
+                      "type": "string"
+                    },
+                    "header": {
+                      "description": "[plain] The header for the localization workspace page",
+                      "type": "string"
+                    },
+                    "nextBundleItem": {
+                      "description": "[plain] Tooltip for the forward arrow that moves to the next edit in the bundle",
+                      "type": "string"
+                    },
+                    "nextEntry": {
+                      "description": "[plain] Tooltip for the forward arrow that moves to the next entry in the filtered list",
+                      "type": "string"
+                    },
+                    "notSpamLabel": {
+                      "description": "[plain] Checkbox label confirming the contributor's submission is not spam",
+                      "type": "string"
+                    },
+                    "notSpamNote": {
+                      "description": "[plain] Note shown below the not-spam checkbox explaining the project context",
+                      "type": "string"
+                    },
+                    "oneLocaleNote": {
+                      "$ref": "#/definitions/FormattedText",
+                      "description": "[formatted] Note explaining that each submission targets one locale at a time. Rendered alongside the submit prompt. The active locale is inserted via a `$1` template placeholder."
+                    },
+                    "prevBundleItem": {
+                      "description": "[plain] Tooltip for the back arrow that moves to the previous edit in the bundle",
+                      "type": "string"
+                    },
+                    "prevEntry": {
+                      "description": "[plain] Tooltip for the back arrow that moves to the previous entry in the filtered list",
+                      "type": "string"
+                    },
+                    "qualityMode": {
+                      "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%5D%3E",
+                      "description": "Mode widget that filters the dropdown to \"all\" strings or only the machine-translated ones. The \"machine translated\" option is the default."
+                    },
+                    "requireLogin": {
+                      "description": "[plain] Notice shown when the user is not logged in and tries to view this page",
+                      "type": "string"
+                    },
+                    "revertEntry": {
+                      "description": "[plain] Tooltip for the button that discards a single edit from the bundle",
+                      "type": "string"
+                    },
+                    "section": {
+                      "additionalProperties": false,
+                      "description": "Localized labels for the top-level sections of the locale file",
+                      "properties": {
+                        "basis": {
+                          "description": "[plain] Section label for basis: built-in types like number, text, list",
+                          "type": "string"
+                        },
+                        "gallery": {
+                          "description": "[plain] Section label for gallery: the default gallery content",
+                          "type": "string"
+                        },
+                        "input": {
+                          "description": "[plain] Section label for input: streams and input sources",
+                          "type": "string"
+                        },
+                        "moderation": {
+                          "description": "[plain] Section label for moderation: content moderation messages",
+                          "type": "string"
+                        },
+                        "node": {
+                          "description": "[plain] Section label for node: programming language constructs",
+                          "type": "string"
+                        },
+                        "output": {
+                          "description": "[plain] Section label for output: visual output types",
+                          "type": "string"
+                        },
+                        "term": {
+                          "description": "[plain] Section label for term: shared vocabulary used across the platform",
+                          "type": "string"
+                        },
+                        "token": {
+                          "description": "[plain] Section label for token descriptions",
+                          "type": "string"
+                        },
+                        "ui": {
+                          "description": "[plain] Section label for ui: the application user interface",
+                          "type": "string"
+                        },
+                        "wordplay": {
+                          "description": "[plain] Section label for wordplay: the platform name",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "term",
+                        "token",
+                        "node",
+                        "basis",
+                        "input",
+                        "output",
+                        "ui",
+                        "gallery",
+                        "moderation",
+                        "wordplay"
+                      ],
+                      "type": "object"
+                    },
+                    "sectionMode": {
+                      "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%5D%3E",
+                      "description": "Mode widget that filters the dropdown by top-level locale section. First option is \"all sections\"; the rest correspond to `section` keys in the same order as `sectionOrder` in +page.svelte."
+                    },
+                    "singletonWordsWarning": {
+                      "description": "[plain] Warning shown below the editor when the draft contains words that occur only once across the entire locale, hinting at possible typos or inconsistent vocabulary. The actual word list is rendered separately.",
+                      "type": "string"
+                    },
+                    "submit": {
+                      "$ref": "#/definitions/ConfirmText",
+                      "description": "The submit button shown after the contributor has reviewed their bundle"
+                    },
+                    "submitError": {
+                      "$ref": "#/definitions/FormattedText",
+                      "description": "[formatted] Notice rendered after the server rejects a submitted batch. Surfaced when the backend reports a network or server error."
+                    },
+                    "submitHeader": {
+                      "description": "[plain] Header for the section that contains the publish form",
+                      "type": "string"
+                    },
+                    "submitPrompt": {
+                      "$ref": "#/definitions/FormattedText",
+                      "description": "[formatted] Paragraph shown at the top of the publish section"
+                    },
+                    "submitSuccess": {
+                      "$ref": "#/definitions/FormattedText",
+                      "description": "[formatted] Notice rendered after the server accepts a submitted batch. The backend opens a GitHub pull request and returns its URL; the success Notice combines this text with a link the contributor can click to view and comment on the PR."
+                    },
+                    "viewPR": {
+                      "description": "[plain] Label for the link in the success Notice that opens the freshly created GitHub pull request.",
+                      "type": "string"
+                    },
+                    "workspaceHeader": {
+                      "description": "[plain] Header for the section that lists strings to write or review",
+                      "type": "string"
+                    },
+                    "workspaceLink": {
+                      "description": "[plain] Tooltip for the link from the persistent header to the workspace page",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "header",
+                    "description",
+                    "workspaceLink",
+                    "workspaceHeader",
+                    "submitHeader",
+                    "submitPrompt",
+                    "oneLocaleNote",
+                    "bundleSummary",
+                    "editEntry",
+                    "revertEntry",
+                    "prevBundleItem",
+                    "nextBundleItem",
+                    "descriptionField",
+                    "notSpamLabel",
+                    "notSpamNote",
+                    "requireLogin",
+                    "singletonWordsWarning",
+                    "submit",
+                    "submitSuccess",
+                    "viewPR",
+                    "submitError",
+                    "empty",
+                    "prevEntry",
+                    "nextEntry",
+                    "qualityMode",
+                    "sectionMode",
+                    "section"
+                  ],
+                  "type": "object"
+                },
                 "login": {
                   "additionalProperties": false,
                   "description": "The login and account page",
@@ -14058,6 +14326,7 @@
                 "unknown",
                 "landing",
                 "learn",
+                "localize",
                 "teach",
                 "newclass",
                 "class",
@@ -14386,7 +14655,7 @@
                   "properties": {
                     "editor": {
                       "$ref": "#/definitions/FormattedText",
-                      "description": "Markup describing the editor's role for palette edits"
+                      "description": "[formatted] Markup describing the editor's role for palette edits"
                     },
                     "launch": {
                       "description": "[plain] Tooltip on the help button that opens the tour",
@@ -14394,23 +14663,23 @@
                     },
                     "palette": {
                       "$ref": "#/definitions/FormattedText",
-                      "description": "Markup describing the palette panel"
+                      "description": "[formatted] Markup describing the palette panel"
                     },
                     "set": {
                       "$ref": "#/definitions/FormattedText",
-                      "description": "Markup describing the pencil button that promotes a default to an explicit value"
+                      "description": "[formatted] Markup describing the pencil button that promotes a default to an explicit value"
                     },
                     "stage": {
                       "$ref": "#/definitions/FormattedText",
-                      "description": "Markup describing how phrases can be manipulated on stage"
+                      "description": "[formatted] Markup describing how phrases can be manipulated on stage"
                     },
                     "text": {
                       "$ref": "#/definitions/FormattedText",
-                      "description": "Markup describing the property text field"
+                      "description": "[formatted] Markup describing the property text field"
                     },
                     "unset": {
                       "$ref": "#/definitions/FormattedText",
-                      "description": "Markup describing the X button that removes an explicit value"
+                      "description": "[formatted] Markup describing the X button that removes an explicit value"
                     }
                   },
                   "required": [
@@ -14491,12 +14760,14 @@
                     },
                     "history": {
                       "additionalProperties": false,
-                      "description": "The history switch",
+                      "description": "The history switch toggling between the current edit state and a previous checkpoint",
                       "properties": {
                         "off": {
+                          "description": "[plain] Tooltip for the off (live) state of the history switch",
                           "type": "string"
                         },
                         "on": {
+                          "description": "[plain] Tooltip for the on (viewing history) state of the history switch",
                           "type": "string"
                         }
                       },
@@ -14721,15 +14992,15 @@
                   "properties": {
                     "addSource": {
                       "$ref": "#/definitions/FormattedText",
-                      "description": "Markup describing the add-source button"
+                      "description": "[formatted] Markup describing the add-source button"
                     },
                     "checkpoints": {
                       "$ref": "#/definitions/FormattedText",
-                      "description": "Markup describing the checkpoints/revisions panel"
+                      "description": "[formatted] Markup describing the checkpoints/revisions panel"
                     },
                     "controls": {
                       "$ref": "#/definitions/FormattedText",
-                      "description": "Markup describing the project controls bar overall"
+                      "description": "[formatted] Markup describing the project controls bar overall"
                     },
                     "launch": {
                       "description": "[plain] Tooltip on the help button that opens the tour",
@@ -14737,19 +15008,19 @@
                     },
                     "name": {
                       "$ref": "#/definitions/FormattedText",
-                      "description": "Markup describing the project name field"
+                      "description": "[formatted] Markup describing the project name field"
                     },
                     "share": {
                       "$ref": "#/definitions/FormattedText",
-                      "description": "Markup describing the share dialog button"
+                      "description": "[formatted] Markup describing the share dialog button"
                     },
                     "sourceToggle": {
                       "$ref": "#/definitions/FormattedText",
-                      "description": "Markup describing the source-tile toggles"
+                      "description": "[formatted] Markup describing the source-tile toggles"
                     },
                     "translate": {
                       "$ref": "#/definitions/FormattedText",
-                      "description": "Markup describing the translate button"
+                      "description": "[formatted] Markup describing the translate button"
                     }
                   },
                   "required": [
@@ -15280,12 +15551,14 @@
                   "properties": {
                     "locale": {
                       "additionalProperties": false,
-                      "description": "The locale chooser for a source",
+                      "description": "The locale chooser for a source file",
                       "properties": {
                         "all": {
+                          "description": "[plain] The \"all locales\" option label",
                           "type": "string"
                         },
                         "tip": {
+                          "description": "[plain] Tooltip for the per-source locale chooser",
                           "type": "string"
                         }
                       },
@@ -15338,11 +15611,11 @@
                   "properties": {
                     "editor": {
                       "$ref": "#/definitions/FormattedText",
-                      "description": "Markup describing the editor"
+                      "description": "[formatted] Markup describing the editor"
                     },
                     "expand": {
                       "$ref": "#/definitions/FormattedText",
-                      "description": "Markup describing the expand toggle for advanced tools"
+                      "description": "[formatted] Markup describing the expand toggle for advanced tools"
                     },
                     "launch": {
                       "description": "[plain] Tooltip on the help button that opens the tour",
@@ -15350,15 +15623,15 @@
                     },
                     "shortcuts": {
                       "$ref": "#/definitions/FormattedText",
-                      "description": "Markup describing the keyboard shortcuts dialog trigger"
+                      "description": "[formatted] Markup describing the keyboard shortcuts dialog trigger"
                     },
                     "textBlocks": {
                       "$ref": "#/definitions/FormattedText",
-                      "description": "Markup describing the text/blocks toggle"
+                      "description": "[formatted] Markup describing the text/blocks toggle"
                     },
                     "toolbar": {
                       "$ref": "#/definitions/FormattedText",
-                      "description": "Markup describing the toolbar group of editing actions"
+                      "description": "[formatted] Markup describing the toolbar group of editing actions"
                     }
                   },
                   "required": [
@@ -15436,7 +15709,7 @@
                 },
                 "label": {
                   "additionalProperties": false,
-                  "description": "Tile labels appearing in the project footer tile toggles, except for source files.",
+                  "description": "[plain] Tile labels appearing in the project footer tile toggles, except for source files.",
                   "properties": {
                     "collaborate": {
                       "type": "string"
@@ -15579,15 +15852,15 @@
                   "properties": {
                     "annotations": {
                       "$ref": "#/definitions/FormattedText",
-                      "description": "Markup describing the annotations window"
+                      "description": "[formatted] Markup describing the annotations window"
                     },
                     "editor": {
                       "$ref": "#/definitions/FormattedText",
-                      "description": "Markup describing the editor"
+                      "description": "[formatted] Markup describing the editor"
                     },
                     "history": {
                       "$ref": "#/definitions/FormattedText",
-                      "description": "Markup describing the history slider"
+                      "description": "[formatted] Markup describing the history slider"
                     },
                     "launch": {
                       "description": "[plain] The tooltip on the help button that opens the tour",
@@ -15595,23 +15868,23 @@
                     },
                     "pauseMode": {
                       "$ref": "#/definitions/FormattedText",
-                      "description": "Markup describing pause mode (after pausing)"
+                      "description": "[formatted] Markup describing pause mode (after pausing)"
                     },
                     "playMode": {
                       "$ref": "#/definitions/FormattedText",
-                      "description": "Markup describing play mode (after starting evaluation)"
+                      "description": "[formatted] Markup describing play mode (after starting evaluation)"
                     },
                     "reset": {
                       "$ref": "#/definitions/FormattedText",
-                      "description": "Markup describing the reset evaluation button"
+                      "description": "[formatted] Markup describing the reset evaluation button"
                     },
                     "stepControls": {
                       "$ref": "#/definitions/FormattedText",
-                      "description": "Markup describing the step button controls"
+                      "description": "[formatted] Markup describing the step button controls"
                     },
                     "timeline": {
                       "$ref": "#/definitions/FormattedText",
-                      "description": "Markup describing the entire timeline panel"
+                      "description": "[formatted] Markup describing the entire timeline panel"
                     }
                   },
                   "required": [
@@ -15849,7 +16122,7 @@
           "type": "string"
         },
         "labels": {
-          "description": "A list of modes",
+          "description": "[plain] A list of short labels, one per mode",
           "items": {
             "type": "string"
           },
@@ -15858,7 +16131,7 @@
           "type": "array"
         },
         "tips": {
-          "description": "A list of tips/aria labels for each option",
+          "description": "[plain] A list of tooltip/ARIA descriptions, one per mode",
           "items": {
             "type": "string"
           },
@@ -15882,7 +16155,7 @@
           "type": "string"
         },
         "labels": {
-          "description": "A list of modes",
+          "description": "[plain] A list of short labels, one per mode",
           "items": {
             "type": "string"
           },
@@ -15891,12 +16164,45 @@
           "type": "array"
         },
         "tips": {
-          "description": "A list of tips/aria labels for each option",
+          "description": "[plain] A list of tooltip/ARIA descriptions, one per mode",
           "items": {
             "type": "string"
           },
           "maxItems": 14,
           "minItems": 14,
+          "type": "array"
+        }
+      },
+      "required": [
+        "label",
+        "labels",
+        "tips"
+      ],
+      "type": "object"
+    },
+    "ModeText<[string,string,string,string,string,string,string,string,string,string,string]>": {
+      "additionalProperties": false,
+      "properties": {
+        "label": {
+          "description": "[plain] The tooltip and ARIA-label for the entire mode widget, describing the kind of modes it supports switching to.",
+          "type": "string"
+        },
+        "labels": {
+          "description": "[plain] A list of short labels, one per mode",
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 11,
+          "minItems": 11,
+          "type": "array"
+        },
+        "tips": {
+          "description": "[plain] A list of tooltip/ARIA descriptions, one per mode",
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 11,
+          "minItems": 11,
           "type": "array"
         }
       },
@@ -15915,7 +16221,7 @@
           "type": "string"
         },
         "labels": {
-          "description": "A list of modes",
+          "description": "[plain] A list of short labels, one per mode",
           "items": {
             "type": "string"
           },
@@ -15924,7 +16230,7 @@
           "type": "array"
         },
         "tips": {
-          "description": "A list of tips/aria labels for each option",
+          "description": "[plain] A list of tooltip/ARIA descriptions, one per mode",
           "items": {
             "type": "string"
           },
@@ -15948,7 +16254,7 @@
           "type": "string"
         },
         "labels": {
-          "description": "A list of modes",
+          "description": "[plain] A list of short labels, one per mode",
           "items": {
             "type": "string"
           },
@@ -15957,7 +16263,7 @@
           "type": "array"
         },
         "tips": {
-          "description": "A list of tips/aria labels for each option",
+          "description": "[plain] A list of tooltip/ARIA descriptions, one per mode",
           "items": {
             "type": "string"
           },
@@ -15981,7 +16287,7 @@
           "type": "string"
         },
         "labels": {
-          "description": "A list of modes",
+          "description": "[plain] A list of short labels, one per mode",
           "items": {
             "type": "string"
           },
@@ -15990,7 +16296,7 @@
           "type": "array"
         },
         "tips": {
-          "description": "A list of tips/aria labels for each option",
+          "description": "[plain] A list of tooltip/ARIA descriptions, one per mode",
           "items": {
             "type": "string"
           },
@@ -16014,7 +16320,7 @@
           "type": "string"
         },
         "labels": {
-          "description": "A list of modes",
+          "description": "[plain] A list of short labels, one per mode",
           "items": {
             "type": "string"
           },
@@ -16023,7 +16329,7 @@
           "type": "array"
         },
         "tips": {
-          "description": "A list of tips/aria labels for each option",
+          "description": "[plain] A list of tooltip/ARIA descriptions, one per mode",
           "items": {
             "type": "string"
           },
@@ -16047,7 +16353,7 @@
           "type": "string"
         },
         "labels": {
-          "description": "A list of modes",
+          "description": "[plain] A list of short labels, one per mode",
           "items": {
             "type": "string"
           },
@@ -16056,7 +16362,7 @@
           "type": "array"
         },
         "tips": {
-          "description": "A list of tips/aria labels for each option",
+          "description": "[plain] A list of tooltip/ARIA descriptions, one per mode",
           "items": {
             "type": "string"
           },
@@ -16080,14 +16386,14 @@
           "type": "string"
         },
         "labels": {
-          "description": "A list of modes",
+          "description": "[plain] A list of short labels, one per mode",
           "items": {
             "type": "string"
           },
           "type": "array"
         },
         "tips": {
-          "description": "A list of tips/aria labels for each option",
+          "description": "[plain] A list of tooltip/ARIA descriptions, one per mode",
           "items": {
             "type": "string"
           },
@@ -16189,7 +16495,7 @@
       "properties": {
         "doc": {
           "$ref": "#/definitions/DocText",
-          "description": "Documentation for this definition, to appear in the documentation browser."
+          "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
         },
         "names": {
           "$ref": "#/definitions/NameText",
