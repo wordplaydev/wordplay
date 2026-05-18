@@ -6500,7 +6500,10 @@
                         ]
                     },
                     "expanded": "$~퍼지는",
-                    "limited": "$~제한된"
+                    "limited": "$~제한된",
+                    "expandedOptions": "$~선정된 갤러리의 큐레이터와 제작자들이 이 갤러리의 운영 방식을 볼 수 있도록 하세요.",
+                    "expandedAdd": "$~갤러리를 목록에 추가",
+                    "expandedRemove": "$~목록에서 갤러리를 제거하세요"
                 },
                 "guidingQuestions": {
                     "subheader": {

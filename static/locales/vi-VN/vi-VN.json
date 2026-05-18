@@ -4824,7 +4824,10 @@
                         ]
                     },
                     "expanded": "$~mở rộng",
-                    "limited": "$~giới hạn"
+                    "limited": "$~giới hạn",
+                    "expandedOptions": "$~Hãy để những người phụ trách và người sáng tạo của phòng trưng bày đã chọn xem hướng dẫn sử dụng phòng trưng bày này.",
+                    "expandedAdd": "$~Thêm thư viện ảnh vào danh sách",
+                    "expandedRemove": "$~xóa thư viện ảnh khỏi danh sách"
                 },
                 "guidingQuestions": {
                     "subheader": {

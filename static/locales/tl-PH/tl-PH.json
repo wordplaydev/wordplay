@@ -4827,7 +4827,10 @@
                         ]
                     },
                     "expanded": "$~pinalawak",
-                    "limited": "$~limitado"
+                    "limited": "$~limitado",
+                    "expandedOptions": "$~hayaang makita ng mga curator at tagalikha ng napiling gallery ang mga how-to ng gallery na ito",
+                    "expandedAdd": "$~magdagdag ng gallery sa listahan",
+                    "expandedRemove": "$~alisin ang gallery mula sa listahan"
                 },
                 "guidingQuestions": {
                     "subheader": {

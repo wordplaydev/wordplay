@@ -4798,7 +4798,10 @@
                         ]
                     },
                     "expanded": "$~تم توسيع",
-                    "limited": "$~محدود"
+                    "limited": "$~محدود",
+                    "expandedOptions": "$~دعوا القائمين على المعرض ومنشئيه يطلعون على إرشادات هذا المعرض.",
+                    "expandedAdd": "$~أضف المعرض إلى القائمة",
+                    "expandedRemove": "$~إزالة المعرض من القائمة"
                 },
                 "guidingQuestions": {
                     "subheader": {

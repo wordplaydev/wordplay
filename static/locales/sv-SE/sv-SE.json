@@ -6504,7 +6504,10 @@
                         ]
                     },
                     "expanded": "$~utökad",
-                    "limited": "$~begränsad"
+                    "limited": "$~begränsad",
+                    "expandedOptions": "$~låt kuratorerna och skaparna av det valda galleriet se galleriets instruktioner",
+                    "expandedAdd": "$~lägg till galleriet i listan",
+                    "expandedRemove": "$~ta bort galleriet från listan"
                 },
                 "guidingQuestions": {
                     "subheader": {

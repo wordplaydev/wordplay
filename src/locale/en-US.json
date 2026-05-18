@@ -4825,12 +4825,15 @@
                         "label": "default visibility",
                         "labels": ["limited", "expanded"],
                         "tips": [
-                            "only collaborators of this gallery can view",
-                            "collaborators of any gallery any curator creates can view"
+                            "only collaborators of this gallery can view how-tos",
+                            "collaborators of the galleries you indicate below can view how-tos"
                         ]
                     },
                     "expanded": "expanded",
-                    "limited": "limited"
+                    "limited": "limited",
+                    "expandedOptions": "let the curators and creators of the selected gallery see this gallery's how-tos",
+                    "expandedAdd": "add gallery to list",
+                    "expandedRemove": "remove gallery from list"
                 },
                 "guidingQuestions": {
                     "subheader": {

@@ -6506,7 +6506,10 @@
                         ]
                     },
                     "expanded": "$~erweitert",
-                    "limited": "$~beschränkt"
+                    "limited": "$~beschränkt",
+                    "expandedOptions": "$~Lassen Sie die Kuratoren und Gestalter der ausgewählten Galerie die Anleitungen dieser Galerie einsehen.",
+                    "expandedAdd": "$~Galerie zur Liste hinzufügen",
+                    "expandedRemove": "$~Galerie aus der Liste entfernen"
                 },
                 "guidingQuestions": {
                     "subheader": {

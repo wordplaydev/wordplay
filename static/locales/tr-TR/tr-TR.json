@@ -6503,7 +6503,10 @@
                         ]
                     },
                     "expanded": "$~genişletilmiş",
-                    "limited": "$~sınırlı"
+                    "limited": "$~sınırlı",
+                    "expandedOptions": "$~Seçilen galerinin küratörlerinin ve yaratıcılarının bu galerinin nasıl yapılacağına dair kılavuzları görmelerini sağlayalım.",
+                    "expandedAdd": "$~Galeriyi listeye ekle",
+                    "expandedRemove": "$~Galeriyi listeden kaldır"
                 },
                 "guidingQuestions": {
                     "subheader": {

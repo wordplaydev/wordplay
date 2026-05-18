@@ -6442,7 +6442,10 @@
                         ]
                     },
                     "expanded": "$~擴充",
-                    "limited": "$~有限的"
+                    "limited": "$~有限的",
+                    "expandedOptions": "$~讓選定畫廊的策展人和創作者們看看這個畫廊的操作指南。",
+                    "expandedAdd": "$~將圖庫新增至列表",
+                    "expandedRemove": "$~從清單中移除圖庫"
                 },
                 "guidingQuestions": {
                     "subheader": {

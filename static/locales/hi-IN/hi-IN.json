@@ -6504,7 +6504,10 @@
                         ]
                     },
                     "expanded": "$~विस्तार",
-                    "limited": "$~सीमित"
+                    "limited": "$~सीमित",
+                    "expandedOptions": "$~चयनित गैलरी के क्यूरेटरों और रचनाकारों को इस गैलरी के तौर-तरीकों को देखने दें।",
+                    "expandedAdd": "$~गैलरी को सूची में जोड़ें",
+                    "expandedRemove": "$~सूची से गैलरी हटाएँ"
                 },
                 "guidingQuestions": {
                     "subheader": {

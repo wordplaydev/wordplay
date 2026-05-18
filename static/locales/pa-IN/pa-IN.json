@@ -6500,7 +6500,10 @@
                         ]
                     },
                     "expanded": "$~ਫੈਲਾਇਆ ਗਿਆ",
-                    "limited": "$~ਸੀਮਤ"
+                    "limited": "$~ਸੀਮਤ",
+                    "expandedOptions": "$~ਚੁਣੀ ਗਈ ਗੈਲਰੀ ਦੇ ਕਿਊਰੇਟਰਾਂ ਅਤੇ ਸਿਰਜਣਹਾਰਾਂ ਨੂੰ ਇਸ ਗੈਲਰੀ ਦੇ ਤਰੀਕੇ ਦੇਖਣ ਦਿਓ।",
+                    "expandedAdd": "$~ਸੂਚੀ ਵਿੱਚ ਗੈਲਰੀ ਸ਼ਾਮਲ ਕਰੋ",
+                    "expandedRemove": "$~ਸੂਚੀ ਵਿੱਚੋਂ ਗੈਲਰੀ ਹਟਾਓ"
                 },
                 "guidingQuestions": {
                     "subheader": {
