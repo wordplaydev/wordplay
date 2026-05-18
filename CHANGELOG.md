@@ -9,6 +9,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 ### Added
 
 - There's a new `Hand` input! It uses the camera to check the location of your hand, which fingers are up, how many fingers are up, whether your hand is open or closed, and whether your palm is showing. What a handy input!
+- Added the ability to control which other galleries gallery how-tos are shared with.
 
 ### Changed
 
