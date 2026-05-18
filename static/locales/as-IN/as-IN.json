@@ -4804,9 +4804,9 @@
                     },
                     "expanded": "$~সম্প্ৰসাৰিত",
                     "limited": "$~সীমিত",
-                    "expandedOptions": "$?",
-                    "expandedAdd": "$?",
-                    "expandedRemove": "$?"
+                    "expandedOptions": "$~নিৰ্বাচিত গেলেৰীৰ কিউৰেটৰ আৰু সৃষ্টিকৰ্তাসকলক এই গেলেৰীৰ হাউ-টছ চাবলৈ দিয়ক",
+                    "expandedAdd": "$~তালিকাত গেলেৰী যোগ কৰক",
+                    "expandedRemove": "$~তালিকাৰ পৰা গেলেৰী আঁতৰাই পেলাওক"
                 },
                 "guidingQuestions": {
                     "subheader": {

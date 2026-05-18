@@ -4825,9 +4825,9 @@
                     },
                     "expanded": "$~expandido",
                     "limited": "$~limitado",
-                    "expandedOptions": "$?",
-                    "expandedAdd": "$?",
-                    "expandedRemove": "$?"
+                    "expandedOptions": "$~Permita que os curadores e criadores da galeria selecionada vejam as instruções desta galeria.",
+                    "expandedAdd": "$~Adicionar galeria à lista",
+                    "expandedRemove": "$~Remover galeria da lista"
                 },
                 "guidingQuestions": {
                     "subheader": {

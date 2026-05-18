@@ -6403,9 +6403,9 @@
                     },
                     "expanded": "$~expandido",
                     "limited": "$~limitado",
-                    "expandedOptions": "$?",
-                    "expandedAdd": "$?",
-                    "expandedRemove": "$?"
+                    "expandedOptions": "$~Deje que los curadores y creadores de la galería seleccionada vean las instrucciones de esta galería.",
+                    "expandedAdd": "$~agregar galería a la lista",
+                    "expandedRemove": "$~eliminar galería de la lista"
                 },
                 "guidingQuestions": {
                     "subheader": {

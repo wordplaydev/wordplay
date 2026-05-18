@@ -6417,9 +6417,9 @@
                     },
                     "expanded": "$~genişletilmiş",
                     "limited": "$~sınırlı",
-                    "expandedOptions": "$?",
-                    "expandedAdd": "$?",
-                    "expandedRemove": "$?"
+                    "expandedOptions": "$~Seçilen galerinin küratörlerinin ve yaratıcılarının bu galerinin nasıl yapılacağına dair kılavuzları görmelerini sağlayalım.",
+                    "expandedAdd": "$~Galeriyi listeye ekle",
+                    "expandedRemove": "$~Galeriyi listeden kaldır"
                 },
                 "guidingQuestions": {
                     "subheader": {

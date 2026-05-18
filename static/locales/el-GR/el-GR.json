@@ -4807,9 +4807,9 @@
                     },
                     "expanded": "$~αναπτυγμένος",
                     "limited": "$~περιωρισμένος",
-                    "expandedOptions": "$?",
-                    "expandedAdd": "$?",
-                    "expandedRemove": "$?"
+                    "expandedOptions": "$~αφήστε τους επιμελητές και τους δημιουργούς της επιλεγμένης γκαλερί να δουν τις οδηγίες αυτής της γκαλερί",
+                    "expandedAdd": "$~προσθήκη συλλογής στη λίστα",
+                    "expandedRemove": "$~κατάργηση συλλογής από τη λίστα"
                 },
                 "guidingQuestions": {
                     "subheader": {

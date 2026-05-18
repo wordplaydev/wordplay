@@ -6421,9 +6421,9 @@
                     },
                     "expanded": "$~विस्तारित",
                     "limited": "$~मर्यादित",
-                    "expandedOptions": "$?",
-                    "expandedAdd": "$?",
-                    "expandedRemove": "$?"
+                    "expandedOptions": "$~निवडलेल्या गॅलरीच्या क्युरेटर्सना आणि निर्मात्यांना या गॅलरीची कार्यपद्धती पाहू द्या.",
+                    "expandedAdd": "$~यादीमध्ये गॅलरी जोडा",
+                    "expandedRemove": "$~यादीतून गॅलरी काढून टाका"
                 },
                 "guidingQuestions": {
                     "subheader": {

@@ -6430,9 +6430,9 @@
                     },
                     "expanded": "$~rozszerzony",
                     "limited": "$~ograniczony",
-                    "expandedOptions": "$?",
-                    "expandedAdd": "$?",
-                    "expandedRemove": "$?"
+                    "expandedOptions": "$~pozwól kuratorom i twórcom wybranej galerii zapoznać się z instrukcjami dotyczącymi tej galerii",
+                    "expandedAdd": "$~dodaj galerię do listy",
+                    "expandedRemove": "$~usuń galerię z listy"
                 },
                 "guidingQuestions": {
                     "subheader": {

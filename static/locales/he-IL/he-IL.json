@@ -4825,9 +4825,9 @@
                     },
                     "expanded": "$~מוּרחָב",
                     "limited": "$~מוּגבָּל",
-                    "expandedOptions": "$?",
-                    "expandedAdd": "$?",
-                    "expandedRemove": "$?"
+                    "expandedOptions": "$~אפשרו לאוצרים וליוצרים של הגלריה שנבחרה לראות את הוראות ההפעלה של הגלריה הזו",
+                    "expandedAdd": "$~הוסף גלריה לרשימה",
+                    "expandedRemove": "$~הסר גלריה מהרשימה"
                 },
                 "guidingQuestions": {
                     "subheader": {

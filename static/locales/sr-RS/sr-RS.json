@@ -6421,9 +6421,9 @@
                     },
                     "expanded": "$~проширено",
                     "limited": "$~ограничен",
-                    "expandedOptions": "$?",
-                    "expandedAdd": "$?",
-                    "expandedRemove": "$?"
+                    "expandedOptions": "$~дозволите кустосима и креаторима изабране галерије да виде упутства за ову галерију",
+                    "expandedAdd": "$~додај галерију на листу",
+                    "expandedRemove": "$~уклони галерију са листе"
                 },
                 "guidingQuestions": {
                     "subheader": {

@@ -6417,9 +6417,9 @@
                     },
                     "expanded": "$~拡大",
                     "limited": "$~限定",
-                    "expandedOptions": "$?",
-                    "expandedAdd": "$?",
-                    "expandedRemove": "$?"
+                    "expandedOptions": "$~選ばれたギャラリーのキュレーターやクリエイターに、このギャラリーのハウツーガイドを見せてください。",
+                    "expandedAdd": "$~ギャラリーをリストに追加する",
+                    "expandedRemove": "$~リストからギャラリーを削除する"
                 },
                 "guidingQuestions": {
                     "subheader": {

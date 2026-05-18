@@ -4799,9 +4799,9 @@
                     },
                     "expanded": "$~ವಿಸ್ತರಿಸಲಾಗಿದೆ",
                     "limited": "$~ಸೀಮಿತ",
-                    "expandedOptions": "$?",
-                    "expandedAdd": "$?",
-                    "expandedRemove": "$?"
+                    "expandedOptions": "$~ಆಯ್ಕೆ ಮಾಡಿದ ಗ್ಯಾಲರಿಯ ಮೇಲ್ವಿಚಾರಕರು ಮತ್ತು ಸೃಷ್ಟಿಕರ್ತರು ಈ ಗ್ಯಾಲರಿಯ ಕಾರ್ಯವಿಧಾನವನ್ನು ನೋಡಲಿ.",
+                    "expandedAdd": "$~ಪಟ್ಟಿಗೆ ಗ್ಯಾಲರಿಯನ್ನು ಸೇರಿಸಿ",
+                    "expandedRemove": "$~ಪಟ್ಟಿಯಿಂದ ಗ್ಯಾಲರಿಯನ್ನು ತೆಗೆದುಹಾಕಿ"
                 },
                 "guidingQuestions": {
                     "subheader": {
