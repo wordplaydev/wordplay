@@ -7,13 +7,14 @@ import {
 } from '@locale/SupportedLocales';
 import { withoutAnnotations } from '@locale/withoutAnnotations';
 
-type SystemStrings = {
+type FallbackStrings = {
+    wordplay: string;
     noscript: string;
     unsupportedHeading: string;
     unsupportedBody: string;
 };
 
-const systemByLocale = new Map<string, SystemStrings>();
+const fallbackByLocale = new Map<string, FallbackStrings>();
 
 function getLocaleFilePath(locale: string): string {
     return locale === 'en-US'
@@ -21,14 +22,18 @@ function getLocaleFilePath(locale: string): string {
         : path.join('static', 'locales', locale, `${locale}.json`);
 }
 
-function loadSystem(locale: string): SystemStrings {
-    const cached = systemByLocale.get(locale);
+function loadFallback(locale: string): FallbackStrings {
+    const cached = fallbackByLocale.get(locale);
     if (cached) return cached;
 
     const filePath = getLocaleFilePath(locale);
     const raw = readFileSync(filePath, 'utf8');
-    const parsed = JSON.parse(raw) as { system?: Partial<SystemStrings> };
-    const system: SystemStrings = {
+    const parsed = JSON.parse(raw) as {
+        wordplay?: string;
+        system?: Partial<Omit<FallbackStrings, 'wordplay'>>;
+    };
+    const strings: FallbackStrings = {
+        wordplay: withoutAnnotations(parsed.wordplay ?? ''),
         noscript: withoutAnnotations(parsed.system?.noscript ?? ''),
         unsupportedHeading: withoutAnnotations(
             parsed.system?.unsupportedHeading ?? '',
@@ -42,20 +47,22 @@ function loadSystem(locale: string): SystemStrings {
     // hasn't had `npm run locales-translate` run yet).
     if (
         locale !== 'en-US' &&
-        (!system.noscript ||
-            !system.unsupportedHeading ||
-            !system.unsupportedBody)
+        (!strings.wordplay ||
+            !strings.noscript ||
+            !strings.unsupportedHeading ||
+            !strings.unsupportedBody)
     ) {
-        const fallback = loadSystem('en-US');
-        if (!system.noscript) system.noscript = fallback.noscript;
-        if (!system.unsupportedHeading)
-            system.unsupportedHeading = fallback.unsupportedHeading;
-        if (!system.unsupportedBody)
-            system.unsupportedBody = fallback.unsupportedBody;
+        const fallback = loadFallback('en-US');
+        if (!strings.wordplay) strings.wordplay = fallback.wordplay;
+        if (!strings.noscript) strings.noscript = fallback.noscript;
+        if (!strings.unsupportedHeading)
+            strings.unsupportedHeading = fallback.unsupportedHeading;
+        if (!strings.unsupportedBody)
+            strings.unsupportedBody = fallback.unsupportedBody;
     }
 
-    systemByLocale.set(locale, system);
-    return system;
+    fallbackByLocale.set(locale, strings);
+    return strings;
 }
 
 function pickLocale(param: string | undefined): string {
@@ -77,14 +84,16 @@ function escapeHtml(value: string): string {
 
 export const handle: Handle = async ({ event, resolve }) => {
     const locale = pickLocale(event.params.locale);
-    const system = loadSystem(locale);
-    const noscript = escapeHtml(system.noscript);
-    const unsupportedHeading = escapeHtml(system.unsupportedHeading);
-    const unsupportedBody = escapeHtml(system.unsupportedBody);
+    const strings = loadFallback(locale);
+    const wordplay = escapeHtml(strings.wordplay);
+    const noscript = escapeHtml(strings.noscript);
+    const unsupportedHeading = escapeHtml(strings.unsupportedHeading);
+    const unsupportedBody = escapeHtml(strings.unsupportedBody);
 
     return resolve(event, {
         transformPageChunk: ({ html }) =>
             html
+                .replaceAll('%wordplay.wordplay%', wordplay)
                 .replaceAll('%wordplay.system.noscript%', noscript)
                 .replaceAll(
                     '%wordplay.system.unsupportedHeading%',
