@@ -548,19 +548,13 @@
     </head>
     <body>
         <noscript>
-            <p
-                >Wordplay uses JavaScript. Your browser doesn't support it, or
-                it is disabled.</p
-            >
+            <p>%wordplay.system.noscript%</p>
         </noscript>
         <script src="/scripts/locale-preload.js"></script>
         <div>%sveltekit.body%</div>
         <div id="unsupported" style="display: none; margin: 1em">
-            <h1>Unsupported Browser</h1>
-            <p>
-                Your browser doesn't support critical functionality. To use
-                Wordplay, you'll need to upgrade to a more recent version.</p
-            >
+            <h1>%wordplay.system.unsupportedHeading%</h1>
+            <p>%wordplay.system.unsupportedBody%</p>
         </div>
         <script src="/scripts/unsupported.js"></script>
     </body>

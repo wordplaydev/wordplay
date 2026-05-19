@@ -6679,5 +6679,10 @@
             "name": "$~故事",
             "description": "$~互動故事和敘述。"
         }
+    },
+    "system": {
+        "noscript": "$~Wordplay 使用了 JavaScript。您的瀏覽器不支援 JavaScript，或 JavaScript 已停用。",
+        "unsupportedHeading": "$~不支援的瀏覽器",
+        "unsupportedBody": "$~您的瀏覽器不支援關鍵功能。要使用 Wordplay，您需要升級到更新的版本。"
     }
 }

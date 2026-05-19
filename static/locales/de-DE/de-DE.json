@@ -6745,5 +6745,10 @@
             "name": "$~Geschichten",
             "description": "$~Interaktive Geschichten und Erzählungen."
         }
+    },
+    "system": {
+        "noscript": "$~Wordplay verwendet JavaScript. Ihr Browser unterstützt es nicht oder es ist deaktiviert.",
+        "unsupportedHeading": "$~Nicht unterstützter Browser",
+        "unsupportedBody": "$~Ihr Browser unterstützt wichtige Funktionen nicht. Um Wordplay nutzen zu können, müssen Sie auf eine neuere Version aktualisieren."
     }
 }

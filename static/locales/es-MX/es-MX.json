@@ -6728,5 +6728,10 @@
             "name": "$~Historias",
             "description": "$~Historias y narraciones interactivas."
         }
+    },
+    "system": {
+        "noscript": "$~Wordplay utiliza JavaScript. Tu navegador no lo admite o lo tiene desactivado.",
+        "unsupportedHeading": "$~Navegador no compatible",
+        "unsupportedBody": "$~Tu navegador no es compatible con funciones esenciales. Para usar Wordplay, tendrás que actualizar a una versión más reciente."
     }
 }

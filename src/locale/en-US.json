@@ -6750,5 +6750,10 @@
             "name": "Stories",
             "description": "Interactive stories and narratives."
         }
+    },
+    "system": {
+        "noscript": "Wordplay uses JavaScript. Your browser doesn't support it, or it is disabled.",
+        "unsupportedHeading": "Unsupported Browser",
+        "unsupportedBody": "Your browser doesn't support critical functionality. To use Wordplay, you'll need to upgrade to a more recent version."
     }
 }

@@ -6677,5 +6677,10 @@
             "name": "$~故事",
             "description": "$~互动故事和叙述。"
         }
+    },
+    "system": {
+        "noscript": "$~Wordplay 使用了 JavaScript。您的浏览器不支持 JavaScript，或者 JavaScript 已被禁用。",
+        "unsupportedHeading": "$~不支持的浏览器",
+        "unsupportedBody": "$~您的浏览器不支持关键功能。要使用 Wordplay，您需要升级到更新的版本。"
     }
 }

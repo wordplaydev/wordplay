@@ -6746,5 +6746,10 @@
             "name": "$~Histoires",
             "description": "$~Histoires et récits interactifs."
         }
+    },
+    "system": {
+        "noscript": "$~Wordplay utilise JavaScript. Votre navigateur ne le prend pas en charge ou cette fonctionnalité est désactivée.",
+        "unsupportedHeading": "$~Navigateur non pris en charge",
+        "unsupportedBody": "$~Votre navigateur ne prend pas en charge certaines fonctionnalités essentielles. Pour utiliser Wordplay, vous devez le mettre à jour vers une version plus récente."
     }
 }

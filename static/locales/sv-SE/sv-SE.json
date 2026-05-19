@@ -6743,5 +6743,10 @@
             "name": "$~Berättelser",
             "description": "$~Interaktiva berättelser och berättelser."
         }
+    },
+    "system": {
+        "noscript": "$~Wordplay använder JavaScript. Din webbläsare stöder det inte, eller så är det inaktiverat.",
+        "unsupportedHeading": "$~Webbläsare som inte stöds",
+        "unsupportedBody": "$~Din webbläsare stöder inte viktiga funktioner. För att använda Wordplay måste du uppgradera till en nyare version."
     }
 }

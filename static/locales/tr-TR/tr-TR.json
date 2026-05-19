@@ -6742,5 +6742,10 @@
             "name": "$~Hikayeler",
             "description": "$~Etkileşimli hikayeler ve anlatılar."
         }
+    },
+    "system": {
+        "noscript": "$~Wordplay JavaScript kullanıyor. Tarayıcınız JavaScript'i desteklemiyor veya devre dışı bırakılmış.",
+        "unsupportedHeading": "$~Desteklenmeyen Tarayıcı",
+        "unsupportedBody": "$~Tarayıcınız kritik işlevleri desteklemiyor. Wordplay'i kullanmak için daha yeni bir sürüme yükseltmeniz gerekecek."
     }
 }

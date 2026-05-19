@@ -6753,5 +6753,10 @@
             "name": "$~MgaKwento",
             "description": "$~Mga interaktibong kwento at salaysay."
         }
+    },
+    "system": {
+        "noscript": "$~Gumagamit ang Wordplay ng JavaScript. Hindi ito sinusuportahan ng iyong browser, o hindi ito pinagana.",
+        "unsupportedHeading": "$~Hindi Sinusuportahang Browser",
+        "unsupportedBody": "$~Hindi sinusuportahan ng iyong browser ang mahahalagang functionality. Para magamit ang Wordplay, kakailanganin mong mag-upgrade sa mas bagong bersyon."
     }
 }

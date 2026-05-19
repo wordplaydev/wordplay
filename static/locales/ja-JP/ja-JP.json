@@ -6739,5 +6739,10 @@
             "name": "$~ストーリー",
             "description": "$~インタラクティブなストーリーと物語。"
         }
+    },
+    "system": {
+        "noscript": "$~WordplayはJavaScriptを使用しています。お使いのブラウザはJavaScriptをサポートしていないか、無効になっています。",
+        "unsupportedHeading": "$~サポートされていないブラウザ",
+        "unsupportedBody": "$~お使いのブラウザは重要な機能をサポートしていません。Wordplayを使用するには、より新しいバージョンにアップグレードする必要があります。"
     }
 }

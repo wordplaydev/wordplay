@@ -6739,5 +6739,10 @@
             "name": "$~스토리",
             "description": "$~대화형 스토리와 내러티브."
         }
+    },
+    "system": {
+        "noscript": "$~Wordplay는 JavaScript를 사용합니다. 사용하시는 브라우저에서 JavaScript를 지원하지 않거나 비활성화되어 있습니다.",
+        "unsupportedHeading": "$~지원되지 않는 브라우저",
+        "unsupportedBody": "$~현재 사용 중인 브라우저는 필수 기능을 지원하지 않습니다. Wordplay를 사용하려면 최신 버전으로 업그레이드해야 합니다."
     }
 }

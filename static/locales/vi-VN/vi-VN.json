@@ -6746,5 +6746,10 @@
             "name": "$~Nhữngcâuchuyện",
             "description": "$~Những câu chuyện và lời kể tương tác."
         }
+    },
+    "system": {
+        "noscript": "$~Wordplay sử dụng JavaScript. Trình duyệt của bạn không hỗ trợ hoặc đã tắt JavaScript.",
+        "unsupportedHeading": "$~Trình duyệt không được hỗ trợ",
+        "unsupportedBody": "$~Trình duyệt của bạn không hỗ trợ một số chức năng quan trọng. Để sử dụng Wordplay, bạn cần nâng cấp lên phiên bản mới hơn."
     }
 }

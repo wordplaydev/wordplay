@@ -6755,5 +6755,10 @@
             "name": "$~Historie",
             "description": "$~Interaktywne historie i narracje."
         }
+    },
+    "system": {
+        "noscript": "$~Wordplay korzysta z JavaScript. Twoja przeglądarka go nie obsługuje lub jest wyłączony.",
+        "unsupportedHeading": "$~Nieobsługiwana przeglądarka",
+        "unsupportedBody": "$~Twoja przeglądarka nie obsługuje kluczowych funkcji. Aby korzystać z Wordplay, musisz zaktualizować ją do nowszej wersji."
     }
 }

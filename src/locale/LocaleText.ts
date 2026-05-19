@@ -51,6 +51,15 @@ export type LocaleText = {
     gallery: GalleryTexts;
     /** Text related to content moderation */
     moderation: ModerationTexts;
+    /** Pre-mount fallback strings shown in app.html before the app loads. */
+    system: {
+        /** [plain] Shown in <noscript> when JavaScript is disabled or unsupported. */
+        noscript: string;
+        /** [plain] Heading shown when the browser lacks required features. */
+        unsupportedHeading: string;
+        /** [plain] Body shown when the browser lacks required features. */
+        unsupportedBody: string;
+    };
 };
 
 export { type LocaleText as default };
