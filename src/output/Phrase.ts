@@ -233,8 +233,12 @@ export default class Phrase extends Output {
             const isCharacter = formatted.text.startsWith(LINK_SYMBOL);
             // If it is a custom character, treat it like the letter 'e' for measurement purposes.
             const textToMeasure = isCharacter ? '@' : formatted.text;
-            // Split the text by spaces and measure each space separated chunk.
-            for (const segment of segmentWraps(textToMeasure)) {
+            // Segment the text into wrap candidates using locale-aware
+            // word segmentation, then measure each segment.
+            for (const segment of segmentWraps(
+                textToMeasure,
+                context.locales.getLocaleString(),
+            )) {
                 const metrics = getTextMetrics(
                     // Choose the description with the preferred language.
                     segment,
