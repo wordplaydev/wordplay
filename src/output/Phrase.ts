@@ -83,7 +83,9 @@ export function createPhraseType(locales: Locales) {
         ${getBind(locales, (locale) => locale.output.Phrase.style)}•${locales
             .getLocales()
             .map((locale) =>
-                Object.values(locale.output.Easing).map((id) => `"${id}"`),
+                Object.values(locale.output.Easing).map(
+                    (id) => `"${id}"/${locale.language}`,
+                ),
             )
             .flat()
             .join('|')}: "${DefaultStyle}"

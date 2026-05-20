@@ -54,7 +54,11 @@ export default class Input extends Node {
         );
     }
 
-    static getPossibleReplacements({ node, context }: ReplaceContext) {
+    static getPossibleReplacements({
+        node,
+        context,
+        locales,
+    }: ReplaceContext) {
         if (!(node instanceof Input)) return [];
         const parent = node.getParent(context);
         if (!(parent instanceof Evaluate)) return [];
@@ -63,7 +67,7 @@ export default class Input extends Node {
         if (expected === undefined) return [];
         const types =
             expected.type instanceof UnionType
-                ? expected.type.enumerate()
+                ? expected.type.getLocalizedTypes(locales, context)
                 : expected.type
                   ? [expected.type]
                   : undefined;

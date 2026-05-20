@@ -476,7 +476,7 @@
                 },
                 "IncompatibleType": {
                     "name": "incompatible type",
-                    "explanation": "I'm supposed to be type $2, but I'm type $1",
+                    "explanation": "I expected $1, but received type $2",
                     "resolution": "Convert to $1"
                 },
                 "MisplacedShare": {
@@ -716,7 +716,7 @@
             "conflict": {
                 "IncompatibleInput": {
                     "name": "incompatible input",
-                    "explanation": "I'm supposed to be type $1, but I'm type $2",
+                    "explanation": "I expected $1, but received $2",
                     "resolution": "Convert to $1"
                 },
                 "UnexpectedTypeInput": {
@@ -889,7 +889,7 @@
             "exception": {
                 "TypeException": {
                     "description": "incompatible values",
-                    "explanation": "I expected type $1 but received type $2"
+                    "explanation": "I expected $1, but received $2"
                 }
             }
         },
@@ -1622,7 +1622,7 @@
         },
         "TextType": {
             "name": "text",
-            "description": "type a $1[$1|text] value",
+            "description": "$1['$1'|text]",
             "emotion": "happy",
             "doc": [
                 "I fabulously represent the most fabulous kind of value there is, @Text.",
@@ -1637,7 +1637,7 @@
         },
         "UnionType": {
             "name": "option",
-            "description": "type either $1 or $2",
+            "description": "one of $1 or $2",
             "emotion": "curious",
             "doc": [
                 "Who should I represent, A or B or something else? I can never decide!",

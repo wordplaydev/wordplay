@@ -64,10 +64,17 @@ export default class ExpressionPlaceholder extends SimpleExpression {
         );
     }
 
-    static getPossibleReplacements({ node, context }: ReplaceContext) {
+    static getPossibleReplacements({
+        node,
+        context,
+        locales,
+    }: ReplaceContext) {
         if (!(node instanceof ExpressionPlaceholder)) return [];
         const type = node.computeType(context);
-        const types = type instanceof UnionType ? type.enumerate() : [type];
+        const types =
+            type instanceof UnionType
+                ? type.getLocalizedTypes(locales, context)
+                : [type];
         return types
             .map((t) => t.getDefaultExpression(context))
             .filter((e): e is Exclude<typeof e, undefined> => e !== undefined);

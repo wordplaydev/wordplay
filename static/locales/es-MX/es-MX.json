@@ -1605,7 +1605,7 @@
         },
         "UnionType": {
             "name": "tipo de opción",
-            "description": "$1 | $2",
+            "description": "$1 o $2",
             "emotion": "curious",
             "doc": [
                 "¿A quién debería representar, A o B o algo más? ¡Nunca puedo decidir!",

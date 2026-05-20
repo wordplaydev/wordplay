@@ -10,6 +10,10 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 - We made `Phrase` word wrapping locale specific (#164).
 
+### Fixed
+
+- We fixed problems with how text types with multiple options are shown as conflicts, especially with output animation styles (#541).
+
 ## 0.18.0 - 2026-05-15
 
 ### Added

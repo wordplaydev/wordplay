@@ -58,7 +58,9 @@ export function createGroupType(locales: Locales) {
     ${getBind(locales, (locale) => locale.output.Group.style)}•${locales
         .getLocales()
         .map((locale) =>
-            Object.values(locale.output.Easing).map((id) => `"${id}"`),
+            Object.values(locale.output.Easing).map(
+                (id) => `"${id}"/${locale.language}`,
+            ),
         )
         .flat()
         .join('|')}: "${DefaultStyle}"

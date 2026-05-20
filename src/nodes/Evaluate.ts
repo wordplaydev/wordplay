@@ -49,7 +49,6 @@ import NameType from '@nodes/NameType';
 import NeverType from '@nodes/NeverType';
 import type Node from '@nodes/Node';
 import { any, list, node, none, type Grammar, type Replacement } from '@nodes/Node';
-import NoExpressionType from '@nodes/NoExpressionType';
 import { NonFunctionType } from '@nodes/NonFunctionType';
 import PropertyReference from '@nodes/PropertyReference';
 import Reference from '@nodes/Reference';
@@ -585,14 +584,18 @@ export default class Evaluate extends Expression {
                 );
 
                 // Figure out what type this expected input is. Resolve any type variables to concrete values.
-                if (given instanceof Expression) {
+                if (given instanceof Expression || given instanceof Input) {
                     // Don't rely on the bind's specified type, since it's not a reliable source of type information. Ask it's value directly.
-                    const givenType =
-                        given instanceof Input
-                            ? (given.value?.getType(context) ??
-                              new NoExpressionType(given))
-                            : given.getType(context);
-                    if (!expectedType.accepts(givenType, context, given))
+                    const valueExpression =
+                        given instanceof Input ? given.value : given;
+                    const givenType = valueExpression.getType(context);
+                    if (
+                        !expectedType.accepts(
+                            givenType,
+                            context,
+                            valueExpression,
+                        )
+                    )
                         conflicts.push(
                             new IncompatibleInput(
                                 given,
