@@ -1,9 +1,9 @@
+import type { PermissionName } from '@input/permissions';
 import type Locales from '@locale/Locales';
 import type { ExceptionText } from '@locale/NodeTexts';
 import type Expression from '@nodes/Expression';
 import type Evaluator from '@runtime/Evaluator';
 import ExceptionValue from '@values/ExceptionValue';
-import type { PermissionName } from '@input/permissions';
 
 export default class PermissionException extends ExceptionValue {
     readonly permission: PermissionName;
