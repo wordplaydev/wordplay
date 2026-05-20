@@ -31,17 +31,27 @@ export default class Start extends Step {
 
 export function start(evaluator: Evaluator, expr: Expression) {
     // This expression should be identical to that in Finish.finish().
-    // If this expression is 1) constant or not dependent on a reaction's streams and 2) it has a latest value, skip evaluating it.
-    // Finish.finish() will return the latest value and process any side effects.
-    if (
-        shouldSkip(evaluator, expr) &&
-        evaluator.getLatestExpressionValue(expr)
-    ) {
+    // If this expression is 1) constant or not dependent on a reaction's streams and 2) it has a previously stored value, skip evaluating it.
+    // Finish.finish() will return that stored value and process any side effects.
+    // We check for ANY stored value (not filtered by current stepIndex), because Start and Finish must
+    // agree on whether to skip — otherwise inner inputs get pushed onto the value stack but never popped,
+    // corrupting later evaluations. shouldSkip already guarantees the expression is effectively constant in this context.
+    if (shouldSkip(evaluator, expr) && hasStoredValue(evaluator, expr)) {
         // Ask the evaluator to jump past this start's corresponding finish.
         evaluator.jumpPast(expr);
     }
 
     return undefined;
+}
+
+export function hasStoredValue(evaluator: Evaluator, expr: Expression) {
+    const list = evaluator.values.get(expr);
+    return list !== undefined && list.length > 0 && list[list.length - 1].value !== undefined;
+}
+
+export function getStoredValue(evaluator: Evaluator, expr: Expression) {
+    const list = evaluator.values.get(expr);
+    return list !== undefined && list.length > 0 ? list[list.length - 1].value : undefined;
 }
 
 export function shouldSkip(evaluator: Evaluator, expr: Expression) {

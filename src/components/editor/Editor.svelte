@@ -1787,6 +1787,20 @@
         outlineRevision++;
     }
 
+    // While paused/stepping, each step can add or change the value rendered
+    // inline next to an expression in NodeView, which shifts the layout.
+    // Neither the source nor the highlight set changes, so the conflict
+    // underline outlines would otherwise stay at their pre-step positions.
+    // Refresh on every evaluator broadcast (it fires once per step) while not
+    // playing. During play the !playing guard keeps this cheap.
+    // Untrack the call: refreshHighlights does `outlineRevision++`, whose
+    // implicit read would otherwise register outlineRevision as a dep of this
+    // effect and the subsequent write would re-trigger us — infinite loop.
+    $effect(() => {
+        if ($evaluation !== undefined && !$evaluation.playing)
+            untrack(refreshHighlights);
+    });
+
     // Re-measure outlines when an ancestor of the editor finishes a CSS
     // animation. Matters for the editor inside ExampleUI: its container
     // paragraph in MarkupHTMLView animates from transform: scaleY(0) to

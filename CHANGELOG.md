@@ -19,6 +19,9 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - We fixed problems with how text types with multiple options are shown as conflicts, especially with output animation styles (#541).
 - We fixed a few font face weight availability problems (#1026).
 - Now when a @Match or @Conditional references a stream in its case, then, or else, the the stream starts even when it's not referenced in the condition (#679).
+- We fixed the debugger so you can now step through anonymous functions and see each step as you go, instead of getting a confusing missing value error (#680).
+- We fixed a false conflict that appeared on anonymous functions in expressions like `[1 2 3 4].translate(ƒ(a) a + 1)`, even when the code was fine.
+- We fixed the conflict underlines so they follow the code when values pop in next to expressions while stepping through the debugger.
 
 ## 0.18.0 - 2026-05-15
 
