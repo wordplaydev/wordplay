@@ -4,6 +4,12 @@ We'll note all notable changes in this file, including bug fixes, enhancements, 
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 These notes are publicly posted in [production](https://wordplay.dev/updates), so we write them to an audience of teachers and youth.
 
+## 0.18.1 - 2026-05-19
+
+### Changed
+
+- We made `Phrase` word wrapping locale specific (#164).
+
 ## 0.18.0 - 2026-05-15
 
 ### Added
