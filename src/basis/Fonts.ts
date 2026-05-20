@@ -1,5 +1,3 @@
-import { OR_SYMBOL } from '@parser/Symbols';
-import { writable } from 'svelte/store';
 import type LocaleText from '@locale/LocaleText';
 import {
     Latin,
@@ -7,6 +5,8 @@ import {
     Scripts,
     type Script,
 } from '@locale/Scripts';
+import { OR_SYMBOL } from '@parser/Symbols';
+import { writable } from 'svelte/store';
 
 export type FontWeight = 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900;
 export type FontWeightRange = { min: FontWeight; max: FontWeight };
@@ -313,7 +313,7 @@ export const Faces: Record<string, Face> = {
         format: 'woff2',
     },
     Merriweather: {
-        weights: { min: 300, max: 700 },
+        weights: { min: 300, max: 900 },
         italic: true,
         scripts: Latin,
         format: 'ttf',
@@ -452,6 +452,13 @@ export const Faces: Record<string, Face> = {
     },
 };
 
+/** True if the face's metadata declares support for the given weight. */
+export function faceSupportsWeight(face: Face, weight: FontWeight): boolean {
+    return Array.isArray(face.weights)
+        ? face.weights.includes(weight)
+        : weight >= face.weights.min && weight <= face.weights.max;
+}
+
 /** The font face names supported. To add one, carefully add metadata to Faces and files to /static/fonts/. */
 export type SupportedFace = keyof typeof Faces;
 
@@ -476,6 +483,11 @@ export class FontManager {
     /** A cache of font strings for which FontFaceSet.check() returned true */
     facesChecked = new Set<string>();
 
+    /** Faces for which a lightweight single-file preview FontFace has been
+     * registered with document.fonts. Tracked separately from facesLoaded so
+     * that a later loadFace() call still performs the full multi-weight load. */
+    previewedFaces = new Set<SupportedFace>();
+
     constructor() {
         // Mark these as loaded so we don't redundantly load them.
         for (const face of this.defaultFaces)
@@ -485,17 +497,10 @@ export class FontManager {
     /** Returns true if the given font spec appears in SupportedFonts */
     getSupportedFace(font: Font) {
         const candidate = Faces[font.name];
-        return (
-            // All of the requested weights are supported
-            (Array.isArray(candidate.weights)
-                ? candidate.weights.includes(font.weight)
-                : font.weight >= candidate.weights.min &&
-                  font.weight <= candidate.weights.max) &&
-                // If italics are requested, they are available
-                (font.italic === false || candidate.italic)
-                ? candidate
-                : undefined
-        );
+        return faceSupportsWeight(candidate, font.weight) &&
+            (font.italic === false || candidate.italic)
+            ? candidate
+            : undefined;
     }
 
     isFaceRequested(face: SupportedFace) {
@@ -567,29 +572,33 @@ export class FontManager {
                         ),
                     ];
             }
-            // If it's a variable weight font, load all of the range files.
+            // If it's a variable weight font, load the range file(s) — and the
+            // italic range file(s) too if the face supports italics.
             else {
-                if (ranges === undefined)
-                    promises.push(
-                        this.loadFont({
-                            name: name,
-                            weight: face.weights.min,
-                            italic: face.italic,
-                            format: face.format,
-                            range: undefined,
-                        }),
-                    );
-                else {
-                    for (const range of ranges)
+                const italicVariants = face.italic ? [false, true] : [false];
+                for (const ital of italicVariants) {
+                    if (ranges === undefined)
                         promises.push(
                             this.loadFont({
                                 name: name,
                                 weight: face.weights.min,
-                                italic: face.italic,
+                                italic: ital,
                                 format: face.format,
-                                range: range,
+                                range: undefined,
                             }),
                         );
+                    else {
+                        for (const range of ranges)
+                            promises.push(
+                                this.loadFont({
+                                    name: name,
+                                    weight: face.weights.min,
+                                    italic: ital,
+                                    format: face.format,
+                                    range: range,
+                                }),
+                            );
+                    }
                 }
             }
         } else {
@@ -641,10 +650,13 @@ export class FontManager {
         return promises;
     }
 
-    async loadFont(font: Font): Promise<boolean> {
+    /** Build and register a single FontFace from a Font descriptor.
+     * Returns the FontFace (whose .load() the caller may await/observe) or
+     * null if not in a browser, or the descriptor isn't supported. */
+    private registerFontFace(font: Font): FontFace | null {
         // Don't try to add if not in a browser yet.
         if (typeof document === 'undefined' || typeof FontFace === 'undefined')
-            return false;
+            return null;
 
         // See if we support this font
         const supportedFace = this.getSupportedFace(font);
@@ -652,7 +664,7 @@ export class FontManager {
         // If the requested font isn't supported, don't load it.
         if (supportedFace === undefined) {
             console.error(`${font.name} not supported`);
-            return false;
+            return null;
         }
 
         // If there's a rannge, figure out of the index of the range.
@@ -667,13 +679,9 @@ export class FontManager {
             font.name,
             `url(/fonts/${spacelessFontName}/${spacelessFontName}-${
                 Array.isArray(supportedFace.weights) ? font.weight : 'all'
-            }${
-                font.italic && Array.isArray(supportedFace.weights)
-                    ? '-italic'
-                    : ''
-            }${rangeIndex !== undefined ? `-${rangeIndex}` : ''}.${
-                supportedFace.format
-            }`,
+            }${font.italic ? '-italic' : ''}${
+                rangeIndex !== undefined ? `-${rangeIndex}` : ''
+            }.${supportedFace.format}`,
             {
                 ...{
                     style: font.italic ? 'italic' : 'normal',
@@ -685,6 +693,12 @@ export class FontManager {
             },
         );
         document.fonts.add(fontFace);
+        return fontFace;
+    }
+
+    async loadFont(font: Font): Promise<boolean> {
+        const fontFace = this.registerFontFace(font);
+        if (fontFace === null) return false;
         // Load the font face and update the loaded set when done.
         // This ensures we update any font dependent measurements that depend on this store.
         fontFace.load().then(() => {
@@ -693,6 +707,58 @@ export class FontManager {
         });
 
         return true;
+    }
+
+    /** Load a single lightweight file for the face so choosers
+     * can show its name in its own glyphs without triggering a full
+     * multi-weight load. Picks weight 400 (or the closest supported), no
+     * italics, and the Latin unicode range when the face is range-subset.
+     * No-ops if the face is already fully loaded, already preview-loaded,
+     * or has no Latin range available. */
+    loadFaceForPreview(name: SupportedFace): void {
+        // Already fully loaded or previewed? Nothing to do.
+        if (this.facesLoaded.get(name) === 'loaded') return;
+        if (this.previewedFaces.has(name)) return;
+
+        const face = Faces[name];
+        if (face === undefined) return;
+        if (face.preloaded === true) return;
+
+        // Pick the lightest weight the face supports — prefer 400.
+        const weight: FontWeight = Array.isArray(face.weights)
+            ? face.weights.includes(400)
+                ? 400
+                : face.weights[0]
+            : face.weights.min <= 400 && 400 <= face.weights.max
+              ? 400
+              : face.weights.min;
+
+        // For multi-range subset fonts, find the Latin range — the face name
+        // is in Latin glyphs, so any other range wouldn't render it.
+        let range: string | undefined;
+        if (Array.isArray(face.ranges)) {
+            const latinRange = face.ranges.find((r) =>
+                r.includes('U+0000-00FF'),
+            );
+            // No Latin range means we can't render the name in this face's
+            // own glyphs anyway — skip the preview load entirely.
+            if (latinRange === undefined) return;
+            range = latinRange;
+        } else {
+            range = face.ranges;
+        }
+
+        // Mark as previewed up front so concurrent visibility callbacks
+        // don't double-register the same FontFace.
+        this.previewedFaces.add(name);
+
+        this.registerFontFace({
+            name,
+            weight,
+            italic: false,
+            format: face.format,
+            range,
+        });
     }
 }
 

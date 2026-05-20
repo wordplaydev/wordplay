@@ -549,6 +549,11 @@
         /* This disables translation around the center; we want to translate around the focus.*/
         transform-origin: 0 0;
 
+        /* Don't let the browser synthesize weight or italic when the face
+           doesn't ship the requested style — fall back to the closest real
+           glyph instead. See issue #1026. */
+        font-synthesis: none;
+
         pointer-events: none;
     }
 

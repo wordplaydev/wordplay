@@ -6,6 +6,10 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 ## 0.18.1 - 2026-05-19
 
+### Added
+
+- We finally added font face previews! Now you don't have to click to see what a font looks like.
+
 ### Changed
 
 - We made `Phrase` word wrapping locale specific (#164).
@@ -13,6 +17,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 ### Fixed
 
 - We fixed problems with how text types with multiple options are shown as conflicts, especially with output animation styles (#541).
+- We fixed a few font face weight availability problems (#1026).
 
 ## 0.18.0 - 2026-05-15
 
