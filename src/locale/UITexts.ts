@@ -124,6 +124,8 @@ type UITexts = {
             /** [plain] The highlight line of code button (👀) */
             attention: string;
         };
+        /** [plain] The back to top link label */
+        backtotop: string;
     };
     /** Controls for the tiled windows in the project */
     tile: {

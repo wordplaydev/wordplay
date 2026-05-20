@@ -16,6 +16,7 @@
     import Emoji from '@components/app/Emoji.svelte';
     import Link from '@components/app/Link.svelte';
     import { localeGoto } from '@util/localeGoto';
+    import { onMount } from 'svelte';
 
     interface Props {
         children: Snippet;
@@ -23,6 +24,27 @@
     }
 
     let { children, footer = true }: Props = $props();
+
+    let scrollY = $state(0);
+    let showBackToTop = $derived(
+        typeof window !== 'undefined' && scrollY > window.innerHeight,
+    );
+    let scrollContainer: HTMLElement | null = null;
+
+    function scrollToTop() {
+        scrollContainer?.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    onMount(() => {
+        scrollContainer = document.querySelector('main');
+        if (scrollContainer) {
+            const handler = () => {
+                scrollY = scrollContainer!.scrollTop;
+            };
+            scrollContainer.addEventListener('scroll', handler);
+            return () => scrollContainer!.removeEventListener('scroll', handler);
+        }
+    });
 
     // Set a fullscreen flag to indicate whether footer should hide or not.
     // It's the responsibility of children componets to set this based on their state.
@@ -70,6 +92,11 @@
     <main>
         {@render children()}
     </main>
+    {#if showBackToTop && page.route.id !== '/[[locale]]'}
+        <button class="backtotop" onclick={scrollToTop}>
+            <LocalizedText path={(l) => l.ui.widget.backtotop} />
+        </button>
+    {/if}
     <footer class:fullscreen={$fullscreen.on}>
         <nav>
             {#if footer}
@@ -203,5 +230,18 @@
         align-items: center;
         padding: var(--wordplay-spacing-half);
         gap: var(--wordplay-spacing);
+    }
+
+    .backtotop {
+        position: fixed;
+        bottom: 4rem;
+        inset-inline-end: 2rem;
+        background: var(--wordplay-background);
+        border: var(--wordplay-border-width) solid var(--wordplay-border-color);
+        border-radius: var(--wordplay-border-radius);
+        cursor: pointer;
+        font: inherit;
+        color: inherit;
+        padding: var(--wordplay-spacing);
     }
 </style>

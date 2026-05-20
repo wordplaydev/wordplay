@@ -58,8 +58,6 @@
         nextBatch();
     });
 
-    const BATCH_SIZE = 5;
-
     async function nextBatch() {
         if (firestore === undefined) return firestore;
         const first = lastBatch
@@ -69,14 +67,14 @@
                   orderBy('featured'),
                   orderBy('id'),
                   startAfter(lastBatch),
-                  limit(BATCH_SIZE),
+                  limit(5),
               )
             : query(
                   collection(firestore, GalleriesCollection),
                   where('public', '==', true),
                   orderBy('featured'),
                   orderBy('id'),
-                  limit(BATCH_SIZE),
+                  limit(5),
               );
         const documentSnapshots = await getDocs(first);
 
@@ -96,20 +94,6 @@
     }
 
     let galleries = $derived([...loadedGalleries]);
-
-    let visibleCount = $state(BATCH_SIZE);
-    let displayedGalleries = $derived(galleries.slice(0, visibleCount));
-
-    async function showMore() {
-        visibleCount += BATCH_SIZE;
-        if (visibleCount > galleries.length && lastBatch) {
-            await nextBatch();
-        }
-    }
-
-    function showLess() {
-        visibleCount = BATCH_SIZE;
-    }
 
     // Search functionality for example gallery projects
     let searchTerm = $state('');
@@ -259,30 +243,20 @@
     {:else}
         <div class="public">
             <div class="previews">
-                {#each displayedGalleries as gallery, index}
+                {#each galleries as gallery, index}
                     <div class="preview">
                         <GalleryPreview {gallery} delay={index * 250} />
                     </div>
                 {/each}
             </div>
-            <div class="batch-controls">
-                {#if lastBatch || visibleCount < galleries.length}
-                    <Button
-                        background
-                        tip={(l) => l.ui.page.galleries.button.more.tip}
-                        action={showMore}
-                        label={(l) => l.ui.page.galleries.button.more.label}
-                    />
-                {/if}
-                {#if visibleCount > BATCH_SIZE}
-                    <Button
-                        background
-                        tip={(l) => l.ui.page.galleries.button.less.tip}
-                        action={showLess}
-                        label={(l) => l.ui.page.galleries.button.less.label}
-                    />
-                {/if}
-            </div>
+            {#if lastBatch}
+                <Button
+                    background
+                    tip={(l) => l.ui.page.galleries.button.more.tip}
+                    action={nextBatch}
+                    label={(l) => l.ui.page.galleries.button.more.label}
+                />
+            {/if}
         </div>
     {/if}
 </Writing>
@@ -299,12 +273,6 @@
         display: flex;
         flex-direction: column;
         gap: 1rem;
-    }
-
-    .batch-controls {
-        display: flex;
-        flex-direction: row;
-        gap: var(--wordplay-spacing);
     }
 
     .preview {

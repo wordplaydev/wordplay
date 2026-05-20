@@ -4399,7 +4399,8 @@
                 "highlight": "highlight example",
                 "bullet": "bullet",
                 "attention": "highlight this expression"
-            }
+            },
+            "backtotop": "back to top"
         },
         "tile": {
             "toggle": {
@@ -5990,10 +5991,6 @@
                     "more": {
                         "label": "more...",
                         "tip": "load more galleries"
-                    },
-                    "less": {
-                        "label": "show less",
-                        "tip": "collapse to fewer galleries"
                     }
                 },
                 "error": {
