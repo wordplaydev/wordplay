@@ -154,6 +154,14 @@ export default class ProjectsDatabase {
         if (current) current.delete(listener);
     }
 
+    /** Stop listening to this user's realtime project query. Safe to call when no query is active. */
+    unmount() {
+        if (this.projectsQueryUnsubscribe) {
+            this.projectsQueryUnsubscribe();
+            this.projectsQueryUnsubscribe = undefined;
+        }
+    }
+
     async deserializeAll(serialized: unknown[]) {
         // Load all of the projects and their locale dependencies.
         return (

@@ -199,7 +199,11 @@ export class Database {
         if (this.authUnsubscribe) this.authUnsubscribe();
         if (this.authRefreshUnsubscribe) this.authRefreshUnsubscribe();
 
+        this.Projects.unmount();
         this.Galleries.clean();
+        this.Chats.ignore();
+        this.Characters.ignore();
+        this.HowTos.ignore();
     }
 
     /** Delete account, including all projects, settings, and user. */

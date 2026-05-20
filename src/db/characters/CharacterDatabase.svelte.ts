@@ -66,7 +66,7 @@ export class CharactersDatabase {
         if (user) this.listen(firestore, user);
     }
 
-    private ignore() {
+    ignore() {
         if (this.unsubscribe) this.unsubscribe();
     }
 
