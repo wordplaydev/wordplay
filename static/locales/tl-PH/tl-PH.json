@@ -1070,6 +1070,10 @@
                 "InternalException": {
                     "description": "$~panloob na pagkakamali",
                     "explanation": "$~may nangyaring napakasama sa loob: $1"
+                },
+                "PermissionException": {
+                    "description": "$?",
+                    "explanation": "$?"
                 }
             }
         },
@@ -5072,6 +5076,14 @@
                 "grid": "$~Ang buton na /grid/ ay nagpapakita ng *grid* sa entablado, na nakakatulong para sa eksaktong paglalagay ng mga bagay habang nagdidisenyo ka.",
                 "lock": "$~Nila-lock ng buton na /lock/ ang view ng entablado sa lugar nito. Kapag *naka-lock*, nananatili itong hindi gumagalaw; kapag *naka-unlock*, malaya kang makakapag-pan at makakapag-zoom.",
                 "animationSpeed": "$~Ang kontrol na /animation speed/ ay nagtatakda kung gaano kabilis tumutugtog ang mga animation. Ang parehong kontrol ay nasa *settings*, kaya maaari mo itong baguhin mula sa alinmang lugar."
+            },
+            "permission": {
+                "title": "$?",
+                "microphone": "$?",
+                "camera": "$?",
+                "note": "$?",
+                "start": "$?",
+                "retry": "$?"
             }
         },
         "timeline": {

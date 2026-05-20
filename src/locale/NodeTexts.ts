@@ -602,6 +602,11 @@ type NodeTexts = {
             ValueException: ExceptionText;
             /** Internal exception are catastrophic and unrecoverable, usually indicating a defect */
             InternalException: ExceptionText;
+            /**
+             * When a stream cannot start because the user denied a required browser permission (microphone or camera).
+             * Explanation input: $1 = the permission name (microphone or camera)
+             */
+            PermissionException: ExceptionText;
         }> & {
             label: {
                 /** [plain] The placeholder label for the program's borrow statements */

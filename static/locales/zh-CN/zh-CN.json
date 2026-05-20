@@ -1063,6 +1063,10 @@
                 "InternalException": {
                     "description": "$~内部错误",
                     "explanation": "$~内部发生了一件非常糟糕的事情：1美元"
+                },
+                "PermissionException": {
+                    "description": "$?",
+                    "explanation": "$?"
                 }
             },
             "label": {
@@ -4772,6 +4776,14 @@
                 "grid": "$~“网格”按钮会在舞台上显示一个网格，方便您在设计时精确放置元素。",
                 "lock": "$~“锁定”按钮可将舞台视图锁定在当前位置。锁定后，舞台保持静止；解锁后，您可以自由平移和缩放。",
                 "animationSpeed": "$~“动画速度”控件用于设置动画播放速度。该控件也位于“设置”中，因此您可以在任一位置进行更改。"
+            },
+            "permission": {
+                "title": "$?",
+                "microphone": "$?",
+                "camera": "$?",
+                "note": "$?",
+                "start": "$?",
+                "retry": "$?"
             }
         },
         "timeline": {

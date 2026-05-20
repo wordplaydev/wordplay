@@ -1063,6 +1063,10 @@
                 "InternalException": {
                     "description": "$~internt fel",
                     "explanation": "$~något väldigt dåligt hände internt: $1"
+                },
+                "PermissionException": {
+                    "description": "$?",
+                    "explanation": "$?"
                 }
             },
             "label": {
@@ -4827,6 +4831,14 @@
                 "grid": "$~Knappen /grid/ visar ett *rutnät* på scenen, vilket är praktiskt för att placera saker exakt medan du designar.",
                 "lock": "$~Knappen /lock/ låser scenens vy. När den är *låst* förblir scenen stilla; när den är *upplåst* kan du panorera och zooma fritt.",
                 "animationSpeed": "$~Kontrollen /animation speed/ ställer in hur snabbt animationer spelas upp. Samma kontroll finns i *inställningar*, så du kan ändra den från båda ställena."
+            },
+            "permission": {
+                "title": "$?",
+                "microphone": "$?",
+                "camera": "$?",
+                "note": "$?",
+                "start": "$?",
+                "retry": "$?"
             }
         },
         "timeline": {

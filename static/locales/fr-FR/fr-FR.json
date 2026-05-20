@@ -1063,6 +1063,10 @@
                 "InternalException": {
                     "description": "$~erreur interne",
                     "explanation": "$~quelque chose de très grave s'est produit en interne : 1 $"
+                },
+                "PermissionException": {
+                    "description": "$?",
+                    "explanation": "$?"
                 }
             },
             "label": {
@@ -4810,6 +4814,14 @@
                 "grid": "$~Le bouton /grid/ affiche une *grille* sur la scène, utile pour placer les éléments avec précision lors de la conception.",
                 "lock": "$~Le bouton /lock/ fige la vue de la scène. Lorsqu'il est *verrouillé*, la scène reste immobile ; lorsqu'il est *déverrouillé*, vous pouvez vous déplacer et zoomer librement.",
                 "animationSpeed": "$~Le paramètre /vitesse d'animation/ détermine la vitesse de lecture des animations. Ce même paramètre se trouve dans les *paramètres*, vous pouvez donc le modifier depuis l'un ou l'autre endroit."
+            },
+            "permission": {
+                "title": "$?",
+                "microphone": "$?",
+                "camera": "$?",
+                "note": "$?",
+                "start": "$?",
+                "retry": "$?"
             }
         },
         "timeline": {

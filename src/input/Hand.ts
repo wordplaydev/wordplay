@@ -3,7 +3,9 @@ import type {
     NormalizedLandmark,
 } from '@mediapipe/tasks-vision';
 import CameraFeed from '@input/CameraFeed';
+import { denyConsent, Permission } from '@input/permissions';
 import createStreamEvaluator from '@input/createStreamEvaluator';
+import PermissionException from '@values/PermissionException';
 import {
     currentHandLandmarker,
     getHandLandmarker,
@@ -198,7 +200,20 @@ export default class Hand extends TemporalStreamValue<StructureValue, HandLandma
             this.resolution,
             this.resolution,
             frequency,
+            () => this.handleCameraDenied(),
         );
+    }
+
+    private handleCameraDenied() {
+        denyConsent(Permission.Camera);
+        this.evaluator.replaceMainValue(
+            new PermissionException(
+                this.creator,
+                this.evaluator,
+                Permission.Camera,
+            ),
+        );
+        this.evaluator.broadcast();
     }
 
 

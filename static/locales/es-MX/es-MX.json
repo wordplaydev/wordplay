@@ -1036,6 +1036,10 @@
                 "InternalException": {
                     "description": "$~error interno",
                     "explanation": "$~Algo muy malo sucedió internamente: $1"
+                },
+                "PermissionException": {
+                    "description": "$?",
+                    "explanation": "$?"
                 }
             },
             "label": {
@@ -4792,6 +4796,14 @@
                 "grid": "$~El botón /grid/ muestra una *cuadrícula* en el escenario, útil para colocar elementos con precisión mientras diseñas.",
                 "lock": "$~El botón /lock/ bloquea la vista del escenario. Cuando está bloqueado, el escenario permanece fijo; cuando está desbloqueado, puedes desplazarte y hacer zoom libremente.",
                 "animationSpeed": "$~El control /velocidad de animación/ establece la velocidad de reproducción de las animaciones. Este mismo control se encuentra en *ajustes*, por lo que puedes modificarlo desde cualquiera de los dos lugares."
+            },
+            "permission": {
+                "title": "$?",
+                "microphone": "$?",
+                "camera": "$?",
+                "note": "$?",
+                "start": "$?",
+                "retry": "$?"
             }
         },
         "timeline": {

@@ -24,6 +24,13 @@
     import Placement from '@input/Placement';
     import Pointer from '@input/Pointer';
     import Evaluate from '@nodes/Evaluate';
+    import PermissionException from '@values/PermissionException';
+    import PermissionSplash from '@components/output/PermissionSplash.svelte';
+    import {
+        consent,
+        grantConsent,
+        type PermissionName,
+    } from '@input/permissions';
     import type Color from '@output/Color';
     import { getOrCreatePlace } from '@output/getOrCreatePlace';
     import { PX_PER_METER, rootScale } from '@output/outputToCSS';
@@ -66,6 +73,8 @@
         focusOverridden?: boolean;
         /** Whether to blur the output while the user is typing in the project's editor. True for the main stage; false for embedded examples that are unaffected by the user's typing. */
         blurOnTyping?: boolean;
+        /** Called when the viewer clicks Retry after a PermissionException. The host should restart the evaluator so failed streams can re-attempt getUserMedia. */
+        onretry?: () => void;
     }
 
     let {
@@ -83,6 +92,7 @@
         hasStagePlace = $bindable(false),
         focusOverridden = $bindable(false),
         blurOnTyping = true,
+        onretry = undefined,
     }: Props = $props();
 
     let indexContext = getConceptIndex();
@@ -127,6 +137,33 @@
     const exception = $derived(
         value instanceof ExceptionValue ? value : undefined,
     );
+    const permissionException = $derived(
+        exception instanceof PermissionException ? exception : undefined,
+    );
+
+    /** Browser permissions the project references but for which the user hasn't yet made a decision. */
+    const pendingPermissions = $derived(
+        new Set<PermissionName>(
+            [...project.getRequiredPermissions()].filter(
+                (p) => $consent[p] === 'unknown',
+            ),
+        ),
+    );
+
+    /** Show the pre-evaluation splash only before the evaluator has started — afterwards, denial flows through the exception branch. */
+    const needsPermission = $derived(
+        !evaluator.isStarted() && pendingPermissions.size > 0,
+    );
+
+    function handleStart() {
+        for (const permission of pendingPermissions) grantConsent(permission);
+    }
+
+    function handleRetry() {
+        if (permissionException !== undefined)
+            grantConsent(permissionException.permission);
+        onretry?.();
+    }
 
     /** Every time the value changes, try to parse a Stage from it. */
     const stageValue = $derived(
@@ -1070,8 +1107,15 @@
         onpointermove={interactive ? handlePointerMove : null}
         onpointerleave={interactive ? handlePointerLeave : null}
     >
-        <!-- If there's an exception, show that. -->
-        {#if exception !== undefined}
+        <!-- If the project needs permission and evaluation hasn't started, show the splash. -->
+        {#if needsPermission}
+            <PermissionSplash
+                permissions={pendingPermissions}
+                onstart={handleStart}
+                {mini}
+            />
+            <!-- If there's an exception, show that. -->
+        {:else if exception !== undefined}
             <div class="message exception" class:mini data-uiid="exception"
                 >{#if mini}!{:else}<Speech
                         character={index?.getNodeConcept(exception.creator) ??
@@ -1082,6 +1126,22 @@
                             <MarkupHTMLView
                                 markup={exception.getExplanation($locales)}
                             />
+                            {#if permissionException !== undefined && onretry !== undefined}
+                                <div class="permission-retry">
+                                    <ButtonUI
+                                        tip={(l) =>
+                                            l.ui.output.permission.retry}
+                                        action={handleRetry}
+                                        background
+                                        testid="permission-retry"
+                                    >
+                                        {$locales.getPlainText(
+                                            (l) =>
+                                                l.ui.output.permission.retry,
+                                        )}
+                                    </ButtonUI>
+                                </div>
+                            {/if}
                         {/snippet}</Speech
                     >
                 {/if}
@@ -1285,6 +1345,12 @@
 
     .exception :global(.value) {
         color: var(--wordplay-evaluation-color);
+    }
+
+    .permission-retry {
+        margin-top: 0.75em;
+        display: flex;
+        justify-content: flex-start;
     }
 
     .keyboard {

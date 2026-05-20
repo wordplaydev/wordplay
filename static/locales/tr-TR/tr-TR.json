@@ -1063,6 +1063,10 @@
                 "InternalException": {
                     "description": "$~dahili hata",
                     "explanation": "$~İçeride çok kötü bir şey oldu: 1 dolar"
+                },
+                "PermissionException": {
+                    "description": "$?",
+                    "explanation": "$?"
                 }
             },
             "label": {
@@ -4827,6 +4831,14 @@
                 "grid": "$~/grid/ düğmesi, tasarım yaparken nesneleri hassas bir şekilde yerleştirmenize yardımcı olacak şekilde sahnede bir *ızgara* gösterir.",
                 "lock": "$~/Kilit/ düğmesi, sahnenin görünümünü sabitler. *Kilitli* olduğunda, sahne sabit kalır; *kilitsiz* olduğunda ise serbestçe kaydırma ve yakınlaştırma yapabilirsiniz.",
                 "animationSpeed": "$~/animasyon hızı/ kontrolü, animasyonların ne kadar hızlı oynatılacağını ayarlar. Aynı kontrol *ayarlar* bölümünde de bulunur, bu nedenle her iki yerden de değiştirebilirsiniz."
+            },
+            "permission": {
+                "title": "$?",
+                "microphone": "$?",
+                "camera": "$?",
+                "note": "$?",
+                "start": "$?",
+                "retry": "$?"
             }
         },
         "timeline": {

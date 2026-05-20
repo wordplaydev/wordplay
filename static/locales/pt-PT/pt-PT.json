@@ -1067,6 +1067,10 @@
                 "InternalException": {
                     "description": "$~erro interno",
                     "explanation": "$~Algo de muito mau aconteceu internamente: $1"
+                },
+                "PermissionException": {
+                    "description": "$?",
+                    "explanation": "$?"
                 }
             }
         },
@@ -5069,6 +5073,14 @@
                 "grid": "$~O botão /grid/ apresenta uma *grelha* no ecrã, útil para posicionar os elementos com precisão durante o processo de criação.",
                 "lock": "$~O botão /lock/ fixa a visão do palco. Quando *bloqueado*, o palco permanece estático; quando *desbloqueado*, pode mover e ampliar a imagem livremente.",
                 "animationSpeed": "$~O controlo /velocidade da animação/ define a velocidade de reprodução das animações. O mesmo controlo está em *definições*, pelo que pode alterá-lo em qualquer um dos locais."
+            },
+            "permission": {
+                "title": "$?",
+                "microphone": "$?",
+                "camera": "$?",
+                "note": "$?",
+                "start": "$?",
+                "retry": "$?"
             }
         },
         "timeline": {

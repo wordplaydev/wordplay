@@ -1067,6 +1067,10 @@
                 "InternalException": {
                     "description": "$~lỗi nội bộ",
                     "explanation": "$~Một sự việc rất tồi tệ đã xảy ra bên trong: $1"
+                },
+                "PermissionException": {
+                    "description": "$?",
+                    "explanation": "$?"
                 }
             }
         },
@@ -5069,6 +5073,14 @@
                 "grid": "$~Nút /grid/ hiển thị một *lưới* trên khung làm việc, hữu ích để đặt các đối tượng một cách chính xác trong quá trình thiết kế.",
                 "lock": "$~Nút /khóa/ khóa khung nhìn của sân khấu. Khi *khóa*, sân khấu sẽ đứng yên; khi *mở khóa*, bạn có thể lia và phóng to thu nhỏ tự do.",
                 "animationSpeed": "$~Nút điều khiển /tốc độ hoạt ảnh/ thiết lập tốc độ phát hoạt ảnh. Nút điều khiển tương tự cũng có trong *cài đặt*, vì vậy bạn có thể thay đổi nó từ cả hai nơi."
+            },
+            "permission": {
+                "title": "$?",
+                "microphone": "$?",
+                "camera": "$?",
+                "note": "$?",
+                "start": "$?",
+                "retry": "$?"
             }
         },
         "timeline": {

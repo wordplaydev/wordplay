@@ -6,6 +6,7 @@
     import type Value from '@values/Value';
     import { untrack } from 'svelte';
     import { DB, locales } from '@db/Database';
+    import { consent, refreshConsentFromBrowser } from '@input/permissions';
 
     interface Props {
         project: Project;
@@ -21,20 +22,48 @@
     // Clone the project and get its initial value, then stop the project's evaluator.
     let evaluator = $state<Evaluator | undefined>();
     let latest: Value | undefined = $state(undefined);
+
+    const pendingPermissions = $derived(
+        new Set(
+            [...project.getRequiredPermissions()].filter(
+                (p) => $consent[p] === 'unknown',
+            ),
+        ),
+    );
+
+    /** Ask the browser whether permissions are already granted, so we can skip the splash. */
     $effect(() => {
-        untrack(() => {
-            if (evaluator) {
-                evaluator.stop();
-                evaluator.ignore(update);
-            }
-        });
+        for (const permission of project.getRequiredPermissions()) {
+            untrack(() => refreshConsentFromBrowser(permission));
+        }
+    });
+
+    function instantiateEvaluator() {
+        if (evaluator) {
+            evaluator.stop();
+            evaluator.ignore(update);
+        }
         evaluator = new Evaluator(project, DB, $locales.getLocales());
-        untrack(() => {
-            if (evaluator) {
-                evaluator.observe(update);
-                evaluator.start();
-            }
-        });
+        evaluator.observe(update);
+        // Start now only if there's nothing waiting on user consent; otherwise
+        // the splash in OutputView will trigger a start once consent is granted.
+        if (pendingPermissions.size === 0) evaluator.start();
+    }
+
+    /** Re-instantiate the evaluator whenever the project changes. */
+    $effect(() => {
+        project;
+        untrack(() => instantiateEvaluator());
+    });
+
+    /** Once all required permissions are granted, start the evaluator if it hasn't already. */
+    $effect(() => {
+        if (
+            evaluator !== undefined &&
+            pendingPermissions.size === 0 &&
+            !evaluator.isStarted()
+        )
+            evaluator.start();
     });
 </script>
 
@@ -46,5 +75,6 @@
         {fit}
         grid={false}
         editable={false}
+        onretry={() => instantiateEvaluator()}
     />
 {/if}

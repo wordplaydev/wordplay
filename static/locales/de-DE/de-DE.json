@@ -1051,6 +1051,10 @@
                 "InternalException": {
                     "description": "$~Interner Fehler",
                     "explanation": "$~Intern ist etwas sehr Schlimmes passiert: 1 Dollar"
+                },
+                "PermissionException": {
+                    "description": "$?",
+                    "explanation": "$?"
                 }
             },
             "label": {
@@ -4809,6 +4813,14 @@
                 "grid": "$~Die Schaltfläche /grid/ zeigt ein *Raster* auf der Bühne an, das beim Entwerfen hilfreich ist, um Elemente präzise zu platzieren.",
                 "lock": "$~Die Schaltfläche „Sperren“ fixiert die Bühnenansicht. Im gesperrten Zustand bleibt die Bühne still; im entsperrten Zustand können Sie frei schwenken und zoomen.",
                 "animationSpeed": "$~Mit dem Regler /animation speed/ legen Sie fest, wie schnell Animationen abgespielt werden. Derselbe Regler befindet sich auch in den *Einstellungen*, sodass Sie ihn an beiden Stellen ändern können."
+            },
+            "permission": {
+                "title": "$?",
+                "microphone": "$?",
+                "camera": "$?",
+                "note": "$?",
+                "start": "$?",
+                "retry": "$?"
             }
         },
         "timeline": {

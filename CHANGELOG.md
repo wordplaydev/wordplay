@@ -9,6 +9,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 ### Added
 
 - We finally added font face previews! Now you don't have to click to see what a font looks like.
+- Now, when a project requires permission to use an input like a camera or microphone, we ask for it explicitly and start the project after, and if denied, we show an exception and instructors for granting it if they denied by accident (#789).
 
 ### Changed
 

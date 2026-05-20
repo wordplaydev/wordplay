@@ -561,6 +561,21 @@ type UITexts = {
             /** [formatted] Markup describing the animation speed control */
             animationSpeed: FormattedText;
         };
+        /** The pre-evaluation splash shown when a project requires a browser permission. */
+        permission: {
+            /** [plain] Heading on the splash explaining that the project needs browser permission */
+            title: string;
+            /** [plain] Microphone permission label on the splash */
+            microphone: string;
+            /** [plain] Camera permission label on the splash */
+            camera: string;
+            /** [plain] Note below the permission list explaining the browser will prompt */
+            note: string;
+            /** [plain] Label of the button that starts the project after the splash */
+            start: string;
+            /** [plain] Label of the button that retries permission after a denial */
+            retry: string;
+        };
     };
     /** The documentation browser */
     docs: DocumentationText;

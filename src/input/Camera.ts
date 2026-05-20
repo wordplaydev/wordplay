@@ -1,5 +1,7 @@
 import CameraFeed from '@input/CameraFeed';
+import { denyConsent, Permission } from '@input/permissions';
 import createStreamEvaluator from '@input/createStreamEvaluator';
+import PermissionException from '@values/PermissionException';
 import { getDocLocales } from '@locale/getDocLocales';
 import { getNameLocales } from '@locale/getNameLocales';
 import type Locales from '@locale/Locales';
@@ -83,7 +85,20 @@ export default class Camera extends TemporalStreamValue<ListValue, LCHFrame> {
             width,
             height,
             frequency,
+            () => this.handleCameraDenied(),
         );
+    }
+
+    private handleCameraDenied() {
+        denyConsent(Permission.Camera);
+        this.evaluator.replaceMainValue(
+            new PermissionException(
+                this.creator,
+                this.evaluator,
+                Permission.Camera,
+            ),
+        );
+        this.evaluator.broadcast();
     }
 
     configure(width: number, height: number, frequency: number) {

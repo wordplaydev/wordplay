@@ -1063,6 +1063,10 @@
                 "InternalException": {
                     "description": "$~內部錯誤",
                     "explanation": "$~內部發生了一件非常糟糕的事：1美元"
+                },
+                "PermissionException": {
+                    "description": "$?",
+                    "explanation": "$?"
                 }
             },
             "label": {
@@ -4768,6 +4772,14 @@
                 "grid": "$~「網格」按鈕會在舞台上顯示一個網格，方便您在設計時精確放置元素。",
                 "lock": "$~「鎖定」按鈕可將舞台視圖鎖定在目前位置。鎖定後，舞台保持靜止；解鎖後，您可以自由平移和縮放。",
                 "animationSpeed": "$~“動畫速度”控制用於設定動畫播放速度。該控制項也位於「設定」中，因此您可以在任一位置進行變更。"
+            },
+            "permission": {
+                "title": "$?",
+                "microphone": "$?",
+                "camera": "$?",
+                "note": "$?",
+                "start": "$?",
+                "retry": "$?"
             }
         },
         "timeline": {

@@ -72,6 +72,10 @@
     import type Value from '@values/Value';
     import { onDestroy, onMount, tick, untrack } from 'svelte';
     import { writable, type Writable } from 'svelte/store';
+    import {
+        consent,
+        refreshConsentFromBrowser,
+    } from '@input/permissions';
     import Characters from '../../lore/BasisCharacters';
     import {
         PROJECT_PARAM_EDIT,
@@ -1020,12 +1024,30 @@
             .flat(),
     );
 
+    /** Permissions the current project needs but for which the user hasn't yet made a decision. */
+    const requiredPermissions = $derived(project.getRequiredPermissions());
+    const pendingPermissions = $derived(
+        new Set(
+            [...requiredPermissions].filter(
+                (p) => $consent[p] === 'unknown',
+            ),
+        ),
+    );
+
+    /** When the project's required permissions change, see if the browser already granted them. */
+    $effect(() => {
+        for (const permission of requiredPermissions) {
+            untrack(() => refreshConsentFromBrowser(permission));
+        }
+    });
+
     /**
-     * Any time the evaluator of the project changes, start it.
+     * Any time the evaluator of the project changes, start it — unless a
+     * required browser permission has not yet been granted.
      * */
     let updateTimer = $state<NodeJS.Timeout | undefined>(undefined);
     $effect(() => {
-        // Re-evaluate immediately if not started.
+        if (pendingPermissions.size > 0) return;
         if (!$evaluator.isStarted()) $evaluator.start();
     });
 
@@ -2113,6 +2135,7 @@
                                         {paintingConfig}
                                         bind:background={outputBackground}
                                         editable={editableAndCurrent}
+                                        onretry={() => updateEvaluator(project)}
                                     />
                                 {:else if tile.kind === TileKind.Collaborate}
                                     <CollaborateView {project} {chat} />

@@ -1,5 +1,6 @@
 import Templates from '@concepts/Templates';
 import type Conflict from '@conflicts/Conflict';
+import { Permission, type PermissionName } from '@input/permissions';
 import type { CaretPosition } from '@edit/caret/Caret';
 import concretize from '@locale/concretize';
 import { getBestSupportedLocales } from '@locale/getBestSupportedLocales';
@@ -700,6 +701,28 @@ export default class Project {
             }
         }
         return refs;
+    }
+
+    /**
+     * Returns the set of browser permissions this project's sources reference,
+     * by checking whether any reference resolves to a permission-requiring
+     * basis stream definition. Used to show pre-evaluation permission feedback.
+     */
+    getRequiredPermissions(): Set<PermissionName> {
+        const required = new Set<PermissionName>();
+        const input = this.shares.input;
+        const map: [Definition, PermissionName][] = [
+            [input.Volume, Permission.Microphone],
+            [input.Pitch, Permission.Microphone],
+            [input.Speech, Permission.Microphone],
+            [input.Camera, Permission.Camera],
+            [input.Hand, Permission.Camera],
+        ];
+        for (const [definition, permission] of map) {
+            if (this.getReferences(definition).length > 0)
+                required.add(permission);
+        }
+        return required;
     }
 
     withName(name: string) {

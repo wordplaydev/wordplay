@@ -1072,6 +1072,10 @@
                 "InternalException": {
                     "description": "internal error",
                     "explanation": "something very bad happened internally: $1"
+                },
+                "PermissionException": {
+                    "description": "permission denied",
+                    "explanation": "I need your $1 to run, but I don't have permission. Click Retry to try again. If that doesn't help, allow $1 for this site in your browser's settings."
                 }
             }
         },
@@ -5075,6 +5079,14 @@
                 "grid": "The /grid/ button shows a *grid* on the stage, helpful for placing things precisely while you design.",
                 "lock": "The /lock/ button locks the stage's view in place. When *locked*, the stage stays still; when *unlocked*, you can pan and zoom freely.",
                 "animationSpeed": "The /animation speed/ control sets how fast animations play. The same control is in *settings*, so you can change it from either place."
+            },
+            "permission": {
+                "title": "This project needs permission",
+                "microphone": "microphone",
+                "camera": "camera",
+                "note": "Your browser will ask before sharing.",
+                "start": "Start",
+                "retry": "Retry"
             }
         },
         "timeline": {

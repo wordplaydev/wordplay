@@ -34,12 +34,15 @@ export default class CameraFeed {
     private config: CameraConfig | undefined | null;
     private playing = false;
     private stopped = false;
+    /** Called once all attempts to acquire a camera stream have failed (typically a denied permission). */
+    private onDenied: (() => void) | undefined;
 
     constructor(
         database: Database,
         targetWidth: number,
         targetHeight: number | null,
         idealFrequency: number,
+        onDenied?: () => void,
     ) {
         this.database = database;
         this.targetWidth = targetWidth;
@@ -47,6 +50,7 @@ export default class CameraFeed {
         // Falls back to a square placeholder until the sensor aspect is known.
         this.effectiveHeight = targetHeight ?? targetWidth;
         this.idealFrequency = idealFrequency;
+        this.onDenied = onDenied;
     }
 
     /** Update the target sampling resolution. Pass null height to fill the sensor. */
@@ -193,6 +197,7 @@ export default class CameraFeed {
     ): void {
         if (index >= attempts.length) {
             this.config = null;
+            if (!this.stopped) this.onDenied?.();
             return;
         }
         navigator.mediaDevices
