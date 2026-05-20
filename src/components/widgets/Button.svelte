@@ -257,6 +257,7 @@
 
     .salient {
         background: var(--color-yellow-transparent);
+        color: var(--wordplay-foreground);
     }
 
     [aria-disabled='true'] {
