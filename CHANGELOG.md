@@ -17,6 +17,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 ### Fixed
 
+- When many people were sharing to a gallery at once, it could lead to some shares failing. That shouldn't happen anymore.
 - We fixed problems with how text types with multiple options are shown as conflicts, especially with output animation styles (#541).
 - We fixed a few font face weight availability problems (#1026).
 - Now when a @Match or @Conditional references a stream in its case, then, or else, the the stream starts even when it's not referenced in the condition (#679).
