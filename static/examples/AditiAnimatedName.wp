@@ -1,5 +1,6 @@
 Animated Name
-=== start/en
+=== English/en
+🌍/en
 ¶A small, simple animation of my name Aditi according to my identity.
 - I'm very passionate about writing, so the 'A' is written in an ink-like
 font and rotating to imitate writing the letter somewhat.
@@ -11,66 +12,71 @@ jumping up and down as notes do.
 - Lastly, the 't' and 'i' are combined into another musical note (two
 eighth notes beamed together), just to emphasize that I like music and
 creatively write those two letters.¶/en
-¶यह मेरे नाम अदिती का एक सरल एनिमेशन है।
-- 'अ' धीरे-धीरे प्रकट और लुप्त होता है।
-- 'दि' पेरिविंकल रंग में चमकता है।
-- 'ती' घूमता है और रंग बदलता है।¶/hi
 
 ¶This Group arranges each letter of my name into row format so they
 show up in a horizontal line, as you can see on stage.¶/en
-🌎/hi ?
-	Group(Row() [
-			¶Each Phrase contains one symbol to represent a letter of my name.
-			This allows me to animate each letter individually! I'm using
-			resting Sequences so that the letters move while on stage.¶/en
-			Phrase('अ' face: 'Pacifico' resting: 💃({
-						0%: 🤪(opacity: 0%)
-						25%: 🤪(opacity: 25%)
-						50%: 🤪(opacity: 50%)
-						75%: 🤪(opacity: 75%)
-						100%: 🤪()
-					} ⏳: 2s))
-			Phrase('दि' resting: 💃({
-						0%: 🤪(color: 🌈(0% 0 0°))
-						50%: 🤪(color: 🌈(74% 100 291°))
-						100%: 🤪()
-					} ⏳: 2s) ⏳: 5s color: 🌈(74% 100 292°))
-			Phrase('ती' face: 'Aclonica' resting: 💃({
-						0%: 🤪(color: 🌈(0.5 100 180°) flipx: ⊤)
-						50%: 🤪(color: 🌈(27% 112 267°))
-						75%: 🤪(color: 🌈(0.5 100 180°) flipx: ⊤)
-					} ⏳: 2s) style: 'straight' ⏳: 5s color: 🌈(0.5 100 180°))
-		])
-	Group(Row() [
-			¶Each Phrase contains one symbol to represent a letter of my name.
-			This allows me to animate each letter individually! I'm using
-			resting Sequences so that the letters move while on stage.¶/en
-			Phrase('A' face: 'Pacifico' entering: 💃({
-						0%: 🤪(opacity: 0%)
-						25%: 🤪(opacity: 25%)
-						50%: 🤪(opacity: 50%)
-						75%: 🤪(opacity: 75%)
-						100%: 🤪()
-					}) resting: 💃({
-						0%: 🤪()
-						50%: 🤪(rotation: 180°)
-						100%: 🤪(rotation: 359°)
-					} ⏳: 1s) ⏳: 1s)
-			Phrase('d' face: 'Aclonica' resting: 💃({
-						0%: 🤪(color: 🌈(0.5 100 180°) flipx: ⊤)
-						50%: 🤪(color: 🌈(27% 112 267°))
-						75%: 🤪(color: 🌈(0.5 100 180°) flipx: ⊤)
-					} ⏳: 2s) style: 'straight' ⏳: 5s color: 🌈(0.5 100 180°))
-			Phrase('♪' resting: 💃({
-						0%: 🤪(offset: ⚽(📍(0m 0.5m 0m 📐: 0°) 💨(0m/s 0m/s 0°/s)))
-						25%: 🤪()
-						50%: 🤪(offset: 📍(0m 0m 0m))
-						75%: 🤪(offset: 📍(0m -0.5m 0m))
-						100%: 🤪()
-					}) ⏳: 5s color: 🌈(74% 100 292°))
-			Phrase('♫' resting: 💃({
-						0%: 🤪(rotation: 20°)
-						50%: 🤪(rotation: -20°)
-						100%: 🤪(rotation: 20°)
-					}))
-		])
+Group(Row() [
+		¶Each Phrase contains one symbol to represent a letter of my name.
+		This allows me to animate each letter individually! I'm using
+		resting Sequences so that the letters move while on stage.¶/en
+		Phrase('A' face: 'Pacifico' entering: 💃({
+					0%: 🤪(opacity: 0%)
+					25%: 🤪(opacity: 25%)
+					50%: 🤪(opacity: 50%)
+					75%: 🤪(opacity: 75%)
+					100%: 🤪()
+				}) resting: 💃({
+					0%: 🤪()
+					50%: 🤪(rotation: 180°)
+					100%: 🤪(rotation: 359°)
+				} ⏳: 1s) ⏳: 1s)
+		Phrase('d' face: 'Aclonica' resting: 💃({
+					0%: 🤪(color: 🌈(0.5 100 180°) flipx: ⊤)
+					50%: 🤪(color: 🌈(27% 112 267°))
+					75%: 🤪(color: 🌈(0.5 100 180°) flipx: ⊤)
+				} ⏳: 2s) style: 'straight' ⏳: 5s color: 🌈(0.5 100 180°))
+		Phrase('♪' resting: 💃({
+					0%: 🤪(offset: ⚽(📍(0m 0.5m 0m 📐: 0°) 💨(0m/s 0m/s 0°/s)))
+					25%: 🤪()
+					50%: 🤪(offset: 📍(0m 0m 0m))
+					75%: 🤪(offset: 📍(0m -0.5m 0m))
+					100%: 🤪()
+				}) ⏳: 5s color: 🌈(74% 100 292°))
+		Phrase('♫' resting: 💃({
+					0%: 🤪(rotation: 20°)
+					50%: 🤪(rotation: -20°)
+					100%: 🤪(rotation: 20°)
+				}))
+	])
+
+🌍/hi
+¶एक छोटा सा कार्यक्रम जो मेरी नाम अदिती दिखाता हैं, मेरे पहचान के अनुुसार।
+- मुझे लोगों को देखना अच्छी लगती हैं, बात करने की बजाय। इस लिए “अ”
+ अंदर-बाहर आ और जा रहा हैं।
+- मेरी पसंद वाली रंग पेरिविंकल हैं, तो “दि” वह रंग दिखा रहा हैं।
+- भूदेवी की एक दूसरी नाम “अदिती” हैं, तो “ती” भूमि जैसे घूम रहा हैं,
+उसके रंग के साथ।¶/hi
+
+¶यह ‘ग्रूप’ मेरी नाम की हर अक्षर सजाता हैं ताकी वे दिखते हैं जैसे आप को
+दिखाई देता हैं मंच पर।¶/hi
+Group(Row() [
+		¶हर बोल एक अक्षर रखता हैं मेरी नाम की। यह मुझे हर अक्षर को हिलाने देता हैं।
+		मैं आराम-वाले @Sequence का इस्तेमाल कर रही हूँ ताकी अक्षर मंच पर हिले।¶/hi
+		Phrase('अ'/hi face: 'Pacifico' resting: 💃({
+					0%: 🤪(opacity: 0%)
+					25%: 🤪(opacity: 25%)
+					50%: 🤪(opacity: 50%)
+					75%: 🤪(opacity: 75%)
+					100%: 🤪()
+				} ⏳: 2s))
+		Phrase('दि'/hi resting: 💃({
+					0%: 🤪(color: 🌈(0% 0 0°))
+					50%: 🤪(color: 🌈(74% 100 291°))
+					100%: 🤪()
+				} ⏳: 2s) ⏳: 5s color: 🌈(74% 100 292°))
+		Phrase('ती'/hi face: 'Aclonica' resting: 💃({
+					0%: 🤪(color: 🌈(0.5 100 180°) flipx: ⊤)
+					50%: 🤪(color: 🌈(27% 112 267°))
+					75%: 🤪(color: 🌈(0.5 100 180°) flipx: ⊤)
+				} ⏳: 2s) style: 'straight' ⏳: 5s color: 🌈(0.5 100 180°))
+	])
