@@ -93,6 +93,24 @@ function resolveAtPath(
     return node;
 }
 
+/** Coerce a resolved en-US value into a single display string for the PR table.
+ *  Locale leaves can be plain strings, tuple-element strings (selected by `index`),
+ *  or paragraph arrays (`FormattedText[]`) edited as a single combined value — the
+ *  last case has no index, so we join paragraphs with blank lines. Anything else
+ *  (object, mismatched index, missing path) collapses to empty. */
+function englishDisplay(value: unknown, index: number | undefined): string {
+    if (typeof value === 'string') return value;
+    if (Array.isArray(value)) {
+        if (index !== undefined) {
+            const item = value[index];
+            return typeof item === 'string' ? item : '';
+        }
+        if (value.every((v) => typeof v === 'string'))
+            return value.join('\n\n');
+    }
+    return '';
+}
+
 /** Walk a record along dotted segments (and an optional tuple index) and
  *  assign `value`. Throws if the path doesn't exist; we'd rather fail loudly
  *  than silently drop a contributor's edit. Array assignments require the
@@ -450,12 +468,7 @@ export const submitLocalizationBundle = onCall<
             const english = resolveAtPath(sourceLocaleFile.json, path);
             summaryRows.push({
                 key,
-                sourceEnglish:
-                    typeof english === 'string'
-                        ? english
-                        : Array.isArray(english) && index !== undefined
-                          ? String(english[index] ?? '')
-                          : '',
+                sourceEnglish: englishDisplay(english, index),
                 edited: value,
             });
         }
@@ -468,12 +481,7 @@ export const submitLocalizationBundle = onCall<
                 : undefined;
             summaryRows.push({
                 key,
-                sourceEnglish:
-                    typeof english === 'string'
-                        ? english
-                        : Array.isArray(english) && index !== undefined
-                          ? String(english[index] ?? '')
-                          : '',
+                sourceEnglish: englishDisplay(english, index),
                 edited: value,
             });
         }
