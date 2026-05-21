@@ -2,6 +2,8 @@ import type { ProjectID } from '@db/projects/ProjectSchemas';
 import { FirebaseError } from 'firebase/app';
 import {
     and,
+    arrayRemove,
+    arrayUnion,
     collection,
     deleteDoc,
     doc,
@@ -12,6 +14,7 @@ import {
     query,
     setDoc,
     where,
+    writeBatch,
     type Unsubscribe,
 } from 'firebase/firestore';
 import { SvelteMap } from 'svelte/reactivity';
@@ -22,6 +25,7 @@ import type Locales from '@locale/Locales';
 import { type Database } from '@db/Database';
 import { firestore } from '@db/firebase';
 import type Project from '@db/projects/Project';
+import { ProjectsCollection } from '@db/projects/ProjectsDatabase.svelte';
 import {
     ClassesCollection,
     ClassSchema,
@@ -355,66 +359,154 @@ export default class GalleryDatabase {
 
     // Add the given project to the given gallery ID, or remove it if the gallery ID is undefined.
     async addProject(project: Project, galleryID: string) {
-        if (galleryID === undefined) return;
+        if (firestore === undefined || galleryID === undefined) return;
 
         // Find the gallery.
         const gallery = await this.get(galleryID);
-
-        // No matching gallery? Bail.
         if (gallery === undefined) return;
 
-        // Revise the project with a gallery ID. If the gallery is public, the project becomes public.
-        const result = await this.database.Projects.edit(
+        const projectID = project.getID();
+        const oldGalleryID = project.getGallery();
+
+        // Update the in-memory project to reflect the new gallery. Pass persist=false
+        // so we can include the project doc write in our atomic batch below rather than
+        // letting the project history's separate persist() race with it.
+        const editResult = await this.database.Projects.edit(
             project.withGallery(galleryID),
             false,
-            true,
+            false,
             false,
             'immediate',
         );
+        if (editResult !== undefined) return;
 
-        // Failure to edit project? Bail.
-        if (result !== undefined) return;
+        // Get the just-edited project so we can serialize its latest form into the batch.
+        const updated =
+            this.database.Projects.getHistory(projectID)?.getCurrent();
+        if (updated === undefined) return;
 
-        // Remove the project from other galleries, since a project can only be in one gallery.
-        for (const gallery of this.accessibleGalleries.values()) {
-            if (gallery.hasProject(project.getID()))
-                this.edit(gallery.withoutProject(project.getID()));
+        // If a concurrent share/unshare ran between our history edit and now,
+        // history.current will reflect that newer intent. Bail so the latest call
+        // wins. This collapses the double-fire from the Options widget (its
+        // onpointerdown + onchange both call this) and absorbs click-and-correct
+        // sequences within a single event-loop turn.
+        if (updated.getGallery() !== galleryID) return;
+
+        // Single atomic batch: write the project doc and mutate both gallery projects
+        // arrays. arrayUnion/arrayRemove are atomic at the field level on the server,
+        // so concurrent shares to the same gallery accumulate rather than clobber.
+        const batch = writeBatch(firestore);
+        batch.set(
+            doc(firestore, ProjectsCollection, projectID),
+            updated.asPersisted().serialize(),
+        );
+        batch.update(doc(firestore, GalleriesCollection, galleryID), {
+            projects: arrayUnion(projectID),
+        });
+        if (oldGalleryID !== null && oldGalleryID !== galleryID) {
+            batch.update(doc(firestore, GalleriesCollection, oldGalleryID), {
+                projects: arrayRemove(projectID),
+            });
         }
+        await batch.commit();
 
-        // Add the project ID to the gallery.
-        await this.edit(gallery.withProject(project.getID()));
+        // Mark the project history saved since we just persisted it.
+        this.database.Projects.getHistory(projectID)?.markSaved();
+
+        // Mirror the gallery changes in the local cache so the UI updates immediately
+        // without waiting for the realtime listener to fire.
+        this.applyLocalProjectMembership(projectID, galleryID, oldGalleryID);
     }
 
     // Remove the project from the gallery that it's in.
     async removeProject(project: Project, galleryID: string | null) {
-        // Revise the project with a gallery ID.
-        await this.removeProjectFromGallery(project);
+        if (firestore === undefined) return;
 
-        // Find the gallery from the given or the project, if provided.
-        galleryID = galleryID ?? project.getGallery();
+        const projectID = project.getID();
+        const targetGalleryID = galleryID ?? project.getGallery();
 
-        // No gallery? No edit.
-        if (galleryID === null) return;
+        // Update the in-memory project to clear its gallery field (no persist; batched below).
+        const editResult = await this.database.Projects.edit(
+            project.withGallery(null),
+            false,
+            false,
+            false,
+            'immediate',
+        );
+        if (editResult !== undefined) return;
 
-        // Find the gallery.
-        const gallery = await this.get(galleryID);
+        const updated =
+            this.database.Projects.getHistory(projectID)?.getCurrent();
+        if (updated === undefined) return;
 
-        // No matching gallery? Bail.
-        if (gallery === undefined) return;
+        // Same race-collapsing check as addProject: if a concurrent share ran after
+        // our history edit, history.current will hold a non-null gallery and we
+        // should yield to that newer call rather than overwriting it.
+        if (updated.getGallery() !== null) return;
 
-        // Revise the gallery with a project ID.
-        await this.edit(gallery.withoutProject(project.getID()));
+        // Atomic batch: clear project.gallery and remove from the gallery's projects array.
+        const batch = writeBatch(firestore);
+        batch.set(
+            doc(firestore, ProjectsCollection, projectID),
+            updated.asPersisted().serialize(),
+        );
+        if (targetGalleryID !== null) {
+            batch.update(
+                doc(firestore, GalleriesCollection, targetGalleryID),
+                { projects: arrayRemove(projectID) },
+            );
+        }
+        await batch.commit();
+
+        this.database.Projects.getHistory(projectID)?.markSaved();
+
+        if (targetGalleryID !== null) {
+            this.applyLocalProjectMembership(projectID, null, targetGalleryID);
+        }
     }
 
+    // Remove the project from whatever gallery it is in, but only the project side
+    // (used by gallery deletion, where the gallery doc itself is about to be deleted).
     async removeProjectFromGallery(project: Project) {
-        // Revise the project with a gallery ID.
-        this.database.Projects.edit(
+        await this.database.Projects.edit(
             project.withGallery(null),
             false,
             true,
             false,
             'immediate',
         );
+    }
+
+    /**
+     * Reflect a project's gallery-membership change in the local accessibleGalleries
+     * cache and notify any project listeners. Avoids waiting on the realtime listener
+     * to round-trip from the server.
+     */
+    private applyLocalProjectMembership(
+        projectID: string,
+        addedTo: string | null,
+        removedFrom: string | null,
+    ) {
+        if (addedTo !== null) {
+            const cached = this.accessibleGalleries.get(addedTo);
+            if (cached) {
+                const updated = cached.withProject(projectID);
+                this.accessibleGalleries.set(addedTo, updated);
+                this.listeners
+                    .get(projectID)
+                    ?.forEach((listener) => listener(updated));
+            }
+        }
+        if (removedFrom !== null && removedFrom !== addedTo) {
+            const cached = this.accessibleGalleries.get(removedFrom);
+            if (cached) {
+                const updated = cached.withoutProject(projectID);
+                this.accessibleGalleries.set(removedFrom, updated);
+                this.listeners
+                    .get(projectID)
+                    ?.forEach((listener) => listener(updated));
+            }
+        }
     }
 
     // Remove the given creator from the gallery, and all of their projects.
