@@ -1,0 +1,172 @@
+Personal Map – The Places I've Lived
+=== English/en
+¶This project shows a map of landmarks and a moveable 
+character. When the character collides with a landmark
+then their speech bubble changes. This version is in English.¶
+
+¶ This collision stream checks for collisions between the phrase
+with the name 'me' and any other phrases. When a collision happens,
+it's value stores a 'Rebound' object that contains the object collided with.¶
+choice: Collision('me')
+name: (choice = ø ? "" choice.object)
+
+¶This 'otherwise' checks the name of the collided object
+and chooses a list of formatted text based on the name.
+If there's no name, it defaults to starting text.¶
+about: name ???
+		"Virginia": [
+			`*(2005 – 2007)*`
+			`I was born in *Arlington, Virginia*!`
+			`I lived here until I was two,`
+			`a couple of months after my`
+			`brother was born.`
+			`I don't remember anything about`
+			`living here, but a lot of the`
+			`pics I've seen are of the fall`
+			`colors!`
+		]
+		"California": [
+			`*(2007 – 2013)*`
+			`I spent most of my youngest years`
+			`in *Foster City, California*!`
+			`This place was the most memorable`
+			`for me.`
+			`On my 6th birthday, I ended up with`
+			`a soft toy duck, which I call Cute`
+			`Duckie. She is still my favorite,`
+			`to this day.`
+		]
+		"India": [
+			`*(2013 – 2015)*`
+			`I lived in *Hyderabad, Telangana*,`
+			`which is in *India*. At this time,`
+			`Telangana actually didn't exist!`
+			`It used to be a part of a state`
+			`called Andhra Pradesh.`
+			`I was here for 3rd and 4th grade,`
+			`and both years, I went on a school`
+			`trip where we camped overnight.`
+			`It was really fun!`
+		]
+		"Washington": [
+			`*(2015 – present)*`
+			`I've been living in`
+			`*Washington* ever since—over`
+			`half my life now, actually!`
+			`I've actually experienced all`
+			`the levels of school here:`
+			`elementary (5th grade), middle,`
+			`high, now university.`/en
+		]
+		[`Flapping my wings…`]
+
+¶This stream starts in the middle, but can be changed with
+the keyboard arrows or clicking the stage.
+We use it to place the character.¶
+where: Placement(📍(0m 0m))
+
+¶This takes all of the content above and renders it,
+putting each landmark on stage in a particular location
+and converting the list of formatted text for the current
+about text into a stack of phrases with a background.
+Each landmark needs a name and matter in order for the collision
+stream to check collisions.↑¶
+Stage(
+	[
+		Phrase('🍂' name: "Virginia" place: Place(-3m 0m) matter: Matter())
+		Phrase(`@ellipsis/CuteDuckie` name: "California" place: Place(-10m 0m) matter: Matter() size: 1.4m)
+		Phrase('🏕' name: "India" place: Place(5m -6m) matter: Matter())
+		Phrase(`@ellipsis/GoDawgs` name: "Washington" place: Place(-10m 6m) matter: Matter() size: 1.4m)
+		Phrase('🐤' name: "me" place: where matter: Matter() moving: 💃({
+					0%: 🤪()
+					50%: 🤪(offset: 📍(0m 1m 0m))
+					100%: 🤪(offset: 📍(0m 0m 0m))
+				} ⏳: 0.5s))
+		Group(
+			Stack('<' padding: 0.5m)
+			about.translate(ƒ(line) Phrase(line 0.5m duration: 0s))
+			place: (where.x:where.x + 1m).y:where.y + 1m
+			background: 🌈(100% 0 0°)
+		)
+	]
+	background: 🌈(18% 72 280°)
+)
+=== Hindi/en
+¶यह कार्यक्रम कई जगाऐ दिखाता है, और उसके साथ एक शख़्स जिसको हिला सकते हो।
+जब यह शख़्स कुच जगह से टकराता है, उसकी बात बदलती है। इस कार्यक्रम का रूप
+हिंदी मे है।¶/hi'
+
+¶यह टकराना वाला धारा ढूंढता है किसी टक्कर के लिये, जो “मैं”-वाला बोल और दूसरे बोल के बीच
+में हो। जब टक्कर मिलता है, “मैं” वाला नाम एक ‘पलट’ रखता है। यह ‘पलट’ के पास
+है वह चीज़ जिसके साथ “मैं” वाला नाम टकराया था।¶/hi
+चारा: Collision('मैं')
+नाम: (चारा = ø ? "" चारा.object)
+
+
+¶यह ‘वरना’ टकराया हुआ चीज़ का नाम देखता है और चुनता है वह शब्दों की सूची जिसका नाम मिलता है 
+उसके साथ। अगर कोई नाम नही है, यह पहले शब्दों की सूची दिखाता हैं।¶/hi
+बात: नाम ???
+		"वर्जिनिया": [
+			`*(२००५ – २००७)*`
+			`मैं *आर्लिंटन, वर्जिनिया* में पैदा हुई थी!`
+			`मैं दो साल तक यहाँ रही थी, मेरे भाई`
+			`पैदा होने के कुच महिने बाद।`
+			`मुझे इधर रहने का कुच याद नही है,`
+			`लेकिन बहुत सारे तसवीर रंगीन पत्ते`
+			`के हैं!`
+		]
+		"कॅलिफ़ोर्निया": [
+			`*(२००७ – २०१३)*`
+			`मैं जब छोटी थी, मैने कई साल बिताऐ थे`
+			`*फ़ास्टर सिटी, कॅलिफ़ोर्निया* में!`
+			`यह जगह सब्से यादगार थि मेरे लिये।`
+			`मेरे छठवी जनम-दिन पर एक मुलायम सी`
+			`बत्तख की खिलौना मिली थी, जो मैं`
+			`बुलाती हूँ क्यूट डकी। वह आज तक भी`
+			`मेरी सब्से पसंद वाली खिलौना है।`
+		]
+		"भारत": [
+			`*(२०१३ – २०१५)*`
+			`मैं *हैदराबाद, तेलंगाना* में रहती थी, *भारत*`
+			`में। इस समय पर तेलंगाना होता नही था! आंध्र`
+			`प्रदेश का हिस्सा हुआ होता था।`
+			`मैं इधर तीसरा और चौथा क्लास के लिये थि,`
+			`और दोनो साल, मैं एक स्कूल ट्रिप पे गयी थी,`
+			`जहाँ हम कैंपिंग किये थे। बहुत मज़ा आया!`
+		]
+		"वाशिंटन": [
+			`*(२०१५ – आज)*`
+			`तब से मैं *वाशिंटन* में रही हूँ—`
+			`आधा ज़िंदगी से ऊपर के लिये!`
+			`मैं पाँचवा क्लास से कॉलेज तक`
+			`पढ़ाई की हूँ।`
+		]
+		[`मैं उड़ी…`]
+
+¶यह धारा बीच में शुरु होता है, लेकिन कीबोर्ड या माउस के साथ बदल सकते हैं।
+हम इस के साथ character को मंच पर रखते हैं।¶/hi
+किधर: Placement(📍(0m 0m))
+
+¶यह ऊपर सब मंच पर दिखाता हैं। हर स्थान मंच पर किसी जगह डालता हैं, और
+शब्दों की सूची बदलता हैं ताकी मंच पर दिखाई दे। हर स्थान एक नाम और माल चहिए,
+टक्कर-वाला धारा को टक्कर मिलने के लिए।¶/hi
+Stage(
+	[
+		Phrase('🍂' name: "वर्जिनिया" place: Place(-3m 0m) matter: Matter())
+		Phrase(`@ellipsis/CuteDuckie` name: "कॅलिफ़ोर्निया" place: Place(-10m 0m) matter: Matter() size: 1.4m)
+		Phrase('🏕' name: "भारत" place: Place(5m -6m) matter: Matter())
+		Phrase(`@ellipsis/GoDawgs` name: "वाशिंटन" place: Place(-10m 6m) matter: Matter() size: 1.4m)
+		Phrase('🐤' name: "मैं" place: किधर matter: Matter() moving: 💃({
+					0%: 🤪()
+					50%: 🤪(offset: 📍(0m 1m 0m))
+					100%: 🤪(offset: 📍(0m 0m 0m))
+				} ⏳: 0.5s))
+		Group(
+			Stack('<' padding: 0.5m)
+			बात.translate(ƒ(line) Phrase(line 0.5m duration: 0s))
+			place: (किधर.x:किधर.x + 1m).y:किधर.y + 1m
+			background: 🌈(100% 0 0°)
+		)
+	]
+	background: 🌈(18% 72 280°)
+)
