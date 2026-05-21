@@ -1065,8 +1065,8 @@
                     "explanation": "$~内部发生了一件非常糟糕的事情：1美元"
                 },
                 "PermissionException": {
-                    "description": "$?",
-                    "explanation": "$?"
+                    "description": "$~没有权限",
+                    "explanation": "$~我需要您支付 1 美元才能运行，但我没有权限。请点击“重试”按钮再次尝试。如果仍然无效，请在浏览器设置中允许此网站支付 1 美元。"
                 }
             },
             "label": {
@@ -4778,12 +4778,12 @@
                 "animationSpeed": "$~“动画速度”控件用于设置动画播放速度。该控件也位于“设置”中，因此您可以在任一位置进行更改。"
             },
             "permission": {
-                "title": "$?",
-                "microphone": "$?",
-                "camera": "$?",
-                "note": "$?",
-                "start": "$?",
-                "retry": "$?"
+                "title": "$~此项目需要获得许可",
+                "microphone": "$~麦克风",
+                "camera": "$~相机",
+                "note": "$~分享前，您的浏览器会询问。",
+                "start": "$~开始",
+                "retry": "$~重试"
             }
         },
         "timeline": {

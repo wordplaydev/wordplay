@@ -1,0 +1,24 @@
+캐릭터가 넘어지고 튕기도록 하세요
+
+캐릭터가 실제처럼 넘어지거나, 바닥에 부딪히거나, 밀쳐지는 모습을 보여주고 싶다면 어떻게 해야 할까요?그게 바로 그거예요 @Motion  그리고  @Matter 이것들은 함께 물리 현상을 시뮬레이션하기 위한 것입니다. @Phrase . 
+
+@Motion 제어/어디/캐릭터는 시간이 지남에 따라 변합니다. 우리는 그것을 다음과 같이 사용합니다.\place\~을 위해 @Phrase 높이 올려놓아서 떨어지게 하는 거죠.또한, 넘어질 때 받쳐줄 무언가가 필요해요. 그렇지 않으면 우리 캐릭터가 계속해서 떨어질 테니까요! @Shape 넓은 범위로 @Rectangle 바닥재로 아주 좋습니다:
+
+\Stage([
+		Phrase('🍎' place: Motion(Place(0m 5m)) matter: Matter())
+		Shape(Rectangle(-10m 0m 10m -5m))
+	])\
+
+사과는 5미터 높이에서 떨어져 중력에 의해 아래로 떨어집니다.바닥에 닿으면 약간 튀어 오르는데, 그 이유는 다음과 같습니다. @Phrase 내장되어 있습니다 @Matter 그것은 물체의 무게와 탄력을 조절합니다.
+
+방식을 바꾸려면/탄력 있는/또는 어떻게/무거운/캐릭터란, 당신만의 개성을 부여하는 것입니다. @Matter . @Matter 질량, 탄성, 마찰력이 필요합니다.
+
+\Stage([
+		Phrase('⚽' place: Motion(Place(-2m 5m)) matter: Matter(1kg 0.9 0.2))
+		Phrase('🪨' place: Motion(Place(2m 5m)) matter: Matter(5kg 0.1 0.8))
+		Shape(Rectangle(-10m 0m 10m -5m))
+	])\
+
+공은 가볍고 탄력이 좋아서 다시 튀어 오릅니다.그 돌은 무겁고 탄력이 없어서 그냥 쿵 하고 떨어질 뿐이에요.
+
+follow-the-pointer, move-phrase

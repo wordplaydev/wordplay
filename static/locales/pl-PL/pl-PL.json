@@ -1065,8 +1065,8 @@
                     "explanation": "$~wydarzyło się coś bardzo złego: $1"
                 },
                 "PermissionException": {
-                    "description": "$?",
-                    "explanation": "$?"
+                    "description": "$~odmowa pozwolenia",
+                    "explanation": "$~Potrzebuję Twojego 1$ do uruchomienia, ale nie mam uprawnień. Kliknij Ponów, aby spróbować ponownie. Jeśli to nie pomoże, zezwól na 1$ dla tej witryny w ustawieniach przeglądarki."
                 }
             },
             "label": {
@@ -4838,12 +4838,12 @@
                 "animationSpeed": "$~Kontrolka /szybkość animacji/ ustawia szybkość odtwarzania animacji. Tę samą kontrolkę znajdziesz w *ustawieniach*, więc możesz ją zmienić z dowolnego miejsca."
             },
             "permission": {
-                "title": "$?",
-                "microphone": "$?",
-                "camera": "$?",
-                "note": "$?",
-                "start": "$?",
-                "retry": "$?"
+                "title": "$~Ten projekt wymaga pozwolenia",
+                "microphone": "$~mikrofon",
+                "camera": "$~kamera",
+                "note": "$~Przed udostępnieniem Twoja przeglądarka zapyta.",
+                "start": "$~Start",
+                "retry": "$~Spróbować ponownie"
             }
         },
         "timeline": {

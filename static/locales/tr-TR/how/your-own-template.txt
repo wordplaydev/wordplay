@@ -1,0 +1,20 @@
+Kendi karakter şablonunuzu oluşturun
+
+Bazen görünüş olarak neredeyse aynı, ancak aralarında çok az fark olan birçok karakter istersiniz.Aynı şeyi yazmak yerine @Phrase Tekrar tekrar, kendi şablonunuzu oluşturabilirsiniz. @Structure .
+
+A  @Structure Boşlukları doldurulması gereken bir yemek tarifi gibidir.İşte bir renk ve bir etiket alan ve kendini nasıl göstereceğini bilen bir balon şablonu:
+
+\•Balloon(color•Color label•'') (
+	ƒ show() Phrase(`🎈\label\` color: color size: 2m)
+)
+Group(Row() [
+		Balloon(Color(80% 50 240°) 'Gökyüzü').show()
+		Balloon(Color(60% 80 0°) 'Gül').show()
+		Balloon(Color(90% 80 90°) 'Güneşli').show()
+	])\
+
+O\•Balloon(...)\Bu kısım şablonu tanımlar ve\ƒ show()\bir kısmı şöyle diyor/bir tane nasıl çizilir/.Daha sonra farklı renklerde ve etiketlerde üç balon yapıyoruz ve her birinden şunu istiyoruz:\show\kendisi.
+
+Şablonlar, kodunuzu düzenli tutmak ve karakter tutarlılığını sağlamak istediğinizde harika bir çözümdür.
+
+track-game-state, make-many-copies

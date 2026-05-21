@@ -1,0 +1,19 @@
+Zaman geçerken saymaya devam edin.
+
+Birçok proje zamanla gelişen bir şeye ihtiyaç duyar; zamanlayıcı, puanlama sistemi, geri sayım sayacı gibi.Birleştirme yoluyla bir sayaç oluşturabiliriz. @Time   @Stream ile @Reaction .
+
+A  @Reaction Üç bölümden oluşur: başlangıç değeri, izlenmesi gereken bir şey ve bu şey değiştiğinde ortaya çıkan yeni değer.Buradan başlıyoruz.\0\, kol saati  @Time ve saatin her tik takında bir tane daha ekleyin:
+
+\count: 0 … ∆ Time(1000ms) … count + 1
+Phrase(count → '')\
+
+Her saniye, @Time yangınlar, @Reaction bildirimlerle\∆ Time(1000ms)\, Ve \count\olur\count + 1\.O\→ ''\Sonunda sayıyı metne dönüştürüyor, yani @Phrase Bunu gösterebilir.
+
+Zaman dışında istediğiniz herhangi bir girdiyi kullanabilirsiniz. Bu sayaç, Button() düğmesine basılma sayısını sayar:
+
+\count: 0 … ∆ Button() … count + 1
+Phrase(count → '')\
+
+Her seferinde @Button Tıklama veya dokunma ile akış değişir, sayım bir artar.
+
+track-points, pick-from-a-list

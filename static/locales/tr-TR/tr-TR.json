@@ -1065,8 +1065,8 @@
                     "explanation": "$~İçeride çok kötü bir şey oldu: 1 dolar"
                 },
                 "PermissionException": {
-                    "description": "$?",
-                    "explanation": "$?"
+                    "description": "$~izin reddedildi",
+                    "explanation": "$~Çalıştırmak için 1 dolarınıza ihtiyacım var, ancak iznim yok. Tekrar denemek için Yeniden Dene'ye tıklayın. Bu işe yaramazsa, tarayıcınızın ayarlarından bu site için 1 dolarlık bağışa izin verin."
                 }
             },
             "label": {
@@ -4833,12 +4833,12 @@
                 "animationSpeed": "$~/animasyon hızı/ kontrolü, animasyonların ne kadar hızlı oynatılacağını ayarlar. Aynı kontrol *ayarlar* bölümünde de bulunur, bu nedenle her iki yerden de değiştirebilirsiniz."
             },
             "permission": {
-                "title": "$?",
-                "microphone": "$?",
-                "camera": "$?",
-                "note": "$?",
-                "start": "$?",
-                "retry": "$?"
+                "title": "$~Bu proje için izin gerekiyor.",
+                "microphone": "$~mikrofon",
+                "camera": "$~kamera",
+                "note": "$~Paylaşmadan önce tarayıcınız size soracaktır.",
+                "start": "$~Başlangıç",
+                "retry": "$~Tekrar dene"
             }
         },
         "timeline": {

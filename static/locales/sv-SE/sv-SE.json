@@ -1065,8 +1065,8 @@
                     "explanation": "$~något väldigt dåligt hände internt: $1"
                 },
                 "PermissionException": {
-                    "description": "$?",
-                    "explanation": "$?"
+                    "description": "$~tillstånd nekad",
+                    "explanation": "$~Jag behöver din $1 för att köras, men jag har inte behörighet. Klicka på Försök igen för att försöka igen. Om det inte hjälper, tillåt $1 för den här webbplatsen i din webbläsares inställningar."
                 }
             },
             "label": {
@@ -4833,12 +4833,12 @@
                 "animationSpeed": "$~Kontrollen /animation speed/ ställer in hur snabbt animationer spelas upp. Samma kontroll finns i *inställningar*, så du kan ändra den från båda ställena."
             },
             "permission": {
-                "title": "$?",
-                "microphone": "$?",
-                "camera": "$?",
-                "note": "$?",
-                "start": "$?",
-                "retry": "$?"
+                "title": "$~Detta projekt behöver tillstånd",
+                "microphone": "$~mikrofon",
+                "camera": "$~kamera",
+                "note": "$~Din webbläsare kommer att fråga innan delning.",
+                "start": "$~Start",
+                "retry": "$~Försöka igen"
             }
         },
         "timeline": {

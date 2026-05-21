@@ -1069,8 +1069,8 @@
                     "explanation": "$~Algo de muito mau aconteceu internamente: $1"
                 },
                 "PermissionException": {
-                    "description": "$?",
-                    "explanation": "$?"
+                    "description": "$~permissão negada",
+                    "explanation": "$~Preciso do seu dólar para funcionar, mas não tenho permissão. Clique em \"Tentar novamente\" para tentar novamente. Se isto não resolver o problema, permita a doação de 1 dólar para este site nas definições do seu browser."
                 }
             }
         },
@@ -5075,12 +5075,12 @@
                 "animationSpeed": "$~O controlo /velocidade da animação/ define a velocidade de reprodução das animações. O mesmo controlo está em *definições*, pelo que pode alterá-lo em qualquer um dos locais."
             },
             "permission": {
-                "title": "$?",
-                "microphone": "$?",
-                "camera": "$?",
-                "note": "$?",
-                "start": "$?",
-                "retry": "$?"
+                "title": "$~Este projeto necessita de permissão.",
+                "microphone": "$~microfone",
+                "camera": "$~câmera",
+                "note": "$~O seu navegador perguntará antes de partilhar.",
+                "start": "$~Iniciar",
+                "retry": "$~Tentar novamente"
             }
         },
         "timeline": {

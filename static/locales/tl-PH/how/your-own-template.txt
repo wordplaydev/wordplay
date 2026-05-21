@@ -1,0 +1,20 @@
+Gumawa ng sarili mong template ng karakter
+
+Minsan gusto mo ng maraming karakter na halos magkapareho ang hitsura, ngunit may kaunting pagkakaiba.Sa halip na magsulat ng pareho @Phrase paulit-ulit, maaari kang gumawa ng sarili mong template gamit ang isang @Structure .
+
+Isang @Structure parang isang recipe na may mga patlang na kailangang punan.Narito ang isang template ng lobo na may kulay at label, at alam kung paano ipapakita ang sarili nito:
+
+\•Balloon(color•Color label•'') (
+	ƒ show() Phrase(`🎈\label\` color: color size: 2m)
+)
+Group(Row() [
+		Balloon(Color(80% 50 240°) 'Langit').show()
+		Balloon(Color(60% 80 0°) 'Rosas').show()
+		Balloon(Color(90% 80 90°) 'Maaraw').show()
+	])\
+
+Ang\•Balloon(...)\bahagi ang tumutukoy sa template, at ang\ƒ show()\sabi ng bahagi/paano gumuhit ng isa/.Pagkatapos ay gagawa tayo ng tatlong lobo na may iba't ibang kulay at label, at hihilingin sa bawat isa na\show\mismo.
+
+Mahusay ang mga template kapag gusto mong panatilihing maayos ang iyong code at pare-pareho ang iyong mga karakter.
+
+track-game-state, make-many-copies

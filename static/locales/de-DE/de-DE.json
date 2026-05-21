@@ -1053,8 +1053,8 @@
                     "explanation": "$~Intern ist etwas sehr Schlimmes passiert: 1 Dollar"
                 },
                 "PermissionException": {
-                    "description": "$?",
-                    "explanation": "$?"
+                    "description": "$~Zugriff verweigert",
+                    "explanation": "$~Ich benötige Ihre 1 $, um die Website auszuführen, habe aber keine Berechtigung. Klicken Sie auf „Wiederholen“, um es erneut zu versuchen. Falls das nicht hilft, erlauben Sie bitte in den Browsereinstellungen die Eingabe von 1 $ für diese Website."
                 }
             },
             "label": {
@@ -4815,12 +4815,12 @@
                 "animationSpeed": "$~Mit dem Regler /animation speed/ legen Sie fest, wie schnell Animationen abgespielt werden. Derselbe Regler befindet sich auch in den *Einstellungen*, sodass Sie ihn an beiden Stellen ändern können."
             },
             "permission": {
-                "title": "$?",
-                "microphone": "$?",
-                "camera": "$?",
-                "note": "$?",
-                "start": "$?",
-                "retry": "$?"
+                "title": "$~Für dieses Projekt wird eine Genehmigung benötigt.",
+                "microphone": "$~Mikrofon",
+                "camera": "$~Kamera",
+                "note": "$~Ihr Browser fragt Sie vor dem Teilen.",
+                "start": "$~Start",
+                "retry": "$~Wiederholen"
             }
         },
         "timeline": {

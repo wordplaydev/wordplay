@@ -1,0 +1,20 @@
+Crea tu propia plantilla de personaje
+
+A veces uno quiere muchos personajes que se parezcan mucho, pero con pequeñas diferencias.En lugar de escribir lo mismo @Phrase Una y otra vez, puedes crear tu propia plantilla con una @Structure .
+
+A  @Structure Es como una receta con espacios en blanco para rellenar.Aquí tienes una plantilla de globo que toma un color y una etiqueta, y sabe cómo mostrarse:
+
+\•Balloon(color•Color label•'') (
+	ƒ show() Phrase(`🎈\label\` color: color size: 2m)
+)
+Group(Row() [
+		Balloon(Color(80% 50 240°) 'Cielo').show()
+		Balloon(Color(60% 80 0°) 'Rosa').show()
+		Balloon(Color(90% 80 90°) 'Soleado').show()
+	])\
+
+El \•Balloon(...)\La parte define la plantilla y la\ƒ show()\parte dice/cómo dibujar uno/.Luego hacemos tres globos con diferentes colores y etiquetas, y le pedimos a cada uno que\show\ella misma.
+
+Las plantillas son estupendas cuando quieres mantener tu código ordenado y tus caracteres uniformes.
+
+track-game-state, make-many-copies

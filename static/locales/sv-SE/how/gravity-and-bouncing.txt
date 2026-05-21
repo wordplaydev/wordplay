@@ -1,0 +1,24 @@
+Få en karaktär att falla och studsa
+
+Tänk om vi vill att en karaktär ska falla ner, studsa från golvet eller bli knuffad runt som en riktig varelse?Det är vad @Motion och @Matter är för — tillsammans simulerar de fysik för en @Phrase . 
+
+@Motion kontroller/där/en karaktär är över tid. Vi använder den som\place\för en @Phrase , startar den högt så att den kan falla.Vi behöver också något att falla på, annars kommer vår karaktär bara att fortsätta falla för alltid! @Shape med ett brett @Rectangle blir ett fint golv:
+
+\Stage([
+		Phrase('🍎' place: Motion(Place(0m 5m)) matter: Matter())
+		Shape(Rectangle(-10m 0m 10m -5m))
+	])\
+
+Äpplet börjar fem meter upp och faller under gravitationen.När den träffar golvet studsar den lite, pga. @Phrase har en inbyggd @Matter som styr hur tung och studsande den är.
+
+Att ändra hur/studsande/eller hur/tung/en karaktär är, ge den din egen @Matter . @Matter tar en massa, en studsighet och en friktion:
+
+\Stage([
+		Phrase('⚽' place: Motion(Place(-2m 5m)) matter: Matter(1kg 0.9 0.2))
+		Phrase('🪨' place: Motion(Place(2m 5m)) matter: Matter(5kg 0.1 0.8))
+		Shape(Rectangle(-10m 0m 10m -5m))
+	])\
+
+Bollen är lätt och studsande, så den fjädrar upp igen.Stenen är tung och inte studsande, så den bara dunsar.
+
+follow-the-pointer, move-phrase

@@ -1,0 +1,19 @@
+Đếm ngược thời gian trôi qua
+
+Nhiều dự án cần một thứ gì đó phát triển theo thời gian — bộ đếm thời gian, điểm số, bộ đếm ngược.Chúng ta có thể tạo ra một bộ đếm bằng cách kết hợp các yếu tố sau: @Time   @Stream với một @Reaction .
+
+MỘT  @Reaction Nó gồm ba phần: giá trị ban đầu, một yếu tố cần theo dõi, và giá trị mới khi yếu tố đó thay đổi.Chúng ta bắt đầu từ đây.\0\, đồng hồ  @Time và cộng thêm một mỗi khi đồng hồ tích tắc:
+
+\count: 0 … ∆ Time(1000ms) … count + 1
+Phrase(count → '')\
+
+Mỗi giây, @Time đám cháy, @Reaction thông báo kèm theo\∆ Time(1000ms)\, Và \count\trở thành\count + 1\.Cái\→ ''\Cuối cùng, nó chuyển đổi số thành văn bản. @Phrase có thể chứng minh điều đó.
+
+Bạn có thể sử dụng bất kỳ đầu vào nào bạn muốn, không chỉ là thời gian. Bộ đếm này đếm số lần nhấn nút Button():
+
+\count: 0 … ∆ Button() … count + 1
+Phrase(count → '')\
+
+Mỗi lần @Button Luồng dữ liệu thay đổi khi bạn nhấp chuột hoặc chạm vào, số lượng sẽ tăng lên một.
+
+track-points, pick-from-a-list

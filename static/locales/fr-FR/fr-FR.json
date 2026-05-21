@@ -1065,8 +1065,8 @@
                     "explanation": "$~quelque chose de très grave s'est produit en interne : 1 $"
                 },
                 "PermissionException": {
-                    "description": "$?",
-                    "explanation": "$?"
+                    "description": "$~Autorisation refusée",
+                    "explanation": "$~J'ai besoin de votre don de 1 $ pour accéder au site, mais je n'y suis pas autorisé. Cliquez sur « Réessayer » pour réessayer. Si le problème persiste, autorisez les dons de 1 $ pour ce site dans les paramètres de votre navigateur."
                 }
             },
             "label": {
@@ -4816,12 +4816,12 @@
                 "animationSpeed": "$~Le paramètre /vitesse d'animation/ détermine la vitesse de lecture des animations. Ce même paramètre se trouve dans les *paramètres*, vous pouvez donc le modifier depuis l'un ou l'autre endroit."
             },
             "permission": {
-                "title": "$?",
-                "microphone": "$?",
-                "camera": "$?",
-                "note": "$?",
-                "start": "$?",
-                "retry": "$?"
+                "title": "$~Ce projet nécessite une autorisation",
+                "microphone": "$~microphone",
+                "camera": "$~caméra",
+                "note": "$~Votre navigateur vous demandera votre autorisation avant de partager.",
+                "start": "$~Commencer",
+                "retry": "$~Réessayer"
             }
         },
         "timeline": {

@@ -1,0 +1,17 @@
+Metinleri yan yana yerleştirin
+
+Bazen metinlerin düzgün bir şekilde yan yana durmasını isteriz.Bunu şu şekilde yapabiliriz: @Row her şeyi düzenleyen bir @Group Soldan sağa.
+
+\Group(Row() [Phrase('🍎') Phrase('🍌') Phrase('🍇')])\
+
+A  @Row Karakterleri üst, orta veya alt kenarlarından hizalayabilir ve aralarına boşluk ekleyebilirsiniz.İşte aynı meyve, ancak bu sefer alt kısmı hizalanmış ve biraz boşluk bırakılmış şekilde:
+
+\Group(Row('>' 0.5m) [
+		Phrase('🍎' size: 2m)
+		Phrase('🍌' size: 1m)
+		Phrase('🍇' size: 3m)
+	])\
+
+O\'>'\anlatıyor @Row Her şeyi alt kenarı boyunca hizalamayı deneyin.\'<'\üst veya üst için\'|'\orta için.O\0.5m\Her karakter arasındaki boşluktur.
+
+stack-up-and-down, make-a-grid

@@ -1,0 +1,21 @@
+Exibir coisas diferentes com base num valor.
+
+E se quiser um @Phrase Alterar consoante algo — como uma pontuação ou uma tecla premida?
+
+Podemos usar o condicional\?\Ter de escolher entre duas coisas.Escreva a condição e depois um\?\, depois o valor a utilizar quando for verdadeiro, e depois o valor a utilizar quando for falso.
+
+Eis um rosto feliz que fica triste cada vez que se pressiona a barra de espaço e depois volta ao normal:
+
+\happy: ⊤ … ∆ Key(' ') … ~happy
+Phrase(happy ? '😊' '😢')\
+
+O  @Reaction começa\happy\ como \⊤\(verdadeiro), e inverte-o com\~\sempre que a barra de espaço é premida.Assim a condicional\?\Escolhe a cara certa.
+
+Pode encadear condicionais para escolher entre mais de duas opções:
+
+\score: 0 … ∆ Key('um') … score + 1
+Phrase(score < 3 ? '🥚' score < 6 ? '🐣' '🐥')\
+
+Imprensa \a\Algumas vezes, e observe o ovo a eclodir e a transformar-se num pintainho!
+
+track-points, offer-choices

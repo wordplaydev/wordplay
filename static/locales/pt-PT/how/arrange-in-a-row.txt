@@ -1,0 +1,17 @@
+Coloque o texto lado a lado
+
+Por vezes, queremos que o texto fique lado a lado, numa linha organizada.Podemos fazê-lo com um @Row , que organiza tudo num @Group da esquerda para a direita.
+
+\Group(Row() [Phrase('🍎') Phrase('🍌') Phrase('🍇')])\
+
+UM  @Row Também é possível alinhar os caracteres pelas margens superior, central ou inferior e adicionar espaço entre eles.Aqui está a mesma fruta, mas alinhada na parte inferior com um pouco de espaço entre elas:
+
+\Group(Row('>' 0.5m) [
+		Phrase('🍎' size: 2m)
+		Phrase('🍌' size: 1m)
+		Phrase('🍇' size: 3m)
+	])\
+
+O \'>'\diz ao @Row para alinhar tudo ao longo da borda inferior. Tente\'<'\para cima ou\'|'\para o meio.O \0.5m\é o espaço entre cada caractere.
+
+stack-up-and-down, make-a-grid

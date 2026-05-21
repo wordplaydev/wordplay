@@ -1,0 +1,24 @@
+Lass eine Figur fallen und abprallen
+
+Was, wenn wir wollen, dass eine Figur hinfällt, vom Boden abprallt oder herumgeschubst wird wie in der Realität?Das ist es. @Motion  Und  @Matter dienen dazu – zusammen simulieren sie Physik für ein @Phrase Die 
+
+@Motion Bedienelemente/Wo/Ein Charakter verändert sich im Laufe der Zeit. Wir verwenden ihn als den\place\für ein @Phrase Ich setze es hoch an, damit es fallen kann.Wir brauchen auch etwas, worauf wir fallen können, sonst fällt unsere Spielfigur immer weiter! @Shape mit einem breiten @Rectangle ergibt einen schönen Boden:
+
+\Stage([
+		Phrase('🍎' place: Motion(Place(0m 5m)) matter: Matter())
+		Shape(Rectangle(-10m 0m 10m -5m))
+	])\
+
+Der Apfel startet aus fünf Metern Höhe und fällt unter dem Einfluss der Schwerkraft zu Boden.Wenn es auf den Boden aufprallt, federt es ein wenig zurück, weil @Phrase verfügt über eine eingebaute @Matter Das bestimmt, wie schwer und elastisch es ist.
+
+Um zu ändern, wie/federnd/oder wie/schwer/Eine Figur ist, gib ihr deine eigene @Matter Die @Matter benötigt Masse, Sprungkraft und Reibung:
+
+\Stage([
+		Phrase('⚽' place: Motion(Place(-2m 5m)) matter: Matter(1kg 0.9 0.2))
+		Phrase('🪨' place: Motion(Place(2m 5m)) matter: Matter(5kg 0.1 0.8))
+		Shape(Rectangle(-10m 0m 10m -5m))
+	])\
+
+Der Ball ist leicht und elastisch, deshalb springt er wieder hoch.Der Stein ist schwer und nicht federnd, daher knallt er einfach nur.
+
+follow-the-pointer, move-phrase

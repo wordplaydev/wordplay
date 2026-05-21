@@ -1,0 +1,17 @@
+Tạo nhiều bản sao của một nhân vật
+
+Nếu chúng ta muốn mười con mèo, hoặc một trăm ngôi sao, nhưng không muốn gõ hết chúng ra thì sao?Chúng ta có thể yêu cầu một danh sách sao chép tài liệu cho chúng ta. @List/translate .
+
+Nếu chúng ta bắt đầu với con số\10\và chuyển đổi nó bằng\→ []\Ta nhận được một danh sách mười số từ 1 đến 10.Sau đó chúng ta sử dụng @List/translate để chuyển mỗi số thành một @Phrase :
+
+\Group(Row() (10 → []).translate(ƒ() Phrase('🐈')))\
+
+@List/translate Hàm này gọi một lần cho mỗi mục và thu thập kết quả vào một danh sách mới.
+
+Để mỗi bản sao có chút khác biệt, hãy sử dụng số mà lệnh translate cung cấp cho chúng ta:
+
+\Group(Row('|' 0.2m) (8 → []).translate(ƒ(n) Phrase('⭐' size: n × 0.5m)))\
+
+Mỗi ngôi sao đều lớn hơn ngôi sao trước đó, bởi vì\n\đi từ\1\ ĐẾN \8\.
+
+make-a-grid, arrange-in-a-row

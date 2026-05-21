@@ -1,0 +1,21 @@
+Visa olika saker baserat på ett värde
+
+Vad händer om du vill ha en @Phrase att ändras beroende på något — som ett partitur eller en tangenttryckning?
+
+Vi kan använda villkoret\?\att välja mellan två saker.Skriv villkoret, sedan ett\?\, sedan värdet som ska användas när det är sant, och sedan värdet som ska användas när det är falskt.
+
+Här är ett glatt ansikte som blir ledset varje gång du trycker på mellanslagstangenten, och sedan tillbaka igen:
+
+\happy: ⊤ … ∆ Key(' ') … ~happy
+Phrase(happy ? '😊' '😢')\
+
+Den @Reaction börjar\happy\som\⊤\(sant), och vänder den med\~\varje gång mellanslag trycks ner.Sedan det villkorliga\?\väljer rätt ansikte.
+
+Du kan kedja villkor för att välja mellan mer än två saker:
+
+\score: 0 … ∆ Key('en') … score + 1
+Phrase(score < 3 ? '🥚' score < 6 ? '🐣' '🐥')\
+
+Tryck\a\några gånger och se ägget kläckas till en kyckling!
+
+track-points, offer-choices

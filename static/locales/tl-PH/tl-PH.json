@@ -1072,8 +1072,8 @@
                     "explanation": "$~may nangyaring napakasama sa loob: $1"
                 },
                 "PermissionException": {
-                    "description": "$?",
-                    "explanation": "$?"
+                    "description": "$~tinanggihan ang pahintulot",
+                    "explanation": "$~Kailangan ko ang iyong $1 para tumakbo, ngunit wala akong pahintulot. I-click ang Subukan muli para subukan muli. Kung hindi iyon makakatulong, payagan ang $1 para sa site na ito sa mga setting ng iyong browser."
                 }
             }
         },
@@ -5078,12 +5078,12 @@
                 "animationSpeed": "$~Ang kontrol na /animation speed/ ay nagtatakda kung gaano kabilis tumutugtog ang mga animation. Ang parehong kontrol ay nasa *settings*, kaya maaari mo itong baguhin mula sa alinmang lugar."
             },
             "permission": {
-                "title": "$?",
-                "microphone": "$?",
-                "camera": "$?",
-                "note": "$?",
-                "start": "$?",
-                "retry": "$?"
+                "title": "$~Kailangan ng pahintulot ang proyektong ito",
+                "microphone": "$~mikropono",
+                "camera": "$~kamera",
+                "note": "$~Magtatanong ang iyong browser bago magbahagi.",
+                "start": "$~Simulan",
+                "retry": "$~Subukan muli"
             }
         },
         "timeline": {

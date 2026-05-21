@@ -1065,8 +1065,8 @@
                     "explanation": "$~內部發生了一件非常糟糕的事：1美元"
                 },
                 "PermissionException": {
-                    "description": "$?",
-                    "explanation": "$?"
+                    "description": "$~沒有權限",
+                    "explanation": "$~我需要您支付 1 美元才能運行，但我沒有權限。請點擊“重試”按鈕再次嘗試。如果仍然無效，請在瀏覽器設定中允許此網站支付 1 美元。"
                 }
             },
             "label": {
@@ -4774,12 +4774,12 @@
                 "animationSpeed": "$~“動畫速度”控制用於設定動畫播放速度。該控制項也位於「設定」中，因此您可以在任一位置進行變更。"
             },
             "permission": {
-                "title": "$?",
-                "microphone": "$?",
-                "camera": "$?",
-                "note": "$?",
-                "start": "$?",
-                "retry": "$?"
+                "title": "$~此項目需要獲得許可",
+                "microphone": "$~麥克風",
+                "camera": "$~相機",
+                "note": "$~分享前，您的瀏覽器會詢問您。",
+                "start": "$~開始",
+                "retry": "$~重試"
             }
         },
         "timeline": {

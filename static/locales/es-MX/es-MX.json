@@ -1038,8 +1038,8 @@
                     "explanation": "$~Algo muy malo sucedió internamente: $1"
                 },
                 "PermissionException": {
-                    "description": "$?",
-                    "explanation": "$?"
+                    "description": "$~Permiso denegado",
+                    "explanation": "$~Necesito tu pago de $1 para funcionar, pero no tengo permiso. Haz clic en Reintentar para intentarlo de nuevo. Si el problema persiste, añade un pago de $1 para este sitio en la configuración de tu navegador."
                 }
             },
             "label": {
@@ -4798,12 +4798,12 @@
                 "animationSpeed": "$~El control /velocidad de animación/ establece la velocidad de reproducción de las animaciones. Este mismo control se encuentra en *ajustes*, por lo que puedes modificarlo desde cualquiera de los dos lugares."
             },
             "permission": {
-                "title": "$?",
-                "microphone": "$?",
-                "camera": "$?",
-                "note": "$?",
-                "start": "$?",
-                "retry": "$?"
+                "title": "$~Este proyecto necesita permiso",
+                "microphone": "$~micrófono",
+                "camera": "$~cámara",
+                "note": "$~Tu navegador te preguntará antes de compartir.",
+                "start": "$~Comenzar",
+                "retry": "$~Rever"
             }
         },
         "timeline": {
