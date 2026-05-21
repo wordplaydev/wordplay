@@ -8,7 +8,10 @@
     import MachineTranslatedAnnotation from '@components/app/MachineTranslatedAnnotation.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import { accessorToLocalePath } from '@components/localization/accessorToLocalePath';
-    import { getLocalizing } from '@components/project/Contexts';
+    import {
+        getLinkLocalize,
+        getLocalizing,
+    } from '@components/project/Contexts';
     import Button from '@components/widgets/Button.svelte';
     import TextField from '@components/widgets/TextField.svelte';
     import { locales } from '@db/Database';
@@ -57,6 +60,11 @@
         /** The current source text used when `overrideKey` is provided. Acts as the
          *  initial editor value and the "no-override" fallback for display. */
         sourceText?: string;
+        /** Render only the edit affordance (button + inline field in edit mode),
+         *  not the text itself. Use this when the parent already renders the text
+         *  (e.g., a `<Link>` wrapping the same string in an anchor) and just needs
+         *  a sibling control to open the localizer. */
+        editOnly?: boolean;
     }
 
     let {
@@ -67,6 +75,7 @@
         onEditingChange,
         overrideKey,
         sourceText,
+        editOnly = false,
     }: Props = $props();
 
     const fieldId = `localize-field-${idCounter++}`;
@@ -106,6 +115,17 @@
     let editedText = $state('');
     let fieldView = $state<HTMLInputElement | undefined>(undefined);
     let cancelled = false;
+
+    // If we're rendered inside a <Link>, hand our path up so the link can render
+    // an edit affordance beside the anchor. We then render as plain text inside
+    // the anchor (keeping the link clickable). `editOnly` callers are the Link
+    // itself rendering the affordance, so they skip the registration.
+    const linkLocalize = getLinkLocalize();
+    $effect(() => {
+        if (editOnly || linkLocalize === undefined) return;
+        linkLocalize.register(path as LocaleTextAccessor | undefined);
+        return () => linkLocalize.register(undefined);
+    });
 
     // Notify parents whenever editing state flips, so they can hide a sibling LocalizedText.
     $effect(() => {
@@ -151,7 +171,80 @@
     }
 </script>
 
-{#if localizing?.on}
+{#snippet editor()}
+    <TextField
+        id={fieldId}
+        description={(l) => l.ui.localize.field.plain.description}
+        placeholder={(l) => l.ui.localize.field.plain.placeholder}
+        max="6em"
+        noTipBadge
+        bind:text={editedText}
+        bind:view={fieldView}
+        focus={() =>
+            (localizing.focused =
+                path !== undefined ? (path as LocaleTextAccessor) : undefined)}
+        blur={() => (localizing.focused = undefined)}
+        done={() => {
+            if (cancelled) {
+                cancelled = false;
+            } else {
+                commitEdit(editedText);
+            }
+            editing = false;
+        }}
+    /><span class="edit-actions"
+        ><Button
+            tip={(l) => l.ui.localize.button.submit}
+            action={() => {
+                commitEdit(editedText);
+                editing = false;
+            }}
+            background>{CONFIRM_SYMBOL}</Button
+        ><Button
+            tip={(l) => l.ui.localize.button.cancel}
+            action={() => {
+                cancelled = true;
+                fieldView?.blur();
+            }}
+            background>{CANCEL_SYMBOL}</Button
+        >{#if override}<Button
+                tip={(l) => l.ui.localize.button.revert}
+                action={() => {
+                    if (storageKey !== undefined)
+                        deleteLocaleEdit(activeLocaleString, storageKey);
+                    cancelled = true;
+                    fieldView?.blur();
+                }}
+                background>{REVERT_SYMBOL}</Button
+            >{/if}</span
+    >
+{/snippet}
+
+{#if editOnly}
+    {#if localizing?.on}
+        {#if editing}
+            <span
+                class="localized-wrapper editing inline"
+                role="none"
+                onkeydown={handleKeydown}>{@render editor()}</span
+            >
+        {:else}
+            <Button
+                tip={(l) => l.ui.localize.button.edit}
+                action={startEditing}
+                padding={false}
+                background="salient"
+                size="inherit">{EDIT_SYMBOL}</Button
+            >
+        {/if}
+    {/if}
+{:else if linkLocalize !== undefined}
+    <!-- Inside a Link: render plain text only. The parent Link renders the
+         edit affordance beside the anchor so it stays a real hyperlink. -->
+    {#if markup}<MarkupHTMLView markup={text}
+        ></MarkupHTMLView>{:else}{withoutAnnotationsText}{/if}{#if isMT}<MachineTranslatedAnnotation
+        />{/if}
+{:else if localizing?.on}
     <span
         class="localized-wrapper"
         class:tip-badge={tipIcon && !editing}
@@ -164,57 +257,7 @@
         onkeydown={handleKeydown}
     >
         {#if editing}
-            <TextField
-                id={fieldId}
-                description={(l) => l.ui.localize.field.plain.description}
-                placeholder={(l) => l.ui.localize.field.plain.placeholder}
-                max="6em"
-                noTipBadge
-                bind:text={editedText}
-                bind:view={fieldView}
-                focus={() =>
-                    (localizing.focused =
-                        path !== undefined
-                            ? (path as LocaleTextAccessor)
-                            : undefined)}
-                blur={() => (localizing.focused = undefined)}
-                done={() => {
-                    if (cancelled) {
-                        cancelled = false;
-                    } else {
-                        commitEdit(editedText);
-                    }
-                    editing = false;
-                }}
-            /><span class="edit-actions"
-                ><Button
-                    tip={(l) => l.ui.localize.button.submit}
-                    action={() => {
-                        commitEdit(editedText);
-                        editing = false;
-                    }}
-                    background>{CONFIRM_SYMBOL}</Button
-                ><Button
-                    tip={(l) => l.ui.localize.button.cancel}
-                    action={() => {
-                        cancelled = true;
-                        fieldView?.blur();
-                    }}
-                    background>{CANCEL_SYMBOL}</Button
-                >{#if override}<Button
-                        tip={(l) => l.ui.localize.button.revert}
-                        action={() => {
-                            if (storageKey !== undefined)
-                                deleteLocaleEdit(
-                                    activeLocaleString,
-                                    storageKey,
-                                );
-                            cancelled = true;
-                            fieldView?.blur();
-                        }}
-                        background>{REVERT_SYMBOL}</Button
-                    >{/if}</span
-            >
+            {@render editor()}
         {:else}
             <Button
                 tip={tipIcon
@@ -255,6 +298,15 @@
         gap: var(--wordplay-spacing-half);
         width: 100%;
         margin-block: var(--wordplay-spacing-half);
+    }
+
+    /* `editOnly` callers (e.g., the Link's edit affordance) want the editor to
+       sit inline beside the link rather than claim a full row below it. */
+    .localized-wrapper.editing.inline {
+        display: inline-flex;
+        flex-wrap: nowrap;
+        width: auto;
+        margin-block: 0;
     }
 
     span.edit-actions {
