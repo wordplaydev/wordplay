@@ -57,6 +57,11 @@
     let view: HTMLSelectElement | undefined = $state(undefined);
 
     function commitChange(newValue: string | undefined) {
+        // A single user action can trigger multiple handlers (onpointerdown on
+        // the option AND onchange on the select in Chrome; onchange alone in
+        // Safari; onkeydown for Enter/Space). They all funnel here, so collapse
+        // redundant calls to the same value into a single change() invocation.
+        if (newValue === value) return;
         value = newValue;
         change(newValue);
         tick().then(() => {
