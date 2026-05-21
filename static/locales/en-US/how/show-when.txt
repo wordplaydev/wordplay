@@ -1,0 +1,27 @@
+Show different things based on a value
+
+What if you want a @Phrase to change depending on something — like a score, or a key press?
+
+We can use the conditional \?\ to pick between two things.
+Write the condition, then a \?\, then the value to use when it's true, then the value to use when it's false.
+
+Here's a happy face that turns sad each time you press the space bar, then back again:
+
+\
+happy: ⊤ … ∆ Key(' ') … ~happy
+Phrase(happy ? '😊' '😢')
+\
+
+The @Reaction starts \happy\ as \⊤\ (true), and flips it with \~\ every time space is pressed.
+Then the conditional \?\ picks the right face.
+
+You can chain conditionals to pick from more than two things:
+
+\
+score: 0 … ∆ Key('a') … score + 1
+Phrase(score < 3 ? '🥚' score < 6 ? '🐣' '🐥')
+\
+
+Press \a\ a few times and watch the egg hatch into a chick!
+
+track-points, offer-choices

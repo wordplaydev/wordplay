@@ -4,6 +4,12 @@ We'll note all notable changes in this file, including bug fixes, enhancements, 
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 These notes are publicly posted in [production](https://wordplay.dev/updates), so we write them to an audience of teachers and youth.
 
+## Unreleased
+
+### Added
+
+- Added 11 new built-in how-to's to the Guide covering layout (rows, stacks, grids, copies), animation (counting with time, reacting to sound), the @Pointer stream, custom @Structure templates, picking from a list with @Random, conditional rendering, and physics with @Motion and @Matter. These fill the previously empty layout, animation, and motion categories.
+
 ## 0.18.1 - 2026-05-19
 
 ### Added

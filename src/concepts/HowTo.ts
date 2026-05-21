@@ -41,6 +41,17 @@ export const HowToMetadata = {
     'offer-choices': { category: 'remembering' },
     'choose-adventure': { category: 'remembering' },
     'repeating-a-movement': { category: 'characters' },
+    'arrange-in-a-row': { category: 'layout' },
+    'stack-up-and-down': { category: 'layout' },
+    'make-a-grid': { category: 'layout' },
+    'make-many-copies': { category: 'layout' },
+    'follow-the-pointer': { category: 'characters' },
+    'your-own-template': { category: 'characters' },
+    'count-with-time': { category: 'animation' },
+    'react-to-sound': { category: 'animation' },
+    'pick-from-a-list': { category: 'randomization' },
+    'show-when': { category: 'remembering' },
+    'gravity-and-bouncing': { category: 'motion' },
     'gallery-how-to': { category: 'gallery' },
 } satisfies Record<string, { category: HowToCategory }>;
 
