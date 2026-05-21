@@ -1,18 +1,18 @@
-Personal Map – The Places I've Lived
+Personal Map
 === English/en
 ¶This project shows a map of landmarks and a moveable 
 character. When the character collides with a landmark
-then their speech bubble changes. This version is in English.¶
+then their speech bubble changes. This version is in English.¶/en
 
 ¶ This collision stream checks for collisions between the phrase
 with the name 'me' and any other phrases. When a collision happens,
-it's value stores a 'Rebound' object that contains the object collided with.¶
+it's value stores a 'Rebound' object that contains the object collided with.¶/en
 choice: Collision('me')
 name: (choice = ø ? "" choice.object)
 
 ¶This 'otherwise' checks the name of the collided object
 and chooses a list of formatted text based on the name.
-If there's no name, it defaults to starting text.¶
+If there's no name, it defaults to starting text.¶/en
 about: name ???
 		"Virginia": [
 			`*(2005 – 2007)*`
@@ -62,7 +62,7 @@ about: name ???
 
 ¶This stream starts in the middle, but can be changed with
 the keyboard arrows or clicking the stage.
-We use it to place the character.¶
+We use it to place the character.¶/en
 where: Placement(📍(0m 0m))
 
 ¶This takes all of the content above and renders it,
@@ -70,7 +70,7 @@ putting each landmark on stage in a particular location
 and converting the list of formatted text for the current
 about text into a stack of phrases with a background.
 Each landmark needs a name and matter in order for the collision
-stream to check collisions.↑¶
+stream to check collisions.¶/en
 Stage(
 	[
 		Phrase('🍂' name: "Virginia" place: Place(-3m 0m) matter: Matter())
