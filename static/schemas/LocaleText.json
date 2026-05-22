@@ -10113,6 +10113,9 @@
             "Function": {
               "type": "string"
             },
+            "HanNumeral": {
+              "type": "string"
+            },
             "Highlight": {
               "type": "string"
             },
@@ -10126,9 +10129,6 @@
               "type": "string"
             },
             "Italic": {
-              "type": "string"
-            },
-            "JapaneseNumeral": {
               "type": "string"
             },
             "Language": {
@@ -10294,7 +10294,7 @@
             "Region",
             "BooleanType",
             "NumberType",
-            "JapaneseNumeral",
+            "HanNumeral",
             "RomanNumeral",
             "Pi",
             "Infinity",

@@ -93,7 +93,7 @@
         "Region": "$~प्रदेश डॅश",
         "BooleanType": "$~बुलियन प्रकार",
         "NumberType": "$~संख्या प्रकार",
-        "JapaneseNumeral": "$~जपानी अंक",
+        "HanNumeral": "$~जपानी अंक",
         "RomanNumeral": "$~रोमन अंक",
         "Pi": "$~pi",
         "Infinity": "$~अनंत",

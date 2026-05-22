@@ -94,7 +94,7 @@
         "Region": "지역",
         "BooleanType": "$~불리언 유형",
         "NumberType": "$~숫자 유형",
-        "JapaneseNumeral": "일본 숫자",
+        "HanNumeral": "일본 숫자",
         "RomanNumeral": "로마 숫자",
         "Pi": "파이",
         "Infinity": "무한대",

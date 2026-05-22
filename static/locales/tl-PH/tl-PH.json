@@ -93,7 +93,7 @@
         "Region": "$~rehiyonal na gitling",
         "BooleanType": "$~uri ng boolean",
         "NumberType": "$~uri ng numero",
-        "JapaneseNumeral": "$~numerong Hapones",
+        "HanNumeral": "$~numerong Hapones",
         "RomanNumeral": "$~numerong Romano",
         "Pi": "$~pi",
         "Infinity": "$~kawalang-hanggan",

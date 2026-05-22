@@ -93,7 +93,7 @@
         "Region": "$~ಪ್ರದೇಶದ ಡ್ಯಾಶ್",
         "BooleanType": "$~ಬೂಲಿಯನ್ ಪ್ರಕಾರ",
         "NumberType": "$~ಸಂಖ್ಯೆಯ ಪ್ರಕಾರ",
-        "JapaneseNumeral": "$~ಜಪಾನೀಸ್ ಸಂಖ್ಯೆ",
+        "HanNumeral": "$~ಜಪಾನೀಸ್ ಸಂಖ್ಯೆ",
         "RomanNumeral": "$~ರೋಮನ್ ಸಂಖ್ಯೆ",
         "Pi": "$~ಪೈ",
         "Infinity": "$~ಅನಂತ",

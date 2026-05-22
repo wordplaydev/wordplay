@@ -93,7 +93,7 @@
         "Region": "$~região traço",
         "BooleanType": "$~tipo booleano",
         "NumberType": "$~tipo de número",
-        "JapaneseNumeral": "$~numeral japonês",
+        "HanNumeral": "$~numeral japonês",
         "RomanNumeral": "$~numeral romano",
         "Pi": "$~pi",
         "Infinity": "$~infinito",

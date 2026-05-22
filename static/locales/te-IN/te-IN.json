@@ -93,7 +93,7 @@
         "Region": "$~ప్రాంతం డాష్",
         "BooleanType": "$~బూలియన్ రకం",
         "NumberType": "$~సంఖ్య రకం",
-        "JapaneseNumeral": "$~జపనీస్ సంఖ్య",
+        "HanNumeral": "$~జపనీస్ సంఖ్య",
         "RomanNumeral": "$~రోమన్ సంఖ్య",
         "Pi": "$~పై",
         "Infinity": "$~అనంతం",

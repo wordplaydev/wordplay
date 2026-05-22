@@ -93,7 +93,7 @@
         "Region": "$~khu vực gạch ngang",
         "BooleanType": "$~kiểu boolean",
         "NumberType": "$~loại số",
-        "JapaneseNumeral": "$~chữ số Nhật Bản",
+        "HanNumeral": "$~chữ số Nhật Bản",
         "RomanNumeral": "$~chữ số La Mã",
         "Pi": "$~pi",
         "Infinity": "$~vô cực",

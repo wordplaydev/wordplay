@@ -93,7 +93,7 @@
         "Region": "$~bölge çizgisi",
         "BooleanType": "$~Boolean türü",
         "NumberType": "$~sayı türü",
-        "JapaneseNumeral": "$~japon rakamı",
+        "HanNumeral": "$~japon rakamı",
         "RomanNumeral": "$~Roma rakamı",
         "Pi": "$~pi",
         "Infinity": "$~sonsuzluk",

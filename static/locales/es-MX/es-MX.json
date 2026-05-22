@@ -94,7 +94,7 @@
         "Region": "guión de región",
         "BooleanType": "tipo booleano",
         "NumberType": "tipo de número",
-        "JapaneseNumeral": "número japonés",
+        "HanNumeral": "número japonés",
         "RomanNumeral": "número romano",
         "Pi": "pi",
         "Infinity": "infinidad",

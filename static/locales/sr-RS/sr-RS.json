@@ -93,7 +93,7 @@
         "Region": "$~регион цртица",
         "BooleanType": "$~боолеан тип",
         "NumberType": "$~тип броја",
-        "JapaneseNumeral": "$~јапански број",
+        "HanNumeral": "$~јапански број",
         "RomanNumeral": "$~римски број",
         "Pi": "$~пи",
         "Infinity": "$~бесконачност",

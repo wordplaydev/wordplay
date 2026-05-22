@@ -93,7 +93,7 @@
         "Region": "$~பிராந்திய கோடு",
         "BooleanType": "$~பூலியன் வகை",
         "NumberType": "$~எண் வகை",
-        "JapaneseNumeral": "$~ஜப்பானிய எண்",
+        "HanNumeral": "$~ஜப்பானிய எண்",
         "RomanNumeral": "$~ரோமன் எண்",
         "Pi": "$~பை",
         "Infinity": "$~முடிவிலி",

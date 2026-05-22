@@ -94,7 +94,7 @@
         "Region": "région",
         "BooleanType": "$~type booléen",
         "NumberType": "type de nombre",
-        "JapaneseNumeral": "$~chiffre japonais",
+        "HanNumeral": "$~chiffre japonais",
         "RomanNumeral": "$~chiffre romain",
         "Pi": "$~pi",
         "Infinity": "$~infini",

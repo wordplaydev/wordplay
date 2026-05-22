@@ -293,11 +293,12 @@ const CodeTokenPatterns: TokenPattern[] = [
         pattern: /^-?[ⅠⅡⅢⅣⅤⅥⅦⅧⅨⅩⅪⅫⅬⅭⅮⅯ]+/,
         types: [Sym.Number, Sym.RomanNumeral],
     },
-    // Japanese numbers
+    // Han (CJK) numerals — covers Chinese, Japanese, and Korean uses of the
+    // shared Han character set for numbers, including the larger magnitudes 億 (10^8) and 兆 (10^12).
     {
         pattern:
-            /^-?[0-9]*[一二三四五六七八九十百千万]+(・[一二三四五六七八九分厘毛糸忽]+)?/u,
-        types: [Sym.Number, Sym.JapaneseNumeral],
+            /^-?[0-9]*[一二三四五六七八九十百千万億兆]+(・[一二三四五六七八九分厘毛糸忽]+)?/u,
+        types: [Sym.Number, Sym.HanNumeral],
     },
     // Numbers with bases between base 2 and 16
     {

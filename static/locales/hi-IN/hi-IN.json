@@ -94,7 +94,7 @@
         "Region": "$~क्षेत्र डैश",
         "BooleanType": "$~बूलियन प्रकार",
         "NumberType": "$~संख्या प्रकार",
-        "JapaneseNumeral": "$~जापानी अंक",
+        "HanNumeral": "$~जापानी अंक",
         "RomanNumeral": "$~रोमन अंक",
         "Pi": "$~अनुकरणीय",
         "Infinity": "$~अनंत",

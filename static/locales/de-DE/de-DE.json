@@ -94,7 +94,7 @@
         "Region": "Region",
         "BooleanType": "Boolescher Typ",
         "NumberType": "Nummerntyp",
-        "JapaneseNumeral": "Japanische Zahl",
+        "HanNumeral": "Japanische Zahl",
         "RomanNumeral": "Römische Zahl",
         "Pi": "Kreiszahl",
         "Infinity": "Unendlichkeit",

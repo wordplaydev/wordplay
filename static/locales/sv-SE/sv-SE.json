@@ -93,7 +93,7 @@
         "Region": "$~regionstreck",
         "BooleanType": "$~boolesk typ",
         "NumberType": "$~nummertyp",
-        "JapaneseNumeral": "$~japansk siffra",
+        "HanNumeral": "$~japansk siffra",
         "RomanNumeral": "$~romersk siffra",
         "Pi": "$~pi",
         "Infinity": "$~oändlighet",

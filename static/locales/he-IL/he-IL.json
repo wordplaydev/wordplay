@@ -93,7 +93,7 @@
         "Region": "$~מקף אזור",
         "BooleanType": "$~סוג בוליאני",
         "NumberType": "$~סוג המספר",
-        "JapaneseNumeral": "$~ספרה יפנית",
+        "HanNumeral": "$~ספרה יפנית",
         "RomanNumeral": "$~ספרה רומית",
         "Pi": "$~פַּיִי",
         "Infinity": "$~אֵין סוֹף",

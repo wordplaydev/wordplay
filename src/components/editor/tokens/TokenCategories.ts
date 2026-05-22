@@ -41,7 +41,7 @@ TokenCategories.set(Sym.Separator, TokenCategoryDelimiter);
 TokenCategories.set(Sym.Language, TokenCategoryDelimiter);
 TokenCategories.set(Sym.BooleanType, TokenCategoryLiteral);
 TokenCategories.set(Sym.NumberType, TokenCategoryType);
-TokenCategories.set(Sym.JapaneseNumeral, TokenCategoryLiteral);
+TokenCategories.set(Sym.HanNumeral, TokenCategoryLiteral);
 TokenCategories.set(Sym.RomanNumeral, TokenCategoryLiteral);
 TokenCategories.set(Sym.Pi, TokenCategoryLiteral);
 TokenCategories.set(Sym.Infinity, TokenCategoryLiteral);

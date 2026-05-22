@@ -93,7 +93,7 @@
         "Region": "$~ਖੇਤਰ ਡੈਸ਼",
         "BooleanType": "$~ਬੂਲੀਅਨ ਕਿਸਮ",
         "NumberType": "$~ਨੰਬਰ ਦੀ ਕਿਸਮ",
-        "JapaneseNumeral": "$~ਜਪਾਨੀ ਅੰਕ",
+        "HanNumeral": "$~ਜਪਾਨੀ ਅੰਕ",
         "RomanNumeral": "$~ਰੋਮਨ ਅੰਕ",
         "Pi": "$~pi",
         "Infinity": "$~ਅਨੰਤਤਾ",

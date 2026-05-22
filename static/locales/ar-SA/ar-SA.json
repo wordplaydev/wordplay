@@ -93,7 +93,7 @@
         "Region": "$~منطقة داش",
         "BooleanType": "$~نوع منطقي",
         "NumberType": "$~نوع الرقم",
-        "JapaneseNumeral": "$~الأرقام اليابانية",
+        "HanNumeral": "$~الأرقام اليابانية",
         "RomanNumeral": "$~الأرقام الرومانية",
         "Pi": "$~باي",
         "Infinity": "$~اللانهاية",

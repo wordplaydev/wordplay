@@ -39,7 +39,7 @@ const Sym = {
     Region: '-',
     BooleanType: '•?',
     NumberType: '•#',
-    JapaneseNumeral: '#jpn',
+    HanNumeral: '#han',
     RomanNumeral: '#rom',
     Pi: 'π',
     Infinity: '∞',

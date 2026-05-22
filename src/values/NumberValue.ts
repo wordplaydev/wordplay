@@ -93,8 +93,8 @@ export default class NumberValue extends SimpleValue {
             [num, precision] = convertBase(text);
         } else if (number.isSymbol(Sym.RomanNumeral)) {
             [num, precision] = convertRoman(text);
-        } else if (number.isSymbol(Sym.JapaneseNumeral)) {
-            [num, precision] = convertJapanese(text);
+        } else if (number.isSymbol(Sym.HanNumeral)) {
+            [num, precision] = convertHan(text);
         } else if (number.isSymbol(Sym.Number)) {
             [num, precision] = NumberValue.fromUnknown(text);
         } else [num, precision] = [new Decimal(NaN), undefined];
@@ -110,7 +110,7 @@ export default class NumberValue extends SimpleValue {
         const conversions = [
             convertDecimal,
             convertBase,
-            convertJapanese,
+            convertHan,
             convertRoman,
         ];
 
@@ -277,7 +277,7 @@ export default class NumberValue extends SimpleValue {
     }
 }
 
-const kanjiNumbers: Record<string, number> = {
+const hanNumbers: Record<string, number> = {
     一: 1,
     二: 2,
     三: 3,
@@ -289,7 +289,7 @@ const kanjiNumbers: Record<string, number> = {
     九: 9,
 };
 
-const kanjiOrders: Record<string, number> = {
+const hanOrders: Record<string, number> = {
     忽: 0.00001,
     糸: 0.0001,
     毛: 0.001,
@@ -299,6 +299,8 @@ const kanjiOrders: Record<string, number> = {
     百: 100,
     千: 1000,
     万: 10000,
+    億: 100000000,
+    兆: 1000000000000,
 };
 
 const romanNumerals: Record<string, number> = {
@@ -423,60 +425,69 @@ function convertRoman(text: string): NumberAndPrecision {
     return [sum, undefined];
 }
 
-function convertJapanese(text: string): NumberAndPrecision {
-    // Japanese numbers are  sum of products, read left to right.
-    // For example, 千二百八十九 is
-    // one 千 (1000's) + 二 (two) 百 (100's) + 八 (eight) 十 (10's) + 九 (nine) = 1289.
-    let kanji = text;
+function convertHan(text: string): NumberAndPrecision {
+    // Han (CJK) numbers use nested myriad grouping: digits and small orders
+    // (十百千) accumulate into a "group" that is then multiplied by the next big
+    // unit (万/億/兆) it meets. For example, 二億三千四百五十六万七千八百九十 is
+    // 2·10⁸ + 3456·10⁴ + 7890, because the 万 multiplies the entire 3456 that
+    // precedes it, not just the immediately preceding digit. A linear sum-of-
+    // products won't get this right; we maintain three accumulators (sum,
+    // group, pending) and drain them at big-unit boundaries.
     let sum = new Decimal(0);
-    let previousOrder = undefined;
-    while (kanji.length > 0) {
-        // Is the next character a period?
-        const period = kanji.charAt(0) === '・';
-        // Skip the period.
-        if (period) {
-            kanji = kanji.substring(1);
+    let group = new Decimal(0);
+    let pending = new Decimal(0);
+    let i = 0;
+    while (i < text.length) {
+        const c = text.charAt(i);
+        // Fractional separator: flush any pending digit into the group, then
+        // continue — fractional orders are small orders that accumulate the
+        // same way (分=0.1, 厘=0.01, ...).
+        if (c === '・') {
+            group = group.plus(pending);
+            pending = new Decimal(0);
+            i++;
             continue;
         }
-
-        let multiplier = 1;
-
-        // Is there a 0-9 arabic prefix? If so, parse it as an arabic multiplier.
-        if (/^[0-9]/.test(kanji.charAt(0))) {
+        // Arabic digit prefix.
+        if (/[0-9]/.test(c)) {
             let digits = '';
-            while (kanji.length > 0 && /^[0-9]/.test(kanji.charAt(0))) {
-                digits = digits + kanji.charAt(0);
-                kanji = kanji.substring(1);
+            while (i < text.length && /[0-9]/.test(text.charAt(i))) {
+                digits += text.charAt(i);
+                i++;
             }
-            multiplier = parseInt(digits);
+            pending = new Decimal(parseInt(digits));
+            continue;
         }
-
-        // Is there a 1-9 digit prefix? If so, parse it as a multiplier.
-        let value = kanjiNumbers[kanji.charAt(0)];
-        if (value >= 1 && value <= 9) {
-            kanji = kanji.substring(1);
-            multiplier = value;
+        // Han digit (一–九).
+        const digit = hanNumbers[c];
+        if (digit !== undefined) {
+            pending = new Decimal(digit);
+            i++;
+            continue;
         }
-
-        // Is there another digit that's not a period? Parse the order.
-        if (kanji.length > 0 && kanji.charAt(0) !== '・') {
-            value = kanjiOrders[kanji.charAt(0)];
-            kanji = kanji.substring(1);
-            // If somehow a non-Kanji number snuck in, this isn't a valid number.
-            // If this order of magnitude is greater than the previous one, this isn't a valid number.
-            if (
-                value === undefined ||
-                (previousOrder !== undefined && value > previousOrder)
-            ) {
-                sum = new Decimal(NaN);
-                break;
-            }
-            previousOrder = value;
-            sum = sum.plus(new Decimal(multiplier).times(new Decimal(value)));
-        } else sum = sum.plus(new Decimal(value));
+        // Order character.
+        const order = hanOrders[c];
+        if (order === undefined) return [new Decimal(NaN), undefined];
+        if (order >= 10000) {
+            // Big myriad unit (万/億/兆): drain group + pending, multiply.
+            const effective =
+                group.eq(0) && pending.eq(0)
+                    ? new Decimal(1)
+                    : group.plus(pending);
+            sum = sum.plus(effective.times(new Decimal(order)));
+            group = new Decimal(0);
+        } else {
+            // Small order (十/百/千) or fractional order (分/厘/毛/糸/忽):
+            // multiply the pending digit by the order and add to the group.
+            // A leading order with no digit (e.g. 十 alone = 10) gets an
+            // implicit multiplier of 1.
+            const multiplier = pending.eq(0) ? new Decimal(1) : pending;
+            group = group.plus(multiplier.times(new Decimal(order)));
+        }
+        pending = new Decimal(0);
+        i++;
     }
-
-    return [sum, undefined];
+    return [sum.plus(group).plus(pending), undefined];
 }
 
 function convertDecimal(text: string): NumberAndPrecision {

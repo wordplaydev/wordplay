@@ -93,7 +93,7 @@
         "Region": "region dash",
         "BooleanType": "boolean type",
         "NumberType": "number type",
-        "JapaneseNumeral": "japanese numeral",
+        "HanNumeral": "han numeral",
         "RomanNumeral": "roman numeral",
         "Pi": "pi",
         "Infinity": "infinity",

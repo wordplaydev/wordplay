@@ -93,7 +93,7 @@
         "Region": "$~অঞ্চল ডেচ",
         "BooleanType": "$~বুলিয়ান ধৰণ",
         "NumberType": "$~সংখ্যাৰ ধৰণ",
-        "JapaneseNumeral": "$~জাপানী সংখ্যা",
+        "HanNumeral": "$~জাপানী সংখ্যা",
         "RomanNumeral": "$~ৰোমান সংখ্যা",
         "Pi": "$~pi",
         "Infinity": "$~অসীম",

@@ -65,10 +65,12 @@ Numbers can be:
 > arabic → `/-?[0-9]+([.,][0-9]+)?%?/`  
 > arabicbase → `/-?([2-9]|1[0-6]);[0-9A-F]+([.,][0-9A-F]+)?%?/`  
 > roman → `/(Ⅰ|Ⅱ|Ⅲ|Ⅳ|Ⅴ|Ⅵ|Ⅶ|Ⅷ|Ⅸ|Ⅹ|Ⅺ|Ⅻ|Ⅼ|Ⅽ|Ⅾ|Ⅿ)+/`  
-> japanese → `/-?[0-9]*[一二三四五六七八九十百千万]+(・[一二三四五六七八九分厘毛糸忽]+)?/`  
+> han → `/-?[0-9]*[一二三四五六七八九十百千万億兆]+(・[一二三四五六七八九分厘毛糸忽]+)?/`  
 > pi → `π`  
 > infinity → `∞`  
-> numeral → arabic | arabicbase | roman | japanese | pi | infinity
+> numeral → arabic | arabicbase | roman | han | pi | infinity
+
+The `han` production covers the shared Han-character numeral system used across Chinese, Japanese, and Korean (一二三…十百千万億兆). It uses nested myriad grouping: small orders (十百千) accumulate into a group that is multiplied by the next big unit (万/億/兆), so 三億五千万 is 3·10⁸ + 5000·10⁴ = 350,000,000.
 
 We hope to add other numerals as we localize other languages.
 

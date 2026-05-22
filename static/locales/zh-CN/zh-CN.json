@@ -94,7 +94,7 @@
         "Region": "地区",
         "BooleanType": "布尔类型",
         "NumberType": "数字类型",
-        "JapaneseNumeral": "日语数字",
+        "HanNumeral": "日语数字",
         "RomanNumeral": "罗马数字",
         "Pi": "Pi",
         "Infinity": "无穷",

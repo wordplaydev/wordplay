@@ -93,7 +93,7 @@
         "Region": "$~地域ダッシュ",
         "BooleanType": "$~ブール型",
         "NumberType": "$~数値型",
-        "JapaneseNumeral": "$~日本語の数字",
+        "HanNumeral": "$~日本語の数字",
         "RomanNumeral": "$~ローマ数字",
         "Pi": "$~円周率",
         "Infinity": "$~無限",
