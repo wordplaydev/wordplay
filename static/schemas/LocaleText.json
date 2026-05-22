@@ -10224,6 +10224,9 @@
             "Text": {
               "type": "string"
             },
+            "ThaiNumeral": {
+              "type": "string"
+            },
             "This": {
               "type": "string"
             },
@@ -10296,6 +10299,7 @@
             "NumberType",
             "HanNumeral",
             "RomanNumeral",
+            "ThaiNumeral",
             "Pi",
             "Infinity",
             "TableOpen",

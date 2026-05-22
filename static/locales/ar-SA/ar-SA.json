@@ -123,7 +123,8 @@
         "Locale": "$~الموقع",
         "Unknown": "$~مجهول",
         "End": "$~نهاية",
-        "Highlight": "$~مثال مميز"
+        "Highlight": "$~مثال مميز",
+        "ThaiNumeral": "$~الأرقام التايلاندية"
     },
     "node": {
         "Dimension": {

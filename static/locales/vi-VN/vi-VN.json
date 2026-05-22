@@ -123,7 +123,8 @@
         "Locale": "$~địa phương",
         "Unknown": "$~không rõ",
         "End": "$~kết thúc",
-        "Highlight": "$~ví dụ được đánh dấu"
+        "Highlight": "$~ví dụ được đánh dấu",
+        "ThaiNumeral": "$~chữ số Thái Lan"
     },
     "node": {
         "Dimension": {

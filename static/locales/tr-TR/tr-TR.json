@@ -123,7 +123,8 @@
         "Locale": "$~yerel",
         "Unknown": "$~bilinmeyen",
         "End": "$~son",
-        "Highlight": "$~vurgulanmış örnek"
+        "Highlight": "$~vurgulanmış örnek",
+        "ThaiNumeral": "$~Tay rakamı"
     },
     "node": {
         "Dimension": {

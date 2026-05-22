@@ -123,7 +123,8 @@
         "Unknown": "不明",
         "Locale": "语言环境",
         "End": "结束",
-        "Highlight": "$~突出显示的示例"
+        "Highlight": "$~突出显示的示例",
+        "ThaiNumeral": "$~泰语数字"
     },
     "node": {
         "Dimension": {

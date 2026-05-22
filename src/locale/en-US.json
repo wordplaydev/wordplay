@@ -95,6 +95,7 @@
         "NumberType": "number type",
         "HanNumeral": "han numeral",
         "RomanNumeral": "roman numeral",
+        "ThaiNumeral": "thai numeral",
         "Pi": "pi",
         "Infinity": "infinity",
         "TableOpen": "table open",

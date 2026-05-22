@@ -123,7 +123,8 @@
         "Locale": "$~lokal",
         "Unknown": "$~hindi alam",
         "End": "$~katapusan",
-        "Highlight": "$~naka-highlight na halimbawa"
+        "Highlight": "$~naka-highlight na halimbawa",
+        "ThaiNumeral": "$~numerong Thai"
     },
     "node": {
         "Dimension": {

@@ -123,7 +123,8 @@
         "Unknown": "알 수 없음",
         "Locale": "로캘",
         "End": "종료",
-        "Highlight": "$~강조 표시된 예시"
+        "Highlight": "$~강조 표시된 예시",
+        "ThaiNumeral": "$~태국 숫자"
     },
     "node": {
         "Dimension": {

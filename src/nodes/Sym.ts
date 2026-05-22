@@ -41,6 +41,7 @@ const Sym = {
     NumberType: '•#',
     HanNumeral: '#han',
     RomanNumeral: '#rom',
+    ThaiNumeral: '#tha',
     Pi: 'π',
     Infinity: '∞',
     TableOpen: '⎡',

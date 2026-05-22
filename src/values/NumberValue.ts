@@ -95,6 +95,8 @@ export default class NumberValue extends SimpleValue {
             [num, precision] = convertRoman(text);
         } else if (number.isSymbol(Sym.HanNumeral)) {
             [num, precision] = convertHan(text);
+        } else if (number.isSymbol(Sym.ThaiNumeral)) {
+            [num, precision] = convertThai(text);
         } else if (number.isSymbol(Sym.Number)) {
             [num, precision] = NumberValue.fromUnknown(text);
         } else [num, precision] = [new Decimal(NaN), undefined];
@@ -112,6 +114,7 @@ export default class NumberValue extends SimpleValue {
             convertBase,
             convertHan,
             convertRoman,
+            convertThai,
         ];
 
         for (const conversion of conversions) {
@@ -303,6 +306,19 @@ const hanOrders: Record<string, number> = {
     兆: 1000000000000,
 };
 
+const thaiDigits: Record<string, string> = {
+    '๐': '0',
+    '๑': '1',
+    '๒': '2',
+    '๓': '3',
+    '๔': '4',
+    '๕': '5',
+    '๖': '6',
+    '๗': '7',
+    '๘': '8',
+    '๙': '9',
+};
+
 const romanNumerals: Record<string, number> = {
     Ⅰ: 1,
     Ⅱ: 2,
@@ -488,6 +504,19 @@ function convertHan(text: string): NumberAndPrecision {
         i++;
     }
     return [sum.plus(group).plus(pending), undefined];
+}
+
+function convertThai(text: string): NumberAndPrecision {
+    // Thai digits are positional like Arabic. Translate each Thai digit to
+    // its Arabic equivalent, preserve the decimal separator and percent
+    // suffix, then defer to the decimal converter for precision tracking.
+    let translated = '';
+    for (const c of text) {
+        if (thaiDigits[c] !== undefined) translated += thaiDigits[c];
+        else if (c === '.' || c === ',' || c === '%') translated += c;
+        else return [new Decimal(NaN), undefined];
+    }
+    return convertDecimal(translated);
 }
 
 function convertDecimal(text: string): NumberAndPrecision {

@@ -300,6 +300,11 @@ const CodeTokenPatterns: TokenPattern[] = [
             /^-?[0-9]*[一二三四五六七八九十百千万億兆]+(・[一二三四五六七八九分厘毛糸忽]+)?/u,
         types: [Sym.Number, Sym.HanNumeral],
     },
+    // Thai numerals — positional digits ๐–๙ that read like Arabic decimal.
+    {
+        pattern: /^-?[๐๑๒๓๔๕๖๗๘๙]+([.,][๐๑๒๓๔๕๖๗๘๙]+)?%?/u,
+        types: [Sym.Number, Sym.ThaiNumeral],
+    },
     // Numbers with bases between base 2 and 16
     {
         pattern: /^-?([2-9]|1[0-6]);[0-9A-F]+([.,][0-9A-F]+)?%?/,

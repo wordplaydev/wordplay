@@ -123,7 +123,8 @@
         "Unknown": "Unbekannt",
         "Locale": "Gebietsschema",
         "End": "Ende",
-        "Highlight": "$~hervorgehobenes Beispiel"
+        "Highlight": "$~hervorgehobenes Beispiel",
+        "ThaiNumeral": "$~thailändische Ziffern"
     },
     "node": {
         "Dimension": {

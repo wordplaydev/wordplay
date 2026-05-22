@@ -123,7 +123,8 @@
         "Locale": "$~מקום",
         "Unknown": "$~לֹא יְדוּעַ",
         "End": "$~סוֹף",
-        "Highlight": "$~דוגמה מודגשת"
+        "Highlight": "$~דוגמה מודגשת",
+        "ThaiNumeral": "$~ספרה תאילנדית"
     },
     "node": {
         "Dimension": {

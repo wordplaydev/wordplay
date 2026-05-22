@@ -123,7 +123,8 @@
         "Locale": "$~લોકેલ",
         "Unknown": "$~અજ્ઞાત",
         "End": "$~અંત",
-        "Highlight": "$~પ્રકાશિત ઉદાહરણ"
+        "Highlight": "$~પ્રકાશિત ઉદાહરણ",
+        "ThaiNumeral": "$~થાઈ અંક"
     },
     "node": {
         "Dimension": {

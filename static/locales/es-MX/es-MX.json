@@ -123,7 +123,8 @@
         "Unknown": "desconocido",
         "Locale": "lugar local",
         "End": "final",
-        "Highlight": "$~ejemplo resaltado"
+        "Highlight": "$~ejemplo resaltado",
+        "ThaiNumeral": "$~numeral tailandés"
     },
     "node": {
         "Dimension": {
