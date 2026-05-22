@@ -56,12 +56,20 @@
 
     let view: HTMLSelectElement | undefined = $state(undefined);
 
+    // Tracks the last value commitChange actually fired the change handler
+    // for. We can't dedup against `value` itself: a programmatic selectOption
+    // (used by tests and accessibility tools) flows through Svelte's bind:value
+    // which updates `value` BEFORE the change event reaches us, so a naive
+    // `newValue === value` check would suppress every such call.
+    let lastCommitted: string | undefined = $state(undefined);
+
     function commitChange(newValue: string | undefined) {
         // A single user action can trigger multiple handlers (onpointerdown on
         // the option AND onchange on the select in Chrome; onchange alone in
         // Safari; onkeydown for Enter/Space). They all funnel here, so collapse
         // redundant calls to the same value into a single change() invocation.
-        if (newValue === value) return;
+        if (newValue === lastCommitted) return;
+        lastCommitted = newValue;
         value = newValue;
         change(newValue);
         tick().then(() => {

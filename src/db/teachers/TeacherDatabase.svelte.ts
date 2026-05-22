@@ -4,15 +4,21 @@
 
 import { Galleries } from '@db/Database';
 import { firestore as db } from '@db/firebase';
+import { GalleriesCollection } from '@db/galleries/GalleryDatabase.svelte';
 import {
+    arrayRemove,
+    arrayUnion,
     collection,
     deleteDoc,
     doc,
     getDoc,
     getDocs,
     query,
+    runTransaction,
     setDoc,
+    updateDoc,
     where,
+    writeBatch,
 } from 'firebase/firestore';
 import z from 'zod';
 
@@ -98,59 +104,81 @@ export async function setClass(group: Class) {
 
 /** Add the teacher to the class and all associated galleries. */
 export async function addTeacher(classy: Class, uid: string) {
-    setClass({ ...classy, teachers: [...classy.teachers, uid] });
-
-    // Add the student to all galleries associated with the class.
-    for (const gallery of classy.galleries) {
-        const galleryData = await Galleries.get(gallery);
-        if (galleryData) Galleries.edit(galleryData.withCurator(uid));
+    if (db === undefined) return;
+    // Atomic batch: add the teacher to the class's `teachers` array and to every
+    // associated gallery's `curators` array. arrayUnion is a server-side atomic
+    // operation, so two teachers adding members concurrently don't clobber each
+    // other's writes.
+    const batch = writeBatch(db);
+    batch.update(doc(db, ClassesCollection, classy.id), {
+        teachers: arrayUnion(uid),
+    });
+    for (const galleryID of classy.galleries) {
+        batch.update(doc(db, GalleriesCollection, galleryID), {
+            curators: arrayUnion(uid),
+        });
     }
+    await batch.commit();
 }
 
 /** Remove the teacher from the class and all associated galleries. */
 export async function removeTeacher(classy: Class, uid: string) {
-    setClass({
-        ...classy,
-        teachers: classy.teachers.filter((teacher) => teacher !== uid),
+    if (db === undefined) return;
+    await updateDoc(doc(db, ClassesCollection, classy.id), {
+        teachers: arrayRemove(uid),
     });
-
-    for (const gallery of classy.galleries) {
-        const galleryData = await Galleries.get(gallery);
+    // Gallery side: keep Galleries.removeCurator because it also reassigns the
+    // departing curator's projects (not a simple field operation).
+    for (const galleryID of classy.galleries) {
+        const galleryData = await Galleries.get(galleryID);
         if (galleryData) await Galleries.removeCurator(galleryData, uid);
     }
 }
 
 /** Add the learner to the class document and all galleries associated with the class. */
 export async function addStudent(classy: Class, uid: string, username: string) {
-    // Add the student to the learner list and the info
-    await setClass({
-        ...classy,
-        learners: [...classy.learners, uid],
-        info: [
-            ...classy.info,
-            { uid, username, meta: classy.info[0].meta.map(() => '') },
-        ],
-    });
+    if (db === undefined) return;
 
-    // Add the student to all galleries associated with the class.
-    for (const gallery of classy.galleries) {
-        const galleryData = await Galleries.get(gallery);
-        if (galleryData) Galleries.edit(galleryData.withCreator(uid));
+    // Match the existing meta-column shape so the row aligns with the teacher's
+    // chosen columns. Falls back to [] if no learners exist yet.
+    const meta = classy.info[0]?.meta.map(() => '') ?? [];
+    const learner: Learner = { uid, username, meta };
+
+    const batch = writeBatch(db);
+    batch.update(doc(db, ClassesCollection, classy.id), {
+        learners: arrayUnion(uid),
+        info: arrayUnion(learner),
+    });
+    for (const galleryID of classy.galleries) {
+        batch.update(doc(db, GalleriesCollection, galleryID), {
+            creators: arrayUnion(uid),
+        });
     }
+    await batch.commit();
 }
 
 /** Remove the learner from the class document and all galleries associated with the class. */
 export async function removeStudent(classy: Class, uid: string) {
-    // Add the student to the learner list and the info
-    await setClass({
-        ...classy,
-        learners: [...classy.learners.filter((learner) => learner !== uid)],
-        info: [...classy.info.filter((learner) => learner.uid !== uid)],
+    if (db === undefined) return;
+    const classRef = doc(db, ClassesCollection, classy.id);
+
+    // The info array contains learner objects whose `meta` can be edited by
+    // teachers, so arrayRemove on a stale local copy might fail to match the
+    // server's record. A transaction reads the server's current value and
+    // filters by uid, which is the stable identifier.
+    await runTransaction(db, async (tx) => {
+        const snap = await tx.get(classRef);
+        if (!snap.exists()) return;
+        const current = ClassSchema.parse(snap.data());
+        tx.update(classRef, {
+            learners: current.learners.filter((l) => l !== uid),
+            info: current.info.filter((i) => i.uid !== uid),
+        });
     });
 
     // Remove the student from all galleries associated with the class.
-    for (const gallery of classy.galleries) {
-        const galleryData = await Galleries.get(gallery);
+    for (const galleryID of classy.galleries) {
+        const galleryData = await Galleries.get(galleryID);
         if (galleryData) await Galleries.removeCreator(galleryData, uid);
     }
 }
@@ -158,5 +186,5 @@ export async function removeStudent(classy: Class, uid: string) {
 /** Delete this class document */
 export async function deleteClass(classy: Class) {
     if (db === undefined) return;
-    deleteDoc(doc(db, ClassesCollection, classy.id));
+    await deleteDoc(doc(db, ClassesCollection, classy.id));
 }
