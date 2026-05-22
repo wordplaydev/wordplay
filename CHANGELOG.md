@@ -4,22 +4,18 @@ We'll note all notable changes in this file, including bug fixes, enhancements, 
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 These notes are publicly posted in [production](https://wordplay.dev/updates), so we write them to an audience of teachers and youth.
 
-## Unreleased
-
-### Added
-
-- Added 11 new built-in how-to's to the Guide covering layout (rows, stacks, grids, copies), animation (counting with time, reacting to sound), the @Pointer stream, custom @Structure templates, picking from a list with @Random, conditional rendering, and physics with @Motion and @Matter. These fill the previously empty layout, animation, and motion categories.
-
 ## 0.18.1 - 2026-05-19
 
 ### Added
 
 - We finally added font face previews! Now you don't have to click to see what a font looks like.
 - Now, when a project requires permission to use an input like a camera or microphone, we ask for it explicitly and start the project after, and if denied, we show an exception and instructors for granting it if they denied by accident (#789).
+- Added 11 new built-in how-to's to the Guide covering layout (rows, stacks, grids, copies), animation (counting with time, reacting to sound), the @Pointer stream, custom @Structure templates, picking from a list with @Random, conditional rendering, and physics with @Motion and @Matter. These fill the previously empty layout, animation, and motion categories.
 
 ### Changed
 
 - We made `Phrase` word wrapping locale specific (#164).
+- We upgraded internal tooling for stability.
 
 ### Fixed
 

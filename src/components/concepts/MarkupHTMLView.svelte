@@ -9,7 +9,11 @@
     import Notice from '@components/app/Notice.svelte';
     import { accessorToLocalePath } from '@components/localization/accessorToLocalePath';
     import { getLocalizing } from '@components/project/Contexts';
-    import { localeEdits, saveLocaleEdit, deleteLocaleEdit } from '@db/locales/LocalizationDexie';
+    import {
+        localeEdits,
+        saveLocaleEdit,
+        deleteLocaleEdit,
+    } from '@db/locales/LocalizationDexie';
     import Button from '@components/widgets/Button.svelte';
     import FormattedEditor from '@components/widgets/FormattedEditor.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
@@ -30,11 +34,7 @@
     import { toMarkup } from '@parser/toMarkup';
     import { toTokens } from '@parser/toTokens';
     import { tick } from 'svelte';
-    import {
-        animationDuration,
-        animationFactor,
-        locales,
-    } from '@db/Database';
+    import { animationDuration, animationFactor, locales } from '@db/Database';
     import SegmentHTMLView from '@components/concepts/SegmentHTMLView.svelte';
 
     interface Props {
@@ -296,9 +296,7 @@
                         />
                     </p>
                     <p class="invalid-concept-links"
-                        >{invalidConceptLinks
-                            .map((n) => `@${n}`)
-                            .join(', ')}</p
+                        >{invalidConceptLinks.map((n) => `@${n}`).join(', ')}</p
                     >
                 </Notice>
             {/if}
@@ -316,15 +314,18 @@
                     padding={true}>{CANCEL_SYMBOL}</Button
                 >
                 {#if override}<Button
-                    tip={(l) => l.ui.localize.button.revert}
-                    action={() => {
-                        if (storageKey !== undefined)
-                            deleteLocaleEdit(activeLocaleString, storageKey);
-                        cancelEditing();
-                    }}
-                    background
-                    padding={true}>{REVERT_SYMBOL}</Button
-                >{/if}
+                        tip={(l) => l.ui.localize.button.revert}
+                        action={() => {
+                            if (storageKey !== undefined)
+                                deleteLocaleEdit(
+                                    activeLocaleString,
+                                    storageKey,
+                                );
+                            cancelEditing();
+                        }}
+                        background
+                        padding={true}>{REVERT_SYMBOL}</Button
+                    >{/if}
             </div>
         {:else}
             <span class="edit-button"

@@ -401,14 +401,11 @@
                     'how-to moved',
                     $locales.getLanguages()[0],
                     $locales
-                        .concretize(
-                            (l) => l.ui.howto.announce.howToPosition,
-                            {
-                                title,
-                                x: xcoord.toString(),
-                                y: ycoord.toString(),
-                            },
-                        )
+                        .concretize((l) => l.ui.howto.announce.howToPosition, {
+                            title,
+                            x: xcoord.toString(),
+                            y: ycoord.toString(),
+                        })
                         .toText(),
                 );
             }

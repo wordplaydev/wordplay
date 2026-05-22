@@ -4,7 +4,10 @@
     import { tick } from 'svelte';
     import { locales } from '@db/Database';
     import { tokenize } from '@parser/Tokenizer';
-    import { toShortcut, type Command } from '@components/editor/commands/Commands';
+    import {
+        toShortcut,
+        type Command,
+    } from '@components/editor/commands/Commands';
     import TokenView from '@components/editor/tokens/TokenView.svelte';
     import {
         IdleKind,

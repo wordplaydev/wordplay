@@ -1,6 +1,8 @@
 <script lang="ts">
     import type NoneLiteral from '@nodes/NoneLiteral';
-    import NodeView, { type Format } from '@components/editor/nodes/NodeView.svelte';
+    import NodeView, {
+        type Format,
+    } from '@components/editor/nodes/NodeView.svelte';
 
     interface Props {
         node: NoneLiteral;

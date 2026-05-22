@@ -1,7 +1,9 @@
 <script lang="ts">
     import type TableLiteral from '@nodes/TableLiteral';
     import NodeSequenceView from '@components/editor/nodes/NodeSequenceView.svelte';
-    import NodeView, { type Format } from '@components/editor/nodes/NodeView.svelte';
+    import NodeView, {
+        type Format,
+    } from '@components/editor/nodes/NodeView.svelte';
 
     interface Props {
         node: TableLiteral;

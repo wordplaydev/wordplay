@@ -16,7 +16,10 @@
     // scrolls past it), kick off a lightweight single-file load so the name
     // renders in its own face. Faces the user never scrolls to don't load.
     onMount(() => {
-        if (element === undefined || typeof IntersectionObserver === 'undefined')
+        if (
+            element === undefined ||
+            typeof IntersectionObserver === 'undefined'
+        )
             return;
         const observer = new IntersectionObserver((entries) => {
             if (entries.some((entry) => entry.isIntersecting)) {

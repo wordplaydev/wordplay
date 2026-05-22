@@ -14,7 +14,10 @@
      * Submit button's `active` prop).
      */
     import { locales } from '@db/Database';
-    import { checkTemplateInputs, getDeclaredInputs } from '@locale/templateInputs';
+    import {
+        checkTemplateInputs,
+        getDeclaredInputs,
+    } from '@locale/templateInputs';
     import Notice from '@components/app/Notice.svelte';
 
     interface Props {
@@ -113,7 +116,9 @@
                             (l) => l.ui.localize.inputs.missing,
                         )}
                         <strong
-                            >{check.unused.map((n) => `$${n}`).join(', ')}</strong
+                            >{check.unused
+                                .map((n) => `$${n}`)
+                                .join(', ')}</strong
                         >.
                     {/if}
                     {#if check.numeric.length > 0}
@@ -122,7 +127,9 @@
                             (l) => l.ui.localize.inputs.legacy,
                         )}
                         <strong
-                            >{check.numeric.map((n) => `$${n}`).join(', ')}</strong
+                            >{check.numeric
+                                .map((n) => `$${n}`)
+                                .join(', ')}</strong
                         >.
                     {/if}
                     {#if check.unknown.length > 0}
@@ -131,7 +138,9 @@
                             (l) => l.ui.localize.inputs.unknown,
                         )}
                         <strong
-                            >{check.unknown.map((n) => `$${n}`).join(', ')}</strong
+                            >{check.unknown
+                                .map((n) => `$${n}`)
+                                .join(', ')}</strong
                         >.
                     {/if}
                 </p>
@@ -188,8 +197,7 @@
 
     .chip:hover,
     .chip:focus-visible {
-        outline: var(--wordplay-focus-width) solid
-            var(--wordplay-focus-color);
+        outline: var(--wordplay-focus-width) solid var(--wordplay-focus-color);
         outline-offset: var(--wordplay-focus-width);
     }
 

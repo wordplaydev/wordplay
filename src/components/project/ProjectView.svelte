@@ -28,9 +28,7 @@
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import Options from '@components/widgets/Options.svelte';
-    import Tour, {
-        type UIExplanation,
-    } from '@components/widgets/Tour.svelte';
+    import Tour, { type UIExplanation } from '@components/widgets/Tour.svelte';
     import type Concept from '@concepts/Concept';
     import ConceptIndex from '@concepts/ConceptIndex';
     import {
@@ -71,10 +69,7 @@
     import type Value from '@values/Value';
     import { onDestroy, onMount, tick, untrack } from 'svelte';
     import { writable, type Writable } from 'svelte/store';
-    import {
-        consent,
-        refreshConsentFromBrowser,
-    } from '@input/permissions';
+    import { consent, refreshConsentFromBrowser } from '@input/permissions';
     import Characters from '../../lore/BasisCharacters';
     import {
         PROJECT_PARAM_EDIT,
@@ -279,7 +274,6 @@
     let requestedEdit = $state(
         page.url.searchParams.get(PROJECT_PARAM_EDIT) !== null,
     );
-
 
     /** The fullscreen context of the page that this is in. */
     const pageFullscreen = getFullscreen();
@@ -1033,9 +1027,7 @@
     const requiredPermissions = $derived(project.getRequiredPermissions());
     const pendingPermissions = $derived(
         new Set(
-            [...requiredPermissions].filter(
-                (p) => $consent[p] === 'unknown',
-            ),
+            [...requiredPermissions].filter((p) => $consent[p] === 'unknown'),
         ),
     );
 
@@ -2029,7 +2021,10 @@
                                     <Painting
                                             bind:painting
                                         />{/if} -->
-                                    <span class="zoom-group" data-uiid="stageZoom">
+                                    <span
+                                        class="zoom-group"
+                                        data-uiid="stageZoom"
+                                    >
                                         <Button
                                             background
                                             action={() =>

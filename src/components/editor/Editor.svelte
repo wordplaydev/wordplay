@@ -72,7 +72,9 @@
     } from '@components/project/Contexts';
     import RootView from '@components/project/RootView.svelte';
     import Button from '@components/widgets/Button.svelte';
-    import CaretView, { type CaretBounds } from '@components/editor/caret/CaretView.svelte';
+    import CaretView, {
+        type CaretBounds,
+    } from '@components/editor/caret/CaretView.svelte';
     import {
         type Edit,
         type ProjectRevision,
@@ -318,12 +320,7 @@
         void $blocks;
         void caretLocation;
         const blockEl = pos instanceof Node ? getNodeView(pos) : undefined;
-        if (
-            !descriptionElement ||
-            !$blocks ||
-            !blockEl ||
-            editor === null
-        ) {
+        if (!descriptionElement || !$blocks || !blockEl || editor === null) {
             descriptionPos = undefined;
             return;
         }
@@ -648,8 +645,7 @@
                         dragged.set(candidate);
                         dragCandidate = undefined;
                         dragPoint = undefined;
-                        if (editor)
-                            editor.style.touchAction = 'none';
+                        if (editor) editor.style.touchAction = 'none';
                     }
                 }, DRAG_LONG_PRESS_MS);
             }
@@ -1175,9 +1171,7 @@
             (event.ctrlKey || event.metaKey) &&
             !event.shiftKey &&
             !event.altKey &&
-            (event.code === 'KeyV' ||
-                event.key === 'v' ||
-                event.key === 'V')
+            (event.code === 'KeyV' || event.key === 'v' || event.key === 'V')
         ) {
             const internal = getInternalClipboard();
             if (internal === undefined) return;
@@ -1434,16 +1428,18 @@
     // Cache of the inputs to the conflictsOfInterest computation. Caret moves
     // within a single token don't change any of these, so we can bail without
     // re-running the work — which previously did a full source.nodes() walk.
-    let prevConflictsKey: {
-        project: Project;
-        nodeConflicts: Conflict[] | undefined;
-        dragged: Node | undefined;
-        hoveredAny: Node | undefined;
-        caretNode: Node | undefined;
-        tokenAtCaret: Token | undefined;
-        tokenPrior: Token | undefined;
-        atTokenEnd: boolean;
-    } | undefined;
+    let prevConflictsKey:
+        | {
+              project: Project;
+              nodeConflicts: Conflict[] | undefined;
+              dragged: Node | undefined;
+              hoveredAny: Node | undefined;
+              caretNode: Node | undefined;
+              tokenAtCaret: Token | undefined;
+              tokenPrior: Token | undefined;
+              atTokenEnd: boolean;
+          }
+        | undefined;
 
     $effect(() => {
         // The project and source can update at different times, so we only do this if the current source is in the project.
@@ -1457,7 +1453,8 @@
             : undefined;
         const atTokenEnd = $caret.isPosition() && !!$caret.atTokenEnd();
         const tokenPrior = atTokenEnd ? $caret.tokenPrior : undefined;
-        const caretNode = $caret.position instanceof Node ? $caret.position : undefined;
+        const caretNode =
+            $caret.position instanceof Node ? $caret.position : undefined;
 
         if (
             prevConflictsKey !== undefined &&
@@ -1505,9 +1502,7 @@
                           project
                               .getRoot($hoveredAny)
                               ?.getSelfAndAncestors($hoveredAny) ?? []
-                      ).find((node) =>
-                          project.nodeInvolvedInConflicts(node),
-                      );
+                      ).find((node) => project.nodeInvolvedInConflicts(node));
             if (conflictedHover) conflictSelection = conflictedHover;
 
             // If not, is there a node selected?
@@ -1559,7 +1554,8 @@
                         caretNode,
                         ...source.root.getAncestors(caretNode),
                     ].find((node) => project.nodeInvolvedInConflicts(node));
-                    if (conflictedAncestor) conflictSelection = conflictedAncestor;
+                    if (conflictedAncestor)
+                        conflictSelection = conflictedAncestor;
                 }
             }
 
@@ -1567,17 +1563,15 @@
             if (conflictSelection)
                 // Get all conflicts involving the selection
                 newConflictsOfInterest = [
-                    ...(project.getConflictsInvolvingNode(
-                        conflictSelection,
-                    ) ?? []),
+                    ...(project.getConflictsInvolvingNode(conflictSelection) ??
+                        []),
                     ...$nodeConflicts,
                 ]
                     // Eliminate duplicate conflicts
                     .filter(
                         (c1, i1, list) =>
                             !list.some(
-                                (c2, i2) =>
-                                    c1 === c2 && i2 > i1 && i1 !== i2,
+                                (c2, i2) => c1 === c2 && i2 > i1 && i1 !== i2,
                             ),
                     );
             // If we didn't find a selection, just get all conflicts in the project.
@@ -1834,8 +1828,7 @@
             }
         };
         document.addEventListener('animationend', handler);
-        return () =>
-            document.removeEventListener('animationend', handler);
+        return () => document.removeEventListener('animationend', handler);
     });
 
     // Update the outline positions any time the highlights change, but only after we're done rendering.
@@ -2093,9 +2086,7 @@
                 : descriptionTop
                   ? `${descriptionTop}px`
                   : undefined}
-            data-left={descriptionPos
-                ? descriptionPos.left
-                : descriptionLeft}
+            data-left={descriptionPos ? descriptionPos.left : descriptionLeft}
             >{#if displayedCaret.position instanceof Node}
                 {@const relevantConcept = concepts?.getRelevantConcept(
                     displayedCaret.position,
@@ -2114,11 +2105,11 @@
                             anchor={displayedCaret.position}
                         />{/if}
                 </span>{#if !(displayedCaret.position instanceof Token)}<em
-                    class="node-description"
-                    >{displayedCaret.position
-                        .getDescription($locales, context)
-                        .toText()}</em
-                >{/if}{/if}{#if keyIgnoredReason}<em>
+                        class="node-description"
+                        >{displayedCaret.position
+                            .getDescription($locales, context)
+                            .toText()}</em
+                    >{/if}{/if}{#if keyIgnoredReason}<em>
                     &nbsp;<LocalizedText path={keyIgnoredReason} /></em
                 >{/if}</div
         >

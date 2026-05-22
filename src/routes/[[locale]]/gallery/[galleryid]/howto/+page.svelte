@@ -221,8 +221,7 @@
                             $locales.getLanguages()[0],
                             $locales
                                 .concretize(
-                                    (l) =>
-                                        l.ui.howto.announce.moveActivated,
+                                    (l) => l.ui.howto.announce.moveActivated,
                                     { target: movingHowTo.getTitle() },
                                 )
                                 .toText(),
@@ -251,13 +250,10 @@
                     'canvas moved',
                     $locales.getLanguages()[0],
                     $locales
-                        .concretize(
-                            (l) => l.ui.howto.announce.canvasPosition,
-                            {
-                                x: cameraX.toString(),
-                                y: cameraY.toString(),
-                            },
-                        )
+                        .concretize((l) => l.ui.howto.announce.canvasPosition, {
+                            x: cameraX.toString(),
+                            y: cameraY.toString(),
+                        })
                         .toText(),
                 );
             }

@@ -101,65 +101,67 @@
 
 <span class="options-group"
     ><select
-    {id}
-    aria-label={title}
-    bind:value
-    bind:this={view}
-    style:width
-    disabled={!editable}
-    class:code
-    onchange={(e) => commitChange((e.target as HTMLSelectElement).value)}
-    onpointerenter={showTip}
-    onpointerleave={hideTip}
-    ontouchstart={showTip}
-    ontouchend={hideTip}
-    ontouchcancel={hideTip}
-    onfocus={showTip}
-    onblur={hideTip}
+        {id}
+        aria-label={title}
+        bind:value
+        bind:this={view}
+        style:width
+        disabled={!editable}
+        class:code
+        onchange={(e) => commitChange((e.target as HTMLSelectElement).value)}
+        onpointerenter={showTip}
+        onpointerleave={hideTip}
+        ontouchstart={showTip}
+        ontouchend={hideTip}
+        ontouchcancel={hideTip}
+        onfocus={showTip}
+        onblur={hideTip}
+    >
+        <button><selectedcontent></selectedcontent></button>
+        {#each options as option}
+            {#if 'options' in option}
+                <optgroup label={$locales.getPlainText(option.label)}>
+                    {#each option.options as groupoption}
+                        <option
+                            selected={groupoption.value === value}
+                            value={groupoption.value}
+                            onpointerdown={() =>
+                                commitChange(groupoption.value)}
+                            onkeydown={(e) => {
+                                if (e.key === 'Enter' || e.key === ' ') {
+                                    commitChange(groupoption.value);
+                                }
+                            }}
+                            >{#if item}{@render item(
+                                    groupoption,
+                                    localized,
+                                )}{:else}{@render localized(
+                                    groupoption.label,
+                                )}{/if}</option
+                        >{/each}
+                </optgroup>
+            {:else}
+                <option
+                    selected={option.value === value}
+                    value={option.value}
+                    onpointerdown={() => commitChange(option.value)}
+                    onkeydown={(e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                            commitChange(option.value);
+                        }
+                    }}
+                    >{#if item}{@render item(
+                            option,
+                            localized,
+                        )}{:else}{@render localized(option.label)}{/if}</option
+                >
+            {/if}
+        {/each}
+    </select>{#if localizing?.on && typeof label !== 'string'}<LocalizedText
+            path={label}
+            tipIcon
+        />{/if}</span
 >
-    <button><selectedcontent></selectedcontent></button>
-    {#each options as option}
-        {#if 'options' in option}
-            <optgroup label={$locales.getPlainText(option.label)}>
-                {#each option.options as groupoption}
-                    <option
-                        selected={groupoption.value === value}
-                        value={groupoption.value}
-                        onpointerdown={() => commitChange(groupoption.value)}
-                        onkeydown={(e) => {
-                            if (e.key === 'Enter' || e.key === ' ') {
-                                commitChange(groupoption.value);
-                            }
-                        }}
-                        >{#if item}{@render item(
-                                groupoption,
-                                localized,
-                            )}{:else}{@render localized(
-                                groupoption.label,
-                            )}{/if}</option
-                    >{/each}
-            </optgroup>
-        {:else}
-            <option
-                selected={option.value === value}
-                value={option.value}
-                onpointerdown={() => commitChange(option.value)}
-                onkeydown={(e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                        commitChange(option.value);
-                    }
-                }}
-                >{#if item}{@render item(
-                        option,
-                        localized,
-                    )}{:else}{@render localized(option.label)}{/if}</option
-            >
-        {/if}
-    {/each}
-</select>{#if localizing?.on && typeof label !== 'string'}<LocalizedText
-        path={label}
-        tipIcon
-    />{/if}</span>
 
 <style>
     .options-group {
@@ -206,8 +208,8 @@
         border-bottom-right-radius: 0;
         border-bottom-left-radius: 0;
         border-bottom: none;
-        box-shadow: inset var(--wordplay-border-width) var(--wordplay-border-width)
-            0 var(--wordplay-foreground);
+        box-shadow: inset var(--wordplay-border-width)
+            var(--wordplay-border-width) 0 var(--wordplay-foreground);
         transform: translate(
             var(--wordplay-border-width),
             var(--wordplay-border-width)

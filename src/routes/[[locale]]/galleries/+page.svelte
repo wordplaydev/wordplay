@@ -217,7 +217,7 @@
                     <ProjectPreview
                         {project}
                         {searchTerm}
-                        {...(matchText !== undefined ? { matchText } : {})}
+                        {...matchText !== undefined ? { matchText } : {}}
                         anonymize={false}
                     />
                 {/each}

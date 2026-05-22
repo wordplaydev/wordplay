@@ -200,7 +200,9 @@
         if (browser && urlLocale) {
             const valid = urlLocale
                 .split('+')
-                .filter((l) => SupportedLocales.includes(l as SupportedLocale)) as SupportedLocale[];
+                .filter((l) =>
+                    SupportedLocales.includes(l as SupportedLocale),
+                ) as SupportedLocale[];
             if (valid.length > 0) DB.Locales.setLocales(valid);
         }
     });

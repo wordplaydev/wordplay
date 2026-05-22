@@ -2,7 +2,9 @@
     import type MapLiteral from '@nodes/MapLiteral';
     import Flow from '@components/editor/blocks/Flow.svelte';
     import NodeSequenceView from '@components/editor/nodes/NodeSequenceView.svelte';
-    import NodeView, { type Format } from '@components/editor/nodes/NodeView.svelte';
+    import NodeView, {
+        type Format,
+    } from '@components/editor/nodes/NodeView.svelte';
     import { isVerticalList } from '@components/editor/nodes/verticalLayout';
 
     interface Props {
