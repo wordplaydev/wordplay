@@ -11207,8 +11207,8 @@
                       "additionalProperties": false,
                       "properties": {
                         "animate": {
-                          "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%5D%3E",
-                          "description": "The animation on/off/slowdown mode"
+                          "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%5D%3E",
+                          "description": "The animation off/slowdown/auto mode (last entry is \"auto\", which follows the device prefers-reduced-motion setting)."
                         },
                         "blockDensity": {
                           "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%5D%3E",
@@ -17330,7 +17330,7 @@
       ],
       "type": "object"
     },
-    "ModeText<[string,string,string,string,string,string,string,string]>": {
+    "ModeText<[string,string,string,string,string,string,string,string,string]>": {
       "additionalProperties": false,
       "properties": {
         "label": {
@@ -17342,8 +17342,8 @@
           "items": {
             "type": "string"
           },
-          "maxItems": 8,
-          "minItems": 8,
+          "maxItems": 9,
+          "minItems": 9,
           "type": "array"
         },
         "tips": {
@@ -17351,8 +17351,8 @@
           "items": {
             "type": "string"
           },
-          "maxItems": 8,
-          "minItems": 8,
+          "maxItems": 9,
+          "minItems": 9,
           "type": "array"
         }
       },

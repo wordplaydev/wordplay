@@ -10,7 +10,8 @@ import {
     type User,
 } from 'firebase/auth';
 import { deleteDoc, doc, setDoc } from 'firebase/firestore';
-import { writable, type Writable } from 'svelte/store';
+import { derived, writable, type Writable } from 'svelte/store';
+import { prefersReducedMotion } from '@db/settings/prefersReducedMotion';
 import DefaultLocale from '@locale/DefaultLocale';
 import type LocaleText from '@locale/LocaleText';
 import { type FormattedText } from '@locale/LocaleText';
@@ -266,8 +267,17 @@ export const Chats = DB.Chats;
 export const CharactersDB = DB.Characters;
 export const HowTos = DB.HowTos;
 
-export const animationFactor = Settings.settings.animationFactor.value;
-export const animationDuration = Settings.animationDuration;
+/** The effective animation factor as a plain number, resolving `null` (auto)
+ * against the OS `prefers-reduced-motion` setting: 0 when the OS prefers
+ * reduced motion, 1 otherwise. Explicit user picks always win. */
+export const animationFactor = derived(
+    [Settings.settings.animationFactor.value, prefersReducedMotion],
+    ([raw, reduced]) => (raw === null ? (reduced ? 0 : 1) : raw),
+);
+export const animationDuration = derived(
+    animationFactor,
+    (factor) => factor * 200,
+);
 export const tutorialProgress = Settings.settings.tutorial.value;
 export const arrangement = Settings.settings.arrangement.value;
 export const locales = DB.Locales.locales;

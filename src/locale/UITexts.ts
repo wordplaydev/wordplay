@@ -929,9 +929,12 @@ type UITexts = {
                 layout: ModeText<
                     [string, string, string, string, string, string]
                 >;
-                /** The animation on/off/slowdown mode */
+                /** The animation off/slowdown/auto mode (last entry is
+                 * "auto", which follows the device prefers-reduced-motion
+                 * setting). */
                 animate: ModeText<
                     [
+                        string,
                         string,
                         string,
                         string,

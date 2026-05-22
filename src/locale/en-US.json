@@ -5433,7 +5433,8 @@
                             "1x",
                             "2x",
                             "5x",
-                            "10x"
+                            "10x",
+                            "auto"
                         ],
                         "tips": [
                             "animations off",
@@ -5443,7 +5444,8 @@
                             "normal speed",
                             "double speed",
                             "five speed",
-                            "ten speed"
+                            "ten speed",
+                            "use the current device setting"
                         ]
                     },
                     "dark": {

@@ -5171,7 +5171,8 @@
                             "$~1x",
                             "$~2x",
                             "$~5x",
-                            "$~10 gånger"
+                            "$~10 gånger",
+                            "$~bil"
                         ],
                         "tips": [
                             "$~animationer av",
@@ -5181,7 +5182,8 @@
                             "$~normal hastighet",
                             "$~dubbel hastighet",
                             "$~femväxlad",
-                            "$~tioväxlad"
+                            "$~tioväxlad",
+                            "$~använd den aktuella enhetsinställningen"
                         ]
                     },
                     "dark": {

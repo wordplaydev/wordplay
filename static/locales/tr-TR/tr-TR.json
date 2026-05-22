@@ -5171,7 +5171,8 @@
                             "$~1x",
                             "$~2x",
                             "$~5x",
-                            "$~10x"
+                            "$~10x",
+                            "$~otomatik"
                         ],
                         "tips": [
                             "$~animasyonlar kapalı",
@@ -5181,7 +5182,8 @@
                             "$~normal hız",
                             "$~çift hız",
                             "$~beş vitesli",
-                            "$~on vites"
+                            "$~on vites",
+                            "$~Mevcut cihaz ayarlarını kullanın"
                         ]
                     },
                     "dark": {

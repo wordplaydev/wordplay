@@ -5418,7 +5418,8 @@
                             "$~1x",
                             "$~2x",
                             "$~5x",
-                            "$~10x"
+                            "$~10x",
+                            "$~awto"
                         ],
                         "tips": [
                             "$~naka-off ang mga animation",
@@ -5428,7 +5429,8 @@
                             "$~normal na bilis",
                             "$~dobleng bilis",
                             "$~limang bilis",
-                            "$~sampung bilis"
+                            "$~sampung bilis",
+                            "$~gamitin ang kasalukuyang setting ng device"
                         ]
                     },
                     "dark": {

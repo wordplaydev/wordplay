@@ -5176,7 +5176,8 @@
                             "$~1x",
                             "$~2x",
                             "$~5x",
-                            "$~10x"
+                            "$~10x",
+                            "$~automatyczny"
                         ],
                         "tips": [
                             "$~animacje wyłączone",
@@ -5186,7 +5187,8 @@
                             "$~normalna prędkość",
                             "$~podwójna prędkość",
                             "$~pięć prędkości",
-                            "$~dziesięć prędkości"
+                            "$~dziesięć prędkości",
+                            "$~użyj bieżącego ustawienia urządzenia"
                         ]
                     },
                     "dark": {

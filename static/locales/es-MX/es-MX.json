@@ -5136,17 +5136,19 @@
                             "$~1x",
                             "$~2x",
                             "$~5x",
-                            "$~10x"
+                            "$~10x",
+                            "$~auto"
                         ],
                         "tips": [
                             "$~animaciones desactivadas",
-                            "$~cuarto de velocidad",
+                            "$~un cuarto de velocidad",
                             "$~tercera velocidad",
                             "$~media velocidad",
                             "$~velocidad normal",
                             "$~doble velocidad",
                             "$~cinco velocidades",
-                            "$~diez velocidades"
+                            "$~diez velocidades",
+                            "$~usar la configuración actual del dispositivo"
                         ]
                     },
                     "dark": {

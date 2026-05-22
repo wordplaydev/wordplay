@@ -41,7 +41,6 @@
     import type Chat from '@db/chats/ChatDatabase.svelte';
     import type { Creator } from '@db/creators/CreatorDatabase';
     import {
-        animationFactor,
         arrangement,
         blocks,
         camera,
@@ -136,6 +135,7 @@
     import {
         AnimationFactorIcons,
         AnimationFactors,
+        AnimationFactorSetting,
         AnimationIcon,
     } from '@db/settings/AnimationFactorSetting';
     import type MenuInfo from '@edit/menu/Menu';
@@ -187,6 +187,11 @@
         persistLayout = true,
         isCommenter = false,
     }: Props = $props();
+
+    /** The raw user-chosen animation factor (number or null for "auto"); used
+     * by the animation-speed picker so it reflects the actual choice rather
+     * than the effective resolved value. */
+    const animationFactor = AnimationFactorSetting.value;
 
     // The HTMLElement that represents this element
     let view = $state<HTMLElement | undefined>(undefined);
@@ -2073,13 +2078,18 @@
                                         data-uiid="stageAnimationSpeed"
                                         >{AnimationIcon}
                                         <Options
-                                            value={String($animationFactor)}
+                                            value={$animationFactor === null
+                                                ? 'auto'
+                                                : String($animationFactor)}
                                             label={(l) =>
                                                 l.ui.dialog.settings.mode
                                                     .animate.label}
                                             options={AnimationFactors.map(
                                                 (factor, i) => ({
-                                                    value: String(factor),
+                                                    value:
+                                                        factor === null
+                                                            ? 'auto'
+                                                            : String(factor),
                                                     label: AnimationFactorIcons[
                                                         i
                                                     ],
@@ -2087,9 +2097,10 @@
                                             )}
                                             change={(v) =>
                                                 Settings.setAnimationFactor(
-                                                    v !== undefined
-                                                        ? Number(v)
-                                                        : 1,
+                                                    v === undefined ||
+                                                        v === 'auto'
+                                                        ? null
+                                                        : Number(v),
                                                 )}
                                         />
                                     </label>
