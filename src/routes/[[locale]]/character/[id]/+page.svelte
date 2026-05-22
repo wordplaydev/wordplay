@@ -28,6 +28,21 @@
     import TextBox from '@components/widgets/TextBox.svelte';
     import TextField from '@components/widgets/TextField.svelte';
     import Title from '@components/widgets/Title.svelte';
+    import {
+        CharacterSize,
+        characterToSVG,
+        getPathCenter,
+        getSharedColor,
+        moveShape,
+        pixelsAreEqual,
+        type Character,
+        type CharacterEllipse,
+        type CharacterPath,
+        type CharacterPixel,
+        type CharacterRectangle,
+        type CharacterShape,
+        type Point,
+    } from '@db/characters/Character';
     import { Creator } from '@db/creators/CreatorDatabase';
     import { CharactersDB, locales } from '@db/Database';
     import type Project from '@db/projects/Project';
@@ -50,34 +65,31 @@
         UNDO_SYMBOL,
     } from '@parser/Symbols';
     import { NameRegExPattern } from '@parser/Tokenizer';
-    import { untrack } from 'svelte';
-    import {
-        CharacterSize,
-        characterToSVG,
-        getPathCenter,
-        getSharedColor,
-        moveShape,
-        pixelsAreEqual,
-        type Character,
-        type CharacterEllipse,
-        type CharacterPath,
-        type CharacterPixel,
-        type CharacterRectangle,
-        type CharacterShape,
-        type Point,
-    } from '@db/characters/Character';
     import UnicodeString from '@unicode/UnicodeString';
     import { localeGoto } from '@util/localeGoto';
+    import { untrack } from 'svelte';
 
-    // svelte-ignore non_reactive_update
-    enum DrawingMode {
-        Select,
-        Eraser,
-        Pixel,
-        Rect,
-        Ellipse,
-        Path,
-        Emoji,
+    const DrawingMode = {
+        Select: 0,
+        Eraser: 1,
+        Pixel: 2,
+        Rect: 3,
+        Ellipse: 4,
+        Path: 5,
+        Emoji: 6,
+    } as const;
+    type DrawingMode = (typeof DrawingMode)[keyof typeof DrawingMode];
+    const DrawingModeNames = [
+        'Select',
+        'Eraser',
+        'Pixel',
+        'Rect',
+        'Ellipse',
+        'Path',
+        'Emoji',
+    ] as const;
+    function drawingModeName(m: DrawingMode): string {
+        return DrawingModeNames[m];
     }
 
     type ColorSetting = 'none' | 'inherit' | 'set';
@@ -309,22 +321,18 @@
 
     /** When the page loads or its id changes or the local store of characters changes, load the persisted character */
     $effect(() => {
-        console.log('[char-debug] effect fired', { id: page.params.id, saving, user: !!$user });
         if (page.params.id === undefined) return;
 
         // We get this first so there's a dependency on it.
         const charPromise = CharactersDB.getByID(page.params.id);
 
         if (saving !== undefined) {
-            console.log('[char-debug] saving !== undefined, resetting and returning');
             saving = undefined;
             return;
         }
 
         if ($user) {
-            console.log('[char-debug] awaiting charPromise');
             charPromise.then((loadedCharacter) => {
-                console.log('[char-debug] charPromise resolved', { loaded: !!loadedCharacter, type: typeof loadedCharacter });
                 // If we loaded the character and it's different from the edited character, update the states.
                 if (loadedCharacter) {
                     name = loadedCharacter.name.split('/').at(-1) ?? '';
@@ -2464,7 +2472,7 @@
                     <div
                         role="application"
                         aria-describedby="instructions"
-                        class={['canvas', DrawingMode[mode].toLowerCase()]}
+                        class={['canvas', drawingModeName(mode).toLowerCase()]}
                         tabindex={0}
                         bind:this={canvasView}
                         onkeydown={handleKey}
