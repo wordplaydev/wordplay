@@ -124,7 +124,14 @@
         "Locale": "Gebietsschema",
         "End": "Ende",
         "Highlight": "$~hervorgehobenes Beispiel",
-        "ThaiNumeral": "$~thailändische Ziffern"
+        "ThaiNumeral": "$~thailändische Ziffern",
+        "BengaliNumeral": "$~bengalische Zahl",
+        "DevanagariNumeral": "$~Devanagari-Zahl",
+        "GujaratiNumeral": "$~Gujarati-Zahl",
+        "GurmukhiNumeral": "$~Gurmukhi-Zahl",
+        "KannadaNumeral": "$~Kannada-Zahl",
+        "TamilNumeral": "$~tamilische Zahl",
+        "TeluguNumeral": "$~Telugu-Zahlen"
     },
     "node": {
         "Dimension": {

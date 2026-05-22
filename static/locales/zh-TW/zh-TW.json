@@ -124,7 +124,14 @@
         "Locale": "語言環境",
         "End": "結束",
         "Highlight": "$~突出顯示的範例",
-        "ThaiNumeral": "$~泰語數字"
+        "ThaiNumeral": "$~泰語數字",
+        "BengaliNumeral": "$~孟加拉數字",
+        "DevanagariNumeral": "$~天城文數字",
+        "GujaratiNumeral": "$~古吉拉特數字",
+        "GurmukhiNumeral": "$~古爾穆基數字",
+        "KannadaNumeral": "$~卡納達數字",
+        "TamilNumeral": "$~泰米爾數字",
+        "TeluguNumeral": "$~泰盧固語數字"
     },
     "node": {
         "Dimension": {

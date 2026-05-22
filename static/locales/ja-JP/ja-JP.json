@@ -124,7 +124,14 @@
         "Unknown": "$~未知",
         "End": "$~終わり",
         "Highlight": "$~強調表示された例",
-        "ThaiNumeral": "$~タイ数字"
+        "ThaiNumeral": "$~タイ数字",
+        "BengaliNumeral": "$~ベンガル数字",
+        "DevanagariNumeral": "$~デーヴァナーガリー数字",
+        "GujaratiNumeral": "$~グジャラート語の数字",
+        "GurmukhiNumeral": "$~グルムキー数字",
+        "KannadaNumeral": "$~カンナダ語の数字",
+        "TamilNumeral": "$~タミル数字",
+        "TeluguNumeral": "$~テルグ語の数字"
     },
     "node": {
         "Dimension": {

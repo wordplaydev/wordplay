@@ -124,7 +124,14 @@
         "Locale": "$~स्थान",
         "End": "$~अंत",
         "Highlight": "$~हाइलाइट किया गया उदाहरण",
-        "ThaiNumeral": "$~थाई अंक"
+        "ThaiNumeral": "$~थाई अंक",
+        "BengaliNumeral": "$~बंगाली अंक",
+        "DevanagariNumeral": "$~देवनागरी अंक",
+        "GujaratiNumeral": "$~गुजराती अंक",
+        "GurmukhiNumeral": "$~गुरुमुखी अंक",
+        "KannadaNumeral": "$~कन्नड़ अंक",
+        "TamilNumeral": "$~तमिल अंक",
+        "TeluguNumeral": "$~तेलुगु अंक"
     },
     "node": {
         "Dimension": {

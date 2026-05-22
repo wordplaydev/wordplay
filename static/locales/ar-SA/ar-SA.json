@@ -124,7 +124,14 @@
         "Unknown": "$~مجهول",
         "End": "$~نهاية",
         "Highlight": "$~مثال مميز",
-        "ThaiNumeral": "$~الأرقام التايلاندية"
+        "ThaiNumeral": "$~الأرقام التايلاندية",
+        "BengaliNumeral": "$~الأرقام البنغالية",
+        "DevanagariNumeral": "$~الأرقام الديفاناغارية",
+        "GujaratiNumeral": "$~الأرقام الغوجاراتية",
+        "GurmukhiNumeral": "$~الأرقام الغورموخي",
+        "KannadaNumeral": "$~الأرقام الكنادية",
+        "TamilNumeral": "$~الأرقام التاميلية",
+        "TeluguNumeral": "$~الأرقام التيلوجية"
     },
     "node": {
         "Dimension": {

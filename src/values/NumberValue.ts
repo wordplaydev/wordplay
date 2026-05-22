@@ -97,6 +97,20 @@ export default class NumberValue extends SimpleValue {
             [num, precision] = convertHan(text);
         } else if (number.isSymbol(Sym.ThaiNumeral)) {
             [num, precision] = convertThai(text);
+        } else if (number.isSymbol(Sym.BengaliNumeral)) {
+            [num, precision] = convertBengali(text);
+        } else if (number.isSymbol(Sym.DevanagariNumeral)) {
+            [num, precision] = convertDevanagari(text);
+        } else if (number.isSymbol(Sym.GujaratiNumeral)) {
+            [num, precision] = convertGujarati(text);
+        } else if (number.isSymbol(Sym.GurmukhiNumeral)) {
+            [num, precision] = convertGurmukhi(text);
+        } else if (number.isSymbol(Sym.KannadaNumeral)) {
+            [num, precision] = convertKannada(text);
+        } else if (number.isSymbol(Sym.TamilNumeral)) {
+            [num, precision] = convertTamil(text);
+        } else if (number.isSymbol(Sym.TeluguNumeral)) {
+            [num, precision] = convertTelugu(text);
         } else if (number.isSymbol(Sym.Number)) {
             [num, precision] = NumberValue.fromUnknown(text);
         } else [num, precision] = [new Decimal(NaN), undefined];
@@ -115,6 +129,13 @@ export default class NumberValue extends SimpleValue {
             convertHan,
             convertRoman,
             convertThai,
+            convertBengali,
+            convertDevanagari,
+            convertGujarati,
+            convertGurmukhi,
+            convertKannada,
+            convertTamil,
+            convertTelugu,
         ];
 
         for (const conversion of conversions) {
@@ -306,6 +327,8 @@ const hanOrders: Record<string, number> = {
     兆: 1000000000000,
 };
 
+// Positional numeral digit maps. Each script's ten digits translate one-to-one
+// to Arabic '0'–'9'; the converter shares a single helper.
 const thaiDigits: Record<string, string> = {
     '๐': '0',
     '๑': '1',
@@ -317,6 +340,97 @@ const thaiDigits: Record<string, string> = {
     '๗': '7',
     '๘': '8',
     '๙': '9',
+};
+
+const bengaliDigits: Record<string, string> = {
+    '০': '0',
+    '১': '1',
+    '২': '2',
+    '৩': '3',
+    '৪': '4',
+    '৫': '5',
+    '৬': '6',
+    '৭': '7',
+    '৮': '8',
+    '৯': '9',
+};
+
+const devanagariDigits: Record<string, string> = {
+    '०': '0',
+    '१': '1',
+    '२': '2',
+    '३': '3',
+    '४': '4',
+    '५': '5',
+    '६': '6',
+    '७': '7',
+    '८': '8',
+    '९': '9',
+};
+
+const gujaratiDigits: Record<string, string> = {
+    '૦': '0',
+    '૧': '1',
+    '૨': '2',
+    '૩': '3',
+    '૪': '4',
+    '૫': '5',
+    '૬': '6',
+    '૭': '7',
+    '૮': '8',
+    '૯': '9',
+};
+
+const gurmukhiDigits: Record<string, string> = {
+    '੦': '0',
+    '੧': '1',
+    '੨': '2',
+    '੩': '3',
+    '੪': '4',
+    '੫': '5',
+    '੬': '6',
+    '੭': '7',
+    '੮': '8',
+    '੯': '9',
+};
+
+const kannadaDigits: Record<string, string> = {
+    '೦': '0',
+    '೧': '1',
+    '೨': '2',
+    '೩': '3',
+    '೪': '4',
+    '೫': '5',
+    '೬': '6',
+    '೭': '7',
+    '೮': '8',
+    '೯': '9',
+};
+
+const tamilDigits: Record<string, string> = {
+    '௦': '0',
+    '௧': '1',
+    '௨': '2',
+    '௩': '3',
+    '௪': '4',
+    '௫': '5',
+    '௬': '6',
+    '௭': '7',
+    '௮': '8',
+    '௯': '9',
+};
+
+const teluguDigits: Record<string, string> = {
+    '౦': '0',
+    '౧': '1',
+    '౨': '2',
+    '౩': '3',
+    '౪': '4',
+    '౫': '5',
+    '౬': '6',
+    '౭': '7',
+    '౮': '8',
+    '౯': '9',
 };
 
 const romanNumerals: Record<string, number> = {
@@ -506,18 +620,33 @@ function convertHan(text: string): NumberAndPrecision {
     return [sum.plus(group).plus(pending), undefined];
 }
 
-function convertThai(text: string): NumberAndPrecision {
-    // Thai digits are positional like Arabic. Translate each Thai digit to
-    // its Arabic equivalent, preserve the decimal separator and percent
-    // suffix, then defer to the decimal converter for precision tracking.
+function convertPositional(
+    text: string,
+    digits: Record<string, string>,
+): NumberAndPrecision {
+    // Translate each script-specific digit to its Arabic equivalent, preserve
+    // the decimal separator and percent suffix, then defer to the decimal
+    // converter for precision tracking.
     let translated = '';
     for (const c of text) {
-        if (thaiDigits[c] !== undefined) translated += thaiDigits[c];
+        if (digits[c] !== undefined) translated += digits[c];
         else if (c === '.' || c === ',' || c === '%') translated += c;
         else return [new Decimal(NaN), undefined];
     }
     return convertDecimal(translated);
 }
+
+const convertThai = (text: string) => convertPositional(text, thaiDigits);
+const convertBengali = (text: string) => convertPositional(text, bengaliDigits);
+const convertDevanagari = (text: string) =>
+    convertPositional(text, devanagariDigits);
+const convertGujarati = (text: string) =>
+    convertPositional(text, gujaratiDigits);
+const convertGurmukhi = (text: string) =>
+    convertPositional(text, gurmukhiDigits);
+const convertKannada = (text: string) => convertPositional(text, kannadaDigits);
+const convertTamil = (text: string) => convertPositional(text, tamilDigits);
+const convertTelugu = (text: string) => convertPositional(text, teluguDigits);
 
 function convertDecimal(text: string): NumberAndPrecision {
     // Is there a trailing %? Note it and strip it.

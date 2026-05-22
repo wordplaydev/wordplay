@@ -124,7 +124,14 @@
         "Unknown": "$~непознато",
         "End": "$~крај",
         "Highlight": "$~истакнути пример",
-        "ThaiNumeral": "$~тајландски број"
+        "ThaiNumeral": "$~тајландски број",
+        "BengaliNumeral": "$~бенгалски број",
+        "DevanagariNumeral": "$~деванагари број",
+        "GujaratiNumeral": "$~гуџарати број",
+        "GurmukhiNumeral": "$~гурмуки број",
+        "KannadaNumeral": "$~канадски број",
+        "TamilNumeral": "$~тамилски број",
+        "TeluguNumeral": "$~телугу број"
     },
     "node": {
         "Dimension": {

@@ -124,7 +124,14 @@
         "Unknown": "$~okänd",
         "End": "$~avsluta",
         "Highlight": "$~markerat exempel",
-        "ThaiNumeral": "$~thailändsk siffra"
+        "ThaiNumeral": "$~thailändsk siffra",
+        "BengaliNumeral": "$~bengalisk siffra",
+        "DevanagariNumeral": "$~devanagari-siffra",
+        "GujaratiNumeral": "$~gujaratiskt siffra",
+        "GurmukhiNumeral": "$~gurmukhi-siffra",
+        "KannadaNumeral": "$~kannadasiffra",
+        "TamilNumeral": "$~tamilska siffror",
+        "TeluguNumeral": "$~telugu-siffra"
     },
     "node": {
         "Dimension": {

@@ -124,7 +124,14 @@
         "Unknown": "$~không rõ",
         "End": "$~kết thúc",
         "Highlight": "$~ví dụ được đánh dấu",
-        "ThaiNumeral": "$~chữ số Thái Lan"
+        "ThaiNumeral": "$~chữ số Thái Lan",
+        "BengaliNumeral": "$~chữ số tiếng Bengali",
+        "DevanagariNumeral": "$~chữ số Devanagari",
+        "GujaratiNumeral": "$~chữ số Gujarati",
+        "GurmukhiNumeral": "$~chữ số Gurmukhi",
+        "KannadaNumeral": "$~chữ số kannada",
+        "TamilNumeral": "$~chữ số Tamil",
+        "TeluguNumeral": "$~số telugu"
     },
     "node": {
         "Dimension": {

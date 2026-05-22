@@ -309,18 +309,22 @@
 
     /** When the page loads or its id changes or the local store of characters changes, load the persisted character */
     $effect(() => {
+        console.log('[char-debug] effect fired', { id: page.params.id, saving, user: !!$user });
         if (page.params.id === undefined) return;
 
         // We get this first so there's a dependency on it.
         const charPromise = CharactersDB.getByID(page.params.id);
 
         if (saving !== undefined) {
+            console.log('[char-debug] saving !== undefined, resetting and returning');
             saving = undefined;
             return;
         }
 
         if ($user) {
+            console.log('[char-debug] awaiting charPromise');
             charPromise.then((loadedCharacter) => {
+                console.log('[char-debug] charPromise resolved', { loaded: !!loadedCharacter, type: typeof loadedCharacter });
                 // If we loaded the character and it's different from the edited character, update the states.
                 if (loadedCharacter) {
                     name = loadedCharacter.name.split('/').at(-1) ?? '';

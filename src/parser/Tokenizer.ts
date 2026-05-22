@@ -305,6 +305,41 @@ const CodeTokenPatterns: TokenPattern[] = [
         pattern: /^-?[๐๑๒๓๔๕๖๗๘๙]+([.,][๐๑๒๓๔๕๖๗๘๙]+)?%?/u,
         types: [Sym.Number, Sym.ThaiNumeral],
     },
+    // Bengali numerals (also used by Assamese).
+    {
+        pattern: /^-?[০১২৩৪৫৬৭৮৯]+([.,][০১২৩৪৫৬৭৮৯]+)?%?/u,
+        types: [Sym.Number, Sym.BengaliNumeral],
+    },
+    // Devanagari numerals (used by Hindi, Marathi, Sanskrit).
+    {
+        pattern: /^-?[०१२३४५६७८९]+([.,][०१२३४५६७८९]+)?%?/u,
+        types: [Sym.Number, Sym.DevanagariNumeral],
+    },
+    // Gujarati numerals.
+    {
+        pattern: /^-?[૦૧૨૩૪૫૬૭૮૯]+([.,][૦૧૨૩૪૫૬૭૮૯]+)?%?/u,
+        types: [Sym.Number, Sym.GujaratiNumeral],
+    },
+    // Gurmukhi numerals (used by Punjabi).
+    {
+        pattern: /^-?[੦੧੨੩੪੫੬੭੮੯]+([.,][੦੧੨੩੪੫੬੭੮੯]+)?%?/u,
+        types: [Sym.Number, Sym.GurmukhiNumeral],
+    },
+    // Kannada numerals.
+    {
+        pattern: /^-?[೦೧೨೩೪೫೬೭೮೯]+([.,][೦೧೨೩೪೫೬೭೮೯]+)?%?/u,
+        types: [Sym.Number, Sym.KannadaNumeral],
+    },
+    // Tamil numerals.
+    {
+        pattern: /^-?[௦௧௨௩௪௫௬௭௮௯]+([.,][௦௧௨௩௪௫௬௭௮௯]+)?%?/u,
+        types: [Sym.Number, Sym.TamilNumeral],
+    },
+    // Telugu numerals.
+    {
+        pattern: /^-?[౦౧౨౩౪౫౬౭౮౯]+([.,][౦౧౨౩౪౫౬౭౮౯]+)?%?/u,
+        types: [Sym.Number, Sym.TeluguNumeral],
+    },
     // Numbers with bases between base 2 and 16
     {
         pattern: /^-?([2-9]|1[0-6]);[0-9A-F]+([.,][0-9A-F]+)?%?/,

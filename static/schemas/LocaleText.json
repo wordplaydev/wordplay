@@ -10050,6 +10050,9 @@
             "Base": {
               "type": "string"
             },
+            "BengaliNumeral": {
+              "type": "string"
+            },
             "Bind": {
               "type": "string"
             },
@@ -10086,6 +10089,9 @@
             "Delete": {
               "type": "string"
             },
+            "DevanagariNumeral": {
+              "type": "string"
+            },
             "Doc": {
               "type": "string"
             },
@@ -10113,6 +10119,12 @@
             "Function": {
               "type": "string"
             },
+            "GujaratiNumeral": {
+              "type": "string"
+            },
+            "GurmukhiNumeral": {
+              "type": "string"
+            },
             "HanNumeral": {
               "type": "string"
             },
@@ -10129,6 +10141,9 @@
               "type": "string"
             },
             "Italic": {
+              "type": "string"
+            },
+            "KannadaNumeral": {
               "type": "string"
             },
             "Language": {
@@ -10221,6 +10236,12 @@
             "TagOpen": {
               "type": "string"
             },
+            "TamilNumeral": {
+              "type": "string"
+            },
+            "TeluguNumeral": {
+              "type": "string"
+            },
             "Text": {
               "type": "string"
             },
@@ -10300,6 +10321,13 @@
             "HanNumeral",
             "RomanNumeral",
             "ThaiNumeral",
+            "BengaliNumeral",
+            "DevanagariNumeral",
+            "GujaratiNumeral",
+            "GurmukhiNumeral",
+            "KannadaNumeral",
+            "TamilNumeral",
+            "TeluguNumeral",
             "Pi",
             "Infinity",
             "TableOpen",

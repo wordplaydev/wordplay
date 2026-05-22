@@ -124,7 +124,14 @@
         "Locale": "로캘",
         "End": "종료",
         "Highlight": "$~강조 표시된 예시",
-        "ThaiNumeral": "$~태국 숫자"
+        "ThaiNumeral": "$~태국 숫자",
+        "BengaliNumeral": "$~벵골어 숫자",
+        "DevanagariNumeral": "$~데바나가리 숫자",
+        "GujaratiNumeral": "$~구자라트어 숫자",
+        "GurmukhiNumeral": "$~구르무키 숫자",
+        "KannadaNumeral": "$~칸나다어 숫자",
+        "TamilNumeral": "$~타밀 숫자",
+        "TeluguNumeral": "$~텔루구어 숫자"
     },
     "node": {
         "Dimension": {

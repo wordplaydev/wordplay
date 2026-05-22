@@ -124,7 +124,14 @@
         "Unknown": "$~bilinmeyen",
         "End": "$~son",
         "Highlight": "$~vurgulanmış örnek",
-        "ThaiNumeral": "$~Tay rakamı"
+        "ThaiNumeral": "$~Tay rakamı",
+        "BengaliNumeral": "$~Bengalce rakam",
+        "DevanagariNumeral": "$~Devanagari rakamı",
+        "GujaratiNumeral": "$~Gujarati rakamı",
+        "GurmukhiNumeral": "$~gurmukhi rakamı",
+        "KannadaNumeral": "$~Kannada rakamı",
+        "TamilNumeral": "$~tamil rakamı",
+        "TeluguNumeral": "$~Telugu rakamı"
     },
     "node": {
         "Dimension": {

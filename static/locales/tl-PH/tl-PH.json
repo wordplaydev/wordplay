@@ -124,7 +124,14 @@
         "Unknown": "$~hindi alam",
         "End": "$~katapusan",
         "Highlight": "$~naka-highlight na halimbawa",
-        "ThaiNumeral": "$~numerong Thai"
+        "ThaiNumeral": "$~numerong Thai",
+        "BengaliNumeral": "$~numeral na Bengali",
+        "DevanagariNumeral": "$~numeral na devanagari",
+        "GujaratiNumeral": "$~numeral na Gujarati",
+        "GurmukhiNumeral": "$~numerong gurmukhi",
+        "KannadaNumeral": "$~numeral na Kannada",
+        "TamilNumeral": "$~numeral na Tamil",
+        "TeluguNumeral": "$~numeral na Telugu"
     },
     "node": {
         "Dimension": {

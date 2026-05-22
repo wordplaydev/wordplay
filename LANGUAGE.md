@@ -67,13 +67,20 @@ Numbers can be:
 > roman → `/(Ⅰ|Ⅱ|Ⅲ|Ⅳ|Ⅴ|Ⅵ|Ⅶ|Ⅷ|Ⅸ|Ⅹ|Ⅺ|Ⅻ|Ⅼ|Ⅽ|Ⅾ|Ⅿ)+/`  
 > han → `/-?[0-9]*[一二三四五六七八九十百千万億兆]+(・[一二三四五六七八九分厘毛糸忽]+)?/`  
 > thai → `/-?[๐๑๒๓๔๕๖๗๘๙]+([.,][๐๑๒๓๔๕๖๗๘๙]+)?%?/`  
+> bengali → `/-?[০১২৩৪৫৬৭৮৯]+([.,][০১২৩৪৫৬৭৮৯]+)?%?/`  
+> devanagari → `/-?[०१२३४५६७८९]+([.,][०१२३४५६७८९]+)?%?/`  
+> gujarati → `/-?[૦૧૨૩૪૫૬૭૮૯]+([.,][૦૧૨૩૪૫૬૭૮૯]+)?%?/`  
+> gurmukhi → `/-?[੦੧੨੩੪੫੬੭੮੯]+([.,][੦੧੨੩੪੫੬੭੮੯]+)?%?/`  
+> kannada → `/-?[೦೧೨೩೪೫೬೭೮೯]+([.,][೦೧೨೩೪೫೬೭೮೯]+)?%?/`  
+> tamil → `/-?[௦௧௨௩௪௫௬௭௮௯]+([.,][௦௧௨௩௪௫௬௭௮௯]+)?%?/`  
+> telugu → `/-?[౦౧౨౩౪౫౬౭౮౯]+([.,][౦౧౨౩౪౫౬౭౮౯]+)?%?/`  
 > pi → `π`  
 > infinity → `∞`  
-> numeral → arabic | arabicbase | roman | han | thai | pi | infinity
+> numeral → arabic | arabicbase | roman | han | thai | bengali | devanagari | gujarati | gurmukhi | kannada | tamil | telugu | pi | infinity
 
 The `han` production covers the shared Han-character numeral system used across Chinese, Japanese, and Korean (一二三…十百千万億兆). It uses nested myriad grouping: small orders (十百千) accumulate into a group that is multiplied by the next big unit (万/億/兆), so 三億五千万 is 3·10⁸ + 5000·10⁴ = 350,000,000.
 
-The `thai` production accepts the Thai digit characters ๐–๙, which are positional like Arabic decimals, so ๑๒๓ is 123 and ๑๒๓.๔๕ is 123.45.
+The `thai` production accepts the Thai digit characters ๐–๙, which are positional like Arabic decimals, so ๑๒๓ is 123 and ๑๒๓.๔๕ is 123.45. The seven Indic productions (`bengali`, `devanagari`, `gujarati`, `gurmukhi`, `kannada`, `tamil`, `telugu`) work the same way against their own digit sets; Bengali script is shared by Bengali and Assamese, Devanagari by Hindi and Marathi, and Gurmukhi by Punjabi.
 
 We hope to add other numerals as we localize other languages.
 
