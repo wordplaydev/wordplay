@@ -141,7 +141,7 @@
         },
         "Doc": {
             "name": "解釋說明",
-            "description": "文件注釋 $1[$1|]",
+            "description": "$~用文字記錄表達式",
             "emotion": "serious",
             "doc": [
                 "我用 @Markup 來格式化別的東西, 例如你的 @Program 的解釋說明, 甚至是你用 @Phrase 放上這個舞台的文字。",
@@ -162,7 +162,7 @@
         },
         "Docs": {
             "name": "解釋清單清單",
-            "description": "$1 文件",
+            "description": "$~多種語言的列表文檔",
             "emotion": "serious",
             "doc": [
                 "我是 @Doc 的一個列表， 在你有許多不同語言的 @Doc 的翻譯時會非常有用。",
@@ -173,7 +173,7 @@
         },
         "KeyValue": {
             "name": "映射",
-            "description": "$1 對應 $2",
+            "description": "$~將鍵映射到值",
             "emotion": "kind",
             "doc": [
                 "我是在一個 @Map 中從一個 *關鍵碼* 到一個 *值* 的映射。",
@@ -185,7 +185,7 @@
         },
         "Language": {
             "name": "語言",
-            "description": "語言 $1[$1|未知]",
+            "description": "$~標籤名稱和文字（帶語言）",
             "emotion": "eager",
             "doc": [
                 "我是一個語言標籤，我與 @Name 和 @Doc 一起工作!",
@@ -212,7 +212,7 @@
         },
         "Name": {
             "name": "命名",
-            "description": "$1[$1|未命名]",
+            "description": "$~$name[$name|未命名]",
             "emotion": "kind",
             "doc": [
                 "我會辨識一個數值，而且能夠幫你將難以運算的事物貼上簡潔的標籤，不然你就要一遍又一遍地運算它們。",
@@ -230,7 +230,7 @@
         },
         "Names": {
             "name": "命名清單",
-            "description": "$1 名稱",
+            "description": "$~列出多種語言的名稱",
             "emotion": "kind",
             "doc": [
                 "我是一個 @Name 的列表，當你想給一個值幾個名字的時候特別有用，常常是和不同的 @Language。",
@@ -243,7 +243,7 @@
         },
         "Row": {
             "name": "排",
-            "description": "$1 行",
+            "description": "$~表示表中的一行",
             "emotion": "shy",
             "doc": "我代表了一個 @Table 中的一排。你最好和 @Table 聊聊這個，因為它知道我的所有事情。我只是在這裡確保所有值都在一行裡。 :(",
             "conflict": {
@@ -253,7 +253,7 @@
                 },
                 "MissingCell": {
                     "name": "$~缺失列",
-                    "explanation": "$~我缺少第 1 列。"
+                    "explanation": "$~我缺少列 $column"
                 },
                 "UnknownColumn": {
                     "name": "$~未知的列名",
@@ -271,7 +271,7 @@
         },
         "Token": {
             "name": "令牌",
-            "description": "$1",
+            "description": "$label",
             "emotion": "neutral",
             "doc": [
                 "你怎麼找到我的？",
@@ -280,19 +280,19 @@
         },
         "TypeInputs": {
             "name": "輸入類型",
-            "description": "$1 型態輸入",
+            "description": "$~填寫類型變數槽",
             "emotion": "curious",
             "doc": "我是一個類型列表，可以代替 @StructureDefinition 或 @FunctionDefinition 中的 @TypeVariables。我可以幫助每個人知道他們將收到什麼樣的輸入。"
         },
         "TypeVariable": {
             "name": "變數類型",
-            "description": "型態變數 $1",
+            "description": "$~命名調用者指定的類型",
             "emotion": "curious",
             "doc": "我是 @FunctionDefinition 或 @StructureDefinition 上的神秘類型，由 @TypeInputs 在對其中任一類型進行求值時提供。@Set、@List 和 @Map 都可以使用我。",
             "conflict": {
                 "DuplicateTypeVariable": {
                     "name": "$~重複類型變數",
-                    "explanation": "$~我的名字和$1一樣。"
+                    "explanation": "$~我的名字和$duplicate"
                 }
             },
             "label": {
@@ -301,13 +301,13 @@
         },
         "TypeVariables": {
             "name": "變數類型清單",
-            "description": "$1 型態變數",
+            "description": "$~定義中的列表類型變數",
             "emotion": "curious",
             "doc": "我是一個清單的 @TypeVariable 。"
         },
         "Markup": {
             "name": "標記",
-            "description": "$1 段落",
+            "description": "$count 段落",
             "emotion": "serious",
             "doc": [
                 "我是一個段落列表，使用了解釋中可用的多種標記，如 @Words、@WebLink、@ConceptLink 和 @Example 等."
@@ -318,7 +318,7 @@
         },
         "Paragraph": {
             "name": "段落",
-            "description": "$1 段落",
+            "description": "$~將詞語組合成一段話",
             "emotion": "serious",
             "doc": [
                 "我是一系列的 @Words、@ConceptLink、@WebLink 和 @Example ，我們在 @Doc 內用空白行隔開。",
@@ -330,7 +330,7 @@
         },
         "WebLink": {
             "name": "連結",
-            "description": "連結 $1",
+            "description": "連結 $url",
             "emotion": "serious",
             "doc": [
                 "我是能帶你去網路上一個地方的連結。我只需要一個描述和一個網址:",
@@ -340,7 +340,7 @@
         },
         "ConceptLink": {
             "name": "概念",
-            "description": "概念連結 $1",
+            "description": "概念連結 $concept",
             "emotion": "serious",
             "doc": [
                 "$~我是 Verse 角色的一個連結。當您想要編寫@Doc 並參考我們其中一位時，我會提供幫助。",
@@ -355,7 +355,7 @@
         },
         "Words": {
             "name": "文字",
-            "description": "$1",
+            "description": "$~文檔中要用簡潔的語言編寫。",
             "emotion": "serious",
             "doc": [
                 "我是你在一篇 @Doc 中喜愛的所有文字。例如:",
@@ -367,7 +367,7 @@
         },
         "Example": {
             "name": "範例",
-            "description": "範例 $1",
+            "description": "$~在文件中顯示可運行程式碼",
             "emotion": "serious",
             "doc": [
                 "我是一個例子，能夠幫助解釋 @Doc 中的一些功能是怎麼運用的！",
@@ -376,7 +376,7 @@
         },
         "Mention": {
             "name": "提到",
-            "description": "提到 $1",
+            "description": "提到 $name",
             "emotion": "serious",
             "doc": [
                 "我是一個術語 \\$program\\ 或一個動態輸入 \\$1\\的參考資料。",
@@ -385,7 +385,7 @@
         },
         "Branch": {
             "name": "分支",
-            "description": "分支 $1",
+            "description": "$~根據條件選擇標記",
             "emotion": "serious",
             "doc": [
                 "我是一個種在兩個部分之間根據有無定義和真假與否進行選擇的方法。",
@@ -394,7 +394,7 @@
         },
         "BinaryEvaluate": {
             "name": "二進位評估",
-            "description": "$1 操作",
+            "description": "$operator 操作",
             "emotion": "insecure",
             "doc": [
                 "我是形式較簡單的 @Evaluate,當你想要使用接收兩個輸入的 @FunctionDefinition 時很有用。",
@@ -410,8 +410,8 @@
                 "在數學中，乘法是第一位的，然後是加法，所以這樣算的結果會是\\11\\。但因為我是按照讀取順序演算的，結果就會是\\13\\。 "
             ],
             "right": "輸入",
-            "start": "讓我們先來運算 $1 吧",
-            "finish": "你看，我創造了 $1!",
+            "start": "讓我們先來運算 $left 吧",
+            "finish": "你看，我創造了 $value!",
             "conflict": {
                 "OrderOfOperations": {
                     "name": "$~模糊的順序",
@@ -424,7 +424,7 @@
         },
         "Bind": {
             "name": "連結",
-            "description": "連結 $1",
+            "description": "連結 $name",
             "emotion": "excited",
             "doc": [
                 "我給 *values* 命名。",
@@ -452,24 +452,24 @@
                 "但我們可以改變它來加上 @Is，那現在 @FunctionDefinition 就知道它們都是數字啦：",
                 "\\ƒ 總和(a•# b•#) a + b\\"
             ],
-            "start": "讓我們看看我們能從 $1 得到什麼值吧!",
-            "finish": "太好啦，我得到了 $1! 讓我們給它命名為 $2",
+            "start": "讓我們看看我們能從 $value 得到什麼值吧!",
+            "finish": "太好啦，我得到了 $value! 讓我們給它命名為 $name",
             "conflict": {
                 "DuplicateName": {
                     "conflict": {
                         "name": "$~重複名稱",
-                        "explanation": "$~有人已經用了「$1」這個名字，所以我不能用這個名字。"
+                        "explanation": "$~有人已經用了「$shadowed"
                     },
                     "resolution": "$~有重複的名稱，是否要刪除一個？"
                 },
                 "DuplicateShare": {
                     "name": "$~重複共享",
-                    "explanation": "$~我的名字和1美元一樣。這使得我們分享的是什麼變得不清楚。"
+                    "explanation": "$~我和 $duplicate 同名。這使得我們分享的內容變得不明確。"
                 },
                 "IncompatibleType": {
                     "name": "$~不相容類型",
-                    "explanation": "$~我應該用2號字體，但我用的是1號字體。",
-                    "resolution": "$~轉換為 1 美元"
+                    "explanation": "$~我期望得到 $expected $given 類型",
+                    "resolution": "$~轉換為$expected"
                 },
                 "MisplacedShare": {
                     "name": "$~放錯位置的份額",
@@ -489,7 +489,7 @@
                 },
                 "UnusedBind": {
                     "name": "$~未使用的綁定",
-                    "explanation": "$~我的名字叫1美元，但沒人用我。也許我沒用？"
+                    "explanation": "$~我的名字是$name"
                 }
             },
             "label": {
@@ -500,7 +500,7 @@
         },
         "Block": {
             "name": "區塊",
-            "description": "$1 陳述",
+            "description": "$count 陳述",
             "emotion": "shy",
             "doc": [
                 "嗨。我給出一小塊安靜的私人空間用來演算事物。",
@@ -521,7 +521,7 @@
                 "這會得到 \\[3 2]\\：只有那兩個不是 @Bind 的表述的值。"
             ],
             "start": "第一個表述",
-            "finish": "好啦，我現在有 $1 了",
+            "finish": "好啦，我現在有 $value 了",
             "conflict": {
                 "ExpectedEndingExpression": {
                     "name": "$~缺失表達",
@@ -534,17 +534,17 @@
         },
         "BooleanLiteral": {
             "name": "特殊布林值",
-            "description": "$1[正確|錯誤]",
+            "description": "$value[正確|錯誤]",
             "emotion": "precise",
             "doc": "我要么是 \\⊤\\ ，要么是 \\⊥\\。去看看 @Boolean 來更多地了解我們美麗的邏輯學吧。",
-            "start": "$1!"
+            "start": "$value!"
         },
         "Borrow": {
             "name": "借用",
-            "description": "借用 $1[$1|不存在的命名]",
+            "description": "$~借用 $name[$name|不存在的命名]",
             "emotion": "excited",
             "doc": "如果你用多種@Source 創造了一個表演，你可以使用我去借用在其他@Source 里共享的@Bind 。只要使用它們的名字，我就可以同時帶來它們的名字和值。",
-            "start": "向 $1 借用 $2",
+            "start": "向 $name 借用 $source",
             "conflict": {
                 "UnknownBorrow": {
                     "name": "$~未知借款",
@@ -552,13 +552,13 @@
                 },
                 "BorrowCycle": {
                     "name": "$~自引用借用",
-                    "explanation": "$~這取決於 $1，而 $1 又取決於這個 $source，因此無法評估程式。"
+                    "explanation": "$~這取決於 $borrow，而 $borrow 又取決於這個 $source，因此無法評估程式。"
                 }
             },
             "exception": {
                 "CycleException": {
                     "description": "借用循環",
-                    "explanation": "$1 取決於它自己"
+                    "explanation": "$borrow 取決於它自己"
                 }
             },
             "label": {
@@ -569,7 +569,7 @@
         },
         "Changed": {
             "name": "改變",
-            "description": "已變更 $1[$1|]",
+            "description": "$~如果流已更改，則傳回 true",
             "emotion": "serious",
             "doc": [
                 "我檢查流是否導致 @Program 重新評估，並產生一個 @Boolean 值。像這樣",
@@ -577,14 +577,14 @@
                 "我會很好地在你想只有資料流發生變化才改變某些內容的時候幫到你。",
                 "這就是全部了。"
             ],
-            "start": "讓我們看看 $1 有沒有改變…",
+            "start": "讓我們看看 $stream 有沒有改變…",
             "label": {
                 "stream": "$~溪流"
             }
         },
         "Conditional": {
             "name": "有條件的",
-            "description": "若 $1 則 $2[$2|]",
+            "description": "$~檢查此條件並計算以下兩個表達式之一。",
             "emotion": "curious",
             "doc": [
                 "I我想我應該是來做決定的？就像這樣？",
@@ -593,14 +593,14 @@
                 "決定不應該比是或不是更細緻嗎？在 \\⊤\\ 和 \\⊥\\ 之間決定就是全部了嗎?",
                 "如果我們只能做這些決定，難道你不擔心我們就會錯過一些重要的世界的內容嗎?"
             ],
-            "start": "讓我們看看 $1 是不是正確的",
+            "start": "讓我們看看 $condition 是不是正確的",
             "afterthen": "$1[跳過這些代碼 | 不要跳過這些代碼]",
-            "else": "已經完成了是的情況，要不我們就跳過否的情況吧?",
-            "finish": "我想這就是 $1 了吧?",
+            "else": "$~$jumping[跳過程式碼 | 不跳過程式碼]",
+            "finish": "我想這就是 $value 了吧?",
             "conflict": {
                 "ExpectedBooleanCondition": {
                     "name": "$~預期布林條件",
-                    "explanation": "$~我需要一個布林值來做決定，但我得到的卻是 1 美元。"
+                    "explanation": "$~我需要一個 @Boolean 類型的值來做決定，但我得到的卻是 $type 類型的值。"
                 }
             },
             "label": {
@@ -611,7 +611,7 @@
         },
         "ConversionDefinition": {
             "name": "轉換定義",
-            "description": "$1 → $2",
+            "description": "$input → $output",
             "emotion": "excited",
             "doc": [
                 "哥們兒，我定義了從一種類型到另一種類型的轉換！我在 @Block 中執行，就像這樣：",
@@ -634,7 +634,7 @@
         },
         "Convert": {
             "name": "轉換",
-            "description": "將 $1 轉換為 $2",
+            "description": "$~將值轉換為另一種類型",
             "emotion": "cheerful",
             "doc": [
                 "嘿，我可以將一個類型的值轉換成另一個類型。看看這個例子：",
@@ -645,24 +645,24 @@
                 "\\\"你好\" → [] → {}\\",
                 "值具有一組預先定義的 @ConversionDefinition，但如果你為一個新類型的值創建了 @StructureDefinition，你可以使用 @ConversionDefinition 定義自己的轉換規則。"
             ],
-            "start": "從 $1 取得那個值！",
-            "finish": "太棒了，我做到了 $1",
+            "start": "從 $expression 取得那個值！",
+            "finish": "太棒了，我做到了 $value",
             "conflict": {
                 "UnknownConversion": {
                     "name": "$~未知轉換",
-                    "explanation": "$~我們找不到將 1 美元轉換成 2 美元的方法。"
+                    "explanation": "$~我們找不到將 $expected 轉換為 $given 的方法。"
                 }
             },
             "exception": {
                 "ConversionException": {
                     "description": "不可能的轉換",
-                    "explanation": "我不知道如何從 $1 轉成 $2"
+                    "explanation": "我不知道如何從 $from 轉成 $to"
                 }
             }
         },
         "Delete": {
             "name": "刪除",
-            "description": "從 $1 刪除",
+            "description": "$~從表中刪除符合的行",
             "emotion": "angry",
             "doc": [
                 "有時候你有一個表格，它裡面有太多東西了！",
@@ -675,7 +675,7 @@
         },
         "DocumentedExpression": {
             "name": "解釋表達式",
-            "description": "已記錄的 $1[$1|]",
+            "description": "$~將文件附加到表達式",
             "emotion": "eager",
             "doc": [
                 "我是任何表達式，但附帶了 @Doc！",
@@ -687,7 +687,7 @@
         },
         "Evaluate": {
             "name": "評估",
-            "description": "$3[用這些輸入建立$1[$1|]值|$2[用這些輸入建立$1[$1|]流|將$1[$1|函數]應用於這些輸入]]",
+            "description": "$~$structure[用這些輸入建立$name[$name|]值|$stream[用這些輸入建立$name[$name|]流|將$name[$name|函數]應用於這些輸入]]",
             "emotion": "shy",
             "doc": [
                 "嗨。我會評估我心愛的 @FunctionDefinition",
@@ -702,12 +702,12 @@
             ],
             "start": "首先讓我們評估輸入",
             "evaluate": "現在讓我們評估函數",
-            "finish": "我評估為 $1",
+            "finish": "我評估為 $value",
             "conflict": {
                 "IncompatibleInput": {
                     "name": "$~不相容的輸入",
-                    "explanation": "$~我應該用1號字體，但我用的是2號字體。",
-                    "resolution": "$~轉換為 1 美元"
+                    "explanation": "$~我預期收到$expected ，但實際收到$given",
+                    "resolution": "$~轉換為$expected"
                 },
                 "UnexpectedTypeInput": {
                     "name": "$~意外的類型輸入",
@@ -715,7 +715,7 @@
                 },
                 "MissingInput": {
                     "name": "$~缺少輸入",
-                    "explanation": "$~沒有輸入 2 美元，我無法進行評估 :("
+                    "explanation": "$~沒有輸入 $name $input 的值 :("
                 },
                 "NotInstantiable": {
                     "name": "$~結構不完整",
@@ -727,7 +727,7 @@
                 },
                 "UnknownInput": {
                     "name": "$~未知輸入",
-                    "explanation": "$~這個函數 *$1* 不需要輸入我的名字。"
+                    "explanation": "$~這個函數 *$name* 不需要輸入我的名字。"
                 },
                 "InputListMustBeLast": {
                     "name": "$~額外的輸入不是最後的",
@@ -735,13 +735,13 @@
                 },
                 "SeparatedEvaluate": {
                     "name": "$~模稜兩可的評價",
-                    "explanation": "$~$1 是您要評估的 $2[$structure|$function] 的名稱嗎？請嘗試刪除我後面的空格，這樣我就知道它是 @Evaluate 而不是單獨的 @Block。"
+                    "explanation": "$~$name 是您要評估的 $structure[$structure|$function] 的名稱嗎？請嘗試刪除我後面的空格，這樣我就知道它是 @Evaluate 而不是單獨的 @Block。"
                 }
             },
             "exception": {
                 "FunctionException": {
                     "description": "未知函數",
-                    "explanation": "喔不，$1 在 $2[$2|這個 @Block] 中不是一個函數！"
+                    "explanation": "$~喔不，$name 在 $scope[$scope|這個 @Block] 中不是一個函數！"
                 }
             },
             "label": {
@@ -764,7 +764,7 @@
         },
         "ExpressionPlaceholder": {
             "name": "表達式佔位符",
-            "description": "$1[$1|佔位符]",
+            "description": "$~標記一個待填寫的表達式",
             "emotion": "scared",
             "doc": [
                 "我是一個 *表達式*，但不是一個真正的表達式... 我只是替代品。",
@@ -794,7 +794,7 @@
         },
         "FunctionDefinition": {
             "name": "函數",
-            "description": "函數 $1",
+            "description": "函數 $name",
             "emotion": "kind",
             "doc": [
                 "嗨又見面了！我接受一些輸入，然後使用它們來評估一個表達式，產生一個輸出。",
@@ -834,7 +834,7 @@
             "initialize": "準備逐一遍歷項目",
             "next": "移動到下一個專案",
             "check": "決定是否繼續",
-            "finish": "我評估為 $1"
+            "finish": "我評估為 $value"
         },
         "Initial": {
             "name": "開始",
@@ -849,7 +849,7 @@
         },
         "Insert": {
             "name": "插入",
-            "description": "插入至 $1",
+            "description": "$~在表格中新增一行",
             "emotion": "kind",
             "doc": [
                 "你知道當你有一個 @Table 時，總覺得缺了點什麼嗎？我可以幫你加！",
@@ -862,7 +862,7 @@
         },
         "Is": {
             "name": "是",
-            "description": "是",
+            "description": "$~檢查值是否為類型 $type",
             "emotion": "curious",
             "doc": [
                 "你知道嗎？有很多種意味著很多不同含義的值。我可以幫忙確定它們是什麼。",
@@ -873,18 +873,18 @@
                 "我們得到了 \\⊤\\！",
                 "當你需要知道某個 @Name 是否具有特定類型的值時，我非常有用。"
             ],
-            "start": "首先讓我們取得 $1 的值",
-            "finish": "$1[值是 $2|值不是 $2]",
+            "start": "首先讓我們取得 $expression 的值",
+            "finish": "$~$value[值是 $type|值不是 $type]",
             "conflict": {
                 "ImpossibleType": {
                     "name": "$~不可能類型",
-                    "explanation": "$~這永遠不可能是1美元。"
+                    "explanation": "$~這永遠不可能是 $type"
                 }
             },
             "exception": {
                 "TypeException": {
                     "description": "不相容的值",
-                    "explanation": "我預期得到一個 $1，但收到了一個 $2"
+                    "explanation": "我預期得到一個 $expected $given"
                 }
             }
         },
@@ -898,30 +898,30 @@
                 "\\🌍/es-MX\\",
                 "如果你想根據選擇的語言來改變表現，這將會很有幫助。"
             ],
-            "start": "這種語言是 $1 嗎？"
+            "start": "這種語言是 $locale 嗎？"
         },
         "ListAccess": {
             "name": "清單存取",
-            "description": "從 $1[$1|清單] 取得",
+            "description": "$~取得清單位置的值",
             "emotion": "cheerful",
             "doc": [
                 "我與 @List 密切合作，幫助它們在特定位置獲取值。所以，例如，如果你有一個列表，想要獲取它的第二個項目，你會寫成：",
                 "\\列表: ['鳥' '鴨' '魚' '蛇']\n列表[2]\\"
             ],
-            "start": "首先讓我們取得列表 $1",
-            "finish": "項目是 $1！"
+            "start": "首先讓我們取得列表 $list",
+            "finish": "項目是 $value"
         },
         "ListLiteral": {
             "name": "特定清單",
-            "description": "$1 項目清單",
+            "description": "$count 項目清單",
             "emotion": "eager",
             "doc": "我是一個特定的值 @List!查看 @List 以了解更多關於如何使用我的信息。",
             "start": "讓我們先評估這些項目",
-            "finish": "我創建了一個我！ $1"
+            "finish": "我創建了一個我！ $value"
         },
         "Spread": {
             "name": "清單展開",
-            "description": "展開 $1[$1|]",
+            "description": "$~將清單展開到另一個清單中",
             "emotion": "serious",
             "doc": [
                 "我幫助你使用其他清單的值來建立清單。就像這樣：",
@@ -930,11 +930,11 @@
         },
         "MapLiteral": {
             "name": "映射",
-            "description": "$1 配對映射",
+            "description": "$count 配對映射",
             "emotion": "kind",
             "doc": "我是一個具體的鍵值對 @Map。查看 @Map 以了解我如何提供幫助的更多信息。",
             "start": "讓我們先評估鍵和值",
-            "finish": "我把每個連結在一起了，$1",
+            "finish": "我把每個連結在一起了，$value",
             "conflict": {
                 "NotAKeyValue": {
                     "name": "$~缺失值",
@@ -947,7 +947,7 @@
         },
         "Match": {
             "name": "$~匹配",
-            "description": "配對 $1",
+            "description": "$~將價值與多個案例進行比較",
             "emotion": "curious",
             "doc": [
                 "$~我是所有條件檢查中最光榮的！我取一個值並將其與任意數量的案例進行比較，然後評估匹配的相應表達式。",
@@ -957,7 +957,7 @@
                 "$~我對於將許多可能的@Number、@Text 或更複雜的值之一轉換為其他值非常有幫助。",
                 "$~您可以將它用於@Boolean 或@None，但它們實際上不能包含那麼多東西，因此對於那些簡單的值來說我沒有那麼有用。"
             ],
-            "start": "$~讓我們看看 1 美元是多少...",
+            "start": "$~我們來看看$value",
             "case": "$~讓我們檢查一下這種情況",
             "finish": "$~好的，我們有一個最終值！",
             "label": {
@@ -967,10 +967,10 @@
         },
         "NumberLiteral": {
             "name": "具體數字",
-            "description": "$1 $2[$2|]",
+            "description": "$~$number $unit[$unit|]",
             "emotion": "excited",
             "doc": "我是一個具體的@Number。你可以用任何語言的任何數字來書寫我。查看 @Number 了解我做的一能切。",
-            "start": "$1!",
+            "start": "$value!",
             "conflict": {
                 "NotANumber": {
                     "name": "$~不是一個數字",
@@ -994,7 +994,7 @@
         },
         "Otherwise": {
             "name": "否則",
-            "description": "否則 $1[$1|]",
+            "description": "$~如果沒有備用值，請提供備用值。",
             "emotion": "curious",
             "doc": [
                 "/@FunctionDefinition 這裡。這是一種方便的方法，用於檢查一個值是否為@None，如果是，就提供一個備用值。/",
@@ -1002,11 +1002,11 @@
                 "\\maybeNumber•#|ø: 1 MaybeNumber ?? 0\\"
             ],
             "start": "ø ??",
-            "finish": "… $1"
+            "finish": "… $value"
         },
         "Previous": {
             "name": "之前",
-            "description": "前一個 $1[$1|]",
+            "description": "$~取得流的先前值",
             "emotion": "serious",
             "doc": [
                 "你有沒有想過要記住過去？",
@@ -1019,15 +1019,15 @@
                 "看到了嗎？這是五個先前的時間，而不是只有一個時間？",
                 "當你想要創造依賴過去的表演時，我會很有幫助。"
             ],
-            "start": "首先取得 $1",
-            "finish": "評估為流值 $1",
+            "start": "首先取得 $stream",
+            "finish": "評估為流值 $value",
             "label": {
                 "range": "$~範圍"
             }
         },
         "Program": {
             "name": "節目",
-            "description": "含有 $1[$1|] 個運算式的程式",
+            "description": "$~包含程式中的所有表達式",
             "emotion": "serious",
             "doc": [
                 "我是表演的開始和結束，包含了所有編排表演的其他角色。",
@@ -1039,9 +1039,9 @@
                 "如果你的表演依賴於一個*流*，我會在該流改變時重新評估。"
             ],
             "unevaluated": "你選擇的節點沒有被評估",
-            "start": "$1[$1 流變為 $2！ |這是我的第一次評估]",
+            "start": "$~$stream[$stream 流變為 $value |這是我的第一次評估]",
             "halt": "遇到異常，停止",
-            "finish": "所有都完成了，我評估為 $1",
+            "finish": "所有都完成了，我評估為 $value",
             "done": "沒有任何評估",
             "exception": {
                 "BlankException": {
@@ -1050,7 +1050,7 @@
                 },
                 "EvaluationLimitException": {
                     "description": "評估限制",
-                    "explanation": "@Evaluate 和我對於評估感到疲憊，尤其是 $1。\n\n是不是可能 $1 在永遠地評估自己，永遠不會停止？"
+                    "explanation": "$~@Evaluate 和我對於評估感到疲憊，尤其是 $function\n\n是不是可能 $function 在永遠地評估自己，永遠不會停止？"
                 },
                 "StepLimitException": {
                     "description": "步驟限制",
@@ -1062,11 +1062,11 @@
                 },
                 "InternalException": {
                     "description": "$~內部錯誤",
-                    "explanation": "$~內部發生了一件非常糟糕的事：1美元"
+                    "explanation": "$~內部發生了非常糟糕的事情：$reason"
                 },
                 "PermissionException": {
                     "description": "$~沒有權限",
-                    "explanation": "$~我需要您支付 1 美元才能運行，但我沒有權限。請點擊“重試”按鈕再次嘗試。如果仍然無效，請在瀏覽器設定中允許此網站支付 1 美元。"
+                    "explanation": "$~我需要您的$permission，但我沒有權限。點擊“重試”按鈕再次嘗試。如果問題仍然存在，請在瀏覽器設定中$permission。"
                 }
             },
             "label": {
@@ -1076,7 +1076,7 @@
         },
         "PropertyBind": {
             "name": "精煉",
-            "description": "精煉 $1[$1|缺名稱]",
+            "description": "$~精煉 $name[$name|缺名稱]",
             "emotion": "kind",
             "doc": [
                 "有時，當你創建一個@StructureDefinition 時，你想要改變它的最小的東西，而不必用所有相同的值創建一個新的。",
@@ -1085,11 +1085,11 @@
                 "這比做一個全新的\\貓\\ \\要簡單得多，除了愛好之外，還有相同的值，不是嗎?"
             ],
             "start": "首先讓我們取得值",
-            "finish": "我複製了這個結構，但是把1$改成了2$",
+            "finish": "$~我複製了結構，但將 $property 替換為 $value",
             "conflict": {
                 "InvalidProperty": {
                     "name": "$~未知財產",
-                    "explanation": "$~我不是結構 $1 中的名字，所以不能進行精煉。"
+                    "explanation": "$~我不是結構 $structure 中的名字，所以不能進行精煉。"
                 }
             },
             "label": {
@@ -1099,7 +1099,7 @@
         },
         "PropertyReference": {
             "name": "性質",
-            "description": "屬性 $1[$1|缺少名稱]",
+            "description": "$~屬性 $name[$name|缺少名稱]",
             "emotion": "kind",
             "doc": [
                 "當您建立一個@StructureDefinition 時，您如何獲得它的一個輸入?我如何",
@@ -1107,14 +1107,14 @@
                 "\\•城市(名稱•人口•#people)\n\nportland:城市('Portland' 800000people)\n\nportland.population\\"
             ],
             "start": "首先讓我們取得值",
-            "finish": "發現屬性$1，它是$2",
+            "finish": "$~找到屬性$property ，其值為$value",
             "label": {
                 "property": "$~財產"
             }
         },
         "Reaction": {
             "name": "反應",
-            "description": "對 $1[$1|] 的反應",
+            "description": "$~在流變化時建立值",
             "emotion": "excited",
             "doc": [
                 "流是如此的棒!我可以根據它們的變化來製作新的，這太酷了!",
@@ -1124,11 +1124,11 @@
                 "所以我就像一個流，但是一個基於其他流的流。挺奇怪吧,是吧?"
             ],
             "start": "讓我們看看是否應該更新流",
-            "finish": "新的流值是1$",
+            "finish": "$~新流的值為 $value",
             "conflict": {
                 "ExpectedStream": {
                     "name": "$~預期流量",
-                    "explanation": "$~1 美元不代表任何流，所以我永遠不會做出反應！"
+                    "explanation": "$~$condition 沒有引用流，所以我永遠不會做出反應！"
                 }
             },
             "label": {
@@ -1139,7 +1139,7 @@
         },
         "Reference": {
             "name": "参考",
-            "description": "$1",
+            "description": "$name",
             "emotion": "shy",
             "doc": [
                 "你知道@Bind 怎麼給東西 @Name 嗎?我就是你所說的他們。我看看@Bind 是否有那個名字，如果有，給你它的值。是這樣的:",
@@ -1147,18 +1147,18 @@
                 "如果我找不到名字，我就不知道該怎麼辦了。",
                 "\\鸚鵡:\nperry\\「波利」"
             ],
-            "start": "1$有什麼價值?",
+            "start": "$~$name 的值是什麼？",
             "conflict": {
                 "UnknownName": {
                     "conflict": {
                         "name": "$~未知名稱",
-                        "explanation": "$~$1[我不認識任何名叫$1的人，$2[$2|這個@Block]|你能告訴我一個名字嗎？ ]"
+                        "explanation": "$~$name[我不認識任何名叫$name的人，$scope[$scope|這個@Block]|你能告訴我一個名字嗎？ ]"
                     },
-                    "resolution": "$~您的意思是「*$1?」嗎？ *"
+                    "resolution": "$~您的意思是「*$suggestion?」嗎？ *"
                 },
                 "ReferenceCycle": {
                     "name": "$~自我參照價值",
-                    "explanation": "$~嗯，1 美元的價值取決於它自身，那麼我怎麼知道我應該給它什麼價值呢？"
+                    "explanation": "$~嗯，$name 的值取決於它自身，那麼我怎麼知道該給它什麼值呢？"
                 },
                 "UnexpectedTypeVariable": {
                     "name": "$~意外類型變數",
@@ -1168,13 +1168,13 @@
             "exception": {
                 "NameException": {
                     "description": "未知名字",
-                    "explanation": "$1[我不知道有誰在$2[$2]中命名$1[$2]…］"
+                    "explanation": "$~$name[我不知道有誰在$scope[$scope]中命名$name[$scope]…］"
                 }
             }
         },
         "Select": {
             "name": "選擇",
-            "description": "從 $1 選取",
+            "description": "$~從表中篩選出匹配的行",
             "emotion": "excited",
             "doc": [
                 "有時你有一張桌子，你只想佔有它的一部分。我可以幫你拿來!",
@@ -1193,15 +1193,15 @@
         },
         "SetLiteral": {
             "name": "具體組",
-            "description": "$1 個元素的集合",
+            "description": "$count 個元素的集合",
             "emotion": "eager",
             "doc": "我是特定值的特定集合。請參閱@Set 以了解更多關於如何與我合作的資訊。",
             "start": "讓我們先估計數值吧",
-            "finish": "我做了一個群組$1"
+            "finish": "我做了一個群組$value"
         },
         "SetOrMapAccess": {
             "name": "群組/映射群組的存取",
-            "description": "從 $1[$1|] 取得",
+            "description": "$~檢查集合或映射是否包含",
             "emotion": "kind",
             "doc": [
                 "我可以看到@Set 或@Map 是否有值或鍵。",
@@ -1211,17 +1211,17 @@
                 "\\faves: {' mac&cheese':五星'麥片':2星'稀飯':1星}\nfaves{'稀飯'}\\"
             ],
             "start": "地圖是什麼?",
-            "finish": "數值為$1",
+            "finish": "數值為$value",
             "conflict": {
                 "IncompatibleKey": {
                     "name": "$~不相容的密鑰",
-                    "explanation": "$~我預期會收到一個類型為 $1 的金鑰。"
+                    "explanation": "$~我預期會收到一個類型為 $expected 的金鑰。"
                 }
             }
         },
         "Source": {
             "name": "資源",
-            "description": "來源檔案 $1[$1|]",
+            "description": "$~命名程式原始檔",
             "emotion": "curious",
             "doc": [
                 "哦，你知道 @Program 嗎?我幫你取名字。把我想像成 @Program 周圍的窗口，以及你給他們起的名字。",
@@ -1231,14 +1231,14 @@
         },
         "StreamDefinition": {
             "name": "流",
-            "description": "串流定義 $1",
+            "description": "$~定義一種新的流類型",
             "emotion": "curious",
             "doc": "我/我想/我應該創造新的溪流。但我真的不知道該怎麼做。現在，我想就用現有的流吧?",
             "start": "建立這種新的流"
         },
         "StructureDefinition": {
             "name": "結構",
-            "description": "結構 $1",
+            "description": "結構 $name",
             "emotion": "kind",
             "doc": [
                 "你好，你好嗎?我嗎?我很好。我喜歡定義存儲值和功能的結構，所以只要我能整天這樣做，我就很高興。",
@@ -1267,7 +1267,7 @@
                 },
                 "UnimplementedInterface": {
                     "name": "$~未實現",
-                    "explanation": "$~我實現了$1，但還沒有實現$2。"
+                    "explanation": "$~我實作了$interface ，但還沒有實作$function"
                 }
             },
             "label": {
@@ -1279,7 +1279,7 @@
         },
         "StructureDefinitionType": {
             "name": "$~結構定義",
-            "description": "$1",
+            "description": "$name",
             "emotion": "kind",
             "doc": [
                 "$~我指的是某種@StructureDefinition。人們通常不會直接提到我"
@@ -1287,15 +1287,15 @@
         },
         "TableLiteral": {
             "name": "表面量",
-            "description": "$1 行表格",
+            "description": "$count 行表格",
             "emotion": "angry",
             "doc": "我是一個具有特定行數的特定表格。請參閱 @Table 以了解我如何提供協助。",
             "start": "先評估行數",
-            "finish": "評估為新表格 $1"
+            "finish": "評估為新表格 $value"
         },
         "TextLiteral": {
             "name": "文字量",
-            "description": "文字 $1",
+            "description": "文字 $text",
             "emotion": "serious",
             "doc": "我代表一個或多個特定的文字翻譯。請參閱 @Text 以了解我可以做什麼！",
             "start": "讓我們在目前語言環境中建立文字",
@@ -1305,29 +1305,29 @@
         },
         "Translation": {
             "name": "翻譯",
-            "description": "翻譯 $1",
+            "description": "翻譯 $text",
             "emotion": "serious",
             "doc": "我代表一些文本，帶有 @Language 標籤。請參閱 @Text 以了解更多！",
             "conflict": {
                 "phone": {
                     "name": "$~可能的電話號碼",
-                    "explanation": "$~1美元是某人的電話號碼嗎？如果是的話，請不要在網路上分享！\n\n2美元"
+                    "explanation": "$~*$text* 是某人的電話號碼嗎？如果是，請不要在網路上分享！\n\n$reminder"
                 },
                 "email": {
                     "name": "$~可能的電子郵件",
-                    "explanation": "$~1美元是某人的郵件地址嗎？如果是的話，請不要在這裡透露！\n\n2美元"
+                    "explanation": "$~*$text* 是某人的郵件地址嗎？如果是，請不要在這裡分享！\n\n$reminder"
                 },
                 "tin": {
                     "name": "$~可能的稅務識別符",
-                    "explanation": "$~1 美元是稅務識別號碼嗎？如果是，千萬別洩漏我的訊息，這可是非常敏感的訊息！\n\n2 美元"
+                    "explanation": "$~*$text* 是稅務識別號碼嗎？如果是，千萬不要分享，這可是非常敏感的訊息！\n\n$reminder"
                 },
                 "address": {
                     "name": "$~可能的地址",
-                    "explanation": "$~1 美元是某人的家庭住址嗎？如果是，請不要把我放在這裡，我們不想任何人被跟蹤！\n\n2 美元"
+                    "explanation": "$~*$text* 是某人的家庭住址嗎？如果是，請不要把我放在這裡，我們不想任何人被跟蹤！\n\n$reminder"
                 },
                 "handle": {
                     "name": "$~可能的用戶名",
-                    "explanation": "$~*$1* 是你在其他網站的使用者名稱嗎？如果是的話，除非你真的想這麼做，否則請不要在這裡分享我的用戶名。\n\n$2"
+                    "explanation": "$~*$text* 是你在其他網站的使用者名稱嗎？如果是的話，除非你真的想這麼做，否則請不要在這裡分享我的用戶名。\n\n$reminder"
                 },
                 "resolution": "$~這不是敏感數據",
                 "reminder": "$~注意：您可以撤銷此操作並在共用對話方塊中查看您標記為非敏感的其他內容。",
@@ -1342,14 +1342,14 @@
         },
         "FormattedLiteral": {
             "name": "格式文字",
-            "description": "格式化文字 $1",
+            "description": "格式化文字 $text",
             "emotion": "serious",
             "doc": "我代表許多不同的格式化文本的 @FormattedTranslation。當我進行評估時，我會根據受眾選擇的語言選擇最佳匹配。",
             "start": "讓我們建立目前語言環境下的文字"
         },
         "FormattedTranslation": {
             "name": "格式化",
-            "description": "格式化翻譯 $1",
+            "description": "格式化翻譯 $language",
             "emotion": "serious",
             "doc": [
                 "我代表一些格式化的文本，帶有 @Language 標籤。",
@@ -1377,7 +1377,7 @@
                 "看看我，代表前一個反應值。",
                 "我不常出現，但當出現時，我可以幫助值擺脫 @Bind！"
             ],
-            "start": "評估為 $1",
+            "start": "評估為 $value",
             "conflict": {
                 "MisplacedThis": {
                     "name": "$~放錯了這個參考",
@@ -1387,7 +1387,7 @@
         },
         "UnaryEvaluate": {
             "name": "一元評估",
-            "description": "$1",
+            "description": "$operator",
             "emotion": "kind",
             "doc": [
                 "您知道當我只對一個值進行 @FunctionDefinition 評估時，@FunctionDefinition 的名稱只是一個單一的符號，您可以將名稱放在輸入值之前嗎？",
@@ -1400,7 +1400,7 @@
                 "只有一個規則：名稱和值之間不能有空格。否則，您可能會建立 @Reference 或 @BinaryEvaluate。"
             ],
             "start": "值是什麼？",
-            "finish": "我完成了 $1",
+            "finish": "我完成了 $value",
             "label": {
                 "input": "$~輸入"
             }
@@ -1424,13 +1424,13 @@
                 "UnparsableConflict": {
                     "conflict": {
                         "name": "$~無法讀取的程式碼",
-                        "explanation": "$~這裡是 @FunctionDefinition，@UnparsableExpression 不知道這是哪一種 $1[表達式|類型]。"
+                        "explanation": "$~這裡是 @FunctionDefinition，@UnparsableExpression 不知道這是哪一種 $expression[表達式|類型]。"
                     },
-                    "resolution": "$~您的意思是輸入 $1、$1 嗎？"
+                    "resolution": "$~您是不是想輸入 $first, $second"
                 },
                 "UnclosedDelimiter": {
                     "name": "$~未閉合的分隔符",
-                    "explanation": "$~我預計在收到 1 美元後不久會收到 2 美元。"
+                    "explanation": "$~我預計在$expected$unclosed"
                 }
             },
             "exception": {
@@ -1442,7 +1442,7 @@
         },
         "Update": {
             "name": "更新",
-            "description": "更新 $1[$1|]",
+            "description": "$~修改表中的符合行",
             "emotion": "kind",
             "doc": [
                 "我幫忙修訂 @Table，找到與條件相符的行，然後建立具有新值的修訂行。",
@@ -1459,7 +1459,7 @@
                 },
                 "IncompatibleCellType": {
                     "name": "$~不相容的細胞類型",
-                    "explanation": "$~我應該輸入 1 美元，但卻輸入了 2 美元。"
+                    "explanation": "$~我應該輸入 $expected $given"
                 }
             }
         },
@@ -1481,7 +1481,7 @@
         },
         "ConversionType": {
             "name": "轉換",
-            "description": "$1 到 $2 的轉換",
+            "description": "$~輸入轉換定義",
             "emotion": "serious",
             "doc": [
                 "我與 @Bind 一起工作，指示名稱是 @ConversionDefinition。您可能不需要使用我，因為沒有多少人將我作為值傳遞，但如果您這樣做，我將如下所示：",
@@ -1506,7 +1506,7 @@
         },
         "FunctionType": {
             "name": "函數",
-            "description": "帶有 $1 輸入和 $2 輸出的函數",
+            "description": "$~輸入一個帶有 $inputs 的函數",
             "emotion": "curious",
             "doc": [
                 "我代表 @FunctionDefinition。如果要說明 @Bind 包含的是什麼類型的函數，我會非常有幫助！就像這樣：",
@@ -1515,7 +1515,7 @@
         },
         "ListType": {
             "name": "列表",
-            "description": "$1[$1 清單|清單]",
+            "description": "$~$type[$type 清單|清單]",
             "emotion": "cheerful",
             "doc": [
                 "我是 @List 的狂熱愛好者。我可以告訴 @Bind 他們是什麼類型的列表！就像這樣，我告訴他們這是 @Number 的列表：",
@@ -1524,7 +1524,7 @@
         },
         "MapType": {
             "name": "映射",
-            "description": "$1[$1|任意] 到 $2[$2|任意] 的映射",
+            "description": "$~$key[$key|任意] 到 $value[$value|任意] 的映射",
             "emotion": "kind",
             "doc": [
                 "您知道 @Map 有多棒嗎？真的很棒。我總是告訴 @Bind 他們是什麼類型的映射，就像這樣將數字映射到列表：",
@@ -1533,7 +1533,7 @@
         },
         "NumberType": {
             "name": "數值",
-            "description": "$1[$1|數值]",
+            "description": "$~$unit[$unit|數值]",
             "emotion": "precise",
             "doc": [
                 "你知道 @Bind 應該是什麼嗎？應該是 @Number。因為數值是最好的。",
@@ -1542,7 +1542,7 @@
         },
         "NameType": {
             "name": "結構",
-            "description": "$1 型態",
+            "description": "$name 型態",
             "emotion": "curious",
             "doc": [
                 "我透過名稱代表 @StructureDefinition。所以，如果你有這樣一個結構，你可以建立一個 @Bind 來儲存它所建立的值。",
@@ -1551,7 +1551,7 @@
             "conflict": {
                 "UnknownTypeName": {
                     "name": "$~未知類型名稱",
-                    "explanation": "$~類型名稱只能引用結構體或型別變量，但這裡指的是型別 $1。"
+                    "explanation": "$~類型名稱只能引用結構體或型別變量，但這裡指的是型別 $type"
                 }
             }
         },
@@ -1572,7 +1572,7 @@
         },
         "SetType": {
             "name": "集合",
-            "description": "$1[$1 集合|集合]",
+            "description": "$~$type[$type 集合|集合]",
             "emotion": "kind",
             "doc": [
                 "@Set 是最好的，真的。我一直告訴 @Bind，讓事物成為某種東西的集合！",
@@ -1581,13 +1581,13 @@
         },
         "StreamDefinitionType": {
             "name": "流定義",
-            "description": "$1 串流型態",
+            "description": "$~類型定義流",
             "emotion": "angry",
             "doc": "我代表你定義的流，這是不可能的，那麼為什麼你還在閱讀這個？"
         },
         "StreamType": {
             "name": "流",
-            "description": "$1 串流",
+            "description": "$~輸入流值",
             "emotion": "curious",
             "doc": [
                 "我慶祝流的美麗和意義... 通過告訴 @Bind 來存儲它們：",
@@ -1596,7 +1596,7 @@
         },
         "StructureType": {
             "name": "結構",
-            "description": "$1",
+            "description": "$name",
             "emotion": "kind",
             "doc": "我是一個內部類型，代表預設值類型的類型。"
         },
@@ -1609,7 +1609,7 @@
         },
         "TableType": {
             "name": "表",
-            "description": "$1[$1|] 行表格型態",
+            "description": "$~輸入表值",
             "emotion": "angry",
             "doc": "我代表一個表。",
             "conflict": {
@@ -1621,7 +1621,7 @@
         },
         "TextType": {
             "name": "文字",
-            "description": "$1[$1|文字]",
+            "description": "$~$text[$text|文字]",
             "emotion": "happy",
             "doc": [
                 "我精彩地代表最精彩的數值，@Text。",
@@ -1636,7 +1636,7 @@
         },
         "UnionType": {
             "name": "選項",
-            "description": "$1 或 $2",
+            "description": "$first 或 $second",
             "emotion": "curious",
             "doc": [
                 "我應該代表誰，A 還是 B 還是其他什麼？我永遠無法決定！",
@@ -1645,7 +1645,7 @@
         },
         "Unit": {
             "name": "單位",
-            "description": "$1",
+            "description": "$unit",
             "emotion": "precise",
             "doc": [
                 "我代表 @Number 可能具有的任何單位，包括無單位，以及你可以想像的最複雜單位。例如重力：",
@@ -1661,7 +1661,7 @@
         },
         "VariableType": {
             "name": "變數類型",
-            "description": "變數型態 $1[$1|]",
+            "description": "$~表示正在使用中的類型變數",
             "emotion": "curious",
             "doc": "你了解 @TypeVariable, 以及它們代表某種未知類型的值嗎? 我在值之間的所有協商中代表它們。"
         },
@@ -1673,7 +1673,7 @@
         },
         "NotAType": {
             "name": "意外",
-            "description": "不是 $1",
+            "description": "不是 $type",
             "emotion": "curious",
             "doc": "有時我們知道某種值應該是什麼類型，就像 @ListAccess 需要 @Number 一樣。如果我們沒有得到它，我代表某個類型與我們預期的不同。"
         },
@@ -1697,19 +1697,19 @@
         },
         "UnknownNameType": {
             "name": "未知名稱",
-            "description": "$1[$1 未定義|未提供名稱]",
+            "description": "$~$name [ $name | 未提供名稱]",
             "emotion": "curious",
             "doc": "你知道有時候 @Reference 和 @PropertyReference 不知道你在談論什麼名稱嗎？當發生這種情況時，我會出現，代表我們不知道你在談論誰。"
         },
         "NonFunctionType": {
             "name": "非函數",
-            "description": "非函數",
+            "description": "$~將 $type 標記為非函數",
             "emotion": "confused",
             "doc": "有些人期望函數；當我們沒有得到函數時，我就會出現。"
         },
         "UnknownVariableType": {
             "name": "未知變數",
-            "description": "未知變數型態 $1[$1|]",
+            "description": "$~表示未知類型的變數",
             "emotion": "curious",
             "doc": "有時我們試著猜測某種值的類型；當我們不知道時，我會出現。"
         }
@@ -3548,7 +3548,7 @@
                 "你也可以給我一個邊框,我會進行裁切。",
                 "\\舞台([短語('stufffffff')]顏色(0% 0 0°)矩形(-1m -1m 1m 1m)顏色:顏色(100% 0 0°))\\"
             ],
-            "defaultDescription": "舞台 $1[$1|] 共有 $2 個片語 $3[$3 邊框|] $4",
+            "defaultDescription": "$~舞台 $name[$name|] 共有 $count 個片語 $frame[$frame 邊框|] $pose",
             "content": {
                 "doc": "要在舞台上展示的@Output 清單。",
                 "names": "畫框"
@@ -3645,7 +3645,7 @@
         "Group": {
             "names": ["🔳", "組合"],
             "doc": "哦你好,你過的怎麼樣？當有其他人在身邊時,我總是很愉快,所以能和你在一起真是太好了！\n 我將@Phrase 和@Group 組合一起放在@Stage 上,並將它們放在@Arrangement 中,這樣它們的位置就有了一些秩序。以進行安排。 \n 例如,在這裡我用了一個@Stack Arrnagement和一些垂直堆疊的@Phrase ：\n \\組(堆疊() [短語('第一個') 短語('第二個' )])\\ \n 我如何安排事物取決於你給我的@Arrangement。",
-            "defaultDescription": "$1[$1|] $2 $3",
+            "defaultDescription": "$~$name[$name|] $layout $pose",
             "content": {
                 "doc": "已安排的 @Output 清單。",
                 "names": "內容"
@@ -3742,7 +3742,7 @@
         "Phrase": {
             "names": ["短語"],
             "doc": "你好,你好！還記得我嗎？怎麼會有人忘記/我/。沒錯,我就是偉大的@Phrase,準備好在@Stage 上表達最可愛的@Text。\n 只要讓我這樣,我就會出現在@Stage ：\n \\短語('太棒了！')\\ \n 顯然,我需要一些@Text,但除此之外,我可以做任何@Output 可以做的所有事情,包括更改我的大小、字體、旋轉,以及使用@Pose 和@Sequence 進行所有令人難以置信的舞蹈。上編輯我。",
-            "defaultDescription": "$3[$3 公尺 |]片語 $1 $2[命名 $2|] $4[$4|] $5",
+            "defaultDescription": "$~$size[$size 公尺 |]片語 $text $name[命名 $name|] $face[$face|] $animation",
             "text": {
                 "doc": "在 @Stage 上展示的角色。",
                 "names": "字元"
@@ -3855,7 +3855,7 @@
         "Row": {
             "doc": "我是@Row, 一個水平的@Arrangement,包含@Output,中間可以添加可選的填充。你見過我的孿生兄弟@Stack 嗎？",
             "names": ["➡", "行"],
-            "description": "$1個片語和群組的行",
+            "description": "$count",
             "alignment": {
                 "doc": "是否在每列上的起始、中間或末尾對齊文字。",
                 "names": "對齊"
@@ -3868,7 +3868,7 @@
         "Stack": {
             "doc": "我是@Stack,一個垂直的@Arrangement,包含@Output,中間可以添加可選的填充。你見過我的孿生兄弟@Row 嗎？",
             "names": ["⬇", "堆疊"],
-            "description": "$1個片語和群組的堆疊",
+            "description": "$count",
             "padding": {
                 "doc": "在輸出之間放置的填充量。",
                 "names": "填滿"
@@ -3881,7 +3881,7 @@
         "Grid": {
             "doc": "我是@Output 的網格。告訴我行數和列數,我將製作一個整齊的排列,可選的填充和單元格大小。",
             "names": ["▦", "格紋"],
-            "description": "$1行$2列的網格",
+            "description": "$~$rows$columns 網格",
             "rows": {
                 "doc": "網格中的行數。",
                 "names": "行數"
@@ -3909,7 +3909,7 @@
                 "哦,記住,你給每個@Output 的@Place 都是相對於@Group 的@Place！所以如果你想知道為什麼事情沒有出現在你期望的地方,嘗試給@Group 也設置一個地方。"
             ],
             "names": ["自由"],
-            "description": "自由形式的$1輸出"
+            "description": "自由形式的$count"
         },
         "Shape": {
             "doc": "我是所有形狀的靈感。我用來告訴@Stage 應該是什麼形狀。",
@@ -4097,7 +4097,7 @@
                 "doc": "@Output 是否應該y軸對稱,取代預設值。",
                 "names": "垂直翻轉"
             },
-            "description": "$1[透明$1|] $2[旋轉$2度|] $3[縮放$3|] $4[水平翻轉|] $5[垂直翻轉|]"
+            "description": "$~$opacity [透明$opacity |] $rotation [旋轉$rotation |] $scale [縮放$scale |] $flipx [水平翻轉 |] $flipy [垂直翻轉 |] $blur [陰影模糊$blur]"
         },
         "Color": {
             "doc": [
@@ -4338,7 +4338,7 @@
                 "doc": "$~我應該大聲朗讀的文字。",
                 "names": "$~文字"
             },
-            "defaultDescription": "$~比如說1美元"
+            "defaultDescription": "$~說 $text"
         },
         "Gesture": {
             "doc": "$~我是攝影機偵測到的手勢。我的欄位會告訴你手在舞台上的位置、伸出的手指以及手掌或手背是朝向攝影機。 @Hand 傳回我的一個值。",
@@ -4578,14 +4578,7 @@
         },
         "source": {
             "label": "程式編輯器",
-            "empty": [
-                "讓我們開始吧！您可以…",
-                "• 打開📕 並將🖱️ 拖曳到此程式中。",
-                "• 輸入$1 並從選單中選擇我們。",
-                "• 若您熟悉我們，可以開始輸入。",
-                "• 瀏覽圖庫以獲得靈感。",
-                "如果遇到困難，請參閱<learn more@://learn>。"
-            ],
+            "empty": ["$~• 輸入$symbol。"],
             "overwritten": "收到了更新版本！",
             "confirm": {
                 "delete": {
@@ -4641,7 +4634,7 @@
                 "selectAll": "選擇程式",
                 "incrementLiteral": "增加數字、文字或布林值",
                 "decrementLiteral": "減少數字、文字或布林值",
-                "insertSymbol": "插入$1",
+                "insertSymbol": "插入$symbol",
                 "insertTab": "插入tab",
                 "insertTrue": "插入true",
                 "insertFalse": "插入false",
@@ -4718,7 +4711,7 @@
         },
         "annotations": {
             "label": " 衝突",
-            "cursor": "$~這是 *$1*$2[ 而它們的型別是 $2|]。 $3[ 它們在 *$3* 裡面。 |]",
+            "cursor": "$~這是 *$node*$type[ 而它們的型別是 $type|]。 $description[ 它們在 *$description* 裡面。 |]",
             "learn": "$~/了解更多/",
             "evaluating": "$~好玩哦，大家來評價一下吧！",
             "space": "$~這就是太空！誰知道沒有什麼可以表達這麼多？",
@@ -4727,8 +4720,8 @@
                 "toggle": "$~顯示和隱藏註釋",
                 "highlight": "$~在編輯器中顯示此程式碼"
             },
-            "cursorParent": "他們位於*$1*$2[ 類型為 $2|] 内。",
-            "nodeDescription": "$~他們花了1美元。"
+            "cursorParent": "$~他們位於*$node*$type[ 類型為 $type|] 内。",
+            "nodeDescription": "$~它們就是 $description"
         },
         "output": {
             "label": "程式輸出",
@@ -4814,7 +4807,7 @@
         },
         "docs": {
             "label": "文件瀏覽器",
-            "link": "在文件中顯示概念$1",
+            "link": "在文件中顯示概念$name",
             "learn": "了解更多…",
             "nodoc": "我是誰？我是什麼？我的目的是什麼？",
             "button": {
@@ -5292,11 +5285,11 @@
                     "tip": "$~清除所有通知"
                 },
                 "notification": {
-                    "howToHeader": "$~一篇題為「1美元教程」的新文章已發布。",
-                    "projectChatHeader": "$~項目「$1」出現新訊息",
-                    "howToChatHeader": "$~操作指南「$1」中的新訊息",
+                    "howToHeader": "$~發布了一篇名為「$title",
+                    "projectChatHeader": "$~項目「$name",
+                    "howToChatHeader": "$~操作指南「$title",
                     "link": "$~細節",
-                    "moderationHeader": "$~位於「$1」處的訊息需要審核。"
+                    "moderationHeader": "$~位於「$name"
                 },
                 "delete": "$~刪除此通知",
                 "popup": "$~新通知"
@@ -6001,8 +5994,8 @@
                     "untitledproject": "$~未命名項目"
                 },
                 "announce": {
-                    "position": "$~價格為 1 美元 2 美元",
-                    "selection": "$~$1[選定$1|未選定任何內容]"
+                    "position": "$~在 $x $y",
+                    "selection": "$~$shapes[選定$shapes|未選定任何內容]"
                 },
                 "share": {
                     "dialog": {
@@ -6087,7 +6080,7 @@
             },
             "thanks": {
                 "header": "$~謝謝",
-                "intro": "$~感謝所有貢獻者（共*$1*位）對「文字遊戲」的設計、開發、在地化和內容創作的貢獻！同時，也感謝眾多教師和青少年在焦點小組、設計研討會和課堂教學中為我們的設計提供指導，為了保護他們的隱私，我們在此不一一列出。\n\n本計畫獲得了美國國家科學基金會（NSF）的資助（項目編號：2318257、2031265、2100296 和 2122950）、華盛頓大學的支持，以及像您一樣慷慨人士的捐贈（<gifts//donate>）。",
+                "intro": "$~感謝所有貢獻者（共*$count*位）對「文字遊戲」的設計、開發、在地化和內容創作的貢獻！同時，也感謝眾多教師和青少年在焦點小組、設計研討會和課堂教學中為我們的設計提供指導，為了保護他們的隱私，我們在此不一一列出。\n\n本計畫獲得了美國國家科學基金會（NSF）的資助（項目編號：2318257、2031265、2100296 和 2122950）、華盛頓大學的支持，以及像您一樣慷慨人士的捐贈（<gifts//donate>）。",
                 "teachers": "$~教師",
                 "contributors": "$~貢獻者"
             },
@@ -6170,29 +6163,29 @@
                 },
                 "singletonWordsWarning": "$~您的草稿中有些字詞在整個語言環境中只出現過一次。您確定它們的拼字正確且與其他文字一致嗎？",
                 "viewPR": "$~查看拉取請求",
-                "oneLocaleNote": "$~每次提交僅涵蓋一種語言環境。本次提交將以修改的形式提交至 $1。如果您想為其他語言環境做出貢獻，請先切換語言環境；您在每個語言環境下儲存的修改將分別儲存。"
+                "oneLocaleNote": "$~每次提交僅涵蓋一種語言環境。本次提交將以修改的形式提交至 $locale"
             }
         },
         "edit": {
-            "node": "$1$2[, 型$2|]",
-            "before": "在$1[$1|end] 之前",
-            "inside": "在$1 內, 在$2[$2|初] 和$3[$3|界限] 之間",
-            "between": "在$1 和$2 之間",
-            "line": "$1[$1|start] 與$2[$2|end]之間的空白行",
-            "conflicts": "$1 衝突",
-            "assign": "/$2[急於插入|考慮離開]…/",
+            "node": "$node$type[, 型$type|]",
+            "before": "$~在$after[$after|end] 之前",
+            "inside": "$~在$token 內, 在$before[$before|初] 和$after[$after|界限] 之間",
+            "between": "在$before 和$after 之間",
+            "line": "$~$before[$before|start] 與$after[$after|end]之間的空白行",
+            "conflicts": "$count 衝突",
+            "assign": "/$name[急於插入|考慮離開]…/",
             "append": "/急於插入…/",
             "remove": "/考慮離開…/",
             "replace": "/想要介入…/",
             "wrap": "加括號",
             "unwrap": "揭開",
             "bind": "為這個表達命名",
-            "range": "$~從 1 美元到 2 美元的選擇",
+            "range": "$~選擇範圍從 $start 到 $end",
             "area": "$~類型代碼"
         },
         "template": {
             "unwritten": "待定",
-            "unparsable": "無法解析的模板: $1",
+            "unparsable": "無法解析的模板: $template",
             "machineTranslated": "$~這是機器翻譯的，所以可能不通順或不正確。",
             "locallyRevised": "$~本文已進行在地化修訂，與官方譯文有所不同。"
         },
@@ -6276,7 +6269,7 @@
                 "now": "$~現在",
                 "history": "$~版本",
                 "restore": "$~這是該項目的先前版本。",
-                "ago": "$~$1 $2 前"
+                "ago": "$~$amount $unit 前"
             },
             "button": {
                 "clear": "$~刪除歷史記錄",
@@ -6291,7 +6284,7 @@
         "howto": {
             "galleryView": {
                 "header": "$~操作指南",
-                "subheader": "$~1美元的教程，2美元的新內容",
+                "subheader": "$~$total how-tos, $new new",
                 "subheaderEmpty": "$~創造第一個！",
                 "prompt": "$~「使用指南」是如何使用 Wordplay 實現特定功能的簡短解釋和範例程式碼。當你掌握了想要分享的技巧後，請為本圖庫的其他創作者撰寫一份指南，讓他們也能學習！"
             },
@@ -6418,7 +6411,7 @@
                 "usedBy": {
                     "prompt": "$~你在專案中使用過這篇教學或其他教學嗎？把你的項目加到清單中，讓其他人知道吧！",
                     "empty": "$~你目前還沒有任何項目或其他已發布的教學。試著創建一個吧！",
-                    "countDisplay": "$~其他文字遊戲導演也曾在其他1美元項目或教學中使用過這種方法。",
+                    "countDisplay": "$~其他 Wordplay 導演在其他專案或$count。",
                     "selector": "$~項目和操作指南選擇器",
                     "removeButton": "$~從清單中刪除項目或操作指南",
                     "addButton": "$~新增項目或操作指南"
@@ -6492,9 +6485,9 @@
                 }
             },
             "announce": {
-                "howToPosition": "$~如何將 1 美元的價格提高到 2 美元，3 美元的價格提高到 3 美元",
-                "canvasPosition": "$~畫布價格調整為 1 美元、2 美元",
-                "moveActivated": "$~移動功能已啟動。可以使用滑鼠、鍵盤或觸控螢幕移動 1 美元。",
+                "howToPosition": "$~標題為 $title 的操作指南已移至 $x $y",
+                "canvasPosition": "$~畫布已移動到 $x, $y",
+                "moveActivated": "$~移動已啟動。可使用滑鼠、鍵盤或觸控螢幕移動目標 $target",
                 "moveDeactivated": "$~移動已停用。"
             },
             "error": {
@@ -6616,7 +6609,16 @@
             "revisedDescription": "$~這些修改已保存在本地，尚未提交審核。",
             "submitRevisions": "$~提交修改稿",
             "submitted": "$~謝謝！我們會審核您修改後的文本，可能很快就會發布。",
-            "invalidConceptLinks": "$~這些概念連結在當前語言環境中無法解析。您是不是拼錯了某個鏈接，或者故意刪除了它？"
+            "invalidConceptLinks": "$~這些概念連結在當前語言環境中無法解析。您是不是拼錯了某個鏈接，或者故意刪除了它？",
+            "inputs": {
+                "header": "$~此範本接受的輸入",
+                "usedTip": "$~按一下遊標處插入另一個引用。",
+                "unusedTip": "$~按一下以將此引用插入到遊標處。",
+                "missing": "$~缺少輸入：",
+                "legacy": "$~將這些舊的定位引用替換為命名引用：",
+                "submitBlocked": "$~提交前請仔細檢查每一則輸入內容。",
+                "unknown": "$~這些引用與聲明的輸入或術語不匹配，因此不會進行替換："
+            }
         },
         "tour": {
             "label": "$~旅遊",
@@ -6649,7 +6651,7 @@
             "disclosure": "揭露其他人的私人資訊，如姓名、聯絡方式或實際地址。",
             "misinformation": "包含虛假、誤導性、欺騙性或操縱性資訊。"
         },
-        "progress": "$~*$1* 已審核，*$2* 剩餘",
+        "progress": "$~*$moderated* 已審核，*$remaining* 剩餘",
         "button": {
             "submit": {
                 "tip": "儲存這些審查設定",

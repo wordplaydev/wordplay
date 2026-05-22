@@ -1,6 +1,4 @@
 import type LocaleText from '@locale/LocaleText';
-import NodeRef from '@locale/NodeRef';
-import type Context from '@nodes/Context';
 import type Evaluate from '@nodes/Evaluate';
 import type FunctionDefinition from '@nodes/FunctionDefinition';
 import type NameType from '@nodes/NameType';
@@ -31,15 +29,9 @@ export default class UnexpectedTypeInput extends Conflict {
     getMessage() {
         return {
             node: this.type,
-            explanation: (locales: Locales, context: Context) =>
+            explanation: (locales: Locales) =>
                 locales.concretize(
                     (l) => UnexpectedTypeInput.LocalePath(l).explanation,
-                    new NodeRef(
-                        this.definition.names,
-                        locales,
-                        context,
-                        locales.getName(this.definition.names),
-                    ),
                 ),
         };
     }

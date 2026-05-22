@@ -2,8 +2,8 @@ import type Conflict from '@conflicts/Conflict';
 import { IncompatibleKey } from '@conflicts/IncompatibleKey';
 import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
 import type LocaleText from '@locale/LocaleText';
-import NodeRef from '@locale/NodeRef';
 import type { NodeDescriptor } from '@locale/NodeTexts';
+import type Context from '@nodes/Context';
 import type Evaluator from '@runtime/Evaluator';
 import Finish from '@runtime/Finish';
 import Start from '@runtime/Start';
@@ -19,7 +19,6 @@ import type Locales from '@locale/Locales';
 import Characters from '../lore/BasisCharacters';
 import Bind from '@nodes/Bind';
 import BooleanType from '@nodes/BooleanType';
-import type Context from '@nodes/Context';
 import Expression, { type GuardContext } from '@nodes/Expression';
 import getGuards from '@nodes/getGuards';
 import MapType from '@nodes/MapType';
@@ -283,11 +282,8 @@ export default class SetOrMapAccess extends Expression {
         return SetOrMapAccess.LocalePath;
     }
 
-    getStartExplanations(locales: Locales, context: Context) {
-        return locales.concretize(
-            (l) => l.node.SetOrMapAccess.start,
-            new NodeRef(this.setOrMap, locales, context),
-        );
+    getStartExplanations(locales: Locales) {
+        return locales.concretize((l) => l.node.SetOrMapAccess.start);
     }
 
     getFinishExplanations(
@@ -297,7 +293,9 @@ export default class SetOrMapAccess extends Expression {
     ) {
         return locales.concretize(
             (l) => l.node.SetOrMapAccess.finish,
-            this.getValueIfDefined(locales, context, evaluator),
+            {
+                value: this.getValueIfDefined(locales, context, evaluator),
+            },
         );
     }
 

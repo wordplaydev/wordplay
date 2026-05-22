@@ -43,7 +43,7 @@
             | string[]
             | string
             | LocaleTextsAccessor
-            | [LocaleTextsAccessor, ...TemplateInput[]];
+            | [LocaleTextsAccessor, Record<string, TemplateInput>];
         inline?: boolean;
         note?: boolean;
         /** Storage key for an override, used when the markup doesn't live in the
@@ -74,7 +74,7 @@
         // If markup was given as an accessor and inputs, concretize it with the inputs
         else if (Array.isArray(markup) && markup[0] instanceof Function) {
             const accessor = markup[0];
-            const inputs = markup.slice(1) as TemplateInput[];
+            const inputs = markup[1] as Record<string, TemplateInput>;
             const words = $locales.getWithAnnotations(accessor);
             return (
                 Markup.words(

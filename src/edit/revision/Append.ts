@@ -118,14 +118,7 @@ export default class Append<NodeType extends Node> extends Revision {
     }
 
     getDescription(locales: Locales) {
-        const node =
-            this.insertion instanceof Refer
-                ? this.insertion.getNode(locales)
-                : this.getNewNode(locales);
-        return locales.concretize(
-            (l) => l.ui.edit.append,
-            node.getLabel(locales),
-        );
+        return locales.concretize((l) => l.ui.edit.append);
     }
 
     getNewNode(locales: Locales): Node {

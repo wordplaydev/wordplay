@@ -110,8 +110,10 @@ export default class WebLink extends Content {
         return Characters.Link;
     }
 
-    getDescriptionInputs(): TemplateInput[] {
-        return [this.url?.getText()];
+    getDescriptionInputs(): Record<string, TemplateInput> {
+        return {
+            url: this.url?.getText(),
+        };
     }
 
     concretize(): WebLink {

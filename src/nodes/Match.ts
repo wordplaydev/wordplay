@@ -282,7 +282,9 @@ export default class Match extends Expression {
     getStartExplanations(locales: Locales, context: Context) {
         return locales.concretize(
             (l) => l.node.Match.start,
-            new NodeRef(this.value, locales, context),
+            {
+                value: new NodeRef(this.value, locales, context),
+            },
         );
     }
 

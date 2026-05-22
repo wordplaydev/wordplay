@@ -79,17 +79,22 @@ export default class Pose extends Valued {
             this._description = locales
                 .concretize(
                     (l) => l.output.Pose.description,
-                    this.opacity !== undefined && this.opacity !== 1
+                    {
+                        opacity: this.opacity !== undefined && this.opacity !== 1
                         ? Math.round(this.opacity)
                         : undefined,
-                    this.rotation !== undefined && this.rotation % 360
+                        rotation: this.rotation !== undefined && this.rotation % 360
                         ? Math.round(this.rotation)
                         : undefined,
-                    this.scale !== undefined && this.scale !== 1
+                        scale: this.scale !== undefined && this.scale !== 1
                         ? Math.round(this.scale)
                         : undefined,
-                    this.flipx,
-                    this.flipy,
+                        flipx: this.flipx,
+                        flipy: this.flipy,
+                        blur: this.blur !== undefined && this.blur !== 0
+                        ? Math.round(this.blur)
+                        : undefined,
+                    },
                 )
                 .toText();
         }

@@ -160,6 +160,9 @@
 {#if numOtherUsedBy > 0}
     <MarkupHTMLView
         inline
-        markup={[(l) => l.ui.howto.viewer.usedBy.countDisplay, numOtherUsedBy]}
+        markup={[
+            (l) => l.ui.howto.viewer.usedBy.countDisplay,
+            { count: numOtherUsedBy },
+        ]}
     />
 {/if}

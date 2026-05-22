@@ -528,12 +528,19 @@ export const submitLocalizationBundle = onCall<
     const body = composePrBody({ contributor, locale, description, rows });
 
     // Format JSON with Prettier so the PR diff only shows the contributor's
-    // text changes, not whitespace churn from re-serializing the file. The
-    // options here mirror the repo's .prettierrc.json (tabWidth: 4); Prettier's
-    // JSON printer keeps short arrays inline, unlike JSON.stringify which
-    // always expands them.
+    // text changes, not whitespace churn from re-serializing the file.
+    //
+    // Subtle: prettier's JSON formatter inspects the input layout to decide
+    // whether short objects/arrays stay on one line. Feeding it a minified
+    // `JSON.stringify(json)` makes it collapse everything that fits in 80
+    // columns, producing a layout that differs from `npx prettier --write`
+    // on the repo file (which sees the existing expanded layout and
+    // preserves it). That diff manifests as massive line-break churn in
+    // every PR. Pre-indenting the input with `JSON.stringify(json, null, 4)`
+    // matches the reference layout — verified to round-trip the on-disk
+    // files byte-for-byte.
     const formatJson = (json: Record<string, unknown>) =>
-        prettier.format(JSON.stringify(json), {
+        prettier.format(JSON.stringify(json, null, 4), {
             parser: 'json',
             tabWidth: 4,
         });

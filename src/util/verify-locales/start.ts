@@ -18,6 +18,10 @@ import {
     getLocalePath,
     LocaleValidator,
 } from '@util/verify-locales/LocaleSchema';
+import {
+    getDeclaredInputs,
+    getTerminologyNames,
+} from '@util/verify-locales/templateInputs';
 import Log from '@util/verify-locales/Log';
 import { getTutorialJSON, getTutorialPath } from '@util/verify-locales/TutorialSchema';
 import { verifyHowTo } from '@util/verify-locales/verifyHowTo';
@@ -48,6 +52,24 @@ if (
         'Please provide either "verify" (check structure), "ci" (fail on invalid structure), "fix" (repair structure), "translate" (translate untranslated strings), "override" command (replace existing machine translations)',
         false,
     );
+}
+
+// Surface any declared input names that collide with terminology keys.
+// Collisions aren't blocking (input precedence makes the runtime correct
+// where the collision is intentional, like Bind.description's `$name`),
+// but they mask `$<term>` terminology lookups in fields that declare the
+// same name as an input — worth flagging so the next developer notices.
+{
+    const terms = getTerminologyNames();
+    const declaredNames = new Set<string>();
+    for (const names of getDeclaredInputs().values())
+        for (const n of names) declaredNames.add(n);
+    const collisions = [...declaredNames].filter((n) => terms.has(n)).sort();
+    if (collisions.length > 0)
+        log.warning(
+            0,
+            `Template input names collide with terminology keys (input precedence applies): ${collisions.join(', ')}`,
+        );
 }
 
 // If there are problems in the default locale, we can't verify or translate anything.

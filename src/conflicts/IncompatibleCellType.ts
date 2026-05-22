@@ -37,7 +37,10 @@ export default class IncompatibleCellType extends Conflict {
             explanation: (locales: Locales, context: Context) =>
                 locales.concretize(
                     (l) => IncompatibleCellType.LocalePath(l).explanation,
-                    new NodeRef(this.expected, locales, context),
+                    {
+                        expected: new NodeRef(this.expected, locales, context),
+                        given: new NodeRef(this.received, locales, context),
+                    },
                 ),
         };
     }

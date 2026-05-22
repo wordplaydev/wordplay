@@ -20,31 +20,38 @@ export default async function translate(
     let translations: string[] = [];
     for (const batch of sourceStringsBatches) {
         try {
-            // Create a Google Translate client
-            // Translate the strings
-            const [translatedBatch] = await GoogleTranslate.translate(batch, {
-                from: sourceLocale,
-                to: targetLocale,
-            });
-            translations = [
-                ...translations,
-                // Restore concepts in all of the translated strings.
-                ...translatedBatch
-                    .map((translation, index) =>
-                        restoreReferences(
-                            batch[index],
-                            translation,
-                            ConceptPattern,
-                        ),
-                    )
-                    .map((translation, index) =>
-                        restoreReferences(
-                            batch[index],
-                            translation,
-                            MentionPattern,
-                        ),
+            // Wrap every `$name` mention in a no-translate span before sending.
+            // Translate guarantees verbatim preservation of nodes marked
+            // `translate="no"`, which keeps Google from transliterating
+            // `$expected` to `$المتوقع`, dropping the `$`, or otherwise
+            // garbling the placeholder. We strip the wrappers after.
+            const wrapped = batch.map(wrapMentions);
+            const [translatedBatch] = await GoogleTranslate.translate(
+                wrapped,
+                {
+                    from: sourceLocale,
+                    to: targetLocale,
+                    format: 'html',
+                },
+            );
+            const restored = translatedBatch
+                .map(unwrapMentions)
+                .map(decodeHtmlEntities)
+                // Restore concept links (`@Foo`) using order-based matching.
+                .map((translation, index) =>
+                    restoreReferences(
+                        batch[index],
+                        translation,
+                        ConceptPattern,
                     ),
-            ];
+                )
+                // Safety net: if the no-translate wrapper failed for any
+                // reason and a `$name` got mangled anyway, fall back to a
+                // positional repair against the source's mention list.
+                .map((translation, index) =>
+                    repairMentionsPositional(batch[index], translation),
+                );
+            translations = [...translations, ...restored];
             log.good(
                 2,
                 `Translated ${batch.length} strings from ${sourceLocale} to ${targetLocale} ...`,
@@ -55,6 +62,71 @@ export default async function translate(
         }
     }
     return translations;
+}
+
+/** Wrap each `$name` mention in a `<span translate="no">` so Google Translate
+ *  preserves it verbatim. Returns the wrapped string. The negative lookbehind
+ *  keeps `$$N` (literal-dollar escape) from being treated as a mention. */
+export function wrapMentions(text: string): string {
+    return text.replace(
+        new RegExp(`(?<!\\$)${MentionRegEx}`, 'gu'),
+        (m) => `<span translate="no">${m}</span>`,
+    );
+}
+
+/** Strip the wrappers we added in `wrapMentions`, keeping their inner text. */
+export function unwrapMentions(text: string): string {
+    return text.replace(
+        /<span\s+translate="no">([^<]*)<\/span>/g,
+        (_m, inner: string) => inner,
+    );
+}
+
+/** Decode the HTML entities Google Translate emits when `format: 'html'`. */
+export function decodeHtmlEntities(text: string): string {
+    return text
+        .replace(/&#(\d+);/g, (_m, code: string) =>
+            String.fromCodePoint(parseInt(code, 10)),
+        )
+        .replace(/&#x([0-9a-fA-F]+);/g, (_m, code: string) =>
+            String.fromCodePoint(parseInt(code, 16)),
+        )
+        .replace(/&quot;/g, '"')
+        .replace(/&apos;/g, "'")
+        .replace(/&lt;/g, '<')
+        .replace(/&gt;/g, '>')
+        .replace(/&amp;/g, '&');
+}
+
+/**
+ * Safety net for the no-translate wrapper. If the translated string ends up
+ * with the same *count* of mentions as the source but their text differs
+ * (e.g. transliterated, capitalized, or partially eaten), rewrite them
+ * positionally using the source's ordered mention list.
+ *
+ * Leaves the translation alone when counts disagree — those cases need
+ * human review, and the locale verifier will surface them.
+ */
+export function repairMentionsPositional(
+    before: string,
+    after: string,
+): string {
+    const sourceMentions = Array.from(
+        before.matchAll(new RegExp(MentionRegEx, 'gu')),
+    ).map((m) => m[0]);
+    if (sourceMentions.length === 0) return after;
+    // Find anything in `after` that starts with `$` and runs until the next
+    // whitespace, punctuation, or symbol — broader than `MentionRegEx` so we
+    // catch mangled non-ASCII tails like `$المتوقع`. The `\p{P}\p{S}` Unicode
+    // classes cover script-specific punctuation like Arabic comma `،`,
+    // Chinese 。, etc.
+    const looseRe = /(?<!\$)\$[^\s\p{P}\p{S}]+/gu;
+    const afterMentions = Array.from(after.matchAll(looseRe)).map((m) => m[0]);
+    if (afterMentions.length !== sourceMentions.length) return after;
+    // If every mention already matches the source order, nothing to do.
+    if (afterMentions.every((m, i) => m === sourceMentions[i])) return after;
+    let i = 0;
+    return after.replace(looseRe, () => sourceMentions[i++]);
 }
 
 export async function getGoogleTranslateTargetLocale(

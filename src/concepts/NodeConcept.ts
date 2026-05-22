@@ -59,7 +59,7 @@ export default class NodeConcept extends Concept {
         return locales
             .getLocales()
             .map((l) => this.template.getLocalePath()(l))
-            .map((text) => docToMarkup(text.doc).concretize(locales, []))
+            .map((text) => docToMarkup(text.doc).concretize(locales, {}))
             .filter((m) => m !== undefined);
     }
 

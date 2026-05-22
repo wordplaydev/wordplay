@@ -212,8 +212,10 @@ const ListOpenPattern = {
 };
 const ListClosePattern = { pattern: LIST_CLOSE_SYMBOL, types: [Sym.ListClose] };
 
-/** Variable references in markup, for templating and reuse in locales (e.g., $1, $?, $source) */
-export const MentionRegEx = '\\$[a-zA-Z0-9?]+';
+/** Variable references in markup, for templating and reuse in locales:
+ * `$?` or `$!` placeholders, or `$<name>` where name is alphanumeric (no `?`).
+ */
+export const MentionRegEx = '\\$(?:[?!]|[a-zA-Z0-9]+)';
 
 /** Valid tokens inside of code. */
 const CodeTokenPatterns: TokenPattern[] = [

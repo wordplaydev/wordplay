@@ -74,14 +74,11 @@ export default class Mention extends Content {
 
     concretize(
         locales: Locales,
-        inputs: TemplateInput[],
+        inputs: Record<string, TemplateInput>,
         replacements: [Node, Node][],
     ): Token | ValueRef | NodeRef | ConceptRef | undefined {
         const name = this.name.getText().slice(1);
 
-        // Terminology reference
-        // Is it a number? Resolve to an input.
-        const numberMatch = name.match(/^[0-9]+/);
         if (name === '?') {
             const replacement = new Token(
                 locales.getUnannotatedText((l) => l.ui.template.unwritten),
@@ -94,12 +91,11 @@ export default class Mention extends Content {
             const invisible = new Token('', Sym.Words);
             replacements.push([this, invisible]);
             return invisible;
-        } else if (numberMatch !== null) {
-            // Find the corresponding input
-            const number = parseInt(numberMatch[0]);
-            const input = inputs[number - 1];
+        } else if (Object.prototype.hasOwnProperty.call(inputs, name)) {
+            // Find the named input.
+            const input = inputs[name];
 
-            // Return the matching input, or a placeholder if there wasn't one.
+            // Return the matching input, or a placeholder if it was undefined.
             const replacement =
                 input instanceof ValueRef ||
                 input instanceof NodeRef ||
@@ -126,7 +122,9 @@ export default class Mention extends Content {
     }
 
     getDescriptionInputs() {
-        return [this.id];
+        return {
+            name: this.id,
+        };
     }
 
     toText() {

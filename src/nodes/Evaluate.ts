@@ -1074,10 +1074,7 @@ export default class Evaluate extends Expression {
     }
 
     getStartExplanations(locales: Locales) {
-        return locales.concretize(
-            (l) => l.node.Evaluate.start,
-            this.inputs.length > 0,
-        );
+        return locales.concretize((l) => l.node.Evaluate.start);
     }
 
     getFinishExplanations(
@@ -1087,18 +1084,20 @@ export default class Evaluate extends Expression {
     ) {
         return locales.concretize(
             (l) => l.node.Evaluate.finish,
-            this.getValueIfDefined(locales, context, evaluator),
+            {
+                value: this.getValueIfDefined(locales, context, evaluator),
+            },
         );
     }
 
     getDescriptionInputs(locales: Locales, context: Context) {
         const fun = this.getFunction(context);
         const names = fun?.names;
-        return [
-            names ? locales.getName(names) : undefined,
-            fun instanceof StreamDefinition ? true : undefined,
-            fun instanceof StructureDefinition ? true : undefined,
-        ];
+        return {
+            name: names ? locales.getName(names) : undefined,
+            stream: fun instanceof StreamDefinition ? true : undefined,
+            structure: fun instanceof StructureDefinition ? true : undefined,
+        };
     }
 
     getCharacter() {

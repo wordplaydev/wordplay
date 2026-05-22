@@ -204,12 +204,16 @@ export default class SetLiteral extends CompositeLiteral {
     ) {
         return locales.concretize(
             (l) => l.node.SetLiteral.finish,
-            this.getValueIfDefined(locales, context, evaluator),
+            {
+                value: this.getValueIfDefined(locales, context, evaluator),
+            },
         );
     }
 
     getDescriptionInputs() {
-        return [this.values.length];
+        return {
+            count: this.values.length,
+        };
     }
 
     getCharacter() {

@@ -212,7 +212,7 @@
         },
         "Name": {
             "name": "Name",
-            "description": "$~deklariere Namen $1[$1|unbenannt]",
+            "description": "$~deklariere Namen $name[$name|unbenannt]",
             "emotion": "$?",
             "doc": [
                 "$~Ich identifiziere einen Wert und bin eine hilfreiche Möglichkeit, etwas, das schwer zu bewerten war oder das Sie nicht immer wieder bewerten möchten, mit einer Kurzbezeichnung zu versehen.",
@@ -253,7 +253,7 @@
                 },
                 "MissingCell": {
                     "name": "$~fehlendeSpalte",
-                    "explanation": "$~Mir fehlt Spalte $1."
+                    "explanation": "$~Mir fehlt Spalte $column."
                 },
                 "UnknownColumn": {
                     "name": "$~unbekannterSpaltenname",
@@ -271,7 +271,7 @@
         },
         "Token": {
             "name": "$~Zeichen",
-            "description": "$1",
+            "description": "$label",
             "emotion": "$?",
             "doc": [
                 "$~Wie hast du mich gefunden?",
@@ -292,7 +292,7 @@
             "conflict": {
                 "DuplicateTypeVariable": {
                     "name": "$~doppelteTypvariable",
-                    "explanation": "$~Ich habe denselben Namen wie $1"
+                    "explanation": "$~Ich habe denselben Namen wie $duplicate"
                 }
             },
             "label": {
@@ -307,7 +307,7 @@
         },
         "Markup": {
             "name": "$~Auszeichnung",
-            "description": "$~formatiere Dokumentation mit $1 Absätzen",
+            "description": "$~formatiere Dokumentation mit $count Absätzen",
             "emotion": "$?",
             "doc": [
                 "$~Ich bin eine Liste von Absätzen und verwende die vielen in Erklärungen verfügbaren Markierungsarten, wie etwa @Words, @WebLink, @ConceptLink und @Example."
@@ -330,7 +330,7 @@
         },
         "WebLink": {
             "name": "$~Verknüpfung",
-            "description": "$~verlinke zur Webadresse $1",
+            "description": "$~verlinke zur Webadresse $url",
             "emotion": "$?",
             "doc": [
                 "$~Ich bin ein Link zu etwas im Internet. Ich brauche nur eine Beschreibung und eine URL:",
@@ -340,7 +340,7 @@
         },
         "ConceptLink": {
             "name": "$~Konzept",
-            "description": "$~verlinke zum Konzept $1 in Dokumentation",
+            "description": "$~verlinke zum Konzept $concept in Dokumentation",
             "emotion": "$?",
             "doc": [
                 "$~Ich bin ein Link zum Verse-Charakter. Ich bin hilfreich, wenn Sie ein @Doc schreiben und auf einen von uns verweisen möchten.",
@@ -376,7 +376,7 @@
         },
         "Mention": {
             "name": "$~erwähnen",
-            "description": "$~erwähne $1 im Markup",
+            "description": "$~erwähne $name im Markup",
             "emotion": "$?",
             "doc": [
                 "$~Ich beziehe mich entweder auf die Terminologie \\$program\\ oder auf eine dynamische Eingabe \\$1\\.",
@@ -394,7 +394,7 @@
         },
         "BinaryEvaluate": {
             "name": "$~binäreAuswertung",
-            "description": "$~wende $1-Operator auf zwei Werte an",
+            "description": "$~wende $operator auf zwei Werte an",
             "emotion": "$?",
             "doc": [
                 "$~Ich bin @Evaluate, aber in einer einfacheren Form, hilfreich, wenn Sie eine @FunctionDefinition verwenden möchten, die zwei Eingaben annimmt.",
@@ -410,8 +410,8 @@
                 "$~In der Mathematik käme zuerst die Multiplikation und dann die Addition, das Ergebnis wäre also \\11\\. Da ich aber in Lesereihenfolge auswerte, ist das Ergebnis \\13\\."
             ],
             "right": "$~Eingang",
-            "start": "$~Lassen Sie uns zuerst $1 bewerten",
-            "finish": "$~schau, ich habe $1 verdient!",
+            "start": "$~Lassen Sie uns zuerst $left bewerten",
+            "finish": "$~schau, ich habe $value verdient!",
             "conflict": {
                 "OrderOfOperations": {
                     "name": "$~mehrdeutigeReihenfolge",
@@ -424,7 +424,7 @@
         },
         "Bind": {
             "name": "$~binden",
-            "description": "$~benenne diesen Wert '$1'",
+            "description": "$~benenne diesen Wert '$name'",
             "emotion": "$?",
             "doc": [
                 "$~Ich nenne *Werte*.",
@@ -452,24 +452,24 @@
                 "$~Aber wir können dies ändern, um die @Is hinzuzufügen, und jetzt weiß @FunctionDefinition, dass es sich um Zahlen handelt:",
                 "$~\\ƒ Summe(a•# b•#) a + b\\"
             ],
-            "start": "$~Mal sehen, welchen Wert wir für 1$ bekommen!",
-            "finish": "$~oh schön, ich habe $1 bekommen! Nennen wir es $1",
+            "start": "$~Mal sehen, welchen Wert wir aus $value gewinnen!",
+            "finish": "$~oh schön, ich habe $value bekommen! Nennen wir es $name",
             "conflict": {
                 "DuplicateName": {
                     "conflict": {
                         "name": "$~doppelterName",
-                        "explanation": "$~Jemand hat den Namen $1 bereits, deshalb kann ich diesen Namen nicht haben."
+                        "explanation": "$~Jemand hat den Namen $shadowed bereits, deshalb kann ich diesen Namen nicht haben."
                     },
                     "resolution": "$~Es gibt doppelte Namen. Möchten Sie einen entfernen?"
                 },
                 "DuplicateShare": {
                     "name": "$~doppelteFreigabe",
-                    "explanation": "$~Ich habe denselben Namen wie $1. Dadurch ist unklar, was wir teilen."
+                    "explanation": "$~Ich habe denselben Namen wie $duplicate. Dadurch ist unklar, was wir teilen."
                 },
                 "IncompatibleType": {
                     "name": "$~inkompatiblerTyp",
-                    "explanation": "$~Ich sollte eigentlich Typ 2 sein, bin aber Typ 1.",
-                    "resolution": "$~Umrechnung in 1 US-Dollar"
+                    "explanation": "$~Ich erwartete $expected, erhielt aber den Typ $given.",
+                    "resolution": "$~Umrechnen in $expected"
                 },
                 "MisplacedShare": {
                     "name": "$~falschplatzierteAktie",
@@ -489,7 +489,7 @@
                 },
                 "UnusedBind": {
                     "name": "$~unbenutzteBindung",
-                    "explanation": "$~Ich heiße zwar 1 Dollar, aber niemand benutzt mich. Vielleicht werde ich ja gar nicht gebraucht?"
+                    "explanation": "$~Ich heiße $name, aber niemand benutzt mich. Vielleicht werde ich nicht gebraucht?"
                 }
             },
             "label": {
@@ -500,7 +500,7 @@
         },
         "Block": {
             "name": "$~Block",
-            "description": "$~werte $1 Anweisungen der Reihe nach aus",
+            "description": "$~werte $count Anweisungen der Reihe nach aus",
             "emotion": "$?",
             "doc": [
                 "$~Hallo. Ich schaffe einen kleinen ruhigen, privaten Raum, um Dinge auszuwerten.",
@@ -521,7 +521,7 @@
                 "Das ergibt \\[3 2]\\: nur die Werte der beiden Nicht-@Bind-Ausdrücke."
             ],
             "start": "$~erster Ausdruck",
-            "finish": "$~erledigt, ich habe $1 bekommen",
+            "finish": "$~erledigt, ich habe $value bekommen",
             "conflict": {
                 "ExpectedEndingExpression": {
                     "name": "$~fehlenderAusdruck",
@@ -534,17 +534,17 @@
         },
         "BooleanLiteral": {
             "name": "$~BooleschesLiteral",
-            "description": "$~erstelle $1[wahren|falschen] booleschen Wert",
+            "description": "$~erstelle $value[wahren|falschen] booleschen Wert",
             "emotion": "$?",
             "doc": "$~Ich bin entweder \\⊤\\ oder \\⊥\\. Weitere Informationen zu unserer schönen Logik finden Sie unter @Boolean.",
-            "start": "$~$1!"
+            "start": "$~$value!"
         },
         "Borrow": {
             "name": "$~ausleihen",
-            "description": "$~leihe $1[$1|unbenannt] aus einer Quelle",
+            "description": "$~leihe $name[$name|unbenannt] aus einer Quelle",
             "emotion": "$?",
             "doc": "$~Wenn Sie eine Performance mit mehreren @Source erstellen, können Sie mich verwenden, um @Bind auszuleihen, die in diesen anderen @Source gemeinsam genutzt werden. Verwenden Sie einfach ihren Namen und ich werde ihren Namen und Wert einfügen.",
-            "start": "$~$1 von $1 leihen",
+            "start": "$~$name wird aus $source ausgeliehen",
             "conflict": {
                 "UnknownBorrow": {
                     "name": "$~unbekannteAusleihe",
@@ -552,13 +552,13 @@
                 },
                 "BorrowCycle": {
                     "name": "$~selbstreferenzierendeAusleihe",
-                    "explanation": "$~Dies hängt von $1 ab, welches wiederum von dieser $source abhängt, daher kann das Programm nicht ausgewertet werden."
+                    "explanation": "$~Dies hängt von $borrow ab, welches wiederum von dieser $source abhängt, daher kann das Programm nicht ausgewertet werden."
                 }
             },
             "exception": {
                 "CycleException": {
                     "description": "$~Ausleihzyklus",
-                    "explanation": "$~$1 hängt von sich selbst ab"
+                    "explanation": "$~$borrow hängt von sich selbst ab"
                 }
             },
             "label": {
@@ -577,7 +577,7 @@
                 "$~Ich bin wirklich hilfreich, wenn Sie nur dann etwas ändern möchten, wenn sich ein Stream geändert hat.",
                 "$~Das ist es."
             ],
-            "start": "$~mal sehen, ob sich $1 geändert hat …",
+            "start": "$~mal sehen, ob sich $stream geändert hat …",
             "label": {
                 "stream": "$~Strom"
             }
@@ -593,14 +593,14 @@
                 "$~Scheint es nicht so, als ob Entscheidungen differenzierter sein sollten als nur Ja oder Nein? Ist die Entscheidung zwischen \\⊤\\ und \\⊥\\ alles, was es gibt?",
                 "$~Befürchten Sie nicht, dass uns wichtige Zusammenhänge über die Welt entgehen, wenn wir nur solche Entscheidungen treffen können?"
             ],
-            "start": "$~mal sehen, ob $1 wahr ist",
+            "start": "$~mal sehen, ob $condition wahr ist",
             "afterthen": "$~fertig mit „Ja“, überspringen wir „Nein“?",
-            "else": "$~$1[Code überspringen | Code nicht überspringen]",
-            "finish": "$~Ich schätze, es ist $1?",
+            "else": "$~$jumping[Code überspringen | Code nicht überspringen]",
+            "finish": "$~Ich schätze, es ist $value?",
             "conflict": {
                 "ExpectedBooleanCondition": {
                     "name": "$~erwarteteboolescheBedingung",
-                    "explanation": "$~Ich brauche einen @Boolean-Wert, um eine Entscheidung zu treffen, aber ich habe stattdessen 1 Dollar erhalten."
+                    "explanation": "$~Ich benötige einen @Boolean-Wert, um eine Entscheidung zu treffen, habe aber stattdessen einen $type erhalten."
                 }
             },
             "label": {
@@ -611,7 +611,7 @@
         },
         "ConversionDefinition": {
             "name": "$~Konvertierungsdefinition",
-            "description": "$~definiere Konvertierung von $1 nach $2",
+            "description": "$~definiere Konvertierung von $input nach $output",
             "emotion": "$?",
             "doc": [
                 "$~Alter, ich definiere Konvertierungen von einem Typ in einen anderen! Ich gehe in @Block, ungefähr so:",
@@ -645,18 +645,18 @@
                 "$~\\\"hallo\" → [] → {}\\",
                 "$~Werte haben einen Satz vordefinierter @ConversionDefinition. Wenn Sie jedoch eine @StructureDefinition für einen neuen Wertetyp erstellen, können Sie mit @ConversionDefinition Ihre eigene definieren."
             ],
-            "start": "$~Holen Sie sich diesen Wert ab 1",
-            "finish": "$~Super, ich habe $1 verdient",
+            "start": "$~Ermitteln Sie diesen Wert aus $expression!",
+            "finish": "$~Super, ich habe $value verdient",
             "conflict": {
                 "UnknownConversion": {
                     "name": "$~unbekannteKonvertierung",
-                    "explanation": "$~Wir konnten keine Möglichkeit finden, 1 Dollar in 2 Dollar umzurechnen."
+                    "explanation": "$~Wir konnten keine Möglichkeit finden, einen $expected in einen $given umzuwandeln."
                 }
             },
             "exception": {
                 "ConversionException": {
                     "description": "$~unmögliche Konvertierung",
-                    "explanation": "$~Ich weiß nicht, wie ich von $1 in $1 umrechnen kann."
+                    "explanation": "$~Ich weiß nicht, wie man von $from nach $to umrechnet."
                 }
             }
         },
@@ -687,7 +687,7 @@
         },
         "Evaluate": {
             "name": "$~auswerten",
-            "description": "$~$3[erstelle $1[$1|] Wert mit diesen Eingaben|$2[erstelle $1[$1|] Datenstrom mit diesen Eingaben|wende $1[$1|Funktion] auf diese Eingaben an]]",
+            "description": "$~$structure[erstelle $name[$name|] Wert mit diesen Eingaben|$stream[erstelle $name[$name|] Datenstrom mit diesen Eingaben|wende $name[$name|Funktion] auf diese Eingaben an]]",
             "emotion": "$?",
             "doc": [
                 "$~Hallo. Ich bewerte meine liebste @FunctionDefinition. So:",
@@ -702,12 +702,12 @@
             ],
             "start": "$~Lassen Sie uns zuerst die Eingaben auswerten",
             "evaluate": "$~Lassen Sie uns jetzt die Funktion auswerten",
-            "finish": "$~Ich habe es auf $1 geschätzt",
+            "finish": "$~Ich habe es auf $value geschätzt",
             "conflict": {
                 "IncompatibleInput": {
                     "name": "$~inkompatibleEingabe",
-                    "explanation": "$~Ich sollte eigentlich Typ 1 sein, bin aber Typ 2.",
-                    "resolution": "$~Umrechnung in 1 US-Dollar"
+                    "explanation": "$~Ich erwartete $expected , erhielt aber $given",
+                    "resolution": "$~Umrechnen in $expected"
                 },
                 "UnexpectedTypeInput": {
                     "name": "$~unerwarteteTypeingabe",
@@ -715,7 +715,7 @@
                 },
                 "MissingInput": {
                     "name": "$~fehlendeEingabe",
-                    "explanation": "$~Ohne die Eingabe $2 kann ich keine Auswertung durchführen :("
+                    "explanation": "$~Ich kann $name nicht ohne die Eingabe $input auswerten :("
                 },
                 "NotInstantiable": {
                     "name": "$~unvollständigeStruktur",
@@ -727,7 +727,7 @@
                 },
                 "UnknownInput": {
                     "name": "$~unbekannteEingabe",
-                    "explanation": "$~Diese Funktion *$1* erwartet keine Eingabe mit meinem Namen."
+                    "explanation": "$~Diese Funktion *$name* erwartet keine Eingabe mit meinem Namen."
                 },
                 "InputListMustBeLast": {
                     "name": "$~zusätzlicheEingängesindnichtzuletzt",
@@ -735,13 +735,13 @@
                 },
                 "SeparatedEvaluate": {
                     "name": "$~mehrdeutigeBewertung",
-                    "explanation": "$~Ist $1 der Name einer $2[$structure|$function], die Sie auswerten möchten? Versuchen Sie, das Leerzeichen nach mir zu entfernen, damit ich weiß, dass es sich um eine @Evaluate-Anweisung und nicht um einen separaten @Block handelt."
+                    "explanation": "$~Ist $name der Name einer $structure[$structure|$function], die Sie auswerten möchten? Versuchen Sie, das Leerzeichen nach mir zu entfernen, damit ich weiß, dass es sich um eine @Evaluate-Anweisung und nicht um einen separaten @Block handelt."
                 }
             },
             "exception": {
                 "FunctionException": {
                     "description": "$~unbekannte Funktion",
-                    "explanation": "$~oh nein, $1 ist keine Funktion in $2[$2|diesem @Block]!"
+                    "explanation": "$~oh nein, $name ist keine Funktion in $scope[$scope|diesem @Block]!"
                 }
             },
             "label": {
@@ -782,7 +782,7 @@
         },
         "FunctionDefinition": {
             "name": "$~Funktion",
-            "description": "$~definiere Funktion $1",
+            "description": "$~definiere Funktion $name",
             "emotion": "$?",
             "doc": [
                 "$~Hallo nochmal! Ich nehme einige Eingaben, bewerte dann einen Ausdruck damit und erzeuge eine Ausgabe.",
@@ -822,7 +822,7 @@
             "initialize": "$~Vorbereiten der Schritte durch Elemente",
             "next": "$~Weiter zum nächsten Element",
             "check": "$~entscheiden, ob fortgefahren wird",
-            "finish": "$~Ich habe es auf $1 geschätzt"
+            "finish": "$~Ich habe es auf $value geschätzt"
         },
         "Initial": {
             "name": "$~Start",
@@ -850,7 +850,7 @@
         },
         "Is": {
             "name": "$~Ist",
-            "description": "$~prüfe ob Wert vom Typ $1 ist",
+            "description": "$~prüfe ob Wert vom Typ $type ist",
             "emotion": "$?",
             "doc": [
                 "$~Wissen Sie was? Es gibt so viele verschiedene Werte, die so viele verschiedene Dinge bedeuten. Ich helfe dabei, herauszufinden, was sie sind.",
@@ -861,18 +861,18 @@
                 "$~Wir erhalten \\⊤\\!",
                 "$~Ich bin wirklich hilfreich, wenn Sie wissen müssen, ob ein @Name einen Wert einer bestimmten Art hat."
             ],
-            "start": "$~Lassen Sie uns zuerst den Wert von $1 ermitteln",
-            "finish": "$~$1[Wert ist $2|Wert ist nicht $2]",
+            "start": "$~Lassen Sie uns zuerst den Wert von $expression ermitteln",
+            "finish": "$~$value[Wert ist $type|Wert ist nicht $type]",
             "conflict": {
                 "ImpossibleType": {
                     "name": "$~unmöglicherTyp",
-                    "explanation": "$~Das kann niemals 1 Dollar kosten."
+                    "explanation": "$~Das kann niemals $type sein."
                 }
             },
             "exception": {
                 "TypeException": {
                     "description": "$~inkompatible Werte",
-                    "explanation": "$~Ich habe $1 erwartet, aber $1 erhalten"
+                    "explanation": "$~Ich habe $expected erwartet, aber $given erhalten"
                 }
             }
         },
@@ -886,7 +886,7 @@
                 "$~\\🌍/es-MX\\",
                 "$~Dies ist hilfreich, wenn Sie Ihre Leistung basierend auf der gewählten Sprache ändern möchten."
             ],
-            "start": "$~ist die Sprache $1?"
+            "start": "$~ist die Sprache $locale?"
         },
         "ListAccess": {
             "name": "$~Listenzugriff",
@@ -896,16 +896,16 @@
                 "$~Ich arbeite eng mit @List zusammen, um ihnen zu helfen, Werte an einer bestimmten Position zu erhalten. Wenn Sie also beispielsweise eine Liste hätten und deren zweites Element wollten, würden Sie schreiben:",
                 "$~\\Liste: ['Vogel' 'Ente' 'Fisch' 'Schlange']\nListe[2]\\"
             ],
-            "start": "$~Lassen Sie uns zuerst die Liste $1 holen",
-            "finish": "$~Der Artikel kostet $1!"
+            "start": "$~Lassen Sie uns zuerst die Liste $list holen",
+            "finish": "$~Der Artikel kostet $value!"
         },
         "ListLiteral": {
             "name": "$~Listenliteral",
-            "description": "$~erstelle eine Liste mit $1 Werten",
+            "description": "$~erstelle eine Liste mit $count Werten",
             "emotion": "$?",
             "doc": "$~Ich bin eine bestimmte @List von Werten! Siehe @List, um mehr darüber zu erfahren, was Sie mit mir tun können.",
             "start": "$~Lassen Sie uns zunächst die Artikel bewerten",
-            "finish": "$~Ich habe ein Ich gemacht! $1"
+            "finish": "$~Ich habe ein Ich gemacht! $value"
         },
         "Spread": {
             "name": "$~verbreiten",
@@ -918,11 +918,11 @@
         },
         "MapLiteral": {
             "name": "$~Kartenliteral",
-            "description": "$~erstelle eine Karte mit $1 Schlüssel-Wert-Paaren",
+            "description": "$~erstelle eine Karte mit $count Schlüssel-Wert-Paaren",
             "emotion": "$?",
             "doc": "$~Ich bin eine spezielle @Map zwischen Schlüsseln und Werten. Weitere Informationen dazu, wie ich Ihnen behilflich sein kann, finden Sie unter @Map.",
             "start": "$~Lassen Sie uns zuerst die Schlüssel und Werte auswerten",
-            "finish": "$~Ich habe alle verbunden, $1",
+            "finish": "$~Ich habe alle verbunden, $value",
             "conflict": {
                 "NotAKeyValue": {
                     "name": "$~fehlenderWert",
@@ -945,7 +945,7 @@
                 "$~Ich bin wirklich hilfreich, wenn es darum geht, eine der vielen möglichen @Number-, @Text- oder komplexeren Werte in etwas anderes umzuwandeln.",
                 "$~Sie können es für @Boolean oder @None verwenden, aber es können nicht wirklich viele Dinge sein, daher bin ich für diese einfachen Werte nicht so nützlich."
             ],
-            "start": "$~Mal sehen, was 1$ ist …",
+            "start": "$~Mal sehen, wie hoch $value ist...",
             "case": "$~Lassen Sie uns diesen Zustand überprüfen",
             "finish": "$~Okay, wir haben einen endgültigen Wert!",
             "label": {
@@ -955,10 +955,10 @@
         },
         "NumberLiteral": {
             "name": "$~Zahlenliteral",
-            "description": "$~erstelle Zahl $1 $2[$2|]",
+            "description": "$~erstelle Zahl $number $unit[$unit|]",
             "emotion": "$?",
             "doc": "$~Ich bin eine bestimmte @Number. Sie können mir mit allen möglichen Ziffern aus allen möglichen Sprachen schreiben. Alles, was ich kann, finden Sie unter @Number.",
-            "start": "$~$1!",
+            "start": "$~$value!",
             "conflict": {
                 "NotANumber": {
                     "name": "$~keineZahl",
@@ -990,7 +990,7 @@
                 "$~\\vielleichtZahl•#|ø: 1 vielleichtZahl ?? 0\\"
             ],
             "start": "$~Ö ??",
-            "finish": "$~… 1 US-Dollar"
+            "finish": "$~… $value"
         },
         "Previous": {
             "name": "$~vorherige",
@@ -1007,8 +1007,8 @@
                 "$~Sehen Sie, dass es die fünf vorherigen Male sind und nicht nur ein Mal?",
                 "$~Ich bin hilfreich, wenn Sie Aufführungen schaffen möchten, die auf der Vergangenheit basieren."
             ],
-            "start": "$~erhalte zuerst $1",
-            "finish": "$~ausgewertet auf Streamwert $1",
+            "start": "$~erhalte zuerst $stream",
+            "finish": "$~ausgewertet auf Streamwert $value",
             "label": {
                 "range": "$~Reichweite"
             }
@@ -1027,9 +1027,9 @@
                 "$~Und wenn Ihre Leistung von einem *Stream* abhängt, führe ich bei jeder Änderung des Streams eine Neubewertung durch."
             ],
             "unevaluated": "$~Der von Ihnen gewählte Knoten hat nicht ausgewertet",
-            "start": "$~$1[$1 Stream geändert in $2!|das ist meine erste Bewertung]",
+            "start": "$~$stream[$stream Stream geändert in $value!|das ist meine erste Bewertung]",
             "halt": "$~Ausnahme aufgetreten, Stoppen",
-            "finish": "$~alles erledigt, ich habe es auf $1 geschätzt",
+            "finish": "$~alles erledigt, ich habe es auf $value geschätzt",
             "done": "$~es gibt nichts Bewertendes",
             "exception": {
                 "BlankException": {
@@ -1038,7 +1038,7 @@
                 },
                 "EvaluationLimitException": {
                     "description": "$~Bewertungsgrenze",
-                    "explanation": "$~@Evaluate und ich sind es leid, zu bewerten, insbesondere $1.\n\nIst es möglich, dass $1 sich selbst für immer bewertet, ohne jemals aufzuhören?"
+                    "explanation": "$~@Evaluate und ich sind es leid, zu bewerten, insbesondere $function.\n\nIst es möglich, dass $function sich selbst für immer bewertet, ohne jemals aufzuhören?"
                 },
                 "StepLimitException": {
                     "description": "$~Schrittgrenze",
@@ -1050,11 +1050,11 @@
                 },
                 "InternalException": {
                     "description": "$~Interner Fehler",
-                    "explanation": "$~Intern ist etwas sehr Schlimmes passiert: 1 Dollar"
+                    "explanation": "$~Intern ist etwas sehr Schlimmes passiert: $reason"
                 },
                 "PermissionException": {
                     "description": "$~Zugriff verweigert",
-                    "explanation": "$~Ich benötige Ihre 1 $, um die Website auszuführen, habe aber keine Berechtigung. Klicken Sie auf „Wiederholen“, um es erneut zu versuchen. Falls das nicht hilft, erlauben Sie bitte in den Browsereinstellungen die Eingabe von 1 $ für diese Website."
+                    "explanation": "$~Ich benötige Ihre $permission , um diese Anwendung auszuführen, habe aber keine. Klicken Sie auf „Wiederholen“, um es erneut zu versuchen. Sollte das nicht helfen, erteilen Sie dieser Website $permission in Ihren Browsereinstellungen."
                 }
             },
             "label": {
@@ -1064,7 +1064,7 @@
         },
         "PropertyBind": {
             "name": "$~verfeinern",
-            "description": "$~verfeinere Eigenschaft $1[$1|unbenannt]",
+            "description": "$~verfeinere Eigenschaft $name[$name|unbenannt]",
             "emotion": "$?",
             "doc": [
                 "$~Manchmal möchten Sie beim Erstellen einer @StructureDefinition die kleinsten Details daran ändern, ohne eine neue mit denselben Werten erstellen zu müssen.",
@@ -1073,11 +1073,11 @@
                 "$~Das ist doch viel einfacher, als eine ganz neue \\Cat\\ mit denselben Werten außer dem Hobby zu erstellen, nicht wahr?"
             ],
             "start": "$~Lassen Sie uns zunächst den Wert ermitteln",
-            "finish": "$~Ich habe die Struktur kopiert, aber mit $1 als $2",
+            "finish": "$~Ich habe die Struktur kopiert, aber mit $property als $value",
             "conflict": {
                 "InvalidProperty": {
                     "name": "$~unbekannteEigenschaft",
-                    "explanation": "$~Ich bin kein Name in der Struktur $1, daher kann ich nicht verfeinert werden."
+                    "explanation": "$~Ich bin kein Name in der Struktur $structure, daher kann ich nicht verfeinert werden."
                 }
             },
             "label": {
@@ -1087,7 +1087,7 @@
         },
         "PropertyReference": {
             "name": "$~Eigentum",
-            "description": "$~hole Eigenschaft $1[$1|unbenannt]",
+            "description": "$~hole Eigenschaft $name[$name|unbenannt]",
             "emotion": "$?",
             "doc": [
                 "$~Wenn Sie eine @StructureDefinition erstellen, wie erhalten Sie eine ihrer Eingaben? Ich bin wie",
@@ -1095,7 +1095,7 @@
                 "$~\\•Stadt(Name•'' Bevölkerung•#Personen)\n\nPortland: Stadt('Portland' 800000Personen)\n\nPortland.Bevölkerung\\"
             ],
             "start": "$~Lassen Sie uns zunächst den Wert ermitteln",
-            "finish": "$~gefundenes Eigentum $1, es ist $2",
+            "finish": "$~gefundenes Eigentum $property, es ist $value",
             "label": {
                 "property": "$~Eigentum"
             }
@@ -1112,11 +1112,11 @@
                 "$~Ich bin also auch wie ein Stream, aber einer, der auf anderen Streams basiert. Geil, oder?"
             ],
             "start": "$~mal sehen, ob wir den Stream aktualisieren sollten",
-            "finish": "$~Der neue Streamwert beträgt $1",
+            "finish": "$~Der neue Streamwert beträgt $value",
             "conflict": {
                 "ExpectedStream": {
                     "name": "$~erwarteterDatenstrom",
-                    "explanation": "$~$1 bezieht sich nicht auf einen Stream, daher werde ich niemals reagieren!"
+                    "explanation": "$~$condition bezieht sich nicht auf einen Stream, daher werde ich niemals reagieren!"
                 }
             },
             "label": {
@@ -1127,7 +1127,7 @@
         },
         "Reference": {
             "name": "$~Referenz",
-            "description": "$~referenziere Namen $1",
+            "description": "$~referenziere Namen $name",
             "emotion": "$?",
             "doc": [
                 "$~Wissen Sie, wie @Bind den Dingen @Name gibt? Ich bin die Art, wie Sie sie bezeichnen. Ich sehe nach, ob ein @Bind diesen Namen hat, und gebe Ihnen in diesem Fall seinen Wert. So:",
@@ -1135,18 +1135,18 @@
                 "$~Wenn ich den Namen nicht finde, weiß ich nicht, was ich tun soll.",
                 "$~\\Papagei: 'Polly'\nPerry\\"
             ],
-            "start": "$~welchen Wert hat $1?",
+            "start": "$~welchen Wert hat $name?",
             "conflict": {
                 "UnknownName": {
                     "conflict": {
                         "name": "$~unbekannterName",
-                        "explanation": "$~$1[Ich kenne niemanden namens $1 in $2[$2|diesem @Block]|Kannst du mir einen Namen nennen?]"
+                        "explanation": "$~$name[Ich kenne niemanden namens $name in $scope[$scope|diesem @Block]|Kannst du mir einen Namen nennen?]"
                     },
-                    "resolution": "$~Meinten Sie *$1?*"
+                    "resolution": "$~Meinten Sie *$suggestion?*"
                 },
                 "ReferenceCycle": {
                     "name": "$~selbstreferenzierenderWert",
-                    "explanation": "$~Ähm, der Wert von 1 Dollar hängt von sich selbst ab, wie soll ich also wissen, welchen Wert ich ihm geben soll?"
+                    "explanation": "$~Ähm, der Wert von $name hängt von sich selbst ab, wie weiß ich also, welchen Wert ich ihm geben soll?"
                 },
                 "UnexpectedTypeVariable": {
                     "name": "$~unerwarteteTypvariable",
@@ -1156,7 +1156,7 @@
             "exception": {
                 "NameException": {
                     "description": "$~unbekannter Name",
-                    "explanation": "$~$1[Ich kenne niemanden namens $1 in $2[$2|diesem @Block]…|Ihhh, kein Name!]"
+                    "explanation": "$~$name[Ich kenne niemanden namens $name in $scope[$scope|diesem @Block]…|Ihhh, kein Name!]"
                 }
             }
         },
@@ -1181,11 +1181,11 @@
         },
         "SetLiteral": {
             "name": "$~Literalfestlegen",
-            "description": "$~erstelle eine Menge mit $1 Elementen",
+            "description": "$~erstelle eine Menge mit $count Elementen",
             "emotion": "$?",
             "doc": "$~Ich bin ein spezifisches @Set spezifischer Werte. Weitere Informationen zur Zusammenarbeit mit mir finden Sie unter @Set.",
             "start": "$~Lasst uns zuerst die Werte auswerten!",
-            "finish": "$~Ich habe ein Set für $1 gemacht!"
+            "finish": "$~Ich habe ein Set für $value gemacht!"
         },
         "SetOrMapAccess": {
             "name": "$~Zugrifffestlegen/zuordnen",
@@ -1199,11 +1199,11 @@
                 "$~\\faves: {'Mac and Cheese': 5 Sterne 'Müsli': 2 Sterne 'Grusel': 1 Stern}\nfaves{'Grusel'}\\"
             ],
             "start": "$~was ist das Set oder die Karte?",
-            "finish": "$~der Wert beträgt $1",
+            "finish": "$~der Wert beträgt $value",
             "conflict": {
                 "IncompatibleKey": {
                     "name": "$~inkompatiblerSchlüssel",
-                    "explanation": "$~Ich habe einen Schlüssel vom Typ $1 erwartet."
+                    "explanation": "$~Ich habe einen Schlüssel vom Typ $expected erwartet."
                 }
             }
         },
@@ -1226,7 +1226,7 @@
         },
         "StructureDefinition": {
             "name": "$~Struktur",
-            "description": "$~definiere Struktur $1",
+            "description": "$~definiere Struktur $name",
             "emotion": "$?",
             "doc": [
                 "$~Aber hallo, wie geht es dir? Mir? Mir geht es gut. Ich liebe es, Strukturen zu definieren, die Werte und Funktionen speichern. Solange ich das den ganzen Tag tun kann, bin ich glücklich.",
@@ -1255,7 +1255,7 @@
                 },
                 "UnimplementedInterface": {
                     "name": "$~nichtimplementiert",
-                    "explanation": "$~Ich habe $1 implementiert, aber $2 noch nicht."
+                    "explanation": "$~Ich habe $interface implementiert, aber $function noch nicht."
                 }
             },
             "label": {
@@ -1267,15 +1267,15 @@
         },
         "TableLiteral": {
             "name": "$~Tabellenliteral",
-            "description": "$~erstelle eine Tabelle mit $1 Zeilen",
+            "description": "$~erstelle eine Tabelle mit $count Zeilen",
             "emotion": "$?",
             "doc": "$~Ich bin eine bestimmte Tabelle mit bestimmten Zeilen. Siehe @Table, wie ich helfen kann.",
             "start": "$~zuerst die Zeilen auswerten",
-            "finish": "$~in neue Tabelle ausgewertet $1"
+            "finish": "$~in neue Tabelle ausgewertet $value"
         },
         "TextLiteral": {
             "name": "$~Textliteral",
-            "description": "$~erstelle Textwert $1",
+            "description": "$~erstelle Textwert $text",
             "emotion": "serious",
             "doc": "$~Ich stelle eine oder mehrere spezifische @Translation von Texten dar. Unter @Text erfahren Sie mehr über meine Möglichkeiten!",
             "start": "$~Lassen Sie uns Text in der aktuellen Sprache erstellen",
@@ -1285,29 +1285,29 @@
         },
         "Translation": {
             "name": "$~Übersetzung",
-            "description": "$~erstelle Text '$1'",
+            "description": "$~erstelle Text '$text'",
             "emotion": "$?",
             "doc": "$~Ich stelle einen Text mit einem @Language-Tag dar. Weitere Informationen finden Sie unter @Text!",
             "conflict": {
                 "phone": {
                     "name": "$~möglicheTelefonnummer",
-                    "explanation": "$~Ist *1 €* die Telefonnummer von jemandem? Falls ja, gib sie bitte nicht online weiter!\n\n2 €"
+                    "explanation": "$~Ist *$text* eine Telefonnummer? Falls ja, gib sie bitte nicht online weiter!\n\n$reminder"
                 },
                 "email": {
                     "name": "$~möglicheE-Mail",
-                    "explanation": "$~Ist *$1* die E-Mail-Adresse von jemandem? Falls ja, teile sie bitte nicht hier!\n\n$2"
+                    "explanation": "$~Ist *$text* die E-Mail-Adresse von jemandem? Falls ja, teile sie bitte nicht hier!\n\n$reminder"
                 },
                 "tin": {
                     "name": "$~möglicheSteuernummer",
-                    "explanation": "$~Ist *1 $* eine Steueridentifikationsnummer? Falls ja, geben Sie mich bitte auf keinen Fall weiter, ich bin sehr sensible Information!\n\n2 $"
+                    "explanation": "$~Ist *$text* eine Steueridentifikationsnummer? Falls ja, geben Sie mich bitte auf keinen Fall weiter, ich enthalte sehr sensible Informationen!\n\n$reminder"
                 },
                 "address": {
                     "name": "$~möglicheAdresse",
-                    "explanation": "$~Ist *1 €* die Privatadresse von jemandem? Falls ja, tragen Sie mich bitte nicht ein, wir wollen ja nicht, dass jemand gestalkt wird!\n\n2 €"
+                    "explanation": "$~Ist *$text* die Privatadresse einer Person? Falls ja, trage mich bitte nicht hier ein, wir wollen ja nicht, dass jemand gestalkt wird!\n\n$reminder"
                 },
                 "handle": {
                     "name": "$~möglicherBenutzername",
-                    "explanation": "$~Ist *$1* dein Benutzername für eine andere Website? Falls ja, teile ihn hier bitte nicht mit, es sei denn, du meinst es wirklich ernst.\n\n$2"
+                    "explanation": "$~Ist *$text* dein Benutzername für eine andere Website? Falls ja, teile ihn hier bitte nicht mit, es sei denn, du meinst es wirklich ernst.\n\n$reminder"
                 },
                 "resolution": "$~Dies sind keine sensiblen Daten",
                 "reminder": "$~Hinweis: Sie können diese Aktion rückgängig machen und im Freigabedialog andere Dinge sehen, die Sie als nicht vertraulich markiert haben.",
@@ -1322,14 +1322,14 @@
         },
         "FormattedLiteral": {
             "name": "$~formatiert",
-            "description": "$~erstelle formatierten Text $1",
+            "description": "$~erstelle formatierten Text $text",
             "emotion": "$?",
             "doc": "$~Ich stelle viele verschiedene @FormattedTranslation formatierten Textes dar. Bei der Bewertung wähle ich die beste Übereinstimmung basierend auf den ausgewählten Sprachen des Publikums aus.",
             "start": "$~Lassen Sie uns Text in der aktuellen Sprache erstellen"
         },
         "FormattedTranslation": {
             "name": "$~formatierteÜbersetzung",
-            "description": "$~übersetze formatierten Text nach $1",
+            "description": "$~übersetze formatierten Text nach $language",
             "emotion": "$?",
             "doc": [
                 "$~Ich stelle einen formatierten Text mit einem @Language-Tag dar.",
@@ -1357,7 +1357,7 @@
                 "$~Schaut bei mir vorbei, stellt den vorherigen Reaktionswert dar.",
                 "$~Ich tauche nicht oft auf, aber wenn ich es tue, kann ich wirklich dabei helfen, einen Wert aus einem @Bind herauszuholen!"
             ],
-            "start": "$~bewertet auf 1 US-Dollar",
+            "start": "$~Bewertet auf $value",
             "conflict": {
                 "MisplacedThis": {
                     "name": "$~habediesenVerweisverlegt",
@@ -1367,7 +1367,7 @@
         },
         "UnaryEvaluate": {
             "name": "$~unäreAuswertung",
-            "description": "$~wende $1 unären Operator an",
+            "description": "$~wende $operator unären Operator an",
             "emotion": "$?",
             "doc": [
                 "$~Wussten Sie, dass Sie den Namen vor die Eingabe setzen können, wenn ich eine @FunctionDefinition mit nur einem Wert auswerte und der Name der @FunctionDefinition nur ein einzelnes Symbol ist?",
@@ -1380,7 +1380,7 @@
                 "$~Es gibt nur eine Regel: Sie dürfen kein Leerzeichen zwischen dem Namen und dem Wert einfügen. Andernfalls erstellen Sie möglicherweise eine @Reference oder @BinaryEvaluate."
             ],
             "start": "$~was ist der Wert?",
-            "finish": "$~Ich habe es zu $1 gemacht",
+            "finish": "$~Ich habe es zu $value gemacht",
             "label": {
                 "input": "$~Eingang"
             }
@@ -1404,13 +1404,13 @@
                 "UnparsableConflict": {
                     "conflict": {
                         "name": "$~unlesbarerCode",
-                        "explanation": "$~@FunctionDefinition hier, @UnparsableExpression weiß nicht, um welche Art von $1[ expression | type ] es sich handelt."
+                        "explanation": "$~@FunctionDefinition hier, @UnparsableExpression weiß nicht, um welche Art von $expression[ expression | type ] es sich handelt."
                     },
-                    "resolution": "$~Meinten Sie $1 oder $1?"
+                    "resolution": "$~Meinten Sie „type $first, $second?"
                 },
                 "UnclosedDelimiter": {
                     "name": "$~nichtgeschlossenesTrennzeichen",
-                    "explanation": "$~Ich hatte erwartet, dass irgendwann nach 1 Dollar 2 Dollar passieren würden."
+                    "explanation": "$~Ich erwartete $expected irgendwann nach $unclosed."
                 }
             },
             "exception": {
@@ -1439,7 +1439,7 @@
                 },
                 "IncompatibleCellType": {
                     "name": "$~inkompatiblerZelltyp",
-                    "explanation": "$~Ich sollte eigentlich Typ 1 sein, bin aber Typ 2."
+                    "explanation": "$~Ich sollte vom Typ $expected sein, aber ich bin vom Typ $given."
                 }
             }
         },
@@ -1486,7 +1486,7 @@
         },
         "FunctionType": {
             "name": "$~Funktion",
-            "description": "$~typisiere eine Funktion mit $1 Eingaben",
+            "description": "$~typisiere eine Funktion mit $inputs Eingaben",
             "emotion": "$?",
             "doc": [
                 "$~Ich stelle eine @FunctionDefinition dar. Ich bin wirklich hilfreich, wenn Sie sagen möchten, welche Art von Funktion ein @Bind enthält! So:",
@@ -1495,7 +1495,7 @@
         },
         "ListType": {
             "name": "$~Liste",
-            "description": "$~typisiere $1[Liste von $1|Liste]",
+            "description": "$~typisiere $type[Liste von $type|Liste]",
             "emotion": "$?",
             "doc": [
                 "$~Ich bin /so/ ein Fan von @List. Ich kann @Bind sagen, was für eine Art Liste das ist! So sage ich, dass es eine Liste von @Number ist:",
@@ -1504,7 +1504,7 @@
         },
         "MapType": {
             "name": "$~Karte",
-            "description": "$~typisiere eine Karte von $1[$1|beliebig] zu $2[$2|beliebig]",
+            "description": "$~typisiere eine Karte von $key[$key|beliebig] zu $value[$value|beliebig]",
             "emotion": "$?",
             "doc": [
                 "$~Wissen Sie, wie toll @Map ist? Also wirklich toll. Ich sage @Bind ständig, um welche Art von Map es sich handelt, wie diese Map von Zahlen zu Listen:",
@@ -1513,7 +1513,7 @@
         },
         "NumberType": {
             "name": "$~Nummer",
-            "description": "$~typisiere einen $1[$1|Zahlen]-Wert",
+            "description": "$~typisiere einen $unit[$unit|Zahlen]-Wert",
             "emotion": "$?",
             "doc": [
                 "$~Wissen Sie, was @Bind sein sollte? Eine @Number. Weil Nummern das Beste sind.",
@@ -1522,7 +1522,7 @@
         },
         "NameType": {
             "name": "$~Struktur",
-            "description": "$~referenziere Typ namens $1",
+            "description": "$~referenziere Typ namens $name",
             "emotion": "$?",
             "doc": [
                 "$~Ich stelle eine @StructureDefinition durch ihren Namen dar. Wenn Sie also eine Struktur wie diese hätten, könnten Sie ein @Bind erstellen, das die von ihm erstellten Werte speichert.",
@@ -1531,7 +1531,7 @@
             "conflict": {
                 "UnknownTypeName": {
                     "name": "$~unbekannterTypname",
-                    "explanation": "$~Typnamen können sich nur auf Strukturen oder Typvariablen beziehen, aber dies bezieht sich auf den Typ $1."
+                    "explanation": "$~Typnamen können sich nur auf Strukturen oder Typvariablen beziehen, aber dies bezieht sich auf den Typ $type."
                 }
             }
         },
@@ -1552,7 +1552,7 @@
         },
         "SetType": {
             "name": "$~Satz",
-            "description": "$~typisiere eine Menge von $1[$1|beliebig]",
+            "description": "$~typisiere eine Menge von $type[$type|beliebig]",
             "emotion": "$?",
             "doc": [
                 "$~@Set ist das BESTE, also im Ernst. Ich sage @Bind ständig, mach aus den Dingen ein Set von irgendetwas!",
@@ -1576,7 +1576,7 @@
         },
         "StructureType": {
             "name": "$~Struktur",
-            "description": "$~stelle Struktur $1 dar",
+            "description": "$~stelle Struktur $name dar",
             "emotion": "$?",
             "doc": "$~Ich bin ein interner Typ, der den Typ der Standardwerttypen darstellt."
         },
@@ -1594,7 +1594,7 @@
         },
         "TextType": {
             "name": "$~Text",
-            "description": "$~typisiere einen $1[$1|Text]-Wert",
+            "description": "$~typisiere einen $text[$text|Text]-Wert",
             "emotion": "$?",
             "doc": [
                 "$~Ich vertrete auf fabelhafte Weise die fabelhafteste Art von Wert, die es gibt: @Text.",
@@ -1609,7 +1609,7 @@
         },
         "UnionType": {
             "name": "$~Möglichkeit",
-            "description": "$~typisiere entweder $1 oder $2",
+            "description": "$~typisiere entweder $first oder $second",
             "emotion": "$?",
             "doc": [
                 "$~Wen soll ich repräsentieren, A oder B oder etwas anderes? Ich kann mich nie entscheiden!",
@@ -1618,7 +1618,7 @@
         },
         "Unit": {
             "name": "$~Einheit",
-            "description": "$~gib Einheit $1 an",
+            "description": "$~gib Einheit $unit an",
             "emotion": "$?",
             "doc": [
                 "$~Ich stelle jede Einheit dar, die eine @Number haben könnte, einschließlich keiner Einheit, bis hin zur kompliziertesten Einheit, die man sich vorstellen kann. Wie zum Beispiel die Schwerkraft:",
@@ -1653,7 +1653,7 @@
         },
         "NotAType": {
             "name": "$~unerwartet",
-            "description": "$~markiere $1 als ungültigen Typ",
+            "description": "$~markiere $type als ungültigen Typ",
             "emotion": "$?",
             "doc": "$~Manchmal wissen wir, welchen Wert etwas haben sollte. Beispielsweise benötigt @ListAccess eine @Number. Wenn wir diese nicht erhalten, gehe ich davon aus, dass etwas einen anderen Typ hat als den erwarteten."
         },
@@ -1677,13 +1677,13 @@
         },
         "UnknownNameType": {
             "name": "$~unbekannterName",
-            "description": "$~$1[$1 ist noch nicht definiert|der Name ist nicht angegeben]",
+            "description": "$~$name [ $name ist noch nicht definiert|der Name wurde nicht angegeben]",
             "emotion": "$?",
             "doc": "$~Wissen Sie, dass @Reference und @PropertyReference manchmal den Namen nicht kennen, von dem Sie sprechen? Ich bin in solchen Fällen dabei, um zu zeigen, dass wir nicht wissen, von wem Sie sprechen."
         },
         "NonFunctionType": {
             "name": "$~Nichtfunktion",
-            "description": "$~markiere $1 als Nicht-Funktion",
+            "description": "$~markiere $type als Nicht-Funktion",
             "emotion": "$?",
             "doc": "$~Einige von uns haben mit Funktionen gerechnet; ich tauche auf, wenn wir keine bekommen."
         },
@@ -1707,7 +1707,7 @@
         },
         "StructureDefinitionType": {
             "name": "$~Strukturdefinition",
-            "description": "$1",
+            "description": "$name",
             "emotion": "$?",
             "doc": [
                 "$~Ich beziehe mich auf eine Art @StructureDefinition. Normalerweise beziehen sich die Leute nicht direkt auf mich"
@@ -3660,7 +3660,7 @@
                 "doc": "$~Die Schwerkraft, die auf die Ausgabe angewendet werden soll, deren Platz in @Motion ist.",
                 "names": "$~Schwere"
             },
-            "defaultDescription": "$~Stufe $2[$2 |]von $1 gibt $3 aus[mit Rahmen $3|] $4"
+            "defaultDescription": "$~Stufe $name[$name |]von $count gibt $frame aus[mit Rahmen $frame|] $pose"
         },
         "Group": {
             "names": ["$~🔳", "$~Gruppe"],
@@ -3766,7 +3766,7 @@
                 "doc": "$~Dasselbe wie @Phrase/style!",
                 "names": "$~Stil"
             },
-            "defaultDescription": "$~$1[$1|] $2 $3"
+            "defaultDescription": "$~$name[$name|] $layout $pose"
         },
         "Phrase": {
             "names": ["💬", "Satzglied"],
@@ -3885,7 +3885,7 @@
                 "doc": "$~Der zu verwendende Animationsstil beim Wechsel an eine andere Stelle auf der Bühne.",
                 "names": "$~Stil"
             },
-            "defaultDescription": "$~$3[$3 Takt |]Phrase $1 $2[benannt $2|] $4[$4|] $5"
+            "defaultDescription": "$~$size[$size Takt |]Phrase $text $name[benannt $name|] $face[$face|] $animation"
         },
         "Arrangement": {
             "names": ["Arrangement"],
@@ -3894,7 +3894,7 @@
         "Row": {
             "names": ["Fila"],
             "doc": "$~Ich bin @Row, eine horizontale @Arrangement von @Output, mit optionaler Polsterung dazwischen. Kennen Sie meinen Zwilling @Stack?",
-            "description": "$~Reihe von $1-Phrasen und Gruppen",
+            "description": "$~Reihe von $count und Gruppen",
             "alignment": {
                 "doc": "$~Ob der Text in jeder Spalte am Anfang, in der Mitte oder am Ende ausgerichtet werden soll.",
                 "names": "$~Ausrichtung"
@@ -3907,7 +3907,7 @@
         "Stack": {
             "names": ["$~⬇", "$~Stapel"],
             "doc": "$~Ich bin @Stack, eine vertikale @Arrangement von @Output, mit optionaler Polsterung dazwischen. Kennen Sie meinen Zwilling @Row?",
-            "description": "$~Stapel von 1-Dollar-Phrasen und Gruppen",
+            "description": "$~Stapel von $count Phrasen und Gruppen",
             "padding": {
                 "doc": "$~Die Menge an Polsterung, die zwischen den Ausgaben eingefügt werden soll.",
                 "names": "$~Polsterung"
@@ -3920,7 +3920,7 @@
         "Grid": {
             "names": ["$~▦", "$~Netz"],
             "doc": "$~Ich bin das Raster von @Output. Geben Sie mir die Zeilen- und Spaltenanzahl und ich erstelle eine übersichtliche Anordnung mit optionaler Polsterung und Zellengrößen.",
-            "description": "$~$1 Zeile $2 Spaltenraster",
+            "description": "$~$rows Zeile $columns Spaltenraster",
             "rows": {
                 "doc": "$~Wie viele Zeilen sollen im Raster erstellt werden?",
                 "names": "$~Reihen"
@@ -3948,7 +3948,7 @@
                 "$~Ich sage: Egal. Setz dich, wo du willst. Setz dich einfach irgendwo hin! Achte darauf, dass alle @Output, die du mir gibst, einen @Place haben, sonst wissen sie nicht, wohin sie gehen sollen.",
                 "$~Oh, und denken Sie daran, dass der @Place, den Sie jedem @Output geben, relativ zum @Place der @Group ist! Wenn Sie sich also fragen, warum Dinge nicht dort erscheinen, wo Sie es erwarten, versuchen Sie, der @Group ebenfalls einen Platz zu geben."
             ],
-            "description": "$~Freiform-Ausgaben für 1 USD"
+            "description": "$~Freiform-Ausgaben von $count"
         },
         "Shape": {
             "names": ["$~⬟", "$~Gestalt"],
@@ -4138,7 +4138,7 @@
                 "doc": "$~Ob ein @Output an der Y-Achse gespiegelt werden soll, statt der Standardeinstellung.",
                 "names": "$~flippig"
             },
-            "description": "$~$1[transparent $1|] $2[um $2 Grad gedreht|] $3[3 skaliert|] $4[horizontal gespiegelt|] $5[vertikal gespiegelt|] $6[Schatten unscharf $6 Pixel]"
+            "description": "$~$opacity[transparent $opacity|] $rotation[um $rotation Grad gedreht|] $scale[3 skaliert|] $flipx[horizontal gespiegelt|] $flipy[vertikal gespiegelt|] $blur[Schatten unscharf $blur Pixel]"
         },
         "Color": {
             "names": ["$~🌈", "$~Farbe"],
@@ -4379,7 +4379,7 @@
                 "doc": "$~Der Text, den ich laut vorlesen sollte.",
                 "names": "$~Text"
             },
-            "defaultDescription": "$~Sagen wir 1 Dollar"
+            "defaultDescription": "$~Sag $text"
         },
         "Gesture": {
             "doc": "$~Ich bin eine von der Kamera erkannte Handgeste. Meine Felder geben Auskunft darüber, wo sich die Hand auf der Bühne befindet, welche Finger ausgestreckt sind und ob die Handfläche oder der Handrücken zur Kamera zeigt. @Hand liefert ein Ergebnis von mir.",
@@ -4620,12 +4620,7 @@
         "source": {
             "label": "$~Programmeditor",
             "empty": [
-                "$~Lass uns anfangen! Du kannst …",
-                "$~• Öffnen 📕 und ziehen 🖱️ Sie uns zu diesem Programm.",
-                "$~• Geben Sie $1 ein und wählen Sie uns aus dem Menü.",
-                "$~• Schreiben Sie uns mit ⌨️.",
-                "$~• Durchsuchen Sie die <galleries@://galleries> zur Inspiration.",
-                "$~Wenn Sie nicht weiterkommen, <erfahren Sie mehr@://erfahren Sie>."
+                "$~• Geben Sie $symbol ein und wählen Sie uns aus dem Menü aus."
             ],
             "overwritten": "$~Habe eine aktuellere Version erhalten!",
             "confirm": {
@@ -4682,7 +4677,7 @@
                 "selectAll": "$~Programm auswählen",
                 "incrementLiteral": "$~Erhöhen Sie die Zahl, den Text oder den Boolean-Wert",
                 "decrementLiteral": "$~Verringern Sie die Zahl, den Text oder den Booleschen Wert",
-                "insertSymbol": "$~füge $1 ein",
+                "insertSymbol": "$~füge $symbol ein",
                 "insertTab": "$~Registerkarte einfügen",
                 "insertTrue": "$~Füge „true“ ein",
                 "insertFalse": "$~false einfügen",
@@ -4759,8 +4754,8 @@
         },
         "annotations": {
             "label": "$~Konflikte und Hilfe",
-            "cursor": "$~Dies ist *$1*$2[ und sie sind vom Typ $2|]. $3[ Sie befinden sich innerhalb einer *$3*.|]",
-            "cursorParent": "$~Sie befinden sich innerhalb eines *$1*$2[ vom Typ $2|].",
+            "cursor": "$~Dies ist *$node*$type[ und sie sind vom Typ $type|]. $description[ Sie befinden sich innerhalb einer *$description*.|]",
+            "cursorParent": "$~Sie befinden sich innerhalb eines *$node*$type[ vom Typ $type|].",
             "learn": "$~/Erfahren Sie mehr/",
             "evaluating": "$~Oh Spaß, lass es uns auswerten!",
             "space": "$~Das ist Weltraum! Wer hätte gedacht, dass nichts so viel aussagen kann?",
@@ -4769,7 +4764,7 @@
                 "toggle": "$~Anmerkungen ein- und ausblenden",
                 "highlight": "$~diesen Code im Editor anzeigen"
             },
-            "nodeDescription": "$~Sie kosteten 1 Dollar."
+            "nodeDescription": "$~Sie $description."
         },
         "output": {
             "label": "$~Programmausgabe",
@@ -4855,7 +4850,7 @@
         },
         "docs": {
             "label": "$~Dokumentationsbrowser",
-            "link": "$~Konzept $1 in der Dokumentation anzeigen",
+            "link": "$~Konzept $name in der Dokumentation anzeigen",
             "learn": "$~Lern mehr …",
             "nodoc": "$~Wer bin ich? Was bin ich? Was ist mein Ziel?",
             "button": {
@@ -5350,11 +5345,11 @@
                     "tip": "$~Alle Benachrichtigungen löschen"
                 },
                 "notification": {
-                    "howToHeader": "$~Eine neue Anleitung mit dem Titel „$1“ wurde veröffentlicht.",
-                    "projectChatHeader": "$~Neue Nachricht im Projekt \"$1\"",
-                    "howToChatHeader": "$~Neue Nachricht in der Anleitung „$1“",
+                    "howToHeader": "$~Eine neue Anleitung mit dem Titel „$title wurde veröffentlicht.",
+                    "projectChatHeader": "$~Neue Nachricht im Projekt \"$name\"",
+                    "howToChatHeader": "$~Neue Nachricht in der Anleitung „$title",
                     "link": "$~Details",
-                    "moderationHeader": "$~Nachricht im Format \"$1\" erfordert Moderationsmaßnahmen"
+                    "moderationHeader": "$~Nachricht im Format \"$name\" erfordert Moderationsmaßnahmen"
                 },
                 "delete": "$~Diese Benachrichtigung löschen",
                 "popup": "$~neue Benachrichtigung"
@@ -6059,8 +6054,8 @@
                     "untitledproject": "$~Unbenanntes Projekt"
                 },
                 "announce": {
-                    "position": "$~bei $1 $2",
-                    "selection": "$~$1[ausgewählt $1|nichts ausgewählt]"
+                    "position": "$~bei $x $y",
+                    "selection": "$~$shapes[ausgewählt $shapes|nichts ausgewählt]"
                 },
                 "share": {
                     "dialog": {
@@ -6145,7 +6140,7 @@
             },
             "thanks": {
                 "header": "$~Danke",
-                "intro": "$~Vielen Dank an unsere *$1* Mitwirkenden für ihren Beitrag zu Design, Entwicklung, Lokalisierung und Inhalten von Wordplay! Ein besonderer Dank gilt auch den vielen Lehrkräften und Jugendlichen, die uns in Fokusgruppen, Design-Workshops und im Unterricht unterstützt haben. Aus Gründen des Datenschutzes verzichten wir hier auf die Nennung ihrer Namen.\n\nDieses Projekt wurde gefördert von der National Science Foundation (Fördernummern 2318257, 2031265, 2100296 und 2122950), der University of Washington sowie durch großzügige Spenden an <gifts//donate> von Menschen wie Ihnen.",
+                "intro": "$~Vielen Dank an unsere *$count* Mitwirkenden für ihren Beitrag zu Design, Entwicklung, Lokalisierung und Inhalten von Wordplay! Ein besonderer Dank gilt auch den vielen Lehrkräften und Jugendlichen, die uns in Fokusgruppen, Design-Workshops und im Unterricht unterstützt haben. Aus Gründen des Datenschutzes verzichten wir hier auf die Nennung ihrer Namen.\n\nDieses Projekt wurde gefördert von der National Science Foundation (Fördernummern 2318257, 2031265, 2100296 und 2122950), der University of Washington sowie durch großzügige Spenden an <gifts//donate> von Menschen wie Ihnen.",
                 "teachers": "$~Lehrer",
                 "contributors": "$~Mitwirkende"
             },
@@ -6234,29 +6229,29 @@
                 },
                 "singletonWordsWarning": "$~Einige Wörter in Ihrem Entwurf kommen im gesamten Text nur einmal vor. Sind Sie sicher, dass sie korrekt geschrieben sind und mit dem übrigen Text übereinstimmen?",
                 "viewPR": "$~Pull-Anfrage ansehen",
-                "oneLocaleNote": "$~Jeder Beitrag bezieht sich jeweils auf eine Sprache. Diese Bearbeitungen werden als Änderungen an $1 übermittelt. Wenn Sie zu einer anderen Sprache beitragen möchten, wechseln Sie zuerst die Sprache; die unter jeder Sprache gespeicherten Änderungen werden separat aufbewahrt."
+                "oneLocaleNote": "$~Jeder Beitrag bezieht sich jeweils auf eine Sprache. Diese Bearbeitungen werden als Änderungen an $locale übermittelt. Wenn Sie zu einer anderen Sprache beitragen möchten, wechseln Sie zuerst die Sprache; die unter jeder Sprache gespeicherten Änderungen werden separat aufbewahrt."
             }
         },
         "edit": {
-            "node": "$~$1$2[, Typ $2|]",
-            "before": "$~vor $1[$1|Ende]",
-            "inside": "$~in $1, zwischen $2[$2|Start] und $3[$3|Ende]",
-            "between": "$~zwischen $1 und $2",
-            "line": "$~leere Zeile zwischen $1[$1|Start] und $2[$2|Ende]",
-            "conflicts": "$~$1 Konflikte",
-            "assign": "$~/$2[Möchte gern mitmachen|Erwägt, auszusteigen]…/",
+            "node": "$~$node$type[, Typ $type|]",
+            "before": "$~vor $after[$after|Ende]",
+            "inside": "$~in $token, zwischen $before[$before|Start] und $after[$after|Ende]",
+            "between": "$~zwischen $before und $after",
+            "line": "$~leere Zeile zwischen $before[$before|Start] und $after[$after|Ende]",
+            "conflicts": "$~$count Konflikte",
+            "assign": "$~/$name[Möchte gern mitmachen|Erwägt, auszusteigen]…/",
             "append": "$~/Begierig, einzufügen…/",
             "remove": "$~/Erwägt, zu gehen…/",
             "replace": "$~/Will eingreifen…/",
             "wrap": "$~Elternheizung",
             "unwrap": "$~auspacken",
             "bind": "$~Nennen Sie diesen Ausdruck",
-            "range": "$~Auswahl von $1 bis $2",
+            "range": "$~Auswahl von $start bis $end",
             "area": "$~Typenschlüssel"
         },
         "template": {
             "unwritten": "$~Wird noch bekannt gegeben",
-            "unparsable": "$~Nicht analysierbare Vorlage: $1",
+            "unparsable": "$~Nicht analysierbare Vorlage: $template",
             "machineTranslated": "$~Dies wurde maschinell übersetzt, daher ist der Text möglicherweise nicht lesbar oder korrekt.",
             "locallyRevised": "$~Dieser Text wurde lokal überarbeitet und weicht von der offiziellen Übersetzung ab."
         },
@@ -6340,7 +6335,7 @@
                 "now": "$~Jetzt",
                 "history": "$~Versionen",
                 "restore": "$~Dies ist eine frühere Version dieses Projekts.",
-                "ago": "$~$1 $2 vor"
+                "ago": "$~$amount $unit vor"
             },
             "button": {
                 "clear": "$~Verlauf löschen",
@@ -6355,7 +6350,7 @@
         "howto": {
             "galleryView": {
                 "header": "$~Anleitungen",
-                "subheader": "$~Anleitungen für 1 $, neue Artikel für 2 $",
+                "subheader": "$~$total der Anleitungen, $new Artikel",
                 "subheaderEmpty": "$~Erschaffe den ersten!",
                 "prompt": "$~Anleitungen sind kurze Erklärungen und Beispielcodes, die zeigen, wie man etwas mit Wordplay macht. Wenn du herausgefunden hast, wie etwas funktioniert, das du teilen möchtest, schreibe eine Anleitung für die anderen Entwickler in dieser Galerie, damit auch sie es lernen können!"
             },
@@ -6482,7 +6477,7 @@
                 "usedBy": {
                     "prompt": "$~Hast du diese oder eine andere Anleitung in deinem Projekt verwendet? Teile es anderen mit, indem du dein Projekt zur Liste hinzufügst!",
                     "empty": "$~Du hast noch keine Projekte oder andere veröffentlichte Anleitungen. Erstelle doch einfach eins!",
-                    "countDisplay": "$~Andere Wordplay-Regisseure haben dies in anderen 1-Dollar-Projekten oder Anleitungen verwendet.",
+                    "countDisplay": "$~Andere Wordplay-Regisseure haben dies in anderen Projekten oder $count verwendet.",
                     "selector": "$~Projekt- und Anleitungsauswahl",
                     "removeButton": "$~Projekt oder Anleitung aus der Liste entfernen",
                     "addButton": "$~Projekt oder Anleitung hinzufügen"
@@ -6558,9 +6553,9 @@
                 }
             },
             "announce": {
-                "howToPosition": "$~Anleitung mit dem Titel „1 Dollar wurde auf 2 Dollar und 3 Dollar erhöht“",
-                "canvasPosition": "$~Canvas wurde auf 1 $, 2 $ verschoben",
-                "moveActivated": "$~Bewegung aktiviert. 1 $ kann mit Maus, Tastatur oder Touchscreen bewegt werden.",
+                "howToPosition": "$~Die Anleitung mit dem Titel „$title wurde nach „$x $y verschoben.",
+                "canvasPosition": "$~Canvas wurde zu $x, $y verschoben",
+                "moveActivated": "$~Bewegung aktiviert. $target kann mit Maus, Tastatur oder Touchscreen bewegt werden.",
                 "moveDeactivated": "$~Bewegungssteuerung deaktiviert."
             },
             "error": {
@@ -6682,7 +6677,16 @@
             "revisedDescription": "$~Diese Änderungen wurden lokal gespeichert und noch nicht zur Überprüfung eingereicht.",
             "submitRevisions": "$~Überarbeitungen einreichen",
             "submitted": "$~Vielen Dank! Ihr überarbeiteter Text wird geprüft und gegebenenfalls bald veröffentlicht.",
-            "invalidConceptLinks": "$~Diese Konzeptlinks funktionieren in der aktuellen Sprache nicht. Haben Sie einen davon falsch geschrieben oder absichtlich entfernt?"
+            "invalidConceptLinks": "$~Diese Konzeptlinks funktionieren in der aktuellen Sprache nicht. Haben Sie einen davon falsch geschrieben oder absichtlich entfernt?",
+            "inputs": {
+                "header": "$~Eingaben, die diese Vorlage akzeptiert",
+                "usedTip": "$~Klicken Sie, um an der Cursorposition eine weitere Referenz einzufügen.",
+                "unusedTip": "$~Klicken Sie, um diese Referenz an der Cursorposition einzufügen.",
+                "missing": "$~Fehlende Eingaben:",
+                "legacy": "$~Ersetzen Sie diese alten Positionsreferenzen durch benannte Referenzen:",
+                "submitBlocked": "$~Überprüfen Sie alle Eingaben vor dem Absenden.",
+                "unknown": "$~Diese Referenzen stimmen weder mit einer deklarierten Eingabe noch mit einer definierten Terminologie überein, daher können sie nicht ersetzt werden:"
+            }
         },
         "tour": {
             "label": "$~Tour",
@@ -6715,7 +6719,7 @@
             "disclosure": "$~Private Informationen über andere Personen preisgeben, wie etwa Namen, Kontaktdaten oder Postanschriften",
             "misinformation": "$~Falsche, irreführende, täuschende oder manipulative Informationen enthalten"
         },
-        "progress": "$~*$1* moderiert, *$2* verbleibend",
+        "progress": "$~*$moderated* moderiert, *$remaining* verbleibend",
         "button": {
             "submit": {
                 "tip": "$~Diese Moderationseinstellungen speichern",

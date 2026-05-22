@@ -23,7 +23,9 @@ export class DuplicateShare extends Conflict {
             explanation: (locales: Locales, context: Context) =>
                 locales.concretize(
                     (l) => DuplicateShare.LocalePath(l).explanation,
-                    new NodeRef(this.other, locales, context),
+                    {
+                        duplicate: new NodeRef(this.other, locales, context),
+                    },
                 ),
         };
     }

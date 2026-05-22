@@ -9,7 +9,9 @@
     import Checkbox from '@components/widgets/Checkbox.svelte';
     import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
     import FormattedEditor from '@components/widgets/FormattedEditor.svelte';
+    import TemplateInputsPanel from '@components/localization/TemplateInputsPanel.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
+    import { checkTemplateInputs } from '@locale/templateInputs';
     import Mode from '@components/widgets/Mode.svelte';
     import Note from '@components/widgets/Note.svelte';
     import Options, {
@@ -392,6 +394,12 @@
 
     let selectedPath = $state<string | undefined>(undefined);
 
+    /** The underlying input/textarea of the currently shown editor, bound
+     *  separately per editor type because `bind:view` is invariant. The
+     *  template-inputs panel reads whichever is currently rendered. */
+    let textInputView = $state<HTMLInputElement | undefined>(undefined);
+    let textAreaView = $state<HTMLTextAreaElement | undefined>(undefined);
+
     // Drop the selection if filter changes push it out of the visible list, so
     // the editor doesn't keep targeting an orphaned entry the contributor can't
     // see in the dropdown.
@@ -410,6 +418,25 @@
         selectedPath !== undefined ? getDescription(selectedPath) : undefined,
     );
     const editorType = $derived(getEditorType(selectedDescription));
+
+    /** Which underlying editor element to feed to the TemplateInputsPanel. */
+    const editorView = $derived<
+        HTMLInputElement | HTMLTextAreaElement | undefined
+    >(editorType === 'formatted' ? textAreaView : textInputView);
+
+    /** True if every declared input is referenced, no legacy `$N` refs
+     *  remain, and no unknown `$name` typos exist. Non-templated fields
+     *  are always clean. */
+    const templateInputsClean = $derived.by(() => {
+        if (selectedPath === undefined) return true;
+        const check = checkTemplateInputs(selectedPath, editedText);
+        if (check === undefined) return true;
+        return (
+            check.unused.length === 0 &&
+            check.numeric.length === 0 &&
+            check.unknown.length === 0
+        );
+    });
 
     /** Tuple index explicitly set by the contributor (via tuple-nav or a deep-link
      *  from the bundle viewer). When undefined, `selectedIndex` derives a default
@@ -894,6 +921,7 @@
                             l.ui.localize.field.plain.placeholder}
                         noTipBadge
                         bind:text={editedText}
+                        bind:view={textInputView}
                         fill
                     />
                 {:else if editorType === 'formatted'}
@@ -904,6 +932,7 @@
                         placeholder={(l) =>
                             l.ui.localize.field.formatted.placeholder}
                         bind:text={editedText}
+                        bind:view={textAreaView}
                     />
                 {:else if editorType === 'name'}
                     <TextField
@@ -918,6 +947,7 @@
                                 : (l) => l.ui.localize.invalidName}
                         noTipBadge
                         bind:text={editedText}
+                        bind:view={textInputView}
                         fill
                     />
                 {:else if editorType === 'emotion'}
@@ -930,6 +960,14 @@
                         }}
                     />
                 {/if}
+                <TemplateInputsPanel
+                    path={selectedPath}
+                    text={editedText}
+                    view={editorView}
+                    oninsert={(next) => {
+                        editedText = next;
+                    }}
+                />
                 {#if currentEnglishText !== ''}
                     <div class="english-reference">
                         <h3>
@@ -953,9 +991,12 @@
                 {/if}
                 <div class="editor-actions">
                     <Button
-                        tip={(l) => l.ui.localize.button.submit}
-                        active={editedText !==
-                            (currentOverride ?? currentSourceText)}
+                        tip={templateInputsClean
+                            ? (l) => l.ui.localize.button.submit
+                            : (l) => l.ui.localize.inputs.submitBlocked}
+                        active={templateInputsClean &&
+                            editedText !==
+                                (currentOverride ?? currentSourceText)}
                         action={saveEdit}
                         background>{CONFIRM_SYMBOL}</Button
                     >
@@ -990,7 +1031,7 @@
             <MarkupHTMLView
                 markup={[
                     (l) => l.ui.page.localize.oneLocaleNote,
-                    activeLocaleString,
+                    { locale: activeLocaleString },
                 ]}
             />
 

@@ -175,7 +175,9 @@ export default class This extends SimpleExpression {
     ) {
         return locales.concretize(
             (l) => l.node.This.start,
-            this.getValueIfDefined(locales, context, evaluator),
+            {
+                value: this.getValueIfDefined(locales, context, evaluator),
+            },
         );
     }
 

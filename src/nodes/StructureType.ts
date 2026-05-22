@@ -166,7 +166,9 @@ export default class StructureType extends BasisType {
     }
 
     getDescriptionInputs(locales: Locales) {
-        return [locales.getName(this.definition.names)];
+        return {
+            name: locales.getName(this.definition.names),
+        };
     }
 
     getDefaultExpression(context: Context): Expression | undefined {

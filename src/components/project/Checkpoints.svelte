@@ -124,8 +124,7 @@
                         inline
                         markup={[
                             (l) => l.ui.checkpoints.label.ago,
-                            duration.number,
-                            duration.unit,
+                            { amount: duration.number, unit: duration.unit },
                         ]}
                     /></span
                 >

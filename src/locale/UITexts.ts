@@ -1,6 +1,6 @@
 import type { SupportedFace } from '@basis/Fonts';
 import type { TileKind } from '@components/project/TileKind';
-import type { DocText, FormattedText } from '@locale/LocaleText';
+import type { FormattedText, Template } from '@locale/LocaleText';
 
 import type DocumentationText from '@components/concepts/DocumentationText';
 import type CheckpointsText from '@components/project/CheckpointsText';
@@ -275,7 +275,7 @@ type UITexts = {
         /** [plain] The label for the code editor toolbar */
         title: string;
         /** The text to show when a source file is empty */
-        empty: DocText;
+        empty: Template<['symbol']>[];
         /** [plain] When some other device had a more recent edit that overrode this device's version. */
         overwritten: string;
         confirm: {
@@ -363,7 +363,7 @@ type UITexts = {
             /** [plain] Decrement the literal at the cursor */
             decrementLiteral: string;
             /** [plain] Insert selected symbol */
-            insertSymbol: string;
+            insertSymbol: Template<['symbol']>;
             /** [plain] Insert tab symbol */
             insertTab: string;
             /** [plain] Insert true symbol */
@@ -489,9 +489,9 @@ type UITexts = {
         /** [plain] The ARIA label for the conflicts section in the editor. */
         label: string;
         /** [formatted] The description of the cursor position */
-        cursor: FormattedText;
+        cursor: Template<['node', 'type', 'description']>;
         /** [formatted] The description fo the cursor position's parent */
-        cursorParent: FormattedText;
+        cursorParent: Template<['node', 'type']>;
         /** [formatted] The prompt to line more about the cursor node */
         learn: FormattedText;
         /** [formatted] What function should say when evaluating */
@@ -499,7 +499,7 @@ type UITexts = {
         /** [formatted] What function should say when the cursor is in space */
         space: FormattedText;
         /** [formatted] The description of what the selected node does. $1: the node description. */
-        nodeDescription: FormattedText;
+        nodeDescription: Template<['description']>;
         button: {
             /** [formatted] How the resolution button should should be described */
             resolution: FormattedText;
@@ -977,13 +977,13 @@ type UITexts = {
             /** Templates for the title of each notification kind */
             notification: {
                 /** [plain] Title for a new how-to notification, with $1 as the how-to title */
-                howToHeader: string;
+                howToHeader: Template<['title']>;
                 /** [plain] Title for a new project chat message notification, with $1 as the project name */
-                projectChatHeader: string;
+                projectChatHeader: Template<['name']>;
                 /** [plain] Title for a new how-to chat message notification, with $1 as the how-to title */
-                howToChatHeader: string;
+                howToChatHeader: Template<['title']>;
                 /** [plain] Title for a moderation-required notification, with $1 as the project name */
-                moderationHeader: string;
+                moderationHeader: Template<['name']>;
                 /** [plain] Link label to view notification details */
                 link: string;
             };
@@ -1149,6 +1149,26 @@ type UITexts = {
             /** The description and placeholder of the localization string filter. */
             filter: FieldText;
         };
+        /** Template-input panel shown below the editor when the active field
+         *  is typed as `Template<Names>`. */
+        inputs: {
+            /** [plain] Subheader above the row of input chips */
+            header: string;
+            /** [plain] Tooltip shown on a chip when the draft references the input */
+            usedTip: string;
+            /** [plain] Tooltip shown on a chip when the draft doesn't yet reference the input */
+            unusedTip: string;
+            /** [plain] Prose preceding the list of inputs the draft is missing */
+            missing: string;
+            /** [plain] Prose preceding the list of bare `$N` legacy refs in the draft */
+            legacy: string;
+            /** [plain] Prose preceding the list of `$name` refs that aren't
+             *  declared inputs and aren't terminology keys (typos / made-up
+             *  names that won't substitute at render time) */
+            unknown: string;
+            /** [plain] Tooltip on the disabled Submit button when inputs are missing */
+            submitBlocked: string;
+        };
         /** [plain] The ARIA label for the dropdown that lists all locale strings available to review and edit */
         strings: string;
         /** [plain] The ARIA label for the emotion dropdown */
@@ -1209,7 +1229,7 @@ type UITexts = {
         /** [plain] The placeholder indicating that a locale string is not yet written */
         unwritten: string;
         /** [plain] The placeholder string indicating that a template string could not be parsed */
-        unparsable: string;
+        unparsable: Template<['template']>;
         /** [plain] The tooltip for the machine-translated annotation */
         machineTranslated: string;
         /** [plain] The tooltip for the locally-revised annotation */

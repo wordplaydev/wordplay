@@ -1,7 +1,5 @@
 import type LocaleText from '@locale/LocaleText';
-import NodeRef from '@locale/NodeRef';
 import type Bind from '@nodes/Bind';
-import type Context from '@nodes/Context';
 import type Locales from '@locale/Locales';
 import type TableType from '@nodes/TableType';
 import Conflict from '@conflicts/Conflict';
@@ -22,10 +20,9 @@ export default class ExpectedColumnType extends Conflict {
     getMessage() {
         return {
             node: this.table,
-            explanation: (locales: Locales, context: Context) =>
+            explanation: (locales: Locales) =>
                 locales.concretize(
                     (l) => ExpectedColumnType.LocalePath(l).explanation,
-                    new NodeRef(this.column, locales, context),
                 ),
         };
     }

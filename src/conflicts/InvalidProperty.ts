@@ -26,11 +26,13 @@ export default class InvalidProperty extends Conflict {
             explanation: (locales: Locales, context: Context) =>
                 locales.concretize(
                     (l) => InvalidProperty.LocalePath(l).explanation,
-                    new NodeRef(
+                    {
+                        structure: new NodeRef(
                         this.refine.reference.name ?? this.refine.reference,
                         locales,
                         context,
                     ),
+                    },
                 ),
         };
     }

@@ -1,4 +1,4 @@
-import type { FormattedText, NameAndDoc, NameText } from '@locale/LocaleText';
+import type { NameAndDoc, NameText, Template } from '@locale/LocaleText';
 import type { ExceptionText } from '@locale/NodeTexts';
 
 export type TypeTexts = {
@@ -55,8 +55,8 @@ type OutputTexts = {
         layout: NameAndDoc;
         /** The matter to use for the group if it's involved in collisions */
         matter: NameAndDoc;
-        /** [formatted] $1 = Layout description, $2 = pose description */
-        defaultDescription: FormattedText;
+        /** [formatted] $1 = optional group name, $2 = layout description, $3 = pose description */
+        defaultDescription: Template<['name', 'layout', 'pose']>;
     } & TypeTexts;
     /** A shadow */
     Aura: NameAndDoc & {
@@ -83,13 +83,15 @@ type OutputTexts = {
         matter: NameAndDoc;
         /** The shadow properties for the phrase */
         aura: NameAndDoc;
-        /** [formatted] A description of the phrase for screen readers. 1$: non-optional text, $2: optional name, $3: optional size, $4: optional font, $5: then non-optional pose */
-        defaultDescription: FormattedText;
+        /** [formatted] A description of the phrase for screen readers. $1: non-optional text, $2: optional name, $3: optional size, $4: optional font, $5: then non-optional pose */
+        defaultDescription: Template<
+            ['text', 'name', 'size', 'face', 'animation']
+        >;
     } & TypeTexts;
     /** The whole stage view and settings to control its appearance */
     Stage: NameAndDoc & {
-        /** [formatted] A description of the stage for screen readers. $1: total outputs, $2: total phrases, $3: total groups, $4: pose */
-        defaultDescription: FormattedText;
+        /** [formatted] A description of the stage for screen readers. $1: output count, $2: optional stage name, $3: optional frame description, $4: pose description */
+        defaultDescription: Template<['count', 'name', 'frame', 'pose']>;
         /** A list of content to show on stage */
         content: NameAndDoc;
         /** The shape of the frame to clip stage content */
@@ -142,7 +144,7 @@ type OutputTexts = {
         /** The text to speak */
         text: NameAndDoc;
         /** [formatted] A description of the say for screen readers. $1: the text to speak */
-        defaultDescription: FormattedText;
+        defaultDescription: Template<['text']>;
     };
     /** The base form type */
     Form: NameAndDoc;
@@ -193,8 +195,10 @@ type OutputTexts = {
         scale: NameAndDoc;
         flipx: NameAndDoc;
         flipy: NameAndDoc;
-        /** [formatted] Templated description of the pose */
-        description: FormattedText;
+        /** [formatted] Templated description of the pose. $1: optional opacity, $2: optional rotation degrees, $3: optional scale, $4: optional flipx, $5: optional flipy, $6: optional blur */
+        description: Template<
+            ['opacity', 'rotation', 'scale', 'flipx', 'flipy', 'blur']
+        >;
     };
     /** A sequence of poses, keyed by percentage complete, for use in overriding an output's defaults for entering, resting, moving, or existing states */
     Sequence: NameAndDoc & {
@@ -281,10 +285,8 @@ type OutputTexts = {
         /**
          * [formatted] A description of the row for screen readers.
          * $1: total count
-         * $2: phrase count
-         * $3: group count
          */
-        description: FormattedText;
+        description: Template<['count']>;
         /** Whether to align content vertically at the start, center, or end of the vertical axis */
         alignment: NameAndDoc;
         /** How much padding to place between content */
@@ -295,10 +297,8 @@ type OutputTexts = {
         /**
          * [formatted] A description of the stack for screen readers.
          * $1: total count
-         * $2: phrase count
-         * $3: group count
          */
-        description: FormattedText;
+        description: Template<['count']>;
         /** Whether to align content at the start, center, or end of the horizontal axis */
         alignment: NameAndDoc;
         /** How much padding to place between content */
@@ -311,7 +311,7 @@ type OutputTexts = {
          * $1: rows
          * $2: columns
          */
-        description: FormattedText;
+        description: Template<['rows', 'columns']>;
         /** How many rows in the grid */
         rows: NameAndDoc;
         /** How many columns in the grid */
@@ -329,7 +329,7 @@ type OutputTexts = {
          * [formatted] A description of the free layout for screen readers.
          * $1: output count
          */
-        description: FormattedText;
+        description: Template<['count']>;
     };
     /** Localized descriptions of transition styles */
     Easing: {

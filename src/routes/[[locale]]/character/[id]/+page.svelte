@@ -375,21 +375,21 @@
                     $locales.getLanguages()[0],
                     $locales
                         .concretize(
-                            $locales.getPlainText(
-                                (l) => l.ui.page.character.announce.selection,
-                            ),
-                            selection.length === 0
-                                ? undefined
-                                : selection
-                                      .map((s) =>
-                                          $locales.getPlainText(
-                                              (l) =>
-                                                  l.ui.page.character.shape[
-                                                      s.type
-                                                  ],
-                                          ),
-                                      )
-                                      .join(', '),
+                            (l) => l.ui.page.character.announce.selection,
+                            {
+                                shapes:
+                                    selection.length === 0
+                                        ? undefined
+                                        : selection
+                                              .map((s) =>
+                                                  $locales.getPlainText(
+                                                      (l) =>
+                                                          l.ui.page.character
+                                                              .shape[s.type],
+                                                  ),
+                                              )
+                                              .join(', '),
+                            },
                         )
                         .toText(),
                 );
@@ -672,11 +672,11 @@
                     $locales.getLanguages()[0],
                     $locales
                         .concretize(
-                            $locales.getPlainText(
-                                (l) => l.ui.page.character.announce.position,
-                            ),
-                            drawingCursorPosition.x,
-                            drawingCursorPosition.y,
+                            (l) => l.ui.page.character.announce.position,
+                            {
+                                x: drawingCursorPosition.x,
+                                y: drawingCursorPosition.y,
+                            },
                         )
                         .toText(),
                 );

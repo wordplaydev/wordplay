@@ -30,6 +30,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - We fixed the debugger so you can now step through anonymous functions and see each step as you go, instead of getting a confusing missing value error (#680).
 - We fixed a false conflict that appeared on anonymous functions in expressions like `[1 2 3 4].translate(ƒ(a) a + 1)`, even when the code was fine.
 - We fixed the conflict underlines so they follow the code when values pop in next to expressions while stepping through the debugger.
+- We fixed several localization problems in machine translated locales (#122).
 
 ## 0.18.0 - 2026-05-15
 

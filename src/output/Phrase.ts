@@ -378,11 +378,13 @@ export default class Phrase extends Output {
             this._description = locales
                 .concretize(
                     (l) => l.output.Phrase.defaultDescription,
-                    text,
-                    this.name instanceof TextLang ? this.name.text : undefined,
-                    this.size,
-                    this.face,
-                    animationDescription,
+                    {
+                        text: text,
+                        name: this.name instanceof TextLang ? this.name.text : undefined,
+                        size: this.size,
+                        face: this.face,
+                        animation: animationDescription,
+                    },
                 )
                 .toText()
                 .trim();

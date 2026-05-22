@@ -278,7 +278,8 @@ export default class Borrow extends SimpleExpression {
     getStartExplanations(locales: Locales, context: Context) {
         return locales.concretize(
             (l) => l.node.Borrow.start,
-            this.source
+            {
+                source: this.source
                 ? new NodeRef(
                       this.source,
                       locales,
@@ -286,9 +287,10 @@ export default class Borrow extends SimpleExpression {
                       this.source.getName(),
                   )
                 : undefined,
-            this.name
+                name: this.name
                 ? new NodeRef(this.name, locales, context, this.name.getName())
                 : undefined,
+            },
         );
     }
 
@@ -297,6 +299,8 @@ export default class Borrow extends SimpleExpression {
     }
 
     getDescriptionInputs() {
-        return [this.name?.getName()];
+        return {
+            name: this.name?.getName(),
+        };
     }
 }

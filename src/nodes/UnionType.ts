@@ -293,8 +293,10 @@ export default class UnionType extends Type {
         const tail = last.getDescription(locales, context).toText();
         return locales.concretize(
             (l) => l.node.UnionType.description,
-            head,
-            tail,
+            {
+                first: head,
+                second: tail,
+            },
         );
     }
 

@@ -35,7 +35,9 @@ export default class UnknownInput extends Conflict {
             explanation: (locales: Locales, context: Context) =>
                 locales.concretize(
                     (l) => UnknownInput.LocalePath(l).explanation,
-                    this.func.getPreferredName(locales.getLocales()),
+                    {
+                        name: this.func.getPreferredName(locales.getLocales()),
+                    },
                 ),
         };
     }

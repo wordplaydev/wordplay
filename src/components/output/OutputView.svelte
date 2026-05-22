@@ -239,6 +239,7 @@
                         : concretize(
                               $locales,
                               $locales.getPlainText(value.getDescription()),
+                              {},
                           ).toText(),
                 ),
             );

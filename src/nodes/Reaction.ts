@@ -371,7 +371,9 @@ export default class Reaction extends Expression {
     ) {
         return locales.concretize(
             (l) => l.node.Reaction.finish,
-            this.getValueIfDefined(locales, context, evaluator),
+            {
+                value: this.getValueIfDefined(locales, context, evaluator),
+            },
         );
     }
 

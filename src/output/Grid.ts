@@ -187,8 +187,10 @@ export class Grid extends Arrangement {
         return locales
             .concretize(
                 (l) => l.output.Grid.description,
-                this.rows,
-                this.columns,
+                {
+                    rows: this.rows,
+                    columns: this.columns,
+                },
             )
             .toText();
     }

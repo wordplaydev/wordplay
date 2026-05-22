@@ -144,8 +144,10 @@
                     <MarkupHTMLView
                         markup={[
                             (l) => l.moderation.progress,
-                            moderatedCount,
-                            unmoderatedCount,
+                            {
+                                moderated: moderatedCount,
+                                remaining: unmoderatedCount,
+                            },
                         ]}
                     />
                 </div>

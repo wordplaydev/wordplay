@@ -4,7 +4,6 @@ import IncompatibleCellType from '@conflicts/IncompatibleCellType';
 import UnknownColumn from '@conflicts/UnknownColumn';
 import type { ReplaceContext } from '@edit/revision/EditContext';
 import type LocaleText from '@locale/LocaleText';
-import NodeRef from '@locale/NodeRef';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import Bind from '@nodes/Bind';
 import Evaluation from '@runtime/Evaluation';
@@ -372,22 +371,12 @@ export default class Update extends Expression {
         return Update.LocalePath;
     }
 
-    getStartExplanations(locales: Locales, context: Context) {
-        return locales.concretize(
-            (l) => l.node.Update.start,
-            new NodeRef(this.table, locales, context),
-        );
+    getStartExplanations(locales: Locales) {
+        return locales.concretize((l) => l.node.Update.start);
     }
 
-    getFinishExplanations(
-        locales: Locales,
-        context: Context,
-        evaluator: Evaluator,
-    ) {
-        return locales.concretize(
-            (l) => l.node.Update.finish,
-            this.getValueIfDefined(locales, context, evaluator),
-        );
+    getFinishExplanations(locales: Locales) {
+        return locales.concretize((l) => l.node.Update.finish);
     }
 
     getCharacter() {

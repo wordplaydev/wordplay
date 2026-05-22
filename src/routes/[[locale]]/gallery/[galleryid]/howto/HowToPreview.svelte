@@ -402,12 +402,12 @@
                     $locales.getLanguages()[0],
                     $locales
                         .concretize(
-                            $locales.getPlainText(
-                                (l) => l.ui.howto.announce.howToPosition,
-                            ),
-                            title,
-                            xcoord.toString(),
-                            ycoord.toString(),
+                            (l) => l.ui.howto.announce.howToPosition,
+                            {
+                                title,
+                                x: xcoord.toString(),
+                                y: ycoord.toString(),
+                            },
                         )
                         .toText(),
                 );
