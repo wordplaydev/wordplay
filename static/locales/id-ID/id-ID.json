@@ -241,7 +241,7 @@
             "description": "$~daftar nama dalam berbagai bahasa",
             "emotion": "kind",
             "label": {
-                "names": "$~nama-nama"
+                "names": "$~namanama"
             },
             "doc": [
                 "$~Saya adalah daftar @Name, berguna ketika Anda ingin memberikan beberapa nama pada suatu nilai, seringkali dengan @Language yang berbeda.",
@@ -465,7 +465,7 @@
             ],
             "label": {
                 "value": "$~nilai",
-                "names": "$~nama-nama",
+                "names": "$~namanama",
                 "type": "$~jenis"
             },
             "start": "$~Mari kita lihat nilai apa yang kita dapatkan dari $value !",
@@ -711,11 +711,11 @@
                 "$~Hai. Saya mengevaluasi @FunctionDefinition kesayangan saya. Seperti ini:",
                 "$~\\ƒ salam(pesan•'') salam('kucing')\\",
                 "$~Fungsi bisa berasal dari mana saja. Misalnya, @Text memiliki fungsi. Seperti ini:",
-                "$~'kitty'.length()\\",
+                "\\'kitty'.length()\\",
                 "$~Jika sebuah fungsi hanya memiliki satu nama simbol, Anda dapat menuliskannya sebagai @BinaryEvaluate.",
-                "$~'kitty' ⊆ 'itty'",
+                "\\'kitty' ⊆ 'itty'\\",
                 "$~Itu fungsinya sama dengan ini:",
-                "$~'kitty'.⊆('itty')\\",
+                "\\'kitty'.⊆('itty')\\",
                 "$~Tentu saja, saya bukan apa-apa tanpa @FunctionDefinition. Yang saya lakukan hanyalah memberikan input kepada mereka dan kemudian mengikuti langkah-langkah mereka."
             ],
             "start": "$~Mari kita evaluasi inputnya terlebih dahulu.",
@@ -785,11 +785,11 @@
             "doc": [
                 "$~Aku adalah sebuah *ungkapan*, tapi bukan ungkapan yang sebenarnya… Aku hanya menggantikan peran ungkapan yang sebenarnya.",
                 "$~Aku tidak masalah kalau kamu belum tahu mau menulis apa. Seperti ini:",
-                "$~1 + _\\",
+                "\\1 + _\\",
                 "$~Apa yang akan kita tambahkan? Saya tidak tahu. Kamu yang beri tahu saya.",
                 "$~Atau jika seseorang mengevaluasi suatu fungsi dengan @Evaluate, saya mungkin akan menggantikan fungsi tersebut.",
                 "$~\\_(1 2 3)\\",
-                "$~Aku tidak suka berada di atas panggung!"
+                "I don't like being on @Stage!"
             ],
             "start": "$~Saya tidak tahu harus berbuat apa di sini. Bisakah Anda memberi saya penjelasan?",
             "conflict": {
@@ -1833,20 +1833,20 @@
         },
         "Text": {
             "doc": [
-                "$~Saya dapat menampilkan teks apa pun, dari bahasa apa pun. Cukup letakkan teks di antara simbol teks pembuka dan penutup: \\\"\"\\, \\\"\"\\, \\„\"\\, \\''\\, \\''\\, \\‹›\\, \\«»\\, \\「」\\, atau \\『』\\.",
-                "$~Sebagai ilustrasi, perhatikan ungkapan-ungkapan indah berikut ini.",
-                "$~“Hanya ada dua cara untuk menjalani hidup Anda. Yang pertama adalah seolah-olah tidak ada yang merupakan keajaiban. Yang kedua adalah seolah-olah semuanya adalah keajaiban.”",
-                "$~\\『一日三秋』\\",
-                "$~Ingatlah untuk menutup saya jika Anda membukanya, dan gunakan simbol yang sesuai. Jika tidak, saya tidak akan tahu bahwa Anda sudah selesai berbicara.",
-                "$~\\'halo'/en'hola'/es-MX\\",
-                "$~Anda juga dapat menandai saya dengan bahasa, dan bahkan memberikan beberapa terjemahan. Saya akan mengevaluasi terjemahan tersebut berdasarkan bahasa yang saat ini dipilih, jika ada bahasa yang cocok.",
-                "$~Jika Anda ingin membuat saya dengan nilai lain, Anda dapat melakukannya seperti ini:",
-                "$~Berikut beberapa penjumlahan: 1 + 2, 2 + 3, 3 + 4",
-                "$~Lihat betapa elegannya saya mengevaluasi jumlah tersebut, dan menempatkannya di dalam @Text?",
-                "$~Saya punya satu rahasia kecil terakhir: tahukah Anda bahwa kita semua memiliki nomor unik? Benar! Anda dapat menyebut kami berdasarkan nomor kami. Misalnya, @FunctionDefinition adalah 192:",
-                "$~'92'",
-                "$~Lihat bagaimana 192 berubah menjadi @FunctionDefinition? Kudengar kau menyebut angka-angka ini 'Unicode'.",
-                "$~Selain itu, ada begitu banyak fungsi luar biasa yang dibuat oleh @FunctionDefinition untuk saya agar dapat melakukan berbagai hal dengan kata-kata!"
+                "I can represent any text, from any language. Just put the text between opening and closing text symbols: \\\"\"\\, \\“”\\, \\„“\\, \\''\\, \\‘’\\, \\‹›\\, \\«»\\, \\「」\\, or \\『』\\.",
+                "To illustrate, consider these beautiful phrases",
+                "\\“There are only two ways to live your life. One is as though nothing is a miracle. The other is as though everything is a miracle.”\\",
+                "\\『一日三秋』\\",
+                "Just remember to close me if you open me, and use the matching symbol. Otherwise I won't know that you're done with your words.",
+                "\\'hello'/en'hola'/es-MX\\",
+                "You can also tag me with languages, and even give multiple translations. I'll evaluate to whatever languages are currently selected, if there's a matching language.",
+                "If you want to make me with some other values, you can do this:",
+                "\\\"Here are some sums \\1 + 2\\, \\2 + 3\\, \\3 + 4\\\"\\",
+                "See how elegantly I just evaluated those sums, and placed them inside the @Text?",
+                "I have one last little secret: did you know we all have a unique number? It's true! You can refer to us by our number. For example, @FunctionDefinition is 192:",
+                "\\'@192'\\",
+                "See how 192 turned into @FunctionDefinition? I hear you call these numbers 'Unicode'.",
+                "Otherwise, there just so many glorious functions that @FunctionDefinition made for me to do all kinds of things with words!"
             ],
             "name": ["$~''", "$~Teks"],
             "function": {
@@ -3329,7 +3329,7 @@
                 "doc": "$~Kode bahasa BCP 47 (misalnya, 'en-US'). Jika tidak didukung oleh pengenalan suara peramban Anda, Anda akan mendapatkan kesalahan. Secara default akan menggunakan lokal pilihan Anda."
             },
             "limit": {
-                "names": ["$~membatasi", "$~kata-kata"],
+                "names": ["$~membatasi", "$~katakata"],
                 "doc": "$~Jumlah maksimum kata yang akan disimpan dalam akumulasi ucapan (jendela geser). Jika diatur, hanya kata-kata terbaru yang disimpan, dan kata-kata yang lebih lama akan dibuang. Jika tidak ditentukan, semua kata akan disimpan tanpa batas waktu."
             },
             "error": {
@@ -4159,7 +4159,7 @@
             },
             "fingers": {
                 "doc": "$~Berapa banyak jari yang direntangkan, dari 0 (kepalan tangan) hingga 5 (semua jari terangkat, termasuk ibu jari).",
-                "names": ["$~jari-jari"]
+                "names": ["$~jarijari"]
             },
             "thumb": {
                 "doc": "$~@True jika ibu jari direntangkan.",

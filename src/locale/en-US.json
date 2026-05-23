@@ -1615,7 +1615,7 @@
         },
         "UnknownType": {
             "name": "unknown",
-            "description": "$!unknown",
+            "description": "unknown",
             "connector": ", because ",
             "emotion": "curious",
             "doc": "Umm... I don't know what I represent, but I really am curious. Do you know? It seems like we should know. You might need to tell us if we can't figure it out."
@@ -1716,7 +1716,7 @@
         },
         "UnknownNameType": {
             "name": "unknown name",
-            "description": "$!$name[$name isn't defined yet|the name isn't given]",
+            "description": "$name[$name isn't defined yet|the name isn't given]",
             "emotion": "curious",
             "doc": "You know how sometimes @Reference and @PropertyReference don't know the name you're talking about? I'm around when that happens, to represent that we don't know who you're talking about."
         },

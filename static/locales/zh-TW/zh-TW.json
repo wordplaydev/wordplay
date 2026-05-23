@@ -1610,7 +1610,7 @@
         },
         "UnknownType": {
             "name": "未知",
-            "description": "未知型態",
+            "description": "未知",
             "connector": "，因為",
             "emotion": "curious",
             "doc": "嗯…我不知道我代表什麼，但我真的很好奇。你知道嗎？似乎我們應該知道。如果我們無法弄清楚，你可能需要告訴我們。"

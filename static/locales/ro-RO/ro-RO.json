@@ -152,20 +152,20 @@
             "description": "$~documentați o expresie cu text",
             "emotion": "serious",
             "doc": [
-                "$~Formatez bogat lucrurile cu @Markup, cum ar fi explicațiile unora dintre @Program-urile tale sau chiar cuvintele pe care le pui în scenă cu @Phrase.",
-                "$~De exemplu, pot apărea înaintea oricărei expresii:",
-                "$~\\¶Chiar ar trebui să fie 7?¶ 7\\",
-                "$~De exemplu, mă poți plasa înainte de @Bind:",
-                "$~\\¶Măsor cât de înaltă este o persoană¶ înălțime: 5m\\",
-                "$~Sau înainte de o @FunctionDefinition:",
-                "$~\\¶Adun două numere¶ ƒ sum(a•# b•#) a + b\\",
-                "$~Sau înainte de o @StructureDefinition:",
-                "$~\\¶Îmi amintesc numele oamenilor și fructul lor preferat¶ •Persoană(nume•'' fruct•'')\\",
-                "$~Mă poți plasa chiar la începutul @Program pentru a spune despre ce este vorba în întreaga reprezentație.",
-                "$~\\¶Acest program spune salut¶ „salut!”\\",
-                "$~Îmi poți da o @Language ca să-i ajut pe ceilalți să știe în ce limbă sunt scris:",
-                "$~\\¶Sunt doctor englez¶/durată en: 5s\\",
-                "$~Știai că poți face o listă cu mine? Vorbește cu @Docs."
+                "I richly format things with @Markup, like explanations of some of your @Program, or even the words you put on stage with @Phrase.",
+                "For example, I can go before any expression:",
+                "\\¶Is this really supposed to be 7?¶\n7\\",
+                "For example, you can place me before @Bind:",
+                "\\¶I measure how tall someone is¶\nheight: 5m\\",
+                "Or before a @FunctionDefinition:",
+                "\\¶I add two numbers¶\nƒ sum(a•# b•#) a + b\\",
+                "Or before a @StructureDefinition:",
+                "\\¶I remember people's name and favorite fruit¶\n•Person(name•'' fruit•'')\\",
+                "You can also place me at the very beginning of @Program to say what the whole performance is about",
+                "\\¶This program says hello¶\n\n'hello!'\\",
+                "You can give me a @Language to help others know what language I'm written in:",
+                "\\¶I'm an English doc¶/en\nduration: 5s\\",
+                "Did you know you can make a list of me? Go talk to @Docs."
             ]
         },
         "Docs": {
@@ -351,14 +351,14 @@
             "description": "$~link către $concept concept din documente",
             "emotion": "serious",
             "doc": [
-                "$~Sunt o legătură către personajul Verse. Sunt de ajutor atunci când vrei să scrii un @Doc și să recomanzi unul dintre noi.",
-                "$~De exemplu, să presupunem că vrei să vorbești despre @Evaluate și cât de grozavi sunt. Ai putea scrie:",
-                "$~\\¶Știi, @Evaluate e destul de grozav.¶ „Uite, un link de caracter!”\\",
-                "$~Caracterele au și numere care le corespund. De exemplu, @FunctionDefinition este 192. Le puteți face referire prin număr și vor apărea:",
-                "$~\\`92 e atât de drăguț!`\\",
-                "$~Și dacă îți creezi propriul personaj, te poți referi la el folosind numele pe care i l-ai dat.",
-                "$~\\`@coolbeans`\\",
-                "$~Oh... cred că acel personaj nu există, deci obțineți un mic pătrat. Dar dacă ar exista, ar apărea aici!"
+                "I'm a link to Verse character. I'm helpful when you want to write a @Doc and refer to one of us.",
+                "For example, say you wanted to talk about @Evaluate, and how awesome they are. You could write:",
+                "\\¶You know, @Evaluate is pretty awesome.¶\n'look, a character link!'\\",
+                "Characters also have numbers that correspond to them. For example, @FunctionDefinition is 192. You can refer to them by number and they'll appear:",
+                "\\`@192 is so nice!`\\",
+                "And if you make your own character, you can refer to them by the name you gave them.",
+                "\\`@coolbeans`\\",
+                "Oh... I guess that character doesn't exist, so you get a little square. But if they did, they would show up here!"
             ]
         },
         "Words": {
@@ -367,7 +367,7 @@
             "emotion": "serious",
             "doc": [
                 "$~Sunt orice cuvinte doriți într-un @Doc. De exemplu:",
-                "$~\\¶Fie ca Forța să fie cu tine.¶ „doar câteva cuvinte!”",
+                "\\¶May the Force be with you.¶\n'just some words!'\\",
                 "$~Uneori însă, este posibil să doriți să utilizați caracterele speciale pe care @Doc le folosește /ca/ cuvinte. De exemplu:",
                 "$~\\¶Prietenii mei folosesc @@, //, **, || și alte simboluri.¶ 'folosind caractere speciale!'\\",
                 "$~Dacă repetați doar acele caractere speciale, veți obține caracterul în loc de semnificația lor specială."
@@ -438,30 +438,30 @@
             "description": "$~denumește această valoare „ $name ”",
             "emotion": "excited",
             "doc": [
-                "$~Eu numesc *valori*.",
-                "$~Ca aceasta!",
-                "$~\\pi: 3.1415926\\",
-                "$~Denumesc intrările în @FunctionDefinition și @StructureDefinition, denumesc valorile în @Block. Denumesc totul!",
-                "$~Oh, dar știai că poți avea o singură valoare *mai multe nume*?",
-                "$~Sunt atât de încântat să vă povestesc despre asta! O valoare, mai multe @Names. De exemplu:",
-                "$~\\joe, tess, amy: 5\\",
-                "$~Vezi ce am făcut acolo?",
-                "$~O valoare, trei nume.",
-                "$~Te poți referi la cei cinci folosind *oricare* dintre aceste nume.",
-                "$~Acest lucru este valabil mai ales atunci când doriți să dați nume în mai multe limbi:",
-                "$~\\joe/en,aimee/fr,明/zh: 5\\",
-                "$~Vezi ce am făcut acolo? Trei nume pentru o singură valoare, doar în limbi diferite!",
-                "$~Bine, mai am un ultim secret.",
-                "$~Știați că pot colabora cu @Is pentru a-mi spune ce valoare ar trebui să aibă un nume? Și dacă nu o am, vă voi spune?",
-                "$~Ca aceasta:",
-                "$~\\bignumber•#: „un miliard”\\",
-                "$~Uite, am spus că \\bignumber\\ ar trebui să fie un număr, dar e text, iar acelea nu sunt compatibile, așa că BOOM!",
-                "$~Te voi anunța dacă nu sunt de acord.",
-                "$~Uneori s-ar putea să fie nevoie să-mi spui ce fel de date sunt altceva, pentru că nu pot să-mi dau seama singur. Asta se întâmplă de obicei în @FunctionDefinition.",
-                "$~De exemplu, aici, @FunctionDefinition nu știe ce fel de valori au \\a\\ și \\b\\, pentru că nu le-am spus.",
-                "$~suma (ab) a + b",
-                "$~Dar putem schimba asta pentru a adăuga @Is, iar acum @FunctionDefinition știe că sunt numere:",
-                "$~\\ƒ sumă(a•# b•#) a + b\\"
+                "I name *values*.",
+                "Like this!",
+                "\\pi: 3.1415926\\",
+                "I name inputs to @FunctionDefinition and @StructureDefinition, I name values in @Block. I name everything!",
+                "Oh, but did you know you can have one value *many names*?",
+                "I'm so excited to tell you about this! One value, many @Names. For example:",
+                "\\joe,tess,amy: 5\\",
+                "See what I did there? ",
+                "One value, three names.",
+                "You can refer to that five by *any* of those names.",
+                "This is especially when you want to give names in many languages:",
+                "\\joe/en,aimee/fr,明/zh: 5\\",
+                "See what I did there? Three names for one value, just in different languages!",
+                "Okay, I have one last secret.",
+                "Did you know I can work with @Is to tell me what kind of value a name should have? And if I doesn't have it, I will tell you?",
+                "Like this:",
+                "\\bignumber•#: \"one zillion\"\\",
+                "See, I said \\bignumber\\ should be a number, but it's text, and those aren't compatible and so BOOM!",
+                "I'll let you know if they disagree.",
+                "Sometimes you might *have* to tell me what kind of data something else because I can't figure it out myself. That usually happens in @FunctionDefinition.",
+                "For example, here, @FunctionDefinition doesn't know what what kind of values \\a\\ and \\b\\ have, because I didn't tell them.",
+                "\\ƒ sum(a b) a + b\\",
+                "But we can change this to add the @Is, and now @FunctionDefinition knows that they're numbers:",
+                "\\ƒ sum(a•# b•#) a + b\\"
             ],
             "label": {
                 "value": "$~valoare",
@@ -878,13 +878,13 @@
             "description": "$~verifică dacă valoarea este de tip $type",
             "emotion": "curious",
             "doc": [
-                "$~Știi ce? Există atât de multe tipuri de valori care înseamnă atât de multe lucruri diferite. Eu ajut la descoperirea lor.",
-                "$~De exemplu, să presupunem că ai o valoare misterioasă. Îți pot spune dacă este un @Number, oferindu-ți un @Boolean:",
-                "$~\\mister: „secret!” mister•#\\",
-                "$~Nu este un număr, așa că am creat \\⊥\\. Dar dacă verificăm dacă este @TextType?",
-                "$~\\mister: 'secret!' mister•''\\",
-                "$~Obținem \\⊤\\!",
-                "$~Sunt de mare ajutor atunci când trebuie să știi dacă un anumit @Name are o anumită valoare."
+                "You know what? There are so many kinds of values that mean so many different things. I help figure out what they are.",
+                "For example, suppose you had a mystery value. I can tell you whether it's a @Number, giving you a @Boolean:",
+                "\\mystery: 'secret!'\nmystery•#\\",
+                "It's not a number, so I made \\⊥\\. But if we check if it's @TextType?",
+                "\\mystery: 'secret!'\nmystery•''\\",
+                "We get \\⊤\\!",
+                "I'm really helpful when you need to know whether some @Name has a value of a particular kind."
             ],
             "start": "$~Să obținem mai întâi valoarea $expression",
             "finish": "$~$value [valoarea este $type |valoarea nu este $type ]",
@@ -2441,7 +2441,7 @@
                         "$~Combin elementele din lista mea în @Text, separate prin separatorul dat @Text.",
                         "$~\\['măr' 'banană' 'mango'].join(', ')\\"
                     ],
-                    "names": "$~alătură-te",
+                    "names": "$~alăturăte",
                     "inputs": [
                         {
                             "doc": "$~Textul prin care se separă elementele, opțional gol.",
@@ -3493,7 +3493,7 @@
             "names": ["$~🔗", "$~Paginăweb"],
             "url": {
                 "doc": "$~Adresa URL a paginii web HTML de obținut.",
-                "names": "$~URL-ul"
+                "names": "$~URLul"
             },
             "query": {
                 "doc": "$~Interogarea CSS de evaluat în HTML",
@@ -3656,7 +3656,7 @@
             },
             "moving": {
                 "doc": "$~La fel ca @Phrase/moving!",
-                "names": "$~mișcându-se"
+                "names": "$~mișcânduse"
             },
             "exiting": {
                 "doc": "$~La fel ca @Phrase/exiting!",
@@ -3780,7 +3780,7 @@
             },
             "moving": {
                 "doc": "$~@Pose sau @Sequence pe care ar trebui să le folosesc când mut locuri pe scenă, în loc de setările mele implicite.",
-                "names": "$~mișcându-se"
+                "names": "$~mișcânduse"
             },
             "exiting": {
                 "doc": "$~Acțiunile @Pose sau @Sequence ar trebui efectuate înainte de ieșirea din etapă.",
@@ -3922,7 +3922,7 @@
             },
             "moving": {
                 "doc": "$~@Pose sau @Sequence pe care ar trebui să le folosesc când mă mut în locuri diferite.",
-                "names": "$~mișcându-se"
+                "names": "$~mișcânduse"
             },
             "exiting": {
                 "doc": "$~@Pose sau @Sequence pe care ar trebui să le fac când plec de pe @Stage.",
@@ -4088,7 +4088,7 @@
             },
             "chroma": {
                 "doc": "$~Câtă culoare ar trebui să am, de la \\0\\ la \\∞\\. Fără culoare înseamnă gri, numerele mai mari înseamnă mai multă culoare.",
-                "names": ["$~cromă", "$~c."]
+                "names": ["$~cromă", "$~c"]
             },
             "hue": {
                 "doc": "$~Ce culoare ar trebui să am, pe o roată cromatică, de la magenta \\0\\, roșu \\30\\, verde \\120\\, până la albastru \\270\\.",
@@ -4339,7 +4339,7 @@
             },
             "moving": {
                 "doc": "$~LA FEL CA @Group/moving mișcare!",
-                "names": "$~mișcându-se"
+                "names": "$~mișcânduse"
             },
             "exiting": {
                 "doc": "$~LA FEL CA @Group/exiting!",
@@ -4396,7 +4396,7 @@
             },
             "popup": {
                 "doc": "$~Creez o @Sequence care face ca @Output să se scaleze rapid, apoi să se micșoreze la dimensiunea normală.",
-                "names": ["$~pop-up"]
+                "names": ["$~popup"]
             },
             "shake": {
                 "doc": "$~Creez o @Sequence care face să pară că un @Output este speriat.",

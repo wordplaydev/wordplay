@@ -1608,7 +1608,7 @@
         },
         "UnknownType": {
             "name": "未知",
-            "description": "未知类型",
+            "description": "未知",
             "connector": "，因为",
             "emotion": "curious",
             "doc": "嗯……我不知道我代表什么，但我真的很好奇。你知道吗？似乎我们应该知道。如果我们无法弄清楚，你可能需要告诉我们。"

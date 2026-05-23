@@ -8,6 +8,16 @@ import Source from '@nodes/Source';
 import { DOCS_SYMBOL } from '@parser/Symbols';
 import parseDoc from '@parser/parseDoc';
 import { toTokens } from '@parser/toTokens';
+import type LocalePath from '@util/verify-locales/LocalePath';
+import { getKeyTemplatePairs } from '@util/verify-locales/LocalePath';
+import type Log from '@util/verify-locales/Log';
+import TutorialSchema, {
+    DefaultTutorial,
+} from '@util/verify-locales/TutorialSchema';
+import Validator from '@util/verify-locales/Validator';
+import translate, {
+    getGoogleTranslateTargetLocale,
+} from '@util/verify-locales/translate';
 import { Performances } from '../../tutorial/Performances';
 import type Tutorial from '../../tutorial/Tutorial';
 import {
@@ -17,12 +27,6 @@ import {
     type PeformanceModeType,
     type Performance,
 } from '../../tutorial/Tutorial';
-import type LocalePath from '@util/verify-locales/LocalePath';
-import { getKeyTemplatePairs } from '@util/verify-locales/LocalePath';
-import type Log from '@util/verify-locales/Log';
-import TutorialSchema, { DefaultTutorial } from '@util/verify-locales/TutorialSchema';
-import Validator from '@util/verify-locales/Validator';
-import translate, { getGoogleTranslateTargetLocale } from '@util/verify-locales/translate';
 
 /**
  * Cache of tutorial code conflict-analysis results, keyed by the snippet's
@@ -37,10 +41,7 @@ import translate, { getGoogleTranslateTargetLocale } from '@util/verify-locales/
 type AnalyzeResult = { conflicts: string[]; error: string | undefined };
 const analyzeCache = new Map<string, AnalyzeResult>();
 
-function analyzeTutorialCode(
-    code: string,
-    locale: LocaleText,
-): AnalyzeResult {
+function analyzeTutorialCode(code: string, locale: LocaleText): AnalyzeResult {
     const cached = analyzeCache.get(code);
     if (cached) return cached;
     let result: AnalyzeResult;
@@ -242,7 +243,7 @@ async function checkTutorial(
     if (automated.length > 0)
         log.warning(
             2,
-            `Tutorial has ${automated.length} machine translated ("${MachineTranslated}"). Make sure they're sensible for 6th grade reading levels.`,
+            `Tutorial: ${automated.length} machine translated ("${MachineTranslated}") strings to review.`,
         );
 
     return revised;
@@ -305,7 +306,7 @@ async function translateTutorial(
 
     log.say(
         2,
-        `Tutorial has ${unwritten.length} unwritten strings ("${Unwritten}"). Translating using Google translate from ${sourceLocale} to ${targetLocale}...`,
+        `Translating ${unwritten.length} unwritten strings ("${Unwritten}")...`,
     );
 
     const translations = await translate(
