@@ -5540,8 +5540,7 @@
                 "explanation": "$~Pumili ng mga wika para sa interface, tutorial, at dokumentasyon.",
                 "subheader": {
                     "selected": "$~Napili",
-                    "supported": "$~Magagamit",
-                    "help": "$~Tulungan kaming magsalin..."
+                    "supported": "$~Magagamit"
                 },
                 "button": {
                     "show": "$~pumili ng wika/mga wika para sa website",
@@ -5549,6 +5548,19 @@
                     "add": "$~gamitin ang wikang ito at ang mga kasalukuyan",
                     "remove": "$~alisin ang wikang ito",
                     "menu": "$~ibang mga wika"
+                },
+                "localizeHelp": "$?",
+                "request": {
+                    "header": "$?",
+                    "explanation": "$?",
+                    "languageLabel": "$?",
+                    "regionLabel": "$?",
+                    "submit": "$?",
+                    "submitting": "$?",
+                    "success": "$?",
+                    "error": "$?",
+                    "alreadySupported": "$?",
+                    "requiresLogin": "$?"
                 }
             },
             "help": {

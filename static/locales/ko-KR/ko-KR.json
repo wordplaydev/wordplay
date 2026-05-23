@@ -5250,8 +5250,7 @@
                 "explanation": "$~언어와 지역을 선택하세요.",
                 "subheader": {
                     "selected": "$~선택된",
-                    "supported": "$~사용 가능",
-                    "help": "$~번역을 도와주세요…"
+                    "supported": "$~사용 가능"
                 },
                 "button": {
                     "show": "$~웹사이트에 사용할 언어를 선택하세요",
@@ -5259,6 +5258,19 @@
                     "remove": "$~이 언어를 제거하세요",
                     "replace": "$~이 언어를 사용하세요",
                     "menu": "$~기타 언어"
+                },
+                "localizeHelp": "$?",
+                "request": {
+                    "header": "$?",
+                    "explanation": "$?",
+                    "languageLabel": "$?",
+                    "regionLabel": "$?",
+                    "submit": "$?",
+                    "submitting": "$?",
+                    "success": "$?",
+                    "error": "$?",
+                    "alreadySupported": "$?",
+                    "requiresLogin": "$?"
                 }
             },
             "help": {

@@ -5537,8 +5537,7 @@
                 "explanation": "$~Selecione os idiomas para a interface, o tutorial e a documentação.",
                 "subheader": {
                     "selected": "$~Selecionado",
-                    "supported": "$~Disponível",
-                    "help": "$~Ajude-nos a traduzir…"
+                    "supported": "$~Disponível"
                 },
                 "button": {
                     "show": "$~Selecione o(s) idioma(s) para o site",
@@ -5546,6 +5545,19 @@
                     "add": "$~utilizar esta linguagem e as atuais",
                     "remove": "$~remover este idioma",
                     "menu": "$~outros idiomas"
+                },
+                "localizeHelp": "$?",
+                "request": {
+                    "header": "$?",
+                    "explanation": "$?",
+                    "languageLabel": "$?",
+                    "regionLabel": "$?",
+                    "submit": "$?",
+                    "submitting": "$?",
+                    "success": "$?",
+                    "error": "$?",
+                    "alreadySupported": "$?",
+                    "requiresLogin": "$?"
                 }
             },
             "help": {

@@ -5512,8 +5512,7 @@
                 "explanation": "$~আন্তঃপৃষ্ঠ, টিউটোৰিয়েল, আৰু আলেখ্যনৰ বাবে ভাষাসমূহ নিৰ্ব্বাচন কৰক।",
                 "subheader": {
                     "selected": "$~নিৰ্বাচিত কৰা হৈছে",
-                    "supported": "$~উপলব্ধ",
-                    "help": "$~আমাক অনুবাদ কৰাত সহায় কৰক..."
+                    "supported": "$~উপলব্ধ"
                 },
                 "button": {
                     "show": "$~ৱেবছাইটৰ বাবে ভাষা(সমূহ) বাছক",
@@ -5521,6 +5520,19 @@
                     "add": "$~এই ভাষা আৰু বৰ্তমানৰ ভাষাসমূহ ব্যৱহাৰ কৰক",
                     "remove": "$~এই ভাষাটো আঁতৰাই পেলাওক",
                     "menu": "$~অন্য ভাষা"
+                },
+                "localizeHelp": "$?",
+                "request": {
+                    "header": "$?",
+                    "explanation": "$?",
+                    "languageLabel": "$?",
+                    "regionLabel": "$?",
+                    "submit": "$?",
+                    "submitting": "$?",
+                    "success": "$?",
+                    "error": "$?",
+                    "alreadySupported": "$?",
+                    "requiresLogin": "$?"
                 }
             },
             "help": {

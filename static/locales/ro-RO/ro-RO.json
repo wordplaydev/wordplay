@@ -5549,8 +5549,7 @@
                 "explanation": "$~Alegeți limbi pentru interfață, tutorial și documentație.",
                 "subheader": {
                     "selected": "$~Selectat",
-                    "supported": "$~Disponibil",
-                    "help": "$~Ajutați-ne să traducem…"
+                    "supported": "$~Disponibil"
                 },
                 "button": {
                     "show": "$~alegeți limba (limbile) pentru site-ul web",
@@ -5558,6 +5557,19 @@
                     "add": "$~folosește acest limbaj și pe cele actuale",
                     "remove": "$~eliminați această limbă",
                     "menu": "$~alte limbi"
+                },
+                "localizeHelp": "$?",
+                "request": {
+                    "header": "$?",
+                    "explanation": "$?",
+                    "languageLabel": "$?",
+                    "regionLabel": "$?",
+                    "submit": "$?",
+                    "submitting": "$?",
+                    "success": "$?",
+                    "error": "$?",
+                    "alreadySupported": "$?",
+                    "requiresLogin": "$?"
                 }
             },
             "help": {

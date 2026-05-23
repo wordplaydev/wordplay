@@ -16,6 +16,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - We added a script selector to the glyph/emoji chooser, so you can find the glyphs in different languages (#322).
 - We added better feedback when the site is offline and saves are pending.
 - We added a "back to top" button on long pages.
+- You can now request new language/region pairs from the language chooser dialog.
 
 ### Changed
 

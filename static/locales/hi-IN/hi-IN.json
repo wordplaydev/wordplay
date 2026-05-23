@@ -5254,8 +5254,7 @@
                 "explanation": "$~अपनी भाषाएं और क्षेत्र चुनें.",
                 "subheader": {
                     "selected": "$~चयनित",
-                    "supported": "$~उपलब्ध",
-                    "help": "$~अनुवाद करने में हमारी सहायता करें..."
+                    "supported": "$~उपलब्ध"
                 },
                 "button": {
                     "show": "$~वेबसाइट के लिए भाषा(एँ) चुनें",
@@ -5263,6 +5262,19 @@
                     "remove": "$~इस भाषा को हटा दें",
                     "replace": "$~इस भाषा का प्रयोग करें",
                     "menu": "$~अन्य भाषाएं"
+                },
+                "localizeHelp": "$?",
+                "request": {
+                    "header": "$?",
+                    "explanation": "$?",
+                    "languageLabel": "$?",
+                    "regionLabel": "$?",
+                    "submit": "$?",
+                    "submitting": "$?",
+                    "success": "$?",
+                    "error": "$?",
+                    "alreadySupported": "$?",
+                    "requiresLogin": "$?"
                 }
             },
             "help": {

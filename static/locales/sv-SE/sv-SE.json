@@ -5271,8 +5271,7 @@
                 "explanation": "$~Välj språk för gränssnittet, handledningen och dokumentationen.",
                 "subheader": {
                     "selected": "$~Vald",
-                    "supported": "$~Tillgänglig",
-                    "help": "$~Hjälp oss att översätta..."
+                    "supported": "$~Tillgänglig"
                 },
                 "button": {
                     "show": "$~välj språk för webbplatsen",
@@ -5280,6 +5279,19 @@
                     "add": "$~använd detta språk och de nuvarande",
                     "remove": "$~ta bort det här språket",
                     "menu": "$~andra språk"
+                },
+                "localizeHelp": "$?",
+                "request": {
+                    "header": "$?",
+                    "explanation": "$?",
+                    "languageLabel": "$?",
+                    "regionLabel": "$?",
+                    "submit": "$?",
+                    "submitting": "$?",
+                    "success": "$?",
+                    "error": "$?",
+                    "alreadySupported": "$?",
+                    "requiresLogin": "$?"
                 }
             },
             "help": {

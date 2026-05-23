@@ -5275,8 +5275,7 @@
                 "explanation": "$~ઇન્ટરફેસ, ટ્યુટોરીયલ અને દસ્તાવેજીકરણ માટે ભાષાઓ પસંદ કરો.",
                 "subheader": {
                     "selected": "$~પસંદ કરેલ",
-                    "supported": "$~ઉપલબ્ધ છે",
-                    "help": "$~અમને અનુવાદ કરવામાં સહાય કરો..."
+                    "supported": "$~ઉપલબ્ધ છે"
                 },
                 "button": {
                     "show": "$~વેબસાઇટ માટે ભાષા(ઓ) પસંદ કરો.",
@@ -5284,6 +5283,19 @@
                     "add": "$~આ ભાષા અને હાલની ભાષાનો ઉપયોગ કરો",
                     "remove": "$~આ ભાષા દૂર કરો",
                     "menu": "$~અન્ય ભાષાઓ"
+                },
+                "localizeHelp": "$?",
+                "request": {
+                    "header": "$?",
+                    "explanation": "$?",
+                    "languageLabel": "$?",
+                    "regionLabel": "$?",
+                    "submit": "$?",
+                    "submitting": "$?",
+                    "success": "$?",
+                    "error": "$?",
+                    "alreadySupported": "$?",
+                    "requiresLogin": "$?"
                 }
             },
             "help": {

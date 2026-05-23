@@ -5533,8 +5533,7 @@
                 "explanation": "$~Chọn ngôn ngữ cho giao diện, hướng dẫn và tài liệu.",
                 "subheader": {
                     "selected": "$~Đã chọn",
-                    "supported": "$~Có sẵn",
-                    "help": "$~Hãy giúp chúng tôi dịch…"
+                    "supported": "$~Có sẵn"
                 },
                 "button": {
                     "show": "$~Chọn ngôn ngữ cho trang web",
@@ -5542,6 +5541,19 @@
                     "add": "$~sử dụng ngôn ngữ này và các ngôn ngữ hiện tại",
                     "remove": "$~xóa ngôn ngữ này",
                     "menu": "$~các ngôn ngữ khác"
+                },
+                "localizeHelp": "$?",
+                "request": {
+                    "header": "$?",
+                    "explanation": "$?",
+                    "languageLabel": "$?",
+                    "regionLabel": "$?",
+                    "submit": "$?",
+                    "submitting": "$?",
+                    "success": "$?",
+                    "error": "$?",
+                    "alreadySupported": "$?",
+                    "requiresLogin": "$?"
                 }
             },
             "help": {

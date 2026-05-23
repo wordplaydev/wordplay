@@ -5,7 +5,10 @@ import { initializeApp } from 'firebase-admin/app';
 import { UserIdentifier } from 'firebase-admin/auth';
 import { getFirestore } from 'firebase-admin/firestore';
 import { defineString } from 'firebase-functions/params';
-import { onDocumentCreated, onDocumentWritten } from 'firebase-functions/v2/firestore';
+import {
+    onDocumentCreated,
+    onDocumentWritten,
+} from 'firebase-functions/v2/firestore';
 import { onCall, onRequest } from 'firebase-functions/v2/https';
 import { onSchedule } from 'firebase-functions/v2/scheduler';
 import * as http from 'http';
@@ -17,11 +20,9 @@ import {
     type EmailExistsInputs,
     type EmailExistsOutput,
 } from 'shared-types';
-import {
-    createContributorsPR,
-    fetchContributorsData,
-} from './contributors.js';
+import { createContributorsPR, fetchContributorsData } from './contributors.js';
 export { submitLocalizationBundle } from './submitLocalization.js';
+export { submitLocaleRequest } from './submitLocaleRequest.js';
 
 initializeApp();
 const db = getFirestore();
@@ -119,8 +120,8 @@ export const getWebpage = onRequest(cors, async (request, response) => {
         url === undefined
             ? undefined
             : url.startsWith('https://')
-                ? https
-                : http;
+              ? https
+              : http;
 
     // Cache the response for 10 minutes to minimize requests.
     response.set('Cache-Control', 'public, max-age=600, s-maxage=600');
@@ -354,7 +355,12 @@ export const createClass = onCall<
 const emailPassword = defineString('SMTP_PASSWORD');
 /** Fetches all GitHub contributors and opens a PR with the updated JSON every Friday at 2 am PT. */
 export const refreshContributors = onSchedule(
-    { schedule: '0 2 * * 5', timeZone: 'America/Los_Angeles', timeoutSeconds: 540, memory: '512MiB' },
+    {
+        schedule: '0 2 * * 5',
+        timeZone: 'America/Los_Angeles',
+        timeoutSeconds: 540,
+        memory: '512MiB',
+    },
     async () => {
         const token = process.env.GITHUB_TOKEN ?? '';
         const data = await fetchContributorsData(token);
@@ -402,65 +408,85 @@ export const postFeedback = onDocumentCreated(
     },
 );
 
-export const galleryEdited = onDocumentWritten('galleries/{id}', async (event) => {
-    const before = event.data?.before.data();
-    const after = event.data?.after.data();
-    const galleryStore = db.collection('galleries');
-    const batch = db.batch();
+export const galleryEdited = onDocumentWritten(
+    'galleries/{id}',
+    async (event) => {
+        const before = event.data?.before.data();
+        const after = event.data?.after.data();
+        const galleryStore = db.collection('galleries');
+        const batch = db.batch();
 
-    const listEq = (a: string[], b: string[]): boolean => {
-        if (a.length !== b.length) return false;
-        const aSorted = [...a].sort();
-        const bSorted = [...b].sort();
+        const listEq = (a: string[], b: string[]): boolean => {
+            if (a.length !== b.length) return false;
+            const aSorted = [...a].sort();
+            const bSorted = [...b].sort();
 
-        for (let i = 0; i < aSorted.length; i++) {
-            if (aSorted[i] !== bSorted[i]) return false;
+            for (let i = 0; i < aSorted.length; i++) {
+                if (aSorted[i] !== bSorted[i]) return false;
+            }
+            return true;
+        };
+
+        // if the list of creators or curators for the gallery has changed,
+        // then we need to look at all other galleries to see if they have this changed gallery
+        // in its list of expanded galleries
+        // if so, then we need to update the list of viewers for that expanded gallery
+
+        if (before && !after) {
+            // if deletion, then remove this gallery from all other galleries' lists of expanded galleries and viewers
+
+            const galleriesToUpdate = await galleryStore
+                .where('howToExpandedGalleries', 'array-contains', before.id)
+                .get();
+            galleriesToUpdate.forEach((expandedGallery) => {
+                const otherGallery = expandedGallery.data();
+                let howToExpandedGalleries: string[] =
+                    otherGallery.howToExpandedGalleries.filter(
+                        (id: string) => id !== before.id,
+                    );
+                let howToViewers: Record<string, string[]> =
+                    otherGallery.howToViewers;
+                delete howToViewers[before.id];
+                let howToViewersFlat: string[] =
+                    Object.values(howToViewers).flat();
+
+                batch.update(galleryStore.doc(expandedGallery.id), {
+                    howToExpandedGalleries: howToExpandedGalleries,
+                    howToViewers: howToViewers,
+                    howToViewersFlat: howToViewersFlat,
+                });
+            });
+        } else if (
+            after &&
+            before &&
+            listEq(before.curators, after.curators) &&
+            listEq(before.creators, after.creators)
+        ) {
+            // if none of the relevant fields changed, then return to prevent infinite loops
+            return;
+        } else if (after) {
+            // otherwise, update the howToViewers and howToViewersFlat fields of all galleries
+
+            const galleriesToUpdate = await galleryStore
+                .where('howToExpandedGalleries', 'array-contains', after.id)
+                .get();
+
+            galleriesToUpdate.forEach((expandedGallery) => {
+                const otherGallery = expandedGallery.data();
+                let howToViewers: Record<string, string[]> = {
+                    ...otherGallery.howToViewers,
+                    [after.id]: [...after.curators, ...after.creators],
+                };
+                let howToViewersFlat: string[] =
+                    Object.values(howToViewers).flat();
+
+                batch.update(galleryStore.doc(expandedGallery.id), {
+                    howToViewers: howToViewers,
+                    howToViewersFlat: howToViewersFlat,
+                });
+            });
         }
-        return true;
-    }
 
-    // if the list of creators or curators for the gallery has changed,
-    // then we need to look at all other galleries to see if they have this changed gallery
-    // in its list of expanded galleries
-    // if so, then we need to update the list of viewers for that expanded gallery
-
-    if (before && !after) {
-        // if deletion, then remove this gallery from all other galleries' lists of expanded galleries and viewers
-
-        const galleriesToUpdate = await galleryStore.where('howToExpandedGalleries', 'array-contains', before.id).get();
-        galleriesToUpdate.forEach((expandedGallery) => {
-            const otherGallery = expandedGallery.data();
-            let howToExpandedGalleries: string[] = otherGallery.howToExpandedGalleries.filter((id: string) => id !== before.id);
-            let howToViewers: Record<string, string[]> = otherGallery.howToViewers;
-            delete howToViewers[before.id];
-            let howToViewersFlat: string[] = Object.values(howToViewers).flat();
-
-            batch.update(galleryStore.doc(expandedGallery.id), {
-                howToExpandedGalleries: howToExpandedGalleries,
-                howToViewers: howToViewers,
-                howToViewersFlat: howToViewersFlat,
-            });
-        });
-
-    } else if (after && before && listEq(before.curators, after.curators) && listEq(before.creators, after.creators)) {
-        // if none of the relevant fields changed, then return to prevent infinite loops
-        return;
-    } else if (after) {
-        // otherwise, update the howToViewers and howToViewersFlat fields of all galleries
-
-        const galleriesToUpdate = await galleryStore.where('howToExpandedGalleries', 'array-contains', after.id).get();
-
-        galleriesToUpdate.forEach((expandedGallery) => {
-            const otherGallery = expandedGallery.data();
-            let howToViewers: Record<string, string[]> = { ...otherGallery.howToViewers, [after.id]: [...after.curators, ...after.creators] };
-            let howToViewersFlat: string[] = Object.values(howToViewers).flat();
-
-            batch.update(galleryStore.doc(expandedGallery.id), {
-                howToViewers: howToViewers,
-                howToViewersFlat: howToViewersFlat,
-            });
-        });
-    }
-
-    return batch.commit();
-});
+        return batch.commit();
+    },
+);

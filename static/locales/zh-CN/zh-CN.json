@@ -5196,8 +5196,7 @@
                 "explanation": "选择你的语言和地区",
                 "subheader": {
                     "selected": "选择",
-                    "supported": "可用的",
-                    "help": "帮我们翻译……"
+                    "supported": "可用的"
                 },
                 "button": {
                     "show": "切换语言",
@@ -5205,6 +5204,19 @@
                     "add": "添加语言",
                     "remove": "删除语言",
                     "menu": "$~其他语言"
+                },
+                "localizeHelp": "$?",
+                "request": {
+                    "header": "$?",
+                    "explanation": "$?",
+                    "languageLabel": "$?",
+                    "regionLabel": "$?",
+                    "submit": "$?",
+                    "submitting": "$?",
+                    "success": "$?",
+                    "error": "$?",
+                    "alreadySupported": "$?",
+                    "requiresLogin": "$?"
                 }
             },
             "help": {

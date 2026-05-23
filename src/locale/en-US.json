@@ -5229,10 +5229,10 @@
             "locale": {
                 "header": "Language",
                 "explanation": "Choose languages for the interface, tutorial, and documentation.",
+                "localizeHelp": "/To help improve translations in your language, click the ✎ pencil icon at the *bottom of the page* to turn on localization mode and suggest improvements./",
                 "subheader": {
                     "selected": "Selected",
-                    "supported": "Available",
-                    "help": "Help us translate …"
+                    "supported": "Available"
                 },
                 "button": {
                     "show": "choose language(s) for the website",
@@ -5240,6 +5240,18 @@
                     "add": "use this language and the current ones",
                     "remove": "remove this language",
                     "menu": "other languages"
+                },
+                "request": {
+                    "header": "Don't see your language?",
+                    "explanation": "Pick a language and region and we'll open a GitHub issue to discuss adding it.",
+                    "languageLabel": "language",
+                    "regionLabel": "region",
+                    "submit": "Request",
+                    "submitting": "Sending request…",
+                    "success": "Discuss this request with us on GitHub!",
+                    "error": "Something went wrong. Please try again.",
+                    "alreadySupported": "That language and region is already supported.",
+                    "requiresLogin": "You must be signed in to request a language."
                 }
             },
             "help": {
@@ -5479,8 +5491,8 @@
             "description": "Welcome to localization mode! You can suggest improvements to the text in the Wordplay interface. Choose any text to suggest an edit. Your suggestions will be reviewed, and if approved, will become part of the platform for everyone to see. Thanks for helping make Wordplay more accessible for everyone in the world!",
             "toggle": {
                 "mode": {
-                    "on": "Leave localization mode",
-                    "off": "Enter the localization mode to suggest edits to the platform's text in the current language choice."
+                    "on": "leave localization mode",
+                    "off": "enter localization mode to suggest edits to the platform's text in the current language."
                 }
             },
             "button": {

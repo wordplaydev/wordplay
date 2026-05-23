@@ -5271,8 +5271,7 @@
                 "explanation": "$~इंटरफेस, ट्यूटोरियल आणि दस्तऐवजीकरणासाठी भाषा निवडा.",
                 "subheader": {
                     "selected": "$~निवडले",
-                    "supported": "$~उपलब्ध",
-                    "help": "$~आम्हाला भाषांतर करण्यात मदत करा…"
+                    "supported": "$~उपलब्ध"
                 },
                 "button": {
                     "show": "$~वेबसाइटसाठी भाषा निवडा",
@@ -5280,6 +5279,19 @@
                     "add": "$~ही भाषा आणि सध्याच्या भाषा वापरा",
                     "remove": "$~ही भाषा काढून टाका",
                     "menu": "$~इतर भाषा"
+                },
+                "localizeHelp": "$?",
+                "request": {
+                    "header": "$?",
+                    "explanation": "$?",
+                    "languageLabel": "$?",
+                    "regionLabel": "$?",
+                    "submit": "$?",
+                    "submitting": "$?",
+                    "success": "$?",
+                    "error": "$?",
+                    "alreadySupported": "$?",
+                    "requiresLogin": "$?"
                 }
             },
             "help": {

@@ -5532,8 +5532,7 @@
                 "explanation": "$~בחר שפות עבור הממשק, המדריך והתיעוד.",
                 "subheader": {
                     "selected": "$~נִבחָר",
-                    "supported": "$~זָמִין",
-                    "help": "$~עזרו לנו לתרגם…"
+                    "supported": "$~זָמִין"
                 },
                 "button": {
                     "show": "$~בחירת שפה/ות לאתר",
@@ -5541,6 +5540,19 @@
                     "add": "$~להשתמש בשפה זו ובשפה הנוכחית",
                     "remove": "$~הסר את השפה הזו",
                     "menu": "$~שפות אחרות"
+                },
+                "localizeHelp": "$?",
+                "request": {
+                    "header": "$?",
+                    "explanation": "$?",
+                    "languageLabel": "$?",
+                    "regionLabel": "$?",
+                    "submit": "$?",
+                    "submitting": "$?",
+                    "success": "$?",
+                    "error": "$?",
+                    "alreadySupported": "$?",
+                    "requiresLogin": "$?"
                 }
             },
             "help": {

@@ -5267,8 +5267,7 @@
                 "explanation": "$~Arayüz, eğitim ve dokümantasyon için dilleri seçin.",
                 "subheader": {
                     "selected": "$~Seçilmiş",
-                    "supported": "$~Mevcut",
-                    "help": "$~…'i çevirmemize yardım edin."
+                    "supported": "$~Mevcut"
                 },
                 "button": {
                     "show": "$~web sitesi için dil(ler) seçin",
@@ -5276,6 +5275,19 @@
                     "add": "$~Bu dili ve mevcut dilleri kullanın.",
                     "remove": "$~bu dili kaldır",
                     "menu": "$~diğer diller"
+                },
+                "localizeHelp": "$?",
+                "request": {
+                    "header": "$?",
+                    "explanation": "$?",
+                    "languageLabel": "$?",
+                    "regionLabel": "$?",
+                    "submit": "$?",
+                    "submitting": "$?",
+                    "success": "$?",
+                    "error": "$?",
+                    "alreadySupported": "$?",
+                    "requiresLogin": "$?"
                 }
             },
             "help": {

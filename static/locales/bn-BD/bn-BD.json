@@ -5555,8 +5555,7 @@
                 "explanation": "$~ইন্টারফেস, টিউটোরিয়াল এবং ডকুমেন্টেশনের জন্য ভাষা নির্বাচন করুন।",
                 "subheader": {
                     "selected": "$~নির্বাচিত",
-                    "supported": "$~উপলব্ধ",
-                    "help": "$~অনুবাদ করতে সাহায্য করুন …"
+                    "supported": "$~উপলব্ধ"
                 },
                 "button": {
                     "show": "$~ওয়েবসাইটের জন্য ভাষা(গুলি) নির্বাচন করুন",
@@ -5564,6 +5563,19 @@
                     "add": "$~এই ভাষা এবং বর্তমান ভাষাগুলো ব্যবহার করুন",
                     "remove": "$~এই ভাষাটি সরান",
                     "menu": "$~অন্যান্য ভাষা"
+                },
+                "localizeHelp": "$?",
+                "request": {
+                    "header": "$?",
+                    "explanation": "$?",
+                    "languageLabel": "$?",
+                    "regionLabel": "$?",
+                    "submit": "$?",
+                    "submitting": "$?",
+                    "success": "$?",
+                    "error": "$?",
+                    "alreadySupported": "$?",
+                    "requiresLogin": "$?"
                 }
             },
             "help": {

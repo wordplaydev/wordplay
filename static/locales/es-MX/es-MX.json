@@ -5236,8 +5236,7 @@
                 "explanation": "Elige tus idiomas y regiones.",
                 "subheader": {
                     "selected": "Seleccionado",
-                    "supported": "Disponible",
-                    "help": "Ayúdanos a traducir …"
+                    "supported": "Disponible"
                 },
                 "button": {
                     "show": "cambiar idiomas",
@@ -5245,6 +5244,19 @@
                     "add": "añadir idioma",
                     "remove": "quitar idioma",
                     "menu": "$~otros idiomas"
+                },
+                "localizeHelp": "$?",
+                "request": {
+                    "header": "$?",
+                    "explanation": "$?",
+                    "languageLabel": "$?",
+                    "regionLabel": "$?",
+                    "submit": "$?",
+                    "submitting": "$?",
+                    "success": "$?",
+                    "error": "$?",
+                    "alreadySupported": "$?",
+                    "requiresLogin": "$?"
                 }
             },
             "help": {

@@ -5508,8 +5508,7 @@
                 "explanation": "$~اختر اللغات المناسبة للواجهة، والبرنامج التعليمي، والوثائق.",
                 "subheader": {
                     "selected": "$~مختار",
-                    "supported": "$~متاح",
-                    "help": "$~ساعدنا في الترجمة..."
+                    "supported": "$~متاح"
                 },
                 "button": {
                     "show": "$~اختر لغة (لغات) الموقع الإلكتروني",
@@ -5517,6 +5516,19 @@
                     "add": "$~استخدم هذه اللغة واللغات الحالية",
                     "remove": "$~قم بإزالة هذه اللغة",
                     "menu": "$~لغات أخرى"
+                },
+                "localizeHelp": "$?",
+                "request": {
+                    "header": "$?",
+                    "explanation": "$?",
+                    "languageLabel": "$?",
+                    "regionLabel": "$?",
+                    "submit": "$?",
+                    "submitting": "$?",
+                    "success": "$?",
+                    "error": "$?",
+                    "alreadySupported": "$?",
+                    "requiresLogin": "$?"
                 }
             },
             "help": {

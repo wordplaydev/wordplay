@@ -5253,8 +5253,7 @@
                 "explanation": "$~Wählen Sie Ihre Sprachen und Regionen.",
                 "subheader": {
                     "selected": "$~Ausgewählt",
-                    "supported": "$~Verfügbar",
-                    "help": "$~Helfen Sie uns beim Übersetzen …"
+                    "supported": "$~Verfügbar"
                 },
                 "button": {
                     "show": "$~Sprache(n) für die Website auswählen",
@@ -5262,6 +5261,19 @@
                     "remove": "$~Diese Sprache entfernen",
                     "replace": "$~diese Sprache verwenden",
                     "menu": "$~andere Sprachen"
+                },
+                "localizeHelp": "$?",
+                "request": {
+                    "header": "$?",
+                    "explanation": "$?",
+                    "languageLabel": "$?",
+                    "regionLabel": "$?",
+                    "submit": "$?",
+                    "submitting": "$?",
+                    "success": "$?",
+                    "error": "$?",
+                    "alreadySupported": "$?",
+                    "requiresLogin": "$?"
                 }
             },
             "help": {

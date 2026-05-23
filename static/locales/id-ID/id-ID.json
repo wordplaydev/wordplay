@@ -5549,8 +5549,7 @@
                 "explanation": "$~Pilih bahasa untuk antarmuka, tutorial, dan dokumentasi.",
                 "subheader": {
                     "selected": "$~Terpilih",
-                    "supported": "$~Tersedia",
-                    "help": "$~Bantu kami menerjemahkan…"
+                    "supported": "$~Tersedia"
                 },
                 "button": {
                     "show": "$~Pilih bahasa untuk situs web",
@@ -5558,6 +5557,19 @@
                     "add": "$~gunakan bahasa ini dan bahasa-bahasa yang ada saat ini",
                     "remove": "$~hapus bahasa ini",
                     "menu": "$~bahasa lain"
+                },
+                "localizeHelp": "$?",
+                "request": {
+                    "header": "$?",
+                    "explanation": "$?",
+                    "languageLabel": "$?",
+                    "regionLabel": "$?",
+                    "submit": "$?",
+                    "submitting": "$?",
+                    "success": "$?",
+                    "error": "$?",
+                    "alreadySupported": "$?",
+                    "requiresLogin": "$?"
                 }
             },
             "help": {

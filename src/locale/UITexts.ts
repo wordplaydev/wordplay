@@ -986,14 +986,14 @@ type UITexts = {
         };
         /** The locale chooser dialog */
         locale: HeaderAndExplanationText & {
+            /** [formatted] Banner at the top of the dialog prompting users to enter localization mode via the pencil icon in the app footer. */
+            localizeHelp: FormattedText;
             /** Subheaders in the local chooser dialog. */
             subheader: {
                 /** [plain] How to label the locales that have been selected */
                 selected: string;
                 /** [plain] How to label the supported locales that have not been selected */
                 supported: string;
-                /** [plain] How to request help with localization */
-                help: string;
             };
             /** Buttons in the locale chooser dialog */
             button: {
@@ -1007,6 +1007,29 @@ type UITexts = {
                 remove: string;
                 /** [plain] Menu button label for "other languages" (landing page) */
                 menu: string;
+            };
+            /** Form to request support for a language/region not yet listed. */
+            request: {
+                /** [plain] Subheader above the request form. */
+                header: string;
+                /** [formatted] Short explanation of what the request form does. */
+                explanation: FormattedText;
+                /** [plain] Placeholder/label for the language dropdown. */
+                languageLabel: string;
+                /** [plain] Placeholder/label for the region dropdown. */
+                regionLabel: string;
+                /** [plain] Submit button label. */
+                submit: string;
+                /** [plain] Status shown while the request is being sent. */
+                submitting: string;
+                /** [plain] Link text shown after a successful request; the link points to the GitHub issue. */
+                success: string;
+                /** [plain] Error message shown when the request fails. */
+                error: string;
+                /** [plain] Error message shown when the combination is already supported. */
+                alreadySupported: string;
+                /** [plain] Error message shown when the user is not signed in. */
+                requiresLogin: string;
             };
         };
         /** The keyboard shortcut reference dialog */

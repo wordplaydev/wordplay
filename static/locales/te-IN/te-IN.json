@@ -5511,8 +5511,7 @@
                 "explanation": "$~ఇంటర్ఫేస్, ట్యుటోరియల్ మరియు డాక్యుమెంటేషన్ కోసం భాషలను ఎంచుకోండి.",
                 "subheader": {
                     "selected": "$~ఎంచుకున్నారు",
-                    "supported": "$~అందుబాటులో ఉంది",
-                    "help": "$~అనువదించడంలో మాకు సహాయం చేయండి …"
+                    "supported": "$~అందుబాటులో ఉంది"
                 },
                 "button": {
                     "show": "$~వెబ్‌సైట్ కోసం భాష(ల)ను ఎంచుకోండి",
@@ -5520,6 +5519,19 @@
                     "add": "$~ఈ భాషను మరియు ప్రస్తుత భాషలను ఉపయోగించండి",
                     "remove": "$~ఈ భాషను తొలగించండి",
                     "menu": "$~ఇతర భాషలు"
+                },
+                "localizeHelp": "$?",
+                "request": {
+                    "header": "$?",
+                    "explanation": "$?",
+                    "languageLabel": "$?",
+                    "regionLabel": "$?",
+                    "submit": "$?",
+                    "submitting": "$?",
+                    "success": "$?",
+                    "error": "$?",
+                    "alreadySupported": "$?",
+                    "requiresLogin": "$?"
                 }
             },
             "help": {

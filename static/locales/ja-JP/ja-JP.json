@@ -5267,8 +5267,7 @@
                 "explanation": "$~インターフェース、チュートリアル、ドキュメントの言語を選択します。",
                 "subheader": {
                     "selected": "$~選択済み",
-                    "supported": "$~利用可能",
-                    "help": "$~翻訳にご協力ください…"
+                    "supported": "$~利用可能"
                 },
                 "button": {
                     "show": "$~ウェブサイトの言語を選択してください",
@@ -5276,6 +5275,19 @@
                     "add": "$~この言語と現在の言語を使用する",
                     "remove": "$~この言語を削除",
                     "menu": "$~他の言語"
+                },
+                "localizeHelp": "$?",
+                "request": {
+                    "header": "$?",
+                    "explanation": "$?",
+                    "languageLabel": "$?",
+                    "regionLabel": "$?",
+                    "submit": "$?",
+                    "submitting": "$?",
+                    "success": "$?",
+                    "error": "$?",
+                    "alreadySupported": "$?",
+                    "requiresLogin": "$?"
                 }
             },
             "help": {

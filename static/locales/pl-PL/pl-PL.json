@@ -5280,8 +5280,7 @@
                 "explanation": "$~Wybierz języki dla interfejsu, samouczka i dokumentacji.",
                 "subheader": {
                     "selected": "$~Wybrany",
-                    "supported": "$~Dostępny",
-                    "help": "$~Pomóż nam tłumaczyć…"
+                    "supported": "$~Dostępny"
                 },
                 "button": {
                     "show": "$~wybierz język(i) witryny",
@@ -5289,6 +5288,19 @@
                     "add": "$~użyj tego języka i obecnych",
                     "remove": "$~usuń ten język",
                     "menu": "$~inne języki"
+                },
+                "localizeHelp": "$?",
+                "request": {
+                    "header": "$?",
+                    "explanation": "$?",
+                    "languageLabel": "$?",
+                    "regionLabel": "$?",
+                    "submit": "$?",
+                    "submitting": "$?",
+                    "success": "$?",
+                    "error": "$?",
+                    "alreadySupported": "$?",
+                    "requiresLogin": "$?"
                 }
             },
             "help": {

@@ -5511,8 +5511,7 @@
                 "explanation": "$~ಇಂಟರ್ಫೇಸ್, ಟ್ಯುಟೋರಿಯಲ್ ಮತ್ತು ದಸ್ತಾವೇಜೀಕರಣಕ್ಕಾಗಿ ಭಾಷೆಗಳನ್ನು ಆರಿಸಿ.",
                 "subheader": {
                     "selected": "$~ಆಯ್ಕೆ ಮಾಡಲಾಗಿದೆ",
-                    "supported": "$~ಲಭ್ಯವಿದೆ",
-                    "help": "$~ಅನುವಾದಿಸಲು ನಮಗೆ ಸಹಾಯ ಮಾಡಿ…"
+                    "supported": "$~ಲಭ್ಯವಿದೆ"
                 },
                 "button": {
                     "show": "$~ವೆಬ್‌ಸೈಟ್‌ಗಾಗಿ ಭಾಷೆ(ಗಳು) ಆಯ್ಕೆಮಾಡಿ",
@@ -5520,6 +5519,19 @@
                     "add": "$~ಈ ಭಾಷೆ ಮತ್ತು ಪ್ರಸ್ತುತ ಭಾಷೆಗಳನ್ನು ಬಳಸಿ.",
                     "remove": "$~ಈ ಭಾಷೆಯನ್ನು ತೆಗೆದುಹಾಕಿ",
                     "menu": "$~ಇತರ ಭಾಷೆಗಳು"
+                },
+                "localizeHelp": "$?",
+                "request": {
+                    "header": "$?",
+                    "explanation": "$?",
+                    "languageLabel": "$?",
+                    "regionLabel": "$?",
+                    "submit": "$?",
+                    "submitting": "$?",
+                    "success": "$?",
+                    "error": "$?",
+                    "alreadySupported": "$?",
+                    "requiresLogin": "$?"
                 }
             },
             "help": {

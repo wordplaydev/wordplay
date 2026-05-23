@@ -5271,8 +5271,7 @@
                 "explanation": "$~Изаберите језике за интерфејс, водич и документацију.",
                 "subheader": {
                     "selected": "$~Изабрано",
-                    "supported": "$~Доступан",
-                    "help": "$~Помозите нам да преведемо…"
+                    "supported": "$~Доступан"
                 },
                 "button": {
                     "show": "$~изаберите језик(е) за веб локацију",
@@ -5280,6 +5279,19 @@
                     "add": "$~користите овај језик и тренутне",
                     "remove": "$~уклони овај језик",
                     "menu": "$~други језици"
+                },
+                "localizeHelp": "$?",
+                "request": {
+                    "header": "$?",
+                    "explanation": "$?",
+                    "languageLabel": "$?",
+                    "regionLabel": "$?",
+                    "submit": "$?",
+                    "submitting": "$?",
+                    "success": "$?",
+                    "error": "$?",
+                    "alreadySupported": "$?",
+                    "requiresLogin": "$?"
                 }
             },
             "help": {

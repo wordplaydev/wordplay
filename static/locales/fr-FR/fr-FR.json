@@ -5254,8 +5254,7 @@
                 "explanation": "$~Choisissez vos langues et régions.",
                 "subheader": {
                     "selected": "$~Choisi",
-                    "supported": "$~Disponible",
-                    "help": "$~Aidez-nous à traduire…"
+                    "supported": "$~Disponible"
                 },
                 "button": {
                     "show": "$~Choisissez la ou les langues du site web",
@@ -5263,6 +5262,19 @@
                     "remove": "$~supprimer cette langue",
                     "replace": "$~utiliser cette langue",
                     "menu": "$~autres langues"
+                },
+                "localizeHelp": "$?",
+                "request": {
+                    "header": "$?",
+                    "explanation": "$?",
+                    "languageLabel": "$?",
+                    "regionLabel": "$?",
+                    "submit": "$?",
+                    "submitting": "$?",
+                    "success": "$?",
+                    "error": "$?",
+                    "alreadySupported": "$?",
+                    "requiresLogin": "$?"
                 }
             },
             "help": {
