@@ -16,7 +16,9 @@ import { Sym } from '@nodes/Sym';
 import Token from '@nodes/Token';
 import { tokenize } from '@parser/Tokenizer';
 import { toTokens } from '@parser/toTokens';
-import LocalePath, { getKeyTemplatePairs } from '@util/verify-locales/LocalePath';
+import LocalePath, {
+    getKeyTemplatePairs,
+} from '@util/verify-locales/LocalePath';
 import { LocaleValidator } from '@util/verify-locales/LocaleSchema';
 import type Log from '@util/verify-locales/Log';
 import type { RevisedString } from '@util/verify-locales/start';
@@ -24,7 +26,9 @@ import {
     checkTemplateInputs,
     getDeclaredInputs,
 } from '@util/verify-locales/templateInputs';
-import translate, { getGoogleTranslateTargetLocale } from '@util/verify-locales/translate';
+import translate, {
+    getGoogleTranslateTargetLocale,
+} from '@util/verify-locales/translate';
 
 /** Create a copy of the default tutorial with all dialog marked unwritten */
 export function createUnwrittenLocale(): LocaleText {
@@ -182,7 +186,7 @@ async function checkLocale(
         if (pairsToTranslate.length > 0) {
             log.bad(
                 2,
-                `Locale has ${pairsToTranslate.length} unwritten strings ("${Unwritten}"). Translating using Google translate.`,
+                `Translating ${pairsToTranslate.length} unwritten strings ("${Unwritten}")...`,
             );
             revised = await translateLocale(
                 log,
@@ -384,7 +388,7 @@ async function checkLocale(
     if (automated.length > 0)
         log.warning(
             2,
-            `Locale has ${automated.length} machine translated ("${MachineTranslated}"). Make sure they're sensible for 6th grade reading levels.`,
+            `Locale: ${automated.length} machine translated ("${MachineTranslated}") strings to review.`,
         );
 
     return revised;

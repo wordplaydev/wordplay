@@ -371,7 +371,13 @@
                 "$~Minsan nga, baka gusto mong gamitin ang mga espesyal na karakter na ginagamit ng @Doc sa mga salitang /as/. Halimbawa:",
                 "$~\\¶Gumagamit ang mga kaibigan ko ng @@, //, **, ||, at iba pang mga simbolo.¶\n'gamit ang mga espesyal na karakter!'\\",
                 "$~Kung uulitin mo lang ang mga espesyal na karakter na iyon, ang karakter ang makukuha mo sa halip na ang espesyal na kahulugan ng mga ito."
-            ]
+            ],
+            "conflict": {
+                "UnsupportedFontFormat": {
+                    "name": "$?",
+                    "explanation": "$?"
+                }
+            }
         },
         "Example": {
             "name": "$~halimbawa",
@@ -4438,7 +4444,8 @@
     "ui": {
         "font": {
             "app": "$~Noto Sans",
-            "code": "$~Noto Sans Mono"
+            "code": "$~Noto Sans Mono",
+            "missing": "$?"
         },
         "phrases": {
             "welcome": "$~kumusta"
@@ -4530,11 +4537,7 @@
                     "tip": "$~i-edit ang mga wika ng proyektong ito at isalin ito sa ibang mga wika.",
                     "label": "$~isalin"
                 },
-                "primary": "$~itinakda bilang pangunahing lokasyon ng proyektong ito",
-                "history": {
-                    "on": "$~ipakita ang kamakailang code ng proyekto",
-                    "off": "$~ipakita ang kasalukuyang code ng proyekto"
-                }
+                "primary": "$~itinakda bilang pangunahing lokasyon ng proyektong ito"
             },
             "field": {
                 "name": {
@@ -4838,8 +4841,6 @@
                             "$~maaaring tingnan ng mga kolaborator ng anumang gallery na gagawin ng sinumang curator"
                         ]
                     },
-                    "expanded": "$~pinalawak",
-                    "limited": "$~limitado",
                     "expandedOptions": "$~hayaang makita ng mga curator at tagalikha ng napiling gallery ang mga how-to ng gallery na ito",
                     "expandedAdd": "$~magdagdag ng gallery sa listahan",
                     "expandedRemove": "$~alisin ang gallery mula sa listahan"
@@ -4892,7 +4893,12 @@
             "label": "$~editor ng programa",
             "title": "$~kodigo",
             "empty": [
-                "$~• I-type ang $symbol at piliin ang \"us\" mula sa menu."
+                "$~• I-type ang $symbol at piliin ang \"us\" mula sa menu.",
+                "$?",
+                "$?",
+                "$?",
+                "$?",
+                "$?"
             ],
             "overwritten": "$~Binago ang proyekto sa ibang lugar",
             "confirm": {
@@ -4937,7 +4943,6 @@
             "menu": {
                 "label": "$~awtomatikong pagkumpleto ng menu",
                 "show": "$~ipakita ang menu ng awtomatikong pagkumpleto",
-                "back": "$~umalis sa submenu",
                 "empty": "$~Walang mga mungkahi."
             },
             "cursor": {
@@ -4959,7 +4964,6 @@
                 "selectAll": "$~pumili ng programa",
                 "incrementLiteral": "$~dagdagan ang numero, teksto, o Boolean",
                 "decrementLiteral": "$~bawasan ang numero, teksto, o Boolean",
-                "insertSymbol": "$~ipasok ang $symbol",
                 "insertTab": "$~ipasok ang tab",
                 "insertTrue": "$~ipasok ang totoo",
                 "insertFalse": "$~ipasok ang mali",
@@ -4979,7 +4983,6 @@
                 "insertConvert": "$~ipasok ang simbolo ng pag-convert",
                 "insertPrevious": "$~ilagay ang naunang simbolo",
                 "insertTable": "$~simbolo ng paglalagay ng bukas na talahanayan",
-                "insertTableClose": "$~simbolo ng paglalagay ng talahanayan para sa pagsasara",
                 "insertBorrow": "$~ipasok ang hiramin",
                 "insertShare": "$~ipasok ang bahagi",
                 "insertLine": "$~maglagay ng pahinga sa linya",
@@ -5711,7 +5714,6 @@
                 "default": "$~paunang",
                 "inherited": "$~minana",
                 "notSequence": "$~hindi isang pagkakasunod-sunod",
-                "notContent": "$~hindi isang listahan ng nilalaman",
                 "format": "$~pormat",
                 "weight": "$~timbang",
                 "light": "$~liwanag",
@@ -5785,11 +5787,6 @@
         "localize": {
             "header": "$~I-localize",
             "reference": "$~Sanggunian sa Ingles",
-            "unwritten": "$~Hindi nakasulat na teksto",
-            "revised": "$~Binagong teksto",
-            "revisedDescription": "$~Ang mga rebisyong ito ay naka-save nang lokal at hindi pa isinusumite para sa pagsusuri.",
-            "submitRevisions": "$~Magsumite ng mga rebisyon",
-            "submitted": "$~Salamat! Susuriin ang iyong binagong teksto at maaaring mai-post sa lalong madaling panahon.",
             "description": "$~Maligayang pagdating sa localization mode! Maaari kang magmungkahi ng mga pagpapabuti sa teksto sa interface ng Wordplay. Pumili ng anumang teksto upang magmungkahi ng pag-edit. Susuriin ang iyong mga mungkahi, at kung maaprubahan, ito ay magiging bahagi ng platform para makita ng lahat. Salamat sa pagtulong na gawing mas naa-access ang Wordplay para sa lahat sa mundo!",
             "toggle": {
                 "mode": {
@@ -5997,11 +5994,6 @@
                         "description": "$~paglalarawan ng klase",
                         "placeholder": "$~paglalarawan"
                     },
-                    "newteacher": {
-                        "placeholder": "$~email o username",
-                        "description": "$~email o username ng lumikha na gusto mong bigyan ng access ang guro sa klaseng ito"
-                    },
-                    "addteacher": "$~Magdagdag ng guro sa klaseng ito",
                     "delete": {
                         "tip": "$~burahin ang klaseng ito magpakailanman",
                         "label": "$~Burahin ang klaseng ito"
@@ -6369,9 +6361,7 @@
                     "forgot": "$~*Nakalimutan mo ba ang iyong password?* Sa kasamaang palad, hindi namin mababawi ang iyong account dahil hindi kami nangongolekta ng impormasyon sa pakikipag-ugnayan.",
                     "enter": "$~Mukhang galing sa ibang browser o device ang login link mo. Maaari mo bang ilagay muli ang email mo para makasiguro kaming ikaw nga iyon?",
                     "play": "$~Naka-log in ka na, puwede na naming i-save ang mga proyekto mo online! Gusto mo bang gumawa ng kahit ano?",
-                    "tooyoung": "$~Dapat ay 13 taong gulang ka o mas matanda pa para makapag-login gamit ang email.",
                     "passwordrule": "$~Ang mga password ay dapat na hindi bababa sa 6 na karakter ang haba; kung hindi ka gumagamit ng password manager, pumili ng tatlong mahahabang salita na iyong matatandaan.",
-                    "passwordreminder": "$~Mukhang wala ka pang account. Ilagay muli ang iyong password at siguraduhing naitago mo ito nang ligtas at tama, dahil hindi na ito mababawi.",
                     "changeEmail": "$~Gusto mo bang palitan ang iyong email? Magsumite ng bago at magpapadala kami ng kumpirmasyon sa luma.",
                     "changePassword": "$~Gusto mo bang baguhin ang iyong password? Magsumite ng bago at ulitin ito.",
                     "email": "$~Mayroon ka bang email-only account? Mag-login gamit ang iyong email, at kung mayroong account na nauugnay dito, padadalhan ka namin ng email na may link sa pag-sign-in. Hindi sinusuportahan ang mga bagong email-only account, para mapanatili ang privacy.",
@@ -6391,7 +6381,6 @@
                     "usernameTaken": "$~Ginagamit na ang username na ito.",
                     "failure": "$~Hindi makapag-login :(",
                     "offline": "$~Hindi namin maabot ang ulap ☁️.",
-                    "unchanged": "$~Hindi namin mabago ang iyong email address, ngunit hindi namin alam kung bakit.",
                     "delete": "$~Hindi namin mabura ang iyong account, ngunit hindi namin alam kung bakit.",
                     "invalidPassword": "$~Ang mga password ay dapat na hindi bababa sa 6 na karakter ang haba.",
                     "wrongPassword": "$~Hindi wastong username at password. Maaaring mali ang iyong password, o may ibang gumagamit nito.",
@@ -6509,8 +6498,6 @@
                 "palette": "$~Paleta",
                 "semantic": "$~Mga Kulay na Semantiko",
                 "fonts": "$~Mga Font",
-                "appfont": "$~Font ng Teksto",
-                "codefont": "$~Font ng Kodigo",
                 "spacing": "$~Pag-iisa",
                 "typography": "$~Tipograpiya",
                 "components": "$~Mga Bahagi",
@@ -6528,7 +6515,6 @@
                 "demo": {
                     "button": "$~Halimbawa",
                     "note": "$~Ito ay isang tala.",
-                    "warning": "$~Ito ay isang babala.",
                     "notice": "$~Ito ay isang paunawa.",
                     "header": "$~Pangunahing Paunang Salita",
                     "subheader": "$~Subheader",
@@ -6648,9 +6634,6 @@
             "append": "$~/Sabik na ipasok…/",
             "remove": "$~/Isinasaalang-alang ang pag-alis…/",
             "replace": "$~/Gustong makialam…/",
-            "wrap": "$~panaklong",
-            "unwrap": "$~magbukas",
-            "bind": "$~pangalanan ang ekspresyong ito",
             "area": "$~uri ng kodigo"
         },
         "template": {

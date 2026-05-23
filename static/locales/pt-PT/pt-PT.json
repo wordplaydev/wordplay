@@ -371,7 +371,13 @@
                 "$~Por vezes, porém, pode querer utilizar os caracteres especiais que o @Doc utiliza as palavras /como/. Por exemplo:",
                 "$~Os meus amigos usam @@, //, **, || e outros símbolos.\n'Utilizando caracteres especiais!'",
                 "$~Se simplesmente repetir estes caracteres especiais, obterá o caractere em vez do seu significado especial."
-            ]
+            ],
+            "conflict": {
+                "UnsupportedFontFormat": {
+                    "name": "$?",
+                    "explanation": "$?"
+                }
+            }
         },
         "Example": {
             "name": "$~exemplo",
@@ -4435,7 +4441,8 @@
     "ui": {
         "font": {
             "app": "$~Noto Sans",
-            "code": "$~Noto Sans Mono"
+            "code": "$~Noto Sans Mono",
+            "missing": "$?"
         },
         "phrases": {
             "welcome": "$~Olá"
@@ -4527,11 +4534,7 @@
                     "tip": "$~Edite os idiomas deste projeto e traduza-o para outros idiomas.",
                     "label": "$~traduzir"
                 },
-                "primary": "$~definido como o local principal deste projeto",
-                "history": {
-                    "on": "$~Mostrar o código do projeto recente",
-                    "off": "$~Mostrar o código do projeto atual"
-                }
+                "primary": "$~definido como o local principal deste projeto"
             },
             "field": {
                 "name": {
@@ -4835,8 +4838,6 @@
                             "$~Os colaboradores de qualquer galeria criada por qualquer curador podem visualizar."
                         ]
                     },
-                    "expanded": "$~expandido",
-                    "limited": "$~limitado",
                     "expandedOptions": "$~Permita que os curadores e criadores da galeria selecionada vejam as instruções desta galeria.",
                     "expandedAdd": "$~Adicionar galeria à lista",
                     "expandedRemove": "$~Remover galeria da lista"
@@ -4888,7 +4889,14 @@
         "source": {
             "label": "$~editor de programas",
             "title": "$~código",
-            "empty": ["$~• Introduza $symbol e escolha-nos no menu."],
+            "empty": [
+                "$~• Introduza $symbol e escolha-nos no menu.",
+                "$?",
+                "$?",
+                "$?",
+                "$?",
+                "$?"
+            ],
             "overwritten": "$~Projeto revisto em outro local",
             "confirm": {
                 "delete": {
@@ -4932,7 +4940,6 @@
             "menu": {
                 "label": "$~menu de preenchimento automático",
                 "show": "$~Mostrar menu de preenchimento automático",
-                "back": "$~sair do submenu",
                 "empty": "$~Sem sugestões."
             },
             "cursor": {
@@ -4954,7 +4961,6 @@
                 "selectAll": "$~selecionar programa",
                 "incrementLiteral": "$~Aumentar número, texto ou valor booleano",
                 "decrementLiteral": "$~diminuir número, texto ou booleano",
-                "insertSymbol": "$~inserir $symbol",
                 "insertTab": "$~inserir guia",
                 "insertTrue": "$~inserir verdadeiro",
                 "insertFalse": "$~inserir falso",
@@ -4974,7 +4980,6 @@
                 "insertConvert": "$~inserir símbolo de conversão",
                 "insertPrevious": "$~inserir símbolo anterior",
                 "insertTable": "$~inserir símbolo de abertura de tabela",
-                "insertTableClose": "$~inserir símbolo de fechar tabela",
                 "insertBorrow": "$~inserir empréstimo",
                 "insertShare": "$~inserir partilha",
                 "insertLine": "$~inserir quebra de linha",
@@ -5706,7 +5711,6 @@
                 "default": "$~predefinição",
                 "inherited": "$~herdado",
                 "notSequence": "$~não uma sequência",
-                "notContent": "$~não é uma lista de conteúdos",
                 "format": "$~formatar",
                 "weight": "$~peso",
                 "light": "$~luz",
@@ -5817,11 +5821,6 @@
             "emotion": "Choose an emotion",
             "invalidName": "$~Nome inválido para jogo de palavras",
             "reference": "$~Referência em inglês",
-            "unwritten": "$~Texto não escrito",
-            "revised": "$~Texto revisto",
-            "revisedDescription": "$~Estas revisões foram guardadas localmente e ainda não foram submetidas para revisão.",
-            "submitRevisions": "$~Enviar revisões",
-            "submitted": "$~Obrigado! O seu texto revisto será analisado e poderá ser publicado em breve.",
             "invalidConceptLinks": "$~Estes links conceptuais não funcionam na configuração local atual. Digitou algum deles incorretamente ou removeu-o de propósito?",
             "inputs": {
                 "header": "$~Entradas que este modelo aceita",
@@ -5992,11 +5991,6 @@
                         "description": "$~descrição da classe",
                         "placeholder": "$~descrição"
                     },
-                    "newteacher": {
-                        "placeholder": "$~e-mail ou nome de utilizador",
-                        "description": "$~E-mail ou nome de utilizador do criador a quem pretende conceder acesso de professor a esta turma."
-                    },
-                    "addteacher": "$~Adicionar um professor a esta turma",
                     "delete": {
                         "tip": "$~apague esta classe para sempre.",
                         "label": "$~Apague esta classe"
@@ -6364,9 +6358,7 @@
                     "forgot": "$~*Esqueceu-se da palavra-passe?* Infelizmente, não podemos recuperar a sua conta, pois não recolhemos informações de contacto.",
                     "enter": "$~Parece que o seu link de login veio de um browser ou dispositivo diferente. Pode inserir o seu e-mail novamente para termos a certeza de que é você?",
                     "play": "$~Está conectado(a), agora podemos guardar os seus projetos online! Quer criar algo?",
-                    "tooyoung": "$~Precisa de ter 13 anos ou mais para fazer login com um e-mail.",
                     "passwordrule": "$~As palavras-passe devem ter pelo menos 6 caracteres; se não estiver a utilizar um gestor de palavras-passe, escolha três palavras longas de que se lembre.",
-                    "passwordreminder": "$~Parece que ainda não tem conta. Introduza novamente a sua palavra-passe e certifique-se de que a guarda em local seguro e correto, pois não poderá ser recuperada.",
                     "changeEmail": "$~Deseja alterar o seu e-mail? Envie um novo e enviaremos uma confirmação para o endereço antigo.",
                     "changePassword": "$~Deseja alterar a sua palavra-passe? Introduza uma nova e repita o processo.",
                     "email": "$~Possui uma conta ligada apenas a um e-mail? Faça login com o seu e-mail e, se houver uma conta associada, enviar-lhe-emos um e-mail com o link de acesso. Para preservar a privacidade, não suportamos novas contas ligadas apenas a um e-mail.",
@@ -6386,7 +6378,6 @@
                     "usernameTaken": "$~Este nome de utilizador já está em utilização.",
                     "failure": "$~Não foi possível fazer login :(",
                     "offline": "$~Não conseguimos alcançar a cloud ☁️.",
-                    "unchanged": "$~Não foi possível alterar o seu endereço de e-mail, mas não sabemos o motivo.",
                     "delete": "$~Não foi possível eliminar a sua conta, mas não sabemos o motivo.",
                     "invalidPassword": "$~As palavras-passe devem ter no mínimo 6 caracteres.",
                     "wrongPassword": "$~Nome de utilizador e palavra-passe inválidos. Ou a sua palavra-passe está incorreta, ou outra pessoa já está a utilizar este nome de utilizador.",
@@ -6504,8 +6495,6 @@
                 "palette": "$~Paleta",
                 "semantic": "$~Cores Semânticas",
                 "fonts": "$~Fontes",
-                "appfont": "$~Fonte do texto",
-                "codefont": "$~Fonte de código",
                 "spacing": "$~Espaçamento",
                 "typography": "$~Tipografia",
                 "components": "$~Componentes",
@@ -6523,7 +6512,6 @@
                 "demo": {
                     "button": "$~Exemplo",
                     "note": "$~Isto é uma nota.",
-                    "warning": "$~Isto é um aviso.",
                     "notice": "$~Este é um aviso.",
                     "header": "$~Cabeçalho",
                     "subheader": "$~Subtítulo",
@@ -6643,9 +6631,6 @@
             "append": "$~/Ansioso por inserir…/",
             "remove": "$~/Considera sair…/",
             "replace": "$~/Deseja intervir…/",
-            "wrap": "$~parênteses",
-            "unwrap": "$~desembrulhar",
-            "bind": "$~Dê um nome a esta expressão.",
             "area": "$~código de tipo"
         },
         "template": {

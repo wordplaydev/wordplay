@@ -1,5 +1,6 @@
 import { Purpose } from '@concepts/Purpose';
 import type Conflict from '@conflicts/Conflict';
+import { getEvaluateAnalyzers } from '@conflicts/evaluateAnalyzers';
 import IncompatibleInput from '@conflicts/IncompatibleInput';
 import MissingInput from '@conflicts/MissingInput';
 import NotInstantiable from '@conflicts/NotInstantiable';
@@ -730,6 +731,12 @@ export default class Evaluate extends Expression {
             // Add a new one.
             conflicts.push(new SeparatedEvaluate(ref, block, structure));
         }
+
+        // Let any definition-specific analyzers contribute extra conflicts
+        // (e.g. Phrase's unsupported-font-format warnings). Keeps domain
+        // knowledge out of this file.
+        for (const analyzer of getEvaluateAnalyzers(fun))
+            conflicts.push(...analyzer(this, context));
 
         return conflicts;
     }

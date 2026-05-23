@@ -20,12 +20,15 @@ export default async function translate(
     let translations: string[] = [];
     for (const batch of sourceStringsBatches) {
         try {
-            // Wrap every `$name` mention in a no-translate span before sending.
-            // Translate guarantees verbatim preservation of nodes marked
+            // Wrap every `\…\` code block, `@Concept` link, and `$name`
+            // mention in a no-translate span before sending. Translate
+            // guarantees verbatim preservation of nodes marked
             // `translate="no"`, which keeps Google from transliterating
-            // `$expected` to `$المتوقع`, dropping the `$`, or otherwise
-            // garbling the placeholder. We strip the wrappers after.
-            const wrapped = batch.map(wrapMentions);
+            // `$expected` to `$المتوقع`, dropping `\` delimiters around
+            // examples, agglutinating suffixes onto concept names (Romanian
+            // `@Program-urile`, Bengali `@Doc-এ`), or otherwise garbling
+            // Wordplay-specific syntax. We strip the wrappers after.
+            const wrapped = batch.map(wrapProtected);
             const [translatedBatch] = await GoogleTranslate.translate(
                 wrapped,
                 {
@@ -35,7 +38,7 @@ export default async function translate(
                 },
             );
             const restored = translatedBatch
-                .map(unwrapMentions)
+                .map(unwrapProtected)
                 .map(decodeHtmlEntities)
                 // Restore concept links (`@Foo`) using order-based matching.
                 .map((translation, index) =>
@@ -74,12 +77,82 @@ export function wrapMentions(text: string): string {
     );
 }
 
-/** Strip the wrappers we added in `wrapMentions`, keeping their inner text. */
+/** Strip the wrappers we added in `wrapMentions`/`wrapProtected`, keeping their
+ *  inner text. Uses a non-greedy any-character match so code-block content with
+ *  `<` (e.g. comparisons like `2 < 3`) survives the round-trip. */
 export function unwrapMentions(text: string): string {
     return text.replace(
-        /<span\s+translate="no">([^<]*)<\/span>/g,
+        /<span\s+translate="no">([\s\S]*?)<\/span>/g,
         (_m, inner: string) => inner,
     );
+}
+
+/** Backwards-compatible alias for `unwrapMentions` — the unwrap step is the
+ *  same regardless of which constructs were wrapped. */
+export const unwrapProtected = unwrapMentions;
+
+/** Walk a markup string and split it into alternating markup and code
+ *  segments. Code segments are delimited by `\`; the delimiters are kept on
+ *  the segment so wrapping preserves them verbatim. An unclosed trailing
+ *  segment is treated as code so its content (including the opening `\`) is
+ *  protected together. */
+function splitMarkupAndCode(
+    text: string,
+): Array<{ kind: 'markup' | 'code'; text: string }> {
+    const segments: Array<{ kind: 'markup' | 'code'; text: string }> = [];
+    let buffer = '';
+    let inCode = false;
+    for (const c of text) {
+        if (c === '\\') {
+            if (inCode) {
+                segments.push({ kind: 'code', text: '\\' + buffer + '\\' });
+                buffer = '';
+                inCode = false;
+            } else {
+                if (buffer.length > 0)
+                    segments.push({ kind: 'markup', text: buffer });
+                buffer = '';
+                inCode = true;
+            }
+        } else {
+            buffer += c;
+        }
+    }
+    if (buffer.length > 0 || inCode) {
+        segments.push({
+            kind: inCode ? 'code' : 'markup',
+            text: inCode ? '\\' + buffer : buffer,
+        });
+    }
+    return segments;
+}
+
+const PROTECT_OPEN = '<span translate="no">';
+const PROTECT_CLOSE = '</span>';
+
+/** Wrap each `\…\` code block, each `@Concept` link in markup, and each
+ *  `$name` mention in a `<span translate="no">` so Google Translate preserves
+ *  them verbatim. Code blocks are wrapped whole (delimiters included); concept
+ *  links and mentions inside code blocks are already protected by the
+ *  surrounding wrap and aren't double-wrapped. */
+export function wrapProtected(text: string): string {
+    const conceptPattern = new RegExp(ConceptRegExPattern, 'gu');
+    const mentionPattern = new RegExp(`(?<!\\$)${MentionRegEx}`, 'gu');
+    return splitMarkupAndCode(text)
+        .map((seg) => {
+            if (seg.kind === 'code')
+                return `${PROTECT_OPEN}${seg.text}${PROTECT_CLOSE}`;
+            return seg.text
+                .replace(
+                    conceptPattern,
+                    (m) => `${PROTECT_OPEN}${m}${PROTECT_CLOSE}`,
+                )
+                .replace(
+                    mentionPattern,
+                    (m) => `${PROTECT_OPEN}${m}${PROTECT_CLOSE}`,
+                );
+        })
+        .join('');
 }
 
 /** Decode the HTML entities Google Translate emits when `format: 'html'`. */

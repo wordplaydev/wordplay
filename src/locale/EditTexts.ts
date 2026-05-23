@@ -23,12 +23,6 @@ type EditTexts = {
     remove: FormattedText;
     /** [formatted] $1: node description or undefined */
     replace: FormattedText;
-    /** [plain] Shown in menus to offer to wrap an expression in parentheses */
-    wrap: string;
-    /** [plain] Shown in menus to offer to unwrap an expression in parentheses */
-    unwrap: string;
-    /** [plain] Shown in menus to offer to name an expression with a bind */
-    bind: string;
     /** [plain] A label for the textarea in which text is typed */
     area: string;
 };

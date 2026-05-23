@@ -27,10 +27,6 @@ type PageText = {
         play: string;
         /** [plain] Description of password rules */
         passwordrule: string;
-        /** [plain] Reminder to write down password */
-        passwordreminder: string;
-        /** [plain] Too young feedback */
-        tooyoung: string;
         /** [formatted] Offers to log out the creator. */
         logout: FormattedText;
         /** [plain] Shown briefly before page redirects to projects */
@@ -83,8 +79,6 @@ type PageText = {
         failure: string;
         /** [plain] When there's no connection to Firebase */
         offline: string;
-        /** [plain] When the email address couldn't be changed for unknown reasons. */
-        unchanged: string;
         /** [plain] When account deletion failed */
         delete: string;
         /** [plain] When a password is wrong */
