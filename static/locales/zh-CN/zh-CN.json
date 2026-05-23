@@ -4712,7 +4712,7 @@
             "options": {
                 "locale": {
                     "tip": "$~源的首选语言",
-                    "all": "$~全部"
+                    "all": "$~语言$count"
                 }
             },
             "error": {
@@ -4775,7 +4775,7 @@
             },
             "options": {
                 "locale": "$~选择输出语言",
-                "default": "$~默认"
+                "default": "$~语言$count"
             },
             "tour": {
                 "launch": "$~参观舞台",

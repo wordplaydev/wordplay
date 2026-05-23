@@ -4921,7 +4921,7 @@
             "options": {
                 "locale": {
                     "tip": "$~ngôn ngữ ưu tiên cho nguồn",
-                    "all": "$~tất cả"
+                    "all": "$~$count ngữ"
                 }
             },
             "button": {
@@ -5070,7 +5070,7 @@
             },
             "options": {
                 "locale": "$~ngôn ngữ ưu tiên cho đầu ra",
-                "default": "$~mặc định"
+                "default": "$~$count ngữ"
             },
             "tour": {
                 "launch": "$~tham quan sân khấu",

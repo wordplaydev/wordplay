@@ -4749,7 +4749,7 @@
             "options": {
                 "locale": {
                     "tip": "$~bevorzugte Sprache für die Quelle",
-                    "all": "$~alle"
+                    "all": "$~$count Sprachen"
                 }
             },
             "error": {
@@ -4812,7 +4812,7 @@
             },
             "options": {
                 "locale": "$~Wählen Sie die Sprache für die Ausgabe",
-                "default": "$~Standard"
+                "default": "$~$count Sprachen"
             },
             "tour": {
                 "launch": "$~Machen Sie einen Rundgang über die Bühne",

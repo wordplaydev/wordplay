@@ -21,6 +21,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 - We made `Phrase` word wrapping locale specific (#164).
 - We upgraded internal tooling for stability.
+- We made the default choices on the language choosers in the editor and stage clearer.
 
 ### Fixed
 

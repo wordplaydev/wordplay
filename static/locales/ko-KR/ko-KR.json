@@ -4750,7 +4750,7 @@
             "options": {
                 "locale": {
                     "tip": "$~소스에 대한 기본 언어",
-                    "all": "$~모두"
+                    "all": "$~$count 언어"
                 }
             },
             "error": {
@@ -4813,7 +4813,7 @@
             },
             "options": {
                 "locale": "$~출력할 언어를 선택하세요",
-                "default": "$~기본"
+                "default": "$~$count 언어"
             },
             "tour": {
                 "launch": "$~무대 투어를 해보세요",

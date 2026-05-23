@@ -4767,7 +4767,7 @@
             "options": {
                 "locale": {
                     "tip": "$~ソースの優先言語",
-                    "all": "$~全て"
+                    "all": "$~$count"
                 }
             },
             "error": {

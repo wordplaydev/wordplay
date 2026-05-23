@@ -4925,7 +4925,7 @@
             "options": {
                 "locale": {
                     "tip": "$~mas gustong wika para sa pinagmulan",
-                    "all": "$~lahat"
+                    "all": "$~mga wika $count"
                 }
             },
             "button": {
@@ -5073,7 +5073,7 @@
             },
             "options": {
                 "locale": "$~ginustong wika para sa output",
-                "default": "$~paunang"
+                "default": "$~mga wika $count"
             },
             "tour": {
                 "launch": "$~maglibot sa entablado",

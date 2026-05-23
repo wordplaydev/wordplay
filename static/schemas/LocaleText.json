@@ -12932,8 +12932,8 @@
                   "additionalProperties": false,
                   "properties": {
                     "default": {
-                      "description": "[plain] The default locale for the output",
-                      "type": "string"
+                      "$ref": "#/definitions/Template%3C%5B%22count%22%5D%3E",
+                      "description": "[plain] The \"no filter\" option in the output locale chooser, showing how many languages are available to choose from. $count is the number of languages."
                     },
                     "locale": {
                       "description": "[plain] The label for the locale chooser in output",
@@ -16629,8 +16629,8 @@
                       "description": "The locale chooser for a source file",
                       "properties": {
                         "all": {
-                          "description": "[plain] The \"all locales\" option label",
-                          "type": "string"
+                          "$ref": "#/definitions/Template%3C%5B%22count%22%5D%3E",
+                          "description": "[plain] The \"no filter\" option in the editor locale chooser, showing how many languages are currently visible in the editor. $count is the number of languages."
                         },
                         "tip": {
                           "description": "[plain] Tooltip for the per-source locale chooser",

@@ -4708,7 +4708,7 @@
             "options": {
                 "locale": {
                     "tip": "$~源的首選語言",
-                    "all": "$~全部"
+                    "all": "$~語言$count"
                 }
             },
             "error": {
@@ -4771,7 +4771,7 @@
             },
             "options": {
                 "locale": "選擇輸出語言",
-                "default": "$~預設"
+                "default": "$~語言$count"
             },
             "tour": {
                 "launch": "$~參觀舞台",

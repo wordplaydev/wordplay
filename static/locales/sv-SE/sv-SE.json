@@ -4767,7 +4767,7 @@
             "options": {
                 "locale": {
                     "tip": "$~föredraget språk för källan",
-                    "all": "$~alla"
+                    "all": "$~$count språk"
                 }
             },
             "error": {
@@ -4830,7 +4830,7 @@
             },
             "options": {
                 "locale": "$~välj språk för utmatning",
-                "default": "$~standard"
+                "default": "$~$count språk"
             },
             "tour": {
                 "launch": "$~ta en rundtur på scenen",

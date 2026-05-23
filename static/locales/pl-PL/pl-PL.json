@@ -4772,7 +4772,7 @@
             "options": {
                 "locale": {
                     "tip": "$~preferowany język dla źródła",
-                    "all": "$~Wszystko"
+                    "all": "$~$count języków"
                 }
             },
             "error": {
@@ -4835,7 +4835,7 @@
             },
             "options": {
                 "locale": "$~wybierz język wyjścia",
-                "default": "$~domyślny"
+                "default": "$~$count języków"
             },
             "tour": {
                 "launch": "$~zwiedzić scenę",

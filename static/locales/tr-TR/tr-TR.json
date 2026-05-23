@@ -4767,7 +4767,7 @@
             "options": {
                 "locale": {
                     "tip": "$~kaynak için tercih edilen dil",
-                    "all": "$~Tümü"
+                    "all": "$~$count dilleri"
                 }
             },
             "error": {
@@ -4830,7 +4830,7 @@
             },
             "options": {
                 "locale": "$~çıktı için dili seçin",
-                "default": "$~varsayılan"
+                "default": "$~$count dilleri"
             },
             "tour": {
                 "launch": "$~sahneyi gezin",

@@ -4624,7 +4624,7 @@
             "options": {
                 "locale": {
                     "tip": "preferred language for source",
-                    "all": "all"
+                    "all": "$count languages"
                 }
             },
             "button": {
@@ -4766,7 +4766,7 @@
             },
             "options": {
                 "locale": "preferred language for output",
-                "default": "default"
+                "default": "$!$count languages"
             },
             "tour": {
                 "launch": "take a tour of the stage",

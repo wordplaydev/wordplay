@@ -4927,7 +4927,7 @@
             "options": {
                 "locale": {
                     "tip": "$~bahasa yang disukai untuk sumber",
-                    "all": "$~semua"
+                    "all": "$~$count bahasa"
                 }
             },
             "button": {
@@ -5075,7 +5075,7 @@
             },
             "options": {
                 "locale": "$~bahasa pilihan untuk output",
-                "default": "$~bawaan"
+                "default": "$~$count bahasa"
             },
             "tour": {
                 "launch": "$~ikuti tur panggung",

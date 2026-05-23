@@ -4922,7 +4922,7 @@
             "options": {
                 "locale": {
                     "tip": "$~idioma preferido para a fonte",
-                    "all": "$~tudo"
+                    "all": "$~$count idiomas"
                 }
             },
             "button": {
@@ -5070,7 +5070,7 @@
             },
             "options": {
                 "locale": "$~idioma preferido para a saída",
-                "default": "$~predefinição"
+                "default": "$~$count idiomas"
             },
             "tour": {
                 "launch": "$~faça um passeio pelo palco",

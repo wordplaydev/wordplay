@@ -1,6 +1,7 @@
 <script lang="ts">
     import LocaleName from '@components/settings/LocaleName.svelte';
     import Options from '@components/widgets/Options.svelte';
+    import { locales } from '@db/Database';
     import type Locale from '@locale/Locale';
     import { localeToString, stringToLocale } from '@locale/Locale';
     import { getLanguageLocalDescription } from '@locale/LocaleText';
@@ -13,6 +14,17 @@
     }
 
     let { localesUsed = [], locale = undefined, change }: Props = $props();
+
+    /** "$count languages" with the count concretized. Shown as the
+     *  placeholder/no-filter option so users see how many language choices
+     *  the output offers. */
+    let placeholder = $derived(
+        $locales
+            .concretize((l) => l.ui.output.options.default, {
+                count: localesUsed.length,
+            })
+            .toText(),
+    );
 </script>
 
 <!-- svelte-ignore a11y_label_has_associated_control -->
@@ -26,7 +38,7 @@
         options={[
             {
                 value: undefined,
-                label: (l) => l.ui.output.options.default,
+                label: placeholder,
             },
             ...localesUsed.map((l) => ({
                 value: localeToString(l),

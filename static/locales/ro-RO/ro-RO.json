@@ -4927,7 +4927,7 @@
             "options": {
                 "locale": {
                     "tip": "$~limba preferată pentru sursă",
-                    "all": "$~toate"
+                    "all": "$~$count limbi"
                 }
             },
             "button": {
@@ -5075,7 +5075,7 @@
             },
             "options": {
                 "locale": "$~limba preferată pentru ieșire",
-                "default": "$~implicit"
+                "default": "$~$count limbi"
             },
             "tour": {
                 "launch": "$~faceți un tur al scenei",

@@ -316,8 +316,8 @@ type UITexts = {
             locale: {
                 /** [plain] Tooltip for the per-source locale chooser */
                 tip: string;
-                /** [plain] The "all locales" option label */
-                all: string;
+                /** [plain] The "no filter" option in the editor locale chooser, showing how many languages are currently visible in the editor. $count is the number of languages. */
+                all: Template<['count']>;
             };
         };
         cursor: {
@@ -532,8 +532,8 @@ type UITexts = {
         options: {
             /** [plain] The label for the locale chooser in output */
             locale: string;
-            /** [plain] The default locale for the output */
-            default: string;
+            /** [plain] The "no filter" option in the output locale chooser, showing how many languages are available to choose from. $count is the number of languages. */
+            default: Template<['count']>;
         };
         /** Interactive tour explaining the stage tile */
         tour: {

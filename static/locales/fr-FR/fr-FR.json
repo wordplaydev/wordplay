@@ -4750,7 +4750,7 @@
             "options": {
                 "locale": {
                     "tip": "$~langue préférée pour la source",
-                    "all": "$~tous"
+                    "all": "$~$count langues"
                 }
             },
             "error": {
@@ -4813,7 +4813,7 @@
             },
             "options": {
                 "locale": "$~choisir la langue de sortie",
-                "default": "$~défaut"
+                "default": "$~$count langues"
             },
             "tour": {
                 "launch": "$~faire le tour de la scène",
