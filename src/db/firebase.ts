@@ -9,7 +9,13 @@ import {
 } from '$env/static/public';
 import { getAnalytics, setConsent, type Analytics } from 'firebase/analytics';
 import { getApp, getApps, initializeApp } from 'firebase/app';
-import { connectAuthEmulator, getAuth, type Auth } from 'firebase/auth';
+import {
+    connectAuthEmulator,
+    getAuth,
+    onAuthStateChanged,
+    signInWithEmailAndPassword,
+    type Auth,
+} from 'firebase/auth';
 import {
     connectFirestoreEmulator,
     initializeFirestore,
@@ -70,6 +76,26 @@ if (typeof process === 'undefined') {
                 disableWarnings: true,
             });
             connectFunctionsEmulator(functions, 'localhost', 5001);
+
+            // Dev convenience: auto-login as the seeded `creator` account on
+            // first page load if no user is cached. Saves the manual login
+            // step every time the dev server reloads. Only runs against the
+            // emulator (gated by `emulating`), never in production.
+            const stopAutoLogin = onAuthStateChanged(auth, (user) => {
+                stopAutoLogin();
+                if (user === null && auth !== undefined) {
+                    signInWithEmailAndPassword(
+                        auth,
+                        'creator@u.wordplay.dev',
+                        'password',
+                    ).catch((err) => {
+                        console.warn(
+                            '[dev] Auto-login as creator failed:',
+                            err,
+                        );
+                    });
+                }
+            });
         }
     } catch (err) {
         console.error('*** NO ACCESS TO FIREBASE ***');

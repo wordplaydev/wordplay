@@ -15560,6 +15560,10 @@
               "additionalProperties": false,
               "description": "Generic reusable widgets and their generic labels.",
               "properties": {
+                "backtotop": {
+                  "description": "[plain] The back to top link label",
+                  "type": "string"
+                },
                 "confirm": {
                   "additionalProperties": false,
                   "description": "A confirm button",
@@ -15671,7 +15675,8 @@
                 "loading",
                 "home",
                 "table",
-                "formatted"
+                "formatted",
+                "backtotop"
               ],
               "type": "object"
             }
