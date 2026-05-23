@@ -1,0 +1,18 @@
+Pilih satu hal secara acak dari sebuah daftar.
+
+Ingin proyek Anda selalu memberikan kejutan setiap kali dijalankan? Buat daftar pilihan dan pilih salah satu yang sesuai.  @Random . 
+
+@Random  dapat memberi kita angka acak, dan sebuah daftar dapat dicari berdasarkan nomor dengan \[n]\.Gabungkan ketiganya untuk memilih emoji secara acak:
+
+\emojis: ['🌈' '🌟' '🎈' '🦄' '🍩']
+Phrase(emojis.random())\
+
+Anda juga dapat menggunakan  @Random  dengan dua angka, yang akan memilih bilangan bulat di antara keduanya.Misalnya, untuk memilih /baru/ Emoji acak setiap detik, campur aduk  @Time  dan sebuah  @Reaction :
+
+\emojis: ['🌈' '🌟' '🎈' '🦄' '🍩']
+pick: emojis[1] … ∆ Time(1000ms) … emojis[Random(1 emojis.length())]
+Phrase(pick)\
+
+Setiap detik dari  @Time , itu  @Reaction  memilih kejutan baru.
+
+shake-phrase, count-with-time

@@ -92,12 +92,14 @@ export class UnknownName extends Conflict {
             explanation: (locales: Locales, context: Context) =>
                 locales.concretize(
                     (l) => UnknownName.LocalePath(l).explanation,
-                    this.name instanceof Token
+                    {
+                        name: this.name instanceof Token
                         ? undefined
                         : new NodeRef(this.name, locales, context),
-                    this.type
+                        scope: this.type
                         ? new NodeRef(this.type, locales, context)
                         : undefined,
+                    },
                 ),
             resolutions: names.map((name) => {
                 return {
@@ -106,9 +108,11 @@ export class UnknownName extends Conflict {
                             (l) =>
                                 l.node.Reference.conflict.UnknownName
                                     .resolution,
-                            name.definition.getPreferredName(
-                                locales.getLocales(),
-                            ),
+                            {
+                                suggestion: name.definition.getPreferredName(
+                                    locales.getLocales(),
+                                ),
+                            },
                         ),
                     mediator: (context: Context, locales: Locales) => {
                         const newReference = Reference.make(

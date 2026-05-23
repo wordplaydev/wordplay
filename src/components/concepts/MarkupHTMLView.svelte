@@ -9,7 +9,11 @@
     import Notice from '@components/app/Notice.svelte';
     import { accessorToLocalePath } from '@components/localization/accessorToLocalePath';
     import { getLocalizing } from '@components/project/Contexts';
-    import { localeEdits, saveLocaleEdit, deleteLocaleEdit } from '@db/locales/LocalizationDexie';
+    import {
+        localeEdits,
+        saveLocaleEdit,
+        deleteLocaleEdit,
+    } from '@db/locales/LocalizationDexie';
     import Button from '@components/widgets/Button.svelte';
     import FormattedEditor from '@components/widgets/FormattedEditor.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
@@ -30,11 +34,7 @@
     import { toMarkup } from '@parser/toMarkup';
     import { toTokens } from '@parser/toTokens';
     import { tick } from 'svelte';
-    import {
-        animationDuration,
-        animationFactor,
-        locales,
-    } from '@db/Database';
+    import { animationDuration, animationFactor, locales } from '@db/Database';
     import SegmentHTMLView from '@components/concepts/SegmentHTMLView.svelte';
 
     interface Props {
@@ -43,7 +43,7 @@
             | string[]
             | string
             | LocaleTextsAccessor
-            | [LocaleTextsAccessor, ...TemplateInput[]];
+            | [LocaleTextsAccessor, Record<string, TemplateInput>];
         inline?: boolean;
         note?: boolean;
         /** Storage key for an override, used when the markup doesn't live in the
@@ -74,7 +74,7 @@
         // If markup was given as an accessor and inputs, concretize it with the inputs
         else if (Array.isArray(markup) && markup[0] instanceof Function) {
             const accessor = markup[0];
-            const inputs = markup.slice(1) as TemplateInput[];
+            const inputs = markup[1] as Record<string, TemplateInput>;
             const words = $locales.getWithAnnotations(accessor);
             return (
                 Markup.words(
@@ -296,9 +296,7 @@
                         />
                     </p>
                     <p class="invalid-concept-links"
-                        >{invalidConceptLinks
-                            .map((n) => `@${n}`)
-                            .join(', ')}</p
+                        >{invalidConceptLinks.map((n) => `@${n}`).join(', ')}</p
                     >
                 </Notice>
             {/if}
@@ -316,15 +314,18 @@
                     padding={true}>{CANCEL_SYMBOL}</Button
                 >
                 {#if override}<Button
-                    tip={(l) => l.ui.localize.button.revert}
-                    action={() => {
-                        if (storageKey !== undefined)
-                            deleteLocaleEdit(activeLocaleString, storageKey);
-                        cancelEditing();
-                    }}
-                    background
-                    padding={true}>{REVERT_SYMBOL}</Button
-                >{/if}
+                        tip={(l) => l.ui.localize.button.revert}
+                        action={() => {
+                            if (storageKey !== undefined)
+                                deleteLocaleEdit(
+                                    activeLocaleString,
+                                    storageKey,
+                                );
+                            cancelEditing();
+                        }}
+                        background
+                        padding={true}>{REVERT_SYMBOL}</Button
+                    >{/if}
             </div>
         {:else}
             <span class="edit-button"

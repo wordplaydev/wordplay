@@ -147,7 +147,9 @@ export default class Translation extends LanguageTagged {
     }
 
     getDescriptionInputs() {
-        return [this.getText()];
+        return {
+            text: this.getText(),
+        };
     }
 
     adjust(direction: -1 | 1): this | undefined {

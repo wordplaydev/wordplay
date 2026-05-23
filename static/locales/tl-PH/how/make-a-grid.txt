@@ -1,0 +1,27 @@
+Gumawa ng grid ng mga karakter
+
+Paano kung gusto natin ng mga hilera/at/mga kolum nang sabay-sabay? Iyan ang isang @Grid ay para sa.
+
+Isang @Grid Nagtatanong ng bilang ng mga hilera, bilang ng mga kolum, at kung gaano kalaking espasyo ang ilalagay sa pagitan ng mga selula.
+
+\Group(Grid(2 3 0.25m) [
+		Phrase('🍎')
+		Phrase('🍌')
+		Phrase('🍇')
+		Phrase('🥕')
+		Phrase('🥦')
+		Phrase('🌽')
+	])\
+
+Gumagawa ito ng 2 por 3 na hardin ng prutas at gulay!
+
+Kung gusto mong magkapareho ang laki ng bawat selula, ibigay @Grid lapad at taas din. Sa ganoong paraan, ang mga karakter ay mananatili nang maayos sa loob ng kanilang mga parisukat, kahit na magkaiba ang laki ng mga ito:
+
+\Group(Grid(2 2 0.1m 1.5m 1.5m) [
+		Phrase('🐈' size: 1m)
+		Phrase('🐶' size: 1.5m)
+		Phrase('🦊' size: 0.5m)
+		Phrase('🐻' size: 2m)
+	])\
+
+arrange-in-a-row, stack-up-and-down, make-many-copies

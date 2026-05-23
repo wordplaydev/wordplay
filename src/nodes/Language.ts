@@ -186,12 +186,7 @@ export default class Language extends Node {
     }
 
     getDescriptionInputs() {
-        const language = this.language?.getText();
-        return [
-            language !== undefined && language in Languages
-                ? Languages[language as LanguageCode].name
-                : undefined,
-        ];
+        return {};
     }
 
     getCharacter() {

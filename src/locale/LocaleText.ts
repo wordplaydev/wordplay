@@ -67,6 +67,18 @@ export { type LocaleText as default };
 /** Represents a string that is in Wordplay markup formatted syntax. */
 export type FormattedText = string;
 
+/**
+ * A Wordplay template string parameterized by the ordered list of input names
+ * it accepts. The `Names` parameter is positional: `$1` in the template refers
+ * to the first name, `$2` to the second, and so on. The brand exists only at
+ * the type level — at runtime a `Template` is a plain string — so JSON locale
+ * files satisfy this type as-is.
+ */
+declare const __TemplateInputs: unique symbol;
+export type Template<Names extends readonly string[]> = string & {
+    readonly [__TemplateInputs]?: Names;
+};
+
 export type NameAndDoc = {
     /** [name] One or more names for this definition. Be careful not to introduce duplicates. */
     names: NameText;

@@ -1,0 +1,31 @@
+Creați o serie animată de scene
+
+Uneori vrem să spunem povești, să arătăm versuri sau să animăm poezie.Pentru a face asta, putem folosi  @Scene  şi  @Phrase  împreună, pentru a arăta o secvență.
+
+De exemplu, să ne imaginăm că vrem să animăm scurta rimă pentru copii, „Jack be Nimble”.Am putea face o  @Scene  care are fiecare linie ca  @Phrase și prin setarea  @Phrase/duration  a fiecărei linii,  @Scene  ar avansa când fiecare frază este terminată.
+
+\Scene([
+		Phrase('Jack, fii agil' duration: 1s)
+		Phrase('Jack, grăbește-te.' duration: 1s)
+		Phrase('Jack sare peste lumânătorul' duration: 1s)
+	])\
+
+@Scene  va aștepta o  @Sequence  de făcut și el. Să facem să sară linia lumânărilor!
+
+\Scene([
+		Phrase('Jack, fii agil' duration: 1s)
+		Phrase('Jack, grăbește-te.' duration: 1s)
+		Phrase('Jack sare peste lumânătorul' entering: Sequence(bounce() 1s))
+	])\
+
+@Scene  poate lua și o  @Group  de text și va aștepta ca tot conținutul său să termine animația.
+
+\Scene([
+		Group(Stack() [
+				Phrase('Jack, fii agil')
+				Phrase('Jack, grăbește-te.')
+			] duration: 2s)
+		Phrase('Jack sare peste lumânătorul' entering: Sequence(bounce() 1s))
+	])\
+
+interactive-scene

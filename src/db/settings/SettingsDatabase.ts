@@ -1,6 +1,5 @@
 import type { SupportedLocale } from '@locale/SupportedLocales';
 import { doc, getDoc } from 'firebase/firestore';
-import { derived } from 'svelte/store';
 import type { SerializedLayout } from '@components/project/Layout';
 import Layout from '@components/project/Layout';
 import type { WritingLayout } from '@locale/Scripts';
@@ -48,20 +47,30 @@ export type SettingsSchemaV2 = Omit<SettingsSchemaV1, 'v'> & {
     newHowToNotifications: boolean;
 };
 
-export type SettingsSchema = SettingsSchemaV2;
-const SettingsSchemaLatestVersion = 2;
+export type SettingsSchemaV3 = Omit<SettingsSchemaV2, 'v' | 'animationFactor'> & {
+    v: 3;
+    /** `null` means "follow the device's prefers-reduced-motion setting". */
+    animationFactor: number | null;
+};
 
-type SettingsSchemaUnknown = SettingsSchemaV1 | SettingsSchema;
+export type SettingsSchema = SettingsSchemaV3;
+const SettingsSchemaLatestVersion = 3;
+
+type SettingsSchemaUnknown =
+    | SettingsSchemaV1
+    | SettingsSchemaV2
+    | SettingsSchema;
 
 function upgradeSettings(settings: SettingsSchemaUnknown): SettingsSchema {
     switch (settings.v) {
         case 1:
-            // return settings;
             return upgradeSettings({
                 ...settings,
                 v: 2,
                 newHowToNotifications: true,
             });
+        case 2:
+            return upgradeSettings({ ...settings, v: 3 });
         case SettingsSchemaLatestVersion:
             return settings;
         default:
@@ -94,12 +103,6 @@ export default class SettingsDatabase {
         updates: UpdatesSetting,
         say: SaySetting,
     };
-
-    /** A derived store based on animation factor */
-    readonly animationDuration = derived(
-        this.settings.animationFactor.value,
-        (factor) => factor * 200,
-    );
 
     constructor(database: Database, locales: SupportedLocale[]) {
         this.database = database;
@@ -167,7 +170,7 @@ export default class SettingsDatabase {
         this.settings.arrangement.set(this.database, arrangement);
     }
 
-    setAnimationFactor(factor: number) {
+    setAnimationFactor(factor: number | null) {
         this.settings.animationFactor.set(this.database, factor);
     }
 

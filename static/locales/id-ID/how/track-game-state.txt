@@ -1,0 +1,30 @@
+Pantau status permainan.
+
+Sebagian besar gim melacak berbagai hal seiring berjalannya gim: poin, posisi pemain, dan detail lainnya semuanya penting.Setiap kali ada masukan, status tersebut berubah, dan kemudian kita ingin menampilkan keluaran baru sebagai responsnya.
+
+Pola umum untuk permainan apa pun melakukan tiga hal:
+
+• Definisikan struktur data status permainan, untuk menyimpan seluruh status permainan.• Definisikan reaksi yang menghasilkan status permainan baru berdasarkan status permainan sebelumnya setiap kali ada masukan baru.• Buatlah  @Stage  dengan  @Group  Dan  @Phrase  untuk menampilkan status permainan
+
+Sebagai contoh, mari kita bayangkan sebuah permainan sederhana yang melibatkan mengetik kata-kata rahasia ke dalam kotak teks, dan mendapatkan satu poin setiap kali kata rahasia tersebut ditebak:
+
+\•Game(secrets•[''] points•#)
+state: Game(['kucing' 'anjing'] 0) … state.secrets.has(Chat()) … state.points:state.points + 1
+Stage(state.points = state.secrets.length() ? [Phrase("kamu menang!")] [
+			Group(Stack() [
+					Phrase("Coba tebak kata-kata rahasiaku")
+					Phrase(`\state.secrets.length() - state.points\ rahasia lainnya`)
+				])
+		])\
+
+Mari kita uraikan ini.
+
+• Baris pertama, \•Game(secrets•[''] points•#)\ kata, /Buatlah struktur data yang disebut... \Game\ yang menyimpan daftar rahasia dan poin./• Baris kedua mengatakan /Keadaan permainan dimulai dengan daftar rahasia dan nol poin. Setiap kali \Chat\ Jika kata yang dimasukkan ada dalam daftar rahasia, maka buat status permainan baru dengan poin yang bertambah satu./.• Setiap kali program dievaluasi ulang (ketika \Chat\ (perubahan), tampilkan sebuah tahapan. Jika jumlah poin sama dengan jumlah rahasia, tampilkan tahapan kemenangan. Jika tidak, tampilkan petunjuk dan jumlah rahasia yang tersisa.
+
+Contoh ini memiliki beberapa masalah:
+
+• Jika mereka menebak kata rahasia beberapa kali, mereka mendapatkan lebih banyak poin! Sistem permainan kita mungkin juga perlu mengingat apa yang ditebak, jadi setiap kata hanya dihitung dua kali.• Jika pemain memasukkan beberapa kata, apakah itu akan dihitung?
+
+Kondisi permainan dan pembaruan permainan yang lebih canggih akan membantu kita menangani kasus-kasus ini.
+
+track-points

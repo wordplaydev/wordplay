@@ -197,7 +197,7 @@ export default class Words extends Content {
 
     concretize(
         locales: Locales,
-        inputs: TemplateInput[],
+        inputs: Record<string, TemplateInput>,
         replacements: [Node, Node][],
     ): Words | undefined {
         const concrete = this.segments.map((content) => {

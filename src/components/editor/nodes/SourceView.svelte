@@ -1,6 +1,8 @@
 <script lang="ts">
     import type Source from '@nodes/Source';
-    import NodeView, { type Format } from '@components/editor/nodes/NodeView.svelte';
+    import NodeView, {
+        type Format,
+    } from '@components/editor/nodes/NodeView.svelte';
 
     interface Props {
         node: Source;

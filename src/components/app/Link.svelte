@@ -86,8 +86,8 @@
 
 {#if localizing?.on}
     <span class="link-with-editor" class:editing>
-        <span class="link-part">{@render linkPart()}</span>{#if registeredPath !==
-            undefined}<LocalizedText
+        <span class="link-part">{@render linkPart()}</span
+        >{#if registeredPath !== undefined}<LocalizedText
                 path={registeredPath}
                 editOnly
                 onEditingChange={(e) => (editing = e)}

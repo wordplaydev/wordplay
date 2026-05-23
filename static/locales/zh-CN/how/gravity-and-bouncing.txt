@@ -1,0 +1,24 @@
+让角色跌倒并弹跳
+
+如果我们想让角色像真人一样摔倒、从地板上弹起来或被推来推去，该怎么办？就是这样 @Motion  和  @Matter 是为了——它们共同模拟物理现象 @Phrase 。 
+
+@Motion 控制/在哪里/角色会随着时间的推移而变化。我们用它来……\place\为 @Phrase 把它放在高处，让它掉下来。我们也需要一些东西来支撑我们，否则我们的角色就会一直坠落下去！ @Shape 宽 @Rectangle 铺上一层漂亮的地板：
+
+\Stage([
+		Phrase('🍎' place: Motion(Place(0m 5m)) matter: Matter())
+		Shape(Rectangle(-10m 0m 10m -5m))
+	])\
+
+苹果从五米高处开始下落，受到重力作用而落下。它落地时会稍微弹一下，因为 @Phrase 内置 @Matter 这控制着它的重量和弹性。
+
+改变方式/有弹性的/或者如何/重的/角色就是，赋予它你自己的个性。 @Matter 。 @Matter 它需要质量、弹性和摩擦力：
+
+\Stage([
+		Phrase('⚽' place: Motion(Place(-2m 5m)) matter: Matter(1kg 0.9 0.2))
+		Phrase('🪨' place: Motion(Place(2m 5m)) matter: Matter(5kg 0.1 0.8))
+		Shape(Rectangle(-10m 0m 10m -5m))
+	])\
+
+这个球很轻，弹性很好，所以会弹回来。这块石头很重，没有弹性，所以只会发出砰砰的响声。
+
+follow-the-pointer, move-phrase

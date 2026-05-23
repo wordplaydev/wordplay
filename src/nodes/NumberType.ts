@@ -227,11 +227,11 @@ export default class NumberType extends BasisType {
     }
 
     getDescriptionInputs(locales: Locales, context: Context) {
-        return [
-            this.unit instanceof Unit
+        return {
+            unit: this.unit instanceof Unit
                 ? new NodeRef(this.unit, locales, context)
                 : undefined,
-        ];
+        };
     }
 
     getDefaultExpression() {

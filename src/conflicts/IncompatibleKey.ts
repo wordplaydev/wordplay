@@ -27,7 +27,9 @@ export class IncompatibleKey extends Conflict {
             explanation: (locales: Locales, context: Context) =>
                 locales.concretize(
                     (l) => IncompatibleKey.LocalePath(l).explanation,
-                    new NodeRef(this.expected, locales, context),
+                    {
+                        expected: new NodeRef(this.expected, locales, context),
+                    },
                 ),
         };
     }

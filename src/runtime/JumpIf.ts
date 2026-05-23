@@ -37,7 +37,9 @@ export default class JumpIf extends Step {
         const val = evaluator.peekValue();
         return locales.concretize(
             (l) => l.node.Conditional.else,
-            val instanceof BoolValue && val.bool === this.yes,
+            {
+                jumping: val instanceof BoolValue && val.bool === this.yes,
+            },
         );
     }
 }

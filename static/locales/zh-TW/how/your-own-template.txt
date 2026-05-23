@@ -1,0 +1,20 @@
+製作自己的角色模板
+
+有時你需要很多看起來幾乎一樣，但又略有不同的角色。而不是寫出同樣的東西 @Phrase 你可以重複使用以下方式創建自己的模板： @Structure 。
+
+A @Structure 就像一份需要填寫空白的食譜。這是一個氣球模板，它接受顏色和標籤，並能自動顯示自身：
+
+\•Balloon(color•Color label•'') (
+	ƒ show() Phrase(`🎈\label\` color: color size: 2m)
+)
+Group(Row() [
+		Balloon(Color(80% 50 240°) '天空').show()
+		Balloon(Color(60% 80 0°) '玫瑰').show()
+		Balloon(Color(90% 80 90°) '陽光明媚').show()
+	])\
+
+這\•Balloon(...)\這部分定義了模板，以及\ƒ show()\部分內容/如何畫一個/。然後我們製作了三個不同顏色和標籤的氣球，並要求每個人…\show\自身。
+
+當你想保持程式碼整潔和字元一致時，模板非常有用。
+
+track-game-state, make-many-copies

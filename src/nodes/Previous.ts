@@ -214,7 +214,9 @@ export default class Previous extends Expression {
     getStartExplanations(locales: Locales, context: Context) {
         return locales.concretize(
             (l) => l.node.Previous.start,
-            new NodeRef(this.stream, locales, context),
+            {
+                stream: new NodeRef(this.stream, locales, context),
+            },
         );
     }
 
@@ -225,7 +227,9 @@ export default class Previous extends Expression {
     ) {
         return locales.concretize(
             (l) => l.node.Previous.finish,
-            this.getValueIfDefined(locales, context, evaluator),
+            {
+                value: this.getValueIfDefined(locales, context, evaluator),
+            },
         );
     }
 

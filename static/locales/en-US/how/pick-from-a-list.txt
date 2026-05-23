@@ -1,0 +1,24 @@
+Pick a random thing from a list
+
+Want your project to surprise you each time it runs? Make a list of choices and pick one with @Random.
+
+@Random can give us a random number, and a list can be looked up by number with \[n]\.
+Put them together to pick a random emoji:
+
+\
+emojis: ['🌈' '🌟' '🎈' '🦄' '🍩']
+Phrase(emojis.random())
+\
+
+You can also use @Random with two numbers, which picks a whole number between them.
+For example, to pick a /new/ random emoji every second, mix in @Time and a @Reaction:
+
+\
+emojis: ['🌈' '🌟' '🎈' '🦄' '🍩']
+pick: emojis[1] … ∆ Time(1000ms) … emojis[Random(1 emojis.length())]
+Phrase(pick)
+\
+
+Each tick of @Time, the @Reaction picks a new surprise.
+
+shake-phrase, count-with-time

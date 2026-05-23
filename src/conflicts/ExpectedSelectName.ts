@@ -1,6 +1,4 @@
 import type LocaleText from '@locale/LocaleText';
-import NodeRef from '@locale/NodeRef';
-import type Context from '@nodes/Context';
 import type Expression from '@nodes/Expression';
 import type Input from '@nodes/Input';
 import type Locales from '@locale/Locales';
@@ -24,10 +22,9 @@ export default class ExpectedSelectName extends Conflict {
     getMessage() {
         return {
             node: this.select,
-            explanation: (locales: Locales, context: Context) =>
+            explanation: (locales: Locales) =>
                 locales.concretize(
                     (l) => ExpectedSelectName.LocalePath(l).explanation,
-                    new NodeRef(this.cell, locales, context),
                 ),
         };
     }

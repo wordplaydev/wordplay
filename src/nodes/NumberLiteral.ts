@@ -201,7 +201,9 @@ export default class NumberLiteral extends Literal {
     getStartExplanations(locales: Locales, context: Context) {
         return locales.concretize(
             (l) => l.node.NumberLiteral.start,
-            new NodeRef(this.number, locales, context),
+            {
+                value: new NodeRef(this.number, locales, context),
+            },
         );
     }
 
@@ -209,11 +211,11 @@ export default class NumberLiteral extends Literal {
         return Characters.Number;
     }
 
-    getDescriptionInputs(locales: Locales, context: Context): TemplateInput[] {
-        return [
-            this.number.getText(),
-            this.unit ? new NodeRef(this.unit, locales, context) : undefined,
-        ];
+    getDescriptionInputs(locales: Locales, context: Context): Record<string, TemplateInput> {
+        return {
+            number: this.number.getText(),
+            unit: this.unit ? new NodeRef(this.unit, locales, context) : undefined,
+        };
     }
 
     adjust(direction: -1 | 1): this | undefined {

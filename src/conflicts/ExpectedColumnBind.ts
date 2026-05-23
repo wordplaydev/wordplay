@@ -1,6 +1,4 @@
 import type LocaleText from '@locale/LocaleText';
-import NodeRef from '@locale/NodeRef';
-import type Context from '@nodes/Context';
 import type Expression from '@nodes/Expression';
 import type Locales from '@locale/Locales';
 import type Update from '@nodes/Update';
@@ -22,10 +20,9 @@ export default class ExpectedColumnBind extends Conflict {
     getMessage() {
         return {
             node: this.update,
-            explanation: (locales: Locales, context: Context) =>
+            explanation: (locales: Locales) =>
                 locales.concretize(
                     (l) => ExpectedColumnBind.LocalePath(l).explanation,
-                    new NodeRef(this.cell, locales, context),
                 ),
         };
     }

@@ -511,44 +511,77 @@ export default class GalleryDatabase {
 
     // Remove the given creator from the gallery, and all of their projects.
     async removeCreator(gallery: Gallery, uid: string) {
-        const projectsToKeep = await this.removeCreatorProjects(gallery, uid);
-        await this.edit(
-            gallery.withProjects(projectsToKeep).withoutCreator(uid),
-        );
+        await this.removeCreatorOrCurator(gallery, uid, 'creators');
     }
 
-    // Remove the given creator from the gallery, and all of their projects.
+    // Remove the given curator from the gallery, and all of their projects.
     async removeCurator(gallery: Gallery, uid: string) {
-        const projectsToKeep = await this.removeCreatorProjects(gallery, uid);
-        await this.edit(
-            gallery.withProjects(projectsToKeep).withoutCurator(uid),
-        );
+        await this.removeCreatorOrCurator(gallery, uid, 'curators');
     }
 
-    async removeCreatorProjects(
+    /**
+     * Shared implementation for removing a creator or curator from a gallery.
+     * Atomically:
+     *   - clears `gallery` on every project in the gallery owned by uid,
+     *   - removes those project IDs from the gallery's `projects` array,
+     *   - removes uid from the gallery's `creators` or `curators` array.
+     *
+     * Uses arrayRemove on both the projects array and the role array, so
+     * concurrent additions to either by other writers (e.g., another student
+     * sharing a new project while this removal runs) aren't clobbered.
+     */
+    private async removeCreatorOrCurator(
         gallery: Gallery,
         uid: string,
-    ): Promise<string[]> {
-        // Find all of the projects for which the given creator is an owner
-        // so we can remove them from the given gallery.
-        const projectsToKeep: string[] = [];
+        role: 'creators' | 'curators',
+    ) {
+        if (firestore === undefined) return;
+
+        // Identify the projects in the gallery whose owner is uid; those will
+        // have their `gallery` field cleared. Projects owned by anyone else
+        // stay where they are.
+        const projectsToRemove: string[] = [];
         for (const projectID of gallery.getProjects()) {
             try {
                 const project = await this.database.Projects.get(projectID);
-                if (project === undefined || project.getOwner() !== uid)
-                    projectsToKeep.push(projectID);
-                else {
-                    this.database.Projects.edit(
-                        project.withGallery(null),
-                        false,
-                        true,
-                    );
-                }
+                if (project !== undefined && project.getOwner() === uid)
+                    projectsToRemove.push(projectID);
             } catch (err) {
                 console.error(err);
             }
         }
-        return projectsToKeep;
+
+        const batch = writeBatch(firestore);
+        for (const projectID of projectsToRemove) {
+            batch.update(doc(firestore, ProjectsCollection, projectID), {
+                gallery: null,
+            });
+        }
+        const galleryUpdate: Record<string, unknown> = {
+            [role]: arrayRemove(uid),
+        };
+        if (projectsToRemove.length > 0) {
+            galleryUpdate.projects = arrayRemove(...projectsToRemove);
+        }
+        batch.update(
+            doc(firestore, GalleriesCollection, gallery.getID()),
+            galleryUpdate,
+        );
+        await batch.commit();
+
+        // Mirror the gallery change in the local cache so the UI updates
+        // immediately. Project history caches will refresh via the realtime
+        // listener.
+        const cached = this.accessibleGalleries.get(gallery.getID());
+        if (cached) {
+            let updated =
+                role === 'creators'
+                    ? cached.withoutCreator(uid)
+                    : cached.withoutCurator(uid);
+            for (const projectID of projectsToRemove)
+                updated = updated.withoutProject(projectID);
+            this.accessibleGalleries.set(gallery.getID(), updated);
+        }
     }
 
     clean() {

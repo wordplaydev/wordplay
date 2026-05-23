@@ -93,7 +93,7 @@
         "Region": "$~regionstreck",
         "BooleanType": "$~boolesk typ",
         "NumberType": "$~nummertyp",
-        "JapaneseNumeral": "$~japansk siffra",
+        "HanNumeral": "$~japansk siffra",
         "RomanNumeral": "$~romersk siffra",
         "Pi": "$~pi",
         "Infinity": "$~oändlighet",
@@ -123,7 +123,15 @@
         "Locale": "$~plats",
         "Unknown": "$~okänd",
         "End": "$~avsluta",
-        "Highlight": "$~markerat exempel"
+        "Highlight": "$~markerat exempel",
+        "ThaiNumeral": "$~thailändsk siffra",
+        "BengaliNumeral": "$~bengalisk siffra",
+        "DevanagariNumeral": "$~devanagari-siffra",
+        "GujaratiNumeral": "$~gujaratiskt siffra",
+        "GurmukhiNumeral": "$~gurmukhi-siffra",
+        "KannadaNumeral": "$~kannadasiffra",
+        "TamilNumeral": "$~tamilska siffror",
+        "TeluguNumeral": "$~telugu-siffra"
     },
     "node": {
         "Dimension": {
@@ -185,7 +193,7 @@
         },
         "Language": {
             "name": "$~språk",
-            "description": "$~språk $1[$1|okänt]",
+            "description": "$~taggnamn och text med ett språk",
             "emotion": "eager",
             "doc": [
                 "$~Jag är en språktagg och jag arbetar med @Name och @Doc!",
@@ -212,7 +220,7 @@
         },
         "Name": {
             "name": "$~namn",
-            "description": "$~$1[$1 | namnlös]",
+            "description": "$~$name[$name | namnlös]",
             "emotion": "kind",
             "doc": [
                 "$~Jag identifierar ett värde och är ett hjälpsamt sätt att ge en stenografisk etikett till något som var svårt att utvärdera, eller som du inte vill behöva utvärdera om och om igen.",
@@ -253,7 +261,7 @@
                 },
                 "MissingCell": {
                     "name": "$~saknadkolumn",
-                    "explanation": "$~Jag saknar kolumn $1"
+                    "explanation": "$~Jag saknar kolumn $column"
                 },
                 "ExtraCell": {
                     "name": "$~extrakolumn",
@@ -271,7 +279,7 @@
         },
         "Token": {
             "name": "$~tecken",
-            "description": "$~$1 $2",
+            "description": "$~$label",
             "emotion": "neutral",
             "doc": [
                 "$~Hur hittade du mig?",
@@ -292,7 +300,7 @@
             "conflict": {
                 "DuplicateTypeVariable": {
                     "name": "$~dupliceradtypvariabel",
-                    "explanation": "$~Jag har samma namn som $1"
+                    "explanation": "$~Jag har samma namn som $duplicate"
                 }
             },
             "label": {
@@ -307,7 +315,7 @@
         },
         "Markup": {
             "name": "$~pålägg",
-            "description": "$~$1 stycken",
+            "description": "$~$count stycken",
             "emotion": "serious",
             "doc": [
                 "$~Jag är en lista med stycken som använder de många typer av uppmärkning som finns i förklaringar, som @Words, @WebLink, @ConceptLink och @Example."
@@ -330,7 +338,7 @@
         },
         "WebLink": {
             "name": "$~länk",
-            "description": "$~länk $1",
+            "description": "$~länk $url",
             "emotion": "serious",
             "doc": [
                 "$~Jag är en länk till något på internet. Jag behöver bara en beskrivning och en URL:",
@@ -340,7 +348,7 @@
         },
         "ConceptLink": {
             "name": "$~begrepp",
-            "description": "$~koncept $1",
+            "description": "$~koncept $concept",
             "emotion": "serious",
             "doc": [
                 "$~Jag är en länk till vers karaktär. Jag är behjälplig när du vill skriva en @Doc och hänvisa till någon av oss.",
@@ -376,7 +384,7 @@
         },
         "Mention": {
             "name": "$~nämna",
-            "description": "$~nämn $1",
+            "description": "$~nämn $name",
             "emotion": "serious",
             "doc": [
                 "$~Jag är en referens till antingen terminologi \\$program\\ eller en dynamisk ingång \\$1\\.",
@@ -394,7 +402,7 @@
         },
         "BinaryEvaluate": {
             "name": "$~binärutvärdera",
-            "description": "$~$1 operation",
+            "description": "$~$operator operation",
             "emotion": "insecure",
             "doc": [
                 "$~Jag heter @Evaluate, men i en enklare form, användbart när du vill använda en @FunctionDefinition som tar två ingångar.",
@@ -410,8 +418,8 @@
                 "$~I matematik skulle multiplikation komma först, och sedan addition, och så skulle resultatet bli \\11\\. Men eftersom jag utvärderar i läsordning blir resultatet \\13\\."
             ],
             "right": "$~input",
-            "start": "$~Låt oss utvärdera $1 först",
-            "finish": "$~Titta, jag tjänade $1!",
+            "start": "$~Låt oss utvärdera $left först",
+            "finish": "$~Titta, jag tjänade $value!",
             "conflict": {
                 "OrderOfOperations": {
                     "name": "$~tvetydigordning",
@@ -424,7 +432,7 @@
         },
         "Bind": {
             "name": "$~binda",
-            "description": "$~bind $1",
+            "description": "$~bind $name",
             "emotion": "excited",
             "doc": [
                 "$~Jag nämner *värden*.",
@@ -452,24 +460,24 @@
                 "$~Men vi kan ändra detta för att lägga till @Is, och nu vet @FunctionDefinition att de är siffror:",
                 "$~\\ƒ summa(a•# b•#) a + b\\"
             ],
-            "start": "$~Låt oss se vilket värde vi får från $1!",
-            "finish": "$~Åh trevligt, jag fick $1! Låt oss döpa det till $2",
+            "start": "$~Låt oss se vilket värde vi får från $value!",
+            "finish": "$~Åh trevligt, jag fick $value! Låt oss döpa det till $name",
             "conflict": {
                 "DuplicateName": {
                     "conflict": {
                         "name": "$~dupliceratnamn",
-                        "explanation": "$~Någon har namnet $1 så jag kan inte ha det namnet."
+                        "explanation": "$~Någon har namnet $shadowed så jag kan inte ha det namnet."
                     },
                     "resolution": "$~Det finns dubbletter av namn, vill du ta bort ett?"
                 },
                 "DuplicateShare": {
                     "name": "$~dupliceraddelning",
-                    "explanation": "$~Jag har samma namn som $1. Det gör det oklart vad vi delar."
+                    "explanation": "$~Jag har samma namn som $duplicate. Det gör det oklart vad vi delar."
                 },
                 "IncompatibleType": {
                     "name": "$~inkompatibeltyp",
-                    "explanation": "$~Jag borde vara typ $2, men jag är typ $1",
-                    "resolution": "$~Konvertera till 1 dollar"
+                    "explanation": "$~Jag borde vara typ $expected, men jag är typ $given",
+                    "resolution": "$~Konvertera till $expected"
                 },
                 "MisplacedShare": {
                     "name": "$~felplaceraddelning",
@@ -489,7 +497,7 @@
                 },
                 "UnusedBind": {
                     "name": "$~oanvändbindning",
-                    "explanation": "$~Jag heter $1, men ingen utnyttjar mig. Kanske behövs jag inte?"
+                    "explanation": "$~Jag heter $name, men ingen utnyttjar mig. Kanske behövs jag inte?"
                 }
             },
             "label": {
@@ -500,7 +508,7 @@
         },
         "Block": {
             "name": "$~blockera",
-            "description": "$~$1 uttalanden",
+            "description": "$~$count uttalanden",
             "emotion": "shy",
             "doc": [
                 "$~Hej. Jag skapar ett litet tyst, privat utrymme för att utvärdera saker.",
@@ -521,7 +529,7 @@
                 "Det ger \\[3 2]\\: bara värdena från de två uttrycken som inte är @Bind."
             ],
             "start": "$~Första uttrycket",
-            "finish": "$~Klart, jag fick $1",
+            "finish": "$~Klart, jag fick $value",
             "conflict": {
                 "ExpectedEndingExpression": {
                     "name": "$~saknatuttryck",
@@ -534,17 +542,17 @@
         },
         "BooleanLiteral": {
             "name": "$~booleskbokstavlig",
-            "description": "$~$1[true|false]",
+            "description": "$~$value[true|false]",
             "emotion": "precise",
             "doc": "$~Jag är antingen \\⊤\\ eller \\⊥\\. Se @Boolean för att lära dig mer om vår vackra logik.",
-            "start": "$~$1!"
+            "start": "$~$value!"
         },
         "Borrow": {
             "name": "$~låna",
-            "description": "$~låna $1[$1|namn saknas]",
+            "description": "$~låna $name[$name|namn saknas]",
             "emotion": "excited",
             "doc": "$~Om du skapar en föreställning med flera @Source, kan du använda mig för att låna @Bind som delas i de andra @Source. Använd bara deras namn så tar jag in deras namn och värde.",
-            "start": "$~Lånar $2 från $1",
+            "start": "$~Lånar $name från $source",
             "conflict": {
                 "UnknownBorrow": {
                     "name": "$~okändlån",
@@ -552,13 +560,13 @@
                 },
                 "BorrowCycle": {
                     "name": "$~självrefererandelån",
-                    "explanation": "$~detta beror på $1, vilket beror på denna $source, så programmet kan inte utvärderas"
+                    "explanation": "$~detta beror på $borrow, vilket beror på denna $source, så programmet kan inte utvärderas"
                 }
             },
             "exception": {
                 "CycleException": {
                     "description": "$~lånecykel",
-                    "explanation": "$~$1 beror på sig själv"
+                    "explanation": "$~$borrow beror på sig själv"
                 }
             },
             "label": {
@@ -577,7 +585,7 @@
                 "$~Jag är verkligen hjälpsam när du bara vill att något ska ändras om en ström ändras.",
                 "$~Det är allt."
             ],
-            "start": "$~Låt oss se om $1 ändrades...",
+            "start": "$~Låt oss se om $stream ändrades...",
             "label": {
                 "stream": "$~strömma"
             }
@@ -593,14 +601,14 @@
                 "$~Verkar det inte som att beslut borde vara mer nyanserade än bara ja eller nej? Är det bara att välja mellan \\⊤\\ och \\⊥\\?",
                 "$~Är du inte orolig för att om det här är den enda typen av beslut vi kan fatta, kommer vi att sakna något viktigt sammanhang om världen?"
             ],
-            "start": "$~Låt oss se om $1 är sant",
-            "else": "$~$1[hoppa över kod | hoppar inte över koden]",
+            "start": "$~Låt oss se om $condition är sant",
+            "else": "$~$jumping[hoppa över kod | hoppar inte över koden]",
             "afterthen": "$~klar med ja, låt oss hoppa över nej?",
-            "finish": "$~Jag antar att det är $1?",
+            "finish": "$~Jag antar att det är $value?",
             "conflict": {
                 "ExpectedBooleanCondition": {
                     "name": "$~förväntatboolesktvillkor",
-                    "explanation": "$~Jag behöver en @Boolean för att fatta ett beslut, men jag fick en $1 istället."
+                    "explanation": "$~Jag behöver en @Boolean för att fatta ett beslut, men jag fick en $type istället."
                 }
             },
             "label": {
@@ -611,7 +619,7 @@
         },
         "ConversionDefinition": {
             "name": "$~omvandlingsdefinition",
-            "description": "$~$1 → $2",
+            "description": "$~$input → $output",
             "emotion": "excited",
             "doc": [
                 "$~Dude, jag definierar konverteringar från en typ till en annan! Jag går in på @Block, ungefär så här:",
@@ -645,18 +653,18 @@
                 "$~\\\"hej\" → [] → {}\\",
                 "$~Värden har en uppsättning @ConversionDefinition som är fördefinierade, men om du gör en @StructureDefinition för en ny typ av värde kan du definiera din egen med @ConversionDefinition."
             ],
-            "start": "$~Få det värdet från $1!",
-            "finish": "$~Fantastiskt, jag tjänade $1",
+            "start": "$~Få det värdet från $expression!",
+            "finish": "$~Fantastiskt, jag tjänade $value",
             "conflict": {
                 "UnknownConversion": {
                     "name": "$~okändkonvertering",
-                    "explanation": "$~Vi kunde inte hitta ett sätt att konvertera 1 dollar till 2 dollar"
+                    "explanation": "$~Vi kunde inte hitta ett sätt att konvertera ett $expected till ett $given"
                 }
             },
             "exception": {
                 "ConversionException": {
                     "description": "$~omöjlig omvandling",
-                    "explanation": "$~Jag vet inte hur man konverterar från $1 till $2"
+                    "explanation": "$~Jag vet inte hur man konverterar från $from till $to"
                 }
             }
         },
@@ -687,7 +695,7 @@
         },
         "Evaluate": {
             "name": "$~utvärdera",
-            "description": "$~$3[skapa $1[$1|] värde med dessa indata|$2[skapa $1[$1|] ström med dessa indata|tillämpa $1[$1|funktion] på dessa indata]]",
+            "description": "$~$structure[skapa $name[$name|] värde med dessa indata|$stream[skapa $name[$name|] ström med dessa indata|tillämpa $name[$name|funktion] på dessa indata]]",
             "emotion": "shy",
             "doc": [
                 "$~Hej. Jag utvärderar min käraste @FunctionDefinition. Så här:",
@@ -702,12 +710,12 @@
             ],
             "start": "$~Låt oss först utvärdera ingångarna",
             "evaluate": "$~låt oss utvärdera funktionen nu",
-            "finish": "$~Jag värderade till $1",
+            "finish": "$~Jag värderade till $value",
             "conflict": {
                 "IncompatibleInput": {
                     "name": "$~inkompatibelingång",
-                    "explanation": "$~Jag borde vara typ $1, men jag är typ $2",
-                    "resolution": "$~Konvertera till 1 dollar"
+                    "explanation": "$~Jag borde vara typ $expected, men jag är typ $given",
+                    "resolution": "$~Konvertera till $expected"
                 },
                 "UnexpectedTypeInput": {
                     "name": "$~oväntadtypinmatning",
@@ -715,7 +723,7 @@
                 },
                 "MissingInput": {
                     "name": "$~saknadinmatning",
-                    "explanation": "$~Jag kan inte utvärdera utan inmatningen $2 :("
+                    "explanation": "$~Jag kan inte utvärdera $name utan indata $input :("
                 },
                 "NotInstantiable": {
                     "name": "$~ofullständigstruktur",
@@ -727,7 +735,7 @@
                 },
                 "UnknownInput": {
                     "name": "$~okändingång",
-                    "explanation": "$~Den här funktionen *$1* förväntar sig inte inmatning med mitt namn."
+                    "explanation": "$~Den här funktionen *$name* förväntar sig inte inmatning med mitt namn."
                 },
                 "InputListMustBeLast": {
                     "name": "$~extrainmatningarärintesista",
@@ -735,13 +743,13 @@
                 },
                 "SeparatedEvaluate": {
                     "name": "$~tvetydigutvärdering",
-                    "explanation": "$~Är $1 namnet på en $2[$structure|$function] som du försöker utvärdera? Försök att ta bort mellanslaget efter mig, så att jag vet att det är en @Evaluate och inte ett separat @Block."
+                    "explanation": "$~Är $name namnet på en $structure[$structure|$function] som du försöker utvärdera? Försök att ta bort mellanslaget efter mig, så att jag vet att det är en @Evaluate och inte ett separat @Block."
                 }
             },
             "exception": {
                 "FunctionException": {
                     "description": "$~okänd funktion",
-                    "explanation": "$~åh nej, $1 är inte en funktion i $2[$2|det här @Block]!"
+                    "explanation": "$~åh nej, $name är inte en funktion i $scope[$scope|det här @Block]!"
                 }
             },
             "label": {
@@ -764,7 +772,7 @@
         },
         "ExpressionPlaceholder": {
             "name": "$~platshållare",
-            "description": "$~$1[$1|platshållare]",
+            "description": "$~markera ett uttryck att fylla i",
             "emotion": "scared",
             "doc": [
                 "$~Jag är ett *uttryck*, men inte ett riktigt... jag tar bara platsen för ett.",
@@ -794,7 +802,7 @@
         },
         "FunctionDefinition": {
             "name": "$~fungera",
-            "description": "$~funktion $1",
+            "description": "$~funktion $name",
             "emotion": "kind",
             "doc": [
                 "$~Hej igen! Jag tar några ingångar, utvärderar sedan ett uttryck med hjälp av dem och producerar en utdata.",
@@ -834,7 +842,7 @@
             "initialize": "$~förbereder sig för att gå igenom objekt",
             "next": "$~gå vidare till nästa punkt",
             "check": "$~besluta om att fortsätta",
-            "finish": "$~Jag värderade till $1"
+            "finish": "$~Jag värderade till $value"
         },
         "Initial": {
             "name": "$~Start",
@@ -862,7 +870,7 @@
         },
         "Is": {
             "name": "$~är",
-            "description": "$~är",
+            "description": "$~kontrollera om värdet är av typen $type",
             "emotion": "curious",
             "doc": [
                 "$~Vet du vad? Det finns så många sorters värderingar som betyder så många olika saker. Jag hjälper till att ta reda på vad de är.",
@@ -873,18 +881,18 @@
                 "$~Vi får \\⊤\\!",
                 "$~Jag är verkligen till hjälp när du behöver veta om något @Name har ett värde av ett visst slag."
             ],
-            "start": "$~Låt oss först få värdet på $1",
-            "finish": "$~$1[värdet är $2|värdet är inte $2]",
+            "start": "$~Låt oss först få värdet på $expression",
+            "finish": "$~$value[värdet är $type|värdet är inte $type]",
             "conflict": {
                 "ImpossibleType": {
                     "name": "$~omöjligtyp",
-                    "explanation": "$~detta kan aldrig vara 1 dollar"
+                    "explanation": "$~detta kan aldrig vara $type"
                 }
             },
             "exception": {
                 "TypeException": {
                     "description": "$~oförenliga värden",
-                    "explanation": "$~Jag förväntade mig en $1 men fick $2"
+                    "explanation": "$~Jag förväntade mig en $expected men fick $given"
                 }
             }
         },
@@ -898,7 +906,7 @@
                 "$~\\🌍/es-MX\\",
                 "$~Detta är användbart om du vill ändra din prestation baserat på det valda språket."
             ],
-            "start": "$~Är språket $1?"
+            "start": "$~Är språket $locale?"
         },
         "ListAccess": {
             "name": "$~liståtkomst",
@@ -908,16 +916,16 @@
                 "$~Jag arbetar nära @List för att hjälpa dem att få värderingar på en viss position. Så om du hade en lista och du ville ha dess andra objekt, skulle du skriva:",
                 "$~\\list: ['fågel' 'anka' 'fisk' 'orm']\nlista[2]\\"
             ],
-            "start": "$~Låt oss få listan $1 först",
-            "finish": "$~Objektet på indexet är $1!"
+            "start": "$~Låt oss få listan $list först",
+            "finish": "$~Objektet på indexet är $value!"
         },
         "ListLiteral": {
             "name": "$~listabokstavlig",
-            "description": "$~$1 objektlista",
+            "description": "$~$count objektlista",
             "emotion": "eager",
             "doc": "$~Jag är en specifik @List! Se @List för att lära dig mer om vad du kan göra med mig.",
             "start": "$~Låt oss utvärdera föremålen först",
-            "finish": "$~Jag gjorde ett jag! $1"
+            "finish": "$~Jag gjorde ett jag! $value"
         },
         "Spread": {
             "name": "$~sprida",
@@ -930,11 +938,11 @@
         },
         "MapLiteral": {
             "name": "$~kartabokstavlig",
-            "description": "$~$1 parningskarta",
+            "description": "$~$count parningskarta",
             "emotion": "kind",
             "doc": "$~Jag är en specifik @Map mellan nycklar och värden. Se @Map för att lära dig mer om hur jag är till hjälp.",
             "start": "$~Låt oss först utvärdera nycklarna och värdena",
-            "finish": "$~Jag kopplade ihop alla, $1",
+            "finish": "$~Jag kopplade ihop alla, $value",
             "conflict": {
                 "NotAKeyValue": {
                     "name": "$~saknatvärde",
@@ -957,7 +965,7 @@
                 "$~Jag är verkligen till hjälp för att omvandla ett av många möjliga @Number, @Text eller mer komplexa värden till något annat.",
                 "$~Du kan använda det för @Boolean eller @Boolean, men de kan egentligen inte vara så många saker, så jag är inte lika användbar för de enkla värdena."
             ],
-            "start": "$~Låt oss se vad $1 är...",
+            "start": "$~Låt oss se vad $value är...",
             "case": "$~Låt oss kontrollera detta tillstånd",
             "finish": "$~Okej, vi har ett slutvärde!",
             "label": {
@@ -967,10 +975,10 @@
         },
         "NumberLiteral": {
             "name": "$~bokstavligttal",
-            "description": "$~$1 $2[$2|]",
+            "description": "$~$number $unit[$unit|]",
             "emotion": "excited",
             "doc": "$~Jag är ett specifikt @Number. Du kan skriva till mig med alla typer av siffror från vilket språk som helst. Se @Number för allt jag kan göra.",
-            "start": "$~$1!",
+            "start": "$~$value!",
             "conflict": {
                 "NotANumber": {
                     "name": "$~inteettnummer",
@@ -1002,7 +1010,7 @@
                 "$~\\maybeNumber•#|ø: 1 maybeNumber ?? 0\\"
             ],
             "start": "$~ø ??",
-            "finish": "$~… 1 $"
+            "finish": "$~… $value"
         },
         "Previous": {
             "name": "$~tidigare",
@@ -1019,8 +1027,8 @@
                 "$~Se hur det är de fem föregående gångerna, istället för bara en gång?",
                 "$~Jag är behjälplig när du vill skapa föreställningar som är beroende av det förflutna."
             ],
-            "start": "$~Få först $1",
-            "finish": "$~Utvärderad till strömvärde $1",
+            "start": "$~Få först $stream",
+            "finish": "$~Utvärderad till strömvärde $value",
             "label": {
                 "range": "$~räckvidd"
             }
@@ -1039,9 +1047,9 @@
                 "$~Och om ditt resultat beror på en *ström*, kommer jag att omvärdera varje gång den strömmen ändras."
             ],
             "unevaluated": "$~noden du valde utvärderades inte",
-            "start": "$~$1[$1 ström ändrad till $2!|Det är min första utvärdering]",
+            "start": "$~$stream[$stream ström ändrad till $value!|Det är min första utvärdering]",
             "halt": "$~stött på undantag, stopp",
-            "finish": "$~Allt klart, jag värderade till $1",
+            "finish": "$~Allt klart, jag värderade till $value",
             "done": "$~det finns inget som utvärderar",
             "exception": {
                 "BlankException": {
@@ -1050,7 +1058,7 @@
                 },
                 "EvaluationLimitException": {
                     "description": "$~utvärderingsgräns",
-                    "explanation": "$~@Evaluate och jag är trötta på att utvärdera, särskilt $1.\n\nÄr det möjligt att $1 utvärderar sig själv för alltid, utan att någonsin sluta?"
+                    "explanation": "$~@Evaluate och jag är trötta på att utvärdera, särskilt $function.\n\nÄr det möjligt att $function utvärderar sig själv för alltid, utan att någonsin sluta?"
                 },
                 "StepLimitException": {
                     "description": "$~steggräns",
@@ -1062,11 +1070,11 @@
                 },
                 "InternalException": {
                     "description": "$~internt fel",
-                    "explanation": "$~något väldigt dåligt hände internt: $1"
+                    "explanation": "$~något väldigt dåligt hände internt: $reason"
                 },
                 "PermissionException": {
-                    "description": "$?",
-                    "explanation": "$?"
+                    "description": "$~tillstånd nekad",
+                    "explanation": "$~Jag behöver din $permission för att köras, men jag har inte behörighet. Klicka på Försök igen för att försöka igen. Om det inte hjälper, tillåt $permission för den här webbplatsen i din webbläsares inställningar."
                 }
             },
             "label": {
@@ -1076,7 +1084,7 @@
         },
         "PropertyBind": {
             "name": "$~förfina",
-            "description": "$~förfina $1[$1|namn saknas]",
+            "description": "$~förfina $name[$name|namn saknas]",
             "emotion": "kind",
             "doc": [
                 "$~Ibland när du gör en @StructureDefinition vill du ändra det minsta med den, utan att behöva göra en ny med samma värden.",
@@ -1085,11 +1093,11 @@
                 "$~Det är så mycket enklare än att göra en helt ny \\Cat\\ med samma värden förutom hobbyn, eller hur?"
             ],
             "start": "$~Låt oss först ta reda på värdet",
-            "finish": "$~Jag kopierade strukturen, men med $1 som $2",
+            "finish": "$~Jag kopierade strukturen, men med $property som $value",
             "conflict": {
                 "InvalidProperty": {
                     "name": "$~okändegendom",
-                    "explanation": "$~Jag är inte ett namn i strukturen $1, så jag kan inte förfinas."
+                    "explanation": "$~Jag är inte ett namn i strukturen $structure, så jag kan inte förfinas."
                 }
             },
             "label": {
@@ -1099,7 +1107,7 @@
         },
         "PropertyReference": {
             "name": "$~egendom",
-            "description": "$~egenskap $1[$1|namn saknas]",
+            "description": "$~egenskap $name[$name|namn saknas]",
             "emotion": "kind",
             "doc": [
                 "$~När du gör en @StructureDefinition, hur får du en av dess ingångar? Jag är hur",
@@ -1107,7 +1115,7 @@
                 "$~\\•Stad(namn•'' befolkning•#people)\n\nportland: City('Portland' 800 000 personer)\n\nportland.population\\"
             ],
             "start": "$~Låt oss först ta reda på värdet",
-            "finish": "$~Hittade egenskapen $1, den är $2",
+            "finish": "$~Hittade egenskapen $property, den är $value",
             "label": {
                 "property": "$~egendom"
             }
@@ -1124,11 +1132,11 @@
                 "$~Så jag är som en ström till, men en baserad på andra strömmar. elak, va?"
             ],
             "start": "$~Låt oss se om vi ska uppdatera strömmen",
-            "finish": "$~Det nya streamvärdet är $1",
+            "finish": "$~Det nya streamvärdet är $value",
             "conflict": {
                 "ExpectedStream": {
                     "name": "$~förväntadström",
-                    "explanation": "$~$1 refererar inte till en stream, så jag kommer aldrig att reagera!"
+                    "explanation": "$~$condition refererar inte till en stream, så jag kommer aldrig att reagera!"
                 }
             },
             "label": {
@@ -1139,7 +1147,7 @@
         },
         "Reference": {
             "name": "$~hänvisning",
-            "description": "$~$1",
+            "description": "$~$name",
             "emotion": "shy",
             "doc": [
                 "$~Vet du hur @Bind ger saker @Bind? Jag är hur du refererar till dem. Jag ser om någon @Bind har det namnet, om så är fallet, ge dig dess värde. Så här:",
@@ -1147,18 +1155,18 @@
                 "$~Om jag inte hittar namnet så vet jag inte vad jag ska göra.",
                 "$~\\papegoja: 'polly'\npäronvin\\"
             ],
-            "start": "$~Vilket värde har $1?",
+            "start": "$~Vilket värde har $name?",
             "conflict": {
                 "UnknownName": {
                     "conflict": {
                         "name": "$~okäntnamn",
-                        "explanation": "$~$1[Jag känner ingen som heter $1 i $2[$2|detta @Block]|Kan du ge mig ett namn?]"
+                        "explanation": "$~$name[Jag känner ingen som heter $name i $scope[$scope|detta @Block]|Kan du ge mig ett namn?]"
                     },
-                    "resolution": "$~Menade du *$1?*"
+                    "resolution": "$~Menade du *$suggestion?*"
                 },
                 "ReferenceCycle": {
                     "name": "$~självrefererandevärde",
-                    "explanation": "$~Öh, värdet på 1 dollar beror på sig självt, så hur vet jag vilket värde jag ska ge den?"
+                    "explanation": "$~um, $name värde beror på sig självt, så hur vet jag vilket värde jag ska ge det?"
                 },
                 "UnexpectedTypeVariable": {
                     "name": "$~oväntadtypvariabel",
@@ -1168,7 +1176,7 @@
             "exception": {
                 "NameException": {
                     "description": "$~okänt namn",
-                    "explanation": "$~$1[Jag vet inte någon som heter $1 i $2[$2|det här @Block]...|Hoppsan, inget namn!]"
+                    "explanation": "$~$name[Jag vet inte någon som heter $name i $scope[$scope|det här @Block]...|Hoppsan, inget namn!]"
                 }
             }
         },
@@ -1193,11 +1201,11 @@
         },
         "SetLiteral": {
             "name": "$~sättabokstavlig",
-            "description": "$~$1 föremål",
+            "description": "$~$count föremål",
             "emotion": "eager",
             "doc": "$~Jag är en specifik @Set av specifika värden. Se @Set för att lära dig mer om hur du arbetar med mig.",
             "start": "$~Låt oss utvärdera värdena först!",
-            "finish": "$~Jag gjorde ett set $1!"
+            "finish": "$~Jag gjorde ett set $value!"
         },
         "SetOrMapAccess": {
             "name": "$~set/kartaåtkomst",
@@ -1211,11 +1219,11 @@
                 "$~\\faves: {'mac and cheese': 5stars 'cereal': 2stars 'välling': 1stars}\nfavoriter{'väl'}\\"
             ],
             "start": "$~Vad är uppsättningen eller kartan?",
-            "finish": "$~Värdet är $1",
+            "finish": "$~Värdet är $value",
             "conflict": {
                 "IncompatibleKey": {
                     "name": "$~inkompatibelnyckel",
-                    "explanation": "$~Jag förväntade mig en nyckel av typen $1"
+                    "explanation": "$~Jag förväntade mig en nyckel av typen $expected"
                 }
             }
         },
@@ -1238,7 +1246,7 @@
         },
         "StructureDefinition": {
             "name": "$~strukturera",
-            "description": "$~struktur $1",
+            "description": "$~struktur $name",
             "emotion": "kind",
             "doc": [
                 "$~Varför hej, hur mår du? Mig? Jag är jättebra. Jag älskar att definiera strukturer som lagrar värderingar och funktion, så så länge jag får göra det hela dagen är jag nöjd.",
@@ -1267,7 +1275,7 @@
                 },
                 "UnimplementedInterface": {
                     "name": "$~oimplementerad",
-                    "explanation": "$~Jag implementerar $1 men har inte implementerat $2"
+                    "explanation": "$~Jag implementerar $interface men har inte implementerat $function"
                 }
             },
             "label": {
@@ -1279,7 +1287,7 @@
         },
         "StructureDefinitionType": {
             "name": "$~strukturdefinition",
-            "description": "$~definition av $1",
+            "description": "$~definition av $name",
             "emotion": "kind",
             "doc": [
                 "$~Jag hänvisar till någon form av @StructureDefinition. Folk brukar inte hänvisa till mig direkt"
@@ -1287,15 +1295,15 @@
         },
         "TableLiteral": {
             "name": "$~tabellbokstavlig",
-            "description": "$~$1 radbord",
+            "description": "$~$count radbord",
             "emotion": "angry",
             "doc": "$~Jag är en specifik tabell med specifika rader. Se @Table om hur jag kan hjälpa till.",
             "start": "$~Utvärdera först raderna",
-            "finish": "$~Utvärderad till nytt bord $1"
+            "finish": "$~Utvärderad till nytt bord $value"
         },
         "TextLiteral": {
             "name": "$~textbokstavlig",
-            "description": "$~sms:a $1",
+            "description": "$~sms:a $text",
             "emotion": "serious",
             "doc": "$~Jag representerar en eller flera specifika @Translation av text. Se @Text för att lära dig mer om vad jag kan göra!",
             "start": "$~Låt oss göra text i den aktuella lokalen",
@@ -1305,29 +1313,29 @@
         },
         "Translation": {
             "name": "$~översättning",
-            "description": "$~översättning $1",
+            "description": "$~översättning $text",
             "emotion": "serious",
             "doc": "$~Jag representerar viss text, med en @Language-tagg. Se @Text för att lära dig mer!",
             "conflict": {
                 "phone": {
                     "name": "$~möjligttelefonnummer",
-                    "explanation": "$~Är *$1* någons telefonnummer? Dela mig inte online i så fall!\n\n$2"
+                    "explanation": "$~Är *$text* någons telefonnummer? Dela mig inte online i så fall!\n\n$reminder"
                 },
                 "email": {
                     "name": "$~möjlige-post",
-                    "explanation": "$~Är *$1* någons e-postadress? Dela mig inte här i så fall!\n\n$2"
+                    "explanation": "$~Är *$text* någons e-postadress? Dela mig inte här i så fall!\n\n$reminder"
                 },
                 "tin": {
                     "name": "$~möjligskatteidentifiering",
-                    "explanation": "$~Är *$1* ett skatteidentifieringsnummer? Om ja, dela mig absolut inte, jag är mycket känslig information!\n\n$2"
+                    "explanation": "$~Är *$text* ett skatteidentifieringsnummer? Om ja, dela mig absolut inte, jag är mycket känslig information!\n\n$reminder"
                 },
                 "address": {
                     "name": "$~möjligadress",
-                    "explanation": "$~Är *$1* någons hemadress? Om så är fallet, skriv mig inte här, vi vill inte att någon ska bli förföljd!\n\n$2"
+                    "explanation": "$~Är *$text* någons hemadress? Om så är fallet, skriv mig inte här, vi vill inte att någon ska bli förföljd!\n\n$reminder"
                 },
                 "handle": {
                     "name": "$~möjligtanvändarnamn",
-                    "explanation": "$~Är *$1* ditt användarnamn någon annanstans på internet? Om så är fallet, dela mig inte här om du inte verkligen menar det.\n\n$2"
+                    "explanation": "$~Är *$text* ditt användarnamn någon annanstans på internet? Om så är fallet, dela mig inte här om du inte verkligen menar det.\n\n$reminder"
                 },
                 "resolution": "$~Det här är inte känslig information",
                 "reminder": "$~Obs! Du kan ångra den här åtgärden och se andra saker som du har markerat som okänsliga i delningsdialogrutan.",
@@ -1342,14 +1350,14 @@
         },
         "FormattedLiteral": {
             "name": "$~formaterad",
-            "description": "$~sms:a $1",
+            "description": "$~sms:a $text",
             "emotion": "serious",
             "doc": "$~Jag representerar många olika @FormattedTranslation av formaterad text. När jag utvärderar väljer jag den bästa matchningen baserat på publikens valda språk.",
             "start": "$~Låt oss göra text i den aktuella lokalen"
         },
         "FormattedTranslation": {
             "name": "$~formateradöversättning",
-            "description": "$~sms:a $1",
+            "description": "$~sms:a $language",
             "emotion": "serious",
             "doc": [
                 "$~Jag representerar en del formaterad text, med en @Language-tagg.",
@@ -1377,7 +1385,7 @@
                 "$~Kolla in mig, som representerar det tidigare reaktionsvärdet.",
                 "$~Jag dyker inte upp ofta, men när jag gör det kan jag verkligen hjälpa ett värde att ta sig ur en @Bind!"
             ],
-            "start": "$~Värderad till $1",
+            "start": "$~Värderad till $value",
             "conflict": {
                 "MisplacedThis": {
                     "name": "$~felplaceradedennareferens",
@@ -1387,7 +1395,7 @@
         },
         "UnaryEvaluate": {
             "name": "$~entydigtutvärdera",
-            "description": "$~$1",
+            "description": "$~$operator",
             "emotion": "kind",
             "doc": [
                 "$~Visste du att när jag utvärderar en @FunctionDefinition med bara ett värde, och namnet på @FunctionDefinition bara är en enda symbol, kan du sätta namnet före ingången?",
@@ -1400,7 +1408,7 @@
                 "$~Det finns bara en regel: du kan inte sätta något mellanslag mellan namnet och värdet. Annars kanske du gör en @Reference eller @BinaryEvaluate."
             ],
             "start": "$~Vad är värdet?",
-            "finish": "$~Jag gjorde det $1",
+            "finish": "$~Jag gjorde det $value",
             "label": {
                 "input": "$~input"
             }
@@ -1424,13 +1432,13 @@
                 "UnparsableConflict": {
                     "conflict": {
                         "name": "$~oläsligkod",
-                        "explanation": "$~@FunctionDefinition här, @UnparsableExpression vet inte vilken typ av $1[uttryck | typ] detta är."
+                        "explanation": "$~@FunctionDefinition här, @UnparsableExpression vet inte vilken typ av $expression[uttryck | typ] detta är."
                     },
-                    "resolution": "$~Menade du $1, $2?"
+                    "resolution": "$~Menade du $first, $second?"
                 },
                 "UnclosedDelimiter": {
                     "name": "$~oavslutadavgränsare",
-                    "explanation": "$~Jag förväntade mig 2 dollar någon gång efter 1 dollar"
+                    "explanation": "$~Jag förväntade mig $expected någon gång efter $unclosed"
                 }
             },
             "exception": {
@@ -1459,7 +1467,7 @@
                 },
                 "IncompatibleCellType": {
                     "name": "$~inkompatibelcelltyp",
-                    "explanation": "$~Jag borde vara typ $1, men jag har för mig att jag är $2"
+                    "explanation": "$~Jag borde vara typ $expected, men jag har för mig att jag är $given"
                 }
             }
         },
@@ -1506,7 +1514,7 @@
         },
         "FunctionType": {
             "name": "$~fungera",
-            "description": "$~funktion med $1 ingångar, $2 utgång",
+            "description": "$~skriv en funktion med $inputs inputs",
             "emotion": "curious",
             "doc": [
                 "$~Jag representerar en @FunctionDefinition. Jag är verkligen hjälpsam om du vill säga vilken typ av funktion en @Bind har! Så här:",
@@ -1515,7 +1523,7 @@
         },
         "ListType": {
             "name": "$~lista",
-            "description": "$~$1[lista med $1|lista]",
+            "description": "$~$type[lista med $type|lista]",
             "emotion": "cheerful",
             "doc": [
                 "$~Jag är /sådan/ ett fan av @List. Jag får berätta för @Bind vilken typ av lista de är! Så här säger jag att det är en lista med @Number:",
@@ -1524,7 +1532,7 @@
         },
         "MapType": {
             "name": "$~karta",
-            "description": "$~karta från $1[$1|any] till $2[$2|any]",
+            "description": "$~karta från $key[$key|any] till $value[$value|any]",
             "emotion": "kind",
             "doc": [
                 "$~Vet du hur fantastiskt @Map är? Som riktigt häftigt. Jag berättar för @Bind vilken typ av karta de är hela tiden, som den här kartan över siffror till listor:",
@@ -1533,7 +1541,7 @@
         },
         "NumberType": {
             "name": "$~antal",
-            "description": "$~$1[$1 | antal]",
+            "description": "$~$unit[$unit | antal]",
             "emotion": "precise",
             "doc": [
                 "$~Vet du vad @Bind borde vara? Ett @Bind. För siffrorna är bäst.",
@@ -1542,7 +1550,7 @@
         },
         "NameType": {
             "name": "$~strukturera",
-            "description": "$~$1 typ",
+            "description": "$~$name typ",
             "emotion": "curious",
             "doc": [
                 "$~Jag representerar en @StructureDefinition med dess namn. Så som, om du hade en struktur som denna, skulle du kunna göra en @Bind som lagrar värdena den skapar.",
@@ -1551,7 +1559,7 @@
             "conflict": {
                 "UnknownTypeName": {
                     "name": "$~okänttypnamn",
-                    "explanation": "$~typnamn kan bara referera till strukturer eller typvariabler, men detta refererar till typ $1"
+                    "explanation": "$~typnamn kan bara referera till strukturer eller typvariabler, men detta refererar till typ $type"
                 }
             }
         },
@@ -1572,7 +1580,7 @@
         },
         "SetType": {
             "name": "$~uppsättning",
-            "description": "$~$1[$1 set|set]",
+            "description": "$~$type[$type set|set]",
             "emotion": "kind",
             "doc": [
                 "$~@Set är BÄST, liksom seriöst. Jag säger till @Bind hela tiden, gör saker till en uppsättning av något!",
@@ -1596,7 +1604,7 @@
         },
         "StructureType": {
             "name": "$~strukturera",
-            "description": "$~$1",
+            "description": "$~$name",
             "emotion": "kind",
             "doc": "$~Jag är en intern typ för att representera typen av standardvärdetyper."
         },
@@ -1621,7 +1629,7 @@
         },
         "TextType": {
             "name": "$~text",
-            "description": "$~$1[$1|text]",
+            "description": "$~$text[$text|text]",
             "emotion": "happy",
             "doc": [
                 "$~Jag representerar fantastiskt den mest fantastiska sorts värde som finns, @Text.",
@@ -1636,7 +1644,7 @@
         },
         "UnionType": {
             "name": "$~alternativ",
-            "description": "$~$1 | $2",
+            "description": "$~en av $first eller $second",
             "emotion": "curious",
             "doc": [
                 "$~Vem ska jag representera, A eller B eller något annat? Jag kan aldrig bestämma mig!",
@@ -1645,7 +1653,7 @@
         },
         "Unit": {
             "name": "$~enhet",
-            "description": "$~$1",
+            "description": "$~$unit",
             "emotion": "precise",
             "doc": [
                 "$~Jag representerar alla enheter som ett @Number kan ha, inklusive ingen enhet, till den mest komplicerade enhet du kan tänka dig. Som gravitation, till exempel:",
@@ -1679,7 +1687,7 @@
         },
         "NotAType": {
             "name": "$~oväntad",
-            "description": "$~inte en $1",
+            "description": "$~inte en $type",
             "emotion": "curious",
             "doc": "$~Ibland vet vi vilket värde något ska vara. Som att @ListAccess behöver ett @Number. Om vi inte får det så representerar jag att något är en annan typ än vad vi förväntade oss."
         },
@@ -1703,13 +1711,13 @@
         },
         "UnknownNameType": {
             "name": "$~okäntnamn",
-            "description": "$~$1[$1 är inte definierat ännu|namnet är inte angivet]",
+            "description": "$~$name [ $name är inte definierat ännu|namnet är inte angivet]",
             "emotion": "curious",
             "doc": "$~Du vet hur ibland @Reference och @PropertyReference inte känner till namnet du pratar om? Jag är med när det händer, för att visa att vi inte vet vem du pratar om."
         },
         "NonFunctionType": {
             "name": "$~icke-funktion",
-            "description": "$~icke-funktion",
+            "description": "$~markera $type som en icke-funktion",
             "emotion": "confused",
             "doc": "$~Några av oss förväntade sig funktioner; Jag dyker upp när vi inte får någon."
         }
@@ -3657,7 +3665,7 @@
                 "doc": "$~Samma som @Phrase/style!",
                 "names": "$~stil"
             },
-            "defaultDescription": "$~$1[$1|] $2 $3"
+            "defaultDescription": "$~$name[$name|] $layout $pose"
         },
         "Phrase": {
             "doc": [
@@ -3780,7 +3788,7 @@
                 "doc": "$~Animeringsstilen som ska användas när du flyttar till en annan plats på scenen.",
                 "names": "$~stil"
             },
-            "defaultDescription": "$~$3[$3 meter |]fras $1 $2[namn $2|] $4[$4|] $5"
+            "defaultDescription": "$~$size[$size meter |]fras $text $name[namn $name|] $face[$face|] $animation"
         },
         "Arrangement": {
             "doc": "$~Jag är en inspiration till de många andra typerna av arrangemang i Versen, inklusive @Row, @Stack, @Grid och @Free. Jag har ett nära samarbete med @Group till",
@@ -3789,7 +3797,7 @@
         "Row": {
             "doc": "$~Jag är @Row, ett horisontellt @Row av @Output, med valfri stoppning däremellan. Har du träffat min tvilling, @Stack?",
             "names": ["$~➡", "$~Rad"],
-            "description": "$~rad med $1 fraser och grupper",
+            "description": "$~rad med $count fraser och grupper",
             "alignment": {
                 "doc": "$~Om text ska justeras i början, centrera eller slutet på varje kolumn.",
                 "names": "$~inriktning"
@@ -3802,7 +3810,7 @@
         "Stack": {
             "doc": "$~Jag är @Stack, ett vertikalt @Stack av @Output, med valfri stoppning däremellan. Har du träffat min tvilling @Row?",
             "names": ["$~⬇", "$~Stack"],
-            "description": "$~stack med $1 fraser och grupper",
+            "description": "$~stack med $count fraser och grupper",
             "alignment": {
                 "doc": "$~Om text ska justeras i början, centrera eller slutet på varje rad.",
                 "names": "$~inriktning"
@@ -3815,7 +3823,7 @@
         "Grid": {
             "doc": "$~Jag är rutnät av @Output. Ge mig ett antal rader och kolumner så gör jag ett snyggt arrangemang med valfri utfyllnad och cellstorlekar.",
             "names": ["$~▦", "$~Rutnät"],
-            "description": "$~$1 rad $2 kolumnrutnät",
+            "description": "$~$rows rad $columns kolumnrutnät",
             "rows": {
                 "doc": "$~Hur många rader görs i rutnätet.",
                 "names": "$~rader"
@@ -3843,7 +3851,7 @@
                 "$~Åh, och kom ihåg att @Place du ger varje @Output är relativt till @Place @Place! Så om du undrar varför saker och ting inte visas som du förväntar dig, försök ge @Group en plats också."
             ],
             "names": ["$~Gratis"],
-            "description": "$~fritt format $1-utgångar"
+            "description": "$~fritt format $count"
         },
         "Shape": {
             "doc": "$~Jag är en inspiration för alla former. Jag är användbar för att berätta för @Stage vilken form man ska ha.",
@@ -4033,7 +4041,7 @@
                 "doc": "$~Huruvida en @Output ska speglas på y-axeln, istället för att den är standard.",
                 "names": "$~flipy"
             },
-            "description": "$~$1[transparent $1|] $2[roterad $2 grader|] $3[skalad $3|] $4[vänd horisontellt|] $5[vänd vertikalt|] $6[skugga suddig $6 pixlar]"
+            "description": "$~$opacity[transparent $opacity|] $rotation[roterad $rotation grader|] $scale[skalad $scale|] $flipx[vänd horisontellt|] $flipy[vänd vertikalt|] $blur[skugga suddig $blur pixlar]"
         },
         "Color": {
             "doc": [
@@ -4288,7 +4296,7 @@
                 "doc": "$~Allvaret som ska tillämpas på utdata vars plats är i @Motion.",
                 "names": "$~allvar"
             },
-            "defaultDescription": "$~steg $2[$2 |]av $1 utgångar$3[med ram $3|] $4"
+            "defaultDescription": "$~steg $name[$name |]av $count utgångar$frame[med ram $frame|] $pose"
         },
         "Easing": {
             "straight": "$~rakt",
@@ -4380,7 +4388,7 @@
                 "doc": "$~Texten jag borde läsa högt.",
                 "names": "$~text"
             },
-            "defaultDescription": "$~Säg 1 dollar"
+            "defaultDescription": "$~Säg $text"
         },
         "Gesture": {
             "doc": "$~Jag är en handgest som kameran upptäcker. Mina fält visar var handen är på scenen, vilka fingrar som är utsträckta och om handflatan eller handryggen är vänd mot kameran. @Hand visar en av mig.",
@@ -4578,7 +4586,7 @@
                 "now": "$~nu",
                 "history": "$~versioner",
                 "restore": "$~Detta är en tidigare version av detta projekt.",
-                "ago": "$~$1 $2 sedan"
+                "ago": "$~$amount $unit sedan"
             },
             "button": {
                 "clear": "$~radera historik",
@@ -4637,14 +4645,7 @@
         },
         "source": {
             "label": "$~programredaktör",
-            "empty": [
-                "$~Låt oss komma igång! Du kan…",
-                "$~• Öppna 📕 och dra 🖱️ oss till detta program.",
-                "$~• Skriv $1 och välj oss från menyn.",
-                "$~• Skriv oss med ⌨️.",
-                "$~• Bläddra i <galleries@://galleries> för inspiration.",
-                "$~Om du har fastnat, <läs mer@://learn>."
-            ],
+            "empty": ["$~• Skriv $symbol och välj oss från menyn."],
             "overwritten": "$~Projektet revideras på annat håll",
             "confirm": {
                 "delete": {
@@ -4700,7 +4701,7 @@
                 "selectAll": "$~välj program",
                 "incrementLiteral": "$~öka antal, text eller boolesk",
                 "decrementLiteral": "$~minska antal, text eller boolesk",
-                "insertSymbol": "$~infoga $1",
+                "insertSymbol": "$~infoga $symbol",
                 "insertTab": "$~infoga flik",
                 "insertTrue": "$~infoga sant",
                 "insertFalse": "$~infoga falskt",
@@ -4777,8 +4778,8 @@
         },
         "annotations": {
             "label": "$~konflikter och hjälp",
-            "cursor": "$~Det här är *$1*$2[ och de är av typen $2|].    $3[ De är inne i en *$3*.|]",
-            "cursorParent": "$~De är inuti en *$1*$2[ av typen $2|].",
+            "cursor": "$~Det här är *$node*$type[ och de är av typen $type|].    $description[ De är inne i en *$description*.|]",
+            "cursorParent": "$~De är inuti en *$node*$type[ av typen $type|].",
             "learn": "$~/Läs mer/",
             "evaluating": "$~Åh kul, låt oss utvärdera!",
             "space": "$~Det här är utrymme! Vem visste att ingenting kunde säga så mycket?",
@@ -4787,7 +4788,7 @@
                 "toggle": "$~visa och dölj anteckningar",
                 "highlight": "$~visa den här koden i editorn"
             },
-            "nodeDescription": "$~De 1 dollar."
+            "nodeDescription": "$~De $description."
         },
         "output": {
             "label": "$~programutgång",
@@ -4833,12 +4834,12 @@
                 "animationSpeed": "$~Kontrollen /animation speed/ ställer in hur snabbt animationer spelas upp. Samma kontroll finns i *inställningar*, så du kan ändra den från båda ställena."
             },
             "permission": {
-                "title": "$?",
-                "microphone": "$?",
-                "camera": "$?",
-                "note": "$?",
-                "start": "$?",
-                "retry": "$?"
+                "title": "$~Detta projekt behöver tillstånd",
+                "microphone": "$~mikrofon",
+                "camera": "$~kamera",
+                "note": "$~Din webbläsare kommer att fråga innan delning.",
+                "start": "$~Start",
+                "retry": "$~Försöka igen"
             }
         },
         "timeline": {
@@ -4873,7 +4874,7 @@
         },
         "docs": {
             "label": "$~dokumentwebbläsare",
-            "link": "$~visa koncept $1 i dokumentationen",
+            "link": "$~visa koncept $name i dokumentationen",
             "learn": "$~lär dig mer...",
             "nodoc": "$~Vem är jag? Vad är jag? Vad är mitt syfte?",
             "button": {
@@ -5178,7 +5179,8 @@
                             "$~1x",
                             "$~2x",
                             "$~5x",
-                            "$~10 gånger"
+                            "$~10 gånger",
+                            "$~bil"
                         ],
                         "tips": [
                             "$~animationer av",
@@ -5188,7 +5190,8 @@
                             "$~normal hastighet",
                             "$~dubbel hastighet",
                             "$~femväxlad",
-                            "$~tioväxlad"
+                            "$~tioväxlad",
+                            "$~använd den aktuella enhetsinställningen"
                         ]
                     },
                     "dark": {
@@ -5368,11 +5371,11 @@
                     "tip": "$~rensa alla aviseringar"
                 },
                 "notification": {
-                    "howToHeader": "$~Ny instruktionsguide med titeln \"$1\" har publicerats",
-                    "projectChatHeader": "$~Nytt meddelande i projektet \"$1\"",
-                    "howToChatHeader": "$~Nytt meddelande i instruktionsguiden \"$1\"",
+                    "howToHeader": "$~Ny instruktionsguide med titeln \"$title\" har publicerats",
+                    "projectChatHeader": "$~Nytt meddelande i projektet \"$name\"",
+                    "howToChatHeader": "$~Nytt meddelande i instruktionsguiden \"$title\"",
                     "link": "$~detaljer",
-                    "moderationHeader": "$~Meddelandet i \"$1\" kräver modereringsåtgärd"
+                    "moderationHeader": "$~Meddelandet i \"$name\" kräver modereringsåtgärd"
                 },
                 "delete": "$~radera den här aviseringen",
                 "popup": "$~ny avisering"
@@ -6152,8 +6155,8 @@
                     "untitledproject": "$~Namnlöst projekt"
                 },
                 "announce": {
-                    "position": "$~för $1 $2",
-                    "selection": "$~$1[vald $1|inget valt]"
+                    "position": "$~för $x $y",
+                    "selection": "$~$shapes[vald $shapes|inget valt]"
                 },
                 "share": {
                     "dialog": {
@@ -6238,7 +6241,7 @@
             },
             "thanks": {
                 "header": "$~Tack",
-                "intro": "$~Tack till våra *$1* bidragsgivare för att de bidragit till Wordplays design, utveckling, lokalisering och innehåll! Och tack till de många lärare och ungdomar som har väglett vår design i fokusgrupper, designsessioner och klassrum, som vi inte listar här för att skydda deras integritet.\n\nDetta projekt har stöttats av National Science Foundation under utmärkelserna 2318257, 2031265, 2100296 och 2122950, University of Washington och generösa <gifts//donate> från människor som du.",
+                "intro": "$~Tack till våra *$count* bidragsgivare för att de bidragit till Wordplays design, utveckling, lokalisering och innehåll! Och tack till de många lärare och ungdomar som har väglett vår design i fokusgrupper, designsessioner och klassrum, som vi inte listar här för att skydda deras integritet.\n\nDetta projekt har stöttats av National Science Foundation under utmärkelserna 2318257, 2031265, 2100296 och 2122950, University of Washington och generösa <gifts//donate> från människor som du.",
                 "teachers": "$~Lärare",
                 "contributors": "$~Bidragsgivare"
             },
@@ -6324,36 +6327,36 @@
                 },
                 "singletonWordsWarning": "$~Vissa ord i ditt utkast förekommer bara en gång i hela språket. Är du säker på att de är korrekt stavade och överensstämmer med annan text?",
                 "viewPR": "$~Visa pull-förfrågan",
-                "oneLocaleNote": "$~Varje bidrag täcker en språkinställning i taget. Denna grupp kommer att skickas in som redigeringar till $1. Om du vill bidra till en annan språkinställning, byt språkinställning först; redigeringar som du sparar under varje språkinställning sparas separat."
+                "oneLocaleNote": "$~Varje bidrag täcker en språkinställning i taget. Denna grupp kommer att skickas in som redigeringar till $locale. Om du vill bidra till en annan språkinställning, byt språkinställning först; redigeringar som du sparar under varje språkinställning sparas separat."
             }
         },
         "edit": {
-            "node": "$~$1$2[, skriv $2|]",
-            "before": "$~före $1[$1|slut]",
-            "inside": "$~i $1, mellan $2[$2|start] och $3[$3|slut]",
-            "between": "$~mellan $1 och $2",
-            "line": "$~tom rad mellan $1[$1|start] och $2[$2|slut]",
-            "conflicts": "$~$1 konflikter",
-            "assign": "$~/$2[Ivrig att gå med|Överväger att lämna]…/",
+            "node": "$~$node$type[, skriv $type|]",
+            "before": "$~före $after[$after|slut]",
+            "inside": "$~i $token, mellan $before[$before|start] och $after[$after|slut]",
+            "between": "$~mellan $before och $after",
+            "line": "$~tom rad mellan $before[$before|start] och $after[$after|slut]",
+            "conflicts": "$~$count konflikter",
+            "assign": "$~/$name[Ivrig att gå med|Överväger att lämna]…/",
             "append": "$~/Ivrig att sätta in.../",
             "remove": "$~/Överväger att lämna.../",
             "replace": "$~/Vill kliva in.../",
             "wrap": "$~parentes",
             "unwrap": "$~packa upp",
             "bind": "$~namnge detta uttryck",
-            "range": "$~urval från $1 till $2",
+            "range": "$~urval från $start till $end",
             "area": "$~typkod"
         },
         "template": {
             "unwritten": "$~TBD",
-            "unparsable": "$~Oparserbar mall: $1",
+            "unparsable": "$~Oparserbar mall: $template",
             "machineTranslated": "$~Detta är maskinöversatt, så det kanske inte är läsbart eller korrekt.",
             "locallyRevised": "$~Denna text har reviderats lokalt och skiljer sig från den officiella översättningen."
         },
         "howto": {
             "galleryView": {
                 "header": "$~Instruktioner",
-                "subheader": "$~1 dollar i instruktioner, 2 dollar i nya",
+                "subheader": "$~$total instruktioner, $new nytt",
                 "subheaderEmpty": "$~skapa den första!",
                 "prompt": "$~Instruktioner är korta förklaringar och exempelkod för hur man gör något med Wordplay. När du har kommit fram till något du vill dela, skriv en för de andra skaparna i det här galleriet, så att de kan lära sig det!"
             },
@@ -6480,7 +6483,7 @@
                 "usedBy": {
                     "prompt": "$~Använde du den här handledningen i ditt projekt eller i en annan handledning? Låt andra veta det genom att lägga till ditt projekt i listan!",
                     "empty": "$~Du har inga projekt eller andra publicerade instruktioner än. Försök att skapa ett!",
-                    "countDisplay": "$~Andra Wordplay-regissörer har använt detta i andra projekt eller instruktionsböcker på $1",
+                    "countDisplay": "$~Andra Wordplay-regissörer har använt detta i andra projekt eller instruktionsböcker på $count",
                     "selector": "$~projekt- och instruktionsväljare",
                     "removeButton": "$~ta bort projekt eller instruktionsguide från listan",
                     "addButton": "$~lägg till projekt eller instruktionsguide"
@@ -6556,9 +6559,9 @@
                 }
             },
             "announce": {
-                "howToPosition": "$~instruktionstexten med titeln $1 flyttad till $2 $3",
-                "canvasPosition": "$~Canvas flyttad till 1 dollar, 2 dollar",
-                "moveActivated": "$~rörelse aktiverad. $1 kan flyttas med musen, tangentbordet eller pekskärmen",
+                "howToPosition": "$~instruktionstexten med titeln $title flyttad till $x $y",
+                "canvasPosition": "$~arbetsytan flyttad till $x, $y",
+                "moveActivated": "$~rörelse aktiverad. $target kan flyttas med musen, tangentbordet eller pekskärmen",
                 "moveDeactivated": "$~rörelsen avaktiverad."
             },
             "error": {
@@ -6672,7 +6675,7 @@
                 }
             },
             "strings": "$~Språksträngar",
-            "emotion": "$?",
+            "emotion": "Choose an emotion",
             "invalidName": "$~Inte ett giltigt Wordplay-namn",
             "reference": "$~Engelsk referens",
             "unwritten": "$~Oskriven text",
@@ -6680,7 +6683,16 @@
             "revisedDescription": "$~Dessa ändringar sparas lokalt och har ännu inte skickats in för granskning.",
             "submitRevisions": "$~Skicka in ändringar",
             "submitted": "$~Tack! Din reviderade text kommer att granskas och kan komma att publiceras snart.",
-            "invalidConceptLinks": "$~Dessa konceptlänkar fungerar inte i den aktuella språkinställningen. Stavade du fel på en, eller tog du bort den med flit?"
+            "invalidConceptLinks": "$~Dessa konceptlänkar fungerar inte i den aktuella språkinställningen. Stavade du fel på en, eller tog du bort den med flit?",
+            "inputs": {
+                "header": "$~Inmatningar som denna mall accepterar",
+                "usedTip": "$~Klicka för att infoga en annan referens vid markören",
+                "unusedTip": "$~Klicka för att infoga den här referensen vid markören",
+                "missing": "$~Saknade inmatningar:",
+                "legacy": "$~Ersätt dessa gamla positionsreferenser med namngivna referenser:",
+                "submitBlocked": "$~Referera till varje inmatning innan du skickar in",
+                "unknown": "$~Dessa referenser matchar inte en deklarerad indata eller terminologi, så de kommer inte att ersätta:"
+            }
         },
         "tour": {
             "label": "$~tur",
@@ -6713,7 +6725,7 @@
             "disclosure": "$~Avslöja privat information om andra personer såsom namn, kontaktinformation eller fysiska adresser",
             "misinformation": "$~Innehåller falsk, vilseledande, vilseledande eller manipulativ information"
         },
-        "progress": "$~*$1* modererad, *$2* återstår",
+        "progress": "$~*$moderated* modererad, *$remaining* återstår",
         "button": {
             "submit": {
                 "tip": "$~Spara dessa modereringsinställningar",

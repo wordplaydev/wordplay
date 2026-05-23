@@ -1,0 +1,23 @@
+Buat karakter goyangan
+
+Terkadang, akan lebih baik jika karakter tersebut terlihat seperti sedang gemetar.Ada beberapa cara yang bisa kita lakukan untuk mewujudkannya.
+
+Kita bisa menggunakan  @Phrase/offset  dengan  @Random  Dan  @Time  untuk mewujudkan hal itu.
+
+\offset: 0m … ∆ Time() … Random(-0.1m 0.1m)
+Phrase('Hai' offset: Place(offset 0m))\
+
+Ini menciptakan nilai yang disebut \offset\ yang berubah menjadi nilai acak baru setiap kali jam berdetik.Kemudian, ia menggunakan offset tersebut untuk menampilkan  @Phrase  dikurangi dengan jumlah tersebut.
+
+Jika kita ingin mengontrol getaran dengan lebih tepat, kita bisa menggunakan sebuah  @Sequence  untuk membuat animasi goyang acak yang berulang.
+
+\Phrase('Hai' resting: Sequence({
+			0%: Pose(offset: Place(Random(-.2m .2m)))
+			15%: Pose(offset: Place(Random(-.2m .2m)))
+			60%: Pose(offset: Place(Random(-.2m .2m)))
+			75%: Pose(offset: Place(Random(-.2m .2m)))
+		} 0.1s))\
+
+Contoh ini hanya memilih nilai acak sekali, tetapi mengubahnya menjadi urutan yang berulang.
+
+move-phrase

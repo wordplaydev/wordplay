@@ -1,0 +1,17 @@
+Få en karaktär att följa ditt finger
+
+Vill du ha en karaktär som jagar din mus eller ditt finger runt @Stage ?Det kan vi göra med @Pointer inmatning. 
+
+@Pointer ger oss en nystart @Place varje gång pekaren rör sig.Om vi använder det @Place som en @Phrase s\place\, karaktären kommer att gå vart vi än pekar.
+
+\Stage([Phrase('🐈' place: Pointer())] place: Place(0m 0m -10m))\
+
+Det var allt! Rör musen eller dra med fingret och se katten följa efter.
+
+Du kan göra mer intressanta saker genom att dra ut\x\och\y\från @Place .Här är en anka som alltid svävar en meter ovanför visaren:
+
+\Stage([
+		Phrase('🦆' place: Place(Pointer().x Pointer().y + 1m))
+	] place: Place(0m 0m -10m))\
+
+move-phrase, count-with-time

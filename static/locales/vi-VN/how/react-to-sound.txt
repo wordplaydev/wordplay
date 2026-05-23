@@ -1,0 +1,17 @@
+Giúp nhân vật phát triển cùng âm thanh.
+
+Bạn có biết dự án của bạn có thể lắng nghe bạn không? @Volume   @Stream Bạn sử dụng micrô của mình để cung cấp cho chúng tôi một số từ\0\(im lặng) tới\1\ (ồn ào).
+
+Chúng ta có thể sử dụng con số đó để kiểm soát bất cứ thứ gì — kích thước của một... @Phrase , sự quay của nó, màu sắc của nó.
+
+\Phrase('📣' size: (Volume() × 5m) + 1m)\
+
+Khi yên tĩnh, chiếc loa phóng thanh được sử dụng.\1m\cao. Khi bạn hét lên, nó có thể cao tới\6m\ cao.
+
+Bạn muốn mặt trời quay nhanh hơn khi bạn càng la hét to hơn không?
+
+\Phrase('🌞' rotation: Volume() × 360°)\
+
+Hãy thử vỗ tay hoặc ngân nga và xem điều gì sẽ xảy ra.(Máy tính của bạn có thể yêu cầu quyền sử dụng micro trong lần đầu tiên.)
+
+count-with-time, follow-the-pointer

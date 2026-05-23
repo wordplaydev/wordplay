@@ -69,9 +69,9 @@
             {anonymize}
             {showCollaborators}
             {searchTerm}
-            {...(matchTexts?.has(project.getID())
+            {...matchTexts?.has(project.getID())
                 ? { matchText: matchTexts.get(project.getID())! }
-                : {})}
+                : {}}
             ><div class="controls">
                 {#if edit}<Button
                         tip={edit.description}

@@ -1,0 +1,19 @@
+Comptez les secondes au fur et à mesure que le temps passe.
+
+De nombreux projets nécessitent un élément qui évolue avec le temps : un minuteur, un score, un compte à rebours.Nous pouvons construire un compteur en combinant les @Time   @Stream avec un @Reaction .
+
+UN  @Reaction Elle comporte trois parties : une valeur initiale, un élément à surveiller et une nouvelle valeur lorsque cet élément change.Ici, nous commençons par\0\, montre  @Time et en ajouter un à chaque tic-tac de l'horloge :
+
+\count: 0 … ∆ Time(1000ms) … count + 1
+Phrase(count → '')\
+
+Chaque seconde, @Time incendies, les @Reaction avis avec\∆ Time(1000ms)\, et \count\devient\count + 1\.Le \→ ''\à la fin, convertit le nombre en texte. @Phrase peut le montrer.
+
+Vous pouvez utiliser n'importe quelle entrée, pas seulement le temps. Ce compteur compte le nombre d'appuis sur le bouton Button().
+
+\count: 0 … ∆ Button() … count + 1
+Phrase(count → '')\
+
+À chaque fois, @Button Lorsqu'un flux change en cliquant ou en appuyant dessus, le compteur augmente de un.
+
+track-points, pick-from-a-list

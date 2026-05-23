@@ -1,13 +1,13 @@
 import type { HowToCategories } from '@concepts/HowTo';
 import { Purpose } from '@concepts/Purpose';
-import type { FormattedText } from '@locale/LocaleText';
+import type { FormattedText, Template } from '@locale/LocaleText';
 import type { ButtonText, HeaderAndExplanationText, ModeText } from '@locale/UITexts';
 
 type DocumentationText = {
     /** [plain] The ARIA label for the palette section. */
     label: string;
     /** [formatted] A link to a concept in documentation */
-    link: FormattedText;
+    link: Template<['name']>;
     /** [plain] A link to the tutorial for a concept */
     learn: string;
     /** [plain] Shown if documentation is missing for a concept */

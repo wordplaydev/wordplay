@@ -18,10 +18,7 @@
      */
     function removeMessage(message: SerializedMessage, chat: Chat) {
         if (!chat || !$user) return;
-        Chats.updateChat(
-            chat.withModeratedMessage(message, 'removed', $user.uid),
-            true,
-        );
+        Chats.moderateMessage(chat, message, 'removed', $user.uid);
         modNeeded.delete(message.id);
     }
 
@@ -31,10 +28,7 @@
      */
     function approveMessage(message: SerializedMessage, chat: Chat) {
         if (!chat || !$user) return;
-        Chats.updateChat(
-            chat.withModeratedMessage(message, 'approved', $user.uid),
-            true,
-        );
+        Chats.moderateMessage(chat, message, 'approved', $user.uid);
         modNeeded.delete(message.id);
     }
 </script>

@@ -58,7 +58,7 @@
     $effect(() => {
         if (chat && $user && chat.hasUnread($user.uid)) {
             untrack(() => {
-                Chats.updateChat(chat.asRead($user.uid), true);
+                Chats.markChatRead(chat, $user.uid);
             });
         }
 
@@ -98,7 +98,7 @@
 
     function deleteMessage(chat: Chat, message: SerializedMessage) {
         if (!chat) return;
-        Chats.updateChat(chat.withoutMessage(message), true);
+        Chats.deleteMessage(chat, message);
     }
 
     // moderation dialog
@@ -116,7 +116,7 @@
 
     function reportMessage(chat: Chat, message: SerializedMessage) {
         if (!chat || !$user) return;
-        Chats.updateChat(chat.withReportedMessage(message, $user.uid), true);
+        Chats.reportMessage(chat, message, $user.uid);
 
         showModerationDialog = false;
     }

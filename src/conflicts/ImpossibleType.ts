@@ -25,7 +25,9 @@ export class ImpossibleType extends Conflict {
             explanation: (locales: Locales, context: Context) =>
                 locales.concretize(
                     (l) => ImpossibleType.LocalePath(l).explanation,
-                    new NodeRef(this.givenType, locales, context),
+                    {
+                        type: new NodeRef(this.givenType, locales, context),
+                    },
                 ),
         };
     }

@@ -722,9 +722,11 @@ export default class Bind extends Expression {
     getStartExplanations(locales: Locales, context: Context) {
         return locales.concretize(
             (l) => l.node.Bind.start,
-            this.value === undefined
+            {
+                value: this.value === undefined
                 ? undefined
                 : new NodeRef(this.value, locales, context),
+            },
         );
     }
 
@@ -735,18 +737,22 @@ export default class Bind extends Expression {
     ) {
         return locales.concretize(
             (l) => l.node.Bind.finish,
-            this.getValueIfDefined(locales, context, evaluator),
-            new NodeRef(
+            {
+                value: this.getValueIfDefined(locales, context, evaluator),
+                name: new NodeRef(
                 this.names,
                 locales,
                 context,
                 locales.getName(this.names),
             ),
+            },
         );
     }
 
     getDescriptionInputs(locales: Locales) {
-        return [locales.getName(this.names)];
+        return {
+            name: locales.getName(this.names),
+        };
     }
 
     getCharacter(locales: Locales) {

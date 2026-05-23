@@ -1,0 +1,17 @@
+Đặt văn bản cạnh nhau
+
+Đôi khi chúng ta muốn văn bản được sắp xếp gọn gàng thành một dòng.Chúng ta có thể làm điều đó với một @Row , sắp xếp mọi thứ theo một cách nhất định. @Group Từ trái sang phải.
+
+\Group(Row() [Phrase('🍎') Phrase('🍌') Phrase('🍇')])\
+
+MỘT  @Row Bạn cũng có thể sắp xếp các ký tự theo cạnh trên, giữa hoặc dưới, và thêm khoảng cách giữa chúng.Đây là cùng một loại trái cây, nhưng được đặt thẳng đứng ở phía dưới, chừa ra một chút khoảng trống:
+
+\Group(Row('>' 0.5m) [
+		Phrase('🍎' size: 2m)
+		Phrase('🍌' size: 1m)
+		Phrase('🍇' size: 3m)
+	])\
+
+Cái\'>'\kể cho @Row Sắp xếp mọi thứ thẳng hàng dọc theo cạnh dưới. Hãy thử\'<'\cho hàng đầu hoặc\'|'\cho phần giữa.Cái\0.5m\là khoảng cách giữa mỗi ký tự.
+
+stack-up-and-down, make-a-grid

@@ -1,0 +1,17 @@
+Buat karakter mengikuti gerakan jari Anda.
+
+Ingin karakter yang mengejar kursor mouse atau jari Anda?  @Stage ?Kita bisa melakukan itu dengan  @Pointer  masukan. 
+
+@Pointer  memberi kita sesuatu yang baru  @Place  setiap kali penunjuk bergerak.Jika kita menggunakan itu  @Place  sebagai  @Phrase 'S \place\Karakter tersebut akan pergi ke mana pun kita menunjuk.
+
+\Stage([Phrase('🐈' place: Pointer())] place: Place(0m 0m -10m))\
+
+Selesai! Gerakkan mouse Anda atau seret jari Anda, dan saksikan kucing itu mengikuti.
+
+Anda bisa melakukan hal-hal yang lebih menarik dengan mengeluarkan \x\ Dan \y\ dari  @Place .Ini dia seekor bebek yang selalu melayang satu meter di atas penunjuk:
+
+\Stage([
+		Phrase('🦆' place: Place(Pointer().x Pointer().y + 1m))
+	] place: Place(0m 0m -10m))\
+
+move-phrase, count-with-time

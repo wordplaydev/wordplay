@@ -1,0 +1,17 @@
+Få karaktärer att växa med ljud
+
+Visste du att ditt projekt kan lyssna på dig? @Volume   @Stream använder din mikrofon för att ge oss ett nummer från\0\(tyst) till\1\(högt).
+
+Vi kan använda det numret för att kontrollera vad som helst – storleken på en @Phrase , dess rotation, dess färg.
+
+\Phrase('📣' size: (Volume() × 5m) + 1m)\
+
+När det är tyst är megafonen\1m\hög. När du ropar kan den växa upp till\6m\hög.
+
+Vill du ha en sol som snurrar snabbare ju högre du är?
+
+\Phrase('🌞' rotation: Volume() × 360°)\
+
+Försök att klappa eller nynna och se vad som händer.(Din dator kan be om tillåtelse att använda mikrofonen första gången.)
+
+count-with-time, follow-the-pointer

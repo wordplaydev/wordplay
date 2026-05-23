@@ -134,8 +134,9 @@ export default class Assign extends Revision {
                 : this.getNewNode(locales);
         return locales.concretize(
             (l) => l.ui.edit.assign,
-            first.field,
-            node?.getLabel(locales),
+            {
+                name: node?.getLabel(locales),
+            },
         );
     }
 

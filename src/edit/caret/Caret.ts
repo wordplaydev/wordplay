@@ -2092,7 +2092,12 @@ export default class Caret {
         const conflictDescription =
             conflicts.length > 0
                 ? locales
-                      .concretize((l) => l.ui.edit.conflicts, conflicts.length)
+                      .concretize(
+                          (l) => l.ui.edit.conflicts,
+                          {
+                              count: conflicts.length,
+                          },
+                      )
                       .toText()
                 : undefined;
 
@@ -2109,8 +2114,10 @@ export default class Caret {
             return locales
                 .concretize(
                     (l) => l.ui.edit.node,
-                    new NodeRef(this.addition, locales, context),
-                    type ? new NodeRef(type, locales, context) : undefined,
+                    {
+                        node: new NodeRef(this.addition, locales, context),
+                        type: type ? new NodeRef(type, locales, context) : undefined,
+                    },
                 )
                 .toText();
         }
@@ -2120,8 +2127,10 @@ export default class Caret {
             return locales
                 .concretize(
                     (l) => l.ui.edit.node,
-                    new NodeRef(this.position, locales, context),
-                    type ? new NodeRef(type, locales, context) : undefined,
+                    {
+                        node: new NodeRef(this.position, locales, context),
+                        type: type ? new NodeRef(type, locales, context) : undefined,
+                    },
                 )
                 .toText();
         }
@@ -2130,7 +2139,13 @@ export default class Caret {
         if (isRange(this.position)) {
             const [start, end] = this.position;
             return locales
-                .concretize((l) => l.ui.edit.range, start, end)
+                .concretize(
+                    (l) => l.ui.edit.range,
+                    {
+                        start: start,
+                        end: end,
+                    },
+                )
                 .toText();
         }
 
@@ -2151,15 +2166,17 @@ export default class Caret {
             return locales
                 .concretize(
                     (l) => l.ui.edit.inside,
-                    new NodeRef(this.tokenExcludingSpace, locales, context),
-                    // Character before cursor, if there is one
+                    {
+                        token: new NodeRef(this.tokenExcludingSpace, locales, context),
+                        before: // Character before cursor, if there is one
                     relativeIndex
                         ? this.tokenExcludingSpace.text.at(relativeIndex - 1)
                         : undefined,
-                    // Character after cursor, if there is one
+                        after: // Character after cursor, if there is one
                     relativeIndex
                         ? this.tokenExcludingSpace.text.at(relativeIndex)
                         : undefined,
+                    },
                 )
                 .toText();
         }
@@ -2168,12 +2185,14 @@ export default class Caret {
             return locales
                 .concretize(
                     (l) => l.ui.edit.line,
-                    beforeNode
+                    {
+                        before: beforeNode
                         ? new NodeRef(beforeNode, locales, context)
                         : undefined,
-                    afterNode
+                        after: afterNode
                         ? new NodeRef(afterNode, locales, context)
                         : undefined,
+                    },
                 )
                 .toText();
         }
@@ -2183,21 +2202,25 @@ export default class Caret {
                 return locales
                     .concretize(
                         (l) => l.ui.edit.between,
-                        beforeNode
+                        {
+                            before: beforeNode
                             ? new NodeRef(beforeNode, locales, context)
                             : undefined,
-                        afterNode
+                            after: afterNode
                             ? new NodeRef(afterNode, locales, context)
                             : undefined,
+                        },
                     )
                     .toText();
             else
                 return locales
                     .concretize(
                         (l) => l.ui.edit.before,
-                        afterNode
+                        {
+                            after: afterNode
                             ? new NodeRef(afterNode, locales, context)
                             : undefined,
+                        },
                     )
                     .toText();
         }

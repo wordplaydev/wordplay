@@ -1,0 +1,19 @@
+একটি চরিত্রকে অ্যানিমেট করুন
+
+চরিত্রগুলোর একটি বিশ্রামের অ্যানিমেশন থাকতে পারে, যা তারা নড়াচড়া না করার সময় পুনরাবৃত্তি হতে থাকে।
+
+উদাহরণস্বরূপ, এই বিড়ালটিকে ঘুরিয়ে ও স্থান পরিবর্তন করিয়ে একটু নাচানো যাক:
+
+\Phrase('🐈' resting: Sequence({
+			0%: Pose(rotation: 0°)
+			15%: Pose(rotation: 15°)
+			30%: Pose(rotation: 0°)
+			45%: Pose(offset: Place(-0.25m))
+			60%: Pose(offset: Place(0.25m))
+			75%: Pose(offset: Place(-0.25m))
+			90%: Pose(offset: Place(0m))
+		} 2s))\
+
+এই উদাহরণটি একটি ব্যবহার করে  @Sequence  বিভিন্ন  @Pose .
+
+move-phrase, shake-phrase

@@ -1,4 +1,4 @@
-import type { FormattedText } from '@locale/LocaleText';
+import type { FormattedText, Template } from '@locale/LocaleText';
 import type { ConfirmText, FieldText, ModeText } from '@locale/UITexts';
 
 type PageText = {
@@ -6,7 +6,9 @@ type PageText = {
     header: string;
     /** [formatted] Introduction to the workspace shown above the dropdown */
     description: FormattedText[];
-    /** [plain] Tooltip for the link from the persistent header to the workspace page */
+    /** [plain] Visible label for the link from the in-context Localizer side
+     *  panel to the full workspace page where translators see all strings and
+     *  submit their edits. */
     workspaceLink: string;
     /** [plain] Header for the section that lists strings to write or review */
     workspaceHeader: string;
@@ -17,7 +19,7 @@ type PageText = {
     /** [formatted] Note explaining that each submission targets one locale at
      *  a time. Rendered alongside the submit prompt. The active locale is
      *  inserted via a `$1` template placeholder. */
-    oneLocaleNote: FormattedText;
+    oneLocaleNote: Template<['locale']>;
     /** [plain] Header above the bundle review viewer */
     bundleSummary: string;
     /** [plain] Tooltip for the bundle-item viewer body that jumps back to the editor and scrolls to the top */

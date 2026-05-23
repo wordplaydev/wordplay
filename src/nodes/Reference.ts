@@ -487,12 +487,16 @@ export default class Reference extends SimpleExpression {
     getStartExplanations(locales: Locales, context: Context) {
         return locales.concretize(
             (l) => l.node.Reference.start,
-            new NodeRef(this.name, locales, context),
+            {
+                name: new NodeRef(this.name, locales, context),
+            },
         );
     }
 
-    getDescriptionInputs(): TemplateInput[] {
-        return [this.getName()];
+    getDescriptionInputs(): Record<string, TemplateInput> {
+        return {
+            name: this.getName(),
+        };
     }
 
     getCharacter() {

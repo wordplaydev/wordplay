@@ -1,7 +1,7 @@
 import type Conflict from '@conflicts/Conflict';
 import type { ReplaceContext } from '@edit/revision/EditContext';
+import type Context from '@nodes/Context';
 import type LocaleText from '@locale/LocaleText';
-import NodeRef from '@locale/NodeRef';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import Bind from '@nodes/Bind';
 import Evaluation from '@runtime/Evaluation';
@@ -20,7 +20,6 @@ import { DELETE_SYMBOL } from '@parser/Symbols';
 import type StructureValue from '@values/StructureValue';
 import TableValue from '@values/TableValue';
 import BooleanType from '@nodes/BooleanType';
-import type Context from '@nodes/Context';
 import type Definition from '@nodes/Definition';
 import Expression, { type GuardContext } from '@nodes/Expression';
 import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
@@ -253,22 +252,12 @@ export default class Delete extends Expression {
         return Delete.LocalePath;
     }
 
-    getStartExplanations(locales: Locales, context: Context) {
-        return locales.concretize(
-            (l) => l.node.Delete.start,
-            new NodeRef(this.table, locales, context),
-        );
+    getStartExplanations(locales: Locales) {
+        return locales.concretize((l) => l.node.Delete.start);
     }
 
-    getFinishExplanations(
-        locales: Locales,
-        context: Context,
-        evaluator: Evaluator,
-    ) {
-        return locales.concretize(
-            (l) => l.node.Delete.finish,
-            this.getValueIfDefined(locales, context, evaluator),
-        );
+    getFinishExplanations(locales: Locales) {
+        return locales.concretize((l) => l.node.Delete.finish);
     }
 
     getCharacter() {

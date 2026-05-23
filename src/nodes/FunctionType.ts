@@ -5,7 +5,6 @@ import { FUNCTION_SYMBOL } from '@parser/Symbols';
 import type { BasisTypeName } from '@basis/BasisConstants';
 import type Locales from '@locale/Locales';
 import type { TemplateInput } from '@locale/Locales';
-import NodeRef from '@locale/NodeRef';
 import Characters from '../lore/BasisCharacters';
 import Bind from '@nodes/Bind';
 import type Context from '@nodes/Context';
@@ -215,8 +214,11 @@ export default class FunctionType extends Type {
         return getEvaluationInputConflicts(this.inputs);
     }
 
-    getDescriptionInputs(locales: Locales, context: Context): TemplateInput[] {
-        return [this.inputs.length, new NodeRef(this.output, locales, context)];
+    getDescriptionInputs(
+        _locales: Locales,
+        _context: Context,
+    ): Record<string, TemplateInput> {
+        return { inputs: this.inputs.length };
     }
 
     static readonly LocalePath = (l: LocaleText) => l.node.FunctionType;

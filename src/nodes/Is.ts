@@ -161,7 +161,9 @@ export default class Is extends Expression {
     getStartExplanations(locales: Locales, context: Context) {
         return locales.concretize(
             (l) => l.node.Is.start,
-            new NodeRef(this.expression, locales, context),
+            {
+                expression: new NodeRef(this.expression, locales, context),
+            },
         );
     }
 
@@ -173,8 +175,10 @@ export default class Is extends Expression {
         const result = evaluator.peekValue();
         return locales.concretize(
             (l) => l.node.Is.finish,
-            result instanceof BoolValue && result.bool,
-            new NodeRef(this.type, locales, context),
+            {
+                value: result instanceof BoolValue && result.bool,
+                type: new NodeRef(this.type, locales, context),
+            },
         );
     }
 
@@ -183,6 +187,8 @@ export default class Is extends Expression {
     }
 
     getDescriptionInputs(locales: Locales, context: Context) {
-        return [new NodeRef(this.type, locales, context)];
+        return {
+            type: new NodeRef(this.type, locales, context),
+        };
     }
 }

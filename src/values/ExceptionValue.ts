@@ -33,7 +33,9 @@ export default abstract class ExceptionValue extends SimpleValue {
         return new ExceptionType(this);
     }
 
-    abstract getExceptionText(locales: Locales): ExceptionText;
+    abstract getExceptionText(
+        locales: Locales,
+    ): ExceptionText<readonly string[], readonly string[]>;
 
     getDescription() {
         return (l: LocaleText) => l.term.exception;

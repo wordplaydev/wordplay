@@ -97,8 +97,7 @@
                     // delete-and-insert in one step; the parser turns the
                     // backtick-wrapped payload into a FormattedLiteral.
                     // Preserve the first translation's language tag if any.
-                    const lang =
-                        literal.texts[0]?.language?.toWordplay() ?? '';
+                    const lang = literal.texts[0]?.language?.toWordplay() ?? '';
                     target = caret.withPosition(literal);
                     payload = `\`${text}\`${lang}`;
                 }

@@ -1,0 +1,24 @@
+Fă un personaj să cadă și să sară
+
+Ce se întâmplă dacă vrem ca un personaj să cadă, să sară de pe podea sau să fie împins ca un lucru real?Asta e ceea ce  @Motion  şi  @Matter  sunt pentru — împreună simulează fizica pentru o  @Phrase . 
+
+@Motion  controale /unde/ un personaj este în timp. Îl folosim ca \place\ pentru o  @Phrase , pornind-o sus, astfel încât să poată cădea.De asemenea, avem nevoie de ceva pe care să cădem, altfel personajul nostru va continua să cadă la nesfârșit!  @Shape  cu o gamă largă  @Rectangle  face o podea frumoasă:
+
+\Stage([
+		Phrase('🍎' place: Motion(Place(0m 5m)) matter: Matter())
+		Shape(Rectangle(-10m 0m 10m -5m))
+	])\
+
+Mărul pornește de la cinci metri înălțime și cade sub influența gravitației.Când atinge podeaua, sare puțin, pentru că  @Phrase  are încorporat  @Matter  care controlează cât de greu și elastic este.
+
+Pentru a schimba modul în care /elastic/ sau cum /greu/ un personaj este, dă-i propriul tău  @Matter . @Matter  ia o masă, o elasticitate și o frecare:
+
+\Stage([
+		Phrase('⚽' place: Motion(Place(-2m 5m)) matter: Matter(1kg 0.9 0.2))
+		Phrase('🪨' place: Motion(Place(2m 5m)) matter: Matter(5kg 0.1 0.8))
+		Shape(Rectangle(-10m 0m 10m -5m))
+	])\
+
+Mingea este ușoară și săritoare, așa că sare înapoi în sus.Piatra este grea și nu sare, așa că pur și simplu se lovește.
+
+follow-the-pointer, move-phrase

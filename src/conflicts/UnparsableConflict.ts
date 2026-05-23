@@ -34,7 +34,9 @@ export class UnparsableConflict extends Conflict {
             explanation: (locales: Locales) =>
                 locales.concretize(
                     (l) => UnparsableConflict.LocalePath(l).explanation,
-                    this.unparsable instanceof UnparsableExpression,
+                    {
+                        expression: this.unparsable instanceof UnparsableExpression,
+                    },
                 ),
             resolutions: this.getLikelyIntentions(nodes),
         };
@@ -169,8 +171,14 @@ export class UnparsableConflict extends Conflict {
                                 (l) =>
                                     l.node.UnparsableExpression.conflict
                                         .UnparsableConflict.resolution,
-                                expr.getLabel(locales),
-                                new NodeRef(expr, locales, context),
+                                {
+                                    first: expr.getLabel(locales),
+                                    second: new NodeRef(
+                                        expr,
+                                        locales,
+                                        context,
+                                    ),
+                                },
                             ),
                         mediator: (context: Context) => {
                             return {

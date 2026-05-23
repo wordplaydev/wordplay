@@ -18,11 +18,15 @@ export class NotAType extends UnknownType<Expression> {
     getReason(locales: Locales, context: Context) {
         return locales.concretize(
             (l) => l.node.NotAType.description,
-            new NodeRef(this.expected, locales, context),
+            {
+                type: new NodeRef(this.expected, locales, context),
+            },
         );
     }
 
-    getDescriptionInputs(locales: Locales, context: Context): TemplateInput[] {
-        return [new NodeRef(this.expected, locales, context)];
+    getDescriptionInputs(locales: Locales, context: Context): Record<string, TemplateInput> {
+        return {
+            type: new NodeRef(this.expected, locales, context),
+        };
     }
 }
