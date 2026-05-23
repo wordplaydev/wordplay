@@ -15,6 +15,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - Now with support for Bengali (#142), Indonesian (#148), and Romanian (#433)! If you know those, help us improve them with the new in-app localization support.
 - We added a script selector to the glyph/emoji chooser, so you can find the glyphs in different languages (#322).
 - We added better feedback when the site is offline and saves are pending.
+- We added a "back to top" button on long pages.
 
 ### Changed
 
