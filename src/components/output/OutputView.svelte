@@ -39,7 +39,9 @@
     import { toExpression } from '@parser/parseExpression';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import Speech from '@components/lore/Speech.svelte';
-    import moveOutput, { addStageContent } from '@components/palette/editOutput';
+    import moveOutput, {
+        addStageContent,
+    } from '@components/palette/editOutput';
     import {
         getAnnouncer,
         getConceptIndex,
@@ -52,7 +54,10 @@
     import { default as ButtonUI } from '@components/widgets/Button.svelte';
     import type PaintingConfiguration from '@components/output/PaintingConfiguration';
     import StageView from '@components/output/StageView.svelte';
-    import { DOMRectCenter, DOMRectDistance } from '@components/output/utilities';
+    import {
+        DOMRectCenter,
+        DOMRectDistance,
+    } from '@components/output/utilities';
 
     interface Props {
         project: Project;
@@ -239,6 +244,7 @@
                         : concretize(
                               $locales,
                               $locales.getPlainText(value.getDescription()),
+                              {},
                           ).toText(),
                 ),
             );
@@ -904,9 +910,7 @@
         // return SVGElements, which still support .closest() and walk up to
         // the enclosing .phrase div correctly.
         const element = document.elementFromPoint(event.clientX, event.clientY);
-        return getOutputNodeIDFromElement(
-            element?.closest('.output') ?? null,
-        );
+        return getOutputNodeIDFromElement(element?.closest('.output') ?? null);
     }
     function recordSelection(event: Event) {
         if (stageValue === undefined) return;
@@ -1136,8 +1140,7 @@
                                         testid="permission-retry"
                                     >
                                         {$locales.getPlainText(
-                                            (l) =>
-                                                l.ui.output.permission.retry,
+                                            (l) => l.ui.output.permission.retry,
                                         )}
                                     </ButtonUI>
                                 </div>
@@ -1182,7 +1185,8 @@
                     <span
                         class="say-item hand-loading"
                         title="Loading hand tracker…"
-                        aria-label="Loading hand tracker">{withMonoEmoji('🖐')}</span
+                        aria-label="Loading hand tracker"
+                        >{withMonoEmoji('🖐')}</span
                     >
                 {/if}
                 {#each says as say, i (say.text.text + i)}

@@ -157,7 +157,7 @@
         return (
             docToMarkup($locales.getUnannotatedText(accessor)).concretize(
                 $locales,
-                [notification.title],
+                { title: notification.title },
             ) ?? ''
         );
     }

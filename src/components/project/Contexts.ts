@@ -60,6 +60,17 @@ export const [getLocalizing, setLocalizing] = createContext<{
     focused: LocaleTextsAccessor | undefined;
 }>();
 
+/** Communication channel from a `<Link>` to a `<LocalizedText>` rendered inside
+ *  it. The child registers its locale path here; the parent uses that path to
+ *  render an edit affordance *beside* the anchor instead of inside it. Putting
+ *  a button inside an anchor is invalid HTML and blocks navigation — this lets
+ *  the link stay a plain hyperlink while still being editable in localize mode. */
+export type LinkLocalizeContext = {
+    register: (path: LocaleTextAccessor | undefined) => void;
+};
+export const [getLinkLocalize, setLinkLocalize] =
+    createOptionalContext<LinkLocalizeContext>();
+
 /**
  * These are lists of announcements rendered invisiblily in the project view
  * for screen readers. Children can override by ID to change what's announced.

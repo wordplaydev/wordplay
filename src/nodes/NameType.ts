@@ -225,7 +225,9 @@ export default class NameType extends Type {
     }
 
     getDescriptionInputs() {
-        return [this.name.getText()];
+        return {
+            name: this.name.getText(),
+        };
     }
 
     getDefaultExpression(context: Context) {

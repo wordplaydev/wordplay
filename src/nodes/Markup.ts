@@ -116,7 +116,9 @@ export default class Markup extends Content {
     }
 
     getDescriptionInputs() {
-        return [this.paragraphs.length];
+        return {
+            count: this.paragraphs.length,
+        };
     }
 
     getExamples(): Example[] {
@@ -131,7 +133,10 @@ export default class Markup extends Content {
             .flat();
     }
 
-    concretize(locales: Locales, inputs: TemplateInput[]): Markup | undefined {
+    concretize(
+        locales: Locales,
+        inputs: Record<string, TemplateInput>,
+    ): Markup | undefined {
         // Create an empty list of replacements which we'll recursively fill and then update space with.
         const replacements: [Node, Node][] = [];
         const concrete = this.paragraphs.map((p) =>

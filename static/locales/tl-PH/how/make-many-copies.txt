@@ -1,0 +1,17 @@
+Gumawa ng maraming kopya ng isang karakter
+
+Paano kung gusto natin ng sampung pusa, o isang daang bituin, pero ayaw nating i-type lahat?Maaari tayong humingi ng kopya mula sa isang listahan para sa atin. @List/translate .
+
+Kung magsisimula tayo sa numero\10\at i-convert ito gamit ang\→ []\, makakakuha tayo ng listahan ng sampung numero mula 1 hanggang 10.Pagkatapos ay ginagamit natin @List/translate upang gawing isang @Phrase :
+
+\Group(Row() (10 → []).translate(ƒ() Phrase('🐈')))\
+
+@List/translate Tinatawag ang ating maliit na function nang isang beses para sa bawat item, at kinokolekta ang mga resulta sa isang bagong listahan.
+
+Para gawing medyo magkaiba ang bawat kopya, gamitin ang numerong ibinibigay sa atin ng translate:
+
+\Group(Row('|' 0.2m) (8 → []).translate(ƒ(n) Phrase('⭐' size: n × 0.5m)))\
+
+Mas malaki ang bawat bituin kaysa sa nauna, dahil\n\nagmumula sa\1\sa\8\.
+
+make-a-grid, arrange-in-a-row

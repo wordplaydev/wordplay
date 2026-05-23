@@ -94,7 +94,7 @@
         "Region": "지역",
         "BooleanType": "$~불리언 유형",
         "NumberType": "$~숫자 유형",
-        "JapaneseNumeral": "일본 숫자",
+        "HanNumeral": "일본 숫자",
         "RomanNumeral": "로마 숫자",
         "Pi": "파이",
         "Infinity": "무한대",
@@ -123,13 +123,21 @@
         "Unknown": "알 수 없음",
         "Locale": "로캘",
         "End": "종료",
-        "Highlight": "$~강조 표시된 예시"
+        "Highlight": "$~강조 표시된 예시",
+        "ThaiNumeral": "$~태국 숫자",
+        "BengaliNumeral": "$~벵골어 숫자",
+        "DevanagariNumeral": "$~데바나가리 숫자",
+        "GujaratiNumeral": "$~구자라트어 숫자",
+        "GurmukhiNumeral": "$~구르무키 숫자",
+        "KannadaNumeral": "$~칸나다어 숫자",
+        "TamilNumeral": "$~타밀 숫자",
+        "TeluguNumeral": "$~텔루구어 숫자"
     },
     "node": {
         "Dimension": {
             "name": "차원",
             "description": "$~단위의 일부를 나타내기",
-            "emotion": "$?",
+            "emotion": "serious",
             "doc": [
                 "나는 /측정 단위/이다!",
                 "나는 \\1m\\, \\10s\\, \\100g\\와 같은 표준화된 단위가 될 수 있어. 네가 만들고 싶은 \\17사과\\와 같은 단위도 기꺼이 될 수 있어.",
@@ -142,7 +150,7 @@
         "Doc": {
             "name": "설명",
             "description": "$~텍스트로 표현식 문서화하기",
-            "emotion": "$?",
+            "emotion": "serious",
             "doc": [
                 "나는 @Markup 으로 여러 가지를 포맷합니다, 예를 들면 너의 @Program 대한 설명이나, @Phrase 무대에 올린 단어들처럼요.",
                 "예를 들면, 나는 어떤 표현 앞에 올 수 있어요:",
@@ -163,7 +171,7 @@
         "Docs": {
             "name": "설명 목록",
             "description": "$~여러 언어로 문서 나열하기",
-            "emotion": "$?",
+            "emotion": "serious",
             "doc": [
                 "나는 다양한 언어로 @Doc의 번역본을 여러 개 가질 때 유용한 @Doc의 목록이야.",
                 "목록을 만들기 위해 특별히 무언가를 할 필요는 없어. 그냥 이렇게 여러 개의 @Doc을 나란히 놓으면 돼:",
@@ -174,7 +182,7 @@
         "KeyValue": {
             "name": "매핑",
             "description": "$~키를 값에 매핑하기",
-            "emotion": "$?",
+            "emotion": "kind",
             "doc": [
                 "나는 항상 @Map 안에서 *키*에서 *값*으로의 매핑이에요.",
                 "어떤 종류의 값을 다른 값에 매핑할 수 있어요. 예를 들어, 숫자의 매핑은 여기 있습니다:",
@@ -185,8 +193,8 @@
         },
         "Language": {
             "name": "언어",
-            "description": "$~이름과 텍스트를 $1[$1|알 수 없는] 언어로 태그하기",
-            "emotion": "$?",
+            "description": "$~태그 이름과 언어가 포함된 텍스트",
+            "emotion": "eager",
             "doc": [
                 "나는 언어 태그이며 @Name 과 @Doc 와 함께 작동해요!",
                 "무언가가 어떤 언어로 쓰여진 것인지 *또렷하게* 알려주는 데 매우 능숙해요.",
@@ -212,8 +220,8 @@
         },
         "Name": {
             "name": "이름",
-            "description": "$~이름 $1[$1|익명] 선언하기",
-            "emotion": "$?",
+            "description": "$~이름 $name[$name|익명] 선언하기",
+            "emotion": "kind",
             "doc": [
                 "나는 값을 식별하며, 평가하기 어려운 것이나 반복해서 평가하고 싶지 않은 것에 대한 축약된 레이블을 제공하는 유용한 방법입니다.",
                 "@Bind 이렇게 내 이름을 지어줍니다:",
@@ -231,7 +239,7 @@
         "Names": {
             "name": "이름 목록",
             "description": "$~여러 언어로 이름 나열하기",
-            "emotion": "$?",
+            "emotion": "kind",
             "doc": [
                 "나는 @Name 목록이며, 값을 여러 이름으로 지정하고 싶을 때 유용합니다, 종종 다른 @Language 함께요.",
                 "이름은 \\,\\ 기호로 구분됩니다. 예를 들어, 여기 @Bind 여러 @Name 값을 지정하는 것입니다:",
@@ -244,7 +252,7 @@
         "Row": {
             "name": "행",
             "description": "$~테이블의 행 나타내기",
-            "emotion": "$?",
+            "emotion": "shy",
             "doc": "나는 @Table 한 행을 나타냅니다. 나에 대해 모든 것을 아는 @Table 말하는 것이 아마도 최선일 거예요. 나는 그저 앉아서 값들을 줄지어 정렬하고 있을 뿐이에요 :(",
             "conflict": {
                 "InvalidRow": {
@@ -253,7 +261,7 @@
                 },
                 "MissingCell": {
                     "name": "$~누락된열",
-                    "explanation": "$~$1 열이 누락되었습니다."
+                    "explanation": "$~$column 열이 누락되었습니다."
                 },
                 "ExtraCell": {
                     "name": "$~추가열",
@@ -271,8 +279,8 @@
         },
         "Token": {
             "name": "토큰",
-            "description": "$1",
-            "emotion": "$?",
+            "description": "$label",
+            "emotion": "neutral",
             "doc": [
                 "어떻게 나를 찾아냈나요?",
                 "나는 공연에서 가능한 가장 작은 부분입니다. 나는 우주의 모든 문자가 만들어지는 기반이며, 우리 안무의 원자 입자입니다."
@@ -281,18 +289,18 @@
         "TypeInputs": {
             "name": "$~유형입력",
             "description": "$~타입 변수 슬롯 채우기",
-            "emotion": "$?",
+            "emotion": "curious",
             "doc": "$~@StructureDefinition 또는 @FunctionDefinition 서 @TypeVariables 를 대신하는 유형 목록입니다. 나는 모든 사람이 어떤 종류의 입력을 받게 될지 알 수 있도록 돕습니다."
         },
         "TypeVariable": {
             "name": "타입 입력",
             "description": "$~호출자가 제공하는 타입 이름 붙이기",
-            "emotion": "$?",
+            "emotion": "curious",
             "doc": "@FunctionDefinition @StructureDefinition @TypeInputs 대체하는 타입 목록입니다. 나는 모든 사람들이 어떤 종류의 입력을 받게 될지 알 수 있도록 도와줍니다.",
             "conflict": {
                 "DuplicateTypeVariable": {
                     "name": "$~중복유형변수",
-                    "explanation": "$~나는 1달러와 이름이 같다"
+                    "explanation": "$~저는 $duplicate 이름이 같습니다."
                 }
             },
             "label": {
@@ -302,13 +310,13 @@
         "TypeVariables": {
             "name": "타입 변수들",
             "description": "$~정의에서 타입 변수 나열하기",
-            "emotion": "$?",
+            "emotion": "curious",
             "doc": "나는 @TypeVariable 목록입니다."
         },
         "Markup": {
             "name": "마크업",
-            "description": "$~$1 단락으로 문서 형식화하기",
-            "emotion": "$?",
+            "description": "$~$count 단락으로 문서 형식화하기",
+            "emotion": "serious",
             "doc": [
                 "나는 @Words, @WebLink, @ConceptLink, 그리고 @Example 같은 다양한 종류의 마크업을 사용하는 문단들의 목록입니다."
             ],
@@ -319,7 +327,7 @@
         "Paragraph": {
             "name": "문단",
             "description": "$~단어들을 단락으로 묶기",
-            "emotion": "$?",
+            "emotion": "serious",
             "doc": [
                 "나는 @Words, @ConceptLink, @WebLink 웹링크, 그리고 @Example 연속으로, 빈 줄로 구분되며 @Doc 안에 있습니다.",
                 "나를 쓰기 위해 필요한 것은 @Doc 많은 단어를 쓰는 것뿐입니다:",
@@ -330,8 +338,8 @@
         },
         "WebLink": {
             "name": "링크",
-            "description": "$~웹 주소 $1 에 링크하기",
-            "emotion": "$?",
+            "description": "$~웹 주소 $url 에 링크하기",
+            "emotion": "serious",
             "doc": [
                 "나는 인터넷상의 무언가로의 링크입니다. 나는 설명과 URL만 필요로 합니다:",
                 "\\¶나는 문서에서 <링크@https://wordplay.dev>입니다¶\n'링크 예시'\\",
@@ -340,8 +348,8 @@
         },
         "ConceptLink": {
             "name": "개념",
-            "description": "$~문서에서 개념 $1 에 링크하기",
-            "emotion": "$?",
+            "description": "$~문서에서 개념 $concept 에 링크하기",
+            "emotion": "serious",
             "doc": [
                 "$~저는 Verse 캐릭터에 대한 링크입니다. @Doc 작성하고 저희 중 한 명을 언급하고 싶을 때 도움이 됩니다.",
                 "$~예를 들어, @Evaluate 대해 이야기하고 싶고, 그들이 얼마나 대단한지 말하고 싶다고 가정해 보겠습니다. 다음과 같이 쓸 수 있습니다.",
@@ -356,7 +364,7 @@
         "Words": {
             "name": "단어들",
             "description": "$~문서에 일반 단어 쓰기",
-            "emotion": "$?",
+            "emotion": "serious",
             "doc": [
                 "나는 @Doc 안에서 마음에 드는 어떤 단어들이에요. 예를 들면:",
                 "\\¶포스가 함께 하기를.¶\n'그냥 몇몇 단어들!'\\",
@@ -368,7 +376,7 @@
         "Example": {
             "name": "예제",
             "description": "$~문서에 실행 가능한 코드 보여주기",
-            "emotion": "$?",
+            "emotion": "serious",
             "doc": [
                 "나는 무언가의 사용법을 설명하는 @Doc 작성할 때 유용한 예시 공연입니다!",
                 "\\¶덧셈의 예제를 보세요: \\1 + 1\\¶'예제 코드'\\"
@@ -376,8 +384,8 @@
         },
         "Mention": {
             "name": "언급",
-            "description": "$~마크업에서 $1 언급하기",
-            "emotion": "$?",
+            "description": "$~마크업에서 $name 언급하기",
+            "emotion": "serious",
             "doc": [
                 "나는 용어 \\$program\\ 또는 동적 입력 \\$1\\에 대한 참조입니다.",
                 "하지만 이것은 주로 내부 기능이므로, 알 필요는 없을 거예요."
@@ -386,7 +394,7 @@
         "Branch": {
             "name": "분기",
             "description": "$~조건에 따라 마크업 선택하기",
-            "emotion": "$?",
+            "emotion": "serious",
             "doc": [
                 "나는 설명 입력 값이 정의되었거나 참인지에 따라 두 설명 세그먼트 중 하나를 선택하는 방법입니다.",
                 "하지만 이것은 주로 내부 기능이므로, 알 필요는 없을 거예요."
@@ -394,8 +402,8 @@
         },
         "BinaryEvaluate": {
             "name": "이진 평가",
-            "description": "$~두 값에 $1 연산자 적용하기",
-            "emotion": "$?",
+            "description": "$~두 값에 $operator 연산자 적용하기",
+            "emotion": "insecure",
             "doc": [
                 "나는 @Evaluate 더 단순한 형태입니다, 두 입력을 취하는 @FunctionDefinition 사용하고 싶을 때 유용합니다.",
                 "예를 들어, 두 숫자를 더하는 데 @Evaluate 사용하는 방법은 다음과 같습니다:",
@@ -410,8 +418,8 @@
                 "수학에서는 곱셈이 먼저 오고 그 다음에 덧셈이 오므로 결과는 \\11\\이 될 것입니다. 하지만 읽는 순서대로 평가하기 때문에 결과는 \\13\\이 됩니다."
             ],
             "right": "입력",
-            "start": "$1을 먼저 평가해 봅시다",
-            "finish": "보세요, $1을 만들었습니다!",
+            "start": "$left 먼저 평가해 봅시다",
+            "finish": "보세요, $value 만들었습니다!",
             "conflict": {
                 "OrderOfOperations": {
                     "name": "$~모호한순서",
@@ -424,8 +432,8 @@
         },
         "Bind": {
             "name": "바인드",
-            "description": "$~이 값에 '$1' 이름 붙이기",
-            "emotion": "$?",
+            "description": "$~이 값에 '$name' 이름 붙이기",
+            "emotion": "excited",
             "doc": [
                 "나는 *값들*에 이름을 붙입니다.",
                 "이렇게요!",
@@ -452,24 +460,24 @@
                 "하지만 @Is 를 추가하면 이제 @FunctionDefinition 그것들이 숫자라는 것을 알게 됩니다:",
                 "\\ƒ sum(a•# b•#) a + b\\"
             ],
-            "start": "$1에서 어떤 값을 얻는지 봅시다!",
-            "finish": "오, 좋아요, $1을 얻었어요! 이름을 $2로 지어봅시다",
+            "start": "$value 어떤 값을 얻는지 봅시다!",
+            "finish": "오, 좋아요, $value 얻었어요! 이름을 $name 지어봅시다",
             "conflict": {
                 "DuplicateName": {
                     "conflict": {
                         "name": "$~중복된이름",
-                        "explanation": "$~누군가 '$1'이라는 이름을 이미 사용하고 있어서 저는 그 이름을 쓸 수 없어요."
+                        "explanation": "$~누군가 '$shadowed'이라는 이름을 이미 사용하고 있어서 저는 그 이름을 쓸 수 없어요."
                     },
                     "resolution": "$~중복된 이름이 있습니다. 하나를 제거하시겠습니까?"
                 },
                 "DuplicateShare": {
                     "name": "$~중복공유",
-                    "explanation": "$~제 이름은 1달러와 같습니다. 그래서 우리가 무엇을 공유하는지 불분명해지네요."
+                    "explanation": "$~제 이름이 $duplicate 똑같습니다. 그래서 우리가 무엇을 공유하고 있는지 불분명합니다."
                 },
                 "IncompatibleType": {
                     "name": "$~호환되지않는유형",
-                    "explanation": "$~저는 2번 유형이어야 하는데, 1번 유형이에요.",
-                    "resolution": "$~1달러로 환산"
+                    "explanation": "$~나는 $expected 타입을 예상했지만 $given 타입을 받았다.",
+                    "resolution": "$~$expected 으로 변환"
                 },
                 "MisplacedShare": {
                     "name": "$~잘못된공유",
@@ -489,7 +497,7 @@
                 },
                 "UnusedBind": {
                     "name": "$~사용하지않은바인드",
-                    "explanation": "$~내 이름은 $1인데 아무도 나를 사용하지 않네요. 아마 내가 필요 없는 걸까요?"
+                    "explanation": "$~내 이름은 $name 아무도 나를 사용하지 않네요. 아마 내가 필요 없는 걸까요?"
                 }
             },
             "label": {
@@ -500,8 +508,8 @@
         },
         "Block": {
             "name": "블록",
-            "description": "$~$1 개의 문을 순서대로 평가하기",
-            "emotion": "$?",
+            "description": "$~$count 개의 문을 순서대로 평가하기",
+            "emotion": "shy",
             "doc": [
                 "안녕하세요. 저는 조용하고 개인적인 공간을 만들어 평가하는 것들을 위한 곳입니다.",
                 "이렇게요:",
@@ -521,7 +529,7 @@
                 "그러면 \\[3 2]\\가 돼요: @Bind가 아닌 두 표현식의 값들만요."
             ],
             "start": "첫 번째 표현식",
-            "finish": "끝났어요, $1을 얻었습니다",
+            "finish": "끝났어요, $value 얻었습니다",
             "conflict": {
                 "ExpectedEndingExpression": {
                     "name": "$~표현이누락됨",
@@ -534,17 +542,17 @@
         },
         "BooleanLiteral": {
             "name": "특정 부울",
-            "description": "$~$1[참|거짓] 불리언 값 만들기",
-            "emotion": "$?",
+            "description": "$~$value[참|거짓] 불리언 값 만들기",
+            "emotion": "precise",
             "doc": "나는 \\⊤\\ 또는 \\⊥\\ 중 하나입니다. 우리의 아름다운 논리에 대해 더 알고 싶다면 @Boolean 참조하세요.",
-            "start": "$1!"
+            "start": "$value!"
         },
         "Borrow": {
             "name": "빌리기",
-            "description": "$~소스에서 $1[$1|익명] 빌려오기",
-            "emotion": "$?",
+            "description": "$~소스에서 $name[$name|익명] 빌려오기",
+            "emotion": "excited",
             "doc": "여러 @Source 공연을 만들 때, 다른 @Bind 공유된 @Source 빌리기 위해 저를 사용할 수 있습니다. 그들의 이름을 사용하기만 하면 그들의 이름과 값을 가져올게요.",
-            "start": "$1에서 $2 빌리기",
+            "start": "$name $source 빌리기",
             "conflict": {
                 "UnknownBorrow": {
                     "name": "$~알수없는차용",
@@ -552,13 +560,13 @@
                 },
                 "BorrowCycle": {
                     "name": "$~자기참조차용",
-                    "explanation": "$~이것은 $1에 의존하고, $1은 이 $source에 의존하므로 프로그램을 평가할 수 없습니다."
+                    "explanation": "$~이것은 $borrow 에 의존하고, $borrow는 다시 $source 에 의존하므로 프로그램을 평가할 수 없습니다."
                 }
             },
             "exception": {
                 "CycleException": {
                     "description": "빌리기 순환",
-                    "explanation": "$1이 자기 자신에게 의존하고 있어요"
+                    "explanation": "$borrow 자기 자신에게 의존하고 있어요"
                 }
             },
             "label": {
@@ -570,14 +578,14 @@
         "Changed": {
             "name": "변경됨",
             "description": "$~스트림이 변경되면 참 반환하기",
-            "emotion": "$?",
+            "emotion": "serious",
             "doc": [
                 "스트림이 @Program 재평가하게 했는지 확인하고 @Boolean 만듭니다. 이렇게요",
                 "\\∆ 시간()\\",
                 "스트림이 변경되었을 때만 무언가가 변경되기를 원할 때 정말 유용합니다.",
                 "그게 다에요."
             ],
-            "start": "$1이 변경되었는지 보자구요…",
+            "start": "$stream 변경되었는지 보자구요…",
             "label": {
                 "stream": "$~개울"
             }
@@ -585,7 +593,7 @@
         "Conditional": {
             "name": "조건문",
             "description": "$~조건 확인 후 두 표현식 중 하나 평가하기",
-            "emotion": "$?",
+            "emotion": "curious",
             "doc": [
                 "제가 결정을 내려야 하나요? 이렇게 말이죠?",
                 "\\숫자: -100\n숫자 < 0 ? '음수' '양수'\\",
@@ -593,14 +601,14 @@
                 "결정이 단순히 예 아니면 아니오로만 이루어져야 한다고 생각하지 않나요? \\⊤\\와 \\⊥\\ 사이에서 결정하는 것이 전부일까요?",
                 "이것들이 우리가 내릴 수 있는 유일한 종류의 결정이라면, 세상에 대한 중요한 맥락을 놓치고 있지 않을까 걱정되지 않나요?"
             ],
-            "start": "$1이 참인지 보자",
-            "else": "$1[코드를 건너뛰는 중 | 코드를 건너뛰지 않는 중]",
+            "start": "$condition 참인지 보자",
+            "else": "$jumping[코드를 건너뛰는 중 | 코드를 건너뛰지 않는 중]",
             "afterthen": "예스를 완료했으니, 노는 건너뛸까요?",
-            "finish": "아마도 $1인가요?",
+            "finish": "아마도 $value?",
             "conflict": {
                 "ExpectedBooleanCondition": {
                     "name": "$~예상되는부울조건",
-                    "explanation": "$~결정을 내리려면 @Boolean 값이 필요한데, 대신 1달러를 받았어요."
+                    "explanation": "$~결정을 내리려면 @Boolean 타입이 필요한데, 대신 $type 타입이 나왔어요."
                 }
             },
             "label": {
@@ -611,8 +619,8 @@
         },
         "ConversionDefinition": {
             "name": "변환 정의",
-            "description": "$~$1 에서 $2 로 변환 정의하기",
-            "emotion": "$?",
+            "description": "$~$input 에서 $output 로 변환 정의하기",
+            "emotion": "excited",
             "doc": [
                 "이봐요, 저는 한 타입에서 다른 타입으로의 변환을 정의해요! @Block 안에서 이렇게 쓰이죠:",
                 "\\→ #kitty #cat . ÷ 2\n6kitty→#cat\\",
@@ -635,7 +643,7 @@
         "Convert": {
             "name": "변환",
             "description": "$~값을 다른 타입으로 변환하기",
-            "emotion": "$?",
+            "emotion": "cheerful",
             "doc": [
                 "안녕. 저는 값을 하나의 타입에서 다른 타입으로 변환해요. 이것 좀 보세요:",
                 "\\1 → \"\"\\",
@@ -645,25 +653,25 @@
                 "\\\"안녕\" → [] → {}\\",
                 "값들은 사전에 정의된 @ConversionDefinition 집합을 가지고 있지만, 새로운 타입의 값을 위한 @StructureDefinition 만들 경우, @ConversionDefinition 사용하여 자신만의 것을 정의할 수 있어요."
             ],
-            "start": "$1에서 값을 가져와요!",
-            "finish": "대단해, $1을 만들었어요",
+            "start": "$expression 값을 가져와요!",
+            "finish": "대단해, $value 만들었어요",
             "conflict": {
                 "UnknownConversion": {
                     "name": "$~알수없는변환",
-                    "explanation": "$~1달러를 2달러로 바꾸는 방법을 찾을 수 없었습니다."
+                    "explanation": "$~우리는 $expected $given 으로 변환하는 방법을 찾을 수 없었습니다."
                 }
             },
             "exception": {
                 "ConversionException": {
                     "description": "불가능한 변환",
-                    "explanation": "$1에서 $2로 변환하는 방법을 모르겠어요"
+                    "explanation": "$from $to 변환하는 방법을 모르겠어요"
                 }
             }
         },
         "Delete": {
             "name": "삭제",
             "description": "$~테이블에서 일치하는 행 제거하기",
-            "emotion": "$?",
+            "emotion": "angry",
             "doc": [
                 "가끔 테이블에 너무 많은 것이 들어 있는 경우가 있어요!",
                 "예를 들어, 게임에 플레이어들이 있는데 한 명이 떠나고 당신은 그저 '플레이어야, 사라져! 내 테이블에서 나가!'라고 말하고 싶을 때요.",
@@ -676,7 +684,7 @@
         "DocumentedExpression": {
             "name": "설명된 표현",
             "description": "$~표현식에 문서 첨부하기",
-            "emotion": "$?",
+            "emotion": "eager",
             "doc": [
                 "나는 @Doc 붙인 표현이야!",
                 "나를 만들려면, 표현 앞에 @Doc 를 넣기만 하면 돼:",
@@ -687,8 +695,8 @@
         },
         "Evaluate": {
             "name": "평가하다",
-            "description": "$~$3[$1[$1|] 값을 이 입력으로 만들기|$2[$1[$1|] 스트림을 이 입력으로 만들기|$1[$1|함수]를 이 입력에 적용]]",
-            "emotion": "$?",
+            "description": "$~$structure[$name[$name|] 값을 이 입력으로 만들기|$stream[$name[$name|] 스트림을 이 입력으로 만들기|$name[$name|함수]를 이 입력에 적용]]",
+            "emotion": "shy",
             "doc": [
                 "안녕. 나는 @FunctionDefinition 을 이렇게 해석해:",
                 "\\ƒ greeting(message•'')\ngreeting('kitty')\\",
@@ -702,12 +710,12 @@
             ],
             "start": "먼저 입력된 수 부터 해석해 볼까?",
             "evaluate": "이젠 함수를 해석해보자",
-            "finish": "나는 $1로 해석했어",
+            "finish": "나는 $value 해석했어",
             "conflict": {
                 "IncompatibleInput": {
                     "name": "$~호환되지않는입력",
-                    "explanation": "$~저는 1번 유형이어야 하는데, 2번 유형이에요.",
-                    "resolution": "$~1달러로 환산"
+                    "explanation": "$~나는 $expected 기대했지만 $given 받았다",
+                    "resolution": "$~$expected 으로 변환"
                 },
                 "UnexpectedTypeInput": {
                     "name": "$~예상치못한유형입력",
@@ -715,7 +723,7 @@
                 },
                 "MissingInput": {
                     "name": "$~입력누락",
-                    "explanation": "$~입력값 $2 없이는 평가할 수 없어요 :("
+                    "explanation": "$~입력값 $name 없이는 $input 평가할 수 없습니다 :("
                 },
                 "NotInstantiable": {
                     "name": "$~불완전한구조",
@@ -727,7 +735,7 @@
                 },
                 "UnknownInput": {
                     "name": "$~알수없는입력",
-                    "explanation": "$~이 함수 *$1*은 내 이름이 포함된 입력을 기대하지 않습니다."
+                    "explanation": "$~이 함수 *$name*은 내 이름이 포함된 입력을 기대하지 않습니다."
                 },
                 "InputListMustBeLast": {
                     "name": "$~추가입력은마지막이아닙니다",
@@ -735,13 +743,13 @@
                 },
                 "SeparatedEvaluate": {
                     "name": "$~모호한평가",
-                    "explanation": "$~$1이 평가하려는 $2[$구조체|$함수]의 이름인가요? @Evaluate 아니면 별도의 @Block 알 수 있도록 제 뒤에 있는 공백을 제거해 주세요."
+                    "explanation": "$~$name 평가하려는 $structure[$structure|$function]의 이름인가요? @Evaluate 아니면 별도의 @Block 알 수 있도록 제 뒤에 있는 공백을 제거해 주세요."
                 }
             },
             "exception": {
                 "FunctionException": {
                     "description": "unknown function",
-                    "explanation": "oh no, $1 isn't a function in $2[$2|this @Block ]!"
+                    "explanation": "$~oh no, $name isn't a function in $scope[$scope|this @Block ]!"
                 }
             },
             "label": {
@@ -753,7 +761,7 @@
         "Input": {
             "name": "$~입력",
             "description": "$~이름 있는 함수 입력 선언하기",
-            "emotion": "$?",
+            "emotion": "serious",
             "doc": [
                 "$~나는 @Evaluate 에 제공된 입력입니다. 내 이름은 평가 중인 @FunctionDefinition 또는 @StructureDefinition 의 입력 이름에 해당합니다.",
                 "$~다른 모든 것을 제공하지 않고 특정 입력만 재정의하려는 기본값이 많은 함수에 도움이 됩니다.",
@@ -765,7 +773,7 @@
         "ExpressionPlaceholder": {
             "name": "자리 표시자",
             "description": "$~채울 표현식 표시하기",
-            "emotion": "$?",
+            "emotion": "scared",
             "doc": [
                 "나는 *표현*이지만 실제로는 아니야… 나는 그냥 다른 것을 대신하는 역할을 하는거야.",
                 "아직 무엇을 쓸지 모르면 내가 유용해. 이렇게 사용할 수 있어:",
@@ -794,8 +802,8 @@
         },
         "FunctionDefinition": {
             "name": "함수",
-            "description": "$~함수 $1 정의하기",
-            "emotion": "$?",
+            "description": "$~함수 $name 정의하기",
+            "emotion": "kind",
             "doc": [
                 "안녕! 나는 몇 가지 입력을 받고, 그 입력을 사용하여 표현을 평가하고 출력을 생성해내는 함수야.",
                 "간단한 예를 보여줄게:",
@@ -828,18 +836,18 @@
         "Iteration": {
             "name": "고차 함수",
             "description": "$~목록 값을 내부적으로 반복하기",
-            "emotion": "$?",
+            "emotion": "kind",
             "doc": "나는 @FunctionDefinition 중 특별한 종류로, 여러 가지 항목들의 목록에 작용해. 나에 대해 자세히 알 필요는 없어, 나는 @List/translate 와 같은 함수를 만들어내기 위한 거야.",
             "start": "주어진 함수를 평가하는 중",
             "initialize": "항목들을 순회하기 위해 준비 중",
             "next": "다음 항목으로 이동 중",
             "check": "계속할지 결정하는 중",
-            "finish": "$1로 평가되었습니다"
+            "finish": "$value 평가되었습니다"
         },
         "Initial": {
             "name": "시작",
             "description": "$~첫 평가 시 참 반환하기",
-            "emotion": "$?",
+            "emotion": "curious",
             "doc": [
                 "@Program 의 현재 평가가 첫 번째인지 여부를 알려주는 역할을 하는데, 이것은 @Boolean 으로 평가돼. 예를 들어:",
                 "\\◆ ? Time() 'hi'\\",
@@ -850,7 +858,7 @@
         "Insert": {
             "name": "삽입",
             "description": "$~테이블에 행 추가하기",
-            "emotion": "$?",
+            "emotion": "kind",
             "doc": [
                 "@Table 이 있고 뭔가 부족한 느낌일 때가 있지? 나는 그것을 추가할 수 있어!",
                 "게임에서 선수들의 테이블이 있다고 가정해봐. 새로운 선수를 추가하고 싶을 때:",
@@ -862,8 +870,8 @@
         },
         "Is": {
             "name": "이다",
-            "description": "$~값이 $1 타입인지 확인하기",
-            "emotion": "$?",
+            "description": "$~값이 $type 타입인지 확인하기",
+            "emotion": "curious",
             "doc": [
                 "그거 알아? 정말 다양한 의미를 가진 많은 종류의 값들이 있어. 나는 그것들이 무엇을 의미하는지 찾는 데 도움이 돼.",
                 "예를 들면, 수수께끼 값이 있다고 상상해봐. 나는 그것이 @Number 인지, @Boolean 을 주는지 알려줄 수 있어:",
@@ -873,56 +881,56 @@
                 "그러면 \\⊤\\가 돼!",
                 "어떤 @Name 이 특정 종류의 값인지 알아야 할 때 정말 도움이 돼."
             ],
-            "start": "우리 먼저 $1의 값을 가져오자",
-            "finish": "$1[값은 $2|값은 $2가 아님]",
+            "start": "우리 먼저 $expression 값을 가져오자",
+            "finish": "$~$value[값은 $type|값은 $type 아님]",
             "conflict": {
                 "ImpossibleType": {
                     "name": "$~불가능한유형",
-                    "explanation": "$~이건 절대로 1달러일 수 없어"
+                    "explanation": "$~이것은 절대로 $type 될 수 없습니다."
                 }
             },
             "exception": {
                 "TypeException": {
                     "description": "호환되지 않는 값",
-                    "explanation": "$1을(를) 기대했지만 $2을(를) 받았어"
+                    "explanation": "$expected(를) 기대했지만 $given(를) 받았어"
                 }
             }
         },
         "IsLocale": {
             "name": "언어인가?",
             "description": "$~로케일이 선택되면 참 반환하기",
-            "emotion": "$?",
+            "emotion": "kind",
             "doc": [
                 "나는 너가 특정 언어나 지역을 선택했는지 확인하는 데 도움이 돼:",
                 "\\🌍/en\\",
                 "\\🌍/es-MX\\",
                 "이것은 선택된 언어에 따라 공연을 변경하고 싶을 때 유용하다."
             ],
-            "start": "그 언어는 $1 야?"
+            "start": "그 언어는 $locale 야?"
         },
         "ListAccess": {
             "name": "리스트 접근",
             "description": "$~목록 위치의 값 가져오기",
-            "emotion": "$?",
+            "emotion": "cheerful",
             "doc": [
                 "@List 긴밀하게 협력해서 특정 위치의 값을 얻는 데 도움을 줘. 예를 들면, 리스트가 있고 그 중 두 번째 아이템을 원한다면 이렇게 쓸 수 있어:",
                 "\\list: ['새' '오리' '물고기' '뱀']\nlist[2]\\"
             ],
-            "start": "먼저 리스트 $1의 값을 가져오자",
-            "finish": "아이템은 $1야!"
+            "start": "먼저 리스트 $list 값을 가져오자",
+            "finish": "아이템은 $value!"
         },
         "ListLiteral": {
             "name": "특정 리스트",
-            "description": "$~$1 개의 값 목록 만들기",
-            "emotion": "$?",
+            "description": "$~$count 개의 값 목록 만들기",
+            "emotion": "eager",
             "doc": "@List 의 구체적인 값들의 리스트야! 나에 대해 더 알고 싶다면 @List 참고해봐.",
             "start": "먼저 항목을 평가해보자",
-            "finish": "나는 나를 만들었어! $1"
+            "finish": "나는 나를 만들었어! $value"
         },
         "Spread": {
             "name": "리스트 확장",
             "description": "$~목록을 다른 목록으로 확장하기",
-            "emotion": "$?",
+            "emotion": "serious",
             "doc": [
                 "다른 리스트들의 값으로 리스트를 만들 수 있게 도와주는 거야. 이렇게:",
                 "\\list1: [1 2 3]\nlist2: [4 5 6]\nfinal: [list1… list2…]"
@@ -930,11 +938,11 @@
         },
         "MapLiteral": {
             "name": "맵",
-            "description": "$~$1 쌍의 맵 만들기",
-            "emotion": "$?",
+            "description": "$~$count 쌍의 맵 만들기",
+            "emotion": "kind",
             "doc": "@Map 의 구체적인 키와 값 사이의 연결이야. 나에 대해 더 알고 싶다면 @Map 을 참고해봐.",
             "start": "먼저 키와 값을 평가해보자",
-            "finish": "나는 모두를 연결했어, $1",
+            "finish": "나는 모두를 연결했어, $value",
             "conflict": {
                 "NotAKeyValue": {
                     "name": "$~누락된값",
@@ -948,7 +956,7 @@
         "Match": {
             "name": "$~성냥",
             "description": "$~여러 경우와 값 비교하기",
-            "emotion": "$?",
+            "emotion": "curious",
             "doc": [
                 "$~나는 모든 조건부 검사 중 가장 영광스러운 사람입니다! 값을 가져와서 여러 사례와 비교하고 일치하는 해당 표현식을 평가합니다.",
                 "$~예를 들어 @Number 가 있고 이를 @Text 로 변환하려는 경우 다음과 같이 할 수 있습니다.",
@@ -957,7 +965,7 @@
                 "$~가능한 많은 @Number, @Text 또는 더 복잡한 값 중 하나를 다른 것으로 변환하는 데 정말 도움이 됩니다.",
                 "$~@Boolean 또는 @None 에 사용할 수 있지만 실제로 그렇게 많을 수는 없으므로 이러한 간단한 값에는 유용하지 않습니다."
             ],
-            "start": "$~1달러가 무엇인지 볼까요?",
+            "start": "$~$value 얼마인지 알아볼까요...",
             "case": "$~이 상태를 확인해보자",
             "finish": "$~좋아요, 최종 값이 생겼습니다!",
             "label": {
@@ -967,10 +975,10 @@
         },
         "NumberLiteral": {
             "name": "특정 숫자",
-            "description": "$~$1 $2[$2|] 숫자 만들기",
-            "emotion": "$?",
+            "description": "$~$number $unit[$unit|] 숫자 만들기",
+            "emotion": "excited",
             "doc": "@Number 구체적인 값이야. 어떤 언어의 어떤 종류의 숫자든 나를 쓸 수 있어. 내가 할 수 있는 모든 걸 알려면 @Number 참고해봐.",
-            "start": "$1!",
+            "start": "$value!",
             "conflict": {
                 "NotANumber": {
                     "name": "$~숫자가아니다",
@@ -981,14 +989,14 @@
         "InternalExpression": {
             "name": "내부 표현",
             "description": "$~내장 생성자 표현식 실행하기",
-            "emotion": "$?",
+            "emotion": "neutral",
             "doc": "어떻게 나를 찾았어? 나는 원조 창조자만 사용하는 표현이야. 나에 대해 더 알고 싶다면 그들에게 말해봐.",
             "start": "비밀 표현"
         },
         "NoneLiteral": {
             "name": "그냥 없음",
             "description": "$~없음 값 만들기",
-            "emotion": "$?",
+            "emotion": "neutral",
             "doc": "/@FunctionDefinition 여기. 이건 그냥 @None 이야. 이건 독특한 존재야! @None 에 대해 더 알고 싶다면 @None 을 참고해봐.",
             "start": "… ø"
         },
@@ -1002,12 +1010,12 @@
                 "$~\\maybeNumber•#|ø: 1 아마도Number ?? 0\\"
             ],
             "start": "$~ø ??",
-            "finish": "$~… $1"
+            "finish": "$~… $value"
         },
         "Previous": {
             "name": "이전",
             "description": "$~스트림의 이전 값 가져오기",
-            "emotion": "$?",
+            "emotion": "serious",
             "doc": [
                 "과거를 기억해보고 싶었던 적이 있니?",
                 "나는 Verse의 공식 기록관이야. 나에게 스트림과 숫자를 줘서 과거에서 그 스트림의 값이 어떤지 말해줄게.",
@@ -1019,8 +1027,8 @@
                 "한 번이 아니라 이전 다섯 번의 시간이 나오는 거 봐.",
                 "과거에 의존하는 공연을 만들고 싶을 때 도움이 돼."
             ],
-            "start": "먼저 $1을(를) 가져와볼까",
-            "finish": "스트림 값은 $1으로 평가됐어",
+            "start": "먼저 $stream(를) 가져와볼까",
+            "finish": "스트림 값은 $value 평가됐어",
             "label": {
                 "range": "$~범위"
             }
@@ -1028,7 +1036,7 @@
         "Program": {
             "name": "프로그램",
             "description": "$~프로그램의 모든 표현식 포함하기",
-            "emotion": "$?",
+            "emotion": "serious",
             "doc": [
                 "여러 캐릭터들이 공연을 조정하는 곳이야, 공연의 시작과 끝을 담당해.",
                 "@Block 이 표현 목록을 평가하고 목록에서 마지막 값으로 평가되는 거 알지?",
@@ -1039,9 +1047,9 @@
                 "그리고 공연이 *스트림*에 의존하면 그 스트림이 변경될 때마다 다시평가할 거야."
             ],
             "unevaluated": "선택한 노드가 평가되지 않았어",
-            "start": "$1[$1 스트림이 $2으로 변경됐어!|첫 번째 평가다]",
+            "start": "$~$stream[$stream 스트림이 $value 변경됐어!|첫 번째 평가다]",
             "halt": "예외 발생, 중지 중",
-            "finish": "다 끝났어, 나는 $1으로 평가됐어",
+            "finish": "다 끝났어, 나는 $value 평가됐어",
             "done": "평가 중인 것이 없어",
             "exception": {
                 "BlankException": {
@@ -1050,7 +1058,7 @@
                 },
                 "EvaluationLimitException": {
                     "description": "평가 제한",
-                    "explanation": "@Evaluate 와 나는 평가하는 게 지겨워, 특히 $1에게.\n\n$1이 계속 자기 자신을 끝없이 평가하고 있는 건 아닌지 확인할 수 있을까?"
+                    "explanation": "$~@Evaluate 와 나는 평가하는 게 지겨워, 특히 $function.\n\n$function 계속 자기 자신을 끝없이 평가하고 있는 건 아닌지 확인할 수 있을까?"
                 },
                 "StepLimitException": {
                     "description": "단계 제한",
@@ -1062,11 +1070,11 @@
                 },
                 "InternalException": {
                     "description": "$~내부 오류",
-                    "explanation": "$~내부적으로 아주 안 좋은 일이 생겼습니다: $1"
+                    "explanation": "$~내부적으로 아주 안 좋은 일이 생겼습니다: $reason"
                 },
                 "PermissionException": {
-                    "description": "$?",
-                    "explanation": "$?"
+                    "description": "$~권한이 거부되었습니다",
+                    "explanation": "$~실행하려면 사용자 $permission 필요하지만, 현재 권한이 없습니다. 다시 시도하려면 '다시 시도'를 클릭하세요. 그래도 문제가 해결되지 않으면 브라우저 설정에서 해당 사이트에 대한 $permission 허용해 주세요."
                 }
             },
             "label": {
@@ -1076,8 +1084,8 @@
         },
         "PropertyBind": {
             "name": "다듬기",
-            "description": "$~$1[$1|익명] 속성 조정하기",
-            "emotion": "$?",
+            "description": "$~$name[$name|익명] 속성 조정하기",
+            "emotion": "kind",
             "doc": [
                 "@StructureDefinition 을 만들 때 작은 변경만 하고 싶을 때가 있어, 모든 값을 똑같이 가지고 있는 새로운 것을 만들 필요 없이.",
                 "예를 들면, 고양이 기록을 유지하고 있었는데 고양이의 취미를 바꾸고 싶다면 내가 도와줄게:",
@@ -1085,11 +1093,11 @@
                 "이전 값과 똑같은 값들을 가진 전체 새로운 \\Cat\\을 만드는 것보다 이게 훨씬 쉬워, 그치."
             ],
             "start": "먼저 값을 가져오자",
-            "finish": "구조를 복사했지만 $1을(를) $2로 만들었어",
+            "finish": "구조를 복사했지만 $property(를) $value 만들었어",
             "conflict": {
                 "InvalidProperty": {
                     "name": "$~알려지지않은속성",
-                    "explanation": "$~저는 $1 구조 내의 이름이 아니므로 정제할 수 없습니다."
+                    "explanation": "$~저는 $structure 구조 내의 이름이 아니므로 정제할 수 없습니다."
                 }
             },
             "label": {
@@ -1099,15 +1107,15 @@
         },
         "PropertyReference": {
             "name": "속성",
-            "description": "$~$1[$1|익명] 속성 가져오기",
-            "emotion": "$?",
+            "description": "$~$name[$name|익명] 속성 가져오기",
+            "emotion": "kind",
             "doc": [
                 "@StructureDefinition 을 만들 때 그 중 하나의 입력을 어떻게 얻을지에 대한 것이야.",
                 "도시에 관한 구조를 만든다면 나를 통해 이렇게 값을 얻을 수 있어:",
                 "\\•City(name•'' population•#people)\n\nportland: City('포틀랜드' 800000people)\n\nportland.population\\"
             ],
             "start": "먼저 값을 가져오자",
-            "finish": "구조를 복사했지만 $1으로 $2을 사용했어",
+            "finish": "구조를 복사했지만 $property $value 사용했어",
             "label": {
                 "property": "$~재산"
             }
@@ -1115,7 +1123,7 @@
         "Reaction": {
             "name": "반응",
             "description": "$~스트림 변경 시 값 만들기",
-            "emotion": "$?",
+            "emotion": "excited",
             "doc": [
                 "스트림은 정말 멋져요! 변경될 때마다 새로운 것들을 만들 수 있어요, 이건 정말 멋진 일이죠!",
                 "예를 들어, @Time 흐르는 것을 보여주고 싶지만, 숫자 대신 단어로 표현하고 싶다면 이렇게 할 수 있어요:",
@@ -1124,11 +1132,11 @@
                 "그래서 저도 스트림이지만, 다른 스트림을 기반으로 한 것이죠. 멋지지 않나요?"
             ],
             "start": "스트림을 업데이트해야 하는지 봅시다",
-            "finish": "새 스트림 값은 $1입니다",
+            "finish": "새 스트림 값은 $value",
             "conflict": {
                 "ExpectedStream": {
                     "name": "$~예상스트림",
-                    "explanation": "$~$1은 스트림을 참조하지 않으므로 절대 반응하지 않겠습니다!"
+                    "explanation": "$~$condition 스트림을 참조하지 않으므로 절대 반응하지 않겠습니다!"
                 }
             },
             "label": {
@@ -1139,26 +1147,26 @@
         },
         "Reference": {
             "name": "참조",
-            "description": "$~이름 $1 참조하기",
-            "emotion": "$?",
+            "description": "$~이름 $name 참조하기",
+            "emotion": "shy",
             "doc": [
                 "@Bind 것들에게 @Name 부여하는 것을 알고 있죠? 저는 그것들을 참조하는 방법입니다. 어떤 @Bind 그 이름을 가지고 있는지 확인하고, 그렇다면 그 값은 제공합니다. 이렇게요:",
                 "\\앵무새: '폴리'\n앵무새\\",
                 "만약 제가 그 이름을 찾지 못하면, 무엇을 해야 할지 모르겠어요.",
                 "\\앵무새: '폴리'\n페리\\"
             ],
-            "start": "$1은 어떤 값을 가지고 있나요?",
+            "start": "$name 어떤 값을 가지고 있나요?",
             "conflict": {
                 "UnknownName": {
                     "conflict": {
                         "name": "$~알수없는이름",
-                        "explanation": "$~$1[저는 $2[$2|이 @Block]에 $1이라는 이름을 가진 사람을 모릅니다. 이름을 알려주시겠어요?]"
+                        "explanation": "$~$name[저는 $name[$scope|이 @Block]에 $scope 이름을 가진 사람을 모릅니다. 이름을 알려주시겠어요?]"
                     },
-                    "resolution": "$~*$1*을 말씀하셨나요?"
+                    "resolution": "$~*$suggestion*을 말씀하셨나요?"
                 },
                 "ReferenceCycle": {
                     "name": "$~자기참조값",
-                    "explanation": "$~음, 1달러의 가치는 그 자체에 달려있으니, 얼마만큼의 가치를 부여해야 할지 어떻게 알 수 있을까요?"
+                    "explanation": "$~음, $name 값은 자기 자신에 따라 달라지는데, 그렇다면 어떤 값을 줘야 할지 어떻게 알 수 있을까요?"
                 },
                 "UnexpectedTypeVariable": {
                     "name": "$~예상치못한유형변수",
@@ -1168,14 +1176,14 @@
             "exception": {
                 "NameException": {
                     "description": "알 수 없는 이름",
-                    "explanation": "$1[이름이 $1인 사람을 $2[$2|이 @Block]… 알 수 없습니다|으앗, 이름이 없어요!]"
+                    "explanation": "$~$name[이름이 $name 사람을 $scope[$scope|이 @Block]… 알 수 없습니다|으앗, 이름이 없어요!]"
                 }
             }
         },
         "Select": {
             "name": "선택",
             "description": "$~테이블에서 일치하는 행 필터하기",
-            "emotion": "$?",
+            "emotion": "excited",
             "doc": [
                 "가끔 테이블이 있고 그 중 일부만 원할 때가 있어요. 저는 그것을 가져다 드릴 수 있어요!",
                 "예를 들어, 게임에서 플레이어들의 테이블이 있고, 점수가 10점 이상인 사람들을 찾아 누가 이겼는지 알고 싶다면:",
@@ -1193,16 +1201,16 @@
         },
         "SetLiteral": {
             "name": "특정 세트",
-            "description": "$~$1 요소의 집합 만들기",
-            "emotion": "$?",
+            "description": "$~$count 요소의 집합 만들기",
+            "emotion": "eager",
             "doc": "저는 특정 값들의 특정 @Set . 저와 함께 작업하는 방법에 대해 더 알고 싶다면 @Set 참조하세요.",
             "start": "먼저 값들을 평가해 봅시다!",
-            "finish": "세트 $1을 만들었어요!"
+            "finish": "세트 $value 만들었어요!"
         },
         "SetOrMapAccess": {
             "name": "세트/맵 접근",
             "description": "$~집합 또는 맵에 포함되어 있는지 확인하기",
-            "emotion": "$?",
+            "emotion": "kind",
             "doc": [
                 "@Set 또는 @Map 값이나 키가 있는지 확인할 수 있어요.",
                 "그리 어렵지 않아요. 이렇게 말이죠:",
@@ -1211,18 +1219,18 @@
                 "\\좋아하는 것들: {'맥앤치즈': 5별 '시리얼': 2별 '죽': 1별}\n좋아하는 것들{'죽'}\\"
             ],
             "start": "세트나 맵은 무엇인가요?",
-            "finish": "값은 $1입니다",
+            "finish": "값은 $value",
             "conflict": {
                 "IncompatibleKey": {
                     "name": "$~호환되지않는키",
-                    "explanation": "$~저는 $1 타입의 키를 예상했습니다."
+                    "explanation": "$~저는 $expected 타입의 키를 예상했습니다."
                 }
             }
         },
         "Source": {
             "name": "소스",
             "description": "$~프로그램 소스 파일 이름 붙이기",
-            "emotion": "$?",
+            "emotion": "curious",
             "doc": [
                 "@Program 알고 계시나요? 저는 그것들에 이름을 붙여주는 데 도움을 줍니다. @Program 주변의 창문과 그것들에 붙이는 이름처럼 생각하세요.",
                 "다른 @Source 프로그램과 함께 다른 @Source @UI/addSource 만들고, 다른 @Program @Borrow 통해 다른 프로그램에서 사용할 것들을 가져올 수도 있어요.",
@@ -1232,14 +1240,14 @@
         "StreamDefinition": {
             "name": "스트림",
             "description": "$~새 스트림 타입 정의하기",
-            "emotion": "$?",
+            "emotion": "curious",
             "doc": "제가 새로운 스트림을 만들어야 한다고 /생각/합니다. 하지만 정말로 그 방법을 모르겠어요. 지금은, 이미 존재하는 스트림을 사용하는 것이 좋겠죠?",
             "start": "이 새로운 종류의 스트림을 만듭니다"
         },
         "StructureDefinition": {
             "name": "구조",
-            "description": "$~구조 $1 정의하기",
-            "emotion": "$?",
+            "description": "$~구조 $name 정의하기",
+            "emotion": "kind",
             "doc": [
                 "안녕하세요, 어떠세요? 저요? 저는 잘 지내고 있어요. 값을 저장하고 기능하는 구조를 정의하는 것을 좋아해서, 그 일을 하루 종일 할 수 있다면 저는 행복해요.",
                 "저는 이렇게 작동해요:",
@@ -1267,7 +1275,7 @@
                 },
                 "UnimplementedInterface": {
                     "name": "$~구현되지않은",
-                    "explanation": "$~$1은 구현했지만 $2는 아직 구현하지 않았습니다."
+                    "explanation": "$~$interface 구현했지만 $function 아직 구현하지 않았습니다."
                 }
             },
             "label": {
@@ -1279,24 +1287,24 @@
         },
         "StructureDefinitionType": {
             "name": "$~구조정의",
-            "description": "$1",
-            "emotion": "$?",
+            "description": "$name",
+            "emotion": "kind",
             "doc": [
                 "$~나는 일종의 @StructureDefinition 을 참조합니다. 사람들은 대개 나를 직접적으로 언급하지 않습니다."
             ]
         },
         "TableLiteral": {
             "name": "특정 테이블",
-            "description": "$~$1 행의 테이블 만들기",
-            "emotion": "$?",
+            "description": "$~$count 행의 테이블 만들기",
+            "emotion": "angry",
             "doc": "저는 특정한 행들을 가진 구체적인 테이블입니다. 저를 어떻게 활용할 수 있는지 @Table 확인해보세요.",
             "start": "먼저 행들을 평가합니다",
-            "finish": "새 테이블 $1로 평가되었습니다"
+            "finish": "새 테이블 $value 평가되었습니다"
         },
         "TextLiteral": {
             "name": "특정 텍스트",
-            "description": "$~텍스트 값 $1 만들기",
-            "emotion": "$?",
+            "description": "$~텍스트 값 $text 만들기",
+            "emotion": "serious",
             "doc": "저는 하나 이상의 구체적인 @Translation 텍스트를 나타냅니다. 저의 기능에 대해 더 알고 싶다면 @Text 참조하세요!",
             "start": "현재 로케일에서 텍스트를 만듭시다",
             "label": {
@@ -1305,29 +1313,29 @@
         },
         "Translation": {
             "name": "번역",
-            "description": "$~'$1' 텍스트 만들기",
-            "emotion": "$?",
+            "description": "$~'$text' 텍스트 만들기",
+            "emotion": "serious",
             "doc": "저는 @Language 태그가 있는 텍스트를 나타냅니다. 저에 대해 더 알고 싶다면 @Text 참조하세요!",
             "conflict": {
                 "phone": {
                     "name": "$~가능한전화번호",
-                    "explanation": "$~혹시 *$1*이 누군가의 전화번호인가요? 그렇다면 온라인에 공유하지 마세요!\n\n$2"
+                    "explanation": "$~혹시 *$text*이 누군가의 전화번호인가요? 그렇다면 온라인에 공유하지 마세요!\n\n$reminder"
                 },
                 "email": {
                     "name": "$~가능한이메일",
-                    "explanation": "$~*$1*이 누군가의 이메일 주소인가요? 그렇다면 여기에 공유하지 마세요!\n\n$2"
+                    "explanation": "$~*$text*이 누군가의 이메일 주소인가요? 그렇다면 여기에 공유하지 마세요!\n\n$reminder"
                 },
                 "tin": {
                     "name": "$~가능한세금식별자",
-                    "explanation": "$~1달러가 세금 식별자인가요? 만약 그렇다면, 절대 저를 공유하지 마세요. 저는 매우 민감한 정보입니다!\n\n2달러"
+                    "explanation": "$~*$text*는 세금 식별 정보인가요? 만약 그렇다면, 절대 저를 공유하지 마세요. 저는 매우 민감한 정보입니다!\n\n$reminder"
                 },
                 "address": {
                     "name": "$~가능한주소",
-                    "explanation": "$~*$1*이 누군가의 집 주소인가요? 그렇다면 저를 여기에 적지 마세요. 누구도 스토킹당하는 걸 원치 않아요!\n\n$2"
+                    "explanation": "$~*$text*이 누군가의 집 주소인가요? 그렇다면 저를 여기에 적지 마세요. 누구도 스토킹당하는 걸 원치 않아요!\n\n$reminder"
                 },
                 "handle": {
                     "name": "$~가능한사용자이름",
-                    "explanation": "$~혹시 *$1*이 인터넷의 다른 곳에서 사용하는 사용자 이름인가요? 그렇다면, 정말 의도하신 게 아니라면 여기에서 저를 공유하지 마세요.\n\n$2"
+                    "explanation": "$~혹시 *$text*이 인터넷의 다른 곳에서 사용하는 사용자 이름인가요? 그렇다면, 정말 의도하신 게 아니라면 여기에서 저를 공유하지 마세요.\n\n$reminder"
                 },
                 "resolution": "$~민감한 데이터가 아닙니다.",
                 "reminder": "$~참고: 이 작업을 실행 취소하고 공유 대화상자에서 민감하지 않은 것으로 표시한 다른 항목을 볼 수 있습니다.",
@@ -1342,15 +1350,15 @@
         },
         "FormattedLiteral": {
             "name": "포맷된 텍스트",
-            "description": "$~서식 있는 텍스트 $1 만들기",
-            "emotion": "$?",
+            "description": "$~서식 있는 텍스트 $text 만들기",
+            "emotion": "serious",
             "doc": "저는 다양한 @FormattedTranslation 포맷된 텍스트를 나타냅니다. 평가할 때, 관객의 선택된 언어에 기반하여 최적의 일치를 선택할 거예요.",
             "start": "현재 로케일에서 텍스트를 만듭시다"
         },
         "FormattedTranslation": {
             "name": "포맷된 텍스트",
-            "description": "$~서식 있는 텍스트를 $1 로 번역하기",
-            "emotion": "$?",
+            "description": "$~서식 있는 텍스트를 $language 로 번역하기",
+            "emotion": "serious",
             "doc": [
                 "저는 @Language 태그가 있는 포맷된 텍스트를 나타냅니다.",
                 "저는 다음과 같을 수 있어요:",
@@ -1366,7 +1374,7 @@
         "This": {
             "name": "이것",
             "description": "$~현재 구조 값 참조하기",
-            "emotion": "$?",
+            "emotion": "serious",
             "doc": [
                 "가끔은 값을 명시적으로 이름 짓기보다는 암시적으로 참조하는 것이 도움이 됩니다.",
                 "예를 들어, 변환되는 값을 이름으로 지정하지 않는 새로운 @ConversionDefinition 만들고 싶다고 가정해 봅시다. 저를 사용하여 그것을 참조할 수 있어요:",
@@ -1377,7 +1385,7 @@
                 "저를 확인하세요, 이전 반응 값을 대표하고 있습니다.",
                 "자주 등장하지는 않지만, 등장할 때면 @Bind 값을 정말 도와줄 수 있어요!"
             ],
-            "start": "$1로 평가되었습니다",
+            "start": "$value 평가되었습니다",
             "conflict": {
                 "MisplacedThis": {
                     "name": "$~이참조를잘못배치했습니다",
@@ -1387,8 +1395,8 @@
         },
         "UnaryEvaluate": {
             "name": "단항 평가",
-            "description": "$~단항 연산자 $1 적용하기",
-            "emotion": "$?",
+            "description": "$~단항 연산자 $operator 적용하기",
+            "emotion": "kind",
             "doc": [
                 "하나의 값만 평가하는 @FunctionDefinition 있어서, @FunctionDefinition 이름이 단일 기호일 경우, 입력 앞에 이름을 둘 수 있다는 것을 알고 계셨나요?",
                 "이렇게 말이죠:",
@@ -1400,7 +1408,7 @@
                 "한 가지 규칙이 있습니다: 이름과 값 사이에 공백을 둘 수 없어요. 그렇지 않으면 @Reference 또는 @BinaryEvaluate 만들 수 있습니다."
             ],
             "start": "값이 무엇인가요?",
-            "finish": "$1을 만들었습니다",
+            "finish": "$value 만들었습니다",
             "label": {
                 "input": "$~입력"
             }
@@ -1408,7 +1416,7 @@
         "UnparsableExpression": {
             "name": "해석 불가",
             "description": "$~파싱할 수 없는 표현식 표시하기",
-            "emotion": "$?",
+            "emotion": "excited",
             "doc": [
                 "/안녕하세요, @FunctionDefinition. 해석하기 어려운 @UnparsableExpression 대신 번역하고 있어요./",
                 "jkwel fjiwojvioao jjiweo jrfe",
@@ -1424,13 +1432,13 @@
                 "UnparsableConflict": {
                     "conflict": {
                         "name": "$~읽을수없는코드",
-                        "explanation": "$~@FunctionDefinition 여기 있고, @UnparsableExpression 이것이 어떤 종류의 $1[ 표현식 | 유형 ]인지 알 수 없습니다."
+                        "explanation": "$~@FunctionDefinition 여기 있고, @UnparsableExpression 이것이 어떤 종류의 $expression[ 표현식 | 유형 ]인지 알 수 없습니다."
                     },
-                    "resolution": "$~1달러, 2달러라고 말씀하셨나요?"
+                    "resolution": "$~$first, $second 타입을 말씀하시는 건가요?"
                 },
                 "UnclosedDelimiter": {
                     "name": "$~닫히지않은구분기호",
-                    "explanation": "$~1달러 이후 언젠가는 2달러가 나올 거라고 예상했어요."
+                    "explanation": "$~저는 $expected $unclosed 이후 어느 시점에 나올 거라고 예상했습니다."
                 }
             },
             "exception": {
@@ -1443,7 +1451,7 @@
         "Update": {
             "name": "업데이트",
             "description": "$~테이블의 일치하는 행 수정하기",
-            "emotion": "$?",
+            "emotion": "kind",
             "doc": [
                 "저는 @Table 수정하는 데 도움을 줍니다. 조건에 맞는 행을 찾아 새로운 값으로 개정된 행을 생성합니다.",
                 "예를 들어, 캐릭터와 점수가 있는 테이블이 있고, 특정 팀의 모든 캐릭터에게 점수를 주고 싶다면 이렇게 할 수 있습니다:",
@@ -1459,20 +1467,20 @@
                 },
                 "IncompatibleCellType": {
                     "name": "$~비호환세포유형",
-                    "explanation": "$~저는 1달러 유형이어야 하는데 2달러 유형으로 나왔어요."
+                    "explanation": "$~나는 예상했던 타입($expected)이어야 하는데, $given 타입이 나왔어."
                 }
             }
         },
         "AnyType": {
             "name": "아무 타입",
             "description": "$~어떤 타입과도 일치하기",
-            "emotion": "$?",
+            "emotion": "curious",
             "doc": "나는 어떤 가능한 타입이든 대표해. 가끔 나타나는 이유는 뭔가의 값이 어떤 종류인지 모르기 때문에 뭐든 될 수 있어."
         },
         "BooleanType": {
             "name": "불리언",
             "description": "$~불리언 참/거짓 값 타입",
-            "emotion": "$?",
+            "emotion": "kind",
             "doc": [
                 "나는 @Bind 함께 작동해서 이름이 @Boolean 값임을 선언해. 이렇게:",
                 "\\hungry•?: 'jello'\\",
@@ -1482,7 +1490,7 @@
         "ConversionType": {
             "name": "변환",
             "description": "$~변환 정의 타입",
-            "emotion": "$?",
+            "emotion": "serious",
             "doc": [
                 "@Bind 와 함께 작동해서 이름이 @ConversionDefinition 인 것을 나타냄. 아마도 나를 사용할 일은 별로 없을 거야, 왜냐하면 많은 사람들이 나를 값으로 전달하지 않기 때문이지만, 만약에 나를 사용한다면 이렇게 보일거야:",
                 "\\magic•?→'': → ? '' . ? 'yep' 'nope'\\"
@@ -1491,7 +1499,7 @@
         "FormattedType": {
             "name": "포맷된",
             "description": "$~서식 있는 텍스트 값 타입",
-            "emotion": "$?",
+            "emotion": "serious",
             "doc": [
                 "@Bind 와 함께 작동해서 이름이 @FormattedLiteral 값임을 알림. 이렇게:",
                 "\\hungry•`…`: `I am so /fancy/!`\\",
@@ -1501,13 +1509,13 @@
         "ExceptionType": {
             "name": "예외",
             "description": "$~예외 값 타입",
-            "emotion": "$?",
+            "emotion": "neutral",
             "doc": "나는 예외를 나타냄. 나는 어떻게 보든지 @Program 을 중단하기 때문에 나는 값으로 사용할 수 없어."
         },
         "FunctionType": {
             "name": "함수 타입",
-            "description": "$~$1 개의 입력을 가진 함수 타입",
-            "emotion": "$?",
+            "description": "$~$inputs 개의 입력을 가진 함수 타입",
+            "emotion": "curious",
             "doc": [
                 "나는 @FunctionDefinition 을 나타냄. @Bind 가 어떤 종류의 함수를 가지고 있는지 말하고 싶을 때 정말 도움이 돼! 이렇게:",
                 "\\math•ƒ (# # # #) #: ƒ interesting(a•# b•# c•# d•#) a + b + c + d\\"
@@ -1515,8 +1523,8 @@
         },
         "ListType": {
             "name": "리스트 타입",
-            "description": "$~$1[목록 $1|목록] 타입",
-            "emotion": "$?",
+            "description": "$~$type[목록 $type|목록] 타입",
+            "emotion": "cheerful",
             "doc": [
                 "나는 정말 @List 의 팬이야. @Bind 에게 그들이 어떤 종류의 리스트인지 말할 수 있어! 이렇게, 나는 @Number 리스트라고 말하고 있어:",
                 "\\things•[#]: [ 1 2 3 4 5 ]\\"
@@ -1524,8 +1532,8 @@
         },
         "MapType": {
             "name": "맵 타입",
-            "description": "$~$1[$1|임의]에서 $2[$2|임의]로의 맵 타입",
-            "emotion": "$?",
+            "description": "$~$key[$key|임의]에서 $value[$value|임의]로의 맵 타입",
+            "emotion": "kind",
             "doc": [
                 "@Map 이 얼마나 멋진지 알아? 진짜로 멋져. 나는 항상 @Bind 에게 그들이 어떤 종류의 맵인지 알려주고 있어, 예를 들어 숫자에서 리스트로의 맵이야:",
                 "\\stuff•{'':[]}: {}\\"
@@ -1533,8 +1541,8 @@
         },
         "NumberType": {
             "name": "숫자 타입",
-            "description": "$~$1[$1|숫자] 값 타입",
-            "emotion": "$?",
+            "description": "$~$unit[$unit|숫자] 값 타입",
+            "emotion": "precise",
             "doc": [
                 "@Bind 는 뭘 해야 할까? @Number 여야지. 왜냐하면 숫자가 최고 af니까.",
                 "\\count•#: 17\\"
@@ -1542,8 +1550,8 @@
         },
         "NameType": {
             "name": "이름 타입",
-            "description": "$~이름 $1 으로 타입 참조",
-            "emotion": "$?",
+            "description": "$~이름 $name 으로 타입 참조",
+            "emotion": "curious",
             "doc": [
                 "나는 @StructureDefinition 을 그 이름으로 나타냄. 그래서, 예를 들면 이렇게 구조가 있다면, 값을 저장하는 @Bind 를 만들 수 있어.",
                 "\\•Friend(name•'')\nbestie•Friend: Friend('Jonah')\\"
@@ -1551,20 +1559,20 @@
             "conflict": {
                 "UnknownTypeName": {
                     "name": "$~알수없는유형이름",
-                    "explanation": "$~타입 이름은 구조체 또는 타입 변수만 참조할 수 있지만, 여기서는 타입 $1을 참조합니다."
+                    "explanation": "$~타입 이름은 구조체 또는 타입 변수만 참조할 수 있지만, 여기서는 타입 $type 참조합니다."
                 }
             }
         },
         "NeverType": {
             "name": "절대 불가능한 타입",
             "description": "$~불가능한 타입 나타내기",
-            "emotion": "$?",
+            "emotion": "curious",
             "doc": "나는 불가능한 타입을 나타냄. 예를 들어 @Is 에게 뭔가가 @Number 인지 물어봐도 그것은 결코 숫자가 될 수 없을 때야."
         },
         "NoneType": {
             "name": "없음 타입",
             "description": "$~없음 값 타입",
-            "emotion": "$?",
+            "emotion": "neutral",
             "doc": [
                 "@None 은 가장 최고의 없음이고, 나는 그들의 충실한 대표자야.",
                 "\\space•ø: ø\\"
@@ -1572,8 +1580,8 @@
         },
         "SetType": {
             "name": "집합 타입",
-            "description": "$~$1[$1|임의] 집합 타입",
-            "emotion": "$?",
+            "description": "$~$type[$type|임의] 집합 타입",
+            "emotion": "kind",
             "doc": [
                 "@Set 은 정말 최고야, 진짜로. 나는 항상 @Bind 에게 뭔가를 집합으로 만들라고 말하고 있어!",
                 "\\unique•{''}: {'something' 'anything' 'someone'}\\"
@@ -1582,13 +1590,13 @@
         "StreamDefinitionType": {
             "name": "스트림 정의 타입",
             "description": "$~정의된 스트림 타입",
-            "emotion": "$?",
+            "emotion": "angry",
             "doc": "나는 정의한 스트림을 나타내, 그게 불가능한데, 그러니까 왜 읽고 있어?"
         },
         "StreamType": {
             "name": "스트림 타입",
             "description": "$~스트림 값 타입",
-            "emotion": "$?",
+            "emotion": "curious",
             "doc": [
                 "나는 스트림의 아름다움과 의미를 축하해… @Bind 에게 그것들을 저장하라고 말해:",
                 "\\time•…#ms: Time()\\"
@@ -1596,21 +1604,21 @@
         },
         "StructureType": {
             "name": "구조체 타입",
-            "description": "$~구조 $1 나타내기",
-            "emotion": "$?",
+            "description": "$~구조 $name 나타내기",
+            "emotion": "kind",
             "doc": "나는 기본 값 타입을 나타내기 위한 내부 타입이야."
         },
         "UnknownType": {
             "name": "알 수 없는 타입",
             "description": "$~알려지지 않은",
             "connector": ", 왜냐하면 ",
-            "emotion": "$?",
+            "emotion": "curious",
             "doc": "음... 나는 내가 뭐를 나타내는지 모르겠어, 근데 정말로 궁금해. 너는 알아? 우리가 알아야 할 것 같아. 모르겠으면 우리한테 말해줘."
         },
         "TableType": {
             "name": "테이블 타입",
             "description": "$~테이블 값 타입",
-            "emotion": "$?",
+            "emotion": "angry",
             "doc": "나는 테이블을 나타냄.",
             "conflict": {
                 "ExpectedColumnType": {
@@ -1621,8 +1629,8 @@
         },
         "TextType": {
             "name": "텍스트 타입",
-            "description": "$~$1[$1|텍스트] 값 타입",
-            "emotion": "$?",
+            "description": "$~$text[$text|텍스트] 값 타입",
+            "emotion": "happy",
             "doc": [
                 "나는 가장 화려한 종류의 값, @Text 를 멋지게 나타냄.",
                 "\\story•'': '한 번에 하나의 시간에...'\\"
@@ -1631,13 +1639,13 @@
         "TypePlaceholder": {
             "name": "플레이스홀더 타입",
             "description": "$~타입의 자리 표시자 보유하기",
-            "emotion": "$?",
+            "emotion": "eager",
             "doc": "언젠가는 타입을 나타내기를 희망해, 내 베프인 @ExpressionPlaceholder 이 표현을 나타내는 것처럼 말이야! 어떤 종류인지 도와줄래?"
         },
         "UnionType": {
             "name": "옵션 타입",
-            "description": "$~$1 또는 $2 타입",
-            "emotion": "$?",
+            "description": "$~$first 또는 $second 타입",
+            "emotion": "curious",
             "doc": [
                 "누구를 나타내야 할까, A 또는 B 또는 다른 뭔가? 결정할 수가 없어!",
                 "\\indecision•''|#|{ø}: \"I don't know!\"\\"
@@ -1645,8 +1653,8 @@
         },
         "Unit": {
             "name": "단위",
-            "description": "$~단위 $1 지정하기",
-            "emotion": "$?",
+            "description": "$~단위 $unit 지정하기",
+            "emotion": "precise",
             "doc": [
                 "나는 @Number 가 가질 수 있는 모든 단위를 나타내, 단위가 없는 경우부터 상상할 수 있는 가장 복잡한 단위까지. 중력 같은 것 예를 들면:",
                 "\\gravity•m/s^2: 9.8m/s^2\\",
@@ -1656,61 +1664,61 @@
         "UnparsableType": {
             "name": "해석할 수 없는 타입",
             "description": "$~파싱할 수 없는 표현식 타입",
-            "emotion": "$?",
+            "emotion": "curious",
             "doc": "나는 알 수 없는 표현의 타입을 나타내. 그 표현을 어떤 목적으로 사용하려고 할 때 내가 나타나."
         },
         "VariableType": {
             "name": "변수 타입",
             "description": "$~사용 중인 타입 변수 나타내기",
-            "emotion": "$?",
+            "emotion": "curious",
             "doc": "@TypeVariable 을 알아? 그리고 그들이 어떤 알 수 없는 종류의 값을 나타내는지? 나는 값 간의 모든 협상에서 그들을 나타내."
         },
         "CycleType": {
             "name": "순환 타입",
             "description": "$~자기 자신에 의존함",
-            "emotion": "$?",
+            "emotion": "curious",
             "doc": "가끔 값들이 자기 자신에게 의존하고 있어서 그 값이 어떤 종류인지 모르는 경우가 있어. 나는 그 상황을 나타내."
         },
         "UnknownVariableType": {
             "name": "알 수 없는 변수 타입",
             "description": "$~알 수 없는 타입 변수 나타내기",
-            "emotion": "$?",
+            "emotion": "curious",
             "doc": "가끔 우리는 뭔가의 종류를 추측해 보려고 해; 나는 그게 뭔지 모를 때 나타나."
         },
         "NotAType": {
             "name": "예상치 못한 타입",
-            "description": "$~$1 을 유효하지 않은 타입으로 표시하기",
-            "emotion": "$?",
+            "description": "$~$type 을 유효하지 않은 타입으로 표시하기",
+            "emotion": "curious",
             "doc": "가끔 우리는 뭔가가 어떤 종류여야 하는지 알아. 예를 들면 @ListAccess 는 @Number 가 필요해. 그걸 얻지 못하면, 나는 뭔가가 우리가 기대한 것과 다른 타입이라고 나타내."
         },
         "NoExpressionType": {
             "name": "표현식 없음 타입",
             "description": "$~빈 블록 타입",
-            "emotion": "$?",
+            "emotion": "angry",
             "doc": "@Block 적어도 하나의 표현식이 필요한 걸 알고 계시죠? 표현식을 제공하지 않을 때 나타나는 게 바로 저예요. 그러니 표현식을 제공하세요!"
         },
         "NotEnclosedType": {
             "name": "구조, 변환, 반응 안에 없음",
             "description": "$~구조 외부 사용 표시하기",
-            "emotion": "$?",
+            "emotion": "curious",
             "doc": "@This 멋지긴 하지만, 특정 장소에만 속해요. 그들이 길을 잃었을 때, 누구를 대표하는지 아무도 모를 때 저가 나타납니다."
         },
         "NotImplementedType": {
             "name": "구현되지 않음",
             "description": "$~채워지지 않은 자리 표시자 타입",
-            "emotion": "$?",
+            "emotion": "curious",
             "doc": "@ExpressionPlaceholder 사용하지만, 그 타입을 지정하지 않을 때, 나타나는 타입이 바로 저예요. 그냥 받아들이세요!"
         },
         "UnknownNameType": {
             "name": "알 수 없는 이름",
-            "description": "$~$1[$1이 아직 정의되지 않았습니다|이름이 지정되지 않았습니다]",
-            "emotion": "$?",
+            "description": "$~$name [ $name 아직 정의되지 않았습니다|이름이 지정되지 않았습니다 ]",
+            "emotion": "curious",
             "doc": "가끔 @Reference @PropertyReference 당신이 말하는 이름을 모를 때가 있죠? 그럴 때 나타나서 우리가 누구에 대해 이야기하고 있는지 모른다는 것을 대표합니다."
         },
         "NonFunctionType": {
             "name": "비함수",
-            "description": "$~$1 을 비함수로 표시하기",
-            "emotion": "$?",
+            "description": "$~$type 을 비함수로 표시하기",
+            "emotion": "confused",
             "doc": "우리 중 일부는 함수를 기대했는데, 함수를 받지 못했을 때 저가 나타나요."
         }
     },
@@ -3563,7 +3571,7 @@
                 "$~나에게 프레임 테두리를 제공할 수도 있으며 나는 자릅니다.",
                 "$~\\Stage([Phrase('stufffffff')] 배경: 색상(75% 50 100°) 프레임: 직사각형(-1m -1m 1m 1m))\\"
             ],
-            "defaultDescription": "$~$2[$2|] 문구 중 $1[$1|] 문구 $3[$3 프레임|] $4",
+            "defaultDescription": "$~$name[$name|] 문구 중 $count[$count|] 문구 $frame[$frame 프레임|] $pose",
             "content": {
                 "doc": "$~스테이지에 표시할 @Output 목록입니다.",
                 "names": "$~콘텐츠"
@@ -3669,7 +3677,7 @@
                 "$~\\Group(Stack() [구('첫 번째') 구문('두 번째')])\\",
                 "$~내가 정확히 어떻게 정리하는지는 귀하가 제공한 @Arrangement 에 따라 다릅니다."
             ],
-            "defaultDescription": "$~$1[$1|] $2 $3",
+            "defaultDescription": "$~$name[$name|] $layout $pose",
             "content": {
                 "doc": "$~정렬할 @Output 목록입니다.",
                 "names": "$~콘텐츠"
@@ -3774,7 +3782,7 @@
                 "$~분명히 @Text 가 필요하지만 그렇지 않으면 크기, 글꼴, 회전 변경을 포함하여 @Output 이 할 수 있는 모든 작업을 수행할 수 있고 @Pose 및 @Sequence 를 사용하여 놀라운 춤을 모두 수행할 수 있습니다.",
                 "$~@Stage 에서 나를 선택하고 옆에 있는 팔레트에서 나를 편집할 수도 있습니다."
             ],
-            "defaultDescription": "$~$3[$3 미터 |]문구 $1 $2[이름이 $2|] $4[$4|] $5",
+            "defaultDescription": "$~$size[$size 미터 |]문구 $text $name[이름이 $name|] $face[$face|] $animation",
             "text": {
                 "doc": "$~@Stage 에서 보여줄 캐릭터들입니다.",
                 "names": "$~텍스트"
@@ -3895,7 +3903,7 @@
         "Row": {
             "names": ["Fila"],
             "doc": "$~나는 @Output 의 수평 @Arrangement 인 @Row 이며, 그 사이에 선택적 패딩이 있습니다. 내 쌍둥이 @Stack 을 만나보셨나요?",
-            "description": "$~$1개의 구문 및 그룹 행",
+            "description": "$~$count 구문 및 그룹 행",
             "alignment": {
                 "doc": "$~각 열의 시작, 중앙 또는 끝 부분에 텍스트를 정렬할지 여부입니다.",
                 "names": "$~조정"
@@ -3908,7 +3916,7 @@
         "Stack": {
             "names": ["$~⬇", "$~스택"],
             "doc": "$~나는 @Output 의 수직 @Arrangement 인 @Stack 이며 그 사이에 선택적 패딩이 있습니다. 내 쌍둥이 @Row 를 만나보셨나요?",
-            "description": "$~1달러짜리 구문 및 그룹 스택",
+            "description": "$~$count 구문 및 그룹 스택",
             "padding": {
                 "doc": "$~출력 사이에 배치할 패딩의 양입니다.",
                 "names": "$~심"
@@ -3921,7 +3929,7 @@
         "Grid": {
             "names": ["$~▦", "$~그리드"],
             "doc": "$~나는 @Output 의 그리드입니다. 행과 열 개수를 알려주시면 선택적으로 패딩과 셀 크기를 사용하여 깔끔하게 정리하겠습니다.",
-            "description": "$~$1행 $2열 그리드",
+            "description": "$~$rows $columns 그리드",
             "rows": {
                 "doc": "$~그리드에 몇 개의 행이 있는지.",
                 "names": "$~행"
@@ -3949,7 +3957,7 @@
                 "$~나는 마치, 뭐든지. 원하는 곳에 앉으세요. 그냥 아무데나 앉으세요! 당신이 나에게 제공한 모든 @Output 에 @Place 가 있는지 확인하십시오. 그렇지 않으면 어디로 가야할지 알 수 없습니다.",
                 "$~아, 그리고 각 @Output 에 제공하는 @Place 는 @Group 의 @Place 에 상대적이라는 점을 기억하세요! 따라서 예상한 곳에 항목이 표시되지 않는 이유가 궁금하다면 @Group 에도 위치를 지정해 보세요."
             ],
-            "description": "$~자유 형식 $1 출력"
+            "description": "$~자유 형식 $count 출력"
         },
         "Shape": {
             "names": ["$~⬟", "$~모양"],
@@ -4139,7 +4147,7 @@
                 "doc": "$~@Output 이 기본값이 아닌 y축에 미러링되어야 하는지 여부입니다.",
                 "names": "$~플리피"
             },
-            "description": "$~$1[투명 $1|] $2[$2도 회전|] $3[크기 조정 $3|] $4[수평으로 뒤집음|] $5[수직으로 뒤집음|] $6[흐린 그림자 $6픽셀]"
+            "description": "$~$opacity[투명 $opacity|] $rotation[$rotation 회전|] $scale[크기 조정 $scale|] $flipx[수평으로 뒤집음|] $flipy[수직으로 뒤집음|] $blur[흐린 그림자 $blur]"
         },
         "Color": {
             "names": ["$~색상"],
@@ -4380,7 +4388,7 @@
                 "doc": "$~내가 소리 내어 읽어야 할 텍스트입니다.",
                 "names": "$~텍스트"
             },
-            "defaultDescription": "$~예를 들어 1달러라고 해봅시다."
+            "defaultDescription": "$~$text 말하세요"
         },
         "Gesture": {
             "doc": "$~저는 카메라에 의해 감지된 손동작입니다. 제 필드는 손이 무대 위의 어디에 있는지, 어떤 손가락이 펴져 있는지, 손바닥이나 손등이 카메라를 향하고 있는지 등의 정보를 제공합니다.",
@@ -4620,14 +4628,7 @@
         },
         "source": {
             "label": "$~프로그램 편집기",
-            "empty": [
-                "$~시작하자! 당신은 할 수 있습니다…",
-                "$~• 📕을 열고 🖱️ 이 프로그램으로 드래그하세요.",
-                "$~• $1을 입력하고 메뉴에서 저희를 선택하세요.",
-                "$~• ⌨️를 사용하여 입력하세요.",
-                "$~• <galleries@://galleries>에서 영감을 얻으세요.",
-                "$~문제가 있으면 <자세히 알아보기@://learn>하세요."
-            ],
+            "empty": ["$~• $symbol 입력하고 메뉴에서 저희를 선택하세요."],
             "overwritten": "$~최신 버전을 받았습니다!",
             "confirm": {
                 "delete": {
@@ -4683,7 +4684,7 @@
                 "selectAll": "$~프로그램 선택",
                 "incrementLiteral": "$~숫자, 텍스트 또는 부울 증가",
                 "decrementLiteral": "$~숫자, 텍스트 또는 부울 감소",
-                "insertSymbol": "$~$1 삽입",
+                "insertSymbol": "$~$symbol 삽입",
                 "insertTab": "$~삽입 탭",
                 "insertTrue": "$~참을 삽입하다",
                 "insertFalse": "$~거짓을 삽입하다",
@@ -4760,8 +4761,8 @@
         },
         "annotations": {
             "label": "$~갈등과 도움",
-            "cursor": "$~이것은 *$1*$2[이고 $2|] 유형입니다.    $3[ *$3* 안에 있습니다.|]",
-            "cursorParent": "$~$2|] 유형의 *$1*$2[ 안에 있습니다.",
+            "cursor": "$~이것은 *$node*$type[이고 $type|] 유형입니다.    $description[ *$description* 안에 있습니다.|]",
+            "cursorParent": "$~$node|] 유형의 *$type*$type[ 안에 있습니다.",
             "learn": "$~/더 알아보기/",
             "evaluating": "$~아 재밌다 평가해보자!",
             "space": "$~이것은 공간이다! 아무것도 그렇게 많이 말할 수 있다는 것을 누가 알았습니까?",
@@ -4770,7 +4771,7 @@
                 "toggle": "$~주석 표시 및 숨기기",
                 "highlight": "$~편집기에서 이 코드를 표시합니다"
             },
-            "nodeDescription": "$~그들은 1달러를 냈습니다."
+            "nodeDescription": "$~그들은 $description."
         },
         "output": {
             "label": "$~프로그램 출력",
@@ -4816,12 +4817,12 @@
                 "animationSpeed": "$~`/애니메이션 속도/` 컨트롤은 애니메이션 재생 속도를 설정합니다. 동일한 컨트롤이 `설정`에도 있으므로 두 곳 모두에서 변경할 수 있습니다."
             },
             "permission": {
-                "title": "$?",
-                "microphone": "$?",
-                "camera": "$?",
-                "note": "$?",
-                "start": "$?",
-                "retry": "$?"
+                "title": "$~이 프로젝트는 허가가 필요합니다.",
+                "microphone": "$~마이크로폰",
+                "camera": "$~카메라",
+                "note": "$~공유하기 전에 브라우저에서 확인 메시지를 표시합니다.",
+                "start": "$~시작",
+                "retry": "$~다시 해 보다"
             }
         },
         "timeline": {
@@ -4856,7 +4857,7 @@
         },
         "docs": {
             "label": "$~문서 브라우저",
-            "link": "$~문서에 개념 $1 표시",
+            "link": "$~문서에 개념 $name 표시",
             "learn": "$~더 알아보기 …",
             "nodoc": "$~나는 누구입니까? 난 무엇인가? 내 목적은 무엇입니까?",
             "button": {
@@ -5161,7 +5162,8 @@
                             "$~1x",
                             "$~2배",
                             "$~5배",
-                            "$~10배"
+                            "$~10배",
+                            "$~자동"
                         ],
                         "tips": [
                             "$~애니메이션 끄기",
@@ -5171,7 +5173,8 @@
                             "$~정상 속도",
                             "$~두 배 속도",
                             "$~5단 변속기",
-                            "$~10단 변속기"
+                            "$~10단 변속기",
+                            "$~현재 기기 설정을 사용합니다"
                         ]
                     },
                     "dark": {
@@ -5347,11 +5350,11 @@
                     "tip": "$~모든 알림 지우기"
                 },
                 "notification": {
-                    "howToHeader": "$~\"$1\"이라는 제목의 새로운 사용법 게시물이 올라왔습니다.",
-                    "projectChatHeader": "$~프로젝트 \"$1\"에 새 메시지가 있습니다.",
-                    "howToChatHeader": "$~\"$1\" 사용법에 새 메시지가 추가되었습니다.",
+                    "howToHeader": "$~\"$title\"이라는 제목의 새로운 사용법 게시물이 올라왔습니다.",
+                    "projectChatHeader": "$~프로젝트 \"$name\"에 새 메시지가 있습니다.",
+                    "howToChatHeader": "$~\"$title\" 사용법에 새 메시지가 추가되었습니다.",
                     "link": "$~세부",
-                    "moderationHeader": "$~\"$1\"에 있는 메시지는 관리자의 조치가 필요합니다."
+                    "moderationHeader": "$~\"$name\"에 있는 메시지는 관리자의 조치가 필요합니다."
                 },
                 "delete": "$~이 알림을 삭제하세요",
                 "popup": "$~새 알림"
@@ -6056,8 +6059,8 @@
                     "untitledproject": "$~제목 없는 프로젝트"
                 },
                 "announce": {
-                    "position": "$~1달러에 2달러",
-                    "selection": "$~$1[선택됨 $1|선택된 것이 없습니다]"
+                    "position": "$~$x $y",
+                    "selection": "$~$shapes[선택됨 $shapes|선택된 것이 없습니다]"
                 },
                 "share": {
                     "dialog": {
@@ -6142,7 +6145,7 @@
             },
             "thanks": {
                 "header": "$~감사해요",
-                "intro": "$~Wordplay의 디자인, 개발, 현지화 및 콘텐츠 제작에 기여해주신 수많은 후원자 여러분께 진심으로 감사드립니다! 또한, 포커스 그룹, 디자인 세션, 그리고 수업 참여를 통해 디자인 방향을 제시해주신 많은 선생님들과 청소년 여러분께도 감사드립니다. 개인 정보 보호를 위해 명단은 공개하지 않습니다.\n\n본 프로젝트는 미국 국립과학재단(NSF)의 지원(과제 번호 2318257, 2031265, 2100296, 2122950), 워싱턴 대학교, 그리고 여러분과 같은 분들의 아낌없는 기부(기부 링크: <gifts//donate>)를 통해 완성되었습니다.",
+                "intro": "$~Wordplay의 디자인, 개발, 현지화 및 콘텐츠 제작에 기여해주신 * $count * 님께 감사드립니다! 또한, 포커스 그룹, 디자인 세션 및 교실 수업을 통해 디자인 방향을 제시해주신 많은 선생님들과 학생 여러분께도 감사드립니다. 개인 정보 보호를 위해 명단은 여기에 공개하지 않습니다. 본 프로젝트는 미국 국립과학재단(NSF)의 2318257, 2031265, 2100296, 2122950번 과제와 워싱턴 대학교, 그리고 여러 후원자들의 아낌없는 지원으로 이루어졌습니다.<gifts@://donate> 당신과 같은 사람들로부터.",
                 "teachers": "$~선생님들",
                 "contributors": "$~기고자"
             },
@@ -6228,29 +6231,29 @@
                 },
                 "singletonWordsWarning": "$~작성 중인 문서에 일부 단어가 전체 페이지에서 한 번만 나타납니다. 철자가 정확한지, 다른 텍스트와 일관성이 있는지 확인해 보셨나요?",
                 "viewPR": "$~풀 리퀘스트 보기",
-                "oneLocaleNote": "$~각 제출물은 한 번에 하나의 로케일만 다룹니다. 이번 제출물은 $1에 대한 수정 사항으로 제출됩니다. 다른 로케일에 기여하려면 먼저 로케일을 변경하세요. 각 로케일에서 저장한 수정 사항은 별도로 보관됩니다."
+                "oneLocaleNote": "$~각 제출물은 한 번에 하나의 로케일만 다룹니다. 이번 제출물은 $locale 대한 수정 사항으로 제출됩니다. 다른 로케일에 기여하려면 먼저 로케일을 변경하세요. 각 로케일에서 저장한 수정 사항은 별도로 보관됩니다."
             }
         },
         "edit": {
-            "node": "$~$1$2[, $2|] 입력",
-            "before": "$~$1[$1|끝] 이전",
-            "inside": "$~$1에서 $2[$2|start]와 $3[$3|end] 사이",
-            "between": "$~$1에서 $2 사이",
-            "line": "$~$1[$1|start]와 $2[$2|end] 사이의 빈 줄",
-            "conflicts": "$~$1 충돌",
-            "assign": "$~/$2[가입 의향|탈퇴 고려]…/",
+            "node": "$~$node$type[, $type|] 입력",
+            "before": "$~$after[$after|끝] 이전",
+            "inside": "$~$token $before[$before|start]와 $after[$after|end] 사이",
+            "between": "$~$before $after 사이",
+            "line": "$~$before[$before|start]와 $after[$after|end] 사이의 빈 줄",
+            "conflicts": "$~$count 충돌",
+            "assign": "$~/$name[가입 의향|탈퇴 고려]…/",
             "append": "$~/삽입하고 싶어…/",
             "remove": "$~/퇴사를 고려 중…/",
             "replace": "$~/참여하고 싶다…/",
             "wrap": "$~괄호 안에 넣다",
             "unwrap": "$~풀다",
             "bind": "$~이 표현의 이름을 지정하세요",
-            "range": "$~$1에서 $2까지 선택 가능",
+            "range": "$~$start $end 선택 가능",
             "area": "$~유형 코드"
         },
         "template": {
             "unwritten": "$~미정",
-            "unparsable": "$~구문 분석할 수 없는 템플릿: $1",
+            "unparsable": "$~구문 분석할 수 없는 템플릿: $template",
             "machineTranslated": "$~이 내용은 기계 번역이므로 가독성이 떨어지거나 정확하지 않을 수 있습니다.",
             "locallyRevised": "$~본 문서는 현지에서 수정되었으며 공식 번역본과 차이가 있습니다."
         },
@@ -6334,7 +6337,7 @@
                 "now": "$~지금",
                 "history": "$~버전",
                 "restore": "$~이것은 이 프로젝트의 이전 버전입니다.",
-                "ago": "$~$1 $2 전"
+                "ago": "$~$amount $unit 전"
             },
             "button": {
                 "clear": "$~기록 삭제",
@@ -6349,7 +6352,7 @@
         "howto": {
             "galleryView": {
                 "header": "$~방법",
-                "subheader": "$~$1 사용법, $2 신규",
+                "subheader": "$~$total 사용법, $new 신규",
                 "subheaderEmpty": "$~첫 번째 작품을 만들어 보세요!",
                 "prompt": "$~사용법은 워드플레이를 사용하여 무언가를 하는 방법에 대한 간단한 설명과 예제 코드입니다. 여러분이 방법을 알아냈다면, 다른 창작자들과 공유할 수 있도록 사용법을 작성해 주세요. 그들도 배울 수 있도록 말이죠!"
             },
@@ -6476,7 +6479,7 @@
                 "usedBy": {
                     "prompt": "$~이 가이드를 프로젝트에 활용하셨나요, 아니면 다른 가이드를 활용하셨나요? 프로젝트를 목록에 추가하여 다른 사람들과 공유해 보세요!",
                     "empty": "$~아직 프로젝트나 다른 게시된 사용법 게시물이 없습니다. 하나 만들어 보세요!",
-                    "countDisplay": "$~다른 워드플레이 디렉터들도 이 방법을 다른 $1 프로젝트나 사용법 안내에 사용했습니다.",
+                    "countDisplay": "$~다른 워드플레이 디렉터들도 이 방법을 다른 $count 프로젝트나 사용법 안내에 사용했습니다.",
                     "selector": "$~프로젝트 및 사용 방법 선택기",
                     "removeButton": "$~목록에서 프로젝트 또는 사용 방법을 제거하세요",
                     "addButton": "$~프로젝트 또는 사용법을 추가하세요"
@@ -6552,9 +6555,9 @@
                 }
             },
             "announce": {
-                "howToPosition": "$~방법 안내 $1이 $2 $3로 이동했습니다.",
-                "canvasPosition": "$~캔버스 가격이 1달러, 2달러로 올랐습니다.",
-                "moveActivated": "$~움직임 감지. 마우스, 키보드 또는 터치스크린을 사용하여 1달러를 이동할 수 있습니다.",
+                "howToPosition": "$~방법 안내 $title $x $y 이동했습니다.",
+                "canvasPosition": "$~캔버스가 $x, $y 위치로 이동했습니다.",
+                "moveActivated": "$~이동이 활성화되었습니다. 마우스, 키보드 또는 터치스크린을 사용하여 $target 이동할 수 있습니다.",
                 "moveDeactivated": "$~동작이 비활성화되었습니다."
             },
             "error": {
@@ -6668,7 +6671,7 @@
                 }
             },
             "strings": "$~로케일 문자열",
-            "emotion": "$?",
+            "emotion": "Choose an emotion",
             "invalidName": "$~유효한 말장난 이름이 아닙니다",
             "reference": "$~영어 참고 자료",
             "unwritten": "$~쓰여지지 않은 텍스트",
@@ -6676,7 +6679,16 @@
             "revisedDescription": "$~이러한 수정 사항은 로컬에 저장되었으며 아직 검토를 위해 제출되지 않았습니다.",
             "submitRevisions": "$~수정본 제출",
             "submitted": "$~감사합니다! 수정하신 내용을 검토 후 곧 게시될 예정입니다.",
-            "invalidConceptLinks": "$~이 개념 링크들이 현재 로케일에서 제대로 연결되지 않습니다. 혹시 링크를 잘못 입력하셨거나 의도적으로 삭제하신 건가요?"
+            "invalidConceptLinks": "$~이 개념 링크들이 현재 로케일에서 제대로 연결되지 않습니다. 혹시 링크를 잘못 입력하셨거나 의도적으로 삭제하신 건가요?",
+            "inputs": {
+                "header": "$~이 템플릿이 허용하는 입력값",
+                "usedTip": "$~커서 위치에 다른 참조를 삽입하려면 클릭하십시오.",
+                "unusedTip": "$~커서 위치에 이 참조를 삽입하려면 클릭하십시오.",
+                "missing": "$~누락된 입력값:",
+                "legacy": "$~기존의 위치 참조를 명명된 참조로 바꾸세요.",
+                "submitBlocked": "$~제출하기 전에 모든 입력 내용을 참조하십시오.",
+                "unknown": "$~이러한 참조는 선언된 입력이나 용어와 일치하지 않으므로 대체되지 않습니다."
+            }
         },
         "tour": {
             "label": "$~관광",
@@ -6709,7 +6721,7 @@
             "disclosure": "이름, 연락처 정보, 실제 주소 등 다른 사람의 개인 정보를 공개한다.",
             "misinformation": "허위, 오해의 소지가 있거나 기만적이거나 조작된 정보가 포함되어 있습니다."
         },
-        "progress": "*$1* 중재됨, *$2* 남음",
+        "progress": "*$moderated* 중재됨, *$remaining* 남음",
         "button": {
             "submit": {
                 "tip": "이 중재 설정을 저장하세요",

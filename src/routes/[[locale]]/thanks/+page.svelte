@@ -26,7 +26,10 @@
     <div class="content">
         <Header text={(l) => l.ui.page.thanks.header} />
         <MarkupHTMLView
-            markup={[(l) => l.ui.page.thanks.intro, contributors.length]}
+            markup={[
+                (l) => l.ui.page.thanks.intro,
+                { count: contributors.length },
+            ]}
         />
         {#if teachers.length > 0}
             <Subheader text={(l) => l.ui.page.thanks.teachers} />

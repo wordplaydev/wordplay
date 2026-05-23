@@ -1,0 +1,20 @@
+Utwórz własny szablon postaci
+
+Czasami chcesz mieć wiele postaci, które wyglądają prawie tak samo, ale różnią się nieznacznie.Zamiast pisać to samo @Phrase możesz wielokrotnie tworzyć własny szablon za pomocą @Structure .
+
+A  @Structure jest jak przepis z lukami, które trzeba wypełnić.Oto szablon balonu, który przyjmuje kolor i etykietę oraz potrafi się wyświetlać:
+
+\•Balloon(color•Color label•'') (
+	ƒ show() Phrase(`🎈\label\` color: color size: 2m)
+)
+Group(Row() [
+		Balloon(Color(80% 50 240°) 'Niebo').show()
+		Balloon(Color(60% 80 0°) 'Róża').show()
+		Balloon(Color(90% 80 90°) 'Słoneczny').show()
+	])\
+
+Ten\•Balloon(...)\część definiuje szablon i\ƒ show()\część mówi/jak narysować jeden/.Następnie robimy trzy balony w różnych kolorach i z różnymi etykietami i prosimy każdego z nich, aby:\show\samego siebie.
+
+Szablony są świetnym rozwiązaniem, gdy chcesz zachować porządek w kodzie i spójność znaków.
+
+track-game-state, make-many-copies

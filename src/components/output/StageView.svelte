@@ -262,7 +262,10 @@
     /** Permanently disable autofit when the user starts a palette edit, so the
      *  stage doesn't snap back to fit after the gesture ends. */
     $effect(() => {
-        if (selectedOutput?.adjusting) untrack(() => { fit = false; });
+        if (selectedOutput?.adjusting)
+            untrack(() => {
+                fit = false;
+            });
     });
 
     /** When verse or viewport changes, update the autofit focus. */

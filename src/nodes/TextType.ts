@@ -139,7 +139,9 @@ export default class TextType extends BasisType {
         return { symbols: this.open.getDelimiters(), emotion: Emotion.excited };
     }
     getDescriptionInputs() {
-        return [this.text?.getText()];
+        return {
+            text: this.text?.getText(),
+        };
     }
 
     getDefaultExpression() {

@@ -76,7 +76,9 @@
         const pathWithoutLocale = currentLocale
             ? currentPath.slice(('/' + currentLocale).length) || '/'
             : currentPath;
-        goto(`/${localeParam}${pathWithoutLocale === '/' ? '' : pathWithoutLocale}${page.url.search}`);
+        goto(
+            `/${localeParam}${pathWithoutLocale === '/' ? '' : pathWithoutLocale}${page.url.search}`,
+        );
     }
 </script>
 

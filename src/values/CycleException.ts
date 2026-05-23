@@ -19,13 +19,15 @@ export default class CycleException extends ExceptionValue {
 
     getExplanation(locales: Locales) {
         return locales.concretize(
-            this.getExceptionText(locales).explanation,
-            new NodeRef(
-                this.borrow,
-                locales,
-                this.evaluator.project.getNodeContext(this.borrow),
-                this.borrow.source?.getName(),
-            ),
+            (l) => l.node.Borrow.exception.CycleException.explanation,
+            {
+                borrow: new NodeRef(
+                    this.borrow,
+                    locales,
+                    this.evaluator.project.getNodeContext(this.borrow),
+                    this.borrow.source?.getName(),
+                ),
+            },
         );
     }
 }

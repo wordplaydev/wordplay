@@ -1,0 +1,21 @@
+Faceți un personaj mobil
+
+Uneori este util să faci o  @Phrase  mutabil cu tastatura, mouse-ul sau degetul.
+
+Fă asta, putem combina  @Phrase  cu  @Placement :
+
+\Stage([Phrase('mișcă-mă' place: Placement())] place: Place(0m 0m -10m))\
+
+Folosind săgețile tastaturii sau făcând clic pe  @Stage  va actualiza  @Placement , provocând  @Phrase  să se miște în acea direcție.
+
+Știați, totuși, că  @Placement  poate fi folosit cu /nimic/ care necesită o  @Place ? De exemplu, un  @Stage  are o  @Place  care determină unde este îndreptată camera.Să încercăm să setăm un  @Placement  pentru o  @Stage locul lui și vezi ce se întâmplă.
+
+\Stage([
+		Phrase('🐈' place: Place(-2m 2m))
+		Phrase('🐈' place: Place(2m -2m))
+		Phrase('🐈' place: Place(-1m 3m))
+	] place: Placement(Place(0m 0m -10m)))\
+
+Asta face ca camera să se miște! (Notă: începem  @Placement  cu un \z\ valoarea \10m\ astfel încât camera să fie retrasă de orice.)
+
+animated-scene

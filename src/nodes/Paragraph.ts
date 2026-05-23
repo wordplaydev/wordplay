@@ -122,7 +122,7 @@ export default class Paragraph extends Content {
 
     concretize(
         locales: Locales,
-        inputs: TemplateInput[],
+        inputs: Record<string, TemplateInput>,
         replacements: [Node, Node][],
     ): Paragraph | undefined {
         const concreteSegments = this.segments.map((content) => {

@@ -1,7 +1,7 @@
 import type Conflict from '@conflicts/Conflict';
 import type { ReplaceContext } from '@edit/revision/EditContext';
+import type Context from '@nodes/Context';
 import type LocaleText from '@locale/LocaleText';
-import NodeRef from '@locale/NodeRef';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import Bind from '@nodes/Bind';
 import type Evaluator from '@runtime/Evaluator';
@@ -24,7 +24,6 @@ import type Locales from '@locale/Locales';
 import Characters from '../lore/BasisCharacters';
 import { INSERT_SYMBOL, TABLE_CLOSE_SYMBOL } from '@parser/Symbols';
 import StructureValue from '@values/StructureValue';
-import type Context from '@nodes/Context';
 import type Definition from '@nodes/Definition';
 import Expression, { type GuardContext } from '@nodes/Expression';
 import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
@@ -322,22 +321,12 @@ export default class Insert extends Expression {
         return Insert.LocalePath;
     }
 
-    getStartExplanations(locales: Locales, context: Context) {
-        return locales.concretize(
-            (l) => l.node.Insert.start,
-            new NodeRef(this.table, locales, context),
-        );
+    getStartExplanations(locales: Locales) {
+        return locales.concretize((l) => l.node.Insert.start);
     }
 
-    getFinishExplanations(
-        locales: Locales,
-        context: Context,
-        evaluator: Evaluator,
-    ) {
-        return locales.concretize(
-            (l) => l.node.Insert.finish,
-            this.getValueIfDefined(locales, context, evaluator),
-        );
+    getFinishExplanations(locales: Locales) {
+        return locales.concretize((l) => l.node.Insert.finish);
     }
 
     getCharacter() {

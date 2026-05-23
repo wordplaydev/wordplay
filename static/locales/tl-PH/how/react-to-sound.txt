@@ -1,0 +1,17 @@
+Palaguin ang mga karakter gamit ang tunog
+
+Alam mo ba na ang iyong proyekto ay maaaring makinig sa iyo? Ang @Volume   @Stream ginagamit ang iyong mikropono para bigyan kami ng numero mula sa\0\(tahimik) sa\1\(malakas).
+
+Magagamit natin ang numerong iyan para kontrolin ang kahit ano — kasinlaki ng isang @Phrase , ang pag-ikot nito, ang kulay nito.
+
+\Phrase('📣' size: (Volume() × 5m) + 1m)\
+
+Kapag tahimik, ang megaphone ay\1m\matangkad. Kapag sumigaw ka, maaari itong lumaki hanggang\6m\matangkad.
+
+Gusto mo ba ng araw na mas mabilis umikot habang mas malakas ang tibok ng puso mo?
+
+\Phrase('🌞' rotation: Volume() × 360°)\
+
+Subukang pumalakpak o humuhuni at panoorin kung ano ang mangyayari.(Maaaring humingi ng pahintulot ang iyong computer na gamitin ang mikropono sa unang pagkakataon.)
+
+count-with-time, follow-the-pointer

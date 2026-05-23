@@ -11,12 +11,7 @@
     import Link from '@components/app/Link.svelte';
     import Writing from '@components/app/Writing.svelte';
     import Speech from '@components/lore/Speech.svelte';
-    import {
-        Locales,
-        Settings,
-        locales,
-        tutorialProgress,
-    } from '@db/Database';
+    import { Locales, Settings, locales, tutorialProgress } from '@db/Database';
     import Characters from '../../../lore/BasisCharacters';
     import Progress from '../../../tutorial/Progress';
     import type Tutorial from '../../../tutorial/Tutorial';

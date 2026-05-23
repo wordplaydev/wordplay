@@ -1,4 +1,6 @@
 import MatterJS from 'matter-js';
+import { get } from 'svelte/store';
+import { animationFactor } from '@db/Database';
 import type { ReboundEvent } from '@input/Collision';
 import Collision from '@input/Collision';
 import Motion from '@input/Motion';
@@ -406,8 +408,7 @@ export default class Physics {
     }
 
     tick(elapsed: number) {
-        const factor =
-            this.evaluator.database.Settings.settings.animationFactor.get();
+        const factor = get(animationFactor);
 
         // Frozen world (animationFactor 0 / calm mode): finalize any deferred
         // moves so bodies stay where Placement put them, then skip simulation.

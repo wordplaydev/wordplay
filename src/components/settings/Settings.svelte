@@ -20,7 +20,6 @@
     import Toggle from '@components/widgets/Toggle.svelte';
     import { Creator } from '@db/creators/CreatorDatabase';
     import {
-        animationFactor,
         arrangement,
         blockDensity,
         blocks,
@@ -36,7 +35,10 @@
     import {
         AnimationFactorIcons,
         AnimationFactors,
+        AnimationFactorSetting,
     } from '@db/settings/AnimationFactorSetting';
+
+    const animationFactor = AnimationFactorSetting.value;
     import { Arrangement } from '@db/settings/Arrangement';
     import { FaceSetting } from '@db/settings/FaceSetting';
     import {

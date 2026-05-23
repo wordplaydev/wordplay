@@ -230,7 +230,9 @@ export default class Conditional extends Expression {
     getStartExplanations(locales: Locales, context: Context) {
         return locales.concretize(
             (l) => l.node.Conditional.start,
-            new NodeRef(this.condition, locales, context),
+            {
+                condition: new NodeRef(this.condition, locales, context),
+            },
         );
     }
 
@@ -241,7 +243,9 @@ export default class Conditional extends Expression {
     ) {
         return locales.concretize(
             (l) => l.node.Conditional.finish,
-            this.getValueIfDefined(locales, context, evaluator),
+            {
+                value: this.getValueIfDefined(locales, context, evaluator),
+            },
         );
     }
 

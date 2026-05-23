@@ -1,0 +1,19 @@
+Pantau poinnya
+
+Terkadang dalam permainan, akan sangat membantu untuk melacak poin ketika sesuatu terjadi. Jika Wordplay tidak mengizinkan variabel diberi nilai baru, bagaimana kita bisa melakukannya?
+
+Kuncinya adalah menggunakan  @Reaction  untuk mendefinisikan sebuah  @Bind nilai tersebut, dan untuk berpikir dengan cermat tentang peristiwa apa yang seharusnya menghasilkan nilai baru untuknya.  @Bind .
+
+Sebagai contoh, bayangkan sebuah permainan yang sangat sederhana di mana seorang pemain mendapatkan lebih banyak poin setiap kali mereka mengetikkan tombol rahasia pada keyboard. 
+
+\points: 0 … ['A' 'e' 'Saya' 'Hai' 'kamu'].has(Key()) … points + 1\
+
+Contoh ini mengatakan, /Poin dimulai dari 0, dan setiap kali tombol ditekan, jika tombol tersebut ada dalam daftar huruf vokal, poin akan menjadi poin saat ini ditambah satu./ Setiap kali \Key()\  @Stream  Ketika terjadi perubahan, program mengevaluasi ulang, memeriksa kondisinya, dan jika benar, maka akan memberikan hasil. \points\ nilai baru.
+
+Reaksi ini terdiri dari tiga bagian:
+
+• Nilai awal untuk poin (\0\)• Kondisi yang, jika benar, menghasilkan nilai baru (\['A' 'e' 'Saya' 'Hai' 'kamu'].has(Key())\)• Nilai baru, jika kondisinya menjadi benar (\points + 1\)
+
+Untuk membuat pelacakan titik yang lebih canggih, cukup buat kondisi yang lebih kompleks atau nilai baru. Luangkan waktu untuk memikirkan aturan dari kondisi dan nilai baru tersebut, lalu coba ungkapkan dalam kode.
+
+track-points

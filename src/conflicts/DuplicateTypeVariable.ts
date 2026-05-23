@@ -25,12 +25,14 @@ export default class DuplicateTypeVariable extends Conflict {
             explanation: (locales: Locales, context: Context) =>
                 locales.concretize(
                     (l) => DuplicateTypeVariable.LocalePath(l).explanation,
-                    new NodeRef(
+                    {
+                        duplicate: new NodeRef(
                         this.duplicate,
                         locales,
                         context,
                         locales.getName(this.duplicate.names),
                     ),
+                    },
                 ),
         };
     }

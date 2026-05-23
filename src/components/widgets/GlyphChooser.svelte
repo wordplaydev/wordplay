@@ -113,7 +113,9 @@
     let internalQuery = $state('');
 
     /** The active query: external when provided, otherwise internal */
-    let query = $derived(externalQuery !== undefined ? externalQuery : internalQuery);
+    let query = $derived(
+        externalQuery !== undefined ? externalQuery : internalQuery,
+    );
 
     /** The selected skin tone modifier codepoint as a string, or undefined for the default (no modifier) */
     let skinTone = $state<string | undefined>(undefined);
@@ -157,9 +159,7 @@
     /** The supported-locale codes for the currently selected locales, used
      * to look up emoji translations in the emojiMaps store. */
     let selectedLocaleCodes = $derived(
-        $locales.getLocales().map(
-            (l) => toLocaleString(l) as SupportedLocale,
-        ),
+        $locales.getLocales().map((l) => toLocaleString(l) as SupportedLocale),
     );
 
     /** When the user switches locales, fetch any newly-needed emoji maps. */

@@ -110,7 +110,9 @@
             const newParams = new URLSearchParams();
             setConceptInURL($locales, concept ?? undefined, index, newParams);
 
-            const newSearch = newParams.toString() ? `?${newParams.toString()}` : '';
+            const newSearch = newParams.toString()
+                ? `?${newParams.toString()}`
+                : '';
             if (window.location.search !== newSearch) {
                 localeGoto(`/guide${newSearch}`, {
                     replaceState: window.location.search === '',

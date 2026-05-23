@@ -1,0 +1,23 @@
+Faceți un personaj să se miște
+
+Uneori e util ca un personaj să pară că tremură.Există câteva modalități prin care putem face acest lucru să se întâmple.
+
+Putem folosi  @Phrase/offset  cu  @Random  şi  @Time  pentru a face asta să se întâmple.
+
+\offset: 0m … ∆ Time() … Random(-0.1m 0.1m)
+Phrase('Hi' offset: Place(offset 0m))\
+
+Aceasta creează o valoare numită \offset\ care se schimbă într-o nouă valoare aleatorie de fiecare dată când ticăie ceasul.Apoi, folosește acel offset pentru a afișa  @Phrase  compensată cu suma respectivă.
+
+Dacă am dori să controlăm vibrațiile mai precis, am putea folosi un  @Sequence  pentru a crea o animație aleatorie de tremurat care se repetă.
+
+\Phrase('Hi' resting: Sequence({
+			0%: Pose(offset: Place(Random(-.2m .2m)))
+			15%: Pose(offset: Place(Random(-.2m .2m)))
+			60%: Pose(offset: Place(Random(-.2m .2m)))
+			75%: Pose(offset: Place(Random(-.2m .2m)))
+		} 0.1s))\
+
+Acest exemplu alege valori aleatorii o singură dată, dar le transformă într-o secvență repetitivă.
+
+move-phrase

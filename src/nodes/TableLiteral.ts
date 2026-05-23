@@ -343,7 +343,9 @@ export default class TableLiteral extends CompositeLiteral {
     ) {
         return locales.concretize(
             (l) => l.node.TableLiteral.finish,
-            this.getValueIfDefined(locales, context, evaluator),
+            {
+                value: this.getValueIfDefined(locales, context, evaluator),
+            },
         );
     }
 
@@ -352,6 +354,8 @@ export default class TableLiteral extends CompositeLiteral {
     }
 
     getDescriptionInputs() {
-        return [this.rows.length];
+        return {
+            count: this.rows.length,
+        };
     }
 }

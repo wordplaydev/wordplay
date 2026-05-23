@@ -1,0 +1,19 @@
+Zähle mit, während die Zeit vergeht.
+
+Viele Projekte benötigen etwas, das mit der Zeit wächst – einen Timer, eine Punktzahl, einen Countdown.Wir können einen Zähler bauen, indem wir die folgenden kombinieren: @Time   @Stream mit einem @Reaction Die
+
+A  @Reaction Besteht aus drei Teilen: einem Ausgangswert, einem zu beobachtenden Faktor und einem neuen Wert, wenn sich dieser Faktor ändert.Hier beginnen wir bei\0\, betrachten  @Time und füge jedes Mal eins hinzu, wenn die Uhr tickt:
+
+\count: 0 … ∆ Time(1000ms) … count + 1
+Phrase(count → '')\
+
+Jede Sekunde @Time Brände, die @Reaction Hinweise mit\∆ Time(1000ms)\, Und \count\wird\count + 1\DieDer \→ ''\Am Ende wird die Zahl in Text umgewandelt, sodass @Phrase kann es zeigen.
+
+Sie können beliebige Eingaben verwenden, nicht nur die Zeit. Dieser Zähler zählt die Anzahl der Tastendrücke der Schaltfläche (Button()):
+
+\count: 0 … ∆ Button() … count + 1
+Phrase(count → '')\
+
+Jedes Mal @Button Bei einem Klick oder Tippen ändert sich der Stream; die Anzahl erhöht sich um eins.
+
+track-points, pick-from-a-list

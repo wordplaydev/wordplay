@@ -1,0 +1,19 @@
+Magbilang habang lumilipas ang oras
+
+Maraming proyekto ang nangangailangan ng isang bagay na lalago sa paglipas ng panahon — isang timer, isang score, isang countdown.Maaari tayong bumuo ng isang counter sa pamamagitan ng pagsasama-sama ng @Time   @Stream na may isang @Reaction .
+
+Isang @Reaction ay may tatlong bahagi: isang panimulang halaga, isang bagay na dapat bantayan, at isang bagong halaga kapag nagbago ang bagay na iyon.Dito, magsisimula tayo sa\0\, relo @Time , at magdagdag ng isa sa bawat pag-ikot ng orasan:
+
+\count: 0 … ∆ Time(1000ms) … count + 1
+Phrase(count → '')\
+
+Bawat segundo, @Time mga sunog, ang @Reaction mga abiso na may\∆ Time(1000ms)\, at\count\nagiging\count + 1\.Ang\→ ''\sa dulo ay kino-convert ang numero sa teksto kaya @Phrase maipakita ito.
+
+Maaari mong gamitin ang anumang input na gusto mo, hindi lang ang oras. Binibilang ng counter na ito ang bilang ng mga pagpindot sa Button():
+
+\count: 0 … ∆ Button() … count + 1
+Phrase(count → '')\
+
+Sa bawat pagkakataon ang @Button Nagbabago ang stream sa isang pag-click o pag-tap, tumataas ang bilang ng isa.
+
+track-points, pick-from-a-list

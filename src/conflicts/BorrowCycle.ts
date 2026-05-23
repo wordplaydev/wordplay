@@ -28,12 +28,14 @@ export class BorrowCycle extends Conflict {
             explanation: (locales: Locales, context: Context) =>
                 locales.concretize(
                     (l) => BorrowCycle.LocalePath(l).explanation,
-                    new NodeRef(
+                    {
+                        borrow: new NodeRef(
                         this.borrow,
                         locales,
                         context,
                         locales.getName(this.cycle[0].names),
                     ),
+                    },
                 ),
         };
     }

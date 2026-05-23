@@ -1,0 +1,17 @@
+Apila los caracteres de arriba a abajo.
+
+Si un @Row es para lado a lado, entonces un @Stack es de arriba a abajo. @Stack Coloca cada carácter debajo del anterior, como una torre.
+
+\Group(Stack() [Phrase('uno') Phrase('dos') Phrase('tres')])\
+
+Como un @Row , a  @Stack También puede tener alineación y acolchado.Intenta alinear todo a lo largo del lado izquierdo:
+
+\Group(Stack('<' 0.25m) [
+		Phrase('🐣 pequeño')
+		Phrase('🐥 mediano')
+		Phrase('🐔 grande')
+	])\
+
+El \'<'\ medio /Alinea todo a lo largo del borde izquierdo./.También puedes probar\'|'\para el centro o\'>'\para el borde derecho.
+
+arrange-in-a-row, make-a-grid

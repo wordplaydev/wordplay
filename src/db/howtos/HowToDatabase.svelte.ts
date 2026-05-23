@@ -3,21 +3,23 @@ import type { NotificationData } from '@components/settings/Notifications.svelte
 import { type Database } from '@db/Database';
 import { firestore } from '@db/firebase';
 import type Gallery from '@db/galleries/Gallery';
+import { GalleriesCollection } from '@db/galleries/GalleryDatabase.svelte';
 import { localeToString } from '@locale/Locale';
 import { SupportedLocales } from '@locale/SupportedLocales';
 import { FirebaseError } from 'firebase/app';
 import {
     and,
+    arrayRemove,
+    arrayUnion,
     collection,
-    deleteDoc,
     doc,
     getDoc,
     onSnapshot,
     or,
     query,
-    setDoc,
     updateDoc,
     where,
+    writeBatch,
     type Firestore,
     type Unsubscribe,
 } from 'firebase/firestore';
@@ -406,10 +408,17 @@ export class HowToDatabase {
 
         if (firestore) {
             try {
-                await deleteDoc(doc(firestore, HowTosCollection, howToId));
-
-                // remove the how-to's ID from the gallery's list of how-to IDs
-                this.db.Galleries.edit(gallery.withoutHowTo(howToId));
+                // Atomic batch: delete the how-to doc AND remove its ID from
+                // the gallery's `howTos` array in a single operation, using
+                // arrayRemove so concurrent curator edits don't clobber each
+                // other.
+                const batch = writeBatch(firestore);
+                batch.delete(doc(firestore, HowTosCollection, howToId));
+                batch.update(
+                    doc(firestore, GalleriesCollection, gallery.getID()),
+                    { howTos: arrayRemove(howToId) },
+                );
+                await batch.commit();
             } catch (err) {
                 console.error(err);
             }
@@ -488,18 +497,25 @@ export class HowToDatabase {
 
         // Add the how-to to Firebase, relying on the realtime listener to update the local cache.
         try {
-            // create the document
-            await setDoc(
+            // Atomic batch: create the how-to doc AND append its ID to the
+            // gallery's `howTos` array in a single operation. arrayUnion lets
+            // concurrent curators add how-tos to the same gallery without
+            // overwriting each other.
+            const batch = writeBatch(firestore);
+            batch.set(
                 doc(firestore, HowTosCollection, newHowTo.id),
                 newHowTo,
             );
+            batch.update(
+                doc(firestore, GalleriesCollection, gallery.getID()),
+                { howTos: arrayUnion(newHowTo.id) },
+            );
+            await batch.commit();
 
-            // add the how-to to the how-to cache, but not remotely; we just created it
-            let howTo = new HowTo(newHowTo);
+            // Mirror the new how-to in the local cache so the UI sees it right
+            // away rather than waiting for the realtime listener.
+            const howTo = new HowTo(newHowTo);
             await this.updateHowTo(howTo, false);
-
-            // add the how-to's ID to the gallery's list of how-to IDs
-            this.db.Galleries.edit(gallery.withHowTo(newHowTo.id));
         } catch (error) {
             console.error(error);
             return undefined;

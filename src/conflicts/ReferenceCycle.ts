@@ -23,12 +23,14 @@ export default class ReferenceCycle extends Conflict {
             explanation: (locales: Locales, context: Context) =>
                 locales.concretize(
                     (l) => ReferenceCycle.LocalePath(l).explanation,
-                    new NodeRef(
+                    {
+                        name: new NodeRef(
                         this.name,
                         locales,
                         context,
                         this.name.getName(),
                     ),
+                    },
                 ),
         };
     }

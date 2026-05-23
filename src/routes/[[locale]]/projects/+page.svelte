@@ -12,11 +12,7 @@
     import { locales, Projects } from '@db/Database';
     import type Project from '@db/projects/Project';
     import { searchProjects, type ProjectMatch } from './search';
-    import {
-        CANCEL_SYMBOL,
-        COPY_SYMBOL,
-        EDIT_SYMBOL,
-    } from '@parser/Symbols';
+    import { CANCEL_SYMBOL, COPY_SYMBOL, EDIT_SYMBOL } from '@parser/Symbols';
     import { localeGoto } from '@util/localeGoto';
 
     const user = getUser();

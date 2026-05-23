@@ -130,14 +130,7 @@ export default class Replace<NodeType extends Node> extends Revision {
     getDescription(locales: Locales) {
         if (this.description)
             return Markup.words(locales.getWithAnnotations(this.description));
-        const node =
-            this.replacement instanceof Refer
-                ? this.replacement.getNode(locales)
-                : this.getNewNode(locales);
-        return locales.concretize(
-            (l) => l.ui.edit.replace,
-            node?.getLabel(locales),
-        );
+        return locales.concretize((l) => l.ui.edit.replace);
     }
 
     equals(revision: Revision) {

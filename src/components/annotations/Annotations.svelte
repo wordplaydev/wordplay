@@ -282,7 +282,7 @@
                         <MarkupHTMLView
                             markup={[
                                 (l) => l.ui.source.empty,
-                                toShortcut(ShowMenu),
+                                { symbol: toShortcut(ShowMenu) },
                             ]}
                         />
                     {/snippet}
@@ -306,25 +306,39 @@
                                         inline
                                         markup={[
                                             (l) => l.ui.annotations.cursor,
-                                            caretNode.getLabel($locales),
-                                            caretNode instanceof Expression
-                                                ? new NodeRef(
-                                                      caretNode
-                                                          .getType(context)
-                                                          .generalize(context)
-                                                          .simplify(context),
-                                                      $locales,
-                                                      context,
-                                                  )
-                                                : undefined,
-                                            !(caretNode instanceof Token)
-                                                ? caretNode
-                                                      .getDescription(
-                                                          $locales,
-                                                          context,
-                                                      )
-                                                      .toText()
-                                                : undefined,
+                                            {
+                                                node: caretNode.getLabel(
+                                                    $locales,
+                                                ),
+                                                type:
+                                                    caretNode instanceof
+                                                    Expression
+                                                        ? new NodeRef(
+                                                              caretNode
+                                                                  .getType(
+                                                                      context,
+                                                                  )
+                                                                  .generalize(
+                                                                      context,
+                                                                  )
+                                                                  .simplify(
+                                                                      context,
+                                                                  ),
+                                                              $locales,
+                                                              context,
+                                                          )
+                                                        : undefined,
+                                                description: !(
+                                                    caretNode instanceof Token
+                                                )
+                                                    ? caretNode
+                                                          .getDescription(
+                                                              $locales,
+                                                              context,
+                                                          )
+                                                          .toText()
+                                                    : undefined,
+                                            },
                                         ]}
                                     />
                                 </div>
@@ -363,22 +377,26 @@
                                                 (l) =>
                                                     l.ui.annotations
                                                         .cursorParent,
-
-                                                caretNodeParent.getLabel(
-                                                    $locales,
-                                                ),
-                                                caretNodeParent instanceof
-                                                Expression
-                                                    ? new NodeRef(
-                                                          caretNodeParent
-                                                              .getType(context)
-                                                              .generalize(
+                                                {
+                                                    node: caretNodeParent.getLabel(
+                                                        $locales,
+                                                    ),
+                                                    type:
+                                                        caretNodeParent instanceof
+                                                        Expression
+                                                            ? new NodeRef(
+                                                                  caretNodeParent
+                                                                      .getType(
+                                                                          context,
+                                                                      )
+                                                                      .generalize(
+                                                                          context,
+                                                                      ),
+                                                                  $locales,
                                                                   context,
-                                                              ),
-                                                          $locales,
-                                                          context,
-                                                      )
-                                                    : undefined,
+                                                              )
+                                                            : undefined,
+                                                },
                                             ]}
                                         />
                                     </div>

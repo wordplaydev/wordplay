@@ -1,0 +1,17 @@
+Charaktere durch Sound wachsen lassen
+
+Wussten Sie, dass Ihr Projekt Ihnen zuhören kann? @Volume   @Stream benutzt Ihr Mikrofon, um uns eine Nummer mitzuteilen\0\(still) zu\1\ (laut).
+
+Wir können diese Zahl nutzen, um alles zu steuern – die Größe eines @Phrase , seine Rotation, seine Farbe.
+
+\Phrase('📣' size: (Volume() × 5m) + 1m)\
+
+Wenn es ruhig ist, wird das Megafon benutzt.\1m\groß. Wenn man ruft, kann es bis zu ... wachsen.\6m\ groß.
+
+Wollt ihr eine Sonne, die sich umso schneller dreht, je lauter ihr seid?
+
+\Phrase('🌞' rotation: Volume() × 360°)\
+
+Versuchen Sie es mit Klatschen oder Summen und beobachten Sie, was passiert.(Ihr Computer fragt Sie möglicherweise beim ersten Mal um Erlaubnis, das Mikrofon zu benutzen.)
+
+count-with-time, follow-the-pointer

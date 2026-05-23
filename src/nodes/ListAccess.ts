@@ -280,7 +280,9 @@ export default class ListAccess extends Expression {
     getStartExplanations(locales: Locales, context: Context) {
         return locales.concretize(
             (l) => l.node.ListAccess.start,
-            new NodeRef(this.list, locales, context),
+            {
+                list: new NodeRef(this.list, locales, context),
+            },
         );
     }
 
@@ -291,7 +293,9 @@ export default class ListAccess extends Expression {
     ) {
         return locales.concretize(
             (l) => l.node.ListAccess.finish,
-            this.getValueIfDefined(locales, context, evaluator),
+            {
+                value: this.getValueIfDefined(locales, context, evaluator),
+            },
         );
     }
 

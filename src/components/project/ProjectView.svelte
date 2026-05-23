@@ -28,9 +28,7 @@
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import Options from '@components/widgets/Options.svelte';
-    import Tour, {
-        type UIExplanation,
-    } from '@components/widgets/Tour.svelte';
+    import Tour, { type UIExplanation } from '@components/widgets/Tour.svelte';
     import type Concept from '@concepts/Concept';
     import ConceptIndex from '@concepts/ConceptIndex';
     import {
@@ -41,7 +39,6 @@
     import type Chat from '@db/chats/ChatDatabase.svelte';
     import type { Creator } from '@db/creators/CreatorDatabase';
     import {
-        animationFactor,
         arrangement,
         blocks,
         camera,
@@ -72,10 +69,7 @@
     import type Value from '@values/Value';
     import { onDestroy, onMount, tick, untrack } from 'svelte';
     import { writable, type Writable } from 'svelte/store';
-    import {
-        consent,
-        refreshConsentFromBrowser,
-    } from '@input/permissions';
+    import { consent, refreshConsentFromBrowser } from '@input/permissions';
     import Characters from '../../lore/BasisCharacters';
     import {
         PROJECT_PARAM_EDIT,
@@ -136,6 +130,7 @@
     import {
         AnimationFactorIcons,
         AnimationFactors,
+        AnimationFactorSetting,
         AnimationIcon,
     } from '@db/settings/AnimationFactorSetting';
     import type MenuInfo from '@edit/menu/Menu';
@@ -187,6 +182,11 @@
         persistLayout = true,
         isCommenter = false,
     }: Props = $props();
+
+    /** The raw user-chosen animation factor (number or null for "auto"); used
+     * by the animation-speed picker so it reflects the actual choice rather
+     * than the effective resolved value. */
+    const animationFactor = AnimationFactorSetting.value;
 
     // The HTMLElement that represents this element
     let view = $state<HTMLElement | undefined>(undefined);
@@ -274,7 +274,6 @@
     let requestedEdit = $state(
         page.url.searchParams.get(PROJECT_PARAM_EDIT) !== null,
     );
-
 
     /** The fullscreen context of the page that this is in. */
     const pageFullscreen = getFullscreen();
@@ -1028,9 +1027,7 @@
     const requiredPermissions = $derived(project.getRequiredPermissions());
     const pendingPermissions = $derived(
         new Set(
-            [...requiredPermissions].filter(
-                (p) => $consent[p] === 'unknown',
-            ),
+            [...requiredPermissions].filter((p) => $consent[p] === 'unknown'),
         ),
     );
 
@@ -2024,7 +2021,10 @@
                                     <Painting
                                             bind:painting
                                         />{/if} -->
-                                    <span class="zoom-group" data-uiid="stageZoom">
+                                    <span
+                                        class="zoom-group"
+                                        data-uiid="stageZoom"
+                                    >
                                         <Button
                                             background
                                             action={() =>
@@ -2073,13 +2073,18 @@
                                         data-uiid="stageAnimationSpeed"
                                         >{AnimationIcon}
                                         <Options
-                                            value={String($animationFactor)}
+                                            value={$animationFactor === null
+                                                ? 'auto'
+                                                : String($animationFactor)}
                                             label={(l) =>
                                                 l.ui.dialog.settings.mode
                                                     .animate.label}
                                             options={AnimationFactors.map(
                                                 (factor, i) => ({
-                                                    value: String(factor),
+                                                    value:
+                                                        factor === null
+                                                            ? 'auto'
+                                                            : String(factor),
                                                     label: AnimationFactorIcons[
                                                         i
                                                     ],
@@ -2087,9 +2092,10 @@
                                             )}
                                             change={(v) =>
                                                 Settings.setAnimationFactor(
-                                                    v !== undefined
-                                                        ? Number(v)
-                                                        : 1,
+                                                    v === undefined ||
+                                                        v === 'auto'
+                                                        ? null
+                                                        : Number(v),
                                                 )}
                                         />
                                     </label>

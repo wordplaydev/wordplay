@@ -1,0 +1,27 @@
+문자로 격자를 만드세요
+
+행을 원한다면 어떻게 해야 할까요?/그리고/동시에 여러 열을 표시하는 건가요? 그게 바로 그런 거죠. @Grid 는 ~을 위한 것입니다.
+
+에이 @Grid 행의 개수, 열의 개수, 그리고 셀 사이의 간격을 입력하라는 메시지입니다.
+
+\Group(Grid(2 3 0.25m) [
+		Phrase('🍎')
+		Phrase('🍌')
+		Phrase('🍇')
+		Phrase('🥕')
+		Phrase('🥦')
+		Phrase('🌽')
+	])\
+
+이렇게 하면 2x3 크기의 과일 및 채소 텃밭이 만들어집니다!
+
+모든 셀의 크기를 동일하게 하려면, @Grid 너비와 높이도 지정해야 합니다. 이렇게 하면 글자 크기가 다르더라도 각 글자가 사각형 안에 깔끔하게 유지됩니다.
+
+\Group(Grid(2 2 0.1m 1.5m 1.5m) [
+		Phrase('🐈' size: 1m)
+		Phrase('🐶' size: 1.5m)
+		Phrase('🦊' size: 0.5m)
+		Phrase('🐻' size: 2m)
+	])\
+
+arrange-in-a-row, stack-up-and-down, make-many-copies

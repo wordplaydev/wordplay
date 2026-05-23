@@ -1,0 +1,17 @@
+Stapla tecken uppifrån och ner
+
+Om en @Row är för sida vid sida, då en @Stack är för topp till botten. @Stack placerar varje tecken under det föregående, som ett torn.
+
+\Group(Stack() [Phrase('en') Phrase('två') Phrase('tre')])\
+
+Som en @Row , en @Stack kan också ha en justering och utfyllnad.Försök att rada upp allt längs vänster sida:
+
+\Group(Stack('<' 0.25m) [
+		Phrase('🐣 liten')
+		Phrase('🐥 medelstor')
+		Phrase('🐔 stor')
+	])\
+
+Den\'<'\betyder/rada upp allt längs vänsterkanten/.Du kan också prova\'|'\för centrum eller\'>'\för den högra kanten.
+
+arrange-in-a-row, make-a-grid

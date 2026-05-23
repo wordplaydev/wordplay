@@ -1,0 +1,24 @@
+Faites tomber un personnage et rebondir
+
+Et si on voulait qu'un personnage tombe, rebondisse sur le sol ou soit bousculé comme un objet réel ?C'est ce que @Motion  et  @Matter sont pour — ensemble, ils simulent la physique pour un @Phrase . 
+
+@Motion contrôles/où/un personnage évolue avec le temps. Nous l'utilisons comme le\place\pour un @Phrase , en le faisant démarrer haut pour qu'il puisse tomber.Il nous faut aussi quelque chose sur quoi retomber, sinon notre personnage ne cessera de chuter indéfiniment ! @Shape avec une large @Rectangle fait un joli sol :
+
+\Stage([
+		Phrase('🍎' place: Motion(Place(0m 5m)) matter: Matter())
+		Shape(Rectangle(-10m 0m 10m -5m))
+	])\
+
+La pomme décolle à cinq mètres de hauteur et retombe sous l'effet de la gravité.Lorsqu'il touche le sol, il rebondit un peu, car @Phrase possède un @Matter qui détermine son poids et son rebond.
+
+Pour changer la façon/rebondissant/ou comment/lourd/Un personnage, c'est… donnez-lui votre propre style. @Matter . @Matter nécessite une masse, un rebond et une friction :
+
+\Stage([
+		Phrase('⚽' place: Motion(Place(-2m 5m)) matter: Matter(1kg 0.9 0.2))
+		Phrase('🪨' place: Motion(Place(2m 5m)) matter: Matter(5kg 0.1 0.8))
+		Shape(Rectangle(-10m 0m 10m -5m))
+	])\
+
+La balle est légère et rebondissante, elle reprend donc sa forme initiale.La pierre est lourde et ne rebondit pas, elle fait donc un bruit sourd.
+
+follow-the-pointer, move-phrase

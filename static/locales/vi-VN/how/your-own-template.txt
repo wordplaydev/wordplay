@@ -1,0 +1,20 @@
+Tạo mẫu nhân vật của riêng bạn
+
+Đôi khi bạn muốn có nhiều nhân vật trông gần giống nhau, nhưng lại có những khác biệt nhỏ.Thay vì viết giống nhau @Phrase Bạn có thể tự tạo mẫu của riêng mình nhiều lần bằng cách sử dụng... @Structure .
+
+MỘT  @Structure Nó giống như một công thức nấu ăn với những chỗ trống cần điền vào.Đây là một mẫu bóng bay chỉ cần chọn màu sắc và nhãn, và nó biết cách tự hiển thị:
+
+\•Balloon(color•Color label•'') (
+	ƒ show() Phrase(`🎈\label\` color: color size: 2m)
+)
+Group(Row() [
+		Balloon(Color(80% 50 240°) 'Bầu trời').show()
+		Balloon(Color(60% 80 0°) 'Hoa hồng').show()
+		Balloon(Color(90% 80 90°) 'Nhiều nắng').show()
+	])\
+
+Cái\•Balloon(...)\phần xác định mẫu và\ƒ show()\phần nói/cách vẽ một cái/.Sau đó, chúng ta làm ba quả bóng bay với màu sắc và nhãn khác nhau, rồi yêu cầu mỗi người làm một quả.\show\ chính nó.
+
+Mẫu (template) rất hữu ích khi bạn muốn giữ cho mã của mình gọn gàng và các ký tự nhất quán.
+
+track-game-state, make-many-copies

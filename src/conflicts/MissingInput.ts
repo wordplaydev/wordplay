@@ -43,12 +43,13 @@ export default class MissingInput extends Conflict {
             explanation: (locales: Locales, context: Context) =>
                 locales.concretize(
                     (l) => MissingInput.LocalePath(l).explanation,
-                    this.func.names.getPreferredNameString(
+                    {
+                        name: this.func.names.getPreferredNameString(
                         locales.getLocales(),
                     ) ??
                         this.func.names.getFirst() ??
                         '—',
-                    context.project.contains(this.input)
+                        input: context.project.contains(this.input)
                         ? new NodeRef(this.input, locales, context)
                         : new ConceptRef(
                               `${this.func.getPreferredName(
@@ -57,6 +58,7 @@ export default class MissingInput extends Conflict {
                                   locales.getLocales(),
                               )}`,
                           ),
+                    },
                 ),
         };
     }

@@ -22,7 +22,7 @@
         "stage": "firebase use dev && firebase deploy",
         "release": "firebase use prod && firebase deploy && firebase use dev",
         "tutorial-schema": "npx ts-json-schema-generator --no-type-check --tsconfig tsconfig.json --path 'src/tutorial/Tutorial.ts' --type 'Tutorial' --out static/schemas/Tutorial.json",
-        "locale-schema": "npx ts-json-schema-generator --no-type-check --tsconfig tsconfig.json --path 'src/locale/LocaleText.ts' --type 'LocaleText' --out static/schemas/LocaleText.json",
+        "locale-schema": "npx ts-json-schema-generator --no-type-check --tsconfig tsconfig.json --path 'src/locale/LocaleText.ts' --type 'LocaleText' --out static/schemas/LocaleText.json && npx tsx src/util/verify-locales/generate-template-inputs.ts",
         "create-schemas": "npm run tutorial-schema && npm run locale-schema",
         "locales": "npx tsx src/util/verify-locales/start.ts verify",
         "locales-ci": "npx tsx src/util/verify-locales/start.ts ci",
@@ -58,6 +58,7 @@
                 "src/locale"
             ],
             "extensions": "ts",
+            "ignore": "src/locale/templateInputs.generated.ts",
             "quiet": true
         }
     },
@@ -74,7 +75,7 @@
         "firebase-tools": "^15",
         "npm-watch": "^0",
         "prettier": "^3",
-        "prettier-plugin-svelte": "^3",
+        "prettier-plugin-svelte": "^4",
         "run-script-os": "^1",
         "svelte": "^5",
         "svelte-check": "^4",

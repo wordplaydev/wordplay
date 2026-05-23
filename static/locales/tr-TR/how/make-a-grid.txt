@@ -1,0 +1,27 @@
+Karakterlerden oluşan bir ızgara oluşturun.
+
+Peki ya satırlar istiyorsak?/Ve/Aynı anda sütunlar mı? İşte bu, bir @Grid içindir.
+
+A  @Grid Satır sayısını, sütun sayısını ve hücreler arasına ne kadar boşluk bırakılacağını soruyor.
+
+\Group(Grid(2 3 0.25m) [
+		Phrase('🍎')
+		Phrase('🍌')
+		Phrase('🍇')
+		Phrase('🥕')
+		Phrase('🥦')
+		Phrase('🌽')
+	])\
+
+Bu, 2x3 boyutlarında bir meyve ve sebze bahçesi oluşturuyor!
+
+Tüm hücrelerin aynı boyutta olmasını istiyorsanız, şunu verin: @Grid Genişlik ve yükseklik de var. Bu sayede karakterler, farklı boyutlarda olsalar bile, karelerinin içinde düzgün bir şekilde kalırlar:
+
+\Group(Grid(2 2 0.1m 1.5m 1.5m) [
+		Phrase('🐈' size: 1m)
+		Phrase('🐶' size: 1.5m)
+		Phrase('🦊' size: 0.5m)
+		Phrase('🐻' size: 2m)
+	])\
+
+arrange-in-a-row, stack-up-and-down, make-many-copies

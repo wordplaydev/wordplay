@@ -8,9 +8,7 @@ import StructureValue from '@values/StructureValue';
 import type Alignment from '@output/Alignment';
 import Arrangement from '@output/Arrangement';
 import type Color from '@output/Color';
-import Group from '@output/Group';
 import type Output from '@output/Output';
-import Phrase from '@output/Phrase';
 import Place from '@output/Place';
 import type RenderContext from '@output/RenderContext';
 import { getOutputInput } from '@output/Valued';
@@ -110,9 +108,9 @@ export class Row extends Arrangement {
         return locales
             .concretize(
                 (l) => l.output.Row.description,
-                output.length,
-                output.filter((o) => o instanceof Phrase).length,
-                output.filter((o) => o instanceof Group).length,
+                {
+                    count: output.length,
+                },
             )
             .toText();
     }

@@ -1,0 +1,18 @@
+Wybierz losową rzecz z listy
+
+Chcesz, żeby Twój projekt zaskakiwał Cię za każdym razem, gdy zostanie uruchomiony? Sporządź listę opcji i wybierz jedną z nich. @Random . 
+
+@Random może dać nam losową liczbę, a listę można przeszukać według numeru za pomocą\[n]\.Połącz je i wybierz losową emoji:
+
+\emojis: ['🌈' '🌟' '🎈' '🦄' '🍩']
+Phrase(emojis.random())\
+
+Możesz również użyć @Random z dwiema liczbami, wybierając spośród nich liczbę całkowitą.Na przykład, aby wybrać/nowy/losowe emoji co sekundę, wymieszaj @Time i @Reaction :
+
+\emojis: ['🌈' '🌟' '🎈' '🦄' '🍩']
+pick: emojis[1] … ∆ Time(1000ms) … emojis[Random(1 emojis.length())]
+Phrase(pick)\
+
+Każde zaznaczenie @Time , ten @Reaction wybiera nową niespodziankę.
+
+shake-phrase, count-with-time

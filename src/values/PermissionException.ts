@@ -17,7 +17,7 @@ export default class PermissionException extends ExceptionValue {
         this.permission = permission;
     }
 
-    getExceptionText(locales: Locales): ExceptionText {
+    getExceptionText(locales: Locales): ExceptionText<[], ['permission']> {
         return locales.getTextStructure(
             (l) => l.node.Program.exception.PermissionException,
         );
@@ -28,8 +28,8 @@ export default class PermissionException extends ExceptionValue {
             (l) => l.ui.output.permission[this.permission],
         );
         return locales.concretize(
-            this.getExceptionText(locales).explanation,
-            label,
+            (l) => l.node.Program.exception.PermissionException.explanation,
+            { permission: label },
         );
     }
 }

@@ -1,5 +1,13 @@
-import { expect, test } from 'vitest';
-import { ConceptPattern, MentionPattern, restoreReferences } from '@util/verify-locales/translate';
+import { describe, expect, test } from 'vitest';
+import {
+    ConceptPattern,
+    MentionPattern,
+    decodeHtmlEntities,
+    repairMentionsPositional,
+    restoreReferences,
+    unwrapMentions,
+    wrapMentions,
+} from '@util/verify-locales/translate';
 
 test.each([
     ['Hello $blah', 'Hola $boo', 'Hola $blah', MentionPattern],
@@ -22,3 +30,66 @@ test.each([
         expect(restoreReferences(before, after, pattern)).toBe(expected);
     },
 );
+
+describe('wrapMentions / unwrapMentions', () => {
+    test('wraps every $name in a no-translate span', () => {
+        expect(wrapMentions('I expected $expected, got $given')).toBe(
+            'I expected <span translate="no">$expected</span>, got <span translate="no">$given</span>',
+        );
+    });
+
+    test('round-trips through unwrap', () => {
+        const original = 'I expected $expected, got $given';
+        expect(unwrapMentions(wrapMentions(original))).toBe(original);
+    });
+
+    test('leaves text without mentions unchanged', () => {
+        expect(wrapMentions('plain text')).toBe('plain text');
+    });
+
+    test('does not touch $$ escapes', () => {
+        expect(wrapMentions('costs $$20')).toBe('costs $$20');
+    });
+});
+
+describe('decodeHtmlEntities', () => {
+    test('decodes common entities Google Translate emits in HTML mode', () => {
+        expect(decodeHtmlEntities('I don&#39;t &amp; he doesn&#39;t')).toBe(
+            "I don't & he doesn't",
+        );
+        expect(decodeHtmlEntities('&lt;tag&gt; &quot;text&quot;')).toBe(
+            '<tag> "text"',
+        );
+    });
+
+    test('decodes hex numeric entities', () => {
+        expect(decodeHtmlEntities('&#x2014;')).toBe('—');
+    });
+});
+
+describe('repairMentionsPositional', () => {
+    test('rewrites transliterated mentions in source order', () => {
+        const before = 'I expected $expected, got $given';
+        // Translate transliterated both names to Arabic, kept the $ and order.
+        const after = 'توقعتُ $المتوقع، لكنني تلقيتُ $المعطى';
+        expect(repairMentionsPositional(before, after)).toBe(
+            'توقعتُ $expected، لكنني تلقيتُ $given',
+        );
+    });
+
+    test('passes through when names already match the source', () => {
+        const before = 'I expected $expected, got $given';
+        const after = 'توقعتُ $expected لكن $given';
+        expect(repairMentionsPositional(before, after)).toBe(after);
+    });
+
+    test('leaves alone when counts disagree (translator dropped a $)', () => {
+        const before = 'I expected $expected, got $given';
+        const after = 'توقعتُ $المتوقع لكن لا شيء';
+        expect(repairMentionsPositional(before, after)).toBe(after);
+    });
+
+    test('is a no-op when the source has no mentions', () => {
+        expect(repairMentionsPositional('plain', 'plano')).toBe('plano');
+    });
+});

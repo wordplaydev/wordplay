@@ -1,5 +1,8 @@
 <script lang="ts">
-    import { HighlightTypes, type HighlightType } from '@components/editor/highlights/Highlights';
+    import {
+        HighlightTypes,
+        type HighlightType,
+    } from '@components/editor/highlights/Highlights';
     import type { Outline } from '@components/editor/highlights/outline';
 
     const HIGHLIGHT_PADDING = 20;

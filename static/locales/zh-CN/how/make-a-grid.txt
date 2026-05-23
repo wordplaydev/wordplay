@@ -1,0 +1,27 @@
+制作人物网格
+
+如果我们想要行呢？/和/同时插入多列？这就是…… @Grid 是为了。
+
+A @Grid 询问行数、列数以及单元格之间的间距。
+
+\Group(Grid(2 3 0.25m) [
+		Phrase('🍎')
+		Phrase('🍌')
+		Phrase('🍇')
+		Phrase('🥕')
+		Phrase('🥦')
+		Phrase('🌽')
+	])\
+
+这样就形成了一个 2 英尺 x 3 英尺的果蔬园！
+
+如果你希望每个单元格大小相同，请给出 @Grid 还要设置宽度和高度。这样，即使字符大小不同，它们也能整齐地保持在各自的方格内：
+
+\Group(Grid(2 2 0.1m 1.5m 1.5m) [
+		Phrase('🐈' size: 1m)
+		Phrase('🐶' size: 1.5m)
+		Phrase('🦊' size: 0.5m)
+		Phrase('🐻' size: 2m)
+	])\
+
+arrange-in-a-row, stack-up-and-down, make-many-copies

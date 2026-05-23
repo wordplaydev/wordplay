@@ -1,0 +1,19 @@
+Animarea unui personaj
+
+Personajele pot avea o animație de repaus care se repetă în timp ce nu se mișcă.
+
+De exemplu, hai să facem această pisică să danseze puțin rotind-o și mișcând-o:
+
+\Phrase('🐈' resting: Sequence({
+			0%: Pose(rotation: 0°)
+			15%: Pose(rotation: 15°)
+			30%: Pose(rotation: 0°)
+			45%: Pose(offset: Place(-0.25m))
+			60%: Pose(offset: Place(0.25m))
+			75%: Pose(offset: Place(-0.25m))
+			90%: Pose(offset: Place(0m))
+		} 2s))\
+
+Acest exemplu folosește un  @Sequence  de diferite  @Pose .
+
+move-phrase, shake-phrase

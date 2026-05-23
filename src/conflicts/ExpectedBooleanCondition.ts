@@ -30,7 +30,9 @@ export default class ExpectedBooleanCondition extends Conflict {
             explanation: (locales: Locales, context: Context) =>
                 locales.concretize(
                     (l) => ExpectedBooleanCondition.LocalePath(l).explanation,
-                    new NodeRef(this.type, locales, context),
+                    {
+                        type: new NodeRef(this.type, locales, context),
+                    },
                 ),
         };
     }

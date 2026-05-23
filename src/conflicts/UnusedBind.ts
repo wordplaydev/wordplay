@@ -23,7 +23,9 @@ export default class UnusedBind extends Conflict {
             explanation: (locales: Locales, context: Context) =>
                 locales.concretize(
                     (l) => UnusedBind.LocalePath(l).explanation,
-                    new NodeRef(this.bind.names, locales, context),
+                    {
+                        name: new NodeRef(this.bind.names, locales, context),
+                    },
                 ),
         };
     }

@@ -1,0 +1,19 @@
+Tumpuk gambar satu di atas yang lain
+
+Terkadang kita ingin menumpuk gambar untuk membangun adegan yang menyenangkan atau bentuk yang kreatif.
+
+Sebagai contoh, Anda dapat menggunakan beberapa lapisan pada proyek Anda.  @Stage  untuk menumpuk dan mengatur gambar sesuai keinginan Anda.
+
+Lihat! Ini dia kura-kura yang saya buat hanya menggunakan bentuk-bentuk!Cobalah mengubah angka untuk setiap bentuk. Anda dapat memindahkannya, mengubah ukurannya, dan bahkan memutarnya.Cobalah bereksperimen dan lihat apa yang bisa kamu ciptakan!
+
+\¶Catatan: Lihat galeri untuk proyek lainnya. <contoh@https://wordplay.dev/project/example-Layers?play> tentang penumpukan gambar.¶Stage([
+		Shape(Circle(3m 0m 1m 0m))
+		Shape(Polygon(2m 3 0m -12m 0m) rotation: -30°)
+		Shape(Polygon(7m 6 0m -6m 0m))
+		Shape(Rectangle(-11m -9m 11m -12m 10m) rotation: 25°)
+		Shape(Rectangle(-11m -9m 11m -12m 10m) rotation: -25°)
+	] place: Place(0m 10m -30m))\
+
+Kamu bisa membuat hal-hal yang sangat keren dengan lapisan! Cobalah!
+
+custom-characters

@@ -25,8 +25,10 @@ export class UnknownConversion extends Conflict {
             explanation: (locales: Locales, context: Context) =>
                 locales.concretize(
                     (l) => UnknownConversion.LocalePath(l).explanation,
-                    new NodeRef(this.expectedType, locales, context),
-                    new NodeRef(this.convert.type, locales, context),
+                    {
+                        expected: new NodeRef(this.expectedType, locales, context),
+                        given: new NodeRef(this.convert.type, locales, context),
+                    },
                 ),
         };
     }

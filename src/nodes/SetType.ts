@@ -125,7 +125,9 @@ export default class SetType extends BasisType {
     }
 
     getDescriptionInputs(locales: Locales, context: Context) {
-        return [this.key ? new NodeRef(this.key, locales, context) : undefined];
+        return {
+            type: this.key ? new NodeRef(this.key, locales, context) : undefined,
+        };
     }
 
     getDefaultExpression() {

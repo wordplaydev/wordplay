@@ -24,18 +24,19 @@ export default class ConversionException extends ExceptionValue {
 
     getExplanation(locales: Locales) {
         return locales.concretize(
-            this.getExceptionText(locales).explanation,
-            // Wrap the node containing the name in a link
-            new ValueRef(
-                this.from,
-                locales,
-                this.evaluator.project.getNodeContext(this.creator),
-            ),
-            new NodeRef(
-                this.to,
-                locales,
-                this.evaluator.project.getNodeContext(this.creator),
-            ),
+            (l) => l.node.Convert.exception.ConversionException.explanation,
+            {
+                from: new ValueRef(
+                    this.from,
+                    locales,
+                    this.evaluator.project.getNodeContext(this.creator),
+                ),
+                to: new NodeRef(
+                    this.to,
+                    locales,
+                    this.evaluator.project.getNodeContext(this.creator),
+                ),
+            },
         );
     }
 }

@@ -1,0 +1,27 @@
+Creați o grilă de caractere
+
+Ce se întâmplă dacă vrem rânduri /şi/ coloane în același timp? Asta e ceea ce o  @Grid  este pentru.
+
+O  @Grid  solicită numărul de rânduri, numărul de coloane și spațiul dintre celule.
+
+\Group(Grid(2 3 0.25m) [
+		Phrase('🍎')
+		Phrase('🍌')
+		Phrase('🍇')
+		Phrase('🥕')
+		Phrase('🥦')
+		Phrase('🌽')
+	])\
+
+Asta face o grădină de fructe și legume de 2 pe 3!
+
+Dacă vrei ca fiecare celulă să aibă aceeași dimensiune, dă  @Grid  o lățime și o înălțime. În acest fel, caracterele rămân perfect în interiorul pătratelor lor, chiar dacă au dimensiuni diferite:
+
+\Group(Grid(2 2 0.1m 1.5m 1.5m) [
+		Phrase('🐈' size: 1m)
+		Phrase('🐶' size: 1.5m)
+		Phrase('🦊' size: 0.5m)
+		Phrase('🐻' size: 2m)
+	])\
+
+arrange-in-a-row, stack-up-and-down, make-many-copies

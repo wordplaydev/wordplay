@@ -475,12 +475,16 @@ export default class Block extends Expression {
     ) {
         return locales.concretize(
             (l) => l.node.Block.finish,
-            this.getValueIfDefined(locales, context, evaluator),
+            {
+                value: this.getValueIfDefined(locales, context, evaluator),
+            },
         );
     }
 
     getDescriptionInputs() {
-        return [this.statements.length];
+        return {
+            count: this.statements.length,
+        };
     }
 
     getStart() {

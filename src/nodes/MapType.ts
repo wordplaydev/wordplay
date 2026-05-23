@@ -174,10 +174,10 @@ export default class MapType extends BasisType {
     }
 
     getDescriptionInputs(locales: Locales, context: Context) {
-        return [
-            this.key ? new NodeRef(this.key, locales, context) : undefined,
-            this.value ? new NodeRef(this.value, locales, context) : undefined,
-        ];
+        return {
+            key: this.key ? new NodeRef(this.key, locales, context) : undefined,
+            value: this.value ? new NodeRef(this.value, locales, context) : undefined,
+        };
     }
 
     getDefaultExpression() {

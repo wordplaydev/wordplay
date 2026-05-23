@@ -205,10 +205,8 @@
                         $locales.getLanguages()[0],
                         $locales
                             .concretize(
-                                $locales.getPlainText(
-                                    (l) => l.ui.howto.announce.moveActivated,
-                                ),
-                                'canvas',
+                                (l) => l.ui.howto.announce.moveActivated,
+                                { target: 'canvas' },
                             )
                             .toText(),
                     );
@@ -223,11 +221,8 @@
                             $locales.getLanguages()[0],
                             $locales
                                 .concretize(
-                                    $locales.getPlainText(
-                                        (l) =>
-                                            l.ui.howto.announce.moveActivated,
-                                    ),
-                                    movingHowTo.getTitle(),
+                                    (l) => l.ui.howto.announce.moveActivated,
+                                    { target: movingHowTo.getTitle() },
                                 )
                                 .toText(),
                         );
@@ -255,13 +250,10 @@
                     'canvas moved',
                     $locales.getLanguages()[0],
                     $locales
-                        .concretize(
-                            $locales.getPlainText(
-                                (l) => l.ui.howto.announce.canvasPosition,
-                            ),
-                            cameraX.toString(),
-                            cameraY.toString(),
-                        )
+                        .concretize((l) => l.ui.howto.announce.canvasPosition, {
+                            x: cameraX.toString(),
+                            y: cameraY.toString(),
+                        })
                         .toText(),
                 );
             }

@@ -1,0 +1,23 @@
+Make many copies of a character
+
+What if we want ten cats, or a hundred stars, but don't want to type them all out?
+We can ask a list to make copies for us with @List/translate.
+
+If we start with the number \10\ and convert it with \→ []\, we get a list of ten numbers from 1 to 10.
+Then we use @List/translate to turn each number into a @Phrase:
+
+\
+Group(Row() (10 → []).translate(ƒ() Phrase('🐈')))
+\
+
+@List/translate calls our little function once for each item, and collects the results into a new list.
+
+To make each copy a little different, use the number that translate gives us:
+
+\
+Group(Row('|' 0.2m) (8 → []).translate(ƒ(n) Phrase('⭐' size: n × 0.5m)))
+\
+
+Each star is bigger than the last, because \n\ goes from \1\ to \8\.
+
+make-a-grid, arrange-in-a-row

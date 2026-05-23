@@ -1,0 +1,31 @@
+Creați o serie interactivă de scene
+
+Uneori vrem să spunem povești care așteaptă ca spectatorul să facă ceva înainte de a trece la următorul conținut.
+
+Pentru a face acest lucru, putem folosi un  @Scene , dar pune  @Boolean  valori între conținutul pe care dorim să-l afișăm. De exemplu, iată că un clic va avansa la fiecare conținut următor, folosind un  @Button :
+
+\Scene([
+		Phrase('dă clic pe mine')
+		Button()
+		Phrase('dă-mi clic din nou' duration: 1s)
+		Button()
+		Phrase('Nu serios, apasă-mă cât de tare poți!!' duration: 1s)
+		Button()
+		Phrase('Ai dat clic pe mine până acum?' duration: 1s)
+	])\
+
+Cel/Cea/Cei/Cele  @Scene  arată primul  @Phrase , apoi așteaptă ca  @Button  să fie adevărat, iar odată ce este, trece la următorul  @Phrase .
+
+Poți folosi orice vrei pentru a avansa, atâta timp cât este adevărat sau fals. De exemplu, ne-am putea folosi vocea! Dacă țipăm suficient de tare, scena va avansa:
+
+\Scene([
+		Phrase('este cineva acolo?')
+		Volume() > .5
+		Phrase("Nu te aud, mai spui o dată?" duration: 1s)
+		Volume() > .7
+		Phrase('mai tare te rog...' duration: 1s)
+		Volume() > .9
+		Phrase('o, salut!' duration: 1s)
+	])\
+
+animated-scene
