@@ -4471,7 +4471,8 @@
                 "highlight": "$~vurgulama örneği",
                 "bullet": "$~madde işareti",
                 "attention": "$~bu ifadeyi vurgulayın"
-            }
+            },
+            "backtotop": "$~başa dön"
         },
         "tile": {
             "toggle": {

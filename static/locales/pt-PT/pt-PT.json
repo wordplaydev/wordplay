@@ -4472,7 +4472,8 @@
                 "highlight": "$~exemplo de destaque",
                 "bullet": "$~marcador",
                 "attention": "$~Destaque esta expressão"
-            }
+            },
+            "backtotop": "$~Voltar ao topo"
         },
         "tile": {
             "toggle": {

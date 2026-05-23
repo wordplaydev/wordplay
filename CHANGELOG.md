@@ -15,6 +15,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - Now with support for Bengali (#142), Indonesian (#148), and Romanian (#433)! If you know those, help us improve them with the new in-app localization support.
 - We added a script selector to the glyph/emoji chooser, so you can find the glyphs in different languages (#322).
 - We added better feedback when the site is offline and saves are pending.
+- We added a "back to top" button on long pages.
 
 ### Changed
 
@@ -67,6 +68,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - Block spacing can now be controlled.
 - We added a machine translated Tagalog locale (#1089).
 - The guide in the project view now shows _all_ how-tos a creator has access to, can filter between just all and gallery-specific how-tos (#1087).
+- Now there's a "back to top" link on long pages (#1097).
 
 ### Changed
 

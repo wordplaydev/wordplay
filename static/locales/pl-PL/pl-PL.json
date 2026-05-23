@@ -4476,7 +4476,8 @@
                 "highlight": "$~wyróżnij przykład",
                 "bullet": "$~punkt listy",
                 "attention": "$~zaznacz to wyrażenie"
-            }
+            },
+            "backtotop": "$~powrót na górę"
         },
         "tile": {
             "toggle": {
