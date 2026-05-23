@@ -1,4 +1,4 @@
-name: Verify PR - check types, accessibility, syntax, semantics, and locales
+name: Verify PR
 on:
     pull_request:
         branches: ['main']
