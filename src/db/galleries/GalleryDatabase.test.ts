@@ -144,6 +144,7 @@ describe('GalleryDatabase atomic project + gallery updates', () => {
 
         mockDatabase = {
             getUser: vi.fn(() => null),
+            track: vi.fn(<T>(p: Promise<T>) => p),
             Locales: {
                 getLocaleSet: () => [],
                 locales: { subscribe: () => () => {} },

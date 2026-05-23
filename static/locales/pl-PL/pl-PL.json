@@ -374,8 +374,8 @@
             ],
             "conflict": {
                 "UnsupportedFontFormat": {
-                    "name": "$?",
-                    "explanation": "$?"
+                    "name": "$~nieobsługiwanyformatczcionki",
+                    "explanation": "$~Mój przyjaciel * $face * nie wie jak być $format ."
                 }
             }
         },
@@ -4446,7 +4446,7 @@
         "font": {
             "app": "$~Noto Sans",
             "code": "$~Noto Sans Mono",
-            "missing": "$?"
+            "missing": "$~NIE"
         },
         "phrases": {
             "welcome": "$~Witam"
@@ -4654,12 +4654,12 @@
         "source": {
             "label": "$~edytor programów",
             "empty": [
+                "$~Zaczynajmy! Możesz…",
+                "$~• Otwórz 📕 i przeciągnij 🖱️ nas do tego programu.",
                 "$~• Wpisz $symbol i wybierz nas z menu.",
-                "$?",
-                "$?",
-                "$?",
-                "$?",
-                "$?"
+                "$~• Wpisz nas za pomocą ⌨️.",
+                "$~• Przeglądaj<galleries@://galleries> dla inspiracji.",
+                "$~Jeśli utknąłeś,<learn more@://learn> ."
             ],
             "overwritten": "$~Projekt zmieniony gdzie indziej",
             "confirm": {
@@ -6639,9 +6639,9 @@
                 ]
             },
             "skinTone": "$~odcień skóry",
-            "script": "$?",
-            "scriptLabel": "$?",
-            "pickFilter": "$?"
+            "script": "$~skrypty",
+            "scriptLabel": "$~filtruj według skryptu",
+            "pickFilter": "$~Wybierz kategorię lub skrypt"
         },
         "localize": {
             "header": "$~Zlokalizować",
@@ -6700,6 +6700,11 @@
             "previous": "$~poprzedni krok",
             "next": "$~następny krok",
             "offscreen": "$~Ta część interfejsu nie jest obecnie widoczna na ekranie."
+        },
+        "connection": {
+            "offline": "$~Jesteś offline. Niektóre funkcje nie będą działać, dopóki nie będziesz online.",
+            "unreachable": "$~Nie możemy połączyć się z bazą danych Wordplay. Niektóre funkcje nie będą działać, dopóki połączenie nie zostanie przywrócone.",
+            "label": "$~Status połączenia"
         }
     },
     "moderation": {

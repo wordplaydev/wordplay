@@ -4180,7 +4180,7 @@
             "confirm": { "cancel": "cancel" },
             "dialog": { "close": "close" },
             "loading": {
-                "message": "Loading font faces and text, thanks for waiting!"
+                "message": "Loading, thanks for waiting!"
             },
             "home": "go to home page",
             "table": {
@@ -5466,6 +5466,11 @@
             "saved": "saved",
             "local": "saved",
             "unsaved": "unsaved"
+        },
+        "connection": {
+            "offline": "You're offline. Some things won't work until you are online.",
+            "unreachable": "We can't reach the database. Some things won't work until we can.",
+            "label": "Connection status"
         },
         "localize": {
             "header": "Localize",

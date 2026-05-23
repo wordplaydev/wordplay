@@ -374,8 +374,8 @@
             ],
             "conflict": {
                 "UnsupportedFontFormat": {
-                    "name": "$?",
-                    "explanation": "$?"
+                    "name": "$~formatodefontenãosuportado",
+                    "explanation": "$~O meu amigo * $face * não sabe como ser $format ."
                 }
             }
         },
@@ -4442,7 +4442,7 @@
         "font": {
             "app": "$~Noto Sans",
             "code": "$~Noto Sans Mono",
-            "missing": "$?"
+            "missing": "$~Não"
         },
         "phrases": {
             "welcome": "$~Olá"
@@ -4890,12 +4890,12 @@
             "label": "$~editor de programas",
             "title": "$~código",
             "empty": [
+                "$~Vamos começar! Você pode…",
+                "$~• Abra 📕 e arraste 🖱️ para este programa.",
                 "$~• Introduza $symbol e escolha-nos no menu.",
-                "$?",
-                "$?",
-                "$?",
-                "$?",
-                "$?"
+                "$~• Introduza-nos utilizando o ⌨️.",
+                "$~• Navegue pelo<galleries@://galleries> Para inspiração.",
+                "$~Se estiver preso,<learn more@://learn> ."
             ],
             "overwritten": "$~Projeto revisto em outro local",
             "confirm": {
@@ -6685,9 +6685,9 @@
                     "$~moeda"
                 ]
             },
-            "script": "$?",
-            "scriptLabel": "$?",
-            "pickFilter": "$?"
+            "script": "$~roteiros",
+            "scriptLabel": "$~filtrar por script",
+            "pickFilter": "$~Escolha uma categoria ou itinerário"
         },
         "tour": {
             "label": "$~digressão",
@@ -6695,6 +6695,11 @@
             "previous": "$~etapa anterior",
             "next": "$~próximo passo",
             "offscreen": "$~Esta parte da interface não está visível no ecrã de momento."
+        },
+        "connection": {
+            "offline": "$~Está offline. Algumas funcionalidades só funcionarão quando estiver online.",
+            "unreachable": "$~Não conseguimos aceder à base de dados do Wordplay. Algumas funcionalidades não estarão disponíveis até que a ligação seja restabelecida.",
+            "label": "$~Estado da conexão"
         }
     },
     "moderation": {

@@ -374,8 +374,8 @@
             ],
             "conflict": {
                 "UnsupportedFontFormat": {
-                    "name": "$?",
-                    "explanation": "$?"
+                    "name": "$~desteklenmeyenyazıtipiformatı",
+                    "explanation": "$~Arkadaşım * $face * $format olmayı bilmiyor."
                 }
             }
         },
@@ -4441,7 +4441,7 @@
         "font": {
             "app": "$~Noto Sans",
             "code": "$~Noto Sans Mono",
-            "missing": "$?"
+            "missing": "$~HAYIR"
         },
         "phrases": {
             "welcome": "$~Merhaba"
@@ -4649,12 +4649,12 @@
         "source": {
             "label": "$~program editörü",
             "empty": [
+                "$~Hadi başlayalım! Şunları yapabilirsiniz…",
+                "$~• 📕 uygulamasını açın ve bizi bu programa sürükleyin 🖱️.",
                 "$~• $symbol yazın ve menüden bizi seçin.",
-                "$?",
-                "$?",
-                "$?",
-                "$?",
-                "$?"
+                "$~• Bize ⌨️ ile yazın.",
+                "$~• Göz atın<galleries@://galleries> İlham almak için.",
+                "$~Eğer sıkışıp kaldıysanız,<learn more@://learn> ."
             ],
             "overwritten": "$~Proje başka yerde revize edildi",
             "confirm": {
@@ -6626,9 +6626,9 @@
                 ]
             },
             "skinTone": "$~cilt tonu",
-            "script": "$?",
-            "scriptLabel": "$?",
-            "pickFilter": "$?"
+            "script": "$~komut dosyaları",
+            "scriptLabel": "$~komut dosyasına göre filtrele",
+            "pickFilter": "$~Bir kategori veya senaryo seçin."
         },
         "localize": {
             "header": "$~Yerelleştir",
@@ -6687,6 +6687,11 @@
             "previous": "$~önceki adım",
             "next": "$~sonraki adım",
             "offscreen": "$~Arayüzün bu kısmı şu anda ekranda görünmüyor."
+        },
+        "connection": {
+            "offline": "$~Çevrimdışı durumdasınız. Çevrimiçi olana kadar bazı özellikler çalışmayacaktır.",
+            "unreachable": "$~Wordplay veritabanına erişemiyoruz. Bağlantı yeniden kurulana kadar bazı özellikler çalışmayacaktır.",
+            "label": "$~Bağlantı durumu"
         }
     },
     "moderation": {

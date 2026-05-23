@@ -1,3 +1,4 @@
+import { DB } from '@db/Database';
 import { firestore } from '@db/firebase';
 import {
     arrayRemove,
@@ -117,7 +118,7 @@ export async function createFeedback(
     };
 
     try {
-        await setDoc(doc(firestore, FeedbackCollection, id), feedback);
+        await DB.track(setDoc(doc(firestore, FeedbackCollection, id), feedback));
     } catch (err) {
         console.error('Error creating feedback', err);
         return null;
@@ -130,7 +131,7 @@ export async function deleteFeedback(id: string) {
     if (firestore === undefined) return null;
 
     try {
-        await deleteDoc(doc(firestore, FeedbackCollection, id));
+        await DB.track(deleteDoc(doc(firestore, FeedbackCollection, id)));
     } catch (err) {
         console.error('Error deleting feedback', err);
         return null;
@@ -143,7 +144,9 @@ export async function updateFeedback(feedback: Feedback) {
     if (firestore === undefined) return null;
 
     try {
-        await setDoc(doc(firestore, FeedbackCollection, feedback.id), feedback);
+        await DB.track(
+            setDoc(doc(firestore, FeedbackCollection, feedback.id), feedback),
+        );
     } catch (err) {
         console.error('Error updating feedback', err);
         return null;
@@ -160,9 +163,11 @@ export async function updateFeedback(feedback: Feedback) {
 export async function voteFeedback(id: string) {
     if (firestore === undefined) return null;
     try {
-        await updateDoc(doc(firestore, FeedbackCollection, id), {
-            votes: increment(1),
-        });
+        await DB.track(
+            updateDoc(doc(firestore, FeedbackCollection, id), {
+                votes: increment(1),
+            }),
+        );
         return true;
     } catch (err) {
         console.error('Error voting on feedback', err);
@@ -177,9 +182,11 @@ export async function voteFeedback(id: string) {
 export async function addFeedbackComment(id: string, comment: FeedbackComment) {
     if (firestore === undefined) return null;
     try {
-        await updateDoc(doc(firestore, FeedbackCollection, id), {
-            comments: arrayUnion(comment),
-        });
+        await DB.track(
+            updateDoc(doc(firestore, FeedbackCollection, id), {
+                comments: arrayUnion(comment),
+            }),
+        );
         return true;
     } catch (err) {
         console.error('Error adding comment', err);
@@ -199,9 +206,11 @@ export async function removeFeedbackComment(
 ) {
     if (firestore === undefined) return null;
     try {
-        await updateDoc(doc(firestore, FeedbackCollection, id), {
-            comments: arrayRemove(comment),
-        });
+        await DB.track(
+            updateDoc(doc(firestore, FeedbackCollection, id), {
+                comments: arrayRemove(comment),
+            }),
+        );
         return true;
     } catch (err) {
         console.error('Error removing comment', err);

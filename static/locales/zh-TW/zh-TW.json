@@ -374,8 +374,8 @@
             ],
             "conflict": {
                 "UnsupportedFontFormat": {
-                    "name": "$?",
-                    "explanation": "$?"
+                    "name": "$~不支援的字體格式",
+                    "explanation": "$~我的朋友 * $face * 不知道如何成為$format 。"
                 }
             }
         },
@@ -4399,7 +4399,7 @@
         "font": {
             "app": "Noto Sans Traditional Chinese",
             "code": "Noto Sans Mono",
-            "missing": "$?"
+            "missing": "$~不"
         },
         "phrases": {
             "welcome": "你好"
@@ -4589,7 +4589,14 @@
         },
         "source": {
             "label": "程式編輯器",
-            "empty": ["$~• 輸入$symbol。", "$?", "$?", "$?", "$?", "$?"],
+            "empty": [
+                "$~讓我們開始吧！您可以…",
+                "$~• 打開 📕 並將 🖱️ 我們拖曳到此程式中。",
+                "$~• 輸入$symbol。",
+                "$~• 用⌨️符號輸入我們。",
+                "$~• 瀏覽<galleries@://galleries>尋找靈感。",
+                "$~如果你遇到困難，<learn more@://learn> 。"
+            ],
             "overwritten": "收到了更新版本！",
             "confirm": {
                 "delete": {
@@ -6556,9 +6563,9 @@
                 ]
             },
             "skinTone": "$~膚色",
-            "script": "$?",
-            "scriptLabel": "$?",
-            "pickFilter": "$?"
+            "script": "$~腳本",
+            "scriptLabel": "$~按腳本篩選",
+            "pickFilter": "$~選擇類別或腳本"
         },
         "localize": {
             "header": "$~在地化",
@@ -6617,6 +6624,11 @@
             "previous": "$~上一步",
             "next": "$~下一步",
             "offscreen": "$~介面的這一部分目前在螢幕上不可見。"
+        },
+        "connection": {
+            "offline": "$~您目前處於離線狀態。部分功能需要連網後才能使用。",
+            "unreachable": "$~我們無法連接到 Wordplay 資料庫。連線恢復後，部分功能將無法使用。",
+            "label": "$~連線狀態"
         }
     },
     "moderation": {

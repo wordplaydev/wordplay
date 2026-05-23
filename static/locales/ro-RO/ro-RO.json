@@ -374,8 +374,8 @@
             ],
             "conflict": {
                 "UnsupportedFontFormat": {
-                    "name": "$?",
-                    "explanation": "$?"
+                    "name": "$~formatdefontneacceptat",
+                    "explanation": "$~Prietenul meu, * $face *, nu știe cum să fie $format ."
                 }
             }
         },
@@ -4447,7 +4447,7 @@
         "font": {
             "app": "$~Noto Sans",
             "code": "$~Noto Sans Mono",
-            "missing": "$?"
+            "missing": "$~nu"
         },
         "phrases": {
             "welcome": "$~Buna ziua"
@@ -4895,12 +4895,12 @@
             "label": "$~sursă",
             "title": "$~cod",
             "empty": [
+                "$~Să începem! Poți…",
+                "$~• Deschideți 📕 și trageți-ne 🖱️ în acest program.",
                 "$~• Tastați $symbol și alegeți-ne din meniu.",
-                "$?",
-                "$?",
-                "$?",
-                "$?",
-                "$?"
+                "$~• Scrieți-ne cu ⌨️.",
+                "$~• Răsfoiți<galleries@://galleries> pentru inspirație.",
+                "$~Dacă ești blocat,<learn more@://learn> ."
             ],
             "overwritten": "$~Proiect revizuit în altă parte",
             "confirm": {
@@ -6694,9 +6694,14 @@
                     "$~valută"
                 ]
             },
-            "script": "$?",
-            "scriptLabel": "$?",
-            "pickFilter": "$?"
+            "script": "$~scripturi",
+            "scriptLabel": "$~filtrare după script",
+            "pickFilter": "$~Alegeți o categorie sau un script"
+        },
+        "connection": {
+            "offline": "$~Ești offline. Unele funcții nu vor funcționa până când nu ești online.",
+            "unreachable": "$~Nu putem accesa baza de date Wordplay. Unele funcții nu vor funcționa până nu se restabilește conexiunea.",
+            "label": "$~Starea conexiunii"
         }
     },
     "moderation": {

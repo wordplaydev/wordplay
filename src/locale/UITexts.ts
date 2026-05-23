@@ -1091,6 +1091,15 @@ type UITexts = {
         /** [plain] Shown when there was a problem saving */
         unsaved: string;
     };
+    /** Banner shown when the device is offline or Firebase is unreachable. */
+    connection: {
+        /** [plain] Banner shown when the browser reports no internet connection */
+        offline: string;
+        /** [plain] Banner shown when the device is online but Firebase requests are failing */
+        unreachable: string;
+        /** [plain] ARIA label for the connection banner live region */
+        label: string;
+    };
     /** Text for the localization editor */
     localize: {
         /** [plain] The header for the localization editor */

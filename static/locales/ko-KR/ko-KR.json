@@ -374,8 +374,8 @@
             ],
             "conflict": {
                 "UnsupportedFontFormat": {
-                    "name": "$?",
-                    "explanation": "$?"
+                    "name": "$~지원되지않는글꼴형식",
+                    "explanation": "$~내 친구 * $face *는 $format 되는 방법을 모릅니다."
                 }
             }
         },
@@ -4441,7 +4441,7 @@
         "font": {
             "app": "Noto Sans Korean",
             "code": "Noto Mono",
-            "missing": "$?"
+            "missing": "$~아니요"
         },
         "phrases": {
             "welcome": "$~안녕하세요"
@@ -4632,12 +4632,12 @@
         "source": {
             "label": "$~프로그램 편집기",
             "empty": [
+                "$~자, 시작해 볼까요! 여러분은…",
+                "$~• 마우스를 열고 이 프로그램으로 드래그하세요.",
                 "$~• $symbol 입력하고 메뉴에서 저희를 선택하세요.",
-                "$?",
-                "$?",
-                "$?",
-                "$?",
-                "$?"
+                "$~• ⌨️ 기호를 사용하여 입력해 주세요.",
+                "$~• 살펴보세요<galleries@://galleries> 영감을 얻기 위해.",
+                "$~막혔다면,<learn more@://learn> ."
             ],
             "overwritten": "$~최신 버전을 받았습니다!",
             "confirm": {
@@ -6623,9 +6623,9 @@
                 ]
             },
             "skinTone": "$~피부톤",
-            "script": "$?",
-            "scriptLabel": "$?",
-            "pickFilter": "$?"
+            "script": "$~스크립트",
+            "scriptLabel": "$~스크립트로 필터링",
+            "pickFilter": "$~카테고리 또는 스크립트를 선택하세요"
         },
         "localize": {
             "header": "$~현지화",
@@ -6684,6 +6684,11 @@
             "previous": "$~이전 단계",
             "next": "$~다음 단계",
             "offscreen": "$~이 인터페이스 부분은 현재 화면에 표시되지 않습니다."
+        },
+        "connection": {
+            "offline": "$~현재 오프라인 상태입니다. 일부 기능은 온라인 상태가 되어야 작동합니다.",
+            "unreachable": "$~워드플레이 데이터베이스에 연결할 수 없습니다. 연결이 복구될 때까지 일부 기능이 작동하지 않을 수 있습니다.",
+            "label": "$~연결 상태"
         }
     },
     "moderation": {

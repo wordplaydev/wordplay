@@ -10790,6 +10790,30 @@
               ],
               "type": "object"
             },
+            "connection": {
+              "additionalProperties": false,
+              "description": "Banner shown when the device is offline or Firebase is unreachable.",
+              "properties": {
+                "label": {
+                  "description": "[plain] ARIA label for the connection banner live region",
+                  "type": "string"
+                },
+                "offline": {
+                  "description": "[plain] Banner shown when the browser reports no internet connection",
+                  "type": "string"
+                },
+                "unreachable": {
+                  "description": "[plain] Banner shown when the device is online but Firebase requests are failing",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "offline",
+                "unreachable",
+                "label"
+              ],
+              "type": "object"
+            },
             "dialog": {
               "additionalProperties": false,
               "properties": {
@@ -17135,6 +17159,7 @@
             "tour",
             "dialog",
             "save",
+            "connection",
             "localize",
             "page",
             "edit",

@@ -374,8 +374,8 @@
             ],
             "conflict": {
                 "UnsupportedFontFormat": {
-                    "name": "$?",
-                    "explanation": "$?"
+                    "name": "$~teckensnittsformatsomintestöds",
+                    "explanation": "$~Min vän * $face * vet inte hur man är $format ."
                 }
             }
         },
@@ -4441,7 +4441,7 @@
         "font": {
             "app": "$~Noto Sans",
             "code": "$~Noto Sans Mono",
-            "missing": "$?"
+            "missing": "$~inga"
         },
         "phrases": {
             "welcome": "$~Hej"
@@ -4649,12 +4649,12 @@
         "source": {
             "label": "$~programredaktör",
             "empty": [
+                "$~Nu sätter vi igång! Du kan …",
+                "$~• Öppna 📕 och dra 🖱️ oss till det här programmet.",
                 "$~• Skriv $symbol och välj oss från menyn.",
-                "$?",
-                "$?",
-                "$?",
-                "$?",
-                "$?"
+                "$~• Skriv oss med ⌨️.",
+                "$~• Bläddra bland<galleries@://galleries> för inspiration.",
+                "$~Om du har fastnat,<learn more@://learn> ."
             ],
             "overwritten": "$~Projektet revideras på annat håll",
             "confirm": {
@@ -6627,9 +6627,9 @@
                 ]
             },
             "skinTone": "$~hudton",
-            "script": "$?",
-            "scriptLabel": "$?",
-            "pickFilter": "$?"
+            "script": "$~manus",
+            "scriptLabel": "$~filtrera efter skript",
+            "pickFilter": "$~Välj en kategori eller ett manus"
         },
         "localize": {
             "header": "$~Lokalisera",
@@ -6688,6 +6688,11 @@
             "previous": "$~föregående steg",
             "next": "$~nästa steg",
             "offscreen": "$~Den här delen av gränssnittet syns för närvarande inte på skärmen."
+        },
+        "connection": {
+            "offline": "$~Du är offline. Vissa funktioner fungerar inte förrän du är online.",
+            "unreachable": "$~Vi kan inte nå Wordplay-databasen. Vissa funktioner fungerar inte förrän anslutningen är tillbaka.",
+            "label": "$~Anslutningsstatus"
         }
     },
     "moderation": {

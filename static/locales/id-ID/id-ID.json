@@ -374,8 +374,8 @@
             ],
             "conflict": {
                 "UnsupportedFontFormat": {
-                    "name": "$?",
-                    "explanation": "$?"
+                    "name": "$~formatfonttidakdidukung",
+                    "explanation": "$~Temanku * $face * tidak tahu bagaimana menjadi $format ."
                 }
             }
         },
@@ -4447,7 +4447,7 @@
         "font": {
             "app": "$~Noto Sans",
             "code": "$~Noto Sans Mono",
-            "missing": "$?"
+            "missing": "$~TIDAK"
         },
         "phrases": {
             "welcome": "$~Halo"
@@ -4895,12 +4895,12 @@
             "label": "$~sumber",
             "title": "$~kode",
             "empty": [
+                "$~Mari kita mulai! Anda bisa…",
+                "$~• Buka 📕 dan seret 🖱️ kami ke program ini.",
                 "$~• Ketik $symbol dan pilih kami dari menu.",
-                "$?",
-                "$?",
-                "$?",
-                "$?",
-                "$?"
+                "$~• Ketik kami dengan ⌨️.",
+                "$~• Jelajahi<galleries@://galleries> untuk inspirasi.",
+                "$~Jika Anda mengalami kesulitan,<learn more@://learn> ."
             ],
             "overwritten": "$~Proyek direvisi di tempat lain",
             "confirm": {
@@ -6697,9 +6697,14 @@
                     "$~mata uang"
                 ]
             },
-            "script": "$?",
-            "scriptLabel": "$?",
-            "pickFilter": "$?"
+            "script": "$~naskah",
+            "scriptLabel": "$~filter berdasarkan skrip",
+            "pickFilter": "$~Pilih kategori atau skrip"
+        },
+        "connection": {
+            "offline": "$~Anda sedang offline. Beberapa fitur tidak akan berfungsi sampai Anda online.",
+            "unreachable": "$~Kami tidak dapat mengakses basis data Wordplay. Beberapa fitur tidak akan berfungsi sampai koneksi pulih.",
+            "label": "$~Status koneksi"
         }
     },
     "moderation": {

@@ -374,8 +374,8 @@
             ],
             "conflict": {
                 "UnsupportedFontFormat": {
-                    "name": "$?",
-                    "explanation": "$?"
+                    "name": "$~hindisinusuportahangformatngfont",
+                    "explanation": "$~Hindi marunong maging $face ang kaibigan kong si * $format * ."
                 }
             }
         },
@@ -4445,7 +4445,7 @@
         "font": {
             "app": "$~Noto Sans",
             "code": "$~Noto Sans Mono",
-            "missing": "$?"
+            "missing": "$~hindi"
         },
         "phrases": {
             "welcome": "$~kumusta"
@@ -4893,12 +4893,12 @@
             "label": "$~editor ng programa",
             "title": "$~kodigo",
             "empty": [
+                "$~Simulan na natin! Kaya mo na...",
+                "$~• Buksan ang 📕 at i-drag 🖱️ kami papunta sa programang ito.",
                 "$~• I-type ang $symbol at piliin ang \"us\" mula sa menu.",
-                "$?",
-                "$?",
-                "$?",
-                "$?",
-                "$?"
+                "$~• I-type kami gamit ang ⌨️.",
+                "$~• Mag-browse sa<galleries@://galleries> para sa inspirasyon.",
+                "$~Kung ikaw ay natigil,<learn more@://learn> ."
             ],
             "overwritten": "$~Binago ang proyekto sa ibang lugar",
             "confirm": {
@@ -6688,9 +6688,9 @@
                     "$~pera"
                 ]
             },
-            "script": "$?",
-            "scriptLabel": "$?",
-            "pickFilter": "$?"
+            "script": "$~mga iskrip",
+            "scriptLabel": "$~i-filter ayon sa script",
+            "pickFilter": "$~Pumili ng kategorya o script"
         },
         "tour": {
             "label": "$~paglilibot",
@@ -6698,6 +6698,11 @@
             "previous": "$~nakaraang hakbang",
             "next": "$~susunod na hakbang",
             "offscreen": "$~Ang bahaging ito ng interface ay hindi nakikita sa screen sa kasalukuyan."
+        },
+        "connection": {
+            "offline": "$~Naka-offline ka. Hindi gagana ang ilang feature hangga't hindi ka online.",
+            "unreachable": "$~Hindi namin makontak ang database ng Wordplay. Hindi gagana ang ilang feature hangga't hindi bumabalik ang koneksyon.",
+            "label": "$~Katayuan ng koneksyon"
         }
     },
     "moderation": {

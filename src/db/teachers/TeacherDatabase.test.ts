@@ -82,6 +82,9 @@ vi.mock('@db/firebase', () => ({
 // Galleries facade is exercised by removeTeacher/removeStudent for the
 // curator-side cleanup, which we don't need to assert on here.
 vi.mock('@db/Database', () => ({
+    DB: {
+        track: vi.fn(<T>(p: Promise<T>) => p),
+    },
     Galleries: {
         get: vi.fn(async () => undefined),
         removeCurator: vi.fn(async () => {}),

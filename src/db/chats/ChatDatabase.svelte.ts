@@ -332,9 +332,11 @@ export class ChatDatabase {
 
         // If asked to persist, update remotely.
         if (persist && firestore) {
-            await updateDoc(
-                doc(firestore, ChatsCollection, chat.getProjectID()),
-                chat.getData(),
+            await this.db.track(
+                updateDoc(
+                    doc(firestore, ChatsCollection, chat.getProjectID()),
+                    chat.getData(),
+                ),
             );
         }
     }
@@ -351,7 +353,9 @@ export class ChatDatabase {
         updates: Record<string, unknown>,
     ) {
         if (firestore === undefined) return;
-        await updateDoc(doc(firestore, ChatsCollection, chatID), updates);
+        await this.db.track(
+            updateDoc(doc(firestore, ChatsCollection, chatID), updates),
+        );
     }
 
     /**
@@ -367,17 +371,19 @@ export class ChatDatabase {
     ) {
         if (firestore === undefined) return;
         const chatRef = doc(firestore, ChatsCollection, chatID);
-        await runTransaction(firestore, async (tx) => {
-            const snap = await tx.get(chatRef);
-            if (!snap.exists()) return;
-            const current = upgradeChat(
-                snap.data() as SerializedChatUnknownVersion,
-            );
-            const messages = current.messages.map((m) =>
-                m.id === messageID ? transform(m) : m,
-            );
-            tx.update(chatRef, { messages });
-        });
+        await this.db.track(
+            runTransaction(firestore, async (tx) => {
+                const snap = await tx.get(chatRef);
+                if (!snap.exists()) return;
+                const current = upgradeChat(
+                    snap.data() as SerializedChatUnknownVersion,
+                );
+                const messages = current.messages.map((m) =>
+                    m.id === messageID ? transform(m) : m,
+                );
+                tx.update(chatRef, { messages });
+            }),
+        );
     }
 
     /** Atomically remove a UID from the unread list. */
@@ -448,7 +454,9 @@ export class ChatDatabase {
         this.chats.delete(projectID);
         if (firestore) {
             try {
-                await deleteDoc(doc(firestore, ChatsCollection, projectID));
+                await this.db.track(
+                    deleteDoc(doc(firestore, ChatsCollection, projectID)),
+                );
             } catch (err) {
                 console.error(err);
             }
@@ -495,9 +503,11 @@ export class ChatDatabase {
         // Add the chat to Firebase, relying on the realtime listener to update the local cache.
         try {
             // Create the document.
-            await setDoc(
-                doc(firestore, ChatsCollection, newChat.project),
-                newChat,
+            await this.db.track(
+                setDoc(
+                    doc(firestore, ChatsCollection, newChat.project),
+                    newChat,
+                ),
             );
 
             // Add the chat to the chats cache, but not remotely; we just created it.
@@ -541,9 +551,11 @@ export class ChatDatabase {
         // Add the chat to Firebase, relying on the realtime listener to update the local cache.
         try {
             // Create the document.
-            await setDoc(
-                doc(firestore, ChatsCollection, newChat.project),
-                newChat,
+            await this.db.track(
+                setDoc(
+                    doc(firestore, ChatsCollection, newChat.project),
+                    newChat,
+                ),
             );
 
             // Add the chat to the chats cache, but not remotely; we just created it.

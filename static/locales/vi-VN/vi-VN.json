@@ -374,8 +374,8 @@
             ],
             "conflict": {
                 "UnsupportedFontFormat": {
-                    "name": "$?",
-                    "explanation": "$?"
+                    "name": "$~địnhdạngphôngchữkhôngđượchỗtrợ",
+                    "explanation": "$~Bạn tôi * $face * không biết cách $format như thế nào."
                 }
             }
         },
@@ -4442,7 +4442,7 @@
         "font": {
             "app": "$~Noto Sans",
             "code": "$~Noto Sans Mono",
-            "missing": "$?"
+            "missing": "$~KHÔNG"
         },
         "phrases": {
             "welcome": "$~Xin chào"
@@ -4889,12 +4889,12 @@
         "source": {
             "label": "$~trình biên tập chương trình",
             "empty": [
+                "$~Bắt đầu nào! Bạn có thể…",
+                "$~• Mở 📕 và kéo 🖱️ chúng tôi vào chương trình này.",
                 "$~• Gõ $symbol và chọn chúng tôi từ menu.",
-                "$?",
-                "$?",
-                "$?",
-                "$?",
-                "$?"
+                "$~• Gõ chúng tôi bằng biểu tượng ⌨️.",
+                "$~• Duyệt qua<galleries@://galleries> để lấy cảm hứng.",
+                "$~Nếu bạn gặp khó khăn,<learn more@://learn> ."
             ],
             "overwritten": "$~Dự án đã được chỉnh sửa ở nơi khác.",
             "confirm": {
@@ -6630,9 +6630,9 @@
                 ]
             },
             "skinTone": "$~màu da",
-            "script": "$?",
-            "scriptLabel": "$?",
-            "pickFilter": "$?"
+            "script": "$~kịch bản",
+            "scriptLabel": "$~lọc theo tập lệnh",
+            "pickFilter": "$~Chọn một danh mục hoặc kịch bản"
         },
         "localize": {
             "header": "$~Bản địa hóa",
@@ -6691,6 +6691,11 @@
             "previous": "$~bước trước",
             "next": "$~bước tiếp theo",
             "offscreen": "$~Phần này của giao diện hiện không hiển thị trên màn hình."
+        },
+        "connection": {
+            "offline": "$~Bạn đang ngoại tuyến. Một số tính năng sẽ không hoạt động cho đến khi bạn kết nối lại mạng.",
+            "unreachable": "$~Chúng tôi không thể truy cập vào cơ sở dữ liệu Wordplay. Một số tính năng sẽ không hoạt động cho đến khi kết nối được khôi phục.",
+            "label": "$~Trạng thái kết nối"
         }
     },
     "moderation": {

@@ -374,8 +374,8 @@
             ],
             "conflict": {
                 "UnsupportedFontFormat": {
-                    "name": "$?",
-                    "explanation": "$?"
+                    "name": "$~formatdepolicenonprisencharge",
+                    "explanation": "$~Mon ami * $face * ne sait pas comment être $format ."
                 }
             }
         },
@@ -4441,7 +4441,7 @@
         "font": {
             "app": "Noto Sans",
             "code": "Noto Sans Mono",
-            "missing": "$?"
+            "missing": "$~Non"
         },
         "phrases": {
             "welcome": "$~Bonjour"
@@ -4632,12 +4632,12 @@
         "source": {
             "label": "$~éditeur de programme",
             "empty": [
+                "$~Commençons ! Vous pouvez…",
+                "$~• Ouvrez 📕 et faites-nous glisser 🖱️ vers ce programme.",
                 "$~• Tapez $symbol et choisissez-nous dans le menu.",
-                "$?",
-                "$?",
-                "$?",
-                "$?",
-                "$?"
+                "$~• Tapez-nous avec le ⌨️.",
+                "$~• Parcourez le<galleries@://galleries> pour vous inspirer.",
+                "$~Si vous êtes bloqué,<learn more@://learn> ."
             ],
             "overwritten": "$~J'ai reçu une version plus récente !",
             "confirm": {
@@ -6630,9 +6630,9 @@
                 ]
             },
             "skinTone": "$~teint",
-            "script": "$?",
-            "scriptLabel": "$?",
-            "pickFilter": "$?"
+            "script": "$~scripts",
+            "scriptLabel": "$~filtrer par script",
+            "pickFilter": "$~Choisissez une catégorie ou un script"
         },
         "localize": {
             "header": "$~Localiser",
@@ -6691,6 +6691,11 @@
             "previous": "$~étape précédente",
             "next": "$~prochaine étape",
             "offscreen": "$~Cette partie de l'interface n'est actuellement pas visible à l'écran."
+        },
+        "connection": {
+            "offline": "$~Vous êtes hors ligne. Certaines fonctionnalités ne seront pas disponibles tant que vous ne serez pas connecté(e).",
+            "unreachable": "$~Impossible d'accéder à la base de données Wordplay. Certaines fonctionnalités seront indisponibles jusqu'au rétablissement de la connexion.",
+            "label": "$~État de la connexion"
         }
     },
     "moderation": {

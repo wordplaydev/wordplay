@@ -374,8 +374,8 @@
             ],
             "conflict": {
                 "UnsupportedFontFormat": {
-                    "name": "$?",
-                    "explanation": "$?"
+                    "name": "$~nichtunterstütztesSchriftformat",
+                    "explanation": "$~Mein Freund * $face * weiß nicht, wie man $format ist."
                 }
             }
         },
@@ -4440,7 +4440,7 @@
         "font": {
             "app": "Noto Sans",
             "code": "Noto Sans Mono",
-            "missing": "$?"
+            "missing": "$~NEIN"
         },
         "phrases": {
             "welcome": "Wilkommen"
@@ -4631,12 +4631,12 @@
         "source": {
             "label": "$~Programmeditor",
             "empty": [
+                "$~Los geht's! Du kannst …",
+                "$~• Öffne 📕 und ziehe 🖱️ uns in dieses Programm.",
                 "$~• Geben Sie $symbol ein und wählen Sie uns aus dem Menü aus.",
-                "$?",
-                "$?",
-                "$?",
-                "$?",
-                "$?"
+                "$~• Schreibe uns mit dem ⌨️-Symbol.",
+                "$~• Durchsuchen Sie die<galleries@://galleries> zur Inspiration.",
+                "$~Wenn Sie nicht weiterkommen,<learn more@://learn> Die"
             ],
             "overwritten": "$~Habe eine aktuellere Version erhalten!",
             "confirm": {
@@ -6629,9 +6629,9 @@
                 ]
             },
             "skinTone": "$~Hautton",
-            "script": "$?",
-            "scriptLabel": "$?",
-            "pickFilter": "$?"
+            "script": "$~Skripte",
+            "scriptLabel": "$~Nach Skript filtern",
+            "pickFilter": "$~Wählen Sie eine Kategorie oder ein Skript aus."
         },
         "localize": {
             "header": "$~Lokalisieren",
@@ -6690,6 +6690,11 @@
             "previous": "$~vorheriger Schritt",
             "next": "$~nächster Schritt",
             "offscreen": "$~Dieser Teil der Benutzeroberfläche ist derzeit nicht auf dem Bildschirm sichtbar."
+        },
+        "connection": {
+            "offline": "$~Sie sind offline. Einige Funktionen sind erst verfügbar, wenn Sie online sind.",
+            "unreachable": "$~Wir können nicht auf die Wordplay-Datenbank zugreifen. Einige Funktionen sind erst wieder verfügbar, wenn die Verbindung wiederhergestellt ist.",
+            "label": "$~Verbindungsstatus"
         }
     },
     "moderation": {

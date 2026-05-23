@@ -2,7 +2,7 @@
 // By design, we get all data on demand here, rather than caching, using a
 // more transactional model.
 
-import { Galleries } from '@db/Database';
+import { DB, Galleries } from '@db/Database';
 import { firestore as db } from '@db/firebase';
 import { GalleriesCollection } from '@db/galleries/GalleryDatabase.svelte';
 import {
@@ -99,7 +99,7 @@ export async function getClass(id: string) {
 export async function setClass(group: Class) {
     if (db === undefined) return undefined;
 
-    await setDoc(doc(db, ClassesCollection, group.id), group);
+    await DB.track(setDoc(doc(db, ClassesCollection, group.id), group));
 }
 
 /** Add the teacher to the class and all associated galleries. */
@@ -118,15 +118,17 @@ export async function addTeacher(classy: Class, uid: string) {
             curators: arrayUnion(uid),
         });
     }
-    await batch.commit();
+    await DB.track(batch.commit());
 }
 
 /** Remove the teacher from the class and all associated galleries. */
 export async function removeTeacher(classy: Class, uid: string) {
     if (db === undefined) return;
-    await updateDoc(doc(db, ClassesCollection, classy.id), {
-        teachers: arrayRemove(uid),
-    });
+    await DB.track(
+        updateDoc(doc(db, ClassesCollection, classy.id), {
+            teachers: arrayRemove(uid),
+        }),
+    );
     // Gallery side: keep Galleries.removeCurator because it also reassigns the
     // departing curator's projects (not a simple field operation).
     for (const galleryID of classy.galleries) {
@@ -154,7 +156,7 @@ export async function addStudent(classy: Class, uid: string, username: string) {
             creators: arrayUnion(uid),
         });
     }
-    await batch.commit();
+    await DB.track(batch.commit());
 }
 
 /** Remove the learner from the class document and all galleries associated with the class. */
@@ -166,15 +168,17 @@ export async function removeStudent(classy: Class, uid: string) {
     // teachers, so arrayRemove on a stale local copy might fail to match the
     // server's record. A transaction reads the server's current value and
     // filters by uid, which is the stable identifier.
-    await runTransaction(db, async (tx) => {
-        const snap = await tx.get(classRef);
-        if (!snap.exists()) return;
-        const current = ClassSchema.parse(snap.data());
-        tx.update(classRef, {
-            learners: current.learners.filter((l) => l !== uid),
-            info: current.info.filter((i) => i.uid !== uid),
-        });
-    });
+    await DB.track(
+        runTransaction(db, async (tx) => {
+            const snap = await tx.get(classRef);
+            if (!snap.exists()) return;
+            const current = ClassSchema.parse(snap.data());
+            tx.update(classRef, {
+                learners: current.learners.filter((l) => l !== uid),
+                info: current.info.filter((i) => i.uid !== uid),
+            });
+        }),
+    );
 
     // Remove the student from all galleries associated with the class.
     for (const galleryID of classy.galleries) {
@@ -186,5 +190,5 @@ export async function removeStudent(classy: Class, uid: string) {
 /** Delete this class document */
 export async function deleteClass(classy: Class) {
     if (db === undefined) return;
-    await deleteDoc(doc(db, ClassesCollection, classy.id));
+    await DB.track(deleteDoc(doc(db, ClassesCollection, classy.id)));
 }
