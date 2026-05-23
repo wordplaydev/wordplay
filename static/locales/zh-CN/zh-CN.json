@@ -371,7 +371,13 @@
                 "虽然有些时候，你可能想用@Doc 里的特殊字符 /作为/ 文字。比如:",
                 "\\¶我的朋友使用 @@, //, **, ||, 以及其他符号。¶\n'使用了特殊字符！'\\",
                 "如果你重复地使用一些特殊字符，你可能会得到一些字符本身而不是它们的特殊意义。"
-            ]
+            ],
+            "conflict": {
+                "UnsupportedFontFormat": {
+                    "name": "$?",
+                    "explanation": "$?"
+                }
+            }
         },
         "Example": {
             "name": "示例",
@@ -1608,7 +1614,7 @@
         },
         "UnknownType": {
             "name": "未知",
-            "description": "未知类型",
+            "description": "未知",
             "connector": "，因为",
             "emotion": "curious",
             "doc": "嗯……我不知道我代表什么，但我真的很好奇。你知道吗？似乎我们应该知道。如果我们无法弄清楚，你可能需要告诉我们。"
@@ -4396,7 +4402,8 @@
     "ui": {
         "font": {
             "app": "Noto Sans Simplified Chinese",
-            "code": "Noto Sans Mono"
+            "code": "Noto Sans Mono",
+            "missing": "$?"
         },
         "phrases": {
             "welcome": "你好"
@@ -4483,10 +4490,6 @@
                 "share": {
                     "tip": "$~显示项目共享选项",
                     "label": "$~分享"
-                },
-                "history": {
-                    "on": "$~显示最近的项目代码",
-                    "off": "$~显示当前项目代码"
                 },
                 "savedLocally": "$~项目保存在本地，但不在线保存",
                 "savedOnline": "$~项目在线保存"
@@ -4590,7 +4593,7 @@
         },
         "source": {
             "label": "程序编辑器",
-            "empty": ["$~• 输入$symbol。"],
+            "empty": ["$~• 输入$symbol。", "$?", "$?", "$?", "$?", "$?"],
             "overwritten": "收到了更新版本！",
             "confirm": {
                 "delete": {
@@ -4628,7 +4631,6 @@
             "menu": {
                 "label": "自动完成菜单",
                 "show": "显示自动完成菜单",
-                "back": "退出子菜单",
                 "empty": "$~没有建议。"
             },
             "cursor": {
@@ -4646,7 +4648,6 @@
                 "selectAll": "选择程序",
                 "incrementLiteral": "增加数字、文本或布尔值",
                 "decrementLiteral": "减少数字、文本或布尔值",
-                "insertSymbol": "插入$symbol",
                 "insertTab": "插入 tab",
                 "insertTrue": "插入 true",
                 "insertFalse": "插入 false",
@@ -4665,7 +4666,6 @@
                 "insertConvert": "插入转换符号",
                 "insertPrevious": "插入前一个符号",
                 "insertTable": "插入表符号",
-                "insertTableClose": "插入表格关闭符号",
                 "insertBorrow": "插入借阅",
                 "insertShare": "插入分享",
                 "insertLine": "插入换行符",
@@ -5308,7 +5308,6 @@
                 "default": "默认",
                 "inherited": "继任",
                 "notSequence": "不是一个序列",
-                "notContent": "不是内容列表",
                 "format": "格式",
                 "weight": "字体粗细",
                 "light": "细体",
@@ -5540,9 +5539,7 @@
                     "forgot": "*忘记密码？*遗憾的是，由于我们没有收集联系信息，因此我们无法恢复你的帐户。",
                     "enter": "看起来你的登录链接来自不同的浏览器或设备。你可以再次输入你的电子邮件地址，以确保是你吗？",
                     "play": "你已登录，现在我们可以将你的项目保存在线上！想要创建点什么吗？",
-                    "tooyoung": "你必须年满13岁或以上才能使用电子邮件登录。",
                     "passwordrule": "密码必须至少为6个字符长；如果你没有使用密码管理器，请选择三个你会记住的长单词。",
-                    "passwordreminder": "看起来你正在创建一个账户。请检查你的密码，确保它被安全地保存并输入正确，然后重新提交以创建你的账户。",
                     "changeEmail": "想要更改你的电子邮件地址吗？提交新的电子邮件地址，我们将向旧的地址发送确认信息。",
                     "changePassword": "想要更改你的密码吗？提交一个新密码并重复输入。",
                     "email": "你有仅用于电子邮件的帐户吗？请提交你的电子邮件登录，如果有与之关联的帐户，我们将向你发送一封包含登录链接的电子邮件。为了保护隐私，不支持新的仅用于电子邮件的帐户。",
@@ -5562,7 +5559,6 @@
                     "email": "此电子邮件地址无效。",
                     "failure": "无法登录 :(",
                     "offline": "你似乎处于离线状态。",
-                    "unchanged": "我们无法更改你的电子邮件地址，但我们不知道原因。",
                     "delete": "我们无法删除你的帐户，但我们不知道原因。",
                     "wrongPassword": "无效的用户名和密码。可能是密码错误，或者其他人已经使用了这个用户名。",
                     "tooMany": "你尝试登录失败的次数过多。你必须等待一段时间才能重试。",
@@ -5775,11 +5771,6 @@
                         "description": "$~类别描述",
                         "placeholder": "$~描述"
                     },
-                    "newteacher": {
-                        "placeholder": "$~电子邮件或用户名",
-                        "description": "$~您希望授予教师访问此课程的创建者的电子邮件或用户名"
-                    },
-                    "addteacher": "$~为该班级添加老师",
                     "delete": {
                         "tip": "$~永久删除此类。",
                         "label": "$~删除此类"
@@ -6050,8 +6041,6 @@
                 "palette": "$~调色板",
                 "semantic": "$~语义颜色",
                 "fonts": "$~字体",
-                "appfont": "$~文本字体",
-                "codefont": "$~代码字体",
                 "spacing": "$~间距",
                 "typography": "$~排版",
                 "components": "$~成分",
@@ -6069,7 +6058,6 @@
                 "demo": {
                     "button": "$~例子",
                     "note": "$~这是一张便条。",
-                    "warning": "$~这是警告。",
                     "notice": "$~这是一则通知。",
                     "header": "$~标题",
                     "subheader": "$~副标题",
@@ -6185,9 +6173,6 @@
             "append": "/急于插入……/",
             "remove": "/考虑离开……/",
             "replace": "/想要介入……/",
-            "wrap": "加括号",
-            "unwrap": "揭开",
-            "bind": "给这个表达命名",
             "range": "$~选择从 $start 美元到 $end 美元",
             "area": "$~类型代码"
         },
@@ -6454,8 +6439,6 @@
                             "$~任何策展人创建的任何画廊的合作者都可以查看"
                         ]
                     },
-                    "expanded": "$~扩展",
-                    "limited": "$~有限的",
                     "expandedOptions": "$~让选定画廊的策展人和创作者们看看这个画廊的操作指南。",
                     "expandedAdd": "$~将图库添加到列表",
                     "expandedRemove": "$~从列表中移除图库"
@@ -6612,11 +6595,6 @@
             "emotion": "Choose an emotion",
             "invalidName": "$~不是有效的文字游戏名称",
             "reference": "$~英文参考",
-            "unwritten": "$~未书写的文本",
-            "revised": "$~修订文本",
-            "revisedDescription": "$~这些修改已保存在本地，尚未提交审核。",
-            "submitRevisions": "$~提交修改稿",
-            "submitted": "$~谢谢！我们会审核您修改后的文本，可能很快就会发布。",
             "invalidConceptLinks": "$~这些概念链接在当前语言环境中无法解析。您是不是拼错了某个链接，或者故意删除了它？",
             "inputs": {
                 "header": "$~此模板接受的输入",

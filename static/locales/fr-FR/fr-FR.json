@@ -371,7 +371,13 @@
                 "$~Parfois, vous souhaiterez peut-être utiliser les caractères spéciaux que @Doc utilise comme mots. Par exemple:",
                 "$~\\¶Mes amis utilisent @@, //, **, || et d'autres symboles.¶\n'en utilisant des caractères spéciaux!'\\",
                 "$~Si vous répétez simplement ces caractères spéciaux, vous obtiendrez le caractère au lieu de sa signification spéciale."
-            ]
+            ],
+            "conflict": {
+                "UnsupportedFontFormat": {
+                    "name": "$?",
+                    "explanation": "$?"
+                }
+            }
         },
         "Example": {
             "name": "$~exemple",
@@ -4434,7 +4440,8 @@
     "ui": {
         "font": {
             "app": "Noto Sans",
-            "code": "Noto Sans Mono"
+            "code": "Noto Sans Mono",
+            "missing": "$?"
         },
         "phrases": {
             "welcome": "$~Bonjour"
@@ -4521,10 +4528,6 @@
                 "share": {
                     "tip": "$~afficher les options de partage de projet",
                     "label": "$~partager"
-                },
-                "history": {
-                    "on": "$~afficher le code du projet récent",
-                    "off": "$~afficher le code du projet actuel"
                 },
                 "savedLocally": "$~les projets sont enregistrés localement, mais pas en ligne",
                 "savedOnline": "$~les projets sont enregistrés en ligne"
@@ -4628,7 +4631,14 @@
         },
         "source": {
             "label": "$~éditeur de programme",
-            "empty": ["$~• Tapez $symbol et choisissez-nous dans le menu."],
+            "empty": [
+                "$~• Tapez $symbol et choisissez-nous dans le menu.",
+                "$?",
+                "$?",
+                "$?",
+                "$?",
+                "$?"
+            ],
             "overwritten": "$~J'ai reçu une version plus récente !",
             "confirm": {
                 "delete": {
@@ -4666,7 +4676,6 @@
             "menu": {
                 "label": "$~menu de saisie semi-automatique",
                 "show": "$~afficher le menu de saisie semi-automatique",
-                "back": "$~quitter le sous-menu",
                 "empty": "$~Aucune suggestion."
             },
             "cursor": {
@@ -4684,7 +4693,6 @@
                 "selectAll": "$~sélectionner le programme",
                 "incrementLiteral": "$~augmenter le nombre, le texte ou le booléen",
                 "decrementLiteral": "$~diminuer le nombre, le texte ou le booléen",
-                "insertSymbol": "$~insérer $symbol",
                 "insertTab": "$~insérer un onglet",
                 "insertTrue": "$~insérer vrai",
                 "insertFalse": "$~insérer faux",
@@ -4703,7 +4711,6 @@
                 "insertPrevious": "$~insérer le symbole précédent",
                 "insertType": "$~insérer le symbole de type",
                 "insertTable": "$~insérer un symbole d'ouverture de table",
-                "insertTableClose": "$~insérer un symbole de fermeture de tableau",
                 "insertBorrow": "$~insérer emprunter",
                 "insertShare": "$~insérer partager",
                 "insertLine": "$~insérer un saut de ligne",
@@ -5372,7 +5379,6 @@
                 "default": "$~défaut",
                 "inherited": "$~hérité",
                 "notSequence": "$~pas une séquence",
-                "notContent": "$~pas une liste de contenu",
                 "format": "$~format",
                 "weight": "$~poids",
                 "light": "$~lumière",
@@ -5604,9 +5610,7 @@
                     "forgot": "$~*Mot de passe oublié ?* Malheureusement, nous ne pouvons pas récupérer votre compte car nous ne collectons pas d'informations de contact.",
                     "email": "$~Avez-vous un compte de messagerie uniquement ? Connectez-vous en soumettant votre adresse e-mail et, si un compte y est associé, nous vous enverrons un e-mail avec un lien de connexion. Les nouveaux comptes de messagerie uniquement ne sont pas pris en charge, afin de préserver la confidentialité.",
                     "enter": "$~Il semble que votre lien de connexion provienne d'un autre navigateur ou appareil. Pouvez-vous saisir à nouveau votre adresse e-mail, juste pour être sûr qu'il s'agit bien de vous ?",
-                    "tooyoung": "$~Vous devez avoir 13 ans ou plus pour vous connecter avec une adresse e-mail.",
                     "passwordrule": "$~Les mots de passe doivent comporter au moins 6 caractères; si vous n'utilisez pas de gestionnaire de mots de passe, choisissez trois longs mots dont vous vous souviendrez.",
-                    "passwordreminder": "$~Il semble que vous n'ayez pas encore de compte. Saisissez à nouveau votre mot de passe et assurez-vous de l'avoir enregistré de manière sûre et correcte, car il n'est pas récupérable.",
                     "play": "$~Vous êtes connecté, nous pouvons enregistrer vos projets en ligne maintenant ! Vous voulez créer quelque chose ?",
                     "changeEmail": "$~Vous souhaitez modifier votre adresse e-mail ? Soumettez-en une nouvelle et nous vous enverrons une confirmation à l'ancienne.",
                     "changePassword": "$~Vous souhaitez modifier votre mot de passe ? Soumettez-en un nouveau et répétez-le.",
@@ -5626,7 +5630,6 @@
                     "email": "$~Cet email n'était pas valide.",
                     "offline": "$~Nous n'avons pas pu atteindre le nuage ☁️.",
                     "failure": "$~Impossible de se connecter :(",
-                    "unchanged": "$~Nous n'avons pas pu changer votre adresse e-mail, mais nous ne savons pas pourquoi.",
                     "delete": "$~Nous n'avons pas pu supprimer votre compte, mais nous ne savons pas pourquoi.",
                     "wrongPassword": "$~Nom d'utilisateur et mot de passe non valides. Soit votre mot de passe est erroné, soit quelqu'un d'autre possède ce nom d'utilisateur.",
                     "tooMany": "$~Vous avez essayé de vous connecter à plusieurs reprises sans succès. Vous devrez attendre avant de réessayer.",
@@ -5839,11 +5842,6 @@
                         "description": "$~description de la classe",
                         "placeholder": "$~description"
                     },
-                    "newteacher": {
-                        "placeholder": "$~email ou nom d'utilisateur",
-                        "description": "$~e-mail ou nom d'utilisateur du créateur à qui vous souhaitez donner accès à cette classe en tant qu'enseignant"
-                    },
-                    "addteacher": "$~Ajouter un enseignant à cette classe",
                     "delete": {
                         "tip": "$~Supprimez cette classe pour toujours.",
                         "label": "$~Supprimer cette classe"
@@ -6114,8 +6112,6 @@
                 "palette": "$~Palette",
                 "semantic": "$~Couleurs sémantiques",
                 "fonts": "$~Polices de caractères",
-                "appfont": "$~Police de caractères",
-                "codefont": "$~Police de caractères de code",
                 "spacing": "$~Espacement",
                 "typography": "$~Typographie",
                 "components": "$~Composants",
@@ -6133,7 +6129,6 @@
                 "demo": {
                     "button": "$~Exemple",
                     "note": "$~Ceci est une note.",
-                    "warning": "$~Ceci est un avertissement.",
                     "notice": "$~Ceci est un avis.",
                     "header": "$~En-tête",
                     "subheader": "$~Sous-titre",
@@ -6252,9 +6247,6 @@
             "append": "$~/Hâte d'insérer…/",
             "remove": "$~/Envisage de partir…/",
             "replace": "$~/Veut intervenir…/",
-            "wrap": "$~mettre entre parenthèses",
-            "unwrap": "$~déballer",
-            "bind": "$~nomme cette expression",
             "range": "$~sélection de $start à $end",
             "area": "$~code de type"
         },
@@ -6521,8 +6513,6 @@
                             "$~Les collaborateurs de toute galerie créée par un conservateur peuvent voir"
                         ]
                     },
-                    "expanded": "$~étendu",
-                    "limited": "$~limité",
                     "expandedOptions": "$~Que les conservateurs et les créateurs de la galerie sélectionnée prennent connaissance des méthodes de travail de cette galerie.",
                     "expandedAdd": "$~ajouter la galerie à la liste",
                     "expandedRemove": "$~supprimer la galerie de la liste"
@@ -6681,11 +6671,6 @@
             "emotion": "Choose an emotion",
             "invalidName": "$~Nom de jeu de mots non valide",
             "reference": "$~Référence anglaise",
-            "unwritten": "$~Texte non écrit",
-            "revised": "$~Texte révisé",
-            "revisedDescription": "$~Ces modifications sont enregistrées localement et n'ont pas encore été soumises à l'examen.",
-            "submitRevisions": "$~Soumettre les révisions",
-            "submitted": "$~Merci ! Votre texte révisé sera examiné et pourrait être publié prochainement.",
             "invalidConceptLinks": "$~Ces liens conceptuels ne fonctionnent pas dans la langue actuelle. Avez-vous fait une faute de frappe ou les avez-vous supprimés intentionnellement ?",
             "inputs": {
                 "header": "$~Ce modèle accepte les entrées suivantes",

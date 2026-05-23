@@ -371,7 +371,13 @@
                 "$~Czasami jednak możesz chcieć użyć znaków specjalnych, których @Doc używa w słowach /as/. Na przykład:",
                 "$~\\¶Moi znajomi używają @@, //, **, || i innych symboli.¶\n'używając znaków specjalnych!'\\",
                 "$~Jeśli po prostu powtórzysz te znaki specjalne, otrzymasz znak zamiast jego specjalnego znaczenia."
-            ]
+            ],
+            "conflict": {
+                "UnsupportedFontFormat": {
+                    "name": "$?",
+                    "explanation": "$?"
+                }
+            }
         },
         "Example": {
             "name": "$~przykład",
@@ -4439,7 +4445,8 @@
     "ui": {
         "font": {
             "app": "$~Noto Sans",
-            "code": "$~Noto Sans Mono"
+            "code": "$~Noto Sans Mono",
+            "missing": "$?"
         },
         "phrases": {
             "welcome": "$~Witam"
@@ -4527,10 +4534,6 @@
                     "label": "$~tłumaczyć"
                 },
                 "primary": "$~ustaw jako podstawową lokalizację tego projektu",
-                "history": {
-                    "on": "$~pokaż ostatni kod projektu",
-                    "off": "$~pokaż aktualny kod projektu"
-                },
                 "savedLocally": "$~projekty są zapisywane lokalnie, ale nie online",
                 "savedOnline": "$~projekty są zapisywane online"
             },
@@ -4650,7 +4653,14 @@
         },
         "source": {
             "label": "$~edytor programów",
-            "empty": ["$~• Wpisz $symbol i wybierz nas z menu."],
+            "empty": [
+                "$~• Wpisz $symbol i wybierz nas z menu.",
+                "$?",
+                "$?",
+                "$?",
+                "$?",
+                "$?"
+            ],
             "overwritten": "$~Projekt zmieniony gdzie indziej",
             "confirm": {
                 "delete": {
@@ -4688,7 +4698,6 @@
             "menu": {
                 "label": "$~menu autouzupełniania",
                 "show": "$~pokaż menu autouzupełniania",
-                "back": "$~opuść podmenu",
                 "empty": "$~Brak sugestii."
             },
             "cursor": {
@@ -4706,7 +4715,6 @@
                 "selectAll": "$~wybierz program",
                 "incrementLiteral": "$~zwiększ liczbę, tekst lub wartość logiczną",
                 "decrementLiteral": "$~zmniejsz liczbę, tekst lub wartość logiczną",
-                "insertSymbol": "$~wstaw $symbol",
                 "insertTab": "$~wstaw zakładkę",
                 "insertTrue": "$~wstaw prawdę",
                 "insertFalse": "$~wstaw fałsz",
@@ -4726,7 +4734,6 @@
                 "insertConvert": "$~wstaw symbol konwersji",
                 "insertPrevious": "$~wstaw poprzedni symbol",
                 "insertTable": "$~wstaw symbol otwartej tabeli",
-                "insertTableClose": "$~wstaw symbol zamknięcia tabeli",
                 "insertBorrow": "$~wstawić pożyczyć",
                 "insertShare": "$~wstaw udział",
                 "insertLine": "$~wstaw podział wiersza",
@@ -5473,7 +5480,6 @@
                 "default": "$~domyślny",
                 "inherited": "$~dziedziczny",
                 "notSequence": "$~nie sekwencja",
-                "notContent": "$~nie jest to lista treści",
                 "format": "$~format",
                 "weight": "$~waga",
                 "light": "$~światło",
@@ -5703,11 +5709,6 @@
                         "description": "$~Opis klasy",
                         "placeholder": "$~opis"
                     },
-                    "newteacher": {
-                        "placeholder": "$~e-mail lub nazwa użytkownika",
-                        "description": "$~adres e-mail lub nazwa użytkownika twórcy, któremu chcesz przyznać dostęp nauczyciela do tej klasy"
-                    },
-                    "addteacher": "$~Dodaj nauczyciela do tej klasy",
                     "delete": {
                         "tip": "$~Usuń tę klasę na zawsze.",
                         "label": "$~Usuń tę klasę"
@@ -5823,9 +5824,7 @@
                     "forgot": "$~*Zapomniałeś hasła?* Niestety, nie możemy odzyskać Twojego konta, ponieważ nie gromadzimy danych kontaktowych.",
                     "enter": "$~Wygląda na to, że Twój link logowania pochodzi z innej przeglądarki lub urządzenia. Czy możesz wpisać swój adres e-mail jeszcze raz, abyśmy mieli pewność, że to Ty?",
                     "play": "$~Jesteś zalogowany, możemy teraz zapisać Twoje projekty online! Chcesz coś stworzyć?",
-                    "tooyoung": "$~Musisz mieć ukończone 13 lat, aby zalogować się za pomocą adresu e-mail.",
                     "passwordrule": "$~Hasło musi mieć co najmniej 6 znaków. Jeśli nie używasz menedżera haseł, wybierz trzy długie słowa, które łatwo zapamiętasz.",
-                    "passwordreminder": "$~Wygląda na to, że nie masz jeszcze konta. Wprowadź ponownie swoje hasło i upewnij się, że zapisałeś je bezpiecznie i poprawnie, ponieważ nie można go odzyskać.",
                     "changeEmail": "$~Chcesz zmienić swój adres e-mail? Prześlij nowy, a my wyślemy potwierdzenie na stary.",
                     "changePassword": "$~Chcesz zmienić hasło? Podaj nowe i powtórz je.",
                     "email": "$~Czy masz konto wyłącznie e-mail? Zaloguj się, podając swój adres e-mail, a jeśli jest z nim powiązane konto, wyślemy Ci wiadomość e-mail z linkiem do logowania. Nowe konta wyłącznie e-mail nie są obsługiwane, aby zachować prywatność.",
@@ -5843,7 +5842,6 @@
                     "email": "$~Ten adres e-mail jest nieprawidłowy.",
                     "failure": "$~Nie można się zalogować :(",
                     "offline": "$~Nie udało nam się dosięgnąć chmury ☁️.",
-                    "unchanged": "$~Nie udało nam się zmienić Twojego adresu e-mail, ale nie wiemy dlaczego.",
                     "delete": "$~Nie mogliśmy usunąć Twojego konta, ale nie wiemy dlaczego.",
                     "wrongPassword": "$~Nieprawidłowa nazwa użytkownika i hasło. Albo twoje hasło jest nieprawidłowe, albo ktoś inny ma tę nazwę użytkownika.",
                     "tooMany": "$~Próbowałeś i nie udało Ci się zalogować zbyt wiele razy. Będziesz musiał poczekać, aby spróbować ponownie.",
@@ -6215,8 +6213,6 @@
                 "palette": "$~Paleta",
                 "semantic": "$~Kolory semantyczne",
                 "fonts": "$~Czcionki",
-                "appfont": "$~Czcionka tekstu",
-                "codefont": "$~Czcionka kodowa",
                 "spacing": "$~Rozstaw",
                 "typography": "$~Typografia",
                 "components": "$~Komponenty",
@@ -6234,7 +6230,6 @@
                 "demo": {
                     "button": "$~Przykład",
                     "note": "$~To jest notatka.",
-                    "warning": "$~To jest ostrzeżenie.",
                     "notice": "$~To jest powiadomienie.",
                     "header": "$~Chodnikowiec",
                     "subheader": "$~Podtytuł",
@@ -6353,9 +6348,6 @@
             "append": "$~/Chętnie wstawię…/",
             "remove": "$~/Rozważa opuszczenie…/",
             "replace": "$~/Chce wkroczyć…/",
-            "wrap": "$~w nawiasach",
-            "unwrap": "$~odwijać się",
-            "bind": "$~nazwij to wyrażenie",
             "range": "$~wybór od $start do $end dolarów",
             "area": "$~wpisz kod"
         },
@@ -6530,8 +6522,6 @@
                             "$~współpracownicy dowolnej galerii, którą tworzy kurator, mogą oglądać"
                         ]
                     },
-                    "expanded": "$~rozszerzony",
-                    "limited": "$~ograniczony",
                     "expandedOptions": "$~pozwól kuratorom i twórcom wybranej galerii zapoznać się z instrukcjami dotyczącymi tej galerii",
                     "expandedAdd": "$~dodaj galerię do listy",
                     "expandedRemove": "$~usuń galerię z listy"
@@ -6690,11 +6680,6 @@
             "emotion": "Choose an emotion",
             "invalidName": "$~Nieprawidłowa nazwa gry Wordplay",
             "reference": "$~Odniesienie do języka angielskiego",
-            "unwritten": "$~Niezapisany tekst",
-            "revised": "$~Zmieniony tekst",
-            "revisedDescription": "$~Te zmiany są zapisywane lokalnie i nie zostały jeszcze przesłane do recenzji.",
-            "submitRevisions": "$~Prześlij poprawki",
-            "submitted": "$~Dziękujemy! Twój poprawiony tekst zostanie sprawdzony i prawdopodobnie wkrótce zostanie opublikowany.",
             "invalidConceptLinks": "$~Te linki koncepcyjne nie działają w obecnej lokalizacji. Czy popełniłeś błąd ortograficzny, czy celowo je usunąłeś?",
             "inputs": {
                 "header": "$~Wejścia akceptowane przez ten szablon",

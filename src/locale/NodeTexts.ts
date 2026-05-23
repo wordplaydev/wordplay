@@ -153,7 +153,14 @@ type NodeTexts = {
      */
     ConceptLink: DescriptiveNodeText<['concept']>;
     /** A sequence of characters in `Markup` that aren't other markup content, e.g., ` ¶These are just words.¶ ` */
-    Words: DescriptiveNodeText;
+    Words: DescriptiveNodeText &
+        Conflicts<{
+            /**
+             * When a @Phrase requests a weight or italic style its face doesn't ship.
+             * $1 = face name, $2 = missing format name (e.g. "extra bold", "italic")
+             */
+            UnsupportedFontFormat: ConflictText<['face', 'format']>;
+        }>;
     /** Code inside `Markup`, e.g., ` ¶This is how you add: \1 + 1\¶ ` */
     Example: DescriptiveNodeText;
     /**

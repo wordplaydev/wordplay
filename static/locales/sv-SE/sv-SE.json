@@ -371,7 +371,13 @@
                 "$~Men ibland kanske du vill använda specialtecken som @Doc använder /as/-ord. Till exempel:",
                 "$~\\¶Mina vänner använder @@, //, **, || och andra symboler.¶\n'använder specialtecken!'\\",
                 "$~Om du bara upprepar dessa specialtecken får du karaktären istället för deras speciella betydelse."
-            ]
+            ],
+            "conflict": {
+                "UnsupportedFontFormat": {
+                    "name": "$?",
+                    "explanation": "$?"
+                }
+            }
         },
         "Example": {
             "name": "$~exempel",
@@ -4434,7 +4440,8 @@
     "ui": {
         "font": {
             "app": "$~Noto Sans",
-            "code": "$~Noto Sans Mono"
+            "code": "$~Noto Sans Mono",
+            "missing": "$?"
         },
         "phrases": {
             "welcome": "$~Hej"
@@ -4522,10 +4529,6 @@
                     "label": "$~översätta"
                 },
                 "primary": "$~ange som projektets primära plats",
-                "history": {
-                    "on": "$~visa senaste projektkod",
-                    "off": "$~visa aktuell projektkod"
-                },
                 "savedLocally": "$~projekt sparas lokalt, men inte online",
                 "savedOnline": "$~projekten sparas online"
             },
@@ -4645,7 +4648,14 @@
         },
         "source": {
             "label": "$~programredaktör",
-            "empty": ["$~• Skriv $symbol och välj oss från menyn."],
+            "empty": [
+                "$~• Skriv $symbol och välj oss från menyn.",
+                "$?",
+                "$?",
+                "$?",
+                "$?",
+                "$?"
+            ],
             "overwritten": "$~Projektet revideras på annat håll",
             "confirm": {
                 "delete": {
@@ -4683,7 +4693,6 @@
             "menu": {
                 "label": "$~autoslutförande-menyn",
                 "show": "$~visa autoslutförandemenyn",
-                "back": "$~lämna undermenyn",
                 "empty": "$~Inga förslag."
             },
             "cursor": {
@@ -4701,7 +4710,6 @@
                 "selectAll": "$~välj program",
                 "incrementLiteral": "$~öka antal, text eller boolesk",
                 "decrementLiteral": "$~minska antal, text eller boolesk",
-                "insertSymbol": "$~infoga $symbol",
                 "insertTab": "$~infoga flik",
                 "insertTrue": "$~infoga sant",
                 "insertFalse": "$~infoga falskt",
@@ -4721,7 +4729,6 @@
                 "insertConvert": "$~infoga konvertera symbol",
                 "insertPrevious": "$~infoga föregående symbol",
                 "insertTable": "$~infoga tabell öppen symbol",
-                "insertTableClose": "$~infoga tabell stäng symbol",
                 "insertBorrow": "$~infoga låna",
                 "insertShare": "$~infoga andel",
                 "insertLine": "$~infoga radbrytning",
@@ -5464,7 +5471,6 @@
                 "default": "$~standard",
                 "inherited": "$~ärvt",
                 "notSequence": "$~inte en sekvens",
-                "notContent": "$~inte en innehållslista",
                 "format": "$~formatera",
                 "weight": "$~vikt",
                 "light": "$~ljus",
@@ -5694,11 +5700,6 @@
                         "description": "$~beskrivning av klassen",
                         "placeholder": "$~beskrivning"
                     },
-                    "newteacher": {
-                        "placeholder": "$~e-post eller användarnamn",
-                        "description": "$~e-post eller användarnamn för skaparen som du vill ge läraren åtkomst till den här klassen"
-                    },
-                    "addteacher": "$~Lägg till en lärare i den här klassen",
                     "delete": {
                         "tip": "$~Ta bort den här klassen för alltid.",
                         "label": "$~Ta bort den här klassen"
@@ -5814,9 +5815,7 @@
                     "forgot": "$~*Har du glömt ditt lösenord?* Tyvärr kan vi inte återställa ditt konto eftersom vi inte samlar in kontaktinformation.",
                     "enter": "$~Det verkar som om din inloggningslänk kom från en annan webbläsare eller enhet. Kan du ange din e-postadress igen, bara så att vi är säkra på att det är du?",
                     "play": "$~Du är inloggad, vi kan spara dina projekt online nu! Vill du skapa något?",
-                    "tooyoung": "$~Du måste vara 13 år eller äldre för att logga in med e-post.",
                     "passwordrule": "$~Lösenord måste vara minst 6 tecken långa; om du inte använder en lösenordshanterare, välj tre långa ord som du kommer ihåg.",
-                    "passwordreminder": "$~Det verkar som att du inte har ett konto än. Ange ditt lösenord igen och se till att du har lagrat det säkert och korrekt, eftersom det inte går att återställa.",
                     "changeEmail": "$~Vill du ändra din e-postadress? Skicka in en ny så skickar vi en bekräftelse till den gamla.",
                     "changePassword": "$~Vill du ändra ditt lösenord? Skicka in en ny och upprepa den.",
                     "email": "$~Har du ett e-postkonto? Logga in genom att skicka din e-post, och om det finns ett konto kopplat till det, skickar vi ett e-postmeddelande med inloggningslänk. Nya e-postkonton stöds inte, för att bevara integriteten.",
@@ -5834,7 +5833,6 @@
                     "email": "$~Det här e-postmeddelandet var inte giltigt.",
                     "failure": "$~Kan inte logga in :(",
                     "offline": "$~Vi kunde inte nå molnet ☁️.",
-                    "unchanged": "$~Vi kunde inte ändra din e-postadress, men vi vet inte varför.",
                     "delete": "$~Vi kunde inte ta bort ditt konto, men vi vet inte varför.",
                     "wrongPassword": "$~Inte ett giltigt användarnamn och lösenord. Antingen är ditt lösenord fel eller så har någon annan det här användarnamnet.",
                     "tooMany": "$~Du har försökt och misslyckats med att logga in för många gånger. Du måste vänta med att försöka igen.",
@@ -6206,8 +6204,6 @@
                 "palette": "$~Palett",
                 "semantic": "$~Semantiska färger",
                 "fonts": "$~Typsnitt",
-                "appfont": "$~Texttypsnitt",
-                "codefont": "$~Kodtypsnitt",
                 "spacing": "$~Mellanrum",
                 "typography": "$~Typografi",
                 "components": "$~Komponenter",
@@ -6225,7 +6221,6 @@
                 "demo": {
                     "button": "$~Exempel",
                     "note": "$~Detta är en anteckning.",
-                    "warning": "$~Detta är en varning.",
                     "notice": "$~Detta är ett meddelande.",
                     "header": "$~Rubrik",
                     "subheader": "$~Underrubrik",
@@ -6341,9 +6336,6 @@
             "append": "$~/Ivrig att sätta in.../",
             "remove": "$~/Överväger att lämna.../",
             "replace": "$~/Vill kliva in.../",
-            "wrap": "$~parentes",
-            "unwrap": "$~packa upp",
-            "bind": "$~namnge detta uttryck",
             "range": "$~urval från $start till $end",
             "area": "$~typkod"
         },
@@ -6518,8 +6510,6 @@
                             "$~samarbetspartners i vilket galleri som helst som en kurator skapar kan se"
                         ]
                     },
-                    "expanded": "$~utökad",
-                    "limited": "$~begränsad",
                     "expandedOptions": "$~låt kuratorerna och skaparna av det valda galleriet se galleriets instruktioner",
                     "expandedAdd": "$~lägg till galleriet i listan",
                     "expandedRemove": "$~ta bort galleriet från listan"
@@ -6678,11 +6668,6 @@
             "emotion": "Choose an emotion",
             "invalidName": "$~Inte ett giltigt Wordplay-namn",
             "reference": "$~Engelsk referens",
-            "unwritten": "$~Oskriven text",
-            "revised": "$~Reviderad text",
-            "revisedDescription": "$~Dessa ändringar sparas lokalt och har ännu inte skickats in för granskning.",
-            "submitRevisions": "$~Skicka in ändringar",
-            "submitted": "$~Tack! Din reviderade text kommer att granskas och kan komma att publiceras snart.",
             "invalidConceptLinks": "$~Dessa konceptlänkar fungerar inte i den aktuella språkinställningen. Stavade du fel på en, eller tog du bort den med flit?",
             "inputs": {
                 "header": "$~Inmatningar som denna mall accepterar",
