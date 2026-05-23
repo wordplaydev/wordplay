@@ -151,14 +151,19 @@
             />{/if}
     </div>{#if format.editable && parent instanceof Reference && !(grandparent instanceof Evaluate && grandparent.fun === parent)}<MenuTrigger
             anchor={parent}
+
         ></MenuTrigger>{:else if format.editable && parent instanceof Input && parent.name === node}<MenuTrigger
             anchor={node}
+
         ></MenuTrigger>{:else if format.editable && parent instanceof Language && parent.slash === node}<MenuTrigger
             anchor={node}
+
         ></MenuTrigger>{:else if format.editable && parent instanceof Dimension && parent.name === node}<MenuTrigger
             anchor={node}
+
         ></MenuTrigger>{:else if format.editable && parent instanceof Unit && parent.slash === node}<MenuTrigger
             anchor={node}
+
         ></MenuTrigger>{:else if format.editable && parent instanceof Convert && parent.convert === node}<MenuTrigger
             anchor={node}
         ></MenuTrigger>{/if}

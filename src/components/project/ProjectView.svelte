@@ -13,7 +13,10 @@
     import Documentation from '@components/concepts/Documentation.svelte';
     import {
         handleKeyCommand,
+        Pause,
+        Play,
         Restart,
+        toShortcut,
         VisibleModifyCommands,
         VisibleNavigateCommands,
         type CommandContext,
@@ -25,6 +28,7 @@
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import Options from '@components/widgets/Options.svelte';
+    import Tour, { type UIExplanation } from '@components/widgets/Tour.svelte';
     import type Concept from '@concepts/Concept';
     import ConceptIndex from '@concepts/ConceptIndex';
     import {
@@ -35,7 +39,6 @@
     import type Chat from '@db/chats/ChatDatabase.svelte';
     import type { Creator } from '@db/creators/CreatorDatabase';
     import {
-        animationFactor,
         arrangement,
         blocks,
         camera,
@@ -56,19 +59,17 @@
         type ArrangementType,
     } from '@db/settings/Arrangement';
     import type Locale from '@locale/Locale';
+    import Evaluate from '@nodes/Evaluate';
     import Node, { isFieldPosition } from '@nodes/Node';
     import Source from '@nodes/Source';
     import type Color from '@output/Color';
     import { CANCEL_SYMBOL, INFO_SYMBOL } from '@parser/Symbols';
-    import Evaluate from '@nodes/Evaluate';
-    import Tour, {
-        type UIExplanation,
-    } from '@components/widgets/Tour.svelte';
     import { isName } from '@parser/Tokenizer';
     import Evaluator from '@runtime/Evaluator';
     import type Value from '@values/Value';
     import { onDestroy, onMount, tick, untrack } from 'svelte';
     import { writable, type Writable } from 'svelte/store';
+    import { consent, refreshConsentFromBrowser } from '@input/permissions';
     import Characters from '../../lore/BasisCharacters';
     import {
         PROJECT_PARAM_EDIT,
@@ -122,12 +123,14 @@
     import Button from '@components/widgets/Button.svelte';
     import CommandButton from '@components/widgets/CommandButton.svelte';
     import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
+    import Switch from '@components/widgets/Switch.svelte';
     import Toggle from '@components/widgets/Toggle.svelte';
     import type Gallery from '@db/galleries/Gallery';
     import GalleryHowTo from '@db/howtos/HowToDatabase.svelte';
     import {
         AnimationFactorIcons,
         AnimationFactors,
+        AnimationFactorSetting,
         AnimationIcon,
     } from '@db/settings/AnimationFactorSetting';
     import type MenuInfo from '@edit/menu/Menu';
@@ -179,6 +182,11 @@
         persistLayout = true,
         isCommenter = false,
     }: Props = $props();
+
+    /** The raw user-chosen animation factor (number or null for "auto"); used
+     * by the animation-speed picker so it reflects the actual choice rather
+     * than the effective resolved value. */
+    const animationFactor = AnimationFactorSetting.value;
 
     // The HTMLElement that represents this element
     let view = $state<HTMLElement | undefined>(undefined);
@@ -266,7 +274,6 @@
     let requestedEdit = $state(
         page.url.searchParams.get(PROJECT_PARAM_EDIT) !== null,
     );
-
 
     /** The fullscreen context of the page that this is in. */
     const pageFullscreen = getFullscreen();
@@ -936,7 +943,7 @@
                           currentProject,
                           $locales,
                           resolvedHowTos ?? [],
-                          currentGalleryHowTos,
+                          HowTos.allAccessiblePublishedHowTos,
                       ).withExamples(
                           index === undefined ? new Map() : index.examples,
                       )
@@ -1016,12 +1023,28 @@
             .flat(),
     );
 
+    /** Permissions the current project needs but for which the user hasn't yet made a decision. */
+    const requiredPermissions = $derived(project.getRequiredPermissions());
+    const pendingPermissions = $derived(
+        new Set(
+            [...requiredPermissions].filter((p) => $consent[p] === 'unknown'),
+        ),
+    );
+
+    /** When the project's required permissions change, see if the browser already granted them. */
+    $effect(() => {
+        for (const permission of requiredPermissions) {
+            untrack(() => refreshConsentFromBrowser(permission));
+        }
+    });
+
     /**
-     * Any time the evaluator of the project changes, start it.
+     * Any time the evaluator of the project changes, start it — unless a
+     * required browser permission has not yet been granted.
      * */
     let updateTimer = $state<NodeJS.Timeout | undefined>(undefined);
     $effect(() => {
-        // Re-evaluate immediately if not started.
+        if (pendingPermissions.size > 0) return;
         if (!$evaluator.isStarted()) $evaluator.start();
     });
 
@@ -1281,9 +1304,21 @@
     // false: couldn't load it.
     let chat = $state<Chat | undefined | null | false>(null);
     $effect(() => {
-        // When the project or chat change, get the chat.
-        Chats.getChat(project).then((retrievedChat) => {
-            chat = retrievedChat;
+        // Re-fetch whenever the project changes; do NOT subscribe to the
+        // chats $state map. Doing so would register this effect's closure
+        // as a reaction on Chats.chats — and that closure transitively
+        // captures the whole ProjectView script scope (including the
+        // commandContext $derived, which exposes the live evaluator and
+        // its temporalStreams). On any kind of remount the stale reaction
+        // would pin an old Evaluator (and therefore the old Hand stream,
+        // its camera DOM, and its MediaPipe WebAssembly.Memory) until the
+        // ChatDatabase singleton itself goes away — which never happens
+        // during a page session.
+        const currentProject = project;
+        untrack(() => {
+            Chats.getChat(currentProject).then((retrievedChat) => {
+                chat = retrievedChat;
+            });
         });
     });
 
@@ -1959,6 +1994,21 @@
                                         padding
                                         command={Restart}
                                     />
+                                    {#if requestedPlay || showOutput}
+                                        <Switch
+                                            on={$evaluation?.playing === true}
+                                            toggle={(play) =>
+                                                play
+                                                    ? $evaluator.play()
+                                                    : $evaluator.pause()}
+                                            offTip={Pause.description}
+                                            onTip={Play.description}
+                                            offLabel={Pause.symbol}
+                                            onLabel={Play.symbol}
+                                            uiid="playToggle"
+                                            shortcut={toShortcut(Play)}
+                                        />
+                                    {/if}
                                     {#if localesUsed.length > 0}<OutputLocaleChooser
                                             {localesUsed}
                                             locale={evaluationLocale}
@@ -1971,7 +2021,10 @@
                                     <Painting
                                             bind:painting
                                         />{/if} -->
-                                    <span class="zoom-group" data-uiid="stageZoom">
+                                    <span
+                                        class="zoom-group"
+                                        data-uiid="stageZoom"
+                                    >
                                         <Button
                                             background
                                             action={() =>
@@ -2020,13 +2073,18 @@
                                         data-uiid="stageAnimationSpeed"
                                         >{AnimationIcon}
                                         <Options
-                                            value={String($animationFactor)}
+                                            value={$animationFactor === null
+                                                ? 'auto'
+                                                : String($animationFactor)}
                                             label={(l) =>
                                                 l.ui.dialog.settings.mode
                                                     .animate.label}
                                             options={AnimationFactors.map(
                                                 (factor, i) => ({
-                                                    value: String(factor),
+                                                    value:
+                                                        factor === null
+                                                            ? 'auto'
+                                                            : String(factor),
                                                     label: AnimationFactorIcons[
                                                         i
                                                     ],
@@ -2034,9 +2092,10 @@
                                             )}
                                             change={(v) =>
                                                 Settings.setAnimationFactor(
-                                                    v !== undefined
-                                                        ? Number(v)
-                                                        : 1,
+                                                    v === undefined ||
+                                                        v === 'auto'
+                                                        ? null
+                                                        : Number(v),
                                                 )}
                                         />
                                     </label>
@@ -2082,6 +2141,7 @@
                                         {paintingConfig}
                                         bind:background={outputBackground}
                                         editable={editableAndCurrent}
+                                        onretry={() => updateEvaluator(project)}
                                     />
                                 {:else if tile.kind === TileKind.Collaborate}
                                     <CollaborateView {project} {chat} />
@@ -2179,7 +2239,7 @@
                                             />
                                         </div>
                                     {/if}
-                                {:else if tile.kind === TileKind.Output && layout.fullscreenID !== tile.id && !requestedPlay && !showOutput}
+                                {:else if tile.kind === TileKind.Output && !requestedPlay && !showOutput}
                                     <Timeline evaluator={$evaluator} />{/if}
                             {/snippet}
                             {#snippet margin()}

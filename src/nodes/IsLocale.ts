@@ -123,7 +123,9 @@ export default class IsLocale extends SimpleExpression {
     getStartExplanations(locales: Locales) {
         return locales.concretize(
             (l) => l.node.IsLocale.start,
-            this.locale?.toWordplay() ?? '-',
+            {
+                locale: this.locale?.toWordplay() ?? '-',
+            },
         );
     }
 

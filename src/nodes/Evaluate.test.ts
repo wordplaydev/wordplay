@@ -58,6 +58,13 @@ test.each([
         Evaluate,
         UnexpectedInput,
     ],
+    // Named input with an incompatible value type must produce IncompatibleInput.
+    [
+        'ƒ x(a•"yes"|"no") a\nx(a:"yes")',
+        'ƒ x(a•"yes"|"no") a\nx(a:"maybe")',
+        Evaluate,
+        IncompatibleInput,
+    ],
     [
         'x: ƒ(num…•#) a - b\nx(1 2 3)',
         'x: ƒ(num…•"") num[1]  b\nx(1 2 3)',

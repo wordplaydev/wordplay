@@ -259,6 +259,22 @@ export default class Gallery {
         return this.data.howToExpandedVisibility;
     }
 
+    withExpandedGallery(galleryID: string, viewers: string[]): Gallery {
+        const newData = { ...this.data };
+        newData.howToExpandedGalleries = [...newData.howToExpandedGalleries, galleryID];
+        newData.howToViewers[galleryID] = viewers;
+        newData.howToViewersFlat = Array.from(new Set([...newData.howToViewersFlat, ...viewers]));
+        return new Gallery(newData);
+    }
+
+    withoutExpandedGallery(galleryID: string): Gallery {
+        const newData = { ...this.data };
+        newData.howToExpandedGalleries = [...newData.howToExpandedGalleries.filter((id) => id !== galleryID)];
+        delete newData.howToViewers[galleryID];
+        newData.howToViewersFlat = Array.from(new Set([...Object.values(newData.howToViewers).flat()]));
+        return new Gallery(newData);
+    }
+
     getHowToGuidingQuestions(): string[] {
         return this.data.howToGuidingQuestions;
     }

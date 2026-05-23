@@ -130,9 +130,9 @@ export default class ListType extends BasisType {
     }
 
     getDescriptionInputs(locales: Locales, context: Context) {
-        return [
-            this.type ? new NodeRef(this.type, locales, context) : undefined,
-        ];
+        return {
+            type: this.type ? new NodeRef(this.type, locales, context) : undefined,
+        };
     }
 
     getDefaultExpression() {

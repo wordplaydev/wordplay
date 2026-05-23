@@ -5,78 +5,15 @@
 <!-- svelte-ignore state_referenced_locally -->
 <script lang="ts">
     import Emoji from '@components/app/Emoji.svelte';
-    import setKeyboardFocus from '@components/util/setKeyboardFocus';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import { computeCaretDescriptionPosition } from '@components/editor/caretDescriptionPosition';
-    import type Conflict from '@conflicts/Conflict';
-    import Project from '@db/projects/Project';
-    import Caret, {
-        type CaretPosition,
-        NegligibleConflicts,
-        isCaretPosition,
-    } from '@edit/caret/Caret';
-    import {
-        AssignmentPoint,
-        InsertionPoint,
-        dropNodeOnSource,
-        isValidDropTarget,
-    } from '@edit/drag/Drag';
-    import Menu, { RevisionSet } from '@edit/menu/Menu';
-    import { getEditsAt } from '@edit/menu/PossibleEdits';
-    import type Revision from '@edit/revision/Revision';
-    import type Locale from '@locale/Locale';
-    import { type LocaleTextAccessor } from '@locale/Locales';
-    import Evaluate from '@nodes/Evaluate';
-    import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
-    import Node, { type FieldPosition, isFieldPosition } from '@nodes/Node';
-    import Source from '@nodes/Source';
-    import { Sym } from '@nodes/Sym';
-    import Token from '@nodes/Token';
-    import TypePlaceholder from '@nodes/TypePlaceholder';
-    import type Evaluator from '@runtime/Evaluator';
-    import ExceptionValue from '@values/ExceptionValue';
-    import { onMount, tick, untrack } from 'svelte';
-    import { get, writable } from 'svelte/store';
-    import {
-        DB,
-        Projects,
-        animationFactor,
-        blockDensity,
-        blocks,
-        locales,
-        showLines,
-    } from '@db/Database';
-    import Expression from '@nodes/Expression';
-    import { DOCUMENTATION_SYMBOL, TYPE_SYMBOL } from '@parser/Symbols';
-    import UnicodeString from '@unicode/UnicodeString';
     import ConceptLinkUI from '@components/concepts/ConceptLinkUI.svelte';
-    import OutputView from '@components/output/OutputView.svelte';
-    import {
-        type EditorState,
-        IdleKind,
-        getAnimatingNodes,
-        getAnnouncer,
-        getConceptIndex,
-        getConflicts,
-        getDragged,
-        getEditors,
-        getEvaluation,
-        getKeyboardEditIdle,
-        getResetKeyboardIdle,
-        getSelectedOutput,
-        setCaret,
-        setDragTarget,
-        setEditor,
-        setHighlights,
-        setSetMenuAnchor,
-    } from '@components/project/Contexts';
-    import RootView from '@components/project/RootView.svelte';
-    import Button from '@components/widgets/Button.svelte';
-    import CaretView, { type CaretBounds } from '@components/editor/caret/CaretView.svelte';
+    import CaretView, {
+        type CaretBounds,
+    } from '@components/editor/caret/CaretView.svelte';
+    import { computeCaretDescriptionPosition } from '@components/editor/caretDescriptionPosition';
     import {
         type Edit,
-        type ProjectRevision,
         InsertSymbol,
+        type ProjectRevision,
         handleKeyCommand,
     } from '@components/editor/commands/Commands';
     import { getInternalClipboard } from '@components/editor/commands/InternalClipboard';
@@ -104,6 +41,71 @@
         getNodeAt,
         getTextInsertionPointsAt,
     } from '@components/editor/pointer/PointerUtilities';
+    import OutputView from '@components/output/OutputView.svelte';
+    import {
+        type EditorState,
+        IdleKind,
+        getAnimatingNodes,
+        getAnnouncer,
+        getConceptIndex,
+        getConflicts,
+        getDragged,
+        getEditors,
+        getEvaluation,
+        getKeyboardEditIdle,
+        getResetKeyboardIdle,
+        getSelectedOutput,
+        setCaret,
+        setDragTarget,
+        setEditor,
+        setHighlights,
+        setSetMenuAnchor,
+    } from '@components/project/Contexts';
+    import RootView from '@components/project/RootView.svelte';
+    import setKeyboardFocus from '@components/util/setKeyboardFocus';
+    import Button from '@components/widgets/Button.svelte';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
+    import type Conflict from '@conflicts/Conflict';
+    import {
+        DB,
+        Projects,
+        animationFactor,
+        blockDensity,
+        blocks,
+        locales,
+        showLines,
+    } from '@db/Database';
+    import Project from '@db/projects/Project';
+    import Caret, {
+        type CaretPosition,
+        NegligibleConflicts,
+        isCaretPosition,
+    } from '@edit/caret/Caret';
+    import {
+        AssignmentPoint,
+        InsertionPoint,
+        dropNodeOnSource,
+        isValidDropTarget,
+    } from '@edit/drag/Drag';
+    import Menu, { RevisionSet } from '@edit/menu/Menu';
+    import { getEditsAt } from '@edit/menu/PossibleEdits';
+    import type Revision from '@edit/revision/Revision';
+    import type Locale from '@locale/Locale';
+    import { type LocaleTextAccessor } from '@locale/Locales';
+    import Evaluate from '@nodes/Evaluate';
+    import Expression from '@nodes/Expression';
+    import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
+    import Node, { type FieldPosition, isFieldPosition } from '@nodes/Node';
+    import Source from '@nodes/Source';
+    import { Sym } from '@nodes/Sym';
+    import Token from '@nodes/Token';
+    import TypePlaceholder from '@nodes/TypePlaceholder';
+    import { DOCUMENTATION_SYMBOL, TYPE_SYMBOL } from '@parser/Symbols';
+    import type Evaluator from '@runtime/Evaluator';
+    import UnicodeString from '@unicode/UnicodeString';
+    import ExceptionValue from '@values/ExceptionValue';
+    import { onMount, tick, untrack } from 'svelte';
+    import { get, writable } from 'svelte/store';
 
     interface Props {
         /** The evaluator evaluating the source being edited. */
@@ -318,12 +320,7 @@
         void $blocks;
         void caretLocation;
         const blockEl = pos instanceof Node ? getNodeView(pos) : undefined;
-        if (
-            !descriptionElement ||
-            !$blocks ||
-            !blockEl ||
-            editor === null
-        ) {
+        if (!descriptionElement || !$blocks || !blockEl || editor === null) {
             descriptionPos = undefined;
             return;
         }
@@ -339,6 +336,23 @@
 
     // The point at which a drag started.
     let dragPoint: { x: number; y: number } | undefined = $state(undefined);
+
+    // Touch input uses a long-press to enter drag mode (the iOS reorder
+    // convention) so a typical scroll swipe still scrolls. Mouse/trackpad
+    // input keeps the existing 10px-threshold drag start.
+    let dragLongPressTimer: NodeJS.Timeout | undefined;
+    /** ms a touch must be held still before a drag commits */
+    const DRAG_LONG_PRESS_MS = 250;
+    /** px a touch can drift during the hold before the long-press is
+     *  cancelled (i.e. the user is scrolling, not pressing-and-holding) */
+    const DRAG_LONG_PRESS_CANCEL_PX = 5;
+
+    function clearDragLongPress() {
+        if (dragLongPressTimer !== undefined) {
+            clearTimeout(dragLongPressTimer);
+            dragLongPressTimer = undefined;
+        }
+    }
 
     // The caret position resolved at pointer-down, used as the anchor for drag-to-select.
     let dragStartPosition: CaretPosition | undefined = $state(undefined);
@@ -479,8 +493,16 @@
         dragPoint = undefined;
         dragStartPosition = undefined;
 
+        // Cancel any pending touch long-press.
+        clearDragLongPress();
+
         // Reset the insertion points.
         insertion.set(undefined);
+
+        // Restore native touch behavior (scroll, etc.) for the next gesture.
+        // We only set touch-action on actual drag-start so this is a no-op
+        // for non-drag pointerups, but it keeps the editor in a clean state.
+        if (editor) editor.style.removeProperty('touchAction');
     }
 
     async function drop() {
@@ -584,18 +606,48 @@
         }
 
         // Mark that the creator might want to drag the node under the pointer and remember where the click started.
+        // We deliberately do NOT preventDefault or set touch-action here:
+        // doing so on touch-start commits iOS to "this isn't a scroll" before
+        // we know the user's intent, breaking scrolling in blocks mode. The
+        // suppression is deferred to the moment a drag actually starts (in
+        // handleEditHover for mouse, or the long-press timer for touch).
         dragPoint = { x: event.clientX, y: event.clientY };
+        // Drag requires the editor to be editable. The previous condition
+        // (`editable ? $blocks || event.shiftKey : $blocks`) inadvertently
+        // allowed dragging in read-only blocks mode.
         if (
+            editable &&
             nonTokenNodeUnderPointer &&
-            (editable ? $blocks || event.shiftKey : $blocks)
+            ($blocks || event.shiftKey)
         ) {
             dragCandidate = nonTokenNodeUnderPointer;
-            // If the primary mouse button is down, start dragging and set insertion.
-            // We don't actually start dragging until the cursor has moved more than a certain amount since last click.
-            if (dragCandidate && event.buttons === 1) {
-                event.preventDefault();
-                event.stopPropagation();
-                if (editor) editor.style.touchAction = 'none';
+
+            // Touch input: gate drag on a long-press so scroll swipes still
+            // scroll. Mouse/trackpad still uses the existing pixel
+            // threshold check in handleEditHover.
+            if (
+                event.pointerType === 'touch' &&
+                dragged !== undefined &&
+                dragCandidate !== undefined
+            ) {
+                const candidate = dragCandidate;
+                clearDragLongPress();
+                dragLongPressTimer = setTimeout(() => {
+                    dragLongPressTimer = undefined;
+                    // Only commit if still the same candidate (the user
+                    // didn't release or move enough to cancel) and we
+                    // haven't already started a drag.
+                    if (
+                        dragCandidate === candidate &&
+                        $dragged === undefined &&
+                        dragged !== undefined
+                    ) {
+                        dragged.set(candidate);
+                        dragCandidate = undefined;
+                        dragPoint = undefined;
+                        if (editor) editor.style.touchAction = 'none';
+                    }
+                }, DRAG_LONG_PRESS_MS);
             }
         }
     }
@@ -613,8 +665,20 @@
     function handlePointerMove(event: PointerEvent) {
         if (editor === null) return;
 
-        // Remove the touch action disabling now that we're moving.
-        editor.style.removeProperty('touchAction');
+        // Touch input: if the finger drifts during the long-press window,
+        // the user is scrolling, not pressing-and-holding. Cancel the
+        // pending drag so subsequent moves go to the browser as scroll.
+        if (
+            dragLongPressTimer !== undefined &&
+            dragPoint !== undefined &&
+            Math.sqrt(
+                Math.pow(event.clientX - dragPoint.x, 2) +
+                    Math.pow(event.clientY - dragPoint.y, 2),
+            ) >= DRAG_LONG_PRESS_CANCEL_PX
+        ) {
+            clearDragLongPress();
+            dragCandidate = undefined;
+        }
 
         // Handle an edit
         handleEditHover(event);
@@ -671,6 +735,12 @@
             dragged.set(dragCandidate);
             dragCandidate = undefined;
             dragPoint = undefined;
+            // Drag has actually started — now suppress native scroll/zoom
+            // for the rest of this gesture. Doing this on pointerdown would
+            // break iOS scrolling because Safari commits the gesture's
+            // intent (scroll vs custom) at touch-start.
+            event.preventDefault();
+            if (editor) editor.style.touchAction = 'none';
         }
 
         // Update insertion points if something is dragged and hovered isn't a placeholder.
@@ -1101,9 +1171,7 @@
             (event.ctrlKey || event.metaKey) &&
             !event.shiftKey &&
             !event.altKey &&
-            (event.code === 'KeyV' ||
-                event.key === 'v' ||
-                event.key === 'V')
+            (event.code === 'KeyV' || event.key === 'v' || event.key === 'V')
         ) {
             const internal = getInternalClipboard();
             if (internal === undefined) return;
@@ -1360,16 +1428,18 @@
     // Cache of the inputs to the conflictsOfInterest computation. Caret moves
     // within a single token don't change any of these, so we can bail without
     // re-running the work — which previously did a full source.nodes() walk.
-    let prevConflictsKey: {
-        project: Project;
-        nodeConflicts: Conflict[] | undefined;
-        dragged: Node | undefined;
-        hoveredAny: Node | undefined;
-        caretNode: Node | undefined;
-        tokenAtCaret: Token | undefined;
-        tokenPrior: Token | undefined;
-        atTokenEnd: boolean;
-    } | undefined;
+    let prevConflictsKey:
+        | {
+              project: Project;
+              nodeConflicts: Conflict[] | undefined;
+              dragged: Node | undefined;
+              hoveredAny: Node | undefined;
+              caretNode: Node | undefined;
+              tokenAtCaret: Token | undefined;
+              tokenPrior: Token | undefined;
+              atTokenEnd: boolean;
+          }
+        | undefined;
 
     $effect(() => {
         // The project and source can update at different times, so we only do this if the current source is in the project.
@@ -1383,7 +1453,8 @@
             : undefined;
         const atTokenEnd = $caret.isPosition() && !!$caret.atTokenEnd();
         const tokenPrior = atTokenEnd ? $caret.tokenPrior : undefined;
-        const caretNode = $caret.position instanceof Node ? $caret.position : undefined;
+        const caretNode =
+            $caret.position instanceof Node ? $caret.position : undefined;
 
         if (
             prevConflictsKey !== undefined &&
@@ -1431,9 +1502,7 @@
                           project
                               .getRoot($hoveredAny)
                               ?.getSelfAndAncestors($hoveredAny) ?? []
-                      ).find((node) =>
-                          project.nodeInvolvedInConflicts(node),
-                      );
+                      ).find((node) => project.nodeInvolvedInConflicts(node));
             if (conflictedHover) conflictSelection = conflictedHover;
 
             // If not, is there a node selected?
@@ -1485,7 +1554,8 @@
                         caretNode,
                         ...source.root.getAncestors(caretNode),
                     ].find((node) => project.nodeInvolvedInConflicts(node));
-                    if (conflictedAncestor) conflictSelection = conflictedAncestor;
+                    if (conflictedAncestor)
+                        conflictSelection = conflictedAncestor;
                 }
             }
 
@@ -1493,17 +1563,15 @@
             if (conflictSelection)
                 // Get all conflicts involving the selection
                 newConflictsOfInterest = [
-                    ...(project.getConflictsInvolvingNode(
-                        conflictSelection,
-                    ) ?? []),
+                    ...(project.getConflictsInvolvingNode(conflictSelection) ??
+                        []),
                     ...$nodeConflicts,
                 ]
                     // Eliminate duplicate conflicts
                     .filter(
                         (c1, i1, list) =>
                             !list.some(
-                                (c2, i2) =>
-                                    c1 === c2 && i2 > i1 && i1 !== i2,
+                                (c2, i2) => c1 === c2 && i2 > i1 && i1 !== i2,
                             ),
                     );
             // If we didn't find a selection, just get all conflicts in the project.
@@ -1713,6 +1781,20 @@
         outlineRevision++;
     }
 
+    // While paused/stepping, each step can add or change the value rendered
+    // inline next to an expression in NodeView, which shifts the layout.
+    // Neither the source nor the highlight set changes, so the conflict
+    // underline outlines would otherwise stay at their pre-step positions.
+    // Refresh on every evaluator broadcast (it fires once per step) while not
+    // playing. During play the !playing guard keeps this cheap.
+    // Untrack the call: refreshHighlights does `outlineRevision++`, whose
+    // implicit read would otherwise register outlineRevision as a dep of this
+    // effect and the subsequent write would re-trigger us — infinite loop.
+    $effect(() => {
+        if ($evaluation !== undefined && !$evaluation.playing)
+            untrack(refreshHighlights);
+    });
+
     // Re-measure outlines when an ancestor of the editor finishes a CSS
     // animation. Matters for the editor inside ExampleUI: its container
     // paragraph in MarkupHTMLView animates from transform: scaleY(0) to
@@ -1746,8 +1828,7 @@
             }
         };
         document.addEventListener('animationend', handler);
-        return () =>
-            document.removeEventListener('animationend', handler);
+        return () => document.removeEventListener('animationend', handler);
     });
 
     // Update the outline positions any time the highlights change, but only after we're done rendering.
@@ -2005,9 +2086,7 @@
                 : descriptionTop
                   ? `${descriptionTop}px`
                   : undefined}
-            data-left={descriptionPos
-                ? descriptionPos.left
-                : descriptionLeft}
+            data-left={descriptionPos ? descriptionPos.left : descriptionLeft}
             >{#if displayedCaret.position instanceof Node}
                 {@const relevantConcept = concepts?.getRelevantConcept(
                     displayedCaret.position,
@@ -2026,11 +2105,11 @@
                             anchor={displayedCaret.position}
                         />{/if}
                 </span>{#if !(displayedCaret.position instanceof Token)}<em
-                    class="node-description"
-                    >{displayedCaret.position
-                        .getDescription($locales, context)
-                        .toText()}</em
-                >{/if}{/if}{#if keyIgnoredReason}<em>
+                        class="node-description"
+                        >{displayedCaret.position
+                            .getDescription($locales, context)
+                            .toText()}</em
+                    >{/if}{/if}{#if keyIgnoredReason}<em>
                     &nbsp;<LocalizedText path={keyIgnoredReason} /></em
                 >{/if}</div
         >

@@ -1,0 +1,20 @@
+Crie o seu próprio modelo de personagem
+
+Por vezes, quer muitos personagens que sejam quase idênticos, mas com pequenas diferenças.Em vez de escrever o mesmo @Phrase Pode criar o seu próprio modelo repetidamente com um @Structure .
+
+UM  @Structure É como se fosse uma receita com espaços em branco para preencher.Eis um modelo de balão que recebe uma cor e um rótulo e sabe como se exibir:
+
+\•Balloon(color•Color label•'') (
+	ƒ show() Phrase(`🎈\label\` color: color size: 2m)
+)
+Group(Row() [
+		Balloon(Color(80% 50 240°) 'Céu').show()
+		Balloon(Color(60% 80 0°) 'Rosa').show()
+		Balloon(Color(90% 80 90°) 'Ensolarado').show()
+	])\
+
+O \•Balloon(...)\parte define o modelo, e o\ƒ show()\parte diz/como desenhar um/.De seguida, fazemos três balões com cores e etiquetas diferentes e pedimos a cada um deles que\show\ em si.
+
+Os modelos são excelentes quando pretende manter o seu código organizado e os seus caracteres consistentes.
+
+track-game-state, make-many-copies

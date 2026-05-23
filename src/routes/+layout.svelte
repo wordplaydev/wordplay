@@ -14,6 +14,7 @@
 <script lang="ts">
     import { browser } from '$app/environment';
     import { page } from '$app/state';
+    import ConnectionBanner from '@components/app/ConnectionBanner.svelte';
     import Loading from '@components/app/Loading.svelte';
     import Announcer from '@components/project/Announcer.svelte';
     import Hint, { ActiveHint } from '@components/widgets/Hint.svelte';
@@ -39,6 +40,7 @@
         animationFactor,
         dark,
         DB,
+        disconnected,
         howToNotifications,
         HowTos,
         locales,
@@ -46,6 +48,7 @@
         Settings,
     } from '@db/Database';
     import { getLanguageDirection } from '@locale/LanguageCode';
+    import { routeRequiresFirebase } from './routeRequiresFirebase';
 
     interface Props {
         children: Snippet;
@@ -98,11 +101,15 @@
         // Listen for logged in users.
         DB.login((newUser) => user.set(newUser));
 
+        // Install browser online/offline + visibilitychange listeners.
+        const cleanupNetworkListeners = DB.installNetworkListeners();
+
         // Wait a second before showing loading
         setTimeout(() => (lag = true), 1000);
 
         // Have the Database cleanup database connections when this is unmounted.
         return () => {
+            cleanupNetworkListeners();
             DB.clean();
         };
     });
@@ -200,10 +207,19 @@
         if (browser && urlLocale) {
             const valid = urlLocale
                 .split('+')
-                .filter((l) => SupportedLocales.includes(l as SupportedLocale)) as SupportedLocale[];
+                .filter((l) =>
+                    SupportedLocales.includes(l as SupportedLocale),
+                ) as SupportedLocale[];
             if (valid.length > 0) DB.Locales.setLocales(valid);
         }
     });
+
+    // Lock down the page when disconnected AND the current route requires Firebase.
+    // The editor (/project/[id]) and static pages stay interactive while offline;
+    // the existing per-page Status indicator surfaces save failures.
+    const locked = $derived(
+        $disconnected && routeRequiresFirebase(page.url.pathname),
+    );
 </script>
 
 <!-- svelte-ignore a11y_no_static_element_interactions -->
@@ -216,13 +232,16 @@
     lang={$locales.getLocale().language}
     ontouchstart={() => hint.hide()}
 >
-    {#if !$localesReady}
-        {#if lag}<Loading />{/if}
-    {:else if !loaded && lag}
-        <Loading />
-    {:else}
-        {@render children()}
-    {/if}
+    <ConnectionBanner />
+    <div class="content" class:locked inert={locked}>
+        {#if !$localesReady}
+            {#if lag}<Loading />{/if}
+        {:else if !loaded && lag}
+            <Loading />
+        {:else}
+            {@render children()}
+        {/if}
+    </div>
 </div>
 <!-- Render a live region with announcements as soon as possible -->
 <Announcer
@@ -231,10 +250,34 @@
 <Hint></Hint>
 
 <style>
+    /* Flex column at the viewport height so the banner can take its natural
+       space at the top and the content shrinks to fit — same pattern Page.svelte
+       uses for the Localizer header. Keeps the page itself non-scrolling. */
     .root {
+        display: flex;
+        flex-direction: column;
+        height: 100dvh;
+        max-height: 100dvh;
         font-family: var(--wordplay-app-font);
         font-weight: var(--wordplay-font-weight);
         font-size: var(--wordplay-font-size);
         color: var(--wordplay-foreground);
+    }
+
+    .content {
+        flex: 1;
+        min-height: 0;
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* When the connection is lost on a Firebase-dependent route, grey out the
+       page content. `inert` (set on the element directly) handles focus and
+       a11y exclusion; this style is purely visual. */
+    .content.locked {
+        filter: grayscale(1);
+        opacity: 0.5;
+        pointer-events: none;
+        user-select: none;
     }
 </style>

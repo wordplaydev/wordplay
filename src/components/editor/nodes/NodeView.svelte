@@ -202,8 +202,8 @@
             ><!--Render the available value if debugging, node view otherwise -->{#if elided}<span
                     class="elided"
                     aria-label="elided">…</span
-                >{:else}{#if value && node.isUndelimited()}<span
-                        class="eval">{EVAL_OPEN_SYMBOL}</span
+                >{:else}{#if value && node.isUndelimited()}<span class="eval"
+                        >{EVAL_OPEN_SYMBOL}</span
                     >{/if}<ComponentView
                     {node}
                     {format}
@@ -434,9 +434,7 @@
     /* When the docs panel has no content, NodeSequenceView shows its empty
        placeholder at the top level of the panel. Drop the panel's own
        chrome — the placeholder/menu trigger alone is enough. */
-    .block.doc:has(
-            > :global(.node-list[data-direction='block'] > .empty)
-        ) {
+    .block.doc:has(> :global(.node-list[data-direction='block'] > .empty)) {
         padding: 0;
         background: transparent;
         box-shadow: none;

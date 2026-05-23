@@ -1,0 +1,17 @@
+Bir karakterin parmağınızı takip etmesini sağlayın.
+
+Fare veya parmağınızı kovalayan bir karakter mi istiyorsunuz? @Stage ?Bunu şu şekilde yapabiliriz: @Pointer giriş. 
+
+@Pointer bize yeni bir bakış açısı sunuyor @Place İmleç her hareket ettiğinde.Eğer bunu kullanırsak @Place olarak @Phrase 'S \place\Karakter, işaret ettiğimiz yere gidecektir.
+
+\Stage([Phrase('🐈' place: Pointer())] place: Place(0m 0m -10m))\
+
+İşte bu kadar! Fareyi hareket ettirin veya parmağınızı sürükleyin ve kedinin sizi takip etmesini izleyin.
+
+Çıkararak daha ilginç şeyler yapabilirsiniz.\x\ Ve \y\-den @Place .İşte her zaman imlecin bir metre üzerinde süzülen bir ördek:
+
+\Stage([
+		Phrase('🦆' place: Place(Pointer().x Pointer().y + 1m))
+	] place: Place(0m 0m -10m))\
+
+move-phrase, count-with-time

@@ -65,8 +65,10 @@
     import {
         codepointKey,
         getCodepoints,
+        getScripts,
         type Codepoint,
     } from '@unicode/Unicode';
+    import { Scripts, type Script } from '@locale/Scripts';
     import Button from '@components/widgets/Button.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import Mode from '@components/widgets/Mode.svelte';
@@ -103,17 +105,29 @@
         CharactersDB.getEditableCharacters().filter((c) => c.public),
     );
 
-    /** One of VisibleCategories */
-    let category = $state<(typeof VisibleCategories)[number]>('So-sm');
+    /** One of VisibleCategories, or undefined when a script filter is active
+     *  (Mode and the script dropdown are mutually exclusive). */
+    let category = $state<(typeof VisibleCategories)[number] | undefined>(
+        'So-sm',
+    );
 
     /** The Unicode codepoints metadata, loaded async on mount */
     let codepoints = $state<Codepoint[] | null>(null);
+
+    /** ISO 15924 → English long-name map, loaded async on mount. Used as the
+     *  fallback dropdown label source for scripts Scripts.ts doesn't curate. */
+    let scriptNames = $state<Record<string, string> | null>(null);
+
+    /** The ISO 15924 script filter, or undefined for no script filter. */
+    let script = $state<string | undefined>(undefined);
 
     /** The internal search query, used when no externalQuery is provided */
     let internalQuery = $state('');
 
     /** The active query: external when provided, otherwise internal */
-    let query = $derived(externalQuery !== undefined ? externalQuery : internalQuery);
+    let query = $derived(
+        externalQuery !== undefined ? externalQuery : internalQuery,
+    );
 
     /** The selected skin tone modifier codepoint as a string, or undefined for the default (no modifier) */
     let skinTone = $state<string | undefined>(undefined);
@@ -148,18 +162,40 @@
         getCodepoints().then((cp) => {
             codepoints = cp;
         });
+        getScripts().then((s) => {
+            scriptNames = s;
+        });
         // Kick off emoji-translation loading for the currently selected
         // locales so cross-language search works without blocking the
         // picker. New translations will arrive via the emojiMaps store.
         Locales.loadEmojisForCurrentLocales();
     });
 
+    /** ISO 15924 codes present in the loaded codepoints, sorted by display
+     *  name. The dropdown only lists scripts that actually have at least one
+     *  pickable codepoint. */
+    let availableScripts = $derived<string[]>(
+        codepoints === null || scriptNames === null
+            ? []
+            : Array.from(
+                  new Set(
+                      codepoints
+                          .map((c) => c.script)
+                          .filter((s): s is string => s !== undefined),
+                  ),
+              ).sort((a, b) => {
+                  const aLabel =
+                      Scripts[a as Script]?.name ?? scriptNames![a] ?? a;
+                  const bLabel =
+                      Scripts[b as Script]?.name ?? scriptNames![b] ?? b;
+                  return aLabel.localeCompare(bLabel);
+              }),
+    );
+
     /** The supported-locale codes for the currently selected locales, used
      * to look up emoji translations in the emojiMaps store. */
     let selectedLocaleCodes = $derived(
-        $locales.getLocales().map(
-            (l) => toLocaleString(l) as SupportedLocale,
-        ),
+        $locales.getLocales().map((l) => toLocaleString(l) as SupportedLocale),
     );
 
     /** When the user switches locales, fetch any newly-needed emoji maps. */
@@ -216,11 +252,13 @@
         const maps = $emojiMaps;
         return codepoints.filter(
             (code) =>
-                (code.emoji &&
+                // If a script is active, search is scoped to that script.
+                (script === undefined || code.script === script) &&
+                ((code.emoji &&
                     groupTips[getEmojiGroupIndex(code.emoji.group)].includes(
                         normalized,
                     )) ||
-                matchesLocalizedKeywords(code, normalized, maps),
+                    matchesLocalizedKeywords(code, normalized, maps)),
         );
     });
 </script>
@@ -246,6 +284,32 @@
                 bind:text={internalQuery}
             />
         {/if}
+        {#if codepoints !== null && scriptNames !== null}
+            <Options
+                label={(l) => l.ui.emoji.scriptLabel}
+                value={script}
+                options={[
+                    {
+                        value: undefined,
+                        label: (l) => l.ui.emoji.script,
+                    },
+                    ...availableScripts.map((iso) => ({
+                        value: iso,
+                        label:
+                            Scripts[iso as Script]?.name ??
+                            scriptNames?.[iso] ??
+                            iso,
+                    })),
+                ]}
+                change={(value) => {
+                    script = value;
+                    if (script !== undefined) {
+                        category = undefined;
+                        internalQuery = '';
+                    }
+                }}
+            />
+        {/if}
         {#if category === 'So-pe'}
             <Options
                 label={(l) => l.ui.emoji.skinTone}
@@ -258,9 +322,12 @@
             labeled={false}
             modes={(l) => l.ui.emoji.groups}
             wrap={true}
-            choice={VisibleCategories.indexOf(category)}
+            choice={category === undefined
+                ? undefined
+                : VisibleCategories.indexOf(category)}
             select={(choice) => {
                 internalQuery = '';
+                script = undefined;
                 category = VisibleCategories[choice];
             }}
             omit={showCustom ? [] : [0]}
@@ -271,6 +338,14 @@
         {#if query.length > 2 && codepoints !== null}
             <!-- Show the search results if there's a query. -->
             {#each results as code}
+                {@render choice(code.hex)}
+            {/each}
+        {:else if codepoints === null}
+            <!-- Show loading feedback if the codepoints aren't yet loaded. -->
+            <Spinning></Spinning>
+        {:else if script !== undefined}
+            <!-- A script filter is active; show every single-codepoint glyph belonging to that script. -->
+            {#each codepoints.filter((code) => code.script === script && code.hex.length === 1) as code}
                 {@render choice(code.hex)}
             {/each}
         {:else if showCustom && category === 'Custom'}
@@ -295,10 +370,7 @@
                     /></Link
                 >
             {/each}
-        {:else if codepoints === null}
-            <!-- Show loading feedback if the codepoints aren't yet loaded. -->
-            <Spinning></Spinning>
-        {:else if category.startsWith('So-')}
+        {:else if category !== undefined && category.startsWith('So-')}
             <!-- Is it an emoji group? Show all the emojis in that group, and only the selected skin tone. -->
             {@const emojiGroup = category.split('-')[1]}
             {@const filtered = codepoints.filter(
@@ -335,11 +407,16 @@
             {#each glyphs as code}
                 {@render choice(code.hex)}
             {/each}
-        {:else if category.length === 2}
+        {:else if category !== undefined && category.length === 2}
             <!-- Is this a Unicode category? Show all the codepoints with that category. -->
             {#each codepoints.filter((code) => code.category === category) as code}
                 {@render choice(code.hex)}
             {/each}
+        {:else}
+            <!-- No category and no script: invite the user to pick one. -->
+            <div class="hint">
+                <LocalizedText path={(l) => l.ui.emoji.pickFilter} />
+            </div>
         {/if}
     </div>
 </div>
@@ -382,5 +459,11 @@
         background: var(--wordplay-highlight-color);
         border-radius: var(--wordplay-border-radius);
         scale: 1.5;
+    }
+
+    .hint {
+        font-style: italic;
+        color: var(--wordplay-inactive-color);
+        padding: var(--wordplay-spacing-half);
     }
 </style>

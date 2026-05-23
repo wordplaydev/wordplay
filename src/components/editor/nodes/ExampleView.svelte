@@ -1,6 +1,8 @@
 <script lang="ts">
     import type Example from '@nodes/Example';
-    import NodeView, { type Format } from '@components/editor/nodes/NodeView.svelte';
+    import NodeView, {
+        type Format,
+    } from '@components/editor/nodes/NodeView.svelte';
 
     interface ExampleProps {
         node: Example;

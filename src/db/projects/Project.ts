@@ -1,5 +1,6 @@
 import Templates from '@concepts/Templates';
 import type Conflict from '@conflicts/Conflict';
+import { Permission, type PermissionName } from '@input/permissions';
 import type { CaretPosition } from '@edit/caret/Caret';
 import concretize from '@locale/concretize';
 import { getBestSupportedLocales } from '@locale/getBestSupportedLocales';
@@ -330,14 +331,16 @@ export default class Project {
         for (const source of this.getSources()) {
             const context = this.getContext(source);
 
-            // Compute all of the conflicts in the program.
-            this.analysis.conflicts = this.analysis.conflicts.concat(
-                source.expression.getAllConflicts(context),
-            );
+            // Compute all of the conflicts in this source.
+            const sourceConflicts =
+                source.expression.getAllConflicts(context);
+            this.analysis.conflicts =
+                this.analysis.conflicts.concat(sourceConflicts);
 
-            // Build conflict indices by going through each conflict, asking for the conflicting nodes
-            // and adding to the conflict to each node's list of conflicts.
-            for (const conflict of this.analysis.conflicts) {
+            // Build conflict indices for just this source's new conflicts.
+            // (Earlier sources' conflicts were already indexed in their own
+            // iteration — re-iterating the cumulative list double-counts.)
+            for (const conflict of sourceConflicts) {
                 const complicitNodes = conflict.getMessage(context, Templates);
                 this.analysis.conflictedNodes.set(complicitNodes.node, [
                     ...(this.analysis.conflictedNodes.get(
@@ -700,6 +703,28 @@ export default class Project {
             }
         }
         return refs;
+    }
+
+    /**
+     * Returns the set of browser permissions this project's sources reference,
+     * by checking whether any reference resolves to a permission-requiring
+     * basis stream definition. Used to show pre-evaluation permission feedback.
+     */
+    getRequiredPermissions(): Set<PermissionName> {
+        const required = new Set<PermissionName>();
+        const input = this.shares.input;
+        const map: [Definition, PermissionName][] = [
+            [input.Volume, Permission.Microphone],
+            [input.Pitch, Permission.Microphone],
+            [input.Speech, Permission.Microphone],
+            [input.Camera, Permission.Camera],
+            [input.Hand, Permission.Camera],
+        ];
+        for (const [definition, permission] of map) {
+            if (this.getReferences(definition).length > 0)
+                required.add(permission);
+        }
+        return required;
     }
 
     withName(name: string) {

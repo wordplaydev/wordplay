@@ -1,6 +1,6 @@
 import type { SupportedFace } from '@basis/Fonts';
 import type { TileKind } from '@components/project/TileKind';
-import type { DocText, FormattedText } from '@locale/LocaleText';
+import type { FormattedText, Template } from '@locale/LocaleText';
 
 import type DocumentationText from '@components/concepts/DocumentationText';
 import type CheckpointsText from '@components/project/CheckpointsText';
@@ -19,6 +19,7 @@ import type HowToPageText from '../routes/[[locale]]/gallery/[galleryid]/howto/P
 import type { default as GuidePageText } from '../routes/[[locale]]/guide/PageText';
 import type JoinPageText from '../routes/[[locale]]/join/PageText';
 import type LearnPageText from '../routes/[[locale]]/learn/PageText';
+import type LocalizePageText from '../routes/[[locale]]/localize/PageText';
 import type LoginPageText from '../routes/[[locale]]/login/PageText';
 import type ProjectsPageText from '../routes/[[locale]]/projects/PageText';
 import type RightsPageText from '../routes/[[locale]]/rights/PageText';
@@ -45,16 +46,16 @@ export type ToggleText = {
 export type ModeText<Options extends readonly string[]> = {
     /** [plain] The tooltip and ARIA-label for the entire mode widget, describing the kind of modes it supports switching to. */
     label: string;
-    /** A list of modes */
+    /** [plain] A list of short labels, one per mode */
     labels: Options;
-    /** A list of tips/aria labels for each option */
+    /** [plain] A list of tooltip/ARIA descriptions, one per mode */
     tips: Options;
 };
 
 export type HeaderAndExplanationText = {
     /** [plain] The header to be shown at the top of the dialog */
     header: string;
-    /** The explanation text just below the header. */
+    /** [formatted] The explanation text just below the header. */
     explanation: FormattedText | FormattedText[];
 };
 
@@ -78,6 +79,8 @@ type UITexts = {
         app: SupportedFace;
         /** The monospace font to use for code in the editor and code examples. Should support the language used in this locale so that characters render correctly. Add the face to Fonts.ts if the one you choose is not yet supported. */
         code: SupportedFace;
+        /** [plain] The word shown before the markup symbols that a font face doesn't support (e.g. "missing * ^" for a face without bold or extra bold) */
+        missing: string;
     };
     phrases: {
         /** [plain] Placeholder text used in code examples. */
@@ -133,7 +136,7 @@ type UITexts = {
             /** [plain] Collapse the tile window */
             collapse: string;
         };
-        /** Tile labels appearing in the project footer tile toggles, except for source files. */
+        /** [plain] Tile labels appearing in the project footer tile toggles, except for source files. */
         label: { [ID in TileKind]: string };
         toggle: {
             /** Enter and exit tile fullscreen mode */
@@ -194,8 +197,6 @@ type UITexts = {
             translate: ButtonText;
             /** [plain] The tooltip for the primary locale setting button */
             primary: string;
-            /** The history switch */
-            history: { off: string; on: string };
         };
         field: {
             /** [name] The project name text field */
@@ -240,19 +241,19 @@ type UITexts = {
         tour: {
             /** [plain] Tooltip on the help button that opens the tour */
             launch: string;
-            /** Markup describing the project controls bar overall */
+            /** [formatted] Markup describing the project controls bar overall */
             controls: FormattedText;
-            /** Markup describing the project name field */
+            /** [formatted] Markup describing the project name field */
             name: FormattedText;
-            /** Markup describing the source-tile toggles */
+            /** [formatted] Markup describing the source-tile toggles */
             sourceToggle: FormattedText;
-            /** Markup describing the add-source button */
+            /** [formatted] Markup describing the add-source button */
             addSource: FormattedText;
-            /** Markup describing the share dialog button */
+            /** [formatted] Markup describing the share dialog button */
             share: FormattedText;
-            /** Markup describing the translate button */
+            /** [formatted] Markup describing the translate button */
             translate: FormattedText;
-            /** Markup describing the checkpoints/revisions panel */
+            /** [formatted] Markup describing the checkpoints/revisions panel */
             checkpoints: FormattedText;
         };
     };
@@ -270,8 +271,8 @@ type UITexts = {
         label: string;
         /** [plain] The label for the code editor toolbar */
         title: string;
-        /** The text to show when a source file is empty */
-        empty: DocText;
+        /** [formatted] The text to show when a source file is empty */
+        empty: Template<['symbol']>[];
         /** [plain] When some other device had a more recent edit that overrode this device's version. */
         overwritten: string;
         confirm: {
@@ -303,8 +304,6 @@ type UITexts = {
             label: string;
             /** [plain] The menu show button and keyboard shortcut */
             show: string;
-            /** [plain] How to describe the autocomplete back button for leaving the submenu */
-            back: string;
             /** [plain] What to say when the menu is empty */
             empty: string;
         };
@@ -313,8 +312,13 @@ type UITexts = {
             name: FieldText;
         };
         options: {
-            /** The locale chooser for a source */
-            locale: { tip: string; all: string };
+            /** The locale chooser for a source file */
+            locale: {
+                /** [plain] Tooltip for the per-source locale chooser */
+                tip: string;
+                /** [plain] The "all locales" option label */
+                all: string;
+            };
         };
         cursor: {
             /** [plain] Move caret to the line before */
@@ -353,8 +357,6 @@ type UITexts = {
             incrementLiteral: string;
             /** [plain] Decrement the literal at the cursor */
             decrementLiteral: string;
-            /** [plain] Insert selected symbol */
-            insertSymbol: string;
             /** [plain] Insert tab symbol */
             insertTab: string;
             /** [plain] Insert true symbol */
@@ -393,8 +395,6 @@ type UITexts = {
             insertConvert: string;
             /** [plain] Insert table symbol */
             insertTable: string;
-            /** [plain] Insert table close symbol */
-            insertTableClose: string;
             /** [plain] Insert borrow symbol */
             insertBorrow: string;
             /** [plain] Insert share symbol */
@@ -463,15 +463,15 @@ type UITexts = {
         tour: {
             /** [plain] Tooltip on the help button that opens the tour */
             launch: string;
-            /** Markup describing the editor */
+            /** [formatted] Markup describing the editor */
             editor: FormattedText;
-            /** Markup describing the text/blocks toggle */
+            /** [formatted] Markup describing the text/blocks toggle */
             textBlocks: FormattedText;
-            /** Markup describing the toolbar group of editing actions */
+            /** [formatted] Markup describing the toolbar group of editing actions */
             toolbar: FormattedText;
-            /** Markup describing the expand toggle for advanced tools */
+            /** [formatted] Markup describing the expand toggle for advanced tools */
             expand: FormattedText;
-            /** Markup describing the keyboard shortcuts dialog trigger */
+            /** [formatted] Markup describing the keyboard shortcuts dialog trigger */
             shortcuts: FormattedText;
         };
     };
@@ -480,9 +480,9 @@ type UITexts = {
         /** [plain] The ARIA label for the conflicts section in the editor. */
         label: string;
         /** [formatted] The description of the cursor position */
-        cursor: FormattedText;
+        cursor: Template<['node', 'type', 'description']>;
         /** [formatted] The description fo the cursor position's parent */
-        cursorParent: FormattedText;
+        cursorParent: Template<['node', 'type']>;
         /** [formatted] The prompt to line more about the cursor node */
         learn: FormattedText;
         /** [formatted] What function should say when evaluating */
@@ -490,7 +490,7 @@ type UITexts = {
         /** [formatted] What function should say when the cursor is in space */
         space: FormattedText;
         /** [formatted] The description of what the selected node does. $1: the node description. */
-        nodeDescription: FormattedText;
+        nodeDescription: Template<['description']>;
         button: {
             /** [formatted] How the resolution button should should be described */
             resolution: FormattedText;
@@ -539,18 +539,33 @@ type UITexts = {
         tour: {
             /** [plain] Tooltip on the help button that opens the tour */
             launch: string;
-            /** Markup describing the stage area */
+            /** [formatted] Markup describing the stage area */
             stage: FormattedText;
-            /** Markup describing the reset zoom button */
+            /** [formatted] Markup describing the reset zoom button */
             reset: FormattedText;
-            /** Markup describing the two zoom buttons */
+            /** [formatted] Markup describing the two zoom buttons */
             zoom: FormattedText;
-            /** Markup describing the grid toggle */
+            /** [formatted] Markup describing the grid toggle */
             grid: FormattedText;
-            /** Markup describing the lock/fit toggle */
+            /** [formatted] Markup describing the lock/fit toggle */
             lock: FormattedText;
-            /** Markup describing the animation speed control */
+            /** [formatted] Markup describing the animation speed control */
             animationSpeed: FormattedText;
+        };
+        /** The pre-evaluation splash shown when a project requires a browser permission. */
+        permission: {
+            /** [plain] Heading on the splash explaining that the project needs browser permission */
+            title: string;
+            /** [plain] Microphone permission label on the splash */
+            microphone: string;
+            /** [plain] Camera permission label on the splash */
+            camera: string;
+            /** [plain] Note below the permission list explaining the browser will prompt */
+            note: string;
+            /** [plain] Label of the button that starts the project after the splash */
+            start: string;
+            /** [plain] Label of the button that retries permission after a denial */
+            retry: string;
         };
     };
     /** The documentation browser */
@@ -589,10 +604,15 @@ type UITexts = {
         };
         /** Dialog for chat moderation */
         moderation: HeaderAndExplanationText & {
+            /** The "report" button shown on a chat message */
             report: ButtonText;
+            /** The "moderate" button shown to moderators on a chat message */
             moderate: ButtonText;
+            /** [plain] Shown in place of a message that is awaiting moderation */
             pending: string;
+            /** [plain] Shown in place of a message that moderators removed */
             removed: string;
+            /** [formatted] Notice shown when the project is in a gallery, explaining moderator visibility */
             inGallery: FormattedText;
         };
         /** Errors that can happen in the chat tile */
@@ -630,15 +650,15 @@ type UITexts = {
         tour: {
             /** [plain] Tooltip on the help button that opens the tour */
             launch: string;
-            /** Markup describing the collaborate panel */
+            /** [formatted] Markup describing the collaborate panel */
             collaborate: FormattedText;
-            /** Markup describing the collaborators field */
+            /** [formatted] Markup describing the collaborators field */
             collaborators: FormattedText;
-            /** Markup describing the commenters field */
+            /** [formatted] Markup describing the commenters field */
             commenters: FormattedText;
-            /** Markup describing the viewers field */
+            /** [formatted] Markup describing the viewers field */
             viewers: FormattedText;
-            /** Markup describing the restrict-gallery toggle */
+            /** [formatted] Markup describing the restrict-gallery toggle */
             restrict: FormattedText;
         };
     };
@@ -658,8 +678,6 @@ type UITexts = {
             inherited: string;
             /** [plain] Shown in the output palette when a sequence isn't valid */
             notSequence: string;
-            /** [plain] Shown in the output palette when a list of content is isn't valid */
-            notContent: string;
             /** [plain] The word to describe whether text is rich text formatted */
             format: string;
             /** [plain] The word to describe font weight */
@@ -761,17 +779,17 @@ type UITexts = {
         tour: {
             /** [plain] Tooltip on the help button that opens the tour */
             launch: string;
-            /** Markup describing the palette panel */
+            /** [formatted] Markup describing the palette panel */
             palette: FormattedText;
-            /** Markup describing the property text field */
+            /** [formatted] Markup describing the property text field */
             text: FormattedText;
-            /** Markup describing the pencil button that promotes a default to an explicit value */
+            /** [formatted] Markup describing the pencil button that promotes a default to an explicit value */
             set: FormattedText;
-            /** Markup describing the X button that removes an explicit value */
+            /** [formatted] Markup describing the X button that removes an explicit value */
             unset: FormattedText;
-            /** Markup describing the editor's role for palette edits */
+            /** [formatted] Markup describing the editor's role for palette edits */
             editor: FormattedText;
-            /** Markup describing how phrases can be manipulated on stage */
+            /** [formatted] Markup describing how phrases can be manipulated on stage */
             stage: FormattedText;
         };
     };
@@ -813,21 +831,21 @@ type UITexts = {
         tour: {
             /** [plain] The tooltip on the help button that opens the tour */
             launch: string;
-            /** Markup describing the entire timeline panel */
+            /** [formatted] Markup describing the entire timeline panel */
             timeline: FormattedText;
-            /** Markup describing the reset evaluation button */
+            /** [formatted] Markup describing the reset evaluation button */
             reset: FormattedText;
-            /** Markup describing play mode (after starting evaluation) */
+            /** [formatted] Markup describing play mode (after starting evaluation) */
             playMode: FormattedText;
-            /** Markup describing pause mode (after pausing) */
+            /** [formatted] Markup describing pause mode (after pausing) */
             pauseMode: FormattedText;
-            /** Markup describing the annotations window */
+            /** [formatted] Markup describing the annotations window */
             annotations: FormattedText;
-            /** Markup describing the editor */
+            /** [formatted] Markup describing the editor */
             editor: FormattedText;
-            /** Markup describing the history slider */
+            /** [formatted] Markup describing the history slider */
             history: FormattedText;
-            /** Markup describing the step button controls */
+            /** [formatted] Markup describing the step button controls */
             stepControls: FormattedText;
         };
     };
@@ -860,19 +878,19 @@ type UITexts = {
             };
             /** Text fields in the share dialog */
             field: {
-                /** The email or username of the collaborator being added */
+                /** The email or username field for the collaborator being added */
                 emailOrUsername: FieldText;
             };
             /** Buttons in the share dialog */
             button: {
                 /** [plain] Description for the email submission button. */
                 submit: string;
-                /** Description and label for the button to mark PII as sensitive again. */
+                /** The button that marks a previously-flagged piece of PII as sensitive again */
                 sensitive: ButtonText;
             };
             /** Modes in the share dialog */
             mode: {
-                /** The private and public mode descriptions */
+                /** The public/private toggle mode widget */
                 public: ModeText<[string, string]>;
             };
             /** Errors in the share dialog */
@@ -900,9 +918,12 @@ type UITexts = {
                 layout: ModeText<
                     [string, string, string, string, string, string]
                 >;
-                /** The animation on/off/slowdown mode */
+                /** The animation off/slowdown/auto mode (last entry is
+                 * "auto", which follows the device prefers-reduced-motion
+                 * setting). */
                 animate: ModeText<
                     [
+                        string,
                         string,
                         string,
                         string,
@@ -948,13 +969,13 @@ type UITexts = {
             /** Templates for the title of each notification kind */
             notification: {
                 /** [plain] Title for a new how-to notification, with $1 as the how-to title */
-                howToHeader: string;
+                howToHeader: Template<['title']>;
                 /** [plain] Title for a new project chat message notification, with $1 as the project name */
-                projectChatHeader: string;
+                projectChatHeader: Template<['name']>;
                 /** [plain] Title for a new how-to chat message notification, with $1 as the how-to title */
-                howToChatHeader: string;
+                howToChatHeader: Template<['title']>;
                 /** [plain] Title for a moderation-required notification, with $1 as the project name */
-                moderationHeader: string;
+                moderationHeader: Template<['name']>;
                 /** [plain] Link label to view notification details */
                 link: string;
             };
@@ -984,16 +1005,21 @@ type UITexts = {
                 replace: string;
                 /** [plain] Remove a locale */
                 remove: string;
-                /** Menu button label for "other languages" (landing page)*/
+                /** [plain] Menu button label for "other languages" (landing page) */
                 menu: string;
             };
         };
         /** The keyboard shortcut reference dialog */
         help: HeaderAndExplanationText & {
+            /** Section subheaders grouping related keyboard shortcuts */
             subheader: {
+                /** [plain] Subheader for shortcuts that move the cursor */
                 moveCursor: string;
+                /** [plain] Subheader for shortcuts that edit existing code */
                 editCode: string;
+                /** [plain] Subheader for shortcuts that insert new code */
                 insertCode: string;
+                /** [plain] Subheader for shortcuts related to debugging/evaluation */
                 debug: string;
             };
         };
@@ -1067,22 +1093,21 @@ type UITexts = {
         /** [plain] Shown when there was a problem saving */
         unsaved: string;
     };
+    /** Banner shown when the device is offline or Firebase is unreachable. */
+    connection: {
+        /** [plain] Banner shown when the browser reports no internet connection */
+        offline: string;
+        /** [plain] Banner shown when the device is online but Firebase requests are failing */
+        unreachable: string;
+        /** [plain] ARIA label for the connection banner live region */
+        label: string;
+    };
     /** Text for the localization editor */
     localize: {
         /** [plain] The header for the localization editor */
         header: string;
         /** [plain] Label for the English reference text shown when an editor is focused */
         reference: string;
-        /** [plain] Subheader above the unwritten text dropdown */
-        unwritten: string;
-        /** [plain] Subheader for the revised text section */
-        revised: string;
-        /** [formatted] Explanation that revisions are local and not yet submitted */
-        revisedDescription: FormattedText;
-        /** [plain] Label for the submit revisions button */
-        submitRevisions: string;
-        /** [plain] Notice shown after revisions are submitted */
-        submitted: string;
         /** [formatted] An explanation of the localization editor */
         description: FormattedText;
         toggle: {
@@ -1092,12 +1117,18 @@ type UITexts = {
         button: {
             /** [plain] Tooltip for the button that opens text editing */
             edit: string;
+            /** [plain] Tooltip for the button that opens editing of a tooltip (the tip-icon badge attached to widgets without a visible label) */
+            editTip: string;
             /** [plain] Tooltip for the button that submits the suggested edit */
             submit: string;
             /** [plain] Tooltip for the button that cancels the suggested edit */
             cancel: string;
             /** [plain] Tooltip for the button that reverts to the official text */
             revert: string;
+            /** [plain] Tooltip for the button that navigates to the previous element when editing a tuple-typed key (e.g., ModeText.tips) in the localizer panel */
+            prev: string;
+            /** [plain] Tooltip for the button that navigates to the next element when editing a tuple-typed key (e.g., ModeText.tips) in the localizer panel */
+            next: string;
         };
         field: {
             /** The description and placeholder of the localization plain text editor. */
@@ -1109,12 +1140,37 @@ type UITexts = {
             /** The description and placeholder of the localization string filter. */
             filter: FieldText;
         };
+        /** Template-input panel shown below the editor when the active field
+         *  is typed as `Template<Names>`. */
+        inputs: {
+            /** [plain] Subheader above the row of input chips */
+            header: string;
+            /** [plain] Tooltip shown on a chip when the draft references the input */
+            usedTip: string;
+            /** [plain] Tooltip shown on a chip when the draft doesn't yet reference the input */
+            unusedTip: string;
+            /** [plain] Prose preceding the list of inputs the draft is missing */
+            missing: string;
+            /** [plain] Prose preceding the list of bare `$N` legacy refs in the draft */
+            legacy: string;
+            /** [plain] Prose preceding the list of `$name` refs that aren't
+             *  declared inputs and aren't terminology keys (typos / made-up
+             *  names that won't substitute at render time) */
+            unknown: string;
+            /** [plain] Tooltip on the disabled Submit button when inputs are missing */
+            submitBlocked: string;
+        };
         /** [plain] The ARIA label for the dropdown that lists all locale strings available to review and edit */
         strings: string;
         /** [plain] The ARIA label for the emotion dropdown */
         emotion: string;
         /** [plain] Error shown when a name is not a valid Wordplay name */
         invalidName: string;
+        /** [plain] Warning shown below a formatted editor when the draft markup
+         *  references one or more concept links (e.g., `@FunctionDefinition`) that
+         *  don't resolve in the current locale. The list of unresolved names is
+         *  rendered separately. */
+        invalidConceptLinks: string;
     };
     page: {
         /** The unknown route page */
@@ -1123,6 +1179,8 @@ type UITexts = {
         landing: LandingPageText;
         /** Tutorial page text */
         learn: LearnPageText;
+        /** Localization workspace page text */
+        localize: LocalizePageText;
         /** Teacher landing page text */
         teach: TeachPageText;
         /** New class page text */
@@ -1162,7 +1220,7 @@ type UITexts = {
         /** [plain] The placeholder indicating that a locale string is not yet written */
         unwritten: string;
         /** [plain] The placeholder string indicating that a template string could not be parsed */
-        unparsable: string;
+        unparsable: Template<['template']>;
         /** [plain] The tooltip for the machine-translated annotation */
         machineTranslated: string;
         /** [plain] The tooltip for the locally-revised annotation */
@@ -1174,6 +1232,12 @@ type UITexts = {
         noCharacters: string;
         /** [plain] Label for the skin tone selector dropdown */
         skinTone: string;
+        /** [plain] Placeholder/no-selection label for the script filter dropdown */
+        script: string;
+        /** [plain] ARIA label for the script filter dropdown */
+        scriptLabel: string;
+        /** [plain] Hint shown in the glyph area when no category and no script is selected */
+        pickFilter: string;
         /** Emoji category labels for the filter */
         groups: ModeText<
             [

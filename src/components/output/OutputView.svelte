@@ -19,10 +19,18 @@
     import Button from '@input/Button';
     import Chat from '@input/Chat';
     import Choice from '@input/Choice';
+    import { handLandmarkerStatus } from '@input/HandLandmarkerLoader.svelte';
     import Key from '@input/Key';
     import Placement from '@input/Placement';
     import Pointer from '@input/Pointer';
     import Evaluate from '@nodes/Evaluate';
+    import PermissionException from '@values/PermissionException';
+    import PermissionSplash from '@components/output/PermissionSplash.svelte';
+    import {
+        consent,
+        grantConsent,
+        type PermissionName,
+    } from '@input/permissions';
     import type Color from '@output/Color';
     import { getOrCreatePlace } from '@output/getOrCreatePlace';
     import { PX_PER_METER, rootScale } from '@output/outputToCSS';
@@ -31,7 +39,9 @@
     import { toExpression } from '@parser/parseExpression';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import Speech from '@components/lore/Speech.svelte';
-    import moveOutput, { addStageContent } from '@components/palette/editOutput';
+    import moveOutput, {
+        addStageContent,
+    } from '@components/palette/editOutput';
     import {
         getAnnouncer,
         getConceptIndex,
@@ -44,7 +54,10 @@
     import { default as ButtonUI } from '@components/widgets/Button.svelte';
     import type PaintingConfiguration from '@components/output/PaintingConfiguration';
     import StageView from '@components/output/StageView.svelte';
-    import { DOMRectCenter, DOMRectDistance } from '@components/output/utilities';
+    import {
+        DOMRectCenter,
+        DOMRectDistance,
+    } from '@components/output/utilities';
 
     interface Props {
         project: Project;
@@ -65,6 +78,8 @@
         focusOverridden?: boolean;
         /** Whether to blur the output while the user is typing in the project's editor. True for the main stage; false for embedded examples that are unaffected by the user's typing. */
         blurOnTyping?: boolean;
+        /** Called when the viewer clicks Retry after a PermissionException. The host should restart the evaluator so failed streams can re-attempt getUserMedia. */
+        onretry?: () => void;
     }
 
     let {
@@ -82,6 +97,7 @@
         hasStagePlace = $bindable(false),
         focusOverridden = $bindable(false),
         blurOnTyping = true,
+        onretry = undefined,
     }: Props = $props();
 
     let indexContext = getConceptIndex();
@@ -126,6 +142,33 @@
     const exception = $derived(
         value instanceof ExceptionValue ? value : undefined,
     );
+    const permissionException = $derived(
+        exception instanceof PermissionException ? exception : undefined,
+    );
+
+    /** Browser permissions the project references but for which the user hasn't yet made a decision. */
+    const pendingPermissions = $derived(
+        new Set<PermissionName>(
+            [...project.getRequiredPermissions()].filter(
+                (p) => $consent[p] === 'unknown',
+            ),
+        ),
+    );
+
+    /** Show the pre-evaluation splash only before the evaluator has started — afterwards, denial flows through the exception branch. */
+    const needsPermission = $derived(
+        !evaluator.isStarted() && pendingPermissions.size > 0,
+    );
+
+    function handleStart() {
+        for (const permission of pendingPermissions) grantConsent(permission);
+    }
+
+    function handleRetry() {
+        if (permissionException !== undefined)
+            grantConsent(permissionException.permission);
+        onretry?.();
+    }
 
     /** Every time the value changes, try to parse a Stage from it. */
     const stageValue = $derived(
@@ -201,6 +244,7 @@
                         : concretize(
                               $locales,
                               $locales.getPlainText(value.getDescription()),
+                              {},
                           ).toText(),
                 ),
             );
@@ -426,6 +470,9 @@
         // Add event to pointer event cache for
         pointersByIndex.push(event);
 
+        // A second pointer turns this into a pinch gesture, so abandon any in-progress pan.
+        if (pointersByIndex.length >= 2) drag = undefined;
+
         // Focus the keyboard input if it exists.
         if (keyboardInputView) {
             setKeyboardFocus(
@@ -477,7 +524,7 @@
                 const outputView =
                     output === stageValue
                         ? valueView
-                        : document.querySelector(
+                        : valueView?.querySelector(
                               `[data-id="${output.getHTMLID()}"]`,
                           );
                 // Couldn't find the view? Move on to the next one.
@@ -586,9 +633,10 @@
 
         // If there are two pointers down, check for a pinch
         if (pointersByIndex.length === 2) {
-            // Find the difference on the x axis
-            const currentPointerDifference = Math.abs(
+            // Find the Euclidean distance between the two pointers
+            const currentPointerDifference = Math.hypot(
                 pointersByIndex[0].clientX - pointersByIndex[1].clientX,
+                pointersByIndex[0].clientY - pointersByIndex[1].clientY,
             );
             // No differences yet? Initialize to the current difference, which
             // is the anchor difference. Also initialize to the current rendered focus.
@@ -621,7 +669,12 @@
         // POINTER PANNING AND ZOOMING
 
         // Handle focus or output moves..
-        if (event.buttons === 1 && drag && renderedFocus) {
+        if (
+            pointersByIndex.length < 2 &&
+            event.buttons === 1 &&
+            drag &&
+            renderedFocus
+        ) {
             const valueRect = valueView?.getBoundingClientRect();
             if (valueRect !== undefined) {
                 const mouseXDelta = event.clientX - valueRect.left - drag.left;
@@ -857,9 +910,7 @@
         // return SVGElements, which still support .closest() and walk up to
         // the enclosing .phrase div correctly.
         const element = document.elementFromPoint(event.clientX, event.clientY);
-        return getOutputNodeIDFromElement(
-            element?.closest('.output') ?? null,
-        );
+        return getOutputNodeIDFromElement(element?.closest('.output') ?? null);
     }
     function recordSelection(event: Event) {
         if (stageValue === undefined) return;
@@ -1060,8 +1111,15 @@
         onpointermove={interactive ? handlePointerMove : null}
         onpointerleave={interactive ? handlePointerLeave : null}
     >
-        <!-- If there's an exception, show that. -->
-        {#if exception !== undefined}
+        <!-- If the project needs permission and evaluation hasn't started, show the splash. -->
+        {#if needsPermission}
+            <PermissionSplash
+                permissions={pendingPermissions}
+                onstart={handleStart}
+                {mini}
+            />
+            <!-- If there's an exception, show that. -->
+        {:else if exception !== undefined}
             <div class="message exception" class:mini data-uiid="exception"
                 >{#if mini}!{:else}<Speech
                         character={index?.getNodeConcept(exception.creator) ??
@@ -1072,6 +1130,21 @@
                             <MarkupHTMLView
                                 markup={exception.getExplanation($locales)}
                             />
+                            {#if permissionException !== undefined && onretry !== undefined}
+                                <div class="permission-retry">
+                                    <ButtonUI
+                                        tip={(l) =>
+                                            l.ui.output.permission.retry}
+                                        action={handleRetry}
+                                        background
+                                        testid="permission-retry"
+                                    >
+                                        {$locales.getPlainText(
+                                            (l) => l.ui.output.permission.retry,
+                                        )}
+                                    </ButtonUI>
+                                </div>
+                            {/if}
                         {/snippet}</Speech
                     >
                 {/if}
@@ -1106,8 +1179,16 @@
                 {editable}
             />
         {/if}
-        {#if says.length > 0}
+        {#if says.length > 0 || handLandmarkerStatus.loading}
             <div class="say-overlay" aria-live="polite" aria-atomic="false">
+                {#if handLandmarkerStatus.loading}
+                    <span
+                        class="say-item hand-loading"
+                        title="Loading hand tracker…"
+                        aria-label="Loading hand tracker"
+                        >{withMonoEmoji('🖐')}</span
+                    >
+                {/if}
                 {#each says as say, i (say.text.text + i)}
                     <span
                         class="say-item"
@@ -1270,6 +1351,12 @@
         color: var(--wordplay-evaluation-color);
     }
 
+    .permission-retry {
+        margin-top: 0.75em;
+        display: flex;
+        justify-content: flex-start;
+    }
+
     .keyboard {
         position: absolute;
         left: 0;
@@ -1323,9 +1410,28 @@
     }
 
     .say-item {
-        color: var(--wordplay-background);
+        /* White + mix-blend-mode: difference inverts the indicator against
+           whatever is rendered behind it — visible against any stage
+           background color (white, black, or anywhere in between). */
+        color: white;
+        mix-blend-mode: difference;
         font-size: 1em;
         line-height: 1;
         user-select: none;
+    }
+
+    .hand-loading {
+        animation: hand-loading-spin 1.5s linear infinite;
+        display: inline-block;
+        transform-origin: center;
+    }
+
+    @keyframes hand-loading-spin {
+        from {
+            transform: rotate(0deg);
+        }
+        to {
+            transform: rotate(360deg);
+        }
     }
 </style>

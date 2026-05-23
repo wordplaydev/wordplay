@@ -35,7 +35,7 @@ export type LocaleText = {
     wordplay: string;
     /** Common vocabulary that can be used in documentation and descriptions. */
     term: TermTexts;
-    /** Descriptions of all token categories. See Sym.ts for the symbol or symbol category that each represents. */
+    /** [plain] Descriptions of all token categories. See Sym.ts for the symbol or symbol category that each represents. */
     token: Record<keyof typeof Sym, string>;
     /** Names, descriptions, and documentation for all node types, as well as descriptions of start and end of expression evaluations for debugging. */
     node: NodeTexts;
@@ -51,6 +51,15 @@ export type LocaleText = {
     gallery: GalleryTexts;
     /** Text related to content moderation */
     moderation: ModerationTexts;
+    /** Pre-mount fallback strings shown in app.html before the app loads. */
+    system: {
+        /** [plain] Shown in <noscript> when JavaScript is disabled or unsupported. */
+        noscript: string;
+        /** [plain] Heading shown when the browser lacks required features. */
+        unsupportedHeading: string;
+        /** [plain] Body shown when the browser lacks required features. */
+        unsupportedBody: string;
+    };
 };
 
 export { type LocaleText as default };
@@ -58,10 +67,22 @@ export { type LocaleText as default };
 /** Represents a string that is in Wordplay markup formatted syntax. */
 export type FormattedText = string;
 
+/**
+ * A Wordplay template string parameterized by the ordered list of input names
+ * it accepts. The `Names` parameter is positional: `$1` in the template refers
+ * to the first name, `$2` to the second, and so on. The brand exists only at
+ * the type level — at runtime a `Template` is a plain string — so JSON locale
+ * files satisfy this type as-is.
+ */
+declare const __TemplateInputs: unique symbol;
+export type Template<Names extends readonly string[]> = string & {
+    readonly [__TemplateInputs]?: Names;
+};
+
 export type NameAndDoc = {
     /** [name] One or more names for this definition. Be careful not to introduce duplicates. */
     names: NameText;
-    /** Documentation for this definition, to appear in the documentation browser. */
+    /** [formatted] Documentation for this definition, to appear in the documentation browser. */
     doc: DocText;
 };
 

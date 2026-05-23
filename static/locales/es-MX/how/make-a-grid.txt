@@ -1,0 +1,27 @@
+Crea una cuadrícula de caracteres
+
+¿Y si queremos filas?/y/¿Columnas al mismo tiempo? Eso es lo que una @Grid es para.
+
+A  @Grid Solicita el número de filas, el número de columnas y el espacio que se debe dejar entre las celdas.
+
+\Group(Grid(2 3 0.25m) [
+		Phrase('🍎')
+		Phrase('🍌')
+		Phrase('🍇')
+		Phrase('🥕')
+		Phrase('🥦')
+		Phrase('🌽')
+	])\
+
+¡Esto crea un huerto de frutas y verduras de 2 por 3!
+
+Si quieres que todas las celdas tengan el mismo tamaño, da @Grid También un ancho y un alto. De esa forma, los caracteres se mantienen perfectamente dentro de sus cuadrados, incluso si son de diferentes tamaños:
+
+\Group(Grid(2 2 0.1m 1.5m 1.5m) [
+		Phrase('🐈' size: 1m)
+		Phrase('🐶' size: 1.5m)
+		Phrase('🦊' size: 0.5m)
+		Phrase('🐻' size: 2m)
+	])\
+
+arrange-in-a-row, stack-up-and-down, make-many-copies

@@ -1,0 +1,21 @@
+Zeige je nach Wert unterschiedliche Dinge an
+
+Was ist, wenn Sie ein/e möchten? @Phrase sich in Abhängigkeit von etwas ändern – wie zum Beispiel einer Punktzahl oder einem Tastendruck?
+
+Wir können die Bedingung verwenden\?\zwischen zwei Dingen wählen.Schreibe die Bedingung, dann ein\?\dann der Wert, der verwendet werden soll, wenn die Bedingung wahr ist, und dann der Wert, der verwendet werden soll, wenn die Bedingung falsch ist.
+
+Hier ist ein fröhliches Gesicht, das jedes Mal traurig wird, wenn man die Leertaste drückt, und dann wieder zurück:
+
+\happy: ⊤ … ∆ Key(' ') … ~happy
+Phrase(happy ? '😊' '😢')\
+
+Der  @Reaction beginnt\happy\ als \⊤\(wahr) und dreht es um mit\~\jedes Mal, wenn die Leertaste gedrückt wird.Dann die Bedingung\?\Das richtige Gesicht auswählen.
+
+Sie können Bedingungen verketten, um aus mehr als zwei Dingen auszuwählen:
+
+\score: 0 … ∆ Key('A') … score + 1
+Phrase(score < 3 ? '🥚' score < 6 ? '🐣' '🐥')\
+
+Presse\a\Wiederhole das ein paar Mal und beobachte, wie aus dem Ei ein Küken schlüpft!
+
+track-points, offer-choices

@@ -12,13 +12,13 @@ const TemplateToMarkupCache: Map<string, Markup> = new Map();
 export type Concretizer = (
     locales: Locales,
     template: string,
-    ...inputs: TemplateInput[]
+    inputs: Record<string, TemplateInput>,
 ) => Markup;
 
 export function concretizeOrUndefined(
     locales: Locales,
     template: string,
-    ...inputs: TemplateInput[]
+    inputs: Record<string, TemplateInput>,
 ): Markup | undefined {
     // Not written? Return the TBD string.
     if (template === '' || isUnwritten(template))
@@ -43,10 +43,10 @@ export function concretizeOrUndefined(
 export default function concretize(
     locales: Locales,
     template: string,
-    ...inputs: TemplateInput[]
+    inputs: Record<string, TemplateInput>,
 ): Markup {
     return (
-        concretizeOrUndefined(locales, template, ...inputs) ??
+        concretizeOrUndefined(locales, template, inputs) ??
         Markup.words(
             `${locales.getUnannotatedText((l) => l.ui.template.unparsable)}: ${template}`,
         )

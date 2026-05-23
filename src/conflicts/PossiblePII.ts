@@ -42,10 +42,12 @@ export class PossiblePII extends Conflict {
                 locales.concretize(
                     (l) =>
                         l.node.Translation.conflict[this.pii.kind].explanation,
-                    this.pii.text,
-                    locales.getUnannotatedText(
-                        (l) => l.node.Translation.conflict.reminder,
-                    ),
+                    {
+                        text: this.pii.text,
+                        reminder: locales.getUnannotatedText(
+                            (l) => l.node.Translation.conflict.reminder,
+                        ),
+                    },
                 ),
             resolutions: [
                 {

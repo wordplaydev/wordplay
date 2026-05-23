@@ -36,18 +36,21 @@ export default class EvaluationLimitException extends ExceptionValue {
         const mostFrequent = sorted[0][0];
 
         return locales.concretize(
-            this.getExceptionText(locales).explanation,
-            new NodeRef(
-                mostFrequent instanceof FunctionDefinition ||
-                mostFrequent instanceof StructureDefinition ||
-                mostFrequent instanceof StreamDefinition
-                    ? (mostFrequent.names.getPreferredName(
-                          locales.getLocales(),
-                      ) ?? mostFrequent)
-                    : mostFrequent,
-                locales,
-                this.getNodeContext(mostFrequent),
-            ),
+            (l) =>
+                l.node.Program.exception.EvaluationLimitException.explanation,
+            {
+                function: new NodeRef(
+                    mostFrequent instanceof FunctionDefinition ||
+                    mostFrequent instanceof StructureDefinition ||
+                    mostFrequent instanceof StreamDefinition
+                        ? (mostFrequent.names.getPreferredName(
+                              locales.getLocales(),
+                          ) ?? mostFrequent)
+                        : mostFrequent,
+                    locales,
+                    this.getNodeContext(mostFrequent),
+                ),
+            },
         );
     }
 }

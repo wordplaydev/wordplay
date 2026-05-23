@@ -1,0 +1,17 @@
+從上到下堆疊字符
+
+如果 @Row 如果是並排，那就是 @Stack 是從上到下的。 @Stack 將每個字元置於前一個字元的下方，就像一座塔一樣。
+
+\Group(Stack() [Phrase('一') Phrase('二') Phrase('三')])\
+
+就像 @Row ，一個 @Stack 還可以進行對齊和填充。盡量把所有東西都沿著左側排列：
+
+\Group(Stack('<' 0.25m) [
+		Phrase('🐣 小')
+		Phrase('🐥 中型')
+		Phrase('🐔大')
+	])\
+
+這\'<'\ 方法/將所有東西沿著左側邊緣對齊。/。你也可以試試\'|'\中心或\'>'\右邊緣。
+
+arrange-in-a-row, make-a-grid

@@ -37,8 +37,14 @@ export default class IncompatibleType extends Conflict {
             explanation: (locales: Locales, context: Context) =>
                 locales.concretize(
                     (l) => IncompatibleType.LocalePath(l).explanation,
-                    new NodeRef(this.givenType, locales, context),
-                    new NodeRef(this.expectedType, locales, context),
+                    {
+                        expected: new NodeRef(
+                            this.expectedType,
+                            locales,
+                            context,
+                        ),
+                        given: new NodeRef(this.givenType, locales, context),
+                    },
                 ),
             resolutions: makeConversionResolutions(
                 this.expression,

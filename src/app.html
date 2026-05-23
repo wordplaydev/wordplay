@@ -194,6 +194,14 @@
 
                 --bounce-height: 0.2em;
                 --wobble-rotation: 2deg;
+
+                --animation-factor: 1;
+            }
+
+            @media (prefers-reduced-motion: reduce) {
+                :root {
+                    --animation-factor: 0;
+                }
             }
 
             /* Block-editor density overrides. Vertical compresses more aggressively
@@ -503,15 +511,33 @@
 
             noscript {
                 display: flex;
+                flex-direction: column;
                 align-items: center;
                 justify-content: center;
+                min-height: 100vh;
+                gap: calc(var(--wordplay-spacing) / 3);
+                font-family: var(--wordplay-app-font);
+                color: var(--wordplay-foreground);
+            }
+
+            noscript h1 {
+                font-size: min(10vw, 60pt);
+                margin: 0;
+                text-align: center;
+            }
+
+            noscript .emoji {
+                font-family: 'Noto Emoji', 'Noto Sans';
+                font-weight: 400;
+                font-style: normal;
             }
 
             noscript p {
-                margin-block-start: 20%;
-                margin-block-end: auto;
-                width: 50%;
+                margin: 0;
+                max-width: 30rem;
+                padding: var(--wordplay-spacing);
                 text-align: center;
+                font-size: var(--wordplay-font-size);
             }
 
             hr {
@@ -548,19 +574,25 @@
     </head>
     <body>
         <noscript>
-            <p
-                >Wordplay uses JavaScript. Your browser doesn't support it, or
-                it is disabled.</p
-            >
+            <!--
+                Styles inside <noscript> are only applied when JavaScript is
+                disabled, so this hides the prerendered app and unsupported
+                fallback so only the localized noscript message is visible.
+            -->
+            <style>
+                #wordplay-app,
+                #unsupported {
+                    display: none !important;
+                }
+            </style>
+            <h1><span class="emoji">💬</span>%wordplay.wordplay%</h1>
+            <p>%wordplay.system.noscript%</p>
         </noscript>
         <script src="/scripts/locale-preload.js"></script>
-        <div>%sveltekit.body%</div>
+        <div id="wordplay-app">%sveltekit.body%</div>
         <div id="unsupported" style="display: none; margin: 1em">
-            <h1>Unsupported Browser</h1>
-            <p>
-                Your browser doesn't support critical functionality. To use
-                Wordplay, you'll need to upgrade to a more recent version.</p
-            >
+            <h1>%wordplay.system.unsupportedHeading%</h1>
+            <p>%wordplay.system.unsupportedBody%</p>
         </div>
         <script src="/scripts/unsupported.js"></script>
     </body>

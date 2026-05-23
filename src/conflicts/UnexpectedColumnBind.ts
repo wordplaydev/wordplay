@@ -1,6 +1,4 @@
 import type LocaleText from '@locale/LocaleText';
-import NodeRef from '@locale/NodeRef';
-import type Context from '@nodes/Context';
 import type Locales from '@locale/Locales';
 import type Bind from '@nodes/Bind';
 import type TableLiteral from '@nodes/TableLiteral';
@@ -22,11 +20,9 @@ export default class UnexpectedColumnBind extends Conflict {
     getMessage() {
         return {
             node: this.expression,
-            explanation: (locales: Locales, context: Context) =>
+            explanation: (locales: Locales) =>
                 locales.concretize(
                     (l) => UnexpectedColumnBind.LocalePath(l).explanation,
-
-                    new NodeRef(this.cell, locales, context),
                 ),
         };
     }

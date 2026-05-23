@@ -1,7 +1,9 @@
 <script lang="ts">
     import type Row from '@nodes/Row';
     import NodeSequenceView from '@components/editor/nodes/NodeSequenceView.svelte';
-    import NodeView, { type Format } from '@components/editor/nodes/NodeView.svelte';
+    import NodeView, {
+        type Format,
+    } from '@components/editor/nodes/NodeView.svelte';
     interface Props {
         node: Row;
         format: Format;

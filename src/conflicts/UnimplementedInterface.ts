@@ -31,18 +31,20 @@ export class UnimplementedInterface extends Conflict {
             explanation: (locales: Locales, context: Context) =>
                 locales.concretize(
                     (l) => UnimplementedInterface.LocalePath(l).explanation,
-                    new NodeRef(
+                    {
+                        interface: new NodeRef(
                         this.interfaceStructure,
                         locales,
                         context,
                         locales.getName(this.interfaceStructure.names),
                     ),
-                    new NodeRef(
+                        function: new NodeRef(
                         this.fun,
                         locales,
                         context,
                         locales.getName(this.fun.names),
                     ),
+                    },
                 ),
         };
     }

@@ -111,10 +111,7 @@ export default class Remove extends Revision {
     }
 
     getDescription(locales: Locales) {
-        return locales.concretize(
-            (l) => l.ui.edit.remove,
-            this.getNewNode().getLabel(locales),
-        );
+        return locales.concretize((l) => l.ui.edit.remove);
     }
 
     equals(transform: Revision) {

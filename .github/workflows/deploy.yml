@@ -38,7 +38,10 @@ jobs:
               name: Copy environment variables
 
             # Deploy Firebase functions first, so they are ready for source to invoke.
-            - run: firebase deploy --only functions
+            - run: firebase deploy --only functions --project wordplay-prod
+
+            # Deploy Firestore rules and indexes so they match the hosted client.
+            - run: firebase deploy --only firestore --project wordplay-prod
 
             # Deploy to Firebase hosting
             - uses: FirebaseExtended/action-hosting-deploy@v0

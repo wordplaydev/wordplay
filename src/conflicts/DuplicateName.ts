@@ -26,12 +26,14 @@ export default class DuplicateName extends Conflict {
             explanation: (locales: Locales, context: Context) =>
                 locales.concretize(
                     (l) => DuplicateName.LocalePath(l).explanation,
-                    new NodeRef(
+                    {
+                        shadowed: new NodeRef(
                         this.duplicate.name ?? this.duplicate,
                         locales,
                         context,
                         this.duplicate.getName(),
                     ),
+                    },
                 ),
             // If declarations are not on one line, do not show resolutions
             resolutions: this.duplicate.separator

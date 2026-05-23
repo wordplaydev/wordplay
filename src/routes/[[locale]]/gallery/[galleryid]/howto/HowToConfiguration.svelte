@@ -1,13 +1,16 @@
 <script lang="ts">
     import Subheader from '@components/app/Subheader.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
+    import { getUser } from '@components/project/Contexts';
     import Button from '@components/widgets/Button.svelte';
     import Dialog from '@components/widgets/Dialog.svelte';
     import FormattedEditor from '@components/widgets/FormattedEditor.svelte';
     import EmojiChooser from '@components/widgets/GlyphChooser.svelte';
     import Mode from '@components/widgets/Mode.svelte';
+    import type { Option } from '@components/widgets/Options.svelte';
+    import Options from '@components/widgets/Options.svelte';
     import TextField from '@components/widgets/TextField.svelte';
-    import { Galleries } from '@db/Database';
+    import { Galleries, locales } from '@db/Database';
     import Gallery from '@db/galleries/Gallery';
     import { CANCEL_SYMBOL } from '@parser/Symbols';
 
@@ -31,6 +34,50 @@
         );
     });
 
+    let user = getUser();
+    let expandedGalleries: string[] = $derived(
+        gallery.getHowToExpandedGalleries(),
+    );
+    let expandedGalleryToAdd: string | undefined = $state(undefined);
+    let galleryAddQueue: string[] = $state([]);
+    let galleryRemoveQueue: string[] = $state([]);
+    let expandedGalleryOptions: Option[] = $derived([
+        { value: undefined, label: '—' },
+        ...($user
+            ? [...Galleries.accessibleGalleries.values()].filter(
+                  (g) =>
+                      g.hasCurator($user.uid) &&
+                      g.getID() !== gallery.getID() &&
+                      !expandedGalleries.includes(g.getID()) &&
+                      !galleryAddQueue.includes(g.getID()),
+              )
+            : []
+        ).map((g) => ({
+            label: g.getName($locales),
+            value: g.getID(),
+        })),
+    ]);
+
+    function addExpandedGalleryToList() {
+        if (expandedGalleryToAdd) {
+            galleryAddQueue.push(expandedGalleryToAdd);
+            expandedGalleryToAdd = undefined;
+        }
+    }
+
+    function addExpansionToGallery(toModify: Gallery, toAdd: string): Gallery {
+        let toAddGalleryObject: Gallery | undefined =
+            Galleries.accessibleGalleries.get(toAdd);
+        let toAddGalleryViewers: string[] = toAddGalleryObject
+            ? [
+                  ...toAddGalleryObject.getCurators(),
+                  ...toAddGalleryObject.getCreators(),
+              ]
+            : [];
+
+        return toModify.withExpandedGallery(toAdd, toAddGalleryViewers);
+    }
+
     async function submitChanges() {
         show = false;
 
@@ -53,9 +100,35 @@
             howToReactions: reactionsObject,
         });
 
+        galleryAddQueue.forEach((galleryId) => {
+            gallery = addExpansionToGallery(gallery, galleryId);
+        });
+
+        galleryRemoveQueue.forEach((galleryId) => {
+            gallery = gallery.withoutExpandedGallery(galleryId);
+        });
+
         Galleries.edit(gallery);
+
+        galleryAddQueue = [];
+        galleryRemoveQueue = [];
     }
 </script>
+
+{#snippet expandedGallery(name: string, id: string)}
+    <form class="form">
+        <MarkupHTMLView inline markup={name} />
+        <Button
+            submit
+            padding={false}
+            tip={(l) => l.ui.howto.configuration.visibility.expandedRemove}
+            action={() => {
+                galleryRemoveQueue.push(id);
+            }}
+            icon={CANCEL_SYMBOL}
+        ></Button>
+    </form>
+{/snippet}
 
 <Dialog
     bind:show
@@ -80,6 +153,36 @@
         icons={['', '']}
         select={(num) => (expandedScope = num === 1)}
     />
+    {#if expandedScope}
+        {@const showGallery = [...expandedGalleries, ...galleryAddQueue].filter(
+            (id) => !galleryRemoveQueue.includes(id),
+        )}
+        {#each showGallery as galleryId}
+            {@const gallery = Galleries.accessibleGalleries.get(galleryId)}
+            {#if gallery}
+                {@render expandedGallery(gallery.getName($locales), galleryId)}
+            {/if}
+        {/each}
+        <form class="form">
+            <Options
+                label={(l) =>
+                    l.ui.howto.configuration.visibility.expandedOptions}
+                options={expandedGalleryOptions}
+                bind:value={expandedGalleryToAdd}
+                change={(newValue) => (expandedGalleryToAdd = newValue)}
+            />
+            <Button
+                submit
+                background
+                tip={(l) => l.ui.howto.configuration.visibility.expandedAdd}
+                active={expandedGalleryToAdd !== undefined}
+                action={() => {
+                    addExpandedGalleryToList();
+                }}
+                >&gt;
+            </Button>
+        </form>
+    {/if}
 
     <Subheader
         text={(l) => l.ui.howto.configuration.guidingQuestions.subheader.header}

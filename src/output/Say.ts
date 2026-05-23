@@ -96,7 +96,9 @@ export default class Say extends Output {
             this._description = locales
                 .concretize(
                     (l) => l.output.Say.defaultDescription,
-                    this.text.text,
+                    {
+                        text: this.text.text,
+                    },
                 )
                 .toText()
                 .trim();

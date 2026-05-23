@@ -33,13 +33,14 @@
 
     let { segment, spaces, alone, first }: Props = $props();
 
-    // Compute whether there are one or more spaces before this segment, but not at the beginning of a paragraph.
+    // Compute whether there is whitespace before this segment that should render as a space.
+    // Spaces, tabs, and a single newline all count (so soft-wrapped source still
+    // gets a space between sentences), but not paragraph breaks (blank lines) or
+    // segments at the start of a paragraph.
     function isTokenSpaced(token: Token) {
-        return (
-            !first &&
-            token instanceof Token &&
-            /^[ ]+$/.test(spaces.getSpace(token))
-        );
+        if (first || !(token instanceof Token)) return false;
+        const space = spaces.getSpace(token);
+        return /^[ \t\n]+$/.test(space) && !space.includes('\n\n');
     }
 
     function getTokenText(token: Token) {

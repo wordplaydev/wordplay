@@ -190,7 +190,9 @@ export default class Name extends LanguageTagged {
     }
 
     getDescriptionInputs() {
-        return [this.name.getText()];
+        return {
+            name: this.name.getText(),
+        };
     }
 
     getCharacter() {

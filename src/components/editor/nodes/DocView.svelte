@@ -1,6 +1,8 @@
 <script lang="ts">
     import type Doc from '@nodes/Doc';
-    import NodeView, { type Format } from '@components/editor/nodes/NodeView.svelte';
+    import NodeView, {
+        type Format,
+    } from '@components/editor/nodes/NodeView.svelte';
 
     interface DocProps {
         node: Doc;

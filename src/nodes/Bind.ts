@@ -35,7 +35,7 @@ import Expression, { ExpressionKind, type GuardContext } from '@nodes/Expression
 import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
 import FunctionDefinition from '@nodes/FunctionDefinition';
 import FunctionType from '@nodes/FunctionType';
-import getConcreteExpectedType from '@nodes/Generics';
+import { concretizeType } from '@nodes/Generics';
 import ListType from '@nodes/ListType';
 import type Name from '@nodes/Name';
 import Names from '@nodes/Names';
@@ -588,28 +588,19 @@ export default class Bind extends Expression {
                                 type instanceof FunctionType,
                         );
                     if (functionType) {
-                        let type: Type | undefined;
                         const funcBind = functionType.inputs[bindIndex];
-                        if (funcBind) type = funcBind.getType(context);
-
-                        const concreteFunctionType = getConcreteExpectedType(
-                            evalFunc,
-                            bind,
-                            evaluate,
-                            context,
-                        )
-                            .getPossibleTypes(context)
-                            .find(
-                                (type): type is FunctionType =>
-                                    type instanceof FunctionType,
+                        if (funcBind) {
+                            // Only concretize THIS input's type, not the whole function type. Concretizing the
+                            // whole type would also try to resolve the function's output type variable, which is
+                            // inferred from the user-provided function's own type — yielding a cycle through
+                            // this very bind. (See #680-related: anonymous translate function bodies.)
+                            return concretizeType(
+                                funcBind.getType(context),
+                                evalFunc,
+                                evaluate,
+                                context,
                             );
-                        if (concreteFunctionType) {
-                            type =
-                                concreteFunctionType.inputs[bindIndex].getType(
-                                    context,
-                                );
                         }
-                        if (type) return type;
                     }
                 }
             }
@@ -731,9 +722,11 @@ export default class Bind extends Expression {
     getStartExplanations(locales: Locales, context: Context) {
         return locales.concretize(
             (l) => l.node.Bind.start,
-            this.value === undefined
+            {
+                value: this.value === undefined
                 ? undefined
                 : new NodeRef(this.value, locales, context),
+            },
         );
     }
 
@@ -744,18 +737,22 @@ export default class Bind extends Expression {
     ) {
         return locales.concretize(
             (l) => l.node.Bind.finish,
-            this.getValueIfDefined(locales, context, evaluator),
-            new NodeRef(
+            {
+                value: this.getValueIfDefined(locales, context, evaluator),
+                name: new NodeRef(
                 this.names,
                 locales,
                 context,
                 locales.getName(this.names),
             ),
+            },
         );
     }
 
     getDescriptionInputs(locales: Locales) {
-        return [locales.getName(this.names)];
+        return {
+            name: locales.getName(this.names),
+        };
     }
 
     getCharacter(locales: Locales) {

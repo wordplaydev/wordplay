@@ -28,18 +28,20 @@ export default class UnclosedDelimiter extends Conflict {
             explanation: (locales: Locales, context: Context) =>
                 locales.concretize(
                     (l) => UnclosedDelimiter.LocalePath(l).explanation,
-                    new NodeRef(
+                    {
+                        unclosed: new NodeRef(
                         this.open,
                         locales,
                         context,
                         this.open.getText(),
                     ),
-                    new NodeRef(
+                        expected: new NodeRef(
                         this.expected,
                         locales,
                         context,
                         this.expected.getText(),
                     ),
+                    },
                 ),
         };
     }

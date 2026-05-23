@@ -1,0 +1,26 @@
+Count up while time passes
+
+Many projects need something that grows over time — a timer, a score, a countdown.
+We can build a counter by combining the @Time @Stream with a @Reaction.
+
+A @Reaction has three parts: a starting value, a thing to watch, and a new value when that thing changes.
+Here, we start at \0\, watch @Time, and add one every time the clock ticks:
+
+\
+count: 0 … ∆ Time(1000ms) … count + 1
+Phrase(count → '')
+\
+
+Every second, @Time fires, the @Reaction notices with \∆ Time(1000ms)\, and \count\ becomes \count + 1\.
+The \→ ''\ at the end converts the number into text so @Phrase can show it.
+
+You can use any input you want, not just time. This counter counts the number of Button() presses:
+
+\
+count: 0 … ∆ Button() … count + 1
+Phrase(count → '')
+\
+
+Each time the @Button stream changes with a click or tap, the count increases by one.
+
+track-points, pick-from-a-list

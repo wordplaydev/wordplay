@@ -1,0 +1,17 @@
+Buat banyak salinan dari sebuah karakter.
+
+Bagaimana jika kita menginginkan sepuluh kucing, atau seratus bintang, tetapi tidak ingin mengetik semuanya?Kita bisa meminta daftar tersebut untuk membuat salinan untuk kita.  @List/translate .
+
+Jika kita mulai dengan angka \10\ dan mengubahnya dengan \→ []\, kita mendapatkan daftar sepuluh angka dari 1 hingga 10.Kemudian kita menggunakan  @List/translate  untuk mengubah setiap angka menjadi sebuah  @Phrase :
+
+\Group(Row() (10 → []).translate(ƒ() Phrase('🐈')))\
+
+@List/translate  Fungsi kecil kita dipanggil sekali untuk setiap item, dan hasilnya dikumpulkan ke dalam daftar baru.
+
+Untuk membuat setiap salinan sedikit berbeda, gunakan angka yang diberikan oleh fungsi terjemahan:
+
+\Group(Row('|' 0.2m) (8 → []).translate(ƒ(n) Phrase('⭐' size: n × 0.5m)))\
+
+Setiap bintang lebih besar dari bintang sebelumnya, karena \n\ mulai dari \1\ ke \8\.
+
+make-a-grid, arrange-in-a-row

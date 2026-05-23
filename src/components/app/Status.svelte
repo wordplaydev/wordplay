@@ -4,7 +4,7 @@
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import type LocaleText from '@locale/LocaleText';
     import { CANCEL_SYMBOL } from '@parser/Symbols';
-    import { SaveStatus, status } from '@db/Database';
+    import { disconnected, SaveStatus, status } from '@db/Database';
     import { withMonoEmoji } from '@unicode/emoji';
     import { getUser } from '@components/project/Contexts';
 
@@ -13,15 +13,27 @@
 
     let showError = $state(false);
 
+    // When the user is signed in but Firebase is unreachable, the SDK silently
+    // queues writes — `persist()` sets Status to Saved after the local write
+    // and then awaits the online batch.commit(), which hangs without resolving
+    // or rejecting. So Status.status stays "Saved" even though the latest
+    // edits haven't synced. Treat that combination as an error in the UI so
+    // the indicator matches the connection banner.
+    let effectiveStatus = $derived(
+        !device && $disconnected && $status.status === SaveStatus.Saved
+            ? SaveStatus.Error
+            : $status.status,
+    );
+
     let labels = $derived(
-        $status.status === SaveStatus.Saved
+        effectiveStatus === SaveStatus.Saved
             ? {
                   text: device
                       ? (l: LocaleText) => l.ui.save.local
                       : (l: LocaleText) => l.ui.save.saved,
                   icon: withMonoEmoji(device ? '🖥️' : '🌐'),
               }
-            : $status.status === SaveStatus.Saving
+            : effectiveStatus === SaveStatus.Saving
               ? { text: (l: LocaleText) => l.ui.save.saving, icon: '…' }
               : {
                     text: (l: LocaleText) => l.ui.save.unsaved,
@@ -31,7 +43,7 @@
 </script>
 
 <Button
-    tip={$status.status === SaveStatus.Error
+    tip={effectiveStatus === SaveStatus.Error
         ? (l) => l.ui.project.button.unsaved
         : (l) =>
               device
@@ -40,7 +52,7 @@
     action={() => (showError = true)}
     active={$status.message !== undefined}
 >
-    <div class="status {$status.status}" class:device>
+    <div class="status {effectiveStatus}" class:device>
         {labels.icon}
         <LocalizedText path={labels.text} />
     </div>

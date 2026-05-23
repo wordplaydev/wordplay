@@ -98,7 +98,7 @@ export default class Branch extends Content {
 
     concretize(
         locales: Locales,
-        inputs: TemplateInput[],
+        inputs: Record<string, TemplateInput>,
         replacements: [Node, Node][],
     ): Words | undefined {
         const value = this.mention.concretize(locales, inputs, replacements);
@@ -113,7 +113,7 @@ export default class Branch extends Content {
     }
 
     getDescriptionInputs() {
-        return [this.id];
+        return {};
     }
 
     toText() {

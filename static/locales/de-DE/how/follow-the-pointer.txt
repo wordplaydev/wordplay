@@ -1,0 +1,17 @@
+Lass eine Figur deinem Finger folgen
+
+Möchten Sie eine Spielfigur, die Ihrer Maus oder Ihrem Finger hinterherjagt? @Stage ?Das können wir mit dem @Pointer Eingabe. 
+
+@Pointer gibt uns eine frische @Place jedes Mal, wenn sich der Mauszeiger bewegt.Wenn wir das verwenden @Place als @Phrase 'S \place\Die Figur wird dorthin gehen, wo wir hinzeigen.
+
+\Stage([Phrase('🐈' place: Pointer())] place: Place(0m 0m -10m))\
+
+Das war's! Bewegen Sie Ihre Maus oder ziehen Sie Ihren Finger, und die Katze folgt Ihnen.
+
+Man kann interessantere Dinge tun, indem man die\x\ Und \y\von @Place DieHier ist eine Ente, die immer einen Meter über dem Zeiger schwebt:
+
+\Stage([
+		Phrase('🦆' place: Place(Pointer().x Pointer().y + 1m))
+	] place: Place(0m 0m -10m))\
+
+move-phrase, count-with-time

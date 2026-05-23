@@ -1,0 +1,17 @@
+Faites évoluer les personnages grâce au son
+
+Saviez-vous que votre projet peut vous écouter ? @Volume   @Stream utilise votre microphone pour nous donner un numéro de\0\(silencieux) à\1\ (fort).
+
+Nous pouvons utiliser ce nombre pour tout contrôler, y compris la taille d'un @Phrase , sa rotation, sa couleur.
+
+\Phrase('📣' size: (Volume() × 5m) + 1m)\
+
+Quand c'est calme, le mégaphone est\1m\grand. Quand vous criez, il peut atteindre\6m\ grand.
+
+Vous voulez un soleil qui tourne plus vite quand vous faites du bruit ?
+
+\Phrase('🌞' rotation: Volume() × 360°)\
+
+Essayez de taper des mains ou de fredonner et observez ce qui se passe.(Votre ordinateur peut vous demander l'autorisation d'utiliser le microphone la première fois.)
+
+count-with-time, follow-the-pointer

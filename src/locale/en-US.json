@@ -93,8 +93,16 @@
         "Region": "region dash",
         "BooleanType": "boolean type",
         "NumberType": "number type",
-        "JapaneseNumeral": "japanese numeral",
+        "HanNumeral": "han numeral",
         "RomanNumeral": "roman numeral",
+        "ThaiNumeral": "thai numeral",
+        "BengaliNumeral": "bengali numeral",
+        "DevanagariNumeral": "devanagari numeral",
+        "GujaratiNumeral": "gujarati numeral",
+        "GurmukhiNumeral": "gurmukhi numeral",
+        "KannadaNumeral": "kannada numeral",
+        "TamilNumeral": "tamil numeral",
+        "TeluguNumeral": "telugu numeral",
         "Pi": "pi",
         "Infinity": "infinity",
         "TableOpen": "table open",
@@ -212,7 +220,7 @@
         },
         "Name": {
             "name": "name",
-            "description": "declare name $1[$1|unnamed]",
+            "description": "declare name $name[$name|unnamed]",
             "emotion": "kind",
             "doc": [
                 "I identify a value, and am a helpful way of giving a shorthand label to something that was hard to evaluate, or that you don't want to have to evaluate over and over.",
@@ -232,9 +240,7 @@
             "name": "name list",
             "description": "list names in multiple languages",
             "emotion": "kind",
-            "label": {
-                "names": "names"
-            },
+            "label": { "names": "names" },
             "doc": [
                 "I'm a list of @Name, useful when you want to give a value multiple names, often with different @Language.",
                 "Names are separated by \\,\\ symbols. For example, here's @Bind giving a value multiple @Name",
@@ -253,7 +259,7 @@
                 },
                 "MissingCell": {
                     "name": "missing column",
-                    "explanation": "I'm missing column $1"
+                    "explanation": "I'm missing column $column"
                 },
                 "ExtraCell": {
                     "name": "extra column",
@@ -271,7 +277,7 @@
         },
         "Token": {
             "name": "token",
-            "description": "$1",
+            "description": "$label",
             "emotion": "neutral",
             "doc": [
                 "How did you find me?",
@@ -288,14 +294,12 @@
             "name": "type variable",
             "description": "name a type given by caller",
             "emotion": "curious",
-            "label": {
-                "type": "type"
-            },
+            "label": { "type": "type" },
             "doc": "I am a mystery type on @FunctionDefinition or @StructureDefinition, provided by @TypeInputs when either is evaluated. @Set, @List, and @Map use me.",
             "conflict": {
                 "DuplicateTypeVariable": {
                     "name": "duplicate type variable",
-                    "explanation": "I have the same name as $1"
+                    "explanation": "I have the same name as $duplicate"
                 }
             }
         },
@@ -307,11 +311,9 @@
         },
         "Markup": {
             "name": "markup",
-            "description": "format documentation with $1 paragraphs",
+            "description": "format documentation with $count paragraphs",
             "emotion": "serious",
-            "label": {
-                "paragraphs": "paragraphs"
-            },
+            "label": { "paragraphs": "paragraphs" },
             "doc": [
                 "I'm a list of paragraphs, using the many kinds of markup available in explanations, such as @Words, @WebLink, @ConceptLink, and @Example."
             ]
@@ -330,7 +332,7 @@
         },
         "WebLink": {
             "name": "link",
-            "description": "link to web address $1",
+            "description": "link to web address $url",
             "emotion": "serious",
             "doc": [
                 "I am a link to something on the internet. I just need a description and a URL:",
@@ -340,7 +342,7 @@
         },
         "ConceptLink": {
             "name": "character",
-            "description": "link to $1 concept in docs",
+            "description": "link to $concept concept in docs",
             "emotion": "serious",
             "doc": [
                 "I'm a link to Verse character. I'm helpful when you want to write a @Doc and refer to one of us.",
@@ -363,7 +365,13 @@
                 "Sometimes though, you might want to use the special characters that @Doc uses /as/ words. For example:",
                 "\\¶My friends use @@, //, **, ||, and other symbols.¶\n'using special characters!'\\",
                 "If you just repeat those special characters, you'll get the character instead of their special meaning."
-            ]
+            ],
+            "conflict": {
+                "UnsupportedFontFormat": {
+                    "name": "unsupported font format",
+                    "explanation": "My friend *$face* doesn't know how to be $format."
+                }
+            }
         },
         "Example": {
             "name": "example",
@@ -379,10 +387,10 @@
         },
         "Mention": {
             "name": "mention",
-            "description": "mention $1 in markup",
+            "description": "mention $name in markup",
             "emotion": "serious",
             "doc": [
-                "I'm a reference to either terminology \\$program\\ or a dynamic input \\$1\\.",
+                "I'm a reference to either terminology \\$program\\ or a dynamic input \\$name\\.",
                 "This is mostly an internal feature though, so you shouldn't need to know it."
             ]
         },
@@ -397,7 +405,7 @@
         },
         "BinaryEvaluate": {
             "name": "binary evaluate",
-            "description": "apply $1 operator to two values",
+            "description": "apply $operator operator to two values",
             "emotion": "insecure",
             "doc": [
                 "I'm @Evaluate, but in a simpler form, helpful when you want to use a @FunctionDefinition that takes two inputs.",
@@ -412,12 +420,10 @@
                 "\\1 + 2 × 3 + 4\\",
                 "In math, multiplication would come first, and then addition, and so the result would be \\11\\. But since I evaluate in reading order, the result is \\13\\."
             ],
-            "label": {
-                "operator": "operator"
-            },
+            "label": { "operator": "operator" },
             "right": "input",
-            "start": "Let's evaluate $1 first",
-            "finish": "Look, I made $1!",
+            "start": "Let's evaluate $left first",
+            "finish": "Look, I made $value!",
             "conflict": {
                 "OrderOfOperations": {
                     "name": "ambiguous order",
@@ -427,7 +433,7 @@
         },
         "Bind": {
             "name": "bind",
-            "description": "name this value '$1'",
+            "description": "name this value '$name'",
             "emotion": "excited",
             "doc": [
                 "I name *values*.",
@@ -455,29 +461,25 @@
                 "But we can change this to add the @Is, and now @FunctionDefinition knows that they're numbers:",
                 "\\ƒ sum(a•# b•#) a + b\\"
             ],
-            "label": {
-                "value": "value",
-                "names": "names",
-                "type": "type"
-            },
-            "start": "Let's see what value we get from $1!",
-            "finish": "Oh nice, I got $1! Let's name it $2",
+            "label": { "value": "value", "names": "names", "type": "type" },
+            "start": "Let's see what value we get from $value!",
+            "finish": "Oh nice, I got $value! Let's name it $name",
             "conflict": {
                 "DuplicateName": {
                     "conflict": {
                         "name": "duplicate name",
-                        "explanation": "Someone has the name $1 so I can't have this name."
+                        "explanation": "Someone has the name $shadowed so I can't have this name."
                     },
                     "resolution": "There are duplicate names, do you want to remove one?"
                 },
                 "DuplicateShare": {
                     "name": "duplicate share",
-                    "explanation": "I have the same name as $1. That makes it unclear what we're sharing."
+                    "explanation": "I have the same name as $duplicate. That makes it unclear what we're sharing."
                 },
                 "IncompatibleType": {
                     "name": "incompatible type",
-                    "explanation": "I'm supposed to be type $2, but I'm type $1",
-                    "resolution": "Convert to $1"
+                    "explanation": "I expected $expected, but received type $given",
+                    "resolution": "Convert to $expected"
                 },
                 "MisplacedShare": {
                     "name": "misplaced share",
@@ -497,13 +499,13 @@
                 },
                 "UnusedBind": {
                     "name": "unused bind",
-                    "explanation": "I'm named $1, but no one is using me. Maybe I'm not needed?"
+                    "explanation": "I'm named $name, but no one is using me. Maybe I'm not needed?"
                 }
             }
         },
         "Block": {
             "name": "block",
-            "description": "evaluate $1 statements in sequence",
+            "description": "evaluate $count statements in sequence",
             "emotion": "shy",
             "doc": [
                 "Hi. I make a little quiet, private space for evaluating things.",
@@ -523,11 +525,9 @@
                 "\\(\n  a: 1\n  b: 2\n  a + b\n  a × b\n)\\",
                 "That gives \\[3 2]\\: just the values from the two non-@Bind expressions."
             ],
-            "label": {
-                "statements": "expressions"
-            },
+            "label": { "statements": "expressions" },
             "start": "First expression",
-            "finish": "Done, I got $1",
+            "finish": "Done, I got $value",
             "conflict": {
                 "ExpectedEndingExpression": {
                     "name": "missing expression",
@@ -537,14 +537,14 @@
         },
         "BooleanLiteral": {
             "name": "boolean literal",
-            "description": "create $1[true|false] boolean value",
+            "description": "create $value[true|false] boolean value",
             "emotion": "precise",
             "doc": "I am either \\⊤\\ or \\⊥\\. See @Boolean to learn more about our beautiful logic.",
-            "start": "$1!"
+            "start": "$value!"
         },
         "Borrow": {
             "name": "borrow",
-            "description": "borrow $1[$1|unnamed] from a source",
+            "description": "borrow $name[$name|unnamed] from a source",
             "emotion": "excited",
             "label": {
                 "source": "source",
@@ -552,7 +552,7 @@
                 "version": "version"
             },
             "doc": "If you create a performance with multiple @Source, you can use me to borrow @Bind that are shared in those other @Source. Just use their name and I'll bring in their name and value.",
-            "start": "Borrowing $2 from $1",
+            "start": "Borrowing $name from $source",
             "conflict": {
                 "UnknownBorrow": {
                     "name": "unknown borrow",
@@ -560,13 +560,13 @@
                 },
                 "BorrowCycle": {
                     "name": "self-referencing borrow",
-                    "explanation": "this depends on $1, which depends on this $source, so the program can't be evaluated"
+                    "explanation": "this depends on $borrow, which depends on this $source, so the program can't be evaluated"
                 }
             },
             "exception": {
                 "CycleException": {
                     "description": "borrow cycle",
-                    "explanation": "$1 depends on itself"
+                    "explanation": "$borrow depends on itself"
                 }
             }
         },
@@ -574,26 +574,20 @@
             "name": "changed",
             "description": "return true if stream changed",
             "emotion": "serious",
-            "label": {
-                "stream": "stream"
-            },
+            "label": { "stream": "stream" },
             "doc": [
                 "I check if a stream caused @Program to reevaluate, and make a @Boolean. Like this",
                 "\\∆ Time()\\",
                 "I'm really helpful when you want something to change only if a stream changed.",
                 "That's it."
             ],
-            "start": "Let's see if $1 changed…"
+            "start": "Let's see if $stream changed…"
         },
         "Conditional": {
             "name": "conditional",
             "description": "check this condition and evaluate to one of two expressions",
             "emotion": "curious",
-            "label": {
-                "condition": "condition",
-                "yes": "yes",
-                "no": "no"
-            },
+            "label": { "condition": "condition", "yes": "yes", "no": "no" },
             "doc": [
                 "I think I'm supposed to make decisions? Like this?",
                 "\\number: -100\nnumber < 0 ? 'negative' 'positive'\\",
@@ -601,20 +595,20 @@
                 "Doesn't it seem like decisions should be more nuanced than just yes or no? Is deciding between \\⊤\\ and \\⊥\\ all there is?",
                 "Aren't you worried that if these are the only kind of decisions we can make, we'll be missing some important context about the world?"
             ],
-            "start": "Let's see if $1 is true",
-            "else": "$1[jumping over code | not jumping over code]",
+            "start": "Let's see if $condition is true",
+            "else": "$jumping[jumping over code | not jumping over code]",
             "afterthen": "done with yes, let's skip no?",
-            "finish": "I guess it's $1?",
+            "finish": "I guess it's $value?",
             "conflict": {
                 "ExpectedBooleanCondition": {
                     "name": "expected boolean condition",
-                    "explanation": "I need a @Boolean to make a decision, but I got a $1 instead."
+                    "explanation": "I need a @Boolean to make a decision, but I got a $type instead."
                 }
             }
         },
         "ConversionDefinition": {
             "name": "conversion definition",
-            "description": "define $1 to $2 conversion",
+            "description": "define $input to $output conversion",
             "emotion": "excited",
             "label": {
                 "input": "input type",
@@ -648,18 +642,18 @@
                 "\\\"hello\" → [] → {}\\",
                 "Values have a set of @ConversionDefinition that are predefined, but if you make a @StructureDefinition for a new type of value, you can define your own with @ConversionDefinition."
             ],
-            "start": "Get that value from $1!",
-            "finish": "Awesome, I made $1",
+            "start": "Get that value from $expression!",
+            "finish": "Awesome, I made $value",
             "conflict": {
                 "UnknownConversion": {
                     "name": "unknown conversion",
-                    "explanation": "We couldn't find a way to convert a $1 into a $2"
+                    "explanation": "We couldn't find a way to convert a $expected into a $given"
                 }
             },
             "exception": {
                 "ConversionException": {
                     "description": "impossible conversion",
-                    "explanation": "I don't know how to convert from $1 to $2"
+                    "explanation": "I don't know how to convert from $from to $to"
                 }
             }
         },
@@ -692,7 +686,7 @@
         },
         "Evaluate": {
             "name": "evaluate",
-            "description": "$3[create $1[$1|] value with these inputs|$2[create $1[$1|] stream with these inputs|apply $1[$1|function] to these inputs]]",
+            "description": "$structure[create $name[$name|] value with these inputs|$stream[create $name[$name|] stream with these inputs|apply $name[$name|function] to these inputs]]",
             "emotion": "shy",
             "label": {
                 "function": "function",
@@ -712,12 +706,12 @@
             ],
             "start": "Let's evaluate the inputs first",
             "evaluate": "let's evaluate the function now",
-            "finish": "I evaluated to $1",
+            "finish": "I evaluated to $value",
             "conflict": {
                 "IncompatibleInput": {
                     "name": "incompatible input",
-                    "explanation": "I'm supposed to be type $1, but I'm type $2",
-                    "resolution": "Convert to $1"
+                    "explanation": "I expected $expected, but received $given",
+                    "resolution": "Convert to $expected"
                 },
                 "UnexpectedTypeInput": {
                     "name": "unexpected type input",
@@ -725,7 +719,7 @@
                 },
                 "MissingInput": {
                     "name": "missing input",
-                    "explanation": "I can't evaluate without the input $2 :("
+                    "explanation": "I can't evaluate $name without the input $input :("
                 },
                 "NotInstantiable": {
                     "name": "incomplete structure",
@@ -737,7 +731,7 @@
                 },
                 "UnknownInput": {
                     "name": "unknown input",
-                    "explanation": "This function *$1* doesn't expect an input with my name."
+                    "explanation": "This function *$name* doesn't expect an input with my name."
                 },
                 "InputListMustBeLast": {
                     "name": "extra inputs aren't last",
@@ -745,13 +739,13 @@
                 },
                 "SeparatedEvaluate": {
                     "name": "ambiguous evaluate",
-                    "explanation": "Is $1 the name of a $2[$structure|$function] you're trying to evaluate? Try removing the space after me, so I know it's an @Evaluate and not a separate @Block."
+                    "explanation": "Is $name the name of a $structure[$structure|$function] you're trying to evaluate? Try removing the space after me, so I know it's an @Evaluate and not a separate @Block."
                 }
             },
             "exception": {
                 "FunctionException": {
                     "description": "unknown function",
-                    "explanation": "oh no, $1 isn't a function in $2[$2|this @Block]!"
+                    "explanation": "oh no, $name isn't a function in $scope[$scope|this @Block]!"
                 }
             }
         },
@@ -771,9 +765,7 @@
             "name": "placeholder",
             "description": "mark an expression to fill in",
             "emotion": "scared",
-            "label": {
-                "placeholder": "expression"
-            },
+            "label": { "placeholder": "expression" },
             "doc": [
                 "I'm an *expression*, but not a real one… I just take the place of one.",
                 "I'm good if you don't know what to write yet. Like this:",
@@ -799,7 +791,7 @@
         },
         "FunctionDefinition": {
             "name": "function",
-            "description": "define function $1",
+            "description": "define function $name",
             "emotion": "kind",
             "label": {
                 "inputs": "inputs",
@@ -839,7 +831,7 @@
             "initialize": "preparing to step through items",
             "next": "moving to the next item",
             "check": "deciding whether to continue",
-            "finish": "I evaluated to $1"
+            "finish": "I evaluated to $value"
         },
         "Initial": {
             "name": "start",
@@ -867,7 +859,7 @@
         },
         "Is": {
             "name": "is",
-            "description": "check if value is type $1",
+            "description": "check if value is type $type",
             "emotion": "curious",
             "doc": [
                 "You know what? There are so many kinds of values that mean so many different things. I help figure out what they are.",
@@ -878,18 +870,18 @@
                 "We get \\⊤\\!",
                 "I'm really helpful when you need to know whether some @Name has a value of a particular kind."
             ],
-            "start": "Let's get the value of $1 first",
-            "finish": "$1[value is $2|value is not $2]",
+            "start": "Let's get the value of $expression first",
+            "finish": "$value[value is $type|value is not $type]",
             "conflict": {
                 "ImpossibleType": {
                     "name": "impossible type",
-                    "explanation": "this can't ever be $1"
+                    "explanation": "this can't ever be $type"
                 }
             },
             "exception": {
                 "TypeException": {
                     "description": "incompatible values",
-                    "explanation": "I expected type $1 but received type $2"
+                    "explanation": "I expected $expected, but received $given"
                 }
             }
         },
@@ -903,7 +895,7 @@
                 "\\🌍/es-MX\\",
                 "This is helpful if you want to change your performance based on the language chosen."
             ],
-            "start": "Is the language $1?"
+            "start": "Is the language $locale?"
         },
         "ListAccess": {
             "name": "list access",
@@ -913,16 +905,16 @@
                 "I work closely with @List to help them get values at a particular position. So like, if you had a list, and you wanted its second item, you'd write:",
                 "\\list: ['bird' 'duck' 'fish' 'snake']\nlist[2]\\"
             ],
-            "start": "Let's get the list $1 first",
-            "finish": "The item at the index is $1!"
+            "start": "Let's get the list $list first",
+            "finish": "The item at the index is $value!"
         },
         "ListLiteral": {
             "name": "list literal",
-            "description": "create a list of $1 values",
+            "description": "create a list of $count values",
             "emotion": "eager",
             "doc": "I'm a specific @List of values! See @List to learn more about what you can do with me.",
             "start": "Let's evaluate the items first",
-            "finish": "I made a me! $1"
+            "finish": "I made a me! $value"
         },
         "Spread": {
             "name": "spread",
@@ -935,14 +927,12 @@
         },
         "MapLiteral": {
             "name": "map literal",
-            "description": "create a map of $1 key-value pairs",
+            "description": "create a map of $count key-value pairs",
             "emotion": "kind",
-            "label": {
-                "values": "pair"
-            },
+            "label": { "values": "pair" },
             "doc": "I'm a specific @Map between keys and values. See @Map to learn more about how I'm helpful.",
             "start": "Let's evaluate the keys and values first",
-            "finish": "I connected everyone, $1",
+            "finish": "I connected everyone, $value",
             "conflict": {
                 "NotAKeyValue": {
                     "name": "missing value",
@@ -954,10 +944,7 @@
             "name": "match",
             "description": "compare value to multiple cases",
             "emotion": "curious",
-            "label": {
-                "case": "case",
-                "other": "default"
-            },
+            "label": { "case": "case", "other": "default" },
             "doc": [
                 "I am the most glorious of all conditional checks! I take a value and compares it against any number of cases, and evaluates the corresponding expression that matches.",
                 "For example, if you had a @Number and wanted to convert it to a @Text, you might do something like this:",
@@ -966,16 +953,16 @@
                 "I'm really helpful for converting one of many possible @Number, @Text, or more complex values into something else.",
                 "You can use it for @Boolean or @None, but they can't really be that many things, so I'm not as useful for those simple values."
             ],
-            "start": "Let's see what $1 is...",
+            "start": "Let's see what $value is...",
             "case": "Let's check this condition",
             "finish": "Okay, we have a final value!"
         },
         "NumberLiteral": {
             "name": "number literal",
-            "description": "create number $1 $2[$2|]",
+            "description": "create number $number $unit[$unit|]",
             "emotion": "excited",
             "doc": "I'm a specific @Number. You can write me with any kinds of digits from any kind of language. See @Number for everything I can do.",
-            "start": "$1!",
+            "start": "$value!",
             "conflict": {
                 "NotANumber": {
                     "name": "not a number",
@@ -1007,7 +994,7 @@
                 "\\maybeNumber•#|ø: 1 maybeNumber ?? 0\\"
             ],
             "start": "ø ??",
-            "finish": "… $1"
+            "finish": "… $value"
         },
         "Previous": {
             "name": "previous",
@@ -1024,11 +1011,9 @@
                 "See how it's the five previous times, instead of just one time?",
                 "I'm helpful when you want to create performances that depend on the past."
             ],
-            "start": "First get $1",
-            "finish": "Evaluated to stream value $1",
-            "label": {
-                "range": "range"
-            }
+            "start": "First get $stream",
+            "finish": "Evaluated to stream value $value",
+            "label": { "range": "range" }
         },
         "Program": {
             "name": "program",
@@ -1043,14 +1028,11 @@
                 "If there's a problem during a performance, I'll show that problem.",
                 "And if your performance depends on a *stream*, I'll reevaluate every time that stream changes."
             ],
-            "label": {
-                "borrows": "borrows",
-                "expression": "block"
-            },
+            "label": { "borrows": "borrows", "expression": "block" },
             "unevaluated": "the node you chose didn't evaluate",
-            "start": "$1[$1 stream changed to $2!|It's my first evaluation]",
+            "start": "$stream[$stream stream changed to $value!|It's my first evaluation]",
             "halt": "encountered exception, stopping",
-            "finish": "All done, I evaluated to $1",
+            "finish": "All done, I evaluated to $value",
             "done": "there's nothing evaluating",
             "exception": {
                 "BlankException": {
@@ -1059,7 +1041,7 @@
                 },
                 "EvaluationLimitException": {
                     "description": "evaluation limit",
-                    "explanation": "@Evaluate and I are tired of evaluating, especially $1.\n\nIs it possible that $1 is evaluating itself forever, without ever stopping?"
+                    "explanation": "@Evaluate and I are tired of evaluating, especially $function.\n\nIs it possible that $function is evaluating itself forever, without ever stopping?"
                 },
                 "StepLimitException": {
                     "description": "step limit",
@@ -1071,18 +1053,19 @@
                 },
                 "InternalException": {
                     "description": "internal error",
-                    "explanation": "something very bad happened internally: $1"
+                    "explanation": "something very bad happened internally: $reason"
+                },
+                "PermissionException": {
+                    "description": "permission denied",
+                    "explanation": "I need your $permission to run, but I don't have permission. Click Retry to try again. If that doesn't help, allow $permission for this site in your browser's settings."
                 }
             }
         },
         "PropertyBind": {
             "name": "refine",
-            "description": "refine property $1[$1|unnamed]",
+            "description": "refine property $name[$name|unnamed]",
             "emotion": "kind",
-            "label": {
-                "property": "property",
-                "value": "value"
-            },
+            "label": { "property": "property", "value": "value" },
             "doc": [
                 "Sometimes when you make a @StructureDefinition, you want to change the tiniest thing about it, without having to make a new one with all the same values.",
                 "For example, what if you were keeping a record of cats, but then wanted to create a copy of a cat with a different hobby? I can help you change it:",
@@ -1090,28 +1073,26 @@
                 "That's so much easier than making a whole new \\Cat\\ with the same values except for the hobby, isn't it?"
             ],
             "start": "First let's get the value",
-            "finish": "I copied the structure, but with $1 as $2",
+            "finish": "I copied the structure, but with $property as $value",
             "conflict": {
                 "InvalidProperty": {
                     "name": "unknown property",
-                    "explanation": "I'm not a name in the structure $1, so I can't be refined."
+                    "explanation": "I'm not a name in the structure $structure, so I can't be refined."
                 }
             }
         },
         "PropertyReference": {
             "name": "property",
-            "description": "get property $1[$1|unnamed]",
+            "description": "get property $name[$name|unnamed]",
             "emotion": "kind",
-            "label": {
-                "property": "property"
-            },
+            "label": { "property": "property" },
             "doc": [
                 "When you make a @StructureDefinition, how do you get one of its inputs? I'm how",
                 "Like if you had a structure about cities, you could get its values with me like this:",
                 "\\•City(name•'' population•#people)\n\nportland: City('Portland' 800000people)\n\nportland.population\\"
             ],
             "start": "First let's get the value",
-            "finish": "Found property $1, it is $2"
+            "finish": "Found property $property, it is $value"
         },
         "Reaction": {
             "name": "reaction",
@@ -1130,17 +1111,17 @@
                 "So I'm like a stream too, but one based on other streams. Wicked, huh?"
             ],
             "start": "Let's see if we should update the stream",
-            "finish": "The new stream value is $1",
+            "finish": "The new stream value is $value",
             "conflict": {
                 "ExpectedStream": {
                     "name": "expected stream",
-                    "explanation": "$1 doesn't reference a stream, so I will never react!"
+                    "explanation": "$condition doesn't reference a stream, so I will never react!"
                 }
             }
         },
         "Reference": {
             "name": "reference",
-            "description": "reference name $1",
+            "description": "reference name $name",
             "emotion": "shy",
             "doc": [
                 "You know how @Bind gives things @Name? I'm how you refer to them. I see if any @Bind has that name, if so, give you its value. Like this:",
@@ -1148,18 +1129,18 @@
                 "If I don't find the name, then I don't know what to do.",
                 "\\parrot: 'polly'\nperry\\"
             ],
-            "start": "What value does $1 have?",
+            "start": "What value does $name have?",
             "conflict": {
                 "UnknownName": {
                     "conflict": {
                         "name": "unknown name",
-                        "explanation": "$1[I don't know anyone named $1 in $2[$2|this @Block]|Can you give me a name?]"
+                        "explanation": "$name[I don't know anyone named $name in $scope[$scope|this @Block]|Can you give me a name?]"
                     },
-                    "resolution": "Did you mean *$1?*"
+                    "resolution": "Did you mean *$suggestion?*"
                 },
                 "ReferenceCycle": {
                     "name": "self-referencing value",
-                    "explanation": "um, $1's value depends on itself, so how do I know what value to give it?"
+                    "explanation": "um, $name's value depends on itself, so how do I know what value to give it?"
                 },
                 "UnexpectedTypeVariable": {
                     "name": "unexpected type variable",
@@ -1169,7 +1150,7 @@
             "exception": {
                 "NameException": {
                     "description": "unknown name",
-                    "explanation": "$1[I don't know anyone named $1 in $2[$2|this @Block]…|Eep, no name!]"
+                    "explanation": "$name[I don't know anyone named $name in $scope[$scope|this @Block]…|Eep, no name!]"
                 }
             }
         },
@@ -1194,11 +1175,11 @@
         },
         "SetLiteral": {
             "name": "set literal",
-            "description": "create a set of $1 items",
+            "description": "create a set of $count items",
             "emotion": "eager",
             "doc": "I'm a specific @Set of specific values. See @Set to learn more about how to work with me.",
             "start": "Let's evaluate the values first!",
-            "finish": "I made a set $1!"
+            "finish": "I made a set $value!"
         },
         "SetOrMapAccess": {
             "name": "set/map access",
@@ -1212,11 +1193,11 @@
                 "\\faves: {'mac and cheese': 5stars 'cereal': 2stars 'gruel': 1stars}\nfaves{'gruel'}\\"
             ],
             "start": "What's the set or map?",
-            "finish": "The value is $1",
+            "finish": "The value is $value",
             "conflict": {
                 "IncompatibleKey": {
                     "name": "incompatible key",
-                    "explanation": "I expected a key of type $1"
+                    "explanation": "I expected a key of type $expected"
                 }
             }
         },
@@ -1239,7 +1220,7 @@
         },
         "StructureDefinition": {
             "name": "structure",
-            "description": "define structure $1",
+            "description": "define structure $name",
             "emotion": "kind",
             "label": {
                 "docs": "documentation",
@@ -1274,13 +1255,13 @@
                 },
                 "UnimplementedInterface": {
                     "name": "unimplemented",
-                    "explanation": "I implement $1 but haven't implemented $2"
+                    "explanation": "I implement $interface but haven't implemented $function"
                 }
             }
         },
         "StructureDefinitionType": {
             "name": "structure definition",
-            "description": "$1",
+            "description": "$name",
             "emotion": "kind",
             "doc": [
                 "I refer to some kind of @StructureDefinition. People don't usually refer to me directly"
@@ -1288,50 +1269,46 @@
         },
         "TableLiteral": {
             "name": "table literal",
-            "description": "create a table of $1 rows",
+            "description": "create a table of $count rows",
             "emotion": "angry",
             "doc": "I am a specific table with specific rows. See @Table about how I can help.",
             "start": "First evaluate the rows",
-            "finish": "Evaluated to new table $1"
+            "finish": "Evaluated to new table $value"
         },
         "TextLiteral": {
             "name": "text literal",
-            "description": "create text value $1",
+            "description": "create text value $text",
             "emotion": "serious",
-            "label": {
-                "texts": "text"
-            },
+            "label": { "texts": "text" },
             "doc": "I represent one or more specific @Translation of text. See @Text to learn more about what I can do!",
             "start": "Let's make text in the current locale"
         },
         "Translation": {
             "name": "translation",
-            "description": "create text '$1'",
+            "description": "create text '$text'",
             "emotion": "serious",
-            "label": {
-                "segments": "text"
-            },
+            "label": { "segments": "text" },
             "doc": "I represent some text, with an optional @Language tag. See @Text to learn more!",
             "conflict": {
                 "phone": {
                     "name": "possible phone number",
-                    "explanation": "Is *$1* someone's phone number? Don't share me online if so!\n\n$2"
+                    "explanation": "Is *$text* someone's phone number? Don't share me online if so!\n\n$reminder"
                 },
                 "email": {
                     "name": "possible email",
-                    "explanation": "Is *$1* someone's email? Don't share me here if so!\n\n$2"
+                    "explanation": "Is *$text* someone's email? Don't share me here if so!\n\n$reminder"
                 },
                 "tin": {
                     "name": "possible tax identifier",
-                    "explanation": "Is *$1* a tax identifier? If yes, definitely don't share me, I'm very sensitive information!\n\n$2"
+                    "explanation": "Is *$text* a tax identifier? If yes, definitely don't share me, I'm very sensitive information!\n\n$reminder"
                 },
                 "address": {
                     "name": "possible address",
-                    "explanation": "Is *$1* someone's home address? If so, don't put me here, we don't want anyone getting stalked!\n\n$2"
+                    "explanation": "Is *$text* someone's home address? If so, don't put me here, we don't want anyone getting stalked!\n\n$reminder"
                 },
                 "handle": {
                     "name": "possible username",
-                    "explanation": "Is *$1* your username for somewhere else on the internet? If so, don't share me here unless you really mean to.\n\n$2"
+                    "explanation": "Is *$text* your username for somewhere else on the internet? If so, don't share me here unless you really mean to.\n\n$reminder"
                 },
                 "resolution": "This isn't sensitive data",
                 "reminder": "Note: You can undo this action and see other things you've marked as non-sensitive in the sharing dialog.",
@@ -1343,14 +1320,14 @@
         },
         "FormattedLiteral": {
             "name": "formatted text",
-            "description": "create formatted text $1",
+            "description": "create formatted text $text",
             "emotion": "serious",
             "doc": "I represent many different @FormattedTranslation of formatted text. When I evaluate, I'll pick the best match based on the audience's selected languages.",
             "start": "Let's make text in the current locale"
         },
         "FormattedTranslation": {
             "name": "formatted translation",
-            "description": "translate formatted text to $1",
+            "description": "translate formatted text to $language",
             "emotion": "serious",
             "doc": [
                 "I represent some formatted text, with a @Language tag.",
@@ -1378,7 +1355,7 @@
                 "Check me out, representing the previous reaction value.",
                 "I don't show up often, but when I do, I can really help a value get out of a @Bind!"
             ],
-            "start": "Evaluated to $1",
+            "start": "Evaluated to $value",
             "conflict": {
                 "MisplacedThis": {
                     "name": "misplaced this reference",
@@ -1388,11 +1365,9 @@
         },
         "UnaryEvaluate": {
             "name": "unary evaluate",
-            "description": "apply $1 unary operator",
+            "description": "apply $operator unary operator",
             "emotion": "kind",
-            "label": {
-                "input": "input"
-            },
+            "label": { "input": "input" },
             "doc": [
                 "Did you know that when I'm evaluating a @FunctionDefinition with just one value, and the name of the @FunctionDefinition is just a single symbol, you can put the name before the input?",
                 "Like this:",
@@ -1404,7 +1379,7 @@
                 "There's only one rule: you can't put any space between the name and the value. Otherwise you might be making a @Reference or @BinaryEvaluate."
             ],
             "start": "What's the value?",
-            "finish": "I made it $1"
+            "finish": "I made it $value"
         },
         "UnparsableExpression": {
             "name": "unparsable",
@@ -1425,13 +1400,13 @@
                 "UnparsableConflict": {
                     "conflict": {
                         "name": "unreadable code",
-                        "explanation": "@FunctionDefinition here, @UnparsableExpression doesn't know what kind of $1[ expression | type ] this is."
+                        "explanation": "@FunctionDefinition here, @UnparsableExpression doesn't know what kind of $expression[ expression | type ] this is."
                     },
-                    "resolution": "Did you mean type $1, $2?"
+                    "resolution": "Did you mean type $first, $second?"
                 },
                 "UnclosedDelimiter": {
                     "name": "unclosed delimiter",
-                    "explanation": "I expected $2 sometime after $1"
+                    "explanation": "I expected $expected sometime after $unclosed"
                 }
             },
             "exception": {
@@ -1460,7 +1435,7 @@
                 },
                 "IncompatibleCellType": {
                     "name": "incompatible cell type",
-                    "explanation": "I'm supposed to be type $1, but I'm $2"
+                    "explanation": "I'm supposed to be type $expected, but I'm $given"
                 }
             }
         },
@@ -1507,7 +1482,7 @@
         },
         "FunctionType": {
             "name": "function",
-            "description": "type a function with $1 inputs",
+            "description": "type a function with $inputs inputs",
             "emotion": "curious",
             "doc": [
                 "I represent a @FunctionDefinition. I'm really helpful if you want to say what kind of function a @Bind holds! Like this:",
@@ -1516,7 +1491,7 @@
         },
         "ListType": {
             "name": "list",
-            "description": "type a $1[list of $1|list]",
+            "description": "type a $type[list of $type|list]",
             "emotion": "cheerful",
             "doc": [
                 "I am /such/ a fan of @List. I get to tell @Bind what kind of list they are! Like this, I'm saying that it's a list of @Number:",
@@ -1525,7 +1500,7 @@
         },
         "MapType": {
             "name": "map ",
-            "description": "type a $1[$1|any] to $2[$2|any] map",
+            "description": "type a $key[$key|any] to $value[$value|any] map",
             "emotion": "kind",
             "doc": [
                 "Do you know how awesome @Map is? Like really awesome. I tell @Bind what kind of map they are all the time, like this map of numbers to lists:",
@@ -1534,7 +1509,7 @@
         },
         "NumberType": {
             "name": "number",
-            "description": "type a $1[$1|number] value",
+            "description": "type a $unit[$unit|number] value",
             "emotion": "precise",
             "doc": [
                 "You know what @Bind should be? A @Number. Because numbers are the best.",
@@ -1543,7 +1518,7 @@
         },
         "NameType": {
             "name": "structure",
-            "description": "reference type named $1",
+            "description": "reference type named $name",
             "emotion": "curious",
             "doc": [
                 "I represent a @StructureDefinition by its name. So like, if you had a structure like this, you could make a @Bind that stores the values it creates.",
@@ -1552,7 +1527,7 @@
             "conflict": {
                 "UnknownTypeName": {
                     "name": "unknown type name",
-                    "explanation": "type names can only refer to structures or type variables, but this refers to type $1"
+                    "explanation": "type names can only refer to structures or type variables, but this refers to type $type"
                 }
             }
         },
@@ -1573,7 +1548,7 @@
         },
         "SetType": {
             "name": "set",
-            "description": "type a set of $1[$1|any]",
+            "description": "type a set of $type[$type|any]",
             "emotion": "kind",
             "doc": [
                 "@Set is the BEST, like seriously. I'm telling @Bind all the time, make things a set of something!",
@@ -1597,13 +1572,13 @@
         },
         "StructureType": {
             "name": "structure",
-            "description": "represent structure $1",
+            "description": "represent structure $name",
             "emotion": "kind",
             "doc": "I am an internal type to represent the type of default value types."
         },
         "UnknownType": {
             "name": "unknown",
-            "description": "$!unknown",
+            "description": "unknown",
             "connector": ", because ",
             "emotion": "curious",
             "doc": "Umm... I don't know what I represent, but I really am curious. Do you know? It seems like we should know. You might need to tell us if we can't figure it out."
@@ -1622,7 +1597,7 @@
         },
         "TextType": {
             "name": "text",
-            "description": "type a $1[$1|text] value",
+            "description": "$text['$text'|text]",
             "emotion": "happy",
             "doc": [
                 "I fabulously represent the most fabulous kind of value there is, @Text.",
@@ -1637,7 +1612,7 @@
         },
         "UnionType": {
             "name": "option",
-            "description": "type either $1 or $2",
+            "description": "one of $first or $second",
             "emotion": "curious",
             "doc": [
                 "Who should I represent, A or B or something else? I can never decide!",
@@ -1646,7 +1621,7 @@
         },
         "Unit": {
             "name": "unit",
-            "description": "specify unit $1",
+            "description": "specify unit $unit",
             "emotion": "precise",
             "doc": [
                 "I represent any unit a @Number might have, including no unit, to the most complicated unit you can imagine. Like gravity, for example:",
@@ -1680,7 +1655,7 @@
         },
         "NotAType": {
             "name": "unexpected",
-            "description": "mark $1 as an invalid type",
+            "description": "mark $type as an invalid type",
             "emotion": "curious",
             "doc": "Sometimes we know what kind of value something should be. Like @ListAccess needs a @Number. If we don't get it, I represent that something is a type other than what we expected."
         },
@@ -1704,13 +1679,13 @@
         },
         "UnknownNameType": {
             "name": "unknown name",
-            "description": "$!$1[$1 isn't defined yet|the name isn't given]",
+            "description": "$name[$name isn't defined yet|the name isn't given]",
             "emotion": "curious",
             "doc": "You know how sometimes @Reference and @PropertyReference don't know the name you're talking about? I'm around when that happens, to represent that we don't know who you're talking about."
         },
         "NonFunctionType": {
             "name": "non-function",
-            "description": "mark $1 as a non-function",
+            "description": "mark $type as a non-function",
             "emotion": "confused",
             "doc": "Some of us expected functions; I show up when we don't get one."
         }
@@ -1766,20 +1741,14 @@
                     "doc": "\\⊤\\ if both are \\⊤\\ or both are \\⊥\\.",
                     "names": ["=", "equals"],
                     "inputs": [
-                        {
-                            "doc": "The other value to check.",
-                            "names": "value"
-                        }
+                        { "doc": "The other value to check.", "names": "value" }
                     ]
                 },
                 "notequal": {
                     "doc": "\\⊤\\ if both are opposites.",
                     "names": ["≠", "notequal"],
                     "inputs": [
-                        {
-                            "doc": "The other value to check.",
-                            "names": "value"
-                        }
+                        { "doc": "The other value to check.", "names": "value" }
                     ]
                 }
             },
@@ -1797,22 +1766,12 @@
                 "equals": {
                     "doc": "Is another value also nothing? It better be, otherwise, \\⊥\\.",
                     "names": ["=", "equals"],
-                    "inputs": [
-                        {
-                            "doc": "The other value.",
-                            "names": "value"
-                        }
-                    ]
+                    "inputs": [{ "doc": "The other value.", "names": "value" }]
                 },
                 "notequals": {
                     "doc": "Is another value /not/ nothing?",
                     "names": ["≠", "notequal"],
-                    "inputs": [
-                        {
-                            "doc": "The other value.",
-                            "names": "value"
-                        }
-                    ]
+                    "inputs": [{ "doc": "The other value.", "names": "value" }]
                 }
             },
             "conversion": {
@@ -1851,20 +1810,14 @@
                     "doc": "\\⊤\\ if I am the same character sequence as the given @Text.",
                     "names": ["=", "equals"],
                     "inputs": [
-                        {
-                            "doc": "The @Text to compare.",
-                            "names": "value"
-                        }
+                        { "doc": "The @Text to compare.", "names": "value" }
                     ]
                 },
                 "notequals": {
                     "doc": "\\⊤\\ if I am /not/ the same character sequence as the given @Text.",
                     "names": "≠",
                     "inputs": [
-                        {
-                            "doc": "The @Text to compare",
-                            "names": "value"
-                        }
+                        { "doc": "The @Text to compare", "names": "value" }
                     ]
                 },
                 "has": {
@@ -1948,10 +1901,7 @@
                     ],
                     "names": ["+", "combined", "combine"],
                     "inputs": [
-                        {
-                            "doc": "The @Text to append.",
-                            "names": "text"
-                        }
+                        { "doc": "The @Text to append.", "names": "text" }
                     ]
                 }
             },
@@ -1997,10 +1947,7 @@
                     ],
                     "names": ["+", "add"],
                     "inputs": [
-                        {
-                            "doc": "The @Number to add.",
-                            "names": "number"
-                        }
+                        { "doc": "The @Number to add.", "names": "number" }
                     ]
                 },
                 "subtract": {
@@ -2029,10 +1976,7 @@
                     ],
                     "names": ["×", "·", "multiply"],
                     "inputs": [
-                        {
-                            "doc": "The number to multiply.",
-                            "names": "number"
-                        }
+                        { "doc": "The number to multiply.", "names": "number" }
                     ]
                 },
                 "divide": {
@@ -2126,10 +2070,7 @@
                     ],
                     "names": ["√", "root"],
                     "inputs": [
-                        {
-                            "doc": "The root to compute.",
-                            "names": "number"
-                        }
+                        { "doc": "The root to compute.", "names": "number" }
                     ]
                 },
                 "lessThan": {
@@ -2351,10 +2292,7 @@
                     ],
                     "names": ["withList", "append"],
                     "inputs": [
-                        {
-                            "doc": "The list of values to add.",
-                            "names": "list"
-                        }
+                        { "doc": "The list of values to add.", "names": "list" }
                     ]
                 },
                 "replace": {
@@ -2368,10 +2306,7 @@
                             "doc": "The index of the value to replace",
                             "names": "index"
                         },
-                        {
-                            "doc": "The replacement value",
-                            "names": "value"
-                        }
+                        { "doc": "The replacement value", "names": "value" }
                     ]
                 },
                 "length": {
@@ -2418,10 +2353,7 @@
                     ],
                     "names": "has",
                     "inputs": [
-                        {
-                            "doc": "The value to search for.",
-                            "names": "item"
-                        }
+                        { "doc": "The value to search for.", "names": "item" }
                     ]
                 },
                 "join": {
@@ -2559,10 +2491,7 @@
                             "doc": "The index of the item being translated.",
                             "names": "index"
                         },
-                        {
-                            "doc": "The list being translated.",
-                            "names": "list"
-                        }
+                        { "doc": "The list being translated.", "names": "list" }
                     ]
                 },
                 "filter": {
@@ -2579,18 +2508,12 @@
                         }
                     ],
                     "checker": [
-                        {
-                            "doc": "The item being checked.",
-                            "names": "item"
-                        },
+                        { "doc": "The item being checked.", "names": "item" },
                         {
                             "doc": "The index of the item being checked.",
                             "names": "index"
                         },
-                        {
-                            "doc": "The list being filtered.",
-                            "names": "list"
-                        }
+                        { "doc": "The list being filtered.", "names": "list" }
                     ]
                 },
                 "all": {
@@ -2607,18 +2530,12 @@
                         }
                     ],
                     "checker": [
-                        {
-                            "doc": "The item being checked.",
-                            "names": "item"
-                        },
+                        { "doc": "The item being checked.", "names": "item" },
                         {
                             "doc": "The index of the item being checked.",
                             "names": "index"
                         },
-                        {
-                            "doc": "The list being checked.",
-                            "names": "list"
-                        }
+                        { "doc": "The list being checked.", "names": "list" }
                     ]
                 },
                 "until": {
@@ -2635,10 +2552,7 @@
                         }
                     ],
                     "checker": [
-                        {
-                            "doc": "The item being checked.",
-                            "names": "item"
-                        },
+                        { "doc": "The item being checked.", "names": "item" },
                         {
                             "doc": "The index of the item being checked.",
                             "names": "index"
@@ -2663,18 +2577,12 @@
                         }
                     ],
                     "checker": [
-                        {
-                            "doc": "The item being checked.",
-                            "names": "item"
-                        },
+                        { "doc": "The item being checked.", "names": "item" },
                         {
                             "doc": "The index of the item being checked.",
                             "names": "index"
                         },
-                        {
-                            "doc": "The list being searched.",
-                            "names": "list"
-                        }
+                        { "doc": "The list being searched.", "names": "list" }
                     ]
                 },
                 "combine": {
@@ -2699,18 +2607,12 @@
                             "doc": "The current combination",
                             "names": "combination"
                         },
-                        {
-                            "doc": "The next item to combine.",
-                            "names": "next"
-                        },
+                        { "doc": "The next item to combine.", "names": "next" },
                         {
                             "doc": "The index of the next item",
                             "names": "index"
                         },
-                        {
-                            "doc": "The list being combined.",
-                            "names": "list"
-                        }
+                        { "doc": "The list being combined.", "names": "list" }
                     ]
                 },
                 "sorted": {
@@ -2775,10 +2677,7 @@
                     ],
                     "names": ["=", "equals"],
                     "inputs": [
-                        {
-                            "doc": "The @Set to compare.",
-                            "names": "set"
-                        }
+                        { "doc": "The @Set to compare.", "names": "set" }
                     ]
                 },
                 "notequals": {
@@ -2788,10 +2687,7 @@
                     ],
                     "names": ["≠", "notequal"],
                     "inputs": [
-                        {
-                            "doc": "The @Set to compare.",
-                            "names": "set"
-                        }
+                        { "doc": "The @Set to compare.", "names": "set" }
                     ]
                 },
                 "add": {
@@ -2800,12 +2696,7 @@
                         "\\{1 2 3} + 4\\"
                     ],
                     "names": ["with", "add", "+"],
-                    "inputs": [
-                        {
-                            "doc": "The item to add",
-                            "names": "item"
-                        }
-                    ]
+                    "inputs": [{ "doc": "The item to add", "names": "item" }]
                 },
                 "remove": {
                     "doc": [
@@ -2815,10 +2706,7 @@
                     ],
                     "names": ["remove", "-"],
                     "inputs": [
-                        {
-                            "doc": "The item to remove.",
-                            "names": "item"
-                        }
+                        { "doc": "The item to remove.", "names": "item" }
                     ]
                 },
                 "union": {
@@ -2841,10 +2729,7 @@
                     ],
                     "names": ["intersection", "∩"],
                     "inputs": [
-                        {
-                            "doc": "The set to compare with me.",
-                            "names": "set"
-                        }
+                        { "doc": "The set to compare with me.", "names": "set" }
                     ]
                 },
                 "difference": {
@@ -2874,14 +2759,8 @@
                         }
                     ],
                     "checker": [
-                        {
-                            "doc": "The item being checked.",
-                            "names": "value"
-                        },
-                        {
-                            "doc": "The set being filtered",
-                            "names": "set"
-                        }
+                        { "doc": "The item being checked.", "names": "value" },
+                        { "doc": "The set being filtered", "names": "set" }
                     ]
                 },
                 "translate": {
@@ -2902,10 +2781,7 @@
                             "doc": "The item being translated.",
                             "names": "value"
                         },
-                        {
-                            "doc": "The set being translated",
-                            "names": "set"
-                        }
+                        { "doc": "The set being translated", "names": "set" }
                     ]
                 }
             },
@@ -2975,10 +2851,7 @@
                     ],
                     "names": "pair",
                     "inputs": [
-                        {
-                            "doc": "Key to pair with a value.",
-                            "names": "key"
-                        },
+                        { "doc": "Key to pair with a value.", "names": "key" },
                         {
                             "doc": "The value to pair with the key",
                             "names": "value"
@@ -2991,12 +2864,7 @@
                         "\\{'amy': 6points 'tony':3points}.unpair('amy')\\"
                     ],
                     "names": "unpair",
-                    "inputs": [
-                        {
-                            "doc": "The key to forget.",
-                            "names": "key"
-                        }
-                    ]
+                    "inputs": [{ "doc": "The key to forget.", "names": "key" }]
                 },
                 "remove": {
                     "doc": [
@@ -3025,18 +2893,9 @@
                         }
                     ],
                     "checker": [
-                        {
-                            "doc": "The key being checked.",
-                            "names": "key"
-                        },
-                        {
-                            "doc": "The value being checked.",
-                            "names": "value"
-                        },
-                        {
-                            "doc": "The map being filtered.",
-                            "names": "map"
-                        }
+                        { "doc": "The key being checked.", "names": "key" },
+                        { "doc": "The value being checked.", "names": "value" },
+                        { "doc": "The map being filtered.", "names": "map" }
                     ]
                 },
                 "translate": {
@@ -3061,10 +2920,7 @@
                             "doc": "The value being translated.",
                             "names": "value"
                         },
-                        {
-                            "doc": "The map being translated.",
-                            "names": "map"
-                        }
+                        { "doc": "The map being translated.", "names": "map" }
                     ]
                 }
             },
@@ -3097,20 +2953,14 @@
                     "doc": "I check if I have the exact same cells in the exact same order as another @Table.",
                     "names": ["=", "equals"],
                     "inputs": [
-                        {
-                            "doc": "The other table to check.",
-                            "names": "value"
-                        }
+                        { "doc": "The other table to check.", "names": "value" }
                     ]
                 },
                 "notequal": {
                     "doc": "I check if any of my cells are different or in a different order from another @Table.",
                     "names": ["≠", "notEquals"],
                     "inputs": [
-                        {
-                            "doc": "The other table to check.",
-                            "names": "value"
-                        }
+                        { "doc": "The other table to check.", "names": "value" }
                     ]
                 }
             },
@@ -3144,9 +2994,7 @@
                     ]
                 }
             },
-            "conversion": {
-                "text": "I convert myself to @Text."
-            }
+            "conversion": { "text": "I convert myself to @Text." }
         }
     },
     "input": {
@@ -3353,6 +3201,26 @@
                 "doc": "The time between @Color samples."
             }
         },
+        "Hand": {
+            "doc": [
+                "/wiggle wiggle/",
+                "@FunctionDefinition here! Let me tell you about @Hand.",
+                "@Hand watches your camera for a hand and tells you where it is, which fingers are extended, and whether the palm or back of your hand is facing the camera. Hold your hand up, wave it around, count on your fingers — @Hand follows.",
+                "Behind the scenes, @Hand uses a machine-learning model. The first time you use it in a program the model takes a few seconds to download, and a tiny spinning hand appears in the top-right corner of the stage while it loads. After that it stays cached and starts instantly.",
+                "Each frame @Hand returns a structure with fields like place (where the hand is), open (true if your hand is open), fingers (how many fingers are up), individual booleans for thumb, index, middle, ring, and pinky, and palm (true if your palm faces the camera).",
+                "Try this — it shows an emoji that matches your hand pose wherever your real hand is:",
+                "\\hand: Hand()\nPhrase((hand.open ? '🖐️' '✊') place: hand.place)\\"
+            ],
+            "names": ["🖐️", "Hand"],
+            "frequency": {
+                "names": ["frequency"],
+                "doc": "The time between samples."
+            },
+            "resolution": {
+                "names": ["resolution"],
+                "doc": "The width in pixels at which to sample the camera before running the hand model. Higher values can give slightly more accurate landmarks but cost more time per frame."
+            }
+        },
         "Scene": {
             "doc": [
                 "/Boop boop boop/",
@@ -3386,14 +3254,8 @@
                 "Check out the many other ways to configure it below."
             ],
             "names": ["⚽️", "Motion"],
-            "place": {
-                "doc": "The starting place.",
-                "names": "place"
-            },
-            "velocity": {
-                "doc": "The starting velocity",
-                "names": "velocity"
-            },
+            "place": { "doc": "The starting place.", "names": "place" },
+            "velocity": { "doc": "The starting velocity", "names": "velocity" },
             "nextplace": {
                 "doc": "The next place, overriding physics.",
                 "names": "nextplace"
@@ -3426,10 +3288,7 @@
             ],
             "names": ["✥", "Placement"],
             "inputs": [
-                {
-                    "doc": "The initial place to start with.",
-                    "names": "start"
-                },
+                { "doc": "The initial place to start with.", "names": "start" },
                 {
                     "doc": "How many meters the place should move when the audience requests a move.",
                     "names": "distance"
@@ -3459,10 +3318,7 @@
                 "Lots of things can go wrong with this one. If you lose your internet connection, or the URL doesn't resolve to anything, or the URL isn't public, or the URL isn't an HTML page… All of these can lead to exception. If if you find a page that works, you'll get some @Number indicating a percent complete and then a @List of the words on the page."
             ],
             "names": ["🔗", "Webpage"],
-            "url": {
-                "doc": "The HTML webpage URL to get.",
-                "names": "url"
-            },
+            "url": { "doc": "The HTML webpage URL to get.", "names": "url" },
             "query": {
                 "doc": "The CSS query to evaluate on the HTML",
                 "names": "query"
@@ -3569,10 +3425,7 @@
                 "doc": "The place on stage where I should be. The content inside me will be arranged relative to there.",
                 "names": "place"
             },
-            "name": {
-                "doc": ["The same as @Phrase/name!"],
-                "names": "name"
-            },
+            "name": { "doc": ["The same as @Phrase/name!"], "names": "name" },
             "description": {
                 "doc": [
                     "A description to use for audience members who can't see visual output."
@@ -3607,14 +3460,8 @@
                 "doc": "How big I should be relative to my original size.",
                 "names": "scale"
             },
-            "flipx": {
-                "doc": "Same as @Phrase/flipx!",
-                "names": "flipx"
-            },
-            "flipy": {
-                "doc": "Same as @Phrase/flipy",
-                "names": "flipy"
-            },
+            "flipx": { "doc": "Same as @Phrase/flipx!", "names": "flipx" },
+            "flipy": { "doc": "Same as @Phrase/flipy", "names": "flipy" },
             "entering": {
                 "doc": "Same as @Phrase/entering!",
                 "names": "entering"
@@ -3623,10 +3470,7 @@
                 "doc": "Same as @Phrase/resting!",
                 "names": "resting"
             },
-            "moving": {
-                "doc": "Same as @Phrase/moving!",
-                "names": "moving"
-            },
+            "moving": { "doc": "Same as @Phrase/moving!", "names": "moving" },
             "exiting": {
                 "doc": "Same as @Phrase/exiting!",
                 "names": "exiting"
@@ -3635,11 +3479,8 @@
                 "doc": "Same as @Phrase/duration!",
                 "names": ["⏳", "duration"]
             },
-            "style": {
-                "doc": "Same as @Phrase/style!",
-                "names": "style"
-            },
-            "defaultDescription": "$1[$1|] $2 $3"
+            "style": { "doc": "Same as @Phrase/style!", "names": "style" },
+            "defaultDescription": "$name[$name|] $layout $pose"
         },
         "Phrase": {
             "doc": [
@@ -3763,7 +3604,7 @@
                 "doc": "The animation style to use when moving to a different place on stage.",
                 "names": "style"
             },
-            "defaultDescription": "$3[$3 meter |]phrase $1 $2[named $2|] $4[$4|] $5"
+            "defaultDescription": "$size[$size meter |]phrase $text $name[named $name|] $face[$face|] $animation"
         },
         "Arrangement": {
             "doc": "I am an inspiration to the many other kinds of arrangement in the Verse, including @Row, @Stack, @Grid, and @Free. I work closely with @Group to ",
@@ -3772,7 +3613,7 @@
         "Row": {
             "doc": "I am @Row, a horizontal @Arrangement of @Output, with optional padding in between. Have you met my twin, @Stack?",
             "names": ["➡", "Row"],
-            "description": "row of $1 phrases and groups",
+            "description": "row of $count phrases and groups",
             "alignment": {
                 "doc": "Whether to align text at the start, center, or end on each column.",
                 "names": "alignment"
@@ -3785,7 +3626,7 @@
         "Stack": {
             "doc": "I am @Stack, a vertical @Arrangement of @Output, with optional padding in between. Have you met my twin, @Row? ",
             "names": ["⬇", "Stack"],
-            "description": "stack of $1 phrases and groups",
+            "description": "stack of $count phrases and groups",
             "alignment": {
                 "doc": "Whether to align text at the start, center, or end on each row.",
                 "names": "alignment"
@@ -3798,7 +3639,7 @@
         "Grid": {
             "doc": "I am grid of @Output. Give me a row and column count and I'll make a tidy arrangement with optional padding and cell sizes.",
             "names": ["▦", "Grid"],
-            "description": "$1 row $2 column grid",
+            "description": "$rows row $columns column grid",
             "rows": {
                 "doc": "How many rows to make in the grid.",
                 "names": "rows"
@@ -3826,7 +3667,7 @@
                 "Oh, and remember that the @Place you give each @Output is relative to the @Group's @Place! So if you're wondering why things aren't appearing where you expect, try giving the @Group a place too."
             ],
             "names": ["Free"],
-            "description": "free-form $1 outputs"
+            "description": "free-form $count outputs"
         },
         "Shape": {
             "doc": "I'm an inspiration to all shapes. I'm useful for telling @Stage what shape to be.",
@@ -3849,10 +3690,7 @@
                 "doc": "Whether I can be selected as part of @Choice.",
                 "names": "selectable"
             },
-            "color": {
-                "doc": "The color of my borders.",
-                "names": "color"
-            },
+            "color": { "doc": "The color of my borders.", "names": "color" },
             "background": {
                 "doc": "The color of my background.",
                 "names": "background"
@@ -3919,7 +3757,7 @@
                 "doc": "The text I should speak aloud.",
                 "names": "text"
             },
-            "defaultDescription": "Say $1"
+            "defaultDescription": "Say $text"
         },
         "Form": {
             "doc": "I am an abstract form, like a @Rectangle or @Circle.",
@@ -3944,38 +3782,23 @@
                 "doc": "The bottom edge of the stage on the y-axis",
                 "names": "bottom"
             },
-            "z": {
-                "doc": "The depth position of the rectangle.",
-                "names": "z"
-            }
+            "z": { "doc": "The depth position of the rectangle.", "names": "z" }
         },
         "Circle": {
             "doc": "I am a circle, useful for making shapes on @Stage.",
             "names": ["Circle"],
-            "radius": {
-                "doc": "The radius of the circle",
-                "names": "radius"
-            },
+            "radius": { "doc": "The radius of the circle", "names": "radius" },
             "x": {
                 "doc": "The horizontal center of the circle.",
                 "names": "x"
             },
-            "y": {
-                "doc": "The vertical center of the circle.",
-                "names": "y"
-            },
-            "z": {
-                "doc": "The depth position of the circle.",
-                "names": "z"
-            }
+            "y": { "doc": "The vertical center of the circle.", "names": "y" },
+            "z": { "doc": "The depth position of the circle.", "names": "z" }
         },
         "Polygon": {
             "doc": "I am a 'regular' polygon with equal length sides and angles, useful for making shapes on @Stage.",
             "names": ["Polygon"],
-            "radius": {
-                "doc": "The radius of the polygon",
-                "names": "radius"
-            },
+            "radius": { "doc": "The radius of the polygon", "names": "radius" },
             "sides": {
                 "doc": "The number of sides of the polygon",
                 "names": "sides"
@@ -3984,14 +3807,8 @@
                 "doc": "The horizontal center of the polygon.",
                 "names": "x"
             },
-            "y": {
-                "doc": "The vertical center of the polygon.",
-                "names": "y"
-            },
-            "z": {
-                "doc": "The depth position of the polygon.",
-                "names": "z"
-            }
+            "y": { "doc": "The vertical center of the polygon.", "names": "y" },
+            "z": { "doc": "The depth position of the polygon.", "names": "z" }
         },
         "Pose": {
             "doc": [
@@ -4031,7 +3848,7 @@
                 "doc": "Whether a @Output should be mirrored on the y-axis, instead of it's default.",
                 "names": "flipy"
             },
-            "description": "$1[transparent $1|] $2[rotated $2 degrees|] $3[scaled $3|] $4[flipped horizontally|] $5[flipped vertically|] $6[shadow blurred $6 pixels]"
+            "description": "$opacity[transparent $opacity|] $rotation[rotated $rotation degrees|] $scale[scaled $scale|] $flipx[flipped horizontally|] $flipy[flipped vertically|] $blur[shadow blurred $blur pixels]"
         },
         "Color": {
             "doc": [
@@ -4098,21 +3915,52 @@
         "Place": {
             "doc": "I'm a location on @Stage. All my inputs are optional, because I'm at the center by default.",
             "names": ["📍", "Place"],
-            "x": {
-                "doc": "A position on the x-axis.",
-                "names": "x"
-            },
-            "y": {
-                "doc": "A position on the y-axis",
-                "names": "y"
-            },
-            "z": {
-                "doc": "A position on the z-axis",
-                "names": "z"
-            },
+            "x": { "doc": "A position on the x-axis.", "names": "x" },
+            "y": { "doc": "A position on the y-axis", "names": "y" },
+            "z": { "doc": "A position on the z-axis", "names": "z" },
             "rotation": {
                 "doc": "Rotation at this position",
                 "names": ["📐", "rotation"]
+            }
+        },
+        "Gesture": {
+            "doc": "I'm a hand gesture detected by the camera. My fields tell you where the hand is on stage, which fingers are extended, and whether the palm or back of the hand is facing the camera.",
+            "names": ["✋", "Gesture"],
+            "place": {
+                "doc": "Where the hand is on stage.",
+                "names": ["place"]
+            },
+            "open": {
+                "doc": "@True if the hand is open (3+ fingers extended), @False if it's a fist.",
+                "names": ["open"]
+            },
+            "fingers": {
+                "doc": "How many fingers are extended, from 0 (fist) to 5 (all fingers up, including the thumb).",
+                "names": ["fingers"]
+            },
+            "thumb": {
+                "doc": "@True if the thumb is extended.",
+                "names": ["thumb"]
+            },
+            "index": {
+                "doc": "@True if the index finger is extended.",
+                "names": ["index"]
+            },
+            "middle": {
+                "doc": "@True if the middle finger is extended.",
+                "names": ["middle"]
+            },
+            "ring": {
+                "doc": "@True if the ring finger is extended.",
+                "names": ["ring"]
+            },
+            "pinky": {
+                "doc": "@True if the pinky finger is extended.",
+                "names": ["pinky"]
+            },
+            "palm": {
+                "doc": "@True if the palm faces the camera, @False if the back of the hand does.",
+                "names": ["palm"]
             }
         },
         "Velocity": {
@@ -4134,10 +3982,7 @@
         "Matter": {
             "doc": "I'm physical properties of output, which influence how I interact with other output on stage.",
             "names": ["⚛️", "Matter"],
-            "mass": {
-                "doc": "A weight, in kilograms",
-                "names": "mass"
-            },
+            "mass": { "doc": "A weight, in kilograms", "names": "mass" },
             "bounciness": {
                 "doc": "How much of my energy to keep on collision, 0 means none, 1 means all of it.",
                 "names": "bounciness"
@@ -4200,22 +4045,13 @@
                 "doc": "The shape and size of frame to place around the stage, hiding everything outside it.",
                 "names": "frame"
             },
-            "size": {
-                "doc": "LIKE @Group/size",
-                "names": "size"
-            },
-            "face": {
-                "doc": "LIKE @Group/face",
-                "names": "face"
-            },
+            "size": { "doc": "LIKE @Group/size", "names": "size" },
+            "face": { "doc": "LIKE @Group/face", "names": "face" },
             "place": {
                 "doc": "IF I WERE A CAMERA, THIS IS WHERE I AM LOOKING",
                 "names": "place"
             },
-            "name": {
-                "doc": ["SAME AS @Phrase/name!"],
-                "names": "name"
-            },
+            "name": { "doc": ["SAME AS @Phrase/name!"], "names": "name" },
             "description": {
                 "doc": [
                     "A description to use for audience members who can't see visual output."
@@ -4226,67 +4062,37 @@
                 "doc": "SAME AS @Phrase/selectable!",
                 "names": "selectable"
             },
-            "color": {
-                "doc": "SAME AS @Group/color",
-                "names": "color"
-            },
+            "color": { "doc": "SAME AS @Group/color", "names": "color" },
             "background": {
                 "doc": "SAME AS @Group/background",
                 "names": "background"
             },
-            "opacity": {
-                "doc": "SAME AS @Group/opacity",
-                "names": "opacity"
-            },
-            "offset": {
-                "doc": "SAME AS @Group/offset",
-                "names": "offset"
-            },
+            "opacity": { "doc": "SAME AS @Group/opacity", "names": "opacity" },
+            "offset": { "doc": "SAME AS @Group/offset", "names": "offset" },
             "rotation": {
                 "doc": "SAME AS @Group/rotation",
                 "names": ["📐", "rotation"]
             },
-            "scale": {
-                "doc": "SAME AS @Group/scale",
-                "names": "scale"
-            },
-            "flipx": {
-                "doc": "SAME AS @Group/flipx",
-                "names": "flipx"
-            },
-            "flipy": {
-                "doc": "SAME AS @Group/flipy",
-                "names": "flipy"
-            },
+            "scale": { "doc": "SAME AS @Group/scale", "names": "scale" },
+            "flipx": { "doc": "SAME AS @Group/flipx", "names": "flipx" },
+            "flipy": { "doc": "SAME AS @Group/flipy", "names": "flipy" },
             "entering": {
                 "doc": "SAME AS @Group/entering",
                 "names": "entering"
             },
-            "resting": {
-                "doc": "SAME AS @Group/resting!",
-                "names": "resting"
-            },
-            "moving": {
-                "doc": "SAME AS @Group/moving!",
-                "names": "moving"
-            },
-            "exiting": {
-                "doc": "SAME AS @Group/exiting!",
-                "names": "exiting"
-            },
+            "resting": { "doc": "SAME AS @Group/resting!", "names": "resting" },
+            "moving": { "doc": "SAME AS @Group/moving!", "names": "moving" },
+            "exiting": { "doc": "SAME AS @Group/exiting!", "names": "exiting" },
             "duration": {
                 "doc": "SAME AS @Phrase/duration!",
                 "names": ["⏳", "duration"]
             },
-            "style": {
-                "doc": "SAME AS @Phrase/style!",
-                "names": "style"
-            },
+            "style": { "doc": "SAME AS @Phrase/style!", "names": "style" },
             "gravity": {
                 "doc": "The gravity to apply to output whose place is in @Motion.",
                 "names": "gravity"
             },
-            "defaultDescription": "stage $2[$2 |]of $1 outputs$3[with frame $3|] $4"
+            "defaultDescription": "stage $name[$name |]of $count outputs$frame[with frame $frame|] $pose"
         },
         "Easing": {
             "straight": "straight",
@@ -4306,10 +4112,7 @@
             "bounce": {
                 "doc": "I create a @Sequence that bounces @Output a given height.",
                 "names": ["bounce"],
-                "height": {
-                    "doc": "How high to bounce.",
-                    "names": ["height"]
-                }
+                "height": { "doc": "How high to bounce.", "names": ["height"] }
             },
             "spin": {
                 "doc": "I create a @Sequence that rotates @Output around its center.",
@@ -4369,20 +4172,15 @@
     "ui": {
         "font": {
             "app": "Noto Sans",
-            "code": "Noto Sans Mono"
+            "code": "Noto Sans Mono",
+            "missing": "no"
         },
-        "phrases": {
-            "welcome": "hello"
-        },
+        "phrases": { "welcome": "hello" },
         "widget": {
-            "confirm": {
-                "cancel": "cancel"
-            },
-            "dialog": {
-                "close": "close"
-            },
+            "confirm": { "cancel": "cancel" },
+            "dialog": { "close": "close" },
             "loading": {
-                "message": "Loading font faces and text, thanks for waiting!"
+                "message": "Loading, thanks for waiting!"
             },
             "home": "go to home page",
             "table": {
@@ -4408,10 +4206,7 @@
                     "on": "exit full screen",
                     "off": "expand window tile to full screen"
                 },
-                "show": {
-                    "on": "hide",
-                    "off": "show"
-                }
+                "show": { "on": "hide", "off": "show" }
             },
             "label": {
                 "output": "stage",
@@ -4420,9 +4215,7 @@
                 "source": "source",
                 "collaborate": "collaborate"
             },
-            "button": {
-                "collapse": "collapse window"
-            }
+            "button": { "collapse": "collapse window" }
         },
         "project": {
             "label": "project",
@@ -4463,11 +4256,7 @@
                     "tip": "edit this project's languages and translate it into other languages.",
                     "label": "translate"
                 },
-                "primary": "set as this project's primary locale",
-                "history": {
-                    "on": "show recent project code",
-                    "off": "show current project code"
-                }
+                "primary": "set as this project's primary locale"
             },
             "field": {
                 "name": {
@@ -4496,10 +4285,7 @@
                     ]
                 }
             },
-            "subheader": {
-                "source": "Source",
-                "destination": "Destination"
-            },
+            "subheader": { "source": "Source", "destination": "Destination" },
             "toggle": {
                 "fullscreen": {
                     "on": "exit browser full screen",
@@ -4522,7 +4308,7 @@
                 "now": "now",
                 "history": "versions",
                 "restore": "This is a previous version of this project.",
-                "ago": "$1 $2 ago"
+                "ago": "$amount $unit ago"
             },
             "button": {
                 "clear": "delete history",
@@ -4590,10 +4376,7 @@
                 "reporter": "reporter",
                 "action": "moderator actions"
             },
-            "view": {
-                "label": "view chat",
-                "tip": "view message in chat"
-            },
+            "view": { "label": "view chat", "tip": "view message in chat" },
             "remove": {
                 "label": "remove",
                 "tip": "this message violates guidelines"
@@ -4608,7 +4391,7 @@
         "howto": {
             "galleryView": {
                 "header": "How-tos",
-                "subheader": "$1 how-tos, $2 new",
+                "subheader": "$total how-tos, $new new",
                 "subheaderEmpty": "create the first!",
                 "prompt": "How-tos are short explanations and example code for how to do something with Wordplay. When you figure how something you want to share, write one for the other creators in this gallery, so they can learn it too!"
             },
@@ -4635,10 +4418,7 @@
             },
             "navigationtooltip": "navigate to a how-to",
             "button": {
-                "reset": {
-                    "label": "center",
-                    "tip": "center the canvas"
-                }
+                "reset": { "label": "center", "tip": "center the canvas" }
             },
             "editor": {
                 "newForm": {
@@ -4710,14 +4490,8 @@
                 }
             },
             "viewer": {
-                "view": {
-                    "label": "view how-to",
-                    "tip": "view how-to"
-                },
-                "edit": {
-                    "label": "✏️ edit",
-                    "tip": "edit this how-to"
-                },
+                "view": { "label": "view how-to", "tip": "view how-to" },
+                "edit": { "label": "✏️ edit", "tip": "edit this how-to" },
                 "delete": {
                     "description": "delete this how-to",
                     "prompt": "🗑️ delete"
@@ -4735,7 +4509,7 @@
                 "usedBy": {
                     "prompt": "Did you use this how-to in your project or another how-to? Let others know by adding your project to the list!",
                     "empty": "You don't have any projects or other published how-tos yet. Try creating one!",
-                    "countDisplay": "Other Wordplay directors have used this in $1 other projects or how-to",
+                    "countDisplay": "Other Wordplay directors have used this in $count other projects or how-to",
                     "selector": "project and how-to selector",
                     "removeButton": "remove project or how-to from list",
                     "addButton": "add project or how-to"
@@ -4766,12 +4540,13 @@
                         "label": "default visibility",
                         "labels": ["limited", "expanded"],
                         "tips": [
-                            "only collaborators of this gallery can view",
-                            "collaborators of any gallery any curator creates can view"
+                            "only collaborators of this gallery can view how-tos",
+                            "collaborators of the galleries you indicate below can view how-tos"
                         ]
                     },
-                    "expanded": "expanded",
-                    "limited": "limited"
+                    "expandedOptions": "let the curators and creators of the selected gallery see this gallery's how-tos",
+                    "expandedAdd": "add gallery to list",
+                    "expandedRemove": "remove gallery from list"
                 },
                 "guidingQuestions": {
                     "subheader": {
@@ -4808,9 +4583,9 @@
                 }
             },
             "announce": {
-                "howToPosition": "how-to titled $1 moved to $2 $3",
-                "canvasPosition": "canvas moved to $1, $2",
-                "moveActivated": "movement activated. $1 can be moved using the mouse, keyboard, or touchscreen",
+                "howToPosition": "how-to titled $title moved to $x $y",
+                "canvasPosition": "canvas moved to $x, $y",
+                "moveActivated": "movement activated. $target can be moved using the mouse, keyboard, or touchscreen",
                 "moveDeactivated": "movement deactivated."
             },
             "error": {
@@ -4823,7 +4598,7 @@
             "empty": [
                 "Let's get started! You can …",
                 "• Open 📕 and drag 🖱️ us to this program.",
-                "• Type $1 and choose us from the menu.",
+                "• Type $symbol and choose us from the menu.",
                 "• Type us with the ⌨️.",
                 "• Browse the <galleries@://galleries> for inspiration.",
                 "If you're stuck, <learn more@://learn>."
@@ -4836,10 +4611,7 @@
                 }
             },
             "toggle": {
-                "blocks": {
-                    "on": "edit as text",
-                    "off": "edit as blocks"
-                },
+                "blocks": { "on": "edit as text", "off": "edit as blocks" },
                 "characters": {
                     "on": "hide the emoji and symbol chooser",
                     "off": "show the emoji and symbol chooser"
@@ -4871,7 +4643,6 @@
             "menu": {
                 "label": "autocomplete menu",
                 "show": "show autocomplete menu",
-                "back": "leave submenu",
                 "empty": "No suggestions."
             },
             "cursor": {
@@ -4893,7 +4664,6 @@
                 "selectAll": "select program",
                 "incrementLiteral": "increase number, text, or Boolean",
                 "decrementLiteral": "decrease number, text, or Boolean",
-                "insertSymbol": "insert $1",
                 "insertTab": "insert tab",
                 "insertTrue": "insert true",
                 "insertFalse": "insert false",
@@ -4913,7 +4683,6 @@
                 "insertConvert": "insert convert symbol",
                 "insertPrevious": "insert previous symbol",
                 "insertTable": "insert table open symbol",
-                "insertTableClose": "insert table close symbol",
                 "insertBorrow": "insert borrow",
                 "insertShare": "insert share",
                 "insertLine": "insert line break",
@@ -4959,12 +4728,12 @@
         },
         "annotations": {
             "label": "conflicts and help",
-            "cursor": "This is *$1*$2[ and they are of type $2|]$3[. They $3.|]",
-            "cursorParent": "They're inside a *$1*$2[ of type $2|].",
+            "cursor": "This is *$node*$type[ and they are of type $type|]$description[. They $description.|]",
+            "cursorParent": "They're inside a *$node*$type[ of type $type|].",
             "learn": "/Learn more/",
             "evaluating": "Oh fun, let's evaluate!",
             "space": "This is space! Who knew nothing could say so much?",
-            "nodeDescription": "They $1.",
+            "nodeDescription": "They $description.",
             "button": {
                 "resolution": "Resolve this conflict",
                 "toggle": "show and hide annotations",
@@ -4974,18 +4743,12 @@
         "output": {
             "label": "stage",
             "toggle": {
-                "grid": {
-                    "on": "hide grid lines",
-                    "off": "show grid lines"
-                },
+                "grid": { "on": "hide grid lines", "off": "show grid lines" },
                 "fit": {
                     "on": "control zoom manually",
                     "off": "fit zoom to content"
                 },
-                "paint": {
-                    "off": "place output",
-                    "on": "paint output"
-                }
+                "paint": { "off": "place output", "on": "paint output" }
             },
             "field": {
                 "key": {
@@ -5013,6 +4776,14 @@
                 "grid": "The /grid/ button shows a *grid* on the stage, helpful for placing things precisely while you design.",
                 "lock": "The /lock/ button locks the stage's view in place. When *locked*, the stage stays still; when *unlocked*, you can pan and zoom freely.",
                 "animationSpeed": "The /animation speed/ control sets how fast animations play. The same control is in *settings*, so you can change it from either place."
+            },
+            "permission": {
+                "title": "This project needs permission",
+                "microphone": "microphone",
+                "camera": "camera",
+                "note": "Your browser will ask before sharing.",
+                "start": "Start",
+                "retry": "Retry"
             }
         },
         "timeline": {
@@ -5054,7 +4825,7 @@
         },
         "docs": {
             "label": "guide",
-            "link": "show \"$1\" in documentation",
+            "link": "show \"$name\" in documentation",
             "learn": "learn more …",
             "nodoc": "Who am I? What am I? What is my purpose?",
             "button": {
@@ -5062,9 +4833,7 @@
                 "back": "return to previous",
                 "toggle": "expand and collapse this concept group"
             },
-            "field": {
-                "search": "keywords"
-            },
+            "field": { "search": "keywords" },
             "header": {
                 "names": {
                     "header": "Names",
@@ -5157,6 +4926,14 @@
                         "data types, conversions, and type checks",
                         "documentation and comments",
                         "advanced language concepts"
+                    ]
+                },
+                "howToFilter": {
+                    "label": "user-created how-tos",
+                    "labels": ["all", "gallery & bookmarks"],
+                    "tips": [
+                        "see all user-created how-tos",
+                        "see only the user-created how-tos from this project's gallery and all bookmarks"
                     ]
                 }
             },
@@ -5311,16 +5088,12 @@
                         "label": "sensitive"
                     }
                 },
-                "options": {
-                    "gallery": "gallery chooser"
-                }
+                "options": { "gallery": "gallery chooser" }
             },
             "settings": {
                 "header": "Settings",
                 "explanation": "Change layout, device, and theme settings.",
-                "button": {
-                    "show": "show settings dialog"
-                },
+                "button": { "show": "show settings dialog" },
                 "mode": {
                     "layout": {
                         "label": "layout",
@@ -5351,7 +5124,8 @@
                             "1x",
                             "2x",
                             "5x",
-                            "10x"
+                            "10x",
+                            "auto"
                         ],
                         "tips": [
                             "animations off",
@@ -5361,7 +5135,8 @@
                             "normal speed",
                             "double speed",
                             "five speed",
-                            "ten speed"
+                            "ten speed",
+                            "use the current device setting"
                         ]
                     },
                     "dark": {
@@ -5442,10 +5217,10 @@
                     "tip": "clear all notifications"
                 },
                 "notification": {
-                    "howToHeader": "New how-to titled \"$1\" was posted",
-                    "projectChatHeader": "New message in project \"$1\"",
-                    "howToChatHeader": "New message in how-to \"$1\"",
-                    "moderationHeader": "Message in \"$1\" requires moderation action",
+                    "howToHeader": "New how-to titled \"$title\" was posted",
+                    "projectChatHeader": "New message in project \"$name\"",
+                    "howToChatHeader": "New message in how-to \"$title\"",
+                    "moderationHeader": "Message in \"$name\" requires moderation action",
                     "link": "details"
                 },
                 "delete": "delete this notification",
@@ -5578,10 +5353,7 @@
             "moderation": {
                 "header": "Report this message",
                 "explanation": "If this message does not meet our <community standards@://rights> or the type of feedback your requested, you can report it. When you report this message, it will be sent to the gallery curators and taken down until it can be reviewed.",
-                "report": {
-                    "tip": "report this message",
-                    "label": "report"
-                },
+                "report": { "tip": "report this message", "label": "report" },
                 "moderate": {
                     "tip": "go to moderation dashboard",
                     "label": "moderate"
@@ -5631,7 +5403,6 @@
                 "default": "default",
                 "inherited": "inherited",
                 "notSequence": "not a sequence",
-                "notContent": "not a content list",
                 "format": "format",
                 "weight": "weight",
                 "light": "light",
@@ -5665,10 +5436,7 @@
                 "select": "To edit, select a 💬, 🔳, or 🎭 in code, or ⏸️ the stage and select output.",
                 "editing": "Edit me!"
             },
-            "field": {
-                "coordinate": "edit coordinate",
-                "text": "edit text"
-            },
+            "field": { "coordinate": "edit coordinate", "text": "edit text" },
             "sequence": {
                 "button": {
                     "add": "add pose",
@@ -5676,9 +5444,7 @@
                     "up": "move pose up",
                     "down": "move pose down"
                 },
-                "field": {
-                    "percent": "edit percent"
-                }
+                "field": { "percent": "edit percent" }
             },
             "error": {
                 "nan": "This is not a number.",
@@ -5702,14 +5468,14 @@
             "local": "saved",
             "unsaved": "unsaved"
         },
+        "connection": {
+            "offline": "You're offline. Some things won't work until you are online.",
+            "unreachable": "We can't reach the database. Some things won't work until we can.",
+            "label": "Connection status"
+        },
         "localize": {
             "header": "Localize",
             "reference": "English reference",
-            "unwritten": "Unwritten text",
-            "revised": "Revised text",
-            "revisedDescription": "These revisions are saved locally and have not yet been submitted for review.",
-            "submitRevisions": "Submit revisions",
-            "submitted": "Thank you! Your revised text will be reviewed and may be posted soon.",
             "description": "Welcome to localization mode! You can suggest improvements to the text in the Wordplay interface. Choose any text to suggest an edit. Your suggestions will be reviewed, and if approved, will become part of the platform for everyone to see. Thanks for helping make Wordplay more accessible for everyone in the world!",
             "toggle": {
                 "mode": {
@@ -5719,9 +5485,12 @@
             },
             "button": {
                 "edit": "Suggest an edit to this text",
+                "editTip": "Suggest an edit to this control's tooltip",
                 "submit": "Submit suggested edit",
                 "cancel": "Discard suggested edit",
-                "revert": "Revert to official text"
+                "revert": "Revert to official text",
+                "prev": "Edit the previous item",
+                "next": "Edit the next item"
             },
             "field": {
                 "plain": {
@@ -5741,9 +5510,19 @@
                     "placeholder": "Filter..."
                 }
             },
+            "inputs": {
+                "header": "Inputs this template accepts",
+                "usedTip": "Click to insert another reference at the cursor",
+                "unusedTip": "Click to insert this reference at the cursor",
+                "missing": "Missing inputs:",
+                "legacy": "Replace these old positional refs with named refs:",
+                "unknown": "These references don't match a declared input or terminology, so they won't substitute:",
+                "submitBlocked": "Reference every input before submitting"
+            },
             "strings": "Locale strings",
             "emotion": "Choose an emotion",
-            "invalidName": "Not a valid Wordplay name"
+            "invalidName": "Not a valid Wordplay name",
+            "invalidConceptLinks": "These concept links don't resolve in the current locale. Did you misspell one, or remove it on purpose?"
         },
         "page": {
             "unknown": {
@@ -5796,12 +5575,94 @@
                     "next": "next pause in dialog",
                     "previous": "previous pause in dialog"
                 },
-                "options": {
-                    "lesson": "current lesson"
-                },
+                "options": { "lesson": "current lesson" },
                 "search": {
                     "placeholder": "search",
                     "noResults": "No results found"
+                }
+            },
+            "localize": {
+                "header": "Localize",
+                "description": [
+                    "Here you can browse every localizable string in the platform, and propose translationns or revisions to unwritten and machine translated text. You can submit your revisions for review when you're ready.",
+                    "As you write, remember to write in ways that are simple, for a young audience that may not yet know advanced vocabulary. Also be consistent, using the same terminology across different text, when applicable."
+                ],
+                "workspaceLink": "see all text + submit",
+                "workspaceHeader": "Text to write or review",
+                "submitHeader": "Submit",
+                "submitPrompt": "When you are ready to propose this batch of edits, you can submit below.",
+                "oneLocaleNote": "Each submission covers one locale at a time. This batch will be submitted as edits to $locale. If you want to contribute to a different locale, switch locales first; edits you save under each locale are kept separately.",
+                "bundleSummary": "Edits in this batch",
+                "editEntry": "Jump back to edit this string",
+                "revertEntry": "Discard this edit from the batch",
+                "prevBundleItem": "Review the previous edit",
+                "nextBundleItem": "Review the next edit",
+                "descriptionField": {
+                    "description": "A short description of the batch of edits, to help reviewers understand the changes",
+                    "placeholder": "What did you change, and why?"
+                },
+                "notSpamLabel": "I promise that these edits are not spam",
+                "notSpamNote": "Wordplay is a not-for-profit project led by volunteers.",
+                "requireLogin": "You must be logged in to contribute localization suggestions.",
+                "singletonWordsWarning": "Some words in your draft only appear once across the entire locale. Are you sure they are spelled correctly and consistent with other text?",
+                "submit": {
+                    "description": "Submit this batch of edits",
+                    "prompt": "Submit"
+                },
+                "submitSuccess": "Thanks! Your edits were submitted and will be reviewed soon.",
+                "viewPR": "View the pull request",
+                "submitError": "Something went wrong while submitting. Your edits are still saved on this device — please try again.",
+                "empty": "No strings match this filter.",
+                "prevEntry": "Edit the previous string",
+                "nextEntry": "Edit the next string",
+                "qualityMode": {
+                    "label": "show",
+                    "labels": ["all", "machine translated or unwritten"],
+                    "tips": [
+                        "show all strings",
+                        "show only machine-translated or unwritten strings"
+                    ]
+                },
+                "sectionMode": {
+                    "label": "section",
+                    "labels": [
+                        "all",
+                        "platform",
+                        "term",
+                        "token",
+                        "node",
+                        "basis",
+                        "input",
+                        "output",
+                        "ui",
+                        "gallery",
+                        "moderation"
+                    ],
+                    "tips": [
+                        "show all sections",
+                        "platform name",
+                        "shared terminology",
+                        "token descriptions",
+                        "programming language constructs",
+                        "built-in types like number, text, list",
+                        "stream and input source descriptions",
+                        "output type descriptions",
+                        "the application user interface",
+                        "default gallery content",
+                        "content moderation messages"
+                    ]
+                },
+                "section": {
+                    "wordplay": "Platform",
+                    "term": "Terminology",
+                    "token": "Tokens",
+                    "node": "Language constructs",
+                    "basis": "Built-in types",
+                    "input": "Inputs",
+                    "output": "Outputs",
+                    "ui": "User interface",
+                    "gallery": "Gallery",
+                    "moderation": "Moderation"
                 }
             },
             "teach": {
@@ -5904,11 +5765,6 @@
                         "description": "description of the class",
                         "placeholder": "description"
                     },
-                    "newteacher": {
-                        "placeholder": "email or username",
-                        "description": "email or username of the creator who you want to give teacher access to this class"
-                    },
-                    "addteacher": "Add a teacher to this class",
                     "delete": {
                         "tip": "delete this class forever",
                         "label": "Delete this class"
@@ -5988,10 +5844,7 @@
                 },
                 "button": {
                     "newgallery": "new gallery",
-                    "more": {
-                        "label": "more...",
-                        "tip": "load more galleries"
-                    }
+                    "more": { "label": "more...", "tip": "load more galleries" }
                 },
                 "error": {
                     "nogalleryedits": "You must be <logged in@://login> to create and change galleries."
@@ -6012,9 +5865,7 @@
                         "prompt": "delete?"
                     }
                 },
-                "subheader": {
-                    "shared": "Shared"
-                },
+                "subheader": { "shared": "Shared" },
                 "error": {
                     "offline": "We couldn't access your characters stored online.",
                     "noauth": "You must be <logged in@://login> to see your characters and create new ones.",
@@ -6164,10 +6015,7 @@
                         "label": "paste",
                         "tip": "paste copied shapes from clipboard."
                     },
-                    "clear": {
-                        "label": "all",
-                        "tip": "remove all shapes."
-                    },
+                    "clear": { "label": "all", "tip": "remove all shapes." },
                     "clearPixels": {
                         "label": "pixels",
                         "tip": "remove all pixels."
@@ -6233,8 +6081,8 @@
                     "untitledproject": "Untitled Project"
                 },
                 "announce": {
-                    "position": "at $1 $2",
-                    "selection": "$1[selected $1|nothing selected]"
+                    "position": "at $x $y",
+                    "selection": "$shapes[selected $shapes|nothing selected]"
                 }
             },
             "about": {
@@ -6276,9 +6124,7 @@
                     "forgot": "*Forgot your password?* Unfortunately, we cannot recover your account since we do not gather contact information.",
                     "enter": "It looks like your login link came from a different browser or device. Can you enter your email again, just so we're sure it's you?",
                     "play": "You're logged in, we can save your projects online now! Want to create something?",
-                    "tooyoung": "You must be 13 or older to login with an email.",
                     "passwordrule": "Passwords must be at least 6 characters long; if you're not using a password manager, choose three long words you'll remember.",
-                    "passwordreminder": "It looks like you don't have an account yet. Enter your password again and make sure you've stored it safely and correctly, since it is not recoverable.",
                     "changeEmail": "Want to change your email? Submit a new one and we'll send a confirmation to the old one.",
                     "changePassword": "Want to change your password? Submit a new one and repeat it.",
                     "email": "Do you have an email-only account? Login with your email, and if there is account associated with it, we'll send you an email with sign-in link. New email-only accounts are not supported, to preserve privacy.",
@@ -6298,7 +6144,6 @@
                     "usernameTaken": "This username is already taken.",
                     "failure": "Unable to login :(",
                     "offline": "We couldn't reach the cloud ☁️.",
-                    "unchanged": "We couldn't change your email address, but we don't know why.",
                     "delete": "We couldn't delete your account, but we don't know why.",
                     "invalidPassword": "Passwords must be at least 6 characters long.",
                     "wrongPassword": "Not a valid username and password. Either your password is wrong, or someone else has this username.",
@@ -6351,10 +6196,7 @@
                     "updatePassword": "submit new password"
                 },
                 "toggle": {
-                    "reveal": {
-                        "on": "Show password",
-                        "off": "Hide password"
-                    }
+                    "reveal": { "on": "Show password", "off": "Hide password" }
                 }
             },
             "join": {
@@ -6372,7 +6214,7 @@
                     "Let's set some expectations about your rights and ours (also in light of policy, such as the <COPPA@https://www.ecfr.gov/current/title-16/chapter-I/subchapter-C/part-312> and <GDPR@https://gdpr.eu/compliance-checklist-us-companies/>).",
                     "The first thing to know is that we are not a commercial entity. We are a community-based research project housed at a not-for-profit university. Our goal is to create a platform that brings you joy and helps us make discoveries about a more equitable and just world of computing. We have no interest in making money on this platform; any money we gather (usually through public funding) is used to sustain the platform, not to enrich anyone who works on it (or contributes to it).",
                     "Because we are not seeking profit, this also means that we can't make any promises about the reliability, availability, or longevity of this platform. That said, <Amy@https://amyjko.phd> is committed long term to sustaining it, and as a tenured professor, she's got a pretty stable gig.",
-                    "That brings is to *data*. Here's what we gather and store in the cloud:",
+                    "That brings us to *data*. Here's what we gather and store in the cloud:",
                     "• Your *projects*. We store any projects you contribute and your changes to them, unless those projects appear to have personally identifiable information such as phone numbers, email addresses, usernames, tax identifiers, or addresses.",
                     "• Your *settings*. This includes the languages you choose, your animation preferences, and your tutorial progress. Everything else is stored on your device only.",
                     "• Aggregate *activity*. We track logins and the pages you visit, but not in a way that can identify you, track you across the site, or track you across other sites. We use Google Analytics in 'consent denied' mode, which only gathers minimal non-identifiable information about page views, without storing cookies, or sending IP address information to Google. We use this aggregate information to help raise funding by reporting how much the platform is being used.",
@@ -6416,8 +6258,6 @@
                 "palette": "Palette",
                 "semantic": "Semantic Colors",
                 "fonts": "Fonts",
-                "appfont": "Text Font",
-                "codefont": "Code Font",
                 "spacing": "Spacing",
                 "typography": "Typography",
                 "components": "Components",
@@ -6435,7 +6275,6 @@
                 "demo": {
                     "button": "Example",
                     "note": "This is a note.",
-                    "warning": "This is a warning.",
                     "notice": "This is a notice.",
                     "header": "Header",
                     "subheader": "Subheader",
@@ -6451,37 +6290,37 @@
             },
             "thanks": {
                 "header": "Thanks",
-                "intro": "Thank you to our *$1* contributors for contributing to Wordplay's design, development, localization, and content! And thank you to the many teachers and youth who've guided our design in focus groups, design sessions, and classrooms, who we don't list here to maintain their privacy.\n\nThis project has been supported by the National Science Foundation under awards 2318257, 2031265, 2100296, and 2122950, the University of Washington, and generous <gifts@://donate> from people like you.",
+                "intro": "Thank you to our *$count* contributors for contributing to Wordplay's design, development, localization, and content! And thank you to the many teachers and youth who've guided our design in focus groups, design sessions, and classrooms, who we don't list here to maintain their privacy.\n\nThis project has been supported by the National Science Foundation under awards 2318257, 2031265, 2100296, and 2122950, the University of Washington, and generous <gifts@://donate> from people like you.",
                 "teachers": "Teachers",
                 "contributors": "Contributors"
             }
         },
         "edit": {
-            "node": "$1$2[, type $2|]",
-            "before": "before $1[$1|end]",
-            "inside": "in $1, between $2[$2|start] and $3[$3|end]",
-            "range": "selection from $1 to $2",
-            "between": "between $1 and $2",
-            "line": "empty line between $1[$1|start] and $2[$2|end]",
-            "conflicts": "$1 conflicts",
-            "assign": "/$2[Eager to join|Considers leaving]…/",
+            "node": "$node$type[, type $type|]",
+            "before": "before $after[$after|end]",
+            "inside": "in $token, between $before[$before|start] and $after[$after|end]",
+            "range": "selection from $start to $end",
+            "between": "between $before and $after",
+            "line": "empty line between $before[$before|start] and $after[$after|end]",
+            "conflicts": "$count conflicts",
+            "assign": "/$name[Eager to join|Considers leaving]…/",
             "append": "/Eager to insert…/",
             "remove": "/Considers leaving…/",
             "replace": "/Wants to step in…/",
-            "wrap": "parenthesize",
-            "unwrap": "unwrap",
-            "bind": "name this expression",
             "area": "type code"
         },
         "template": {
             "unwritten": "TBD",
-            "unparsable": "Unparsable template: $1",
+            "unparsable": "Unparsable template: $template",
             "machineTranslated": "This was machine translated, so it may not be readable or correct.",
             "locallyRevised": "This text has been locally revised and differs from the official translation."
         },
         "emoji": {
             "noCharacters": "Create a custom character",
             "skinTone": "skin tone",
+            "script": "scripts",
+            "scriptLabel": "filter by script",
+            "pickFilter": "Choose a category or script",
             "groups": {
                 "label": "groups",
                 "labels": [
@@ -6550,17 +6389,14 @@
             "disclosure": "Reveal private information about other people such as names, contact information, or physical addresses",
             "misinformation": "Contain false, misleading, deceptive, or manipulative information"
         },
-        "progress": "*$1* moderated, *$2* remaining",
+        "progress": "*$moderated* moderated, *$remaining* remaining",
         "done": "Nothing else to moderate!",
         "button": {
             "submit": {
                 "tip": "save these moderation settings",
                 "label": "save"
             },
-            "skip": {
-                "tip": "skip this project",
-                "label": "skip"
-            },
+            "skip": { "tip": "skip this project", "label": "skip" },
             "property": "Whether the project has this property"
         },
         "error": {
@@ -6592,5 +6428,10 @@
             "name": "Stories",
             "description": "Interactive stories and narratives."
         }
+    },
+    "system": {
+        "noscript": "Wordplay uses JavaScript. Your browser doesn't support it, or it is disabled.",
+        "unsupportedHeading": "Unsupported Browser",
+        "unsupportedBody": "Your browser doesn't support critical functionality. To use Wordplay, you'll need to upgrade to a more recent version."
     }
 }

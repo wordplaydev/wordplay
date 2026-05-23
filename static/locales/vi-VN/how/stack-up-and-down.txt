@@ -1,0 +1,17 @@
+Xếp các ký tự từ trên xuống dưới.
+
+Nếu một @Row là viết tắt của "side by side" (cạnh nhau), sau đó là một @Stack Từ trên xuống dưới. @Stack Mỗi ký tự được đặt bên dưới ký tự trước đó, giống như một tòa tháp.
+
+\Group(Stack() [Phrase('một') Phrase('hai') Phrase('ba')])\
+
+Giống như một @Row , Một  @Stack Cũng có thể có căn chỉnh và khoảng cách.Hãy thử sắp xếp mọi thứ dọc theo phía bên trái:
+
+\Group(Stack('<' 0.25m) [
+		Phrase('🐣 bé nhỏ')
+		Phrase('🐥 cỡ trung bình')
+		Phrase('🐔 lớn')
+	])\
+
+Cái\'<'\ có nghĩa /Sắp xếp mọi thứ thẳng hàng dọc theo cạnh trái./.Bạn cũng có thể thử\'|'\cho trung tâm hoặc\'>'\cho cạnh phải.
+
+arrange-in-a-row, make-a-grid

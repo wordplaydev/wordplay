@@ -94,7 +94,7 @@
         "Region": "地区",
         "BooleanType": "布尔类型",
         "NumberType": "数字类型",
-        "JapaneseNumeral": "日语数字",
+        "HanNumeral": "日语数字",
         "RomanNumeral": "罗马数字",
         "Pi": "Pi",
         "Infinity": "无穷",
@@ -123,7 +123,15 @@
         "Unknown": "不明",
         "Locale": "语言环境",
         "End": "结束",
-        "Highlight": "$~突出显示的示例"
+        "Highlight": "$~突出显示的示例",
+        "ThaiNumeral": "$~泰语数字",
+        "BengaliNumeral": "$~孟加拉数字",
+        "DevanagariNumeral": "$~天城文数字",
+        "GujaratiNumeral": "$~古吉拉特数字",
+        "GurmukhiNumeral": "$~古尔穆基数字",
+        "KannadaNumeral": "$~卡纳达数字",
+        "TamilNumeral": "$~泰米尔数字",
+        "TeluguNumeral": "$~泰卢固语数字"
     },
     "node": {
         "Dimension": {
@@ -141,7 +149,7 @@
         },
         "Doc": {
             "name": "解释说明",
-            "description": "文档注释 $1[$1|]",
+            "description": "$~用文本记录表达式",
             "emotion": "serious",
             "doc": [
                 "我用 @Markup 来格式化别的东西, 比如你的 @Program 的解释说明, 甚至是你用 @Phrase 放上这个舞台的文字。",
@@ -162,7 +170,7 @@
         },
         "Docs": {
             "name": "解释清单列表",
-            "description": "$1 文档",
+            "description": "$~多种语言的列表文档",
             "emotion": "serious",
             "doc": [
                 "我是 @Doc 的一个列表， 在你有许多不同语言的 @Doc 的翻译时会非常有用。",
@@ -173,7 +181,7 @@
         },
         "KeyValue": {
             "name": "映射",
-            "description": "$1 对应 $2",
+            "description": "$~将键映射到值",
             "emotion": "kind",
             "doc": [
                 "我是在一个 @Map 中从一个 *关键码* 到一个 *值* 的映射。",
@@ -185,7 +193,7 @@
         },
         "Language": {
             "name": "语言",
-            "description": "语言 $1[$1|未知]",
+            "description": "$~标签名称和文本（带语言）",
             "emotion": "eager",
             "doc": [
                 "我是一个语言标签，我与 @Name 和 @Doc 一起工作!",
@@ -212,7 +220,7 @@
         },
         "Name": {
             "name": "命名",
-            "description": "$1[$1|未命名]",
+            "description": "$~$name[$name|未命名]",
             "emotion": "kind",
             "doc": [
                 "我会识别一个值，而且能够帮你给难以运算的事物贴上简洁的的标签，不然你就要一遍又一遍地运算它们。",
@@ -230,20 +238,18 @@
         },
         "Names": {
             "name": "命名列表",
-            "description": "$1 名称",
+            "description": "$~列出多种语言的名称",
             "emotion": "kind",
             "doc": [
                 "我是一个 @Name 的列表，当你想给一个值多个名字的时候特别有用，常常是和不同的 @Language。",
                 "名字们用 \\,\\ 符号隔开。比如， 这就是 @Bind 给一个值好几个 @Name :",
                 "\\嗨/zh,你好/zh,hola/es: '欢迎'\\"
             ],
-            "label": {
-                "names": "姓名"
-            }
+            "label": { "names": "姓名" }
         },
         "Row": {
             "name": "行",
-            "description": "$1 行",
+            "description": "$~表示表中的一行",
             "emotion": "shy",
             "doc": "我代表了一个 @Table 中的一行。你最好和 @Table 聊聊这个，因为它知道我的所有事情。我只是在这里确保所有值都在一行里。 :(",
             "conflict": {
@@ -253,7 +259,7 @@
                 },
                 "MissingCell": {
                     "name": "缺失列",
-                    "explanation": "我和列 $1 走散啦。"
+                    "explanation": "我和列 $column 走散啦。"
                 },
                 "UnknownColumn": {
                     "name": "未知的列名",
@@ -271,7 +277,7 @@
         },
         "Token": {
             "name": "基础单元",
-            "description": "$1",
+            "description": "$label",
             "emotion": "neutral",
             "doc": [
                 "你怎么找到我的？",
@@ -280,45 +286,41 @@
         },
         "TypeInputs": {
             "name": "输入类型",
-            "description": "$1 类型输入",
+            "description": "$~填写类型变量槽",
             "emotion": "curious",
             "doc": "我是一个类型列表，可以代替 @StructureDefinition 或 @FunctionDefinition 中的 @TypeVariables。我可以帮助每个人知道它们将收到什么类型的输入。"
         },
         "TypeVariable": {
             "name": "变量类型",
-            "description": "类型变量 $1",
+            "description": "$~命名调用者指定的类型",
             "emotion": "curious",
             "doc": "我是 @FunctionDefinition 或 @StructureDefinition 上的神秘类型，由 @TypeInputs 在对其中任一类型进行求值时提供。@Set、@List 和 @Map 都可以使用我。",
             "conflict": {
                 "DuplicateTypeVariable": {
                     "name": "重复类型变量",
-                    "explanation": "我的名字和$1一样。"
+                    "explanation": "我的名字和$duplicate"
                 }
             },
-            "label": {
-                "type": "类型"
-            }
+            "label": { "type": "类型" }
         },
         "TypeVariables": {
             "name": "变量类型列表",
-            "description": "$1 类型变量",
+            "description": "$~定义中的列表类型变量",
             "emotion": "curious",
             "doc": "我是一个列表的 @TypeVariable 。"
         },
         "Markup": {
             "name": "标记",
-            "description": "$1 段落",
+            "description": "$count 段落",
             "emotion": "serious",
             "doc": [
                 "我是一个段落列表，使用了解释中可用的多种标记，如 @Words、@WebLink、@ConceptLink 和 @Example 等."
             ],
-            "label": {
-                "paragraphs": "段落"
-            }
+            "label": { "paragraphs": "段落" }
         },
         "Paragraph": {
             "name": "段落",
-            "description": "$1 段落",
+            "description": "$~将词语组合成一段话",
             "emotion": "serious",
             "doc": [
                 "我是一系列的 @Words、@ConceptLink、@WebLink 和 @Example ，我们在 @Doc 内用空行隔开。",
@@ -330,7 +332,7 @@
         },
         "WebLink": {
             "name": "链接",
-            "description": "链接 $1",
+            "description": "链接 $url",
             "emotion": "serious",
             "doc": [
                 "我是能带你去网络上一个地方的链接。我只需要一个描述和一个网址:",
@@ -340,7 +342,7 @@
         },
         "ConceptLink": {
             "name": "角色",
-            "description": "角色 $1",
+            "description": "角色 $concept",
             "emotion": "serious",
             "doc": [
                 "我是 Verse 角色的链接。当您想要编写 @Doc 并引用我们中的一个时，我会很有帮助。",
@@ -355,7 +357,7 @@
         },
         "Words": {
             "name": "文字",
-            "description": "$1",
+            "description": "$~文档中要用简洁的语言编写。",
             "emotion": "serious",
             "doc": [
                 "我是你在一篇 @Doc 中喜爱的所有文字。比如:",
@@ -363,11 +365,17 @@
                 "虽然有些时候，你可能想用@Doc 里的特殊字符 /作为/ 文字。比如:",
                 "\\¶我的朋友使用 @@, //, **, ||, 以及其他符号。¶\n'使用了特殊字符！'\\",
                 "如果你重复地使用一些特殊字符，你可能会得到一些字符本身而不是它们的特殊意义。"
-            ]
+            ],
+            "conflict": {
+                "UnsupportedFontFormat": {
+                    "name": "$~不支持的字体格式",
+                    "explanation": "$~我的朋友 * $face * 不知道如何成为$format 。"
+                }
+            }
         },
         "Example": {
             "name": "示例",
-            "description": "示例 $1",
+            "description": "$~在文档中显示可运行代码",
             "emotion": "serious",
             "doc": [
                 "我是一个例子，能够帮助解释 @Doc 中的一些功能是怎么运用的！",
@@ -376,7 +384,7 @@
         },
         "Mention": {
             "name": "提到",
-            "description": "提到 $1",
+            "description": "提到 $name",
             "emotion": "serious",
             "doc": [
                 "我是一个术语 \\$program\\ 或者一个动态输入 \\$1\\的参考资料。",
@@ -385,7 +393,7 @@
         },
         "Branch": {
             "name": "分支",
-            "description": "分支 $1",
+            "description": "$~根据条件选择标记",
             "emotion": "serious",
             "doc": [
                 "我是一种在两个解释分段之间根据有无定义和正确与否进行选择的方法。",
@@ -394,7 +402,7 @@
         },
         "BinaryEvaluate": {
             "name": "二进制评估",
-            "description": "$1 操作",
+            "description": "$operator 操作",
             "emotion": "insecure",
             "doc": [
                 "我是形式更简单的 @Evaluate,当你想使用接收两个输入的 @FunctionDefinition 时很有用。",
@@ -410,21 +418,19 @@
                 "在数学中，乘法是第一位的，然后是加法，所以这样算的结果会是\\11\\。但因为我是按照读取顺序演算的，结果就会是\\13\\。"
             ],
             "right": "输入",
-            "start": "让我们先来运算 $1 吧",
-            "finish": "你看，我创造了 $1!",
+            "start": "让我们先来运算 $left 吧",
+            "finish": "你看，我创造了 $value!",
             "conflict": {
                 "OrderOfOperations": {
                     "name": "模糊的顺序",
                     "explanation": "我是按照读取顺序而非数学运算顺序来评估一个值的。你想用 @Block 来指定我的运算顺序吗？"
                 }
             },
-            "label": {
-                "operator": "操作器"
-            }
+            "label": { "operator": "操作器" }
         },
         "Bind": {
             "name": "联结",
-            "description": "联结 $1",
+            "description": "联结 $name",
             "emotion": "excited",
             "doc": [
                 "我给 *values* 命名。",
@@ -452,24 +458,24 @@
                 "但我们可以改变它来加上 @Is，那现在 @FunctionDefinition 就知道它们都是数字啦：",
                 "\\ƒ 总和(a•# b•#) a + b\\"
             ],
-            "start": "让我们看看我们能从 $1 里得到什么值吧!",
-            "finish": "太好啦，我得到了 $1! 让我们给它命名为 $2",
+            "start": "让我们看看我们能从 $value 里得到什么值吧!",
+            "finish": "太好啦，我得到了 $value! 让我们给它命名为 $name",
             "conflict": {
                 "DuplicateName": {
                     "conflict": {
                         "name": "重复名称",
-                        "explanation": "有人已经用了 “$1” 这个名字，所以我不能用这个名字。"
+                        "explanation": "有人已经用了 “$shadowed 这个名字，所以我不能用这个名字。"
                     },
                     "resolution": "有重复的名称，是否要删除一个？"
                 },
                 "DuplicateShare": {
                     "name": "重复共享",
-                    "explanation": "我的名字和 $1 一样。这使得我们分享的是什么变得不清楚。"
+                    "explanation": "我的名字和 $duplicate 一样。这使得我们分享的是什么变得不清楚。"
                 },
                 "IncompatibleType": {
                     "name": "不相容类型",
-                    "explanation": "我应该是 $2 的，但现在我是 $1",
-                    "resolution": "$~转换为 1 美元"
+                    "explanation": "我应该是 $expected 的，但现在我是 $given",
+                    "resolution": "$~转换为$expected"
                 },
                 "MisplacedShare": {
                     "name": "放错位置的共享",
@@ -489,18 +495,14 @@
                 },
                 "UnusedBind": {
                     "name": "未使用的绑定",
-                    "explanation": "我被命名为 $1， 但是还没有人使用我。难道我不被需要吗？"
+                    "explanation": "我被命名为 $name 但是还没有人使用我。难道我不被需要吗？"
                 }
             },
-            "label": {
-                "value": "价值",
-                "names": "姓名",
-                "type": "类型"
-            }
+            "label": { "value": "价值", "names": "姓名", "type": "类型" }
         },
         "Block": {
             "name": "括号块",
-            "description": "$1 陈述",
+            "description": "$count 陈述",
             "emotion": "shy",
             "doc": [
                 "嗨。我给出一小块安静的私人空间用于演算事物。",
@@ -521,30 +523,28 @@
                 "这会得到 \\[3 2]\\：只有那两个不是 @Bind 的算式的值。"
             ],
             "start": "第一个算式",
-            "finish": "好啦，我现在有 $1 了",
+            "finish": "好啦，我现在有 $value 了",
             "conflict": {
                 "ExpectedEndingExpression": {
                     "name": "缺失算式",
                     "explanation": "我需要至少一个不是 @Bind 的算式，这样我才有值可以返回。"
                 }
             },
-            "label": {
-                "statements": "算式"
-            }
+            "label": { "statements": "算式" }
         },
         "BooleanLiteral": {
             "name": "特殊布尔值",
-            "description": "$1[正确|错误]",
+            "description": "$value[正确|错误]",
             "emotion": "precise",
             "doc": "我要么是 \\⊤\\ ，要么是 \\⊥\\。去看看 @Boolean 来更多地了解我们美丽的逻辑学吧。",
-            "start": "$1!"
+            "start": "$value!"
         },
         "Borrow": {
             "name": "借用",
-            "description": "借用 $1[$1|不存在的命名]",
+            "description": "$~借用 $name[$name|不存在的命名]",
             "emotion": "excited",
             "doc": "如果你用多种 @Source 创造了一个表演，你可以使用我去借用在其他 @Source 里共享的 @Bind 。只要使用它们的名字，我就可以同时带来它们的名字和值。",
-            "start": "向 $1 借用 $2",
+            "start": "向 $name 借用 $source",
             "conflict": {
                 "UnknownBorrow": {
                     "name": "未知借用",
@@ -552,24 +552,20 @@
                 },
                 "BorrowCycle": {
                     "name": "自引用借用",
-                    "explanation": "这取决于 $1，而它取决于 $source，所以这个程序不能被运算。"
+                    "explanation": "$~这取决于 $borrow $source"
                 }
             },
             "exception": {
                 "CycleException": {
                     "description": "借用循环",
-                    "explanation": "$1 取决于它自己"
+                    "explanation": "$borrow 取决于它自己"
                 }
             },
-            "label": {
-                "source": "源",
-                "bind": "名字",
-                "version": "版本"
-            }
+            "label": { "source": "源", "bind": "名字", "version": "版本" }
         },
         "Changed": {
             "name": "改变",
-            "description": "已更改 $1[$1|]",
+            "description": "$~如果流已更改，则返回 true",
             "emotion": "serious",
             "doc": [
                 "我检查流是否导致 @Program 重新评估，并生成一个 @Boolean 值。像这样",
@@ -577,14 +573,14 @@
                 "我会很好地在你想只有数据流发生变化才改变某些内容的时候帮到你。",
                 "这就是全部了。"
             ],
-            "start": "让我们看看 $1 有没有改变……",
+            "start": "让我们看看 $stream 有没有改变……",
             "label": {
                 "stream": "数据流"
             }
         },
         "Conditional": {
             "name": "有条件的",
-            "description": "若 $1 则 $2[$2|]",
+            "description": "$~检查此条件并计算出以下两个表达式之一。",
             "emotion": "curious",
             "doc": [
                 "我想我应该是来做出决定的？就像这样？",
@@ -593,25 +589,21 @@
                 "难道决定不应该比是或不是更细致吗？在 \\⊤\\ 和 \\⊥\\ 之间决定就是全部了吗?",
                 "如果我们只能做这种二选一的判断，会不会漏掉一些很重要的背景信息?"
             ],
-            "start": "让我们看看 $1 是不是正确的",
+            "start": "让我们看看 $condition 是不是正确的",
             "afterthen": "$1[跳过这些代码 | 不要跳过这些代码]",
-            "else": "已经确定了是的情况，要不我们就跳过否的情况吧?",
-            "finish": "我想这就是 $1 了吧?",
+            "else": "$~$jumping[跳过代码 | 不跳过代码]",
+            "finish": "我想这就是 $value 了吧?",
             "conflict": {
                 "ExpectedBooleanCondition": {
                     "name": "预期布尔条件",
-                    "explanation": "我需要一个布尔值来做决定，但我得到的却是 $1。我怎样才能用 $1 来选择是或不是呢?"
+                    "explanation": "$~我需要一个布尔值来做决定，但我得到的却是 $type。我怎样才能用 $type 来选择是或不是呢?"
                 }
             },
-            "label": {
-                "condition": "状况",
-                "yes": "是",
-                "no": "否"
-            }
+            "label": { "condition": "状况", "yes": "是", "no": "否" }
         },
         "ConversionDefinition": {
             "name": "转换定义",
-            "description": "$1 → $2",
+            "description": "$input → $output",
             "emotion": "excited",
             "doc": [
                 "哥们儿，我定义了从一种类型到另一种类型的转换！我在 @Block 中执行，就像这样：",
@@ -634,7 +626,7 @@
         },
         "Convert": {
             "name": "转换",
-            "description": "将 $1 转换为 $2",
+            "description": "$~将值转换为另一种类型",
             "emotion": "cheerful",
             "doc": [
                 "嘿，我可以将一个类型的值转换成另一个类型。看看这个例子：",
@@ -645,24 +637,24 @@
                 "\\\"你好\" → [] → {}\\",
                 "值具有一组预定义的 @ConversionDefinition，但如果你为一个新类型的值创建了 @StructureDefinition，你可以使用 @ConversionDefinition 定义自己的转换规则。"
             ],
-            "start": "从 $1 获取那个值！",
-            "finish": "太棒了，我做出了 $1",
+            "start": "从 $expression 获取那个值！",
+            "finish": "太棒了，我做出了 $value",
             "conflict": {
                 "UnknownConversion": {
                     "name": "未知转换",
-                    "explanation": "糟糕，无法将 $1 转成 $2"
+                    "explanation": "糟糕，无法将 $expected 转成 $given"
                 }
             },
             "exception": {
                 "ConversionException": {
                     "description": "不可能的转换",
-                    "explanation": "我不知道如何从 $1 转成 $2"
+                    "explanation": "我不知道如何从 $from 转成 $to"
                 }
             }
         },
         "Delete": {
             "name": "删除",
-            "description": "从 $1 删除",
+            "description": "$~从表中删除匹配的行",
             "emotion": "angry",
             "doc": [
                 "有时候你有一个表格，它里面有太多东西了！",
@@ -675,7 +667,7 @@
         },
         "DocumentedExpression": {
             "name": "解释表达式",
-            "description": "已记录的 $1[$1|]",
+            "description": "$~将文档附加到表达式",
             "emotion": "eager",
             "doc": [
                 "我是任何表达式，但附带了 @Doc ！",
@@ -687,7 +679,7 @@
         },
         "Evaluate": {
             "name": "评估",
-            "description": "$3[用这些输入创建$1[$1|]值|$2[用这些输入创建$1[$1|]流|将$1[$1|函数]应用于这些输入]]",
+            "description": "$~$structure[用这些输入创建$name[$name|]值|$stream[用这些输入创建$name[$name|]流|将$name[$name|函数]应用于这些输入]]",
             "emotion": "shy",
             "doc": [
                 "嗨。我会评估我心爱的 @FunctionDefinition",
@@ -702,12 +694,12 @@
             ],
             "start": "首先让我们评估输入",
             "evaluate": "现在让我们评估函数",
-            "finish": "我评估为 $1",
+            "finish": "我评估为 $value",
             "conflict": {
                 "IncompatibleInput": {
                     "name": "$~不兼容的输入",
-                    "explanation": "$~我应该用1号字体，但我用的是2号字体。",
-                    "resolution": "$~转换为 1 美元"
+                    "explanation": "$~我预期收到$expected ，但实际收到$given",
+                    "resolution": "$~转换为$expected"
                 },
                 "UnexpectedTypeInput": {
                     "name": "$~意外的类型输入",
@@ -715,7 +707,7 @@
                 },
                 "MissingInput": {
                     "name": "$~缺少输入",
-                    "explanation": "$~没有输入 2 美元，我无法进行评估 :("
+                    "explanation": "$~没有输入 $name $input 的值 :("
                 },
                 "NotInstantiable": {
                     "name": "$~结构不完整",
@@ -727,7 +719,7 @@
                 },
                 "UnknownInput": {
                     "name": "$~未知输入",
-                    "explanation": "$~这个函数 *$1* 不需要输入我的名字。"
+                    "explanation": "$~这个函数 *$name* 不需要输入我的名字。"
                 },
                 "InputListMustBeLast": {
                     "name": "$~额外的输入不是最后的",
@@ -735,13 +727,13 @@
                 },
                 "SeparatedEvaluate": {
                     "name": "$~模棱两可的评价",
-                    "explanation": "$~$1 是您要评估的 $2[$structure|$function] 的名称吗？请尝试删除我后面的空格，这样我就知道这是一个 @Evaluate 而不是一个单独的 @Block。"
+                    "explanation": "$~$name 是您要评估的 $structure[$structure|$function] 的名称吗？请尝试删除我后面的空格，这样我就知道这是一个 @Evaluate 而不是一个单独的 @Block。"
                 }
             },
             "exception": {
                 "FunctionException": {
                     "description": "未知函数",
-                    "explanation": "哦不，$1 在 $2[$2|这个 @Block] 中不是一个函数！"
+                    "explanation": "$~哦不，$name 在 $scope[$scope|这个 @Block] 中不是一个函数！"
                 }
             },
             "label": {
@@ -764,7 +756,7 @@
         },
         "ExpressionPlaceholder": {
             "name": "表达式占位符",
-            "description": "$1[$1|占位符]",
+            "description": "$~标记一个待填写的表达式",
             "emotion": "scared",
             "doc": [
                 "我是一个 *表达式*，但不是一个真正的表达式... 我只是替代品。",
@@ -788,13 +780,11 @@
                     "explanation": "我不知道该怎么办！"
                 }
             },
-            "label": {
-                "placeholder": "$~表达"
-            }
+            "label": { "placeholder": "$~表达" }
         },
         "FunctionDefinition": {
             "name": "函数",
-            "description": "函数 $1",
+            "description": "函数 $name",
             "emotion": "kind",
             "doc": [
                 "嗨又见面了！我接受一些输入，然后使用它们来评估一个表达式，产生一个输出。",
@@ -834,7 +824,7 @@
             "initialize": "准备逐个遍历项目",
             "next": "移动到下一个项目",
             "check": "决定是否继续",
-            "finish": "我评估为 $1"
+            "finish": "我评估为 $value"
         },
         "Initial": {
             "name": "开始",
@@ -849,7 +839,7 @@
         },
         "Insert": {
             "name": "插入",
-            "description": "插入到 $1",
+            "description": "$~向表中添加一行",
             "emotion": "kind",
             "doc": [
                 "你知道当你有一个 @Table 时，总觉得缺了点什么吗？我可以帮你添加！",
@@ -862,7 +852,7 @@
         },
         "Is": {
             "name": "是",
-            "description": "是",
+            "description": "$~检查值是否为类型 $type",
             "emotion": "curious",
             "doc": [
                 "你知道吗？有很多种意味着很多不同含义的值。我可以帮忙确定它们是什么。",
@@ -873,18 +863,18 @@
                 "我们得到了 \\⊤\\！",
                 "当你需要知道某个 @Name 是否具有特定类型的值时，我非常有用。"
             ],
-            "start": "首先让我们获取 $1 的值",
-            "finish": "$1[值是 $2|值不是 $2]",
+            "start": "首先让我们获取 $expression 的值",
+            "finish": "$~$value[值是 $type|值不是 $type]",
             "conflict": {
                 "ImpossibleType": {
                     "name": "$~不可能类型",
-                    "explanation": "$~这永远不可能是1美元。"
+                    "explanation": "$~这永远不可能是 $type"
                 }
             },
             "exception": {
                 "TypeException": {
                     "description": "不兼容的值",
-                    "explanation": "我预期得到一个 $1，但收到了一个 $2"
+                    "explanation": "我预期得到一个 $expected $given"
                 }
             }
         },
@@ -898,30 +888,30 @@
                 "\\🌍/es-MX\\",
                 "如果你想根据选择的语言来改变表现，这将会很有帮助。"
             ],
-            "start": "这种语言是 $1 吗？"
+            "start": "这种语言是 $locale 吗？"
         },
         "ListAccess": {
             "name": "列表访问",
-            "description": "从 $1[$1|列表] 获取",
+            "description": "$~获取列表位置的值",
             "emotion": "cheerful",
             "doc": [
                 "我与 @List 密切合作，帮助它们在特定位置获取值。所以，比如，如果你有一个列表，想要获取它的第二个项目，你会写成：",
                 "\\列表: ['鸟' '鸭' '鱼' '蛇']\n列表[2]\\"
             ],
-            "start": "首先让我们获取列表 $1",
-            "finish": "项目是 $1！"
+            "start": "首先让我们获取列表 $list",
+            "finish": "项目是 $value"
         },
         "ListLiteral": {
             "name": "特定列表",
-            "description": "$1 项目列表",
+            "description": "$count 项目列表",
             "emotion": "eager",
             "doc": "我是一个具体的值 @List ！查看 @List 以了解更多关于如何使用我的信息。",
             "start": "让我们先评估这些项目",
-            "finish": "我创建了一个我！ $1"
+            "finish": "我创建了一个我！ $value"
         },
         "Spread": {
             "name": "列表展开",
-            "description": "展开 $1[$1|]",
+            "description": "$~将列表展开到另一个列表中",
             "emotion": "serious",
             "doc": [
                 "我帮助你使用其他列表的值创建列表。就像这样：",
@@ -930,24 +920,22 @@
         },
         "MapLiteral": {
             "name": "映射",
-            "description": "$1 配对映射",
+            "description": "$count 配对映射",
             "emotion": "kind",
             "doc": "我是一个具体的键值对 @Map。查看 @Map 以了解我如何提供帮助的更多信息。",
             "start": "让我们先评估键和值",
-            "finish": "我把每个连接在一起了，$1",
+            "finish": "我把每个连接在一起了，$value",
             "conflict": {
                 "NotAKeyValue": {
                     "name": "$~缺失值",
                     "explanation": "$~我在一个 @Map 中，所以我需要一个值。"
                 }
             },
-            "label": {
-                "values": "$~一对"
-            }
+            "label": { "values": "$~一对" }
         },
         "Match": {
             "name": "匹配",
-            "description": "匹配 $1",
+            "description": "$~将价值与多个案例进行比较",
             "emotion": "curious",
             "doc": [
                 "我是条件检查中的高手！我可以取一个值并将其与多个情况进行比较，然后评估匹配的表达式。",
@@ -957,20 +945,17 @@
                 "我非常适合将多种可能的 @Number、@Text 或更复杂的值转换为其他值。",
                 "你也可以将我用于 @Boolean 或 @None，但它们的可能性不多，所以对于这些简单值，我的用处就没那么大了。"
             ],
-            "start": "让我们看看 1 美元是多少",
+            "start": "$~我们来看看$value",
             "case": "让我们检查一下这种情况",
             "finish": "我们有了最终的值！",
-            "label": {
-                "case": "$~案件",
-                "other": "$~默认"
-            }
+            "label": { "case": "$~案件", "other": "$~默认" }
         },
         "NumberLiteral": {
             "name": "具体数字",
-            "description": "$1 $2[$2|]",
+            "description": "$~$number $unit[$unit|]",
             "emotion": "excited",
             "doc": "我是一个具体的 @Number。你可以用任何语言的任何数字来书写我。查看 @Number 了解我能做的一切。",
-            "start": "$1!",
+            "start": "$value!",
             "conflict": {
                 "NotANumber": {
                     "name": "$~不是一个数字",
@@ -994,7 +979,7 @@
         },
         "Otherwise": {
             "name": "否则",
-            "description": "否则 $1[$1|]",
+            "description": "$~如果没有备用值，请提供备用值。",
             "emotion": "curious",
             "doc": [
                 "/@FunctionDefinition 这里。这是一种方便的方法，用于检查一个值是否为@None，如果是，就提供一个备用值。/",
@@ -1002,11 +987,11 @@
                 "\\maybeNumber•#|ø: 1 maybeNumber ?? 0\\"
             ],
             "start": "ø ??",
-            "finish": "… $1"
+            "finish": "… $value"
         },
         "Previous": {
             "name": "之前",
-            "description": "之前的 $1[$1|]",
+            "description": "$~获取流的先前值",
             "emotion": "serious",
             "doc": [
                 "你有没有想过记住过去？",
@@ -1019,15 +1004,15 @@
                 "看到了吗？这是五个先前的时间，而不是只有一个时间？",
                 "当你想要创建依赖于过去的表演时，我会很有帮助。"
             ],
-            "start": "首先获取 $1",
-            "finish": "评估为流值 $1",
+            "start": "首先获取 $stream",
+            "finish": "评估为流值 $value",
             "label": {
                 "range": "$~范围"
             }
         },
         "Program": {
             "name": "节目",
-            "description": "包含 $1[$1|] 个表达式的程序",
+            "description": "$~包含程序中的所有表达式",
             "emotion": "serious",
             "doc": [
                 "我是表演的开始和结束，包含了所有编排表演的其他角色。",
@@ -1039,9 +1024,9 @@
                 "如果你的表演依赖于一个*流*，我会在该流改变时重新评估。"
             ],
             "unevaluated": "你选择的节点没有被评估",
-            "start": "$1[$1 流变为 $2！|这是我的第一次评估]",
+            "start": "$~$stream[$stream 流变为 $value|这是我的第一次评估]",
             "halt": "遇到异常，停止",
-            "finish": "所有都完成了，我评估为 $1",
+            "finish": "所有都完成了，我评估为 $value",
             "done": "没有任何评估",
             "exception": {
                 "BlankException": {
@@ -1050,7 +1035,7 @@
                 },
                 "EvaluationLimitException": {
                     "description": "评估限制",
-                    "explanation": "@Evaluate 和我对于评估感到疲惫，尤其是 $1。\n\n是不是可能 $1 在永远地评估自己，永远不会停止？"
+                    "explanation": "$~@Evaluate 和我对于评估感到疲惫，尤其是 $function\n\n是不是可能 $function 在永远地评估自己，永远不会停止？"
                 },
                 "StepLimitException": {
                     "description": "步骤限制",
@@ -1062,17 +1047,18 @@
                 },
                 "InternalException": {
                     "description": "$~内部错误",
-                    "explanation": "$~内部发生了一件非常糟糕的事情：1美元"
+                    "explanation": "$~内部发生了非常糟糕的事情：$reason"
+                },
+                "PermissionException": {
+                    "description": "$~没有权限",
+                    "explanation": "$~我需要您的$permission，但我没有权限。点击“重试”按钮再次尝试。如果问题仍然存在，请在浏览器设置中$permission。"
                 }
             },
-            "label": {
-                "borrows": "$~借款",
-                "expression": "$~堵塞"
-            }
+            "label": { "borrows": "$~借款", "expression": "$~堵塞" }
         },
         "PropertyBind": {
             "name": "精炼",
-            "description": "精炼 $1[$1|缺少名称]",
+            "description": "$~精炼 $name[$name|缺少名称]",
             "emotion": "kind",
             "doc": [
                 "有时，当你创建一个@StructureDefinition 时，你想要改变它的最小的东西，而不必用所有相同的值创建一个新的。",
@@ -1081,21 +1067,18 @@
                 "这比做一个全新的\\猫\\ \\要简单得多，除了爱好之外，还有相同的值，不是吗?"
             ],
             "start": "首先让我们获取值",
-            "finish": "我复制了这个结构，但是把1$改成了2$",
+            "finish": "$~我复制了结构，但将 $property 替换为 $value",
             "conflict": {
                 "InvalidProperty": {
                     "name": "$~未知财产",
-                    "explanation": "$~我不是结构 $1 中的名字，所以不能进行精炼。"
+                    "explanation": "$~我不是结构 $structure 中的名字，所以不能进行精炼。"
                 }
             },
-            "label": {
-                "property": "$~财产",
-                "value": "$~价值"
-            }
+            "label": { "property": "$~财产", "value": "$~价值" }
         },
         "PropertyReference": {
             "name": "性质",
-            "description": "属性 $1[$1|缺少名称]",
+            "description": "$~属性 $name[$name|缺少名称]",
             "emotion": "kind",
             "doc": [
                 "当你创建一个@StructureDefinition 时，你如何获得它的一个输入?我如何",
@@ -1103,14 +1086,14 @@
                 "\\•城市(名称•人口•#people)\n\nportland:城市('Portland' 800000people)\n\nportland.population\\"
             ],
             "start": "首先让我们获取值",
-            "finish": "发现属性$1，它是$2",
+            "finish": "$~找到属性$property ，其值为$value",
             "label": {
                 "property": "$~财产"
             }
         },
         "Reaction": {
             "name": "反应",
-            "description": "对 $1[$1|] 的反应",
+            "description": "$~在流变化时创建值",
             "emotion": "excited",
             "doc": [
                 "流是如此的棒!我可以根据它们的变化来制作新的，这太酷了!",
@@ -1120,11 +1103,11 @@
                 "所以我就像一个流，但是一个基于其他流的流。挺奇怪吧,是吧?"
             ],
             "start": "让我们看看是否应该更新流",
-            "finish": "新的流值是1$",
+            "finish": "$~新流的值为 $value",
             "conflict": {
                 "ExpectedStream": {
                     "name": "$~预期流量",
-                    "explanation": "$~1 美元不代表任何流，所以我永远不会做出反应！"
+                    "explanation": "$~$condition 没有引用流，所以我永远不会做出反应！"
                 }
             },
             "label": {
@@ -1135,7 +1118,7 @@
         },
         "Reference": {
             "name": "参考",
-            "description": "$1",
+            "description": "$name",
             "emotion": "shy",
             "doc": [
                 "你知道@Bind 怎么给东西 @Name 吗?我就是你所说的它们。我看看@Bind 是否有那个名字，如果有，给你它的值。是这样的:",
@@ -1143,18 +1126,18 @@
                 "如果我找不到名字，我就不知道该怎么办了。",
                 "\\鹦鹉:\nperry\\“波利”"
             ],
-            "start": "1$有什么价值?",
+            "start": "$~$name 的值是什么？",
             "conflict": {
                 "UnknownName": {
                     "conflict": {
                         "name": "$~未知名称",
-                        "explanation": "$~$1[我不认识任何名叫$1的人，$2[$2|这个@Block]|你能告诉我一个名字吗？]"
+                        "explanation": "$~$name[我不认识任何名叫$name的人，$scope[$scope|这个@Block]|你能告诉我一个名字吗？]"
                     },
-                    "resolution": "$~您的意思是 *$1 吗？*"
+                    "resolution": "$~您的意思是 *$suggestion 吗？*"
                 },
                 "ReferenceCycle": {
                     "name": "$~自我参照价值",
-                    "explanation": "$~嗯，1 美元的价值取决于它自身，那么我怎么知道应该给它赋予什么值呢？"
+                    "explanation": "$~嗯，$name 的值取决于它自身，那么我怎么知道应该给它赋予什么值呢？"
                 },
                 "UnexpectedTypeVariable": {
                     "name": "$~意外类型变量",
@@ -1164,13 +1147,13 @@
             "exception": {
                 "NameException": {
                     "description": "未知名字",
-                    "explanation": "$1[我不知道有谁在$2[$2]中命名$1[$2]…］"
+                    "explanation": "$~$name[我不知道有谁在$scope[$scope]中命名$name[$scope]…］"
                 }
             }
         },
         "Select": {
             "name": "选择",
-            "description": "从 $1 选择",
+            "description": "$~从表中筛选匹配的行",
             "emotion": "excited",
             "doc": [
                 "有时你有一张桌子，你只想占有它的一部分。我可以帮你拿来!",
@@ -1189,15 +1172,15 @@
         },
         "SetLiteral": {
             "name": "具体组",
-            "description": "$1 个元素的集合",
+            "description": "$count 个元素的集合",
             "emotion": "eager",
             "doc": "我是特定值的特定集合。查看@Set 了解更多关于如何与我合作的信息。",
             "start": "让我们先估计数值吧",
-            "finish": "我做了一个组$1"
+            "finish": "我做了一个组$value"
         },
         "SetOrMapAccess": {
             "name": "组/映射组的访问",
-            "description": "从 $1[$1|] 获取",
+            "description": "$~检查集合或映射是否包含",
             "emotion": "kind",
             "doc": [
                 "我可以看到@Set 或@Map 是否有值或键。",
@@ -1207,17 +1190,17 @@
                 "\\faves: {' mac&cheese':五星'麦片':2星'稀饭':1星}\nfaves{'稀饭'}\\"
             ],
             "start": "地图是什么?",
-            "finish": "数值为$1",
+            "finish": "数值为$value",
             "conflict": {
                 "IncompatibleKey": {
                     "name": "$~不兼容的密钥",
-                    "explanation": "$~我预期会收到一个类型为 $1 的密钥。"
+                    "explanation": "$~我预期会收到一个类型为 $expected 的密钥。"
                 }
             }
         },
         "Source": {
             "name": "资源",
-            "description": "源文件 $1[$1|]",
+            "description": "$~命名程序源文件",
             "emotion": "curious",
             "doc": [
                 "哦，你知道 @Program 吗?我帮你取名字。把我想象成 @Program 周围的窗口，以及你给它们起的名字。",
@@ -1227,14 +1210,14 @@
         },
         "StreamDefinition": {
             "name": "流",
-            "description": "流定义 $1",
+            "description": "$~定义一种新的流类型",
             "emotion": "curious",
             "doc": "我/我想/我应该创造新的溪流。但我真的不知道该怎么做。现在，我想就用现有的流吧?",
             "start": "创建这种新的流"
         },
         "StructureDefinition": {
             "name": "结构",
-            "description": "结构 $1",
+            "description": "结构 $name",
             "emotion": "kind",
             "doc": [
                 "你好，你好吗?我吗?我很好。我喜欢定义存储值和功能的结构，所以只要我能整天这样做，我就很高兴。",
@@ -1263,7 +1246,7 @@
                 },
                 "UnimplementedInterface": {
                     "name": "$~未实现",
-                    "explanation": "$~我实现了$1，但还没有实现$2。"
+                    "explanation": "$~我实现了$interface ，但还没有实现$function"
                 }
             },
             "label": {
@@ -1275,53 +1258,51 @@
         },
         "StructureDefinitionType": {
             "name": "结构定义",
-            "description": "$1",
+            "description": "$name",
             "emotion": "kind",
             "doc": ["我指的是某种@StructureDefinition。人们通常不会直接提到我"]
         },
         "TableLiteral": {
             "name": "表面量",
-            "description": "$1 行表格",
+            "description": "$count 行表格",
             "emotion": "angry",
             "doc": "我是一个具有特定行数的特定表格。请参阅 @Table 了解我如何提供帮助。",
             "start": "首先评估行数",
-            "finish": "评估为新表格 $1"
+            "finish": "评估为新表格 $value"
         },
         "TextLiteral": {
             "name": "文本量",
-            "description": "文本 $1",
+            "description": "文本 $text",
             "emotion": "serious",
             "doc": "我代表一个或多个特定的文本翻译。请参阅 @Text 以了解我可以做什么！",
             "start": "让我们在当前语言环境中创建文本",
-            "label": {
-                "texts": "$~文本"
-            }
+            "label": { "texts": "$~文本" }
         },
         "Translation": {
             "name": "翻译",
-            "description": "翻译 $1",
+            "description": "翻译 $text",
             "emotion": "serious",
             "doc": "我代表一些文本，带有 @Language 标签。请参阅 @Text 以了解更多！",
             "conflict": {
                 "phone": {
                     "name": "$~可能的电话号码",
-                    "explanation": "$~1美元是某人的电话号码吗？如果是的话，请不要在网上分享！\n\n2美元"
+                    "explanation": "$~*$text* 是某人的电话号码吗？如果是，请不要在网上分享！\n\n$reminder"
                 },
                 "email": {
                     "name": "$~可能的电子邮件",
-                    "explanation": "$~1美元是某人的邮箱地址吗？如果是的话，请不要在这里透露！\n\n2美元"
+                    "explanation": "$~*$text* 是某人的邮箱地址吗？如果是，请不要在这里分享！\n\n$reminder"
                 },
                 "tin": {
                     "name": "$~可能的税务识别符",
-                    "explanation": "$~1 美元是税务识别号吗？如果是，千万别泄露我的信息，这可是非常敏感的信息！\n\n2 美元"
+                    "explanation": "$~*$text* 是税务识别号吗？如果是，千万不要分享，这可是非常敏感的信息！\n\n$reminder"
                 },
                 "address": {
                     "name": "$~可能的地址",
-                    "explanation": "$~1 美元是某人的家庭住址吗？如果是，请不要把我放在这里，我们不想任何人被跟踪！\n\n2 美元"
+                    "explanation": "$~*$text* 是某人的家庭住址吗？如果是，请不要把我放在这里，我们不想任何人被跟踪！\n\n$reminder"
                 },
                 "handle": {
                     "name": "$~可能的用户名",
-                    "explanation": "$~*$1* 是你在其他网站上的用户名吗？如果是的话，除非你真的想这么做，否则请不要在这里分享我的用户名。\n\n$2"
+                    "explanation": "$~*$text* 是你在其他网站上的用户名吗？如果是的话，除非你真的想这么做，否则请不要在这里分享我的用户名。\n\n$reminder"
                 },
                 "resolution": "这不是敏感数据",
                 "reminder": "注意：你可以撤消此操作并在共享对话框中查看你标记为非敏感的其他内容。",
@@ -1330,20 +1311,18 @@
                     "explanation": "$~这看起来像是一个角色名称。要显示角色名称，请使用 @FormattedLiteral 而不是 @TextLiteral。"
                 }
             },
-            "label": {
-                "segments": "$~文本"
-            }
+            "label": { "segments": "$~文本" }
         },
         "FormattedLiteral": {
             "name": "格式文本",
-            "description": "格式化文本 $1",
+            "description": "格式化文本 $text",
             "emotion": "serious",
             "doc": "我代表许多不同的格式化文本的 @FormattedTranslation。当我进行评估时，我会根据受众选择的语言选择最佳匹配。",
             "start": "让我们创建当前语言环境下的文本"
         },
         "FormattedTranslation": {
             "name": "格式化",
-            "description": "格式化翻译 $1",
+            "description": "格式化翻译 $language",
             "emotion": "serious",
             "doc": [
                 "我代表一些格式化的文本，带有 @Language 标签。",
@@ -1371,7 +1350,7 @@
                 "看看我，代表前一个反应值。",
                 "我不经常出现，但当出现时，我可以帮助值摆脱 @Bind ！"
             ],
-            "start": "评估为 $1",
+            "start": "评估为 $value",
             "conflict": {
                 "MisplacedThis": {
                     "name": "$~放错了这个参考",
@@ -1381,7 +1360,7 @@
         },
         "UnaryEvaluate": {
             "name": "一元评估",
-            "description": "$1",
+            "description": "$operator",
             "emotion": "kind",
             "doc": [
                 "你知道当我仅对一个值进行 @FunctionDefinition 评估时，@FunctionDefinition 的名称只是一个单一的符号，你可以将名称放在输入值之前吗？",
@@ -1394,7 +1373,7 @@
                 "只有一个规则：名称和值之间不能有空格。否则，你可能会创建 @Reference 或 @BinaryEvaluate。"
             ],
             "start": "值是什么？",
-            "finish": "我完成了 $1",
+            "finish": "我完成了 $value",
             "label": {
                 "input": "$~输入"
             }
@@ -1418,13 +1397,13 @@
                 "UnparsableConflict": {
                     "conflict": {
                         "name": "$~无法读取的代码",
-                        "explanation": "$~这里是 @FunctionDefinition，@UnparsableExpression 不知道这是哪种 $1[表达式|类型]。"
+                        "explanation": "$~这里是 @FunctionDefinition，@UnparsableExpression 不知道这是哪种 $expression[表达式|类型]。"
                     },
-                    "resolution": "你的意思是 1 美元还是 2 美元？"
+                    "resolution": "$~您是不是想输入 $first, $second"
                 },
                 "UnclosedDelimiter": {
                     "name": "$~未闭合的分隔符",
-                    "explanation": "$~我预计在收到 1 美元后不久会收到 2 美元。"
+                    "explanation": "$~我预计在$expected$unclosed"
                 }
             },
             "exception": {
@@ -1436,7 +1415,7 @@
         },
         "Update": {
             "name": "更新",
-            "description": "更新 $1[$1|]",
+            "description": "$~修改表中的匹配行",
             "emotion": "kind",
             "doc": [
                 "我帮助修订 @Table，找到与条件匹配的行，然后创建具有新值的修订行。",
@@ -1453,7 +1432,7 @@
                 },
                 "IncompatibleCellType": {
                     "name": "$~不相容的细胞类型",
-                    "explanation": "$~我应该输入 1 美元，但却输入了 2 美元。"
+                    "explanation": "$~我应该输入 $expected $given"
                 }
             }
         },
@@ -1475,7 +1454,7 @@
         },
         "ConversionType": {
             "name": "转换",
-            "description": "$1 到 $2 的转换",
+            "description": "$~输入转换定义",
             "emotion": "serious",
             "doc": [
                 "我与 @Bind 一起工作，指示名称是 @ConversionDefinition。你可能不需要使用我，因为没有多少人将我作为值传递，但如果你这样做，我将如下所示：",
@@ -1500,7 +1479,7 @@
         },
         "FunctionType": {
             "name": "函数",
-            "description": "带有 $1 输入和 $2 输出的函数",
+            "description": "$~输入一个带有 $inputs 的函数",
             "emotion": "curious",
             "doc": [
                 "我代表 @FunctionDefinition。如果要说明 @Bind 包含的是什么类型的函数，我会非常有帮助！就像这样：",
@@ -1509,7 +1488,7 @@
         },
         "ListType": {
             "name": "列表",
-            "description": "$1[$1 列表|列表]",
+            "description": "$~$type[$type 列表|列表]",
             "emotion": "cheerful",
             "doc": [
                 "我是 @List 的狂热爱好者。我可以告诉 @Bind 它们是什么类型的列表！就像这样，我告诉它们这是 @Number 的列表：",
@@ -1518,7 +1497,7 @@
         },
         "MapType": {
             "name": "映射",
-            "description": "$1[$1|任意] 到 $2[$2|任意] 的映射",
+            "description": "$~$key[$key|任意] 到 $value[$value|任意] 的映射",
             "emotion": "kind",
             "doc": [
                 "你知道 @Map 有多棒吗？真的很棒。我总是告诉 @Bind 它们是什么类型的映射，就像这样将数字映射到列表：",
@@ -1527,7 +1506,7 @@
         },
         "NumberType": {
             "name": "数值",
-            "description": "$1[$1|数值]",
+            "description": "$~$unit[$unit|数值]",
             "emotion": "precise",
             "doc": [
                 "你知道 @Bind 应该是什么吗？应该是 @Number。因为数值是最好的。",
@@ -1536,7 +1515,7 @@
         },
         "NameType": {
             "name": "结构",
-            "description": "$1 类型",
+            "description": "$name 类型",
             "emotion": "curious",
             "doc": [
                 "我通过名称代表 @StructureDefinition。所以，如果你有这样一个结构，你可以创建一个 @Bind 来存储它所创建的值。",
@@ -1545,7 +1524,7 @@
             "conflict": {
                 "UnknownTypeName": {
                     "name": "$~未知类型名称",
-                    "explanation": "$~类型名称只能引用结构体或类型变量，但这里指的是类型 $1。"
+                    "explanation": "$~类型名称只能引用结构体或类型变量，但这里指的是类型 $type"
                 }
             }
         },
@@ -1566,7 +1545,7 @@
         },
         "SetType": {
             "name": "集合",
-            "description": "$1[$1 集合|集合]",
+            "description": "$~$type[$type 集合|集合]",
             "emotion": "kind",
             "doc": [
                 "@Set 是最好的，真的。我一直告诉 @Bind，让事物成为某种东西的集合！",
@@ -1575,13 +1554,13 @@
         },
         "StreamDefinitionType": {
             "name": "流定义",
-            "description": "$1 流类型",
+            "description": "$~类型定义流",
             "emotion": "angry",
             "doc": "我代表你定义的流，这是不可能的，那么为什么你还在阅读这个？"
         },
         "StreamType": {
             "name": "串流",
-            "description": "$1 流",
+            "description": "$~输入流值",
             "emotion": "curious",
             "doc": [
                 "我庆祝串流的美丽和意义,通过告诉 @Bind 来存储它们：",
@@ -1590,20 +1569,20 @@
         },
         "StructureType": {
             "name": "结构",
-            "description": "$1",
+            "description": "$name",
             "emotion": "kind",
             "doc": "我是一个内部类型，代表默认值类型的类型。"
         },
         "UnknownType": {
             "name": "未知",
-            "description": "未知类型",
+            "description": "未知",
             "connector": "，因为",
             "emotion": "curious",
             "doc": "嗯……我不知道我代表什么，但我真的很好奇。你知道吗？似乎我们应该知道。如果我们无法弄清楚，你可能需要告诉我们。"
         },
         "TableType": {
             "name": "表",
-            "description": "$1[$1|] 行表格类型",
+            "description": "$~输入表值",
             "emotion": "angry",
             "doc": "我代表一个表。",
             "conflict": {
@@ -1615,7 +1594,7 @@
         },
         "TextType": {
             "name": "文本",
-            "description": "$1[$1|文本]",
+            "description": "$~$text[$text|文本]",
             "emotion": "happy",
             "doc": [
                 "我精彩地代表最精彩的值，@Text。",
@@ -1630,7 +1609,7 @@
         },
         "UnionType": {
             "name": "选项",
-            "description": "$1 或 $2",
+            "description": "$first 或 $second",
             "emotion": "curious",
             "doc": [
                 "我应该代表谁，A 还是 B 还是其他什么？我永远无法决定！",
@@ -1639,7 +1618,7 @@
         },
         "Unit": {
             "name": "单位",
-            "description": "$1",
+            "description": "$unit",
             "emotion": "precise",
             "doc": [
                 "我代表 @Number 可能具有的任何单位，包括无单位，以及你可以想象的最复杂单位。比如重力：",
@@ -1655,7 +1634,7 @@
         },
         "VariableType": {
             "name": "变量类型",
-            "description": "变量类型 $1[$1|]",
+            "description": "$~表示正在使用中的类型变量",
             "emotion": "curious",
             "doc": "你了解 @TypeVariable，以及它们代表某种未知类型的值吗？我在值之间的所有协商中代表它们。"
         },
@@ -1667,13 +1646,13 @@
         },
         "UnknownVariableType": {
             "name": "未知变量",
-            "description": "未知变量类型 $1[$1|]",
+            "description": "$~表示未知类型的变量",
             "emotion": "curious",
             "doc": "有时我们试图猜测某种值的类型；当我们不知道时，我会出现。"
         },
         "NotAType": {
             "name": "意外",
-            "description": "不是 $1",
+            "description": "不是 $type",
             "emotion": "curious",
             "doc": "有时我们知道某种值应该是什么类型，就像 @ListAccess 需要 @Number 一样。如果我们没有得到它，我代表某个类型与我们预期的不同。"
         },
@@ -1697,13 +1676,13 @@
         },
         "UnknownNameType": {
             "name": "未知名称",
-            "description": "$1[$1 未定义|未提供名称]",
+            "description": "$~$name [ $name | 未提供名称]",
             "emotion": "curious",
             "doc": "你知道有时候 @Reference 和 @PropertyReference 不知道你在谈论什么名称吗？当发生这种情况时，我会出现，代表我们不知道你在谈论谁。"
         },
         "NonFunctionType": {
             "name": "非函数",
-            "description": "非函数",
+            "description": "$~将 $type 标记为非函数",
             "emotion": "confused",
             "doc": "有些人期望函数；当我们没有得到函数时，我就会出现。"
         }
@@ -1758,22 +1737,12 @@
                 "equals": {
                     "doc": "如果两者都是 \\⊤\\ 或两者都是 \\⊥\\，则为 \\⊤\\。",
                     "names": ["=", "等于"],
-                    "inputs": [
-                        {
-                            "doc": "要检查的另一个值。",
-                            "names": "值"
-                        }
-                    ]
+                    "inputs": [{ "doc": "要检查的另一个值。", "names": "值" }]
                 },
                 "notequal": {
                     "doc": "如果两者相反，则为 \\⊤\\。",
                     "names": ["≠", "不等于"],
-                    "inputs": [
-                        {
-                            "doc": "要检查的另一个值。",
-                            "names": "值"
-                        }
-                    ]
+                    "inputs": [{ "doc": "要检查的另一个值。", "names": "值" }]
                 }
             },
             "conversion": {
@@ -1790,22 +1759,12 @@
                 "equals": {
                     "doc": "另一个值也是不存在吗？最好是，否则，\\⊥\\。",
                     "names": ["=", "等于"],
-                    "inputs": [
-                        {
-                            "doc": "另一个值。",
-                            "names": "值"
-                        }
-                    ]
+                    "inputs": [{ "doc": "另一个值。", "names": "值" }]
                 },
                 "notequals": {
                     "doc": "另一个值是否 /不/ 不存在？",
                     "names": ["≠", "不等于"],
-                    "inputs": [
-                        {
-                            "doc": "另一个值。",
-                            "names": "值"
-                        }
-                    ]
+                    "inputs": [{ "doc": "另一个值。", "names": "值" }]
                 }
             },
             "conversion": {
@@ -1843,22 +1802,12 @@
                 "equals": {
                     "doc": "如果我与给定的 @Text 具有相同的字符序列，则为 \\⊤\\。",
                     "names": ["=", "等于"],
-                    "inputs": [
-                        {
-                            "doc": "要比较的 @Text。",
-                            "names": "值"
-                        }
-                    ]
+                    "inputs": [{ "doc": "要比较的 @Text。", "names": "值" }]
                 },
                 "notequals": {
                     "doc": "如果我与给定的 @Text 的字符序列不同，则为 \\⊤\\。",
                     "names": "≠",
-                    "inputs": [
-                        {
-                            "doc": "要比较的 @Text",
-                            "names": "值"
-                        }
-                    ]
+                    "inputs": [{ "doc": "要比较的 @Text", "names": "值" }]
                 },
                 "has": {
                     "doc": [
@@ -1867,10 +1816,7 @@
                     ],
                     "names": ["⊆", "包含"],
                     "inputs": [
-                        {
-                            "doc": "要在我中搜索的 @Text。",
-                            "names": "文本"
-                        }
+                        { "doc": "要在我中搜索的 @Text。", "names": "文本" }
                     ]
                 },
                 "starts": {
@@ -1913,10 +1859,7 @@
                     ],
                     "names": ["×", "🔁", "重复"],
                     "inputs": [
-                        {
-                            "doc": "在新文本中重复自己的次数。",
-                            "names": "计数"
-                        }
+                        { "doc": "在新文本中重复自己的次数。", "names": "计数" }
                     ]
                 },
                 "segment": {
@@ -1928,10 +1871,7 @@
                     ],
                     "names": ["÷", "分段"],
                     "inputs": [
-                        {
-                            "doc": "要用作分隔符的 @Text。",
-                            "names": "分隔符"
-                        }
+                        { "doc": "要用作分隔符的 @Text。", "names": "分隔符" }
                     ]
                 },
                 "combine": {
@@ -1940,12 +1880,7 @@
                         "\\'你好 ' + '诗'\\"
                     ],
                     "names": ["+", "组合"],
-                    "inputs": [
-                        {
-                            "doc": "要附加的 @Text。",
-                            "names": "文本"
-                        }
-                    ]
+                    "inputs": [{ "doc": "要附加的 @Text。", "names": "文本" }]
                 }
             },
             "conversion": {
@@ -1990,10 +1925,7 @@
                     ],
                     "names": ["+", "加号"],
                     "inputs": [
-                        {
-                            "doc": "要添加的 @Number 。",
-                            "names": "数字"
-                        }
+                        { "doc": "要添加的 @Number 。", "names": "数字" }
                     ]
                 },
                 "subtract": {
@@ -2021,12 +1953,7 @@
                         "\\5米 × 1/秒\\"
                     ],
                     "names": ["×", "乘号"],
-                    "inputs": [
-                        {
-                            "doc": "需要相乘的数字",
-                            "names": "数字"
-                        }
-                    ]
+                    "inputs": [{ "doc": "需要相乘的数字", "names": "数字" }]
                 },
                 "divide": {
                     "doc": [
@@ -2037,10 +1964,7 @@
                     ],
                     "names": ["÷", "除以"],
                     "inputs": [
-                        {
-                            "doc": "让我被除的 @Number。",
-                            "names": "数字"
-                        }
+                        { "doc": "让我被除的 @Number。", "names": "数字" }
                     ]
                 },
                 "remainder": {
@@ -2052,10 +1976,7 @@
                     ],
                     "names": ["%", "取模"],
                     "inputs": [
-                        {
-                            "doc": "让我被除的 @Number。",
-                            "names": "数字"
-                        }
+                        { "doc": "让我被除的 @Number。", "names": "数字" }
                     ]
                 },
                 "positive": {
@@ -2104,12 +2025,7 @@
                         "\\5 ^ -.5\\"
                     ],
                     "names": ["^", "次方"],
-                    "inputs": [
-                        {
-                            "doc": "将我提升到的指数",
-                            "names": "数"
-                        }
-                    ]
+                    "inputs": [{ "doc": "将我提升到的指数", "names": "数" }]
                 },
                 "root": {
                     "doc": [
@@ -2118,12 +2034,7 @@
                         "\\1000 √ 3\\"
                     ],
                     "names": ["√", "根号"],
-                    "inputs": [
-                        {
-                            "doc": "要计算的根。",
-                            "names": "数"
-                        }
-                    ]
+                    "inputs": [{ "doc": "要计算的根。", "names": "数" }]
                 },
                 "lessThan": {
                     "doc": [
@@ -2133,10 +2044,7 @@
                     ],
                     "names": ["<", "小于"],
                     "inputs": [
-                        {
-                            "doc": "与我进行比较的 @Number",
-                            "names": "数"
-                        }
+                        { "doc": "与我进行比较的 @Number", "names": "数" }
                     ]
                 },
                 "lessOrEqual": {
@@ -2148,10 +2056,7 @@
                     ],
                     "names": ["≤", "小于或等于"],
                     "inputs": [
-                        {
-                            "doc": "与我进行比较的 @Number",
-                            "names": "数"
-                        }
+                        { "doc": "与我进行比较的 @Number", "names": "数" }
                     ]
                 },
                 "greaterThan": {
@@ -2162,10 +2067,7 @@
                     ],
                     "names": [">", "大于"],
                     "inputs": [
-                        {
-                            "doc": "与我进行比较的 @Number",
-                            "names": "数"
-                        }
+                        { "doc": "与我进行比较的 @Number", "names": "数" }
                     ]
                 },
                 "greaterOrEqual": {
@@ -2177,10 +2079,7 @@
                     ],
                     "names": ["≥", "大于或等于"],
                     "inputs": [
-                        {
-                            "doc": "与我进行比较的 @Number",
-                            "names": "数"
-                        }
+                        { "doc": "与我进行比较的 @Number", "names": "数" }
                     ]
                 },
                 "equal": {
@@ -2191,20 +2090,14 @@
                     ],
                     "names": ["=", "等于"],
                     "inputs": [
-                        {
-                            "doc": "与我进行比较的 @Number",
-                            "names": "数"
-                        }
+                        { "doc": "与我进行比较的 @Number", "names": "数" }
                     ]
                 },
                 "notequal": {
                     "doc": ["\\⊤\\ 不等于 @Number:", "\\1 ≠ 2\\", "\\2 ≠ 2\\"],
                     "names": ["≠", "不等于"],
                     "inputs": [
-                        {
-                            "doc": "与我进行比较的 @Number",
-                            "names": "数"
-                        }
+                        { "doc": "与我进行比较的 @Number", "names": "数" }
                     ]
                 },
                 "cos": {
@@ -2221,20 +2114,14 @@
                     "doc": ["找到我和其他人中的最小数。", "\\1.min(2 3 -1)\\"],
                     "names": "最小",
                     "inputs": [
-                        {
-                            "doc": "你想给我的任意数量的数字！",
-                            "names": "数字"
-                        }
+                        { "doc": "你想给我的任意数量的数字！", "names": "数字" }
                     ]
                 },
                 "max": {
                     "doc": ["找到我和其他人中的最大数。", "\\1.max(2 3 4)\\"],
                     "names": "最大",
                     "inputs": [
-                        {
-                            "doc": "你想给我的任意数量的数字！",
-                            "names": "数字"
-                        }
+                        { "doc": "你想给我的任意数量的数字！", "names": "数字" }
                     ]
                 }
             },
@@ -2315,12 +2202,7 @@
                         "\\['苹果' '香蕉' '芒果'].加('西瓜')\\"
                     ],
                     "names": ["加"],
-                    "inputs": [
-                        {
-                            "doc": "你想要添加的值。",
-                            "names": "项"
-                        }
-                    ]
+                    "inputs": [{ "doc": "你想要添加的值。", "names": "项" }]
                 },
                 "append": {
                     "doc": [
@@ -2330,12 +2212,7 @@
                         "\\['苹果' '香蕉' '芒果' :['西瓜' '杨桃']]\\"
                     ],
                     "names": ["附加"],
-                    "inputs": [
-                        {
-                            "doc": "要添加的值的列表。",
-                            "names": "列表"
-                        }
-                    ]
+                    "inputs": [{ "doc": "要添加的值的列表。", "names": "列表" }]
                 },
                 "replace": {
                     "doc": [
@@ -2344,14 +2221,8 @@
                     ],
                     "names": ["替换"],
                     "inputs": [
-                        {
-                            "doc": "要替换的值的索引。",
-                            "names": "索引"
-                        },
-                        {
-                            "doc": "替换的值",
-                            "names": "值"
-                        }
+                        { "doc": "要替换的值的索引。", "names": "索引" },
+                        { "doc": "替换的值", "names": "值" }
                     ]
                 },
                 "length": {
@@ -2397,12 +2268,7 @@
                         "\\['苹果' '香蕉' '芒果'].has('香蕉')\\"
                     ],
                     "names": "包含",
-                    "inputs": [
-                        {
-                            "doc": "要搜索的值。",
-                            "names": "项"
-                        }
-                    ]
+                    "inputs": [{ "doc": "要搜索的值。", "names": "项" }]
                 },
                 "join": {
                     "doc": [
@@ -2464,10 +2330,7 @@
                     ],
                     "names": "除",
                     "inputs": [
-                        {
-                            "doc": "要删除第一个出现的值。",
-                            "names": "值"
-                        }
+                        { "doc": "要删除第一个出现的值。", "names": "值" }
                     ]
                 },
                 "sansAll": {
@@ -2477,10 +2340,7 @@
                     ],
                     "names": "全部除",
                     "inputs": [
-                        {
-                            "doc": "要从列表中删除所有出现的值。",
-                            "names": "值"
-                        }
+                        { "doc": "要从列表中删除所有出现的值。", "names": "值" }
                     ]
                 },
                 "reverse": {
@@ -2498,10 +2358,7 @@
                     ],
                     "names": ["=", "等于"],
                     "inputs": [
-                        {
-                            "doc": "要与我比较的@List。",
-                            "names": "列表"
-                        }
+                        { "doc": "要与我比较的@List。", "names": "列表" }
                     ]
                 },
                 "notequals": {
@@ -2511,10 +2368,7 @@
                     ],
                     "names": ["≠", "不等于"],
                     "inputs": [
-                        {
-                            "doc": "要与我比较的@List。",
-                            "names": "列表"
-                        }
+                        { "doc": "要与我比较的@List。", "names": "列表" }
                     ]
                 },
                 "translate": {
@@ -2531,18 +2385,9 @@
                         }
                     ],
                     "translator": [
-                        {
-                            "doc": "正在被转化的项。",
-                            "names": "项"
-                        },
-                        {
-                            "doc": "正在被转化的项的索引。",
-                            "names": "索引"
-                        },
-                        {
-                            "doc": "正在被转化的列表。",
-                            "names": "列表"
-                        }
+                        { "doc": "正在被转化的项。", "names": "项" },
+                        { "doc": "正在被转化的项的索引。", "names": "索引" },
+                        { "doc": "正在被转化的列表。", "names": "列表" }
                     ]
                 },
                 "filter": {
@@ -2559,18 +2404,9 @@
                         }
                     ],
                     "checker": [
-                        {
-                            "doc": "正在检查的项目。",
-                            "names": "项"
-                        },
-                        {
-                            "doc": "正在检查的项目的索引。",
-                            "names": "索引"
-                        },
-                        {
-                            "doc": "被过滤的列表。",
-                            "names": "列表"
-                        }
+                        { "doc": "正在检查的项目。", "names": "项" },
+                        { "doc": "正在检查的项目的索引。", "names": "索引" },
+                        { "doc": "被过滤的列表。", "names": "列表" }
                     ]
                 },
                 "all": {
@@ -2587,18 +2423,12 @@
                         }
                     ],
                     "checker": [
-                        {
-                            "doc": "这个物品正在被检查。",
-                            "names": "物品"
-                        },
+                        { "doc": "这个物品正在被检查。", "names": "物品" },
                         {
                             "doc": "这个物品的索引正在被检查。",
                             "names": "索引"
                         },
-                        {
-                            "doc": "这个列表正在被检查。",
-                            "names": "列表"
-                        }
+                        { "doc": "这个列表正在被检查。", "names": "列表" }
                     ]
                 },
                 "until": {
@@ -2615,18 +2445,12 @@
                         }
                     ],
                     "checker": [
-                        {
-                            "doc": "这个物品正在被检查。",
-                            "names": "物品"
-                        },
+                        { "doc": "这个物品正在被检查。", "names": "物品" },
                         {
                             "doc": "这个物品的索引正在被检查。",
                             "names": "索引"
                         },
-                        {
-                            "doc": "列表正在排序。",
-                            "names": "列表"
-                        }
+                        { "doc": "列表正在排序。", "names": "列表" }
                     ]
                 },
                 "find": {
@@ -2643,18 +2467,12 @@
                         }
                     ],
                     "checker": [
-                        {
-                            "doc": "这个物品正在被检查。",
-                            "names": "物品"
-                        },
+                        { "doc": "这个物品正在被检查。", "names": "物品" },
                         {
                             "doc": "这个物品的索引正在被检查。",
                             "names": "索引"
                         },
-                        {
-                            "doc": "这个列表正在搜索。",
-                            "names": "列表"
-                        }
+                        { "doc": "这个列表正在搜索。", "names": "列表" }
                     ]
                 },
                 "combine": {
@@ -2665,32 +2483,17 @@
                     ],
                     "names": "结合",
                     "inputs": [
-                        {
-                            "doc": "开始的结合。",
-                            "names": "初始的"
-                        },
+                        { "doc": "开始的结合。", "names": "初始的" },
                         {
                             "doc": "接收最新的结合和下一个值并且产生下一个结合的@FunctionDefinition。",
                             "names": "组合器"
                         }
                     ],
                     "combiner": [
-                        {
-                            "doc": "当前的组合",
-                            "names": "合并"
-                        },
-                        {
-                            "doc": "下一个将被合并的物品。",
-                            "names": "下一个"
-                        },
-                        {
-                            "doc": "下一个合并的索引",
-                            "names": "索引"
-                        },
-                        {
-                            "doc": "正在合并的列表。",
-                            "names": "列表"
-                        }
+                        { "doc": "当前的组合", "names": "合并" },
+                        { "doc": "下一个将被合并的物品。", "names": "下一个" },
+                        { "doc": "下一个合并的索引", "names": "索引" },
+                        { "doc": "正在合并的列表。", "names": "列表" }
                     ]
                 },
                 "sorted": {
@@ -2710,10 +2513,7 @@
                         }
                     ],
                     "sequencer": [
-                        {
-                            "doc": "变成@Number 的值。",
-                            "names": "值"
-                        }
+                        { "doc": "变成@Number 的值。", "names": "值" }
                     ]
                 }
             },
@@ -2754,12 +2554,7 @@
                         "\\{1 2 3} = {2 3 4}\\"
                     ],
                     "names": ["=", "等于"],
-                    "inputs": [
-                        {
-                            "doc": "拿来比较的@Set.",
-                            "names": "指令"
-                        }
-                    ]
+                    "inputs": [{ "doc": "拿来比较的@Set.", "names": "指令" }]
                 },
                 "notequals": {
                     "doc": [
@@ -2767,12 +2562,7 @@
                         "\\{1 2 3} ≠ {2 3 4}\\"
                     ],
                     "names": ["≠", "不等于"],
-                    "inputs": [
-                        {
-                            "doc": "拿来比较的@Set.",
-                            "names": "指令"
-                        }
-                    ]
+                    "inputs": [{ "doc": "拿来比较的@Set.", "names": "指令" }]
                 },
                 "add": {
                     "doc": [
@@ -2780,12 +2570,7 @@
                         "\\{1 2 3} + 4\\"
                     ],
                     "names": ["加号", "+"],
-                    "inputs": [
-                        {
-                            "doc": "拿来增加的物品",
-                            "names": "物品"
-                        }
-                    ]
+                    "inputs": [{ "doc": "拿来增加的物品", "names": "物品" }]
                 },
                 "remove": {
                     "doc": [
@@ -2794,12 +2579,7 @@
                         "如果我没有物品, 我就只会自己算一下。"
                     ],
                     "names": ["减号", "-"],
-                    "inputs": [
-                        {
-                            "doc": "拿来减去的物品。",
-                            "names": "物品"
-                        }
-                    ]
+                    "inputs": [{ "doc": "拿来减去的物品。", "names": "物品" }]
                 },
                 "union": {
                     "doc": [
@@ -2807,12 +2587,7 @@
                         "\\{1 2 3} ∪ {3 4 5}\\"
                     ],
                     "names": ["联合", "∪"],
-                    "inputs": [
-                        {
-                            "doc": "和我结合的@Set。",
-                            "names": "指令"
-                        }
-                    ]
+                    "inputs": [{ "doc": "和我结合的@Set。", "names": "指令" }]
                 },
                 "intersection": {
                     "doc": [
@@ -2821,10 +2596,7 @@
                     ],
                     "names": ["交集", "∩"],
                     "inputs": [
-                        {
-                            "doc": "和我比较的一个指令.",
-                            "names": "指令"
-                        }
+                        { "doc": "和我比较的一个指令.", "names": "指令" }
                     ]
                 },
                 "difference": {
@@ -2854,14 +2626,8 @@
                         }
                     ],
                     "checker": [
-                        {
-                            "doc": "正在被检查的物品。",
-                            "names": "值"
-                        },
-                        {
-                            "doc": "被过滤的组。",
-                            "names": "组"
-                        }
+                        { "doc": "正在被检查的物品。", "names": "值" },
+                        { "doc": "被过滤的组。", "names": "组" }
                     ]
                 },
                 "translate": {
@@ -2878,14 +2644,8 @@
                         }
                     ],
                     "translator": [
-                        {
-                            "doc": "正在被翻译的物品。",
-                            "names": "值"
-                        },
-                        {
-                            "doc": "正在被翻译的值",
-                            "names": "指令"
-                        }
+                        { "doc": "正在被翻译的物品。", "names": "值" },
+                        { "doc": "正在被翻译的值", "names": "指令" }
                     ]
                 }
             },
@@ -2928,12 +2688,7 @@
                         "\\{1:1 2:2} = {1:1 2:3}\\"
                     ],
                     "names": ["=", "等于"],
-                    "inputs": [
-                        {
-                            "doc": "比较我的@Map。",
-                            "names": "值"
-                        }
-                    ]
+                    "inputs": [{ "doc": "比较我的@Map。", "names": "值" }]
                 },
                 "notequals": {
                     "doc": [
@@ -2941,12 +2696,7 @@
                         "\\{1:1 2:2} ≠ {1:1 2:3}\\"
                     ],
                     "names": ["≠", "不等于"],
-                    "inputs": [
-                        {
-                            "doc": "和我比较的@Map。",
-                            "names": "值"
-                        }
-                    ]
+                    "inputs": [{ "doc": "和我比较的@Map。", "names": "值" }]
                 },
                 "set": {
                     "doc": [
@@ -2955,14 +2705,8 @@
                     ],
                     "names": "配对",
                     "inputs": [
-                        {
-                            "doc": "匹配值的密钥.",
-                            "names": "密钥"
-                        },
-                        {
-                            "doc": "和密钥匹配的值",
-                            "names": "值"
-                        }
+                        { "doc": "匹配值的密钥.", "names": "密钥" },
+                        { "doc": "和密钥匹配的值", "names": "值" }
                     ]
                 },
                 "unset": {
@@ -2971,12 +2715,7 @@
                         "\\{'艾米': 6分 '托尼':3分}.不匹配('艾米')\\"
                     ],
                     "names": "不匹配",
-                    "inputs": [
-                        {
-                            "doc": "忘记的密钥.",
-                            "names": "密钥"
-                        }
-                    ]
+                    "inputs": [{ "doc": "忘记的密钥.", "names": "密钥" }]
                 },
                 "remove": {
                     "doc": [
@@ -3005,18 +2744,9 @@
                         }
                     ],
                     "checker": [
-                        {
-                            "doc": "正在被检查的密钥.",
-                            "names": "密钥"
-                        },
-                        {
-                            "doc": "正在被检查的值.",
-                            "names": "值"
-                        },
-                        {
-                            "doc": "正在被过滤的密钥.",
-                            "names": "映射"
-                        }
+                        { "doc": "正在被检查的密钥.", "names": "密钥" },
+                        { "doc": "正在被检查的值.", "names": "值" },
+                        { "doc": "正在被过滤的密钥.", "names": "映射" }
                     ]
                 },
                 "translate": {
@@ -3033,18 +2763,9 @@
                         }
                     ],
                     "translator": [
-                        {
-                            "doc": "正在被翻译的值的密钥.",
-                            "names": "密钥"
-                        },
-                        {
-                            "doc": "正在被翻译的值.",
-                            "names": "值"
-                        },
-                        {
-                            "doc": "正在被翻译的映射",
-                            "names": "映射"
-                        }
+                        { "doc": "正在被翻译的值的密钥.", "names": "密钥" },
+                        { "doc": "正在被翻译的值.", "names": "值" },
+                        { "doc": "正在被翻译的映射", "names": "映射" }
                     ]
                 }
             },
@@ -3076,22 +2797,12 @@
                 "equals": {
                     "doc": "我如果我有和另一个@Table 一样的以同样顺序排列的单元, 我会检查。",
                     "names": ["=", "等于"],
-                    "inputs": [
-                        {
-                            "doc": "检查的另一个工作台.",
-                            "names": "值"
-                        }
-                    ]
+                    "inputs": [{ "doc": "检查的另一个工作台.", "names": "值" }]
                 },
                 "notequal": {
                     "doc": "如果和另一个@Table 比较起来, 任何我的单元是不同的或者以一个不同的顺序排列, 我会检查。",
                     "names": ["≠", "不相等"],
-                    "inputs": [
-                        {
-                            "doc": "检查的另一个工作台.",
-                            "names": "值"
-                        }
-                    ]
+                    "inputs": [{ "doc": "检查的另一个工作台.", "names": "值" }]
                 }
             },
             "conversion": {
@@ -3106,27 +2817,15 @@
                 "equals": {
                     "doc": "如果我的参数与另外一个结构的参数是同样的名字和值, 我会检查。",
                     "names": ["=", "等于"],
-                    "inputs": [
-                        {
-                            "doc": "另一个要检查的结构.",
-                            "names": "值"
-                        }
-                    ]
+                    "inputs": [{ "doc": "另一个要检查的结构.", "names": "值" }]
                 },
                 "notequal": {
                     "doc": "如果我的参数和另外一个结构的参数有任何的名字和值上面的不同, 我会检查.",
                     "names": ["≠", "不等于"],
-                    "inputs": [
-                        {
-                            "doc": "另一个要检查的结构.",
-                            "names": "值"
-                        }
-                    ]
+                    "inputs": [{ "doc": "另一个要检查的结构.", "names": "值" }]
                 }
             },
-            "conversion": {
-                "text": "我把我自己转换成@Text."
-            }
+            "conversion": { "text": "我把我自己转换成@Text." }
         }
     },
     "input": {
@@ -3149,14 +2848,8 @@
             ],
             "names": ["🎲", "随机"],
             "inputs": [
-                {
-                    "names": "最小值",
-                    "doc": "最小的可能值"
-                },
-                {
-                    "names": "最大值",
-                    "doc": "最大的可能值"
-                }
+                { "names": "最小值", "doc": "最小的可能值" },
+                { "names": "最大值", "doc": "最大的可能值" }
             ]
         },
         "Choice": {
@@ -3256,10 +2949,7 @@
                 "这对于倾听听众的声音是很好的!"
             ],
             "names": ["音量"],
-            "frequency": {
-                "names": ["频率"],
-                "doc": "采样间隔时间"
-            }
+            "frequency": { "names": ["频率"], "doc": "采样间隔时间" }
         },
         "Pitch": {
             "doc": [
@@ -3270,10 +2960,7 @@
                 "这对听别人说话或唱歌的语气很有帮助。"
             ],
             "names": ["🎵", "音调"],
-            "frequency": {
-                "names": ["频率"],
-                "doc": "采样间隔时间"
-            }
+            "frequency": { "names": ["频率"], "doc": "采样间隔时间" }
         },
         "Camera": {
             "doc": [
@@ -3315,10 +3002,7 @@
                 "看看它如何在每个@Phrase 之后暂停，并等待@Button 改变后再前进？"
             ],
             "names": ["🎬", "场景"],
-            "outputs": {
-                "names": "输出",
-                "doc": "按顺序显示的输出列表。"
-            }
+            "outputs": { "names": "输出", "doc": "按顺序显示的输出列表。" }
         },
         "Motion": {
             "names": ["⚽️", "运动"],
@@ -3331,18 +3015,9 @@
                 "看到0是如何反弹的了吗?在第一次评估时，我们给它一个@Stage 的高位置，但之后，它得到@None，这允许@Motion 将其更改为重力将其放置的任何位置。",
                 "查看下面配置它的许多其他方法"
             ],
-            "place": {
-                "doc": "开始点",
-                "names": "点"
-            },
-            "velocity": {
-                "doc": "初始速度",
-                "names": "速度"
-            },
-            "nextplace": {
-                "doc": "下一地点，无视物理",
-                "names": "下一地点"
-            },
+            "place": { "doc": "开始点", "names": "点" },
+            "velocity": { "doc": "初始速度", "names": "速度" },
+            "nextplace": { "doc": "下一地点，无视物理", "names": "下一地点" },
             "nextvelocity": {
                 "doc": "下一地点，无视速度",
                 "names": " 下一个速度"
@@ -3371,10 +3046,7 @@
             ],
             "names": ["✥", "摆放"],
             "inputs": [
-                {
-                    "doc": "开始的初始位置。",
-                    "names": "初始"
-                },
+                { "doc": "开始的初始位置。", "names": "初始" },
                 {
                     "doc": "当观众要求移动时，场地应该移动多少米。",
                     "names": "距离"
@@ -3404,14 +3076,8 @@
                 "这款手机可能会出很多问题。如果你失去了互联网连接、不能解析网页链接、网页链接不是公开的，或者网页链接不是HTML页面……所有这些都可能导致异常。如果你找到一个合适的页面，你会得到一个@Number，表示完成百分比，然后是一个@List 的单词页面。"
             ],
             "names": ["🔗", "网页"],
-            "url": {
-                "doc": "要获取的HTML网页链接。",
-                "names": "网页链接"
-            },
-            "query": {
-                "doc": "要在HTML上计算的CSS查询",
-                "names": "请求"
-            },
+            "url": { "doc": "要获取的HTML网页链接。", "names": "网页链接" },
+            "query": { "doc": "要在HTML上计算的CSS查询", "names": "请求" },
             "frequency": {
                 "doc": "在再次获取该页之前应该经过的分钟数",
                 "names": "频率"
@@ -3450,26 +3116,14 @@
                 "names": "方向",
                 "doc": "碰撞的方向和大小，相对于碰撞的主体"
             },
-            "subject": {
-                "names": "主观",
-                "doc": "主观所命中的输出的名称"
-            },
-            "object": {
-                "names": "客观",
-                "doc": "命中主题的输出的名称"
-            }
+            "subject": { "names": "主观", "doc": "主观所命中的输出的名称" },
+            "object": { "names": "客观", "doc": "命中主题的输出的名称" }
         },
         "Direction": {
             "names": "方向",
             "doc": "我是方向和大小，沿着x轴和y轴。",
-            "x": {
-                "names": "x",
-                "doc": "沿着x轴方向的方向和大小。"
-            },
-            "y": {
-                "names": "y",
-                "doc": "沿y轴方向的方向和大小。"
-            }
+            "x": { "names": "x", "doc": "沿着x轴方向的方向和大小。" },
+            "y": { "names": "y", "doc": "沿y轴方向的方向和大小。" }
         },
         "Speech": {
             "doc": [
@@ -3505,6 +3159,26 @@
                 "languageNotSupported": "$~不支持此语言",
                 "limit": "$~多次尝试均失败"
             }
+        },
+        "Hand": {
+            "doc": [
+                "$~/扭来扭去/",
+                "$~@FunctionDefinition 在这里！让我来给你介绍一下 @Hand。",
+                "$~@Hand 会监控你的摄像头，寻找你的手，并告诉你手的位置、伸出的手指以及手掌或手背朝向摄像头。举起你的手，挥动它，数数你的手指——@Hand 会跟随你的动作。",
+                "$~@Hand 的底层使用了机器学习模型。首次在程序中使用它时，模型需要几秒钟时间下载，加载期间舞台右上角会出现一个旋转的小手图标。之后，它会被缓存并立即启动。",
+                "$~每个帧 @Hand 返回一个结构，其中包含 place（手的位置）、open（如果手张开则为 true）、fingers（伸出的手指数量）、拇指、食指、中指、无名指和小指的布尔值以及 palm（如果手掌朝向摄像机则为 true）等字段。",
+                "$~试试这个——无论你的手放在哪里，它都会显示一个与你的手部姿势相匹配的表情符号：",
+                "$~\\hand: Hand()\n\nPhrase((hand.open ? '🖐️' '✊') place: hand.place)\\"
+            ],
+            "names": ["$~🖐️", "$~手"],
+            "frequency": {
+                "names": ["$~频率"],
+                "doc": "$~两次采样之间的时间间隔。"
+            },
+            "resolution": {
+                "names": ["$~解决"],
+                "doc": "$~在运行手部模型之前，对相机进行采样的像素宽度。较高的值可以提供更精确的特征点，但会增加每帧的渲染时间。"
+            }
         }
     },
     "output": {
@@ -3519,10 +3193,7 @@
                 "doc": "将 @Output 放置在其位置的安排方式。",
                 "names": "布局"
             },
-            "content": {
-                "doc": "安排的 @Output 列表。",
-                "names": "内容"
-            },
+            "content": { "doc": "安排的 @Output 列表。", "names": "内容" },
             "matter": {
                 "doc": "如果我不小心碰到其他物体，我应该如何反应。",
                 "names": "物体"
@@ -3539,10 +3210,7 @@
                 "doc": "舞台上我应该在的位置。 我内部的内容会相对于那里进行排列。",
                 "names": "位置"
             },
-            "name": {
-                "doc": "与 @Phrase/name 相同！",
-                "names": "名称"
-            },
+            "name": { "doc": "与 @Phrase/name 相同！", "names": "名称" },
             "description": {
                 "doc": ["$~针对无法看到视觉输出的观众使用的描述。"],
                 "names": "$~描述"
@@ -3555,10 +3223,7 @@
                 "doc": "我内部的内容应该是 @Color，除非它们有自己的颜色。",
                 "names": "颜色"
             },
-            "background": {
-                "doc": "投影在我背后的 @Color。",
-                "names": "背景"
-            },
+            "background": { "doc": "投影在我背后的 @Color。", "names": "背景" },
             "opacity": {
                 "doc": "我体内的一切在 \\0\\ 和 \\1\\ 之间应该是多么不透明，除非被不同的 @Pose 覆盖。",
                 "names": "不透明度"
@@ -3579,26 +3244,14 @@
                 "doc": "与 @Phrase/flipx 翻转相同！",
                 "names": "水平翻转"
             },
-            "flipy": {
-                "doc": "与 @Phrase/flipy 相同！",
-                "names": "垂直翻转"
-            },
+            "flipy": { "doc": "与 @Phrase/flipy 相同！", "names": "垂直翻转" },
             "entering": {
                 "doc": "与 @Phrase/entering 相同！",
                 "names": "进入"
             },
-            "resting": {
-                "doc": "与 @Phrase/resting 相同！",
-                "names": "休息"
-            },
-            "moving": {
-                "doc": "与 @Phrase/moving 相同！",
-                "names": "移动"
-            },
-            "exiting": {
-                "doc": "与 @Phrase/exiting 相同！",
-                "names": "退出"
-            },
+            "resting": { "doc": "与 @Phrase/resting 相同！", "names": "休息" },
+            "moving": { "doc": "与 @Phrase/moving 相同！", "names": "移动" },
+            "exiting": { "doc": "与 @Phrase/exiting 相同！", "names": "退出" },
             "duration": {
                 "doc": "与 @Phrase/duration 相同！",
                 "names": ["⏳", "持续时间"]
@@ -3607,7 +3260,7 @@
                 "doc": "与 @Phrase/style 相同！",
                 "names": "风格"
             },
-            "defaultDescription": "$~$1[$1|] $2 $3"
+            "defaultDescription": "$~$name[$name|] $layout $pose"
         },
         "Phrase": {
             "doc": [
@@ -3618,22 +3271,10 @@
                 "你也可以在 @Stage 上选择我，然后在隔壁的调色板上编辑我。"
             ],
             "names": ["💬", "短语"],
-            "text": {
-                "doc": "在 @Stage 上展示的角色。",
-                "names": "文字"
-            },
-            "size": {
-                "doc": "我应该多高，以米为单位！",
-                "names": "尺寸"
-            },
-            "face": {
-                "doc": "我应该使用的字体名称。",
-                "names": "表面"
-            },
-            "place": {
-                "doc": "舞台上我应该在的地方。",
-                "names": "位置"
-            },
+            "text": { "doc": "在 @Stage 上展示的角色。", "names": "文字" },
+            "size": { "doc": "我应该多高，以米为单位！", "names": "尺寸" },
+            "face": { "doc": "我应该使用的字体名称。", "names": "表面" },
+            "place": { "doc": "舞台上我应该在的地方。", "names": "位置" },
             "wrap": {
                 "doc": "我应该包裹符号的边缘，或者 \\ø\\ 如果我不应该包裹它们。",
                 "names": ["↵", "包裹"]
@@ -3646,10 +3287,7 @@
                 "doc": "符号是水平书写还是垂直书写，如果设置了垂直和 @Phrase/wrap，则文本是左换行还是右换行。",
                 "names": "方向"
             },
-            "matter": {
-                "doc": "碰到东西时可以使用的属性！",
-                "names": "物体"
-            },
+            "matter": { "doc": "碰到东西时可以使用的属性！", "names": "物体" },
             "aura": {
                 "doc": "可选的在我背后的 @Aura,让我发光吧！",
                 "names": "光晕"
@@ -3670,10 +3308,7 @@
                 "doc": "@Color 应该是默认的，除非被不同的 @Pose 覆盖。",
                 "names": "颜色"
             },
-            "background": {
-                "doc": "投射在我身后的 @Color",
-                "names": "背景"
-            },
+            "background": { "doc": "投射在我身后的 @Color", "names": "背景" },
             "opacity": {
                 "doc": "默认情况下我应该有多不透明，在 \\0\\ 和 \\1\\ 之间，除非被不同的 @Pose 覆盖。有助于淡入和淡出。",
                 "names": "不透明度"
@@ -3722,7 +3357,7 @@
                 "doc": "移动到舞台上不同位置时使用的动画风格。",
                 "names": "风格"
             },
-            "defaultDescription": "$~$3[$3 韵律 |]短语 $1 $2[命名 $2|] $4[$4|] $5"
+            "defaultDescription": "$~$size[$size 韵律 |]短语 $text $name[命名 $name|] $face[$face|] $animation"
         },
         "Arrangement": {
             "doc": "我是Verse中各种排列方式的灵感, 包括@Row、@Stack、@Grid 和@Free。我与@Group 密切合作，",
@@ -3731,33 +3366,27 @@
         "Row": {
             "doc": "我是@Row, 一个水平的@Arrangement,包含@Output，中间可以添加可选的填充。你见过我的孪生兄弟@Stack 吗？",
             "names": ["➡", "行"],
-            "description": "$1个短语和组的行",
+            "description": "$count",
             "alignment": {
                 "doc": "是否在每列上的起始、中间或末尾对齐文本。",
                 "names": "对齐"
             },
-            "padding": {
-                "doc": "在输出之间放置的填充量。",
-                "names": "填充"
-            }
+            "padding": { "doc": "在输出之间放置的填充量。", "names": "填充" }
         },
         "Stack": {
             "doc": "我是@Stack，一个垂直的@Arrangement，包含@Output，中间可以添加可选的填充。你见过我的孪生兄弟@Row 吗？",
             "names": ["⬇", "堆叠"],
-            "description": "$1个短语和组的堆叠",
+            "description": "$count",
             "alignment": {
                 "doc": "是否在每行上的起始、中间或末尾对齐文本。",
                 "names": "对齐"
             },
-            "padding": {
-                "doc": "在输出之间放置的填充量。",
-                "names": "填充"
-            }
+            "padding": { "doc": "在输出之间放置的填充量。", "names": "填充" }
         },
         "Grid": {
             "doc": "我是@Output 的网格。告诉我行数和列数，我将制作一个整齐的排列，可选的填充和单元格大小。",
             "names": ["▦", "网格"],
-            "description": "$1行$2列的网格",
+            "description": "$~$rows$columns 网格",
             "rows": {
                 "doc": "网格中的行数。",
                 "names": "行数"
@@ -3785,7 +3414,7 @@
                 "哦，记住，你给每个@Output 的@Place 都是相对于@Group 的@Place ！所以如果你想知道为什么事情没有出现在你期望的地方，尝试给@Group 也设置一个地方。"
             ],
             "names": ["自由"],
-            "description": "自由形式的$1输出"
+            "description": "自由形式的$count"
         },
         "Shape": {
             "doc": "我是所有形状的灵感。我用于告诉@Stage 应该是什么形状。",
@@ -3802,18 +3431,9 @@
                 "doc": "是否可以作为@Choice 的一部分选择。",
                 "names": "可选择性"
             },
-            "color": {
-                "doc": "我的边框颜色。",
-                "names": "颜色"
-            },
-            "background": {
-                "doc": "我的背景颜色。",
-                "names": "背景"
-            },
-            "opacity": {
-                "doc": "我应该有多不透明。",
-                "names": "不透明度"
-            },
+            "color": { "doc": "我的边框颜色。", "names": "颜色" },
+            "background": { "doc": "我的背景颜色。", "names": "背景" },
+            "opacity": { "doc": "我应该有多不透明。", "names": "不透明度" },
             "offset": {
                 "doc": "我应该距离我的位置多远出现，同时保持在原地。",
                 "names": "偏移"
@@ -3826,14 +3446,8 @@
                 "doc": "我应该放大多少，而不改变我的实际大小。",
                 "names": "缩放"
             },
-            "flipx": {
-                "doc": "是否在x轴上镜像我。",
-                "names": "水平翻转"
-            },
-            "flipy": {
-                "doc": "是否在y轴上镜像我。",
-                "names": "垂直翻转"
-            },
+            "flipx": { "doc": "是否在x轴上镜像我。", "names": "水平翻转" },
+            "flipy": { "doc": "是否在y轴上镜像我。", "names": "垂直翻转" },
             "entering": {
                 "doc": "我进入@Stage 时应该执行的@Pose 或@Sequence。",
                 "names": "进入时"
@@ -3854,10 +3468,7 @@
                 "doc": "如果是单个@Pose，我的动画应该持续多长时间。",
                 "names": "持续时间"
             },
-            "style": {
-                "doc": "我应该使用的动画样式。",
-                "names": "样式"
-            },
+            "style": { "doc": "我应该使用的动画样式。", "names": "样式" },
             "description": {
                 "doc": ["$~针对无法看到视觉输出的观众使用的描述。"],
                 "names": "$~描述"
@@ -3870,70 +3481,28 @@
         "Rectangle": {
             "doc": "我是一个矩形，用于使@Stage 具有你选择的大小的边界。",
             "names": ["矩形"],
-            "left": {
-                "doc": "x轴上的舞台左边缘",
-                "names": "左边"
-            },
-            "top": {
-                "doc": "y轴上的舞台顶部",
-                "names": "顶部"
-            },
-            "right": {
-                "doc": "x轴上的舞台右边缘",
-                "names": "右边"
-            },
-            "bottom": {
-                "doc": "y轴上的舞台底部",
-                "names": "底部"
-            },
-            "z": {
-                "doc": "矩形的深度位置。",
-                "names": "z"
-            }
+            "left": { "doc": "x轴上的舞台左边缘", "names": "左边" },
+            "top": { "doc": "y轴上的舞台顶部", "names": "顶部" },
+            "right": { "doc": "x轴上的舞台右边缘", "names": "右边" },
+            "bottom": { "doc": "y轴上的舞台底部", "names": "底部" },
+            "z": { "doc": "矩形的深度位置。", "names": "z" }
         },
         "Circle": {
             "doc": "我是一个圆圈，用于在@Stage 上制作形状。",
             "names": ["圆圈"],
-            "radius": {
-                "doc": "圆的半径",
-                "names": "半径"
-            },
-            "x": {
-                "doc": "圆的水平中心。",
-                "names": "X"
-            },
-            "y": {
-                "doc": "圆的垂直中心。",
-                "names": "是"
-            },
-            "z": {
-                "doc": "圆的深度位置。",
-                "names": "是"
-            }
+            "radius": { "doc": "圆的半径", "names": "半径" },
+            "x": { "doc": "圆的水平中心。", "names": "X" },
+            "y": { "doc": "圆的垂直中心。", "names": "是" },
+            "z": { "doc": "圆的深度位置。", "names": "是" }
         },
         "Polygon": {
             "doc": "我是一个“规则”多边形，边长和角相等，可用于在@Stage 上制作形状。",
             "names": ["多边形"],
-            "radius": {
-                "doc": "多边形的半径",
-                "names": "半径"
-            },
-            "sides": {
-                "doc": "多边形的边数",
-                "names": "双方"
-            },
-            "x": {
-                "doc": "多边形的水平中心。",
-                "names": "X"
-            },
-            "y": {
-                "doc": "多边形的垂直中心。",
-                "names": "是"
-            },
-            "z": {
-                "doc": "多边形的深度位置。",
-                "names": "是"
-            }
+            "radius": { "doc": "多边形的半径", "names": "半径" },
+            "sides": { "doc": "多边形的边数", "names": "双方" },
+            "x": { "doc": "多边形的水平中心。", "names": "X" },
+            "y": { "doc": "多边形的垂直中心。", "names": "是" },
+            "z": { "doc": "多边形的深度位置。", "names": "是" }
         },
         "Pose": {
             "doc": [
@@ -3973,7 +3542,7 @@
                 "doc": "@Output 是否应该y轴对称，代替默认值。",
                 "names": "垂直翻转"
             },
-            "description": "$1[transparent $1|] $2[rotated $2 degrees|] $3[scaled $3|] $4[flipped horizontally|] $5[flipped vertically|]"
+            "description": "$~$opacity [透明$opacity |] $rotation [旋转$rotation |] $scale [缩放$scale |] $flipx [水平翻转 |] $flipy [垂直翻转 |] $blur [阴影模糊$blur]"
         },
         "Color": {
             "doc": [
@@ -4024,10 +3593,7 @@
                 "doc": "我应该跳这个舞跳多长时间啊？如果要重复的跳，我不会延长时间，我只会跳的更快。",
                 "names": ["⏳", "时长"]
             },
-            "style": {
-                "doc": "我跳舞时应该用的风格。",
-                "names": "风格"
-            },
+            "style": { "doc": "我跳舞时应该用的风格。", "names": "风格" },
             "count": {
                 "doc": "该序列在完成之前应该重复多少遍。助于我上$stage、在$stage上移动或退出$stage。但在休息序列时，它就会被忽略，因为我可以永远休息。",
                 "names": "计数"
@@ -4040,46 +3606,22 @@
         "Place": {
             "doc": "我是 @Stage 上的一个定位。我的所有输入都是可有可无的，因为我的默认值就是定位在中央。",
             "names": ["📍", "位置"],
-            "x": {
-                "doc": "x 轴上的位子",
-                "names": "x"
-            },
-            "y": {
-                "doc": "y 轴上的位子",
-                "names": "y"
-            },
-            "z": {
-                "doc": "z 轴上的位子",
-                "names": "z"
-            },
-            "rotation": {
-                "doc": "在此位置的旋转",
-                "names": ["📐", "旋转"]
-            }
+            "x": { "doc": "x 轴上的位子", "names": "x" },
+            "y": { "doc": "y 轴上的位子", "names": "y" },
+            "z": { "doc": "z 轴上的位子", "names": "z" },
+            "rotation": { "doc": "在此位置的旋转", "names": ["📐", "旋转"] }
         },
         "Velocity": {
             "doc": "我是@Stage 上的一个位置。我的所有输入都是可选的，因为默认情况下我位于中心。",
             "names": ["💨", "速度"],
-            "x": {
-                "doc": "每秒在x轴上移动多少米。",
-                "names": "x"
-            },
-            "y": {
-                "doc": "每秒在y轴上移动多少米。",
-                "names": "y"
-            },
-            "angle": {
-                "doc": "每秒旋转多少度",
-                "names": ["角度", "°"]
-            }
+            "x": { "doc": "每秒在x轴上移动多少米。", "names": "x" },
+            "y": { "doc": "每秒在y轴上移动多少米。", "names": "y" },
+            "angle": { "doc": "每秒旋转多少度", "names": ["角度", "°"] }
         },
         "Matter": {
             "doc": "我是输出的物理属性，影响我与舞台上其他输出的互动。",
             "names": ["⚛️", "物质"],
-            "mass": {
-                "doc": "质量，以千克为单位",
-                "names": "质量"
-            },
+            "mass": { "doc": "质量，以千克为单位", "names": "质量" },
             "bounciness": {
                 "doc": "碰撞时保留多少能量，0表示没有，1表示全部。",
                 "names": "弹性"
@@ -4107,10 +3649,7 @@
                 "\\Phrase(\n\t'I am GLOWING!' \n\taura: Aura(Color(50% 100 118°) 0.1m 0m 0.1m\n)\\"
             ],
             "names": ["🔮", "光晕"],
-            "color": {
-                "doc": "@Aura 的 @Color",
-                "names": "颜色"
-            },
+            "color": { "doc": "@Aura 的 @Color", "names": "颜色" },
             "blur": {
                 "doc": "@Aura 的模糊程度 \\0m\\ 表示一点都不模糊.",
                 "names": "模糊度"
@@ -4142,22 +3681,13 @@
                 "doc": "用于围绕舞台放置的形状和大小，隐藏其外部的一切。",
                 "names": "边框"
             },
-            "size": {
-                "doc": "类似于@Group/size",
-                "names": "大小"
-            },
-            "face": {
-                "doc": "类似于@Group/face",
-                "names": "朝向"
-            },
+            "size": { "doc": "类似于@Group/size", "names": "大小" },
+            "face": { "doc": "类似于@Group/face", "names": "朝向" },
             "place": {
                 "doc": "如果我是一台相机，这就是我正在看向的地方。",
                 "names": "位置"
             },
-            "name": {
-                "doc": ["与@Phrase/name !相同"],
-                "names": "名称"
-            },
+            "name": { "doc": ["与@Phrase/name !相同"], "names": "名称" },
             "description": {
                 "doc": ["$~针对无法看到视觉输出的观众使用的描述。"],
                 "names": "$~描述"
@@ -4166,67 +3696,34 @@
                 "doc": "与@Phrase/selectable !相同",
                 "names": "可选择性"
             },
-            "color": {
-                "doc": "与@Group/color 相同",
-                "names": "颜色"
-            },
+            "color": { "doc": "与@Group/color 相同", "names": "颜色" },
             "background": {
                 "doc": "与@Group/background 相同",
                 "names": "背景"
             },
-            "opacity": {
-                "doc": "与@Group/opacity 相同",
-                "names": "不透明度"
-            },
-            "offset": {
-                "doc": "与@Group/offset 相同",
-                "names": "偏移"
-            },
+            "opacity": { "doc": "与@Group/opacity 相同", "names": "不透明度" },
+            "offset": { "doc": "与@Group/offset 相同", "names": "偏移" },
             "rotation": {
                 "doc": "与@Group/rotation 相同",
                 "names": ["📐", "旋转"]
             },
-            "scale": {
-                "doc": "与@Group/scale 相同",
-                "names": "缩放"
-            },
-            "flipx": {
-                "doc": "与@Group/flipx 相同",
-                "names": "水平翻转"
-            },
-            "flipy": {
-                "doc": "与@Group/flipy 相同",
-                "names": "垂直翻转"
-            },
-            "entering": {
-                "doc": "与@Group/entering 相同",
-                "names": "进入时"
-            },
-            "resting": {
-                "doc": "与@Group/resting !相同",
-                "names": "休息时"
-            },
-            "moving": {
-                "doc": "与@Group/moving !相同",
-                "names": "移动时"
-            },
-            "exiting": {
-                "doc": "与@Group/exiting !相同",
-                "names": "离开时"
-            },
+            "scale": { "doc": "与@Group/scale 相同", "names": "缩放" },
+            "flipx": { "doc": "与@Group/flipx 相同", "names": "水平翻转" },
+            "flipy": { "doc": "与@Group/flipy 相同", "names": "垂直翻转" },
+            "entering": { "doc": "与@Group/entering 相同", "names": "进入时" },
+            "resting": { "doc": "与@Group/resting !相同", "names": "休息时" },
+            "moving": { "doc": "与@Group/moving !相同", "names": "移动时" },
+            "exiting": { "doc": "与@Group/exiting !相同", "names": "离开时" },
             "duration": {
                 "doc": "与@Phrase/duration !相同",
                 "names": ["⏳", "持续时间"]
             },
-            "style": {
-                "doc": "我应该使用的动画样式。",
-                "names": "样式"
-            },
+            "style": { "doc": "我应该使用的动画样式。", "names": "样式" },
             "gravity": {
                 "doc": "应用于其位置在@Motion 中的输出的重力。",
                 "names": "重力"
             },
-            "defaultDescription": "$~$1阶段$2[$2 |]输出$3[带有框架$3|]$4"
+            "defaultDescription": "$~阶段$name [ $name |] 共$count$frame [帧为$frame |] $pose"
         },
         "Easing": {
             "straight": "直线",
@@ -4238,18 +3735,12 @@
             "sway": {
                 "doc": "我创建一个@Sequence, 围绕@Output 's的中心来回摆动。",
                 "names": ["摇摆"],
-                "angle": {
-                    "doc": "在摇摆中倾斜的角度。",
-                    "names": ["角度"]
-                }
+                "angle": { "doc": "在摇摆中倾斜的角度。", "names": ["角度"] }
             },
             "bounce": {
                 "doc": "我创建一个@Sequence, 使@Output 以指定的高度弹跳。",
                 "names": ["弹跳"],
-                "height": {
-                    "doc": "弹跳的高度。",
-                    "names": ["高度"]
-                }
+                "height": { "doc": "弹跳的高度。", "names": ["高度"] }
             },
             "spin": {
                 "doc": "我创建一个@Sequence, 使@Output 围绕其中心旋转。",
@@ -4280,14 +3771,8 @@
                 "\\↓ 计数\n[\n短语（`\\count\\ 次！`）\n源（'count' 计数 … ∆ 按钮（） … 计数 + 1 ）\n]\\",
                 "尝试复制它，创建一个名为 /count/ 的新 @Source，并在其中输入 0，从 0 开始计数。这个小项目将获取 /count/ 源中的值，并且每次按下鼠标按钮时，都会编辑 /count/ @Source 作为当前 /count/ 值加 /1/。"
             ],
-            "name": {
-                "names": "姓名",
-                "doc": "要创建或更新的源文件的名称。"
-            },
-            "value": {
-                "names": "价值",
-                "doc": "应创建或更新源文件的数据值。"
-            },
+            "name": { "names": "姓名", "doc": "要创建或更新的源文件的名称。" },
+            "value": { "names": "价值", "doc": "应创建或更新源文件的数据值。" },
             "DynamicEditLimitException": {
                 "description": "动态源编辑限制",
                 "explanation": "该项目将数据保存到 @Source 文件的次数过多，速度过快。确保它只在响应输入时更新 @Source，并且速度不要太快。"
@@ -4318,27 +3803,42 @@
                 "doc": "$~我应该大声朗读的文本。",
                 "names": "$~文本"
             },
-            "defaultDescription": "$~比如说1美元"
+            "defaultDescription": "$~说 $text"
+        },
+        "Gesture": {
+            "doc": "$~我是摄像头检测到的手势。我的字段会告诉你手在舞台上的位置、伸出的手指以及手掌或手背朝向摄像头。@Hand 返回我的一个值。",
+            "names": ["$~✋", "$~手势"],
+            "place": { "doc": "$~舞台上手的位置。", "names": ["$~地方"] },
+            "open": {
+                "doc": "$~@True 如果手是张开的（伸出 3 个以上手指），@False 如果是拳头。",
+                "names": ["$~打开"]
+            },
+            "fingers": {
+                "doc": "$~伸出多少根手指，从 0（握拳）到 5（所有手指都伸出，包括拇指）。",
+                "names": ["$~手指"]
+            },
+            "thumb": { "doc": "$~@True 如果拇指伸出。", "names": ["$~拇指"] },
+            "index": { "doc": "$~@True 如果食指伸出。", "names": ["$~指数"] },
+            "middle": { "doc": "$~@True 如果伸出中指。", "names": ["$~中间"] },
+            "ring": { "doc": "$~@True，则为真。", "names": ["$~戒指"] },
+            "pinky": { "doc": "$~@True，则为真。", "names": ["$~小指"] },
+            "palm": {
+                "doc": "$~如果手掌朝向摄像头，则返回 True；如果手背朝向摄像头，则返回 False。",
+                "names": ["$~棕榈"]
+            }
         }
     },
     "ui": {
         "font": {
             "app": "Noto Sans Simplified Chinese",
-            "code": "Noto Sans Mono"
+            "code": "Noto Sans Mono",
+            "missing": "$~不"
         },
-        "phrases": {
-            "welcome": "你好"
-        },
+        "phrases": { "welcome": "你好" },
         "widget": {
-            "confirm": {
-                "cancel": "取消"
-            },
-            "dialog": {
-                "close": "关闭"
-            },
-            "loading": {
-                "message": "正在加载字体和文本，请稍候！"
-            },
+            "confirm": { "cancel": "取消" },
+            "dialog": { "close": "关闭" },
+            "loading": { "message": "正在加载字体和文本，请稍候！" },
             "home": "去首页",
             "table": {
                 "cell": {
@@ -4358,14 +3858,8 @@
         },
         "tile": {
             "toggle": {
-                "fullscreen": {
-                    "on": "退出全屏",
-                    "off": "扩展到全屏"
-                },
-                "show": {
-                    "on": "隐藏",
-                    "off": "显示"
-                }
+                "fullscreen": { "on": "退出全屏", "off": "扩展到全屏" },
+                "show": { "on": "隐藏", "off": "显示" }
             },
             "label": {
                 "output": "舞台",
@@ -4374,9 +3868,7 @@
                 "source": "源文件",
                 "collaborate": "$~合作"
             },
-            "button": {
-                "collapse": "折叠窗口"
-            }
+            "button": { "collapse": "折叠窗口" }
         },
         "project": {
             "error": {
@@ -4392,10 +3884,7 @@
                     "label": "$~复制为文本"
                 },
                 "addSource": "创建新的源",
-                "duplicate": {
-                    "tip": "$~复制此项目",
-                    "label": "$~复制"
-                },
+                "duplicate": { "tip": "$~复制此项目", "label": "$~复制" },
                 "revert": "恢复到原始代码",
                 "focusOutput": "聚焦舞台上的键盘乐器",
                 "focusSource": "聚焦到下一个源",
@@ -4412,18 +3901,11 @@
                     "tip": "$~显示项目共享选项",
                     "label": "$~分享"
                 },
-                "history": {
-                    "on": "$~显示最近的项目代码",
-                    "off": "$~显示当前项目代码"
-                },
                 "savedLocally": "$~项目保存在本地，但不在线保存",
                 "savedOnline": "$~项目在线保存"
             },
             "field": {
-                "name": {
-                    "description": "编辑项目名称",
-                    "placeholder": "名称"
-                }
+                "name": { "description": "编辑项目名称", "placeholder": "名称" }
             },
             "help": "显示键盘快捷键",
             "collapsed": "你的所有窗口都已折叠！你可以在下面的工具栏中找到它们",
@@ -4446,10 +3928,7 @@
                     ]
                 }
             },
-            "subheader": {
-                "source": "来源",
-                "destination": "目的地"
-            },
+            "subheader": { "source": "来源", "destination": "目的地" },
             "defaults": {
                 "starterCode": "¶欢迎来到您的空白项目！这是一条注释。\n\n您可以用它来描述您的项目、做笔记，以及\n\n解释您希望人们了解的关于您工作的信息。\n\n它支持粗体、斜体、<links@https://wordplay.dev> 等格式。¶\nPhrase('hi')"
             },
@@ -4493,23 +3972,15 @@
                 }
             },
             "confirm": {
-                "delete": {
-                    "description": "删除画廊",
-                    "prompt": "删除"
-                },
+                "delete": { "description": "删除画廊", "prompt": "删除" },
                 "remove": {
                     "description": "从画廊中删除项目",
                     "prompt": "删除"
                 }
             },
-            "error": {
-                "unknown": "此画廊不存在或不是公开的。"
-            },
+            "error": { "unknown": "此画廊不存在或不是公开的。" },
             "field": {
-                "name": {
-                    "description": "画廊名称",
-                    "placeholder": "名称"
-                },
+                "name": { "description": "画廊名称", "placeholder": "名称" },
                 "description": {
                     "description": "画廊描述",
                     "placeholder": "描述你的画廊。它的主题、目标或社区是什么？"
@@ -4519,33 +3990,24 @@
         "source": {
             "label": "程序编辑器",
             "empty": [
-                "让我们开始吧！你可以……",
-                "• 打开 📕 并将 🖱️ 拖到此程序中。",
-                "• 输入 $1 并从菜单中选择我们。",
-                "• 如果你熟悉我们，可以开始输入。",
-                "• 浏览画廊以获取灵感。",
-                "如果遇到困难，请参阅 <learn more@://learn>。"
+                "$~让我们开始吧！您可以……",
+                "$~• 打开 📕 并将 🖱️ 我们拖到此程序中。",
+                "$~• 输入$symbol。",
+                "$~• 用⌨️符号输入我们。",
+                "$~• 浏览<galleries@://galleries>寻找灵感。",
+                "$~如果你遇到困难，<learn more@://learn> 。"
             ],
             "overwritten": "收到了更新版本！",
             "confirm": {
-                "delete": {
-                    "description": "删除此$source",
-                    "prompt": "删除"
-                }
+                "delete": { "description": "删除此$source", "prompt": "删除" }
             },
             "toggle": {
-                "blocks": {
-                    "on": "隐藏块背景",
-                    "off": "显示块背景"
-                },
+                "blocks": { "on": "隐藏块背景", "off": "显示块背景" },
                 "characters": {
                     "on": "折叠匹配的字形",
                     "off": "展开匹配的字形"
                 },
-                "expandSequence": {
-                    "on": "$~折叠项目",
-                    "off": "$~展开项目"
-                }
+                "expandSequence": { "on": "$~折叠项目", "off": "$~展开项目" }
             },
             "button": {
                 "selectOutput": "在舞台上显示此输出",
@@ -4555,15 +4017,11 @@
                 "zoomOut": "$~缩小代码体积"
             },
             "field": {
-                "name": {
-                    "description": "编辑源名称",
-                    "placeholder": "名称"
-                }
+                "name": { "description": "编辑源名称", "placeholder": "名称" }
             },
             "menu": {
                 "label": "自动完成菜单",
                 "show": "显示自动完成菜单",
-                "back": "退出子菜单",
                 "empty": "$~没有建议。"
             },
             "cursor": {
@@ -4581,7 +4039,6 @@
                 "selectAll": "选择程序",
                 "incrementLiteral": "增加数字、文本或布尔值",
                 "decrementLiteral": "减少数字、文本或布尔值",
-                "insertSymbol": "插入$1",
                 "insertTab": "插入 tab",
                 "insertTrue": "插入 true",
                 "insertFalse": "插入 false",
@@ -4600,7 +4057,6 @@
                 "insertConvert": "插入转换符号",
                 "insertPrevious": "插入前一个符号",
                 "insertTable": "插入表符号",
-                "insertTableClose": "插入表格关闭符号",
                 "insertBorrow": "插入借阅",
                 "insertShare": "插入分享",
                 "insertLine": "插入换行符",
@@ -4637,10 +4093,7 @@
                 }
             },
             "options": {
-                "locale": {
-                    "tip": "$~源的首选语言",
-                    "all": "$~全部"
-                }
+                "locale": { "tip": "$~源的首选语言", "all": "$~全部" }
             },
             "error": {
                 "invalidName": "$~这必须是一个有效的 Wordplay 名称。",
@@ -4658,8 +4111,8 @@
         },
         "annotations": {
             "label": "冲突",
-            "cursor": "这是 *$1*$2[ 并且它们的类型是 $2|]。$3[ 它们在 *$3* 里面。|]",
-            "cursorParent": "它们位于 *$1*$2[ 类型为 $2|] 里面。",
+            "cursor": "$~这是 *$node*$type[ 并且它们的类型是 $type|]。$description[ 它们在 *$description* 里面。|]",
+            "cursorParent": "$~它们位于 *$node*$type[ 类型为 $type|] 里面。",
             "learn": "/了解更多/",
             "evaluating": "好玩哦，大家来评价一下吧！",
             "space": "这就是太空！谁知道没有什么东西能表达这么多？",
@@ -4668,29 +4121,17 @@
                 "toggle": "$~显示和隐藏注释",
                 "highlight": "$~在编辑器中显示此代码"
             },
-            "nodeDescription": "$~他们花了1美元。"
+            "nodeDescription": "$~它们是 $description"
         },
         "output": {
             "label": "程序输出",
             "toggle": {
-                "grid": {
-                    "on": "隐藏网格线",
-                    "off": "显示网格线"
-                },
-                "fit": {
-                    "on": "手动控制缩放",
-                    "off": "适应内容缩放"
-                },
-                "paint": {
-                    "on": "场所输出",
-                    "off": "放置输出"
-                }
+                "grid": { "on": "隐藏网格线", "off": "显示网格线" },
+                "fit": { "on": "手动控制缩放", "off": "适应内容缩放" },
+                "paint": { "on": "场所输出", "off": "放置输出" }
             },
             "field": {
-                "key": {
-                    "description": "聆听按键",
-                    "placeholder": "消息"
-                }
+                "key": { "description": "聆听按键", "placeholder": "消息" }
             },
             "button": {
                 "submit": "提交此聊天消息",
@@ -4700,10 +4141,7 @@
                 "resize": "$~调整短语大小",
                 "resetZoom": "$~将缩放重置到舞台位置"
             },
-            "options": {
-                "locale": "$~选择输出语言",
-                "default": "$~默认"
-            },
+            "options": { "locale": "$~选择输出语言", "default": "$~默认" },
             "tour": {
                 "launch": "$~参观舞台",
                 "stage": "$~/stage/ 显示程序的*当前值*。该值可以是*原始值*（例如数字或列表）、*可视输出*，甚至是*可听声音*。",
@@ -4712,6 +4150,14 @@
                 "grid": "$~“网格”按钮会在舞台上显示一个网格，方便您在设计时精确放置元素。",
                 "lock": "$~“锁定”按钮可将舞台视图锁定在当前位置。锁定后，舞台保持静止；解锁后，您可以自由平移和缩放。",
                 "animationSpeed": "$~“动画速度”控件用于设置动画播放速度。该控件也位于“设置”中，因此您可以在任一位置进行更改。"
+            },
+            "permission": {
+                "title": "$~此项目需要获得许可",
+                "microphone": "$~麦克风",
+                "camera": "$~相机",
+                "note": "$~分享前，您的浏览器会询问。",
+                "start": "$~开始",
+                "retry": "$~重试"
             }
         },
         "timeline": {
@@ -4746,7 +4192,7 @@
         },
         "docs": {
             "label": "文档浏览器",
-            "link": "在文档中显示概念 $1",
+            "link": "在文档中显示概念 $name",
             "learn": "了解更多……",
             "nodoc": "我是谁？我是什么？我的目的是什么？",
             "button": {
@@ -4754,9 +4200,7 @@
                 "back": "返回上一页",
                 "toggle": "$~显示和隐藏此概念组"
             },
-            "field": {
-                "search": "使用关键词搜索概念"
-            },
+            "field": { "search": "使用关键词搜索概念" },
             "header": {
                 "inputs": {
                     "header": "$~输入",
@@ -4866,6 +4310,14 @@
                         "$~文档和评论",
                         "$~高级语言概念"
                     ]
+                },
+                "howToFilter": {
+                    "label": "$~用户创建的操作指南",
+                    "labels": ["$~全部", "$~图库和书签"],
+                    "tips": [
+                        "$~查看所有用户创建的操作指南",
+                        "$~仅查看此项目图库中用户创建的教程和所有书签"
+                    ]
                 }
             },
             "purposes": {
@@ -4938,9 +4390,7 @@
                     "explanation": "$~/从您的作品集中寻找创建不同类型项目的常用模式。/"
                 }
             },
-            "note": {
-                "empty": "$~您在项目中定义的名称将显示在此处。"
-            },
+            "note": { "empty": "$~您在项目中定义的名称将显示在此处。" },
             "tour": {
                 "launch": "$~跟随导游参观",
                 "guide": "$~该/指南/包含了 Wordplay 所有*编程语言*概念和*功能*的*文档*。",
@@ -5000,38 +4450,34 @@
                         "label": "重要的"
                     }
                 },
-                "options": {
-                    "gallery": "画廊"
-                }
+                "options": { "gallery": "画廊" }
             },
             "settings": {
                 "header": "设置",
                 "explanation": "更改布局、设备和主题设置。",
-                "button": {
-                    "show": "显示设置对话框"
-                },
+                "button": { "show": "显示设置对话框" },
                 "mode": {
                     "layout": {
                         "label": "布局",
                         "labels": [
-                            "$~汽车",
-                            "$~排",
-                            "$~堆",
-                            "$~二",
-                            "$~一",
-                            "$~自由的"
+                            "自动",
+                            "排",
+                            "垂直",
+                            "双列",
+                            "单列",
+                            "自由"
                         ],
                         "tips": [
-                            "$~自动铺设瓷砖",
-                            "$~横向屏幕布局",
-                            "$~垂直屏幕布局",
-                            "$~两块最新的瓷砖并排摆放",
-                            "$~仅显示最新图块",
-                            "$~画布上可移动和可调整大小的图块"
+                            "根据窗口大小和形状自动排列图块",
+                            "横向屏幕布局",
+                            "垂直屏幕布局",
+                            "两个最新的图块并排显示",
+                            "仅显示最新图块",
+                            "画布上可移动和可调整大小的图块"
                         ]
                     },
                     "animate": {
-                        "label": "$~动画速度",
+                        "label": "动画速度",
                         "labels": [
                             "$~离开",
                             "$~1/4",
@@ -5040,7 +4486,8 @@
                             "$~1倍",
                             "$~2倍",
                             "$~5倍",
-                            "$~10倍"
+                            "$~10倍",
+                            "$~汽车"
                         ],
                         "tips": [
                             "$~动画关闭",
@@ -5050,54 +4497,46 @@
                             "$~正常速度",
                             "$~双倍速",
                             "$~五速",
-                            "$~十速"
+                            "$~十速",
+                            "$~使用当前设备设置"
                         ]
                     },
                     "dark": {
                         "label": "主题",
-                        "labels": ["$~光", "$~黑暗的", "$~汽车"],
-                        "tips": ["$~浅色", "$~深色系", "$~使用当前设备设置"]
+                        "labels": ["浅色", "深色", "自动"],
+                        "tips": ["浅色", "深色系", "使用当前设备设置"]
                     },
                     "space": {
-                        "label": " 空格指示器",
-                        "labels": ["$~隐藏", "$~展示"],
-                        "tips": [
-                            "$~不显示空格和制表符",
-                            "$~明确显示空格和制表符"
-                        ]
+                        "label": "空格与换行标记",
+                        "labels": ["隐藏", "展示"],
+                        "tips": ["不显示空格和制表符", "明确显示空格和制表符"]
                     },
                     "writing": {
                         "label": "写作布局",
-                        "labels": ["$~水平的", "$~垂直从右到左", "$~垂直升"],
+                        "labels": ["水平", "垂直从右到左", "垂直从左到右"],
                         "tips": [
-                            "$~横向文本，从左到右阅读",
-                            "$~竖排文字，从右往左阅读",
-                            "$~竖排文字，从左到右阅读"
+                            "横向文本，从左到右阅读",
+                            "竖排文字，从右往左阅读",
+                            "竖排文字，从左到右阅读"
                         ]
                     },
                     "lines": {
-                        "label": "$~行号",
-                        "labels": ["$~隐藏", "$~展示"],
-                        "tips": [
-                            "$~文本模式下不显示行号",
-                            "$~在文本模式下显示行号"
-                        ]
+                        "label": "行号",
+                        "labels": ["隐藏", "展示"],
+                        "tips": ["文本模式下不显示行号", "在文本模式下显示行号"]
                     },
                     "blocks": {
-                        "label": "$~编辑模式",
-                        "labels": ["$~文本", "$~积木"],
-                        "tips": [
-                            "$~以文本形式编辑代码",
-                            "$~将代码块编辑为代码块"
-                        ]
+                        "label": "编辑模式",
+                        "labels": ["文本", "积木"],
+                        "tips": ["以文本形式编辑代码", "以积木形式编辑代码"]
                     },
                     "blockDensity": {
-                        "label": "$~块间距",
-                        "labels": ["$~袖珍的", "$~普通的", "$~宽敞"],
+                        "label": "块间距",
+                        "labels": ["紧凑", "正常", "宽敞"],
                         "tips": [
-                            "$~更紧凑的代码块，以便在屏幕上容纳更多代码",
-                            "$~默认块间距",
-                            "$~更宽松的图块，便于选择和拖动"
+                            "更紧凑的代码块，以便在屏幕上容纳更多代码",
+                            "默认块间距",
+                            "更宽松的图块，便于选择和拖动"
                         ]
                     }
                 },
@@ -5140,10 +4579,7 @@
                 "explanation": "$~通过报告🪲 *问题*和分享💡 *想法*来帮助我们改进 Wordplay！",
                 "button": {
                     "show": "$~显示反馈表。",
-                    "submit": {
-                        "tip": "$~提交您的反馈。",
-                        "label": "$~提交"
-                    },
+                    "submit": { "tip": "$~提交您的反馈。", "label": "$~提交" },
                     "delete": {
                         "description": "$~删除您的反馈。",
                         "prompt": "$~删除"
@@ -5216,11 +4652,11 @@
                     "tip": "$~清除所有通知"
                 },
                 "notification": {
-                    "howToHeader": "$~一篇题为“1美元教程”的新文章已发布。",
-                    "projectChatHeader": "$~项目“$1”中出现新消息",
-                    "howToChatHeader": "$~操作指南“$1”中的新消息",
+                    "howToHeader": "$~发布了一篇名为“$title",
+                    "projectChatHeader": "$~项目“$name",
+                    "howToChatHeader": "$~操作指南“$title",
                     "link": "$~细节",
-                    "moderationHeader": "$~位于“$1”中的消息需要审核。"
+                    "moderationHeader": "$~位于“$name"
                 },
                 "delete": "$~删除此通知",
                 "popup": "$~新通知"
@@ -5234,7 +4670,6 @@
                 "default": "默认",
                 "inherited": "继任",
                 "notSequence": "不是一个序列",
-                "notContent": "不是内容列表",
                 "format": "格式",
                 "weight": "字体粗细",
                 "light": "细体",
@@ -5268,10 +4703,7 @@
                 "editing": "编辑我！",
                 "select": "$~要编辑，请在代码中选择💬、🔳或🎭，或⏸️阶段并选择输出。"
             },
-            "field": {
-                "coordinate": "编辑坐标",
-                "text": "编辑文本"
-            },
+            "field": { "coordinate": "编辑坐标", "text": "编辑文本" },
             "sequence": {
                 "button": {
                     "add": "添加姿势",
@@ -5279,9 +4711,7 @@
                     "up": "姿势往上移",
                     "down": "姿势往下移"
                 },
-                "field": {
-                    "percent": "编辑百分比"
-                }
+                "field": { "percent": "编辑百分比" }
             },
             "error": {
                 "nan": "$~这不是一个数字。",
@@ -5356,9 +4786,7 @@
                     "next": "对话中的下一个暂停",
                     "previous": "对话中的前一个暂停"
                 },
-                "options": {
-                    "lesson": "当前课程"
-                },
+                "options": { "lesson": "当前课程" },
                 "search": {
                     "placeholder": "$~搜索",
                     "noResults": "$~未找到结果"
@@ -5415,10 +4843,7 @@
                 "header": "画廊",
                 "prompt": "这些是其他人创作的表演作品。体验它们，学习它们，或者将它们改编成你自己的作品陈述。",
                 "button": {
-                    "more": {
-                        "label": "$~更多的...",
-                        "tip": "$~加载更多画廊"
-                    },
+                    "more": { "label": "$~更多的...", "tip": "$~加载更多画廊" },
                     "newgallery": "$~新画廊"
                 },
                 "section": {
@@ -5466,9 +4891,7 @@
                     "forgot": "*忘记密码？*遗憾的是，由于我们没有收集联系信息，因此我们无法恢复你的帐户。",
                     "enter": "看起来你的登录链接来自不同的浏览器或设备。你可以再次输入你的电子邮件地址，以确保是你吗？",
                     "play": "你已登录，现在我们可以将你的项目保存在线上！想要创建点什么吗？",
-                    "tooyoung": "你必须年满13岁或以上才能使用电子邮件登录。",
                     "passwordrule": "密码必须至少为6个字符长；如果你没有使用密码管理器，请选择三个你会记住的长单词。",
-                    "passwordreminder": "看起来你正在创建一个账户。请检查你的密码，确保它被安全地保存并输入正确，然后重新提交以创建你的账户。",
                     "changeEmail": "想要更改你的电子邮件地址吗？提交新的电子邮件地址，我们将向旧的地址发送确认信息。",
                     "changePassword": "想要更改你的密码吗？提交一个新密码并重复输入。",
                     "email": "你有仅用于电子邮件的帐户吗？请提交你的电子邮件登录，如果有与之关联的帐户，我们将向你发送一封包含登录链接的电子邮件。为了保护隐私，不支持新的仅用于电子邮件的帐户。",
@@ -5488,7 +4911,6 @@
                     "email": "此电子邮件地址无效。",
                     "failure": "无法登录 :(",
                     "offline": "你似乎处于离线状态。",
-                    "unchanged": "我们无法更改你的电子邮件地址，但我们不知道原因。",
                     "delete": "我们无法删除你的帐户，但我们不知道原因。",
                     "wrongPassword": "无效的用户名和密码。可能是密码错误，或者其他人已经使用了这个用户名。",
                     "tooMany": "你尝试登录失败的次数过多。你必须等待一段时间才能重试。",
@@ -5526,10 +4948,7 @@
                     }
                 },
                 "button": {
-                    "logout": {
-                        "tip": "登出你的账号",
-                        "label": "登出"
-                    },
+                    "logout": { "tip": "登出你的账号", "label": "登出" },
                     "login": "用这个邮件登录，发送一个登录链接",
                     "updateEmail": "修改邮件",
                     "updatePassword": "提交新密碼",
@@ -5542,12 +4961,7 @@
                         "label": "注销！！！"
                     }
                 },
-                "toggle": {
-                    "reveal": {
-                        "on": "显示密码",
-                        "off": "隐藏密码"
-                    }
-                },
+                "toggle": { "reveal": { "on": "显示密码", "off": "隐藏密码" } },
                 "subtitle": "$~保存、协作和共享"
             },
             "join": {
@@ -5612,10 +5026,7 @@
                     "login": "您需要登录才能管理课程。",
                     "teacher": "您需要教师权限才能创建和管理课程。填写此表单，让我们互相了解！"
                 },
-                "link": {
-                    "request": "申请教师权限",
-                    "new": "创建类"
-                }
+                "link": { "request": "申请教师权限", "new": "创建类" }
             },
             "newclass": {
                 "header": "新类",
@@ -5701,11 +5112,6 @@
                         "description": "$~类别描述",
                         "placeholder": "$~描述"
                     },
-                    "newteacher": {
-                        "placeholder": "$~电子邮件或用户名",
-                        "description": "$~您希望授予教师访问此课程的创建者的电子邮件或用户名"
-                    },
-                    "addteacher": "$~为该班级添加老师",
                     "delete": {
                         "tip": "$~永久删除此类。",
                         "label": "$~删除此类"
@@ -5722,19 +5128,14 @@
                 "button": {
                     "new": "$~创建新角色",
                     "copy": "$~复制此字符",
-                    "remove": {
-                        "tip": "$~删除此字符",
-                        "prompt": "$~删除？"
-                    }
+                    "remove": { "tip": "$~删除此字符", "prompt": "$~删除？" }
                 },
                 "error": {
                     "offline": "$~我们无法访问您在线存储的角色。",
                     "noauth": "$~您必须登录才能查看您的角色并创建新角色。",
                     "create": "$~无法创建新角色。"
                 },
-                "subheader": {
-                    "shared": "$~共享"
-                }
+                "subheader": { "shared": "$~共享" }
             },
             "character": {
                 "header": "$~特点",
@@ -5821,14 +5222,8 @@
                         "label": "$~角度",
                         "tip": "$~形状绕其中心旋转多少度"
                     },
-                    "width": {
-                        "label": "$~宽度",
-                        "tip": "$~形状有多宽"
-                    },
-                    "height": {
-                        "label": "$~高度",
-                        "tip": "$~形状有多高"
-                    },
+                    "width": { "label": "$~宽度", "tip": "$~形状有多宽" },
+                    "height": { "label": "$~高度", "tip": "$~形状有多高" },
                     "closed": "$~已连接"
                 },
                 "button": {
@@ -5856,18 +5251,12 @@
                         "label": "$~粘贴",
                         "tip": "$~从剪贴板粘贴复制的形状。"
                     },
-                    "clear": {
-                        "label": "$~全部",
-                        "tip": "$~移除所有形状。"
-                    },
+                    "clear": { "label": "$~全部", "tip": "$~移除所有形状。" },
                     "clearPixels": {
                         "label": "$~像素",
                         "tip": "$~删除所有像素。"
                     },
-                    "undo": {
-                        "label": "$~撤消",
-                        "tip": "$~撤消之前的设计"
-                    },
+                    "undo": { "label": "$~撤消", "tip": "$~撤消之前的设计" },
                     "redo": {
                         "label": "$~重做",
                         "tip": "$~重新进行下一个设计"
@@ -5876,10 +5265,7 @@
                         "label": "$~选择全部",
                         "tip": "$~选择所有形状和像素"
                     },
-                    "end": {
-                        "label": "$~完成形状",
-                        "tip": "$~结束当前路径"
-                    },
+                    "end": { "label": "$~完成形状", "tip": "$~结束当前路径" },
                     "horizontal": {
                         "label": "$~水平翻转",
                         "tip": "$~围绕中心水平翻转点"
@@ -5888,10 +5274,7 @@
                         "label": "$~垂直翻转",
                         "tip": "$~围绕中心垂直翻转点"
                     },
-                    "fit": {
-                        "label": "$~合身",
-                        "tip": "$~将形状适合画布"
-                    },
+                    "fit": { "label": "$~合身", "tip": "$~将形状适合画布" },
                     "dismissError": {
                         "label": "$~解雇",
                         "tip": "$~忽略错误信息"
@@ -5925,22 +5308,16 @@
                     "untitledproject": "$~未命名项目"
                 },
                 "announce": {
-                    "position": "$~价格为 1 美元 2 美元",
-                    "selection": "$~$1[选择了$1|没有选择任何内容]"
+                    "position": "$~在 $x $y",
+                    "selection": "$~$shapes[选择了$shapes|没有选择任何内容]"
                 },
                 "share": {
                     "dialog": {
                         "header": "$~分享",
                         "explanation": "$~添加合作者以限制谁可以查看该角色。"
                     },
-                    "button": {
-                        "label": "$~分享",
-                        "tip": "$~分享这个角色"
-                    },
-                    "delete": {
-                        "label": "$~删除",
-                        "tip": "$~删除这个字符"
-                    },
+                    "button": { "label": "$~分享", "tip": "$~分享这个角色" },
+                    "delete": { "label": "$~删除", "tip": "$~删除这个字符" },
                     "public": {
                         "label": "$~能见度",
                         "labels": ["$~民众", "$~私人的"],
@@ -5976,26 +5353,23 @@
                 "palette": "$~调色板",
                 "semantic": "$~语义颜色",
                 "fonts": "$~字体",
-                "appfont": "$~文本字体",
-                "codefont": "$~代码字体",
                 "spacing": "$~间距",
                 "typography": "$~排版",
                 "components": "$~成分",
                 "col": {
                     "component": "$~成分",
                     "preview": "$~预览",
-                    "variable": "$~多变的",
+                    "variable": "值",
                     "color": "$~颜色",
                     "hex": "$~十六进制",
                     "description": "$~描述",
                     "cssvalue": "$~CSS值",
                     "computed": "$~计算",
-                    "primaryface": "$~主要面部"
+                    "primaryface": "主要使用"
                 },
                 "demo": {
                     "button": "$~例子",
                     "note": "$~这是一张便条。",
-                    "warning": "$~这是警告。",
                     "notice": "$~这是一则通知。",
                     "header": "$~标题",
                     "subheader": "$~副标题",
@@ -6011,31 +5385,111 @@
             },
             "thanks": {
                 "header": "$~谢谢",
-                "intro": "$~感谢所有贡献者（共计*$1*位）对“文字游戏”的设计、开发、本地化和内容创作的贡献！同时，也感谢众多教师和青少年在焦点小组、设计研讨会和课堂教学中为我们的设计提供指导，为了保护他们的隐私，我们在此不一一列出。\n\n本项目得到了美国国家科学基金会（NSF）的资助（项目编号：2318257、2031265、2100296 和 2122950）、华盛顿大学的支持，以及像您一样慷慨人士的捐赠（<gifts//donate>）。",
+                "intro": "$~感谢所有贡献者（共计*$count*位）对“文字游戏”的设计、开发、本地化和内容创作的贡献！同时，也感谢众多教师和青少年在焦点小组、设计研讨会和课堂教学中为我们的设计提供指导，为了保护他们的隐私，我们在此不一一列出。\n\n本项目得到了美国国家科学基金会（NSF）的资助（项目编号：2318257、2031265、2100296 和 2122950）、华盛顿大学的支持，以及像您一样慷慨人士的捐赠（<gifts//donate>）。",
                 "teachers": "$~教师",
                 "contributors": "$~贡献者"
+            },
+            "localize": {
+                "header": "$~本地化",
+                "description": [
+                    "在这里，您可以浏览平台上所有可以本地化的文字，并对未翻译和机器翻译的文本提出翻译建议或修改意见。准备就绪后，您可以提交修改意见以供审核。 写作时，请记住要使用简单易懂的语言，因为年轻读者可能还不熟悉高级词汇。此外，尽量保持一致，在不同的文本中使用相同的术语。"
+                ],
+                "workspaceLink": "$~打开本地化工作区",
+                "workspaceHeader": "$~待撰写或待审阅的文本",
+                "submitHeader": "$~提交",
+                "submitPrompt": "$~当您准备好提交这批修改意见时，可以在下方提交。",
+                "bundleSummary": "$~本批次中的编辑",
+                "editEntry": "$~返回编辑此字符串",
+                "revertEntry": "$~从批次中丢弃此编辑",
+                "prevBundleItem": "$~查看之前的编辑",
+                "nextBundleItem": "$~查看下一次编辑",
+                "descriptionField": {
+                    "description": "$~对这批修改内容的简要描述，以帮助审阅者理解这些更改。",
+                    "placeholder": "$~你做了哪些改变，为什么？"
+                },
+                "notSpamLabel": "$~我保证这些修改并非垃圾信息。",
+                "notSpamNote": "$~Wordplay 是一个由志愿者领导的非营利项目。",
+                "requireLogin": "$~您必须登录才能提交本地化建议。",
+                "submit": {
+                    "description": "$~提交这批修改",
+                    "prompt": "$~提交"
+                },
+                "submitSuccess": "$~谢谢！您的修改已提交，我们将尽快审核。",
+                "submitError": "$~提交时出错。您的编辑内容仍保存在此设备上——请重试。",
+                "empty": "$~没有字符串符合此筛选条件。",
+                "prevEntry": "$~编辑之前的字符串",
+                "nextEntry": "$~编辑下一个字符串",
+                "qualityMode": {
+                    "label": "$~展示",
+                    "labels": ["$~全部", "$~机器翻译或未撰写"],
+                    "tips": [
+                        "$~显示所有字符串",
+                        "$~仅显示机器翻译或未编写的字符串"
+                    ]
+                },
+                "sectionMode": {
+                    "label": "$~部分",
+                    "labels": [
+                        "$~全部",
+                        "$~平台",
+                        "$~学期",
+                        "$~令牌",
+                        "$~节点",
+                        "$~基础",
+                        "$~输入",
+                        "$~输出",
+                        "$~用户界面",
+                        "$~画廊",
+                        "$~适度"
+                    ],
+                    "tips": [
+                        "$~显示所有部分",
+                        "$~平台名称",
+                        "$~共享术语",
+                        "$~令牌描述",
+                        "$~编程语言结构",
+                        "$~内置类型，例如数字、文本、列表",
+                        "$~流和输入源描述",
+                        "$~输出类型描述",
+                        "$~应用程序用户界面",
+                        "$~默认图库内容",
+                        "$~内容审核信息"
+                    ]
+                },
+                "section": {
+                    "wordplay": "$~平台",
+                    "term": "$~术语",
+                    "token": "$~代币",
+                    "node": "$~语言结构",
+                    "basis": "$~内置类型",
+                    "input": "$~输入",
+                    "output": "$~输出",
+                    "ui": "$~用户界面",
+                    "gallery": "$~画廊",
+                    "moderation": "$~适度"
+                },
+                "singletonWordsWarning": "$~您的草稿中有些词语在整个语言环境中只出现过一次。您确定它们的拼写正确且与其他文本一致吗？",
+                "viewPR": "$~查看拉取请求",
+                "oneLocaleNote": "$~每次提交仅涵盖一种语言环境。本次提交将以修改的形式提交至 $locale"
             }
         },
         "edit": {
-            "node": "$1$2[, 类型 $2|]",
-            "before": "在 $1[$1|end] 之前",
-            "inside": "在 $1 内, 在 $2[$2|初] 和 $3[$3|界限] 之間",
-            "between": "在 $1 和 $2 之间",
-            "line": "$1[$1|start] 和 $2[$2|end]之间的空行",
-            "conflicts": "$1 冲突",
-            "assign": "/$2[急于插入|考虑离开]……/",
+            "node": "$node$type[, 类型 $type|]",
+            "before": "$~在 $after[$after|end] 之前",
+            "inside": "$~在 $token 内, 在 $before[$before|初] 和 $after[$after|界限] 之間",
+            "between": "在 $before 和 $after 之间",
+            "line": "$~$before[$before|start] 和 $after[$after|end]之间的空行",
+            "conflicts": "$count 冲突",
+            "assign": "/$name[急于插入|考虑离开]……/",
             "append": "/急于插入……/",
             "remove": "/考虑离开……/",
             "replace": "/想要介入……/",
-            "wrap": "加括号",
-            "unwrap": "揭开",
-            "bind": "给这个表达命名",
-            "range": "$~选择从 $1 美元到 $2 美元",
+            "range": "$~选择从 $start 美元到 $end 美元",
             "area": "$~类型代码"
         },
         "template": {
             "unwritten": "待定",
-            "unparsable": "无法解析的模板: $1",
+            "unparsable": "无法解析的模板: $template",
             "machineTranslated": "$~这是机器翻译的，所以可能不通顺或不正确。",
             "locallyRevised": "$~本文已进行本地化修订，与官方译文有所不同。"
         },
@@ -6082,14 +5536,8 @@
             "moderation": {
                 "header": "$~举报此消息",
                 "explanation": "$~如果此消息不符合我们的<社区标准@://rights>或您要求的反馈类型，您可以举报。举报后，此消息将发送给画廊管理员，并暂时下架，直至审核通过。",
-                "report": {
-                    "tip": "$~举报此消息",
-                    "label": "$~报告"
-                },
-                "moderate": {
-                    "tip": "$~前往审核控制面板",
-                    "label": "$~缓和"
-                },
+                "report": { "tip": "$~举报此消息", "label": "$~报告" },
+                "moderate": { "tip": "$~前往审核控制面板", "label": "$~缓和" },
                 "pending": "$~此消息暂时移除，等待审核处理。",
                 "removed": "$~此消息因违反社区或反馈准则已被删除。",
                 "inGallery": "$~此聊天室位于画廊内，由画廊管理员进行审核。您可以举报违反我们<社区标准@://rights>的消息，以便我们进行审核。"
@@ -6119,7 +5567,7 @@
                 "now": "$~现在",
                 "history": "$~版本",
                 "restore": "$~这是该项目的先前版本。",
-                "ago": "$~$1 $2 前"
+                "ago": "$~$amount $unit 前"
             },
             "button": {
                 "clear": "$~删除历史记录",
@@ -6134,7 +5582,7 @@
         "howto": {
             "galleryView": {
                 "header": "$~操作指南",
-                "subheader": "$~1美元的教程，2美元的新内容",
+                "subheader": "$~$total how-tos，$new new",
                 "subheaderEmpty": "$~创造第一个！",
                 "prompt": "$~“使用指南”是对如何使用 Wordplay 实现特定功能的简短解释和示例代码。当你掌握了想要分享的技巧后，请为本图库中的其他创作者编写一份指南，以便它们也能学习！"
             },
@@ -6160,12 +5608,7 @@
                 "notLoggedIn": "$~您必须登录才能使用书签功能。"
             },
             "navigationtooltip": "$~跳转至操作指南",
-            "button": {
-                "reset": {
-                    "label": "$~中心",
-                    "tip": "$~将画布居中"
-                }
-            },
+            "button": { "reset": { "label": "$~中心", "tip": "$~将画布居中" } },
             "editor": {
                 "newForm": {
                     "header": "$~创建一个新的操作指南",
@@ -6236,14 +5679,8 @@
                 }
             },
             "viewer": {
-                "view": {
-                    "label": "$~查看操作方法",
-                    "tip": "$~查看操作方法"
-                },
-                "edit": {
-                    "label": "$~✏️ 编辑",
-                    "tip": "$~编辑此操作指南"
-                },
+                "view": { "label": "$~查看操作方法", "tip": "$~查看操作方法" },
+                "edit": { "label": "$~✏️ 编辑", "tip": "$~编辑此操作指南" },
                 "delete": {
                     "description": "$~删除此操作指南",
                     "prompt": "$~🗑️删除"
@@ -6261,7 +5698,7 @@
                 "usedBy": {
                     "prompt": "$~你是否在项目中使用了这篇教程或其他教程？将你的项目添加到列表中，让其他人知道！",
                     "empty": "$~你目前还没有任何项目或其他已发布的教程。试着创建一个吧！",
-                    "countDisplay": "$~其他文字游戏导演也曾在其他1美元项目或教程中使用过这种方法。",
+                    "countDisplay": "$~其他 Wordplay 导演在其他项目或$count。",
                     "selector": "$~项目和操作指南选择器",
                     "removeButton": "$~从列表中删除项目或操作指南",
                     "addButton": "$~添加项目或操作指南"
@@ -6296,8 +5733,9 @@
                             "$~任何策展人创建的任何画廊的合作者都可以查看"
                         ]
                     },
-                    "expanded": "$~扩展",
-                    "limited": "$~有限的"
+                    "expandedOptions": "$~让选定画廊的策展人和创作者们看看这个画廊的操作指南。",
+                    "expandedAdd": "$~将图库添加到列表",
+                    "expandedRemove": "$~从列表中移除图库"
                 },
                 "guidingQuestions": {
                     "subheader": {
@@ -6332,14 +5770,12 @@
                 }
             },
             "announce": {
-                "howToPosition": "$~如何将 1 美元的价格提高到 2 美元，3 美元的价格提高到 3 美元",
-                "canvasPosition": "$~画布价格调整为 1 美元、2 美元",
-                "moveActivated": "$~移动功能已激活。可以使用鼠标、键盘或触摸屏移动 1 美元。",
+                "howToPosition": "$~标题为 $title 的操作指南已移至 $x $y",
+                "canvasPosition": "$~画布已移动到 $x, $y",
+                "moveActivated": "$~移动已激活。可以使用鼠标、键盘或触摸屏移动目标 $target",
                 "moveDeactivated": "$~移动已停用。"
             },
-            "error": {
-                "unknown": "$~这个教程空间不存在，或者不是公开的。"
-            }
+            "error": { "unknown": "$~这个教程空间不存在，或者不是公开的。" }
         },
         "gallerymoderation": {
             "header": "$~图库审核控制面板",
@@ -6349,18 +5785,9 @@
                 "reporter": "$~记者",
                 "action": "$~版主操作"
             },
-            "view": {
-                "label": "$~查看聊天记录",
-                "tip": "$~在聊天中查看消息"
-            },
-            "remove": {
-                "label": "$~消除",
-                "tip": "$~此消息违反了相关准则。"
-            },
-            "keep": {
-                "label": "$~保持",
-                "tip": "$~此消息不违反准则"
-            },
+            "view": { "label": "$~查看聊天记录", "tip": "$~在聊天中查看消息" },
+            "remove": { "label": "$~消除", "tip": "$~此消息违反了相关准则。" },
+            "keep": { "label": "$~保持", "tip": "$~此消息不违反准则" },
             "empty": "$~所有消息均无需审核。",
             "error": "$~您必须登录才能管理图库"
         },
@@ -6409,7 +5836,10 @@
                     "$~货币"
                 ]
             },
-            "skinTone": "$~肤色"
+            "skinTone": "$~肤色",
+            "script": "$~脚本",
+            "scriptLabel": "$~按脚本筛选",
+            "pickFilter": "$~选择类别或脚本"
         },
         "localize": {
             "header": "$~本地化",
@@ -6424,7 +5854,10 @@
                 "edit": "$~建议修改此文本",
                 "submit": "$~提交修改建议",
                 "cancel": "$~放弃建议的编辑",
-                "revert": "$~恢复官方文本"
+                "revert": "$~恢复官方文本",
+                "editTip": "$~建议修改此控件的工具提示",
+                "prev": "$~编辑上一项",
+                "next": "$~编辑下一项"
             },
             "field": {
                 "plain": {
@@ -6445,14 +5878,19 @@
                 }
             },
             "strings": "$~区域设置字符串",
-            "emotion": "$?",
+            "emotion": "Choose an emotion",
             "invalidName": "$~不是有效的文字游戏名称",
             "reference": "$~英文参考",
-            "unwritten": "$~未书写的文本",
-            "revised": "$~修订文本",
-            "revisedDescription": "$~这些修改已保存在本地，尚未提交审核。",
-            "submitRevisions": "$~提交修改稿",
-            "submitted": "$~谢谢！我们会审核您修改后的文本，可能很快就会发布。"
+            "invalidConceptLinks": "$~这些概念链接在当前语言环境中无法解析。您是不是拼错了某个链接，或者故意删除了它？",
+            "inputs": {
+                "header": "$~此模板接受的输入",
+                "usedTip": "$~单击光标处插入另一个引用。",
+                "unusedTip": "$~单击以将此引用插入到光标处。",
+                "missing": "$~缺少输入：",
+                "legacy": "$~将这些旧的定位引用替换为命名引用：",
+                "submitBlocked": "$~提交前请仔细核对每一条输入内容。",
+                "unknown": "$~这些引用与声明的输入或术语不匹配，因此不会进行替换："
+            }
         },
         "tour": {
             "label": "$~旅游",
@@ -6460,6 +5898,11 @@
             "previous": "$~上一步",
             "next": "$~下一步",
             "offscreen": "$~界面的这一部分目前在屏幕上不可见。"
+        },
+        "connection": {
+            "offline": "$~您目前处于离线状态。部分功能需要联网后才能使用。",
+            "unreachable": "$~我们无法连接到 Wordplay 数据库。连接恢复后，部分功能将无法使用。",
+            "label": "$~连接状态"
         }
     },
     "moderation": {
@@ -6485,16 +5928,10 @@
             "disclosure": "披露其他人的私人信息，如姓名、联系方式或实际地址。",
             "misinformation": "包含虚假、误导性、欺骗性或操纵性信息。"
         },
-        "progress": "*$1* 已审核，*$2* 剩余",
+        "progress": "*$moderated* 已审核，*$remaining* 剩余",
         "button": {
-            "submit": {
-                "tip": "保存这些审查设置",
-                "label": "保存"
-            },
-            "skip": {
-                "tip": "跳过此项目",
-                "label": "跳过"
-            },
+            "submit": { "tip": "保存这些审查设置", "label": "保存" },
+            "skip": { "tip": "跳过此项目", "label": "跳过" },
             "property": "$~项目是否具有此属性"
         },
         "done": "$~没什么可缓和的！",
@@ -6503,18 +5940,12 @@
         }
     },
     "gallery": {
-        "games": {
-            "name": "游戏",
-            "description": "交互式文字和符号游戏。"
-        },
+        "games": { "name": "游戏", "description": "交互式文字和符号游戏。" },
         "visualizations": {
             "name": "可视化",
             "description": "文字的可视化展示。"
         },
-        "motion": {
-            "name": "运动",
-            "description": "运动和碰撞的示例。"
-        },
+        "motion": { "name": "运动", "description": "运动和碰撞的示例。" },
         "av": {
             "name": "音频/视频",
             "description": "使用音量、音调和视频作为输入。"
@@ -6523,9 +5954,11 @@
             "name": "工具",
             "description": "简单的实用工具和应用程序。"
         },
-        "stories": {
-            "name": "$~故事",
-            "description": "$~互动故事和叙述。"
-        }
+        "stories": { "name": "$~故事", "description": "$~互动故事和叙述。" }
+    },
+    "system": {
+        "noscript": "$~Wordplay 使用了 JavaScript。您的浏览器不支持 JavaScript，或者 JavaScript 已被禁用。",
+        "unsupportedHeading": "$~不支持的浏览器",
+        "unsupportedBody": "$~您的浏览器不支持关键功能。要使用 Wordplay，您需要升级到更新的版本。"
     }
 }

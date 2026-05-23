@@ -1,0 +1,32 @@
+Tampilkan pilihan yang dapat dipilih
+
+Terkadang Anda ingin menampilkan banyak pilihan di layar, dan melakukan sesuatu dengan pilihan yang dibuat penonton. Untuk melakukan ini, kita membutuhkan dua hal:
+
+• Satu atau lebih  @Phrase  yang ditandai sebagai dapat dipilih dan memiliki nama unik (misalnya, \Phrase('pilihan 1' selectable: ⊤ name: 'satu')\)• A  @Choice , yang berubah menjadi  @Phrase  nama yang paling baru dipilih.
+
+Sebagai contoh, di sini kami menampilkan tiga pilihan, masing-masing dengan nama yang unik.
+
+\option: Choice()
+Group(Stack() [
+		Phrase('pilihan 1' selectable: ⊤ name: 'satu')
+		Phrase('opsi 2' selectable: ⊤ name: 'dua')
+		Phrase('pilihan 3' selectable: ⊤ name: 'tiga')
+		Phrase(option)
+	])\
+
+Setiap kali seseorang dipilih, yang terakhir  @Phrase  Menampilkan nama yang dipilih.
+
+Anda dapat menggunakan pola ini untuk melakukan sesuatu sebagai respons terhadap suatu pilihan. Misalnya, kita dapat mengubah proyek di atas untuk menampilkan emoji rahasia berdasarkan pilihan tersebut:
+
+\option: Choice()
+option = '' ? Group(Stack() [
+			Phrase('pilihan 1' selectable: ⊤ name: 'satu')
+			Phrase('opsi 2' selectable: ⊤ name: 'dua')
+			Phrase('pilihan 3' selectable: ⊤ name: 'tiga')
+		]) Phrase({'satu': '😡' 'dua': '🏀' 'tiga': '❤'}{option} ?? '?')\
+
+Itu  @Choice  dimulai sebagai sesuatu yang kosong  @Text Jadi, ketika proyek dimulai, kami memeriksanya dan menampilkan tiga pilihan tersebut.Setelah pilihan dibuat, maka pilihan tersebut akan menjadi salah satu dari tiga pilihan yang tersedia.  @Phrase  nama.
+
+Untuk menampilkan emoji berdasarkan pilihan, kita dapat menggunakan  @Map  untuk mengubah nama tersebut menjadi emoji rahasia.Ketika kita mendapatkan nilai dari sebuah  @Map , jika tidak ada kecocokan, maka akan dievaluasi menjadi \ø\, jadi kami menggunakan \??\ untuk default \'?'\ jika opsi tersebut tidak ada di peta. Dalam kasus ini, hal itu tidak mungkin terjadi, tetapi kita tidak cukup pintar untuk mengetahuinya!
+
+move-phrase

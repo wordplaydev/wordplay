@@ -1,0 +1,27 @@
+文字のグリッドを作成する
+
+行が必要な場合はどうすればいいですか？/そして/同時に列を表示する？ それは @Grid は です。
+
+A @Grid 行数、列数、セル間の間隔を尋ねます。
+
+\Group(Grid(2 3 0.25m) [
+		Phrase('🍎')
+		Phrase('🍌')
+		Phrase('🍇')
+		Phrase('🥕')
+		Phrase('🥦')
+		Phrase('🌽')
+	])\
+
+これで2フィート×3フィートの果物と野菜の菜園ができます！
+
+すべてのセルを同じサイズにしたい場合は、 @Grid 幅と高さも指定できます。そうすることで、文字のサイズが異なっていても、文字がそれぞれの枠内にきちんと収まります。
+
+\Group(Grid(2 2 0.1m 1.5m 1.5m) [
+		Phrase('🐈' size: 1m)
+		Phrase('🐶' size: 1.5m)
+		Phrase('🦊' size: 0.5m)
+		Phrase('🐻' size: 2m)
+	])\
+
+arrange-in-a-row, stack-up-and-down, make-many-copies

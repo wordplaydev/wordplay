@@ -1,0 +1,17 @@
+Mettre le texte côte à côte
+
+Parfois, nous voulons que les textes soient alignés les uns à côté des autres.Nous pouvons le faire avec un @Row , qui organise tout dans un @Group de gauche à droite.
+
+\Group(Row() [Phrase('🍎') Phrase('🍌') Phrase('🍇')])\
+
+UN  @Row Il est également possible d'aligner les caractères par leurs bords supérieur, médian ou inférieur, et d'ajouter un espace entre eux.Voici le même fruit, mais aligné en bas avec un peu d'espace :
+
+\Group(Row('>' 0.5m) [
+		Phrase('🍎' size: 2m)
+		Phrase('🍌' size: 1m)
+		Phrase('🍇' size: 3m)
+	])\
+
+Le \'>'\raconte @Row aligner le tout le long de son bord inférieur. Essayez\'<'\pour le haut ou\'|'\pour le milieu.Le \0.5m\est l'espace entre chaque caractère.
+
+stack-up-and-down, make-a-grid

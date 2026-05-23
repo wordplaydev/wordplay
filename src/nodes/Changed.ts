@@ -163,7 +163,9 @@ export default class Changed extends SimpleExpression {
     getStartExplanations(locales: Locales, context: Context) {
         return locales.concretize(
             (l) => l.node.Changed.start,
-            new NodeRef(this.stream, locales, context),
+            {
+                stream: new NodeRef(this.stream, locales, context),
+            },
         );
     }
 

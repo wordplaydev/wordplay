@@ -28,17 +28,19 @@ export default class TypeException extends ExceptionValue {
 
     getExplanation(locales: Locales) {
         return locales.concretize(
-            this.getExceptionText(locales).explanation,
-            new NodeRef(
-                this.expected,
-                locales,
-                this.getNodeContext(this.expected),
-            ),
-            new NodeRef(
-                this.received.getType(this.evaluator.getCurrentContext()),
-                locales,
-                this.getNodeContext(this.received.creator),
-            ),
+            (l) => l.node.Is.exception.TypeException.explanation,
+            {
+                expected: new NodeRef(
+                    this.expected,
+                    locales,
+                    this.getNodeContext(this.expected),
+                ),
+                given: new NodeRef(
+                    this.received.getType(this.evaluator.getCurrentContext()),
+                    locales,
+                    this.getNodeContext(this.received.creator),
+                ),
+            },
         );
     }
 }

@@ -1,5 +1,6 @@
 import { Purpose } from '@concepts/Purpose';
 import type Conflict from '@conflicts/Conflict';
+import { getEvaluateAnalyzers } from '@conflicts/evaluateAnalyzers';
 import IncompatibleInput from '@conflicts/IncompatibleInput';
 import MissingInput from '@conflicts/MissingInput';
 import NotInstantiable from '@conflicts/NotInstantiable';
@@ -49,7 +50,6 @@ import NameType from '@nodes/NameType';
 import NeverType from '@nodes/NeverType';
 import type Node from '@nodes/Node';
 import { any, list, node, none, type Grammar, type Replacement } from '@nodes/Node';
-import NoExpressionType from '@nodes/NoExpressionType';
 import { NonFunctionType } from '@nodes/NonFunctionType';
 import PropertyReference from '@nodes/PropertyReference';
 import Reference from '@nodes/Reference';
@@ -585,14 +585,18 @@ export default class Evaluate extends Expression {
                 );
 
                 // Figure out what type this expected input is. Resolve any type variables to concrete values.
-                if (given instanceof Expression) {
+                if (given instanceof Expression || given instanceof Input) {
                     // Don't rely on the bind's specified type, since it's not a reliable source of type information. Ask it's value directly.
-                    const givenType =
-                        given instanceof Input
-                            ? (given.value?.getType(context) ??
-                              new NoExpressionType(given))
-                            : given.getType(context);
-                    if (!expectedType.accepts(givenType, context, given))
+                    const valueExpression =
+                        given instanceof Input ? given.value : given;
+                    const givenType = valueExpression.getType(context);
+                    if (
+                        !expectedType.accepts(
+                            givenType,
+                            context,
+                            valueExpression,
+                        )
+                    )
                         conflicts.push(
                             new IncompatibleInput(
                                 given,
@@ -727,6 +731,12 @@ export default class Evaluate extends Expression {
             // Add a new one.
             conflicts.push(new SeparatedEvaluate(ref, block, structure));
         }
+
+        // Let any definition-specific analyzers contribute extra conflicts
+        // (e.g. Phrase's unsupported-font-format warnings). Keeps domain
+        // knowledge out of this file.
+        for (const analyzer of getEvaluateAnalyzers(fun))
+            conflicts.push(...analyzer(this, context));
 
         return conflicts;
     }
@@ -1071,10 +1081,7 @@ export default class Evaluate extends Expression {
     }
 
     getStartExplanations(locales: Locales) {
-        return locales.concretize(
-            (l) => l.node.Evaluate.start,
-            this.inputs.length > 0,
-        );
+        return locales.concretize((l) => l.node.Evaluate.start);
     }
 
     getFinishExplanations(
@@ -1084,18 +1091,20 @@ export default class Evaluate extends Expression {
     ) {
         return locales.concretize(
             (l) => l.node.Evaluate.finish,
-            this.getValueIfDefined(locales, context, evaluator),
+            {
+                value: this.getValueIfDefined(locales, context, evaluator),
+            },
         );
     }
 
     getDescriptionInputs(locales: Locales, context: Context) {
         const fun = this.getFunction(context);
         const names = fun?.names;
-        return [
-            names ? locales.getName(names) : undefined,
-            fun instanceof StreamDefinition ? true : undefined,
-            fun instanceof StructureDefinition ? true : undefined,
-        ];
+        return {
+            name: names ? locales.getName(names) : undefined,
+            stream: fun instanceof StreamDefinition ? true : undefined,
+            structure: fun instanceof StructureDefinition ? true : undefined,
+        };
     }
 
     getCharacter() {

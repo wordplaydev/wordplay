@@ -1,4 +1,4 @@
-import type { FormattedText } from '@locale/LocaleText';
+import type { FormattedText, Template } from '@locale/LocaleText';
 import type {
     ButtonText,
     ConfirmText,
@@ -14,7 +14,7 @@ type PageText = {
         /** [plain] Title of how-to space in the gallery view */
         header: string;
         /** [plain] Subtitle for the how-to space in the gallery view */
-        subheader: string;
+        subheader: Template<['total', 'new']>;
         /** [plain] Subtitle for the how-to space in the gallery if no how-tos */
         subheaderEmpty: string;
         /** [formatted] Prompt for the how-to space in the gallery view */
@@ -105,7 +105,7 @@ type PageText = {
             /** [formatted] Text for if the user does not have any other how-tos or projects */
             empty: FormattedText;
             /** [plain] Text for how many others projects or how-tos, other than the user's own, have used this how-to */
-            countDisplay: string;
+            countDisplay: Template<['count']>;
             /** [plain] Options text for selecting which projects and how-tos used this how-to */
             selector: string;
             removeButton: string;
@@ -130,10 +130,12 @@ type PageText = {
         visibility: {
             subheader: HeaderAndExplanationText;
             mode: ModeText<[string, string]>;
-            /** [plain] Name of visibility option for limiting visibility to gallery curators and creators */
-            limited: string;
-            /** [plain] Name of visibility option for making how-tos visible to anyone who has access to the curator's galleries */
-            expanded: string;
+            /** [plain] Label for options for galleries to add as expanded permissions */
+            expandedOptions: string;
+            /** [plain] Label for adding a gallery to expanded list */
+            expandedAdd: string;
+            /** [plain] Label for removing a gallery from expanded list */
+            expandedRemove: string;
         };
         /** Subheaders and descriptions for configuring guiding questions */
         guidingQuestions: {
@@ -165,9 +167,9 @@ type PageText = {
     };
     /** For announcing changes to the canvas or to how-to positions */
     announce: {
-        howToPosition: string;
-        canvasPosition: string;
-        moveActivated: string;
+        howToPosition: Template<['title', 'x', 'y']>;
+        canvasPosition: Template<['x', 'y']>;
+        moveActivated: Template<['target']>;
         moveDeactivated: string;
     };
     error: {

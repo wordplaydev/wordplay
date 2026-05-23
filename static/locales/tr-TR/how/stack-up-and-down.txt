@@ -1,0 +1,17 @@
+Karakterleri yukarıdan aşağıya doğru sıralayın.
+
+Eğer bir @Row yan yana anlamına gelir, o zaman bir @Stack Yukarıdan aşağıya doğrudur. @Stack Her karakteri bir öncekinin altına, bir kule gibi yerleştirir.
+
+\Group(Stack() [Phrase('bir') Phrase('iki') Phrase('üç')])\
+
+Bir @Row , A  @Stack Ayrıca hizalama ve dolguya da sahip olabilir.Her şeyi sol tarafa hizalamayı deneyin:
+
+\Group(Stack('<' 0.25m) [
+		Phrase('🐣 küçük')
+		Phrase('🐥 orta')
+		Phrase('🐔 büyük')
+	])\
+
+O\'<'\ araç /Her şeyi sol kenar boyunca hizalayın./.Ayrıca şunları da deneyebilirsiniz.\'|'\merkez için veya\'>'\sağ kenar için.
+
+arrange-in-a-row, make-a-grid

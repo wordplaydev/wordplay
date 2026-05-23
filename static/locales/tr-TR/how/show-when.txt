@@ -1,0 +1,21 @@
+Bir değere bağlı olarak farklı şeyler gösterin.
+
+Peki ya şunu istiyorsanız... @Phrase Bir şeye bağlı olarak değişmek — örneğin bir puana veya bir tuşa basılmaya bağlı olarak?
+
+Şartlı ifadeyi kullanabiliriz.\?\İki şey arasında seçim yapmak.Önce koşulu yazın, sonra da...\?\Öncelikle doğru olduğunda kullanılacak değer, ardından yanlış olduğunda kullanılacak değer.
+
+İşte boşluk tuşuna her bastığınızda üzgün bir ifadeye dönüşen, sonra tekrar mutlu bir ifadeye dönen bir yüz:
+
+\happy: ⊤ … ∆ Key(' ') … ~happy
+Phrase(happy ? '😊' '😢')\
+
+O @Reaction başlar\happy\ gibi \⊤\(doğru) ve bunu tersine çeviriyor.\~\Her defasında alan daraldığında.Sonra koşullu ifade\?\Doğru yüzü seçiyor.
+
+İkiden fazla seçenek arasından seçim yapmak için koşullu ifadeleri zincirleyebilirsiniz:
+
+\score: 0 … ∆ Key('A') … score + 1
+Phrase(score < 3 ? '🥚' score < 6 ? '🐣' '🐥')\
+
+Basmak \a\Birkaç kez deneyin ve yumurtanın civciv haline gelmesini izleyin!
+
+track-points, offer-choices

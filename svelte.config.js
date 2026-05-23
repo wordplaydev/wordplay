@@ -32,6 +32,11 @@ const config = {
             directives: {
                 'script-src': [
                     'self',
+                    // Allow compiling/instantiating WebAssembly without
+                    // requiring full 'unsafe-eval'. Needed by MediaPipe
+                    // Tasks Vision (the Hand() input stream's hand
+                    // landmarker runs as WASM).
+                    'wasm-unsafe-eval',
                     'https://fonts.googleapis.com',
                     'https://fonts.gstatic.com',
                     'https://www.googletagmanager.com',

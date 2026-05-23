@@ -3,12 +3,7 @@
     import type Concept from '@concepts/Concept';
     import { TYPE_CLOSE_SYMBOL, TYPE_OPEN_SYMBOL } from '@parser/Symbols';
     import { slide } from 'svelte/transition';
-    import {
-        Locales,
-        animationDuration,
-        blocks,
-        locales,
-    } from '@db/Database';
+    import { Locales, animationDuration, blocks, locales } from '@db/Database';
     import type LocaleText from '@locale/LocaleText';
     import type Type from '@nodes/Type';
     import type TypeVariables from '@nodes/TypeVariables';

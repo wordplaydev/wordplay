@@ -16,8 +16,8 @@ export default class InternalException extends ExceptionValue {
 
     getExplanation(locales: Locales) {
         return locales.concretize(
-            this.getExceptionText(locales).explanation,
-            this.reason,
+            (l) => l.node.Program.exception.InternalException.explanation,
+            { reason: this.reason },
         );
     }
 }

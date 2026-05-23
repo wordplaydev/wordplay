@@ -1,0 +1,28 @@
+Put text side by side
+
+Sometimes we want text to sit next to each other in a tidy line.
+We can do that with a @Row, which arranges everything in a @Group from left to right.
+
+\
+Group(Row() [
+    Phrase('🍎')
+    Phrase('🍌')
+    Phrase('🍇')
+])
+\
+
+A @Row can also line characters up by their top, middle, or bottom edges, and add space between them.
+Here is the same fruit, but bottom-aligned with a little breathing room:
+
+\
+Group(Row('>' 0.5m) [
+    Phrase('🍎' size: 2m)
+    Phrase('🍌' size: 1m)
+    Phrase('🍇' size: 3m)
+])
+\
+
+The \'>'\ tells the @Row to line everything up along its bottom edge. Try \'<'\ for top or \'|'\ for middle.
+The \0.5m\ is the space between each character.
+
+stack-up-and-down, make-a-grid

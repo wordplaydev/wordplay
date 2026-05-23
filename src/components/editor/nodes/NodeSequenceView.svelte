@@ -14,11 +14,12 @@
         getEditor,
     } from '@components/project/Contexts';
     import Button from '@components/widgets/Button.svelte';
-    import { locales } from '@db/Database';
+    import { locales, spaceIndicator } from '@db/Database';
     import { InsertionPoint } from '@edit/drag/Drag';
     import type NodeRef from '@locale/NodeRef';
     import type ValueRef from '@locale/ValueRef';
     import Node from '@nodes/Node';
+    import { EXPLICIT_NEWLINE_TEXT } from '@parser/Spaces';
     import type KeysOfType from '@util/KeysOfType';
     import { tick } from 'svelte';
 
@@ -143,11 +144,18 @@
         {#if insertion?.index === index}
             {@render insertFeedback()}
         {/if}
-        <!-- If in blocks mode and we're wrapping, render line breaks -->
+        <!-- If in blocks mode and we're wrapping, render line breaks. Each
+             break wraps the row (inline) or adds a blank line (block). When
+             whitespace display is on, the break also shows a ↵ marker so
+             the gap is explained. -->
         {#if format.block && breaks && format.spaces}
             {@const space = format.spaces.getSpace(node)}
             {#each space.split('\n').slice(0, -1), index}
-                <div class="break" class:first={index === 0}></div>
+                <div class="break" class:first={index === 0}
+                    >{#if $spaceIndicator}<span class="newline-marker"
+                            >{EXPLICIT_NEWLINE_TEXT}</span
+                        >{/if}</div
+                >
             {/each}
         {/if}
         <NodeView {node} {format} {index} />
@@ -173,7 +181,11 @@
             ? format.spaces.getSpace(trailingToken)
             : ''}
         {#each trailingSpace.split('\n').slice(0, -1)}
-            <div class="break"></div>
+            <div class="break"
+                >{#if $spaceIndicator}<span class="newline-marker"
+                        >{EXPLICIT_NEWLINE_TEXT}</span
+                    >{/if}</div
+            >
         {/each}
     {/if}
     {#if nodes.length > 0}
@@ -284,6 +296,14 @@
         color: var(--wordplay-inactive-color);
     }
 
+    /* The ↵ marker shown inside breaks when "show whitespace" is on. Small
+       and dim so it labels the gap without competing with the code. */
+    .newline-marker {
+        font-size: var(--wordplay-small-font-size);
+        color: var(--wordplay-inactive-color);
+        line-height: 1;
+    }
+
     /* In an inline-direction node-list, breaks force a wrap by occupying a
        full row (flex-basis: 100%) and add a line-height of vertical space. */
     [data-direction='inline'] > .break {
@@ -305,5 +325,21 @@
     .break.first {
         min-height: 0;
         max-height: 0;
+    }
+
+    /* In vertical lists, the first break is implicit (paired with the
+       column gap), so its marker would be visual noise — hide it even
+       when "show whitespace" is on. */
+    [data-direction='block'] > .break.first .newline-marker {
+        display: none;
+    }
+
+    /* In vertical lists, suppress the inline space/tab characters that
+       precede each item. Indentation-as-content is just visual noise in a
+       column-flex layout — newlines are already represented by break divs.
+       We hide the inner .space-text rather than the .space wrapper so the
+       wrapper stays in the DOM (CaretView looks it up by data-id). */
+    [data-direction='block'] > :global(.space) > :global(.space-text) {
+        display: none;
     }
 </style>

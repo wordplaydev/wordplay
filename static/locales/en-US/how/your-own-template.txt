@@ -1,0 +1,26 @@
+Make your own character template
+
+Sometimes you want lots of characters that look almost the same, but with little differences.
+Instead of writing the same @Phrase over and over, you can make your own template with a @Structure.
+
+A @Structure is like a recipe with blanks to fill in.
+Here's a balloon template that takes a color and a label, and knows how to show itself:
+
+\
+•Balloon(color•Color label•'') (
+    ƒ show() Phrase(`🎈 \label\` color: color size: 2m)
+)
+
+Group(Row() [
+    Balloon(Color(80% 50 240°) 'Sky').show()
+    Balloon(Color(60% 80 0°) 'Rose').show()
+    Balloon(Color(90% 80 90°) 'Sunny').show()
+])
+\
+
+The \•Balloon(...)\ part defines the template, and the \ƒ show()\ part says /how to draw one/.
+Then we make three balloons with different colors and labels, and ask each one to \show\ itself.
+
+Templates are great when you want to keep your code tidy and your characters consistent.
+
+track-game-state, make-many-copies

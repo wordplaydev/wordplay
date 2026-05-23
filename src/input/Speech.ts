@@ -19,6 +19,8 @@ import TextType from '@nodes/TextType';
 import UnionType from '@nodes/UnionType';
 import TextValue from '@values/TextValue';
 import createStreamEvaluator from '@input/createStreamEvaluator';
+import PermissionException from '@values/PermissionException';
+import { denyConsent, Permission } from '@input/permissions';
 
 // Types for Web Speech API (browser compatibility handling)
 // The Web Speech API is *NOT* fully typed in TypeScript's lib.dom.d.ts
@@ -338,9 +340,17 @@ export default class Speech extends StreamValue<TextValue, string> {
                 break;
 
             case 'not-allowed':
-                // Permission denied - user needs to grant microphone access
-                this.reactError('micNotAllowed');
-                // Don't retry permission errors - user action required
+                // Permission denied - user needs to grant microphone access.
+                // Surface as a PermissionException so the stage shows the standard denial UI and a Retry button.
+                denyConsent(Permission.Microphone);
+                this.evaluator.replaceMainValue(
+                    new PermissionException(
+                        this.creator,
+                        this.evaluator,
+                        Permission.Microphone,
+                    ),
+                );
+                this.evaluator.broadcast();
                 this.stop();
                 break;
 

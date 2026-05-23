@@ -1,0 +1,21 @@
+Tampilkan hal-hal berbeda berdasarkan suatu nilai.
+
+Bagaimana jika Anda menginginkan sebuah  @Phrase  Berubah tergantung pada sesuatu — seperti skor, atau penekanan tombol?
+
+Kita bisa menggunakan kondisi bersyarat. \?\ untuk memilih di antara dua hal.Tuliskan kondisinya, lalu sebuah \?\, kemudian nilai yang digunakan ketika bernilai benar, lalu nilai yang digunakan ketika bernilai salah.
+
+Ini dia wajah bahagia yang berubah menjadi sedih setiap kali Anda menekan spasi, lalu kembali lagi:
+
+\happy: ⊤ … ∆ Key(' ') … ~happy
+Phrase(happy ? '😊' '😢')\
+
+Itu  @Reaction  mulai \happy\ sebagai \⊤\ (benar), dan membalikkannya dengan \~\ setiap kali ruang terbatas.Kemudian kondisional \?\ memilih wajah yang tepat.
+
+Anda dapat menggabungkan kondisi untuk memilih lebih dari dua hal:
+
+\score: 0 … ∆ Key('A') … score + 1
+Phrase(score < 3 ? '🥚' score < 6 ? '🐣' '🐥')\
+
+Tekan \a\ Beberapa kali dan saksikan telur menetas menjadi anak ayam!
+
+track-points, offer-choices

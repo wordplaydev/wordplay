@@ -1,6 +1,8 @@
 <script lang="ts">
     import type Initial from '@nodes/Initial';
-    import NodeView, { type Format } from '@components/editor/nodes/NodeView.svelte';
+    import NodeView, {
+        type Format,
+    } from '@components/editor/nodes/NodeView.svelte';
 
     interface Props {
         node: Initial;

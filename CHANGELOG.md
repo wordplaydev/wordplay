@@ -4,17 +4,69 @@ We'll note all notable changes in this file, including bug fixes, enhancements, 
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 These notes are publicly posted in [production](https://wordplay.dev/updates), so we write them to an audience of teachers and youth.
 
+## 0.18.1 - 2026-05-19
+
+### Added
+
+- We finally added font face previews! Now you don't have to click to see what a font looks like.
+- Now, when a project requires permission to use an input like a camera or microphone, we ask for it explicitly and start the project after, and if denied, we show an exception and instructors for granting it if they denied by accident (#789).
+- Added 11 new built-in how-to's to the Guide covering layout (rows, stacks, grids, copies), animation (counting with time, reacting to sound), the @Pointer stream, custom @Structure templates, picking from a list with @Random, conditional rendering, and physics with @Motion and @Matter. These fill the previously empty layout, animation, and motion categories.
+- Now with more complete support for Han numerals for Chinese, Japanese, and Korean (#2), Thai (#6), and Indic numerals for Bengali, Devanagari, Gujarati, Gurmukhi, Kannada, Tamil, and Telugu (#5, #7).
+- Now with support for Bengali (#142), Indonesian (#148), and Romanian (#433)! If you know those, help us improve them with the new in-app localization support.
+- We added a script selector to the glyph/emoji chooser, so you can find the glyphs in different languages (#322).
+- We added better feedback when the site is offline and saves are pending.
+
+### Changed
+
+- We made `Phrase` word wrapping locale specific (#164).
+- We upgraded internal tooling for stability.
+
+### Fixed
+
+- When many people were sharing to a gallery at once, it could lead to some shares failing. That shouldn't happen anymore. We made similar changes to updates to chats, feedback, how tos, teacher classes.
+- We fixed problems with how text types with multiple options are shown as conflicts, especially with output animation styles (#541).
+- We fixed a few font face weight availability problems (#1026).
+- Now when a @Match or @Conditional references a stream in its case, then, or else, the the stream starts even when it's not referenced in the condition (#679).
+- We fixed the debugger so you can now step through anonymous functions and see each step as you go, instead of getting a confusing missing value error (#680).
+- We fixed a false conflict that appeared on anonymous functions in expressions like `[1 2 3 4].translate(ƒ(a) a + 1)`, even when the code was fine.
+- We fixed the conflict underlines so they follow the code when values pop in next to expressions while stepping through the debugger.
+- We fixed several localization problems in machine translated locales (#122).
+
+## 0.18.0 - 2026-05-15
+
+### Added
+
+- There's a new `Hand` input! It uses the camera to check the location of your hand, which fingers are up, how many fingers are up, whether your hand is open or closed, and whether your palm is showing. What a handy input!
+- Added the ability to control which other galleries gallery how-tos are shared with.
+- We added a new in-app localization mode! Anyone can suggest revisions to any supported language within the app. Changes are stored locally until you submit them; a GitHub pull request is created and reviewed by maintainers before they become live (#437).
+
+### Changed
+
+- We upgraded internal tooling for stability.
+- We added more flexible custom character insertion.
+- We added a play/pause button when playing a project
+- We now show the debug panel when the output tile is in full screen mode.
+
+### Fixed
+
+- The to front and back buttons in the character editor didn't work.
+- Repaired a translation bug that prevented rendering of translated formatted text.
+- Stopped autocomplete from preventing percent typing.
+- We reduced how much memory projects use when they are running or edited.
+- Pinch to zoom on stage was broken on touch screens.
+
 ## 0.17.9 - 2026-05-09
 
 ### Added
 
-- We added a new "tour" help feature for each tile in the project view, explaining its purpose and core features. Try them out and let us know if we should expand the explanations! (#687).
-- We added additional keywords to all emojis to improve searching (#1090), but also translated all of those keywords, so that works in all supported locales (#639).
-- We added a new visual style for blocks editing mode, for improved readability. It also accounts for whether an editor is read only, hiding editing controls for more compactness.
-- We added much more robust menu suggestions for locales (#1099), text and formatted literals (#635), and unit suggestions.
-- We added a way to highlight expressions by adding 👀 inside some code's preceding explanatio, e.g., \¶👀¶"I'm highlighted!" This is helpful for how-to authors who want to emphasize some code.
-- We added a setting to control the spacing in blocks mode, for accessibility.
+- There's a new "tour" help feature for each tile in the project view, explaining its purpose and core features. Try them out and let us know if we should expand the explanations! (#687).
+- Emoji searching now supports many more keywords (#1090), but also translations all of those keywords, so that works in all supported locales (#639).
+- Blocks have a new visual style for blocks editing mode, for improved readability. It also accounts for whether an editor is read only, hiding editing controls for more compactness.
+- Menu suggestions in the editor are now much more helpful for locales (#1099), text and formatted literals (#635), and unit suggestions.
+- How-to authors can now highlight expressions by adding 👀 inside some code's preceding explanatio, e.g., \¶👀¶"I'm highlighted!" This is helpful for how-to authors who want to emphasize some code.
+- Block spacing can now be controlled.
 - We added a machine translated Tagalog locale (#1089).
+- The guide in the project view now shows _all_ how-tos a creator has access to, can filter between just all and gallery-specific how-tos (#1087).
 - Now there's a "back to top" link on long pages (#1097).
 
 ### Changed
@@ -26,6 +78,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - We improved the layout of code in the chat view (#1107).
 - We made input names in a blocks mode a drop down instead of editable text.
 - We upgraded internal tooling for stability.
+- We updated documentation for developers.
 
 ### Fixed
 
@@ -40,6 +93,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - We improved the contrast of links in light mode.
 - We added loading feedback when a new project is greated on the projects or gallery page.
 - We fixed the very cramped width of chat messages when they have example code (#1107).
+- We improved line break rendering in blocks mode.
 
 ## 0.17.8 - 2026-05-02
 

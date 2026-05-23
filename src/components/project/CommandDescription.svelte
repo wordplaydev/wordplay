@@ -1,7 +1,10 @@
 <script lang="ts">
     import Emoji from '@components/app/Emoji.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import { toShortcut, type Command } from '@components/editor/commands/Commands';
+    import {
+        toShortcut,
+        type Command,
+    } from '@components/editor/commands/Commands';
 
     interface Props {
         command: Command;

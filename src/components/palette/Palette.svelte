@@ -69,6 +69,12 @@
     let phraseTextValues: OutputPropertyValueSet | undefined =
         $state(undefined);
 
+    // Keep a reference to the face so the text style editor can hide weight/italic
+    // options the face doesn't support.
+    let phraseFaceValues = $state<OutputPropertyValueSet | undefined>(
+        undefined,
+    );
+
     /**
      * From the list of OutputExpressions, generate a value set for each property to allow for editing
      * multiple output expressions at once. */
@@ -101,9 +107,16 @@
             // Remember the phrase text property
             if (property.isName($locales, (l) => l.output.Phrase.text.names))
                 phraseTextValues = values;
+            // Remember the phrase face property
+            if (property.isName($locales, (l) => l.output.Phrase.face.names))
+                phraseFaceValues = values;
         }
         propertyValues = newPropertyValues;
     });
+
+    // The face name shared by all selected phrases, if any — used to constrain
+    // the text style editor's weight/italic options to what the face supports.
+    let sharedFaceName = $derived(phraseFaceValues?.getText());
 
     /** When the caret changes, see if it is inside an editable output, and select it if so. */
     $effect(() => {
@@ -165,7 +178,10 @@
             <PaletteProperty {project} {property} {values} {editable} />
             <!-- Add the text style editor just below the face chooser. -->
             {#if property.isName($locales, (l) => l.output.Phrase.face.names) && phraseTextValues}
-                <TextStyleEditor {project} outputs={phraseTextValues}
+                <TextStyleEditor
+                    {project}
+                    outputs={phraseTextValues}
+                    faceName={sharedFaceName}
                 ></TextStyleEditor>
             {/if}
         {/each}

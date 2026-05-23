@@ -25,7 +25,9 @@ export class UnknownTypeName extends Conflict {
             explanation: (locales: Locales, context: Context) =>
                 locales.concretize(
                     (l) => UnknownTypeName.LocalePath(l).explanation,
-                    new NodeRef(this.definition, locales, context),
+                    {
+                        type: new NodeRef(this.definition, locales, context),
+                    },
                 ),
         };
     }

@@ -1,0 +1,17 @@
+Ilagay ang teksto nang magkatabi
+
+Minsan gusto natin na ang teksto ay magkatabi sa isang maayos na linya.Magagawa natin iyan gamit ang isang @Row , na nag-aayos ng lahat ng bagay sa isang @Group mula kaliwa pakanan.
+
+\Group(Row() [Phrase('🍎') Phrase('🍌') Phrase('🍇')])\
+
+Isang @Row maaari ring ihanay ang mga karakter sa pamamagitan ng kanilang mga gilid sa itaas, gitna, o ibaba, at magdagdag ng espasyo sa pagitan ng mga ito.Narito ang parehong prutas, ngunit nakahanay sa ilalim na may kaunting espasyo para makahinga:
+
+\Group(Row('>' 0.5m) [
+		Phrase('🍎' size: 2m)
+		Phrase('🍌' size: 1m)
+		Phrase('🍇' size: 3m)
+	])\
+
+Ang\'>'\nagsasabi sa @Row para ihanay ang lahat sa ilalim na gilid nito. Subukan\'<'\para sa itaas o\'|'\para sa gitna.Ang\0.5m\ay ang espasyo sa pagitan ng bawat karakter.
+
+stack-up-and-down, make-a-grid

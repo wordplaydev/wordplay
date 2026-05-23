@@ -1,0 +1,27 @@
+Make a grid of characters
+
+What if we want rows /and/ columns at the same time? That's what a @Grid is for.
+
+A @Grid asks for the number of rows, the number of columns, and how much space to put between cells.
+
+\
+Group(Grid(2 3 0.25m) [
+    Phrase('🍎') Phrase('🍌') Phrase('🍇')
+    Phrase('🥕') Phrase('🥦') Phrase('🌽')
+])
+\
+
+This makes a 2 by 3 fruit and veggie garden!
+
+If you want every cell to be the same size, give @Grid a width and height too. That way characters stay neatly inside their squares, even if they're different sizes:
+
+\
+Group(Grid(2 2 0.1m 1.5m 1.5m) [
+    Phrase('🐈' size: 1m)
+    Phrase('🐶' size: 1.5m)
+    Phrase('🦊' size: 0.5m)
+    Phrase('🐻' size: 2m)
+])
+\
+
+arrange-in-a-row, stack-up-and-down, make-many-copies

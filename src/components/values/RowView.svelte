@@ -2,10 +2,7 @@
     import type StructureValue from '@values/StructureValue';
     import { Sym } from '@nodes/Sym';
     import type TableType from '@nodes/TableType';
-    import {
-        TABLE_CLOSE_SYMBOL,
-        TABLE_OPEN_SYMBOL,
-    } from '@parser/Symbols';
+    import { TABLE_CLOSE_SYMBOL, TABLE_OPEN_SYMBOL } from '@parser/Symbols';
     import SymbolView from '@components/values/SymbolView.svelte';
     import ValueView from '@components/values/ValueView.svelte';
 

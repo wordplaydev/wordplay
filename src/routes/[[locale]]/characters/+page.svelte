@@ -12,10 +12,7 @@
     import { CharactersDB } from '@db/Database';
     import { firestore } from '@db/firebase';
     import { CANCEL_SYMBOL, COPY_SYMBOL } from '@parser/Symbols';
-    import {
-        characterToSVG,
-        type Character,
-    } from '@db/characters/Character';
+    import { characterToSVG, type Character } from '@db/characters/Character';
     import NewCharacterButton from './NewCharacterButton.svelte';
 
     const user = getUser();

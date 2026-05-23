@@ -2,7 +2,9 @@
     import type FunctionDefinition from '@nodes/FunctionDefinition';
     import Flow from '@components/editor/blocks/Flow.svelte';
     import NodeSequenceView from '@components/editor/nodes/NodeSequenceView.svelte';
-    import NodeView, { type Format } from '@components/editor/nodes/NodeView.svelte';
+    import NodeView, {
+        type Format,
+    } from '@components/editor/nodes/NodeView.svelte';
     import { isVerticalList } from '@components/editor/nodes/verticalLayout';
 
     interface Props {
@@ -47,14 +49,11 @@
                     empty="menu"
                     direction="block"
                     wrap={false}
-                    breaks={false}
+                    breaks
                 />
             </Flow>
             <Flow direction="row"
-                ><NodeView
-                    node={[node, 'close']}
-                    {format}
-                /><NodeView
+                ><NodeView node={[node, 'close']} {format} /><NodeView
                     node={[node, 'dot']}
                     {format}
                     empty="hide"

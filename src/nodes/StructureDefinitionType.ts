@@ -45,7 +45,9 @@ export default class StructureDefinitionType extends Type {
     }
 
     getDescriptionInputs(locales: Locales) {
-        return [locales.getName(this.type.definition.names)];
+        return {
+            name: locales.getName(this.type.definition.names),
+        };
     }
 
     getBasisTypeName(): BasisTypeName {

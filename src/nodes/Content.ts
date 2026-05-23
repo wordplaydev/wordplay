@@ -14,7 +14,7 @@ export default abstract class Content extends Node {
 
     abstract concretize(
         locales: Locales,
-        inputs: TemplateInput[],
+        inputs: Record<string, TemplateInput>,
         /** A mutable list of token replacements, to preserve preceding space after modifications */
         replacements: [Node, Node][],
     ): Content | Token | NodeRef | ValueRef | ConceptRef | undefined;

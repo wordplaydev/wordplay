@@ -71,7 +71,9 @@ export function createStageType(locales: Locales) {
     ${getBind(locales, (locale) => locale.output.Stage.style)}•${locales
         .getLocales()
         .map((locale) =>
-            Object.values(locale.output.Easing).map((id) => `"${id}"`),
+            Object.values(locale.output.Easing).map(
+                (id) => `"${id}"/${locale.language}`,
+            ),
         )
         .flat()
         .join('|')}: "${DefaultStyle}"
@@ -233,10 +235,12 @@ export default class Stage extends Output {
             this._description = locales
                 .concretize(
                     (l) => l.output.Stage.defaultDescription,
-                    this.content.length,
-                    this.name instanceof TextLang ? this.name.text : undefined,
-                    this.frame?.getDescription(locales),
-                    this.pose.getDescription(locales).trim(),
+                    {
+                        count: this.content.length,
+                        name: this.name instanceof TextLang ? this.name.text : undefined,
+                        frame: this.frame?.getDescription(locales),
+                        pose: this.pose.getDescription(locales).trim(),
+                    },
                 )
                 .toText()
                 .trim();

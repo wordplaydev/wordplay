@@ -58,7 +58,9 @@ export function createGroupType(locales: Locales) {
     ${getBind(locales, (locale) => locale.output.Group.style)}•${locales
         .getLocales()
         .map((locale) =>
-            Object.values(locale.output.Easing).map((id) => `"${id}"`),
+            Object.values(locale.output.Easing).map(
+                (id) => `"${id}"/${locale.language}`,
+            ),
         )
         .flat()
         .join('|')}: "${DefaultStyle}"
@@ -169,9 +171,11 @@ export default class Group extends Output {
             this._description = locales
                 .concretize(
                     (l) => l.output.Group.defaultDescription,
-                    this.name instanceof TextLang ? this.name.text : undefined,
-                    this.layout.getDescription(this.content, locales),
-                    this.pose.getDescription(locales),
+                    {
+                        name: this.name instanceof TextLang ? this.name.text : undefined,
+                        layout: this.layout.getDescription(this.content, locales),
+                        pose: this.pose.getDescription(locales),
+                    },
                 )
                 .toText()
                 .trim();

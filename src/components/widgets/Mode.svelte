@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { getTip } from '@components/project/Contexts';
+    import { getLocalizing, getTip } from '@components/project/Contexts';
     import { locales } from '@db/Database';
     import type LocaleText from '@locale/LocaleText';
     import type { ModeText } from '@locale/UITexts';
@@ -10,8 +10,10 @@
     interface Props {
         /** Localized text for the labels and tooltips */
         modes: (locale: LocaleText) => ModeText<readonly string[]>;
-        /** The current mode selected */
-        choice: number;
+        /** The current mode selected, or undefined for no selection (no
+         *  button is rendered selected — used when another control supersedes
+         *  the mode). */
+        choice: number | undefined;
         /** Callback for when a mode is selected.*/
         select: (choice: number) => void;
         /** Icons to add as prefixes to labels */
@@ -26,6 +28,9 @@
         wrap?: boolean;
         /** Buttons to omit, allowing for conditional display of modes */
         omit?: readonly number[];
+        /** Optional annotation text appended after each mode's label (e.g. a count).
+         *  Use `undefined` at a given index to skip annotating that button. */
+        annotations?: readonly (string | undefined)[];
     }
 
     let {
@@ -38,12 +43,18 @@
         modeLabels = true,
         wrap = false,
         omit = [],
+        annotations,
     }: Props = $props();
 
     let modeText = $derived($locales.getTextStructure(modes));
     let label = $derived(withoutAnnotations(modeText.label));
 
     let hint = getTip();
+    let localizing = getLocalizing();
+    // Per-index edit state so we can hide a mode button's tip badge while its
+    // label is being edited (and vice versa).
+    let labelEditing = $state<Record<number, boolean>>({});
+    let tipEditing = $state<Record<number, boolean>>({});
     function showTip(view: HTMLButtonElement, tip: string) {
         hint.show(tip, view);
     }
@@ -111,9 +122,17 @@
                     {#if icons}{#if index < icons.length}{withMonoEmoji(
                                 icons[index],
                             )}{:else}?{/if}{/if}
-                    {#if modeLabels}<LocalizedText
-                            path={() =>
-                                $locales.getPlainText(modeText.labels[index])}
+                    {#if modeLabels && !tipEditing[index]}<LocalizedText
+                            path={modes}
+                            extras={['labels', index]}
+                            onEditingChange={(e) => (labelEditing[index] = e)}
+                        />{/if}{#if annotations && annotations[index] !== undefined}<span
+                            class="annotation">{annotations[index]}</span
+                        >{/if}{#if localizing?.on && !labelEditing[index]}<LocalizedText
+                            path={modes}
+                            extras={['tips', index]}
+                            tipIcon
+                            onEditingChange={(e) => (tipEditing[index] = e)}
                         />{/if}
                 </button>
             {/if}
@@ -122,6 +141,19 @@
 </div>
 
 <style>
+    .annotation {
+        margin-inline-start: var(--wordplay-spacing-half);
+        font-variant-numeric: tabular-nums;
+        color: var(--wordplay-inactive-color);
+    }
+
+    /* Match the active/focused label color so the count stays legible on the
+       highlight or focus background instead of fading into it. */
+    button.selected .annotation,
+    button:focus .annotation {
+        color: inherit;
+    }
+
     .mode {
         display: flex;
         flex-direction: row;
@@ -155,13 +187,11 @@
         cursor: pointer;
     }
 
-
-
     button.selected {
         color: var(--wordplay-background);
         background: var(--wordplay-highlight-color);
-        box-shadow: inset var(--wordplay-border-width) var(--wordplay-border-width)
-            0 var(--wordplay-foreground);
+        box-shadow: inset var(--wordplay-border-width)
+            var(--wordplay-border-width) 0 var(--wordplay-foreground);
         cursor: default;
     }
 

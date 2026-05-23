@@ -93,7 +93,7 @@
         "Region": "$~地域ダッシュ",
         "BooleanType": "$~ブール型",
         "NumberType": "$~数値型",
-        "JapaneseNumeral": "$~日本語の数字",
+        "HanNumeral": "$~日本語の数字",
         "RomanNumeral": "$~ローマ数字",
         "Pi": "$~円周率",
         "Infinity": "$~無限",
@@ -123,7 +123,15 @@
         "Locale": "$~ロケール",
         "Unknown": "$~未知",
         "End": "$~終わり",
-        "Highlight": "$~強調表示された例"
+        "Highlight": "$~強調表示された例",
+        "ThaiNumeral": "$~タイ数字",
+        "BengaliNumeral": "$~ベンガル数字",
+        "DevanagariNumeral": "$~デーヴァナーガリー数字",
+        "GujaratiNumeral": "$~グジャラート語の数字",
+        "GurmukhiNumeral": "$~グルムキー数字",
+        "KannadaNumeral": "$~カンナダ語の数字",
+        "TamilNumeral": "$~タミル数字",
+        "TeluguNumeral": "$~テルグ語の数字"
     },
     "node": {
         "Dimension": {
@@ -185,7 +193,7 @@
         },
         "Language": {
             "name": "$~言語",
-            "description": "$~名前とテキストを$1[$1|不明]言語でタグ付けする",
+            "description": "$~タグ名とテキストに言語が付けられています",
             "emotion": "eager",
             "doc": [
                 "$~私は言語タグであり、@Name と @Doc を使って作業します。",
@@ -212,7 +220,7 @@
         },
         "Name": {
             "name": "$~名前",
-            "description": "$~名前$1[$1|無名]を宣言する",
+            "description": "$~名前$name[$name|無名]を宣言する",
             "emotion": "kind",
             "doc": [
                 "$~私は価値を識別し、評価が困難であったものや、何度も評価したくないものに簡潔なラベルを付ける便利な方法です。",
@@ -253,7 +261,7 @@
                 },
                 "MissingCell": {
                     "name": "$~列が欠落しています",
-                    "explanation": "$~列$1がありません"
+                    "explanation": "$~列$column"
                 },
                 "ExtraCell": {
                     "name": "$~追加の列",
@@ -271,7 +279,7 @@
         },
         "Token": {
             "name": "$~トークン",
-            "description": "$1",
+            "description": "$label",
             "emotion": "neutral",
             "doc": [
                 "$~どうやって私を見つけたのですか?",
@@ -292,7 +300,7 @@
             "conflict": {
                 "DuplicateTypeVariable": {
                     "name": "$~重複型変数",
-                    "explanation": "$~私の名前は$1と同じです"
+                    "explanation": "$~私の名前は$duplicate"
                 }
             },
             "label": {
@@ -307,7 +315,7 @@
         },
         "Markup": {
             "name": "$~マークアップ",
-            "description": "$~$1段落でドキュメントを書式設定する",
+            "description": "$~$count",
             "emotion": "serious",
             "doc": [
                 "$~私は、@Words、@WebLink、@ConceptLink、@Example など、説明で使用できるさまざまな種類のマークアップを使用した段落のリストです。"
@@ -330,7 +338,7 @@
         },
         "WebLink": {
             "name": "$~リンク",
-            "description": "$~ウェブアドレス$1にリンクする",
+            "description": "$~ウェブアドレス$url",
             "emotion": "serious",
             "doc": [
                 "$~私はインターネット上の何かへのリンクです。必要なのは説明と URL だけです。",
@@ -340,7 +348,7 @@
         },
         "ConceptLink": {
             "name": "$~コンセプト",
-            "description": "$~ドキュメントの概念$1にリンクする",
+            "description": "$~ドキュメントの概念$concept",
             "emotion": "serious",
             "doc": [
                 "$~私は Verse キャラクターへのリンクです。@Doc を書いて私たちの 1 人を参照したいときに役立ちます。",
@@ -363,7 +371,13 @@
                 "$~ただし、場合によっては、@Doc が単語として使用する特殊文字を使用したい場合があります。例:",
                 "$~\\¶私の友達は @@、//、**、|| などの記号を使用しています。¶\n'特殊文字を使用しています!'\\",
                 "$~これらの特殊文字を単に繰り返すと、その特別な意味ではなく、文字そのものが取得されます。"
-            ]
+            ],
+            "conflict": {
+                "UnsupportedFontFormat": {
+                    "name": "$~サポートされていないフォント形式",
+                    "explanation": "$~私の友人 * $face * は$format。"
+                }
+            }
         },
         "Example": {
             "name": "$~例",
@@ -376,7 +390,7 @@
         },
         "Mention": {
             "name": "$~言及",
-            "description": "$~マークアップで$1に言及する",
+            "description": "$~マークアップで$name",
             "emotion": "serious",
             "doc": [
                 "$~私は用語 \\$program\\ または動的入力 \\$1\\ のいずれかを参照しています。",
@@ -394,7 +408,7 @@
         },
         "BinaryEvaluate": {
             "name": "$~バイナリ評価",
-            "description": "$~2つの値に$1演算子を適用する",
+            "description": "$~2つの値に$operator",
             "emotion": "insecure",
             "doc": [
                 "$~私は @Evaluate ですが、より単純な形式で、2 つの入力を受け取る @FunctionDefinition を使用する場合に役立ちます。",
@@ -410,8 +424,8 @@
                 "$~数学では、最初に掛け算、次に足し算をするので、結果は \\11\\ になります。しかし、私は読み順で評価するので、結果は \\13\\ になります。"
             ],
             "right": "$~入力",
-            "start": "$~まずは$1を評価しましょう",
-            "finish": "$~見てよ、1ドル稼いだよ！",
+            "start": "$~まずは$left",
+            "finish": "$~見て、私は$value",
             "conflict": {
                 "OrderOfOperations": {
                     "name": "$~曖昧な順序",
@@ -424,7 +438,7 @@
         },
         "Bind": {
             "name": "$~バインド",
-            "description": "$~この値に'$1'という名前をつける",
+            "description": "$~この値に'$name'という名前をつける",
             "emotion": "excited",
             "doc": [
                 "$~私は*値*に名前を付けます。",
@@ -452,24 +466,24 @@
                 "$~しかし、これを変更して @Is を追加すると、@FunctionDefinition はそれらが数値であることを認識します。",
                 "$~\\ƒ 合計(a•# b•#) a + b\\"
             ],
-            "start": "$~1 ドルからどのような価値が得られるか見てみましょう。",
-            "finish": "$~よかった、1ドルゲット！2ドルにしよう",
+            "start": "$~$value からどのような値が得られるか見てみましょう！",
+            "finish": "$~おお、いいね、$value を手に入れたよ！$name と名付けよう",
             "conflict": {
                 "DuplicateName": {
                     "conflict": {
                         "name": "$~重複した名前",
-                        "explanation": "$~誰かが $1 という名前を持っているので、私はこの名前を持つことはできません。"
+                        "explanation": "$~誰かが $shadowed という名前を持っているので、私はこの名前を持つことはできません。"
                     },
                     "resolution": "$~重複した名前があります。いずれかを削除しますか?"
                 },
                 "DuplicateShare": {
                     "name": "$~重複した共有",
-                    "explanation": "$~$1と同じ名前です。何を共有しているのかよく分かりません。"
+                    "explanation": "$~$duplicate"
                 },
                 "IncompatibleType": {
                     "name": "$~互換性のないタイプ",
-                    "explanation": "$~私はタイプ$2のはずが、タイプ$1です",
-                    "resolution": "$~1ドルに換算"
+                    "explanation": "$~私は$expected、 $given。",
+                    "resolution": "$~$expected に変換"
                 },
                 "MisplacedShare": {
                     "name": "$~間違ったシェア",
@@ -489,7 +503,7 @@
                 },
                 "UnusedBind": {
                     "name": "$~未使用のバインド",
-                    "explanation": "$~私の名前は$1ですが、誰も使ってくれません。もしかしたら、私は必要とされていないのかもしれません。"
+                    "explanation": "$~私の名前は$name"
                 }
             },
             "label": {
@@ -500,7 +514,7 @@
         },
         "Block": {
             "name": "$~ブロック",
-            "description": "$~$1個の文を順に評価する",
+            "description": "$~$count",
             "emotion": "shy",
             "doc": [
                 "$~こんにちは。物事を評価するために、静かでプライベートな小さなスペースを作ります。",
@@ -521,7 +535,7 @@
                 "これは \\[3 2]\\ になります。@Bind ではない 2 つの式の値だけです。"
             ],
             "start": "$~最初の表現",
-            "finish": "$~完了、1ドルゲット",
+            "finish": "$~完了、$value",
             "conflict": {
                 "ExpectedEndingExpression": {
                     "name": "$~表現が欠落している",
@@ -534,17 +548,17 @@
         },
         "BooleanLiteral": {
             "name": "$~ブールリテラル",
-            "description": "$~$1[真|偽]のブール値を作成する",
+            "description": "$~$value[真|偽]のブール値を作成する",
             "emotion": "precise",
             "doc": "$~私は \\⊤\\ または \\⊥\\ のいずれかです。私たちの美しいロジックの詳細については、@Boolean を参照してください。",
-            "start": "$~1ドル！"
+            "start": "$~$value!"
         },
         "Borrow": {
             "name": "$~借りる",
-            "description": "$~ソースから$1[$1|無名]を借用する",
+            "description": "$~ソースから$name[$name|無名]を借用する",
             "emotion": "excited",
             "doc": "$~複数の @Source を含むパフォーマンスを作成する場合、他の @Source で共有されている @Bind を借用できます。名前を使用するだけで、名前と値を取り込みます。",
-            "start": "$~1ドルから2ドルを借りる",
+            "start": "$~$name から $source を借りています",
             "conflict": {
                 "UnknownBorrow": {
                     "name": "$~不明な借用",
@@ -552,13 +566,13 @@
                 },
                 "BorrowCycle": {
                     "name": "$~自己参照借用",
-                    "explanation": "$~これは$1に依存しており、$1はこの$sourceに依存しているため、プログラムを評価できません。"
+                    "explanation": "$~これは$borrowに依存し、$borrow はこの$sourceに依存しているため、プログラムを評価できません。"
                 }
             },
             "exception": {
                 "CycleException": {
                     "description": "$~借用サイクル",
-                    "explanation": "$~1ドルはそれ自体に依存する"
+                    "explanation": "$~$borrow はそれ自体に依存します"
                 }
             },
             "label": {
@@ -577,7 +591,7 @@
                 "$~ストリームが変更された場合にのみ何かを変更したい場合に非常に役立ちます。",
                 "$~それでおしまい。"
             ],
-            "start": "$~1ドルが変わったかどうか見てみましょう...",
+            "start": "$~$stream が変更されたかどうか確認してみましょう…",
             "label": {
                 "stream": "$~ストリーム"
             }
@@ -593,14 +607,14 @@
                 "$~決定は、単に「はい」か「いいえ」よりも、もっと微妙なニュアンスで行われるべきではないでしょうか? \\⊤\\ と \\⊥\\ の間で決めるだけなのでしょうか?",
                 "$~私たちが下せる決断がこれだけだとしたら、世界についての重要な背景を見逃してしまうのではないかと心配ではありませんか?"
             ],
-            "start": "$~1ドルが本当かどうか見てみましょう",
-            "else": "$~$1[コードを飛び越える | コードを飛び越えない]",
+            "start": "$~$condition",
+            "else": "$~$jumping[コードを飛び越える | コードを飛び越えない]",
             "afterthen": "$~はい、終わりました。いいえはスキップしましょうか?",
-            "finish": "$~1ドルくらいかな？",
+            "finish": "$~たぶん$value",
             "conflict": {
                 "ExpectedBooleanCondition": {
                     "name": "$~期待されるブール条件",
-                    "explanation": "$~決定を下すには @Boolean が必要ですが、代わりに $1 を取得しました。"
+                    "explanation": "$~決定を下すには @Boolean が必要ですが、代わりに $type を取得しました。"
                 }
             },
             "label": {
@@ -611,7 +625,7 @@
         },
         "ConversionDefinition": {
             "name": "$~変換定義",
-            "description": "$~$1から$2への変換を定義する",
+            "description": "$~$input$output",
             "emotion": "excited",
             "doc": [
                 "$~おい、私はある型から別の型への変換を定義しているんだ！ @Block で、こんな感じで書くんだ:",
@@ -645,18 +659,18 @@
                 "$~\\\"こんにちは\" → [] → {}\\",
                 "$~値には事前定義された一連の @ConversionDefinition がありますが、新しいタイプの値に対して @StructureDefinition を作成すると、@ConversionDefinition を使用して独自の値を定義できます。"
             ],
-            "start": "$~1 ドルからその価値を手に入れましょう!",
-            "finish": "$~すごい、1ドル稼げた",
+            "start": "$~$expression からその値を取得してください！",
+            "finish": "$~すごい、$value を稼いだ",
             "conflict": {
                 "UnknownConversion": {
                     "name": "$~不明な変換",
-                    "explanation": "$~1ドルを2ドルに換算する方法が見つかりませんでした"
+                    "explanation": "$~$expected を $given に変換する方法が見つかりませんでした"
                 }
             },
             "exception": {
                 "ConversionException": {
                     "description": "$~不可能な変換",
-                    "explanation": "$~1ドルを2ドルに変換する方法がわかりません"
+                    "explanation": "$~$from から $to への変換方法がわかりません"
                 }
             }
         },
@@ -687,7 +701,7 @@
         },
         "Evaluate": {
             "name": "$~評価する",
-            "description": "$~$3[$1[$1|]の値をこれらの入力で作成|$2[$1[$1|]のストリームをこれらの入力で作成|$1[$1|関数]をこれらの入力に適用]]",
+            "description": "$~$structure[$name[$name|]の値をこれらの入力で作成|$stream[$name[$name|]のストリームをこれらの入力で作成|$name[$name|関数]をこれらの入力に適用]]",
             "emotion": "shy",
             "doc": [
                 "$~こんにちは。私の愛する @FunctionDefinition を評価します。次のようにします。",
@@ -702,12 +716,12 @@
             ],
             "start": "$~まずは入力を評価しましょう",
             "evaluate": "$~関数を評価してみましょう",
-            "finish": "$~私は1ドルと評価しました",
+            "finish": "$~私は$value",
             "conflict": {
                 "IncompatibleInput": {
                     "name": "$~互換性のない入力",
-                    "explanation": "$~私はタイプ$1のはずが、タイプ$2です",
-                    "resolution": "$~1ドルに換算"
+                    "explanation": "$~私は$expected、 $given。",
+                    "resolution": "$~$expected に変換"
                 },
                 "UnexpectedTypeInput": {
                     "name": "$~予期しない型入力",
@@ -715,7 +729,7 @@
                 },
                 "MissingInput": {
                     "name": "$~入力がありません",
-                    "explanation": "$~入力 $2 がないと評価できません :("
+                    "explanation": "$~入力$name$input :("
                 },
                 "NotInstantiable": {
                     "name": "$~不完全な構造",
@@ -727,7 +741,7 @@
                 },
                 "UnknownInput": {
                     "name": "$~不明な入力",
-                    "explanation": "$~この関数 *$1* は私の名前の入力を想定していません。"
+                    "explanation": "$~この関数 *$name* は私の名前の入力を想定していません。"
                 },
                 "InputListMustBeLast": {
                     "name": "$~追加入力は最後ではない",
@@ -735,13 +749,13 @@
                 },
                 "SeparatedEvaluate": {
                     "name": "$~曖昧な評価",
-                    "explanation": "$~$1 は評価しようとしている $2[$structure|$function] の名前ですか？ 後ろのスペースを削除してみてください。そうすれば、別の @Block ではなく @Evaluate であることがわかります。"
+                    "explanation": "$~$name は評価しようとしている $structure[$structure|$function] の名前ですか？ 後ろのスペースを削除してみてください。そうすれば、別の @Block ではなく @Evaluate であることがわかります。"
                 }
             },
             "exception": {
                 "FunctionException": {
                     "description": "$~不明な機能",
-                    "explanation": "$~ああ、$1 は $2[$2|この @Block] 内の関数ではありません。"
+                    "explanation": "$~ああ、$name は $scope[$scope|この @Block] 内の関数ではありません。"
                 }
             },
             "label": {
@@ -794,7 +808,7 @@
         },
         "FunctionDefinition": {
             "name": "$~関数",
-            "description": "$~関数$1を定義する",
+            "description": "$~関数$name",
             "emotion": "kind",
             "doc": [
                 "$~こんにちは！いくつかの入力を受け取り、それらを使用して式を評価し、出力を生成します。",
@@ -834,7 +848,7 @@
             "initialize": "$~項目をステップ実行するための準備",
             "next": "$~次の項目へ移動",
             "check": "$~続けるかどうかを決める",
-            "finish": "$~私は1ドルと評価しました"
+            "finish": "$~私は$value"
         },
         "Initial": {
             "name": "$~始める",
@@ -862,7 +876,7 @@
         },
         "Is": {
             "name": "$~は",
-            "description": "$~値が$1型かどうか確認する",
+            "description": "$~値が$type",
             "emotion": "curious",
             "doc": [
                 "$~ご存知ですか？ 非常に多くの種類の価値があり、それぞれに意味があります。私は、それらが何であるかを理解するお手伝いをします。",
@@ -873,18 +887,18 @@
                 "$~\\⊤\\ を取得します!",
                 "$~@Name に特定の種類の値があるかどうかを知る必要があるときに、これは非常に役立ちます。"
             ],
-            "start": "$~まずは1ドルの価値を調べてみましょう",
-            "finish": "$~$1[値は$2です|値は$2ではありません]",
+            "start": "$~まず、$expression の値を取得しましょう。",
+            "finish": "$~$value[値は$type|値は$type]",
             "conflict": {
                 "ImpossibleType": {
                     "name": "$~不可能なタイプ",
-                    "explanation": "$~これは1ドルにはならない"
+                    "explanation": "$~これは決して$type"
                 }
             },
             "exception": {
                 "TypeException": {
                     "description": "$~互換性のない値",
-                    "explanation": "$~1ドルを期待していたが2ドル受け取った"
+                    "explanation": "$~私は$expected、 $given。"
                 }
             }
         },
@@ -898,7 +912,7 @@
                 "$~\\🌍/es-MX\\",
                 "$~これは、選択した言語に基づいてパフォーマンスを変更する場合に役立ちます。"
             ],
-            "start": "$~言語は1ドルですか?"
+            "start": "$~言語は$locale"
         },
         "ListAccess": {
             "name": "$~リストアクセス",
@@ -908,16 +922,16 @@
                 "$~私は @List と密接に連携して、特定の位置の値を取得できるようにしています。たとえば、リストがあり、その 2 番目の項目が必要な場合は、次のように記述します。",
                 "$~\\list: ['鳥' 'アヒル' '魚' 'ヘビ']\nlist[2]\\"
             ],
-            "start": "$~まずはリスト$1を取得しましょう",
-            "finish": "$~インデックスのアイテムは 1 ドルです。"
+            "start": "$~まずはリスト$list",
+            "finish": "$~インデックスにある項目は$value"
         },
         "ListLiteral": {
             "name": "$~リストリテラル",
-            "description": "$~$1個の値のリストを作成する",
+            "description": "$~$count",
             "emotion": "eager",
             "doc": "$~私は特定の値の @List です。私を使って何ができるかについて詳しくは、@List を参照してください。",
             "start": "$~まずはアイテムを評価しましょう",
-            "finish": "$~自分を作りました！$1"
+            "finish": "$~自分を作りました！$value"
         },
         "Spread": {
             "name": "$~広める",
@@ -930,11 +944,11 @@
         },
         "MapLiteral": {
             "name": "$~マップリテラル",
-            "description": "$~$1組のキーと値のマップを作成する",
+            "description": "$~$count",
             "emotion": "kind",
             "doc": "$~私はキーと値の間の特定の @Map です。私がどのように役立つかについて詳しくは、@Map を参照してください。",
             "start": "$~まずキーと値を評価しましょう",
-            "finish": "$~全員をつなげたよ、1ドル",
+            "finish": "$~私は全員を繋ぎました、$value",
             "conflict": {
                 "NotAKeyValue": {
                     "name": "$~欠損値",
@@ -957,7 +971,7 @@
                 "$~多数の可能な @Number、@Text、またはより複雑な値の 1 つを別のものに変換するのに非常に役立ちます。",
                 "$~@Boolean または @None に使用できますが、実際にはそれほど多くのことはできないため、これらの単純な値にはあまり役立ちません。"
             ],
-            "start": "$~1ドルがいくらか見てみましょう...",
+            "start": "$~$value...",
             "case": "$~この状態を確認してみましょう",
             "finish": "$~はい、最終的な値が決まりました!",
             "label": {
@@ -967,10 +981,10 @@
         },
         "NumberLiteral": {
             "name": "$~数値リテラル",
-            "description": "$~$1 $2[$2|]の数値を作成する",
+            "description": "$~$number $unit[$unit|]の数値を作成する",
             "emotion": "excited",
             "doc": "$~私は特定の @Number です。どんな言語のどんな数字でも私に書き込むことができます。私ができることすべてについては、@Number を参照してください。",
-            "start": "$~1ドル！",
+            "start": "$~$value!",
             "conflict": {
                 "NotANumber": {
                     "name": "$~数字ではない",
@@ -1002,7 +1016,7 @@
                 "$~\\maybeNumber•#|ø: 1 多分番号 ?? 0\\"
             ],
             "start": "$~ø ??",
-            "finish": "$~… 1ドル"
+            "finish": "$~…$value"
         },
         "Previous": {
             "name": "$~前の",
@@ -1019,8 +1033,8 @@
                 "$~1 回だけではなく、過去 5 回も発生していることがわかりますか?",
                 "$~過去を踏まえたパフォーマンスを創りたいときに役立ちます。"
             ],
-            "start": "$~まずは1ドルゲット",
-            "finish": "$~ストリーム値 $1 と評価されました",
+            "start": "$~まず$stream",
+            "finish": "$~ストリーム値 $value と評価されました",
             "label": {
                 "range": "$~範囲"
             }
@@ -1039,9 +1053,9 @@
                 "$~また、パフォーマンスが *ストリーム* に依存している場合は、ストリームが変更されるたびに再評価します。"
             ],
             "unevaluated": "$~選択したノードは評価されませんでした",
-            "start": "$~$1[$1 ストリームが $2 に変更されました!|初めての評価です]",
+            "start": "$~$stream[$stream ストリームが $value に変更されました!|初めての評価です]",
             "halt": "$~例外が発生しました。停止します",
-            "finish": "$~すべて完了しました。1ドルと評価しました",
+            "finish": "$~すべて完了しました。$value に評価しました。",
             "done": "$~評価するものは何もない",
             "exception": {
                 "BlankException": {
@@ -1050,7 +1064,7 @@
                 },
                 "EvaluationLimitException": {
                     "description": "$~評価限界",
-                    "explanation": "$~@Evaluate と私は、特に $1 を評価するのに疲れました。\n\n$1 が停止することなく永遠に自分自身を評価し続けることは可能でしょうか?"
+                    "explanation": "$~@Evaluate と私は、特に $function を評価するのに疲れました。\n\n$function が停止することなく永遠に自分自身を評価し続けることは可能でしょうか?"
                 },
                 "StepLimitException": {
                     "description": "$~ステップ制限",
@@ -1062,7 +1076,11 @@
                 },
                 "InternalException": {
                     "description": "$~内部エラー",
-                    "explanation": "$~内部で非常に悪いことが起こりました:$1"
+                    "explanation": "$~内部で非常に悪いことが起こりました:$reason"
+                },
+                "PermissionException": {
+                    "description": "$~許可が拒否されました",
+                    "explanation": "$~実行にはあなたの$permission、私には権限がありません。もう一度試すには「再試行」をクリックしてください。それでも解決しない場合は、ブラウザの設定でこのサイトの$permission。"
                 }
             },
             "label": {
@@ -1072,7 +1090,7 @@
         },
         "PropertyBind": {
             "name": "$~リファイン",
-            "description": "$~$1[$1|無名]プロパティを調整する",
+            "description": "$~$name[$name|無名]プロパティを調整する",
             "emotion": "kind",
             "doc": [
                 "$~@StructureDefinition を作成するときに、すべて同じ値を持つ新しいものを作成せずに、その中のごく小さな部分を変更したい場合があります。",
@@ -1081,11 +1099,11 @@
                 "$~それは、趣味を除いて同じ価値観を持つまったく新しい \\Cat\\ を作成するよりもはるかに簡単ですよね?"
             ],
             "start": "$~まず値を取得しましょう",
-            "finish": "$~構造をコピーしましたが、$1を$2にしました",
+            "finish": "$~構造はコピーしましたが、 $property $value。",
             "conflict": {
                 "InvalidProperty": {
                     "name": "$~不明なプロパティ",
-                    "explanation": "$~私は構造 $1 内の名前ではないので、洗練できません。"
+                    "explanation": "$~私は構造 $structure 内の名前ではないので、洗練できません。"
                 }
             },
             "label": {
@@ -1095,7 +1113,7 @@
         },
         "PropertyReference": {
             "name": "$~財産",
-            "description": "$~$1[$1|無名]プロパティを取得する",
+            "description": "$~$name[$name|無名]プロパティを取得する",
             "emotion": "kind",
             "doc": [
                 "$~@StructureDefinition、その入力の1つをどのように取得しますか？",
@@ -1103,7 +1121,7 @@
                 "$~\\•City(名前•'' 人口•#人)\n\nportland: City('Portland' 800000人)\n\nportland.population\\"
             ],
             "start": "$~まず値を取得しましょう",
-            "finish": "$~見つかった物件は$1、価格は$2です",
+            "finish": "$~プロパティ$property。その値は$value。",
             "label": {
                 "property": "$~財産"
             }
@@ -1120,11 +1138,11 @@
                 "$~だから私もストリームのようなものです、ただし他のストリームに基づいたものです。邪悪でしょう？"
             ],
             "start": "$~ストリームを更新する必要があるかどうか見てみましょう",
-            "finish": "$~新しいストリームの値は$1です",
+            "finish": "$~新しいストリームの値は$value",
             "conflict": {
                 "ExpectedStream": {
                     "name": "$~予想されるストリーム",
-                    "explanation": "$~$1 はストリームを参照しないので、反応しません。"
+                    "explanation": "$~$condition はストリームを参照しないので、反応しません。"
                 }
             },
             "label": {
@@ -1135,7 +1153,7 @@
         },
         "Reference": {
             "name": "$~参照",
-            "description": "$~名前$1を参照する",
+            "description": "$~名前$name",
             "emotion": "shy",
             "doc": [
                 "$~@Bind が @Name をどのように与えるかご存知ですか? 参照する方法です。@Bind にその名前があるかどうかを確認し、ある場合はその値を返します。次のようになります:",
@@ -1143,18 +1161,18 @@
                 "$~名前が見つからない場合は、何をすればいいのかわかりません。",
                 "$~\\parrot: 'ポリー'\nペリー\\"
             ],
-            "start": "$~1ドルにはどんな価値があるのでしょうか?",
+            "start": "$~$name",
             "conflict": {
                 "UnknownName": {
                     "conflict": {
                         "name": "$~名前不明",
-                        "explanation": "$~$1[$2[$2|この @Block] 内に $1 という名前の人を知りません|名前を教えていただけますか?]"
+                        "explanation": "$~$name[$name[$scope|この @Block] 内に $scope という名前の人を知りません|名前を教えていただけますか?]"
                     },
-                    "resolution": "$~*$1* でしょうか?"
+                    "resolution": "$~*$suggestion* でしょうか?"
                 },
                 "ReferenceCycle": {
                     "name": "$~自己参照値",
-                    "explanation": "$~えーと、$1 の価値はそれ自体で決まるので、それにどのような値を与えるべきかをどうやって知ればいいのでしょうか?"
+                    "explanation": "$~えーと、$name の価値はそれ自体で決まるので、それにどのような値を与えるべきかをどうやって知ればいいのでしょうか?"
                 },
                 "UnexpectedTypeVariable": {
                     "name": "$~予期しない型変数",
@@ -1164,7 +1182,7 @@
             "exception": {
                 "NameException": {
                     "description": "$~名前不明",
-                    "explanation": "$~$1[$2[$2|この @Block] に $1 という名前の人を知りません…|えっ、名前がない!]"
+                    "explanation": "$~$name[$name[$scope|この @Block] に $scope という名前の人を知りません…|えっ、名前がない!]"
                 }
             }
         },
@@ -1189,11 +1207,11 @@
         },
         "SetLiteral": {
             "name": "$~リテラルを設定する",
-            "description": "$~$1要素のセットを作成する",
+            "description": "$~$count",
             "emotion": "eager",
             "doc": "$~私は特定の値の特定の @Set です。私の使用方法の詳細については、@Set を参照してください。",
             "start": "$~まずは価値を評価しましょう！",
-            "finish": "$~セット1ドル作りました！"
+            "finish": "$~$value を設定しました！"
         },
         "SetOrMapAccess": {
             "name": "$~アクセスの設定/マップ",
@@ -1207,11 +1225,11 @@
                 "$~\\faves: {'マカロニ&チーズ': 5つ星 'シリアル': 2つ星 'お粥': 1つ星}\nfaves{'お粥'}\\"
             ],
             "start": "$~セットやマップは何ですか?",
-            "finish": "$~価値は1ドルです",
+            "finish": "$~値は$value",
             "conflict": {
                 "IncompatibleKey": {
                     "name": "$~互換性のないキー",
-                    "explanation": "$~$1 型のキーを期待しました"
+                    "explanation": "$~$expected 型のキーを期待しました"
                 }
             }
         },
@@ -1234,7 +1252,7 @@
         },
         "StructureDefinition": {
             "name": "$~構造",
-            "description": "$~構造$1を定義する",
+            "description": "$~構造$name",
             "emotion": "kind",
             "doc": [
                 "$~こんにちは、お元気ですか？私は？私は元気です。値と機能を格納している構造を定義するのが好きなので、一日中それをできる限り幸せです。",
@@ -1263,7 +1281,7 @@
                 },
                 "UnimplementedInterface": {
                     "name": "$~未実装",
-                    "explanation": "$~$1を実装しましたが、$2を実装していません"
+                    "explanation": "$~私は$interface、 $function。"
                 }
             },
             "label": {
@@ -1275,7 +1293,7 @@
         },
         "StructureDefinitionType": {
             "name": "$~構造定義",
-            "description": "$1",
+            "description": "$name",
             "emotion": "kind",
             "doc": [
                 "$~私は@StructureDefinition。人々は通常私を直接参照しません"
@@ -1283,15 +1301,15 @@
         },
         "TableLiteral": {
             "name": "$~テーブルリテラル",
-            "description": "$~$1行のテーブルを作成する",
+            "description": "$~$count",
             "emotion": "angry",
             "doc": "$~私は特定の行を持つ特定のテーブルです。私がどのようにお手伝いできるかについては、@Table を参照してください。",
             "start": "$~まず行を評価する",
-            "finish": "$~新しいテーブル $1 に評価されました"
+            "finish": "$~新しいテーブル $value に評価されました"
         },
         "TextLiteral": {
             "name": "$~テキストリテラル",
-            "description": "$~テキスト値$1を作成する",
+            "description": "$~テキスト値$text",
             "emotion": "serious",
             "doc": "$~私は 1 つ以上の特定の @Translation テキストを表します。私が何ができるかについて詳しくは、@Text を参照してください。",
             "start": "$~現在のロケールでテキストを作成しましょう",
@@ -1301,29 +1319,29 @@
         },
         "Translation": {
             "name": "$~翻訳",
-            "description": "$~'$1'テキストを作成する",
+            "description": "$~'$text'テキストを作成する",
             "emotion": "serious",
             "doc": "$~@Language タグを使用してテキストを表現します。詳細については、@Text を参照してください。",
             "conflict": {
                 "phone": {
                     "name": "$~電話番号",
-                    "explanation": "$~*$1* は誰かの電話番号ですか？もしそうなら、オンラインで共有しないでください！\n\n$2"
+                    "explanation": "$~*$text* は誰かの電話番号ですか？もしそうなら、オンラインで共有しないでください！\n\n$reminder"
                 },
                 "email": {
                     "name": "$~可能性のあるメール",
-                    "explanation": "$~*$1* は誰かのメールアドレスですか？もしそうなら、ここで共有しないでください！\n\n$2"
+                    "explanation": "$~*$text* は誰かのメールアドレスですか？もしそうなら、ここで共有しないでください！\n\n$reminder"
                 },
                 "tin": {
                     "name": "$~可能性のある納税者識別番号",
-                    "explanation": "$~*$1* は納税者識別番号ですか？もしそうなら、絶対に教えないでください。非常に機密性の高い情報です！\n\n$2"
+                    "explanation": "$~*$text* は納税者識別番号ですか？もしそうなら、絶対に教えないでください。非常に機密性の高い情報です！\n\n$reminder"
                 },
                 "address": {
                     "name": "$~可能性のある住所",
-                    "explanation": "$~*$1* は誰かの自宅住所ですか？もしそうなら、ここに載せないでください。ストーカー被害に遭ってほしくないんです！\n\n$2"
+                    "explanation": "$~*$text* は誰かの自宅住所ですか？もしそうなら、ここに載せないでください。ストーカー被害に遭ってほしくないんです！\n\n$reminder"
                 },
                 "handle": {
                     "name": "$~可能なユーザー名",
-                    "explanation": "$~*$1* はインターネット上のどこかで使っているユーザー名ですか？もしそうなら、本当にそうしたいのでなければ、ここで私の名前を明かさないでください。\n\n$2"
+                    "explanation": "$~*$text* はインターネット上のどこかで使っているユーザー名ですか？もしそうなら、本当にそうしたいのでなければ、ここで私の名前を明かさないでください。\n\n$reminder"
                 },
                 "resolution": "$~これは機密データではありません",
                 "reminder": "$~注: この操作を元に戻し、共有ダイアログで非機密としてマークした他の項目を確認することができます。",
@@ -1338,14 +1356,14 @@
         },
         "FormattedLiteral": {
             "name": "$~フォーマット済み",
-            "description": "$~書式付きテキスト$1を作成する",
+            "description": "$~書式付きテキスト$text",
             "emotion": "serious",
             "doc": "$~私はさまざまな @FormattedTranslation 形式のフォーマットされたテキストを代表しています。評価する際には、ユーザーが選択した言語に基づいて最適なものを選択します。",
             "start": "$~現在のロケールでテキストを作成しましょう"
         },
         "FormattedTranslation": {
             "name": "$~フォーマットされた翻訳",
-            "description": "$~書式付きテキストを$1に翻訳する",
+            "description": "$~書式付きテキストを$language",
             "emotion": "serious",
             "doc": [
                 "$~@Language タグを使用して、フォーマットされたテキストを表します。",
@@ -1373,7 +1391,7 @@
                 "$~前回の反応値を表す私をチェックしてください。",
                 "$~私は頻繁には登場しませんが、登場すると、@Bind から値を取得するのに非常に役立ちます。"
             ],
-            "start": "$~1ドルと評価",
+            "start": "$~$value と評価されました",
             "conflict": {
                 "MisplacedThis": {
                     "name": "$~この参照を紛失した",
@@ -1383,7 +1401,7 @@
         },
         "UnaryEvaluate": {
             "name": "$~単項評価",
-            "description": "$~単項演算子$1を適用する",
+            "description": "$~単項演算子$operator",
             "emotion": "kind",
             "doc": [
                 "$~1 つの値のみで @FunctionDefinition を評価するときに、@FunctionDefinition の名前が 1 つのシンボルだけの場合、入力の前に名前を置くことができることをご存知ですか?",
@@ -1396,7 +1414,7 @@
                 "$~ルールは 1 つだけです。名前と値の間にスペースを入れてはいけません。そうしないと、@Reference または @BinaryEvaluate が作成される可能性があります。"
             ],
             "start": "$~価値は何ですか?",
-            "finish": "$~1ドルにしたよ",
+            "finish": "$~私はそれを$value",
             "label": {
                 "input": "$~入力"
             }
@@ -1420,13 +1438,13 @@
                 "UnparsableConflict": {
                     "conflict": {
                         "name": "$~読めないコード",
-                        "explanation": "$~ここでの @FunctionDefinition では、@UnparsableExpression はこれがどのような種類の $1[ 式 | 型 ] であるかを認識しません。"
+                        "explanation": "$~ここでの @FunctionDefinition では、@UnparsableExpression はこれがどのような種類の $expression[ 式 | 型 ] であるかを認識しません。"
                     },
-                    "resolution": "$~1ドル、2ドルという意味ですか?"
+                    "resolution": "$~$first 、 $second？"
                 },
                 "UnclosedDelimiter": {
                     "name": "$~閉じられていない区切り文字",
-                    "explanation": "$~私は1ドルの後に2ドルを期待していた"
+                    "explanation": "$~$expected の後のどこかの時点で $unclosed を期待していました"
                 }
             },
             "exception": {
@@ -1455,7 +1473,7 @@
                 },
                 "IncompatibleCellType": {
                     "name": "$~不適合な細胞型",
-                    "explanation": "$~私はタイプ$1のはずが、$2でした"
+                    "explanation": "$~私は$expected、 $given。"
                 }
             }
         },
@@ -1502,7 +1520,7 @@
         },
         "FunctionType": {
             "name": "$~関数",
-            "description": "$~$1個の入力を持つ関数の型",
+            "description": "$~$inputs",
             "emotion": "curious",
             "doc": [
                 "$~私は @FunctionDefinition を表します。@Bind がどのような関数を保持するかを伝えたい場合に非常に役立ちます。次のようになります。",
@@ -1511,7 +1529,7 @@
         },
         "ListType": {
             "name": "$~リスト",
-            "description": "$~$1[リスト$1|リスト]の型",
+            "description": "$~$type[リスト$type|リスト]の型",
             "emotion": "cheerful",
             "doc": [
                 "$~私は @List の大ファンです。@Bind に、それがどんなリストであるかを伝えることができます。次のように、@Number のリストであると言っています。",
@@ -1520,7 +1538,7 @@
         },
         "MapType": {
             "name": "$~地図",
-            "description": "$~$1[$1|任意]から$2[$2|任意]へのマップの型",
+            "description": "$~$key[$key|任意]から$value[$value|任意]へのマップの型",
             "emotion": "kind",
             "doc": [
                 "$~@Map がどれだけすごいかご存知ですか? 本当にすごいです。私は @Bind に、これが数値からリストへのマップのように、どんな種類のマップであるかを常に伝えています。",
@@ -1529,7 +1547,7 @@
         },
         "NumberType": {
             "name": "$~番号",
-            "description": "$~$1[$1|数値]値の型",
+            "description": "$~$unit[$unit|数値]値の型",
             "emotion": "precise",
             "doc": [
                 "$~@Bind が何であるべきかご存知ですか? @Number です。数字が最適だからです。",
@@ -1538,7 +1556,7 @@
         },
         "NameType": {
             "name": "$~構造",
-            "description": "$~名前$1による型",
+            "description": "$~名前$name",
             "emotion": "curious",
             "doc": [
                 "$~@StructureDefinition を名前で表します。つまり、このような構造があれば、それが作成する値を格納する @Bind を作成できます。",
@@ -1547,7 +1565,7 @@
             "conflict": {
                 "UnknownTypeName": {
                     "name": "$~不明な型名",
-                    "explanation": "$~型名は構造体または型変数のみを参照できますが、これは型$1を参照します"
+                    "explanation": "$~型名は構造体または型変数のみを参照できますが、これは型$type"
                 }
             }
         },
@@ -1568,7 +1586,7 @@
         },
         "SetType": {
             "name": "$~セット",
-            "description": "$~$1[$1|任意]のセットの型",
+            "description": "$~$type[$type|任意]のセットの型",
             "emotion": "kind",
             "doc": [
                 "$~@Set は最高です。本当に。私はいつも @Bind に、何かをセットにするように言っています。",
@@ -1592,13 +1610,13 @@
         },
         "StructureType": {
             "name": "$~構造",
-            "description": "$~構造$1を表す",
+            "description": "$~構造$name",
             "emotion": "kind",
             "doc": "$~デフォルト値型の型を表す内部型です。"
         },
         "UnknownType": {
             "name": "$~未知",
-            "description": "$~不定の型を表す",
+            "description": "$~未知",
             "connector": "$~、 なぜなら",
             "emotion": "curious",
             "doc": "$~うーん... 自分が何を表しているのか分かりませんが、とても興味があります。ご存知ですか? 私たちには分かるはずです。分からない場合は、教えていただく必要があるかもしれません。"
@@ -1617,7 +1635,7 @@
         },
         "TextType": {
             "name": "$~文章",
-            "description": "$~$1[$1|テキスト]値の型",
+            "description": "$~$text[$text|テキスト]値の型",
             "emotion": "happy",
             "doc": [
                 "$~私は、最も素晴らしい種類の価値である @Text を素晴らしく表現しています。",
@@ -1632,7 +1650,7 @@
         },
         "UnionType": {
             "name": "$~オプション",
-            "description": "$~$1または$2の型",
+            "description": "$~$first$second",
             "emotion": "curious",
             "doc": [
                 "$~私は誰を代表するべきでしょうか、A か B か、それとも何か他のものでしょうか? 決して決められません!",
@@ -1641,7 +1659,7 @@
         },
         "Unit": {
             "name": "$~ユニット",
-            "description": "$~単位$1を指定する",
+            "description": "$~単位$unit",
             "emotion": "precise",
             "doc": [
                 "$~@Number が持つ可能性のあるあらゆる単位（単位なしも含む）を、想像できる最も複雑な単位で表します。たとえば、重力などです。",
@@ -1675,7 +1693,7 @@
         },
         "NotAType": {
             "name": "$~予想外の",
-            "description": "$~$1を無効な型としてマークする",
+            "description": "$~$type",
             "emotion": "curious",
             "doc": "$~ときには、何かがどのような値であるべきかがわかっています。たとえば、@ListAccess には @Number が必要です。それが取得できない場合は、何かが予想とは異なる型であることを表します。"
         },
@@ -1699,13 +1717,13 @@
         },
         "UnknownNameType": {
             "name": "$~名前不明",
-            "description": "$~$1[$1は未定義|名前が与えられていない]をマークする",
+            "description": "$~$name [ $name|名前が指定されていません]",
             "emotion": "curious",
             "doc": "$~@Reference と @PropertyReference が、あなたが話している名前を知らないことがあるのはご存知ですか? そういうとき、私がそこにいて、あなたが誰について話しているのか分からないことを表します。"
         },
         "NonFunctionType": {
             "name": "$~機能しない",
-            "description": "$~$1を非関数としてマークする",
+            "description": "$~$type",
             "emotion": "confused",
             "doc": "$~私たちの中には、何らかの機能を期待している人もいます。それが得られなかったときに私が現れます。"
         }
@@ -3519,6 +3537,26 @@
                 "languageNotSupported": "$~言語はサポートされていません",
                 "limit": "$~複数回の試みの後に失敗した"
             }
+        },
+        "Hand": {
+            "doc": [
+                "$~/くねくね/",
+                "$~@FunctionDefinition です！@Hand についてお話ししましょう。",
+                "$~@Handはカメラに映る手の動きを監視し、手の位置、伸ばされている指、手のひらまたは手の甲がカメラに向いているかどうかを教えてくれます。手を高く上げたり、振ったり、指を数えたりしても、@Hand。",
+                "$~@Hand、内部的には機械学習モデルを使用しています。プログラムで初めて使用する際は、モデルのダウンロードに数秒かかり、読み込み中はステージの右上隅に小さな回転する手のアイコンが表示されます。その後はキャッシュに保存され、すぐに起動します。",
+                "$~各フレームの@Hand、place（手の位置）、open（手が開いている場合はtrue）、fingers（指の数）、親指、人差し指、中指、薬指、小指それぞれのブール値、palm（手のひらがカメラに向いている場合はtrue）などのフィールドを持つ構造体を返します。",
+                "$~これを試してみてください。あなたの手の位置に合わせて、手の形に合った絵文字が表示されます。",
+                "$~\\hand: Hand()\nPhrase((hand.open ? '🖐️' '✊') place: hand.place)\\"
+            ],
+            "names": ["$~🖐️", "$~手"],
+            "frequency": {
+                "names": ["$~頻度"],
+                "doc": "$~サンプル採取間隔。"
+            },
+            "resolution": {
+                "names": ["$~解決"],
+                "doc": "$~ハンドモデルを実行する前にカメラをサンプリングするピクセル幅。値が大きいほどランドマークの精度は若干向上しますが、フレームあたりの処理時間が増加します。"
+            }
         }
     },
     "output": {
@@ -3633,7 +3671,7 @@
                 "doc": "$~@Phrase/style と同じです!",
                 "names": "$~スタイル"
             },
-            "defaultDescription": "$~$1[$1|] $2 $3"
+            "defaultDescription": "$~$name[$name|] $layout $pose"
         },
         "Phrase": {
             "doc": [
@@ -3756,7 +3794,7 @@
                 "doc": "$~ステージ上の別の場所に移動する場合に使用するアニメーション スタイル。",
                 "names": "$~スタイル"
             },
-            "defaultDescription": "$~$3[$3 メートル |]フレーズ $1 $2[名前付き $2|] $4[$4|] $5"
+            "defaultDescription": "$~$size[$size メートル |]フレーズ $text $name[名前付き $name|] $face[$face|] $animation"
         },
         "Arrangement": {
             "doc": "$~私は、@Row、@Stack、@Grid、@Row、Verseの他の多くの種類の配置にインスピレーションを与えています。私は@Stack、",
@@ -3765,7 +3803,7 @@
         "Row": {
             "doc": "$~私は @Row です。これは @Output の水平方向の @Arrangement で、間にオプションのパディングがあります。私の双子の @Stack に会ったことがありますか?",
             "names": ["$~➡", "$~行"],
-            "description": "$~$1 のフレーズとグループの行",
+            "description": "$~$count のフレーズとグループの行",
             "alignment": {
                 "doc": "$~各列のテキストを先頭、中央、末尾のいずれに配置するかを指定します。",
                 "names": "$~配置"
@@ -3778,7 +3816,7 @@
         "Stack": {
             "doc": "$~私は @Stack です。@Output を垂直に並べた @Arrangement で、間にオプションのパディングを入れます。私の双子の @Row に会ったことはありますか?",
             "names": ["$~⬇", "$~スタック"],
-            "description": "$~1 ドルのフレーズとグループのスタック",
+            "description": "$~$count",
             "alignment": {
                 "doc": "$~各行のテキストを先頭、中央、末尾のいずれに配置するかを指定します。",
                 "names": "$~配置"
@@ -3791,7 +3829,7 @@
         "Grid": {
             "doc": "$~私は @Output のグリッドです。行と列の数を指定すると、オプションのパディングとセル サイズを使用して整然とした配置を作成します。",
             "names": ["$~▦", "$~グリッド"],
-            "description": "$~$1 行 $2 列のグリッド",
+            "description": "$~$rows 行 $columns 列のグリッド",
             "rows": {
                 "doc": "$~グリッドに何行作成するか。",
                 "names": "$~行"
@@ -3819,7 +3857,7 @@
                 "$~ああ、各 @Output に指定する @Place は、@Group の @Place に相対的であることを覚えておいてください。したがって、期待した場所に何も表示されない理由がわからない場合は、@Group にも場所を指定してみてください。"
             ],
             "names": ["$~無料"],
-            "description": "$~自由形式の$1出力"
+            "description": "$~自由形式の$count"
         },
         "Shape": {
             "doc": "$~私はあらゆる形のインスピレーションです。@Stage にどのような形にするかを伝えるのに役立ちます。",
@@ -4009,7 +4047,7 @@
                 "doc": "$~@Output をデフォルトではなく y 軸にミラーリングするかどうか。",
                 "names": "$~ひらひら"
             },
-            "description": "$~$1[透明 $1|] $2[回転 $2 度|] $3[拡大 $3|] $4[水平反転|] $5[垂直反転|] $6[影が $6 ピクセルぼやけている]"
+            "description": "$~$opacity[透明 $opacity|] $rotation[回転 $rotation 度|] $scale[拡大 $scale|] $flipx[水平反転|] $flipy[垂直反転|] $blur[影が $blur ピクセルぼやけている]"
         },
         "Color": {
             "doc": [
@@ -4264,7 +4302,7 @@
                 "doc": "$~@Motion 内にある出力に適用する重力。",
                 "names": "$~重力"
             },
-            "defaultDescription": "$~ステージ$2[$2 |]の$1の出力$3[フレーム$3|付き]$4"
+            "defaultDescription": "$~ステージ$name [ $name |] の$count$frame [フレーム$frame |] $pose"
         },
         "Easing": {
             "straight": "$~真っ直ぐ",
@@ -4356,13 +4394,54 @@
                 "doc": "$~私が声に出して読むべき文章。",
                 "names": "$~文章"
             },
-            "defaultDescription": "$~例えば1ドル"
+            "defaultDescription": "$~$text と言います"
+        },
+        "Gesture": {
+            "doc": "$~私はカメラによって検出された手のジェスチャーです。私のフィールドは、ステージ上の手の位置、伸ばされている指、手のひらまたは手の甲がカメラに向いているかどうかを示します。@Hand は私のオブジェクトを返します。",
+            "names": ["$~✋", "$~ジェスチャー"],
+            "place": {
+                "doc": "$~舞台上の手の位置。",
+                "names": ["$~場所"]
+            },
+            "open": {
+                "doc": "$~@True（3本以上の指が伸びている場合）はTrue、握りこぶしの場合はFalse。",
+                "names": ["$~開ける"]
+            },
+            "fingers": {
+                "doc": "$~指を何本伸ばしたか、0（握りこぶし）から5（親指を含めた全ての指を立てた状態）までで答えてください。",
+                "names": ["$~指"]
+            },
+            "thumb": {
+                "doc": "$~親指が伸びている場合はTrue。",
+                "names": ["$~親指"]
+            },
+            "index": {
+                "doc": "$~人差し指が伸びている場合はTrue。",
+                "names": ["$~索引"]
+            },
+            "middle": {
+                "doc": "$~@True。",
+                "names": ["$~真ん中"]
+            },
+            "ring": {
+                "doc": "$~@True。",
+                "names": ["$~指輪"]
+            },
+            "pinky": {
+                "doc": "$~@True。",
+                "names": ["$~ピンキー"]
+            },
+            "palm": {
+                "doc": "$~@手のひらがカメラに向いている場合は @False、手の甲が向いている場合は @False。",
+                "names": ["$~ヤシ"]
+            }
         }
     },
     "ui": {
         "font": {
             "app": "$~ノートサンズ",
-            "code": "$~ノートサンモノ"
+            "code": "$~ノートサンモノ",
+            "missing": "$~いいえ"
         },
         "phrases": {
             "welcome": "$~こんにちは"
@@ -4450,10 +4529,6 @@
                     "label": "$~翻訳する"
                 },
                 "primary": "$~このプロジェクトのプライマリロケールとして設定",
-                "history": {
-                    "on": "$~最近のプロジェクトコードを表示",
-                    "off": "$~現在のプロジェクトコードを表示"
-                },
                 "savedLocally": "$~プロジェクトはローカルに保存されますが、オンラインでは保存されません",
                 "savedOnline": "$~プロジェクトはオンラインで保存されます"
             },
@@ -4514,7 +4589,7 @@
                 "now": "$~今",
                 "history": "$~バージョン",
                 "restore": "$~これはこのプロジェクトの以前のバージョンです。",
-                "ago": "$~$1 $2 前"
+                "ago": "$~$amount $unit 前"
             },
             "button": {
                 "clear": "$~履歴を削除",
@@ -4574,12 +4649,12 @@
         "source": {
             "label": "$~プログラム編集者",
             "empty": [
-                "$~さあ、始めましょう！…",
-                "$~• 📕 を開いて、このプログラムにドラッグ🖱️ してください。",
-                "$~• 「$1」と入力し、メニューから選択します。",
-                "$~• ⌨️ を使って入力してください。",
-                "$~• インスピレーションを得るために <galleries@://galleries> を閲覧します。",
-                "$~困った場合は、<learn more@://learn> をご覧ください。"
+                "$~さあ始めましょう！あなたは…",
+                "$~• 📕を開いて、🖱️をこのプログラムにドラッグしてください。",
+                "$~• $symbol、メニューから当社を選択してください。",
+                "$~• ⌨️ で私たちに連絡してください。",
+                "$~• 閲覧する<galleries@://galleries>インスピレーションのために。",
+                "$~行き詰まったら、<learn more@://learn> 。"
             ],
             "overwritten": "$~プロジェクトは他の場所で修正されました",
             "confirm": {
@@ -4618,7 +4693,6 @@
             "menu": {
                 "label": "$~オートコンプリートメニュー",
                 "show": "$~オートコンプリートメニューを表示",
-                "back": "$~サブメニューを離れる",
                 "empty": "$~提案はありません。"
             },
             "cursor": {
@@ -4636,7 +4710,6 @@
                 "selectAll": "$~プログラムを選択",
                 "incrementLiteral": "$~数値、テキスト、ブール値を増やす",
                 "decrementLiteral": "$~数値、テキスト、またはブール値を減らす",
-                "insertSymbol": "$~1ドルを挿入",
                 "insertTab": "$~タブを挿入",
                 "insertTrue": "$~真を挿入",
                 "insertFalse": "$~偽を挿入",
@@ -4656,7 +4729,6 @@
                 "insertConvert": "$~変換記号を挿入",
                 "insertPrevious": "$~前の記号を挿入",
                 "insertTable": "$~テーブルを開くシンボルを挿入",
-                "insertTableClose": "$~表を閉じる記号を挿入",
                 "insertBorrow": "$~挿入借用",
                 "insertShare": "$~挿入シェア",
                 "insertLine": "$~改行を挿入",
@@ -4713,8 +4785,8 @@
         },
         "annotations": {
             "label": "$~紛争と援助",
-            "cursor": "$~これは *$1*$2[ であり、タイプは $2|] です。$3[ それらは *$3* 内にあります。|]",
-            "cursorParent": "$~それらはタイプ $2| の *$1*$2[ ] 内にあります。",
+            "cursor": "$~これは *$node*$type[ であり、タイプは $type|] です。$description[ それらは *$description* 内にあります。|]",
+            "cursorParent": "$~それらはタイプ $node| の *$type*$type[ ] 内にあります。",
             "learn": "$~/もっと詳しく知る/",
             "evaluating": "$~ああ、楽しい、評価してみましょう！",
             "space": "$~これは宇宙です！これほど多くのことを語れるものがあるとは誰が想像したでしょうか？",
@@ -4723,7 +4795,7 @@
                 "toggle": "$~注釈の表示と非表示",
                 "highlight": "$~このコードをエディタで表示する"
             },
-            "nodeDescription": "$~彼らは1ドル。"
+            "nodeDescription": "$~彼らは$description"
         },
         "output": {
             "label": "$~プログラム出力",
@@ -4767,6 +4839,14 @@
                 "grid": "$~「/grid/」ボタンをクリックすると、ステージ上にグリッドが表示されます。これは、デザイン作業中にオブジェクトを正確に配置するのに役立ちます。",
                 "lock": "$~「ロック」ボタンはステージの視点を固定します。ロック中はステージは静止したままになり、ロック解除中は自由にパンやズームができます。",
                 "animationSpeed": "$~「アニメーション速度」コントロールは、アニメーションの再生速度を設定します。同じコントロールは「設定」にもあるので、どちらからでも変更できます。"
+            },
+            "permission": {
+                "title": "$~このプロジェクトには許可が必要です",
+                "microphone": "$~マイクロフォン",
+                "camera": "$~カメラ",
+                "note": "$~共有する前に、ブラウザが確認を求めます。",
+                "start": "$~始める",
+                "retry": "$~リトライ"
             }
         },
         "timeline": {
@@ -4801,7 +4881,7 @@
         },
         "docs": {
             "label": "$~ドキュメントブラウザ",
-            "link": "$~ドキュメントにコンセプト $1 を表示",
+            "link": "$~ドキュメントにコンセプト $name を表示",
             "learn": "$~もっと詳しく知る …",
             "nodoc": "$~私は誰？私は何者？私の目的は何？",
             "button": {
@@ -4923,6 +5003,14 @@
                         "$~データ型、変換、型チェック",
                         "$~ドキュメントとコメント",
                         "$~高度な言語概念"
+                    ]
+                },
+                "howToFilter": {
+                    "label": "$~ユーザーが作成したハウツー記事",
+                    "labels": ["$~全て", "$~ギャラリーとブックマーク"],
+                    "tips": [
+                        "$~ユーザーが作成したすべてのハウツーを見る",
+                        "$~このプロジェクトのギャラリーにあるユーザー作成のハウツー記事とすべてのブックマークのみを表示する"
                     ]
                 }
             },
@@ -5095,10 +5183,11 @@
                             "$~1/4",
                             "$~1/3倍",
                             "$~1/2倍",
-                            "$~1倍",
+                            "$~1回",
                             "$~2倍",
                             "$~5倍",
-                            "$~10倍"
+                            "$~10倍",
+                            "$~自動"
                         ],
                         "tips": [
                             "$~アニメーションオフ",
@@ -5108,7 +5197,8 @@
                             "$~通常速度",
                             "$~倍速",
                             "$~5速",
-                            "$~10速"
+                            "$~10速",
+                            "$~現在のデバイス設定を使用する"
                         ]
                     },
                     "dark": {
@@ -5284,11 +5374,11 @@
                     "tip": "$~すべての通知を消去"
                 },
                 "notification": {
-                    "howToHeader": "$~「$1」というタイトルの新しいハウツーが投稿されました",
-                    "projectChatHeader": "$~プロジェクト「$1」に新しいメッセージがあります",
-                    "howToChatHeader": "$~ハウツー「$1」に新しいメッセージがあります",
+                    "howToHeader": "$~「$title",
+                    "projectChatHeader": "$~プロジェクト「$name",
+                    "howToChatHeader": "$~ハウツー「$title",
                     "link": "$~詳細",
-                    "moderationHeader": "$~「$1」のメッセージにはモデレーションアクションが必要です"
+                    "moderationHeader": "$~「$name"
                 },
                 "delete": "$~この通知を削除する",
                 "popup": "$~新しい通知"
@@ -5377,7 +5467,6 @@
                 "default": "$~デフォルト",
                 "inherited": "$~継承された",
                 "notSequence": "$~シーケンスではない",
-                "notContent": "$~コンテンツリストではありません",
                 "format": "$~形式",
                 "weight": "$~重さ",
                 "light": "$~ライト",
@@ -5607,11 +5696,6 @@
                         "description": "$~クラスの説明",
                         "placeholder": "$~説明"
                     },
-                    "newteacher": {
-                        "placeholder": "$~メールアドレスまたはユーザー名",
-                        "description": "$~このクラスへの教師アクセスを許可したい作成者のメールアドレスまたはユーザー名"
-                    },
-                    "addteacher": "$~このクラスに教師を追加する",
                     "delete": {
                         "tip": "$~このクラスを永久に削除します。",
                         "label": "$~このクラスを削除する"
@@ -5727,9 +5811,7 @@
                     "forgot": "$~*パスワードを忘れましたか?* 残念ながら、連絡先情報を収集していないため、アカウントを回復することはできません。",
                     "enter": "$~ログイン リンクは別のブラウザまたはデバイスから送信されたようです。本人確認のため、もう一度メール アドレスを入力してください。",
                     "play": "$~ログインしました。プロジェクトをオンラインで保存できるようになりました。何か作成してみませんか?",
-                    "tooyoung": "$~メールでログインするには 13 歳以上である必要があります。",
                     "passwordrule": "$~パスワードは 6 文字以上である必要があります。パスワード マネージャーを使用していない場合は、覚えやすい 3 つの長い単語を選択してください。",
-                    "passwordreminder": "$~まだアカウントをお持ちでないようです。パスワードをもう一度入力し、回復できないため、安全かつ正しく保存されていることを確認してください。",
                     "changeEmail": "$~メールアドレスを変更したいですか? 新しいメールアドレスを送信すると、古いメールアドレスに確認メールが送信されます。",
                     "changePassword": "$~パスワードを変更しますか? 新しいパスワードを送信して繰り返します。",
                     "email": "$~メールのみのアカウントをお持ちですか? メールアドレスを送信してログインしてください。アカウントが関連付けられている場合は、サインイン リンクが記載されたメールが送信されます。プライバシー保護のため、新しいメールのみのアカウントはサポートされていません。",
@@ -5747,7 +5829,6 @@
                     "email": "$~このメールは無効です。",
                     "failure": "$~ログインできません:(",
                     "offline": "$~クラウド☁️に到達できませんでした。",
-                    "unchanged": "$~メールアドレスを変更できませんでしたが、理由はわかりません。",
                     "delete": "$~アカウントを削除できませんでしたが、理由はわかりません。",
                     "wrongPassword": "$~有効なユーザー名とパスワードではありません。パスワードが間違っているか、他の誰かがこのユーザー名を使用しています。",
                     "tooMany": "$~ログインを何度も試みましたが失敗しました。再試行するにはしばらくお待ちください。",
@@ -6068,8 +6149,8 @@
                     "untitledproject": "$~無題のプロジェクト"
                 },
                 "announce": {
-                    "position": "$~1ドル 2ドル",
-                    "selection": "$~$1[$1を選択|何も選択されていません]"
+                    "position": "$~$x $y で",
+                    "selection": "$~$shapes[$shapes|何も選択されていません]"
                 },
                 "share": {
                     "dialog": {
@@ -6119,8 +6200,6 @@
                 "palette": "$~パレット",
                 "semantic": "$~セマンティックカラー",
                 "fonts": "$~フォント",
-                "appfont": "$~テキストフォント",
-                "codefont": "$~コードフォント",
                 "spacing": "$~間隔",
                 "typography": "$~タイポグラフィ",
                 "components": "$~コンポーネント",
@@ -6138,7 +6217,6 @@
                 "demo": {
                     "button": "$~例",
                     "note": "$~これはメモです。",
-                    "warning": "$~これは警告です。",
                     "notice": "$~これはお知らせです。",
                     "header": "$~ヘッダ",
                     "subheader": "$~サブヘッダー",
@@ -6154,38 +6232,119 @@
             },
             "thanks": {
                 "header": "$~ありがとう",
-                "intro": "$~Wordplayのデザイン、開発、ローカライズ、コンテンツ制作にご協力いただいた*$1*名の皆様に感謝申し上げます。また、フォーカスグループ、デザインセッション、授業などを通じてデザインを導いてくださった多くの先生方や生徒の皆様にも感謝いたします。プライバシー保護のため、ここではお名前を記載しておりません。\n\n本プロジェクトは、米国国立科学財団（NSF）の助成金（2318257、2031265、2100296、2122950）、ワシントン大学、そして皆様からの寛大なご寄付（<gifts//donate>）によって支えられています。",
+                "intro": "$~Wordplayのデザイン、開発、ローカライズ、コンテンツ制作にご協力いただいた*$count*名の皆様に感謝申し上げます。また、フォーカスグループ、デザインセッション、授業などを通じてデザインを導いてくださった多くの先生方や生徒の皆様にも感謝いたします。プライバシー保護のため、ここではお名前を記載しておりません。\n\n本プロジェクトは、米国国立科学財団（NSF）の助成金（2318257、2031265、2100296、2122950）、ワシントン大学、そして皆様からの寛大なご寄付（<gifts//donate>）によって支えられています。",
                 "teachers": "$~教師",
                 "contributors": "$~寄稿者"
+            },
+            "localize": {
+                "header": "$~ローカライズ",
+                "description": [
+                    "$~ここでは、プラットフォーム内のローカライズ可能なすべての文字列を閲覧し、未翻訳のテキストや機械翻訳されたテキストに対して翻訳案や修正案を提案できます。準備ができたら、修正案を提出して審査を受けることができます。",
+                    "$~文章を書く際は、まだ高度な語彙を知らない若い読者層にも理解できるよう、分かりやすい表現を心がけてください。また、可能な限り、異なる文章でも同じ用語を使うように一貫性を保つことも大切です。"
+                ],
+                "workspaceLink": "$~ローカライズワークスペースを開く",
+                "workspaceHeader": "$~テキストを書いたりレビューしたりする",
+                "submitHeader": "$~提出する",
+                "submitPrompt": "$~この一連の編集案を提出する準備ができたら、下記から送信してください。",
+                "bundleSummary": "$~今回の編集内容",
+                "editEntry": "$~この文字列を編集するには、前の場所に戻ってください。",
+                "revertEntry": "$~この編集内容をバッチから破棄する",
+                "prevBundleItem": "$~前回の編集内容を確認する",
+                "nextBundleItem": "$~次の編集内容を確認してください",
+                "descriptionField": {
+                    "description": "$~編集内容の概要を簡単に説明し、レビュー担当者が変更点を理解しやすくします。",
+                    "placeholder": "$~何を変更しましたか？また、その理由は？"
+                },
+                "notSpamLabel": "$~これらの編集はスパムではないことをお約束します。",
+                "notSpamNote": "$~Wordplayは、ボランティアによって運営されている非営利プロジェクトです。",
+                "requireLogin": "$~ローカライズに関する提案を投稿するには、ログインする必要があります。",
+                "submit": {
+                    "description": "$~この編集内容を送信してください",
+                    "prompt": "$~提出する"
+                },
+                "submitSuccess": "$~ありがとうございます！修正内容は送信済みで、まもなく確認いたします。",
+                "submitError": "$~送信中にエラーが発生しました。編集内容は端末に保存されていますので、もう一度お試しください。",
+                "empty": "$~このフィルターに一致する文字列はありません。",
+                "prevEntry": "$~前の文字列を編集する",
+                "nextEntry": "$~次の文字列を編集する",
+                "qualityMode": {
+                    "label": "$~見せる",
+                    "labels": ["$~全て", "$~機械翻訳または未記述"],
+                    "tips": [
+                        "$~すべての文字列を表示",
+                        "$~機械翻訳された文字列または未記述の文字列のみを表示する"
+                    ]
+                },
+                "sectionMode": {
+                    "label": "$~セクション",
+                    "labels": [
+                        "$~全て",
+                        "$~プラットフォーム",
+                        "$~学期",
+                        "$~トークン",
+                        "$~ノード",
+                        "$~基礎",
+                        "$~入力",
+                        "$~出力",
+                        "$~ui",
+                        "$~ギャラリー",
+                        "$~節度"
+                    ],
+                    "tips": [
+                        "$~すべてのセクションを表示",
+                        "$~プラットフォーム名",
+                        "$~共通用語",
+                        "$~トークンの説明",
+                        "$~プログラミング言語の構成要素",
+                        "$~数値、テキスト、リストなどの組み込み型",
+                        "$~ストリームと入力ソースの説明",
+                        "$~出力タイプの説明",
+                        "$~アプリケーションのユーザーインターフェース",
+                        "$~デフォルトのギャラリーコンテンツ",
+                        "$~コンテンツモデレーションメッセージ"
+                    ]
+                },
+                "section": {
+                    "wordplay": "$~プラットフォーム",
+                    "term": "$~用語",
+                    "token": "$~トークン",
+                    "node": "$~言語構造",
+                    "basis": "$~組み込み型",
+                    "input": "$~入力",
+                    "output": "$~出力",
+                    "ui": "$~ユーザーインターフェース",
+                    "gallery": "$~ギャラリー",
+                    "moderation": "$~節度"
+                },
+                "singletonWordsWarning": "$~下書きの中には、地域設定全体を通して一度しか登場しない単語がいくつかあります。それらの単語のスペルが正しく、他のテキストと矛盾がないことを確認してください。",
+                "viewPR": "$~プルリクエストを表示する",
+                "oneLocaleNote": "$~各投稿は一度に1つのロケールのみを対象とします。今回の投稿は$locale"
             }
         },
         "edit": {
-            "node": "$~$1$2[, タイプ $2|]",
-            "before": "$~$1前[$1|終了]",
-            "inside": "$~$1、$2[$2|開始]から$3[$3|終了]の間",
-            "between": "$~1ドルから2ドルの間",
-            "line": "$~$1[$1|開始]と$2[$2|終了]の間に空行があります",
-            "conflicts": "$~$1 の競合",
-            "assign": "$~/$2[参加希望|退会検討中]…/",
+            "node": "$~$node$type[, タイプ $type|]",
+            "before": "$~$after[$after|終了]",
+            "inside": "$~$token、 $before [ $before |start] と$after [ $after |end] の間",
+            "between": "$~$before$after",
+            "line": "$~$before[$before|開始]と$after[$after|終了]の間に空行があります",
+            "conflicts": "$~$count の競合",
+            "assign": "$~/$name[参加希望|退会検討中]…/",
             "append": "$~/挿入したくて…/",
             "remove": "$~/退職を検討中…/",
             "replace": "$~/介入したい…/",
-            "wrap": "$~括弧で囲む",
-            "unwrap": "$~開封する",
-            "bind": "$~この表現に名前を付ける",
-            "range": "$~$1ドルから$2ドルまでの選択",
+            "range": "$~$start$end",
             "area": "$~タイプコード"
         },
         "template": {
             "unwritten": "$~未定",
-            "unparsable": "$~解析できないテンプレート: $1",
+            "unparsable": "$~解析できないテンプレート: $template",
             "machineTranslated": "$~これは機械翻訳なので、読みにくかったり、正確でない可能性があります。",
             "locallyRevised": "$~この文章は現地で修正されており、公式翻訳とは異なります。"
         },
         "howto": {
             "galleryView": {
                 "header": "$~ハウツー",
-                "subheader": "$~ハウツー1ドル、新着2ドル",
+                "subheader": "$~$total ハウツー、$new 新規",
                 "subheaderEmpty": "$~最初に作成します!",
                 "prompt": "$~ハウツーとは、Wordplayを使って何かを行うための簡単な説明とサンプルコードです。共有したいものができたら、ギャラリーの他のクリエイターにもハウツーを書いて、一緒に学んでもらいましょう！"
             },
@@ -6312,7 +6471,7 @@
                 "usedBy": {
                     "prompt": "$~このハウツーをあなたのプロジェクトや他のハウツーで使用しましたか？プロジェクトをリストに追加して、他の人に知らせましょう！",
                     "empty": "$~まだプロジェクトやその他の公開済みハウツーがありません。ぜひ作成してみてください。",
-                    "countDisplay": "$~他のWordplayディレクターは$1のプロジェクトやハウツーでこれを使用しました",
+                    "countDisplay": "$~他のWordplayディレクターは$count",
                     "selector": "$~プロジェクトとハウツーセレクター",
                     "removeButton": "$~リストからプロジェクトまたはハウツーを削除する",
                     "addButton": "$~プロジェクトまたはハウツーを追加する"
@@ -6347,8 +6506,9 @@
                             "$~キュレーターが作成したギャラリーの共同作業者は閲覧可能"
                         ]
                     },
-                    "expanded": "$~拡大",
-                    "limited": "$~限定"
+                    "expandedOptions": "$~選ばれたギャラリーのキュレーターやクリエイターに、このギャラリーのハウツーガイドを見せてください。",
+                    "expandedAdd": "$~ギャラリーをリストに追加する",
+                    "expandedRemove": "$~リストからギャラリーを削除する"
                 },
                 "guidingQuestions": {
                     "subheader": {
@@ -6385,9 +6545,9 @@
                 }
             },
             "announce": {
-                "howToPosition": "$~ハウツータイトル $1 が $2 $3 に移動されました",
-                "canvasPosition": "$~キャンバスを$1、$2に移動しました",
-                "moveActivated": "$~移動が有効になりました。$1はマウス、キーボード、またはタッチスクリーンを使用して移動できます。",
+                "howToPosition": "$~ハウツータイトル $title が $x $y に移動されました",
+                "canvasPosition": "$~キャンバスが$x 、 $y",
+                "moveActivated": "$~移動が有効になりました。$target",
                 "moveDeactivated": "$~動きが停止しました。"
             },
             "error": {
@@ -6462,7 +6622,10 @@
                     "$~通貨"
                 ]
             },
-            "skinTone": "$~肌の色"
+            "skinTone": "$~肌の色",
+            "script": "$~スクリプト",
+            "scriptLabel": "$~スクリプトでフィルタリング",
+            "pickFilter": "$~カテゴリまたはスクリプトを選択してください"
         },
         "localize": {
             "header": "$~ローカライズ",
@@ -6477,7 +6640,10 @@
                 "edit": "$~このテキストの編集を提案する",
                 "submit": "$~提案された編集を送信する",
                 "cancel": "$~提案された編集を破棄する",
-                "revert": "$~公式テキストに戻す"
+                "revert": "$~公式テキストに戻す",
+                "editTip": "$~このコントロールのツールチップの編集を提案する",
+                "prev": "$~前の項目を編集する",
+                "next": "$~次の項目を編集する"
             },
             "field": {
                 "plain": {
@@ -6498,14 +6664,19 @@
                 }
             },
             "strings": "$~ロケール文字列",
-            "emotion": "$?",
+            "emotion": "Choose an emotion",
             "invalidName": "$~有効な言葉遊びの名前ではありません",
             "reference": "$~英語の参考資料",
-            "unwritten": "$~未記入のテキスト",
-            "revised": "$~改訂版テキスト",
-            "revisedDescription": "$~これらの修正内容はローカルに保存されており、まだ審査のために提出されていません。",
-            "submitRevisions": "$~修正案を提出する",
-            "submitted": "$~ありがとうございます！修正後の原稿は確認後、近日中に掲載される予定です。"
+            "invalidConceptLinks": "$~これらの概念リンクは現在のロケールでは解決されません。スペルミスがあったか、意図的に削除したのでしょうか？",
+            "inputs": {
+                "header": "$~このテンプレートが受け入れる入力項目",
+                "usedTip": "$~カーソル位置に別の参照を挿入するにはクリックしてください",
+                "unusedTip": "$~カーソル位置にこの参照を挿入するには、ここをクリックしてください。",
+                "missing": "$~入力が不足しています:",
+                "legacy": "$~これらの古い位置参照を名前付き参照に置き換えます。",
+                "submitBlocked": "$~送信前にすべての入力内容を確認してください。",
+                "unknown": "$~これらの参照は宣言された入力または用語と一致しないため、置換されません。"
+            }
         },
         "tour": {
             "label": "$~ツアー",
@@ -6513,6 +6684,11 @@
             "previous": "$~前のステップ",
             "next": "$~次のステップ",
             "offscreen": "$~このインターフェース部分は現在画面に表示されていません。"
+        },
+        "connection": {
+            "offline": "$~現在オフラインです。一部の機能はオンラインになるまでご利用いただけません。",
+            "unreachable": "$~Wordplayのデータベースに接続できません。接続が復旧するまで、一部の機能はご利用いただけません。",
+            "label": "$~接続状態"
         }
     },
     "moderation": {
@@ -6538,7 +6714,7 @@
             "disclosure": "$~名前、連絡先、住所など他人の個人情報を漏らす",
             "misinformation": "$~虚偽、誤解を招く、欺瞞的、または操作的な情報を含む"
         },
-        "progress": "$~*$1* がモデレート済み、*$2* が残り",
+        "progress": "$~*$moderated* がモデレート済み、*$remaining* が残り",
         "button": {
             "submit": {
                 "tip": "$~これらのモデレーション設定を保存する",
@@ -6580,5 +6756,10 @@
             "name": "$~ストーリー",
             "description": "$~インタラクティブなストーリーと物語。"
         }
+    },
+    "system": {
+        "noscript": "$~WordplayはJavaScriptを使用しています。お使いのブラウザはJavaScriptをサポートしていないか、無効になっています。",
+        "unsupportedHeading": "$~サポートされていないブラウザ",
+        "unsupportedBody": "$~お使いのブラウザは重要な機能をサポートしていません。Wordplayを使用するには、より新しいバージョンにアップグレードする必要があります。"
     }
 }

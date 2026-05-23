@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { getLocalizing } from '@components/project/Contexts';
     import { locales } from '@db/Database';
     import type { LocaleTextAccessor } from '@locale/Locales';
     import { CONFIRM_SYMBOL } from '@parser/Symbols';
@@ -16,6 +17,9 @@
         id: string;
         view?: HTMLTextAreaElement | undefined;
         onkeydown?: (event: KeyboardEvent) => void;
+        /** Suppress the auto-injected description tip-edit badge in localizing mode.
+         *  Set to true when embedded inside another localization editor. */
+        noTipBadge?: boolean;
     }
 
     let {
@@ -30,11 +34,13 @@
         id,
         view = $bindable(undefined),
         onkeydown = undefined,
+        noTipBadge = false,
     }: Props = $props();
 
     let focused = $state(false);
     let title = $derived($locales.getPlainText(description));
     let savingDone = $state<boolean | undefined>(false);
+    let localizing = getLocalizing();
 
     /** The message to display if invalid */
     let message = $derived.by(() => {
@@ -64,47 +70,63 @@
     });
 </script>
 
-<div class="box" {id} class:focused>
-    <textarea
-        {title}
-        aria-label={title}
-        aria-invalid={message !== undefined}
-        aria-describedby="{id}-error"
-        placeholder={$locales.getPlainText(placeholder)}
-        class={{ inline, error: message !== undefined }}
-        bind:value={text}
-        bind:this={view}
-        aria-disabled={!active}
-        rows={text.split('\n').length}
-        disabled={!active}
-        onblur={async () => {
-            if (done) {
-                savingDone = undefined;
-                await done(text);
-                savingDone = true;
-                setTimeout(() => {
-                    savingDone = false;
-                }, 1500);
-            }
-            focused = false;
-        }}
-        onfocus={() => (focused = true)}
-        oninput={handleInput}
-        onkeydown={(e) => {
-            e.stopPropagation();
-            if (onkeydown) onkeydown(e);
-        }}
-    ></textarea>
-    {#if message !== undefined}
-        <div class="message" id="id-{id}"><LocalizedText path={message} /></div>
-    {/if}
-    {#if savingDone !== false}
-        <div class="done"
-            >{#if savingDone === undefined}…{:else if savingDone === true}{CONFIRM_SYMBOL}{/if}</div
-        >{/if}
+<div class="box-group">
+    <div class="box" {id} class:focused>
+        <textarea
+            {title}
+            aria-label={title}
+            aria-invalid={message !== undefined}
+            aria-describedby="{id}-error"
+            placeholder={$locales.getPlainText(placeholder)}
+            class={{ inline, error: message !== undefined }}
+            bind:value={text}
+            bind:this={view}
+            aria-disabled={!active}
+            rows={text.split('\n').length}
+            disabled={!active}
+            onblur={async () => {
+                if (done) {
+                    savingDone = undefined;
+                    await done(text);
+                    savingDone = true;
+                    setTimeout(() => {
+                        savingDone = false;
+                    }, 1500);
+                }
+                focused = false;
+            }}
+            onfocus={() => (focused = true)}
+            oninput={handleInput}
+            onkeydown={(e) => {
+                e.stopPropagation();
+                if (onkeydown) onkeydown(e);
+            }}
+        ></textarea>
+        {#if message !== undefined}
+            <div class="message" id="id-{id}"
+                ><LocalizedText path={message} /></div
+            >
+        {/if}
+        {#if savingDone !== false}
+            <div class="done"
+                >{#if savingDone === undefined}…{:else if savingDone === true}{CONFIRM_SYMBOL}{/if}</div
+            >{/if}
+    </div>
+    {#if localizing?.on && !noTipBadge}<LocalizedText
+            path={description}
+            tipIcon
+        />{/if}
 </div>
 
 <style>
+    /* Wraps the textarea and its localizing tip badge so the inline tip editor can
+       break to a new line without overlapping content below. */
+    .box-group {
+        display: flex;
+        flex-direction: column;
+        gap: var(--wordplay-spacing-half);
+    }
+
     .box {
         position: relative;
         width: 100%;

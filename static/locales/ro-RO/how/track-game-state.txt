@@ -1,0 +1,30 @@
+Urmărește starea jocului
+
+Majoritatea jocurilor urmăresc mai multe lucruri pe măsură ce jocul progresează: punctele, pozițiile jucătorilor și alte detalii sunt toate esențiale.De fiecare dată când există o intrare, starea respectivă se schimbă, iar apoi dorim să afișăm o nouă ieșire, ca răspuns.
+
+Un model general pentru orice joc face trei lucruri:
+
+• Definiți o structură de date a stărilor jocului, pentru a stoca toate stările jocului• Definiți o reacție care creează o nouă stare de joc bazată pe starea anterioară a jocului ori de câte ori există o nouă intrare• Faceți o  @Stage  cu  @Group  şi  @Phrase  pentru a arăta starea jocului
+
+De exemplu, să ne imaginăm un joc simplu care implică tastarea unor cuvinte secrete într-o casetă de text și obținerea unui punct de fiecare dată când se ghicește un cuvânt secret:
+
+\•Game(secrets•[''] points•#)
+state: Game(['pisică' 'câine'] 0) … state.secrets.has(Chat()) … state.points:state.points + 1
+Stage(state.points = state.secrets.length() ? [Phrase("ai câștigat!")] [
+			Group(Stack() [
+					Phrase("ghicește cuvintele mele secrete")
+					Phrase(`\state.secrets.length() - state.points\ mai multe secrete`)
+				])
+		])\
+
+Hai să analizăm asta.
+
+• Prima linie, \•Game(secrets•[''] points•#)\ spune, /Creați o structură de date numită \Game\ care stochează o listă de secrete și puncte/• A doua linie spune /Starea jocului începe cu o listă de secrete și zero puncte. De fiecare dată când \Chat\ modificări, dacă cuvântul introdus se află în lista de secrete, atunci se creează o nouă stare de joc cu punctele mărite cu unu/.• De fiecare dată când programul reevaluează (când \Chat\ modificări), arată o etapă. Dacă numărul de puncte este egal cu numărul de secrete, se arată o etapă câștigătoare. Dacă nu, se arată o solicitare și numărul de secrete rămase.
+
+Acest exemplu are niște probleme:
+
+• Dacă ghicesc un cuvânt secret de mai multe ori, primesc mai multe puncte! Starea jocului nostru ar putea avea nevoie să-și amintească și ce a fost ghicit, astfel încât fiecare cuvânt este numărat doar de două ori.• Dacă jucătorul introduce mai multe cuvinte, ar trebui să conteze?
+
+Stări de joc și actualizări de joc mai sofisticate ne-ar ajuta să gestionăm aceste cazuri.
+
+track-points

@@ -317,7 +317,9 @@ export default class Convert extends Expression {
     getStartExplanations(locales: Locales, context: Context) {
         return locales.concretize(
             (l) => l.node.Convert.start,
-            new NodeRef(this.expression, locales, context),
+            {
+                expression: new NodeRef(this.expression, locales, context),
+            },
         );
     }
 
@@ -328,7 +330,9 @@ export default class Convert extends Expression {
     ) {
         return locales.concretize(
             (l) => l.node.Convert.finish,
-            this.getValueIfDefined(locales, context, evaluator),
+            {
+                value: this.getValueIfDefined(locales, context, evaluator),
+            },
         );
     }
 

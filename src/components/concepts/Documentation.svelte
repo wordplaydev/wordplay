@@ -160,11 +160,18 @@
     });
 
     // get the user generated how-tos that are in a gallery, if the gallery exists
-    let galleryHowTos = $state<GalleryHowTo[]>([]);
-    let gallery: Gallery | undefined = $state(undefined);
-    $effect(() => {
-        const galleryID: string | null = project.getGallery();
 
+    // determine if the guide will only show how-tos from the project's gallery
+    // or if it will show all how-tos that the user has access to
+    let galleryOnly: boolean = $state(false);
+    $effect(() => {
+        galleryOnly = project.getGallery() == null && !standalone;
+    });
+
+    let galleryID: string | null = $derived(project.getGallery());
+    let gallery: Gallery | undefined = $state(undefined);
+    let galleryHowTos: GalleryHowTo[] = $state([]);
+    $effect(() => {
         if (galleryID) {
             Galleries.get(galleryID).then((gal) => {
                 // Found a store? Subscribe to it, updating the gallery when it changes.
@@ -187,10 +194,54 @@
                     }
                 },
             );
-        } else if (standalone) {
-            galleryHowTos = HowTos.allAccessiblePublishedHowTos;
         }
     });
+
+    let allBookmarks: GalleryHowTo[] = $derived(
+        HowTos.allAccessiblePublishedHowTos.filter((ht) =>
+            ht.hasBookmarker($user?.uid ?? ''),
+        ),
+    );
+
+    // order of how-tos shown in the Guide panel
+    // 1: all bookmarked how-tos first
+    // 2: then how-tos from the gallery that the project is in, if applicable (must be in project view and project must be in gallery)
+    // 3: then all other how-tos, if applicable (if filter is set to all, project is not in gallery, or )
+    let galleryHowConcepts: GalleryHowConcept[] = $derived(
+        index
+            ? (galleryID && galleryOnly
+                  ? [...galleryHowTos, ...allBookmarks]
+                  : HowTos.allAccessiblePublishedHowTos
+              )
+                  .map((ht) => index.getGalleryHowConcept(ht.getHowToId()))
+                  .filter((c): c is GalleryHowConcept => c !== undefined)
+                  .toSorted((a, b) => {
+                      let aBookmarked = a.howTo.hasBookmarker($user?.uid ?? '');
+                      let bBookmarked = b.howTo.hasBookmarker($user?.uid ?? '');
+
+                      if (aBookmarked && !bBookmarked) {
+                          return -1;
+                      } else if (!aBookmarked && bBookmarked) {
+                          return 1;
+                      } else if (galleryID) {
+                          let aInGallery =
+                              a.howTo.getHowToGalleryId() === galleryID;
+                          let bInGallery =
+                              b.howTo.getHowToGalleryId() === galleryID;
+
+                          if (aInGallery && !bInGallery) {
+                              return -1;
+                          } else if (!aInGallery && bInGallery) {
+                              return 1;
+                          } else {
+                              return 0;
+                          }
+                      } else {
+                          return 0;
+                      }
+                  })
+            : [],
+    );
 
     // When the path changes, reset the query
     const queryResetUnsub = path.subscribe(() => {
@@ -459,25 +510,21 @@
                     {#if howTos === undefined}
                         <Spinning></Spinning>
                     {:else}
-                        {#if galleryHowTos.length > 0}
-                            {@const galleryHow = index.concepts
-                                .filter((c) => c instanceof GalleryHowConcept)
-                                .toSorted((a, b) => {
-                                    return a.howTo.hasBookmarker(
-                                        $user?.uid ?? '',
-                                    ) == b.howTo.hasBookmarker($user?.uid ?? '')
-                                        ? 0
-                                        : a.howTo.hasBookmarker(
-                                                $user?.uid ?? '',
-                                            )
-                                          ? -1
-                                          : 1;
-                                })}
+                        {#if !standalone && gallery}
+                            <Mode
+                                modes={(l) => l.ui.docs.mode.howToFilter}
+                                choice={galleryOnly ? 1 : 0}
+                                select={(choice) => {
+                                    galleryOnly = choice === 1;
+                                }}
+                            />
+                        {/if}
+                        {#if galleryHowConcepts.length > 0}
                             <Subheader
                                 text={(l) => l.ui.docs.how.category.gallery}
                             />
                             <div class="howtos">
-                                {#each galleryHow as how}
+                                {#each galleryHowConcepts as how}
                                     <CodeView
                                         node={how.getRepresentation()}
                                         concept={how}

@@ -99,7 +99,7 @@ export default class Docs extends Node {
 
     getMarkup(locales: Locales) {
         return this.docs
-            .map((doc) => doc.markup.concretize(locales, []))
+            .map((doc) => doc.markup.concretize(locales, {}))
             .filter((m) => m !== undefined);
     }
 

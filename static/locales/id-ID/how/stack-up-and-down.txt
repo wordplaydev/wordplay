@@ -1,0 +1,21 @@
+Susun karakter dari atas ke bawah
+
+Jika sebuah  @Row  adalah untuk berdampingan, lalu sebuah  @Stack  Ini untuk dari atas ke bawah. @Stack  menempatkan setiap karakter di bawah karakter sebelumnya, seperti sebuah menara.
+
+\Group(Stack() [
+		Phrase('satu')
+		Phrase('dua')
+		Phrase('tiga')
+	])\
+
+Seperti  @Row , A  @Stack  juga bisa memiliki penyelarasan dan bantalan.Cobalah untuk menyusun semuanya di sepanjang sisi kiri:
+
+\Group(Stack('<' 0.25m) [
+		Phrase('🐣 kecil')
+		Phrase('🐥 sedang')
+		Phrase('🐔 besar')
+	])\
+
+Itu \'<'\ cara /sejajarkan semuanya di sepanjang tepi kiri./.Anda juga bisa mencoba \'|'\ untuk tengah atau \'>'\ untuk tepi kanan.
+
+arrange-in-a-row, make-a-grid

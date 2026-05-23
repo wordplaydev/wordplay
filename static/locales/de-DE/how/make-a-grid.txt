@@ -1,0 +1,27 @@
+Erstelle ein Raster der Zeichen
+
+Was, wenn wir Zeilen wollen?/Und/Spalten gleichzeitig? Genau das ist es, was ein @Grid ist für.
+
+A  @Grid Fragt nach der Anzahl der Zeilen, der Anzahl der Spalten und dem Abstand zwischen den Zellen.
+
+\Group(Grid(2 3 0.25m) [
+		Phrase('🍎')
+		Phrase('🍌')
+		Phrase('🍇')
+		Phrase('🥕')
+		Phrase('🥦')
+		Phrase('🌽')
+	])\
+
+So entsteht ein 2 mal 3 Meter großer Obst- und Gemüsegarten!
+
+Wenn Sie möchten, dass alle Zellen die gleiche Größe haben, geben Sie @Grid Auch Breite und Höhe werden benötigt. So bleiben die Zeichen ordentlich in ihren Quadraten, selbst wenn sie unterschiedliche Größen haben:
+
+\Group(Grid(2 2 0.1m 1.5m 1.5m) [
+		Phrase('🐈' size: 1m)
+		Phrase('🐶' size: 1.5m)
+		Phrase('🦊' size: 0.5m)
+		Phrase('🐻' size: 2m)
+	])\
+
+arrange-in-a-row, stack-up-and-down, make-many-copies

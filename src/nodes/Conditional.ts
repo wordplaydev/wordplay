@@ -20,6 +20,7 @@ import type Context from '@nodes/Context';
 import Expression, { type GuardContext } from '@nodes/Expression';
 import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
 import { node, type Grammar, type Replacement } from '@nodes/Node';
+import compileStreamWarmup from '@nodes/streamWarmup';
 import { Sym } from '@nodes/Sym';
 import Token from '@nodes/Token';
 import type Type from '@nodes/Type';
@@ -156,9 +157,18 @@ export default class Conditional extends Expression {
         const yes = this.yes.compile(evaluator, context);
         const no = this.no.compile(evaluator, context);
 
+        // Pre-evaluate stream-creating calls in either branch so streams
+        // referenced in the branch that isn't chosen on first evaluation
+        // still come into existence. See streamWarmup.ts and issue #679.
+        const warmup = compileStreamWarmup(this, evaluator, context, [
+            this.yes,
+            this.no,
+        ]);
+
         // Evaluate the condition, jump past the yes if false, otherwise evaluate the yes then jump past the no.
         return [
             new Start(this),
+            ...warmup,
             ...this.condition.compile(evaluator, context),
             new JumpIfEqual(yes.length + 1, false, false, this),
             ...yes,
@@ -220,7 +230,9 @@ export default class Conditional extends Expression {
     getStartExplanations(locales: Locales, context: Context) {
         return locales.concretize(
             (l) => l.node.Conditional.start,
-            new NodeRef(this.condition, locales, context),
+            {
+                condition: new NodeRef(this.condition, locales, context),
+            },
         );
     }
 
@@ -231,7 +243,9 @@ export default class Conditional extends Expression {
     ) {
         return locales.concretize(
             (l) => l.node.Conditional.finish,
-            this.getValueIfDefined(locales, context, evaluator),
+            {
+                value: this.getValueIfDefined(locales, context, evaluator),
+            },
         );
     }
 

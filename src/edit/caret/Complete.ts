@@ -417,6 +417,17 @@ function completeBinaryEvaluate({
     )
         return undefined;
 
+    // Typing `%` right after a NumberLiteral should append a percent suffix to
+    // the number (turning `50` into `50%`), not start a modulo BinaryEvaluate.
+    // Skip the binary completion so the `%` lands as a regular character on
+    // the literal.
+    if (
+        precedingExpression instanceof NumberLiteral &&
+        !precedingExpression.isPercent() &&
+        text === '%'
+    )
+        return undefined;
+
     // Don't complete + or - as binary operators when there is whitespace between
     // the preceding expression and the caret — they may be starting a new number literal.
     if (

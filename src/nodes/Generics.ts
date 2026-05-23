@@ -71,7 +71,21 @@ export default function getConcreteExpectedType(
     if (type instanceof NumberType && type.hasDerivedUnit())
         return getConcreteNumberInput(type, evaluation, context);
 
-    // If the type is some other type, but contains one of the above, concretize them and construct a new compound type.
+    return concretizeType(type, definition, evaluation, context);
+}
+
+/**
+ * Walk a type, replacing every type variable reference and every derived-unit number with a concrete type
+ * inferred from the given evaluation. Useful when you only need part of a function's signature concretized
+ * (e.g. one input bind's type) and don't want to trigger inference for the rest — which can recurse back
+ * into whatever is asking and yield a cycle.
+ */
+export function concretizeType(
+    type: Type,
+    definition: FunctionDefinition | StructureDefinition | StreamDefinition,
+    evaluation: EvaluationType,
+    context: Context,
+): Type {
     // We do this in a loop since each time we clone the type, the abstract types that have yet to be concretized
     // are cloned too, so we can't just get a list and loop through it.
     let moreAbstractTypes = true;
@@ -98,8 +112,12 @@ export default function getConcreteExpectedType(
                           evaluation,
                           context,
                       );
-            // Clone the current type, replacing the abstract type with the concrete type.
-            type = type.replace(nextAbstractType, concreteType);
+            // If the abstract type *is* the root, replace it directly — Node.replace only walks
+            // children, so it can't replace `this`. Otherwise clone, swapping the descendant.
+            type =
+                type === nextAbstractType
+                    ? concreteType
+                    : type.replace(nextAbstractType, concreteType);
         }
         // If there isn't another abstract type, we have our type!
         else break;

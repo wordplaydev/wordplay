@@ -93,6 +93,11 @@ export default class ProjectsDatabase {
     /** Remember how to unsubscribe from the user's realtime query. */
     private projectsQueryUnsubscribe: Unsubscribe | undefined = undefined;
 
+    /** Pending "Firestore is serving from cache" disconnect timer. Cleared if
+     *  a fresh server snapshot arrives during the debounce window. */
+    private fromCacheTimer: ReturnType<typeof setTimeout> | undefined =
+        undefined;
+
     /** Debounce timer, used to clear pending requests. */
     private timer: NodeJS.Timeout | undefined = undefined;
 
@@ -154,6 +159,18 @@ export default class ProjectsDatabase {
         if (current) current.delete(listener);
     }
 
+    /** Stop listening to this user's realtime project query. Safe to call when no query is active. */
+    unmount() {
+        if (this.projectsQueryUnsubscribe) {
+            this.projectsQueryUnsubscribe();
+            this.projectsQueryUnsubscribe = undefined;
+        }
+        if (this.fromCacheTimer !== undefined) {
+            clearTimeout(this.fromCacheTimer);
+            this.fromCacheTimer = undefined;
+        }
+    }
+
     async deserializeAll(serialized: unknown[]) {
         // Load all of the projects and their locale dependencies.
         return (
@@ -184,6 +201,10 @@ export default class ProjectsDatabase {
             this.projectsQueryUnsubscribe();
             this.projectsQueryUnsubscribe = undefined;
         }
+        if (this.fromCacheTimer !== undefined) {
+            clearTimeout(this.fromCacheTimer);
+            this.fromCacheTimer = undefined;
+        }
 
         // If there's no more user, do nothing.
         if (user === null) return;
@@ -207,12 +228,40 @@ export default class ProjectsDatabase {
 
         // Set up the realtime projects query for the user, tracking any projects from the cloud,
         // and deleting any tracked locally that didn't appear in the snapshot.
+        // `includeMetadataChanges: true` lets us observe Firestore's connection
+        // state passively via snapshot.metadata.fromCache.
         this.projectsQueryUnsubscribe = onSnapshot(
             query(
                 collection(firestore, ProjectsCollection),
                 or(...constraints),
             ),
+            { includeMetadataChanges: true },
             async (snapshot) => {
+                // Passive Firebase reachability detection. Server-fresh data
+                // is the definitive "connected" signal. Cache fallback is only
+                // a disconnect signal when there are NO pending local writes —
+                // Firestore's latency compensation briefly serves cache during
+                // any setDoc(), which would otherwise flash the banner. Even
+                // then, debounce 2s so transient sync gaps don't trigger it.
+                if (!snapshot.metadata.fromCache) {
+                    if (this.fromCacheTimer !== undefined) {
+                        clearTimeout(this.fromCacheTimer);
+                        this.fromCacheTimer = undefined;
+                    }
+                    this.database.markFirebaseReachable();
+                } else if (
+                    !snapshot.metadata.hasPendingWrites &&
+                    this.fromCacheTimer === undefined
+                ) {
+                    this.fromCacheTimer = setTimeout(() => {
+                        this.database.markFirebaseDisconnected();
+                        this.fromCacheTimer = undefined;
+                    }, 2000);
+                }
+
+                // Metadata-only updates carry no doc changes; nothing else to do.
+                if (snapshot.docChanges().length === 0) return;
+
                 const serialized: unknown[] = [];
                 const deleted: string[] = [];
                 const projectIDs: Set<string> = new Set();
@@ -267,6 +316,7 @@ export default class ProjectsDatabase {
                 if (error instanceof FirebaseError) {
                     console.error(error.message);
                 }
+                this.database.markFirebaseDisconnected();
                 this.database.setStatus(
                     SaveStatus.Error,
                     (l) => l.ui.project.save.projectsNotLoadingOnline,
@@ -518,9 +568,11 @@ export default class ProjectsDatabase {
         // No history? Directly edit the project in the database, if connected and asked to save the edit.
         // This is likely an edit by a curator of a gallery, e.g., removing a project from a collection.
         else if (firestore && persist) {
-            await setDoc(
-                doc(firestore, ProjectsCollection, project.getID()),
-                project.serialize(),
+            await this.database.track(
+                setDoc(
+                    doc(firestore, ProjectsCollection, project.getID()),
+                    project.serialize(),
+                ),
             );
             return undefined;
         }
@@ -570,7 +622,9 @@ export default class ProjectsDatabase {
             await this.database.Galleries.removeProject(project, gallery);
 
         // Delete the project doc
-        await deleteDoc(doc(firestore, ProjectsCollection, id));
+        await this.database.track(
+            deleteDoc(doc(firestore, ProjectsCollection, id)),
+        );
 
         // Delete the corresponding chat, if there is one.
         this.database.Chats.deleteChat(id);
@@ -679,7 +733,7 @@ export default class ProjectsDatabase {
                     );
                     sentVersions.set(history, current);
                 }
-                await batch.commit();
+                await this.database.track(batch.commit());
 
                 // Only mark a history as saved if its current version is still
                 // the exact one we just sent. If reviseProject() ran during the

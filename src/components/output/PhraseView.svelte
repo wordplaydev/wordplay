@@ -29,7 +29,10 @@
     import TextLang from '@output/TextLang';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import moveOutput from '@components/palette/editOutput';
-    import { getProject, getSelectedOutput } from '@components/project/Contexts';
+    import {
+        getProject,
+        getSelectedOutput,
+    } from '@components/project/Contexts';
 
     interface Props {
         phrase: Phrase;
@@ -184,7 +187,13 @@
 
     // Restore focus to the size handle after re-mount when it was focused.
     $effect(() => {
-        if (selected && editable && !entered && selection?.sizeFocused && sizeHandle)
+        if (
+            selected &&
+            editable &&
+            !entered &&
+            selection?.sizeFocused &&
+            sizeHandle
+        )
             setKeyboardFocus(sizeHandle, 'Restoring size handle focus.');
     });
 
@@ -195,9 +204,13 @@
         const rect = view.getBoundingClientRect();
         const cx = rect.left + rect.width / 2;
         const cy = rect.top + rect.height / 2;
-        const startDistance = Math.hypot(event.clientY - cy, event.clientX - cx);
+        const startDistance = Math.hypot(
+            event.clientY - cy,
+            event.clientX - cx,
+        );
         selection?.startSizing(startDistance, phrase.size ?? localContext.size);
-        if (sizeHandle) setKeyboardFocus(sizeHandle, 'Focusing size handle on click.');
+        if (sizeHandle)
+            setKeyboardFocus(sizeHandle, 'Focusing size handle on click.');
     }
 
     async function handleSizeKeyDown(event: KeyboardEvent) {
@@ -268,7 +281,8 @@
             Math.atan2(event.clientY - cy, event.clientX - cx) *
             (180 / Math.PI);
         selection?.startRotating(startAngle, phrase.pose.rotation ?? 0);
-        if (handle) setKeyboardFocus(handle, 'Focusing rotation handle on click.');
+        if (handle)
+            setKeyboardFocus(handle, 'Focusing rotation handle on click.');
     }
 
     async function handleRotateKeyDown(event: KeyboardEvent) {
@@ -548,6 +562,11 @@
 
         /* This disables translation around the center; we want to translate around the focus.*/
         transform-origin: 0 0;
+
+        /* Don't let the browser synthesize weight or italic when the face
+           doesn't ship the requested style — fall back to the closest real
+           glyph instead. See issue #1026. */
+        font-synthesis: none;
 
         pointer-events: none;
     }

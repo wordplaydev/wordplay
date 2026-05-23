@@ -20,7 +20,10 @@
     import type { Form } from '@output/Form';
     import Shape from '@output/Shape';
     import Stage from '@output/Stage';
-    import { getProject, getSelectedOutput } from '@components/project/Contexts';
+    import {
+        getProject,
+        getSelectedOutput,
+    } from '@components/project/Contexts';
     import PhraseView from '@components/output/PhraseView.svelte';
     import ShapeView from '@components/output/ShapeView.svelte';
 

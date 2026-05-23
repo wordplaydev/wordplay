@@ -1,0 +1,20 @@
+나만의 캐릭터 템플릿을 만들어 보세요
+
+때로는 거의 똑같아 보이지만 약간의 차이가 있는 캐릭터를 많이 만들고 싶을 때가 있습니다.똑같은 내용을 쓰는 대신에 @Phrase 반복해서 자신만의 템플릿을 만들 수 있습니다. @Structure .
+
+에이 @Structure 마치 빈칸을 채워 넣어야 하는 레시피와 같습니다.다음은 색상과 라벨을 입력받아 스스로 표시되는 풍선 템플릿입니다.
+
+\•Balloon(color•Color label•'') (
+	ƒ show() Phrase(`🎈\label\` color: color size: 2m)
+)
+Group(Row() [
+		Balloon(Color(80% 50 240°) '하늘').show()
+		Balloon(Color(60% 80 0°) '장미').show()
+		Balloon(Color(90% 80 90°) '화창한').show()
+	])\
+
+그\•Balloon(...)\이 부분은 템플릿을 정의하고,\ƒ show()\일부 내용은 다음과 같습니다./그리는 방법/.그다음에는 색깔과 라벨이 다른 풍선 세 개를 만들고, 각각에게 다음과 같이 요청합니다.\show\그 자체.
+
+템플릿은 코드를 깔끔하게 유지하고 문자를 일관되게 사용하고 싶을 때 유용합니다.
+
+track-game-state, make-many-copies

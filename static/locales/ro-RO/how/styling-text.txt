@@ -1,0 +1,37 @@
+Stilizează-ți textul
+
+Uneori vrem ca textul nostru să iasă în evidență. Putem face asta prin /italicizare/, *îngroșare*, și mai multe!
+
+De exemplu, pentru a scrie textul în cursiv, îl puteți încadra între bare oblice înainte //, cum ar fi //Salut//. De exemplu:
+
+\Group(Stack() [
+		Phrase(`Vrei să te flexezi puțin /italice/ în textul tău?`)
+		Phrase(`E bine pentru a accentua sau pentru a da cuvintelor tale acel ceva /jazz suplimentar/.`)
+		Phrase(`Pur și simplu puneți o bară oblică (//) înainte și după cuvânt sau expresie, /ca aceasta/.`)
+	])\
+
+@Phrase  poate, de asemenea, să scrie text îngroșat. Puteți face acest lucru încadrând textul între asteriscuri **, cum ar fi **Salut**. De exemplu:
+
+\Group(Stack() [
+		Phrase(`Vrei să-ți faci textul să iasă în evidență cu *îndrăzneţ*?`)
+		Phrase(`Este perfect pentru atunci când ai nevoie *strigă ceva tare*.`)
+		Phrase(`Pur și simplu înconjoară cuvintele încadrate în asteriscuri (**), cum ar fi *Hei!*și urmăriți cum lovește diferit.`)
+	])\
+
+@Phrase  se poate face textul EXTRA îngroșat. Pentru aceasta, încadrați textul cu semne circumflexe ^^, cum ar fi ^^Salut^^. De exemplu:
+
+\Group(Stack() [
+		Phrase(`Extra îngroșat este ^CAPRĂ^ când trebuie să dai vibrațiile la maximum.`)
+		Phrase(`E ca și cum ar fi îndrăzneț, dar mai mult ^foc^, de obicei făcut cu morcovi individuali în jur (^^)`)
+		Phrase(`Folosește-l pentru a te flexa ^anteturi^ sau ^idei mărețe^.`)
+	])\
+
+În cele din urmă,  @Phrase  poți sublinia textul. Pentru aceasta, încadrează textul în sublinieri __, cum ar fi __Salut__. De exemplu:
+
+\Group(Stack() [
+		Phrase(`Sublinierea este _foc discret_ pentru momentele în care vrei să păstrezi textul elegant, dar să iasă în evidență.`)
+		Phrase(`Plasați o subliniere (__) înainte și după text, _ca aceasta_și oferă un accent clar.`)
+		Phrase(`Sale _perfect_ pentru că ți-ai exprimat punctul de vedere fără a fi prea _suplimentar_.`)
+	])\
+
+custom-characters

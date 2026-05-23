@@ -32,7 +32,9 @@ export function createSequenceType(locales: Locales) {
         ${getBind(locales, (locale) => locale.output.Sequence.style)}•${locales
             .getLocales()
             .map((locale) =>
-                Object.values(locale.output.Easing).map((id) => `"${id}"`),
+                Object.values(locale.output.Easing).map(
+                    (id) => `"${id}"/${locale.language}`,
+                ),
             )
             .flat()
             .join('|')}: "${

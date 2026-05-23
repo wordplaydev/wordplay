@@ -275,12 +275,16 @@ export default class ListLiteral extends CompositeLiteral {
     ) {
         return locales.concretize(
             (l) => l.node.ListLiteral.finish,
-            this.getValueIfDefined(locales, context, evaluator),
+            {
+                value: this.getValueIfDefined(locales, context, evaluator),
+            },
         );
     }
 
     getDescriptionInputs() {
-        return [this.values.length];
+        return {
+            count: this.values.length,
+        };
     }
 
     getCharacter() {

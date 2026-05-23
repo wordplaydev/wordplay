@@ -632,6 +632,10 @@
           "type": "string"
         },
         {
+          "const": "Hand",
+          "type": "string"
+        },
+        {
           "const": "Scene",
           "type": "string"
         },
@@ -721,6 +725,10 @@
         },
         {
           "const": "Place",
+          "type": "string"
+        },
+        {
+          "const": "Gesture",
           "type": "string"
         },
         {
@@ -814,7 +822,6 @@
         },
         {
           "enum": [
-            "$?",
             "angry",
             "arrogant",
             "bored",
@@ -857,6 +864,17 @@
         "offer-choices",
         "choose-adventure",
         "repeating-a-movement",
+        "arrange-in-a-row",
+        "stack-up-and-down",
+        "make-a-grid",
+        "make-many-copies",
+        "follow-the-pointer",
+        "your-own-template",
+        "count-with-time",
+        "react-to-sound",
+        "pick-from-a-list",
+        "show-when",
+        "gravity-and-bouncing",
         "gallery-how-to"
       ],
       "type": "string"

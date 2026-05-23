@@ -1,0 +1,18 @@
+リストからランダムに何かを選ぶ
+
+プロジェクトを実行するたびに驚きを与えたいですか？選択肢のリストを作成し、 @Random 。 
+
+@Random 乱数を生成でき、リストは番号で検索できます\[n]\。これらを組み合わせて、ランダムな絵文字を選びましょう。
+
+\emojis: ['🌈' '🌟' '🎈' '🦄' '🍩']
+Phrase(emojis.random())\
+
+また、 @Random 2つの数字を指定すると、それらの間の整数が選択されます。例えば、/新しい/毎秒ランダムな絵文字を混ぜて @Time そして @Reaction :
+
+\emojis: ['🌈' '🌟' '🎈' '🦄' '🍩']
+pick: emojis[1] … ∆ Time(1000ms) … emojis[Random(1 emojis.length())]
+Phrase(pick)\
+
+ティックごとに @Time 、 @Reaction 新たなサプライズを選びます。
+
+shake-phrase, count-with-time

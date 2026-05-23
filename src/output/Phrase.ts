@@ -83,7 +83,9 @@ export function createPhraseType(locales: Locales) {
         ${getBind(locales, (locale) => locale.output.Phrase.style)}•${locales
             .getLocales()
             .map((locale) =>
-                Object.values(locale.output.Easing).map((id) => `"${id}"`),
+                Object.values(locale.output.Easing).map(
+                    (id) => `"${id}"/${locale.language}`,
+                ),
             )
             .flat()
             .join('|')}: "${DefaultStyle}"
@@ -233,8 +235,12 @@ export default class Phrase extends Output {
             const isCharacter = formatted.text.startsWith(LINK_SYMBOL);
             // If it is a custom character, treat it like the letter 'e' for measurement purposes.
             const textToMeasure = isCharacter ? '@' : formatted.text;
-            // Split the text by spaces and measure each space separated chunk.
-            for (const segment of segmentWraps(textToMeasure)) {
+            // Segment the text into wrap candidates using locale-aware
+            // word segmentation, then measure each segment.
+            for (const segment of segmentWraps(
+                textToMeasure,
+                context.locales.getLocaleString(),
+            )) {
                 const metrics = getTextMetrics(
                     // Choose the description with the preferred language.
                     segment,
@@ -372,11 +378,13 @@ export default class Phrase extends Output {
             this._description = locales
                 .concretize(
                     (l) => l.output.Phrase.defaultDescription,
-                    text,
-                    this.name instanceof TextLang ? this.name.text : undefined,
-                    this.size,
-                    this.face,
-                    animationDescription,
+                    {
+                        text: text,
+                        name: this.name instanceof TextLang ? this.name.text : undefined,
+                        size: this.size,
+                        face: this.face,
+                        animation: animationDescription,
+                    },
                 )
                 .toText()
                 .trim();

@@ -393,10 +393,12 @@ export default class PropertyReference extends Expression {
     ) {
         return locales.concretize(
             (l) => l.node.PropertyReference.finish,
-            this.name
+            {
+                property: this.name
                 ? new NodeRef(this.name, locales, context, this.name?.getName())
                 : undefined,
-            this.getValueIfDefined(locales, context, evaluator),
+                value: this.getValueIfDefined(locales, context, evaluator),
+            },
         );
     }
 
@@ -405,8 +407,8 @@ export default class PropertyReference extends Expression {
     }
 
     getDescriptionInputs(locales: Locales, context: Context) {
-        return [
-            this.name ? new NodeRef(this.name, locales, context) : undefined,
-        ];
+        return {
+            name: this.name ? new NodeRef(this.name, locales, context) : undefined,
+        };
     }
 }

@@ -1,10 +1,14 @@
 <script lang="ts">
-    import { getTip } from '@components/project/Contexts';
+    import { getLocalizing, getTip } from '@components/project/Contexts';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import { locales } from '@db/Database';
     import type LocaleText from '@locale/LocaleText';
     import { type Snippet } from 'svelte';
     import type { ToggleText } from '@locale/UITexts';
-    import { toShortcut, type Command } from '@components/editor/commands/Commands';
+    import {
+        toShortcut,
+        type Command,
+    } from '@components/editor/commands/Commands';
 
     interface Props {
         tips: (locale: LocaleText) => ToggleText;
@@ -50,6 +54,9 @@
     let view = $state<HTMLButtonElement | undefined>(undefined);
 
     let hint = getTip();
+    let localizing = getLocalizing();
+    let offEditing = $state(false);
+    let onEditing = $state(false);
     function showTip() {
         if (view) hint.show(title, view);
     }
@@ -58,38 +65,70 @@
     }
 </script>
 
-<!-- 
-    Note: we don't make the button inactive using "disabled" because that makes it invisible to screen readers. 
-    Note: we prevent mouse down default to avoid stealing keyboard focus. 
+<!--
+    Note: we don't make the button inactive using "disabled" because that makes it invisible to screen readers.
+    Note: we prevent mouse down default to avoid stealing keyboard focus.
 -->
-<button
-    type="button"
-    class:highlight
-    data-uiid={uiid}
-    data-testid={testid}
-    class:on
-    aria-label={title}
-    aria-disabled={!active}
-    aria-pressed={on}
-    ondblclick={(event) => event.stopPropagation()}
-    onmousedown={(event) => event.preventDefault()}
-    bind:this={view}
-    onpointerenter={showTip}
-    onpointerleave={hideTip}
-    onfocus={showTip}
-    onblur={hideTip}
-    ontouchstart={showTip}
-    ontouchend={hideTip}
-    ontouchcancel={hideTip}
-    onclick={(event) =>
-        event.button === 0 && active ? doToggle(event) : undefined}
->
-    <div class="icon">
-        {@render children()}
-    </div>
-</button>
+<span class="toggle-group">
+    <button
+        type="button"
+        class:highlight
+        data-uiid={uiid}
+        data-testid={testid}
+        class:on
+        aria-label={title}
+        aria-disabled={!active}
+        aria-pressed={on}
+        ondblclick={(event) => event.stopPropagation()}
+        onmousedown={(event) => event.preventDefault()}
+        bind:this={view}
+        onpointerenter={showTip}
+        onpointerleave={hideTip}
+        onfocus={showTip}
+        onblur={hideTip}
+        ontouchstart={showTip}
+        ontouchend={hideTip}
+        ontouchcancel={hideTip}
+        onclick={(event) =>
+            event.button === 0 && active ? doToggle(event) : undefined}
+    >
+        <div class="icon">
+            {@render children()}
+        </div>
+    </button>{#if localizing?.on}<span class="tip-stack"
+            >{#if !onEditing}<LocalizedText
+                    path={tips}
+                    extras={['off']}
+                    tipIcon
+                    onEditingChange={(e) => (offEditing = e)}
+                />{/if}{#if !offEditing}<LocalizedText
+                    path={tips}
+                    extras={['on']}
+                    tipIcon
+                    onEditingChange={(e) => (onEditing = e)}
+                />{/if}</span
+        >{/if}
+</span>
 
 <style>
+    /* Keep the button and its localizing tip badges as a single inline-flex unit
+       so the parent layout treats them as one item (not separate flex children
+       that can wrap to a new line). */
+    .toggle-group {
+        display: inline-flex;
+        flex-direction: row;
+        align-items: center;
+        gap: var(--wordplay-spacing-half);
+        width: fit-content;
+    }
+
+    /* Stack the off-tip and on-tip badges vertically next to the toggle. */
+    .tip-stack {
+        display: inline-flex;
+        flex-direction: column;
+        gap: var(--wordplay-spacing-half);
+    }
+
     button {
         font-family: var(--wordplay-app-font);
         font-size: var(--wordplay-small-font-size);

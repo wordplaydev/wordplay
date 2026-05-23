@@ -1,0 +1,17 @@
+Điều khiển nhân vật di chuyển theo ngón tay của bạn
+
+Bạn muốn một nhân vật đuổi theo chuột hoặc ngón tay của bạn? @Stage ?Chúng ta có thể làm điều đó với @Pointer đầu vào. 
+
+@Pointer mang đến cho chúng ta một sự đổi mới @Place mỗi khi con trỏ di chuyển.Nếu chúng ta sử dụng điều đó @Place với tư cách là một @Phrase của\place\Nhân vật sẽ di chuyển đến bất cứ nơi nào chúng ta chỉ định.
+
+\Stage([Phrase('🐈' place: Pointer())] place: Place(0m 0m -10m))\
+
+Vậy thôi! Di chuyển chuột hoặc kéo ngón tay, và xem con mèo đi theo.
+
+Bạn có thể làm được nhiều việc thú vị hơn bằng cách lấy ra...\x\ Và \y\từ @Place .Đây là một con vịt luôn lơ lửng cách con trỏ một mét:
+
+\Stage([
+		Phrase('🦆' place: Place(Pointer().x Pointer().y + 1m))
+	] place: Place(0m 0m -10m))\
+
+move-phrase, count-with-time

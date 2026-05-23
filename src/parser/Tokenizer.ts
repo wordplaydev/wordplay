@@ -212,8 +212,10 @@ const ListOpenPattern = {
 };
 const ListClosePattern = { pattern: LIST_CLOSE_SYMBOL, types: [Sym.ListClose] };
 
-/** Variable references in markup, for templating and reuse in locales (e.g., $1, $?, $source) */
-export const MentionRegEx = '\\$[a-zA-Z0-9?]+';
+/** Variable references in markup, for templating and reuse in locales:
+ * `$?` or `$!` placeholders, or `$<name>` where name is alphanumeric (no `?`).
+ */
+export const MentionRegEx = '\\$(?:[?!]|[a-zA-Z0-9]+)';
 
 /** Valid tokens inside of code. */
 const CodeTokenPatterns: TokenPattern[] = [
@@ -291,11 +293,52 @@ const CodeTokenPatterns: TokenPattern[] = [
         pattern: /^-?[ⅠⅡⅢⅣⅤⅥⅦⅧⅨⅩⅪⅫⅬⅭⅮⅯ]+/,
         types: [Sym.Number, Sym.RomanNumeral],
     },
-    // Japanese numbers
+    // Han (CJK) numerals — covers Chinese, Japanese, and Korean uses of the
+    // shared Han character set for numbers, including the larger magnitudes 億 (10^8) and 兆 (10^12).
     {
         pattern:
-            /^-?[0-9]*[一二三四五六七八九十百千万]+(・[一二三四五六七八九分厘毛糸忽]+)?/u,
-        types: [Sym.Number, Sym.JapaneseNumeral],
+            /^-?[0-9]*[一二三四五六七八九十百千万億兆]+(・[一二三四五六七八九分厘毛糸忽]+)?/u,
+        types: [Sym.Number, Sym.HanNumeral],
+    },
+    // Thai numerals — positional digits ๐–๙ that read like Arabic decimal.
+    {
+        pattern: /^-?[๐๑๒๓๔๕๖๗๘๙]+([.,][๐๑๒๓๔๕๖๗๘๙]+)?%?/u,
+        types: [Sym.Number, Sym.ThaiNumeral],
+    },
+    // Bengali numerals (also used by Assamese).
+    {
+        pattern: /^-?[০১২৩৪৫৬৭৮৯]+([.,][০১২৩৪৫৬৭৮৯]+)?%?/u,
+        types: [Sym.Number, Sym.BengaliNumeral],
+    },
+    // Devanagari numerals (used by Hindi, Marathi, Sanskrit).
+    {
+        pattern: /^-?[०१२३४५६७८९]+([.,][०१२३४५६७८९]+)?%?/u,
+        types: [Sym.Number, Sym.DevanagariNumeral],
+    },
+    // Gujarati numerals.
+    {
+        pattern: /^-?[૦૧૨૩૪૫૬૭૮૯]+([.,][૦૧૨૩૪૫૬૭૮૯]+)?%?/u,
+        types: [Sym.Number, Sym.GujaratiNumeral],
+    },
+    // Gurmukhi numerals (used by Punjabi).
+    {
+        pattern: /^-?[੦੧੨੩੪੫੬੭੮੯]+([.,][੦੧੨੩੪੫੬੭੮੯]+)?%?/u,
+        types: [Sym.Number, Sym.GurmukhiNumeral],
+    },
+    // Kannada numerals.
+    {
+        pattern: /^-?[೦೧೨೩೪೫೬೭೮೯]+([.,][೦೧೨೩೪೫೬೭೮೯]+)?%?/u,
+        types: [Sym.Number, Sym.KannadaNumeral],
+    },
+    // Tamil numerals.
+    {
+        pattern: /^-?[௦௧௨௩௪௫௬௭௮௯]+([.,][௦௧௨௩௪௫௬௭௮௯]+)?%?/u,
+        types: [Sym.Number, Sym.TamilNumeral],
+    },
+    // Telugu numerals.
+    {
+        pattern: /^-?[౦౧౨౩౪౫౬౭౮౯]+([.,][౦౧౨౩౪౫౬౭౮౯]+)?%?/u,
+        types: [Sym.Number, Sym.TeluguNumeral],
     },
     // Numbers with bases between base 2 and 16
     {

@@ -1,0 +1,31 @@
+Buat serangkaian adegan interaktif.
+
+Terkadang kita ingin menceritakan kisah yang menunggu penonton melakukan sesuatu sebelum beralih ke konten berikutnya.
+
+Untuk melakukan ini, kita bisa menggunakan  @Scene , tapi letakkan  @Boolean  nilai di antara konten yang ingin kita tampilkan. Misalnya, klik di sini akan beralih ke setiap konten berikutnya, menggunakan  @Button :
+
+\Scene([
+		Phrase('klik saya')
+		Button()
+		Phrase('klik saya lagi' duration: 1s)
+		Button()
+		Phrase('Tidak, sungguh, klik saya sekeras mungkin!!' duration: 1s)
+		Button()
+		Phrase('Apakah Anda sudah mengklik saya?' duration: 1s)
+	])\
+
+Itu  @Scene  menunjukkan yang pertama  @Phrase lalu menunggu  @Button  agar menjadi kenyataan, dan begitu terbukti benar, maka akan berlanjut ke tahap berikutnya.  @Phrase .
+
+Anda dapat menggunakan apa pun yang Anda inginkan untuk menyampaikan argumen, asalkan pernyataan tersebut benar atau salah. Sebagai contoh, kita bisa menggunakan suara kita! Jika kita berteriak cukup keras, adegan akan berlanjut:
+
+\Scene([
+		Phrase('Apakah ada orang di sana?')
+		Volume() > .5
+		Phrase("Aku tidak bisa mendengarmu, ulangi lagi?" duration: 1s)
+		Volume() > .7
+		Phrase('Tolong lebih keras...' duration: 1s)
+		Volume() > .9
+		Phrase('Oh, hai!' duration: 1s)
+	])\
+
+animated-scene
