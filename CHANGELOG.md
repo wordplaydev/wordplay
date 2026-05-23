@@ -20,7 +20,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 ### Changed
 
-- We made `Phrase` word wrapping locale specific (#164).
+- We made @Phrase word wrapping locale specific (#164).
 - We upgraded internal tooling for stability.
 - We made the default choices on the language choosers in the editor and stage clearer.
 
@@ -39,7 +39,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 ### Added
 
-- There's a new `Hand` input! It uses the camera to check the location of your hand, which fingers are up, how many fingers are up, whether your hand is open or closed, and whether your palm is showing. What a handy input!
+- There's a new @Hand input! It uses the camera to check the location of your hand, which fingers are up, how many fingers are up, whether your hand is open or closed, and whether your palm is showing. What a handy input!
 - Added the ability to control which other galleries gallery how-tos are shared with.
 - We added a new in-app localization mode! Anyone can suggest revisions to any supported language within the app. Changes are stored locally until you submit them; a GitHub pull request is created and reviewed by maintainers before they become live (#437).
 
