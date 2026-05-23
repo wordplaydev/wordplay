@@ -86,6 +86,11 @@ export async function verifyLocale(
     revisedStrings: RevisedString[],
     /** Global names used by other locales */
     globalNames: Map<string, { locale: string; path: LocalePath }[]>,
+    /** Accumulator for paths whose translation succeeded in this run; the
+     *  caller uses it to strip `$!` Revised markers from the en-US source
+     *  once every sibling has been processed. Pass `undefined` for non-
+     *  translation runs. */
+    translatedPaths?: Set<string>,
 ): Promise<[LocaleText, boolean]> {
     let revisedText: LocaleText = text;
     const valid = LocaleValidator(text);
@@ -109,6 +114,7 @@ export async function verifyLocale(
         override,
         revisedStrings,
         globalNames,
+        translatedPaths,
     );
 
     return [revisedText, JSON.stringify(revisedText) !== JSON.stringify(text)];
@@ -135,6 +141,9 @@ async function checkLocale(
     override: boolean,
     revisedStrings: RevisedString[],
     globalNames: Map<string, { locale: string; path: LocalePath }[]>,
+    /** Accumulator for paths whose translation succeeded in this run; see
+     *  verifyLocale for details. */
+    translatedPaths?: Set<string>,
 ): Promise<LocaleText> {
     // Make a copy of the original to modify.
     let revised = JSON.parse(JSON.stringify(original)) as LocaleText;
@@ -147,14 +156,13 @@ async function checkLocale(
         const pairsToTranslate = getCheckableLocalePairs(revised)
             .filter((path) => {
                 const value = path.value;
-                // If this path is marked revised in the original, and this
-                // is automated, retranslate it.
-                if (
-                    revisedStrings.some((rev) => rev.path.equals(path)) &&
-                    (typeof value === 'string'
-                        ? isMachineTranslated(value)
-                        : value.some((s) => isMachineTranslated(s)))
-                )
+                // If this path is marked revised ($!) in any locale, reset
+                // every sibling at this path — even human translations. A
+                // revision means the meaning changed, so the existing
+                // translation is suspect; re-translating prompts a human
+                // reviewer to confirm or revise. Sibling's current value is
+                // irrelevant — we replace from the en-US source.
+                if (revisedStrings.some((rev) => rev.path.equals(path)))
                     return true;
                 return typeof value === 'string'
                     ? shouldStringBeMachineTranslated(value, override)
@@ -193,6 +201,7 @@ async function checkLocale(
                 DefaultLocale,
                 revised,
                 pairsToTranslate,
+                translatedPaths,
             );
         }
     }
@@ -416,6 +425,8 @@ async function translateLocale(
     source: LocaleText,
     target: LocaleText,
     unwritten: LocalePath[],
+    /** Accumulator for paths whose translation succeeded; see verifyLocale. */
+    translatedPaths?: Set<string>,
 ) {
     const revised = JSON.parse(JSON.stringify(target)) as LocaleText;
 
@@ -466,15 +477,18 @@ async function translateLocale(
                 match.every((s) => typeof s === 'string')
             ) {
                 const value = [];
+                let wroteAny = false;
                 for (let count = 0; count < match.length; count++) {
                     let next = translations.shift();
                     if (next) {
                         if (path.key === 'name' || path.key === 'names')
                             next = next.replaceAll(' ', '');
                         value.push(`${MachineTranslated}${next.trim()}`);
+                        wroteAny = true;
                     }
                 }
                 path.repair(revised, value);
+                if (wroteAny) translatedPaths?.add(path.toString());
             } else {
                 let translation = translations.shift();
                 if (translation) {
@@ -484,6 +498,7 @@ async function translateLocale(
                         revised,
                         `${MachineTranslated}${translation.trim()}`,
                     );
+                    translatedPaths?.add(path.toString());
                 }
             }
         }
