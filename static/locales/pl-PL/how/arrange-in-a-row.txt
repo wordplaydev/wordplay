@@ -1,0 +1,17 @@
+Umieść tekst obok siebie
+
+Czasami chcemy, aby tekst znajdował się obok siebie w schludnym rzędzie.Możemy to zrobić za pomocą @Row , który wszystko układa w @Group od lewej do prawej.
+
+\Group(Row() [Phrase('🍎') Phrase('🍌') Phrase('🍇')])\
+
+A  @Row Można również ustawiać znaki wzdłuż górnej, środkowej lub dolnej krawędzi i dodawać przestrzeń między nimi.Oto ten sam owoc, ale wyrównany do dołu, z odrobiną miejsca na oddech:
+
+\Group(Row('>' 0.5m) [
+		Phrase('🍎' size: 2m)
+		Phrase('🍌' size: 1m)
+		Phrase('🍇' size: 3m)
+	])\
+
+Ten\'>'\mówi @Row wyrównać wszystko wzdłuż dolnej krawędzi. Spróbuj\'<'\na górę lub\'|'\dla środka.Ten\0.5m\jest odstępem pomiędzy poszczególnymi znakami.
+
+stack-up-and-down, make-a-grid

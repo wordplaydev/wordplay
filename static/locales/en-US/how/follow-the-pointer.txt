@@ -1,0 +1,22 @@
+Make a character follow your finger
+
+Want a character that chases your mouse or finger around the @Stage?
+We can do that with the @Pointer input.
+
+@Pointer gives us a fresh @Place every time the pointer moves.
+If we use that @Place as a @Phrase's \place\, the character will go wherever we point.
+
+\
+Stage([Phrase('🐈' place: Pointer())] place: Place(0m 0m -10m))
+\
+
+That's it! Move your mouse or drag your finger, and watch the cat follow.
+
+You can do more interesting things by pulling out the \x\ and \y\ from the @Place.
+Here's a duck that's always floating a meter above the pointer:
+
+\
+Stage([Phrase('🦆' place: Place(Pointer().x Pointer().y + 1m))] place: Place(0m 0m -10m))
+\
+
+move-phrase, count-with-time

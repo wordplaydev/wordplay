@@ -1,0 +1,28 @@
+Stack characters top to bottom
+
+If a @Row is for side by side, then a @Stack is for top to bottom.
+@Stack puts each character below the one before it, like a tower.
+
+\
+Group(Stack() [
+    Phrase('one')
+    Phrase('two')
+    Phrase('three')
+])
+\
+
+Like a @Row, a @Stack can also have an alignment and padding.
+Try lining everything up along the left side:
+
+\
+Group(Stack('<' 0.25m) [
+    Phrase('🐣 little')
+    Phrase('🐥 medium')
+    Phrase('🐔 big')
+])
+\
+
+The \'<'\ means /line everything up along the left edge/.
+You can also try \'|'\ for center or \'>'\ for the right edge.
+
+arrange-in-a-row, make-a-grid

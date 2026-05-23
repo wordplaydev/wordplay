@@ -1,0 +1,18 @@
+Listeden rastgele bir şey seçin.
+
+Projenizin her çalıştığında sizi şaşırtmasını mı istiyorsunuz? Bir seçenek listesi oluşturun ve birini seçin. @Random . 
+
+@Random Bize rastgele bir sayı verebilir ve bir liste, sayıya göre aranabilir.\[n]\.Bunları bir araya getirerek rastgele bir emoji seçin:
+
+\emojis: ['🌈' '🌟' '🎈' '🦄' '🍩']
+Phrase(emojis.random())\
+
+Ayrıca şunları da kullanabilirsiniz. @Random İki sayı ile, bu sayılar arasından tam sayı seçen bir fonksiyon.Örneğin, birini seçmek için/yeni/Her saniye rastgele emojiler, karıştır. @Time ve bir @Reaction :
+
+\emojis: ['🌈' '🌟' '🎈' '🦄' '🍩']
+pick: emojis[1] … ∆ Time(1000ms) … emojis[Random(1 emojis.length())]
+Phrase(pick)\
+
+Her bir tik @Time , o @Reaction Yeni bir sürpriz seçiyor.
+
+shake-phrase, count-with-time

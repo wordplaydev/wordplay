@@ -552,7 +552,9 @@ export default class StructureDefinition extends DefinitionExpression {
     }
 
     getDescriptionInputs(locales: Locales) {
-        return [locales.getName(this.names)];
+        return {
+            name: locales.getName(this.names),
+        };
     }
 
     getCharacter() {

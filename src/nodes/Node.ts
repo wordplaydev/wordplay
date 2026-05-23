@@ -687,15 +687,20 @@ export default abstract class Node {
             'description' in text
                 ? (text as DescriptiveNodeText).description
                 : text.name,
-            ...this.getDescriptionInputs(locales, context),
+            this.getDescriptionInputs(locales, context),
         );
     }
 
     /**
-     * Get the list of inputs to give to concretize the description.
+     * Get the named inputs to give to concretize the description. Subclasses
+     * override to return a record whose keys match the names declared in the
+     * field's `Template<Names>` type.
      */
-    getDescriptionInputs(_: Locales, __: Context): TemplateInput[] {
-        return [];
+    getDescriptionInputs(
+        _: Locales,
+        __: Context,
+    ): Record<string, TemplateInput> {
+        return {};
     }
 
     getDoc(locales: Locales): DocText {

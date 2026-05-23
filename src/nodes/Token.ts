@@ -152,8 +152,8 @@ export default class Token extends Node {
             : parent.getChildPlaceholderLabel(this, locales, context, root);
     }
 
-    getDescriptionInputs(locales: Locales): TemplateInput[] {
-        return [getTokenLabel(this, locales), this.getText()];
+    getDescriptionInputs(locales: Locales): Record<string, TemplateInput> {
+        return { label: getTokenLabel(this, locales) };
     }
 
     localized(

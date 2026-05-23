@@ -40,16 +40,18 @@ export default class IncompatibleInput extends Conflict {
             explanation: (locales: Locales, context: Context) =>
                 locales.concretize(
                     (l) => IncompatibleInput.LocalePath(l).explanation,
-                    new NodeRef(
+                    {
+                        expected: new NodeRef(
                         this.expectedType.simplify(context),
                         locales,
                         context,
                     ),
-                    new NodeRef(
+                        given: new NodeRef(
                         this.givenType.simplify(context),
                         locales,
                         context,
                     ),
+                    },
                 ),
             resolutions,
         };

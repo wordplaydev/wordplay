@@ -35,6 +35,8 @@ import { createHandType } from '@output/Hand';
 import { createMatterType } from '@output/Matter';
 import { createOutputType } from '@output/Output';
 import { createPhraseType } from '@output/Phrase';
+import analyzePhraseEvaluate from '@output/analyzePhraseEvaluate';
+import { registerEvaluateAnalyzer } from '@conflicts/evaluateAnalyzers';
 import { createPlaceType } from '@output/Place';
 import { createPoseType } from '@output/Pose';
 import { createReboundType } from '@output/Rebound';
@@ -56,6 +58,7 @@ export default function createDefaultShares(locales: Locales) {
     const DirectionType = createDirectionType(locales);
     const ReboundType = createReboundType(locales);
     const PhraseType = createPhraseType(locales);
+    registerEvaluateAnalyzer(PhraseType, analyzePhraseEvaluate);
     const GroupType = createGroupType(locales);
     const ShapeType = createShapeType(locales);
 

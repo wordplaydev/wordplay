@@ -1,0 +1,19 @@
+Numără în timp ce trece timpul
+
+Multe proiecte au nevoie de ceva care să crească în timp - un cronometru, un scor, o numărătoare inversă.Putem construi un contor combinând  @Time   @Stream  cu un  @Reaction .
+
+O  @Reaction  are trei părți: o valoare inițială, un lucru de urmărit și o nouă valoare atunci când acel lucru se schimbă.Aici, începem la \0\, ceas  @Time și adăugați câte unul de fiecare dată când ticăie ceasul:
+
+\count: 0 … ∆ Time(1000ms) … count + 1
+Phrase(count → '')\
+
+În fiecare secundă,  @Time  incendii,  @Reaction  notificări cu \∆ Time(1000ms)\și \count\ devine \count + 1\.Cel/Cea/Cei/Cele \→ ''\ la final convertește numărul în text, astfel încât  @Phrase  o poate arăta.
+
+Puteți folosi orice intrare doriți, nu doar timpul. Acest contor numără numărul de apăsări ale butonului Button():
+
+\count: 0 … ∆ Button() … count + 1
+Phrase(count → '')\
+
+De fiecare dată când  @Button  modificările din flux cu un clic sau o atingere, numărul crește cu unu.
+
+track-points, pick-from-a-list

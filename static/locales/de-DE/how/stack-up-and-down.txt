@@ -1,0 +1,21 @@
+Stapeln Sie die Zeichen von oben nach unten
+
+Wenn ein @Row steht für nebeneinander, dann ein @Stack ist von oben nach unten. @Stack Setzt jedes Zeichen unter das vorhergehende, wie einen Turm.
+
+\Group(Stack() [
+		Phrase('eins')
+		Phrase('zwei')
+		Phrase('drei')
+	])\
+
+Wie ein @Row , A  @Stack kann auch eine Ausrichtung und Polsterung haben.Versuchen Sie, alles an der linken Seite auszurichten:
+
+\Group(Stack('<' 0.25m) [
+		Phrase('🐣 kleines')
+		Phrase('🐥 mittel')
+		Phrase('🐔 groß')
+	])\
+
+Der \'<'\ bedeutet /Richte alles an der linken Kante aus./DieSie können auch versuchen\'|'\für Zentrum oder\'>'\für den rechten Rand.
+
+arrange-in-a-row, make-a-grid

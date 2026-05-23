@@ -6,7 +6,9 @@
     import { animationFactor } from '@db/Database';
     import type Value from '@values/Value';
     import { getEvaluation } from '@components/project/Contexts';
-    import NodeView, { type Format } from '@components/editor/nodes/NodeView.svelte';
+    import NodeView, {
+        type Format,
+    } from '@components/editor/nodes/NodeView.svelte';
 
     interface Props {
         node: Reference;

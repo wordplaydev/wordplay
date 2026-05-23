@@ -1,5 +1,6 @@
 import { Purpose } from '@concepts/Purpose';
 import type Conflict from '@conflicts/Conflict';
+import { getEvaluateAnalyzers } from '@conflicts/evaluateAnalyzers';
 import IncompatibleInput from '@conflicts/IncompatibleInput';
 import MissingInput from '@conflicts/MissingInput';
 import NotInstantiable from '@conflicts/NotInstantiable';
@@ -731,6 +732,12 @@ export default class Evaluate extends Expression {
             conflicts.push(new SeparatedEvaluate(ref, block, structure));
         }
 
+        // Let any definition-specific analyzers contribute extra conflicts
+        // (e.g. Phrase's unsupported-font-format warnings). Keeps domain
+        // knowledge out of this file.
+        for (const analyzer of getEvaluateAnalyzers(fun))
+            conflicts.push(...analyzer(this, context));
+
         return conflicts;
     }
 
@@ -1074,10 +1081,7 @@ export default class Evaluate extends Expression {
     }
 
     getStartExplanations(locales: Locales) {
-        return locales.concretize(
-            (l) => l.node.Evaluate.start,
-            this.inputs.length > 0,
-        );
+        return locales.concretize((l) => l.node.Evaluate.start);
     }
 
     getFinishExplanations(
@@ -1087,18 +1091,20 @@ export default class Evaluate extends Expression {
     ) {
         return locales.concretize(
             (l) => l.node.Evaluate.finish,
-            this.getValueIfDefined(locales, context, evaluator),
+            {
+                value: this.getValueIfDefined(locales, context, evaluator),
+            },
         );
     }
 
     getDescriptionInputs(locales: Locales, context: Context) {
         const fun = this.getFunction(context);
         const names = fun?.names;
-        return [
-            names ? locales.getName(names) : undefined,
-            fun instanceof StreamDefinition ? true : undefined,
-            fun instanceof StructureDefinition ? true : undefined,
-        ];
+        return {
+            name: names ? locales.getName(names) : undefined,
+            stream: fun instanceof StreamDefinition ? true : undefined,
+            structure: fun instanceof StructureDefinition ? true : undefined,
+        };
     }
 
     getCharacter() {

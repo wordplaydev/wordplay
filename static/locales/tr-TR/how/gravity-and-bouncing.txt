@@ -1,0 +1,24 @@
+Bir karakterin düşmesini ve sekmesini sağlayın.
+
+Peki ya bir karakterin gerçek hayattaki gibi düşmesini, yere çarpmasını veya itilip kakılmasını istersek?İşte bu @Motion  Ve  @Matter Bunlar birlikte fizik simülasyonu için kullanılır. @Phrase . 
+
+@Motion kontroller/Neresi/Bir karakter zamanla değişir. Bunu şu şekilde kullanıyoruz:\place\bir için @Phrase Yüksekten başlatıp düşmesini sağlamak.Ayrıca üzerine düşebileceğimiz bir şeye de ihtiyacımız var, yoksa karakterimiz sonsuza dek düşmeye devam eder! @Shape geniş bir @Rectangle Güzel bir zemin oluşturuyor:
+
+\Stage([
+		Phrase('🍎' place: Motion(Place(0m 5m)) matter: Matter())
+		Shape(Rectangle(-10m 0m 10m -5m))
+	])\
+
+Elma beş metre yükseklikten başlıyor ve yerçekimi etkisiyle düşüyor.Yere çarptığında biraz sekerek uzaklaşır, çünkü @Phrase dahili bir özelliğe sahip @Matter Bu, ağırlığını ve esnekliğini kontrol eder.
+
+Değiştirmek için/zıplayan/veya nasıl/ağır/Bir karakter, ona kendi tarzını katmaktır. @Matter . @Matter Bir kütle, bir esneklik ve bir sürtünme katsayısı gerektirir:
+
+\Stage([
+		Phrase('⚽' place: Motion(Place(-2m 5m)) matter: Matter(1kg 0.9 0.2))
+		Phrase('🪨' place: Motion(Place(2m 5m)) matter: Matter(5kg 0.1 0.8))
+		Shape(Rectangle(-10m 0m 10m -5m))
+	])\
+
+Top hafif ve esnek olduğu için tekrar yukarı fırlıyor.Kaya ağır ve esnek değil, bu yüzden yere düşerken sadece güm diye ses çıkarıyor.
+
+follow-the-pointer, move-phrase

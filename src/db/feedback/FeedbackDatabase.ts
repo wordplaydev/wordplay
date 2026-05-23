@@ -1,11 +1,16 @@
+import { DB } from '@db/Database';
 import { firestore } from '@db/firebase';
 import {
+    arrayRemove,
+    arrayUnion,
     collection,
     deleteDoc,
     doc,
     getDocs,
+    increment,
     query,
     setDoc,
+    updateDoc,
     where,
 } from 'firebase/firestore';
 import { v4 as uuidv4 } from 'uuid';
@@ -61,6 +66,7 @@ export type UnknownFeedbackVersion =
 const CurrentFeedbackSchema = FeedbackSchemaV2;
 
 export type Feedback = z.infer<typeof CurrentFeedbackSchema>;
+export type FeedbackComment = z.infer<typeof CommentSchemaV1>;
 
 /** Project updgrader */
 export function upgradeFeedback(feedback: UnknownFeedbackVersion): Feedback {
@@ -112,7 +118,7 @@ export async function createFeedback(
     };
 
     try {
-        await setDoc(doc(firestore, FeedbackCollection, id), feedback);
+        await DB.track(setDoc(doc(firestore, FeedbackCollection, id), feedback));
     } catch (err) {
         console.error('Error creating feedback', err);
         return null;
@@ -125,7 +131,7 @@ export async function deleteFeedback(id: string) {
     if (firestore === undefined) return null;
 
     try {
-        await deleteDoc(doc(firestore, FeedbackCollection, id));
+        await DB.track(deleteDoc(doc(firestore, FeedbackCollection, id)));
     } catch (err) {
         console.error('Error deleting feedback', err);
         return null;
@@ -138,13 +144,78 @@ export async function updateFeedback(feedback: Feedback) {
     if (firestore === undefined) return null;
 
     try {
-        await setDoc(doc(firestore, FeedbackCollection, feedback.id), feedback);
+        await DB.track(
+            setDoc(doc(firestore, FeedbackCollection, feedback.id), feedback),
+        );
     } catch (err) {
         console.error('Error updating feedback', err);
         return null;
     }
 
     return true;
+}
+
+/**
+ * Atomically increment the votes counter. Safe against concurrent voters —
+ * `increment` is a server-side field operation, so two simultaneous upvotes
+ * both land instead of one clobbering the other.
+ */
+export async function voteFeedback(id: string) {
+    if (firestore === undefined) return null;
+    try {
+        await DB.track(
+            updateDoc(doc(firestore, FeedbackCollection, id), {
+                votes: increment(1),
+            }),
+        );
+        return true;
+    } catch (err) {
+        console.error('Error voting on feedback', err);
+        return null;
+    }
+}
+
+/**
+ * Atomically append a comment. Safe against concurrent commenters — arrayUnion
+ * accumulates additions to the array on the server rather than overwriting it.
+ */
+export async function addFeedbackComment(id: string, comment: FeedbackComment) {
+    if (firestore === undefined) return null;
+    try {
+        await DB.track(
+            updateDoc(doc(firestore, FeedbackCollection, id), {
+                comments: arrayUnion(comment),
+            }),
+        );
+        return true;
+    } catch (err) {
+        console.error('Error adding comment', err);
+        return null;
+    }
+}
+
+/**
+ * Atomically remove a comment. arrayRemove matches by deep equality, so callers
+ * must pass the exact comment object as it exists on the server. The most
+ * recently loaded copy is usually correct; if an edit raced the delete, the
+ * remove silently no-ops and a reload will resolve the divergence.
+ */
+export async function removeFeedbackComment(
+    id: string,
+    comment: FeedbackComment,
+) {
+    if (firestore === undefined) return null;
+    try {
+        await DB.track(
+            updateDoc(doc(firestore, FeedbackCollection, id), {
+                comments: arrayRemove(comment),
+            }),
+        );
+        return true;
+    } catch (err) {
+        console.error('Error removing comment', err);
+        return null;
+    }
 }
 
 export async function getFeedback(): Promise<Feedback[] | null> {

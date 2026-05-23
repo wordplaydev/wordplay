@@ -1,0 +1,31 @@
+Creează o aventură textuală
+
+Un tip de joc distractiv este /alege-ți propria aventură/ un joc în care un jucător navighează printr-o serie de alegeri și încearcă să găsească o cale către un final fericit. 
+
+Pentru a realiza unul dintre acestea, putem folosi  @Structure ,  @Key ,  @Reaction și  @List  împreună pentru a lua o serie de decizii, fiecare cu un set de opțiuni, cum ar fi:
+
+\¶ Aceasta creează o structură de date care stochează o alegere și decizia către care va naviga. ¶•Option(text•'' decision•#)
+¶ Această structură de date stochează o listă de opțiuni ¶•Decision(options: [Option])
+¶ Acesta este conținutul jocului! Schimbă textul din Opțiuni pentru a crea atmosferă și alegeri dificile.Adăugați opțiuni pentru a crea o rețea de alegeri dificile. ¶
+decisions: [
+		Decision([Option('început' 2)])
+		Decision([
+				Option('stânga' 3)
+				Option('Drept' 4)
+				Option('corect' 4)
+			])
+		Decision([Option('câştiga' 1)])
+		Decision([Option('pierde' 1)])
+	]
+¶ Convertește cheia într-un număr, dacă este unu ¶
+key: Key()
+choice: key → #
+¶ Această valoare reprezintă decizia curentă din lista de mai sus.Când apăsăm tasta, facem una dintre următoarele acțiuni.Dacă există o singură opțiune pentru această decizie, atunci schimbăm decizia curentă.la decizia țintă a opțiunii, indiferent de tasta apăsată.Dacă tasta apăsată se află între 1 și numărul de opțiuni, atunci trecem la decizia țintă a acelei opțiuni.Altfel, păstrăm decizia actuală neschimbată. ¶
+current•#: 1 … ∆ key … decisions[current].options.length() = 1 ? decisions[current].options[1].decision ((choice ≥ 1) & (choice ≤ decisions[current].options.length())) ? decisions[current].options[choice].decision current
+¶ Aceasta afișează opțiunile doar ca o stivă de fraze. Puteți modifica acest lucru pentru a adăuga instrucțiuni, animații și alte elemente picante! ¶Stage([
+		Group(Stack() decisions[current].options.translate(ƒ(option) Phrase(option.text)))
+	])\
+
+Acest model pare complex, dar tot ce face de fapt este să afișeze setul curent de opțiuni și, de fiecare dată când o tastă se schimbă, să treacă la decizia aferentă opțiunii alese. Proiectarea unui joc înseamnă schimbarea conținutului din partea de sus!
+
+offer-choices

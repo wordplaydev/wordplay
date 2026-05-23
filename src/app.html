@@ -194,6 +194,14 @@
 
                 --bounce-height: 0.2em;
                 --wobble-rotation: 2deg;
+
+                --animation-factor: 1;
+            }
+
+            @media (prefers-reduced-motion: reduce) {
+                :root {
+                    --animation-factor: 0;
+                }
             }
 
             /* Block-editor density overrides. Vertical compresses more aggressively

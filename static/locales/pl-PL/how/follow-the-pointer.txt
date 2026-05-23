@@ -1,0 +1,17 @@
+Spraw, aby postać podążała za Twoim palcem
+
+Chcesz postać, która będzie gonić Twoją myszkę lub palec po całym ciele? @Stage ?Możemy to zrobić za pomocą @Pointer  wejście. 
+
+@Pointer daje nam świeżość @Place za każdym razem, gdy wskaźnik się porusza.Jeśli tego użyjemy @Place jako @Phrase 'S \place\, postać pójdzie tam, gdzie wskażemy.
+
+\Stage([Phrase('🐈' place: Pointer())] place: Place(0m 0m -10m))\
+
+To wszystko! Poruszaj myszką lub przeciągaj palcem, a kot będzie podążał za tobą.
+
+Możesz zrobić ciekawsze rzeczy, wyciągając\x\ I \y\z @Place .Oto kaczka, która zawsze unosi się metr nad wskaźnikiem:
+
+\Stage([
+		Phrase('🦆' place: Place(Pointer().x Pointer().y + 1m))
+	] place: Place(0m 0m -10m))\
+
+move-phrase, count-with-time

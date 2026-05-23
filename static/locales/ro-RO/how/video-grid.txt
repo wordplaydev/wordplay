@@ -1,0 +1,21 @@
+Creați un videoclip de pe cameră
+
+Cel/Cea/Cei/Cele  @Camera  Stream este o modalitate excelentă de a obține o grilă de culori din lume. Ce se întâmplă dacă vrem să vedem acele culori, recreând imaginea  @Camera  vede?
+
+Putem folosi  @Grid  machetă pentru o  @Group și  @List/combine  funcție pentru a converti culorile într-o listă de  @Phrase  pe care le dăm  @Grid .
+
+\width: 24
+height: 24
+colors: Camera(width × 1px height × 1px 33ms)
+Stage([
+		Group(Grid(height width 0m) colors.combine([] ƒ(phrases row) [
+						:phrases
+						:row.translate(ƒ(color) Phrase("⬤" color: color duration: 0s))
+					]))
+	])\
+
+Acest exemplu construiește o listă de expresii, acoperind fiecare culoare într-un cerc cu culoarea specifică.
+
+Fii atent cu  @Camera  fluxuri: produc o mulțime de date de intrare! Veți dori să păstrați lățimea și înălțimea imaginii mici.
+
+interactive-scene

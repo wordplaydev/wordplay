@@ -186,7 +186,9 @@
         action={navigate}
         wrap={true}
         tip={() =>
-            $locales.concretize((l) => l.ui.docs.link, longName).toText()}
+            $locales
+                .concretize((l) => l.ui.docs.link, { name: longName })
+                .toText()}
         ><span class="conceptlink interactive">
             {#if label}
                 {withMonoEmoji(label)}

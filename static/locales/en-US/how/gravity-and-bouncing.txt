@@ -1,0 +1,33 @@
+Make a character fall and bounce
+
+What if we want a character to fall down, bounce off the floor, or get pushed around like a real thing?
+That's what @Motion and @Matter are for — together they simulate physics for a @Phrase.
+
+@Motion controls /where/ a character is over time. We use it as the \place\ for a @Phrase, starting it up high so it can fall.
+We also need something to fall onto, or our character will just keep falling forever! A @Shape with a wide @Rectangle makes a nice floor:
+
+\
+Stage([
+    Phrase('🍎' place: Motion(Place(0m 5m)) matter: Matter())
+    Shape(Rectangle(-10m 0m 10m -5m))
+])
+\
+
+The apple starts five meters up and falls under gravity.
+When it hits the floor, it bounces a little, because @Phrase has a built-in @Matter that controls how heavy and bouncy it is.
+
+To change how /bouncy/ or how /heavy/ a character is, give it your own @Matter.
+@Matter takes a mass, a bounciness, and a friction:
+
+\
+Stage([
+    Phrase('⚽' place: Motion(Place(-2m 5m)) matter: Matter(1kg 0.9 0.2))
+    Phrase('🪨' place: Motion(Place(2m 5m)) matter: Matter(5kg 0.1 0.8))
+    Shape(Rectangle(-10m 0m 10m -5m))
+])
+\
+
+The ball is light and bouncy, so it springs back up.
+The rock is heavy and not bouncy, so it just thuds.
+
+follow-the-pointer, move-phrase

@@ -371,6 +371,17 @@ export const postFeedback = onDocumentCreated(
         if (feedback.title === undefined || feedback.description === undefined)
             return;
 
+        // When running inside the Functions emulator, skip the real SMTP call
+        // (we don't have credentials, don't want to spam hi@, and don't want
+        // tests to depend on outbound network). Print to the emulator console
+        // instead so developers can see what *would* have been sent.
+        if (process.env.FUNCTIONS_EMULATOR === 'true') {
+            console.log(
+                `[emulator] postFeedback would send email:\n  Subject: New feedback\n  Title: ${feedback.title}\n  Description: ${feedback.description}`,
+            );
+            return;
+        }
+
         let authData = nodemailer.createTransport({
             host: 'smtp.gmail.com',
             port: 465,

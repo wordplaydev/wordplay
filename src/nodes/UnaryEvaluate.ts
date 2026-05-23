@@ -1,8 +1,8 @@
 import type Conflict from '@conflicts/Conflict';
 import MissingInput from '@conflicts/MissingInput';
 import type LocaleText from '@locale/LocaleText';
-import NodeRef from '@locale/NodeRef';
 import type { NodeDescriptor } from '@locale/NodeTexts';
+import type Context from '@nodes/Context';
 import { NEGATE_SYMBOL, NOT_SYMBOL } from '@parser/Symbols';
 import Evaluation from '@runtime/Evaluation';
 import type Evaluator from '@runtime/Evaluator';
@@ -18,7 +18,6 @@ import type Locales from '@locale/Locales';
 import { Emotion } from '../lore/Emotion';
 import FunctionValue from '@values/FunctionValue';
 import AnyType from '@nodes/AnyType';
-import type Context from '@nodes/Context';
 import type Definition from '@nodes/Definition';
 import Expression, { type GuardContext } from '@nodes/Expression';
 import FunctionDefinition from '@nodes/FunctionDefinition';
@@ -235,11 +234,8 @@ export default class UnaryEvaluate extends Expression {
         return UnaryEvaluate.LocalePath;
     }
 
-    getStartExplanations(locales: Locales, context: Context) {
-        return locales.concretize(
-            (l) => l.node.UnaryEvaluate.start,
-            new NodeRef(this.input, locales, context),
-        );
+    getStartExplanations(locales: Locales) {
+        return locales.concretize((l) => l.node.UnaryEvaluate.start);
     }
 
     getFinishExplanations(
@@ -249,7 +245,9 @@ export default class UnaryEvaluate extends Expression {
     ) {
         return locales.concretize(
             (l) => l.node.UnaryEvaluate.finish,
-            this.getValueIfDefined(locales, context, evaluator),
+            {
+                value: this.getValueIfDefined(locales, context, evaluator),
+            },
         );
     }
 

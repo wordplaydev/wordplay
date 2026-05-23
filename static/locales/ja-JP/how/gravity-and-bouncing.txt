@@ -1,0 +1,24 @@
+キャラクターを転倒させて跳ね返らせる
+
+キャラクターが本物のように転んだり、床から跳ね返ったり、押し倒されたりするようにしたい場合はどうすればいいでしょうか？それが @Motion  そして  @Matter これらは、一緒に物理をシミュレートします @Phrase 。 
+
+@Motion コントロール/どこ/文字は時間とともに変化します。私たちはそれを\place\のために @Phrase 高い位置から始動させて、落下させる。何か落下する場所も必要だ。そうでないと、キャラクターは永遠に落下し続けることになる！ @Shape 幅広い @Rectangle 素敵な床になります。
+
+\Stage([
+		Phrase('🍎' place: Motion(Place(0m 5m)) matter: Matter())
+		Shape(Rectangle(-10m 0m 10m -5m))
+	])\
+
+リンゴは高さ5メートルから出発し、重力によって落下する。床に当たると少し跳ね返るのは、 @Phrase 内蔵 @Matter それは、重さや弾力性を制御するものです。
+
+方法を変更する/弾む/またはどのように/重い/キャラクターは、あなた自身の @Matter 。 @Matter 質量、弾力性、摩擦を考慮する必要がある。
+
+\Stage([
+		Phrase('⚽' place: Motion(Place(-2m 5m)) matter: Matter(1kg 0.9 0.2))
+		Phrase('🪨' place: Motion(Place(2m 5m)) matter: Matter(5kg 0.1 0.8))
+		Shape(Rectangle(-10m 0m 10m -5m))
+	])\
+
+ボールは軽くて弾力性があるので、跳ね返って元の位置に戻ります。その岩は重くて弾力がないので、ただ鈍い音を立てるだけだ。
+
+follow-the-pointer, move-phrase

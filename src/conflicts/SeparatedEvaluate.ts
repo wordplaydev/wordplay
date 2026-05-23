@@ -28,8 +28,10 @@ export default class SeparatedEvaluate extends Conflict {
             explanation: (locales: Locales, context: Context) =>
                 locales.concretize(
                     (l) => SeparatedEvaluate.LocalePath(l).explanation,
-                    new NodeRef(this.name, locales, context),
-                    this.structure,
+                    {
+                        name: new NodeRef(this.name, locales, context),
+                        structure: this.structure,
+                    },
                 ),
         };
     }

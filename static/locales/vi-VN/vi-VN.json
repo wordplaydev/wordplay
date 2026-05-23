@@ -93,7 +93,7 @@
         "Region": "$~khu vực gạch ngang",
         "BooleanType": "$~kiểu boolean",
         "NumberType": "$~loại số",
-        "JapaneseNumeral": "$~chữ số Nhật Bản",
+        "HanNumeral": "$~chữ số Nhật Bản",
         "RomanNumeral": "$~chữ số La Mã",
         "Pi": "$~pi",
         "Infinity": "$~vô cực",
@@ -123,7 +123,15 @@
         "Locale": "$~địa phương",
         "Unknown": "$~không rõ",
         "End": "$~kết thúc",
-        "Highlight": "$~ví dụ được đánh dấu"
+        "Highlight": "$~ví dụ được đánh dấu",
+        "ThaiNumeral": "$~chữ số Thái Lan",
+        "BengaliNumeral": "$~chữ số tiếng Bengali",
+        "DevanagariNumeral": "$~chữ số Devanagari",
+        "GujaratiNumeral": "$~chữ số Gujarati",
+        "GurmukhiNumeral": "$~chữ số Gurmukhi",
+        "KannadaNumeral": "$~chữ số kannada",
+        "TamilNumeral": "$~chữ số Tamil",
+        "TeluguNumeral": "$~số telugu"
     },
     "node": {
         "Dimension": {
@@ -185,7 +193,7 @@
         },
         "Language": {
             "name": "$~ngônngữ",
-            "description": "$~gắn nhãn tên và văn bản với ngôn ngữ $1[$1|không rõ]",
+            "description": "$~tên thẻ và văn bản kèm theo ngôn ngữ",
             "emotion": "eager",
             "doc": [
                 "$~Tôi là một thẻ ngôn ngữ và tôi làm việc với @Name và @Doc!",
@@ -212,7 +220,7 @@
         },
         "Name": {
             "name": "$~tên",
-            "description": "$~khai báo tên $1[$1|không tên]",
+            "description": "$~khai báo tên $name[$name|không tên]",
             "emotion": "kind",
             "doc": [
                 "$~Tôi xác định một giá trị, và đó là một cách hữu ích để đặt nhãn ngắn gọn cho một thứ gì đó khó đánh giá, hoặc thứ mà bạn không muốn phải đánh giá đi đánh giá lại nhiều lần.",
@@ -253,7 +261,7 @@
                 },
                 "MissingCell": {
                     "name": "$~cộtbịthiếu",
-                    "explanation": "$~Tôi bị thiếu cột $1"
+                    "explanation": "$~Tôi bị thiếu cột $column"
                 },
                 "ExtraCell": {
                     "name": "$~cộtbổsung",
@@ -271,7 +279,7 @@
         },
         "Token": {
             "name": "$~mãthôngbáo",
-            "description": "$1",
+            "description": "$label",
             "emotion": "neutral",
             "doc": [
                 "$~Bạn tìm thấy tôi bằng cách nào?",
@@ -295,7 +303,7 @@
             "conflict": {
                 "DuplicateTypeVariable": {
                     "name": "$~biếnkiểutrùnglặp",
-                    "explanation": "$~Tôi có cùng tên với $1"
+                    "explanation": "$~Tôi có cùng tên với $duplicate"
                 }
             }
         },
@@ -307,7 +315,7 @@
         },
         "Markup": {
             "name": "$~đánhdấu",
-            "description": "$~định dạng tài liệu với $1 đoạn văn",
+            "description": "$~định dạng tài liệu với $count đoạn văn",
             "emotion": "serious",
             "label": {
                 "paragraphs": "$~đoạn văn"
@@ -330,7 +338,7 @@
         },
         "WebLink": {
             "name": "$~liênkết",
-            "description": "$~liên kết đến địa chỉ web $1",
+            "description": "$~liên kết đến địa chỉ web $url",
             "emotion": "serious",
             "doc": [
                 "$~Tôi là một liên kết đến nội dung nào đó trên internet. Tôi chỉ cần một mô tả và một URL:",
@@ -340,7 +348,7 @@
         },
         "ConceptLink": {
             "name": "$~tínhcách",
-            "description": "$~liên kết đến khái niệm $1 trong tài liệu",
+            "description": "$~liên kết đến khái niệm $concept trong tài liệu",
             "emotion": "serious",
             "doc": [
                 "$~Tôi là một liên kết đến nhân vật Verse. Tôi hữu ích khi bạn muốn viết một @Doc và tham khảo một trong số chúng tôi.",
@@ -363,7 +371,13 @@
                 "$~Tuy nhiên, đôi khi bạn có thể muốn sử dụng các ký tự đặc biệt mà @Doc dùng như các từ. Ví dụ:",
                 "$~¶Bạn bè tôi dùng @@, //, **, || và các ký hiệu khác.¶\n'sử dụng các ký tự đặc biệt!'\\",
                 "$~Nếu bạn chỉ lặp lại những ký tự đặc biệt đó, bạn sẽ nhận được chính ký tự đó thay vì ý nghĩa đặc biệt của chúng."
-            ]
+            ],
+            "conflict": {
+                "UnsupportedFontFormat": {
+                    "name": "$~địnhdạngphôngchữkhôngđượchỗtrợ",
+                    "explanation": "$~Bạn tôi * $face * không biết cách $format như thế nào."
+                }
+            }
         },
         "Example": {
             "name": "$~vídụ",
@@ -376,7 +390,7 @@
         },
         "Mention": {
             "name": "$~đềcậpđến",
-            "description": "$~đề cập $1 trong đánh dấu",
+            "description": "$~đề cập $name trong đánh dấu",
             "emotion": "serious",
             "doc": [
                 "$~Tôi là tham chiếu đến thuật ngữ \\$program\\ hoặc đầu vào động \\$1\\.",
@@ -394,7 +408,7 @@
         },
         "BinaryEvaluate": {
             "name": "$~đánhgiánhịphân",
-            "description": "$~áp dụng toán tử $1 cho hai giá trị",
+            "description": "$~áp dụng toán tử $operator cho hai giá trị",
             "emotion": "insecure",
             "doc": [
                 "$~Tôi là @Evaluate, nhưng ở dạng đơn giản hơn, hữu ích khi bạn muốn sử dụng @FunctionDefinition nhận hai tham số đầu vào.",
@@ -413,8 +427,8 @@
                 "operator": "$~người vận hành"
             },
             "right": "$~đầu vào",
-            "start": "$~Trước tiên, hãy đánh giá 1 đô la.",
-            "finish": "$~Nhìn này, tôi kiếm được 1 đô la!",
+            "start": "$~Hãy đánh giá $left trước",
+            "finish": "$~Nhìn này, tôi đã kiếm được $value !",
             "conflict": {
                 "OrderOfOperations": {
                     "name": "$~thứtựmơhồ",
@@ -424,7 +438,7 @@
         },
         "Bind": {
             "name": "$~liênkết",
-            "description": "$~đặt tên giá trị này là '$1'",
+            "description": "$~đặt tên giá trị này là '$name'",
             "emotion": "excited",
             "doc": [
                 "$~Tôi đặt tên cho *các giá trị*.",
@@ -457,24 +471,24 @@
                 "names": "$~tên",
                 "type": "$~kiểu"
             },
-            "start": "$~Hãy xem chúng ta nhận được giá trị gì từ 1 đô la!",
-            "finish": "$~Ồ, tuyệt quá, mình được 1 đô la! Vậy thì đặt tên nó là 2 đô la nhé.",
+            "start": "$~Hãy xem chúng ta nhận được giá trị gì từ $value!",
+            "finish": "$~Tuyệt vời, mình đã có $value! Hãy đặt tên cho nó là $name",
             "conflict": {
                 "DuplicateName": {
                     "conflict": {
                         "name": "$~têntrùnglặp",
-                        "explanation": "$~Ai đó đã có tên là $1 rồi nên tôi không thể có tên này được."
+                        "explanation": "$~Ai đó đã có tên là $shadowed rồi nên tôi không thể có tên này được."
                     },
                     "resolution": "$~Có tên trùng lặp, bạn có muốn xóa một tên không?"
                 },
                 "DuplicateShare": {
                     "name": "$~chiasẻtrùnglặp",
-                    "explanation": "$~Tôi có cùng tên với $1. Điều đó khiến cho việc chúng ta đang chia sẻ điều gì trở nên không rõ ràng."
+                    "explanation": "$~Tôi có cùng tên với $duplicate. Điều đó khiến cho việc chúng ta đang chia sẻ điều gì trở nên không rõ ràng."
                 },
                 "IncompatibleType": {
                     "name": "$~loạikhôngtươngthích",
-                    "explanation": "$~Tôi đáng lẽ phải thuộc loại $2, nhưng tôi lại thuộc loại $1.",
-                    "resolution": "$~Quy đổi sang 1 đô la"
+                    "explanation": "$~Tôi đáng lẽ phải thuộc loại $expected, nhưng tôi lại thuộc loại $given.",
+                    "resolution": "$~Chuyển đổi sang $expected"
                 },
                 "MisplacedShare": {
                     "name": "$~cổphầnbịthấtlạc",
@@ -494,13 +508,13 @@
                 },
                 "UnusedBind": {
                     "name": "$~liênkếtkhôngsửdụng",
-                    "explanation": "$~Tôi có tên là $1, nhưng chẳng ai dùng đến tôi cả. Có lẽ tôi không cần thiết chăng?"
+                    "explanation": "$~Tôi có tên là $name, nhưng chẳng ai dùng đến tôi cả. Có lẽ tôi không cần thiết chăng?"
                 }
             }
         },
         "Block": {
             "name": "$~khối",
-            "description": "$~đánh giá $1 câu lệnh theo thứ tự",
+            "description": "$~đánh giá $count câu lệnh theo thứ tự",
             "emotion": "shy",
             "doc": [
                 "$~Chào. Tôi tạo một không gian nhỏ yên tĩnh, riêng tư để đánh giá mọi thứ.",
@@ -524,7 +538,7 @@
                 "statements": "$~biểu thức"
             },
             "start": "$~Biểu thức đầu tiên",
-            "finish": "$~Xong rồi, tôi kiếm được 1 đô la.",
+            "finish": "$~Xong rồi, tôi đã nhận được $value",
             "conflict": {
                 "ExpectedEndingExpression": {
                     "name": "$~biểuthứcbịthiếu",
@@ -534,14 +548,14 @@
         },
         "BooleanLiteral": {
             "name": "$~giátrịboolean",
-            "description": "$~tạo giá trị boolean $1[đúng|sai]",
+            "description": "$~tạo giá trị boolean $value[đúng|sai]",
             "emotion": "precise",
             "doc": "$~Tôi hoặc là \\⊤\\ hoặc là \\⊥\\. Xem @Boolean để tìm hiểu thêm về logic tuyệt vời của chúng tôi.",
-            "start": "$~1 đô la!"
+            "start": "$~$value !"
         },
         "Borrow": {
             "name": "$~vaymượn",
-            "description": "$~mượn $1[$1|không tên] từ nguồn",
+            "description": "$~mượn $name[$name|không tên] từ nguồn",
             "emotion": "excited",
             "label": {
                 "source": "$~nguồn",
@@ -549,7 +563,7 @@
                 "version": "$~phiên bản"
             },
             "doc": "$~Nếu bạn tạo một performance với nhiều @Source, bạn có thể sử dụng tôi để mượn các @Bind được chia sẻ trong các @Source khác đó. Chỉ cần sử dụng tên của chúng và tôi sẽ lấy tên và giá trị của chúng.",
-            "start": "$~Mượn 2 đô la từ 1 đô la",
+            "start": "$~Mượn biến $name từ biến $source",
             "conflict": {
                 "UnknownBorrow": {
                     "name": "$~mượnkhôngrõnguồngốc",
@@ -557,13 +571,13 @@
                 },
                 "BorrowCycle": {
                     "name": "$~mượntựthamchiếu",
-                    "explanation": "$~Điều này phụ thuộc vào $1, mà $1 lại phụ thuộc vào $source này, vì vậy chương trình không thể được đánh giá."
+                    "explanation": "$~Điều này phụ thuộc vào $borrow, mà $borrow lại phụ thuộc vào $source này, vì vậy chương trình không thể được đánh giá."
                 }
             },
             "exception": {
                 "CycleException": {
                     "description": "$~chu kỳ mượn",
-                    "explanation": "$~1 đô la tự nó phụ thuộc vào chính nó"
+                    "explanation": "$~$borrow phụ thuộc vào chính nó"
                 }
             }
         },
@@ -580,7 +594,7 @@
                 "$~Tôi thực sự hữu ích khi bạn muốn một thứ gì đó chỉ thay đổi khi luồng dữ liệu thay đổi.",
                 "$~Vậy thôi."
             ],
-            "start": "$~Hãy xem liệu 1 đô la có thay đổi gì không…"
+            "start": "$~Hãy xem biến $stream có thay đổi gì không…"
         },
         "Conditional": {
             "name": "$~cóđiềukiện",
@@ -598,20 +612,20 @@
                 "$~Chẳng phải các quyết định nên phức tạp hơn là chỉ đơn giản là \"có\" hay \"không\" sao? Phải chăng chỉ có việc lựa chọn giữa \"⊤\" và \"⊥\" là tất cả?",
                 "$~Chẳng phải bạn lo lắng rằng nếu đây là những quyết định duy nhất chúng ta có thể đưa ra, chúng ta sẽ bỏ lỡ một số bối cảnh quan trọng về thế giới sao?"
             ],
-            "start": "$~Hãy xem liệu 1 đô la có đúng không.",
-            "else": "$~$1[nhảy qua mã | không nhảy qua mã]",
+            "start": "$~Hãy xem điều kiện $condition có đúng hay không.",
+            "else": "$~$jumping[nhảy qua mã | không nhảy qua mã]",
             "afterthen": "$~Xong phần \"có\", vậy chúng ta bỏ qua phần \"không\" nhé?",
-            "finish": "$~Tôi đoán là 1 đô la?",
+            "finish": "$~Tôi đoán đó là $value?",
             "conflict": {
                 "ExpectedBooleanCondition": {
                     "name": "$~điềukiệnbooleandựkiến",
-                    "explanation": "$~Tôi cần một giá trị kiểu @Boolean để đưa ra quyết định, nhưng thay vào đó tôi lại nhận được $1."
+                    "explanation": "$~Tôi cần một giá trị kiểu @Boolean để đưa ra quyết định, nhưng thay vào đó tôi lại nhận được $type."
                 }
             }
         },
         "ConversionDefinition": {
             "name": "$~địnhnghĩachuyểnđổi",
-            "description": "$~định nghĩa chuyển đổi $1 sang $2",
+            "description": "$~định nghĩa chuyển đổi $input sang $output",
             "emotion": "excited",
             "label": {
                 "input": "$~loại đầu vào",
@@ -645,18 +659,18 @@
                 "$~\\\"xin chào\" → [] → {}\\",
                 "$~Các giá trị có một tập hợp các @ConversionDefinition được định nghĩa sẵn, nhưng nếu bạn tạo một @StructureDefinition cho một loại giá trị mới, bạn có thể tự định nghĩa các @ConversionDefinition của riêng mình."
             ],
-            "start": "$~Nhận được giá trị tuyệt vời chỉ với 1 đô la!",
-            "finish": "$~Tuyệt vời, tôi kiếm được 1 đô la!",
+            "start": "$~Lấy giá trị đó từ biến `$expression`!",
+            "finish": "$~Tuyệt vời, tôi đã kiếm được $value",
             "conflict": {
                 "UnknownConversion": {
                     "name": "$~chuyểnđổikhôngxácđịnh",
-                    "explanation": "$~Chúng tôi không tìm được cách nào để đổi 1 đô la thành 2 đô la."
+                    "explanation": "$~Chúng tôi không tìm được cách chuyển đổi $expected thành $given."
                 }
             },
             "exception": {
                 "ConversionException": {
                     "description": "$~chuyển đổi bất khả thi",
-                    "explanation": "$~Tôi không biết cách đổi từ 1 đô la sang 2 đô la."
+                    "explanation": "$~Tôi không biết cách chuyển đổi từ $from sang $to"
                 }
             }
         },
@@ -687,7 +701,7 @@
         },
         "Evaluate": {
             "name": "$~đánhgiá",
-            "description": "$~$3[tạo $1[$1|] giá trị với các đầu vào này|$2[tạo $1[$1|] luồng với các đầu vào này|áp dụng $1[$1|hàm] vào các đầu vào này]]",
+            "description": "$~$structure[tạo $name[$name|] giá trị với các đầu vào này|$stream[tạo $name[$name|] luồng với các đầu vào này|áp dụng $name[$name|hàm] vào các đầu vào này]]",
             "emotion": "shy",
             "label": {
                 "function": "$~chức năng",
@@ -707,12 +721,12 @@
             ],
             "start": "$~Trước tiên, hãy đánh giá các dữ liệu đầu vào.",
             "evaluate": "$~Bây giờ chúng ta hãy đánh giá hàm số này.",
-            "finish": "$~Tôi đã đánh giá thành 1 đô la.",
+            "finish": "$~Tôi đã đánh giá thành $value",
             "conflict": {
                 "IncompatibleInput": {
                     "name": "$~đầuvàokhôngtươngthích",
-                    "explanation": "$~Tôi đáng lẽ phải thuộc loại $1, nhưng tôi lại thuộc loại $2.",
-                    "resolution": "$~Quy đổi sang 1 đô la"
+                    "explanation": "$~Tôi đáng lẽ phải thuộc loại $expected, nhưng tôi lại thuộc loại $given.",
+                    "resolution": "$~Chuyển đổi sang $expected"
                 },
                 "UnexpectedTypeInput": {
                     "name": "$~đầuvàokiểukhôngmongđợi",
@@ -720,7 +734,7 @@
                 },
                 "MissingInput": {
                     "name": "$~thiếuthôngtinđầuvào",
-                    "explanation": "$~Tôi không thể tính toán nếu thiếu dữ liệu đầu vào $2 :("
+                    "explanation": "$~Tôi không thể đánh giá biến $name nếu không có đầu vào $input :("
                 },
                 "NotInstantiable": {
                     "name": "$~cấutrúckhônghoànchỉnh",
@@ -732,7 +746,7 @@
                 },
                 "UnknownInput": {
                     "name": "$~đầuvàokhôngxácđịnh",
-                    "explanation": "$~Hàm *$1* này không mong đợi đầu vào là tên của tôi."
+                    "explanation": "$~Hàm *$name* này không mong đợi đầu vào là tên của tôi."
                 },
                 "InputListMustBeLast": {
                     "name": "$~cácđầuvàobổsungkhôngphảilàcuốicùng",
@@ -740,13 +754,13 @@
                 },
                 "SeparatedEvaluate": {
                     "name": "$~đánhgiámơhồ",
-                    "explanation": "$~$1 có phải là tên của một $2[$structure|$function] mà bạn đang cố gắng đánh giá không? Hãy thử xóa khoảng trắng sau tôi để tôi biết đó là một @Evaluate chứ không phải là một @Block riêng biệt."
+                    "explanation": "$~$name có phải là tên của một $structure[$structure|$function] mà bạn đang cố gắng đánh giá không? Hãy thử xóa khoảng trắng sau tôi để tôi biết đó là một @Evaluate chứ không phải là một @Block riêng biệt."
                 }
             },
             "exception": {
                 "FunctionException": {
                     "description": "$~chức năng không xác định",
-                    "explanation": "$~Ồ không, $1 không phải là một hàm trong $2[$2|this @Block]!"
+                    "explanation": "$~Ồ không, $name không phải là một hàm trong $scope[$scope|this @Block]!"
                 }
             }
         },
@@ -794,7 +808,7 @@
         },
         "FunctionDefinition": {
             "name": "$~chứcnăng",
-            "description": "$~định nghĩa hàm $1",
+            "description": "$~định nghĩa hàm $name",
             "emotion": "kind",
             "label": {
                 "inputs": "$~đầu vào",
@@ -834,7 +848,7 @@
             "initialize": "$~chuẩn bị bước qua các vật phẩm",
             "next": "$~chuyển sang mục tiếp theo",
             "check": "$~quyết định xem có nên tiếp tục hay không",
-            "finish": "$~Tôi đã đánh giá thành 1 đô la."
+            "finish": "$~Tôi đã đánh giá thành $value"
         },
         "Initial": {
             "name": "$~bắtđầu",
@@ -862,7 +876,7 @@
         },
         "Is": {
             "name": "$~là",
-            "description": "$~kiểm tra nếu giá trị là kiểu $1",
+            "description": "$~kiểm tra nếu giá trị là kiểu $type",
             "emotion": "curious",
             "doc": [
                 "$~Bạn biết không? Có rất nhiều loại giá trị với nhiều ý nghĩa khác nhau. Tôi giúp mọi người hiểu rõ chúng là gì.",
@@ -873,18 +887,18 @@
                 "$~Chúng ta có ⊤!",
                 "$~Tôi thực sự hữu ích khi bạn cần biết liệu một đối tượng @Name nào đó có giá trị thuộc loại cụ thể nào đó hay không."
             ],
-            "start": "$~Trước tiên hãy tìm hiểu giá trị của 1 đô la.",
-            "finish": "$~$1[giá trị là $2|giá trị không phải là $2]",
+            "start": "$~Trước tiên, hãy lấy giá trị của biến $expression.",
+            "finish": "$~$value[giá trị là $type|giá trị không phải là $type]",
             "conflict": {
                 "ImpossibleType": {
                     "name": "$~loạibấtkhảthi",
-                    "explanation": "$~Giá của nó không bao giờ có thể là 1 đô la."
+                    "explanation": "$~điều này không bao giờ có thể là $type"
                 }
             },
             "exception": {
                 "TypeException": {
                     "description": "$~giá trị không tương thích",
-                    "explanation": "$~Tôi mong đợi nhận được loại $1 nhưng lại nhận được loại $2"
+                    "explanation": "$~Tôi mong đợi nhận được loại $expected nhưng lại nhận được loại $given"
                 }
             }
         },
@@ -898,7 +912,7 @@
                 "$~\\🌍/es-MX\\",
                 "$~Điều này hữu ích nếu bạn muốn thay đổi hiệu suất dựa trên ngôn ngữ đã chọn."
             ],
-            "start": "$~Ngôn ngữ này có phải là $1? không?"
+            "start": "$~Ngôn ngữ này có phải là $locale? không?"
         },
         "ListAccess": {
             "name": "$~danhsáchtruycập",
@@ -908,16 +922,16 @@
                 "$~Tôi hợp tác chặt chẽ với @List để giúp họ lấy giá trị tại một vị trí cụ thể. Ví dụ, nếu bạn có một danh sách và muốn lấy phần tử thứ hai của nó, bạn sẽ viết:",
                 "$~\\list: ['bird' 'duck' 'fish' 'snake']\nlist[2]\\"
             ],
-            "start": "$~Hãy lấy danh sách $1 trước nhé!",
-            "finish": "$~Mặt hàng ở mục lục có giá $1!"
+            "start": "$~Hãy lấy danh sách $list trước nhé!",
+            "finish": "$~Mặt hàng ở mục lục có giá $value!"
         },
         "ListLiteral": {
             "name": "$~danhsáchchữ",
-            "description": "$~tạo danh sách $1 giá trị",
+            "description": "$~tạo danh sách $count giá trị",
             "emotion": "eager",
             "doc": "$~Tôi là một @List các giá trị cụ thể! Hãy xem @List để tìm hiểu thêm về những gì bạn có thể làm với tôi.",
             "start": "$~Trước tiên, hãy đánh giá các mặt hàng.",
-            "finish": "$~Tôi đã tự tạo ra một thứ cho mình! 1 đô la"
+            "finish": "$~Tôi đã tạo ra một cái tên! $value"
         },
         "Spread": {
             "name": "$~lâylan",
@@ -930,14 +944,14 @@
         },
         "MapLiteral": {
             "name": "$~bảnđồtheonghĩađen",
-            "description": "$~tạo bản đồ $1 cặp khóa-giá trị",
+            "description": "$~tạo bản đồ $count cặp khóa-giá trị",
             "emotion": "kind",
             "label": {
                 "values": "$~đôi"
             },
             "doc": "$~Tôi là một @Map cụ thể giữa các khóa và giá trị. Hãy xem @Map để tìm hiểu thêm về cách tôi hữu ích.",
             "start": "$~Trước tiên, hãy cùng đánh giá các khóa và giá trị.",
-            "finish": "$~Tôi đã kết nối mọi người, $1",
+            "finish": "$~Tôi đã kết nối mọi người, $value",
             "conflict": {
                 "NotAKeyValue": {
                     "name": "$~giátrịbịthiếu",
@@ -961,16 +975,16 @@
                 "$~Tôi thực sự hữu ích trong việc chuyển đổi một trong nhiều giá trị @Number, @Text hoặc các giá trị phức tạp hơn thành một dạng khác.",
                 "$~Bạn có thể sử dụng nó cho @Boolean hoặc @None, nhưng chúng không thể có quá nhiều giá trị, vì vậy nó không hữu ích lắm đối với những giá trị đơn giản đó."
             ],
-            "start": "$~Hãy xem 1 đô la là bao nhiêu...",
+            "start": "$~Hãy xem $value là gì...",
             "case": "$~Hãy kiểm tra điều kiện này",
             "finish": "$~Được rồi, chúng ta đã có giá trị cuối cùng!"
         },
         "NumberLiteral": {
             "name": "$~chữsố",
-            "description": "$~tạo số $1 $2[$2|]",
+            "description": "$~tạo số $number $unit[$unit|]",
             "emotion": "excited",
             "doc": "$~Tôi là một @Number cụ thể. Bạn có thể viết cho tôi bằng bất kỳ loại chữ số nào từ bất kỳ ngôn ngữ nào. Xem @Number để biết tất cả những gì tôi có thể làm.",
-            "start": "$~1 đô la!",
+            "start": "$~$value !",
             "conflict": {
                 "NotANumber": {
                     "name": "$~khôngphảilàmộtconsố",
@@ -1002,7 +1016,7 @@
                 "$~\\maybeNumber•#|ø: 1 maybeNumber ?? 0\\"
             ],
             "start": "$~ø ??",
-            "finish": "$~… $1"
+            "finish": "$~… $value"
         },
         "Previous": {
             "name": "$~trước",
@@ -1019,8 +1033,8 @@
                 "$~Bạn thấy đấy, đó là năm lần trước đó, chứ không phải chỉ một lần?",
                 "$~Tôi có thể giúp ích khi bạn muốn tạo ra những màn trình diễn dựa trên quá khứ."
             ],
-            "start": "$~Đầu tiên nhận $1",
-            "finish": "$~Được đánh giá theo giá trị dòng tiền $1",
+            "start": "$~Đầu tiên nhận $stream",
+            "finish": "$~Được đánh giá theo giá trị dòng tiền $value",
             "label": {
                 "range": "$~phạm vi"
             }
@@ -1043,9 +1057,9 @@
                 "expression": "$~khối"
             },
             "unevaluated": "$~Nút bạn đã chọn không được đánh giá.",
-            "start": "$~$1[$1 stream đã được đổi thành $2!|Đây là lần đánh giá đầu tiên của tôi]",
+            "start": "$~$stream[$stream stream đã được đổi thành $value!|Đây là lần đánh giá đầu tiên của tôi]",
             "halt": "$~Đã xảy ra lỗi ngoại lệ, đang dừng lại",
-            "finish": "$~Xong rồi, tôi đã định giá thành 1 đô la.",
+            "finish": "$~Xong rồi, tôi đã tính toán thành $value",
             "done": "$~Không có gì để đánh giá cả.",
             "exception": {
                 "BlankException": {
@@ -1054,7 +1068,7 @@
                 },
                 "EvaluationLimitException": {
                     "description": "$~giới hạn đánh giá",
-                    "explanation": "$~Tôi và @Evaluate đều mệt mỏi với việc đánh giá, đặc biệt là $1.\n\nLiệu có khả năng $1 tự đánh giá mãi mãi mà không bao giờ dừng lại?"
+                    "explanation": "$~Tôi và @Evaluate đều mệt mỏi với việc đánh giá, đặc biệt là $function.\n\nLiệu có khả năng $function tự đánh giá mãi mãi mà không bao giờ dừng lại?"
                 },
                 "StepLimitException": {
                     "description": "$~giới hạn bước",
@@ -1066,17 +1080,17 @@
                 },
                 "InternalException": {
                     "description": "$~lỗi nội bộ",
-                    "explanation": "$~Một sự việc rất tồi tệ đã xảy ra bên trong: $1"
+                    "explanation": "$~Một sự việc rất tồi tệ đã xảy ra bên trong: $reason"
                 },
                 "PermissionException": {
-                    "description": "$?",
-                    "explanation": "$?"
+                    "description": "$~quyền truy cập bị từ chối",
+                    "explanation": "$~Tôi cần $permission chạy chương trình này, nhưng tôi không có quyền. Hãy nhấp vào Thử lại để thử lại. Nếu vẫn không được, hãy cho $permission chạy trang web này trong cài đặt trình duyệt của bạn."
                 }
             }
         },
         "PropertyBind": {
             "name": "$~tinhchế",
-            "description": "$~tinh chỉnh thuộc tính $1[$1|không tên]",
+            "description": "$~tinh chỉnh thuộc tính $name[$name|không tên]",
             "emotion": "kind",
             "label": {
                 "property": "$~tài sản",
@@ -1089,17 +1103,17 @@
                 "$~Như vậy dễ hơn nhiều so với việc tạo ra một nhân vật \\Cat\\ hoàn toàn mới với các giá trị tương tự ngoại trừ sở thích, phải không?"
             ],
             "start": "$~Trước tiên, hãy lấy giá trị",
-            "finish": "$~Tôi đã sao chép cấu trúc, nhưng thay $1 bằng $2.",
+            "finish": "$~Tôi đã sao chép cấu trúc, nhưng thay $property bằng $value.",
             "conflict": {
                 "InvalidProperty": {
                     "name": "$~thuộctínhkhôngxácđịnh",
-                    "explanation": "$~Tôi không phải là một tên trong cấu trúc $1, vì vậy tôi không thể được tinh chỉnh."
+                    "explanation": "$~Tôi không phải là một tên trong cấu trúc $structure, vì vậy tôi không thể được tinh chỉnh."
                 }
             }
         },
         "PropertyReference": {
             "name": "$~tàisản",
-            "description": "$~lấy thuộc tính $1[$1|không tên]",
+            "description": "$~lấy thuộc tính $name[$name|không tên]",
             "emotion": "kind",
             "label": {
                 "property": "$~tài sản"
@@ -1110,7 +1124,7 @@
                 "$~•Thành phố(tên•dân số•#người)\n\nportland: Thành phố('Portland' 800000người)\n\nportland.dân số\\"
             ],
             "start": "$~Trước tiên, hãy lấy giá trị",
-            "finish": "$~Đồ vật tìm thấy trị giá 1 đô la, giờ là 2 đô la."
+            "finish": "$~Đã tìm thấy thuộc tính $property, giá trị của nó là $value"
         },
         "Reaction": {
             "name": "$~sựphảnứnglại",
@@ -1129,17 +1143,17 @@
                 "$~Vậy là tôi cũng giống như một dòng chảy, nhưng là dòng chảy dựa trên các dòng chảy khác. Tuyệt vời, phải không?"
             ],
             "start": "$~Hãy xem liệu chúng ta có nên cập nhật luồng phát trực tiếp hay không.",
-            "finish": "$~Giá trị dòng tiền mới là 1 đô la.",
+            "finish": "$~Giá trị luồng mới là $value",
             "conflict": {
                 "ExpectedStream": {
                     "name": "$~dòngdựkiến",
-                    "explanation": "$~$1 không liên quan đến một luồng phát trực tiếp nào cả, nên tôi sẽ không bao giờ phản hồi!"
+                    "explanation": "$~$condition không liên quan đến một luồng phát trực tiếp nào cả, nên tôi sẽ không bao giờ phản hồi!"
                 }
             }
         },
         "Reference": {
             "name": "$~thẩmquyềngiảiquyết",
-            "description": "$~tham chiếu tên $1",
+            "description": "$~tham chiếu tên $name",
             "emotion": "shy",
             "doc": [
                 "$~Bạn biết cách chú thích @Bind gán cho các đối tượng @Name chứ? Tôi dùng nó để tham chiếu đến chúng. Tôi sẽ kiểm tra xem có @Bind nào có tên đó không, nếu có thì trả về giá trị của nó. Ví dụ như thế này:",
@@ -1147,18 +1161,18 @@
                 "$~Nếu tôi không tìm thấy tên, thì tôi không biết phải làm gì.",
                 "$~\\parrot: 'polly'\nperry\\"
             ],
-            "start": "$~1 đô la có giá trị như thế nào?",
+            "start": "$~Biến $name có giá trị gì?",
             "conflict": {
                 "UnknownName": {
                     "conflict": {
                         "name": "$~tênkhôngrõ",
-                        "explanation": "$~$1[Tôi không biết ai tên là $1 ở $2[$2|khối này]|Bạn có thể cho tôi biết tên của người đó không?]"
+                        "explanation": "$~$name[Tôi không biết ai tên là $name ở $scope[$scope|khối này]|Bạn có thể cho tôi biết tên của người đó không?]"
                     },
-                    "resolution": "$~Bạn có ý muốn nói *$1?*"
+                    "resolution": "$~Bạn có ý muốn nói *$suggestion?*"
                 },
                 "ReferenceCycle": {
                     "name": "$~giátrịtựthamchiếu",
-                    "explanation": "$~Ừm, giá trị của 1 đô la phụ thuộc vào chính nó, vậy làm sao tôi biết nên gán cho nó giá trị nào?"
+                    "explanation": "$~Ừm, giá trị của $name phụ thuộc vào chính nó, vậy làm sao tôi biết nên gán giá trị nào cho nó?"
                 },
                 "UnexpectedTypeVariable": {
                     "name": "$~biếnkiểukhôngmongđợi",
@@ -1168,7 +1182,7 @@
             "exception": {
                 "NameException": {
                     "description": "$~tên không rõ",
-                    "explanation": "$~$1[Tôi không biết ai tên là $1 ở $2[$2|khối này @Block]…|Ôi, không có tên!]"
+                    "explanation": "$~$name[Tôi không biết ai tên là $name ở $scope[$scope|khối này @Block]…|Ôi, không có tên!]"
                 }
             }
         },
@@ -1193,11 +1207,11 @@
         },
         "SetLiteral": {
             "name": "$~đặtgiátrị",
-            "description": "$~tạo tập hợp $1 phần tử",
+            "description": "$~tạo tập hợp $count phần tử",
             "emotion": "eager",
             "doc": "$~Tôi là một @Set cụ thể gồm các giá trị cụ thể. Xem @Set để tìm hiểu thêm về cách làm việc với tôi.",
             "start": "$~Trước tiên hãy đánh giá các giá trị!",
-            "finish": "$~Tôi đã làm một bộ chỉ với 1 đô la!"
+            "finish": "$~Tôi đã tạo một tập hợp $value!"
         },
         "SetOrMapAccess": {
             "name": "$~thiếtlập/lậpbảnđồquyềntruycập",
@@ -1211,11 +1225,11 @@
                 "$~\\faves: {'mì ống phô mai': 5 sao 'ngũ cốc': 2 sao 'cháo': 1 sao}\nfaves{'cháo'}\\"
             ],
             "start": "$~Bộ bài hoặc bản đồ là gì?",
-            "finish": "$~Giá trị là 1 đô la.",
+            "finish": "$~Giá trị là $value",
             "conflict": {
                 "IncompatibleKey": {
                     "name": "$~khóakhôngtươngthích",
-                    "explanation": "$~Tôi mong đợi một khóa thuộc loại $1"
+                    "explanation": "$~Tôi mong đợi một khóa thuộc loại $expected"
                 }
             }
         },
@@ -1238,7 +1252,7 @@
         },
         "StructureDefinition": {
             "name": "$~kếtcấu",
-            "description": "$~định nghĩa cấu trúc $1",
+            "description": "$~định nghĩa cấu trúc $name",
             "emotion": "kind",
             "label": {
                 "docs": "$~tài liệu",
@@ -1273,13 +1287,13 @@
                 },
                 "UnimplementedInterface": {
                     "name": "$~chưađượctriểnkhai",
-                    "explanation": "$~Tôi đã triển khai $1 nhưng chưa triển khai $2."
+                    "explanation": "$~Tôi đã triển khai $interface nhưng chưa triển khai $function."
                 }
             }
         },
         "StructureDefinitionType": {
             "name": "$~địnhnghĩacấutrúc",
-            "description": "$1",
+            "description": "$name",
             "emotion": "kind",
             "doc": [
                 "$~Tôi đang đề cập đến một dạng @StructureDefinition nào đó. Mọi người thường không trực tiếp nhắc đến tôi."
@@ -1287,15 +1301,15 @@
         },
         "TableLiteral": {
             "name": "$~bảnghằng",
-            "description": "$~tạo bảng $1 hàng",
+            "description": "$~tạo bảng $count hàng",
             "emotion": "angry",
             "doc": "$~Tôi là một bảng cụ thể với các hàng cụ thể. Xem @Table để biết cách tôi có thể giúp đỡ.",
             "start": "$~Đầu tiên, đánh giá các hàng.",
-            "finish": "$~Được đánh giá theo bảng mới $1"
+            "finish": "$~Được đánh giá theo bảng mới $value"
         },
         "TextLiteral": {
             "name": "$~vănbảntheonghĩađen",
-            "description": "$~tạo giá trị văn bản $1",
+            "description": "$~tạo giá trị văn bản $text",
             "emotion": "serious",
             "label": {
                 "texts": "$~chữ"
@@ -1305,7 +1319,7 @@
         },
         "Translation": {
             "name": "$~bảndịch",
-            "description": "$~tạo văn bản '$1'",
+            "description": "$~tạo văn bản '$text'",
             "emotion": "serious",
             "label": {
                 "segments": "$~chữ"
@@ -1314,23 +1328,23 @@
             "conflict": {
                 "phone": {
                     "name": "$~sốđiệnthoạicóthể",
-                    "explanation": "$~*$1* có phải là số điện thoại của ai đó không? Nếu vậy thì đừng chia sẻ tôi lên mạng!\n\n$2"
+                    "explanation": "$~*$text* có phải là số điện thoại của ai đó không? Nếu vậy thì đừng chia sẻ tôi lên mạng!\n\n$reminder"
                 },
                 "email": {
                     "name": "$~emailcóthể",
-                    "explanation": "$~*$1* có phải là email của ai đó không? Nếu vậy thì đừng chia sẻ tôi ở đây nhé!\n\n$2"
+                    "explanation": "$~*$text* có phải là email của ai đó không? Nếu vậy thì đừng chia sẻ tôi ở đây nhé!\n\n$reminder"
                 },
                 "tin": {
                     "name": "$~mãsốthuếcóthể",
-                    "explanation": "$~*$1* có phải là mã số thuế không? Nếu có, tuyệt đối đừng chia sẻ tôi, tôi là thông tin rất nhạy cảm!\n\n$2"
+                    "explanation": "$~*$text* có phải là mã số thuế không? Nếu có, tuyệt đối đừng chia sẻ tôi, tôi là thông tin rất nhạy cảm!\n\n$reminder"
                 },
                 "address": {
                     "name": "$~địachỉkhảthi",
-                    "explanation": "$~*$1* có phải là địa chỉ nhà của ai đó không? Nếu vậy, đừng ghi tôi vào đây, chúng ta không muốn ai bị theo dõi!\n\n$2"
+                    "explanation": "$~*$text* có phải là địa chỉ nhà của ai đó không? Nếu vậy, đừng ghi tôi vào đây, chúng ta không muốn ai bị theo dõi!\n\n$reminder"
                 },
                 "handle": {
                     "name": "$~tênngườidùngkhảthi",
-                    "explanation": "$~*$1* có phải là tên người dùng của bạn ở một nơi khác trên internet không? Nếu vậy, đừng chia sẻ tôi ở đây trừ khi bạn thực sự muốn.\n\n$2"
+                    "explanation": "$~*$text* có phải là tên người dùng của bạn ở một nơi khác trên internet không? Nếu vậy, đừng chia sẻ tôi ở đây trừ khi bạn thực sự muốn.\n\n$reminder"
                 },
                 "resolution": "$~Đây không phải là dữ liệu nhạy cảm.",
                 "reminder": "$~Lưu ý: Bạn có thể hoàn tác thao tác này và xem những nội dung khác mà bạn đã đánh dấu là không nhạy cảm trong hộp thoại chia sẻ.",
@@ -1342,14 +1356,14 @@
         },
         "FormattedLiteral": {
             "name": "$~vănbảnđượcđịnhdạng",
-            "description": "$~tạo văn bản được định dạng $1",
+            "description": "$~tạo văn bản được định dạng $text",
             "emotion": "serious",
             "doc": "$~Tôi đại diện cho nhiều bản dịch định dạng khác nhau của văn bản được định dạng bởi @FormattedTranslation. Khi đánh giá, tôi sẽ chọn bản dịch phù hợp nhất dựa trên ngôn ngữ mà người dùng đã chọn.",
             "start": "$~Hãy tạo văn bản theo ngôn ngữ hiện tại."
         },
         "FormattedTranslation": {
             "name": "$~bảndịchđượcđịnhdạng",
-            "description": "$~dịch văn bản định dạng sang $1",
+            "description": "$~dịch văn bản định dạng sang $language",
             "emotion": "serious",
             "doc": [
                 "$~Tôi biểu diễn một đoạn văn bản được định dạng, với thẻ @Language.",
@@ -1377,7 +1391,7 @@
                 "$~Hãy xem tôi này, đại diện cho giá trị phản ứng trước đó.",
                 "$~Tôi không thường xuyên xuất hiện, nhưng mỗi khi xuất hiện, tôi đều có thể giúp tận dụng tối đa giá trị từ @Bind!"
             ],
-            "start": "$~Được định giá là 1 đô la",
+            "start": "$~Được định giá thành $value",
             "conflict": {
                 "MisplacedThis": {
                     "name": "$~Tôiđãđểlạcmấttàiliệuthamkhảonày.",
@@ -1387,7 +1401,7 @@
         },
         "UnaryEvaluate": {
             "name": "$~đánhgiáđơnnhất",
-            "description": "$~áp dụng toán tử một ngôi $1",
+            "description": "$~áp dụng toán tử một ngôi $operator",
             "emotion": "kind",
             "label": {
                 "input": "$~đầu vào"
@@ -1403,7 +1417,7 @@
                 "$~Chỉ có một quy tắc duy nhất: bạn không được để khoảng trắng giữa tên và giá trị. Nếu không, bạn có thể tạo ra một chú thích @Reference hoặc @BinaryEvaluate."
             ],
             "start": "$~Giá trị của nó là gì?",
-            "finish": "$~Tôi kiếm được 1 đô la."
+            "finish": "$~Tôi đã đặt giá trị là $value"
         },
         "UnparsableExpression": {
             "name": "$~khôngthểphântíchcúpháp",
@@ -1424,13 +1438,13 @@
                 "UnparsableConflict": {
                     "conflict": {
                         "name": "$~mãkhôngthểđọcđược",
-                        "explanation": "$~@FunctionDefinition ở đây, @UnparsableExpression không biết đây là loại $1[ biểu thức | kiểu ]."
+                        "explanation": "$~@FunctionDefinition ở đây, @UnparsableExpression không biết đây là loại $expression[ biểu thức | kiểu ]."
                     },
-                    "resolution": "$~Bạn có ý muốn nhập $1, $1 không?"
+                    "resolution": "$~Bạn có ý muốn nhập $first, $second không?"
                 },
                 "UnclosedDelimiter": {
                     "name": "$~dấuphâncáchchưađóng",
-                    "explanation": "$~Tôi dự đoán giá sẽ là 2 đô la vào một thời điểm nào đó sau khi giá là 1 đô la."
+                    "explanation": "$~Tôi dự kiến $expected sẽ xuất hiện vào một thời điểm nào đó sau khi $unclosed"
                 }
             },
             "exception": {
@@ -1459,7 +1473,7 @@
                 },
                 "IncompatibleCellType": {
                     "name": "$~loạitếbàokhôngtươngthích",
-                    "explanation": "$~Tôi đáng lẽ phải thuộc loại $1, nhưng lại được xếp loại $2."
+                    "explanation": "$~Tôi đáng lẽ phải thuộc loại $expected, nhưng lại được xếp loại $given."
                 }
             }
         },
@@ -1506,7 +1520,7 @@
         },
         "FunctionType": {
             "name": "$~chứcnăng",
-            "description": "$~định kiểu hàm với $1 đầu vào",
+            "description": "$~định kiểu hàm với $inputs đầu vào",
             "emotion": "curious",
             "doc": [
                 "$~Tôi đại diện cho một @FunctionDefinition. Tôi rất hữu ích nếu bạn muốn chỉ định loại hàm mà @Bind chứa! Ví dụ như thế này:",
@@ -1515,7 +1529,7 @@
         },
         "ListType": {
             "name": "$~danhsách",
-            "description": "$~định kiểu $1[danh sách $1|danh sách]",
+            "description": "$~định kiểu $type[danh sách $type|danh sách]",
             "emotion": "cheerful",
             "doc": [
                 "$~Tôi là một fan cuồng của @List. Tôi có thể cho @Bind biết chúng là loại danh sách nào! Ví dụ như thế này, tôi đang nói rằng đó là một danh sách gồm các @Number:",
@@ -1524,7 +1538,7 @@
         },
         "MapType": {
             "name": "$~bảnđồ",
-            "description": "$~định kiểu bản đồ từ $1[$1|bất kỳ] đến $2[$2|bất kỳ]",
+            "description": "$~định kiểu bản đồ từ $key[$key|bất kỳ] đến $value[$value|bất kỳ]",
             "emotion": "kind",
             "doc": [
                 "$~Bạn có biết @Map tuyệt vời đến mức nào không? Thật sự rất tuyệt vời. Tôi luôn nói với @Bind về loại bản đồ mà họ tạo ra, ví dụ như bản đồ chuyển đổi số thành danh sách này:",
@@ -1533,7 +1547,7 @@
         },
         "NumberType": {
             "name": "$~consố",
-            "description": "$~định kiểu giá trị $1[$1|số]",
+            "description": "$~định kiểu giá trị $unit[$unit|số]",
             "emotion": "precise",
             "doc": [
                 "$~Bạn biết @Bind nên là gì không? Là một @Number. Vì số là tuyệt nhất.",
@@ -1542,7 +1556,7 @@
         },
         "NameType": {
             "name": "$~kếtcấu",
-            "description": "$~tham chiếu kiểu tên $1",
+            "description": "$~tham chiếu kiểu tên $name",
             "emotion": "curious",
             "doc": [
                 "$~Tôi biểu diễn một @StructureDefinition bằng tên của nó. Vì vậy, nếu bạn có một cấu trúc như thế này, bạn có thể tạo một @Bind để lưu trữ các giá trị mà nó tạo ra.",
@@ -1551,7 +1565,7 @@
             "conflict": {
                 "UnknownTypeName": {
                     "name": "$~tênloạikhôngxácđịnh",
-                    "explanation": "$~Tên kiểu chỉ có thể tham chiếu đến cấu trúc hoặc biến kiểu, nhưng điều này lại tham chiếu đến kiểu $1."
+                    "explanation": "$~Tên kiểu chỉ có thể tham chiếu đến cấu trúc hoặc biến kiểu, nhưng điều này lại tham chiếu đến kiểu $type."
                 }
             }
         },
@@ -1572,7 +1586,7 @@
         },
         "SetType": {
             "name": "$~bộ",
-            "description": "$~định kiểu tập hợp $1[$1|bất kỳ]",
+            "description": "$~định kiểu tập hợp $type[$type|bất kỳ]",
             "emotion": "kind",
             "doc": [
                 "$~@Set là tuyệt nhất, thật đấy. Mình luôn bảo @Bind, hãy biến mọi thứ thành một tập hợp các phần tử!",
@@ -1596,7 +1610,7 @@
         },
         "StructureType": {
             "name": "$~kếtcấu",
-            "description": "$~biểu diễn cấu trúc $1",
+            "description": "$~biểu diễn cấu trúc $name",
             "emotion": "kind",
             "doc": "$~Tôi là một kiểu dữ liệu nội bộ dùng để đại diện cho kiểu giá trị mặc định."
         },
@@ -1621,7 +1635,7 @@
         },
         "TextType": {
             "name": "$~chữ",
-            "description": "$~định kiểu giá trị $1[$1|văn bản]",
+            "description": "$~định kiểu giá trị $text[$text|văn bản]",
             "emotion": "happy",
             "doc": [
                 "$~Tôi đại diện một cách xuất sắc cho loại giá trị tuyệt vời nhất hiện có, @Text.",
@@ -1636,7 +1650,7 @@
         },
         "UnionType": {
             "name": "$~lựachọn",
-            "description": "$~định kiểu $1 hoặc $2",
+            "description": "$~định kiểu $first hoặc $second",
             "emotion": "curious",
             "doc": [
                 "$~Tôi nên đại diện cho ai, A hay B hay cái gì khác? Tôi không bao giờ quyết định được!",
@@ -1645,7 +1659,7 @@
         },
         "Unit": {
             "name": "$~đơnvị",
-            "description": "$~chỉ định đơn vị $1",
+            "description": "$~chỉ định đơn vị $unit",
             "emotion": "precise",
             "doc": [
                 "$~Tôi đại diện cho bất kỳ đơn vị nào mà một @Number có thể có, kể cả không có đơn vị, cho đến đơn vị phức tạp nhất mà bạn có thể tưởng tượng. Ví dụ như trọng lực chẳng hạn:",
@@ -1679,7 +1693,7 @@
         },
         "NotAType": {
             "name": "$~khôngngờtới",
-            "description": "$~đánh dấu $1 là kiểu không hợp lệ",
+            "description": "$~đánh dấu $type là kiểu không hợp lệ",
             "emotion": "curious",
             "doc": "$~Đôi khi chúng ta biết giá trị mà một thứ gì đó nên có. Ví dụ như @ListAccess cần một @Number. Nếu không nhận được @Number, điều đó có nghĩa là kiểu dữ liệu của thứ đó khác với kiểu chúng ta mong đợi."
         },
@@ -1703,13 +1717,13 @@
         },
         "UnknownNameType": {
             "name": "$~tênkhôngrõ",
-            "description": "$~$1[$1 chưa được định nghĩa|tên chưa được cung cấp]",
+            "description": "$~$name [ $name chưa được định nghĩa | tên chưa được cung cấp ]",
             "emotion": "curious",
             "doc": "$~Bạn biết đấy, đôi khi @Reference và @PropertyReference không biết tên mà bạn đang nói đến? Tôi có mặt khi điều đó xảy ra, để đại diện cho việc chúng tôi không biết bạn đang nói về ai."
         },
         "NonFunctionType": {
             "name": "$~khônghoạtđộng",
-            "description": "$~đánh dấu $1 là không phải hàm",
+            "description": "$~đánh dấu $type là không phải hàm",
             "emotion": "confused",
             "doc": "$~Một số người trong chúng ta mong đợi các hoạt động; tôi xuất hiện khi chúng ta không có hoạt động nào cả."
         }
@@ -3657,7 +3671,7 @@
                 "doc": "$~Giống như @Phrase/style!",
                 "names": "$~phongcách"
             },
-            "defaultDescription": "$~$1[$1|] $2 $3"
+            "defaultDescription": "$~$name[$name|] $layout $pose"
         },
         "Phrase": {
             "doc": [
@@ -3781,7 +3795,7 @@
                 "doc": "$~Phong cách hoạt hình được sử dụng khi di chuyển đến một vị trí khác trên sân khấu.",
                 "names": "$~phongcách"
             },
-            "defaultDescription": "$~$3[$3 mét |] cụm từ $1 $2[được đặt tên là $2|] $4[$4|] $5"
+            "defaultDescription": "$~$size[$size mét |] cụm từ $text $name[được đặt tên là $name|] $face[$face|] $animation"
         },
         "Arrangement": {
             "doc": "$~Tôi là nguồn cảm hứng cho nhiều kiểu sắp xếp khác trong Verse, bao gồm @Row, @Stack, @Grid và @Free. Tôi hợp tác chặt chẽ với @Group để",
@@ -3790,7 +3804,7 @@
         "Row": {
             "doc": "$~Tôi là @Row, một @Arrangement nằm ngang gồm các @Output, với khoảng đệm tùy chọn ở giữa. Bạn đã gặp người anh em song sinh của tôi, @Stack chưa?",
             "names": ["$~➡", "$~Hàngngang"],
-            "description": "$~hàng các cụm từ và nhóm $1",
+            "description": "$~hàng các cụm từ và nhóm $count",
             "alignment": {
                 "doc": "$~Chọn căn chỉnh văn bản ở đầu, giữa hoặc cuối mỗi cột.",
                 "names": "$~sựcănchỉnh"
@@ -3803,7 +3817,7 @@
         "Stack": {
             "doc": "$~Tôi là @Stack, một @Arrangement thẳng đứng của @Output, với khoảng đệm tùy chọn ở giữa. Bạn đã gặp người anh em song sinh của tôi, @Row chưa?",
             "names": ["$~⬇", "$~Ngănxếp"],
-            "description": "$~tập hợp các cụm từ và nhóm trị giá 1 đô la",
+            "description": "$~chồng $count cụm từ và nhóm",
             "alignment": {
                 "doc": "$~Chọn căn chỉnh văn bản ở đầu, giữa hoặc cuối mỗi dòng.",
                 "names": "$~sựcănchỉnh"
@@ -3816,7 +3830,7 @@
         "Grid": {
             "doc": "$~Tôi là một lưới của @Output. Hãy cho tôi biết số hàng và số cột, và tôi sẽ tạo ra một bố cục gọn gàng với tùy chọn khoảng cách lề và kích thước ô.",
             "names": ["$~▦", "$~Lưới"],
-            "description": "$~Lưới 1 hàng 2 cột",
+            "description": "$~$rows hàng $columns cột lưới",
             "rows": {
                 "doc": "$~Lưới này có bao nhiêu hàng?",
                 "names": "$~hàng"
@@ -3844,7 +3858,7 @@
                 "$~À, và hãy nhớ rằng @Place mà bạn gán cho mỗi @Output là tương đối so với @Place của @Group! Vì vậy, nếu bạn thắc mắc tại sao mọi thứ không xuất hiện ở vị trí mong muốn, hãy thử gán vị trí cho cả @Group nữa."
             ],
             "names": ["$~Miễnphí"],
-            "description": "$~đầu ra $1 dạng tự do"
+            "description": "$~đầu ra $count dạng tự do"
         },
         "Shape": {
             "doc": "$~Tôi là nguồn cảm hứng cho mọi hình dáng. Tôi hữu ích trong việc hướng dẫn @Stage nên có hình dáng như thế nào.",
@@ -4034,7 +4048,7 @@
                 "doc": "$~Liệu một @Output có nên được phản chiếu trên trục y, thay vì vị trí mặc định của nó hay không.",
                 "names": "$~lật"
             },
-            "description": "$~$1[trong suốt $1|] $2[xoay $2 độ|] $3[thu nhỏ $3|] $4[lật ngang|] $5[lật dọc|] $6[bóng mờ $6 pixel]"
+            "description": "$~$opacity[trong suốt $opacity|] $rotation[xoay $rotation độ|] $scale[thu nhỏ $scale|] $flipx[lật ngang|] $flipy[lật dọc|] $blur[bóng mờ $blur pixel]"
         },
         "Color": {
             "doc": [
@@ -4289,7 +4303,7 @@
                 "doc": "$~Lực hấp dẫn cần áp dụng cho đầu ra có vị trí trong @Motion.",
                 "names": "$~trọnglực"
             },
-            "defaultDescription": "$~giai đoạn $2[$2 |]của $1 xuất ra$3[với khung $3|] $4"
+            "defaultDescription": "$~giai đoạn $name[$name |]của $count xuất ra$frame[với khung $frame|] $pose"
         },
         "Easing": {
             "straight": "$~thẳng",
@@ -4381,7 +4395,7 @@
                 "doc": "$~Đoạn văn tôi nên đọc to.",
                 "names": "$~chữ"
             },
-            "defaultDescription": "$~Ví dụ 1 đô la"
+            "defaultDescription": "$~Nói $text"
         },
         "Gesture": {
             "doc": "$~Tôi là một cử chỉ tay được camera nhận diện. Các trường thông tin của tôi cho biết vị trí của bàn tay trên sân khấu, những ngón tay nào đang duỗi ra và lòng bàn tay hay mu bàn tay đang hướng về phía camera. @Hand sẽ trả về một trong những cử chỉ của tôi.",
@@ -4427,7 +4441,8 @@
     "ui": {
         "font": {
             "app": "$~Noto Sans",
-            "code": "$~Noto Sans Mono"
+            "code": "$~Noto Sans Mono",
+            "missing": "$~KHÔNG"
         },
         "phrases": {
             "welcome": "$~Xin chào"
@@ -4519,11 +4534,7 @@
                     "tip": "$~Chỉnh sửa ngôn ngữ của dự án này và dịch nó sang các ngôn ngữ khác.",
                     "label": "$~dịch"
                 },
-                "primary": "$~được đặt làm địa điểm chính của dự án này",
-                "history": {
-                    "on": "$~Hiển thị mã dự án gần đây",
-                    "off": "$~Hiển thị mã dự án hiện tại"
-                }
+                "primary": "$~được đặt làm địa điểm chính của dự án này"
             },
             "field": {
                 "name": {
@@ -4579,7 +4590,7 @@
                 "now": "$~Hiện nay",
                 "history": "$~các phiên bản",
                 "restore": "$~Đây là phiên bản trước của dự án này.",
-                "ago": "$~$1 $2 trước đây"
+                "ago": "$~$amount $unit trước đây"
             },
             "button": {
                 "clear": "$~xóa lịch sử",
@@ -4665,7 +4676,7 @@
         "howto": {
             "galleryView": {
                 "header": "$~Hướng dẫn",
-                "subheader": "$~Hướng dẫn giá 1 đô la, sản phẩm mới giá 2 đô la",
+                "subheader": "$~$total hướng dẫn, $new mới",
                 "subheaderEmpty": "$~Hãy tạo ra cái đầu tiên!",
                 "prompt": "$~Hướng dẫn là những giải thích ngắn gọn và ví dụ mã lệnh về cách thực hiện một việc gì đó với Wordplay. Khi bạn tìm ra cách làm điều gì đó mà bạn muốn chia sẻ, hãy viết một bài hướng dẫn cho những người sáng tạo khác trong thư viện này, để họ cũng có thể học hỏi!"
             },
@@ -4792,7 +4803,7 @@
                 "usedBy": {
                     "prompt": "$~Bạn đã sử dụng hướng dẫn này hay hướng dẫn khác trong dự án của mình? Hãy chia sẻ dự án của bạn với mọi người bằng cách thêm vào danh sách nhé!",
                     "empty": "$~Bạn chưa có dự án nào hoặc bài hướng dẫn nào được xuất bản cả. Hãy thử tạo một bài xem sao!",
-                    "countDisplay": "$~Các đạo diễn Wordplay khác đã sử dụng điều này trong các dự án hoặc hướng dẫn khác trị giá $1.",
+                    "countDisplay": "$~Các đạo diễn Wordplay khác đã sử dụng điều này trong các dự án hoặc hướng dẫn khác trị giá $count.",
                     "selector": "$~công cụ chọn dự án và hướng dẫn",
                     "removeButton": "$~xóa dự án hoặc hướng dẫn khỏi danh sách",
                     "addButton": "$~thêm dự án hoặc hướng dẫn"
@@ -4827,8 +4838,6 @@
                             "$~Những người cộng tác với bất kỳ phòng trưng bày nào do bất kỳ người phụ trách nào tạo ra đều có thể xem."
                         ]
                     },
-                    "expanded": "$~mở rộng",
-                    "limited": "$~giới hạn",
                     "expandedOptions": "$~Hãy để những người phụ trách và người sáng tạo của phòng trưng bày đã chọn xem hướng dẫn sử dụng phòng trưng bày này.",
                     "expandedAdd": "$~Thêm thư viện ảnh vào danh sách",
                     "expandedRemove": "$~xóa thư viện ảnh khỏi danh sách"
@@ -4868,9 +4877,9 @@
                 }
             },
             "announce": {
-                "howToPosition": "$~Hướng dẫn có tiêu đề $1 đã chuyển thành $2 $3",
-                "canvasPosition": "$~Tranh vẽ trên vải được chuyển sang giá 1 đô la, 2 đô la.",
-                "moveActivated": "$~Di chuyển được kích hoạt. Có thể di chuyển 1 đô la bằng chuột, bàn phím hoặc màn hình cảm ứng.",
+                "howToPosition": "$~Hướng dẫn có tiêu đề $title đã chuyển thành $x $y",
+                "canvasPosition": "$~Khung vẽ đã được di chuyển đến $x, $y",
+                "moveActivated": "$~Chuyển động đã được kích hoạt. $target có thể được di chuyển bằng chuột, bàn phím hoặc màn hình cảm ứng.",
                 "moveDeactivated": "$~Chuyển động đã bị vô hiệu hóa."
             },
             "error": {
@@ -4882,10 +4891,10 @@
             "empty": [
                 "$~Bắt đầu nào! Bạn có thể…",
                 "$~• Mở 📕 và kéo 🖱️ chúng tôi vào chương trình này.",
-                "$~• Nhập $1 và chọn chúng tôi từ thực đơn.",
+                "$~• Gõ $symbol và chọn chúng tôi từ menu.",
                 "$~• Gõ chúng tôi bằng biểu tượng ⌨️.",
-                "$~• Tham khảo các <galleries@://galleries> để tìm cảm hứng.",
-                "$~Nếu bạn gặp khó khăn, hãy <tìm hiểu thêm tại://learn>."
+                "$~• Duyệt qua<galleries@://galleries> để lấy cảm hứng.",
+                "$~Nếu bạn gặp khó khăn,<learn more@://learn> ."
             ],
             "overwritten": "$~Dự án đã được chỉnh sửa ở nơi khác.",
             "confirm": {
@@ -4930,7 +4939,6 @@
             "menu": {
                 "label": "$~menu tự động hoàn thành",
                 "show": "$~hiển thị menu tự động hoàn thành",
-                "back": "$~rời khỏi menu con",
                 "empty": "$~Không có gợi ý nào."
             },
             "cursor": {
@@ -4952,7 +4960,6 @@
                 "selectAll": "$~chọn chương trình",
                 "incrementLiteral": "$~tăng số, văn bản hoặc giá trị Boolean",
                 "decrementLiteral": "$~giảm số, văn bản hoặc giá trị Boolean",
-                "insertSymbol": "$~chèn $1",
                 "insertTab": "$~chèn tab",
                 "insertTrue": "$~chèn đúng",
                 "insertFalse": "$~chèn false",
@@ -4972,7 +4979,6 @@
                 "insertConvert": "$~chèn ký hiệu chuyển đổi",
                 "insertPrevious": "$~chèn ký hiệu trước đó",
                 "insertTable": "$~chèn biểu tượng mở bảng",
-                "insertTableClose": "$~chèn biểu tượng đóng bảng",
                 "insertBorrow": "$~chèn mượn",
                 "insertShare": "$~chèn chia sẻ",
                 "insertLine": "$~chèn ngắt dòng",
@@ -5019,8 +5025,8 @@
         },
         "annotations": {
             "label": "$~xung đột và giúp đỡ",
-            "cursor": "$~Đây là *$1*$2[ và chúng thuộc loại $2|]. $3[ Chúng nằm bên trong một *$3*.|]",
-            "cursorParent": "$~Chúng nằm bên trong một *$1*$2[ thuộc loại $2|].",
+            "cursor": "$~Đây là *$node*$type[ và chúng thuộc loại $type|]. $description[ Chúng nằm bên trong một *$description*.|]",
+            "cursorParent": "$~Chúng nằm bên trong một *$node*$type[ thuộc loại $type|].",
             "learn": "$~Tìm hiểu thêm",
             "evaluating": "$~Ồ thú vị quá, cùng đánh giá nào!",
             "space": "$~Đây chính là không gian! Ai ngờ một thứ vô tri vô giác lại có thể nói lên nhiều điều đến thế?",
@@ -5029,7 +5035,7 @@
                 "toggle": "$~hiển thị và ẩn chú thích",
                 "highlight": "$~Hiển thị đoạn mã này trong trình soạn thảo"
             },
-            "nodeDescription": "$~Chúng có giá 1 đô la."
+            "nodeDescription": "$~Họ $description."
         },
         "output": {
             "label": "$~đầu ra chương trình",
@@ -5075,12 +5081,12 @@
                 "animationSpeed": "$~Nút điều khiển /tốc độ hoạt ảnh/ thiết lập tốc độ phát hoạt ảnh. Nút điều khiển tương tự cũng có trong *cài đặt*, vì vậy bạn có thể thay đổi nó từ cả hai nơi."
             },
             "permission": {
-                "title": "$?",
-                "microphone": "$?",
-                "camera": "$?",
-                "note": "$?",
-                "start": "$?",
-                "retry": "$?"
+                "title": "$~Dự án này cần sự cho phép.",
+                "microphone": "$~micro",
+                "camera": "$~máy ảnh",
+                "note": "$~Trình duyệt của bạn sẽ hỏi trước khi chia sẻ.",
+                "start": "$~Bắt đầu",
+                "retry": "$~Thử lại"
             }
         },
         "timeline": {
@@ -5115,7 +5121,7 @@
         },
         "docs": {
             "label": "$~trình duyệt tài liệu",
-            "link": "$~Hiển thị \"$1\" trong tài liệu",
+            "link": "$~Hiển thị \"$name\" trong tài liệu",
             "learn": "$~Tìm hiểu thêm…",
             "nodoc": "$~Tôi là ai? Tôi là gì? Mục đích sống của tôi là gì?",
             "button": {
@@ -5420,7 +5426,8 @@
                             "$~1x",
                             "$~2 lần",
                             "$~5 lần",
-                            "$~10 lần"
+                            "$~10 lần",
+                            "$~tự động"
                         ],
                         "tips": [
                             "$~tắt hoạt ảnh",
@@ -5430,7 +5437,8 @@
                             "$~tốc độ bình thường",
                             "$~tốc độ gấp đôi",
                             "$~năm tốc độ",
-                            "$~mười tốc độ"
+                            "$~mười tốc độ",
+                            "$~sử dụng cài đặt thiết bị hiện tại"
                         ]
                     },
                     "dark": {
@@ -5510,10 +5518,10 @@
                     "tip": "$~xóa tất cả thông báo"
                 },
                 "notification": {
-                    "howToHeader": "$~Bài hướng dẫn mới có tiêu đề \"$1\" đã được đăng tải.",
-                    "projectChatHeader": "$~Thông báo mới trong dự án \"$1\"",
-                    "howToChatHeader": "$~Thông báo mới trong hướng dẫn \"$1\"",
-                    "moderationHeader": "$~Tin nhắn trong \"$1\" cần được kiểm duyệt.",
+                    "howToHeader": "$~Bài hướng dẫn mới có tiêu đề \"$title\" đã được đăng tải.",
+                    "projectChatHeader": "$~Thông báo mới trong dự án \"$name\"",
+                    "howToChatHeader": "$~Thông báo mới trong hướng dẫn \"$title\"",
+                    "moderationHeader": "$~Tin nhắn trong \"$name\" cần được kiểm duyệt.",
                     "link": "$~chi tiết"
                 },
                 "delete": "$~xóa thông báo này",
@@ -5699,7 +5707,6 @@
                 "default": "$~mặc định",
                 "inherited": "$~được thừa hưởng",
                 "notSequence": "$~không phải là một chuỗi",
-                "notContent": "$~không phải là danh sách nội dung",
                 "format": "$~định dạng",
                 "weight": "$~cân nặng",
                 "light": "$~ánh sáng",
@@ -5929,11 +5936,6 @@
                         "description": "$~mô tả về lớp học",
                         "placeholder": "$~Sự miêu tả"
                     },
-                    "newteacher": {
-                        "placeholder": "$~email hoặc tên người dùng",
-                        "description": "$~Địa chỉ email hoặc tên người dùng của người tạo mà bạn muốn cấp quyền truy cập cho giáo viên vào lớp học này."
-                    },
-                    "addteacher": "$~Thêm giáo viên vào lớp học này",
                     "delete": {
                         "tip": "$~Xóa lớp này vĩnh viễn",
                         "label": "$~Xóa lớp này"
@@ -6258,8 +6260,8 @@
                     "untitledproject": "$~Dự án chưa có tiêu đề"
                 },
                 "announce": {
-                    "position": "$~ở mức $1 $2",
-                    "selection": "$~$1[đã chọn $1|chưa chọn gì]"
+                    "position": "$~ở mức $x $y",
+                    "selection": "$~$shapes[đã chọn $shapes|chưa chọn gì]"
                 }
             },
             "about": {
@@ -6301,9 +6303,7 @@
                     "forgot": "$~*Quên mật khẩu?* Rất tiếc, chúng tôi không thể khôi phục tài khoản của bạn vì chúng tôi không thu thập thông tin liên hệ.",
                     "enter": "$~Có vẻ như liên kết đăng nhập của bạn đến từ một trình duyệt hoặc thiết bị khác. Bạn có thể nhập lại email của mình để chúng tôi chắc chắn đó là bạn không?",
                     "play": "$~Bạn đã đăng nhập thành công, giờ chúng tôi có thể lưu dự án của bạn trực tuyến rồi! Bạn muốn tạo gì đó không?",
-                    "tooyoung": "$~Bạn phải từ 13 tuổi trở lên mới có thể đăng nhập bằng email.",
                     "passwordrule": "$~Mật khẩu phải có ít nhất 6 ký tự; nếu bạn không sử dụng trình quản lý mật khẩu, hãy chọn ba từ dài mà bạn dễ nhớ.",
-                    "passwordreminder": "$~Có vẻ như bạn chưa có tài khoản. Vui lòng nhập lại mật khẩu và đảm bảo bạn đã lưu mật khẩu một cách an toàn và chính xác, vì mật khẩu này không thể khôi phục được.",
                     "changeEmail": "$~Bạn muốn thay đổi email? Hãy nhập email mới và chúng tôi sẽ gửi email xác nhận đến email cũ.",
                     "changePassword": "$~Bạn muốn thay đổi mật khẩu? Hãy nhập mật khẩu mới và nhập lại.",
                     "email": "$~Bạn có tài khoản chỉ dùng email không? Hãy đăng nhập bằng email của bạn, và nếu có tài khoản được liên kết với email đó, chúng tôi sẽ gửi cho bạn một email chứa liên kết đăng nhập. Để bảo vệ quyền riêng tư, chúng tôi không hỗ trợ tài khoản chỉ dùng email mới.",
@@ -6323,7 +6323,6 @@
                     "usernameTaken": "$~Tên người dùng này đã được sử dụng.",
                     "failure": "$~Không thể đăng nhập :(",
                     "offline": "$~Chúng tôi không thể với tới mây ☁️.",
-                    "unchanged": "$~Chúng tôi không thể thay đổi địa chỉ email của bạn, nhưng chúng tôi không biết lý do tại sao.",
                     "delete": "$~Chúng tôi không thể xóa tài khoản của bạn, nhưng chúng tôi không biết lý do tại sao.",
                     "invalidPassword": "$~Mật khẩu phải có ít nhất 6 ký tự.",
                     "wrongPassword": "$~Tên người dùng và mật khẩu không hợp lệ. Có thể mật khẩu của bạn sai hoặc người khác đã sử dụng tên người dùng này.",
@@ -6441,8 +6440,6 @@
                 "palette": "$~Bảng màu",
                 "semantic": "$~Màu sắc ngữ nghĩa",
                 "fonts": "$~Phông chữ",
-                "appfont": "$~Phông chữ văn bản",
-                "codefont": "$~Phông chữ mã",
                 "spacing": "$~Khoảng cách",
                 "typography": "$~Kiểu chữ",
                 "components": "$~Các thành phần",
@@ -6460,7 +6457,6 @@
                 "demo": {
                     "button": "$~Ví dụ",
                     "note": "$~Đây là một ghi chú.",
-                    "warning": "$~Đây là lời cảnh báo.",
                     "notice": "$~Đây là một thông báo.",
                     "header": "$~Tiêu đề",
                     "subheader": "$~Tiêu đề phụ",
@@ -6476,7 +6472,7 @@
             },
             "thanks": {
                 "header": "$~Cảm ơn",
-                "intro": "$~Cảm ơn *$1* người đóng góp đã tham gia vào thiết kế, phát triển, bản địa hóa và nội dung của Wordplay! Và cảm ơn rất nhiều giáo viên và bạn trẻ đã hướng dẫn thiết kế của chúng tôi trong các nhóm thảo luận, các buổi thiết kế và trong lớp học, những người mà chúng tôi không liệt kê ở đây để bảo vệ quyền riêng tư của họ.\n\nDự án này được hỗ trợ bởi Quỹ Khoa học Quốc gia theo các giải thưởng 2318257, 2031265, 2100296 và 2122950, Đại học Washington, và những khoản đóng góp hào phóng <gifts//donate> từ những người như bạn.",
+                "intro": "$~Cảm ơn *$count* người đóng góp đã tham gia vào thiết kế, phát triển, bản địa hóa và nội dung của Wordplay! Và cảm ơn rất nhiều giáo viên và bạn trẻ đã hướng dẫn thiết kế của chúng tôi trong các nhóm thảo luận, các buổi thiết kế và trong lớp học, những người mà chúng tôi không liệt kê ở đây để bảo vệ quyền riêng tư của họ.\n\nDự án này được hỗ trợ bởi Quỹ Khoa học Quốc gia theo các giải thưởng 2318257, 2031265, 2100296 và 2122950, Đại học Washington, và những khoản đóng góp hào phóng <gifts//donate> từ những người như bạn.",
                 "teachers": "$~Giáo viên",
                 "contributors": "$~Người đóng góp"
             },
@@ -6565,29 +6561,26 @@
                 },
                 "singletonWordsWarning": "$~Một số từ trong bản nháp của bạn chỉ xuất hiện một lần duy nhất trong toàn bộ đoạn văn. Bạn có chắc chắn rằng chúng được viết đúng chính tả và nhất quán với các văn bản khác không?",
                 "viewPR": "$~Xem yêu cầu kéo (pull request)",
-                "oneLocaleNote": "$~Mỗi bài gửi chỉ dành cho một ngôn ngữ/vùng miền tại một thời điểm. Lô bài gửi này sẽ được gửi dưới dạng các chỉnh sửa với giá 1 đô la. Nếu bạn muốn đóng góp cho một ngôn ngữ/vùng miền khác, hãy chuyển đổi ngôn ngữ/vùng miền trước; các chỉnh sửa bạn lưu dưới mỗi ngôn ngữ/vùng miền sẽ được giữ riêng biệt."
+                "oneLocaleNote": "$~Mỗi lần gửi bài chỉ dành cho một ngôn ngữ/vùng miền. Những chỉnh sửa này sẽ được gửi dưới dạng các chỉnh sửa cho biến `$locale`. Nếu bạn muốn đóng góp cho một ngôn ngữ/vùng miền khác, hãy chuyển đổi ngôn ngữ/vùng miền trước; các chỉnh sửa bạn lưu dưới mỗi ngôn ngữ/vùng miền sẽ được giữ riêng biệt."
             }
         },
         "edit": {
-            "node": "$~$1$2[, loại $2|]",
-            "before": "$~trước $1[$1|kết thúc]",
-            "inside": "$~trong $1, giữa $2[$2|bắt đầu] và $3[$3|kết thúc]",
-            "range": "$~Lựa chọn từ $1 đến $2",
-            "between": "$~từ 1 đến 2 đô la",
-            "line": "$~dòng trống giữa $1[$1|start] và $2[$2|end]",
-            "conflicts": "$~$1 xung đột",
-            "assign": "$~/$2[Rất muốn tham gia|Đang cân nhắc rời đi]…/",
+            "node": "$~$node$type[, loại $type|]",
+            "before": "$~trước $after[$after|kết thúc]",
+            "inside": "$~trong $token, giữa $before[$before|bắt đầu] và $after[$after|kết thúc]",
+            "range": "$~Lựa chọn từ $start đến $end",
+            "between": "$~giữa $before và $after",
+            "line": "$~dòng trống giữa $before[$before|start] và $after[$after|end]",
+            "conflicts": "$~$count xung đột",
+            "assign": "$~/$name[Rất muốn tham gia|Đang cân nhắc rời đi]…/",
             "append": "$~/Rất muốn chèn…/",
             "remove": "$~/Đang cân nhắc việc rời đi…/",
             "replace": "$~/Muốn can thiệp…/",
-            "wrap": "$~đặt trong ngoặc",
-            "unwrap": "$~mở gói",
-            "bind": "$~Đặt tên cho biểu thức này",
             "area": "$~mã loại"
         },
         "template": {
             "unwritten": "$~Sẽ được xác định sau.",
-            "unparsable": "$~Mẫu không thể phân tích cú pháp: $1",
+            "unparsable": "$~Mẫu không thể phân tích cú pháp: $template",
             "machineTranslated": "$~Đây là bản dịch máy, vì vậy có thể không dễ đọc hoặc không chính xác.",
             "locallyRevised": "$~Văn bản này đã được chỉnh sửa cục bộ và khác với bản dịch chính thức."
         },
@@ -6636,7 +6629,10 @@
                     "$~tiền tệ"
                 ]
             },
-            "skinTone": "$~màu da"
+            "skinTone": "$~màu da",
+            "script": "$~kịch bản",
+            "scriptLabel": "$~lọc theo tập lệnh",
+            "pickFilter": "$~Chọn một danh mục hoặc kịch bản"
         },
         "localize": {
             "header": "$~Bản địa hóa",
@@ -6675,15 +6671,19 @@
                 }
             },
             "strings": "$~Chuỗi ngôn ngữ",
-            "emotion": "$?",
+            "emotion": "Choose an emotion",
             "invalidName": "$~Không phải là tên chơi chữ hợp lệ.",
             "reference": "$~Tài liệu tham khảo tiếng Anh",
-            "unwritten": "$~Văn bản chưa được viết",
-            "revised": "$~Văn bản đã sửa đổi",
-            "revisedDescription": "$~Các bản sửa đổi này được lưu cục bộ và chưa được gửi để xem xét.",
-            "submitRevisions": "$~Gửi bản sửa đổi",
-            "submitted": "$~Cảm ơn bạn! Bản chỉnh sửa của bạn sẽ được xem xét và có thể sẽ được đăng tải sớm.",
-            "invalidConceptLinks": "$~Các liên kết khái niệm này không hoạt động trong ngôn ngữ hiện tại. Bạn có viết sai chính tả một trong số chúng, hay đã cố tình xóa chúng đi?"
+            "invalidConceptLinks": "$~Các liên kết khái niệm này không hoạt động trong ngôn ngữ hiện tại. Bạn có viết sai chính tả một trong số chúng, hay đã cố tình xóa chúng đi?",
+            "inputs": {
+                "header": "$~Các thông tin đầu vào mà mẫu này chấp nhận",
+                "usedTip": "$~Nhấp chuột để chèn thêm một tham chiếu khác vào vị trí con trỏ",
+                "unusedTip": "$~Nhấp chuột để chèn tài liệu tham khảo này vào vị trí con trỏ.",
+                "missing": "$~Thông tin đầu vào bị thiếu:",
+                "legacy": "$~Hãy thay thế các tham chiếu vị trí cũ này bằng các tham chiếu được đặt tên:",
+                "submitBlocked": "$~Vui lòng kiểm tra kỹ từng thông tin đầu vào trước khi gửi.",
+                "unknown": "$~Các tham chiếu này không khớp với dữ liệu đầu vào hoặc thuật ngữ đã khai báo, vì vậy chúng sẽ không thể thay thế cho nhau:"
+            }
         },
         "tour": {
             "label": "$~chuyến du lịch",
@@ -6691,6 +6691,11 @@
             "previous": "$~bước trước",
             "next": "$~bước tiếp theo",
             "offscreen": "$~Phần này của giao diện hiện không hiển thị trên màn hình."
+        },
+        "connection": {
+            "offline": "$~Bạn đang ngoại tuyến. Một số tính năng sẽ không hoạt động cho đến khi bạn kết nối lại mạng.",
+            "unreachable": "$~Chúng tôi không thể truy cập vào cơ sở dữ liệu Wordplay. Một số tính năng sẽ không hoạt động cho đến khi kết nối được khôi phục.",
+            "label": "$~Trạng thái kết nối"
         }
     },
     "moderation": {
@@ -6716,7 +6721,7 @@
             "disclosure": "$~Tiết lộ thông tin cá nhân của người khác, chẳng hạn như tên, thông tin liên lạc hoặc địa chỉ nhà.",
             "misinformation": "$~Chứa thông tin sai sự thật, gây hiểu nhầm, lừa dối hoặc mang tính thao túng."
         },
-        "progress": "$~*$1* đã được kiểm duyệt, *$2* còn lại",
+        "progress": "$~*$moderated* đã được kiểm duyệt, *$remaining* còn lại",
         "done": "$~Không còn gì khác để điều chỉnh nữa!",
         "button": {
             "submit": {

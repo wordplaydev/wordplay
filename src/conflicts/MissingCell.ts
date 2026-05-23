@@ -29,12 +29,14 @@ export default class MissingCell extends Conflict {
             explanation: (locales: Locales, context: Context) =>
                 locales.concretize(
                     (l) => MissingCell.LocalePath(l).explanation,
-                    new NodeRef(
+                    {
+                        column: new NodeRef(
                         this.column,
                         locales,
                         context,
                         locales.getName(this.column.names),
                     ),
+                    },
                 ),
         };
     }

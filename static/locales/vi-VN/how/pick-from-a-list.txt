@@ -1,0 +1,18 @@
+Chọn ngẫu nhiên một vật từ danh sách.
+
+Bạn muốn dự án của mình mang lại bất ngờ mỗi khi chạy? Hãy lập danh sách các lựa chọn và chọn một trong số đó. @Random . 
+
+@Random có thể cung cấp cho chúng ta một số ngẫu nhiên, và một danh sách có thể được tra cứu theo số.\[n]\.Ghép chúng lại với nhau để chọn một biểu tượng cảm xúc ngẫu nhiên:
+
+\emojis: ['🌈' '🌟' '🎈' '🦄' '🍩']
+Phrase(emojis.random())\
+
+Bạn cũng có thể sử dụng @Random Với hai số, người chọn sẽ chọn một số nguyên giữa hai số đó.Ví dụ, để chọn một/mới/Ngẫu nhiên biểu tượng cảm xúc mỗi giây, trộn lẫn vào @Time và một @Reaction :
+
+\emojis: ['🌈' '🌟' '🎈' '🦄' '🍩']
+pick: emojis[1] … ∆ Time(1000ms) … emojis[Random(1 emojis.length())]
+Phrase(pick)\
+
+Mỗi nhịp tích tắc của @Time , cái @Reaction Chọn một điều bất ngờ mới.
+
+shake-phrase, count-with-time

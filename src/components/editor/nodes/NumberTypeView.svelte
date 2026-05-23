@@ -1,7 +1,9 @@
 <script lang="ts">
     import type NumberType from '@nodes/NumberType';
     import Unit from '@nodes/Unit';
-    import NodeView, { type Format } from '@components/editor/nodes/NodeView.svelte';
+    import NodeView, {
+        type Format,
+    } from '@components/editor/nodes/NodeView.svelte';
 
     interface Props {
         node: NumberType;

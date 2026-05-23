@@ -23,13 +23,15 @@ export default class UnknownNameType extends UnknownType<Node> {
     getReason(locales: Locales, context: Context) {
         return locales.concretize(
             (l) => l.node.UnknownNameType.description,
-            ...this.getDescriptionInputs(locales, context),
+            {
+                name: this.name ? new NodeRef(this.name, locales, context) : undefined,
+            },
         );
     }
 
-    getDescriptionInputs(locales: Locales, context: Context): TemplateInput[] {
-        return [
-            this.name ? new NodeRef(this.name, locales, context) : undefined,
-        ];
+    getDescriptionInputs(locales: Locales, context: Context): Record<string, TemplateInput> {
+        return {
+            name: this.name ? new NodeRef(this.name, locales, context) : undefined,
+        };
     }
 }

@@ -238,12 +238,14 @@ export default class Program extends Expression {
 
         return locales.concretize(
             (l) => l.node.Program.start,
-            change
+            {
+                stream: change
                 ? new ValueRef(reaction.changes[0].stream, locales, context)
                 : undefined,
-            change
+                value: change
                 ? new ValueRef(reaction.changes[0].value, locales, context)
                 : undefined,
+            },
         );
     }
 
@@ -254,7 +256,9 @@ export default class Program extends Expression {
     ) {
         return locales.concretize(
             (l) => l.node.Program.finish,
-            this.getValueIfDefined(locales, context, evaluator),
+            {
+                value: this.getValueIfDefined(locales, context, evaluator),
+            },
         );
     }
 

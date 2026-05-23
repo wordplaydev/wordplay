@@ -1,0 +1,21 @@
+Pokaż różne rzeczy na podstawie wartości
+
+A co jeśli chcesz @Phrase zmieniać się w zależności od czegoś — np. wyniku lub naciśnięcia klawisza?
+
+Możemy użyć warunku\?\wybierać pomiędzy dwiema rzeczami.Napisz warunek, a następnie\?\, następnie wartość używana, gdy jest to prawda, a następnie wartość używana, gdy jest to fałsz.
+
+Oto uśmiechnięta buźka, która po każdym naciśnięciu spacji staje się smutna:
+
+\happy: ⊤ … ∆ Key(' ') … ~happy
+Phrase(happy ? '😊' '😢')\
+
+Ten @Reaction zaczyna się\happy\ Jak \⊤\(prawda) i odwraca ją\~\za każdym razem, gdy naciśniesz klawisz spacji.Następnie warunek\?\wybiera właściwą twarz.
+
+Możesz łączyć warunki, aby wybierać spośród więcej niż dwóch rzeczy:
+
+\score: 0 … ∆ Key('A') … score + 1
+Phrase(score < 3 ? '🥚' score < 6 ? '🐣' '🐥')\
+
+Naciskać \a\kilka razy i obserwuj, jak z jajka wykluwa się pisklę!
+
+track-points, offer-choices

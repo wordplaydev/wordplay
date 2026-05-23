@@ -1,0 +1,24 @@
+Buat karakter jatuh dan memantul
+
+Bagaimana jika kita ingin karakter tersebut terjatuh, terpental dari lantai, atau didorong-dorong seperti benda sungguhan?Itulah  @Motion  Dan  @Matter  untuk — bersama-sama mereka mensimulasikan fisika untuk sebuah  @Phrase . 
+
+@Motion  kontrol /Di mana/ Sebuah karakter terbentuk seiring waktu. Kita menggunakannya sebagai... \place\ untuk sebuah  @Phrase , memulainya dari posisi tinggi agar bisa jatuh.Kita juga butuh sesuatu untuk dijadikan pijakan saat jatuh, atau karakter kita akan terus jatuh selamanya! A  @Shape  dengan lebar  @Rectangle  menghasilkan lantai yang bagus:
+
+\Stage([
+		Phrase('🍎' place: Motion(Place(0m 5m)) matter: Matter())
+		Shape(Rectangle(-10m 0m 10m -5m))
+	])\
+
+Apel tersebut mulai dari ketinggian lima meter dan jatuh karena gravitasi.Saat menyentuh lantai, benda itu akan sedikit memantul, karena  @Phrase  memiliki bawaan  @Matter  yang mengontrol seberapa berat dan kenyal benda tersebut.
+
+Untuk mengubah cara /goyang/ atau bagaimana /berat/ Sebuah karakter, berikanlah karaktermu sendiri.  @Matter . @Matter  Membutuhkan massa, daya pantul, dan gesekan:
+
+\Stage([
+		Phrase('⚽' place: Motion(Place(-2m 5m)) matter: Matter(1kg 0.9 0.2))
+		Phrase('🪨' place: Motion(Place(2m 5m)) matter: Matter(5kg 0.1 0.8))
+		Shape(Rectangle(-10m 0m 10m -5m))
+	])\
+
+Bola ini ringan dan memantul, sehingga mudah kembali ke atas.Batu itu berat dan tidak kenyal, jadi hanya berbunyi gedebuk.
+
+follow-the-pointer, move-phrase

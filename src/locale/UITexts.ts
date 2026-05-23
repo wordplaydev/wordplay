@@ -1,6 +1,6 @@
 import type { SupportedFace } from '@basis/Fonts';
 import type { TileKind } from '@components/project/TileKind';
-import type { DocText, FormattedText } from '@locale/LocaleText';
+import type { FormattedText, Template } from '@locale/LocaleText';
 
 import type DocumentationText from '@components/concepts/DocumentationText';
 import type CheckpointsText from '@components/project/CheckpointsText';
@@ -79,6 +79,8 @@ type UITexts = {
         app: SupportedFace;
         /** The monospace font to use for code in the editor and code examples. Should support the language used in this locale so that characters render correctly. Add the face to Fonts.ts if the one you choose is not yet supported. */
         code: SupportedFace;
+        /** [plain] The word shown before the markup symbols that a font face doesn't support (e.g. "missing * ^" for a face without bold or extra bold) */
+        missing: string;
     };
     phrases: {
         /** [plain] Placeholder text used in code examples. */
@@ -193,13 +195,6 @@ type UITexts = {
             translate: ButtonText;
             /** [plain] The tooltip for the primary locale setting button */
             primary: string;
-            /** The history switch toggling between the current edit state and a previous checkpoint */
-            history: {
-                /** [plain] Tooltip for the off (live) state of the history switch */
-                off: string;
-                /** [plain] Tooltip for the on (viewing history) state of the history switch */
-                on: string;
-            };
         };
         field: {
             /** [name] The project name text field */
@@ -274,8 +269,8 @@ type UITexts = {
         label: string;
         /** [plain] The label for the code editor toolbar */
         title: string;
-        /** The text to show when a source file is empty */
-        empty: DocText;
+        /** [formatted] The text to show when a source file is empty */
+        empty: Template<['symbol']>[];
         /** [plain] When some other device had a more recent edit that overrode this device's version. */
         overwritten: string;
         confirm: {
@@ -307,8 +302,6 @@ type UITexts = {
             label: string;
             /** [plain] The menu show button and keyboard shortcut */
             show: string;
-            /** [plain] How to describe the autocomplete back button for leaving the submenu */
-            back: string;
             /** [plain] What to say when the menu is empty */
             empty: string;
         };
@@ -362,8 +355,6 @@ type UITexts = {
             incrementLiteral: string;
             /** [plain] Decrement the literal at the cursor */
             decrementLiteral: string;
-            /** [plain] Insert selected symbol */
-            insertSymbol: string;
             /** [plain] Insert tab symbol */
             insertTab: string;
             /** [plain] Insert true symbol */
@@ -402,8 +393,6 @@ type UITexts = {
             insertConvert: string;
             /** [plain] Insert table symbol */
             insertTable: string;
-            /** [plain] Insert table close symbol */
-            insertTableClose: string;
             /** [plain] Insert borrow symbol */
             insertBorrow: string;
             /** [plain] Insert share symbol */
@@ -489,9 +478,9 @@ type UITexts = {
         /** [plain] The ARIA label for the conflicts section in the editor. */
         label: string;
         /** [formatted] The description of the cursor position */
-        cursor: FormattedText;
+        cursor: Template<['node', 'type', 'description']>;
         /** [formatted] The description fo the cursor position's parent */
-        cursorParent: FormattedText;
+        cursorParent: Template<['node', 'type']>;
         /** [formatted] The prompt to line more about the cursor node */
         learn: FormattedText;
         /** [formatted] What function should say when evaluating */
@@ -499,7 +488,7 @@ type UITexts = {
         /** [formatted] What function should say when the cursor is in space */
         space: FormattedText;
         /** [formatted] The description of what the selected node does. $1: the node description. */
-        nodeDescription: FormattedText;
+        nodeDescription: Template<['description']>;
         button: {
             /** [formatted] How the resolution button should should be described */
             resolution: FormattedText;
@@ -687,8 +676,6 @@ type UITexts = {
             inherited: string;
             /** [plain] Shown in the output palette when a sequence isn't valid */
             notSequence: string;
-            /** [plain] Shown in the output palette when a list of content is isn't valid */
-            notContent: string;
             /** [plain] The word to describe whether text is rich text formatted */
             format: string;
             /** [plain] The word to describe font weight */
@@ -929,9 +916,12 @@ type UITexts = {
                 layout: ModeText<
                     [string, string, string, string, string, string]
                 >;
-                /** The animation on/off/slowdown mode */
+                /** The animation off/slowdown/auto mode (last entry is
+                 * "auto", which follows the device prefers-reduced-motion
+                 * setting). */
                 animate: ModeText<
                     [
+                        string,
                         string,
                         string,
                         string,
@@ -977,13 +967,13 @@ type UITexts = {
             /** Templates for the title of each notification kind */
             notification: {
                 /** [plain] Title for a new how-to notification, with $1 as the how-to title */
-                howToHeader: string;
+                howToHeader: Template<['title']>;
                 /** [plain] Title for a new project chat message notification, with $1 as the project name */
-                projectChatHeader: string;
+                projectChatHeader: Template<['name']>;
                 /** [plain] Title for a new how-to chat message notification, with $1 as the how-to title */
-                howToChatHeader: string;
+                howToChatHeader: Template<['title']>;
                 /** [plain] Title for a moderation-required notification, with $1 as the project name */
-                moderationHeader: string;
+                moderationHeader: Template<['name']>;
                 /** [plain] Link label to view notification details */
                 link: string;
             };
@@ -1101,22 +1091,21 @@ type UITexts = {
         /** [plain] Shown when there was a problem saving */
         unsaved: string;
     };
+    /** Banner shown when the device is offline or Firebase is unreachable. */
+    connection: {
+        /** [plain] Banner shown when the browser reports no internet connection */
+        offline: string;
+        /** [plain] Banner shown when the device is online but Firebase requests are failing */
+        unreachable: string;
+        /** [plain] ARIA label for the connection banner live region */
+        label: string;
+    };
     /** Text for the localization editor */
     localize: {
         /** [plain] The header for the localization editor */
         header: string;
         /** [plain] Label for the English reference text shown when an editor is focused */
         reference: string;
-        /** [plain] Subheader above the unwritten text dropdown */
-        unwritten: string;
-        /** [plain] Subheader for the revised text section */
-        revised: string;
-        /** [formatted] Explanation that revisions are local and not yet submitted */
-        revisedDescription: FormattedText;
-        /** [plain] Label for the submit revisions button */
-        submitRevisions: string;
-        /** [plain] Notice shown after revisions are submitted */
-        submitted: string;
         /** [formatted] An explanation of the localization editor */
         description: FormattedText;
         toggle: {
@@ -1148,6 +1137,26 @@ type UITexts = {
             name: FieldText;
             /** The description and placeholder of the localization string filter. */
             filter: FieldText;
+        };
+        /** Template-input panel shown below the editor when the active field
+         *  is typed as `Template<Names>`. */
+        inputs: {
+            /** [plain] Subheader above the row of input chips */
+            header: string;
+            /** [plain] Tooltip shown on a chip when the draft references the input */
+            usedTip: string;
+            /** [plain] Tooltip shown on a chip when the draft doesn't yet reference the input */
+            unusedTip: string;
+            /** [plain] Prose preceding the list of inputs the draft is missing */
+            missing: string;
+            /** [plain] Prose preceding the list of bare `$N` legacy refs in the draft */
+            legacy: string;
+            /** [plain] Prose preceding the list of `$name` refs that aren't
+             *  declared inputs and aren't terminology keys (typos / made-up
+             *  names that won't substitute at render time) */
+            unknown: string;
+            /** [plain] Tooltip on the disabled Submit button when inputs are missing */
+            submitBlocked: string;
         };
         /** [plain] The ARIA label for the dropdown that lists all locale strings available to review and edit */
         strings: string;
@@ -1209,7 +1218,7 @@ type UITexts = {
         /** [plain] The placeholder indicating that a locale string is not yet written */
         unwritten: string;
         /** [plain] The placeholder string indicating that a template string could not be parsed */
-        unparsable: string;
+        unparsable: Template<['template']>;
         /** [plain] The tooltip for the machine-translated annotation */
         machineTranslated: string;
         /** [plain] The tooltip for the locally-revised annotation */
@@ -1221,6 +1230,12 @@ type UITexts = {
         noCharacters: string;
         /** [plain] Label for the skin tone selector dropdown */
         skinTone: string;
+        /** [plain] Placeholder/no-selection label for the script filter dropdown */
+        script: string;
+        /** [plain] ARIA label for the script filter dropdown */
+        scriptLabel: string;
+        /** [plain] Hint shown in the glyph area when no category and no script is selected */
+        pickFilter: string;
         /** Emoji category labels for the filter */
         groups: ModeText<
             [

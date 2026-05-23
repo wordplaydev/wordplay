@@ -1,0 +1,21 @@
+Hiển thị các nội dung khác nhau dựa trên một giá trị.
+
+Nếu bạn muốn một @Phrase Thay đổi tùy thuộc vào một yếu tố nào đó — ví dụ như điểm số hoặc thao tác nhấn phím?
+
+Chúng ta có thể sử dụng câu điều kiện\?\Chọn giữa hai thứ.Viết điều kiện, sau đó là\?\Sau đó là giá trị cần sử dụng khi điều kiện đúng, rồi đến giá trị cần sử dụng khi điều kiện sai.
+
+Đây là một khuôn mặt tươi cười, nhưng sẽ chuyển sang buồn mỗi khi bạn nhấn phím cách, rồi lại trở lại bình thường:
+
+\happy: ⊤ … ∆ Key(' ') … ~happy
+Phrase(happy ? '😊' '😢')\
+
+Cái @Reaction bắt đầu\happy\ BẰNG \⊤\(đúng), và lật nó lại với\~\Mỗi khi nhấn phím cách.Sau đó là điều kiện\?\Chọn đúng khuôn mặt.
+
+Bạn có thể kết hợp các câu lệnh điều kiện để chọn từ nhiều hơn hai tùy chọn:
+
+\score: 0 … ∆ Key('Một') … score + 1
+Phrase(score < 3 ? '🥚' score < 6 ? '🐣' '🐥')\
+
+Nhấn \a\Vài lần như vậy và bạn sẽ thấy quả trứng nở thành gà con!
+
+track-points, offer-choices

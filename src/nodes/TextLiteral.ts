@@ -327,7 +327,9 @@ export default class TextLiteral extends Literal {
     }
 
     getDescriptionInputs() {
-        return [this.getText()];
+        return {
+            text: this.getText(),
+        };
     }
 }
 

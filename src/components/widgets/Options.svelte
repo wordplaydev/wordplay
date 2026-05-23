@@ -56,12 +56,20 @@
 
     let view: HTMLSelectElement | undefined = $state(undefined);
 
+    // Tracks the last value commitChange actually fired the change handler
+    // for. We can't dedup against `value` itself: a programmatic selectOption
+    // (used by tests and accessibility tools) flows through Svelte's bind:value
+    // which updates `value` BEFORE the change event reaches us, so a naive
+    // `newValue === value` check would suppress every such call.
+    let lastCommitted: string | undefined = $state(undefined);
+
     function commitChange(newValue: string | undefined) {
         // A single user action can trigger multiple handlers (onpointerdown on
         // the option AND onchange on the select in Chrome; onchange alone in
         // Safari; onkeydown for Enter/Space). They all funnel here, so collapse
         // redundant calls to the same value into a single change() invocation.
-        if (newValue === value) return;
+        if (newValue === lastCommitted) return;
+        lastCommitted = newValue;
         value = newValue;
         change(newValue);
         tick().then(() => {
@@ -93,65 +101,69 @@
 
 <span class="options-group"
     ><select
-    {id}
-    aria-label={title}
-    bind:value
-    bind:this={view}
-    style:width
-    disabled={!editable}
-    class:code
-    onchange={(e) => commitChange((e.target as HTMLSelectElement).value)}
-    onpointerenter={showTip}
-    onpointerleave={hideTip}
-    ontouchstart={showTip}
-    ontouchend={hideTip}
-    ontouchcancel={hideTip}
-    onfocus={showTip}
-    onblur={hideTip}
+        {id}
+        aria-label={title}
+        bind:value
+        bind:this={view}
+        style:width
+        disabled={!editable}
+        class:code
+        class:placeholder={value === undefined}
+        onchange={(e) => commitChange((e.target as HTMLSelectElement).value)}
+        onpointerenter={showTip}
+        onpointerleave={hideTip}
+        ontouchstart={showTip}
+        ontouchend={hideTip}
+        ontouchcancel={hideTip}
+        onfocus={showTip}
+        onblur={hideTip}
+    >
+        <button><selectedcontent></selectedcontent></button>
+        {#each options as option}
+            {#if 'options' in option}
+                <optgroup label={$locales.getPlainText(option.label)}>
+                    {#each option.options as groupoption}
+                        <option
+                            selected={groupoption.value === value}
+                            value={groupoption.value}
+                            onpointerdown={() =>
+                                commitChange(groupoption.value)}
+                            onkeydown={(e) => {
+                                if (e.key === 'Enter' || e.key === ' ') {
+                                    commitChange(groupoption.value);
+                                }
+                            }}
+                            >{#if item}{@render item(
+                                    groupoption,
+                                    localized,
+                                )}{:else}{@render localized(
+                                    groupoption.label,
+                                )}{/if}</option
+                        >{/each}
+                </optgroup>
+            {:else}
+                <option
+                    class:placeholder={option.value === undefined}
+                    selected={option.value === value}
+                    value={option.value}
+                    onpointerdown={() => commitChange(option.value)}
+                    onkeydown={(e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                            commitChange(option.value);
+                        }
+                    }}
+                    >{#if item}{@render item(
+                            option,
+                            localized,
+                        )}{:else}{@render localized(option.label)}{/if}</option
+                >
+            {/if}
+        {/each}
+    </select>{#if localizing?.on && typeof label !== 'string'}<LocalizedText
+            path={label}
+            tipIcon
+        />{/if}</span
 >
-    <button><selectedcontent></selectedcontent></button>
-    {#each options as option}
-        {#if 'options' in option}
-            <optgroup label={$locales.getPlainText(option.label)}>
-                {#each option.options as groupoption}
-                    <option
-                        selected={groupoption.value === value}
-                        value={groupoption.value}
-                        onpointerdown={() => commitChange(groupoption.value)}
-                        onkeydown={(e) => {
-                            if (e.key === 'Enter' || e.key === ' ') {
-                                commitChange(groupoption.value);
-                            }
-                        }}
-                        >{#if item}{@render item(
-                                groupoption,
-                                localized,
-                            )}{:else}{@render localized(
-                                groupoption.label,
-                            )}{/if}</option
-                    >{/each}
-            </optgroup>
-        {:else}
-            <option
-                selected={option.value === value}
-                value={option.value}
-                onpointerdown={() => commitChange(option.value)}
-                onkeydown={(e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                        commitChange(option.value);
-                    }
-                }}
-                >{#if item}{@render item(
-                        option,
-                        localized,
-                    )}{:else}{@render localized(option.label)}{/if}</option
-            >
-        {/if}
-    {/each}
-</select>{#if localizing?.on && typeof label !== 'string'}<LocalizedText
-        path={label}
-        tipIcon
-    />{/if}</span>
 
 <style>
     .options-group {
@@ -198,8 +210,8 @@
         border-bottom-right-radius: 0;
         border-bottom-left-radius: 0;
         border-bottom: none;
-        box-shadow: inset var(--wordplay-border-width) var(--wordplay-border-width)
-            0 var(--wordplay-foreground);
+        box-shadow: inset var(--wordplay-border-width)
+            var(--wordplay-border-width) 0 var(--wordplay-foreground);
         transform: translate(
             var(--wordplay-border-width),
             var(--wordplay-border-width)
@@ -244,6 +256,24 @@
     option::checkmark {
         content: '●';
         color: var(--wordplay-highlight-color);
+    }
+
+    /* The "no selection" option (value === undefined) is styled as a
+       placeholder cue, mirroring the convention used for input placeholders.
+       select.placeholder italicizes the closed dropdown's display area
+       (<selectedcontent> doesn't inherit the option's own CSS), but that
+       italic also inherits to every <option> in the open menu, so we reset
+       options back to normal and re-italicize only the placeholder. */
+    select.placeholder {
+        font-style: italic;
+    }
+
+    option {
+        font-style: normal;
+    }
+
+    option.placeholder {
+        font-style: italic;
     }
 
     .code {

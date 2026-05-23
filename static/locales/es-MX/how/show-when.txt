@@ -1,0 +1,21 @@
+Mostrar cosas diferentes en función de un valor.
+
+¿Y si quieres un @Phrase ¿Cambiar en función de algo, como una puntuación o la pulsación de una tecla?
+
+Podemos usar la condicional\?\elegir entre dos cosas.Escribe la condición, luego una\?\, luego el valor que se debe usar cuando es verdadero, y luego el valor que se debe usar cuando es falso.
+
+Aquí tienes una carita feliz que se vuelve triste cada vez que pulsas la barra espaciadora, y luego vuelve a su estado original:
+
+\happy: ⊤ … ∆ Key(' ') … ~happy
+Phrase(happy ? '😊' '😢')\
+
+El  @Reaction comienza\happy\ como \⊤\(cierto), y lo voltea con\~\cada vez que se presiona la barra espaciadora.Luego la condicional\?\elige la cara correcta.
+
+Puedes encadenar condicionales para elegir entre más de dos cosas:
+
+\score: 0 … ∆ Key('a') … score + 1
+Phrase(score < 3 ? '🥚' score < 6 ? '🐣' '🐥')\
+
+Prensa \a\¡Repítelo varias veces y observa cómo el huevo eclosiona y nace un pollito!
+
+track-points, offer-choices

@@ -286,10 +286,7 @@
                 smaller
                 to="/design"
                 subtitle={(l) => l.ui.page.landing.link.design}
-                ><Iconified
-                    icon="🎨"
-                    text={(l) => l.ui.page.design.header}
-                />
+                ><Iconified icon="🎨" text={(l) => l.ui.page.design.header} />
             </BigLink>
         </Action>
         <Action kind="meta">

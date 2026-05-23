@@ -24,11 +24,7 @@
         type Class,
     } from '@db/teachers/TeacherDatabase.svelte';
     import type Project from '@db/projects/Project';
-    import {
-        CANCEL_SYMBOL,
-        COPY_SYMBOL,
-        EDIT_SYMBOL,
-    } from '@parser/Symbols';
+    import { CANCEL_SYMBOL, COPY_SYMBOL, EDIT_SYMBOL } from '@parser/Symbols';
     import HowToGalleryView from './howto/HowToGalleryView.svelte';
     import { localeGoto } from '@util/localeGoto';
 

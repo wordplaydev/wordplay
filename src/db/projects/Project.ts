@@ -331,14 +331,16 @@ export default class Project {
         for (const source of this.getSources()) {
             const context = this.getContext(source);
 
-            // Compute all of the conflicts in the program.
-            this.analysis.conflicts = this.analysis.conflicts.concat(
-                source.expression.getAllConflicts(context),
-            );
+            // Compute all of the conflicts in this source.
+            const sourceConflicts =
+                source.expression.getAllConflicts(context);
+            this.analysis.conflicts =
+                this.analysis.conflicts.concat(sourceConflicts);
 
-            // Build conflict indices by going through each conflict, asking for the conflicting nodes
-            // and adding to the conflict to each node's list of conflicts.
-            for (const conflict of this.analysis.conflicts) {
+            // Build conflict indices for just this source's new conflicts.
+            // (Earlier sources' conflicts were already indexed in their own
+            // iteration — re-iterating the cumulative list double-counts.)
+            for (const conflict of sourceConflicts) {
                 const complicitNodes = conflict.getMessage(context, Templates);
                 this.analysis.conflictedNodes.set(complicitNodes.node, [
                     ...(this.analysis.conflictedNodes.get(

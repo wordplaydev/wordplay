@@ -1,0 +1,21 @@
+Afișați lucruri diferite în funcție de o valoare
+
+Ce se întâmplă dacă vrei un  @Phrase  să se schimbe în funcție de ceva — cum ar fi un scor sau o apăsare de tastă?
+
+Putem folosi condiționalitatea \?\ să aleg între două lucruri.Scrieți condiția, apoi o \?\, apoi valoarea de utilizat când este adevărat, apoi valoarea de utilizat când este fals.
+
+Iată o față fericită care se întristează de fiecare dată când apeși bara de spațiu, apoi se întristează din nou:
+
+\happy: ⊤ … ∆ Key(' ') … ~happy
+Phrase(happy ? '😊' '😢')\
+
+Cel/Cea/Cei/Cele  @Reaction  începe \happy\ ca \⊤\ (adevărat) și îl întoarce cu \~\ de fiecare dată când se apasă tasta spațiu.Apoi, condiționalul \?\ alege fața potrivită.
+
+Puteți înlănțui condiționalități pentru a alege dintre mai mult de două lucruri:
+
+\score: 0 … ∆ Key('o') … score + 1
+Phrase(score < 3 ? '🥚' score < 6 ? '🐣' '🐥')\
+
+Presa \a\ de câteva ori și urmăriți cum eclozează oul și se transformă într-un pui!
+
+track-points, offer-choices

@@ -428,11 +428,11 @@ export default class Unit extends Node {
     }
 
     getDescriptionInputs(locales: Locales) {
-        return [
-            this.isUnitless()
+        return {
+            unit: this.isUnitless()
                 ? locales.getUnannotatedText((l) => l.basis.Number.name[0])
                 : this.toWordplay(),
-        ];
+        };
     }
 
     static meters() {

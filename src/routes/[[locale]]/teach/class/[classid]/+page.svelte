@@ -1,5 +1,4 @@
 <script lang="ts">
-
     import { page } from '$app/state';
     import Centered from '@components/app/Centered.svelte';
     import GalleryPreview from '@components/app/GalleryPreview.svelte';

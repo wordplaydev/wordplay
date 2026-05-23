@@ -48,8 +48,7 @@
             inline
             markup={[
                 (l) => l.ui.howto.galleryView.subheader,
-                totalHowTos,
-                newHowTos,
+                { total: totalHowTos, new: newHowTos },
             ]}
         />
     {:else}

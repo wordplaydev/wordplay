@@ -1,0 +1,20 @@
+Skapa din egen karaktärsmall
+
+Ibland vill man ha många karaktärer som ser nästan likadana ut, men med små skillnader.Istället för att skriva samma sak @Phrase om och om igen kan du skapa din egen mall med en @Structure .
+
+En @Structure är som ett recept med luckor att fylla i.Här är en ballongmall som tar en färg och en etikett, och vet hur den ska visa sig själv:
+
+\•Balloon(color•Color label•'') (
+	ƒ show() Phrase(`🎈\label\` color: color size: 2m)
+)
+Group(Row() [
+		Balloon(Color(80% 50 240°) 'Sky').show()
+		Balloon(Color(60% 80 0°) 'Ros').show()
+		Balloon(Color(90% 80 90°) 'Solig').show()
+	])\
+
+Den\•Balloon(...)\delen definierar mallen, och\ƒ show()\del säger/hur man ritar en/.Sedan gör vi tre ballonger med olika färger och etiketter, och ber var och en att\show\sig själv.
+
+Mallar är utmärkta när du vill hålla din kod snygg och dina tecken konsekventa.
+
+track-game-state, make-many-copies

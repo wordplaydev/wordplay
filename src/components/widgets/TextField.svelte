@@ -194,7 +194,10 @@
                     }, 1500);
                 }
             }}
-            onfocus={() => { focused = true; focus?.(); }}
+            onfocus={() => {
+                focused = true;
+                focus?.();
+            }}
         />
         <span class="measurer" bind:clientWidth={width}
             >{text.length === 0

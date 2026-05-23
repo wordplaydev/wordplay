@@ -1,0 +1,24 @@
+Làm cho nhân vật rơi xuống và nảy lên.
+
+Nếu chúng ta muốn nhân vật ngã xuống, nảy lên khỏi sàn nhà, hoặc bị xô đẩy như thật thì sao?Đó là điều @Motion  Và  @Matter chúng dùng để — cùng nhau chúng mô phỏng vật lý cho một @Phrase . 
+
+@Motion điều khiển/Ở đâu/Một nhân vật được hình thành theo thời gian. Chúng ta sử dụng nó như là...\place\cho một @Phrase , khởi động nó ở vị trí cao để nó có thể rơi xuống.Chúng ta cũng cần một điểm tựa để ngã, nếu không nhân vật của chúng ta sẽ cứ rơi mãi không thôi! @Shape với một phạm vi rộng @Rectangle Tạo nên một sàn nhà đẹp:
+
+\Stage([
+		Phrase('🍎' place: Motion(Place(0m 5m)) matter: Matter())
+		Shape(Rectangle(-10m 0m 10m -5m))
+	])\
+
+Quả táo bắt đầu từ độ cao năm mét và rơi xuống do trọng lực.Khi chạm sàn, nó nảy lên một chút, bởi vì @Phrase có sẵn @Matter Điều đó quyết định độ nặng và độ đàn hồi của nó.
+
+Để thay đổi cách thức/đàn hồi/hoặc như thế nào/nặng/Một nhân vật là, hãy tạo cho nó nét riêng của bạn. @Matter . @Matter Cần có khối lượng, độ đàn hồi và ma sát:
+
+\Stage([
+		Phrase('⚽' place: Motion(Place(-2m 5m)) matter: Matter(1kg 0.9 0.2))
+		Phrase('🪨' place: Motion(Place(2m 5m)) matter: Matter(5kg 0.1 0.8))
+		Shape(Rectangle(-10m 0m 10m -5m))
+	])\
+
+Quả bóng nhẹ và có độ đàn hồi cao, nên nó bật trở lại.Hòn đá nặng và không đàn hồi, nên khi rơi xuống chỉ phát ra tiếng "thịch".
+
+follow-the-pointer, move-phrase

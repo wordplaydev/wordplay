@@ -10,8 +10,10 @@
     interface Props {
         /** Localized text for the labels and tooltips */
         modes: (locale: LocaleText) => ModeText<readonly string[]>;
-        /** The current mode selected */
-        choice: number;
+        /** The current mode selected, or undefined for no selection (no
+         *  button is rendered selected — used when another control supersedes
+         *  the mode). */
+        choice: number | undefined;
         /** Callback for when a mode is selected.*/
         select: (choice: number) => void;
         /** Icons to add as prefixes to labels */
@@ -123,8 +125,7 @@
                     {#if modeLabels && !tipEditing[index]}<LocalizedText
                             path={modes}
                             extras={['labels', index]}
-                            onEditingChange={(e) =>
-                                (labelEditing[index] = e)}
+                            onEditingChange={(e) => (labelEditing[index] = e)}
                         />{/if}{#if annotations && annotations[index] !== undefined}<span
                             class="annotation">{annotations[index]}</span
                         >{/if}{#if localizing?.on && !labelEditing[index]}<LocalizedText
@@ -186,13 +187,11 @@
         cursor: pointer;
     }
 
-
-
     button.selected {
         color: var(--wordplay-background);
         background: var(--wordplay-highlight-color);
-        box-shadow: inset var(--wordplay-border-width) var(--wordplay-border-width)
-            0 var(--wordplay-foreground);
+        box-shadow: inset var(--wordplay-border-width)
+            var(--wordplay-border-width) 0 var(--wordplay-foreground);
         cursor: default;
     }
 

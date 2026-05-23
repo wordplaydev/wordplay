@@ -9,7 +9,11 @@
     import RootView from '@components/project/RootView.svelte';
     import Button from '@components/widgets/Button.svelte';
     import Note from '@components/widgets/Note.svelte';
-    import { addContent, moveContent, removeContent } from '@components/palette/editOutput';
+    import {
+        addContent,
+        moveContent,
+        removeContent,
+    } from '@components/palette/editOutput';
 
     interface Props {
         project: Project;

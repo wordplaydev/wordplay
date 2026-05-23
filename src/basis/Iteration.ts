@@ -234,7 +234,9 @@ export class Iteration<State = any> extends Expression {
     ) {
         return locales.concretize(
             (l) => l.node.Iteration.finish,
-            this.getValueIfDefined(locales, context, evaluator),
+            {
+                value: this.getValueIfDefined(locales, context, evaluator),
+            },
         );
     }
 

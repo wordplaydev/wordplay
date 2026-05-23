@@ -1,0 +1,18 @@
+목록에서 무작위로 하나를 고르세요
+
+프로젝트를 실행할 때마다 놀라움을 선사하고 싶으신가요? 선택 목록을 만들고 그중 하나를 선택하세요. @Random . 
+
+@Random 임의의 숫자를 생성할 수 있으며, 해당 숫자로 목록을 검색할 수 있습니다.\[n]\.이것들을 합쳐서 무작위 이모티콘을 선택하세요:
+
+\emojis: ['🌈' '🌟' '🎈' '🦄' '🍩']
+Phrase(emojis.random())\
+
+또한 다음을 사용할 수 있습니다. @Random 두 숫자 중에서 그 사이의 정수 하나를 선택합니다.예를 들어, 선택하려면/새로운/매초마다 무작위 이모티콘을 섞어서 @Time 그리고 @Reaction :
+
+\emojis: ['🌈' '🌟' '🎈' '🦄' '🍩']
+pick: emojis[1] … ∆ Time(1000ms) … emojis[Random(1 emojis.length())]
+Phrase(pick)\
+
+매 틱 @Time , 그 @Reaction 새로운 놀라움을 선사합니다.
+
+shake-phrase, count-with-time

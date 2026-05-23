@@ -93,6 +93,24 @@ function resolveAtPath(
     return node;
 }
 
+/** Coerce a resolved en-US value into a single display string for the PR table.
+ *  Locale leaves can be plain strings, tuple-element strings (selected by `index`),
+ *  or paragraph arrays (`FormattedText[]`) edited as a single combined value — the
+ *  last case has no index, so we join paragraphs with blank lines. Anything else
+ *  (object, mismatched index, missing path) collapses to empty. */
+function englishDisplay(value: unknown, index: number | undefined): string {
+    if (typeof value === 'string') return value;
+    if (Array.isArray(value)) {
+        if (index !== undefined) {
+            const item = value[index];
+            return typeof item === 'string' ? item : '';
+        }
+        if (value.every((v) => typeof v === 'string'))
+            return value.join('\n\n');
+    }
+    return '';
+}
+
 /** Walk a record along dotted segments (and an optional tuple index) and
  *  assign `value`. Throws if the path doesn't exist; we'd rather fail loudly
  *  than silently drop a contributor's edit. Array assignments require the
@@ -450,12 +468,7 @@ export const submitLocalizationBundle = onCall<
             const english = resolveAtPath(sourceLocaleFile.json, path);
             summaryRows.push({
                 key,
-                sourceEnglish:
-                    typeof english === 'string'
-                        ? english
-                        : Array.isArray(english) && index !== undefined
-                          ? String(english[index] ?? '')
-                          : '',
+                sourceEnglish: englishDisplay(english, index),
                 edited: value,
             });
         }
@@ -468,12 +481,7 @@ export const submitLocalizationBundle = onCall<
                 : undefined;
             summaryRows.push({
                 key,
-                sourceEnglish:
-                    typeof english === 'string'
-                        ? english
-                        : Array.isArray(english) && index !== undefined
-                          ? String(english[index] ?? '')
-                          : '',
+                sourceEnglish: englishDisplay(english, index),
                 edited: value,
             });
         }
@@ -520,12 +528,19 @@ export const submitLocalizationBundle = onCall<
     const body = composePrBody({ contributor, locale, description, rows });
 
     // Format JSON with Prettier so the PR diff only shows the contributor's
-    // text changes, not whitespace churn from re-serializing the file. The
-    // options here mirror the repo's .prettierrc.json (tabWidth: 4); Prettier's
-    // JSON printer keeps short arrays inline, unlike JSON.stringify which
-    // always expands them.
+    // text changes, not whitespace churn from re-serializing the file.
+    //
+    // Subtle: prettier's JSON formatter inspects the input layout to decide
+    // whether short objects/arrays stay on one line. Feeding it a minified
+    // `JSON.stringify(json)` makes it collapse everything that fits in 80
+    // columns, producing a layout that differs from `npx prettier --write`
+    // on the repo file (which sees the existing expanded layout and
+    // preserves it). That diff manifests as massive line-break churn in
+    // every PR. Pre-indenting the input with `JSON.stringify(json, null, 4)`
+    // matches the reference layout — verified to round-trip the on-disk
+    // files byte-for-byte.
     const formatJson = (json: Record<string, unknown>) =>
-        prettier.format(JSON.stringify(json), {
+        prettier.format(JSON.stringify(json, null, 4), {
             parser: 'json',
             tabWidth: 4,
         });

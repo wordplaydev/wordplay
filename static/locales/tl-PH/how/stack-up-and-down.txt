@@ -1,0 +1,21 @@
+Ipatong ang mga karakter mula itaas hanggang ibaba
+
+Kung ang isang @Row ay para sa magkatabi, pagkatapos ay isang @Stack ay para sa itaas hanggang ibaba. @Stack inilalagay ang bawat karakter sa ibaba ng nauna rito, tulad ng isang tore.
+
+\Group(Stack() [
+		Phrase('isa')
+		Phrase('dalawa')
+		Phrase('tatlo')
+	])\
+
+Parang isang @Row , isang @Stack maaari ring magkaroon ng alignment at padding.Subukang ihanay ang lahat sa kaliwang bahagi:
+
+\Group(Stack('<' 0.25m) [
+		Phrase('🐣 maliit')
+		Phrase('🐥 katamtaman')
+		Phrase('🐔 malaki')
+	])\
+
+Ang\'<'\ibig sabihin/ihanay ang lahat sa kaliwang gilid/.Maaari mo ring subukan\'|'\para sa gitna o\'>'\para sa kanang gilid.
+
+arrange-in-a-row, make-a-grid

@@ -93,7 +93,7 @@
         "Region": "$~rehiyonal na gitling",
         "BooleanType": "$~uri ng boolean",
         "NumberType": "$~uri ng numero",
-        "JapaneseNumeral": "$~numerong Hapones",
+        "HanNumeral": "$~numerong Hapones",
         "RomanNumeral": "$~numerong Romano",
         "Pi": "$~pi",
         "Infinity": "$~kawalang-hanggan",
@@ -123,7 +123,15 @@
         "Locale": "$~lokal",
         "Unknown": "$~hindi alam",
         "End": "$~katapusan",
-        "Highlight": "$~naka-highlight na halimbawa"
+        "Highlight": "$~naka-highlight na halimbawa",
+        "ThaiNumeral": "$~numerong Thai",
+        "BengaliNumeral": "$~numeral na Bengali",
+        "DevanagariNumeral": "$~numeral na devanagari",
+        "GujaratiNumeral": "$~numeral na Gujarati",
+        "GurmukhiNumeral": "$~numerong gurmukhi",
+        "KannadaNumeral": "$~numeral na Kannada",
+        "TamilNumeral": "$~numeral na Tamil",
+        "TeluguNumeral": "$~numeral na Telugu"
     },
     "node": {
         "Dimension": {
@@ -212,7 +220,7 @@
         },
         "Name": {
             "name": "$~pangalan",
-            "description": "$~ideklara ang pangalang $1[$1|walang pangalan]",
+            "description": "$~ideklara ang pangalang $name[$name|walang pangalan]",
             "emotion": "kind",
             "doc": [
                 "$~Tinutukoy ko ang isang halaga, at isa akong nakakatulong na paraan ng pagbibigay ng pinaikling label sa isang bagay na mahirap suriin, o na ayaw mong suriin nang paulit-ulit.",
@@ -253,7 +261,7 @@
                 },
                 "MissingCell": {
                     "name": "$~nawawalangkolum",
-                    "explanation": "$~Kulang ako ng column na $1"
+                    "explanation": "$~Kulang ako ng column na $column"
                 },
                 "ExtraCell": {
                     "name": "$~dagdagnahaligi",
@@ -271,7 +279,7 @@
         },
         "Token": {
             "name": "$~token",
-            "description": "$~$1",
+            "description": "$~$label",
             "emotion": "neutral",
             "doc": [
                 "$~Paano mo ako nahanap?",
@@ -295,7 +303,7 @@
             "conflict": {
                 "DuplicateTypeVariable": {
                     "name": "$~doblenguringbaryabol",
-                    "explanation": "$~Pareho ang pangalan ko ng $1"
+                    "explanation": "$~Pareho ang pangalan ko ng $duplicate"
                 }
             }
         },
@@ -307,7 +315,7 @@
         },
         "Markup": {
             "name": "$~markup",
-            "description": "$~dokumentasyon sa format na may mga talata na $1",
+            "description": "$~dokumentasyon sa format na may mga talata na $count",
             "emotion": "serious",
             "label": {
                 "paragraphs": "$~mga talata"
@@ -330,7 +338,7 @@
         },
         "WebLink": {
             "name": "$~link",
-            "description": "$~link sa web address na $1",
+            "description": "$~link sa web address na $url",
             "emotion": "serious",
             "doc": [
                 "$~Isa akong link papunta sa isang bagay sa internet. Kailangan ko lang ng deskripsyon at URL:",
@@ -340,7 +348,7 @@
         },
         "ConceptLink": {
             "name": "$~karakter",
-            "description": "$~link sa konseptong $1 sa mga dokumento",
+            "description": "$~link sa konseptong $concept sa mga dokumento",
             "emotion": "serious",
             "doc": [
                 "$~Ako ang link sa karakter ng Verse. Matutulungan mo ako kapag gusto mong sumulat ng @Doc at mag-refer sa isa sa amin.",
@@ -363,7 +371,13 @@
                 "$~Minsan nga, baka gusto mong gamitin ang mga espesyal na karakter na ginagamit ng @Doc sa mga salitang /as/. Halimbawa:",
                 "$~\\¶Gumagamit ang mga kaibigan ko ng @@, //, **, ||, at iba pang mga simbolo.¶\n'gamit ang mga espesyal na karakter!'\\",
                 "$~Kung uulitin mo lang ang mga espesyal na karakter na iyon, ang karakter ang makukuha mo sa halip na ang espesyal na kahulugan ng mga ito."
-            ]
+            ],
+            "conflict": {
+                "UnsupportedFontFormat": {
+                    "name": "$~hindisinusuportahangformatngfont",
+                    "explanation": "$~Hindi marunong maging $face ang kaibigan kong si * $format * ."
+                }
+            }
         },
         "Example": {
             "name": "$~halimbawa",
@@ -379,7 +393,7 @@
         },
         "Mention": {
             "name": "$~banggitin",
-            "description": "$~banggitin ang $1 sa markup",
+            "description": "$~banggitin ang $name sa markup",
             "emotion": "serious",
             "doc": [
                 "$~Isa akong reperensya sa alinman sa terminolohiyang \\$program\\ o isang dynamic input na \\$1\\.",
@@ -397,7 +411,7 @@
         },
         "BinaryEvaluate": {
             "name": "$~binarynapagsusuri",
-            "description": "$~ilapat ang $1 operator sa dalawang halaga",
+            "description": "$~ilapat ang $operator operator sa dalawang halaga",
             "emotion": "insecure",
             "doc": [
                 "$~Ako ay @Evaluate, ngunit sa isang mas simpleng anyo, nakakatulong kapag gusto mong gumamit ng @FunctionDefinition na kumukuha ng dalawang input.",
@@ -416,8 +430,8 @@
                 "operator": "$~operator"
             },
             "right": "$~input",
-            "start": "$~Suriin muna natin ang $1",
-            "finish": "$~Tingnan mo, kumita ako ng $1!",
+            "start": "$~Suriin muna natin ang $left",
+            "finish": "$~Tingnan mo, kumita ako ng $value!",
             "conflict": {
                 "OrderOfOperations": {
                     "name": "$~hindimalinawnapagkakasunud-sunod",
@@ -427,7 +441,7 @@
         },
         "Bind": {
             "name": "$~magbigkis",
-            "description": "$~pangalanan ang halagang ito na '$1'",
+            "description": "$~pangalanan ang halagang ito na '$name'",
             "emotion": "excited",
             "doc": [
                 "$~Pinangalanan ko ang *mga halaga*.",
@@ -460,24 +474,24 @@
                 "names": "$~mgapangalan",
                 "type": "$~uri"
             },
-            "start": "$~Tingnan natin kung anong halaga ang makukuha natin mula sa $1!",
-            "finish": "$~Naku, nakakuha ako ng $1! Pangalanan na lang natin itong $2.",
+            "start": "$~Tingnan natin kung anong halaga ang makukuha natin mula sa $value!",
+            "finish": "$~Naku, nakakuha ako ng $value! Pangalanan na lang natin itong $name.",
             "conflict": {
                 "DuplicateName": {
                     "conflict": {
                         "name": "$~doblengpangalan",
-                        "explanation": "$~May nakalagay na pangalang $1 kaya hindi ko puwedeng gamitin ang pangalang ito."
+                        "explanation": "$~May nakalagay na pangalang $shadowed kaya hindi ko puwedeng gamitin ang pangalang ito."
                     },
                     "resolution": "$~May mga dobleng pangalan, gusto mo bang mag-alis ng isa?"
                 },
                 "DuplicateShare": {
                     "name": "$~doblengpagbabahagi",
-                    "explanation": "$~Pareho kami ng pangalan ni $1. Kaya hindi malinaw kung ano ang aming pinagsasaluhan."
+                    "explanation": "$~Pareho kami ng pangalan ni $duplicate. Kaya hindi malinaw kung ano ang aming pinagsasaluhan."
                 },
                 "IncompatibleType": {
                     "name": "$~hinditugmanguri",
-                    "explanation": "$~Dapat type $2 ako, pero type $1 ako.",
-                    "resolution": "$~I-convert sa $1"
+                    "explanation": "$~Dapat type $expected ako, pero type $given ako.",
+                    "resolution": "$~I-convert sa $expected"
                 },
                 "MisplacedShare": {
                     "name": "$~malingnailagaynabahagi",
@@ -497,13 +511,13 @@
                 },
                 "UnusedBind": {
                     "name": "$~hindinagamitnabind",
-                    "explanation": "$~Ang pangalan ko ay $1, pero walang gumagamit sa akin. Siguro hindi ako kailangan?"
+                    "explanation": "$~Ang pangalan ko ay $name, pero walang gumagamit sa akin. Siguro hindi ako kailangan?"
                 }
             }
         },
         "Block": {
             "name": "$~bloke",
-            "description": "$~suriin ang mga pahayag na $1 nang sunod-sunod",
+            "description": "$~suriin ang mga pahayag na $count nang sunod-sunod",
             "emotion": "shy",
             "doc": [
                 "$~Kumusta. Gumagawa ako ng maliit at tahimik na espasyo para sa pagsusuri ng mga bagay-bagay.",
@@ -527,7 +541,7 @@
                 "statements": "$~mga ekspresyon"
             },
             "start": "$~Unang ekspresyon",
-            "finish": "$~Tapos na, nakakuha ako ng $1",
+            "finish": "$~Tapos na, nakakuha ako ng $value",
             "conflict": {
                 "ExpectedEndingExpression": {
                     "name": "$~nawawalangekspresyon",
@@ -537,14 +551,14 @@
         },
         "BooleanLiteral": {
             "name": "$~literalnaboolean",
-            "description": "$~lumikha ng halagang boolean na $1[totoo|maling]",
+            "description": "$~lumikha ng halagang boolean na $value[totoo|maling]",
             "emotion": "precise",
             "doc": "$~Ako ay alinman sa \\⊤\\ o \\⊥\\. Tingnan ang @Boolean para matuto nang higit pa tungkol sa ating magandang lohika.",
-            "start": "$~$1!"
+            "start": "$~$value!"
         },
         "Borrow": {
             "name": "$~humiram",
-            "description": "$~humiram ng $1[$1|walang pangalan] mula sa isang pinagmulan",
+            "description": "$~humiram ng $name[$name|walang pangalan] mula sa isang pinagmulan",
             "emotion": "excited",
             "label": {
                 "source": "$~pinagmulan",
@@ -552,7 +566,7 @@
                 "version": "$~bersyon"
             },
             "doc": "$~Kung gagawa ka ng performance gamit ang maraming @Source, puwede mo akong hiramin ang @Bind na naka-share sa ibang @Source. Gamitin mo lang ang pangalan nila at ilalagay ko ang pangalan at value nila.",
-            "start": "$~Paghiram ng $2 mula sa $1",
+            "start": "$~Paghiram ng $name mula sa $source",
             "conflict": {
                 "UnknownBorrow": {
                     "name": "$~hindikilalangpaghiram",
@@ -560,13 +574,13 @@
                 },
                 "BorrowCycle": {
                     "name": "$~paghiramnatumutukoysasarili",
-                    "explanation": "$~Nakadepende ito sa $1, na nakadepende sa $source na ito, kaya hindi masusuri ang programa"
+                    "explanation": "$~Nakadepende ito sa $borrow, na nakadepende sa $source na ito, kaya hindi masusuri ang programa"
                 }
             },
             "exception": {
                 "CycleException": {
                     "description": "$~siklo ng paghiram",
-                    "explanation": "$~Ang $1 ay nakasalalay sa sarili nito"
+                    "explanation": "$~Ang $borrow ay nakasalalay sa sarili nito"
                 }
             }
         },
@@ -583,7 +597,7 @@
                 "$~Malaking tulong talaga ako kapag may gusto kang baguhin, kung sakaling magbago ang stream.",
                 "$~Iyon lang."
             ],
-            "start": "$~Tingnan natin kung nagbago ang $1…"
+            "start": "$~Tingnan natin kung nagbago ang $stream"
         },
         "Conditional": {
             "name": "$~kondisyonal",
@@ -601,20 +615,20 @@
                 "$~Hindi ba't tila dapat maging mas detalyado ang mga desisyon kaysa sa oo o hindi lang? Ang pagpapasya ba sa pagitan ng \\⊤\\ at \\⊥\\ ang tanging kailangan?",
                 "$~Hindi ka ba nag-aalala na kung ito lang ang mga desisyong magagawa natin, may mapapalampas tayong mahahalagang konteksto tungkol sa mundo?"
             ],
-            "start": "$~Tingnan natin kung totoo ang $1",
-            "else": "$~$1[paglukso sa code | hindi paglukso sa code]",
+            "start": "$~Tingnan natin kung totoo ang $condition",
+            "else": "$~$jumping[paglukso sa code | hindi paglukso sa code]",
             "afterthen": "$~tapos na sa oo, laktawan na natin ang hindi?",
-            "finish": "$~Hula ko $1? 'yan?",
+            "finish": "$~Hula ko $value? 'yan?",
             "conflict": {
                 "ExpectedBooleanCondition": {
                     "name": "$~inaasahangkondisyongboolean",
-                    "explanation": "$~Kailangan ko ng @Boolean para makapagdesisyon, pero $1 na lang ang nakuha ko."
+                    "explanation": "$~Kailangan ko ng @Boolean para makapagdesisyon, pero $type na lang ang nakuha ko."
                 }
             }
         },
         "ConversionDefinition": {
             "name": "$~kahuluganngconversion",
-            "description": "$~tukuyin ang conversion na $1 patungong $2",
+            "description": "$~tukuyin ang conversion na $input patungong $output",
             "emotion": "excited",
             "label": {
                 "input": "$~uri ng pag-input",
@@ -648,18 +662,18 @@
                 "$~\\\"kumusta\" → [] → {}\\",
                 "$~Ang mga halaga ay may isang set ng @ConversionDefinition na paunang natukoy, ngunit kung gagawa ka ng @StructureDefinition para sa isang bagong uri ng halaga, maaari kang magtakda ng sarili mo gamit ang @ConversionDefinition."
             ],
-            "start": "$~Kunin ang halagang iyan mula $1!",
-            "finish": "$~Ang galing, kumita ako ng $1",
+            "start": "$~Kunin ang halagang iyan mula $expression!",
+            "finish": "$~Ang galing, kumita ako ng $value",
             "conflict": {
                 "UnknownConversion": {
                     "name": "$~hindikilalangconversion",
-                    "explanation": "$~Hindi kami makahanap ng paraan para gawing $2 ang isang $1"
+                    "explanation": "$~Hindi kami makahanap ng paraan para gawing $expected ang isang $given"
                 }
             },
             "exception": {
                 "ConversionException": {
                     "description": "$~imposibleng pagbabagong-loob",
-                    "explanation": "$~Hindi ko alam kung paano i-convert mula $1 patungong $2"
+                    "explanation": "$~Hindi ko alam kung paano i-convert mula $from patungong $to"
                 }
             }
         },
@@ -690,7 +704,7 @@
         },
         "Evaluate": {
             "name": "$~suriin",
-            "description": "$~$3[create $1[$1|] value gamit ang mga input na ito|$2[create $1[$1|] stream gamit ang mga input na ito|apply $1[$1|function] sa mga input na ito]]",
+            "description": "$~$structure[create $name[$name|] value gamit ang mga input na ito|$stream[create $name[$name|] stream gamit ang mga input na ito|apply $name[$name|function] sa mga input na ito]]",
             "emotion": "shy",
             "label": {
                 "function": "$~tungkulin",
@@ -710,12 +724,12 @@
             ],
             "start": "$~Suriin muna natin ang mga input",
             "evaluate": "$~Suriin natin ang tungkulin ngayon",
-            "finish": "$~Nag-rate ako ng $1",
+            "finish": "$~Nag-rate ako ng $value",
             "conflict": {
                 "IncompatibleInput": {
                     "name": "$~hinditugmanginput",
-                    "explanation": "$~Dapat type $1 ako, pero type $2 ako.",
-                    "resolution": "$~I-convert sa $1"
+                    "explanation": "$~Dapat type $expected ako, pero type $given ako.",
+                    "resolution": "$~I-convert sa $expected"
                 },
                 "UnexpectedTypeInput": {
                     "name": "$~hindiinaasahanguringinput",
@@ -723,7 +737,7 @@
                 },
                 "MissingInput": {
                     "name": "$~nawawalanginput",
-                    "explanation": "$~Hindi ako makakapag-evaluate nang walang input na $2 :("
+                    "explanation": "$~Hindi ko ma-evaluate ang $name nang walang input na $input :("
                 },
                 "NotInstantiable": {
                     "name": "$~hindikumpletongistruktura",
@@ -735,7 +749,7 @@
                 },
                 "UnknownInput": {
                     "name": "$~hindikilalanginput",
-                    "explanation": "$~Hindi inaasahan ng function na *$1* na ito ang input na may pangalan ko."
+                    "explanation": "$~Hindi inaasahan ng function na *$name* na ito ang input na may pangalan ko."
                 },
                 "InputListMustBeLast": {
                     "name": "$~angmgakaragdaganginputayhindipangmatagalan",
@@ -743,13 +757,13 @@
                 },
                 "SeparatedEvaluate": {
                     "name": "$~hindimalinawnapagsusuri",
-                    "explanation": "$~Ang $1 ba ang pangalan ng isang $2[$structure|$function] na sinusubukan mong suriin? Subukan mong alisin ang espasyo sa tabi ko, para malaman kong isa itong @Evaluate at hindi isang hiwalay na @Block."
+                    "explanation": "$~Ang $name ba ang pangalan ng isang $structure[$structure|$function] na sinusubukan mong suriin? Subukan mong alisin ang espasyo sa tabi ko, para malaman kong isa itong @Evaluate at hindi isang hiwalay na @Block."
                 }
             },
             "exception": {
                 "FunctionException": {
                     "description": "$~hindi kilalang tungkulin",
-                    "explanation": "$~naku, ang $1 ay hindi isang function sa $2[$2|this @Block]!"
+                    "explanation": "$~naku, ang $name ay hindi isang function sa $scope[$scope|this @Block]!"
                 }
             }
         },
@@ -797,7 +811,7 @@
         },
         "FunctionDefinition": {
             "name": "$~tungkulin",
-            "description": "$~tukuyin ang tungkuling $1",
+            "description": "$~tukuyin ang tungkuling $name",
             "emotion": "kind",
             "label": {
                 "inputs": "$~mga input",
@@ -837,7 +851,7 @@
             "initialize": "$~paghahanda para sa pagtalakay sa mga bagay",
             "next": "$~paglipat sa susunod na aytem",
             "check": "$~pagpapasya kung magpapatuloy",
-            "finish": "$~Nag-rate ako ng $1"
+            "finish": "$~Nag-rate ako ng $value"
         },
         "Initial": {
             "name": "$~simulan",
@@ -865,7 +879,7 @@
         },
         "Is": {
             "name": "$~ay",
-            "description": "$~suriin kung ang halaga ay uri ng $1",
+            "description": "$~suriin kung ang halaga ay uri ng $type",
             "emotion": "curious",
             "doc": [
                 "$~Alam mo ba? Napakaraming uri ng mga halaga na may iba't ibang kahulugan. Tinutulungan kong alamin kung ano ang mga ito.",
@@ -876,18 +890,18 @@
                 "$~Makukuha natin ang \\⊤\\!",
                 "$~Malaking tulong talaga ako kapag kailangan mong malaman kung ang ilang @Name ay may partikular na uri ng halaga."
             ],
-            "start": "$~Kunin muna natin ang halaga ng $1",
-            "finish": "$~$1[ang halaga ay $2|ang halaga ay hindi $2]",
+            "start": "$~Kunin muna natin ang halaga ng $expression",
+            "finish": "$~$value[ang halaga ay $type|ang halaga ay hindi $type]",
             "conflict": {
                 "ImpossibleType": {
                     "name": "$~imposiblenguri",
-                    "explanation": "$~hindi ito maaaring maging $1 kailanman"
+                    "explanation": "$~hindi ito maaaring maging $type kailanman"
                 }
             },
             "exception": {
                 "TypeException": {
                     "description": "$~mga hindi magkatugmang halaga",
-                    "explanation": "$~Inaasahan ko ang uri na $1 ngunit ang uri na natanggap ko ay $2"
+                    "explanation": "$~Inaasahan ko ang uri na $expected ngunit ang uri na natanggap ko ay $given"
                 }
             }
         },
@@ -901,7 +915,7 @@
                 "$~\\🌍/es-MX\\",
                 "$~Makakatulong ito kung gusto mong baguhin ang iyong pagganap batay sa wikang pinili."
             ],
-            "start": "$~$1? ba ang halaga ng wika?"
+            "start": "$~$locale? ba ang halaga ng wika?"
         },
         "ListAccess": {
             "name": "$~pag-accesssalistahan",
@@ -911,16 +925,16 @@
                 "$~Malapit akong nakikipagtulungan sa @List para matulungan silang makakuha ng mga halaga sa isang partikular na posisyon. Halimbawa, kung mayroon kang listahan, at gusto mo ang pangalawang item nito, isusulat mo:",
                 "$~\\list: ['ibon' 'pato' 'isda' 'ahas']\nlist[2]\\"
             ],
-            "start": "$~Kunin muna natin ang listahan $1",
-            "finish": "$~Ang item sa index ay $1!"
+            "start": "$~Kunin muna natin ang listahan $list",
+            "finish": "$~Ang item sa index ay $value!"
         },
         "ListLiteral": {
             "name": "$~literalnalistahan",
-            "description": "$~gumawa ng listahan ng mga halagang $1",
+            "description": "$~gumawa ng listahan ng mga halagang $count",
             "emotion": "eager",
             "doc": "$~Isa akong partikular na @List of values! Tingnan ang @List para matuto nang higit pa tungkol sa kung ano ang maaari mong gawin sa akin.",
             "start": "$~Suriin muna natin ang mga aytem",
-            "finish": "$~Gumawa ako ng sarili ko! $1"
+            "finish": "$~Gumawa ako ng sarili ko! $value"
         },
         "Spread": {
             "name": "$~paglaganap",
@@ -933,14 +947,14 @@
         },
         "MapLiteral": {
             "name": "$~literalnamapa",
-            "description": "$~gumawa ng mapa ng mga pares ng key-value na $1",
+            "description": "$~gumawa ng mapa ng mga pares ng key-value na $count",
             "emotion": "kind",
             "label": {
                 "values": "$~pares"
             },
             "doc": "$~Isa akong partikular na @Map sa pagitan ng mga key at value. Tingnan ang @Map para matuto nang higit pa tungkol sa kung paano ako nakakatulong.",
             "start": "$~Suriin muna natin ang mga susi at halaga",
-            "finish": "$~Nakonekta ko na ang lahat, $1",
+            "finish": "$~Nakonekta ko na ang lahat, $value",
             "conflict": {
                 "NotAKeyValue": {
                     "name": "$~nawawalanghalaga",
@@ -964,16 +978,16 @@
                 "$~Malaking tulong talaga ako sa pag-convert ng isa sa maraming posibleng @Number, @Text, o mas kumplikadong mga halaga papunta sa ibang bagay.",
                 "$~Maaari mo itong gamitin para sa @Boolean o @None, ngunit hindi talaga sila maaaring maging ganoon karaming bagay, kaya hindi ako gaanong kapaki-pakinabang para sa mga simpleng halagang iyon."
             ],
-            "start": "$~Tingnan natin kung ano ang $1...",
+            "start": "$~Tingnan natin kung ano ang $value...",
             "case": "$~Suriin natin ang kondisyong ito",
             "finish": "$~Okay, mayroon na tayong pinal na halaga!"
         },
         "NumberLiteral": {
             "name": "$~literalnanumero",
-            "description": "$~lumikha ng numerong $1 $2[$2|]",
+            "description": "$~lumikha ng numerong $number $unit[$unit|]",
             "emotion": "excited",
             "doc": "$~Isa akong partikular na @Number. Maaari mo akong sulatan gamit ang anumang uri ng mga numero mula sa anumang uri ng wika. Tingnan ang @Number para sa lahat ng kaya kong gawin.",
-            "start": "$~$1!",
+            "start": "$~$value!",
             "conflict": {
                 "NotANumber": {
                     "name": "$~hindiisangnumero",
@@ -1005,7 +1019,7 @@
                 "$~\\siguroNumero•#|ø: 1 marahilNumero ?? 0\\"
             ],
             "start": "$~oo ??",
-            "finish": "$~… $1"
+            "finish": "$~… $value"
         },
         "Previous": {
             "name": "$~nakaraan",
@@ -1022,8 +1036,8 @@
                 "$~Kita mo kung paano ito nangyari noong limang beses, sa halip na isang beses lang?",
                 "$~Matulungin ako kapag gusto mong lumikha ng mga pagtatanghal na nakabatay sa nakaraan."
             ],
-            "start": "$~Kumuha muna ng $1",
-            "finish": "$~Sinuri sa halaga ng stream na $1",
+            "start": "$~Kumuha muna ng $stream",
+            "finish": "$~Sinuri sa halaga ng stream na $value",
             "label": {
                 "range": "$~saklaw"
             }
@@ -1046,9 +1060,9 @@
                 "expression": "$~bloke"
             },
             "unevaluated": "$~hindi nag-evaluate ang node na iyong pinili",
-            "start": "$~$1[Ang $1 stream ay binago sa $2!|Ito ang aking unang pagsusuri]",
+            "start": "$~$stream[Ang $stream stream ay binago sa $value!|Ito ang aking unang pagsusuri]",
             "halt": "$~nakaranas ng eksepsiyon, huminto",
-            "finish": "$~Tapos na, tinantiya ko ito sa $1",
+            "finish": "$~Tapos na, tinantiya ko ito sa $value",
             "done": "$~walang sinusuri",
             "exception": {
                 "BlankException": {
@@ -1057,7 +1071,7 @@
                 },
                 "EvaluationLimitException": {
                     "description": "$~limitasyon sa pagsusuri",
-                    "explanation": "$~Sawang-sawa na kami ni @Evaluate sa pag-evaluate, lalo na si $1.\n\nPosible kayang sinusuri ni $1 ang sarili nito magpakailanman, nang hindi tumitigil?"
+                    "explanation": "$~Sawang-sawa na kami ni @Evaluate sa pag-evaluate, lalo na si $function.\n\nPosible kayang sinusuri ni $function ang sarili nito magpakailanman, nang hindi tumitigil?"
                 },
                 "StepLimitException": {
                     "description": "$~limitasyon ng hakbang",
@@ -1069,17 +1083,17 @@
                 },
                 "InternalException": {
                     "description": "$~panloob na pagkakamali",
-                    "explanation": "$~may nangyaring napakasama sa loob: $1"
+                    "explanation": "$~may nangyaring napakasama sa loob: $reason"
                 },
                 "PermissionException": {
-                    "description": "$?",
-                    "explanation": "$?"
+                    "description": "$~tinanggihan ang pahintulot",
+                    "explanation": "$~Kailangan ko ang iyong $permission para tumakbo, ngunit wala akong pahintulot. I-click ang Subukan muli para subukan muli. Kung hindi iyon makakatulong, payagan ang $permission para sa site na ito sa mga setting ng iyong browser."
                 }
             }
         },
         "PropertyBind": {
             "name": "$~pinuhin",
-            "description": "$~pinuhin ang ari-arian $1[$1|walang pangalan]",
+            "description": "$~pinuhin ang ari-arian $name[$name|walang pangalan]",
             "emotion": "kind",
             "label": {
                 "property": "$~ari-arian",
@@ -1092,17 +1106,17 @@
                 "$~Mas madali 'yan kaysa sa paggawa ng isang bagong-bagong \\Cat\\ na may parehong mga halaga maliban sa libangan, 'di ba?"
             ],
             "start": "$~Una, alamin natin ang halaga",
-            "finish": "$~Kinopya ko ang istruktura, pero ang $1 ay $2",
+            "finish": "$~Kinopya ko ang istruktura, pero ang $property ay $value",
             "conflict": {
                 "InvalidProperty": {
                     "name": "$~hindikilalangari-arian",
-                    "explanation": "$~Wala akong pangalan sa istrukturang $1, kaya hindi ako maaaring pinuhin pa."
+                    "explanation": "$~Wala akong pangalan sa istrukturang $structure, kaya hindi ako maaaring pinuhin pa."
                 }
             }
         },
         "PropertyReference": {
             "name": "$~ari-arian",
-            "description": "$~kumuha ng ari-arian na $1[$1|walang pangalan]",
+            "description": "$~kumuha ng ari-arian na $name[$name|walang pangalan]",
             "emotion": "kind",
             "label": {
                 "property": "$~ari-arian"
@@ -1113,7 +1127,7 @@
                 "$~\\•Lungsod(pangalan•'' populasyon•#tao)\n\nportland: Lungsod('Portland' 800000tao)\n\nportland.populasyon\\"
             ],
             "start": "$~Una, alamin natin ang halaga",
-            "finish": "$~Nakahanap ng ari-arian na $1, ito ay $2"
+            "finish": "$~Nakahanap ng ari-arian na $property, ito ay $value"
         },
         "Reaction": {
             "name": "$~reaksyon",
@@ -1132,17 +1146,17 @@
                 "$~Kaya parang batis din ako, pero nakabatay sa ibang batis. Ang sama, 'di ba?"
             ],
             "start": "$~Tingnan natin kung dapat ba nating i-update ang stream",
-            "finish": "$~Ang halaga ng bagong stream ay $1",
+            "finish": "$~Ang halaga ng bagong stream ay $value",
             "conflict": {
                 "ExpectedStream": {
                     "name": "$~inaasahangdaloy",
-                    "explanation": "$~Walang tinutukoy na stream ang $1, kaya hindi ako kailanman magre-react!"
+                    "explanation": "$~Walang tinutukoy na stream ang $condition, kaya hindi ako kailanman magre-react!"
                 }
             }
         },
         "Reference": {
             "name": "$~sanggunian",
-            "description": "$~pangalan ng sanggunian $1",
+            "description": "$~pangalan ng sanggunian $name",
             "emotion": "shy",
             "doc": [
                 "$~Alam mo kung paano binibigyan ng @Bind ang mga bagay ng @Name? Ako ang paraan ng pagtukoy mo sa mga ito. Tinitingnan ko kung may @Bind na may ganoong pangalan, kung gayon, ibibigay ko sa iyo ang halaga nito. Ganito:",
@@ -1150,18 +1164,18 @@
                 "$~Kapag hindi ko mahanap ang pangalan, hindi ko na alam ang gagawin ko.",
                 "$~\\loro: 'polly'\nperry\\"
             ],
-            "start": "$~Ano ang halaga ng $1",
+            "start": "$~Ano ang halaga ng $name",
             "conflict": {
                 "UnknownName": {
                     "conflict": {
                         "name": "$~hindikilalangpangalan",
-                        "explanation": "$~$1[Wala akong kilalang nagngangalang $1 sa $2[$2|this @Block]|Maaari mo ba akong bigyan ng pangalan?]"
+                        "explanation": "$~$name[Wala akong kilalang nagngangalang $name sa $scope[$scope|this @Block]|Maaari mo ba akong bigyan ng pangalan?]"
                     },
-                    "resolution": "$~Ang ibig mo bang sabihin ay *$1?*"
+                    "resolution": "$~Ang ibig mo bang sabihin ay *$suggestion?*"
                 },
                 "ReferenceCycle": {
                     "name": "$~halagangtumutukoysasarili",
-                    "explanation": "$~Um, ang halaga ng $1 ay nakadepende sa sarili nito, kaya paano ko malalaman kung anong halaga ang ibibigay dito?"
+                    "explanation": "$~Um, ang halaga ng $name ay nakadepende sa sarili nito, kaya paano ko malalaman kung anong halaga ang ibibigay dito?"
                 },
                 "UnexpectedTypeVariable": {
                     "name": "$~hindiinaasahanguringbaryabol",
@@ -1171,7 +1185,7 @@
             "exception": {
                 "NameException": {
                     "description": "$~hindi kilalang pangalan",
-                    "explanation": "$~$1[Wala akong kilalang nagngangalang $1 sa $2[$2|ito @Block]…|Sus, walang pangalan!]"
+                    "explanation": "$~$name[Wala akong kilalang nagngangalang $name sa $scope[$scope|ito @Block]…|Sus, walang pangalan!]"
                 }
             }
         },
@@ -1196,11 +1210,11 @@
         },
         "SetLiteral": {
             "name": "$~itakdanangliteral",
-            "description": "$~gumawa ng isang set ng $1 na mga item",
+            "description": "$~gumawa ng isang set ng $count na mga item",
             "emotion": "eager",
             "doc": "$~Ako ay isang partikular na @Set ng mga partikular na halaga. Tingnan ang @Set para matuto nang higit pa tungkol sa kung paano makipagtulungan sa akin.",
             "start": "$~Suriin muna natin ang mga halaga!",
-            "finish": "$~Gumawa ako ng set na $1!"
+            "finish": "$~Gumawa ako ng set na $value!"
         },
         "SetOrMapAccess": {
             "name": "$~pag-accesssaset/mapa",
@@ -1214,11 +1228,11 @@
                 "$~\\mga paborito: {'mac and cheese': 5 bituin 'cereal': 2 bituin 'gruel': 1 bituin}\nmga paborito{'gruel'}\\"
             ],
             "start": "$~Ano ang set o mapa?",
-            "finish": "$~Ang halaga ay $1",
+            "finish": "$~Ang halaga ay $value",
             "conflict": {
                 "IncompatibleKey": {
                     "name": "$~hinditugmangsusi",
-                    "explanation": "$~Inaasahan ko ang isang susi na uri ng $1"
+                    "explanation": "$~Inaasahan ko ang isang susi na uri ng $expected"
                 }
             }
         },
@@ -1241,7 +1255,7 @@
         },
         "StructureDefinition": {
             "name": "$~istruktura",
-            "description": "$~tukuyin ang istruktura $1",
+            "description": "$~tukuyin ang istruktura $name",
             "emotion": "kind",
             "label": {
                 "docs": "$~dokumentasyon",
@@ -1276,13 +1290,13 @@
                 },
                 "UnimplementedInterface": {
                     "name": "$~hindinaipatupad",
-                    "explanation": "$~Ipinapatupad ko ang $1 ngunit hindi ko pa naipatupad ang $2"
+                    "explanation": "$~Ipinapatupad ko ang $interface ngunit hindi ko pa naipatupad ang $function"
                 }
             }
         },
         "StructureDefinitionType": {
             "name": "$~kahuluganngistruktura",
-            "description": "$~$1",
+            "description": "$~$name",
             "emotion": "kind",
             "doc": [
                 "$~Tinutukoy ko ang isang uri ng @StructureDefinition. Hindi ako karaniwang direktang tinutukoy ng mga tao."
@@ -1290,15 +1304,15 @@
         },
         "TableLiteral": {
             "name": "$~literalnamesa",
-            "description": "$~gumawa ng talahanayan na may $1 na hanay",
+            "description": "$~gumawa ng talahanayan na may $count na hanay",
             "emotion": "angry",
             "doc": "$~Isa akong partikular na talahanayan na may mga partikular na hanay. Tingnan ang @Table kung paano ako makakatulong.",
             "start": "$~Suriin muna ang mga hilera",
-            "finish": "$~Sinuri sa bagong talahanayan $1"
+            "finish": "$~Sinuri sa bagong talahanayan $value"
         },
         "TextLiteral": {
             "name": "$~literalnateksto",
-            "description": "$~lumikha ng halaga ng teksto na $1",
+            "description": "$~lumikha ng halaga ng teksto na $text",
             "emotion": "serious",
             "label": {
                 "texts": "$~teksto"
@@ -1308,7 +1322,7 @@
         },
         "Translation": {
             "name": "$~pagsasalin",
-            "description": "$~gumawa ng tekstong '$1'",
+            "description": "$~gumawa ng tekstong '$text'",
             "emotion": "serious",
             "label": {
                 "segments": "$~teksto"
@@ -1317,23 +1331,23 @@
             "conflict": {
                 "phone": {
                     "name": "$~posiblengnumerongtelepono",
-                    "explanation": "$~Numero ba ng telepono ng isang tao ang *$1*? Huwag mo akong ibahagi online kung oo!\n\n$2"
+                    "explanation": "$~Numero ba ng telepono ng isang tao ang *$text*? Huwag mo akong ibahagi online kung oo!\n\n$reminder"
                 },
                 "email": {
                     "name": "$~posiblengemail",
-                    "explanation": "$~Email ba ng isang tao ang *$1*? Huwag mo akong ibahagi rito kung oo!\n\n$2"
+                    "explanation": "$~Email ba ng isang tao ang *$text*? Huwag mo akong ibahagi rito kung oo!\n\n$reminder"
                 },
                 "tin": {
                     "name": "$~posiblengpagkakakilanlanngbuwis",
-                    "explanation": "$~Ang *$1* ba ay isang tax identifier? Kung oo, huwag mo akong ibahagi, napakasensitibo ng impormasyon ko!\n\n$2"
+                    "explanation": "$~Ang *$text* ba ay isang tax identifier? Kung oo, huwag mo akong ibahagi, napakasensitibo ng impormasyon ko!\n\n$reminder"
                 },
                 "address": {
                     "name": "$~posiblengaddress",
-                    "explanation": "$~Address ba ng bahay ang *$1*? Kung oo, huwag mo akong ilagay dito, ayaw naming may ma-stalk!\n\n$2"
+                    "explanation": "$~Address ba ng bahay ang *$text*? Kung oo, huwag mo akong ilagay dito, ayaw naming may ma-stalk!\n\n$reminder"
                 },
                 "handle": {
                     "name": "$~posiblengusername",
-                    "explanation": "$~Ang *$1* ba ang username mo para sa ibang lugar sa internet? Kung oo, huwag mo akong ibahagi rito maliban na lang kung talagang sinasadya mo.\n\n$2"
+                    "explanation": "$~Ang *$text* ba ang username mo para sa ibang lugar sa internet? Kung oo, huwag mo akong ibahagi rito maliban na lang kung talagang sinasadya mo.\n\n$reminder"
                 },
                 "resolution": "$~Hindi ito sensitibong datos",
                 "reminder": "$~Paalala: Maaari mong i-undo ang aksyon na ito at makita ang iba pang mga bagay na minarkahan mo bilang hindi sensitibo sa dialog ng pagbabahagi.",
@@ -1345,14 +1359,14 @@
         },
         "FormattedLiteral": {
             "name": "$~naka-formatnateksto",
-            "description": "$~lumikha ng naka-format na teksto $1",
+            "description": "$~lumikha ng naka-format na teksto $text",
             "emotion": "serious",
             "doc": "$~Kinakatawan ko ang maraming iba't ibang @FormattedTranslation ng naka-format na teksto. Kapag sinusuri ko, pipiliin ko ang pinakamahusay na tugma batay sa mga napiling wika ng madla.",
             "start": "$~Gumawa tayo ng teksto sa kasalukuyang lokal"
         },
         "FormattedTranslation": {
             "name": "$~naka-formatnapagsasalin",
-            "description": "$~isalin ang naka-format na teksto sa $1",
+            "description": "$~isalin ang naka-format na teksto sa $language",
             "emotion": "serious",
             "doc": [
                 "$~Kinakatawan ko ang ilang naka-format na teksto, gamit ang isang tag na @Language.",
@@ -1380,7 +1394,7 @@
                 "$~Tingnan mo ako, na kumakatawan sa nakaraang halaga ng reaksyon.",
                 "$~Hindi ako madalas sumipot, pero kapag sumipot ako, malaki ang maitutulong ko para makuha ang halaga ng isang @Bind!"
             ],
-            "start": "$~Nasuri sa $1",
+            "start": "$~Nasuri sa $value",
             "conflict": {
                 "MisplacedThis": {
                     "name": "$~nailagayangsangguniangitosamalinglugar",
@@ -1390,7 +1404,7 @@
         },
         "UnaryEvaluate": {
             "name": "$~unarynapagsusuri",
-            "description": "$~ilapat ang $1 unary operator",
+            "description": "$~ilapat ang $operator unary operator",
             "emotion": "kind",
             "label": {
                 "input": "$~input"
@@ -1406,7 +1420,7 @@
                 "$~Iisa lang ang tuntunin: hindi ka maaaring maglagay ng anumang espasyo sa pagitan ng pangalan at ng halaga. Kung hindi, maaaring gumagawa ka ng @Reference o @BinaryEvaluate."
             ],
             "start": "$~Ano ang halaga?",
-            "finish": "$~Ginawa ko itong $1"
+            "finish": "$~Ginawa ko itong $value"
         },
         "UnparsableExpression": {
             "name": "$~hindimapaparalisa",
@@ -1427,13 +1441,13 @@
                 "UnparsableConflict": {
                     "conflict": {
                         "name": "$~hindimabasangkodigo",
-                        "explanation": "$~Dito sa @FunctionDefinition, hindi alam ng @UnparsableExpression kung anong uri ng $1[ expression | type ] ito."
+                        "explanation": "$~Dito sa @FunctionDefinition, hindi alam ng @UnparsableExpression kung anong uri ng $expression[ expression | type ] ito."
                     },
-                    "resolution": "$~Ang ibig mo bang sabihin ay uri na $1, $2?"
+                    "resolution": "$~Ang ibig mo bang sabihin ay uri na $first, $second?"
                 },
                 "UnclosedDelimiter": {
                     "name": "$~hindinakasarangdelimiter",
-                    "explanation": "$~Inaasahan ko ang $2 ilang sandali pagkatapos ng $1"
+                    "explanation": "$~Inaasahan ko ang $expected ilang sandali pagkatapos ng $unclosed"
                 }
             },
             "exception": {
@@ -1462,7 +1476,7 @@
                 },
                 "IncompatibleCellType": {
                     "name": "$~hinditugmanguringselula",
-                    "explanation": "$~Dapat tipo $1 ako, pero $2 ako."
+                    "explanation": "$~Dapat tipo $expected ako, pero $given ako."
                 }
             }
         },
@@ -1509,7 +1523,7 @@
         },
         "FunctionType": {
             "name": "$~tungkulin",
-            "description": "$~mag-type ng function na may $1 inputs",
+            "description": "$~mag-type ng function na may $inputs inputs",
             "emotion": "curious",
             "doc": [
                 "$~Kinakatawan ko ang isang @FunctionDefinition. Malaking tulong talaga ako kung gusto mong sabihin kung anong uri ng function ang hawak ng isang @Bind! Ganito:",
@@ -1518,7 +1532,7 @@
         },
         "ListType": {
             "name": "$~listahan",
-            "description": "$~mag-type ng $1[listahan ng $1|listahan]",
+            "description": "$~mag-type ng $type[listahan ng $type|listahan]",
             "emotion": "cheerful",
             "doc": [
                 "$~Isa akong tagahanga ng @List. Nasasabi ko kay @Bind kung anong klaseng listahan ang mga ito! Ganito, sinasabi kong ito ay isang listahan ng @Number:",
@@ -1527,7 +1541,7 @@
         },
         "MapType": {
             "name": "$~mapa",
-            "description": "$~mag-type ng mapa na $1[$1|kahit ano] hanggang $2[$2|kahit ano]",
+            "description": "$~mag-type ng mapa na $key[$key|kahit ano] hanggang $value[$value|kahit ano]",
             "emotion": "kind",
             "doc": [
                 "$~Alam mo ba kung gaano kagaling ang @Map? Talagang kahanga-hanga. Palagi kong sinasabi kay @Bind kung anong klaseng mapa ang mga ito, tulad ng mapa na ito ng mga numero patungo sa mga listahan:",
@@ -1536,7 +1550,7 @@
         },
         "NumberType": {
             "name": "$~numero",
-            "description": "$~mag-type ng halagang $1[$1|numero]",
+            "description": "$~mag-type ng halagang $unit[$unit|numero]",
             "emotion": "precise",
             "doc": [
                 "$~Alam mo ba kung ano dapat ang @Bind? Isang @Number. Dahil ang mga numero ang pinakamaganda.",
@@ -1545,7 +1559,7 @@
         },
         "NameType": {
             "name": "$~istruktura",
-            "description": "$~uri ng sanggunian na pinangalanang $1",
+            "description": "$~uri ng sanggunian na pinangalanang $name",
             "emotion": "curious",
             "doc": [
                 "$~Kinakatawan ko ang isang @StructureDefinition gamit ang pangalan nito. Kaya, kung mayroon kang ganitong istruktura, maaari kang gumawa ng isang @Bind na nag-iimbak ng mga halagang nalilikha nito.",
@@ -1554,7 +1568,7 @@
             "conflict": {
                 "UnknownTypeName": {
                     "name": "$~hindikilalangpangalannguri",
-                    "explanation": "$~Ang mga pangalan ng uri ay maaari lamang tumukoy sa mga istruktura o mga baryabol ng uri, ngunit ito ay tumutukoy sa uri na $1"
+                    "explanation": "$~Ang mga pangalan ng uri ay maaari lamang tumukoy sa mga istruktura o mga baryabol ng uri, ngunit ito ay tumutukoy sa uri na $type"
                 }
             }
         },
@@ -1575,7 +1589,7 @@
         },
         "SetType": {
             "name": "$~itakda",
-            "description": "$~mag-type ng set ng $1[$1|kahit ano]",
+            "description": "$~mag-type ng set ng $type[$type|kahit ano]",
             "emotion": "kind",
             "doc": [
                 "$~Si @Set ang PINAKAMAHUSAY, seryoso. Palagi kong sinasabi kay @Bind, gawin mong set ang mga bagay-bagay!",
@@ -1599,7 +1613,7 @@
         },
         "StructureType": {
             "name": "$~istruktura",
-            "description": "$~kumatawan sa istrukturang $1",
+            "description": "$~kumatawan sa istrukturang $name",
             "emotion": "kind",
             "doc": "$~Ako ay isang panloob na uri upang kumatawan sa uri ng mga default na uri ng halaga."
         },
@@ -1624,7 +1638,7 @@
         },
         "TextType": {
             "name": "$~teksto",
-            "description": "$~mag-type ng halagang $1[$1|text]",
+            "description": "$~mag-type ng halagang $text[$text|text]",
             "emotion": "happy",
             "doc": [
                 "$~Mahusay kong kinakatawan ang pinakakahanga-hangang uri ng halaga na mayroon, ang @Text.",
@@ -1639,7 +1653,7 @@
         },
         "UnionType": {
             "name": "$~opsyon",
-            "description": "$~i-type ang alinman sa $1 o $2",
+            "description": "$~i-type ang alinman sa $first o $second",
             "emotion": "curious",
             "doc": [
                 "$~Sino ang dapat kong katawanin, si A o si B o iba pa? Hindi ako makapagdesisyon!",
@@ -1648,7 +1662,7 @@
         },
         "Unit": {
             "name": "$~yunit",
-            "description": "$~tukuyin ang yunit na $1",
+            "description": "$~tukuyin ang yunit na $unit",
             "emotion": "precise",
             "doc": [
                 "$~Kinakatawan ko ang anumang yunit na maaaring mayroon ang isang @Number, kasama ang walang yunit, sa pinakamasalimuot na yunit na maiisip mo. Tulad ng grabidad, halimbawa:",
@@ -1682,7 +1696,7 @@
         },
         "NotAType": {
             "name": "$~hindiinaasahan",
-            "description": "$~markahan ang $1 bilang isang di-wastong uri",
+            "description": "$~markahan ang $type bilang isang di-wastong uri",
             "emotion": "curious",
             "doc": "$~Minsan alam natin kung anong uri ng halaga ang dapat na maging isang bagay. Tulad ng @ListAccess na nangangailangan ng isang @Number. Kung hindi natin ito makuha, ipinapahiwatig ko na ang isang bagay ay isang uri na naiiba sa inaasahan natin."
         },
@@ -1706,13 +1720,13 @@
         },
         "UnknownNameType": {
             "name": "$~hindikilalangpangalan",
-            "description": "$~$1[Hindi pa natutukoy ang $1|hindi pa naibibigay ang pangalan]",
+            "description": "$~$name [ Hindi pa natutukoy $name |hindi pa naibibigay ang pangalan]",
             "emotion": "curious",
             "doc": "$~Alam mo ba kung paano minsan hindi alam nina @Reference at @PropertyReference ang pangalang tinutukoy mo? Nandito ako kapag nangyayari iyon, para ipakita na hindi namin alam kung sino ang tinutukoy mo."
         },
         "NonFunctionType": {
             "name": "$~hindipaggana",
-            "description": "$~markahan ang $1 bilang isang hindi tungkulin",
+            "description": "$~markahan ang $type bilang isang hindi tungkulin",
             "emotion": "confused",
             "doc": "$~Ang ilan sa amin ay umaasa ng mga pagtitipon; ako naman ay pumupunta kapag wala."
         }
@@ -3660,7 +3674,7 @@
                 "doc": "$~Pareho ng @Phrase/style!",
                 "names": "$~estilo"
             },
-            "defaultDescription": "$~$1[$1|] $2 $3"
+            "defaultDescription": "$~$name[$name|] $layout $pose"
         },
         "Phrase": {
             "doc": [
@@ -3784,7 +3798,7 @@
                 "doc": "$~Ang istilo ng animation na gagamitin kapag lumilipat sa ibang lugar sa entablado.",
                 "names": "$~estilo"
             },
-            "defaultDescription": "$~$3[$3 metro |]parirala $1 $2[pinangalanang $2|] $4[$4|] $5"
+            "defaultDescription": "$~$size[$size metro |]parirala $text $name[pinangalanang $name|] $face[$face|] $animation"
         },
         "Arrangement": {
             "doc": "$~Isa akong inspirasyon sa maraming iba pang uri ng pagkakaayos sa Talata, kabilang ang @Row, @Stack, @Grid, at @Free. Malapit akong nakikipagtulungan sa @Group para",
@@ -3793,7 +3807,7 @@
         "Row": {
             "doc": "$~Ako si @Row, isang pahalang na @Arrangement ng @Output, na may opsyonal na padding sa pagitan. Nakilala mo na ba ang kakambal ko, si @Stack?",
             "names": ["$~➡", "$~Hilera"],
-            "description": "$~hanay ng mga parirala at grupo na $1",
+            "description": "$~hanay ng mga parirala at grupo na $count",
             "alignment": {
                 "doc": "$~Kung i-align ang teksto sa simula, gitna, o dulo sa bawat column.",
                 "names": "$~pagkakahanay"
@@ -3806,7 +3820,7 @@
         "Stack": {
             "doc": "$~Ako si @Stack, isang patayong @Arrangement ng @Output, na may opsyonal na padding sa pagitan. Nakilala mo na ba ang kakambal ko, si @Row?",
             "names": ["$~⬇", "$~Patongpatong"],
-            "description": "$~tumpok ng mga parirala at grupo na $1",
+            "description": "$~tumpok ng mga parirala at grupo na $count",
             "alignment": {
                 "doc": "$~Kung i-align ang teksto sa simula, gitna, o dulo sa bawat hilera.",
                 "names": "$~pagkakahanay"
@@ -3819,7 +3833,7 @@
         "Grid": {
             "doc": "$~Ako ang grid ng @Output. Bigyan mo ako ng bilang ng row at column at gagawa ako ng maayos na pagkakaayos gamit ang opsyonal na padding at laki ng cell.",
             "names": ["$~▦", "$~Grid"],
-            "description": "$~$1 hilera $2 grid ng hanay",
+            "description": "$~$rows hilera $columns grid ng hanay",
             "rows": {
                 "doc": "$~Ilang hilera ang gagawin sa grid.",
                 "names": "$~mgahanay"
@@ -3847,7 +3861,7 @@
                 "$~Ah, at tandaan na ang @Place na ibinibigay mo sa bawat @Output ay may kaugnayan sa @Place ng @Group! Kaya kung nagtataka ka kung bakit hindi lumalabas ang mga bagay sa inaasahan mo, subukang bigyan din ng lugar ang @Group."
             ],
             "names": ["$~Libre"],
-            "description": "$~mga output na $1 na malayang anyo"
+            "description": "$~mga output na $count na malayang anyo"
         },
         "Shape": {
             "doc": "$~Isa akong inspirasyon sa lahat ng hugis. Magagamit ko ang pagsasabi kay @Stage kung anong hugis ang dapat gamitin.",
@@ -3940,7 +3954,7 @@
                 "doc": "$~Dapat kong magsalita nang malakas sa teksto.",
                 "names": "$~teksto"
             },
-            "defaultDescription": "$~Sabihin nating $1"
+            "defaultDescription": "$~Sabihin nating $text"
         },
         "Form": {
             "doc": "$~Ako ay isang abstraktong anyo, tulad ng isang @Rectangle o @Circle.",
@@ -4052,7 +4066,7 @@
                 "doc": "$~Kung dapat bang i-mirror ang isang @Output sa y-axis, sa halip na sa default nito.",
                 "names": "$~mabaliw"
             },
-            "description": "$~$1[transparent $1|] $2[pinaikot $2 degrees|] $3[naka-scale $3|] $4[binaligtad nang pahalang|] $5[binaligtad nang patayo|] $6[malabo ang anino $6 pixels]"
+            "description": "$~$opacity[transparent $opacity|] $rotation[pinaikot $rotation degrees|] $scale[naka-scale $scale|] $flipx[binaligtad nang pahalang|] $flipy[binaligtad nang patayo|] $blur[malabo ang anino $blur pixels]"
         },
         "Color": {
             "doc": [
@@ -4307,7 +4321,7 @@
                 "doc": "$~Ang gravity na ilalapat sa output na ang lugar ay nasa @Motion.",
                 "names": "$~grabidad"
             },
-            "defaultDescription": "$~yugto $2[$2 |]ng $1 ay naglalabas ng $3[na may frame na $3|] $4"
+            "defaultDescription": "$~yugto $name[$name |]ng $count ay naglalabas ng $frame[na may frame na $frame|] $pose"
         },
         "Easing": {
             "straight": "$~tuwid",
@@ -4430,7 +4444,8 @@
     "ui": {
         "font": {
             "app": "$~Noto Sans",
-            "code": "$~Noto Sans Mono"
+            "code": "$~Noto Sans Mono",
+            "missing": "$~hindi"
         },
         "phrases": {
             "welcome": "$~kumusta"
@@ -4522,11 +4537,7 @@
                     "tip": "$~i-edit ang mga wika ng proyektong ito at isalin ito sa ibang mga wika.",
                     "label": "$~isalin"
                 },
-                "primary": "$~itinakda bilang pangunahing lokasyon ng proyektong ito",
-                "history": {
-                    "on": "$~ipakita ang kamakailang code ng proyekto",
-                    "off": "$~ipakita ang kasalukuyang code ng proyekto"
-                }
+                "primary": "$~itinakda bilang pangunahing lokasyon ng proyektong ito"
             },
             "field": {
                 "name": {
@@ -4582,7 +4593,7 @@
                 "now": "$~ngayon",
                 "history": "$~mga bersyon",
                 "restore": "$~Ito ay isang nakaraang bersyon ng proyektong ito.",
-                "ago": "$~$1 $2 ang nakalipas"
+                "ago": "$~$amount $unit ang nakalipas"
             },
             "button": {
                 "clear": "$~burahin ang kasaysayan",
@@ -4668,7 +4679,7 @@
         "howto": {
             "galleryView": {
                 "header": "$~Mga Paano-Gawin",
-                "subheader": "$~$1 na mga tagubilin, $2 bago",
+                "subheader": "$~$total na mga tagubilin, $new bago",
                 "subheaderEmpty": "$~lumikha ng una!",
                 "prompt": "$~Ang mga \"how-to\" ay maiikling paliwanag at halimbawang code kung paano gawin ang isang bagay gamit ang Wordplay. Kapag nalaman mo na ang isang bagay na gusto mong ibahagi, sumulat ng isa para sa iba pang mga tagalikha sa gallery na ito, para matutunan din nila ito!"
             },
@@ -4795,7 +4806,7 @@
                 "usedBy": {
                     "prompt": "$~Ginamit mo ba ang how-to na ito sa iyong proyekto o sa iba pang how-to? Ipaalam sa iba sa pamamagitan ng pagdaragdag ng iyong proyekto sa listahan!",
                     "empty": "$~Wala ka pang anumang proyekto o iba pang nailathalang mga tagubilin. Subukang gumawa ng isa!",
-                    "countDisplay": "$~Ginamit na ito ng ibang mga direktor ng Wordplay sa iba pang mga proyekto o kung paano gawin ito sa $1",
+                    "countDisplay": "$~Ginamit na ito ng ibang mga direktor ng Wordplay sa iba pang mga proyekto o kung paano gawin ito sa $count",
                     "selector": "$~tagapili ng proyekto at kung paano gawin",
                     "removeButton": "$~alisin ang proyekto o mga tagubilin mula sa listahan",
                     "addButton": "$~magdagdag ng proyekto o kung paano gawin"
@@ -4830,8 +4841,6 @@
                             "$~maaaring tingnan ng mga kolaborator ng anumang gallery na gagawin ng sinumang curator"
                         ]
                     },
-                    "expanded": "$~pinalawak",
-                    "limited": "$~limitado",
                     "expandedOptions": "$~hayaang makita ng mga curator at tagalikha ng napiling gallery ang mga how-to ng gallery na ito",
                     "expandedAdd": "$~magdagdag ng gallery sa listahan",
                     "expandedRemove": "$~alisin ang gallery mula sa listahan"
@@ -4871,9 +4880,9 @@
                 }
             },
             "announce": {
-                "howToPosition": "$~paano-gawin na pinamagatang $1 ay inilipat sa $2 $3",
-                "canvasPosition": "$~inilipat ang canvas sa $1, $2",
-                "moveActivated": "$~na-activate ang paggalaw. Maaaring ilipat ang $1 gamit ang mouse, keyboard, o touchscreen",
+                "howToPosition": "$~paano-gawin na pinamagatang $title ay inilipat sa $x $y",
+                "canvasPosition": "$~inilipat ang canvas sa $x, $y",
+                "moveActivated": "$~na-activate ang paggalaw. Maaaring ilipat ang $target gamit ang mouse, keyboard, o touchscreen",
                 "moveDeactivated": "$~na-deactivate ang paggalaw."
             },
             "error": {
@@ -4886,10 +4895,10 @@
             "empty": [
                 "$~Simulan na natin! Kaya mo na...",
                 "$~• Buksan ang 📕 at i-drag 🖱️ kami papunta sa programang ito.",
-                "$~• I-type ang $1 at piliin kami mula sa menu.",
+                "$~• I-type ang $symbol at piliin ang \"us\" mula sa menu.",
                 "$~• I-type kami gamit ang ⌨️.",
-                "$~• Mag-browse sa <galleries@://galleries> para sa inspirasyon.",
-                "$~Kung nahihirapan ka, <matuto pa@://learn>."
+                "$~• Mag-browse sa<galleries@://galleries> para sa inspirasyon.",
+                "$~Kung ikaw ay natigil,<learn more@://learn> ."
             ],
             "overwritten": "$~Binago ang proyekto sa ibang lugar",
             "confirm": {
@@ -4934,7 +4943,6 @@
             "menu": {
                 "label": "$~awtomatikong pagkumpleto ng menu",
                 "show": "$~ipakita ang menu ng awtomatikong pagkumpleto",
-                "back": "$~umalis sa submenu",
                 "empty": "$~Walang mga mungkahi."
             },
             "cursor": {
@@ -4956,7 +4964,6 @@
                 "selectAll": "$~pumili ng programa",
                 "incrementLiteral": "$~dagdagan ang numero, teksto, o Boolean",
                 "decrementLiteral": "$~bawasan ang numero, teksto, o Boolean",
-                "insertSymbol": "$~ipasok ang $1",
                 "insertTab": "$~ipasok ang tab",
                 "insertTrue": "$~ipasok ang totoo",
                 "insertFalse": "$~ipasok ang mali",
@@ -4976,7 +4983,6 @@
                 "insertConvert": "$~ipasok ang simbolo ng pag-convert",
                 "insertPrevious": "$~ilagay ang naunang simbolo",
                 "insertTable": "$~simbolo ng paglalagay ng bukas na talahanayan",
-                "insertTableClose": "$~simbolo ng paglalagay ng talahanayan para sa pagsasara",
                 "insertBorrow": "$~ipasok ang hiramin",
                 "insertShare": "$~ipasok ang bahagi",
                 "insertLine": "$~maglagay ng pahinga sa linya",
@@ -5022,12 +5028,12 @@
         },
         "annotations": {
             "label": "$~mga tunggalian at tulong",
-            "cursor": "$~Ito ay *$1*$2[ at ang mga ito ay nasa uri na $2|]$3[. Sila ay $3.|]",
-            "cursorParent": "$~Nasa loob sila ng isang *$1*$2[ na uri ng $2|].",
+            "cursor": "$~Ito ay *$node*$type[ at ang mga ito ay nasa uri na $type|]$description[. Sila ay $description.|]",
+            "cursorParent": "$~Nasa loob sila ng isang *$node*$type[ na uri ng $type|].",
             "learn": "$~/Matuto nang higit pa/",
             "evaluating": "$~Ang saya, tara, suriin natin!",
             "space": "$~Ito ang espasyo! Sino ang mag-aakala na walang makakapagsabi ng ganito karami?",
-            "nodeDescription": "$~Sila ay $1.",
+            "nodeDescription": "$~Sila ay $description.",
             "button": {
                 "resolution": "$~Lutasin ang tunggalian na ito",
                 "toggle": "$~ipakita at itago ang mga anotasyon",
@@ -5078,12 +5084,12 @@
                 "animationSpeed": "$~Ang kontrol na /animation speed/ ay nagtatakda kung gaano kabilis tumutugtog ang mga animation. Ang parehong kontrol ay nasa *settings*, kaya maaari mo itong baguhin mula sa alinmang lugar."
             },
             "permission": {
-                "title": "$?",
-                "microphone": "$?",
-                "camera": "$?",
-                "note": "$?",
-                "start": "$?",
-                "retry": "$?"
+                "title": "$~Kailangan ng pahintulot ang proyektong ito",
+                "microphone": "$~mikropono",
+                "camera": "$~kamera",
+                "note": "$~Magtatanong ang iyong browser bago magbahagi.",
+                "start": "$~Simulan",
+                "retry": "$~Subukan muli"
             }
         },
         "timeline": {
@@ -5118,7 +5124,7 @@
         },
         "docs": {
             "label": "$~dokumentasyon browser",
-            "link": "$~ipakita ang \"$1\" sa dokumentasyon",
+            "link": "$~ipakita ang \"$name\" sa dokumentasyon",
             "learn": "$~matuto nang higit pa…",
             "nodoc": "$~Sino ako? Ano ako? Ano ang aking layunin?",
             "button": {
@@ -5423,7 +5429,8 @@
                             "$~1x",
                             "$~2x",
                             "$~5x",
-                            "$~10x"
+                            "$~10x",
+                            "$~awto"
                         ],
                         "tips": [
                             "$~naka-off ang mga animation",
@@ -5433,7 +5440,8 @@
                             "$~normal na bilis",
                             "$~dobleng bilis",
                             "$~limang bilis",
-                            "$~sampung bilis"
+                            "$~sampung bilis",
+                            "$~gamitin ang kasalukuyang setting ng device"
                         ]
                     },
                     "dark": {
@@ -5517,10 +5525,10 @@
                     "tip": "$~i-clear ang lahat ng notification"
                 },
                 "notification": {
-                    "howToHeader": "$~May bagong how-to na pinamagatang \"$1\" na nai-post",
-                    "projectChatHeader": "$~Bagong mensahe sa proyektong \"$1\"",
-                    "howToChatHeader": "$~Bagong mensahe sa kung paano gawin ang \"$1\"",
-                    "moderationHeader": "$~Ang mensahe sa \"$1\" ay nangangailangan ng aksyon sa pagmo-moderate",
+                    "howToHeader": "$~May bagong how-to na pinamagatang \"$title\" na nai-post",
+                    "projectChatHeader": "$~Bagong mensahe sa proyektong \"$name\"",
+                    "howToChatHeader": "$~Bagong mensahe sa kung paano gawin ang \"$title\"",
+                    "moderationHeader": "$~Ang mensahe sa \"$name\" ay nangangailangan ng aksyon sa pagmo-moderate",
                     "link": "$~mga detalye"
                 },
                 "delete": "$~burahin ang notipikasyong ito",
@@ -5706,7 +5714,6 @@
                 "default": "$~paunang",
                 "inherited": "$~minana",
                 "notSequence": "$~hindi isang pagkakasunod-sunod",
-                "notContent": "$~hindi isang listahan ng nilalaman",
                 "format": "$~pormat",
                 "weight": "$~timbang",
                 "light": "$~liwanag",
@@ -5780,11 +5787,6 @@
         "localize": {
             "header": "$~I-localize",
             "reference": "$~Sanggunian sa Ingles",
-            "unwritten": "$~Hindi nakasulat na teksto",
-            "revised": "$~Binagong teksto",
-            "revisedDescription": "$~Ang mga rebisyong ito ay naka-save nang lokal at hindi pa isinusumite para sa pagsusuri.",
-            "submitRevisions": "$~Magsumite ng mga rebisyon",
-            "submitted": "$~Salamat! Susuriin ang iyong binagong teksto at maaaring mai-post sa lalong madaling panahon.",
             "description": "$~Maligayang pagdating sa localization mode! Maaari kang magmungkahi ng mga pagpapabuti sa teksto sa interface ng Wordplay. Pumili ng anumang teksto upang magmungkahi ng pag-edit. Susuriin ang iyong mga mungkahi, at kung maaprubahan, ito ay magiging bahagi ng platform para makita ng lahat. Salamat sa pagtulong na gawing mas naa-access ang Wordplay para sa lahat sa mundo!",
             "toggle": {
                 "mode": {
@@ -5822,7 +5824,16 @@
             "strings": "$~Mga string ng lokal",
             "emotion": "Choose an emotion",
             "invalidName": "$~Hindi wastong pangalan ng Wordplay",
-            "invalidConceptLinks": "$~Hindi mareresolba ang mga concept link na ito sa kasalukuyang locale. Mali ba ang spelling mo, o sinasadya mo itong alisin?"
+            "invalidConceptLinks": "$~Hindi mareresolba ang mga concept link na ito sa kasalukuyang locale. Mali ba ang spelling mo, o sinasadya mo itong alisin?",
+            "inputs": {
+                "header": "$~Mga input na tinatanggap ng template na ito",
+                "usedTip": "$~I-click para maglagay ng isa pang reperensya sa cursor",
+                "unusedTip": "$~I-click upang ilagay ang sangguniang ito sa cursor",
+                "missing": "$~Mga nawawalang input:",
+                "legacy": "$~Palitan ang mga lumang positional ref na ito ng mga pinangalanang ref:",
+                "submitBlocked": "$~Sumangguni sa bawat input bago isumite",
+                "unknown": "$~Ang mga sangguniang ito ay hindi tumutugma sa isang idineklarang input o terminolohiya, kaya hindi nila mapapalitan ang:"
+            }
         },
         "page": {
             "unknown": {
@@ -5983,11 +5994,6 @@
                         "description": "$~paglalarawan ng klase",
                         "placeholder": "$~paglalarawan"
                     },
-                    "newteacher": {
-                        "placeholder": "$~email o username",
-                        "description": "$~email o username ng lumikha na gusto mong bigyan ng access ang guro sa klaseng ito"
-                    },
-                    "addteacher": "$~Magdagdag ng guro sa klaseng ito",
                     "delete": {
                         "tip": "$~burahin ang klaseng ito magpakailanman",
                         "label": "$~Burahin ang klaseng ito"
@@ -6312,8 +6318,8 @@
                     "untitledproject": "$~Proyektong Walang Pamagat"
                 },
                 "announce": {
-                    "position": "$~sa halagang $1 $2",
-                    "selection": "$~$1[napili $1|walang napili]"
+                    "position": "$~sa halagang $x $y",
+                    "selection": "$~$shapes[napili $shapes|walang napili]"
                 }
             },
             "about": {
@@ -6355,9 +6361,7 @@
                     "forgot": "$~*Nakalimutan mo ba ang iyong password?* Sa kasamaang palad, hindi namin mababawi ang iyong account dahil hindi kami nangongolekta ng impormasyon sa pakikipag-ugnayan.",
                     "enter": "$~Mukhang galing sa ibang browser o device ang login link mo. Maaari mo bang ilagay muli ang email mo para makasiguro kaming ikaw nga iyon?",
                     "play": "$~Naka-log in ka na, puwede na naming i-save ang mga proyekto mo online! Gusto mo bang gumawa ng kahit ano?",
-                    "tooyoung": "$~Dapat ay 13 taong gulang ka o mas matanda pa para makapag-login gamit ang email.",
                     "passwordrule": "$~Ang mga password ay dapat na hindi bababa sa 6 na karakter ang haba; kung hindi ka gumagamit ng password manager, pumili ng tatlong mahahabang salita na iyong matatandaan.",
-                    "passwordreminder": "$~Mukhang wala ka pang account. Ilagay muli ang iyong password at siguraduhing naitago mo ito nang ligtas at tama, dahil hindi na ito mababawi.",
                     "changeEmail": "$~Gusto mo bang palitan ang iyong email? Magsumite ng bago at magpapadala kami ng kumpirmasyon sa luma.",
                     "changePassword": "$~Gusto mo bang baguhin ang iyong password? Magsumite ng bago at ulitin ito.",
                     "email": "$~Mayroon ka bang email-only account? Mag-login gamit ang iyong email, at kung mayroong account na nauugnay dito, padadalhan ka namin ng email na may link sa pag-sign-in. Hindi sinusuportahan ang mga bagong email-only account, para mapanatili ang privacy.",
@@ -6377,7 +6381,6 @@
                     "usernameTaken": "$~Ginagamit na ang username na ito.",
                     "failure": "$~Hindi makapag-login :(",
                     "offline": "$~Hindi namin maabot ang ulap ☁️.",
-                    "unchanged": "$~Hindi namin mabago ang iyong email address, ngunit hindi namin alam kung bakit.",
                     "delete": "$~Hindi namin mabura ang iyong account, ngunit hindi namin alam kung bakit.",
                     "invalidPassword": "$~Ang mga password ay dapat na hindi bababa sa 6 na karakter ang haba.",
                     "wrongPassword": "$~Hindi wastong username at password. Maaaring mali ang iyong password, o may ibang gumagamit nito.",
@@ -6495,8 +6498,6 @@
                 "palette": "$~Paleta",
                 "semantic": "$~Mga Kulay na Semantiko",
                 "fonts": "$~Mga Font",
-                "appfont": "$~Font ng Teksto",
-                "codefont": "$~Font ng Kodigo",
                 "spacing": "$~Pag-iisa",
                 "typography": "$~Tipograpiya",
                 "components": "$~Mga Bahagi",
@@ -6514,7 +6515,6 @@
                 "demo": {
                     "button": "$~Halimbawa",
                     "note": "$~Ito ay isang tala.",
-                    "warning": "$~Ito ay isang babala.",
                     "notice": "$~Ito ay isang paunawa.",
                     "header": "$~Pangunahing Paunang Salita",
                     "subheader": "$~Subheader",
@@ -6530,7 +6530,7 @@
             },
             "thanks": {
                 "header": "$~Salamat",
-                "intro": "$~Salamat sa aming mga *$1* na kontribyutor sa pag-aambag sa disenyo, pagbuo, lokalisasyon, at nilalaman ng Wordplay! At salamat din sa maraming guro at kabataan na gumabay sa aming disenyo sa mga focus group, sesyon ng disenyo, at mga silid-aralan, na hindi namin nakalista rito upang mapanatili ang kanilang privacy.\n\nAng proyektong ito ay sinuportahan ng National Science Foundation sa ilalim ng mga parangal na 2318257, 2031265, 2100296, at 2122950, ng University of Washington, at bukas-palad na <gifts//donate> mula sa mga taong katulad mo.",
+                "intro": "$~Salamat sa aming mga *$count* na kontribyutor sa pag-aambag sa disenyo, pagbuo, lokalisasyon, at nilalaman ng Wordplay! At salamat din sa maraming guro at kabataan na gumabay sa aming disenyo sa mga focus group, sesyon ng disenyo, at mga silid-aralan, na hindi namin nakalista rito upang mapanatili ang kanilang privacy.\n\nAng proyektong ito ay sinuportahan ng National Science Foundation sa ilalim ng mga parangal na 2318257, 2031265, 2100296, at 2122950, ng University of Washington, at bukas-palad na <gifts//donate> mula sa mga taong katulad mo.",
                 "teachers": "$~Mga Guro",
                 "contributors": "$~Mga Kontribyutor"
             },
@@ -6619,29 +6619,26 @@
                 },
                 "singletonWordsWarning": "$~Ang ilang salita sa iyong draft ay lumilitaw nang isang beses lamang sa buong lokal. Sigurado ka bang tama ang baybay ng mga ito at naaayon sa ibang teksto?",
                 "viewPR": "$~Tingnan ang kahilingan sa paghila",
-                "oneLocaleNote": "$~Ang bawat pagsusumite ay sumasaklaw sa isang lokal sa bawat pagkakataon. Ang batch na ito ay isusumite bilang mga pag-edit sa $1. Kung gusto mong mag-ambag sa ibang lokal, lumipat muna ng mga lokal; ang mga pag-edit na iyong sine-save sa ilalim ng bawat lokal ay itinatago nang hiwalay."
+                "oneLocaleNote": "$~Ang bawat pagsusumite ay sumasaklaw sa isang lokal sa bawat pagkakataon. Ang batch na ito ay isusumite bilang mga pag-edit sa $locale. Kung gusto mong mag-ambag sa ibang lokal, lumipat muna ng mga lokal; ang mga pag-edit na iyong sine-save sa ilalim ng bawat lokal ay itinatago nang hiwalay."
             }
         },
         "edit": {
-            "node": "$~$1$2[, uri $2|]",
-            "before": "$~bago ang $1[$1|tapos]",
-            "inside": "$~sa $1, sa pagitan ng $2[$2|simula] at $3[$3|katapusan]",
-            "range": "$~pagpipilian mula $1 hanggang $2",
-            "between": "$~sa pagitan ng $1 at $2",
-            "line": "$~walang laman na linya sa pagitan ng $1[$1|simula] at $2[$2|wakas]",
-            "conflicts": "$~Mga conflict na $1",
-            "assign": "$~/$2[Sabik na sumali|Isinasaalang-alang ang pag-alis]…/",
+            "node": "$~$node$type[, uri $type|]",
+            "before": "$~bago ang $after[$after|tapos]",
+            "inside": "$~sa $token, sa pagitan ng $before[$before|simula] at $after[$after|katapusan]",
+            "range": "$~pagpipilian mula $start hanggang $end",
+            "between": "$~sa pagitan ng $before at $after",
+            "line": "$~walang laman na linya sa pagitan ng $before[$before|simula] at $after[$after|wakas]",
+            "conflicts": "$~Mga conflict na $count",
+            "assign": "$~/$name[Sabik na sumali|Isinasaalang-alang ang pag-alis]…/",
             "append": "$~/Sabik na ipasok…/",
             "remove": "$~/Isinasaalang-alang ang pag-alis…/",
             "replace": "$~/Gustong makialam…/",
-            "wrap": "$~panaklong",
-            "unwrap": "$~magbukas",
-            "bind": "$~pangalanan ang ekspresyong ito",
             "area": "$~uri ng kodigo"
         },
         "template": {
             "unwritten": "$~Ipapaalam na",
-            "unparsable": "$~Hindi mapaparadang template: $1",
+            "unparsable": "$~Hindi mapaparadang template: $template",
             "machineTranslated": "$~Ito ay isinalin gamit ang makina, kaya maaaring hindi ito mabasa o hindi tama.",
             "locallyRevised": "$~Ang tekstong ito ay binago nang lokal at naiiba sa opisyal na salin."
         },
@@ -6690,7 +6687,10 @@
                     "$~mga numero ng letra",
                     "$~pera"
                 ]
-            }
+            },
+            "script": "$~mga iskrip",
+            "scriptLabel": "$~i-filter ayon sa script",
+            "pickFilter": "$~Pumili ng kategorya o script"
         },
         "tour": {
             "label": "$~paglilibot",
@@ -6698,6 +6698,11 @@
             "previous": "$~nakaraang hakbang",
             "next": "$~susunod na hakbang",
             "offscreen": "$~Ang bahaging ito ng interface ay hindi nakikita sa screen sa kasalukuyan."
+        },
+        "connection": {
+            "offline": "$~Naka-offline ka. Hindi gagana ang ilang feature hangga't hindi ka online.",
+            "unreachable": "$~Hindi namin makontak ang database ng Wordplay. Hindi gagana ang ilang feature hangga't hindi bumabalik ang koneksyon.",
+            "label": "$~Katayuan ng koneksyon"
         }
     },
     "moderation": {
@@ -6723,7 +6728,7 @@
             "disclosure": "$~Ibunyag ang pribadong impormasyon tungkol sa ibang tao tulad ng mga pangalan, impormasyon sa pakikipag-ugnayan, o mga pisikal na address",
             "misinformation": "$~Naglalaman ng mali, mapanlinlang, mapanlinlang, o mapanlinlang na impormasyon"
         },
-        "progress": "$~*$1* ang na-moderate, *$2* ang natitira",
+        "progress": "$~*$moderated* ang na-moderate, *$remaining* ang natitira",
         "done": "$~Wala nang ibang dapat i-moderate!",
         "button": {
             "submit": {

@@ -5,78 +5,15 @@
 <!-- svelte-ignore state_referenced_locally -->
 <script lang="ts">
     import Emoji from '@components/app/Emoji.svelte';
-    import setKeyboardFocus from '@components/util/setKeyboardFocus';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import { computeCaretDescriptionPosition } from '@components/editor/caretDescriptionPosition';
-    import type Conflict from '@conflicts/Conflict';
-    import Project from '@db/projects/Project';
-    import Caret, {
-        type CaretPosition,
-        NegligibleConflicts,
-        isCaretPosition,
-    } from '@edit/caret/Caret';
-    import {
-        AssignmentPoint,
-        InsertionPoint,
-        dropNodeOnSource,
-        isValidDropTarget,
-    } from '@edit/drag/Drag';
-    import Menu, { RevisionSet } from '@edit/menu/Menu';
-    import { getEditsAt } from '@edit/menu/PossibleEdits';
-    import type Revision from '@edit/revision/Revision';
-    import type Locale from '@locale/Locale';
-    import { type LocaleTextAccessor } from '@locale/Locales';
-    import Evaluate from '@nodes/Evaluate';
-    import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
-    import Node, { type FieldPosition, isFieldPosition } from '@nodes/Node';
-    import Source from '@nodes/Source';
-    import { Sym } from '@nodes/Sym';
-    import Token from '@nodes/Token';
-    import TypePlaceholder from '@nodes/TypePlaceholder';
-    import type Evaluator from '@runtime/Evaluator';
-    import ExceptionValue from '@values/ExceptionValue';
-    import { onMount, tick, untrack } from 'svelte';
-    import { get, writable } from 'svelte/store';
-    import {
-        DB,
-        Projects,
-        animationFactor,
-        blockDensity,
-        blocks,
-        locales,
-        showLines,
-    } from '@db/Database';
-    import Expression from '@nodes/Expression';
-    import { DOCUMENTATION_SYMBOL, TYPE_SYMBOL } from '@parser/Symbols';
-    import UnicodeString from '@unicode/UnicodeString';
     import ConceptLinkUI from '@components/concepts/ConceptLinkUI.svelte';
-    import OutputView from '@components/output/OutputView.svelte';
-    import {
-        type EditorState,
-        IdleKind,
-        getAnimatingNodes,
-        getAnnouncer,
-        getConceptIndex,
-        getConflicts,
-        getDragged,
-        getEditors,
-        getEvaluation,
-        getKeyboardEditIdle,
-        getResetKeyboardIdle,
-        getSelectedOutput,
-        setCaret,
-        setDragTarget,
-        setEditor,
-        setHighlights,
-        setSetMenuAnchor,
-    } from '@components/project/Contexts';
-    import RootView from '@components/project/RootView.svelte';
-    import Button from '@components/widgets/Button.svelte';
-    import CaretView, { type CaretBounds } from '@components/editor/caret/CaretView.svelte';
+    import CaretView, {
+        type CaretBounds,
+    } from '@components/editor/caret/CaretView.svelte';
+    import { computeCaretDescriptionPosition } from '@components/editor/caretDescriptionPosition';
     import {
         type Edit,
-        type ProjectRevision,
         InsertSymbol,
+        type ProjectRevision,
         handleKeyCommand,
     } from '@components/editor/commands/Commands';
     import { getInternalClipboard } from '@components/editor/commands/InternalClipboard';
@@ -104,6 +41,71 @@
         getNodeAt,
         getTextInsertionPointsAt,
     } from '@components/editor/pointer/PointerUtilities';
+    import OutputView from '@components/output/OutputView.svelte';
+    import {
+        type EditorState,
+        IdleKind,
+        getAnimatingNodes,
+        getAnnouncer,
+        getConceptIndex,
+        getConflicts,
+        getDragged,
+        getEditors,
+        getEvaluation,
+        getKeyboardEditIdle,
+        getResetKeyboardIdle,
+        getSelectedOutput,
+        setCaret,
+        setDragTarget,
+        setEditor,
+        setHighlights,
+        setSetMenuAnchor,
+    } from '@components/project/Contexts';
+    import RootView from '@components/project/RootView.svelte';
+    import setKeyboardFocus from '@components/util/setKeyboardFocus';
+    import Button from '@components/widgets/Button.svelte';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
+    import type Conflict from '@conflicts/Conflict';
+    import {
+        DB,
+        Projects,
+        animationFactor,
+        blockDensity,
+        blocks,
+        locales,
+        showLines,
+    } from '@db/Database';
+    import Project from '@db/projects/Project';
+    import Caret, {
+        type CaretPosition,
+        NegligibleConflicts,
+        isCaretPosition,
+    } from '@edit/caret/Caret';
+    import {
+        AssignmentPoint,
+        InsertionPoint,
+        dropNodeOnSource,
+        isValidDropTarget,
+    } from '@edit/drag/Drag';
+    import Menu, { RevisionSet } from '@edit/menu/Menu';
+    import { getEditsAt } from '@edit/menu/PossibleEdits';
+    import type Revision from '@edit/revision/Revision';
+    import type Locale from '@locale/Locale';
+    import { type LocaleTextAccessor } from '@locale/Locales';
+    import Evaluate from '@nodes/Evaluate';
+    import Expression from '@nodes/Expression';
+    import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
+    import Node, { type FieldPosition, isFieldPosition } from '@nodes/Node';
+    import Source from '@nodes/Source';
+    import { Sym } from '@nodes/Sym';
+    import Token from '@nodes/Token';
+    import TypePlaceholder from '@nodes/TypePlaceholder';
+    import { DOCUMENTATION_SYMBOL, TYPE_SYMBOL } from '@parser/Symbols';
+    import type Evaluator from '@runtime/Evaluator';
+    import UnicodeString from '@unicode/UnicodeString';
+    import ExceptionValue from '@values/ExceptionValue';
+    import { onMount, tick, untrack } from 'svelte';
+    import { get, writable } from 'svelte/store';
 
     interface Props {
         /** The evaluator evaluating the source being edited. */
@@ -318,12 +320,7 @@
         void $blocks;
         void caretLocation;
         const blockEl = pos instanceof Node ? getNodeView(pos) : undefined;
-        if (
-            !descriptionElement ||
-            !$blocks ||
-            !blockEl ||
-            editor === null
-        ) {
+        if (!descriptionElement || !$blocks || !blockEl || editor === null) {
             descriptionPos = undefined;
             return;
         }
@@ -648,8 +645,7 @@
                         dragged.set(candidate);
                         dragCandidate = undefined;
                         dragPoint = undefined;
-                        if (editor)
-                            editor.style.touchAction = 'none';
+                        if (editor) editor.style.touchAction = 'none';
                     }
                 }, DRAG_LONG_PRESS_MS);
             }
@@ -1175,9 +1171,7 @@
             (event.ctrlKey || event.metaKey) &&
             !event.shiftKey &&
             !event.altKey &&
-            (event.code === 'KeyV' ||
-                event.key === 'v' ||
-                event.key === 'V')
+            (event.code === 'KeyV' || event.key === 'v' || event.key === 'V')
         ) {
             const internal = getInternalClipboard();
             if (internal === undefined) return;
@@ -1434,16 +1428,18 @@
     // Cache of the inputs to the conflictsOfInterest computation. Caret moves
     // within a single token don't change any of these, so we can bail without
     // re-running the work — which previously did a full source.nodes() walk.
-    let prevConflictsKey: {
-        project: Project;
-        nodeConflicts: Conflict[] | undefined;
-        dragged: Node | undefined;
-        hoveredAny: Node | undefined;
-        caretNode: Node | undefined;
-        tokenAtCaret: Token | undefined;
-        tokenPrior: Token | undefined;
-        atTokenEnd: boolean;
-    } | undefined;
+    let prevConflictsKey:
+        | {
+              project: Project;
+              nodeConflicts: Conflict[] | undefined;
+              dragged: Node | undefined;
+              hoveredAny: Node | undefined;
+              caretNode: Node | undefined;
+              tokenAtCaret: Token | undefined;
+              tokenPrior: Token | undefined;
+              atTokenEnd: boolean;
+          }
+        | undefined;
 
     $effect(() => {
         // The project and source can update at different times, so we only do this if the current source is in the project.
@@ -1457,7 +1453,8 @@
             : undefined;
         const atTokenEnd = $caret.isPosition() && !!$caret.atTokenEnd();
         const tokenPrior = atTokenEnd ? $caret.tokenPrior : undefined;
-        const caretNode = $caret.position instanceof Node ? $caret.position : undefined;
+        const caretNode =
+            $caret.position instanceof Node ? $caret.position : undefined;
 
         if (
             prevConflictsKey !== undefined &&
@@ -1505,9 +1502,7 @@
                           project
                               .getRoot($hoveredAny)
                               ?.getSelfAndAncestors($hoveredAny) ?? []
-                      ).find((node) =>
-                          project.nodeInvolvedInConflicts(node),
-                      );
+                      ).find((node) => project.nodeInvolvedInConflicts(node));
             if (conflictedHover) conflictSelection = conflictedHover;
 
             // If not, is there a node selected?
@@ -1559,7 +1554,8 @@
                         caretNode,
                         ...source.root.getAncestors(caretNode),
                     ].find((node) => project.nodeInvolvedInConflicts(node));
-                    if (conflictedAncestor) conflictSelection = conflictedAncestor;
+                    if (conflictedAncestor)
+                        conflictSelection = conflictedAncestor;
                 }
             }
 
@@ -1567,17 +1563,15 @@
             if (conflictSelection)
                 // Get all conflicts involving the selection
                 newConflictsOfInterest = [
-                    ...(project.getConflictsInvolvingNode(
-                        conflictSelection,
-                    ) ?? []),
+                    ...(project.getConflictsInvolvingNode(conflictSelection) ??
+                        []),
                     ...$nodeConflicts,
                 ]
                     // Eliminate duplicate conflicts
                     .filter(
                         (c1, i1, list) =>
                             !list.some(
-                                (c2, i2) =>
-                                    c1 === c2 && i2 > i1 && i1 !== i2,
+                                (c2, i2) => c1 === c2 && i2 > i1 && i1 !== i2,
                             ),
                     );
             // If we didn't find a selection, just get all conflicts in the project.
@@ -1834,8 +1828,7 @@
             }
         };
         document.addEventListener('animationend', handler);
-        return () =>
-            document.removeEventListener('animationend', handler);
+        return () => document.removeEventListener('animationend', handler);
     });
 
     // Update the outline positions any time the highlights change, but only after we're done rendering.
@@ -2093,9 +2086,7 @@
                 : descriptionTop
                   ? `${descriptionTop}px`
                   : undefined}
-            data-left={descriptionPos
-                ? descriptionPos.left
-                : descriptionLeft}
+            data-left={descriptionPos ? descriptionPos.left : descriptionLeft}
             >{#if displayedCaret.position instanceof Node}
                 {@const relevantConcept = concepts?.getRelevantConcept(
                     displayedCaret.position,
@@ -2114,11 +2105,11 @@
                             anchor={displayedCaret.position}
                         />{/if}
                 </span>{#if !(displayedCaret.position instanceof Token)}<em
-                    class="node-description"
-                    >{displayedCaret.position
-                        .getDescription($locales, context)
-                        .toText()}</em
-                >{/if}{/if}{#if keyIgnoredReason}<em>
+                        class="node-description"
+                        >{displayedCaret.position
+                            .getDescription($locales, context)
+                            .toText()}</em
+                    >{/if}{/if}{#if keyIgnoredReason}<em>
                     &nbsp;<LocalizedText path={keyIgnoredReason} /></em
                 >{/if}</div
         >

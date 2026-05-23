@@ -487,7 +487,9 @@ export default class BinaryEvaluate extends Expression {
     getStartExplanations(locales: Locales, context: Context) {
         return locales.concretize(
             (l) => l.node.BinaryEvaluate.start,
-            new NodeRef(this.left, locales, context),
+            {
+                left: new NodeRef(this.left, locales, context),
+            },
         );
     }
 
@@ -498,7 +500,9 @@ export default class BinaryEvaluate extends Expression {
     ) {
         return locales.concretize(
             (l) => l.node.BinaryEvaluate.finish,
-            this.getValueIfDefined(locales, context, evaluator),
+            {
+                value: this.getValueIfDefined(locales, context, evaluator),
+            },
         );
     }
 
@@ -510,6 +514,8 @@ export default class BinaryEvaluate extends Expression {
     }
 
     getDescriptionInputs(locale: Locales, context: Context) {
-        return [new NodeRef(this.fun, locale, context)];
+        return {
+            operator: new NodeRef(this.fun, locale, context),
+        };
     }
 }

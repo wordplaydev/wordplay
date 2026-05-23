@@ -1,0 +1,18 @@
+從清單中隨機選擇一件物品
+
+想讓你的專案每次運行都給你帶來驚喜嗎？列出一些選項，然後從中選擇一個。 @Random 。 
+
+@Random 可以產生一個隨機數，然後可以透過該隨機數來尋找清單。\[n]\。將它們組合起來，即可隨機抽取一個表情符號：
+
+\emojis: ['🌈' '🌟' '🎈' '🦄' '🍩']
+Phrase(emojis.random())\
+
+你也可以使用 @Random 用兩個數字，從中選出一個介於兩者之間的整數。例如，要選擇一個/新的/每秒隨機發送表情符號，混合在一起 @Time 和 @Reaction ：
+
+\emojis: ['🌈' '🌟' '🎈' '🦄' '🍩']
+pick: emojis[1] … ∆ Time(1000ms) … emojis[Random(1 emojis.length())]
+Phrase(pick)\
+
+每一次滴答 @Time ， 這 @Reaction 挑選出一個新的驚喜。
+
+shake-phrase, count-with-time

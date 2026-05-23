@@ -1,0 +1,17 @@
+Gör många kopior av en karaktär
+
+Tänk om vi vill ha tio katter, eller hundra stjärnor, men inte vill skriva ut dem alla?Vi kan be en lista att göra kopior åt oss med @List/translate .
+
+Om vi börjar med numret\10\och konvertera den med\→ []\, får vi en lista med tio tal från 1 till 10.Sedan använder vi @List/translate att omvandla varje nummer till en @Phrase :
+
+\Group(Row() (10 → []).translate(ƒ() Phrase('🐈')))\
+
+@List/translate anropar vår lilla funktion en gång för varje objekt och samlar in resultaten i en ny lista.
+
+För att göra varje kopia lite annorlunda, använd numret som översättningen ger oss:
+
+\Group(Row('|' 0.2m) (8 → []).translate(ƒ(n) Phrase('⭐' size: n × 0.5m)))\
+
+Varje stjärna är större än den förra, eftersom\n\går från\1\till\8\.
+
+make-a-grid, arrange-in-a-row

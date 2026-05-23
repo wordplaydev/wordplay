@@ -167,8 +167,8 @@
     .button.active {
         color: var(--wordplay-background);
         background: var(--wordplay-highlight-color);
-        box-shadow: inset var(--wordplay-border-width) var(--wordplay-border-width)
-            0 var(--wordplay-foreground);
+        box-shadow: inset var(--wordplay-border-width)
+            var(--wordplay-border-width) 0 var(--wordplay-foreground);
     }
 
     .button:focus {

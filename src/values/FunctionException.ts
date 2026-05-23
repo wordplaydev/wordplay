@@ -34,27 +34,28 @@ export default class FunctionException extends ExceptionValue {
 
     getExplanation(locales: Locales) {
         return locales.concretize(
-            this.getExceptionText(locales).explanation,
-            // Wrap the node containing the name in a link
-            new NodeRef(
-                this.verb,
-                locales,
-                this.evaluator.project.getNodeContext(this.node),
-            ),
-            // Wrap the type, if there is one
-            this.subject === undefined
-                ? undefined
-                : new NodeRef(
-                      this.subject.getType(
-                          this.evaluator.project.getNodeContext(
-                              this.subject.creator,
+            (l) => l.node.Evaluate.exception.FunctionException.explanation,
+            {
+                name: new NodeRef(
+                    this.verb,
+                    locales,
+                    this.evaluator.project.getNodeContext(this.node),
+                ),
+                scope:
+                    this.subject === undefined
+                        ? undefined
+                        : new NodeRef(
+                              this.subject.getType(
+                                  this.evaluator.project.getNodeContext(
+                                      this.subject.creator,
+                                  ),
+                              ),
+                              locales,
+                              this.evaluator.project.getNodeContext(
+                                  this.subject.creator,
+                              ),
                           ),
-                      ),
-                      locales,
-                      this.evaluator.project.getNodeContext(
-                          this.subject.creator,
-                      ),
-                  ),
+            },
         );
     }
 }

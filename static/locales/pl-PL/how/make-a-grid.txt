@@ -1,0 +1,27 @@
+Utwórz siatkę znaków
+
+A co jeśli chcemy wierszy?/I/kolumny w tym samym czasie? To jest to, co @Grid jest dla.
+
+A  @Grid pyta o liczbę wierszy, liczbę kolumn i ile miejsca ma być między komórkami.
+
+\Group(Grid(2 3 0.25m) [
+		Phrase('🍎')
+		Phrase('🍌')
+		Phrase('🍇')
+		Phrase('🥕')
+		Phrase('🥦')
+		Phrase('🌽')
+	])\
+
+To pozwoli Ci stworzyć ogródek owocowo-warzywny o wymiarach 2 na 3!
+
+Jeśli chcesz, aby każda komórka miała taki sam rozmiar, podaj @Grid szerokość i wysokość również. Dzięki temu znaki pozostają uporządkowane w swoich kwadratach, nawet jeśli mają różne rozmiary:
+
+\Group(Grid(2 2 0.1m 1.5m 1.5m) [
+		Phrase('🐈' size: 1m)
+		Phrase('🐶' size: 1.5m)
+		Phrase('🦊' size: 0.5m)
+		Phrase('🐻' size: 2m)
+	])\
+
+arrange-in-a-row, stack-up-and-down, make-many-copies

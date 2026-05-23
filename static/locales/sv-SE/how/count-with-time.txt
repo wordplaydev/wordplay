@@ -1,0 +1,19 @@
+Räkna upp medan tiden går
+
+Många projekt behöver något som växer med tiden – en timer, en poäng, en nedräkning.Vi kan bygga en räknare genom att kombinera @Time   @Stream med en @Reaction .
+
+En @Reaction har tre delar: ett startvärde, en sak att hålla koll på och ett nytt värde när den saken ändras.Här börjar vi kl.\0\, titta @Time , och lägg till en varje gång klockan tickar:
+
+\count: 0 … ∆ Time(1000ms) … count + 1
+Phrase(count → '')\
+
+Varje sekund, @Time bränderna, de @Reaction meddelanden med\∆ Time(1000ms)\och\count\blir\count + 1\.Den\→ ''\i slutet omvandlas numret till text så @Phrase kan visa det.
+
+Du kan använda vilken inmatning du vill, inte bara tid. Den här räknaren räknar antalet Button()-tryckningar:
+
+\count: 0 … ∆ Button() … count + 1
+Phrase(count → '')\
+
+Varje gång @Button strömmen ändras med ett klick eller tryck, ökar antalet med ett.
+
+track-points, pick-from-a-list

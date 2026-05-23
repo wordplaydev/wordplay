@@ -1,0 +1,21 @@
+Magpakita ng iba't ibang bagay batay sa isang halaga
+
+Paano kung gusto mo ng @Phrase magbago depende sa isang bagay — tulad ng score, o pagpindot sa key?
+
+Maaari nating gamitin ang kondisyonal na\?\para pumili sa pagitan ng dalawang bagay.Isulat ang kondisyon, pagkatapos ay isang\?\, pagkatapos ay ang value na gagamitin kapag ito ay true, pagkatapos ay ang value na gagamitin kapag ito ay false.
+
+Narito ang isang masayang mukha na nagiging malungkot sa tuwing pipindutin mo ang space bar, at pagkatapos ay babalik muli:
+
+\happy: ⊤ … ∆ Key(' ') … ~happy
+Phrase(happy ? '😊' '😢')\
+
+Ang @Reaction nagsisimula\happy\bilang\⊤\(totoo), at binabaligtad ito gamit ang\~\sa tuwing pinipindot ang espasyo.Pagkatapos ang kondisyonal\?\pinipili ang tamang mukha.
+
+Maaari kang pumili mula sa higit sa dalawang bagay gamit ang mga conditional chain:
+
+\score: 0 … ∆ Key('isang') … score + 1
+Phrase(score < 3 ? '🥚' score < 6 ? '🐣' '🐥')\
+
+Pindutin\a\ilang beses at panoorin ang itlog na napisa at maging sisiw!
+
+track-points, offer-choices

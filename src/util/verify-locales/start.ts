@@ -1,9 +1,4 @@
 import type LanguageCode from '@locale/LanguageCode';
-import type { RegionCode } from '@locale/Regions';
-import { withoutAnnotations } from '@locale/withoutAnnotations';
-import fs from 'fs';
-import path from 'path';
-import * as prettier from 'prettier';
 import type LocaleText from '@locale/LocaleText';
 import {
     getLocaleLanguage,
@@ -11,6 +6,8 @@ import {
     isRevised,
     toLocaleString,
 } from '@locale/LocaleText';
+import type { RegionCode } from '@locale/Regions';
+import { withoutAnnotations } from '@locale/withoutAnnotations';
 import type LocalePath from '@util/verify-locales/LocalePath';
 import {
     DefaultLocale,
@@ -19,14 +16,28 @@ import {
     LocaleValidator,
 } from '@util/verify-locales/LocaleSchema';
 import Log from '@util/verify-locales/Log';
-import { getTutorialJSON, getTutorialPath } from '@util/verify-locales/TutorialSchema';
+import {
+    getDeclaredInputs,
+    getTerminologyNames,
+} from '@util/verify-locales/templateInputs';
+import {
+    getTutorialJSON,
+    getTutorialPath,
+} from '@util/verify-locales/TutorialSchema';
 import { verifyHowTo } from '@util/verify-locales/verifyHowTo';
 import {
     createUnwrittenLocale,
     getCheckableLocalePairs,
     verifyLocale,
 } from '@util/verify-locales/verifyLocale';
-import { createUnwrittenTutorial, verifyTutorial } from '@util/verify-locales/verifyTutorial';
+import {
+    createUnwrittenTutorial,
+    verifyTutorial,
+} from '@util/verify-locales/verifyTutorial';
+import { findUnusedKeys } from '@util/verify-locales/findUnusedKeys';
+import fs from 'fs';
+import path from 'path';
+import * as prettier from 'prettier';
 
 // We're we asked to translate? Let's see if there was a specific locale we're focusing on.
 const TranslationRequested =
@@ -48,6 +59,24 @@ if (
         'Please provide either "verify" (check structure), "ci" (fail on invalid structure), "fix" (repair structure), "translate" (translate untranslated strings), "override" command (replace existing machine translations)',
         false,
     );
+}
+
+// Surface any declared input names that collide with terminology keys.
+// Collisions aren't blocking (input precedence makes the runtime correct
+// where the collision is intentional, like Bind.description's `$name`),
+// but they mask `$<term>` terminology lookups in fields that declare the
+// same name as an input — worth flagging so the next developer notices.
+{
+    const terms = getTerminologyNames();
+    const declaredNames = new Set<string>();
+    for (const names of getDeclaredInputs().values())
+        for (const n of names) declaredNames.add(n);
+    const collisions = [...declaredNames].filter((n) => terms.has(n)).sort();
+    if (collisions.length > 0)
+        log.warning(
+            0,
+            `Template input names collide with terminology keys (input precedence applies): ${collisions.join(', ')}`,
+        );
 }
 
 // If there are problems in the default locale, we can't verify or translate anything.
@@ -178,7 +207,7 @@ async function handleLocale(
                 log.good(1, 'Writing revised ' + locale + ' tutorial');
                 fs.writeFileSync(getTutorialPath(locale), prettyTutorial);
             }
-        } else log.good(1, 'No changes necessary in ' + locale + ' tutorial');
+        }
     }
 
     // Verify and optionally translate how-to content
@@ -266,6 +295,22 @@ for (const localeText of allLocaleText) {
 for (const localeText of allLocaleText) {
     log.say(1, `Checking ${toLocaleString(localeText)}`);
     await handleLocale(localeText, revisedStrings, false, globals);
+}
+
+// Surface locale keys that no static accessor in `src/` references. These are
+// only candidates — see ALWAYS_USED_PREFIXES in findUnusedKeys.ts for sections
+// excluded because they're read via runtime-computed keys. Warning, not bad:
+// false positives here would delete real translations if treated as errors.
+if (FocalLocale === null) {
+    const unused = findUnusedKeys(DefaultLocale, 'src');
+    if (unused.length > 0) {
+        log.warning(
+            0,
+            `${unused.length} locale keys appear unused (no static accessor found): ${unused
+                .map((p) => p.toString())
+                .join(', ')}`,
+        );
+    } else log.good(0, 'No unused locale keys detected.');
 }
 
 // If the user asked for a specific locale, and a folder doesn't exist for it yet, create one.

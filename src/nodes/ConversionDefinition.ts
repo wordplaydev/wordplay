@@ -228,9 +228,9 @@ export default class ConversionDefinition extends DefinitionExpression {
     }
 
     getDescriptionInputs(locales: Locales, context: Context) {
-        return [
-            new NodeRef(this.input, locales, context),
-            new NodeRef(this.output, locales, context),
-        ];
+        return {
+            input: new NodeRef(this.input, locales, context),
+            output: new NodeRef(this.output, locales, context),
+        };
     }
 }

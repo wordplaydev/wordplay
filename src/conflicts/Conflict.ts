@@ -21,7 +21,9 @@ export type Resolution = {
     ) => { newProject: Project; newNode?: Node };
 };
 
-export type ConflictLocaleAccessor = (locale: LocaleText) => ConflictText;
+export type ConflictLocaleAccessor = (
+    locale: LocaleText,
+) => ConflictText<readonly string[]>;
 
 export default abstract class Conflict {
     readonly #minor: boolean;

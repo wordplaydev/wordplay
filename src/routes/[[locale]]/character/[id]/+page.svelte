@@ -28,6 +28,21 @@
     import TextBox from '@components/widgets/TextBox.svelte';
     import TextField from '@components/widgets/TextField.svelte';
     import Title from '@components/widgets/Title.svelte';
+    import {
+        CharacterSize,
+        characterToSVG,
+        getPathCenter,
+        getSharedColor,
+        moveShape,
+        pixelsAreEqual,
+        type Character,
+        type CharacterEllipse,
+        type CharacterPath,
+        type CharacterPixel,
+        type CharacterRectangle,
+        type CharacterShape,
+        type Point,
+    } from '@db/characters/Character';
     import { Creator } from '@db/creators/CreatorDatabase';
     import { CharactersDB, locales } from '@db/Database';
     import type Project from '@db/projects/Project';
@@ -50,34 +65,31 @@
         UNDO_SYMBOL,
     } from '@parser/Symbols';
     import { NameRegExPattern } from '@parser/Tokenizer';
-    import { untrack } from 'svelte';
-    import {
-        CharacterSize,
-        characterToSVG,
-        getPathCenter,
-        getSharedColor,
-        moveShape,
-        pixelsAreEqual,
-        type Character,
-        type CharacterEllipse,
-        type CharacterPath,
-        type CharacterPixel,
-        type CharacterRectangle,
-        type CharacterShape,
-        type Point,
-    } from '@db/characters/Character';
     import UnicodeString from '@unicode/UnicodeString';
     import { localeGoto } from '@util/localeGoto';
+    import { untrack } from 'svelte';
 
-    // svelte-ignore non_reactive_update
-    enum DrawingMode {
-        Select,
-        Eraser,
-        Pixel,
-        Rect,
-        Ellipse,
-        Path,
-        Emoji,
+    const DrawingMode = {
+        Select: 0,
+        Eraser: 1,
+        Pixel: 2,
+        Rect: 3,
+        Ellipse: 4,
+        Path: 5,
+        Emoji: 6,
+    } as const;
+    type DrawingMode = (typeof DrawingMode)[keyof typeof DrawingMode];
+    const DrawingModeNames = [
+        'Select',
+        'Eraser',
+        'Pixel',
+        'Rect',
+        'Ellipse',
+        'Path',
+        'Emoji',
+    ] as const;
+    function drawingModeName(m: DrawingMode): string {
+        return DrawingModeNames[m];
     }
 
     type ColorSetting = 'none' | 'inherit' | 'set';
@@ -375,21 +387,21 @@
                     $locales.getLanguages()[0],
                     $locales
                         .concretize(
-                            $locales.getPlainText(
-                                (l) => l.ui.page.character.announce.selection,
-                            ),
-                            selection.length === 0
-                                ? undefined
-                                : selection
-                                      .map((s) =>
-                                          $locales.getPlainText(
-                                              (l) =>
-                                                  l.ui.page.character.shape[
-                                                      s.type
-                                                  ],
-                                          ),
-                                      )
-                                      .join(', '),
+                            (l) => l.ui.page.character.announce.selection,
+                            {
+                                shapes:
+                                    selection.length === 0
+                                        ? undefined
+                                        : selection
+                                              .map((s) =>
+                                                  $locales.getPlainText(
+                                                      (l) =>
+                                                          l.ui.page.character
+                                                              .shape[s.type],
+                                                  ),
+                                              )
+                                              .join(', '),
+                            },
                         )
                         .toText(),
                 );
@@ -672,11 +684,11 @@
                     $locales.getLanguages()[0],
                     $locales
                         .concretize(
-                            $locales.getPlainText(
-                                (l) => l.ui.page.character.announce.position,
-                            ),
-                            drawingCursorPosition.x,
-                            drawingCursorPosition.y,
+                            (l) => l.ui.page.character.announce.position,
+                            {
+                                x: drawingCursorPosition.x,
+                                y: drawingCursorPosition.y,
+                            },
                         )
                         .toText(),
                 );
@@ -2460,7 +2472,7 @@
                     <div
                         role="application"
                         aria-describedby="instructions"
-                        class={['canvas', DrawingMode[mode].toLowerCase()]}
+                        class={['canvas', drawingModeName(mode).toLowerCase()]}
                         tabindex={0}
                         bind:this={canvasView}
                         onkeydown={handleKey}

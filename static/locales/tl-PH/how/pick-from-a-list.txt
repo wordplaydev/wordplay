@@ -1,0 +1,18 @@
+Pumili ng isang random na bagay mula sa isang listahan
+
+Gusto mo bang sorpresahin ka ng iyong proyekto sa bawat oras na ito ay tatakbo? Gumawa ng listahan ng mga pagpipilian at pumili ng isa na may @Random . 
+
+@Random maaaring magbigay sa atin ng random na numero, at maaaring hanapin ang isang listahan ayon sa numero gamit ang\[n]\.Pagsama-samahin ang mga ito para pumili ng random na emoji:
+
+\emojis: ['🌈' '🌟' '🎈' '🦄' '🍩']
+Phrase(emojis.random())\
+
+Maaari mo ring gamitin @Random na may dalawang numero, na pumipili ng isang buong numero sa pagitan ng mga ito.Halimbawa, para pumili ng isang/bago/random na emoji bawat segundo, ihalo @Time at isang @Reaction :
+
+\emojis: ['🌈' '🌟' '🎈' '🦄' '🍩']
+pick: emojis[1] … ∆ Time(1000ms) … emojis[Random(1 emojis.length())]
+Phrase(pick)\
+
+Ang bawat tik ng @Time , ang @Reaction pumipili ng bagong sorpresa.
+
+shake-phrase, count-with-time

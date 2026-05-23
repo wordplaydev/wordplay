@@ -3,7 +3,9 @@
     import { locales } from '@db/Database';
     import { getProject, getRoot } from '@components/project/Contexts';
     import MenuTrigger from '@components/editor/menu/MenuTrigger.svelte';
-    import NodeView, { type Format } from '@components/editor/nodes/NodeView.svelte';
+    import NodeView, {
+        type Format,
+    } from '@components/editor/nodes/NodeView.svelte';
 
     interface Props {
         node: ExpressionPlaceholder;

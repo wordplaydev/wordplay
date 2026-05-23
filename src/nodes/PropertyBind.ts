@@ -225,10 +225,12 @@ export default class PropertyBind extends Expression {
     ) {
         return locales.concretize(
             (l) => l.node.PropertyBind.finish,
-            this.reference.name
+            {
+                property: this.reference.name
                 ? new NodeRef(this.reference.name, locales, context)
                 : undefined,
-            this.getValueIfDefined(locales, context, evaluator),
+                value: this.getValueIfDefined(locales, context, evaluator),
+            },
         );
     }
 
@@ -237,10 +239,10 @@ export default class PropertyBind extends Expression {
     }
 
     getDescriptionInputs(locales: Locales, context: Context) {
-        return [
-            this.reference.name
+        return {
+            name: this.reference.name
                 ? new NodeRef(this.reference.name, locales, context)
                 : undefined,
-        ];
+        };
     }
 }

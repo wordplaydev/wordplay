@@ -23,7 +23,9 @@ export default class ExpectedStream extends Conflict {
             explanation: (locales: Locales, context: Context) =>
                 locales.concretize(
                     (l) => ExpectedStream.LocalePath(l).explanation,
-                    new NodeRef(this.reaction.condition, locales, context),
+                    {
+                        condition: new NodeRef(this.reaction.condition, locales, context),
+                    },
                 ),
         };
     }

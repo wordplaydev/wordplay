@@ -107,7 +107,12 @@
     <!-- svelte-ignore a11y_no_static_element_interactions -->
     <div
         class="bands"
-        onpointerdown={editable ? (e) => { start?.(); handleMouseMove(e); } : null}
+        onpointerdown={editable
+            ? (e) => {
+                  start?.();
+                  handleMouseMove(e);
+              }
+            : null}
         onpointermove={editable ? handleMouseMove : null}
         onpointerup={editable ? () => release?.() : null}
         bind:clientWidth={hueWidth}
@@ -161,8 +166,8 @@
             tip={(l) => l.output.Color.lightness.names[0]}
             unit={'%'}
             precision={0}
-            {...(start ? { start } : {})}
-            {...(release ? { release: () => release() } : {})}
+            {...start ? { start } : {}}
+            {...release ? { release: () => release() } : {}}
             change={(value) => {
                 lightness = value.toNumber();
                 broadcast();
@@ -177,8 +182,8 @@
             increment={1}
             unit=""
             tip={(l) => l.output.Color.chroma.names[0]}
-            {...(start ? { start } : {})}
-            {...(release ? { release: () => release() } : {})}
+            {...start ? { start } : {}}
+            {...release ? { release: () => release() } : {}}
             change={(value) => {
                 chroma = value.round().toNumber();
                 broadcast();
@@ -193,8 +198,8 @@
             increment={1}
             unit={'°'}
             tip={(l) => l.output.Color.hue.names[0]}
-            {...(start ? { start } : {})}
-            {...(release ? { release: () => release() } : {})}
+            {...start ? { start } : {}}
+            {...release ? { release: () => release() } : {}}
             change={(value) => {
                 hue = value.round().toNumber();
                 broadcast();
