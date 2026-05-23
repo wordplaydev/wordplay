@@ -1,4 +1,4 @@
-Madlib
+填词游戏 (Madlib)
 === start
 ¶This keeps track of the kinds of words we need, and their counts¶
 •PartOfSpeech(label•"" count•#)

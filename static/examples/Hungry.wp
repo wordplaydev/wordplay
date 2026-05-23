@@ -1,4 +1,4 @@
-Hungry
+饥饿 (Hungry)
 === start/en
 food: 10bananas
 hungry: food < 15bananas

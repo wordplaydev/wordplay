@@ -1,4 +1,4 @@
-SpokenWords
+口语单词 (SpokenWords)
 === start
 click: Button(ø)
 speech: Speech(reset: click language: 'en-US' limit: 10)

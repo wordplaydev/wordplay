@@ -1,4 +1,4 @@
-RotatingBinary
+旋转二进制 (RotatingBinary)
 ===start/en
 slowSpin:Sequence(spin() 10s "straight")
 

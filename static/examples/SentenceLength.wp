@@ -1,4 +1,4 @@
-SentenceLength
+句子长度 (SentenceLength)
 ===
 sentence: Chat()
 length: Chat().length()

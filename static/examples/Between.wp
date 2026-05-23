@@ -1,4 +1,4 @@
-Between
+之间 (Between)
 === start/en
 ¶True if n is between min and max, exclusive¶
 ƒ between(n•# min•# max•#) (n > min) & (n < max)

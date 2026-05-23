@@ -1,4 +1,4 @@
-Text Transitions
+文字过渡 (Text Transitions)
 === start
 text: [ "boomy" "boom boom" "boooooomy" "boomymcboomface" "moooey" ]
 next: text.random() … ∆ Key() … text.random()

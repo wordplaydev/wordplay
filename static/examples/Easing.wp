@@ -1,4 +1,4 @@
-Sequence Easing
+缓动 (Easing)
 ===
 keyframes: {
 		0%: Pose(offset: Place(-1m 0m))

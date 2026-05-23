@@ -1,4 +1,4 @@
-Catch
+接球游戏 (Catch)
 ===start/en
 ¶If the selected phrase is mouse, toggle whether the mouse is caught.¶
 name: Choice()

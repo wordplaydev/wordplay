@@ -1,4 +1,4 @@
-Amplitude
+振幅 (Amplitude)
 ===
 amplitudes•[#]: ←← 10 Volume()
 vis: amplitudes.translate(ƒ (amp•#) Phrase("⚫️" opacity: amp size: 10m))
