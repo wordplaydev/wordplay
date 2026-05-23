@@ -6611,7 +6611,7 @@
                 }
             },
             "strings": "$~區域設定字串",
-            "emotion": "$?",
+            "emotion": "Choose an emotion",
             "invalidName": "$~不是有效的文字遊戲名稱",
             "reference": "$~英文參考",
             "unwritten": "$~未書寫的文本",

@@ -6673,7 +6673,7 @@
                 }
             },
             "strings": "$~سلاسل اللغة",
-            "emotion": "$?",
+            "emotion": "Choose an emotion",
             "invalidName": "$~اسم غير صالح في لعبة الكلمات",
             "reference": "$~مرجع إنجليزي",
             "unwritten": "$~نص غير مكتوب",

@@ -4895,12 +4895,12 @@
             "label": "source",
             "title": "code",
             "empty": [
-                "$?",
-                "$?",
+                "Let's get started! You can …",
+                "• Open 📕 and drag 🖱️ us to this program.",
                 "• Type $symbol and choose us from the menu.",
-                "$?",
-                "$?",
-                "$?"
+                "• Type us with the ⌨️.",
+                "• Browse the <galleries@://galleries> for inspiration.",
+                "If you're stuck, <learn more@://learn>."
             ],
             "overwritten": "Project revised elsewhere",
             "confirm": {

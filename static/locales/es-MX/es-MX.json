@@ -6660,7 +6660,7 @@
                 }
             },
             "strings": "$~Cadenas de configuración regional",
-            "emotion": "$?",
+            "emotion": "Choose an emotion",
             "invalidName": "$~No es un nombre válido para un juego de palabras.",
             "reference": "$~Referencia en inglés",
             "unwritten": "$~Texto no escrito",

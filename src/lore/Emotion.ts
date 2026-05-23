@@ -1,5 +1,4 @@
 const Emotion = {
-    '$?': '$?',
     angry: 'angry',
     arrogant: 'arrogant',
     bored: 'bored',

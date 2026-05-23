@@ -6686,7 +6686,7 @@
                 }
             },
             "strings": "$~ಸ್ಥಳೀಯ ವಾಕ್ಯಗಳು",
-            "emotion": "$?",
+            "emotion": "Choose an emotion",
             "invalidName": "$~ಮಾನ್ಯವಾದ ವರ್ಡ್‌ಪ್ಲೇ ಹೆಸರಲ್ಲ.",
             "reference": "$~ಇಂಗ್ಲಿಷ್ ಉಲ್ಲೇಖ",
             "unwritten": "$~ಬರೆಯದ ಪಠ್ಯ",

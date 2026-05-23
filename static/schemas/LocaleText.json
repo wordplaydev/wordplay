@@ -394,7 +394,6 @@
         "emotion": {
           "description": "[emotion] The emotion that should be conveyed in animations of the node type",
           "enum": [
-            "$?",
             "angry",
             "arrogant",
             "bored",
@@ -444,7 +443,6 @@
         "emotion": {
           "description": "[emotion] The emotion that should be conveyed in animations of the node type",
           "enum": [
-            "$?",
             "angry",
             "arrogant",
             "bored",
@@ -494,7 +492,6 @@
         "emotion": {
           "description": "[emotion] The emotion that should be conveyed in animations of the node type",
           "enum": [
-            "$?",
             "angry",
             "arrogant",
             "bored",
@@ -544,7 +541,6 @@
         "emotion": {
           "description": "[emotion] The emotion that should be conveyed in animations of the node type",
           "enum": [
-            "$?",
             "angry",
             "arrogant",
             "bored",
@@ -594,7 +590,6 @@
         "emotion": {
           "description": "[emotion] The emotion that should be conveyed in animations of the node type",
           "enum": [
-            "$?",
             "angry",
             "arrogant",
             "bored",
@@ -644,7 +639,6 @@
         "emotion": {
           "description": "[emotion] The emotion that should be conveyed in animations of the node type",
           "enum": [
-            "$?",
             "angry",
             "arrogant",
             "bored",
@@ -694,7 +688,6 @@
         "emotion": {
           "description": "[emotion] The emotion that should be conveyed in animations of the node type",
           "enum": [
-            "$?",
             "angry",
             "arrogant",
             "bored",
@@ -744,7 +737,6 @@
         "emotion": {
           "description": "[emotion] The emotion that should be conveyed in animations of the node type",
           "enum": [
-            "$?",
             "angry",
             "arrogant",
             "bored",
@@ -794,7 +786,6 @@
         "emotion": {
           "description": "[emotion] The emotion that should be conveyed in animations of the node type",
           "enum": [
-            "$?",
             "angry",
             "arrogant",
             "bored",
@@ -844,7 +835,6 @@
         "emotion": {
           "description": "[emotion] The emotion that should be conveyed in animations of the node type",
           "enum": [
-            "$?",
             "angry",
             "arrogant",
             "bored",
@@ -894,7 +884,6 @@
         "emotion": {
           "description": "[emotion] The emotion that should be conveyed in animations of the node type",
           "enum": [
-            "$?",
             "angry",
             "arrogant",
             "bored",
@@ -944,7 +933,6 @@
         "emotion": {
           "description": "[emotion] The emotion that should be conveyed in animations of the node type",
           "enum": [
-            "$?",
             "angry",
             "arrogant",
             "bored",
@@ -3623,7 +3611,6 @@
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
                   "enum": [
-                    "$?",
                     "angry",
                     "arrogant",
                     "bored",
@@ -3787,7 +3774,6 @@
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
                   "enum": [
-                    "$?",
                     "angry",
                     "arrogant",
                     "bored",
@@ -3887,7 +3873,6 @@
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
                   "enum": [
-                    "$?",
                     "angry",
                     "arrogant",
                     "bored",
@@ -3963,7 +3948,6 @@
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
                   "enum": [
-                    "$?",
                     "angry",
                     "arrogant",
                     "bored",
@@ -4042,7 +4026,6 @@
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
                   "enum": [
-                    "$?",
                     "angry",
                     "arrogant",
                     "bored",
@@ -4142,7 +4125,6 @@
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
                   "enum": [
-                    "$?",
                     "angry",
                     "arrogant",
                     "bored",
@@ -4238,7 +4220,6 @@
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
                   "enum": [
-                    "$?",
                     "angry",
                     "arrogant",
                     "bored",
@@ -4340,7 +4321,6 @@
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
                   "enum": [
-                    "$?",
                     "angry",
                     "arrogant",
                     "bored",
@@ -4439,7 +4419,6 @@
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
                   "enum": [
-                    "$?",
                     "angry",
                     "arrogant",
                     "bored",
@@ -4520,7 +4499,6 @@
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
                   "enum": [
-                    "$?",
                     "angry",
                     "arrogant",
                     "bored",
@@ -4589,7 +4567,6 @@
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
                   "enum": [
-                    "$?",
                     "angry",
                     "arrogant",
                     "bored",
@@ -4645,7 +4622,6 @@
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
                   "enum": [
-                    "$?",
                     "angry",
                     "arrogant",
                     "bored",
@@ -4770,7 +4746,6 @@
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
                   "enum": [
-                    "$?",
                     "angry",
                     "arrogant",
                     "bored",
@@ -4897,7 +4872,6 @@
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
                   "enum": [
-                    "$?",
                     "angry",
                     "arrogant",
                     "bored",
@@ -4983,7 +4957,6 @@
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
                   "enum": [
-                    "$?",
                     "angry",
                     "arrogant",
                     "bored",
@@ -5061,7 +5034,6 @@
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
                   "enum": [
-                    "$?",
                     "angry",
                     "arrogant",
                     "bored",
@@ -5149,7 +5121,6 @@
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
                   "enum": [
-                    "$?",
                     "angry",
                     "arrogant",
                     "bored",
@@ -5205,7 +5176,6 @@
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
                   "enum": [
-                    "$?",
                     "angry",
                     "arrogant",
                     "bored",
@@ -5266,7 +5236,6 @@
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
                   "enum": [
-                    "$?",
                     "angry",
                     "arrogant",
                     "bored",
@@ -5336,7 +5305,6 @@
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
                   "enum": [
-                    "$?",
                     "angry",
                     "arrogant",
                     "bored",
@@ -5413,7 +5381,6 @@
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
                   "enum": [
-                    "$?",
                     "angry",
                     "arrogant",
                     "bored",
@@ -5473,7 +5440,6 @@
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
                   "enum": [
-                    "$?",
                     "angry",
                     "arrogant",
                     "bored",
@@ -5566,7 +5532,6 @@
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
                   "enum": [
-                    "$?",
                     "angry",
                     "arrogant",
                     "bored",
@@ -5618,7 +5583,6 @@
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
                   "enum": [
-                    "$?",
                     "angry",
                     "arrogant",
                     "bored",
@@ -5679,7 +5643,6 @@
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
                   "enum": [
-                    "$?",
                     "angry",
                     "arrogant",
                     "bored",
@@ -5758,7 +5721,6 @@
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
                   "enum": [
-                    "$?",
                     "angry",
                     "arrogant",
                     "bored",
@@ -5838,7 +5800,6 @@
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
                   "enum": [
-                    "$?",
                     "angry",
                     "arrogant",
                     "bored",
@@ -5907,7 +5868,6 @@
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
                   "enum": [
-                    "$?",
                     "angry",
                     "arrogant",
                     "bored",
@@ -6010,7 +5970,6 @@
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
                   "enum": [
-                    "$?",
                     "angry",
                     "arrogant",
                     "bored",
@@ -6062,7 +6021,6 @@
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
                   "enum": [
-                    "$?",
                     "angry",
                     "arrogant",
                     "bored",
@@ -6139,7 +6097,6 @@
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
                   "enum": [
-                    "$?",
                     "angry",
                     "arrogant",
                     "bored",
@@ -6225,7 +6182,6 @@
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
                   "enum": [
-                    "$?",
                     "angry",
                     "arrogant",
                     "bored",
@@ -6286,7 +6242,6 @@
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
                   "enum": [
-                    "$?",
                     "angry",
                     "arrogant",
                     "bored",
@@ -6351,7 +6306,6 @@
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
                   "enum": [
-                    "$?",
                     "angry",
                     "arrogant",
                     "bored",
@@ -6430,7 +6384,6 @@
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
                   "enum": [
-                    "$?",
                     "angry",
                     "arrogant",
                     "bored",
@@ -6574,7 +6527,6 @@
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
                   "enum": [
-                    "$?",
                     "angry",
                     "arrogant",
                     "bored",
@@ -6655,7 +6607,6 @@
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
                   "enum": [
-                    "$?",
                     "angry",
                     "arrogant",
                     "bored",
@@ -6744,7 +6695,6 @@
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
                   "enum": [
-                    "$?",
                     "angry",
                     "arrogant",
                     "bored",
@@ -6868,7 +6818,6 @@
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
                   "enum": [
-                    "$?",
                     "angry",
                     "arrogant",
                     "bored",
@@ -6974,7 +6923,6 @@
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
                   "enum": [
-                    "$?",
                     "angry",
                     "arrogant",
                     "bored",
@@ -7040,7 +6988,6 @@
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
                   "enum": [
-                    "$?",
                     "angry",
                     "arrogant",
                     "bored",
@@ -7102,7 +7049,6 @@
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
                   "enum": [
-                    "$?",
                     "angry",
                     "arrogant",
                     "bored",
@@ -7177,7 +7123,6 @@
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
                   "enum": [
-                    "$?",
                     "angry",
                     "arrogant",
                     "bored",
@@ -7251,7 +7196,6 @@
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
                   "enum": [
-                    "$?",
                     "angry",
                     "arrogant",
                     "bored",
@@ -7344,7 +7288,6 @@
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
                   "enum": [
-                    "$?",
                     "angry",
                     "arrogant",
                     "bored",
@@ -7437,7 +7380,6 @@
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
                   "enum": [
-                    "$?",
                     "angry",
                     "arrogant",
                     "bored",
@@ -7512,7 +7454,6 @@
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
                   "enum": [
-                    "$?",
                     "angry",
                     "arrogant",
                     "bored",
@@ -7564,7 +7505,6 @@
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
                   "enum": [
-                    "$?",
                     "angry",
                     "arrogant",
                     "bored",
@@ -7651,7 +7591,6 @@
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
                   "enum": [
-                    "$?",
                     "angry",
                     "arrogant",
                     "bored",
@@ -7755,7 +7694,6 @@
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
                   "enum": [
-                    "$?",
                     "angry",
                     "arrogant",
                     "bored",
@@ -7843,7 +7781,6 @@
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
                   "enum": [
-                    "$?",
                     "angry",
                     "arrogant",
                     "bored",
@@ -7913,7 +7850,6 @@
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
                   "enum": [
-                    "$?",
                     "angry",
                     "arrogant",
                     "bored",
@@ -8004,7 +7940,6 @@
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
                   "enum": [
-                    "$?",
                     "angry",
                     "arrogant",
                     "bored",
@@ -8092,7 +8027,6 @@
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
                   "enum": [
-                    "$?",
                     "angry",
                     "arrogant",
                     "bored",
@@ -8187,7 +8121,6 @@
                 "emotion": {
                   "description": "[emotion] The emotion that should be conveyed in animations of the node type",
                   "enum": [
-                    "$?",
                     "angry",
                     "arrogant",
                     "bored",
@@ -16625,7 +16558,7 @@
                   "type": "object"
                 },
                 "empty": {
-                  "description": "The text to show when a source file is empty",
+                  "description": "[formatted] The text to show when a source file is empty",
                   "items": {
                     "$ref": "#/definitions/Template%3C%5B%22symbol%22%5D%3E"
                   },

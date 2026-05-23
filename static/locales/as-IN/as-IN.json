@@ -6677,7 +6677,7 @@
                 }
             },
             "strings": "$~লোকেল ষ্ট্ৰিংসমূহ",
-            "emotion": "$?",
+            "emotion": "Choose an emotion",
             "invalidName": "$~বৈধ ৱৰ্ডপ্লেৰ নাম নহয়",
             "reference": "$~ইংৰাজী উল্লেখ",
             "unwritten": "$~অলিখিত লিখনী",

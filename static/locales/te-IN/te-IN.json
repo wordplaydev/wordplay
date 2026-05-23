@@ -6687,7 +6687,7 @@
                 }
             },
             "strings": "$~స్థానిక స్ట్రింగ్‌లు",
-            "emotion": "$?",
+            "emotion": "Choose an emotion",
             "invalidName": "$~చెల్లుబాటు అయ్యే పద క్రీడ పేరు కాదు",
             "reference": "$~ఆంగ్ల సూచన",
             "unwritten": "$~అలిఖిత వచనం",

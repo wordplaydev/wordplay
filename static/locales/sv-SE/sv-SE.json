@@ -6675,7 +6675,7 @@
                 }
             },
             "strings": "$~Språksträngar",
-            "emotion": "$?",
+            "emotion": "Choose an emotion",
             "invalidName": "$~Inte ett giltigt Wordplay-namn",
             "reference": "$~Engelsk referens",
             "unwritten": "$~Oskriven text",

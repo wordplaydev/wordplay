@@ -6687,7 +6687,7 @@
                 }
             },
             "strings": "$~Ciągi ustawień regionalnych",
-            "emotion": "$?",
+            "emotion": "Choose an emotion",
             "invalidName": "$~Nieprawidłowa nazwa gry Wordplay",
             "reference": "$~Odniesienie do języka angielskiego",
             "unwritten": "$~Niezapisany tekst",

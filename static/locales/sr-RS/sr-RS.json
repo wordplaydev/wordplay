@@ -6675,7 +6675,7 @@
                 }
             },
             "strings": "$~Локални стрингови",
-            "emotion": "$?",
+            "emotion": "Choose an emotion",
             "invalidName": "$~Није важеће име за игру речи",
             "reference": "$~Енглеска референца",
             "unwritten": "$~Неписан текст",

@@ -1,0 +1,31 @@
+Buatlah serangkaian adegan animasi.
+
+Terkadang kita ingin bercerita, menampilkan lirik, atau menghidupkan puisi.Untuk melakukan itu, kita bisa menggunakan  @Scene  Dan  @Phrase  bersama-sama, untuk menunjukkan sebuah urutan.
+
+Sebagai contoh, bayangkan kita ingin membuat animasi dari lagu anak-anak pendek, "Jack be Nimble".Kita bisa membuat  @Scene  yang setiap barisnya adalah  @Phrase , dan dengan menetapkan  @Phrase/duration  dari setiap baris,  @Scene  akan berlanjut ketika setiap frasa selesai.
+
+\Scene([
+		Phrase('Jack lincah' duration: 1s)
+		Phrase('Jack, cepatlah!' duration: 1s)
+		Phrase('Jack melompati tempat lilin' duration: 1s)
+	])\
+
+@Scene  akan menunggu  @Sequence  Itu juga harus dilakukan. Mari kita buat garis candlestick melonjak!
+
+\Scene([
+		Phrase('Jack lincah' duration: 1s)
+		Phrase('Jack, cepatlah!' duration: 1s)
+		Phrase('Jack melompati tempat lilin' entering: Sequence(bounce() 1s))
+	])\
+
+@Scene  juga bisa mengambil  @Group  termasuk teks juga, dan akan menunggu hingga seluruh kontennya selesai dianimasikan.
+
+\Scene([
+		Group(Stack() [
+				Phrase('Jack lincah')
+				Phrase('Jack, cepatlah!')
+			] duration: 2s)
+		Phrase('Jack melompati tempat lilin' entering: Sequence(bounce() 1s))
+	])\
+
+interactive-scene

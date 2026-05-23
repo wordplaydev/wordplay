@@ -6674,7 +6674,7 @@
                 }
             },
             "strings": "$~מחרוזות מקומיות",
-            "emotion": "$?",
+            "emotion": "Choose an emotion",
             "invalidName": "$~שם לא חוקי של משחק מילים",
             "reference": "$~הפניה באנגלית",
             "unwritten": "$~טקסט לא כתוב",

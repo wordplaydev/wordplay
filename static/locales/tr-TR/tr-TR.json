@@ -6674,7 +6674,7 @@
                 }
             },
             "strings": "$~Yerel ayar dizeleri",
-            "emotion": "$?",
+            "emotion": "Choose an emotion",
             "invalidName": "$~Geçerli bir Wordplay adı değil.",
             "reference": "$~İngilizce referans",
             "unwritten": "$~Yazılmamış metin",

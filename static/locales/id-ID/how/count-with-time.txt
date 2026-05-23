@@ -1,0 +1,19 @@
+Hitung terus saat waktu berlalu
+
+Banyak proyek membutuhkan sesuatu yang berkembang seiring waktu — pengatur waktu, skor, hitung mundur.Kita bisa membangun penghitung dengan menggabungkan  @Time   @Stream  dengan  @Reaction .
+
+A  @Reaction  memiliki tiga bagian: nilai awal, hal yang perlu diperhatikan, dan nilai baru ketika hal tersebut berubah.Di sini, kita mulai dari \0\, jam tangan  @Time , dan tambahkan satu setiap kali jam berdetik:
+
+\count: 0 … ∆ Time(1000ms) … count + 1
+Phrase(count → '')\
+
+Setiap detik,  @Time  kebakaran,  @Reaction  pemberitahuan dengan \∆ Time(1000ms)\, Dan \count\ menjadi \count + 1\.Itu \→ ''\ pada akhirnya mengubah angka menjadi teks sehingga  @Phrase  bisa menunjukkannya.
+
+Anda dapat menggunakan input apa pun yang Anda inginkan, bukan hanya waktu. Penghitung ini menghitung jumlah penekanan tombol Button():
+
+\count: 0 … ∆ Button() … count + 1
+Phrase(count → '')\
+
+Setiap kali  @Button  Aliran data berubah dengan sekali klik atau sentuhan, jumlahnya bertambah satu.
+
+track-points, pick-from-a-list

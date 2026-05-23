@@ -6671,7 +6671,7 @@
                 }
             },
             "strings": "$~ロケール文字列",
-            "emotion": "$?",
+            "emotion": "Choose an emotion",
             "invalidName": "$~有効な言葉遊びの名前ではありません",
             "reference": "$~英語の参考資料",
             "unwritten": "$~未記入のテキスト",

@@ -274,7 +274,7 @@ type UITexts = {
         label: string;
         /** [plain] The label for the code editor toolbar */
         title: string;
-        /** The text to show when a source file is empty */
+        /** [formatted] The text to show when a source file is empty */
         empty: Template<['symbol']>[];
         /** [plain] When some other device had a more recent edit that overrode this device's version. */
         overwritten: string;

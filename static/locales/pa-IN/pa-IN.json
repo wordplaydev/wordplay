@@ -6671,7 +6671,7 @@
                 }
             },
             "strings": "$~ਲੋਕੇਲ ਸਤਰ",
-            "emotion": "$?",
+            "emotion": "Choose an emotion",
             "invalidName": "$~ਇੱਕ ਵੈਧ ਵਰਡਪਲੇ ਨਾਮ ਨਹੀਂ ਹੈ",
             "reference": "$~ਅੰਗਰੇਜ਼ੀ ਹਵਾਲਾ",
             "unwritten": "$~ਅਣਲਿਖਤ ਲਿਖਤ",

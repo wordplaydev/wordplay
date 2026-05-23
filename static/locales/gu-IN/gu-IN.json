@@ -6679,7 +6679,7 @@
                 }
             },
             "strings": "$~લોકેલ સ્ટ્રિંગ્સ",
-            "emotion": "$?",
+            "emotion": "Choose an emotion",
             "invalidName": "$~માન્ય વર્ડપ્લે નામ નથી",
             "reference": "$~અંગ્રેજી સંદર્ભ",
             "unwritten": "$~અલિખિત લખાણ",

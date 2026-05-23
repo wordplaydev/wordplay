@@ -6609,7 +6609,7 @@
                 }
             },
             "strings": "$~区域设置字符串",
-            "emotion": "$?",
+            "emotion": "Choose an emotion",
             "invalidName": "$~不是有效的文字游戏名称",
             "reference": "$~英文参考",
             "unwritten": "$~未书写的文本",

@@ -6675,7 +6675,7 @@
                 }
             },
             "strings": "$~स्थानिक स्ट्रिंग",
-            "emotion": "$?",
+            "emotion": "Choose an emotion",
             "invalidName": "$~वैध वर्डप्ले नाव नाही",
             "reference": "$~इंग्रजी संदर्भ",
             "unwritten": "$~अलिखित मजकूर",

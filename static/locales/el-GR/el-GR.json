@@ -6686,7 +6686,7 @@
                 }
             },
             "strings": "$~Συμβολοσειρές τοπικής ρύθμισης",
-            "emotion": "$?",
+            "emotion": "Choose an emotion",
             "invalidName": "$~Μη έγκυρο όνομα Wordplay",
             "reference": "$~Αγγλική αναφορά",
             "unwritten": "$~Άγραφο κείμενο",

@@ -6678,7 +6678,7 @@
                 }
             },
             "strings": "$~Chuỗi ngôn ngữ",
-            "emotion": "$?",
+            "emotion": "Choose an emotion",
             "invalidName": "$~Không phải là tên chơi chữ hợp lệ.",
             "reference": "$~Tài liệu tham khảo tiếng Anh",
             "unwritten": "$~Văn bản chưa được viết",
