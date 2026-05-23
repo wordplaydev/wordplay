@@ -371,7 +371,13 @@
                 "$~Manchmal möchten Sie jedoch möglicherweise die Sonderzeichen verwenden, die @Doc als /als/ Wörter verwendet. Beispiel:",
                 "$~\\¶Meine Freunde verwenden @@, //, **, || und andere Symbole.¶\n'mit Sonderzeichen!'\\",
                 "$~Wenn Sie diese Sonderzeichen einfach wiederholen, erhalten Sie das Zeichen anstelle seiner besonderen Bedeutung."
-            ]
+            ],
+            "conflict": {
+                "UnsupportedFontFormat": {
+                    "name": "$?",
+                    "explanation": "$?"
+                }
+            }
         },
         "Example": {
             "name": "$~Beispiel",
@@ -4433,7 +4439,8 @@
     "ui": {
         "font": {
             "app": "Noto Sans",
-            "code": "Noto Sans Mono"
+            "code": "Noto Sans Mono",
+            "missing": "$?"
         },
         "phrases": {
             "welcome": "Wilkommen"
@@ -5833,10 +5840,6 @@
                     "description": {
                         "description": "$~Beschreibung der Klasse",
                         "placeholder": "$~Beschreibung"
-                    },
-                    "newteacher": {
-                        "placeholder": "$~E-Mail oder Benutzername",
-                        "description": "$~E-Mail oder Benutzername des Erstellers, dem Sie als Lehrer Zugriff auf diese Klasse gewähren möchten"
                     },
                     "delete": {
                         "tip": "$~Diese Klasse dauerhaft löschen.",

@@ -371,7 +371,13 @@
                 "$~Bazen, @Doc'un /as/ kelimeleri kullandığı özel karakterleri kullanmak isteyebilirsiniz. Örneğin:",
                 "$~\\¶Arkadaşlarım @@, //, **, || ve diğer sembolleri kullanıyorlar.¶\n'özel karakterler kullanarak!'\\",
                 "$~Eğer sadece bu özel karakterleri tekrarlarsanız, özel anlamları yerine karakterleri elde edersiniz."
-            ]
+            ],
+            "conflict": {
+                "UnsupportedFontFormat": {
+                    "name": "$?",
+                    "explanation": "$?"
+                }
+            }
         },
         "Example": {
             "name": "$~örnek",
@@ -4434,7 +4440,8 @@
     "ui": {
         "font": {
             "app": "$~Noto Sans",
-            "code": "$~Noto Sans Mono"
+            "code": "$~Noto Sans Mono",
+            "missing": "$?"
         },
         "phrases": {
             "welcome": "$~Merhaba"
@@ -5688,10 +5695,6 @@
                     "description": {
                         "description": "$~sınıfın tanımı",
                         "placeholder": "$~Tanım"
-                    },
-                    "newteacher": {
-                        "placeholder": "$~e-posta veya kullanıcı adı",
-                        "description": "$~Bu sınıfa öğretmen erişimi vermek istediğiniz yaratıcının e-postası veya kullanıcı adı"
                     },
                     "delete": {
                         "tip": "$~Bu sınıfı sonsuza dek sil.",

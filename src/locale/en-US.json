@@ -365,7 +365,13 @@
                 "Sometimes though, you might want to use the special characters that @Doc uses /as/ words. For example:",
                 "\\¶My friends use @@, //, **, ||, and other symbols.¶\n'using special characters!'\\",
                 "If you just repeat those special characters, you'll get the character instead of their special meaning."
-            ]
+            ],
+            "conflict": {
+                "UnsupportedFontFormat": {
+                    "name": "unsupported font format",
+                    "explanation": "My friend *$face* doesn't know how to be $format."
+                }
+            }
         },
         "Example": {
             "name": "example",
@@ -4164,7 +4170,11 @@
         }
     },
     "ui": {
-        "font": { "app": "Noto Sans", "code": "Noto Sans Mono" },
+        "font": {
+            "app": "Noto Sans",
+            "code": "Noto Sans Mono",
+            "missing": "no"
+        },
         "phrases": { "welcome": "hello" },
         "widget": {
             "confirm": { "cancel": "cancel" },

@@ -371,7 +371,13 @@
                 "$~Minsan nga, baka gusto mong gamitin ang mga espesyal na karakter na ginagamit ng @Doc sa mga salitang /as/. Halimbawa:",
                 "$~\\¶Gumagamit ang mga kaibigan ko ng @@, //, **, ||, at iba pang mga simbolo.¶\n'gamit ang mga espesyal na karakter!'\\",
                 "$~Kung uulitin mo lang ang mga espesyal na karakter na iyon, ang karakter ang makukuha mo sa halip na ang espesyal na kahulugan ng mga ito."
-            ]
+            ],
+            "conflict": {
+                "UnsupportedFontFormat": {
+                    "name": "$?",
+                    "explanation": "$?"
+                }
+            }
         },
         "Example": {
             "name": "$~halimbawa",
@@ -4438,7 +4444,8 @@
     "ui": {
         "font": {
             "app": "$~Noto Sans",
-            "code": "$~Noto Sans Mono"
+            "code": "$~Noto Sans Mono",
+            "missing": "$?"
         },
         "phrases": {
             "welcome": "$~kumusta"
@@ -5986,10 +5993,6 @@
                     "description": {
                         "description": "$~paglalarawan ng klase",
                         "placeholder": "$~paglalarawan"
-                    },
-                    "newteacher": {
-                        "placeholder": "$~email o username",
-                        "description": "$~email o username ng lumikha na gusto mong bigyan ng access ang guro sa klaseng ito"
                     },
                     "delete": {
                         "tip": "$~burahin ang klaseng ito magpakailanman",

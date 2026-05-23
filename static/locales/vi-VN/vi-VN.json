@@ -371,7 +371,13 @@
                 "$~Tuy nhiên, đôi khi bạn có thể muốn sử dụng các ký tự đặc biệt mà @Doc dùng như các từ. Ví dụ:",
                 "$~¶Bạn bè tôi dùng @@, //, **, || và các ký hiệu khác.¶\n'sử dụng các ký tự đặc biệt!'\\",
                 "$~Nếu bạn chỉ lặp lại những ký tự đặc biệt đó, bạn sẽ nhận được chính ký tự đó thay vì ý nghĩa đặc biệt của chúng."
-            ]
+            ],
+            "conflict": {
+                "UnsupportedFontFormat": {
+                    "name": "$?",
+                    "explanation": "$?"
+                }
+            }
         },
         "Example": {
             "name": "$~vídụ",
@@ -4435,7 +4441,8 @@
     "ui": {
         "font": {
             "app": "$~Noto Sans",
-            "code": "$~Noto Sans Mono"
+            "code": "$~Noto Sans Mono",
+            "missing": "$?"
         },
         "phrases": {
             "welcome": "$~Xin chào"
@@ -5928,10 +5935,6 @@
                     "description": {
                         "description": "$~mô tả về lớp học",
                         "placeholder": "$~Sự miêu tả"
-                    },
-                    "newteacher": {
-                        "placeholder": "$~email hoặc tên người dùng",
-                        "description": "$~Địa chỉ email hoặc tên người dùng của người tạo mà bạn muốn cấp quyền truy cập cho giáo viên vào lớp học này."
                     },
                     "delete": {
                         "tip": "$~Xóa lớp này vĩnh viễn",

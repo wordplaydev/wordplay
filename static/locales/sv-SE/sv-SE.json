@@ -371,7 +371,13 @@
                 "$~Men ibland kanske du vill använda specialtecken som @Doc använder /as/-ord. Till exempel:",
                 "$~\\¶Mina vänner använder @@, //, **, || och andra symboler.¶\n'använder specialtecken!'\\",
                 "$~Om du bara upprepar dessa specialtecken får du karaktären istället för deras speciella betydelse."
-            ]
+            ],
+            "conflict": {
+                "UnsupportedFontFormat": {
+                    "name": "$?",
+                    "explanation": "$?"
+                }
+            }
         },
         "Example": {
             "name": "$~exempel",
@@ -4434,7 +4440,8 @@
     "ui": {
         "font": {
             "app": "$~Noto Sans",
-            "code": "$~Noto Sans Mono"
+            "code": "$~Noto Sans Mono",
+            "missing": "$?"
         },
         "phrases": {
             "welcome": "$~Hej"
@@ -5692,10 +5699,6 @@
                     "description": {
                         "description": "$~beskrivning av klassen",
                         "placeholder": "$~beskrivning"
-                    },
-                    "newteacher": {
-                        "placeholder": "$~e-post eller användarnamn",
-                        "description": "$~e-post eller användarnamn för skaparen som du vill ge läraren åtkomst till den här klassen"
                     },
                     "delete": {
                         "tip": "$~Ta bort den här klassen för alltid.",

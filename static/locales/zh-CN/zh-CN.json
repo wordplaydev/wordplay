@@ -371,7 +371,13 @@
                 "虽然有些时候，你可能想用@Doc 里的特殊字符 /作为/ 文字。比如:",
                 "\\¶我的朋友使用 @@, //, **, ||, 以及其他符号。¶\n'使用了特殊字符！'\\",
                 "如果你重复地使用一些特殊字符，你可能会得到一些字符本身而不是它们的特殊意义。"
-            ]
+            ],
+            "conflict": {
+                "UnsupportedFontFormat": {
+                    "name": "$?",
+                    "explanation": "$?"
+                }
+            }
         },
         "Example": {
             "name": "示例",
@@ -4396,7 +4402,8 @@
     "ui": {
         "font": {
             "app": "Noto Sans Simplified Chinese",
-            "code": "Noto Sans Mono"
+            "code": "Noto Sans Mono",
+            "missing": "$?"
         },
         "phrases": {
             "welcome": "你好"
@@ -5763,10 +5770,6 @@
                     "description": {
                         "description": "$~类别描述",
                         "placeholder": "$~描述"
-                    },
-                    "newteacher": {
-                        "placeholder": "$~电子邮件或用户名",
-                        "description": "$~您希望授予教师访问此课程的创建者的电子邮件或用户名"
                     },
                     "delete": {
                         "tip": "$~永久删除此类。",

@@ -344,7 +344,13 @@
                 "Sin embargo, a veces puedes querer usar los caracteres especiales que @Doc usa /como/ palabras. Por ejemplo:",
                 "\\¶Mis amigas usan @@, //, **, || y otros símbolos.¶\n'usando caracteres especiales'\\",
                 "Si simplemente repites esos caracteres especiales, obtendrás el carácter en lugar de su significado especial."
-            ]
+            ],
+            "conflict": {
+                "UnsupportedFontFormat": {
+                    "name": "$?",
+                    "explanation": "$?"
+                }
+            }
         },
         "Example": {
             "name": "ejemplo",
@@ -4416,7 +4422,8 @@
     "ui": {
         "font": {
             "app": "Noto Sans",
-            "code": "Noto Sans Mono"
+            "code": "Noto Sans Mono",
+            "missing": "$?"
         },
         "phrases": {
             "welcome": "hola"
@@ -5816,10 +5823,6 @@
                     "description": {
                         "description": "$~Descripción de la clase",
                         "placeholder": "$~descripción"
-                    },
-                    "newteacher": {
-                        "placeholder": "$~correo electrónico o nombre de usuario",
-                        "description": "$~Correo electrónico o nombre de usuario del creador a quien desea darle acceso docente a esta clase"
                     },
                     "delete": {
                         "tip": "$~Eliminar esta clase para siempre.",

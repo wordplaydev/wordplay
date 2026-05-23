@@ -371,7 +371,13 @@
                 "$~Parfois, vous souhaiterez peut-être utiliser les caractères spéciaux que @Doc utilise comme mots. Par exemple:",
                 "$~\\¶Mes amis utilisent @@, //, **, || et d'autres symboles.¶\n'en utilisant des caractères spéciaux!'\\",
                 "$~Si vous répétez simplement ces caractères spéciaux, vous obtiendrez le caractère au lieu de sa signification spéciale."
-            ]
+            ],
+            "conflict": {
+                "UnsupportedFontFormat": {
+                    "name": "$?",
+                    "explanation": "$?"
+                }
+            }
         },
         "Example": {
             "name": "$~exemple",
@@ -4434,7 +4440,8 @@
     "ui": {
         "font": {
             "app": "Noto Sans",
-            "code": "Noto Sans Mono"
+            "code": "Noto Sans Mono",
+            "missing": "$?"
         },
         "phrases": {
             "welcome": "$~Bonjour"
@@ -5834,10 +5841,6 @@
                     "description": {
                         "description": "$~description de la classe",
                         "placeholder": "$~description"
-                    },
-                    "newteacher": {
-                        "placeholder": "$~email ou nom d'utilisateur",
-                        "description": "$~e-mail ou nom d'utilisateur du créateur à qui vous souhaitez donner accès à cette classe en tant qu'enseignant"
                     },
                     "delete": {
                         "tip": "$~Supprimez cette classe pour toujours.",

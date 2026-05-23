@@ -371,7 +371,13 @@
                 "雖然有些時候，你可能會想用@Doc 裡的特殊字元 /作為/ 文字。例如:",
                 "\\¶我的朋友使用 @@, //, **, ||, 以及其他符號。¶\n'使用了特殊字元！'\\",
                 "如果你重複地使用一些特殊字符，你可能會得到一些文字而不是它們本身的特殊意義。"
-            ]
+            ],
+            "conflict": {
+                "UnsupportedFontFormat": {
+                    "name": "$?",
+                    "explanation": "$?"
+                }
+            }
         },
         "Example": {
             "name": "範例",
@@ -4392,7 +4398,8 @@
     "ui": {
         "font": {
             "app": "Noto Sans Traditional Chinese",
-            "code": "Noto Sans Mono"
+            "code": "Noto Sans Mono",
+            "missing": "$?"
         },
         "phrases": {
             "welcome": "你好"
@@ -5768,10 +5775,6 @@
                     "description": {
                         "description": "類型描述",
                         "placeholder": "描述"
-                    },
-                    "newteacher": {
-                        "placeholder": "電子郵件或用戶名",
-                        "description": "您希望授權的教師的帳戶名或電子郵件"
                     },
                     "delete": {
                         "tip": "刪除此授權。",

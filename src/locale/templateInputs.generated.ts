@@ -275,6 +275,7 @@ export const DECLARED_INPUTS: Readonly<Record<string, readonly string[]>> = {
     'node.Update.start': [],
     'node.VariableType.description': [],
     'node.WebLink.description': ['url'],
+    'node.Words.conflict.UnsupportedFontFormat.explanation': ['face', 'format'],
     'node.Words.description': [],
     'output.Free.description': ['count'],
     'output.Grid.description': ['rows', 'columns'],

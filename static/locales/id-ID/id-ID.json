@@ -371,7 +371,13 @@
                 "$~Namun terkadang, Anda mungkin ingin menggunakan karakter khusus yang digunakan @Doc sebagai kata. Misalnya:",
                 "$~Teman-teman saya menggunakan @@, //, **, ||, dan simbol lainnya. 'menggunakan karakter khusus!'",
                 "$~Jika Anda hanya mengulang karakter khusus tersebut, Anda akan mendapatkan karakter tersebut, bukan makna khususnya."
-            ]
+            ],
+            "conflict": {
+                "UnsupportedFontFormat": {
+                    "name": "$?",
+                    "explanation": "$?"
+                }
+            }
         },
         "Example": {
             "name": "$~contoh",
@@ -4440,7 +4446,8 @@
     "ui": {
         "font": {
             "app": "$~Noto Sans",
-            "code": "$~Noto Sans Mono"
+            "code": "$~Noto Sans Mono",
+            "missing": "$?"
         },
         "phrases": {
             "welcome": "$~Halo"
@@ -6082,10 +6089,6 @@
                     "description": {
                         "description": "$~deskripsi kelas",
                         "placeholder": "$~keterangan"
-                    },
-                    "newteacher": {
-                        "placeholder": "$~email atau nama pengguna",
-                        "description": "$~Alamat email atau nama pengguna pembuat kelas yang ingin Anda beri akses kepada guru untuk kelas ini."
                     },
                     "delete": {
                         "tip": "$~hapus kelas ini selamanya",

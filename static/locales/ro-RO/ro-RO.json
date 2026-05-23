@@ -371,7 +371,13 @@
                 "$~Uneori însă, este posibil să doriți să utilizați caracterele speciale pe care @Doc le folosește /ca/ cuvinte. De exemplu:",
                 "$~\\¶Prietenii mei folosesc @@, //, **, || și alte simboluri.¶ 'folosind caractere speciale!'\\",
                 "$~Dacă repetați doar acele caractere speciale, veți obține caracterul în loc de semnificația lor specială."
-            ]
+            ],
+            "conflict": {
+                "UnsupportedFontFormat": {
+                    "name": "$?",
+                    "explanation": "$?"
+                }
+            }
         },
         "Example": {
             "name": "$~exemplu",
@@ -4440,7 +4446,8 @@
     "ui": {
         "font": {
             "app": "$~Noto Sans",
-            "code": "$~Noto Sans Mono"
+            "code": "$~Noto Sans Mono",
+            "missing": "$?"
         },
         "phrases": {
             "welcome": "$~Buna ziua"
@@ -6079,10 +6086,6 @@
                     "description": {
                         "description": "$~descrierea clasei",
                         "placeholder": "$~descriere"
-                    },
-                    "newteacher": {
-                        "placeholder": "$~e-mail sau nume de utilizator",
-                        "description": "$~adresa de e-mail sau numele de utilizator al creatorului căruia doriți să îi acordați acces profesorului la acest curs"
                     },
                     "delete": {
                         "tip": "$~ștergeți această clasă pentru totdeauna",
