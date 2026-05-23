@@ -34,6 +34,7 @@ import {
     createUnwrittenTutorial,
     verifyTutorial,
 } from '@util/verify-locales/verifyTutorial';
+import { findUnusedKeys } from '@util/verify-locales/findUnusedKeys';
 import fs from 'fs';
 import path from 'path';
 import * as prettier from 'prettier';
@@ -294,6 +295,22 @@ for (const localeText of allLocaleText) {
 for (const localeText of allLocaleText) {
     log.say(1, `Checking ${toLocaleString(localeText)}`);
     await handleLocale(localeText, revisedStrings, false, globals);
+}
+
+// Surface locale keys that no static accessor in `src/` references. These are
+// only candidates — see ALWAYS_USED_PREFIXES in findUnusedKeys.ts for sections
+// excluded because they're read via runtime-computed keys. Warning, not bad:
+// false positives here would delete real translations if treated as errors.
+if (FocalLocale === null) {
+    const unused = findUnusedKeys(DefaultLocale, 'src');
+    if (unused.length > 0) {
+        log.warning(
+            0,
+            `${unused.length} locale keys appear unused (no static accessor found): ${unused
+                .map((p) => p.toString())
+                .join(', ')}`,
+        );
+    } else log.good(0, 'No unused locale keys detected.');
 }
 
 // If the user asked for a specific locale, and a folder doesn't exist for it yet, create one.
