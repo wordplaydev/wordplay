@@ -131,7 +131,8 @@
         "GurmukhiNumeral": "$~Gurmukhi-Zahl",
         "KannadaNumeral": "$~Kannada-Zahl",
         "TamilNumeral": "$~tamilische Zahl",
-        "TeluguNumeral": "$~Telugu-Zahlen"
+        "TeluguNumeral": "$~Telugu-Zahlen",
+        "LanguageJoin": "$~Sprachverbinder"
     },
     "node": {
         "Dimension": {
@@ -196,16 +197,20 @@
             "description": "$~kennzeichne Namen und Text mit einer Sprache",
             "emotion": "eager",
             "doc": [
-                "$~Ich bin ein Sprachtag und arbeite mit @Name und @Doc!",
-                "$~Ich kann wirklich gut *glasklar* machen, in welcher Sprache etwas geschrieben ist.",
-                "$~Das ist, was ich mache. Nur ein kleiner Schrägstrich und ein paar Buchstaben, und niemand wird jemals verwirrt sein, in welcher Sprache ein Text ist.",
-                "$~Angenommen, Sie möchten „my $name“ sagen, aber klarstellen, dass ich Englisch meine:",
-                "$~\\\"Sprache\"/de\\",
-                "$~Oder nehmen wir an, Sie möchten dies für einen @Name tun.",
-                "$~\\sound/de: 'miau'\\",
-                "$~Oder sogar @Doc!",
-                "$~\\¶Onomatopoeia¶/de\nTon/de: \"miau\"\\",
-                "$~Es gibt viele <2-stellige Sprachcodes@https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes>, die ich verstehe. Wenn Sie keinen davon verwenden, lasse ich Sie das wissen."
+                "$~Ich bin ein Sprach-Tag und arbeite mit @Name und @Doc zusammen!",
+                "$~Ich bin wirklich gut darin, *glasklar* zu machen, in welcher Sprache etwas geschrieben ist. Ein kleiner Schrägstrich und ein paar Buchstaben genügen, und niemand wird jemals im Unklaren darüber sein, in welcher Sprache ein Text verfasst ist.",
+                "$~Wenn Sie beispielsweise „Sprache“ sagen möchten, aber deutlich machen wollen, dass es auf Englisch ist:",
+                "$~\\\"Language\"/en\\",
+                "$~Das können Sie für einen @Name tun:",
+                "$~\\sound/en: 'meow'\\",
+                "$~…oder ein @Doc :",
+                "$~\\¶Onomatopoeia¶/en\nsound/en: \"meow\"\\",
+                "$~Manchmal besteht ein Text nicht nur aus einer Sprache, sondern aus einer Mischung. Wie zum Beispiel Spanglish, wo Spanisch und Englisch miteinander verschmelzen. In solchen Fällen trenne ich die Sprachen durch Unterstriche. Die erste ist die Hauptsprache – die verwende ich, wenn ich mich entscheiden muss (zum Beispiel bei der Wahl der Anführungszeichen).",
+                "$~\\\"Hola gentleman!\"/es_en\\",
+                "$~\\¶A bilingual greeting¶/es_en\nhello/es_en: \"Hola gentleman!\"\\",
+                "$~Sie können, genau wie bei einer einzelnen Sprache, nach einem Bindestrich auch eine einzelne Region hinzufügen:",
+                "$~\\\"Hola gentleman!\"/es_en-MX\\",
+                "$~Es gibt keine Begrenzung für die Anzahl der Sprachen, die Sie auflisten können – wiederholen Sie nur nicht dieselbe; ich werde Sie darauf hinweisen, falls Sie dies tun. Es gibt viele <2-Buchstaben-Sprachcodes@https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes>, die ich verstehe. Falls Sie keinen davon verwenden, werde ich Sie ebenfalls informieren."
             ],
             "conflict": {
                 "UnknownLanguage": {
@@ -215,6 +220,10 @@
                 "MissingLanguage": {
                     "name": "$~fehlendeSprache",
                     "explanation": "$~Mir fehlt eine Sprache. Können Sie eine hinzufügen?"
+                },
+                "DuplicateLanguage": {
+                    "name": "$~doppelteSprache",
+                    "explanation": "$~Sie haben die Sprache ' $code ' zweimal verwendet. Bei Tags mit gemischten Sprachen sollte jede Sprache nur einmal aufgeführt werden."
                 }
             }
         },
@@ -5262,18 +5271,18 @@
                     "replace": "$~diese Sprache verwenden",
                     "menu": "$~andere Sprachen"
                 },
-                "localizeHelp": "$?",
+                "localizeHelp": "$~Um die Übersetzungen in Ihrer Sprache zu verbessern, klicken Sie auf das Stiftsymbol ✎ unten auf der Seite, um den Lokalisierungsmodus zu aktivieren und Verbesserungsvorschläge einzureichen.",
                 "request": {
-                    "header": "$?",
-                    "explanation": "$?",
-                    "languageLabel": "$?",
-                    "regionLabel": "$?",
-                    "submit": "$?",
-                    "submitting": "$?",
-                    "success": "$?",
-                    "error": "$?",
-                    "alreadySupported": "$?",
-                    "requiresLogin": "$?"
+                    "header": "$~Ihre Sprache ist nicht dabei?",
+                    "explanation": "$~Wählen Sie eine Sprache und eine Region aus, und wir werden ein GitHub-Issue eröffnen, um die Hinzufügung zu besprechen.",
+                    "languageLabel": "$~Sprache",
+                    "regionLabel": "$~Region",
+                    "submit": "$~Anfrage",
+                    "submitting": "$~Anfrage wird gesendet…",
+                    "success": "$~Besprechen Sie diese Anfrage mit uns auf GitHub!",
+                    "error": "$~Es ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.",
+                    "alreadySupported": "$~Diese Sprache und Region werden bereits unterstützt.",
+                    "requiresLogin": "$~Sie müssen angemeldet sein, um eine Sprache anzufordern."
                 }
             },
             "help": {

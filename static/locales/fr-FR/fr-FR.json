@@ -131,7 +131,8 @@
         "GurmukhiNumeral": "$~chiffre gurmukhi",
         "KannadaNumeral": "$~chiffres kannada",
         "TamilNumeral": "$~chiffres tamouls",
-        "TeluguNumeral": "$~chiffres télougous"
+        "TeluguNumeral": "$~chiffres télougous",
+        "LanguageJoin": "$~jointure de langage"
     },
     "node": {
         "Dimension": {
@@ -196,16 +197,20 @@
             "description": "$~étiquette les noms et textes avec une langue",
             "emotion": "eager",
             "doc": [
-                "$~Je suis un tag de langue et je travaille avec @Name et @Doc !",
-                "$~Je suis vraiment doué pour rendre *très clair* dans quelle langue est écrit quelque chose.",
-                "$~C'est ce que je fais. Juste une petite barre oblique et quelques lettres, et personne ne sera jamais confus quant à la langue dans laquelle est écrit un texte.",
-                "$~Par exemple, disons que vous vouliez dire mon $name, mais précisez clairement que je suis en anglais:",
-                "$~\\\"Langue\"/fr\\",
-                "$~Ou, supposons que vous vouliez faire cela pour un @Name.",
-                "$~\\son/fr: 'miaou'\\",
-                "$~Ou même @Doc !",
-                "$~\\¶Onomatopée¶/fr son/fr: \"miaou\"\\",
-                "$~Il existe de nombreux <codes de langue à 2 lettres@https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes> que je comprends. Si vous n'en utilisez pas, je vous le ferai savoir."
+                "$~Je suis une balise de langue et je fonctionne avec @Name et @Doc !",
+                "$~Je suis très douée pour indiquer clairement la langue dans laquelle un texte est écrit. Un simple trait d'union et quelques lettres suffisent pour que personne ne puisse se tromper sur la langue.",
+                "$~Par exemple, si vous voulez dire « Langue » mais préciser qu'il s'agit de l'anglais :",
+                "$~\\\"Language\"/en\\",
+                "$~Vous pouvez le faire pour un @Name :",
+                "$~\\sound/en: 'meow'\\",
+                "$~…ou un @Doc :",
+                "$~\\¶Onomatopoeia¶/en\nsound/en: \"meow\"\\",
+                "$~Parfois, un texte n'est pas monolingue, mais multilingue. C'est le cas du spanglish, où l'espagnol et l'anglais se mêlent. Dans ce cas, indiquez chaque langue en les séparant par un tiret bas. La première est la langue principale ; c'est celle que je privilégie lorsque je dois choisir (par exemple, pour choisir les guillemets).",
+                "$~\\\"Hola gentleman!\"/es_en\\",
+                "$~\\¶A bilingual greeting¶/es_en\nhello/es_en: \"Hola gentleman!\"\\",
+                "$~Vous pouvez également ajouter une seule région, après un tiret, comme pour une seule langue :",
+                "$~\\\"Hola gentleman!\"/es_en-MX\\",
+                "$~Vous pouvez indiquer autant de langues que vous le souhaitez, mais veillez à ne pas répéter la même deux fois ; je vous le signalerai si c'est le cas. Je comprends de nombreux codes de langue à deux lettres (voir https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes). Si vous n'en utilisez pas un, je vous le ferai savoir également."
             ],
             "conflict": {
                 "UnknownLanguage": {
@@ -215,6 +220,10 @@
                 "MissingLanguage": {
                     "name": "$~languemanquante",
                     "explanation": "$~Il me manque une langue. Pouvez-vous en ajouter une ?"
+                },
+                "DuplicateLanguage": {
+                    "name": "$~languedupliquée",
+                    "explanation": "$~Vous avez utilisé la langue « $code » deux fois. Les balises multilingues ne doivent mentionner chaque langue qu'une seule fois."
                 }
             }
         },
@@ -5263,18 +5272,18 @@
                     "replace": "$~utiliser cette langue",
                     "menu": "$~autres langues"
                 },
-                "localizeHelp": "$?",
+                "localizeHelp": "$~Pour contribuer à l'amélioration des traductions dans votre langue, cliquez sur l'icône en forme de crayon ✎ en bas de la page pour activer le mode de localisation et suggérer des améliorations.",
                 "request": {
-                    "header": "$?",
-                    "explanation": "$?",
-                    "languageLabel": "$?",
-                    "regionLabel": "$?",
-                    "submit": "$?",
-                    "submitting": "$?",
-                    "success": "$?",
-                    "error": "$?",
-                    "alreadySupported": "$?",
-                    "requiresLogin": "$?"
+                    "header": "$~Vous ne trouvez pas votre langue ?",
+                    "explanation": "$~Choisissez une langue et une région, et nous ouvrirons une issue GitHub pour discuter de son ajout.",
+                    "languageLabel": "$~langue",
+                    "regionLabel": "$~région",
+                    "submit": "$~Demande",
+                    "submitting": "$~Envoi de la requête…",
+                    "success": "$~Discutez de cette demande avec nous sur GitHub !",
+                    "error": "$~Une erreur s'est produite. Veuillez réessayer.",
+                    "alreadySupported": "$~Cette langue et cette région sont déjà prises en charge.",
+                    "requiresLogin": "$~Vous devez être connecté pour demander une langue."
                 }
             },
             "help": {

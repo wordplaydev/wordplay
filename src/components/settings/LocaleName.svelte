@@ -3,10 +3,11 @@
     import { DRAFT_SYMBOL } from '@parser/Symbols';
     import { withMonoEmoji } from '@unicode/emoji';
     import {
-        getLocaleLanguageName,
+        getLocaleLanguages,
         getLocaleRegionNames,
         isLocaleDraft,
     } from '@locale/LocaleText';
+    import { Languages } from '@locale/LanguageCode';
 
     interface Props {
         locale: string | Locale;
@@ -16,7 +17,14 @@
 
     let { locale, supported = true, showDraft = true }: Props = $props();
 
-    let language = $derived(getLocaleLanguageName(locale));
+    /** Each language in the tag (one entry for monolingual locales, two or
+     *  more for multilingual ones). Used to render "[Spanish] + [English]"
+     *  for mixed-language tags per the issue #430 UI tweak. */
+    let languageNames = $derived(
+        getLocaleLanguages(locale).map(
+            (code) => Languages[code]?.name ?? code,
+        ),
+    );
     let regions = $derived(
         typeof locale === 'string'
             ? getLocaleRegionNames(locale)
@@ -30,8 +38,9 @@
 <span class="language" class:supported>
     {#if draft && showDraft}
         {withMonoEmoji(DRAFT_SYMBOL)}&nbsp;
-    {/if}<span class="name">{language}</span
-    >{#each regions as region, index}<sub
+    {/if}{#each languageNames as name, index}{#if index > 0}<span
+                class="join">{' + '}</span
+            >{/if}<span class="name">{name}</span>{/each}{#each regions as region, index}<sub
             >{#if index > 0}
                 /
             {/if}{region}</sub

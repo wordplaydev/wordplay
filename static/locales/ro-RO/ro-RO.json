@@ -131,7 +131,8 @@
         "Locale": "$~limbă",
         "Unknown": "$~necunoscut",
         "End": "$~Sfârşit",
-        "Highlight": "$~exemplu evidențiat"
+        "Highlight": "$~exemplu evidențiat",
+        "LanguageJoin": "$~unitor de limbi"
     },
     "node": {
         "Dimension": {
@@ -196,16 +197,20 @@
             "description": "$~nume de etichete și text cu o limbă",
             "emotion": "eager",
             "doc": [
-                "$~Sunt o etichetă de limbă și lucrez cu @Name și @Doc!",
-                "$~Mă pricep foarte bine la a preciza *clar-simț* în ce limbă este scris ceva.",
-                "$~Asta fac eu. Doar o mică bară oblică și câteva litere, și nimeni nu va fi vreodată confuz în ce limbă este un anumit text.",
-                "$~De exemplu, să presupunem că vrei să spui $name meu, dar să clarifici că sunt în engleză:",
-                "$~\\\"Limbă\"/ro\\",
-                "$~Sau, să presupunem că ai vrea să faci asta pentru un @Name.",
-                "$~\\sound/ro: 'miau'\\",
-                "$~Sau chiar @Doc!",
-                "$~\\¶Onomatopee¶/en sound/en: \"miau\"\\",
-                "$~Există multe coduri de limbă <de 2 litere@https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes> pe care le înțeleg. Dacă nu folosești unul dintre acestea, te voi anunța."
+                "$~Sunt o etichetă de limbă și lucrez cu @Name și @Doc !",
+                "$~Mă pricep foarte bine la a clarifica *extrem de bine* limba în care este scris ceva. Doar o mică bară oblică și câteva litere, și nimeni nu va fi confuz în ce limbă este un anumit text.",
+                "$~De exemplu, dacă vrei să spui „Limbă”, dar să specifici clar că este în engleză:",
+                "$~\\\"Language\"/en\\",
+                "$~Poți face asta pentru un @Name :",
+                "$~\\sound/en: 'meow'\\",
+                "$~...sau un @Doc :",
+                "$~\\¶Onomatopoeia¶/en\nsound/en: \"meow\"\\",
+                "$~Uneori, textul nu este doar o singură limbă - este un *amestec*. Ca și Spanglish, unde spaniola și engleza se îmbină. Pentru acestea, enumerați fiecare limbă cu un subliniere între ele. Prima este *principala* - aceea pe care o folosesc atunci când trebuie să aleg (de exemplu, pentru a alege ce ghilimele să folosesc).",
+                "$~\\\"Hola gentleman!\"/es_en\\",
+                "$~\\¶A bilingual greeting¶/es_en\nhello/es_en: \"Hola gentleman!\"\\",
+                "$~Poți adăuga și o singură regiune, după o liniuță, la fel ca în cazul unei singure limbi:",
+                "$~\\\"Hola gentleman!\"/es_en-MX\\",
+                "$~Nu există nicio limită la numărul de limbi pe care le poți enumera — doar nu repeta aceeași limbă de două ori; te voi anunța dacă o faci. Există multe <coduri de limbă din 2 litere@https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes> pe care le înțeleg. Dacă nu folosești una dintre acestea, te voi anunța și tu."
             ],
             "conflict": {
                 "UnknownLanguage": {
@@ -215,6 +220,10 @@
                 "MissingLanguage": {
                     "name": "$~limbălipsă",
                     "explanation": "$~Îmi lipsește o limbă. Poți adăuga una?"
+                },
+                "DuplicateLanguage": {
+                    "name": "$~limbajduplicat",
+                    "explanation": "$~Ai folosit codul limbii „ $code ” de două ori. Etichetele pentru limbi mixte ar trebui să listeze fiecare limbă o singură dată."
                 }
             }
         },
@@ -5558,18 +5567,18 @@
                     "remove": "$~eliminați această limbă",
                     "menu": "$~alte limbi"
                 },
-                "localizeHelp": "$?",
+                "localizeHelp": "$~Pentru a îmbunătăți traducerile în limba dvs., faceți clic pe pictograma creion ✎ din *partea de jos a paginii* pentru a activa modul de localizare și a sugera îmbunătățiri.",
                 "request": {
-                    "header": "$?",
-                    "explanation": "$?",
-                    "languageLabel": "$?",
-                    "regionLabel": "$?",
-                    "submit": "$?",
-                    "submitting": "$?",
-                    "success": "$?",
-                    "error": "$?",
-                    "alreadySupported": "$?",
-                    "requiresLogin": "$?"
+                    "header": "$~Nu vă vedeți limba?",
+                    "explanation": "$~Alege o limbă și o regiune, iar noi vom deschide o problemă pe GitHub pentru a discuta despre adăugarea acesteia.",
+                    "languageLabel": "$~limbă",
+                    "regionLabel": "$~regiune",
+                    "submit": "$~Cerere",
+                    "submitting": "$~Se trimite solicitarea…",
+                    "success": "$~Discutați această solicitare cu noi pe GitHub!",
+                    "error": "$~Ceva nu a mers bine. Vă rugăm să încercați din nou.",
+                    "alreadySupported": "$~Limba și regiunea respectivă sunt deja acceptate.",
+                    "requiresLogin": "$~Trebuie să fii autentificat pentru a solicita o limbă."
                 }
             },
             "help": {

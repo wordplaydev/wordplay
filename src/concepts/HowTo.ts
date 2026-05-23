@@ -53,6 +53,7 @@ export const HowToMetadata = {
     'show-when': { category: 'remembering' },
     'gravity-and-bouncing': { category: 'motion' },
     'gallery-how-to': { category: 'gallery' },
+    'mix-languages-in-text': { category: 'styling' },
 } satisfies Record<string, { category: HowToCategory }>;
 
 export const HowToIDs = Object.keys(HowToMetadata);

@@ -131,7 +131,8 @@
         "GurmukhiNumeral": "$~numerong gurmukhi",
         "KannadaNumeral": "$~numeral na Kannada",
         "TamilNumeral": "$~numeral na Tamil",
-        "TeluguNumeral": "$~numeral na Telugu"
+        "TeluguNumeral": "$~numeral na Telugu",
+        "LanguageJoin": "$~tagapagdugtong ng wika"
     },
     "node": {
         "Dimension": {
@@ -196,16 +197,20 @@
             "description": "$~mga pangalan ng tag at teksto gamit ang isang wika",
             "emotion": "eager",
             "doc": [
-                "$~Isa akong language tag at nakikipagtulungan ako sa @Name at @Doc!",
-                "$~Magaling talaga akong gawing *kristal na malinaw* kung anong wika ang ginagamit sa pagsulat ng isang bagay.",
-                "$~Iyan ang ginagawa ko. Kaunting guhit lang, at ilang letra, at walang malilito kung anong wika ang ginagamit ng isang teksto.",
-                "$~Halimbawa, sabihin nating gusto mong sabihin ang $name ko, pero linawin mo na nasa Ingles ako:",
-                "$~\\\"Wika\"/tl\\",
-                "$~O, ipagpalagay na gusto mong gawin ito para sa isang @Name.",
-                "$~\\sound/tl: 'meow'\\",
-                "$~O kahit si @Doc!",
-                "$~\\¶Onomatopoeia¶/fil\nsound/en: \"meow\"\\",
-                "$~Maraming <2-letter language codes@https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes> na naiintindihan ko. Kung hindi mo ginagamit ang isa sa mga iyan, ipapaalam ko sa iyo."
+                "$~Isa akong language tag at nakikipagtulungan ako sa @Name at @Doc !",
+                "$~Magaling talaga akong gawing *kristal-linaw* kung anong wika ang ginagamit sa pagsulat ng isang bagay. Kaunting guhit at ilang letra lang, at walang malilito kung anong wika ang ginagamit sa isang teksto.",
+                "$~Halimbawa, kung gusto mong sabihin ang \"Wika\" ngunit linawin na ito ay nasa Ingles:",
+                "$~\\\"Language\"/en\\",
+                "$~Magagawa mo ito para sa isang @Name :",
+                "$~\\sound/en: 'meow'\\",
+                "$~...o isang @Doc :",
+                "$~\\¶Onomatopoeia¶/en\nsound/en: \"meow\"\\",
+                "$~Minsan ang teksto ay hindi lang iisang wika — ito ay isang *halo*. Tulad ng Spanglish, kung saan pinagsasama ang Espanyol at Ingles. Para sa mga iyon, ilista ang bawat wika na may salungguhit sa pagitan ng mga ito. Ang una ay ang *pangunahin* — iyon ang ginagamit ko kapag kailangan kong pumili (halimbawa, para piliin kung aling mga panipi ang gagamitin).",
+                "$~\\\"Hola gentleman!\"/es_en\\",
+                "$~\\¶A bilingual greeting¶/es_en\nhello/es_en: \"Hola gentleman!\"\\",
+                "$~Maaari ka ring magdagdag ng isang rehiyon, pagkatapos ng isang gitling, tulad ng sa isang wika lamang:",
+                "$~\\\"Hola gentleman!\"/es_en-MX\\",
+                "$~Walang limitasyon sa kung ilang wika ang maaari mong ilista — huwag mo lang ulitin ang parehong wika nang dalawang beses; ipapaalam ko sa iyo kung gagawin mo. Maraming <2-letter language codes@https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes> na naiintindihan ko. Kung hindi mo ginagamit ang isa sa mga iyon, ipapaalam ko rin sa iyo."
             ],
             "conflict": {
                 "UnknownLanguage": {
@@ -215,6 +220,10 @@
                 "MissingLanguage": {
                     "name": "$~nawawalangwika",
                     "explanation": "$~May kulang akong wika. Maaari ka bang magdagdag ng isa?"
+                },
+                "DuplicateLanguage": {
+                    "name": "$~doblengwika",
+                    "explanation": "$~Ginamit mo nang dalawang beses ang wikang ' $code '. Ang mga tag na may halo-halong wika ay dapat maglista ng bawat wika nang isang beses lamang."
                 }
             }
         },
@@ -5549,18 +5558,18 @@
                     "remove": "$~alisin ang wikang ito",
                     "menu": "$~ibang mga wika"
                 },
-                "localizeHelp": "$?",
+                "localizeHelp": "$~/Para makatulong na mapabuti ang mga pagsasalin sa iyong wika, i-click ang ✎ icon na lapis sa *ibaba ng pahina* para i-on ang localization mode at magmungkahi ng mga pagpapabuti./",
                 "request": {
-                    "header": "$?",
-                    "explanation": "$?",
-                    "languageLabel": "$?",
-                    "regionLabel": "$?",
-                    "submit": "$?",
-                    "submitting": "$?",
-                    "success": "$?",
-                    "error": "$?",
-                    "alreadySupported": "$?",
-                    "requiresLogin": "$?"
+                    "header": "$~Hindi mo makita ang wika mo?",
+                    "explanation": "$~Pumili ng wika at rehiyon at magbubukas tayo ng isyu sa GitHub para talakayin ang pagdaragdag nito.",
+                    "languageLabel": "$~wika",
+                    "regionLabel": "$~rehiyon",
+                    "submit": "$~Kahilingan",
+                    "submitting": "$~Nagpapadala ng kahilingan…",
+                    "success": "$~Talakayin sa amin ang kahilingang ito sa GitHub!",
+                    "error": "$~May nangyaring mali. Pakisubukang muli.",
+                    "alreadySupported": "$~Sinusuportahan na ang wikang iyon at rehiyon.",
+                    "requiresLogin": "$~Dapat kang naka-sign in para humiling ng wika."
                 }
             },
             "help": {

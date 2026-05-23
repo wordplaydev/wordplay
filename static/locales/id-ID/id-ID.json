@@ -131,7 +131,8 @@
         "Locale": "$~bahasa",
         "Unknown": "$~tidak dikenal",
         "End": "$~akhir",
-        "Highlight": "$~contoh yang disorot"
+        "Highlight": "$~contoh yang disorot",
+        "LanguageJoin": "$~penyambung bahasa"
     },
     "node": {
         "Dimension": {
@@ -196,16 +197,20 @@
             "description": "$~beri tag nama dan teks dengan bahasa tertentu",
             "emotion": "eager",
             "doc": [
-                "$~Saya adalah tag bahasa dan saya bekerja dengan @Name dan @Doc!",
-                "$~Saya sangat pandai membuat orang *sangat jelas* bahasa apa yang digunakan dalam tulisan tersebut.",
-                "$~Itulah yang saya lakukan. Hanya sedikit garis miring, dan beberapa huruf, dan tidak akan ada yang bingung tentang bahasa apa yang digunakan dalam suatu teks.",
-                "$~Misalnya, katakanlah Anda ingin mengatakan $name saya, tetapi tetap memperjelas bahwa saya dalam bahasa Inggris:",
-                "$~\\\"Bahasa\"/en\\",
-                "$~Atau, misalkan Anda ingin melakukan ini untuk @Name.",
-                "$~\\suara/en: 'meong'\\",
-                "$~Atau bahkan @Doc!",
-                "$~\\¶Onomatopoeia¶/en suara/en: \"meong\"\\",
-                "$~Ada banyak kode bahasa 2 huruf yang saya pahami. Jika Anda tidak menggunakan salah satunya, saya akan memberi tahu Anda."
+                "$~Saya adalah tag bahasa dan saya bekerja dengan @Name dan @Doc !",
+                "$~Saya sangat pandai membuat sesuatu *sangat jelas* dalam bahasa apa teks itu ditulis. Hanya dengan sedikit garis miring dan beberapa huruf, tidak akan ada yang bingung tentang bahasa apa teks tersebut ditulis.",
+                "$~Contohnya, jika Anda ingin mengatakan \"Bahasa\" tetapi tetap menekankan bahwa itu dalam bahasa Inggris:",
+                "$~\\\"Language\"/en\\",
+                "$~Anda bisa melakukan ini untuk @Name :",
+                "$~\\sound/en: 'meow'\\",
+                "$~…atau @Doc :",
+                "$~\\¶Onomatopoeia¶/en\nsound/en: \"meow\"\\",
+                "$~Terkadang teks bukan hanya satu bahasa — melainkan *campuran*. Seperti Spanglish, di mana bahasa Spanyol dan Inggris bercampur. Untuk itu, cantumkan setiap bahasa dengan garis bawah di antaranya. Yang pertama adalah *utama* — itulah yang saya gunakan ketika saya harus memilih (misalnya, untuk memilih tanda kutip mana yang akan digunakan).",
+                "$~\\\"Hola gentleman!\"/es_en\\",
+                "$~\\¶A bilingual greeting¶/es_en\nhello/es_en: \"Hola gentleman!\"\\",
+                "$~Anda juga dapat menambahkan satu wilayah saja, setelah tanda hubung, sama seperti saat menambahkan satu bahasa:",
+                "$~\\\"Hola gentleman!\"/es_en-MX\\",
+                "$~Tidak ada batasan berapa banyak bahasa yang dapat Anda cantumkan — hanya saja jangan mengulangi bahasa yang sama dua kali; saya akan memberi tahu Anda jika Anda melakukannya. Ada banyak <kode bahasa 2 huruf@https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes> yang saya pahami. Jika Anda tidak menggunakan salah satu dari kode tersebut, saya juga akan memberi tahu Anda."
             ],
             "conflict": {
                 "UnknownLanguage": {
@@ -215,6 +220,10 @@
                 "MissingLanguage": {
                     "name": "$~bahasayanghilang",
                     "explanation": "$~Saya kekurangan satu bahasa. Bisakah Anda menambahkannya?"
+                },
+                "DuplicateLanguage": {
+                    "name": "$~bahasaduplikat",
+                    "explanation": "$~Anda menggunakan bahasa ' $code ' dua kali. Tag campuran bahasa seharusnya hanya mencantumkan setiap bahasa satu kali."
                 }
             }
         },
@@ -5558,18 +5567,18 @@
                     "remove": "$~hapus bahasa ini",
                     "menu": "$~bahasa lain"
                 },
-                "localizeHelp": "$?",
+                "localizeHelp": "$~Untuk membantu meningkatkan terjemahan dalam bahasa Anda, klik ikon pensil ✎ di *bagian bawah halaman* untuk mengaktifkan mode lokalisasi dan menyarankan perbaikan.",
                 "request": {
-                    "header": "$?",
-                    "explanation": "$?",
-                    "languageLabel": "$?",
-                    "regionLabel": "$?",
-                    "submit": "$?",
-                    "submitting": "$?",
-                    "success": "$?",
-                    "error": "$?",
-                    "alreadySupported": "$?",
-                    "requiresLogin": "$?"
+                    "header": "$~Bahasa Anda tidak tersedia?",
+                    "explanation": "$~Pilih bahasa dan wilayah, lalu kami akan membuka issue di GitHub untuk membahas penambahannya.",
+                    "languageLabel": "$~bahasa",
+                    "regionLabel": "$~wilayah",
+                    "submit": "$~Meminta",
+                    "submitting": "$~Mengirim permintaan…",
+                    "success": "$~Diskusikan permintaan ini dengan kami di GitHub!",
+                    "error": "$~Terjadi kesalahan. Silakan coba lagi.",
+                    "alreadySupported": "$~Bahasa dan wilayah tersebut sudah didukung.",
+                    "requiresLogin": "$~Anda harus masuk terlebih dahulu untuk meminta bahasa."
                 }
             },
             "help": {

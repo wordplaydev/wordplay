@@ -131,7 +131,8 @@
         "GurmukhiNumeral": "$~gurmukhi-siffra",
         "KannadaNumeral": "$~kannadasiffra",
         "TamilNumeral": "$~tamilska siffror",
-        "TeluguNumeral": "$~telugu-siffra"
+        "TeluguNumeral": "$~telugu-siffra",
+        "LanguageJoin": "$~språkförbindare"
     },
     "node": {
         "Dimension": {
@@ -196,16 +197,20 @@
             "description": "$~taggnamn och text med ett språk",
             "emotion": "eager",
             "doc": [
-                "$~Jag är en språktagg och jag arbetar med @Name och @Doc!",
-                "$~Jag är riktigt bra på att göra det *kristallklart* vilket språk något är skrivet på.",
-                "$~Det är vad jag gör. Bara ett litet snedstreck och ett par bokstäver, och ingen kommer någonsin att bli förvirrad över vilket språk en text är på.",
-                "$~Låt oss till exempel säga att du ville säga mitt $namn, men gör det klart att jag är på engelska:",
-                "$~\\\"Språk\"/sv\\",
-                "$~Eller anta att du ville göra detta för ett @Name.",
-                "$~\\sound/sv: 'mjau'\\",
-                "$~Eller till och med @Doc!",
-                "$~\\¶Onomatopoeia¶/sv\nsound/sv: \"mjau\"\\",
-                "$~Det finns många <2-bokstavsspråkkoder@https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes> som jag förstår. Om du inte använder någon av dessa så meddelar jag dig."
+                "$~Jag är en språktagg och jag arbetar med @Name och @Doc !",
+                "$~Jag är riktigt bra på att göra det *kristallklart* vilket språk något är skrivet på. Bara ett litet snedstreck och ett par bokstäver, och ingen kommer någonsin att bli förvirrad över vilket språk en viss text är skriven på.",
+                "$~Om du till exempel vill säga \"Language\" men tydligt anger att det är på engelska:",
+                "$~\\\"Language\"/en\\",
+                "$~Du kan göra detta för ett @Name :",
+                "$~\\sound/en: 'meow'\\",
+                "$~...eller en @Doc :",
+                "$~\\¶Onomatopoeia¶/en\nsound/en: \"meow\"\\",
+                "$~Ibland är text inte bara ett språk – det är en *blandning*. Som spanglish, där spanska och engelska blandas. För dessa, lista varje språk med ett understreck mellan dem. Det första är det *primära* – det är det jag använder när jag måste välja (till exempel för att välja vilka citattecken jag ska använda).",
+                "$~\\\"Hola gentleman!\"/es_en\\",
+                "$~\\¶A bilingual greeting¶/es_en\nhello/es_en: \"Hola gentleman!\"\\",
+                "$~Du kan också lägga till en enskild region, efter ett bindestreck, precis som med ett enskilt språk:",
+                "$~\\\"Hola gentleman!\"/es_en-MX\\",
+                "$~Det finns ingen gräns för hur många språk du kan lista – upprepa bara inte samma språk två gånger; jag meddelar dig om du gör det. Det finns många <språkkoder med två bokstäver@https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes> som jag förstår. Om du inte använder något av dem, meddelar jag dig också."
             ],
             "conflict": {
                 "UnknownLanguage": {
@@ -215,6 +220,10 @@
                 "MissingLanguage": {
                     "name": "$~saknatspråk",
                     "explanation": "$~Jag saknar ett språk. Kan du lägga till ett?"
+                },
+                "DuplicateLanguage": {
+                    "name": "$~dupliceratspråk",
+                    "explanation": "$~Du använde språket ' $code ' två gånger. Taggar för blandspråk bör bara lista varje språk en gång."
                 }
             }
         },
@@ -5280,18 +5289,18 @@
                     "remove": "$~ta bort det här språket",
                     "menu": "$~andra språk"
                 },
-                "localizeHelp": "$?",
+                "localizeHelp": "$~/För att förbättra översättningarna på ditt språk, klicka på pennikonen ✎ längst ner på sidan för att aktivera lokaliseringsläget och föreslå förbättringar./",
                 "request": {
-                    "header": "$?",
-                    "explanation": "$?",
-                    "languageLabel": "$?",
-                    "regionLabel": "$?",
-                    "submit": "$?",
-                    "submitting": "$?",
-                    "success": "$?",
-                    "error": "$?",
-                    "alreadySupported": "$?",
-                    "requiresLogin": "$?"
+                    "header": "$~Ser du inte ditt språk?",
+                    "explanation": "$~Välj ett språk och en region så öppnar vi ett GitHub-ärende för att diskutera hur man lägger till det.",
+                    "languageLabel": "$~språk",
+                    "regionLabel": "$~område",
+                    "submit": "$~Begäran",
+                    "submitting": "$~Skickar begäran…",
+                    "success": "$~Diskutera denna förfrågan med oss på GitHub!",
+                    "error": "$~Något gick fel. Försök igen.",
+                    "alreadySupported": "$~Det språket och den regionen stöds redan.",
+                    "requiresLogin": "$~Du måste vara inloggad för att begära ett språk."
                 }
             },
             "help": {

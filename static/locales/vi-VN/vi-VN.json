@@ -131,7 +131,8 @@
         "GurmukhiNumeral": "$~chữ số Gurmukhi",
         "KannadaNumeral": "$~chữ số kannada",
         "TamilNumeral": "$~chữ số Tamil",
-        "TeluguNumeral": "$~số telugu"
+        "TeluguNumeral": "$~số telugu",
+        "LanguageJoin": "$~người tham gia ngôn ngữ"
     },
     "node": {
         "Dimension": {
@@ -196,16 +197,20 @@
             "description": "$~tên thẻ và văn bản kèm theo ngôn ngữ",
             "emotion": "eager",
             "doc": [
-                "$~Tôi là một thẻ ngôn ngữ và tôi làm việc với @Name và @Doc!",
-                "$~Tôi rất giỏi trong việc làm rõ ràng ngôn ngữ mà một văn bản được viết bằng.",
-                "$~Đó là cách tôi làm. Chỉ cần một dấu gạch chéo nhỏ và vài chữ cái, thế là sẽ không ai nhầm lẫn văn bản đó thuộc ngôn ngữ nào nữa.",
-                "$~Ví dụ, giả sử bạn muốn nói tên tôi là $name, nhưng muốn làm rõ rằng tôi đang nói bằng tiếng Anh:",
-                "$~\"Ngôn ngữ\"/en",
-                "$~Hoặc, giả sử bạn muốn làm điều này cho một @Name.",
+                "$~Tôi là một thẻ ngôn ngữ và tôi làm việc với @Name và @Doc !",
+                "$~Tôi rất giỏi trong việc làm cho người đọc dễ dàng nhận biết ngôn ngữ của một văn bản. Chỉ cần một dấu gạch chéo và vài chữ cái, là sẽ không ai nhầm lẫn về ngôn ngữ của văn bản đó nữa.",
+                "$~Ví dụ, nếu bạn muốn nói \"Ngôn ngữ\" nhưng muốn làm rõ rằng đó là tiếng Anh:",
+                "$~\\\"Language\"/en\\",
+                "$~Bạn có thể làm điều này với @Name :",
                 "$~\\sound/en: 'meow'\\",
-                "$~Hoặc thậm chí là @Doc!",
-                "$~\\¶Từ tượng thanh¶/vi\nâm thanh/en: \"meo meo\"\\",
-                "$~Có rất nhiều mã ngôn ngữ gồm 2 chữ cái (<2-letter language codes@https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes>) mà tôi hiểu. Nếu bạn không sử dụng mã nào trong số đó, tôi sẽ cho bạn biết."
+                "$~…hoặc @Doc :",
+                "$~\\¶Onomatopoeia¶/en\nsound/en: \"meow\"\\",
+                "$~Đôi khi văn bản không chỉ có một ngôn ngữ — mà là sự pha trộn của nhiều ngôn ngữ. Ví dụ như Spanglish, nơi tiếng Tây Ban Nha và tiếng Anh hòa trộn với nhau. Đối với những trường hợp này, hãy liệt kê từng ngôn ngữ với dấu gạch dưới ở giữa. Ngôn ngữ đầu tiên là ngôn ngữ *chính* — đó là ngôn ngữ tôi sử dụng khi phải lựa chọn (ví dụ, để chọn loại dấu ngoặc kép nào cần dùng).",
+                "$~\\\"Hola gentleman!\"/es_en\\",
+                "$~\\¶A bilingual greeting¶/es_en\nhello/es_en: \"Hola gentleman!\"\\",
+                "$~Bạn cũng có thể thêm một khu vực riêng lẻ sau dấu gạch ngang, giống như với một ngôn ngữ riêng lẻ:",
+                "$~\\\"Hola gentleman!\"/es_en-MX\\",
+                "$~Không có giới hạn về số lượng ngôn ngữ bạn có thể liệt kê — chỉ cần đừng lặp lại cùng một ngôn ngữ hai lần; tôi sẽ cho bạn biết nếu bạn làm vậy. Có rất nhiều <mã ngôn ngữ gồm 2 chữ cái@https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes> mà tôi hiểu. Nếu bạn không sử dụng một trong những mã đó, tôi cũng sẽ cho bạn biết."
             ],
             "conflict": {
                 "UnknownLanguage": {
@@ -215,6 +220,10 @@
                 "MissingLanguage": {
                     "name": "$~ngônngữbịthiếu",
                     "explanation": "$~Tôi đang thiếu một ngôn ngữ. Bạn có thể thêm một ngôn ngữ nữa không?"
+                },
+                "DuplicateLanguage": {
+                    "name": "$~ngônngữtrùnglặp",
+                    "explanation": "$~Bạn đã sử dụng ngôn ngữ ' $code ' hai lần. Thẻ đa ngôn ngữ chỉ nên liệt kê mỗi ngôn ngữ một lần."
                 }
             }
         },
@@ -5542,18 +5551,18 @@
                     "remove": "$~xóa ngôn ngữ này",
                     "menu": "$~các ngôn ngữ khác"
                 },
-                "localizeHelp": "$?",
+                "localizeHelp": "$~Để giúp cải thiện bản dịch sang ngôn ngữ của bạn, hãy nhấp vào biểu tượng bút chì ✎ ở *cuối trang* để bật chế độ bản địa hóa và đề xuất cải tiến.",
                 "request": {
-                    "header": "$?",
-                    "explanation": "$?",
-                    "languageLabel": "$?",
-                    "regionLabel": "$?",
-                    "submit": "$?",
-                    "submitting": "$?",
-                    "success": "$?",
-                    "error": "$?",
-                    "alreadySupported": "$?",
-                    "requiresLogin": "$?"
+                    "header": "$~Không thấy ngôn ngữ của bạn?",
+                    "explanation": "$~Hãy chọn ngôn ngữ và khu vực bạn muốn hỗ trợ, sau đó chúng tôi sẽ tạo một vấn đề trên GitHub để thảo luận về việc thêm ngôn ngữ và khu vực đó.",
+                    "languageLabel": "$~ngôn ngữ",
+                    "regionLabel": "$~vùng đất",
+                    "submit": "$~Lời yêu cầu",
+                    "submitting": "$~Đang gửi yêu cầu…",
+                    "success": "$~Hãy thảo luận yêu cầu này với chúng tôi trên GitHub!",
+                    "error": "$~Đã xảy ra lỗi. Vui lòng thử lại.",
+                    "alreadySupported": "$~Ngôn ngữ và khu vực đó đã được hỗ trợ.",
+                    "requiresLogin": "$~Bạn phải đăng nhập để yêu cầu chọn ngôn ngữ."
                 }
             },
             "help": {

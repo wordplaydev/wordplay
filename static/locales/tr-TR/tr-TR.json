@@ -131,7 +131,8 @@
         "GurmukhiNumeral": "$~gurmukhi rakamı",
         "KannadaNumeral": "$~Kannada rakamı",
         "TamilNumeral": "$~tamil rakamı",
-        "TeluguNumeral": "$~Telugu rakamı"
+        "TeluguNumeral": "$~Telugu rakamı",
+        "LanguageJoin": "$~dil birleştirici"
     },
     "node": {
         "Dimension": {
@@ -197,15 +198,19 @@
             "emotion": "eager",
             "doc": [
                 "$~Ben bir dil etiketiyim ve @Name ve @Doc ile çalışıyorum!",
-                "$~Bir şeyin hangi dilde yazıldığını *kristal netliğinde* ifade etmekte gerçekten iyiyim.",
-                "$~Ben bunu yapıyorum. Sadece küçük bir çizgi ve birkaç harf, ve hiç kimse metnin hangi dilde olduğu konusunda asla kafası karışmayacak.",
-                "$~Örneğin, $name demek istediğinizi varsayalım, ancak İngilizce olduğumu açıkça belirtmek istiyorsunuz:",
-                "$~\\\"Dil\"/tr\\",
-                "$~Ya da bunu bir @Name için yapmak istediğinizi varsayalım.",
-                "$~\\sound/tr: 'miyav'\\",
-                "$~Ya da @Doc bile!",
-                "$~\\¶Onomatopoeia¶/tr\nses/en: \"miyav\"\\",
-                "$~Anladığım birçok <2 harfli dil kodu@https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes> var. Bunlardan birini kullanmıyorsanız, size bildireceğim."
+                "$~Bir şeyin hangi dilde yazıldığını *son derece açık* bir şekilde belirtmekte gerçekten iyiyim. Sadece küçük bir eğik çizgi ve birkaç harf, ve hiç kimse bir metnin hangi dilde yazıldığı konusunda asla kafa karışıklığı yaşamayacak.",
+                "$~Örneğin, \"Dil\" demek istiyorsunuz ama bunun İngilizce olduğunu da belirtmek istiyorsunuz:",
+                "$~\\\"Language\"/en\\",
+                "$~Bunu @Name için yapabilirsiniz:",
+                "$~\\sound/en: 'meow'\\",
+                "$~…veya bir @Doc :",
+                "$~\\¶Onomatopoeia¶/en\nsound/en: \"meow\"\\",
+                "$~Bazen metin tek bir dilden oluşmaz, bir *karışım* olur. İspanyolca ve İngilizcenin bir araya geldiği Spanglish gibi. Bunlar için, her dili aralarına alt çizgi koyarak listeleyin. İlk dil *birincil* olanıdır; örneğin, hangi tırnak işaretlerini kullanacağımı seçmek gibi durumlarda onu kullanırım.",
+                "$~\\\"Hola gentleman!\"/es_en\\",
+                "$~\\¶A bilingual greeting¶/es_en\nhello/es_en: \"Hola gentleman!\"\\",
+                "$~Tek bir dil ekler gibi, tireden sonra tek bir bölge de ekleyebilirsiniz:",
+                "$~\\\"Hola gentleman!\"/es_en-MX\\",
+                "$~Listeleyebileceğiniz dil sayısında bir sınır yok; sadece aynı dili iki kez tekrarlamayın; eğer tekrarlarsanız size bildireceğim. Anladığım birçok <2 harfli dil kodu@https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes> var. Bunlardan birini kullanmıyorsanız, bunu da size bildireceğim."
             ],
             "conflict": {
                 "UnknownLanguage": {
@@ -215,6 +220,10 @@
                 "MissingLanguage": {
                     "name": "$~eksikdil",
                     "explanation": "$~Bir dil eksik. Ekleyebilir misiniz?"
+                },
+                "DuplicateLanguage": {
+                    "name": "$~çiftdil",
+                    "explanation": "$~' $code ' dilini iki kez kullandınız. Karma dil etiketlerinde her dil yalnızca bir kez listelenmelidir."
                 }
             }
         },
@@ -5276,18 +5285,18 @@
                     "remove": "$~bu dili kaldır",
                     "menu": "$~diğer diller"
                 },
-                "localizeHelp": "$?",
+                "localizeHelp": "$~/Dilinizdeki çevirilerin iyileştirilmesine yardımcı olmak için, yerelleştirme modunu açmak ve iyileştirme önerilerinde bulunmak üzere sayfanın altındaki ✎ kalem simgesine tıklayın./",
                 "request": {
-                    "header": "$?",
-                    "explanation": "$?",
-                    "languageLabel": "$?",
-                    "regionLabel": "$?",
-                    "submit": "$?",
-                    "submitting": "$?",
-                    "success": "$?",
-                    "error": "$?",
-                    "alreadySupported": "$?",
-                    "requiresLogin": "$?"
+                    "header": "$~Dilinizi göremiyor musunuz?",
+                    "explanation": "$~Bir dil ve bölge seçin, biz de bunu eklemeyi görüşmek üzere GitHub'da bir konu açalım.",
+                    "languageLabel": "$~dil",
+                    "regionLabel": "$~bölge",
+                    "submit": "$~Rica etmek",
+                    "submitting": "$~İstek gönderiliyor…",
+                    "success": "$~Bu isteği GitHub üzerinden bizimle tartışın!",
+                    "error": "$~Bir sorun oluştu. Lütfen tekrar deneyin.",
+                    "alreadySupported": "$~Bu dil ve bölge zaten desteklenmektedir.",
+                    "requiresLogin": "$~Dil talebinde bulunmak için giriş yapmanız gerekmektedir."
                 }
             },
             "help": {

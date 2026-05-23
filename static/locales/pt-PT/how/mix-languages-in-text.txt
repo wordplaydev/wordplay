@@ -1,0 +1,13 @@
+Cumprimentar uma plateia multilingue
+
+UM  @Phrase  A plataforma exibe a tradução correta para cada espectador com base nos idiomas que escolheram. Se o seu público fala espanhol, pode falar espanhol com ele; se falam espanhol e inglês — o chamado "Spanglish"! — pode misturar os idiomas.
+
+Dê um  @TextLiteral  Existem várias traduções, incluindo uma multilingue, e o Wordplay escolhe a mais adequada para cada espectador:
+
+\Phrase("olá"/es"Olá"/en"Olá, cavalheiros!"/es_en)\
+
+Um espectador cuja língua preferida seja apenas o espanhol vê /olá/Um espectador que prefira apenas o inglês vê /Olá/Um espectador que prefira tanto o espanhol como o inglês vê /Olá, cavalheiros!/ — a versão em Spanglish.
+
+Os jogos de palavras favorecem a correspondência mais específica, pelo que uma tradução monolingue prevalece sempre sobre uma multilingue quando ambas são aplicáveis.
+
+styling-text

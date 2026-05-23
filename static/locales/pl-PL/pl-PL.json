@@ -131,7 +131,8 @@
         "GurmukhiNumeral": "$~cyfra gurmukhi",
         "KannadaNumeral": "$~cyfra kannada",
         "TamilNumeral": "$~cyfra tamilska",
-        "TeluguNumeral": "$~cyfra telugu"
+        "TeluguNumeral": "$~cyfra telugu",
+        "LanguageJoin": "$~łącznik językowy"
     },
     "node": {
         "Dimension": {
@@ -196,16 +197,20 @@
             "description": "$~nazwy tagów i tekst z językiem",
             "emotion": "eager",
             "doc": [
-                "$~Jestem tagiem językowym i pracuję z @Name i @Doc!",
-                "$~Naprawdę dobrze mi idzie *jasne* wyjaśnianie, w jakim języku coś zostało napisane.",
-                "$~To właśnie robię. Wystarczy mały ukośnik i kilka liter, a nikt nigdy nie będzie zdezorientowany, w jakim języku jest jakiś tekst.",
-                "$~Na przykład, powiedzmy, że chcesz powiedzieć my $name, ale wyraźnie zaznaczyć, że jestem po angielsku:",
-                "$~\\\"Język\"/pl\\",
-                "$~Lub załóżmy, że chcesz to zrobić dla @Name.",
-                "$~\\sound/pl: 'miau'\\",
-                "$~Albo nawet @Doc!",
-                "$~\\¶Onomatopeja¶/en\ndźwięk/en: \"miau\"\\",
-                "$~Jest wiele <2-literowych kodów językowych@https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes>, które rozumiem. Jeśli nie używasz żadnego z nich, dam ci znać."
+                "$~Jestem tagiem językowym i pracuję z @Name i @Doc !",
+                "$~Naprawdę dobrze mi idzie *absolutnie jasne* wyjaśnianie, w jakim języku napisano dany tekst. Wystarczy odrobina ukośnika i kilka liter, a nikt nigdy nie będzie miał wątpliwości, w jakim języku napisano dany tekst.",
+                "$~Na przykład, jeśli chcesz powiedzieć „Język”, ale wyraźnie zaznaczyć, że jest to po angielsku:",
+                "$~\\\"Language\"/en\\",
+                "$~Można to zrobić dla @Name :",
+                "$~\\sound/en: 'meow'\\",
+                "$~…lub @Doc :",
+                "$~\\¶Onomatopoeia¶/en\nsound/en: \"meow\"\\",
+                "$~Czasami tekst nie jest w jednym języku — to *miks*. Jak w Spanglish, gdzie hiszpański i angielski mieszają się ze sobą. W takich przypadkach należy wymienić każdy język, zaznaczając go podkreślnikiem. Pierwszy jest *podstawowy* — to właśnie go używam, gdy muszę dokonać wyboru (na przykład, aby wybrać, które cudzysłowy zastosować).",
+                "$~\\\"Hola gentleman!\"/es_en\\",
+                "$~\\¶A bilingual greeting¶/es_en\nhello/es_en: \"Hola gentleman!\"\\",
+                "$~Można również dodać pojedynczy region po myślniku, tak jak w przypadku pojedynczego języka:",
+                "$~\\\"Hola gentleman!\"/es_en-MX\\",
+                "$~Nie ma limitu liczby języków, które możesz dodać — tylko nie powtarzaj tego samego dwa razy; dam ci znać, jeśli to zrobisz. Jest wiele <2-literowych kodów języków@https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes>, które rozumiem. Jeśli któregoś z nich nie używasz, też dam ci znać."
             ],
             "conflict": {
                 "UnknownLanguage": {
@@ -215,6 +220,10 @@
                 "MissingLanguage": {
                     "name": "$~brakującyjęzyk",
                     "explanation": "$~Brakuje mi języka. Czy możesz go dodać?"
+                },
+                "DuplicateLanguage": {
+                    "name": "$~duplikatjęzyka",
+                    "explanation": "$~Język „ $code ” został użyty dwukrotnie. Tagi mieszanych języków powinny wymieniać każdy język tylko raz."
                 }
             }
         },
@@ -5289,18 +5298,18 @@
                     "remove": "$~usuń ten język",
                     "menu": "$~inne języki"
                 },
-                "localizeHelp": "$?",
+                "localizeHelp": "$~/Aby pomóc w ulepszaniu tłumaczeń w Twoim języku, kliknij ikonę ołówka ✎ u *dołu strony*, aby włączyć tryb lokalizacji i zaproponować ulepszenia./",
                 "request": {
-                    "header": "$?",
-                    "explanation": "$?",
-                    "languageLabel": "$?",
-                    "regionLabel": "$?",
-                    "submit": "$?",
-                    "submitting": "$?",
-                    "success": "$?",
-                    "error": "$?",
-                    "alreadySupported": "$?",
-                    "requiresLogin": "$?"
+                    "header": "$~Nie widzisz swojego języka?",
+                    "explanation": "$~Wybierz język i region, a my zgłosimy problem w serwisie GitHub, aby omówić możliwość jego dodania.",
+                    "languageLabel": "$~język",
+                    "regionLabel": "$~region",
+                    "submit": "$~Wniosek",
+                    "submitting": "$~Wysyłanie prośby…",
+                    "success": "$~Porozmawiaj z nami na ten temat na GitHub!",
+                    "error": "$~Coś poszło nie tak. Spróbuj ponownie.",
+                    "alreadySupported": "$~Ten język i region są już obsługiwane.",
+                    "requiresLogin": "$~Aby poprosić o wybór języka, musisz się zalogować."
                 }
             },
             "help": {

@@ -16,6 +16,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 🔣 The emoji + glyph chooser now lets you filter by language scripts (#322).
 - 📡 We added better feedback when the site is offline and saves are pending.
 - ⬆️ We added a "back to top" button on long pages.
+- 🌐 We made text, names, and docs multilingual: tag them like `/es_en` to mark them as a mix of languages (Spanglish, Franglais, and more), and then you can filter code and output by matching languages (#430).
 
 ### Changed
 
@@ -23,6 +24,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 📝 We made @Phrase word wrapping locale specific (#164).
 - 🛠️ We upgraded internal tooling for stability.
 - 🌐 We made the default choices on the language choosers in the editor and stage clearer.
+- 📖 Example code in how-tos and docs now shows every translation, not just the one matching your language.
 
 ### Fixed
 

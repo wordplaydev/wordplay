@@ -1,5 +1,6 @@
 <script lang="ts">
     import type Language from '@nodes/Language';
+    import NodeSequenceView from '@components/editor/nodes/NodeSequenceView.svelte';
     import NodeView, {
         type Format,
     } from '@components/editor/nodes/NodeView.svelte';
@@ -16,6 +17,11 @@
     ><NodeView node={[node, 'slash']} {format} /><NodeView
         node={[node, 'language']}
         {format}
+    /><NodeSequenceView
+        {node}
+        field="extras"
+        {format}
+        empty="hide"
     /><NodeView node={[node, 'dash']} {format} empty="hide" /><NodeView
         node={[node, 'region']}
         {format}

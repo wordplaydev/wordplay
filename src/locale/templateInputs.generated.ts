@@ -118,6 +118,7 @@ export const DECLARED_INPUTS: Readonly<Record<string, readonly string[]>> = {
     'node.Iteration.finish': ['value'],
     'node.Iteration.start': [],
     'node.KeyValue.description': [],
+    'node.Language.conflict.DuplicateLanguage.explanation': ['code'],
     'node.Language.conflict.MissingLanguage.explanation': [],
     'node.Language.conflict.UnknownLanguage.explanation': [],
     'node.Language.description': [],

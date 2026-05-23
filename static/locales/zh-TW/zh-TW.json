@@ -131,7 +131,8 @@
         "GurmukhiNumeral": "$~古爾穆基數字",
         "KannadaNumeral": "$~卡納達數字",
         "TamilNumeral": "$~泰米爾數字",
-        "TeluguNumeral": "$~泰盧固語數字"
+        "TeluguNumeral": "$~泰盧固語數字",
+        "LanguageJoin": "$~語言連接詞"
     },
     "node": {
         "Dimension": {
@@ -196,16 +197,20 @@
             "description": "$~標籤名稱和文字（帶語言）",
             "emotion": "eager",
             "doc": [
-                "我是一個語言標籤，我與 @Name 和 @Doc 一起工作!",
-                "我真的擅長讓別人 *超級清楚* 事物是用什麼語言寫的。",
-                "這就是我做的事情。 只需一個小小斜線和幾個字母，大家就都清楚一些文本使用的是什麼語言了。",
-                "例如，你要是想說我的 $name， 但想讓別人清楚知道它是中文：",
-                "\\\"語言\"/zh\\",
-                "要是你想要這樣處理 @Name 也可以。",
-                "\\聲音/zh: '喵'\\",
-                "甚至是用在 @Doc 身上！",
-                "\\¶擬聲詞¶/zh\n聲音/zh: \"喵\"\\",
-                "這裡還有許多我能理解的<兩個字母的語言表達代碼@https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes> 。如果你沒有使用它們中的任何一個，我會告訴你的。"
+                "$~我是一個語言標籤，我與@Name@Doc！",
+                "$~我特別擅長把文字的語言表達得*一目了然*。只需要一個斜線和幾個字母，就不會有人對文字的語言感到困惑。",
+                "$~例如，如果你想說“語言”，但又想明確指出它是用英語說的：",
+                "$~\\\"Language\"/en\\",
+                "$~你可以對@Name：",
+                "$~\\sound/en: 'meow'\\",
+                "$~……或@Doc ：",
+                "$~\\¶Onomatopoeia¶/en\nsound/en: \"meow\"\\",
+                "$~有時文本並非單一語言，而是多種語言的混合。例如西班牙語和英語混合的“西班牙英語”（Spanglish）。對於這種情況，請用底線分隔每種語言。第一個是主要語言——當需要做出選擇時（例如，選擇使用哪種引號），我會使用它。",
+                "$~\\\"Hola gentleman!\"/es_en\\",
+                "$~\\¶A bilingual greeting¶/es_en\nhello/es_en: \"Hola gentleman!\"\\",
+                "$~您也可以像新增單一語言一樣，在短橫線後面新增單一區域：",
+                "$~\\\"Hola gentleman!\"/es_en-MX\\",
+                "$~您可以列出的語言數量沒有限制——但請不要重複列出同一種語言；如果您重複列出了，我會提醒您。我了解很多雙字母語言代碼（請參閱https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes）。如果您沒有使用這些程式碼，我也會提醒您。"
             ],
             "conflict": {
                 "UnknownLanguage": {
@@ -215,6 +220,10 @@
                 "MissingLanguage": {
                     "name": "$~缺少語言",
                     "explanation": "$~我這裡缺少一種語言。你能添加一種嗎？"
+                },
+                "DuplicateLanguage": {
+                    "name": "$~重複語言",
+                    "explanation": "$~您兩次使用了語言「 $code 」。混合語言標籤中每種語言只能列出一次。"
                 }
             }
         },
@@ -5210,18 +5219,18 @@
                     "remove": "刪除語言",
                     "menu": "$~其他語言"
                 },
-                "localizeHelp": "$?",
+                "localizeHelp": "$~為了幫助改進您所在語言的翻譯，請點擊頁面底部的鉛筆圖示（✎），開啟在地化模式並提出改進建議。",
                 "request": {
-                    "header": "$?",
-                    "explanation": "$?",
-                    "languageLabel": "$?",
-                    "regionLabel": "$?",
-                    "submit": "$?",
-                    "submitting": "$?",
-                    "success": "$?",
-                    "error": "$?",
-                    "alreadySupported": "$?",
-                    "requiresLogin": "$?"
+                    "header": "$~找不到您的語言？",
+                    "explanation": "$~選擇一種語言和地區，我們將在 GitHub 上建立一個 issue 來討論如何添加它。",
+                    "languageLabel": "$~語言",
+                    "regionLabel": "$~地區",
+                    "submit": "$~要求",
+                    "submitting": "$~正在發送請求…",
+                    "success": "$~請在 GitHub 上與我們討論此請求！",
+                    "error": "$~出錯了，請重試。",
+                    "alreadySupported": "$~該語言和地區已支援。",
+                    "requiresLogin": "$~您必須登入才能申請語言。"
                 }
             },
             "help": {

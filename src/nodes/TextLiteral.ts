@@ -227,12 +227,9 @@ export default class TextLiteral extends Literal {
             text = next + text;
         }
 
-        // Construct the text value.
-        return new TextValue(
-            this,
-            text,
-            translation.language?.getLanguageText(),
-        );
+        // Construct the text value. Use the full tag string so multilingual
+        // tags (e.g. `es_en-MX`) round-trip through TextValue.format.
+        return new TextValue(this, text, translation.language?.getTagString());
     }
 
     /** Retrieve or compute and cache the text version of the static token text. */
@@ -290,7 +287,7 @@ export default class TextLiteral extends Literal {
             best.getText(),
             best.language === undefined
                 ? undefined
-                : best.language.getLanguageText(),
+                : best.language.getTagString(),
         );
     }
 

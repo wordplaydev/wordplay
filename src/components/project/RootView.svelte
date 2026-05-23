@@ -214,11 +214,14 @@
                 if (!inside) {
                     // Keep track of visible
                     let visible: LanguageTagged[] = [];
-                    const hasMatchingLanguage = tags.some(
-                        (l) => l.getLanguage() === $localize.language,
+                    // A tag matches the user's preferred language if ANY of its
+                    // languages does — `/en_es` belongs to both the `en` bucket
+                    // and the `es` bucket.
+                    const hasMatchingLanguage = tags.some((l) =>
+                        l.getLanguages().includes($localize.language),
                     );
                     const hasUntagged = tags.some(
-                        (l) => l.getLanguage() === undefined,
+                        (l) => l.getLanguages().length === 0,
                     );
                     const hasSymbolic =
                         $localize.language === EMOJI_SYMBOL &&
@@ -237,10 +240,10 @@
                         let priorVisible = false;
                         // Go through each language tagged node to see if we should hide it.
                         for (const nameDocOrText of tags) {
-                            const language = nameDocOrText.getLanguage();
+                            const languages = nameDocOrText.getLanguages();
                             const isSelected =
-                                $localize.language === language ||
-                                (language === undefined &&
+                                languages.includes($localize.language) ||
+                                (languages.length === 0 &&
                                     !hasMatchingLanguage) ||
                                 ($localize.language === EMOJI_SYMBOL &&
                                     nameDocOrText instanceof Name &&
@@ -252,7 +255,14 @@
                             // Is the selected language? Hide just the locale tag and any preceding separator.
                             else {
                                 visible.push(nameDocOrText);
-                                if (nameDocOrText.language)
+                                // Hide the tag for monolingual matches only —
+                                // multilingual tags (e.g. /es_en) stay visible
+                                // because the multilingualism itself is
+                                // information the reader needs.
+                                if (
+                                    nameDocOrText.language &&
+                                    !nameDocOrText.language.isMultilingual()
+                                )
                                     newHidden.add(nameDocOrText.language);
                                 // Hide the separator, if there is one.
                                 if (!priorVisible && nameDocOrText.separator)
@@ -265,8 +275,13 @@
                     else {
                         for (const tag of tags) visible.push(tag);
                     }
-                    // If there's only one visible, hide its language, as its redundant.
-                    if (visible.length === 1 && visible[0].language)
+                    // If there's only one visible, hide its language, as its
+                    // redundant — but keep multilingual tags visible.
+                    if (
+                        visible.length === 1 &&
+                        visible[0].language &&
+                        !visible[0].language.isMultilingual()
+                    )
                         newHidden.add(visible[0].language);
                 }
             }
