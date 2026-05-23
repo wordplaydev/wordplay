@@ -8,160 +8,160 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 ### Added
 
-- We finally added font face previews! Now you don't have to click to see what a font looks like.
-- Now, when a project requires permission to use an input like a camera or microphone, we ask for it explicitly and start the project after, and if denied, we show an exception and instructors for granting it if they denied by accident (#789).
-- Added 11 new built-in how-to's to the Guide covering layout (rows, stacks, grids, copies), animation (counting with time, reacting to sound), the @Pointer stream, custom @Structure templates, picking from a list with @Random, conditional rendering, and physics with @Motion and @Matter. These fill the previously empty layout, animation, and motion categories.
-- Now with more complete support for Han numerals for Chinese, Japanese, and Korean (#2), Thai (#6), and Indic numerals for Bengali, Devanagari, Gujarati, Gurmukhi, Kannada, Tamil, and Telugu (#5, #7).
-- Now with support for Bengali (#142), Indonesian (#148), and Romanian (#433)! If you know those, help us improve them with the new in-app localization support.
-- We added a script selector to the glyph/emoji chooser, so you can find the glyphs in different languages (#322).
-- We added better feedback when the site is offline and saves are pending.
-- We added a "back to top" button on long pages.
-- You can now request new language/region pairs from the language chooser dialog.
+- 🔠 We added font face previews to drop downs in the palette and settings!
+- 🔒 We now ask for permission to cameras, microphones, and other inputs and show an exception if declined (#789).
+- 📖 Added 11 new built-in how-to's to the [Guide](https://wordplay.dev/guide) on layout, the @Pointer stream, @Structure, picking from a list with @Random, conditional rendering, and physics with @Motion and @Matter.
+- 🔢 You can now do math with Han numerals for Chinese, Japanese, and Korean (#2), Thai (#6), and Indic numerals for Bengali, Devanagari, Gujarati, Gurmukhi, Kannada, Tamil, and Telugu (#5, #7).
+- 🌐 We added Bengali (#142), Indonesian (#148), and Romanian (#433)!
+- 🔣 The emoji + glyph chooser now lets you filter by language scripts (#322).
+- 📡 We added better feedback when the site is offline and saves are pending.
+- ⬆️ We added a "back to top" button on long pages.
 
 ### Changed
 
-- We made @Phrase word wrapping locale specific (#164).
-- We upgraded internal tooling for stability.
-- We made the default choices on the language choosers in the editor and stage clearer.
+- 🎨 We gave the [updates](https://wordplay.dev/updates) a little emoji to make the page easier to scan.
+- 📝 We made @Phrase word wrapping locale specific (#164).
+- 🛠️ We upgraded internal tooling for stability.
+- 🌐 We made the default choices on the language choosers in the editor and stage clearer.
 
 ### Fixed
 
-- When many people were sharing to a gallery at once, it could lead to some shares failing. That shouldn't happen anymore. We made similar changes to updates to chats, feedback, how tos, teacher classes.
-- We fixed problems with how text types with multiple options are shown as conflicts, especially with output animation styles (#541).
-- We fixed a few font face weight availability problems (#1026).
-- Now when a @Match or @Conditional references a stream in its case, then, or else, the the stream starts even when it's not referenced in the condition (#679).
-- We fixed the debugger so you can now step through anonymous functions and see each step as you go, instead of getting a confusing missing value error (#680).
-- We fixed a false conflict that appeared on anonymous functions in expressions like `[1 2 3 4].translate(ƒ(a) a + 1)`, even when the code was fine.
-- We fixed the conflict underlines so they follow the code when values pop in next to expressions while stepping through the debugger.
-- We fixed several localization problems in machine translated locales (#122).
+- 🤝 When many people were sharing to a gallery at once, it could lead to some shares failing. That shouldn't happen anymore. We made similar changes to updates to chats, feedback, how tos, teacher classes.
+- 🚦 We fixed problems with how text types with multiple options are shown as conflicts, especially with output animation styles (#541).
+- 🔠 We fixed a few font face weight availability problems (#1026).
+- 🚦 Now when a @Match or @Conditional references a stream in its case, then, or else, the the stream starts even when it's not referenced in the condition (#679).
+- 🐞 We fixed the debugger so you can now step through anonymous functions and see each step as you go, instead of getting a confusing missing value error (#680).
+- 🚦 We fixed a false conflict that appeared on anonymous functions in expressions like \[1 2 3 4].translate(ƒ(a) a + 1)\, even when the code was fine.
+- 🚦 We fixed the conflict underlines so they follow the code when values pop in next to expressions while stepping through the debugger.
+- 🌐 We fixed several localization problems in machine translated locales (#122).
 
 ## 0.18.0 - 2026-05-15
 
 ### Added
 
-- There's a new @Hand input! It uses the camera to check the location of your hand, which fingers are up, how many fingers are up, whether your hand is open or closed, and whether your palm is showing. What a handy input!
-- Added the ability to control which other galleries gallery how-tos are shared with.
-- We added a new in-app localization mode! Anyone can suggest revisions to any supported language within the app. Changes are stored locally until you submit them; a GitHub pull request is created and reviewed by maintainers before they become live (#437).
+- 👋 There's a new @Hand input! It uses the camera to check the location of your hand, which fingers are up, how many fingers are up, whether your hand is open or closed, and whether your palm is showing. What a handy input!
+- 🤝 Added the ability to control which other galleries gallery how-tos are shared with.
+- 🌐 We added a new in-app localization mode! Anyone can suggest revisions to any supported language within the app. Changes are stored locally until you submit them; a GitHub pull request is created and reviewed by maintainers before they become live (#437).
 
 ### Changed
 
-- We upgraded internal tooling for stability.
-- We added more flexible custom character insertion.
-- We added a play/pause button when playing a project
-- We now show the debug panel when the output tile is in full screen mode.
+- 🛠️ We upgraded internal tooling for stability.
+- 🔣 We added more flexible custom character insertion.
+- ⏯️ We added a play/pause button when playing a project
+- 🐞 We now show the debug panel when the output tile is in full screen mode.
 
 ### Fixed
 
-- The to front and back buttons in the character editor didn't work.
-- Repaired a translation bug that prevented rendering of translated formatted text.
-- Stopped autocomplete from preventing percent typing.
-- We reduced how much memory projects use when they are running or edited.
-- Pinch to zoom on stage was broken on touch screens.
+- 🔣 The to front and back buttons in the character editor didn't work.
+- 🌐 Repaired a translation bug that prevented rendering of translated formatted text.
+- 💡 Stopped autocomplete from preventing percent typing.
+- ⚡ We reduced how much memory projects use when they are running or edited.
+- 📱 Pinch to zoom on stage was broken on touch screens.
 
 ## 0.17.9 - 2026-05-09
 
 ### Added
 
-- There's a new "tour" help feature for each tile in the project view, explaining its purpose and core features. Try them out and let us know if we should expand the explanations! (#687).
-- Emoji searching now supports many more keywords (#1090), but also translations all of those keywords, so that works in all supported locales (#639).
-- Blocks have a new visual style for blocks editing mode, for improved readability. It also accounts for whether an editor is read only, hiding editing controls for more compactness.
-- Menu suggestions in the editor are now much more helpful for locales (#1099), text and formatted literals (#635), and unit suggestions.
-- How-to authors can now highlight expressions by adding 👀 inside some code's preceding explanatio, e.g., \¶👀¶"I'm highlighted!" This is helpful for how-to authors who want to emphasize some code.
-- Block spacing can now be controlled.
-- We added a machine translated Tagalog locale (#1089).
-- The guide in the project view now shows _all_ how-tos a creator has access to, can filter between just all and gallery-specific how-tos (#1087).
-- Now there's a "back to top" link on long pages (#1097).
+- 🧭 There's a new "tour" help feature for each tile in the project view, explaining its purpose and core features. Try them out and let us know if we should expand the explanations! (#687).
+- 🔍 Emoji searching now supports many more keywords (#1090), but also translations all of those keywords, so that works in all supported locales (#639).
+- 🧩 Blocks have a new visual style for blocks editing mode, for improved readability. It also accounts for whether an editor is read only, hiding editing controls for more compactness.
+- 💡 Menu suggestions in the editor are now much more helpful for locales (#1099), text and formatted literals (#635), and unit suggestions.
+- 👀 How-to authors can now highlight expressions by adding 👀 inside some code's preceding explanatio, e.g., \¶👀¶"I'm highlighted!" This is helpful for how-to authors who want to emphasize some code.
+- 📏 Block spacing can now be controlled.
+- 🌐 We added a machine translated Tagalog locale (#1089).
+- 🗂️ The guide in the project view now shows _all_ how-tos a creator has access to, can filter between just all and gallery-specific how-tos (#1087).
+- ⬆️ Now there's a "back to top" link on long pages (#1097).
 
 ### Changed
 
-- We changed how blocks evaluate! Now, a Block with multiple non-`Bind` expressions will wrap the values in a list, instead of giving a warning and only evaluating to the last value. If your program had several expressions in a row and you only meant the last to be the result, wrap the earlier ones in `Bind` statements (or remove them). This will make it easier to create lists of values, including multiple `Phrase`s in a `Group`.
-- We made the tile toolbar wrapping a bit better.
-- We rearranged the project view footer to make the layout work better on smaller devices.
-- We improved the list expand/collapse behavior when there are more than 10 items.
-- We improved the layout of code in the chat view (#1107).
-- We made input names in a blocks mode a drop down instead of editable text.
-- We upgraded internal tooling for stability.
-- We updated documentation for developers.
+- 🧩 We changed how blocks evaluate! Now, a Block with multiple non-`Bind` expressions will wrap the values in a list, instead of giving a warning and only evaluating to the last value. If your program had several expressions in a row and you only meant the last to be the result, wrap the earlier ones in `Bind` statements (or remove them). This will make it easier to create lists of values, including multiple `Phrase`s in a `Group`.
+- 📐 We made the tile toolbar wrapping a bit better.
+- 📱 We rearranged the project view footer to make the layout work better on smaller devices.
+- 🔽 We improved the list expand/collapse behavior when there are more than 10 items.
+- 💬 We improved the layout of code in the chat view (#1107).
+- 🧩 We made input names in a blocks mode a drop down instead of editable text.
+- 🛠️ We upgraded internal tooling for stability.
+- 📖 We updated documentation for developers.
 
 ### Fixed
 
-- We found and fixed a problem where the autocomplete menu wouldn't appear when activated in the menu.
-- We removed some unnecessary scroll bars (#1098).
-- We fixed a problem with pasting in Edge (#1092).
-- We fixed a problem with duplicate translations crashing.
-- We made copy and paste within the app more reliable and fast.
-- We made collision detection more reliable and less flickery.
-- We made Phrases with custom characters also eligible to drag, rotate, and scale.
-- We fixed the region on the Swedish locale.
-- We improved the contrast of links in light mode.
-- We added loading feedback when a new project is greated on the projects or gallery page.
-- We fixed the very cramped width of chat messages when they have example code (#1107).
-- We improved line break rendering in blocks mode.
+- 💡 We found and fixed a problem where the autocomplete menu wouldn't appear when activated in the menu.
+- 🧹 We removed some unnecessary scroll bars (#1098).
+- 📋 We fixed a problem with pasting in Edge (#1092).
+- 🌐 We fixed a problem with duplicate translations crashing.
+- 📋 We made copy and paste within the app more reliable and fast.
+- 🎯 We made collision detection more reliable and less flickery.
+- 🔣 We made Phrases with custom characters also eligible to drag, rotate, and scale.
+- 🌐 We fixed the region on the Swedish locale.
+- 🎨 We improved the contrast of links in light mode.
+- ⏳ We added loading feedback when a new project is greated on the projects or gallery page.
+- 💬 We fixed the very cramped width of chat messages when they have example code (#1107).
+- 🧩 We improved line break rendering in blocks mode.
 
 ## 0.17.8 - 2026-05-02
 
 ### Added
 
-- We added a thank you page showing all of our GitHub contributors and thanking youth and funders (#279).
+- 🙏 We added a [thank you page](https://wordplay.dev/thanks) showing all of our GitHub contributors and thanking youth and funders (#279).
 
 ### Changed
 
-- We changed the example code viewer to be a full fledged read-only editor so that you can select, copy, and drag parts of the example and also see conflicts, highlights, and explanations of the current cursor position.
-- We added descriptions to the editor's cursor selection and the conflict pane to help explain what the selected code does. It should be a useful shorthand, supplementing the full documentation.
-- We added a default user of `creator/password` for developers who are testing on their computers.
-- We upgraded internal tooling for stability.
-- We updated the URLs of the application always include the currently selected language(s). This makes the current language setting more reliable on page refresh and link sharing (#809).
-- We made it faster to load the home page.
-- We made the editor a bit faster to use; it was getting sluggish.
+- 📝 We changed the example code viewer to be a full fledged read-only editor so that you can select, copy, and drag parts of the example and also see conflicts, highlights, and explanations of the current cursor position.
+- 💬 We added descriptions to the editor's cursor selection and the conflict pane to help explain what the selected code does. It should be a useful shorthand, supplementing the full documentation.
+- 🔑 We added a default user of `creator/password` for developers who are testing on their computers.
+- 🛠️ We upgraded internal tooling for stability.
+- 🌐 We updated the URLs of the application always include the currently selected language(s). This makes the current language setting more reliable on page refresh and link sharing (#809).
+- ⚡ We made it faster to load the home page.
+- ⚡ We made the editor a bit faster to use; it was getting sluggish.
 
 ### Fixed
 
-- We improved the position of the say feedback on stage so it wouldn't overlap with a chat text box.
-- We fixed typing for languages that have combining character inputs, like Hindi vowels (#1079).
-- We fixed several problems with the Japanese locale (#1048).
-- We made some of our tests more reliable.
-- We fixed a rare project saving bug.
-- We fixed the contrast of the text cursor when the editor is in read only mode.
-- We fixed a problem with how to errors crashing the browser.
-- We separated the updates of the example views and the project views to prevent lag (#1093).
+- 💬 We improved the position of the say feedback on stage so it wouldn't overlap with a chat text box.
+- 🌐 We fixed typing for languages that have combining character inputs, like Hindi vowels (#1079).
+- 🌐 We fixed several problems with the Japanese locale (#1048).
+- 🧪 We made some of our tests more reliable.
+- 💾 We fixed a rare project saving bug.
+- 🎨 We fixed the contrast of the text cursor when the editor is in read only mode.
+- 💥 We fixed a problem with how to errors crashing the browser.
+- ⚡ We separated the updates of the example views and the project views to prevent lag (#1093).
 
 ## 0.17.7 - 2026-04-25
 
 ### Added
 
-- We added better menu suggestions for placeholders.
-- We added resize and rotate controls on PhraseViews when in edit mode, and made editing and movement easier, for faster manual layout of phrases on stage.
-- We made the tutorial responsive to the aspect ratio of the window.
-- We added the ability to make how to's public.
-- We added a bullet button to the formatted text editor (#1072).
+- 💡 We added better menu suggestions for placeholders.
+- 🔄 We added resize and rotate controls on PhraseViews when in edit mode, and made editing and movement easier, for faster manual layout of phrases on stage.
+- 📐 We made the tutorial responsive to the aspect ratio of the window.
+- 🌍 We added the ability to make how to's public.
+- 📝 We added a bullet button to the formatted text editor (#1072).
 
 ### Changed
 
-- When the project is played, we close the palette, and when the palette is opened, we pause the project. That makes it clearer how to edit.
-- We improved the rendering and behavior of text selections in text editing mode.
-- We clarified the differences between the full screen buttons and the eye button (#1058).
-- We upgraded internal tooling for stability.
-- We made auto-complete during typing less aggressive and annoying.
-- We made the animation speed selector in the stage toolbar a drop down instead, so it takes up less space.
-- We sorted feedback by stars then creation date.
+- ⏯️ When the project is played, we close the palette, and when the palette is opened, we pause the project. That makes it clearer how to edit.
+- ✍️ We improved the rendering and behavior of text selections in text editing mode.
+- 👁️ We clarified the differences between the full screen buttons and the eye button (#1058).
+- 🛠️ We upgraded internal tooling for stability.
+- 💡 We made auto-complete during typing less aggressive and annoying.
+- ⏱️ We made the animation speed selector in the stage toolbar a drop down instead, so it takes up less space.
+- ⭐ We sorted feedback by stars then creation date.
 
 ### Fixed
 
-- We fixed a problem where example code in markup didn't preserve space between lines (#1071).
-- We fixed a problem in the editor where clicking in a position would sometimes start a selection.
-- We prevented the editor from scrolling unexpectedly on click.
-- We fixed a problem where tooltips in dialogs were duplicated in incorrectly positioned.
-- We improved dark mode documentation color contrast.
-- We prevented dark mode from flashing light mode on page load.
-- We fixed a problem where text selection and highlighting were the wrong color.
-- We fixed the tooltip on the create account button.
-- When switching from blocks to text mode with a text range selected, the range is now set to just the first position, since selections aren't allowed in blocks mode.
-- We fixed the width of submenus in the editor's autocomplete menus.
-- We fixed the project loading feedback; it was showing an error during loading instead of loading feedback.
-- Bullets in markup with only one line separating them weren't working. Now they do!
-- We removed a period floating around the error.
-- We fixed a case where creators who give multiple phrases the same name crashed the page.
-- We ensured character names are valid with no spaces (#1080).
+- 📖 We fixed a problem where example code in markup didn't preserve space between lines (#1071).
+- 🖱️ We fixed a problem in the editor where clicking in a position would sometimes start a selection.
+- 🖱️ We prevented the editor from scrolling unexpectedly on click.
+- 💬 We fixed a problem where tooltips in dialogs were duplicated in incorrectly positioned.
+- 🌙 We improved dark mode documentation color contrast.
+- 🌙 We prevented dark mode from flashing light mode on page load.
+- 🎨 We fixed a problem where text selection and highlighting were the wrong color.
+- 💬 We fixed the tooltip on the create account button.
+- 🧩 When switching from blocks to text mode with a text range selected, the range is now set to just the first position, since selections aren't allowed in blocks mode.
+- 💡 We fixed the width of submenus in the editor's autocomplete menus.
+- ⏳ We fixed the project loading feedback; it was showing an error during loading instead of loading feedback.
+- 📝 Bullets in markup with only one line separating them weren't working. Now they do!
+- 🧹 We removed a period floating around the error.
+- 💥 We fixed a case where creators who give multiple phrases the same name crashed the page.
+- 🔣 We ensured character names are valid with no spaces (#1080).
 
 ## 0.17.6 - 2026-04-17
 

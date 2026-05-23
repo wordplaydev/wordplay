@@ -1,14 +1,14 @@
 <script lang="ts">
+    import Header from '@components/app/Header.svelte';
     import Subheader from '@components/app/Subheader.svelte';
+    import Writing from '@components/app/Writing.svelte';
+    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import { setConceptPath } from '@components/project/Contexts';
     import Button from '@components/widgets/Button.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import type Concept from '@concepts/Concept';
     import { Settings } from '@db/Database';
     import { writable } from 'svelte/store';
-    import Header from '@components/app/Header.svelte';
-    import Writing from '@components/app/Writing.svelte';
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import updates from './updates.json';
 
     // Get the dated updates in reverse chronological order.
@@ -33,14 +33,18 @@
     Settings.setUpdatesLastChecked(datedUpdates[0].date.split('T')[0]);
 </script>
 
-{#snippet note(text: string)}
+{#snippet note(entry: { text: string; emoji: string | null })}
     <!-- Convert markdown into Wordplay markup -->
-    <li
-        ><MarkupHTMLView
-            markup={text
+    <li class:marked={entry.emoji !== null}>
+        {#if entry.emoji}
+            <span class="marker emoji" aria-hidden="true">{entry.emoji}</span>
+        {/if}
+        <MarkupHTMLView
+            markup={entry.text
                 .replaceAll('**', '*')
                 .replaceAll('_', '/')
                 .replaceAll(/`(.+?)`/g, '\\"$1"\\')
+                .replaceAll(/\[([^\]]+)\]\(([^)]+)\)/g, '<$1@$2>')
                 .replaceAll(
                     /#([0-9]+)/g,
                     '<$1@https://github.com/wordplaydev/wordplay/issues/$1>',
@@ -150,5 +154,36 @@
     }
     h3.fixed {
         background: var(--wordplay-error);
+    }
+
+    ul {
+        padding-inline-start: 1.5em;
+        margin-inline-start: 0;
+    }
+
+    ul li + li {
+        margin-block-start: calc(2 * var(--wordplay-spacing));
+    }
+
+    /* Marked entries pull back the ul's padding so the emoji sits flush
+       with the rest of the page content (H3 labels, etc.). Unmarked
+       legacy entries keep the gutter so their default bullet has room. */
+    li.marked {
+        list-style: none;
+        display: flow-root;
+        margin-inline-start: -1.5em;
+    }
+
+    .marker.emoji {
+        float: inline-start;
+        margin-inline-end: calc(2 * var(--wordplay-spacing));
+        width: 3rem;
+        height: 3rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2.25rem;
+        line-height: 1;
+        background: transparent;
     }
 </style>
