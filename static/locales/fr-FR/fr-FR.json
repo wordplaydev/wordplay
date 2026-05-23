@@ -121,7 +121,7 @@
         "Boolean": "$~booléen",
         "Name": "$~nom",
         "Unknown": "$~inconnu",
-        "Locale": "$~lieu",
+        "Locale": "$~langue",
         "End": "$~fin",
         "Highlight": "$~exemple mis en évidence",
         "ThaiNumeral": "$~chiffres thaïlandais",
@@ -903,8 +903,8 @@
             }
         },
         "IsLocale": {
-            "name": "$~estlocal",
-            "description": "$~retourne vrai si la locale est sélectionnée",
+            "name": "$~estlelangage",
+            "description": "$~Renvoie vrai si la langue est sélectionnée",
             "emotion": "kind",
             "doc": [
                 "$~Je vous aiderai à vérifier si le public a sélectionné une langue ou une région particulière:",
@@ -1312,7 +1312,7 @@
             "description": "$~crée la valeur texte $text",
             "emotion": "serious",
             "doc": "$~Je représente une ou plusieurs @Translation de texte spécifiques. Voir @Text pour en savoir plus sur ce que je peux faire!",
-            "start": "$~Créons du texte dans les paramètres régionaux actuels",
+            "start": "$~Créons du texte dans la langue actuelle.",
             "label": {
                 "texts": "$~texte"
             }
@@ -1359,7 +1359,7 @@
             "description": "$~crée le texte formaté $text",
             "emotion": "serious",
             "doc": "$~Je représente de nombreux @FormattedTranslation différents de textes formatés. Lors de l'évaluation, je choisirai la meilleure correspondance en fonction des langues sélectionnées par le public.",
-            "start": "$~Créons du texte dans les paramètres régionaux actuels"
+            "start": "$~Créons du texte dans la langue actuelle."
         },
         "FormattedTranslation": {
             "name": "$~traductionformatée",
@@ -3507,12 +3507,12 @@
             "doc": [
                 "$~/bonjour!/",
                 "$~@FunctionDefinition ici - prêt à écouter !",
-                "$~Ce flux reconnaît la parole et la convertit en texte. Il utilise la reconnaissance vocale de votre navigateur pour écouter ce que vous dites et le transformer en mots (c'est génial, non ?!).",
-                "$~\\Discours()\\",
+                "$~Ce flux reconnaît la parole et la convertit en @Text . Il utilise la reconnaissance vocale de votre navigateur pour écouter ce que vous dites et le transformer en mots (c'est génial, non ?!).",
+                "$~\\Speech()\\",
                 "$~C'est parfait pour ceux qui parlent une langue mais qui apprennent encore à la lire ou à l'écrire (et plus encore)...",
                 "$~Vous pouvez spécifier un code de langue pour reconnaître la parole dans une langue particulière :",
-                "$~\\Speech(langue: 'es-MX')\\",
-                "$~Si aucune langue n'est spécifiée, la langue par défaut sera celle de votre région préférée.",
+                "$~\\Speech(language: 'es-MX')\\",
+                "$~Si aucune langue n'est spécifiée, la langue par défaut sera celle que vous préférez.",
                 "$~La reconnaissance vocale nécessite l'accès au microphone et à Internet (veuillez autoriser ces accès !). De plus, des limites d'utilisation peuvent s'appliquer, alors ne la laissez pas activée trop longtemps (non !)."
             ],
             "names": ["$~Discours", "$~Voix"],
@@ -3832,11 +3832,11 @@
             },
             "name": {
                 "doc": [
-                    "$~Un nom que tu me donnes ! Cela m'aidera pour beaucoup de choses.",
-                    "$~Tout d’abord, si j’ai un nom, je l’utiliserai pour me décrire dans les descriptions des lecteurs d’écran.",
-                    "$~Deuxièmement, lors de l'animation, vous pouvez avoir plusieurs expressions différentes qui sont censées représenter le même contenu sur scène ; donnez-leur le même nom et elles s'animeront comme une seule.",
-                    "$~Enfin, je suis utile avec @Choice : les noms que vous me donnez apparaissent dans ce flux.",
-                    "$~Vous pouvez me donner plusieurs noms différents, chacun dans une langue différente, si cela peut vous être utile. J'utiliserai toujours le nom dans la première langue sélectionnée."
+                    "$~Un nom que vous me donnez ! Cela sert à bien des choses.",
+                    "$~Premièrement, si j'ai un nom, je l'utiliserai pour me décrire dans les descriptions des lecteurs d'écran.",
+                    "$~Deuxièmement, lors de l'animation, vous pouvez avoir plusieurs expressions différentes censées représenter le même contenu sur scène ; donnez-leur le même nom et elles s'animeront comme une seule.",
+                    "$~Enfin, je suis utile avec @Choice: les noms que vous me donnez apparaissent dans ce flux.",
+                    "$~Vous pouvez me donner plusieurs noms différents, chacun dans une langue différente, si cela peut être utile. J'utiliserai toujours le nom dans la première langue sélectionnée."
                 ],
                 "names": "$~nom"
             },
@@ -4383,10 +4383,10 @@
         },
         "Say": {
             "doc": [
-                "$~Salut ! Je suis @Say, et je lis le texte à voix haute au lieu de l'afficher sur @Stage.",
+                "$~Salut ! Je suis @Say , et je lis le texte à voix haute au lieu de l'afficher sur @Stage .",
                 "$~Donnez-moi juste quelque chose à dire, et je le dirai à chaque évaluation de votre programme :",
-                "$~\\Dites('bla bla bla')\\",
-                "$~J'utiliserai la propriété @Language de l'objet @TextLiteral si elle en possède une, sinon j'utiliserai les paramètres régionaux sélectionnés.",
+                "$~\\Say('blah blah blah')\\",
+                "$~J'utiliserai la @Language de l'objet @TextLiteral si elle en possède une, sinon j'utiliserai la langue sélectionnée.",
                 "$~Vous pouvez sélectionner une voix dans les paramètres."
             ],
             "names": ["$~🔊", "$~Dire"],
@@ -4525,7 +4525,7 @@
                     "tip": "$~modifier les langues de ce projet et le traduire dans d'autres langues.",
                     "label": "$~traduire"
                 },
-                "primary": "$~définir comme lieu principal de ce projet",
+                "primary": "$~définie comme langue principale de ce projet",
                 "share": {
                     "tip": "$~afficher les options de partage de projet",
                     "label": "$~partager"
@@ -5258,10 +5258,10 @@
                     "help": "$~Aidez-nous à traduire…"
                 },
                 "button": {
-                    "show": "$~changer de lieu",
-                    "add": "$~ajouter ce lieu",
-                    "remove": "$~supprimer ce paramètre régional",
-                    "replace": "$~remplacer par ces paramètres régionaux",
+                    "show": "$~Choisissez la ou les langues du site web",
+                    "add": "$~utiliser cette langue et les langues actuelles",
+                    "remove": "$~supprimer cette langue",
+                    "replace": "$~utiliser cette langue",
                     "menu": "$~autres langues"
                 }
             },
@@ -6232,9 +6232,9 @@
                     "gallery": "$~Galerie",
                     "moderation": "$~Modération"
                 },
-                "singletonWordsWarning": "$~Certains mots de votre brouillon n'apparaissent qu'une seule fois dans l'ensemble du texte. Êtes-vous certain(e) de leur orthographe correcte et de leur cohérence avec le reste du texte ?",
+                "singletonWordsWarning": "$~Certains mots de votre brouillon n'apparaissent qu'une seule fois dans tout le texte. Êtes-vous certain(e) de leur orthographe correcte et de leur cohérence avec le reste du texte ?",
                 "viewPR": "$~Consulter la demande de fusion",
-                "oneLocaleNote": "$~Chaque contribution concerne une langue à la fois. Ce lot sera soumis sous forme de modifications à $locale. Si vous souhaitez contribuer à une autre langue, veuillez d'abord la changer ; les modifications enregistrées pour chaque langue sont conservées séparément."
+                "oneLocaleNote": "$~Chaque contribution concerne une langue à la fois. Ce lot sera soumis sous forme de modifications à la variable $locale . Si vous souhaitez contribuer à une autre langue, veuillez d'abord la sélectionner ; les modifications enregistrées dans chaque langue sont conservées séparément."
             }
         },
         "edit": {
@@ -6667,11 +6667,11 @@
                     "placeholder": "$~Entrez votre nom..."
                 },
                 "filter": {
-                    "description": "$~Filtrer les chaînes de langue par chemin ou description",
+                    "description": "$~Filtrer les chaînes de traduction par chemin ou description",
                     "placeholder": "$~Filtre..."
                 }
             },
-            "strings": "$~Chaînes de paramètres régionaux",
+            "strings": "$~Chaînes de traduction",
             "emotion": "Choose an emotion",
             "invalidName": "$~Nom de jeu de mots non valide",
             "reference": "$~Référence anglaise",

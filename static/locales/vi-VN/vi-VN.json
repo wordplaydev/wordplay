@@ -120,7 +120,7 @@
         "Base": "$~số cơ sở",
         "Boolean": "$~boolean",
         "Name": "$~tên",
-        "Locale": "$~địa phương",
+        "Locale": "$~ngôn ngữ",
         "Unknown": "$~không rõ",
         "End": "$~kết thúc",
         "Highlight": "$~ví dụ được đánh dấu",
@@ -903,8 +903,8 @@
             }
         },
         "IsLocale": {
-            "name": "$~làđịaphương",
-            "description": "$~trả về đúng nếu ngôn ngữ được chọn",
+            "name": "$~làngônngữ",
+            "description": "$~Trả về true nếu ngôn ngữ được chọn",
             "emotion": "kind",
             "doc": [
                 "$~Tôi sẽ giúp bạn kiểm tra xem khán giả đã chọn ngôn ngữ hoặc khu vực cụ thể nào:",
@@ -1315,7 +1315,7 @@
                 "texts": "$~chữ"
             },
             "doc": "$~Tôi đại diện cho một hoặc nhiều bản dịch văn bản cụ thể @Translation. Xem @Text để tìm hiểu thêm về những gì tôi có thể làm!",
-            "start": "$~Hãy tạo văn bản theo ngôn ngữ hiện tại."
+            "start": "$~Hãy soạn thảo văn bản bằng ngôn ngữ hiện tại."
         },
         "Translation": {
             "name": "$~bảndịch",
@@ -1359,7 +1359,7 @@
             "description": "$~tạo văn bản được định dạng $text",
             "emotion": "serious",
             "doc": "$~Tôi đại diện cho nhiều bản dịch định dạng khác nhau của văn bản được định dạng bởi @FormattedTranslation. Khi đánh giá, tôi sẽ chọn bản dịch phù hợp nhất dựa trên ngôn ngữ mà người dùng đã chọn.",
-            "start": "$~Hãy tạo văn bản theo ngôn ngữ hiện tại."
+            "start": "$~Hãy soạn thảo văn bản bằng ngôn ngữ hiện tại."
         },
         "FormattedTranslation": {
             "name": "$~bảndịchđượcđịnhdạng",
@@ -3507,8 +3507,8 @@
             "doc": [
                 "$~Xin chào!",
                 "$~@FunctionDefinition đây - sẵn sàng lắng nghe!",
-                "$~Luồng này nhận dạng giọng nói và chuyển đổi nó thành @Text. Nó sử dụng tính năng nhận dạng giọng nói của trình duyệt để lắng nghe những gì bạn nói và biến nó thành từ ngữ (thật tuyệt vời phải không?!).",
-                "$~\\Lời nói()\\",
+                "$~Luồng này nhận dạng giọng nói và chuyển đổi nó thành @Text . Nó sử dụng tính năng nhận dạng giọng nói của trình duyệt để lắng nghe những gì bạn nói và biến nó thành từ ngữ (thật tuyệt vời phải không?!).",
+                "$~\\Speech()\\",
                 "$~Đây là lựa chọn hoàn hảo cho những người có thể nói một ngôn ngữ nhưng vẫn đang học đọc hoặc viết (và hơn thế nữa)...",
                 "$~Bạn có thể chỉ định mã ngôn ngữ để nhận dạng giọng nói bằng một ngôn ngữ cụ thể:",
                 "$~\\Speech(language: 'es-MX')\\",
@@ -3724,7 +3724,7 @@
                     "$~Bạn đặt cho tôi một cái tên! Điều này rất hữu ích cho nhiều việc.",
                     "$~Đầu tiên, nếu tôi có tên, tôi sẽ dùng tên đó để mô tả bản thân trong phần mô tả dành cho trình đọc màn hình.",
                     "$~Thứ hai, khi tạo hoạt ảnh, bạn có thể có nhiều biểu cảm khác nhau được cho là đại diện cho cùng một nội dung trên sân khấu; hãy đặt cùng một tên cho chúng và chúng sẽ được hoạt ảnh đồng bộ.",
-                    "$~Cuối cùng, tôi có thể hỗ trợ @Choice: những cái tên bạn cung cấp cho tôi sẽ xuất hiện trong luồng đó.",
+                    "$~Cuối cùng, tôi có thể hỗ trợ @Choice : những cái tên bạn cung cấp cho tôi sẽ xuất hiện trong luồng đó.",
                     "$~Bạn có thể cung cấp cho tôi nhiều tên khác nhau, mỗi tên bằng một ngôn ngữ khác nhau, nếu điều đó hữu ích. Tôi sẽ luôn sử dụng tên bằng ngôn ngữ được chọn đầu tiên."
                 ],
                 "names": "$~tên"
@@ -4384,10 +4384,10 @@
         },
         "Say": {
             "doc": [
-                "$~Chào! Mình là @Say, và mình đọc văn bản thành tiếng thay vì hiển thị trên @Stage.",
+                "$~Chào! Mình là @Say , và mình đọc văn bản thành tiếng thay vì hiển thị trên @Stage .",
                 "$~Hãy cho tôi điều gì đó để nói, và tôi sẽ nói điều đó mỗi khi chương trình của bạn được đánh giá:",
                 "$~\\Say('blah blah blah')\\",
-                "$~Tôi sẽ sử dụng thuộc tính @Language của @TextLiteral nếu nó có thuộc tính đó, nếu không, tôi sẽ sử dụng ngôn ngữ được chọn.",
+                "$~Tôi sẽ sử dụng @Language của ` @TextLiteral nếu nó có thuộc tính đó, nếu không, tôi sẽ sử dụng ngôn ngữ đã chọn.",
                 "$~Bạn có thể chọn giọng nói trong phần cài đặt."
             ],
             "names": ["$~🔊", "$~Nói"],
@@ -4535,7 +4535,7 @@
                     "tip": "$~Chỉnh sửa ngôn ngữ của dự án này và dịch nó sang các ngôn ngữ khác.",
                     "label": "$~dịch"
                 },
-                "primary": "$~được đặt làm địa điểm chính của dự án này"
+                "primary": "$~được đặt làm ngôn ngữ chính của dự án này"
             },
             "field": {
                 "name": {
@@ -5537,9 +5537,9 @@
                     "help": "$~Hãy giúp chúng tôi dịch…"
                 },
                 "button": {
-                    "show": "$~thay đổi ngôn ngữ",
+                    "show": "$~Chọn ngôn ngữ cho trang web",
                     "replace": "$~sử dụng ngôn ngữ này",
-                    "add": "$~sử dụng ngôn ngữ địa phương này và các ngôn ngữ địa phương hiện tại.",
+                    "add": "$~sử dụng ngôn ngữ này và các ngôn ngữ hiện tại",
                     "remove": "$~xóa ngôn ngữ này",
                     "menu": "$~các ngôn ngữ khác"
                 }
@@ -6560,9 +6560,9 @@
                     "gallery": "$~Phòng trưng bày",
                     "moderation": "$~Sự điều độ"
                 },
-                "singletonWordsWarning": "$~Một số từ trong bản nháp của bạn chỉ xuất hiện một lần duy nhất trong toàn bộ đoạn văn. Bạn có chắc chắn rằng chúng được viết đúng chính tả và nhất quán với các văn bản khác không?",
+                "singletonWordsWarning": "$~Một số từ trong bản nháp của bạn chỉ xuất hiện một lần duy nhất trong toàn bộ văn bản. Bạn có chắc chắn rằng chúng được viết đúng chính tả và nhất quán với các đoạn văn khác không?",
                 "viewPR": "$~Xem yêu cầu kéo (pull request)",
-                "oneLocaleNote": "$~Mỗi lần gửi bài chỉ dành cho một ngôn ngữ/vùng miền. Những chỉnh sửa này sẽ được gửi dưới dạng các chỉnh sửa cho biến `$locale`. Nếu bạn muốn đóng góp cho một ngôn ngữ/vùng miền khác, hãy chuyển đổi ngôn ngữ/vùng miền trước; các chỉnh sửa bạn lưu dưới mỗi ngôn ngữ/vùng miền sẽ được giữ riêng biệt."
+                "oneLocaleNote": "$~Mỗi lần đóng góp chỉ dành cho một ngôn ngữ. Những đóng góp này sẽ được gửi dưới dạng chỉnh sửa cho biến $locale . Nếu bạn muốn đóng góp cho một ngôn ngữ khác, hãy chuyển đổi ngôn ngữ trước; các chỉnh sửa bạn lưu dưới mỗi ngôn ngữ sẽ được giữ riêng biệt."
             }
         },
         "edit": {
@@ -6667,15 +6667,15 @@
                     "placeholder": "$~Nhập tên..."
                 },
                 "filter": {
-                    "description": "$~Lọc chuỗi ngôn ngữ theo đường dẫn hoặc mô tả",
+                    "description": "$~Lọc chuỗi dịch theo đường dẫn hoặc mô tả.",
                     "placeholder": "$~Lọc..."
                 }
             },
-            "strings": "$~Chuỗi ngôn ngữ",
+            "strings": "$~Chuỗi dịch",
             "emotion": "Choose an emotion",
             "invalidName": "$~Không phải là tên chơi chữ hợp lệ.",
             "reference": "$~Tài liệu tham khảo tiếng Anh",
-            "invalidConceptLinks": "$~Các liên kết khái niệm này không hoạt động trong ngôn ngữ hiện tại. Bạn có viết sai chính tả một trong số chúng, hay đã cố tình xóa chúng đi?",
+            "invalidConceptLinks": "$~Các liên kết khái niệm này không hoạt động trong ngôn ngữ hiện tại. Bạn có viết sai chính tả một trong số chúng, hay cố tình xóa chúng đi?",
             "inputs": {
                 "header": "$~Các thông tin đầu vào mà mẫu này chấp nhận",
                 "usedTip": "$~Nhấp chuột để chèn thêm một tham chiếu khác vào vị trí con trỏ",

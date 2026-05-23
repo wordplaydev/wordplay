@@ -120,7 +120,7 @@
         "Base": "$~taban rakamı",
         "Boolean": "$~Boolean",
         "Name": "$~isim",
-        "Locale": "$~yerel",
+        "Locale": "$~dil",
         "Unknown": "$~bilinmeyen",
         "End": "$~son",
         "Highlight": "$~vurgulanmış örnek",
@@ -903,8 +903,8 @@
             }
         },
         "IsLocale": {
-            "name": "$~yereldir",
-            "description": "$~yerel seçildiyse doğru döndür",
+            "name": "$~dildir",
+            "description": "$~Dil seçiliyse true döndürün.",
             "emotion": "kind",
             "doc": [
                 "$~Hedef kitlenin belirli bir dili veya bölgeyi seçip seçmediğini kontrol etmenize yardımcı olacağım:",
@@ -1312,7 +1312,7 @@
             "description": "$~$text metin değeri oluştur",
             "emotion": "serious",
             "doc": "$~Bir veya daha fazla belirli @Translation çevirisini temsil ediyorum. Neler yapabileceğim hakkında daha fazla bilgi edinmek için @Text bakın!",
-            "start": "$~Mevcut yerel ayarda metin oluşturalım",
+            "start": "$~Şimdi mevcut dilde metin oluşturalım.",
             "label": {
                 "texts": "$~metin"
             }
@@ -1359,7 +1359,7 @@
             "description": "$~$text biçimlendirilmiş metin oluştur",
             "emotion": "serious",
             "doc": "$~Biçimlendirilmiş metnin birçok farklı @FormattedTranslation'ını temsil ediyorum. Değerlendirdiğimde, izleyicinin seçtiği dillere göre en iyi eşleşmeyi seçeceğim.",
-            "start": "$~Mevcut yerel ayarda metin oluşturalım"
+            "start": "$~Şimdi mevcut dilde metin oluşturalım."
         },
         "FormattedTranslation": {
             "name": "$~biçimlendirilmişçeviri",
@@ -3507,12 +3507,12 @@
             "doc": [
                 "$~/Selamlar!/",
                 "$~@FunctionDefinition burada - dinlemeye hazır!",
-                "$~Bu akış konuşmayı tanır ve @Text'e dönüştürür. Söylediklerinizi dinlemek ve kelimelere çevirmek için tarayıcınızın konuşma tanıma özelliğini kullanır (bu çok havalı değil mi?!).",
-                "$~\\Konuşma()\\",
+                "$~Bu akış konuşmayı tanır ve @Text Text'e dönüştürür. Söylediklerinizi dinlemek ve kelimelere çevirmek için tarayıcınızın konuşma tanıma özelliğini kullanır (bu çok havalı değil mi?!).",
+                "$~\\Speech()\\",
                 "$~Bu, bir dili konuşabilen ancak okuma ve yazmayı (ve daha fazlasını) henüz öğrenenler için mükemmeldir...",
                 "$~Belirli bir dildeki konuşmayı tanımak için bir dil kodu belirtebilirsiniz:",
-                "$~Konuşma (dil: 'es-MX')",
-                "$~Dil belirtilmezse, tercih ettiğiniz yerel ayar kullanılır.",
+                "$~\\Speech(language: 'es-MX')\\",
+                "$~Dil belirtilmezse, tercih ettiğiniz dil varsayılan olarak kullanılır.",
                 "$~Ses tanıma özelliği mikrofon erişimi ve internet bağlantısı gerektirir (lütfen erişim izni verin!). Ayrıca, kullanım sınırları olabilir, bu yüzden çok uzun süre açık bırakmayın (aman aman)!"
             ],
             "names": ["$~Konuşma", "$~Ses"],
@@ -3522,7 +3522,7 @@
             },
             "language": {
                 "names": ["$~dil", "$~dil"],
-                "doc": "$~Bir BCP 47 dil kodu (örneğin, 'en-US'). Tarayıcınızın konuşma tanıma özelliği tarafından desteklenmiyorsa hata alırsınız. Varsayılan olarak tercih ettiğiniz yerel ayar kullanılır."
+                "doc": "$~Bir BCP 47 dil kodu (örneğin, 'en-US'). Tarayıcınızın konuşma tanıma özelliği tarafından desteklenmiyorsa hata alırsınız. Varsayılan olarak tercih ettiğiniz dile döner."
             },
             "limit": {
                 "names": ["$~limit", "$~kelimeler"],
@@ -3720,11 +3720,11 @@
             },
             "name": {
                 "doc": [
-                    "$~Bana bir isim ver! Bu birçok şeye yardımcı olur.",
-                    "$~Öncelikle eğer bir adım varsa, bunu ekran okuyucu açıklamalarında kendimi tanımlamak için kullanacağım.",
-                    "$~İkincisi, animasyon yaparken sahnede aynı içeriği temsil etmesi gereken birden fazla farklı ifadeniz olabilir; bunlara aynı adı verirseniz tek bir ifade gibi animasyon yaparlar.",
-                    "$~Son olarak @Choice ile yardımcı oluyorum: Bana verdiğiniz isimler o akışta görünüyor.",
-                    "$~Yardımcı olacaksa, bana her biri farklı bir dilde olmak üzere birçok farklı isim verebilirsiniz. Her zaman ilk seçilen yerel ayardaki ismi kullanırım."
+                    "$~Bana vereceğiniz bir isim! Bu birçok şey için faydalı.",
+                    "$~Öncelikle, eğer bir ismim varsa, ekran okuyucu açıklamalarında kendimi tanımlamak için onu kullanacağım.",
+                    "$~İkinci olarak, animasyon yaparken, sahnede aynı içeriği temsil etmesi gereken birden fazla farklı ifade olabilir; bunlara aynı adı verin ve tek bir hareket olarak canlanacaklardır.",
+                    "$~Son olarak, @Choice Choice'a yardımcı oluyorum: bana verdiğiniz isimler o akışta görünüyor.",
+                    "$~Bana yardımcı olacaksa, her biri farklı dilde olmak üzere birçok farklı isim verebilirsiniz. Her zaman ilk seçilen dildeki ismi kullanacağım."
                 ],
                 "names": "$~isim"
             },
@@ -4383,10 +4383,10 @@
         },
         "Say": {
             "doc": [
-                "$~Merhaba! Ben @Say ve @Stage'de metni göstermek yerine sesli olarak okuyorum.",
+                "$~Merhaba! Ben @Say ve @Stage Stage'de metni göstermek yerine sesli olarak okuyorum.",
                 "$~Söyleyecek bir şey verin, programınız her değerlendirildiğinde onu söyleyeceğim:",
-                "$~\\('bla bla bla' de)\\",
-                "$~@TextLiteral'ın @Language özelliği varsa onu kullanacağım, yoksa seçili yerel ayarı kullanacağım.",
+                "$~\\Say('blah blah blah')\\",
+                "$~@TextLiteral TextLiteral'ın @Language özelliği varsa onu kullanacağım, yoksa seçilen dili kullanacağım.",
                 "$~Ayarlardan bir ses seçebilirsiniz."
             ],
             "names": ["$~🔊", "$~Söylemek"],
@@ -4529,7 +4529,7 @@
                     "tip": "$~Bu projenin dillerini düzenleyin ve diğer dillere çevirin.",
                     "label": "$~tercüme etmek"
                 },
-                "primary": "$~bu projenin birincil yerel ayarı olarak ayarlayın",
+                "primary": "$~Bu projenin birincil dili olarak ayarlandı.",
                 "savedLocally": "$~projeler yerel olarak kaydedilir, ancak çevrimiçi olarak kaydedilmez",
                 "savedOnline": "$~projeler çevrimiçi olarak kaydedilir"
             },
@@ -5271,10 +5271,10 @@
                     "help": "$~…'i çevirmemize yardım edin."
                 },
                 "button": {
-                    "show": "$~yerel ayarı değiştir",
-                    "replace": "$~bu yerel ayarı kullan",
-                    "add": "$~bu yerel ayarı ve mevcut olanları kullan",
-                    "remove": "$~bu yerel ayarı kaldır",
+                    "show": "$~web sitesi için dil(ler) seçin",
+                    "replace": "$~bu dili kullanın",
+                    "add": "$~Bu dili ve mevcut dilleri kullanın.",
+                    "remove": "$~bu dili kaldır",
                     "menu": "$~diğer diller"
                 }
             },
@@ -6320,9 +6320,9 @@
                     "gallery": "$~Galeri",
                     "moderation": "$~Ölçülülük"
                 },
-                "singletonWordsWarning": "$~Taslağınızdaki bazı kelimeler, tüm yerel ayarda yalnızca bir kez geçiyor. Bu kelimelerin doğru yazıldığından ve metnin geri kalanıyla tutarlı olduğundan emin misiniz?",
+                "singletonWordsWarning": "$~Taslağınızdaki bazı kelimeler metnin tamamında yalnızca bir kez geçiyor. Bu kelimelerin doğru yazıldığından ve metnin geri kalanıyla tutarlı olduğundan emin misiniz?",
                 "viewPR": "$~Çekme isteğini görüntüle",
-                "oneLocaleNote": "$~Her gönderim, aynı anda yalnızca bir yerel ayarı kapsar. Bu toplu işlem, $locale değişkenine yapılan düzenlemeler olarak gönderilecektir. Farklı bir yerel ayara katkıda bulunmak istiyorsanız, önce yerel ayarları değiştirin; her yerel ayar altında kaydettiğiniz düzenlemeler ayrı ayrı saklanır."
+                "oneLocaleNote": "$~Her gönderim bir seferde yalnızca bir dili kapsar. Bu parti, $locale değişkenine yapılan düzenlemeler olarak gönderilecektir. Farklı bir dile katkıda bulunmak istiyorsanız, önce dilleri değiştirin; her dil altında kaydettiğiniz düzenlemeler ayrı ayrı saklanır."
             }
         },
         "edit": {
@@ -6663,15 +6663,15 @@
                     "placeholder": "$~Adınızı girin..."
                 },
                 "filter": {
-                    "description": "$~Yol veya açıklamaya göre yerel ayar dizelerini filtrele",
+                    "description": "$~Çeviri dizelerini yol veya açıklamaya göre filtrele",
                     "placeholder": "$~Filtrele..."
                 }
             },
-            "strings": "$~Yerel ayar dizeleri",
+            "strings": "$~Çeviri dizeleri",
             "emotion": "Choose an emotion",
             "invalidName": "$~Geçerli bir Wordplay adı değil.",
             "reference": "$~İngilizce referans",
-            "invalidConceptLinks": "$~Bu kavram bağlantıları mevcut yerel ayarda çözümlenmiyor. Birini yanlış mı yazdınız, yoksa bilerek mi kaldırdınız?",
+            "invalidConceptLinks": "$~Bu kavram bağlantıları mevcut dilde çözümlenmiyor. Birini yanlış mı yazdınız, yoksa bilerek mi kaldırdınız?",
             "inputs": {
                 "header": "$~Bu şablonun kabul ettiği girdiler",
                 "usedTip": "$~İmlecin bulunduğu yere başka bir referans eklemek için tıklayın.",

@@ -128,7 +128,7 @@
         "Base": "$~angka dasar",
         "Boolean": "$~boolean",
         "Name": "$~nama",
-        "Locale": "$~lokasi",
+        "Locale": "$~bahasa",
         "Unknown": "$~tidak dikenal",
         "End": "$~akhir",
         "Highlight": "$~contoh yang disorot"
@@ -908,8 +908,8 @@
             }
         },
         "IsLocale": {
-            "name": "$~adalahlokal",
-            "description": "$~Kembalikan nilai true jika lokal dipilih.",
+            "name": "$~adalahbahasa",
+            "description": "$~Kembalikan nilai true jika bahasa telah dipilih.",
             "emotion": "kind",
             "doc": [
                 "$~Saya akan membantu Anda memeriksa apakah audiens telah memilih bahasa atau wilayah tertentu:",
@@ -1320,7 +1320,7 @@
                 "texts": "$~teks"
             },
             "doc": "$~Saya mewakili satu atau lebih @Translation teks tertentu. Lihat @Text untuk mempelajari lebih lanjut tentang apa yang dapat saya lakukan!",
-            "start": "$~Mari kita buat teks dalam bahasa lokal saat ini."
+            "start": "$~Mari kita buat teks dalam bahasa saat ini."
         },
         "Translation": {
             "name": "$~terjemahan",
@@ -1364,7 +1364,7 @@
             "description": "$~buat teks berformat $text",
             "emotion": "serious",
             "doc": "$~Saya mewakili banyak @FormattedTranslation berbeda dari teks yang diformat. Saat mengevaluasi, saya akan memilih yang paling sesuai berdasarkan bahasa yang dipilih oleh audiens.",
-            "start": "$~Mari kita buat teks dalam bahasa lokal saat ini."
+            "start": "$~Mari kita buat teks dalam bahasa saat ini."
         },
         "FormattedTranslation": {
             "name": "$~terjemahanberformat",
@@ -3317,12 +3317,12 @@
             "doc": [
                 "$~Halo!",
                 "$~@FunctionDefinition di sini - siap mendengarkan!",
-                "$~Fitur ini mengenali ucapan dan mengubahnya menjadi @Text. Fitur ini menggunakan pengenalan suara browser Anda untuk mendengarkan apa yang Anda ucapkan dan mengubahnya menjadi kata-kata (keren sekali, bukan?!).",
-                "$~\\Pidato()\\",
+                "$~Fitur ini mengenali ucapan dan mengubahnya menjadi @Text . Fitur ini menggunakan pengenalan suara browser Anda untuk mendengarkan apa yang Anda ucapkan dan mengubahnya menjadi kata-kata (keren sekali, bukan?!).",
+                "$~\\Speech()\\",
                 "$~Ini sangat cocok bagi mereka yang bisa berbicara suatu bahasa tetapi masih belajar membaca atau menulis (dan lebih dari itu)...",
                 "$~Anda dapat menentukan kode bahasa untuk mengenali ucapan dalam bahasa tertentu:",
-                "$~\\Ucapan(bahasa: 'es-MX')\\",
-                "$~Jika tidak ada bahasa yang ditentukan, maka akan menggunakan bahasa lokal pilihan Anda secara default.",
+                "$~\\Speech(language: 'es-MX')\\",
+                "$~Jika tidak ada bahasa yang ditentukan, maka akan menggunakan bahasa pilihan Anda secara default.",
                 "$~Pengenalan suara memerlukan akses mikrofon dan koneksi internet (mohon berikan akses!). Selain itu, mungkin ada batasan penggunaan, jadi jangan biarkan menyala terlalu lama (jangan!)"
             ],
             "names": ["$~🎙️", "$~Pidato", "$~Suara"],
@@ -3332,7 +3332,7 @@
             },
             "language": {
                 "names": ["$~bahasa", "$~bahasa"],
-                "doc": "$~Kode bahasa BCP 47 (misalnya, 'en-US'). Jika tidak didukung oleh pengenalan suara peramban Anda, Anda akan mendapatkan kesalahan. Secara default akan menggunakan lokal pilihan Anda."
+                "doc": "$~Kode bahasa BCP 47 (misalnya, 'en-US'). Jika tidak didukung oleh pengenalan suara peramban Anda, Anda akan mendapatkan kesalahan. Secara default akan menggunakan bahasa pilihan Anda."
             },
             "limit": {
                 "names": ["$~membatasi", "$~katakata"],
@@ -3729,8 +3729,8 @@
                     "$~Sebuah nama yang kau berikan padaku! Ini bermanfaat untuk banyak hal.",
                     "$~Pertama, jika saya memiliki nama, saya akan menggunakannya untuk mendeskripsikan diri saya dalam deskripsi pembaca layar.",
                     "$~Kedua, saat membuat animasi, Anda mungkin memiliki beberapa ekspresi berbeda yang seharusnya mewakili konten yang sama di atas panggung; beri nama yang sama pada ekspresi-ekspresi tersebut dan semuanya akan beranimasi sebagai satu kesatuan.",
-                    "$~Terakhir, saya bisa membantu dengan @Choice: nama-nama yang Anda berikan akan muncul di aliran tersebut.",
-                    "$~Anda bisa memberi saya banyak nama berbeda, masing-masing dalam bahasa yang berbeda, jika itu membantu. Saya akan selalu menggunakan nama dalam bahasa lokal pertama yang dipilih."
+                    "$~Terakhir, saya bisa membantu dengan @Choice : nama-nama yang Anda berikan akan muncul di aliran tersebut.",
+                    "$~Anda bisa memberi saya banyak nama berbeda, masing-masing dalam bahasa yang berbeda, jika itu membantu. Saya akan selalu menggunakan nama dalam bahasa pertama yang dipilih."
                 ],
                 "names": "$~nama"
             },
@@ -3945,10 +3945,10 @@
         },
         "Say": {
             "doc": [
-                "$~Hai! Saya @Say, dan saya membacakan teks dengan lantang, bukan menampilkannya di @Stage.",
+                "$~Hai! Saya @Say , dan saya membacakan teks dengan lantang alih-alih menampilkannya di @Stage .",
                 "$~Cukup berikan saya sesuatu untuk dikatakan, dan saya akan mengatakannya setiap kali program Anda dievaluasi:",
-                "$~Katakan ('bla bla bla')",
-                "$~Saya akan menggunakan @Language dari @TextLiteral jika ada, jika tidak, saya akan menggunakan locale yang dipilih.",
+                "$~\\Say('blah blah blah')\\",
+                "$~Saya akan menggunakan @Language dari @TextLiteral jika ada, jika tidak, saya akan menggunakan bahasa yang dipilih.",
                 "$~Anda dapat memilih suara di pengaturan."
             ],
             "names": ["$~🔊", "$~Mengatakan"],
@@ -4541,7 +4541,7 @@
                     "tip": "$~Edit bahasa-bahasa dalam proyek ini dan terjemahkan ke dalam bahasa lain.",
                     "label": "$~menerjemahkan"
                 },
-                "primary": "$~ditetapkan sebagai lokasi utama proyek ini"
+                "primary": "$~ditetapkan sebagai bahasa utama proyek ini"
             },
             "field": {
                 "name": {
@@ -5553,10 +5553,10 @@
                     "help": "$~Bantu kami menerjemahkan…"
                 },
                 "button": {
-                    "show": "$~ubah lokal",
-                    "replace": "$~gunakan lokal ini",
-                    "add": "$~gunakan lokal ini dan lokal yang saat ini digunakan",
-                    "remove": "$~hapus lokal ini",
+                    "show": "$~Pilih bahasa untuk situs web",
+                    "replace": "$~gunakan bahasa ini",
+                    "add": "$~gunakan bahasa ini dan bahasa-bahasa yang ada saat ini",
+                    "remove": "$~hapus bahasa ini",
                     "menu": "$~bahasa lain"
                 }
             },
@@ -5827,7 +5827,7 @@
                     "placeholder": "$~Masukkan nama..."
                 },
                 "filter": {
-                    "description": "$~Saring string lokal berdasarkan jalur atau deskripsi",
+                    "description": "$~Saring string terjemahan berdasarkan jalur atau deskripsi.",
                     "placeholder": "$~Menyaring..."
                 }
             },
@@ -5840,10 +5840,10 @@
                 "unknown": "$~Referensi-referensi ini tidak sesuai dengan input atau terminologi yang dideklarasikan, sehingga tidak akan menggantikan:",
                 "submitBlocked": "$~Periksa kembali setiap input sebelum mengirimkan."
             },
-            "strings": "$~String lokal",
+            "strings": "$~String terjemahan",
             "emotion": "Choose an emotion",
             "invalidName": "$~Bukan nama Wordplay yang valid",
-            "invalidConceptLinks": "$~Tautan konsep ini tidak berfungsi di lokal saat ini. Apakah Anda salah mengeja salah satunya, atau sengaja menghapusnya?"
+            "invalidConceptLinks": "$~Tautan konsep ini tidak berfungsi dalam bahasa saat ini. Apakah Anda salah mengeja salah satunya, atau sengaja menghapusnya?"
         },
         "page": {
             "unknown": {
@@ -5914,7 +5914,7 @@
                 "workspaceHeader": "$~Teks untuk ditulis atau diulas",
                 "submitHeader": "$~Kirim",
                 "submitPrompt": "$~Jika Anda sudah siap untuk mengajukan serangkaian perubahan ini, Anda dapat mengirimkannya di bawah ini.",
-                "oneLocaleNote": "$~Setiap pengajuan mencakup satu lokal pada satu waktu. Kumpulan ini akan dikirimkan sebagai suntingan ke $locale . Jika Anda ingin berkontribusi pada lokal yang berbeda, ganti lokal terlebih dahulu; suntingan yang Anda simpan di bawah setiap lokal akan disimpan secara terpisah.",
+                "oneLocaleNote": "$~Setiap pengajuan mencakup satu bahasa dalam satu waktu. Kumpulan ini akan dikirimkan sebagai suntingan ke $locale . Jika Anda ingin berkontribusi pada bahasa lain, ganti bahasa terlebih dahulu; suntingan yang Anda simpan di bawah setiap bahasa akan disimpan secara terpisah.",
                 "bundleSummary": "$~Perubahan dalam batch ini",
                 "editEntry": "$~Kembali untuk mengedit teks ini",
                 "revertEntry": "$~Abaikan suntingan ini dari kumpulan suntingan.",
@@ -5927,7 +5927,7 @@
                 "notSpamLabel": "$~Saya berjanji bahwa suntingan ini bukan spam.",
                 "notSpamNote": "$~Wordplay adalah proyek nirlaba yang dipimpin oleh para sukarelawan.",
                 "requireLogin": "$~Anda harus masuk terlebih dahulu untuk memberikan saran lokalisasi.",
-                "singletonWordsWarning": "$~Beberapa kata dalam draf Anda hanya muncul sekali di seluruh wilayah. Apakah Anda yakin kata-kata tersebut dieja dengan benar dan konsisten dengan teks lainnya?",
+                "singletonWordsWarning": "$~Beberapa kata dalam draf Anda hanya muncul sekali di seluruh teks. Apakah Anda yakin ejaannya sudah benar dan konsisten dengan teks lainnya?",
                 "submit": {
                     "description": "$~Kirimkan kumpulan suntingan ini",
                     "prompt": "$~Kirim"

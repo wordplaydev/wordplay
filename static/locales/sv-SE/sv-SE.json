@@ -120,7 +120,7 @@
         "Base": "$~grundsiffra",
         "Boolean": "$~booleskt",
         "Name": "$~namn",
-        "Locale": "$~plats",
+        "Locale": "$~språk",
         "Unknown": "$~okänd",
         "End": "$~avsluta",
         "Highlight": "$~markerat exempel",
@@ -903,8 +903,8 @@
             }
         },
         "IsLocale": {
-            "name": "$~ärlokal",
-            "description": "$~är lokal",
+            "name": "$~ärspråk",
+            "description": "$~returnera sant om språk är valt",
             "emotion": "kind",
             "doc": [
                 "$~Jag hjälper dig att kontrollera om publiken har valt ett visst språk eller region:",
@@ -1312,7 +1312,7 @@
             "description": "$~sms:a $text",
             "emotion": "serious",
             "doc": "$~Jag representerar en eller flera specifika @Translation av text. Se @Text för att lära dig mer om vad jag kan göra!",
-            "start": "$~Låt oss göra text i den aktuella lokalen",
+            "start": "$~Låt oss skapa text på det aktuella språket",
             "label": {
                 "texts": "$~text"
             }
@@ -1359,7 +1359,7 @@
             "description": "$~sms:a $text",
             "emotion": "serious",
             "doc": "$~Jag representerar många olika @FormattedTranslation av formaterad text. När jag utvärderar väljer jag den bästa matchningen baserat på publikens valda språk.",
-            "start": "$~Låt oss göra text i den aktuella lokalen"
+            "start": "$~Låt oss skapa text på det aktuella språket"
         },
         "FormattedTranslation": {
             "name": "$~formateradöversättning",
@@ -3507,12 +3507,12 @@
             "doc": [
                 "$~/hej där!/",
                 "$~@FunctionDefinition här - redo att lyssna!",
-                "$~Den här strömmen känner igen tal och konverterar det till @Text. Den använder din webbläsares taligenkänning för att lyssna på vad du säger och omvandla det till ord (visst är det coolt?!).",
-                "$~\\Tal()\\",
+                "$~Den här strömmen känner igen tal och konverterar det till @Text . Den använder din webbläsares taligenkänning för att lyssna på vad du säger och omvandla det till ord (visst är det här coolt?!).",
+                "$~\\Speech()\\",
                 "$~Detta är perfekt för de som kan tala ett språk men fortfarande lär sig läsa eller skriva det (och mer)...",
                 "$~Du kan ange en språkkod för att känna igen tal på ett visst språk:",
-                "$~\\Tal(språk: 'es-MX')\\",
-                "$~Om inget språk anges används som standard din föredragna plats.",
+                "$~\\Speech(language: 'es-MX')\\",
+                "$~Om inget språk anges används ditt föredragna språk som standard.",
                 "$~Taligenkänning kräver mikrofonåtkomst och internetanslutning (vänligen ge åtkomst!). Det kan också finnas användningsbegränsningar, så låt det inte vara på för länge (neeeeeeeee)!"
             ],
             "names": ["$~Tal", "$~Röst"],
@@ -3522,7 +3522,7 @@
             },
             "language": {
                 "names": ["$~språk", "$~lång"],
-                "doc": "$~En BCP 47-språkkod (t.ex. 'en-US'). Om den inte stöds av din webbläsares röstigenkänning får du ett felmeddelande. Standardinställningen är din föredragna språkinställning."
+                "doc": "$~En BCP 47-språkkod (t.ex. 'en-US'). Om den inte stöds av din webbläsares röstigenkänning får du ett felmeddelande. Standardinställningen är ditt föredragna språk."
             },
             "limit": {
                 "names": ["$~begränsa", "$~ord"],
@@ -3721,10 +3721,10 @@
             "name": {
                 "doc": [
                     "$~Ett namn du ger mig! Detta är användbart för många saker.",
-                    "$~För det första, om jag har ett namn, använder jag det för att beskriva mig själv i skärmläsarbeskrivningar.",
-                    "$~För det andra, när du animerar kan du ha flera olika uttryck som är tänkta att representera samma innehåll på scenen; ge dem samma namn och de kommer att animera som en.",
-                    "$~Slutligen är jag behjälplig med @Choice: namnen du ger mig visas i den strömmen.",
-                    "$~Du kan ge mig många olika namn, alla på olika språk, om det är till hjälp. Jag kommer alltid att använda namnet i den först valda lokalen."
+                    "$~Först, om jag har ett namn, använder jag det för att beskriva mig själv i beskrivningar i skärmläsare.",
+                    "$~För det andra, när du animerar kan du ha flera olika uttryck som ska representera samma innehåll på scenen; ge dem samma namn så animeras de som ett.",
+                    "$~Slutligen är jag till hjälp med @Choice : namnen du ger mig visas i den strömmen.",
+                    "$~Du kan ge mig många olika namn, alla på olika språk, om det är till hjälp. Jag kommer alltid att använda namnet på det först valda språket."
                 ],
                 "names": "$~namn"
             },
@@ -4383,10 +4383,10 @@
         },
         "Say": {
             "doc": [
-                "$~Hej! Jag heter @Say och jag läser upp texten högt istället för att visa den på @Stage.",
+                "$~Hej! Jag heter @Say , och jag läser upp texten högt istället för att visa den på @Stage .",
                 "$~Ge mig bara något att säga, så säger jag det varje gång ditt program utvärderas:",
-                "$~\\Säg('bla bla bla')\\",
-                "$~Jag använder @Language för @TextLiteral om det finns ett, annars använder jag den valda språkinställningen.",
+                "$~\\Say('blah blah blah')\\",
+                "$~Jag använder @Language för @TextLiteral om det finns ett, annars använder jag det valda språket.",
                 "$~Du kan välja en röst i inställningarna."
             ],
             "names": ["$~🔊", "$~Säga"],
@@ -4529,7 +4529,7 @@
                     "tip": "$~redigera det här projektets språk och översätt det till andra språk.",
                     "label": "$~översätta"
                 },
-                "primary": "$~ange som projektets primära plats",
+                "primary": "$~ange som projektets primära språk",
                 "savedLocally": "$~projekt sparas lokalt, men inte online",
                 "savedOnline": "$~projekten sparas online"
             },
@@ -5275,10 +5275,10 @@
                     "help": "$~Hjälp oss att översätta..."
                 },
                 "button": {
-                    "show": "$~ändra språk",
-                    "replace": "$~använd den här lokalen",
-                    "add": "$~använd den här lokalen och de nuvarande",
-                    "remove": "$~ta bort den här lokalen",
+                    "show": "$~välj språk för webbplatsen",
+                    "replace": "$~använd detta språk",
+                    "add": "$~använd detta språk och de nuvarande",
+                    "remove": "$~ta bort det här språket",
                     "menu": "$~andra språk"
                 }
             },
@@ -6323,7 +6323,7 @@
                 },
                 "singletonWordsWarning": "$~Vissa ord i ditt utkast förekommer bara en gång i hela språket. Är du säker på att de är korrekt stavade och överensstämmer med annan text?",
                 "viewPR": "$~Visa pull-förfrågan",
-                "oneLocaleNote": "$~Varje bidrag täcker en språkinställning i taget. Denna grupp kommer att skickas in som redigeringar till $locale. Om du vill bidra till en annan språkinställning, byt språkinställning först; redigeringar som du sparar under varje språkinställning sparas separat."
+                "oneLocaleNote": "$~Varje bidrag täcker ett språk i taget. Denna bunt kommer att skickas in som redigeringar till $locale . Om du vill bidra till ett annat språk, byt språk först; redigeringar du sparar under varje språk sparas separat."
             }
         },
         "edit": {
@@ -6664,15 +6664,15 @@
                     "placeholder": "$~Ange namn..."
                 },
                 "filter": {
-                    "description": "$~Filtrera språksträngar efter sökväg eller beskrivning",
+                    "description": "$~Filtrera översättningssträngar efter sökväg eller beskrivning",
                     "placeholder": "$~Filtrera..."
                 }
             },
-            "strings": "$~Språksträngar",
+            "strings": "$~Översättningssträngar",
             "emotion": "Choose an emotion",
             "invalidName": "$~Inte ett giltigt Wordplay-namn",
             "reference": "$~Engelsk referens",
-            "invalidConceptLinks": "$~Dessa konceptlänkar fungerar inte i den aktuella språkinställningen. Stavade du fel på en, eller tog du bort den med flit?",
+            "invalidConceptLinks": "$~Dessa konceptlänkar fungerar inte i det aktuella språket. Stavade du fel på en, eller tog du bort den med flit?",
             "inputs": {
                 "header": "$~Inmatningar som denna mall accepterar",
                 "usedTip": "$~Klicka för att infoga en annan referens vid markören",

@@ -3489,13 +3489,13 @@
             "doc": [
                 "$~/¡hola!/",
                 "$~@FunctionDefinition aquí, ¡listo para escuchar!",
-                "$~Este flujo reconoce el habla y la convierte en @Text. Utiliza el reconocimiento de voz de tu navegador para escuchar lo que dices y convertirlo en palabras (¡genial!).",
-                "$~\\Discurso()\\",
-                "$~Esto es perfecto para aquellos que pueden hablar un idioma pero todavía están aprendiendo a leerlo o escribirlo (y más)...",
-                "$~Puede especificar un código de idioma para reconocer el habla en un idioma en particular:",
-                "$~\\Speech(idioma: 'es-MX')\\",
-                "$~Si no se especifica ningún idioma, se utilizará de forma predeterminada su configuración regional preferida.",
-                "$~El reconocimiento de voz requiere acceso al micrófono y conexión a internet (¡por favor, concédenos acceso!). Además, puede haber límites de uso, así que no lo dejes activado demasiado tiempo (¡nooooo!)."
+                "$~Esta transmisión reconoce el habla y la convierte en @Text . Utiliza el reconocimiento de voz de tu navegador para escuchar lo que dices y convertirlo en palabras (¡¿no es genial?!).",
+                "$~\\Speech()\\",
+                "$~Esto es perfecto para aquellos que pueden hablar un idioma pero aún están aprendiendo a leerlo o escribirlo (y más)...",
+                "$~Puedes especificar un código de idioma para reconocer el habla en un idioma determinado:",
+                "$~\\Speech(language: 'es-MX')\\",
+                "$~Si no se especifica ningún idioma, se utilizará por defecto el idioma que prefiera.",
+                "$~El reconocimiento de voz requiere acceso al micrófono y conexión a Internet (¡por favor, concédelo!). Además, puede haber límites de uso, así que no lo dejes activado demasiado tiempo (¡nooooo!)."
             ],
             "names": ["$~Discurso", "$~Voz"],
             "reset": {
@@ -3504,7 +3504,7 @@
             },
             "language": {
                 "names": ["$~idioma", "$~idioma"],
-                "doc": "$~Un código de idioma BCP 47 (p. ej., \"en-US\"). Si el reconocimiento de voz de tu navegador no lo admite, recibirás un error. Se establece de forma predeterminada en tu configuración regional preferida."
+                "doc": "$~Un código de idioma BCP 47 (por ejemplo, 'en-US'). Si el reconocimiento de voz de su navegador no lo admite, recibirá un error. Se utilizará por defecto su idioma preferido."
             },
             "limit": {
                 "names": ["$~límite", "$~palabras"],
@@ -4365,10 +4365,10 @@
         },
         "Say": {
             "doc": [
-                "$~¡Hola! Soy @Say, y leo el texto en voz alta en lugar de mostrarlo en @Stage.",
+                "$~¡Hola! Soy @Say y leo el texto en voz alta en lugar de mostrarlo en @Stage .",
                 "$~Solo dame algo que decir, y lo diré cada vez que tu programa sea evaluado:",
-                "$~\\Di('bla bla bla')\\",
-                "$~Usaré el atributo @Language del atributo @TextLiteral si lo tiene; de lo contrario, usaré la configuración regional seleccionada.",
+                "$~\\Say('blah blah blah')\\",
+                "$~Usaré el @Language del atributo @TextLiteral si lo tiene; de lo contrario, usaré el idioma seleccionado.",
                 "$~Puedes seleccionar una voz en la configuración."
             ],
             "names": ["$~🔊", "$~Decir"],
@@ -4507,7 +4507,7 @@
                     "tip": "$~Editar los idiomas de este proyecto y traducirlo a otros idiomas.",
                     "label": "$~traducir"
                 },
-                "primary": "$~establecido como la ubicación principal de este proyecto",
+                "primary": "$~establecido como idioma principal de este proyecto",
                 "share": {
                     "tip": "$~Mostrar opciones para compartir proyectos",
                     "label": "$~compartir"
@@ -6216,7 +6216,7 @@
                 },
                 "singletonWordsWarning": "$~Algunas palabras de tu borrador aparecen solo una vez en todo el texto. ¿Estás seguro de que están escritas correctamente y son coherentes con el resto del texto?",
                 "viewPR": "$~Ver la solicitud de extracción",
-                "oneLocaleNote": "$~Cada envío abarca una configuración regional a la vez. Este lote se enviará como ediciones a $locale. Si desea contribuir a una configuración regional diferente, cambie primero de configuración regional; las ediciones que guarde en cada configuración regional se conservarán por separado."
+                "oneLocaleNote": "$~Cada envío abarca un idioma a la vez. Este lote se enviará como ediciones a $locale . Si desea contribuir a un idioma diferente, cambie de idioma primero; las ediciones que guarde en cada idioma se conservarán por separado."
             }
         },
         "edit": {
@@ -6649,15 +6649,15 @@
                     "placeholder": "$~Ingrese su nombre..."
                 },
                 "filter": {
-                    "description": "$~Filtrar cadenas de localización por ruta o descripción.",
+                    "description": "$~Filtrar cadenas de traducción por ruta o descripción.",
                     "placeholder": "$~Filtrar..."
                 }
             },
-            "strings": "$~Cadenas de configuración regional",
+            "strings": "$~Cadenas de traducción",
             "emotion": "Choose an emotion",
             "invalidName": "$~No es un nombre válido para un juego de palabras.",
             "reference": "$~Referencia en inglés",
-            "invalidConceptLinks": "$~Estos enlaces conceptuales no funcionan en la configuración regional actual. ¿Escribiste mal alguno o lo eliminaste a propósito?",
+            "invalidConceptLinks": "$~Estos enlaces conceptuales no funcionan en el idioma actual. ¿Escribiste mal alguno o lo eliminaste a propósito?",
             "inputs": {
                 "header": "$~Entradas que acepta esta plantilla",
                 "usedTip": "$~Haz clic para insertar otra referencia en la posición del cursor.",

@@ -891,8 +891,8 @@
             }
         },
         "IsLocale": {
-            "name": "$~istGebietsschema",
-            "description": "$~gib wahr zurück wenn Gebietsschema gewählt",
+            "name": "$~istSprache",
+            "description": "$~Gibt „true“ zurück, wenn die Sprache ausgewählt ist.",
             "emotion": "kind",
             "doc": [
                 "$~Ich helfe Ihnen zu überprüfen, ob das Publikum eine bestimmte Sprache oder Region ausgewählt hat:",
@@ -1292,7 +1292,7 @@
             "description": "$~erstelle Textwert $text",
             "emotion": "serious",
             "doc": "$~Ich stelle eine oder mehrere spezifische @Translation von Texten dar. Unter @Text erfahren Sie mehr über meine Möglichkeiten!",
-            "start": "$~Lassen Sie uns Text in der aktuellen Sprache erstellen",
+            "start": "$~Lasst uns einen Text in der aktuellen Sprache erstellen.",
             "label": {
                 "texts": "$~Text"
             }
@@ -1339,7 +1339,7 @@
             "description": "$~erstelle formatierten Text $text",
             "emotion": "serious",
             "doc": "$~Ich stelle viele verschiedene @FormattedTranslation formatierten Textes dar. Bei der Bewertung wähle ich die beste Übereinstimmung basierend auf den ausgewählten Sprachen des Publikums aus.",
-            "start": "$~Lassen Sie uns Text in der aktuellen Sprache erstellen"
+            "start": "$~Lasst uns einen Text in der aktuellen Sprache erstellen."
         },
         "FormattedTranslation": {
             "name": "$~formatierteÜbersetzung",
@@ -3511,11 +3511,11 @@
                 "$~/Hallo!/",
                 "$~@FunctionDefinition hier – ich bin bereit zuzuhören!",
                 "$~Dieser Stream erkennt Sprache und wandelt sie in @Text um. Er nutzt die Spracherkennung Ihres Browsers, um zuzuhören, was Sie sagen, und es in Wörter umzuwandeln (ist das nicht genial?!).",
-                "$~\\Rede()\\",
+                "$~\\Speech()\\",
                 "$~Dies ist perfekt für alle, die eine Sprache sprechen, aber noch das Lesen und Schreiben lernen (und vieles mehr)...",
                 "$~Sie können einen Sprachcode angeben, um Sprache in einer bestimmten Sprache zu erkennen:",
                 "$~\\Speech(language: 'es-MX')\\",
-                "$~Wenn keine Sprache angegeben ist, wird standardmäßig Ihre bevorzugte Sprache verwendet.",
+                "$~Wenn keine Sprache angegeben wird, wird standardmäßig Ihre bevorzugte Sprache verwendet.",
                 "$~Die Spracherkennung benötigt Zugriff auf das Mikrofon und eine Internetverbindung (bitte gewähren Sie den Zugriff!). Es kann außerdem Nutzungsbeschränkungen geben, lassen Sie es also nicht zu lange eingeschaltet (nein!)."
             ],
             "names": ["$~Rede", "$~Stimme"],
@@ -3525,7 +3525,7 @@
             },
             "language": {
                 "names": ["$~Sprache", "$~lang"],
-                "doc": "$~Ein BCP-47-Sprachcode (z. B. „en-US“). Falls dieser von der Spracherkennung Ihres Browsers nicht unterstützt wird, erhalten Sie eine Fehlermeldung. Standardmäßig wird Ihr bevorzugtes Gebietsschema verwendet."
+                "doc": "$~Ein BCP-47-Sprachcode (z. B. „en-US“). Falls dieser von der Spracherkennung Ihres Browsers nicht unterstützt wird, erhalten Sie eine Fehlermeldung. Standardmäßig wird Ihre bevorzugte Sprache verwendet."
             },
             "limit": {
                 "names": ["$~Limit", "$~Wörter"],
@@ -3831,11 +3831,11 @@
             },
             "name": {
                 "doc": [
-                    "$~Ein Name, den du mir gibst! Das ist für vieles hilfreich.",
-                    "$~Erstens: Wenn ich einen Namen habe, verwende ich ihn, um mich in den Beschreibungen des Screenreaders zu beschreiben.",
-                    "$~Zweitens: Beim Animieren haben Sie möglicherweise mehrere unterschiedliche Ausdrücke, die denselben Inhalt auf der Bühne darstellen sollen. Geben Sie ihnen denselben Namen, und sie werden als einer animiert.",
-                    "$~Schließlich bin ich mit @Choice hilfreich: Die Namen, die Sie mir geben, erscheinen in diesem Stream.",
-                    "$~Sie können mir viele verschiedene Namen in jeweils einer anderen Sprache geben, wenn das hilfreich ist. Ich verwende immer den Namen in der ersten ausgewählten Sprache."
+                    "$~Einen Namen, den Sie mir geben! Das ist für viele Dinge hilfreich.",
+                    "$~Erstens, wenn ich einen Namen habe, verwende ich ihn, um mich in den Beschreibungen des Bildschirmlesers zu beschreiben.",
+                    "$~Zweitens: Bei der Animation kann es vorkommen, dass mehrere verschiedene Gesichtsausdrücke denselben Inhalt auf der Bühne darstellen sollen; geben Sie ihnen denselben Namen, und sie werden als ein einziger animiert.",
+                    "$~Abschließend möchte ich noch erwähnen, dass ich bei @Choice hilfreich bin: Die Namen, die Sie mir nennen, erscheinen in diesem Stream.",
+                    "$~Sie können mir gerne mehrere verschiedene Namen in jeweils einer anderen Sprache nennen, falls das hilfreich ist. Ich werde immer den Namen in der zuerst ausgewählten Sprache verwenden."
                 ],
                 "names": "$~Name"
             },
@@ -4385,7 +4385,7 @@
                 "$~Hallo! Ich bin @Say und lese Texte laut vor, anstatt sie auf @Stage anzuzeigen.",
                 "$~Sagen Sie mir einfach, was ich sagen soll, und ich werde es jedes Mal sagen, wenn Ihr Programm evaluiert wird:",
                 "$~\\Say('blah blah blah')\\",
-                "$~Ich verwende die @Language-Eigenschaft des @Language, falls vorhanden, andernfalls verwende ich das ausgewählte Gebietsschema.",
+                "$~Ich verwende die @Language des @TextLiteral , falls vorhanden, andernfalls die ausgewählte Sprache.",
                 "$~Sie können in den Einstellungen eine Stimme auswählen."
             ],
             "names": ["$~🔊", "$~Sagen"],
@@ -4524,7 +4524,7 @@
                     "tip": "$~Bearbeiten Sie die Sprachen dieses Projekts und übersetzen Sie es in andere Sprachen.",
                     "label": "$~übersetzen"
                 },
-                "primary": "$~als primäre Lokalität für dieses Projekt festlegen",
+                "primary": "$~als primäre Sprache dieses Projekts festgelegt",
                 "share": {
                     "tip": "$~Optionen zur Projektfreigabe anzeigen",
                     "label": "$~Aktie"
@@ -5257,10 +5257,10 @@
                     "help": "$~Helfen Sie uns beim Übersetzen …"
                 },
                 "button": {
-                    "show": "$~Gebietsschema ändern",
-                    "add": "$~dieses Gebietsschema hinzufügen",
-                    "remove": "$~Dieses Gebietsschema entfernen",
-                    "replace": "$~durch dieses Gebietsschema ersetzen",
+                    "show": "$~Sprache(n) für die Website auswählen",
+                    "add": "$~diese Sprache und die aktuellen verwenden",
+                    "remove": "$~Diese Sprache entfernen",
+                    "replace": "$~diese Sprache verwenden",
                     "menu": "$~andere Sprachen"
                 }
             },
@@ -6233,7 +6233,7 @@
                 },
                 "singletonWordsWarning": "$~Einige Wörter in Ihrem Entwurf kommen im gesamten Text nur einmal vor. Sind Sie sicher, dass sie korrekt geschrieben sind und mit dem übrigen Text übereinstimmen?",
                 "viewPR": "$~Pull-Anfrage ansehen",
-                "oneLocaleNote": "$~Jeder Beitrag bezieht sich jeweils auf eine Sprache. Diese Bearbeitungen werden als Änderungen an $locale übermittelt. Wenn Sie zu einer anderen Sprache beitragen möchten, wechseln Sie zuerst die Sprache; die unter jeder Sprache gespeicherten Änderungen werden separat aufbewahrt."
+                "oneLocaleNote": "$~Jeder Beitrag bezieht sich jeweils auf eine Sprache. Diese Bearbeitungen werden in der Datei $locale gespeichert. Wenn Sie zu einer anderen Sprache beitragen möchten, wechseln Sie bitte zuerst die Sprache. Die unter jeder Sprache gespeicherten Änderungen werden separat verwaltet."
             }
         },
         "edit": {
@@ -6666,15 +6666,15 @@
                     "placeholder": "$~Name eingeben..."
                 },
                 "filter": {
-                    "description": "$~Filtern Sie Gebietsschemazeichenfolgen nach Pfad oder Beschreibung",
+                    "description": "$~Übersetzungsstrings nach Pfad oder Beschreibung filtern",
                     "placeholder": "$~Filter..."
                 }
             },
-            "strings": "$~Gebietsschema-Zeichenketten",
+            "strings": "$~Übersetzungszeichenketten",
             "emotion": "Choose an emotion",
             "invalidName": "$~Kein gültiger Wortspielname",
             "reference": "$~Englische Referenz",
-            "invalidConceptLinks": "$~Diese Konzeptlinks funktionieren in der aktuellen Sprache nicht. Haben Sie einen davon falsch geschrieben oder absichtlich entfernt?",
+            "invalidConceptLinks": "$~Diese Konzeptverknüpfungen funktionieren in der aktuellen Sprache nicht. Haben Sie sich bei einer vertippt oder sie absichtlich entfernt?",
             "inputs": {
                 "header": "$~Eingaben, die diese Vorlage akzeptiert",
                 "usedTip": "$~Klicken Sie, um an der Cursorposition eine weitere Referenz einzufügen.",
