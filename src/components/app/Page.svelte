@@ -14,7 +14,7 @@
     import Color from '@output/Color';
     import { LOGO_SYMBOL } from '@parser/Symbols';
     import { localeGoto } from '@util/localeGoto';
-    import { onMount, type Snippet } from 'svelte';
+    import { type Snippet } from 'svelte';
     import { writable } from 'svelte/store';
     import { slide } from 'svelte/transition';
 
@@ -25,27 +25,13 @@
 
     let { children, footer = true }: Props = $props();
 
+    let main: HTMLElement | undefined = $state();
     let scrollY = $state(0);
-    let showBackToTop = $derived(
-        typeof window !== 'undefined' && scrollY > window.innerHeight,
-    );
-    let scrollContainer: HTMLElement | null = null;
+    let showBackToTop = $derived(scrollY > 200);
 
     function scrollToTop() {
-        scrollContainer?.scrollTo({ top: 0, behavior: 'smooth' });
+        main?.scrollTo({ top: 0, behavior: 'smooth' });
     }
-
-    onMount(() => {
-        scrollContainer = document.querySelector('main');
-        if (scrollContainer) {
-            const handler = () => {
-                scrollY = scrollContainer!.scrollTop;
-            };
-            scrollContainer.addEventListener('scroll', handler);
-            return () =>
-                scrollContainer!.removeEventListener('scroll', handler);
-        }
-    });
 
     // Set a fullscreen flag to indicate whether footer should hide or not.
     // It's the responsibility of children componets to set this based on their state.
@@ -90,10 +76,13 @@
     {#if localizing.on}
         <header transition:slide><Localizer /></header>
     {/if}
-    <main>
+    <main
+        bind:this={main}
+        onscroll={(e) => (scrollY = e.currentTarget.scrollTop)}
+    >
         {@render children()}
     </main>
-    {#if showBackToTop && page.route.id !== '/[[locale]]'}
+    {#if showBackToTop}
         <div class="backtotop">
             <div class="backtotop-inner">
                 <Button
