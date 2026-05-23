@@ -4522,10 +4522,6 @@
                     "label": "$~tercüme etmek"
                 },
                 "primary": "$~bu projenin birincil yerel ayarı olarak ayarlayın",
-                "history": {
-                    "on": "$~son proje kodunu göster",
-                    "off": "$~mevcut proje kodunu göster"
-                },
                 "savedLocally": "$~projeler yerel olarak kaydedilir, ancak çevrimiçi olarak kaydedilmez",
                 "savedOnline": "$~projeler çevrimiçi olarak kaydedilir"
             },
@@ -4645,7 +4641,14 @@
         },
         "source": {
             "label": "$~program editörü",
-            "empty": ["$~• $symbol yazın ve menüden bizi seçin."],
+            "empty": [
+                "$~• $symbol yazın ve menüden bizi seçin.",
+                "$?",
+                "$?",
+                "$?",
+                "$?",
+                "$?"
+            ],
             "overwritten": "$~Proje başka yerde revize edildi",
             "confirm": {
                 "delete": {
@@ -4683,7 +4686,6 @@
             "menu": {
                 "label": "$~otomatik tamamlama menüsü",
                 "show": "$~otomatik tamamlama menüsünü göster",
-                "back": "$~alt menüden çık",
                 "empty": "$~Önerim yok."
             },
             "cursor": {
@@ -4701,7 +4703,6 @@
                 "selectAll": "$~program seç",
                 "incrementLiteral": "$~sayıyı, metni veya Boole değerini artırın",
                 "decrementLiteral": "$~sayıyı, metni veya Boolean'ı azalt",
-                "insertSymbol": "$~$symbol ekle",
                 "insertTab": "$~sekme ekle",
                 "insertTrue": "$~doğruyu ekle",
                 "insertFalse": "$~yanlış ekle",
@@ -4721,7 +4722,6 @@
                 "insertConvert": "$~dönüştürme sembolünü ekle",
                 "insertPrevious": "$~önceki sembolü ekle",
                 "insertTable": "$~tablo açma sembolü ekle",
-                "insertTableClose": "$~tabloyu kapat simgesini ekle",
                 "insertBorrow": "$~ödünç al ekle",
                 "insertShare": "$~paylaşım ekle",
                 "insertLine": "$~satır sonu ekle",
@@ -5460,7 +5460,6 @@
                 "default": "$~varsayılan",
                 "inherited": "$~miras kalan",
                 "notSequence": "$~bir dizi değil",
-                "notContent": "$~içerik listesi değil",
                 "format": "$~biçim",
                 "weight": "$~ağırlık",
                 "light": "$~ışık",
@@ -5694,7 +5693,6 @@
                         "placeholder": "$~e-posta veya kullanıcı adı",
                         "description": "$~Bu sınıfa öğretmen erişimi vermek istediğiniz yaratıcının e-postası veya kullanıcı adı"
                     },
-                    "addteacher": "$~Bu sınıfa bir öğretmen ekle",
                     "delete": {
                         "tip": "$~Bu sınıfı sonsuza dek sil.",
                         "label": "$~Bu sınıfı sil"
@@ -5810,9 +5808,7 @@
                     "forgot": "$~*Şifrenizi mi unuttunuz?* İletişim bilgilerinizi toplamadığımız için hesabınızı maalesef kurtaramıyoruz.",
                     "enter": "$~Giriş bağlantınız farklı bir tarayıcıdan veya cihazdan gelmiş gibi görünüyor. Siz olduğunuzdan emin olmak için e-postanızı tekrar girebilir misiniz?",
                     "play": "$~Giriş yaptınız, projelerinizi artık çevrimiçi olarak kaydedebiliriz! Bir şey oluşturmak ister misiniz?",
-                    "tooyoung": "$~E-posta ile giriş yapabilmek için 13 yaşında veya daha büyük olmanız gerekmektedir.",
                     "passwordrule": "$~Şifreleriniz en az 6 karakter uzunluğunda olmalı; eğer şifre yöneticisi kullanmıyorsanız hatırlayabileceğiniz üç uzun kelime seçin.",
-                    "passwordreminder": "$~Henüz bir hesabınız yok gibi görünüyor. Şifrenizi tekrar girin ve kurtarılamaz olduğundan güvenli ve doğru bir şekilde sakladığınızdan emin olun.",
                     "changeEmail": "$~E-postanızı değiştirmek mi istiyorsunuz? Yeni bir tane gönderin, eskisine bir onay gönderelim.",
                     "changePassword": "$~Şifrenizi değiştirmek mi istiyorsunuz? Yeni bir şifre gönderip tekrarlayın.",
                     "email": "$~Yalnızca e-posta hesabınız mı var? E-postanızı göndererek giriş yapın ve bununla ilişkili bir hesap varsa, size oturum açma bağlantısı içeren bir e-posta göndereceğiz. Gizliliği korumak için yalnızca e-posta hesapları desteklenmemektedir.",
@@ -5830,7 +5826,6 @@
                     "email": "$~Bu e-posta geçerli değil.",
                     "failure": "$~Giriş yapılamıyor :(",
                     "offline": "$~Buluta ulaşamadık ☁️.",
-                    "unchanged": "$~E-posta adresinizi değiştiremedik, ancak nedenini bilmiyoruz.",
                     "delete": "$~Hesabınızı silemedik, ancak nedenini bilmiyoruz.",
                     "wrongPassword": "$~Geçerli bir kullanıcı adı ve şifre değil. Ya şifreniz yanlış ya da başka biri bu kullanıcı adına sahip.",
                     "tooMany": "$~Çok fazla kez giriş yapmayı denediniz ve başarısız oldunuz. Tekrar denemek için beklemeniz gerekecek.",
@@ -6202,8 +6197,6 @@
                 "palette": "$~Palet",
                 "semantic": "$~Semantik Renkler",
                 "fonts": "$~Yazı Tipleri",
-                "appfont": "$~Metin Yazı Tipi",
-                "codefont": "$~Kod Yazı Tipi",
                 "spacing": "$~Aralık",
                 "typography": "$~Tipografi",
                 "components": "$~Bileşenler",
@@ -6221,7 +6214,6 @@
                 "demo": {
                     "button": "$~Örnek",
                     "note": "$~Bu bir nottur.",
-                    "warning": "$~Bu bir uyarıdır.",
                     "notice": "$~Bu bir duyurudur.",
                     "header": "$~Başlık",
                     "subheader": "$~Alt başlık",
@@ -6340,9 +6332,6 @@
             "append": "$~/Eklemek için can atıyorum…/",
             "remove": "$~/Ayrılmayı düşünüyor…/",
             "replace": "$~/İçeri girmek istiyor…/",
-            "wrap": "$~parantez içine almak",
-            "unwrap": "$~açmak",
-            "bind": "$~bu ifadeyi adlandırın",
             "range": "$~$start $end'a kadar seçim",
             "area": "$~tip kodu"
         },
@@ -6517,8 +6506,6 @@
                             "$~Herhangi bir küratörün oluşturduğu herhangi bir galerinin işbirlikçileri görüntüleyebilir."
                         ]
                     },
-                    "expanded": "$~genişletilmiş",
-                    "limited": "$~sınırlı",
                     "expandedOptions": "$~Seçilen galerinin küratörlerinin ve yaratıcılarının bu galerinin nasıl yapılacağına dair kılavuzları görmelerini sağlayalım.",
                     "expandedAdd": "$~Galeriyi listeye ekle",
                     "expandedRemove": "$~Galeriyi listeden kaldır"
@@ -6677,11 +6664,6 @@
             "emotion": "Choose an emotion",
             "invalidName": "$~Geçerli bir Wordplay adı değil.",
             "reference": "$~İngilizce referans",
-            "unwritten": "$~Yazılmamış metin",
-            "revised": "$~Gözden geçirilmiş metin",
-            "revisedDescription": "$~Bu revizyonlar yerel olarak kaydedildi ve henüz incelemeye gönderilmedi.",
-            "submitRevisions": "$~Düzeltmeleri gönder",
-            "submitted": "$~Teşekkürler! Revize edilmiş metniniz incelenecek ve yakında yayınlanabilir.",
             "invalidConceptLinks": "$~Bu kavram bağlantıları mevcut yerel ayarda çözümlenmiyor. Birini yanlış mı yazdınız, yoksa bilerek mi kaldırdınız?",
             "inputs": {
                 "header": "$~Bu şablonun kabul ettiği girdiler",

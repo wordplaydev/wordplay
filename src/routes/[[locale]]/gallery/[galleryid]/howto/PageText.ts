@@ -130,10 +130,6 @@ type PageText = {
         visibility: {
             subheader: HeaderAndExplanationText;
             mode: ModeText<[string, string]>;
-            /** [plain] Name of visibility option for limiting visibility to gallery curators and creators */
-            limited: string;
-            /** [plain] Name of visibility option for making how-tos visible to anyone who has access to the curator's galleries */
-            expanded: string;
             /** [plain] Label for options for galleries to add as expanded permissions */
             expandedOptions: string;
             /** [plain] Label for adding a gallery to expanded list */

@@ -4527,11 +4527,7 @@
                     "tip": "$~Chỉnh sửa ngôn ngữ của dự án này và dịch nó sang các ngôn ngữ khác.",
                     "label": "$~dịch"
                 },
-                "primary": "$~được đặt làm địa điểm chính của dự án này",
-                "history": {
-                    "on": "$~Hiển thị mã dự án gần đây",
-                    "off": "$~Hiển thị mã dự án hiện tại"
-                }
+                "primary": "$~được đặt làm địa điểm chính của dự án này"
             },
             "field": {
                 "name": {
@@ -4835,8 +4831,6 @@
                             "$~Những người cộng tác với bất kỳ phòng trưng bày nào do bất kỳ người phụ trách nào tạo ra đều có thể xem."
                         ]
                     },
-                    "expanded": "$~mở rộng",
-                    "limited": "$~giới hạn",
                     "expandedOptions": "$~Hãy để những người phụ trách và người sáng tạo của phòng trưng bày đã chọn xem hướng dẫn sử dụng phòng trưng bày này.",
                     "expandedAdd": "$~Thêm thư viện ảnh vào danh sách",
                     "expandedRemove": "$~xóa thư viện ảnh khỏi danh sách"
@@ -4887,7 +4881,14 @@
         },
         "source": {
             "label": "$~trình biên tập chương trình",
-            "empty": ["$~• Gõ $symbol và chọn chúng tôi từ menu."],
+            "empty": [
+                "$~• Gõ $symbol và chọn chúng tôi từ menu.",
+                "$?",
+                "$?",
+                "$?",
+                "$?",
+                "$?"
+            ],
             "overwritten": "$~Dự án đã được chỉnh sửa ở nơi khác.",
             "confirm": {
                 "delete": {
@@ -4931,7 +4932,6 @@
             "menu": {
                 "label": "$~menu tự động hoàn thành",
                 "show": "$~hiển thị menu tự động hoàn thành",
-                "back": "$~rời khỏi menu con",
                 "empty": "$~Không có gợi ý nào."
             },
             "cursor": {
@@ -4953,7 +4953,6 @@
                 "selectAll": "$~chọn chương trình",
                 "incrementLiteral": "$~tăng số, văn bản hoặc giá trị Boolean",
                 "decrementLiteral": "$~giảm số, văn bản hoặc giá trị Boolean",
-                "insertSymbol": "$~chèn $symbol",
                 "insertTab": "$~chèn tab",
                 "insertTrue": "$~chèn đúng",
                 "insertFalse": "$~chèn false",
@@ -4973,7 +4972,6 @@
                 "insertConvert": "$~chèn ký hiệu chuyển đổi",
                 "insertPrevious": "$~chèn ký hiệu trước đó",
                 "insertTable": "$~chèn biểu tượng mở bảng",
-                "insertTableClose": "$~chèn biểu tượng đóng bảng",
                 "insertBorrow": "$~chèn mượn",
                 "insertShare": "$~chèn chia sẻ",
                 "insertLine": "$~chèn ngắt dòng",
@@ -5702,7 +5700,6 @@
                 "default": "$~mặc định",
                 "inherited": "$~được thừa hưởng",
                 "notSequence": "$~không phải là một chuỗi",
-                "notContent": "$~không phải là danh sách nội dung",
                 "format": "$~định dạng",
                 "weight": "$~cân nặng",
                 "light": "$~ánh sáng",
@@ -5936,7 +5933,6 @@
                         "placeholder": "$~email hoặc tên người dùng",
                         "description": "$~Địa chỉ email hoặc tên người dùng của người tạo mà bạn muốn cấp quyền truy cập cho giáo viên vào lớp học này."
                     },
-                    "addteacher": "$~Thêm giáo viên vào lớp học này",
                     "delete": {
                         "tip": "$~Xóa lớp này vĩnh viễn",
                         "label": "$~Xóa lớp này"
@@ -6304,9 +6300,7 @@
                     "forgot": "$~*Quên mật khẩu?* Rất tiếc, chúng tôi không thể khôi phục tài khoản của bạn vì chúng tôi không thu thập thông tin liên hệ.",
                     "enter": "$~Có vẻ như liên kết đăng nhập của bạn đến từ một trình duyệt hoặc thiết bị khác. Bạn có thể nhập lại email của mình để chúng tôi chắc chắn đó là bạn không?",
                     "play": "$~Bạn đã đăng nhập thành công, giờ chúng tôi có thể lưu dự án của bạn trực tuyến rồi! Bạn muốn tạo gì đó không?",
-                    "tooyoung": "$~Bạn phải từ 13 tuổi trở lên mới có thể đăng nhập bằng email.",
                     "passwordrule": "$~Mật khẩu phải có ít nhất 6 ký tự; nếu bạn không sử dụng trình quản lý mật khẩu, hãy chọn ba từ dài mà bạn dễ nhớ.",
-                    "passwordreminder": "$~Có vẻ như bạn chưa có tài khoản. Vui lòng nhập lại mật khẩu và đảm bảo bạn đã lưu mật khẩu một cách an toàn và chính xác, vì mật khẩu này không thể khôi phục được.",
                     "changeEmail": "$~Bạn muốn thay đổi email? Hãy nhập email mới và chúng tôi sẽ gửi email xác nhận đến email cũ.",
                     "changePassword": "$~Bạn muốn thay đổi mật khẩu? Hãy nhập mật khẩu mới và nhập lại.",
                     "email": "$~Bạn có tài khoản chỉ dùng email không? Hãy đăng nhập bằng email của bạn, và nếu có tài khoản được liên kết với email đó, chúng tôi sẽ gửi cho bạn một email chứa liên kết đăng nhập. Để bảo vệ quyền riêng tư, chúng tôi không hỗ trợ tài khoản chỉ dùng email mới.",
@@ -6326,7 +6320,6 @@
                     "usernameTaken": "$~Tên người dùng này đã được sử dụng.",
                     "failure": "$~Không thể đăng nhập :(",
                     "offline": "$~Chúng tôi không thể với tới mây ☁️.",
-                    "unchanged": "$~Chúng tôi không thể thay đổi địa chỉ email của bạn, nhưng chúng tôi không biết lý do tại sao.",
                     "delete": "$~Chúng tôi không thể xóa tài khoản của bạn, nhưng chúng tôi không biết lý do tại sao.",
                     "invalidPassword": "$~Mật khẩu phải có ít nhất 6 ký tự.",
                     "wrongPassword": "$~Tên người dùng và mật khẩu không hợp lệ. Có thể mật khẩu của bạn sai hoặc người khác đã sử dụng tên người dùng này.",
@@ -6444,8 +6437,6 @@
                 "palette": "$~Bảng màu",
                 "semantic": "$~Màu sắc ngữ nghĩa",
                 "fonts": "$~Phông chữ",
-                "appfont": "$~Phông chữ văn bản",
-                "codefont": "$~Phông chữ mã",
                 "spacing": "$~Khoảng cách",
                 "typography": "$~Kiểu chữ",
                 "components": "$~Các thành phần",
@@ -6463,7 +6454,6 @@
                 "demo": {
                     "button": "$~Ví dụ",
                     "note": "$~Đây là một ghi chú.",
-                    "warning": "$~Đây là lời cảnh báo.",
                     "notice": "$~Đây là một thông báo.",
                     "header": "$~Tiêu đề",
                     "subheader": "$~Tiêu đề phụ",
@@ -6583,9 +6573,6 @@
             "append": "$~/Rất muốn chèn…/",
             "remove": "$~/Đang cân nhắc việc rời đi…/",
             "replace": "$~/Muốn can thiệp…/",
-            "wrap": "$~đặt trong ngoặc",
-            "unwrap": "$~mở gói",
-            "bind": "$~Đặt tên cho biểu thức này",
             "area": "$~mã loại"
         },
         "template": {
@@ -6681,11 +6668,6 @@
             "emotion": "Choose an emotion",
             "invalidName": "$~Không phải là tên chơi chữ hợp lệ.",
             "reference": "$~Tài liệu tham khảo tiếng Anh",
-            "unwritten": "$~Văn bản chưa được viết",
-            "revised": "$~Văn bản đã sửa đổi",
-            "revisedDescription": "$~Các bản sửa đổi này được lưu cục bộ và chưa được gửi để xem xét.",
-            "submitRevisions": "$~Gửi bản sửa đổi",
-            "submitted": "$~Cảm ơn bạn! Bản chỉnh sửa của bạn sẽ được xem xét và có thể sẽ được đăng tải sớm.",
             "invalidConceptLinks": "$~Các liên kết khái niệm này không hoạt động trong ngôn ngữ hiện tại. Bạn có viết sai chính tả một trong số chúng, hay đã cố tình xóa chúng đi?",
             "inputs": {
                 "header": "$~Các thông tin đầu vào mà mẫu này chấp nhận",

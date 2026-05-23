@@ -23,10 +23,6 @@ type PageText = {
         name: FieldText;
         /** The description of the class */
         description: FieldText;
-        /** Add a teacher */
-        newteacher: FieldText;
-        /** [plain] Add a teacher button */
-        addteacher: string;
         /** Delete class */
         delete: ButtonText;
     };

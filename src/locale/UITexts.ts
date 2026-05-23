@@ -193,13 +193,6 @@ type UITexts = {
             translate: ButtonText;
             /** [plain] The tooltip for the primary locale setting button */
             primary: string;
-            /** The history switch toggling between the current edit state and a previous checkpoint */
-            history: {
-                /** [plain] Tooltip for the off (live) state of the history switch */
-                off: string;
-                /** [plain] Tooltip for the on (viewing history) state of the history switch */
-                on: string;
-            };
         };
         field: {
             /** [name] The project name text field */
@@ -307,8 +300,6 @@ type UITexts = {
             label: string;
             /** [plain] The menu show button and keyboard shortcut */
             show: string;
-            /** [plain] How to describe the autocomplete back button for leaving the submenu */
-            back: string;
             /** [plain] What to say when the menu is empty */
             empty: string;
         };
@@ -362,8 +353,6 @@ type UITexts = {
             incrementLiteral: string;
             /** [plain] Decrement the literal at the cursor */
             decrementLiteral: string;
-            /** [plain] Insert selected symbol */
-            insertSymbol: Template<['symbol']>;
             /** [plain] Insert tab symbol */
             insertTab: string;
             /** [plain] Insert true symbol */
@@ -402,8 +391,6 @@ type UITexts = {
             insertConvert: string;
             /** [plain] Insert table symbol */
             insertTable: string;
-            /** [plain] Insert table close symbol */
-            insertTableClose: string;
             /** [plain] Insert borrow symbol */
             insertBorrow: string;
             /** [plain] Insert share symbol */
@@ -687,8 +674,6 @@ type UITexts = {
             inherited: string;
             /** [plain] Shown in the output palette when a sequence isn't valid */
             notSequence: string;
-            /** [plain] Shown in the output palette when a list of content is isn't valid */
-            notContent: string;
             /** [plain] The word to describe whether text is rich text formatted */
             format: string;
             /** [plain] The word to describe font weight */
@@ -1110,16 +1095,6 @@ type UITexts = {
         header: string;
         /** [plain] Label for the English reference text shown when an editor is focused */
         reference: string;
-        /** [plain] Subheader above the unwritten text dropdown */
-        unwritten: string;
-        /** [plain] Subheader for the revised text section */
-        revised: string;
-        /** [formatted] Explanation that revisions are local and not yet submitted */
-        revisedDescription: FormattedText;
-        /** [plain] Label for the submit revisions button */
-        submitRevisions: string;
-        /** [plain] Notice shown after revisions are submitted */
-        submitted: string;
         /** [formatted] An explanation of the localization editor */
         description: FormattedText;
         toggle: {

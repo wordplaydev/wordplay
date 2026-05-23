@@ -15,10 +15,6 @@ type PageText = {
     semantic: string;
     /** [plain] Subheader for the fonts section */
     fonts: string;
-    /** [plain] Label for the application font subsection */
-    appfont: string;
-    /** [plain] Label for the code font subsection */
-    codefont: string;
     /** [plain] Subheader for the spacing section */
     spacing: string;
     /** [plain] Subheader for typography */
@@ -52,8 +48,6 @@ type PageText = {
         button: string;
         /** [plain] Text shown in the Note demo */
         note: string;
-        /** [plain] Text shown in the Warning demo */
-        warning: string;
         /** [plain] Text shown in the Notice demo */
         notice: string;
         /** [plain] Text shown inside the Header demo */

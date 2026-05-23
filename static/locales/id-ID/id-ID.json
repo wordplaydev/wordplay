@@ -4533,11 +4533,7 @@
                     "tip": "$~Edit bahasa-bahasa dalam proyek ini dan terjemahkan ke dalam bahasa lain.",
                     "label": "$~menerjemahkan"
                 },
-                "primary": "$~ditetapkan sebagai lokasi utama proyek ini",
-                "history": {
-                    "on": "$~Tampilkan kode proyek terbaru",
-                    "off": "$~Tampilkan kode proyek saat ini"
-                }
+                "primary": "$~ditetapkan sebagai lokasi utama proyek ini"
             },
             "field": {
                 "name": {
@@ -4840,8 +4836,6 @@
                             "$~Para kolaborator dari galeri yang Anda sebutkan di bawah ini dapat melihat panduan caranya."
                         ]
                     },
-                    "expanded": "$~diperluas",
-                    "limited": "$~terbatas",
                     "expandedOptions": "$~Biarkan kurator dan kreator galeri terpilih melihat panduan cara kerja galeri ini.",
                     "expandedAdd": "$~tambahkan galeri ke daftar",
                     "expandedRemove": "$~hapus galeri dari daftar"
@@ -4893,7 +4887,14 @@
         "source": {
             "label": "$~sumber",
             "title": "$~kode",
-            "empty": ["$~• Ketik $symbol dan pilih kami dari menu."],
+            "empty": [
+                "$~• Ketik $symbol dan pilih kami dari menu.",
+                "$?",
+                "$?",
+                "$?",
+                "$?",
+                "$?"
+            ],
             "overwritten": "$~Proyek direvisi di tempat lain",
             "confirm": {
                 "delete": {
@@ -4937,7 +4938,6 @@
             "menu": {
                 "label": "$~menu pelengkap otomatis",
                 "show": "$~Tampilkan menu pelengkapan otomatis",
-                "back": "$~tinggalkan submenu",
                 "empty": "$~Tidak ada saran."
             },
             "cursor": {
@@ -4959,7 +4959,6 @@
                 "selectAll": "$~pilih program",
                 "incrementLiteral": "$~menambah angka, teks, atau Boolean",
                 "decrementLiteral": "$~mengurangi angka, teks, atau Boolean",
-                "insertSymbol": "$~sisipkan $symbol",
                 "insertTab": "$~sisipkan tab",
                 "insertTrue": "$~masukkan benar",
                 "insertFalse": "$~masukkan salah",
@@ -4979,7 +4978,6 @@
                 "insertConvert": "$~sisipkan simbol konversi",
                 "insertPrevious": "$~sisipkan simbol sebelumnya",
                 "insertTable": "$~sisipkan simbol buka tabel",
-                "insertTableClose": "$~sisipkan simbol tutup tabel",
                 "insertBorrow": "$~sisipkan pinjam",
                 "insertShare": "$~sisipkan bagikan",
                 "insertLine": "$~sisipkan pemisah baris",
@@ -5718,7 +5716,6 @@
                 "default": "$~bawaan",
                 "inherited": "$~diwarisi",
                 "notSequence": "$~bukan sebuah urutan",
-                "notContent": "$~bukan daftar isi",
                 "format": "$~format",
                 "weight": "$~berat",
                 "light": "$~lampu",
@@ -5792,11 +5789,6 @@
         "localize": {
             "header": "$~Melokalisir",
             "reference": "$~Referensi bahasa Inggris",
-            "unwritten": "$~Teks tak tertulis",
-            "revised": "$~Teks yang direvisi",
-            "revisedDescription": "$~Revisi ini disimpan secara lokal dan belum diajukan untuk ditinjau.",
-            "submitRevisions": "$~Kirim revisi",
-            "submitted": "$~Terima kasih! Teks revisi Anda akan ditinjau dan mungkin akan segera diposting.",
             "description": "$~Selamat datang di mode lokalisasi! Anda dapat menyarankan perbaikan pada teks di antarmuka Wordplay. Pilih teks apa pun untuk menyarankan pengeditan. Saran Anda akan ditinjau, dan jika disetujui, akan menjadi bagian dari platform agar dapat dilihat oleh semua orang. Terima kasih telah membantu menjadikan Wordplay lebih mudah diakses oleh semua orang di dunia!",
             "toggle": {
                 "mode": {
@@ -6095,7 +6087,6 @@
                         "placeholder": "$~email atau nama pengguna",
                         "description": "$~Alamat email atau nama pengguna pembuat kelas yang ingin Anda beri akses kepada guru untuk kelas ini."
                     },
-                    "addteacher": "$~Tambahkan guru ke kelas ini",
                     "delete": {
                         "tip": "$~hapus kelas ini selamanya",
                         "label": "$~Hapus kelas ini"
@@ -6463,9 +6454,7 @@
                     "forgot": "$~*Lupa kata sandi Anda?* Sayangnya, kami tidak dapat memulihkan akun Anda karena kami tidak mengumpulkan informasi kontak.",
                     "enter": "$~Sepertinya tautan login Anda berasal dari browser atau perangkat lain. Bisakah Anda memasukkan email Anda lagi, agar kami yakin itu Anda?",
                     "play": "$~Anda sudah masuk, kami dapat menyimpan proyek Anda secara online sekarang! Ingin membuat sesuatu?",
-                    "tooyoung": "$~Anda harus berusia 13 tahun atau lebih untuk masuk menggunakan email.",
                     "passwordrule": "$~Kata sandi harus minimal 6 karakter; jika Anda tidak menggunakan pengelola kata sandi, pilih tiga kata panjang yang mudah Anda ingat.",
-                    "passwordreminder": "$~Sepertinya Anda belum memiliki akun. Masukkan kata sandi Anda lagi dan pastikan Anda telah menyimpannya dengan aman dan benar, karena kata sandi tersebut tidak dapat dipulihkan.",
                     "changeEmail": "$~Ingin mengganti email Anda? Kirimkan email baru dan kami akan mengirimkan konfirmasi ke email lama Anda.",
                     "changePassword": "$~Ingin mengubah kata sandi Anda? Kirimkan kata sandi baru dan ulangi.",
                     "email": "$~Apakah Anda memiliki akun hanya melalui email? Masuk menggunakan email Anda, dan jika ada akun yang terkait dengannya, kami akan mengirimkan email berisi tautan masuk. Akun hanya melalui email baru tidak didukung, untuk menjaga privasi.",
@@ -6485,7 +6474,6 @@
                     "usernameTaken": "$~Nama pengguna ini sudah digunakan.",
                     "failure": "$~Tidak bisa login :(",
                     "offline": "$~Kami tidak bisa meraih awan itu ☁️.",
-                    "unchanged": "$~Kami tidak dapat mengubah alamat email Anda, tetapi kami tidak tahu alasannya.",
                     "delete": "$~Kami tidak dapat menghapus akun Anda, tetapi kami tidak tahu alasannya.",
                     "invalidPassword": "$~Kata sandi harus memiliki panjang minimal 6 karakter.",
                     "wrongPassword": "$~Nama pengguna dan kata sandi tidak valid. Kata sandi Anda salah, atau orang lain sudah menggunakan nama pengguna ini.",
@@ -6603,8 +6591,6 @@
                 "palette": "$~Palet",
                 "semantic": "$~Warna Semantik",
                 "fonts": "$~Font",
-                "appfont": "$~Font Teks",
-                "codefont": "$~Font Kode",
                 "spacing": "$~Jarak",
                 "typography": "$~Tipografi",
                 "components": "$~Komponen",
@@ -6622,7 +6608,6 @@
                 "demo": {
                     "button": "$~Contoh",
                     "note": "$~Ini adalah sebuah catatan.",
-                    "warning": "$~Ini adalah peringatan.",
                     "notice": "$~Ini adalah sebuah pengumuman.",
                     "header": "$~Judul",
                     "subheader": "$~Subjudul",
@@ -6655,9 +6640,6 @@
             "append": "$~/Ingin sekali menyisipkan…/",
             "remove": "$~/Mempertimbangkan untuk pergi…/",
             "replace": "$~Ingin ikut campur…",
-            "wrap": "$~mengurungkan",
-            "unwrap": "$~membuka",
-            "bind": "$~sebutkan nama ekspresi ini",
             "area": "$~kode tipe"
         },
         "template": {

@@ -4533,11 +4533,7 @@
                     "tip": "$~editați limbile acestui proiect și traduceți-l în alte limbi.",
                     "label": "$~traduce"
                 },
-                "primary": "$~setați ca locația principală a acestui proiect",
-                "history": {
-                    "on": "$~afișează codul recent al proiectului",
-                    "off": "$~afișează codul proiectului curent"
-                }
+                "primary": "$~setați ca locația principală a acestui proiect"
             },
             "field": {
                 "name": {
@@ -4840,8 +4836,6 @@
                             "$~Colaboratorii galeriilor pe care le indicați mai jos pot vizualiza instrucțiuni practice"
                         ]
                     },
-                    "expanded": "$~extins",
-                    "limited": "$~limitat",
                     "expandedOptions": "$~permiteți curatorilor și creatorilor galeriei selectate să vadă instrucțiunile acestei galerii",
                     "expandedAdd": "$~adăugați galeria la listă",
                     "expandedRemove": "$~eliminați galeria din listă"
@@ -4893,7 +4887,14 @@
         "source": {
             "label": "$~sursă",
             "title": "$~cod",
-            "empty": ["$~• Tastați $symbol și alegeți-ne din meniu."],
+            "empty": [
+                "$~• Tastați $symbol și alegeți-ne din meniu.",
+                "$?",
+                "$?",
+                "$?",
+                "$?",
+                "$?"
+            ],
             "overwritten": "$~Proiect revizuit în altă parte",
             "confirm": {
                 "delete": {
@@ -4937,7 +4938,6 @@
             "menu": {
                 "label": "$~meniu de completare automată",
                 "show": "$~afișați meniul de completare automată",
-                "back": "$~părăsește submeniul",
                 "empty": "$~Nicio sugestie."
             },
             "cursor": {
@@ -4959,7 +4959,6 @@
                 "selectAll": "$~selectați programul",
                 "incrementLiteral": "$~creștere număr, text sau boolean",
                 "decrementLiteral": "$~micșorați numărul, textul sau valoarea booleană",
-                "insertSymbol": "$~inserează $symbol",
                 "insertTab": "$~inserează o filă",
                 "insertTrue": "$~inserează adevărat",
                 "insertFalse": "$~inserează fals",
@@ -4979,7 +4978,6 @@
                 "insertConvert": "$~inserează simbolul de conversie",
                 "insertPrevious": "$~inserează simbolul anterior",
                 "insertTable": "$~inserează simbolul deschis al tabelului",
-                "insertTableClose": "$~simbol de închidere a tabelului",
                 "insertBorrow": "$~inserează împrumută",
                 "insertShare": "$~inserează o partajare",
                 "insertLine": "$~introduceți o sfârșire de linie",
@@ -5718,7 +5716,6 @@
                 "default": "$~implicit",
                 "inherited": "$~moştenit",
                 "notSequence": "$~nu o secvență",
-                "notContent": "$~nu o listă de conținut",
                 "format": "$~format",
                 "weight": "$~greutate",
                 "light": "$~aprinde",
@@ -5792,11 +5789,6 @@
         "localize": {
             "header": "$~Localiza",
             "reference": "$~Referință în limba engleză",
-            "unwritten": "$~Text nescris",
-            "revised": "$~Text revizuit",
-            "revisedDescription": "$~Aceste revizuiri sunt salvate local și nu au fost încă trimise pentru revizuire.",
-            "submitRevisions": "$~Trimiteți revizuiri",
-            "submitted": "$~Mulțumesc! Textul revizuit va fi analizat și ar putea fi publicat în curând.",
             "description": "$~Bun venit în modul de localizare! Puteți sugera îmbunătățiri ale textului din interfața Wordplay. Alegeți orice text pentru a sugera o modificare. Sugestiile dvs. vor fi revizuite și, dacă sunt aprobate, vor deveni parte a platformei pentru ca toată lumea să le poată vedea. Vă mulțumim că ajutați la creșterea accesibilității Wordplay pentru toată lumea!",
             "toggle": {
                 "mode": {
@@ -6092,7 +6084,6 @@
                         "placeholder": "$~e-mail sau nume de utilizator",
                         "description": "$~adresa de e-mail sau numele de utilizator al creatorului căruia doriți să îi acordați acces profesorului la acest curs"
                     },
-                    "addteacher": "$~Adăugați un profesor la această clasă",
                     "delete": {
                         "tip": "$~ștergeți această clasă pentru totdeauna",
                         "label": "$~Ștergeți această clasă"
@@ -6460,9 +6451,7 @@
                     "forgot": "$~*Ați uitat parola?* Din păcate, nu vă putem recupera contul deoarece nu colectăm informații de contact.",
                     "enter": "$~Se pare că linkul de conectare provine de pe un alt browser sau dispozitiv. Poți introduce din nou adresa de e-mail, ca să fim siguri că ești tu?",
                     "play": "$~Ești autentificat, putem salva proiectele tale online acum! Vrei să creezi ceva?",
-                    "tooyoung": "$~Trebuie să aveți 13 ani sau mai mult pentru a vă conecta cu o adresă de e-mail.",
                     "passwordrule": "$~Parolele trebuie să aibă cel puțin 6 caractere; dacă nu folosiți un manager de parole, alegeți trei cuvinte lungi pe care le veți ține minte.",
-                    "passwordreminder": "$~Se pare că nu aveți încă un cont. Introduceți din nou parola și asigurați-vă că ați stocat-o în siguranță și corect, deoarece nu poate fi recuperată.",
                     "changeEmail": "$~Doriți să vă schimbați adresa de e-mail? Trimiteți una nouă și vă vom trimite o confirmare către cea veche.",
                     "changePassword": "$~Doriți să vă schimbați parola? Introduceți una nouă și repetați-o.",
                     "email": "$~Ai un cont doar pentru e-mail? Conectează-te cu adresa ta de e-mail și, dacă există un cont asociat cu aceasta, îți vom trimite un e-mail cu un link de conectare. Conturile noi doar pentru e-mail nu sunt acceptate, pentru a păstra confidențialitatea.",
@@ -6482,7 +6471,6 @@
                     "usernameTaken": "$~Acest nume de utilizator este deja utilizat.",
                     "failure": "$~Nu mă pot conecta :(",
                     "offline": "$~Nu am putut ajunge la nor ☁️.",
-                    "unchanged": "$~Nu am putut schimba adresa ta de e-mail, dar nu știm de ce.",
                     "delete": "$~Nu am putut șterge contul dumneavoastră, dar nu știm de ce.",
                     "invalidPassword": "$~Parolele trebuie să aibă cel puțin 6 caractere.",
                     "wrongPassword": "$~Nume de utilizator și parolă nevalide. Fie parola este greșită, fie altcineva are acest nume de utilizator.",
@@ -6600,8 +6588,6 @@
                 "palette": "$~Paletă",
                 "semantic": "$~Culori semantice",
                 "fonts": "$~Fonturi",
-                "appfont": "$~Fontul textului",
-                "codefont": "$~Font de cod",
                 "spacing": "$~Spațiere",
                 "typography": "$~Tipografie",
                 "components": "$~Componente",
@@ -6619,7 +6605,6 @@
                 "demo": {
                     "button": "$~Exemplu",
                     "note": "$~Aceasta este o notă.",
-                    "warning": "$~Acesta este un avertisment.",
                     "notice": "$~Aceasta este o notificare.",
                     "header": "$~Antet",
                     "subheader": "$~Subtitlu",
@@ -6652,9 +6637,6 @@
             "append": "$~/Nerăbdător să inserez…/",
             "remove": "$~/Se gândește să plece…/",
             "replace": "$~/Vrea să intervină…/",
-            "wrap": "$~între paranteze",
-            "unwrap": "$~despacheta",
-            "bind": "$~numește această expresie",
             "area": "$~cod de tip"
         },
         "template": {

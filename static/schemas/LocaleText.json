@@ -11808,10 +11808,6 @@
                   "$ref": "#/definitions/Template%3C%5B%22before%22%2C%22after%22%5D%3E",
                   "description": "[formatted] A way to say \"between [token1] and [token2]\""
                 },
-                "bind": {
-                  "description": "[plain] Shown in menus to offer to name an expression with a bind",
-                  "type": "string"
-                },
                 "conflicts": {
                   "$ref": "#/definitions/Template%3C%5B%22count%22%5D%3E",
                   "description": "[formatted] A description of how many conflicts are at this position"
@@ -11839,14 +11835,6 @@
                 "replace": {
                   "$ref": "#/definitions/FormattedText",
                   "description": "[formatted] $1: node description or undefined"
-                },
-                "unwrap": {
-                  "description": "[plain] Shown in menus to offer to unwrap an expression in parentheses",
-                  "type": "string"
-                },
-                "wrap": {
-                  "description": "[plain] Shown in menus to offer to wrap an expression in parentheses",
-                  "type": "string"
                 }
               },
               "required": [
@@ -11861,9 +11849,6 @@
                 "append",
                 "remove",
                 "replace",
-                "wrap",
-                "unwrap",
-                "bind",
                 "area"
               ],
               "type": "object"
@@ -12266,10 +12251,6 @@
                       "additionalProperties": false,
                       "description": "Subheaders and descriptions for configuring visibility",
                       "properties": {
-                        "expanded": {
-                          "description": "[plain] Name of visibility option for making how-tos visible to anyone who has access to the curator's galleries",
-                          "type": "string"
-                        },
                         "expandedAdd": {
                           "description": "[plain] Label for adding a gallery to expanded list",
                           "type": "string"
@@ -12282,10 +12263,6 @@
                           "description": "[plain] Label for removing a gallery from expanded list",
                           "type": "string"
                         },
-                        "limited": {
-                          "description": "[plain] Name of visibility option for limiting visibility to gallery curators and creators",
-                          "type": "string"
-                        },
                         "mode": {
                           "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%5D%3E"
                         },
@@ -12296,8 +12273,6 @@
                       "required": [
                         "subheader",
                         "mode",
-                        "limited",
-                        "expanded",
                         "expandedOptions",
                         "expandedAdd",
                         "expandedRemove"
@@ -12738,24 +12713,8 @@
                   "description": "[plain] Label for the English reference text shown when an editor is focused",
                   "type": "string"
                 },
-                "revised": {
-                  "description": "[plain] Subheader for the revised text section",
-                  "type": "string"
-                },
-                "revisedDescription": {
-                  "$ref": "#/definitions/FormattedText",
-                  "description": "[formatted] Explanation that revisions are local and not yet submitted"
-                },
                 "strings": {
                   "description": "[plain] The ARIA label for the dropdown that lists all locale strings available to review and edit",
-                  "type": "string"
-                },
-                "submitRevisions": {
-                  "description": "[plain] Label for the submit revisions button",
-                  "type": "string"
-                },
-                "submitted": {
-                  "description": "[plain] Notice shown after revisions are submitted",
                   "type": "string"
                 },
                 "toggle": {
@@ -12770,20 +12729,11 @@
                     "mode"
                   ],
                   "type": "object"
-                },
-                "unwritten": {
-                  "description": "[plain] Subheader above the unwritten text dropdown",
-                  "type": "string"
                 }
               },
               "required": [
                 "header",
                 "reference",
-                "unwritten",
-                "revised",
-                "revisedDescription",
-                "submitRevisions",
-                "submitted",
                 "description",
                 "toggle",
                 "button",
@@ -13581,10 +13531,6 @@
                     "field": {
                       "additionalProperties": false,
                       "properties": {
-                        "addteacher": {
-                          "description": "[plain] Add a teacher button",
-                          "type": "string"
-                        },
                         "delete": {
                           "$ref": "#/definitions/ButtonText",
                           "description": "Delete class"
@@ -13596,17 +13542,11 @@
                         "name": {
                           "$ref": "#/definitions/FieldText",
                           "description": "The name of the class"
-                        },
-                        "newteacher": {
-                          "$ref": "#/definitions/FieldText",
-                          "description": "Add a teacher"
                         }
                       },
                       "required": [
                         "name",
                         "description",
-                        "newteacher",
-                        "addteacher",
                         "delete"
                       ],
                       "type": "object"
@@ -13670,14 +13610,6 @@
                   "additionalProperties": false,
                   "description": "Design system page text",
                   "properties": {
-                    "appfont": {
-                      "description": "[plain] Label for the application font subsection",
-                      "type": "string"
-                    },
-                    "codefont": {
-                      "description": "[plain] Label for the code font subsection",
-                      "type": "string"
-                    },
                     "col": {
                       "additionalProperties": false,
                       "description": "Column header labels for data tables",
@@ -13795,16 +13727,11 @@
                         "toggleon": {
                           "description": "[plain] Tooltip when the Toggle demo is on",
                           "type": "string"
-                        },
-                        "warning": {
-                          "description": "[plain] Text shown in the Warning demo",
-                          "type": "string"
                         }
                       },
                       "required": [
                         "button",
                         "note",
-                        "warning",
                         "notice",
                         "header",
                         "subheader",
@@ -13860,8 +13787,6 @@
                     "palette",
                     "semantic",
                     "fonts",
-                    "appfont",
-                    "codefont",
                     "spacing",
                     "typography",
                     "components",
@@ -14561,10 +14486,6 @@
                           "description": "[plain] When there are too mant failed attempts",
                           "type": "string"
                         },
-                        "unchanged": {
-                          "description": "[plain] When the email address couldn't be changed for unknown reasons.",
-                          "type": "string"
-                        },
                         "usernameTaken": {
                           "description": "[plain] Username taken",
                           "type": "string"
@@ -14582,7 +14503,6 @@
                         "usernameTaken",
                         "failure",
                         "offline",
-                        "unchanged",
                         "delete",
                         "wrongPassword",
                         "invalidPassword",
@@ -14703,10 +14623,6 @@
                           "description": "[name] Pick an emoji as a name",
                           "type": "string"
                         },
-                        "passwordreminder": {
-                          "description": "[plain] Reminder to write down password",
-                          "type": "string"
-                        },
                         "passwordrule": {
                           "description": "[plain] Description of password rules",
                           "type": "string"
@@ -14726,10 +14642,6 @@
                         "success": {
                           "description": "[plain] Shown briefly before page redirects to projects",
                           "type": "string"
-                        },
-                        "tooyoung": {
-                          "description": "[plain] Too young feedback",
-                          "type": "string"
                         }
                       },
                       "required": [
@@ -14743,8 +14655,6 @@
                         "enter",
                         "play",
                         "passwordrule",
-                        "passwordreminder",
-                        "tooyoung",
                         "logout",
                         "success",
                         "confirm",
@@ -15605,10 +15515,6 @@
                       "description": "[plain] The word to describe normal font weight",
                       "type": "string"
                     },
-                    "notContent": {
-                      "description": "[plain] Shown in the output palette when a list of content is isn't valid",
-                      "type": "string"
-                    },
                     "notSequence": {
                       "description": "[plain] Shown in the output palette when a sequence isn't valid",
                       "type": "string"
@@ -15628,7 +15534,6 @@
                     "default",
                     "inherited",
                     "notSequence",
-                    "notContent",
                     "format",
                     "weight",
                     "light",
@@ -15836,25 +15741,6 @@
                       "description": "[plain] Keyboard shortcut to focus source tiles",
                       "type": "string"
                     },
-                    "history": {
-                      "additionalProperties": false,
-                      "description": "The history switch toggling between the current edit state and a previous checkpoint",
-                      "properties": {
-                        "off": {
-                          "description": "[plain] Tooltip for the off (live) state of the history switch",
-                          "type": "string"
-                        },
-                        "on": {
-                          "description": "[plain] Tooltip for the on (viewing history) state of the history switch",
-                          "type": "string"
-                        }
-                      },
-                      "required": [
-                        "off",
-                        "on"
-                      ],
-                      "type": "object"
-                    },
                     "primary": {
                       "description": "[plain] The tooltip for the primary locale setting button",
                       "type": "string"
@@ -15904,8 +15790,7 @@
                     "savedOnline",
                     "unsaved",
                     "translate",
-                    "primary",
-                    "history"
+                    "primary"
                   ],
                   "type": "object"
                 },
@@ -16391,20 +16276,12 @@
                       "description": "[plain] Insert … symbol",
                       "type": "string"
                     },
-                    "insertSymbol": {
-                      "$ref": "#/definitions/Template%3C%5B%22symbol%22%5D%3E",
-                      "description": "[plain] Insert selected symbol"
-                    },
                     "insertTab": {
                       "description": "[plain] Insert tab symbol",
                       "type": "string"
                     },
                     "insertTable": {
                       "description": "[plain] Insert table symbol",
-                      "type": "string"
-                    },
-                    "insertTableClose": {
-                      "description": "[plain] Insert table close symbol",
                       "type": "string"
                     },
                     "insertTrue": {
@@ -16515,7 +16392,6 @@
                     "selectAll",
                     "incrementLiteral",
                     "decrementLiteral",
-                    "insertSymbol",
                     "insertTab",
                     "insertTrue",
                     "insertFalse",
@@ -16535,7 +16411,6 @@
                     "insertPrevious",
                     "insertConvert",
                     "insertTable",
-                    "insertTableClose",
                     "insertBorrow",
                     "insertShare",
                     "insertLine",
@@ -16602,10 +16477,6 @@
                 "menu": {
                   "additionalProperties": false,
                   "properties": {
-                    "back": {
-                      "description": "[plain] How to describe the autocomplete back button for leaving the submenu",
-                      "type": "string"
-                    },
                     "empty": {
                       "description": "[plain] What to say when the menu is empty",
                       "type": "string"
@@ -16622,7 +16493,6 @@
                   "required": [
                     "label",
                     "show",
-                    "back",
                     "empty"
                   ],
                   "type": "object"

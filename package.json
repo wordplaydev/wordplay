@@ -27,6 +27,7 @@
         "locales": "npx tsx src/util/verify-locales/start.ts verify",
         "locales-ci": "npx tsx src/util/verify-locales/start.ts ci",
         "locales-fix": "npx tsx src/util/verify-locales/start.ts fix",
+        "locales-prune": "npx tsx src/util/verify-locales/prune.ts",
         "locales-translate": "npx tsx src/util/verify-locales/start.ts translate",
         "locales-emojis": "node scripts/generate-emojis.mjs",
         "codes": "npx tsx src/unicode/compress.ts",

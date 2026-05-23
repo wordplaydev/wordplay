@@ -240,9 +240,7 @@
             "name": "name list",
             "description": "list names in multiple languages",
             "emotion": "kind",
-            "label": {
-                "names": "names"
-            },
+            "label": { "names": "names" },
             "doc": [
                 "I'm a list of @Name, useful when you want to give a value multiple names, often with different @Language.",
                 "Names are separated by \\,\\ symbols. For example, here's @Bind giving a value multiple @Name",
@@ -296,9 +294,7 @@
             "name": "type variable",
             "description": "name a type given by caller",
             "emotion": "curious",
-            "label": {
-                "type": "type"
-            },
+            "label": { "type": "type" },
             "doc": "I am a mystery type on @FunctionDefinition or @StructureDefinition, provided by @TypeInputs when either is evaluated. @Set, @List, and @Map use me.",
             "conflict": {
                 "DuplicateTypeVariable": {
@@ -317,9 +313,7 @@
             "name": "markup",
             "description": "format documentation with $count paragraphs",
             "emotion": "serious",
-            "label": {
-                "paragraphs": "paragraphs"
-            },
+            "label": { "paragraphs": "paragraphs" },
             "doc": [
                 "I'm a list of paragraphs, using the many kinds of markup available in explanations, such as @Words, @WebLink, @ConceptLink, and @Example."
             ]
@@ -420,9 +414,7 @@
                 "\\1 + 2 × 3 + 4\\",
                 "In math, multiplication would come first, and then addition, and so the result would be \\11\\. But since I evaluate in reading order, the result is \\13\\."
             ],
-            "label": {
-                "operator": "operator"
-            },
+            "label": { "operator": "operator" },
             "right": "input",
             "start": "Let's evaluate $left first",
             "finish": "Look, I made $value!",
@@ -463,11 +455,7 @@
                 "But we can change this to add the @Is, and now @FunctionDefinition knows that they're numbers:",
                 "\\ƒ sum(a•# b•#) a + b\\"
             ],
-            "label": {
-                "value": "value",
-                "names": "names",
-                "type": "type"
-            },
+            "label": { "value": "value", "names": "names", "type": "type" },
             "start": "Let's see what value we get from $value!",
             "finish": "Oh nice, I got $value! Let's name it $name",
             "conflict": {
@@ -531,9 +519,7 @@
                 "\\(\n  a: 1\n  b: 2\n  a + b\n  a × b\n)\\",
                 "That gives \\[3 2]\\: just the values from the two non-@Bind expressions."
             ],
-            "label": {
-                "statements": "expressions"
-            },
+            "label": { "statements": "expressions" },
             "start": "First expression",
             "finish": "Done, I got $value",
             "conflict": {
@@ -582,9 +568,7 @@
             "name": "changed",
             "description": "return true if stream changed",
             "emotion": "serious",
-            "label": {
-                "stream": "stream"
-            },
+            "label": { "stream": "stream" },
             "doc": [
                 "I check if a stream caused @Program to reevaluate, and make a @Boolean. Like this",
                 "\\∆ Time()\\",
@@ -597,11 +581,7 @@
             "name": "conditional",
             "description": "check this condition and evaluate to one of two expressions",
             "emotion": "curious",
-            "label": {
-                "condition": "condition",
-                "yes": "yes",
-                "no": "no"
-            },
+            "label": { "condition": "condition", "yes": "yes", "no": "no" },
             "doc": [
                 "I think I'm supposed to make decisions? Like this?",
                 "\\number: -100\nnumber < 0 ? 'negative' 'positive'\\",
@@ -779,9 +759,7 @@
             "name": "placeholder",
             "description": "mark an expression to fill in",
             "emotion": "scared",
-            "label": {
-                "placeholder": "expression"
-            },
+            "label": { "placeholder": "expression" },
             "doc": [
                 "I'm an *expression*, but not a real one… I just take the place of one.",
                 "I'm good if you don't know what to write yet. Like this:",
@@ -945,9 +923,7 @@
             "name": "map literal",
             "description": "create a map of $count key-value pairs",
             "emotion": "kind",
-            "label": {
-                "values": "pair"
-            },
+            "label": { "values": "pair" },
             "doc": "I'm a specific @Map between keys and values. See @Map to learn more about how I'm helpful.",
             "start": "Let's evaluate the keys and values first",
             "finish": "I connected everyone, $value",
@@ -962,10 +938,7 @@
             "name": "match",
             "description": "compare value to multiple cases",
             "emotion": "curious",
-            "label": {
-                "case": "case",
-                "other": "default"
-            },
+            "label": { "case": "case", "other": "default" },
             "doc": [
                 "I am the most glorious of all conditional checks! I take a value and compares it against any number of cases, and evaluates the corresponding expression that matches.",
                 "For example, if you had a @Number and wanted to convert it to a @Text, you might do something like this:",
@@ -1034,9 +1007,7 @@
             ],
             "start": "First get $stream",
             "finish": "Evaluated to stream value $value",
-            "label": {
-                "range": "range"
-            }
+            "label": { "range": "range" }
         },
         "Program": {
             "name": "program",
@@ -1051,10 +1022,7 @@
                 "If there's a problem during a performance, I'll show that problem.",
                 "And if your performance depends on a *stream*, I'll reevaluate every time that stream changes."
             ],
-            "label": {
-                "borrows": "borrows",
-                "expression": "block"
-            },
+            "label": { "borrows": "borrows", "expression": "block" },
             "unevaluated": "the node you chose didn't evaluate",
             "start": "$stream[$stream stream changed to $value!|It's my first evaluation]",
             "halt": "encountered exception, stopping",
@@ -1091,10 +1059,7 @@
             "name": "refine",
             "description": "refine property $name[$name|unnamed]",
             "emotion": "kind",
-            "label": {
-                "property": "property",
-                "value": "value"
-            },
+            "label": { "property": "property", "value": "value" },
             "doc": [
                 "Sometimes when you make a @StructureDefinition, you want to change the tiniest thing about it, without having to make a new one with all the same values.",
                 "For example, what if you were keeping a record of cats, but then wanted to create a copy of a cat with a different hobby? I can help you change it:",
@@ -1114,9 +1079,7 @@
             "name": "property",
             "description": "get property $name[$name|unnamed]",
             "emotion": "kind",
-            "label": {
-                "property": "property"
-            },
+            "label": { "property": "property" },
             "doc": [
                 "When you make a @StructureDefinition, how do you get one of its inputs? I'm how",
                 "Like if you had a structure about cities, you could get its values with me like this:",
@@ -1310,9 +1273,7 @@
             "name": "text literal",
             "description": "create text value $text",
             "emotion": "serious",
-            "label": {
-                "texts": "text"
-            },
+            "label": { "texts": "text" },
             "doc": "I represent one or more specific @Translation of text. See @Text to learn more about what I can do!",
             "start": "Let's make text in the current locale"
         },
@@ -1320,9 +1281,7 @@
             "name": "translation",
             "description": "create text '$text'",
             "emotion": "serious",
-            "label": {
-                "segments": "text"
-            },
+            "label": { "segments": "text" },
             "doc": "I represent some text, with an optional @Language tag. See @Text to learn more!",
             "conflict": {
                 "phone": {
@@ -1402,9 +1361,7 @@
             "name": "unary evaluate",
             "description": "apply $operator unary operator",
             "emotion": "kind",
-            "label": {
-                "input": "input"
-            },
+            "label": { "input": "input" },
             "doc": [
                 "Did you know that when I'm evaluating a @FunctionDefinition with just one value, and the name of the @FunctionDefinition is just a single symbol, you can put the name before the input?",
                 "Like this:",
@@ -1778,20 +1735,14 @@
                     "doc": "\\⊤\\ if both are \\⊤\\ or both are \\⊥\\.",
                     "names": ["=", "equals"],
                     "inputs": [
-                        {
-                            "doc": "The other value to check.",
-                            "names": "value"
-                        }
+                        { "doc": "The other value to check.", "names": "value" }
                     ]
                 },
                 "notequal": {
                     "doc": "\\⊤\\ if both are opposites.",
                     "names": ["≠", "notequal"],
                     "inputs": [
-                        {
-                            "doc": "The other value to check.",
-                            "names": "value"
-                        }
+                        { "doc": "The other value to check.", "names": "value" }
                     ]
                 }
             },
@@ -1809,22 +1760,12 @@
                 "equals": {
                     "doc": "Is another value also nothing? It better be, otherwise, \\⊥\\.",
                     "names": ["=", "equals"],
-                    "inputs": [
-                        {
-                            "doc": "The other value.",
-                            "names": "value"
-                        }
-                    ]
+                    "inputs": [{ "doc": "The other value.", "names": "value" }]
                 },
                 "notequals": {
                     "doc": "Is another value /not/ nothing?",
                     "names": ["≠", "notequal"],
-                    "inputs": [
-                        {
-                            "doc": "The other value.",
-                            "names": "value"
-                        }
-                    ]
+                    "inputs": [{ "doc": "The other value.", "names": "value" }]
                 }
             },
             "conversion": {
@@ -1863,20 +1804,14 @@
                     "doc": "\\⊤\\ if I am the same character sequence as the given @Text.",
                     "names": ["=", "equals"],
                     "inputs": [
-                        {
-                            "doc": "The @Text to compare.",
-                            "names": "value"
-                        }
+                        { "doc": "The @Text to compare.", "names": "value" }
                     ]
                 },
                 "notequals": {
                     "doc": "\\⊤\\ if I am /not/ the same character sequence as the given @Text.",
                     "names": "≠",
                     "inputs": [
-                        {
-                            "doc": "The @Text to compare",
-                            "names": "value"
-                        }
+                        { "doc": "The @Text to compare", "names": "value" }
                     ]
                 },
                 "has": {
@@ -1960,10 +1895,7 @@
                     ],
                     "names": ["+", "combined", "combine"],
                     "inputs": [
-                        {
-                            "doc": "The @Text to append.",
-                            "names": "text"
-                        }
+                        { "doc": "The @Text to append.", "names": "text" }
                     ]
                 }
             },
@@ -2009,10 +1941,7 @@
                     ],
                     "names": ["+", "add"],
                     "inputs": [
-                        {
-                            "doc": "The @Number to add.",
-                            "names": "number"
-                        }
+                        { "doc": "The @Number to add.", "names": "number" }
                     ]
                 },
                 "subtract": {
@@ -2041,10 +1970,7 @@
                     ],
                     "names": ["×", "·", "multiply"],
                     "inputs": [
-                        {
-                            "doc": "The number to multiply.",
-                            "names": "number"
-                        }
+                        { "doc": "The number to multiply.", "names": "number" }
                     ]
                 },
                 "divide": {
@@ -2138,10 +2064,7 @@
                     ],
                     "names": ["√", "root"],
                     "inputs": [
-                        {
-                            "doc": "The root to compute.",
-                            "names": "number"
-                        }
+                        { "doc": "The root to compute.", "names": "number" }
                     ]
                 },
                 "lessThan": {
@@ -2363,10 +2286,7 @@
                     ],
                     "names": ["withList", "append"],
                     "inputs": [
-                        {
-                            "doc": "The list of values to add.",
-                            "names": "list"
-                        }
+                        { "doc": "The list of values to add.", "names": "list" }
                     ]
                 },
                 "replace": {
@@ -2380,10 +2300,7 @@
                             "doc": "The index of the value to replace",
                             "names": "index"
                         },
-                        {
-                            "doc": "The replacement value",
-                            "names": "value"
-                        }
+                        { "doc": "The replacement value", "names": "value" }
                     ]
                 },
                 "length": {
@@ -2430,10 +2347,7 @@
                     ],
                     "names": "has",
                     "inputs": [
-                        {
-                            "doc": "The value to search for.",
-                            "names": "item"
-                        }
+                        { "doc": "The value to search for.", "names": "item" }
                     ]
                 },
                 "join": {
@@ -2571,10 +2485,7 @@
                             "doc": "The index of the item being translated.",
                             "names": "index"
                         },
-                        {
-                            "doc": "The list being translated.",
-                            "names": "list"
-                        }
+                        { "doc": "The list being translated.", "names": "list" }
                     ]
                 },
                 "filter": {
@@ -2591,18 +2502,12 @@
                         }
                     ],
                     "checker": [
-                        {
-                            "doc": "The item being checked.",
-                            "names": "item"
-                        },
+                        { "doc": "The item being checked.", "names": "item" },
                         {
                             "doc": "The index of the item being checked.",
                             "names": "index"
                         },
-                        {
-                            "doc": "The list being filtered.",
-                            "names": "list"
-                        }
+                        { "doc": "The list being filtered.", "names": "list" }
                     ]
                 },
                 "all": {
@@ -2619,18 +2524,12 @@
                         }
                     ],
                     "checker": [
-                        {
-                            "doc": "The item being checked.",
-                            "names": "item"
-                        },
+                        { "doc": "The item being checked.", "names": "item" },
                         {
                             "doc": "The index of the item being checked.",
                             "names": "index"
                         },
-                        {
-                            "doc": "The list being checked.",
-                            "names": "list"
-                        }
+                        { "doc": "The list being checked.", "names": "list" }
                     ]
                 },
                 "until": {
@@ -2647,10 +2546,7 @@
                         }
                     ],
                     "checker": [
-                        {
-                            "doc": "The item being checked.",
-                            "names": "item"
-                        },
+                        { "doc": "The item being checked.", "names": "item" },
                         {
                             "doc": "The index of the item being checked.",
                             "names": "index"
@@ -2675,18 +2571,12 @@
                         }
                     ],
                     "checker": [
-                        {
-                            "doc": "The item being checked.",
-                            "names": "item"
-                        },
+                        { "doc": "The item being checked.", "names": "item" },
                         {
                             "doc": "The index of the item being checked.",
                             "names": "index"
                         },
-                        {
-                            "doc": "The list being searched.",
-                            "names": "list"
-                        }
+                        { "doc": "The list being searched.", "names": "list" }
                     ]
                 },
                 "combine": {
@@ -2711,18 +2601,12 @@
                             "doc": "The current combination",
                             "names": "combination"
                         },
-                        {
-                            "doc": "The next item to combine.",
-                            "names": "next"
-                        },
+                        { "doc": "The next item to combine.", "names": "next" },
                         {
                             "doc": "The index of the next item",
                             "names": "index"
                         },
-                        {
-                            "doc": "The list being combined.",
-                            "names": "list"
-                        }
+                        { "doc": "The list being combined.", "names": "list" }
                     ]
                 },
                 "sorted": {
@@ -2787,10 +2671,7 @@
                     ],
                     "names": ["=", "equals"],
                     "inputs": [
-                        {
-                            "doc": "The @Set to compare.",
-                            "names": "set"
-                        }
+                        { "doc": "The @Set to compare.", "names": "set" }
                     ]
                 },
                 "notequals": {
@@ -2800,10 +2681,7 @@
                     ],
                     "names": ["≠", "notequal"],
                     "inputs": [
-                        {
-                            "doc": "The @Set to compare.",
-                            "names": "set"
-                        }
+                        { "doc": "The @Set to compare.", "names": "set" }
                     ]
                 },
                 "add": {
@@ -2812,12 +2690,7 @@
                         "\\{1 2 3} + 4\\"
                     ],
                     "names": ["with", "add", "+"],
-                    "inputs": [
-                        {
-                            "doc": "The item to add",
-                            "names": "item"
-                        }
-                    ]
+                    "inputs": [{ "doc": "The item to add", "names": "item" }]
                 },
                 "remove": {
                     "doc": [
@@ -2827,10 +2700,7 @@
                     ],
                     "names": ["remove", "-"],
                     "inputs": [
-                        {
-                            "doc": "The item to remove.",
-                            "names": "item"
-                        }
+                        { "doc": "The item to remove.", "names": "item" }
                     ]
                 },
                 "union": {
@@ -2853,10 +2723,7 @@
                     ],
                     "names": ["intersection", "∩"],
                     "inputs": [
-                        {
-                            "doc": "The set to compare with me.",
-                            "names": "set"
-                        }
+                        { "doc": "The set to compare with me.", "names": "set" }
                     ]
                 },
                 "difference": {
@@ -2886,14 +2753,8 @@
                         }
                     ],
                     "checker": [
-                        {
-                            "doc": "The item being checked.",
-                            "names": "value"
-                        },
-                        {
-                            "doc": "The set being filtered",
-                            "names": "set"
-                        }
+                        { "doc": "The item being checked.", "names": "value" },
+                        { "doc": "The set being filtered", "names": "set" }
                     ]
                 },
                 "translate": {
@@ -2914,10 +2775,7 @@
                             "doc": "The item being translated.",
                             "names": "value"
                         },
-                        {
-                            "doc": "The set being translated",
-                            "names": "set"
-                        }
+                        { "doc": "The set being translated", "names": "set" }
                     ]
                 }
             },
@@ -2987,10 +2845,7 @@
                     ],
                     "names": "pair",
                     "inputs": [
-                        {
-                            "doc": "Key to pair with a value.",
-                            "names": "key"
-                        },
+                        { "doc": "Key to pair with a value.", "names": "key" },
                         {
                             "doc": "The value to pair with the key",
                             "names": "value"
@@ -3003,12 +2858,7 @@
                         "\\{'amy': 6points 'tony':3points}.unpair('amy')\\"
                     ],
                     "names": "unpair",
-                    "inputs": [
-                        {
-                            "doc": "The key to forget.",
-                            "names": "key"
-                        }
-                    ]
+                    "inputs": [{ "doc": "The key to forget.", "names": "key" }]
                 },
                 "remove": {
                     "doc": [
@@ -3037,18 +2887,9 @@
                         }
                     ],
                     "checker": [
-                        {
-                            "doc": "The key being checked.",
-                            "names": "key"
-                        },
-                        {
-                            "doc": "The value being checked.",
-                            "names": "value"
-                        },
-                        {
-                            "doc": "The map being filtered.",
-                            "names": "map"
-                        }
+                        { "doc": "The key being checked.", "names": "key" },
+                        { "doc": "The value being checked.", "names": "value" },
+                        { "doc": "The map being filtered.", "names": "map" }
                     ]
                 },
                 "translate": {
@@ -3073,10 +2914,7 @@
                             "doc": "The value being translated.",
                             "names": "value"
                         },
-                        {
-                            "doc": "The map being translated.",
-                            "names": "map"
-                        }
+                        { "doc": "The map being translated.", "names": "map" }
                     ]
                 }
             },
@@ -3109,20 +2947,14 @@
                     "doc": "I check if I have the exact same cells in the exact same order as another @Table.",
                     "names": ["=", "equals"],
                     "inputs": [
-                        {
-                            "doc": "The other table to check.",
-                            "names": "value"
-                        }
+                        { "doc": "The other table to check.", "names": "value" }
                     ]
                 },
                 "notequal": {
                     "doc": "I check if any of my cells are different or in a different order from another @Table.",
                     "names": ["≠", "notEquals"],
                     "inputs": [
-                        {
-                            "doc": "The other table to check.",
-                            "names": "value"
-                        }
+                        { "doc": "The other table to check.", "names": "value" }
                     ]
                 }
             },
@@ -3156,9 +2988,7 @@
                     ]
                 }
             },
-            "conversion": {
-                "text": "I convert myself to @Text."
-            }
+            "conversion": { "text": "I convert myself to @Text." }
         }
     },
     "input": {
@@ -3418,14 +3248,8 @@
                 "Check out the many other ways to configure it below."
             ],
             "names": ["⚽️", "Motion"],
-            "place": {
-                "doc": "The starting place.",
-                "names": "place"
-            },
-            "velocity": {
-                "doc": "The starting velocity",
-                "names": "velocity"
-            },
+            "place": { "doc": "The starting place.", "names": "place" },
+            "velocity": { "doc": "The starting velocity", "names": "velocity" },
             "nextplace": {
                 "doc": "The next place, overriding physics.",
                 "names": "nextplace"
@@ -3458,10 +3282,7 @@
             ],
             "names": ["✥", "Placement"],
             "inputs": [
-                {
-                    "doc": "The initial place to start with.",
-                    "names": "start"
-                },
+                { "doc": "The initial place to start with.", "names": "start" },
                 {
                     "doc": "How many meters the place should move when the audience requests a move.",
                     "names": "distance"
@@ -3491,10 +3312,7 @@
                 "Lots of things can go wrong with this one. If you lose your internet connection, or the URL doesn't resolve to anything, or the URL isn't public, or the URL isn't an HTML page… All of these can lead to exception. If if you find a page that works, you'll get some @Number indicating a percent complete and then a @List of the words on the page."
             ],
             "names": ["🔗", "Webpage"],
-            "url": {
-                "doc": "The HTML webpage URL to get.",
-                "names": "url"
-            },
+            "url": { "doc": "The HTML webpage URL to get.", "names": "url" },
             "query": {
                 "doc": "The CSS query to evaluate on the HTML",
                 "names": "query"
@@ -3601,10 +3419,7 @@
                 "doc": "The place on stage where I should be. The content inside me will be arranged relative to there.",
                 "names": "place"
             },
-            "name": {
-                "doc": ["The same as @Phrase/name!"],
-                "names": "name"
-            },
+            "name": { "doc": ["The same as @Phrase/name!"], "names": "name" },
             "description": {
                 "doc": [
                     "A description to use for audience members who can't see visual output."
@@ -3639,14 +3454,8 @@
                 "doc": "How big I should be relative to my original size.",
                 "names": "scale"
             },
-            "flipx": {
-                "doc": "Same as @Phrase/flipx!",
-                "names": "flipx"
-            },
-            "flipy": {
-                "doc": "Same as @Phrase/flipy",
-                "names": "flipy"
-            },
+            "flipx": { "doc": "Same as @Phrase/flipx!", "names": "flipx" },
+            "flipy": { "doc": "Same as @Phrase/flipy", "names": "flipy" },
             "entering": {
                 "doc": "Same as @Phrase/entering!",
                 "names": "entering"
@@ -3655,10 +3464,7 @@
                 "doc": "Same as @Phrase/resting!",
                 "names": "resting"
             },
-            "moving": {
-                "doc": "Same as @Phrase/moving!",
-                "names": "moving"
-            },
+            "moving": { "doc": "Same as @Phrase/moving!", "names": "moving" },
             "exiting": {
                 "doc": "Same as @Phrase/exiting!",
                 "names": "exiting"
@@ -3667,10 +3473,7 @@
                 "doc": "Same as @Phrase/duration!",
                 "names": ["⏳", "duration"]
             },
-            "style": {
-                "doc": "Same as @Phrase/style!",
-                "names": "style"
-            },
+            "style": { "doc": "Same as @Phrase/style!", "names": "style" },
             "defaultDescription": "$name[$name|] $layout $pose"
         },
         "Phrase": {
@@ -3881,10 +3684,7 @@
                 "doc": "Whether I can be selected as part of @Choice.",
                 "names": "selectable"
             },
-            "color": {
-                "doc": "The color of my borders.",
-                "names": "color"
-            },
+            "color": { "doc": "The color of my borders.", "names": "color" },
             "background": {
                 "doc": "The color of my background.",
                 "names": "background"
@@ -3976,38 +3776,23 @@
                 "doc": "The bottom edge of the stage on the y-axis",
                 "names": "bottom"
             },
-            "z": {
-                "doc": "The depth position of the rectangle.",
-                "names": "z"
-            }
+            "z": { "doc": "The depth position of the rectangle.", "names": "z" }
         },
         "Circle": {
             "doc": "I am a circle, useful for making shapes on @Stage.",
             "names": ["Circle"],
-            "radius": {
-                "doc": "The radius of the circle",
-                "names": "radius"
-            },
+            "radius": { "doc": "The radius of the circle", "names": "radius" },
             "x": {
                 "doc": "The horizontal center of the circle.",
                 "names": "x"
             },
-            "y": {
-                "doc": "The vertical center of the circle.",
-                "names": "y"
-            },
-            "z": {
-                "doc": "The depth position of the circle.",
-                "names": "z"
-            }
+            "y": { "doc": "The vertical center of the circle.", "names": "y" },
+            "z": { "doc": "The depth position of the circle.", "names": "z" }
         },
         "Polygon": {
             "doc": "I am a 'regular' polygon with equal length sides and angles, useful for making shapes on @Stage.",
             "names": ["Polygon"],
-            "radius": {
-                "doc": "The radius of the polygon",
-                "names": "radius"
-            },
+            "radius": { "doc": "The radius of the polygon", "names": "radius" },
             "sides": {
                 "doc": "The number of sides of the polygon",
                 "names": "sides"
@@ -4016,14 +3801,8 @@
                 "doc": "The horizontal center of the polygon.",
                 "names": "x"
             },
-            "y": {
-                "doc": "The vertical center of the polygon.",
-                "names": "y"
-            },
-            "z": {
-                "doc": "The depth position of the polygon.",
-                "names": "z"
-            }
+            "y": { "doc": "The vertical center of the polygon.", "names": "y" },
+            "z": { "doc": "The depth position of the polygon.", "names": "z" }
         },
         "Pose": {
             "doc": [
@@ -4130,18 +3909,9 @@
         "Place": {
             "doc": "I'm a location on @Stage. All my inputs are optional, because I'm at the center by default.",
             "names": ["📍", "Place"],
-            "x": {
-                "doc": "A position on the x-axis.",
-                "names": "x"
-            },
-            "y": {
-                "doc": "A position on the y-axis",
-                "names": "y"
-            },
-            "z": {
-                "doc": "A position on the z-axis",
-                "names": "z"
-            },
+            "x": { "doc": "A position on the x-axis.", "names": "x" },
+            "y": { "doc": "A position on the y-axis", "names": "y" },
+            "z": { "doc": "A position on the z-axis", "names": "z" },
             "rotation": {
                 "doc": "Rotation at this position",
                 "names": ["📐", "rotation"]
@@ -4206,10 +3976,7 @@
         "Matter": {
             "doc": "I'm physical properties of output, which influence how I interact with other output on stage.",
             "names": ["⚛️", "Matter"],
-            "mass": {
-                "doc": "A weight, in kilograms",
-                "names": "mass"
-            },
+            "mass": { "doc": "A weight, in kilograms", "names": "mass" },
             "bounciness": {
                 "doc": "How much of my energy to keep on collision, 0 means none, 1 means all of it.",
                 "names": "bounciness"
@@ -4272,22 +4039,13 @@
                 "doc": "The shape and size of frame to place around the stage, hiding everything outside it.",
                 "names": "frame"
             },
-            "size": {
-                "doc": "LIKE @Group/size",
-                "names": "size"
-            },
-            "face": {
-                "doc": "LIKE @Group/face",
-                "names": "face"
-            },
+            "size": { "doc": "LIKE @Group/size", "names": "size" },
+            "face": { "doc": "LIKE @Group/face", "names": "face" },
             "place": {
                 "doc": "IF I WERE A CAMERA, THIS IS WHERE I AM LOOKING",
                 "names": "place"
             },
-            "name": {
-                "doc": ["SAME AS @Phrase/name!"],
-                "names": "name"
-            },
+            "name": { "doc": ["SAME AS @Phrase/name!"], "names": "name" },
             "description": {
                 "doc": [
                     "A description to use for audience members who can't see visual output."
@@ -4298,62 +4056,32 @@
                 "doc": "SAME AS @Phrase/selectable!",
                 "names": "selectable"
             },
-            "color": {
-                "doc": "SAME AS @Group/color",
-                "names": "color"
-            },
+            "color": { "doc": "SAME AS @Group/color", "names": "color" },
             "background": {
                 "doc": "SAME AS @Group/background",
                 "names": "background"
             },
-            "opacity": {
-                "doc": "SAME AS @Group/opacity",
-                "names": "opacity"
-            },
-            "offset": {
-                "doc": "SAME AS @Group/offset",
-                "names": "offset"
-            },
+            "opacity": { "doc": "SAME AS @Group/opacity", "names": "opacity" },
+            "offset": { "doc": "SAME AS @Group/offset", "names": "offset" },
             "rotation": {
                 "doc": "SAME AS @Group/rotation",
                 "names": ["📐", "rotation"]
             },
-            "scale": {
-                "doc": "SAME AS @Group/scale",
-                "names": "scale"
-            },
-            "flipx": {
-                "doc": "SAME AS @Group/flipx",
-                "names": "flipx"
-            },
-            "flipy": {
-                "doc": "SAME AS @Group/flipy",
-                "names": "flipy"
-            },
+            "scale": { "doc": "SAME AS @Group/scale", "names": "scale" },
+            "flipx": { "doc": "SAME AS @Group/flipx", "names": "flipx" },
+            "flipy": { "doc": "SAME AS @Group/flipy", "names": "flipy" },
             "entering": {
                 "doc": "SAME AS @Group/entering",
                 "names": "entering"
             },
-            "resting": {
-                "doc": "SAME AS @Group/resting!",
-                "names": "resting"
-            },
-            "moving": {
-                "doc": "SAME AS @Group/moving!",
-                "names": "moving"
-            },
-            "exiting": {
-                "doc": "SAME AS @Group/exiting!",
-                "names": "exiting"
-            },
+            "resting": { "doc": "SAME AS @Group/resting!", "names": "resting" },
+            "moving": { "doc": "SAME AS @Group/moving!", "names": "moving" },
+            "exiting": { "doc": "SAME AS @Group/exiting!", "names": "exiting" },
             "duration": {
                 "doc": "SAME AS @Phrase/duration!",
                 "names": ["⏳", "duration"]
             },
-            "style": {
-                "doc": "SAME AS @Phrase/style!",
-                "names": "style"
-            },
+            "style": { "doc": "SAME AS @Phrase/style!", "names": "style" },
             "gravity": {
                 "doc": "The gravity to apply to output whose place is in @Motion.",
                 "names": "gravity"
@@ -4378,10 +4106,7 @@
             "bounce": {
                 "doc": "I create a @Sequence that bounces @Output a given height.",
                 "names": ["bounce"],
-                "height": {
-                    "doc": "How high to bounce.",
-                    "names": ["height"]
-                }
+                "height": { "doc": "How high to bounce.", "names": ["height"] }
             },
             "spin": {
                 "doc": "I create a @Sequence that rotates @Output around its center.",
@@ -4439,20 +4164,11 @@
         }
     },
     "ui": {
-        "font": {
-            "app": "Noto Sans",
-            "code": "Noto Sans Mono"
-        },
-        "phrases": {
-            "welcome": "hello"
-        },
+        "font": { "app": "Noto Sans", "code": "Noto Sans Mono" },
+        "phrases": { "welcome": "hello" },
         "widget": {
-            "confirm": {
-                "cancel": "cancel"
-            },
-            "dialog": {
-                "close": "close"
-            },
+            "confirm": { "cancel": "cancel" },
+            "dialog": { "close": "close" },
             "loading": {
                 "message": "Loading font faces and text, thanks for waiting!"
             },
@@ -4479,10 +4195,7 @@
                     "on": "exit full screen",
                     "off": "expand window tile to full screen"
                 },
-                "show": {
-                    "on": "hide",
-                    "off": "show"
-                }
+                "show": { "on": "hide", "off": "show" }
             },
             "label": {
                 "output": "stage",
@@ -4491,9 +4204,7 @@
                 "source": "source",
                 "collaborate": "collaborate"
             },
-            "button": {
-                "collapse": "collapse window"
-            }
+            "button": { "collapse": "collapse window" }
         },
         "project": {
             "label": "project",
@@ -4534,11 +4245,7 @@
                     "tip": "edit this project's languages and translate it into other languages.",
                     "label": "translate"
                 },
-                "primary": "set as this project's primary locale",
-                "history": {
-                    "on": "show recent project code",
-                    "off": "show current project code"
-                }
+                "primary": "set as this project's primary locale"
             },
             "field": {
                 "name": {
@@ -4567,10 +4274,7 @@
                     ]
                 }
             },
-            "subheader": {
-                "source": "Source",
-                "destination": "Destination"
-            },
+            "subheader": { "source": "Source", "destination": "Destination" },
             "toggle": {
                 "fullscreen": {
                     "on": "exit browser full screen",
@@ -4661,10 +4365,7 @@
                 "reporter": "reporter",
                 "action": "moderator actions"
             },
-            "view": {
-                "label": "view chat",
-                "tip": "view message in chat"
-            },
+            "view": { "label": "view chat", "tip": "view message in chat" },
             "remove": {
                 "label": "remove",
                 "tip": "this message violates guidelines"
@@ -4706,10 +4407,7 @@
             },
             "navigationtooltip": "navigate to a how-to",
             "button": {
-                "reset": {
-                    "label": "center",
-                    "tip": "center the canvas"
-                }
+                "reset": { "label": "center", "tip": "center the canvas" }
             },
             "editor": {
                 "newForm": {
@@ -4781,14 +4479,8 @@
                 }
             },
             "viewer": {
-                "view": {
-                    "label": "view how-to",
-                    "tip": "view how-to"
-                },
-                "edit": {
-                    "label": "✏️ edit",
-                    "tip": "edit this how-to"
-                },
+                "view": { "label": "view how-to", "tip": "view how-to" },
+                "edit": { "label": "✏️ edit", "tip": "edit this how-to" },
                 "delete": {
                     "description": "delete this how-to",
                     "prompt": "🗑️ delete"
@@ -4841,8 +4533,6 @@
                             "collaborators of the galleries you indicate below can view how-tos"
                         ]
                     },
-                    "expanded": "expanded",
-                    "limited": "limited",
                     "expandedOptions": "let the curators and creators of the selected gallery see this gallery's how-tos",
                     "expandedAdd": "add gallery to list",
                     "expandedRemove": "remove gallery from list"
@@ -4910,10 +4600,7 @@
                 }
             },
             "toggle": {
-                "blocks": {
-                    "on": "edit as text",
-                    "off": "edit as blocks"
-                },
+                "blocks": { "on": "edit as text", "off": "edit as blocks" },
                 "characters": {
                     "on": "hide the emoji and symbol chooser",
                     "off": "show the emoji and symbol chooser"
@@ -4945,7 +4632,6 @@
             "menu": {
                 "label": "autocomplete menu",
                 "show": "show autocomplete menu",
-                "back": "leave submenu",
                 "empty": "No suggestions."
             },
             "cursor": {
@@ -4967,7 +4653,6 @@
                 "selectAll": "select program",
                 "incrementLiteral": "increase number, text, or Boolean",
                 "decrementLiteral": "decrease number, text, or Boolean",
-                "insertSymbol": "insert $symbol",
                 "insertTab": "insert tab",
                 "insertTrue": "insert true",
                 "insertFalse": "insert false",
@@ -4987,7 +4672,6 @@
                 "insertConvert": "insert convert symbol",
                 "insertPrevious": "insert previous symbol",
                 "insertTable": "insert table open symbol",
-                "insertTableClose": "insert table close symbol",
                 "insertBorrow": "insert borrow",
                 "insertShare": "insert share",
                 "insertLine": "insert line break",
@@ -5048,18 +4732,12 @@
         "output": {
             "label": "stage",
             "toggle": {
-                "grid": {
-                    "on": "hide grid lines",
-                    "off": "show grid lines"
-                },
+                "grid": { "on": "hide grid lines", "off": "show grid lines" },
                 "fit": {
                     "on": "control zoom manually",
                     "off": "fit zoom to content"
                 },
-                "paint": {
-                    "off": "place output",
-                    "on": "paint output"
-                }
+                "paint": { "off": "place output", "on": "paint output" }
             },
             "field": {
                 "key": {
@@ -5144,9 +4822,7 @@
                 "back": "return to previous",
                 "toggle": "expand and collapse this concept group"
             },
-            "field": {
-                "search": "keywords"
-            },
+            "field": { "search": "keywords" },
             "header": {
                 "names": {
                     "header": "Names",
@@ -5401,16 +5077,12 @@
                         "label": "sensitive"
                     }
                 },
-                "options": {
-                    "gallery": "gallery chooser"
-                }
+                "options": { "gallery": "gallery chooser" }
             },
             "settings": {
                 "header": "Settings",
                 "explanation": "Change layout, device, and theme settings.",
-                "button": {
-                    "show": "show settings dialog"
-                },
+                "button": { "show": "show settings dialog" },
                 "mode": {
                     "layout": {
                         "label": "layout",
@@ -5670,10 +5342,7 @@
             "moderation": {
                 "header": "Report this message",
                 "explanation": "If this message does not meet our <community standards@://rights> or the type of feedback your requested, you can report it. When you report this message, it will be sent to the gallery curators and taken down until it can be reviewed.",
-                "report": {
-                    "tip": "report this message",
-                    "label": "report"
-                },
+                "report": { "tip": "report this message", "label": "report" },
                 "moderate": {
                     "tip": "go to moderation dashboard",
                     "label": "moderate"
@@ -5723,7 +5392,6 @@
                 "default": "default",
                 "inherited": "inherited",
                 "notSequence": "not a sequence",
-                "notContent": "not a content list",
                 "format": "format",
                 "weight": "weight",
                 "light": "light",
@@ -5757,10 +5425,7 @@
                 "select": "To edit, select a 💬, 🔳, or 🎭 in code, or ⏸️ the stage and select output.",
                 "editing": "Edit me!"
             },
-            "field": {
-                "coordinate": "edit coordinate",
-                "text": "edit text"
-            },
+            "field": { "coordinate": "edit coordinate", "text": "edit text" },
             "sequence": {
                 "button": {
                     "add": "add pose",
@@ -5768,9 +5433,7 @@
                     "up": "move pose up",
                     "down": "move pose down"
                 },
-                "field": {
-                    "percent": "edit percent"
-                }
+                "field": { "percent": "edit percent" }
             },
             "error": {
                 "nan": "This is not a number.",
@@ -5797,11 +5460,6 @@
         "localize": {
             "header": "Localize",
             "reference": "English reference",
-            "unwritten": "Unwritten text",
-            "revised": "Revised text",
-            "revisedDescription": "These revisions are saved locally and have not yet been submitted for review.",
-            "submitRevisions": "Submit revisions",
-            "submitted": "Thank you! Your revised text will be reviewed and may be posted soon.",
             "description": "Welcome to localization mode! You can suggest improvements to the text in the Wordplay interface. Choose any text to suggest an edit. Your suggestions will be reviewed, and if approved, will become part of the platform for everyone to see. Thanks for helping make Wordplay more accessible for everyone in the world!",
             "toggle": {
                 "mode": {
@@ -5901,9 +5559,7 @@
                     "next": "next pause in dialog",
                     "previous": "previous pause in dialog"
                 },
-                "options": {
-                    "lesson": "current lesson"
-                },
+                "options": { "lesson": "current lesson" },
                 "search": {
                     "placeholder": "search",
                     "noResults": "No results found"
@@ -6093,11 +5749,6 @@
                         "description": "description of the class",
                         "placeholder": "description"
                     },
-                    "newteacher": {
-                        "placeholder": "email or username",
-                        "description": "email or username of the creator who you want to give teacher access to this class"
-                    },
-                    "addteacher": "Add a teacher to this class",
                     "delete": {
                         "tip": "delete this class forever",
                         "label": "Delete this class"
@@ -6177,10 +5828,7 @@
                 },
                 "button": {
                     "newgallery": "new gallery",
-                    "more": {
-                        "label": "more...",
-                        "tip": "load more galleries"
-                    }
+                    "more": { "label": "more...", "tip": "load more galleries" }
                 },
                 "error": {
                     "nogalleryedits": "You must be <logged in@://login> to create and change galleries."
@@ -6201,9 +5849,7 @@
                         "prompt": "delete?"
                     }
                 },
-                "subheader": {
-                    "shared": "Shared"
-                },
+                "subheader": { "shared": "Shared" },
                 "error": {
                     "offline": "We couldn't access your characters stored online.",
                     "noauth": "You must be <logged in@://login> to see your characters and create new ones.",
@@ -6353,10 +5999,7 @@
                         "label": "paste",
                         "tip": "paste copied shapes from clipboard."
                     },
-                    "clear": {
-                        "label": "all",
-                        "tip": "remove all shapes."
-                    },
+                    "clear": { "label": "all", "tip": "remove all shapes." },
                     "clearPixels": {
                         "label": "pixels",
                         "tip": "remove all pixels."
@@ -6465,9 +6108,7 @@
                     "forgot": "*Forgot your password?* Unfortunately, we cannot recover your account since we do not gather contact information.",
                     "enter": "It looks like your login link came from a different browser or device. Can you enter your email again, just so we're sure it's you?",
                     "play": "You're logged in, we can save your projects online now! Want to create something?",
-                    "tooyoung": "You must be 13 or older to login with an email.",
                     "passwordrule": "Passwords must be at least 6 characters long; if you're not using a password manager, choose three long words you'll remember.",
-                    "passwordreminder": "It looks like you don't have an account yet. Enter your password again and make sure you've stored it safely and correctly, since it is not recoverable.",
                     "changeEmail": "Want to change your email? Submit a new one and we'll send a confirmation to the old one.",
                     "changePassword": "Want to change your password? Submit a new one and repeat it.",
                     "email": "Do you have an email-only account? Login with your email, and if there is account associated with it, we'll send you an email with sign-in link. New email-only accounts are not supported, to preserve privacy.",
@@ -6487,7 +6128,6 @@
                     "usernameTaken": "This username is already taken.",
                     "failure": "Unable to login :(",
                     "offline": "We couldn't reach the cloud ☁️.",
-                    "unchanged": "We couldn't change your email address, but we don't know why.",
                     "delete": "We couldn't delete your account, but we don't know why.",
                     "invalidPassword": "Passwords must be at least 6 characters long.",
                     "wrongPassword": "Not a valid username and password. Either your password is wrong, or someone else has this username.",
@@ -6540,10 +6180,7 @@
                     "updatePassword": "submit new password"
                 },
                 "toggle": {
-                    "reveal": {
-                        "on": "Show password",
-                        "off": "Hide password"
-                    }
+                    "reveal": { "on": "Show password", "off": "Hide password" }
                 }
             },
             "join": {
@@ -6605,8 +6242,6 @@
                 "palette": "Palette",
                 "semantic": "Semantic Colors",
                 "fonts": "Fonts",
-                "appfont": "Text Font",
-                "codefont": "Code Font",
                 "spacing": "Spacing",
                 "typography": "Typography",
                 "components": "Components",
@@ -6624,7 +6259,6 @@
                 "demo": {
                     "button": "Example",
                     "note": "This is a note.",
-                    "warning": "This is a warning.",
                     "notice": "This is a notice.",
                     "header": "Header",
                     "subheader": "Subheader",
@@ -6657,9 +6291,6 @@
             "append": "/Eager to insert…/",
             "remove": "/Considers leaving…/",
             "replace": "/Wants to step in…/",
-            "wrap": "parenthesize",
-            "unwrap": "unwrap",
-            "bind": "name this expression",
             "area": "type code"
         },
         "template": {
@@ -6746,10 +6377,7 @@
                 "tip": "save these moderation settings",
                 "label": "save"
             },
-            "skip": {
-                "tip": "skip this project",
-                "label": "skip"
-            },
+            "skip": { "tip": "skip this project", "label": "skip" },
             "property": "Whether the project has this property"
         },
         "error": {

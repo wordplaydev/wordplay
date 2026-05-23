@@ -319,7 +319,6 @@ export const DECLARED_INPUTS: Readonly<Record<string, readonly string[]>> = {
     'ui.page.character.announce.selection': ['shapes'],
     'ui.page.localize.oneLocaleNote': ['locale'],
     'ui.page.thanks.intro': ['count'],
-    'ui.source.cursor.insertSymbol': ['symbol'],
     'ui.source.empty': ['symbol'],
     'ui.template.unparsable': ['template'],
 };

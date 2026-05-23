@@ -4480,10 +4480,6 @@
                     "tip": "$~顯示項目共享選項",
                     "label": "$~分享"
                 },
-                "history": {
-                    "on": "$~顯示最近的項目代碼",
-                    "off": "$~顯示目前項目代碼"
-                },
                 "savedLocally": "$~項目保存在本地，但不在線保存",
                 "savedOnline": "$~項目線上保存"
             },
@@ -4586,7 +4582,7 @@
         },
         "source": {
             "label": "程式編輯器",
-            "empty": ["$~• 輸入$symbol。"],
+            "empty": ["$~• 輸入$symbol。", "$?", "$?", "$?", "$?", "$?"],
             "overwritten": "收到了更新版本！",
             "confirm": {
                 "delete": {
@@ -4624,7 +4620,6 @@
             "menu": {
                 "label": "自動完成選單",
                 "show": "顯示自動完成選單",
-                "back": "退出子選單",
                 "empty": "$~沒有建議。"
             },
             "cursor": {
@@ -4642,7 +4637,6 @@
                 "selectAll": "選擇程式",
                 "incrementLiteral": "增加數字、文字或布林值",
                 "decrementLiteral": "減少數字、文字或布林值",
-                "insertSymbol": "插入$symbol",
                 "insertTab": "插入tab",
                 "insertTrue": "插入true",
                 "insertFalse": "插入false",
@@ -4661,7 +4655,6 @@
                 "insertConvert": "插入轉換符號",
                 "insertPrevious": "插入前一個符號",
                 "insertTable": "插入表符號",
-                "insertTableClose": "插入表格關閉符號",
                 "insertBorrow": "插入借閱",
                 "insertShare": "插入分享",
                 "insertLine": "插入換行符號",
@@ -5313,7 +5306,6 @@
                 "default": "預設",
                 "inherited": "繼任",
                 "notSequence": "不是一個序列",
-                "notContent": "不是內容清單",
                 "format": "格式",
                 "weight": "重量",
                 "light": "光",
@@ -5545,9 +5537,7 @@
                     "forgot": "*忘記密碼嗎？*很抱歉，由於沒有搜集您的聯絡資訊，因此我們無法恢復您的帳戶。",
                     "enter": "看起來您的登入連結來自不同的瀏覽器或裝置。您可以再次輸入您的電子郵件地址，以確保是您嗎？",
                     "play": "您已登錄，現在我們可以將您的專案儲存在線上！想要建立點什麼嗎？",
-                    "tooyoung": "您必須年滿13歲或以上才能使用電子郵件登入。",
                     "passwordrule": "密碼必須至少為6個字元長；如果你沒有使用密碼管理器，請選擇三個你會記得的長單字。",
-                    "passwordreminder": "看起來你正在創建一個帳戶。請檢查你的密碼，確保它被安全地保存並輸入正確，然後重新提交以創建你的帳戶。",
                     "changeEmail": "想要更改您的電子郵件地址嗎？提交新的電子郵件地址，我們將向舊的地址發送確認訊息。",
                     "changePassword": "想要更改你的密碼嗎？提交一個新密碼並重複輸入。",
                     "email": "$~您有僅用於電子郵件的帳戶嗎？使用您的電子郵件登錄，如果有關聯的帳戶，我們將向您發送一封包含登入連結的電子郵件。為了保護隱私，不支援新的僅限電子郵件的帳戶。",
@@ -5567,7 +5557,6 @@
                     "email": "此電子郵件地址無效。",
                     "failure": "無法登入:(",
                     "offline": "您似乎處於離線狀態。",
-                    "unchanged": "我們無法更改您的電子郵件地址，但我們不知道原因。",
                     "delete": "我們無法刪除您的帳戶，但我們不知道原因。",
                     "wrongPassword": "無效的使用者名稱和密碼。可能是密碼錯誤，或者其他人已經使用了這個使用者名稱。",
                     "tooMany": "您嘗試密碼的次數過多，需要等一段時間後再嘗試。",
@@ -5784,7 +5773,6 @@
                         "placeholder": "電子郵件或用戶名",
                         "description": "您希望授權的教師的帳戶名或電子郵件"
                     },
-                    "addteacher": "為此班級添加新的老師",
                     "delete": {
                         "tip": "刪除此授權。",
                         "label": "刪除"
@@ -6055,8 +6043,6 @@
                 "palette": "$~調色盤",
                 "semantic": "$~語意顏色",
                 "fonts": "$~字體",
-                "appfont": "$~文字字體",
-                "codefont": "$~程式碼字體",
                 "spacing": "$~間距",
                 "typography": "$~排版",
                 "components": "$~成分",
@@ -6074,7 +6060,6 @@
                 "demo": {
                     "button": "$~例子",
                     "note": "$~這是一張便條。",
-                    "warning": "$~這是警告。",
                     "notice": "$~這是一則通知。",
                     "header": "$~標題",
                     "subheader": "$~副標題",
@@ -6187,9 +6172,6 @@
             "append": "/急於插入…/",
             "remove": "/考慮離開…/",
             "replace": "/想要介入…/",
-            "wrap": "加括號",
-            "unwrap": "揭開",
-            "bind": "為這個表達命名",
             "range": "$~選擇範圍從 $start 到 $end",
             "area": "$~類型代碼"
         },
@@ -6456,8 +6438,6 @@
                             "$~任何策展人創建的任何畫廊的合作者都可以查看"
                         ]
                     },
-                    "expanded": "$~擴充",
-                    "limited": "$~有限的",
                     "expandedOptions": "$~讓選定畫廊的策展人和創作者們看看這個畫廊的操作指南。",
                     "expandedAdd": "$~將圖庫新增至列表",
                     "expandedRemove": "$~從清單中移除圖庫"
@@ -6614,11 +6594,6 @@
             "emotion": "Choose an emotion",
             "invalidName": "$~不是有效的文字遊戲名稱",
             "reference": "$~英文參考",
-            "unwritten": "$~未書寫的文本",
-            "revised": "$~修訂文本",
-            "revisedDescription": "$~這些修改已保存在本地，尚未提交審核。",
-            "submitRevisions": "$~提交修改稿",
-            "submitted": "$~謝謝！我們會審核您修改後的文本，可能很快就會發布。",
             "invalidConceptLinks": "$~這些概念連結在當前語言環境中無法解析。您是不是拼錯了某個鏈接，或者故意刪除了它？",
             "inputs": {
                 "header": "$~此範本接受的輸入",
