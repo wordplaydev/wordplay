@@ -1,5 +1,4 @@
 import Gallery, { GallerySchemaLatestVersion } from '@db/galleries/Gallery';
-import type Locales from '@locale/Locales';
 import { moderatedFlags } from '@db/projects/Moderation';
 import {
     ProjectSchemaLatestVersion,
@@ -7,6 +6,7 @@ import {
 } from '@db/projects/ProjectSchemas';
 import type { GalleryText } from '@locale/GalleryTexts';
 import { localeToString } from '@locale/Locale';
+import type Locales from '@locale/Locales';
 import { parseNames } from '@parser/parseBind';
 import { toTokens } from '@parser/toTokens';
 
@@ -158,7 +158,7 @@ export function getExampleGalleries(locales: Locales): Gallery[] {
                 'Pumpkin',
                 'Size',
                 'FloatingFoods',
-                'AditiAnimatedName'
+                'AditiAnimatedName',
             ],
             locales,
         ),
@@ -175,7 +175,6 @@ export function getExampleGalleries(locales: Locales): Gallery[] {
                 'Christmas',
                 'Easing',
                 'Lyrics',
-                'AditiPersonalMap'
             ],
             locales,
         ),
@@ -200,7 +199,7 @@ export function getExampleGalleries(locales: Locales): Gallery[] {
             Object.fromEntries(
                 locale.map((l) => [localeToString(l), l.gallery.stories]),
             ),
-            ['Pears', 'JapaneseClass'],
+            ['Pears', 'JapaneseClass', 'AditiPersonalMap'],
             locales,
         ),
         createGallery(
