@@ -1,4 +1,6 @@
 import admin from 'firebase-admin';
+import type { SerializedGallery } from '../src/db/galleries/Gallery';
+import type { SerializedProject } from '../src/db/projects/ProjectSchemas';
 
 process.env.FIREBASE_AUTH_EMULATOR_HOST = '127.0.0.1:9099';
 process.env.FIRESTORE_EMULATOR_HOST = '127.0.0.1:8080';
@@ -14,17 +16,27 @@ admin.initializeApp({ projectId: 'demo-wordplay' });
  *     and populated with the seeded students. This is enough state to
  *     manually exercise teacher flows (add/remove students, gallery share)
  *     without clicking through a fresh setup each time.
+ *   - A batch of creator-owned projects and public galleries, so pages that
+ *     scroll (project listings, gallery directory) have enough content to
+ *     exercise pagination, virtualized lists, and the back-to-top button.
  *
- * Every step is idempotent: it tolerates "already exists" errors so the
- * script can be re-run alongside an existing emulator state without
- * destroying data.
+ * Every step is idempotent: it tolerates "already exists" errors and uses
+ * stable document IDs so the script can be re-run alongside an existing
+ * emulator state without destroying data.
  */
 
 // Helper: every seeded password is the same so manual login is uniform.
 const PASSWORD = 'password';
 
+type SeededUser = {
+    uid: string;
+    username: string;
+    displayName: string;
+    claims: Record<string, boolean> | null;
+};
+
 /** Seeded user definitions. Keep UIDs short, descriptive, and stable. */
-const SEEDED_USERS = [
+const SEEDED_USERS: SeededUser[] = [
     {
         uid: 'creator0000000000000000000001',
         username: 'creator',
@@ -61,12 +73,47 @@ const SEEDED_USERS = [
 const SEEDED_CLASS_ID = 'seeded-class-id';
 const SEEDED_CLASS_GALLERY_ID = 'seeded-class-gallery-id';
 
-const isAlreadyExists = (err) =>
-    err?.code === 'auth/uid-already-exists' ||
-    err?.code === 'auth/email-already-exists';
+/**
+ * Names for creator-owned public projects, each paired 1:1 with a gallery
+ * below. The number of entries determines how many projects + galleries the
+ * scroll-testing seed produces.
+ */
+const PUBLIC_PROJECT_NAMES = [
+    'Hello World',
+    'Bouncing Ball',
+    'Color Wheel',
+    'Spinning Letters',
+    'Rainfall',
+    'Star Field',
+    'Word Cloud',
+    'Heartbeat',
+    'Wave Motion',
+    'Pixel Garden',
+];
+
+const PUBLIC_GALLERY_THEMES = [
+    'Beginnings',
+    'Motion Studies',
+    'Color Experiments',
+    'Typography Playground',
+    'Weather Patterns',
+    'Cosmic Designs',
+    'Word Art',
+    'Rhythm and Pulse',
+    'Wave Forms',
+    'Botanical Sketches',
+];
+
+const isAlreadyExists = (err: unknown): boolean => {
+    const code = (err as { code?: string } | null)?.code;
+    return (
+        code === 'auth/uid-already-exists' ||
+        code === 'auth/email-already-exists'
+    );
+};
 
 /** Wait for the auth emulator to come up, then create the seeded users. */
-async function seedUsers() {
+async function seedUsers(): Promise<boolean> {
     for (let attempt = 0; attempt < 60; attempt++) {
         try {
             // Probe the emulator with the first user; if it succeeds (or that
@@ -128,13 +175,14 @@ async function seedUsers() {
 }
 
 /** Seed a class document and a class-associated gallery. */
-async function seedClassAndGallery() {
+async function seedClassAndGallery(): Promise<void> {
     const firestore = admin.firestore();
 
     const teacher = SEEDED_USERS.find((u) => u.username === 'teacher');
     const students = SEEDED_USERS.filter((u) =>
         u.username.startsWith('student'),
     );
+    if (!teacher) throw new Error('Teacher user missing from SEEDED_USERS');
 
     const classDoc = {
         id: SEEDED_CLASS_ID,
@@ -150,7 +198,7 @@ async function seedClassAndGallery() {
         galleries: [SEEDED_CLASS_GALLERY_ID],
     };
 
-    const galleryDoc = {
+    const galleryDoc: SerializedGallery = {
         v: 2,
         id: SEEDED_CLASS_GALLERY_ID,
         path: null,
@@ -183,7 +231,108 @@ async function seedClassAndGallery() {
     console.log(`[seed] Wrote gallery "${SEEDED_CLASS_GALLERY_ID}"`);
 }
 
-async function main() {
+function makePublicProject(
+    index: number,
+    ownerUid: string,
+    galleryId: string,
+): SerializedProject {
+    const id = `seed-project-${String(index).padStart(2, '0')}`;
+    const name = PUBLIC_PROJECT_NAMES[index] ?? `Project ${index}`;
+    return {
+        v: 5,
+        id,
+        name,
+        sources: [
+            {
+                names: 'start',
+                code: `Phrase("${name}")`,
+                caret: 0,
+            },
+        ],
+        locales: ['en-US'],
+        owner: ownerUid,
+        collaborators: [],
+        public: true,
+        listed: true,
+        archived: false,
+        timestamp: Date.now() - index * 1000,
+        persisted: true,
+        gallery: galleryId,
+        flags: {
+            dehumanization: null,
+            violence: null,
+            disclosure: null,
+            misinformation: null,
+        },
+        nonPII: [],
+        chat: null,
+        history: [],
+        restrictedGallery: false,
+        viewers: [],
+        commenters: [],
+    };
+}
+
+function makePublicGallery(
+    index: number,
+    curatorUid: string,
+    projectId: string,
+): SerializedGallery {
+    // Gallery.isBuiltIn() treats hyphen-free IDs as built-ins, so the ID must
+    // contain a hyphen. Stable IDs keep the seed idempotent across reruns.
+    const id = `seed-public-gallery-${String(index).padStart(2, '0')}`;
+    const theme = PUBLIC_GALLERY_THEMES[index] ?? `Gallery ${index}`;
+    return {
+        v: 2,
+        id,
+        path: null,
+        name: { 'en-US': theme },
+        description: {
+            'en-US': `A seeded public gallery for testing (#${index + 1}).`,
+        },
+        words: theme.toLowerCase().split(/\s+/),
+        projects: [projectId],
+        curators: [curatorUid],
+        creators: [curatorUid],
+        public: true,
+        featured: false,
+        howTos: [],
+        howToExpandedVisibility: false,
+        howToExpandedGalleries: [],
+        howToViewers: {},
+        howToViewersFlat: [],
+        howToGuidingQuestions: [],
+        howToReactions: {},
+    };
+}
+
+/**
+ * Seed a batch of creator-owned public projects, each in its own public
+ * gallery. Useful for manually exercising pages that scroll (project list,
+ * gallery directory, back-to-top button).
+ */
+async function seedPublicProjectsAndGalleries(): Promise<void> {
+    const firestore = admin.firestore();
+    const creator = SEEDED_USERS.find((u) => u.username === 'creator');
+    if (!creator) throw new Error('Creator user missing from SEEDED_USERS');
+
+    const batch = firestore.batch();
+    for (let i = 0; i < PUBLIC_PROJECT_NAMES.length; i++) {
+        // One project per index, one gallery per index, linked 1:1.
+        const projectId = `seed-project-${String(i).padStart(2, '0')}`;
+        const gallery = makePublicGallery(i, creator.uid, projectId);
+        const project = makePublicProject(i, creator.uid, gallery.id);
+        batch.set(firestore.collection('projects').doc(project.id), project);
+        batch.set(firestore.collection('galleries').doc(gallery.id), gallery);
+    }
+    await batch.commit();
+
+    console.log(
+        `[seed] Wrote ${PUBLIC_PROJECT_NAMES.length} public projects and ${PUBLIC_GALLERY_THEMES.length} public galleries owned by "${creator.username}"`,
+    );
+}
+
+async function main(): Promise<void> {
     const ok = await seedUsers();
     if (!ok) return;
     try {
@@ -191,14 +340,17 @@ async function main() {
     } catch (err) {
         console.error('[seed] Failed to seed class/gallery:', err);
     }
+    try {
+        await seedPublicProjectsAndGalleries();
+    } catch (err) {
+        console.error('[seed] Failed to seed public projects/galleries:', err);
+    }
     console.log('[seed] Done. Manual logins:');
     for (const user of SEEDED_USERS) {
         const claimsNote = user.claims
             ? ` (${Object.keys(user.claims).join(', ')})`
             : '';
-        console.log(
-            `  - ${user.username} / ${PASSWORD}${claimsNote}`,
-        );
+        console.log(`  - ${user.username} / ${PASSWORD}${claimsNote}`);
     }
 }
 

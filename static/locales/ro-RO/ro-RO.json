@@ -4477,7 +4477,8 @@
                 "highlight": "$~exemplu de evidențiere",
                 "bullet": "$~glonţ",
                 "attention": "$~evidențiază această expresie"
-            }
+            },
+            "backtotop": "$~înapoi la început"
         },
         "tile": {
             "toggle": {

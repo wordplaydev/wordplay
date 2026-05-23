@@ -1,21 +1,22 @@
 <script lang="ts">
     import { page } from '$app/state';
+    import Emoji from '@components/app/Emoji.svelte';
+    import Link from '@components/app/Link.svelte';
     import Localizer from '@components/localization/Localizer.svelte';
     import {
         getLocalizing,
         setFullscreen,
         type FullscreenContext,
     } from '@components/project/Contexts';
+    import Settings from '@components/settings/Settings.svelte';
+    import Button from '@components/widgets/Button.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
+    import Color from '@output/Color';
     import { LOGO_SYMBOL } from '@parser/Symbols';
+    import { localeGoto } from '@util/localeGoto';
     import { type Snippet } from 'svelte';
     import { writable } from 'svelte/store';
     import { slide } from 'svelte/transition';
-    import Color from '@output/Color';
-    import Settings from '@components/settings/Settings.svelte';
-    import Emoji from '@components/app/Emoji.svelte';
-    import Link from '@components/app/Link.svelte';
-    import { localeGoto } from '@util/localeGoto';
 
     interface Props {
         children: Snippet;
@@ -23,6 +24,14 @@
     }
 
     let { children, footer = true }: Props = $props();
+
+    let main: HTMLElement | undefined = $state();
+    let scrollY = $state(0);
+    let showBackToTop = $derived(scrollY > 200);
+
+    function scrollToTop() {
+        main?.scrollTo({ top: 0, behavior: 'smooth' });
+    }
 
     // Set a fullscreen flag to indicate whether footer should hide or not.
     // It's the responsibility of children componets to set this based on their state.
@@ -67,9 +76,23 @@
     {#if localizing.on}
         <header transition:slide><Localizer /></header>
     {/if}
-    <main>
+    <main
+        bind:this={main}
+        onscroll={(e) => (scrollY = e.currentTarget.scrollTop)}
+    >
         {@render children()}
     </main>
+    {#if showBackToTop}
+        <div class="backtotop">
+            <div class="backtotop-inner">
+                <Button
+                    tip={(l) => l.ui.widget.backtotop}
+                    action={scrollToTop}
+                    background>⏶</Button
+                >
+            </div>
+        </div>
+    {/if}
     <footer class:fullscreen={$fullscreen.on}>
         <nav>
             {#if footer}
@@ -203,5 +226,33 @@
         align-items: center;
         padding: var(--wordplay-spacing-half);
         gap: var(--wordplay-spacing);
+    }
+
+    /* Anchor sits in the flex flow just above the footer with no height of
+       its own, so the absolutely-positioned inner bar rests on top of the
+       footer (anchor's bottom edge == footer's top edge) without pushing
+       layout. The high z-index keeps the button above the footer, which
+       has z-index: 1. */
+    .backtotop {
+        position: relative;
+        height: 0;
+        z-index: 2;
+    }
+
+    /* Full-width flex bar so the button is centered by its parent rather
+       than by its own transform — Button applies a hover/focus translate
+       that would otherwise fight a translateX(-50%) centering. */
+    .backtotop-inner {
+        position: absolute;
+        bottom: var(--wordplay-spacing);
+        left: 0;
+        right: 0;
+        display: flex;
+        justify-content: center;
+        pointer-events: none;
+    }
+
+    .backtotop-inner :global(button) {
+        pointer-events: auto;
     }
 </style>

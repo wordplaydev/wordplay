@@ -4477,7 +4477,8 @@
                 "highlight": "$~contoh sorotan",
                 "bullet": "$~peluru",
                 "attention": "$~sorot ungkapan ini"
-            }
+            },
+            "backtotop": "$~kembali ke atas"
         },
         "tile": {
             "toggle": {

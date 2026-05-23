@@ -4471,7 +4471,8 @@
                 "highlight": "$~exempel på framhävning",
                 "bullet": "$~punkt",
                 "attention": "$~markera detta uttryck"
-            }
+            },
+            "backtotop": "$~tillbaka till toppen"
         },
         "tile": {
             "toggle": {

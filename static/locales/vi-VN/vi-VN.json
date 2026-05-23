@@ -4472,7 +4472,8 @@
                 "highlight": "$~ví dụ nổi bật",
                 "bullet": "$~dấu đầu dòng",
                 "attention": "$~nhấn mạnh biểu thức này"
-            }
+            },
+            "backtotop": "$~trở lại đầu trang"
         },
         "tile": {
             "toggle": {

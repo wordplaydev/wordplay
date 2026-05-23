@@ -4197,7 +4197,8 @@
                 "highlight": "highlight example",
                 "bullet": "bullet",
                 "attention": "highlight this expression"
-            }
+            },
+            "backtotop": "back to top"
         },
         "tile": {
             "toggle": {

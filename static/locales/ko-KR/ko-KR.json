@@ -4471,7 +4471,8 @@
                 "highlight": "$~하이라이트 예시",
                 "bullet": "$~글머리 기호",
                 "attention": "$~이 표현을 강조 표시하세요"
-            }
+            },
+            "backtotop": "$~맨 위로 돌아가기"
         },
         "tile": {
             "toggle": {

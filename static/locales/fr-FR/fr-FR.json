@@ -4471,7 +4471,8 @@
                 "highlight": "$~exemple de surbrillance",
                 "bullet": "$~puce",
                 "attention": "$~mettre en évidence cette expression"
-            }
+            },
+            "backtotop": "$~Retour en haut de page"
         },
         "tile": {
             "toggle": {
