@@ -15,7 +15,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - We added a way to highlight expressions by adding 👀 inside some code's preceding explanatio, e.g., \¶👀¶"I'm highlighted!" This is helpful for how-to authors who want to emphasize some code.
 - We added a setting to control the spacing in blocks mode, for accessibility.
 - We added a machine translated Tagalog locale (#1089).
-- Now there's a "back to top" link on long pages.
+- Now there's a "back to top" link on long pages (#1097).
 
 ### Changed
 
