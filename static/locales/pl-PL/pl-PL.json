@@ -6638,7 +6638,10 @@
                     "$~waluta"
                 ]
             },
-            "skinTone": "$~odcień skóry"
+            "skinTone": "$~odcień skóry",
+            "script": "$?",
+            "scriptLabel": "$?",
+            "pickFilter": "$?"
         },
         "localize": {
             "header": "$~Zlokalizować",

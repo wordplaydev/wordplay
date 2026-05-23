@@ -6622,7 +6622,10 @@
                     "$~通貨"
                 ]
             },
-            "skinTone": "$~肌の色"
+            "skinTone": "$~肌の色",
+            "script": "$?",
+            "scriptLabel": "$?",
+            "pickFilter": "$?"
         },
         "localize": {
             "header": "$~ローカライズ",

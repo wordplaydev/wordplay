@@ -6642,7 +6642,10 @@
                     "$~நாணயம்"
                 ]
             },
-            "skinTone": "$~தோல் நிறம்"
+            "skinTone": "$~தோல் நிறம்",
+            "script": "$?",
+            "scriptLabel": "$?",
+            "pickFilter": "$?"
         },
         "localize": {
             "header": "$~உள்ளூர்மயமாக்கு",

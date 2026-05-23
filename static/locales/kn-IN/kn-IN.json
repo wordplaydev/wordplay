@@ -6635,7 +6635,10 @@
                     "$~ಕರೆನ್ಸಿ"
                 ]
             },
-            "skinTone": "$~ಚರ್ಮದ ಬಣ್ಣ"
+            "skinTone": "$~ಚರ್ಮದ ಬಣ್ಣ",
+            "script": "$?",
+            "scriptLabel": "$?",
+            "pickFilter": "$?"
         },
         "localize": {
             "header": "$~ಸ್ಥಳೀಕರಿಸಿ",

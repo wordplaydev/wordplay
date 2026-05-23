@@ -6626,7 +6626,10 @@
                     "$~valuta"
                 ]
             },
-            "skinTone": "$~hudton"
+            "skinTone": "$~hudton",
+            "script": "$?",
+            "scriptLabel": "$?",
+            "pickFilter": "$?"
         },
         "localize": {
             "header": "$~Lokalisera",

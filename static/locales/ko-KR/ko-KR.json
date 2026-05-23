@@ -6622,7 +6622,10 @@
                     "$~통화"
                 ]
             },
-            "skinTone": "$~피부톤"
+            "skinTone": "$~피부톤",
+            "script": "$?",
+            "scriptLabel": "$?",
+            "pickFilter": "$?"
         },
         "localize": {
             "header": "$~현지화",

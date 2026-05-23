@@ -6625,7 +6625,10 @@
                     "$~מַטְבֵּעַ"
                 ]
             },
-            "skinTone": "$~גוון העור"
+            "skinTone": "$~גוון העור",
+            "script": "$?",
+            "scriptLabel": "$?",
+            "pickFilter": "$?"
         },
         "localize": {
             "header": "$~לְמַקֵם",

@@ -93,7 +93,10 @@
     let labelEditing = $state(false);
     let tipEditing = $state(false);
     function showTip() {
-        if (_) hint.show(tooltip, _);
+        // Skip empty tooltips — callers (e.g. the glyph picker) sometimes
+        // compute a tip lazily and return an empty string when no
+        // description is available; showing an empty hint adds visual noise.
+        if (_ && tooltip.length > 0) hint.show(tooltip, _);
     }
     function hideTip() {
         hint.hide();

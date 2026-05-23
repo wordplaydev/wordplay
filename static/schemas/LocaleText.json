@@ -11945,6 +11945,18 @@
                   "description": "[plain] Prompt when no custom characters are available",
                   "type": "string"
                 },
+                "pickFilter": {
+                  "description": "[plain] Hint shown in the glyph area when no category and no script is selected",
+                  "type": "string"
+                },
+                "script": {
+                  "description": "[plain] Placeholder/no-selection label for the script filter dropdown",
+                  "type": "string"
+                },
+                "scriptLabel": {
+                  "description": "[plain] ARIA label for the script filter dropdown",
+                  "type": "string"
+                },
                 "skinTone": {
                   "description": "[plain] Label for the skin tone selector dropdown",
                   "type": "string"
@@ -11953,6 +11965,9 @@
               "required": [
                 "noCharacters",
                 "skinTone",
+                "script",
+                "scriptLabel",
+                "pickFilter",
                 "groups"
               ],
               "type": "object"

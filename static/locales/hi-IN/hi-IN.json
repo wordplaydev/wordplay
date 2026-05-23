@@ -6624,7 +6624,10 @@
                     "$~मुद्रा"
                 ]
             },
-            "skinTone": "$~त्वचा का रंग"
+            "skinTone": "$~त्वचा का रंग",
+            "script": "$?",
+            "scriptLabel": "$?",
+            "pickFilter": "$?"
         },
         "localize": {
             "header": "$~स्थानीय बनाना",

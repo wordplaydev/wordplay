@@ -6628,7 +6628,10 @@
                     "$~মুদ্ৰা"
                 ]
             },
-            "skinTone": "$~ছালৰ ৰং"
+            "skinTone": "$~ছালৰ ৰং",
+            "script": "$?",
+            "scriptLabel": "$?",
+            "pickFilter": "$?"
         },
         "localize": {
             "header": "$~স্থানীয়কৰণ কৰক",

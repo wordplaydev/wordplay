@@ -6707,7 +6707,10 @@
                     "$~চিঠি নম্বর",
                     "$~মুদ্রা"
                 ]
-            }
+            },
+            "script": "$?",
+            "scriptLabel": "$?",
+            "pickFilter": "$?"
         }
     },
     "moderation": {

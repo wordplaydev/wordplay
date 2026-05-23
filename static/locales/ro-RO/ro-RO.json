@@ -6693,7 +6693,10 @@
                     "$~numere de litere",
                     "$~valută"
                 ]
-            }
+            },
+            "script": "$?",
+            "scriptLabel": "$?",
+            "pickFilter": "$?"
         }
     },
     "moderation": {

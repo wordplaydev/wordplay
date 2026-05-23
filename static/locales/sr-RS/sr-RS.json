@@ -6626,7 +6626,10 @@
                     "$~валута"
                 ]
             },
-            "skinTone": "$~тон коже"
+            "skinTone": "$~тон коже",
+            "script": "$?",
+            "scriptLabel": "$?",
+            "pickFilter": "$?"
         },
         "localize": {
             "header": "$~Локализуј",

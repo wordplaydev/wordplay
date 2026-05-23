@@ -6687,7 +6687,10 @@
                     "$~mga numero ng letra",
                     "$~pera"
                 ]
-            }
+            },
+            "script": "$?",
+            "scriptLabel": "$?",
+            "pickFilter": "$?"
         },
         "tour": {
             "label": "$~paglilibot",

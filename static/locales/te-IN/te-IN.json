@@ -6638,7 +6638,10 @@
                     "$~కరెన్సీ"
                 ]
             },
-            "skinTone": "$~చర్మపు రంగు"
+            "skinTone": "$~చర్మపు రంగు",
+            "script": "$?",
+            "scriptLabel": "$?",
+            "pickFilter": "$?"
         },
         "localize": {
             "header": "$~స్థానికీకరించు",

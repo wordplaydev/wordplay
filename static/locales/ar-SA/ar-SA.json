@@ -6624,7 +6624,10 @@
                     "$~عملة"
                 ]
             },
-            "skinTone": "$~لون البشرة"
+            "skinTone": "$~لون البشرة",
+            "script": "$?",
+            "scriptLabel": "$?",
+            "pickFilter": "$?"
         },
         "localize": {
             "header": "$~توطين",

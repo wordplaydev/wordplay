@@ -1,20 +1,28 @@
 // Regenerate static/unicode/codes.txt by fetching the latest Unicode tables
 // from unicode.org. Combines UnicodeData.txt (every printable codepoint with
-// its General_Category) with emoji-test.txt (emoji groups, subgroups, and
-// fully-qualified sequences) into a single semicolon-separated file.
+// its General_Category), Scripts.txt (per-codepoint ISO 15924 script via
+// long-name aliases from PropertyValueAliases.txt), and emoji-test.txt
+// (emoji groups, subgroups, and fully-qualified sequences) into a single
+// semicolon-separated file.
 //
 // The output omits the human-readable Unicode name. Emoji names come from
 // per-locale CLDR data (see scripts/generate-emojis.mjs), so storing the
 // English name in codes.txt was redundant.
 //
 // Output format, one entry per line:
-//   <hex>;<category>                          - non-emoji codepoints
-//   <hex>;<category>;<group>;<subgroup>       - emojis (single or sequence)
+//   <hex>;<category>;<script>                          - non-emoji codepoints
+//   <hex>;<category>;<script>;<group>;<subgroup>       - emojis (single or sequence)
 //
 // where <hex> is space-separated uppercase codepoints (e.g. "1F600",
 // "0023 FE0F 20E3"), <category> is the General_Category from UnicodeData.txt
-// (e.g. "Po", "Ll"), and <group>/<subgroup> are the short codes defined in
-// emoji.ts.
+// (e.g. "Po", "Ll"), <script> is the ISO 15924 4-letter code (e.g. "Latn",
+// "Cyrl") and is empty for Common / Inherited / Unknown, and
+// <group>/<subgroup> are the short codes defined in emoji.ts.
+//
+// Additionally writes static/unicode/scripts.txt, a small companion file with
+// one "<iso>;<english-name>" line per script that actually appears in
+// codes.txt. The picker uses it as a fallback label source for scripts not
+// curated in src/locale/Scripts.ts.
 //
 // Run: npm run codes
 
@@ -27,17 +35,28 @@ import { EmojiGroups, EmojiSubgroups } from '@unicode/emoji.ts';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..', '..');
 const OUTPUT_PATH = path.join(ROOT, 'static', 'unicode', 'codes.txt');
+const SCRIPTS_OUTPUT_PATH = path.join(ROOT, 'static', 'unicode', 'scripts.txt');
 
 const UNICODE_DATA_URL =
     'https://www.unicode.org/Public/UCD/latest/ucd/UnicodeData.txt';
 const EMOJI_TEST_URL =
     'https://www.unicode.org/Public/emoji/latest/emoji-test.txt';
+const SCRIPTS_URL = 'https://www.unicode.org/Public/UCD/latest/ucd/Scripts.txt';
+const PROPERTY_VALUE_ALIASES_URL =
+    'https://www.unicode.org/Public/UCD/latest/ucd/PropertyValueAliases.txt';
+
+/** Scripts to drop from the codes.txt script column. Common, Inherited, and
+ * Unknown aren't real "user-pickable" scripts — they cover punctuation,
+ * combining marks, and unassigned codepoints respectively. */
+const EXCLUDED_SCRIPTS = new Set(['Zyyy', 'Zinh', 'Zzzz']);
 
 async function fetchText(url: string): Promise<string> {
     console.log(`Fetching ${url} ...`);
     const res = await fetch(url);
     if (!res.ok)
-        throw new Error(`Failed to fetch ${url}: ${res.status} ${res.statusText}`);
+        throw new Error(
+            `Failed to fetch ${url}: ${res.status} ${res.statusText}`,
+        );
     return await res.text();
 }
 
@@ -47,6 +66,100 @@ interface EmojiInfo {
     /** Multi-codepoint sequences for this base emoji (skin tones, ZWJ
      * sequences, etc.). Solo single-codepoint emojis have an empty list. */
     variations: { codepoints: string[] }[];
+}
+
+/** Parse PropertyValueAliases.txt to build a map from a script's long English
+ * name (e.g. "Latin", "Greek_And_Coptic") to its ISO 15924 4-letter code
+ * (e.g. "Latn"). Aliases come in lines like:
+ *   sc ; Adlm ; Adlam
+ *   sc ; Latn ; Latin
+ * with optional extra aliases after the long name. We index by every alias
+ * (with both '_' and ' ' separators) since Scripts.txt uses underscored long
+ * names while later UCD versions occasionally drift. */
+function parseScriptAliases(text: string): Map<string, string> {
+    const longToIso = new Map<string, string>();
+    for (const rawLine of text.split('\n')) {
+        const line = rawLine.split('#')[0].trim();
+        if (!line) continue;
+        const parts = line.split(';').map((p) => p.trim());
+        if (parts[0] !== 'sc') continue;
+        const iso = parts[1];
+        if (!iso) continue;
+        for (const alias of parts.slice(2)) {
+            if (!alias) continue;
+            longToIso.set(alias, iso);
+            longToIso.set(alias.replace(/_/g, ' '), iso);
+        }
+    }
+    return longToIso;
+}
+
+interface ScriptRange {
+    start: number;
+    end: number;
+    script: string;
+}
+
+/** Parse Scripts.txt into a sorted array of (start, end, iso) ranges. Lines
+ * look like "0041..005A    ; Latin # L&  [26] LATIN CAPITAL LETTER A..." or
+ * "00AA          ; Latin # Lo       FEMININE ORDINAL INDICATOR". Unknown
+ * long-names (shouldn't happen, but UCD can add scripts) fall back to using
+ * the long name itself, which downstream code will treat as an unknown
+ * script and exclude from the picker. */
+function parseScripts(
+    text: string,
+    longToIso: Map<string, string>,
+): ScriptRange[] {
+    const ranges: ScriptRange[] = [];
+    for (const rawLine of text.split('\n')) {
+        const line = rawLine.split('#')[0].trim();
+        if (!line) continue;
+        const [rangePart, longName] = line.split(';').map((p) => p.trim());
+        if (!rangePart || !longName) continue;
+        const iso = longToIso.get(longName) ?? longName;
+        const [startHex, endHex] = rangePart.split('..');
+        const start = parseInt(startHex, 16);
+        const end = endHex !== undefined ? parseInt(endHex, 16) : start;
+        if (Number.isNaN(start) || Number.isNaN(end)) continue;
+        ranges.push({ start, end, script: iso });
+    }
+    ranges.sort((a, b) => a.start - b.start);
+    return ranges;
+}
+
+/** Build a long-English-name lookup for ISO codes, used to write scripts.txt.
+ * Prefers the *first* alias listed in PropertyValueAliases.txt (the canonical
+ * long name like "Latin"), falling back to the iso code itself if no alias
+ * was found. */
+function buildIsoToLongName(text: string): Map<string, string> {
+    const isoToLong = new Map<string, string>();
+    for (const rawLine of text.split('\n')) {
+        const line = rawLine.split('#')[0].trim();
+        if (!line) continue;
+        const parts = line.split(';').map((p) => p.trim());
+        if (parts[0] !== 'sc') continue;
+        const iso = parts[1];
+        const long = parts[2];
+        if (!iso || !long || isoToLong.has(iso)) continue;
+        isoToLong.set(iso, long.replace(/_/g, ' '));
+    }
+    return isoToLong;
+}
+
+/** Binary search the script ranges for a single codepoint. Returns the ISO
+ * code or an empty string for "no script" (the codepoint falls in
+ * Common/Inherited/Unknown or no Scripts.txt range matched it at all). */
+function lookupScript(ranges: ScriptRange[], cp: number): string {
+    let lo = 0;
+    let hi = ranges.length - 1;
+    while (lo <= hi) {
+        const mid = (lo + hi) >> 1;
+        const r = ranges[mid];
+        if (cp < r.start) hi = mid - 1;
+        else if (cp > r.end) lo = mid + 1;
+        else return EXCLUDED_SCRIPTS.has(r.script) ? '' : r.script;
+    }
+    return '';
 }
 
 /** Parse emoji-test.txt into a map keyed by base codepoint hex. We only keep
@@ -93,17 +206,26 @@ function parseEmojis(text: string): Map<string, EmojiInfo> {
 }
 
 async function main() {
-    const [unicodeData, emojiText] = await Promise.all([
-        fetchText(UNICODE_DATA_URL),
-        fetchText(EMOJI_TEST_URL),
-    ]);
+    const [unicodeData, emojiText, scriptsText, aliasesText] =
+        await Promise.all([
+            fetchText(UNICODE_DATA_URL),
+            fetchText(EMOJI_TEST_URL),
+            fetchText(SCRIPTS_URL),
+            fetchText(PROPERTY_VALUE_ALIASES_URL),
+        ]);
 
     const emojis = parseEmojis(emojiText);
     console.log(`Parsed ${emojis.size} base emojis.`);
 
+    const longToIso = parseScriptAliases(aliasesText);
+    const isoToLong = buildIsoToLongName(aliasesText);
+    const scriptRanges = parseScripts(scriptsText, longToIso);
+    console.log(`Parsed ${scriptRanges.length} script ranges.`);
+
     let output = '';
     let nonEmojiCount = 0;
     let emojiCount = 0;
+    const scriptsSeen = new Set<string>();
 
     for (const entry of unicodeData.split('\n')) {
         const [hex, , category] = entry.split(';');
@@ -112,12 +234,19 @@ async function main() {
         // Skip control, separator, and mark codepoints. The picker never
         // surfaces these and they aren't usable as text content.
         const categoryChar = category.charAt(0);
-        if (categoryChar === 'C' || categoryChar === 'Z' || categoryChar === 'M')
+        if (
+            categoryChar === 'C' ||
+            categoryChar === 'Z' ||
+            categoryChar === 'M'
+        )
             continue;
+
+        const script = lookupScript(scriptRanges, parseInt(hex, 16));
+        if (script) scriptsSeen.add(script);
 
         const emoji = emojis.get(hex);
         if (emoji === undefined) {
-            output += `${hex};${category}\n`;
+            output += `${hex};${category};${script}\n`;
             nonEmojiCount++;
         } else {
             const group = EmojiGroups[emoji.group];
@@ -130,10 +259,10 @@ async function main() {
                 throw new Error(
                     `Unknown emoji subgroup "${emoji.subgroup}". Add it to EmojiSubgroups in src/unicode/emoji.ts.`,
                 );
-            output += `${hex};${category};${group};${subgroup}\n`;
+            output += `${hex};${category};${script};${group};${subgroup}\n`;
             emojiCount++;
             for (const variation of emoji.variations) {
-                output += `${variation.codepoints.join(' ')};${category};${group};${subgroup}\n`;
+                output += `${variation.codepoints.join(' ')};${category};${script};${group};${subgroup}\n`;
                 emojiCount++;
             }
         }
@@ -143,6 +272,20 @@ async function main() {
     fs.writeFileSync(OUTPUT_PATH, output.trimEnd() + '\n');
     console.log(
         `Wrote ${OUTPUT_PATH} (${nonEmojiCount} codepoints, ${emojiCount} emoji rows, ${(output.length / 1024).toFixed(1)} KB).`,
+    );
+
+    // Emit the script-label companion file. Sort by ISO code for stable
+    // output. Only includes scripts that actually appear in codes.txt so the
+    // picker dropdown lists exactly the scripts it can render.
+    const scriptLines: string[] = [];
+    for (const iso of Array.from(scriptsSeen).sort()) {
+        const long = isoToLong.get(iso) ?? iso;
+        scriptLines.push(`${iso};${long}`);
+    }
+    const scriptsOutput = scriptLines.join('\n') + '\n';
+    fs.writeFileSync(SCRIPTS_OUTPUT_PATH, scriptsOutput);
+    console.log(
+        `Wrote ${SCRIPTS_OUTPUT_PATH} (${scriptsSeen.size} scripts, ${(scriptsOutput.length / 1024).toFixed(1)} KB).`,
     );
 }
 

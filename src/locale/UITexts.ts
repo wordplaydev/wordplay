@@ -1221,6 +1221,12 @@ type UITexts = {
         noCharacters: string;
         /** [plain] Label for the skin tone selector dropdown */
         skinTone: string;
+        /** [plain] Placeholder/no-selection label for the script filter dropdown */
+        script: string;
+        /** [plain] ARIA label for the script filter dropdown */
+        scriptLabel: string;
+        /** [plain] Hint shown in the glyph area when no category and no script is selected */
+        pickFilter: string;
         /** Emoji category labels for the filter */
         groups: ModeText<
             [

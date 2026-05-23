@@ -1,21 +1,22 @@
 <script lang="ts">
     import Action from '@components/app/Action.svelte';
     import CreatorCharacterView from '@components/app/CreatorCharacterView.svelte';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import { updateProfile, type User } from 'firebase/auth';
     import Header from '@components/app/Header.svelte';
     import Link from '@components/app/Link.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
+    import { getUser } from '@components/project/Contexts';
     import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
     import EmojiChooser from '@components/widgets/GlyphChooser.svelte';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import { Creator } from '@db/creators/CreatorDatabase';
     import { SaveStatus, status } from '@db/Database';
     import { auth } from '@db/firebase';
     import { isModerator } from '@db/projects/Moderation';
+    import { localeGoto } from '@util/localeGoto';
+    import { updateProfile, type User } from 'firebase/auth';
     import ChangeEmail from './ChangeEmail.svelte';
     import ChangePassword from './ChangePassword.svelte';
     import DeleteAccount from './DeleteAccount.svelte';
-    import { localeGoto } from '@util/localeGoto';
 
     interface Props {
         user: User;
@@ -27,16 +28,24 @@
 
     let moderator = $state(false);
 
+    /** Writable holding the current Firebase user. We need a handle on the
+     *  store (not just the unwrapped value via props) so we can republish
+     *  after Firebase mutates the user in place — see `rename`. */
+    const userStore = getUser();
+
     // When the user changes, check if they're a moderator.
     $effect(() => {
         isModerator(user).then((mod) => (moderator = mod));
     });
 
     function rename(name: string) {
-        // This should trigger an update to the user store, and therefore this view.
+        // Firebase mutates `user.displayName` in place on success. The user
+        // store still points at the same object, so Svelte never notices the
+        // change. Re-set the store with the same reference to fan out the
+        // update to subscribers (Profile, Header avatar, etc.).
         updateProfile(user, {
             displayName: name,
-        }).then(() => user.reload());
+        }).then(() => userStore?.set(user));
     }
 
     async function logout() {
@@ -51,8 +60,9 @@
 <Header wrap
     ><span class="emoji"
         ><CreatorCharacterView character={user.displayName}
-        ></CreatorCharacterView></span
-    ><span data-testid="username">{creator.getUsername(false)}</span></Header
+        ></CreatorCharacterView>
+    </span>
+    <span data-testid="username">{creator.getUsername(false)}</span></Header
 >
 
 <div class="actions" data-testid="profile">

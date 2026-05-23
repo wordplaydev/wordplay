@@ -6635,7 +6635,10 @@
                     "$~νόμισμα"
                 ]
             },
-            "skinTone": "$~τόνος δέρματος"
+            "skinTone": "$~τόνος δέρματος",
+            "script": "$?",
+            "scriptLabel": "$?",
+            "pickFilter": "$?"
         },
         "localize": {
             "header": "$~Εντοπίζω",

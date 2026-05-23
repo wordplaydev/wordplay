@@ -6553,7 +6553,10 @@
                     "$~货币"
                 ]
             },
-            "skinTone": "$~肤色"
+            "skinTone": "$~肤色",
+            "script": "$?",
+            "scriptLabel": "$?",
+            "pickFilter": "$?"
         },
         "localize": {
             "header": "$~本地化",

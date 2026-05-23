@@ -6611,7 +6611,10 @@
                     "$~divisa"
                 ]
             },
-            "skinTone": "$~tono de piel"
+            "skinTone": "$~tono de piel",
+            "script": "$?",
+            "scriptLabel": "$?",
+            "pickFilter": "$?"
         },
         "localize": {
             "header": "$~Localizar",

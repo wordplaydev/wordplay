@@ -6622,7 +6622,10 @@
                     "$~ਮੁਦਰਾ"
                 ]
             },
-            "skinTone": "$~ਚਮੜੀ ਦਾ ਰੰਗ"
+            "skinTone": "$~ਚਮੜੀ ਦਾ ਰੰਗ",
+            "script": "$?",
+            "scriptLabel": "$?",
+            "pickFilter": "$?"
         },
         "localize": {
             "header": "$~ਸਥਾਨੀਕਰਨ ਕਰੋ",

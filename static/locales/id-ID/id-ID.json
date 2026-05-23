@@ -6696,7 +6696,10 @@
                     "$~angka huruf",
                     "$~mata uang"
                 ]
-            }
+            },
+            "script": "$?",
+            "scriptLabel": "$?",
+            "pickFilter": "$?"
         }
     },
     "moderation": {

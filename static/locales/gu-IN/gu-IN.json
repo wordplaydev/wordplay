@@ -6630,7 +6630,10 @@
                     "$~ચલણ"
                 ]
             },
-            "skinTone": "$~ત્વચાનો રંગ"
+            "skinTone": "$~ત્વચાનો રંગ",
+            "script": "$?",
+            "scriptLabel": "$?",
+            "pickFilter": "$?"
         },
         "localize": {
             "header": "$~સ્થાનિકીકરણ કરો",

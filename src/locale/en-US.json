@@ -6312,6 +6312,9 @@
         "emoji": {
             "noCharacters": "Create a custom character",
             "skinTone": "skin tone",
+            "script": "scripts",
+            "scriptLabel": "filter by script",
+            "pickFilter": "Choose a category or script",
             "groups": {
                 "label": "groups",
                 "labels": [

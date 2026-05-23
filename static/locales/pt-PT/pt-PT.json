@@ -6684,7 +6684,10 @@
                     "$~números de letras",
                     "$~moeda"
                 ]
-            }
+            },
+            "script": "$?",
+            "scriptLabel": "$?",
+            "pickFilter": "$?"
         },
         "tour": {
             "label": "$~digressão",

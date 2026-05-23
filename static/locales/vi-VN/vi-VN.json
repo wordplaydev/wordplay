@@ -6629,7 +6629,10 @@
                     "$~tiền tệ"
                 ]
             },
-            "skinTone": "$~màu da"
+            "skinTone": "$~màu da",
+            "script": "$?",
+            "scriptLabel": "$?",
+            "pickFilter": "$?"
         },
         "localize": {
             "header": "$~Bản địa hóa",

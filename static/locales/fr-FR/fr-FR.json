@@ -6629,7 +6629,10 @@
                     "$~devise"
                 ]
             },
-            "skinTone": "$~teint"
+            "skinTone": "$~teint",
+            "script": "$?",
+            "scriptLabel": "$?",
+            "pickFilter": "$?"
         },
         "localize": {
             "header": "$~Localiser",

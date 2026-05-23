@@ -6628,7 +6628,10 @@
                     "$~Währung"
                 ]
             },
-            "skinTone": "$~Hautton"
+            "skinTone": "$~Hautton",
+            "script": "$?",
+            "scriptLabel": "$?",
+            "pickFilter": "$?"
         },
         "localize": {
             "header": "$~Lokalisieren",

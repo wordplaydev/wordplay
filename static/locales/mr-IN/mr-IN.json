@@ -6626,7 +6626,10 @@
                     "$~चलन"
                 ]
             },
-            "skinTone": "$~त्वचेचा रंग"
+            "skinTone": "$~त्वचेचा रंग",
+            "script": "$?",
+            "scriptLabel": "$?",
+            "pickFilter": "$?"
         },
         "localize": {
             "header": "$~स्थानिकीकरण",
