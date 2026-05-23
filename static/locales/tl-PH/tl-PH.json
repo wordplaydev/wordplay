@@ -4475,7 +4475,8 @@
                 "highlight": "$~i-highlight ang halimbawa",
                 "bullet": "$~bala",
                 "attention": "$~i-highlight ang ekspresyong ito"
-            }
+            },
+            "backtotop": "$~balik sa itaas"
         },
         "tile": {
             "toggle": {

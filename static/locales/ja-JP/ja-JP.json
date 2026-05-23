@@ -4471,7 +4471,8 @@
                 "highlight": "$~ハイライト例",
                 "bullet": "$~箇条書き",
                 "attention": "$~この表現を強調表示"
-            }
+            },
+            "backtotop": "$~ページトップへ戻る"
         },
         "tile": {
             "toggle": {

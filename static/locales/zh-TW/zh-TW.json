@@ -4429,7 +4429,8 @@
                 "highlight": "$~突出示例",
                 "bullet": "$~項目符號",
                 "attention": "$~反白顯示此表達式"
-            }
+            },
+            "backtotop": "$~回到頂部"
         },
         "tile": {
             "toggle": {
