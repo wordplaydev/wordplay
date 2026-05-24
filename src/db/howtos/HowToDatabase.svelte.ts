@@ -20,7 +20,9 @@ import {
     updateDoc,
     where,
     writeBatch,
+    type DocumentData,
     type Firestore,
+    type QuerySnapshot,
     type Unsubscribe,
 } from 'firebase/firestore';
 import { SvelteMap } from 'svelte/reactivity';
@@ -369,7 +371,15 @@ export class HowToDatabase {
     /** Maps how-to IDs to listeners that need to be notified when a change is made to the how-to */
     private listeners = new Map<string, Set<(howTo: HowTo) => void>>();
 
-    private unsubscribe: Unsubscribe | undefined = undefined;
+    private unsubscribes: Unsubscribe[] = [];
+
+    /** Per-listener tracking of how-to IDs currently visible to that listener.
+     *  Key is the listener identity ("own", "scope", or `gallery:<chunkIndex>`).
+     *  Used to garbage-collect cache entries that no listener sees anymore. */
+    private listenerDocIds: Map<string, Set<string>> = new Map();
+
+    /** Dedup set so a how-to surfaced by multiple listeners only notifies once. */
+    private notifiedHowToIds: Set<string> = new Set();
 
     constructor(db: Database) {
         this.db = db;
@@ -559,114 +569,140 @@ export class HowToDatabase {
     }
 
     ignore() {
-        if (this.unsubscribe) this.unsubscribe();
+        this.unsubscribes.forEach((u) => u());
+        this.unsubscribes = [];
+        this.listenerDocIds.clear();
+        this.notifiedHowToIds.clear();
     }
 
     listen(firestore: Firestore, userId: string) {
         this.ignore();
 
-        // get the current list of galleries to watch
-        // galleries where the user is a creator or curator
+        // Notifications only fire for how-tos published after this point in time.
+        const startTime: number = Date.now();
+
+        // Listener 1: how-tos where the user is creator or collaborator.
+        const ownQuery = query(
+            collection(firestore, HowTosCollection),
+            or(
+                where('creator', '==', userId),
+                where('collaborators', 'array-contains', userId),
+            ),
+        );
+        this.unsubscribes.push(
+            onSnapshot(
+                ownQuery,
+                (snapshot) => this.handleSnapshot('own', snapshot, startTime),
+                (error) => this.logFirebaseError(error),
+            ),
+        );
+
+        // Listener 2: how-tos in any of the user's editor/curator galleries.
+        // Chunked into groups of 30 because Firestore caps `in` at 30 values.
         const editorGalleryIds = Array.from(
             this.db.Galleries.accessibleGalleries.keys(),
         );
-
-        // construct constraints based on
-
-        // for published how-tos
-        // (1) any how-tos that the user has access to as a creator or collaborator on the how-to itself
-        // (2) any how-tos that the user has access to as a curator or collaborator on the gallery
-        // (3) any how-tos that the user has access to via expanded scope access
-        let creatorOrCollaborator = [
-            where('creator', '==', userId),
-            where('collaborators', 'array-contains', userId),
-        ];
-        let editorGalleryConstraints = editorGalleryIds.map((galleryId) =>
-            where('galleryId', '==', galleryId),
-        );
-
-        let draftQuery = and(
-            where('published', '==', false),
-            or(...creatorOrCollaborator),
-            or(...editorGalleryConstraints),
-        );
-        let publishedQuery = and(
-            where('published', '==', true),
-            or(
-                or(...creatorOrCollaborator),
-                or(...editorGalleryConstraints),
-                and(
-                    where('scopeOverwrite', '==', false),
-                    where('viewersFlat', 'array-contains', userId)
-                ),
-            ),
-        );
-
-        // start time for notifications
-        const startTime: number = Date.now();
-
-        // set up the realtime how-tos query for the user, tracking any how-tos from the cloud
-        // and deleting any tracked locally that didn't appear in the snapshot
-        this.unsubscribe = onSnapshot(
-            query(
+        for (let i = 0; i < editorGalleryIds.length; i += 30) {
+            const chunk = editorGalleryIds.slice(i, i + 30);
+            const key = `gallery:${i / 30}`;
+            const galleryQuery = query(
                 collection(firestore, HowTosCollection),
-                or(draftQuery, publishedQuery),
+                where('galleryId', 'in', chunk),
+            );
+            this.unsubscribes.push(
+                onSnapshot(
+                    galleryQuery,
+                    (snapshot) => this.handleSnapshot(key, snapshot, startTime),
+                    (error) => this.logFirebaseError(error),
+                ),
+            );
+        }
+
+        // Listener 3: published how-tos visible via expanded scope.
+        const scopeQuery = query(
+            collection(firestore, HowTosCollection),
+            and(
+                where('published', '==', true),
+                where('scopeOverwrite', '==', false),
+                where('viewersFlat', 'array-contains', userId),
             ),
-            async (snapshot) => {
-                // First, go through the entire set, gathering the latest versions and remembering what how-to IDs we know
-                // so we can delete ones that are gone from the server.
-                snapshot.forEach((doc) => {
-                    const howto = doc.data();
-
-                    // try to parse the how-to and save on success.
-                    try {
-                        const upgraded: HowToDocument = upgradeHowTo(howto as HowToUnknownVersion);
-                        HowToSchema.parse(upgraded);
-                        // Update the how-to in the local cache, but do not persist; we just got it from the DB.
-                        this.updateHowTo(
-                            new HowTo(upgraded),
-                            false,
-                        );
-                    } catch (error) {
-                        // If the how-to doesn't succeed, then we don't save it.
-                        console.error(error);
-                    }
-                });
-
-                // Next, go through the changes and see if any were explicitly removed, and if so, delete them.
-                // And see if any were explicitly added, and if so, create a notification
-                snapshot.docChanges().forEach((change) => {
-                    // Removed? Delete the local cache of the gallery.
-                    if (change.type === 'removed') {
-                        const howToId = change.doc.id;
-
-                        this.howtos.delete(howToId);
-                    } else if (change.type === 'added') {
-                        const data = change.doc.data();
-
-                        if (
-                            data.published &&
-                            data.publishedAt !== null &&
-                            data.publishedAt >= startTime &&
-                            data.social.notifySubscribers == true
-                        ) {
-                            notifications.set(data.id + 'howto', {
-                                title: HowTo.titleInLocale(data.title, localeToString(this.db.Locales.getLocale()), (data.locales as string[])[0]),
-                                galleryID: data.galleryId,
-                                itemID: data.id,
-                                type: 'howto',
-                            } as NotificationData);
-                        }
-                    }
-                });
-            },
-            (error) => {
-                if (error instanceof FirebaseError) {
-                    console.error(error.code);
-                    console.error(error.message);
-                }
-            },
         );
+        this.unsubscribes.push(
+            onSnapshot(
+                scopeQuery,
+                (snapshot) => this.handleSnapshot('scope', snapshot, startTime),
+                (error) => this.logFirebaseError(error),
+            ),
+        );
+    }
+
+    private handleSnapshot(
+        key: string,
+        snapshot: QuerySnapshot<DocumentData>,
+        startTime: number,
+    ) {
+        // (a) Parse, upgrade, and cache every doc this listener saw.
+        //     Track the IDs so we can garbage-collect later.
+        const seen = new Set<string>();
+        snapshot.forEach((doc) => {
+            const howto = doc.data();
+            seen.add(doc.id);
+            try {
+                const upgraded: HowToDocument = upgradeHowTo(
+                    howto as HowToUnknownVersion,
+                );
+                HowToSchema.parse(upgraded);
+                this.updateHowTo(new HowTo(upgraded), false);
+            } catch (error) {
+                console.error(error);
+            }
+        });
+        this.listenerDocIds.set(key, seen);
+
+        // (b) Notifications for newly-added published how-tos, deduped across listeners.
+        snapshot.docChanges().forEach((change) => {
+            if (change.type === 'added') {
+                const data = change.doc.data();
+                const id = change.doc.id;
+                if (
+                    !this.notifiedHowToIds.has(id) &&
+                    data.published &&
+                    data.publishedAt !== null &&
+                    data.publishedAt >= startTime &&
+                    data.social.notifySubscribers === true
+                ) {
+                    this.notifiedHowToIds.add(id);
+                    notifications.set(id + 'howto', {
+                        title: HowTo.titleInLocale(
+                            data.title,
+                            localeToString(this.db.Locales.getLocale()),
+                            (data.locales as string[])[0],
+                        ),
+                        galleryID: data.galleryId,
+                        itemID: id,
+                        type: 'howto',
+                    } as NotificationData);
+                }
+            }
+        });
+
+        // (c) Cache GC: a doc should remain cached iff at least one listener still sees it.
+        //     Safe on initial load — listeners that haven't fired yet have no entry in
+        //     listenerDocIds, so the union only includes IDs we've actually loaded.
+        const union = new Set<string>();
+        for (const ids of this.listenerDocIds.values())
+            for (const id of ids) union.add(id);
+
+        for (const cachedId of this.howtos.keys()) {
+            if (!union.has(cachedId)) this.howtos.delete(cachedId);
+        }
+    }
+
+    private logFirebaseError(error: unknown) {
+        if (error instanceof FirebaseError) {
+            console.error(error.code);
+            console.error(error.message);
+        }
     }
 
     addListener(howToId: string, listener: (howTo: HowTo) => void) {

@@ -52,6 +52,7 @@ This week we focused on multilingual coding features, with several bug fixes alo
 - 🔊 In the code editor, typing now reads each character to screen readers, like a normal text field.
 - 🔊 Stage output announcements now start with "output" so screen reader users can tell them apart from editor and chooser announcements, and @Text outputs read the actual text instead of just the word "text".
 - 🚦 We fixed a bug where one syntax error could show up as two duplicate warnings.
+- 📖 We fixed a bug where how-to's didn't show up for people with access to many galleries, like teachers with lots of classes.
 
 ## 0.18.0 - 2026-05-15
 
