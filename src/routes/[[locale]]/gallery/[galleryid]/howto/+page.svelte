@@ -73,7 +73,7 @@
     let howTos: HowTo[] = $state([]);
 
     // true if queried how-to exists and user has access, false if query failed, null if query in progress
-    let urlHowToStatus = $state<null | boolean>(null);
+    let urlLoaded = $state<null | boolean>(null);
 
     // get all of the how-tos for the gallery if the user has gallery access
     // otherwise, see if there was a specific how-to id in the url and if so just get that one
@@ -83,13 +83,13 @@
                 if (data) howTos = data;
             });
         } else if (urlID) {
-            urlHowToStatus = null;
+            urlLoaded = null;
             HowTos.getHowTo(urlID).then((data) => {
                 if (data) {
                     howTos = [data];
-                    urlHowToStatus = true;
+                    urlLoaded = true;
                 } else {
-                    urlHowToStatus = false;
+                    urlLoaded = false;
                 }
             });
         }
@@ -347,9 +347,9 @@
     });
 </script>
 
-{#if gallery === null || (gallery === undefined && urlID !== null && urlHowToStatus === null)}
+{#if gallery === null || (gallery === undefined && urlID !== null && urlLoaded === null)}
     <Loading />
-{:else if gallery === undefined && (galleryID === undefined || urlID === null || urlHowToStatus === false)}
+{:else if gallery === undefined && (galleryID === undefined || urlID === null || urlLoaded === false)}
     <Writing>
         <Notice text={(l) => l.ui.howto.error.unknown} />
     </Writing>
