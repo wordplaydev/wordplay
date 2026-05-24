@@ -143,6 +143,14 @@ export default class BinaryEvaluate extends Expression {
                 indent: true,
                 // The type of the right should be the type of the single input to the function corresponding to the operator.
                 getType: (context: Context) => {
+                    // For equality operators, mirror the left's actual type
+                    // instead of the basis function's generic input type. This
+                    // lets autocomplete on a placeholder right-hand side surface
+                    // the literal arms of a union-typed left (e.g., `Key() = _`
+                    // suggests each named key in the active locale).
+                    const op = this.getOperator();
+                    if (op === EQUALS_SYMBOL || op === NOT_EQUALS_SYMBOL)
+                        return this.left.getType(context);
                     const fun = this.getFunction(context);
                     if (fun === undefined || fun.inputs.length === 0)
                         return new NeverType();
