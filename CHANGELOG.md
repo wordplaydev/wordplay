@@ -13,10 +13,10 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 📖 Added 11 new built-in how-to's to the [Guide](https://wordplay.dev/guide) on layout, the @Pointer stream, @Structure, picking from a list with @Random, conditional rendering, and physics with @Motion and @Matter.
 - 🔢 You can now do math with Han numerals for Chinese, Japanese, and Korean (#2), Thai (#6), and Indic numerals for Bengali, Devanagari, Gujarati, Gurmukhi, Kannada, Tamil, and Telugu (#5, #7).
 - 🌐 We added Bengali (#142), Indonesian (#148), and Romanian (#433)!
-- 🔣 The emoji + glyph chooser now lets you filter by language scripts (#322).
+- 🔣 The emoji/glyph chooser now lets you filter by language scripts (#322).
 - 📡 We added better feedback when the site is offline and saves are pending.
 - ⬆️ We added a "back to top" button on long pages.
-- 🌐 We made text, names, and docs multilingual: tag them like `/es_en` to mark them as a mix of languages (Spanglish, Franglais, and more), and then you can filter code and output by matching languages (#430).
+- 🌐 We made text, names, and docs multilingual: tag them like `'hola kitty'/es_en` to mark them as a mix of languages (Spanglish, Franglais, and more), and then you can filter code and output by matching languages (#430).
 - ⌨️ The @Key stream now shows and accepts key names in your language. French programs can write `Key('Espace')` and English programs can write `Key('Space')`, and autocomplete suggests the named keys in your locale (#11).
 - 🟰 In an equals comparison, we menu's now suggest what the right might be based on the left.
 - 🧱 Inside a structure, you can now mark a function or value with ↑ to make it belong to the structure itself instead of to instances. So you can write `Math.pi` and `Math.square(5)` without making a `Math()` first.

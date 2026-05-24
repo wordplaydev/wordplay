@@ -350,7 +350,17 @@
                             <div class="markup" class:note>
                                 {#each displayParagraphsAndLists as paragraphOrList, index}
                                     {#if paragraphOrList instanceof Paragraph}
-                                        <p
+                                        <!--
+                                            `div` rather than `p`: an inline
+                                            Example's NodeView produces a
+                                            `<div>` for the node-view wrapper,
+                                            and `<div>` isn't phrasing content
+                                            so `<p>` rejects it (SSR errors
+                                            and hydration mismatch). The
+                                            paragraph styling carries via the
+                                            `.paragraph` class either way.
+                                        -->
+                                        <div
                                             class="paragraph"
                                             class:animated={$animationFactor >
                                                 0}
@@ -363,7 +373,7 @@
                                                     alone={paragraphOrList
                                                         .segments.length === 1}
                                                     first={index === 0}
-                                                />{/each}</p
+                                                />{/each}</div
                                         >
                                     {:else}
                                         <ul
@@ -403,7 +413,7 @@
         {/each}
     {:else}<div class="markup" class:note
             >{#each paragraphsAndLists as paragraphOrList, index}{#if paragraphOrList instanceof Paragraph}
-                    <p
+                    <div
                         class="paragraph"
                         class:animated={$animationFactor > 0}
                         style="--delay:{$animationDuration * index * 0.1}ms"
@@ -412,7 +422,7 @@
                                 {spaces}
                                 alone={paragraphOrList.segments.length === 1}
                                 first={index === 0}
-                            />{/each}</p
+                            />{/each}</div
                     >{:else}<ul
                         class:animated={$animationFactor > 0}
                         style="--delay:{$animationDuration * index * 0.1}ms"
@@ -463,17 +473,14 @@
         }
     }
 
-    p {
+    .paragraph {
         margin-inline-start: 0;
+        margin-block-start: 0em;
+        margin-block-end: 1em;
     }
 
     .note {
         font-size: var(--wordplay-small-font-size);
-    }
-
-    p {
-        margin-block-start: 0em;
-        margin-block-end: 1em;
     }
 
     ul {
@@ -481,7 +488,7 @@
         margin-block-end: 1em;
     }
 
-    p:last-of-type {
+    .paragraph:last-of-type {
         margin-block-end: 0;
     }
 
