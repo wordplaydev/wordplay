@@ -84,6 +84,7 @@ describe('HowToDatabase atomic how-to + gallery updates', () => {
 
         mockDatabase = {
             getUser: vi.fn(() => ({ uid: 'user-1' })),
+            track: vi.fn(<T,>(p: Promise<T>) => p),
         };
 
         db = new HowToDatabase(mockDatabase);
