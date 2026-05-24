@@ -522,17 +522,25 @@ export default class Evaluate extends Expression {
                 fun instanceof StreamDefinition
             )
         ) {
-            conflicts.push(
-                new IncompatibleInput(
-                    this.fun instanceof PropertyReference
-                        ? (this.fun.name ?? this.fun)
-                        : this.fun,
-                    this.fun instanceof PropertyReference
-                        ? this.fun.structure.getType(context)
-                        : this.fun.getType(context),
-                    FunctionType.make(undefined, [], new AnyType()),
-                ),
-            );
+            // Suppress when the function expression's type is already UnknownType
+            // (e.g. `foo()` where `foo` is unknown) — the root-cause conflict is
+            // upstream.
+            const functionOrTarget =
+                this.fun instanceof PropertyReference
+                    ? this.fun.structure
+                    : this.fun;
+            if (!context.isUnknownDownstream(functionOrTarget))
+                conflicts.push(
+                    new IncompatibleInput(
+                        this.fun instanceof PropertyReference
+                            ? (this.fun.name ?? this.fun)
+                            : this.fun,
+                        this.fun instanceof PropertyReference
+                            ? this.fun.structure.getType(context)
+                            : this.fun.getType(context),
+                        FunctionType.make(undefined, [], new AnyType()),
+                    ),
+                );
             return conflicts;
         }
 
@@ -601,6 +609,7 @@ export default class Evaluate extends Expression {
                         given instanceof Input ? given.value : given;
                     const givenType = valueExpression.getType(context);
                     if (
+                        !context.isUnknownDownstream(valueExpression) &&
                         !expectedType.accepts(
                             givenType,
                             context,
@@ -640,6 +649,7 @@ export default class Evaluate extends Expression {
                         for (const item of given) {
                             const givenType = item.getType(context);
                             if (
+                                !context.isUnknownDownstream(item) &&
                                 expectedType instanceof ListType &&
                                 expectedType.type &&
                                 !expectedType.type.accepts(givenType, context)

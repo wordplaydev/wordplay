@@ -122,7 +122,10 @@ export default class Delete extends Expression {
         const tableType = this.table.getType(context);
 
         // Table must be table typed.
-        if (!(tableType instanceof TableType))
+        if (
+            !context.isUnknownDownstream(this.table) &&
+            !(tableType instanceof TableType)
+        )
             conflicts.push(
                 new IncompatibleInput(
                     this.table,
@@ -135,6 +138,7 @@ export default class Delete extends Expression {
         const queryType = this.query.getType(context);
         if (
             this.query instanceof Expression &&
+            !context.isUnknownDownstream(this.query) &&
             !(queryType instanceof BooleanType)
         )
             conflicts.push(

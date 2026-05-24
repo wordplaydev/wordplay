@@ -137,9 +137,10 @@ export default class Update extends Expression {
 
         // Table must be table typed.
         if (!(tableType instanceof TableType)) {
-            conflicts.push(
-                new IncompatibleInput(this, tableType, TableType.make([])),
-            );
+            if (!context.isUnknownDownstream(this.table))
+                conflicts.push(
+                    new IncompatibleInput(this, tableType, TableType.make([])),
+                );
             return conflicts;
         }
 
@@ -157,7 +158,10 @@ export default class Update extends Expression {
                 else if (columnType instanceof Bind) {
                     const bindType = columnType.getType(context);
                     const cellType = cell.getType(context);
-                    if (!bindType.accepts(cellType, context))
+                    if (
+                        !context.isUnknownDownstream(cell) &&
+                        !bindType.accepts(cellType, context)
+                    )
                         conflicts.push(
                             new IncompatibleCellType(
                                 tableType,
@@ -174,6 +178,7 @@ export default class Update extends Expression {
         const queryType = this.query.getType(context);
         if (
             this.query instanceof Expression &&
+            !context.isUnknownDownstream(this.query) &&
             !(queryType instanceof BooleanType)
         )
             conflicts.push(

@@ -136,7 +136,10 @@ export default class Conditional extends Expression {
         const children = [];
 
         const conditionType = this.condition.getType(context);
-        if (!(conditionType instanceof BooleanType))
+        if (
+            !context.isUnknownDownstream(this.condition) &&
+            !(conditionType instanceof BooleanType)
+        )
             children.push(new ExpectedBooleanCondition(this, conditionType));
 
         return children;

@@ -120,11 +120,15 @@ export default class Previous extends Expression {
         const valueType = this.stream.getType(context);
         const streamType = context.getStreamType(valueType);
 
-        if (streamType === undefined)
+        if (
+            streamType === undefined &&
+            !context.isUnknownDownstream(this.stream)
+        )
             return [new IncompatibleInput(this, valueType, StreamType.make())];
 
         const indexType = this.number.getType(context);
         if (
+            !context.isUnknownDownstream(this.number) &&
             !(
                 indexType instanceof NumberType &&
                 indexType.unit instanceof Unit &&

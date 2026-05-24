@@ -160,7 +160,10 @@ export default class Reaction extends Expression {
 
         // The condition must be boolean valued.
         const conditionType = this.condition.getType(context);
-        if (!(conditionType instanceof BooleanType))
+        if (
+            !context.isUnknownDownstream(this.condition) &&
+            !(conditionType instanceof BooleanType)
+        )
             conflicts.push(new ExpectedBooleanCondition(this, conditionType));
 
         // At least one dependency of the condition must be a stream.

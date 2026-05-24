@@ -121,7 +121,10 @@ export default class SetOrMapAccess extends Expression {
 
         const conflicts = [];
 
-        if (!(setMapType instanceof SetType || setMapType instanceof MapType))
+        if (
+            !context.isUnknownDownstream(this.setOrMap) &&
+            !(setMapType instanceof SetType || setMapType instanceof MapType)
+        )
             conflicts.push(
                 new IncompatibleInput(
                     this,
@@ -131,6 +134,7 @@ export default class SetOrMapAccess extends Expression {
             );
 
         if (
+            !context.isUnknownDownstream(this.key) &&
             (setMapType instanceof SetType || setMapType instanceof MapType) &&
             setMapType.key instanceof Type &&
             !setMapType.key.accepts(keyType, context)

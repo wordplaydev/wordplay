@@ -135,16 +135,18 @@ export default class UnaryEvaluate extends Expression {
         // Find the function on the left's type.
         const fun = this.getFunction(context);
 
-        // No match? Give a conflict.
-        if (fun === undefined)
-            conflicts.push(
-                new IncompatibleInput(
-                    this.fun,
-                    this.input.getType(context),
-                    FunctionType.make(undefined, [], new AnyType()),
-                ),
-            );
-        else if (fun.getRequiredInputs().length > 0) {
+        // No match? Give a conflict — unless the operand's type is already
+        // UnknownType, in which case the root-cause conflict is upstream.
+        if (fun === undefined) {
+            if (!context.isUnknownDownstream(this.input))
+                conflicts.push(
+                    new IncompatibleInput(
+                        this.fun,
+                        this.input.getType(context),
+                        FunctionType.make(undefined, [], new AnyType()),
+                    ),
+                );
+        } else if (fun.getRequiredInputs().length > 0) {
             conflicts.push(
                 new MissingInput(fun, this, this.input, fun.inputs[0]),
             );

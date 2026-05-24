@@ -219,7 +219,10 @@ export default class TableLiteral extends CompositeLiteral {
                     else {
                         const expected = column.getType(context);
                         const given = cell.getType(context);
-                        if (!expected.accepts(given, context))
+                        if (
+                            !context.isUnknownDownstream(cell) &&
+                            !expected.accepts(given, context)
+                        )
                             conflicts.push(
                                 new IncompatibleCellType(
                                     type,

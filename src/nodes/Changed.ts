@@ -99,7 +99,10 @@ export default class Changed extends SimpleExpression {
         const valueType = this.stream.getType(context);
         const streamType = context.getStreamType(valueType);
 
-        if (streamType === undefined)
+        if (
+            streamType === undefined &&
+            !context.isUnknownDownstream(this.stream)
+        )
             return [new IncompatibleInput(this, valueType, StreamType.make())];
 
         return [];

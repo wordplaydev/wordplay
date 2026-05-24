@@ -98,7 +98,10 @@ export default class PropertyBind extends Expression {
         const conflicts: Conflict[] = [];
 
         // If there's a type, the value must match.
-        if (!propertyType.accepts(valueType, context))
+        if (
+            !context.isUnknownDownstream(this.value) &&
+            !propertyType.accepts(valueType, context)
+        )
             conflicts.push(
                 new IncompatibleType(
                     this.reference,

@@ -332,8 +332,18 @@ export default class Project {
             const context = this.getContext(source);
 
             // Compute all of the conflicts in this source.
-            const sourceConflicts =
-                source.expression.getAllConflicts(context);
+            const rawConflicts = source.expression.getAllConflicts(context);
+
+            // Drop structural duplicates (same constructor + same Node fields).
+            // `Conflict.isEqualTo` exists but no caller used it for dedup; the
+            // Annotations UI did a defensive identity-Set pass instead. With
+            // the type-rooted cascade gates in place, true duplicates are
+            // already rare — this is a backstop for any that slip through. #1146
+            const sourceConflicts: Conflict[] = [];
+            for (const c of rawConflicts)
+                if (!sourceConflicts.some((d) => d.isEqualTo(c)))
+                    sourceConflicts.push(c);
+
             this.analysis.conflicts =
                 this.analysis.conflicts.concat(sourceConflicts);
 

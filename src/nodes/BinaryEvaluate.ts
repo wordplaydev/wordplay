@@ -229,15 +229,21 @@ export default class BinaryEvaluate extends Expression {
         // Find the function on the left's type.
         const fun = this.getFunction(context);
 
-        // Did we find nothing?
-        // if (fun === undefined)
-        //     return [
-        //         new IncompatibleInput(
-        //             this.fun,
-        //             this.left.getType(context),
-        //             FunctionType.make(undefined, [], new AnyType()),
-        //         ),
-        //     ];
+        // No matching operator on the left's type? Report it as the root cause
+        // so downstream type checks (e.g. Update.query) don't have to
+        // cascade-blame this. Suppressed when the left's type is already
+        // UnknownType (its own upstream conflict carries the explanation). #1146
+        if (fun === undefined) {
+            if (!context.isUnknownDownstream(this.left))
+                conflicts.push(
+                    new IncompatibleInput(
+                        this.fun,
+                        this.left.getType(context),
+                        FunctionType.make(undefined, [], new AnyType()),
+                    ),
+                );
+            return conflicts;
+        }
 
         // If it is a function, does the right match the expected input?
         if (fun instanceof FunctionDefinition) {
@@ -264,7 +270,10 @@ export default class BinaryEvaluate extends Expression {
                     );
 
                     // Pass this binary operation to the measurement type so it can reason about units correctly.
-                    if (!expectedType.accepts(rightType, context))
+                    if (
+                        !context.isUnknownDownstream(this.right) &&
+                        !expectedType.accepts(rightType, context)
+                    )
                         conflicts.push(
                             new IncompatibleInput(
                                 this.right,

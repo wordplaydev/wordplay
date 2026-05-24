@@ -5,6 +5,7 @@ import { testConflict, testTypes } from '@conflicts/TestUtilities';
 import UnexpectedInput from '@conflicts/UnexpectedInput';
 import UnexpectedTypeInput from '@conflicts/UnexpectedTypeInput';
 import UnknownInput from '@conflicts/UnknownInput';
+import { UnknownName } from '@conflicts/UnknownName';
 import { expect, test } from 'vitest';
 import type Conflict from '@conflicts/Conflict';
 import evaluateCode from '@runtime/evaluate';
@@ -13,14 +14,21 @@ import Evaluate from '@nodes/Evaluate';
 import MapType from '@nodes/MapType';
 import type Node from '@nodes/Node';
 import NumberType from '@nodes/NumberType';
+import Reference from '@nodes/Reference';
 import SetType from '@nodes/SetType';
 
 test.each([
+    // Calling an undefined function — reported as UnknownName on the Reference,
+    // not as a downstream IncompatibleInput on the Evaluate (#1146). nodeIndex
+    // 3 picks the fourth Reference in the program (`add`/`sum`): the body
+    // `a + b` contains References to `a`, `+` (BinaryEvaluate's operator), and
+    // `b` before we reach the call site.
     [
         'add: ƒ(a•# b•#) a + b\nadd(1 2)',
         'add: ƒ(a•# b•#) a + b\nsum(1 2)',
-        Evaluate,
-        IncompatibleInput,
+        Reference,
+        UnknownName,
+        3,
     ],
     [
         '•Cat() (add: ƒ(a•# b•#) a)\nCat()',

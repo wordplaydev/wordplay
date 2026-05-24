@@ -48,7 +48,6 @@ import Type from '@nodes/Type';
 import TypePlaceholder from '@nodes/TypePlaceholder';
 import type TypeSet from '@nodes/TypeSet';
 import TypeToken from '@nodes/TypeToken';
-import UnknownType from '@nodes/UnknownType';
 
 export default class Bind extends Expression {
     readonly docs: Docs;
@@ -397,7 +396,10 @@ export default class Bind extends Expression {
             this.value instanceof Expression
         ) {
             const valueType = this.value.getType(context);
-            if (!this.type.accepts(valueType, context))
+            if (
+                !context.isUnknownDownstream(this.value) &&
+                !this.type.accepts(valueType, context)
+            )
                 conflicts.push(
                     new IncompatibleType(
                         this.names,
@@ -552,8 +554,12 @@ export default class Bind extends Expression {
         // What type is this binding?
         let type = this.getSpecifiedType() ?? valueType;
 
-        if (type === undefined || type instanceof UnknownType)
-            type = this.getExpectedType(context);
+        // Only fall back to the inferred-from-context expected type when we
+        // have *nothing* — declared type and value both absent. If the value's
+        // type is corrupt (UnknownType), propagate that corruption so
+        // downstream consumers can suppress cascading conflicts via
+        // {@link Context.isUnknownDownstream}. (#1146)
+        if (type === undefined) type = this.getExpectedType(context);
 
         // If the type is a name, and it refers to a structure, resolve it.
         // Leave any other names (namely those that refer to type variables) to be concretized by others.
