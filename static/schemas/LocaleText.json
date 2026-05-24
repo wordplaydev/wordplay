@@ -3075,6 +3075,372 @@
                   "$ref": "#/definitions/NameAndDoc",
                   "description": "The optional key to listen for"
                 },
+                "keys": {
+                  "additionalProperties": false,
+                  "description": "Per-locale translations for the named keys `Key()` can emit (Space, Enter, ArrowUp, etc.). Keyed by the canonical English `KeyboardEvent.key` string from [KeyboardKeys.ts](src/input/KeyboardKeys.ts). Each value is an array whose first entry is this locale's display name (what `Key()` emits) and any remaining entries are accepted aliases for the `key` filter argument. The record's literal-key type pins every `WellKnownKey` as required so the locale verifier and `locales-fix` ensure full coverage in every locale.",
+                  "properties": {
+                    " ": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "Alt": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "AltGraph": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "ArrowDown": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "ArrowLeft": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "ArrowRight": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "ArrowUp": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "Backspace": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "CapsLock": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "Clear": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "ContextMenu": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "Control": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "Convert": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "Copy": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "Cut": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "Delete": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "End": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "Enter": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "Escape": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "F1": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "F10": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "F11": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "F12": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "F2": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "F3": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "F4": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "F5": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "F6": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "F7": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "F8": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "F9": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "HangulMode": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "Help": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "Hiragana": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "Home": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "Insert": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "KanaMode": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "Katakana": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "Meta": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "NonConvert": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "NumLock": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "PageDown": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "PageUp": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "Paste": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "Pause": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "Redo": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "Romaji": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "ScrollLock": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "Shift": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "Tab": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "Undo": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "Shift",
+                    "Control",
+                    "Alt",
+                    "Meta",
+                    "AltGraph",
+                    "CapsLock",
+                    "NumLock",
+                    "ScrollLock",
+                    "Enter",
+                    "Tab",
+                    " ",
+                    "ArrowUp",
+                    "ArrowDown",
+                    "ArrowLeft",
+                    "ArrowRight",
+                    "Home",
+                    "End",
+                    "PageUp",
+                    "PageDown",
+                    "Backspace",
+                    "Delete",
+                    "Insert",
+                    "Clear",
+                    "Cut",
+                    "Copy",
+                    "Paste",
+                    "Undo",
+                    "Redo",
+                    "Escape",
+                    "Pause",
+                    "ContextMenu",
+                    "Help",
+                    "Convert",
+                    "NonConvert",
+                    "KanaMode",
+                    "HangulMode",
+                    "Hiragana",
+                    "Katakana",
+                    "Romaji",
+                    "F1",
+                    "F2",
+                    "F3",
+                    "F4",
+                    "F5",
+                    "F6",
+                    "F7",
+                    "F8",
+                    "F9",
+                    "F10",
+                    "F11",
+                    "F12"
+                  ],
+                  "type": "object"
+                },
                 "names": {
                   "$ref": "#/definitions/NameText",
                   "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
@@ -3084,6 +3450,7 @@
                 "doc",
                 "down",
                 "key",
+                "keys",
                 "names"
               ],
               "type": "object"

@@ -875,7 +875,8 @@
         "pick-from-a-list",
         "show-when",
         "gravity-and-bouncing",
-        "gallery-how-to"
+        "gallery-how-to",
+        "mix-languages-in-text"
       ],
       "type": "string"
     },

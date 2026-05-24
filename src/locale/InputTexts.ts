@@ -1,3 +1,4 @@
+import type { WellKnownKey } from '@input/KeyboardKeys';
 import type { NameAndDoc } from '@locale/LocaleText';
 
 type InputTexts = {
@@ -18,6 +19,15 @@ type InputTexts = {
         key: NameAndDoc;
         /** The optional up or down state to notify about */
         down: NameAndDoc;
+        /** Per-locale translations for the named keys `Key()` can emit
+         *  (Space, Enter, ArrowUp, etc.). Keyed by the canonical English
+         *  `KeyboardEvent.key` string from [KeyboardKeys.ts](src/input/KeyboardKeys.ts).
+         *  Each value is an array whose first entry is this locale's display
+         *  name (what `Key()` emits) and any remaining entries are accepted
+         *  aliases for the `key` filter argument. The record's literal-key
+         *  type pins every `WellKnownKey` as required so the locale verifier
+         *  and `locales-fix` ensure full coverage in every locale. */
+        keys: Record<WellKnownKey, string[]>;
     };
     /** A stream of times since evaluation began */
     Time: NameAndDoc & {

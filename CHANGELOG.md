@@ -17,6 +17,8 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 📡 We added better feedback when the site is offline and saves are pending.
 - ⬆️ We added a "back to top" button on long pages.
 - 🌐 We made text, names, and docs multilingual: tag them like `/es_en` to mark them as a mix of languages (Spanglish, Franglais, and more), and then you can filter code and output by matching languages (#430).
+- ⌨️ The @Key stream now shows and accepts key names in your language. French programs can write `Key('Espace')` and English programs can write `Key('Space')`, and autocomplete suggests the named keys in your locale (#11).
+- 🟰 In an equals comparison, we menu's now suggest what the right might be based on the left.
 
 ### Changed
 
@@ -36,6 +38,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 🚦 We fixed a false conflict that appeared on anonymous functions in expressions like \[1 2 3 4].translate(ƒ(a) a + 1)\, even when the code was fine.
 - 🚦 We fixed the conflict underlines so they follow the code when values pop in next to expressions while stepping through the debugger.
 - 🌐 We fixed several localization problems in machine translated locales (#122).
+- 🐞 We fixed three problems related to type checking in conditionals.
 
 ## 0.18.0 - 2026-05-15
 
