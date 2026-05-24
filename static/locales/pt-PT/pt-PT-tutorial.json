@@ -152,14 +152,14 @@
                         [
                             "Program",
                             "serious",
-                            "$~Hum… é mesmo uma pessoa. E quer conduzir?"
+                            "Hum… é mesmo uma pessoa. E quer dirigir?"
                         ],
                         null,
                         ["fit", "Phrase('📄' resting: Pose(rotation: 010°))"],
                         [
                             "Program",
                             "excited",
-                            "$~Entendi. O @FunctionDefinition contou-te alguma coisa sobre nós? Muita gente tenta orientar-nos, mas algumas pessoas ficam confusas, aborrecidas ou até irritadas connosco. Às vezes somos um bocado lerdos. Mas tenho orgulho no que fazemos, por isso não quero trabalhar com qualquer pessoa."
+                            "Entendi. O @FunctionDefinition contou-te alguma coisa sobre nós? Muita gente tenta dirigir-nos, mas algumas pessoas ficam confusas, aborrecidas ou até irritadas connosco. Às vezes somos um bocado lerdos. Mas tenho orgulho no que fazemos, por isso não quero trabalhar com qualquer pessoa."
                         ],
                         null,
                         [
@@ -170,7 +170,7 @@
                         [
                             "Program",
                             "serious",
-                            "$~Certo. Bom, prazer em conhecê-lo(a). Desculpem, mas muitas pessoas vêm aqui e dizem \"isto não é para mim\", e isso deixou-me um pouco cético(a) em relação a quem tenta durante algum tempo e depois desiste. Não deveria ter de mudar quem sou para me encaixar nas expectativas das pessoas. Mas se estiver disposto(a) a aprender sobre mim e sobre nós, vamos tentar!"
+                            "Certo. Bom, prazer em conhecê-lo(a). Desculpe, mas muitas pessoas vêm aqui e dizem \"isto não é para mim\", e isso deixou-me um pouco cético(a) em relação a quem tenta durante algum tempo e depois desiste. Não deveria ter de mudar quem sou para me encaixar nas expectativas das pessoas. Mas se estiver disposto(a) a aprender sobre mim e sobre nós, vamos tentar!"
                         ],
                         null,
                         ["edit", ""],
@@ -200,15 +200,15 @@
                             "Program",
                             "serious",
                             "$~As instruções podem ser tão complexas quanto desejar, mas existem algumas regras.",
-                            "Por exemplo, eu avalio para um *valor* e mostro esse valor no palco. Esse valor pode ser tão complexo quanto quiser, e desde que eu saiba como mostrá-lo, assim o farei.",
-                            "Se me der mais do que uma expressão, eu junto os seus valores numa *lista* e mostro essa lista.",
+                            "$~Por exemplo, só posso avaliar um *valor* e mostrar esse valor no palco. Este valor pode ser tão complexo quanto quiser, e desde que eu saiba como mostrá-lo, assim o farei.",
+                            "$~Mas se me der duas coisas, só lhe mostrarei a última que me der.",
                             "$~Por exemplo, tente adicionar outra linha e depois digitar a palavra que pretende, entre aspas."
                         ],
                         null,
                         [
                             "Program",
                             "serious",
-                            "Viu? Juntei ambas as frases numa lista e coloquei-as no palco."
+                            "$~Viu? Mostrei apenas a sua segunda frase, não a primeira. Sabes que quebraste a minha regra porque eu sublinhei a tua primeira frase e nós dissemos que a iríamos ignorar."
                         ],
                         null,
                         ["use", "fit", "Symbol", "🎭"],
@@ -220,7 +220,7 @@
                         [
                             "Program",
                             "serious",
-                            "Sim e não. Posso fazer muita coisa, mas só porque trabalho com todos os outros no *Universo*. São eles que trazem todas as possibilidades entusiasmantes para o *palco*. Tudo o que realmente faço é deixá-los fazer o seu trabalho e depois trazer o valor que criaram — um número, um texto, uma frase ou uma lista de valores — para o palco."
+                            "$~Sim e não. Posso fazer muita coisa, mas só porque trabalho com todos os outros no *Universo*. São eles que trazem todas as possibilidades entusiasmantes para o *palco*. Tudo o que realmente faço é deixá-los fazer o que sabem e depois pegar na última coisa que criaram e mostrá-la em palco. Sou mais como um acompanhante que traz o *valor* final para o palco, como números, textos, frases ou outros valores."
                         ],
                         null,
                         [
@@ -270,7 +270,7 @@
                             "kind",
                             "$~Sim, sou eu. Faz tanto tempo. Como está?"
                         ],
-                        ["ExpressionPlaceholder", "scared", "$~Solitário."],
+                        ["ExpressionPlaceholder", "scared", "Só."],
                         null,
                         [
                             "FunctionDefinition",
@@ -315,7 +315,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "$~Mas são poderosos porque podem representar qualquer outra pessoa, como um substituto até que decida o que quer que uma parte da sua performance represente. @ExpressionPlaceholder, quer ocupar um lugar neste @Program só para ilustrar? Vê como há um pequeno espaço reservado em @Program @UI/ExpressionPlaceholder? Isto indica o que pode colocar lá."
+                            "Mas são poderosos porque podem representar qualquer outro, como um substituto até que decida o que quer que uma parte da sua performance represente. @ExpressionPlaceholder, quer ocupar um lugar neste @Program só para ilustrar? Vê como há um pequeno espaço reservado em @Program @UI/ExpressionPlaceholder? Isto indica o que pode colocar lá."
                         ],
                         null,
                         [
@@ -331,7 +331,7 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "$~Assim, do nada, @ExpressionPlaceholder foi substituído por outros caracteres. Já percebi tudo, @ExpressionPlaceholder?"
+                            "E pronto, @ExpressionPlaceholder foi substituído por outros caracteres. Já percebi tudo, @ExpressionPlaceholder?"
                         ],
                         [
                             "ExpressionPlaceholder",
@@ -466,7 +466,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "$~Assim, @UnparsableExpression quer que tente criar o máximo possível deles. (Pode simplesmente digitar um monte de caracteres aleatórios e provavelmente conseguirá vários)."
+                            "$~Entãooo, @UnparsableExpression quer que tente criar o máximo possível deles. (Pode simplesmente digitar um monte de caracteres aleatórios e provavelmente conseguirá vários)."
                         ],
                         ["edit", ""],
                         null,
@@ -520,23 +520,23 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "$~Sim, sou eu. Onde está?"
+                            "Sim, sou eu. Onde estas?"
                         ],
                         [
                             "Evaluate",
                             "shy",
-                            "$~Em lado nenhum. Não estou em lado nenhum. Não sou nada. Onde esteve?"
+                            "Em lado nenhum. Não estou em lado nenhum. Não sou nada. Onde estiveste?"
                         ],
                         null,
                         [
                             "FunctionDefinition",
                             "sad",
-                            "$~Eu também já estive... em lado nenhum. Senti a sua falta. Não te consegui encontrar."
+                            "Eu também estive... em lado nenhum. Senti a sua falta. Não te consegui encontrar."
                         ],
                         [
                             "Evaluate",
                             "shy",
-                            "$~Estava tão vazio. Eu... tentei fazer coisas, mas senti-me tão... sem rumo."
+                            "Estava tão vazio. Eu... tentei fazer coisas, mas senti-me tão... sem rumo."
                         ],
                         null,
                         [
@@ -547,7 +547,7 @@
                         [
                             "Evaluate",
                             "sad",
-                            "$~Nunca mais me deixe assim. Não posso fazer isto outra vez."
+                            "$~Nunca mais me deixas assim. Não posso fazer isto outra vez."
                         ],
                         null,
                         [
@@ -607,7 +607,7 @@
                         [
                             "Evaluate",
                             "serious",
-                            "$~Eis a razão de isto ser tão poderoso: acontece que tudo em @Program é uma composição de avaliações de funções. Todas as danças, todos os jogos, todas as histórias maravilhosas que contamos juntos — tudo isto é uma tapeçaria de funções a serem avaliadas, uma de cada vez, para compor os valores que se vêem em palco.",
+                            "Eis porque é que e tão poderoso: acontece que tudo em @Program é uma composição de avaliações de funções. Todas as danças, todos os jogos, todas as histórias maravilhosas que contamos juntos — tudo isto é uma tapeçaria de funções a serem avaliadas, uma de cada vez, para compor os valores que se vêem em palco.",
                             "$~E @FunctionDefinition, aqui, a minha querida @FunctionDefinition, é quem as define todas."
                         ],
                         null,
@@ -621,7 +621,7 @@
                         [
                             "FunctionDefinition",
                             "happy",
-                            "$~… Sim, vamos mostrar-lhes."
+                            "… Sim, vamos mostrar-lhe."
                         ],
                         null,
                         [
@@ -635,7 +635,7 @@
                         [
                             "Evaluate",
                             "serious",
-                            "$~Eis uma das minhas funções favoritas: @Phrase. Está repleta de botões, controlos e sliders divertidos. É uma forma de exibir texto no palco com estilo, incluindo diferentes tipos de letra, tamanhos, cores e animações.",
+                            "Aqui está uma das minhas funções favoritas: @Phrase. Está repleta de botões, controlos e sliders divertidos. É uma forma de exibir texto no palco com estilo, incluindo diferentes tipos de letra, tamanhos, cores e animações.",
                             "$~Aqui está uma avaliação simples de @Phrase @UI/Evaluate."
                         ],
                         null,
@@ -663,7 +663,7 @@
                         [
                             "FunctionDefinition",
                             "happy",
-                            "$~Eba! @Phrase é muito divertido. É a minha função favorita para brincar. Vamos vê-la muito mais vezes. Quer dizer algo sobre o que pode correr mal?"
+                            "Viva! @Phrase é muito divertido. É a minha função favorita para brincar. Vamos vê-la muito mais vezes. Quer dizer algo sobre o que pode correr mal?"
                         ],
                         [
                             "Evaluate",
@@ -715,7 +715,7 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "$~… Eu sei, @Evaluate; já volto. Vamos lá ao encontro do resto da trupe!"
+                            "… Eu sei, @Evaluate; já volto. Vamos lá nos encontrar com o resto da trupe!"
                         ]
                     ]
                 }
@@ -794,7 +794,7 @@
                         [
                             "Text",
                             "happy",
-                            "$~Bem-vindo, meu caro amigo, há quanto tempo! O que tem feito neste nosso silêncio dramático?"
+                            "Bem-vindo, meu caro amigo, há quanto tempo! O que tens feito neste nosso silêncio dramático?"
                         ],
                         null,
                         [
@@ -889,7 +889,7 @@
                             "Text",
                             "happy",
                             "$~Não é muito mais elegante assim? Pode colocar-me em qualquer lugar dentro de um @Text, e eu transformarei os seus valores em texto e trabalharei com o @Text para criar outro @Text.",
-                            "$~Isto torna muito mais fácil escrever uma prosa bonita que utilize valores."
+                            "Isto torna muito mais fácil escrever uma prosa bonita que utiliza valores."
                         ],
                         ["edit", "'I have \\7\\ apples'"],
                         null,
@@ -969,7 +969,7 @@
                         [
                             "FunctionDefinition",
                             "happy",
-                            "$~Sabes, fico a pensar no @Evaluate e em como estivemos separados durante tanto tempo. Senti a falta deles, e eles obviamente sentiram a minha, mas só esperava que este tempo longe os ajudasse a perceber o quão incríveis são."
+                            "Sabes, fico a pensar no @Evaluate e em como estivemos separados durante tanto tempo. Senti a sua falta, e é óbvio que também sentiu a minha, mas só esperava que este tempo longe os ajudasse a perceber o quão incríveis são."
                         ],
                         null,
                         [
@@ -996,7 +996,7 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "$~Mas é muito mais fácil usar apenas o sinal + para isso."
+                            "Mas é muito mais fácil usar apenas o sinal \\+\\ para isso."
                         ],
                         ["edit", "'hello ' + ' verse'"],
                         null,
@@ -1087,7 +1087,7 @@
                         [
                             "FunctionDefinition",
                             "sad",
-                            "$~Sim, mas o que é que faz?"
+                            "Sim, mas o que é que tu fazes?"
                         ],
                         ["⊤", "precise", "$~Eu sou simplesmente sincero."],
                         ["⊥", "precise", "$~E eu não sou verdadeiro."],
@@ -1150,8 +1150,8 @@
                             "excited",
                             "$~Mas o outro era @Boolean/not?"
                         ],
-                        ["⊤", "precise", "$~Correto. ~⊤ = ⊥."],
-                        ["⊥", "precise", "$~Não está errado. ~⊥ = ⊤."],
+                        ["⊤", "precise", "Correto. \\~⊤ = ⊥.\\"],
+                        ["⊥", "precise", "Não errado. \\~⊥ = ⊤.\\"],
                         [
                             "FunctionDefinition",
                             "neutral",
@@ -1224,7 +1224,7 @@
                     ]
                 },
                 {
-                    "title": "$~Deixe-me contar-lhe as maneiras.",
+                    "title": "Deixe-me contar as maneiras.",
                     "subtitle": "$~Números",
                     "concept": "Number",
                     "performance": [
@@ -1471,14 +1471,14 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "$~Acha que consegue atingir mais um valor? Vamos procurar o @None a seguir. São um pouco mais tranquilos que o @Number. @None? Você está aí?"
+                            "Acha que consegues conhecer mais um valor? Vamos procurar o @None a seguir. São um pouco mais tranquilos que o @Number. @None? Você está aí?"
                         ],
                         ["None", "bored", "$~…"],
                         null,
                         [
                             "FunctionDefinition",
                             "excited",
-                            "$~Nós encontrámo-lo! Parece bem. Como tem passado este período de silêncio?"
+                            "Nós encontrámo-te! Parece bem. Como tem passado este período de silêncio?"
                         ],
                         ["None", "excited", "$~…"],
                         null,
@@ -1533,7 +1533,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~Eles acham que está a fazer muito bem! E também acho que está a fazer muito bem. Já conheceu muitos dos nossos maravilhosos jogadores. E ainda há muitos outros para conhecer…"
+                            "Eles acham que estas a fazer muito bem! E também acho que estas a fazer muito bem. Já conheceste muitos dos nossos maravilhosos jogadores. E ainda há muitos outros para conhecer…"
                         ]
                     ]
                 }
@@ -1557,7 +1557,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~Sabe uma coisa? Os valores na nossa comunidade são muito diferentes. @Text com os seus vastos universos culturais do mundo das pessoas… @Boolean com as suas visões binárias do mundo… @Number com o seu fascínio infinito por contar coisas… @None com a sua forma silenciosa de observar a ausência de coisas… O nosso mundo nunca é aborrecido!"
+                            "Sabes uma coisa? Os valores na nossa comunidade são muito diferentes. @Text com os seus vastos universos culturais do mundo das pessoas… @Boolean com as suas visões binárias do mundo… @Number com o seu fascínio infinito por contar coisas… @None com a sua forma silenciosa de observar a ausência de coisas… O nosso mundo nunca é aborrecido!"
                         ],
                         [
                             "fit",
@@ -1577,7 +1577,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "$~Quer conhecê-los? Comecemos pela @List… foram a primeira coleção que conheci e provavelmente a mais visível na nossa comunidade, uma vez que são muito úteis para organizar outros valores para performances."
+                            "Quer conhecê-la? Comecemos pela @List… foram a primeira coleção que conheci e provavelmente a mais visível na nossa comunidade, uma vez que são muito úteis para organizar outros valores para performances."
                         ],
                         ["use", "fit", "Symbol", "[]"]
                     ]
@@ -1659,7 +1659,7 @@
                         [
                             "List",
                             "serious",
-                            "$~Este também está avariado. Pode consertá-lo?"
+                            "Este também está avariado. Pode arrangar-lo?"
                         ],
                         ["conflict", "] 1 2 3 4 ["],
                         null,
@@ -1772,7 +1772,7 @@
                         [
                             "Set",
                             "kind",
-                            "$~Oh, que prazer conhecê-lo, novo diretor! Já tem alguma ideia? O que vamos apresentar? Posso ajudar? O que precisa de mim?"
+                            "Oh, que prazer conhecer-te, novo diretor! Já tem alguma ideia? O que vamos apresentar? Posso ajudar? O que precisas de mim?"
                         ],
                         [
                             "FunctionDefinition",
@@ -1804,7 +1804,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~@Set, há outras coisas que possa fazer com valores definidos?"
+                            "@Set, há outras coisas que possa fazer com valores de conjuntos?"
                         ],
                         [
                             "Set",
@@ -1828,7 +1828,7 @@
                         [
                             "Set",
                             "eager",
-                            "$~Também pode adicionar e remover coisas de conjuntos. Isto pega no conjunto {1}, adiciona-lhe {2} e depois remove-lhe 1, deixando {2}."
+                            "Também pode adicionar e remover coisas de conjuntos. Isto pega no conjunto \\{1}\\, adiciona-lhe \\2\\ e depois remove-lhe 1, deixando \\{2}\\."
                         ],
                         ["edit", "({ 1 } + 2) - 1"],
                         [
@@ -1849,7 +1849,7 @@
                         [
                             "FunctionDefinition",
                             "sad",
-                            "$~Eles estão bem. Nós estamos bem. Eu acho que… não sei. Talvez já tenha passado muito tempo desde que dançámos juntos. Quando estou perto deles, sinto que não se vêem, e por isso não me vêem."
+                            "Eles estão OK. Nós estamos OK. Eu acho que… não sei. Talvez já tenha passado muito tempo desde que dançámos juntos. Quando estou perto deles, sinto que não se vêem, e por isso não me vêem."
                         ],
                         [
                             "Set",
@@ -1900,7 +1900,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~Tenho estado bem, apenas um pouco sozinho e bastante aborrecido."
+                            "Tenho estado OK, apenas um pouco sozinho e bastante aborrecido."
                         ],
                         null,
                         [
@@ -2009,7 +2009,7 @@
                             "Map",
                             "neutral",
                             "$~Pode usar o nosso amigo @Otherwise se preferir tratar um @None de outra forma.",
-                            "$~Aqui, por exemplo, assumimos o valor por defeito de \\0 pontos\\ se não existir qualquer valor."
+                            "Aqui, por exemplo, assumimos o valor por defeito de \\0pontos\\ se não existir qualquer valor."
                         ],
                         [
                             "edit",
@@ -2025,7 +2025,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "$~Obrigada, @Map! Você é fabulosa."
+                            "Obrigada, @Map! /Tu/ és fabulosa."
                         ]
                     ]
                 }
@@ -2069,7 +2069,7 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "$~Importa-se que façamos uma breve pausa para conhecer outras duas pessoas antes de chegarmos às partes realmente entusiasmantes? Estas duas personagens são essenciais para trabalharmos os valores e, principalmente, o texto; precisamos de falar sobre eles antes de abordarmos os aspetos mais espetaculares."
+                            "Importa-se damos um salto para conhecer outras duas pessoas antes de chegarmos às partes realmente entusiasmantes? Estas duas personagens são essenciais para trabalharmos os valores e, principalmente, o texto; precisamos de falar sobre eles antes de abordarmos os aspetos mais espetaculares."
                         ],
                         null,
                         [
@@ -2131,7 +2131,7 @@
                         [
                             "Convert",
                             "kind",
-                            "$~E imagine que queria que fosse um texto. Inclua-me ali com @Text e pronto, tem um texto!"
+                            "E imagine que querias que fosse um texto. Inclua-me ali com @Text e pronto, tem um texto!"
                         ],
                         ["edit", "1 → ''"],
                         null,
@@ -2189,7 +2189,7 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "$~Certo, faz sentido. Assim, existem apenas algumas conversões, não todas as conversões possíveis."
+                            "Certo, isso faz sentido. Então, existem apenas algumas conversões, não todas as conversões possíveis."
                         ],
                         [
                             "Convert",
@@ -2235,7 +2235,7 @@
                         [
                             "Convert",
                             "surprised",
-                            "$~Em breve. Sim… Sim! Com certeza, sim."
+                            "Em breve. Sim… Sim! Certamente, sim."
                         ]
                     ]
                 },
@@ -2255,7 +2255,7 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "$~Para que fique claro, nem todas as decisões são minhas: eu tenho a minha vida e eles têm a deles. Mas, numa apresentação, quando estamos a decidir o que fazer a seguir em palco, cabe-lhes a eles seguir a minha orientação enquanto encenador e decidir o que fazer. Por isso, são parceiros fundamentais na criação de apresentações empolgantes."
+                            "Para que fique claro, nem todas as decisões: eu tenho a minha vida e eles têm a deles. Mas, numa apresentação, quando estamos a decidir o que fazer a seguir em palco, cabe-lhes a eles seguir a minha orientação enquanto encenador e decidir o que fazer. Por isso, são parceiros fundamentais na criação de apresentações empolgantes."
                         ],
                         null,
                         ["use", "fit", "SpinningInTheDark", "?"],
@@ -2267,7 +2267,7 @@
                         [
                             "Conditional",
                             "curious",
-                            "$~@FunctionDefinition? O silêncio está a ser quebrado? O que é o silêncio? Como quebrá-lo? Será que alguma vez ficamos realmente em silêncio? Quem é essa pessoa? Será que é ela que está a quebrar o silêncio?"
+                            "@FunctionDefinition? O silêncio está a ser quebrado? O que é o silêncio? Como quebrá-lo? Será que alguma vez ficamos realmente em silêncio? Quem é essa pessoa? Será que é ele(a) que está a quebrar o silêncio?"
                         ],
                         null,
                         [
@@ -2308,7 +2308,7 @@
                         [
                             "FunctionDefinition",
                             "sad",
-                            "$~Hum, acho que é uma decisão, mas é uma decisão errada. Um não é menos de cinco. Acho que as suas decisões nem sempre são acertadas, mas são fiáveis, não é?"
+                            "Hum... é uma decisão, mas é uma decisão errada. Um não é menos de cinco. Acho que as suas decisões nem sempre são acertadas, mas são fiáveis, não é?"
                         ],
                         null,
                         [
@@ -2326,7 +2326,7 @@
                         [
                             "Conditional",
                             "curious",
-                            "$~Com cautela? Talvez com ceticismo? Já pensaram nos meus amigos do @BooleanLiteral? Como é que a sua visão do mundo seria suficiente para representar todas as decisões que gostaríamos de tomar? E se, por exemplo, quiséssemos uma performance que pegasse no nome de alguém e decidisse se era bonito ou não? Será esta uma decisão verdadeira ou falsa? Seria esta uma decisão que deveríamos tomar? Não parece extremamente redutor e tendencioso?",
+                            "Com cuidado? Talvez com ceticismo? Já pensaram nos meus amigos do @BooleanLiteral? Como é que a sua visão do mundo seria suficiente para representar todas as decisões que gostaríamos de tomar? E se, por exemplo, quiséssemos uma performance que pegasse no nome de alguém e decidisse se era bonito ou não? Será esta uma decisão verdadeira ou falsa? Seria esta uma decisão que deveríamos tomar? Não parece extremamente redutor e tendencioso?",
                             "$~Diretor, que letras acha que tornam um nome bonito?"
                         ],
                         ["edit", "'Verse'.has('e') ? 'beautiful' 'ugly'"],
@@ -2360,7 +2360,7 @@
                         [
                             "Conditional",
                             "happy",
-                            "$~Será que alguma coisa me faria mais feliz?"
+                            "Haverá algo que me faça mais feliz?"
                         ]
                     ]
                 }
@@ -2426,7 +2426,7 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "$~Vê estes 1000ms? É um parâmetro `@Time/frequency` que indica ao `@Time` para executar um tick a cada 1000 milissegundos, em vez do padrão de 33 milissegundos. Agora funciona como um contador que executa um tick a cada segundo. Estas entradas que o `@Time` recebe são como uma configuração: dizem ao fluxo como se deve comportar."
+                            "Vê estes \\1000ms\\? É um parâmetro `@Time/frequency` que indica ao `@Time` para executar um tick a cada 1000 milissegundos, em vez do padrão de 33 milissegundos. Agora funciona como um contador que executa um tick a cada segundo. Estas entradas que o `@Time` recebe são como uma configuração: dizem ao fluxo como se deve comportar."
                         ],
                         ["Time", "neutral", "$~tic… tic… tic… tic… tic…"],
                         ["edit", "Time(1000ms)"],
@@ -2482,7 +2482,7 @@
                             "neutral",
                             "$~Aqui está um exemplo simples. Clique no palco ou seleccione-o com o teclado e pressione qualquer tecla. Verá a tecla digitada aparecer com o nome. Isto acontece porque, a cada alteração no fluxo de teclas, o @Program avalia o fluxo de teclas com o seu valor mais recente e exibe-o no palco."
                         ],
-                        ["Key", "neutral", "$~clicicicicicicic"],
+                        ["Key", "neutral", "clic clic clic"],
                         ["edit", "Key()"],
                         null,
                         [
@@ -2639,7 +2639,7 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "$~A aleatoriedade pode ser muito divertida! Podemos usá-la com fluxos de dados para criar um caos divertido. Por exemplo, aqui escolhemos uma palavra aleatória de uma lista de palavras. Isto é o mesmo que `['kitty' 'cat' 'feline'].random()`. Continue a premir ↻ para obter um sinónimo diferente para \"gato\"! Experimente adicionar a sua própria palavra à lista e veja se consegue fazê-la aparecer."
+                            "O aleatorio pode ser muito divertido! Podemos usá-lo com fluxos de dados para criar um caos divertido. Por exemplo, aqui escolhemos uma palavra aleatória de uma lista de palavras. Isto é o mesmo que `['kitty' 'cat' 'feline'].random()`. Continue a premir ↻ para obter um sinónimo diferente para \"gato\"! Experimente adicionar a sua própria palavra à lista e veja se consegue fazê-la aparecer."
                         ],
                         ["Random", "neutral", "$~1… 2… 2… 1… 3…"],
                         ["edit", "['kitty' 'cat' 'feline'][Random(1 3)]"]
@@ -2674,7 +2674,7 @@
                             "FunctionDefinition",
                             "kind",
                             "$~Existem muitas formas de o personalizar. Por exemplo, se quiser alterar a forma como se move, pode definir uma distância.",
-                            "$~Veja como definimos o valor inicial como 0,5? Agora, mexe-se um pouco menos. Tente alterar para um número diferente!"
+                            "Veja como definimos o valor inicial como \\0,5\\? Agora, mexe-se um pouco menos. Tente alterar para um número diferente!"
                         ],
                         null,
                         [
@@ -2722,7 +2722,7 @@
                             "FunctionDefinition",
                             "excited",
                             "$~Mas a bola continua a cair porque não há chão! Podemos colocar algo chamado @Shape no @Stage, como por exemplo um @Rectangle. Ocupa dois cantos. Vamos deixá-lo bem grosso.",
-                            "$~Hum, ele cai através do chão..."
+                            "Hum, ele cai pelo chão..."
                         ],
                         ["Motion", "excited", "$~/Uau…/"],
                         null,
@@ -2811,7 +2811,7 @@
                             "FunctionDefinition",
                             "kind",
                             "$~Pode fazer muito mais com @Motion, @Collision e @Shape!",
-                            "$~Espero que experimente muitas coisas que o fazem saltar."
+                            "Espero que experimente muitas coisas saltitantes."
                         ]
                     ]
                 },
@@ -2888,7 +2888,7 @@
                     ]
                 },
                 {
-                    "title": "$~Na hora certa",
+                    "title": "Na deixa",
                     "subtitle": "$~Reação",
                     "concept": "Reaction",
                     "performance": ["use", "fit", "Symbol", "…"],
@@ -2921,7 +2921,7 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "$~Sim! Este é o nosso potencial novo diretor. Eu estava a mostrar-lhes @Time, @Key, @Pointer, @Button, @Volume e @Random, por isso provavelmente repararam em todas as novas entradas que eles trouxeram do mundo deles."
+                            "Sim! Este é o nosso potencial novo diretor(a). Eu estava a mostrar-lhes @Time, @Key, @Pointer, @Button, @Volume e @Random, por isso provavelmente repararam em todas as novas entradas que eles trouxeram do mundo deles."
                         ],
                         [
                             "Reaction",
@@ -2963,7 +2963,7 @@
                         [
                             "Changed",
                             "eager",
-                            "$~Ui, sussurrador de streamers, isso parece um pouco extremo..."
+                            "Ui, sussurrador de fluxos, isso parece um pouco extremo..."
                         ],
                         [
                             "Reaction",
@@ -2973,7 +2973,7 @@
                         [
                             "Changed",
                             "bored",
-                            "$~Quer dizer, só te aviso se a transmissão mudar. Passa-me o link da transmissão e eu verifico. Só isso."
+                            "Quer dizer, só te aviso se o fluxo mudou. Passa-me o fluxo e eu verifico. Só isso."
                         ],
                         [
                             "Reaction",
@@ -2983,7 +2983,7 @@
                         [
                             "Changed",
                             "bored",
-                            "$~Na verdade, não. É basicamente isso. Quer dizer, sou bom nisto, mas é a única coisa que sei fazer."
+                            "Na verdade, não. É basicamente isso. Quer dizer, sou bom a isto, mas é a única coisa que sei fazer."
                         ],
                         ["Reaction", "confused", "$~…"],
                         null,
@@ -3005,13 +3005,13 @@
                         [
                             "Reaction",
                             "eager",
-                            "$~Sim, qualquer transmissão! E na verdade, até a minha própria. Assim, se criar uma reação e quiser criar uma reação que reaja à reação dela, também pode fazê-lo. Mas não nos vamos preocupar com isso agora, uma vez que isso geralmente não acontece em performances simples."
+                            "Sim, qualquer fluxo! E na verdade, até a mim proprio. Assim, se criar uma reação e quiser criar uma reação que reaja à reação dela, também pode fazê-lo. Mas não nos vamos preocupar com isso agora, uma vez que isso geralmente não acontece em performances simples."
                         ],
                         null,
                         [
                             "FunctionDefinition",
                             "curious",
-                            "$~Obrigada, @Reaction. Estará disponível para ajudar enquanto mostro o resto do nosso belo Verso ao nosso realizador?"
+                            "Obrigada, @Reaction. Estará disponível para ajudar enquanto mostro o resto do nosso belo Verso ao nosso diretor(a)?"
                         ],
                         [
                             "Reaction",
@@ -3056,19 +3056,19 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~Já viu bastante coisa. Cada vez que @Program é avaliado, gera um valor e @Program exibe esse valor no palco. Mas até agora só viu coisas como números, texto e listas. Eu percebo, só queres ver as atuações completas, tal como nós!"
+                            "Já viu bastante saída. Cada vez que @Program é avaliado, gera um valor e @Program exibe esse valor no palco. Mas até agora só viu coisas como números, texto e listas. Eu percebo, só queres ver as atuações completas, tal como nós!"
                         ],
                         null,
                         ["use", "fit", "Symbol", "💬"],
                         [
                             "FunctionDefinition",
                             "eager",
-                            "$~Lembras-te daquele resultado que te mostrei há uns tempos, @Phrase? É aí que as performances começam realmente. Vamos começar por aí! E depois vou mostrar-te formas de construir performances cada vez mais interessantes a partir desse bloco de construção. Deixa-me apresentar-te!"
+                            "Lembras-te daquela saída que te mostrei há muito tempo, @Phrase? É aí que as performances começam realmente. Vamos começar por aí! E depois vou mostrar-te formas de construir performances cada vez mais interessantes a partir desse bloco de construção. Deixa-me apresentar-te!"
                         ]
                     ]
                 },
                 {
-                    "title": "$~Dizer o quê?",
+                    "title": "Disse o quê?",
                     "subtitle": "$~Frase",
                     "concept": "Phrase",
                     "performance": ["use", "fit", "Symbol", "💬"],
@@ -3098,7 +3098,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "$~Tem estado tudo quieto. Desde que o nosso último diretor saiu, ficou um vazio. Mas isso está a mudar! Temos uma pessoa nova! Conhecemos toda a família: @Program, @ExpressionPlaceholder, @Evaluate, todos os valores, todas as coleções. Também passámos algum tempo com todos os streams, e com @Reaction e @Conditional. Começo a sentir as coisas, hum. Mas ainda não apresentei muito ao nosso novo diretor o que se faz em palco. Este é o seu mundo, não o meu; achei que devíamos falar consigo primeiro."
+                            "Tem estado tudo quieto. Desde que o nosso último diretor(a) saiu, ficou um vazio. Mas isso está a mudar! Temos uma pessoa nova! Conhecemos toda a família: @Program, @ExpressionPlaceholder, @Evaluate, todos os valores, todas as coleções. Também passámos algum tempo com todos os streams, e com @Reaction e @Conditional. Começo a sentir as coisas, hum. Mas ainda não apresentei muito ao nosso novo diretor o que se faz em palco. Este é o seu mundo, não o meu; achei que devíamos falar consigo primeiro."
                         ],
                         null,
                         [
@@ -3168,7 +3168,7 @@
                         [
                             "Phrase",
                             "excited",
-                            "$~Gosta de fantasias? Eu adoro disfarces! O meu @Phrase/face é uma fantasia. Escolha qualquer uma das expressões faciais disponíveis para dar um toque especial à palavra que selecionou."
+                            "Gosta de disfarces? Eu adoorooo disfarces! O meu @Phrase/face é um disfarce. Escolha qualquer uma das tipos disponíveis para dar um toque especial à palavra que selecionou."
                         ],
                         [
                             "use",
@@ -3400,7 +3400,7 @@
                         [
                             "Sequence",
                             "excited",
-                            "$~(Vamos voltar a falar deste chá, @FunctionDefinition). Diretor, que prazer conhecê-lo! Veio aqui para aprender a dançar?"
+                            "(Vamos voltar a falar disso, @FunctionDefinition). Diretor(a), que prazer conhecê-lo! Veio aqui para aprender a dançar?"
                         ],
                         [
                             "FunctionDefinition",
@@ -3441,7 +3441,7 @@
                         [
                             "Sequence",
                             "serious",
-                            "$~Ok, agora imagine que quer que isto seja muito rápido. Por defeito, sou bastante rápido, pelo que qualquer sequência levará um quarto de segundo e estará concluída. Mas e se quisesse que fosse ainda mais rápido? Dê-me uma duração mais curta e eu acelerarei cada @Pose para terminar mais rapidamente. 1, 2, 3, 4! Já não parece um tremor, pois não? Parece mais uma pequena sacudidela frenética! Veja como fica se diminuir a velocidade para 2 ou 3 segundos…"
+                            "Ok, agora imagine que quer que isto seja muito rápido. Por padrão, sou bastante rápido, pelo que qualquer sequência levará um quarto de segundo e estará concluída. Mas e se quisesse que fosse ainda mais rápido? Dê-me uma duração mais curta e eu acelerarei cada @Pose para terminar mais rapidamente. 1, 2, 3, 4! Já não parece um tremor, pois não? Parece mais uma pequena sacudidela frenética! Veja como fica se diminuir a velocidade para 2 ou 3 segundos…"
                         ],
                         [
                             "edit",
@@ -3510,7 +3510,7 @@
                         [
                             "Sequence",
                             "excited",
-                            "$~Uau, sim! Eu e a @Phrase estamos a trabalhar numa nova dança com donuts. Ela combina o meu doce favorito com quase tudo o que aprendi na dança. Quer ver?"
+                            "Uau, sim! Eu e a @Phrase estamos a trabalhar numa nova dança de donuts. Ela combina o meu doce favorito com quase tudo o que aprendi na dança. Quer ver?"
                         ],
                         ["FunctionDefinition", "excited", "$~Sim!!!"],
                         null,
@@ -3530,7 +3530,7 @@
                         [
                             "Sequence",
                             "excited",
-                            "$~Queres dizer a próxima dança em espiral. Saúde!"
+                            "Queres dizer a próxima dança espiral. Saúde!"
                         ]
                     ]
                 },
@@ -3547,7 +3547,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~Suspiro… toda a gente continua a falar do @Evaluate, mas eu não sei o que dizer. Será que já lhe aconteceu estar tão perto de alguém e, ao mesmo tempo, tão longe?",
+                            "Ufa… toda a gente continua a falar do @Evaluate, mas eu não sei o que dizer. Será que já lhe aconteceu estar tão perto de alguém e, ao mesmo tempo, tão longe?",
                             "$~…"
                         ],
                         null,
@@ -3574,7 +3574,7 @@
                         [
                             "Group",
                             "neutral",
-                            "$~@FunctionDefinition, olá, como está? Onde andaram? Eu estava tão preocupada! Está bem?"
+                            "@FunctionDefinition, olá, como está? Onde anda toda gente? Eu estava tão preocupada! Está bem?"
                         ],
                         [
                             "FunctionDefinition",
@@ -3616,7 +3616,7 @@
                         [
                             "Group",
                             "neutral",
-                            "$~O meu propósito, sim. Vamos lá ver... acho que o meu propósito é unir todos. Mas, em particular, reúno @Phrase em belas formas e arranjos em palco. Sabia que as @Phrase podem estar em mais do que um lugar ao mesmo tempo? Isto porque não são propriamente uma frase de texto em palco, mas sim um criador de frases, tal como eu crio @Group. Criam quantas precisar, e depois organizo-as no palco conforme me orienta. Só me falta um @Arrangement e uma lista de @Phrase, e eu trato do resto."
+                            "O meu propósito, sim. Vamos lá ver... acho que o meu propósito é juntar todos. Mas, em particular, reúno @Phrase em belas formas e arranjos em palco. Sabia que as @Phrase podem estar em mais do que um lugar ao mesmo tempo? Isto porque não são propriamente uma frase de texto em palco, mas sim um criador de frases, tal como eu crio @Group. Criam quantas precisar, e depois organizo-as no palco conforme me orienta. Só me falta um @Arrangement e uma lista de @Phrase, e eu trato do resto."
                         ],
                         null,
                         [
@@ -3805,7 +3805,7 @@
                         [
                             "Stage",
                             "neutral",
-                            "$~Olá, @FunctionDefinition. Olá, pessoa."
+                            "OLÁ, @FunctionDefinition. OLÁ, PESSOA."
                         ],
                         null,
                         [
@@ -3815,12 +3815,12 @@
                         [
                             "FunctionDefinition",
                             "happy",
-                            "$~@Stage, essa pessoa é a nossa nova diretora. Ela está super entusiasmada para finalmente te conhecer!"
+                            "@Stage, essa pessoa é a nossa nova diretor(a). Ela está super entusiasmada para finalmente te conhecer!"
                         ],
                         [
                             "Stage",
                             "neutral",
-                            "$~OLÁ, DIRETOR. ESTÁ AQUI PARA INSPIRAR?"
+                            "OLÁ, DIRETOR(A). ESTÁ AQUI PARA INSPIRAR?"
                         ],
                         null,
                         [
@@ -3835,7 +3835,7 @@
                         [
                             "Stage",
                             "neutral",
-                            "$~Estou aqui para servir. Diga-me o que devo apresentar em palco e eu farei."
+                            "ESTOU AQUI PARA-TE SERVIR. DIGA-ME O QUE DEVO APRESENTAR NO PALCO, E EU FAREI."
                         ],
                         null,
                         [
@@ -3882,7 +3882,7 @@
                             "neutral",
                             "$~Também pode aplicar todas as mesmas propriedades a um @Stage, bem como a um @Group ou @Phrase. Vamos inclinar todo o palco!"
                         ],
-                        ["Stage", "surprised", "$~UAU, CUIDADO JÁ…"],
+                        ["Stage", "surprised", "UAU, CUIDADO…"],
                         [
                             "edit",
                             "Stage(",
@@ -3902,7 +3902,7 @@
                     ]
                 },
                 {
-                    "title": "$~E... cena!",
+                    "title": "E... corta!",
                     "subtitle": "$~Cena",
                     "concept": "Scene",
                     "performance": ["fix", "Phrase('🎬' 10m)"],
@@ -3915,7 +3915,7 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "$~O Scene é muito giro. A ideia básica é fornecer uma lista de @Phrase ou @Group, e ele irá exibi-los por ordem, permitindo mostrar uma sequência de conteúdo."
+                            "A Cena é muito gira. A ideia básica é dar-lhe uma lista de @Phrase ou @Group, e ele irá exibi-los por ordem, permitindo mostrar uma sequência de conteúdo."
                         ],
                         null,
                         [
@@ -4018,12 +4018,12 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "$~O @Scene é ótimo para contar histórias animadas, seja como um projeto completo ou como parte de um projeto! Que tipo de histórias quer contar?"
+                            "O @Scene é ótimo para contar histórias animadas, seja como um projeto enteiro ou como parte de um projeto! Que tipo de histórias quer contar?"
                         ]
                     ]
                 },
                 {
-                    "title": "$~Existe alguém chamado...",
+                    "title": "Há alguém chamado...",
                     "subtitle": "$~Escolha",
                     "concept": "Choice",
                     "performance": ["fix", "Phrase('🔘' 10m)"],
@@ -4035,7 +4035,7 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "$~Então, conhecem @Key, @Pointer e @Button, as características que acabamos de mencionar? Podem ser muito divertidos, mas têm um problema: nem todos os que estão na plateia conseguem usá-los. Algumas pessoas não têm mãos, não conseguem utilizá-las ou não têm a precisão necessária para clicar em teclas ou utilizar um rato. Sabemos que muitas pessoas utilizam a voz para comunicar com o mundo, ou até mesmo os olhos. Assim, usar @Key, @Pointer ou @Button significa que algumas pessoas da sua audiência não poderão participar."
+                            "Então, conheces @Key, @Pointer e @Button, as características que acabamos de mencionar? Podem ser muito divertidos, mas têm um problema: nem todos os que estão na plateia conseguem usá-los. Algumas pessoas não têm mãos, não conseguem utilizá-las ou não têm a precisão necessária para clicar em teclas ou utilizar um rato. Sabemos que muitas pessoas utilizam a voz para comunicar com o mundo, ou até mesmo os olhos. Assim, usar @Key, @Pointer ou @Button significa que algumas pessoas da sua audiência não poderão participar."
                         ],
                         null,
                         [
@@ -4047,7 +4047,7 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "$~Aqui está um exemplo simples. Vê como ele tem três frases? As duas primeiras têm dois pormenores importantes. Primeiro, estão definidas como selecionáveis. Isto indica ao @Stage que, se forem clicadas ou se for utilizado o teclado para as selecionar, serão escolhidas. O segundo pormenor é que têm um @Stage. Isto dá ao @Stage um nome único para a frase escolhida. É importante que seja único para que o @Stage saiba o que foi escolhido. A terceira frase está definida como um fluxo @Choice, que é uma série de nomes de @Phrase ou @Group selecionados. Aqui, estamos apenas a dar o nome a outra frase para que esta mostre qual o nome selecionado. Experimente clicar no gato ou no cão ou usar o teclado para selecionar um. Vê como o terceiro @Phrase mostra o nome selecionado?"
+                            "Aqui está um exemplo simples. Vê como tem três frases? As duas primeiras têm dois pormenores importantes. Primeiro, estão definidas como selecionáveis. Isto indica ao @Stage que, se forem clicadas ou se for utilizado o teclado para as selecionar, serão escolhidas. O segundo pormenor é que têm um @Stage. Isto dá ao @Stage um nome único para a frase escolhida. É importante que seja único para que o @Stage saiba o que foi escolhido. A terceira frase está definida como um fluxo @Choice, que é uma série de nomes de @Phrase ou @Group selecionados. Aqui, estamos apenas a dar o nome a outra frase para que esta mostre qual o nome selecionado. Experimente clicar no gato ou no cão ou usar o teclado para selecionar um. Vê como o terceiro @Phrase mostra o nome selecionado?"
                         ],
                         [
                             "Choice",
@@ -4125,12 +4125,12 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "$~São os nossos novos diretores! Vieram aqui inspirar-nos com novas ideias, novas expressões."
+                            "São o nossos novos diretor(a)! Vieram aqui inspirar-nos com novas ideias, novas expressões."
                         ],
                         [
                             "Bind",
                             "excited",
-                            "$~Sério? Isso seria incrível. Há algum tempo que não me sinto inspirado. Tenho a impressão que só tenho esperado…"
+                            "Sério? Isso seria incrível. Há muito tempo não me sinto inspirado. Tenho a impressão que só tenho esperado…"
                         ],
                         null,
                         [
@@ -4145,7 +4145,7 @@
                         [
                             "Bind",
                             "serious",
-                            "$~Dê nomes às coisas. Dê nomes a tudo! Dê nomes a todos. Há uma eternidade que não dou nomes a nada."
+                            "Dar nomes a coisas. Dar nomes a tudo! Dê nomes a todos. Há uma eternidade que não dou nomes a nada."
                         ],
                         [
                             "FunctionDefinition",
@@ -4187,7 +4187,7 @@
                         [
                             "Bind",
                             "eager",
-                            "$~Mas, e se me desse algo que /não/ fosse um número? Depois reclamaria, porque disseste que era para ser um número, mas deste-me um texto. Por isso não sei o que fazer. Entende?"
+                            "Mas, e se me dares algo que /não/ fosse um número? Depois reclamaria, porque disseste que era para ser um número, mas deste-me um texto. Por isso não sei o que fazer. Entende?"
                         ],
                         ["conflict", "number•#: 'oh hi'", "number"],
                         null,
@@ -4195,7 +4195,7 @@
                             "Bind",
                             "serious",
                             "$~Mas tudo bem, a esta altura já deve estar a pensar: *Porque é que alguém daria um nome a um número ou texto destes???*. Bem, imagine que está a ouvir @Key e quer saber se é uma das letras de um conjunto secreto e mostrar uma @Phrase com um \\⊤\\ maiúsculo se for uma letra mágica e um \\⊥\\ minúsculo se não for. Poderíamos começar por algo assim. Isto dá-nos o \\⊤\\ ou \\⊥\\.",
-                            "$~Isso é ótimo; quando pressiona uma destas letras, \\⊤\\, e quando pressiona outra coisa, obtém \\⊥\\. Bom."
+                            "Isso é ótimo; quando pressiona uma dessas letras, \\⊤\\, e quando pressiona outra coisa, obtém \\⊥\\. Bom."
                         ],
                         ["edit", "[ 'a' 'e' 'i' 'o' 'u'].has(Key())"],
                         null,
@@ -4253,7 +4253,7 @@
                         [
                             "Bind",
                             "kind",
-                            "$~Mas, por exemplo, se nomear a expressão, basta fazê-la uma vez. E veja como é muito mais fácil de ler também."
+                            "Mas, por exemplo, se nomeares a expressão, basta fazê-la uma vez. E veja como é muito mais fácil de ler também."
                         ],
                         [
                             "edit",
@@ -4286,7 +4286,7 @@
                         [
                             "Bind",
                             "serious",
-                            "$~Ou, por exemplo, eis um caso em que atribuímos o mesmo nome a dois valores diferentes. Assim, avaliamos \\5\\ e nomeamos \\fruits\\, e depois avaliamos \\10\\… e nomeamos \\fruits\\?? Tipo, já existe um \\frutos\\, então de que \\frutos\\ estamos a falar? Porque veja bem, uma vez que nomeia um valor, não pode atribuir-lhe um novo valor. Esse nome e valor ficam vinculados até que o @Program termine a avaliação. Não queremos que ninguém se confunda sobre quem é quem."
+                            "Ou, por exemplo, aqui esta um exemplo em que atribuímos o mesmo nome a dois valores diferentes. Assim, avaliamos \\5\\ e nomeamos \\fruits\\, e depois avaliamos \\10\\… e nomeamos \\fruits\\?? Tipo, já existe um \\frutos\\, então de que \\frutos\\ estamos a falar? Porque veja bem, uma vez que nomeia um valor, não pode atribuir-lhe um novo valor. Esse nome e valor ficam vinculados até que o @Program termine a avaliação. Não queremos que ninguém se confunda sobre quem é quem."
                         ],
                         [
                             "conflict",
@@ -4326,7 +4326,7 @@
                         [
                             "Bind",
                             "excited",
-                            "$~É por aí! Agora que o silêncio está a ser quebrado, vamos falar de valores o dia todo!"
+                            "Humm, sim! Agora que o silêncio está a ser quebrado, vamos falar de valores o dia todo!"
                         ]
                     ]
                 },
@@ -4356,7 +4356,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "$~Tenho um novo amigo para conheceres. Ele(a) pode ser o nosso próximo diretor."
+                            "Tenho um novo amigo para conheceres. Ele(a) pode ser o nosso próximo diretor(a)."
                         ],
                         ["Block", "shy", "$~… Olá …"],
                         null,
@@ -4387,17 +4387,9 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "E outra coisa que o @Block pode fazer é algo que já viste. O @Block permite-te nomear coisas com o @Bind. Mas quaisquer nomes definidos no @Block só são definidos entre parênteses. Nem antes, nem depois. Por exemplo, vê isto: \\a\\ é definido como \\1\\, depois começa um bloco, \\b\\ é definido como \\2\\, depois \\c\\ como a sua soma, e depois escrevo \\c\\ sozinho. As declarações @Bind são efeitos secundários — introduzem nomes mas não têm um valor próprio. Portanto, o meu valor é o que produzem as expressões que não são @Bind. Aqui, isso é apenas \\c\\, que é \\3\\. Certo?"
+                            "$~E outra coisa que o @Block pode fazer é algo que já viste. O @Block permite nomear coisas com o @Bind. Mas quaisquer nomes definidos no @Block só são definidos entre parênteses. Nem antes, nem depois. Por exemplo, veja isto. \\a\\ é definido como \\1\\, então um bloco começa e \\b\\ é definido como \\2\\, e depois \\c\\ é definido como a soma dos mesmos. O que o @Block avalia é o último valor da sua lista de expressões. Este é o @Bind, que avalia para o valor de \\c\\, que é \\3\\. Certo?"
                         ],
-                        [
-                            "conflict",
-                            "a: 1",
-                            "(",
-                            "  b: 2",
-                            "  c: a + b",
-                            "  c",
-                            ")"
-                        ],
+                        ["conflict", "a: 1", "(", "  b: 2", "  c: a + b", ")"],
                         null,
                         [
                             "FunctionDefinition",
@@ -4410,7 +4402,6 @@
                             "(",
                             "  b: 2",
                             "  c: a + b",
-                            "  c",
                             ") + c"
                         ],
                         [
@@ -4422,9 +4413,13 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "E mais uma coisa, acho eu? Como o @Block é uma lista de expressões, os valores de todas as expressões que não são @Bind tornam-se o meu valor. Se houver apenas uma, recebes esse único valor. Se houver várias, recebes uma lista de todas, por ordem. Então aqui, o \\3\\, o \\5\\, o \\7\\ e o \\9\\ tornam-se todos uma lista: \\[3 5 7 9]\\. Percebi bem, @Block?"
+                            "$~E mais uma coisa, acho eu? Uma vez que `@Block` é uma lista de expressões e apenas avalia a última expressão da lista, quaisquer expressões da lista que não sejam `@Bind` são basicamente ignoradas. Por exemplo, aqui, toda a aritmética anterior à última é ignorada. O `\\3\\`, o `\\5\\`, o `\\7\\`, todos ignorados, e o `@Block` apenas avalia a última, `\\9\\`. Percebi bem, `@Block`?"
                         ],
-                        ["Block", "shy", "… Hum. Todos, numa lista."],
+                        [
+                            "Block",
+                            "shy",
+                            "…uhum. Só o último. Os outros… não sei para que servem!!"
+                        ],
                         [
                             "conflict",
                             "(",
@@ -4434,30 +4429,6 @@
                             "  4 + 5",
                             ")"
                         ],
-                        null,
-                        [
-                            "FunctionDefinition",
-                            "serious",
-                            "Mas e se não houver expressões para guardar? Apenas declarações @Bind?"
-                        ],
-                        [
-                            "Block",
-                            "shy",
-                            "… então não teria nada para dar. Preciso de pelo menos uma expressão que não seja um @Bind, senão tenho de te dizer que falta alguma coisa."
-                        ],
-                        ["conflict", "(", "  a: 1", "  b: 2", ")"],
-                        null,
-                        [
-                            "FunctionDefinition",
-                            "kind",
-                            "Ah, e mais uma coisa boa! Quando queres uma lista, nem sempre tens de escrever os parênteses retos. Podes simplesmente colocar cada item na sua própria linha dentro de um @Block, e ele faz o mesmo."
-                        ],
-                        [
-                            "Block",
-                            "shy",
-                            "… e fica mais bonito quando cada linha é longa. Mais fácil de ler."
-                        ],
-                        ["edit", "(", "  1 + 1", "  2 + 2", "  3 + 3", ")"],
                         null,
                         [
                             "fit",
@@ -4476,7 +4447,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "$~Eu também estou super curiosa! Mas tenho a certeza de que o nosso diretor decidirá no momento certo. A inspiração surge nos momentos mais inesperados!"
+                            "Eu também estou super curiosa! Mas tenho a certeza de que o nosso diretor(a) decidirá no momento certo. A inspiração surge nos momentos mais inesperados!"
                         ]
                     ]
                 },
@@ -4490,7 +4461,7 @@
                         [
                             "FunctionDefinition",
                             "happy",
-                            "$~Estou tão feliz por termos encontrado todos e por ter tido a oportunidade de os conhecer. Cada um é tão diferente, não é? Mas também tão interessante! Sinto que somos uma família onde cada um é único à sua maneira, mas são as nossas diferenças que nos tornam fortes. O que pensa de todos?"
+                            "Estou tão feliz por termos encontrado todos e por termos tido a oportunidade de os conhecer. Cada um é tão diferente, não é? Mas também tão interessante! Sinto que somos uma família onde cada um é único à sua maneira, mas são as nossas diferenças que nos tornam fortes. O que pensas de todos?"
                         ],
                         null,
                         ["use", "fit", "Symbol", "🙈"],
@@ -4511,7 +4482,7 @@
                             "FunctionDefinition",
                             "excited",
                             "$~Aqui está um exemplo super simples. O mais simples de todos, na verdade! Isto define uma função que resulta sempre no número 1. Apenas isso. Não é muito útil, pois não? Não tem nome, não recebe entradas e resulta sempre em 1.",
-                            "$~Também pode ver que @Program foi avaliado como um dos meus, um @FunctionDefinition. Isso mesmo, @FunctionDefinition também são valores! Não sei porque alguém criaria uma função tão inútil, mas como disse: a inspiração não é minha; é sua."
+                            "Também pode ver que @Program foi avaliado como um de mim, um @FunctionDefinition. Isso mesmo, @FunctionDefinition também são valores! Não sei porque alguém criaria uma função tão inútil, mas como disse: a inspiração não é minha; é sua."
                         ],
                         ["edit", "ƒ() 1"],
                         null,
@@ -4529,14 +4500,14 @@
                         [
                             "FunctionDefinition",
                             "eager",
-                            "$~Também me pode dizer que tipo de valor devo obter. Veja como adicionamos um • após a lista de entradas? Isto significa: \"A expressão da função deve resultar num ⊤ ou ⊥.\" Mas vejam como nos queixamos disso? Não sabemos se a função deve devolver um ⊤, um ⊥ ou qualquer outro valor que tenhas devolvido, pelo que a apresentação termina."
+                            "Também me pode dizer que tipo de valor devio avaliar para. Veja como adicionamos um • após a lista de entradas? Isto significa: \"A expressão da função deve resultar num ⊤ ou ⊥.\" Mas vejam como nos queixamos disso? Não sabemos se a função deve devolver um ⊤, um ⊥ ou qualquer outro valor que tenhas devolvido, pelo que a apresentação termina."
                         ],
                         ["conflict", "ƒ even(number•#)•? (number % 2) + 0"],
                         null,
                         [
                             "FunctionDefinition",
                             "serious",
-                            "As funções podem ser tão complexas quanto desejar. Pode utilizar expressões simples ou @Block e até criar funções dentro de funções. Por exemplo, veja esta função que um ex-diretor escreveu. Ela usa @Block com vários @Bind para descobrir quantas vogais únicas uma palavra tem (penso que estavam a tentar descobrir se uma palavra era \"complicada\" ou algo do género). Vê como ela tem muitas linhas? Bem, ela continua a ter apenas uma expressão: um único @Block, e o @Block contém todas as linhas. As linhas @Bind apenas introduzem nomes; a única expressão que não é @Bind no fim é o resultado para o qual o @Block — e portanto a função — avalia: o número total de vogais únicas. Tudo o que vem antes — como a primeira linha, que converte o texto numa lista de letras e depois a lista de letras num conjunto — é apenas preparação para essa última expressão."
+                            "$~As funções podem ser tão complexas quanto desejar. Pode utilizar expressões simples ou @Block e até criar funções dentro de funções. Por exemplo, veja esta função que um ex-diretor escreveu. Ela usa @Block com vários @Bind para descobrir quantas vogais únicas uma palavra tem (penso que estavam a tentar descobrir se uma palavra era \"complicada\" ou algo do género). Vê como ela tem muitas linhas? Bem, ela continua a ter apenas uma expressão: um único @Block, e o @Block contém todas as linhas. E como qualquer @Block, a última linha é o resultado da avaliação: o número total de vogais únicas. Tudo o resto — como a primeira linha, que converte o texto numa lista de letras e depois a lista de letras num conjunto — é apenas preparação para somar estas contagens no meio."
                         ],
                         [
                             "edit",
@@ -4566,7 +4537,7 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "$~Existem inúmeras funções que recebem outras funções como entrada. @List possui-as, @Set possui-as, @Map possui-as. Pode até criar as suas próprias!"
+                            "Existem muitas funções que recebem outras funções como entrada. @List possui-as, @Set possui-as, @Map possui-as. Pode até criar as suas próprias!"
                         ],
                         [
                             "fit",
@@ -4612,7 +4583,7 @@
                         [
                             "FunctionDefinition",
                             "sad",
-                            "$~O silêncio. Afetou a todos nós. Todos estão bem, e encontrei quase todos. Mas tem sido difícil para alguns. Como tem lidado com isso?"
+                            "O silêncio. Afetou a todos nós. Todos estão bem, e encontrei quase todos. Mas tem sido difícil para alguns. Como tens lidado com isso?"
                         ],
                         [
                             "StructureDefinition",
@@ -4627,7 +4598,7 @@
                         [
                             "FunctionDefinition",
                             "eager",
-                            "$~Ah, sim, desculpem, este é o nosso novo diretor! Veio para nos inspirar e guiar, para partilhar as suas histórias, ideias e imaginações. Ele quebrou o silêncio!"
+                            "Ah, sim, desculpa, este é o nosso novo diretor(a)! Veio para nos inspirar e guiar, para partilhar as suas histórias, ideias e imaginações. Ele(a) quebrou o silêncio!"
                         ],
                         [
                             "StructureDefinition",
@@ -4658,7 +4629,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "$~O que acham, estão prontos para se reunirem com todos? Para apresentar o espetáculo que o nosso jovem encenador tem em mente?"
+                            "O que acham, estas prontos para se reunirem com todos? Para apresentar o espetáculo que o nosso jovem diretor(a) tem em mente?"
                         ],
                         ["StructureDefinition", "eager", "$~Eu penso que sim."],
                         [
@@ -4669,7 +4640,7 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "$~Acha que poderia ajudar o nosso diretor a aprender um pouco mais sobre o seu trabalho?"
+                            "Acha que poderia ajudar o nosso diretor(a) a aprender um pouco mais sobre o teu trabalho?"
                         ],
                         [
                             "StructureDefinition",
@@ -4723,7 +4694,7 @@
                         [
                             "StructureDefinition",
                             "excited",
-                            "$~Assim, lembraram-se do @Reaction, que pode ser usado para responder a alterações no fluxo de dados. Queriam que a mensagem mudasse a cada dois segundos, por isso criaram um fluxo @Time que atualiza a cada 2 segundos e usaram @Reaction para incrementar o próximo índice a cada atualização. Este @Reaction diz para começar em 1 e, quando o tempo mudar a cada 2000 ms, avaliar para o valor anterior de índice + 1. Desta forma, o índice aumenta em 1 a cada dois segundos, alterando a mensagem apresentada. Oba, funciona!"
+                            "Depois, lembraram-se do @Reaction, que pode ser usado para responder a alterações no fluxo de dados. Queriam que a mensagem mudasse a cada dois segundos, por isso criaram um fluxo @Time que atualiza a cada 2 segundos e usaram @Reaction para incrementar o próximo índice a cada atualização. Este @Reaction diz para começar em 1 e, quando o tempo mudar a cada 2000 ms, avaliar para o valor anterior de índice + 1. Desta forma, o índice aumenta em 1 a cada dois segundos, alterando a mensagem apresentada. Oba, funciona!"
                         ],
                         [
                             "edit",
@@ -4791,7 +4762,7 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "$~Que bom, @StructureDefinition! Mas preciso de dizer que parece dar muito trabalho extra. Porquê gastar todo esse tempo a organizar?"
+                            "Que maravilha, @StructureDefinition! Mas preciso de dizer que parece dar muito trabalho extra. Porquê gastar todo esse tempo a organizar?"
                         ],
                         [
                             "StructureDefinition",
@@ -4825,7 +4796,7 @@
                         [
                             "FunctionDefinition",
                             "surprised",
-                            "$~Ah, já percebi. Assim, ao criar uma `@StructureDefinition` para guardar valores e uma `@FunctionDefinition` que estejam relacionadas entre si, é mais fácil alterar as coisas mais tarde, caso mude de ideias."
+                            "Ahh, já percebi. Assim, ao criar uma `@StructureDefinition` para guardar valores e uma `@FunctionDefinition` que estejam relacionadas entre si, é mais fácil alterar as coisas mais tarde, caso mude de ideias."
                         ],
                         [
                             "StructureDefinition",
@@ -4958,7 +4929,7 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "$~Então, como é que o nosso diretor pode trabalhar consigo?"
+                            "Então, como é que o nosso diretor(a) pode trabalhar consigo?"
                         ],
                         [
                             "Doc",
@@ -5043,7 +5014,7 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "$~Ui, eu queria pilotar um avião com a boca!"
+                            "Uau, eu queria pilotar um avião com a boca!"
                         ],
                         [
                             "Doc",
@@ -5186,7 +5157,7 @@
                         [
                             "Evaluate",
                             "sad",
-                            "$~Vamos falar sobre isso mais tarde. Tem coisas para fazer."
+                            "Vamos falar sobre isso mais tarde. Tens coisas para fazer."
                         ],
                         [
                             "FunctionDefinition",
@@ -5239,7 +5210,7 @@
                         [
                             "FunctionDefinition",
                             "sad",
-                            "$~Preciso de um pouco de espaço. Desculpe, amigo diretor. Talvez o @Evaluate possa terminar esta festa de boas-vindas sem mim."
+                            "Preciso de um pouco de espaço. Desculpe, amigo diretor(a). Talvez o @Evaluate possa terminar esta festa de boas-vindas sem mim."
                         ],
                         null,
                         ["Evaluate", "shy", "$~… Olá."],
@@ -5253,7 +5224,7 @@
                         [
                             "Evaluate",
                             "curious",
-                            "$~Eu? Não sei de nada. Forneço ao @FunctionDefinition o que eles precisam... Pelo menos, era o que eu pensava."
+                            "Eu? Não sei nada. Forneço ao @FunctionDefinition o que eles precisam... Pelo menos, era o que eu pensava."
                         ],
                         null,
                         ["fit", "Stage([] background: Color(10% 0 0°))"],
@@ -5374,7 +5345,7 @@
                         [
                             "Evaluate",
                             "kind",
-                            "$~Sim… também quero que giremos no ritmo. Também se consegue lembrar de uma rotação?"
+                            "Sim… também quero que rodamos no ritmo. Também se consegue lembrar de uma rotação?"
                         ],
                         ["StructureDefinition", "curious", "$~Que tal isto?"],
                         ["use", "edit", "EvaluateDance3"],
@@ -5423,14 +5394,14 @@
                         [
                             "Evaluate",
                             "surprised",
-                            "$~Ups, estamos todos amontoados! Precisamos de pontos de partida. Que tal recorrer ao @Random?"
+                            "Ups, estamos todos empilhados! Precisamos de pontos de partida. Que tal recorrer ao @Random?"
                         ],
                         ["use", "edit", "EvaluateDance8"],
                         null,
                         [
                             "Evaluate",
                             "happy",
-                            "$~Eba! Agora, só precisamos de começar. @Reaction, pode dar-nos uma batida, talvez de 0,75 segundos?"
+                            "Eba! Agora, só precisamos de nos mecher. @Reaction, pode dar-nos uma batida, talvez de 0,75 segundos?"
                         ],
                         [
                             "Reaction",
@@ -5467,7 +5438,7 @@
                         [
                             "FunctionDefinition",
                             "eager",
-                            "$~Claro. Uma função \\mover\\ já está a caminho. Eu inicio-a; você termina-a…"
+                            "Claro. Uma função \\mover\\ já está lá vai. Eu inicio-a; você termina-a…"
                         ],
                         ["use", "edit", "EvaluateDance10"],
                         null,
@@ -5481,7 +5452,7 @@
                         [
                             "Evaluate",
                             "confused",
-                            "$~Hum… ainda não se mexeu. Ah! Não avaliamos \\move\\ em @Reaction. @List, pode traduzir cada \\Character\\ num \\Character\\ _movido_?"
+                            "Hum… ainda não se mexeu. Ah! Não avaliamos \\mexer\\ em @Reaction. @List, pode traduzir cada \\Character\\ num \\Character\\ _movido_?"
                         ],
                         ["List", "excited", "$~Traduzindo com a sua ajuda!"],
                         ["use", "edit", "EvaluateDance12"],
@@ -5565,14 +5536,14 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "$~Conseguimos… mas não teríamos conseguido sem o nosso novo amigo diretor. Ele quebrou o nosso silêncio; ele lembrou-nos por que somos expressões, juntos."
+                            "Conseguimos… mas não teríamos conseguido sem o nosso novo amigo diretor(a). Ele quebrou o nosso silêncio; ele lembrou-nos por que somos expressões, juntos."
                         ],
                         null,
                         ["use", "fit", "Symbol", "?"],
                         [
                             "FunctionDefinition",
                             "excited",
-                            "$~Então, brilhante novo realizador, o que devemos dizer?"
+                            "Então, brilhante novo direto(a), o que devemos dizer?"
                         ]
                     ]
                 }
