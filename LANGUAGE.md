@@ -938,6 +938,24 @@ moomy: boomy.name:'mooooomy'
 
 This creates a new `Kitty` value with the new name and the old other properties (but does not modify the previous value, and binds it to a new name).
 
+#### _static members_
+
+A function or bind inside a structure's block can be marked with `↑` to make it belong to the structure definition itself, instead of to its instances. Static members are evaluated once when the structure is defined and are reached through the structure's name. They are also visible on instances.
+
+```
+•Math() (
+  ↑ pi: 3.14159
+  ↑ ƒ square(n•#) n · n
+)
+
+Math.pi          ¶ 3.14159 ¶
+Math.square(5)   ¶ 25 ¶
+m: Math()
+m.square(5)      ¶ 25 ¶
+```
+
+A static function or bind can't reference instance inputs or instance bindings, because an instance isn't required to use them; doing so is reported as an unknown name.
+
 #### _conflicts_
 
 - The inputs have duplicate names

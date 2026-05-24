@@ -135,7 +135,10 @@ export default class Evaluate extends Expression {
                 ? scopingType.getDefinitions(nodeBeingReplaced, context)
                 : // If the scope is a structure, get definitions in its scope
                   scopingType instanceof StructureType
-                  ? scopingType.definition.getDefinitions(nodeBeingReplaced)
+                  ? scopingType.definition.getDefinitions(
+                        nodeBeingReplaced,
+                        context,
+                    )
                   : // Otherwise, nothing extra
                     []
             : [];

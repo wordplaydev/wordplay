@@ -79,7 +79,7 @@ export default class StructureType extends BasisType {
     /** Override to include this structure's definitions, but also the base structure definitions (e.g., =, ≠) */
     getDefinitions(node: Node, context: Context): Definition[] {
         return [
-            ...this.definition.getDefinitions(node),
+            ...this.definition.getDefinitions(node, context),
             ...(this.getAdditionalBasisScope(context)?.getDefinitions(
                 node,
                 context,

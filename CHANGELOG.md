@@ -19,6 +19,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 🌐 We made text, names, and docs multilingual: tag them like `/es_en` to mark them as a mix of languages (Spanglish, Franglais, and more), and then you can filter code and output by matching languages (#430).
 - ⌨️ The @Key stream now shows and accepts key names in your language. French programs can write `Key('Espace')` and English programs can write `Key('Space')`, and autocomplete suggests the named keys in your locale (#11).
 - 🟰 In an equals comparison, we menu's now suggest what the right might be based on the left.
+- 🧱 Inside a structure, you can now mark a function or value with ↑ to make it belong to the structure itself instead of to instances. So you can write `Math.pi` and `Math.square(5)` without making a `Math()` first.
 
 ### Changed
 

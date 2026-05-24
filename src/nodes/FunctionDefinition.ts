@@ -18,6 +18,7 @@ import Characters from '../lore/BasisCharacters';
 import AnyType from '@nodes/AnyType';
 import BinaryEvaluate from '@nodes/BinaryEvaluate';
 import Bind from '@nodes/Bind';
+import Block from '@nodes/Block';
 import type Context from '@nodes/Context';
 import type Definition from '@nodes/Definition';
 import DefinitionExpression from '@nodes/DefinitionExpression';
@@ -35,6 +36,7 @@ import { any, list, node, none, type Grammar, type Replacement } from '@nodes/No
 import NumberType from '@nodes/NumberType';
 import PropertyReference from '@nodes/PropertyReference';
 import Reference from '@nodes/Reference';
+import StructureDefinition from '@nodes/StructureDefinition';
 import { Sym } from '@nodes/Sym';
 import Token from '@nodes/Token';
 import Type from '@nodes/Type';
@@ -346,6 +348,18 @@ export default class FunctionDefinition extends DefinitionExpression {
 
     isShared() {
         return this.share !== undefined;
+    }
+
+    /** True when `↑` precedes this function AND the function is a direct
+     *  statement of a `StructureDefinition`'s block. In that position `↑`
+     *  re-interprets as "static" — the function lives on the definition
+     *  itself, not per instance. */
+    isStatic(context: Context): boolean {
+        if (this.share === undefined) return false;
+        const parent = this.getParent(context);
+        if (!(parent instanceof Block)) return false;
+        const grand = parent.getParent(context);
+        return grand instanceof StructureDefinition;
     }
 
     getPreferredName(locales: LocaleText[]) {

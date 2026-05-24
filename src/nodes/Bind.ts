@@ -468,21 +468,30 @@ export default class Bind extends Expression {
                 conflicts.push(new UnusedBind(this));
         }
 
-        // Shares can only appear in the program's root block.
+        // Shares can only appear in the program's root block OR (with the
+        // "static" interpretation) as a direct statement of a structure block.
         if (this.share !== undefined) {
-            if (
-                !context.source.expression.expression
-                    .getChildren()
-                    .includes(this)
-            )
+            const atRoot = context.source.expression.expression
+                .getChildren()
+                .includes(this);
+            const isStatic = this.isStatic(context);
+            if (!atRoot && !isStatic)
                 conflicts.push(new MisplacedShare(this, this.share));
 
-            // Bindings must have language tags on all names to clarify what langauge they're written in.
-            if (!this.names.names.every((n) => n.language !== undefined))
+            // Bindings must have language tags on all names to clarify what
+            // language they're written in — but only for top-level shares.
+            // Static binds inside a structure don't cross source files.
+            if (
+                atRoot &&
+                !this.names.names.every((n) => n.language !== undefined)
+            )
                 conflicts.push(new MissingShareLanguages(this));
 
-            // Other shares in this project can't have the same name
-            const sources = context.project.getSourcesExcept(context.source);
+            // Other shares in this project can't have the same name. Only
+            // applies to top-level shares; static binds don't cross sources.
+            const sources = atRoot
+                ? context.project.getSourcesExcept(context.source)
+                : undefined;
             if (sources !== undefined) {
                 for (const source of sources) {
                     if (source.expression.expression instanceof Block) {
@@ -522,6 +531,18 @@ export default class Bind extends Expression {
 
     isShared() {
         return this.share !== undefined;
+    }
+
+    /** True when `↑` precedes this bind AND the bind is a direct statement
+     *  of a `StructureDefinition`'s block. In that position `↑` re-interprets
+     *  as "static" — the value lives on the definition itself, not per
+     *  instance. */
+    isStatic(context: Context): boolean {
+        if (this.share === undefined) return false;
+        const parent = this.getParent(context);
+        if (!(parent instanceof Block)) return false;
+        const grand = parent.getParent(context);
+        return grand instanceof StructureDefinition;
     }
 
     computeType(context: Context): Type {

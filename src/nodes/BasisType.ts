@@ -34,7 +34,7 @@ export default abstract class BasisType extends Type {
             ...(context
                 .getBasis()
                 .getStructureDefinition(this.getBasisTypeName())
-                ?.getDefinitions(this) ?? []),
+                ?.getDefinitions(this, context) ?? []),
             // Include the basis scope functions
             ...(this.getAdditionalBasisScope(context)?.getDefinitions(
                 _,
