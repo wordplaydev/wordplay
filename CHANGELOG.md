@@ -45,6 +45,8 @@ This week we focused on multilingual coding features, with several bug fixes alo
 - 🌐 We fixed several localization problems in machine translated locales (#122).
 - 🐞 We fixed three problems related to type checking in conditionals.
 - 🚦 Passing the @Color structure itself where a color value was expected (like `Phrase('hi' color: Color)`) used to be quietly accepted. It's now a conflict — write `Color.red` or `Color(50% 100 0°)` to make a color value.
+- 🔊 In the code editor, typing now reads each character to screen readers, like a normal text field.
+- 🔊 Stage output announcements now start with "output" so screen reader users can tell them apart from editor and chooser announcements, and @Text outputs read the actual text instead of just the word "text".
 
 ## 0.18.0 - 2026-05-15
 

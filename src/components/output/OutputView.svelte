@@ -36,6 +36,7 @@
     import { describeColorLocalized } from '@output/BasicColors';
     import { toOutput } from '@output/toOutput';
     import { NameGenerator } from '@output/Stage';
+    import TextValue from '@values/TextValue';
     import { getOrCreatePlace } from '@output/getOrCreatePlace';
     import { PX_PER_METER, rootScale } from '@output/outputToCSS';
     import Place, { createPlace } from '@output/Place';
@@ -241,12 +242,15 @@
         if ($announce && value !== undefined) {
             // The generic `Value.getDescription` for any structure value
             // just returns the term "structure" — useless for a screen
-            // reader. Prefer the rich, localized description from each
-            // output type's wrapper (Phrase/Group/Stage/Shape/Say) or
-            // from the color describer.
+            // reader. Prefer:
+            //   - the rich, localized description for known output types
+            //     (Phrase/Group/Stage/Shape/Say),
+            //   - the BCT color name for Color values,
+            //   - the literal text for TextValue (saying the type name
+            //     "text" is uninformative; speak what the program produced).
             const output = toOutput(evaluator, value, new NameGenerator());
             const colorValue = output ? undefined : toColor(value);
-            const description = exception
+            const body = exception
                 ? exception.getExplanation($locales).toText()
                 : output !== undefined
                   ? output.getDescription($locales)
@@ -257,11 +261,19 @@
                           colorValue.chroma.toNumber(),
                           colorValue.hue.toNumber(),
                       )
-                    : concretize(
-                          $locales,
-                          $locales.getPlainText(value.getDescription()),
-                          {},
-                      ).toText();
+                    : value instanceof TextValue
+                      ? value.text
+                      : concretize(
+                            $locales,
+                            $locales.getPlainText(value.getDescription()),
+                            {},
+                        ).toText();
+            // Prefix with the localized "output" term so the screen reader
+            // user can tell stage-output announcements apart from editor
+            // and chooser announcements.
+            const description = `${$locales.getPlainText(
+                (l) => l.term.output,
+            )} ${body}`;
             untrack(() =>
                 $announce('value', $locales.getLanguages()[0], description),
             );

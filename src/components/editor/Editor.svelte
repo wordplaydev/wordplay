@@ -1585,39 +1585,42 @@
 
     /** Announce symbol insertion (character echo) or caret position (navigation) to screen readers.
      *  WCAG 2.1 SC 4.1.3: status messages are conveyed via the live region in Announcer.svelte.
-     *  On typing: announce the character that was inserted (character echo).
-     *  On navigation: announce the cursor's contextual description. */
+     *  On typing: announce the character that was inserted (character echo) immediately,
+     *    matching standard text-input behavior — the Announcer's own queue takes care
+     *    of pacing for screen readers that can't keep up with rapid input.
+     *  On navigation: announce the cursor's contextual description, deferred during
+     *    typing flurries because `caret.getDescription()` is expensive and screen readers
+     *    can't keep up. */
     $effect(() => {
         if ($announce && document.activeElement === input && $caret) {
-            // Defer announcements during held-key/typing flurries. Screen readers
-            // can't keep up with 30Hz updates anyway and the user gets a clear
-            // announcement of the final position when the flurry settles.
-            // caret.getDescription() does locale-template concretization and
-            // string building per call, which adds up on long key holds.
-            if (deferDisplayUpdate && $keyboardEditIdle !== IdleKind.Idle)
-                return;
             // Read lastInsertedKey before entering untrack so the value is captured
             // at the time the reactive effect fires (i.e. after the caret update).
             const key = lastInsertedKey;
+            // Character echo: never defer. Send each typed character to
+            // the Announcer with the 'type' kind so it's processed in FIFO
+            // order (without trimming) — matching standard text-input
+            // behavior where every key is heard.
+            if (key !== undefined) {
+                untrack(() => {
+                    $announce('type', $caret.getLanguage(), key);
+                    lastInsertedKey = undefined;
+                });
+                return;
+            }
+            // Navigation announcements may be deferred during typing flurries —
+            // see comment above.
+            if (deferDisplayUpdate && $keyboardEditIdle !== IdleKind.Idle)
+                return;
             untrack(() => {
-                if (key !== undefined) {
-                    // Character echo: announce only the typed symbol so the screen
-                    // reader does not flood the user with position descriptions while typing.
-                    $announce(sourceID, $caret.getLanguage(), key);
-                } else {
-                    // Navigation: announce the cursor's contextual description.
-                    $announce(
-                        sourceID,
-                        $caret.getLanguage(),
-                        $caret.getDescription(
-                            caretExpressionType,
-                            conflictsOfInterest,
-                            context,
-                        ),
-                    );
-                }
-                // Reset so the next caret change (navigation) gets a position description.
-                lastInsertedKey = undefined;
+                $announce(
+                    sourceID,
+                    $caret.getLanguage(),
+                    $caret.getDescription(
+                        caretExpressionType,
+                        conflictsOfInterest,
+                        context,
+                    ),
+                );
             });
         }
     });
