@@ -1277,13 +1277,15 @@
             "doc": [
                 "$~De ce, salut, ce mai faci? Eu? Sunt grozav. Îmi place să definesc structuri care stochează valori și funcții, așa că atâta timp cât pot face asta toată ziua, sunt fericit.",
                 "$~Eu lucrez așa:",
-                "$~\\•Pizza(ingrediente•[''] dimensiune•#in) (ƒ cost() dimensiune × 10 dolari/in) Pizza(['pepperoni' 'ardei'] 12 in).cost()\\",
-                "$~Vezi cum funcționează? Am definit \\Pizza\\, care are două intrări, \\ingredients\\ (o listă de @Text) și \\size\\ (un număr în inci).",
+                "$~\\•Pizza(\ningredients•['']\nsize•#in\n) (\n\tƒ cost() size × 10dollars/in\n)\n\nPizza(['pepperoni' 'peppers'] 12in).cost()\\",
+                "$~Vezi cum funcționează? Am definit \\Pizza\\ , care are două intrări, \\ingredients\\ (o listă de @Text ) și \\size\\ (un număr în inci).",
                 "$~În interior, @FunctionDefinition a creat o funcție care evaluează costul unei pizze, presupunând 10 dolari pe inch.",
-                "$~Nu am nevoie de @FunctionDefinition. Pot fi doar intrări.",
-                "$~\\•Pizza (ingrediente•[''] dimensiune•#in)\\",
+                "$~Nu am nevoie de @FunctionDefinition . Pot fi doar intrări.",
+                "$~\\•Pizza(\ningredients•['']\nsize•#in\n)\\",
                 "$~Pot avea și @Bind înăuntru, ca să putem evalua costul în avans.",
-                "$~\\•Pizza (ingrediente•[''] dimensiune•#in) (cost: dimensiune × 10 dolari/in) Pizza (['pepperoni' 'ardei'] 30 cm).cost\\"
+                "$~\\•Pizza(\ningredients•['']\nsize•#in\n) (\n\tcost: size × 10dollars/in\n)\n\nPizza(['pepperoni' 'peppers'] 12in).cost\\",
+                "$~Marcați o funcție sau o valoare cu ↑ pentru a o face să aparțină structurii în sine, nu instanțelor. Apoi puteți utiliza numele structurii pentru a o accesa, fără a crea una.",
+                "$~\\•Math() (\n\t↑ pi: 3.14159\n\t↑ ƒ square(n•#) n · n\n)\n\nMath.pi\nMath.square(5)\\"
             ],
             "start": "$~Să definim această structură frumoasă",
             "conflict": {
@@ -3738,7 +3740,7 @@
                 "doc": "$~La fel ca @Phrase/style!",
                 "names": "$~stil"
             },
-            "defaultDescription": "$~$name [ $name |] $layout $pose"
+            "defaultDescription": "$~$name [ $name |] $layout $pose $color [ $color |]"
         },
         "Phrase": {
             "doc": [
@@ -3862,7 +3864,7 @@
                 "doc": "$~Stilul de animație de utilizat atunci când vă mutați într-un alt loc pe scenă.",
                 "names": "$~stil"
             },
-            "defaultDescription": "$~$size [ $size meter |]phrase $text $name [named $name |] $face [ $face |] $animation"
+            "defaultDescription": "$~$size [ $size meter |]phrase $text $name [named $name |] $face [ $face |] $animation $color [ $color |]"
         },
         "Arrangement": {
             "doc": "$~Sunt o sursă de inspirație pentru multe alte tipuri de aranjamente din Verse, inclusiv @Row, @Stack, @Grid și @Free. Lucrez îndeaproape cu @Group pentru a",
@@ -4136,18 +4138,22 @@
             "doc": [
                 "$~Sunt o culoare vizibilă, alcătuită din trei dimensiuni esențiale.",
                 "$~Iată câteva culori comune pe roata cromatică, la luminozitate medie și cromă ridicată:",
-                "$~\\Culoare(50% 100 0°)\\",
-                "$~\\Culoare(50% 100 30°)\\",
-                "$~\\Culoare(50% 100 60°)\\",
-                "$~\\Culoare(50% 100 90°)\\",
-                "$~\\Culoare(50% 100 120°)\\",
-                "$~\\Culoare(50% 100 150°)\\",
-                "$~\\Culoare(50% 100 180°)\\",
-                "$~\\Culoare(50% 100 210°)\\",
-                "$~\\Culoare(50% 100 240°)\\",
-                "$~\\Culoare(50% 100 270°)\\",
-                "$~\\Culoare(50% 100 300°)\\",
-                "$~\\Culoare(50% 100 330°)\\"
+                "$~\\Color(50% 100 0°)\\",
+                "$~\\Color(50% 100 30°)\\",
+                "$~\\Color(50% 100 60°)\\",
+                "$~\\Color(50% 100 90°)\\",
+                "$~\\Color(50% 100 120°)\\",
+                "$~\\Color(50% 100 150°)\\",
+                "$~\\Color(50% 100 180°)\\",
+                "$~\\Color(50% 100 210°)\\",
+                "$~\\Color(50% 100 240°)\\",
+                "$~\\Color(50% 100 270°)\\",
+                "$~\\Color(50% 100 300°)\\",
+                "$~\\Color(50% 100 330°)\\",
+                "$~Pentru cele unsprezece nume de culori cele mai comune, nu trebuie să mă faci de la zero. Am scurtături pentru numele meu:",
+                "$~\\Color.red\\",
+                "$~\\Color.blue\\",
+                "$~Aceste scurtături funcționează și în limba dvs., deci un vorbitor de franceză poate scrie \\couleur.rouge\\ iar un vorbitor de japoneză poate scrie \\色.赤\\ . Scurtăturile sunt: roșu, portocaliu, galben, verde, albastru, violet, maro, roz, negru, alb și gri."
             ],
             "names": ["$~🌈", "$~Culoare"],
             "lightness": {
@@ -4161,6 +4167,58 @@
             "hue": {
                 "doc": "$~Ce culoare ar trebui să am, pe o roată cromatică, de la magenta \\0\\, roșu \\30\\, verde \\120\\, până la albastru \\270\\.",
                 "names": ["$~nuanţă", "$~h"]
+            },
+            "colors": {
+                "black": {
+                    "doc": "$~Culoarea de bază negru.",
+                    "names": ["$~negru"]
+                },
+                "white": {
+                    "doc": "$~Culoarea de bază alb.",
+                    "names": ["$~alb"]
+                },
+                "gray": {
+                    "doc": "$~Culoarea de bază gri.",
+                    "names": ["$~gri"]
+                },
+                "red": {
+                    "doc": "$~Culoarea de bază roșu.",
+                    "names": ["$~roşu"]
+                },
+                "orange": {
+                    "doc": "$~Culoarea de bază portocalie.",
+                    "names": ["$~portocale"]
+                },
+                "yellow": {
+                    "doc": "$~Culoarea de bază galben.",
+                    "names": ["$~galben"]
+                },
+                "green": {
+                    "doc": "$~Culoarea de bază verde.",
+                    "names": ["$~verde"]
+                },
+                "blue": {
+                    "doc": "$~Culoarea de bază albastru.",
+                    "names": ["$~albastru"]
+                },
+                "purple": {
+                    "doc": "$~Culoarea de bază violet.",
+                    "names": ["$~violet"]
+                },
+                "brown": {
+                    "doc": "$~Culoarea de bază maro.",
+                    "names": ["$~maro"]
+                },
+                "pink": {
+                    "doc": "$~Culoarea de bază roz.",
+                    "names": ["$~roz"]
+                }
+            },
+            "description": {
+                "modified": "$~$1 $2",
+                "mix": "$~$1 - $2",
+                "light": "$~aprinde",
+                "dark": "$~întuneric"
             }
         },
         "Sequence": {
@@ -4425,7 +4483,7 @@
                 "doc": "$~Gravitația care se aplică ieșirii al cărei loc se află în @Motion.",
                 "names": "$~gravitaţie"
             },
-            "defaultDescription": "$~etapa $name [ $name |] din $count ieșiri $frame [cu cadrul $frame |] $pose"
+            "defaultDescription": "$~etapa $name [ $name |] din $count ieșiri $frame [cu cadrul $frame |] $pose $color [ $color |]"
         },
         "Easing": {
             "straight": "$~Drept",

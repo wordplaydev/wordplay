@@ -10,6 +10,7 @@ import { LINK_SYMBOL, TYPE_SYMBOL } from '@parser/Symbols';
 import MarkupValue from '@values/MarkupValue';
 import TextValue from '@values/TextValue';
 import type Value from '@values/Value';
+import { describeColorLocalized } from '@output/BasicColors';
 import Fonts, {
     SupportedFontsFamiliesType,
     type FontWeight,
@@ -375,6 +376,15 @@ export default class Phrase extends Output {
                         : this.pose.getDescription(locales);
             }
 
+            const color = this.pose.color;
+            const colorDescription = color
+                ? describeColorLocalized(
+                      locales,
+                      color.lightness.toNumber(),
+                      color.chroma.toNumber(),
+                      color.hue.toNumber(),
+                  )
+                : undefined;
             this._description = locales
                 .concretize(
                     (l) => l.output.Phrase.defaultDescription,
@@ -384,6 +394,7 @@ export default class Phrase extends Output {
                         size: this.size,
                         face: this.face,
                         animation: animationDescription,
+                        color: colorDescription,
                     },
                 )
                 .toText()

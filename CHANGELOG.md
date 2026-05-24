@@ -22,6 +22,8 @@ This week we focused on multilingual coding features, with several bug fixes alo
 - ⌨️ The @Key stream now shows and accepts key names in your language. French programs can write `Key('Espace')` and English programs can write `Key('Space')`, and autocomplete suggests the named keys in your locale (#11).
 - 🟰 In an equals comparison, we menu's now suggest what the right might be based on the left.
 - 🧱 Inside a structure, you can now mark a function or value with ↑ to make it belong to the structure itself instead of to instances. So you can write `Math.pi` and `Math.square(5)` without making a `Math()` first.
+- 🔊 Screen readers now hear color names for @Phrase, @Group, @Stage, and @Shape, and as you move the sliders in the color chooser. We use the eleven most common color words across languages (red, orange, yellow, green, blue, purple, brown, pink, black, white, gray), and combine them for in-between colors like "light blue-purple" (#109).
+- 🎨 The @Color structure now has shortcuts for those eleven common colors, with names in your language. Write `Color.red` in English, `couleur.rouge` in French, or `色.赤` in Japanese instead of mixing the color yourself (#109).
 
 ### Changed
 
@@ -42,6 +44,7 @@ This week we focused on multilingual coding features, with several bug fixes alo
 - 🚦 We fixed the conflict underlines so they follow the code when values pop in next to expressions while stepping through the debugger.
 - 🌐 We fixed several localization problems in machine translated locales (#122).
 - 🐞 We fixed three problems related to type checking in conditionals.
+- 🚦 Passing the @Color structure itself where a color value was expected (like `Phrase('hi' color: Color)`) used to be quietly accepted. It's now a conflict — write `Color.red` or `Color(50% 100 0°)` to make a color value.
 
 ## 0.18.0 - 2026-05-15
 

@@ -1264,15 +1264,17 @@
             "description": "结构 $name",
             "emotion": "kind",
             "doc": [
-                "你好，你好吗?我吗?我很好。我喜欢定义存储值和功能的结构，所以只要我能整天这样做，我就很高兴。",
-                "我这样工作！",
-                "\\•披萨( \\ 原料•['']\n大小•#in\n) (\n\tƒ 成本() 大小 × 10美元/in\n)\n\n披萨(['意大利腊肠' '胡椒'] 12in).成本()\\",
-                "明白是怎么回事了吧?我定义了\\Pizza\\，它有两个输入，\\ingredients\\ (@Text 列表)和\\size\\(以英寸为单位的数字)。",
-                "在内部，@FunctionDefinition 创建了一个计算披萨价格的函数，假设每英寸$10。",
-                "我不需要@FunctionDefinition。我可以只是输入。",
-                "\\•披萨(\n原料•['']\n大小•#in\n)\\",
-                "我也可以把@Bind 放在里面，这样我们就可以提前评估成本。",
-                "\\•披萨(\n原料•['']\n大小•#in\n) (\n\t成本: 大小 × 10美金/in\n)\n\n披萨(['意大利腊肠' '胡椒'] 12in).cost\\"
+                "$~你好，你好吗？我？我很好。我喜欢定义存储值和函数的结构，所以只要我能整天做这件事，我就很开心。",
+                "$~我的工作方式是这样的：",
+                "$~\\•Pizza(\ningredients•['']\nsize•#in\n) (\n\tƒ cost() size × 10dollars/in\n)\n\nPizza(['pepperoni' 'peppers'] 12in).cost()\\",
+                "$~明白了吗？我定义了\\Pizza\\ ，它有两个输入， \\ingredients\\ （ @Text）和\\size\\ （英寸数）。",
+                "$~在内部， @FunctionDefinition，用于评估披萨的成本，假设每英寸 10 美元。",
+                "$~我不需要使用@FunctionDefinition，我可以直接作为输入。",
+                "$~\\•Pizza(\ningredients•['']\nsize•#in\n)\\",
+                "$~我也可以在里面使用@Bind ，这样我们就可以提前评估成本。",
+                "$~\\•Pizza(\ningredients•['']\nsize•#in\n) (\n\tcost: size × 10dollars/in\n)\n\nPizza(['pepperoni' 'peppers'] 12in).cost\\",
+                "$~使用 ↑ 将函数或值标记为结构体本身，而不是实例。这样，您就可以使用结构体的名称来访问它，而无需创建新的结构体。",
+                "$~\\•Math() (\n\t↑ pi: 3.14159\n\t↑ ƒ square(n•#) n · n\n)\n\nMath.pi\nMath.square(5)\\"
             ],
             "start": "让我们来定义这个可爱的结构",
             "conflict": {
@@ -3707,7 +3709,7 @@
                 "doc": "与 @Phrase/style 相同！",
                 "names": "风格"
             },
-            "defaultDescription": "$~$name[$name|] $layout $pose"
+            "defaultDescription": "$~$name [ $name |] $layout $pose $color [ $color |]"
         },
         "Phrase": {
             "doc": [
@@ -3822,7 +3824,7 @@
                 "doc": "移动到舞台上不同位置时使用的动画风格。",
                 "names": "风格"
             },
-            "defaultDescription": "$~$size[$size 韵律 |]短语 $text $name[命名 $name|] $face[$face|] $animation"
+            "defaultDescription": "$~$size [ $size meter |]phrase $text $name [named $name |] $face [ $face |] $animation $color [ $color |]"
         },
         "Arrangement": {
             "doc": "我是Verse中各种排列方式的灵感, 包括@Row、@Stack、@Grid 和@Free。我与@Group 密切合作，",
@@ -4077,20 +4079,24 @@
         },
         "Color": {
             "doc": [
-                "我是一种可见的颜色，由三个维度构成。",
-                "一下是一些色轮上常见的颜色，用中等亮度和高色度显示。",
-                "\\Color(50% 100 0°)\\",
-                "\\Color(50% 100 30°)\\",
-                "\\Color(50% 100 60°)\\",
-                "\\Color(50% 100 90°)\\",
-                "\\Color(50% 100 120°)\\",
-                "\\Color(50% 100 150°)\\",
-                "\\Color(50% 100 180°)\\",
-                "\\Color(50% 100 210°)\\",
-                "\\Color(50% 100 240°)\\",
-                "\\Color(50% 100 270°)\\",
-                "\\Color(50% 100 300°)\\",
-                "\\Color(50% 100 330°)\\"
+                "$~我是一种可见的颜色，由三个基本维度构成。",
+                "$~以下是一些色轮上常见的颜色，亮度适中，饱和度较高：",
+                "$~\\Color(50% 100 0°)\\",
+                "$~\\Color(50% 100 30°)\\",
+                "$~\\Color(50% 100 60°)\\",
+                "$~\\Color(50% 100 90°)\\",
+                "$~\\Color(50% 100 120°)\\",
+                "$~\\Color(50% 100 150°)\\",
+                "$~\\Color(50% 100 180°)\\",
+                "$~\\Color(50% 100 210°)\\",
+                "$~\\Color(50% 100 240°)\\",
+                "$~\\Color(50% 100 270°)\\",
+                "$~\\Color(50% 100 300°)\\",
+                "$~\\Color(50% 100 330°)\\",
+                "$~对于最常用的十一种颜色名称，你不需要从头开始创建我。我的名字有缩写：",
+                "$~\\Color.red\\",
+                "$~\\Color.blue\\",
+                "$~这些简写形式在你的语言中也适用，所以说法语的人可以写\\couleur.rouge\\ ，说日语的人可以写\\色.赤\\ 。简写形式包括：红色、橙色、黄色、绿色、蓝色、紫色、棕色、粉色、黑色、白色和灰色。"
             ],
             "names": ["🌈", "颜色"],
             "lightness": {
@@ -4104,6 +4110,58 @@
             "hue": {
                 "doc": "我应该是色轮上的什么颜色，从品红色 \\0\\，红色 \\30\\，绿色 \\120\\，到蓝色 \\270\\。",
                 "names": ["色调", "h"]
+            },
+            "colors": {
+                "black": {
+                    "doc": "$~基本颜色为黑色。",
+                    "names": ["$~黑色的"]
+                },
+                "white": {
+                    "doc": "$~基本颜色为白色。",
+                    "names": ["$~白色的"]
+                },
+                "gray": {
+                    "doc": "$~基本颜色为灰色。",
+                    "names": ["$~灰色的"]
+                },
+                "red": {
+                    "doc": "$~基本颜色是红色。",
+                    "names": ["$~红色的"]
+                },
+                "orange": {
+                    "doc": "$~基本颜色是橙色。",
+                    "names": ["$~橙子"]
+                },
+                "yellow": {
+                    "doc": "$~基本颜色是黄色。",
+                    "names": ["$~黄色的"]
+                },
+                "green": {
+                    "doc": "$~绿色是最基本的颜色。",
+                    "names": ["$~绿色的"]
+                },
+                "blue": {
+                    "doc": "$~基本颜色是蓝色。",
+                    "names": ["$~蓝色的"]
+                },
+                "purple": {
+                    "doc": "$~紫色是基本颜色。",
+                    "names": ["$~紫色的"]
+                },
+                "brown": {
+                    "doc": "$~基本颜色为棕色。",
+                    "names": ["$~棕色的"]
+                },
+                "pink": {
+                    "doc": "$~基本颜色是粉色。",
+                    "names": ["$~粉色的"]
+                }
+            },
+            "description": {
+                "modified": "$~$1 $2",
+                "mix": "$~$1 $2",
+                "light": "$~光",
+                "dark": "$~黑暗的"
             }
         },
         "Sequence": {
@@ -4326,7 +4384,7 @@
                 "doc": "应用于其位置在@Motion 中的输出的重力。",
                 "names": "重力"
             },
-            "defaultDescription": "$~阶段$name [ $name |] 共$count$frame [帧为$frame |] $pose"
+            "defaultDescription": "$~阶段$name [ $name |] 共$count$frame [帧$frame |] $pose $color [ $color |]"
         },
         "Easing": {
             "straight": "直线",

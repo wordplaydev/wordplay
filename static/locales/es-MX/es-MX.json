@@ -1237,15 +1237,17 @@
             "description": "estructura $name",
             "emotion": "kind",
             "doc": [
-                "Hola, ¿cómo estás? ¿Yo? Estoy genial. Me encanta definir estructuras que almacenan valores y funciones, así que mientras pueda hacer eso todo el día, soy feliz.",
-                "Trabajo así:",
-                "\\•Pizza(\ningredientes•['']\ntamaño•#in\n) (\n\tƒ costo() tamaño × 10dólares/pulgada\n)\n\nPizza(['pepperoni' 'pimientos'] 12pulg).costo()\\",
-                "¿Ves cómo funciona? Definí \\Pizza\\, que tiene dos entradas, \\ingredientes\\ (una lista de @Text) y \\tamaño\\ (un número en pulgadas).",
-                "Dentro, @FunctionDefinition creó una función que evalúa el costo de una pizza, asumiendo $$10 por pulgada.",
-                "No necesito tener @FunctionDefinition en mí. Puedo ser solo entradas.",
-                "\\•Pizza(\ningredientes•['']\ntamaño•#in\n)\\",
-                "También puedo tener @Bind dentro, así que podríamos evaluar el costo de antemano.",
-                "\\•Pizza(\ningredientes•['']\ntamaño•#in\n) (\n\tcosto: tamaño × 10dólares/pulgada\n)\n\nPizza(['pepperoni' 'pimientos'] 12pulg).costo\\"
+                "$~Hola, ¿cómo estás? ¿Yo? Estoy genial. Me encanta definir estructuras que almacenan valores y funciones, así que mientras pueda hacer eso todo el día, soy feliz.",
+                "$~Yo trabajo así:",
+                "$~\\•Pizza(\ningredients•['']\nsize•#in\n) (\n\tƒ cost() size × 10dollars/in\n)\n\nPizza(['pepperoni' 'peppers'] 12in).cost()\\",
+                "$~¿Ves cómo funciona? He definido \\Pizza\\ , que tiene dos entradas: \\ingredients\\ (una lista de @Text ) y \\size\\ (un número en pulgadas).",
+                "$~En su interior, @FunctionDefinition creó una función que evalúa el costo de una pizza, suponiendo un precio de $10 por pulgada.",
+                "$~No necesito tener @FunctionDefinition en mí. Puedo ser simplemente entradas.",
+                "$~\\•Pizza(\ningredients•['']\nsize•#in\n)\\",
+                "$~También puedo incluir @Bind dentro, para que podamos evaluar el costo por adelantado.",
+                "$~\\•Pizza(\ningredients•['']\nsize•#in\n) (\n\tcost: size × 10dollars/in\n)\n\nPizza(['pepperoni' 'peppers'] 12in).cost\\",
+                "$~Marca una función o valor con ↑ para que pertenezca a la estructura misma, no a instancias. De esta forma, podrás acceder a ella mediante el nombre de la estructura, sin necesidad de crear una nueva.",
+                "$~\\•Math() (\n\t↑ pi: 3.14159\n\t↑ ƒ square(n•#) n · n\n)\n\nMath.pi\nMath.square(5)\\"
             ],
             "start": "definamos esta encantadora estructura",
             "conflict": {
@@ -3715,7 +3717,7 @@
                 "doc": "¡Igual queE @Phrase/style!",
                 "names": "estilo"
             },
-            "defaultDescription": "$~$name[$name|] $layout $pose"
+            "defaultDescription": "$~$name [ $name |] $layout $pose $color [ $color |]"
         },
         "Phrase": {
             "names": ["💬", "Frase"],
@@ -3726,7 +3728,7 @@
                 "Necesito @Text obviamente, pero de otro modo, yo puedo aser todo que un @Output puedo hacer, incluyendo cambiando mi tamaño, fuente, rotacion, y todo los bailes con @Pose y @Sequence.",
                 "Tambien puedes seleccionarme en el @Stage y editarme con la paleta cerca de la puerta."
             ],
-            "defaultDescription": "$~$size[$size metro |]frase $text $name[llamdo $name|] $face[$face|] $animation",
+            "defaultDescription": "$~$size [ $size meter |]frase $text $name [named $name |] $face [ $face |] $animation $color [ $color |]",
             "text": {
                 "doc": "Los personajes a mostrar en el @Stage",
                 "names": "texto"
@@ -4095,20 +4097,24 @@
         },
         "Color": {
             "doc": [
-                "Soy un color visible, compuesto por tres dimensiones esenciales.",
-                "Aquí hay algunos colores comunes alrededor de la rueda de colores, con brillo medio y alta croma:",
-                "\\Color(50% 100 0°)\\",
-                "\\Color(50% 100 30°)\\",
-                "\\Color(50% 100 60°)\\",
-                "\\Color(50% 100 90°)\\",
-                "\\Color(50% 100 120°)\\",
-                "\\Color(50% 100 150°)\\",
-                "\\Color(50% 100 180°)\\",
-                "\\Color(50% 100 210°)\\",
-                "\\Color(50% 100 240°)\\",
-                "\\Color(50% 100 270°)\\",
-                "\\Color(50% 100 300°)\\",
-                "\\Color(50% 100 330°)\\"
+                "$~Soy un color visible, compuesto de tres dimensiones esenciales.",
+                "$~Aquí tenéis algunos colores comunes en la rueda cromática, con brillo medio y alta saturación:",
+                "$~\\Color(50% 100 0°)\\",
+                "$~\\Color(50% 100 30°)\\",
+                "$~\\Color(50% 100 60°)\\",
+                "$~\\Color(50% 100 90°)\\",
+                "$~\\Color(50% 100 120°)\\",
+                "$~\\Color(50% 100 150°)\\",
+                "$~\\Color(50% 100 180°)\\",
+                "$~\\Color(50% 100 210°)\\",
+                "$~\\Color(50% 100 240°)\\",
+                "$~\\Color(50% 100 270°)\\",
+                "$~\\Color(50% 100 300°)\\",
+                "$~\\Color(50% 100 330°)\\",
+                "$~Para los once nombres de colores más comunes, no tienes que crearme desde cero. Tengo atajos en mi nombre:",
+                "$~\\Color.red\\",
+                "$~\\Color.blue\\",
+                "$~Estos atajos también funcionan en tu idioma, así que un hablante de francés puede escribir \\couleur.rouge\\ y un hablante de japonés puede escribir \\色.赤\\ . Los atajos son: rojo, naranja, amarillo, verde, azul, morado, marrón, rosa, negro, blanco y gris."
             ],
             "names": ["🌈", "Color"],
             "lightness": {
@@ -4122,6 +4128,58 @@
             "hue": {
                 "doc": "De qué color debería ser, en una rueda de colores, desde magenta \\0\\, rojo \\30\\, verde \\120\\, hasta azul \\270\\.",
                 "names": ["tono", "h"]
+            },
+            "colors": {
+                "black": {
+                    "doc": "$~El color básico es el negro.",
+                    "names": ["$~negro"]
+                },
+                "white": {
+                    "doc": "$~El color básico es el blanco.",
+                    "names": ["$~blanco"]
+                },
+                "gray": {
+                    "doc": "$~El color básico es el gris.",
+                    "names": ["$~gris"]
+                },
+                "red": {
+                    "doc": "$~El color básico rojo.",
+                    "names": ["$~rojo"]
+                },
+                "orange": {
+                    "doc": "$~El color básico naranja.",
+                    "names": ["$~naranja"]
+                },
+                "yellow": {
+                    "doc": "$~El color básico amarillo.",
+                    "names": ["$~amarillo"]
+                },
+                "green": {
+                    "doc": "$~El color básico es el verde.",
+                    "names": ["$~verde"]
+                },
+                "blue": {
+                    "doc": "$~El color básico azul.",
+                    "names": ["$~azul"]
+                },
+                "purple": {
+                    "doc": "$~El color básico es el morado.",
+                    "names": ["$~púrpura"]
+                },
+                "brown": {
+                    "doc": "$~El color básico es marrón.",
+                    "names": ["$~marrón"]
+                },
+                "pink": {
+                    "doc": "$~El color básico rosa.",
+                    "names": ["$~rosa"]
+                }
+            },
+            "description": {
+                "modified": "$~$1 $2",
+                "mix": "$~$1 - $2",
+                "light": "$~luz",
+                "dark": "$~oscuro"
             }
         },
         "Sequence": {
@@ -4346,7 +4404,7 @@
                 "doc": "La gravedad a aplicar a la salida cuyo lugar está en @Motion.",
                 "names": "gravedad"
             },
-            "defaultDescription": "$~escenario $count[$count|] de $name[$name|] frases $frame[$frame marco|] $pose"
+            "defaultDescription": "$~etapa $name [ $name |]de $count salidas $frame [con marco $frame |] $pose $color [ $color |]"
         },
         "Easing": {
             "straight": "recto",

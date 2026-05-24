@@ -1264,15 +1264,17 @@
             "description": "$~définit la structure $name",
             "emotion": "kind",
             "doc": [
-                "$~Bonjour, comment vas-tu ? Moi ? Je vais bien. J'aime définir des structures qui stockent des valeurs et des fonctions, donc tant que je peux faire ça toute la journée, je suis heureuse.",
-                "$~Je travaille comme ça :",
-                "$~\\•Pizza(\ningrédients•['']\ntaille•#in\n) (\nƒ coût() taille × 10 dollars/in\n)\n\nPizza(['pepperoni' 'peppers'] 12in).cost()\\",
-                "$~Vous voyez comment cela fonctionne ? J'ai défini \\Pizza\\, qui a deux entrées, \\ingredients\\ (une liste de @Text) et \\size\\ (un nombre en pouces).",
+                "$~Salut, comment ça va ? Moi ? Ça va super. J'adore définir des structures qui stockent des valeurs et des fonctions, alors tant que je peux faire ça toute la journée, je suis content.",
+                "$~Je travaille comme ceci :",
+                "$~\\•Pizza(\ningredients•['']\nsize•#in\n) (\n\tƒ cost() size × 10dollars/in\n)\n\nPizza(['pepperoni' 'peppers'] 12in).cost()\\",
+                "$~Vous voyez comment ça fonctionne ? J'ai défini \\Pizza\\ , qui a deux entrées, \\ingredients\\ (une liste de @Text ) et \\size\\ (un nombre en pouces).",
                 "$~À l'intérieur, @FunctionDefinition a créé une fonction qui évalue le coût d'une pizza, en supposant 10 $ par pouce.",
-                "$~Je n'ai pas besoin d'avoir @FunctionDefinition en moi. Je peux juste être des entrées.",
-                "$~\\•Pizza(\ningrédients•['']\ntaille•#in\n)\\",
-                "$~Je peux également avoir @Bind à l'intérieur, afin que nous puissions évaluer le coût à l'avance.",
-                "$~\\•Pizza(\ningrédients•['']\ntaille•#in\n) (\ncoût: taille × 10dollars/in\n)\n\nPizza(['pepperoni' 'peppers'] 12in).cost\\"
+                "$~Je n'ai pas besoin d'avoir une annotation @FunctionDefinition . Je peux simplement être une entrée.",
+                "$~\\•Pizza(\ningredients•['']\nsize•#in\n)\\",
+                "$~Je peux aussi inclure @Bind , ce qui nous permettrait d'évaluer le coût à l'avance.",
+                "$~\\•Pizza(\ningredients•['']\nsize•#in\n) (\n\tcost: size × 10dollars/in\n)\n\nPizza(['pepperoni' 'peppers'] 12in).cost\\",
+                "$~Marquez une fonction ou une valeur avec ↑ pour qu'elle appartienne à la structure elle-même et non à ses instances. Vous pourrez alors y accéder par le nom de la structure, sans avoir à en créer une.",
+                "$~\\•Math() (\n\t↑ pi: 3.14159\n\t↑ ƒ square(n•#) n · n\n)\n\nMath.pi\nMath.square(5)\\"
             ],
             "start": "$~Définissons cette belle structure",
             "conflict": {
@@ -3736,7 +3738,7 @@
                 "doc": "$~La gravité à appliquer à la sortie dont la place est dans @Motion.",
                 "names": "$~pesanteur"
             },
-            "defaultDescription": "$~étape $name[$name |]de $count sorties$frame[avec trame $frame|] $pose"
+            "defaultDescription": "$~étape $name [ $name |]de $count sorties $frame [avec frame $frame |] $pose $color [ $color |]"
         },
         "Group": {
             "names": ["$~🔳", "$~Groupe"],
@@ -3842,7 +3844,7 @@
                 "doc": "$~Identique à @Phrase/style!",
                 "names": "$~style"
             },
-            "defaultDescription": "$~$name [$name |] $layout $pose"
+            "defaultDescription": "$~$name [ $name |] $layout $pose $color [ $color |]"
         },
         "Phrase": {
             "names": ["$~💬", "$~Phrase"],
@@ -3965,7 +3967,7 @@
                 "doc": "$~Le style d'animation à utiliser lors du déplacement vers un autre endroit sur scène.",
                 "names": "$~style"
             },
-            "defaultDescription": "$~$size [ $size mètre |]phrase $text $name [nommé $name |] $face [ $face |] $animation"
+            "defaultDescription": "$~$size [ $size mètre |]phrase $text $name [nommé $name |] $face [ $face |] $animation $color [ $color |]"
         },
         "Arrangement": {
             "names": ["Arrangement"],
@@ -4224,19 +4226,23 @@
             "names": ["$~🌈", "$~Couleur"],
             "doc": [
                 "$~Je suis une couleur visible, composée de trois dimensions essentielles.",
-                "$~Voici quelques couleurs courantes autour du cercle chromatique, à luminosité moyenne et chroma élevé:",
-                "$~\\Couleur(50% 100 0°)\\",
-                "$~\\Couleur(50% 100 30°)\\",
-                "$~\\Couleur(50% 100 60°)\\",
-                "$~\\Couleur(50% 100 90°)\\",
-                "$~\\Couleur(50% 100 120°)\\",
-                "$~\\Couleur(50% 100 150°)\\",
-                "$~\\Couleur(50% 100 180°)\\",
-                "$~\\Couleur(50% 100 210°)\\",
-                "$~\\Couleur(50% 100 240°)\\",
-                "$~\\Couleur(50% 100 270°)\\",
-                "$~\\Couleur(50% 100 300°)\\",
-                "$~\\Couleur(50% 100 330°)\\"
+                "$~Voici quelques couleurs courantes sur le cercle chromatique, à luminosité moyenne et saturation élevée :",
+                "$~\\Color(50% 100 0°)\\",
+                "$~\\Color(50% 100 30°)\\",
+                "$~\\Color(50% 100 60°)\\",
+                "$~\\Color(50% 100 90°)\\",
+                "$~\\Color(50% 100 120°)\\",
+                "$~\\Color(50% 100 150°)\\",
+                "$~\\Color(50% 100 180°)\\",
+                "$~\\Color(50% 100 210°)\\",
+                "$~\\Color(50% 100 240°)\\",
+                "$~\\Color(50% 100 270°)\\",
+                "$~\\Color(50% 100 300°)\\",
+                "$~\\Color(50% 100 330°)\\",
+                "$~Pour les onze noms de couleurs les plus courants, inutile de me créer de toutes pièces. J'utilise des raccourcis :",
+                "$~\\Color.red\\",
+                "$~\\Color.blue\\",
+                "$~Ces raccourcis fonctionnent aussi dans votre langue ; un francophone peut donc écrire \\couleur.rouge\\ et un japonophone \\色.赤\\ . Les raccourcis sont : rouge, orange, jaune, vert, bleu, violet, marron, rose, noir, blanc et gris."
             ],
             "lightness": {
                 "doc": "$~Comme je devrais être clair de \\0\\ à \\1\\, du noir à \\0\\, au gris à \\0,5\\, au blanc à \\1\\.",
@@ -4249,6 +4255,58 @@
             "hue": {
                 "doc": "$~De quelle couleur devrais-je être, sur un cercle chromatique, allant du méga \\0\\, rouge \\30\\, vert \\120\\, au bleu \\270\\.",
                 "names": ["matiz"]
+            },
+            "colors": {
+                "black": {
+                    "doc": "$~La couleur de base, le noir.",
+                    "names": ["$~noir"]
+                },
+                "white": {
+                    "doc": "$~La couleur de base, le blanc.",
+                    "names": ["$~blanc"]
+                },
+                "gray": {
+                    "doc": "$~La couleur de base est le gris.",
+                    "names": ["$~gris"]
+                },
+                "red": {
+                    "doc": "$~La couleur de base, le rouge.",
+                    "names": ["$~rouge"]
+                },
+                "orange": {
+                    "doc": "$~La couleur orange de base.",
+                    "names": ["$~orange"]
+                },
+                "yellow": {
+                    "doc": "$~La couleur de base jaune.",
+                    "names": ["$~jaune"]
+                },
+                "green": {
+                    "doc": "$~La couleur verte de base.",
+                    "names": ["$~vert"]
+                },
+                "blue": {
+                    "doc": "$~La couleur de base, le bleu.",
+                    "names": ["$~bleu"]
+                },
+                "purple": {
+                    "doc": "$~La couleur de base, le violet.",
+                    "names": ["$~violet"]
+                },
+                "brown": {
+                    "doc": "$~La couleur de base est le marron.",
+                    "names": ["$~brun"]
+                },
+                "pink": {
+                    "doc": "$~La couleur rose de base.",
+                    "names": ["$~rose"]
+                }
+            },
+            "description": {
+                "modified": "$~$1 $2",
+                "mix": "$~$1 - $2",
+                "light": "$~lumière",
+                "dark": "$~sombre"
             }
         },
         "Sequence": {

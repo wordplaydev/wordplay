@@ -78,6 +78,24 @@ Translation tools (e.g. `npm run locales-translate`) and direct script edits oft
 
 Immutable data structures and pure functions are the norm everywhere except: Svelte components (internal state + global context), `Evaluator` (stack-based evaluation state), and `Database` (persistence). Most bugs will be in those three areas.
 
+### Screen-reader announcements
+
+All dynamic announcements to screen readers must go through the centralized [Announcer.svelte](src/components/project/Announcer.svelte). The Announcer owns the single `aria-live` region for the app, queues messages, and paces them by reading time so consecutive updates don't trample each other. Do **not** add component-local `aria-live` divs — they conflict with the centralized region and cause cross-talk on real screen readers.
+
+To announce from any component:
+
+```ts
+import { getAnnouncer } from '@components/project/Contexts';
+// ...
+const announce = getAnnouncer();
+// In an event handler or `$effect`:
+if (announce && $announce) {
+    $announce('your-kind-id', $locales.getLanguages()[0], message);
+}
+```
+
+`aria-label` on a focused element is still appropriate for _focus-time_ labeling — screen readers read the label when the element receives focus. Use Announcer for _change-time_ announcements (the user moved a slider, picked a color, toggled a setting).
+
 ### Keep ARCHITECTURE.md in sync
 
 [ARCHITECTURE.md](ARCHITECTURE.md) is the high-level orientation document for the codebase. After any change that affects content described there — renaming/moving a file it references, changing the responsibilities of a component it describes, adding or removing a major subsystem, or altering the core pipeline — update ARCHITECTURE.md in the same change. If a fact in this CLAUDE.md (e.g., file paths, locale count, node count) also appears in ARCHITECTURE.md, update both.

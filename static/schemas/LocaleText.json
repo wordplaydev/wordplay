@@ -8933,6 +8933,99 @@
                   "$ref": "#/definitions/NameAndDoc",
                   "description": "0-150 with 0 as grey and 150 as full color"
                 },
+                "colors": {
+                  "additionalProperties": false,
+                  "description": "Names for each of the 11 Basic Color Terms (black, white, gray, red, orange, yellow, green, blue, purple, brown, pink). Each entry exposes its multilingual names as static binds on the `Color` structure (so `Color.red`/`色.赤`/etc. work), and is also the user-facing word used by screen-reader color descriptions.",
+                  "properties": {
+                    "black": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "[plain] doc + [name] names for \"black\""
+                    },
+                    "blue": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "[plain] doc + [name] names for \"blue\""
+                    },
+                    "brown": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "[plain] doc + [name] names for \"brown\""
+                    },
+                    "gray": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "[plain] doc + [name] names for \"gray\""
+                    },
+                    "green": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "[plain] doc + [name] names for \"green\""
+                    },
+                    "orange": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "[plain] doc + [name] names for \"orange\""
+                    },
+                    "pink": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "[plain] doc + [name] names for \"pink\""
+                    },
+                    "purple": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "[plain] doc + [name] names for \"purple\""
+                    },
+                    "red": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "[plain] doc + [name] names for \"red\""
+                    },
+                    "white": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "[plain] doc + [name] names for \"white\""
+                    },
+                    "yellow": {
+                      "$ref": "#/definitions/NameAndDoc",
+                      "description": "[plain] doc + [name] names for \"yellow\""
+                    }
+                  },
+                  "required": [
+                    "black",
+                    "white",
+                    "gray",
+                    "red",
+                    "orange",
+                    "yellow",
+                    "green",
+                    "blue",
+                    "purple",
+                    "brown",
+                    "pink"
+                  ],
+                  "type": "object"
+                },
+                "description": {
+                  "additionalProperties": false,
+                  "description": "Templates for assembling color descriptions from the BCT names plus optional light/dark modifier and boundary-color mix.",
+                  "properties": {
+                    "dark": {
+                      "description": "[plain] Word used when lightness is below the matched focal",
+                      "type": "string"
+                    },
+                    "light": {
+                      "description": "[plain] Word used when lightness is above the matched focal",
+                      "type": "string"
+                    },
+                    "mix": {
+                      "$ref": "#/definitions/Template%3C%5B%22first%22%2C%22second%22%5D%3E",
+                      "description": "[plain] Join two BCTs into a mix description; $1 = first color name, $2 = second color name."
+                    },
+                    "modified": {
+                      "$ref": "#/definitions/Template%3C%5B%22modifier%22%2C%22color%22%5D%3E",
+                      "description": "[plain] $1 = modifier (or empty), $2 = color name(s). Allows per-locale word order."
+                    }
+                  },
+                  "required": [
+                    "modified",
+                    "mix",
+                    "light",
+                    "dark"
+                  ],
+                  "type": "object"
+                },
                 "doc": {
                   "$ref": "#/definitions/DocText",
                   "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
@@ -8952,6 +9045,8 @@
               },
               "required": [
                 "chroma",
+                "colors",
+                "description",
                 "doc",
                 "hue",
                 "lightness",
@@ -9146,8 +9241,8 @@
                   "description": "The list of content in the group"
                 },
                 "defaultDescription": {
-                  "$ref": "#/definitions/Template%3C%5B%22name%22%2C%22layout%22%2C%22pose%22%5D%3E",
-                  "description": "[formatted] $1 = optional group name, $2 = layout description, $3 = pose description"
+                  "$ref": "#/definitions/Template%3C%5B%22name%22%2C%22layout%22%2C%22pose%22%2C%22color%22%5D%3E",
+                  "description": "[formatted] $1 = optional group name, $2 = layout description, $3 = pose description, $4 = optional background color name"
                 },
                 "description": {
                   "$ref": "#/definitions/NameAndDoc",
@@ -9342,8 +9437,8 @@
                   "description": "The color of characters in a phrase, group, or stage"
                 },
                 "defaultDescription": {
-                  "$ref": "#/definitions/Template%3C%5B%22text%22%2C%22name%22%2C%22size%22%2C%22face%22%2C%22animation%22%5D%3E",
-                  "description": "[formatted] A description of the phrase for screen readers. $1: non-optional text, $2: optional name, $3: optional size, $4: optional font, $5: then non-optional pose"
+                  "$ref": "#/definitions/Template%3C%5B%22text%22%2C%22name%22%2C%22size%22%2C%22face%22%2C%22animation%22%2C%22color%22%5D%3E",
+                  "description": "[formatted] A description of the phrase for screen readers. $1: non-optional text, $2: optional name, $3: optional size, $4: optional font, $5: non-optional pose, $6: optional color name"
                 },
                 "description": {
                   "$ref": "#/definitions/NameAndDoc",
@@ -9974,8 +10069,8 @@
                   "description": "A list of content to show on stage"
                 },
                 "defaultDescription": {
-                  "$ref": "#/definitions/Template%3C%5B%22count%22%2C%22name%22%2C%22frame%22%2C%22pose%22%5D%3E",
-                  "description": "[formatted] A description of the stage for screen readers. $1: output count, $2: optional stage name, $3: optional frame description, $4: pose description"
+                  "$ref": "#/definitions/Template%3C%5B%22count%22%2C%22name%22%2C%22frame%22%2C%22pose%22%2C%22color%22%5D%3E",
+                  "description": "[formatted] A description of the stage for screen readers. $1: output count, $2: optional stage name, $3: optional frame description, $4: pose description, $5: optional background color name"
                 },
                 "description": {
                   "$ref": "#/definitions/NameAndDoc",
@@ -18175,7 +18270,7 @@
     "Template<[\"condition\"]>": {
       "type": "string"
     },
-    "Template<[\"count\",\"name\",\"frame\",\"pose\"]>": {
+    "Template<[\"count\",\"name\",\"frame\",\"pose\",\"color\"]>": {
       "type": "string"
     },
     "Template<[\"count\"]>": {
@@ -18241,10 +18336,13 @@
     "Template<[\"moderated\",\"remaining\"]>": {
       "type": "string"
     },
+    "Template<[\"modifier\",\"color\"]>": {
+      "type": "string"
+    },
     "Template<[\"name\",\"input\"]>": {
       "type": "string"
     },
-    "Template<[\"name\",\"layout\",\"pose\"]>": {
+    "Template<[\"name\",\"layout\",\"pose\",\"color\"]>": {
       "type": "string"
     },
     "Template<[\"name\",\"scope\"]>": {
@@ -18319,7 +18417,7 @@
     "Template<[\"template\"]>": {
       "type": "string"
     },
-    "Template<[\"text\",\"name\",\"size\",\"face\",\"animation\"]>": {
+    "Template<[\"text\",\"name\",\"size\",\"face\",\"animation\",\"color\"]>": {
       "type": "string"
     },
     "Template<[\"text\",\"reminder\"]>": {

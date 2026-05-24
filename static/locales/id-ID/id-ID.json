@@ -1277,13 +1277,15 @@
             "doc": [
                 "$~Halo, apa kabar? Saya? Baik-baik saja. Saya suka mendefinisikan struktur yang menyimpan nilai dan fungsi, jadi selama saya bisa melakukan itu sepanjang hari, saya senang.",
                 "$~Saya bekerja seperti ini:",
-                "$~\\•Pizza( bahan•[''] ukuran•#inci ) ( ƒ biaya() ukuran × 10 dolar/inci ) Pizza(['pepperoni' 'paprika'] 12inci).biaya()\\",
-                "$~Lihat cara kerjanya? Saya mendefinisikan \\Pizza\\, yang memiliki dua input, \\ingredients\\ (daftar @Text) dan \\size\\ (angka dalam inci).",
+                "$~\\•Pizza(\ningredients•['']\nsize•#in\n) (\n\tƒ cost() size × 10dollars/in\n)\n\nPizza(['pepperoni' 'peppers'] 12in).cost()\\",
+                "$~Lihat cara kerjanya? Saya mendefinisikan \\Pizza\\ , yang memiliki dua input, \\ingredients\\ (daftar @Text ) dan \\size\\ (angka dalam inci).",
                 "$~Di dalam, @FunctionDefinition membuat sebuah fungsi yang mengevaluasi biaya pizza, dengan asumsi $10 per inci.",
                 "$~Saya tidak perlu memiliki @FunctionDefinition di dalam diri saya. Saya bisa saja berupa input.",
-                "$~\\•Pizza( bahan•[''] ukuran•#in )\\",
+                "$~\\•Pizza(\ningredients•['']\nsize•#in\n)\\",
                 "$~Saya juga bisa menyertakan @Bind di dalamnya, sehingga kita bisa mengevaluasi biayanya terlebih dahulu.",
-                "$~\\•Pizza( bahan•[''] ukuran•#inci ) ( biaya: ukuran × 10 dolar/inci ) Pizza(['pepperoni' 'paprika'] 12inci).biaya\\"
+                "$~\\•Pizza(\ningredients•['']\nsize•#in\n) (\n\tcost: size × 10dollars/in\n)\n\nPizza(['pepperoni' 'peppers'] 12in).cost\\",
+                "$~Tandai fungsi atau nilai dengan ↑ agar menjadi bagian dari struktur itu sendiri, bukan dari instance. Kemudian Anda dapat menggunakan nama struktur untuk mengaksesnya, tanpa perlu membuat struktur baru.",
+                "$~\\•Math() (\n\t↑ pi: 3.14159\n\t↑ ƒ square(n•#) n · n\n)\n\nMath.pi\nMath.square(5)\\"
             ],
             "start": "$~Mari kita definisikan struktur yang indah ini.",
             "conflict": {
@@ -3738,7 +3740,7 @@
                 "doc": "$~Sama seperti @Phrase/style!",
                 "names": "$~gaya"
             },
-            "defaultDescription": "$~$name [ $name |] $layout $pose"
+            "defaultDescription": "$~$name [ $name |] $layout $pose $color [ $color |]"
         },
         "Phrase": {
             "doc": [
@@ -3862,7 +3864,7 @@
                 "doc": "$~Gaya animasi yang digunakan saat berpindah ke tempat lain di atas panggung.",
                 "names": "$~gaya"
             },
-            "defaultDescription": "$~$size [ $size meter |]phrase $text $name [named $name |] $face [ $face |] $animation"
+            "defaultDescription": "$~$size [ $size meter |]phrase $text $name [named $name |] $face [ $face |] $animation $color [ $color |]"
         },
         "Arrangement": {
             "doc": "$~Saya adalah inspirasi bagi berbagai macam susunan lain di Verse, termasuk @Row, @Stack, @Grid, dan @Free. Saya bekerja sama erat dengan @Group untuk",
@@ -4136,18 +4138,22 @@
             "doc": [
                 "$~Aku adalah warna yang terlihat, terbuat dari tiga dimensi esensial.",
                 "$~Berikut beberapa warna umum di sekitar roda warna, dengan kecerahan sedang dan kroma tinggi:",
-                "$~Warna (50% 100 0°)",
-                "$~Warna (50% 100 30°)",
-                "$~Warna (50% 100 60°)",
-                "$~Warna (50% 100 90°)",
-                "$~Warna (50% 100 120°)",
-                "$~Warna (50% 100 150°)",
-                "$~Warna (50% 100 180°)",
-                "$~Warna(50% 100 210°)",
-                "$~Warna(50% 100 240°)",
-                "$~Warna(50% 100 270°)",
-                "$~Warna (50% 100 300°)",
-                "$~Warna (50% 100 330°)"
+                "$~\\Color(50% 100 0°)\\",
+                "$~\\Color(50% 100 30°)\\",
+                "$~\\Color(50% 100 60°)\\",
+                "$~\\Color(50% 100 90°)\\",
+                "$~\\Color(50% 100 120°)\\",
+                "$~\\Color(50% 100 150°)\\",
+                "$~\\Color(50% 100 180°)\\",
+                "$~\\Color(50% 100 210°)\\",
+                "$~\\Color(50% 100 240°)\\",
+                "$~\\Color(50% 100 270°)\\",
+                "$~\\Color(50% 100 300°)\\",
+                "$~\\Color(50% 100 330°)\\",
+                "$~Untuk sebelas nama warna yang paling umum, Anda tidak perlu membuat saya dari awal. Saya memiliki jalan pintas dalam penamaan saya:",
+                "$~\\Color.red\\",
+                "$~\\Color.blue\\",
+                "$~Singkatan-singkatan ini juga berlaku dalam bahasa Anda, jadi penutur bahasa Prancis dapat menulis \\couleur.rouge\\ dan penutur bahasa Jepang dapat menulis \\色.赤\\ . Singkatan-singkatan tersebut adalah: merah, oranye, kuning, hijau, biru, ungu, cokelat, merah muda, hitam, putih, dan abu-abu."
             ],
             "names": ["$~🌈", "$~Warna"],
             "lightness": {
@@ -4161,6 +4167,58 @@
             "hue": {
                 "doc": "$~Warna apa yang seharusnya saya miliki, pada roda warna, dari magenta \\0\\, merah \\30\\, hijau \\120\\, hingga biru \\270\\.",
                 "names": ["$~warna", "$~H"]
+            },
+            "colors": {
+                "black": {
+                    "doc": "$~Warna dasar hitam.",
+                    "names": ["$~hitam"]
+                },
+                "white": {
+                    "doc": "$~Warna dasar putih.",
+                    "names": ["$~putih"]
+                },
+                "gray": {
+                    "doc": "$~Warna dasar abu-abu.",
+                    "names": ["$~abu-abu"]
+                },
+                "red": {
+                    "doc": "$~Warna dasar merah.",
+                    "names": ["$~merah"]
+                },
+                "orange": {
+                    "doc": "$~Warna dasar oranye.",
+                    "names": ["$~oranye"]
+                },
+                "yellow": {
+                    "doc": "$~Warna dasar kuning.",
+                    "names": ["$~kuning"]
+                },
+                "green": {
+                    "doc": "$~Warna dasar hijau.",
+                    "names": ["$~hijau"]
+                },
+                "blue": {
+                    "doc": "$~Warna dasar biru.",
+                    "names": ["$~biru"]
+                },
+                "purple": {
+                    "doc": "$~Warna dasar ungu.",
+                    "names": ["$~ungu"]
+                },
+                "brown": {
+                    "doc": "$~Warna dasar cokelat.",
+                    "names": ["$~cokelat"]
+                },
+                "pink": {
+                    "doc": "$~Warna dasar merah muda.",
+                    "names": ["$~berwarnamerahmuda"]
+                }
+            },
+            "description": {
+                "modified": "$~$1 $2",
+                "mix": "$~$1 - $2",
+                "light": "$~lampu",
+                "dark": "$~gelap"
             }
         },
         "Sequence": {
@@ -4425,7 +4483,7 @@
                 "doc": "$~Gaya gravitasi yang diterapkan pada output yang tempatnya berada di @Motion.",
                 "names": "$~gayaberat"
             },
-            "defaultDescription": "$~stage $name [ $name |]of $count outputs $frame [with frame $frame |] $pose"
+            "defaultDescription": "$~panggung $name [ $name |] dari $count menghasilkan $frame [dengan frame $frame |] $pose $color [ $color |]"
         },
         "Easing": {
             "straight": "$~lurus",

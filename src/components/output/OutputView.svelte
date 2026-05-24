@@ -32,6 +32,10 @@
         type PermissionName,
     } from '@input/permissions';
     import type Color from '@output/Color';
+    import { toColor } from '@output/Color';
+    import { describeColorLocalized } from '@output/BasicColors';
+    import { toOutput } from '@output/toOutput';
+    import { NameGenerator } from '@output/Stage';
     import { getOrCreatePlace } from '@output/getOrCreatePlace';
     import { PX_PER_METER, rootScale } from '@output/outputToCSS';
     import Place, { createPlace } from '@output/Place';
@@ -235,18 +239,31 @@
     // Announce changes in values.
     $effect(() => {
         if ($announce && value !== undefined) {
+            // The generic `Value.getDescription` for any structure value
+            // just returns the term "structure" — useless for a screen
+            // reader. Prefer the rich, localized description from each
+            // output type's wrapper (Phrase/Group/Stage/Shape/Say) or
+            // from the color describer.
+            const output = toOutput(evaluator, value, new NameGenerator());
+            const colorValue = output ? undefined : toColor(value);
+            const description = exception
+                ? exception.getExplanation($locales).toText()
+                : output !== undefined
+                  ? output.getDescription($locales)
+                  : colorValue !== undefined
+                    ? describeColorLocalized(
+                          $locales,
+                          colorValue.lightness.toNumber(),
+                          colorValue.chroma.toNumber(),
+                          colorValue.hue.toNumber(),
+                      )
+                    : concretize(
+                          $locales,
+                          $locales.getPlainText(value.getDescription()),
+                          {},
+                      ).toText();
             untrack(() =>
-                $announce(
-                    'value',
-                    $locales.getLanguages()[0],
-                    exception
-                        ? exception.getExplanation($locales).toText()
-                        : concretize(
-                              $locales,
-                              $locales.getPlainText(value.getDescription()),
-                              {},
-                          ).toText(),
-                ),
+                $announce('value', $locales.getLanguages()[0], description),
             );
         }
     });

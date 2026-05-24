@@ -1272,13 +1272,15 @@
             "doc": [
                 "$~Olá, tudo bem? Eu? Estou ótimo. Adoro definir estruturas que armazenam valores e funções, por isso, enquanto puder fazer isto o dia todo, estou feliz.",
                 "$~Eu trabalho assim:",
-                "$~•Pizza(\ningredientes•['']\ntamanho•#pol\n) (\nƒ custo() tamanho × 10 dólares/pol\n\nPizza(['pepperoni' 'pimentos'] 12 pol). custo()\\",
-                "$~Percebe como funciona? Defini \\Pizza\\, que tem duas entradas, \\ingredients\\ (uma lista de @Text) e \\size\\ (um número em polegadas).",
+                "$~\\•Pizza(\ningredients•['']\nsize•#in\n) (\n\tƒ cost() size × 10dollars/in\n)\n\nPizza(['pepperoni' 'peppers'] 12in).cost()\\",
+                "$~Percebe como funciona? Defini \\Pizza\\ , que tem duas entradas, \\ingredients\\ (uma lista de @Text ) e \\size\\ (um número em polegadas).",
                 "$~Internamente, @FunctionDefinition criou uma função que calcula o custo de uma pizza, considerando 10 dólares por polegada.",
-                "$~Não preciso de ter `@FunctionDefinition` em mim. Posso simplesmente ser entradas.",
-                "$~•Pizza(\ningredientes•['']\ntamanho•#pol\n)\\",
-                "$~Também posso incluir o @Bind, para que possamos avaliar o custo antecipadamente.",
-                "$~•Pizza(\ningredientes•['']\ntamanho•#pol\n) (\ncusto: tamanho × 10 dólares/pol\n\nPizza(['pepperoni' 'pimentos'] 12 pol).custo\\"
+                "$~Não preciso de ter @FunctionDefinition em mim. Posso simplesmente ser entradas.",
+                "$~\\•Pizza(\ningredients•['']\nsize•#in\n)\\",
+                "$~Posso também incluir @Bind , para que possamos avaliar o custo antecipadamente.",
+                "$~\\•Pizza(\ningredients•['']\nsize•#in\n) (\n\tcost: size × 10dollars/in\n)\n\nPizza(['pepperoni' 'peppers'] 12in).cost\\",
+                "$~Marque uma função ou valor com ↑ para que pertença à própria estrutura, e não às instâncias. Assim, poderá utilizar o nome da estrutura para aceder à mesma, sem ter de criar uma nova.",
+                "$~\\•Math() (\n\t↑ pi: 3.14159\n\t↑ ƒ square(n•#) n · n\n)\n\nMath.pi\nMath.square(5)\\"
             ],
             "start": "$~Vamos definir esta estrutura encantadora.",
             "conflict": {
@@ -3733,7 +3735,7 @@
                 "doc": "$~Igual ao @Phrase/style!",
                 "names": "$~estilo"
             },
-            "defaultDescription": "$~$name[$name|] $layout $pose"
+            "defaultDescription": "$~$name [ $name |] $layout $pose $color [ $color |]"
         },
         "Phrase": {
             "doc": [
@@ -3857,7 +3859,7 @@
                 "doc": "$~O estilo de animação a utilizar quando se desloca para um local diferente no palco.",
                 "names": "$~estilo"
             },
-            "defaultDescription": "$~$size[$size medidor |]frase $text $name[nomeado $name|] $face[$face|] $animation"
+            "defaultDescription": "$~$size [ $size meter |]phrase $text $name [named $name |] $face [ $face |] $animation $color [ $color |]"
         },
         "Arrangement": {
             "doc": "$~Sou uma inspiração para muitos outros tipos de arranjos no Verso, incluindo @Row, @Stack, @Grid e @Free. Trabalho em estreita colaboração com o @Group para",
@@ -4142,7 +4144,11 @@
                 "$~\\Color(50% 100 240°)\\",
                 "$~\\Color(50% 100 270°)\\",
                 "$~\\Color(50% 100 300°)\\",
-                "$~\\Color(50% 100 330°)\\"
+                "$~\\Color(50% 100 330°)\\",
+                "$~Para os onze nomes de cores mais comuns, não precisa de me criar de raiz. O meu nome já vem com abreviaturas:",
+                "$~\\Color.red\\",
+                "$~\\Color.blue\\",
+                "$~Estes atalhos também funcionam na sua língua, pelo que um falante de francês pode escrever \\couleur.rouge\\ e um falante de japonês pode escrever \\色.赤\\ . Os atalhos são: vermelho, laranja, amarelo, verde, azul, roxo, castanho, rosa, preto, branco e cinzento."
             ],
             "names": ["$~🌈", "$~Cor"],
             "lightness": {
@@ -4156,6 +4162,58 @@
             "hue": {
                 "doc": "$~Num círculo cromático, de magenta 0, vermelho 30, verde 120 a azul 270, qual seria a minha cor?",
                 "names": ["$~matiz", "$~h"]
+            },
+            "colors": {
+                "black": {
+                    "doc": "$~A cor básica é o preto.",
+                    "names": ["$~preto"]
+                },
+                "white": {
+                    "doc": "$~A cor básica é o branco.",
+                    "names": ["$~branco"]
+                },
+                "gray": {
+                    "doc": "$~A cor básica é o cinzento.",
+                    "names": ["$~cinzento"]
+                },
+                "red": {
+                    "doc": "$~A cor básica é o vermelho.",
+                    "names": ["$~vermelho"]
+                },
+                "orange": {
+                    "doc": "$~A cor base é o laranja.",
+                    "names": ["$~laranja"]
+                },
+                "yellow": {
+                    "doc": "$~A cor básica é o amarelo.",
+                    "names": ["$~amarelo"]
+                },
+                "green": {
+                    "doc": "$~A cor básica é o verde.",
+                    "names": ["$~verde"]
+                },
+                "blue": {
+                    "doc": "$~A cor básica é o azul.",
+                    "names": ["$~azul"]
+                },
+                "purple": {
+                    "doc": "$~A cor básica é o roxo.",
+                    "names": ["$~roxo"]
+                },
+                "brown": {
+                    "doc": "$~A cor básica é o castanho.",
+                    "names": ["$~castanho"]
+                },
+                "pink": {
+                    "doc": "$~A cor básica é o rosa.",
+                    "names": ["$~cor-de-rosa"]
+                }
+            },
+            "description": {
+                "modified": "$~$1 $2",
+                "mix": "$~$1 - $2",
+                "light": "$~luz",
+                "dark": "$~escuro"
             }
         },
         "Sequence": {
@@ -4380,7 +4438,7 @@
                 "doc": "$~A gravidade a aplicar à saída cujo lugar se encontra em @Motion.",
                 "names": "$~gravidade"
             },
-            "defaultDescription": "$~estágio $name[$name |]de $count saídas$frame[com quadro $frame|] $pose"
+            "defaultDescription": "$~stage $name [ $name |] from $count outputs $frame [with frame $frame |] $pose $color [ $color |]"
         },
         "Easing": {
             "straight": "$~reto",

@@ -190,8 +190,15 @@ export default class Evaluate extends Expression {
                     (def instanceof StructureDefinition &&
                         !def.isInterface() &&
                         (expectedType === undefined ||
+                            // Compare against the type the Evaluate would
+                            // *produce* (an instance of the definition),
+                            // not the definition's own type
+                            // (`StructureDefinitionType`). Otherwise this
+                            // filter relies on `StructureType.acceptsAll`
+                            // silently unwrapping a definition as if it
+                            // were an instance — a bug we've removed.
                             expectedType.accepts(
-                                def.getType(context),
+                                new StructureType(def),
                                 context,
                             ))) ||
                     // If its a stream and the expected type matches the stream's type,

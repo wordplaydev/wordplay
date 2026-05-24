@@ -1266,13 +1266,15 @@
             "doc": [
                 "$~Cześć, jak się masz? Ja? Świetnie. Uwielbiam definiować struktury, które przechowują wartości i funkcje, więc dopóki mogę to robić cały dzień, jestem szczęśliwy.",
                 "$~Pracuję w ten sposób:",
-                "$~\\•Pizza(\nskładniki•['']\nrozmiar•#in\n) (\nƒ koszt() rozmiar × 10dolarów/in\n)\n\nPizza(['pepperoni' 'papryczki'] 12in).koszt()\\",
-                "$~Widzisz jak to działa? Zdefiniowałem \\Pizza\\, która ma dwa wejścia, \\ingredients\\ (lista @Text) i \\size\\ (liczba w calach).",
-                "$~W środku @FunctionDefinition stworzył funkcję, która szacuje koszt pizzy, przyjmując cenę 10 USD za cal.",
-                "$~Nie muszę mieć @FunctionDefinition w sobie. Mogę być po prostu danymi wejściowymi.",
-                "$~\\•Pizza(\nskładniki•['']\nrozmiar•#in\n)\\",
-                "$~Mogę też umieścić @Bind w środku, dzięki czemu będziemy mogli wcześniej oszacować koszty.",
-                "$~\\•Pizza(\nskładniki•['']\nrozmiar•#in\n) (\nkoszt: rozmiar × 10dolarów/in\n)\n\nPizza(['pepperoni' 'papryczki'] 12in).koszt\\"
+                "$~\\•Pizza(\ningredients•['']\nsize•#in\n) (\n\tƒ cost() size × 10dollars/in\n)\n\nPizza(['pepperoni' 'peppers'] 12in).cost()\\",
+                "$~Widzisz, jak to działa? Zdefiniowałem \\Pizza\\ , która ma dwa dane wejściowe: \\ingredients\\ (listę @Text ) i \\size\\ (liczbę w calach).",
+                "$~W tym celu @FunctionDefinition stworzył funkcję, która oblicza koszt pizzy, przyjmując, że za cal trzeba zapłacić 10 USD.",
+                "$~Nie muszę mieć w sobie @FunctionDefinition . Mogę po prostu być danymi wejściowymi.",
+                "$~\\•Pizza(\ningredients•['']\nsize•#in\n)\\",
+                "$~Mogę też umieścić @Bind w środku, dzięki czemu będziemy mogli z góry oszacować koszty.",
+                "$~\\•Pizza(\ningredients•['']\nsize•#in\n) (\n\tcost: size × 10dollars/in\n)\n\nPizza(['pepperoni' 'peppers'] 12in).cost\\",
+                "$~Oznacz funkcję lub wartość symbolem ↑, aby należała do samej struktury, a nie do instancji. Wtedy możesz użyć nazwy struktury, aby do niej dotrzeć, bez jej tworzenia.",
+                "$~\\•Math() (\n\t↑ pi: 3.14159\n\t↑ ƒ square(n•#) n · n\n)\n\nMath.pi\nMath.square(5)\\"
             ],
             "start": "$~Zdefiniujmy tę piękną strukturę",
             "conflict": {
@@ -3741,7 +3743,7 @@
                 "doc": "$~Tak samo jak @Phrase/style!",
                 "names": "$~styl"
             },
-            "defaultDescription": "$~$name[$name|] $layout $pose"
+            "defaultDescription": "$~$name [ $name |] $layout $pose $color [ $color |]"
         },
         "Phrase": {
             "doc": [
@@ -3864,7 +3866,7 @@
                 "doc": "$~Styl animacji stosowany przy przechodzeniu w inne miejsce sceny.",
                 "names": "$~styl"
             },
-            "defaultDescription": "$~$size[$size metr |]fraza $text $name[nazwana $name|] $face[$face|] $animation"
+            "defaultDescription": "$~$size [ $size meter |]fraza $text $name [named $name |] $face [ $face |] $animation $color [ $color |]"
         },
         "Arrangement": {
             "doc": "$~Jestem inspiracją dla wielu innych rodzajów aranżacji w Verse, w tym @Row, @Stack, @Grid i @Free. Współpracuję ściśle z @Group, aby",
@@ -4122,19 +4124,23 @@
         "Color": {
             "doc": [
                 "$~Jestem widocznym kolorem, składającym się z trzech podstawowych wymiarów.",
-                "$~Oto kilka powszechnie występujących kolorów na kole barw, o średniej jasności i wysokim nasyceniu:",
-                "$~\\Kolor(50% 100 0°)\\",
-                "$~\\Kolor(50% 100 30°)\\",
-                "$~\\Kolor(50% 100 60°)\\",
-                "$~\\Kolor(50% 100 90°)\\",
-                "$~\\Kolor(50% 100 120°)\\",
-                "$~\\Kolor(50% 100 150°)\\",
-                "$~\\Kolor(50% 100 180°)\\",
-                "$~\\Kolor(50% 100 210°)\\",
-                "$~\\Kolor(50% 100 240°)\\",
-                "$~\\Kolor(50% 100 270°)\\",
-                "$~\\Kolor(50% 100 300°)\\",
-                "$~\\Kolor(50% 100 330°)\\"
+                "$~Oto kilka popularnych kolorów na kole barw o średniej jasności i wysokim nasyceniu:",
+                "$~\\Color(50% 100 0°)\\",
+                "$~\\Color(50% 100 30°)\\",
+                "$~\\Color(50% 100 60°)\\",
+                "$~\\Color(50% 100 90°)\\",
+                "$~\\Color(50% 100 120°)\\",
+                "$~\\Color(50% 100 150°)\\",
+                "$~\\Color(50% 100 180°)\\",
+                "$~\\Color(50% 100 210°)\\",
+                "$~\\Color(50% 100 240°)\\",
+                "$~\\Color(50% 100 270°)\\",
+                "$~\\Color(50% 100 300°)\\",
+                "$~\\Color(50% 100 330°)\\",
+                "$~Jeśli chodzi o jedenaście najpopularniejszych nazw kolorów, nie musisz tworzyć mnie od podstaw. Mam skróty do mojego imienia:",
+                "$~\\Color.red\\",
+                "$~\\Color.blue\\",
+                "$~Te skróty działają również w Twoim języku, więc osoba mówiąca po francusku może napisać \\couleur.rouge\\ a osoba mówiąca po japońsku - \\色.赤\\ . Skróty to: czerwony, pomarańczowy, żółty, zielony, niebieski, fioletowy, brązowy, różowy, czarny, biały i szary."
             ],
             "names": ["$~🌈", "$~Kolor"],
             "lightness": {
@@ -4148,6 +4154,58 @@
             "hue": {
                 "doc": "$~Jaki powinienem mieć kolor na kole barw, od megenty \\0\\, przez czerwień \\30\\, zieleń \\120\\, do niebieskiego \\270\\.",
                 "names": ["$~odcień", "$~H"]
+            },
+            "colors": {
+                "black": {
+                    "doc": "$~Podstawowy kolor to czarny.",
+                    "names": ["$~czarny"]
+                },
+                "white": {
+                    "doc": "$~Podstawowy kolor to biały.",
+                    "names": ["$~biały"]
+                },
+                "gray": {
+                    "doc": "$~Podstawowy kolor to szary.",
+                    "names": ["$~szary"]
+                },
+                "red": {
+                    "doc": "$~Podstawowy kolor to czerwony.",
+                    "names": ["$~czerwony"]
+                },
+                "orange": {
+                    "doc": "$~Podstawowy kolor to pomarańczowy.",
+                    "names": ["$~pomarańczowy"]
+                },
+                "yellow": {
+                    "doc": "$~Podstawowy kolor to żółty.",
+                    "names": ["$~żółty"]
+                },
+                "green": {
+                    "doc": "$~Podstawowy kolor to zielony.",
+                    "names": ["$~zielony"]
+                },
+                "blue": {
+                    "doc": "$~Podstawowy kolor to niebieski.",
+                    "names": ["$~niebieski"]
+                },
+                "purple": {
+                    "doc": "$~Podstawowy kolor to fioletowy.",
+                    "names": ["$~fioletowy"]
+                },
+                "brown": {
+                    "doc": "$~Podstawowy kolor to brąz.",
+                    "names": ["$~brązowy"]
+                },
+                "pink": {
+                    "doc": "$~Podstawowy kolor to różowy.",
+                    "names": ["$~różowy"]
+                }
+            },
+            "description": {
+                "modified": "$~$1 $2",
+                "mix": "$~$1 $2",
+                "light": "$~światło",
+                "dark": "$~ciemny"
             }
         },
         "Sequence": {
@@ -4372,7 +4430,7 @@
                 "doc": "$~Grawitacja ma zastosowanie do wyników, których miejsce znajduje się w @Motion.",
                 "names": "$~powaga"
             },
-            "defaultDescription": "$~etap $name[$name |]z $count wyprowadza $frame[z ramką $frame|] $pose"
+            "defaultDescription": "$~etap $name [ $name |]z $count wyjść $frame [z ramką $frame |] $pose $color [ $color |]"
         },
         "Easing": {
             "straight": "$~prosty",

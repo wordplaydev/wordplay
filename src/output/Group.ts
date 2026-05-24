@@ -1,6 +1,7 @@
 import StructureValue from '@values/StructureValue';
 import { SupportedFontsFamiliesType, type SupportedFace } from '@basis/Fonts';
 import toStructure from '@basis/toStructure';
+import { describeColorLocalized } from '@output/BasicColors';
 import { getBind } from '@locale/getBind';
 import type Locales from '@locale/Locales';
 import { getFirstText } from '@locale/LocaleText';
@@ -168,6 +169,15 @@ export default class Group extends Output {
 
     getDescription(locales: Locales) {
         if (this._description === undefined) {
+            const bg = this.background;
+            const colorDescription = bg
+                ? describeColorLocalized(
+                      locales,
+                      bg.lightness.toNumber(),
+                      bg.chroma.toNumber(),
+                      bg.hue.toNumber(),
+                  )
+                : undefined;
             this._description = locales
                 .concretize(
                     (l) => l.output.Group.defaultDescription,
@@ -175,6 +185,7 @@ export default class Group extends Output {
                         name: this.name instanceof TextLang ? this.name.text : undefined,
                         layout: this.layout.getDescription(this.content, locales),
                         pose: this.pose.getDescription(locales),
+                        color: colorDescription,
                     },
                 )
                 .toText()

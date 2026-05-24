@@ -1264,15 +1264,17 @@
             "description": "$~$name yapısını tanımla",
             "emotion": "kind",
             "doc": [
-                "$~Merhaba, nasılsın? Ben mi? Harikayım. Değerleri ve işlevleri depolayan yapıları tanımlamayı seviyorum, bu yüzden bunu bütün gün yapabildiğim sürece mutluyum.",
-                "$~Ben şöyle çalışıyorum:",
-                "$~\\•Pizza(\nmalzemeler•['']\nboyut•#in\n) (\nƒ maliyet() boyut × 10dolar/in\n)\n\nPizza(['pepperoni' 'biberler'] 12in).cost()\\",
-                "$~Bunun nasıl çalıştığını görüyor musunuz? İki girdisi olan \\Pizza\\'yı tanımladım, \\ingredients\\ (bir @Text listesi) ve \\size\\ (inç cinsinden bir sayı).",
-                "$~İçeride, @FunctionDefinition inç başına 10$ olduğunu varsayarak bir pizzanın maliyetini değerlendiren bir fonksiyon yaptı.",
-                "$~@FunctionDefinition'ın bende olmasına gerek yok. Sadece girdi olabilirim.",
-                "$~\\•Pizza(\nmalzemeler•['']\nboyut•#in\n)\\",
-                "$~@Bind'i de içeri alabilirim, böylece maliyeti önceden değerlendirebiliriz.",
-                "$~\\•Pizza(\nmalzemeler•['']\nboyut•#in\n) (\nmaliyet: boyut × 10dolar/in\n)\n\nPizza(['pepperoni' 'biberler'] 12in).maliyet\\"
+                "$~Merhaba, nasılsınız? Ben mi? Harikayım. Değerleri ve fonksiyonları depolayan yapılar tanımlamayı çok seviyorum, bu yüzden gün boyu bunu yapabildiğim sürece mutluyum.",
+                "$~Çalışma şeklim şu şekilde:",
+                "$~\\•Pizza(\ningredients•['']\nsize•#in\n) (\n\tƒ cost() size × 10dollars/in\n)\n\nPizza(['pepperoni' 'peppers'] 12in).cost()\\",
+                "$~Bakın nasıl çalışıyor? İki girdisi olan \\ingredients\\ (bir @Text listesi) ve \\size\\ (inç cinsinden bir sayı) olmak üzere \\Pizza\\ tanımladım.",
+                "$~İçeride, @FunctionDefinition inç başına 10 dolar varsayarak bir pizzanın maliyetini hesaplayan bir fonksiyon oluşturdu.",
+                "$~@FunctionDefinition ihtiyacım yok. Sadece girdi olabilirim.",
+                "$~\\•Pizza(\ningredients•['']\nsize•#in\n)\\",
+                "$~Ayrıca @Bind de içine ekleyebilirim, böylece maliyeti önceden değerlendirebiliriz.",
+                "$~\\•Pizza(\ningredients•['']\nsize•#in\n) (\n\tcost: size × 10dollars/in\n)\n\nPizza(['pepperoni' 'peppers'] 12in).cost\\",
+                "$~Bir fonksiyonu veya değeri ↑ ile işaretleyerek, onu örneklerin değil, yapının kendisinin bir parçası haline getirin. Ardından, yeni bir yapı oluşturmadan, yapının adını kullanarak ona ulaşabilirsiniz.",
+                "$~\\•Math() (\n\t↑ pi: 3.14159\n\t↑ ƒ square(n•#) n · n\n)\n\nMath.pi\nMath.square(5)\\"
             ],
             "start": "$~Bu güzel yapıyı tanımlayalım",
             "conflict": {
@@ -3733,7 +3735,7 @@
                 "doc": "$~@Phrase/style ile aynı!",
                 "names": "$~stil"
             },
-            "defaultDescription": "$~$name[$name|] $layout $pose"
+            "defaultDescription": "$~$name [ $name |] $layout $pose $color [ $color |]"
         },
         "Phrase": {
             "doc": [
@@ -3856,7 +3858,7 @@
                 "doc": "$~Sahnede farklı bir yere geçerken kullanılacak animasyon stili.",
                 "names": "$~stil"
             },
-            "defaultDescription": "$~$size[$size metre |]ifade $text $name[adlandırılmış $name|] $face[$face|] $animation"
+            "defaultDescription": "$~$size [ $size metre |] ifade $text $name [adlandırılmış $name |] $face [ $face |] $animation $color [ $color |]"
         },
         "Arrangement": {
             "doc": "$~Verse'deki @Row, @Stack, @Grid ve @Free gibi birçok diğer düzenleme türüne ilham kaynağıyım. @Group ile yakın bir şekilde çalışıyorum",
@@ -4113,20 +4115,24 @@
         },
         "Color": {
             "doc": [
-                "$~Ben üç temel boyuttan oluşan, gözle görülür bir rengim.",
-                "$~İşte renk çarkında orta parlaklık ve yüksek kroma değerlerinde görülen bazı yaygın renkler:",
-                "$~\\Renk(50% 100 0°)\\",
-                "$~\\Renk(50% 100 30°)\\",
-                "$~\\Renk(50% 100 60°)\\",
-                "$~\\Renk(50% 100 90°)\\",
-                "$~\\Renk(50% 100 120°)\\",
-                "$~\\Renk(50% 100 150°)\\",
-                "$~\\Renk(50% 100 180°)\\",
-                "$~\\Renk(50% 100 210°)\\",
-                "$~\\Renk(50% 100 240°)\\",
-                "$~\\Renk(50% 100 270°)\\",
-                "$~\\Renk(50% 100 300°)\\",
-                "$~\\Renk(50% 100 330°)\\"
+                "$~Ben, üç temel boyuttan oluşan, görünür bir rengim.",
+                "$~İşte renk çemberinde yaygın olarak bulunan, orta parlaklıkta ve yüksek doygunlukta bazı renkler:",
+                "$~\\Color(50% 100 0°)\\",
+                "$~\\Color(50% 100 30°)\\",
+                "$~\\Color(50% 100 60°)\\",
+                "$~\\Color(50% 100 90°)\\",
+                "$~\\Color(50% 100 120°)\\",
+                "$~\\Color(50% 100 150°)\\",
+                "$~\\Color(50% 100 180°)\\",
+                "$~\\Color(50% 100 210°)\\",
+                "$~\\Color(50% 100 240°)\\",
+                "$~\\Color(50% 100 270°)\\",
+                "$~\\Color(50% 100 300°)\\",
+                "$~\\Color(50% 100 330°)\\",
+                "$~En yaygın on bir renk adı için beni sıfırdan oluşturmanıza gerek yok. Adımda kısayollar mevcut:",
+                "$~\\Color.red\\",
+                "$~\\Color.blue\\",
+                "$~Bu kısaltmalar sizin dilinizde de geçerlidir, bu nedenle Fransızca konuşan biri \\couleur.rouge\\ ve Japonca konuşan biri \\色.赤\\ yazabilir. Kısaltmalar şunlardır: kırmızı, turuncu, sarı, yeşil, mavi, mor, kahverengi, pembe, siyah, beyaz ve gri."
             ],
             "names": ["$~🌈", "$~Renk"],
             "lightness": {
@@ -4140,6 +4146,58 @@
             "hue": {
                 "doc": "$~Bir renk çarkında megenta \\0\\, kırmızı \\30\\, yeşil \\120\\, mavi \\270\\'e kadar hangi renk olmalıyım?",
                 "names": ["$~renktonu", "$~H"]
+            },
+            "colors": {
+                "black": {
+                    "doc": "$~Temel renk siyah.",
+                    "names": ["$~siyah"]
+                },
+                "white": {
+                    "doc": "$~Temel renk beyazdır.",
+                    "names": ["$~beyaz"]
+                },
+                "gray": {
+                    "doc": "$~Temel renk gri.",
+                    "names": ["$~gri"]
+                },
+                "red": {
+                    "doc": "$~Temel renk kırmızı.",
+                    "names": ["$~kırmızı"]
+                },
+                "orange": {
+                    "doc": "$~Temel renk turuncu.",
+                    "names": ["$~turuncu"]
+                },
+                "yellow": {
+                    "doc": "$~Temel renk sarı.",
+                    "names": ["$~sarı"]
+                },
+                "green": {
+                    "doc": "$~Temel renk yeşil.",
+                    "names": ["$~yeşil"]
+                },
+                "blue": {
+                    "doc": "$~Temel renk mavidir.",
+                    "names": ["$~mavi"]
+                },
+                "purple": {
+                    "doc": "$~Temel renk mor.",
+                    "names": ["$~mor"]
+                },
+                "brown": {
+                    "doc": "$~Temel renk kahverengi.",
+                    "names": ["$~kahverengi"]
+                },
+                "pink": {
+                    "doc": "$~Temel renk pembe.",
+                    "names": ["$~pembe"]
+                }
+            },
+            "description": {
+                "modified": "$~$1 $2",
+                "mix": "$~$1 - $2",
+                "light": "$~ışık",
+                "dark": "$~karanlık"
             }
         },
         "Sequence": {
@@ -4364,7 +4422,7 @@
                 "doc": "$~@Motion'daki yeri olan çıktıya uygulanacak yerçekimi.",
                 "names": "$~yerçekimi"
             },
-            "defaultDescription": "$~$name'in $name[$count |] aşaması $frame[çerçeve $frame|] $pose çıktısını verir"
+            "defaultDescription": "$~aşama $name [ $name |] $count çıktı $frame [çerçeve $frame |] $pose $color [ $color |]"
         },
         "Easing": {
             "straight": "$~dümdüz",

@@ -152,6 +152,19 @@ test.each([
     },
 );
 
+test('Passing a structure definition where a structure instance is expected is a type error', () => {
+    // Regression: `StructureType.acceptsAll` used to silently unwrap
+    // `StructureDefinitionType` into its inner `StructureType`, accepting
+    // a bare definition reference as if it were an instance. The natural
+    // example: `Phrase('hi' color: Color)` should not type-check because
+    // `Color` (the definition) isn't a `Color` value — you'd write
+    // `Color(50% 100 0°)` (or `Color.red`) to get an instance.
+    const project = makeProject("Phrase('hi' color: Color)");
+    project.analyze();
+    const conflicted = Array.from(project.getConflictedNodes().keys());
+    expect(conflicted.length).toBeGreaterThan(0);
+});
+
 // ---------------------------------------------------------------------------
 // Static functions and binds (`↑` modifier inside a structure block).
 // ---------------------------------------------------------------------------

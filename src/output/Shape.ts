@@ -6,6 +6,7 @@ import { getBind } from '@locale/getBind';
 import { TYPE_SYMBOL } from '@parser/Symbols';
 import StructureValue from '@values/StructureValue';
 import type Value from '@values/Value';
+import { describeColorLocalized } from '@output/BasicColors';
 import type Color from '@output/Color';
 import { Form, toForm } from '@output/Form';
 import Output, { DefaultStyle } from '@output/Output';
@@ -139,7 +140,20 @@ export default class Shape extends Output {
     }
 
     getDescription(locales: Locales) {
-        return this.form.getDescription(locales);
+        const base = this.form.getDescription(locales);
+        // Append a color description when the shape carries a background
+        // color. Shape's description template is form-driven, so we just
+        // concatenate the color string rather than threading another
+        // interpolation slot.
+        const bg = this.background;
+        if (bg === undefined) return base;
+        const color = describeColorLocalized(
+            locales,
+            bg.lightness.toNumber(),
+            bg.chroma.toNumber(),
+            bg.hue.toNumber(),
+        );
+        return `${base} ${color}`.trim();
     }
 
     getRepresentativeText() {

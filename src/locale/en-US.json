@@ -1284,8 +1284,8 @@
                 "\\•Pizza(\ningredients•['']\nsize•#in\n)\\",
                 "I can also have @Bind inside, so we could evaluate the cost in advance.",
                 "\\•Pizza(\ningredients•['']\nsize•#in\n) (\n\tcost: size × 10dollars/in\n)\n\nPizza(['pepperoni' 'peppers'] 12in).cost\\",
-                "$!Mark a function or value with ↑ to make it belong to the structure itself, not to instances. Then you can use the name of the structure to reach it, without making one.",
-                "$!\\•Math() (\n\t↑ pi: 3.14159\n\t↑ ƒ square(n•#) n · n\n)\n\nMath.pi\nMath.square(5)\\"
+                "Mark a function or value with ↑ to make it belong to the structure itself, not to instances. Then you can use the name of the structure to reach it, without making one.",
+                "\\•Math() (\n\t↑ pi: 3.14159\n\t↑ ƒ square(n•#) n · n\n)\n\nMath.pi\nMath.square(5)\\"
             ],
             "start": "Let's define this lovely structure",
             "conflict": {
@@ -3741,7 +3741,7 @@
                 "doc": "Same as @Phrase/style!",
                 "names": "style"
             },
-            "defaultDescription": "$name[$name|] $layout $pose"
+            "defaultDescription": "$name[$name|] $layout $pose $color[$color|]"
         },
         "Phrase": {
             "doc": [
@@ -3865,7 +3865,7 @@
                 "doc": "The animation style to use when moving to a different place on stage.",
                 "names": "style"
             },
-            "defaultDescription": "$size[$size meter |]phrase $text $name[named $name|] $face[$face|] $animation"
+            "defaultDescription": "$size[$size meter |]phrase $text $name[named $name|] $face[$face|] $animation $color[$color|]"
         },
         "Arrangement": {
             "doc": "I am an inspiration to the many other kinds of arrangement in the Verse, including @Row, @Stack, @Grid, and @Free. I work closely with @Group to ",
@@ -4150,7 +4150,11 @@
                 "\\Color(50% 100 240°)\\",
                 "\\Color(50% 100 270°)\\",
                 "\\Color(50% 100 300°)\\",
-                "\\Color(50% 100 330°)\\"
+                "\\Color(50% 100 330°)\\",
+                "For the eleven most common color names, you don't have to make me from scratch. I have shortcuts on my name:",
+                "\\Color.red\\",
+                "\\Color.blue\\",
+                "These shortcuts work in your language too, so a French speaker can write \\couleur.rouge\\ and a Japanese speaker can write \\色.赤\\. The shortcuts are: red, orange, yellow, green, blue, purple, brown, pink, black, white, and gray."
             ],
             "names": ["🌈", "Color"],
             "lightness": {
@@ -4164,6 +4168,58 @@
             "hue": {
                 "doc": "What color I should be, on a color wheel, from magenta \\0\\, red \\30\\, green \\120\\, to blue \\270\\.",
                 "names": ["hue", "h"]
+            },
+            "colors": {
+                "black": {
+                    "doc": "The basic color black.",
+                    "names": ["black"]
+                },
+                "white": {
+                    "doc": "The basic color white.",
+                    "names": ["white"]
+                },
+                "gray": {
+                    "doc": "The basic color gray.",
+                    "names": ["gray"]
+                },
+                "red": {
+                    "doc": "The basic color red.",
+                    "names": ["red"]
+                },
+                "orange": {
+                    "doc": "The basic color orange.",
+                    "names": ["orange"]
+                },
+                "yellow": {
+                    "doc": "The basic color yellow.",
+                    "names": ["yellow"]
+                },
+                "green": {
+                    "doc": "The basic color green.",
+                    "names": ["green"]
+                },
+                "blue": {
+                    "doc": "The basic color blue.",
+                    "names": ["blue"]
+                },
+                "purple": {
+                    "doc": "The basic color purple.",
+                    "names": ["purple"]
+                },
+                "brown": {
+                    "doc": "The basic color brown.",
+                    "names": ["brown"]
+                },
+                "pink": {
+                    "doc": "The basic color pink.",
+                    "names": ["pink"]
+                }
+            },
+            "description": {
+                "modified": "$!$modifier $color",
+                "mix": "$!$first-$second",
+                "light": "light",
+                "dark": "dark"
             }
         },
         "Sequence": {
@@ -4428,7 +4484,7 @@
                 "doc": "The gravity to apply to output whose place is in @Motion.",
                 "names": "gravity"
             },
-            "defaultDescription": "stage $name[$name |]of $count outputs$frame[with frame $frame|] $pose"
+            "defaultDescription": "stage $name[$name |]of $count outputs$frame[with frame $frame|] $pose $color[$color|]"
         },
         "Easing": {
             "straight": "straight",

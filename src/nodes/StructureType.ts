@@ -93,7 +93,11 @@ export default class StructureType extends BasisType {
             // If the given type is a name type, is does it refer to this type's structure definition?
             if (type instanceof NameType) type = type.getType(context);
 
-            if (type instanceof StructureDefinitionType) type = type.type;
+            // `StructureDefinitionType` is the type of a *reference to the
+            // definition itself* (e.g., `Color` standing alone), not of an
+            // instance. It should NOT satisfy a `StructureType` input —
+            // `Phrase(color: Color)` is a type error, since `Color` isn't a
+            // `Color` value.
             if (!(type instanceof StructureType)) return false;
             if (type.definition === this.definition) return true;
             // Are any of the given type's interfaces compatible with this?

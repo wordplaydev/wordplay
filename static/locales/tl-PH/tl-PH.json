@@ -1275,13 +1275,15 @@
             "doc": [
                 "$~Bakit hello, kumusta ka? Ako? Magaling ako. Mahilig akong magtakda ng mga istruktura na nag-iimbak ng mga halaga at tungkulin, kaya hangga't nagagawa ko iyon buong araw, masaya na ako.",
                 "$~Ganito ang trabaho ko:",
-                "$~\\•Pizza(\nmga sangkap•['']\nlaki•#in\n) (\nƒ gastos() laki × 10dolyar/in\n)\n\nPizza(['pepperoni' 'peppers'] 12in).gastos()\\",
-                "$~Nakikita mo ba kung paano iyon gumagana? Tinukoy ko ang \\Pizza\\, na may dalawang input, \\ingredients\\ (isang listahan ng @Text) at \\size\\ (isang numero sa pulgada).",
-                "$~Sa loob, ang @FunctionDefinition ay gumawa ng isang function na sumusuri sa halaga ng isang pizza, sa pag-aakalang $$10 bawat pulgada.",
+                "$~\\•Pizza(\ningredients•['']\nsize•#in\n) (\n\tƒ cost() size × 10dollars/in\n)\n\nPizza(['pepperoni' 'peppers'] 12in).cost()\\",
+                "$~Nakikita mo ba kung paano iyon gumagana? Tinukoy ko ang \\Pizza\\ , na may dalawang input, \\ingredients\\ (isang listahan ng @Text ) at \\size\\ (isang numero sa pulgada).",
+                "$~Sa loob, @FunctionDefinition ay gumawa ng isang function na sumusuri sa halaga ng isang pizza, sa pag-aakalang $$10 bawat pulgada.",
                 "$~Hindi ko kailangang magkaroon ng @FunctionDefinition sa akin. Maaari lang akong maging input.",
-                "$~\\•Pizza(\nmga sangkap•['']\nlaki•#sa\n)\\",
-                "$~Maaari ko ring ilagay ang @Bind sa loob, para masuri natin ang gastos nang maaga.",
-                "$~\\•Pizza(\nmga sangkap•['']\nlaki•#in\n) (\nhalaga: laki × 10dolyar/in\n)\n\nPizza(['pepperoni' 'peppers'] 12in).halaga\\"
+                "$~\\•Pizza(\ningredients•['']\nsize•#in\n)\\",
+                "$~Maaari ko ring ilagay @Bind sa loob, para masuri natin ang gastos nang maaga.",
+                "$~\\•Pizza(\ningredients•['']\nsize•#in\n) (\n\tcost: size × 10dollars/in\n)\n\nPizza(['pepperoni' 'peppers'] 12in).cost\\",
+                "$~Markahan ang isang function o value gamit ang ↑ para maisama ito sa mismong structure, hindi sa mga instance. Pagkatapos, maaari mong gamitin ang pangalan ng structure para maabot ito, nang hindi gumagawa ng isa.",
+                "$~\\•Math() (\n\t↑ pi: 3.14159\n\t↑ ƒ square(n•#) n · n\n)\n\nMath.pi\nMath.square(5)\\"
             ],
             "start": "$~Bigyang-kahulugan natin ang magandang istrukturang ito",
             "conflict": {
@@ -3736,7 +3738,7 @@
                 "doc": "$~Pareho ng @Phrase/style!",
                 "names": "$~estilo"
             },
-            "defaultDescription": "$~$name[$name|] $layout $pose"
+            "defaultDescription": "$~$name [ $name |] $layout $pose $color [ $color |]"
         },
         "Phrase": {
             "doc": [
@@ -3860,7 +3862,7 @@
                 "doc": "$~Ang istilo ng animation na gagamitin kapag lumilipat sa ibang lugar sa entablado.",
                 "names": "$~estilo"
             },
-            "defaultDescription": "$~$size[$size metro |]parirala $text $name[pinangalanang $name|] $face[$face|] $animation"
+            "defaultDescription": "$~$size [ $size meter |]parirala $text $name [pinangalanang $name |] $face [ $face |] $animation $color [ $color |]"
         },
         "Arrangement": {
             "doc": "$~Isa akong inspirasyon sa maraming iba pang uri ng pagkakaayos sa Talata, kabilang ang @Row, @Stack, @Grid, at @Free. Malapit akong nakikipagtulungan sa @Group para",
@@ -4134,18 +4136,22 @@
             "doc": [
                 "$~Ako ay isang nakikitang kulay, na binubuo ng tatlong mahahalagang dimensyon.",
                 "$~Narito ang ilang karaniwang kulay sa paligid ng color wheel, sa katamtamang liwanag at mataas na chroma:",
-                "$~\\Kulay(50% 100 0°)\\",
-                "$~\\Kulay(50% 100 30°)\\",
-                "$~\\Kulay(50% 100 60°)\\",
-                "$~\\Kulay(50% 100 90°)\\",
-                "$~\\Kulay(50% 100 120°)\\",
-                "$~\\Kulay(50% 100 150°)\\",
-                "$~\\Kulay(50% 100 180°)\\",
-                "$~\\Kulay(50% 100 210°)\\",
-                "$~\\Kulay(50% 100 240°)\\",
-                "$~\\Kulay(50% 100 270°)\\",
-                "$~\\Kulay(50% 100 300°)\\",
-                "$~\\Kulay(50% 100 330°)\\"
+                "$~\\Color(50% 100 0°)\\",
+                "$~\\Color(50% 100 30°)\\",
+                "$~\\Color(50% 100 60°)\\",
+                "$~\\Color(50% 100 90°)\\",
+                "$~\\Color(50% 100 120°)\\",
+                "$~\\Color(50% 100 150°)\\",
+                "$~\\Color(50% 100 180°)\\",
+                "$~\\Color(50% 100 210°)\\",
+                "$~\\Color(50% 100 240°)\\",
+                "$~\\Color(50% 100 270°)\\",
+                "$~\\Color(50% 100 300°)\\",
+                "$~\\Color(50% 100 330°)\\",
+                "$~Para sa labing-isang pinakakaraniwang pangalan ng kulay, hindi mo na kailangang gawin ako mula sa simula. Mayroon akong mga shortcut sa aking pangalan:",
+                "$~\\Color.red\\",
+                "$~\\Color.blue\\",
+                "$~Gumagana rin ang mga shortcut na ito sa iyong wika, kaya maaaring isulat ng isang nagsasalita ng Pranses \\couleur.rouge\\ at ng isang nagsasalita ng Hapon \\色.赤\\ . Ang mga shortcut ay: pula, kahel, dilaw, berde, asul, lila, kayumanggi, rosas, itim, puti, at kulay abo."
             ],
             "names": ["$~🌈", "$~Kulay"],
             "lightness": {
@@ -4159,6 +4165,58 @@
             "hue": {
                 "doc": "$~Anong kulay ang dapat kong maging, sa isang color wheel, mula magenta \\0\\, pula \\30\\, berde \\120\\, hanggang asul \\270\\.",
                 "names": ["$~kulay", "$~h"]
+            },
+            "colors": {
+                "black": {
+                    "doc": "$~Ang pangunahing kulay ay itim.",
+                    "names": ["$~itim"]
+                },
+                "white": {
+                    "doc": "$~Ang pangunahing kulay ay puti.",
+                    "names": ["$~puti"]
+                },
+                "gray": {
+                    "doc": "$~Ang pangunahing kulay ay kulay abo.",
+                    "names": ["$~kulayabo"]
+                },
+                "red": {
+                    "doc": "$~Ang pangunahing kulay ay pula.",
+                    "names": ["$~pula"]
+                },
+                "orange": {
+                    "doc": "$~Ang pangunahing kulay ay kulay kahel.",
+                    "names": ["$~kahel"]
+                },
+                "yellow": {
+                    "doc": "$~Ang pangunahing kulay ay dilaw.",
+                    "names": ["$~dilaw"]
+                },
+                "green": {
+                    "doc": "$~Ang pangunahing kulay ay berde.",
+                    "names": ["$~berde"]
+                },
+                "blue": {
+                    "doc": "$~Ang pangunahing kulay ay asul.",
+                    "names": ["$~asul"]
+                },
+                "purple": {
+                    "doc": "$~Ang pangunahing kulay ay lila.",
+                    "names": ["$~lila"]
+                },
+                "brown": {
+                    "doc": "$~Ang pangunahing kulay ay kayumanggi.",
+                    "names": ["$~kayumanggi"]
+                },
+                "pink": {
+                    "doc": "$~Ang pangunahing kulay ay rosas.",
+                    "names": ["$~kulayrosas"]
+                }
+            },
+            "description": {
+                "modified": "$~$1 $2",
+                "mix": "$~$1 - $2",
+                "light": "$~liwanag",
+                "dark": "$~madilim"
             }
         },
         "Sequence": {
@@ -4383,7 +4441,7 @@
                 "doc": "$~Ang gravity na ilalapat sa output na ang lugar ay nasa @Motion.",
                 "names": "$~grabidad"
             },
-            "defaultDescription": "$~yugto $name[$name |]ng $count ay naglalabas ng $frame[na may frame na $frame|] $pose"
+            "defaultDescription": "$~yugto $name [ $name |]ng $count ay naglalabas ng $frame [kasama ang frame na $frame |] $pose $color [ $color |]"
         },
         "Easing": {
             "straight": "$~tuwid",

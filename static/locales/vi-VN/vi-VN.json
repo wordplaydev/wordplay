@@ -1270,15 +1270,17 @@
                 "interfaces": "$~giao diện"
             },
             "doc": [
-                "$~Chào bạn, bạn khỏe không? Còn tôi? Tôi rất khỏe. Tôi thích thiết kế các cấu trúc lưu trữ giá trị và chức năng, vì vậy chỉ cần được làm việc đó cả ngày là tôi thấy hạnh phúc rồi.",
-                "$~Tôi làm việc như sau:",
-                "$~\\• Pizza(\nnguyên liệu • ['']\nkích thước •# inch\n\n) (\nƒ giá thành() kích thước × 10 đô la/inch\n\n)\n\nPizza(['pepperoni' 'peppers'] 12 inch).giá thành()\\",
-                "$~Bạn thấy cách nó hoạt động chứ? Tôi đã định nghĩa \\Pizza\\, có hai đầu vào, \\ingredients\\ (một danh sách @Text) và \\size\\ (một số tính bằng inch).",
-                "$~Bên trong, @FunctionDefinition đã tạo một hàm để tính toán giá thành của một chiếc bánh pizza, giả sử mỗi inch có giá 10 đô la.",
-                "$~Tôi không cần phải có chú thích @FunctionDefinition bên trong. Tôi chỉ cần là các tham số đầu vào thôi.",
-                "$~\\•Pizza(\nnguyên liệu•['']\nkích cỡ•#in\n)\\",
+                "$~Chào bạn, bạn khỏe không? Còn tôi? Tôi rất khỏe. Tôi thích định nghĩa các cấu trúc lưu trữ giá trị và chức năng, vì vậy chỉ cần được làm việc đó cả ngày là tôi hạnh phúc rồi.",
+                "$~Tôi làm việc theo cách này:",
+                "$~\\•Pizza(\ningredients•['']\nsize•#in\n) (\n\tƒ cost() size × 10dollars/in\n)\n\nPizza(['pepperoni' 'peppers'] 12in).cost()\\",
+                "$~Bạn thấy cách nó hoạt động chứ? Tôi đã định nghĩa \\Pizza\\ , có hai đầu vào, \\ingredients\\ (một danh sách @Text ) và \\size\\ (một số tính bằng inch).",
+                "$~Bên trong, @FunctionDefinition đã tạo một hàm để tính giá thành của một chiếc bánh pizza, giả sử mỗi inch có giá 10 đô la.",
+                "$~Tôi không cần phải có chú @FunctionDefinition bên trong. Tôi chỉ cần là các tham số đầu vào thôi.",
+                "$~\\•Pizza(\ningredients•['']\nsize•#in\n)\\",
                 "$~Tôi cũng có thể thêm chú thích @Bind vào bên trong, để chúng ta có thể đánh giá chi phí trước.",
-                "$~\\•Pizza(\nnguyên liệu•['']\nkích cỡ•#inch\n\n) (\nchi phí: kích cỡ × 10 đô la/inch\n)\n\nPizza(['pepperoni' 'peppers'] 12in).chi phí\\"
+                "$~\\•Pizza(\ningredients•['']\nsize•#in\n) (\n\tcost: size × 10dollars/in\n)\n\nPizza(['pepperoni' 'peppers'] 12in).cost\\",
+                "$~Đánh dấu một hàm hoặc giá trị bằng ↑ để nó thuộc về chính cấu trúc, chứ không phải thuộc về các thể hiện. Khi đó, bạn có thể sử dụng tên của cấu trúc để truy cập nó mà không cần tạo cấu trúc mới.",
+                "$~\\•Math() (\n\t↑ pi: 3.14159\n\t↑ ƒ square(n•#) n · n\n)\n\nMath.pi\nMath.square(5)\\"
             ],
             "start": "$~Hãy cùng định nghĩa cấu trúc tuyệt vời này.",
             "conflict": {
@@ -3733,7 +3735,7 @@
                 "doc": "$~Giống như @Phrase/style!",
                 "names": "$~phongcách"
             },
-            "defaultDescription": "$~$name[$name|] $layout $pose"
+            "defaultDescription": "$~$name [ $name |] $layout $pose $color [ $color |]"
         },
         "Phrase": {
             "doc": [
@@ -3857,7 +3859,7 @@
                 "doc": "$~Phong cách hoạt hình được sử dụng khi di chuyển đến một vị trí khác trên sân khấu.",
                 "names": "$~phongcách"
             },
-            "defaultDescription": "$~$size[$size mét |] cụm từ $text $name[được đặt tên là $name|] $face[$face|] $animation"
+            "defaultDescription": "$~$size [ $size meter |]phrase $text $name [named $name |] $face [ $face |] $animation $color [ $color |]"
         },
         "Arrangement": {
             "doc": "$~Tôi là nguồn cảm hứng cho nhiều kiểu sắp xếp khác trong Verse, bao gồm @Row, @Stack, @Grid và @Free. Tôi hợp tác chặt chẽ với @Group để",
@@ -4116,18 +4118,22 @@
             "doc": [
                 "$~Tôi là một màu sắc hữu hình, được tạo thành từ ba chiều cơ bản.",
                 "$~Dưới đây là một số màu sắc phổ biến trên vòng tròn màu, với độ sáng trung bình và độ bão hòa cao:",
-                "$~\\Màu(50% 100 0°)\\",
-                "$~\\Màu(50% 100 30°)\\",
-                "$~\\Màu sắc(50% 100 60°)\\",
-                "$~\\Màu sắc(50% 100 90°)\\",
-                "$~\\Màu sắc(50% 100 120°)\\",
-                "$~\\Màu sắc(50% 100 150°)\\",
-                "$~\\Màu sắc(50% 100 180°)\\",
-                "$~\\Màu sắc(50% 100 210°)\\",
-                "$~\\Màu(50% 100 240°)\\",
-                "$~\\Màu(50% 100 270°)\\",
-                "$~\\Màu sắc(50% 100 300°)\\",
-                "$~\\Màu(50% 100 330°)\\"
+                "$~\\Color(50% 100 0°)\\",
+                "$~\\Color(50% 100 30°)\\",
+                "$~\\Color(50% 100 60°)\\",
+                "$~\\Color(50% 100 90°)\\",
+                "$~\\Color(50% 100 120°)\\",
+                "$~\\Color(50% 100 150°)\\",
+                "$~\\Color(50% 100 180°)\\",
+                "$~\\Color(50% 100 210°)\\",
+                "$~\\Color(50% 100 240°)\\",
+                "$~\\Color(50% 100 270°)\\",
+                "$~\\Color(50% 100 300°)\\",
+                "$~\\Color(50% 100 330°)\\",
+                "$~Đối với mười một tên màu phổ biến nhất, bạn không cần phải tự tạo ra tôi từ đầu. Tôi có các cách viết tắt cho tên của mình:",
+                "$~\\Color.red\\",
+                "$~\\Color.blue\\",
+                "$~Các phím tắt này cũng hoạt động với ngôn ngữ của bạn, vì vậy người nói tiếng Pháp có thể viết \\couleur.rouge\\ và người nói tiếng Nhật có thể viết \\色.赤\\ . Các phím tắt là: đỏ, cam, vàng, xanh lá cây, xanh dương, tím, nâu, hồng, đen, trắng và xám."
             ],
             "names": ["$~🌈", "$~Màusắc"],
             "lightness": {
@@ -4141,6 +4147,58 @@
             "hue": {
                 "doc": "$~Tôi nên có màu gì trên vòng tròn màu, từ màu đỏ tươi \\0\\, đỏ \\30\\, xanh lá cây \\120\\, đến xanh dương \\270\\?",
                 "names": ["$~sắcđộ", "$~h"]
+            },
+            "colors": {
+                "black": {
+                    "doc": "$~Màu cơ bản là màu đen.",
+                    "names": ["$~đen"]
+                },
+                "white": {
+                    "doc": "$~Màu cơ bản là màu trắng.",
+                    "names": ["$~trắng"]
+                },
+                "gray": {
+                    "doc": "$~Màu cơ bản là màu xám.",
+                    "names": ["$~xám"]
+                },
+                "red": {
+                    "doc": "$~Màu cơ bản là màu đỏ.",
+                    "names": ["$~màuđỏ"]
+                },
+                "orange": {
+                    "doc": "$~Màu cơ bản là màu cam.",
+                    "names": ["$~quảcam"]
+                },
+                "yellow": {
+                    "doc": "$~Màu vàng là màu cơ bản.",
+                    "names": ["$~màuvàng"]
+                },
+                "green": {
+                    "doc": "$~Màu cơ bản là màu xanh lá cây.",
+                    "names": ["$~màuxanhlá"]
+                },
+                "blue": {
+                    "doc": "$~Màu cơ bản là màu xanh dương.",
+                    "names": ["$~màuxanhdatrời"]
+                },
+                "purple": {
+                    "doc": "$~Màu tím là màu cơ bản.",
+                    "names": ["$~màutím"]
+                },
+                "brown": {
+                    "doc": "$~Màu nâu là màu cơ bản.",
+                    "names": ["$~màunâu"]
+                },
+                "pink": {
+                    "doc": "$~Màu cơ bản là màu hồng.",
+                    "names": ["$~hồng"]
+                }
+            },
+            "description": {
+                "modified": "$~$1 $2",
+                "mix": "$~$1 - $2",
+                "light": "$~ánh sáng",
+                "dark": "$~tối tăm"
             }
         },
         "Sequence": {
@@ -4365,7 +4423,7 @@
                 "doc": "$~Lực hấp dẫn cần áp dụng cho đầu ra có vị trí trong @Motion.",
                 "names": "$~trọnglực"
             },
-            "defaultDescription": "$~giai đoạn $name[$name |]của $count xuất ra$frame[với khung $frame|] $pose"
+            "defaultDescription": "$~giai đoạn $name [ $name |] của $count đầu ra $frame [với khung $frame |] $pose $color [ $color |]"
         },
         "Easing": {
             "straight": "$~thẳng",

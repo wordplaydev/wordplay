@@ -53,9 +53,21 @@ export default class StructureDefinitionValue extends SimpleValue {
             );
             const def = this.definition.getStaticDefinition(name, context);
             if (def instanceof Bind) {
-                // Static bind: return its pre-computed value.
-                const fromMap = this.statics.get(def);
-                if (fromMap !== undefined) return fromMap;
+                // Static bind: return its cached value if we have one.
+                let cached = this.statics.get(def);
+                if (cached !== undefined) return cached;
+                // Otherwise try the definition's native static-builder
+                // (used by basis structures whose static values can be
+                // constructed directly in TypeScript without going through
+                // the wordplay source compile path — see e.g. Color's BCT
+                // builder). Populate once and reuse.
+                const builder = this.definition.staticBuilder;
+                if (builder !== undefined && this.statics.size === 0) {
+                    const built = builder(evaluator, this.definition);
+                    for (const [k, v] of built) this.statics.set(k, v);
+                    cached = this.statics.get(def);
+                    if (cached !== undefined) return cached;
+                }
             }
             if (def instanceof FunctionDefinition) {
                 // Static function: wrap with this definition value as closure
