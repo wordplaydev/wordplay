@@ -31,7 +31,7 @@ export default class IncompatibleType extends Conflict {
     static readonly LocalePath = (locales: LocaleText) =>
         locales.node.Bind.conflict.IncompatibleType;
 
-    getMessage(context: Context, _concepts: Node[]) {
+    getMessage() {
         return {
             node: this.receiver,
             explanation: (locales: Locales, context: Context) =>
@@ -46,14 +46,17 @@ export default class IncompatibleType extends Conflict {
                         given: new NodeRef(this.givenType, locales, context),
                     },
                 ),
-            resolutions: makeConversionResolutions(
-                this.expression,
-                this.givenType,
-                this.expectedType,
-                context,
-                (l) => IncompatibleType.LocalePath(l).resolution,
-            ),
         };
+    }
+
+    getResolutions(context: Context, _concepts: Node[]) {
+        return makeConversionResolutions(
+            this.expression,
+            this.givenType,
+            this.expectedType,
+            context,
+            (l) => IncompatibleType.LocalePath(l).resolution,
+        );
     }
 
     getLocalePath() {

@@ -62,9 +62,10 @@
             <Speech character={annotation.node.getCharacter($locales)} below>
                 {#snippet content()}
                     {#each annotation.messages as markup}
+                        {@const resolutions = annotation.resolutions()}
                         <aside aria-label={markup.toText()}>
                             <MarkupHTMLView {markup} />
-                            {#each annotation.resolutions as resolution}
+                            {#each resolutions as resolution}
                                 <div class="resolution">
                                     <Button
                                         background

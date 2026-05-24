@@ -1,11 +1,16 @@
 <script module lang="ts">
+    /**
+     * Resolutions are exposed as a thunk so the (potentially expensive) inference
+     * inside {@link Conflict.getResolutions} only runs when an annotation is actually
+     * rendered — see Annotation.svelte's `$derived` wrapper.
+     */
     export type AnnotationInfo = {
         node: Node;
         element: Element | null;
         messages: Markup[];
         kind: 'step' | 'major' | 'minor';
         context: Context;
-        resolutions: Resolution[];
+        resolutions: () => Resolution[];
         conflict?: ConflictLocaleAccessor;
     };
 </script>
@@ -125,9 +130,9 @@
         // Reset the annotation list to active annotations.
         annotations = sourceConflicts
             .map((conflict: Conflict) => {
+                // getMessage is cheap (no inference) — explanation needed eagerly for the speech bubble.
+                // Resolutions are wrapped in a thunk and only computed when the annotation renders.
                 const nodes = conflict.getMessage(context, Templates);
-                // Based on the node given, decide what to show.
-                // From these, we generate one or two speech bubbles to illustrate the conflict.
                 return [
                     {
                         node: nodes.node,
@@ -143,8 +148,8 @@
                             ? ('minor' as const)
                             : ('major' as const),
                         context,
-                        // Place the resolutions in the node.
-                        resolutions: nodes.resolutions ?? [],
+                        resolutions: () =>
+                            conflict.getResolutions(context, Templates),
                         conflict: conflict.getLocalePath(),
                     },
                 ];
@@ -179,7 +184,7 @@
                         ],
                         kind: 'step',
                         context,
-                        resolutions: [],
+                        resolutions: () => [],
                     },
                 ];
         }

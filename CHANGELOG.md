@@ -32,6 +32,7 @@ This week we focused on multilingual coding features, with several bug fixes alo
 - 🛠️ We upgraded internal tooling for stability.
 - 🌐 We made the default choices on the language choosers in the editor and stage clearer.
 - 📖 Example code in how-tos and docs now shows every translation, not just the one matching your language.
+- 🚦 When your code has a syntax error, the suggested fixes are now much smarter, better accounting for context (#885).
 
 ### Fixed
 
@@ -47,6 +48,7 @@ This week we focused on multilingual coding features, with several bug fixes alo
 - 🚦 Passing the @Color structure itself where a color value was expected (like `Phrase('hi' color: Color)`) used to be quietly accepted. It's now a conflict — write `Color.red` or `Color(50% 100 0°)` to make a color value.
 - 🔊 In the code editor, typing now reads each character to screen readers, like a normal text field.
 - 🔊 Stage output announcements now start with "output" so screen reader users can tell them apart from editor and chooser announcements, and @Text outputs read the actual text instead of just the word "text".
+- 🚦 We fixed a bug where one syntax error could show up as two duplicate warnings.
 
 ## 0.18.0 - 2026-05-15
 

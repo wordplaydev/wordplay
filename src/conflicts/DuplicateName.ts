@@ -28,34 +28,34 @@ export default class DuplicateName extends Conflict {
                     (l) => DuplicateName.LocalePath(l).explanation,
                     {
                         shadowed: new NodeRef(
-                        this.duplicate.name ?? this.duplicate,
-                        locales,
-                        context,
-                        this.duplicate.getName(),
-                    ),
+                            this.duplicate.name ?? this.duplicate,
+                            locales,
+                            context,
+                            this.duplicate.getName(),
+                        ),
                     },
                 ),
-            // If declarations are not on one line, do not show resolutions
-            resolutions: this.duplicate.separator
-                ? [
-                      {
-                          description: (locales: Locales) =>
-                              locales.concretize(
-                                  (l) =>
-                                      l.node.Bind.conflict.DuplicateName
-                                          .resolution,
-                              ),
-                          mediator: (context: Context) => {
-                              return {
-                                  newProject: context.project.withRevisedNodes([
-                                      [this.duplicate, undefined],
-                                  ]),
-                              };
-                          },
-                      },
-                  ]
-                : [],
         };
+    }
+
+    getResolutions() {
+        // If declarations are not on one line, do not show resolutions
+        if (!this.duplicate.separator) return [];
+        return [
+            {
+                description: (locales: Locales) =>
+                    locales.concretize(
+                        (l) => l.node.Bind.conflict.DuplicateName.resolution,
+                    ),
+                mediator: (context: Context) => {
+                    return {
+                        newProject: context.project.withRevisedNodes([
+                            [this.duplicate, undefined],
+                        ]),
+                    };
+                },
+            },
+        ];
     }
 
     getLocalePath() {

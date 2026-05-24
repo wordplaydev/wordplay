@@ -54,7 +54,7 @@ const Sym = {
     Infinity: '∞',
     TableOpen: '⎡',
     TableClose: '⎦',
-    Select: '⎡=',
+    Select: '⎡?',
     Insert: '⎡+',
     Update: '⎡:',
     Delete: '⎡-',

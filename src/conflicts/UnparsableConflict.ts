@@ -11,6 +11,14 @@ import parseExpression from '@parser/parseExpression';
 import { toTokens } from '@parser/toTokens';
 import type Locales from '@locale/Locales';
 import Conflict, { type Resolution } from '@conflicts/Conflict';
+import Bind from '@nodes/Bind';
+import RepairContext from '@conflicts/RepairContext';
+import {
+    generateAnchorCandidates,
+    generateMergeCandidates,
+    selectBestCandidates,
+    type RepairCandidate,
+} from '@conflicts/repairTemplate';
 
 export class UnparsableConflict extends Conflict {
     readonly unparsable: UnparsableType | UnparsableExpression;
@@ -28,168 +36,203 @@ export class UnparsableConflict extends Conflict {
     static readonly LocalePath = (locales: LocaleText) =>
         locales.node.UnparsableExpression.conflict.UnparsableConflict.conflict;
 
-    getMessage(_: Context, nodes: Node[]) {
+    getMessage() {
         return {
             node: this.unparsable,
             explanation: (locales: Locales) =>
                 locales.concretize(
                     (l) => UnparsableConflict.LocalePath(l).explanation,
                     {
-                        expression: this.unparsable instanceof UnparsableExpression,
+                        expression:
+                            this.unparsable instanceof UnparsableExpression,
                     },
                 ),
-            resolutions: this.getLikelyIntentions(nodes),
         };
+    }
+
+    getResolutions(_context: Context, nodes: Node[]) {
+        return this.getLikelyIntentions(nodes);
     }
 
     getLocalePath() {
         return UnparsableConflict.LocalePath;
     }
 
+    /**
+     * Suggest possible programmer intents for this unparsable fragment.
+     *
+     * Approach (see plans/can-you-expore-885-replicated-acorn.md):
+     *  1. Build a RepairContext: parent slot, expected type, ancestors,
+     *     adjacent line tokens, in-scope names.
+     *  2. Generate candidate repairs from anchor symbols (•, ƒ, ?, →, …),
+     *     misconception substitutions (fn→ƒ, ->→→), and in-scope name fuzz.
+     *  3. Run the legacy out-of-order grammar walker against the template list
+     *     so existing behavior — repairs that just need token reordering — is
+     *     preserved.
+     *  4. Filter for parent-slot fit, dedupe, and rank: complete repairs above
+     *     scaffolded ones; within each tier, ascending repair cost. Top 3.
+     */
     getLikelyIntentions(templates: Node[]): Resolution[] {
-        // Construct a set of tokens that weren't parseable so that we can find overlaps between this and possible templates.
-        const unparsableTokens = new Set(
+        const rc = RepairContext.gather(this.unparsable, this.context);
+
+        const anchorCandidates = generateAnchorCandidates(rc);
+        const mergeCandidates = generateMergeCandidates(rc);
+        const legacyCandidates = this.legacyTemplateCandidates(templates, rc);
+
+        const best = selectBestCandidates(rc, [
+            ...mergeCandidates,
+            ...legacyCandidates,
+            ...anchorCandidates,
+        ]);
+
+        return best.map((c) => this.toResolution(c.expression, c.replaceTarget));
+    }
+
+    /**
+     * The previous template-overlap grammar walker, kept as a layer because it
+     * handles the out-of-order-token cases that aren't reached by the anchor
+     * skeletons. Returns parsed expressions wrapped as RepairCandidate so they
+     * compete in the same ranking pass. These candidates always replace the
+     * unparsable itself (not an ancestor) since they're built from its tokens.
+     */
+    private legacyTemplateCandidates(
+        templates: Node[],
+        rc: RepairContext,
+    ): RepairCandidate[] {
+        const unparsableTokenTexts = new Set(
             this.unparsable.unparsables.map((t) => t.toWordplay()),
         );
 
-        // Scan through templates of possible expressions in the language, scoring them by number of overlapping tokens.
-        return (
-            templates
-                // Only consider expressions
-                .filter(
-                    (template): template is Expression =>
-                        template instanceof Expression,
-                )
-                // Find the size of the overlap between the tokens in the template and the unparseable tokens.
-                .map((template) => {
-                    const templateTokens = new Set(
-                        template.leaves().map((l) => l.toWordplay()),
-                    );
-                    const intersection = new Set(
-                        [...unparsableTokens].filter((x) =>
-                            templateTokens.has(x),
-                        ),
-                    );
-                    return [template, intersection.size, intersection] as const;
-                })
-                // Filter by matches with at least one overlapping token
-                .filter(([, count]) => count > 0)
-                // Sort in decreasing order of number of overlapping tokens.
-                .sort((a, b) => b[1] - a[1])
-                // For each possible construct, scan its grammar, attempting to place the unparsable tokens in valid places.
-                .map(([template]) => {
-                    // Construct a string to eventually parse as an expression.
-                    let code = '';
-                    let unparsableTokens = this.unparsable.unparsables.slice();
-                    const templateTokens = template.nodes(
-                        (n): n is Token => n instanceof Token,
-                    );
+        const scored = templates
+            .filter(
+                (template): template is Expression =>
+                    template instanceof Expression,
+            )
+            .map((template) => {
+                const templateTokens = new Set(
+                    template.leaves().map((l) => l.toWordplay()),
+                );
+                const overlap = new Set(
+                    [...unparsableTokenTexts].filter((x) =>
+                        templateTokens.has(x),
+                    ),
+                );
+                return [template, overlap.size] as const;
+            })
+            .filter(([, count]) => count > 0)
+            .sort((a, b) => b[1] - a[1]);
 
-                    const grammar = template.getGrammar();
-                    for (let index = 0; index < grammar.length; index++) {
-                        const field = grammar[index];
-                        // Is this a specifc token that's expected?
-                        if (
-                            (field.kind instanceof IsA &&
-                                typeof field.kind.kind !== 'function') ||
-                            (field.kind instanceof Any &&
-                                field.kind.kinds.some(
-                                    (kind) =>
-                                        kind instanceof IsA &&
-                                        typeof kind !== 'function',
-                                ))
-                        ) {
-                            // Do any of the unparsable tokens match the required token?
-                            const unparsableMatch = unparsableTokens.find((t) =>
-                                field.kind.allows(t),
-                            );
-                            if (unparsableMatch) {
-                                // Remove the match we found from the list.
-                                unparsableTokens = unparsableTokens.filter(
-                                    (t) => t == unparsableMatch,
-                                );
-                                // Append it's text.
-                                code +=
-                                    this.context.source
-                                        .getSpaces()
-                                        .getSpace(unparsableMatch) +
-                                    unparsableMatch.getText();
-                            }
-                            // No unparsable match? Get it from the template's tokens.
-                            else if (field.kind.allows(templateTokens[0])) {
-                                const match = templateTokens.shift();
-                                if (match) code += match.getText();
-                            }
-                        }
-                        // Otherwise, if the field is a list or a specific kind of node, just keep pulling pulling tokens unparsables until we reach something that matches the next
-                        // specific token required by the grammar.
-                        else {
-                            let found = false;
-                            do {
-                                const next = unparsableTokens.shift();
-                                const subsequentMatch = grammar
-                                    .slice(index + 1)
-                                    .findIndex(
-                                        (field) =>
-                                            field.kind instanceof IsA &&
-                                            field.kind.allows(next),
-                                    );
-                                if (subsequentMatch >= 0) {
-                                    index = subsequentMatch;
-                                    break;
-                                }
-                                if (next) {
-                                    found = true;
-                                    code +=
-                                        this.context.source
-                                            .getSpaces()
-                                            .getSpace(next) + next.getText();
-                                }
-                            } while (found && unparsableTokens.length > 0);
-                        }
-                    }
+        const candidates: RepairCandidate[] = [];
+        for (const [template, overlap] of scored) {
+            const reconstructed = this.reconstructFromTemplate(template);
+            if (reconstructed === undefined) continue;
+            candidates.push({
+                expression: reconstructed,
+                replaceTarget: rc.unparsable,
+                code: reconstructed.toWordplay(),
+                // Templates with more overlap rank slightly better. Subtract a
+                // small bonus from cost so a 5-token overlap beats a 1-token
+                // overlap when both produce a clean repair.
+                cost: Math.max(0, 5 - overlap),
+                scaffolded: false,
+                anchor: undefined,
+            });
+        }
+        return candidates;
+    }
 
-                    // Attempt to parse the expression we constructed.
-                    const tokens = toTokens(code);
-                    const expression = parseExpression(tokens);
-
-                    // Did everything parse correctly and there are no tokens left? Return the expression as a candidate.
-                    return expression
-                        .nodes()
-                        .filter((n) => n instanceof UnparsableExpression)
-                        .length === 0 && !tokens.hasNext()
-                        ? expression
-                        : undefined;
-                })
-                // Filter out the ones that didn't parse as an expression or type.
-                .filter((expr): expr is Expression => expr !== undefined)
-                // Convert each possible expression into a resolution
-                .map((expr) => {
-                    return {
-                        description: (locales: Locales, context: Context) =>
-                            locales.concretize(
-                                (l) =>
-                                    l.node.UnparsableExpression.conflict
-                                        .UnparsableConflict.resolution,
-                                {
-                                    first: expr.getLabel(locales),
-                                    second: new NodeRef(
-                                        expr,
-                                        locales,
-                                        context,
-                                    ),
-                                },
-                            ),
-                        mediator: (context: Context) => {
-                            return {
-                                newProject: context.project.withRevisedNodes([
-                                    [this.unparsable, expr],
-                                ]),
-                                newNode: expr,
-                            };
-                        },
-                    };
-                })
+    private reconstructFromTemplate(template: Expression): Expression | undefined {
+        let code = '';
+        let unparsableTokens = this.unparsable.unparsables.slice();
+        const templateTokens = template.nodes(
+            (n): n is Token => n instanceof Token,
         );
+
+        const grammar = template.getGrammar();
+        for (let index = 0; index < grammar.length; index++) {
+            const field = grammar[index];
+            const isSpecificToken =
+                (field.kind instanceof IsA &&
+                    typeof field.kind.kind !== 'function') ||
+                (field.kind instanceof Any &&
+                    field.kind.kinds.some(
+                        (kind) =>
+                            kind instanceof IsA &&
+                            typeof kind !== 'function',
+                    ));
+            if (isSpecificToken) {
+                const unparsableMatch = unparsableTokens.find((t) =>
+                    field.kind.allows(t),
+                );
+                if (unparsableMatch) {
+                    unparsableTokens = unparsableTokens.filter(
+                        (t) => t === unparsableMatch,
+                    );
+                    code +=
+                        this.context.source
+                            .getSpaces()
+                            .getSpace(unparsableMatch) +
+                        unparsableMatch.getText();
+                } else if (field.kind.allows(templateTokens[0])) {
+                    const match = templateTokens.shift();
+                    if (match) code += match.getText();
+                }
+            } else {
+                let found = false;
+                do {
+                    const next = unparsableTokens.shift();
+                    const subsequentMatch = grammar
+                        .slice(index + 1)
+                        .findIndex(
+                            (f) => f.kind instanceof IsA && f.kind.allows(next),
+                        );
+                    if (subsequentMatch >= 0) {
+                        index = subsequentMatch;
+                        break;
+                    }
+                    if (next) {
+                        found = true;
+                        code +=
+                            this.context.source.getSpaces().getSpace(next) +
+                            next.getText();
+                    }
+                } while (found && unparsableTokens.length > 0);
+            }
+        }
+
+        const tokens = toTokens(code);
+        const expression = parseExpression(tokens);
+        const clean =
+            expression
+                .nodes()
+                .filter((n) => n instanceof UnparsableExpression).length === 0 &&
+            !tokens.hasNext();
+        return clean ? expression : undefined;
+    }
+
+    private toResolution(
+        repair: Expression | Bind,
+        target: Node,
+    ): Resolution {
+        return {
+            description: (locales: Locales, context: Context) =>
+                locales.concretize(
+                    (l) =>
+                        l.node.UnparsableExpression.conflict.UnparsableConflict
+                            .resolution,
+                    {
+                        first: repair.getLabel(locales),
+                        second: new NodeRef(repair, locales, context),
+                    },
+                ),
+            mediator: (context: Context) => {
+                return {
+                    newProject: context.project.withRevisedNodes([
+                        [target, repair],
+                    ]),
+                    newNode: repair,
+                };
+            },
+        };
     }
 }

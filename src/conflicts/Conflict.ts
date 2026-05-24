@@ -33,12 +33,28 @@ export default abstract class Conflict {
     }
 
     /**
-     * Conflicting nodes have primary nodes to be highlighted and optional resolutions to resolve the conflict.
+     * Conflicting nodes have primary nodes to be highlighted plus a localized explanation.
+     * Resolutions are returned separately by {@link getResolutions} so the heavy inference
+     * they require only runs when an annotation is actually displayed.
      */
-    abstract getMessage(
-        context: Context,
-        concepts: Node[],
-    ): ConflictingNode & { resolutions?: Resolution[] };
+    abstract getMessage(context: Context, concepts: Node[]): ConflictingNode;
+
+    /**
+     * Cheap accessor for just the primary conflicting node — used by code that draws
+     * underlines or counts conflicts and doesn't need the full message.
+     */
+    getConflictingNode(context: Context, concepts: Node[]): Node {
+        return this.getMessage(context, concepts).node;
+    }
+
+    /**
+     * Suggested fixes for this conflict. Default returns no resolutions; override in
+     * subclasses that can compute them. Called lazily — typically once, only when
+     * an annotation is rendered — so this is the right place for expensive inference.
+     */
+    getResolutions(_context: Context, _concepts: Node[]): Resolution[] {
+        return [];
+    }
 
     isMinor() {
         return this.#minor;

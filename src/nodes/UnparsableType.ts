@@ -9,6 +9,7 @@ import type Context from '@nodes/Context';
 import Node, { list, node, type Grammar, type Replacement } from '@nodes/Node';
 import type Token from '@nodes/Token';
 import Type from '@nodes/Type';
+import UnparsableExpression from '@nodes/UnparsableExpression';
 
 export default class UnparsableType extends Type {
     readonly unparsables: Token[];
@@ -46,6 +47,26 @@ export default class UnparsableType extends Type {
     }
 
     computeConflicts(context: Context): Conflict[] {
+        // See the matching comment in UnparsableExpression.computeConflicts:
+        // empty unparsables defer to siblings to avoid duplicate conflicts on
+        // a single broken construct.
+        if (this.unparsables.length === 0) {
+            const parent = context.source.root.getParent(this);
+            if (parent) {
+                const allUnparsables = parent
+                    .nodes()
+                    .filter(
+                        (n) =>
+                            n instanceof UnparsableExpression ||
+                            n instanceof UnparsableType,
+                    );
+                const someWithContent = allUnparsables.some(
+                    (n) => n !== this && n.unparsables.length > 0,
+                );
+                if (someWithContent) return [];
+                if (allUnparsables[0] !== this) return [];
+            }
+        }
         return [new UnparsableConflict(this, context)];
     }
 

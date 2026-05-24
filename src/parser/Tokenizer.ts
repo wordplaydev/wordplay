@@ -434,6 +434,28 @@ const CodeTokenPatterns: TokenPattern[] = [
 ];
 
 /**
+ * Multi-codepoint literal token strings the tokenizer recognizes, paired with
+ * their primary SymType. Sourced directly from {@link CodeTokenPatterns} so
+ * consumers (e.g. UnparsableConflict's merge-anchor inference) work from the
+ * tokenizer's ground truth instead of inferring from the Sym enum's value
+ * strings — most Sym values match the tokenizer literal, but some are
+ * intentional disambiguators (`Sym.BooleanType = '•?'` for the type form of
+ * `?`, `Sym.This = '..'` for the this-form of `.`) and one source of truth
+ * keeps the repair layer robust to those.
+ *
+ * Only string patterns are included; regex patterns describe character
+ * classes / alternations whose "merged form" isn't a single literal target.
+ */
+export const LiteralMultiCharTokens: ReadonlyArray<{
+    text: string;
+    sym: SymType;
+}> = CodeTokenPatterns.flatMap((p) =>
+    typeof p.pattern === 'string' && Array.from(p.pattern).length >= 2
+        ? [{ text: p.pattern, sym: p.types[0] }]
+        : [],
+);
+
+/**
  * A concept reference starts with a @ then is followed by:
  * 1) one or more names separated by a /
  * 2) a 2-6 digit hexadecimal number, referring to a Unicode codepoint

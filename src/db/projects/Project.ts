@@ -341,11 +341,9 @@ export default class Project {
             // (Earlier sources' conflicts were already indexed in their own
             // iteration — re-iterating the cumulative list double-counts.)
             for (const conflict of sourceConflicts) {
-                const complicitNodes = conflict.getMessage(context, Templates);
-                this.analysis.conflictedNodes.set(complicitNodes.node, [
-                    ...(this.analysis.conflictedNodes.get(
-                        complicitNodes.node,
-                    ) ?? []),
+                const node = conflict.getConflictingNode(context, Templates);
+                this.analysis.conflictedNodes.set(node, [
+                    ...(this.analysis.conflictedNodes.get(node) ?? []),
                     conflict,
                 ]);
             }
@@ -432,10 +430,9 @@ export default class Project {
             // Build conflict indices by going through each conflict, asking for the conflicting nodes
             // and adding to the conflict to each node's list of conflicts.
             for (const conflict of newAnalysis.conflicts) {
-                const complicitNodes = conflict.getMessage(context, Templates);
-                newAnalysis.conflictedNodes.set(complicitNodes.node, [
-                    ...(newAnalysis.conflictedNodes.get(complicitNodes.node) ??
-                        []),
+                const node = conflict.getConflictingNode(context, Templates);
+                newAnalysis.conflictedNodes.set(node, [
+                    ...(newAnalysis.conflictedNodes.get(node) ?? []),
                     conflict,
                 ]);
             }

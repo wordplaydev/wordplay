@@ -49,22 +49,23 @@ export class PossiblePII extends Conflict {
                         ),
                     },
                 ),
-            resolutions: [
-                {
-                    description: (locales: Locales) =>
-                        locales.concretize(
-                            (l) => l.node.Translation.conflict.resolution,
-                        ),
-                    mediator: (context: Context) => {
-                        return {
-                            newProject: context.project.withNonPII(
-                                this.pii.text,
-                            ),
-                        };
-                    },
-                },
-            ],
         };
+    }
+
+    getResolutions() {
+        return [
+            {
+                description: (locales: Locales) =>
+                    locales.concretize(
+                        (l) => l.node.Translation.conflict.resolution,
+                    ),
+                mediator: (context: Context) => {
+                    return {
+                        newProject: context.project.withNonPII(this.pii.text),
+                    };
+                },
+            },
+        ];
     }
 
     getLocalePath() {
