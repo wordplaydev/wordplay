@@ -336,11 +336,13 @@
     $effect(() => {
         indexContext.index = placeholderIndex;
     });
+
+    $inspect(gallery).with(console.log);
 </script>
 
 {#if gallery === null}
     <Loading />
-{:else if (!galleryID && gallery === undefined) || (galleryID && gallery === undefined && howTos.length === 0)}
+{:else if (galleryID === undefined && gallery === undefined) || (gallery === undefined && urlID === null)}
     <Writing>
         <Notice text={(l) => l.ui.howto.error.unknown} />
     </Writing>
