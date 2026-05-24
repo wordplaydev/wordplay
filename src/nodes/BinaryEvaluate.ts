@@ -410,18 +410,30 @@ export default class BinaryEvaluate extends Expression {
             this.getOperator() === NOT_EQUALS_SYMBOL
         ) {
             const equals = this.getOperator() === EQUALS_SYMBOL;
+
+            // Only narrow the guarded binding's TypeSet when the *other*
+            // side of the equality is a reference to that binding. Without
+            // this gate, an unrelated equality like `key.length() = 1` would
+            // intersect `key`'s text-union with `{# value}` and collapse it
+            // to NeverType, which then poisons any later use of `key`.
+            const guardSide = this.left.isGuardMatch(guard)
+                ? this.left
+                : this.right.isGuardMatch(guard)
+                  ? this.right
+                  : undefined;
+            const otherSide =
+                guardSide === this.left
+                    ? this.right
+                    : guardSide === this.right
+                      ? this.left
+                      : undefined;
+
             let set: TypeSet | undefined = undefined;
 
-            const textLiteral =
-                this.left instanceof TextLiteral
-                    ? this.left
-                    : this.right instanceof TextLiteral
-                      ? this.right
-                      : undefined;
-            if (textLiteral) {
+            if (guardSide !== undefined && otherSide instanceof TextLiteral) {
                 // Find all of the single token translations, turn them into literal text types, and find the intersection between them and the current set.
                 const types: TextType[] = [];
-                for (const translation of textLiteral.texts)
+                for (const translation of otherSide.texts)
                     if (
                         translation.segments.length === 1 &&
                         translation.segments[0] instanceof Token
@@ -432,29 +444,16 @@ export default class BinaryEvaluate extends Expression {
                 set = new TypeSet(types, guard.context);
             }
 
-            // Is one of them a check for a none literal?
-            const noneLiteral =
-                this.left instanceof NoneLiteral
-                    ? this.left
-                    : this.right instanceof NoneLiteral
-                      ? this.right
-                      : undefined;
-            if (noneLiteral) {
+            if (guardSide !== undefined && otherSide instanceof NoneLiteral) {
                 set = new TypeSet([NoneType.make()], guard.context);
             }
 
-            // Is one of them a check for a number?
-            const numberLiteral =
-                this.left instanceof NumberLiteral
-                    ? this.left
-                    : this.right instanceof NumberLiteral
-                      ? this.right
-                      : undefined;
-            if (numberLiteral)
+            if (guardSide !== undefined && otherSide instanceof NumberLiteral) {
                 set = new TypeSet(
-                    [new NumberType(numberLiteral.number, numberLiteral.unit)],
+                    [new NumberType(otherSide.number, otherSide.unit)],
                     guard.context,
                 );
+            }
 
             if (set)
                 return equals
