@@ -492,7 +492,17 @@
                 "IncompatibleType": {
                     "name": "$~互換性のないタイプ",
                     "explanation": "$~私は$expected、 $given。",
-                    "resolution": "$~$expected に変換"
+                    "resolution": "$~$expected に変換",
+                    "resolutionLiteral": "$~リスト、セット、またはマップをリテラルとしてマークするには、! を使用します。これにより、値が一般化されずに特定の値のままになります。 $expected。",
+                    "resolutionOtherwise": "$~欠損値は ?? で処理してください。 $expected ø を許可していません。",
+                    "resolutionGuard": "$~$expected $expected他の型になることはないため、まず型ガードを使用して $expected であることを確認してください。",
+                    "resolutionDeclaration": "$~$expected、型を明示的に宣言してください。",
+                    "resolutionWrap": "$~$expected、リスト、セット、またはマップに格納してください。",
+                    "resolutionStructure": "$~スロットには$expected、 $expected。",
+                    "resolutionDefault": "$~バインディングに開始値を指定します。 $expected。",
+                    "resolutionWiden": "$~このバインディングでは値の型を許可してください。 $expected。",
+                    "resolutionReorder": "$~入力を入れ替えてください。型が逆の順序の方が適切です。 $expected。",
+                    "resolutionPlaceholder": "$~とりあえずプレースホルダーに置き換えてください。 $expected、その後オートコンプリートメニューから値を選択してください。"
                 },
                 "MisplacedShare": {
                     "name": "$~間違ったシェア",
@@ -623,7 +633,18 @@
             "conflict": {
                 "ExpectedBooleanCondition": {
                     "name": "$~期待されるブール条件",
-                    "explanation": "$~決定を下すには @Boolean が必要ですが、代わりに $type を取得しました。"
+                    "explanation": "$~決定を下すには @Boolean が必要ですが、代わりに $type を取得しました。",
+                    "resolution": "$~$expected、 $expected。",
+                    "resolutionLiteral": "$~リスト、セット、またはマップをリテラルとしてマークするには、! を使用します。これにより、値が一般化されずに特定の値のままになります。 $expected。",
+                    "resolutionOtherwise": "$~欠損値は ?? で処理してください。 $expected ø を許可していません。",
+                    "resolutionGuard": "$~$expected $expected他の型になることはないため、まず型ガードを使用して $expected であることを確認してください。",
+                    "resolutionDeclaration": "$~$expected、型を明示的に宣言してください。",
+                    "resolutionWrap": "$~$expected、リスト、セット、またはマップに格納してください。",
+                    "resolutionStructure": "$~スロットには$expected、 $expected。",
+                    "resolutionDefault": "$~バインディングに開始値を指定します。 $expected。",
+                    "resolutionWiden": "$~このバインディングでは値の型を許可してください。 $expected。",
+                    "resolutionReorder": "$~入力を入れ替えてください。型が逆の順序の方が適切です。 $expected。",
+                    "resolutionPlaceholder": "$~とりあえずプレースホルダーに置き換えてください。 $expected、その後オートコンプリートメニューから値を選択してください。"
                 }
             },
             "label": {
@@ -730,7 +751,17 @@
                 "IncompatibleInput": {
                     "name": "$~互換性のない入力",
                     "explanation": "$~私は$expected、 $given。",
-                    "resolution": "$~$expected に変換"
+                    "resolution": "$~$expected に変換",
+                    "resolutionLiteral": "$~リスト、セット、またはマップをリテラルとしてマークするには、! を使用します。これにより、値が一般化されずに特定の値のままになります。 $expected。",
+                    "resolutionOtherwise": "$~欠損値は ?? で処理してください。 $expected ø を許可していません。",
+                    "resolutionGuard": "$~$expected $expected他の型になることはないため、まず型ガードを使用して $expected であることを確認してください。",
+                    "resolutionDeclaration": "$~$expected、型を明示的に宣言してください。",
+                    "resolutionWrap": "$~$expected、リスト、セット、またはマップに格納してください。",
+                    "resolutionStructure": "$~スロットには$expected、 $expected。",
+                    "resolutionDefault": "$~バインディングに開始値を指定します。 $expected。",
+                    "resolutionWiden": "$~このバインディングでは値の型を許可してください。 $expected。",
+                    "resolutionReorder": "$~入力を入れ替えてください。型が逆の順序の方が適切です。 $expected。",
+                    "resolutionPlaceholder": "$~とりあえずプレースホルダーに置き換えてください。 $expected、その後オートコンプリートメニューから値を選択してください。"
                 },
                 "UnexpectedTypeInput": {
                     "name": "$~予期しない型入力",
@@ -738,7 +769,9 @@
                 },
                 "MissingInput": {
                     "name": "$~入力がありません",
-                    "explanation": "$~入力$name$input :("
+                    "explanation": "$~入力$name$input :(",
+                    "resolutionAddInput": "$~不足している$input。",
+                    "resolutionPlaceholder": "$~不足している$input、オートコンプリートメニューから値を選択してください。"
                 },
                 "NotInstantiable": {
                     "name": "$~不完全な構造",
@@ -1238,7 +1271,18 @@
             "conflict": {
                 "IncompatibleKey": {
                     "name": "$~互換性のないキー",
-                    "explanation": "$~$expected 型のキーを期待しました"
+                    "explanation": "$~$expected 型のキーを期待しました",
+                    "resolution": "$~$expected、 $expected。",
+                    "resolutionLiteral": "$~リスト、セット、またはマップをリテラルとしてマークするには、! を使用します。これにより、値が一般化されずに特定の値のままになります。 $expected。",
+                    "resolutionOtherwise": "$~欠損値は ?? で処理してください。 $expected ø を許可していません。",
+                    "resolutionGuard": "$~$expected $expected他の型になることはないため、まず型ガードを使用して $expected であることを確認してください。",
+                    "resolutionDeclaration": "$~$expected、型を明示的に宣言してください。",
+                    "resolutionWrap": "$~$expected、リスト、セット、またはマップに格納してください。",
+                    "resolutionStructure": "$~スロットには$expected、 $expected。",
+                    "resolutionDefault": "$~バインディングに開始値を指定します。 $expected。",
+                    "resolutionWiden": "$~このバインディングでは値の型を許可してください。 $expected。",
+                    "resolutionReorder": "$~入力を入れ替えてください。型が逆の順序の方が適切です。 $expected。",
+                    "resolutionPlaceholder": "$~とりあえずプレースホルダーに置き換えてください。 $expected、その後オートコンプリートメニューから値を選択してください。"
                 }
             }
         },
@@ -1484,7 +1528,18 @@
                 },
                 "IncompatibleCellType": {
                     "name": "$~不適合な細胞型",
-                    "explanation": "$~私は$expected、 $given。"
+                    "explanation": "$~私は$expected、 $given。",
+                    "resolution": "$~$expected、 $expected。",
+                    "resolutionLiteral": "$~リスト、セット、またはマップをリテラルとしてマークするには、! を使用します。これにより、値が一般化されずに特定の値のままになります。 $expected。",
+                    "resolutionOtherwise": "$~欠損値は ?? で処理してください。 $expected ø を許可していません。",
+                    "resolutionGuard": "$~$expected $expected他の型になることはないため、まず型ガードを使用して $expected であることを確認してください。",
+                    "resolutionDeclaration": "$~$expected、型を明示的に宣言してください。",
+                    "resolutionWrap": "$~$expected、リスト、セット、またはマップに格納してください。",
+                    "resolutionStructure": "$~スロットには$expected、 $expected。",
+                    "resolutionDefault": "$~バインディングに開始値を指定します。 $expected。",
+                    "resolutionWiden": "$~このバインディングでは値の型を許可してください。 $expected。",
+                    "resolutionReorder": "$~入力を入れ替えてください。型が逆の順序の方が適切です。 $expected。",
+                    "resolutionPlaceholder": "$~とりあえずプレースホルダーに置き換えてください。 $expected、その後オートコンプリートメニューから値を選択してください。"
                 }
             }
         },
@@ -1666,7 +1721,8 @@
             "doc": [
                 "$~私は誰を代表するべきでしょうか、A か B か、それとも何か他のものでしょうか? 決して決められません!",
                 "$~\\indecision•''|#|{ø}:「分かりません！」\\"
-            ]
+            ],
+            "elidedSuffix": "$?"
         },
         "Unit": {
             "name": "$~ユニット",

@@ -240,7 +240,10 @@ export default class Input extends Node {
     }
 
     getCharacter() {
-        return { symbols: this.name.getText() + Characters.Bind };
+        // Characters.Bind is `{ symbols: ':' }`, not a bare string — concatenating
+        // it as-is would coerce the object to "[object Object]". Use `.symbols`
+        // to get the actual glyph.
+        return { symbols: this.name.getText() + Characters.Bind.symbols };
     }
 
     static readonly LocalePath = (l: LocaleText) => l.node.Input;

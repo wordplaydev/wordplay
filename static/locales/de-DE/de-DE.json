@@ -492,7 +492,17 @@
                 "IncompatibleType": {
                     "name": "$~inkompatiblerTyp",
                     "explanation": "$~Ich erwartete $expected, erhielt aber den Typ $given.",
-                    "resolution": "$~Umrechnen in $expected"
+                    "resolution": "$~Umrechnen in $expected",
+                    "resolutionLiteral": "$~Markieren Sie die Liste, Menge oder Map mit ! als Literal, damit ihre Werte spezifisch bleiben und nicht verallgemeinert werden – $expected benötigt die exakten Werte.",
+                    "resolutionOtherwise": "$~Fehlende Werte werden mit ?? behandelt, da $expected keine ø zulässt.",
+                    "resolutionGuard": "$~Prüfen Sie zunächst mit einem Typguard, ob es sich um einen $expected handelt, da $expected nicht die anderen möglichen Typen sein kann.",
+                    "resolutionDeclaration": "$~Deklarieren Sie den Typ explizit, da $expected die Beibehaltung der Literalwerte benötigt.",
+                    "resolutionWrap": "$~Fügen Sie es einer Liste, einem Set oder einer Map hinzu, da $expected eine Sammlung von Werten benötigt.",
+                    "resolutionStructure": "$~Umschließen Sie es mit $expected , da der Slot einen $expected -Wert benötigt.",
+                    "resolutionDefault": "$~Weisen Sie der Bindung einen Startwert zu, da $expected hier nicht fehlen darf.",
+                    "resolutionWiden": "$~Erlauben Sie den Datentyp des Wertes für diese Bindung, da $expected zu eng gefasst ist für das, was tatsächlich gespeichert wird.",
+                    "resolutionReorder": "$~Tauschen Sie die Eingaben, da ihre Datentypen in der anderen Reihenfolge besser passen – $expected gehört an die andere Stelle.",
+                    "resolutionPlaceholder": "$~Ersetzen Sie es vorerst durch einen Platzhalter, da $expected erforderlich ist – wählen Sie dann einen Wert aus dem Autovervollständigungsmenü aus."
                 },
                 "MisplacedShare": {
                     "name": "$~falschplatzierteAktie",
@@ -623,7 +633,18 @@
             "conflict": {
                 "ExpectedBooleanCondition": {
                     "name": "$~erwarteteboolescheBedingung",
-                    "explanation": "$~Ich benötige einen @Boolean-Wert, um eine Entscheidung zu treffen, habe aber stattdessen einen $type erhalten."
+                    "explanation": "$~Ich benötige einen @Boolean-Wert, um eine Entscheidung zu treffen, habe aber stattdessen einen $type erhalten.",
+                    "resolution": "$~Konvertiere es in $expected , da $expected erforderlich ist.",
+                    "resolutionLiteral": "$~Markieren Sie die Liste, Menge oder Map mit ! als Literal, damit ihre Werte spezifisch bleiben und nicht verallgemeinert werden – $expected benötigt die exakten Werte.",
+                    "resolutionOtherwise": "$~Fehlende Werte werden mit ?? behandelt, da $expected keine ø zulässt.",
+                    "resolutionGuard": "$~Prüfen Sie zunächst mit einem Typguard, ob es sich um einen $expected handelt, da $expected nicht die anderen möglichen Typen sein kann.",
+                    "resolutionDeclaration": "$~Deklarieren Sie den Typ explizit, da $expected die Beibehaltung der Literalwerte benötigt.",
+                    "resolutionWrap": "$~Fügen Sie es einer Liste, einem Set oder einer Map hinzu, da $expected eine Sammlung von Werten benötigt.",
+                    "resolutionStructure": "$~Umschließen Sie es mit $expected , da der Slot einen $expected -Wert benötigt.",
+                    "resolutionDefault": "$~Weisen Sie der Bindung einen Startwert zu, da $expected hier nicht fehlen darf.",
+                    "resolutionWiden": "$~Erlauben Sie den Datentyp des Wertes für diese Bindung, da $expected zu eng gefasst ist für das, was tatsächlich gespeichert wird.",
+                    "resolutionReorder": "$~Tauschen Sie die Eingaben, da ihre Datentypen in der anderen Reihenfolge besser passen – $expected gehört an die andere Stelle.",
+                    "resolutionPlaceholder": "$~Ersetzen Sie es vorerst durch einen Platzhalter, da $expected erforderlich ist – wählen Sie dann einen Wert aus dem Autovervollständigungsmenü aus."
                 }
             },
             "label": {
@@ -730,7 +751,17 @@
                 "IncompatibleInput": {
                     "name": "$~inkompatibleEingabe",
                     "explanation": "$~Ich erwartete $expected , erhielt aber $given",
-                    "resolution": "$~Umrechnen in $expected"
+                    "resolution": "$~Umrechnen in $expected",
+                    "resolutionLiteral": "$~Markieren Sie die Liste, Menge oder Map mit ! als Literal, damit ihre Werte spezifisch bleiben und nicht verallgemeinert werden – $expected benötigt die exakten Werte.",
+                    "resolutionOtherwise": "$~Fehlende Werte werden mit ?? behandelt, da $expected keine ø zulässt.",
+                    "resolutionGuard": "$~Prüfen Sie zunächst mit einem Typguard, ob es sich um einen $expected handelt, da $expected nicht die anderen möglichen Typen sein kann.",
+                    "resolutionDeclaration": "$~Deklarieren Sie den Typ explizit, da $expected die Beibehaltung der Literalwerte benötigt.",
+                    "resolutionWrap": "$~Fügen Sie es einer Liste, einem Set oder einer Map hinzu, da $expected eine Sammlung von Werten benötigt.",
+                    "resolutionStructure": "$~Umschließen Sie es mit $expected , da der Slot einen $expected -Wert benötigt.",
+                    "resolutionDefault": "$~Weisen Sie der Bindung einen Startwert zu, da $expected hier nicht fehlen darf.",
+                    "resolutionWiden": "$~Erlauben Sie den Datentyp des Wertes für diese Bindung, da $expected zu eng gefasst ist für das, was tatsächlich gespeichert wird.",
+                    "resolutionReorder": "$~Tauschen Sie die Eingaben, da ihre Datentypen in der anderen Reihenfolge besser passen – $expected gehört an die andere Stelle.",
+                    "resolutionPlaceholder": "$~Ersetzen Sie es vorerst durch einen Platzhalter, da $expected erforderlich ist – wählen Sie dann einen Wert aus dem Autovervollständigungsmenü aus."
                 },
                 "UnexpectedTypeInput": {
                     "name": "$~unerwarteteTypeingabe",
@@ -738,7 +769,9 @@
                 },
                 "MissingInput": {
                     "name": "$~fehlendeEingabe",
-                    "explanation": "$~Ich kann $name nicht ohne die Eingabe $input auswerten :("
+                    "explanation": "$~Ich kann $name nicht ohne die Eingabe $input auswerten :(",
+                    "resolutionAddInput": "$~Fügen Sie die fehlende Variable $input mit ihrem Standardwert hinzu.",
+                    "resolutionPlaceholder": "$~Fügen Sie das fehlende $input als Platzhalter hinzu und wählen Sie dann einen Wert aus dem Autocomplete-Menü aus."
                 },
                 "NotInstantiable": {
                     "name": "$~unvollständigeStruktur",
@@ -1226,7 +1259,18 @@
             "conflict": {
                 "IncompatibleKey": {
                     "name": "$~inkompatiblerSchlüssel",
-                    "explanation": "$~Ich habe einen Schlüssel vom Typ $expected erwartet."
+                    "explanation": "$~Ich habe einen Schlüssel vom Typ $expected erwartet.",
+                    "resolution": "$~Konvertiere es in $expected , da $expected erforderlich ist.",
+                    "resolutionLiteral": "$~Markieren Sie die Liste, Menge oder Map mit ! als Literal, damit ihre Werte spezifisch bleiben und nicht verallgemeinert werden – $expected benötigt die exakten Werte.",
+                    "resolutionOtherwise": "$~Fehlende Werte werden mit ?? behandelt, da $expected keine ø zulässt.",
+                    "resolutionGuard": "$~Prüfen Sie zunächst mit einem Typguard, ob es sich um einen $expected handelt, da $expected nicht die anderen möglichen Typen sein kann.",
+                    "resolutionDeclaration": "$~Deklarieren Sie den Typ explizit, da $expected die Beibehaltung der Literalwerte benötigt.",
+                    "resolutionWrap": "$~Fügen Sie es einer Liste, einem Set oder einer Map hinzu, da $expected eine Sammlung von Werten benötigt.",
+                    "resolutionStructure": "$~Umschließen Sie es mit $expected , da der Slot einen $expected -Wert benötigt.",
+                    "resolutionDefault": "$~Weisen Sie der Bindung einen Startwert zu, da $expected hier nicht fehlen darf.",
+                    "resolutionWiden": "$~Erlauben Sie den Datentyp des Wertes für diese Bindung, da $expected zu eng gefasst ist für das, was tatsächlich gespeichert wird.",
+                    "resolutionReorder": "$~Tauschen Sie die Eingaben, da ihre Datentypen in der anderen Reihenfolge besser passen – $expected gehört an die andere Stelle.",
+                    "resolutionPlaceholder": "$~Ersetzen Sie es vorerst durch einen Platzhalter, da $expected erforderlich ist – wählen Sie dann einen Wert aus dem Autovervollständigungsmenü aus."
                 }
             }
         },
@@ -1464,7 +1508,18 @@
                 },
                 "IncompatibleCellType": {
                     "name": "$~inkompatiblerZelltyp",
-                    "explanation": "$~Ich sollte vom Typ $expected sein, aber ich bin vom Typ $given."
+                    "explanation": "$~Ich sollte vom Typ $expected sein, aber ich bin vom Typ $given.",
+                    "resolution": "$~Konvertiere es in $expected , da $expected erforderlich ist.",
+                    "resolutionLiteral": "$~Markieren Sie die Liste, Menge oder Map mit ! als Literal, damit ihre Werte spezifisch bleiben und nicht verallgemeinert werden – $expected benötigt die exakten Werte.",
+                    "resolutionOtherwise": "$~Fehlende Werte werden mit ?? behandelt, da $expected kein ø zulässt.",
+                    "resolutionGuard": "$~Prüfen Sie zunächst mit einem Typguard, ob es sich um einen $expected handelt, da $expected nicht die anderen möglichen Typen sein kann.",
+                    "resolutionDeclaration": "$~Deklarieren Sie den Typ explizit, da $expected die Beibehaltung der Literalwerte benötigt.",
+                    "resolutionWrap": "$~Fügen Sie es einer Liste, einem Set oder einer Map hinzu, da $expected eine Sammlung von Werten benötigt.",
+                    "resolutionStructure": "$~Umschließen Sie es mit $expected , da der Slot einen $expected -Wert benötigt.",
+                    "resolutionDefault": "$~Weisen Sie der Bindung einen Startwert zu, da $expected hier nicht fehlen darf.",
+                    "resolutionWiden": "$~Erlauben Sie den Datentyp des Wertes für diese Bindung, da $expected zu eng gefasst ist für das, was tatsächlich gespeichert wird.",
+                    "resolutionReorder": "$~Tauschen Sie die Eingaben, da ihre Datentypen in der anderen Reihenfolge besser passen – $expected gehört an die andere Stelle.",
+                    "resolutionPlaceholder": "$~Ersetzen Sie es vorerst durch einen Platzhalter, da $expected erforderlich ist – wählen Sie dann einen Wert aus dem Autovervollständigungsmenü aus."
                 }
             }
         },
@@ -1639,7 +1694,8 @@
             "doc": [
                 "$~Wen soll ich repräsentieren, A oder B oder etwas anderes? Ich kann mich nie entscheiden!",
                 "$~\\indecision•''|#|{ø}: \"Ich weiß nicht!\"\\"
-            ]
+            ],
+            "elidedSuffix": "$?"
         },
         "Unit": {
             "name": "$~Einheit",

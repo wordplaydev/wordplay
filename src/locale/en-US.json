@@ -500,7 +500,17 @@
                 "IncompatibleType": {
                     "name": "incompatible type",
                     "explanation": "I expected $expected, but received type $given",
-                    "resolution": "Convert to $expected"
+                    "resolution": "Convert it to $expected, since $expected is required",
+                    "resolutionLiteral": "Mark the list, set, or map as literal with !, so its values stay specific instead of being generalized — $expected needs the exact values",
+                    "resolutionOtherwise": "Handle the missing value with ??, since $expected does not allow ø",
+                    "resolutionGuard": "Check that it is a $expected first with a type guard, since $expected can not be the other possible types",
+                    "resolutionDeclaration": "Declare the type explicitly, since $expected needs the literal values to be preserved",
+                    "resolutionWrap": "Put it in a list, set, or map, since $expected needs a collection of values",
+                    "resolutionStructure": "Wrap it in $expected, since the slot needs a $expected value",
+                    "resolutionDefault": "Give the binding a starting value, since $expected can not be missing here",
+                    "resolutionWiden": "Allow the value's type for this binding, since $expected is too narrow for what is actually stored",
+                    "resolutionReorder": "Swap the inputs, since their types fit better in the other order — $expected belongs in the other slot",
+                    "resolutionPlaceholder": "Replace it with a placeholder for now, since $expected is required — then pick a value from the autocomplete menu"
                 },
                 "MisplacedShare": {
                     "name": "misplaced share",
@@ -631,7 +641,18 @@
             "conflict": {
                 "ExpectedBooleanCondition": {
                     "name": "expected boolean condition",
-                    "explanation": "I need a @Boolean to make a decision, but I got a $type instead."
+                    "explanation": "I need a @Boolean to make a decision, but I got a $type instead.",
+                    "resolution": "Convert it to $expected, since $expected is required",
+                    "resolutionLiteral": "Mark the list, set, or map as literal with !, so its values stay specific instead of being generalized — $expected needs the exact values",
+                    "resolutionOtherwise": "Handle the missing value with ??, since $expected does not allow ø",
+                    "resolutionGuard": "Check that it is a $expected first with a type guard, since $expected can not be the other possible types",
+                    "resolutionDeclaration": "Declare the type explicitly, since $expected needs the literal values to be preserved",
+                    "resolutionWrap": "Put it in a list, set, or map, since $expected needs a collection of values",
+                    "resolutionStructure": "Wrap it in $expected, since the slot needs a $expected value",
+                    "resolutionDefault": "Give the binding a starting value, since $expected can not be missing here",
+                    "resolutionWiden": "Allow the value's type for this binding, since $expected is too narrow for what is actually stored",
+                    "resolutionReorder": "Swap the inputs, since their types fit better in the other order — $expected belongs in the other slot",
+                    "resolutionPlaceholder": "Replace it with a placeholder for now, since $expected is required — then pick a value from the autocomplete menu"
                 }
             }
         },
@@ -740,7 +761,17 @@
                 "IncompatibleInput": {
                     "name": "incompatible input",
                     "explanation": "I expected $expected, but received $given",
-                    "resolution": "Convert to $expected"
+                    "resolution": "Convert it to $expected, since $expected is required",
+                    "resolutionLiteral": "Mark the list, set, or map as literal with !, so its values stay specific instead of being generalized — $expected needs the exact values",
+                    "resolutionOtherwise": "Handle the missing value with ??, since $expected does not allow ø",
+                    "resolutionGuard": "Check that it is a $expected first with a type guard, since $expected can not be the other possible types",
+                    "resolutionDeclaration": "Declare the type explicitly, since $expected needs the literal values to be preserved",
+                    "resolutionWrap": "Put it in a list, set, or map, since $expected needs a collection of values",
+                    "resolutionStructure": "Wrap it in $expected, since the slot needs a $expected value",
+                    "resolutionDefault": "Give the binding a starting value, since $expected can not be missing here",
+                    "resolutionWiden": "Allow the value's type for this binding, since $expected is too narrow for what is actually stored",
+                    "resolutionReorder": "Swap the inputs, since their types fit better in the other order — $expected belongs in the other slot",
+                    "resolutionPlaceholder": "Replace it with a placeholder for now, since $expected is required — then pick a value from the autocomplete menu"
                 },
                 "UnexpectedTypeInput": {
                     "name": "unexpected type input",
@@ -748,7 +779,9 @@
                 },
                 "MissingInput": {
                     "name": "missing input",
-                    "explanation": "I can't evaluate $name without the input $input :("
+                    "explanation": "I can't evaluate $name without the input $input :(",
+                    "resolutionAddInput": "Add the missing $input, with its default value",
+                    "resolutionPlaceholder": "Add the missing $input as a placeholder, then pick a value from the autocomplete menu"
                 },
                 "NotInstantiable": {
                     "name": "incomplete structure",
@@ -1243,7 +1276,18 @@
             "conflict": {
                 "IncompatibleKey": {
                     "name": "incompatible key",
-                    "explanation": "I expected a key of type $expected"
+                    "explanation": "I expected a key of type $expected",
+                    "resolution": "Convert it to $expected, since $expected is required",
+                    "resolutionLiteral": "Mark the list, set, or map as literal with !, so its values stay specific instead of being generalized — $expected needs the exact values",
+                    "resolutionOtherwise": "Handle the missing value with ??, since $expected does not allow ø",
+                    "resolutionGuard": "Check that it is a $expected first with a type guard, since $expected can not be the other possible types",
+                    "resolutionDeclaration": "Declare the type explicitly, since $expected needs the literal values to be preserved",
+                    "resolutionWrap": "Put it in a list, set, or map, since $expected needs a collection of values",
+                    "resolutionStructure": "Wrap it in $expected, since the slot needs a $expected value",
+                    "resolutionDefault": "Give the binding a starting value, since $expected can not be missing here",
+                    "resolutionWiden": "Allow the value's type for this binding, since $expected is too narrow for what is actually stored",
+                    "resolutionReorder": "Swap the inputs, since their types fit better in the other order — $expected belongs in the other slot",
+                    "resolutionPlaceholder": "Replace it with a placeholder for now, since $expected is required — then pick a value from the autocomplete menu"
                 }
             }
         },
@@ -1489,7 +1533,18 @@
                 },
                 "IncompatibleCellType": {
                     "name": "incompatible cell type",
-                    "explanation": "I'm supposed to be type $expected, but I'm $given"
+                    "explanation": "I'm supposed to be type $expected, but I'm $given",
+                    "resolution": "Convert it to $expected, since $expected is required",
+                    "resolutionLiteral": "Mark the list, set, or map as literal with !, so its values stay specific instead of being generalized — $expected needs the exact values",
+                    "resolutionOtherwise": "Handle the missing value with ??, since $expected does not allow ø",
+                    "resolutionGuard": "Check that it is a $expected first with a type guard, since $expected can not be the other possible types",
+                    "resolutionDeclaration": "Declare the type explicitly, since $expected needs the literal values to be preserved",
+                    "resolutionWrap": "Put it in a list, set, or map, since $expected needs a collection of values",
+                    "resolutionStructure": "Wrap it in $expected, since the slot needs a $expected value",
+                    "resolutionDefault": "Give the binding a starting value, since $expected can not be missing here",
+                    "resolutionWiden": "Allow the value's type for this binding, since $expected is too narrow for what is actually stored",
+                    "resolutionReorder": "Swap the inputs, since their types fit better in the other order — $expected belongs in the other slot",
+                    "resolutionPlaceholder": "Replace it with a placeholder for now, since $expected is required — then pick a value from the autocomplete menu"
                 }
             }
         },
@@ -1667,6 +1722,7 @@
         "UnionType": {
             "name": "option",
             "description": "one of $first or $second",
+            "elidedSuffix": " or $omitted other options",
             "emotion": "curious",
             "doc": [
                 "Who should I represent, A or B or something else? I can never decide!",

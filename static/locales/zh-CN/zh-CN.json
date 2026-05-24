@@ -492,7 +492,17 @@
                 "IncompatibleType": {
                     "name": "不相容类型",
                     "explanation": "我应该是 $expected 的，但现在我是 $given",
-                    "resolution": "$~转换为$expected"
+                    "resolution": "$~转换为$expected",
+                    "resolutionLiteral": "$~使用 ! 将列表、集合或映射标记为字面值，这样它的值就会保持具体而不是泛化—— $expected。",
+                    "resolutionOtherwise": "$~用 ?? 处理缺失值，因为$expected ø",
+                    "resolutionGuard": "$~首先使用类型保护检查它是否为$expected，因为$expected。",
+                    "resolutionDeclaration": "$~显式声明类型，因为$expected。",
+                    "resolutionWrap": "$~将其放入列表、集合或映射中，因为$expected。",
+                    "resolutionStructure": "$~将其包裹在$expected，因为该槽位需要一个$expected。",
+                    "resolutionDefault": "$~请为绑定指定一个初始值，因为$expected。",
+                    "resolutionWiden": "$~允许此绑定使用值的类型，因为$expected，无法容纳实际存储的内容。",
+                    "resolutionReorder": "$~交换输入框，因为它们的类型在另一种顺序下更合适—— $expected。",
+                    "resolutionPlaceholder": "$~暂时用占位符代替，因为$expected——然后从自动完成菜单中选择一个值。"
                 },
                 "MisplacedShare": {
                     "name": "放错位置的共享",
@@ -623,7 +633,18 @@
             "conflict": {
                 "ExpectedBooleanCondition": {
                     "name": "预期布尔条件",
-                    "explanation": "$~我需要一个布尔值来做决定，但我得到的却是 $type。我怎样才能用 $type 来选择是或不是呢?"
+                    "explanation": "$~我需要一个布尔值来做决定，但我得到的却是 $type。我怎样才能用 $type 来选择是或不是呢?",
+                    "resolution": "$~将其转换为$expected ，因为$expected。",
+                    "resolutionLiteral": "$~使用 ! 将列表、集合或映射标记为字面值，这样它的值就会保持具体而不是泛化—— $expected。",
+                    "resolutionOtherwise": "$~用 ?? 处理缺失值，因为$expected ø",
+                    "resolutionGuard": "$~首先使用类型保护检查它是否为$expected，因为$expected。",
+                    "resolutionDeclaration": "$~显式声明类型，因为$expected。",
+                    "resolutionWrap": "$~将其放入列表、集合或映射中，因为$expected。",
+                    "resolutionStructure": "$~将其包裹在$expected，因为该槽位需要一个$expected。",
+                    "resolutionDefault": "$~请为绑定指定一个初始值，因为$expected。",
+                    "resolutionWiden": "$~允许此绑定使用值的类型，因为$expected，无法容纳实际存储的内容。",
+                    "resolutionReorder": "$~交换输入框，因为它们的类型在另一种顺序下更合适—— $expected。",
+                    "resolutionPlaceholder": "$~暂时用占位符代替，因为$expected——然后从自动完成菜单中选择一个值。"
                 }
             },
             "label": {
@@ -730,7 +751,17 @@
                 "IncompatibleInput": {
                     "name": "$~不兼容的输入",
                     "explanation": "$~我预期收到$expected ，但实际收到$given",
-                    "resolution": "$~转换为$expected"
+                    "resolution": "$~转换为$expected",
+                    "resolutionLiteral": "$~使用 ! 将列表、集合或映射标记为字面值，这样它的值就会保持具体而不是泛化—— $expected。",
+                    "resolutionOtherwise": "$~用 ?? 处理缺失值，因为$expected ø",
+                    "resolutionGuard": "$~首先使用类型保护检查它是否为$expected，因为$expected。",
+                    "resolutionDeclaration": "$~显式声明类型，因为$expected。",
+                    "resolutionWrap": "$~将其放入列表、集合或映射中，因为$expected。",
+                    "resolutionStructure": "$~将其包裹在$expected，因为该槽位需要一个$expected。",
+                    "resolutionDefault": "$~请为绑定指定一个初始值，因为$expected。",
+                    "resolutionWiden": "$~允许此绑定使用值的类型，因为$expected，无法容纳实际存储的内容。",
+                    "resolutionReorder": "$~交换输入框，因为它们的类型在另一种顺序下更合适—— $expected。",
+                    "resolutionPlaceholder": "$~暂时用占位符代替，因为$expected——然后从自动完成菜单中选择一个值。"
                 },
                 "UnexpectedTypeInput": {
                     "name": "$~意外的类型输入",
@@ -738,7 +769,9 @@
                 },
                 "MissingInput": {
                     "name": "$~缺少输入",
-                    "explanation": "$~没有输入 $name $input 的值 :("
+                    "explanation": "$~没有输入 $name $input 的值 :(",
+                    "resolutionAddInput": "$~添加缺失的$input ，并添加其默认值",
+                    "resolutionPlaceholder": "$~将缺失的$input，然后从自动完成菜单中选择一个值。"
                 },
                 "NotInstantiable": {
                     "name": "$~结构不完整",
@@ -1238,7 +1271,18 @@
             "conflict": {
                 "IncompatibleKey": {
                     "name": "$~不兼容的密钥",
-                    "explanation": "$~我预期会收到一个类型为 $expected 的密钥。"
+                    "explanation": "$~我预期会收到一个类型为 $expected 的密钥。",
+                    "resolution": "$~将其转换为$expected ，因为$expected。",
+                    "resolutionLiteral": "$~使用 ! 将列表、集合或映射标记为字面值，这样它的值就会保持具体而不是泛化—— $expected。",
+                    "resolutionOtherwise": "$~用 ?? 处理缺失值，因为$expected ø",
+                    "resolutionGuard": "$~首先使用类型保护检查它是否为$expected，因为$expected。",
+                    "resolutionDeclaration": "$~显式声明类型，因为$expected。",
+                    "resolutionWrap": "$~将其放入列表、集合或映射中，因为$expected。",
+                    "resolutionStructure": "$~将其包裹在$expected，因为该槽位需要一个$expected。",
+                    "resolutionDefault": "$~请为绑定指定一个初始值，因为$expected。",
+                    "resolutionWiden": "$~允许此绑定使用值的类型，因为$expected，无法容纳实际存储的内容。",
+                    "resolutionReorder": "$~交换输入框，因为它们的类型在另一种顺序下更合适—— $expected。",
+                    "resolutionPlaceholder": "$~暂时用占位符代替，因为$expected——然后从自动完成菜单中选择一个值。"
                 }
             }
         },
@@ -1482,7 +1526,18 @@
                 },
                 "IncompatibleCellType": {
                     "name": "$~不相容的细胞类型",
-                    "explanation": "$~我应该输入 $expected $given"
+                    "explanation": "$~我应该输入 $expected $given",
+                    "resolution": "$~将其转换为$expected ，因为$expected。",
+                    "resolutionLiteral": "$~使用 ! 将列表、集合或映射标记为字面值，这样它的值就会保持具体而不是泛化—— $expected。",
+                    "resolutionOtherwise": "$~用 ?? 处理缺失值，因为$expected ø",
+                    "resolutionGuard": "$~首先使用类型保护检查它是否为$expected，因为$expected。",
+                    "resolutionDeclaration": "$~显式声明类型，因为$expected。",
+                    "resolutionWrap": "$~将其放入列表、集合或映射中，因为$expected。",
+                    "resolutionStructure": "$~将其包裹在$expected，因为该槽位需要一个$expected。",
+                    "resolutionDefault": "$~请为绑定指定一个初始值，因为$expected。",
+                    "resolutionWiden": "$~允许此绑定使用值的类型，因为$expected，无法容纳实际存储的内容。",
+                    "resolutionReorder": "$~交换输入框，因为它们的类型在另一种顺序下更合适—— $expected。",
+                    "resolutionPlaceholder": "$~暂时用占位符代替，因为$expected——然后从自动完成菜单中选择一个值。"
                 }
             }
         },
@@ -1664,7 +1719,8 @@
             "doc": [
                 "我应该代表谁，A 还是 B 还是其他什么？我永远无法决定！",
                 "\\犹豫•''|#|{ø}: \"我不知道！\"\\"
-            ]
+            ],
+            "elidedSuffix": "$?"
         },
         "Unit": {
             "name": "单位",

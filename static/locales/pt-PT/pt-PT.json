@@ -497,7 +497,17 @@
                 "IncompatibleType": {
                     "name": "$~tipoincompatível",
                     "explanation": "$~Eu esperava o tipo $expected, mas recebi o tipo $given.",
-                    "resolution": "$~Converter para $expected"
+                    "resolution": "$~Converter para $expected",
+                    "resolutionLiteral": "$~Marque a lista, o conjunto ou o mapa como literal com !, para que os seus valores permaneçam específicos em vez de serem generalizados — $expected precisa dos valores exatos.",
+                    "resolutionOtherwise": "$~Trate o valor em falta com ??, uma vez que $expected não permite ø",
+                    "resolutionGuard": "$~Verifique primeiro se é um $expected com uma verificação de tipo, uma vez que $expected não pode ser de nenhum dos outros tipos possíveis.",
+                    "resolutionDeclaration": "$~Declare o tipo explicitamente, pois $expected necessita que os valores literais sejam preservados.",
+                    "resolutionWrap": "$~Coloque-o numa lista, conjunto ou mapa, uma vez que $expected precisa de uma coleção de valores.",
+                    "resolutionStructure": "$~Envolva-o em $expected , uma vez que o slot necessita de um valor $expected",
+                    "resolutionDefault": "$~Atribua um valor inicial à ligação, uma vez que $expected não pode estar aqui ausente.",
+                    "resolutionWiden": "$~Permita o tipo do valor para esta ligação, uma vez que $expected é muito restrito para o que está realmente armazenado.",
+                    "resolutionReorder": "$~Troque as entradas, uma vez que os seus tipos se ajustam melhor à outra ordem — $expected pertence ao outro slot.",
+                    "resolutionPlaceholder": "$~Por enquanto, substitua por um valor de exemplo, uma vez que $expected é obrigatório — depois, escolha um valor no menu de autocompletar."
                 },
                 "MisplacedShare": {
                     "name": "$~partilhaextraviado",
@@ -628,7 +638,18 @@
             "conflict": {
                 "ExpectedBooleanCondition": {
                     "name": "$~condiçãobooleanaesperada",
-                    "explanation": "$~Preciso de um operador booleano (@Boolean) para tomar uma decisão, mas recebi $type em vez disso."
+                    "explanation": "$~Preciso de um operador booleano (@Boolean) para tomar uma decisão, mas recebi $type em vez disso.",
+                    "resolution": "$~Converta para $expected , uma vez que $expected é obrigatório.",
+                    "resolutionLiteral": "$~Marque a lista, o conjunto ou o mapa como literal com !, para que os seus valores permaneçam específicos em vez de serem generalizados — $expected precisa dos valores exatos.",
+                    "resolutionOtherwise": "$~Trate o valor em falta com ??, uma vez que $expected não permite ø",
+                    "resolutionGuard": "$~Verifique primeiro se é um $expected com uma verificação de tipo, uma vez que $expected não pode ser de nenhum dos outros tipos possíveis.",
+                    "resolutionDeclaration": "$~Declare o tipo explicitamente, pois $expected necessita que os valores literais sejam preservados.",
+                    "resolutionWrap": "$~Coloque-o numa lista, conjunto ou mapa, uma vez que $expected precisa de uma coleção de valores.",
+                    "resolutionStructure": "$~Envolva-o em $expected , uma vez que o slot necessita de um valor $expected",
+                    "resolutionDefault": "$~Atribua um valor inicial à ligação, uma vez que $expected não pode estar aqui ausente.",
+                    "resolutionWiden": "$~Permita o tipo do valor para esta ligação, uma vez que $expected é muito restrito para o que está realmente armazenado.",
+                    "resolutionReorder": "$~Troque as entradas, uma vez que os seus tipos se ajustam melhor à outra ordem — $expected pertence ao outro slot.",
+                    "resolutionPlaceholder": "$~Por enquanto, substitua por um valor de exemplo, uma vez que $expected é obrigatório — depois, escolha um valor no menu de autocompletar."
                 }
             }
         },
@@ -735,7 +756,17 @@
                 "IncompatibleInput": {
                     "name": "$~entradaincompatível",
                     "explanation": "$~Eu esperava $expected , mas recebi $given",
-                    "resolution": "$~Converter para $expected"
+                    "resolution": "$~Converter para $expected",
+                    "resolutionLiteral": "$~Marque a lista, o conjunto ou o mapa como literal com !, para que os seus valores permaneçam específicos em vez de serem generalizados — $expected precisa dos valores exatos.",
+                    "resolutionOtherwise": "$~Trate o valor em falta com ??, uma vez que $expected não permite ø",
+                    "resolutionGuard": "$~Verifique primeiro se é um $expected com uma verificação de tipo, uma vez que $expected não pode ser de nenhum dos outros tipos possíveis.",
+                    "resolutionDeclaration": "$~Declare o tipo explicitamente, pois $expected necessita que os valores literais sejam preservados.",
+                    "resolutionWrap": "$~Coloque-o numa lista, conjunto ou mapa, uma vez que $expected precisa de uma coleção de valores.",
+                    "resolutionStructure": "$~Envolva-o em $expected , uma vez que o slot necessita de um valor $expected",
+                    "resolutionDefault": "$~Atribua um valor inicial à ligação, uma vez que $expected não pode estar aqui ausente.",
+                    "resolutionWiden": "$~Permita o tipo do valor para esta ligação, uma vez que $expected é muito restrito para o que está realmente armazenado.",
+                    "resolutionReorder": "$~Troque as entradas, uma vez que os seus tipos se ajustam melhor à outra ordem — $expected pertence ao outro slot.",
+                    "resolutionPlaceholder": "$~Por enquanto, substitua por um valor de exemplo, uma vez que $expected é obrigatório — depois, escolha um valor no menu de autocompletar."
                 },
                 "UnexpectedTypeInput": {
                     "name": "$~entradadetipoinesperado",
@@ -743,7 +774,9 @@
                 },
                 "MissingInput": {
                     "name": "$~entradaausente",
-                    "explanation": "$~Não consigo avaliar $name sem o input $input :("
+                    "explanation": "$~Não consigo avaliar $name sem o input $input :(",
+                    "resolutionAddInput": "$~Adicione o $input que está em falta, com o seu valor por defeito.",
+                    "resolutionPlaceholder": "$~Adicione o $input que está em falta como marcador de posição e, em seguida, selecione um valor no menu de preenchimento automático."
                 },
                 "NotInstantiable": {
                     "name": "$~estruturaincompleta",
@@ -1238,7 +1271,18 @@
             "conflict": {
                 "IncompatibleKey": {
                     "name": "$~chaveincompatível",
-                    "explanation": "$~Eu esperava uma chave do tipo $expected"
+                    "explanation": "$~Eu esperava uma chave do tipo $expected",
+                    "resolution": "$~Converta para $expected , uma vez que $expected é obrigatório.",
+                    "resolutionLiteral": "$~Marque a lista, o conjunto ou o mapa como literal com !, para que os seus valores permaneçam específicos em vez de serem generalizados — $expected precisa dos valores exatos.",
+                    "resolutionOtherwise": "$~Trate o valor em falta com ??, uma vez que $expected não permite ø",
+                    "resolutionGuard": "$~Verifique primeiro se é um $expected com uma verificação de tipo, uma vez que $expected não pode ser de nenhum dos outros tipos possíveis.",
+                    "resolutionDeclaration": "$~Declare o tipo explicitamente, pois $expected necessita que os valores literais sejam preservados.",
+                    "resolutionWrap": "$~Coloque-o numa lista, conjunto ou mapa, uma vez que $expected precisa de uma coleção de valores.",
+                    "resolutionStructure": "$~Envolva-o em $expected , uma vez que o slot necessita de um valor $expected",
+                    "resolutionDefault": "$~Atribua um valor inicial à ligação, uma vez que $expected não pode estar aqui ausente.",
+                    "resolutionWiden": "$~Permita o tipo do valor para esta ligação, uma vez que $expected é muito restrito para o que está realmente armazenado.",
+                    "resolutionReorder": "$~Troque as entradas, uma vez que os seus tipos se ajustam melhor à outra ordem — $expected pertence ao outro slot.",
+                    "resolutionPlaceholder": "$~Por enquanto, substitua por um valor de exemplo, uma vez que $expected é obrigatório — depois, escolha um valor no menu de autocompletar."
                 }
             }
         },
@@ -1484,7 +1528,18 @@
                 },
                 "IncompatibleCellType": {
                     "name": "$~tipodecélulaincompatível",
-                    "explanation": "$~Eu deveria ser do tipo $expected, mas sou do tipo $given."
+                    "explanation": "$~Eu deveria ser do tipo $expected, mas sou do tipo $given.",
+                    "resolution": "$~Converta para $expected , uma vez que $expected é obrigatório.",
+                    "resolutionLiteral": "$~Marque a lista, o conjunto ou o mapa como literal com !, para que os seus valores permaneçam específicos em vez de serem generalizados — $expected precisa dos valores exatos.",
+                    "resolutionOtherwise": "$~Trate o valor em falta com ??, uma vez que $expected não permite ø",
+                    "resolutionGuard": "$~Verifique primeiro se é um $expected com uma verificação de tipo, uma vez que $expected não pode ser de nenhum dos outros tipos possíveis.",
+                    "resolutionDeclaration": "$~Declare o tipo explicitamente, pois $expected necessita que os valores literais sejam preservados.",
+                    "resolutionWrap": "$~Coloque-o numa lista, conjunto ou mapa, uma vez que $expected precisa de uma coleção de valores.",
+                    "resolutionStructure": "$~Envolva-o em $expected , uma vez que o slot necessita de um valor $expected",
+                    "resolutionDefault": "$~Atribua um valor inicial à ligação, uma vez que $expected não pode estar aqui ausente.",
+                    "resolutionWiden": "$~Permita o tipo do valor para esta ligação, uma vez que $expected é muito restrito para o que está realmente armazenado.",
+                    "resolutionReorder": "$~Troque as entradas, uma vez que os seus tipos se ajustam melhor à outra ordem — $expected pertence ao outro slot.",
+                    "resolutionPlaceholder": "$~Por enquanto, substitua por um valor de exemplo, uma vez que $expected é obrigatório — depois, escolha um valor no menu de autocompletar."
                 }
             }
         },
@@ -1666,7 +1721,8 @@
             "doc": [
                 "$~Quem devo representar, A, B ou outra coisa qualquer? Nunca me consigo decidir!",
                 "$~\\indecisão•''|#|{ø}: \"Não sei!\"\\"
-            ]
+            ],
+            "elidedSuffix": "$?"
         },
         "Unit": {
             "name": "$~unidade",

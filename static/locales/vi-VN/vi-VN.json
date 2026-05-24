@@ -497,7 +497,17 @@
                 "IncompatibleType": {
                     "name": "$~loạikhôngtươngthích",
                     "explanation": "$~Tôi đáng lẽ phải thuộc loại $expected, nhưng tôi lại thuộc loại $given.",
-                    "resolution": "$~Chuyển đổi sang $expected"
+                    "resolution": "$~Chuyển đổi sang $expected",
+                    "resolutionLiteral": "$~Đánh dấu danh sách, tập hợp hoặc bản đồ là giá trị cố định bằng !, để các giá trị của chúng vẫn cụ thể thay vì bị khái quát hóa — $expected cần các giá trị chính xác.",
+                    "resolutionOtherwise": "$~Xử lý giá trị thiếu bằng ??, vì $expected không cho phép ø",
+                    "resolutionGuard": "$~Hãy kiểm tra xem đó có phải là $expected trước bằng cách sử dụng `type guard`, vì $expected không thể là các kiểu dữ liệu khác.",
+                    "resolutionDeclaration": "$~Khai báo kiểu dữ liệu một cách rõ ràng, vì $expected cần giữ nguyên các giá trị hằng.",
+                    "resolutionWrap": "$~Hãy đưa nó vào danh sách, tập hợp hoặc bản đồ, vì $expected cần một tập hợp các giá trị.",
+                    "resolutionStructure": "$~Hãy bọc nó trong $expected , vì vị trí đó cần một giá trị $expected",
+                    "resolutionDefault": "$~Hãy cung cấp giá trị khởi tạo cho liên kết, vì $expected không được phép thiếu ở đây.",
+                    "resolutionWiden": "$~Cho phép sử dụng kiểu dữ liệu của giá trị cho liên kết này, vì $expected quá hẹp so với những gì thực sự được lưu trữ.",
+                    "resolutionReorder": "$~Hãy hoán đổi thứ tự các biến đầu vào, vì kiểu dữ liệu của chúng phù hợp hơn khi được sắp xếp theo thứ tự khác — $expected thuộc về vị trí kia.",
+                    "resolutionPlaceholder": "$~Hãy tạm thời thay thế nó bằng một ký tự giữ chỗ, vì $expected là bắt buộc — sau đó chọn một giá trị từ menu tự động hoàn thành."
                 },
                 "MisplacedShare": {
                     "name": "$~cổphầnbịthấtlạc",
@@ -628,7 +638,18 @@
             "conflict": {
                 "ExpectedBooleanCondition": {
                     "name": "$~điềukiệnbooleandựkiến",
-                    "explanation": "$~Tôi cần một giá trị kiểu @Boolean để đưa ra quyết định, nhưng thay vào đó tôi lại nhận được $type."
+                    "explanation": "$~Tôi cần một giá trị kiểu @Boolean để đưa ra quyết định, nhưng thay vào đó tôi lại nhận được $type.",
+                    "resolution": "$~Hãy chuyển đổi nó thành $expected , vì $expected là bắt buộc.",
+                    "resolutionLiteral": "$~Đánh dấu danh sách, tập hợp hoặc bản đồ là giá trị cố định bằng !, để các giá trị của chúng vẫn cụ thể thay vì bị khái quát hóa — $expected cần các giá trị chính xác.",
+                    "resolutionOtherwise": "$~Xử lý giá trị thiếu bằng ??, vì $expected không cho phép ø",
+                    "resolutionGuard": "$~Hãy kiểm tra xem đó có phải là $expected trước bằng cách sử dụng `type guard`, vì $expected không thể là các kiểu dữ liệu khác.",
+                    "resolutionDeclaration": "$~Khai báo kiểu dữ liệu một cách rõ ràng, vì $expected cần giữ nguyên các giá trị hằng.",
+                    "resolutionWrap": "$~Hãy đưa nó vào danh sách, tập hợp hoặc bản đồ, vì $expected cần một tập hợp các giá trị.",
+                    "resolutionStructure": "$~Hãy bọc nó trong $expected , vì vị trí đó cần một giá trị $expected",
+                    "resolutionDefault": "$~Hãy cung cấp giá trị khởi tạo cho liên kết, vì $expected không được phép thiếu ở đây.",
+                    "resolutionWiden": "$~Cho phép sử dụng kiểu dữ liệu của giá trị cho liên kết này, vì $expected quá hẹp so với những gì thực sự được lưu trữ.",
+                    "resolutionReorder": "$~Hãy hoán đổi thứ tự các biến đầu vào, vì kiểu dữ liệu của chúng phù hợp hơn khi được sắp xếp theo thứ tự khác — $expected thuộc về vị trí kia.",
+                    "resolutionPlaceholder": "$~Hãy tạm thời thay thế nó bằng một ký tự giữ chỗ, vì $expected là bắt buộc — sau đó chọn một giá trị từ menu tự động hoàn thành."
                 }
             }
         },
@@ -735,7 +756,17 @@
                 "IncompatibleInput": {
                     "name": "$~đầuvàokhôngtươngthích",
                     "explanation": "$~Tôi đáng lẽ phải thuộc loại $expected, nhưng tôi lại thuộc loại $given.",
-                    "resolution": "$~Chuyển đổi sang $expected"
+                    "resolution": "$~Chuyển đổi sang $expected",
+                    "resolutionLiteral": "$~Đánh dấu danh sách, tập hợp hoặc bản đồ là giá trị cố định bằng !, để các giá trị của chúng vẫn cụ thể thay vì bị khái quát hóa — $expected cần các giá trị chính xác.",
+                    "resolutionOtherwise": "$~Xử lý giá trị thiếu bằng ??, vì $expected không cho phép ø",
+                    "resolutionGuard": "$~Hãy kiểm tra xem đó có phải là $expected trước bằng cách sử dụng `type guard`, vì $expected không thể là các kiểu dữ liệu khác.",
+                    "resolutionDeclaration": "$~Khai báo kiểu dữ liệu một cách rõ ràng, vì $expected cần giữ nguyên các giá trị hằng.",
+                    "resolutionWrap": "$~Hãy đưa nó vào danh sách, tập hợp hoặc bản đồ, vì $expected cần một tập hợp các giá trị.",
+                    "resolutionStructure": "$~Hãy bọc nó trong $expected , vì vị trí đó cần một giá trị $expected",
+                    "resolutionDefault": "$~Hãy cung cấp giá trị khởi tạo cho liên kết, vì $expected không được phép thiếu ở đây.",
+                    "resolutionWiden": "$~Cho phép sử dụng kiểu dữ liệu của giá trị cho liên kết này, vì $expected quá hẹp so với những gì thực sự được lưu trữ.",
+                    "resolutionReorder": "$~Hãy hoán đổi thứ tự các biến đầu vào, vì kiểu dữ liệu của chúng phù hợp hơn khi được sắp xếp theo thứ tự khác — $expected thuộc về vị trí kia.",
+                    "resolutionPlaceholder": "$~Hãy tạm thời thay thế nó bằng một ký tự giữ chỗ, vì $expected là bắt buộc — sau đó chọn một giá trị từ menu tự động hoàn thành."
                 },
                 "UnexpectedTypeInput": {
                     "name": "$~đầuvàokiểukhôngmongđợi",
@@ -743,7 +774,9 @@
                 },
                 "MissingInput": {
                     "name": "$~thiếuthôngtinđầuvào",
-                    "explanation": "$~Tôi không thể đánh giá biến $name nếu không có đầu vào $input :("
+                    "explanation": "$~Tôi không thể đánh giá biến $name nếu không có đầu vào $input :(",
+                    "resolutionAddInput": "$~Thêm biến $input bị thiếu, với giá trị mặc định của nó.",
+                    "resolutionPlaceholder": "$~Thêm biến $input bị thiếu làm chỗ giữ chỗ, sau đó chọn một giá trị từ menu tự động hoàn thành."
                 },
                 "NotInstantiable": {
                     "name": "$~cấutrúckhônghoànchỉnh",
@@ -1238,7 +1271,18 @@
             "conflict": {
                 "IncompatibleKey": {
                     "name": "$~khóakhôngtươngthích",
-                    "explanation": "$~Tôi mong đợi một khóa thuộc loại $expected"
+                    "explanation": "$~Tôi mong đợi một khóa thuộc loại $expected",
+                    "resolution": "$~Hãy chuyển đổi nó thành $expected , vì $expected là bắt buộc.",
+                    "resolutionLiteral": "$~Đánh dấu danh sách, tập hợp hoặc bản đồ là giá trị cố định bằng !, để các giá trị của chúng vẫn cụ thể thay vì bị khái quát hóa — $expected cần các giá trị chính xác.",
+                    "resolutionOtherwise": "$~Xử lý giá trị thiếu bằng ??, vì $expected không cho phép ø",
+                    "resolutionGuard": "$~Hãy kiểm tra xem đó có phải là $expected trước bằng cách sử dụng `type guard`, vì $expected không thể là các kiểu dữ liệu khác.",
+                    "resolutionDeclaration": "$~Khai báo kiểu dữ liệu một cách rõ ràng, vì $expected cần giữ nguyên các giá trị hằng.",
+                    "resolutionWrap": "$~Hãy đưa nó vào danh sách, tập hợp hoặc bản đồ, vì $expected cần một tập hợp các giá trị.",
+                    "resolutionStructure": "$~Hãy bọc nó trong $expected , vì vị trí đó cần một giá trị $expected",
+                    "resolutionDefault": "$~Hãy cung cấp giá trị khởi tạo cho liên kết, vì $expected không được phép thiếu ở đây.",
+                    "resolutionWiden": "$~Cho phép sử dụng kiểu dữ liệu của giá trị cho liên kết này, vì $expected quá hẹp so với những gì thực sự được lưu trữ.",
+                    "resolutionReorder": "$~Hãy hoán đổi thứ tự các biến đầu vào, vì kiểu dữ liệu của chúng phù hợp hơn khi được sắp xếp theo thứ tự khác — $expected thuộc về vị trí kia.",
+                    "resolutionPlaceholder": "$~Hãy tạm thời thay thế nó bằng một ký tự giữ chỗ, vì $expected là bắt buộc — sau đó chọn một giá trị từ menu tự động hoàn thành."
                 }
             }
         },
@@ -1484,7 +1528,18 @@
                 },
                 "IncompatibleCellType": {
                     "name": "$~loạitếbàokhôngtươngthích",
-                    "explanation": "$~Tôi đáng lẽ phải thuộc loại $expected, nhưng lại được xếp loại $given."
+                    "explanation": "$~Tôi đáng lẽ phải thuộc loại $expected, nhưng lại được xếp loại $given.",
+                    "resolution": "$~Hãy chuyển đổi nó thành $expected , vì $expected là bắt buộc.",
+                    "resolutionLiteral": "$~Đánh dấu danh sách, tập hợp hoặc bản đồ là giá trị cố định bằng !, để các giá trị của chúng vẫn cụ thể thay vì bị khái quát hóa — $expected cần các giá trị chính xác.",
+                    "resolutionOtherwise": "$~Xử lý giá trị thiếu bằng ??, vì $expected không cho phép ø",
+                    "resolutionGuard": "$~Hãy kiểm tra xem đó có phải là $expected trước bằng cách sử dụng `type guard`, vì $expected không thể là các kiểu dữ liệu khác.",
+                    "resolutionDeclaration": "$~Khai báo kiểu dữ liệu một cách rõ ràng, vì $expected cần giữ nguyên các giá trị hằng.",
+                    "resolutionWrap": "$~Hãy đưa nó vào danh sách, tập hợp hoặc bản đồ, vì $expected cần một tập hợp các giá trị.",
+                    "resolutionStructure": "$~Hãy bọc nó trong $expected , vì vị trí đó cần một giá trị $expected",
+                    "resolutionDefault": "$~Hãy cung cấp giá trị khởi tạo cho liên kết, vì $expected không được phép thiếu ở đây.",
+                    "resolutionWiden": "$~Cho phép sử dụng kiểu dữ liệu của giá trị cho liên kết này, vì $expected quá hẹp so với những gì thực sự được lưu trữ.",
+                    "resolutionReorder": "$~Hãy hoán đổi thứ tự các biến đầu vào, vì kiểu dữ liệu của chúng phù hợp hơn khi được sắp xếp theo thứ tự khác — $expected thuộc về vị trí kia.",
+                    "resolutionPlaceholder": "$~Hãy tạm thời thay thế nó bằng một ký tự giữ chỗ, vì $expected là bắt buộc — sau đó chọn một giá trị từ menu tự động hoàn thành."
                 }
             }
         },
@@ -1666,7 +1721,8 @@
             "doc": [
                 "$~Tôi nên đại diện cho ai, A hay B hay cái gì khác? Tôi không bao giờ quyết định được!",
                 "$~\\indecision•''|#|{ø}: \"Tôi không biết!\"\\"
-            ]
+            ],
+            "elidedSuffix": "$?"
         },
         "Unit": {
             "name": "$~đơnvị",

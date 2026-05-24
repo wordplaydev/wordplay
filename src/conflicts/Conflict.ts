@@ -25,6 +25,45 @@ export type ConflictLocaleAccessor = (
     locale: LocaleText,
 ) => ConflictText<readonly string[]>;
 
+/**
+ * A function that produces resolutions for a specific conflict class. Stored in
+ * the {@link resolvers} registry, keyed by the conflict's constructor.
+ */
+export type Resolver<C extends Conflict> = (
+    conflict: C,
+    context: Context,
+    concepts: Node[],
+) => Resolution[];
+
+/**
+ * Registry of resolver functions keyed by conflict constructor. Populated by
+ * `src/conflicts/registerTypeResolutions.ts`, which is side-effect-imported by
+ * the app entry and the Vitest `setupFiles`. The indirection breaks an ES
+ * module cycle: many node files import their conflicts directly, so a conflict
+ * file that *also* imported node-constructing helper code would form a cycle.
+ * Resolvers live in a separate module that's only loaded after all node
+ * classes have initialized.
+ */
+const resolvers = new Map<Function, Resolver<Conflict>>();
+
+/**
+ * Register a resolver for a conflict class. Call once per class at app /
+ * test startup. Subsequent calls overwrite (the last registration wins, which
+ * makes overriding in tests easy).
+ *
+ * The single `as unknown as` widening here is the only cast in the registry —
+ * it's safe because `registerResolver` enforces the narrow `Resolver<C>` type
+ * at the call site, and {@link Conflict.getResolutions} looks up by exact
+ * constructor identity, so the stored function is only ever invoked with an
+ * instance of the registered class.
+ */
+export function registerResolver<C extends Conflict>(
+    cls: new (...args: never[]) => C,
+    fn: Resolver<C>,
+): void {
+    resolvers.set(cls, fn as unknown as Resolver<Conflict>);
+}
+
 export default abstract class Conflict {
     readonly #minor: boolean;
 
@@ -48,12 +87,16 @@ export default abstract class Conflict {
     }
 
     /**
-     * Suggested fixes for this conflict. Default returns no resolutions; override in
-     * subclasses that can compute them. Called lazily — typically once, only when
-     * an annotation is rendered — so this is the right place for expensive inference.
+     * Suggested fixes for this conflict. Looks up a resolver in the
+     * {@link resolvers} registry by constructor; returns `[]` when none is
+     * registered. Subclasses that ship their own resolutions and don't suffer
+     * the conflict↔node module cycle (e.g. UnknownName, DuplicateName,
+     * PossiblePII) may override this directly. Type-mismatch conflicts route
+     * through the registry instead — see `registerTypeResolutions.ts`.
      */
-    getResolutions(_context: Context, _concepts: Node[]): Resolution[] {
-        return [];
+    getResolutions(context: Context, concepts: Node[]): Resolution[] {
+        const resolver = resolvers.get(this.constructor);
+        return resolver ? resolver(this, context, concepts) : [];
     }
 
     isMinor() {

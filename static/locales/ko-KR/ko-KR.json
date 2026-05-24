@@ -492,7 +492,17 @@
                 "IncompatibleType": {
                     "name": "$~호환되지않는유형",
                     "explanation": "$~나는 $expected 타입을 예상했지만 $given 타입을 받았다.",
-                    "resolution": "$~$expected 으로 변환"
+                    "resolution": "$~$expected 으로 변환",
+                    "resolutionLiteral": "$~리스트, 세트 또는 맵을 리터럴로 표시하려면 !를 사용하세요. 그러면 값이 일반화되지 않고 특정 값으로 유지됩니다. $expected 정확한 값이 필요합니다.",
+                    "resolutionOtherwise": "$~$expected ø를 허용하지 않으므로 누락된 값은 ??로 처리하세요.",
+                    "resolutionGuard": "$~$expected 는 다른 가능한 타입이 될 수 없으므로, 타입 가드를 사용하여 먼저 해당 값이 $expected 인지 확인합니다.",
+                    "resolutionDeclaration": "$~$expected 리터럴 값을 유지해야 하므로 타입을 명시적으로 선언해야 합니다.",
+                    "resolutionWrap": "$~$expected 값들의 모음을 필요로 하므로, 리스트, 세트 또는 맵에 담아주세요.",
+                    "resolutionStructure": "$~슬롯에 $expected 값이 필요하므로, 해당 값을 $expected 감싸주세요.",
+                    "resolutionDefault": "$~바인딩에 시작 값을 지정하세요. 여기서는 $expected 값이 누락될 수 없습니다.",
+                    "resolutionWiden": "$~$expected 실제로 저장된 값에 비해 범위가 너무 좁으므로, 이 바인딩에 값의 유형을 허용해야 합니다.",
+                    "resolutionReorder": "$~입력값을 서로 바꿔야 합니다. 타입 순서가 반대가 더 적합하기 때문입니다. $expected 다른 자리에 있어야 합니다.",
+                    "resolutionPlaceholder": "$~$expected 필수 항목이므로 지금은 임시 값으로 대체해 두세요. 그런 다음 자동 완성 메뉴에서 값을 선택하세요."
                 },
                 "MisplacedShare": {
                     "name": "$~잘못된공유",
@@ -623,7 +633,18 @@
             "conflict": {
                 "ExpectedBooleanCondition": {
                     "name": "$~예상되는부울조건",
-                    "explanation": "$~결정을 내리려면 @Boolean 타입이 필요한데, 대신 $type 타입이 나왔어요."
+                    "explanation": "$~결정을 내리려면 @Boolean 타입이 필요한데, 대신 $type 타입이 나왔어요.",
+                    "resolution": "$~$expected 는 필수 값이므로 $expected 로 변환하세요.",
+                    "resolutionLiteral": "$~리스트, 세트 또는 맵을 리터럴로 표시하려면 !를 사용하세요. 그러면 값이 일반화되지 않고 특정 값으로 유지됩니다. $expected 정확한 값이 필요합니다.",
+                    "resolutionOtherwise": "$~$expected ø를 허용하지 않으므로 누락된 값은 ??로 처리하세요.",
+                    "resolutionGuard": "$~$expected 는 다른 가능한 타입이 될 수 없으므로, 타입 가드를 사용하여 먼저 해당 값이 $expected 인지 확인합니다.",
+                    "resolutionDeclaration": "$~$expected 리터럴 값을 유지해야 하므로 타입을 명시적으로 선언해야 합니다.",
+                    "resolutionWrap": "$~$expected 값들의 모음을 필요로 하므로, 리스트, 세트 또는 맵에 담아주세요.",
+                    "resolutionStructure": "$~슬롯에 $expected 값이 필요하므로, 해당 값을 $expected 감싸주세요.",
+                    "resolutionDefault": "$~바인딩에 시작 값을 지정하세요. 여기서는 $expected 값이 누락될 수 없습니다.",
+                    "resolutionWiden": "$~$expected 실제로 저장된 값에 비해 범위가 너무 좁으므로, 이 바인딩에 값의 유형을 허용해야 합니다.",
+                    "resolutionReorder": "$~입력값을 서로 바꿔야 합니다. 타입 순서가 반대가 더 적합하기 때문입니다. $expected 다른 자리에 있어야 합니다.",
+                    "resolutionPlaceholder": "$~$expected 필수 항목이므로 지금은 임시 값으로 대체해 두세요. 그런 다음 자동 완성 메뉴에서 값을 선택하세요."
                 }
             },
             "label": {
@@ -730,7 +751,17 @@
                 "IncompatibleInput": {
                     "name": "$~호환되지않는입력",
                     "explanation": "$~나는 $expected 기대했지만 $given 받았다",
-                    "resolution": "$~$expected 으로 변환"
+                    "resolution": "$~$expected 으로 변환",
+                    "resolutionLiteral": "$~리스트, 세트 또는 맵을 리터럴로 표시하려면 !를 사용하세요. 그러면 값이 일반화되지 않고 특정 값으로 유지됩니다. $expected 정확한 값이 필요합니다.",
+                    "resolutionOtherwise": "$~$expected ø를 허용하지 않으므로 누락된 값은 ??로 처리하세요.",
+                    "resolutionGuard": "$~$expected 는 다른 가능한 타입이 될 수 없으므로, 타입 가드를 사용하여 먼저 해당 값이 $expected 인지 확인합니다.",
+                    "resolutionDeclaration": "$~$expected 리터럴 값을 유지해야 하므로 타입을 명시적으로 선언해야 합니다.",
+                    "resolutionWrap": "$~$expected 값들의 모음을 필요로 하므로, 리스트, 세트 또는 맵에 담아주세요.",
+                    "resolutionStructure": "$~슬롯에 $expected 값이 필요하므로, 해당 값을 $expected 감싸주세요.",
+                    "resolutionDefault": "$~바인딩에 시작 값을 지정하세요. 여기서는 $expected 값이 누락될 수 없습니다.",
+                    "resolutionWiden": "$~$expected 실제로 저장된 값에 비해 범위가 너무 좁으므로, 이 바인딩에 값의 유형을 허용해야 합니다.",
+                    "resolutionReorder": "$~입력값을 서로 바꿔야 합니다. 타입 순서가 반대가 더 적합하기 때문입니다. $expected 다른 자리에 있어야 합니다.",
+                    "resolutionPlaceholder": "$~$expected 필수 항목이므로 지금은 임시 값으로 대체해 두세요. 그런 다음 자동 완성 메뉴에서 값을 선택하세요."
                 },
                 "UnexpectedTypeInput": {
                     "name": "$~예상치못한유형입력",
@@ -738,7 +769,9 @@
                 },
                 "MissingInput": {
                     "name": "$~입력누락",
-                    "explanation": "$~입력값 $name 없이는 $input 평가할 수 없습니다 :("
+                    "explanation": "$~입력값 $name 없이는 $input 평가할 수 없습니다 :(",
+                    "resolutionAddInput": "$~누락된 $input 변수와 해당 기본값을 추가합니다.",
+                    "resolutionPlaceholder": "$~누락된 $input 자리 표시자로 추가한 다음 자동 완성 메뉴에서 값을 선택하세요."
                 },
                 "NotInstantiable": {
                     "name": "$~불완전한구조",
@@ -1238,7 +1271,18 @@
             "conflict": {
                 "IncompatibleKey": {
                     "name": "$~호환되지않는키",
-                    "explanation": "$~저는 $expected 타입의 키를 예상했습니다."
+                    "explanation": "$~저는 $expected 타입의 키를 예상했습니다.",
+                    "resolution": "$~$expected 는 필수 값이므로 $expected 로 변환하세요.",
+                    "resolutionLiteral": "$~리스트, 세트 또는 맵을 리터럴로 표시하려면 !를 사용하세요. 그러면 값이 일반화되지 않고 특정 값으로 유지됩니다. $expected 정확한 값이 필요합니다.",
+                    "resolutionOtherwise": "$~$expected ø를 허용하지 않으므로 누락된 값은 ??로 처리하세요.",
+                    "resolutionGuard": "$~$expected 는 다른 가능한 타입이 될 수 없으므로, 타입 가드를 사용하여 먼저 해당 값이 $expected 인지 확인합니다.",
+                    "resolutionDeclaration": "$~$expected 리터럴 값을 유지해야 하므로 타입을 명시적으로 선언해야 합니다.",
+                    "resolutionWrap": "$~$expected 값들의 모음을 필요로 하므로, 리스트, 세트 또는 맵에 담아주세요.",
+                    "resolutionStructure": "$~슬롯에 $expected 값이 필요하므로, 해당 값을 $expected 감싸주세요.",
+                    "resolutionDefault": "$~바인딩에 시작 값을 지정하세요. 여기서는 $expected 값이 누락될 수 없습니다.",
+                    "resolutionWiden": "$~$expected 실제로 저장된 값에 비해 범위가 너무 좁으므로, 이 바인딩에 값의 유형을 허용해야 합니다.",
+                    "resolutionReorder": "$~입력값을 서로 바꿔야 합니다. 타입 순서가 반대가 더 적합하기 때문입니다. $expected 다른 자리에 있어야 합니다.",
+                    "resolutionPlaceholder": "$~$expected 필수 항목이므로 지금은 임시 값으로 대체해 두세요. 그런 다음 자동 완성 메뉴에서 값을 선택하세요."
                 }
             }
         },
@@ -1484,7 +1528,18 @@
                 },
                 "IncompatibleCellType": {
                     "name": "$~비호환세포유형",
-                    "explanation": "$~나는 예상했던 타입($expected)이어야 하는데, $given 타입이 나왔어."
+                    "explanation": "$~나는 예상했던 타입($expected)이어야 하는데, $given 타입이 나왔어.",
+                    "resolution": "$~$expected 는 필수 값이므로 $expected 로 변환하세요.",
+                    "resolutionLiteral": "$~리스트, 세트 또는 맵을 리터럴로 표시하려면 !를 사용하세요. 그러면 값이 일반화되지 않고 특정 값으로 유지됩니다. $expected 정확한 값이 필요합니다.",
+                    "resolutionOtherwise": "$~$expected ø를 허용하지 않으므로 누락된 값은 ??로 처리하세요.",
+                    "resolutionGuard": "$~$expected 는 다른 가능한 타입이 될 수 없으므로, 타입 가드를 사용하여 먼저 해당 값이 $expected 인지 확인합니다.",
+                    "resolutionDeclaration": "$~$expected 리터럴 값을 유지해야 하므로 타입을 명시적으로 선언해야 합니다.",
+                    "resolutionWrap": "$~$expected 값들의 모음을 필요로 하므로, 리스트, 세트 또는 맵에 담아주세요.",
+                    "resolutionStructure": "$~슬롯에 $expected 값이 필요하므로, 해당 값을 $expected 감싸주세요.",
+                    "resolutionDefault": "$~바인딩에 시작 값을 지정하세요. 여기서는 $expected 값이 누락될 수 없습니다.",
+                    "resolutionWiden": "$~$expected 실제로 저장된 값에 비해 범위가 너무 좁으므로, 이 바인딩에 값의 유형을 허용해야 합니다.",
+                    "resolutionReorder": "$~입력값을 서로 바꿔야 합니다. 타입 순서가 반대가 더 적합하기 때문입니다. $expected 다른 자리에 있어야 합니다.",
+                    "resolutionPlaceholder": "$~$expected 필수 항목이므로 지금은 임시 값으로 대체해 두세요. 그런 다음 자동 완성 메뉴에서 값을 선택하세요."
                 }
             }
         },
@@ -1666,7 +1721,8 @@
             "doc": [
                 "누구를 나타내야 할까, A 또는 B 또는 다른 뭔가? 결정할 수가 없어!",
                 "\\indecision•''|#|{ø}: \"I don't know!\"\\"
-            ]
+            ],
+            "elidedSuffix": "$?"
         },
         "Unit": {
             "name": "단위",

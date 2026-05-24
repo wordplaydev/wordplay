@@ -500,7 +500,17 @@
                 "IncompatibleType": {
                     "name": "$~tipetidakkompatibel",
                     "explanation": "$~Saya mengharapkan $expected , tetapi menerima tipe $given",
-                    "resolution": "$~Konversikan ke $expected"
+                    "resolution": "$~Konversikan ke $expected",
+                    "resolutionLiteral": "$~Tandai daftar, himpunan, atau peta sebagai literal dengan !, sehingga nilainya tetap spesifik dan tidak digeneralisasi — $expected membutuhkan nilai yang tepat.",
+                    "resolutionOtherwise": "$~Tangani nilai yang hilang dengan ??, karena $expected tidak mengizinkan ø",
+                    "resolutionGuard": "$~Pastikan bahwa tipe $expected terlebih dahulu dengan menggunakan type guard, karena $expected tidak mungkin berupa tipe data lain yang mungkin.",
+                    "resolutionDeclaration": "$~Nyatakan tipenya secara eksplisit, karena $expected membutuhkan nilai literal untuk dipertahankan.",
+                    "resolutionWrap": "$~Masukkan ke dalam daftar, set, atau peta, karena $expected membutuhkan kumpulan nilai.",
+                    "resolutionStructure": "$~Bungkus dengan $expected , karena slot tersebut membutuhkan nilai $expected",
+                    "resolutionDefault": "$~Berikan nilai awal pada binding, karena $expected tidak boleh hilang di sini.",
+                    "resolutionWiden": "$~Izinkan tipe nilai untuk pengikatan ini, karena $expected terlalu sempit untuk apa yang sebenarnya disimpan.",
+                    "resolutionReorder": "$~Tukar posisi inputnya, karena tipe datanya lebih cocok jika diurutkan sebaliknya — $expected seharusnya berada di posisi lain.",
+                    "resolutionPlaceholder": "$~Untuk sementara, gantilah dengan nilai sementara, karena $expected wajib diisi — lalu pilih nilai dari menu pelengkapan otomatis."
                 },
                 "MisplacedShare": {
                     "name": "$~sahamyangsalahtempat",
@@ -631,7 +641,18 @@
             "conflict": {
                 "ExpectedBooleanCondition": {
                     "name": "$~kondisibooleanyangdiharapkan",
-                    "explanation": "$~Saya membutuhkan @Boolean untuk membuat keputusan, tetapi yang saya dapatkan malah $type ."
+                    "explanation": "$~Saya membutuhkan @Boolean untuk membuat keputusan, tetapi yang saya dapatkan malah $type .",
+                    "resolution": "$~Konversikan ke $expected , karena $expected diperlukan.",
+                    "resolutionLiteral": "$~Tandai daftar, himpunan, atau peta sebagai literal dengan !, sehingga nilainya tetap spesifik dan tidak digeneralisasi — $expected membutuhkan nilai yang tepat.",
+                    "resolutionOtherwise": "$~Tangani nilai yang hilang dengan ??, karena $expected tidak mengizinkan ø",
+                    "resolutionGuard": "$~Pastikan bahwa tipe $expected terlebih dahulu dengan menggunakan type guard, karena $expected tidak mungkin berupa tipe data lain yang mungkin.",
+                    "resolutionDeclaration": "$~Nyatakan tipenya secara eksplisit, karena $expected membutuhkan nilai literal untuk dipertahankan.",
+                    "resolutionWrap": "$~Masukkan ke dalam daftar, set, atau peta, karena $expected membutuhkan kumpulan nilai.",
+                    "resolutionStructure": "$~Bungkus dengan $expected , karena slot tersebut membutuhkan nilai $expected",
+                    "resolutionDefault": "$~Berikan nilai awal pada binding, karena $expected tidak boleh hilang di sini.",
+                    "resolutionWiden": "$~Izinkan tipe nilai untuk pengikatan ini, karena $expected terlalu sempit untuk apa yang sebenarnya disimpan.",
+                    "resolutionReorder": "$~Tukar posisi inputnya, karena tipe datanya lebih cocok jika diurutkan sebaliknya — $expected seharusnya berada di posisi lain.",
+                    "resolutionPlaceholder": "$~Untuk sementara, gantilah dengan nilai sementara, karena $expected wajib diisi — lalu pilih nilai dari menu pelengkapan otomatis."
                 }
             }
         },
@@ -740,7 +761,17 @@
                 "IncompatibleInput": {
                     "name": "$~masukanyangtidakkompatibel",
                     "explanation": "$~Saya mengharapkan $expected , tetapi menerima $given",
-                    "resolution": "$~Konversikan ke $expected"
+                    "resolution": "$~Konversikan ke $expected",
+                    "resolutionLiteral": "$~Tandai daftar, himpunan, atau peta sebagai literal dengan !, sehingga nilainya tetap spesifik dan tidak digeneralisasi — $expected membutuhkan nilai yang tepat.",
+                    "resolutionOtherwise": "$~Tangani nilai yang hilang dengan ??, karena $expected tidak mengizinkan ø",
+                    "resolutionGuard": "$~Pastikan bahwa tipe $expected terlebih dahulu dengan menggunakan type guard, karena $expected tidak mungkin berupa tipe data lain yang mungkin.",
+                    "resolutionDeclaration": "$~Nyatakan tipenya secara eksplisit, karena $expected membutuhkan nilai literal untuk dipertahankan.",
+                    "resolutionWrap": "$~Masukkan ke dalam daftar, set, atau peta, karena $expected membutuhkan kumpulan nilai.",
+                    "resolutionStructure": "$~Bungkus dengan $expected , karena slot tersebut membutuhkan nilai $expected",
+                    "resolutionDefault": "$~Berikan nilai awal pada binding, karena $expected tidak boleh hilang di sini.",
+                    "resolutionWiden": "$~Izinkan tipe nilai untuk pengikatan ini, karena $expected terlalu sempit untuk apa yang sebenarnya disimpan.",
+                    "resolutionReorder": "$~Tukar posisi inputnya, karena tipe datanya lebih cocok jika diurutkan sebaliknya — $expected seharusnya berada di posisi lain.",
+                    "resolutionPlaceholder": "$~Untuk sementara, gantilah dengan nilai sementara, karena $expected wajib diisi — lalu pilih nilai dari menu pelengkapan otomatis."
                 },
                 "UnexpectedTypeInput": {
                     "name": "$~inputtipeyangtidakterduga",
@@ -748,7 +779,9 @@
                 },
                 "MissingInput": {
                     "name": "$~inputhilang",
-                    "explanation": "$~Saya tidak bisa mengevaluasi $name tanpa input $input :("
+                    "explanation": "$~Saya tidak bisa mengevaluasi $name tanpa input $input :(",
+                    "resolutionAddInput": "$~Tambahkan $input yang hilang, dengan nilai defaultnya.",
+                    "resolutionPlaceholder": "$~Tambahkan $input yang hilang sebagai placeholder, lalu pilih nilai dari menu pelengkapan otomatis."
                 },
                 "NotInstantiable": {
                     "name": "$~strukturtidaklengkap",
@@ -1243,7 +1276,18 @@
             "conflict": {
                 "IncompatibleKey": {
                     "name": "$~kuncitidakkompatibel",
-                    "explanation": "$~Saya mengharapkan kunci bertipe $expected"
+                    "explanation": "$~Saya mengharapkan kunci bertipe $expected",
+                    "resolution": "$~Konversikan ke $expected , karena $expected diperlukan.",
+                    "resolutionLiteral": "$~Tandai daftar, himpunan, atau peta sebagai literal dengan !, sehingga nilainya tetap spesifik dan tidak digeneralisasi — $expected membutuhkan nilai yang tepat.",
+                    "resolutionOtherwise": "$~Tangani nilai yang hilang dengan ??, karena $expected tidak mengizinkan ø",
+                    "resolutionGuard": "$~Pastikan bahwa tipe $expected terlebih dahulu dengan menggunakan type guard, karena $expected tidak mungkin berupa tipe data lain yang mungkin.",
+                    "resolutionDeclaration": "$~Nyatakan tipenya secara eksplisit, karena $expected membutuhkan nilai literal untuk dipertahankan.",
+                    "resolutionWrap": "$~Masukkan ke dalam daftar, set, atau peta, karena $expected membutuhkan kumpulan nilai.",
+                    "resolutionStructure": "$~Bungkus dengan $expected , karena slot tersebut membutuhkan nilai $expected",
+                    "resolutionDefault": "$~Berikan nilai awal pada binding, karena $expected tidak boleh hilang di sini.",
+                    "resolutionWiden": "$~Izinkan tipe nilai untuk pengikatan ini, karena $expected terlalu sempit untuk apa yang sebenarnya disimpan.",
+                    "resolutionReorder": "$~Tukar posisi inputnya, karena tipe datanya lebih cocok jika diurutkan sebaliknya — $expected seharusnya berada di posisi lain.",
+                    "resolutionPlaceholder": "$~Untuk sementara, gantilah dengan nilai sementara, karena $expected wajib diisi — lalu pilih nilai dari menu pelengkapan otomatis."
                 }
             }
         },
@@ -1489,7 +1533,18 @@
                 },
                 "IncompatibleCellType": {
                     "name": "$~tipeselyangtidakkompatibel",
-                    "explanation": "$~Seharusnya saya bertipe $expected , tetapi saya bertipe $given"
+                    "explanation": "$~Seharusnya saya bertipe $expected , tetapi saya bertipe $given",
+                    "resolution": "$~Konversikan ke $expected , karena $expected diperlukan.",
+                    "resolutionLiteral": "$~Tandai daftar, himpunan, atau peta sebagai literal dengan !, sehingga nilainya tetap spesifik dan tidak digeneralisasi — $expected membutuhkan nilai yang tepat.",
+                    "resolutionOtherwise": "$~Tangani nilai yang hilang dengan ??, karena $expected tidak mengizinkan ø",
+                    "resolutionGuard": "$~Pastikan bahwa tipe $expected terlebih dahulu dengan menggunakan type guard, karena $expected tidak mungkin berupa tipe data lain yang mungkin.",
+                    "resolutionDeclaration": "$~Nyatakan tipenya secara eksplisit, karena $expected membutuhkan nilai literal untuk dipertahankan.",
+                    "resolutionWrap": "$~Masukkan ke dalam daftar, set, atau peta, karena $expected membutuhkan kumpulan nilai.",
+                    "resolutionStructure": "$~Bungkus dengan $expected , karena slot tersebut membutuhkan nilai $expected",
+                    "resolutionDefault": "$~Berikan nilai awal pada binding, karena $expected tidak boleh hilang di sini.",
+                    "resolutionWiden": "$~Izinkan tipe nilai untuk pengikatan ini, karena $expected terlalu sempit untuk apa yang sebenarnya disimpan.",
+                    "resolutionReorder": "$~Tukar posisi inputnya, karena tipe datanya lebih cocok jika diurutkan sebaliknya — $expected seharusnya berada di posisi lain.",
+                    "resolutionPlaceholder": "$~Untuk sementara, gantilah dengan nilai sementara, karena $expected wajib diisi — lalu pilih nilai dari menu pelengkapan otomatis."
                 }
             }
         },
@@ -1671,7 +1726,8 @@
             "doc": [
                 "$~Aku harus mewakili siapa, A atau B atau yang lain? Aku tidak pernah bisa memutuskan!",
                 "$~\\keraguan•''|#|{ø}: \"Saya tidak tahu!\"\\"
-            ]
+            ],
+            "elidedSuffix": "$?"
         },
         "Unit": {
             "name": "$~satuan",

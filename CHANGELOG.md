@@ -24,6 +24,7 @@ This week we focused on multilingual coding features, with several bug fixes alo
 - 🧱 Inside a structure, you can now mark a function or value with ↑ to make it belong to the structure itself instead of to instances. So you can write `Math.pi` and `Math.square(5)` without making a `Math()` first.
 - 🔊 Screen readers now hear color names for @Phrase, @Group, @Stage, and @Shape, and as you move the sliders in the color chooser. We use the eleven most common color words across languages (red, orange, yellow, green, blue, purple, brown, pink, black, white, gray), and combine them for in-between colors like "light blue-purple" (#109).
 - 🎨 The @Color structure now has shortcuts for those eleven common colors, with names in your language. Write `Color.red` in English, `couleur.rouge` in French, or `色.赤` in Japanese instead of mixing the color yourself (#109).
+- 🖱️ You can now drag the knob on the edge of the annotations sidebar to make it wider or narrower, and the same knob style is now used between tile panes.
 
 ### Changed
 
@@ -33,6 +34,7 @@ This week we focused on multilingual coding features, with several bug fixes alo
 - 🌐 We made the default choices on the language choosers in the editor and stage clearer.
 - 📖 Example code in how-tos and docs now shows every translation, not just the one matching your language.
 - 🚦 When your code has a syntax error, the suggested fixes are now much smarter, better accounting for context (#885).
+- 🚦 When your code has a type error, the suggested fixes are now much smarter too, with options like converting values, wrapping in a list, adding a missing input, or filling in a default (#1025).
 
 ### Fixed
 

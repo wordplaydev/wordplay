@@ -465,7 +465,17 @@
                 "IncompatibleType": {
                     "name": "$~tipoincompatible",
                     "explanation": "$~Se supone que soy tipo $expected, pero soy tipo $given",
-                    "resolution": "$~Convertir a $expected"
+                    "resolution": "$~Convertir a $expected",
+                    "resolutionLiteral": "$~Marca la lista, el conjunto o el mapa como literal con !, para que sus valores permanezcan específicos en lugar de generalizarse; $expected necesita los valores exactos.",
+                    "resolutionOtherwise": "$~Maneje el valor faltante con ??, ya que $expected no permite ø",
+                    "resolutionGuard": "$~Comprueba primero que sea un $expected con una comprobación de tipo, ya que $expected no puede ser de los otros tipos posibles.",
+                    "resolutionDeclaration": "$~Declara el tipo explícitamente, ya que $expected necesita que se conserven los valores literales.",
+                    "resolutionWrap": "$~Colócalo en una lista, conjunto o mapa, ya que $expected necesita una colección de valores.",
+                    "resolutionStructure": "$~Envuélvalo en $expected , ya que la ranura necesita un valor $expected",
+                    "resolutionDefault": "$~Asigna un valor inicial al enlace, ya que $expected no puede faltar aquí.",
+                    "resolutionWiden": "$~Permitir el tipo de valor para este enlace, ya que $expected es demasiado restrictivo para lo que realmente está almacenado.",
+                    "resolutionReorder": "$~Intercambia las entradas, ya que sus tipos encajan mejor en el otro orden: $expected pertenece a la otra ranura.",
+                    "resolutionPlaceholder": "$~Reemplácelo con un marcador de posición por ahora, ya que $expected es obligatorio; luego, seleccione un valor del menú de autocompletar."
                 },
                 "MisplacedShare": {
                     "name": "$~acciónextraviada",
@@ -596,7 +606,18 @@
             "conflict": {
                 "ExpectedBooleanCondition": {
                     "name": "$~condiciónbooleanaesperada",
-                    "explanation": "$~Necesito un @Boolean para tomar una decisión, pero obtuve $type en su lugar."
+                    "explanation": "$~Necesito un @Boolean para tomar una decisión, pero obtuve $type en su lugar.",
+                    "resolution": "$~Conviértelo a $expected , ya que $expected es necesario.",
+                    "resolutionLiteral": "$~Marca la lista, el conjunto o el mapa como literal con !, para que sus valores permanezcan específicos en lugar de generalizarse; $expected necesita los valores exactos.",
+                    "resolutionOtherwise": "$~Maneje el valor faltante con ??, ya que $expected no permite ø",
+                    "resolutionGuard": "$~Comprueba primero que sea un $expected con una comprobación de tipo, ya que $expected no puede ser de los otros tipos posibles.",
+                    "resolutionDeclaration": "$~Declara el tipo explícitamente, ya que $expected necesita que se conserven los valores literales.",
+                    "resolutionWrap": "$~Colócalo en una lista, conjunto o mapa, ya que $expected necesita una colección de valores.",
+                    "resolutionStructure": "$~Envuélvalo en $expected , ya que la ranura necesita un valor $expected",
+                    "resolutionDefault": "$~Asigna un valor inicial al enlace, ya que $expected no puede faltar aquí.",
+                    "resolutionWiden": "$~Permitir el tipo de valor para este enlace, ya que $expected es demasiado restrictivo para lo que realmente está almacenado.",
+                    "resolutionReorder": "$~Intercambia las entradas, ya que sus tipos encajan mejor en el otro orden: $expected pertenece a la otra ranura.",
+                    "resolutionPlaceholder": "$~Reemplácelo con un marcador de posición por ahora, ya que $expected es obligatorio; luego, seleccione un valor del menú de autocompletar."
                 }
             },
             "label": {
@@ -703,7 +724,17 @@
                 "IncompatibleInput": {
                     "name": "$~entradaincompatible",
                     "explanation": "$~Se supone que soy del tipo $expected, pero soy del tipo $given",
-                    "resolution": "$~Convertir a $expected"
+                    "resolution": "$~Convertir a $expected",
+                    "resolutionLiteral": "$~Marca la lista, el conjunto o el mapa como literal con !, para que sus valores permanezcan específicos en lugar de generalizarse; $expected necesita los valores exactos.",
+                    "resolutionOtherwise": "$~Maneje el valor faltante con ??, ya que $expected no permite ø",
+                    "resolutionGuard": "$~Comprueba primero que sea un $expected con una comprobación de tipo, ya que $expected no puede ser de los otros tipos posibles.",
+                    "resolutionDeclaration": "$~Declara el tipo explícitamente, ya que $expected necesita que se conserven los valores literales.",
+                    "resolutionWrap": "$~Colócalo en una lista, conjunto o mapa, ya que $expected necesita una colección de valores.",
+                    "resolutionStructure": "$~Envuélvalo en $expected , ya que la ranura necesita un valor $expected",
+                    "resolutionDefault": "$~Asigna un valor inicial al enlace, ya que $expected no puede faltar aquí.",
+                    "resolutionWiden": "$~Permitir el tipo de valor para este enlace, ya que $expected es demasiado restrictivo para lo que realmente está almacenado.",
+                    "resolutionReorder": "$~Intercambia las entradas, ya que sus tipos encajan mejor en el otro orden: $expected pertenece a la otra ranura.",
+                    "resolutionPlaceholder": "$~Reemplácelo con un marcador de posición por ahora, ya que $expected es obligatorio; luego, seleccione un valor del menú de autocompletar."
                 },
                 "UnexpectedTypeInput": {
                     "name": "$~entradadetipoinesperado",
@@ -711,7 +742,9 @@
                 },
                 "MissingInput": {
                     "name": "$~entradafaltante",
-                    "explanation": "$~No puedo evaluar $name sin la entrada $input :("
+                    "explanation": "$~No puedo evaluar $name sin la entrada $input :(",
+                    "resolutionAddInput": "$~Agregue el $input faltante, con su valor predeterminado.",
+                    "resolutionPlaceholder": "$~Agregue el $input faltante como marcador de posición y luego seleccione un valor del menú de autocompletar."
                 },
                 "NotInstantiable": {
                     "name": "$~estructuraincompleta",
@@ -1211,7 +1244,18 @@
             "conflict": {
                 "IncompatibleKey": {
                     "name": "$~claveincompatible",
-                    "explanation": "$~Esperaba una clave de tipo $expected"
+                    "explanation": "$~Esperaba una clave de tipo $expected",
+                    "resolution": "$~Conviértelo a $expected , ya que $expected es necesario.",
+                    "resolutionLiteral": "$~Marca la lista, el conjunto o el mapa como literal con !, para que sus valores permanezcan específicos en lugar de generalizarse; $expected necesita los valores exactos.",
+                    "resolutionOtherwise": "$~Maneje el valor faltante con ??, ya que $expected no permite ø",
+                    "resolutionGuard": "$~Comprueba primero que sea un $expected con una comprobación de tipo, ya que $expected no puede ser de los otros tipos posibles.",
+                    "resolutionDeclaration": "$~Declara el tipo explícitamente, ya que $expected necesita que se conserven los valores literales.",
+                    "resolutionWrap": "$~Colócalo en una lista, conjunto o mapa, ya que $expected necesita una colección de valores.",
+                    "resolutionStructure": "$~Envuélvalo en $expected , ya que la ranura necesita un valor $expected",
+                    "resolutionDefault": "$~Asigna un valor inicial al enlace, ya que $expected no puede faltar aquí.",
+                    "resolutionWiden": "$~Permitir el tipo de valor para este enlace, ya que $expected es demasiado restrictivo para lo que realmente está almacenado.",
+                    "resolutionReorder": "$~Intercambia las entradas, ya que sus tipos encajan mejor en el otro orden: $expected pertenece a la otra ranura.",
+                    "resolutionPlaceholder": "$~Reemplácelo con un marcador de posición por ahora, ya que $expected es obligatorio; luego, seleccione un valor del menú de autocompletar."
                 }
             }
         },
@@ -1457,7 +1501,18 @@
                 },
                 "IncompatibleCellType": {
                     "name": "$~tipodecélulaincompatible",
-                    "explanation": "$~Se supone que soy del tipo $expected, pero soy del tipo $given."
+                    "explanation": "$~Se supone que soy del tipo $expected, pero soy del tipo $given.",
+                    "resolution": "$~Conviértelo a $expected , ya que $expected es necesario.",
+                    "resolutionLiteral": "$~Marca la lista, el conjunto o el mapa como literal con !, para que sus valores permanezcan específicos en lugar de generalizarse; $expected necesita los valores exactos.",
+                    "resolutionOtherwise": "$~Maneje el valor faltante con ??, ya que $expected no permite ø",
+                    "resolutionGuard": "$~Comprueba primero que sea un $expected con una comprobación de tipo, ya que $expected no puede ser de los otros tipos posibles.",
+                    "resolutionDeclaration": "$~Declara el tipo explícitamente, ya que $expected necesita que se conserven los valores literales.",
+                    "resolutionWrap": "$~Colócalo en una lista, conjunto o mapa, ya que $expected necesita una colección de valores.",
+                    "resolutionStructure": "$~Envuélvalo en $expected , ya que la ranura necesita un valor $expected",
+                    "resolutionDefault": "$~Asigna un valor inicial al enlace, ya que $expected no puede faltar aquí.",
+                    "resolutionWiden": "$~Permitir el tipo de valor para este enlace, ya que $expected es demasiado restrictivo para lo que realmente está almacenado.",
+                    "resolutionReorder": "$~Intercambia las entradas, ya que sus tipos encajan mejor en el otro orden: $expected pertenece a la otra ranura.",
+                    "resolutionPlaceholder": "$~Reemplácelo con un marcador de posición por ahora, ya que $expected es obligatorio; luego, seleccione un valor del menú de autocompletar."
                 }
             }
         },
@@ -1639,7 +1694,8 @@
             "doc": [
                 "¿A quién debería representar, A o B o algo más? ¡Nunca puedo decidir!",
                 "\\indecisión•''|#|{ø}: \"¡No lo sé!\"\\"
-            ]
+            ],
+            "elidedSuffix": "$?"
         },
         "Unit": {
             "name": "unidad",

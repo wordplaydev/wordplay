@@ -497,7 +497,17 @@
                 "IncompatibleType": {
                     "name": "$~סוגלאתואם",
                     "explanation": "$~אני אמור להיות סוג $expected, אבל אני סוג $given",
-                    "resolution": "$~המרה ל-$expected"
+                    "resolution": "$~המרה ל-$expected",
+                    "resolutionLiteral": "$~סמנו את הרשימה, הקבוצה או המפה כליטרליים עם !, כך שהערכים שלהן יישארו ספציפיים במקום להיות כלליים - $expected זקוק לערכים המדויקים",
+                    "resolutionOtherwise": "$~טפל בערך החסר עם ??, מכיוון ש- $expected אינו מאפשר ø",
+                    "resolutionGuard": "$~בדוק תחילה שמדובר ב- $expected בעזרת סוג הגנה, מכיוון ש- $expected לא יכול להיות סוגים אפשריים אחרים.",
+                    "resolutionDeclaration": "$~יש להצהיר על הסוג במפורש, מכיוון ש- $expected זקוק לשמירה על הערכים הליטרליים",
+                    "resolutionWrap": "$~שים את זה ברשימה, קבוצה או מפה, מכיוון ש- $expected זקוק לאוסף של ערכים",
+                    "resolutionStructure": "$~עטפו את זה ב- $expected , מכיוון שהמשבצת זקוקה לערך $expected",
+                    "resolutionDefault": "$~תן לקישור ערך התחלתי, מכיוון ש- $expected לא יכול להיות חסר כאן.",
+                    "resolutionWiden": "$~אפשר את סוג הערך עבור קישור זה, מכיוון ש- $expected צר מדי עבור מה שמאוחסן בפועל.",
+                    "resolutionReorder": "$~החליפו את הקלטים, מכיוון שהסוגים שלהם מתאימים יותר לסדר השני - $expected שייך לחריץ השני",
+                    "resolutionPlaceholder": "$~החלף אותו ב-placeholder לעת עתה, מכיוון ש- $expected נדרש — לאחר מכן בחר ערך מתפריט ההשלמה האוטומטית"
                 },
                 "MisplacedShare": {
                     "name": "$~שיתוףלאבמקום",
@@ -628,7 +638,18 @@
             "conflict": {
                 "ExpectedBooleanCondition": {
                     "name": "$~תנאיבוליאניצפוי",
-                    "explanation": "$~אני צריך @Boolean כדי לקבל החלטה, אבל קיבלתי $type במקום זאת."
+                    "explanation": "$~אני צריך @Boolean כדי לקבל החלטה, אבל קיבלתי $type במקום זאת.",
+                    "resolution": "$~המר אותו ל- $expected , מכיוון ש- $expected נדרש",
+                    "resolutionLiteral": "$~סמנו את הרשימה, הקבוצה או המפה כליטרליים עם !, כך שהערכים שלהן יישארו ספציפיים במקום להיות כלליים - $expected זקוק לערכים המדויקים",
+                    "resolutionOtherwise": "$~טפל בערך החסר עם ??, מכיוון ש- $expected אינו מאפשר ø",
+                    "resolutionGuard": "$~בדוק תחילה שמדובר ב- $expected בעזרת סוג הגנה, מכיוון ש- $expected לא יכול להיות סוגים אפשריים אחרים.",
+                    "resolutionDeclaration": "$~יש להצהיר על הסוג במפורש, מכיוון ש- $expected זקוק לשמירה על הערכים הליטרליים",
+                    "resolutionWrap": "$~שים את זה ברשימה, קבוצה או מפה, מכיוון ש- $expected זקוק לאוסף של ערכים",
+                    "resolutionStructure": "$~עטפו את זה ב- $expected , מכיוון שהמשבצת זקוקה לערך $expected",
+                    "resolutionDefault": "$~תן לקישור ערך התחלתי, מכיוון ש- $expected לא יכול להיות חסר כאן.",
+                    "resolutionWiden": "$~אפשר את סוג הערך עבור קישור זה, מכיוון ש- $expected צר מדי עבור מה שמאוחסן בפועל.",
+                    "resolutionReorder": "$~החליפו את הקלטים, מכיוון שהסוגים שלהם מתאימים יותר לסדר השני - $expected שייך לחריץ השני",
+                    "resolutionPlaceholder": "$~החלף אותו ב-placeholder לעת עתה, מכיוון ש- $expected נדרש — לאחר מכן בחר ערך מתפריט ההשלמה האוטומטית"
                 }
             }
         },
@@ -735,7 +756,17 @@
                 "IncompatibleInput": {
                     "name": "$~קלטלאתואם",
                     "explanation": "$~אני אמור להיות סוג $expected, אבל אני סוג $given",
-                    "resolution": "$~המרה ל-$expected"
+                    "resolution": "$~המרה ל-$expected",
+                    "resolutionLiteral": "$~סמנו את הרשימה, הקבוצה או המפה כליטרליים עם !, כך שהערכים שלהן יישארו ספציפיים במקום להיות כלליים - $expected זקוק לערכים המדויקים",
+                    "resolutionOtherwise": "$~טפל בערך החסר עם ??, מכיוון ש- $expected אינו מאפשר ø",
+                    "resolutionGuard": "$~בדוק תחילה שמדובר ב- $expected בעזרת סוג הגנה, מכיוון ש- $expected לא יכול להיות סוגים אפשריים אחרים.",
+                    "resolutionDeclaration": "$~יש להצהיר על הסוג במפורש, מכיוון ש- $expected זקוק לשמירה על הערכים הליטרליים",
+                    "resolutionWrap": "$~שים את זה ברשימה, קבוצה או מפה, מכיוון ש- $expected זקוק לאוסף של ערכים",
+                    "resolutionStructure": "$~עטפו את זה ב- $expected , מכיוון שהמשבצת זקוקה לערך $expected",
+                    "resolutionDefault": "$~תן לקישור ערך התחלתי, מכיוון ש- $expected לא יכול להיות חסר כאן.",
+                    "resolutionWiden": "$~אפשר את סוג הערך עבור קישור זה, מכיוון ש- $expected צר מדי עבור מה שמאוחסן בפועל.",
+                    "resolutionReorder": "$~החליפו את הקלטים, מכיוון שהסוגים שלהם מתאימים יותר לסדר השני - $expected שייך לחריץ השני",
+                    "resolutionPlaceholder": "$~החלף אותו ב-placeholder לעת עתה, מכיוון ש- $expected נדרש — לאחר מכן בחר ערך מתפריט ההשלמה האוטומטית"
                 },
                 "UnexpectedTypeInput": {
                     "name": "$~קלטמסוגבלתיצפוי",
@@ -743,7 +774,9 @@
                 },
                 "MissingInput": {
                     "name": "$~קלטחסר",
-                    "explanation": "$~אני לא יכול להעריך את $name בלי הקלט $input :("
+                    "explanation": "$~אני לא יכול להעריך את $name בלי הקלט $input :(",
+                    "resolutionAddInput": "$~הוסף את ה- $input החסר, עם ערך ברירת המחדל שלו.",
+                    "resolutionPlaceholder": "$~הוסף את ה- $input החסר כמציין מיקום, לאחר מכן בחר ערך מתפריט ההשלמה האוטומטית"
                 },
                 "NotInstantiable": {
                     "name": "$~מבנהלאשלם",
@@ -1238,7 +1271,18 @@
             "conflict": {
                 "IncompatibleKey": {
                     "name": "$~מפתחלאתואם",
-                    "explanation": "$~ציפיתי למפתח מסוג $expected"
+                    "explanation": "$~ציפיתי למפתח מסוג $expected",
+                    "resolution": "$~המר אותו ל- $expected , מכיוון ש- $expected נדרש",
+                    "resolutionLiteral": "$~סמנו את הרשימה, הקבוצה או המפה כליטרליים עם !, כך שהערכים שלהן יישארו ספציפיים במקום להיות כלליים - $expected זקוק לערכים המדויקים",
+                    "resolutionOtherwise": "$~טפל בערך החסר עם ??, מכיוון ש- $expected אינו מאפשר ø",
+                    "resolutionGuard": "$~בדוק תחילה שמדובר ב- $expected בעזרת סוג הגנה, מכיוון ש- $expected לא יכול להיות סוגים אפשריים אחרים.",
+                    "resolutionDeclaration": "$~יש להצהיר על הסוג במפורש, מכיוון ש- $expected זקוק לשמירה על הערכים הליטרליים",
+                    "resolutionWrap": "$~שים את זה ברשימה, קבוצה או מפה, מכיוון ש- $expected זקוק לאוסף של ערכים",
+                    "resolutionStructure": "$~עטפו את זה ב- $expected , מכיוון שהמשבצת זקוקה לערך $expected",
+                    "resolutionDefault": "$~תן לקישור ערך התחלתי, מכיוון ש- $expected לא יכול להיות חסר כאן.",
+                    "resolutionWiden": "$~אפשר את סוג הערך עבור קישור זה, מכיוון ש- $expected צר מדי עבור מה שמאוחסן בפועל.",
+                    "resolutionReorder": "$~החליפו את הקלטים, מכיוון שהסוגים שלהם מתאימים יותר לסדר השני - $expected שייך לחריץ השני",
+                    "resolutionPlaceholder": "$~החלף אותו ב-placeholder לעת עתה, מכיוון ש- $expected נדרש — לאחר מכן בחר ערך מתפריט ההשלמה האוטומטית"
                 }
             }
         },
@@ -1484,7 +1528,18 @@
                 },
                 "IncompatibleCellType": {
                     "name": "$~סוגתאלאתואם",
-                    "explanation": "$~אני אמור להיות סוג של $expected, אבל הבנתי שאני $given"
+                    "explanation": "$~אני אמור להיות סוג של $expected, אבל הבנתי שאני $given",
+                    "resolution": "$~המר אותו ל- $expected , מכיוון ש- $expected נדרש",
+                    "resolutionLiteral": "$~סמנו את הרשימה, הקבוצה או המפה כליטרליים עם !, כך שהערכים שלהן יישארו ספציפיים במקום להיות כלליים - $expected זקוק לערכים המדויקים",
+                    "resolutionOtherwise": "$~טפל בערך החסר עם ??, מכיוון ש- $expected אינו מאפשר ø",
+                    "resolutionGuard": "$~בדוק תחילה שמדובר ב- $expected בעזרת סוג הגנה, מכיוון ש- $expected לא יכול להיות סוגים אפשריים אחרים.",
+                    "resolutionDeclaration": "$~יש להצהיר על הסוג במפורש, מכיוון ש- $expected זקוק לשמירה על הערכים הליטרליים",
+                    "resolutionWrap": "$~שים את זה ברשימה, קבוצה או מפה, מכיוון ש- $expected זקוק לאוסף של ערכים",
+                    "resolutionStructure": "$~עטפו את זה ב- $expected , מכיוון שהמשבצת זקוקה לערך $expected",
+                    "resolutionDefault": "$~תן לקישור ערך התחלתי, מכיוון ש- $expected לא יכול להיות חסר כאן.",
+                    "resolutionWiden": "$~אפשר את סוג הערך עבור קישור זה, מכיוון ש- $expected צר מדי עבור מה שמאוחסן בפועל.",
+                    "resolutionReorder": "$~החליפו את הקלטים, מכיוון שהסוגים שלהם מתאימים יותר לסדר השני - $expected שייך לחריץ השני",
+                    "resolutionPlaceholder": "$~החלף אותו ב-placeholder לעת עתה, מכיוון ש- $expected נדרש — לאחר מכן בחר ערך מתפריט ההשלמה האוטומטית"
                 }
             }
         },
@@ -1666,7 +1721,8 @@
             "doc": [
                 "$~את מי אני צריך לייצג, את א' או את ב' או משהו אחר? אני אף פעם לא יכול להחליט!",
                 "$~\\חוסר החלטיות•''|#|{ø}: \"אני לא יודע!\"\\"
-            ]
+            ],
+            "elidedSuffix": "$?"
         },
         "Unit": {
             "name": "$~יְחִידָה",

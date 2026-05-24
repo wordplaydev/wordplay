@@ -17,6 +17,7 @@
     import ValueView from '@components/values/ValueView.svelte';
     import CodeView from '@components/concepts/CodeView.svelte';
     import ConceptLinkUI from '@components/concepts/ConceptLinkUI.svelte';
+    import elideNode from '@components/concepts/elideNode';
     import ExampleUI from '@components/concepts/ExampleUI.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import WebLinkHTMLView from '@components/concepts/WebLinkHTMLView.svelte';
@@ -79,12 +80,24 @@
             )}
             inline
         />
-    {:else}<RootView
-            node={segment.node}
-            inline
-            locale="symbolic"
-            blocks={false}
-        />{/if}
+    {:else}
+        {@const elision = elideNode(segment.node, segment.locales)}
+        {#if elision}
+            <!-- Render the elided preview (still as code, via RootView) and
+                 append the localized "or N other options" suffix as markup. -->
+            <RootView
+                node={elision.preview}
+                inline
+                locale="symbolic"
+                blocks={false}
+            /><MarkupHTMLView markup={elision.suffix} inline />
+        {:else}<RootView
+                node={segment.node}
+                inline
+                locale="symbolic"
+                blocks={false}
+            />{/if}
+    {/if}
 {:else if segment instanceof ValueRef}<strong
         ><ValueView value={segment.value} /></strong
     >

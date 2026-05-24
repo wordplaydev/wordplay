@@ -44,6 +44,39 @@ export type ConflictText<Names extends readonly string[] = []> = {
     explanation: Template<Names>;
 };
 
+/**
+ * Resolution templates for type-mismatch conflicts. Each of the five
+ * type-mismatch conflicts ({@link IncompatibleType}, {@link IncompatibleInput},
+ * {@link IncompatibleKey}, {@link IncompatibleCellType}, {@link ExpectedBooleanCondition})
+ * extends its locale shape with this bundle. The generators in
+ * `src/conflicts/TypeResolutions.ts` look up these keys when constructing
+ * the user-facing description for each suggested edit.
+ */
+export type TypeResolutionTemplates = {
+    /** [formatted] Suggested fix that converts the value to the expected type */
+    resolution: Template<['expected']>;
+    /** [formatted] Suggested fix that marks a list/set/map as literal so its values stay specific */
+    resolutionLiteral: Template<['expected']>;
+    /** [formatted] Suggested fix that uses `??` to handle a none value */
+    resolutionOtherwise: Template<['expected']>;
+    /** [formatted] Suggested fix that uses a type guard to narrow a union */
+    resolutionGuard: Template<['expected']>;
+    /** [formatted] Suggested fix that adds an explicit type declaration */
+    resolutionDeclaration: Template<['expected']>;
+    /** [formatted] Suggested fix that wraps the value in a list/set/map literal */
+    resolutionWrap: Template<['expected']>;
+    /** [formatted] Suggested fix that wraps the value in a Structure constructor call */
+    resolutionStructure: Template<['expected']>;
+    /** [formatted] Suggested fix that adds a default value to a Bind */
+    resolutionDefault: Template<['expected']>;
+    /** [formatted] Suggested fix that widens a Bind's declared type to include the given */
+    resolutionWiden: Template<['expected']>;
+    /** [formatted] Suggested fix that swaps two arguments in an Evaluate */
+    resolutionReorder: Template<['expected']>;
+    /** [formatted] Suggested fix that replaces the value with a placeholder so the autocomplete menu can take over */
+    resolutionPlaceholder: Template<['expected']>;
+};
+
 export interface Exceptions<Kinds> {
     /** The set of exception values that this node can evaluate to. */
     exception: Kinds;
@@ -218,10 +251,8 @@ type NodeTexts = {
             /** When a shared bind has a duplicate name that's shared. */
             DuplicateShare: ConflictText<['duplicate']>;
             /** When a bind and it's value type are incompatible. */
-            IncompatibleType: ConflictText<['expected', 'given']> & {
-                /** [formatted] Suggested fix when bind type and value type are incompatible */
-                resolution: Template<['expected']>;
-            };
+            IncompatibleType: ConflictText<['expected', 'given']> &
+                TypeResolutionTemplates;
             /**
              * When a bind is marked as share, but not at the top level.
              */
@@ -317,7 +348,8 @@ type NodeTexts = {
              * When the condition is not boolean typed, e.g., `1 ? 'yes' 'no'`
              * Description inputs: $1 = The non-boolean expression
              */
-            ExpectedBooleanCondition: ConflictText<['type']>;
+            ExpectedBooleanCondition: ConflictText<['type']> &
+                TypeResolutionTemplates;
         }>;
     /**
      * A none coalesce expression, e.g., `value ?? 'default', to choose between a possibly none value and a default.
@@ -407,10 +439,8 @@ type NodeTexts = {
              * When an input given to this evaluate doesn't match the input of the function being evaluated
              * Description inputs: $1 = expected type, $2 = given type
              * */
-            IncompatibleInput: ConflictText<['expected', 'given']> & {
-                /** [formatted] Suggested fix when an input's type does not match the expected type */
-                resolution: Template<['expected']>;
-            };
+            IncompatibleInput: ConflictText<['expected', 'given']> &
+                TypeResolutionTemplates;
             /**
              * When a type input given is not expected.
              * Description inputs: $1 = definition given, $2: type given
@@ -420,7 +450,12 @@ type NodeTexts = {
              * When an input is expected, but not given.
              * Description inputs: $1 = function name, $2: missing input
              * */
-            MissingInput: ConflictText<['name', 'input']>;
+            MissingInput: ConflictText<['name', 'input']> & {
+                /** [formatted] Suggested fix that adds the missing input with a default value */
+                resolutionAddInput: Template<['input']>;
+                /** [formatted] Suggested fix that adds the missing input as a placeholder so autocomplete can take over */
+                resolutionPlaceholder: Template<['input']>;
+            };
             /**
              * When the structure definition given is an interface, and can't be created
              */
@@ -732,7 +767,8 @@ type NodeTexts = {
              * A type of the key given doesn't match the type of the key in the set
              * Description inputs: $1: expected type, $2: given type
              */
-            IncompatibleKey: ConflictText<['expected']>;
+            IncompatibleKey: ConflictText<['expected']> &
+                TypeResolutionTemplates;
         }>;
     /**
      * A source file that contains a name and program.
@@ -877,7 +913,8 @@ type NodeTexts = {
              * When a value was given that didn't match the expected type of the column
              * Description inputs: $1: expected type, $2: given type
              * */
-            IncompatibleCellType: ConflictText<['expected', 'given']>;
+            IncompatibleCellType: ConflictText<['expected', 'given']> &
+                TypeResolutionTemplates;
         }>;
     /** Any type. Not actually written in code, but can be generated internally. */
     AnyType: DescriptiveNodeText;
@@ -963,7 +1000,10 @@ type NodeTexts = {
      * Two possible types, e.g., `# | ''`
      * Description inputs: $1 = first type, $2 = second type
      */
-    UnionType: DescriptiveNodeText<['first', 'second']>;
+    UnionType: DescriptiveNodeText<['first', 'second']> & {
+        /** [formatted] Suffix appended after a code-rendered, truncated UnionType when there are too many members to show inline. $1 = how many members were omitted. Rendered next to (not in place of) the truncated code form. */
+        elidedSuffix: Template<['omitted']>;
+    };
     /**
      * A type that can't be parsed.
      */

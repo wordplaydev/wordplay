@@ -500,7 +500,17 @@
                 "IncompatibleType": {
                     "name": "$~tipincompatibil",
                     "explanation": "$~Mă așteptam la $expected , dar am primit tipul $given",
-                    "resolution": "$~Conversie în $expected"
+                    "resolution": "$~Conversie în $expected",
+                    "resolutionLiteral": "$~Marcați lista, mulțimea sau harta ca literală cu !, astfel încât valorile sale să rămână specifice în loc să fie generalizate — $expected are nevoie de valorile exacte",
+                    "resolutionOtherwise": "$~Gestionați valoarea lipsă cu ??, deoarece $expected nu permite ø",
+                    "resolutionGuard": "$~Verificați dacă este un $expected mai întâi cu o gardă de tip, deoarece $expected nu poate fi celelalte tipuri posibile",
+                    "resolutionDeclaration": "$~Declară tipul explicit, deoarece $expected necesită păstrarea valorilor literale",
+                    "resolutionWrap": "$~Puneți-l într-o listă, set sau hartă, deoarece $expected are nevoie de o colecție de valori",
+                    "resolutionStructure": "$~Încadrați-l în $expected , deoarece slotul are nevoie de o valoare $expected",
+                    "resolutionDefault": "$~Dați legăturii o valoare inițială, deoarece $expected nu poate lipsi aici",
+                    "resolutionWiden": "$~Permiteți tipul valorii pentru această legare, deoarece $expected este prea restrâns pentru ceea ce este stocat efectiv",
+                    "resolutionReorder": "$~Schimbați intrările, deoarece tipurile lor se potrivesc mai bine în ordinea opusă — $expected aparține în celălalt slot",
+                    "resolutionPlaceholder": "$~Înlocuiți-l deocamdată cu un provizoriu, deoarece $expected este obligatoriu — apoi alegeți o valoare din meniul de completare automată."
                 },
                 "MisplacedShare": {
                     "name": "$~acțiunepierdută",
@@ -631,7 +641,18 @@
             "conflict": {
                 "ExpectedBooleanCondition": {
                     "name": "$~condițiebooleanăașteptată",
-                    "explanation": "$~Am nevoie de un @Boolean pentru a lua o decizie, dar am primit în schimb un $type ."
+                    "explanation": "$~Am nevoie de un @Boolean pentru a lua o decizie, dar am primit în schimb un $type .",
+                    "resolution": "$~Convertește-l în $expected , deoarece $expected este obligatoriu",
+                    "resolutionLiteral": "$~Marcați lista, mulțimea sau harta ca literală cu !, astfel încât valorile sale să rămână specifice în loc să fie generalizate — $expected are nevoie de valorile exacte",
+                    "resolutionOtherwise": "$~Gestionați valoarea lipsă cu ??, deoarece $expected nu permite ø",
+                    "resolutionGuard": "$~Verificați dacă este un $expected mai întâi cu o gardă de tip, deoarece $expected nu poate fi celelalte tipuri posibile",
+                    "resolutionDeclaration": "$~Declară tipul explicit, deoarece $expected necesită păstrarea valorilor literale",
+                    "resolutionWrap": "$~Puneți-l într-o listă, set sau hartă, deoarece $expected are nevoie de o colecție de valori",
+                    "resolutionStructure": "$~Încadrați-l în $expected , deoarece slotul are nevoie de o valoare $expected",
+                    "resolutionDefault": "$~Dați legăturii o valoare inițială, deoarece $expected nu poate lipsi aici",
+                    "resolutionWiden": "$~Permiteți tipul valorii pentru această legare, deoarece $expected este prea restrâns pentru ceea ce este stocat efectiv",
+                    "resolutionReorder": "$~Schimbați intrările, deoarece tipurile lor se potrivesc mai bine în ordinea opusă — $expected aparține în celălalt slot",
+                    "resolutionPlaceholder": "$~Înlocuiți-l deocamdată cu un provizoriu, deoarece $expected este obligatoriu — apoi alegeți o valoare din meniul de completare automată."
                 }
             }
         },
@@ -740,7 +761,17 @@
                 "IncompatibleInput": {
                     "name": "$~intrareincompatibilă",
                     "explanation": "$~M-am așteptat $expected , dar am primit $given",
-                    "resolution": "$~Conversie în $expected"
+                    "resolution": "$~Conversie în $expected",
+                    "resolutionLiteral": "$~Marcați lista, mulțimea sau harta ca literală cu !, astfel încât valorile sale să rămână specifice în loc să fie generalizate — $expected are nevoie de valorile exacte",
+                    "resolutionOtherwise": "$~Gestionați valoarea lipsă cu ??, deoarece $expected nu permite ø",
+                    "resolutionGuard": "$~Verificați dacă este un $expected mai întâi cu o gardă de tip, deoarece $expected nu poate fi celelalte tipuri posibile",
+                    "resolutionDeclaration": "$~Declară tipul explicit, deoarece $expected necesită păstrarea valorilor literale",
+                    "resolutionWrap": "$~Puneți-l într-o listă, set sau hartă, deoarece $expected are nevoie de o colecție de valori",
+                    "resolutionStructure": "$~Încadrați-l în $expected , deoarece slotul are nevoie de o valoare $expected",
+                    "resolutionDefault": "$~Dați legăturii o valoare inițială, deoarece $expected nu poate lipsi aici",
+                    "resolutionWiden": "$~Permiteți tipul valorii pentru această legare, deoarece $expected este prea restrâns pentru ceea ce este stocat efectiv",
+                    "resolutionReorder": "$~Schimbați intrările, deoarece tipurile lor se potrivesc mai bine în ordinea opusă — $expected aparține în celălalt slot",
+                    "resolutionPlaceholder": "$~Înlocuiți-l deocamdată cu un provizoriu, deoarece $expected este obligatoriu — apoi alegeți o valoare din meniul de completare automată."
                 },
                 "UnexpectedTypeInput": {
                     "name": "$~intraredetipneașteptat",
@@ -748,7 +779,9 @@
                 },
                 "MissingInput": {
                     "name": "$~intrarelipsă",
-                    "explanation": "$~Nu pot evalua $name fără inputul $input :("
+                    "explanation": "$~Nu pot evalua $name fără inputul $input :(",
+                    "resolutionAddInput": "$~Adăugați $input lipsă, cu valoarea sa implicită",
+                    "resolutionPlaceholder": "$~Adăugați $input lipsă ca substituent, apoi alegeți o valoare din meniul de completare automată"
                 },
                 "NotInstantiable": {
                     "name": "$~structurăincompletă",
@@ -1243,7 +1276,18 @@
             "conflict": {
                 "IncompatibleKey": {
                     "name": "$~cheieincompatibilă",
-                    "explanation": "$~Mă așteptam la o cheie de tip $expected"
+                    "explanation": "$~Mă așteptam la o cheie de tip $expected",
+                    "resolution": "$~Convertește-l în $expected , deoarece $expected este obligatoriu",
+                    "resolutionLiteral": "$~Marcați lista, mulțimea sau harta ca literală cu !, astfel încât valorile sale să rămână specifice în loc să fie generalizate — $expected are nevoie de valorile exacte",
+                    "resolutionOtherwise": "$~Gestionați valoarea lipsă cu ??, deoarece $expected nu permite ø",
+                    "resolutionGuard": "$~Verificați dacă este un $expected mai întâi cu o gardă de tip, deoarece $expected nu poate fi celelalte tipuri posibile",
+                    "resolutionDeclaration": "$~Declară tipul explicit, deoarece $expected necesită păstrarea valorilor literale",
+                    "resolutionWrap": "$~Puneți-l într-o listă, set sau hartă, deoarece $expected are nevoie de o colecție de valori",
+                    "resolutionStructure": "$~Încadrați-l în $expected , deoarece slotul are nevoie de o valoare $expected",
+                    "resolutionDefault": "$~Dați legăturii o valoare inițială, deoarece $expected nu poate lipsi aici",
+                    "resolutionWiden": "$~Permiteți tipul valorii pentru această legare, deoarece $expected este prea restrâns pentru ceea ce este stocat efectiv",
+                    "resolutionReorder": "$~Schimbați intrările, deoarece tipurile lor se potrivesc mai bine în ordinea opusă — $expected aparține în celălalt slot",
+                    "resolutionPlaceholder": "$~Înlocuiți-l deocamdată cu un provizoriu, deoarece $expected este obligatoriu — apoi alegeți o valoare din meniul de completare automată."
                 }
             }
         },
@@ -1489,7 +1533,18 @@
                 },
                 "IncompatibleCellType": {
                     "name": "$~tipdecelulăincompatibil",
-                    "explanation": "$~Se presupune că sunt genul $expected , dar sunt $given"
+                    "explanation": "$~Se presupune că sunt genul $expected , dar sunt $given",
+                    "resolution": "$~Convertește-l în $expected , deoarece $expected este obligatoriu",
+                    "resolutionLiteral": "$~Marcați lista, mulțimea sau harta ca literală cu !, astfel încât valorile sale să rămână specifice în loc să fie generalizate — $expected are nevoie de valorile exacte",
+                    "resolutionOtherwise": "$~Gestionați valoarea lipsă cu ??, deoarece $expected nu permite ø",
+                    "resolutionGuard": "$~Verificați dacă este un $expected mai întâi cu o gardă de tip, deoarece $expected nu poate fi celelalte tipuri posibile",
+                    "resolutionDeclaration": "$~Declară tipul explicit, deoarece $expected necesită păstrarea valorilor literale",
+                    "resolutionWrap": "$~Puneți-l într-o listă, set sau hartă, deoarece $expected are nevoie de o colecție de valori",
+                    "resolutionStructure": "$~Încadrați-l în $expected , deoarece slotul are nevoie de o valoare $expected",
+                    "resolutionDefault": "$~Dați legăturii o valoare inițială, deoarece $expected nu poate lipsi aici",
+                    "resolutionWiden": "$~Permiteți tipul valorii pentru această legare, deoarece $expected este prea restrâns pentru ceea ce este stocat efectiv",
+                    "resolutionReorder": "$~Schimbați intrările, deoarece tipurile lor se potrivesc mai bine în ordinea opusă — $expected aparține în celălalt slot",
+                    "resolutionPlaceholder": "$~Înlocuiți-l deocamdată cu un provizoriu, deoarece $expected este obligatoriu — apoi alegeți o valoare din meniul de completare automată."
                 }
             }
         },
@@ -1671,7 +1726,8 @@
             "doc": [
                 "$~Pe cine ar trebui să reprezint, pe A sau pe B sau pe altceva? Nu mă pot hotărî niciodată!",
                 "$~\\indecizie•''|#|{ø}: \"Nu știu!\""
-            ]
+            ],
+            "elidedSuffix": "$?"
         },
         "Unit": {
             "name": "$~unitate",

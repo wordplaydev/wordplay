@@ -492,7 +492,17 @@
                 "IncompatibleType": {
                     "name": "$~inkompatibeltyp",
                     "explanation": "$~Jag borde vara typ $expected, men jag är typ $given",
-                    "resolution": "$~Konvertera till $expected"
+                    "resolution": "$~Konvertera till $expected",
+                    "resolutionLiteral": "$~Markera listan, uppsättningen eller kartan som litteral med !, så att dess värden förblir specifika istället för att generaliseras — $expected behöver de exakta värdena",
+                    "resolutionOtherwise": "$~Hantera det saknade värdet med ??, eftersom $expected inte tillåter ø",
+                    "resolutionGuard": "$~Kontrollera att det är en $expected först med en type guard, eftersom $expected inte kan vara de andra möjliga typerna.",
+                    "resolutionDeclaration": "$~Deklarera typen explicit, eftersom $expected behöver att de litterala värdena bevaras",
+                    "resolutionWrap": "$~Lägg det i en lista, uppsättning eller karta, eftersom $expected behöver en samling värden",
+                    "resolutionStructure": "$~Slå in det i $expected , eftersom platsen behöver ett $expected -värde",
+                    "resolutionDefault": "$~Ge bindningen ett startvärde, eftersom $expected inte får saknas här",
+                    "resolutionWiden": "$~Tillåt värdets typ för denna bindning, eftersom $expected är för smalt för vad som faktiskt lagras.",
+                    "resolutionReorder": "$~Byt ingångarna, eftersom deras typer passar bättre i den andra ordningen — $expected hör hemma i den andra platsen",
+                    "resolutionPlaceholder": "$~Ersätt det med en platshållare för tillfället, eftersom $expected är obligatoriskt – välj sedan ett värde från autokompletteringsmenyn"
                 },
                 "MisplacedShare": {
                     "name": "$~felplaceraddelning",
@@ -623,7 +633,18 @@
             "conflict": {
                 "ExpectedBooleanCondition": {
                     "name": "$~förväntatboolesktvillkor",
-                    "explanation": "$~Jag behöver en @Boolean för att fatta ett beslut, men jag fick en $type istället."
+                    "explanation": "$~Jag behöver en @Boolean för att fatta ett beslut, men jag fick en $type istället.",
+                    "resolution": "$~Konvertera det till $expected , eftersom $expected är obligatoriskt.",
+                    "resolutionLiteral": "$~Markera listan, uppsättningen eller kartan som litteral med !, så att dess värden förblir specifika istället för att generaliseras — $expected behöver de exakta värdena",
+                    "resolutionOtherwise": "$~Hantera det saknade värdet med ??, eftersom $expected inte tillåter ø",
+                    "resolutionGuard": "$~Kontrollera att det är en $expected först med en type guard, eftersom $expected inte kan vara de andra möjliga typerna.",
+                    "resolutionDeclaration": "$~Deklarera typen explicit, eftersom $expected behöver att de litterala värdena bevaras",
+                    "resolutionWrap": "$~Lägg det i en lista, uppsättning eller karta, eftersom $expected behöver en samling värden",
+                    "resolutionStructure": "$~Slå in det i $expected , eftersom platsen behöver ett $expected -värde",
+                    "resolutionDefault": "$~Ge bindningen ett startvärde, eftersom $expected inte får saknas här",
+                    "resolutionWiden": "$~Tillåt värdets typ för denna bindning, eftersom $expected är för smalt för vad som faktiskt lagras.",
+                    "resolutionReorder": "$~Byt ingångarna, eftersom deras typer passar bättre i den andra ordningen — $expected hör hemma i den andra platsen",
+                    "resolutionPlaceholder": "$~Ersätt det med en platshållare för tillfället, eftersom $expected är obligatoriskt – välj sedan ett värde från autokompletteringsmenyn"
                 }
             },
             "label": {
@@ -730,7 +751,17 @@
                 "IncompatibleInput": {
                     "name": "$~inkompatibelingång",
                     "explanation": "$~Jag borde vara typ $expected, men jag är typ $given",
-                    "resolution": "$~Konvertera till $expected"
+                    "resolution": "$~Konvertera till $expected",
+                    "resolutionLiteral": "$~Markera listan, uppsättningen eller kartan som litteral med !, så att dess värden förblir specifika istället för att generaliseras — $expected behöver de exakta värdena",
+                    "resolutionOtherwise": "$~Hantera det saknade värdet med ??, eftersom $expected inte tillåter ø",
+                    "resolutionGuard": "$~Kontrollera att det är en $expected först med en type guard, eftersom $expected inte kan vara de andra möjliga typerna.",
+                    "resolutionDeclaration": "$~Deklarera typen explicit, eftersom $expected behöver att de litterala värdena bevaras",
+                    "resolutionWrap": "$~Lägg det i en lista, uppsättning eller karta, eftersom $expected behöver en samling värden",
+                    "resolutionStructure": "$~Slå in det i $expected , eftersom platsen behöver ett $expected -värde",
+                    "resolutionDefault": "$~Ge bindningen ett startvärde, eftersom $expected inte får saknas här",
+                    "resolutionWiden": "$~Tillåt värdets typ för denna bindning, eftersom $expected är för smalt för vad som faktiskt lagras.",
+                    "resolutionReorder": "$~Byt ingångarna, eftersom deras typer passar bättre i den andra ordningen — $expected hör hemma i den andra platsen",
+                    "resolutionPlaceholder": "$~Ersätt det med en platshållare för tillfället, eftersom $expected är obligatoriskt – välj sedan ett värde från autokompletteringsmenyn"
                 },
                 "UnexpectedTypeInput": {
                     "name": "$~oväntadtypinmatning",
@@ -738,7 +769,9 @@
                 },
                 "MissingInput": {
                     "name": "$~saknadinmatning",
-                    "explanation": "$~Jag kan inte utvärdera $name utan indata $input :("
+                    "explanation": "$~Jag kan inte utvärdera $name utan indata $input :(",
+                    "resolutionAddInput": "$~Lägg till den saknade $input , med dess standardvärde",
+                    "resolutionPlaceholder": "$~Lägg till den saknade $input som en platshållare och välj sedan ett värde från autokompletteringsmenyn."
                 },
                 "NotInstantiable": {
                     "name": "$~ofullständigstruktur",
@@ -1238,7 +1271,18 @@
             "conflict": {
                 "IncompatibleKey": {
                     "name": "$~inkompatibelnyckel",
-                    "explanation": "$~Jag förväntade mig en nyckel av typen $expected"
+                    "explanation": "$~Jag förväntade mig en nyckel av typen $expected",
+                    "resolution": "$~Konvertera det till $expected , eftersom $expected är obligatoriskt.",
+                    "resolutionLiteral": "$~Markera listan, uppsättningen eller kartan som litteral med !, så att dess värden förblir specifika istället för att generaliseras — $expected behöver de exakta värdena",
+                    "resolutionOtherwise": "$~Hantera det saknade värdet med ??, eftersom $expected inte tillåter ø",
+                    "resolutionGuard": "$~Kontrollera att det är en $expected först med en type guard, eftersom $expected inte kan vara de andra möjliga typerna.",
+                    "resolutionDeclaration": "$~Deklarera typen explicit, eftersom $expected behöver att de litterala värdena bevaras",
+                    "resolutionWrap": "$~Lägg det i en lista, uppsättning eller karta, eftersom $expected behöver en samling värden",
+                    "resolutionStructure": "$~Slå in det i $expected , eftersom platsen behöver ett $expected -värde",
+                    "resolutionDefault": "$~Ge bindningen ett startvärde, eftersom $expected inte får saknas här",
+                    "resolutionWiden": "$~Tillåt värdets typ för denna bindning, eftersom $expected är för smalt för vad som faktiskt lagras.",
+                    "resolutionReorder": "$~Byt ingångarna, eftersom deras typer passar bättre i den andra ordningen — $expected hör hemma i den andra platsen",
+                    "resolutionPlaceholder": "$~Ersätt det med en platshållare för tillfället, eftersom $expected är obligatoriskt – välj sedan ett värde från autokompletteringsmenyn"
                 }
             }
         },
@@ -1484,7 +1528,18 @@
                 },
                 "IncompatibleCellType": {
                     "name": "$~inkompatibelcelltyp",
-                    "explanation": "$~Jag borde vara typ $expected, men jag har för mig att jag är $given"
+                    "explanation": "$~Jag borde vara typ $expected, men jag har för mig att jag är $given",
+                    "resolution": "$~Konvertera det till $expected , eftersom $expected är obligatoriskt.",
+                    "resolutionLiteral": "$~Markera listan, uppsättningen eller kartan som litteral med !, så att dess värden förblir specifika istället för att generaliseras — $expected behöver de exakta värdena",
+                    "resolutionOtherwise": "$~Hantera det saknade värdet med ??, eftersom $expected inte tillåter ø",
+                    "resolutionGuard": "$~Kontrollera att det är en $expected först med en type guard, eftersom $expected inte kan vara de andra möjliga typerna.",
+                    "resolutionDeclaration": "$~Deklarera typen explicit, eftersom $expected behöver att de litterala värdena bevaras",
+                    "resolutionWrap": "$~Lägg det i en lista, uppsättning eller karta, eftersom $expected behöver en samling värden",
+                    "resolutionStructure": "$~Slå in det i $expected , eftersom platsen behöver ett $expected -värde",
+                    "resolutionDefault": "$~Ge bindningen ett startvärde, eftersom $expected inte får saknas här",
+                    "resolutionWiden": "$~Tillåt värdets typ för denna bindning, eftersom $expected är för smalt för vad som faktiskt lagras.",
+                    "resolutionReorder": "$~Byt ingångarna, eftersom deras typer passar bättre i den andra ordningen — $expected hör hemma i den andra platsen",
+                    "resolutionPlaceholder": "$~Ersätt det med en platshållare för tillfället, eftersom $expected är obligatoriskt – välj sedan ett värde från autokompletteringsmenyn"
                 }
             }
         },
@@ -1666,7 +1721,8 @@
             "doc": [
                 "$~Vem ska jag representera, A eller B eller något annat? Jag kan aldrig bestämma mig!",
                 "$~\\indecision•''|#|{ø}: \"Jag vet inte!\"\\"
-            ]
+            ],
+            "elidedSuffix": "$?"
         },
         "Unit": {
             "name": "$~enhet",

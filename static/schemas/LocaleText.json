@@ -171,25 +171,6 @@
       ],
       "type": "object"
     },
-    "ConflictText<[\"expected\"]>": {
-      "additionalProperties": false,
-      "description": "The text that describes this conflict type.",
-      "properties": {
-        "explanation": {
-          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
-          "description": "[formatted] The text that describes this conflict on the node which generated it."
-        },
-        "name": {
-          "description": "[name] The short header to describe the conflict",
-          "type": "string"
-        }
-      },
-      "required": [
-        "name",
-        "explanation"
-      ],
-      "type": "object"
-    },
     "ConflictText<[\"expression\"]>": {
       "additionalProperties": false,
       "description": "The text that describes this conflict type.",
@@ -234,25 +215,6 @@
       "properties": {
         "explanation": {
           "$ref": "#/definitions/Template%3C%5B%22interface%22%2C%22function%22%5D%3E",
-          "description": "[formatted] The text that describes this conflict on the node which generated it."
-        },
-        "name": {
-          "description": "[name] The short header to describe the conflict",
-          "type": "string"
-        }
-      },
-      "required": [
-        "name",
-        "explanation"
-      ],
-      "type": "object"
-    },
-    "ConflictText<[\"name\",\"input\"]>": {
-      "additionalProperties": false,
-      "description": "The text that describes this conflict type.",
-      "properties": {
-        "explanation": {
-          "$ref": "#/definitions/Template%3C%5B%22name%22%2C%22input%22%5D%3E",
           "description": "[formatted] The text that describes this conflict on the node which generated it."
         },
         "name": {
@@ -472,55 +434,6 @@
       "properties": {
         "description": {
           "$ref": "#/definitions/Template%3C%5B%22concept%22%5D%3E",
-          "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
-        },
-        "doc": {
-          "$ref": "#/definitions/DocText",
-          "description": "Documentation text that appears in the documentation view"
-        },
-        "emotion": {
-          "description": "[emotion] The emotion that should be conveyed in animations of the node type",
-          "enum": [
-            "angry",
-            "arrogant",
-            "bored",
-            "cheerful",
-            "curious",
-            "confused",
-            "eager",
-            "excited",
-            "grumpy",
-            "happy",
-            "insecure",
-            "kind",
-            "neutral",
-            "sad",
-            "scared",
-            "serious",
-            "shy",
-            "surprised",
-            "precise"
-          ],
-          "type": "string"
-        },
-        "name": {
-          "description": "[name] The name that should be used to refer to the node type",
-          "type": "string"
-        }
-      },
-      "required": [
-        "description",
-        "doc",
-        "emotion",
-        "name"
-      ],
-      "type": "object"
-    },
-    "DescriptiveNodeText<[\"first\",\"second\"]>": {
-      "additionalProperties": false,
-      "properties": {
-        "description": {
-          "$ref": "#/definitions/Template%3C%5B%22first%22%2C%22second%22%5D%3E",
           "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
         },
         "doc": {
@@ -4207,13 +4120,63 @@
                         },
                         "resolution": {
                           "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
-                          "description": "[formatted] Suggested fix when bind type and value type are incompatible"
+                          "description": "[formatted] Suggested fix that converts the value to the expected type"
+                        },
+                        "resolutionDeclaration": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that adds an explicit type declaration"
+                        },
+                        "resolutionDefault": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that adds a default value to a Bind"
+                        },
+                        "resolutionGuard": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that uses a type guard to narrow a union"
+                        },
+                        "resolutionLiteral": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that marks a list/set/map as literal so its values stay specific"
+                        },
+                        "resolutionOtherwise": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that uses `??` to handle a none value"
+                        },
+                        "resolutionPlaceholder": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that replaces the value with a placeholder so the autocomplete menu can take over"
+                        },
+                        "resolutionReorder": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that swaps two arguments in an Evaluate"
+                        },
+                        "resolutionStructure": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that wraps the value in a Structure constructor call"
+                        },
+                        "resolutionWiden": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that widens a Bind's declared type to include the given"
+                        },
+                        "resolutionWrap": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that wraps the value in a list/set/map literal"
                         }
                       },
                       "required": [
                         "explanation",
                         "name",
-                        "resolution"
+                        "resolution",
+                        "resolutionDeclaration",
+                        "resolutionDefault",
+                        "resolutionGuard",
+                        "resolutionLiteral",
+                        "resolutionOtherwise",
+                        "resolutionPlaceholder",
+                        "resolutionReorder",
+                        "resolutionStructure",
+                        "resolutionWiden",
+                        "resolutionWrap"
                       ],
                       "type": "object"
                     },
@@ -4683,8 +4646,78 @@
                   "description": "Conflicts that this node can generate",
                   "properties": {
                     "ExpectedBooleanCondition": {
-                      "$ref": "#/definitions/ConflictText%3C%5B%22type%22%5D%3E",
-                      "description": "When the condition is not boolean typed, e.g., `1 ? 'yes' 'no'` Description inputs: $1 = The non-boolean expression"
+                      "additionalProperties": false,
+                      "description": "When the condition is not boolean typed, e.g., `1 ? 'yes' 'no'` Description inputs: $1 = The non-boolean expression",
+                      "properties": {
+                        "explanation": {
+                          "$ref": "#/definitions/Template%3C%5B%22type%22%5D%3E",
+                          "description": "[formatted] The text that describes this conflict on the node which generated it."
+                        },
+                        "name": {
+                          "description": "[name] The short header to describe the conflict",
+                          "type": "string"
+                        },
+                        "resolution": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that converts the value to the expected type"
+                        },
+                        "resolutionDeclaration": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that adds an explicit type declaration"
+                        },
+                        "resolutionDefault": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that adds a default value to a Bind"
+                        },
+                        "resolutionGuard": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that uses a type guard to narrow a union"
+                        },
+                        "resolutionLiteral": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that marks a list/set/map as literal so its values stay specific"
+                        },
+                        "resolutionOtherwise": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that uses `??` to handle a none value"
+                        },
+                        "resolutionPlaceholder": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that replaces the value with a placeholder so the autocomplete menu can take over"
+                        },
+                        "resolutionReorder": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that swaps two arguments in an Evaluate"
+                        },
+                        "resolutionStructure": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that wraps the value in a Structure constructor call"
+                        },
+                        "resolutionWiden": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that widens a Bind's declared type to include the given"
+                        },
+                        "resolutionWrap": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that wraps the value in a list/set/map literal"
+                        }
+                      },
+                      "required": [
+                        "explanation",
+                        "name",
+                        "resolution",
+                        "resolutionDeclaration",
+                        "resolutionDefault",
+                        "resolutionGuard",
+                        "resolutionLiteral",
+                        "resolutionOtherwise",
+                        "resolutionPlaceholder",
+                        "resolutionReorder",
+                        "resolutionStructure",
+                        "resolutionWiden",
+                        "resolutionWrap"
+                      ],
+                      "type": "object"
                     }
                   },
                   "required": [
@@ -5171,13 +5204,63 @@
                         },
                         "resolution": {
                           "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
-                          "description": "[formatted] Suggested fix when an input's type does not match the expected type"
+                          "description": "[formatted] Suggested fix that converts the value to the expected type"
+                        },
+                        "resolutionDeclaration": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that adds an explicit type declaration"
+                        },
+                        "resolutionDefault": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that adds a default value to a Bind"
+                        },
+                        "resolutionGuard": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that uses a type guard to narrow a union"
+                        },
+                        "resolutionLiteral": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that marks a list/set/map as literal so its values stay specific"
+                        },
+                        "resolutionOtherwise": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that uses `??` to handle a none value"
+                        },
+                        "resolutionPlaceholder": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that replaces the value with a placeholder so the autocomplete menu can take over"
+                        },
+                        "resolutionReorder": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that swaps two arguments in an Evaluate"
+                        },
+                        "resolutionStructure": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that wraps the value in a Structure constructor call"
+                        },
+                        "resolutionWiden": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that widens a Bind's declared type to include the given"
+                        },
+                        "resolutionWrap": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that wraps the value in a list/set/map literal"
                         }
                       },
                       "required": [
                         "explanation",
                         "name",
-                        "resolution"
+                        "resolution",
+                        "resolutionDeclaration",
+                        "resolutionDefault",
+                        "resolutionGuard",
+                        "resolutionLiteral",
+                        "resolutionOtherwise",
+                        "resolutionPlaceholder",
+                        "resolutionReorder",
+                        "resolutionStructure",
+                        "resolutionWiden",
+                        "resolutionWrap"
                       ],
                       "type": "object"
                     },
@@ -5186,8 +5269,33 @@
                       "description": "When a list of inputs is given but isn't last."
                     },
                     "MissingInput": {
-                      "$ref": "#/definitions/ConflictText%3C%5B%22name%22%2C%22input%22%5D%3E",
-                      "description": "When an input is expected, but not given. Description inputs: $1 = function name, $2: missing input"
+                      "additionalProperties": false,
+                      "description": "When an input is expected, but not given. Description inputs: $1 = function name, $2: missing input",
+                      "properties": {
+                        "explanation": {
+                          "$ref": "#/definitions/Template%3C%5B%22name%22%2C%22input%22%5D%3E",
+                          "description": "[formatted] The text that describes this conflict on the node which generated it."
+                        },
+                        "name": {
+                          "description": "[name] The short header to describe the conflict",
+                          "type": "string"
+                        },
+                        "resolutionAddInput": {
+                          "$ref": "#/definitions/Template%3C%5B%22input%22%5D%3E",
+                          "description": "[formatted] Suggested fix that adds the missing input with a default value"
+                        },
+                        "resolutionPlaceholder": {
+                          "$ref": "#/definitions/Template%3C%5B%22input%22%5D%3E",
+                          "description": "[formatted] Suggested fix that adds the missing input as a placeholder so autocomplete can take over"
+                        }
+                      },
+                      "required": [
+                        "explanation",
+                        "name",
+                        "resolutionAddInput",
+                        "resolutionPlaceholder"
+                      ],
+                      "type": "object"
                     },
                     "NotInstantiable": {
                       "$ref": "#/definitions/ConflictText",
@@ -7594,8 +7702,78 @@
                   "description": "Conflicts that this node can generate",
                   "properties": {
                     "IncompatibleKey": {
-                      "$ref": "#/definitions/ConflictText%3C%5B%22expected%22%5D%3E",
-                      "description": "A type of the key given doesn't match the type of the key in the set Description inputs: $1: expected type, $2: given type"
+                      "additionalProperties": false,
+                      "description": "A type of the key given doesn't match the type of the key in the set Description inputs: $1: expected type, $2: given type",
+                      "properties": {
+                        "explanation": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] The text that describes this conflict on the node which generated it."
+                        },
+                        "name": {
+                          "description": "[name] The short header to describe the conflict",
+                          "type": "string"
+                        },
+                        "resolution": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that converts the value to the expected type"
+                        },
+                        "resolutionDeclaration": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that adds an explicit type declaration"
+                        },
+                        "resolutionDefault": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that adds a default value to a Bind"
+                        },
+                        "resolutionGuard": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that uses a type guard to narrow a union"
+                        },
+                        "resolutionLiteral": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that marks a list/set/map as literal so its values stay specific"
+                        },
+                        "resolutionOtherwise": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that uses `??` to handle a none value"
+                        },
+                        "resolutionPlaceholder": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that replaces the value with a placeholder so the autocomplete menu can take over"
+                        },
+                        "resolutionReorder": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that swaps two arguments in an Evaluate"
+                        },
+                        "resolutionStructure": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that wraps the value in a Structure constructor call"
+                        },
+                        "resolutionWiden": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that widens a Bind's declared type to include the given"
+                        },
+                        "resolutionWrap": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that wraps the value in a list/set/map literal"
+                        }
+                      },
+                      "required": [
+                        "explanation",
+                        "name",
+                        "resolution",
+                        "resolutionDeclaration",
+                        "resolutionDefault",
+                        "resolutionGuard",
+                        "resolutionLiteral",
+                        "resolutionOtherwise",
+                        "resolutionPlaceholder",
+                        "resolutionReorder",
+                        "resolutionStructure",
+                        "resolutionWiden",
+                        "resolutionWrap"
+                      ],
+                      "type": "object"
                     }
                   },
                   "required": [
@@ -8401,8 +8579,59 @@
               "type": "object"
             },
             "UnionType": {
-              "$ref": "#/definitions/DescriptiveNodeText%3C%5B%22first%22%2C%22second%22%5D%3E",
-              "description": "Two possible types, e.g., `# | ''` Description inputs: $1 = first type, $2 = second type"
+              "additionalProperties": false,
+              "description": "Two possible types, e.g., `# | ''` Description inputs: $1 = first type, $2 = second type",
+              "properties": {
+                "description": {
+                  "$ref": "#/definitions/Template%3C%5B%22first%22%2C%22second%22%5D%3E",
+                  "description": "[formatted] A precise description of the node's contents, more specific than a name. If not provided, name is used."
+                },
+                "doc": {
+                  "$ref": "#/definitions/DocText",
+                  "description": "Documentation text that appears in the documentation view"
+                },
+                "elidedSuffix": {
+                  "$ref": "#/definitions/Template%3C%5B%22omitted%22%5D%3E",
+                  "description": "[formatted] Suffix appended after a code-rendered, truncated UnionType when there are too many members to show inline. $1 = how many members were omitted. Rendered next to (not in place of) the truncated code form."
+                },
+                "emotion": {
+                  "description": "[emotion] The emotion that should be conveyed in animations of the node type",
+                  "enum": [
+                    "angry",
+                    "arrogant",
+                    "bored",
+                    "cheerful",
+                    "curious",
+                    "confused",
+                    "eager",
+                    "excited",
+                    "grumpy",
+                    "happy",
+                    "insecure",
+                    "kind",
+                    "neutral",
+                    "sad",
+                    "scared",
+                    "serious",
+                    "shy",
+                    "surprised",
+                    "precise"
+                  ],
+                  "type": "string"
+                },
+                "name": {
+                  "description": "[name] The name that should be used to refer to the node type",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "description",
+                "doc",
+                "elidedSuffix",
+                "emotion",
+                "name"
+              ],
+              "type": "object"
             },
             "Unit": {
               "$ref": "#/definitions/DescriptiveNodeText%3C%5B%22unit%22%5D%3E",
@@ -8591,8 +8820,78 @@
                       "description": "When a column name was expected but not given"
                     },
                     "IncompatibleCellType": {
-                      "$ref": "#/definitions/ConflictText%3C%5B%22expected%22%2C%22given%22%5D%3E",
-                      "description": "When a value was given that didn't match the expected type of the column Description inputs: $1: expected type, $2: given type"
+                      "additionalProperties": false,
+                      "description": "When a value was given that didn't match the expected type of the column Description inputs: $1: expected type, $2: given type",
+                      "properties": {
+                        "explanation": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%2C%22given%22%5D%3E",
+                          "description": "[formatted] The text that describes this conflict on the node which generated it."
+                        },
+                        "name": {
+                          "description": "[name] The short header to describe the conflict",
+                          "type": "string"
+                        },
+                        "resolution": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that converts the value to the expected type"
+                        },
+                        "resolutionDeclaration": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that adds an explicit type declaration"
+                        },
+                        "resolutionDefault": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that adds a default value to a Bind"
+                        },
+                        "resolutionGuard": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that uses a type guard to narrow a union"
+                        },
+                        "resolutionLiteral": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that marks a list/set/map as literal so its values stay specific"
+                        },
+                        "resolutionOtherwise": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that uses `??` to handle a none value"
+                        },
+                        "resolutionPlaceholder": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that replaces the value with a placeholder so the autocomplete menu can take over"
+                        },
+                        "resolutionReorder": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that swaps two arguments in an Evaluate"
+                        },
+                        "resolutionStructure": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that wraps the value in a Structure constructor call"
+                        },
+                        "resolutionWiden": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that widens a Bind's declared type to include the given"
+                        },
+                        "resolutionWrap": {
+                          "$ref": "#/definitions/Template%3C%5B%22expected%22%5D%3E",
+                          "description": "[formatted] Suggested fix that wraps the value in a list/set/map literal"
+                        }
+                      },
+                      "required": [
+                        "explanation",
+                        "name",
+                        "resolution",
+                        "resolutionDeclaration",
+                        "resolutionDefault",
+                        "resolutionGuard",
+                        "resolutionLiteral",
+                        "resolutionOtherwise",
+                        "resolutionPlaceholder",
+                        "resolutionReorder",
+                        "resolutionStructure",
+                        "resolutionWiden",
+                        "resolutionWrap"
+                      ],
+                      "type": "object"
                     }
                   },
                   "required": [
@@ -18306,6 +18605,9 @@
     "Template<[\"input\",\"output\"]>": {
       "type": "string"
     },
+    "Template<[\"input\"]>": {
+      "type": "string"
+    },
     "Template<[\"inputs\"]>": {
       "type": "string"
     },
@@ -18364,6 +18666,9 @@
       "type": "string"
     },
     "Template<[\"number\",\"unit\"]>": {
+      "type": "string"
+    },
+    "Template<[\"omitted\"]>": {
       "type": "string"
     },
     "Template<[\"opacity\",\"rotation\",\"scale\",\"flipx\",\"flipy\",\"blur\"]>": {

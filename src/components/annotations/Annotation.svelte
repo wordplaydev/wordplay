@@ -102,6 +102,8 @@
         gap: var(--wordplay-spacing);
         padding-block-start: var(--wordplay-spacing);
         align-items: flex-start;
+        word-wrap: break-word;
+        overflow-wrap: anywhere;
     }
 
     .annotation {
@@ -147,6 +149,11 @@
     .description {
         padding: var(--wordplay-spacing);
         border-radius: var(--wordplay-spacing);
+        /* Wrap long resolution text — literal-union descriptions can otherwise
+           overflow the sidebar's hidden-x edge and get clipped. */
+        word-wrap: break-word;
+        overflow-wrap: anywhere;
+        min-width: 0;
     }
 
     h3 {

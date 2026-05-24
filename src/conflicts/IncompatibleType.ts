@@ -6,7 +6,6 @@ import type Type from '@nodes/Type';
 import type Locales from '@locale/Locales';
 import type Node from '@nodes/Node';
 import Conflict from '@conflicts/Conflict';
-import { makeConversionResolutions } from '@conflicts/ConversionResolutions';
 
 export default class IncompatibleType extends Conflict {
     readonly receiver: Node;
@@ -47,16 +46,6 @@ export default class IncompatibleType extends Conflict {
                     },
                 ),
         };
-    }
-
-    getResolutions(context: Context, _concepts: Node[]) {
-        return makeConversionResolutions(
-            this.expression,
-            this.givenType,
-            this.expectedType,
-            context,
-            (l) => IncompatibleType.LocalePath(l).resolution,
-        );
     }
 
     getLocalePath() {

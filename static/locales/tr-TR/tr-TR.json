@@ -492,7 +492,17 @@
                 "IncompatibleType": {
                     "name": "$~uyumsuztip",
                     "explanation": "$~Ben normalde $expected tipinde olmam gerekirken, $given tipindeyim.",
-                    "resolution": "$~$expected dönüştür"
+                    "resolution": "$~$expected dönüştür",
+                    "resolutionLiteral": "$~Listeyi, kümeyi veya haritayı ! ile tam olarak belirtin, böylece değerleri genelleştirilmek yerine belirli kalır — $expected tam değerlere ihtiyaç duyar.",
+                    "resolutionOtherwise": "$~$expected ø'ye izin vermediği için eksik değeri ?? ile ele alın.",
+                    "resolutionGuard": "$~Öncelikle bir tür kontrolüyle bunun bir $expected olup olmadığını doğrulayın, çünkü $expected diğer olası türler olamaz.",
+                    "resolutionDeclaration": "$~$expected değişkeninin sabit değerlerinin korunması gerektiğinden, türü açıkça belirtin.",
+                    "resolutionWrap": "$~$expected bir değerler koleksiyonuna ihtiyaç duyduğundan, onu bir liste, küme veya haritaya koyun.",
+                    "resolutionStructure": "$~Yuvanın $ $expected $expected içine sarın.",
+                    "resolutionDefault": "$~Bağlantıya bir başlangıç değeri verin, çünkü $expected burada eksik olamaz.",
+                    "resolutionWiden": "$~Bu bağlama için değerin türüne izin verin, çünkü $expected aslında depolanan şey için çok dar kapsamlıdır.",
+                    "resolutionReorder": "$~Girişleri yer değiştirin, çünkü türleri diğer sırada daha iyi uyuyor — $expected diğer yuvaya ait.",
+                    "resolutionPlaceholder": "$~Şimdilik bunun yerine bir yer tutucu koyun, çünkü $expected gerekli — ardından otomatik tamamlama menüsünden bir değer seçin."
                 },
                 "MisplacedShare": {
                     "name": "$~yanlışyerleştirilmişpaylaşım",
@@ -623,7 +633,18 @@
             "conflict": {
                 "ExpectedBooleanCondition": {
                     "name": "$~beklenenbooleankoşulu",
-                    "explanation": "$~Karar vermek için @Boolean'a ihtiyacım var, ancak bunun yerine $type aldım."
+                    "explanation": "$~Karar vermek için @Boolean'a ihtiyacım var, ancak bunun yerine $type aldım.",
+                    "resolution": "$~$expected gerekli olduğundan, onu $expected expected'e dönüştürün.",
+                    "resolutionLiteral": "$~Listeyi, kümeyi veya haritayı ! ile tam olarak belirtin, böylece değerleri genelleştirilmek yerine belirli kalır — $expected tam değerlere ihtiyaç duyar.",
+                    "resolutionOtherwise": "$~$expected ø'ye izin vermediği için eksik değeri ?? ile ele alın.",
+                    "resolutionGuard": "$~Öncelikle bir tür kontrolüyle bunun bir $expected olup olmadığını doğrulayın, çünkü $expected diğer olası türler olamaz.",
+                    "resolutionDeclaration": "$~$expected değişkeninin sabit değerlerinin korunması gerektiğinden, türü açıkça belirtin.",
+                    "resolutionWrap": "$~$expected bir değerler koleksiyonuna ihtiyaç duyduğundan, onu bir liste, küme veya haritaya koyun.",
+                    "resolutionStructure": "$~Yuvanın $ $expected $expected içine sarın.",
+                    "resolutionDefault": "$~Bağlantıya bir başlangıç değeri verin, çünkü $expected burada eksik olamaz.",
+                    "resolutionWiden": "$~Bu bağlama için değerin türüne izin verin, çünkü $expected aslında depolanan şey için çok dar kapsamlıdır.",
+                    "resolutionReorder": "$~Girişleri yer değiştirin, çünkü türleri diğer sırada daha iyi uyuyor — $expected diğer yuvaya ait.",
+                    "resolutionPlaceholder": "$~Şimdilik bunun yerine bir yer tutucu koyun, çünkü $expected gerekli — ardından otomatik tamamlama menüsünden bir değer seçin."
                 }
             },
             "label": {
@@ -730,7 +751,17 @@
                 "IncompatibleInput": {
                     "name": "$~uyumsuzgiriş",
                     "explanation": "$~$expected bekliyordum, ancak $given aldım.",
-                    "resolution": "$~$expected dönüştür"
+                    "resolution": "$~$expected dönüştür",
+                    "resolutionLiteral": "$~Listeyi, kümeyi veya haritayı ! ile tam olarak belirtin, böylece değerleri genelleştirilmek yerine belirli kalır — $expected tam değerlere ihtiyaç duyar.",
+                    "resolutionOtherwise": "$~$expected ø'ye izin vermediği için eksik değeri ?? ile ele alın.",
+                    "resolutionGuard": "$~Öncelikle bir tür kontrolüyle bunun bir $expected olup olmadığını doğrulayın, çünkü $expected diğer olası türler olamaz.",
+                    "resolutionDeclaration": "$~$expected değişkeninin sabit değerlerinin korunması gerektiğinden, türü açıkça belirtin.",
+                    "resolutionWrap": "$~$expected bir değerler koleksiyonuna ihtiyaç duyduğundan, onu bir liste, küme veya haritaya koyun.",
+                    "resolutionStructure": "$~Yuvanın $ $expected $expected içine sarın.",
+                    "resolutionDefault": "$~Bağlantıya bir başlangıç değeri verin, çünkü $expected burada eksik olamaz.",
+                    "resolutionWiden": "$~Bu bağlama için değerin türüne izin verin, çünkü $expected aslında depolanan şey için çok dar kapsamlıdır.",
+                    "resolutionReorder": "$~Girişleri yer değiştirin, çünkü türleri diğer sırada daha iyi uyuyor — $expected diğer yuvaya ait.",
+                    "resolutionPlaceholder": "$~Şimdilik bunun yerine bir yer tutucu koyun, çünkü $expected gerekli — ardından otomatik tamamlama menüsünden bir değer seçin."
                 },
                 "UnexpectedTypeInput": {
                     "name": "$~beklenmeyentipgirişi",
@@ -738,7 +769,9 @@
                 },
                 "MissingInput": {
                     "name": "$~eksikgiriş",
-                    "explanation": "$~$name girdisi olmadan $input'i değerlendiremiyorum :("
+                    "explanation": "$~$name girdisi olmadan $input'i değerlendiremiyorum :(",
+                    "resolutionAddInput": "$~Eksik olan $input varsayılan değeriyle ekleyin.",
+                    "resolutionPlaceholder": "$~Eksik olan $input değişkenini yer tutucu olarak ekleyin, ardından otomatik tamamlama menüsünden bir değer seçin."
                 },
                 "NotInstantiable": {
                     "name": "$~tamamlanmamışyapı",
@@ -1238,7 +1271,18 @@
             "conflict": {
                 "IncompatibleKey": {
                     "name": "$~uyumsuzanahtar",
-                    "explanation": "$~$expected tipinde bir anahtar bekliyordum."
+                    "explanation": "$~$expected tipinde bir anahtar bekliyordum.",
+                    "resolution": "$~$expected gerekli olduğundan, onu $expected expected'e dönüştürün.",
+                    "resolutionLiteral": "$~Listeyi, kümeyi veya haritayı ! ile tam olarak belirtin, böylece değerleri genelleştirilmek yerine belirli kalır — $expected tam değerlere ihtiyaç duyar.",
+                    "resolutionOtherwise": "$~$expected ø'ye izin vermediği için eksik değeri ?? ile ele alın.",
+                    "resolutionGuard": "$~Öncelikle bir tür kontrolüyle bunun bir $expected olup olmadığını doğrulayın, çünkü $expected diğer olası türler olamaz.",
+                    "resolutionDeclaration": "$~$expected değişkeninin sabit değerlerinin korunması gerektiğinden, türü açıkça belirtin.",
+                    "resolutionWrap": "$~$expected bir değerler koleksiyonuna ihtiyaç duyduğundan, onu bir liste, küme veya haritaya koyun.",
+                    "resolutionStructure": "$~Yuvanın $ $expected $expected içine sarın.",
+                    "resolutionDefault": "$~Bağlantıya bir başlangıç değeri verin, çünkü $expected burada eksik olamaz.",
+                    "resolutionWiden": "$~Bu bağlama için değerin türüne izin verin, çünkü $expected aslında depolanan şey için çok dar kapsamlıdır.",
+                    "resolutionReorder": "$~Girişleri yer değiştirin, çünkü türleri diğer sırada daha iyi uyuyor — $expected diğer yuvaya ait.",
+                    "resolutionPlaceholder": "$~Şimdilik bunun yerine bir yer tutucu koyun, çünkü $expected gerekli — ardından otomatik tamamlama menüsünden bir değer seçin."
                 }
             }
         },
@@ -1484,7 +1528,18 @@
                 },
                 "IncompatibleCellType": {
                     "name": "$~uyumsuzhücretipi",
-                    "explanation": "$~Benim $expected türünde olmam gerekirken, $given türündeyim."
+                    "explanation": "$~Benim $expected türünde olmam gerekirken, $given türündeyim.",
+                    "resolution": "$~$expected gerekli olduğundan, onu $expected expected'e dönüştürün.",
+                    "resolutionLiteral": "$~Listeyi, kümeyi veya haritayı ! ile tam olarak belirtin, böylece değerleri genelleştirilmek yerine belirli kalır — $expected tam değerlere ihtiyaç duyar.",
+                    "resolutionOtherwise": "$~$expected ø'ye izin vermediği için eksik değeri ?? ile ele alın.",
+                    "resolutionGuard": "$~Öncelikle bir tür kontrolüyle bunun bir $expected olup olmadığını doğrulayın, çünkü $expected diğer olası türler olamaz.",
+                    "resolutionDeclaration": "$~$expected değişkeninin sabit değerlerinin korunması gerektiğinden, türü açıkça belirtin.",
+                    "resolutionWrap": "$~$expected bir değerler koleksiyonuna ihtiyaç duyduğundan, onu bir liste, küme veya haritaya koyun.",
+                    "resolutionStructure": "$~Yuvanın $ $expected $expected içine sarın.",
+                    "resolutionDefault": "$~Bağlantıya bir başlangıç değeri verin, çünkü $expected burada eksik olamaz.",
+                    "resolutionWiden": "$~Bu bağlama için değerin türüne izin verin, çünkü $expected aslında depolanan şey için çok dar kapsamlıdır.",
+                    "resolutionReorder": "$~Girişleri yer değiştirin, çünkü türleri diğer sırada daha iyi uyuyor — $expected diğer yuvaya ait.",
+                    "resolutionPlaceholder": "$~Şimdilik bunun yerine bir yer tutucu koyun, çünkü $expected gerekli — ardından otomatik tamamlama menüsünden bir değer seçin."
                 }
             }
         },
@@ -1666,7 +1721,8 @@
             "doc": [
                 "$~Kimi temsil etmeliyim, A mı B mi yoksa başka bir şey mi? Asla karar veremiyorum!",
                 "$~\\indecision•''|#|{ø}: \"Bilmiyorum!\"\\"
-            ]
+            ],
+            "elidedSuffix": "$?"
         },
         "Unit": {
             "name": "$~birim",

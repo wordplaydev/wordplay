@@ -500,7 +500,17 @@
                 "IncompatibleType": {
                     "name": "$~hinditugmanguri",
                     "explanation": "$~Dapat type $expected ako, pero type $given ako.",
-                    "resolution": "$~I-convert sa $expected"
+                    "resolution": "$~I-convert sa $expected",
+                    "resolutionLiteral": "$~Markahan ang listahan, set, o mapa bilang literal gamit ang !, para manatiling tiyak ang mga halaga nito sa halip na maging pangkalahatan — kailangan $expected ang eksaktong mga halaga",
+                    "resolutionOtherwise": "$~Pangasiwaan ang nawawalang halaga gamit ang ??, dahil hindi pinapayagan $expected ang ø",
+                    "resolutionGuard": "$~Tiyaking ito ay isang $expected first gamit ang isang type guard, dahil $expected ay hindi maaaring maging ang iba pang posibleng mga uri",
+                    "resolutionDeclaration": "$~Ipahayag nang tahasan ang uri, dahil kailangan $expected na mapanatili ang mga literal na halaga",
+                    "resolutionWrap": "$~Ilagay ito sa isang listahan, set, o mapa, dahil $expected ay nangangailangan ng koleksyon ng mga halaga",
+                    "resolutionStructure": "$~Balutin ito sa $expected , dahil ang slot ay nangangailangan ng halagang $expected",
+                    "resolutionDefault": "$~Bigyan ang binding ng panimulang halaga, dahil hindi maaaring mawala $expected dito",
+                    "resolutionWiden": "$~Payagan ang uri ng halaga para sa pagbubuklod na ito, dahil $expected ay masyadong makitid para sa kung ano talaga ang nakaimbak",
+                    "resolutionReorder": "$~Palitan ang mga input, dahil mas akma ang mga uri nito sa kabilang pagkakasunud-sunod — $expected ay kabilang sa kabilang puwang",
+                    "resolutionPlaceholder": "$~Palitan ito ng placeholder sa ngayon, dahil kinakailangan ang $expected — pagkatapos ay pumili ng value mula sa autocomplete menu"
                 },
                 "MisplacedShare": {
                     "name": "$~malingnailagaynabahagi",
@@ -631,7 +641,18 @@
             "conflict": {
                 "ExpectedBooleanCondition": {
                     "name": "$~inaasahangkondisyongboolean",
-                    "explanation": "$~Kailangan ko ng @Boolean para makapagdesisyon, pero $type na lang ang nakuha ko."
+                    "explanation": "$~Kailangan ko ng @Boolean para makapagdesisyon, pero $type na lang ang nakuha ko.",
+                    "resolution": "$~I-convert ito sa $expected , dahil kinakailangan ang $expected",
+                    "resolutionLiteral": "$~Markahan ang listahan, set, o mapa bilang literal gamit ang !, para manatiling tiyak ang mga halaga nito sa halip na maging pangkalahatan — kailangan $expected ang eksaktong mga halaga",
+                    "resolutionOtherwise": "$~Pangasiwaan ang nawawalang halaga gamit ang ??, dahil hindi pinapayagan $expected ang ø",
+                    "resolutionGuard": "$~Tiyaking ito ay isang $expected first gamit ang isang type guard, dahil $expected ay hindi maaaring maging ang iba pang posibleng mga uri",
+                    "resolutionDeclaration": "$~Ipahayag nang tahasan ang uri, dahil kailangan $expected na mapanatili ang mga literal na halaga",
+                    "resolutionWrap": "$~Ilagay ito sa isang listahan, set, o mapa, dahil $expected ay nangangailangan ng koleksyon ng mga halaga",
+                    "resolutionStructure": "$~Balutin ito sa $expected , dahil ang slot ay nangangailangan ng halagang $expected",
+                    "resolutionDefault": "$~Bigyan ang binding ng panimulang halaga, dahil hindi maaaring mawala $expected dito",
+                    "resolutionWiden": "$~Payagan ang uri ng halaga para sa pagbubuklod na ito, dahil $expected ay masyadong makitid para sa kung ano talaga ang nakaimbak",
+                    "resolutionReorder": "$~Palitan ang mga input, dahil mas akma ang mga uri nito sa kabilang pagkakasunud-sunod — $expected ay kabilang sa kabilang puwang",
+                    "resolutionPlaceholder": "$~Palitan ito ng placeholder sa ngayon, dahil kinakailangan ang $expected — pagkatapos ay pumili ng value mula sa autocomplete menu"
                 }
             }
         },
@@ -738,7 +759,17 @@
                 "IncompatibleInput": {
                     "name": "$~hinditugmanginput",
                     "explanation": "$~Dapat type $expected ako, pero type $given ako.",
-                    "resolution": "$~I-convert sa $expected"
+                    "resolution": "$~I-convert sa $expected",
+                    "resolutionLiteral": "$~Markahan ang listahan, set, o mapa bilang literal gamit ang !, para manatiling tiyak ang mga halaga nito sa halip na maging pangkalahatan — kailangan $expected ang eksaktong mga halaga",
+                    "resolutionOtherwise": "$~Pangasiwaan ang nawawalang halaga gamit ang ??, dahil $expected ay hindi nagpapahintulot ng ø",
+                    "resolutionGuard": "$~Tiyaking ito ay isang $expected first gamit ang isang type guard, dahil $expected ay hindi maaaring maging ang iba pang posibleng mga uri",
+                    "resolutionDeclaration": "$~Ipahayag nang malinaw ang uri, dahil kailangan $expected na mapanatili ang mga literal na halaga",
+                    "resolutionWrap": "$~Ilagay ito sa isang listahan, set, o mapa, dahil $expected ay nangangailangan ng koleksyon ng mga halaga",
+                    "resolutionStructure": "$~Balutin ito sa $expected , dahil ang slot ay nangangailangan ng halagang $expected",
+                    "resolutionDefault": "$~Bigyan ang binding ng panimulang halaga, dahil hindi maaaring mawala $expected dito",
+                    "resolutionWiden": "$~Payagan ang uri ng halaga para sa pagbubuklod na ito, dahil $expected ay masyadong makitid para sa kung ano talaga ang nakaimbak",
+                    "resolutionReorder": "$~Palitan ang mga input, dahil mas akma ang mga uri nito sa kabilang pagkakasunud-sunod — $expected ay kabilang sa kabilang puwang",
+                    "resolutionPlaceholder": "$~Palitan ito ng placeholder sa ngayon, dahil kinakailangan ang $expected — pagkatapos ay pumili ng value mula sa autocomplete menu"
                 },
                 "UnexpectedTypeInput": {
                     "name": "$~hindiinaasahanguringinput",
@@ -746,7 +777,9 @@
                 },
                 "MissingInput": {
                     "name": "$~nawawalanginput",
-                    "explanation": "$~Hindi ko ma-evaluate ang $name nang walang input na $input :("
+                    "explanation": "$~Hindi ko ma-evaluate ang $name nang walang input na $input :(",
+                    "resolutionAddInput": "$~Idagdag ang nawawalang $input , kasama ang default na halaga nito",
+                    "resolutionPlaceholder": "$~Idagdag ang nawawalang $input bilang placeholder, pagkatapos ay pumili ng value mula sa autocomplete menu"
                 },
                 "NotInstantiable": {
                     "name": "$~hindikumpletongistruktura",
@@ -1241,7 +1274,18 @@
             "conflict": {
                 "IncompatibleKey": {
                     "name": "$~hinditugmangsusi",
-                    "explanation": "$~Inaasahan ko ang isang susi na uri ng $expected"
+                    "explanation": "$~Inaasahan ko ang isang susi na uri ng $expected",
+                    "resolution": "$~I-convert ito sa $expected , dahil kinakailangan ang $expected",
+                    "resolutionLiteral": "$~Markahan ang listahan, set, o mapa bilang literal gamit ang !, para manatiling tiyak ang mga halaga nito sa halip na maging pangkalahatan — kailangan $expected ang eksaktong mga halaga",
+                    "resolutionOtherwise": "$~Pangasiwaan ang nawawalang halaga gamit ang ??, dahil hindi pinapayagan $expected ang ø",
+                    "resolutionGuard": "$~Tiyaking ito ay isang $expected first gamit ang isang type guard, dahil $expected ay hindi maaaring maging ang iba pang posibleng mga uri",
+                    "resolutionDeclaration": "$~Ipahayag nang malinaw ang uri, dahil kailangan $expected na mapanatili ang mga literal na halaga",
+                    "resolutionWrap": "$~Ilagay ito sa isang listahan, set, o mapa, dahil $expected ay nangangailangan ng koleksyon ng mga halaga",
+                    "resolutionStructure": "$~Balutin ito sa $expected , dahil ang slot ay nangangailangan ng halagang $expected",
+                    "resolutionDefault": "$~Bigyan ang binding ng panimulang halaga, dahil hindi maaaring mawala $expected dito",
+                    "resolutionWiden": "$~Payagan ang uri ng halaga para sa pagbubuklod na ito, dahil $expected ay masyadong makitid para sa kung ano talaga ang nakaimbak",
+                    "resolutionReorder": "$~Palitan ang mga input, dahil mas akma ang mga uri nito sa kabilang pagkakasunud-sunod — $expected ay kabilang sa kabilang puwang",
+                    "resolutionPlaceholder": "$~Palitan ito ng placeholder sa ngayon, dahil kinakailangan ang $expected — pagkatapos ay pumili ng value mula sa autocomplete menu"
                 }
             }
         },
@@ -1487,7 +1531,18 @@
                 },
                 "IncompatibleCellType": {
                     "name": "$~hinditugmanguringselula",
-                    "explanation": "$~Dapat tipo $expected ako, pero $given ako."
+                    "explanation": "$~Dapat tipo $expected ako, pero $given ako.",
+                    "resolution": "$~I-convert ito sa $expected , dahil kinakailangan ang $expected",
+                    "resolutionLiteral": "$~Markahan ang listahan, set, o mapa bilang literal gamit ang !, para manatiling tiyak ang mga halaga nito sa halip na maging pangkalahatan — kailangan $expected ang eksaktong mga halaga",
+                    "resolutionOtherwise": "$~Pangasiwaan ang nawawalang halaga gamit ang ??, dahil hindi pinapayagan $expected ang ø",
+                    "resolutionGuard": "$~Tiyaking ito ay isang $expected first gamit ang isang type guard, dahil $expected ay hindi maaaring maging ang iba pang posibleng mga uri",
+                    "resolutionDeclaration": "$~Ipahayag nang malinaw ang uri, dahil kailangan $expected na mapanatili ang mga literal na halaga",
+                    "resolutionWrap": "$~Ilagay ito sa isang listahan, set, o mapa, dahil $expected ay nangangailangan ng koleksyon ng mga halaga",
+                    "resolutionStructure": "$~Balutin ito sa $expected , dahil ang slot ay nangangailangan ng halagang $expected",
+                    "resolutionDefault": "$~Bigyan ang binding ng panimulang halaga, dahil hindi maaaring mawala $expected dito",
+                    "resolutionWiden": "$~Payagan ang uri ng halaga para sa pagbubuklod na ito, dahil $expected ay masyadong makitid para sa kung ano talaga ang nakaimbak",
+                    "resolutionReorder": "$~Palitan ang mga input, dahil mas akma ang mga uri nito sa kabilang pagkakasunud-sunod — $expected ay kabilang sa kabilang puwang",
+                    "resolutionPlaceholder": "$~Palitan ito ng placeholder sa ngayon, dahil kinakailangan ang $expected — pagkatapos ay pumili ng value mula sa autocomplete menu"
                 }
             }
         },
@@ -1669,7 +1724,8 @@
             "doc": [
                 "$~Sino ang dapat kong katawanin, si A o si B o iba pa? Hindi ako makapagdesisyon!",
                 "$~\\kawalan ng desisyon•''|#|{ø}: \"Hindi ko alam!\"\\"
-            ]
+            ],
+            "elidedSuffix": "$?"
         },
         "Unit": {
             "name": "$~yunit",

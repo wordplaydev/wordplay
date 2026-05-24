@@ -492,7 +492,17 @@
                 "IncompatibleType": {
                     "name": "$~typeincompatible",
                     "explanation": "$~Je m'attendais à $expected, mais j'ai reçu le type $given",
-                    "resolution": "$~Convertir en $expected"
+                    "resolution": "$~Convertir en $expected",
+                    "resolutionLiteral": "$~Marquez la liste, l'ensemble ou la carte comme littérale avec !, afin que ses valeurs restent spécifiques au lieu d'être généralisées — $expected a besoin des valeurs exactes",
+                    "resolutionOtherwise": "$~Gérez la valeur manquante avec ??, car $expected n'autorise pas ø",
+                    "resolutionGuard": "$~Vérifiez d'abord qu'il s'agit bien d'un $expected à l'aide d'une vérification de type, car $expected ne peut pas être d'autres types possibles.",
+                    "resolutionDeclaration": "$~Déclarez explicitement le type, car $expected a besoin que les valeurs littérales soient préservées.",
+                    "resolutionWrap": "$~Placez-le dans une liste, un ensemble ou une carte, car $expected a besoin d'une collection de valeurs.",
+                    "resolutionStructure": "$~Enveloppez-le dans $expected , car l'emplacement a besoin d'une valeur $expected",
+                    "resolutionDefault": "$~Indiquez une valeur initiale à la liaison, car $expected ne peut pas être manquant ici.",
+                    "resolutionWiden": "$~Autorisez le type de la valeur pour cette liaison, car $expected est trop restrictif pour ce qui est réellement stocké.",
+                    "resolutionReorder": "$~Inversez les entrées, car leurs types correspondent mieux dans l'autre ordre : $expected devrait se trouver dans l'autre emplacement.",
+                    "resolutionPlaceholder": "$~Remplacez-le par un espace réservé pour le moment, car $expected est obligatoire ; choisissez ensuite une valeur dans le menu de saisie semi-automatique."
                 },
                 "MisplacedShare": {
                     "name": "$~partmalplacée",
@@ -623,7 +633,18 @@
             "conflict": {
                 "ExpectedBooleanCondition": {
                     "name": "$~conditionbooléenneattendue",
-                    "explanation": "$~J'ai besoin d'un @Boolean pour prendre une décision, mais j'ai reçu un $type à la place."
+                    "explanation": "$~J'ai besoin d'un @Boolean pour prendre une décision, mais j'ai reçu un $type à la place.",
+                    "resolution": "$~Convertissez-le en $expected , car $expected est requis",
+                    "resolutionLiteral": "$~Marquez la liste, l'ensemble ou la carte comme littérale avec !, afin que ses valeurs restent spécifiques au lieu d'être généralisées — $expected a besoin des valeurs exactes",
+                    "resolutionOtherwise": "$~Gérez la valeur manquante avec ??, car $expected n'autorise pas ø",
+                    "resolutionGuard": "$~Vérifiez d'abord qu'il s'agit bien d'un $expected à l'aide d'une vérification de type, car $expected ne peut pas être d'autres types possibles.",
+                    "resolutionDeclaration": "$~Déclarez explicitement le type, car $expected a besoin que les valeurs littérales soient préservées.",
+                    "resolutionWrap": "$~Placez-le dans une liste, un ensemble ou une carte, car $expected a besoin d'une collection de valeurs.",
+                    "resolutionStructure": "$~Enveloppez-le dans $expected , car l'emplacement a besoin d'une valeur $expected",
+                    "resolutionDefault": "$~Indiquez une valeur initiale à la liaison, car $expected ne peut pas être manquant ici.",
+                    "resolutionWiden": "$~Autorisez le type de la valeur pour cette liaison, car $expected est trop restrictif pour ce qui est réellement stocké.",
+                    "resolutionReorder": "$~Inversez les entrées, car leurs types correspondent mieux dans l'autre ordre : $expected devrait se trouver dans l'autre emplacement.",
+                    "resolutionPlaceholder": "$~Remplacez-le par un espace réservé pour le moment, car $expected est obligatoire ; choisissez ensuite une valeur dans le menu de saisie semi-automatique."
                 }
             },
             "label": {
@@ -730,7 +751,17 @@
                 "IncompatibleInput": {
                     "name": "$~entréeincompatible",
                     "explanation": "$~Je m'attendais à $expected, mais j'ai reçu $given",
-                    "resolution": "$~Convertir en $expected"
+                    "resolution": "$~Convertir en $expected",
+                    "resolutionLiteral": "$~Marquez la liste, l'ensemble ou la carte comme littérale avec !, afin que ses valeurs restent spécifiques au lieu d'être généralisées — $expected a besoin des valeurs exactes",
+                    "resolutionOtherwise": "$~Gérez la valeur manquante avec ??, car $expected n'autorise pas ø",
+                    "resolutionGuard": "$~Vérifiez d'abord qu'il s'agit bien d'un $expected à l'aide d'une vérification de type, car $expected ne peut pas être d'autres types possibles.",
+                    "resolutionDeclaration": "$~Déclarez explicitement le type, car $expected a besoin que les valeurs littérales soient préservées.",
+                    "resolutionWrap": "$~Placez-le dans une liste, un ensemble ou une carte, car $expected a besoin d'une collection de valeurs.",
+                    "resolutionStructure": "$~Enveloppez-le dans $expected , car l'emplacement a besoin d'une valeur $expected",
+                    "resolutionDefault": "$~Indiquez une valeur initiale à la liaison, car $expected ne peut pas être manquant ici.",
+                    "resolutionWiden": "$~Autorisez le type de la valeur pour cette liaison, car $expected est trop restrictif pour ce qui est réellement stocké.",
+                    "resolutionReorder": "$~Inversez les entrées, car leurs types correspondent mieux dans l'autre ordre : $expected devrait se trouver dans l'autre emplacement.",
+                    "resolutionPlaceholder": "$~Remplacez-le par un espace réservé pour le moment, car $expected est obligatoire ; choisissez ensuite une valeur dans le menu de saisie semi-automatique."
                 },
                 "UnexpectedTypeInput": {
                     "name": "$~entréedetypeinattendue",
@@ -738,7 +769,9 @@
                 },
                 "MissingInput": {
                     "name": "$~entréemanquante",
-                    "explanation": "$~Je ne peux pas évaluer $name sans l'entrée $input :("
+                    "explanation": "$~Je ne peux pas évaluer $name sans l'entrée $input :(",
+                    "resolutionAddInput": "$~Ajoutez le $input manquant, avec sa valeur par défaut",
+                    "resolutionPlaceholder": "$~Ajoutez le champ $input manquant comme espace réservé, puis choisissez une valeur dans le menu de saisie semi-automatique."
                 },
                 "NotInstantiable": {
                     "name": "$~structureincomplète",
@@ -1238,7 +1271,18 @@
             "conflict": {
                 "IncompatibleKey": {
                     "name": "$~cléincompatible",
-                    "explanation": "$~Je m'attendais à une clé de type $expected"
+                    "explanation": "$~Je m'attendais à une clé de type $expected",
+                    "resolution": "$~Convertissez-le en $expected , car $expected est requis",
+                    "resolutionLiteral": "$~Marquez la liste, l'ensemble ou la carte comme littérale avec !, afin que ses valeurs restent spécifiques au lieu d'être généralisées — $expected a besoin des valeurs exactes",
+                    "resolutionOtherwise": "$~Gérez la valeur manquante avec ??, car $expected n'autorise pas ø",
+                    "resolutionGuard": "$~Vérifiez d'abord qu'il s'agit bien d'un $expected à l'aide d'une vérification de type, car $expected ne peut pas être d'autres types possibles.",
+                    "resolutionDeclaration": "$~Déclarez explicitement le type, car $expected a besoin que les valeurs littérales soient préservées.",
+                    "resolutionWrap": "$~Placez-le dans une liste, un ensemble ou une carte, car $expected a besoin d'une collection de valeurs.",
+                    "resolutionStructure": "$~Enveloppez-le dans $expected , car l'emplacement a besoin d'une valeur $expected",
+                    "resolutionDefault": "$~Indiquez une valeur initiale à la liaison, car $expected ne peut pas être manquant ici.",
+                    "resolutionWiden": "$~Autorisez le type de la valeur pour cette liaison, car $expected est trop restrictif pour ce qui est réellement stocké.",
+                    "resolutionReorder": "$~Inversez les entrées, car leurs types correspondent mieux dans l'autre ordre : $expected devrait se trouver dans l'autre emplacement.",
+                    "resolutionPlaceholder": "$~Remplacez-le par un espace réservé pour le moment, car $expected est obligatoire ; choisissez ensuite une valeur dans le menu de saisie semi-automatique."
                 }
             }
         },
@@ -1484,7 +1528,18 @@
                 },
                 "IncompatibleCellType": {
                     "name": "$~typedecelluleincompatible",
-                    "explanation": "$~Je suis censé taper $expected, mais j'ai tapé $given."
+                    "explanation": "$~Je suis censé taper $expected, mais j'ai tapé $given.",
+                    "resolution": "$~Convertissez-le en $expected , car $expected est requis",
+                    "resolutionLiteral": "$~Marquez la liste, l'ensemble ou la carte comme littérale avec !, afin que ses valeurs restent spécifiques au lieu d'être généralisées — $expected a besoin des valeurs exactes",
+                    "resolutionOtherwise": "$~Gérez la valeur manquante avec ??, car $expected n'autorise pas ø",
+                    "resolutionGuard": "$~Vérifiez d'abord qu'il s'agit bien d'un $expected à l'aide d'une vérification de type, car $expected ne peut pas être d'autres types possibles.",
+                    "resolutionDeclaration": "$~Déclarez explicitement le type, car $expected a besoin que les valeurs littérales soient préservées.",
+                    "resolutionWrap": "$~Placez-le dans une liste, un ensemble ou une carte, car $expected a besoin d'une collection de valeurs.",
+                    "resolutionStructure": "$~Enveloppez-le dans $expected , car l'emplacement a besoin d'une valeur $expected",
+                    "resolutionDefault": "$~Indiquez une valeur initiale à la liaison, car $expected ne peut pas être manquant ici.",
+                    "resolutionWiden": "$~Autorisez le type de la valeur pour cette liaison, car $expected est trop restrictif pour ce qui est réellement stocké.",
+                    "resolutionReorder": "$~Inversez les entrées, car leurs types correspondent mieux dans l'autre ordre : $expected devrait se trouver dans l'autre emplacement.",
+                    "resolutionPlaceholder": "$~Remplacez-le par un espace réservé pour le moment, car $expected est obligatoire ; choisissez ensuite une valeur dans le menu de saisie semi-automatique."
                 }
             }
         },
@@ -1659,7 +1714,8 @@
             "doc": [
                 "$~Qui dois-je représenter, A ou B ou autre chose ? Je n'arrive jamais à décider !",
                 "$~\\indécision•''|#|{ø}: \"Je ne sais pas !\"\\"
-            ]
+            ],
+            "elidedSuffix": "$?"
         },
         "Unit": {
             "name": "$~unité",

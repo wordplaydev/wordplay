@@ -492,7 +492,17 @@
                 "IncompatibleType": {
                     "name": "$~niezgodnytyp",
                     "explanation": "$~Oczekiwałem $expected, ale otrzymałem typ $given",
-                    "resolution": "$~Konwertuj na $expected"
+                    "resolution": "$~Konwertuj na $expected",
+                    "resolutionLiteral": "$~Oznacz listę, zbiór lub mapę jako literał za pomocą !, dzięki czemu jej wartości pozostaną konkretne, a nie uogólnione — $expected wymaga dokładnych wartości",
+                    "resolutionOtherwise": "$~Obsłuż brakującą wartość za pomocą ??, ponieważ $expected nie pozwala na ø",
+                    "resolutionGuard": "$~Najpierw sprawdź, czy jest to $expected z ochroną typu, ponieważ $expected nie może być innym możliwym typem",
+                    "resolutionDeclaration": "$~Zadeklaruj typ jawnie, ponieważ $expected wymaga zachowania wartości literałowych",
+                    "resolutionWrap": "$~Umieść go na liście, zestawie lub mapie, ponieważ $expected wymaga zbioru wartości",
+                    "resolutionStructure": "$~Zawiń to w $expected , ponieważ slot wymaga wartości $expected",
+                    "resolutionDefault": "$~Podaj powiązaniu wartość początkową, ponieważ $expected nie może tutaj zabraknąć",
+                    "resolutionWiden": "$~Zezwól na typ wartości dla tego powiązania, ponieważ $expected jest zbyt wąski w stosunku do tego, co jest faktycznie przechowywane",
+                    "resolutionReorder": "$~Zamień wejścia, ponieważ ich typy lepiej pasują w innej kolejności — $expected należy do innego slotu",
+                    "resolutionPlaceholder": "$~Zastąp go na razie symbolem zastępczym, ponieważ wymagany jest $expected — a następnie wybierz wartość z menu autouzupełniania"
                 },
                 "MisplacedShare": {
                     "name": "$~źleumieszczonyudział",
@@ -623,7 +633,18 @@
             "conflict": {
                 "ExpectedBooleanCondition": {
                     "name": "$~oczekiwanywarunekboolowski",
-                    "explanation": "$~Potrzebuję @Boolean, aby podjąć decyzję, ale zamiast tego otrzymałem $type."
+                    "explanation": "$~Potrzebuję @Boolean, aby podjąć decyzję, ale zamiast tego otrzymałem $type.",
+                    "resolution": "$~Przekształć to na $expected , ponieważ $expected jest wymagane",
+                    "resolutionLiteral": "$~Oznacz listę, zbiór lub mapę jako literał za pomocą !, dzięki czemu jej wartości pozostaną konkretne, a nie uogólnione — $expected wymaga dokładnych wartości",
+                    "resolutionOtherwise": "$~Obsłuż brakującą wartość za pomocą ??, ponieważ $expected nie pozwala na ø",
+                    "resolutionGuard": "$~Najpierw sprawdź, czy jest to $expected z ochroną typu, ponieważ $expected nie może być innym możliwym typem",
+                    "resolutionDeclaration": "$~Zadeklaruj typ jawnie, ponieważ $expected wymaga zachowania wartości literałowych",
+                    "resolutionWrap": "$~Umieść go na liście, zestawie lub mapie, ponieważ $expected wymaga zbioru wartości",
+                    "resolutionStructure": "$~Zawiń to w $expected , ponieważ slot wymaga wartości $expected",
+                    "resolutionDefault": "$~Podaj powiązaniu wartość początkową, ponieważ $expected nie może tutaj zabraknąć",
+                    "resolutionWiden": "$~Zezwól na typ wartości dla tego powiązania, ponieważ $expected jest zbyt wąski w stosunku do tego, co jest faktycznie przechowywane",
+                    "resolutionReorder": "$~Zamień wejścia, ponieważ ich typy lepiej pasują w innej kolejności — $expected należy do innego slotu",
+                    "resolutionPlaceholder": "$~Zastąp go na razie symbolem zastępczym, ponieważ wymagany jest $expected — a następnie wybierz wartość z menu autouzupełniania"
                 }
             },
             "label": {
@@ -730,7 +751,17 @@
                 "IncompatibleInput": {
                     "name": "$~niezgodnedanewejściowe",
                     "explanation": "$~Powinienem być typem $expected, ale jestem typem $given",
-                    "resolution": "$~Konwertuj na $expected"
+                    "resolution": "$~Konwertuj na $expected",
+                    "resolutionLiteral": "$~Oznacz listę, zbiór lub mapę jako literał za pomocą !, dzięki czemu jej wartości pozostaną konkretne, a nie uogólnione — $expected wymaga dokładnych wartości",
+                    "resolutionOtherwise": "$~Obsłuż brakującą wartość za pomocą ??, ponieważ $expected nie pozwala na ø",
+                    "resolutionGuard": "$~Najpierw sprawdź, czy jest to $expected z ochroną typu, ponieważ $expected nie może być innym możliwym typem",
+                    "resolutionDeclaration": "$~Zadeklaruj typ jawnie, ponieważ $expected wymaga zachowania wartości literałowych",
+                    "resolutionWrap": "$~Umieść go na liście, zestawie lub mapie, ponieważ $expected wymaga zbioru wartości",
+                    "resolutionStructure": "$~Zawiń to w $expected , ponieważ slot wymaga wartości $expected",
+                    "resolutionDefault": "$~Podaj powiązaniu wartość początkową, ponieważ $expected nie może tutaj zabraknąć",
+                    "resolutionWiden": "$~Zezwól na typ wartości dla tego powiązania, ponieważ $expected jest zbyt wąski w stosunku do tego, co jest faktycznie przechowywane",
+                    "resolutionReorder": "$~Zamień wejścia, ponieważ ich typy lepiej pasują w innej kolejności — $expected należy do innego slotu",
+                    "resolutionPlaceholder": "$~Zastąp go na razie symbolem zastępczym, ponieważ wymagany jest $expected — a następnie wybierz wartość z menu autouzupełniania"
                 },
                 "UnexpectedTypeInput": {
                     "name": "$~nieoczekiwanytypdanychwejściowych",
@@ -738,7 +769,9 @@
                 },
                 "MissingInput": {
                     "name": "$~brakującedanewejściowe",
-                    "explanation": "$~Nie mogę ocenić $name bez wejścia $input :("
+                    "explanation": "$~Nie mogę ocenić $name bez wejścia $input :(",
+                    "resolutionAddInput": "$~Dodaj brakujący $input z wartością domyślną",
+                    "resolutionPlaceholder": "$~Dodaj brakujący $input jako symbol zastępczy, a następnie wybierz wartość z menu autouzupełniania"
                 },
                 "NotInstantiable": {
                     "name": "$~niekompletnastruktura",
@@ -1238,7 +1271,18 @@
             "conflict": {
                 "IncompatibleKey": {
                     "name": "$~niekompatybilnyklucz",
-                    "explanation": "$~Spodziewałem się klucza typu $expected"
+                    "explanation": "$~Spodziewałem się klucza typu $expected",
+                    "resolution": "$~Przekształć to na $expected , ponieważ $expected jest wymagane",
+                    "resolutionLiteral": "$~Oznacz listę, zbiór lub mapę jako literał za pomocą !, dzięki czemu jej wartości pozostaną konkretne, a nie uogólnione — $expected wymaga dokładnych wartości",
+                    "resolutionOtherwise": "$~Obsłuż brakującą wartość za pomocą ??, ponieważ $expected nie pozwala na ø",
+                    "resolutionGuard": "$~Najpierw sprawdź, czy jest to $expected z ochroną typu, ponieważ $expected nie może być innym możliwym typem",
+                    "resolutionDeclaration": "$~Zadeklaruj typ jawnie, ponieważ $expected wymaga zachowania wartości literałowych",
+                    "resolutionWrap": "$~Umieść go na liście, zestawie lub mapie, ponieważ $expected wymaga zbioru wartości",
+                    "resolutionStructure": "$~Zawiń to w $expected , ponieważ slot wymaga wartości $expected",
+                    "resolutionDefault": "$~Podaj powiązaniu wartość początkową, ponieważ $expected nie może tutaj zabraknąć",
+                    "resolutionWiden": "$~Zezwól na typ wartości dla tego powiązania, ponieważ $expected jest zbyt wąski w stosunku do tego, co jest faktycznie przechowywane",
+                    "resolutionReorder": "$~Zamień wejścia, ponieważ ich typy lepiej pasują w innej kolejności — $expected należy do innego slotu",
+                    "resolutionPlaceholder": "$~Zastąp go na razie symbolem zastępczym, ponieważ wymagany jest $expected — a następnie wybierz wartość z menu autouzupełniania"
                 }
             }
         },
@@ -1484,7 +1528,18 @@
                 },
                 "IncompatibleCellType": {
                     "name": "$~niezgodnytypkomórki",
-                    "explanation": "$~Powinienem być typem $expected, ale mam $given"
+                    "explanation": "$~Powinienem być typem $expected, ale mam $given",
+                    "resolution": "$~Przekształć to na $expected , ponieważ $expected jest wymagane",
+                    "resolutionLiteral": "$~Oznacz listę, zbiór lub mapę jako literał za pomocą !, dzięki czemu jej wartości pozostaną konkretne, a nie uogólnione — $expected wymaga dokładnych wartości",
+                    "resolutionOtherwise": "$~Obsłuż brakującą wartość za pomocą ??, ponieważ $expected nie pozwala na ø",
+                    "resolutionGuard": "$~Najpierw sprawdź, czy jest to $expected z ochroną typu, ponieważ $expected nie może być innym możliwym typem",
+                    "resolutionDeclaration": "$~Zadeklaruj typ jawnie, ponieważ $expected wymaga zachowania wartości literałowych",
+                    "resolutionWrap": "$~Umieść go na liście, zestawie lub mapie, ponieważ $expected wymaga zbioru wartości",
+                    "resolutionStructure": "$~Zawiń to w $expected , ponieważ slot wymaga wartości $expected",
+                    "resolutionDefault": "$~Podaj powiązaniu wartość początkową, ponieważ $expected nie może tutaj zabraknąć",
+                    "resolutionWiden": "$~Zezwól na typ wartości dla tego powiązania, ponieważ $expected jest zbyt wąski w stosunku do tego, co jest faktycznie przechowywane",
+                    "resolutionReorder": "$~Zamień wejścia, ponieważ ich typy lepiej pasują w innej kolejności — $expected należy do innego slotu",
+                    "resolutionPlaceholder": "$~Zastąp go na razie symbolem zastępczym, ponieważ wymagany jest $expected — a następnie wybierz wartość z menu autouzupełniania"
                 }
             }
         },
@@ -1666,7 +1721,8 @@
             "doc": [
                 "$~Kogo mam reprezentować, A czy B, czy coś innego? Nigdy nie mogę się zdecydować!",
                 "$~\\indecision•''|#|{ø}: \"Nie wiem!\"\\"
-            ]
+            ],
+            "elidedSuffix": "$?"
         },
         "Unit": {
             "name": "$~jednostka",

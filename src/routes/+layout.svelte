@@ -12,6 +12,12 @@
 </script>
 
 <script lang="ts">
+    // Side-effect import: registers type-mismatch resolvers with the Conflict
+    // registry. Loaded once at app startup so the registry is populated by
+    // the time any annotation asks for resolutions. See the file's header
+    // for why it can't be imported by the conflict files directly.
+    import '@conflicts/registerTypeResolutions';
+
     import { browser } from '$app/environment';
     import { page } from '$app/state';
     import ConnectionBanner from '@components/app/ConnectionBanner.svelte';

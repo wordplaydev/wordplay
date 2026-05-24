@@ -1,12 +1,10 @@
 import type LocaleText from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
 import type Context from '@nodes/Context';
-import Expression from '@nodes/Expression';
 import type Type from '@nodes/Type';
 import type Locales from '@locale/Locales';
 import type Node from '@nodes/Node';
 import Conflict from '@conflicts/Conflict';
-import { makeConversionResolutions } from '@conflicts/ConversionResolutions';
 
 export default class IncompatibleInput extends Conflict {
     readonly givenNode: Node;
@@ -23,18 +21,7 @@ export default class IncompatibleInput extends Conflict {
     static readonly LocalePath = (locales: LocaleText) =>
         locales.node.Evaluate.conflict.IncompatibleInput;
 
-    getMessage(context: Context, _concepts: Node[]) {
-        const resolutions =
-            this.givenNode instanceof Expression
-                ? makeConversionResolutions(
-                      this.givenNode,
-                      this.givenType,
-                      this.expectedType,
-                      context,
-                      (l) => IncompatibleInput.LocalePath(l).resolution,
-                  )
-                : [];
-
+    getMessage() {
         return {
             node: this.givenNode,
             explanation: (locales: Locales, context: Context) =>
@@ -42,18 +29,17 @@ export default class IncompatibleInput extends Conflict {
                     (l) => IncompatibleInput.LocalePath(l).explanation,
                     {
                         expected: new NodeRef(
-                        this.expectedType.simplify(context),
-                        locales,
-                        context,
-                    ),
+                            this.expectedType.simplify(context),
+                            locales,
+                            context,
+                        ),
                         given: new NodeRef(
-                        this.givenType.simplify(context),
-                        locales,
-                        context,
-                    ),
+                            this.givenType.simplify(context),
+                            locales,
+                            context,
+                        ),
                     },
                 ),
-            resolutions,
         };
     }
 

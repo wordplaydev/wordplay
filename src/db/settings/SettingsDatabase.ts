@@ -9,6 +9,7 @@ import type { Database } from '@db/Database';
 import { firestore } from '@db/firebase';
 import { AnimationFactorSetting } from '@db/settings/AnimationFactorSetting';
 import { AnnotationsSetting } from '@db/settings/AnnotationsSetting';
+import { AnnotationsWidthSetting } from '@db/settings/AnnotationsWidthSetting';
 import type { ArrangementType } from '@db/settings/Arrangement';
 import { ArrangementSetting } from '@db/settings/ArrangementSetting';
 import {
@@ -99,6 +100,7 @@ export default class SettingsDatabase {
         space: SpaceSetting,
         lines: LineSetting,
         annotations: AnnotationsSetting,
+        annotationsWidth: AnnotationsWidthSetting,
         howToNotifications: HowToNotificationsSetting,
         updates: UpdatesSetting,
         say: SaySetting,
@@ -228,6 +230,10 @@ export default class SettingsDatabase {
 
     setShowAnnotations(on: boolean) {
         this.settings.annotations.set(this.database, on);
+    }
+
+    setAnnotationsWidth(width: number) {
+        this.settings.annotationsWidth.set(this.database, width);
     }
 
     getDark() {
