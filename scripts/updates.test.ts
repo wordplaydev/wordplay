@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest';
-import { parseChangelog, parseEntry } from './updates.js';
+import { parseChangelog, parseEntry } from './updates';
 
 describe('parseEntry', () => {
     test('extracts simple emoji prefix', () => {

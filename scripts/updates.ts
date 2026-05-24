@@ -21,13 +21,33 @@ const datePath = path.join(
     'date.json',
 );
 
+/** A single bullet under a section: optional emoji marker + body text. */
+export type Entry = { text: string; emoji: string | null };
+
+/** The four CHANGELOG section headings we recognize. */
+export type SectionKind = 'added' | 'changed' | 'fixed' | 'removed';
+
+/** Per-section data for one release: the bullets and an optional trailing
+ *  summary paragraph that appears beneath the bullets in CHANGELOG.md. */
+export type Update = {
+    version: string;
+    date: string | null;
+    /** Free-form intro prose between the `## version` line and the first
+     *  `###` heading. Empty string when absent. */
+    summary: string;
+    changes: Record<SectionKind, Entry[]>;
+    /** Free-form trailing prose for each section. Empty string when absent. */
+    summaries: Record<SectionKind, string>;
+};
+
 // Splits a bullet body into { text, emoji }.
 // - `<emoji> text` (single extended pictographic grapheme + space) -> emoji entry
 // - otherwise -> plain text (legacy)
-const emojiGrapheme = /^\p{Extended_Pictographic}(\u{FE0F}|\u{200D}\p{Extended_Pictographic})*$/u;
+const emojiGrapheme =
+    /^\p{Extended_Pictographic}(\u{FE0F}|\u{200D}\p{Extended_Pictographic})*$/u;
 const segmenter = new Intl.Segmenter(undefined, { granularity: 'grapheme' });
 
-function parseEntry(body) {
+export function parseEntry(body: string): Entry {
     const [first] = segmenter.segment(body);
     if (first && emojiGrapheme.test(first.segment)) {
         const rest = body.slice(first.segment.length);
@@ -41,11 +61,18 @@ function parseEntry(body) {
     return { text: body, emoji: null };
 }
 
-function parseChangelog(changelog) {
+const SectionHeadings: Record<string, SectionKind> = {
+    Added: 'added',
+    Changed: 'changed',
+    Fixed: 'fixed',
+    Removed: 'removed',
+};
+
+export function parseChangelog(changelog: string): Update[] {
     const lines = changelog.split('\n');
-    const updates = [];
-    let currentType = null;
-    let currentUpdate = null;
+    const updates: Update[] = [];
+    let currentType: SectionKind | null = null;
+    let currentUpdate: Update | null = null;
 
     // Prose lines that appear between structural markers (after a `##`
     // version or `###` section heading, between or after bullets) are
@@ -53,7 +80,7 @@ function parseChangelog(changelog) {
     // line so multi-line prose joins into one paragraph, with blank lines
     // preserved as `\n\n` so the renderer can treat them as paragraph
     // breaks.
-    let proseBuffer = [];
+    let proseBuffer: string[] = [];
     const flushProse = () => {
         if (proseBuffer.length === 0) return;
         const text = proseBuffer.join('\n').replace(/\n{3,}/g, '\n\n').trim();
@@ -64,7 +91,7 @@ function parseChangelog(changelog) {
             currentUpdate.summary = text;
         } else {
             // Within or after a section — belongs to that section.
-            currentUpdate.summaries[currentType.toLowerCase()] = text;
+            currentUpdate.summaries[currentType] = text;
         }
     };
 
@@ -78,11 +105,11 @@ function parseChangelog(changelog) {
         );
         if (typeofChangeMatch) {
             flushProse();
-            currentType = typeofChangeMatch[1];
+            currentType = SectionHeadings[typeofChangeMatch[1]];
         } else if (versionMatch) {
             flushProse();
             const version = versionMatch[1];
-            const date = versionMatch[2] || null;
+            const date = versionMatch[2] ?? null;
 
             // Save the previous update before starting a new one
             if (currentUpdate) {
@@ -90,8 +117,8 @@ function parseChangelog(changelog) {
             }
             currentType = null;
             currentUpdate = {
-                version: version,
-                date: date,
+                version,
+                date,
                 summary: '',
                 changes: { added: [], fixed: [], changed: [], removed: [] },
                 summaries: { added: '', fixed: '', changed: '', removed: '' },
@@ -100,7 +127,7 @@ function parseChangelog(changelog) {
             // Bullets are structural — emit any pending prose first so it
             // attaches to whichever block it belongs to, not to the next.
             flushProse();
-            currentUpdate.changes[currentType.toLowerCase()].push(
+            currentUpdate.changes[currentType].push(
                 parseEntry(line.substring(2).trim()),
             );
         } else if (currentUpdate) {
@@ -119,10 +146,8 @@ function parseChangelog(changelog) {
     return updates;
 }
 
-export { parseEntry, parseChangelog };
-
-// Only run the script body when executed directly (e.g. via `node scripts/updates.js`),
-// not when imported by tests.
+// Only run the script body when executed directly (e.g. via
+// `npx tsx scripts/updates.ts`), not when imported by tests.
 if (import.meta.url === `file://${process.argv[1]}`) {
     console.log('Parsing changelog...');
 
