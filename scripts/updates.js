@@ -47,6 +47,27 @@ function parseChangelog(changelog) {
     let currentType = null;
     let currentUpdate = null;
 
+    // Prose lines that appear between structural markers (after a `##`
+    // version or `###` section heading, between or after bullets) are
+    // attributed to whatever block they sit in. We buffer them line-by-
+    // line so multi-line prose joins into one paragraph, with blank lines
+    // preserved as `\n\n` so the renderer can treat them as paragraph
+    // breaks.
+    let proseBuffer = [];
+    const flushProse = () => {
+        if (proseBuffer.length === 0) return;
+        const text = proseBuffer.join('\n').replace(/\n{3,}/g, '\n\n').trim();
+        proseBuffer = [];
+        if (text === '' || currentUpdate === null) return;
+        if (currentType === null) {
+            // Before any `###` heading — belongs to the version's intro.
+            currentUpdate.summary = text;
+        } else {
+            // Within or after a section — belongs to that section.
+            currentUpdate.summaries[currentType.toLowerCase()] = text;
+        }
+    };
+
     lines.forEach((line) => {
         const versionMatch =
             line.match(/^## (\d+\.\d+\.\d+) - (\d{4}-\d{2}-\d{2})$/) ??
@@ -56,8 +77,10 @@ function parseChangelog(changelog) {
             /^### (Added|Fixed|Changed|Removed)$/,
         );
         if (typeofChangeMatch) {
+            flushProse();
             currentType = typeofChangeMatch[1];
         } else if (versionMatch) {
+            flushProse();
             const version = versionMatch[1];
             const date = versionMatch[2] || null;
 
@@ -65,18 +88,30 @@ function parseChangelog(changelog) {
             if (currentUpdate) {
                 updates.push(currentUpdate);
             }
+            currentType = null;
             currentUpdate = {
                 version: version,
                 date: date,
+                summary: '',
                 changes: { added: [], fixed: [], changed: [], removed: [] },
+                summaries: { added: '', fixed: '', changed: '', removed: '' },
             };
         } else if (currentUpdate && currentType && line.startsWith('- ')) {
+            // Bullets are structural — emit any pending prose first so it
+            // attaches to whichever block it belongs to, not to the next.
+            flushProse();
             currentUpdate.changes[currentType.toLowerCase()].push(
                 parseEntry(line.substring(2).trim()),
             );
+        } else if (currentUpdate) {
+            // Either a non-bullet line of prose, or a blank line. Buffer it
+            // so multi-paragraph summaries can survive (blank lines become
+            // `\n\n` paragraph breaks).
+            proseBuffer.push(line);
         }
     });
 
+    flushProse();
     if (currentUpdate) {
         updates.push(currentUpdate);
     }

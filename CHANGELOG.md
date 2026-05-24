@@ -6,6 +6,8 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 ## 0.18.1 - 2026-05-23
 
+This week we focused on multilingual coding features, with several bug fixes along the way.
+
 ### Added
 
 - 🔠 We added font face previews to drop downs in the palette and settings!
@@ -42,6 +44,8 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 🐞 We fixed three problems related to type checking in conditionals.
 
 ## 0.18.0 - 2026-05-15
+
+This week we focused on new and improved inputs and a new in-app localization mode.
 
 ### Added
 

@@ -108,6 +108,9 @@
             >
 
             {#if !collapsed[index]}
+                {#if update.summary}
+                    <MarkupHTMLView markup={toMarkup(update.summary)} />
+                {/if}
                 {#if update.changes.added.length > 0}
                     <h3 class="added"
                         ><LocalizedText
@@ -119,6 +122,11 @@
                             {@render note(item)}
                         {/each}
                     </ul>
+                    {#if update.summaries?.added}
+                        <MarkupHTMLView
+                            markup={toMarkup(update.summaries.added)}
+                        />
+                    {/if}
                 {/if}
                 {#if update.changes.changed.length > 0}
                     <h3 class="changed"
@@ -131,6 +139,11 @@
                             {@render note(item)}
                         {/each}
                     </ul>
+                    {#if update.summaries?.changed}
+                        <MarkupHTMLView
+                            markup={toMarkup(update.summaries.changed)}
+                        />
+                    {/if}
                 {/if}
                 {#if update.changes.fixed.length > 0}
                     <h3 class="fixed"
@@ -143,6 +156,11 @@
                             {@render note(item)}
                         {/each}
                     </ul>
+                    {#if update.summaries?.fixed}
+                        <MarkupHTMLView
+                            markup={toMarkup(update.summaries.fixed)}
+                        />
+                    {/if}
                 {/if}
                 {#if update.changes.removed.length > 0}
                     <h3 class="removed"
@@ -155,6 +173,11 @@
                             {@render note(item)}
                         {/each}
                     </ul>
+                    {#if update.summaries?.removed}
+                        <MarkupHTMLView
+                            markup={toMarkup(update.summaries.removed)}
+                        />
+                    {/if}
                 {/if}
             {/if}
         </div>

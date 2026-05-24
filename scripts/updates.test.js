@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest';
-import { parseEntry } from './updates.js';
+import { parseChangelog, parseEntry } from './updates.js';
 
 describe('parseEntry', () => {
     test('extracts simple emoji prefix', () => {
@@ -37,5 +37,89 @@ describe('parseEntry', () => {
         const entry = parseEntry('🌐Bengali support');
         expect(entry.emoji).toBe(null);
         expect(entry.text).toBe('🌐Bengali support');
+    });
+});
+
+describe('parseChangelog', () => {
+    test('captures a leading version-level summary', () => {
+        const md = [
+            '## 0.18.1 - 2026-05-23',
+            '',
+            'This week we focused on the editor.',
+            '',
+            '### Added',
+            '',
+            '- 🔠 A thing.',
+        ].join('\n');
+        const [update] = parseChangelog(md);
+        expect(update.summary).toBe('This week we focused on the editor.');
+        expect(update.changes.added).toHaveLength(1);
+    });
+
+    test('captures a trailing per-section summary', () => {
+        const md = [
+            '## 0.18.1 - 2026-05-23',
+            '',
+            '### Added',
+            '',
+            '- 🔠 A thing.',
+            '',
+            'Editor things got better.',
+            '',
+            '### Fixed',
+            '',
+            '- 🐛 A bug.',
+        ].join('\n');
+        const [update] = parseChangelog(md);
+        expect(update.summaries.added).toBe('Editor things got better.');
+        expect(update.changes.fixed).toHaveLength(1);
+    });
+
+    test('preserves blank lines as paragraph breaks within a summary', () => {
+        const md = [
+            '## 0.18.1 - 2026-05-23',
+            '',
+            'First paragraph.',
+            '',
+            'Second paragraph.',
+            '',
+            '### Added',
+            '',
+            '- 🔠 A thing.',
+        ].join('\n');
+        const [update] = parseChangelog(md);
+        expect(update.summary).toBe('First paragraph.\n\nSecond paragraph.');
+    });
+
+    test('omits summaries when there is no prose', () => {
+        const md = [
+            '## 0.18.1 - 2026-05-23',
+            '',
+            '### Added',
+            '',
+            '- 🔠 A thing.',
+        ].join('\n');
+        const [update] = parseChangelog(md);
+        expect(update.summary).toBe('');
+        expect(update.summaries.added).toBe('');
+    });
+
+    test('attributes prose between two sections to the preceding section', () => {
+        const md = [
+            '## 0.18.1 - 2026-05-23',
+            '',
+            '### Added',
+            '',
+            '- 🔠 A.',
+            '',
+            'Belongs to Added.',
+            '',
+            '### Fixed',
+            '',
+            '- 🐛 B.',
+        ].join('\n');
+        const [update] = parseChangelog(md);
+        expect(update.summaries.added).toBe('Belongs to Added.');
+        expect(update.summaries.fixed).toBe('');
     });
 });
