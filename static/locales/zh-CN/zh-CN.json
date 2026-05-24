@@ -131,7 +131,8 @@
         "GurmukhiNumeral": "$~古尔穆基数字",
         "KannadaNumeral": "$~卡纳达数字",
         "TamilNumeral": "$~泰米尔数字",
-        "TeluguNumeral": "$~泰卢固语数字"
+        "TeluguNumeral": "$~泰卢固语数字",
+        "LanguageJoin": "$~语言连接词"
     },
     "node": {
         "Dimension": {
@@ -196,16 +197,20 @@
             "description": "$~标签名称和文本（带语言）",
             "emotion": "eager",
             "doc": [
-                "我是一个语言标签，我与 @Name 和 @Doc 一起工作!",
-                "我真的擅长让别人 *超级清楚* 事物是用什么语言撰写的。",
-                "这就是我做的事情。 只需一个小小斜线和几个字母，大家就都清楚一些文本使用的是什么语言了。",
-                "比如，你要是想说我的 @name， 但想让别人清楚地知道它是中文：",
-                "\\\"语言\"/zh\\",
-                "要是你想要这样处理 @Name 也可以：",
-                "\\声音/zh: '喵'\\",
-                "甚至是用在 @Doc 身上！",
-                "\\¶拟声词¶/zh\n声音/zh: \"喵\"\\",
-                "这里还有许多我能理解的 <两个字母的语言表达代码@https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes> 。如果你没有使用它们中的任何一个，我会告诉你的。"
+                "$~我是一个语言标签，我与@Name@Doc！",
+                "$~我特别擅长把文字的语言表达得*一目了然*。只需一个斜杠和几个字母，就不会有人对文本的语言感到困惑。",
+                "$~例如，如果你想说“语言”，但又想明确指出它是用英语说的：",
+                "$~\\\"Language\"/en\\",
+                "$~你可以对@Name：",
+                "$~\\sound/en: 'meow'\\",
+                "$~……或者@Doc ：",
+                "$~\\¶Onomatopoeia¶/en\nsound/en: \"meow\"\\",
+                "$~有时文本并非单一语言，而是多种语言的混合体。例如西班牙语和英语混合的“西班牙英语”（Spanglish）。对于这种情况，请用下划线分隔每种语言。第一个是主要语言——当需要做出选择时（例如，选择使用哪种引号），我会使用它。",
+                "$~\\\"Hola gentleman!\"/es_en\\",
+                "$~\\¶A bilingual greeting¶/es_en\nhello/es_en: \"Hola gentleman!\"\\",
+                "$~您也可以像添加单一语言一样，在短横线后添加单个地区：",
+                "$~\\\"Hola gentleman!\"/es_en-MX\\",
+                "$~您可以列出的语言数量没有限制——但请不要重复列出同一种语言；如果您重复列出了，我会提醒您。我了解很多双字母语言代码（参见https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes）。如果您没有使用这些代码，我也会提醒您。"
             ],
             "conflict": {
                 "UnknownLanguage": {
@@ -215,6 +220,10 @@
                 "MissingLanguage": {
                     "name": "缺少语言",
                     "explanation": "这里缺少了对语言的描述，你能加上一个吗？"
+                },
+                "DuplicateLanguage": {
+                    "name": "$~重复语言",
+                    "explanation": "$~您两次使用了语言“ $code ”。混合语言标签中每种语言只能列出一次。"
                 }
             }
         },
@@ -374,8 +383,8 @@
             ],
             "conflict": {
                 "UnsupportedFontFormat": {
-                    "name": "$?",
-                    "explanation": "$?"
+                    "name": "$~不支持的字体格式",
+                    "explanation": "$~我的朋友 * $face * 不知道如何成为$format 。"
                 }
             }
         },
@@ -3240,6 +3249,59 @@
             "down": {
                 "names": "下",
                 "doc": "如果@None，则按下键生成输入。如果\\⊥\\，那么只提供向下的输入，如果\\⊥\\，那么只提供释放的输入。"
+            },
+            "keys": {
+                "Shift": ["$~转移"],
+                "Control": ["$~控制", "$~Ctrl"],
+                "Alt": ["$~另类", "$~选项"],
+                "Meta": ["$~元", "$~命令", "$~视窗"],
+                "AltGraph": ["$~AltGraph"],
+                "CapsLock": ["$~大写锁定", "$~大写锁定"],
+                "NumLock": ["$~数字锁定键", "$~数字锁定键"],
+                "ScrollLock": ["$~ScrollLock", "$~滚动锁定"],
+                "Enter": ["$~进入", "$~返回"],
+                "Tab": ["$~标签页"],
+                " ": ["$~空间", "$~空格键", "$~"],
+                "ArrowUp": ["$~向上箭头", "$~向上"],
+                "ArrowDown": ["$~向下箭头", "$~向下"],
+                "ArrowLeft": ["$~左箭头", "$~左边"],
+                "ArrowRight": ["$~右箭头", "$~正确的"],
+                "Home": ["$~家"],
+                "End": ["$~结尾"],
+                "PageUp": ["$~上一页", "$~上一页"],
+                "PageDown": ["$~向下翻页", "$~向下翻页"],
+                "Backspace": ["$~退格键"],
+                "Delete": ["$~删除", "$~德尔"],
+                "Insert": ["$~插入", "$~保险"],
+                "Clear": ["$~清除"],
+                "Cut": ["$~切"],
+                "Copy": ["$~复制"],
+                "Paste": ["$~粘贴"],
+                "Undo": ["$~撤销"],
+                "Redo": ["$~重做"],
+                "Escape": ["$~逃脱", "$~Esc键"],
+                "Pause": ["$~暂停"],
+                "ContextMenu": ["$~上下文菜单", "$~菜单"],
+                "Help": ["$~帮助"],
+                "Convert": ["$~转变"],
+                "NonConvert": ["$~非转换"],
+                "KanaMode": ["$~KanaMode"],
+                "HangulMode": ["$~韩语模式"],
+                "Hiragana": ["$~平假名"],
+                "Katakana": ["$~片假名"],
+                "Romaji": ["$~罗马字"],
+                "F1": ["$~F1"],
+                "F2": ["$~F2"],
+                "F3": ["$~F3"],
+                "F4": ["$~F4"],
+                "F5": ["$~F5"],
+                "F6": ["$~F6"],
+                "F7": ["$~F7"],
+                "F8": ["$~F8"],
+                "F9": ["$~F9"],
+                "F10": ["$~F10"],
+                "F11": ["$~F11"],
+                "F12": ["$~F12"]
             }
         },
         "Time": {
@@ -3508,7 +3570,7 @@
             },
             "language": {
                 "names": ["$~语言", "$~语言"],
-                "doc": "$~BCP 47 语言代码（例如，“en-US”）。如果您的浏览器语音识别功能不支持此代码，则会显示错误信息。默认情况下，系统会使用您首选的语言环境。"
+                "doc": "$~BCP 47 语言代码（例如，“en-US”）。如果您的浏览器语音识别功能不支持此代码，则会显示错误信息。系统默认使用您的首选语言。"
             },
             "limit": {
                 "names": ["$~限制", "$~字"],
@@ -4345,10 +4407,10 @@
         },
         "Say": {
             "doc": [
-                "$~嗨！我是 @Say，我会把文字朗读出来，而不是显示在 @Stage 上。",
+                "$~嗨！我是@Say ，我会把文字朗读出来，而不是显示在@Say。",
                 "$~只要给我一些话要说，每次你们的程序进行评估时，我都会说出来：",
-                "$~说('blah blah blah')",
-                "$~如果 @TextLiteral 有 @Language 属性，我将使用它；否则，我将使用选定的区域设置。",
+                "$~\\Say('blah blah blah')\\",
+                "$~如果@Language@TextLiteral，我将使用它；否则，我将使用选定的语言。",
                 "$~您可以在设置中选择语音。"
             ],
             "names": ["$~🔊", "$~说"],
@@ -4403,7 +4465,7 @@
         "font": {
             "app": "Noto Sans Simplified Chinese",
             "code": "Noto Sans Mono",
-            "missing": "$?"
+            "missing": "$~不"
         },
         "phrases": {
             "welcome": "你好"
@@ -4433,7 +4495,8 @@
                 "highlight": "$~突出示例",
                 "bullet": "$~项目符号",
                 "attention": "$~突出显示此表达式"
-            }
+            },
+            "backtotop": "$~返回顶部"
         },
         "tile": {
             "toggle": {
@@ -4593,7 +4656,14 @@
         },
         "source": {
             "label": "程序编辑器",
-            "empty": ["$~• 输入$symbol。", "$?", "$?", "$?", "$?", "$?"],
+            "empty": [
+                "$~让我们开始吧！您可以……",
+                "$~• 打开 📕 并将 🖱️ 我们拖到此程序中。",
+                "$~• 输入$symbol。",
+                "$~• 用⌨️符号输入我们。",
+                "$~• 浏览<galleries@://galleries>寻找灵感。",
+                "$~如果你遇到困难，<learn more@://learn> 。"
+            ],
             "overwritten": "收到了更新版本！",
             "confirm": {
                 "delete": {
@@ -4704,7 +4774,7 @@
             "options": {
                 "locale": {
                     "tip": "$~源的首选语言",
-                    "all": "$~全部"
+                    "all": "$~语言$count"
                 }
             },
             "error": {
@@ -4767,7 +4837,7 @@
             },
             "options": {
                 "locale": "$~选择输出语言",
-                "default": "$~默认"
+                "default": "$~语言$count"
             },
             "tour": {
                 "launch": "$~参观舞台",
@@ -5188,8 +5258,7 @@
                 "explanation": "选择你的语言和地区",
                 "subheader": {
                     "selected": "选择",
-                    "supported": "可用的",
-                    "help": "帮我们翻译……"
+                    "supported": "可用的"
                 },
                 "button": {
                     "show": "切换语言",
@@ -5197,6 +5266,19 @@
                     "add": "添加语言",
                     "remove": "删除语言",
                     "menu": "$~其他语言"
+                },
+                "localizeHelp": "$~为了帮助改进您所在语言的翻译，请点击页面底部的铅笔图标（✎），开启本地化模式并提出改进建议。",
+                "request": {
+                    "header": "$~找不到您的语言？",
+                    "explanation": "$~选择一种语言和地区，我们将在 GitHub 上创建一个 issue 来讨论如何添加它。",
+                    "languageLabel": "$~语言",
+                    "regionLabel": "$~地区",
+                    "submit": "$~要求",
+                    "submitting": "$~正在发送请求…",
+                    "success": "$~请在 GitHub 上与我们讨论此请求！",
+                    "error": "$~出错了，请重试。",
+                    "alreadySupported": "$~该语言和地区已受支持。",
+                    "requiresLogin": "$~您必须登录才能申请语言。"
                 }
             },
             "help": {
@@ -6047,13 +6129,13 @@
                 "col": {
                     "component": "$~成分",
                     "preview": "$~预览",
-                    "variable": "$~多变的",
+                    "variable": "值",
                     "color": "$~颜色",
                     "hex": "$~十六进制",
                     "description": "$~描述",
                     "cssvalue": "$~CSS值",
                     "computed": "$~计算",
-                    "primaryface": "$~主要面部"
+                    "primaryface": "主要使用"
                 },
                 "demo": {
                     "button": "$~例子",
@@ -6157,9 +6239,9 @@
                     "gallery": "$~画廊",
                     "moderation": "$~适度"
                 },
-                "singletonWordsWarning": "$~您的草稿中有些词语在整个语言环境中只出现过一次。您确定它们的拼写正确且与其他文本一致吗？",
+                "singletonWordsWarning": "$~你草稿中有些词在整个文本中只出现过一次。你确定它们的拼写正确，并且与其他文本保持一致吗？",
                 "viewPR": "$~查看拉取请求",
-                "oneLocaleNote": "$~每次提交仅涵盖一种语言环境。本次提交将以修改的形式提交至 $locale"
+                "oneLocaleNote": "$~每次提交只能针对一种语言。这批修改将以编辑的形式提交到$locale 。如果您想为其他语言做出贡献，请先切换到其他语言；您在每种语言下保存的修改将分别保存。"
             }
         },
         "edit": {
@@ -6553,7 +6635,10 @@
                     "$~货币"
                 ]
             },
-            "skinTone": "$~肤色"
+            "skinTone": "$~肤色",
+            "script": "$~脚本",
+            "scriptLabel": "$~按脚本筛选",
+            "pickFilter": "$~选择类别或脚本"
         },
         "localize": {
             "header": "$~本地化",
@@ -6587,15 +6672,15 @@
                     "placeholder": "$~请输入姓名..."
                 },
                 "filter": {
-                    "description": "$~按路径或描述筛选区域设置字符串",
+                    "description": "$~按路径或描述筛选翻译字符串",
                     "placeholder": "$~筛选..."
                 }
             },
-            "strings": "$~区域设置字符串",
+            "strings": "$~翻译字符串",
             "emotion": "Choose an emotion",
             "invalidName": "$~不是有效的文字游戏名称",
             "reference": "$~英文参考",
-            "invalidConceptLinks": "$~这些概念链接在当前语言环境中无法解析。您是不是拼错了某个链接，或者故意删除了它？",
+            "invalidConceptLinks": "$~这些概念链接在当前语言中无法解析。您是不是拼错了某个词，还是故意删除了它？",
             "inputs": {
                 "header": "$~此模板接受的输入",
                 "usedTip": "$~单击光标处插入另一个引用。",
@@ -6612,6 +6697,11 @@
             "previous": "$~上一步",
             "next": "$~下一步",
             "offscreen": "$~界面的这一部分目前在屏幕上不可见。"
+        },
+        "connection": {
+            "offline": "$~您目前处于离线状态。部分功能需要联网后才能使用。",
+            "unreachable": "$~我们无法连接到 Wordplay 数据库。连接恢复后，部分功能将无法使用。",
+            "label": "$~连接状态"
         }
     },
     "moderation": {

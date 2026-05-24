@@ -120,7 +120,7 @@
         "Base": "$~taban rakamı",
         "Boolean": "$~Boolean",
         "Name": "$~isim",
-        "Locale": "$~yerel",
+        "Locale": "$~dil",
         "Unknown": "$~bilinmeyen",
         "End": "$~son",
         "Highlight": "$~vurgulanmış örnek",
@@ -131,7 +131,8 @@
         "GurmukhiNumeral": "$~gurmukhi rakamı",
         "KannadaNumeral": "$~Kannada rakamı",
         "TamilNumeral": "$~tamil rakamı",
-        "TeluguNumeral": "$~Telugu rakamı"
+        "TeluguNumeral": "$~Telugu rakamı",
+        "LanguageJoin": "$~dil birleştirici"
     },
     "node": {
         "Dimension": {
@@ -197,15 +198,19 @@
             "emotion": "eager",
             "doc": [
                 "$~Ben bir dil etiketiyim ve @Name ve @Doc ile çalışıyorum!",
-                "$~Bir şeyin hangi dilde yazıldığını *kristal netliğinde* ifade etmekte gerçekten iyiyim.",
-                "$~Ben bunu yapıyorum. Sadece küçük bir çizgi ve birkaç harf, ve hiç kimse metnin hangi dilde olduğu konusunda asla kafası karışmayacak.",
-                "$~Örneğin, $name demek istediğinizi varsayalım, ancak İngilizce olduğumu açıkça belirtmek istiyorsunuz:",
-                "$~\\\"Dil\"/tr\\",
-                "$~Ya da bunu bir @Name için yapmak istediğinizi varsayalım.",
-                "$~\\sound/tr: 'miyav'\\",
-                "$~Ya da @Doc bile!",
-                "$~\\¶Onomatopoeia¶/tr\nses/en: \"miyav\"\\",
-                "$~Anladığım birçok <2 harfli dil kodu@https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes> var. Bunlardan birini kullanmıyorsanız, size bildireceğim."
+                "$~Bir şeyin hangi dilde yazıldığını *son derece açık* bir şekilde belirtmekte gerçekten iyiyim. Sadece küçük bir eğik çizgi ve birkaç harf, ve hiç kimse bir metnin hangi dilde yazıldığı konusunda asla kafa karışıklığı yaşamayacak.",
+                "$~Örneğin, \"Dil\" demek istiyorsunuz ama bunun İngilizce olduğunu da belirtmek istiyorsunuz:",
+                "$~\\\"Language\"/en\\",
+                "$~Bunu @Name için yapabilirsiniz:",
+                "$~\\sound/en: 'meow'\\",
+                "$~…veya bir @Doc :",
+                "$~\\¶Onomatopoeia¶/en\nsound/en: \"meow\"\\",
+                "$~Bazen metin tek bir dilden oluşmaz, bir *karışım* olur. İspanyolca ve İngilizcenin bir araya geldiği Spanglish gibi. Bunlar için, her dili aralarına alt çizgi koyarak listeleyin. İlk dil *birincil* olanıdır; örneğin, hangi tırnak işaretlerini kullanacağımı seçmek gibi durumlarda onu kullanırım.",
+                "$~\\\"Hola gentleman!\"/es_en\\",
+                "$~\\¶A bilingual greeting¶/es_en\nhello/es_en: \"Hola gentleman!\"\\",
+                "$~Tek bir dil ekler gibi, tireden sonra tek bir bölge de ekleyebilirsiniz:",
+                "$~\\\"Hola gentleman!\"/es_en-MX\\",
+                "$~Listeleyebileceğiniz dil sayısında bir sınır yok; sadece aynı dili iki kez tekrarlamayın; eğer tekrarlarsanız size bildireceğim. Anladığım birçok <2 harfli dil kodu@https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes> var. Bunlardan birini kullanmıyorsanız, bunu da size bildireceğim."
             ],
             "conflict": {
                 "UnknownLanguage": {
@@ -215,6 +220,10 @@
                 "MissingLanguage": {
                     "name": "$~eksikdil",
                     "explanation": "$~Bir dil eksik. Ekleyebilir misiniz?"
+                },
+                "DuplicateLanguage": {
+                    "name": "$~çiftdil",
+                    "explanation": "$~' $code ' dilini iki kez kullandınız. Karma dil etiketlerinde her dil yalnızca bir kez listelenmelidir."
                 }
             }
         },
@@ -374,8 +383,8 @@
             ],
             "conflict": {
                 "UnsupportedFontFormat": {
-                    "name": "$?",
-                    "explanation": "$?"
+                    "name": "$~desteklenmeyenyazıtipiformatı",
+                    "explanation": "$~Arkadaşım * $face * $format olmayı bilmiyor."
                 }
             }
         },
@@ -903,8 +912,8 @@
             }
         },
         "IsLocale": {
-            "name": "$~yereldir",
-            "description": "$~yerel seçildiyse doğru döndür",
+            "name": "$~dildir",
+            "description": "$~Dil seçiliyse true döndürün.",
             "emotion": "kind",
             "doc": [
                 "$~Hedef kitlenin belirli bir dili veya bölgeyi seçip seçmediğini kontrol etmenize yardımcı olacağım:",
@@ -1312,7 +1321,7 @@
             "description": "$~$text metin değeri oluştur",
             "emotion": "serious",
             "doc": "$~Bir veya daha fazla belirli @Translation çevirisini temsil ediyorum. Neler yapabileceğim hakkında daha fazla bilgi edinmek için @Text bakın!",
-            "start": "$~Mevcut yerel ayarda metin oluşturalım",
+            "start": "$~Şimdi mevcut dilde metin oluşturalım.",
             "label": {
                 "texts": "$~metin"
             }
@@ -1359,7 +1368,7 @@
             "description": "$~$text biçimlendirilmiş metin oluştur",
             "emotion": "serious",
             "doc": "$~Biçimlendirilmiş metnin birçok farklı @FormattedTranslation'ını temsil ediyorum. Değerlendirdiğimde, izleyicinin seçtiği dillere göre en iyi eşleşmeyi seçeceğim.",
-            "start": "$~Mevcut yerel ayarda metin oluşturalım"
+            "start": "$~Şimdi mevcut dilde metin oluşturalım."
         },
         "FormattedTranslation": {
             "name": "$~biçimlendirilmişçeviri",
@@ -3255,6 +3264,59 @@
             "down": {
                 "names": "$~aşağı",
                 "doc": "$~EĞER @None, o zaman tuş aşağı girdileri üretir. Eğer \\⊤\\ ise, o zaman sadece aşağı girdileri sağlanır ve eğer \\⊥\\ ise, o zaman sadece serbest bırakma girdileri sağlanır."
+            },
+            "keys": {
+                "Shift": ["$~Vardiya"],
+                "Control": ["$~Kontrol", "$~Ctrl"],
+                "Alt": ["$~Alternatif", "$~Seçenek"],
+                "Meta": ["$~Meta", "$~Emretmek", "$~Windows"],
+                "AltGraph": ["$~AltGraph"],
+                "CapsLock": ["$~Büyük harf kilidi", "$~Büyük harf kilidi"],
+                "NumLock": ["$~NumLock", "$~Num Lock"],
+                "ScrollLock": ["$~ScrollLock", "$~Kaydırma Kilidi"],
+                "Enter": ["$~Girmek", "$~Geri dönmek"],
+                "Tab": ["$~Sekme"],
+                " ": ["$~Uzay", "$~Boşluk tuşu", "$~"],
+                "ArrowUp": ["$~Yukarı Ok", "$~Yukarı"],
+                "ArrowDown": ["$~Aşağı Ok", "$~Aşağı"],
+                "ArrowLeft": ["$~Sol Ok", "$~Sol"],
+                "ArrowRight": ["$~Sağ Ok", "$~Sağ"],
+                "Home": ["$~Ev"],
+                "End": ["$~Son"],
+                "PageUp": ["$~Sayfa Yukarı", "$~Sayfa Yukarı"],
+                "PageDown": ["$~Sayfa Aşağı", "$~Sayfa Aşağı"],
+                "Backspace": ["$~Geri tuşu"],
+                "Delete": ["$~Silmek", "$~Del"],
+                "Insert": ["$~Sokmak", "$~Sigorta"],
+                "Clear": ["$~Temizlemek"],
+                "Cut": ["$~Kesmek"],
+                "Copy": ["$~Kopyala"],
+                "Paste": ["$~Yapıştır"],
+                "Undo": ["$~Geri al"],
+                "Redo": ["$~Tekrarla"],
+                "Escape": ["$~Kaçmak", "$~Esc"],
+                "Pause": ["$~Duraklat"],
+                "ContextMenu": ["$~Bağlam Menüsü", "$~Menü"],
+                "Help": ["$~Yardım"],
+                "Convert": ["$~Dönüştürmek"],
+                "NonConvert": ["$~Dönüştürülmeyen"],
+                "KanaMode": ["$~KanaMode"],
+                "HangulMode": ["$~HangulMode"],
+                "Hiragana": ["$~Hiragana"],
+                "Katakana": ["$~Katakana"],
+                "Romaji": ["$~Romaji"],
+                "F1": ["$~F1"],
+                "F2": ["$~F2"],
+                "F3": ["$~F3"],
+                "F4": ["$~F4"],
+                "F5": ["$~F5"],
+                "F6": ["$~F6"],
+                "F7": ["$~F7"],
+                "F8": ["$~F8"],
+                "F9": ["$~F9"],
+                "F10": ["$~F10"],
+                "F11": ["$~F11"],
+                "F12": ["$~F12"]
             }
         },
         "Time": {
@@ -3507,12 +3569,12 @@
             "doc": [
                 "$~/Selamlar!/",
                 "$~@FunctionDefinition burada - dinlemeye hazır!",
-                "$~Bu akış konuşmayı tanır ve @Text'e dönüştürür. Söylediklerinizi dinlemek ve kelimelere çevirmek için tarayıcınızın konuşma tanıma özelliğini kullanır (bu çok havalı değil mi?!).",
-                "$~\\Konuşma()\\",
+                "$~Bu akış konuşmayı tanır ve @Text Text'e dönüştürür. Söylediklerinizi dinlemek ve kelimelere çevirmek için tarayıcınızın konuşma tanıma özelliğini kullanır (bu çok havalı değil mi?!).",
+                "$~\\Speech()\\",
                 "$~Bu, bir dili konuşabilen ancak okuma ve yazmayı (ve daha fazlasını) henüz öğrenenler için mükemmeldir...",
                 "$~Belirli bir dildeki konuşmayı tanımak için bir dil kodu belirtebilirsiniz:",
-                "$~Konuşma (dil: 'es-MX')",
-                "$~Dil belirtilmezse, tercih ettiğiniz yerel ayar kullanılır.",
+                "$~\\Speech(language: 'es-MX')\\",
+                "$~Dil belirtilmezse, tercih ettiğiniz dil varsayılan olarak kullanılır.",
                 "$~Ses tanıma özelliği mikrofon erişimi ve internet bağlantısı gerektirir (lütfen erişim izni verin!). Ayrıca, kullanım sınırları olabilir, bu yüzden çok uzun süre açık bırakmayın (aman aman)!"
             ],
             "names": ["$~Konuşma", "$~Ses"],
@@ -3522,7 +3584,7 @@
             },
             "language": {
                 "names": ["$~dil", "$~dil"],
-                "doc": "$~Bir BCP 47 dil kodu (örneğin, 'en-US'). Tarayıcınızın konuşma tanıma özelliği tarafından desteklenmiyorsa hata alırsınız. Varsayılan olarak tercih ettiğiniz yerel ayar kullanılır."
+                "doc": "$~Bir BCP 47 dil kodu (örneğin, 'en-US'). Tarayıcınızın konuşma tanıma özelliği tarafından desteklenmiyorsa hata alırsınız. Varsayılan olarak tercih ettiğiniz dile döner."
             },
             "limit": {
                 "names": ["$~limit", "$~kelimeler"],
@@ -3720,11 +3782,11 @@
             },
             "name": {
                 "doc": [
-                    "$~Bana bir isim ver! Bu birçok şeye yardımcı olur.",
-                    "$~Öncelikle eğer bir adım varsa, bunu ekran okuyucu açıklamalarında kendimi tanımlamak için kullanacağım.",
-                    "$~İkincisi, animasyon yaparken sahnede aynı içeriği temsil etmesi gereken birden fazla farklı ifadeniz olabilir; bunlara aynı adı verirseniz tek bir ifade gibi animasyon yaparlar.",
-                    "$~Son olarak @Choice ile yardımcı oluyorum: Bana verdiğiniz isimler o akışta görünüyor.",
-                    "$~Yardımcı olacaksa, bana her biri farklı bir dilde olmak üzere birçok farklı isim verebilirsiniz. Her zaman ilk seçilen yerel ayardaki ismi kullanırım."
+                    "$~Bana vereceğiniz bir isim! Bu birçok şey için faydalı.",
+                    "$~Öncelikle, eğer bir ismim varsa, ekran okuyucu açıklamalarında kendimi tanımlamak için onu kullanacağım.",
+                    "$~İkinci olarak, animasyon yaparken, sahnede aynı içeriği temsil etmesi gereken birden fazla farklı ifade olabilir; bunlara aynı adı verin ve tek bir hareket olarak canlanacaklardır.",
+                    "$~Son olarak, @Choice Choice'a yardımcı oluyorum: bana verdiğiniz isimler o akışta görünüyor.",
+                    "$~Bana yardımcı olacaksa, her biri farklı dilde olmak üzere birçok farklı isim verebilirsiniz. Her zaman ilk seçilen dildeki ismi kullanacağım."
                 ],
                 "names": "$~isim"
             },
@@ -4383,10 +4445,10 @@
         },
         "Say": {
             "doc": [
-                "$~Merhaba! Ben @Say ve @Stage'de metni göstermek yerine sesli olarak okuyorum.",
+                "$~Merhaba! Ben @Say ve @Stage Stage'de metni göstermek yerine sesli olarak okuyorum.",
                 "$~Söyleyecek bir şey verin, programınız her değerlendirildiğinde onu söyleyeceğim:",
-                "$~\\('bla bla bla' de)\\",
-                "$~@TextLiteral'ın @Language özelliği varsa onu kullanacağım, yoksa seçili yerel ayarı kullanacağım.",
+                "$~\\Say('blah blah blah')\\",
+                "$~@TextLiteral TextLiteral'ın @Language özelliği varsa onu kullanacağım, yoksa seçilen dili kullanacağım.",
                 "$~Ayarlardan bir ses seçebilirsiniz."
             ],
             "names": ["$~🔊", "$~Söylemek"],
@@ -4441,7 +4503,7 @@
         "font": {
             "app": "$~Noto Sans",
             "code": "$~Noto Sans Mono",
-            "missing": "$?"
+            "missing": "$~HAYIR"
         },
         "phrases": {
             "welcome": "$~Merhaba"
@@ -4471,7 +4533,8 @@
                 "highlight": "$~vurgulama örneği",
                 "bullet": "$~madde işareti",
                 "attention": "$~bu ifadeyi vurgulayın"
-            }
+            },
+            "backtotop": "$~başa dön"
         },
         "tile": {
             "toggle": {
@@ -4528,7 +4591,7 @@
                     "tip": "$~Bu projenin dillerini düzenleyin ve diğer dillere çevirin.",
                     "label": "$~tercüme etmek"
                 },
-                "primary": "$~bu projenin birincil yerel ayarı olarak ayarlayın",
+                "primary": "$~Bu projenin birincil dili olarak ayarlandı.",
                 "savedLocally": "$~projeler yerel olarak kaydedilir, ancak çevrimiçi olarak kaydedilmez",
                 "savedOnline": "$~projeler çevrimiçi olarak kaydedilir"
             },
@@ -4649,12 +4712,12 @@
         "source": {
             "label": "$~program editörü",
             "empty": [
+                "$~Hadi başlayalım! Şunları yapabilirsiniz…",
+                "$~• 📕 uygulamasını açın ve bizi bu programa sürükleyin 🖱️.",
                 "$~• $symbol yazın ve menüden bizi seçin.",
-                "$?",
-                "$?",
-                "$?",
-                "$?",
-                "$?"
+                "$~• Bize ⌨️ ile yazın.",
+                "$~• Göz atın<galleries@://galleries> İlham almak için.",
+                "$~Eğer sıkışıp kaldıysanız,<learn more@://learn> ."
             ],
             "overwritten": "$~Proje başka yerde revize edildi",
             "confirm": {
@@ -4766,7 +4829,7 @@
             "options": {
                 "locale": {
                     "tip": "$~kaynak için tercih edilen dil",
-                    "all": "$~Tümü"
+                    "all": "$~$count dilleri"
                 }
             },
             "error": {
@@ -4829,7 +4892,7 @@
             },
             "options": {
                 "locale": "$~çıktı için dili seçin",
-                "default": "$~varsayılan"
+                "default": "$~$count dilleri"
             },
             "tour": {
                 "launch": "$~sahneyi gezin",
@@ -5266,15 +5329,27 @@
                 "explanation": "$~Arayüz, eğitim ve dokümantasyon için dilleri seçin.",
                 "subheader": {
                     "selected": "$~Seçilmiş",
-                    "supported": "$~Mevcut",
-                    "help": "$~…'i çevirmemize yardım edin."
+                    "supported": "$~Mevcut"
                 },
                 "button": {
-                    "show": "$~yerel ayarı değiştir",
-                    "replace": "$~bu yerel ayarı kullan",
-                    "add": "$~bu yerel ayarı ve mevcut olanları kullan",
-                    "remove": "$~bu yerel ayarı kaldır",
+                    "show": "$~web sitesi için dil(ler) seçin",
+                    "replace": "$~bu dili kullanın",
+                    "add": "$~Bu dili ve mevcut dilleri kullanın.",
+                    "remove": "$~bu dili kaldır",
                     "menu": "$~diğer diller"
+                },
+                "localizeHelp": "$~/Dilinizdeki çevirilerin iyileştirilmesine yardımcı olmak için, yerelleştirme modunu açmak ve iyileştirme önerilerinde bulunmak üzere sayfanın altındaki ✎ kalem simgesine tıklayın./",
+                "request": {
+                    "header": "$~Dilinizi göremiyor musunuz?",
+                    "explanation": "$~Bir dil ve bölge seçin, biz de bunu eklemeyi görüşmek üzere GitHub'da bir konu açalım.",
+                    "languageLabel": "$~dil",
+                    "regionLabel": "$~bölge",
+                    "submit": "$~Rica etmek",
+                    "submitting": "$~İstek gönderiliyor…",
+                    "success": "$~Bu isteği GitHub üzerinden bizimle tartışın!",
+                    "error": "$~Bir sorun oluştu. Lütfen tekrar deneyin.",
+                    "alreadySupported": "$~Bu dil ve bölge zaten desteklenmektedir.",
+                    "requiresLogin": "$~Dil talebinde bulunmak için giriş yapmanız gerekmektedir."
                 }
             },
             "help": {
@@ -6319,9 +6394,9 @@
                     "gallery": "$~Galeri",
                     "moderation": "$~Ölçülülük"
                 },
-                "singletonWordsWarning": "$~Taslağınızdaki bazı kelimeler, tüm yerel ayarda yalnızca bir kez geçiyor. Bu kelimelerin doğru yazıldığından ve metnin geri kalanıyla tutarlı olduğundan emin misiniz?",
+                "singletonWordsWarning": "$~Taslağınızdaki bazı kelimeler metnin tamamında yalnızca bir kez geçiyor. Bu kelimelerin doğru yazıldığından ve metnin geri kalanıyla tutarlı olduğundan emin misiniz?",
                 "viewPR": "$~Çekme isteğini görüntüle",
-                "oneLocaleNote": "$~Her gönderim, aynı anda yalnızca bir yerel ayarı kapsar. Bu toplu işlem, $locale değişkenine yapılan düzenlemeler olarak gönderilecektir. Farklı bir yerel ayara katkıda bulunmak istiyorsanız, önce yerel ayarları değiştirin; her yerel ayar altında kaydettiğiniz düzenlemeler ayrı ayrı saklanır."
+                "oneLocaleNote": "$~Her gönderim bir seferde yalnızca bir dili kapsar. Bu parti, $locale değişkenine yapılan düzenlemeler olarak gönderilecektir. Farklı bir dile katkıda bulunmak istiyorsanız, önce dilleri değiştirin; her dil altında kaydettiğiniz düzenlemeler ayrı ayrı saklanır."
             }
         },
         "edit": {
@@ -6625,7 +6700,10 @@
                     "$~para birimi"
                 ]
             },
-            "skinTone": "$~cilt tonu"
+            "skinTone": "$~cilt tonu",
+            "script": "$~komut dosyaları",
+            "scriptLabel": "$~komut dosyasına göre filtrele",
+            "pickFilter": "$~Bir kategori veya senaryo seçin."
         },
         "localize": {
             "header": "$~Yerelleştir",
@@ -6659,15 +6737,15 @@
                     "placeholder": "$~Adınızı girin..."
                 },
                 "filter": {
-                    "description": "$~Yol veya açıklamaya göre yerel ayar dizelerini filtrele",
+                    "description": "$~Çeviri dizelerini yol veya açıklamaya göre filtrele",
                     "placeholder": "$~Filtrele..."
                 }
             },
-            "strings": "$~Yerel ayar dizeleri",
+            "strings": "$~Çeviri dizeleri",
             "emotion": "Choose an emotion",
             "invalidName": "$~Geçerli bir Wordplay adı değil.",
             "reference": "$~İngilizce referans",
-            "invalidConceptLinks": "$~Bu kavram bağlantıları mevcut yerel ayarda çözümlenmiyor. Birini yanlış mı yazdınız, yoksa bilerek mi kaldırdınız?",
+            "invalidConceptLinks": "$~Bu kavram bağlantıları mevcut dilde çözümlenmiyor. Birini yanlış mı yazdınız, yoksa bilerek mi kaldırdınız?",
             "inputs": {
                 "header": "$~Bu şablonun kabul ettiği girdiler",
                 "usedTip": "$~İmlecin bulunduğu yere başka bir referans eklemek için tıklayın.",
@@ -6684,6 +6762,11 @@
             "previous": "$~önceki adım",
             "next": "$~sonraki adım",
             "offscreen": "$~Arayüzün bu kısmı şu anda ekranda görünmüyor."
+        },
+        "connection": {
+            "offline": "$~Çevrimdışı durumdasınız. Çevrimiçi olana kadar bazı özellikler çalışmayacaktır.",
+            "unreachable": "$~Wordplay veritabanına erişemiyoruz. Bağlantı yeniden kurulana kadar bazı özellikler çalışmayacaktır.",
+            "label": "$~Bağlantı durumu"
         }
     },
     "moderation": {

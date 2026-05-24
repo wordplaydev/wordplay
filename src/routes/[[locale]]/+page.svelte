@@ -210,6 +210,9 @@
                 /></BigLink
             >
         </Action>
+    </div>
+
+    <div class="actions about">
         <Action
             kind={updatesLastChecked === null ||
             updatesLastChecked !== date.date
@@ -343,5 +346,24 @@
         flex-wrap: wrap;
         gap: var(--wordplay-spacing);
         align-items: stretch;
+    }
+
+    .actions.about {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        margin-top: var(--wordplay-spacing);
+    }
+
+    .actions.about :global(.action) {
+        min-width: 0;
+        width: auto;
+    }
+
+    .actions.about :global(.biglink.smaller .link) {
+        font-size: min(19.2pt, max(11.2pt, 2.4vw));
+    }
+
+    .actions.about :global(.biglink .subtitle) {
+        font-size: calc(var(--wordplay-font-size) * 0.8);
     }
 </style>

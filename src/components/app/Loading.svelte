@@ -11,7 +11,7 @@
 <style>
     .container {
         width: 100dvw;
-        height: 100dvh;
+        height: 100%;
         max-width: 100%;
         max-height: 100%;
         display: flex;

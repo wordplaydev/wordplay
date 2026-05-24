@@ -36,6 +36,7 @@ const Sym = {
     TypeClose: '⸩',
     Separator: ',',
     Language: '/',
+    LanguageJoin: '_',
     Region: '-',
     BooleanType: '•?',
     NumberType: '•#',

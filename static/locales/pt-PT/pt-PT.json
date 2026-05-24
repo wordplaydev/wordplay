@@ -120,7 +120,7 @@
         "Base": "$~numeral base",
         "Boolean": "$~booleano",
         "Name": "$~nome",
-        "Locale": "$~localidade",
+        "Locale": "$~idioma",
         "Unknown": "$~desconhecido",
         "End": "$~fim",
         "Highlight": "$~exemplo destacado",
@@ -131,7 +131,8 @@
         "GurmukhiNumeral": "$~numeral gurmukhi",
         "KannadaNumeral": "$~numeral canarês",
         "TamilNumeral": "$~numeral tâmil",
-        "TeluguNumeral": "$~numeral telugu"
+        "TeluguNumeral": "$~numeral telugu",
+        "LanguageJoin": "$~conector de idiomas"
     },
     "node": {
         "Dimension": {
@@ -196,16 +197,20 @@
             "description": "$~Etiquetar nomes e texto com um idioma",
             "emotion": "eager",
             "doc": [
-                "$~Sou uma etiqueta de idioma e trabalho com @Name e @Doc!",
-                "$~Sou muito bom a deixar *extremamente claro* em que língua algo está escrito.",
-                "$~É isso que eu faço. Apenas uma pequena barra e algumas letras, e nunca ninguém ficará confuso sobre o idioma em que determinado texto se encontra.",
-                "$~Por exemplo, digamos que quer dizer o meu nome, mas deixando claro que estou a falar em inglês:",
-                "$~\\\"Língua\"/pt\\",
-                "$~Ou, suponha que quer fazer isto para um @Name.",
-                "$~\\sound/pt: 'miau'\\",
-                "$~Ou até mesmo @Doc!",
-                "$~\\¶Onomatopeia¶/pt\nsom/pt: \"miau\"\\",
-                "$~Há muitos códigos de idioma de duas letras que eu compreendo. Se não usa algum deles, aviso-o."
+                "$~Sou uma etiqueta de idioma e trabalho com @Name e @Doc !",
+                "$~Sou muito bom a deixar *extremamente claro* em que língua algo está escrito. Basta uma pequena barra e algumas letras, e nunca ninguém terá dúvidas sobre a língua do texto.",
+                "$~Por exemplo, se quiser dizer \"Língua\", mas deixar claro que se trata de inglês:",
+                "$~\\\"Language\"/en\\",
+                "$~Pode fazer isto para um @Name :",
+                "$~\\sound/en: 'meow'\\",
+                "$~…ou um @Doc :",
+                "$~\\¶Onomatopoeia¶/en\nsound/en: \"meow\"\\",
+                "$~Por vezes, um texto não é de uma só língua — é uma *mistura*. Como o Spanglish, onde o espanhol e o inglês se misturam. Nestes casos, liste cada idioma com um sublinhado entre eles. O primeiro é o *principal* — é o que uso quando preciso de escolher (por exemplo, para decidir que aspas usar).",
+                "$~\\\"Hola gentleman!\"/es_en\\",
+                "$~\\¶A bilingual greeting¶/es_en\nhello/es_en: \"Hola gentleman!\"\\",
+                "$~Também pode adicionar uma única região, após um hífen, tal como acontece com um único idioma:",
+                "$~\\\"Hola gentleman!\"/es_en-MX\\",
+                "$~Não há limite para o número de idiomas que pode listar — basta não repetir o mesmo duas vezes; avisarei se isso acontecer. Há muitos códigos de idioma de duas letras que eu compreendo. Se não usar algum deles, também o avisarei."
             ],
             "conflict": {
                 "UnknownLanguage": {
@@ -215,6 +220,10 @@
                 "MissingLanguage": {
                     "name": "$~idiomaausente",
                     "explanation": "$~Está em falta um idioma. Pode adicionar um?"
+                },
+                "DuplicateLanguage": {
+                    "name": "$~idiomaduplicado",
+                    "explanation": "$~Utilizou o idioma ' $code ' duas vezes. As etiquetas de idiomas mistos devem listar cada idioma apenas uma vez."
                 }
             }
         },
@@ -374,8 +383,8 @@
             ],
             "conflict": {
                 "UnsupportedFontFormat": {
-                    "name": "$?",
-                    "explanation": "$?"
+                    "name": "$~formatodefontenãosuportado",
+                    "explanation": "$~O meu amigo * $face * não sabe como ser $format ."
                 }
             }
         },
@@ -903,8 +912,8 @@
             }
         },
         "IsLocale": {
-            "name": "$~élocal",
-            "description": "$~é local",
+            "name": "$~élinguagem",
+            "description": "$~Retorna verdadeiro se o idioma estiver selecionado.",
             "emotion": "kind",
             "doc": [
                 "$~Vou ajudar-te a verificar se o público selecionou um idioma ou região específica:",
@@ -1315,7 +1324,7 @@
                 "texts": "$~texto"
             },
             "doc": "$~Represento uma ou mais traduções específicas de texto. Consulte @Text para saber mais sobre o que posso fazer!",
-            "start": "$~Vamos gerar texto no idioma atual."
+            "start": "$~Vamos criar um texto na língua atual."
         },
         "Translation": {
             "name": "$~tradução",
@@ -1359,7 +1368,7 @@
             "description": "$~texto $text",
             "emotion": "serious",
             "doc": "$~Represento várias traduções formatadas diferentes com o @FormattedTranslation. Ao avaliar, escolherei a opção mais adequada com base nos idiomas selecionados pelo público.",
-            "start": "$~Vamos gerar texto no idioma atual."
+            "start": "$~Vamos criar um texto na língua atual."
         },
         "FormattedTranslation": {
             "name": "$~traduçãoformatada",
@@ -3255,6 +3264,59 @@
             "down": {
                 "names": "$~parabaixo",
                 "doc": "$~Se @None, então premir a tecla gera entradas. Se \\⊤\\, então apenas as entradas de pressão são fornecidas, e se \\⊥\\, então apenas as entradas de libertação são fornecidas."
+            },
+            "keys": {
+                "Shift": ["$~Turno"],
+                "Control": ["$~Controlo", "$~Ctrl"],
+                "Alt": ["$~Alternativa", "$~Opção"],
+                "Meta": ["$~Meta", "$~Comando", "$~Windows"],
+                "AltGraph": ["$~Gráfico alternativo"],
+                "CapsLock": ["$~Caps Lock", "$~Caps Lock"],
+                "NumLock": ["$~NumLock", "$~Num Lock"],
+                "ScrollLock": ["$~ScrollLock", "$~Bloqueio de rolagem"],
+                "Enter": ["$~Entrar", "$~Devolver"],
+                "Tab": ["$~Aba"],
+                " ": ["$~Espaço", "$~Barra de espaço", "$~"],
+                "ArrowUp": ["$~Seta para cima", "$~Para cima"],
+                "ArrowDown": ["$~Seta para baixo", "$~Para baixo"],
+                "ArrowLeft": ["$~Seta para a esquerda", "$~Esquerda"],
+                "ArrowRight": ["$~Seta para a direita", "$~Certo"],
+                "Home": ["$~Casa"],
+                "End": ["$~Fim"],
+                "PageUp": ["$~PageUp", "$~Página acima"],
+                "PageDown": ["$~PáginaDown", "$~Página abaixo"],
+                "Backspace": ["$~Apagar"],
+                "Delete": ["$~Eliminar", "$~Del"],
+                "Insert": ["$~Inserir", "$~Ins"],
+                "Clear": ["$~Claro"],
+                "Cut": ["$~Corte"],
+                "Copy": ["$~Cópia"],
+                "Paste": ["$~Colar"],
+                "Undo": ["$~Desfazer"],
+                "Redo": ["$~Refazer"],
+                "Escape": ["$~Escapar", "$~Esc"],
+                "Pause": ["$~Pausa"],
+                "ContextMenu": ["$~Menu de contexto", "$~Menu"],
+                "Help": ["$~Ajuda"],
+                "Convert": ["$~Converso"],
+                "NonConvert": ["$~Não converter"],
+                "KanaMode": ["$~KanaMode"],
+                "HangulMode": ["$~Modo Hangul"],
+                "Hiragana": ["$~Hiragana"],
+                "Katakana": ["$~Katakana"],
+                "Romaji": ["$~Romaji"],
+                "F1": ["$~F1"],
+                "F2": ["$~F2"],
+                "F3": ["$~F3"],
+                "F4": ["$~F4"],
+                "F5": ["$~F5"],
+                "F6": ["$~F6"],
+                "F7": ["$~F7"],
+                "F8": ["$~F8"],
+                "F9": ["$~F9"],
+                "F10": ["$~F10"],
+                "F11": ["$~F11"],
+                "F12": ["$~F12"]
             }
         },
         "Time": {
@@ -3312,12 +3374,12 @@
             "doc": [
                 "$~/olá!/",
                 "$~@FunctionDefinition aqui - pronto para ouvir!",
-                "$~Esta funcionalidade reconhece a fala e converte-a em @Text. Utiliza o reconhecimento de voz do seu browser para ouvir o que diz e transformá-lo em palavras (incrível, não é?!).",
-                "$~\\Discurso()\\",
+                "$~Esta funcionalidade reconhece a fala e converte-a em @Text . Utiliza o reconhecimento de voz do seu browser para ouvir o que diz e transformá-lo em palavras (não é incrível?!).",
+                "$~\\Speech()\\",
                 "$~Isto é perfeito para quem já fala uma língua, mas ainda está a aprender a ler ou a escrever (e muito mais)...",
                 "$~Pode especificar um código de idioma para reconhecer a fala num idioma específico:",
-                "$~\\Speech(idioma: 'es-MX')\\",
-                "$~Se não for especificado nenhum idioma, será utilizado o idioma da sua preferência.",
+                "$~\\Speech(language: 'es-MX')\\",
+                "$~Se não for especificado nenhum idioma, o idioma da sua preferência será utilizado por predefinição.",
                 "$~O reconhecimento de voz requer acesso ao microfone e ligação à internet (por favor, conceda acesso!). Além disso, pode haver limites de utilização, por isso não o deixe ligado durante muito tempo (nãooooo)!"
             ],
             "names": ["$~🎙️", "$~Discurso", "$~Voz"],
@@ -3327,7 +3389,7 @@
             },
             "language": {
                 "names": ["$~idioma", "$~lang"],
-                "doc": "$~Um código de idioma BCP 47 (por exemplo, 'en-US'). Se não for compatível com o reconhecimento de voz do seu navegador, receberá um erro. O predefinido é o seu idioma preferido."
+                "doc": "$~Um código de idioma BCP 47 (por exemplo, 'en-US'). Se não for compatível com o reconhecimento de voz do seu navegador, receberá um erro. O idioma predefinido é o seu idioma preferido."
             },
             "limit": {
                 "names": ["$~limite", "$~palavras"],
@@ -3724,8 +3786,8 @@
                     "$~Um nome que me dás! Isto é útil para muitas coisas.",
                     "$~Primeiro, se tiver um nome, vou usá-lo para me descrever nas descrições do leitor de ecrã.",
                     "$~Em segundo lugar, ao animar, pode ter várias expressões diferentes que representam o mesmo conteúdo em palco; dê-lhes o mesmo nome e serão animadas como uma só.",
-                    "$~Por fim, sou útil com o @Choice: os nomes que me fornece aparecem nesse fluxo.",
-                    "$~Pode dar-me vários nomes diferentes, cada um num idioma diferente, se isso for útil. Utilizarei sempre o nome no primeiro idioma selecionado."
+                    "$~Por fim, sou útil com @Choice : os nomes que me fornece aparecem neste fluxo.",
+                    "$~Pode dar-me vários nomes diferentes, cada um num idioma diferente, se isso ajudar. Utilizarei sempre o nome no primeiro idioma selecionado."
                 ],
                 "names": "$~nome"
             },
@@ -3940,10 +4002,10 @@
         },
         "Say": {
             "doc": [
-                "$~Olá! Sou o @Say e leio o texto em voz alta em vez de o mostrar no @Stage.",
+                "$~Olá! Sou o @Say e leio o texto em voz alta em vez de o mostrar no @Stage .",
                 "$~Basta dar-me algo para dizer, e eu direi isso sempre que o seu programa for avaliado:",
-                "$~\\Diz('blá blá blá')\\",
-                "$~Usarei o idioma definido em @Language no @TextLiteral, se existir; caso contrário, utilizarei a localidade selecionada.",
+                "$~\\Say('blah blah blah')\\",
+                "$~Usarei o @Language no @TextLiteral , se existir; caso contrário, utilizarei o idioma selecionado.",
                 "$~Pode selecionar uma voz nas definições."
             ],
             "names": ["$~🔊", "$~Dizer"],
@@ -4442,7 +4504,7 @@
         "font": {
             "app": "$~Noto Sans",
             "code": "$~Noto Sans Mono",
-            "missing": "$?"
+            "missing": "$~Não"
         },
         "phrases": {
             "welcome": "$~Olá"
@@ -4472,7 +4534,8 @@
                 "highlight": "$~exemplo de destaque",
                 "bullet": "$~marcador",
                 "attention": "$~Destaque esta expressão"
-            }
+            },
+            "backtotop": "$~Voltar ao topo"
         },
         "tile": {
             "toggle": {
@@ -4534,7 +4597,7 @@
                     "tip": "$~Edite os idiomas deste projeto e traduza-o para outros idiomas.",
                     "label": "$~traduzir"
                 },
-                "primary": "$~definido como o local principal deste projeto"
+                "primary": "$~definido como o idioma principal deste projeto"
             },
             "field": {
                 "name": {
@@ -4890,12 +4953,12 @@
             "label": "$~editor de programas",
             "title": "$~código",
             "empty": [
+                "$~Vamos começar! Você pode…",
+                "$~• Abra 📕 e arraste 🖱️ para este programa.",
                 "$~• Introduza $symbol e escolha-nos no menu.",
-                "$?",
-                "$?",
-                "$?",
-                "$?",
-                "$?"
+                "$~• Introduza-nos utilizando o ⌨️.",
+                "$~• Navegue pelo<galleries@://galleries> Para inspiração.",
+                "$~Se estiver preso,<learn more@://learn> ."
             ],
             "overwritten": "$~Projeto revisto em outro local",
             "confirm": {
@@ -4921,7 +4984,7 @@
             "options": {
                 "locale": {
                     "tip": "$~idioma preferido para a fonte",
-                    "all": "$~tudo"
+                    "all": "$~$count idiomas"
                 }
             },
             "button": {
@@ -5069,7 +5132,7 @@
             },
             "options": {
                 "locale": "$~idioma preferido para a saída",
-                "default": "$~predefinição"
+                "default": "$~$count idiomas"
             },
             "tour": {
                 "launch": "$~faça um passeio pelo palco",
@@ -5536,15 +5599,27 @@
                 "explanation": "$~Selecione os idiomas para a interface, o tutorial e a documentação.",
                 "subheader": {
                     "selected": "$~Selecionado",
-                    "supported": "$~Disponível",
-                    "help": "$~Ajude-nos a traduzir…"
+                    "supported": "$~Disponível"
                 },
                 "button": {
-                    "show": "$~alterar localidade",
+                    "show": "$~Selecione o(s) idioma(s) para o site",
                     "replace": "$~Utilize este idioma",
-                    "add": "$~Utilize esta localidade e as atuais.",
-                    "remove": "$~remover esta localidade",
+                    "add": "$~utilizar esta linguagem e as atuais",
+                    "remove": "$~remover este idioma",
                     "menu": "$~outros idiomas"
+                },
+                "localizeHelp": "$~Para ajudar a melhorar as traduções no seu idioma, clique no ícone do lápis ✎ na parte inferior da página para ativar o modo de localização e sugerir melhorias.",
+                "request": {
+                    "header": "$~Não encontrou o seu idioma?",
+                    "explanation": "$~Selecione um idioma e uma região e abriremos um pedido no GitHub para discutir a sua adição.",
+                    "languageLabel": "$~idioma",
+                    "regionLabel": "$~região",
+                    "submit": "$~Pedido",
+                    "submitting": "$~Enviando solicitação…",
+                    "success": "$~Discuta esta solicitação connosco no GitHub!",
+                    "error": "$~Algo correu mal. Por favor, tente novamente.",
+                    "alreadySupported": "$~Esse idioma e região já são suportados.",
+                    "requiresLogin": "$~Precisa de estar conectado para solicitar um idioma."
                 }
             },
             "help": {
@@ -5813,15 +5888,15 @@
                     "placeholder": "$~Introduza o nome..."
                 },
                 "filter": {
-                    "description": "$~Filtrar strings de localização por caminho ou descrição",
+                    "description": "$~Filtrar strings de tradução por caminho ou descrição",
                     "placeholder": "$~Filtro..."
                 }
             },
-            "strings": "$~Cadeias de localização",
+            "strings": "$~Cadeias de tradução",
             "emotion": "Choose an emotion",
             "invalidName": "$~Nome inválido para jogo de palavras",
             "reference": "$~Referência em inglês",
-            "invalidConceptLinks": "$~Estes links conceptuais não funcionam na configuração local atual. Digitou algum deles incorretamente ou removeu-o de propósito?",
+            "invalidConceptLinks": "$~Estes links conceptuais não funcionam no idioma atual. Digitou algum deles incorretamente ou removeu-o de propósito?",
             "inputs": {
                 "header": "$~Entradas que este modelo aceita",
                 "usedTip": "$~Clique para inserir outra referência no cursor.",
@@ -6614,9 +6689,9 @@
                     "gallery": "$~Galeria",
                     "moderation": "$~Moderação"
                 },
-                "singletonWordsWarning": "$~Algumas palavras do seu rascunho aparecem apenas uma vez em todo o texto. Tem a certeza de que estão escritas corretamente e em consonância com o restante texto?",
+                "singletonWordsWarning": "$~Algumas palavras do seu rascunho aparecem apenas uma vez em todo o texto. Tem a certeza de que a ortografia está correta e consistente com o resto do texto?",
                 "viewPR": "$~Veja a solicitação de pull request",
-                "oneLocaleNote": "$~Cada contribuição abrange um idioma de cada vez. Este lote será enviado como edições de $locale. Se quiser contribuir para um idioma diferente, altere primeiro o idioma; as edições guardadas em cada idioma são guardadas separadamente."
+                "oneLocaleNote": "$~Cada contribuição abrange um idioma de cada vez. Este lote será enviado como edições para $locale . Se quiser contribuir com um idioma diferente, mude primeiro de idioma; as edições guardadas em cada idioma são guardadas separadamente."
             }
         },
         "edit": {
@@ -6684,7 +6759,10 @@
                     "$~números de letras",
                     "$~moeda"
                 ]
-            }
+            },
+            "script": "$~roteiros",
+            "scriptLabel": "$~filtrar por script",
+            "pickFilter": "$~Escolha uma categoria ou itinerário"
         },
         "tour": {
             "label": "$~digressão",
@@ -6692,6 +6770,11 @@
             "previous": "$~etapa anterior",
             "next": "$~próximo passo",
             "offscreen": "$~Esta parte da interface não está visível no ecrã de momento."
+        },
+        "connection": {
+            "offline": "$~Está offline. Algumas funcionalidades só funcionarão quando estiver online.",
+            "unreachable": "$~Não conseguimos aceder à base de dados do Wordplay. Algumas funcionalidades não estarão disponíveis até que a ligação seja restabelecida.",
+            "label": "$~Estado da conexão"
         }
     },
     "moderation": {

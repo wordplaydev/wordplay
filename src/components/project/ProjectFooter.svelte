@@ -39,7 +39,7 @@
     import { type ArrangementType } from '@db/settings/Arrangement';
     import type Locale from '@locale/Locale';
     import type Source from '@nodes/Source';
-    import { INFO_SYMBOL, LOGO_SYMBOL } from '@parser/Symbols';
+    import { INFO_SYMBOL, PROJECT_SYMBOL } from '@parser/Symbols';
     import Characters from '../../lore/BasisCharacters';
 
     interface Props {
@@ -272,7 +272,7 @@
                     icon="↺"
                 ></Button>{/if}
             <Subheader compact>
-                <Emoji>{LOGO_SYMBOL}</Emoji>
+                <Emoji>{PROJECT_SYMBOL}</Emoji>
                 <span class="project-label"
                     ><LocalizedText path={(l) => l.ui.project.label} /></span
                 >

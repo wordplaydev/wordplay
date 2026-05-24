@@ -35,7 +35,11 @@
         outline = true,
         elide = false,
         flip = false,
-        localize = true,
+        // Examples and concept-code views default to *not* filtering by the
+        // current locale — they are samples of code, so every translation
+        // should be visible. Callers that want locale-aware filtering can
+        // opt in by setting `localize`.
+        localize = false,
     }: Props = $props();
 
     let dragged = getDragged();

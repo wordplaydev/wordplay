@@ -396,9 +396,11 @@ export class HowToDatabase {
 
         // if asked to persist, update remotely
         if (persist && firestore) {
-            await updateDoc(
-                doc(firestore, HowTosCollection, howToID),
-                howTo.getData(),
+            await this.db.track(
+                updateDoc(
+                    doc(firestore, HowTosCollection, howToID),
+                    howTo.getData(),
+                ),
             );
         }
     }
@@ -418,7 +420,7 @@ export class HowToDatabase {
                     doc(firestore, GalleriesCollection, gallery.getID()),
                     { howTos: arrayRemove(howToId) },
                 );
-                await batch.commit();
+                await this.db.track(batch.commit());
             } catch (err) {
                 console.error(err);
             }
@@ -510,7 +512,7 @@ export class HowToDatabase {
                 doc(firestore, GalleriesCollection, gallery.getID()),
                 { howTos: arrayUnion(newHowTo.id) },
             );
-            await batch.commit();
+            await this.db.track(batch.commit());
 
             // Mirror the new how-to in the local cache so the UI sees it right
             // away rather than waiting for the realtime listener.

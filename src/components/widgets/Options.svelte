@@ -108,6 +108,7 @@
         style:width
         disabled={!editable}
         class:code
+        class:placeholder={value === undefined}
         onchange={(e) => commitChange((e.target as HTMLSelectElement).value)}
         onpointerenter={showTip}
         onpointerleave={hideTip}
@@ -142,6 +143,7 @@
                 </optgroup>
             {:else}
                 <option
+                    class:placeholder={option.value === undefined}
                     selected={option.value === value}
                     value={option.value}
                     onpointerdown={() => commitChange(option.value)}
@@ -254,6 +256,24 @@
     option::checkmark {
         content: '●';
         color: var(--wordplay-highlight-color);
+    }
+
+    /* The "no selection" option (value === undefined) is styled as a
+       placeholder cue, mirroring the convention used for input placeholders.
+       select.placeholder italicizes the closed dropdown's display area
+       (<selectedcontent> doesn't inherit the option's own CSS), but that
+       italic also inherits to every <option> in the open menu, so we reset
+       options back to normal and re-italicize only the placeholder. */
+    select.placeholder {
+        font-style: italic;
+    }
+
+    option {
+        font-style: normal;
+    }
+
+    option.placeholder {
+        font-style: italic;
     }
 
     .code {

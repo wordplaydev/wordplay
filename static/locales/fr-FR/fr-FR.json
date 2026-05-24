@@ -121,7 +121,7 @@
         "Boolean": "$~booléen",
         "Name": "$~nom",
         "Unknown": "$~inconnu",
-        "Locale": "$~lieu",
+        "Locale": "$~langue",
         "End": "$~fin",
         "Highlight": "$~exemple mis en évidence",
         "ThaiNumeral": "$~chiffres thaïlandais",
@@ -131,7 +131,8 @@
         "GurmukhiNumeral": "$~chiffre gurmukhi",
         "KannadaNumeral": "$~chiffres kannada",
         "TamilNumeral": "$~chiffres tamouls",
-        "TeluguNumeral": "$~chiffres télougous"
+        "TeluguNumeral": "$~chiffres télougous",
+        "LanguageJoin": "$~jointure de langage"
     },
     "node": {
         "Dimension": {
@@ -196,16 +197,20 @@
             "description": "$~étiquette les noms et textes avec une langue",
             "emotion": "eager",
             "doc": [
-                "$~Je suis un tag de langue et je travaille avec @Name et @Doc !",
-                "$~Je suis vraiment doué pour rendre *très clair* dans quelle langue est écrit quelque chose.",
-                "$~C'est ce que je fais. Juste une petite barre oblique et quelques lettres, et personne ne sera jamais confus quant à la langue dans laquelle est écrit un texte.",
-                "$~Par exemple, disons que vous vouliez dire mon $name, mais précisez clairement que je suis en anglais:",
-                "$~\\\"Langue\"/fr\\",
-                "$~Ou, supposons que vous vouliez faire cela pour un @Name.",
-                "$~\\son/fr: 'miaou'\\",
-                "$~Ou même @Doc !",
-                "$~\\¶Onomatopée¶/fr son/fr: \"miaou\"\\",
-                "$~Il existe de nombreux <codes de langue à 2 lettres@https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes> que je comprends. Si vous n'en utilisez pas, je vous le ferai savoir."
+                "$~Je suis une balise de langue et je fonctionne avec @Name et @Doc !",
+                "$~Je suis très douée pour indiquer clairement la langue dans laquelle un texte est écrit. Un simple trait d'union et quelques lettres suffisent pour que personne ne puisse se tromper sur la langue.",
+                "$~Par exemple, si vous voulez dire « Langue » mais préciser qu'il s'agit de l'anglais :",
+                "$~\\\"Language\"/en\\",
+                "$~Vous pouvez le faire pour un @Name :",
+                "$~\\sound/en: 'meow'\\",
+                "$~…ou un @Doc :",
+                "$~\\¶Onomatopoeia¶/en\nsound/en: \"meow\"\\",
+                "$~Parfois, un texte n'est pas monolingue, mais multilingue. C'est le cas du spanglish, où l'espagnol et l'anglais se mêlent. Dans ce cas, indiquez chaque langue en les séparant par un tiret bas. La première est la langue principale ; c'est celle que je privilégie lorsque je dois choisir (par exemple, pour choisir les guillemets).",
+                "$~\\\"Hola gentleman!\"/es_en\\",
+                "$~\\¶A bilingual greeting¶/es_en\nhello/es_en: \"Hola gentleman!\"\\",
+                "$~Vous pouvez également ajouter une seule région, après un tiret, comme pour une seule langue :",
+                "$~\\\"Hola gentleman!\"/es_en-MX\\",
+                "$~Vous pouvez indiquer autant de langues que vous le souhaitez, mais veillez à ne pas répéter la même deux fois ; je vous le signalerai si c'est le cas. Je comprends de nombreux codes de langue à deux lettres (voir https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes). Si vous n'en utilisez pas un, je vous le ferai savoir également."
             ],
             "conflict": {
                 "UnknownLanguage": {
@@ -215,6 +220,10 @@
                 "MissingLanguage": {
                     "name": "$~languemanquante",
                     "explanation": "$~Il me manque une langue. Pouvez-vous en ajouter une ?"
+                },
+                "DuplicateLanguage": {
+                    "name": "$~languedupliquée",
+                    "explanation": "$~Vous avez utilisé la langue « $code » deux fois. Les balises multilingues ne doivent mentionner chaque langue qu'une seule fois."
                 }
             }
         },
@@ -374,8 +383,8 @@
             ],
             "conflict": {
                 "UnsupportedFontFormat": {
-                    "name": "$?",
-                    "explanation": "$?"
+                    "name": "$~formatdepolicenonprisencharge",
+                    "explanation": "$~Mon ami * $face * ne sait pas comment être $format ."
                 }
             }
         },
@@ -903,8 +912,8 @@
             }
         },
         "IsLocale": {
-            "name": "$~estlocal",
-            "description": "$~retourne vrai si la locale est sélectionnée",
+            "name": "$~estlelangage",
+            "description": "$~Renvoie vrai si la langue est sélectionnée",
             "emotion": "kind",
             "doc": [
                 "$~Je vous aiderai à vérifier si le public a sélectionné une langue ou une région particulière:",
@@ -1312,7 +1321,7 @@
             "description": "$~crée la valeur texte $text",
             "emotion": "serious",
             "doc": "$~Je représente une ou plusieurs @Translation de texte spécifiques. Voir @Text pour en savoir plus sur ce que je peux faire!",
-            "start": "$~Créons du texte dans les paramètres régionaux actuels",
+            "start": "$~Créons du texte dans la langue actuelle.",
             "label": {
                 "texts": "$~texte"
             }
@@ -1359,7 +1368,7 @@
             "description": "$~crée le texte formaté $text",
             "emotion": "serious",
             "doc": "$~Je représente de nombreux @FormattedTranslation différents de textes formatés. Lors de l'évaluation, je choisirai la meilleure correspondance en fonction des langues sélectionnées par le public.",
-            "start": "$~Créons du texte dans les paramètres régionaux actuels"
+            "start": "$~Créons du texte dans la langue actuelle."
         },
         "FormattedTranslation": {
             "name": "$~traductionformatée",
@@ -3255,6 +3264,62 @@
             "down": {
                 "names": "$~verslebas",
                 "doc": "$~SI @None, alors la touche enfoncée génère des entrées. Si \\⊤\\, alors seules les entrées vers le bas sont fournies, et si \\⊥\\, alors seules les entrées de relâchement sont fournies."
+            },
+            "keys": {
+                "Shift": ["$~Changement"],
+                "Control": ["$~Contrôle", "$~Ctrl"],
+                "Alt": ["$~Alt", "$~Option"],
+                "Meta": ["$~Méta", "$~Commande", "$~Windows"],
+                "AltGraph": ["$~AltGraph"],
+                "CapsLock": [
+                    "$~Verrouillage des majuscules",
+                    "$~Verrouillage des majuscules"
+                ],
+                "NumLock": ["$~Verr Num", "$~Verr Num"],
+                "ScrollLock": ["$~Verr. défilement", "$~Verr. défilement"],
+                "Enter": ["$~Entrer", "$~Retour"],
+                "Tab": ["$~Languette"],
+                " ": ["$~Espace", "$~Barre d'espace", "$~"],
+                "ArrowUp": ["$~Flèche vers le haut", "$~En haut"],
+                "ArrowDown": ["$~Flèche vers le bas", "$~Vers le bas"],
+                "ArrowLeft": ["$~Flèche gauche", "$~Gauche"],
+                "ArrowRight": ["$~Flèche droite", "$~Droite"],
+                "Home": ["$~Maison"],
+                "End": ["$~Fin"],
+                "PageUp": ["$~Page précédente", "$~Page précédente"],
+                "PageDown": ["$~Page suivante", "$~Page suivante"],
+                "Backspace": ["$~Retour arrière"],
+                "Delete": ["$~Supprimer", "$~Del"],
+                "Insert": ["$~Insérer", "$~Assurance"],
+                "Clear": ["$~Clair"],
+                "Cut": ["$~Couper"],
+                "Copy": ["$~Copie"],
+                "Paste": ["$~Coller"],
+                "Undo": ["$~Défaire"],
+                "Redo": ["$~Refaire"],
+                "Escape": ["$~S'échapper", "$~Échap"],
+                "Pause": ["$~Pause"],
+                "ContextMenu": ["$~Menu contextuel", "$~Menu"],
+                "Help": ["$~Aide"],
+                "Convert": ["$~Convertir"],
+                "NonConvert": ["$~NonConvert"],
+                "KanaMode": ["$~KanaMode"],
+                "HangulMode": ["$~Mode Hangul"],
+                "Hiragana": ["$~Hiragana"],
+                "Katakana": ["$~Katakana"],
+                "Romaji": ["$~Romaji"],
+                "F1": ["$~F1"],
+                "F2": ["$~F2"],
+                "F3": ["$~F3"],
+                "F4": ["$~F4"],
+                "F5": ["$~F5"],
+                "F6": ["$~F6"],
+                "F7": ["$~F7"],
+                "F8": ["$~F8"],
+                "F9": ["$~F9"],
+                "F10": ["$~F10"],
+                "F11": ["$~F11"],
+                "F12": ["$~F12"]
             }
         },
         "Time": {
@@ -3507,12 +3572,12 @@
             "doc": [
                 "$~/bonjour!/",
                 "$~@FunctionDefinition ici - prêt à écouter !",
-                "$~Ce flux reconnaît la parole et la convertit en texte. Il utilise la reconnaissance vocale de votre navigateur pour écouter ce que vous dites et le transformer en mots (c'est génial, non ?!).",
-                "$~\\Discours()\\",
+                "$~Ce flux reconnaît la parole et la convertit en @Text . Il utilise la reconnaissance vocale de votre navigateur pour écouter ce que vous dites et le transformer en mots (c'est génial, non ?!).",
+                "$~\\Speech()\\",
                 "$~C'est parfait pour ceux qui parlent une langue mais qui apprennent encore à la lire ou à l'écrire (et plus encore)...",
                 "$~Vous pouvez spécifier un code de langue pour reconnaître la parole dans une langue particulière :",
-                "$~\\Speech(langue: 'es-MX')\\",
-                "$~Si aucune langue n'est spécifiée, la langue par défaut sera celle de votre région préférée.",
+                "$~\\Speech(language: 'es-MX')\\",
+                "$~Si aucune langue n'est spécifiée, la langue par défaut sera celle que vous préférez.",
                 "$~La reconnaissance vocale nécessite l'accès au microphone et à Internet (veuillez autoriser ces accès !). De plus, des limites d'utilisation peuvent s'appliquer, alors ne la laissez pas activée trop longtemps (non !)."
             ],
             "names": ["$~Discours", "$~Voix"],
@@ -3832,11 +3897,11 @@
             },
             "name": {
                 "doc": [
-                    "$~Un nom que tu me donnes ! Cela m'aidera pour beaucoup de choses.",
-                    "$~Tout d’abord, si j’ai un nom, je l’utiliserai pour me décrire dans les descriptions des lecteurs d’écran.",
-                    "$~Deuxièmement, lors de l'animation, vous pouvez avoir plusieurs expressions différentes qui sont censées représenter le même contenu sur scène ; donnez-leur le même nom et elles s'animeront comme une seule.",
-                    "$~Enfin, je suis utile avec @Choice : les noms que vous me donnez apparaissent dans ce flux.",
-                    "$~Vous pouvez me donner plusieurs noms différents, chacun dans une langue différente, si cela peut vous être utile. J'utiliserai toujours le nom dans la première langue sélectionnée."
+                    "$~Un nom que vous me donnez ! Cela sert à bien des choses.",
+                    "$~Premièrement, si j'ai un nom, je l'utiliserai pour me décrire dans les descriptions des lecteurs d'écran.",
+                    "$~Deuxièmement, lors de l'animation, vous pouvez avoir plusieurs expressions différentes censées représenter le même contenu sur scène ; donnez-leur le même nom et elles s'animeront comme une seule.",
+                    "$~Enfin, je suis utile avec @Choice: les noms que vous me donnez apparaissent dans ce flux.",
+                    "$~Vous pouvez me donner plusieurs noms différents, chacun dans une langue différente, si cela peut être utile. J'utiliserai toujours le nom dans la première langue sélectionnée."
                 ],
                 "names": "$~nom"
             },
@@ -4383,10 +4448,10 @@
         },
         "Say": {
             "doc": [
-                "$~Salut ! Je suis @Say, et je lis le texte à voix haute au lieu de l'afficher sur @Stage.",
+                "$~Salut ! Je suis @Say , et je lis le texte à voix haute au lieu de l'afficher sur @Stage .",
                 "$~Donnez-moi juste quelque chose à dire, et je le dirai à chaque évaluation de votre programme :",
-                "$~\\Dites('bla bla bla')\\",
-                "$~J'utiliserai la propriété @Language de l'objet @TextLiteral si elle en possède une, sinon j'utiliserai les paramètres régionaux sélectionnés.",
+                "$~\\Say('blah blah blah')\\",
+                "$~J'utiliserai la @Language de l'objet @TextLiteral si elle en possède une, sinon j'utiliserai la langue sélectionnée.",
                 "$~Vous pouvez sélectionner une voix dans les paramètres."
             ],
             "names": ["$~🔊", "$~Dire"],
@@ -4441,7 +4506,7 @@
         "font": {
             "app": "Noto Sans",
             "code": "Noto Sans Mono",
-            "missing": "$?"
+            "missing": "$~Non"
         },
         "phrases": {
             "welcome": "$~Bonjour"
@@ -4471,7 +4536,8 @@
                 "highlight": "$~exemple de surbrillance",
                 "bullet": "$~puce",
                 "attention": "$~mettre en évidence cette expression"
-            }
+            },
+            "backtotop": "$~Retour en haut de page"
         },
         "tile": {
             "toggle": {
@@ -4524,7 +4590,7 @@
                     "tip": "$~modifier les langues de ce projet et le traduire dans d'autres langues.",
                     "label": "$~traduire"
                 },
-                "primary": "$~définir comme lieu principal de ce projet",
+                "primary": "$~définie comme langue principale de ce projet",
                 "share": {
                     "tip": "$~afficher les options de partage de projet",
                     "label": "$~partager"
@@ -4632,12 +4698,12 @@
         "source": {
             "label": "$~éditeur de programme",
             "empty": [
+                "$~Commençons ! Vous pouvez…",
+                "$~• Ouvrez 📕 et faites-nous glisser 🖱️ vers ce programme.",
                 "$~• Tapez $symbol et choisissez-nous dans le menu.",
-                "$?",
-                "$?",
-                "$?",
-                "$?",
-                "$?"
+                "$~• Tapez-nous avec le ⌨️.",
+                "$~• Parcourez le<galleries@://galleries> pour vous inspirer.",
+                "$~Si vous êtes bloqué,<learn more@://learn> ."
             ],
             "overwritten": "$~J'ai reçu une version plus récente !",
             "confirm": {
@@ -4749,7 +4815,7 @@
             "options": {
                 "locale": {
                     "tip": "$~langue préférée pour la source",
-                    "all": "$~tous"
+                    "all": "$~$count langues"
                 }
             },
             "error": {
@@ -4812,7 +4878,7 @@
             },
             "options": {
                 "locale": "$~choisir la langue de sortie",
-                "default": "$~défaut"
+                "default": "$~$count langues"
             },
             "tour": {
                 "launch": "$~faire le tour de la scène",
@@ -5253,15 +5319,27 @@
                 "explanation": "$~Choisissez vos langues et régions.",
                 "subheader": {
                     "selected": "$~Choisi",
-                    "supported": "$~Disponible",
-                    "help": "$~Aidez-nous à traduire…"
+                    "supported": "$~Disponible"
                 },
                 "button": {
-                    "show": "$~changer de lieu",
-                    "add": "$~ajouter ce lieu",
-                    "remove": "$~supprimer ce paramètre régional",
-                    "replace": "$~remplacer par ces paramètres régionaux",
+                    "show": "$~Choisissez la ou les langues du site web",
+                    "add": "$~utiliser cette langue et les langues actuelles",
+                    "remove": "$~supprimer cette langue",
+                    "replace": "$~utiliser cette langue",
                     "menu": "$~autres langues"
+                },
+                "localizeHelp": "$~Pour contribuer à l'amélioration des traductions dans votre langue, cliquez sur l'icône en forme de crayon ✎ en bas de la page pour activer le mode de localisation et suggérer des améliorations.",
+                "request": {
+                    "header": "$~Vous ne trouvez pas votre langue ?",
+                    "explanation": "$~Choisissez une langue et une région, et nous ouvrirons une issue GitHub pour discuter de son ajout.",
+                    "languageLabel": "$~langue",
+                    "regionLabel": "$~région",
+                    "submit": "$~Demande",
+                    "submitting": "$~Envoi de la requête…",
+                    "success": "$~Discutez de cette demande avec nous sur GitHub !",
+                    "error": "$~Une erreur s'est produite. Veuillez réessayer.",
+                    "alreadySupported": "$~Cette langue et cette région sont déjà prises en charge.",
+                    "requiresLogin": "$~Vous devez être connecté pour demander une langue."
                 }
             },
             "help": {
@@ -6231,9 +6309,9 @@
                     "gallery": "$~Galerie",
                     "moderation": "$~Modération"
                 },
-                "singletonWordsWarning": "$~Certains mots de votre brouillon n'apparaissent qu'une seule fois dans l'ensemble du texte. Êtes-vous certain(e) de leur orthographe correcte et de leur cohérence avec le reste du texte ?",
+                "singletonWordsWarning": "$~Certains mots de votre brouillon n'apparaissent qu'une seule fois dans tout le texte. Êtes-vous certain(e) de leur orthographe correcte et de leur cohérence avec le reste du texte ?",
                 "viewPR": "$~Consulter la demande de fusion",
-                "oneLocaleNote": "$~Chaque contribution concerne une langue à la fois. Ce lot sera soumis sous forme de modifications à $locale. Si vous souhaitez contribuer à une autre langue, veuillez d'abord la changer ; les modifications enregistrées pour chaque langue sont conservées séparément."
+                "oneLocaleNote": "$~Chaque contribution concerne une langue à la fois. Ce lot sera soumis sous forme de modifications à la variable $locale . Si vous souhaitez contribuer à une autre langue, veuillez d'abord la sélectionner ; les modifications enregistrées dans chaque langue sont conservées séparément."
             }
         },
         "edit": {
@@ -6629,7 +6707,10 @@
                     "$~devise"
                 ]
             },
-            "skinTone": "$~teint"
+            "skinTone": "$~teint",
+            "script": "$~scripts",
+            "scriptLabel": "$~filtrer par script",
+            "pickFilter": "$~Choisissez une catégorie ou un script"
         },
         "localize": {
             "header": "$~Localiser",
@@ -6663,11 +6744,11 @@
                     "placeholder": "$~Entrez votre nom..."
                 },
                 "filter": {
-                    "description": "$~Filtrer les chaînes de langue par chemin ou description",
+                    "description": "$~Filtrer les chaînes de traduction par chemin ou description",
                     "placeholder": "$~Filtre..."
                 }
             },
-            "strings": "$~Chaînes de paramètres régionaux",
+            "strings": "$~Chaînes de traduction",
             "emotion": "Choose an emotion",
             "invalidName": "$~Nom de jeu de mots non valide",
             "reference": "$~Référence anglaise",
@@ -6688,6 +6769,11 @@
             "previous": "$~étape précédente",
             "next": "$~prochaine étape",
             "offscreen": "$~Cette partie de l'interface n'est actuellement pas visible à l'écran."
+        },
+        "connection": {
+            "offline": "$~Vous êtes hors ligne. Certaines fonctionnalités ne seront pas disponibles tant que vous ne serez pas connecté(e).",
+            "unreachable": "$~Impossible d'accéder à la base de données Wordplay. Certaines fonctionnalités seront indisponibles jusqu'au rétablissement de la connexion.",
+            "label": "$~État de la connexion"
         }
     },
     "moderation": {

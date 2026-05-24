@@ -23,6 +23,14 @@ test.each([
     ['"hello"/en"hola"/es', '"hola"/es', [es, en]],
     ['"hola"/es"hello"/en', '"hola"/es', [es, en]],
     ['"hola"/es"hello"/en', '"hello"/en', [en]],
+    // Multilingual selection — issue #430:
+    // A user with an `es` locale prefers the monolingual `/es` translation
+    // even when a multilingual `/es_en` translation is also a match.
+    ['"hola"/es"hola gentleman"/es_en', '"hola"/es', [es]],
+    // When no monolingual translation matches, a multilingual one wins.
+    ['"hola gentleman"/es_en"hello"/en', '"hola gentleman"/es_en', [es]],
+    // A multilingual tag matches via either of its languages.
+    ['"hola gentleman"/es_en', '"hola gentleman"/es_en', [en]],
 ])('%s -> %s', async (code, value, locales: LocaleText[]) => {
     const loc = new Locales(concretize, locales, DefaultLocale);
     expect(evaluateCode(code, [], loc)?.toWordplay(loc)).toBe(value);

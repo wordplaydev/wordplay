@@ -123,7 +123,21 @@ export const TERMINOLOGY_NAMES: readonly string[] = [
 ];
 `;
 
-fs.writeFileSync(OUT_PATH, body);
-console.log(
-    `Wrote ${OUT_PATH} (${entries.length} fields, ${terminologyNames.length} terms)`,
-);
+// Skip the write when the on-disk content already matches. Always-writing
+// touches mtime and can prime feedback loops with file watchers (e.g. a
+// stray nodemon on src/locale that doesn't ignore this generated file would
+// re-trigger create-schemas → write → re-trigger → ... forever, which then
+// floods Vite HMR).
+const existing = fs.existsSync(OUT_PATH)
+    ? fs.readFileSync(OUT_PATH, 'utf8')
+    : undefined;
+if (existing === body) {
+    console.log(
+        `${OUT_PATH} unchanged (${entries.length} fields, ${terminologyNames.length} terms)`,
+    );
+} else {
+    fs.writeFileSync(OUT_PATH, body);
+    console.log(
+        `Wrote ${OUT_PATH} (${entries.length} fields, ${terminologyNames.length} terms)`,
+    );
+}

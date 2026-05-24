@@ -73,6 +73,7 @@ type NodeTexts = {
         Conflicts<{
             UnknownLanguage: ConflictText;
             MissingLanguage: ConflictText;
+            DuplicateLanguage: ConflictText<['code']>;
         }>;
     /**
      * A name, e.g., `hi`.

@@ -1,0 +1,13 @@
+Batiin ang isang madlang multilingual
+
+Isang  @Phrase  Ipinapakita ng tamang pagsasalin sa bawat manonood batay sa mga wikang kanilang pinili. Kung ang iyong mga manonood ay nagsasalita ng Espanyol, maaari mo silang kausapin sa Espanyol; kung nagsasalita sila ng parehong Espanyol at Ingles — Espanyol! — maaari mong paghaluin.
+
+Magbigay ng  @TextLiteral  ilang mga salin, kabilang ang isang multilingual, at pinipili ng Wordplay ang pinakaangkop para sa bawat manonood:
+
+\Phrase("kumusta"/es"kumusta"/en"kumusta ginoo"/es_en)\
+
+Isang manonood na ang mas gustong wika ay Espanyol lamang ang makakakita /kumusta/Ang isang manonood na mas gusto lang ang Ingles ay nakakakita /kumusta/Ang isang manonood na mas gusto ang parehong Espanyol at Ingles ay makakakita /kumusta ginoo/ — ang bersyong Espanyol.
+
+Mas pinapaboran ng paglalaro ng mga salita ang pinaka-espesipikong tugma, kaya ang isang pagsasalin na iisa ang wika ay laging nananalo kaysa sa isang multilingual kapag maaaring pareho itong mailapat.
+
+styling-text

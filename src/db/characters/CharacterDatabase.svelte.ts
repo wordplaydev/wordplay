@@ -157,9 +157,11 @@ export class CharactersDatabase {
         }
 
         try {
-            await setDoc(
-                doc(firestore, CharactersCollection, character.id),
-                character,
+            await this.db.track(
+                setDoc(
+                    doc(firestore, CharactersCollection, character.id),
+                    character,
+                ),
             );
         } catch (err) {
             console.error(err);
@@ -283,9 +285,15 @@ export class CharactersDatabase {
             await Promise.all(
                 Array.from(this.unsaved.values()).map((character) => {
                     if (firestore)
-                        return setDoc(
-                            doc(firestore, CharactersCollection, character.id),
-                            character,
+                        return this.db.track(
+                            setDoc(
+                                doc(
+                                    firestore,
+                                    CharactersCollection,
+                                    character.id,
+                                ),
+                                character,
+                            ),
                         );
                     return undefined;
                 }),
@@ -414,7 +422,9 @@ export class CharactersDatabase {
         if (user.uid === char.owner) {
             if (firestore === undefined) return;
             try {
-                await deleteDoc(doc(firestore, CharactersCollection, id));
+                await this.db.track(
+                    deleteDoc(doc(firestore, CharactersCollection, id)),
+                );
                 this.deleteCharacterLocally(char);
             } catch (err) {
                 console.error(err);

@@ -120,7 +120,7 @@
         "Base": "$~batayang numero",
         "Boolean": "$~boolean",
         "Name": "$~pangalan",
-        "Locale": "$~lokal",
+        "Locale": "$~wika",
         "Unknown": "$~hindi alam",
         "End": "$~katapusan",
         "Highlight": "$~naka-highlight na halimbawa",
@@ -131,7 +131,8 @@
         "GurmukhiNumeral": "$~numerong gurmukhi",
         "KannadaNumeral": "$~numeral na Kannada",
         "TamilNumeral": "$~numeral na Tamil",
-        "TeluguNumeral": "$~numeral na Telugu"
+        "TeluguNumeral": "$~numeral na Telugu",
+        "LanguageJoin": "$~tagapagdugtong ng wika"
     },
     "node": {
         "Dimension": {
@@ -196,16 +197,20 @@
             "description": "$~mga pangalan ng tag at teksto gamit ang isang wika",
             "emotion": "eager",
             "doc": [
-                "$~Isa akong language tag at nakikipagtulungan ako sa @Name at @Doc!",
-                "$~Magaling talaga akong gawing *kristal na malinaw* kung anong wika ang ginagamit sa pagsulat ng isang bagay.",
-                "$~Iyan ang ginagawa ko. Kaunting guhit lang, at ilang letra, at walang malilito kung anong wika ang ginagamit ng isang teksto.",
-                "$~Halimbawa, sabihin nating gusto mong sabihin ang $name ko, pero linawin mo na nasa Ingles ako:",
-                "$~\\\"Wika\"/tl\\",
-                "$~O, ipagpalagay na gusto mong gawin ito para sa isang @Name.",
-                "$~\\sound/tl: 'meow'\\",
-                "$~O kahit si @Doc!",
-                "$~\\¶Onomatopoeia¶/fil\nsound/en: \"meow\"\\",
-                "$~Maraming <2-letter language codes@https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes> na naiintindihan ko. Kung hindi mo ginagamit ang isa sa mga iyan, ipapaalam ko sa iyo."
+                "$~Isa akong language tag at nakikipagtulungan ako sa @Name at @Doc !",
+                "$~Magaling talaga akong gawing *kristal-linaw* kung anong wika ang ginagamit sa pagsulat ng isang bagay. Kaunting guhit at ilang letra lang, at walang malilito kung anong wika ang ginagamit sa isang teksto.",
+                "$~Halimbawa, kung gusto mong sabihin ang \"Wika\" ngunit linawin na ito ay nasa Ingles:",
+                "$~\\\"Language\"/en\\",
+                "$~Magagawa mo ito para sa isang @Name :",
+                "$~\\sound/en: 'meow'\\",
+                "$~...o isang @Doc :",
+                "$~\\¶Onomatopoeia¶/en\nsound/en: \"meow\"\\",
+                "$~Minsan ang teksto ay hindi lang iisang wika — ito ay isang *halo*. Tulad ng Spanglish, kung saan pinagsasama ang Espanyol at Ingles. Para sa mga iyon, ilista ang bawat wika na may salungguhit sa pagitan ng mga ito. Ang una ay ang *pangunahin* — iyon ang ginagamit ko kapag kailangan kong pumili (halimbawa, para piliin kung aling mga panipi ang gagamitin).",
+                "$~\\\"Hola gentleman!\"/es_en\\",
+                "$~\\¶A bilingual greeting¶/es_en\nhello/es_en: \"Hola gentleman!\"\\",
+                "$~Maaari ka ring magdagdag ng isang rehiyon, pagkatapos ng isang gitling, tulad ng sa isang wika lamang:",
+                "$~\\\"Hola gentleman!\"/es_en-MX\\",
+                "$~Walang limitasyon sa kung ilang wika ang maaari mong ilista — huwag mo lang ulitin ang parehong wika nang dalawang beses; ipapaalam ko sa iyo kung gagawin mo. Maraming <2-letter language codes@https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes> na naiintindihan ko. Kung hindi mo ginagamit ang isa sa mga iyon, ipapaalam ko rin sa iyo."
             ],
             "conflict": {
                 "UnknownLanguage": {
@@ -215,6 +220,10 @@
                 "MissingLanguage": {
                     "name": "$~nawawalangwika",
                     "explanation": "$~May kulang akong wika. Maaari ka bang magdagdag ng isa?"
+                },
+                "DuplicateLanguage": {
+                    "name": "$~doblengwika",
+                    "explanation": "$~Ginamit mo nang dalawang beses ang wikang ' $code '. Ang mga tag na may halo-halong wika ay dapat maglista ng bawat wika nang isang beses lamang."
                 }
             }
         },
@@ -374,8 +383,8 @@
             ],
             "conflict": {
                 "UnsupportedFontFormat": {
-                    "name": "$?",
-                    "explanation": "$?"
+                    "name": "$~hindisinusuportahangformatngfont",
+                    "explanation": "$~Hindi marunong maging $face ang kaibigan kong si * $format * ."
                 }
             }
         },
@@ -906,8 +915,8 @@
             }
         },
         "IsLocale": {
-            "name": "$~aylokal",
-            "description": "$~ibalik ang true kung napili ang locale",
+            "name": "$~aywika",
+            "description": "$~ibalik ang true kung ang wika ay napili",
             "emotion": "kind",
             "doc": [
                 "$~Tutulungan kitang tingnan kung ang audience ay pumili ng isang partikular na wika o rehiyon:",
@@ -1318,7 +1327,7 @@
                 "texts": "$~teksto"
             },
             "doc": "$~Kinakatawan ko ang isa o higit pang partikular na @Translation ng teksto. Tingnan ang @Text para matuto nang higit pa tungkol sa kung ano ang magagawa ko!",
-            "start": "$~Gumawa tayo ng teksto sa kasalukuyang lokal"
+            "start": "$~Gumawa tayo ng teksto sa kasalukuyang wika"
         },
         "Translation": {
             "name": "$~pagsasalin",
@@ -1362,7 +1371,7 @@
             "description": "$~lumikha ng naka-format na teksto $text",
             "emotion": "serious",
             "doc": "$~Kinakatawan ko ang maraming iba't ibang @FormattedTranslation ng naka-format na teksto. Kapag sinusuri ko, pipiliin ko ang pinakamahusay na tugma batay sa mga napiling wika ng madla.",
-            "start": "$~Gumawa tayo ng teksto sa kasalukuyang lokal"
+            "start": "$~Gumawa tayo ng teksto sa kasalukuyang wika"
         },
         "FormattedTranslation": {
             "name": "$~naka-formatnapagsasalin",
@@ -3258,6 +3267,59 @@
             "down": {
                 "names": "$~pababa",
                 "doc": "$~KUNG @None, ang key down ay bubuo ng mga input. Kung \\⊤\\, ang mga down input lamang ang ibibigay, at kung \\⊥\\, ang mga release input lamang ang ibibigay."
+            },
+            "keys": {
+                "Shift": ["$~Paglipat"],
+                "Control": ["$~Kontrol", "$~Ctrl"],
+                "Alt": ["$~Alt", "$~Opsyon"],
+                "Meta": ["$~Meta", "$~Utos", "$~Mga Bintana"],
+                "AltGraph": ["$~AltGraph"],
+                "CapsLock": ["$~CapsLock", "$~Caps Lock"],
+                "NumLock": ["$~NumLock", "$~Num Lock"],
+                "ScrollLock": ["$~ScrollLock", "$~I-scroll Lock"],
+                "Enter": ["$~Pumasok", "$~Pagbabalik"],
+                "Tab": ["$~Tab"],
+                " ": ["$~Kalawakan", "$~Spacebar", "$~"],
+                "ArrowUp": ["$~Palaso Pataas", "$~Pataas"],
+                "ArrowDown": ["$~PalasoPababa", "$~Pababa"],
+                "ArrowLeft": ["$~Palaso Kaliwa", "$~Kaliwa"],
+                "ArrowRight": ["$~PalasoKanan", "$~Kanan"],
+                "Home": ["$~Tahanan"],
+                "End": ["$~Wakas"],
+                "PageUp": ["$~PageUp", "$~Pahina Pataas"],
+                "PageDown": ["$~PahinaDown", "$~Pahina Pababa"],
+                "Backspace": ["$~Backspace"],
+                "Delete": ["$~Burahin", "$~Del"],
+                "Insert": ["$~Ipasok", "$~Ins"],
+                "Clear": ["$~I-clear"],
+                "Cut": ["$~Gupitin"],
+                "Copy": ["$~Kopyahin"],
+                "Paste": ["$~I-paste"],
+                "Undo": ["$~I-undo"],
+                "Redo": ["$~Gawing muli"],
+                "Escape": ["$~Pagtakas", "$~Esc"],
+                "Pause": ["$~Ihinto"],
+                "ContextMenu": ["$~Menu ng Konteksto", "$~Menu"],
+                "Help": ["$~Tulong"],
+                "Convert": ["$~I-convert"],
+                "NonConvert": ["$~Hindi Nagko-convert"],
+                "KanaMode": ["$~KanaMode"],
+                "HangulMode": ["$~HangulMode"],
+                "Hiragana": ["$~Hiragana"],
+                "Katakana": ["$~Katakana"],
+                "Romaji": ["$~Romaji"],
+                "F1": ["$~F1"],
+                "F2": ["$~F2"],
+                "F3": ["$~F3"],
+                "F4": ["$~F4"],
+                "F5": ["$~F5"],
+                "F6": ["$~F6"],
+                "F7": ["$~F7"],
+                "F8": ["$~F8"],
+                "F9": ["$~F9"],
+                "F10": ["$~F10"],
+                "F11": ["$~F11"],
+                "F12": ["$~F12"]
             }
         },
         "Time": {
@@ -3315,12 +3377,12 @@
             "doc": [
                 "$~/kumusta!/",
                 "$~@FunctionDefinition nandito na - handang makinig!",
-                "$~Kinikilala ng stream na ito ang pagsasalita at kino-convert ito sa @Text. Ginagamit nito ang speech recognition ng iyong browser para pakinggan ang sinasabi mo at gawing mga salita (ang astig nito no?!).",
-                "$~\\Pagsasalita()\\",
+                "$~Kinikilala ng stream na ito ang pagsasalita at kino-convert ito sa @Text . Ginagamit nito ang speech recognition ng iyong browser para pakinggan ang sinasabi mo at gawing mga salita (ang astig nito no?!).",
+                "$~\\Speech()\\",
                 "$~Perpekto ito para sa mga nakakapagsalita ng isang wika ngunit natututo pa ring bumasa o sumulat nito (at higit pa)...",
                 "$~Maaari kang tumukoy ng isang language code upang makilala ang pagsasalita sa isang partikular na wika:",
-                "$~\\Pagsasalita(wika: 'es-MX')\\",
-                "$~Kung walang tinukoy na wika, ito ay magiging default sa iyong ginustong lokal.",
+                "$~\\Speech(language: 'es-MX')\\",
+                "$~Kung walang tinukoy na wika, ito ay magiging default sa iyong ginustong wika.",
                 "$~Ang pagkilala sa pagsasalita ay nangangailangan ng access sa mikropono at koneksyon sa Internet (pakiusap bigyan ng access!). Gayundin, maaaring may mga limitasyon sa paggamit, kaya huwag itong iwanang naka-on nang masyadong matagal (hindi pwede)!"
             ],
             "names": ["$~🎙️", "$~Pagsasalita", "$~Boses"],
@@ -3330,7 +3392,7 @@
             },
             "language": {
                 "names": ["$~wika", "$~lang"],
-                "doc": "$~Isang BCP 47 language code (hal., 'en-US'). Kung hindi ito sinusuportahan ng speech recognition ng iyong browser, makakatanggap ka ng error. Ito ay naka-default sa iyong ginustong locale."
+                "doc": "$~Isang BCP 47 language code (hal., 'en-US'). Kung hindi ito sinusuportahan ng speech recognition ng iyong browser, makakatanggap ka ng error. Ito ay gagamit ng default na wika na gusto mo."
             },
             "limit": {
                 "names": ["$~limitasyon", "$~mgasalita"],
@@ -3727,8 +3789,8 @@
                     "$~Isang pangalang ibinigay mo sa akin! Malaking tulong ito sa maraming bagay.",
                     "$~Una, kung mayroon akong pangalan, gagamitin ko ito para ilarawan ang aking sarili sa mga deskripsyon ng screen reader.",
                     "$~Pangalawa, kapag nag-a-animate, maaaring mayroon kang maraming iba't ibang ekspresyon na dapat ay kumakatawan sa parehong nilalaman sa entablado; bigyan sila ng parehong pangalan at mag-a-animate sila bilang isa.",
-                    "$~Sa wakas, nakakatulong ako sa @Choice: ang mga pangalang ibinibigay mo sa akin ay lumalabas sa stream na iyon.",
-                    "$~Maaari mo akong bigyan ng maraming iba't ibang pangalan, bawat isa ay nasa iba't ibang wika, kung makakatulong ito. Palagi kong gagamitin ang pangalan sa unang napiling lokasyon."
+                    "$~Sa wakas, nakakatulong ako sa @Choice : ang mga pangalang ibinibigay mo sa akin ay lumalabas sa stream na iyon.",
+                    "$~Maaari ninyo akong bigyan ng maraming iba't ibang pangalan, bawat isa ay nasa iba't ibang wika, kung makakatulong ito. Palagi kong gagamitin ang pangalan sa unang napiling wika."
                 ],
                 "names": "$~pangalan"
             },
@@ -3943,10 +4005,10 @@
         },
         "Say": {
             "doc": [
-                "$~Kumusta! Ako si @Say, at nagsasalita ako ng teksto nang malakas sa halip na ipakita ito sa @Stage.",
+                "$~Kumusta! Ako @Say , at nagsasalita ako ng teksto nang malakas sa halip na ipakita ito sa @Stage .",
                 "$~Bigyan mo lang ako ng sasabihin, at sasabihin ko ito sa tuwing mag-e-evaluate ang programa mo:",
-                "$~\\Sabihin('blah blah blah')\\",
-                "$~Gagamitin ko ang @Language ng @TextLiteral kung mayroon ito, kung hindi ay gagamitin ko ang napiling locale.",
+                "$~\\Say('blah blah blah')\\",
+                "$~Gagamitin ko ang @Language ng @TextLiteral kung mayroon ito, kung hindi ay gagamitin ko ang napiling wika.",
                 "$~Maaari kang pumili ng boses sa mga setting."
             ],
             "names": ["$~🔊", "$~Sabihin"],
@@ -4445,7 +4507,7 @@
         "font": {
             "app": "$~Noto Sans",
             "code": "$~Noto Sans Mono",
-            "missing": "$?"
+            "missing": "$~hindi"
         },
         "phrases": {
             "welcome": "$~kumusta"
@@ -4475,7 +4537,8 @@
                 "highlight": "$~i-highlight ang halimbawa",
                 "bullet": "$~bala",
                 "attention": "$~i-highlight ang ekspresyong ito"
-            }
+            },
+            "backtotop": "$~balik sa itaas"
         },
         "tile": {
             "toggle": {
@@ -4537,7 +4600,7 @@
                     "tip": "$~i-edit ang mga wika ng proyektong ito at isalin ito sa ibang mga wika.",
                     "label": "$~isalin"
                 },
-                "primary": "$~itinakda bilang pangunahing lokasyon ng proyektong ito"
+                "primary": "$~itinakda bilang pangunahing wika ng proyektong ito"
             },
             "field": {
                 "name": {
@@ -4893,12 +4956,12 @@
             "label": "$~editor ng programa",
             "title": "$~kodigo",
             "empty": [
+                "$~Simulan na natin! Kaya mo na...",
+                "$~• Buksan ang 📕 at i-drag 🖱️ kami papunta sa programang ito.",
                 "$~• I-type ang $symbol at piliin ang \"us\" mula sa menu.",
-                "$?",
-                "$?",
-                "$?",
-                "$?",
-                "$?"
+                "$~• I-type kami gamit ang ⌨️.",
+                "$~• Mag-browse sa<galleries@://galleries> para sa inspirasyon.",
+                "$~Kung ikaw ay natigil,<learn more@://learn> ."
             ],
             "overwritten": "$~Binago ang proyekto sa ibang lugar",
             "confirm": {
@@ -4924,7 +4987,7 @@
             "options": {
                 "locale": {
                     "tip": "$~mas gustong wika para sa pinagmulan",
-                    "all": "$~lahat"
+                    "all": "$~mga wika $count"
                 }
             },
             "button": {
@@ -5072,7 +5135,7 @@
             },
             "options": {
                 "locale": "$~ginustong wika para sa output",
-                "default": "$~paunang"
+                "default": "$~mga wika $count"
             },
             "tour": {
                 "launch": "$~maglibot sa entablado",
@@ -5539,15 +5602,27 @@
                 "explanation": "$~Pumili ng mga wika para sa interface, tutorial, at dokumentasyon.",
                 "subheader": {
                     "selected": "$~Napili",
-                    "supported": "$~Magagamit",
-                    "help": "$~Tulungan kaming magsalin..."
+                    "supported": "$~Magagamit"
                 },
                 "button": {
-                    "show": "$~baguhin ang lokasyon",
-                    "replace": "$~gamitin ang lokal na ito",
-                    "add": "$~gamitin ang lokal na ito at ang mga kasalukuyan",
-                    "remove": "$~alisin ang lokasyong ito",
+                    "show": "$~pumili ng wika/mga wika para sa website",
+                    "replace": "$~gamitin ang wikang ito",
+                    "add": "$~gamitin ang wikang ito at ang mga kasalukuyan",
+                    "remove": "$~alisin ang wikang ito",
                     "menu": "$~ibang mga wika"
+                },
+                "localizeHelp": "$~/Para makatulong na mapabuti ang mga pagsasalin sa iyong wika, i-click ang ✎ icon na lapis sa *ibaba ng pahina* para i-on ang localization mode at magmungkahi ng mga pagpapabuti./",
+                "request": {
+                    "header": "$~Hindi mo makita ang wika mo?",
+                    "explanation": "$~Pumili ng wika at rehiyon at magbubukas tayo ng isyu sa GitHub para talakayin ang pagdaragdag nito.",
+                    "languageLabel": "$~wika",
+                    "regionLabel": "$~rehiyon",
+                    "submit": "$~Kahilingan",
+                    "submitting": "$~Nagpapadala ng kahilingan…",
+                    "success": "$~Talakayin sa amin ang kahilingang ito sa GitHub!",
+                    "error": "$~May nangyaring mali. Pakisubukang muli.",
+                    "alreadySupported": "$~Sinusuportahan na ang wikang iyon at rehiyon.",
+                    "requiresLogin": "$~Dapat kang naka-sign in para humiling ng wika."
                 }
             },
             "help": {
@@ -5817,14 +5892,14 @@
                     "placeholder": "$~Ilagay ang pangalan..."
                 },
                 "filter": {
-                    "description": "$~Salain ang mga locale string ayon sa path o description",
+                    "description": "$~Salain ang mga string ng pagsasalin ayon sa path o paglalarawan",
                     "placeholder": "$~Salain..."
                 }
             },
-            "strings": "$~Mga string ng lokal",
+            "strings": "$~Mga string ng pagsasalin",
             "emotion": "Choose an emotion",
             "invalidName": "$~Hindi wastong pangalan ng Wordplay",
-            "invalidConceptLinks": "$~Hindi mareresolba ang mga concept link na ito sa kasalukuyang locale. Mali ba ang spelling mo, o sinasadya mo itong alisin?",
+            "invalidConceptLinks": "$~Hindi malutas ang mga konseptong ito sa kasalukuyang wika. Mali ba ang baybay mo, o sinasadya mo itong alisin?",
             "inputs": {
                 "header": "$~Mga input na tinatanggap ng template na ito",
                 "usedTip": "$~I-click para maglagay ng isa pang reperensya sa cursor",
@@ -6617,9 +6692,9 @@
                     "gallery": "$~Galeriya",
                     "moderation": "$~Moderasyon"
                 },
-                "singletonWordsWarning": "$~Ang ilang salita sa iyong draft ay lumilitaw nang isang beses lamang sa buong lokal. Sigurado ka bang tama ang baybay ng mga ito at naaayon sa ibang teksto?",
+                "singletonWordsWarning": "$~Ang ilang salita sa iyong draft ay lumilitaw nang isang beses lamang sa buong wika. Sigurado ka bang tama ang baybay ng mga ito at naaayon sa ibang teksto?",
                 "viewPR": "$~Tingnan ang kahilingan sa paghila",
-                "oneLocaleNote": "$~Ang bawat pagsusumite ay sumasaklaw sa isang lokal sa bawat pagkakataon. Ang batch na ito ay isusumite bilang mga pag-edit sa $locale. Kung gusto mong mag-ambag sa ibang lokal, lumipat muna ng mga lokal; ang mga pag-edit na iyong sine-save sa ilalim ng bawat lokal ay itinatago nang hiwalay."
+                "oneLocaleNote": "$~Ang bawat pagsusumite ay sumasaklaw sa isang wika sa bawat pagkakataon. Ang batch na ito ay isusumite bilang mga pag-edit sa $locale . Kung gusto mong mag-ambag sa ibang wika, magpalit muna ng wika; ang mga pag-edit na iyong sine-save sa ilalim ng bawat wika ay itatago nang hiwalay."
             }
         },
         "edit": {
@@ -6687,7 +6762,10 @@
                     "$~mga numero ng letra",
                     "$~pera"
                 ]
-            }
+            },
+            "script": "$~mga iskrip",
+            "scriptLabel": "$~i-filter ayon sa script",
+            "pickFilter": "$~Pumili ng kategorya o script"
         },
         "tour": {
             "label": "$~paglilibot",
@@ -6695,6 +6773,11 @@
             "previous": "$~nakaraang hakbang",
             "next": "$~susunod na hakbang",
             "offscreen": "$~Ang bahaging ito ng interface ay hindi nakikita sa screen sa kasalukuyan."
+        },
+        "connection": {
+            "offline": "$~Naka-offline ka. Hindi gagana ang ilang feature hangga't hindi ka online.",
+            "unreachable": "$~Hindi namin makontak ang database ng Wordplay. Hindi gagana ang ilang feature hangga't hindi bumabalik ang koneksyon.",
+            "label": "$~Katayuan ng koneksyon"
         }
     },
     "moderation": {

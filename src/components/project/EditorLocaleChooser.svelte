@@ -1,6 +1,7 @@
 <script lang="ts">
     import LocaleName from '@components/settings/LocaleName.svelte';
     import Options from '@components/widgets/Options.svelte';
+    import { locales } from '@db/Database';
     import type Locale from '@locale/Locale';
     import { localeToString, stringToLocale } from '@locale/Locale';
     import { getLanguageLocalDescription } from '@locale/LocaleText';
@@ -14,6 +15,17 @@
         options: Locale[];
         change: (locale: Locale | null) => void;
     } = $props();
+
+    /** "$count languages" with the count concretized. Shown as the
+     *  placeholder/no-filter option so users see how many languages are
+     *  currently visible in the editor. */
+    let placeholder = $derived(
+        $locales
+            .concretize((l) => l.ui.source.options.locale.all, {
+                count: options.length,
+            })
+            .toText(),
+    );
 </script>
 
 <Options
@@ -24,7 +36,7 @@
     options={[
         {
             value: undefined,
-            label: (l) => l.ui.source.options.locale.all,
+            label: placeholder,
             locale: null,
         },
         ...options.map((locale) => {

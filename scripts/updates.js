@@ -21,6 +21,26 @@ const datePath = path.join(
     'date.json',
 );
 
+// Splits a bullet body into { text, emoji }.
+// - `<emoji> text` (single extended pictographic grapheme + space) -> emoji entry
+// - otherwise -> plain text (legacy)
+const emojiGrapheme = /^\p{Extended_Pictographic}(\u{FE0F}|\u{200D}\p{Extended_Pictographic})*$/u;
+const segmenter = new Intl.Segmenter(undefined, { granularity: 'grapheme' });
+
+function parseEntry(body) {
+    const [first] = segmenter.segment(body);
+    if (first && emojiGrapheme.test(first.segment)) {
+        const rest = body.slice(first.segment.length);
+        if (rest.startsWith(' ')) {
+            return {
+                text: rest.trim(),
+                emoji: first.segment,
+            };
+        }
+    }
+    return { text: body, emoji: null };
+}
+
 function parseChangelog(changelog) {
     const lines = changelog.split('\n');
     const updates = [];
@@ -52,7 +72,7 @@ function parseChangelog(changelog) {
             };
         } else if (currentUpdate && currentType && line.startsWith('- ')) {
             currentUpdate.changes[currentType.toLowerCase()].push(
-                line.substring(2).trim(),
+                parseEntry(line.substring(2).trim()),
             );
         }
     });
@@ -64,16 +84,22 @@ function parseChangelog(changelog) {
     return updates;
 }
 
-console.log('Parsing changelog...');
+export { parseEntry, parseChangelog };
 
-const changelogContent = fs.readFileSync(changelogPath, 'utf-8');
-const updates = parseChangelog(changelogContent);
-fs.writeFileSync(outputPath, JSON.stringify(updates, null, 2), 'utf-8');
+// Only run the script body when executed directly (e.g. via `node scripts/updates.js`),
+// not when imported by tests.
+if (import.meta.url === `file://${process.argv[1]}`) {
+    console.log('Parsing changelog...');
 
-fs.writeFileSync(
-    datePath,
-    JSON.stringify({ date: updates[0]?.date ?? null }, null, 2),
-    'utf-8',
-);
+    const changelogContent = fs.readFileSync(changelogPath, 'utf-8');
+    const updates = parseChangelog(changelogContent);
+    fs.writeFileSync(outputPath, JSON.stringify(updates, null, 2), 'utf-8');
 
-console.log(`Saved JSON to ${outputPath}`);
+    fs.writeFileSync(
+        datePath,
+        JSON.stringify({ date: updates[0]?.date ?? null }, null, 2),
+        'utf-8',
+    );
+
+    console.log(`Saved JSON to ${outputPath}`);
+}

@@ -46,6 +46,7 @@ export const Scripts = {
     Armn: { name: 'Հայոց գրեր', direction: 'ltr', layout: 'horizontal-tb' },
     Yiii: { name: 'ꆈꌠꁱꂷ', direction: 'ltr', layout: 'horizontal-tb' },
     Hans: { name: '简化字', direction: 'ltr', layout: 'horizontal-tb' },
+    Hant: { name: '正體字', direction: 'ltr', layout: 'horizontal-tb' },
     Hang: { name: '한글', direction: 'ltr', layout: 'horizontal-tb' },
     Hira: { name: '平仮名', direction: 'ltr', layout: 'horizontal-tb' },
     Kana: { name: '片仮名', direction: 'ltr', layout: 'horizontal-tb' },
@@ -84,6 +85,10 @@ export const Scripts = {
         direction: 'ltr',
         layout: 'horizontal-tb',
     },
+    Beng: { name: 'বাংলা লিপি', direction: 'ltr', layout: 'horizontal-tb' },
+    Tibt: { name: 'བོད་ཡིག', direction: 'ltr', layout: 'horizontal-tb' },
+    Thaa: { name: 'ދިވެހި އަކުރު', direction: 'rtl', layout: 'horizontal-tb' },
+    Orya: { name: 'ଓଡ଼ିଆ ଲିପି', direction: 'ltr', layout: 'horizontal-tb' },
 } satisfies Record<string, ScriptMetadata>;
 
 export type Script = keyof typeof Scripts;

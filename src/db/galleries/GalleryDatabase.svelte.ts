@@ -302,9 +302,11 @@ export default class GalleryDatabase {
     /** Update the given gallery in the cloud. */
     async edit(gallery: Gallery) {
         if (firestore === undefined) return undefined;
-        await setDoc(
-            doc(firestore, GalleriesCollection, gallery.getID()),
-            gallery.data,
+        await this.database.track(
+            setDoc(
+                doc(firestore, GalleriesCollection, gallery.getID()),
+                gallery.data,
+            ),
         );
 
         // Update the gallery store for this gallery.
@@ -354,7 +356,9 @@ export default class GalleryDatabase {
         });
 
         // Delete the gallery document now that the projects are removed.
-        await deleteDoc(doc(firestore, GalleriesCollection, gallery.getID()));
+        await this.database.track(
+            deleteDoc(doc(firestore, GalleriesCollection, gallery.getID())),
+        );
     }
 
     // Add the given project to the given gallery ID, or remove it if the gallery ID is undefined.
@@ -408,7 +412,7 @@ export default class GalleryDatabase {
                 projects: arrayRemove(projectID),
             });
         }
-        await batch.commit();
+        await this.database.track(batch.commit());
 
         // Mark the project history saved since we just persisted it.
         this.database.Projects.getHistory(projectID)?.markSaved();
@@ -456,7 +460,7 @@ export default class GalleryDatabase {
                 { projects: arrayRemove(projectID) },
             );
         }
-        await batch.commit();
+        await this.database.track(batch.commit());
 
         this.database.Projects.getHistory(projectID)?.markSaved();
 
@@ -567,7 +571,7 @@ export default class GalleryDatabase {
             doc(firestore, GalleriesCollection, gallery.getID()),
             galleryUpdate,
         );
-        await batch.commit();
+        await this.database.track(batch.commit());
 
         // Mirror the gallery change in the local cache so the UI updates
         // immediately. Project history caches will refresh via the realtime

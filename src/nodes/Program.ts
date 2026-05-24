@@ -152,15 +152,18 @@ export default class Program extends Expression {
     }
 
     getLocalesUsed(context: Context): Locale[] {
-        // The locales used include any explicit langage tags and locale of binds referred to in the program.
+        // The locales used include any explicit language tags and locales of
+        // binds referred to in the program. For multilingual tags (e.g.
+        // `/es_en`) we surface each individual language AND the multilingual
+        // combination, so language pickers can offer both.
         const locales: Record<string, Locale> = {};
 
         for (const lang of this.nodes(
             (n): n is Language =>
                 n instanceof Language && n.getLanguageText() !== undefined,
         )) {
-            const locale = lang.getLocaleID();
-            if (locale !== undefined) locales[localeToString(locale)] = locale;
+            for (const locale of lang.getPickerLocaleIDs())
+                locales[localeToString(locale)] = locale;
         }
 
         for (const bind of this.nodes(

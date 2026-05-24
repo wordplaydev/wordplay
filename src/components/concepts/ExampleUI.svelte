@@ -239,7 +239,7 @@
                         <Editor
                             source={project.getMain()}
                             {project}
-                            locale={$locales.getLocale()}
+                            locale={null}
                             {evaluator}
                             editable={false}
                             bind:caretSnapshot={currentCaret}

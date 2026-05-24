@@ -128,6 +128,7 @@ async function handleLocale(
     revisedStrings: RevisedString[],
     localeIsNew: boolean,
     globals: Map<string, { locale: string; path: LocalePath }[]>,
+    translatedPaths: Set<string>,
 ) {
     const locale = toLocaleString(localeText);
 
@@ -141,6 +142,7 @@ async function handleLocale(
         OverrideMachineTranslations,
         revisedStrings,
         globals,
+        translatedPaths,
     );
 
     // If the locale was revised, write the results.
@@ -291,10 +293,69 @@ for (const localeText of allLocaleText) {
     }
 }
 
+// Paths whose translation actually landed for at least one sibling this run.
+// After the loop we strip the `$!` Revised marker from the en-US source at
+// these paths so a future run doesn't redundantly re-translate them.
+const translatedPaths = new Set<string>();
+
 // Go through each locale, or the specific one of interest, and verify, repair, and optionally translate it.
 for (const localeText of allLocaleText) {
     log.say(1, `Checking ${toLocaleString(localeText)}`);
-    await handleLocale(localeText, revisedStrings, false, globals);
+    await handleLocale(
+        localeText,
+        revisedStrings,
+        false,
+        globals,
+        translatedPaths,
+    );
+}
+
+// If we translated successfully, drop the `$!` markers from the en-US source
+// at paths that were actually re-translated. The marker's job is "tell the
+// translator to redo this on the next run"; once redone, leaving it behind
+// means the next run would needlessly re-translate the same strings (and
+// the verifier would warn forever about stale "potentially out of date"
+// entries). Paths whose translation failed in every sibling stay marked so
+// the user can re-run later.
+if (TranslationRequested && translatedPaths.size > 0) {
+    const enUSLocale = 'en-US';
+    const enUSPath = getLocalePath(enUSLocale);
+    const enUSText = getLocaleJSON(log, enUSLocale) as LocaleText;
+    let stripped = 0;
+    for (const revisedString of revisedStrings) {
+        if (revisedString.locale !== enUSLocale) continue;
+        if (!translatedPaths.has(revisedString.path.toString())) continue;
+        const value = revisedString.path.resolve(enUSText);
+        if (typeof value === 'string') {
+            if (value.startsWith('$!')) {
+                revisedString.path.repair(enUSText, value.slice('$!'.length));
+                stripped++;
+            }
+        } else if (Array.isArray(value)) {
+            const updated = value.map((entry) =>
+                typeof entry === 'string' && entry.startsWith('$!')
+                    ? entry.slice('$!'.length)
+                    : entry,
+            );
+            if (
+                updated.some((entry, i) => entry !== (value as unknown[])[i])
+            ) {
+                revisedString.path.repair(enUSText, updated);
+                stripped++;
+            }
+        }
+    }
+    if (stripped > 0) {
+        const prettyEnUS = await prettier.format(
+            JSON.stringify(enUSText, null, 4),
+            { ...prettierOptions, parser: 'json' },
+        );
+        fs.writeFileSync(enUSPath, prettyEnUS);
+        log.good(
+            0,
+            `Cleared "$!" Revised markers from ${stripped} en-US strings whose translations propagated to sibling locales.`,
+        );
+    }
 }
 
 // Surface locale keys that no static accessor in `src/` references. These are
@@ -328,5 +389,5 @@ if (
     localeText.regions = [FocalRegion] as RegionCode[];
     localeText['$schema'] = '../../schemas/LocaleText.json';
 
-    handleLocale(localeText, revisedStrings, true, globals);
+    handleLocale(localeText, revisedStrings, true, globals, translatedPaths);
 }

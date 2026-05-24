@@ -127,6 +127,8 @@ type UITexts = {
             /** [plain] The highlight line of code button (👀) */
             attention: string;
         };
+        /** [plain] The back to top link label */
+        backtotop: string;
     };
     /** Controls for the tiled windows in the project */
     tile: {
@@ -314,8 +316,8 @@ type UITexts = {
             locale: {
                 /** [plain] Tooltip for the per-source locale chooser */
                 tip: string;
-                /** [plain] The "all locales" option label */
-                all: string;
+                /** [plain] The "no filter" option in the editor locale chooser, showing how many languages are currently visible in the editor. $count is the number of languages. */
+                all: Template<['count']>;
             };
         };
         cursor: {
@@ -530,8 +532,8 @@ type UITexts = {
         options: {
             /** [plain] The label for the locale chooser in output */
             locale: string;
-            /** [plain] The default locale for the output */
-            default: string;
+            /** [plain] The "no filter" option in the output locale chooser, showing how many languages are available to choose from. $count is the number of languages. */
+            default: Template<['count']>;
         };
         /** Interactive tour explaining the stage tile */
         tour: {
@@ -984,14 +986,14 @@ type UITexts = {
         };
         /** The locale chooser dialog */
         locale: HeaderAndExplanationText & {
+            /** [formatted] Banner at the top of the dialog prompting users to enter localization mode via the pencil icon in the app footer. */
+            localizeHelp: FormattedText;
             /** Subheaders in the local chooser dialog. */
             subheader: {
                 /** [plain] How to label the locales that have been selected */
                 selected: string;
                 /** [plain] How to label the supported locales that have not been selected */
                 supported: string;
-                /** [plain] How to request help with localization */
-                help: string;
             };
             /** Buttons in the locale chooser dialog */
             button: {
@@ -1005,6 +1007,29 @@ type UITexts = {
                 remove: string;
                 /** [plain] Menu button label for "other languages" (landing page) */
                 menu: string;
+            };
+            /** Form to request support for a language/region not yet listed. */
+            request: {
+                /** [plain] Subheader above the request form. */
+                header: string;
+                /** [formatted] Short explanation of what the request form does. */
+                explanation: FormattedText;
+                /** [plain] Placeholder/label for the language dropdown. */
+                languageLabel: string;
+                /** [plain] Placeholder/label for the region dropdown. */
+                regionLabel: string;
+                /** [plain] Submit button label. */
+                submit: string;
+                /** [plain] Status shown while the request is being sent. */
+                submitting: string;
+                /** [plain] Link text shown after a successful request; the link points to the GitHub issue. */
+                success: string;
+                /** [plain] Error message shown when the request fails. */
+                error: string;
+                /** [plain] Error message shown when the combination is already supported. */
+                alreadySupported: string;
+                /** [plain] Error message shown when the user is not signed in. */
+                requiresLogin: string;
             };
         };
         /** The keyboard shortcut reference dialog */
@@ -1090,6 +1115,15 @@ type UITexts = {
         local: string;
         /** [plain] Shown when there was a problem saving */
         unsaved: string;
+    };
+    /** Banner shown when the device is offline or Firebase is unreachable. */
+    connection: {
+        /** [plain] Banner shown when the browser reports no internet connection */
+        offline: string;
+        /** [plain] Banner shown when the device is online but Firebase requests are failing */
+        unreachable: string;
+        /** [plain] ARIA label for the connection banner live region */
+        label: string;
     };
     /** Text for the localization editor */
     localize: {
@@ -1221,6 +1255,12 @@ type UITexts = {
         noCharacters: string;
         /** [plain] Label for the skin tone selector dropdown */
         skinTone: string;
+        /** [plain] Placeholder/no-selection label for the script filter dropdown */
+        script: string;
+        /** [plain] ARIA label for the script filter dropdown */
+        scriptLabel: string;
+        /** [plain] Hint shown in the glyph area when no category and no script is selected */
+        pickFilter: string;
         /** Emoji category labels for the filter */
         groups: ModeText<
             [

@@ -128,10 +128,11 @@
         "Base": "$~angka dasar",
         "Boolean": "$~boolean",
         "Name": "$~nama",
-        "Locale": "$~lokasi",
+        "Locale": "$~bahasa",
         "Unknown": "$~tidak dikenal",
         "End": "$~akhir",
-        "Highlight": "$~contoh yang disorot"
+        "Highlight": "$~contoh yang disorot",
+        "LanguageJoin": "$~penyambung bahasa"
     },
     "node": {
         "Dimension": {
@@ -196,16 +197,20 @@
             "description": "$~beri tag nama dan teks dengan bahasa tertentu",
             "emotion": "eager",
             "doc": [
-                "$~Saya adalah tag bahasa dan saya bekerja dengan @Name dan @Doc!",
-                "$~Saya sangat pandai membuat orang *sangat jelas* bahasa apa yang digunakan dalam tulisan tersebut.",
-                "$~Itulah yang saya lakukan. Hanya sedikit garis miring, dan beberapa huruf, dan tidak akan ada yang bingung tentang bahasa apa yang digunakan dalam suatu teks.",
-                "$~Misalnya, katakanlah Anda ingin mengatakan $name saya, tetapi tetap memperjelas bahwa saya dalam bahasa Inggris:",
-                "$~\\\"Bahasa\"/en\\",
-                "$~Atau, misalkan Anda ingin melakukan ini untuk @Name.",
-                "$~\\suara/en: 'meong'\\",
-                "$~Atau bahkan @Doc!",
-                "$~\\¶Onomatopoeia¶/en suara/en: \"meong\"\\",
-                "$~Ada banyak kode bahasa 2 huruf yang saya pahami. Jika Anda tidak menggunakan salah satunya, saya akan memberi tahu Anda."
+                "$~Saya adalah tag bahasa dan saya bekerja dengan @Name dan @Doc !",
+                "$~Saya sangat pandai membuat sesuatu *sangat jelas* dalam bahasa apa teks itu ditulis. Hanya dengan sedikit garis miring dan beberapa huruf, tidak akan ada yang bingung tentang bahasa apa teks tersebut ditulis.",
+                "$~Contohnya, jika Anda ingin mengatakan \"Bahasa\" tetapi tetap menekankan bahwa itu dalam bahasa Inggris:",
+                "$~\\\"Language\"/en\\",
+                "$~Anda bisa melakukan ini untuk @Name :",
+                "$~\\sound/en: 'meow'\\",
+                "$~…atau @Doc :",
+                "$~\\¶Onomatopoeia¶/en\nsound/en: \"meow\"\\",
+                "$~Terkadang teks bukan hanya satu bahasa — melainkan *campuran*. Seperti Spanglish, di mana bahasa Spanyol dan Inggris bercampur. Untuk itu, cantumkan setiap bahasa dengan garis bawah di antaranya. Yang pertama adalah *utama* — itulah yang saya gunakan ketika saya harus memilih (misalnya, untuk memilih tanda kutip mana yang akan digunakan).",
+                "$~\\\"Hola gentleman!\"/es_en\\",
+                "$~\\¶A bilingual greeting¶/es_en\nhello/es_en: \"Hola gentleman!\"\\",
+                "$~Anda juga dapat menambahkan satu wilayah saja, setelah tanda hubung, sama seperti saat menambahkan satu bahasa:",
+                "$~\\\"Hola gentleman!\"/es_en-MX\\",
+                "$~Tidak ada batasan berapa banyak bahasa yang dapat Anda cantumkan — hanya saja jangan mengulangi bahasa yang sama dua kali; saya akan memberi tahu Anda jika Anda melakukannya. Ada banyak <kode bahasa 2 huruf@https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes> yang saya pahami. Jika Anda tidak menggunakan salah satu dari kode tersebut, saya juga akan memberi tahu Anda."
             ],
             "conflict": {
                 "UnknownLanguage": {
@@ -215,6 +220,10 @@
                 "MissingLanguage": {
                     "name": "$~bahasayanghilang",
                     "explanation": "$~Saya kekurangan satu bahasa. Bisakah Anda menambahkannya?"
+                },
+                "DuplicateLanguage": {
+                    "name": "$~bahasaduplikat",
+                    "explanation": "$~Anda menggunakan bahasa ' $code ' dua kali. Tag campuran bahasa seharusnya hanya mencantumkan setiap bahasa satu kali."
                 }
             }
         },
@@ -374,8 +383,8 @@
             ],
             "conflict": {
                 "UnsupportedFontFormat": {
-                    "name": "$?",
-                    "explanation": "$?"
+                    "name": "$~formatfonttidakdidukung",
+                    "explanation": "$~Temanku * $face * tidak tahu bagaimana menjadi $format ."
                 }
             }
         },
@@ -908,8 +917,8 @@
             }
         },
         "IsLocale": {
-            "name": "$~adalahlokal",
-            "description": "$~Kembalikan nilai true jika lokal dipilih.",
+            "name": "$~adalahbahasa",
+            "description": "$~Kembalikan nilai true jika bahasa telah dipilih.",
             "emotion": "kind",
             "doc": [
                 "$~Saya akan membantu Anda memeriksa apakah audiens telah memilih bahasa atau wilayah tertentu:",
@@ -1320,7 +1329,7 @@
                 "texts": "$~teks"
             },
             "doc": "$~Saya mewakili satu atau lebih @Translation teks tertentu. Lihat @Text untuk mempelajari lebih lanjut tentang apa yang dapat saya lakukan!",
-            "start": "$~Mari kita buat teks dalam bahasa lokal saat ini."
+            "start": "$~Mari kita buat teks dalam bahasa saat ini."
         },
         "Translation": {
             "name": "$~terjemahan",
@@ -1364,7 +1373,7 @@
             "description": "$~buat teks berformat $text",
             "emotion": "serious",
             "doc": "$~Saya mewakili banyak @FormattedTranslation berbeda dari teks yang diformat. Saat mengevaluasi, saya akan memilih yang paling sesuai berdasarkan bahasa yang dipilih oleh audiens.",
-            "start": "$~Mari kita buat teks dalam bahasa lokal saat ini."
+            "start": "$~Mari kita buat teks dalam bahasa saat ini."
         },
         "FormattedTranslation": {
             "name": "$~terjemahanberformat",
@@ -3260,6 +3269,59 @@
             "down": {
                 "names": "$~turun",
                 "doc": "$~Jika @None, maka penekanan tombol akan menghasilkan input. Jika \\⊤\\, maka hanya input penekanan tombol yang diberikan, dan jika \\⊥\\, maka hanya input pelepasan tombol yang diberikan."
+            },
+            "keys": {
+                "Shift": ["$~Menggeser"],
+                "Control": ["$~Kontrol", "$~Ctrl"],
+                "Alt": ["$~Alternatif", "$~Pilihan"],
+                "Meta": ["$~Meta", "$~Memerintah", "$~Windows"],
+                "AltGraph": ["$~AltGraph"],
+                "CapsLock": ["$~CapsLock", "$~Caps Lock"],
+                "NumLock": ["$~Tombol NumLock", "$~Tombol Num Lock"],
+                "ScrollLock": ["$~ScrollLock", "$~Kunci Gulir"],
+                "Enter": ["$~Memasuki", "$~Kembali"],
+                "Tab": ["$~Tab"],
+                " ": ["$~Ruang angkasa", "$~Tombol spasi", "$~"],
+                "ArrowUp": ["$~Panah Atas", "$~Ke atas"],
+                "ArrowDown": ["$~Panah Bawah", "$~Turun"],
+                "ArrowLeft": ["$~Panah Kiri", "$~Kiri"],
+                "ArrowRight": ["$~Panah Kanan", "$~Benar"],
+                "Home": ["$~Rumah"],
+                "End": ["$~Akhir"],
+                "PageUp": ["$~Halaman Atas", "$~Halaman Atas"],
+                "PageDown": ["$~PageDown", "$~Halaman ke Bawah"],
+                "Backspace": ["$~Hapus"],
+                "Delete": ["$~Menghapus", "$~Del"],
+                "Insert": ["$~Menyisipkan", "$~Asuransi"],
+                "Clear": ["$~Jernih"],
+                "Cut": ["$~Memotong"],
+                "Copy": ["$~Menyalin"],
+                "Paste": ["$~Pasta"],
+                "Undo": ["$~Membuka"],
+                "Redo": ["$~Mengulangi"],
+                "Escape": ["$~Melarikan diri", "$~Esc"],
+                "Pause": ["$~Berhenti sebentar"],
+                "ContextMenu": ["$~Menu Konteks", "$~Menu"],
+                "Help": ["$~Membantu"],
+                "Convert": ["$~Mengubah"],
+                "NonConvert": ["$~NonKonversi"],
+                "KanaMode": ["$~KanaMode"],
+                "HangulMode": ["$~HangulMode"],
+                "Hiragana": ["$~Hiragana"],
+                "Katakana": ["$~Katakana"],
+                "Romaji": ["$~Romaji"],
+                "F1": ["$~F1"],
+                "F2": ["$~F2"],
+                "F3": ["$~F3"],
+                "F4": ["$~F4"],
+                "F5": ["$~F5"],
+                "F6": ["$~F6"],
+                "F7": ["$~F7"],
+                "F8": ["$~F8"],
+                "F9": ["$~F9"],
+                "F10": ["$~F10"],
+                "F11": ["$~F11"],
+                "F12": ["$~F12"]
             }
         },
         "Time": {
@@ -3317,12 +3379,12 @@
             "doc": [
                 "$~Halo!",
                 "$~@FunctionDefinition di sini - siap mendengarkan!",
-                "$~Fitur ini mengenali ucapan dan mengubahnya menjadi @Text. Fitur ini menggunakan pengenalan suara browser Anda untuk mendengarkan apa yang Anda ucapkan dan mengubahnya menjadi kata-kata (keren sekali, bukan?!).",
-                "$~\\Pidato()\\",
+                "$~Fitur ini mengenali ucapan dan mengubahnya menjadi @Text . Fitur ini menggunakan pengenalan suara browser Anda untuk mendengarkan apa yang Anda ucapkan dan mengubahnya menjadi kata-kata (keren sekali, bukan?!).",
+                "$~\\Speech()\\",
                 "$~Ini sangat cocok bagi mereka yang bisa berbicara suatu bahasa tetapi masih belajar membaca atau menulis (dan lebih dari itu)...",
                 "$~Anda dapat menentukan kode bahasa untuk mengenali ucapan dalam bahasa tertentu:",
-                "$~\\Ucapan(bahasa: 'es-MX')\\",
-                "$~Jika tidak ada bahasa yang ditentukan, maka akan menggunakan bahasa lokal pilihan Anda secara default.",
+                "$~\\Speech(language: 'es-MX')\\",
+                "$~Jika tidak ada bahasa yang ditentukan, maka akan menggunakan bahasa pilihan Anda secara default.",
                 "$~Pengenalan suara memerlukan akses mikrofon dan koneksi internet (mohon berikan akses!). Selain itu, mungkin ada batasan penggunaan, jadi jangan biarkan menyala terlalu lama (jangan!)"
             ],
             "names": ["$~🎙️", "$~Pidato", "$~Suara"],
@@ -3332,7 +3394,7 @@
             },
             "language": {
                 "names": ["$~bahasa", "$~bahasa"],
-                "doc": "$~Kode bahasa BCP 47 (misalnya, 'en-US'). Jika tidak didukung oleh pengenalan suara peramban Anda, Anda akan mendapatkan kesalahan. Secara default akan menggunakan lokal pilihan Anda."
+                "doc": "$~Kode bahasa BCP 47 (misalnya, 'en-US'). Jika tidak didukung oleh pengenalan suara peramban Anda, Anda akan mendapatkan kesalahan. Secara default akan menggunakan bahasa pilihan Anda."
             },
             "limit": {
                 "names": ["$~membatasi", "$~katakata"],
@@ -3729,8 +3791,8 @@
                     "$~Sebuah nama yang kau berikan padaku! Ini bermanfaat untuk banyak hal.",
                     "$~Pertama, jika saya memiliki nama, saya akan menggunakannya untuk mendeskripsikan diri saya dalam deskripsi pembaca layar.",
                     "$~Kedua, saat membuat animasi, Anda mungkin memiliki beberapa ekspresi berbeda yang seharusnya mewakili konten yang sama di atas panggung; beri nama yang sama pada ekspresi-ekspresi tersebut dan semuanya akan beranimasi sebagai satu kesatuan.",
-                    "$~Terakhir, saya bisa membantu dengan @Choice: nama-nama yang Anda berikan akan muncul di aliran tersebut.",
-                    "$~Anda bisa memberi saya banyak nama berbeda, masing-masing dalam bahasa yang berbeda, jika itu membantu. Saya akan selalu menggunakan nama dalam bahasa lokal pertama yang dipilih."
+                    "$~Terakhir, saya bisa membantu dengan @Choice : nama-nama yang Anda berikan akan muncul di aliran tersebut.",
+                    "$~Anda bisa memberi saya banyak nama berbeda, masing-masing dalam bahasa yang berbeda, jika itu membantu. Saya akan selalu menggunakan nama dalam bahasa pertama yang dipilih."
                 ],
                 "names": "$~nama"
             },
@@ -3945,10 +4007,10 @@
         },
         "Say": {
             "doc": [
-                "$~Hai! Saya @Say, dan saya membacakan teks dengan lantang, bukan menampilkannya di @Stage.",
+                "$~Hai! Saya @Say , dan saya membacakan teks dengan lantang alih-alih menampilkannya di @Stage .",
                 "$~Cukup berikan saya sesuatu untuk dikatakan, dan saya akan mengatakannya setiap kali program Anda dievaluasi:",
-                "$~Katakan ('bla bla bla')",
-                "$~Saya akan menggunakan @Language dari @TextLiteral jika ada, jika tidak, saya akan menggunakan locale yang dipilih.",
+                "$~\\Say('blah blah blah')\\",
+                "$~Saya akan menggunakan @Language dari @TextLiteral jika ada, jika tidak, saya akan menggunakan bahasa yang dipilih.",
                 "$~Anda dapat memilih suara di pengaturan."
             ],
             "names": ["$~🔊", "$~Mengatakan"],
@@ -4447,7 +4509,7 @@
         "font": {
             "app": "$~Noto Sans",
             "code": "$~Noto Sans Mono",
-            "missing": "$?"
+            "missing": "$~TIDAK"
         },
         "phrases": {
             "welcome": "$~Halo"
@@ -4477,7 +4539,8 @@
                 "highlight": "$~contoh sorotan",
                 "bullet": "$~peluru",
                 "attention": "$~sorot ungkapan ini"
-            }
+            },
+            "backtotop": "$~kembali ke atas"
         },
         "tile": {
             "toggle": {
@@ -4540,7 +4603,7 @@
                     "tip": "$~Edit bahasa-bahasa dalam proyek ini dan terjemahkan ke dalam bahasa lain.",
                     "label": "$~menerjemahkan"
                 },
-                "primary": "$~ditetapkan sebagai lokasi utama proyek ini"
+                "primary": "$~ditetapkan sebagai bahasa utama proyek ini"
             },
             "field": {
                 "name": {
@@ -4895,12 +4958,12 @@
             "label": "$~sumber",
             "title": "$~kode",
             "empty": [
+                "$~Mari kita mulai! Anda bisa…",
+                "$~• Buka 📕 dan seret 🖱️ kami ke program ini.",
                 "$~• Ketik $symbol dan pilih kami dari menu.",
-                "$?",
-                "$?",
-                "$?",
-                "$?",
-                "$?"
+                "$~• Ketik kami dengan ⌨️.",
+                "$~• Jelajahi<galleries@://galleries> untuk inspirasi.",
+                "$~Jika Anda mengalami kesulitan,<learn more@://learn> ."
             ],
             "overwritten": "$~Proyek direvisi di tempat lain",
             "confirm": {
@@ -4926,7 +4989,7 @@
             "options": {
                 "locale": {
                     "tip": "$~bahasa yang disukai untuk sumber",
-                    "all": "$~semua"
+                    "all": "$~$count bahasa"
                 }
             },
             "button": {
@@ -5074,7 +5137,7 @@
             },
             "options": {
                 "locale": "$~bahasa pilihan untuk output",
-                "default": "$~bawaan"
+                "default": "$~$count bahasa"
             },
             "tour": {
                 "launch": "$~ikuti tur panggung",
@@ -5548,15 +5611,27 @@
                 "explanation": "$~Pilih bahasa untuk antarmuka, tutorial, dan dokumentasi.",
                 "subheader": {
                     "selected": "$~Terpilih",
-                    "supported": "$~Tersedia",
-                    "help": "$~Bantu kami menerjemahkan…"
+                    "supported": "$~Tersedia"
                 },
                 "button": {
-                    "show": "$~ubah lokal",
-                    "replace": "$~gunakan lokal ini",
-                    "add": "$~gunakan lokal ini dan lokal yang saat ini digunakan",
-                    "remove": "$~hapus lokal ini",
+                    "show": "$~Pilih bahasa untuk situs web",
+                    "replace": "$~gunakan bahasa ini",
+                    "add": "$~gunakan bahasa ini dan bahasa-bahasa yang ada saat ini",
+                    "remove": "$~hapus bahasa ini",
                     "menu": "$~bahasa lain"
+                },
+                "localizeHelp": "$~Untuk membantu meningkatkan terjemahan dalam bahasa Anda, klik ikon pensil ✎ di *bagian bawah halaman* untuk mengaktifkan mode lokalisasi dan menyarankan perbaikan.",
+                "request": {
+                    "header": "$~Bahasa Anda tidak tersedia?",
+                    "explanation": "$~Pilih bahasa dan wilayah, lalu kami akan membuka issue di GitHub untuk membahas penambahannya.",
+                    "languageLabel": "$~bahasa",
+                    "regionLabel": "$~wilayah",
+                    "submit": "$~Meminta",
+                    "submitting": "$~Mengirim permintaan…",
+                    "success": "$~Diskusikan permintaan ini dengan kami di GitHub!",
+                    "error": "$~Terjadi kesalahan. Silakan coba lagi.",
+                    "alreadySupported": "$~Bahasa dan wilayah tersebut sudah didukung.",
+                    "requiresLogin": "$~Anda harus masuk terlebih dahulu untuk meminta bahasa."
                 }
             },
             "help": {
@@ -5826,7 +5901,7 @@
                     "placeholder": "$~Masukkan nama..."
                 },
                 "filter": {
-                    "description": "$~Saring string lokal berdasarkan jalur atau deskripsi",
+                    "description": "$~Saring string terjemahan berdasarkan jalur atau deskripsi.",
                     "placeholder": "$~Menyaring..."
                 }
             },
@@ -5839,10 +5914,10 @@
                 "unknown": "$~Referensi-referensi ini tidak sesuai dengan input atau terminologi yang dideklarasikan, sehingga tidak akan menggantikan:",
                 "submitBlocked": "$~Periksa kembali setiap input sebelum mengirimkan."
             },
-            "strings": "$~String lokal",
+            "strings": "$~String terjemahan",
             "emotion": "Choose an emotion",
             "invalidName": "$~Bukan nama Wordplay yang valid",
-            "invalidConceptLinks": "$~Tautan konsep ini tidak berfungsi di lokal saat ini. Apakah Anda salah mengeja salah satunya, atau sengaja menghapusnya?"
+            "invalidConceptLinks": "$~Tautan konsep ini tidak berfungsi dalam bahasa saat ini. Apakah Anda salah mengeja salah satunya, atau sengaja menghapusnya?"
         },
         "page": {
             "unknown": {
@@ -5913,7 +5988,7 @@
                 "workspaceHeader": "$~Teks untuk ditulis atau diulas",
                 "submitHeader": "$~Kirim",
                 "submitPrompt": "$~Jika Anda sudah siap untuk mengajukan serangkaian perubahan ini, Anda dapat mengirimkannya di bawah ini.",
-                "oneLocaleNote": "$~Setiap pengajuan mencakup satu lokal pada satu waktu. Kumpulan ini akan dikirimkan sebagai suntingan ke $locale . Jika Anda ingin berkontribusi pada lokal yang berbeda, ganti lokal terlebih dahulu; suntingan yang Anda simpan di bawah setiap lokal akan disimpan secara terpisah.",
+                "oneLocaleNote": "$~Setiap pengajuan mencakup satu bahasa dalam satu waktu. Kumpulan ini akan dikirimkan sebagai suntingan ke $locale . Jika Anda ingin berkontribusi pada bahasa lain, ganti bahasa terlebih dahulu; suntingan yang Anda simpan di bawah setiap bahasa akan disimpan secara terpisah.",
                 "bundleSummary": "$~Perubahan dalam batch ini",
                 "editEntry": "$~Kembali untuk mengedit teks ini",
                 "revertEntry": "$~Abaikan suntingan ini dari kumpulan suntingan.",
@@ -5926,7 +6001,7 @@
                 "notSpamLabel": "$~Saya berjanji bahwa suntingan ini bukan spam.",
                 "notSpamNote": "$~Wordplay adalah proyek nirlaba yang dipimpin oleh para sukarelawan.",
                 "requireLogin": "$~Anda harus masuk terlebih dahulu untuk memberikan saran lokalisasi.",
-                "singletonWordsWarning": "$~Beberapa kata dalam draf Anda hanya muncul sekali di seluruh wilayah. Apakah Anda yakin kata-kata tersebut dieja dengan benar dan konsisten dengan teks lainnya?",
+                "singletonWordsWarning": "$~Beberapa kata dalam draf Anda hanya muncul sekali di seluruh teks. Apakah Anda yakin ejaannya sudah benar dan konsisten dengan teks lainnya?",
                 "submit": {
                     "description": "$~Kirimkan kumpulan suntingan ini",
                     "prompt": "$~Kirim"
@@ -6696,7 +6771,15 @@
                     "$~angka huruf",
                     "$~mata uang"
                 ]
-            }
+            },
+            "script": "$~naskah",
+            "scriptLabel": "$~filter berdasarkan skrip",
+            "pickFilter": "$~Pilih kategori atau skrip"
+        },
+        "connection": {
+            "offline": "$~Anda sedang offline. Beberapa fitur tidak akan berfungsi sampai Anda online.",
+            "unreachable": "$~Kami tidak dapat mengakses basis data Wordplay. Beberapa fitur tidak akan berfungsi sampai koneksi pulih.",
+            "label": "$~Status koneksi"
         }
     },
     "moderation": {

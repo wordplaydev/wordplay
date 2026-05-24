@@ -128,10 +128,11 @@
         "Base": "$~număr de bază",
         "Boolean": "$~boolean",
         "Name": "$~nume",
-        "Locale": "$~localizare",
+        "Locale": "$~limbă",
         "Unknown": "$~necunoscut",
         "End": "$~Sfârşit",
-        "Highlight": "$~exemplu evidențiat"
+        "Highlight": "$~exemplu evidențiat",
+        "LanguageJoin": "$~unitor de limbi"
     },
     "node": {
         "Dimension": {
@@ -196,16 +197,20 @@
             "description": "$~nume de etichete și text cu o limbă",
             "emotion": "eager",
             "doc": [
-                "$~Sunt o etichetă de limbă și lucrez cu @Name și @Doc!",
-                "$~Mă pricep foarte bine la a preciza *clar-simț* în ce limbă este scris ceva.",
-                "$~Asta fac eu. Doar o mică bară oblică și câteva litere, și nimeni nu va fi vreodată confuz în ce limbă este un anumit text.",
-                "$~De exemplu, să presupunem că vrei să spui $name meu, dar să clarifici că sunt în engleză:",
-                "$~\\\"Limbă\"/ro\\",
-                "$~Sau, să presupunem că ai vrea să faci asta pentru un @Name.",
-                "$~\\sound/ro: 'miau'\\",
-                "$~Sau chiar @Doc!",
-                "$~\\¶Onomatopee¶/en sound/en: \"miau\"\\",
-                "$~Există multe coduri de limbă <de 2 litere@https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes> pe care le înțeleg. Dacă nu folosești unul dintre acestea, te voi anunța."
+                "$~Sunt o etichetă de limbă și lucrez cu @Name și @Doc !",
+                "$~Mă pricep foarte bine la a clarifica *extrem de bine* limba în care este scris ceva. Doar o mică bară oblică și câteva litere, și nimeni nu va fi confuz în ce limbă este un anumit text.",
+                "$~De exemplu, dacă vrei să spui „Limbă”, dar să specifici clar că este în engleză:",
+                "$~\\\"Language\"/en\\",
+                "$~Poți face asta pentru un @Name :",
+                "$~\\sound/en: 'meow'\\",
+                "$~...sau un @Doc :",
+                "$~\\¶Onomatopoeia¶/en\nsound/en: \"meow\"\\",
+                "$~Uneori, textul nu este doar o singură limbă - este un *amestec*. Ca și Spanglish, unde spaniola și engleza se îmbină. Pentru acestea, enumerați fiecare limbă cu un subliniere între ele. Prima este *principala* - aceea pe care o folosesc atunci când trebuie să aleg (de exemplu, pentru a alege ce ghilimele să folosesc).",
+                "$~\\\"Hola gentleman!\"/es_en\\",
+                "$~\\¶A bilingual greeting¶/es_en\nhello/es_en: \"Hola gentleman!\"\\",
+                "$~Poți adăuga și o singură regiune, după o liniuță, la fel ca în cazul unei singure limbi:",
+                "$~\\\"Hola gentleman!\"/es_en-MX\\",
+                "$~Nu există nicio limită la numărul de limbi pe care le poți enumera — doar nu repeta aceeași limbă de două ori; te voi anunța dacă o faci. Există multe <coduri de limbă din 2 litere@https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes> pe care le înțeleg. Dacă nu folosești una dintre acestea, te voi anunța și tu."
             ],
             "conflict": {
                 "UnknownLanguage": {
@@ -215,6 +220,10 @@
                 "MissingLanguage": {
                     "name": "$~limbălipsă",
                     "explanation": "$~Îmi lipsește o limbă. Poți adăuga una?"
+                },
+                "DuplicateLanguage": {
+                    "name": "$~limbajduplicat",
+                    "explanation": "$~Ai folosit codul limbii „ $code ” de două ori. Etichetele pentru limbi mixte ar trebui să listeze fiecare limbă o singură dată."
                 }
             }
         },
@@ -374,8 +383,8 @@
             ],
             "conflict": {
                 "UnsupportedFontFormat": {
-                    "name": "$?",
-                    "explanation": "$?"
+                    "name": "$~formatdefontneacceptat",
+                    "explanation": "$~Prietenul meu, * $face *, nu știe cum să fie $format ."
                 }
             }
         },
@@ -908,8 +917,8 @@
             }
         },
         "IsLocale": {
-            "name": "$~esteosetareregională",
-            "description": "$~returnează true dacă este selectată localizarea",
+            "name": "$~estelimbajul",
+            "description": "$~returnează true dacă limba este selectată",
             "emotion": "kind",
             "doc": [
                 "$~Te voi ajuta să verifici dacă publicul a selectat o anumită limbă sau regiune:",
@@ -1320,7 +1329,7 @@
                 "texts": "$~text"
             },
             "doc": "$~Reprezint una sau mai multe @Translation specifice de text. Consultați @Text pentru a afla mai multe despre ce pot face!",
-            "start": "$~Să creăm text în regionalul curent"
+            "start": "$~Să facem text în limba curentă"
         },
         "Translation": {
             "name": "$~traducere",
@@ -1364,7 +1373,7 @@
             "description": "$~creați text formatat $text",
             "emotion": "serious",
             "doc": "$~Reprezint multe tipuri diferite de @FormattedTranslation de text formatat. Când evaluez, voi alege cea mai potrivită traducere în funcție de limbile selectate de public.",
-            "start": "$~Să creăm text în regionalul curent"
+            "start": "$~Să facem text în limba curentă"
         },
         "FormattedTranslation": {
             "name": "$~traducereformatată",
@@ -3260,6 +3269,59 @@
             "down": {
                 "names": "$~jos",
                 "doc": "$~DACĂ @None, atunci tasta apăsată generează intrări. Dacă \\⊤\\, atunci sunt furnizate doar intrări apăsate, iar dacă \\⊥\\, atunci sunt furnizate doar intrări de eliberare."
+            },
+            "keys": {
+                "Shift": ["$~Schimbare"],
+                "Control": ["$~Controla", "$~Ctrl"],
+                "Alt": ["$~Alt", "$~Opţiune"],
+                "Meta": ["$~Meta", "$~Comanda", "$~Ferestre"],
+                "AltGraph": ["$~AltGraph"],
+                "CapsLock": ["$~Majuscule", "$~Majuscule"],
+                "NumLock": ["$~NumLock", "$~Num Lock"],
+                "ScrollLock": ["$~Blocare derulare", "$~Blocare derulare"],
+                "Enter": ["$~Introduceți", "$~Reveni"],
+                "Tab": ["$~Tab"],
+                " ": ["$~Spaţiu", "$~Bara de spațiu", "$~"],
+                "ArrowUp": ["$~Săgeată în sus", "$~Sus"],
+                "ArrowDown": ["$~Săgeată în jos", "$~Jos"],
+                "ArrowLeft": ["$~SăgeatăStânga", "$~Stânga"],
+                "ArrowRight": ["$~SăgeatăDreapta", "$~Corect"],
+                "Home": ["$~Acasă"],
+                "End": ["$~Sfârşit"],
+                "PageUp": ["$~PageUp", "$~Pagină sus"],
+                "PageDown": ["$~Pagină în jos", "$~Pagină în jos"],
+                "Backspace": ["$~Backspace"],
+                "Delete": ["$~Şterge", "$~Șterge"],
+                "Insert": ["$~Introduce", "$~Intrare"],
+                "Clear": ["$~Clar"],
+                "Cut": ["$~Tăiați"],
+                "Copy": ["$~Copie"],
+                "Paste": ["$~Pastă"],
+                "Undo": ["$~Anula"],
+                "Redo": ["$~Refaceți"],
+                "Escape": ["$~Evadare", "$~Esc"],
+                "Pause": ["$~Pauză"],
+                "ContextMenu": ["$~Meniu contextual", "$~Meniu"],
+                "Help": ["$~Ajutor"],
+                "Convert": ["$~Convertit"],
+                "NonConvert": ["$~NonConvert"],
+                "KanaMode": ["$~Mod Kana"],
+                "HangulMode": ["$~Mod Hangul"],
+                "Hiragana": ["$~Hiragana"],
+                "Katakana": ["$~Katakana"],
+                "Romaji": ["$~Romaji"],
+                "F1": ["$~F1"],
+                "F2": ["$~F2"],
+                "F3": ["$~F3"],
+                "F4": ["$~F4"],
+                "F5": ["$~F5"],
+                "F6": ["$~F6"],
+                "F7": ["$~F7"],
+                "F8": ["$~F8"],
+                "F9": ["$~F9"],
+                "F10": ["$~F10"],
+                "F11": ["$~F11"],
+                "F12": ["$~F12"]
             }
         },
         "Time": {
@@ -3317,12 +3379,12 @@
             "doc": [
                 "$~/salutare!/",
                 "$~@FunctionDefinition aici - gata să ascult!",
-                "$~Acest flux recunoaște vorbirea și o convertește în @Text. Folosește recunoașterea vocală a browserului tău pentru a asculta ce spui și a transforma mesajul în cuvinte (nu-i așa că e super tare?!).",
-                "$~\\Vorbire()\\",
+                "$~Acest flux recunoaște vorbirea și o convertește în @Text . Folosește recunoașterea vocală a browserului tău pentru a asculta ce spui și a transforma mesajul în cuvinte (nu-i așa că e super tare?!).",
+                "$~\\Speech()\\",
                 "$~Acest lucru este perfect pentru cei care pot vorbi o limbă, dar încă învață să o citească sau să o scrie (și mai mult)...",
                 "$~Puteți specifica un cod de limbă pentru a recunoaște vorbirea într-o anumită limbă:",
-                "$~\\Vorbire(limbă: 'es-MX')\\",
-                "$~Dacă nu este specificată nicio limbă, implicit se folosește regionalul preferat.",
+                "$~\\Speech(language: 'es-MX')\\",
+                "$~Dacă nu este specificată nicio limbă, implicit se folosește limba preferată.",
                 "$~Recunoașterea vorbirii necesită acces la microfon și conexiune la internet (vă rugăm să acordați acces!). De asemenea, pot exista limite de utilizare, așa că nu o lăsați activată prea mult timp (nuuuuu)!"
             ],
             "names": ["$~🎙️", "$~Vorbire", "$~Voce"],
@@ -3332,7 +3394,7 @@
             },
             "language": {
                 "names": ["$~limbă", "$~limbaj"],
-                "doc": "$~Un cod de limbă BCP 47 (de exemplu, „en-US”). Dacă nu este acceptat de recunoașterea vocală a browserului dvs., veți primi o eroare. Implicit, setarea regională este cea preferată."
+                "doc": "$~Un cod de limbă BCP 47 (de exemplu, „en-US”). Dacă nu este acceptat de recunoașterea vocală a browserului dvs., veți primi o eroare. Implicit, limba este setată pe cea preferată."
             },
             "limit": {
                 "names": ["$~limită", "$~cuvinte"],
@@ -3729,8 +3791,8 @@
                     "$~Un nume pe care mi-l dai! Asta e de ajutor pentru multe lucruri.",
                     "$~În primul rând, dacă am un nume, îl voi folosi pentru a mă descrie în descrierile cititoarelor de ecran.",
                     "$~În al doilea rând, atunci când animați, este posibil să aveți mai multe expresii diferite care ar trebui să reprezinte același conținut pe scenă; dați-le același nume și se vor anima ca una singură.",
-                    "$~În cele din urmă, sunt de ajutor cu @Choice: numele pe care mi le dai apar în fluxul respectiv.",
-                    "$~Îmi poți da mai multe nume diferite, fiecare într-o limbă diferită, dacă este de ajutor. Voi folosi întotdeauna numele din prima setare regională selectată."
+                    "$~În cele din urmă, sunt de ajutor cu @Choice : numele pe care mi le dai apar în fluxul respectiv.",
+                    "$~Îmi poți da mai multe nume diferite, fiecare într-o limbă diferită, dacă este de ajutor. Voi folosi întotdeauna numele în prima limbă selectată."
                 ],
                 "names": "$~nume"
             },
@@ -3945,10 +4007,10 @@
         },
         "Say": {
             "doc": [
-                "$~Salut! Sunt @Say și rostesc textul cu voce tare în loc să-l afișez pe @Stage.",
+                "$~Salut! Sunt @Say și rostesc textul cu voce tare în loc să-l afișez pe @Stage .",
                 "$~Dă-mi doar ceva de spus și o voi spune de fiecare dată când programul tău evaluează:",
-                "$~\\Say('bla bla bla')\\",
-                "$~Voi folosi @Language-ul lui @TextLiteral dacă are unul, altfel voi folosi setările regionale selectate.",
+                "$~\\Say('blah blah blah')\\",
+                "$~Voi folosi @Language lui @TextLiteral dacă are unul, altfel voi folosi limba selectată.",
                 "$~Poți selecta o voce în setări."
             ],
             "names": ["$~🔊", "$~Cuvânt"],
@@ -4447,7 +4509,7 @@
         "font": {
             "app": "$~Noto Sans",
             "code": "$~Noto Sans Mono",
-            "missing": "$?"
+            "missing": "$~nu"
         },
         "phrases": {
             "welcome": "$~Buna ziua"
@@ -4477,7 +4539,8 @@
                 "highlight": "$~exemplu de evidențiere",
                 "bullet": "$~glonţ",
                 "attention": "$~evidențiază această expresie"
-            }
+            },
+            "backtotop": "$~înapoi la început"
         },
         "tile": {
             "toggle": {
@@ -4540,7 +4603,7 @@
                     "tip": "$~editați limbile acestui proiect și traduceți-l în alte limbi.",
                     "label": "$~traduce"
                 },
-                "primary": "$~setați ca locația principală a acestui proiect"
+                "primary": "$~setată ca limbă principală a acestui proiect"
             },
             "field": {
                 "name": {
@@ -4895,12 +4958,12 @@
             "label": "$~sursă",
             "title": "$~cod",
             "empty": [
+                "$~Să începem! Poți…",
+                "$~• Deschideți 📕 și trageți-ne 🖱️ în acest program.",
                 "$~• Tastați $symbol și alegeți-ne din meniu.",
-                "$?",
-                "$?",
-                "$?",
-                "$?",
-                "$?"
+                "$~• Scrieți-ne cu ⌨️.",
+                "$~• Răsfoiți<galleries@://galleries> pentru inspirație.",
+                "$~Dacă ești blocat,<learn more@://learn> ."
             ],
             "overwritten": "$~Proiect revizuit în altă parte",
             "confirm": {
@@ -4926,7 +4989,7 @@
             "options": {
                 "locale": {
                     "tip": "$~limba preferată pentru sursă",
-                    "all": "$~toate"
+                    "all": "$~$count limbi"
                 }
             },
             "button": {
@@ -5074,7 +5137,7 @@
             },
             "options": {
                 "locale": "$~limba preferată pentru ieșire",
-                "default": "$~implicit"
+                "default": "$~$count limbi"
             },
             "tour": {
                 "launch": "$~faceți un tur al scenei",
@@ -5548,15 +5611,27 @@
                 "explanation": "$~Alegeți limbi pentru interfață, tutorial și documentație.",
                 "subheader": {
                     "selected": "$~Selectat",
-                    "supported": "$~Disponibil",
-                    "help": "$~Ajutați-ne să traducem…"
+                    "supported": "$~Disponibil"
                 },
                 "button": {
-                    "show": "$~schimbarea setărilor regionale",
-                    "replace": "$~utilizați această setare regională",
-                    "add": "$~folosește această regionalizare și pe cele actuale",
-                    "remove": "$~eliminați această setare regională",
+                    "show": "$~alegeți limba (limbile) pentru site-ul web",
+                    "replace": "$~folosește acest limbaj",
+                    "add": "$~folosește acest limbaj și pe cele actuale",
+                    "remove": "$~eliminați această limbă",
                     "menu": "$~alte limbi"
+                },
+                "localizeHelp": "$~Pentru a îmbunătăți traducerile în limba dvs., faceți clic pe pictograma creion ✎ din *partea de jos a paginii* pentru a activa modul de localizare și a sugera îmbunătățiri.",
+                "request": {
+                    "header": "$~Nu vă vedeți limba?",
+                    "explanation": "$~Alege o limbă și o regiune, iar noi vom deschide o problemă pe GitHub pentru a discuta despre adăugarea acesteia.",
+                    "languageLabel": "$~limbă",
+                    "regionLabel": "$~regiune",
+                    "submit": "$~Cerere",
+                    "submitting": "$~Se trimite solicitarea…",
+                    "success": "$~Discutați această solicitare cu noi pe GitHub!",
+                    "error": "$~Ceva nu a mers bine. Vă rugăm să încercați din nou.",
+                    "alreadySupported": "$~Limba și regiunea respectivă sunt deja acceptate.",
+                    "requiresLogin": "$~Trebuie să fii autentificat pentru a solicita o limbă."
                 }
             },
             "help": {
@@ -5826,7 +5901,7 @@
                     "placeholder": "$~Introduceți numele..."
                 },
                 "filter": {
-                    "description": "$~Filtrarea șirurilor de setări regionale după cale sau descriere",
+                    "description": "$~Filtrarea șirurilor de traducere după cale sau descriere",
                     "placeholder": "$~Filtra..."
                 }
             },
@@ -5839,10 +5914,10 @@
                 "unknown": "$~Aceste referințe nu corespund unei intrări sau unei terminologii declarate, deci nu vor înlocui:",
                 "submitBlocked": "$~Referiți fiecare intrare înainte de trimitere"
             },
-            "strings": "$~Șiruri de setări regionale",
+            "strings": "$~Șiruri de traducere",
             "emotion": "Choose an emotion",
             "invalidName": "$~Nu este un nume valid pentru jocuri de cuvinte",
-            "invalidConceptLinks": "$~Aceste legături de concepte nu se rezolvă în setările regionale actuale. Ai scris greșit una sau ai eliminat-o intenționat?"
+            "invalidConceptLinks": "$~Aceste legături conceptuale nu se rezolvă în limba curentă. Ai scris greșit una sau ai eliminat-o intenționat?"
         },
         "page": {
             "unknown": {
@@ -5913,7 +5988,7 @@
                 "workspaceHeader": "$~Text de scris sau de recenzat",
                 "submitHeader": "$~Trimite",
                 "submitPrompt": "$~Când ești gata să propui acest set de modificări, le poți trimite mai jos.",
-                "oneLocaleNote": "$~Fiecare trimitere acoperă câte o setare regională odată. Acest lot va fi trimis ca modificări la $locale . Dacă doriți să contribuiți la o altă setare regională, schimbați mai întâi setarea regională; modificările pe care le salvați sub fiecare setare regională sunt păstrate separat.",
+                "oneLocaleNote": "$~Fiecare trimitere acoperă o singură limbă odată. Acest lot va fi trimis ca modificări la $locale . Dacă doriți să contribuiți la o altă limbă, schimbați mai întâi limba; modificările pe care le salvați pentru fiecare limbă sunt păstrate separat.",
                 "bundleSummary": "$~Modificări în acest lot",
                 "editEntry": "$~Reveniți pentru a edita acest șir de caractere",
                 "revertEntry": "$~Eliminați această editare din lot",
@@ -5926,7 +6001,7 @@
                 "notSpamLabel": "$~Promit că aceste editări nu sunt spam.",
                 "notSpamNote": "$~Wordplay este un proiect non-profit condus de voluntari.",
                 "requireLogin": "$~Trebuie să fii autentificat pentru a contribui cu sugestii de localizare.",
-                "singletonWordsWarning": "$~Unele cuvinte din schița ta apar o singură dată în toate setările regionale. Ești sigur că sunt scrise corect și sunt în concordanță cu restul textului?",
+                "singletonWordsWarning": "$~Unele cuvinte din schița ta apar o singură dată în întreaga limbă. Ești sigur că sunt scrise corect și sunt în concordanță cu restul textului?",
                 "submit": {
                     "description": "$~Trimiteți acest lot de modificări",
                     "prompt": "$~Trimite"
@@ -6693,7 +6768,15 @@
                     "$~numere de litere",
                     "$~valută"
                 ]
-            }
+            },
+            "script": "$~scripturi",
+            "scriptLabel": "$~filtrare după script",
+            "pickFilter": "$~Alegeți o categorie sau un script"
+        },
+        "connection": {
+            "offline": "$~Ești offline. Unele funcții nu vor funcționa până când nu ești online.",
+            "unreachable": "$~Nu putem accesa baza de date Wordplay. Unele funcții nu vor funcționa până nu se restabilește conexiunea.",
+            "label": "$~Starea conexiunii"
         }
     },
     "moderation": {

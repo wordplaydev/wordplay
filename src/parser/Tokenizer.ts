@@ -287,7 +287,10 @@ const CodeTokenPatterns: TokenPattern[] = [
     { pattern: CHANGE_SYMBOL, types: [Sym.Change] },
     { pattern: CHANGE_SYMBOL2, types: [Sym.Change] },
     { pattern: PREVIOUS_SYMBOL, types: [Sym.Previous] },
-    { pattern: PLACEHOLDER_SYMBOL, types: [Sym.Placeholder, Sym.Underline] },
+    {
+        pattern: PLACEHOLDER_SYMBOL,
+        types: [Sym.Placeholder, Sym.LanguageJoin, Sym.Underline],
+    },
     // Roman numerals
     {
         pattern: /^-?[ⅠⅡⅢⅣⅤⅥⅦⅧⅨⅩⅪⅫⅬⅭⅮⅯ]+/,

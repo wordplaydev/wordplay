@@ -98,7 +98,8 @@ export type NameText = string | string[];
 export type DocText = string | string[];
 
 export function toLocaleString(locale: Locale) {
-    return `${locale.language}${locale.regions.map((r) => `-${r}`).join('')}`;
+    const languages = locale.multilingual ?? [locale.language];
+    return `${languages.join('_')}${locale.regions.map((r) => `-${r}`).join('')}`;
 }
 
 export function toDocString(doc: DocText) {
@@ -129,10 +130,42 @@ export function isMachineTranslated(text: string) {
     return text.startsWith(MachineTranslated);
 }
 
-/** Get the language code of a given a BCP-47 string, if it's a valid one. */
+/** Split a tag-string like `es_en-MX` into its language portion (`es_en`)
+ *  and the optional region (`MX`). Used by helpers that need to handle the
+ *  multilingual underscore-joined form alongside legacy single-language
+ *  strings. */
+function splitLocaleString(locale: string): {
+    languages: string;
+    region: string | undefined;
+} {
+    const dashIndex = locale.indexOf('-');
+    if (dashIndex === -1) return { languages: locale, region: undefined };
+    return {
+        languages: locale.slice(0, dashIndex),
+        region: locale.slice(dashIndex + 1),
+    };
+}
+
+/** Get the PRIMARY language code of a given BCP-47-ish string, if it's a
+ *  valid one. For a multilingual string like `es_en-MX`, returns `es`. */
 export function getLocaleLanguage(locale: string): LanguageCode | undefined {
-    const [code] = locale.split('-');
+    const { languages } = splitLocaleString(locale);
+    const [code] = languages.split('_');
     return code in Languages ? (code as LanguageCode) : undefined;
+}
+
+/** All language codes in a locale string or Locale. For `es_en-MX` (string)
+ *  or a Locale with `multilingual: ['es', 'en']`, returns `['es', 'en']`.
+ *  For a monolingual Locale, returns just `[locale.language]`. */
+export function getLocaleLanguages(
+    locale: string | Locale,
+): LanguageCode[] {
+    if (typeof locale !== 'string')
+        return locale.multilingual ?? [locale.language];
+    const { languages } = splitLocaleString(locale);
+    return languages
+        .split('_')
+        .filter((code): code is LanguageCode => code in Languages);
 }
 
 export function getLocaleLanguageName(
@@ -146,9 +179,26 @@ export function getLocaleLanguageName(
     }
 }
 
+/** Localized display of every language in a multilingual tag, joined with
+ *  ` + `. Returns the single language's name for monolingual tags so it
+ *  is safe to use as a drop-in for `getLocaleLanguageName`. */
+export function getMultilingualLanguageLabel(
+    locale: string | Locale,
+): string {
+    const codes = getLocaleLanguages(locale);
+    if (codes.length === 0) return '';
+    const names = codes.map((code) => Languages[code]?.name ?? code);
+    return names.length === 1 ? names[0] : names.join(' + ');
+}
+
 export function getLanguageLocalDescription(locale: Locale) {
     const localeString = toLocaleString(locale);
-    const language = getLocaleLanguageName(locale);
+    // Multilingual locales show every language joined with ` + `; monolingual
+    // ones show just the primary language's name.
+    const language =
+        locale.multilingual && locale.multilingual.length > 1
+            ? getMultilingualLanguageLabel(locale)
+            : getLocaleLanguageName(locale);
     const regions = getLocaleRegionNames(locale);
     return `${language ?? '–'}${regions.length > 0 ? ` [${regions.join('|')}]` : ''} (${localeString})`;
 }

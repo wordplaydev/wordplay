@@ -118,6 +118,7 @@ export const DECLARED_INPUTS: Readonly<Record<string, readonly string[]>> = {
     'node.Iteration.finish': ['value'],
     'node.Iteration.start': [],
     'node.KeyValue.description': [],
+    'node.Language.conflict.DuplicateLanguage.explanation': ['code'],
     'node.Language.conflict.MissingLanguage.explanation': [],
     'node.Language.conflict.UnknownLanguage.explanation': [],
     'node.Language.description': [],
@@ -316,11 +317,13 @@ export const DECLARED_INPUTS: Readonly<Record<string, readonly string[]>> = {
     'ui.howto.announce.moveActivated': ['target'],
     'ui.howto.galleryView.subheader': ['total', 'new'],
     'ui.howto.viewer.usedBy.countDisplay': ['count'],
+    'ui.output.options.default': ['count'],
     'ui.page.character.announce.position': ['x', 'y'],
     'ui.page.character.announce.selection': ['shapes'],
     'ui.page.localize.oneLocaleNote': ['locale'],
     'ui.page.thanks.intro': ['count'],
     'ui.source.empty': ['symbol'],
+    'ui.source.options.locale.all': ['count'],
     'ui.template.unparsable': ['template'],
 };
 

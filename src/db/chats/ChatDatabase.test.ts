@@ -105,6 +105,7 @@ describe('ChatDatabase granular message operations', () => {
 
         mockDatabase = {
             getUser: vi.fn(() => ({ uid: 'user-1' })),
+            track: vi.fn(<T>(p: Promise<T>) => p),
             Projects: {
                 listen: vi.fn(),
             },

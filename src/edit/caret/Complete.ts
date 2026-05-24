@@ -428,6 +428,19 @@ function completeBinaryEvaluate({
     )
         return undefined;
 
+    // If the inserted character has a non-binary-operator meaning in the
+    // language grammar (e.g., `|` separates types in a UnionType), skip the
+    // binary autocomplete so the character can be typed literally and resolved
+    // by the parser from the surrounding context. We detect this by checking
+    // whether the character's token carries a structural Sym type beyond
+    // Sym.Operator (Sym.Region is excluded — it applies only inside language
+    // tags within Numbers and doesn't conflict at expression level).
+    if (
+        tokens(text)[0]
+            ?.types.some((t) => t !== Sym.Operator && t !== Sym.Region)
+    )
+        return undefined;
+
     // Don't complete + or - as binary operators when there is whitespace between
     // the preceding expression and the caret — they may be starting a new number literal.
     if (
