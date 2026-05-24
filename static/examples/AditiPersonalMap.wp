@@ -1,4 +1,4 @@
-Personal Map
+Personal Map – The Places I've Lived
 === English/en
 ¶This project has an English and a Hindi version.
 Change the locale on stage to see each one!¶/en
@@ -14,23 +14,24 @@ then their speech bubble changes.¶/en
 ¶This collision stream checks for collisions between the phrase
 with the name 'me' and any other phrases. When a collision happens,
 it's value stores a 'Rebound' object that contains the object collided with.¶/en
-choice/en: Collision('me'/en)
-name/en: (choice = ø ? "" choice.object)
-
 ¶यह टकराना वाला धारा ढूंढता है किसी टक्कर के लिये, जो “मैं”-वाला बोल और दूसरे बोल के बीच
 में हो। जब टक्कर मिलता है, “मैं” वाला नाम एक ‘पलट’ रखता है। यह ‘पलट’ के पास
 है वह चीज़ जिसके साथ “मैं” वाला नाम टकराया था।¶/hi
-चारा/hi: Collision('मैं'/hi)
-नाम/hi: (चारा = ø ? "" चारा.object)
+choice/en,चारा/hi: Collision('me'/en,'मैं'/hi)
+name/en,नाम/hi: (choice = ø ? "" choice.object)
 
-🌍/en ?
-	¶This 'otherwise' checks the name of the collided object
-	and chooses a list of formatted text based on the name.
-	If there's no name, it defaults to starting text.¶/en
-	(
-		about: name ???
+¶This 'otherwise' checks the name of the collided object
+and chooses a list of formatted text based on the name.
+If there's no name, it defaults to starting text.
+The text displayed depends on the language chosen on stage.¶/en
+¶यह ‘वरना’ टकराया हुआ चीज़ का नाम देखता है और चुनता है वह शब्दों की सूची जिसका नाम मिलता है 
+उसके साथ। अगर कोई नाम नही है, यह पहले शब्दों की सूची दिखाता हैं।
+चुुना हुआ भाषा के अनुसार शब्दों दिखते हैं।¶/hi
+about/en,बात/hi:
+	🌍/en ? (
+			name ???
 				"Virginia": [
-					`*(2005 – 2007)*`
+					`*(2005 – 2007)*`
 					`I was born in *Arlington, Virginia*!`
 					`I lived here until I was two,`
 					`a couple of months after my`
@@ -40,6 +41,7 @@ name/en: (choice = ø ? "" choice.object)
 					`pics I've seen are of the fall`
 					`colors!`
 				]
+
 				"California": [
 					`*(2007 – 2013)*`
 					`I spent most of my youngest years`
@@ -74,44 +76,10 @@ name/en: (choice = ø ? "" choice.object)
 					`high, now university.`/en
 				]
 				[`Flapping my wings…`]
-
-		¶This stream starts in the middle, but can be changed with
-		the keyboard arrows or clicking the stage.
-		We use it to place the character.¶/en
-		where: Placement(📍(0m 0m))
-
-		¶This takes all of the content above and renders it,
-		putting each landmark on stage in a particular location
-		and converting the list of formatted text for the current
-		about text into a stack of phrases with a background.
-		Each landmark needs a name and matter in order for the collision
-		stream to check collisions.¶/en
-		Stage(
-			[
-				Phrase('🍂' name: "Virginia" place: Place(-3m 0m) matter: Matter())
-				Phrase(`@ellipsis/CuteDuckie` name: "California" place: Place(-10m 0m) matter: Matter() size: 1.4m)
-				Phrase('🏕' name: "India" place: Place(5m -6m) matter: Matter())
-				Phrase(`@ellipsis/GoDawgs` name: "Washington" place: Place(-10m 6m) matter: Matter() size: 1.4m)
-				Phrase('🐤' name: "me" place: where matter: Matter() moving: 💃({
-							0%: 🤪()
-							50%: 🤪(offset: 📍(0m 1m 0m))
-							100%: 🤪(offset: 📍(0m 0m 0m))
-						} ⏳: 0.5s))
-				Group(
-					Stack('<' padding: 0.5m)
-					about.translate(ƒ(line) Phrase(line 0.5m duration: 0s))
-					place: (where.x:where.x + 1m).y:where.y + 1m
-					background: 🌈(100% 0 0°)
-				)
-			]
-			background: 🌈(18% 72 280°)
 		)
-	)
 
-	¶यह ‘वरना’ टकराया हुआ चीज़ का नाम देखता है और चुनता है वह शब्दों की सूची जिसका नाम मिलता है 
-	उसके साथ। अगर कोई नाम नही है, यह पहले शब्दों की सूची दिखाता हैं।¶/hi
-	(
-		बात: नाम ???
+		(
+			नाम ???
 				"वर्जिनिया": [
 					`*(२००५ – २००७)*`
 					`मैं *आर्लिंटन, वर्जिनिया* में पैदा हुई थी!`
@@ -148,32 +116,41 @@ name/en: (choice = ø ? "" choice.object)
 					`पढ़ाई की हूँ।`
 				]
 				[`मैं उड़ी…`]
-
-		¶यह धारा बीच में शुरु होता है, लेकिन कीबोर्ड या माउस के साथ बदल सकते हैं।
-		हम इस के साथ character को मंच पर रखते हैं।¶/hi
-		किधर: Placement(📍(0m 0m))
-
-		¶यह ऊपर सब मंच पर दिखाता हैं। हर स्थान मंच पर किसी जगह डालता हैं, और
-		शब्दों की सूची बदलता हैं ताकी मंच पर दिखाई दे। हर स्थान एक नाम और माल चहिए,
-		टक्कर-वाला धारा को टक्कर मिलने के लिए।¶/hi
-		Stage(
-			[
-				Phrase('🍂' name: "वर्जिनिया" place: Place(-3m 0m) matter: Matter())
-				Phrase(`@ellipsis/CuteDuckie` name: "कॅलिफ़ोर्निया" place: Place(-10m 0m) matter: Matter() size: 1.4m)
-				Phrase('🏕' name: "भारत" place: Place(5m -6m) matter: Matter())
-				Phrase(`@ellipsis/GoDawgs` name: "वाशिंटन" place: Place(-10m 6m) matter: Matter() size: 1.4m)
-				Phrase('🐤' name: "मैं" place: किधर matter: Matter() moving: 💃({
-							0%: 🤪()
-							50%: 🤪(offset: 📍(0m 1m 0m))
-							100%: 🤪(offset: 📍(0m 0m 0m))
-						} ⏳: 0.5s))
-				Group(
-					Stack('<' padding: 0.5m)
-					बात.translate(ƒ(line) Phrase(line 0.5m duration: 0s))
-					place: (किधर.x:किधर.x + 1m).y:किधर.y + 1m
-					background: 🌈(100% 0 0°)
-				)
-			]
-			background: 🌈(18% 72 280°)
 		)
-	)
+
+¶This stream starts in the middle, but can be changed with
+the keyboard arrows or clicking the stage.
+We use it to place the character.¶/en
+¶यह धारा बीच में शुरु होता है, लेकिन कीबोर्ड या माउस के साथ बदल सकते हैं।
+हम इस के साथ character को मंच पर रखते हैं।¶/hi
+where/en,किधर/hi: Placement(📍(0m 0m))
+
+¶This takes all of the content above and renders it,
+putting each landmark on stage in a particular location
+and converting the list of formatted text for the current
+about text into a stack of phrases with a background.
+Each landmark needs a name and matter in order for the collision
+stream to check collisions.¶/en
+¶यह ऊपर सब मंच पर दिखाता हैं। हर स्थान मंच पर किसी जगह डालता हैं, और
+शब्दों की सूची बदलता हैं ताकी मंच पर दिखाई दे। हर स्थान एक नाम और माल चहिए,
+टक्कर-वाला धारा को टक्कर मिलने के लिए।¶/hi
+Stage(
+	[
+		Phrase('🍂' name: "Virginia"/en,"वर्जिनिया"/hi place: Place(-3m 0m) matter: Matter())
+		Phrase(`@ellipsis/CuteDuckie` name: "California"/en,"कॅलिफ़ोर्निया"/hi place: Place(-10m 0m) matter: Matter() size: 1.4m)
+		Phrase('🏕' name: "India"/en,"भारत"/hi place: Place(5m -6m) matter: Matter())
+		Phrase(`@ellipsis/GoDawgs` name: "Washington"/en,"वाशिंटन"/hi place: Place(-10m 6m) matter: Matter() size: 1.4m)
+		Phrase('🐤' name: "me"/en,"मैं"/hi place: where matter: Matter() moving: 💃({
+					0%: 🤪()
+					50%: 🤪(offset: 📍(0m 1m 0m))
+					100%: 🤪(offset: 📍(0m 0m 0m))
+				} ⏳: 0.5s))
+		Group(
+			Stack('<' padding: 0.5m)
+			about.translate(ƒ(line) Phrase(line 0.5m duration: 0s))
+			place: (where.x:where.x + 1m).y:where.y + 1m
+			background: 🌈(100% 0 0°)
+		)
+	]
+	background: 🌈(18% 72 280°)
+)
