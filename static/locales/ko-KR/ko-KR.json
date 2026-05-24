@@ -4300,8 +4300,8 @@
                 }
             },
             "description": {
-                "modified": "$~$1 $2",
-                "mix": "$~$1 - $2",
+                "modified": "$~$modifier $color",
+                "mix": "$~$first - $second",
                 "light": "$~빛",
                 "dark": "$~어두운"
             }

@@ -4156,7 +4156,7 @@
             "colors": {
                 "black": {
                     "doc": "$~মৌলিক ৰং ক’লা।",
-                    "names": ["$~ক’লা"]
+                    "names": ["$~কলা"]
                 },
                 "white": {
                     "doc": "$~মূল ৰং বগা।",
@@ -4200,8 +4200,8 @@
                 }
             },
             "description": {
-                "modified": "$~$1 $2",
-                "mix": "$~$1 - $2",
+                "modified": "$~$modifier $color",
+                "mix": "$~$first - $second",
                 "light": "$~পাতল",
                 "dark": "$~অন্ধকাৰ"
             }

@@ -4216,8 +4216,8 @@
                 }
             },
             "description": {
-                "modified": "$!$modifier $color",
-                "mix": "$!$first-$second",
+                "modified": "$modifier $color",
+                "mix": "$first-$second",
                 "light": "light",
                 "dark": "dark"
             }

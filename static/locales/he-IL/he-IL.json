@@ -4195,8 +4195,8 @@
                 }
             },
             "description": {
-                "modified": "$~$1 $2",
-                "mix": "$~$1 עד $2",
+                "modified": "$~$modifier $color",
+                "mix": "$~$first - $second",
                 "light": "$~אוֹר",
                 "dark": "$~כֵּהֶה"
             }

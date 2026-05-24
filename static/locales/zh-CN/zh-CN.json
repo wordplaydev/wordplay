@@ -4158,8 +4158,8 @@
                 }
             },
             "description": {
-                "modified": "$~$1 $2",
-                "mix": "$~$1 $2",
+                "modified": "$~$modifier $color",
+                "mix": "$~$first - $second",
                 "light": "$~光",
                 "dark": "$~黑暗的"
             }

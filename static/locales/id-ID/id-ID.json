@@ -4179,7 +4179,7 @@
                 },
                 "gray": {
                     "doc": "$~Warna dasar abu-abu.",
-                    "names": ["$~abu-abu"]
+                    "names": ["$~abuabu"]
                 },
                 "red": {
                     "doc": "$~Warna dasar merah.",
@@ -4215,8 +4215,8 @@
                 }
             },
             "description": {
-                "modified": "$~$1 $2",
-                "mix": "$~$1 - $2",
+                "modified": "$~$modifier $color",
+                "mix": "$~$first - $second",
                 "light": "$~lampu",
                 "dark": "$~gelap"
             }
