@@ -5589,8 +5589,8 @@
                         "explanation": "$~Ang pagbabahagi ng personal na impormasyon (PII) sa publiko ay maaaring maglagay sa panganib sa mga tagalikha, kaya tinitingnan namin ang posibleng PII at binabalaan ang mga tagalikha na alisin ang sensitibong data o markahan ito bilang hindi sensitibo.\n\nNasa ibaba ang isang listahan ng mga posibleng PII sa proyektong ito na iyong minarkahan bilang hindi sensitibo. Maaari mong i-click ang button sa tabi nito upang markahan itong muli bilang sensitibo, ngunit ang paggawa nito ay nangangahulugan na ang iyong proyekto ay hindi na mase-save online."
                     },
                     "preview": {
-                        "header": "$?",
-                        "explanation": "$?"
+                        "header": "$~Preview",
+                        "explanation": "$~Ito ang maliit na glyph na kumakatawan sa iyong proyekto sa mga listahan at gallery. Awtomatikong pumipili ng isa batay sa ipinapakita ng iyong proyekto; Binibigyang-daan ka ng Custom na i-pin ang isang character o emoji."
                     }
                 },
                 "field": {
@@ -5599,8 +5599,8 @@
                         "description": "$~email o username ng taong gusto mong bigyan ng access sa pag-edit"
                     },
                     "preview": {
-                        "placeholder": "$?",
-                        "description": "$?"
+                        "placeholder": "$~preview na gliph",
+                        "description": "$~isang karakter o emoji na gagamitin bilang preview glyph ng proyektong ito"
                     }
                 },
                 "mode": {
@@ -5613,16 +5613,19 @@
                         ]
                     },
                     "preview": {
-                        "label": "$?",
-                        "labels": ["$?"],
-                        "tips": ["$?"]
+                        "label": "$~paraan ng pag-preview",
+                        "labels": ["$~awto", "$~pasadyang"],
+                        "tips": [
+                            "$~hayaan ang proyekto na pumili ng sarili nitong preview glyph batay sa ipinapakita nito",
+                            "$~i-pin ang isang glyph na iyong napili"
+                        ]
                     }
                 },
                 "error": {
                     "unknown": "$~Hindi namin kilala ang creator na may ganitong email.",
                     "anonymous": "$~Dapat ay <naka-log in@://login> ka para makapagbahagi.",
                     "self": "$~Hindi mo maaaring idagdag ang iyong sarili.",
-                    "invalidPreview": "$?"
+                    "invalidPreview": "$~Pumili ng eksaktong isang karakter o emoji."
                 },
                 "button": {
                     "submit": "$~Ibahagi ang proyekto gamit ang email address na ito",

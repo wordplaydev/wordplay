@@ -5311,8 +5311,8 @@
                         "explanation": "$~Copia este proyecto a tu portapapeles como texto y compártelo en otro lugar."
                     },
                     "preview": {
-                        "header": "$?",
-                        "explanation": "$?"
+                        "header": "$~Avance",
+                        "explanation": "$~Este es el pequeño glifo que representa tu proyecto en listas y galerías. La opción Automático selecciona uno según lo que muestre tu proyecto; la opción Personalizado te permite fijar un solo carácter o emoji."
                     }
                 },
                 "field": {
@@ -5321,8 +5321,8 @@
                         "description": "correo electrónico o nombre de usuario de la persona a la que desea darle acceso de edición"
                     },
                     "preview": {
-                        "placeholder": "$?",
-                        "description": "$?"
+                        "placeholder": "$~glifo de vista previa",
+                        "description": "$~Carácter único o emoji para usar como glifo de vista previa de este proyecto"
                     }
                 },
                 "mode": {
@@ -5335,16 +5335,19 @@
                         ]
                     },
                     "preview": {
-                        "label": "$?",
-                        "labels": ["$?"],
-                        "tips": ["$?"]
+                        "label": "$~modo de vista previa",
+                        "labels": ["$~auto", "$~costumbre"],
+                        "tips": [
+                            "$~deja que el proyecto elija su propio glifo de vista previa en función de lo que muestra.",
+                            "$~Fije el glifo que desee."
+                        ]
                     }
                 },
                 "error": {
                     "unknown": "No conocemos a una creadora con este correo electrónico.",
                     "anonymous": "Debes iniciar sesión para compartir.",
                     "self": "$~No puedes agregarte a ti mismo.",
-                    "invalidPreview": "$?"
+                    "invalidPreview": "$~Elige exactamente un carácter o emoji."
                 },
                 "button": {
                     "submit": "Compartir el proyecto con esta dirección de correo electrónico",

@@ -5284,8 +5284,8 @@
                         "explanation": "將此項附複製到剪貼簿並在其他地方分享。"
                     },
                     "preview": {
-                        "header": "$?",
-                        "explanation": "$?"
+                        "header": "$~預覽",
+                        "explanation": "$~這是用於在清單和圖庫中代表您項目的小圖示。系統會根據您項目顯示的內容自動選擇一個圖示；您也可以自訂一個字元或表情符號。"
                     }
                 },
                 "field": {
@@ -5294,8 +5294,8 @@
                         "description": "您想要授予編輯權限的人員的電子郵件或使用者名稱"
                     },
                     "preview": {
-                        "placeholder": "$?",
-                        "description": "$?"
+                        "placeholder": "$~預覽字形",
+                        "description": "$~用作此項目預覽字形的單一字元或表情符號"
                     }
                 },
                 "mode": {
@@ -5308,16 +5308,19 @@
                         ]
                     },
                     "preview": {
-                        "label": "$?",
-                        "labels": ["$?"],
-                        "tips": ["$?"]
+                        "label": "$~預覽模式",
+                        "labels": ["$~汽車", "$~風俗"],
+                        "tips": [
+                            "$~讓項目根據其顯示的內容自行選擇預覽字形",
+                            "$~固定你選擇的字形"
+                        ]
                     }
                 },
                 "error": {
                     "unknown": "我們不知道這封郵件的創建者是誰。",
                     "anonymous": "您必須登錄才能共享。",
                     "self": "您無法添加自己。",
-                    "invalidPreview": "$?"
+                    "invalidPreview": "$~請選擇一個字元或表情符號。"
                 },
                 "button": {
                     "submit": "透過此電子郵件地址分享項目",

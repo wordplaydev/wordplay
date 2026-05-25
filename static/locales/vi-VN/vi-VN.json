@@ -5586,8 +5586,8 @@
                         "explanation": "$~Việc chia sẻ thông tin nhận dạng cá nhân (PII) công khai có thể khiến người tạo nội dung gặp rủi ro, vì vậy chúng tôi phát hiện các thông tin PII khả nghi và cảnh báo người tạo nội dung nên xóa dữ liệu nhạy cảm hoặc đánh dấu là không nhạy cảm.\n\nDưới đây là danh sách các thông tin PII khả nghi trong dự án này mà bạn đã đánh dấu là không nhạy cảm. Bạn có thể nhấp vào nút bên cạnh để đánh dấu lại là nhạy cảm, nhưng làm như vậy có nghĩa là dự án của bạn sẽ không còn được lưu trực tuyến nữa."
                     },
                     "preview": {
-                        "header": "$?",
-                        "explanation": "$?"
+                        "header": "$~Xem trước",
+                        "explanation": "$~Đây là biểu tượng nhỏ đại diện cho dự án của bạn trong danh sách và thư viện ảnh. Chế độ Tự động sẽ chọn một biểu tượng dựa trên nội dung dự án; Chế độ Tùy chỉnh cho phép bạn ghim một ký tự hoặc biểu tượng cảm xúc cụ thể."
                     }
                 },
                 "field": {
@@ -5596,8 +5596,8 @@
                         "description": "$~Địa chỉ email hoặc tên người dùng của người mà bạn muốn cấp quyền chỉnh sửa."
                     },
                     "preview": {
-                        "placeholder": "$?",
-                        "description": "$?"
+                        "placeholder": "$~xem trước biểu tượng",
+                        "description": "$~Ký tự đơn hoặc biểu tượng cảm xúc để sử dụng làm biểu tượng xem trước cho dự án này."
                     }
                 },
                 "mode": {
@@ -5610,16 +5610,19 @@
                         ]
                     },
                     "preview": {
-                        "label": "$?",
-                        "labels": ["$?"],
-                        "tips": ["$?"]
+                        "label": "$~chế độ xem trước",
+                        "labels": ["$~tự động", "$~phong tục"],
+                        "tips": [
+                            "$~Hãy để dự án tự chọn biểu tượng xem trước dựa trên những gì nó hiển thị.",
+                            "$~Ghim một biểu tượng bạn chọn"
+                        ]
                     }
                 },
                 "error": {
                     "unknown": "$~Chúng tôi không biết người tạo ra email này là ai.",
                     "anonymous": "$~Bạn phải đăng nhập vào tài khoản <login@://login> để chia sẻ.",
                     "self": "$~Bạn không thể tự thêm mình vào.",
-                    "invalidPreview": "$?"
+                    "invalidPreview": "$~Chọn chính xác một ký tự hoặc biểu tượng cảm xúc."
                 },
                 "button": {
                     "submit": "$~Hãy chia sẻ dự án với địa chỉ email này.",

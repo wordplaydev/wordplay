@@ -5346,8 +5346,8 @@
                         "explanation": "$~Bu projeyi metin olarak panonuza kopyalayın ve başka bir yerde paylaşın."
                     },
                     "preview": {
-                        "header": "$?",
-                        "explanation": "$?"
+                        "header": "$~Önizleme",
+                        "explanation": "$~Bu, listelerde ve galerilerde projenizi temsil eden küçük simgedir. Otomatik ayar, projenizin gösterdiği içeriğe göre birini seçer; Özel ayar ise tek bir karakter veya emoji sabitlemenizi sağlar."
                     }
                 },
                 "field": {
@@ -5356,8 +5356,8 @@
                         "description": "$~düzenleme erişimi vermek istediğiniz kişinin e-postası veya kullanıcı adı"
                     },
                     "preview": {
-                        "placeholder": "$?",
-                        "description": "$?"
+                        "placeholder": "$~önizleme glifi",
+                        "description": "$~Bu projenin önizleme simgesi olarak kullanılacak tek karakter veya emoji"
                     }
                 },
                 "mode": {
@@ -5370,16 +5370,19 @@
                         ]
                     },
                     "preview": {
-                        "label": "$?",
-                        "labels": ["$?"],
-                        "tips": ["$?"]
+                        "label": "$~önizleme modu",
+                        "labels": ["$~otomatik", "$~gelenek"],
+                        "tips": [
+                            "$~Projenin, gösterdiği içeriğe göre kendi önizleme simgesini seçmesine izin verin.",
+                            "$~Seçtiğiniz bir sembolü sabitleyin."
+                        ]
                     }
                 },
                 "error": {
                     "unknown": "$~Bu e-postaya sahip bir yaratıcıyı tanımıyoruz.",
                     "anonymous": "$~Paylaşmak için <giriş yapmalısınız@://login>.",
                     "self": "$~Kendinizi ekleyemezsiniz.",
-                    "invalidPreview": "$?"
+                    "invalidPreview": "$~Lütfen yalnızca bir karakter veya emoji seçin."
                 },
                 "button": {
                     "submit": "$~Projeyi bu e-posta adresiyle paylaşın",

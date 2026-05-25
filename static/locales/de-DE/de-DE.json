@@ -5328,8 +5328,8 @@
                         "explanation": "$~Kopieren Sie dieses Projekt als Text in Ihre Zwischenablage und geben Sie es woanders weiter."
                     },
                     "preview": {
-                        "header": "$?",
-                        "explanation": "$?"
+                        "header": "$~Vorschau",
+                        "explanation": "$~Dies ist das kleine Symbol, das Ihr Projekt in Listen und Galerien repräsentiert. Die automatische Auswahl basiert auf den Projektdaten; mit der benutzerdefinierten Option können Sie ein einzelnes Zeichen oder Emoji festlegen."
                     }
                 },
                 "field": {
@@ -5338,8 +5338,8 @@
                         "description": "$~E-Mail oder Benutzername der Person, der Sie Bearbeitungszugriff gewähren möchten"
                     },
                     "preview": {
-                        "placeholder": "$?",
-                        "description": "$?"
+                        "placeholder": "$~Vorschau-Glyphe",
+                        "description": "$~Einzelnes Zeichen oder Emoji, das als Vorschau-Glyphe für dieses Projekt verwendet werden soll."
                     }
                 },
                 "mode": {
@@ -5352,16 +5352,19 @@
                         ]
                     },
                     "preview": {
-                        "label": "$?",
-                        "labels": ["$?"],
-                        "tips": ["$?"]
+                        "label": "$~Vorschaumodus",
+                        "labels": ["$~Auto", "$~Brauch"],
+                        "tips": [
+                            "$~Das Projekt soll basierend auf dem, was angezeigt wird, sein eigenes Vorschaubild auswählen.",
+                            "$~Wählen Sie ein Symbol aus"
+                        ]
                     }
                 },
                 "error": {
                     "unknown": "$~Wir kennen keinen Ersteller mit dieser E-Mail.",
                     "anonymous": "$~$!Sie müssen <angemeldet@://login> sein, um teilen zu können.",
                     "self": "$~Sie können sich nicht selbst hinzufügen.",
-                    "invalidPreview": "$?"
+                    "invalidPreview": "$~Wähle genau ein Zeichen oder Emoji aus."
                 },
                 "button": {
                     "submit": "$~Teilen Sie das Projekt mit dieser E-Mail-Adresse",

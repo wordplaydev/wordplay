@@ -5346,8 +5346,8 @@
                         "explanation": "$~Kopiera det här projektet till ditt urklipp som text och dela det någon annanstans."
                     },
                     "preview": {
-                        "header": "$?",
-                        "explanation": "$?"
+                        "header": "$~Förhandsvisning",
+                        "explanation": "$~Det här är den lilla symbolen som representerar ditt projekt i listor och gallerier. Väljer automatiskt ett tecken baserat på vad ditt projekt visar; Anpassad låter dig fästa ett enskilt tecken eller en emoji."
                     }
                 },
                 "field": {
@@ -5356,8 +5356,8 @@
                         "description": "$~e-post eller användarnamn för den person som du vill ge redigeringsbehörighet"
                     },
                     "preview": {
-                        "placeholder": "$?",
-                        "description": "$?"
+                        "placeholder": "$~förhandsgranskning av tecken",
+                        "description": "$~enstaka tecken eller emoji som ska användas som förhandsgranskningssymbol för detta projekt"
                     }
                 },
                 "mode": {
@@ -5370,16 +5370,19 @@
                         ]
                     },
                     "preview": {
-                        "label": "$?",
-                        "labels": ["$?"],
-                        "tips": ["$?"]
+                        "label": "$~förhandsgranskningsläge",
+                        "labels": ["$~bil", "$~beställnings-"],
+                        "tips": [
+                            "$~låt projektet välja sin egen förhandsgranskningsglyf baserat på vad den visar",
+                            "$~fäst en tecken du väljer"
+                        ]
                     }
                 },
                 "error": {
                     "unknown": "$~Vi känner ingen skapare med den här e-postadressen.",
                     "anonymous": "$~Du måste vara <inloggad@://login> för att dela.",
                     "self": "$~Du kan inte lägga till dig själv.",
-                    "invalidPreview": "$?"
+                    "invalidPreview": "$~Välj exakt en karaktär eller emoji."
                 },
                 "button": {
                     "submit": "$~Dela projektet med denna e-postadress",

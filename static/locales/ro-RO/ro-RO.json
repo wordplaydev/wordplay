@@ -5598,8 +5598,8 @@
                         "explanation": "$~Partajarea publică a informațiilor de identificare personală (PII) poate pune în pericol creatorii, așa că detectăm posibile PII și îi avertizăm fie să elimine datele sensibile, fie să le marcheze ca nesensibile. Mai jos este o listă de posibile PII din acest proiect pe care l-ați marcat ca nesensibil. Puteți face clic pe butonul de lângă acesta pentru a-l marca din nou ca sensibil, dar acest lucru înseamnă că proiectul dvs. nu va mai fi salvat online."
                     },
                     "preview": {
-                        "header": "$?",
-                        "explanation": "$?"
+                        "header": "$~Previzualizare",
+                        "explanation": "$~Aceasta este mica glifă care reprezintă proiectul tău în liste și galerii. Alege automat una în funcție de ceea ce afișează proiectul tău; opțiunea Personalizat îți permite să fixezi un singur caracter sau emoji."
                     }
                 },
                 "field": {
@@ -5608,8 +5608,8 @@
                         "description": "$~adresa de e-mail sau numele de utilizator al persoanei căreia doriți să îi acordați acces de editare"
                     },
                     "preview": {
-                        "placeholder": "$?",
-                        "description": "$?"
+                        "placeholder": "$~previzualizare glif",
+                        "description": "$~un singur caracter sau emoji de utilizat ca glif de previzualizare pentru acest proiect"
                     }
                 },
                 "mode": {
@@ -5622,16 +5622,19 @@
                         ]
                     },
                     "preview": {
-                        "label": "$?",
-                        "labels": ["$?"],
-                        "tips": ["$?"]
+                        "label": "$~modul de previzualizare",
+                        "labels": ["$~auto", "$~personalizat"],
+                        "tips": [
+                            "$~permite proiectului să își aleagă propriul glif de previzualizare pe baza a ceea ce afișează",
+                            "$~fixează un glif ales de tine"
+                        ]
                     }
                 },
                 "error": {
                     "unknown": "$~Nu cunoaștem niciun creator cu această adresă de e-mail.",
                     "anonymous": "$~Trebuie să fii<logged in@://login> a împărtăși.",
                     "self": "$~Nu te poți adăuga pe tine însuți.",
-                    "invalidPreview": "$?"
+                    "invalidPreview": "$~Alegeți exact un personaj sau un emoji."
                 },
                 "button": {
                     "submit": "$~Distribuiți proiectul cu această adresă de e-mail",

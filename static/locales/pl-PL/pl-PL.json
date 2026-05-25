@@ -5354,8 +5354,8 @@
                         "explanation": "$~Skopiuj ten projekt do schowka jako tekst i udostępnij go gdzie indziej."
                     },
                     "preview": {
-                        "header": "$?",
-                        "explanation": "$?"
+                        "header": "$~Zapowiedź",
+                        "explanation": "$~To mały glif reprezentujący Twój projekt na listach i w galeriach. Automatycznie wybiera jeden na podstawie tego, co pokazuje Twój projekt; opcja „Niestandardowy” pozwala przypiąć pojedynczy znak lub emoji."
                     }
                 },
                 "field": {
@@ -5364,8 +5364,8 @@
                         "description": "$~adres e-mail lub nazwa użytkownika osoby, której chcesz przyznać dostęp do edycji"
                     },
                     "preview": {
-                        "placeholder": "$?",
-                        "description": "$?"
+                        "placeholder": "$~podgląd glifu",
+                        "description": "$~pojedynczy znak lub emoji do wykorzystania jako glif podglądu tego projektu"
                     }
                 },
                 "mode": {
@@ -5378,16 +5378,19 @@
                         ]
                     },
                     "preview": {
-                        "label": "$?",
-                        "labels": ["$?"],
-                        "tips": ["$?"]
+                        "label": "$~tryb podglądu",
+                        "labels": ["$~automatyczny", "$~zwyczaj"],
+                        "tips": [
+                            "$~pozwól projektowi wybrać własny glif podglądu na podstawie tego, co pokazuje",
+                            "$~przypnij wybrany glif"
+                        ]
                     }
                 },
                 "error": {
                     "unknown": "$~Nie znamy twórcy, który posiada ten adres e-mail.",
                     "anonymous": "$~$!Musisz być <zalogowany@://login>, aby udostępnić.",
                     "self": "$~Nie możesz dodać siebie.",
-                    "invalidPreview": "$?"
+                    "invalidPreview": "$~Wybierz dokładnie jeden znak lub emoji."
                 },
                 "button": {
                     "submit": "$~Udostępnij projekt za pomocą tego adresu e-mail",

@@ -5288,8 +5288,8 @@
                         "explanation": "$~将此项目作为文本复制到剪贴板并在其他地方共享。"
                     },
                     "preview": {
-                        "header": "$?",
-                        "explanation": "$?"
+                        "header": "$~预览",
+                        "explanation": "$~这是用于在列表和图库中代表您项目的小图标。系统会根据您项目显示的内容自动选择一个图标；您也可以自定义一个字符或表情符号。"
                     }
                 },
                 "field": {
@@ -5298,8 +5298,8 @@
                         "description": "你想要授予編輯權限的人員的電子郵件或使用者名"
                     },
                     "preview": {
-                        "placeholder": "$?",
-                        "description": "$?"
+                        "placeholder": "$~预览字形",
+                        "description": "$~用作此项目预览字形的单个字符或表情符号"
                     }
                 },
                 "mode": {
@@ -5312,16 +5312,19 @@
                         ]
                     },
                     "preview": {
-                        "label": "$?",
-                        "labels": ["$?"],
-                        "tips": ["$?"]
+                        "label": "$~预览模式",
+                        "labels": ["$~汽车", "$~风俗"],
+                        "tips": [
+                            "$~让项目根据其显示的内容自行选择预览字形",
+                            "$~固定你选择的字形"
+                        ]
                     }
                 },
                 "error": {
                     "unknown": "我们不知道这封邮件的创建者是谁。",
                     "anonymous": "你必須登入才能共享。",
                     "self": "$~您无法添加自己。",
-                    "invalidPreview": "$?"
+                    "invalidPreview": "$~请选择一个字符或表情符号。"
                 },
                 "button": {
                     "submit": "通过此电子邮件地址分享项目",

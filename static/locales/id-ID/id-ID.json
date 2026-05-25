@@ -5598,8 +5598,8 @@
                         "explanation": "$~Membagikan informasi identitas pribadi (PII) secara publik dapat membahayakan kreator, oleh karena itu kami mendeteksi kemungkinan PII dan memperingatkan kreator untuk menghapus data sensitif tersebut atau menandainya sebagai non-sensitif. Di bawah ini adalah daftar kemungkinan PII dalam proyek ini yang telah Anda tandai sebagai non-sensitif. Anda dapat mengklik tombol di sebelahnya untuk menandainya sebagai sensitif lagi, tetapi dengan demikian proyek Anda tidak akan lagi disimpan secara online."
                     },
                     "preview": {
-                        "header": "$?",
-                        "explanation": "$?"
+                        "header": "$~Pratinjau",
+                        "explanation": "$~Ini adalah ikon kecil yang mewakili proyek Anda dalam daftar dan galeri. Secara otomatis memilih salah satu berdasarkan apa yang ditampilkan proyek Anda; Kustom memungkinkan Anda untuk menyematkan satu karakter atau emoji."
                     }
                 },
                 "field": {
@@ -5608,8 +5608,8 @@
                         "description": "$~Alamat email atau nama pengguna orang yang ingin Anda beri akses edit."
                     },
                     "preview": {
-                        "placeholder": "$?",
-                        "description": "$?"
+                        "placeholder": "$~pratinjau glif",
+                        "description": "$~satu karakter atau emoji tunggal untuk digunakan sebagai glif pratinjau proyek ini."
                     }
                 },
                 "mode": {
@@ -5622,16 +5622,19 @@
                         ]
                     },
                     "preview": {
-                        "label": "$?",
-                        "labels": ["$?"],
-                        "tips": ["$?"]
+                        "label": "$~mode pratinjau",
+                        "labels": ["$~mobil", "$~kebiasaan"],
+                        "tips": [
+                            "$~biarkan proyek memilih sendiri glif pratinjaunya berdasarkan apa yang ditampilkannya",
+                            "$~sematkan simbol yang Anda pilih"
+                        ]
                     }
                 },
                 "error": {
                     "unknown": "$~Kami tidak mengenal kreator dengan alamat email ini.",
                     "anonymous": "$~Anda pasti<logged in@://login> untuk dibagikan.",
                     "self": "$~Anda tidak bisa menambahkan diri sendiri.",
-                    "invalidPreview": "$?"
+                    "invalidPreview": "$~Pilih tepat satu karakter atau emoji."
                 },
                 "button": {
                     "submit": "$~Bagikan proyek ini melalui alamat email ini.",

@@ -5332,8 +5332,8 @@
                         "explanation": "$~Copiez ce projet dans votre presse-papiers sous forme de texte et partagez-le ailleurs."
                     },
                     "preview": {
-                        "header": "$?",
-                        "explanation": "$?"
+                        "header": "$~Aperçu",
+                        "explanation": "$~Il s'agit du petit glyphe qui représente votre projet dans les listes et les galeries. Le mode automatique sélectionne un glyphe en fonction du contenu de votre projet ; le mode personnalisé vous permet d'épingler un caractère ou un emoji."
                     }
                 },
                 "field": {
@@ -5342,8 +5342,8 @@
                         "description": "$~e-mail ou nom d'utilisateur de la personne à qui vous souhaitez donner l'accès en modification"
                     },
                     "preview": {
-                        "placeholder": "$?",
-                        "description": "$?"
+                        "placeholder": "$~glyphe d'aperçu",
+                        "description": "$~caractère unique ou emoji à utiliser comme glyphe d'aperçu de ce projet"
                     }
                 },
                 "mode": {
@@ -5356,16 +5356,19 @@
                         ]
                     },
                     "preview": {
-                        "label": "$?",
-                        "labels": ["$?"],
-                        "tips": ["$?"]
+                        "label": "$~mode aperçu",
+                        "labels": ["$~auto", "$~coutume"],
+                        "tips": [
+                            "$~Laissez le projet choisir son propre glyphe d'aperçu en fonction de ce qu'il affiche.",
+                            "$~épingler un glyphe de votre choix"
+                        ]
                     }
                 },
                 "error": {
                     "unknown": "$~Nous ne connaissons pas de créateur avec cet email.",
                     "anonymous": "$~Vous devez être <connecté@://login> pour partager.",
                     "self": "$~Vous ne pouvez pas vous ajouter.",
-                    "invalidPreview": "$?"
+                    "invalidPreview": "$~Choisissez un seul caractère ou emoji."
                 },
                 "button": {
                     "submit": "$~Partager le projet avec cette adresse email",

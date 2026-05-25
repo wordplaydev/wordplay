@@ -5586,8 +5586,8 @@
                         "explanation": "$~Partilhar informações de identificação pessoal (PII) publicamente pode colocar os criadores em risco. Por isso, detetamos possíveis PII e alertamos os criadores para que removam os dados sensíveis ou os marquem como não sensíveis.\n\nAbaixo está uma lista de possíveis PII neste projeto que marcou como não sensíveis. Pode clicar no botão ao lado para o marcar novamente como sensível, mas isso significa que o seu projeto já não será guardado online."
                     },
                     "preview": {
-                        "header": "$?",
-                        "explanation": "$?"
+                        "header": "$~Pré-visualização",
+                        "explanation": "$~Este é o pequeno ícone que representa o seu projeto em listas e galerias. A opção \"Automático\" seleciona um com base no conteúdo do seu projeto; a opção \"Personalizado\" permite fixar um único caractere ou emoji."
                     }
                 },
                 "field": {
@@ -5596,8 +5596,8 @@
                         "description": "$~E-mail ou nome de utilizador da pessoa a quem pretende conceder acesso de edição."
                     },
                     "preview": {
-                        "placeholder": "$?",
-                        "description": "$?"
+                        "placeholder": "$~glifo de pré-visualização",
+                        "description": "$~Um único caractere ou emoji para utilizar como glifo de pré-visualização deste projeto."
                     }
                 },
                 "mode": {
@@ -5610,16 +5610,19 @@
                         ]
                     },
                     "preview": {
-                        "label": "$?",
-                        "labels": ["$?"],
-                        "tips": ["$?"]
+                        "label": "$~modo de pré-visualização",
+                        "labels": ["$~auto", "$~personalizado"],
+                        "tips": [
+                            "$~Deixe o projeto escolher o seu próprio glifo de pré-visualização com base no que mostra.",
+                            "$~fixe um glifo à sua escolha."
+                        ]
                     }
                 },
                 "error": {
                     "unknown": "$~Não conhecemos nenhum criador com este endereço de e-mail.",
                     "anonymous": "$~Precisa de estar <logado em@://login> para partilhar.",
                     "self": "$~Não pode adicionar a si mesmo.",
-                    "invalidPreview": "$?"
+                    "invalidPreview": "$~Escolha exatamente um caractere ou emoji."
                 },
                 "button": {
                     "submit": "$~Partilhe o projeto com este endereço de e-mail.",
