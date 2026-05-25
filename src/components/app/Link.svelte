@@ -77,6 +77,7 @@
             title={tip ? $locales.getPlainText(tip) : undefined}
             {href}
             target={external ? '_blank' : null}
+            class="link"
             class:nowrap
             >{@render labelOrChildren()}{#if external}<span class="external"
                     >↗</span
@@ -85,7 +86,7 @@
 {/snippet}
 
 {#if localizing?.on}
-    <span class="link-with-editor" class:editing>
+    <span class="link-with-editor link" class:editing>
         <span class="link-part">{@render linkPart()}</span
         >{#if registeredPath !== undefined}<LocalizedText
                 path={registeredPath}
@@ -98,6 +99,11 @@
 {/if}
 
 <style>
+    .link {
+        /* Don't stretch links, even if in a flex. */
+        align-self: flex-start;
+    }
+
     .nowrap {
         white-space: nowrap;
     }
