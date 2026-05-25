@@ -4779,7 +4779,14 @@
                 "projectContainedPII": "$~Para proteger a sua privacidade, um projeto com informações potencialmente identificáveis não foi guardado online. Verifique o projeto para ver se as informações são identificáveis.",
                 "projectsNotLoadingOnline": "$~Não foi possível carregar os projetos online.",
                 "projectNotSavedOnline": "$~Não foi possível guardar projetos online.",
-                "settingsUnsaved": "$~Não foi possível guardar as definições online."
+                "settingsUnsaved": "$~Não foi possível guardar as definições online.",
+                "failureReason": {
+                    "indexedDBWriteFailed": "$~O seu navegador não conseguiu guardar estes projetos neste dispositivo.",
+                    "indexedDBUnsupported": "$~O seu navegador não permite que o Wordplay guarde projetos neste dispositivo.",
+                    "firestoreBatchFailed": "$~Não foi possível enviar estes projetos para a nuvem. Ainda estão seguros neste dispositivo.",
+                    "projectContainsPII": "$~Estes projetos parecem conter informações pessoais, por isso não os guardamos online. Abra cada um para verificar o que parece ser informação pessoal."
+                },
+                "failuresHeader": "$~$count projetos não guardados foi:"
             },
             "dialog": {
                 "unsaved": "$~Trabalho não guardado...",

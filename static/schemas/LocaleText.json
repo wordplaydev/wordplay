@@ -17769,6 +17769,39 @@
                   "additionalProperties": false,
                   "description": "The messages shown for save status",
                   "properties": {
+                    "failureReason": {
+                      "additionalProperties": false,
+                      "description": "Per-reason explanations shown in the save-failure dialog, grouped above the list of affected project names.",
+                      "properties": {
+                        "firestoreBatchFailed": {
+                          "$ref": "#/definitions/FormattedText",
+                          "description": "[formatted] Sending projects to the cloud failed"
+                        },
+                        "indexedDBUnsupported": {
+                          "$ref": "#/definitions/FormattedText",
+                          "description": "[formatted] Browser doesn't support saving projects locally"
+                        },
+                        "indexedDBWriteFailed": {
+                          "$ref": "#/definitions/FormattedText",
+                          "description": "[formatted] Browser local save failed (IndexedDB write error)"
+                        },
+                        "projectContainsPII": {
+                          "$ref": "#/definitions/FormattedText",
+                          "description": "[formatted] Project contained personal info so wasn't sent online"
+                        }
+                      },
+                      "required": [
+                        "indexedDBWriteFailed",
+                        "indexedDBUnsupported",
+                        "firestoreBatchFailed",
+                        "projectContainsPII"
+                      ],
+                      "type": "object"
+                    },
+                    "failuresHeader": {
+                      "$ref": "#/definitions/Template%3C%5B%22count%22%5D%3E",
+                      "description": "[plain] Header above the per-project failure list. $count = total count"
+                    },
                     "projectContainedPII": {
                       "$ref": "#/definitions/FormattedText",
                       "description": "[formatted] When a project wasn't saved because it contained PII"
@@ -17800,7 +17833,9 @@
                     "projectContainedPII",
                     "projectsNotLoadingOnline",
                     "projectNotSavedOnline",
-                    "settingsUnsaved"
+                    "settingsUnsaved",
+                    "failureReason",
+                    "failuresHeader"
                   ],
                   "type": "object"
                 },

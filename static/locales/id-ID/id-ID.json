@@ -4785,7 +4785,14 @@
                 "projectContainedPII": "$~Untuk melindungi privasi Anda, proyek yang berpotensi berisi informasi identitas pribadi tidak disimpan secara daring. Periksa proyek tersebut untuk melihat apakah informasinya bersifat identifikasi.",
                 "projectsNotLoadingOnline": "$~Tidak dapat memuat proyek online.",
                 "projectNotSavedOnline": "$~Tidak dapat menyimpan proyek secara online.",
-                "settingsUnsaved": "$~Tidak dapat menyimpan pengaturan secara online."
+                "settingsUnsaved": "$~Tidak dapat menyimpan pengaturan secara online.",
+                "failureReason": {
+                    "indexedDBWriteFailed": "$~Browser Anda tidak dapat menyimpan proyek-proyek ini di perangkat ini.",
+                    "indexedDBUnsupported": "$~Browser Anda tidak mengizinkan Wordplay untuk menyimpan proyek di perangkat ini.",
+                    "firestoreBatchFailed": "$~Kami tidak dapat mengirim proyek-proyek ini ke cloud. Proyek-proyek tersebut masih aman di perangkat ini.",
+                    "projectContainsPII": "$~Proyek-proyek ini tampaknya berisi informasi pribadi, jadi kami tidak menyimpannya secara online. Buka setiap proyek untuk memeriksa apa yang tampak bersifat pribadi."
+                },
+                "failuresHeader": "$~$count proyek yang tidak tersimpan:"
             },
             "dialog": {
                 "unsaved": "$~Pekerjaan yang belum disimpan...",

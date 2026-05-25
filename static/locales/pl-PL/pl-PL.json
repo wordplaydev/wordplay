@@ -4783,7 +4783,14 @@
                 "projectContainedPII": "$~Aby chronić Twoją prywatność, projekt z potencjalnie identyfikującymi Cię informacjami nie został zapisany online. Sprawdź projekt, aby zobaczyć, czy informacje są identyfikujące.",
                 "projectsNotLoadingOnline": "$~Nie można załadować projektów online.",
                 "projectNotSavedOnline": "$~Nie można zapisać projektu online.",
-                "settingsUnsaved": "$~Nie można zapisać ustawień online."
+                "settingsUnsaved": "$~Nie można zapisać ustawień online.",
+                "failureReason": {
+                    "indexedDBWriteFailed": "$~Twoja przeglądarka nie mogła zapisać tych projektów na tym urządzeniu.",
+                    "indexedDBUnsupported": "$~Twoja przeglądarka nie pozwoli aplikacji Wordplay na zapisywanie projektów na tym urządzeniu.",
+                    "firestoreBatchFailed": "$~Nie mogliśmy wysłać tych projektów do chmury. Nadal są bezpieczne na tym urządzeniu.",
+                    "projectContainsPII": "$~Te projekty wyglądają, jakby zawierały dane osobowe, więc nie zapisaliśmy ich online. Otwórz każdy z nich, aby sprawdzić, co wygląda na osobiste."
+                },
+                "failuresHeader": "$~Projekt(y) $count nie zostały zapisane:"
             },
             "dialog": {
                 "unsaved": "$~Niezapisana praca...",

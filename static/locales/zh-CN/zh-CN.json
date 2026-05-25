@@ -4737,7 +4737,14 @@
                 "projectContainedPII": "为了保护你的隐私，包含可能个人身份信息的项目未在线保存。请检查该项目以查看该信息是否具有身份识别性。",
                 "projectsNotLoadingOnline": "无法加载在线项目。",
                 "projectNotSavedOnline": "无法在线保存项目。",
-                "settingsUnsaved": "无法在线保存设置。"
+                "settingsUnsaved": "无法在线保存设置。",
+                "failureReason": {
+                    "indexedDBWriteFailed": "$~您的浏览器无法将这些项目保存到此设备上。",
+                    "indexedDBUnsupported": "$~您的浏览器不允许 Wordplay 在此设备上保存项目。",
+                    "firestoreBatchFailed": "$~我们无法将这些项目上传到云端。它们仍然安全地保存在这台设备上。",
+                    "projectContainsPII": "$~这些项目看起来包含个人信息，所以我们没有将它们保存到网上。请打开每个项目，查看哪些内容可能涉及个人信息。"
+                },
+                "failuresHeader": "$~$count："
             },
             "dialog": {
                 "unsaved": "未保存",
