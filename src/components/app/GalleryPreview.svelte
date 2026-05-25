@@ -20,28 +20,41 @@
     let { gallery, delay }: Props = $props();
 
     let index = $state(0);
-    let projectID = $derived<string | undefined>(gallery.getProjects()[0]);
 
     /** Null means loading */
     let project: Project | null | undefined = $state(null);
-    let timeoutID: NodeJS.Timeout;
+    let timeoutID: NodeJS.Timeout | undefined;
+    // Set to true on unmount so the in-flight `Projects.get` doesn't write to
+    // `project` (a `$state` that no longer belongs to a live effect) and
+    // doesn't schedule the next tick. Without this, navigating away from a
+    // page with galleries triggers Svelte's `derived_inert` warning.
+    let unmounted = false;
 
     let description = $derived(
         gallery.getDescription($locales).split('\n').join('\n\n'),
     );
 
     async function loadNext() {
-        index = (index + 1) % gallery.getProjects().length;
-        projectID = gallery.getProjects()[index];
-        if (projectID) project = await Projects.get(projectID);
+        if (unmounted) return;
+        const projects = gallery.getProjects();
+        if (projects.length === 0) return;
+        index = (index + 1) % projects.length;
+        const id = projects[index];
+        if (id) {
+            const next = await Projects.get(id);
+            if (unmounted) return;
+            project = next;
+        }
         timeoutID = setTimeout(loadNext, 10000);
     }
 
     onMount(() => {
-        setTimeout(loadNext, delay);
+        timeoutID = setTimeout(loadNext, delay);
 
-        return () =>
-            timeoutID !== undefined ? clearTimeout(timeoutID) : undefined;
+        return () => {
+            unmounted = true;
+            if (timeoutID !== undefined) clearTimeout(timeoutID);
+        };
     });
 </script>
 

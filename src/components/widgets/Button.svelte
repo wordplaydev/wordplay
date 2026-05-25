@@ -258,6 +258,10 @@
         justify-content: center;
     }
 
+    .circular.padding {
+        padding: var(--wordplay-spacing);
+    }
+
     .salient {
         background: var(--color-yellow-transparent);
         color: var(--wordplay-foreground);

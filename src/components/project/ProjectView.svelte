@@ -58,6 +58,7 @@
         isResizeable,
         type ArrangementType,
     } from '@db/settings/Arrangement';
+    import { consent, refreshConsentFromBrowser } from '@input/permissions';
     import type Locale from '@locale/Locale';
     import Evaluate from '@nodes/Evaluate';
     import Node, { isFieldPosition } from '@nodes/Node';
@@ -69,7 +70,6 @@
     import type Value from '@values/Value';
     import { onDestroy, onMount, tick, untrack } from 'svelte';
     import { writable, type Writable } from 'svelte/store';
-    import { consent, refreshConsentFromBrowser } from '@input/permissions';
     import Characters from '../../lore/BasisCharacters';
     import {
         PROJECT_PARAM_EDIT,
@@ -1911,6 +1911,7 @@
                                     <Button
                                         tip={(l) => l.ui.output.tour.launch}
                                         background="circular"
+                                        padding={false}
                                         icon={INFO_SYMBOL}
                                         uiid="stageTourLaunch"
                                         action={() => {
@@ -1921,6 +1922,7 @@
                                     <Button
                                         tip={(l) => l.ui.source.tour.launch}
                                         background="circular"
+                                        padding={false}
                                         icon={INFO_SYMBOL}
                                         uiid="sourceTourLaunch"
                                         action={() => {
@@ -1931,6 +1933,7 @@
                                     <Button
                                         tip={(l) => l.ui.docs.tour.launch}
                                         background="circular"
+                                        padding={false}
                                         icon={INFO_SYMBOL}
                                         uiid="docsTourLaunch"
                                         action={() => {
@@ -1941,6 +1944,7 @@
                                     <Button
                                         tip={(l) => l.ui.palette.tour.launch}
                                         background="circular"
+                                        padding={false}
                                         icon={INFO_SYMBOL}
                                         uiid="paletteTourLaunch"
                                         action={startPaletteTour}
@@ -1950,6 +1954,7 @@
                                         tip={(l) =>
                                             l.ui.collaborate.tour.launch}
                                         background="circular"
+                                        padding={false}
                                         icon={INFO_SYMBOL}
                                         uiid="collaborateTourLaunch"
                                         action={() => {

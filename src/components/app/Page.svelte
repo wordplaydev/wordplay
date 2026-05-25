@@ -88,7 +88,7 @@
                 <Button
                     tip={(l) => l.ui.widget.backtotop}
                     action={scrollToTop}
-                    background>⏶</Button
+                    background="circular">⏶</Button
                 >
             </div>
         </div>
@@ -239,20 +239,12 @@
         z-index: 2;
     }
 
-    /* Full-width flex bar so the button is centered by its parent rather
-       than by its own transform — Button applies a hover/focus translate
-       that would otherwise fight a translateX(-50%) centering. */
+    /* Pinned to the inline end (right in LTR, left in RTL) just above the
+       footer. Padding from both the edge and the footer matches the standard
+       page spacing. */
     .backtotop-inner {
         position: absolute;
         bottom: var(--wordplay-spacing);
-        left: 0;
-        right: 0;
-        display: flex;
-        justify-content: center;
-        pointer-events: none;
-    }
-
-    .backtotop-inner :global(button) {
-        pointer-events: auto;
+        inset-inline-end: var(--wordplay-spacing);
     }
 </style>

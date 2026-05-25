@@ -295,6 +295,7 @@
             <Button
                 tip={(l) => l.ui.project.tour.launch}
                 background="circular"
+                padding={false}
                 icon={INFO_SYMBOL}
                 uiid="projectTourLaunch"
                 action={launchTour}
