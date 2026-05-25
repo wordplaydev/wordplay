@@ -1474,7 +1474,7 @@
                 "$~\\`^negrito extra^`\\",
                 "$~\\`_sublinhado_`\\",
                 "$~`<linked@https://wordplay.dev>`",
-                "$~```'código'``",
+                "$~\\`\\'código'\\`\\",
                 "$~Trabalho muito bem com o @Phrase para colocar textos bonitos no @Stage."
             ]
         },

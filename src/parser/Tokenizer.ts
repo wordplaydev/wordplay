@@ -642,15 +642,30 @@ export function tokenize(source: string): TokenList {
         }
         // If the token we encountered a doc...
         else if (nextToken.isSymbol(Sym.Doc)) {
-            /// And there's a doc context open, close it
-            if (context.length > 0 && context[0].isSymbol(Sym.Doc))
-                context.shift();
-            // Otherwise open one
+            // Walk down the stack to find the nearest Doc — stopping if we
+            // cross a Code (`\…\`) boundary first. If we reach a Doc, this
+            // `¶` closes it, and any unclosed Formatted spans on the way are
+            // popped alongside it (so a stray backtick inside a localized
+            // doc doesn't bleed across the doc boundary into the next
+            // entry; see createSayType in vi-VN). If we reach a Code first,
+            // we're inside a code example and this `¶` opens a nested doc
+            // instead — that's the `\¶inner¶\` case. The walk handles
+            // arbitrary doc-inside-code-inside-doc nesting, since each Doc
+            // is independent and only the topmost Code blocks the close.
+            let closeUntil = -1;
+            for (let i = 0; i < context.length; i++) {
+                if (context[i].isSymbol(Sym.Code)) break;
+                if (context[i].isSymbol(Sym.Doc)) {
+                    closeUntil = i;
+                    break;
+                }
+            }
+            if (closeUntil >= 0) context.splice(0, closeUntil + 1);
             else context.unshift(nextToken);
         }
         // If the token we encountered a formatted...
         else if (nextToken.isSymbol(Sym.Formatted)) {
-            /// And there's a doc context open, close it
+            /// And there's a formatted context open, close it
             if (context.length > 0 && context[0].isSymbol(Sym.Formatted))
                 context.shift();
             // Otherwise open one

@@ -4614,7 +4614,7 @@
                 "$~Chào! Mình là @Say , và mình đọc văn bản thành tiếng thay vì hiển thị trên @Stage .",
                 "$~Hãy cho tôi điều gì đó để nói, và tôi sẽ nói điều đó mỗi khi chương trình của bạn được đánh giá:",
                 "$~\\Say('blah blah blah')\\",
-                "$~Tôi sẽ sử dụng @Language của ` @TextLiteral nếu nó có thuộc tính đó, nếu không, tôi sẽ sử dụng ngôn ngữ đã chọn.",
+                "$~Tôi sẽ sử dụng @Language của @TextLiteral nếu nó có thuộc tính đó, nếu không, tôi sẽ sử dụng ngôn ngữ đã chọn.",
                 "$~Bạn có thể chọn giọng nói trong phần cài đặt."
             ],
             "names": ["$~🔊", "$~Nói"],
