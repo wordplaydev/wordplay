@@ -215,15 +215,18 @@
             "conflict": {
                 "UnknownLanguage": {
                     "name": "$~okäntspråk",
-                    "explanation": "$~Jag kan inte det här språket"
+                    "explanation": "$~Jag kan inte det här språket",
+                    "resolution": "$?"
                 },
                 "MissingLanguage": {
                     "name": "$~saknatspråk",
-                    "explanation": "$~Jag saknar ett språk. Kan du lägga till ett?"
+                    "explanation": "$~Jag saknar ett språk. Kan du lägga till ett?",
+                    "resolution": "$?"
                 },
                 "DuplicateLanguage": {
                     "name": "$~dupliceratspråk",
-                    "explanation": "$~Du använde språket ' $code ' två gånger. Taggar för blandspråk bör bara lista varje språk en gång."
+                    "explanation": "$~Du använde språket ' $code ' två gånger. Taggar för blandspråk bör bara lista varje språk en gång.",
+                    "resolution": "$?"
                 }
             }
         },
@@ -266,19 +269,24 @@
             "conflict": {
                 "InvalidRow": {
                     "name": "$~ogiltigrad",
-                    "explanation": "$~Rader måste antingen vara alla värden eller alla @Bind."
+                    "explanation": "$~Rader måste antingen vara alla värden eller alla @Bind.",
+                    "resolutionKeepPositional": "$?",
+                    "resolutionUnwrapInputs": "$?"
                 },
                 "MissingCell": {
                     "name": "$~saknadkolumn",
-                    "explanation": "$~Jag saknar kolumn $column"
+                    "explanation": "$~Jag saknar kolumn $column",
+                    "resolution": "$?"
                 },
                 "ExtraCell": {
                     "name": "$~extrakolumn",
-                    "explanation": "$~Baserat på min tabelltyp är jag en extra kolumn som inte borde vara här."
+                    "explanation": "$~Baserat på min tabelltyp är jag en extra kolumn som inte borde vara här.",
+                    "resolution": "$?"
                 },
                 "UnknownColumn": {
                     "name": "$~okäntkolumnnamn",
-                    "explanation": "$~Jag känner inte till en kolumn med det här namnet"
+                    "explanation": "$~Jag känner inte till en kolumn med det här namnet",
+                    "resolution": "$?"
                 },
                 "UnexpectedColumnBind": {
                     "name": "$~ingabindningsrader",
@@ -309,7 +317,8 @@
             "conflict": {
                 "DuplicateTypeVariable": {
                     "name": "$~dupliceradtypvariabel",
-                    "explanation": "$~Jag har samma namn som $duplicate"
+                    "explanation": "$~Jag har samma namn som $duplicate",
+                    "resolution": "$?"
                 }
             },
             "label": {
@@ -384,7 +393,8 @@
             "conflict": {
                 "UnsupportedFontFormat": {
                     "name": "$~teckensnittsformatsomintestöds",
-                    "explanation": "$~Min vän * $face * vet inte hur man är $format ."
+                    "explanation": "$~Min vän * $face * vet inte hur man är $format .",
+                    "resolution": "$?"
                 }
             }
         },
@@ -438,7 +448,8 @@
             "conflict": {
                 "OrderOfOperations": {
                     "name": "$~tvetydigordning",
-                    "explanation": "$~Jag utvärderar i läsordning, inte i matematisk ordning för operationerna. Vill du använda @Block för att ange i vilken ordning jag ska utvärdera?"
+                    "explanation": "$~Jag utvärderar i läsordning, inte i matematisk ordning för operationerna. Vill du använda @Block för att ange i vilken ordning jag ska utvärdera?",
+                    "resolution": "$?"
                 }
             },
             "label": {
@@ -487,7 +498,8 @@
                 },
                 "DuplicateShare": {
                     "name": "$~dupliceraddelning",
-                    "explanation": "$~Jag har samma namn som $duplicate. Det gör det oklart vad vi delar."
+                    "explanation": "$~Jag har samma namn som $duplicate. Det gör det oklart vad vi delar.",
+                    "resolution": "$?"
                 },
                 "IncompatibleType": {
                     "name": "$~inkompatibeltyp",
@@ -506,23 +518,28 @@
                 },
                 "MisplacedShare": {
                     "name": "$~felplaceraddelning",
-                    "explanation": "$~Jag kan bara dela saker på @Program-nivå, inte inuti någonting!"
+                    "explanation": "$~Jag kan bara dela saker på @Program-nivå, inte inuti någonting!",
+                    "resolution": "$?"
                 },
                 "MissingShareLanguages": {
                     "name": "$~saknatspråk",
-                    "explanation": "$~Om du vill dela detta måste du ange vilket språk det är på, så att andra vet om de kan läsa det!"
+                    "explanation": "$~Om du vill dela detta måste du ange vilket språk det är på, så att andra vet om de kan läsa det!",
+                    "resolution": "$?"
                 },
                 "RequiredAfterOptional": {
                     "name": "$~obligatoriskinmatningeftervalfritt",
-                    "explanation": "$~Jag kan inte vara här, det finns en valfri @Bind framför mig"
+                    "explanation": "$~Jag kan inte vara här, det finns en valfri @Bind framför mig",
+                    "resolution": "$?"
                 },
                 "UnexpectedEtc": {
                     "name": "$~oväntadinmatningefterinmatningslista",
-                    "explanation": "$~Jag kan bara ha variabel längd i en @FunctionDefinition"
+                    "explanation": "$~Jag kan bara ha variabel längd i en @FunctionDefinition",
+                    "resolution": "$?"
                 },
                 "UnusedBind": {
                     "name": "$~oanvändbindning",
-                    "explanation": "$~Jag heter $name, men ingen utnyttjar mig. Kanske behövs jag inte?"
+                    "explanation": "$~Jag heter $name, men ingen utnyttjar mig. Kanske behövs jag inte?",
+                    "resolution": "$?"
                 }
             },
             "label": {
@@ -558,7 +575,8 @@
             "conflict": {
                 "ExpectedEndingExpression": {
                     "name": "$~saknatuttryck",
-                    "explanation": "Jag behöver minst ett uttryck som inte är @Bind, så att jag har ett värde att returnera."
+                    "explanation": "Jag behöver minst ett uttryck som inte är @Bind, så att jag har ett värde att returnera.",
+                    "resolution": "$?"
                 }
             },
             "label": {
@@ -581,11 +599,13 @@
             "conflict": {
                 "UnknownBorrow": {
                     "name": "$~okändlån",
-                    "explanation": "$~Jag känner inte till en $source med det här namnet"
+                    "explanation": "$~Jag känner inte till en $source med det här namnet",
+                    "resolution": "$?"
                 },
                 "BorrowCycle": {
                     "name": "$~självrefererandelån",
-                    "explanation": "$~detta beror på $borrow, vilket beror på denna $source, så programmet kan inte utvärderas"
+                    "explanation": "$~detta beror på $borrow, vilket beror på denna $source, så programmet kan inte utvärderas",
+                    "resolution": "$?"
                 }
             },
             "exception": {
@@ -667,7 +687,8 @@
             "conflict": {
                 "MisplacedConversion": {
                     "name": "$~felplaceradkonvertering",
-                    "explanation": "$~Oj, jag kan inte vara här, bara i @Block."
+                    "explanation": "$~Oj, jag kan inte vara här, bara i @Block.",
+                    "resolution": "$?"
                 }
             },
             "label": {
@@ -694,7 +715,8 @@
             "conflict": {
                 "UnknownConversion": {
                     "name": "$~okändkonvertering",
-                    "explanation": "$~Vi kunde inte hitta ett sätt att konvertera ett $expected till ett $given"
+                    "explanation": "$~Vi kunde inte hitta ett sätt att konvertera ett $expected till ett $given",
+                    "resolution": "$?"
                 }
             },
             "exception": {
@@ -765,7 +787,8 @@
                 },
                 "UnexpectedTypeInput": {
                     "name": "$~oväntadtypinmatning",
-                    "explanation": "$~Jag är en extra, oväntad typ av input."
+                    "explanation": "$~Jag är en extra, oväntad typ av input.",
+                    "resolution": "$?"
                 },
                 "MissingInput": {
                     "name": "$~saknadinmatning",
@@ -775,23 +798,28 @@
                 },
                 "NotInstantiable": {
                     "name": "$~ofullständigstruktur",
-                    "explanation": "$~Jag kan inte skapa denna @StructureDefinition, den har oimplementerade funktioner."
+                    "explanation": "$~Jag kan inte skapa denna @StructureDefinition, den har oimplementerade funktioner.",
+                    "resolution": "$?"
                 },
                 "UnexpectedInput": {
                     "name": "$~oväntadinmatning",
-                    "explanation": "$~Jag är en oväntad input."
+                    "explanation": "$~Jag är en oväntad input.",
+                    "resolution": "$?"
                 },
                 "UnknownInput": {
                     "name": "$~okändingång",
-                    "explanation": "$~Den här funktionen *$name* förväntar sig inte inmatning med mitt namn."
+                    "explanation": "$~Den här funktionen *$name* förväntar sig inte inmatning med mitt namn.",
+                    "resolution": "$?"
                 },
                 "InputListMustBeLast": {
                     "name": "$~extrainmatningarärintesista",
-                    "explanation": "$~listan över inmatningar måste vara sist"
+                    "explanation": "$~listan över inmatningar måste vara sist",
+                    "resolution": "$?"
                 },
                 "SeparatedEvaluate": {
                     "name": "$~tvetydigutvärdering",
-                    "explanation": "$~Är $name namnet på en $structure[$structure|$function] som du försöker utvärdera? Försök att ta bort mellanslaget efter mig, så att jag vet att det är en @Evaluate och inte ett separat @Block."
+                    "explanation": "$~Är $name namnet på en $structure[$structure|$function] som du försöker utvärdera? Försök att ta bort mellanslaget efter mig, så att jag vet att det är en @Evaluate och inte ett separat @Block.",
+                    "resolution": "$?"
                 }
             },
             "exception": {
@@ -835,7 +863,8 @@
             "conflict": {
                 "Placeholder": {
                     "name": "$~platshållare",
-                    "explanation": "$~Kan du fylla i mig? Jag är bara en platsmarkör."
+                    "explanation": "$~Kan du fylla i mig? Jag är bara en platsmarkör.",
+                    "resolution": "$?"
                 }
             },
             "exception": {
@@ -872,7 +901,8 @@
             "conflict": {
                 "NoExpression": {
                     "name": "$~saknatuttryck",
-                    "explanation": "$~Jag behöver ett uttryck för att utvärdera, kan du lägga till ett?"
+                    "explanation": "$~Jag behöver ett uttryck för att utvärdera, kan du lägga till ett?",
+                    "resolution": "$?"
                 }
             },
             "label": {
@@ -934,7 +964,9 @@
             "conflict": {
                 "ImpossibleType": {
                     "name": "$~omöjligtyp",
-                    "explanation": "$~detta kan aldrig vara $type"
+                    "explanation": "$~detta kan aldrig vara $type",
+                    "resolutionIsFalse": "$?",
+                    "resolutionDropOtherwise": "$?"
                 }
             },
             "exception": {
@@ -994,7 +1026,8 @@
             "conflict": {
                 "NotAKeyValue": {
                     "name": "$~saknatvärde",
-                    "explanation": "$~Jag är i en @Map, så jag behöver ett värde."
+                    "explanation": "$~Jag är i en @Map, så jag behöver ett värde.",
+                    "resolution": "$?"
                 }
             },
             "label": {
@@ -1030,7 +1063,8 @@
             "conflict": {
                 "NotANumber": {
                     "name": "$~inteettnummer",
-                    "explanation": "$~Jag trodde jag kunde alla siffror, men jag kan inte den här."
+                    "explanation": "$~Jag trodde jag kunde alla siffror, men jag kan inte den här.",
+                    "resolution": "$?"
                 }
             }
         },
@@ -1145,7 +1179,8 @@
             "conflict": {
                 "InvalidProperty": {
                     "name": "$~okändegendom",
-                    "explanation": "$~Jag är inte ett namn i strukturen $structure, så jag kan inte förfinas."
+                    "explanation": "$~Jag är inte ett namn i strukturen $structure, så jag kan inte förfinas.",
+                    "resolution": "$?"
                 }
             },
             "label": {
@@ -1184,7 +1219,8 @@
             "conflict": {
                 "ExpectedStream": {
                     "name": "$~förväntadström",
-                    "explanation": "$~$condition refererar inte till en stream, så jag kommer aldrig att reagera!"
+                    "explanation": "$~$condition refererar inte till en stream, så jag kommer aldrig att reagera!",
+                    "resolution": "$?"
                 }
             },
             "label": {
@@ -1214,11 +1250,13 @@
                 },
                 "ReferenceCycle": {
                     "name": "$~självrefererandevärde",
-                    "explanation": "$~um, $name värde beror på sig självt, så hur vet jag vilket värde jag ska ge det?"
+                    "explanation": "$~um, $name värde beror på sig självt, så hur vet jag vilket värde jag ska ge det?",
+                    "resolution": "$?"
                 },
                 "UnexpectedTypeVariable": {
                     "name": "$~oväntadtypvariabel",
-                    "explanation": "$~Jag vet inte vad jag ska göra med den här typen av inmatningar."
+                    "explanation": "$~Jag vet inte vad jag ska göra med den här typen av inmatningar.",
+                    "resolution": "$?"
                 }
             },
             "exception": {
@@ -1243,7 +1281,8 @@
             "conflict": {
                 "ExpectedSelectName": {
                     "name": "$~saknatkolumnnamn",
-                    "explanation": "$~Jag behöver minst ett kolumnnamn."
+                    "explanation": "$~Jag behöver minst ett kolumnnamn.",
+                    "resolution": "$?"
                 }
             }
         },
@@ -1324,19 +1363,23 @@
             "conflict": {
                 "DisallowedInputs": {
                     "name": "$~inmatningarärintetillåtna",
-                    "explanation": "$~Jag kan inte få indata eftersom en eller flera av mina gränssnittsfunktioner inte är implementerade."
+                    "explanation": "$~Jag kan inte få indata eftersom en eller flera av mina gränssnittsfunktioner inte är implementerade.",
+                    "resolution": "$?"
                 },
                 "IncompleteImplementation": {
                     "name": "$~ofullständigstruktur",
-                    "explanation": "$~Antingen måste alla mina funktioner implementeras, eller så måste inga implementeras. Inga röriga blandningar!"
+                    "explanation": "$~Antingen måste alla mina funktioner implementeras, eller så måste inga implementeras. Inga röriga blandningar!",
+                    "resolution": "$?"
                 },
                 "NotAnInterface": {
                     "name": "$~inteettgränssnitt",
-                    "explanation": "$~Jag är inte ett gränssnitt; en struktur kan bara implementera gränssnitt, inte andra strukturer."
+                    "explanation": "$~Jag är inte ett gränssnitt; en struktur kan bara implementera gränssnitt, inte andra strukturer.",
+                    "resolution": "$?"
                 },
                 "UnimplementedInterface": {
                     "name": "$~oimplementerad",
-                    "explanation": "$~Jag implementerar $interface men har inte implementerat $function"
+                    "explanation": "$~Jag implementerar $interface men har inte implementerat $function",
+                    "resolution": "$?"
                 }
             },
             "label": {
@@ -1402,7 +1445,8 @@
                 "reminder": "$~Obs! Du kan ångra den här åtgärden och se andra saker som du har markerat som okänsliga i delningsdialogrutan.",
                 "character": {
                     "name": "$~möjliganpassadkaraktär",
-                    "explanation": "$~Detta ser ut som ett teckennamn. För att visa dessa, använd @FormattedLiteral istället för @TextLiteral."
+                    "explanation": "$~Detta ser ut som ett teckennamn. För att visa dessa, använd @FormattedLiteral istället för @TextLiteral.",
+                    "resolutionStrip": "$?"
                 }
             },
             "label": {
@@ -1450,7 +1494,8 @@
             "conflict": {
                 "MisplacedThis": {
                     "name": "$~felplaceradedennareferens",
-                    "explanation": "$~Jag är bara tillåten i en struktur, konvertering eller reaktion."
+                    "explanation": "$~Jag är bara tillåten i en struktur, konvertering eller reaktion.",
+                    "resolution": "$?"
                 }
             }
         },
@@ -1499,7 +1544,8 @@
                 },
                 "UnclosedDelimiter": {
                     "name": "$~oavslutadavgränsare",
-                    "explanation": "$~Jag förväntade mig $expected någon gång efter $unclosed"
+                    "explanation": "$~Jag förväntade mig $expected någon gång efter $unclosed",
+                    "resolution": "$?"
                 }
             },
             "exception": {
@@ -1524,7 +1570,8 @@
             "conflict": {
                 "ExpectedColumnBind": {
                     "name": "$~saknatkolumnvärde",
-                    "explanation": "$~Jag behöver ett värde för varje kolumn"
+                    "explanation": "$~Jag behöver ett värde för varje kolumn",
+                    "resolution": "$?"
                 },
                 "IncompatibleCellType": {
                     "name": "$~inkompatibelcelltyp",
@@ -1631,7 +1678,8 @@
             "conflict": {
                 "UnknownTypeName": {
                     "name": "$~okänttypnamn",
-                    "explanation": "$~typnamn kan bara referera till strukturer eller typvariabler, men detta refererar till typ $type"
+                    "explanation": "$~typnamn kan bara referera till strukturer eller typvariabler, men detta refererar till typ $type",
+                    "resolution": "$?"
                 }
             }
         },
@@ -1695,7 +1743,8 @@
             "conflict": {
                 "ExpectedColumnType": {
                     "name": "$~saknadkolumntyp",
-                    "explanation": "$~Jag behöver en kolumntyp"
+                    "explanation": "$~Jag behöver en kolumntyp",
+                    "resolution": "$?"
                 }
             }
         },

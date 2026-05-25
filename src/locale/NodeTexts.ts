@@ -104,9 +104,18 @@ type NodeTexts = {
     /** A language tag appearing in a doc or name, such as `/en` in `name/en: 1` or ` ¶My doc¶/en` */
     Language: DescriptiveNodeText &
         Conflicts<{
-            UnknownLanguage: ConflictText;
-            MissingLanguage: ConflictText;
-            DuplicateLanguage: ConflictText<['code']>;
+            UnknownLanguage: ConflictText & {
+                /** [formatted] Action description for the repair this conflict offers */
+                resolution: Template<[]>;
+            };
+            MissingLanguage: ConflictText & {
+                /** [formatted] Action description for the repair this conflict offers */
+                resolution: Template<[]>;
+            };
+            DuplicateLanguage: ConflictText<['code']> & {
+                /** [formatted] Action description for the repair this conflict offers */
+                resolution: Template<['code']>;
+            };
         }>;
     /**
      * A name, e.g., `hi`.
@@ -124,20 +133,34 @@ type NodeTexts = {
     Row: DescriptiveNodeText &
         Conflicts<{
             /** When a row does not form to it's table's type definition */
-            InvalidRow: ConflictText;
+            InvalidRow: ConflictText & {
+                /** [formatted] Action: drop the named cells from the row, keep positional */
+                resolutionKeepPositional: Template<[]>;
+                /** [formatted] Action: drop the names from the named cells, making them positional */
+                resolutionUnwrapInputs: Template<[]>;
+            };
             /**
              * When cell is missing from a row. $1: Column
              * $2: Row
              * */
-            MissingCell: ConflictText<['column']>;
+            MissingCell: ConflictText<['column']> & {
+                /** [formatted] Action description for the repair this conflict offers */
+                resolution: Template<['column']>;
+            };
             /**
              * When an extra cell was provided.
              * $1: Cell */
-            ExtraCell: ConflictText;
+            ExtraCell: ConflictText & {
+                /** [formatted] Action description for the repair this conflict offers */
+                resolution: Template<[]>;
+            };
             /**
              * When a unknown column is specified by name.
              */
-            UnknownColumn: ConflictText;
+            UnknownColumn: ConflictText & {
+                /** [formatted] Action: rename to the suggested column name */
+                resolution: Template<['name']>;
+            };
             /** When a bind was not expected in a row but it was provided. */
             UnexpectedColumnBind: ConflictText;
         }>;
@@ -152,7 +175,10 @@ type NodeTexts = {
     TypeVariable: DescriptiveNodeText &
         Conflicts<{
             /** When a type variable name is the same as another. $1: The duplicate name */
-            DuplicateTypeVariable: ConflictText<['duplicate']>;
+            DuplicateTypeVariable: ConflictText<['duplicate']> & {
+                /** [formatted] Action description for the repair this conflict offers */
+                resolution: Template<[]>;
+            };
         }> & {
             label: {
                 /** [plain] The placeholder label for the type variable's name */
@@ -193,7 +219,10 @@ type NodeTexts = {
              * When a @Phrase requests a weight or italic style its face doesn't ship.
              * $1 = face name, $2 = missing format name (e.g. "extra bold", "italic")
              */
-            UnsupportedFontFormat: ConflictText<['face', 'format']>;
+            UnsupportedFontFormat: ConflictText<['face', 'format']> & {
+                /** [formatted] Action description for the repair this conflict offers */
+                resolution: Template<[]>;
+            };
         }>;
     /** Code inside `Markup`, e.g., ` ¶This is how you add: \1 + 1\¶ ` */
     Example: DescriptiveNodeText;
@@ -218,7 +247,10 @@ type NodeTexts = {
             right: FormattedText;
         } & Conflicts<{
             /** Warning about order of evaluation of binary evaluations always being reading order, not math order of operations */
-            OrderOfOperations: ConflictText;
+            OrderOfOperations: ConflictText & {
+                /** [formatted] Action description for the repair this conflict offers */
+                resolution: Template<[]>;
+            };
         }> & {
             label: {
                 /** [plain] The placeholder label for the operator */
@@ -249,22 +281,40 @@ type NodeTexts = {
                 resolution: FormattedText;
             };
             /** When a shared bind has a duplicate name that's shared. */
-            DuplicateShare: ConflictText<['duplicate']>;
+            DuplicateShare: ConflictText<['duplicate']> & {
+                /** [formatted] Action description for the repair this conflict offers */
+                resolution: Template<[]>;
+            };
             /** When a bind and it's value type are incompatible. */
             IncompatibleType: ConflictText<['expected', 'given']> &
                 TypeResolutionTemplates;
             /**
              * When a bind is marked as share, but not at the top level.
              */
-            MisplacedShare: ConflictText;
+            MisplacedShare: ConflictText & {
+                /** [formatted] Action description for the repair this conflict offers */
+                resolution: Template<[]>;
+            };
             /** When a bind is shared, but not language tagged. */
-            MissingShareLanguages: ConflictText;
+            MissingShareLanguages: ConflictText & {
+                /** [formatted] Action description for the repair this conflict offers */
+                resolution: Template<[]>;
+            };
             /** When a bind is required, but appears after an optional bind in a definition */
-            RequiredAfterOptional: ConflictText;
+            RequiredAfterOptional: ConflictText & {
+                /** [formatted] Action description for the repair this conflict offers */
+                resolution: Template<[]>;
+            };
             /** When a bind is marked as a variable length list, but not at the end. */
-            UnexpectedEtc: ConflictText;
+            UnexpectedEtc: ConflictText & {
+                /** [formatted] Action description for the repair this conflict offers */
+                resolution: Template<[]>;
+            };
             /** When a bind is declared but never used. */
-            UnusedBind: ConflictText<['name']>;
+            UnusedBind: ConflictText<['name']> & {
+                /** [formatted] Action description for the repair this conflict offers */
+                resolution: Template<[]>;
+            };
         }>;
     /**
      * A block of expressions, evaluating to the final expression's value, e.g., `(a: 1  1 + a)`
@@ -280,13 +330,17 @@ type NodeTexts = {
             };
         } & Conflicts<{
             /** When there's no non-Bind expression to produce a value */
-            ExpectedEndingExpression: ConflictText;
+            ExpectedEndingExpression: ConflictText & {
+                /** [formatted] Action description for the repair this conflict offers */
+                resolution: Template<[]>;
+            };
         }>;
     /**
      * A single boolean literal, e.g., `⊤` or `⊥`
      * Description inputs: $1: true if true, false otherwise
      */
-    BooleanLiteral: DescriptiveNodeText<['value']> & SimpleExpressionText<['value']>;
+    BooleanLiteral: DescriptiveNodeText<['value']> &
+        SimpleExpressionText<['value']>;
     /**
      * A borrow staement, indicating some code to import into a source
      * Start inputs: $1 = source name, $2: name borrowed
@@ -303,9 +357,15 @@ type NodeTexts = {
             };
         } & Conflicts<{
             /** When the borrowed name could not be found */
-            UnknownBorrow: ConflictText;
+            UnknownBorrow: ConflictText & {
+                /** [formatted] Action description for the repair this conflict offers */
+                resolution: Template<[]>;
+            };
             /** When a borrowed value depends on the source file doing the borrowing. */
-            BorrowCycle: ConflictText<['borrow']>;
+            BorrowCycle: ConflictText<['borrow']> & {
+                /** [formatted] Action description for the repair this conflict offers */
+                resolution: Template<[]>;
+            };
         }> &
         Exceptions<{
             /** When a borrow depends on itself. Description inputs: $1: Borrow that it depends on */
@@ -375,7 +435,10 @@ type NodeTexts = {
         SimpleExpressionText &
         Conflicts<{
             /** When a conversion is defined somewhere it's not allowed. */
-            MisplacedConversion: ConflictText;
+            MisplacedConversion: ConflictText & {
+                /** [formatted] Action description for the repair this conflict offers */
+                resolution: Template<[]>;
+            };
         }> & {
             label: {
                 /** [plain] The placeholder label for the input type */
@@ -398,7 +461,10 @@ type NodeTexts = {
              * When conversion could not be found.
              * Description inputs: $1 = from type, $2: to type
              **/
-            UnknownConversion: ConflictText<['expected', 'given']>;
+            UnknownConversion: ConflictText<['expected', 'given']> & {
+                /** [formatted] Action: drop the convert expression, leaving just the inner value */
+                resolution: Template<[]>;
+            };
         }> &
         Exceptions<{
             /**
@@ -445,7 +511,10 @@ type NodeTexts = {
              * When a type input given is not expected.
              * Description inputs: $1 = definition given, $2: type given
              * */
-            UnexpectedTypeInput: ConflictText;
+            UnexpectedTypeInput: ConflictText & {
+                /** [formatted] Action description for the repair this conflict offers */
+                resolution: Template<[]>;
+            };
             /**
              * When an input is expected, but not given.
              * Description inputs: $1 = function name, $2: missing input
@@ -459,24 +528,39 @@ type NodeTexts = {
             /**
              * When the structure definition given is an interface, and can't be created
              */
-            NotInstantiable: ConflictText;
+            NotInstantiable: ConflictText & {
+                /** [formatted] Action description for the repair this conflict offers */
+                resolution: Template<[]>;
+            };
             /**
              * When an input value is given but not expected
              * Description inputs: $1 = evaluate with unexected input, $2: unexpected input
              * */
-            UnexpectedInput: ConflictText;
+            UnexpectedInput: ConflictText & {
+                /** [formatted] Action description for the repair this conflict offers */
+                resolution: Template<[]>;
+            };
             /**
              * When an named input value is given but not a known input name
              */
-            UnknownInput: ConflictText<['name']>;
+            UnknownInput: ConflictText<['name']> & {
+                /** [formatted] Action: rename the unknown input to a suggested one in the function's signature */
+                resolution: Template<['name']>;
+            };
             /**
              * When a list of inputs is given but isn't last.
              */
-            InputListMustBeLast: ConflictText;
+            InputListMustBeLast: ConflictText & {
+                /** [formatted] Action description for the repair this conflict offers */
+                resolution: Template<[]>;
+            };
             /**
              * When something looks like an Evaluate with space
              */
-            SeparatedEvaluate: ConflictText<['name', 'structure']>;
+            SeparatedEvaluate: ConflictText<['name', 'structure']> & {
+                /** [formatted] Action description for the repair this conflict offers */
+                resolution: Template<['name']>;
+            };
         }> &
         Exceptions<{
             /**
@@ -497,7 +581,10 @@ type NodeTexts = {
                 placeholder: string;
             };
         } & Conflicts<{
-            Placeholder: ConflictText;
+            Placeholder: ConflictText & {
+                /** [formatted] Action: replace the placeholder with a concrete candidate (NodeRef) */
+                resolution: Template<['candidate']>;
+            };
         }> &
         Exceptions<{
             /** No inputs */
@@ -511,7 +598,10 @@ type NodeTexts = {
         SimpleExpressionText &
         Conflicts<{
             /** When a function has no expression */
-            NoExpression: ConflictText;
+            NoExpression: ConflictText & {
+                /** [formatted] Action description for the repair this conflict offers */
+                resolution: Template<[]>;
+            };
         }> & {
             label: {
                 /** [plain] The placeholder label for the function's inputs */
@@ -555,7 +645,12 @@ type NodeTexts = {
         ExpressionText<['expression'], ['value', 'type']> &
         Conflicts<{
             /** When the type given isn't possible */
-            ImpossibleType: ConflictText<['type']>;
+            ImpossibleType: ConflictText<['type']> & {
+                /** [formatted] Action: replace an impossible Is test with the constant ⊥ */
+                resolutionIsFalse: Template<[]>;
+                /** [formatted] Action: drop a redundant `??` operator whose left side is never ø */
+                resolutionDropOtherwise: Template<[]>;
+            };
         }> &
         Exceptions<{
             /**
@@ -600,14 +695,20 @@ type NodeTexts = {
              * When something other than a key value pair is given.
              * Description inputs: $1 = expression that's not a map
              * */
-            NotAKeyValue: ConflictText;
+            NotAKeyValue: ConflictText & {
+                /** [formatted] Action description for the repair this conflict offers */
+                resolution: Template<[]>;
+            };
         }>;
     /** A number literal, e.g., `1` */
     NumberLiteral: DescriptiveNodeText<['number', 'unit']> &
         SimpleExpressionText<['value']> &
         Conflicts<{
             /** When something is not a valid number format */
-            NotANumber: ConflictText;
+            NotANumber: ConflictText & {
+                /** [formatted] Action description for the repair this conflict offers */
+                resolution: Template<[]>;
+            };
         }>;
     /** An internal expression, used to implement core APIs. */
     InternalExpression: DescriptiveNodeText & SimpleExpressionText;
@@ -678,7 +779,12 @@ type NodeTexts = {
                 /** [plain] The placeholder label for the new property value */
                 value: string;
             };
-        } & Conflicts<{ InvalidProperty: ConflictText<['structure']> }>;
+        } & Conflicts<{
+            InvalidProperty: ConflictText<['structure']> & {
+                /** [formatted] Action: rename to the suggested closest property */
+                resolution: Template<['name']>;
+            };
+        }>;
     /**
      * Getting a structure property, e.g., `mammal.name`
      * Finish inputs: $1: property name, $2: value
@@ -706,7 +812,10 @@ type NodeTexts = {
             };
         } & Conflicts<{
             /** When the condition doesn't refer to a strema */
-            ExpectedStream: ConflictText<['condition']>;
+            ExpectedStream: ConflictText<['condition']> & {
+                /** [formatted] Action description for the repair this conflict offers */
+                resolution: Template<[]>;
+            };
         }>;
     /**
      * A bind name, e.g., `a` in `1 + a`
@@ -729,9 +838,15 @@ type NodeTexts = {
                 resolution: Template<['suggestion']>;
             };
             /** When a name refers to itself outside a reaction */
-            ReferenceCycle: ConflictText<['name']>;
+            ReferenceCycle: ConflictText<['name']> & {
+                /** [formatted] Action description for the repair this conflict offers */
+                resolution: Template<['name']>;
+            };
             /** When a reference refers to a type variable */
-            UnexpectedTypeVariable: ConflictText;
+            UnexpectedTypeVariable: ConflictText & {
+                /** [formatted] Action description for the repair this conflict offers */
+                resolution: Template<[]>;
+            };
         }> &
         Exceptions<{
             /**
@@ -749,7 +864,10 @@ type NodeTexts = {
             /**
              * When a cell in the row isn't a name
              * Description inputs: $1: The select expression */
-            ExpectedSelectName: ConflictText;
+            ExpectedSelectName: ConflictText & {
+                /** [formatted] Action description for the repair this conflict offers */
+                resolution: Template<[]>;
+            };
         }>;
     /**
      * A set, e.g., `{ 1 2 3 }`
@@ -786,16 +904,28 @@ type NodeTexts = {
         SimpleExpressionText &
         Conflicts<{
             /** When inputs are declared on a structure with unimplemented functions */
-            DisallowedInputs: ConflictText;
+            DisallowedInputs: ConflictText & {
+                /** [formatted] Action description for the repair this conflict offers */
+                resolution: Template<[]>;
+            };
             /** When a structure implements some functions, but not all */
-            IncompleteImplementation: ConflictText;
+            IncompleteImplementation: ConflictText & {
+                /** [formatted] Action description for the repair this conflict offers */
+                resolution: Template<[]>;
+            };
             /** When a structure implements something that isn't an interface */
-            NotAnInterface: ConflictText;
+            NotAnInterface: ConflictText & {
+                /** [formatted] Action description for the repair this conflict offers */
+                resolution: Template<[]>;
+            };
             /**
              * When a structure implements an interface, but not all of its functions
              * Description inputs: $1 = Interface, $2 = Function
              */
-            UnimplementedInterface: ConflictText<['interface', 'function']>;
+            UnimplementedInterface: ConflictText<['interface', 'function']> & {
+                /** [formatted] Action description for the repair this conflict offers */
+                resolution: Template<['function']>;
+            };
         }> & {
             label: {
                 /** [plain] The placeholder label for the structure's documentation */
@@ -814,7 +944,8 @@ type NodeTexts = {
      * Description inputs: $1 = the number of rows
      * Finish inputs: $1 = resulting table
      */
-    TableLiteral: DescriptiveNodeText<['count']> & ExpressionText<[], ['value']>;
+    TableLiteral: DescriptiveNodeText<['count']> &
+        ExpressionText<[], ['value']>;
     /**
      * A text literal, e.g., `'hi'`
      * Description inputs: $1 = the text of the text literal
@@ -845,7 +976,10 @@ type NodeTexts = {
             resolution: FormattedText;
             /** [formatted] Note to remind users where they can manage sensitive information for their project. */
             reminder: FormattedText;
-            character: ConflictText;
+            character: ConflictText & {
+                /** [formatted] Action: strip the special concept-link characters from the translation */
+                resolutionStrip: Template<[]>;
+            };
         }>;
     /**
      * A formatted text literal, e.g., ` `hello *wordplay*` `
@@ -863,7 +997,12 @@ type NodeTexts = {
      */
     This: DescriptiveNodeText &
         SimpleExpressionText<['value']> &
-        Conflicts<{ MisplacedThis: ConflictText }>;
+        Conflicts<{
+            MisplacedThis: ConflictText & {
+                /** [formatted] Action: replace with a placeholder so the learner can pick a value in scope */
+                resolution: Template<[]>;
+            };
+        }>;
     /**
      * A unary operation, e.g., `-1`
      * Description inputs: $1 = the operator
@@ -893,7 +1032,10 @@ type NodeTexts = {
              * When a delimiter is unclosed.
              * Description inputs: $1: unclosed token, $2: opening delimiter
              * */
-            UnclosedDelimiter: ConflictText<['unclosed', 'expected']>;
+            UnclosedDelimiter: ConflictText<['unclosed', 'expected']> & {
+                /** [formatted] Action description for the repair this conflict offers */
+                resolution: Template<['expected']>;
+            };
         }> &
         Exceptions<{
             /** When an unparsable thing is evaluated */
@@ -908,7 +1050,10 @@ type NodeTexts = {
         ExpressionText &
         Conflicts<{
             /** When a column name was expected but not given */
-            ExpectedColumnBind: ConflictText;
+            ExpectedColumnBind: ConflictText & {
+                /** [formatted] Action description for the repair this conflict offers */
+                resolution: Template<[]>;
+            };
             /**
              * When a value was given that didn't match the expected type of the column
              * Description inputs: $1: expected type, $2: given type
@@ -953,7 +1098,10 @@ type NodeTexts = {
              * A type representing an unknown name
              * Description inputs: $1 = Invalid type
              * */
-            UnknownTypeName: ConflictText<['type']>;
+            UnknownTypeName: ConflictText<['type']> & {
+                /** [formatted] Action: replace the bad NameType with a type placeholder */
+                resolution: Template<[]>;
+            };
         }>;
     /**
      * A type that is not possible
@@ -985,7 +1133,10 @@ type NodeTexts = {
             /**
              * When a column's type is missing
              * Description inputs: $1 = The missing column */
-            ExpectedColumnType: ConflictText;
+            ExpectedColumnType: ConflictText & {
+                /** [formatted] Action description for the repair this conflict offers */
+                resolution: Template<[]>;
+            };
         }>;
     /**
      * A text type, e.g., `''`

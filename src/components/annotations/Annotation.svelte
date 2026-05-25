@@ -27,7 +27,11 @@
     const editors = getEditors();
     let editor = $derived($editors?.get(sourceID));
 
-    function resolveAnnotation(resolution: Resolution, context: Context) {
+    /** Apply a repair: run the mediator, swap the project. */
+    function resolveAnnotation(
+        resolution: Extract<Resolution, { kind: 'repair' }>,
+        context: Context,
+    ) {
         const { newProject } = resolution.mediator(context, $locales);
         Projects.reviseProject(newProject);
     }
@@ -62,11 +66,16 @@
             <Speech character={annotation.node.getCharacter($locales)} below>
                 {#snippet content()}
                     {#each annotation.messages as markup}
-                        {@const resolutions = annotation.resolutions()}
+                        {@const repairs = annotation
+                            .resolutions()
+                            .filter(
+                                (r): r is Extract<typeof r, { kind: 'repair' }> =>
+                                    r.kind === 'repair',
+                            )}
                         <aside aria-label={markup.toText()}>
                             <MarkupHTMLView {markup} />
-                            {#each resolutions as resolution}
-                                <div class="resolution">
+                            {#each repairs as resolution}
+                                <div class="resolution repair">
                                     <Button
                                         background
                                         tip={(l) =>
@@ -76,7 +85,8 @@
                                                 resolution,
                                                 annotation.context,
                                             )}>{CONFIRM_SYMBOL}</Button
-                                    ><div class="description"
+                                    >
+                                    <div class="description"
                                         ><MarkupHTMLView
                                             inline
                                             markup={resolution.description(

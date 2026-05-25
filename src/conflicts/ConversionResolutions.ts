@@ -69,6 +69,7 @@ export function makeConversionResolutions(
             const targetUnit = targetType.concreteUnit(context);
             if (!targetUnit.isUnitless()) {
                 resolutions.push({
+                    kind: 'repair',
                     description: (locales: Locales, context: Context) =>
                         locales.concretize(localeAccessor, {
                             expected: new NodeRef(targetType, locales, context),
@@ -100,6 +101,7 @@ export function makeConversionResolutions(
 
         if (path.length > 0) {
             resolutions.push({
+                kind: 'repair',
                 description: (locales: Locales, context: Context) =>
                     locales.concretize(localeAccessor, {
                         expected: new NodeRef(targetType, locales, context),

@@ -215,15 +215,18 @@
             "conflict": {
                 "UnknownLanguage": {
                     "name": "$~ngônngữkhôngxácđịnh",
-                    "explanation": "$~Tôi không biết ngôn ngữ này"
+                    "explanation": "$~Tôi không biết ngôn ngữ này",
+                    "resolution": "$?"
                 },
                 "MissingLanguage": {
                     "name": "$~ngônngữbịthiếu",
-                    "explanation": "$~Tôi đang thiếu một ngôn ngữ. Bạn có thể thêm một ngôn ngữ nữa không?"
+                    "explanation": "$~Tôi đang thiếu một ngôn ngữ. Bạn có thể thêm một ngôn ngữ nữa không?",
+                    "resolution": "$?"
                 },
                 "DuplicateLanguage": {
                     "name": "$~ngônngữtrùnglặp",
-                    "explanation": "$~Bạn đã sử dụng ngôn ngữ ' $code ' hai lần. Thẻ đa ngôn ngữ chỉ nên liệt kê mỗi ngôn ngữ một lần."
+                    "explanation": "$~Bạn đã sử dụng ngôn ngữ ' $code ' hai lần. Thẻ đa ngôn ngữ chỉ nên liệt kê mỗi ngôn ngữ một lần.",
+                    "resolution": "$?"
                 }
             }
         },
@@ -266,19 +269,24 @@
             "conflict": {
                 "InvalidRow": {
                     "name": "$~hàngkhônghợplệ",
-                    "explanation": "$~Các hàng phải toàn là giá trị hoặc toàn là @Bind."
+                    "explanation": "$~Các hàng phải toàn là giá trị hoặc toàn là @Bind.",
+                    "resolutionKeepPositional": "$?",
+                    "resolutionUnwrapInputs": "$?"
                 },
                 "MissingCell": {
                     "name": "$~cộtbịthiếu",
-                    "explanation": "$~Tôi bị thiếu cột $column"
+                    "explanation": "$~Tôi bị thiếu cột $column",
+                    "resolution": "$?"
                 },
                 "ExtraCell": {
                     "name": "$~cộtbổsung",
-                    "explanation": "$~Dựa trên kiểu dữ liệu của bảng, tôi là một cột thừa không nên có ở đây."
+                    "explanation": "$~Dựa trên kiểu dữ liệu của bảng, tôi là một cột thừa không nên có ở đây.",
+                    "resolution": "$?"
                 },
                 "UnknownColumn": {
                     "name": "$~têncộtkhôngxácđịnh",
-                    "explanation": "$~Tôi không biết chuyên mục nào có tên này."
+                    "explanation": "$~Tôi không biết chuyên mục nào có tên này.",
+                    "resolution": "$?"
                 },
                 "UnexpectedColumnBind": {
                     "name": "$~khôngliênkếtcáchàng",
@@ -312,7 +320,8 @@
             "conflict": {
                 "DuplicateTypeVariable": {
                     "name": "$~biếnkiểutrùnglặp",
-                    "explanation": "$~Tôi có cùng tên với $duplicate"
+                    "explanation": "$~Tôi có cùng tên với $duplicate",
+                    "resolution": "$?"
                 }
             }
         },
@@ -384,7 +393,8 @@
             "conflict": {
                 "UnsupportedFontFormat": {
                     "name": "$~địnhdạngphôngchữkhôngđượchỗtrợ",
-                    "explanation": "$~Bạn tôi * $face * không biết cách $format như thế nào."
+                    "explanation": "$~Bạn tôi * $face * không biết cách $format như thế nào.",
+                    "resolution": "$?"
                 }
             }
         },
@@ -441,7 +451,8 @@
             "conflict": {
                 "OrderOfOperations": {
                     "name": "$~thứtựmơhồ",
-                    "explanation": "$~Tôi thực hiện đánh giá theo thứ tự đọc, chứ không phải theo thứ tự các phép toán. Bạn có muốn sử dụng @Block để chỉ định thứ tự tôi nên thực hiện đánh giá không?"
+                    "explanation": "$~Tôi thực hiện đánh giá theo thứ tự đọc, chứ không phải theo thứ tự các phép toán. Bạn có muốn sử dụng @Block để chỉ định thứ tự tôi nên thực hiện đánh giá không?",
+                    "resolution": "$?"
                 }
             }
         },
@@ -492,7 +503,8 @@
                 },
                 "DuplicateShare": {
                     "name": "$~chiasẻtrùnglặp",
-                    "explanation": "$~Tôi có cùng tên với $duplicate. Điều đó khiến cho việc chúng ta đang chia sẻ điều gì trở nên không rõ ràng."
+                    "explanation": "$~Tôi có cùng tên với $duplicate. Điều đó khiến cho việc chúng ta đang chia sẻ điều gì trở nên không rõ ràng.",
+                    "resolution": "$?"
                 },
                 "IncompatibleType": {
                     "name": "$~loạikhôngtươngthích",
@@ -511,23 +523,28 @@
                 },
                 "MisplacedShare": {
                     "name": "$~cổphầnbịthấtlạc",
-                    "explanation": "$~Tôi chỉ có thể chia sẻ thông tin ở cấp độ @Program, chứ không thể chia sẻ bên trong bất kỳ trang nào khác!"
+                    "explanation": "$~Tôi chỉ có thể chia sẻ thông tin ở cấp độ @Program, chứ không thể chia sẻ bên trong bất kỳ trang nào khác!",
+                    "resolution": "$?"
                 },
                 "MissingShareLanguages": {
                     "name": "$~ngônngữbịthiếu",
-                    "explanation": "$~Nếu bạn muốn chia sẻ tài liệu này, bạn phải ghi rõ ngôn ngữ để người khác biết họ có thể đọc được hay không!"
+                    "explanation": "$~Nếu bạn muốn chia sẻ tài liệu này, bạn phải ghi rõ ngôn ngữ để người khác biết họ có thể đọc được hay không!",
+                    "resolution": "$?"
                 },
                 "RequiredAfterOptional": {
                     "name": "$~đầuvàobắtbuộcsautùychọn",
-                    "explanation": "$~Tôi không thể ở đây, có một lệnh @Bind tùy chọn trước tôi."
+                    "explanation": "$~Tôi không thể ở đây, có một lệnh @Bind tùy chọn trước tôi.",
+                    "resolution": "$?"
                 },
                 "UnexpectedEtc": {
                     "name": "$~Đầuvàokhôngmongđợisaudanhsáchđầuvào",
-                    "explanation": "$~Tôi chỉ có thể có độ dài thay đổi trong một @FunctionDefinition."
+                    "explanation": "$~Tôi chỉ có thể có độ dài thay đổi trong một @FunctionDefinition.",
+                    "resolution": "$?"
                 },
                 "UnusedBind": {
                     "name": "$~liênkếtkhôngsửdụng",
-                    "explanation": "$~Tôi có tên là $name, nhưng chẳng ai dùng đến tôi cả. Có lẽ tôi không cần thiết chăng?"
+                    "explanation": "$~Tôi có tên là $name, nhưng chẳng ai dùng đến tôi cả. Có lẽ tôi không cần thiết chăng?",
+                    "resolution": "$?"
                 }
             }
         },
@@ -561,7 +578,8 @@
             "conflict": {
                 "ExpectedEndingExpression": {
                     "name": "$~biểuthứcbịthiếu",
-                    "explanation": "Tôi cần ít nhất một biểu thức không phải @Bind, để có một giá trị để trả về."
+                    "explanation": "Tôi cần ít nhất một biểu thức không phải @Bind, để có một giá trị để trả về.",
+                    "resolution": "$?"
                 }
             }
         },
@@ -586,11 +604,13 @@
             "conflict": {
                 "UnknownBorrow": {
                     "name": "$~mượnkhôngrõnguồngốc",
-                    "explanation": "$~Tôi không biết nguồn nào có tên như vậy."
+                    "explanation": "$~Tôi không biết nguồn nào có tên như vậy.",
+                    "resolution": "$?"
                 },
                 "BorrowCycle": {
                     "name": "$~mượntựthamchiếu",
-                    "explanation": "$~Điều này phụ thuộc vào $borrow, mà $borrow lại phụ thuộc vào $source này, vì vậy chương trình không thể được đánh giá."
+                    "explanation": "$~Điều này phụ thuộc vào $borrow, mà $borrow lại phụ thuộc vào $source này, vì vậy chương trình không thể được đánh giá.",
+                    "resolution": "$?"
                 }
             },
             "exception": {
@@ -672,7 +692,8 @@
             "conflict": {
                 "MisplacedConversion": {
                     "name": "$~chuyểnđổisaivịtrí",
-                    "explanation": "$~Ôi, mình không thể ở đây được, mình đang ở @Block."
+                    "explanation": "$~Ôi, mình không thể ở đây được, mình đang ở @Block.",
+                    "resolution": "$?"
                 }
             }
         },
@@ -694,7 +715,8 @@
             "conflict": {
                 "UnknownConversion": {
                     "name": "$~chuyểnđổikhôngxácđịnh",
-                    "explanation": "$~Chúng tôi không tìm được cách chuyển đổi $expected thành $given."
+                    "explanation": "$~Chúng tôi không tìm được cách chuyển đổi $expected thành $given.",
+                    "resolution": "$?"
                 }
             },
             "exception": {
@@ -770,7 +792,8 @@
                 },
                 "UnexpectedTypeInput": {
                     "name": "$~đầuvàokiểukhôngmongđợi",
-                    "explanation": "$~Tôi là một dữ liệu đầu vào bổ sung, không được mong đợi."
+                    "explanation": "$~Tôi là một dữ liệu đầu vào bổ sung, không được mong đợi.",
+                    "resolution": "$?"
                 },
                 "MissingInput": {
                     "name": "$~thiếuthôngtinđầuvào",
@@ -780,23 +803,28 @@
                 },
                 "NotInstantiable": {
                     "name": "$~cấutrúckhônghoànchỉnh",
-                    "explanation": "$~Tôi không thể tạo @StructureDefinition này, vì nó có các hàm chưa được triển khai."
+                    "explanation": "$~Tôi không thể tạo @StructureDefinition này, vì nó có các hàm chưa được triển khai.",
+                    "resolution": "$?"
                 },
                 "UnexpectedInput": {
                     "name": "$~đầuvàokhôngmongđợi",
-                    "explanation": "$~Tôi là một nguồn dữ liệu đầu vào không được dự kiến."
+                    "explanation": "$~Tôi là một nguồn dữ liệu đầu vào không được dự kiến.",
+                    "resolution": "$?"
                 },
                 "UnknownInput": {
                     "name": "$~đầuvàokhôngxácđịnh",
-                    "explanation": "$~Hàm *$name* này không mong đợi đầu vào là tên của tôi."
+                    "explanation": "$~Hàm *$name* này không mong đợi đầu vào là tên của tôi.",
+                    "resolution": "$?"
                 },
                 "InputListMustBeLast": {
                     "name": "$~cácđầuvàobổsungkhôngphảilàcuốicùng",
-                    "explanation": "$~Danh sách các đầu vào phải ở cuối."
+                    "explanation": "$~Danh sách các đầu vào phải ở cuối.",
+                    "resolution": "$?"
                 },
                 "SeparatedEvaluate": {
                     "name": "$~đánhgiámơhồ",
-                    "explanation": "$~$name có phải là tên của một $structure[$structure|$function] mà bạn đang cố gắng đánh giá không? Hãy thử xóa khoảng trắng sau tôi để tôi biết đó là một @Evaluate chứ không phải là một @Block riêng biệt."
+                    "explanation": "$~$name có phải là tên của một $structure[$structure|$function] mà bạn đang cố gắng đánh giá không? Hãy thử xóa khoảng trắng sau tôi để tôi biết đó là một @Evaluate chứ không phải là một @Block riêng biệt.",
+                    "resolution": "$?"
                 }
             },
             "exception": {
@@ -838,7 +866,8 @@
             "conflict": {
                 "Placeholder": {
                     "name": "$~chỗgiữchỗ",
-                    "explanation": "$~Bạn có thể điền thông tin cho tôi không? Tôi chỉ là một chỗ giữ chỗ thôi."
+                    "explanation": "$~Bạn có thể điền thông tin cho tôi không? Tôi chỉ là một chỗ giữ chỗ thôi.",
+                    "resolution": "$?"
                 }
             },
             "exception": {
@@ -877,7 +906,8 @@
             "conflict": {
                 "NoExpression": {
                     "name": "$~biểuthứcbịthiếu",
-                    "explanation": "$~Tôi cần một biểu thức để đánh giá, bạn có thể thêm một biểu thức nữa không?"
+                    "explanation": "$~Tôi cần một biểu thức để đánh giá, bạn có thể thêm một biểu thức nữa không?",
+                    "resolution": "$?"
                 }
             }
         },
@@ -934,7 +964,9 @@
             "conflict": {
                 "ImpossibleType": {
                     "name": "$~loạibấtkhảthi",
-                    "explanation": "$~điều này không bao giờ có thể là $type"
+                    "explanation": "$~điều này không bao giờ có thể là $type",
+                    "resolutionIsFalse": "$?",
+                    "resolutionDropOtherwise": "$?"
                 }
             },
             "exception": {
@@ -997,7 +1029,8 @@
             "conflict": {
                 "NotAKeyValue": {
                     "name": "$~giátrịbịthiếu",
-                    "explanation": "$~Tôi đang ở trong một @Map, vì vậy tôi cần một giá trị."
+                    "explanation": "$~Tôi đang ở trong một @Map, vì vậy tôi cần một giá trị.",
+                    "resolution": "$?"
                 }
             }
         },
@@ -1030,7 +1063,8 @@
             "conflict": {
                 "NotANumber": {
                     "name": "$~khôngphảilàmộtconsố",
-                    "explanation": "$~Tôi tưởng mình biết hết mọi con số, nhưng tôi không biết con số này."
+                    "explanation": "$~Tôi tưởng mình biết hết mọi con số, nhưng tôi không biết con số này.",
+                    "resolution": "$?"
                 }
             }
         },
@@ -1149,7 +1183,8 @@
             "conflict": {
                 "InvalidProperty": {
                     "name": "$~thuộctínhkhôngxácđịnh",
-                    "explanation": "$~Tôi không phải là một tên trong cấu trúc $structure, vì vậy tôi không thể được tinh chỉnh."
+                    "explanation": "$~Tôi không phải là một tên trong cấu trúc $structure, vì vậy tôi không thể được tinh chỉnh.",
+                    "resolution": "$?"
                 }
             }
         },
@@ -1189,7 +1224,8 @@
             "conflict": {
                 "ExpectedStream": {
                     "name": "$~dòngdựkiến",
-                    "explanation": "$~$condition không liên quan đến một luồng phát trực tiếp nào cả, nên tôi sẽ không bao giờ phản hồi!"
+                    "explanation": "$~$condition không liên quan đến một luồng phát trực tiếp nào cả, nên tôi sẽ không bao giờ phản hồi!",
+                    "resolution": "$?"
                 }
             }
         },
@@ -1214,11 +1250,13 @@
                 },
                 "ReferenceCycle": {
                     "name": "$~giátrịtựthamchiếu",
-                    "explanation": "$~Ừm, giá trị của $name phụ thuộc vào chính nó, vậy làm sao tôi biết nên gán giá trị nào cho nó?"
+                    "explanation": "$~Ừm, giá trị của $name phụ thuộc vào chính nó, vậy làm sao tôi biết nên gán giá trị nào cho nó?",
+                    "resolution": "$?"
                 },
                 "UnexpectedTypeVariable": {
                     "name": "$~biếnkiểukhôngmongđợi",
-                    "explanation": "$~Tôi không biết phải làm gì với các loại đầu vào này."
+                    "explanation": "$~Tôi không biết phải làm gì với các loại đầu vào này.",
+                    "resolution": "$?"
                 }
             },
             "exception": {
@@ -1243,7 +1281,8 @@
             "conflict": {
                 "ExpectedSelectName": {
                     "name": "$~têncộtbịthiếu",
-                    "explanation": "$~Tôi cần ít nhất một tên cột."
+                    "explanation": "$~Tôi cần ít nhất một tên cột.",
+                    "resolution": "$?"
                 }
             }
         },
@@ -1330,19 +1369,23 @@
             "conflict": {
                 "DisallowedInputs": {
                     "name": "$~khôngchophépnhậpliệu",
-                    "explanation": "$~Tôi không thể nhận đầu vào vì một hoặc nhiều chức năng giao diện của tôi chưa được triển khai."
+                    "explanation": "$~Tôi không thể nhận đầu vào vì một hoặc nhiều chức năng giao diện của tôi chưa được triển khai.",
+                    "resolution": "$?"
                 },
                 "IncompleteImplementation": {
                     "name": "$~cấutrúckhônghoànchỉnh",
-                    "explanation": "$~Các hàm của tôi hoặc phải được triển khai toàn bộ, hoặc không được triển khai hàm nào cả. Không được có sự pha trộn lộn xộn!"
+                    "explanation": "$~Các hàm của tôi hoặc phải được triển khai toàn bộ, hoặc không được triển khai hàm nào cả. Không được có sự pha trộn lộn xộn!",
+                    "resolution": "$?"
                 },
                 "NotAnInterface": {
                     "name": "$~khôngphảilàgiaodiện",
-                    "explanation": "$~Tôi không phải là một giao diện; một cấu trúc chỉ có thể triển khai các giao diện, chứ không thể triển khai các cấu trúc khác."
+                    "explanation": "$~Tôi không phải là một giao diện; một cấu trúc chỉ có thể triển khai các giao diện, chứ không thể triển khai các cấu trúc khác.",
+                    "resolution": "$?"
                 },
                 "UnimplementedInterface": {
                     "name": "$~chưađượctriểnkhai",
-                    "explanation": "$~Tôi đã triển khai $interface nhưng chưa triển khai $function."
+                    "explanation": "$~Tôi đã triển khai $interface nhưng chưa triển khai $function.",
+                    "resolution": "$?"
                 }
             }
         },
@@ -1405,7 +1448,8 @@
                 "reminder": "$~Lưu ý: Bạn có thể hoàn tác thao tác này và xem những nội dung khác mà bạn đã đánh dấu là không nhạy cảm trong hộp thoại chia sẻ.",
                 "character": {
                     "name": "$~nhânvậttùychỉnhcóthể",
-                    "explanation": "$~Đây có vẻ là tên nhân vật. Để hiển thị tên nhân vật, hãy sử dụng @FormattedLiteral thay vì @TextLiteral."
+                    "explanation": "$~Đây có vẻ là tên nhân vật. Để hiển thị tên nhân vật, hãy sử dụng @FormattedLiteral thay vì @TextLiteral.",
+                    "resolutionStrip": "$?"
                 }
             }
         },
@@ -1450,7 +1494,8 @@
             "conflict": {
                 "MisplacedThis": {
                     "name": "$~Tôiđãđểlạcmấttàiliệuthamkhảonày.",
-                    "explanation": "$~Tôi chỉ được phép tham gia vào cấu trúc, quá trình chuyển đổi hoặc phản ứng."
+                    "explanation": "$~Tôi chỉ được phép tham gia vào cấu trúc, quá trình chuyển đổi hoặc phản ứng.",
+                    "resolution": "$?"
                 }
             }
         },
@@ -1499,7 +1544,8 @@
                 },
                 "UnclosedDelimiter": {
                     "name": "$~dấuphâncáchchưađóng",
-                    "explanation": "$~Tôi dự kiến $expected sẽ xuất hiện vào một thời điểm nào đó sau khi $unclosed"
+                    "explanation": "$~Tôi dự kiến $expected sẽ xuất hiện vào một thời điểm nào đó sau khi $unclosed",
+                    "resolution": "$?"
                 }
             },
             "exception": {
@@ -1524,7 +1570,8 @@
             "conflict": {
                 "ExpectedColumnBind": {
                     "name": "$~giátrịcộtbịthiếu",
-                    "explanation": "$~Tôi cần giá trị cho mỗi cột."
+                    "explanation": "$~Tôi cần giá trị cho mỗi cột.",
+                    "resolution": "$?"
                 },
                 "IncompatibleCellType": {
                     "name": "$~loạitếbàokhôngtươngthích",
@@ -1631,7 +1678,8 @@
             "conflict": {
                 "UnknownTypeName": {
                     "name": "$~tênloạikhôngxácđịnh",
-                    "explanation": "$~Tên kiểu chỉ có thể tham chiếu đến cấu trúc hoặc biến kiểu, nhưng điều này lại tham chiếu đến kiểu $type."
+                    "explanation": "$~Tên kiểu chỉ có thể tham chiếu đến cấu trúc hoặc biến kiểu, nhưng điều này lại tham chiếu đến kiểu $type.",
+                    "resolution": "$?"
                 }
             }
         },
@@ -1695,7 +1743,8 @@
             "conflict": {
                 "ExpectedColumnType": {
                     "name": "$~kiểucộtbịthiếu",
-                    "explanation": "$~Tôi cần một kiểu cột"
+                    "explanation": "$~Tôi cần một kiểu cột",
+                    "resolution": "$?"
                 }
             }
         },

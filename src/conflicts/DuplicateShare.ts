@@ -3,7 +3,8 @@ import NodeRef from '@locale/NodeRef';
 import type Bind from '@nodes/Bind';
 import type Context from '@nodes/Context';
 import type Locales from '@locale/Locales';
-import Conflict from '@conflicts/Conflict';
+import Conflict, { type Resolutions } from '@conflicts/Conflict';
+import type Node from '@nodes/Node';
 
 export class DuplicateShare extends Conflict {
     readonly share: Bind;
@@ -28,6 +29,26 @@ export class DuplicateShare extends Conflict {
                     },
                 ),
         };
+    }
+
+    override getResolutions(
+        _context: Context,
+        _concepts: Node[],
+    ): Resolutions {
+        return [
+            {
+                kind: 'repair',
+                description: (locales: Locales) =>
+                    locales.concretize(
+                        (l) => DuplicateShare.LocalePath(l).resolution,
+                    ),
+                mediator: (ctx) => ({
+                    newProject: ctx.project.withRevisedNodes([
+                        [this.share, undefined],
+                    ]),
+                }),
+            },
+        ];
     }
 
     getLocalePath() {

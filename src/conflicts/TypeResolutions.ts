@@ -561,7 +561,10 @@ function generatePlaceholderResolution(
     expectedType: Type,
     templates: TemplatesAccessor,
 ): Resolution | undefined {
-    const placeholder = ExpressionPlaceholder.make();
+    // Type the placeholder with the expected type so the resulting program is
+    // free of the original conflict and the autocomplete menu can offer
+    // candidates of that type.
+    const placeholder = ExpressionPlaceholder.make(expectedType);
     return makeResolution(
         givenNode,
         placeholder,
@@ -585,6 +588,10 @@ function forwardValidates(
     expectedType: Type,
     context: Context,
 ): boolean {
+    // Explainer resolutions have no mediator — they don't change the project,
+    // so there's nothing to forward-validate. The generators here only ever
+    // emit repair-kind resolutions, but the union type requires us to guard.
+    if (resolution.kind !== 'repair') return false;
     try {
         const newProject = resolution.mediator(
             context,
@@ -661,6 +668,7 @@ function makeResolution(
     accessor: (l: LocaleText) => Template<['expected']>,
 ): Resolution {
     return {
+        kind: 'repair',
         description: (locales: Locales, context: Context) =>
             locales.concretize(accessor, {
                 expected: new NodeRef(expectedType, locales, context),

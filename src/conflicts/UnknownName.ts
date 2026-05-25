@@ -2,12 +2,13 @@ import type Refer from '@edit/revision/Refer';
 import type LocaleText from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
 import type Context from '@nodes/Context';
+import type Node from '@nodes/Node';
 import Token from '@nodes/Token';
 import type Type from '@nodes/Type';
 import type Locales from '@locale/Locales';
 import type NameType from '@nodes/NameType';
 import Reference from '@nodes/Reference';
-import Conflict from '@conflicts/Conflict';
+import Conflict, { type Repair, type Resolutions } from '@conflicts/Conflict';
 import levenshtein from '@util/levenshtein';
 
 export class UnknownName extends Conflict {
@@ -42,7 +43,7 @@ export class UnknownName extends Conflict {
         };
     }
 
-    getResolutions(context: Context) {
+    override getResolutions(context: Context, concepts: Node[]): Resolutions {
         let names: Refer[] = [];
         if (this.name instanceof Reference) {
             names = Reference.getPossibleReferences(
@@ -66,31 +67,35 @@ export class UnknownName extends Conflict {
             }
         }
 
-        return names.map((name) => {
-            return {
-                description: (locales: Locales) =>
-                    locales.concretize(
-                        (l) =>
-                            l.node.Reference.conflict.UnknownName.resolution,
-                        {
-                            suggestion: name.definition.getPreferredName(
-                                locales.getLocales(),
-                            ),
-                        },
-                    ),
-                mediator: (context: Context, locales: Locales) => {
-                    const newReference = Reference.make(
-                        name.definition.getPreferredName(locales.getLocales()),
-                    );
-                    return {
-                        newProject: context.project.withRevisedNodes([
-                            [this.name, newReference],
-                        ]),
-                        newNode: newReference,
-                    };
-                },
-            };
-        });
+        const repairs: Repair[] = names.map((name) => ({
+            kind: 'repair',
+            description: (locales: Locales) =>
+                locales.concretize(
+                    (l) => l.node.Reference.conflict.UnknownName.resolution,
+                    {
+                        suggestion: name.definition.getPreferredName(
+                            locales.getLocales(),
+                        ),
+                    },
+                ),
+            mediator: (context: Context, locales: Locales) => {
+                const newReference = Reference.make(
+                    name.definition.getPreferredName(locales.getLocales()),
+                );
+                return {
+                    newProject: context.project.withRevisedNodes([
+                        [this.name, newReference],
+                    ]),
+                    newNode: newReference,
+                };
+            },
+        }));
+
+        // No similar name in scope? Fall back to the synthesised explainer
+        // (re-states the primary message and focuses the offending name).
+        return repairs.length === 0
+            ? Conflict.fallbackExplainer(this, context, concepts)
+            : (repairs as readonly Repair[] as Resolutions);
     }
 
     getLocalePath() {

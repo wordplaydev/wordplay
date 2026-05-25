@@ -215,15 +215,18 @@
             "conflict": {
                 "UnknownLanguage": {
                     "name": "$~لغةغيرمعروفة",
-                    "explanation": "$~لا أعرف هذه اللغة"
+                    "explanation": "$~لا أعرف هذه اللغة",
+                    "resolution": "$?"
                 },
                 "MissingLanguage": {
                     "name": "$~اللغةالمفقودة",
-                    "explanation": "$~ينقصني لغة. هل يمكنك إضافة واحدة؟"
+                    "explanation": "$~ينقصني لغة. هل يمكنك إضافة واحدة؟",
+                    "resolution": "$?"
                 },
                 "DuplicateLanguage": {
                     "name": "$~لغةمكررة",
-                    "explanation": "$~لقد استخدمت اللغة ' $code ' مرتين. يجب أن تُدرج الوسوم متعددة اللغات كل لغة مرة واحدة فقط."
+                    "explanation": "$~لقد استخدمت اللغة ' $code ' مرتين. يجب أن تُدرج الوسوم متعددة اللغات كل لغة مرة واحدة فقط.",
+                    "resolution": "$?"
                 }
             }
         },
@@ -266,19 +269,24 @@
             "conflict": {
                 "InvalidRow": {
                     "name": "$~صفغيرصالح",
-                    "explanation": "$~يجب أن تكون الصفوف إما جميعها قيمًا أو جميعها @Bind."
+                    "explanation": "$~يجب أن تكون الصفوف إما جميعها قيمًا أو جميعها @Bind.",
+                    "resolutionKeepPositional": "$?",
+                    "resolutionUnwrapInputs": "$?"
                 },
                 "MissingCell": {
                     "name": "$~الأعمدةالمفقودة",
-                    "explanation": "$~العمود $column مفقود"
+                    "explanation": "$~العمود $column مفقود",
+                    "resolution": "$?"
                 },
                 "ExtraCell": {
                     "name": "$~عمودإضافي",
-                    "explanation": "$~بناءً على نوع الجدول الخاص بي، فأنا عمود إضافي لا ينبغي أن يكون موجوداً هنا."
+                    "explanation": "$~بناءً على نوع الجدول الخاص بي، فأنا عمود إضافي لا ينبغي أن يكون موجوداً هنا.",
+                    "resolution": "$?"
                 },
                 "UnknownColumn": {
                     "name": "$~اسمعمودغيرمعروف",
-                    "explanation": "$~لا أعرف عموداً بهذا الاسم"
+                    "explanation": "$~لا أعرف عموداً بهذا الاسم",
+                    "resolution": "$?"
                 },
                 "UnexpectedColumnBind": {
                     "name": "$~لاتوجدصفوفربط",
@@ -312,7 +320,8 @@
             "conflict": {
                 "DuplicateTypeVariable": {
                     "name": "$~متغيرمننوعمكرر",
-                    "explanation": "$~لدي نفس اسم المستخدم $duplicate"
+                    "explanation": "$~لدي نفس اسم المستخدم $duplicate",
+                    "resolution": "$?"
                 }
             }
         },
@@ -384,7 +393,8 @@
             "conflict": {
                 "UnsupportedFontFormat": {
                     "name": "$~تنسيقخطغيرمدعوم",
-                    "explanation": "$~صديقي * $face * لا يعرف كيف يكون $format ."
+                    "explanation": "$~صديقي * $face * لا يعرف كيف يكون $format .",
+                    "resolution": "$?"
                 }
             }
         },
@@ -441,7 +451,8 @@
             "conflict": {
                 "OrderOfOperations": {
                     "name": "$~ترتيبغامض",
-                    "explanation": "$~أقوم بالتقييم وفقًا لترتيب القراءة، وليس وفقًا لترتيب العمليات الحسابية. هل تريد استخدام @Block لتحديد الترتيب الذي يجب أن أقيّم به؟"
+                    "explanation": "$~أقوم بالتقييم وفقًا لترتيب القراءة، وليس وفقًا لترتيب العمليات الحسابية. هل تريد استخدام @Block لتحديد الترتيب الذي يجب أن أقيّم به؟",
+                    "resolution": "$?"
                 }
             }
         },
@@ -492,7 +503,8 @@
                 },
                 "DuplicateShare": {
                     "name": "$~مشاركةمكررة",
-                    "explanation": "$~اسمي مطابق لاسم المستخدم $duplicate. هذا يجعل الأمر غير واضح فيما نتشاركه."
+                    "explanation": "$~اسمي مطابق لاسم المستخدم $duplicate. هذا يجعل الأمر غير واضح فيما نتشاركه.",
+                    "resolution": "$?"
                 },
                 "IncompatibleType": {
                     "name": "$~نوعغيرمتوافق",
@@ -511,23 +523,28 @@
                 },
                 "MisplacedShare": {
                     "name": "$~مشاركةفيغيرمحلها",
-                    "explanation": "$~لا يمكنني مشاركة الأشياء إلا على مستوى @Program وليس داخل أي شيء!"
+                    "explanation": "$~لا يمكنني مشاركة الأشياء إلا على مستوى @Program وليس داخل أي شيء!",
+                    "resolution": "$?"
                 },
                 "MissingShareLanguages": {
                     "name": "$~اللغةالمفقودة",
-                    "explanation": "$~إذا كنت ترغب في مشاركة هذا المحتوى، فعليك أن تذكر اللغة التي كُتب بها، حتى يعرف الآخرون ما إذا كان بإمكانهم قراءته!"
+                    "explanation": "$~إذا كنت ترغب في مشاركة هذا المحتوى، فعليك أن تذكر اللغة التي كُتب بها، حتى يعرف الآخرون ما إذا كان بإمكانهم قراءته!",
+                    "resolution": "$?"
                 },
                 "RequiredAfterOptional": {
                     "name": "$~المدخلاتالمطلوبةبعدالمدخلاتالاختيارية",
-                    "explanation": "$~لا يمكنني التواجد هنا، هناك خيار @Bind قبلي"
+                    "explanation": "$~لا يمكنني التواجد هنا، هناك خيار @Bind قبلي",
+                    "resolution": "$?"
                 },
                 "UnexpectedEtc": {
                     "name": "$~إدخالغيرمتوقعبعدقائمةالإدخال",
-                    "explanation": "$~لا يمكن أن يكون طولي متغيرًا إلا في تعريف الدالة (@FunctionDefinition)."
+                    "explanation": "$~لا يمكن أن يكون طولي متغيرًا إلا في تعريف الدالة (@FunctionDefinition).",
+                    "resolution": "$?"
                 },
                 "UnusedBind": {
                     "name": "$~مجلدغيرمستخدم",
-                    "explanation": "$~اسمي $name لكن لا أحد يستخدمني. ربما لستُ مطلوباً؟"
+                    "explanation": "$~اسمي $name لكن لا أحد يستخدمني. ربما لستُ مطلوباً؟",
+                    "resolution": "$?"
                 }
             }
         },
@@ -561,7 +578,8 @@
             "conflict": {
                 "ExpectedEndingExpression": {
                     "name": "$~التعبيرالمفقود",
-                    "explanation": "أحتاج إلى تعبير واحد على الأقل ليس @Bind، حتى يكون لدي قيمة لإعادتها."
+                    "explanation": "أحتاج إلى تعبير واحد على الأقل ليس @Bind، حتى يكون لدي قيمة لإعادتها.",
+                    "resolution": "$?"
                 }
             }
         },
@@ -586,11 +604,13 @@
             "conflict": {
                 "UnknownBorrow": {
                     "name": "$~اقتراضغيرمعروف",
-                    "explanation": "$~لا أعرف مصدرًا بهذا الاسم"
+                    "explanation": "$~لا أعرف مصدرًا بهذا الاسم",
+                    "resolution": "$?"
                 },
                 "BorrowCycle": {
                     "name": "$~الاستعارةالمرجعيةالذاتية",
-                    "explanation": "$~يعتمد هذا على $borrow الذي يعتمد بدوره على $source لذا لا يمكن تقييم البرنامج."
+                    "explanation": "$~يعتمد هذا على $borrow الذي يعتمد بدوره على $source لذا لا يمكن تقييم البرنامج.",
+                    "resolution": "$?"
                 }
             },
             "exception": {
@@ -672,7 +692,8 @@
             "conflict": {
                 "MisplacedConversion": {
                     "name": "$~تحويلفيغيرمحله",
-                    "explanation": "$~يا إلهي، لا يمكنني أن أكون هنا، فقط في @Block."
+                    "explanation": "$~يا إلهي، لا يمكنني أن أكون هنا، فقط في @Block.",
+                    "resolution": "$?"
                 }
             }
         },
@@ -694,7 +715,8 @@
             "conflict": {
                 "UnknownConversion": {
                     "name": "$~تحويلغيرمعروف",
-                    "explanation": "$~لم نتمكن من إيجاد طريقة لتحويل $expected إلى $given"
+                    "explanation": "$~لم نتمكن من إيجاد طريقة لتحويل $expected إلى $given",
+                    "resolution": "$?"
                 }
             },
             "exception": {
@@ -770,7 +792,8 @@
                 },
                 "UnexpectedTypeInput": {
                     "name": "$~إدخالنوعغيرمتوقع",
-                    "explanation": "$~أنا نوع إدخال إضافي وغير متوقع."
+                    "explanation": "$~أنا نوع إدخال إضافي وغير متوقع.",
+                    "resolution": "$?"
                 },
                 "MissingInput": {
                     "name": "$~بياناتمفقودة",
@@ -780,23 +803,28 @@
                 },
                 "NotInstantiable": {
                     "name": "$~هيكلغيرمكتمل",
-                    "explanation": "$~لا يمكنني إنشاء هذا @StructureDefinition فهو يحتوي على وظائف غير مُنفذة."
+                    "explanation": "$~لا يمكنني إنشاء هذا @StructureDefinition فهو يحتوي على وظائف غير مُنفذة.",
+                    "resolution": "$?"
                 },
                 "UnexpectedInput": {
                     "name": "$~مدخلاتغيرمتوقعة",
-                    "explanation": "$~أنا إضافة غير متوقعة."
+                    "explanation": "$~أنا إضافة غير متوقعة.",
+                    "resolution": "$?"
                 },
                 "UnknownInput": {
                     "name": "$~مدخلاتغيرمعروفة",
-                    "explanation": "$~هذه الدالة *$name* لا تتوقع إدخال اسمي."
+                    "explanation": "$~هذه الدالة *$name* لا تتوقع إدخال اسمي.",
+                    "resolution": "$?"
                 },
                 "InputListMustBeLast": {
                     "name": "$~المدخلاتالإضافيةليستالأخيرة",
-                    "explanation": "$~يجب أن تكون قائمة المدخلات هي الأخيرة"
+                    "explanation": "$~يجب أن تكون قائمة المدخلات هي الأخيرة",
+                    "resolution": "$?"
                 },
                 "SeparatedEvaluate": {
                     "name": "$~تقييمغامض",
-                    "explanation": "$~هل $name هو اسم $structure[$structure|$function] الذي تحاول تقييمه؟ حاول إزالة المسافة بعد كلمة \"mi\" حتى أعرف أنها @Evaluate وليست @Block منفصلة."
+                    "explanation": "$~هل $name هو اسم $structure[$structure|$function] الذي تحاول تقييمه؟ حاول إزالة المسافة بعد كلمة \"mi\" حتى أعرف أنها @Evaluate وليست @Block منفصلة.",
+                    "resolution": "$?"
                 }
             },
             "exception": {
@@ -838,7 +866,8 @@
             "conflict": {
                 "Placeholder": {
                     "name": "$~عنصرنائب",
-                    "explanation": "$~هل يمكنك أن تخبرني؟ أنا مجرد عنصر نائب."
+                    "explanation": "$~هل يمكنك أن تخبرني؟ أنا مجرد عنصر نائب.",
+                    "resolution": "$?"
                 }
             },
             "exception": {
@@ -877,7 +906,8 @@
             "conflict": {
                 "NoExpression": {
                     "name": "$~التعبيرالمفقود",
-                    "explanation": "$~أحتاج إلى تعبير لتقييمه، هل يمكنك إضافة واحد؟"
+                    "explanation": "$~أحتاج إلى تعبير لتقييمه، هل يمكنك إضافة واحد؟",
+                    "resolution": "$?"
                 }
             }
         },
@@ -934,7 +964,9 @@
             "conflict": {
                 "ImpossibleType": {
                     "name": "$~نوعمستحيل",
-                    "explanation": "$~لا يمكن أن يكون هذا $type أبدًا"
+                    "explanation": "$~لا يمكن أن يكون هذا $type أبدًا",
+                    "resolutionIsFalse": "$?",
+                    "resolutionDropOtherwise": "$?"
                 }
             },
             "exception": {
@@ -997,7 +1029,8 @@
             "conflict": {
                 "NotAKeyValue": {
                     "name": "$~القيمالمفقودة",
-                    "explanation": "$~أنا داخل @Map لذا أحتاج إلى قيمة."
+                    "explanation": "$~أنا داخل @Map لذا أحتاج إلى قيمة.",
+                    "resolution": "$?"
                 }
             }
         },
@@ -1030,7 +1063,8 @@
             "conflict": {
                 "NotANumber": {
                     "name": "$~ليسرقماً",
-                    "explanation": "$~كنت أظن أنني أعرف جميع الأرقام، لكنني لا أعرف هذا الرقم."
+                    "explanation": "$~كنت أظن أنني أعرف جميع الأرقام، لكنني لا أعرف هذا الرقم.",
+                    "resolution": "$?"
                 }
             }
         },
@@ -1149,7 +1183,8 @@
             "conflict": {
                 "InvalidProperty": {
                     "name": "$~عقارغيرمعروف",
-                    "explanation": "$~أنا لست اسماً في البنية $structure لذلك لا يمكن تحسيني."
+                    "explanation": "$~أنا لست اسماً في البنية $structure لذلك لا يمكن تحسيني.",
+                    "resolution": "$?"
                 }
             }
         },
@@ -1189,7 +1224,8 @@
             "conflict": {
                 "ExpectedStream": {
                     "name": "$~التدفقالمتوقع",
-                    "explanation": "$~لا يشير الشرط $condition إلى أي دفق بيانات، لذلك لن أتفاعل أبداً!"
+                    "explanation": "$~لا يشير الشرط $condition إلى أي دفق بيانات، لذلك لن أتفاعل أبداً!",
+                    "resolution": "$?"
                 }
             }
         },
@@ -1214,11 +1250,13 @@
                 },
                 "ReferenceCycle": {
                     "name": "$~قيمةالإشارةالذاتية",
-                    "explanation": "$~حسنًا، قيمة المتغير $name تعتمد على نفسه، فكيف أعرف القيمة التي يجب أن أعطيها له؟"
+                    "explanation": "$~حسنًا، قيمة المتغير $name تعتمد على نفسه، فكيف أعرف القيمة التي يجب أن أعطيها له؟",
+                    "resolution": "$?"
                 },
                 "UnexpectedTypeVariable": {
                     "name": "$~متغيرنوعغيرمتوقع",
-                    "explanation": "$~لا أعرف ماذا أفعل بهذه الأنواع من المدخلات"
+                    "explanation": "$~لا أعرف ماذا أفعل بهذه الأنواع من المدخلات",
+                    "resolution": "$?"
                 }
             },
             "exception": {
@@ -1243,7 +1281,8 @@
             "conflict": {
                 "ExpectedSelectName": {
                     "name": "$~اسمالعمودمفقود",
-                    "explanation": "$~أحتاج إلى اسم عمود واحد على الأقل."
+                    "explanation": "$~أحتاج إلى اسم عمود واحد على الأقل.",
+                    "resolution": "$?"
                 }
             }
         },
@@ -1330,19 +1369,23 @@
             "conflict": {
                 "DisallowedInputs": {
                     "name": "$~المدخلاتغيرمسموحبها",
-                    "explanation": "$~لا يمكنني استقبال المدخلات لأن واحدة أو أكثر من وظائف واجهة المستخدم الخاصة بي غير مُنفذة."
+                    "explanation": "$~لا يمكنني استقبال المدخلات لأن واحدة أو أكثر من وظائف واجهة المستخدم الخاصة بي غير مُنفذة.",
+                    "resolution": "$?"
                 },
                 "IncompleteImplementation": {
                     "name": "$~هيكلغيرمكتمل",
-                    "explanation": "$~يجب تنفيذ جميع وظائفي، أو عدم تنفيذ أي منها. لا مجال للخلط!"
+                    "explanation": "$~يجب تنفيذ جميع وظائفي، أو عدم تنفيذ أي منها. لا مجال للخلط!",
+                    "resolution": "$?"
                 },
                 "NotAnInterface": {
                     "name": "$~ليستواجهة",
-                    "explanation": "$~أنا لست واجهة؛ فالبنية لا يمكنها إلا تنفيذ الواجهات، وليس البنى الأخرى."
+                    "explanation": "$~أنا لست واجهة؛ فالبنية لا يمكنها إلا تنفيذ الواجهات، وليس البنى الأخرى.",
+                    "resolution": "$?"
                 },
                 "UnimplementedInterface": {
                     "name": "$~غيرمُنفَّذ",
-                    "explanation": "$~قمت بتنفيذ $interface لكنني لم أنفذ $function"
+                    "explanation": "$~قمت بتنفيذ $interface لكنني لم أنفذ $function",
+                    "resolution": "$?"
                 }
             }
         },
@@ -1405,7 +1448,8 @@
                 "reminder": "$~ملاحظة: يمكنك التراجع عن هذا الإجراء والاطلاع على الأشياء الأخرى التي قمت بتحديدها على أنها غير حساسة في مربع حوار المشاركة.",
                 "character": {
                     "name": "$~شخصيةمخصصةمحتملة",
-                    "explanation": "$~يبدو هذا كاسم شخصية. لعرض هذه الأسماء، استخدم @FormattedLiteral بدلاً من @TextLiteral."
+                    "explanation": "$~يبدو هذا كاسم شخصية. لعرض هذه الأسماء، استخدم @FormattedLiteral بدلاً من @TextLiteral.",
+                    "resolutionStrip": "$?"
                 }
             }
         },
@@ -1450,7 +1494,8 @@
             "conflict": {
                 "MisplacedThis": {
                     "name": "$~أخطأتفيوضعهذاالمرجع",
-                    "explanation": "$~يُسمح لي فقط في بنية أو تحويل أو تفاعل."
+                    "explanation": "$~يُسمح لي فقط في بنية أو تحويل أو تفاعل.",
+                    "resolution": "$?"
                 }
             }
         },
@@ -1499,7 +1544,8 @@
                 },
                 "UnclosedDelimiter": {
                     "name": "$~فاصلغيرمغلق",
-                    "explanation": "$~توقعت $expected بعد فترة من $unclosed"
+                    "explanation": "$~توقعت $expected بعد فترة من $unclosed",
+                    "resolution": "$?"
                 }
             },
             "exception": {
@@ -1524,7 +1570,8 @@
             "conflict": {
                 "ExpectedColumnBind": {
                     "name": "$~قيمةالعمودالمفقودة",
-                    "explanation": "$~أحتاج إلى قيمة لكل عمود"
+                    "explanation": "$~أحتاج إلى قيمة لكل عمود",
+                    "resolution": "$?"
                 },
                 "IncompatibleCellType": {
                     "name": "$~نوعالخليةغيرالمتوافق",
@@ -1631,7 +1678,8 @@
             "conflict": {
                 "UnknownTypeName": {
                     "name": "$~اسمنوعغيرمعروف",
-                    "explanation": "$~لا يمكن أن تشير أسماء الأنواع إلا إلى الهياكل أو متغيرات الأنواع، ولكن هذا يشير إلى النوع $type"
+                    "explanation": "$~لا يمكن أن تشير أسماء الأنواع إلا إلى الهياكل أو متغيرات الأنواع، ولكن هذا يشير إلى النوع $type",
+                    "resolution": "$?"
                 }
             }
         },
@@ -1695,7 +1743,8 @@
             "conflict": {
                 "ExpectedColumnType": {
                     "name": "$~نوعالعمودمفقود",
-                    "explanation": "$~أحتاج إلى نوع عمود"
+                    "explanation": "$~أحتاج إلى نوع عمود",
+                    "resolution": "$?"
                 }
             }
         },

@@ -6,7 +6,7 @@ import Token from '@nodes/Token';
 import type Locales from '@locale/Locales';
 import type { PII } from '../pii/getPII';
 import getPII from '../pii/getPII';
-import Conflict from '@conflicts/Conflict';
+import Conflict, { type Resolutions } from '@conflicts/Conflict';
 
 export class PossiblePII extends Conflict {
     /** The node containing text */
@@ -52,9 +52,10 @@ export class PossiblePII extends Conflict {
         };
     }
 
-    getResolutions() {
+    override getResolutions(): Resolutions {
         return [
             {
+                kind: 'repair',
                 description: (locales: Locales) =>
                     locales.concretize(
                         (l) => l.node.Translation.conflict.resolution,

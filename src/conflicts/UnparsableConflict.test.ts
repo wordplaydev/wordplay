@@ -30,12 +30,16 @@ function getRepairs(code: string): Expression[] {
         );
     }
     const resolutions = conflict.getResolutions(context, Templates);
-    return resolutions.map((r) => {
-        const { newNode } = r.mediator(context, project.getLocales());
-        if (newNode === undefined)
-            throw new Error('Resolution mediator returned no newNode');
-        return newNode as Expression;
-    });
+    return resolutions
+        .filter((r): r is Extract<typeof r, { kind: 'repair' }> =>
+            r.kind === 'repair',
+        )
+        .map((r) => {
+            const { newNode } = r.mediator(context, project.getLocales());
+            if (newNode === undefined)
+                throw new Error('Resolution mediator returned no newNode');
+            return newNode as Expression;
+        });
 }
 
 /**
@@ -54,11 +58,17 @@ function getRevisedSources(code: string): string[] {
     if (conflict === undefined)
         throw new Error(`No UnparsableConflict for "${code}"`);
     const resolutions = conflict.getResolutions(context, Templates);
-    return resolutions.map(
-        (r) =>
-            r.mediator(context, project.getLocales()).newProject.getSources()[0]
-                ?.code.toString() ?? '',
-    );
+    return resolutions
+        .filter((r): r is Extract<typeof r, { kind: 'repair' }> =>
+            r.kind === 'repair',
+        )
+        .map(
+            (r) =>
+                r
+                    .mediator(context, project.getLocales())
+                    .newProject.getSources()[0]
+                    ?.code.toString() ?? '',
+        );
 }
 
 describe('UnparsableConflict.getResolutions — anchor symbols', () => {

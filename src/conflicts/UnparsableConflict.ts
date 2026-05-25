@@ -10,7 +10,11 @@ import type UnparsableType from '@nodes/UnparsableType';
 import parseExpression from '@parser/parseExpression';
 import { toTokens } from '@parser/toTokens';
 import type Locales from '@locale/Locales';
-import Conflict, { type Resolution } from '@conflicts/Conflict';
+import Conflict, {
+    type Repair,
+    type Resolution,
+    type Resolutions,
+} from '@conflicts/Conflict';
 import Bind from '@nodes/Bind';
 import RepairContext from '@conflicts/RepairContext';
 import {
@@ -50,8 +54,13 @@ export class UnparsableConflict extends Conflict {
         };
     }
 
-    getResolutions(_context: Context, nodes: Node[]) {
-        return this.getLikelyIntentions(nodes);
+    override getResolutions(_context: Context, nodes: Node[]): Resolutions {
+        const repairs = this.getLikelyIntentions(nodes);
+        // Fall back to the synthesised explainer when inference produces zero
+        // candidates — preserves the non-empty Resolutions invariant.
+        return repairs.length === 0
+            ? Conflict.fallbackExplainer(this, _context, nodes)
+            : (repairs as readonly Resolution[] as Resolutions);
     }
 
     getLocalePath() {
@@ -72,7 +81,7 @@ export class UnparsableConflict extends Conflict {
      *  4. Filter for parent-slot fit, dedupe, and rank: complete repairs above
      *     scaffolded ones; within each tier, ascending repair cost. Top 3.
      */
-    getLikelyIntentions(templates: Node[]): Resolution[] {
+    getLikelyIntentions(templates: Node[]): Repair[] {
         const rc = RepairContext.gather(this.unparsable, this.context);
 
         const anchorCandidates = generateAnchorCandidates(rc);
@@ -210,11 +219,9 @@ export class UnparsableConflict extends Conflict {
         return clean ? expression : undefined;
     }
 
-    private toResolution(
-        repair: Expression | Bind,
-        target: Node,
-    ): Resolution {
+    private toResolution(repair: Expression | Bind, target: Node): Repair {
         return {
+            kind: 'repair',
             description: (locales: Locales, context: Context) =>
                 locales.concretize(
                     (l) =>

@@ -215,15 +215,18 @@
             "conflict": {
                 "UnknownLanguage": {
                     "name": "$~알수없는언어",
-                    "explanation": "$~저는 이 언어를 모릅니다."
+                    "explanation": "$~저는 이 언어를 모릅니다.",
+                    "resolution": "$?"
                 },
                 "MissingLanguage": {
                     "name": "$~누락된언어",
-                    "explanation": "$~언어가 하나 빠져있네요. 추가해 주시겠어요?"
+                    "explanation": "$~언어가 하나 빠져있네요. 추가해 주시겠어요?",
+                    "resolution": "$?"
                 },
                 "DuplicateLanguage": {
                     "name": "$~중복언어",
-                    "explanation": "$~' $code '라는 언어를 두 번 사용하셨습니다. 여러 언어를 함께 사용하는 태그에는 각 언어를 한 번만 나열해야 합니다."
+                    "explanation": "$~' $code '라는 언어를 두 번 사용하셨습니다. 여러 언어를 함께 사용하는 태그에는 각 언어를 한 번만 나열해야 합니다.",
+                    "resolution": "$?"
                 }
             }
         },
@@ -266,19 +269,24 @@
             "conflict": {
                 "InvalidRow": {
                     "name": "$~잘못된행",
-                    "explanation": "$~행은 모두 값이거나 모두 @Bind 합니다."
+                    "explanation": "$~행은 모두 값이거나 모두 @Bind 합니다.",
+                    "resolutionKeepPositional": "$?",
+                    "resolutionUnwrapInputs": "$?"
                 },
                 "MissingCell": {
                     "name": "$~누락된열",
-                    "explanation": "$~$column 열이 누락되었습니다."
+                    "explanation": "$~$column 열이 누락되었습니다.",
+                    "resolution": "$?"
                 },
                 "ExtraCell": {
                     "name": "$~추가열",
-                    "explanation": "$~테이블 유형을 기준으로 볼 때, 저는 여기에 있어서는 안 될 불필요한 열입니다."
+                    "explanation": "$~테이블 유형을 기준으로 볼 때, 저는 여기에 있어서는 안 될 불필요한 열입니다.",
+                    "resolution": "$?"
                 },
                 "UnknownColumn": {
                     "name": "$~알수없는열이름",
-                    "explanation": "$~저는 그런 이름의 칼럼을 본 적이 없습니다."
+                    "explanation": "$~저는 그런 이름의 칼럼을 본 적이 없습니다.",
+                    "resolution": "$?"
                 },
                 "UnexpectedColumnBind": {
                     "name": "$~바인딩행없음",
@@ -309,7 +317,8 @@
             "conflict": {
                 "DuplicateTypeVariable": {
                     "name": "$~중복유형변수",
-                    "explanation": "$~저는 $duplicate 이름이 같습니다."
+                    "explanation": "$~저는 $duplicate 이름이 같습니다.",
+                    "resolution": "$?"
                 }
             },
             "label": {
@@ -384,7 +393,8 @@
             "conflict": {
                 "UnsupportedFontFormat": {
                     "name": "$~지원되지않는글꼴형식",
-                    "explanation": "$~내 친구 * $face *는 $format 되는 방법을 모릅니다."
+                    "explanation": "$~내 친구 * $face *는 $format 되는 방법을 모릅니다.",
+                    "resolution": "$?"
                 }
             }
         },
@@ -438,7 +448,8 @@
             "conflict": {
                 "OrderOfOperations": {
                     "name": "$~모호한순서",
-                    "explanation": "$~저는 수학 연산 순서가 아니라 읽기 순서대로 평가합니다. @Block 어노테이션을 사용해서 평가 순서를 지정하시겠습니까?"
+                    "explanation": "$~저는 수학 연산 순서가 아니라 읽기 순서대로 평가합니다. @Block 어노테이션을 사용해서 평가 순서를 지정하시겠습니까?",
+                    "resolution": "$?"
                 }
             },
             "label": {
@@ -487,7 +498,8 @@
                 },
                 "DuplicateShare": {
                     "name": "$~중복공유",
-                    "explanation": "$~제 이름이 $duplicate 똑같습니다. 그래서 우리가 무엇을 공유하고 있는지 불분명합니다."
+                    "explanation": "$~제 이름이 $duplicate 똑같습니다. 그래서 우리가 무엇을 공유하고 있는지 불분명합니다.",
+                    "resolution": "$?"
                 },
                 "IncompatibleType": {
                     "name": "$~호환되지않는유형",
@@ -506,23 +518,28 @@
                 },
                 "MisplacedShare": {
                     "name": "$~잘못된공유",
-                    "explanation": "$~저는 @Program 레벨에서만 공유할 수 있고, 그 안에는 공유할 수 없습니다!"
+                    "explanation": "$~저는 @Program 레벨에서만 공유할 수 있고, 그 안에는 공유할 수 없습니다!",
+                    "resolution": "$?"
                 },
                 "MissingShareLanguages": {
                     "name": "$~누락된언어",
-                    "explanation": "$~이 내용을 공유하고 싶다면, 다른 사람들이 읽을 수 있는지 알 수 있도록 어떤 언어로 작성되었는지 명시해야 합니다!"
+                    "explanation": "$~이 내용을 공유하고 싶다면, 다른 사람들이 읽을 수 있는지 알 수 있도록 어떤 언어로 작성되었는지 명시해야 합니다!",
+                    "resolution": "$?"
                 },
                 "RequiredAfterOptional": {
                     "name": "$~선택사항후필수입력",
-                    "explanation": "$~저는 여기에 있을 수 없어요. 제 앞에 선택적 @Bind 있어요."
+                    "explanation": "$~저는 여기에 있을 수 없어요. 제 앞에 선택적 @Bind 있어요.",
+                    "resolution": "$?"
                 },
                 "UnexpectedEtc": {
                     "name": "$~입력목록후예상치못한입력",
-                    "explanation": "$~@FunctionDefinition 가변 길이를 사용할 수 있습니다."
+                    "explanation": "$~@FunctionDefinition 가변 길이를 사용할 수 있습니다.",
+                    "resolution": "$?"
                 },
                 "UnusedBind": {
                     "name": "$~사용하지않은바인드",
-                    "explanation": "$~내 이름은 $name 아무도 나를 사용하지 않네요. 아마 내가 필요 없는 걸까요?"
+                    "explanation": "$~내 이름은 $name 아무도 나를 사용하지 않네요. 아마 내가 필요 없는 걸까요?",
+                    "resolution": "$?"
                 }
             },
             "label": {
@@ -558,7 +575,8 @@
             "conflict": {
                 "ExpectedEndingExpression": {
                     "name": "$~표현이누락됨",
-                    "explanation": "값을 돌려드릴 수 있도록, @Bind가 아닌 표현식이 적어도 하나는 필요해요."
+                    "explanation": "값을 돌려드릴 수 있도록, @Bind가 아닌 표현식이 적어도 하나는 필요해요.",
+                    "resolution": "$?"
                 }
             },
             "label": {
@@ -581,11 +599,13 @@
             "conflict": {
                 "UnknownBorrow": {
                     "name": "$~알수없는차용",
-                    "explanation": "$~저는 그런 이름의 $source를 알지 못합니다."
+                    "explanation": "$~저는 그런 이름의 $source를 알지 못합니다.",
+                    "resolution": "$?"
                 },
                 "BorrowCycle": {
                     "name": "$~자기참조차용",
-                    "explanation": "$~이것은 $borrow 에 의존하고, $borrow는 다시 $source 에 의존하므로 프로그램을 평가할 수 없습니다."
+                    "explanation": "$~이것은 $borrow 에 의존하고, $borrow는 다시 $source 에 의존하므로 프로그램을 평가할 수 없습니다.",
+                    "resolution": "$?"
                 }
             },
             "exception": {
@@ -667,7 +687,8 @@
             "conflict": {
                 "MisplacedConversion": {
                     "name": "$~잘못된변환",
-                    "explanation": "$~와, 나 여기 있을 수 없어. @Block 있어야 해."
+                    "explanation": "$~와, 나 여기 있을 수 없어. @Block 있어야 해.",
+                    "resolution": "$?"
                 }
             },
             "label": {
@@ -694,7 +715,8 @@
             "conflict": {
                 "UnknownConversion": {
                     "name": "$~알수없는변환",
-                    "explanation": "$~우리는 $expected $given 으로 변환하는 방법을 찾을 수 없었습니다."
+                    "explanation": "$~우리는 $expected $given 으로 변환하는 방법을 찾을 수 없었습니다.",
+                    "resolution": "$?"
                 }
             },
             "exception": {
@@ -765,7 +787,8 @@
                 },
                 "UnexpectedTypeInput": {
                     "name": "$~예상치못한유형입력",
-                    "explanation": "$~저는 예상치 못한 추가 입력 유형입니다."
+                    "explanation": "$~저는 예상치 못한 추가 입력 유형입니다.",
+                    "resolution": "$?"
                 },
                 "MissingInput": {
                     "name": "$~입력누락",
@@ -775,23 +798,28 @@
                 },
                 "NotInstantiable": {
                     "name": "$~불완전한구조",
-                    "explanation": "$~이 @StructureDefinition 구현되지 않은 함수가 있어서 만들 수 없습니다."
+                    "explanation": "$~이 @StructureDefinition 구현되지 않은 함수가 있어서 만들 수 없습니다.",
+                    "resolution": "$?"
                 },
                 "UnexpectedInput": {
                     "name": "$~예상치못한입력",
-                    "explanation": "$~저는 예상치 못한 입력값입니다."
+                    "explanation": "$~저는 예상치 못한 입력값입니다.",
+                    "resolution": "$?"
                 },
                 "UnknownInput": {
                     "name": "$~알수없는입력",
-                    "explanation": "$~이 함수 *$name*은 내 이름이 포함된 입력을 기대하지 않습니다."
+                    "explanation": "$~이 함수 *$name*은 내 이름이 포함된 입력을 기대하지 않습니다.",
+                    "resolution": "$?"
                 },
                 "InputListMustBeLast": {
                     "name": "$~추가입력은마지막이아닙니다",
-                    "explanation": "$~입력 목록은 마지막에 와야 합니다."
+                    "explanation": "$~입력 목록은 마지막에 와야 합니다.",
+                    "resolution": "$?"
                 },
                 "SeparatedEvaluate": {
                     "name": "$~모호한평가",
-                    "explanation": "$~$name 평가하려는 $structure[$structure|$function]의 이름인가요? @Evaluate 아니면 별도의 @Block 알 수 있도록 제 뒤에 있는 공백을 제거해 주세요."
+                    "explanation": "$~$name 평가하려는 $structure[$structure|$function]의 이름인가요? @Evaluate 아니면 별도의 @Block 알 수 있도록 제 뒤에 있는 공백을 제거해 주세요.",
+                    "resolution": "$?"
                 }
             },
             "exception": {
@@ -835,7 +863,8 @@
             "conflict": {
                 "Placeholder": {
                     "name": "$~플레이스홀더",
-                    "explanation": "$~제 상황을 설명해 주시겠어요? 저는 그냥 임시 자리일 뿐이에요."
+                    "explanation": "$~제 상황을 설명해 주시겠어요? 저는 그냥 임시 자리일 뿐이에요.",
+                    "resolution": "$?"
                 }
             },
             "exception": {
@@ -872,7 +901,8 @@
             "conflict": {
                 "NoExpression": {
                     "name": "$~표현이누락됨",
-                    "explanation": "$~평가할 표현식이 필요한데, 추가해 주시겠어요?"
+                    "explanation": "$~평가할 표현식이 필요한데, 추가해 주시겠어요?",
+                    "resolution": "$?"
                 }
             },
             "label": {
@@ -934,7 +964,9 @@
             "conflict": {
                 "ImpossibleType": {
                     "name": "$~불가능한유형",
-                    "explanation": "$~이것은 절대로 $type 될 수 없습니다."
+                    "explanation": "$~이것은 절대로 $type 될 수 없습니다.",
+                    "resolutionIsFalse": "$?",
+                    "resolutionDropOtherwise": "$?"
                 }
             },
             "exception": {
@@ -994,7 +1026,8 @@
             "conflict": {
                 "NotAKeyValue": {
                     "name": "$~누락된값",
-                    "explanation": "$~저는 @Map 안에 있으므로 값이 필요합니다."
+                    "explanation": "$~저는 @Map 안에 있으므로 값이 필요합니다.",
+                    "resolution": "$?"
                 }
             },
             "label": {
@@ -1030,7 +1063,8 @@
             "conflict": {
                 "NotANumber": {
                     "name": "$~숫자가아니다",
-                    "explanation": "$~나는 모든 숫자를 다 안다고 생각했는데, 이 숫자는 모르겠네."
+                    "explanation": "$~나는 모든 숫자를 다 안다고 생각했는데, 이 숫자는 모르겠네.",
+                    "resolution": "$?"
                 }
             }
         },
@@ -1145,7 +1179,8 @@
             "conflict": {
                 "InvalidProperty": {
                     "name": "$~알려지지않은속성",
-                    "explanation": "$~저는 $structure 구조 내의 이름이 아니므로 정제할 수 없습니다."
+                    "explanation": "$~저는 $structure 구조 내의 이름이 아니므로 정제할 수 없습니다.",
+                    "resolution": "$?"
                 }
             },
             "label": {
@@ -1184,7 +1219,8 @@
             "conflict": {
                 "ExpectedStream": {
                     "name": "$~예상스트림",
-                    "explanation": "$~$condition 스트림을 참조하지 않으므로 절대 반응하지 않겠습니다!"
+                    "explanation": "$~$condition 스트림을 참조하지 않으므로 절대 반응하지 않겠습니다!",
+                    "resolution": "$?"
                 }
             },
             "label": {
@@ -1214,11 +1250,13 @@
                 },
                 "ReferenceCycle": {
                     "name": "$~자기참조값",
-                    "explanation": "$~음, $name 값은 자기 자신에 따라 달라지는데, 그렇다면 어떤 값을 줘야 할지 어떻게 알 수 있을까요?"
+                    "explanation": "$~음, $name 값은 자기 자신에 따라 달라지는데, 그렇다면 어떤 값을 줘야 할지 어떻게 알 수 있을까요?",
+                    "resolution": "$?"
                 },
                 "UnexpectedTypeVariable": {
                     "name": "$~예상치못한유형변수",
-                    "explanation": "$~이런 입력값을 어떻게 처리해야 할지 모르겠어요."
+                    "explanation": "$~이런 입력값을 어떻게 처리해야 할지 모르겠어요.",
+                    "resolution": "$?"
                 }
             },
             "exception": {
@@ -1243,7 +1281,8 @@
             "conflict": {
                 "ExpectedSelectName": {
                     "name": "$~열이름이누락되었습니다",
-                    "explanation": "$~최소한 하나의 열 이름이 필요합니다."
+                    "explanation": "$~최소한 하나의 열 이름이 필요합니다.",
+                    "resolution": "$?"
                 }
             }
         },
@@ -1324,19 +1363,23 @@
             "conflict": {
                 "DisallowedInputs": {
                     "name": "$~입력이허용되지않습니다",
-                    "explanation": "$~인터페이스 함수 중 하나 이상이 구현되지 않았기 때문에 입력을 받을 수 없습니다."
+                    "explanation": "$~인터페이스 함수 중 하나 이상이 구현되지 않았기 때문에 입력을 받을 수 없습니다.",
+                    "resolution": "$?"
                 },
                 "IncompleteImplementation": {
                     "name": "$~불완전한구조",
-                    "explanation": "$~내 함수들은 모두 구현되거나, 아니면 하나도 구현되지 않아야 합니다. 복잡하게 섞이는 건 안 돼요!"
+                    "explanation": "$~내 함수들은 모두 구현되거나, 아니면 하나도 구현되지 않아야 합니다. 복잡하게 섞이는 건 안 돼요!",
+                    "resolution": "$?"
                 },
                 "NotAnInterface": {
                     "name": "$~인터페이스가아니다",
-                    "explanation": "$~나는 인터페이스가 아닙니다. 구조체는 인터페이스만 구현할 수 있고, 다른 구조체는 구현할 수 없습니다."
+                    "explanation": "$~나는 인터페이스가 아닙니다. 구조체는 인터페이스만 구현할 수 있고, 다른 구조체는 구현할 수 없습니다.",
+                    "resolution": "$?"
                 },
                 "UnimplementedInterface": {
                     "name": "$~구현되지않은",
-                    "explanation": "$~$interface 구현했지만 $function 아직 구현하지 않았습니다."
+                    "explanation": "$~$interface 구현했지만 $function 아직 구현하지 않았습니다.",
+                    "resolution": "$?"
                 }
             },
             "label": {
@@ -1402,7 +1445,8 @@
                 "reminder": "$~참고: 이 작업을 실행 취소하고 공유 대화상자에서 민감하지 않은 것으로 표시한 다른 항목을 볼 수 있습니다.",
                 "character": {
                     "name": "$~사용자정의문자가능",
-                    "explanation": "$~이것은 캐릭터 이름처럼 보입니다. 캐릭터 이름을 표시하려면 @TextLiteral 대신 @FormattedLiteral 사용하세요."
+                    "explanation": "$~이것은 캐릭터 이름처럼 보입니다. 캐릭터 이름을 표시하려면 @TextLiteral 대신 @FormattedLiteral 사용하세요.",
+                    "resolutionStrip": "$?"
                 }
             },
             "label": {
@@ -1450,7 +1494,8 @@
             "conflict": {
                 "MisplacedThis": {
                     "name": "$~이참조를잘못배치했습니다",
-                    "explanation": "$~저는 구조, 변환 또는 반응에만 참여할 수 있습니다."
+                    "explanation": "$~저는 구조, 변환 또는 반응에만 참여할 수 있습니다.",
+                    "resolution": "$?"
                 }
             }
         },
@@ -1499,7 +1544,8 @@
                 },
                 "UnclosedDelimiter": {
                     "name": "$~닫히지않은구분기호",
-                    "explanation": "$~저는 $expected $unclosed 이후 어느 시점에 나올 거라고 예상했습니다."
+                    "explanation": "$~저는 $expected $unclosed 이후 어느 시점에 나올 거라고 예상했습니다.",
+                    "resolution": "$?"
                 }
             },
             "exception": {
@@ -1524,7 +1570,8 @@
             "conflict": {
                 "ExpectedColumnBind": {
                     "name": "$~열값이누락되었습니다",
-                    "explanation": "$~모든 열에 값이 필요합니다"
+                    "explanation": "$~모든 열에 값이 필요합니다",
+                    "resolution": "$?"
                 },
                 "IncompatibleCellType": {
                     "name": "$~비호환세포유형",
@@ -1631,7 +1678,8 @@
             "conflict": {
                 "UnknownTypeName": {
                     "name": "$~알수없는유형이름",
-                    "explanation": "$~타입 이름은 구조체 또는 타입 변수만 참조할 수 있지만, 여기서는 타입 $type 참조합니다."
+                    "explanation": "$~타입 이름은 구조체 또는 타입 변수만 참조할 수 있지만, 여기서는 타입 $type 참조합니다.",
+                    "resolution": "$?"
                 }
             }
         },
@@ -1695,7 +1743,8 @@
             "conflict": {
                 "ExpectedColumnType": {
                     "name": "$~열유형이누락되었습니다",
-                    "explanation": "$~컬럼 유형이 필요합니다"
+                    "explanation": "$~컬럼 유형이 필요합니다",
+                    "resolution": "$?"
                 }
             }
         },

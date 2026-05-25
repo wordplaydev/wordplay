@@ -35,7 +35,10 @@ function getConflictAndRepairs(
 ): {
     project: Project;
     conflict: Conflict | undefined;
-    repairs: { node: Node | undefined; resolution: Resolution }[];
+    repairs: {
+        node: Node | undefined;
+        resolution: Extract<Resolution, { kind: 'repair' }>;
+    }[];
 } {
     const source = new Source('test', code);
     const project = Project.make(null, 'test', source, [], DefaultLocale);
@@ -45,7 +48,14 @@ function getConflictAndRepairs(
     if (conflict === undefined)
         return { project, conflict: undefined, repairs: [] };
     const resolutions = conflict.getResolutions(context, Templates);
-    const repairs = resolutions.map((r) => {
+    type RepairResolution = Extract<
+        (typeof resolutions)[number],
+        { kind: 'repair' }
+    >;
+    const repairResolutions = resolutions.filter(
+        (r): r is RepairResolution => r.kind === 'repair',
+    );
+    const repairs = repairResolutions.map((r) => {
         const { newNode } = r.mediator(context, project.getLocales());
         return { node: newNode, resolution: r };
     });
@@ -138,11 +148,15 @@ describe('TypeResolutions — add missing input', () => {
         if (conflict) {
             const resolutions = conflict.getResolutions(ctx, Templates);
             expect(resolutions.length).toBeGreaterThanOrEqual(1);
-            const { newNode } = resolutions[0].mediator(
-                ctx,
-                project.getLocales(),
-            );
-            expect(newNode).toBeInstanceOf(Evaluate);
+            const first = resolutions[0];
+            expect(first.kind).toBe('repair');
+            if (first.kind === 'repair') {
+                const { newNode } = first.mediator(
+                    ctx,
+                    project.getLocales(),
+                );
+                expect(newNode).toBeInstanceOf(Evaluate);
+            }
         }
     });
 });

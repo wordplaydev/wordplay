@@ -215,15 +215,18 @@
             "conflict": {
                 "UnknownLanguage": {
                     "name": "$~不明な言語",
-                    "explanation": "$~この言語は分かりません"
+                    "explanation": "$~この言語は分かりません",
+                    "resolution": "$?"
                 },
                 "MissingLanguage": {
                     "name": "$~言語が欠落している",
-                    "explanation": "$~言語が1つ足りません。追加してもらえますか？"
+                    "explanation": "$~言語が1つ足りません。追加してもらえますか？",
+                    "resolution": "$?"
                 },
                 "DuplicateLanguage": {
                     "name": "$~重複言語",
-                    "explanation": "$~言語「 $code 」が2回使用されています。複数の言語を含むタグでは、各言語を1回ずつ記述してください。"
+                    "explanation": "$~言語「 $code 」が2回使用されています。複数の言語を含むタグでは、各言語を1回ずつ記述してください。",
+                    "resolution": "$?"
                 }
             }
         },
@@ -266,19 +269,24 @@
             "conflict": {
                 "InvalidRow": {
                     "name": "$~無効な行",
-                    "explanation": "$~行はすべて値であるか、すべて @Bind である必要があります。"
+                    "explanation": "$~行はすべて値であるか、すべて @Bind である必要があります。",
+                    "resolutionKeepPositional": "$?",
+                    "resolutionUnwrapInputs": "$?"
                 },
                 "MissingCell": {
                     "name": "$~列が欠落しています",
-                    "explanation": "$~列$column"
+                    "explanation": "$~列$column",
+                    "resolution": "$?"
                 },
                 "ExtraCell": {
                     "name": "$~追加の列",
-                    "explanation": "$~テーブルの種類に基づくと、ここには存在すべきではない追加の列があります。"
+                    "explanation": "$~テーブルの種類に基づくと、ここには存在すべきではない追加の列があります。",
+                    "resolution": "$?"
                 },
                 "UnknownColumn": {
                     "name": "$~不明な列名",
-                    "explanation": "$~この名前のコラムは知りません"
+                    "explanation": "$~この名前のコラムは知りません",
+                    "resolution": "$?"
                 },
                 "UnexpectedColumnBind": {
                     "name": "$~バインド行なし",
@@ -309,7 +317,8 @@
             "conflict": {
                 "DuplicateTypeVariable": {
                     "name": "$~重複型変数",
-                    "explanation": "$~私の名前は$duplicate"
+                    "explanation": "$~私の名前は$duplicate",
+                    "resolution": "$?"
                 }
             },
             "label": {
@@ -384,7 +393,8 @@
             "conflict": {
                 "UnsupportedFontFormat": {
                     "name": "$~サポートされていないフォント形式",
-                    "explanation": "$~私の友人 * $face * は$format。"
+                    "explanation": "$~私の友人 * $face * は$format。",
+                    "resolution": "$?"
                 }
             }
         },
@@ -438,7 +448,8 @@
             "conflict": {
                 "OrderOfOperations": {
                     "name": "$~曖昧な順序",
-                    "explanation": "$~演算順序ではなく、読み取り順序で評価します。評価順序を指定するには@Block？"
+                    "explanation": "$~演算順序ではなく、読み取り順序で評価します。評価順序を指定するには@Block？",
+                    "resolution": "$?"
                 }
             },
             "label": {
@@ -487,7 +498,8 @@
                 },
                 "DuplicateShare": {
                     "name": "$~重複した共有",
-                    "explanation": "$~$duplicate"
+                    "explanation": "$~$duplicate",
+                    "resolution": "$?"
                 },
                 "IncompatibleType": {
                     "name": "$~互換性のないタイプ",
@@ -506,23 +518,28 @@
                 },
                 "MisplacedShare": {
                     "name": "$~間違ったシェア",
-                    "explanation": "$~共有できるのは @Program レベルでのみであり、他のものの中では共有できません。"
+                    "explanation": "$~共有できるのは @Program レベルでのみであり、他のものの中では共有できません。",
+                    "resolution": "$?"
                 },
                 "MissingShareLanguages": {
                     "name": "$~言語が欠落している",
-                    "explanation": "$~これをシェアしたい場合は、他の人が読めるかどうかわかるように、どの言語であるかを言わなければなりません。"
+                    "explanation": "$~これをシェアしたい場合は、他の人が読めるかどうかわかるように、どの言語であるかを言わなければなりません。",
+                    "resolution": "$?"
                 },
                 "RequiredAfterOptional": {
                     "name": "$~オプションの後に必須入力",
-                    "explanation": "$~私はここにいることができません。私の前にオプションの@Bind"
+                    "explanation": "$~私はここにいることができません。私の前にオプションの@Bind",
+                    "resolution": "$?"
                 },
                 "UnexpectedEtc": {
                     "name": "$~入力リスト後の予期しない入力",
-                    "explanation": "$~@FunctionDefinition"
+                    "explanation": "$~@FunctionDefinition",
+                    "resolution": "$?"
                 },
                 "UnusedBind": {
                     "name": "$~未使用のバインド",
-                    "explanation": "$~私の名前は$name"
+                    "explanation": "$~私の名前は$name",
+                    "resolution": "$?"
                 }
             },
             "label": {
@@ -558,7 +575,8 @@
             "conflict": {
                 "ExpectedEndingExpression": {
                     "name": "$~表現が欠落している",
-                    "explanation": "値を返すために、@Bind ではない式が少なくとも 1 つ必要です。"
+                    "explanation": "値を返すために、@Bind ではない式が少なくとも 1 つ必要です。",
+                    "resolution": "$?"
                 }
             },
             "label": {
@@ -581,11 +599,13 @@
             "conflict": {
                 "UnknownBorrow": {
                     "name": "$~不明な借用",
-                    "explanation": "$~この名前の$sourceは知りません"
+                    "explanation": "$~この名前の$sourceは知りません",
+                    "resolution": "$?"
                 },
                 "BorrowCycle": {
                     "name": "$~自己参照借用",
-                    "explanation": "$~これは$borrowに依存し、$borrow はこの$sourceに依存しているため、プログラムを評価できません。"
+                    "explanation": "$~これは$borrowに依存し、$borrow はこの$sourceに依存しているため、プログラムを評価できません。",
+                    "resolution": "$?"
                 }
             },
             "exception": {
@@ -667,7 +687,8 @@
             "conflict": {
                 "MisplacedConversion": {
                     "name": "$~誤った変換",
-                    "explanation": "$~うわー、私はここにいられない、ただ@Block。"
+                    "explanation": "$~うわー、私はここにいられない、ただ@Block。",
+                    "resolution": "$?"
                 }
             },
             "label": {
@@ -694,7 +715,8 @@
             "conflict": {
                 "UnknownConversion": {
                     "name": "$~不明な変換",
-                    "explanation": "$~$expected を $given に変換する方法が見つかりませんでした"
+                    "explanation": "$~$expected を $given に変換する方法が見つかりませんでした",
+                    "resolution": "$?"
                 }
             },
             "exception": {
@@ -765,7 +787,8 @@
                 },
                 "UnexpectedTypeInput": {
                     "name": "$~予期しない型入力",
-                    "explanation": "$~私は余分な、予想外のタイプ入力です。"
+                    "explanation": "$~私は余分な、予想外のタイプ入力です。",
+                    "resolution": "$?"
                 },
                 "MissingInput": {
                     "name": "$~入力がありません",
@@ -775,23 +798,28 @@
                 },
                 "NotInstantiable": {
                     "name": "$~不完全な構造",
-                    "explanation": "$~この@StructureDefinition。実装されていない関数があります。"
+                    "explanation": "$~この@StructureDefinition。実装されていない関数があります。",
+                    "resolution": "$?"
                 },
                 "UnexpectedInput": {
                     "name": "$~予期しない入力",
-                    "explanation": "$~予想外の入力です。"
+                    "explanation": "$~予想外の入力です。",
+                    "resolution": "$?"
                 },
                 "UnknownInput": {
                     "name": "$~不明な入力",
-                    "explanation": "$~この関数 *$name* は私の名前の入力を想定していません。"
+                    "explanation": "$~この関数 *$name* は私の名前の入力を想定していません。",
+                    "resolution": "$?"
                 },
                 "InputListMustBeLast": {
                     "name": "$~追加入力は最後ではない",
-                    "explanation": "$~入力リストは最後になければなりません"
+                    "explanation": "$~入力リストは最後になければなりません",
+                    "resolution": "$?"
                 },
                 "SeparatedEvaluate": {
                     "name": "$~曖昧な評価",
-                    "explanation": "$~$name は評価しようとしている $structure[$structure|$function] の名前ですか？ 後ろのスペースを削除してみてください。そうすれば、別の @Block ではなく @Evaluate であることがわかります。"
+                    "explanation": "$~$name は評価しようとしている $structure[$structure|$function] の名前ですか？ 後ろのスペースを削除してみてください。そうすれば、別の @Block ではなく @Evaluate であることがわかります。",
+                    "resolution": "$?"
                 }
             },
             "exception": {
@@ -835,7 +863,8 @@
             "conflict": {
                 "Placeholder": {
                     "name": "$~プレースホルダー",
-                    "explanation": "$~代わりにやってもらえますか？私はただの代役です。"
+                    "explanation": "$~代わりにやってもらえますか？私はただの代役です。",
+                    "resolution": "$?"
                 }
             },
             "exception": {
@@ -872,7 +901,8 @@
             "conflict": {
                 "NoExpression": {
                     "name": "$~表現が欠落している",
-                    "explanation": "$~評価する式が必要です。追加してもらえますか?"
+                    "explanation": "$~評価する式が必要です。追加してもらえますか?",
+                    "resolution": "$?"
                 }
             },
             "label": {
@@ -934,7 +964,9 @@
             "conflict": {
                 "ImpossibleType": {
                     "name": "$~不可能なタイプ",
-                    "explanation": "$~これは決して$type"
+                    "explanation": "$~これは決して$type",
+                    "resolutionIsFalse": "$?",
+                    "resolutionDropOtherwise": "$?"
                 }
             },
             "exception": {
@@ -994,7 +1026,8 @@
             "conflict": {
                 "NotAKeyValue": {
                     "name": "$~欠損値",
-                    "explanation": "$~@Map 内にいるので、値が必要です。"
+                    "explanation": "$~@Map 内にいるので、値が必要です。",
+                    "resolution": "$?"
                 }
             },
             "label": {
@@ -1030,7 +1063,8 @@
             "conflict": {
                 "NotANumber": {
                     "name": "$~数字ではない",
-                    "explanation": "$~数字は全部知ってると思っていたけど、この数字は知らない"
+                    "explanation": "$~数字は全部知ってると思っていたけど、この数字は知らない",
+                    "resolution": "$?"
                 }
             }
         },
@@ -1145,7 +1179,8 @@
             "conflict": {
                 "InvalidProperty": {
                     "name": "$~不明なプロパティ",
-                    "explanation": "$~私は構造 $structure 内の名前ではないので、洗練できません。"
+                    "explanation": "$~私は構造 $structure 内の名前ではないので、洗練できません。",
+                    "resolution": "$?"
                 }
             },
             "label": {
@@ -1184,7 +1219,8 @@
             "conflict": {
                 "ExpectedStream": {
                     "name": "$~予想されるストリーム",
-                    "explanation": "$~$condition はストリームを参照しないので、反応しません。"
+                    "explanation": "$~$condition はストリームを参照しないので、反応しません。",
+                    "resolution": "$?"
                 }
             },
             "label": {
@@ -1214,11 +1250,13 @@
                 },
                 "ReferenceCycle": {
                     "name": "$~自己参照値",
-                    "explanation": "$~えーと、$name の価値はそれ自体で決まるので、それにどのような値を与えるべきかをどうやって知ればいいのでしょうか?"
+                    "explanation": "$~えーと、$name の価値はそれ自体で決まるので、それにどのような値を与えるべきかをどうやって知ればいいのでしょうか?",
+                    "resolution": "$?"
                 },
                 "UnexpectedTypeVariable": {
                     "name": "$~予期しない型変数",
-                    "explanation": "$~これらの入力タイプをどうすればよいか分かりません"
+                    "explanation": "$~これらの入力タイプをどうすればよいか分かりません",
+                    "resolution": "$?"
                 }
             },
             "exception": {
@@ -1243,7 +1281,8 @@
             "conflict": {
                 "ExpectedSelectName": {
                     "name": "$~列名がありません",
-                    "explanation": "$~少なくとも 1 つの列名が必要です。"
+                    "explanation": "$~少なくとも 1 つの列名が必要です。",
+                    "resolution": "$?"
                 }
             }
         },
@@ -1324,19 +1363,23 @@
             "conflict": {
                 "DisallowedInputs": {
                     "name": "$~入力は許可されていません",
-                    "explanation": "$~インターフェース関数の1つ以上が実装されていないため、入力できません"
+                    "explanation": "$~インターフェース関数の1つ以上が実装されていないため、入力できません",
+                    "resolution": "$?"
                 },
                 "IncompleteImplementation": {
                     "name": "$~不完全な構造",
-                    "explanation": "$~私の関数はすべて実装するか、まったく実装しないかのどちらかです。ごちゃ混ぜにしないでください！"
+                    "explanation": "$~私の関数はすべて実装するか、まったく実装しないかのどちらかです。ごちゃ混ぜにしないでください！",
+                    "resolution": "$?"
                 },
                 "NotAnInterface": {
                     "name": "$~インターフェースではない",
-                    "explanation": "$~私はインターフェースではありません。構造体はインターフェースのみを実装でき、他の構造体は実装できません。"
+                    "explanation": "$~私はインターフェースではありません。構造体はインターフェースのみを実装でき、他の構造体は実装できません。",
+                    "resolution": "$?"
                 },
                 "UnimplementedInterface": {
                     "name": "$~未実装",
-                    "explanation": "$~私は$interface、 $function。"
+                    "explanation": "$~私は$interface、 $function。",
+                    "resolution": "$?"
                 }
             },
             "label": {
@@ -1402,7 +1445,8 @@
                 "reminder": "$~注: この操作を元に戻し、共有ダイアログで非機密としてマークした他の項目を確認することができます。",
                 "character": {
                     "name": "$~可能なカスタム文字",
-                    "explanation": "$~これはキャラクター名のようです。それを表示するには、@FormattedLiteral@TextLiteral。"
+                    "explanation": "$~これはキャラクター名のようです。それを表示するには、@FormattedLiteral@TextLiteral。",
+                    "resolutionStrip": "$?"
                 }
             },
             "label": {
@@ -1450,7 +1494,8 @@
             "conflict": {
                 "MisplacedThis": {
                     "name": "$~この参照を紛失した",
-                    "explanation": "$~構造、変換、または反応でのみ許可されます。"
+                    "explanation": "$~構造、変換、または反応でのみ許可されます。",
+                    "resolution": "$?"
                 }
             }
         },
@@ -1499,7 +1544,8 @@
                 },
                 "UnclosedDelimiter": {
                     "name": "$~閉じられていない区切り文字",
-                    "explanation": "$~$expected の後のどこかの時点で $unclosed を期待していました"
+                    "explanation": "$~$expected の後のどこかの時点で $unclosed を期待していました",
+                    "resolution": "$?"
                 }
             },
             "exception": {
@@ -1524,7 +1570,8 @@
             "conflict": {
                 "ExpectedColumnBind": {
                     "name": "$~列の値が欠落しています",
-                    "explanation": "$~すべての列に値が必要です"
+                    "explanation": "$~すべての列に値が必要です",
+                    "resolution": "$?"
                 },
                 "IncompatibleCellType": {
                     "name": "$~不適合な細胞型",
@@ -1631,7 +1678,8 @@
             "conflict": {
                 "UnknownTypeName": {
                     "name": "$~不明な型名",
-                    "explanation": "$~型名は構造体または型変数のみを参照できますが、これは型$type"
+                    "explanation": "$~型名は構造体または型変数のみを参照できますが、これは型$type",
+                    "resolution": "$?"
                 }
             }
         },
@@ -1695,7 +1743,8 @@
             "conflict": {
                 "ExpectedColumnType": {
                     "name": "$~列タイプがありません",
-                    "explanation": "$~列タイプが必要です"
+                    "explanation": "$~列タイプが必要です",
+                    "resolution": "$?"
                 }
             }
         },

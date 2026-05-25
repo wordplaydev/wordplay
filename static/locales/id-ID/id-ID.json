@@ -215,15 +215,18 @@
             "conflict": {
                 "UnknownLanguage": {
                     "name": "$~bahasayangtidakdikenal",
-                    "explanation": "$~Saya tidak tahu bahasa ini"
+                    "explanation": "$~Saya tidak tahu bahasa ini",
+                    "resolution": "$?"
                 },
                 "MissingLanguage": {
                     "name": "$~bahasayanghilang",
-                    "explanation": "$~Saya kekurangan satu bahasa. Bisakah Anda menambahkannya?"
+                    "explanation": "$~Saya kekurangan satu bahasa. Bisakah Anda menambahkannya?",
+                    "resolution": "$?"
                 },
                 "DuplicateLanguage": {
                     "name": "$~bahasaduplikat",
-                    "explanation": "$~Anda menggunakan bahasa ' $code ' dua kali. Tag campuran bahasa seharusnya hanya mencantumkan setiap bahasa satu kali."
+                    "explanation": "$~Anda menggunakan bahasa ' $code ' dua kali. Tag campuran bahasa seharusnya hanya mencantumkan setiap bahasa satu kali.",
+                    "resolution": "$?"
                 }
             }
         },
@@ -266,19 +269,24 @@
             "conflict": {
                 "InvalidRow": {
                     "name": "$~baristidakvalid",
-                    "explanation": "$~Baris harus berisi semua nilai atau semua @Bind."
+                    "explanation": "$~Baris harus berisi semua nilai atau semua @Bind.",
+                    "resolutionKeepPositional": "$?",
+                    "resolutionUnwrapInputs": "$?"
                 },
                 "MissingCell": {
                     "name": "$~kolomhilang",
-                    "explanation": "$~Saya kehilangan kolom $column"
+                    "explanation": "$~Saya kehilangan kolom $column",
+                    "resolution": "$?"
                 },
                 "ExtraCell": {
                     "name": "$~kolomtambahan",
-                    "explanation": "$~Berdasarkan tipe tabel saya, saya adalah kolom tambahan yang seharusnya tidak ada di sini."
+                    "explanation": "$~Berdasarkan tipe tabel saya, saya adalah kolom tambahan yang seharusnya tidak ada di sini.",
+                    "resolution": "$?"
                 },
                 "UnknownColumn": {
                     "name": "$~namakolomtidakdiketahui",
-                    "explanation": "$~Saya tidak tahu kolom dengan nama ini."
+                    "explanation": "$~Saya tidak tahu kolom dengan nama ini.",
+                    "resolution": "$?"
                 },
                 "UnexpectedColumnBind": {
                     "name": "$~tidakadabarispengikat",
@@ -312,7 +320,8 @@
             "conflict": {
                 "DuplicateTypeVariable": {
                     "name": "$~variabeltipeduplikat",
-                    "explanation": "$~Saya memiliki nama yang sama dengan $duplicate"
+                    "explanation": "$~Saya memiliki nama yang sama dengan $duplicate",
+                    "resolution": "$?"
                 }
             }
         },
@@ -384,7 +393,8 @@
             "conflict": {
                 "UnsupportedFontFormat": {
                     "name": "$~formatfonttidakdidukung",
-                    "explanation": "$~Temanku * $face * tidak tahu bagaimana menjadi $format ."
+                    "explanation": "$~Temanku * $face * tidak tahu bagaimana menjadi $format .",
+                    "resolution": "$?"
                 }
             }
         },
@@ -444,7 +454,8 @@
             "conflict": {
                 "OrderOfOperations": {
                     "name": "$~urutanyangambigu",
-                    "explanation": "$~Saya melakukan evaluasi berdasarkan urutan baca, bukan urutan operasi matematika. Apakah Anda ingin menggunakan @Block untuk menentukan urutan evaluasi yang harus saya ikuti?"
+                    "explanation": "$~Saya melakukan evaluasi berdasarkan urutan baca, bukan urutan operasi matematika. Apakah Anda ingin menggunakan @Block untuk menentukan urutan evaluasi yang harus saya ikuti?",
+                    "resolution": "$?"
                 }
             }
         },
@@ -495,7 +506,8 @@
                 },
                 "DuplicateShare": {
                     "name": "$~berbagiduplikat",
-                    "explanation": "$~Saya memiliki nama yang sama dengan $duplicate . Itu membuat tidak jelas apa yang kita bagikan."
+                    "explanation": "$~Saya memiliki nama yang sama dengan $duplicate . Itu membuat tidak jelas apa yang kita bagikan.",
+                    "resolution": "$?"
                 },
                 "IncompatibleType": {
                     "name": "$~tipetidakkompatibel",
@@ -514,23 +526,28 @@
                 },
                 "MisplacedShare": {
                     "name": "$~sahamyangsalahtempat",
-                    "explanation": "$~Saya hanya bisa membagikan hal-hal di tingkat @Program, bukan di dalam apa pun!"
+                    "explanation": "$~Saya hanya bisa membagikan hal-hal di tingkat @Program, bukan di dalam apa pun!",
+                    "resolution": "$?"
                 },
                 "MissingShareLanguages": {
                     "name": "$~bahasayanghilang",
-                    "explanation": "$~Jika Anda ingin membagikan ini, Anda harus menyebutkan bahasa apa yang digunakan, agar orang lain tahu apakah mereka dapat membacanya!"
+                    "explanation": "$~Jika Anda ingin membagikan ini, Anda harus menyebutkan bahasa apa yang digunakan, agar orang lain tahu apakah mereka dapat membacanya!",
+                    "resolution": "$?"
                 },
                 "RequiredAfterOptional": {
                     "name": "$~inputwajibsetelahopsional",
-                    "explanation": "$~Saya tidak bisa berada di sini, ada @Bind opsional sebelum saya."
+                    "explanation": "$~Saya tidak bisa berada di sini, ada @Bind opsional sebelum saya.",
+                    "resolution": "$?"
                 },
                 "UnexpectedEtc": {
                     "name": "$~Masukantakterdugasetelahdaftarmasukan",
-                    "explanation": "$~Panjangnya hanya bisa bervariasi di dalam @FunctionDefinition."
+                    "explanation": "$~Panjangnya hanya bisa bervariasi di dalam @FunctionDefinition.",
+                    "resolution": "$?"
                 },
                 "UnusedBind": {
                     "name": "$~pengikatyangtidakterpakai",
-                    "explanation": "$~Nama saya $name , tetapi tidak ada yang menggunakan saya. Mungkin saya tidak dibutuhkan?"
+                    "explanation": "$~Nama saya $name , tetapi tidak ada yang menggunakan saya. Mungkin saya tidak dibutuhkan?",
+                    "resolution": "$?"
                 }
             }
         },
@@ -564,7 +581,8 @@
             "conflict": {
                 "ExpectedEndingExpression": {
                     "name": "$~ekspresiyanghilang",
-                    "explanation": "$~Saya membutuhkan setidaknya satu ekspresi yang bukan @Bind, agar saya memiliki nilai untuk dikembalikan."
+                    "explanation": "$~Saya membutuhkan setidaknya satu ekspresi yang bukan @Bind, agar saya memiliki nilai untuk dikembalikan.",
+                    "resolution": "$?"
                 }
             }
         },
@@ -589,11 +607,13 @@
             "conflict": {
                 "UnknownBorrow": {
                     "name": "$~pinjamantakdikenal",
-                    "explanation": "$~Saya tidak tahu $source dengan nama ini."
+                    "explanation": "$~Saya tidak tahu $source dengan nama ini.",
+                    "resolution": "$?"
                 },
                 "BorrowCycle": {
                     "name": "$~meminjamyangmerujukdirisendiri",
-                    "explanation": "$~Ini bergantung pada $borrow , yang bergantung pada $source , sehingga program tidak dapat dievaluasi."
+                    "explanation": "$~Ini bergantung pada $borrow , yang bergantung pada $source , sehingga program tidak dapat dievaluasi.",
+                    "resolution": "$?"
                 }
             },
             "exception": {
@@ -675,7 +695,8 @@
             "conflict": {
                 "MisplacedConversion": {
                     "name": "$~konversiyangsalahtempat",
-                    "explanation": "$~Wah, aku tidak bisa berada di sini, hanya di @Block."
+                    "explanation": "$~Wah, aku tidak bisa berada di sini, hanya di @Block.",
+                    "resolution": "$?"
                 }
             }
         },
@@ -697,7 +718,8 @@
             "conflict": {
                 "UnknownConversion": {
                     "name": "$~konversitidakdiketahui",
-                    "explanation": "$~Kami tidak menemukan cara untuk mengkonversi $expected menjadi $given"
+                    "explanation": "$~Kami tidak menemukan cara untuk mengkonversi $expected menjadi $given",
+                    "resolution": "$?"
                 }
             },
             "exception": {
@@ -775,7 +797,8 @@
                 },
                 "UnexpectedTypeInput": {
                     "name": "$~inputtipeyangtidakterduga",
-                    "explanation": "$~Saya adalah masukan tambahan yang tidak terduga."
+                    "explanation": "$~Saya adalah masukan tambahan yang tidak terduga.",
+                    "resolution": "$?"
                 },
                 "MissingInput": {
                     "name": "$~inputhilang",
@@ -785,23 +808,28 @@
                 },
                 "NotInstantiable": {
                     "name": "$~strukturtidaklengkap",
-                    "explanation": "$~Saya tidak bisa membuat @StructureDefinition ini karena memiliki fungsi yang belum diimplementasikan."
+                    "explanation": "$~Saya tidak bisa membuat @StructureDefinition ini karena memiliki fungsi yang belum diimplementasikan.",
+                    "resolution": "$?"
                 },
                 "UnexpectedInput": {
                     "name": "$~masukantakterduga",
-                    "explanation": "$~Saya adalah masukan yang tak terduga."
+                    "explanation": "$~Saya adalah masukan yang tak terduga.",
+                    "resolution": "$?"
                 },
                 "UnknownInput": {
                     "name": "$~masukantidakdikenal",
-                    "explanation": "$~Fungsi ini * $name * tidak mengharapkan input berupa nama saya."
+                    "explanation": "$~Fungsi ini * $name * tidak mengharapkan input berupa nama saya.",
+                    "resolution": "$?"
                 },
                 "InputListMustBeLast": {
                     "name": "$~masukantambahanbukanlahyangterakhir",
-                    "explanation": "$~daftar input harus berada di akhir"
+                    "explanation": "$~daftar input harus berada di akhir",
+                    "resolution": "$?"
                 },
                 "SeparatedEvaluate": {
                     "name": "$~evaluasiambigu",
-                    "explanation": "$~Apakah $name adalah nama dari $structure [ $structure | $function ] yang ingin Anda evaluasi? Coba hapus spasi setelahnya, agar saya tahu itu adalah @Evaluate dan bukan @Block terpisah."
+                    "explanation": "$~Apakah $name adalah nama dari $structure [ $structure | $function ] yang ingin Anda evaluasi? Coba hapus spasi setelahnya, agar saya tahu itu adalah @Evaluate dan bukan @Block terpisah.",
+                    "resolution": "$?"
                 }
             },
             "exception": {
@@ -843,7 +871,8 @@
             "conflict": {
                 "Placeholder": {
                     "name": "$~placeholder",
-                    "explanation": "$~Bisakah kamu mengisi posisiku? Aku hanya sekadar tempat penampung."
+                    "explanation": "$~Bisakah kamu mengisi posisiku? Aku hanya sekadar tempat penampung.",
+                    "resolution": "$?"
                 }
             },
             "exception": {
@@ -882,7 +911,8 @@
             "conflict": {
                 "NoExpression": {
                     "name": "$~ekspresiyanghilang",
-                    "explanation": "$~Saya membutuhkan ekspresi untuk dievaluasi, bisakah Anda menambahkannya?"
+                    "explanation": "$~Saya membutuhkan ekspresi untuk dievaluasi, bisakah Anda menambahkannya?",
+                    "resolution": "$?"
                 }
             }
         },
@@ -939,7 +969,9 @@
             "conflict": {
                 "ImpossibleType": {
                     "name": "$~tipeyangmustahil",
-                    "explanation": "$~ini tidak mungkin menjadi $type"
+                    "explanation": "$~ini tidak mungkin menjadi $type",
+                    "resolutionIsFalse": "$?",
+                    "resolutionDropOtherwise": "$?"
                 }
             },
             "exception": {
@@ -1002,7 +1034,8 @@
             "conflict": {
                 "NotAKeyValue": {
                     "name": "$~nilaiyanghilang",
-                    "explanation": "$~Saya berada di dalam @Map, jadi saya membutuhkan sebuah nilai."
+                    "explanation": "$~Saya berada di dalam @Map, jadi saya membutuhkan sebuah nilai.",
+                    "resolution": "$?"
                 }
             }
         },
@@ -1035,7 +1068,8 @@
             "conflict": {
                 "NotANumber": {
                     "name": "$~bukanangka",
-                    "explanation": "$~Saya kira saya tahu semua angka, tapi saya tidak tahu angka yang ini."
+                    "explanation": "$~Saya kira saya tahu semua angka, tapi saya tidak tahu angka yang ini.",
+                    "resolution": "$?"
                 }
             }
         },
@@ -1154,7 +1188,8 @@
             "conflict": {
                 "InvalidProperty": {
                     "name": "$~propertiyangtidakdiketahui",
-                    "explanation": "$~Saya bukan nama dalam struktur $structure , jadi saya tidak dapat dimurnikan."
+                    "explanation": "$~Saya bukan nama dalam struktur $structure , jadi saya tidak dapat dimurnikan.",
+                    "resolution": "$?"
                 }
             }
         },
@@ -1194,7 +1229,8 @@
             "conflict": {
                 "ExpectedStream": {
                     "name": "$~aliranyangdiharapkan",
-                    "explanation": "$~$condition tidak merujuk pada stream, jadi saya tidak akan pernah bereaksi!"
+                    "explanation": "$~$condition tidak merujuk pada stream, jadi saya tidak akan pernah bereaksi!",
+                    "resolution": "$?"
                 }
             }
         },
@@ -1219,11 +1255,13 @@
                 },
                 "ReferenceCycle": {
                     "name": "$~nilaiyangmerujukpadadirisendiri",
-                    "explanation": "$~Eh, nilai $name bergantung pada dirinya sendiri, jadi bagaimana saya tahu nilai apa yang harus saya berikan padanya?"
+                    "explanation": "$~Eh, nilai $name bergantung pada dirinya sendiri, jadi bagaimana saya tahu nilai apa yang harus saya berikan padanya?",
+                    "resolution": "$?"
                 },
                 "UnexpectedTypeVariable": {
                     "name": "$~variabeltipetakterduga",
-                    "explanation": "$~Saya tidak tahu harus berbuat apa dengan jenis input ini."
+                    "explanation": "$~Saya tidak tahu harus berbuat apa dengan jenis input ini.",
+                    "resolution": "$?"
                 }
             },
             "exception": {
@@ -1248,7 +1286,8 @@
             "conflict": {
                 "ExpectedSelectName": {
                     "name": "$~namakolomhilang",
-                    "explanation": "$~Saya membutuhkan setidaknya satu nama kolom."
+                    "explanation": "$~Saya membutuhkan setidaknya satu nama kolom.",
+                    "resolution": "$?"
                 }
             }
         },
@@ -1335,19 +1374,23 @@
             "conflict": {
                 "DisallowedInputs": {
                     "name": "$~inputtidakdiizinkan",
-                    "explanation": "$~Saya tidak dapat menerima input karena satu atau lebih fungsi antarmuka saya belum diimplementasikan."
+                    "explanation": "$~Saya tidak dapat menerima input karena satu atau lebih fungsi antarmuka saya belum diimplementasikan.",
+                    "resolution": "$?"
                 },
                 "IncompleteImplementation": {
                     "name": "$~strukturtidaklengkap",
-                    "explanation": "$~Semua fungsi saya harus diimplementasikan, atau tidak satu pun yang diimplementasikan. Tidak boleh ada campuran yang berantakan!"
+                    "explanation": "$~Semua fungsi saya harus diimplementasikan, atau tidak satu pun yang diimplementasikan. Tidak boleh ada campuran yang berantakan!",
+                    "resolution": "$?"
                 },
                 "NotAnInterface": {
                     "name": "$~bukanantarmuka",
-                    "explanation": "$~Saya bukanlah sebuah antarmuka; sebuah struktur hanya dapat mengimplementasikan antarmuka, bukan struktur lain."
+                    "explanation": "$~Saya bukanlah sebuah antarmuka; sebuah struktur hanya dapat mengimplementasikan antarmuka, bukan struktur lain.",
+                    "resolution": "$?"
                 },
                 "UnimplementedInterface": {
                     "name": "$~belumdilaksanakan",
-                    "explanation": "$~Saya mengimplementasikan $interface tetapi belum mengimplementasikan $function"
+                    "explanation": "$~Saya mengimplementasikan $interface tetapi belum mengimplementasikan $function",
+                    "resolution": "$?"
                 }
             }
         },
@@ -1410,7 +1453,8 @@
                 "reminder": "$~Catatan: Anda dapat membatalkan tindakan ini dan melihat hal-hal lain yang telah Anda tandai sebagai tidak sensitif di dialog berbagi.",
                 "character": {
                     "name": "$~karakterkustomyangmungkin",
-                    "explanation": "$~Ini sepertinya nama karakter. Untuk menampilkannya, gunakan @FormattedLiteral sebagai ganti @TextLiteral."
+                    "explanation": "$~Ini sepertinya nama karakter. Untuk menampilkannya, gunakan @FormattedLiteral sebagai ganti @TextLiteral.",
+                    "resolutionStrip": "$?"
                 }
             }
         },
@@ -1455,7 +1499,8 @@
             "conflict": {
                 "MisplacedThis": {
                     "name": "$~referensiinisalahtempat",
-                    "explanation": "$~Saya hanya diperbolehkan berada dalam struktur, konversi, atau reaksi."
+                    "explanation": "$~Saya hanya diperbolehkan berada dalam struktur, konversi, atau reaksi.",
+                    "resolution": "$?"
                 }
             }
         },
@@ -1504,7 +1549,8 @@
                 },
                 "UnclosedDelimiter": {
                     "name": "$~pembatasyangtidaktertutup",
-                    "explanation": "$~Saya memperkirakan $expected beberapa saat setelah $unclosed"
+                    "explanation": "$~Saya memperkirakan $expected beberapa saat setelah $unclosed",
+                    "resolution": "$?"
                 }
             },
             "exception": {
@@ -1529,7 +1575,8 @@
             "conflict": {
                 "ExpectedColumnBind": {
                     "name": "$~nilaikolomhilang",
-                    "explanation": "$~Saya membutuhkan nilai untuk setiap kolom."
+                    "explanation": "$~Saya membutuhkan nilai untuk setiap kolom.",
+                    "resolution": "$?"
                 },
                 "IncompatibleCellType": {
                     "name": "$~tipeselyangtidakkompatibel",
@@ -1636,7 +1683,8 @@
             "conflict": {
                 "UnknownTypeName": {
                     "name": "$~namatipetidakdiketahui",
-                    "explanation": "$~Nama tipe hanya dapat merujuk ke struktur atau variabel tipe, tetapi ini merujuk ke tipe $type"
+                    "explanation": "$~Nama tipe hanya dapat merujuk ke struktur atau variabel tipe, tetapi ini merujuk ke tipe $type",
+                    "resolution": "$?"
                 }
             }
         },
@@ -1700,7 +1748,8 @@
             "conflict": {
                 "ExpectedColumnType": {
                     "name": "$~tipekolomhilang",
-                    "explanation": "$~Saya membutuhkan tipe kolom."
+                    "explanation": "$~Saya membutuhkan tipe kolom.",
+                    "resolution": "$?"
                 }
             }
         },

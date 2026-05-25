@@ -5,7 +5,9 @@ import type NameType from '@nodes/NameType';
 import type StructureDefinition from '@nodes/StructureDefinition';
 import type Type from '@nodes/Type';
 import type Locales from '@locale/Locales';
-import Conflict from '@conflicts/Conflict';
+import Conflict, { type Resolutions } from '@conflicts/Conflict';
+import type Context from '@nodes/Context';
+import type Node from '@nodes/Node';
 
 export default class UnexpectedTypeInput extends Conflict {
     readonly evaluate: NameType | Evaluate;
@@ -34,6 +36,26 @@ export default class UnexpectedTypeInput extends Conflict {
                     (l) => UnexpectedTypeInput.LocalePath(l).explanation,
                 ),
         };
+    }
+
+    override getResolutions(
+        _context: Context,
+        _concepts: Node[],
+    ): Resolutions {
+        return [
+            {
+                kind: 'repair',
+                description: (locales: Locales) =>
+                    locales.concretize(
+                        (l) => UnexpectedTypeInput.LocalePath(l).resolution,
+                    ),
+                mediator: (ctx) => ({
+                    newProject: ctx.project.withRevisedNodes([
+                        [this.type, undefined],
+                    ]),
+                }),
+            },
+        ];
     }
 
     getLocalePath() {

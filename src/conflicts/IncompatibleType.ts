@@ -5,7 +5,7 @@ import type Expression from '@nodes/Expression';
 import type Type from '@nodes/Type';
 import type Locales from '@locale/Locales';
 import type Node from '@nodes/Node';
-import Conflict from '@conflicts/Conflict';
+import Conflict, { type Resolutions } from '@conflicts/Conflict';
 
 export default class IncompatibleType extends Conflict {
     readonly receiver: Node;
@@ -46,6 +46,13 @@ export default class IncompatibleType extends Conflict {
                     },
                 ),
         };
+    }
+
+    override getResolutions(
+        context: Context,
+        concepts: Node[],
+    ): Resolutions {
+        return Conflict.fromRegistry(this, context, concepts);
     }
 
     getLocalePath() {

@@ -10,7 +10,12 @@
         messages: Markup[];
         kind: 'step' | 'major' | 'minor';
         context: Context;
-        resolutions: () => Resolution[];
+        /**
+         * A thunk that returns the conflict's resolutions. `readonly Resolution[]`
+         * lets us accept both the non-empty `Resolutions` tuple from new
+         * conflicts and any plain array shape from intermediate code.
+         */
+        resolutions: () => readonly Resolution[];
         conflict?: ConflictLocaleAccessor;
     };
 </script>
@@ -281,8 +286,17 @@
     let sectionEl: HTMLElement | undefined = $state();
     let dragStartX = 0;
     let dragStartWidth = 0;
+    /**
+     * Live width during a drag. We don't mutate the setting's store directly
+     * during the drag because `Setting.set` no-ops when the new value already
+     * equals `store.get()` — which would skip persisting to localStorage on
+     * pointerup if the store was already advanced by the drag loop.
+     */
+    let draggingWidth: number | undefined = $state(undefined);
     /** The element that captured the drag; cleared in the up handler. */
     let captureEl: Element | undefined;
+
+    let renderedWidth = $derived(draggingWidth ?? $annotationsWidth);
 
     function handleKnobPointerDown(event: PointerEvent) {
         if (sectionEl === undefined) return;
@@ -291,6 +305,7 @@
         dragging = true;
         dragStartX = event.clientX;
         dragStartWidth = sectionEl.getBoundingClientRect().width;
+        draggingWidth = dragStartWidth;
         target.setPointerCapture(event.pointerId);
         captureEl = target;
         event.stopPropagation();
@@ -300,17 +315,17 @@
     function handleKnobPointerMove(event: PointerEvent) {
         if (!dragging) return;
         // Sidebar sits on the right edge of the viewport. Moving the pointer
-        // leftward grows the sidebar; rightward shrinks it. Update the *store*
-        // directly — `Settings.setAnnotationsWidth` writes to localStorage on
-        // every call, which would jank a 60Hz drag. We persist on pointerup.
-        const newWidth = Math.max(
+        // leftward grows the sidebar; rightward shrinks it. Update only the
+        // local component state during the drag — `Settings.setAnnotationsWidth`
+        // is called once on pointerup so the persistence path runs exactly
+        // once with a value that differs from the store's current value.
+        draggingWidth = Math.max(
             ANNOTATIONS_MIN_WIDTH,
             Math.min(
                 ANNOTATIONS_MAX_WIDTH,
                 dragStartWidth + (dragStartX - event.clientX),
             ),
         );
-        annotationsWidth.set(newWidth);
     }
 
     function handleKnobPointerUp(event: PointerEvent) {
@@ -319,8 +334,12 @@
         if (captureEl?.hasPointerCapture(event.pointerId))
             captureEl.releasePointerCapture(event.pointerId);
         captureEl = undefined;
-        // Persist the final width once the drag ends.
-        Settings.setAnnotationsWidth($annotationsWidth);
+        // Persist the final width once the drag ends. The store still holds
+        // the pre-drag value, so `Setting.set` sees a change and writes
+        // through to localStorage.
+        const final = draggingWidth;
+        draggingWidth = undefined;
+        if (final !== undefined) Settings.setAnnotationsWidth(final);
     }
 
     /**
@@ -361,9 +380,9 @@
     class:expanded={isExpanded}
     class:dragging
     data-uiid="conflict"
-    style:width={isExpanded ? `${$annotationsWidth}px` : null}
-    style:min-width={isExpanded ? `${$annotationsWidth}px` : null}
-    style:max-width={isExpanded ? `${$annotationsWidth}px` : null}
+    style:width={isExpanded ? `${renderedWidth}px` : null}
+    style:min-width={isExpanded ? `${renderedWidth}px` : null}
+    style:max-width={isExpanded ? `${renderedWidth}px` : null}
 >
     <Expander
         expanded={isExpanded}

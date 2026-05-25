@@ -215,15 +215,18 @@
             "conflict": {
                 "UnknownLanguage": {
                     "name": "unknown language",
-                    "explanation": "I don't know this language"
+                    "explanation": "I don't know this language",
+                    "resolution": "Remove this language code"
                 },
                 "MissingLanguage": {
                     "name": "missing language",
-                    "explanation": "I'm missing a language. Can you add one?"
+                    "explanation": "I'm missing a language. Can you add one?",
+                    "resolution": "Remove the empty language tag"
                 },
                 "DuplicateLanguage": {
                     "name": "duplicate language",
-                    "explanation": "You used the language '$code' twice. Mixed-language tags should list each language only once."
+                    "explanation": "You used the language '$code' twice. Mixed-language tags should list each language only once.",
+                    "resolution": "Remove the duplicate *$code* tag"
                 }
             }
         },
@@ -266,19 +269,24 @@
             "conflict": {
                 "InvalidRow": {
                     "name": "invalid row",
-                    "explanation": "Rows either have to be all values or all @Bind."
+                    "explanation": "Rows either have to be all values or all @Bind.",
+                    "resolutionKeepPositional": "Drop the named cells, keep only the positional ones",
+                    "resolutionUnwrapInputs": "Drop the names from the named cells"
                 },
                 "MissingCell": {
                     "name": "missing column",
-                    "explanation": "I'm missing column $column"
+                    "explanation": "I'm missing column $column",
+                    "resolution": "Add a placeholder cell for *$column*"
                 },
                 "ExtraCell": {
                     "name": "extra column",
-                    "explanation": "Based on my table type, I'm an extra column that shouldn't be here."
+                    "explanation": "Based on my table type, I'm an extra column that shouldn't be here.",
+                    "resolution": "Remove the extra cell"
                 },
                 "UnknownColumn": {
                     "name": "unknown column name",
-                    "explanation": "I don't know a column by this name"
+                    "explanation": "I don't know a column by this name",
+                    "resolution": "Rename to *$name*"
                 },
                 "UnexpectedColumnBind": {
                     "name": "no binds rows",
@@ -312,7 +320,8 @@
             "conflict": {
                 "DuplicateTypeVariable": {
                     "name": "duplicate type variable",
-                    "explanation": "I have the same name as $duplicate"
+                    "explanation": "I have the same name as $duplicate",
+                    "resolution": "Remove the duplicate type variable"
                 }
             }
         },
@@ -384,7 +393,8 @@
             "conflict": {
                 "UnsupportedFontFormat": {
                     "name": "unsupported font format",
-                    "explanation": "My friend *$face* doesn't know how to be $format."
+                    "explanation": "My friend *$face* doesn't know how to be $format.",
+                    "resolution": "Remove the formatting"
                 }
             }
         },
@@ -444,7 +454,8 @@
             "conflict": {
                 "OrderOfOperations": {
                     "name": "ambiguous order",
-                    "explanation": "I evaluate in reading order, not in math order of operations. Do you want to use @Block to specify the order I should evaluate in?"
+                    "explanation": "I evaluate in reading order, not in math order of operations. Do you want to use @Block to specify the order I should evaluate in?",
+                    "resolution": "Add parentheses to clarify precedence"
                 }
             }
         },
@@ -495,7 +506,8 @@
                 },
                 "DuplicateShare": {
                     "name": "duplicate share",
-                    "explanation": "I have the same name as $duplicate. That makes it unclear what we're sharing."
+                    "explanation": "I have the same name as $duplicate. That makes it unclear what we're sharing.",
+                    "resolution": "Remove this duplicate share"
                 },
                 "IncompatibleType": {
                     "name": "incompatible type",
@@ -514,23 +526,28 @@
                 },
                 "MisplacedShare": {
                     "name": "misplaced share",
-                    "explanation": "I can only share things at the @Program level, not inside anything!"
+                    "explanation": "I can only share things at the @Program level, not inside anything!",
+                    "resolution": "Remove the *↑* marker"
                 },
                 "MissingShareLanguages": {
                     "name": "missing language",
-                    "explanation": "if you want to share this, you have to say what language this is in, so others know if they can read it!"
+                    "explanation": "if you want to share this, you have to say what language this is in, so others know if they can read it!",
+                    "resolution": "Remove the *↑* marker"
                 },
                 "RequiredAfterOptional": {
                     "name": "required input after optional",
-                    "explanation": "I can't be here, there's an optional @Bind before me"
+                    "explanation": "I can't be here, there's an optional @Bind before me",
+                    "resolution": "Move required inputs before optional ones"
                 },
                 "UnexpectedEtc": {
                     "name": "unexpected input after input list",
-                    "explanation": "I can only be variable length in a @FunctionDefinition"
+                    "explanation": "I can only be variable length in a @FunctionDefinition",
+                    "resolution": "Remove the *…*"
                 },
                 "UnusedBind": {
                     "name": "unused bind",
-                    "explanation": "I'm named $name, but no one is using me. Maybe I'm not needed?"
+                    "explanation": "I'm named $name, but no one is using me. Maybe I'm not needed?",
+                    "resolution": "Delete this binding"
                 }
             }
         },
@@ -564,7 +581,8 @@
             "conflict": {
                 "ExpectedEndingExpression": {
                     "name": "missing expression",
-                    "explanation": "I need at least one expression that isn't a @Bind, so I have a value to return."
+                    "explanation": "I need at least one expression that isn't a @Bind, so I have a value to return.",
+                    "resolution": "Add a final expression"
                 }
             }
         },
@@ -589,11 +607,13 @@
             "conflict": {
                 "UnknownBorrow": {
                     "name": "unknown borrow",
-                    "explanation": "I don't know a $source by this name"
+                    "explanation": "I don't know a $source by this name",
+                    "resolution": "Remove this borrow"
                 },
                 "BorrowCycle": {
                     "name": "self-referencing borrow",
-                    "explanation": "this depends on $borrow, which depends on this $source, so the program can't be evaluated"
+                    "explanation": "this depends on $borrow, which depends on this $source, so the program can't be evaluated",
+                    "resolution": "Remove this borrow to break the cycle"
                 }
             },
             "exception": {
@@ -675,7 +695,8 @@
             "conflict": {
                 "MisplacedConversion": {
                     "name": "misplaced conversion",
-                    "explanation": "whoa, I can't be here, just in @Block."
+                    "explanation": "whoa, I can't be here, just in @Block.",
+                    "resolution": "Remove this conversion"
                 }
             }
         },
@@ -697,7 +718,8 @@
             "conflict": {
                 "UnknownConversion": {
                     "name": "unknown conversion",
-                    "explanation": "We couldn't find a way to convert a $expected into a $given"
+                    "explanation": "We couldn't find a way to convert a $expected into a $given",
+                    "resolution": "Remove the conversion"
                 }
             },
             "exception": {
@@ -775,7 +797,8 @@
                 },
                 "UnexpectedTypeInput": {
                     "name": "unexpected type input",
-                    "explanation": "I'm an extra, unexpected type input."
+                    "explanation": "I'm an extra, unexpected type input.",
+                    "resolution": "Remove this type input"
                 },
                 "MissingInput": {
                     "name": "missing input",
@@ -785,23 +808,28 @@
                 },
                 "NotInstantiable": {
                     "name": "incomplete structure",
-                    "explanation": "I can't make this @StructureDefinition, it has unimplemented functions."
+                    "explanation": "I can't make this @StructureDefinition, it has unimplemented functions.",
+                    "resolution": "Scaffold the missing functions"
                 },
                 "UnexpectedInput": {
                     "name": "unexpected input",
-                    "explanation": "I'm an unexpected input."
+                    "explanation": "I'm an unexpected input.",
+                    "resolution": "Remove this input"
                 },
                 "UnknownInput": {
                     "name": "unknown input",
-                    "explanation": "This function *$name* doesn't expect an input with my name."
+                    "explanation": "This function *$name* doesn't expect an input with my name.",
+                    "resolution": "Rename this input to *$name*"
                 },
                 "InputListMustBeLast": {
                     "name": "extra inputs aren't last",
-                    "explanation": "list of inputs must be last"
+                    "explanation": "list of inputs must be last",
+                    "resolution": "Move the list input to the end"
                 },
                 "SeparatedEvaluate": {
                     "name": "ambiguous evaluate",
-                    "explanation": "Is $name the name of a $structure[$structure|$function] you're trying to evaluate? Try removing the space after me, so I know it's an @Evaluate and not a separate @Block."
+                    "explanation": "Is $name the name of a $structure[$structure|$function] you're trying to evaluate? Try removing the space after me, so I know it's an @Evaluate and not a separate @Block.",
+                    "resolution": "Close the space between *$name* and its inputs"
                 }
             },
             "exception": {
@@ -843,7 +871,8 @@
             "conflict": {
                 "Placeholder": {
                     "name": "placeholder",
-                    "explanation": "Can you fill me? I'm just a placeholder."
+                    "explanation": "Can you fill me? I'm just a placeholder.",
+                    "resolution": "Replace with *$candidate*"
                 }
             },
             "exception": {
@@ -882,7 +911,8 @@
             "conflict": {
                 "NoExpression": {
                     "name": "missing expression",
-                    "explanation": "I need an expression to evaluate, can you add one?"
+                    "explanation": "I need an expression to evaluate, can you add one?",
+                    "resolution": "Add a placeholder body"
                 }
             }
         },
@@ -939,7 +969,9 @@
             "conflict": {
                 "ImpossibleType": {
                     "name": "impossible type",
-                    "explanation": "this can't ever be $type"
+                    "explanation": "this can't ever be $type",
+                    "resolutionIsFalse": "Replace this type check with *⊥* (the answer is always false)",
+                    "resolutionDropOtherwise": "Drop the *??* — the left side is never *ø*"
                 }
             },
             "exception": {
@@ -1002,7 +1034,8 @@
             "conflict": {
                 "NotAKeyValue": {
                     "name": "missing value",
-                    "explanation": "I'm in a @Map, so I need a value."
+                    "explanation": "I'm in a @Map, so I need a value.",
+                    "resolution": "Wrap as a key-value pair"
                 }
             }
         },
@@ -1035,7 +1068,8 @@
             "conflict": {
                 "NotANumber": {
                     "name": "not a number",
-                    "explanation": "I thought I knew all the numbers, but I don't know this one"
+                    "explanation": "I thought I knew all the numbers, but I don't know this one",
+                    "resolution": "Replace with *0*"
                 }
             }
         },
@@ -1154,7 +1188,8 @@
             "conflict": {
                 "InvalidProperty": {
                     "name": "unknown property",
-                    "explanation": "I'm not a name in the structure $structure, so I can't be refined."
+                    "explanation": "I'm not a name in the structure $structure, so I can't be refined.",
+                    "resolution": "Rename to *$name*"
                 }
             }
         },
@@ -1194,7 +1229,8 @@
             "conflict": {
                 "ExpectedStream": {
                     "name": "expected stream",
-                    "explanation": "$condition doesn't reference a stream, so I will never react!"
+                    "explanation": "$condition doesn't reference a stream, so I will never react!",
+                    "resolution": "Drop the reaction, keep just the initial value"
                 }
             }
         },
@@ -1219,11 +1255,13 @@
                 },
                 "ReferenceCycle": {
                     "name": "self-referencing value",
-                    "explanation": "um, $name's value depends on itself, so how do I know what value to give it?"
+                    "explanation": "um, $name's value depends on itself, so how do I know what value to give it?",
+                    "resolution": "Replace *$name* with a placeholder to break the cycle"
                 },
                 "UnexpectedTypeVariable": {
                     "name": "unexpected type variable",
-                    "explanation": "I don't know what to do with these type inputs"
+                    "explanation": "I don't know what to do with these type inputs",
+                    "resolution": "Remove this type variable from the function"
                 }
             },
             "exception": {
@@ -1248,7 +1286,8 @@
             "conflict": {
                 "ExpectedSelectName": {
                     "name": "missing column name",
-                    "explanation": "I need at least one column name."
+                    "explanation": "I need at least one column name.",
+                    "resolution": "Remove this cell"
                 }
             }
         },
@@ -1335,19 +1374,23 @@
             "conflict": {
                 "DisallowedInputs": {
                     "name": "inputs not allowed",
-                    "explanation": "I can't have inputs because one of or more of my interface functions isn't implemented"
+                    "explanation": "I can't have inputs because one of or more of my interface functions isn't implemented",
+                    "resolution": "Remove the inputs"
                 },
                 "IncompleteImplementation": {
                     "name": "incomplete structure",
-                    "explanation": "my functions either need to all be implemented, or none be implemented. No messy mixtures!"
+                    "explanation": "my functions either need to all be implemented, or none be implemented. No messy mixtures!",
+                    "resolution": "Drop the inputs to make it an interface"
                 },
                 "NotAnInterface": {
                     "name": "not an interface",
-                    "explanation": "I am not an interface; a structure can only implement interfaces, not other structures"
+                    "explanation": "I am not an interface; a structure can only implement interfaces, not other structures",
+                    "resolution": "Drop this from the interface list"
                 },
                 "UnimplementedInterface": {
                     "name": "unimplemented",
-                    "explanation": "I implement $interface but haven't implemented $function"
+                    "explanation": "I implement $interface but haven't implemented $function",
+                    "resolution": "Scaffold the missing *$function* on this structure"
                 }
             }
         },
@@ -1410,7 +1453,8 @@
                 "reminder": "Note: You can undo this action and see other things you've marked as non-sensitive in the sharing dialog.",
                 "character": {
                     "name": "possible custom character",
-                    "explanation": "This looks like a character name. To show those, use @FormattedLiteral instead of @TextLiteral."
+                    "explanation": "This looks like a character name. To show those, use @FormattedLiteral instead of @TextLiteral.",
+                    "resolutionStrip": "Strip the special characters from the text"
                 }
             }
         },
@@ -1455,7 +1499,8 @@
             "conflict": {
                 "MisplacedThis": {
                     "name": "misplaced this reference",
-                    "explanation": "I'm only allowed in a structure, conversion, or reaction."
+                    "explanation": "I'm only allowed in a structure, conversion, or reaction.",
+                    "resolution": "Replace with a placeholder"
                 }
             }
         },
@@ -1504,7 +1549,8 @@
                 },
                 "UnclosedDelimiter": {
                     "name": "unclosed delimiter",
-                    "explanation": "I expected $expected sometime after $unclosed"
+                    "explanation": "I expected $expected sometime after $unclosed",
+                    "resolution": "Add the missing *$expected*"
                 }
             },
             "exception": {
@@ -1529,7 +1575,8 @@
             "conflict": {
                 "ExpectedColumnBind": {
                     "name": "missing column value",
-                    "explanation": "I need a value for every column"
+                    "explanation": "I need a value for every column",
+                    "resolution": "Wrap this cell as a named column"
                 },
                 "IncompatibleCellType": {
                     "name": "incompatible cell type",
@@ -1636,7 +1683,8 @@
             "conflict": {
                 "UnknownTypeName": {
                     "name": "unknown type name",
-                    "explanation": "type names can only refer to structures or type variables, but this refers to type $type"
+                    "explanation": "type names can only refer to structures or type variables, but this refers to type $type",
+                    "resolution": "Replace with a type placeholder"
                 }
             }
         },
@@ -1700,7 +1748,8 @@
             "conflict": {
                 "ExpectedColumnType": {
                     "name": "missing column type",
-                    "explanation": "I need a column type"
+                    "explanation": "I need a column type",
+                    "resolution": "Add a type placeholder"
                 }
             }
         },

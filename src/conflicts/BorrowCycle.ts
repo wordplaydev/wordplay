@@ -5,7 +5,8 @@ import type Context from '@nodes/Context';
 import type Program from '@nodes/Program';
 import type Source from '@nodes/Source';
 import type Locales from '@locale/Locales';
-import Conflict from '@conflicts/Conflict';
+import Conflict, { type Resolutions } from '@conflicts/Conflict';
+import type Node from '@nodes/Node';
 
 export class BorrowCycle extends Conflict {
     readonly program: Program;
@@ -38,6 +39,28 @@ export class BorrowCycle extends Conflict {
                     },
                 ),
         };
+    }
+
+    override getResolutions(
+        _context: Context,
+        _concepts: Node[],
+    ): Resolutions {
+        // Break the borrow cycle by removing the offending borrow. The
+        // learner can re-add it after restructuring shared definitions.
+        return [
+            {
+                kind: 'repair',
+                description: (locales: Locales) =>
+                    locales.concretize(
+                        (l) => BorrowCycle.LocalePath(l).resolution,
+                    ),
+                mediator: (ctx) => ({
+                    newProject: ctx.project.withRevisedNodes([
+                        [this.borrow, undefined],
+                    ]),
+                }),
+            },
+        ];
     }
 
     getLocalePath() {

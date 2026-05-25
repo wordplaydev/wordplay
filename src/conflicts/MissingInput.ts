@@ -13,7 +13,8 @@ import type Token from '@nodes/Token';
 import type UnaryEvaluate from '@nodes/UnaryEvaluate';
 import type Locales from '@locale/Locales';
 import type StreamDefinition from '@nodes/StreamDefinition';
-import Conflict from '@conflicts/Conflict';
+import type Node from '@nodes/Node';
+import Conflict, { type Resolutions } from '@conflicts/Conflict';
 
 export default class MissingInput extends Conflict {
     readonly func: FunctionDefinition | StructureDefinition | StreamDefinition;
@@ -61,6 +62,13 @@ export default class MissingInput extends Conflict {
                     },
                 ),
         };
+    }
+
+    override getResolutions(
+        context: Context,
+        concepts: Node[],
+    ): Resolutions {
+        return Conflict.fromRegistry(this, context, concepts);
     }
 
     getLocalePath() {

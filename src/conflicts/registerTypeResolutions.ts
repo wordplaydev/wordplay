@@ -120,7 +120,9 @@ registerResolver(MissingInput, (c, context) => {
 
     const placeheldInputs: (Expression | Input)[] = [
         ...evaluate.inputs,
-        ExpressionPlaceholder.make(),
+        // Type the placeholder with the input's expected type so the missing
+        // value isn't itself a new conflict and autocomplete can take over.
+        ExpressionPlaceholder.make(inputBind.type),
     ];
     const placeheldEvaluate = new Evaluate(
         evaluate.fun,
@@ -132,6 +134,7 @@ registerResolver(MissingInput, (c, context) => {
 
     return [
         {
+            kind: 'repair',
             description: (locales, ctx) =>
                 locales.concretize(
                     (l) => MissingInput.LocalePath(l).resolutionAddInput,
@@ -147,6 +150,7 @@ registerResolver(MissingInput, (c, context) => {
             }),
         },
         {
+            kind: 'repair',
             description: (locales, ctx) =>
                 locales.concretize(
                     (l) => MissingInput.LocalePath(l).resolutionPlaceholder,

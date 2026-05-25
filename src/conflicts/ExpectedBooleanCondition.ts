@@ -5,7 +5,8 @@ import type Context from '@nodes/Context';
 import type Type from '@nodes/Type';
 import type Locales from '@locale/Locales';
 import type Reaction from '@nodes/Reaction';
-import Conflict from '@conflicts/Conflict';
+import type Node from '@nodes/Node';
+import Conflict, { type Resolutions } from '@conflicts/Conflict';
 
 export default class ExpectedBooleanCondition extends Conflict {
     readonly conditional: Conditional | Reaction;
@@ -35,6 +36,13 @@ export default class ExpectedBooleanCondition extends Conflict {
                     },
                 ),
         };
+    }
+
+    override getResolutions(
+        context: Context,
+        concepts: Node[],
+    ): Resolutions {
+        return Conflict.fromRegistry(this, context, concepts);
     }
 
     getLocalePath() {

@@ -215,15 +215,18 @@
             "conflict": {
                 "UnknownLanguage": {
                     "name": "$~bilinmeyendil",
-                    "explanation": "$~Bu dili bilmiyorum."
+                    "explanation": "$~Bu dili bilmiyorum.",
+                    "resolution": "$?"
                 },
                 "MissingLanguage": {
                     "name": "$~eksikdil",
-                    "explanation": "$~Bir dil eksik. Ekleyebilir misiniz?"
+                    "explanation": "$~Bir dil eksik. Ekleyebilir misiniz?",
+                    "resolution": "$?"
                 },
                 "DuplicateLanguage": {
                     "name": "$~çiftdil",
-                    "explanation": "$~' $code ' dilini iki kez kullandınız. Karma dil etiketlerinde her dil yalnızca bir kez listelenmelidir."
+                    "explanation": "$~' $code ' dilini iki kez kullandınız. Karma dil etiketlerinde her dil yalnızca bir kez listelenmelidir.",
+                    "resolution": "$?"
                 }
             }
         },
@@ -266,19 +269,24 @@
             "conflict": {
                 "InvalidRow": {
                     "name": "$~geçersizsatır",
-                    "explanation": "$~Satırların ya tamamen değerlerden oluşması ya da tamamen @Bind içermesi gerekir."
+                    "explanation": "$~Satırların ya tamamen değerlerden oluşması ya da tamamen @Bind içermesi gerekir.",
+                    "resolutionKeepPositional": "$?",
+                    "resolutionUnwrapInputs": "$?"
                 },
                 "MissingCell": {
                     "name": "$~eksiksütun",
-                    "explanation": "$~$column sütununu bulamadım."
+                    "explanation": "$~$column sütununu bulamadım.",
+                    "resolution": "$?"
                 },
                 "ExtraCell": {
                     "name": "$~ekstrasütun",
-                    "explanation": "$~Tablo türüme bakıldığında, burada olmaması gereken fazladan bir sütunum."
+                    "explanation": "$~Tablo türüme bakıldığında, burada olmaması gereken fazladan bir sütunum.",
+                    "resolution": "$?"
                 },
                 "UnknownColumn": {
                     "name": "$~bilinmeyensütunadı",
-                    "explanation": "$~Bu isimde bir köşe yazısı bilmiyorum."
+                    "explanation": "$~Bu isimde bir köşe yazısı bilmiyorum.",
+                    "resolution": "$?"
                 },
                 "UnexpectedColumnBind": {
                     "name": "$~hiçbirsatırbağlamaz",
@@ -309,7 +317,8 @@
             "conflict": {
                 "DuplicateTypeVariable": {
                     "name": "$~yinelenentürdeğişkeni",
-                    "explanation": "$~Benim adım da $duplicate ile aynı."
+                    "explanation": "$~Benim adım da $duplicate ile aynı.",
+                    "resolution": "$?"
                 }
             },
             "label": {
@@ -384,7 +393,8 @@
             "conflict": {
                 "UnsupportedFontFormat": {
                     "name": "$~desteklenmeyenyazıtipiformatı",
-                    "explanation": "$~Arkadaşım * $face * $format olmayı bilmiyor."
+                    "explanation": "$~Arkadaşım * $face * $format olmayı bilmiyor.",
+                    "resolution": "$?"
                 }
             }
         },
@@ -438,7 +448,8 @@
             "conflict": {
                 "OrderOfOperations": {
                     "name": "$~belirsizdüzen",
-                    "explanation": "$~Değerlendirmeyi matematiksel işlem önceliğiyle değil, okuma önceliğiyle yapıyorum. Değerlendirme sırasını belirtmek için @Block kullanmak ister misiniz?"
+                    "explanation": "$~Değerlendirmeyi matematiksel işlem önceliğiyle değil, okuma önceliğiyle yapıyorum. Değerlendirme sırasını belirtmek için @Block kullanmak ister misiniz?",
+                    "resolution": "$?"
                 }
             },
             "label": {
@@ -487,7 +498,8 @@
                 },
                 "DuplicateShare": {
                     "name": "$~kopyalapaylaş",
-                    "explanation": "$~Benim adım da $duplicate ile aynı. Bu da neyi paylaştığımızı belirsizleştiriyor."
+                    "explanation": "$~Benim adım da $duplicate ile aynı. Bu da neyi paylaştığımızı belirsizleştiriyor.",
+                    "resolution": "$?"
                 },
                 "IncompatibleType": {
                     "name": "$~uyumsuztip",
@@ -506,23 +518,28 @@
                 },
                 "MisplacedShare": {
                     "name": "$~yanlışyerleştirilmişpaylaşım",
-                    "explanation": "$~Sadece @Program düzeyinde bilgi paylaşabiliyorum, hiçbir şeyin içinde paylaşım yapamıyorum!"
+                    "explanation": "$~Sadece @Program düzeyinde bilgi paylaşabiliyorum, hiçbir şeyin içinde paylaşım yapamıyorum!",
+                    "resolution": "$?"
                 },
                 "MissingShareLanguages": {
                     "name": "$~eksikdil",
-                    "explanation": "$~Bunu paylaşmak istiyorsanız, başkalarının okuyup okuyamayacağını anlaması için hangi dilde olduğunu belirtmeniz gerekiyor!"
+                    "explanation": "$~Bunu paylaşmak istiyorsanız, başkalarının okuyup okuyamayacağını anlaması için hangi dilde olduğunu belirtmeniz gerekiyor!",
+                    "resolution": "$?"
                 },
                 "RequiredAfterOptional": {
                     "name": "$~isteğebağlıdansonragerekligirdi",
-                    "explanation": "$~Burada olamam, benden önce isteğe bağlı bir @Bind işlemi var."
+                    "explanation": "$~Burada olamam, benden önce isteğe bağlı bir @Bind işlemi var.",
+                    "resolution": "$?"
                 },
                 "UnexpectedEtc": {
                     "name": "$~girişlistesindensonrabeklenmeyengiriş",
-                    "explanation": "$~@FunctionDefinition'da yalnızca değişken uzunlukta olabilirim."
+                    "explanation": "$~@FunctionDefinition'da yalnızca değişken uzunlukta olabilirim.",
+                    "resolution": "$?"
                 },
                 "UnusedBind": {
                     "name": "$~kullanılmamışbağ",
-                    "explanation": "$~Benim adım $name, ama kimse beni kullanmıyor. Belki de bana ihtiyaç yok?"
+                    "explanation": "$~Benim adım $name, ama kimse beni kullanmıyor. Belki de bana ihtiyaç yok?",
+                    "resolution": "$?"
                 }
             },
             "label": {
@@ -558,7 +575,8 @@
             "conflict": {
                 "ExpectedEndingExpression": {
                     "name": "$~eksikifade",
-                    "explanation": "Geri döndürebileceğim bir değerim olabilmesi için, @Bind olmayan en az bir ifadeye ihtiyacım var."
+                    "explanation": "Geri döndürebileceğim bir değerim olabilmesi için, @Bind olmayan en az bir ifadeye ihtiyacım var.",
+                    "resolution": "$?"
                 }
             },
             "label": {
@@ -581,11 +599,13 @@
             "conflict": {
                 "UnknownBorrow": {
                     "name": "$~bilinmeyenödünç",
-                    "explanation": "$~Bu isimde bir kaynak bilmiyorum."
+                    "explanation": "$~Bu isimde bir kaynak bilmiyorum.",
+                    "resolution": "$?"
                 },
                 "BorrowCycle": {
                     "name": "$~kendikendineatıftabulunanödünçalma",
-                    "explanation": "$~Bu, $borrow'e bağlıdır, $borrow de bu $source'a bağlıdır, bu nedenle program değerlendirilemez."
+                    "explanation": "$~Bu, $borrow'e bağlıdır, $borrow de bu $source'a bağlıdır, bu nedenle program değerlendirilemez.",
+                    "resolution": "$?"
                 }
             },
             "exception": {
@@ -667,7 +687,8 @@
             "conflict": {
                 "MisplacedConversion": {
                     "name": "$~yanlışyerleştirilmişdönüşüm",
-                    "explanation": "$~Vay canına, burada olamam, sadece @Block'tayım."
+                    "explanation": "$~Vay canına, burada olamam, sadece @Block'tayım.",
+                    "resolution": "$?"
                 }
             },
             "label": {
@@ -694,7 +715,8 @@
             "conflict": {
                 "UnknownConversion": {
                     "name": "$~bilinmeyendönüşüm",
-                    "explanation": "$~$expected $given dönüştürmenin bir yolunu bulamadık."
+                    "explanation": "$~$expected $given dönüştürmenin bir yolunu bulamadık.",
+                    "resolution": "$?"
                 }
             },
             "exception": {
@@ -765,7 +787,8 @@
                 },
                 "UnexpectedTypeInput": {
                     "name": "$~beklenmeyentipgirişi",
-                    "explanation": "$~Ben fazladan, beklenmedik bir girdi türüyüm."
+                    "explanation": "$~Ben fazladan, beklenmedik bir girdi türüyüm.",
+                    "resolution": "$?"
                 },
                 "MissingInput": {
                     "name": "$~eksikgiriş",
@@ -775,23 +798,28 @@
                 },
                 "NotInstantiable": {
                     "name": "$~tamamlanmamışyapı",
-                    "explanation": "$~Bu @StructureDefinition'ı oluşturamıyorum, çünkü uygulanmamış fonksiyonları var."
+                    "explanation": "$~Bu @StructureDefinition'ı oluşturamıyorum, çünkü uygulanmamış fonksiyonları var.",
+                    "resolution": "$?"
                 },
                 "UnexpectedInput": {
                     "name": "$~beklenmedikgirdi",
-                    "explanation": "$~Ben beklenmedik bir girdiyim."
+                    "explanation": "$~Ben beklenmedik bir girdiyim.",
+                    "resolution": "$?"
                 },
                 "UnknownInput": {
                     "name": "$~bilinmeyengirdi",
-                    "explanation": "$~Bu *$name* fonksiyonu benim ismimi içeren bir girdi beklemiyor."
+                    "explanation": "$~Bu *$name* fonksiyonu benim ismimi içeren bir girdi beklemiyor.",
+                    "resolution": "$?"
                 },
                 "InputListMustBeLast": {
                     "name": "$~ekstragirdilersondeğildir",
-                    "explanation": "$~Giriş listesi en sonda olmalıdır."
+                    "explanation": "$~Giriş listesi en sonda olmalıdır.",
+                    "resolution": "$?"
                 },
                 "SeparatedEvaluate": {
                     "name": "$~belirsizdeğerlendirme",
-                    "explanation": "$~$name, değerlendirmeye çalıştığınız $structure[$structure|$function] adlı bir yapının adı mı? @Evaluate olduğunu ve ayrı bir @Block olmadığını anlamam için benden sonraki boşluğu kaldırmayı deneyin."
+                    "explanation": "$~$name, değerlendirmeye çalıştığınız $structure[$structure|$function] adlı bir yapının adı mı? @Evaluate olduğunu ve ayrı bir @Block olmadığını anlamam için benden sonraki boşluğu kaldırmayı deneyin.",
+                    "resolution": "$?"
                 }
             },
             "exception": {
@@ -835,7 +863,8 @@
             "conflict": {
                 "Placeholder": {
                     "name": "$~yertutucu",
-                    "explanation": "$~Beni doldurabilir misin? Ben sadece bir yer tutucuyum."
+                    "explanation": "$~Beni doldurabilir misin? Ben sadece bir yer tutucuyum.",
+                    "resolution": "$?"
                 }
             },
             "exception": {
@@ -872,7 +901,8 @@
             "conflict": {
                 "NoExpression": {
                     "name": "$~eksikifade",
-                    "explanation": "$~Değerlendirmek için bir ifadeye ihtiyacım var, ekleyebilir misiniz?"
+                    "explanation": "$~Değerlendirmek için bir ifadeye ihtiyacım var, ekleyebilir misiniz?",
+                    "resolution": "$?"
                 }
             },
             "label": {
@@ -934,7 +964,9 @@
             "conflict": {
                 "ImpossibleType": {
                     "name": "$~imkansıztip",
-                    "explanation": "$~Bu asla $type olamaz"
+                    "explanation": "$~Bu asla $type olamaz",
+                    "resolutionIsFalse": "$?",
+                    "resolutionDropOtherwise": "$?"
                 }
             },
             "exception": {
@@ -994,7 +1026,8 @@
             "conflict": {
                 "NotAKeyValue": {
                     "name": "$~eksikdeğer",
-                    "explanation": "$~Bir @Map'in içindeyim, bu yüzden bir değere ihtiyacım var."
+                    "explanation": "$~Bir @Map'in içindeyim, bu yüzden bir değere ihtiyacım var.",
+                    "resolution": "$?"
                 }
             },
             "label": {
@@ -1030,7 +1063,8 @@
             "conflict": {
                 "NotANumber": {
                     "name": "$~birsayıdeğil",
-                    "explanation": "$~Bütün sayıları bildiğimi sanıyordum ama bunu bilmiyormuşum."
+                    "explanation": "$~Bütün sayıları bildiğimi sanıyordum ama bunu bilmiyormuşum.",
+                    "resolution": "$?"
                 }
             }
         },
@@ -1145,7 +1179,8 @@
             "conflict": {
                 "InvalidProperty": {
                     "name": "$~bilinmeyenmülk",
-                    "explanation": "$~Ben $structure yapısında bir isim değilim, bu yüzden rafine edilemem."
+                    "explanation": "$~Ben $structure yapısında bir isim değilim, bu yüzden rafine edilemem.",
+                    "resolution": "$?"
                 }
             },
             "label": {
@@ -1184,7 +1219,8 @@
             "conflict": {
                 "ExpectedStream": {
                     "name": "$~beklenenakış",
-                    "explanation": "$~$condition bir akışa referans vermiyor, bu yüzden asla tepki vermeyeceğim!"
+                    "explanation": "$~$condition bir akışa referans vermiyor, bu yüzden asla tepki vermeyeceğim!",
+                    "resolution": "$?"
                 }
             },
             "label": {
@@ -1214,11 +1250,13 @@
                 },
                 "ReferenceCycle": {
                     "name": "$~kendikendinireferansalandeğer",
-                    "explanation": "$~Şey, $name'in değeri kendisine bağlı, peki ona hangi değeri vereceğimi nasıl bileceğim?"
+                    "explanation": "$~Şey, $name'in değeri kendisine bağlı, peki ona hangi değeri vereceğimi nasıl bileceğim?",
+                    "resolution": "$?"
                 },
                 "UnexpectedTypeVariable": {
                     "name": "$~beklenmeyentipdeğişkeni",
-                    "explanation": "$~Bu tür girdilerle ne yapacağımı bilmiyorum."
+                    "explanation": "$~Bu tür girdilerle ne yapacağımı bilmiyorum.",
+                    "resolution": "$?"
                 }
             },
             "exception": {
@@ -1243,7 +1281,8 @@
             "conflict": {
                 "ExpectedSelectName": {
                     "name": "$~eksiksütunadı",
-                    "explanation": "$~En az bir sütun adına ihtiyacım var."
+                    "explanation": "$~En az bir sütun adına ihtiyacım var.",
+                    "resolution": "$?"
                 }
             }
         },
@@ -1324,19 +1363,23 @@
             "conflict": {
                 "DisallowedInputs": {
                     "name": "$~girişlereizinverilmiyor",
-                    "explanation": "$~Arayüz fonksiyonlarımdan biri veya birkaçı uygulanmadığı için girdi alamıyorum."
+                    "explanation": "$~Arayüz fonksiyonlarımdan biri veya birkaçı uygulanmadığı için girdi alamıyorum.",
+                    "resolution": "$?"
                 },
                 "IncompleteImplementation": {
                     "name": "$~tamamlanmamışyapı",
-                    "explanation": "$~Fonksiyonlarımın ya tamamı uygulanmalı ya da hiçbiri uygulanmamalı. Karışık durumlar olmamalı!"
+                    "explanation": "$~Fonksiyonlarımın ya tamamı uygulanmalı ya da hiçbiri uygulanmamalı. Karışık durumlar olmamalı!",
+                    "resolution": "$?"
                 },
                 "NotAnInterface": {
                     "name": "$~birarayüzdeğil",
-                    "explanation": "$~Ben bir arayüz değilim; bir yapı yalnızca arayüzleri uygulayabilir, diğer yapıları değil."
+                    "explanation": "$~Ben bir arayüz değilim; bir yapı yalnızca arayüzleri uygulayabilir, diğer yapıları değil.",
+                    "resolution": "$?"
                 },
                 "UnimplementedInterface": {
                     "name": "$~uygulanmamış",
-                    "explanation": "$~$interface'i uyguladım ama $function'ı uygulamadım."
+                    "explanation": "$~$interface'i uyguladım ama $function'ı uygulamadım.",
+                    "resolution": "$?"
                 }
             },
             "label": {
@@ -1402,7 +1445,8 @@
                 "reminder": "$~Not: Bu işlemi geri alabilir ve paylaşım iletişim kutusunda hassas olmayan olarak işaretlediğiniz diğer şeyleri görebilirsiniz.",
                 "character": {
                     "name": "$~olasıözelkarakter",
-                    "explanation": "$~Bu bir karakter adı gibi görünüyor. Bunları göstermek için @TextLiteral yerine @FormattedLiteral kullanın."
+                    "explanation": "$~Bu bir karakter adı gibi görünüyor. Bunları göstermek için @TextLiteral yerine @FormattedLiteral kullanın.",
+                    "resolutionStrip": "$?"
                 }
             },
             "label": {
@@ -1450,7 +1494,8 @@
             "conflict": {
                 "MisplacedThis": {
                     "name": "$~bureferansıyanlışyerekoydum",
-                    "explanation": "$~Sadece bir yapı, dönüşüm veya reaksiyonda yer almama izin veriliyor."
+                    "explanation": "$~Sadece bir yapı, dönüşüm veya reaksiyonda yer almama izin veriliyor.",
+                    "resolution": "$?"
                 }
             }
         },
@@ -1499,7 +1544,8 @@
                 },
                 "UnclosedDelimiter": {
                     "name": "$~kapatılmamışayırıcı",
-                    "explanation": "$~$expected'ın $unclosed'dan bir süre sonra olmasını bekliyordum."
+                    "explanation": "$~$expected'ın $unclosed'dan bir süre sonra olmasını bekliyordum.",
+                    "resolution": "$?"
                 }
             },
             "exception": {
@@ -1524,7 +1570,8 @@
             "conflict": {
                 "ExpectedColumnBind": {
                     "name": "$~eksiksütundeğeri",
-                    "explanation": "$~Her sütun için bir değere ihtiyacım var."
+                    "explanation": "$~Her sütun için bir değere ihtiyacım var.",
+                    "resolution": "$?"
                 },
                 "IncompatibleCellType": {
                     "name": "$~uyumsuzhücretipi",
@@ -1631,7 +1678,8 @@
             "conflict": {
                 "UnknownTypeName": {
                     "name": "$~bilinmeyentüradı",
-                    "explanation": "$~Tür adları yalnızca yapılara veya tür değişkenlerine atıfta bulunabilir, ancak bu $type türüne atıfta bulunur."
+                    "explanation": "$~Tür adları yalnızca yapılara veya tür değişkenlerine atıfta bulunabilir, ancak bu $type türüne atıfta bulunur.",
+                    "resolution": "$?"
                 }
             }
         },
@@ -1695,7 +1743,8 @@
             "conflict": {
                 "ExpectedColumnType": {
                     "name": "$~eksiksütuntürü",
-                    "explanation": "$~Bir sütun türüne ihtiyacım var."
+                    "explanation": "$~Bir sütun türüne ihtiyacım var.",
+                    "resolution": "$?"
                 }
             }
         },

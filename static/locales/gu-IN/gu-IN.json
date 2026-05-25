@@ -215,15 +215,18 @@
             "conflict": {
                 "UnknownLanguage": {
                     "name": "$~અજાણીભાષા",
-                    "explanation": "$~મને આ ભાષા આવડતી નથી."
+                    "explanation": "$~મને આ ભાષા આવડતી નથી.",
+                    "resolution": "$?"
                 },
                 "MissingLanguage": {
                     "name": "$~ભાષાખૂટેછે",
-                    "explanation": "$~મને એક ભાષા ખબર નથી. શું તમે એક ઉમેરી શકો છો?"
+                    "explanation": "$~મને એક ભાષા ખબર નથી. શું તમે એક ઉમેરી શકો છો?",
+                    "resolution": "$?"
                 },
                 "DuplicateLanguage": {
                     "name": "$~ડુપ્લિકેટભાષા",
-                    "explanation": "$~તમે ' $code ' ભાષાનો બે વાર ઉપયોગ કર્યો છે. મિશ્ર-ભાષાના ટૅગ્સમાં દરેક ભાષા ફક્ત એક જ વાર સૂચિબદ્ધ હોવી જોઈએ."
+                    "explanation": "$~તમે ' $code ' ભાષાનો બે વાર ઉપયોગ કર્યો છે. મિશ્ર-ભાષાના ટૅગ્સમાં દરેક ભાષા ફક્ત એક જ વાર સૂચિબદ્ધ હોવી જોઈએ.",
+                    "resolution": "$?"
                 }
             }
         },
@@ -266,19 +269,24 @@
             "conflict": {
                 "InvalidRow": {
                     "name": "$~અમાન્યપંક્તિ",
-                    "explanation": "$~પંક્તિઓ કાં તો બધા મૂલ્યો અથવા બધા @Bind ની હોવી જોઈએ."
+                    "explanation": "$~પંક્તિઓ કાં તો બધા મૂલ્યો અથવા બધા @Bind ની હોવી જોઈએ.",
+                    "resolutionKeepPositional": "$?",
+                    "resolutionUnwrapInputs": "$?"
                 },
                 "MissingCell": {
                     "name": "$~ખૂટતોસ્તંભ",
-                    "explanation": "$~મારી પાસે $column કૉલમ ખૂટે છે."
+                    "explanation": "$~મારી પાસે $column કૉલમ ખૂટે છે.",
+                    "resolution": "$?"
                 },
                 "ExtraCell": {
                     "name": "$~વધારાનોસ્તંભ",
-                    "explanation": "$~મારા ટેબલના પ્રકાર પર આધાર રાખીને, હું એક વધારાનો કોલમ છું જે અહીં ન હોવો જોઈએ."
+                    "explanation": "$~મારા ટેબલના પ્રકાર પર આધાર રાખીને, હું એક વધારાનો કોલમ છું જે અહીં ન હોવો જોઈએ.",
+                    "resolution": "$?"
                 },
                 "UnknownColumn": {
                     "name": "$~અજાણ્યુંકૉલમનામ",
-                    "explanation": "$~મને આ નામનો કોઈ કોલમ ખબર નથી."
+                    "explanation": "$~મને આ નામનો કોઈ કોલમ ખબર નથી.",
+                    "resolution": "$?"
                 },
                 "UnexpectedColumnBind": {
                     "name": "$~કોઈપંક્તિઓબાંધતુંનથી",
@@ -309,7 +317,8 @@
             "conflict": {
                 "DuplicateTypeVariable": {
                     "name": "$~ડુપ્લિકેટપ્રકારચલ",
-                    "explanation": "$~મારું નામ $duplicate જેવું જ છે."
+                    "explanation": "$~મારું નામ $duplicate જેવું જ છે.",
+                    "resolution": "$?"
                 }
             },
             "label": {
@@ -384,7 +393,8 @@
             "conflict": {
                 "UnsupportedFontFormat": {
                     "name": "$~અસમર્થિતફોન્ટફોર્મેટ",
-                    "explanation": "$~મારા મિત્ર * $face * ને $format કેવી રીતે બનવું તે ખબર નથી."
+                    "explanation": "$~મારા મિત્ર * $face * ને $format કેવી રીતે બનવું તે ખબર નથી.",
+                    "resolution": "$?"
                 }
             }
         },
@@ -438,7 +448,8 @@
             "conflict": {
                 "OrderOfOperations": {
                     "name": "$~અસ્પષ્ટક્રમ",
-                    "explanation": "$~હું વાંચન ક્રમમાં મૂલ્યાંકન કરું છું, ગણિતના ક્રમમાં નહીં. શું તમે @Block નો ઉપયોગ કરીને મારે કયા ક્રમમાં મૂલ્યાંકન કરવું જોઈએ તે સ્પષ્ટ કરવા માંગો છો?"
+                    "explanation": "$~હું વાંચન ક્રમમાં મૂલ્યાંકન કરું છું, ગણિતના ક્રમમાં નહીં. શું તમે @Block નો ઉપયોગ કરીને મારે કયા ક્રમમાં મૂલ્યાંકન કરવું જોઈએ તે સ્પષ્ટ કરવા માંગો છો?",
+                    "resolution": "$?"
                 }
             },
             "label": {
@@ -487,7 +498,8 @@
                 },
                 "DuplicateShare": {
                     "name": "$~ડુપ્લિકેટશેર",
-                    "explanation": "$~મારું નામ $duplicate જેવું જ છે. આનાથી આપણે શું શેર કરી રહ્યા છીએ તે સ્પષ્ટ થતું નથી."
+                    "explanation": "$~મારું નામ $duplicate જેવું જ છે. આનાથી આપણે શું શેર કરી રહ્યા છીએ તે સ્પષ્ટ થતું નથી.",
+                    "resolution": "$?"
                 },
                 "IncompatibleType": {
                     "name": "$~અસંગતપ્રકાર",
@@ -506,23 +518,28 @@
                 },
                 "MisplacedShare": {
                     "name": "$~ખોટાસ્થાનેરાખેલશેર",
-                    "explanation": "$~હું ફક્ત @Program સ્તરે જ વસ્તુઓ શેર કરી શકું છું, અંદર કંઈપણ નહીં!"
+                    "explanation": "$~હું ફક્ત @Program સ્તરે જ વસ્તુઓ શેર કરી શકું છું, અંદર કંઈપણ નહીં!",
+                    "resolution": "$?"
                 },
                 "MissingShareLanguages": {
                     "name": "$~ભાષાખૂટેછે",
-                    "explanation": "$~જો તમે આ શેર કરવા માંગતા હો, તો તમારે કહેવું પડશે કે આ કઈ ભાષામાં છે, જેથી બીજાઓને ખબર પડે કે તેઓ તેને વાંચી શકે છે કે નહીં!"
+                    "explanation": "$~જો તમે આ શેર કરવા માંગતા હો, તો તમારે કહેવું પડશે કે આ કઈ ભાષામાં છે, જેથી બીજાઓને ખબર પડે કે તેઓ તેને વાંચી શકે છે કે નહીં!",
+                    "resolution": "$?"
                 },
                 "RequiredAfterOptional": {
                     "name": "$~વૈકલ્પિકપછીજરૂરીઇનપુટ",
-                    "explanation": "$~હું અહીં નહીં રહી શકું, મારી સામે એક વૈકલ્પિક @Bind છે."
+                    "explanation": "$~હું અહીં નહીં રહી શકું, મારી સામે એક વૈકલ્પિક @Bind છે.",
+                    "resolution": "$?"
                 },
                 "UnexpectedEtc": {
                     "name": "$~ઇનપુટયાદીપછીઅનપેક્ષિતઇનપુટ",
-                    "explanation": "$~@FunctionDefinition માં હું ફક્ત ચલ લંબાઈ હોઈ શકું છું"
+                    "explanation": "$~@FunctionDefinition માં હું ફક્ત ચલ લંબાઈ હોઈ શકું છું",
+                    "resolution": "$?"
                 },
                 "UnusedBind": {
                     "name": "$~નવપરાયેલબાઇન્ડ",
-                    "explanation": "$~મારું નામ $name છે, પણ કોઈ મારો ઉપયોગ કરતું નથી. કદાચ મારી જરૂર નથી?"
+                    "explanation": "$~મારું નામ $name છે, પણ કોઈ મારો ઉપયોગ કરતું નથી. કદાચ મારી જરૂર નથી?",
+                    "resolution": "$?"
                 }
             },
             "label": {
@@ -558,7 +575,8 @@
             "conflict": {
                 "ExpectedEndingExpression": {
                     "name": "$~ગુમથયેલઅભિવ્યક્તિ",
-                    "explanation": "મારે પાછું આપવા માટે મૂલ્ય હોવા માટે ઓછામાં ઓછી એક અભિવ્યક્તિની જરૂર છે જે @Bind ન હોય."
+                    "explanation": "મારે પાછું આપવા માટે મૂલ્ય હોવા માટે ઓછામાં ઓછી એક અભિવ્યક્તિની જરૂર છે જે @Bind ન હોય.",
+                    "resolution": "$?"
                 }
             },
             "label": {
@@ -581,11 +599,13 @@
             "conflict": {
                 "UnknownBorrow": {
                     "name": "$~અજ્ઞાતઉધાર",
-                    "explanation": "$~મને આ નામનો કોઈ $source ખબર નથી."
+                    "explanation": "$~મને આ નામનો કોઈ $source ખબર નથી.",
+                    "resolution": "$?"
                 },
                 "BorrowCycle": {
                     "name": "$~સ્વ-સંદર્ભિતઉધાર",
-                    "explanation": "$~આ $borrow પર આધાર રાખે છે, જે આ $source પર આધાર રાખે છે, તેથી પ્રોગ્રામનું મૂલ્યાંકન કરી શકાતું નથી."
+                    "explanation": "$~આ $borrow પર આધાર રાખે છે, જે આ $source પર આધાર રાખે છે, તેથી પ્રોગ્રામનું મૂલ્યાંકન કરી શકાતું નથી.",
+                    "resolution": "$?"
                 }
             },
             "exception": {
@@ -667,7 +687,8 @@
             "conflict": {
                 "MisplacedConversion": {
                     "name": "$~ખોટીજગ્યાએરૂપાંતર",
-                    "explanation": "$~વાહ, હું અહીં નહીં રહી શકું, ફક્ત @Block માં."
+                    "explanation": "$~વાહ, હું અહીં નહીં રહી શકું, ફક્ત @Block માં.",
+                    "resolution": "$?"
                 }
             },
             "label": {
@@ -694,7 +715,8 @@
             "conflict": {
                 "UnknownConversion": {
                     "name": "$~અજાણ્યુંરૂપાંતરણ",
-                    "explanation": "$~અમને $expected ને $given માં રૂપાંતરિત કરવાનો કોઈ રસ્તો મળ્યો નથી."
+                    "explanation": "$~અમને $expected ને $given માં રૂપાંતરિત કરવાનો કોઈ રસ્તો મળ્યો નથી.",
+                    "resolution": "$?"
                 }
             },
             "exception": {
@@ -765,7 +787,8 @@
                 },
                 "UnexpectedTypeInput": {
                     "name": "$~અનપેક્ષિતપ્રકારઇનપુટ",
-                    "explanation": "$~હું એક વધારાનો, અણધાર્યો પ્રકારનો ઇનપુટ છું."
+                    "explanation": "$~હું એક વધારાનો, અણધાર્યો પ્રકારનો ઇનપુટ છું.",
+                    "resolution": "$?"
                 },
                 "MissingInput": {
                     "name": "$~ઇનપુટખૂટેછે",
@@ -775,23 +798,28 @@
                 },
                 "NotInstantiable": {
                     "name": "$~અપૂર્ણમાળખું",
-                    "explanation": "$~હું આ @StructureDefinition બનાવી શકતો નથી, તેમાં અમલમાં મૂકાયેલા કાર્યો નથી."
+                    "explanation": "$~હું આ @StructureDefinition બનાવી શકતો નથી, તેમાં અમલમાં મૂકાયેલા કાર્યો નથી.",
+                    "resolution": "$?"
                 },
                 "UnexpectedInput": {
                     "name": "$~અનપેક્ષિતઇનપુટ",
-                    "explanation": "$~હું એક અણધાર્યો ઇનપુટ છું."
+                    "explanation": "$~હું એક અણધાર્યો ઇનપુટ છું.",
+                    "resolution": "$?"
                 },
                 "UnknownInput": {
                     "name": "$~અજાણ્યુંઇનપુટ",
-                    "explanation": "$~આ ફંક્શન *$name* મારા નામ સાથે ઇનપુટની અપેક્ષા રાખતું નથી."
+                    "explanation": "$~આ ફંક્શન *$name* મારા નામ સાથે ઇનપુટની અપેક્ષા રાખતું નથી.",
+                    "resolution": "$?"
                 },
                 "InputListMustBeLast": {
                     "name": "$~વધારાનાઇનપુટ્સલાંબાસમયસુધીરહેતાનથી.",
-                    "explanation": "$~ઇનપુટ્સની યાદી છેલ્લી હોવી જોઈએ"
+                    "explanation": "$~ઇનપુટ્સની યાદી છેલ્લી હોવી જોઈએ",
+                    "resolution": "$?"
                 },
                 "SeparatedEvaluate": {
                     "name": "$~અસ્પષ્ટમૂલ્યાંકન",
-                    "explanation": "$~શું $name એ $structure[$structure|$function] નું નામ છે જેનું તમે મૂલ્યાંકન કરવાનો પ્રયાસ કરી રહ્યા છો? મારા પછીની જગ્યા દૂર કરવાનો પ્રયાસ કરો, જેથી મને ખબર પડે કે તે @Evaluate છે અને અલગ @Block નથી."
+                    "explanation": "$~શું $name એ $structure[$structure|$function] નું નામ છે જેનું તમે મૂલ્યાંકન કરવાનો પ્રયાસ કરી રહ્યા છો? મારા પછીની જગ્યા દૂર કરવાનો પ્રયાસ કરો, જેથી મને ખબર પડે કે તે @Evaluate છે અને અલગ @Block નથી.",
+                    "resolution": "$?"
                 }
             },
             "exception": {
@@ -835,7 +863,8 @@
             "conflict": {
                 "Placeholder": {
                     "name": "$~પ્લેસહોલ્ડર",
-                    "explanation": "$~શું તમે મને ભરી શકો છો? હું ફક્ત એક પ્લેસહોલ્ડર છું."
+                    "explanation": "$~શું તમે મને ભરી શકો છો? હું ફક્ત એક પ્લેસહોલ્ડર છું.",
+                    "resolution": "$?"
                 }
             },
             "exception": {
@@ -872,7 +901,8 @@
             "conflict": {
                 "NoExpression": {
                     "name": "$~ગુમથયેલઅભિવ્યક્તિ",
-                    "explanation": "$~મને મૂલ્યાંકન કરવા માટે એક પદાવલીની જરૂર છે, શું તમે એક પદાવલી ઉમેરી શકો છો?"
+                    "explanation": "$~મને મૂલ્યાંકન કરવા માટે એક પદાવલીની જરૂર છે, શું તમે એક પદાવલી ઉમેરી શકો છો?",
+                    "resolution": "$?"
                 }
             },
             "label": {
@@ -934,7 +964,9 @@
             "conflict": {
                 "ImpossibleType": {
                     "name": "$~અશક્યપ્રકાર",
-                    "explanation": "$~આ ક્યારેય $type ન હોઈ શકે."
+                    "explanation": "$~આ ક્યારેય $type ન હોઈ શકે.",
+                    "resolutionIsFalse": "$?",
+                    "resolutionDropOtherwise": "$?"
                 }
             },
             "exception": {
@@ -994,7 +1026,8 @@
             "conflict": {
                 "NotAKeyValue": {
                     "name": "$~ખૂટતુંમૂલ્ય",
-                    "explanation": "$~હું @Map માં છું, તેથી મને એક મૂલ્યની જરૂર છે."
+                    "explanation": "$~હું @Map માં છું, તેથી મને એક મૂલ્યની જરૂર છે.",
+                    "resolution": "$?"
                 }
             },
             "label": {
@@ -1030,7 +1063,8 @@
             "conflict": {
                 "NotANumber": {
                     "name": "$~સંખ્યાનથી",
-                    "explanation": "$~મને લાગ્યું કે મને બધા આંકડા ખબર છે, પણ મને આ ખબર નથી."
+                    "explanation": "$~મને લાગ્યું કે મને બધા આંકડા ખબર છે, પણ મને આ ખબર નથી.",
+                    "resolution": "$?"
                 }
             }
         },
@@ -1145,7 +1179,8 @@
             "conflict": {
                 "InvalidProperty": {
                     "name": "$~અજ્ઞાતમિલકત",
-                    "explanation": "$~હું $structure માળખામાં નામ નથી, તેથી મને શુદ્ધ કરી શકાતો નથી."
+                    "explanation": "$~હું $structure માળખામાં નામ નથી, તેથી મને શુદ્ધ કરી શકાતો નથી.",
+                    "resolution": "$?"
                 }
             },
             "label": {
@@ -1184,7 +1219,8 @@
             "conflict": {
                 "ExpectedStream": {
                     "name": "$~અપેક્ષિતસ્ટ્રીમ",
-                    "explanation": "$~$condition કોઈ સ્ટ્રીમનો સંદર્ભ આપતું નથી, તેથી હું ક્યારેય પ્રતિક્રિયા આપીશ નહીં!"
+                    "explanation": "$~$condition કોઈ સ્ટ્રીમનો સંદર્ભ આપતું નથી, તેથી હું ક્યારેય પ્રતિક્રિયા આપીશ નહીં!",
+                    "resolution": "$?"
                 }
             },
             "label": {
@@ -1214,11 +1250,13 @@
                 },
                 "ReferenceCycle": {
                     "name": "$~સ્વ-સંદર્ભમૂલ્ય",
-                    "explanation": "$~અરે, $name નું મૂલ્ય તેના પર નિર્ભર છે, તો મને કેવી રીતે ખબર પડશે કે તેને શું મૂલ્ય આપવું?"
+                    "explanation": "$~અરે, $name નું મૂલ્ય તેના પર નિર્ભર છે, તો મને કેવી રીતે ખબર પડશે કે તેને શું મૂલ્ય આપવું?",
+                    "resolution": "$?"
                 },
                 "UnexpectedTypeVariable": {
                     "name": "$~અનપેક્ષિતપ્રકારચલ",
-                    "explanation": "$~મને ખબર નથી કે હવે આ પ્રકારના ઇનપુટ્સનું શું કરવું."
+                    "explanation": "$~મને ખબર નથી કે હવે આ પ્રકારના ઇનપુટ્સનું શું કરવું.",
+                    "resolution": "$?"
                 }
             },
             "exception": {
@@ -1243,7 +1281,8 @@
             "conflict": {
                 "ExpectedSelectName": {
                     "name": "$~કોલમનામખૂટેછે",
-                    "explanation": "$~મને ઓછામાં ઓછું એક કોલમ નામ જોઈએ છે."
+                    "explanation": "$~મને ઓછામાં ઓછું એક કોલમ નામ જોઈએ છે.",
+                    "resolution": "$?"
                 }
             }
         },
@@ -1324,19 +1363,23 @@
             "conflict": {
                 "DisallowedInputs": {
                     "name": "$~ઇનપુટનીમંજૂરીનથી",
-                    "explanation": "$~મારા ઇન્ટરફેસ ફંક્શન્સમાંથી એક અથવા વધુ અમલમાં ન હોવાથી હું ઇનપુટ્સ આપી શકતો નથી."
+                    "explanation": "$~મારા ઇન્ટરફેસ ફંક્શન્સમાંથી એક અથવા વધુ અમલમાં ન હોવાથી હું ઇનપુટ્સ આપી શકતો નથી.",
+                    "resolution": "$?"
                 },
                 "IncompleteImplementation": {
                     "name": "$~અપૂર્ણમાળખું",
-                    "explanation": "$~મારા બધા કાર્યો અમલમાં મૂકવા પડશે, અથવા કોઈ પણ અમલમાં મૂકવા પડશે નહીં. કોઈ અવ્યવસ્થિત મિશ્રણ નહીં!"
+                    "explanation": "$~મારા બધા કાર્યો અમલમાં મૂકવા પડશે, અથવા કોઈ પણ અમલમાં મૂકવા પડશે નહીં. કોઈ અવ્યવસ્થિત મિશ્રણ નહીં!",
+                    "resolution": "$?"
                 },
                 "NotAnInterface": {
                     "name": "$~ઇન્ટરફેસનથી",
-                    "explanation": "$~હું ઇન્ટરફેસ નથી; એક માળખું ફક્ત ઇન્ટરફેસનો અમલ કરી શકે છે, અન્ય માળખાંનો નહીં."
+                    "explanation": "$~હું ઇન્ટરફેસ નથી; એક માળખું ફક્ત ઇન્ટરફેસનો અમલ કરી શકે છે, અન્ય માળખાંનો નહીં.",
+                    "resolution": "$?"
                 },
                 "UnimplementedInterface": {
                     "name": "$~અમલમાંનઆવેલું",
-                    "explanation": "$~હું $interface લાગુ કરું છું પણ $function લાગુ કર્યો નથી."
+                    "explanation": "$~હું $interface લાગુ કરું છું પણ $function લાગુ કર્યો નથી.",
+                    "resolution": "$?"
                 }
             },
             "label": {
@@ -1402,7 +1445,8 @@
                 "reminder": "$~નોંધ: તમે આ ક્રિયાને પૂર્વવત્ કરી શકો છો અને શેરિંગ સંવાદમાં તમે બિન-સંવેદનશીલ તરીકે ચિહ્નિત કરેલી અન્ય વસ્તુઓ જોઈ શકો છો.",
                 "character": {
                     "name": "$~શક્યકસ્ટમઅક્ષર",
-                    "explanation": "$~આ એક અક્ષર નામ જેવું દેખાય છે. તે બતાવવા માટે, @TextLiteral ને બદલે @FormattedLiteral નો ઉપયોગ કરો."
+                    "explanation": "$~આ એક અક્ષર નામ જેવું દેખાય છે. તે બતાવવા માટે, @TextLiteral ને બદલે @FormattedLiteral નો ઉપયોગ કરો.",
+                    "resolutionStrip": "$?"
                 }
             },
             "label": {
@@ -1450,7 +1494,8 @@
             "conflict": {
                 "MisplacedThis": {
                     "name": "$~આસંદર્ભખોટોમૂક્યોછે",
-                    "explanation": "$~મને ફક્ત રચના, રૂપાંતર અથવા પ્રતિક્રિયામાં જ મંજૂરી છે."
+                    "explanation": "$~મને ફક્ત રચના, રૂપાંતર અથવા પ્રતિક્રિયામાં જ મંજૂરી છે.",
+                    "resolution": "$?"
                 }
             }
         },
@@ -1499,7 +1544,8 @@
                 },
                 "UnclosedDelimiter": {
                     "name": "$~બંધનથયેલસીમાંકક",
-                    "explanation": "$~મને $expected પછી ક્યારેક $unclosed ની અપેક્ષા હતી."
+                    "explanation": "$~મને $expected પછી ક્યારેક $unclosed ની અપેક્ષા હતી.",
+                    "resolution": "$?"
                 }
             },
             "exception": {
@@ -1524,7 +1570,8 @@
             "conflict": {
                 "ExpectedColumnBind": {
                     "name": "$~ખૂટતુંકૉલમમૂલ્ય",
-                    "explanation": "$~મને દરેક કોલમ માટે એક મૂલ્યની જરૂર છે."
+                    "explanation": "$~મને દરેક કોલમ માટે એક મૂલ્યની જરૂર છે.",
+                    "resolution": "$?"
                 },
                 "IncompatibleCellType": {
                     "name": "$~અસંગતકોષપ્રકાર",
@@ -1631,7 +1678,8 @@
             "conflict": {
                 "UnknownTypeName": {
                     "name": "$~અજાણ્યુંપ્રકારનામ",
-                    "explanation": "$~પ્રકાર નામો ફક્ત માળખાં અથવા પ્રકાર ચલોનો સંદર્ભ આપી શકે છે, પરંતુ આ પ્રકાર $type નો સંદર્ભ આપે છે"
+                    "explanation": "$~પ્રકાર નામો ફક્ત માળખાં અથવા પ્રકાર ચલોનો સંદર્ભ આપી શકે છે, પરંતુ આ પ્રકાર $type નો સંદર્ભ આપે છે",
+                    "resolution": "$?"
                 }
             }
         },
@@ -1695,7 +1743,8 @@
             "conflict": {
                 "ExpectedColumnType": {
                     "name": "$~ખૂટતોકૉલમપ્રકાર",
-                    "explanation": "$~મને કૉલમ પ્રકાર જોઈએ છે."
+                    "explanation": "$~મને કૉલમ પ્રકાર જોઈએ છે.",
+                    "resolution": "$?"
                 }
             }
         },

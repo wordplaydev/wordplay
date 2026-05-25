@@ -215,15 +215,18 @@
             "conflict": {
                 "UnknownLanguage": {
                     "name": "$~שפהלאידועה",
-                    "explanation": "$~אני לא מכיר את השפה הזאת"
+                    "explanation": "$~אני לא מכיר את השפה הזאת",
+                    "resolution": "$?"
                 },
                 "MissingLanguage": {
                     "name": "$~שפהחסרה",
-                    "explanation": "$~חסרה לי שפה. האם תוכל להוסיף אחת?"
+                    "explanation": "$~חסרה לי שפה. האם תוכל להוסיף אחת?",
+                    "resolution": "$?"
                 },
                 "DuplicateLanguage": {
                     "name": "$~שפהכפולה",
-                    "explanation": "$~השתמשת בשפה ' $code ' פעמיים. תגיות של שפות מעורבות צריכות לפרט כל שפה פעם אחת בלבד."
+                    "explanation": "$~השתמשת בשפה ' $code ' פעמיים. תגיות של שפות מעורבות צריכות לפרט כל שפה פעם אחת בלבד.",
+                    "resolution": "$?"
                 }
             }
         },
@@ -266,19 +269,24 @@
             "conflict": {
                 "InvalidRow": {
                     "name": "$~שורהלאחוקית",
-                    "explanation": "$~שורות צריכות להיות כולן ערכים או כולן @Bind."
+                    "explanation": "$~שורות צריכות להיות כולן ערכים או כולן @Bind.",
+                    "resolutionKeepPositional": "$?",
+                    "resolutionUnwrapInputs": "$?"
                 },
                 "MissingCell": {
                     "name": "$~עמודהחסרה",
-                    "explanation": "$~חסרה לי עמודה $column"
+                    "explanation": "$~חסרה לי עמודה $column",
+                    "resolution": "$?"
                 },
                 "ExtraCell": {
                     "name": "$~עמודהנוספת",
-                    "explanation": "$~בהתבסס על סוג הטבלה שלי, אני עמודה נוספת שלא אמורה להיות כאן."
+                    "explanation": "$~בהתבסס על סוג הטבלה שלי, אני עמודה נוספת שלא אמורה להיות כאן.",
+                    "resolution": "$?"
                 },
                 "UnknownColumn": {
                     "name": "$~שםעמודהלאידוע",
-                    "explanation": "$~אני לא מכיר טור בשם הזה"
+                    "explanation": "$~אני לא מכיר טור בשם הזה",
+                    "resolution": "$?"
                 },
                 "UnexpectedColumnBind": {
                     "name": "$~איןשורותקשירה",
@@ -312,7 +320,8 @@
             "conflict": {
                 "DuplicateTypeVariable": {
                     "name": "$~משתנהמסוגכפול",
-                    "explanation": "$~יש לי את אותו שם כמו $duplicate"
+                    "explanation": "$~יש לי את אותו שם כמו $duplicate",
+                    "resolution": "$?"
                 }
             }
         },
@@ -384,7 +393,8 @@
             "conflict": {
                 "UnsupportedFontFormat": {
                     "name": "$~פורמטגופןלאנתמך",
-                    "explanation": "$~החבר שלי * $face * לא יודע איך להיות $format ."
+                    "explanation": "$~החבר שלי * $face * לא יודע איך להיות $format .",
+                    "resolution": "$?"
                 }
             }
         },
@@ -441,7 +451,8 @@
             "conflict": {
                 "OrderOfOperations": {
                     "name": "$~סדרדומשמעי",
-                    "explanation": "$~אני מעריך לפי סדר קריאה, לא לפי סדר פעולות מתמטי. האם ברצונך להשתמש ב-@Block כדי לציין את הסדר שבו עליי לבצע את ההערכה?"
+                    "explanation": "$~אני מעריך לפי סדר קריאה, לא לפי סדר פעולות מתמטי. האם ברצונך להשתמש ב-@Block כדי לציין את הסדר שבו עליי לבצע את ההערכה?",
+                    "resolution": "$?"
                 }
             }
         },
@@ -492,7 +503,8 @@
                 },
                 "DuplicateShare": {
                     "name": "$~שיתוףכפול",
-                    "explanation": "$~יש לי את אותו שם כמו $duplicate. זה לא ברור מה אנחנו משתפים."
+                    "explanation": "$~יש לי את אותו שם כמו $duplicate. זה לא ברור מה אנחנו משתפים.",
+                    "resolution": "$?"
                 },
                 "IncompatibleType": {
                     "name": "$~סוגלאתואם",
@@ -511,23 +523,28 @@
                 },
                 "MisplacedShare": {
                     "name": "$~שיתוףלאבמקום",
-                    "explanation": "$~אני יכול לשתף דברים רק ברמת @Program, לא בתוך שום דבר!"
+                    "explanation": "$~אני יכול לשתף דברים רק ברמת @Program, לא בתוך שום דבר!",
+                    "resolution": "$?"
                 },
                 "MissingShareLanguages": {
                     "name": "$~שפהחסרה",
-                    "explanation": "$~אם אתם רוצים לשתף את זה, עליכם לציין באיזו שפה זה כתוב, כדי שאחרים ידעו אם הם יכולים לקרוא את זה!"
+                    "explanation": "$~אם אתם רוצים לשתף את זה, עליכם לציין באיזו שפה זה כתוב, כדי שאחרים ידעו אם הם יכולים לקרוא את זה!",
+                    "resolution": "$?"
                 },
                 "RequiredAfterOptional": {
                     "name": "$~קלטנדרשלאחראופציונלי",
-                    "explanation": "$~אני לא יכול להיות כאן, יש @Bind אופציונלי לפניי"
+                    "explanation": "$~אני לא יכול להיות כאן, יש @Bind אופציונלי לפניי",
+                    "resolution": "$?"
                 },
                 "UnexpectedEtc": {
                     "name": "$~קלטבלתיצפוילאחררשימתקלט",
-                    "explanation": "$~אני יכול להיות באורך משתנה רק ב-@FunctionDefinition"
+                    "explanation": "$~אני יכול להיות באורך משתנה רק ב-@FunctionDefinition",
+                    "resolution": "$?"
                 },
                 "UnusedBind": {
                     "name": "$~כריכהשאינהבשימוש",
-                    "explanation": "$~אני קוראים ל-$name, אבל אף אחד לא משתמש בי. אולי אני לא נחוץ?"
+                    "explanation": "$~אני קוראים ל-$name, אבל אף אחד לא משתמש בי. אולי אני לא נחוץ?",
+                    "resolution": "$?"
                 }
             }
         },
@@ -561,7 +578,8 @@
             "conflict": {
                 "ExpectedEndingExpression": {
                     "name": "$~ביטויחסר",
-                    "explanation": "אני צריך לפחות ביטוי אחד שאינו @Bind, כדי שיהיה לי ערך להחזיר."
+                    "explanation": "אני צריך לפחות ביטוי אחד שאינו @Bind, כדי שיהיה לי ערך להחזיר.",
+                    "resolution": "$?"
                 }
             }
         },
@@ -586,11 +604,13 @@
             "conflict": {
                 "UnknownBorrow": {
                     "name": "$~לאידועללוות",
-                    "explanation": "$~אני לא מכיר $source בשם הזה"
+                    "explanation": "$~אני לא מכיר $source בשם הזה",
+                    "resolution": "$?"
                 },
                 "BorrowCycle": {
                     "name": "$~הלוואהעצמית",
-                    "explanation": "$~זה תלוי ב-$borrow, שתלוי ב-$source הזה, כך שלא ניתן להעריך את התוכנית"
+                    "explanation": "$~זה תלוי ב-$borrow, שתלוי ב-$source הזה, כך שלא ניתן להעריך את התוכנית",
+                    "resolution": "$?"
                 }
             },
             "exception": {
@@ -672,7 +692,8 @@
             "conflict": {
                 "MisplacedConversion": {
                     "name": "$~המרהשגויה",
-                    "explanation": "$~וואו, אני לא יכול להיות פה, רק ב-@Block."
+                    "explanation": "$~וואו, אני לא יכול להיות פה, רק ב-@Block.",
+                    "resolution": "$?"
                 }
             }
         },
@@ -694,7 +715,8 @@
             "conflict": {
                 "UnknownConversion": {
                     "name": "$~המרהלאידועה",
-                    "explanation": "$~לא מצאנו דרך להמיר $expected ל-$given"
+                    "explanation": "$~לא מצאנו דרך להמיר $expected ל-$given",
+                    "resolution": "$?"
                 }
             },
             "exception": {
@@ -770,7 +792,8 @@
                 },
                 "UnexpectedTypeInput": {
                     "name": "$~קלטמסוגבלתיצפוי",
-                    "explanation": "$~אני קלט מסוג נוסף, בלתי צפוי."
+                    "explanation": "$~אני קלט מסוג נוסף, בלתי צפוי.",
+                    "resolution": "$?"
                 },
                 "MissingInput": {
                     "name": "$~קלטחסר",
@@ -780,23 +803,28 @@
                 },
                 "NotInstantiable": {
                     "name": "$~מבנהלאשלם",
-                    "explanation": "$~אני לא יכול ליצור את ה-@StructureDefinition הזה, יש לו פונקציות לא ממומשות."
+                    "explanation": "$~אני לא יכול ליצור את ה-@StructureDefinition הזה, יש לו פונקציות לא ממומשות.",
+                    "resolution": "$?"
                 },
                 "UnexpectedInput": {
                     "name": "$~קלטבלתיצפוי",
-                    "explanation": "$~אני קלט בלתי צפוי."
+                    "explanation": "$~אני קלט בלתי צפוי.",
+                    "resolution": "$?"
                 },
                 "UnknownInput": {
                     "name": "$~קלטלאידוע",
-                    "explanation": "$~הפונקציה *$name* הזו לא מצפה לקלט עם השם שלי."
+                    "explanation": "$~הפונקציה *$name* הזו לא מצפה לקלט עם השם שלי.",
+                    "resolution": "$?"
                 },
                 "InputListMustBeLast": {
                     "name": "$~קלטנוסףאינואחרון",
-                    "explanation": "$~רשימת הקלטים חייבת להיות אחרונה"
+                    "explanation": "$~רשימת הקלטים חייבת להיות אחרונה",
+                    "resolution": "$?"
                 },
                 "SeparatedEvaluate": {
                     "name": "$~הערכהמעורפלת",
-                    "explanation": "$~האם $name הוא שם של פונקציה [$structure|$structure] של $function שאתה מנסה להעריך? נסה להסיר את הרווח אחריי, כדי שאדע שזה @Evaluate ולא @Block נפרד."
+                    "explanation": "$~האם $name הוא שם של פונקציה [$structure|$structure] של $function שאתה מנסה להעריך? נסה להסיר את הרווח אחריי, כדי שאדע שזה @Evaluate ולא @Block נפרד.",
+                    "resolution": "$?"
                 }
             },
             "exception": {
@@ -838,7 +866,8 @@
             "conflict": {
                 "Placeholder": {
                     "name": "$~מצייןמיקום",
-                    "explanation": "$~אתה יכול למלא אותי? אני רק מציין מקום."
+                    "explanation": "$~אתה יכול למלא אותי? אני רק מציין מקום.",
+                    "resolution": "$?"
                 }
             },
             "exception": {
@@ -877,7 +906,8 @@
             "conflict": {
                 "NoExpression": {
                     "name": "$~ביטויחסר",
-                    "explanation": "$~אני צריך ביטוי כדי לחשב, האם תוכל להוסיף אחד?"
+                    "explanation": "$~אני צריך ביטוי כדי לחשב, האם תוכל להוסיף אחד?",
+                    "resolution": "$?"
                 }
             }
         },
@@ -934,7 +964,9 @@
             "conflict": {
                 "ImpossibleType": {
                     "name": "$~סוגבלתיאפשרי",
-                    "explanation": "$~זה אף פעם לא יכול להיות $type"
+                    "explanation": "$~זה אף פעם לא יכול להיות $type",
+                    "resolutionIsFalse": "$?",
+                    "resolutionDropOtherwise": "$?"
                 }
             },
             "exception": {
@@ -997,7 +1029,8 @@
             "conflict": {
                 "NotAKeyValue": {
                     "name": "$~ערךחסר",
-                    "explanation": "$~אני נמצא ב-@Map, אז אני צריך ערך."
+                    "explanation": "$~אני נמצא ב-@Map, אז אני צריך ערך.",
+                    "resolution": "$?"
                 }
             }
         },
@@ -1030,7 +1063,8 @@
             "conflict": {
                 "NotANumber": {
                     "name": "$~לאמספר",
-                    "explanation": "$~חשבתי שאני יודע את כל המספרים, אבל אני לא יודע את זה."
+                    "explanation": "$~חשבתי שאני יודע את כל המספרים, אבל אני לא יודע את זה.",
+                    "resolution": "$?"
                 }
             }
         },
@@ -1149,7 +1183,8 @@
             "conflict": {
                 "InvalidProperty": {
                     "name": "$~נכסלאידוע",
-                    "explanation": "$~אני לא שם במבנה $structure, אז אי אפשר לזקק אותי."
+                    "explanation": "$~אני לא שם במבנה $structure, אז אי אפשר לזקק אותי.",
+                    "resolution": "$?"
                 }
             }
         },
@@ -1189,7 +1224,8 @@
             "conflict": {
                 "ExpectedStream": {
                     "name": "$~הזרםהצפוי",
-                    "explanation": "$~$condition לא מתייחס לשידור חי, אז אני לעולם לא אגיב!"
+                    "explanation": "$~$condition לא מתייחס לשידור חי, אז אני לעולם לא אגיב!",
+                    "resolution": "$?"
                 }
             }
         },
@@ -1214,11 +1250,13 @@
                 },
                 "ReferenceCycle": {
                     "name": "$~ערךעצמיהמפנה",
-                    "explanation": "$~אממ, הערך של $name תלוי בעצמו, אז איך אני יודע איזה ערך לתת לו?"
+                    "explanation": "$~אממ, הערך של $name תלוי בעצמו, אז איך אני יודע איזה ערך לתת לו?",
+                    "resolution": "$?"
                 },
                 "UnexpectedTypeVariable": {
                     "name": "$~משתנהמסוגבלתיצפוי",
-                    "explanation": "$~אני לא מבין עכשיו מה לעשות עם הקלטים האלה"
+                    "explanation": "$~אני לא מבין עכשיו מה לעשות עם הקלטים האלה",
+                    "resolution": "$?"
                 }
             },
             "exception": {
@@ -1243,7 +1281,8 @@
             "conflict": {
                 "ExpectedSelectName": {
                     "name": "$~שםעמודהחסר",
-                    "explanation": "$~אני צריך לפחות שם של עמודה אחת."
+                    "explanation": "$~אני צריך לפחות שם של עמודה אחת.",
+                    "resolution": "$?"
                 }
             }
         },
@@ -1330,19 +1369,23 @@
             "conflict": {
                 "DisallowedInputs": {
                     "name": "$~קלטאינומותר",
-                    "explanation": "$~אני לא יכול לקבל קלט מכיוון שאחת או יותר מפונקציות הממשק שלי לא ממומשות"
+                    "explanation": "$~אני לא יכול לקבל קלט מכיוון שאחת או יותר מפונקציות הממשק שלי לא ממומשות",
+                    "resolution": "$?"
                 },
                 "IncompleteImplementation": {
                     "name": "$~מבנהלאשלם",
-                    "explanation": "$~או שכל הפונקציות שלי צריכות להיות ממומשות, או שאף אחת מהן לא צריכה להיות ממומשת. בלי תערובות מבולגנות!"
+                    "explanation": "$~או שכל הפונקציות שלי צריכות להיות ממומשות, או שאף אחת מהן לא צריכה להיות ממומשת. בלי תערובות מבולגנות!",
+                    "resolution": "$?"
                 },
                 "NotAnInterface": {
                     "name": "$~לאממשק",
-                    "explanation": "$~אני לא ממשק; מבנה יכול ליישם רק ממשקים, לא מבנים אחרים."
+                    "explanation": "$~אני לא ממשק; מבנה יכול ליישם רק ממשקים, לא מבנים אחרים.",
+                    "resolution": "$?"
                 },
                 "UnimplementedInterface": {
                     "name": "$~לאמיושם",
-                    "explanation": "$~מיישמתי את $interface אבל עדיין לא מיישמתי את $function"
+                    "explanation": "$~מיישמתי את $interface אבל עדיין לא מיישמתי את $function",
+                    "resolution": "$?"
                 }
             }
         },
@@ -1405,7 +1448,8 @@
                 "reminder": "$~הערה: ניתן לבטל פעולה זו ולראות דברים אחרים שסימנת כלא רגישים בתיבת הדו-שיח של השיתוף.",
                 "character": {
                     "name": "$~דמותמותאמתאישיתאפשרית",
-                    "explanation": "$~זה נראה כמו שם של תו. כדי להציג אותם, השתמש ב-@FormattedLiteral במקום ב-@TextLiteral."
+                    "explanation": "$~זה נראה כמו שם של תו. כדי להציג אותם, השתמש ב-@FormattedLiteral במקום ב-@TextLiteral.",
+                    "resolutionStrip": "$?"
                 }
             }
         },
@@ -1450,7 +1494,8 @@
             "conflict": {
                 "MisplacedThis": {
                     "name": "$~איבדתיאתההפניההזו",
-                    "explanation": "$~מותר לי להיות חלק רק ממבנה, המרה או תגובה."
+                    "explanation": "$~מותר לי להיות חלק רק ממבנה, המרה או תגובה.",
+                    "resolution": "$?"
                 }
             }
         },
@@ -1499,7 +1544,8 @@
                 },
                 "UnclosedDelimiter": {
                     "name": "$~מפרידלאסגור",
-                    "explanation": "$~ציפיתי ש-$expected מתישהו אחרי $unclosed"
+                    "explanation": "$~ציפיתי ש-$expected מתישהו אחרי $unclosed",
+                    "resolution": "$?"
                 }
             },
             "exception": {
@@ -1524,7 +1570,8 @@
             "conflict": {
                 "ExpectedColumnBind": {
                     "name": "$~ערךעמודהחסר",
-                    "explanation": "$~אני צריך ערך לכל עמודה"
+                    "explanation": "$~אני צריך ערך לכל עמודה",
+                    "resolution": "$?"
                 },
                 "IncompatibleCellType": {
                     "name": "$~סוגתאלאתואם",
@@ -1631,7 +1678,8 @@
             "conflict": {
                 "UnknownTypeName": {
                     "name": "$~שםסוגלאידוע",
-                    "explanation": "$~שמות סוגים יכולים להתייחס רק למבנים או משתני סוג, אך זה מתייחס לסוג $type"
+                    "explanation": "$~שמות סוגים יכולים להתייחס רק למבנים או משתני סוג, אך זה מתייחס לסוג $type",
+                    "resolution": "$?"
                 }
             }
         },
@@ -1695,7 +1743,8 @@
             "conflict": {
                 "ExpectedColumnType": {
                     "name": "$~סוגעמודהחסר",
-                    "explanation": "$~אני צריך סוג עמודה"
+                    "explanation": "$~אני צריך סוג עמודה",
+                    "resolution": "$?"
                 }
             }
         },

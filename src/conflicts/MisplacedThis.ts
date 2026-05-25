@@ -1,7 +1,10 @@
 import type LocaleText from '@locale/LocaleText';
 import type This from '@nodes/This';
 import type Locales from '@locale/Locales';
-import Conflict from '@conflicts/Conflict';
+import Conflict, { type Resolutions } from '@conflicts/Conflict';
+import type Context from '@nodes/Context';
+import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
+import type Node from '@nodes/Node';
 
 export class MisplacedThis extends Conflict {
     readonly dis: This;
@@ -21,6 +24,30 @@ export class MisplacedThis extends Conflict {
                     (l) => MisplacedThis.LocalePath(l).explanation,
                 ),
         };
+    }
+
+    override getResolutions(
+        _context: Context,
+        _concepts: Node[],
+    ): Resolutions {
+        // Replace the misplaced `.` with a placeholder so the learner can
+        // type a real value reachable in this scope.
+        const placeholder = ExpressionPlaceholder.make();
+        return [
+            {
+                kind: 'repair',
+                description: (locales: Locales) =>
+                    locales.concretize(
+                        (l) => MisplacedThis.LocalePath(l).resolution,
+                    ),
+                mediator: (ctx) => ({
+                    newProject: ctx.project.withRevisedNodes([
+                        [this.dis, placeholder],
+                    ]),
+                    newNode: placeholder,
+                }),
+            },
+        ];
     }
 
     getLocalePath() {

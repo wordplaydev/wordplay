@@ -1,7 +1,8 @@
 import { test, expect, describe } from 'vitest';
 import Conflict, {
     registerResolver,
-    type Resolution,
+    type Repair,
+    type Resolutions,
 } from '@conflicts/Conflict';
 import type LocaleText from '@locale/LocaleText';
 import type Context from '@nodes/Context';
@@ -12,9 +13,17 @@ import type { ConflictText } from '@locale/NodeTexts';
 import IncompatibleType from '@conflicts/IncompatibleType';
 
 // Tiny fake conflict that doesn't touch any real node infrastructure.
+// Delegates resolution lookup to the registry, like the cycle-sensitive
+// type-mismatch conflicts do.
 class FakeConflict extends Conflict {
     constructor() {
         super(false);
+    }
+    override getResolutions(
+        context: Context,
+        concepts: Node[],
+    ): Resolutions {
+        return Conflict.fromRegistry(this, context, concepts);
     }
     getMessage() {
         return {
@@ -33,20 +42,43 @@ class UnregisteredFakeConflict extends FakeConflict {}
 
 describe('Conflict resolver registry', () => {
     test('a registered resolver is invoked by getResolutions', () => {
-        const sentinel: Resolution[] = [];
-        registerResolver(FakeConflict, () => sentinel);
+        const sentinel: Repair = {
+            kind: 'repair',
+            description: () => undefined as unknown as Markup,
+            mediator: () => ({
+                newProject: undefined as unknown as ReturnType<
+                    Repair['mediator']
+                >['newProject'],
+            }),
+        };
+        registerResolver(FakeConflict, () => [sentinel]);
         const c = new FakeConflict();
-        expect(c.getResolutions(
+        const result = c.getResolutions(
             undefined as unknown as Context,
             [],
-        )).toBe(sentinel);
+        );
+        expect(result.length).toBeGreaterThan(0);
+        expect(result[0]).toBe(sentinel);
     });
 
-    test('an unregistered conflict returns an empty list', () => {
-        const c = new UnregisteredFakeConflict();
-        expect(
-            c.getResolutions(undefined as unknown as Context, []),
-        ).toEqual([]);
+    test('an unregistered conflict still returns a non-empty list (synthesised explainer)', () => {
+        // Override the FakeConflict's stub message with one that has a real
+        // explanation function so the explainer fallback works.
+        const explanation = (_l: Locales, _c: Context) =>
+            'fallback' as unknown as Markup;
+        const fakeNode = {} as unknown as Node;
+        class WithMessage extends UnregisteredFakeConflict {
+            override getMessage() {
+                return { node: fakeNode, explanation };
+            }
+        }
+        const c = new WithMessage();
+        const result = c.getResolutions(
+            undefined as unknown as Context,
+            [],
+        );
+        expect(result.length).toBe(1);
+        expect(result[0].kind).toBe('explain');
     });
 
     test('registerTypeResolutions populates IncompatibleType (loaded via vitest setupFiles)', () => {

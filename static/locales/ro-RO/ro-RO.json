@@ -215,15 +215,18 @@
             "conflict": {
                 "UnknownLanguage": {
                     "name": "$~limbănecunoscută",
-                    "explanation": "$~Nu știu această limbă"
+                    "explanation": "$~Nu știu această limbă",
+                    "resolution": "$?"
                 },
                 "MissingLanguage": {
                     "name": "$~limbălipsă",
-                    "explanation": "$~Îmi lipsește o limbă. Poți adăuga una?"
+                    "explanation": "$~Îmi lipsește o limbă. Poți adăuga una?",
+                    "resolution": "$?"
                 },
                 "DuplicateLanguage": {
                     "name": "$~limbajduplicat",
-                    "explanation": "$~Ai folosit codul limbii „ $code ” de două ori. Etichetele pentru limbi mixte ar trebui să listeze fiecare limbă o singură dată."
+                    "explanation": "$~Ai folosit codul limbii „ $code ” de două ori. Etichetele pentru limbi mixte ar trebui să listeze fiecare limbă o singură dată.",
+                    "resolution": "$?"
                 }
             }
         },
@@ -266,19 +269,24 @@
             "conflict": {
                 "InvalidRow": {
                     "name": "$~rândnevalid",
-                    "explanation": "$~Rândurile trebuie să fie fie toate valori, fie toate @Bind."
+                    "explanation": "$~Rândurile trebuie să fie fie toate valori, fie toate @Bind.",
+                    "resolutionKeepPositional": "$?",
+                    "resolutionUnwrapInputs": "$?"
                 },
                 "MissingCell": {
                     "name": "$~coloanălipsă",
-                    "explanation": "$~Îmi lipsește coloana $column"
+                    "explanation": "$~Îmi lipsește coloana $column",
+                    "resolution": "$?"
                 },
                 "ExtraCell": {
                     "name": "$~coloanăsuplimentară",
-                    "explanation": "$~Pe baza tipului de tabel, sunt o coloană suplimentară care nu ar trebui să fie aici."
+                    "explanation": "$~Pe baza tipului de tabel, sunt o coloană suplimentară care nu ar trebui să fie aici.",
+                    "resolution": "$?"
                 },
                 "UnknownColumn": {
                     "name": "$~numedecoloanănecunoscut",
-                    "explanation": "$~Nu cunosc nicio coloană cu acest nume."
+                    "explanation": "$~Nu cunosc nicio coloană cu acest nume.",
+                    "resolution": "$?"
                 },
                 "UnexpectedColumnBind": {
                     "name": "$~fărărânduridelegături",
@@ -312,7 +320,8 @@
             "conflict": {
                 "DuplicateTypeVariable": {
                     "name": "$~variabilădetipduplicat",
-                    "explanation": "$~Am același nume ca $duplicate"
+                    "explanation": "$~Am același nume ca $duplicate",
+                    "resolution": "$?"
                 }
             }
         },
@@ -384,7 +393,8 @@
             "conflict": {
                 "UnsupportedFontFormat": {
                     "name": "$~formatdefontneacceptat",
-                    "explanation": "$~Prietenul meu, * $face *, nu știe cum să fie $format ."
+                    "explanation": "$~Prietenul meu, * $face *, nu știe cum să fie $format .",
+                    "resolution": "$?"
                 }
             }
         },
@@ -444,7 +454,8 @@
             "conflict": {
                 "OrderOfOperations": {
                     "name": "$~ordineambiguă",
-                    "explanation": "$~Evaluez în ordinea de citire, nu în ordinea matematică a operațiilor. Vrei să folosești @Block pentru a specifica ordinea în care ar trebui să evaluez?"
+                    "explanation": "$~Evaluez în ordinea de citire, nu în ordinea matematică a operațiilor. Vrei să folosești @Block pentru a specifica ordinea în care ar trebui să evaluez?",
+                    "resolution": "$?"
                 }
             }
         },
@@ -495,7 +506,8 @@
                 },
                 "DuplicateShare": {
                     "name": "$~partajareduplicată",
-                    "explanation": "$~Am același nume ca $duplicate . Asta face ca nu se știe ce anume distribuim."
+                    "explanation": "$~Am același nume ca $duplicate . Asta face ca nu se știe ce anume distribuim.",
+                    "resolution": "$?"
                 },
                 "IncompatibleType": {
                     "name": "$~tipincompatibil",
@@ -514,23 +526,28 @@
                 },
                 "MisplacedShare": {
                     "name": "$~acțiunepierdută",
-                    "explanation": "$~Pot partaja lucruri doar la nivel de @Program, nu în interiorul nimicului!"
+                    "explanation": "$~Pot partaja lucruri doar la nivel de @Program, nu în interiorul nimicului!",
+                    "resolution": "$?"
                 },
                 "MissingShareLanguages": {
                     "name": "$~limbălipsă",
-                    "explanation": "$~Dacă vrei să distribui asta, trebuie să spui în ce limbă este, ca și alții să știe dacă îl pot citi!"
+                    "explanation": "$~Dacă vrei să distribui asta, trebuie să spui în ce limbă este, ca și alții să știe dacă îl pot citi!",
+                    "resolution": "$?"
                 },
                 "RequiredAfterOptional": {
                     "name": "$~intrarenecesarădupăopțional",
-                    "explanation": "$~Nu pot fi aici, există un @Bind opțional în fața mea."
+                    "explanation": "$~Nu pot fi aici, există un @Bind opțional în fața mea.",
+                    "resolution": "$?"
                 },
                 "UnexpectedEtc": {
                     "name": "$~intrareneașteptatădupălistadeintrări",
-                    "explanation": "$~Pot avea doar lungime variabilă într-o @FunctionDefinition"
+                    "explanation": "$~Pot avea doar lungime variabilă într-o @FunctionDefinition",
+                    "resolution": "$?"
                 },
                 "UnusedBind": {
                     "name": "$~legareneutilizată",
-                    "explanation": "$~Mă numesc $name , dar nimeni nu mă folosește. Poate că nu este nevoie de mine?"
+                    "explanation": "$~Mă numesc $name , dar nimeni nu mă folosește. Poate că nu este nevoie de mine?",
+                    "resolution": "$?"
                 }
             }
         },
@@ -564,7 +581,8 @@
             "conflict": {
                 "ExpectedEndingExpression": {
                     "name": "$~expresielipsă",
-                    "explanation": "$~Am nevoie de cel puțin o expresie care nu este @Bind, deci am o valoare de returnat."
+                    "explanation": "$~Am nevoie de cel puțin o expresie care nu este @Bind, deci am o valoare de returnat.",
+                    "resolution": "$?"
                 }
             }
         },
@@ -589,11 +607,13 @@
             "conflict": {
                 "UnknownBorrow": {
                     "name": "$~împrumutnecunoscut",
-                    "explanation": "$~Nu cunosc o $source cu acest nume."
+                    "explanation": "$~Nu cunosc o $source cu acest nume.",
+                    "resolution": "$?"
                 },
                 "BorrowCycle": {
                     "name": "$~împrumutautoreferențial",
-                    "explanation": "$~aceasta depinde de $borrow , care depinde și de această $source , deci programul nu poate fi evaluat."
+                    "explanation": "$~aceasta depinde de $borrow , care depinde și de această $source , deci programul nu poate fi evaluat.",
+                    "resolution": "$?"
                 }
             },
             "exception": {
@@ -675,7 +695,8 @@
             "conflict": {
                 "MisplacedConversion": {
                     "name": "$~conversiegreșită",
-                    "explanation": "$~Uau, nu pot fi aici, doar în @Block."
+                    "explanation": "$~Uau, nu pot fi aici, doar în @Block.",
+                    "resolution": "$?"
                 }
             }
         },
@@ -697,7 +718,8 @@
             "conflict": {
                 "UnknownConversion": {
                     "name": "$~conversienecunoscută",
-                    "explanation": "$~Nu am găsit o modalitate de a converti un $expected într-un $given"
+                    "explanation": "$~Nu am găsit o modalitate de a converti un $expected într-un $given",
+                    "resolution": "$?"
                 }
             },
             "exception": {
@@ -775,7 +797,8 @@
                 },
                 "UnexpectedTypeInput": {
                     "name": "$~intraredetipneașteptat",
-                    "explanation": "$~Sunt un input suplimentar, de tip neașteptat."
+                    "explanation": "$~Sunt un input suplimentar, de tip neașteptat.",
+                    "resolution": "$?"
                 },
                 "MissingInput": {
                     "name": "$~intrarelipsă",
@@ -785,23 +808,28 @@
                 },
                 "NotInstantiable": {
                     "name": "$~structurăincompletă",
-                    "explanation": "$~Nu pot face asta la @StructureDefinition, are funcții neimplementate."
+                    "explanation": "$~Nu pot face asta la @StructureDefinition, are funcții neimplementate.",
+                    "resolution": "$?"
                 },
                 "UnexpectedInput": {
                     "name": "$~intrareneașteptată",
-                    "explanation": "$~Sunt o contribuție neașteptată."
+                    "explanation": "$~Sunt o contribuție neașteptată.",
+                    "resolution": "$?"
                 },
                 "UnknownInput": {
                     "name": "$~intrarenecunoscută",
-                    "explanation": "$~Această funcție * $name * nu așteaptă o intrare cu numele meu."
+                    "explanation": "$~Această funcție * $name * nu așteaptă o intrare cu numele meu.",
+                    "resolution": "$?"
                 },
                 "InputListMustBeLast": {
                     "name": "$~intrărilesuplimentarenusuntultimele",
-                    "explanation": "$~lista de intrări trebuie să fie ultima"
+                    "explanation": "$~lista de intrări trebuie să fie ultima",
+                    "resolution": "$?"
                 },
                 "SeparatedEvaluate": {
                     "name": "$~evaluareambiguă",
-                    "explanation": "$~Este $name numele unei $structure [ $structure | $function ] pe care încerci să o evaluezi? Încearcă să elimini spațiul de după mine, ca să știu că este un @Evaluate și nu un @Block separat."
+                    "explanation": "$~Este $name numele unei $structure [ $structure | $function ] pe care încerci să o evaluezi? Încearcă să elimini spațiul de după mine, ca să știu că este un @Evaluate și nu un @Block separat.",
+                    "resolution": "$?"
                 }
             },
             "exception": {
@@ -843,7 +871,8 @@
             "conflict": {
                 "Placeholder": {
                     "name": "$~substituent",
-                    "explanation": "$~Poți să mă completezi? Sunt doar un provizorat."
+                    "explanation": "$~Poți să mă completezi? Sunt doar un provizorat.",
+                    "resolution": "$?"
                 }
             },
             "exception": {
@@ -882,7 +911,8 @@
             "conflict": {
                 "NoExpression": {
                     "name": "$~expresielipsă",
-                    "explanation": "$~Am nevoie de o expresie pentru a evalua, poți adăuga una?"
+                    "explanation": "$~Am nevoie de o expresie pentru a evalua, poți adăuga una?",
+                    "resolution": "$?"
                 }
             }
         },
@@ -939,7 +969,9 @@
             "conflict": {
                 "ImpossibleType": {
                     "name": "$~tipimposibil",
-                    "explanation": "$~asta nu poate fi niciodată $type"
+                    "explanation": "$~asta nu poate fi niciodată $type",
+                    "resolutionIsFalse": "$?",
+                    "resolutionDropOtherwise": "$?"
                 }
             },
             "exception": {
@@ -1002,7 +1034,8 @@
             "conflict": {
                 "NotAKeyValue": {
                     "name": "$~valoarelipsă",
-                    "explanation": "$~Sunt într-o @Map, deci am nevoie de o valoare."
+                    "explanation": "$~Sunt într-o @Map, deci am nevoie de o valoare.",
+                    "resolution": "$?"
                 }
             }
         },
@@ -1035,7 +1068,8 @@
             "conflict": {
                 "NotANumber": {
                     "name": "$~nuunnumăr",
-                    "explanation": "$~Credeam că știu toate numerele, dar pe acesta nu-l știu."
+                    "explanation": "$~Credeam că știu toate numerele, dar pe acesta nu-l știu.",
+                    "resolution": "$?"
                 }
             }
         },
@@ -1154,7 +1188,8 @@
             "conflict": {
                 "InvalidProperty": {
                     "name": "$~proprietatenecunoscută",
-                    "explanation": "$~Nu sunt un nume în structura $structure , deci nu pot fi rafinat."
+                    "explanation": "$~Nu sunt un nume în structura $structure , deci nu pot fi rafinat.",
+                    "resolution": "$?"
                 }
             }
         },
@@ -1194,7 +1229,8 @@
             "conflict": {
                 "ExpectedStream": {
                     "name": "$~fluxulașteptat",
-                    "explanation": "$~$condition nu face referire la un flux, deci nu voi reacționa niciodată!"
+                    "explanation": "$~$condition nu face referire la un flux, deci nu voi reacționa niciodată!",
+                    "resolution": "$?"
                 }
             }
         },
@@ -1219,11 +1255,13 @@
                 },
                 "ReferenceCycle": {
                     "name": "$~valoareautoreferențială",
-                    "explanation": "$~ăă, valoarea lui $name depinde de ea însăși, așa că de unde știu ce valoare să-i dau?"
+                    "explanation": "$~ăă, valoarea lui $name depinde de ea însăși, așa că de unde știu ce valoare să-i dau?",
+                    "resolution": "$?"
                 },
                 "UnexpectedTypeVariable": {
                     "name": "$~variabilădetipneașteptat",
-                    "explanation": "$~Nu știu ce să fac cu aceste tipuri de intrări."
+                    "explanation": "$~Nu știu ce să fac cu aceste tipuri de intrări.",
+                    "resolution": "$?"
                 }
             },
             "exception": {
@@ -1248,7 +1286,8 @@
             "conflict": {
                 "ExpectedSelectName": {
                     "name": "$~numelecoloaneilipsește",
-                    "explanation": "$~Am nevoie de cel puțin un nume de coloană."
+                    "explanation": "$~Am nevoie de cel puțin un nume de coloană.",
+                    "resolution": "$?"
                 }
             }
         },
@@ -1335,19 +1374,23 @@
             "conflict": {
                 "DisallowedInputs": {
                     "name": "$~intrărinepermise",
-                    "explanation": "$~Nu pot avea intrări deoarece una sau mai multe dintre funcțiile interfeței mele nu sunt implementate."
+                    "explanation": "$~Nu pot avea intrări deoarece una sau mai multe dintre funcțiile interfeței mele nu sunt implementate.",
+                    "resolution": "$?"
                 },
                 "IncompleteImplementation": {
                     "name": "$~structurăincompletă",
-                    "explanation": "$~Funcțiile mele trebuie fie implementate toate, fie nu trebuie implementată niciuna. Fără amestecuri dezordonate!"
+                    "explanation": "$~Funcțiile mele trebuie fie implementate toate, fie nu trebuie implementată niciuna. Fără amestecuri dezordonate!",
+                    "resolution": "$?"
                 },
                 "NotAnInterface": {
                     "name": "$~nuointerfață",
-                    "explanation": "$~Nu sunt o interfață; o structură poate implementa doar interfețe, nu alte structuri."
+                    "explanation": "$~Nu sunt o interfață; o structură poate implementa doar interfețe, nu alte structuri.",
+                    "resolution": "$?"
                 },
                 "UnimplementedInterface": {
                     "name": "$~neimplementat",
-                    "explanation": "$~Implementez $interface , dar nu am implementat $function"
+                    "explanation": "$~Implementez $interface , dar nu am implementat $function",
+                    "resolution": "$?"
                 }
             }
         },
@@ -1410,7 +1453,8 @@
                 "reminder": "$~Notă: Puteți anula această acțiune și puteți vedea alte lucruri pe care le-ați marcat ca nesensibile în caseta de dialog de partajare.",
                 "character": {
                     "name": "$~posibilcaracterpersonalizat",
-                    "explanation": "$~Acesta pare a fi numele unui caracter. Pentru a le afișa, folosiți @FormattedLiteral în loc de @TextLiteral."
+                    "explanation": "$~Acesta pare a fi numele unui caracter. Pentru a le afișa, folosiți @FormattedLiteral în loc de @TextLiteral.",
+                    "resolutionStrip": "$?"
                 }
             }
         },
@@ -1455,7 +1499,8 @@
             "conflict": {
                 "MisplacedThis": {
                     "name": "$~ampierdutaceastăreferință",
-                    "explanation": "$~Am voie doar într-o structură, conversie sau reacție."
+                    "explanation": "$~Am voie doar într-o structură, conversie sau reacție.",
+                    "resolution": "$?"
                 }
             }
         },
@@ -1504,7 +1549,8 @@
                 },
                 "UnclosedDelimiter": {
                     "name": "$~delimitatorneînchis",
-                    "explanation": "$~Mă așteptam $expected cândva după $unclosed"
+                    "explanation": "$~Mă așteptam $expected cândva după $unclosed",
+                    "resolution": "$?"
                 }
             },
             "exception": {
@@ -1529,7 +1575,8 @@
             "conflict": {
                 "ExpectedColumnBind": {
                     "name": "$~valoarelipsăîncoloană",
-                    "explanation": "$~Am nevoie de o valoare pentru fiecare coloană"
+                    "explanation": "$~Am nevoie de o valoare pentru fiecare coloană",
+                    "resolution": "$?"
                 },
                 "IncompatibleCellType": {
                     "name": "$~tipdecelulăincompatibil",
@@ -1636,7 +1683,8 @@
             "conflict": {
                 "UnknownTypeName": {
                     "name": "$~numedetipnecunoscut",
-                    "explanation": "$~numele de tipuri se pot referi doar la structuri sau variabile de tip, dar acestea se referă la tipul $type"
+                    "explanation": "$~numele de tipuri se pot referi doar la structuri sau variabile de tip, dar acestea se referă la tipul $type",
+                    "resolution": "$?"
                 }
             }
         },
@@ -1700,7 +1748,8 @@
             "conflict": {
                 "ExpectedColumnType": {
                     "name": "$~tipuldecoloanălipsă",
-                    "explanation": "$~Am nevoie de un tip de coloană"
+                    "explanation": "$~Am nevoie de un tip de coloană",
+                    "resolution": "$?"
                 }
             }
         },

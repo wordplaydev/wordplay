@@ -215,15 +215,18 @@
             "conflict": {
                 "UnknownLanguage": {
                     "name": "$~idiomadesconocido",
-                    "explanation": "$~No conozco este idioma"
+                    "explanation": "$~No conozco este idioma",
+                    "resolution": "$?"
                 },
                 "MissingLanguage": {
                     "name": "$~idiomafaltante",
-                    "explanation": "$~Me falta un idioma. ¿Podrías añadir uno?"
+                    "explanation": "$~Me falta un idioma. ¿Podrías añadir uno?",
+                    "resolution": "$?"
                 },
                 "DuplicateLanguage": {
                     "name": "$~idiomaduplicado",
-                    "explanation": "$~Has usado el idioma ' $code ' dos veces. Las etiquetas de idiomas mixtos deben listar cada idioma solo una vez."
+                    "explanation": "$~Has usado el idioma ' $code ' dos veces. Las etiquetas de idiomas mixtos deben listar cada idioma solo una vez.",
+                    "resolution": "$?"
                 }
             }
         },
@@ -266,19 +269,24 @@
             "conflict": {
                 "InvalidRow": {
                     "name": "$~filanoválida",
-                    "explanation": "$~Las filas deben ser todas valores o todas @Bind."
+                    "explanation": "$~Las filas deben ser todas valores o todas @Bind.",
+                    "resolutionKeepPositional": "$?",
+                    "resolutionUnwrapInputs": "$?"
                 },
                 "MissingCell": {
                     "name": "$~columnafaltante",
-                    "explanation": "$~Me falta la columna $column"
+                    "explanation": "$~Me falta la columna $column",
+                    "resolution": "$?"
                 },
                 "ExtraCell": {
                     "name": "$~columnaadicional",
-                    "explanation": "$~Dependiendo de mi tipo de tabla, soy una columna adicional que no debería estar aquí."
+                    "explanation": "$~Dependiendo de mi tipo de tabla, soy una columna adicional que no debería estar aquí.",
+                    "resolution": "$?"
                 },
                 "UnknownColumn": {
                     "name": "$~nombredecolumnadesconocido",
-                    "explanation": "$~No conozco ninguna columna con este nombre"
+                    "explanation": "$~No conozco ninguna columna con este nombre",
+                    "resolution": "$?"
                 },
                 "UnexpectedColumnBind": {
                     "name": "$~sinfilasenlazadas",
@@ -357,7 +365,8 @@
             "conflict": {
                 "UnsupportedFontFormat": {
                     "name": "$~formatodefuentenocompatible",
-                    "explanation": "$~Mi amigo * $face * no sabe cómo ser $format ."
+                    "explanation": "$~Mi amigo * $face * no sabe cómo ser $format .",
+                    "resolution": "$?"
                 }
             }
         },
@@ -411,7 +420,8 @@
             "conflict": {
                 "OrderOfOperations": {
                     "name": "$~ordenambiguo",
-                    "explanation": "$~Evalúo en orden de lectura, no en orden matemático de operaciones. ¿Quieres usar @Block para especificar el orden en que debo evaluar?"
+                    "explanation": "$~Evalúo en orden de lectura, no en orden matemático de operaciones. ¿Quieres usar @Block para especificar el orden en que debo evaluar?",
+                    "resolution": "$?"
                 }
             },
             "label": {
@@ -460,7 +470,8 @@
                 },
                 "DuplicateShare": {
                     "name": "$~compartirduplicado",
-                    "explanation": "$~Tengo el mismo nombre que $duplicate. Eso hace que no quede claro qué estamos compartiendo."
+                    "explanation": "$~Tengo el mismo nombre que $duplicate. Eso hace que no quede claro qué estamos compartiendo.",
+                    "resolution": "$?"
                 },
                 "IncompatibleType": {
                     "name": "$~tipoincompatible",
@@ -479,23 +490,28 @@
                 },
                 "MisplacedShare": {
                     "name": "$~acciónextraviada",
-                    "explanation": "$~¡Sólo puedo compartir cosas a nivel de @Program, no dentro de nada!"
+                    "explanation": "$~¡Sólo puedo compartir cosas a nivel de @Program, no dentro de nada!",
+                    "resolution": "$?"
                 },
                 "MissingShareLanguages": {
                     "name": "$~idiomafaltante",
-                    "explanation": "$~Si quieres compartir esto, ¡tienes que decir en qué idioma está, para que otros sepan si pueden leerlo!"
+                    "explanation": "$~Si quieres compartir esto, ¡tienes que decir en qué idioma está, para que otros sepan si pueden leerlo!",
+                    "resolution": "$?"
                 },
                 "RequiredAfterOptional": {
                     "name": "$~entradaobligatoriadespuésdeopcional",
-                    "explanation": "$~No puedo estar aquí, hay un @Bind opcional delante de mí."
+                    "explanation": "$~No puedo estar aquí, hay un @Bind opcional delante de mí.",
+                    "resolution": "$?"
                 },
                 "UnexpectedEtc": {
                     "name": "$~entradainesperadadespuésdelalistadeentrada",
-                    "explanation": "$~Solo puedo tener una longitud variable en una @FunctionDefinition"
+                    "explanation": "$~Solo puedo tener una longitud variable en una @FunctionDefinition",
+                    "resolution": "$?"
                 },
                 "UnusedBind": {
                     "name": "$~enlacenoutilizado",
-                    "explanation": "$~Me llamo $name, pero nadie me usa. ¿Quizás no me necesitan?"
+                    "explanation": "$~Me llamo $name, pero nadie me usa. ¿Quizás no me necesitan?",
+                    "resolution": "$?"
                 }
             },
             "label": {
@@ -531,7 +547,8 @@
             "conflict": {
                 "ExpectedEndingExpression": {
                     "name": "$~expresiónfaltante",
-                    "explanation": "Necesito al menos una expresión que no sea @Bind, para tener un valor que devolver."
+                    "explanation": "Necesito al menos una expresión que no sea @Bind, para tener un valor que devolver.",
+                    "resolution": "$?"
                 }
             },
             "label": {
@@ -554,11 +571,13 @@
             "conflict": {
                 "UnknownBorrow": {
                     "name": "$~préstamodesconocido",
-                    "explanation": "$~No conozco ninguna fuente con este nombre"
+                    "explanation": "$~No conozco ninguna fuente con este nombre",
+                    "resolution": "$?"
                 },
                 "BorrowCycle": {
                     "name": "$~préstamoautorreferencial",
-                    "explanation": "$~Esto depende de $borrow, que depende de esta $source, por lo que el programa no se puede evaluar."
+                    "explanation": "$~Esto depende de $borrow, que depende de esta $source, por lo que el programa no se puede evaluar.",
+                    "resolution": "$?"
                 }
             },
             "exception": {
@@ -640,7 +659,8 @@
             "conflict": {
                 "MisplacedConversion": {
                     "name": "$~conversiónfueradelugar",
-                    "explanation": "$~Vaya, no puedo estar aquí, solo en @Block."
+                    "explanation": "$~Vaya, no puedo estar aquí, solo en @Block.",
+                    "resolution": "$?"
                 }
             },
             "label": {
@@ -667,7 +687,8 @@
             "conflict": {
                 "UnknownConversion": {
                     "name": "$~conversióndesconocida",
-                    "explanation": "$~No pudimos encontrar una manera de convertir $expected en $given"
+                    "explanation": "$~No pudimos encontrar una manera de convertir $expected en $given",
+                    "resolution": "$?"
                 }
             },
             "exception": {
@@ -738,7 +759,8 @@
                 },
                 "UnexpectedTypeInput": {
                     "name": "$~entradadetipoinesperado",
-                    "explanation": "$~Soy un tipo de entrada extra e inesperada."
+                    "explanation": "$~Soy un tipo de entrada extra e inesperada.",
+                    "resolution": "$?"
                 },
                 "MissingInput": {
                     "name": "$~entradafaltante",
@@ -748,23 +770,28 @@
                 },
                 "NotInstantiable": {
                     "name": "$~estructuraincompleta",
-                    "explanation": "$~No puedo hacer esta @StructureDefinition, tiene funciones no implementadas."
+                    "explanation": "$~No puedo hacer esta @StructureDefinition, tiene funciones no implementadas.",
+                    "resolution": "$?"
                 },
                 "UnexpectedInput": {
                     "name": "$~entradainesperada",
-                    "explanation": "$~Soy una entrada inesperada."
+                    "explanation": "$~Soy una entrada inesperada.",
+                    "resolution": "$?"
                 },
                 "UnknownInput": {
                     "name": "$~entradadesconocida",
-                    "explanation": "$~Esta función *$name* no espera una entrada con mi nombre."
+                    "explanation": "$~Esta función *$name* no espera una entrada con mi nombre.",
+                    "resolution": "$?"
                 },
                 "InputListMustBeLast": {
                     "name": "$~Lasentradasadicionalesnosonloúltimo",
-                    "explanation": "$~La lista de entradas debe ser la última"
+                    "explanation": "$~La lista de entradas debe ser la última",
+                    "resolution": "$?"
                 },
                 "SeparatedEvaluate": {
                     "name": "$~evaluaciónambigua",
-                    "explanation": "$~¿Es $name el nombre de una $structure[$structure|$function] que intentas evaluar? Intenta quitar el espacio después de mí para que sepa que es un @Evaluate y no un @Block aparte."
+                    "explanation": "$~¿Es $name el nombre de una $structure[$structure|$function] que intentas evaluar? Intenta quitar el espacio después de mí para que sepa que es un @Evaluate y no un @Block aparte.",
+                    "resolution": "$?"
                 }
             },
             "exception": {
@@ -808,7 +835,8 @@
             "conflict": {
                 "Placeholder": {
                     "name": "$~marcadordeposición",
-                    "explanation": "$~¿Puedes completarme? Solo soy un sustituto."
+                    "explanation": "$~¿Puedes completarme? Solo soy un sustituto.",
+                    "resolution": "$?"
                 }
             },
             "exception": {
@@ -845,7 +873,8 @@
             "conflict": {
                 "NoExpression": {
                     "name": "$~expresiónfaltante",
-                    "explanation": "$~Necesito una expresión para evaluar, ¿puedes agregar una?"
+                    "explanation": "$~Necesito una expresión para evaluar, ¿puedes agregar una?",
+                    "resolution": "$?"
                 }
             },
             "label": {
@@ -907,7 +936,9 @@
             "conflict": {
                 "ImpossibleType": {
                     "name": "$~tipoimposible",
-                    "explanation": "$~Esto nunca puede costar $type"
+                    "explanation": "$~Esto nunca puede costar $type",
+                    "resolutionIsFalse": "$?",
+                    "resolutionDropOtherwise": "$?"
                 }
             },
             "exception": {
@@ -967,7 +998,8 @@
             "conflict": {
                 "NotAKeyValue": {
                     "name": "$~valorfaltante",
-                    "explanation": "$~Estoy en un @Map, por lo que necesito un valor."
+                    "explanation": "$~Estoy en un @Map, por lo que necesito un valor.",
+                    "resolution": "$?"
                 }
             },
             "label": {
@@ -1003,7 +1035,8 @@
             "conflict": {
                 "NotANumber": {
                     "name": "$~noesunnúmero",
-                    "explanation": "$~Creí que sabía todos los números, pero no sé este."
+                    "explanation": "$~Creí que sabía todos los números, pero no sé este.",
+                    "resolution": "$?"
                 }
             }
         },
@@ -1118,7 +1151,8 @@
             "conflict": {
                 "InvalidProperty": {
                     "name": "$~propiedaddesconocida",
-                    "explanation": "$~No soy un nombre en la estructura $structure, por lo que no puedo ser refinado."
+                    "explanation": "$~No soy un nombre en la estructura $structure, por lo que no puedo ser refinado.",
+                    "resolution": "$?"
                 }
             },
             "label": {
@@ -1157,7 +1191,8 @@
             "conflict": {
                 "ExpectedStream": {
                     "name": "$~flujoesperado",
-                    "explanation": "$~$condition no hace referencia a una transmisión, ¡por lo que nunca reaccionaré!"
+                    "explanation": "$~$condition no hace referencia a una transmisión, ¡por lo que nunca reaccionaré!",
+                    "resolution": "$?"
                 }
             },
             "label": {
@@ -1187,11 +1222,13 @@
                 },
                 "ReferenceCycle": {
                     "name": "$~valordeautorreferencia",
-                    "explanation": "$~um, el valor de $name depende de sí mismo, entonces ¿cómo sé qué valor darle?"
+                    "explanation": "$~um, el valor de $name depende de sí mismo, entonces ¿cómo sé qué valor darle?",
+                    "resolution": "$?"
                 },
                 "UnexpectedTypeVariable": {
                     "name": "$~variabledetipoinesperado",
-                    "explanation": "$~No sé qué hacer con este tipo de entradas."
+                    "explanation": "$~No sé qué hacer con este tipo de entradas.",
+                    "resolution": "$?"
                 }
             },
             "exception": {
@@ -1216,7 +1253,8 @@
             "conflict": {
                 "ExpectedSelectName": {
                     "name": "$~nombredecolumnafaltante",
-                    "explanation": "$~Necesito al menos un nombre de columna."
+                    "explanation": "$~Necesito al menos un nombre de columna.",
+                    "resolution": "$?"
                 }
             }
         },
@@ -1297,19 +1335,23 @@
             "conflict": {
                 "DisallowedInputs": {
                     "name": "$~entradasnopermitidas",
-                    "explanation": "$~No puedo tener entradas porque una o más de mis funciones de interfaz no están implementadas"
+                    "explanation": "$~No puedo tener entradas porque una o más de mis funciones de interfaz no están implementadas",
+                    "resolution": "$?"
                 },
                 "IncompleteImplementation": {
                     "name": "$~estructuraincompleta",
-                    "explanation": "$~Mis funciones deben implementarse todas o ninguna. ¡Sin mezclas desordenadas!"
+                    "explanation": "$~Mis funciones deben implementarse todas o ninguna. ¡Sin mezclas desordenadas!",
+                    "resolution": "$?"
                 },
                 "NotAnInterface": {
                     "name": "$~noesunainterfaz",
-                    "explanation": "$~No soy una interfaz; una estructura solo puede implementar interfaces, no otras estructuras"
+                    "explanation": "$~No soy una interfaz; una estructura solo puede implementar interfaces, no otras estructuras",
+                    "resolution": "$?"
                 },
                 "UnimplementedInterface": {
                     "name": "$~noimplementado",
-                    "explanation": "$~Implementé $interface pero no he implementado $function"
+                    "explanation": "$~Implementé $interface pero no he implementado $function",
+                    "resolution": "$?"
                 }
             },
             "label": {
@@ -1375,7 +1417,8 @@
                 "reminder": "$~Nota: Puedes deshacer esta acción y ver otras cosas que hayas marcado como no confidenciales en el cuadro de diálogo para compartir.",
                 "character": {
                     "name": "$~posiblepersonajepersonalizado",
-                    "explanation": "$~Parece el nombre de un personaje. Para mostrarlo, usa @FormattedLiteral en lugar de @TextLiteral."
+                    "explanation": "$~Parece el nombre de un personaje. Para mostrarlo, usa @FormattedLiteral en lugar de @TextLiteral.",
+                    "resolutionStrip": "$?"
                 }
             },
             "label": {
@@ -1423,7 +1466,8 @@
             "conflict": {
                 "MisplacedThis": {
                     "name": "$~extravióestareferencia",
-                    "explanation": "$~Sólo se me permite una estructura, conversión o reacción."
+                    "explanation": "$~Sólo se me permite una estructura, conversión o reacción.",
+                    "resolution": "$?"
                 }
             }
         },
@@ -1472,7 +1516,8 @@
                 },
                 "UnclosedDelimiter": {
                     "name": "$~delimitadornocerrado",
-                    "explanation": "$~Esperaba $expected en algún momento después de $unclosed"
+                    "explanation": "$~Esperaba $expected en algún momento después de $unclosed",
+                    "resolution": "$?"
                 }
             },
             "exception": {
@@ -1497,7 +1542,8 @@
             "conflict": {
                 "ExpectedColumnBind": {
                     "name": "$~valordecolumnafaltante",
-                    "explanation": "$~Necesito un valor para cada columna"
+                    "explanation": "$~Necesito un valor para cada columna",
+                    "resolution": "$?"
                 },
                 "IncompatibleCellType": {
                     "name": "$~tipodecélulaincompatible",
@@ -1604,7 +1650,8 @@
             "conflict": {
                 "UnknownTypeName": {
                     "name": "$~nombredetipodesconocido",
-                    "explanation": "$~Los nombres de tipo solo pueden referirse a estructuras o variables de tipo, pero esto se refiere al tipo $type"
+                    "explanation": "$~Los nombres de tipo solo pueden referirse a estructuras o variables de tipo, pero esto se refiere al tipo $type",
+                    "resolution": "$?"
                 }
             }
         },
@@ -1668,7 +1715,8 @@
             "conflict": {
                 "ExpectedColumnType": {
                     "name": "$~tipodecolumnafaltante",
-                    "explanation": "$~Necesito un tipo de columna"
+                    "explanation": "$~Necesito un tipo de columna",
+                    "resolution": "$?"
                 }
             }
         },
@@ -1721,7 +1769,8 @@
             "conflict": {
                 "DuplicateTypeVariable": {
                     "name": "$~variabledetipoduplicado",
-                    "explanation": "$~Tengo el mismo nombre que $duplicate"
+                    "explanation": "$~Tengo el mismo nombre que $duplicate",
+                    "resolution": "$?"
                 }
             },
             "label": {
