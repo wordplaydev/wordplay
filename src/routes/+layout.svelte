@@ -240,13 +240,18 @@
 >
     <ConnectionBanner />
     <div class="content" class:locked inert={locked}>
-        {#if !$localesReady}
-            {#if lag}<Loading />{/if}
-        {:else if !loaded && lag}
+        <!-- Always render children, even before the user's preferred locale
+             finishes loading. The server renders with the default locale,
+             and so must the client during hydration — otherwise gating on
+             $localesReady would skip the page's <svelte:head> on the client
+             for non-en-US users while the server already emitted a <title>,
+             producing a hydration mismatch (see Title.svelte for the matching
+             locale-pinning during initial render). The body is kept invisible
+             via the `locale-loading` CSS class until $localesReady flips. -->
+        {#if (!$localesReady || !loaded) && lag}
             <Loading />
-        {:else}
-            {@render children()}
         {/if}
+        {@render children()}
     </div>
 </div>
 <!-- Render a live region with announcements as soon as possible -->
