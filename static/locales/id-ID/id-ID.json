@@ -4773,7 +4773,8 @@
             "field": {
                 "name": {
                     "description": "$~edit nama proyek",
-                    "placeholder": "$~nama"
+                    "placeholder": "$~nama",
+                    "invalid": "$~Terjemahan tidak lengkap — periksa tanda kutip dan tag bahasa Anda, seperti \"hi\"/en\"hola\"/es."
                 }
             },
             "help": "$~Tampilkan pintasan keyboard",
@@ -4784,7 +4785,14 @@
                 "projectContainedPII": "$~Untuk melindungi privasi Anda, proyek yang berpotensi berisi informasi identitas pribadi tidak disimpan secara daring. Periksa proyek tersebut untuk melihat apakah informasinya bersifat identifikasi.",
                 "projectsNotLoadingOnline": "$~Tidak dapat memuat proyek online.",
                 "projectNotSavedOnline": "$~Tidak dapat menyimpan proyek secara online.",
-                "settingsUnsaved": "$~Tidak dapat menyimpan pengaturan secara online."
+                "settingsUnsaved": "$~Tidak dapat menyimpan pengaturan secara online.",
+                "failureReason": {
+                    "indexedDBWriteFailed": "$~Browser Anda tidak dapat menyimpan proyek-proyek ini di perangkat ini.",
+                    "indexedDBUnsupported": "$~Browser Anda tidak mengizinkan Wordplay untuk menyimpan proyek di perangkat ini.",
+                    "firestoreBatchFailed": "$~Kami tidak dapat mengirim proyek-proyek ini ke cloud. Proyek-proyek tersebut masih aman di perangkat ini.",
+                    "projectContainsPII": "$~Proyek-proyek ini tampaknya berisi informasi pribadi, jadi kami tidak menyimpannya secara online. Buka setiap proyek untuk memeriksa apa yang tampak bersifat pribadi."
+                },
+                "failuresHeader": "$~$count proyek yang tidak tersimpan:"
             },
             "dialog": {
                 "unsaved": "$~Pekerjaan yang belum disimpan...",
@@ -5596,12 +5604,20 @@
                     "pii": {
                         "header": "$~Informasi Pribadi",
                         "explanation": "$~Membagikan informasi identitas pribadi (PII) secara publik dapat membahayakan kreator, oleh karena itu kami mendeteksi kemungkinan PII dan memperingatkan kreator untuk menghapus data sensitif tersebut atau menandainya sebagai non-sensitif. Di bawah ini adalah daftar kemungkinan PII dalam proyek ini yang telah Anda tandai sebagai non-sensitif. Anda dapat mengklik tombol di sebelahnya untuk menandainya sebagai sensitif lagi, tetapi dengan demikian proyek Anda tidak akan lagi disimpan secara online."
+                    },
+                    "preview": {
+                        "header": "$~Pratinjau",
+                        "explanation": "$~Ini adalah ikon kecil yang mewakili proyek Anda dalam daftar dan galeri. Secara otomatis memilih salah satu berdasarkan apa yang ditampilkan proyek Anda; Kustom memungkinkan Anda untuk menyematkan satu karakter atau emoji."
                     }
                 },
                 "field": {
                     "emailOrUsername": {
                         "placeholder": "$~email atau nama pengguna",
                         "description": "$~Alamat email atau nama pengguna orang yang ingin Anda beri akses edit."
+                    },
+                    "preview": {
+                        "placeholder": "$~pratinjau glif",
+                        "description": "$~satu karakter atau emoji tunggal untuk digunakan sebagai glif pratinjau proyek ini."
                     }
                 },
                 "mode": {
@@ -5612,12 +5628,21 @@
                             "$~Hanya Anda dan kolaborator yang dapat melihat proyek ini.",
                             "$~Siapa pun dapat melihat proyek ini."
                         ]
+                    },
+                    "preview": {
+                        "label": "$~mode pratinjau",
+                        "labels": ["$~mobil", "$~kebiasaan"],
+                        "tips": [
+                            "$~biarkan proyek memilih sendiri glif pratinjaunya berdasarkan apa yang ditampilkannya",
+                            "$~sematkan simbol yang Anda pilih"
+                        ]
                     }
                 },
                 "error": {
                     "unknown": "$~Kami tidak mengenal kreator dengan alamat email ini.",
                     "anonymous": "$~Anda pasti<logged in@://login> untuk dibagikan.",
-                    "self": "$~Anda tidak bisa menambahkan diri sendiri."
+                    "self": "$~Anda tidak bisa menambahkan diri sendiri.",
+                    "invalidPreview": "$~Pilih tepat satu karakter atau emoji."
                 },
                 "button": {
                     "submit": "$~Bagikan proyek ini melalui alamat email ini.",
@@ -6939,7 +6964,8 @@
             },
             "script": "$~naskah",
             "scriptLabel": "$~filter berdasarkan skrip",
-            "pickFilter": "$~Pilih kategori atau skrip"
+            "pickFilter": "$~Pilih kategori atau skrip",
+            "moreLanguages": "$~dan $count lebih banyak"
         },
         "connection": {
             "offline": "$~Anda sedang offline. Beberapa fitur tidak akan berfungsi sampai Anda online.",

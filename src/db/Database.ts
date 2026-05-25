@@ -53,6 +53,32 @@ export const SaveStatus = {
 } as const;
 export type SaveStatus = (typeof SaveStatus)[keyof typeof SaveStatus];
 
+/** The kind of action that failed while persisting a project, mapped to a
+ *  user-facing reason message and used to group failures in the Status dialog. */
+export const SaveFailureReason = {
+    /** Writing to the local IndexedDB-backed cache threw. */
+    IndexedDBWriteFailed: 'indexed-db-write-failed',
+    /** The browser doesn't expose IndexedDB at all. */
+    IndexedDBUnsupported: 'indexed-db-unsupported',
+    /** A Firestore writeBatch.commit() rejected (whole batch lost). */
+    FirestoreBatchFailed: 'firestore-batch-failed',
+    /** The project was skipped from the cloud batch because it contained PII. */
+    ProjectContainsPII: 'project-contains-pii',
+} as const;
+export type SaveFailureReason =
+    (typeof SaveFailureReason)[keyof typeof SaveFailureReason];
+
+export type SaveFailure = {
+    projectId: string;
+    projectName: string;
+    reason: SaveFailureReason;
+    /** Raw technical hint shown dimmed next to the project name —
+     *  Firestore error code, DOMException name, etc. Explicit `| undefined`
+     *  satisfies `exactOptionalPropertyTypes` for callers that pass through
+     *  a possibly-undefined value from a `catch` block. */
+    detail?: string | undefined;
+};
+
 export class Database {
     /** The database of local persisted settings */
     readonly Settings: SettingsDatabase;
@@ -78,11 +104,18 @@ export class Database {
     /** A collection of how-tos loaded from the database */
     readonly HowTos: HowToDatabase;
 
-    /** The status of persisting the projects. */
+    /** The status of persisting the projects. `message` is the generic
+     *  explanation used by non-project save paths (settings, snapshot load).
+     *  `failures` carries per-project detail when `persist()` fails. */
     readonly Status: Writable<{
         status: SaveStatus;
         message: undefined | ((locale: LocaleText) => FormattedText);
-    }> = writable({ status: SaveStatus.Saved, message: undefined });
+        failures: SaveFailure[];
+    }> = writable({
+        status: SaveStatus.Saved,
+        message: undefined,
+        failures: [],
+    });
 
     /** The current Firestore user ID */
     private user: User | null = null;
@@ -137,7 +170,18 @@ export class Database {
         status: SaveStatus,
         message: undefined | ((locale: LocaleText) => FormattedText),
     ) {
-        this.Status.set({ status, message });
+        this.Status.set({ status, message, failures: [] });
+    }
+
+    /** Mark a save as failed with one entry per affected project. The Status
+     *  dialog groups these by reason so users can see which projects didn't
+     *  save and why. */
+    setSaveFailures(failures: SaveFailure[]) {
+        this.Status.set({
+            status: SaveStatus.Error,
+            message: undefined,
+            failures,
+        });
     }
 
     markFirebaseDisconnected() {

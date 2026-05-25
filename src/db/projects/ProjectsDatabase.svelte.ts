@@ -21,12 +21,22 @@ import { ExamplePrefix, getExample } from '../../examples/examples';
 import type LocaleText from '@locale/LocaleText';
 import type Node from '@nodes/Node';
 import Source from '@nodes/Source';
-import { Galleries, Locales, SaveStatus, type Database } from '@db/Database';
+import {
+    Galleries,
+    Locales,
+    SaveFailureReason,
+    SaveStatus,
+    type Database,
+    type SaveFailure,
+} from '@db/Database';
 import { firestore } from '@db/firebase';
 import { EditFailure } from '@db/projects/EditFailure';
 import { unknownFlags } from '@db/projects/Moderation';
 import Project from '@db/projects/Project';
-import { PersistenceType, ProjectHistory } from '@db/projects/ProjectHistory.svelte';
+import {
+    PersistenceType,
+    ProjectHistory,
+} from '@db/projects/ProjectHistory.svelte';
 import {
     ProjectSchema,
     upgradeProject,
@@ -580,6 +590,80 @@ export default class ProjectsDatabase {
         else return EditFailure.ReadOnly;
     }
 
+    /**
+     * Persist a freshly-extracted auto preview for the project. No-ops if
+     * the project's current preview is `manual` (the user has pinned a
+     * glyph), or if we have no editable history for this project (e.g. it's
+     * a read-only public project we're only viewing — the caller should
+     * keep the computed preview in component state instead). Called from
+     * ProjectView's auto-update effect and from the on-demand preview
+     * queue's editable-project success path.
+     */
+    setAutoPreview(
+        id: string,
+        extracted: {
+            text: string;
+            foreground: string | null;
+            background: string | null;
+            face: string | null;
+            characterName: string | null;
+        },
+    ): void {
+        const history = this.projectHistories.get(id);
+        if (!history) return;
+        const current = history.getCurrent();
+        if (current.getPreview()?.mode === 'manual') return;
+        this.edit(
+            current.withPreview({ mode: 'auto', ...extracted }),
+            false,
+            true,
+        );
+    }
+
+    /**
+     * Pin a single-grapheme glyph as the project's preview. Manual previews
+     * are never overwritten by the auto-update flow.
+     */
+    setManualPreview(id: string, text: string): void {
+        const history = this.projectHistories.get(id);
+        if (!history) return;
+        const current = history.getCurrent();
+        this.edit(
+            current.withPreview({
+                mode: 'manual',
+                text,
+                foreground: null,
+                background: null,
+                face: null,
+                characterName: null,
+            }),
+            false,
+            true,
+        );
+    }
+
+    /**
+     * Clear an existing manual preview, returning the project to auto mode.
+     * The next ProjectView open or queued compute will repopulate the text.
+     */
+    clearManualPreview(id: string): void {
+        const history = this.projectHistories.get(id);
+        if (!history) return;
+        const current = history.getCurrent();
+        this.edit(current.withPreview(undefined), false, true);
+    }
+
+    /**
+     * True if the current user can save changes to this project. Mirrors
+     * the predicate used by ProjectPreview's `editable` derivation and by
+     * the share dialog visibility rules.
+     */
+    isEditable(project: Project): boolean {
+        const user = this.database.getUser();
+        if (user === null) return false;
+        return project.hasContributor(user.uid);
+    }
+
     /** Archive/unarchive the project with the given ID, if it exists */
     async archiveProject(id: string, archive: boolean) {
         // For now, we don't actually delete projects, we just mark them archived.
@@ -672,35 +756,75 @@ export default class ProjectsDatabase {
             (history) => history.getPersisted() === PersistenceType.Online,
         );
 
+        // Accumulate per-project failures across both local and online phases;
+        // emitted as a single grouped error at the end of the function.
+        const failures: SaveFailure[] = [];
+        const projectFailure = (
+            project: Project,
+            reason: SaveFailure['reason'],
+            detail?: string,
+        ): SaveFailure => ({
+            projectId: project.getID(),
+            projectName: project.getName(),
+            reason,
+            detail,
+        });
+
         // First, save all projects to the local DB, including the user ID if they don't have it already.
         if (this.IndexedDBSupported) {
-            this.database.setStatus(SaveStatus.Saving, undefined);
             try {
                 this.localDB.saveProjects(
                     local.map((history) => history.getCurrent().serialize()),
                 );
             } catch (err) {
                 console.error(err);
-                this.database.setStatus(
-                    SaveStatus.Error,
-                    (l) => l.ui.project.save.projectsNotSavedLocally,
-                );
+                const detail =
+                    err instanceof DOMException ? err.name : String(err);
+                for (const history of local)
+                    failures.push(
+                        projectFailure(
+                            history.getCurrent(),
+                            SaveFailureReason.IndexedDBWriteFailed,
+                            detail,
+                        ),
+                    );
             }
-            this.database.setStatus(SaveStatus.Saved, undefined);
         } else {
-            this.database.setStatus(
-                SaveStatus.Error,
-                (l) => l.ui.project.save.projectsCannotNotSaveLocally,
-            );
+            for (const history of local)
+                failures.push(
+                    projectFailure(
+                        history.getCurrent(),
+                        SaveFailureReason.IndexedDBUnsupported,
+                    ),
+                );
         }
 
         // Then, try to save them in Firebase if we have a user ID.
         if (firestore && userID) {
             const unsaved = online.filter((history) => history.isUnsaved());
-            /** Whether a project was not saved because it has PII. */
-            let skipped = false;
 
-            try {
+            // Separate PII-flagged histories (never sent) from sendable ones.
+            // PII projects always fail online regardless of network state, so
+            // record them up front; the rest are batched.
+            const sendable: typeof unsaved = [];
+            for (const history of unsaved) {
+                const current = history.getCurrent();
+                current.analyze();
+                if (
+                    current
+                        .getConflicts()
+                        .some((conflict) => conflict instanceof PossiblePII)
+                )
+                    failures.push(
+                        projectFailure(
+                            current,
+                            SaveFailureReason.ProjectContainsPII,
+                        ),
+                    );
+                else sendable.push(history);
+            }
+
+            if (sendable.length > 0) {
                 // Create a batch of the unsaved projects, remembering exactly
                 // which version of each history we sent. We need this so that if
                 // an edit lands during the await batch.commit() below, we don't
@@ -708,23 +832,11 @@ export default class ProjectsDatabase {
                 // new edit's saved=false flag and the next saveSoon would skip it.
                 const batch = writeBatch(firestore);
                 const sentVersions = new Map<
-                    (typeof unsaved)[number],
+                    (typeof sendable)[number],
                     Project
                 >();
-                for (const history of unsaved) {
+                for (const history of sendable) {
                     const current = history.getCurrent();
-
-                    // Does the current one have any PII? If so, don't save it.
-                    current.analyze();
-                    if (
-                        current
-                            .getConflicts()
-                            .some((conflict) => conflict instanceof PossiblePII)
-                    ) {
-                        skipped = true;
-                        continue;
-                    }
-
                     // Mark it as persisted, since we're about to save it that way.
                     const serialized = current.asPersisted().serialize();
                     batch.set(
@@ -733,36 +845,43 @@ export default class ProjectsDatabase {
                     );
                     sentVersions.set(history, current);
                 }
-                await this.database.track(batch.commit());
 
-                // Only mark a history as saved if its current version is still
-                // the exact one we just sent. If reviseProject() ran during the
-                // await above, history.getCurrent() will point to a new object
-                // (history.edit always assigns a fresh Project), and we leave
-                // saved=false so the next saveSoon round picks up the change.
-                for (const [history, sentVersion] of sentVersions) {
-                    if (history.getCurrent() === sentVersion)
-                        history.markSaved();
-                }
+                try {
+                    await this.database.track(batch.commit());
 
-                // Mark status as saved
-                this.database.setStatus(
-                    skipped ? SaveStatus.Error : SaveStatus.Saved,
-                    skipped
-                        ? (l) => l.ui.project.save.projectContainedPII
-                        : undefined,
-                );
-            } catch (error) {
-                if (error instanceof FirebaseError) {
-                    console.error(error.code);
-                    console.error(error.message);
+                    // Only mark a history as saved if its current version is still
+                    // the exact one we just sent. If reviseProject() ran during the
+                    // await above, history.getCurrent() will point to a new object
+                    // (history.edit always assigns a fresh Project), and we leave
+                    // saved=false so the next saveSoon round picks up the change.
+                    for (const [history, sentVersion] of sentVersions)
+                        if (history.getCurrent() === sentVersion)
+                            history.markSaved();
+                } catch (error) {
+                    if (error instanceof FirebaseError) {
+                        console.error(error.code);
+                        console.error(error.message);
+                    }
+                    const detail =
+                        error instanceof FirebaseError
+                            ? error.code
+                            : undefined;
+                    // Firestore batch.commit is atomic: nothing wrote, so every
+                    // project in the batch needs a failure entry.
+                    for (const sentVersion of sentVersions.values())
+                        failures.push(
+                            projectFailure(
+                                sentVersion,
+                                SaveFailureReason.FirestoreBatchFailed,
+                                detail,
+                            ),
+                        );
                 }
-                this.database.setStatus(
-                    SaveStatus.Error,
-                    (l) => l.ui.project.save.projectNotSavedOnline,
-                );
             }
-        } else this.database.setStatus(SaveStatus.Saved, undefined);
+        }
+
+        if (failures.length > 0) this.database.setSaveFailures(failures);
+        else this.database.setStatus(SaveStatus.Saved, undefined);
     }
 
     /** Revise all editable projects to use the specified locales */

@@ -4770,7 +4770,8 @@
             "field": {
                 "name": {
                     "description": "$~i-edit ang pangalan ng proyekto",
-                    "placeholder": "$~pangalan"
+                    "placeholder": "$~pangalan",
+                    "invalid": "$~Hindi kumpletong pagsasalin — tingnan ang iyong mga panipi at mga tag ng wika, tulad ng \"hi\"/en\"hola\"/es."
                 }
             },
             "help": "$~ipakita ang mga shortcut sa keyboard",
@@ -4781,7 +4782,14 @@
                 "projectContainedPII": "$~Para protektahan ang iyong privacy, hindi na-save online ang isang proyekto na may posibleng personal na impormasyong makakapagpakilala. Suriin ang proyekto para makita kung ang impormasyon ay nakakapagpakilala.",
                 "projectsNotLoadingOnline": "$~Hindi ma-load ang mga online na proyekto.",
                 "projectNotSavedOnline": "$~Hindi ma-save ang mga proyekto online.",
-                "settingsUnsaved": "$~Hindi ma-save ang mga setting online."
+                "settingsUnsaved": "$~Hindi ma-save ang mga setting online.",
+                "failureReason": {
+                    "indexedDBWriteFailed": "$~Hindi ma-save ng iyong browser ang mga proyektong ito sa device na ito.",
+                    "indexedDBUnsupported": "$~Hindi papayagan ng iyong browser ang Wordplay na mag-save ng mga proyekto sa device na ito.",
+                    "firestoreBatchFailed": "$~Hindi namin maipadala ang mga proyektong ito sa cloud. Ligtas pa rin ang mga ito sa device na ito.",
+                    "projectContainsPII": "$~Mukhang may personal na impormasyon ang mga proyektong ito, kaya hindi namin na-save online. Buksan ang bawat isa para tingnan kung ano ang mukhang personal."
+                },
+                "failuresHeader": "$~Hindi na-save ng proyektong $count :"
             },
             "dialog": {
                 "unsaved": "$~Hindi na-save na trabaho...",
@@ -5587,12 +5595,20 @@
                     "pii": {
                         "header": "$~Personal na Impormasyon",
                         "explanation": "$~Ang pagbabahagi ng personal na impormasyon (PII) sa publiko ay maaaring maglagay sa panganib sa mga tagalikha, kaya tinitingnan namin ang posibleng PII at binabalaan ang mga tagalikha na alisin ang sensitibong data o markahan ito bilang hindi sensitibo.\n\nNasa ibaba ang isang listahan ng mga posibleng PII sa proyektong ito na iyong minarkahan bilang hindi sensitibo. Maaari mong i-click ang button sa tabi nito upang markahan itong muli bilang sensitibo, ngunit ang paggawa nito ay nangangahulugan na ang iyong proyekto ay hindi na mase-save online."
+                    },
+                    "preview": {
+                        "header": "$~Preview",
+                        "explanation": "$~Ito ang maliit na glyph na kumakatawan sa iyong proyekto sa mga listahan at gallery. Awtomatikong pumipili ng isa batay sa ipinapakita ng iyong proyekto; Binibigyang-daan ka ng Custom na i-pin ang isang character o emoji."
                     }
                 },
                 "field": {
                     "emailOrUsername": {
                         "placeholder": "$~email o username",
                         "description": "$~email o username ng taong gusto mong bigyan ng access sa pag-edit"
+                    },
+                    "preview": {
+                        "placeholder": "$~preview na gliph",
+                        "description": "$~isang karakter o emoji na gagamitin bilang preview glyph ng proyektong ito"
                     }
                 },
                 "mode": {
@@ -5603,12 +5619,21 @@
                             "$~Ikaw at ang mga collaborator lamang ang makakakita sa proyektong ito",
                             "$~kahit sino ay maaaring makakita ng proyektong ito"
                         ]
+                    },
+                    "preview": {
+                        "label": "$~paraan ng pag-preview",
+                        "labels": ["$~awto", "$~pasadyang"],
+                        "tips": [
+                            "$~hayaan ang proyekto na pumili ng sarili nitong preview glyph batay sa ipinapakita nito",
+                            "$~i-pin ang isang glyph na iyong napili"
+                        ]
                     }
                 },
                 "error": {
                     "unknown": "$~Hindi namin kilala ang creator na may ganitong email.",
                     "anonymous": "$~Dapat ay <naka-log in@://login> ka para makapagbahagi.",
-                    "self": "$~Hindi mo maaaring idagdag ang iyong sarili."
+                    "self": "$~Hindi mo maaaring idagdag ang iyong sarili.",
+                    "invalidPreview": "$~Pumili ng eksaktong isang karakter o emoji."
                 },
                 "button": {
                     "submit": "$~Ibahagi ang proyekto gamit ang email address na ito",
@@ -6930,7 +6955,8 @@
             },
             "script": "$~mga iskrip",
             "scriptLabel": "$~i-filter ayon sa script",
-            "pickFilter": "$~Pumili ng kategorya o script"
+            "pickFilter": "$~Pumili ng kategorya o script",
+            "moreLanguages": "$~at $count pa"
         },
         "tour": {
             "label": "$~paglilibot",

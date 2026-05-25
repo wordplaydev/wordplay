@@ -1,6 +1,7 @@
 <script lang="ts">
     import Fonts from '@basis/Fonts';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
+    import Spinning from '@components/app/Spinning.svelte';
     import {
         getAnnouncer,
         getTip,
@@ -8,26 +9,18 @@
         isAuthenticated,
     } from '@components/project/Contexts';
     import { characterToSVG, type Character } from '@db/characters/Character';
-    import { CharactersDB, DB, HowTos, locales, Projects } from '@db/Database';
+    import { CharactersDB, DB, HowTos, locales } from '@db/Database';
     import HowTo from '@db/howtos/HowToDatabase.svelte';
     import Project from '@db/projects/Project';
-    import ConceptLink, { CharacterName } from '@nodes/ConceptLink';
-    import type Example from '@nodes/Example';
+    import { enqueuePreviewCompute } from '@db/projects/previewQueue';
     import Source from '@nodes/Source';
-    import { getFaceCSS } from '@output/outputToCSS';
-    import { toStage } from '@output/Stage';
-    import { EXCEPTION_SYMBOL } from '@parser/Symbols';
     import { toMarkup } from '@parser/toMarkup';
-    import Evaluator from '@runtime/Evaluator';
-    import ExceptionValue from '@values/ExceptionValue';
-    import MarkupValue from '@values/MarkupValue';
-    import StructureValue from '@values/StructureValue';
-    import type Value from '@values/Value';
     import { untrack } from 'svelte';
     import type { SvelteMap } from 'svelte/reactivity';
     import UnicodeString from '@unicode/UnicodeString';
     import HowToForm from './HowToForm.svelte';
     import { movePermitted } from './HowToMovement';
+    import { pickPreviewExample } from './pickPreviewExample';
 
     interface Props {
         howTo: HowTo;
@@ -59,15 +52,18 @@
     let xcoord: number = $derived(howTo?.getCoordinates()[0] ?? 0);
     let ycoord: number = $derived(howTo?.getCoordinates()[1] ?? 0);
     let isPublished: boolean = $derived(howTo ? howTo.isPublished() : false);
-    // logic for picking the preview glyph
-    // if there are any examples in the how-to at all, use the first one's glyph per the same logic in ProjectPreview
-    // if there are not any examples, we just use the first character of the first line of text
-    type Preview = {
+    // Preview glyph for the how-to. If the how-to text has an embedded
+    // example, evaluate it (via the off-main-thread preview queue) and use
+    // its representative glyph. If not, take the first grapheme of the
+    // markup's natural-language text as a cheap fallback. The queue ensures
+    // we don't evaluate during render, so a page of how-tos doesn't hang
+    // WebKit.
+    type Displayed = {
         foreground: string | null;
         background: string | null;
         face: string | null;
         previewText: string;
-        character: string | null;
+        characterName: string | null;
     };
 
     let formComponent = $state<HowToForm | undefined>();
@@ -76,134 +72,98 @@
         return formComponent?.showPreview();
     }
 
-    let { foreground, background, face, previewText, character }: Preview =
-        $derived.by(() => {
-            let [markup, spaces] = toMarkup(text.join('\n\n'));
+    let displayed = $state<Displayed | null>(null);
+    let character = $state<Character | null>(null);
 
-            // step 1: determine which example to preview:
-            // prefer the first highlighted example, fall back to the first example
-            let examples = markup.getExamples();
-            let example: Example | undefined =
-                examples.find((e) => e.highlight !== undefined) ?? examples[0];
+    $effect(() => {
+        const [markup, spaces] = toMarkup(text.join('\n\n'));
+        // Starred (`⭐`) example wins; otherwise the first example. See
+        // pickPreviewExample for the priority + its tests.
+        const example = pickPreviewExample(markup);
 
-            // step 2: if undefined, just get the first character. if no first character, emdash
-            if (!example) {
-                let representativeText: string | undefined =
-                    markup.getRepresentativeText();
-
-                return {
-                    foreground: null,
-                    background: null,
-                    face: null,
-                    previewText: representativeText
-                        ? new UnicodeString(representativeText)
-                              .substring(0, 1)
-                              .toString()
-                        : '—',
-                    character: null,
-                };
-            }
-
-            // step 3: if there is an example, try evaluating it, following how ExampleUI.svelte creates a project
-            // and how ProjectPreview.svelte evaluates it
-            let project: Project = Project.make(
-                null,
-                'example',
-                new Source('example', [example.program, spaces]),
-                [],
-                $locales.getLocales(),
-            );
-            let evaluator = new Evaluator(
-                project,
-                DB,
-                $locales.getLocales(),
-                false,
-            );
-            let value: Value | undefined = evaluator.getInitialValue();
-            evaluator.stop();
-
-            let characterName: string | null = value
-                ? findCharacterName(value)
-                : null;
-
-            if (characterName) {
-                let character: Character | null = null;
-                CharactersDB.getByName(characterName).then((char) => {
-                    if (char) character = char;
-                });
-
-                if (character) {
-                    Projects.deleteProject(project.getID());
-                    return {
-                        foreground: null,
-                        background: null,
-                        face: null,
-                        previewText: '',
-                        character: characterToSVG(character, '100%'),
-                    };
-                }
-
-                Projects.deleteProject(project.getID());
-                return {
-                    foreground: null,
-                    background: null,
-                    face: null,
-                    previewText: '',
-                    character: null,
-                };
-            }
-
-            let stage = value ? toStage(evaluator, value) : undefined;
-            if (stage && stage.face) Fonts.loadFace(stage.face);
-
-            Projects.deleteProject(project.getID());
-
-            return {
-                face: stage ? getFaceCSS(stage.face) : null,
-                foreground: stage
-                    ? (stage.pose.color?.toCSS() ?? null)
-                    : 'var(--wordplay-evaluation-color)',
-                background: stage
-                    ? stage.back.toCSS()
-                    : value instanceof ExceptionValue || value === undefined
-                      ? 'var(--wordplay-error)'
-                      : null,
-                previewText: stage
-                    ? new UnicodeString(stage.getRepresentativeText($locales))
+        // No example to evaluate — synchronously derive a fallback from the
+        // markup's plain text. Cheap, no evaluator needed.
+        if (!example) {
+            const representativeText: string | undefined =
+                markup.getRepresentativeText();
+            displayed = {
+                foreground: null,
+                background: null,
+                face: null,
+                previewText: representativeText
+                    ? new UnicodeString(representativeText)
                           .substring(0, 1)
                           .toString()
-                    : value
-                      ? value.getRepresentativeText($locales)
-                      : EXCEPTION_SYMBOL,
-                character: null,
+                    : '—',
+                characterName: null,
             };
-        });
-
-    // copied from ProjectPreview.svelte
-    function findCharacterName(value: Value): string | null {
-        // If it's a MarkupValue, check for character links
-        if (value instanceof MarkupValue) {
-            const nodes = value.markup.nodes();
-            for (const node of nodes) {
-                if (node instanceof ConceptLink) {
-                    const parsed = ConceptLink.parse(node.getName());
-                    if (parsed instanceof CharacterName) {
-                        return `${parsed.username}/${parsed.name}`;
-                    }
-                }
-            }
+            character = null;
+            return;
         }
 
-        // If it's a StructureValue, check all its fields recursively
-        if (value instanceof StructureValue) {
-            const bindings = value.context.getBindingsByNames();
-            for (const [, fieldValue] of bindings) {
-                const result = findCharacterName(fieldValue);
-                if (result) return result;
-            }
+        // Has an example — defer to the queue. Until it resolves the tile
+        // shows a Spinning placeholder.
+        displayed = null;
+        character = null;
+        let cancelled = false;
+        const project = Project.make(
+            null,
+            'example',
+            new Source('example', [example.program, spaces]),
+            [],
+            $locales.getLocales(),
+        );
+        enqueuePreviewCompute(project, $locales, DB)
+            .then((extracted) => {
+                if (cancelled) return;
+                if (extracted.face) Fonts.loadFace(extracted.face);
+                displayed = {
+                    foreground: extracted.foreground,
+                    background: extracted.background,
+                    face: extracted.face,
+                    previewText: extracted.text,
+                    characterName: extracted.characterName,
+                };
+            })
+            .catch(() => {
+                if (cancelled) return;
+                // On failure show an em-dash placeholder rather than
+                // leaving the Spinning forever.
+                displayed = {
+                    foreground: null,
+                    background: null,
+                    face: null,
+                    previewText: '—',
+                    characterName: null,
+                };
+            });
+        return () => {
+            cancelled = true;
+        };
+    });
+
+    // Resolve the Character SVG once the preview names one.
+    $effect(() => {
+        const name = displayed?.characterName ?? null;
+        if (!name) {
+            character = null;
+            return;
         }
-        return null;
-    }
+        let cancelled = false;
+        CharactersDB.getByName(name)
+            .then((char) => {
+                if (!cancelled && char) character = char;
+            })
+            .catch(() => undefined);
+        return () => {
+            cancelled = true;
+        };
+    });
+
+    const foreground = $derived(displayed?.foreground ?? null);
+    const background = $derived(displayed?.background ?? null);
+    const face = $derived(displayed?.face ?? null);
+    const previewText = $derived(displayed?.previewText ?? '');
 
     // code that enables drag and drop functionality
 
@@ -432,8 +392,10 @@
         style:color={foreground}
         style:font-family={face}
     >
-        {#if character}
-            {@html character}
+        {#if displayed === null}
+            <Spinning />
+        {:else if character}
+            {@html characterToSVG(character, '100%')}
         {:else}
             {previewText}
         {/if}

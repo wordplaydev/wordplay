@@ -4614,7 +4614,7 @@
                 "$~Chào! Mình là @Say , và mình đọc văn bản thành tiếng thay vì hiển thị trên @Stage .",
                 "$~Hãy cho tôi điều gì đó để nói, và tôi sẽ nói điều đó mỗi khi chương trình của bạn được đánh giá:",
                 "$~\\Say('blah blah blah')\\",
-                "$~Tôi sẽ sử dụng @Language của ` @TextLiteral nếu nó có thuộc tính đó, nếu không, tôi sẽ sử dụng ngôn ngữ đã chọn.",
+                "$~Tôi sẽ sử dụng @Language của @TextLiteral nếu nó có thuộc tính đó, nếu không, tôi sẽ sử dụng ngôn ngữ đã chọn.",
                 "$~Bạn có thể chọn giọng nói trong phần cài đặt."
             ],
             "names": ["$~🔊", "$~Nói"],
@@ -4767,7 +4767,8 @@
             "field": {
                 "name": {
                     "description": "$~chỉnh sửa tên dự án",
-                    "placeholder": "$~tên"
+                    "placeholder": "$~tên",
+                    "invalid": "$~Bản dịch chưa hoàn chỉnh — hãy kiểm tra dấu ngoặc kép và các thẻ ngôn ngữ, ví dụ như \"hi\"/en\"hola\"/es."
                 }
             },
             "help": "$~Hiển thị các phím tắt",
@@ -4778,7 +4779,14 @@
                 "projectContainedPII": "$~Để bảo vệ quyền riêng tư của bạn, dự án có chứa thông tin có khả năng nhận dạng cá nhân đã không được lưu trực tuyến. Hãy kiểm tra dự án để xem thông tin đó có thể nhận dạng cá nhân hay không.",
                 "projectsNotLoadingOnline": "$~Không thể tải các dự án trực tuyến.",
                 "projectNotSavedOnline": "$~Không thể lưu dự án trực tuyến.",
-                "settingsUnsaved": "$~Không thể lưu cài đặt trực tuyến."
+                "settingsUnsaved": "$~Không thể lưu cài đặt trực tuyến.",
+                "failureReason": {
+                    "indexedDBWriteFailed": "$~Trình duyệt của bạn không thể lưu các dự án này trên thiết bị này.",
+                    "indexedDBUnsupported": "$~Trình duyệt của bạn không cho phép Wordplay lưu dự án trên thiết bị này.",
+                    "firestoreBatchFailed": "$~Chúng tôi không thể chuyển các dự án này lên đám mây. Chúng vẫn được lưu trữ an toàn trên thiết bị này.",
+                    "projectContainsPII": "$~Những dự án này có vẻ chứa thông tin cá nhân, vì vậy chúng tôi không lưu chúng trực tuyến. Hãy mở từng dự án để kiểm tra xem thông tin nào có vẻ là thông tin cá nhân."
+                },
+                "failuresHeader": "$~$count dự án không được lưu:"
             },
             "dialog": {
                 "unsaved": "$~Công việc chưa được lưu...",
@@ -5584,12 +5592,20 @@
                     "pii": {
                         "header": "$~Thông tin cá nhân",
                         "explanation": "$~Việc chia sẻ thông tin nhận dạng cá nhân (PII) công khai có thể khiến người tạo nội dung gặp rủi ro, vì vậy chúng tôi phát hiện các thông tin PII khả nghi và cảnh báo người tạo nội dung nên xóa dữ liệu nhạy cảm hoặc đánh dấu là không nhạy cảm.\n\nDưới đây là danh sách các thông tin PII khả nghi trong dự án này mà bạn đã đánh dấu là không nhạy cảm. Bạn có thể nhấp vào nút bên cạnh để đánh dấu lại là nhạy cảm, nhưng làm như vậy có nghĩa là dự án của bạn sẽ không còn được lưu trực tuyến nữa."
+                    },
+                    "preview": {
+                        "header": "$~Xem trước",
+                        "explanation": "$~Đây là biểu tượng nhỏ đại diện cho dự án của bạn trong danh sách và thư viện ảnh. Chế độ Tự động sẽ chọn một biểu tượng dựa trên nội dung dự án; Chế độ Tùy chỉnh cho phép bạn ghim một ký tự hoặc biểu tượng cảm xúc cụ thể."
                     }
                 },
                 "field": {
                     "emailOrUsername": {
                         "placeholder": "$~email hoặc tên người dùng",
                         "description": "$~Địa chỉ email hoặc tên người dùng của người mà bạn muốn cấp quyền chỉnh sửa."
+                    },
+                    "preview": {
+                        "placeholder": "$~xem trước biểu tượng",
+                        "description": "$~Ký tự đơn hoặc biểu tượng cảm xúc để sử dụng làm biểu tượng xem trước cho dự án này."
                     }
                 },
                 "mode": {
@@ -5600,12 +5616,21 @@
                             "$~Chỉ bạn và các cộng sự mới có thể xem dự án này.",
                             "$~Bất kỳ ai cũng có thể xem dự án này."
                         ]
+                    },
+                    "preview": {
+                        "label": "$~chế độ xem trước",
+                        "labels": ["$~tự động", "$~phong tục"],
+                        "tips": [
+                            "$~Hãy để dự án tự chọn biểu tượng xem trước dựa trên những gì nó hiển thị.",
+                            "$~Ghim một biểu tượng bạn chọn"
+                        ]
                     }
                 },
                 "error": {
                     "unknown": "$~Chúng tôi không biết người tạo ra email này là ai.",
                     "anonymous": "$~Bạn phải đăng nhập vào tài khoản <login@://login> để chia sẻ.",
-                    "self": "$~Bạn không thể tự thêm mình vào."
+                    "self": "$~Bạn không thể tự thêm mình vào.",
+                    "invalidPreview": "$~Chọn chính xác một ký tự hoặc biểu tượng cảm xúc."
                 },
                 "button": {
                     "submit": "$~Hãy chia sẻ dự án với địa chỉ email này.",
@@ -6872,7 +6897,8 @@
             "skinTone": "$~màu da",
             "script": "$~kịch bản",
             "scriptLabel": "$~lọc theo tập lệnh",
-            "pickFilter": "$~Chọn một danh mục hoặc kịch bản"
+            "pickFilter": "$~Chọn một danh mục hoặc kịch bản",
+            "moreLanguages": "$~và $count thêm"
         },
         "localize": {
             "header": "$~Bản địa hóa",

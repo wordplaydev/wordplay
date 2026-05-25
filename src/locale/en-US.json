@@ -4774,7 +4774,8 @@
             "field": {
                 "name": {
                     "description": "edit project name",
-                    "placeholder": "name"
+                    "placeholder": "name",
+                    "invalid": "Incomplete translation — check your quotes and language tags, like \"hi\"/en\"hola\"/es."
                 }
             },
             "help": "show keyboard shortcuts",
@@ -4785,7 +4786,14 @@
                 "projectContainedPII": "To protect your privacy, a project with potentially personally identifiable information was not saved online. Check the project to see if the information is identifying.",
                 "projectsNotLoadingOnline": "Unable to load online projects.",
                 "projectNotSavedOnline": "Unable to save projects online.",
-                "settingsUnsaved": "Unable to save settings online."
+                "settingsUnsaved": "Unable to save settings online.",
+                "failureReason": {
+                    "indexedDBWriteFailed": "Your browser couldn't save these projects on this device.",
+                    "indexedDBUnsupported": "Your browser won't let Wordplay save projects on this device.",
+                    "firestoreBatchFailed": "We couldn't send these projects to the cloud. They're still safe on this device.",
+                    "projectContainsPII": "These projects look like they have personal information, so we didn't save them online. Open each one to check what looks personal."
+                },
+                "failuresHeader": "$count project(s) didn't save:"
             },
             "dialog": {
                 "unsaved": "Unsaved work...",
@@ -5597,12 +5605,20 @@
                     "pii": {
                         "header": "Personal Information",
                         "explanation": "Sharing personally identifiable information (PII) publicly can put creators at risk, so we detect possible PII and warn creators to either remove the sensitive data or mark it as non-sensitive.\n\nBelow is a list of possible PII in this project you have marked as non-sensitive. You can click the button next to it to mark it as sensitive again, but doing so means that your project won't be saved online anymore."
+                    },
+                    "preview": {
+                        "header": "Preview",
+                        "explanation": "This is the little glyph that represents your project in lists and galleries. Auto picks one based on what your project shows; Custom lets you pin a single character or emoji."
                     }
                 },
                 "field": {
                     "emailOrUsername": {
                         "placeholder": "email or username",
                         "description": "email or username of the person who you want to give edit access"
+                    },
+                    "preview": {
+                        "placeholder": "preview glyph",
+                        "description": "single character or emoji to use as this project's preview glyph"
                     }
                 },
                 "mode": {
@@ -5613,12 +5629,21 @@
                             "only you and collaborators can see this project",
                             "anyone can see this project"
                         ]
+                    },
+                    "preview": {
+                        "label": "preview mode",
+                        "labels": ["auto", "custom"],
+                        "tips": [
+                            "let the project pick its own preview glyph based on what it shows",
+                            "pin a glyph you choose"
+                        ]
                     }
                 },
                 "error": {
                     "unknown": "We don't know a creator with this email.",
                     "anonymous": "You must be <logged in@://login> to share.",
-                    "self": "You can't add yourself."
+                    "self": "You can't add yourself.",
+                    "invalidPreview": "Pick exactly one character or emoji."
                 },
                 "button": {
                     "submit": "Share the project with this email address",
@@ -6896,6 +6921,7 @@
             "skinTone": "skin tone",
             "script": "scripts",
             "scriptLabel": "filter by script",
+            "moreLanguages": "and $count more",
             "pickFilter": "Choose a category or script",
             "groups": {
                 "label": "groups",

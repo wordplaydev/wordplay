@@ -200,7 +200,13 @@ type UITexts = {
         };
         field: {
             /** [name] The project name text field */
-            name: FieldText;
+            name: FieldText & {
+                /** [plain] Shown when the typed name looks like a
+                 *  multilingual text literal (e.g. starts with a quote)
+                 *  but doesn't parse cleanly — missing close quote,
+                 *  missing language tag, trailing garbage, etc. */
+                invalid: string;
+            };
         };
         /** [plain] The keyboard shortcut to show the shortcut menu */
         help: string;
@@ -220,6 +226,20 @@ type UITexts = {
             projectNotSavedOnline: FormattedText;
             /** [formatted] When settings are being saved */
             settingsUnsaved: FormattedText;
+            /** Per-reason explanations shown in the save-failure dialog,
+             *  grouped above the list of affected project names. */
+            failureReason: {
+                /** [formatted] Browser local save failed (IndexedDB write error) */
+                indexedDBWriteFailed: FormattedText;
+                /** [formatted] Browser doesn't support saving projects locally */
+                indexedDBUnsupported: FormattedText;
+                /** [formatted] Sending projects to the cloud failed */
+                firestoreBatchFailed: FormattedText;
+                /** [formatted] Project contained personal info so wasn't sent online */
+                projectContainsPII: FormattedText;
+            };
+            /** [plain] Header above the per-project failure list. $count = total count */
+            failuresHeader: Template<['count']>;
         };
         dialog: {
             /** [formatted] The header for the save error */
@@ -875,11 +895,15 @@ type UITexts = {
                 pii: HeaderAndExplanationText;
                 /** The copy and paste dialog text */
                 copy: HeaderAndExplanationText;
+                /** The preview-glyph customization subheader and explanation */
+                preview: HeaderAndExplanationText;
             };
             /** Text fields in the share dialog */
             field: {
                 /** The email or username field for the collaborator being added */
                 emailOrUsername: FieldText;
+                /** The single-grapheme preview glyph field */
+                preview: FieldText;
             };
             /** Buttons in the share dialog */
             button: {
@@ -892,6 +916,8 @@ type UITexts = {
             mode: {
                 /** The public/private toggle mode widget */
                 public: ModeText<[string, string]>;
+                /** The preview auto/custom toggle mode widget */
+                preview: ModeText<[string, string]>;
             };
             /** Errors in the share dialog */
             error: {
@@ -901,6 +927,8 @@ type UITexts = {
                 anonymous: string;
                 /** [plain] Can't add self */
                 self: string;
+                /** [plain] When the preview-glyph text field doesn't contain exactly one grapheme */
+                invalidPreview: string;
             };
             options: {
                 /** [plain] The label for the gallery chooser */
@@ -1259,6 +1287,8 @@ type UITexts = {
         script: string;
         /** [plain] ARIA label for the script filter dropdown */
         scriptLabel: string;
+        /** [plain] Suffix appended after the first few language names captioning a script option, when more languages use the script than fit. $count is the number of additional languages. */
+        moreLanguages: Template<['count']>;
         /** [plain] Hint shown in the glyph area when no category and no script is selected */
         pickFilter: string;
         /** Emoji category labels for the filter */

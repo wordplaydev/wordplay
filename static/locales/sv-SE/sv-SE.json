@@ -4763,7 +4763,8 @@
             "field": {
                 "name": {
                     "description": "$~redigera projektnamn",
-                    "placeholder": "$~namn"
+                    "placeholder": "$~namn",
+                    "invalid": "$~Ofullständig översättning — kontrollera dina citattecken och språktaggar, som \"hej\"/en\"hola\"/es."
                 }
             },
             "help": "$~visa kortkommandon",
@@ -4774,7 +4775,14 @@
                 "projectContainedPII": "$~För att skydda din integritet sparades inte ett projekt med potentiellt personligt identifierbar information online. Kontrollera projektet för att se om informationen är identifierande.",
                 "projectsNotLoadingOnline": "$~Det går inte att ladda onlineprojekt.",
                 "projectNotSavedOnline": "$~Det går inte att spara projekt online.",
-                "settingsUnsaved": "$~Det går inte att spara inställningar online."
+                "settingsUnsaved": "$~Det går inte att spara inställningar online.",
+                "failureReason": {
+                    "indexedDBWriteFailed": "$~Din webbläsare kunde inte spara dessa projekt på den här enheten.",
+                    "indexedDBUnsupported": "$~Din webbläsare tillåter inte Wordplay att spara projekt på den här enheten.",
+                    "firestoreBatchFailed": "$~Vi kunde inte skicka dessa projekt till molnet. De är fortfarande säkra på den här enheten.",
+                    "projectContainsPII": "$~Dessa projekt ser ut att innehålla personlig information, så vi har inte sparat dem online. Öppna vart och ett för att kontrollera vad som ser personligt ut."
+                },
+                "failuresHeader": "$~$count projekt sparades inte:"
             },
             "dialog": {
                 "unsaved": "$~Osparat arbete...",
@@ -5344,12 +5352,20 @@
                     "copy": {
                         "header": "$~Kopiera och klistra in",
                         "explanation": "$~Kopiera det här projektet till ditt urklipp som text och dela det någon annanstans."
+                    },
+                    "preview": {
+                        "header": "$~Förhandsvisning",
+                        "explanation": "$~Det här är den lilla symbolen som representerar ditt projekt i listor och gallerier. Väljer automatiskt ett tecken baserat på vad ditt projekt visar; Anpassad låter dig fästa ett enskilt tecken eller en emoji."
                     }
                 },
                 "field": {
                     "emailOrUsername": {
                         "placeholder": "$~e-post eller användarnamn",
                         "description": "$~e-post eller användarnamn för den person som du vill ge redigeringsbehörighet"
+                    },
+                    "preview": {
+                        "placeholder": "$~förhandsgranskning av tecken",
+                        "description": "$~enstaka tecken eller emoji som ska användas som förhandsgranskningssymbol för detta projekt"
                     }
                 },
                 "mode": {
@@ -5360,12 +5376,21 @@
                             "$~bara du och dina medarbetare kan se det här projektet",
                             "$~vem som helst kan se det här projektet"
                         ]
+                    },
+                    "preview": {
+                        "label": "$~förhandsgranskningsläge",
+                        "labels": ["$~bil", "$~beställnings-"],
+                        "tips": [
+                            "$~låt projektet välja sin egen förhandsgranskningsglyf baserat på vad den visar",
+                            "$~fäst en tecken du väljer"
+                        ]
                     }
                 },
                 "error": {
                     "unknown": "$~Vi känner ingen skapare med den här e-postadressen.",
                     "anonymous": "$~Du måste vara <inloggad@://login> för att dela.",
-                    "self": "$~Du kan inte lägga till dig själv."
+                    "self": "$~Du kan inte lägga till dig själv.",
+                    "invalidPreview": "$~Välj exakt en karaktär eller emoji."
                 },
                 "button": {
                     "submit": "$~Dela projektet med denna e-postadress",
@@ -6869,7 +6894,8 @@
             "skinTone": "$~hudton",
             "script": "$~manus",
             "scriptLabel": "$~filtrera efter skript",
-            "pickFilter": "$~Välj en kategori eller ett manus"
+            "pickFilter": "$~Välj en kategori eller ett manus",
+            "moreLanguages": "$~och $count mer"
         },
         "localize": {
             "header": "$~Lokalisera",

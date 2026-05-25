@@ -4766,7 +4766,8 @@
             "field": {
                 "name": {
                     "description": "$~modifier le nom du projet",
-                    "placeholder": "$~nom"
+                    "placeholder": "$~nom",
+                    "invalid": "$~Traduction incomplète — vérifiez vos guillemets et vos balises de langue, comme « hi »/en « hola »/es."
                 }
             },
             "help": "$~afficher les raccourcis clavier",
@@ -4777,7 +4778,14 @@
                 "projectContainedPII": "$~Pour protéger votre vie privée, aucun projet contenant des informations potentiellement identifiables n'a été enregistré en ligne. Vérifiez le projet pour voir si les informations permettent de vous identifier.",
                 "projectsNotLoadingOnline": "$~Impossible de charger les projets en ligne.",
                 "projectNotSavedOnline": "$~Impossible de sauvegarder les projets en ligne.",
-                "settingsUnsaved": "$~Impossible d'enregistrer les paramètres en ligne."
+                "settingsUnsaved": "$~Impossible d'enregistrer les paramètres en ligne.",
+                "failureReason": {
+                    "indexedDBWriteFailed": "$~Votre navigateur n'a pas pu enregistrer ces projets sur cet appareil.",
+                    "indexedDBUnsupported": "$~Votre navigateur ne permet pas à Wordplay d'enregistrer les projets sur cet appareil.",
+                    "firestoreBatchFailed": "$~Nous n'avons pas pu transférer ces projets vers le cloud. Ils sont toujours en sécurité sur cet appareil.",
+                    "projectContainsPII": "$~Ces fichiers semblent contenir des informations personnelles, nous ne les avons donc pas sauvegardés en ligne. Ouvrez-les un par un pour vérifier quelles informations semblent personnelles."
+                },
+                "failuresHeader": "$~$count projets n'ont pas été enregistrés :"
             },
             "dialog": {
                 "unsaved": "$~Travail non enregistré...",
@@ -5330,12 +5338,20 @@
                     "copy": {
                         "header": "$~Copier et coller",
                         "explanation": "$~Copiez ce projet dans votre presse-papiers sous forme de texte et partagez-le ailleurs."
+                    },
+                    "preview": {
+                        "header": "$~Aperçu",
+                        "explanation": "$~Il s'agit du petit glyphe qui représente votre projet dans les listes et les galeries. Le mode automatique sélectionne un glyphe en fonction du contenu de votre projet ; le mode personnalisé vous permet d'épingler un caractère ou un emoji."
                     }
                 },
                 "field": {
                     "emailOrUsername": {
                         "placeholder": "$~email ou nom d'utilisateur",
                         "description": "$~e-mail ou nom d'utilisateur de la personne à qui vous souhaitez donner l'accès en modification"
+                    },
+                    "preview": {
+                        "placeholder": "$~glyphe d'aperçu",
+                        "description": "$~caractère unique ou emoji à utiliser comme glyphe d'aperçu de ce projet"
                     }
                 },
                 "mode": {
@@ -5346,12 +5362,21 @@
                             "$~Seuls vous et vos collaborateurs pouvez voir ce projet.",
                             "$~n'importe qui peut voir ce projet"
                         ]
+                    },
+                    "preview": {
+                        "label": "$~mode aperçu",
+                        "labels": ["$~auto", "$~coutume"],
+                        "tips": [
+                            "$~Laissez le projet choisir son propre glyphe d'aperçu en fonction de ce qu'il affiche.",
+                            "$~épingler un glyphe de votre choix"
+                        ]
                     }
                 },
                 "error": {
                     "unknown": "$~Nous ne connaissons pas de créateur avec cet email.",
                     "anonymous": "$~Vous devez être <connecté@://login> pour partager.",
-                    "self": "$~Vous ne pouvez pas vous ajouter."
+                    "self": "$~Vous ne pouvez pas vous ajouter.",
+                    "invalidPreview": "$~Choisissez un seul caractère ou emoji."
                 },
                 "button": {
                     "submit": "$~Partager le projet avec cette adresse email",
@@ -6875,7 +6900,8 @@
             "skinTone": "$~teint",
             "script": "$~scripts",
             "scriptLabel": "$~filtrer par script",
-            "pickFilter": "$~Choisissez une catégorie ou un script"
+            "pickFilter": "$~Choisissez une catégorie ou un script",
+            "moreLanguages": "$~et $count plus"
         },
         "localize": {
             "header": "$~Localiser",

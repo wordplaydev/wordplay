@@ -16,6 +16,7 @@ This week we focused on multilingual coding features, with several bug fixes alo
 - 🌐 We made text, names, and docs multilingual: tag them like `'hola kitty'/es_en` to mark them as a mix of languages (Spanglish, Franglais, and more), and then you can filter code and output by matching languages (#430).
 - 🌐 The @Key stream now shows and accepts key names in your language. French programs can write `Key('Espace')` and English programs can write `Key('Space')`, and autocomplete suggests the named keys in your locale (#11).
 - 🌐 The @Color structure now has shortcuts for those eleven common colors, with names in your language. Write `Color.red` in English, `couleur.rouge` in French, or `色.赤` in Japanese instead of mixing the color yourself (#109).
+- 🌐 You can now give a project a name in many languages, like `"hi"/en"hola"/es`. The name shown matches your language, and search finds the project no matter which language you type in (#456).
 - 🔠 We added font face previews to drop downs in the palette and settings!
 - 🎤 We now ask for permission to cameras, microphones, and other inputs and show an exception if declined (#789).
 - 📖 Added 11 new built-in how-to's to the [Guide](https://wordplay.dev/guide) on layout, the @Pointer stream, @Structure, picking from a list with @Random, conditional rendering, and physics with @Motion and @Matter.
@@ -31,6 +32,7 @@ This week we focused on multilingual coding features, with several bug fixes alo
 ### Changed
 
 - 🌐 We made the default choices on the language choosers in the editor and stage clearer.
+- 🔣 The script picker in the glyph chooser now lists which languages use each script.
 - 🎨 We gave the [updates](https://wordplay.dev/updates) a little emoji to make the page easier to scan.
 - 📝 We made @Phrase word wrapping locale specific (#164).
 - 🛠️ We upgraded internal tooling for stability.
@@ -38,6 +40,8 @@ This week we focused on multilingual coding features, with several bug fixes alo
 - 🚦 When your code has a syntax error, the suggested fixes are now much smarter, better accounting for context (#885).
 - 🚦 When your code has a type error, the suggested fixes are now much smarter too, with options like converting values, wrapping in a list, adding a missing input, or filling in a default (#1025).
 - 🚦 When your code has a problem, we now show fewer follow-up conflicts that distract from the root cause. For example, if a name like `foo` is undefined, we won't also complain everywhere else `foo` is used (#1146).
+- ⚡ The little glyphs on [galleries](https://wordplay.dev/galleries) and your [projects](https://wordplay.dev/projects) page now load right away instead of one per second. We also let you pick your own glyph for a project in the share dialog (#435).
+- 💾 When projects don't save, the error message now lists which projects failed, why each one failed, and the technical error code to help with bug reports.
 
 ### Fixed
 

@@ -53,6 +53,11 @@
     function hasSkinToneModifier(hex: number[]): boolean {
         return hex.some(isSkinToneModifier);
     }
+
+    /** Cap on how many language names to spell out under a script-filter
+     *  option before collapsing the rest into an "and N more" suffix.
+     *  Latin alone covers dozens; without a cap the dropdown bloats. */
+    export const MaxScriptLanguages = 7;
 </script>
 
 <script lang="ts">
@@ -65,10 +70,13 @@
     import {
         codepointKey,
         getCodepoints,
-        getScripts,
         type Codepoint,
     } from '@unicode/Unicode';
     import { Scripts, type Script } from '@locale/Scripts';
+    import {
+        getLanguagesForScript,
+        getScriptSpeakers,
+    } from '@locale/LanguageCode';
     import Button from '@components/widgets/Button.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import Mode from '@components/widgets/Mode.svelte';
@@ -114,10 +122,6 @@
     /** The Unicode codepoints metadata, loaded async on mount */
     let codepoints = $state<Codepoint[] | null>(null);
 
-    /** ISO 15924 → English long-name map, loaded async on mount. Used as the
-     *  fallback dropdown label source for scripts Scripts.ts doesn't curate. */
-    let scriptNames = $state<Record<string, string> | null>(null);
-
     /** The ISO 15924 script filter, or undefined for no script filter. */
     let script = $state<string | undefined>(undefined);
 
@@ -162,20 +166,32 @@
         getCodepoints().then((cp) => {
             codepoints = cp;
         });
-        getScripts().then((s) => {
-            scriptNames = s;
-        });
         // Kick off emoji-translation loading for the currently selected
         // locales so cross-language search works without blocking the
         // picker. New translations will arrive via the emojiMaps store.
         Locales.loadEmojisForCurrentLocales();
     });
 
-    /** ISO 15924 codes present in the loaded codepoints, sorted by display
-     *  name. The dropdown only lists scripts that actually have at least one
-     *  pickable codepoint. */
+    /** Type guard so `Scripts[iso]` indexes safely without an `as` cast. */
+    function isKnownScript(iso: string): iso is Script {
+        return Object.hasOwn(Scripts, iso);
+    }
+
+    /** Resolve an ISO 15924 code to its display label, falling back to the
+     *  raw code if Scripts hasn't catalogued it (shouldn't happen now that
+     *  Scripts covers every code Unicode assigns, but the fallback keeps
+     *  the picker functional if a future Unicode version adds one). */
+    function scriptLabel(iso: string): string {
+        if (isKnownScript(iso)) return Scripts[iso].name;
+        return iso;
+    }
+
+    /** ISO 15924 codes present in the loaded codepoints, sorted by total
+     *  speaker count of languages using each script (descending), with the
+     *  display label as the alphabetical tiebreaker. The dropdown only
+     *  lists scripts that actually have at least one pickable codepoint. */
     let availableScripts = $derived<string[]>(
-        codepoints === null || scriptNames === null
+        codepoints === null
             ? []
             : Array.from(
                   new Set(
@@ -184,11 +200,10 @@
                           .filter((s): s is string => s !== undefined),
                   ),
               ).sort((a, b) => {
-                  const aLabel =
-                      Scripts[a as Script]?.name ?? scriptNames![a] ?? a;
-                  const bLabel =
-                      Scripts[b as Script]?.name ?? scriptNames![b] ?? b;
-                  return aLabel.localeCompare(bLabel);
+                  const speakerDelta =
+                      getScriptSpeakers(b) - getScriptSpeakers(a);
+                  if (speakerDelta !== 0) return speakerDelta;
+                  return scriptLabel(a).localeCompare(scriptLabel(b));
               }),
     );
 
@@ -284,7 +299,7 @@
                 bind:text={internalQuery}
             />
         {/if}
-        {#if codepoints !== null && scriptNames !== null}
+        {#if codepoints !== null}
             <Options
                 label={(l) => l.ui.emoji.scriptLabel}
                 value={script}
@@ -292,13 +307,12 @@
                     {
                         value: undefined,
                         label: (l) => l.ui.emoji.script,
+                        languages: [],
                     },
                     ...availableScripts.map((iso) => ({
                         value: iso,
-                        label:
-                            Scripts[iso as Script]?.name ??
-                            scriptNames?.[iso] ??
-                            iso,
+                        label: scriptLabel(iso),
+                        languages: getLanguagesForScript(iso),
                     })),
                 ]}
                 change={(value) => {
@@ -308,7 +322,30 @@
                         internalQuery = '';
                     }
                 }}
-            />
+            >
+                {#snippet item(option, localized)}
+                    <span class="script-option">
+                        {@render localized(option.label)}
+                        {#if option.languages && option.languages.length > 0}
+                            {@const top = option.languages.slice(
+                                0,
+                                MaxScriptLanguages,
+                            )}
+                            {@const remainder =
+                                option.languages.length - top.length}
+                            <span class="languages"
+                                >{top.join(', ')}{#if remainder > 0}
+                                    — {$locales
+                                        .concretize(
+                                            (l) => l.ui.emoji.moreLanguages,
+                                            { count: remainder },
+                                        )
+                                        .toText()}{/if}</span
+                            >
+                        {/if}
+                    </span>
+                {/snippet}
+            </Options>
         {/if}
         {#if category === 'So-pe'}
             <Options
@@ -465,5 +502,18 @@
         font-style: italic;
         color: var(--wordplay-inactive-color);
         padding: var(--wordplay-spacing-half);
+    }
+
+    .script-option {
+        display: flex;
+        flex-direction: column;
+        gap: calc(var(--wordplay-spacing-half) / 2);
+    }
+
+    .languages {
+        font-size: var(--wordplay-small-font-size);
+        color: var(--wordplay-inactive-color);
+        max-width: 20em;
+        white-space: normal;
     }
 </style>

@@ -4771,7 +4771,8 @@
             "field": {
                 "name": {
                     "description": "$~edytuj nazwę projektu",
-                    "placeholder": "$~nazwa"
+                    "placeholder": "$~nazwa",
+                    "invalid": "$~Niekompletne tłumaczenie — sprawdź cudzysłowy i znaczniki językowe, np. „cześć”/en”hola”/es."
                 }
             },
             "help": "$~pokaż skróty klawiaturowe",
@@ -4782,7 +4783,14 @@
                 "projectContainedPII": "$~Aby chronić Twoją prywatność, projekt z potencjalnie identyfikującymi Cię informacjami nie został zapisany online. Sprawdź projekt, aby zobaczyć, czy informacje są identyfikujące.",
                 "projectsNotLoadingOnline": "$~Nie można załadować projektów online.",
                 "projectNotSavedOnline": "$~Nie można zapisać projektu online.",
-                "settingsUnsaved": "$~Nie można zapisać ustawień online."
+                "settingsUnsaved": "$~Nie można zapisać ustawień online.",
+                "failureReason": {
+                    "indexedDBWriteFailed": "$~Twoja przeglądarka nie mogła zapisać tych projektów na tym urządzeniu.",
+                    "indexedDBUnsupported": "$~Twoja przeglądarka nie pozwoli aplikacji Wordplay na zapisywanie projektów na tym urządzeniu.",
+                    "firestoreBatchFailed": "$~Nie mogliśmy wysłać tych projektów do chmury. Nadal są bezpieczne na tym urządzeniu.",
+                    "projectContainsPII": "$~Te projekty wyglądają, jakby zawierały dane osobowe, więc nie zapisaliśmy ich online. Otwórz każdy z nich, aby sprawdzić, co wygląda na osobiste."
+                },
+                "failuresHeader": "$~Projekt(y) $count nie zostały zapisane:"
             },
             "dialog": {
                 "unsaved": "$~Niezapisana praca...",
@@ -5352,12 +5360,20 @@
                     "copy": {
                         "header": "$~Kopiuj i wklej",
                         "explanation": "$~Skopiuj ten projekt do schowka jako tekst i udostępnij go gdzie indziej."
+                    },
+                    "preview": {
+                        "header": "$~Zapowiedź",
+                        "explanation": "$~To mały glif reprezentujący Twój projekt na listach i w galeriach. Automatycznie wybiera jeden na podstawie tego, co pokazuje Twój projekt; opcja „Niestandardowy” pozwala przypiąć pojedynczy znak lub emoji."
                     }
                 },
                 "field": {
                     "emailOrUsername": {
                         "placeholder": "$~e-mail lub nazwa użytkownika",
                         "description": "$~adres e-mail lub nazwa użytkownika osoby, której chcesz przyznać dostęp do edycji"
+                    },
+                    "preview": {
+                        "placeholder": "$~podgląd glifu",
+                        "description": "$~pojedynczy znak lub emoji do wykorzystania jako glif podglądu tego projektu"
                     }
                 },
                 "mode": {
@@ -5368,12 +5384,21 @@
                             "$~tylko Ty i współpracownicy możecie zobaczyć ten projekt",
                             "$~każdy może zobaczyć ten projekt"
                         ]
+                    },
+                    "preview": {
+                        "label": "$~tryb podglądu",
+                        "labels": ["$~automatyczny", "$~zwyczaj"],
+                        "tips": [
+                            "$~pozwól projektowi wybrać własny glif podglądu na podstawie tego, co pokazuje",
+                            "$~przypnij wybrany glif"
+                        ]
                     }
                 },
                 "error": {
                     "unknown": "$~Nie znamy twórcy, który posiada ten adres e-mail.",
                     "anonymous": "$~$!Musisz być <zalogowany@://login>, aby udostępnić.",
-                    "self": "$~Nie możesz dodać siebie."
+                    "self": "$~Nie możesz dodać siebie.",
+                    "invalidPreview": "$~Wybierz dokładnie jeden znak lub emoji."
                 },
                 "button": {
                     "submit": "$~Udostępnij projekt za pomocą tego adresu e-mail",
@@ -6884,7 +6909,8 @@
             "skinTone": "$~odcień skóry",
             "script": "$~skrypty",
             "scriptLabel": "$~filtruj według skryptu",
-            "pickFilter": "$~Wybierz kategorię lub skrypt"
+            "pickFilter": "$~Wybierz kategorię lub skrypt",
+            "moreLanguages": "$~i $count więcej"
         },
         "localize": {
             "header": "$~Zlokalizować",

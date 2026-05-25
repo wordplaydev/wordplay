@@ -4762,7 +4762,8 @@
             "field": {
                 "name": {
                     "description": "$~Projektnamen bearbeiten",
-                    "placeholder": "$~Name"
+                    "placeholder": "$~Name",
+                    "invalid": "$~Unvollständige Übersetzung – überprüfen Sie Ihre Anführungszeichen und Sprachkennzeichnungen, wie z. B. „hi“/„en“hola“/„es“."
                 }
             },
             "help": "$~Tastaturkürzel anzeigen",
@@ -4773,7 +4774,14 @@
                 "projectContainedPII": "$~Zum Schutz Ihrer Privatsphäre wurde ein Projekt mit potenziell persönlich identifizierbaren Informationen nicht online gespeichert. Überprüfen Sie das Projekt, um festzustellen, ob die Informationen identifizierend sind.",
                 "projectsNotLoadingOnline": "$~Online-Projekte können nicht geladen werden.",
                 "projectNotSavedOnline": "$~Projekte können nicht online gespeichert werden.",
-                "settingsUnsaved": "$~Einstellungen können nicht online gespeichert werden."
+                "settingsUnsaved": "$~Einstellungen können nicht online gespeichert werden.",
+                "failureReason": {
+                    "indexedDBWriteFailed": "$~Ihr Browser konnte diese Projekte auf diesem Gerät nicht speichern.",
+                    "indexedDBUnsupported": "$~Ihr Browser erlaubt Wordplay nicht, Projekte auf diesem Gerät zu speichern.",
+                    "firestoreBatchFailed": "$~Wir konnten diese Projekte nicht in die Cloud hochladen. Sie sind aber weiterhin auf diesem Gerät sicher.",
+                    "projectContainsPII": "$~Diese Projekte scheinen persönliche Informationen zu enthalten, daher haben wir sie nicht online gespeichert. Öffnen Sie jedes Projekt, um zu prüfen, welche Informationen persönlich erscheinen."
+                },
+                "failuresHeader": "$~$count Projekte wurden nicht gespeichert:"
             },
             "dialog": {
                 "unsaved": "$~Nicht gespeicherte Arbeit …",
@@ -5326,12 +5334,20 @@
                     "copy": {
                         "header": "$~Kopieren und Einfügen",
                         "explanation": "$~Kopieren Sie dieses Projekt als Text in Ihre Zwischenablage und geben Sie es woanders weiter."
+                    },
+                    "preview": {
+                        "header": "$~Vorschau",
+                        "explanation": "$~Dies ist das kleine Symbol, das Ihr Projekt in Listen und Galerien repräsentiert. Die automatische Auswahl basiert auf den Projektdaten; mit der benutzerdefinierten Option können Sie ein einzelnes Zeichen oder Emoji festlegen."
                     }
                 },
                 "field": {
                     "emailOrUsername": {
                         "placeholder": "$~E-Mail Adresse oder Benutzername",
                         "description": "$~E-Mail oder Benutzername der Person, der Sie Bearbeitungszugriff gewähren möchten"
+                    },
+                    "preview": {
+                        "placeholder": "$~Vorschau-Glyphe",
+                        "description": "$~Einzelnes Zeichen oder Emoji, das als Vorschau-Glyphe für dieses Projekt verwendet werden soll."
                     }
                 },
                 "mode": {
@@ -5342,12 +5358,21 @@
                             "$~Nur Sie und Ihre Mitarbeiter können dieses Projekt sehen.",
                             "$~Jeder kann dieses Projekt sehen."
                         ]
+                    },
+                    "preview": {
+                        "label": "$~Vorschaumodus",
+                        "labels": ["$~Auto", "$~Brauch"],
+                        "tips": [
+                            "$~Das Projekt soll basierend auf dem, was angezeigt wird, sein eigenes Vorschaubild auswählen.",
+                            "$~Wählen Sie ein Symbol aus"
+                        ]
                     }
                 },
                 "error": {
                     "unknown": "$~Wir kennen keinen Ersteller mit dieser E-Mail.",
                     "anonymous": "$~$!Sie müssen <angemeldet@://login> sein, um teilen zu können.",
-                    "self": "$~Sie können sich nicht selbst hinzufügen."
+                    "self": "$~Sie können sich nicht selbst hinzufügen.",
+                    "invalidPreview": "$~Wähle genau ein Zeichen oder Emoji aus."
                 },
                 "button": {
                     "submit": "$~Teilen Sie das Projekt mit dieser E-Mail-Adresse",
@@ -6871,7 +6896,8 @@
             "skinTone": "$~Hautton",
             "script": "$~Skripte",
             "scriptLabel": "$~Nach Skript filtern",
-            "pickFilter": "$~Wählen Sie eine Kategorie oder ein Skript aus."
+            "pickFilter": "$~Wählen Sie eine Kategorie oder ein Skript aus.",
+            "moreLanguages": "$~und $count mehr"
         },
         "localize": {
             "header": "$~Lokalisieren",

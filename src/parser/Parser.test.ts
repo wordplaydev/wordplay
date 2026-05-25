@@ -73,7 +73,9 @@ import getPreferredSpaces from '@parser/getPreferredSpaces';
 import parseDoc from '@parser/parseDoc';
 import { parseBlock } from '@parser/parseExpression';
 import parseProgram, { toProgram } from '@parser/parseProgram';
+import { Sym } from '@nodes/Sym';
 import { NONE_SYMBOL, PLACEHOLDER_SYMBOL, TRUE_SYMBOL } from '@parser/Symbols';
+import { tokens } from '@parser/Tokenizer';
 import { toTokens } from '@parser/toTokens';
 
 export const everything = `
@@ -486,4 +488,39 @@ test('highlighted example roundtrips to ⭐ form', () => {
     const doc = parseDoc(toTokens('¶\\1 + 1\\highlight¶'));
     const example = doc.markup.paragraphs[0].segments[0] as Example;
     expect(example.toWordplay()).toBe('\\1+1\\⭐');
+});
+
+test('unclosed backtick in one doc does not leak into the next doc', () => {
+    // A stray `\`` inside a doc must not consume content from the following
+    // doc — historically the tokenizer left the Formatted context open across
+    // the ¶ boundary, breaking the downstream parse (e.g. createSayType when
+    // a machine-translated locale's doc contained an unbalanced backtick).
+    const all = tokens('¶stray ` token¶/vi¶normal doc¶/en X•(b•"")');
+    const docTokens = all.filter((t) => t.isSymbol(Sym.Doc));
+    // Four ¶ symbols total: two opening/closing the first doc, two for the second.
+    expect(docTokens.length).toBe(4);
+});
+
+test('legitimately nested docs (3 levels deep) still parse', () => {
+    // ¶outer \¶middle \¶inner¶\¶\¶ — three levels of doc/code/doc nesting.
+    // Each ¶ should be a Doc token, and each \ a Code token; the parse must
+    // not get confused by the depth.
+    const all = tokens('¶outer \\¶middle \\¶inner¶\\¶\\¶');
+    const docTokens = all.filter((t) => t.isSymbol(Sym.Doc));
+    const codeTokens = all.filter((t) => t.isSymbol(Sym.Code));
+    expect(docTokens.length).toBe(6);
+    expect(codeTokens.length).toBe(4);
+});
+
+test('unclosed backtick inside a deeply nested doc still closes correctly', () => {
+    // ¶outer \¶inner with ` unclosed¶\¶ — the innermost doc has a stray
+    // backtick. The middle ¶ must still close the inner doc (popping the
+    // unclosed Formatted alongside) so the surrounding code+doc structure
+    // unwinds cleanly.
+    const all = tokens('¶outer \\¶inner ` unclosed¶\\¶');
+    const docTokens = all.filter((t) => t.isSymbol(Sym.Doc));
+    const codeTokens = all.filter((t) => t.isSymbol(Sym.Code));
+    // Four ¶ open/close the two docs; two \ open/close the one code example.
+    expect(docTokens.length).toBe(4);
+    expect(codeTokens.length).toBe(2);
 });

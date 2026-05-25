@@ -4725,7 +4725,8 @@
             "field": {
                 "name": {
                     "description": "编辑项目名称",
-                    "placeholder": "名称"
+                    "placeholder": "名称",
+                    "invalid": "$~翻译不完整——请检查您的引号和语言标签，例如“hi”/en“hola”/es。"
                 }
             },
             "help": "显示键盘快捷键",
@@ -4736,7 +4737,14 @@
                 "projectContainedPII": "为了保护你的隐私，包含可能个人身份信息的项目未在线保存。请检查该项目以查看该信息是否具有身份识别性。",
                 "projectsNotLoadingOnline": "无法加载在线项目。",
                 "projectNotSavedOnline": "无法在线保存项目。",
-                "settingsUnsaved": "无法在线保存设置。"
+                "settingsUnsaved": "无法在线保存设置。",
+                "failureReason": {
+                    "indexedDBWriteFailed": "$~您的浏览器无法将这些项目保存到此设备上。",
+                    "indexedDBUnsupported": "$~您的浏览器不允许 Wordplay 在此设备上保存项目。",
+                    "firestoreBatchFailed": "$~我们无法将这些项目上传到云端。它们仍然安全地保存在这台设备上。",
+                    "projectContainsPII": "$~这些项目看起来包含个人信息，所以我们没有将它们保存到网上。请打开每个项目，查看哪些内容可能涉及个人信息。"
+                },
+                "failuresHeader": "$~$count："
             },
             "dialog": {
                 "unsaved": "未保存",
@@ -5286,12 +5294,20 @@
                     "copy": {
                         "header": "$~复制并粘贴",
                         "explanation": "$~将此项目作为文本复制到剪贴板并在其他地方共享。"
+                    },
+                    "preview": {
+                        "header": "$~预览",
+                        "explanation": "$~这是用于在列表和图库中代表您项目的小图标。系统会根据您项目显示的内容自动选择一个图标；您也可以自定义一个字符或表情符号。"
                     }
                 },
                 "field": {
                     "emailOrUsername": {
                         "placeholder": "電子郵件或使用者名稱",
                         "description": "你想要授予編輯權限的人員的電子郵件或使用者名"
+                    },
+                    "preview": {
+                        "placeholder": "$~预览字形",
+                        "description": "$~用作此项目预览字形的单个字符或表情符号"
                     }
                 },
                 "mode": {
@@ -5302,12 +5318,21 @@
                             "$~只有您和您的合作者才能看到此项目",
                             "$~任何人都可以看到这个项目"
                         ]
+                    },
+                    "preview": {
+                        "label": "$~预览模式",
+                        "labels": ["$~汽车", "$~风俗"],
+                        "tips": [
+                            "$~让项目根据其显示的内容自行选择预览字形",
+                            "$~固定你选择的字形"
+                        ]
                     }
                 },
                 "error": {
                     "unknown": "我们不知道这封邮件的创建者是谁。",
                     "anonymous": "你必須登入才能共享。",
-                    "self": "$~您无法添加自己。"
+                    "self": "$~您无法添加自己。",
+                    "invalidPreview": "$~请选择一个字符或表情符号。"
                 },
                 "button": {
                     "submit": "通过此电子邮件地址分享项目",
@@ -6803,7 +6828,8 @@
             "skinTone": "$~肤色",
             "script": "$~脚本",
             "scriptLabel": "$~按脚本筛选",
-            "pickFilter": "$~选择类别或脚本"
+            "pickFilter": "$~选择类别或脚本",
+            "moreLanguages": "$~以及$count"
         },
         "localize": {
             "header": "$~本地化",
