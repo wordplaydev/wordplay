@@ -4774,7 +4774,8 @@
             "field": {
                 "name": {
                     "description": "edit project name",
-                    "placeholder": "name"
+                    "placeholder": "name",
+                    "invalid": "Incomplete translation — check your quotes and language tags, like \"hi\"/en\"hola\"/es."
                 }
             },
             "help": "show keyboard shortcuts",

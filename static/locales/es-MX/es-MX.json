@@ -4745,7 +4745,8 @@
             "field": {
                 "name": {
                     "description": "editar el nobmre del proyecto",
-                    "placeholder": "nombre"
+                    "placeholder": "nombre",
+                    "invalid": "$~Traducción incompleta: revise las comillas y las etiquetas de idioma, como \"hi\"/en\"hola\"/es."
                 }
             },
             "help": "mostrar atajos de teclado",

@@ -4762,7 +4762,8 @@
             "field": {
                 "name": {
                     "description": "$~Projektnamen bearbeiten",
-                    "placeholder": "$~Name"
+                    "placeholder": "$~Name",
+                    "invalid": "$~Unvollständige Übersetzung – überprüfen Sie Ihre Anführungszeichen und Sprachkennzeichnungen, wie z. B. „hi“/„en“hola“/„es“."
                 }
             },
             "help": "$~Tastaturkürzel anzeigen",

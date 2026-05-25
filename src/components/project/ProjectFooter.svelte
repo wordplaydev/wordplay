@@ -34,6 +34,10 @@
     import type Chat from '@db/chats/ChatDatabase.svelte';
     import type { Creator } from '@db/creators/CreatorDatabase';
     import { locales, Projects } from '@db/Database';
+    import {
+        getLocalizedProjectName,
+        validateProjectName,
+    } from '@db/projects/getLocalizedProjectName';
     import { isFlagged } from '@db/projects/Moderation';
     import type Project from '@db/projects/Project';
     import { type ArrangementType } from '@db/settings/Arrangement';
@@ -278,6 +282,14 @@
                 >
                 <span data-uiid="projectName">
                     {#if editable}
+                        <!-- The TextField shows the RAW underlying name
+                             (which may be Wordplay TextLiteral source for a
+                             multilingual project, e.g. `"hi"/en"hola"/es`)
+                             so the user edits the source directly. The
+                             validator surfaces inline feedback for
+                             malformed input, but it doesn't gate the save
+                             — mid-typing states are necessarily invalid
+                             and the user shouldn't lose keystrokes (#456). -->
                         <TextField
                             id="project-name"
                             text={project.getName()}
@@ -285,11 +297,12 @@
                                 l.ui.project.field.name.description}
                             placeholder={(l) =>
                                 l.ui.project.field.name.placeholder}
+                            validator={validateProjectName}
                             changed={(name) =>
                                 Projects.reviseProject(project.withName(name))}
                             max="7em"
                         />
-                    {:else}{project.getName()}{/if}
+                    {:else}{getLocalizedProjectName(project, $locales)}{/if}
                 </span>
             </Subheader>
             <Button

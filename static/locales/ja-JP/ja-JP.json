@@ -4763,7 +4763,8 @@
             "field": {
                 "name": {
                     "description": "$~プロジェクト名を編集",
-                    "placeholder": "$~名前"
+                    "placeholder": "$~名前",
+                    "invalid": "$~翻訳が不完全です。引用符や「hi」/「en」/「hola」/「es」などの言語タグを確認してください。"
                 }
             },
             "help": "$~キーボードショートカットを表示",

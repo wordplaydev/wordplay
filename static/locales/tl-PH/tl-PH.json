@@ -4770,7 +4770,8 @@
             "field": {
                 "name": {
                     "description": "$~i-edit ang pangalan ng proyekto",
-                    "placeholder": "$~pangalan"
+                    "placeholder": "$~pangalan",
+                    "invalid": "$~Hindi kumpletong pagsasalin — tingnan ang iyong mga panipi at mga tag ng wika, tulad ng \"hi\"/en\"hola\"/es."
                 }
             },
             "help": "$~ipakita ang mga shortcut sa keyboard",

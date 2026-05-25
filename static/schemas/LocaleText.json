@@ -17649,8 +17649,28 @@
                   "additionalProperties": false,
                   "properties": {
                     "name": {
-                      "$ref": "#/definitions/FieldText",
-                      "description": "[name] The project name text field"
+                      "additionalProperties": false,
+                      "description": "[name] The project name text field",
+                      "properties": {
+                        "description": {
+                          "description": "[plain] The tooltip and ARIA-label for the text field",
+                          "type": "string"
+                        },
+                        "invalid": {
+                          "description": "[plain] Shown when the typed name looks like a multilingual text literal (e.g. starts with a quote) but doesn't parse cleanly — missing close quote, missing language tag, trailing garbage, etc.",
+                          "type": "string"
+                        },
+                        "placeholder": {
+                          "description": "[plain] The placeholder text fo the text field.",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "description",
+                        "invalid",
+                        "placeholder"
+                      ],
+                      "type": "object"
                     }
                   },
                   "required": [

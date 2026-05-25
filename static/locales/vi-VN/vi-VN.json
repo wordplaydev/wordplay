@@ -4767,7 +4767,8 @@
             "field": {
                 "name": {
                     "description": "$~chỉnh sửa tên dự án",
-                    "placeholder": "$~tên"
+                    "placeholder": "$~tên",
+                    "invalid": "$~Bản dịch chưa hoàn chỉnh — hãy kiểm tra dấu ngoặc kép và các thẻ ngôn ngữ, ví dụ như \"hi\"/en\"hola\"/es."
                 }
             },
             "help": "$~Hiển thị các phím tắt",

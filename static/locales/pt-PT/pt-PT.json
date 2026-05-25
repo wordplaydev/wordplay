@@ -4767,7 +4767,8 @@
             "field": {
                 "name": {
                     "description": "$~editar nome do projeto",
-                    "placeholder": "$~nome"
+                    "placeholder": "$~nome",
+                    "invalid": "$~Tradução incompleta — verifique as suas aspas e etiquetas de idioma, como \"oi\"/en\"hola\"/es."
                 }
             },
             "help": "$~Mostrar atalhos de teclado",

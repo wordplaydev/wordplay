@@ -4766,7 +4766,8 @@
             "field": {
                 "name": {
                     "description": "$~modifier le nom du projet",
-                    "placeholder": "$~nom"
+                    "placeholder": "$~nom",
+                    "invalid": "$~Traduction incomplète — vérifiez vos guillemets et vos balises de langue, comme « hi »/en « hola »/es."
                 }
             },
             "help": "$~afficher les raccourcis clavier",

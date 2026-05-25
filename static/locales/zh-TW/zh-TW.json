@@ -4721,7 +4721,8 @@
             "field": {
                 "name": {
                     "description": "編輯專案名稱",
-                    "placeholder": "姓名"
+                    "placeholder": "姓名",
+                    "invalid": "$~翻譯不完整——請檢查您的引用和語言標籤，例如“hi”/en“hola”/es。"
                 }
             },
             "help": "顯示鍵盤快速鍵",

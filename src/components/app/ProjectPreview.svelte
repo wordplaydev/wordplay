@@ -9,6 +9,7 @@
     import type { Character } from '@db/characters/Character';
     import { characterToSVG } from '@db/characters/Character';
     import { Chats, Creators, DB, locales, Projects } from '@db/Database';
+    import { getLocalizedProjectName } from '@db/projects/getLocalizedProjectName';
     import { isFlagged } from '@db/projects/Moderation';
     import { isAudience } from '@db/projects/ModerationUtils';
     import { enqueuePreviewCompute } from '@db/projects/previewQueue';
@@ -209,16 +210,17 @@
     {/snippet}
 
     {#if name}
+        {@const localizedName = getLocalizedProjectName(project, $locales)}
         <div class="name">
             {#if action}
-                {@render highlighted(project.getName())}
+                {@render highlighted(localizedName)}
             {:else}
                 <Link to={path}>
-                    {#if project.getName().length === 0}<em class="untitled"
+                    {#if localizedName.length === 0}<em class="untitled"
                             >&mdash;</em
                         >
                     {:else}
-                        {@render highlighted(project.getName())}{/if}</Link
+                        {@render highlighted(localizedName)}{/if}</Link
                 >
                 {#if navigating && `${navigating.to?.url.pathname}${navigating.to?.url.search}` === path}
                     <Spinning />{:else}{@render children?.()}

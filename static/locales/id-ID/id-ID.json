@@ -4773,7 +4773,8 @@
             "field": {
                 "name": {
                     "description": "$~edit nama proyek",
-                    "placeholder": "$~nama"
+                    "placeholder": "$~nama",
+                    "invalid": "$~Terjemahan tidak lengkap — periksa tanda kutip dan tag bahasa Anda, seperti \"hi\"/en\"hola\"/es."
                 }
             },
             "help": "$~Tampilkan pintasan keyboard",

@@ -200,7 +200,13 @@ type UITexts = {
         };
         field: {
             /** [name] The project name text field */
-            name: FieldText;
+            name: FieldText & {
+                /** [plain] Shown when the typed name looks like a
+                 *  multilingual text literal (e.g. starts with a quote)
+                 *  but doesn't parse cleanly — missing close quote,
+                 *  missing language tag, trailing garbage, etc. */
+                invalid: string;
+            };
         };
         /** [plain] The keyboard shortcut to show the shortcut menu */
         help: string;

@@ -4771,7 +4771,8 @@
             "field": {
                 "name": {
                     "description": "$~edytuj nazwę projektu",
-                    "placeholder": "$~nazwa"
+                    "placeholder": "$~nazwa",
+                    "invalid": "$~Niekompletne tłumaczenie — sprawdź cudzysłowy i znaczniki językowe, np. „cześć”/en”hola”/es."
                 }
             },
             "help": "$~pokaż skróty klawiaturowe",

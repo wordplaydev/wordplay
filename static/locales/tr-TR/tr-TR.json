@@ -4763,7 +4763,8 @@
             "field": {
                 "name": {
                     "description": "$~proje adını düzenle",
-                    "placeholder": "$~isim"
+                    "placeholder": "$~isim",
+                    "invalid": "$~Çeviri eksik — tırnak işaretlerinizi ve \"hi\"/en\"hola\"/es gibi dil etiketlerinizi kontrol edin."
                 }
             },
             "help": "$~klavye kısayollarını göster",

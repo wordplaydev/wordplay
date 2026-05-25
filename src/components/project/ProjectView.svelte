@@ -11,6 +11,7 @@
     import CollaborateView from '@components/app/chat/CollaborateView.svelte';
     import Emoji from '@components/app/Emoji.svelte';
     import { extractPreview } from '@components/app/extractPreview';
+    import { getLocalizedProjectName } from '@db/projects/getLocalizedProjectName';
     import Documentation from '@components/concepts/Documentation.svelte';
     import {
         handleKeyCommand,
@@ -65,7 +66,11 @@
     import Node, { isFieldPosition } from '@nodes/Node';
     import Source from '@nodes/Source';
     import type Color from '@output/Color';
-    import { CANCEL_SYMBOL, EXCEPTION_SYMBOL, INFO_SYMBOL } from '@parser/Symbols';
+    import {
+        CANCEL_SYMBOL,
+        EXCEPTION_SYMBOL,
+        INFO_SYMBOL,
+    } from '@parser/Symbols';
     import { isName } from '@parser/Tokenizer';
     import Evaluator from '@runtime/Evaluator';
     import type Value from '@values/Value';
@@ -1937,7 +1942,10 @@
     }
 </script>
 
-<svelte:head><title>Wordplay - {project.getName()}</title></svelte:head>
+<svelte:head
+    ><title>Wordplay - {getLocalizedProjectName(project, $locales)}</title
+    ></svelte:head
+>
 
 <svelte:window
     onkeydown={handleKey}

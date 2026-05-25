@@ -4763,7 +4763,8 @@
             "field": {
                 "name": {
                     "description": "$~redigera projektnamn",
-                    "placeholder": "$~namn"
+                    "placeholder": "$~namn",
+                    "invalid": "$~Ofullständig översättning — kontrollera dina citattecken och språktaggar, som \"hej\"/en\"hola\"/es."
                 }
             },
             "help": "$~visa kortkommandon",

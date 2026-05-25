@@ -4725,7 +4725,8 @@
             "field": {
                 "name": {
                     "description": "编辑项目名称",
-                    "placeholder": "名称"
+                    "placeholder": "名称",
+                    "invalid": "$~翻译不完整——请检查您的引号和语言标签，例如“hi”/en“hola”/es。"
                 }
             },
             "help": "显示键盘快捷键",
