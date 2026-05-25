@@ -5673,8 +5673,7 @@
                 "unowned": "$~Bu proje çevrimiçi olarak saklanmadığından, bir sohbet veya işbirlikçileri olamaz.",
                 "offline": "$~Bu sohbet yüklenemedi.",
                 "empty": "$~Mesaj yok.",
-                "deleted": "$~Bu mesaj silindi.",
-                "tooManyCollaborators": "$?"
+                "deleted": "$~Bu mesaj silindi."
             },
             "prompt": {
                 "solo": "$~Kendinizle sohbet edin veya düzenleme ve sohbet etme yeteneğine sahip bir işbirlikçi ekleyin.",
@@ -6951,6 +6950,12 @@
             "offline": "$~Çevrimdışı durumdasınız. Çevrimiçi olana kadar bazı özellikler çalışmayacaktır.",
             "unreachable": "$~Wordplay veritabanına erişemiyoruz. Bağlantı yeniden kurulana kadar bazı özellikler çalışmayacaktır.",
             "label": "$~Bağlantı durumu"
+        },
+        "presence": {
+            "peersLabel": "$?",
+            "joined": "$?",
+            "left": "$?",
+            "waitingForSlot": "$?"
         }
     },
     "moderation": {

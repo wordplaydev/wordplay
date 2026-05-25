@@ -5942,8 +5942,7 @@
                 "unowned": "This project isn't stored online, so it can't have a chat or collaborators.",
                 "offline": "Unable to load this chat.",
                 "empty": "No messages.",
-                "deleted": "This message was deleted.",
-                "tooManyCollaborators": "This project already has the maximum number of collaborators. Remove one before adding another."
+                "deleted": "This message was deleted."
             },
             "prompt": {
                 "solo": "Chat with yourself or add...",
@@ -5971,6 +5970,12 @@
                 "viewers": "/Viewers/ can *view* the project and its *code*, but they cannot *discuss* or *edit* it.",
                 "restrict": "When a project is in a *gallery*, by default *everyone* who can see the gallery can see your project. The /restrict/ toggle *hides* it from everyone except you and the gallery curators."
             }
+        },
+        "presence": {
+            "peersLabel": "collaborators editing this project",
+            "joined": "$1 joined.",
+            "left": "$1 left.",
+            "waitingForSlot": "Waiting for an editing slot — four collaborators are already editing. When one leaves, you'll be able to edit too."
         },
         "palette": {
             "label": "palette",

@@ -9,6 +9,8 @@
     import CaretView, {
         type CaretBounds,
     } from '@components/editor/caret/CaretView.svelte';
+    import RemoteCaretOverlay from '@components/editor/RemoteCaretOverlay.svelte';
+    import RemoteCarets from '@components/editor/RemoteCarets.svelte';
     import { computeCaretDescriptionPosition } from '@components/editor/caretDescriptionPosition';
     import {
         type Edit,
@@ -2073,6 +2075,17 @@
         placedByPointer={caretSetByPointer}
         bind:location={caretLocation}
     />
+    <!-- Floating per-peer caret overlays, anchored to token positions in
+         this source. Always mounted because CRDT is always-on, but the
+         component renders nothing when no remote peers are publishing
+         presence here — so a solo user sees no overlay chrome. -->
+    <RemoteCaretOverlay
+        projectID={project.getID()}
+        sourceIndex={project.getIndexOfSource(source)}
+        {source}
+        viewport={editor}
+        blocks={$blocks}
+    />
     <!--
         This is a localized description of the current caret position, a live region for screen readers,
         and a visual label for sighted folks.
@@ -2166,9 +2179,33 @@
             </Button>
         </div>
     {/if}
+    <!-- Editor footer: flex-wrap row of collaborator chips. Always
+         mounted; the inner component renders nothing (no footer chrome,
+         no border) when the local user is the only editor — so a solo
+         project shows no collaborative UI at all. The footer wrapper
+         only appears via CSS :has() when RemoteCarets has produced
+         actual content. -->
+    <div class="editor-footer">
+        <RemoteCarets projectID={project.getID()} />
+    </div>
 </div>
 
 <style>
+    /* The footer wrapper is empty when there are no remote peers (a
+       solo user editing alone, or a project with potential collaborators
+       but none currently active). Empty := zero visual footprint. */
+    .editor-footer:not(:empty) {
+        position: sticky;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: var(--wordplay-background);
+        border-top: var(--wordplay-border-width) solid
+            var(--wordplay-border-color);
+        white-space: normal;
+        z-index: 6;
+    }
+
     .editor {
         white-space: nowrap;
         line-height: var(--wordplay-code-line-height);

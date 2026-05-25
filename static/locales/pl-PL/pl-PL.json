@@ -5689,8 +5689,7 @@
                 "unowned": "$~Ten projekt nie jest przechowywany online, więc nie można na nim prowadzić czatu ani współpracować z innymi osobami.",
                 "offline": "$~Nie można załadować tego czatu.",
                 "empty": "$~Brak wiadomości.",
-                "deleted": "$~Ta wiadomość została usunięta.",
-                "tooManyCollaborators": "$?"
+                "deleted": "$~Ta wiadomość została usunięta."
             },
             "prompt": {
                 "solo": "$~Porozmawiaj sam ze sobą lub dodaj współpracownika, który może edytować i rozmawiać.",
@@ -6967,6 +6966,12 @@
             "offline": "$~Jesteś offline. Niektóre funkcje nie będą działać, dopóki nie będziesz online.",
             "unreachable": "$~Nie możemy połączyć się z bazą danych Wordplay. Niektóre funkcje nie będą działać, dopóki połączenie nie zostanie przywrócone.",
             "label": "$~Status połączenia"
+        },
+        "presence": {
+            "peersLabel": "$?",
+            "joined": "$?",
+            "left": "$?",
+            "waitingForSlot": "$?"
         }
     },
     "moderation": {

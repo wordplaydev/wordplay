@@ -13,14 +13,7 @@
     import Mode from '@components/widgets/Mode.svelte';
     import type Chat from '@db/chats/ChatDatabase.svelte';
     import type { Creator } from '@db/creators/CreatorDatabase';
-    import {
-        Creators,
-        DB,
-        Galleries,
-        locales,
-        Projects,
-        SaveStatus,
-    } from '@db/Database';
+    import { Creators, Galleries, locales, Projects } from '@db/Database';
     import type Gallery from '@db/galleries/Gallery';
     import type Project from '@db/projects/Project';
 
@@ -113,23 +106,10 @@
                             anonymize={false}
                             uids={project.getCollaborators()}
                             {editable}
-                            add={(userID) => {
-                                // Enforce the small-group cap (Project.MAX_COLLABORATORS).
-                                // Owner + collaborators ≤ 5 active editors keeps the
-                                // CRDT and presence overhead bounded.
-                                if (!project.canAddCollaborator(userID)) {
-                                    DB.setStatus(
-                                        SaveStatus.Error,
-                                        (l) =>
-                                            l.ui.collaborate.error
-                                                .tooManyCollaborators,
-                                    );
-                                    return;
-                                }
+                            add={(userID) =>
                                 Projects.reviseProject(
                                     project.withCollaborator(userID),
-                                );
-                            }}
+                                )}
                             remove={(userID) =>
                                 Projects.reviseProject(
                                     project.withoutCollaborator(userID),

@@ -403,30 +403,47 @@ export default class ProjectsDatabase {
                 // Request a save.
                 this.saveSoon();
             }
-            // If we already have a history, reconcile the incoming version
-            // with the local current via per-field merge. Concurrent edits to
-            // disjoint fields (the #135 scenario) both survive. Same-field
-            // conflicts converge deterministically by Lamport counter +
-            // writer-ID tiebreak. When neither side has any stamps yet (a
-            // v6→v7 migration in flight), mergeWith falls back to the legacy
-            // timestamp comparison.
+            // We already have this project in memory. Reconcile the
+            // incoming version with what we have using the per-field
+            // Lamport merge defined in Project.mergeWith. This is what
+            // replaced the old "newer timestamp wins, overwrite the
+            // rest" rule that produced bug #135: concurrent edits to
+            // *different* fields now both survive (no more clobbered
+            // renames on reconnect), and concurrent edits to the *same*
+            // field converge deterministically across all replicas via
+            // the Lamport counter + writer-ID tiebreak.
+            //
+            // When two replicas have just upgraded from v6 → v7 and
+            // neither has touched a given field under v7 yet, the
+            // stamps are NeverWritten on both sides. In that window
+            // mergeWith falls back to the legacy timestamp comparison
+            // so we don't lose pre-migration edits.
             else {
                 const current = history.getCurrent();
                 const merged = current.mergeWith(project);
                 if (!merged.equals(current)) {
                     history.edit(merged, true, true);
                 }
-                // If a CRDT session is active, fold the incoming remote
-                // snapshot into the local CRDT. Yjs's update format is
-                // commutative — applying the remote bytes converges the
-                // two replicas. The merged source text becomes the next
-                // local materialization on the following editor revision
-                // (Stage 3 wires this back into a Project rebuild).
+                // If live coediting is active for this project, also
+                // fold the incoming remote CRDT snapshot into our
+                // local Y.Doc. Yjs's binary update format is
+                // commutative and idempotent — applying the remote
+                // bytes converges the two replicas to the same source
+                // text without coordination, even if the remote has
+                // edits we don't yet know about and vice versa.
                 this.foldRemoteCRDT(project);
             }
 
             // Activate or tear down the CRDT session based on whether the
-            // tracked project has collaborators. Solo projects pay zero cost.
+            // Activate the CRDT session for this project. We do this for
+            // *every* editable project, not just multi-collaborator ones,
+            // because the same user editing on two devices is a real
+            // #135-class scenario for solo projects too: stamps merge
+            // metadata, the CRDT character-level-merges code, and the
+            // combination keeps both devices' edits from clobbering each
+            // other. Whether anything is *visible* (presence chips,
+            // remote carets) is gated separately at the UI layer on
+            // whether there are actually remote peers in the map.
             this.syncCRDTActivation(history.getCurrent());
 
             // Return the history
@@ -437,64 +454,89 @@ export default class ProjectsDatabase {
     }
 
     /**
-     * Ensure the CRDT session for this project matches its collaboration
-     * state. Creates a new ProjectCRDT seeded from the project's snapshot
-     * (or its current source codes) and attaches a Firestore provider when
-     * collaborators are present; tears down both when none are.
+     * Light up the live-coediting machinery for this project. Called
+     * once per editable project on track(); idempotent (a second call
+     * with the session already up does nothing).
+     *
+     * # Activation has three pieces
+     *
+     * 1. **ProjectCRDT** — wraps a Yjs Y.Doc holding one Y.Text per
+     *    source. This is where local typing and remote updates meet
+     *    and converge. Seeded from the project's last saved `crdt`
+     *    snapshot if one exists; otherwise from the current plain-
+     *    string source codes.
+     * 2. **YjsFirestoreProvider** — the transport. Streams binary Yjs
+     *    updates from the local Y.Doc to `projects/{id}/updates`
+     *    (where peers pick them up via onSnapshot) and applies their
+     *    updates to our local Y.Doc.
+     * 3. **PresenceTracker** — broadcasts and subscribes to caret
+     *    positions in a separate `projects/{id}/presence/{clientID}`
+     *    subcollection. It also owns the live concurrent-editor cap:
+     *    when our local user is waiting for a slot, the tracker calls
+     *    `provider.setPaused(true)` so their local edits don't escape
+     *    into the shared document until a slot opens.
+     *
+     * # Why we activate for every editable project, even solo ones
+     *
+     * Wordplay's #135 bug is the offline-rename + online-code-edit
+     * scenario. It bites *single users* on two devices just as hard
+     * as it bites multi-user collaboration: device A renames offline,
+     * device B types code online, A reconnects, and one of the edits
+     * gets clobbered. Per-field stamps cover the metadata side of that
+     * (name), but the code side needs the CRDT — character-level
+     * convergence that doesn't lose either device's keystrokes.
+     *
+     * So the data layer is universal: every project gets a Y.Doc, a
+     * Firestore-backed update transport, and a presence map. The cost
+     * is modest (one Firestore listener + a 5s heartbeat per project)
+     * and it's what makes the merge correct for the single-user case.
+     *
+     * What's *not* universal is the UI: presence chips and remote
+     * carets only appear when there are actual remote peers in the
+     * tracker's map (see RemoteCarets.svelte and
+     * RemoteCaretOverlay.svelte). A solo user editing alone sees no
+     * collaborative chrome — they just get the corrupt-merge fix for
+     * free.
      */
     private syncCRDTActivation(project: Project): void {
         const id = project.getID();
-        const existing = this.projectCRDTs.get(id);
-        if (project.hasActiveCollaboration()) {
-            if (existing === undefined) {
-                const sources = project.getSources();
-                const codes = sources.map((s) => s.code.toString());
-                const snapshot = project.getCRDTSnapshot();
-                const crdt =
-                    snapshot !== null
-                        ? ProjectCRDT.fromSnapshot(snapshot)
-                        : ProjectCRDT.fromSources(codes);
-                this.projectCRDTs.set(id, crdt);
-                this.lastCRDTCodes.set(id, codes);
-                // Stream realtime updates to/from Firestore. Skipped in
-                // environments without firestore (SSR, tests with no
-                // firebase emulator) — the CRDT still works locally.
-                if (firestore !== undefined) {
-                    const provider = new YjsFirestoreProvider(
-                        firestore,
-                        id,
-                        crdt,
-                        this.database.getWriterID(),
-                    );
-                    this.crdtProviders.set(id, provider);
+        if (this.projectCRDTs.has(id)) return;
+        const sources = project.getSources();
+        const codes = sources.map((s) => s.code.toString());
+        const snapshot = project.getCRDTSnapshot();
+        const crdt =
+            snapshot !== null
+                ? ProjectCRDT.fromSnapshot(snapshot)
+                : ProjectCRDT.fromSources(codes);
+        this.projectCRDTs.set(id, crdt);
+        this.lastCRDTCodes.set(id, codes);
+        // Stream realtime updates to/from Firestore. Skipped in
+        // environments without firestore (SSR, tests with no firebase
+        // emulator) — the CRDT still works locally.
+        if (firestore !== undefined) {
+            const provider = new YjsFirestoreProvider(
+                firestore,
+                id,
+                crdt,
+                this.database.getWriterID(),
+            );
+            this.crdtProviders.set(id, provider);
 
-                    // Spin up presence alongside the CRDT. The tracker
-                    // publishes our own caret/source and surfaces a
-                    // reactive map of remote peers for the editor's
-                    // RemoteCarets overlay to bind to.
-                    const tracker = new PresenceTracker(
-                        firestore,
-                        id,
-                        this.database.getWriterID(),
-                        this.database.getUserID(),
-                    );
-                    this.presenceTrackers.set(id, tracker);
-                }
-            }
-        } else if (existing !== undefined) {
-            const provider = this.crdtProviders.get(id);
-            if (provider !== undefined) {
-                provider.stop();
-                this.crdtProviders.delete(id);
-            }
-            const tracker = this.presenceTrackers.get(id);
-            if (tracker !== undefined) {
-                void tracker.stop();
-                this.presenceTrackers.delete(id);
-            }
-            existing.destroy();
-            this.projectCRDTs.delete(id);
-            this.lastCRDTCodes.delete(id);
+            // Spin up presence alongside the CRDT. The tracker
+            // publishes our own caret/source and surfaces a reactive
+            // map of remote peers for the editor's RemoteCarets
+            // overlay to bind to. The tracker also owns the live
+            // concurrent-editor cap: when our local user is waiting
+            // for a slot, we pause the CRDT publisher so their local
+            // edits don't escape.
+            const tracker = new PresenceTracker(
+                firestore,
+                id,
+                this.database.getWriterID(),
+                this.database.getUserID(),
+            );
+            tracker.onCapChange = (atCap) => provider.setPaused(atCap);
+            this.presenceTrackers.set(id, tracker);
         }
     }
 
@@ -511,10 +553,32 @@ export default class ProjectsDatabase {
         return this.projectCRDTs.get(projectID);
     }
 
-    /** Fold an incoming remote project's CRDT snapshot into the active
-     *  local CRDT session. Yjs's update format is commutative — applying
-     *  the remote bytes converges both replicas. No-op when collaboration
-     *  isn't active, or when the remote has no snapshot to apply. */
+    /**
+     * Fold an incoming remote project's CRDT snapshot into the active
+     * local Y.Doc.
+     *
+     * # When this fires
+     *
+     * Every time Firestore hands us a remote copy of a project we're
+     * already tracking — e.g. a peer just saved their changes and the
+     * snapshot listener fires for us — we get to a fork in the road:
+     * the metadata merge in {@link track} handles every field except
+     * source code, and this method handles the source code.
+     *
+     * # Why we fold instead of overwrite
+     *
+     * The naive option would be "replace our local Y.Doc with the
+     * remote snapshot." That would lose any local edits that haven't
+     * been written to the cloud yet. Yjs gives us a better option:
+     * its binary update format is *commutative* and *idempotent*, so
+     * passing the remote snapshot through Y.applyUpdateV2 *merges*
+     * the remote state into ours — both sides' edits survive,
+     * regardless of which side has more recent changes.
+     *
+     * No-op when collaboration isn't active locally (no Y.Doc to fold
+     * into) or when the remote has no snapshot to apply (it's still
+     * a solo or never-promoted project on that side).
+     */
     private foldRemoteCRDT(remote: Project): void {
         const crdt = this.projectCRDTs.get(remote.getID());
         if (crdt === undefined) return;

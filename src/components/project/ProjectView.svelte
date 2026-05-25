@@ -141,7 +141,6 @@
     } from '@db/settings/AnimationFactorSetting';
     import type MenuInfo from '@edit/menu/Menu';
     import type { LocaleTextAccessor } from '@locale/Locales';
-    import RemoteCarets from '@components/editor/RemoteCarets.svelte';
 
     interface Props {
         project: Project;
@@ -1972,11 +1971,6 @@
 {/if}
 <!-- Render the current project. -->
 <main class="project" class:dragging={dragged !== undefined} bind:this={view}>
-    {#if project.hasActiveCollaboration()}
-        <div class="presence-bar">
-            <RemoteCarets projectID={project.getID()} />
-        </div>
-    {/if}
     <!-- svelte-ignore a11y_no_static_element_interactions -->
     <div
         class="canvas"
@@ -2557,18 +2551,6 @@
 
     .project.dragging > * {
         cursor: grabbing !important;
-    }
-
-    .presence-bar {
-        position: absolute;
-        top: 0;
-        right: 0;
-        z-index: 10;
-        padding: var(--wordplay-spacing);
-        pointer-events: none;
-    }
-    .presence-bar :global(.peer) {
-        pointer-events: auto;
     }
 
     .project:focus:after {

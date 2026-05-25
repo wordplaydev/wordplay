@@ -15,31 +15,30 @@ function makeBase(): Project {
 }
 
 describe('Project.mergeWith — issue #135 fix', () => {
+    // Source code is no longer stamp-merged: the Yjs CRDT in
+    // ProjectCRDT.ts is the authoritative merge for code (character-
+    // level convergence, both sides' keystrokes survive). These tests
+    // exercise the stamp path for the metadata fields it still owns.
+    // The CRDT path is covered by ProjectCRDT.test.ts.
     test('concurrent edits to different fields both survive', () => {
         const base = makeBase();
         const deviceA = base.withName('A-name').bumpStampsFrom(base, 'deviceA');
-        const deviceB = base
-            .withSource(base.getMain(), new Source('main', 'B-code'))
-            .bumpStampsFrom(base, 'deviceB');
+        const deviceB = base.asPublic(true).bumpStampsFrom(base, 'deviceB');
 
         const merged = deviceA.mergeWith(deviceB);
         expect(merged.getName()).toBe('A-name');
-        expect(merged.getMain().code.toString()).toBe('B-code');
+        expect(merged.isPublic()).toBe(true);
     });
 
     test('merge is symmetric — both replicas converge to the same state', () => {
         const base = makeBase();
         const A = base.withName('A-name').bumpStampsFrom(base, 'deviceA');
-        const B = base
-            .withSource(base.getMain(), new Source('main', 'B-code'))
-            .bumpStampsFrom(base, 'deviceB');
+        const B = base.asPublic(true).bumpStampsFrom(base, 'deviceB');
 
         const ab = A.mergeWith(B);
         const ba = B.mergeWith(A);
         expect(ab.getName()).toBe(ba.getName());
-        expect(ab.getMain().code.toString()).toBe(
-            ba.getMain().code.toString(),
-        );
+        expect(ab.isPublic()).toBe(ba.isPublic());
         expect(ab.getStamps()).toEqual(ba.getStamps());
     });
 
@@ -132,30 +131,22 @@ describe('Project.mergeWith — issue #135 fix', () => {
     });
 });
 
-describe('Project.canAddCollaborator — 4-collaborator cap', () => {
-    test('allows up to 4 distinct collaborators', () => {
+describe('Project.withCollaborator — lifetime list is unbounded', () => {
+    // The 4-editor cap is enforced at the live-presence layer
+    // (PresenceTracker.isAtCap), not on the collaborators array. A project
+    // can list any number of collaborators over its lifetime; only this many
+    // can hold a concurrent presence slot.
+    test('accepts any number of distinct collaborators', () => {
         let p = makeBase();
-        for (const uid of ['a', 'b', 'c', 'd']) {
-            expect(p.canAddCollaborator(uid)).toBe(true);
+        for (const uid of ['a', 'b', 'c', 'd', 'e', 'f', 'g']) {
             p = p.withCollaborator(uid);
         }
-        expect(p.getCollaborators().length).toBe(4);
+        expect(p.getCollaborators().length).toBe(7);
     });
-    test('rejects a 5th distinct collaborator', () => {
-        let p = makeBase();
-        for (const uid of ['a', 'b', 'c', 'd']) p = p.withCollaborator(uid);
-        expect(p.canAddCollaborator('e')).toBe(false);
-        // withCollaborator is a no-op when at cap.
-        const next = p.withCollaborator('e');
-        expect(next.getCollaborators().length).toBe(4);
-        expect(next).toBe(p);
-    });
-    test('adding an existing collaborator at cap is still a no-op (idempotent)', () => {
-        let p = makeBase();
-        for (const uid of ['a', 'b', 'c', 'd']) p = p.withCollaborator(uid);
-        // 'a' is already in — still allowed; doesn't grow the list.
-        expect(p.canAddCollaborator('a')).toBe(true);
+    test('adding an existing collaborator is idempotent', () => {
+        let p = makeBase().withCollaborator('a');
         const next = p.withCollaborator('a');
-        expect(next.getCollaborators().length).toBe(4);
+        expect(next.getCollaborators().length).toBe(1);
+        expect(next).toBe(p);
     });
 });

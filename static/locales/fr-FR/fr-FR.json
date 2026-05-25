@@ -6548,8 +6548,7 @@
                 "unowned": "$~Ce projet n'a pas de propriétaire, il ne peut donc pas avoir de chat.",
                 "offline": "$~Impossible de charger ce chat.",
                 "empty": "$~Aucun message.",
-                "deleted": "$~Ce message a été supprimé.",
-                "tooManyCollaborators": "$?"
+                "deleted": "$~Ce message a été supprimé."
             },
             "prompt": {
                 "solo": "$~Discutez avec vous-même ou ajoutez un collaborateur, qui peut éditer et discuter.",
@@ -6958,6 +6957,12 @@
             "offline": "$~Vous êtes hors ligne. Certaines fonctionnalités ne seront pas disponibles tant que vous ne serez pas connecté(e).",
             "unreachable": "$~Impossible d'accéder à la base de données Wordplay. Certaines fonctionnalités seront indisponibles jusqu'au rétablissement de la connexion.",
             "label": "$~État de la connexion"
+        },
+        "presence": {
+            "peersLabel": "$?",
+            "joined": "$?",
+            "left": "$?",
+            "waitingForSlot": "$?"
         }
     },
     "moderation": {

@@ -6480,8 +6480,7 @@
                 "unowned": "$~該項目未在線存儲，因此無法進行聊天或合作。",
                 "offline": "$~無法加載此聊天。",
                 "empty": "$~沒有消息。",
-                "deleted": "$~該訊息已被刪除。",
-                "tooManyCollaborators": "$?"
+                "deleted": "$~該訊息已被刪除。"
             },
             "prompt": {
                 "solo": "$~與自己聊天或添加可以編輯和聊天的合作者。",
@@ -6888,6 +6887,12 @@
             "offline": "$~您目前處於離線狀態。部分功能需要連網後才能使用。",
             "unreachable": "$~我們無法連接到 Wordplay 資料庫。連線恢復後，部分功能將無法使用。",
             "label": "$~連線狀態"
+        },
+        "presence": {
+            "peersLabel": "$?",
+            "joined": "$?",
+            "left": "$?",
+            "waitingForSlot": "$?"
         }
     },
     "moderation": {

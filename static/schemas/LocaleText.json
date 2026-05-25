@@ -17489,6 +17489,35 @@
               ],
               "type": "object"
             },
+            "presence": {
+              "additionalProperties": false,
+              "description": "Strings shown by the live-presence layer when other people are editing the same project. See PresenceTracker and RemoteCarets.",
+              "properties": {
+                "joined": {
+                  "description": "[plain] Announcer message when a peer first appears (joins the project). $1 = peer's display name.",
+                  "type": "string"
+                },
+                "left": {
+                  "description": "[plain] Announcer message when a peer's presence falls out of the map (left or went idle). $1 = peer's display name.",
+                  "type": "string"
+                },
+                "peersLabel": {
+                  "description": "[plain] ARIA label for the row of collaborator chips in the editor footer",
+                  "type": "string"
+                },
+                "waitingForSlot": {
+                  "description": "[plain] Banner shown when the local editor can't get a presence slot because the concurrent-editor cap is already reached.",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "peersLabel",
+                "joined",
+                "left",
+                "waitingForSlot"
+              ],
+              "type": "object"
+            },
             "project": {
               "additionalProperties": false,
               "description": "Project settings and controls",
@@ -18842,6 +18871,7 @@
             "output",
             "docs",
             "collaborate",
+            "presence",
             "palette",
             "timeline",
             "tour",

@@ -1,17 +1,68 @@
 /**
  * Per-field Lamport stamps for project metadata.
  *
- * A `FieldStamp` is the pair `(counter, writer)`. When a client writes a field,
- * it sets the stamp's counter to one more than the highest counter it has seen
- * (across all fields of this project) and tags it with its own client ID. On
- * merge, the stamp with the higher counter wins, with the writer ID as the
- * deterministic tiebreak — so concurrent writes to *different* fields preserve
- * both edits, and concurrent writes to the *same* field converge on the same
- * winner across all replicas.
+ * # The problem we're solving (issue #135)
  *
- * This is the mechanism that fixes #135 — the per-project scalar `timestamp`
- * compared whole projects against each other and clobbered fields that the
- * other side hadn't touched.
+ * Before this module existed, Wordplay reconciled two copies of a project
+ * by comparing their `timestamp` field: whichever side's wall-clock was
+ * later "won" and overwrote the other in full. That works fine when one
+ * device is online, but it silently corrupts data the moment two devices
+ * edit the same project at the same time. The reproduction in the bug:
+ *
+ *   - On device A you go offline and rename the project.
+ *   - On device B (still online) you edit the source code.
+ *   - You reconnect device A. Its timestamp is older, so its rename
+ *     gets clobbered by B's "winning" copy — and B never knew about
+ *     the rename, so the new name is just gone.
+ *
+ * The fix is to stop reasoning about whole-project order and start
+ * reasoning about *per-field* order. A's edit to `name` and B's edit to
+ * `code` happened in different parts of the project; nothing should
+ * force one to lose to the other.
+ *
+ * # What a Lamport clock is, briefly
+ *
+ * A Lamport clock (Leslie Lamport, 1978) is a counter that only ever
+ * goes up, used to give events a partial order without a synchronized
+ * physical clock. The rule is simple: every time you make a change,
+ * you set your counter to `max(seen_so_far) + 1`. When two replicas
+ * merge, the counter on each field tells you which version observed
+ * more history. If two stamps have the *same* counter — i.e. neither
+ * causally precedes the other — the writes happened concurrently and
+ * we need a deterministic tiebreak; we use the writer ID for that, so
+ * every replica agrees on the same winner.
+ *
+ * # Where stamps sit in the wider design
+ *
+ * Wordplay merges two divergent copies of a project with two different
+ * mechanisms, matched to the shape of the data:
+ *
+ *   - **Source code** (and source names) goes through a Yjs CRDT
+ *     (ProjectCRDT.ts). Character-level convergence — when two people
+ *     type in different functions, both sets of keystrokes survive.
+ *     There's no winner to pick; both belong in the final string.
+ *
+ *   - **Metadata fields** go through these per-field Lamport stamps.
+ *     They're scalars or short arrays where concurrent edits to the
+ *     *same* field have to pick a winner; the only question is whose
+ *     write came causally later.
+ *
+ * The reason metadata isn't *also* in the CRDT is that some metadata
+ * has to stay as plain Firestore fields for the platform to function
+ * at all:
+ *
+ *   - Firestore *security rules* can only inspect plain fields —
+ *     they can't decode CRDT bytes. That forces `owner`,
+ *     `collaborators`, `viewers`, `commenters` to stay plain.
+ *   - Firestore *queries* (e.g. "all public listed projects in this
+ *     gallery") need `where()` clauses against plain top-level
+ *     fields. That forces `public`, `listed`, `gallery`, `archived`
+ *     to stay plain.
+ *
+ * Stamps are how those plain fields stay correct under concurrent
+ * edits without giving up on the queryability/security properties.
+ * See `StampedMetadataFields` in Project.ts for the exact list and
+ * the reasoning per field.
  */
 export type FieldStamp = {
     /** Lamport counter at time of write. 0 means "never written by anyone". */
@@ -90,15 +141,9 @@ export function bumpField(
  * The companion to {@link mergeStamps} for *values* is {@link mergeField} — the
  * caller picks the value corresponding to the winning stamp.
  */
-export function mergeStamps(
-    a: ProjectStamps,
-    b: ProjectStamps,
-): ProjectStamps {
+export function mergeStamps(a: ProjectStamps, b: ProjectStamps): ProjectStamps {
     const fields: Record<string, FieldStamp> = {};
-    const keys = new Set([
-        ...Object.keys(a.fields),
-        ...Object.keys(b.fields),
-    ]);
+    const keys = new Set([...Object.keys(a.fields), ...Object.keys(b.fields)]);
     for (const key of keys) {
         const sa = a.fields[key] ?? NeverWritten;
         const sb = b.fields[key] ?? NeverWritten;

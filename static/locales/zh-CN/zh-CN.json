@@ -6478,8 +6478,7 @@
                 "unowned": "$~该项目没有所有者，因此无法聊天。",
                 "offline": "$~无法加载此聊天。",
                 "empty": "$~没有消息。",
-                "deleted": "$~该消息已被删除。",
-                "tooManyCollaborators": "$?"
+                "deleted": "$~该消息已被删除。"
             },
             "prompt": {
                 "solo": "$~与自己聊天或添加可以编辑和聊天的合作者。",
@@ -6886,6 +6885,12 @@
             "offline": "$~您目前处于离线状态。部分功能需要联网后才能使用。",
             "unreachable": "$~我们无法连接到 Wordplay 数据库。连接恢复后，部分功能将无法使用。",
             "label": "$~连接状态"
+        },
+        "presence": {
+            "peersLabel": "$?",
+            "joined": "$?",
+            "left": "$?",
+            "waitingForSlot": "$?"
         }
     },
     "moderation": {

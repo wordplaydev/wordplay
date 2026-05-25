@@ -5928,8 +5928,7 @@
                 "unowned": "$~Dự án này không được lưu trữ trực tuyến, vì vậy không thể có chức năng trò chuyện hoặc cộng tác viên.",
                 "offline": "$~Không thể tải cuộc trò chuyện này.",
                 "empty": "$~Không có tin nhắn nào.",
-                "deleted": "$~Tin nhắn này đã bị xóa.",
-                "tooManyCollaborators": "$?"
+                "deleted": "$~Tin nhắn này đã bị xóa."
             },
             "prompt": {
                 "solo": "$~Tự trò chuyện với chính mình hoặc thêm...\n\n• một cộng tác viên, người có thể chỉnh sửa và trò chuyện\n\n• một người bình luận, người có thể trò chuyện nhưng không thể chỉnh sửa\n\n• một người xem, người có thể xem dự án của bạn nhưng không thể chỉnh sửa hoặc trò chuyện",
@@ -6955,6 +6954,12 @@
             "offline": "$~Bạn đang ngoại tuyến. Một số tính năng sẽ không hoạt động cho đến khi bạn kết nối lại mạng.",
             "unreachable": "$~Chúng tôi không thể truy cập vào cơ sở dữ liệu Wordplay. Một số tính năng sẽ không hoạt động cho đến khi kết nối được khôi phục.",
             "label": "$~Trạng thái kết nối"
+        },
+        "presence": {
+            "peersLabel": "$?",
+            "joined": "$?",
+            "left": "$?",
+            "waitingForSlot": "$?"
         }
     },
     "moderation": {

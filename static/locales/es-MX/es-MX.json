@@ -6527,8 +6527,7 @@
                 "unowned": "$~Este proyecto no tiene propietario, por lo que no puede tener un chat.",
                 "offline": "$~No se puede cargar este chat.",
                 "empty": "$~No hay mensajes.",
-                "deleted": "$~Este mensaje fue eliminado.",
-                "tooManyCollaborators": "$?"
+                "deleted": "$~Este mensaje fue eliminado."
             },
             "prompt": {
                 "solo": "$~Chatea contigo mismo o agrega un colaborador, que pueda editar y chatear.",
@@ -6937,6 +6936,12 @@
             "offline": "$~Estás sin conexión. Algunas funciones no funcionarán hasta que te conectes a internet.",
             "unreachable": "$~No podemos acceder a la base de datos de Wordplay. Algunas funciones no estarán disponibles hasta que se restablezca la conexión.",
             "label": "$~Estado de la conexión"
+        },
+        "presence": {
+            "peersLabel": "$?",
+            "joined": "$?",
+            "left": "$?",
+            "waitingForSlot": "$?"
         }
     },
     "moderation": {

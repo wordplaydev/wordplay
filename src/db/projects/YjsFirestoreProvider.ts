@@ -52,6 +52,7 @@ export default class YjsFirestoreProvider {
     private flushTimer: ReturnType<typeof setTimeout> | undefined = undefined;
     private seqCounter = 0;
     private stopped = false;
+    private paused = false;
 
     /** Update bytes we just published — used to skip re-applying our own
      *  writes when they come back through the snapshot listener. */
@@ -146,8 +147,21 @@ export default class YjsFirestoreProvider {
         }, UPDATE_DEBOUNCE_MS);
     }
 
+    /** Pause or resume publishing. Used by ProjectsDatabase to suspend
+     *  this provider while the local user is waiting for an editing slot
+     *  at the concurrent-editor cap — their local edits accumulate in
+     *  pendingUpdates and flush as soon as a slot opens. */
+    setPaused(paused: boolean): void {
+        const wasPaused = this.paused;
+        this.paused = paused;
+        if (wasPaused && !paused && this.pendingUpdates.length > 0) {
+            this.scheduleFlush();
+        }
+    }
+
     private async flush(): Promise<void> {
         if (this.pendingUpdates.length === 0) return;
+        if (this.paused) return;
         const merged = Y.mergeUpdatesV2
             ? Y.mergeUpdatesV2(this.pendingUpdates)
             : this.pendingUpdates[0];

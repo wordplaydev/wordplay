@@ -631,8 +631,6 @@ type UITexts = {
             empty: string;
             /** [plain] A message was deleted */
             deleted: string;
-            /** [plain] Shown when an owner tries to add a collaborator beyond the cap (someone must leave first) */
-            tooManyCollaborators: string;
         };
         /** Messages to explain the purpose of the chat to each kind of participant */
         prompt: {
@@ -669,6 +667,19 @@ type UITexts = {
             /** [formatted] Markup describing the restrict-gallery toggle */
             restrict: FormattedText;
         };
+    };
+
+    /** Strings shown by the live-presence layer when other people are
+     *  editing the same project. See PresenceTracker and RemoteCarets. */
+    presence: {
+        /** [plain] ARIA label for the row of collaborator chips in the editor footer */
+        peersLabel: string;
+        /** [plain] Announcer message when a peer first appears (joins the project). $1 = peer's display name. */
+        joined: string;
+        /** [plain] Announcer message when a peer's presence falls out of the map (left or went idle). $1 = peer's display name. */
+        left: string;
+        /** [plain] Banner shown when the local editor can't get a presence slot because the concurrent-editor cap is already reached. */
+        waitingForSlot: string;
     };
 
     /** The palette editor */

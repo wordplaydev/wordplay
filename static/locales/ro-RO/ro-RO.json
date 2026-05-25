@@ -5944,8 +5944,7 @@
                 "unowned": "$~Acest proiect nu este stocat online, deci nu poate avea chat sau colaboratori.",
                 "offline": "$~Nu se poate încărca acest chat.",
                 "empty": "$~Niciun mesaj.",
-                "deleted": "$~Acest mesaj a fost șters.",
-                "tooManyCollaborators": "$?"
+                "deleted": "$~Acest mesaj a fost șters."
             },
             "prompt": {
                 "solo": "$~Discutați cu dumneavoastră înșivă sau adăugați...",
@@ -6961,6 +6960,12 @@
             "offline": "$~Ești offline. Unele funcții nu vor funcționa până când nu ești online.",
             "unreachable": "$~Nu putem accesa baza de date Wordplay. Unele funcții nu vor funcționa până nu se restabilește conexiunea.",
             "label": "$~Starea conexiunii"
+        },
+        "presence": {
+            "peersLabel": "$?",
+            "joined": "$?",
+            "left": "$?",
+            "waitingForSlot": "$?"
         }
     },
     "moderation": {

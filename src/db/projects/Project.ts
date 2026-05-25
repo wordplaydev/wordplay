@@ -54,7 +54,6 @@ import {
 } from '@db/projects/ProjectSchemas';
 import {
     bumpField,
-    compareStamps,
     emptyStamps,
     type FieldStamp,
     getStamp,
@@ -83,15 +82,62 @@ export type ProjectData = Omit<SerializedProject, 'sources' | 'locales'> & {
 };
 
 /**
- * The set of metadata fields whose changes should bump a per-field stamp on
- * save. Each entry maps the {@link ProjectData} field name to the canonical
- * stamp key. Excluded by design:
- *  - `id`, `v`: never change
- *  - `timestamp`: scalar fallback, bumped on every save
- *  - `persisted`: local-only flag
- *  - `history`: append-only by (time, author)
- *  - `carets`: ephemeral UI state, never synced as content
- *  - `stamps`: the stamps themselves
+ * The metadata fields that participate in the per-field stamp merge.
+ *
+ * # Why we use stamps for these fields specifically
+ *
+ * Wordplay merges two divergent copies of a project using two different
+ * mechanisms, picked to match the shape of the data:
+ *
+ *   - **Source code** goes through a Yjs CRDT (ProjectCRDT.ts). Two
+ *     people typing in different functions both belong in the final
+ *     string — there's no "winner" to pick.
+ *   - **These metadata fields** go through per-field Lamport stamps
+ *     (VectorClock.ts). They're scalars or arrays where concurrent
+ *     edits to the *same* field do have to pick a winner; the only
+ *     question is whose write came causally later.
+ *
+ * # Why these fields can't just live in the CRDT
+ *
+ * The CRDT is opaque binary bytes from the outside. These fields stay
+ * as plain Firestore fields because Wordplay relies on them for two
+ * things the CRDT can't support:
+ *
+ *   1. **Security rules.** `firestore.rules` checks predicates like
+ *      `request.auth.uid in resource.data.collaborators` to gate writes.
+ *      That requires `collaborators` (and `owner`, `viewers`,
+ *      `commenters`) to be plain queryable arrays.
+ *   2. **Server-side queries.** Firestore queries like "all listed
+ *      public projects in this gallery" need `where('public', '==',
+ *      true)`. Same constraint: the field has to be a plain top-level
+ *      value, not buried in a CRDT blob.
+ *
+ * `name`, `locales`, and `preview` also live here because they're
+ * rendered in project tiles without loading the full project — so they
+ * need to be cheap to read off the project doc directly.
+ *
+ * # Fields handled by other mechanisms (not in this list)
+ *
+ *  - `id`, `v`                : never change, no merge needed.
+ *  - `timestamp`              : scalar fallback used only when *both*
+ *                                sides have NeverWritten stamps on a
+ *                                field (the v6→v7 migration window).
+ *                                Bumped on every save independently.
+ *  - `persisted`              : local-only flag; sticky-true on merge.
+ *  - `history`                : append-only checkpoints; merged by
+ *                                union, not by stamp.
+ *  - `carets`                 : ephemeral UI state, never synced.
+ *  - `stamps`                 : the stamps themselves; merged together
+ *                                via {@link mergeStamps}.
+ *  - `crdt`                   : the CRDT snapshot; merged by applying
+ *                                the remote bytes to the local Y.Doc
+ *                                (see ProjectsDatabase.foldRemoteCRDT).
+ *  - sources / `main` / `supplements` :
+ *      Source *content* (code, names) lives in the CRDT, which is the
+ *      authoritative source of truth and merges by character-level
+ *      convergence. Source *structure* (number of sources, ordering)
+ *      is rare to change concurrently; mergeWith picks local sources
+ *      and lets the CRDT reconcile their text content.
  */
 const StampedMetadataFields: readonly (keyof ProjectData & string)[] = [
     'name',
@@ -110,9 +156,6 @@ const StampedMetadataFields: readonly (keyof ProjectData & string)[] = [
     'commenters',
     'preview',
 ];
-
-/** Stamp key under which the serialized sources blob lives. */
-const SourcesStampKey = 'sources';
 
 type Analysis = {
     conflicts: Conflict[];
@@ -136,13 +179,20 @@ type SerializedSourceCaret = { source: Source; caret: SerializedCaret };
 const MaxCheckpointSize = 200000;
 
 /**
- * The maximum number of collaborators (excluding the owner) we allow on a
- * single project. Matches the design call: "a small group in a classroom
- * (4 students) would be a reasonable enforced maximum." Owner + 4
- * collaborators = 5 active editors max. Viewers and commenters are not
- * subject to this cap.
+ * The maximum number of editors who can be actively coediting a project at
+ * the same moment in time. This is a *live-presence* cap, not a lifetime
+ * cap on the `collaborators` array — a project can list any number of
+ * collaborators over its life, but only this many can have a live presence
+ * session (and therefore push CRDT updates) at once. When a fifth editor
+ * tries to join, they sit in a read-only "waiting" state until one of the
+ * four publishes a leave (or stops heartbeating long enough to fall out
+ * of the presence map).
+ *
+ * Matches the design call: "a small group in a classroom (4 students)
+ * would be a reasonable enforced maximum." Viewers and commenters never
+ * count against this cap because they don't publish presence at all.
  */
-export const MAX_COLLABORATORS = 4;
+export const MAX_CONCURRENT_EDITORS = 4;
 
 /**
  * A project with a name, some source files, and evaluators for each source file.
@@ -982,17 +1032,8 @@ export default class Project {
         return !this.data.collaborators.includes(uid);
     }
 
-    /** Whether this project can accept another collaborator without
-     *  exceeding the {@link MAX_COLLABORATORS} cap. Excludes users who are
-     *  already collaborators — they're a no-op add. */
-    canAddCollaborator(uid: string): boolean {
-        if (this.data.collaborators.includes(uid)) return true;
-        return this.data.collaborators.length < MAX_COLLABORATORS;
-    }
-
     withCollaborator(uid: string) {
         if (this.data.collaborators.includes(uid)) return this;
-        if (!this.canAddCollaborator(uid)) return this;
         return new Project({
             ...this.data,
             collaborators: [...this.data.collaborators, uid],
@@ -1547,24 +1588,27 @@ export default class Project {
         return new Project({ ...this.data, restrictedGallery: restricted });
     }
 
-    // --- CRDT activation and snapshot ---
+    // --- CRDT snapshot ---
 
-    /** True when this project has at least one collaborator beyond the owner
-     *  and therefore should have a live CRDT session attached. Solo projects
-     *  (no collaborators) pay zero CRDT cost. See ProjectsDatabase.activateCRDT. */
-    hasActiveCollaboration(): boolean {
-        return this.data.collaborators.length > 0;
-    }
-
-    /** The persisted CRDT snapshot (base64 of Y.encodeStateAsUpdateV2), or
-     *  null when collaboration has never been active on this project. */
+    /**
+     * The persisted CRDT snapshot (base64 of `Y.encodeStateAsUpdateV2`),
+     * or null when this project has never been touched under v8 yet.
+     *
+     * Every project — solo or multi-collaborator — has a CRDT session
+     * activated on load (see ProjectsDatabase.syncCRDTActivation). The
+     * "always on" choice is what fixes the offline-rename + online-
+     * code-edit case for the same user on two devices: stamps merge the
+     * `name` field, and the CRDT character-level-merges the source code,
+     * so neither side's edit is lost. Without CRDT for solo projects,
+     * that same-user-two-devices scenario would fall back to whole-
+     * project last-write-wins and reintroduce #135.
+     */
     getCRDTSnapshot(): string | null {
         return this.data.crdt;
     }
 
-    /** Return a copy with the CRDT snapshot replaced. Persisted with the
-     *  next save. Pass null to clear (e.g., when the last collaborator
-     *  is removed). */
+    /** Return a copy with the CRDT snapshot replaced. Persisted with
+     *  the next save. */
     withCRDTSnapshot(crdt: string | null): Project {
         return new Project({ ...this.data, crdt });
     }
@@ -1580,14 +1624,38 @@ export default class Project {
     }
 
     /**
-     * Compare this project against `previous` and return new stamps where
-     * every field whose value has changed has been bumped under `writer`.
-     * Unchanged fields keep their existing stamps. Used at save time to mark
-     * authorship of edits so that {@link mergeWith} can later reconcile
-     * concurrent writes from other replicas.
+     * Record authorship for this save by bumping a fresh Lamport stamp
+     * on every field whose value has changed since `previous`. Returns
+     * a copy of this project with the new {@link ProjectStamps}.
      *
-     * For composite fields (objects, arrays) we compare JSON-serialized
-     * snapshots — these are all already serializable, so it's exact.
+     * # Why this exists
+     *
+     * Stamps are the durable record of "I made this change at this
+     * Lamport time." Without them, when a remote replica later tries
+     * to merge its copy of the project with mine, there's no way to
+     * know which side has the more recent edit on any particular
+     * field — that's the gap that produced bug #135 (a stale device's
+     * older code clobbered a newer device's renamed project). With
+     * stamps in place, the remote merge in {@link mergeWith} picks
+     * the winning value field-by-field, so concurrent edits to
+     * disjoint fields both survive.
+     *
+     * # How "changed" is decided
+     *
+     * Every stamped field is a Zod-validated, JSON-serializable value
+     * (strings, booleans, arrays of primitives, plain object structs).
+     * So `JSON.stringify` equality is exact for our schema — there are
+     * no class instances or undefined-vs-missing distinctions to worry
+     * about. We bump only on real changes; an idempotent save that
+     * touches nothing leaves stamps alone.
+     *
+     * Sources are special-cased: they're not in
+     * {@link StampedMetadataFields} because Source instances are AST
+     * objects, not JSON. Instead we compare their *serialized* form
+     * under a single stamp key. Once collaboration is active the
+     * Yjs CRDT (ProjectCRDT.ts) is the real convergence mechanism
+     * for code, and this stamp is just a coarse hint for replicas
+     * that haven't seen the CRDT snapshot yet.
      */
     bumpStampsFrom(previous: Project, writer: string): Project {
         let stamps = this.data.stamps;
@@ -1601,34 +1669,57 @@ export default class Project {
                 stamps = bumpField(stamps, field, writer);
             }
         }
-        // Treat all sources together as one stamp slot. Stage 2 introduces
-        // per-source CRDT identity; for v7 metadata merging, the sources blob
-        // is one unit so name + code changes can't both stall on the same
-        // stamp.
-        if (
-            !sameSerialized(
-                previous.getSerializedSources(),
-                this.getSerializedSources(),
-            )
-        ) {
-            stamps = bumpField(stamps, SourcesStampKey, writer);
-        }
+        // Source content is not stamped — the Yjs CRDT in ProjectCRDT.ts
+        // is the authoritative merge mechanism for code and source names.
+        // Even solo single-user projects activate CRDT so that the same
+        // user editing on two devices converges correctly (the #135
+        // reproduction). The CRDT is character-level convergent, which is
+        // strictly better than the coarse "pick one side's whole sources
+        // blob" stamp we used to maintain here.
         return this.withStamps(stamps);
     }
 
     /**
-     * Per-field merge of `this` (local) with `other` (incoming, usually remote).
-     * For each stamped field, the side with the later stamp wins. For
-     * NeverWritten on both sides, fall back to comparing project-level
-     * timestamps (the legacy v6 behavior). The resulting project's stamps
-     * are the per-field max of both inputs.
+     * Reconcile this project (the local copy) with `other` (an incoming
+     * copy, usually from Firestore) into a single merged project. This
+     * is the heart of the fix for #135.
      *
-     * Carets are kept local (they're UI state); history is unioned by
-     * (time, code-of-first-source); timestamp is the max of both.
+     * # The algorithm in one paragraph
      *
-     * This is the fix for #135 — concurrent edits to disjoint fields (e.g.,
-     * one device edits `name` offline while another edits `sources` online)
-     * now both survive merge instead of clobbering.
+     * For every stamped field, we look at the Lamport stamps on both
+     * sides and pick the value whose stamp comes later in causal order
+     * (higher counter, writer ID as tiebreak). Concurrent edits to
+     * *different* fields therefore both survive — A's renamed name and
+     * B's edited code both make it into the merged copy. Concurrent
+     * edits to the *same* field deterministically agree on one winner
+     * across every replica (whichever writer ID sorts larger), so the
+     * system always converges without coordination.
+     *
+     * # The fallback path
+     *
+     * For a field where both sides have NeverWritten stamps (counter
+     * zero, empty writer), there's no Lamport information to compare,
+     * so we fall back to the legacy v6 behavior: take the side with
+     * the higher project-level `timestamp`. This only matters during
+     * the v6 → v7 transition window — once both replicas have touched
+     * a field under v7, the stamps will be non-zero forever after.
+     *
+     * # Fields that don't fit the stamp model
+     *
+     * - **Sources.** Source *content* (code, names) is merged via the
+     *   Yjs CRDT (ProjectCRDT.ts), not stamps — that gives character-
+     *   level convergence so two devices typing in different functions
+     *   both see both sets of keystrokes. The mergeWith call here just
+     *   takes the local Project's source structure (number of sources,
+     *   their Source object identities, and the carets that reference
+     *   them); the CRDT then folds in the remote's actual code content
+     *   asynchronously via ProjectsDatabase.foldRemoteCRDT.
+     * - **History** (checkpoints) is unioned, deduplicated by
+     *   `(time, first-source-code)`. This preserves both replicas'
+     *   undo history without clobbering.
+     * - **timestamp** is monotonic — take the max.
+     * - **persisted** is sticky-true — once any replica has saved it
+     *   to the cloud, it stays persisted.
      */
     mergeWith(other: Project): Project {
         const localStamps = this.data.stamps;
@@ -1650,17 +1741,6 @@ export default class Project {
             return mergeField(this.data[field], a, other.data[field], b);
         };
 
-        // Sources are picked as a unit. The carets array must move with the
-        // chosen sources (the Source object identities differ between
-        // replicas).
-        const sourcesStampA = getStamp(localStamps, SourcesStampKey);
-        const sourcesStampB = getStamp(remoteStamps, SourcesStampKey);
-        const sourcesFromLocal =
-            sourcesStampA.c === 0 && sourcesStampB.c === 0
-                ? fallbackPrefersLocal
-                : compareStamps(sourcesStampA, sourcesStampB) >= 0;
-        const sourcesSide = sourcesFromLocal ? this : other;
-
         const mergedData: ProjectData = {
             ...this.data,
             // Stamped metadata fields
@@ -1679,10 +1759,15 @@ export default class Project {
             viewers: pick('viewers'),
             commenters: pick('commenters'),
             preview: pick('preview'),
-            // Sources + carets travel together with the winning side.
-            main: sourcesSide.data.main,
-            supplements: sourcesSide.data.supplements,
-            carets: sourcesSide.data.carets,
+            // Source structure stays local. The Yjs CRDT
+            // (ProjectCRDT.ts) is the authoritative merge for code and
+            // source names; ProjectsDatabase.foldRemoteCRDT applies the
+            // remote's CRDT bytes to our Y.Doc after this mergeWith
+            // returns. Carets are local UI state and reference our
+            // local Source object identities, so they stay too.
+            main: this.data.main,
+            supplements: this.data.supplements,
+            carets: this.data.carets,
             // History is unioned, deduplicated by (time, first-source-code).
             history: unionHistory(this.data.history, other.data.history),
             // Timestamp is monotonic.

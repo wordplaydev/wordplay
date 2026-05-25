@@ -6544,8 +6544,7 @@
                 "unowned": "$~Dieses Projekt hat keinen Eigentümer, daher ist kein Chat möglich.",
                 "offline": "$~Dieser Chat konnte nicht geladen werden.",
                 "empty": "$~Keine Nachrichten.",
-                "deleted": "$~Diese Nachricht wurde gelöscht.",
-                "tooManyCollaborators": "$?"
+                "deleted": "$~Diese Nachricht wurde gelöscht."
             },
             "prompt": {
                 "solo": "$~Chatten Sie mit sich selbst oder fügen Sie einen Mitarbeiter hinzu, der bearbeiten und chatten kann.",
@@ -6954,6 +6953,12 @@
             "offline": "$~Sie sind offline. Einige Funktionen sind erst verfügbar, wenn Sie online sind.",
             "unreachable": "$~Wir können nicht auf die Wordplay-Datenbank zugreifen. Einige Funktionen sind erst wieder verfügbar, wenn die Verbindung wiederhergestellt ist.",
             "label": "$~Verbindungsstatus"
+        },
+        "presence": {
+            "peersLabel": "$?",
+            "joined": "$?",
+            "left": "$?",
+            "waitingForSlot": "$?"
         }
     },
     "moderation": {

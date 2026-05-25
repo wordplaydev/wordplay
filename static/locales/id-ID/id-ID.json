@@ -5944,8 +5944,7 @@
                 "unowned": "$~Proyek ini tidak disimpan secara online, jadi tidak dapat memiliki fitur obrolan atau kolaborator.",
                 "offline": "$~Obrolan ini tidak dapat dimuat.",
                 "empty": "$~Tidak ada pesan.",
-                "deleted": "$~Pesan ini telah dihapus.",
-                "tooManyCollaborators": "$?"
+                "deleted": "$~Pesan ini telah dihapus."
             },
             "prompt": {
                 "solo": "$~Berbincanglah dengan diri sendiri atau tambahkan...",
@@ -6964,6 +6963,12 @@
             "offline": "$~Anda sedang offline. Beberapa fitur tidak akan berfungsi sampai Anda online.",
             "unreachable": "$~Kami tidak dapat mengakses basis data Wordplay. Beberapa fitur tidak akan berfungsi sampai koneksi pulih.",
             "label": "$~Status koneksi"
+        },
+        "presence": {
+            "peersLabel": "$?",
+            "joined": "$?",
+            "left": "$?",
+            "waitingForSlot": "$?"
         }
     },
     "moderation": {

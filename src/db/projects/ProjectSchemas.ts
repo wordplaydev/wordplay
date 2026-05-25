@@ -135,27 +135,59 @@ const ProjectSchemaV6 = ProjectSchemaV5.omit({ v: true }).extend(
     }).shape,
 );
 
-/** Schema for a single Lamport stamp on one field. */
+/**
+ * Schema for a single Lamport stamp on one field.
+ *
+ * The pair `(counter, writer)` is what gives concurrent edits a
+ * deterministic order. See VectorClock.ts for the full explanation of
+ * why we use Lamport stamps and what they protect against (issue #135).
+ */
 const FieldStampSchema = z.object({
-    /** Lamport counter at time of write; 0 means never written. */
+    /** Lamport counter at time of write. Zero is the sentinel value
+     *  meaning "no one has ever written this field" — paired with an
+     *  empty writer string. The merge treats it as losing to anything. */
     c: z.number().min(0),
-    /** Client ID that performed the write; empty string for never-written. */
+    /** Client ID (per-device UUID from Database.getWriterID) that
+     *  performed the write. Used as the tiebreak when two stamps share
+     *  the same counter — without it, concurrent writes to the same
+     *  field could converge to different winners on different replicas. */
     w: z.string(),
 });
 
-/** Schema for the per-project stamps record used by per-field LWW merge. */
+/**
+ * Schema for the per-project stamps record. One {@link FieldStampSchema}
+ * per stamped field, plus a Lamport ceiling that records the highest
+ * counter we've seen anywhere in this project. The ceiling is what each
+ * new bump reads to compute its `max + 1` increment.
+ */
 const ProjectStampsSchema = z.object({
-    /** Highest counter ever observed for this project. */
+    /** Highest counter ever observed across all fields of this project,
+     *  across all merges. Used by bumpField() as the basis for the
+     *  next Lamport increment. */
     lamport: z.number().min(0),
-    /** Stamps for fields that have ever been written. */
+    /** Stamps for fields that have ever been written. Fields not
+     *  present here are treated as NeverWritten (counter 0) — they
+     *  lose to anything with a real stamp during merge. */
     fields: z.record(z.string(), FieldStampSchema),
 });
 
 /**
- * v7 adds per-field Lamport stamps for collaborative merge, fixing #135.
- * Source identity for CRDT bindings is keyed by position in the sources array
- * (a future schema bump can introduce stable per-source UUIDs if reordering
- * becomes a use case).
+ * v7: per-field Lamport stamps replace the scalar `timestamp` as the
+ * source of truth for reconciling two copies of the same project.
+ *
+ * Before v7, a sync between two replicas compared whole-project
+ * timestamps and overwrote the older side wholesale — clobbering
+ * concurrent edits to unrelated fields (the bug in #135). With the
+ * `stamps` field in place, the merge code in Project.mergeWith picks
+ * the winning value field-by-field, so edits to disjoint fields
+ * preserve both sides. The legacy `timestamp` is kept for backward
+ * compatibility and as a fallback when both sides have NeverWritten
+ * stamps on the same field (which only happens for v6→v7 migrations
+ * that haven't been touched under v7 yet).
+ *
+ * Source identity for CRDT bindings (added in v8) is keyed by position
+ * in the sources array. A future schema bump can introduce stable
+ * per-source UUIDs if source reordering becomes a real use case.
  */
 const ProjectSchemaV7 = ProjectSchemaV6.omit({ v: true }).extend(
     z.object({
@@ -166,12 +198,26 @@ const ProjectSchemaV7 = ProjectSchemaV6.omit({ v: true }).extend(
 );
 
 /**
- * v8 adds an optional CRDT snapshot. Solo projects (no collaborators) keep
- * `crdt: null`; multi-collaborator projects store a base64-encoded Yjs Y.Doc
- * snapshot containing per-source Y.Text fields keyed by source index. The
- * snapshot is the authoritative state when live coediting is active —
- * `sources[i].code` is the materialized text, kept in sync with each Y.Text
- * for backwards compatibility with v6/v7 readers.
+ * v8: source code is merged via a Yjs CRDT, not via stamps.
+ *
+ * Where stamps (v7) handle "pick one" metadata fields like `name` and
+ * `public`, source code calls for character-level convergence: two
+ * devices typing in different functions should *both* see both sets of
+ * keystrokes, not have one side's lost to a stamp comparison. That's
+ * what a CRDT does — see ProjectCRDT.ts for the full story.
+ *
+ * The `crdt` field on the project doc stores a base64-encoded Yjs
+ * snapshot of the merged state. Every editable project — solo or
+ * multi-collaborator — activates a Y.Doc on load (see
+ * ProjectsDatabase.syncCRDTActivation), because the #135 reproduction
+ * applies to single users on two devices too. New v8 projects start
+ * with `crdt: null` and get a snapshot written on first save.
+ *
+ * `sources[i].code` continues to hold the materialized text — it stays
+ * in sync with each Y.Text so older readers still get the right
+ * content. The snapshot is the *authoritative* source of truth; the
+ * materialized text is a view we maintain for backwards compatibility
+ * and project-tile rendering.
  */
 const ProjectSchemaV8 = ProjectSchemaV7.omit({ v: true }).extend(
     z.object({
