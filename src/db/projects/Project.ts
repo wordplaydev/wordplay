@@ -1289,7 +1289,7 @@ export default class Project {
     }
 
     serialize(): SerializedProject {
-        return {
+        const serialized: SerializedProject = {
             v: ProjectSchemaLatestVersion,
             id: this.getID(),
             name: this.getName(),
@@ -1312,8 +1312,12 @@ export default class Project {
             restrictedGallery: this.data.restrictedGallery,
             viewers: this.data.viewers,
             commenters: this.data.commenters,
-            preview: this.data.preview,
         };
+        // Firestore rejects literal `undefined` field values, and the schema
+        // marks `preview` as optional — so omit the key entirely when unset.
+        if (this.data.preview !== undefined)
+            serialized.preview = this.data.preview;
+        return serialized;
     }
 
     isTutorial() {
