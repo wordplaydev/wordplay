@@ -1,4 +1,9 @@
 import { test, expect, describe } from 'vitest';
+// Populate the type-resolution registry. `vitest.config.ts` already lists this
+// file in `setupFiles`, but some IDE vitest runners invoke individual test
+// files without honouring that config — the explicit side-effect import keeps
+// the test green regardless of the invocation path.
+import '@conflicts/registerTypeResolutions';
 import Conflict, {
     registerResolver,
     type Repair,
