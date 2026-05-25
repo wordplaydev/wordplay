@@ -631,6 +631,8 @@ type UITexts = {
             empty: string;
             /** [plain] A message was deleted */
             deleted: string;
+            /** [plain] Shown when an owner tries to add a collaborator beyond the cap (someone must leave first) */
+            tooManyCollaborators: string;
         };
         /** Messages to explain the purpose of the chat to each kind of participant */
         prompt: {

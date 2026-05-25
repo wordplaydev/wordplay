@@ -5935,7 +5935,8 @@
                 "unowned": "$~Hindi nakaimbak online ang proyektong ito, kaya hindi ito maaaring magkaroon ng chat o mga collaborator.",
                 "offline": "$~Hindi ma-load ang chat na ito.",
                 "empty": "$~Walang mga mensahe.",
-                "deleted": "$~Binura na ang mensaheng ito."
+                "deleted": "$~Binura na ang mensaheng ito.",
+                "tooManyCollaborators": "$?"
             },
             "prompt": {
                 "solo": "$~Makipag-chat sa sarili mo o magdagdag...",

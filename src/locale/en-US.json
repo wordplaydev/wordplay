@@ -5942,7 +5942,8 @@
                 "unowned": "This project isn't stored online, so it can't have a chat or collaborators.",
                 "offline": "Unable to load this chat.",
                 "empty": "No messages.",
-                "deleted": "This message was deleted."
+                "deleted": "This message was deleted.",
+                "tooManyCollaborators": "This project already has the maximum number of collaborators. Remove one before adding another."
             },
             "prompt": {
                 "solo": "Chat with yourself or add...",

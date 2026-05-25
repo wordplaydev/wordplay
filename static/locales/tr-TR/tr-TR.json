@@ -5673,7 +5673,8 @@
                 "unowned": "$~Bu proje çevrimiçi olarak saklanmadığından, bir sohbet veya işbirlikçileri olamaz.",
                 "offline": "$~Bu sohbet yüklenemedi.",
                 "empty": "$~Mesaj yok.",
-                "deleted": "$~Bu mesaj silindi."
+                "deleted": "$~Bu mesaj silindi.",
+                "tooManyCollaborators": "$?"
             },
             "prompt": {
                 "solo": "$~Kendinizle sohbet edin veya düzenleme ve sohbet etme yeteneğine sahip bir işbirlikçi ekleyin.",

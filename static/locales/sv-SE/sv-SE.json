@@ -5677,7 +5677,8 @@
                 "unowned": "$~Det här projektet lagras inte online, så det kan inte ha en chatt eller samarbetspartner.",
                 "offline": "$~Det gick inte att ladda den här chatten.",
                 "empty": "$~Inga meddelanden.",
-                "deleted": "$~Detta meddelande raderades."
+                "deleted": "$~Detta meddelande raderades.",
+                "tooManyCollaborators": "$?"
             },
             "prompt": {
                 "solo": "$~Chatta med dig själv eller lägg till en medarbetare som kan redigera och chatta.",

@@ -100,6 +100,8 @@ export function parseSerializedProject(
         viewers: [],
         commenters: [],
         preview,
+        stamps: { lamport: 0, fields: {} },
+        crdt: null,
     };
 }
 

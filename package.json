@@ -102,6 +102,7 @@
         "pitchy": "^4",
         "shared-types": "file:./functions/src/shared",
         "uuid": "^14",
+        "yjs": "^13.6.30",
         "zod": "^4"
     },
     "overrides": {

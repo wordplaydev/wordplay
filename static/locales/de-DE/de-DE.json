@@ -6544,7 +6544,8 @@
                 "unowned": "$~Dieses Projekt hat keinen Eigentümer, daher ist kein Chat möglich.",
                 "offline": "$~Dieser Chat konnte nicht geladen werden.",
                 "empty": "$~Keine Nachrichten.",
-                "deleted": "$~Diese Nachricht wurde gelöscht."
+                "deleted": "$~Diese Nachricht wurde gelöscht.",
+                "tooManyCollaborators": "$?"
             },
             "prompt": {
                 "solo": "$~Chatten Sie mit sich selbst oder fügen Sie einen Mitarbeiter hinzu, der bearbeiten und chatten kann.",

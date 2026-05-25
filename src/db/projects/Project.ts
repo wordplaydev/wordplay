@@ -46,11 +46,21 @@ import {
     type SerializedCaret,
     type SerializedPreview,
     type SerializedProject,
+    type SerializedProjectStamps,
     type SerializedProjectUnknownVersion,
     type SerializedSource,
     type SerializedSourceCheckpoint,
     upgradeProject,
 } from '@db/projects/ProjectSchemas';
+import {
+    bumpField,
+    compareStamps,
+    emptyStamps,
+    type FieldStamp,
+    getStamp,
+    mergeField,
+    mergeStamps,
+} from '@db/projects/VectorClock';
 
 /**
  * How we store projects in memory, mirroring the data in the deserialized form.
@@ -72,6 +82,38 @@ export type ProjectData = Omit<SerializedProject, 'sources' | 'locales'> & {
     carets: SerializedSourceCaret[];
 };
 
+/**
+ * The set of metadata fields whose changes should bump a per-field stamp on
+ * save. Each entry maps the {@link ProjectData} field name to the canonical
+ * stamp key. Excluded by design:
+ *  - `id`, `v`: never change
+ *  - `timestamp`: scalar fallback, bumped on every save
+ *  - `persisted`: local-only flag
+ *  - `history`: append-only by (time, author)
+ *  - `carets`: ephemeral UI state, never synced as content
+ *  - `stamps`: the stamps themselves
+ */
+const StampedMetadataFields: readonly (keyof ProjectData & string)[] = [
+    'name',
+    'locales',
+    'owner',
+    'collaborators',
+    'public',
+    'listed',
+    'archived',
+    'gallery',
+    'flags',
+    'nonPII',
+    'chat',
+    'restrictedGallery',
+    'viewers',
+    'commenters',
+    'preview',
+];
+
+/** Stamp key under which the serialized sources blob lives. */
+const SourcesStampKey = 'sources';
+
 type Analysis = {
     conflicts: Conflict[];
     conflictedNodes: Map<Node, Conflict[]>;
@@ -92,6 +134,15 @@ type SerializedSourceCaret = { source: Source; caret: SerializedCaret };
  * For a very large project (thousand of lines of code) that allows for ~100 distinct versions.
  */
 const MaxCheckpointSize = 200000;
+
+/**
+ * The maximum number of collaborators (excluding the owner) we allow on a
+ * single project. Matches the design call: "a small group in a classroom
+ * (4 students) would be a reasonable enforced maximum." Owner + 4
+ * collaborators = 5 active editors max. Viewers and commenters are not
+ * subject to this cap.
+ */
+export const MAX_COLLABORATORS = 4;
 
 /**
  * A project with a name, some source files, and evaluators for each source file.
@@ -192,6 +243,8 @@ export default class Project {
             restrictedGallery: false,
             viewers: [],
             commenters: [],
+            stamps: emptyStamps(),
+            crdt: null,
         });
     }
 
@@ -929,13 +982,21 @@ export default class Project {
         return !this.data.collaborators.includes(uid);
     }
 
+    /** Whether this project can accept another collaborator without
+     *  exceeding the {@link MAX_COLLABORATORS} cap. Excludes users who are
+     *  already collaborators — they're a no-op add. */
+    canAddCollaborator(uid: string): boolean {
+        if (this.data.collaborators.includes(uid)) return true;
+        return this.data.collaborators.length < MAX_COLLABORATORS;
+    }
+
     withCollaborator(uid: string) {
-        return this.data.collaborators.some((user) => user === uid)
-            ? this
-            : new Project({
-                  ...this.data,
-                  collaborators: [...this.data.collaborators, uid],
-              });
+        if (this.data.collaborators.includes(uid)) return this;
+        if (!this.canAddCollaborator(uid)) return this;
+        return new Project({
+            ...this.data,
+            collaborators: [...this.data.collaborators, uid],
+        });
     }
 
     withoutCollaborator(uid: string) {
@@ -1103,6 +1164,11 @@ export default class Project {
             viewers: project.viewers,
             commenters: project.commenters,
             preview: project.preview,
+            stamps: {
+                lamport: project.stamps.lamport,
+                fields: { ...project.stamps.fields },
+            },
+            crdt: project.crdt,
         });
     }
 
@@ -1312,6 +1378,11 @@ export default class Project {
             restrictedGallery: this.data.restrictedGallery,
             viewers: this.data.viewers,
             commenters: this.data.commenters,
+            stamps: {
+                lamport: this.data.stamps.lamport,
+                fields: { ...this.data.stamps.fields },
+            },
+            crdt: this.data.crdt,
         };
         // Firestore rejects literal `undefined` field values, and the schema
         // marks `preview` as optional — so omit the key entirely when unset.
@@ -1475,4 +1546,177 @@ export default class Project {
     withRestrictedGallery(restricted: boolean) {
         return new Project({ ...this.data, restrictedGallery: restricted });
     }
+
+    // --- CRDT activation and snapshot ---
+
+    /** True when this project has at least one collaborator beyond the owner
+     *  and therefore should have a live CRDT session attached. Solo projects
+     *  (no collaborators) pay zero CRDT cost. See ProjectsDatabase.activateCRDT. */
+    hasActiveCollaboration(): boolean {
+        return this.data.collaborators.length > 0;
+    }
+
+    /** The persisted CRDT snapshot (base64 of Y.encodeStateAsUpdateV2), or
+     *  null when collaboration has never been active on this project. */
+    getCRDTSnapshot(): string | null {
+        return this.data.crdt;
+    }
+
+    /** Return a copy with the CRDT snapshot replaced. Persisted with the
+     *  next save. Pass null to clear (e.g., when the last collaborator
+     *  is removed). */
+    withCRDTSnapshot(crdt: string | null): Project {
+        return new Project({ ...this.data, crdt });
+    }
+
+    // --- Per-field stamp accessors and merge ---
+
+    getStamps(): SerializedProjectStamps {
+        return this.data.stamps;
+    }
+
+    withStamps(stamps: SerializedProjectStamps): Project {
+        return new Project({ ...this.data, stamps });
+    }
+
+    /**
+     * Compare this project against `previous` and return new stamps where
+     * every field whose value has changed has been bumped under `writer`.
+     * Unchanged fields keep their existing stamps. Used at save time to mark
+     * authorship of edits so that {@link mergeWith} can later reconcile
+     * concurrent writes from other replicas.
+     *
+     * For composite fields (objects, arrays) we compare JSON-serialized
+     * snapshots — these are all already serializable, so it's exact.
+     */
+    bumpStampsFrom(previous: Project, writer: string): Project {
+        let stamps = this.data.stamps;
+        for (const field of StampedMetadataFields) {
+            if (
+                !sameSerialized(
+                    previous.data[field as keyof ProjectData],
+                    this.data[field as keyof ProjectData],
+                )
+            ) {
+                stamps = bumpField(stamps, field, writer);
+            }
+        }
+        // Treat all sources together as one stamp slot. Stage 2 introduces
+        // per-source CRDT identity; for v7 metadata merging, the sources blob
+        // is one unit so name + code changes can't both stall on the same
+        // stamp.
+        if (
+            !sameSerialized(
+                previous.getSerializedSources(),
+                this.getSerializedSources(),
+            )
+        ) {
+            stamps = bumpField(stamps, SourcesStampKey, writer);
+        }
+        return this.withStamps(stamps);
+    }
+
+    /**
+     * Per-field merge of `this` (local) with `other` (incoming, usually remote).
+     * For each stamped field, the side with the later stamp wins. For
+     * NeverWritten on both sides, fall back to comparing project-level
+     * timestamps (the legacy v6 behavior). The resulting project's stamps
+     * are the per-field max of both inputs.
+     *
+     * Carets are kept local (they're UI state); history is unioned by
+     * (time, code-of-first-source); timestamp is the max of both.
+     *
+     * This is the fix for #135 — concurrent edits to disjoint fields (e.g.,
+     * one device edits `name` offline while another edits `sources` online)
+     * now both survive merge instead of clobbering.
+     */
+    mergeWith(other: Project): Project {
+        const localStamps = this.data.stamps;
+        const remoteStamps = other.data.stamps;
+        const fallbackPrefersLocal =
+            this.data.timestamp >= other.data.timestamp;
+
+        // Pick the winner of a single stamped field.
+        const pick = <K extends keyof ProjectData>(
+            field: K & string,
+        ): ProjectData[K] => {
+            const a: FieldStamp = getStamp(localStamps, field);
+            const b: FieldStamp = getStamp(remoteStamps, field);
+            if (a.c === 0 && b.c === 0) {
+                return fallbackPrefersLocal
+                    ? this.data[field]
+                    : other.data[field];
+            }
+            return mergeField(this.data[field], a, other.data[field], b);
+        };
+
+        // Sources are picked as a unit. The carets array must move with the
+        // chosen sources (the Source object identities differ between
+        // replicas).
+        const sourcesStampA = getStamp(localStamps, SourcesStampKey);
+        const sourcesStampB = getStamp(remoteStamps, SourcesStampKey);
+        const sourcesFromLocal =
+            sourcesStampA.c === 0 && sourcesStampB.c === 0
+                ? fallbackPrefersLocal
+                : compareStamps(sourcesStampA, sourcesStampB) >= 0;
+        const sourcesSide = sourcesFromLocal ? this : other;
+
+        const mergedData: ProjectData = {
+            ...this.data,
+            // Stamped metadata fields
+            name: pick('name'),
+            locales: pick('locales'),
+            owner: pick('owner'),
+            collaborators: pick('collaborators'),
+            public: pick('public'),
+            listed: pick('listed'),
+            archived: pick('archived'),
+            gallery: pick('gallery'),
+            flags: pick('flags'),
+            nonPII: pick('nonPII'),
+            chat: pick('chat'),
+            restrictedGallery: pick('restrictedGallery'),
+            viewers: pick('viewers'),
+            commenters: pick('commenters'),
+            preview: pick('preview'),
+            // Sources + carets travel together with the winning side.
+            main: sourcesSide.data.main,
+            supplements: sourcesSide.data.supplements,
+            carets: sourcesSide.data.carets,
+            // History is unioned, deduplicated by (time, first-source-code).
+            history: unionHistory(this.data.history, other.data.history),
+            // Timestamp is monotonic.
+            timestamp: Math.max(this.data.timestamp, other.data.timestamp),
+            // Persisted is sticky-true.
+            persisted: this.data.persisted || other.data.persisted,
+            stamps: mergeStamps(localStamps, remoteStamps),
+        };
+        return new Project(mergedData);
+    }
+}
+
+/** JSON-equality check used by {@link Project.bumpStampsFrom}. Both inputs
+ *  pass through the same stable serialization, so this is exact for our
+ *  composite-field data (arrays, plain objects, primitives). */
+function sameSerialized(a: unknown, b: unknown): boolean {
+    return JSON.stringify(a) === JSON.stringify(b);
+}
+
+/** Union two history lists, deduplicated by (time, first-source-code).
+ *  Sorted by time ascending. Trimmed to the size limit via the existing
+ *  Project.getHistorySize bound. */
+function unionHistory(
+    a: SerializedSourceCheckpoint[],
+    b: SerializedSourceCheckpoint[],
+): SerializedSourceCheckpoint[] {
+    const seen = new Set<string>();
+    const out: SerializedSourceCheckpoint[] = [];
+    for (const cp of [...a, ...b].sort((x, y) => x.time - y.time)) {
+        const key = `${cp.time}:${cp.sources[0]?.code ?? ''}`;
+        if (seen.has(key)) continue;
+        seen.add(key);
+        out.push(cp);
+    }
+    while (Project.getHistorySize(out) > 200000) out.shift();
+    return out;
 }

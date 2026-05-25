@@ -5944,7 +5944,8 @@
                 "unowned": "$~Proyek ini tidak disimpan secara online, jadi tidak dapat memiliki fitur obrolan atau kolaborator.",
                 "offline": "$~Obrolan ini tidak dapat dimuat.",
                 "empty": "$~Tidak ada pesan.",
-                "deleted": "$~Pesan ini telah dihapus."
+                "deleted": "$~Pesan ini telah dihapus.",
+                "tooManyCollaborators": "$?"
             },
             "prompt": {
                 "solo": "$~Berbincanglah dengan diri sendiri atau tambahkan...",

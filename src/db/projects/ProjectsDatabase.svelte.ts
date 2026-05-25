@@ -26,6 +26,11 @@ import { firestore } from '@db/firebase';
 import { EditFailure } from '@db/projects/EditFailure';
 import { unknownFlags } from '@db/projects/Moderation';
 import Project from '@db/projects/Project';
+import ProjectCRDT, {
+    base64ToBytes as decodeCRDTSnapshot,
+} from '@db/projects/ProjectCRDT';
+import { PresenceTracker } from '@db/projects/PresenceTracker.svelte';
+import YjsFirestoreProvider from '@db/projects/YjsFirestoreProvider';
 import {
     PersistenceType,
     ProjectHistory,
@@ -106,6 +111,25 @@ export default class ProjectsDatabase {
 
     /** A list of listeners that are notified of a project change. */
     private listeners: Map<string, Set<(project: Project) => void>> = new Map();
+
+    /** Active CRDT sessions, keyed by project ID. Only present while a
+     *  project has collaborators (zero cost for solo editing). Disposed
+     *  via {@link deactivateCRDT} when the last collaborator is removed. */
+    private projectCRDTs: Map<string, ProjectCRDT> = new Map();
+
+    /** Active Firestore providers, one per CRDT session, that stream
+     *  binary Yjs updates to and from `projects/{id}/updates`. Created
+     *  alongside the CRDT in {@link syncCRDTActivation}. */
+    private crdtProviders: Map<string, YjsFirestoreProvider> = new Map();
+
+    /** Active presence trackers, one per collaborative project. Exposes a
+     *  reactive SvelteMap of remote peers' caret positions for the editor
+     *  overlay to bind to. */
+    private presenceTrackers: Map<string, PresenceTracker> = new Map();
+
+    /** Last-seen materialized code for each (projectID, sourceIndex), used
+     *  to diff against the next save and emit precise Y.Text operations. */
+    private lastCRDTCodes: Map<string, string[]> = new Map();
 
     constructor(database: Database) {
         this.database = database;
@@ -379,23 +403,158 @@ export default class ProjectsDatabase {
                 // Request a save.
                 this.saveSoon();
             }
-            // If we already have a history, then reconcile the given version with the current history.
+            // If we already have a history, reconcile the incoming version
+            // with the local current via per-field merge. Concurrent edits to
+            // disjoint fields (the #135 scenario) both survive. Same-field
+            // conflicts converge deterministically by Lamport counter +
+            // writer-ID tiebreak. When neither side has any stamps yet (a
+            // v6→v7 migration in flight), mergeWith falls back to the legacy
+            // timestamp comparison.
             else {
                 const current = history.getCurrent();
-
-                // Otherwise, if the given one has the later timestamp, overwrite. This is naive strategy that
-                // assumes that all systems have valid clocks, and it also fails to acccount
-                // for non-conflicting edits.
-                if (project.getTimestamp() > current.getTimestamp()) {
-                    history.edit(project, true, true);
+                const merged = current.mergeWith(project);
+                if (!merged.equals(current)) {
+                    history.edit(merged, true, true);
                 }
+                // If a CRDT session is active, fold the incoming remote
+                // snapshot into the local CRDT. Yjs's update format is
+                // commutative — applying the remote bytes converges the
+                // two replicas. The merged source text becomes the next
+                // local materialization on the following editor revision
+                // (Stage 3 wires this back into a Project rebuild).
+                this.foldRemoteCRDT(project);
             }
+
+            // Activate or tear down the CRDT session based on whether the
+            // tracked project has collaborators. Solo projects pay zero cost.
+            this.syncCRDTActivation(history.getCurrent());
 
             // Return the history
             return history;
         } else {
             this.readonlyProjects.set(project.getID(), project);
         }
+    }
+
+    /**
+     * Ensure the CRDT session for this project matches its collaboration
+     * state. Creates a new ProjectCRDT seeded from the project's snapshot
+     * (or its current source codes) and attaches a Firestore provider when
+     * collaborators are present; tears down both when none are.
+     */
+    private syncCRDTActivation(project: Project): void {
+        const id = project.getID();
+        const existing = this.projectCRDTs.get(id);
+        if (project.hasActiveCollaboration()) {
+            if (existing === undefined) {
+                const sources = project.getSources();
+                const codes = sources.map((s) => s.code.toString());
+                const snapshot = project.getCRDTSnapshot();
+                const crdt =
+                    snapshot !== null
+                        ? ProjectCRDT.fromSnapshot(snapshot)
+                        : ProjectCRDT.fromSources(codes);
+                this.projectCRDTs.set(id, crdt);
+                this.lastCRDTCodes.set(id, codes);
+                // Stream realtime updates to/from Firestore. Skipped in
+                // environments without firestore (SSR, tests with no
+                // firebase emulator) — the CRDT still works locally.
+                if (firestore !== undefined) {
+                    const provider = new YjsFirestoreProvider(
+                        firestore,
+                        id,
+                        crdt,
+                        this.database.getWriterID(),
+                    );
+                    this.crdtProviders.set(id, provider);
+
+                    // Spin up presence alongside the CRDT. The tracker
+                    // publishes our own caret/source and surfaces a
+                    // reactive map of remote peers for the editor's
+                    // RemoteCarets overlay to bind to.
+                    const tracker = new PresenceTracker(
+                        firestore,
+                        id,
+                        this.database.getWriterID(),
+                        this.database.getUserID(),
+                    );
+                    this.presenceTrackers.set(id, tracker);
+                }
+            }
+        } else if (existing !== undefined) {
+            const provider = this.crdtProviders.get(id);
+            if (provider !== undefined) {
+                provider.stop();
+                this.crdtProviders.delete(id);
+            }
+            const tracker = this.presenceTrackers.get(id);
+            if (tracker !== undefined) {
+                void tracker.stop();
+                this.presenceTrackers.delete(id);
+            }
+            existing.destroy();
+            this.projectCRDTs.delete(id);
+            this.lastCRDTCodes.delete(id);
+        }
+    }
+
+    /** Return the active presence tracker for this project, if any. The
+     *  editor's RemoteCarets overlay binds to its reactive `peers` map. */
+    getPresenceTracker(projectID: string): PresenceTracker | undefined {
+        return this.presenceTrackers.get(projectID);
+    }
+
+    /** Returns the active ProjectCRDT for a project ID, or undefined when
+     *  collaboration isn't active. Used by the realtime sync layer
+     *  (Stage 3) and by tests. */
+    getProjectCRDT(projectID: string): ProjectCRDT | undefined {
+        return this.projectCRDTs.get(projectID);
+    }
+
+    /** Fold an incoming remote project's CRDT snapshot into the active
+     *  local CRDT session. Yjs's update format is commutative — applying
+     *  the remote bytes converges both replicas. No-op when collaboration
+     *  isn't active, or when the remote has no snapshot to apply. */
+    private foldRemoteCRDT(remote: Project): void {
+        const crdt = this.projectCRDTs.get(remote.getID());
+        if (crdt === undefined) return;
+        const snapshot = remote.getCRDTSnapshot();
+        if (snapshot === null || snapshot.length === 0) return;
+        try {
+            const bytes = decodeCRDTSnapshot(snapshot);
+            crdt.applyRemoteUpdate(bytes);
+        } catch (err) {
+            console.error('Failed to fold remote CRDT snapshot', err);
+        }
+    }
+
+    /** If a CRDT session is active for this project, return a copy of the
+     *  project with `crdt` set to the current snapshot bytes. Otherwise
+     *  returns the project unchanged. Called from persist() so saves
+     *  always carry the latest Yjs state. */
+    private withCRDTSnapshot(project: Project): Project {
+        const crdt = this.projectCRDTs.get(project.getID());
+        if (crdt === undefined) return project;
+        return project.withCRDTSnapshot(crdt.encode());
+    }
+
+    /** When a CRDT session is active for the given project, apply the
+     *  per-source code diff between the previously cached materialized
+     *  text and this revision's text. This drives Y.Text mutations
+     *  during normal editing without changing the editor's call sites. */
+    private applyCRDTDiff(project: Project): void {
+        const id = project.getID();
+        const crdt = this.projectCRDTs.get(id);
+        if (crdt === undefined) return;
+        const codes = project.getSources().map((s) => s.code.toString());
+        const previous = this.lastCRDTCodes.get(id) ?? [];
+        for (let i = 0; i < codes.length; i++) {
+            const oldCode = previous[i] ?? '';
+            const newCode = codes[i];
+            if (oldCode !== newCode)
+                crdt.applyLocalEdit(i, oldCode, newCode, 'local');
+        }
+        this.lastCRDTCodes.set(id, codes);
     }
 
     /** Create a project and return it's ID */
@@ -550,9 +709,24 @@ export default class ProjectsDatabase {
         // Update or create a history for this project.
         const history = this.projectHistories.get(project.getID());
         if (history) {
+            // Bump per-field stamps for every metadata field whose value
+            // changed between the prior version and this one, tagged with
+            // this device's writer ID. This is what makes the remote-side
+            // merge in track() above pick the right side per field.
+            const stamped = project
+                .bumpStampsFrom(history.getCurrent(), this.database.getWriterID())
+                .withNewTime();
+
+            // If a CRDT session is active for this project, apply the
+            // text diff between the prior code and the new code to each
+            // source's Y.Text. The CRDT is the source of truth for code
+            // while collaboration is live, and its snapshot will be
+            // encoded into the project doc at persist() time.
+            this.applyCRDTDiff(stamped);
+
             // Save the project with a new time.
             const success = history.edit(
-                project.withNewTime(),
+                stamped,
                 remember,
                 false,
                 dynamic,
@@ -718,6 +892,24 @@ export default class ProjectsDatabase {
         // Untrack the project from both editable and read-only caches.
         this.projectHistories.delete(id);
         this.readonlyProjects.delete(id);
+
+        // Tear down any active CRDT session and its Firestore provider.
+        const provider = this.crdtProviders.get(id);
+        if (provider !== undefined) {
+            provider.stop();
+            this.crdtProviders.delete(id);
+        }
+        const tracker = this.presenceTrackers.get(id);
+        if (tracker !== undefined) {
+            void tracker.stop();
+            this.presenceTrackers.delete(id);
+        }
+        const crdt = this.projectCRDTs.get(id);
+        if (crdt !== undefined) {
+            crdt.destroy();
+            this.projectCRDTs.delete(id);
+            this.lastCRDTCodes.delete(id);
+        }
     }
 
     /** Persist in storage */
@@ -754,7 +946,9 @@ export default class ProjectsDatabase {
             this.database.setStatus(SaveStatus.Saving, undefined);
             try {
                 this.localDB.saveProjects(
-                    local.map((history) => history.getCurrent().serialize()),
+                    local.map((history) =>
+                        this.withCRDTSnapshot(history.getCurrent()).serialize(),
+                    ),
                 );
             } catch (err) {
                 console.error(err);
@@ -803,7 +997,9 @@ export default class ProjectsDatabase {
                     }
 
                     // Mark it as persisted, since we're about to save it that way.
-                    const serialized = current.asPersisted().serialize();
+                    const serialized = this.withCRDTSnapshot(
+                        current.asPersisted(),
+                    ).serialize();
                     batch.set(
                         doc(firestore, ProjectsCollection, serialized.id),
                         serialized,

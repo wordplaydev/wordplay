@@ -5928,7 +5928,8 @@
                 "unowned": "$~Dự án này không được lưu trữ trực tuyến, vì vậy không thể có chức năng trò chuyện hoặc cộng tác viên.",
                 "offline": "$~Không thể tải cuộc trò chuyện này.",
                 "empty": "$~Không có tin nhắn nào.",
-                "deleted": "$~Tin nhắn này đã bị xóa."
+                "deleted": "$~Tin nhắn này đã bị xóa.",
+                "tooManyCollaborators": "$?"
             },
             "prompt": {
                 "solo": "$~Tự trò chuyện với chính mình hoặc thêm...\n\n• một cộng tác viên, người có thể chỉnh sửa và trò chuyện\n\n• một người bình luận, người có thể trò chuyện nhưng không thể chỉnh sửa\n\n• một người xem, người có thể xem dự án của bạn nhưng không thể chỉnh sửa hoặc trò chuyện",

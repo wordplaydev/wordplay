@@ -135,23 +135,71 @@ const ProjectSchemaV6 = ProjectSchemaV5.omit({ v: true }).extend(
     }).shape,
 );
 
+/** Schema for a single Lamport stamp on one field. */
+const FieldStampSchema = z.object({
+    /** Lamport counter at time of write; 0 means never written. */
+    c: z.number().min(0),
+    /** Client ID that performed the write; empty string for never-written. */
+    w: z.string(),
+});
+
+/** Schema for the per-project stamps record used by per-field LWW merge. */
+const ProjectStampsSchema = z.object({
+    /** Highest counter ever observed for this project. */
+    lamport: z.number().min(0),
+    /** Stamps for fields that have ever been written. */
+    fields: z.record(z.string(), FieldStampSchema),
+});
+
+/**
+ * v7 adds per-field Lamport stamps for collaborative merge, fixing #135.
+ * Source identity for CRDT bindings is keyed by position in the sources array
+ * (a future schema bump can introduce stable per-source UUIDs if reordering
+ * becomes a use case).
+ */
+const ProjectSchemaV7 = ProjectSchemaV6.omit({ v: true }).extend(
+    z.object({
+        v: z.literal(7),
+        /** Per-field stamps used by the per-field LWW merge. See VectorClock.ts. */
+        stamps: ProjectStampsSchema,
+    }).shape,
+);
+
+/**
+ * v8 adds an optional CRDT snapshot. Solo projects (no collaborators) keep
+ * `crdt: null`; multi-collaborator projects store a base64-encoded Yjs Y.Doc
+ * snapshot containing per-source Y.Text fields keyed by source index. The
+ * snapshot is the authoritative state when live coediting is active —
+ * `sources[i].code` is the materialized text, kept in sync with each Y.Text
+ * for backwards compatibility with v6/v7 readers.
+ */
+const ProjectSchemaV8 = ProjectSchemaV7.omit({ v: true }).extend(
+    z.object({
+        v: z.literal(8),
+        /** Base64 of Y.encodeStateAsUpdateV2(doc), or null when CRDT is inactive. */
+        crdt: z.nullable(z.string()),
+    }).shape,
+);
+
 /** The latest version of a project.  */
-export const ProjectSchemaLatestVersion = 6;
+export const ProjectSchemaLatestVersion = 8;
 
 /** How we store sources as JSON in databases */
 export type SerializedCaret = z.infer<typeof CaretSchema>;
 export type SerializedSource = z.infer<typeof SourceSchema>;
 export type SerializedSourceCheckpoint = z.infer<typeof SourceCheckpointSchema>;
 export type SerializedPreview = z.infer<typeof PreviewSchema>;
+export type SerializedFieldStamp = z.infer<typeof FieldStampSchema>;
+export type SerializedProjectStamps = z.infer<typeof ProjectStampsSchema>;
 
 /** An alias for a project ID, to help clarify when a string is a project ID throughout the implementation. */
 export type ProjectID = string;
 
 /** Alias for the latest version of the schema. */
-export const ProjectSchema = ProjectSchemaV6;
+export const ProjectSchema = ProjectSchemaV8;
 
 /** The type of the latest version of the project */
-export type SerializedProject = z.infer<typeof ProjectSchemaV6>;
+export type SerializedProject = z.infer<typeof ProjectSchemaV8>;
 
 export type SerializedProjectUnknownVersion =
     | z.infer<typeof ProjectSchemaV1>
@@ -159,6 +207,8 @@ export type SerializedProjectUnknownVersion =
     | z.infer<typeof ProjectSchemaV3>
     | z.infer<typeof ProjectSchemaV4>
     | z.infer<typeof ProjectSchemaV5>
+    | z.infer<typeof ProjectSchemaV6>
+    | z.infer<typeof ProjectSchemaV7>
     | SerializedProject;
 
 /** Project updgrader */
@@ -185,6 +235,21 @@ export function upgradeProject(
             // triggers an on-demand compute via the preview queue (see
             // src/db/projects/previewQueue.ts).
             return upgradeProject({ ...project, v: 6, preview: undefined });
+        case 6:
+            // v6→v7: initialize empty stamps. The existing scalar `timestamp`
+            // is kept as a fallback when both sides' stamps are NeverWritten
+            // (i.e., neither replica has touched the project under v7 yet) —
+            // see ProjectsDatabase.track().
+            return upgradeProject({
+                ...project,
+                v: 7,
+                stamps: { lamport: 0, fields: {} },
+            });
+        case 7:
+            // v7→v8: CRDT snapshot is null until the project activates
+            // collaboration (has at least one collaborator). See ProjectCRDT
+            // and ProjectsDatabase.
+            return upgradeProject({ ...project, v: 8, crdt: null });
         case ProjectSchemaLatestVersion:
             return project;
         default:

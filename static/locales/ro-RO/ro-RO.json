@@ -5944,7 +5944,8 @@
                 "unowned": "$~Acest proiect nu este stocat online, deci nu poate avea chat sau colaboratori.",
                 "offline": "$~Nu se poate încărca acest chat.",
                 "empty": "$~Niciun mesaj.",
-                "deleted": "$~Acest mesaj a fost șters."
+                "deleted": "$~Acest mesaj a fost șters.",
+                "tooManyCollaborators": "$?"
             },
             "prompt": {
                 "solo": "$~Discutați cu dumneavoastră înșivă sau adăugați...",

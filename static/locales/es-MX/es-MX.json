@@ -6527,7 +6527,8 @@
                 "unowned": "$~Este proyecto no tiene propietario, por lo que no puede tener un chat.",
                 "offline": "$~No se puede cargar este chat.",
                 "empty": "$~No hay mensajes.",
-                "deleted": "$~Este mensaje fue eliminado."
+                "deleted": "$~Este mensaje fue eliminado.",
+                "tooManyCollaborators": "$?"
             },
             "prompt": {
                 "solo": "$~Chatea contigo mismo o agrega un colaborador, que pueda editar y chatear.",

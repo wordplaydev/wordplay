@@ -6548,7 +6548,8 @@
                 "unowned": "$~Ce projet n'a pas de propriétaire, il ne peut donc pas avoir de chat.",
                 "offline": "$~Impossible de charger ce chat.",
                 "empty": "$~Aucun message.",
-                "deleted": "$~Ce message a été supprimé."
+                "deleted": "$~Ce message a été supprimé.",
+                "tooManyCollaborators": "$?"
             },
             "prompt": {
                 "solo": "$~Discutez avec vous-même ou ajoutez un collaborateur, qui peut éditer et discuter.",

@@ -200,6 +200,23 @@
         caretSnapshot = $caret;
     });
 
+    // Publish the local caret position to the PresenceTracker for this
+    // project, so collaborators see where we're editing. No-op when the
+    // project is solo (tracker is undefined). Caret is serialized as
+    // number | Path | [number, number] to match the project's SerializedCaret.
+    $effect(() => {
+        const c = $caret;
+        const tracker = Projects.getPresenceTracker(project.getID());
+        if (tracker === undefined) return;
+        const sourceIndex = project.getIndexOfSource(source);
+        const pos = c.position;
+        const serialized =
+            pos instanceof Node
+                ? (source.root.getPath(pos) ?? null)
+                : pos;
+        tracker.updateCaret(sourceIndex, serialized);
+    });
+
     let restoredPosition: CaretPosition | undefined = $state(undefined);
 
     // A menu of potential transformations based on the caret position.
