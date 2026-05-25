@@ -4733,7 +4733,14 @@
                 "projectContainedPII": "$~為了保護您的隱私，包含潛在個人識別資訊的項目不會在線上保存。檢查項目以查看資訊是否具有識別性。",
                 "projectsNotLoadingOnline": "$~無法載入線上項目。",
                 "projectNotSavedOnline": "$~無法線上儲存項目。",
-                "settingsUnsaved": "$~無法線上儲存設定。"
+                "settingsUnsaved": "$~無法線上儲存設定。",
+                "failureReason": {
+                    "indexedDBWriteFailed": "$~您的瀏覽器無法將這些項目儲存到此裝置上。",
+                    "indexedDBUnsupported": "$~您的瀏覽器不允許 Wordplay 在此裝置上儲存項目。",
+                    "firestoreBatchFailed": "$~我們無法將這些項目上傳到雲端。它們仍然安全地保存在這台設備上。",
+                    "projectContainsPII": "$~這些項目看起來包含個人訊息，所以我們沒有將它們保存到網路上。請開啟每個項目，查看哪些內容可能涉及個人資訊。"
+                },
+                "failuresHeader": "$~$count："
             },
             "dialog": {
                 "unsaved": "$~未儲存的工作...",

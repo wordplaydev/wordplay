@@ -4774,7 +4774,14 @@
                 "projectContainedPII": "$~귀하의 개인 정보를 보호하기 위해 잠재적으로 개인 식별 정보가 포함된 프로젝트는 온라인에 저장되지 않았습니다. 해당 정보가 식별 가능한지 확인하려면 프로젝트를 확인하세요.",
                 "projectsNotLoadingOnline": "$~온라인 프로젝트를 로드할 수 없습니다.",
                 "projectNotSavedOnline": "$~프로젝트를 온라인으로 저장할 수 없습니다.",
-                "settingsUnsaved": "$~온라인으로 설정을 저장할 수 없습니다."
+                "settingsUnsaved": "$~온라인으로 설정을 저장할 수 없습니다.",
+                "failureReason": {
+                    "indexedDBWriteFailed": "$~브라우저에서 이 프로젝트를 이 기기에 저장할 수 없습니다.",
+                    "indexedDBUnsupported": "$~사용하시는 브라우저에서 Wordplay가 이 기기에 프로젝트를 저장할 수 있도록 허용하지 않습니다.",
+                    "firestoreBatchFailed": "$~이 프로젝트들을 클라우드로 옮길 수 없었어요. 이 기기에 안전하게 보관되어 있습니다.",
+                    "projectContainsPII": "$~이 프로젝트에는 개인 정보가 포함된 것으로 보여 온라인에 저장하지 않았습니다. 각 프로젝트를 열어 개인 정보가 있는지 확인해 보세요."
+                },
+                "failuresHeader": "$~$count 프로젝트가 저장되지 않았습니다."
             },
             "help": "$~키보드 단축키 표시",
             "dialog": {

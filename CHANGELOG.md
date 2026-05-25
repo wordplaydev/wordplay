@@ -41,6 +41,7 @@ This week we focused on multilingual coding features, with several bug fixes alo
 - 🚦 When your code has a type error, the suggested fixes are now much smarter too, with options like converting values, wrapping in a list, adding a missing input, or filling in a default (#1025).
 - 🚦 When your code has a problem, we now show fewer follow-up conflicts that distract from the root cause. For example, if a name like `foo` is undefined, we won't also complain everywhere else `foo` is used (#1146).
 - ⚡ The little glyphs on [galleries](https://wordplay.dev/galleries) and your [projects](https://wordplay.dev/projects) page now load right away instead of one per second. We also let you pick your own glyph for a project in the share dialog (#435).
+- 💾 When projects don't save, the error message now lists which projects failed, why each one failed, and the technical error code to help with bug reports.
 
 ### Fixed
 

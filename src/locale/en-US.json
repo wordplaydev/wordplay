@@ -4786,7 +4786,14 @@
                 "projectContainedPII": "To protect your privacy, a project with potentially personally identifiable information was not saved online. Check the project to see if the information is identifying.",
                 "projectsNotLoadingOnline": "Unable to load online projects.",
                 "projectNotSavedOnline": "Unable to save projects online.",
-                "settingsUnsaved": "Unable to save settings online."
+                "settingsUnsaved": "Unable to save settings online.",
+                "failureReason": {
+                    "indexedDBWriteFailed": "Your browser couldn't save these projects on this device.",
+                    "indexedDBUnsupported": "Your browser won't let Wordplay save projects on this device.",
+                    "firestoreBatchFailed": "We couldn't send these projects to the cloud. They're still safe on this device.",
+                    "projectContainsPII": "These projects look like they have personal information, so we didn't save them online. Open each one to check what looks personal."
+                },
+                "failuresHeader": "$count project(s) didn't save:"
             },
             "dialog": {
                 "unsaved": "Unsaved work...",

@@ -4782,7 +4782,14 @@
                 "projectContainedPII": "$~Para protektahan ang iyong privacy, hindi na-save online ang isang proyekto na may posibleng personal na impormasyong makakapagpakilala. Suriin ang proyekto para makita kung ang impormasyon ay nakakapagpakilala.",
                 "projectsNotLoadingOnline": "$~Hindi ma-load ang mga online na proyekto.",
                 "projectNotSavedOnline": "$~Hindi ma-save ang mga proyekto online.",
-                "settingsUnsaved": "$~Hindi ma-save ang mga setting online."
+                "settingsUnsaved": "$~Hindi ma-save ang mga setting online.",
+                "failureReason": {
+                    "indexedDBWriteFailed": "$~Hindi ma-save ng iyong browser ang mga proyektong ito sa device na ito.",
+                    "indexedDBUnsupported": "$~Hindi papayagan ng iyong browser ang Wordplay na mag-save ng mga proyekto sa device na ito.",
+                    "firestoreBatchFailed": "$~Hindi namin maipadala ang mga proyektong ito sa cloud. Ligtas pa rin ang mga ito sa device na ito.",
+                    "projectContainsPII": "$~Mukhang may personal na impormasyon ang mga proyektong ito, kaya hindi namin na-save online. Buksan ang bawat isa para tingnan kung ano ang mukhang personal."
+                },
+                "failuresHeader": "$~Hindi na-save ng proyektong $count :"
             },
             "dialog": {
                 "unsaved": "$~Hindi na-save na trabaho...",

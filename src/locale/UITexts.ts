@@ -226,6 +226,20 @@ type UITexts = {
             projectNotSavedOnline: FormattedText;
             /** [formatted] When settings are being saved */
             settingsUnsaved: FormattedText;
+            /** Per-reason explanations shown in the save-failure dialog,
+             *  grouped above the list of affected project names. */
+            failureReason: {
+                /** [formatted] Browser local save failed (IndexedDB write error) */
+                indexedDBWriteFailed: FormattedText;
+                /** [formatted] Browser doesn't support saving projects locally */
+                indexedDBUnsupported: FormattedText;
+                /** [formatted] Sending projects to the cloud failed */
+                firestoreBatchFailed: FormattedText;
+                /** [formatted] Project contained personal info so wasn't sent online */
+                projectContainsPII: FormattedText;
+            };
+            /** [plain] Header above the per-project failure list. $count = total count */
+            failuresHeader: Template<['count']>;
         };
         dialog: {
             /** [formatted] The header for the save error */

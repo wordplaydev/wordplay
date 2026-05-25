@@ -4774,7 +4774,14 @@
                 "projectContainedPII": "$~Zum Schutz Ihrer Privatsphäre wurde ein Projekt mit potenziell persönlich identifizierbaren Informationen nicht online gespeichert. Überprüfen Sie das Projekt, um festzustellen, ob die Informationen identifizierend sind.",
                 "projectsNotLoadingOnline": "$~Online-Projekte können nicht geladen werden.",
                 "projectNotSavedOnline": "$~Projekte können nicht online gespeichert werden.",
-                "settingsUnsaved": "$~Einstellungen können nicht online gespeichert werden."
+                "settingsUnsaved": "$~Einstellungen können nicht online gespeichert werden.",
+                "failureReason": {
+                    "indexedDBWriteFailed": "$~Ihr Browser konnte diese Projekte auf diesem Gerät nicht speichern.",
+                    "indexedDBUnsupported": "$~Ihr Browser erlaubt Wordplay nicht, Projekte auf diesem Gerät zu speichern.",
+                    "firestoreBatchFailed": "$~Wir konnten diese Projekte nicht in die Cloud hochladen. Sie sind aber weiterhin auf diesem Gerät sicher.",
+                    "projectContainsPII": "$~Diese Projekte scheinen persönliche Informationen zu enthalten, daher haben wir sie nicht online gespeichert. Öffnen Sie jedes Projekt, um zu prüfen, welche Informationen persönlich erscheinen."
+                },
+                "failuresHeader": "$~$count Projekte wurden nicht gespeichert:"
             },
             "dialog": {
                 "unsaved": "$~Nicht gespeicherte Arbeit …",
