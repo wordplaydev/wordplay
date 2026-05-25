@@ -13037,6 +13037,10 @@
                           "description": "[plain] When someone wants to add a collaborator but isn't authenticated",
                           "type": "string"
                         },
+                        "invalidPreview": {
+                          "description": "[plain] When the preview-glyph text field doesn't contain exactly one grapheme",
+                          "type": "string"
+                        },
                         "self": {
                           "description": "[plain] Can't add self",
                           "type": "string"
@@ -13049,7 +13053,8 @@
                       "required": [
                         "unknown",
                         "anonymous",
-                        "self"
+                        "self",
+                        "invalidPreview"
                       ],
                       "type": "object"
                     },
@@ -13074,10 +13079,15 @@
                         "emailOrUsername": {
                           "$ref": "#/definitions/FieldText",
                           "description": "The email or username field for the collaborator being added"
+                        },
+                        "preview": {
+                          "$ref": "#/definitions/FieldText",
+                          "description": "The single-grapheme preview glyph field"
                         }
                       },
                       "required": [
-                        "emailOrUsername"
+                        "emailOrUsername",
+                        "preview"
                       ],
                       "type": "object"
                     },
@@ -13089,13 +13099,18 @@
                       "additionalProperties": false,
                       "description": "Modes in the share dialog",
                       "properties": {
+                        "preview": {
+                          "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%5D%3E",
+                          "description": "The preview auto/custom toggle mode widget"
+                        },
                         "public": {
                           "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%5D%3E",
                           "description": "The public/private toggle mode widget"
                         }
                       },
                       "required": [
-                        "public"
+                        "public",
+                        "preview"
                       ],
                       "type": "object"
                     },
@@ -13128,6 +13143,10 @@
                           "$ref": "#/definitions/HeaderAndExplanationText",
                           "description": "The personal information subheader and explanation"
                         },
+                        "preview": {
+                          "$ref": "#/definitions/HeaderAndExplanationText",
+                          "description": "The preview-glyph customization subheader and explanation"
+                        },
                         "public": {
                           "$ref": "#/definitions/HeaderAndExplanationText",
                           "description": "The public/private toggle subheader and explanation"
@@ -13137,7 +13156,8 @@
                         "gallery",
                         "public",
                         "pii",
-                        "copy"
+                        "copy",
+                        "preview"
                       ],
                       "type": "object"
                     }

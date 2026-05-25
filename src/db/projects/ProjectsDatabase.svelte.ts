@@ -26,7 +26,10 @@ import { firestore } from '@db/firebase';
 import { EditFailure } from '@db/projects/EditFailure';
 import { unknownFlags } from '@db/projects/Moderation';
 import Project from '@db/projects/Project';
-import { PersistenceType, ProjectHistory } from '@db/projects/ProjectHistory.svelte';
+import {
+    PersistenceType,
+    ProjectHistory,
+} from '@db/projects/ProjectHistory.svelte';
 import {
     ProjectSchema,
     upgradeProject,
@@ -578,6 +581,80 @@ export default class ProjectsDatabase {
         }
         // Not editable? Return false.
         else return EditFailure.ReadOnly;
+    }
+
+    /**
+     * Persist a freshly-extracted auto preview for the project. No-ops if
+     * the project's current preview is `manual` (the user has pinned a
+     * glyph), or if we have no editable history for this project (e.g. it's
+     * a read-only public project we're only viewing — the caller should
+     * keep the computed preview in component state instead). Called from
+     * ProjectView's auto-update effect and from the on-demand preview
+     * queue's editable-project success path.
+     */
+    setAutoPreview(
+        id: string,
+        extracted: {
+            text: string;
+            foreground: string | null;
+            background: string | null;
+            face: string | null;
+            characterName: string | null;
+        },
+    ): void {
+        const history = this.projectHistories.get(id);
+        if (!history) return;
+        const current = history.getCurrent();
+        if (current.getPreview()?.mode === 'manual') return;
+        this.edit(
+            current.withPreview({ mode: 'auto', ...extracted }),
+            false,
+            true,
+        );
+    }
+
+    /**
+     * Pin a single-grapheme glyph as the project's preview. Manual previews
+     * are never overwritten by the auto-update flow.
+     */
+    setManualPreview(id: string, text: string): void {
+        const history = this.projectHistories.get(id);
+        if (!history) return;
+        const current = history.getCurrent();
+        this.edit(
+            current.withPreview({
+                mode: 'manual',
+                text,
+                foreground: null,
+                background: null,
+                face: null,
+                characterName: null,
+            }),
+            false,
+            true,
+        );
+    }
+
+    /**
+     * Clear an existing manual preview, returning the project to auto mode.
+     * The next ProjectView open or queued compute will repopulate the text.
+     */
+    clearManualPreview(id: string): void {
+        const history = this.projectHistories.get(id);
+        if (!history) return;
+        const current = history.getCurrent();
+        this.edit(current.withPreview(undefined), false, true);
+    }
+
+    /**
+     * True if the current user can save changes to this project. Mirrors
+     * the predicate used by ProjectPreview's `editable` derivation and by
+     * the share dialog visibility rules.
+     */
+    isEditable(project: Project): boolean {
+        const user = this.database.getUser();
+        if (user === null) return false;
+        return project.hasContributor(user.uid);
     }
 
     /** Archive/unarchive the project with the given ID, if it exists */

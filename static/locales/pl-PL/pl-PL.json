@@ -5352,12 +5352,20 @@
                     "copy": {
                         "header": "$~Kopiuj i wklej",
                         "explanation": "$~Skopiuj ten projekt do schowka jako tekst i udostępnij go gdzie indziej."
+                    },
+                    "preview": {
+                        "header": "$?",
+                        "explanation": "$?"
                     }
                 },
                 "field": {
                     "emailOrUsername": {
                         "placeholder": "$~e-mail lub nazwa użytkownika",
                         "description": "$~adres e-mail lub nazwa użytkownika osoby, której chcesz przyznać dostęp do edycji"
+                    },
+                    "preview": {
+                        "placeholder": "$?",
+                        "description": "$?"
                     }
                 },
                 "mode": {
@@ -5368,12 +5376,18 @@
                             "$~tylko Ty i współpracownicy możecie zobaczyć ten projekt",
                             "$~każdy może zobaczyć ten projekt"
                         ]
+                    },
+                    "preview": {
+                        "label": "$?",
+                        "labels": ["$?"],
+                        "tips": ["$?"]
                     }
                 },
                 "error": {
                     "unknown": "$~Nie znamy twórcy, który posiada ten adres e-mail.",
                     "anonymous": "$~$!Musisz być <zalogowany@://login>, aby udostępnić.",
-                    "self": "$~Nie możesz dodać siebie."
+                    "self": "$~Nie możesz dodać siebie.",
+                    "invalidPreview": "$?"
                 },
                 "button": {
                     "submit": "$~Udostępnij projekt za pomocą tego adresu e-mail",

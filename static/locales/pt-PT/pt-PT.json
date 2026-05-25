@@ -5584,12 +5584,20 @@
                     "pii": {
                         "header": "$~Informações pessoais",
                         "explanation": "$~Partilhar informações de identificação pessoal (PII) publicamente pode colocar os criadores em risco. Por isso, detetamos possíveis PII e alertamos os criadores para que removam os dados sensíveis ou os marquem como não sensíveis.\n\nAbaixo está uma lista de possíveis PII neste projeto que marcou como não sensíveis. Pode clicar no botão ao lado para o marcar novamente como sensível, mas isso significa que o seu projeto já não será guardado online."
+                    },
+                    "preview": {
+                        "header": "$?",
+                        "explanation": "$?"
                     }
                 },
                 "field": {
                     "emailOrUsername": {
                         "placeholder": "$~e-mail ou nome de utilizador",
                         "description": "$~E-mail ou nome de utilizador da pessoa a quem pretende conceder acesso de edição."
+                    },
+                    "preview": {
+                        "placeholder": "$?",
+                        "description": "$?"
                     }
                 },
                 "mode": {
@@ -5600,12 +5608,18 @@
                             "$~Só você e os seus colaboradores podem ver este projeto.",
                             "$~Qualquer pessoa pode ver este projeto."
                         ]
+                    },
+                    "preview": {
+                        "label": "$?",
+                        "labels": ["$?"],
+                        "tips": ["$?"]
                     }
                 },
                 "error": {
                     "unknown": "$~Não conhecemos nenhum criador com este endereço de e-mail.",
                     "anonymous": "$~Precisa de estar <logado em@://login> para partilhar.",
-                    "self": "$~Não pode adicionar a si mesmo."
+                    "self": "$~Não pode adicionar a si mesmo.",
+                    "invalidPreview": "$?"
                 },
                 "button": {
                     "submit": "$~Partilhe o projeto com este endereço de e-mail.",

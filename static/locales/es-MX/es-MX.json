@@ -5309,12 +5309,20 @@
                     "copy": {
                         "header": "$~Copiar y pegar",
                         "explanation": "$~Copia este proyecto a tu portapapeles como texto y compártelo en otro lugar."
+                    },
+                    "preview": {
+                        "header": "$?",
+                        "explanation": "$?"
                     }
                 },
                 "field": {
                     "emailOrUsername": {
                         "placeholder": "correo electrónico o nombre de usuario",
                         "description": "correo electrónico o nombre de usuario de la persona a la que desea darle acceso de edición"
+                    },
+                    "preview": {
+                        "placeholder": "$?",
+                        "description": "$?"
                     }
                 },
                 "mode": {
@@ -5325,12 +5333,18 @@
                             "$~Sólo tú y tus colaboradores podéis ver este proyecto.",
                             "$~Cualquiera puede ver este proyecto"
                         ]
+                    },
+                    "preview": {
+                        "label": "$?",
+                        "labels": ["$?"],
+                        "tips": ["$?"]
                     }
                 },
                 "error": {
                     "unknown": "No conocemos a una creadora con este correo electrónico.",
                     "anonymous": "Debes iniciar sesión para compartir.",
-                    "self": "$~No puedes agregarte a ti mismo."
+                    "self": "$~No puedes agregarte a ti mismo.",
+                    "invalidPreview": "$?"
                 },
                 "button": {
                     "submit": "Compartir el proyecto con esta dirección de correo electrónico",

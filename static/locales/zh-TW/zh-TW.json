@@ -5282,12 +5282,20 @@
                     "copy": {
                         "header": "複製貼上",
                         "explanation": "將此項附複製到剪貼簿並在其他地方分享。"
+                    },
+                    "preview": {
+                        "header": "$?",
+                        "explanation": "$?"
                     }
                 },
                 "field": {
                     "emailOrUsername": {
                         "placeholder": "電子郵件或使用者名稱",
                         "description": "您想要授予編輯權限的人員的電子郵件或使用者名稱"
+                    },
+                    "preview": {
+                        "placeholder": "$?",
+                        "description": "$?"
                     }
                 },
                 "mode": {
@@ -5298,12 +5306,18 @@
                             "$~只有您和您的合作者才能看到此項目",
                             "$~任何人都可以看到這個項目"
                         ]
+                    },
+                    "preview": {
+                        "label": "$?",
+                        "labels": ["$?"],
+                        "tips": ["$?"]
                     }
                 },
                 "error": {
                     "unknown": "我們不知道這封郵件的創建者是誰。",
                     "anonymous": "您必須登錄才能共享。",
-                    "self": "您無法添加自己。"
+                    "self": "您無法添加自己。",
+                    "invalidPreview": "$?"
                 },
                 "button": {
                     "submit": "透過此電子郵件地址分享項目",

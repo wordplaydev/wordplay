@@ -44,6 +44,7 @@ import {
     type ProjectID,
     ProjectSchemaLatestVersion,
     type SerializedCaret,
+    type SerializedPreview,
     type SerializedProject,
     type SerializedProjectUnknownVersion,
     type SerializedSource,
@@ -1101,6 +1102,7 @@ export default class Project {
             restrictedGallery: project.restrictedGallery,
             viewers: project.viewers,
             commenters: project.commenters,
+            preview: project.preview,
         });
     }
 
@@ -1310,6 +1312,7 @@ export default class Project {
             restrictedGallery: this.data.restrictedGallery,
             viewers: this.data.viewers,
             commenters: this.data.commenters,
+            preview: this.data.preview,
         };
     }
 
@@ -1327,6 +1330,14 @@ export default class Project {
 
     withChat(id: string | null) {
         return new Project({ ...this.data, chat: id });
+    }
+
+    getPreview(): SerializedPreview | undefined {
+        return this.data.preview;
+    }
+
+    withPreview(preview: SerializedPreview | undefined): Project {
+        return new Project({ ...this.data, preview });
     }
 
     static getHistorySize(history: SerializedSourceCheckpoint[]) {

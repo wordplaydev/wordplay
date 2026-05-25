@@ -1,5 +1,6 @@
 import Templates from '@concepts/Templates';
 import Evaluator from '@runtime/Evaluator';
+import UnicodeString from '@unicode/UnicodeString';
 import ExceptionValue from '@values/ExceptionValue';
 import { readFileSync } from 'fs';
 import path from 'path';
@@ -154,5 +155,25 @@ test.each([...projects])(
         const value = evaluator.getInitialValue();
         evaluator.stop();
         expect(value, value?.toWordplay()).not.toBeInstanceOf(ExceptionValue);
+    },
+);
+
+// Every example .wp file must declare a preview glyph on its first line
+// (a single grapheme, before the project title). See parseSerializedProject
+// in `examples.ts` and the file format docs there. This guards against new
+// examples being added without a preview, which would leave their tile on
+// /galleries / /projects waiting for the on-demand compute queue.
+test.each([...projects])(
+    `$name has a single-grapheme preview glyph`,
+    (example: SerializedProject) => {
+        expect(
+            example.preview,
+            `Add a single-grapheme preview line to the top of static/examples/${example.id.replace(/^example-/, '')}.wp`,
+        ).toBeDefined();
+        const text = example.preview?.text ?? '';
+        expect(
+            new UnicodeString(text).getLength(),
+            `Preview glyph "${text}" must be exactly one grapheme.`,
+        ).toBe(1);
     },
 );

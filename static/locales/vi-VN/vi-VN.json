@@ -5584,12 +5584,20 @@
                     "pii": {
                         "header": "$~Thông tin cá nhân",
                         "explanation": "$~Việc chia sẻ thông tin nhận dạng cá nhân (PII) công khai có thể khiến người tạo nội dung gặp rủi ro, vì vậy chúng tôi phát hiện các thông tin PII khả nghi và cảnh báo người tạo nội dung nên xóa dữ liệu nhạy cảm hoặc đánh dấu là không nhạy cảm.\n\nDưới đây là danh sách các thông tin PII khả nghi trong dự án này mà bạn đã đánh dấu là không nhạy cảm. Bạn có thể nhấp vào nút bên cạnh để đánh dấu lại là nhạy cảm, nhưng làm như vậy có nghĩa là dự án của bạn sẽ không còn được lưu trực tuyến nữa."
+                    },
+                    "preview": {
+                        "header": "$?",
+                        "explanation": "$?"
                     }
                 },
                 "field": {
                     "emailOrUsername": {
                         "placeholder": "$~email hoặc tên người dùng",
                         "description": "$~Địa chỉ email hoặc tên người dùng của người mà bạn muốn cấp quyền chỉnh sửa."
+                    },
+                    "preview": {
+                        "placeholder": "$?",
+                        "description": "$?"
                     }
                 },
                 "mode": {
@@ -5600,12 +5608,18 @@
                             "$~Chỉ bạn và các cộng sự mới có thể xem dự án này.",
                             "$~Bất kỳ ai cũng có thể xem dự án này."
                         ]
+                    },
+                    "preview": {
+                        "label": "$?",
+                        "labels": ["$?"],
+                        "tips": ["$?"]
                     }
                 },
                 "error": {
                     "unknown": "$~Chúng tôi không biết người tạo ra email này là ai.",
                     "anonymous": "$~Bạn phải đăng nhập vào tài khoản <login@://login> để chia sẻ.",
-                    "self": "$~Bạn không thể tự thêm mình vào."
+                    "self": "$~Bạn không thể tự thêm mình vào.",
+                    "invalidPreview": "$?"
                 },
                 "button": {
                     "submit": "$~Hãy chia sẻ dự án với địa chỉ email này.",

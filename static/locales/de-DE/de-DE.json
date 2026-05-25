@@ -5326,12 +5326,20 @@
                     "copy": {
                         "header": "$~Kopieren und Einfügen",
                         "explanation": "$~Kopieren Sie dieses Projekt als Text in Ihre Zwischenablage und geben Sie es woanders weiter."
+                    },
+                    "preview": {
+                        "header": "$?",
+                        "explanation": "$?"
                     }
                 },
                 "field": {
                     "emailOrUsername": {
                         "placeholder": "$~E-Mail Adresse oder Benutzername",
                         "description": "$~E-Mail oder Benutzername der Person, der Sie Bearbeitungszugriff gewähren möchten"
+                    },
+                    "preview": {
+                        "placeholder": "$?",
+                        "description": "$?"
                     }
                 },
                 "mode": {
@@ -5342,12 +5350,18 @@
                             "$~Nur Sie und Ihre Mitarbeiter können dieses Projekt sehen.",
                             "$~Jeder kann dieses Projekt sehen."
                         ]
+                    },
+                    "preview": {
+                        "label": "$?",
+                        "labels": ["$?"],
+                        "tips": ["$?"]
                     }
                 },
                 "error": {
                     "unknown": "$~Wir kennen keinen Ersteller mit dieser E-Mail.",
                     "anonymous": "$~$!Sie müssen <angemeldet@://login> sein, um teilen zu können.",
-                    "self": "$~Sie können sich nicht selbst hinzufügen."
+                    "self": "$~Sie können sich nicht selbst hinzufügen.",
+                    "invalidPreview": "$?"
                 },
                 "button": {
                     "submit": "$~Teilen Sie das Projekt mit dieser E-Mail-Adresse",

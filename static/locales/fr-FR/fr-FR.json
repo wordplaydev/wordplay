@@ -5330,12 +5330,20 @@
                     "copy": {
                         "header": "$~Copier et coller",
                         "explanation": "$~Copiez ce projet dans votre presse-papiers sous forme de texte et partagez-le ailleurs."
+                    },
+                    "preview": {
+                        "header": "$?",
+                        "explanation": "$?"
                     }
                 },
                 "field": {
                     "emailOrUsername": {
                         "placeholder": "$~email ou nom d'utilisateur",
                         "description": "$~e-mail ou nom d'utilisateur de la personne à qui vous souhaitez donner l'accès en modification"
+                    },
+                    "preview": {
+                        "placeholder": "$?",
+                        "description": "$?"
                     }
                 },
                 "mode": {
@@ -5346,12 +5354,18 @@
                             "$~Seuls vous et vos collaborateurs pouvez voir ce projet.",
                             "$~n'importe qui peut voir ce projet"
                         ]
+                    },
+                    "preview": {
+                        "label": "$?",
+                        "labels": ["$?"],
+                        "tips": ["$?"]
                     }
                 },
                 "error": {
                     "unknown": "$~Nous ne connaissons pas de créateur avec cet email.",
                     "anonymous": "$~Vous devez être <connecté@://login> pour partager.",
-                    "self": "$~Vous ne pouvez pas vous ajouter."
+                    "self": "$~Vous ne pouvez pas vous ajouter.",
+                    "invalidPreview": "$?"
                 },
                 "button": {
                     "submit": "$~Partager le projet avec cette adresse email",

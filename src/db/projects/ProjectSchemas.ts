@@ -92,9 +92,9 @@ const ProjectSchemaV4 = ProjectSchemaV3.omit({ v: true }).extend(
     z.object({ v: z.literal(4), history: z.array(SourceCheckpointSchema) })
         .shape,
 );
-/** v5 adds viewers, who can view the project but not edit or comment, and commenters, who can participate in chats 
+/** v5 adds viewers, who can view the project but not edit or comment, and commenters, who can participate in chats
  * and allows users who have a project in the gallery to restrict who can see their project to them and their teacher
-*/
+ */
 const ProjectSchemaV5 = ProjectSchemaV4.omit({ v: true }).extend(
     z.object({
         v: z.literal(5),
@@ -107,28 +107,58 @@ const ProjectSchemaV5 = ProjectSchemaV4.omit({ v: true }).extend(
     }).shape,
 );
 
+/** Preview metadata used by ProjectPreview / HowToPreview / GalleryPreview tiles.
+ *  Either auto-populated by ProjectView's live evaluator or by the on-demand
+ *  fallback queue, or pinned by the user via the share dialog. */
+const PreviewSchema = z.object({
+    /** 'auto' = written by ProjectView's live evaluator or the on-demand
+     *           fallback queue. Overwritten by either source.
+     *  'manual' = pinned by the user in the share dialog. Never overwritten. */
+    mode: z.union([z.literal('auto'), z.literal('manual')]),
+    /** Single grapheme to display. */
+    text: z.string(),
+    /** Foreground color (CSS) for auto previews — null for manual. */
+    foreground: z.nullable(z.string()),
+    /** Background color (CSS) for auto previews — null for manual. */
+    background: z.nullable(z.string()),
+    /** Font face for auto previews — null for manual. */
+    face: z.nullable(z.string()),
+    /** Optional Character name to render instead of text. */
+    characterName: z.nullable(z.string()),
+});
+
+/** v6 adds an optional preview metadata field. See {@link PreviewSchema}. */
+const ProjectSchemaV6 = ProjectSchemaV5.omit({ v: true }).extend(
+    z.object({
+        v: z.literal(6),
+        preview: PreviewSchema.optional(),
+    }).shape,
+);
+
 /** The latest version of a project.  */
-export const ProjectSchemaLatestVersion = 5;
+export const ProjectSchemaLatestVersion = 6;
 
 /** How we store sources as JSON in databases */
 export type SerializedCaret = z.infer<typeof CaretSchema>;
 export type SerializedSource = z.infer<typeof SourceSchema>;
 export type SerializedSourceCheckpoint = z.infer<typeof SourceCheckpointSchema>;
+export type SerializedPreview = z.infer<typeof PreviewSchema>;
 
 /** An alias for a project ID, to help clarify when a string is a project ID throughout the implementation. */
 export type ProjectID = string;
 
 /** Alias for the latest version of the schema. */
-export const ProjectSchema = ProjectSchemaV5;
+export const ProjectSchema = ProjectSchemaV6;
 
 /** The type of the latest version of the project */
-export type SerializedProject = z.infer<typeof ProjectSchemaV5>;
+export type SerializedProject = z.infer<typeof ProjectSchemaV6>;
 
 export type SerializedProjectUnknownVersion =
     | z.infer<typeof ProjectSchemaV1>
     | z.infer<typeof ProjectSchemaV2>
     | z.infer<typeof ProjectSchemaV3>
     | z.infer<typeof ProjectSchemaV4>
+    | z.infer<typeof ProjectSchemaV5>
     | SerializedProject;
 
 /** Project updgrader */
@@ -143,7 +173,18 @@ export function upgradeProject(
         case 3:
             return upgradeProject({ ...project, v: 4, history: [] });
         case 4:
-            return upgradeProject({ ...project, v: 5, restrictedGallery: false, viewers: [], commenters: [] });
+            return upgradeProject({
+                ...project,
+                v: 5,
+                restrictedGallery: false,
+                viewers: [],
+                commenters: [],
+            });
+        case 5:
+            // Leave `preview: undefined` — the first read after migration
+            // triggers an on-demand compute via the preview queue (see
+            // src/db/projects/previewQueue.ts).
+            return upgradeProject({ ...project, v: 6, preview: undefined });
         case ProjectSchemaLatestVersion:
             return project;
         default:

@@ -5596,12 +5596,20 @@
                     "pii": {
                         "header": "$~Informații personale",
                         "explanation": "$~Partajarea publică a informațiilor de identificare personală (PII) poate pune în pericol creatorii, așa că detectăm posibile PII și îi avertizăm fie să elimine datele sensibile, fie să le marcheze ca nesensibile. Mai jos este o listă de posibile PII din acest proiect pe care l-ați marcat ca nesensibil. Puteți face clic pe butonul de lângă acesta pentru a-l marca din nou ca sensibil, dar acest lucru înseamnă că proiectul dvs. nu va mai fi salvat online."
+                    },
+                    "preview": {
+                        "header": "$?",
+                        "explanation": "$?"
                     }
                 },
                 "field": {
                     "emailOrUsername": {
                         "placeholder": "$~e-mail sau nume de utilizator",
                         "description": "$~adresa de e-mail sau numele de utilizator al persoanei căreia doriți să îi acordați acces de editare"
+                    },
+                    "preview": {
+                        "placeholder": "$?",
+                        "description": "$?"
                     }
                 },
                 "mode": {
@@ -5612,12 +5620,18 @@
                             "$~doar tu și colaboratorii puteți vedea acest proiect",
                             "$~oricine poate vedea acest proiect"
                         ]
+                    },
+                    "preview": {
+                        "label": "$?",
+                        "labels": ["$?"],
+                        "tips": ["$?"]
                     }
                 },
                 "error": {
                     "unknown": "$~Nu cunoaștem niciun creator cu această adresă de e-mail.",
                     "anonymous": "$~Trebuie să fii<logged in@://login> a împărtăși.",
-                    "self": "$~Nu te poți adăuga pe tine însuți."
+                    "self": "$~Nu te poți adăuga pe tine însuți.",
+                    "invalidPreview": "$?"
                 },
                 "button": {
                     "submit": "$~Distribuiți proiectul cu această adresă de e-mail",

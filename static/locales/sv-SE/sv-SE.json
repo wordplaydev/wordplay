@@ -5344,12 +5344,20 @@
                     "copy": {
                         "header": "$~Kopiera och klistra in",
                         "explanation": "$~Kopiera det här projektet till ditt urklipp som text och dela det någon annanstans."
+                    },
+                    "preview": {
+                        "header": "$?",
+                        "explanation": "$?"
                     }
                 },
                 "field": {
                     "emailOrUsername": {
                         "placeholder": "$~e-post eller användarnamn",
                         "description": "$~e-post eller användarnamn för den person som du vill ge redigeringsbehörighet"
+                    },
+                    "preview": {
+                        "placeholder": "$?",
+                        "description": "$?"
                     }
                 },
                 "mode": {
@@ -5360,12 +5368,18 @@
                             "$~bara du och dina medarbetare kan se det här projektet",
                             "$~vem som helst kan se det här projektet"
                         ]
+                    },
+                    "preview": {
+                        "label": "$?",
+                        "labels": ["$?"],
+                        "tips": ["$?"]
                     }
                 },
                 "error": {
                     "unknown": "$~Vi känner ingen skapare med den här e-postadressen.",
                     "anonymous": "$~Du måste vara <inloggad@://login> för att dela.",
-                    "self": "$~Du kan inte lägga till dig själv."
+                    "self": "$~Du kan inte lägga till dig själv.",
+                    "invalidPreview": "$?"
                 },
                 "button": {
                     "submit": "$~Dela projektet med denna e-postadress",

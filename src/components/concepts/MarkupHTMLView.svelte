@@ -4,25 +4,28 @@
 </script>
 
 <script lang="ts">
-    import MachineTranslatedAnnotation from '@components/app/MachineTranslatedAnnotation.svelte';
     import LocallyRevisedAnnotation from '@components/app/LocallyRevisedAnnotation.svelte';
+    import MachineTranslatedAnnotation from '@components/app/MachineTranslatedAnnotation.svelte';
     import Notice from '@components/app/Notice.svelte';
+    import SegmentHTMLView from '@components/concepts/SegmentHTMLView.svelte';
     import { accessorToLocalePath } from '@components/localization/accessorToLocalePath';
     import { getLocalizing } from '@components/project/Contexts';
-    import {
-        localeEdits,
-        saveLocaleEdit,
-        deleteLocaleEdit,
-    } from '@db/locales/LocalizationDexie';
     import Button from '@components/widgets/Button.svelte';
     import FormattedEditor from '@components/widgets/FormattedEditor.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
+    import { animationDuration, animationFactor, locales } from '@db/Database';
+    import {
+        deleteLocaleEdit,
+        localeEdits,
+        saveLocaleEdit,
+    } from '@db/locales/LocalizationDexie';
     import type { LocaleTextsAccessor, TemplateInput } from '@locale/Locales';
     import { toLocaleString } from '@locale/LocaleText';
     import { withoutAnnotations } from '@locale/withoutAnnotations';
     import ConceptLink from '@nodes/ConceptLink';
     import Markup from '@nodes/Markup';
     import Paragraph from '@nodes/Paragraph';
+    import { parseDocs, parseFormattedLiteral } from '@parser/parseExpression';
     import {
         CANCEL_SYMBOL,
         CONFIRM_SYMBOL,
@@ -30,12 +33,9 @@
         FORMATTED_SYMBOL,
         REVERT_SYMBOL,
     } from '@parser/Symbols';
-    import { parseDocs, parseFormattedLiteral } from '@parser/parseExpression';
     import { toMarkup } from '@parser/toMarkup';
     import { toTokens } from '@parser/toTokens';
     import { tick } from 'svelte';
-    import { animationDuration, animationFactor, locales } from '@db/Database';
-    import SegmentHTMLView from '@components/concepts/SegmentHTMLView.svelte';
 
     interface Props {
         markup:
@@ -477,6 +477,7 @@
         margin-inline-start: 0;
         margin-block-start: 0em;
         margin-block-end: 1em;
+        line-height: 1.5;
     }
 
     .note {

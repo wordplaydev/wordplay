@@ -5587,12 +5587,20 @@
                     "pii": {
                         "header": "$~Personal na Impormasyon",
                         "explanation": "$~Ang pagbabahagi ng personal na impormasyon (PII) sa publiko ay maaaring maglagay sa panganib sa mga tagalikha, kaya tinitingnan namin ang posibleng PII at binabalaan ang mga tagalikha na alisin ang sensitibong data o markahan ito bilang hindi sensitibo.\n\nNasa ibaba ang isang listahan ng mga posibleng PII sa proyektong ito na iyong minarkahan bilang hindi sensitibo. Maaari mong i-click ang button sa tabi nito upang markahan itong muli bilang sensitibo, ngunit ang paggawa nito ay nangangahulugan na ang iyong proyekto ay hindi na mase-save online."
+                    },
+                    "preview": {
+                        "header": "$?",
+                        "explanation": "$?"
                     }
                 },
                 "field": {
                     "emailOrUsername": {
                         "placeholder": "$~email o username",
                         "description": "$~email o username ng taong gusto mong bigyan ng access sa pag-edit"
+                    },
+                    "preview": {
+                        "placeholder": "$?",
+                        "description": "$?"
                     }
                 },
                 "mode": {
@@ -5603,12 +5611,18 @@
                             "$~Ikaw at ang mga collaborator lamang ang makakakita sa proyektong ito",
                             "$~kahit sino ay maaaring makakita ng proyektong ito"
                         ]
+                    },
+                    "preview": {
+                        "label": "$?",
+                        "labels": ["$?"],
+                        "tips": ["$?"]
                     }
                 },
                 "error": {
                     "unknown": "$~Hindi namin kilala ang creator na may ganitong email.",
                     "anonymous": "$~Dapat ay <naka-log in@://login> ka para makapagbahagi.",
-                    "self": "$~Hindi mo maaaring idagdag ang iyong sarili."
+                    "self": "$~Hindi mo maaaring idagdag ang iyong sarili.",
+                    "invalidPreview": "$?"
                 },
                 "button": {
                     "submit": "$~Ibahagi ang proyekto gamit ang email address na ito",

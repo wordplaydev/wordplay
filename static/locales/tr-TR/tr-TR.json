@@ -5344,12 +5344,20 @@
                     "copy": {
                         "header": "$~Kopyala ve Yapıştır",
                         "explanation": "$~Bu projeyi metin olarak panonuza kopyalayın ve başka bir yerde paylaşın."
+                    },
+                    "preview": {
+                        "header": "$?",
+                        "explanation": "$?"
                     }
                 },
                 "field": {
                     "emailOrUsername": {
                         "placeholder": "$~e-posta veya kullanıcı adı",
                         "description": "$~düzenleme erişimi vermek istediğiniz kişinin e-postası veya kullanıcı adı"
+                    },
+                    "preview": {
+                        "placeholder": "$?",
+                        "description": "$?"
                     }
                 },
                 "mode": {
@@ -5360,12 +5368,18 @@
                             "$~Bu projeyi yalnızca siz ve işbirlikçileriniz görebilir.",
                             "$~Bu projeyi herkes görebilir."
                         ]
+                    },
+                    "preview": {
+                        "label": "$?",
+                        "labels": ["$?"],
+                        "tips": ["$?"]
                     }
                 },
                 "error": {
                     "unknown": "$~Bu e-postaya sahip bir yaratıcıyı tanımıyoruz.",
                     "anonymous": "$~Paylaşmak için <giriş yapmalısınız@://login>.",
-                    "self": "$~Kendinizi ekleyemezsiniz."
+                    "self": "$~Kendinizi ekleyemezsiniz.",
+                    "invalidPreview": "$?"
                 },
                 "button": {
                     "submit": "$~Projeyi bu e-posta adresiyle paylaşın",

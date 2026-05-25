@@ -875,11 +875,15 @@ type UITexts = {
                 pii: HeaderAndExplanationText;
                 /** The copy and paste dialog text */
                 copy: HeaderAndExplanationText;
+                /** The preview-glyph customization subheader and explanation */
+                preview: HeaderAndExplanationText;
             };
             /** Text fields in the share dialog */
             field: {
                 /** The email or username field for the collaborator being added */
                 emailOrUsername: FieldText;
+                /** The single-grapheme preview glyph field */
+                preview: FieldText;
             };
             /** Buttons in the share dialog */
             button: {
@@ -892,6 +896,8 @@ type UITexts = {
             mode: {
                 /** The public/private toggle mode widget */
                 public: ModeText<[string, string]>;
+                /** The preview auto/custom toggle mode widget */
+                preview: ModeText<[string, string]>;
             };
             /** Errors in the share dialog */
             error: {
@@ -901,6 +907,8 @@ type UITexts = {
                 anonymous: string;
                 /** [plain] Can't add self */
                 self: string;
+                /** [plain] When the preview-glyph text field doesn't contain exactly one grapheme */
+                invalidPreview: string;
             };
             options: {
                 /** [plain] The label for the gallery chooser */

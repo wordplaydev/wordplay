@@ -187,12 +187,12 @@
         <Notice text={(l) => l.ui.page.class.error.gallery} />
     {/if}
 
-    {#each classData.galleries as gallery, index}
+    {#each classData.galleries as gallery}
         {#await Galleries.get(gallery)}
             <Spinning></Spinning>
         {:then gallery}
             {#if gallery}
-                <GalleryPreview {gallery} delay={index * 1000} />
+                <GalleryPreview {gallery} />
             {/if}
         {/await}
     {/each}

@@ -10,6 +10,7 @@
     import Annotations from '@components/annotations/Annotations.svelte';
     import CollaborateView from '@components/app/chat/CollaborateView.svelte';
     import Emoji from '@components/app/Emoji.svelte';
+    import { extractPreview } from '@components/app/extractPreview';
     import Documentation from '@components/concepts/Documentation.svelte';
     import {
         handleKeyCommand,
@@ -64,7 +65,7 @@
     import Node, { isFieldPosition } from '@nodes/Node';
     import Source from '@nodes/Source';
     import type Color from '@output/Color';
-    import { CANCEL_SYMBOL, INFO_SYMBOL } from '@parser/Symbols';
+    import { CANCEL_SYMBOL, EXCEPTION_SYMBOL, INFO_SYMBOL } from '@parser/Symbols';
     import { isName } from '@parser/Tokenizer';
     import Evaluator from '@runtime/Evaluator';
     import type Value from '@values/Value';
@@ -369,7 +370,23 @@
 
     // When the project changes, create a new evaluator, observe it.
     let staleEvaluator = $state(false);
+    /** The project we last built the evaluator from. Used to skip rebuilds
+     *  for metadata-only changes (e.g., preview-glyph updates) — the
+     *  Evaluator only cares about id + name + sources, which is exactly
+     *  what `Project.equals()` compares. Without this, toggling
+     *  manual→auto in the share dialog would rebuild the evaluator from
+     *  scratch and the preview-write would race the fresh evaluation,
+     *  leaving a visible delay (or worse, stamping EXCEPTION_SYMBOL). */
+    let lastProjectForEvaluator: Project | undefined;
     projectStore.subscribe((newProject) => {
+        if (
+            lastProjectForEvaluator !== undefined &&
+            lastProjectForEvaluator.equals(newProject)
+        ) {
+            lastProjectForEvaluator = newProject;
+            return;
+        }
+        lastProjectForEvaluator = newProject;
         // If the project change, but the creator is typing, debounce update after the keyboard idle wait time.
         if ($keyboardEditIdle === IdleKind.Typing) staleEvaluator = true;
         // Otherwise, update immediately.
@@ -444,7 +461,118 @@
 
     /** Clean up the evaluator when unmounting. */
     onDestroy(() => {
-        $evaluator.stop();
+        // Cancel any pending debounced write — we're about to do it
+        // synchronously below.
+        if (pendingPreviewWrite !== undefined) {
+            clearTimeout(pendingPreviewWrite);
+            pendingPreviewWrite = undefined;
+        }
+        // If the user navigates away faster than the live evaluator
+        // produced its first value (e.g., type-and-immediately-back-out
+        // from ProjectView), getLatestSourceValue returns undefined and
+        // the write below would bail. Force the evaluator to a stable
+        // value with getInitialValue() — it resets and runs to completion
+        // synchronously, which is fine because we're about to stop the
+        // evaluator anyway.
+        if (
+            $evaluator !== undefined &&
+            $evaluator.getLatestSourceValue(project.getMain()) === undefined
+        ) {
+            try {
+                $evaluator.getInitialValue();
+            } catch {
+                // Best-effort: if the evaluator is in some torn-down
+                // state, fall through to writePreviewFromEvaluator which
+                // will bail on undefined.
+            }
+        }
+        writePreviewFromEvaluator();
+        $evaluator?.stop();
+    });
+
+    /**
+     * Auto-update the persisted project preview (issue #435). The live
+     * evaluator is already running, so we piggy-back on its current value
+     * instead of constructing a separate evaluator like /projects and
+     * /galleries used to do.
+     *
+     * Strategy:
+     *  - If no auto preview exists yet (fresh project, or the user just
+     *    toggled from manual back to auto), write immediately so the tile
+     *    isn't blank.
+     *  - Otherwise debounce: each `$evaluation` change cancels the pending
+     *    write and schedules a new one ~3s out. After 3s of no further
+     *    evaluator activity, the latest preview lands. This both avoids
+     *    history noise during a typing burst and guarantees the preview
+     *    eventually refreshes — the previous throttle could silently drop
+     *    every write between two evaluator settles.
+     */
+    let pendingPreviewWrite: ReturnType<typeof setTimeout> | undefined;
+    let lastWrittenText: string | undefined = undefined;
+    // Just long enough to coalesce typing-burst evaluations into a single
+    // write; short enough that a user editing and immediately switching
+    // tabs sees the new glyph on /projects without "wait a moment" feel.
+    // The onDestroy hook also forces a synchronous write on unmount, so
+    // this value is only the in-session typing-burst coalesce window.
+    const PREVIEW_DEBOUNCE_MS = 500;
+
+    function writePreviewFromEvaluator() {
+        if ($evaluator === undefined) return;
+        if (project.getPreview()?.mode === 'manual') return;
+        const value = $evaluator.getLatestSourceValue(project.getMain());
+        // The evaluator may not have produced a value yet (fresh project,
+        // just-recreated evaluator, etc.). Stamping `EXCEPTION_SYMBOL` over
+        // a cached good preview is worse than waiting — bail out and let
+        // the next $evaluation tick try again.
+        if (value === undefined) return;
+        const extracted = extractPreview($evaluator, value, $locales);
+        if (extracted.text === EXCEPTION_SYMBOL) return;
+        // Skip the write if the text hasn't changed since the last one —
+        // saves a no-op history.edit + saveSoon.
+        if (
+            extracted.text === lastWrittenText &&
+            project.getPreview()?.mode === 'auto'
+        )
+            return;
+        lastWrittenText = extracted.text;
+        Projects.setAutoPreview(project.getID(), extracted);
+    }
+
+    $effect(() => {
+        // Track both evaluator activity AND the project's current preview,
+        // so toggling manual→auto (which clears `preview` to undefined)
+        // also triggers a refresh.
+        $evaluation;
+        const current = project.getPreview();
+
+        // Manual override is the user's word — don't write.
+        if (current?.mode === 'manual') return;
+
+        // No auto preview yet → write immediately so the tile isn't blank.
+        if (current === undefined) {
+            if (pendingPreviewWrite !== undefined) {
+                clearTimeout(pendingPreviewWrite);
+                pendingPreviewWrite = undefined;
+            }
+            untrack(writePreviewFromEvaluator);
+            return;
+        }
+
+        // Have an auto preview — debounce subsequent updates so a typing
+        // burst doesn't push a history entry per keystroke.
+        if (pendingPreviewWrite !== undefined)
+            clearTimeout(pendingPreviewWrite);
+        pendingPreviewWrite = setTimeout(() => {
+            pendingPreviewWrite = undefined;
+            untrack(writePreviewFromEvaluator);
+        }, PREVIEW_DEBOUNCE_MS);
+
+        return () => {
+            if (pendingPreviewWrite !== undefined) {
+                clearTimeout(pendingPreviewWrite);
+                pendingPreviewWrite = undefined;
+            }
+        };
     });
 
     /** Several store contexts for tracking evaluator state. */
