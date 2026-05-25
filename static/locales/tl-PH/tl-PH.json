@@ -455,7 +455,9 @@
                 "OrderOfOperations": {
                     "name": "$~hindimalinawnapagkakasunud-sunod",
                     "explanation": "$~Sinusuri ko ang aking pagsusuri ayon sa pagkakasunod-sunod ng pagbasa, hindi ayon sa pagkakasunod-sunod ng matematika ng mga operasyon. Gusto mo bang gamitin ang @Block para tukuyin ang pagkakasunod-sunod kung saan ako dapat magsuri?",
-                    "resolution": "$~Magdagdag ng panaklong upang linawin ang nauna"
+                    "resolutionPEMDAS": "$~Ilapat ang pagkakasunod-sunod ng matematika ng PEMDAS: suriin $higher bago $lower",
+                    "resolutionReading": "$~Ipagpatuloy ang pagbasa nang maayos: suriin $lower bago $higher",
+                    "resolutionWrap": "$~Magdagdag ng panaklong upang maging malinaw ang pagkakasunod-sunod"
                 }
             }
         },

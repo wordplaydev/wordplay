@@ -455,7 +455,9 @@
                 "OrderOfOperations": {
                     "name": "$~urutanyangambigu",
                     "explanation": "$~Saya melakukan evaluasi berdasarkan urutan baca, bukan urutan operasi matematika. Apakah Anda ingin menggunakan @Block untuk menentukan urutan evaluasi yang harus saya ikuti?",
-                    "resolution": "$~Tambahkan tanda kurung untuk memperjelas prioritas."
+                    "resolutionPEMDAS": "$~Terapkan urutan matematika PEMDAS: evaluasi $higher sebelum $lower",
+                    "resolutionReading": "$~Lanjutkan urutan membaca: evaluasi $lower sebelum $higher",
+                    "resolutionWrap": "$~Tambahkan tanda kurung untuk memperjelas urutannya."
                 }
             }
         },

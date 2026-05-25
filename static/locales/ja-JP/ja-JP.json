@@ -449,7 +449,9 @@
                 "OrderOfOperations": {
                     "name": "$~曖昧な順序",
                     "explanation": "$~演算順序ではなく、読み取り順序で評価します。評価順序を指定するには@Block？",
-                    "resolution": "$~括弧を追加して優先順位を明確にする"
+                    "resolutionPEMDAS": "$~PEMDASの計算順序を適用します。 $higher $lower。",
+                    "resolutionReading": "$~読み上げ順序を維持してください： $lower $higher",
+                    "resolutionWrap": "$~括弧を追加して順序を明確にする"
                 }
             },
             "label": {

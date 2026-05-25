@@ -24,6 +24,7 @@ This week we focused on multilingual coding features, with several bug fixes alo
 - 🟰 In an equals comparison, we menu's now suggest what the right might be based on the left.
 - 🧱 Inside a structure, you can now mark a function or value with ↑ to make it belong to the structure itself instead of to instances. So you can write `Math.pi` and `Math.square(5)` without making a `Math()` first.
 - 🧱 Every problem in your code now offers at least one suggested fix you can click to apply (#827).
+- 🧱 When your code mixes math operators, like \1 + 2 · 3\, we now offer to fix it using math order (PEMDAS, so ^ runs before × ÷, which run before + −), or to keep reading order with parentheses (#333).
 - 🔊 Screen readers now hear color names for @Phrase, @Group, @Stage, and @Shape, and as you move the sliders in the color chooser. We use the eleven most common color words across languages (red, orange, yellow, green, blue, purple, brown, pink, black, white, gray), and combine them for in-between colors like "light blue-purple" (#109).
 - 🖱️ You can now drag the knob on the edge of the annotations sidebar to make it wider or narrower, and the same knob style is now used between tile panes.
 

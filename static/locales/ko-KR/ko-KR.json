@@ -449,7 +449,9 @@
                 "OrderOfOperations": {
                     "name": "$~모호한순서",
                     "explanation": "$~저는 수학 연산 순서가 아니라 읽기 순서대로 평가합니다. @Block 어노테이션을 사용해서 평가 순서를 지정하시겠습니까?",
-                    "resolution": "$~우선순위를 명확히 하기 위해 괄호를 추가하세요."
+                    "resolutionPEMDAS": "$~PEMDAS 계산 순서를 적용하세요: $higher 먼저 계산한 다음 $lower 계산하세요.",
+                    "resolutionReading": "$~읽는 순서를 계속 지켜주세요: $lower 평가하기 전에 $higher 평가하세요.",
+                    "resolutionWrap": "$~순서를 명확히 하려면 괄호를 추가하세요."
                 }
             },
             "label": {

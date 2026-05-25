@@ -449,7 +449,9 @@
                 "OrderOfOperations": {
                     "name": "$~ordreambigu",
                     "explanation": "$~J'évalue les expressions dans l'ordre de lecture, et non dans l'ordre mathématique des opérations. Souhaitez-vous utiliser `@Block` pour spécifier l'ordre d'évaluation ?",
-                    "resolution": "$~Ajoutez des parenthèses pour clarifier la priorité."
+                    "resolutionPEMDAS": "$~Appliquez l'ordre de priorité PEMDAS : évaluez $higher avant $lower",
+                    "resolutionReading": "$~Poursuivez la lecture dans l'ordre suivant : évaluez $lower avant $higher",
+                    "resolutionWrap": "$~Ajoutez des parenthèses pour préciser l'ordre."
                 }
             },
             "label": {

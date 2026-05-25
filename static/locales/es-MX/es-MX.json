@@ -421,7 +421,9 @@
                 "OrderOfOperations": {
                     "name": "$~ordenambiguo",
                     "explanation": "$~Evalúo en orden de lectura, no en orden matemático de operaciones. ¿Quieres usar @Block para especificar el orden en que debo evaluar?",
-                    "resolution": "$~Agregue paréntesis para aclarar la precedencia."
+                    "resolutionPEMDAS": "$~Aplica el orden matemático PEMDAS: evalúa $higher antes que $lower",
+                    "resolutionReading": "$~Siga el orden de lectura: evalúe $lower antes que $higher",
+                    "resolutionWrap": "$~Agregue paréntesis para dejar claro el orden."
                 }
             },
             "label": {

@@ -454,8 +454,10 @@
             "conflict": {
                 "OrderOfOperations": {
                     "name": "ambiguous order",
-                    "explanation": "I evaluate in reading order, not in math order of operations. Do you want to use @Block to specify the order I should evaluate in?",
-                    "resolution": "Add parentheses to clarify precedence"
+                    "explanation": "I evaluate left to right, but math usually evaluates ^ before × ÷, and × ÷ before + −. That order is called PEMDAS. Pick how you want me to evaluate this.",
+                    "resolutionPEMDAS": "Apply PEMDAS math order: evaluate $higher before $lower",
+                    "resolutionReading": "Keep reading order: evaluate $lower before $higher",
+                    "resolutionWrap": "Add parentheses to make the order explicit"
                 }
             }
         },

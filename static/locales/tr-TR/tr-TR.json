@@ -449,7 +449,9 @@
                 "OrderOfOperations": {
                     "name": "$~belirsizdüzen",
                     "explanation": "$~Değerlendirmeyi matematiksel işlem önceliğiyle değil, okuma önceliğiyle yapıyorum. Değerlendirme sırasını belirtmek için @Block kullanmak ister misiniz?",
-                    "resolution": "$~Öncelik sırasını netleştirmek için parantez ekleyin."
+                    "resolutionPEMDAS": "$~PEMDAS matematiksel sıralamasını uygulayın: $higher $lower önce değerlendirin.",
+                    "resolutionReading": "$~Okuma sırasına göre devam edin: önce $lower sonra $higher değerlendirin.",
+                    "resolutionWrap": "$~Sıralamayı açıkça belirtmek için parantez ekleyin."
                 }
             },
             "label": {

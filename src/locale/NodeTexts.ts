@@ -248,8 +248,12 @@ type NodeTexts = {
         } & Conflicts<{
             /** Warning about order of evaluation of binary evaluations always being reading order, not math order of operations */
             OrderOfOperations: ConflictText & {
-                /** [formatted] Action description for the repair this conflict offers */
-                resolution: Template<[]>;
+                /** [formatted] Action: rotate the tree to evaluate the higher-precedence operator first (PEMDAS) */
+                resolutionPEMDAS: Template<['higher', 'lower']>;
+                /** [formatted] Action: parenthesize the left subtree to keep the existing left-to-right reading order */
+                resolutionReading: Template<['higher', 'lower']>;
+                /** [formatted] Action: same-precedence case — just add parentheses to make the order explicit */
+                resolutionWrap: Template<[]>;
             };
         }> & {
             label: {

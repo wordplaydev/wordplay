@@ -452,7 +452,9 @@
                 "OrderOfOperations": {
                     "name": "$~thứtựmơhồ",
                     "explanation": "$~Tôi thực hiện đánh giá theo thứ tự đọc, chứ không phải theo thứ tự các phép toán. Bạn có muốn sử dụng @Block để chỉ định thứ tự tôi nên thực hiện đánh giá không?",
-                    "resolution": "$~Thêm dấu ngoặc đơn để làm rõ thứ tự ưu tiên."
+                    "resolutionPEMDAS": "$~Áp dụng quy tắc toán học PEMDAS: tính giá trị $higher trước $lower",
+                    "resolutionReading": "$~Tiếp tục đọc theo thứ tự: đánh giá $lower trước $higher",
+                    "resolutionWrap": "$~Thêm dấu ngoặc đơn để làm rõ thứ tự."
                 }
             }
         },

@@ -119,7 +119,6 @@ function expectRepair(
     expect(resolutions[0].kind).toBe('repair');
 }
 
-
 // ====================================================================
 // Naming / scoping
 // ====================================================================
@@ -168,10 +167,7 @@ describe('IncompatibleInput', () => {
 
 describe('IncompatibleCellType', () => {
     test('text into a number column on Insert → repair', () => {
-        expectRepair(
-            'table: ⎡one•#⎦\ntable⎡+ "hi"⎦',
-            IncompatibleCellType,
-        );
+        expectRepair('table: ⎡one•#⎦\ntable⎡+ "hi"⎦', IncompatibleCellType);
     });
 });
 
@@ -231,10 +227,7 @@ describe('NotInstantiable', () => {
     test('evaluate of structure with abstract member → repair (scaffold)', () => {
         // `_` body marks the function as abstract; evaluating the struct
         // is then impossible.
-        expectRepair(
-            '•Cat() (add: ƒ(a•# b•#) _)\nCat()',
-            NotInstantiable,
-        );
+        expectRepair('•Cat() (add: ƒ(a•# b•#) _)\nCat()', NotInstantiable);
     });
 });
 
@@ -251,7 +244,7 @@ describe('NotAnInterface', () => {
 });
 
 describe('UnimplementedInterface', () => {
-    test('structure inherits but doesn\'t implement → repair (scaffold)', () => {
+    test("structure inherits but doesn't implement → repair (scaffold)", () => {
         expectRepair(
             '•Animal() ( ƒ sound()•"" _)\n•Cat Animal() ( ƒ speak() "meow" )',
             UnimplementedInterface,
@@ -260,30 +253,24 @@ describe('UnimplementedInterface', () => {
 });
 
 describe('IncompleteImplementation', () => {
-    test(
-        'structure with mixed abstract + concrete members → repair (drop inputs)',
-        () => {
-            // One abstract (`_`) + one concrete (`1`) members fires
-            // IncompleteImplementation — neither a pure interface nor a
-            // fully-instantiable struct.
-            expectRepair(
-                '•Animal() ( ƒ sound()•"" _ ƒ smell() 1)',
-                IncompleteImplementation,
-            );
-        },
-    );
+    test('structure with mixed abstract + concrete members → repair (drop inputs)', () => {
+        // One abstract (`_`) + one concrete (`1`) members fires
+        // IncompleteImplementation — neither a pure interface nor a
+        // fully-instantiable struct.
+        expectRepair(
+            '•Animal() ( ƒ sound()•"" _ ƒ smell() 1)',
+            IncompleteImplementation,
+        );
+    });
 });
 
 describe('DisallowedInputs', () => {
-    test(
-        'interface with abstract members must not have inputs → repair',
-        () => {
-            expectRepair(
-                '•Animal(name•"") ( ƒ sound()•"" _ ƒ smell() _)',
-                DisallowedInputs,
-            );
-        },
-    );
+    test('interface with abstract members must not have inputs → repair', () => {
+        expectRepair(
+            '•Animal(name•"") ( ƒ sound()•"" _ ƒ smell() _)',
+            DisallowedInputs,
+        );
+    });
 });
 
 describe('ExpectedStream', () => {
@@ -356,8 +343,90 @@ describe('ExpectedEndingExpression', () => {
 });
 
 describe('OrderOfOperations', () => {
-    test('mixed precedence → repair (add parens)', () => {
-        expectRepair('1 + 2 · 3', OrderOfOperations);
+    function applyFirstRepair(code: string): Project {
+        const source = new Source('main', code);
+        const project = Project.make(null, 'test', source, [], DefaultLocale);
+        project.analyze();
+        const conflict = project
+            .getAnalysis()
+            .conflicts.find(
+                (c): c is OrderOfOperations => c instanceof OrderOfOperations,
+            );
+        if (conflict === undefined)
+            throw new Error(`OrderOfOperations not found for \`${code}\``);
+        const ctx = project.getContext(source);
+        const resolutions = conflict.getResolutions(ctx, Templates);
+        const first = resolutions[0];
+        if (first.kind !== 'repair') throw new Error('expected repair');
+        const newProject = first.mediator(ctx, project.getLocales()).newProject;
+        newProject.analyze();
+        return newProject;
+    }
+
+    test('precedence inversion → PEMDAS + reading-order, both fix the conflict', () => {
+        // `1 + 2 · 3` parses left-assoc as `(1 + 2) · 3`; PEMDAS rebuilds to
+        // `1 + (2 · 3)`, reading-order to `(1 + 2) · 3`. Two repairs offered;
+        // either clears the conflict.
+        const { resolutions } = locate('1 + 2 · 3', OrderOfOperations);
+        expect(resolutions.length).toBe(2);
+        const fixed = applyFirstRepair('1 + 2 · 3');
+        expect(
+            fixed
+                .getAnalysis()
+                .conflicts.some((c) => c instanceof OrderOfOperations),
+        ).toBe(false);
+    });
+
+    test('same precedence chain → single wrap repair (no PEMDAS choice to make)', () => {
+        // `1 · 2 + 3` is already in math order; PEMDAS and reading order
+        // produce the same tree, so only one repair is offered.
+        const { resolutions } = locate('1 · 2 + 3', OrderOfOperations);
+        expect(resolutions.length).toBe(1);
+        expect(resolutions[0].kind).toBe('repair');
+    });
+
+    test('one conflict per chain, not per adjacent pair', () => {
+        // `1 + 2 · 3 - 4` has two adjacent mixed pairs (`+ ·` and `· -`), but
+        // we now fire only ONE OrderOfOperations at the chain root — clicking
+        // any other position would produce the same chain-wide repair.
+        const source = new Source('main', '1 + 2 · 3 - 4');
+        const project = Project.make(null, 'test', source, [], DefaultLocale);
+        project.analyze();
+        const count = project
+            .getAnalysis()
+            .conflicts.filter((c) => c instanceof OrderOfOperations).length;
+        expect(count).toBe(1);
+
+        const fixed = applyFirstRepair('1 + 2 · 3 - 4');
+        const remaining = fixed
+            .getAnalysis()
+            .conflicts.filter((c) => c instanceof OrderOfOperations).length;
+        expect(remaining).toBe(0);
+    });
+
+    test('same-operator outer with mixed-operator inner still fires once', () => {
+        // `1 · 2 + 3 + 4` parses as `((1·2)+3) + 4`. The outermost pair is
+        // `+ +` (same), but the chain mixes `·` and `+`, so we still expect
+        // exactly one conflict at the chain root.
+        const source = new Source('main', '1 · 2 + 3 + 4');
+        const project = Project.make(null, 'test', source, [], DefaultLocale);
+        project.analyze();
+        const count = project
+            .getAnalysis()
+            .conflicts.filter((c) => c instanceof OrderOfOperations).length;
+        expect(count).toBe(1);
+    });
+
+    test('exponent mixed with multiplication → rebuilt without conflicts', () => {
+        // `2 ^ 3 · 5` mixes `^` (highest precedence) and `·`. PEMDAS groups
+        // the exponent first. The right-associative rule for `^` only
+        // matters for same-operator chains (which don't fire this conflict),
+        // so we just verify the cross-precedence case rebuilds cleanly.
+        const fixed = applyFirstRepair('2 ^ 3 · 5');
+        const remaining = fixed
+            .getAnalysis()
+            .conflicts.filter((c) => c instanceof OrderOfOperations).length;
+        expect(remaining).toBe(0);
     });
 });
 
@@ -391,19 +460,13 @@ describe('UnusedBind', () => {
 
 describe('UnknownInput', () => {
     test('typo in named input → repair (suggest closest)', () => {
-        expectRepair(
-            "f: ƒ(name•'') name\nf(nam: 'hi')",
-            UnknownInput,
-        );
+        expectRepair("f: ƒ(name•'') name\nf(nam: 'hi')", UnknownInput);
     });
 });
 
 describe('UnknownColumn', () => {
     test('typo in table column → repair (suggest closest)', () => {
-        expectRepair(
-            "table: ⎡name•''⎦\ntable ⎡: nam: 'x' ⎦ ⊤",
-            UnknownColumn,
-        );
+        expectRepair("table: ⎡name•''⎦\ntable ⎡: nam: 'x' ⎦ ⊤", UnknownColumn);
     });
 });
 
@@ -478,12 +541,9 @@ describe('DuplicateShare', () => {
     test('two top-level shares with same name across sources → repair', () => {
         // The share token requires a following space; bind names need
         // language tags to be valid top-level shares.
-        expectRepair(
-            '↑ a/en: 1',
-            DuplicateShare,
-            1,
-            [{ name: 'other', code: '↑ a/en: 2' }],
-        );
+        expectRepair('↑ a/en: 1', DuplicateShare, 1, [
+            { name: 'other', code: '↑ a/en: 2' },
+        ]);
     });
 });
 
@@ -498,11 +558,8 @@ describe('DuplicateTypeVariable', () => {
 // ====================================================================
 
 describe('ExpectedColumnBind', () => {
-    test('Update cell isn\'t a bind → repair (wrap)', () => {
-        expectRepair(
-            'table: ⎡a•#⎦\ntable ⎡: 1 ⎦ ⊤',
-            ExpectedColumnBind,
-        );
+    test("Update cell isn't a bind → repair (wrap)", () => {
+        expectRepair('table: ⎡a•#⎦\ntable ⎡: 1 ⎦ ⊤', ExpectedColumnBind);
     });
 });
 
@@ -513,12 +570,9 @@ describe('ExpectedColumnType', () => {
 });
 
 describe('ExpectedSelectName', () => {
-    test('Select cell isn\'t a column reference → repair (remove)', () => {
+    test("Select cell isn't a column reference → repair (remove)", () => {
         // `⎡?` is the Select operator; cells must be column references.
-        expectRepair(
-            'table: ⎡one•#⎦\ntable ⎡? 1⎦ one < 1',
-            ExpectedSelectName,
-        );
+        expectRepair('table: ⎡one•#⎦\ntable ⎡? 1⎦ one < 1', ExpectedSelectName);
     });
 });
 
@@ -542,10 +596,7 @@ describe('ExtraCell', () => {
 describe('InvalidRow', () => {
     test('mixed named and positional cells in Insert → repair (clear cells)', () => {
         // Matches Insert.test.ts: a row that mixes positional and named.
-        expectRepair(
-            'table: ⎡one•#⎦\ntable⎡+ 1 one:1⎦',
-            InvalidRow,
-        );
+        expectRepair('table: ⎡one•#⎦\ntable⎡+ 1 one:1⎦', InvalidRow);
     });
 });
 
@@ -578,12 +629,9 @@ describe('ReferenceCycle', () => {
 
 describe('BorrowCycle', () => {
     test('two sources borrowing each other → repair (drop borrow)', () => {
-        expectRepair(
-            '↓ other\n1',
-            BorrowCycle,
-            1,
-            [{ name: 'other', code: '↓ main\n2' }],
-        );
+        expectRepair('↓ other\n1', BorrowCycle, 1, [
+            { name: 'other', code: '↓ main\n2' },
+        ]);
     });
 });
 

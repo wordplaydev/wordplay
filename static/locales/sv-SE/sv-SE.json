@@ -449,7 +449,9 @@
                 "OrderOfOperations": {
                     "name": "$~tvetydigordning",
                     "explanation": "$~Jag utvärderar i läsordning, inte i matematisk ordning för operationerna. Vill du använda @Block för att ange i vilken ordning jag ska utvärdera?",
-                    "resolution": "$~Lägg till parenteser för att förtydliga prioritet"
+                    "resolutionPEMDAS": "$~Tillämpa PEMDAS matematiska ordning: utvärdera $higher före $lower",
+                    "resolutionReading": "$~Fortsätt läsa ordningen: utvärdera $lower före $higher",
+                    "resolutionWrap": "$~Lägg till parenteser för att göra ordningen tydlig"
                 }
             },
             "label": {

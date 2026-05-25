@@ -449,7 +449,9 @@
                 "OrderOfOperations": {
                     "name": "$~mehrdeutigeReihenfolge",
                     "explanation": "$~Ich werte in Lesereihenfolge aus, nicht in mathematischer Reihenfolge. Möchten Sie @Block verwenden, um die Auswertungsreihenfolge festzulegen?",
-                    "resolution": "$~Füge Klammern hinzu, um die Rangfolge zu verdeutlichen."
+                    "resolutionPEMDAS": "$~Rechenregeln (PEMDAS) anwenden: $higher vor $lower auswerten.",
+                    "resolutionReading": "$~Lesen Sie die Reihenfolge: Bewerten Sie zuerst $lower dann $higher",
+                    "resolutionWrap": "$~Füge Klammern hinzu, um die Reihenfolge explizit anzugeben."
                 }
             },
             "label": {

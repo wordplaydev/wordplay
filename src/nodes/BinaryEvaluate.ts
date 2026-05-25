@@ -216,12 +216,24 @@ export default class BinaryEvaluate extends Expression {
     computeConflicts(context: Context): Conflict[] {
         const conflicts = [];
 
-        // Warn on sequences of different operators about evaluation order.
-        if (
-            this.left instanceof BinaryEvaluate &&
-            this.getOperator() !== this.left.getOperator()
-        )
-            conflicts.push(new OrderOfOperations(this.left, this));
+        // Warn on a contiguous chain of BinaryEvaluates that mixes more than
+        // one operator. Fire the conflict ONCE per chain, at the chain root —
+        // since the resolution rebuilds the whole chain (#333), more than one
+        // would be redundant.
+        const parent = context.source.root.getParent(this);
+        const isChainRoot = !(
+            parent instanceof BinaryEvaluate && parent.left === this
+        );
+        if (isChainRoot && this.left instanceof BinaryEvaluate) {
+            const operators = new Set<string>();
+            let cur: Expression = this;
+            while (cur instanceof BinaryEvaluate) {
+                operators.add(cur.getOperator());
+                cur = cur.left;
+            }
+            if (operators.size > 1)
+                conflicts.push(new OrderOfOperations(this.left, this));
+        }
 
         // Get the types
         const rightType = this.right.getType(context);

@@ -455,7 +455,9 @@
                 "OrderOfOperations": {
                     "name": "$~ordineambiguă",
                     "explanation": "$~Evaluez în ordinea de citire, nu în ordinea matematică a operațiilor. Vrei să folosești @Block pentru a specifica ordinea în care ar trebui să evaluez?",
-                    "resolution": "$~Adăugați paranteze pentru a clarifica precedența"
+                    "resolutionPEMDAS": "$~Aplicați ordinea matematică PEMDAS: evaluați $higher înainte de $lower",
+                    "resolutionReading": "$~Continuați ordinea de citire: evaluați $lower înainte de $higher",
+                    "resolutionWrap": "$~Adăugați paranteze pentru a face ordinea explicită"
                 }
             }
         },

@@ -449,7 +449,9 @@
                 "OrderOfOperations": {
                     "name": "$~niejednoznacznyporządek",
                     "explanation": "$~Oceniam w kolejności czytania, a nie w kolejności działań matematycznych. Czy chcesz użyć @Block, aby określić kolejność, w jakiej powinienem oceniać?",
-                    "resolution": "$~Dodaj nawiasy, aby wyjaśnić pierwszeństwo"
+                    "resolutionPEMDAS": "$~Zastosuj kolejność obliczeń matematycznych PEMDAS: oceń $higher przed $lower",
+                    "resolutionReading": "$~Kontynuuj czytanie w kolejności: oceń $lower przed $higher",
+                    "resolutionWrap": "$~Dodaj nawiasy, aby wyraźnie określić kolejność"
                 }
             },
             "label": {

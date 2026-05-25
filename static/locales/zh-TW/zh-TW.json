@@ -449,7 +449,9 @@
                 "OrderOfOperations": {
                     "name": "$~模糊的順序",
                     "explanation": "$~我按照閱讀順序進行求值，而不是按照數學運算順序。您是否要使用 @Block 來指定我的求值順序？",
-                    "resolution": "$~添加括號以明確優先權"
+                    "resolutionPEMDAS": "$~依照 PEMDAS 數學順序：先計算$higher$lower",
+                    "resolutionReading": "$~請依閱讀順序：先評估$lower ，再評估$higher",
+                    "resolutionWrap": "$~新增括號以明確訂單。"
                 }
             },
             "label": {
