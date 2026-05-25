@@ -216,17 +216,17 @@
                 "UnknownLanguage": {
                     "name": "$~不明な言語",
                     "explanation": "$~この言語は分かりません",
-                    "resolution": "$?"
+                    "resolution": "$~この言語コードを削除してください"
                 },
                 "MissingLanguage": {
                     "name": "$~言語が欠落している",
                     "explanation": "$~言語が1つ足りません。追加してもらえますか？",
-                    "resolution": "$?"
+                    "resolution": "$~空の言語タグを削除します"
                 },
                 "DuplicateLanguage": {
                     "name": "$~重複言語",
                     "explanation": "$~言語「 $code 」が2回使用されています。複数の言語を含むタグでは、各言語を1回ずつ記述してください。",
-                    "resolution": "$?"
+                    "resolution": "$~重複する * $code * タグを削除します"
                 }
             }
         },
@@ -270,23 +270,23 @@
                 "InvalidRow": {
                     "name": "$~無効な行",
                     "explanation": "$~行はすべて値であるか、すべて @Bind である必要があります。",
-                    "resolutionKeepPositional": "$?",
-                    "resolutionUnwrapInputs": "$?"
+                    "resolutionKeepPositional": "$~名前付きセルを削除し、位置付きセルのみを残す",
+                    "resolutionUnwrapInputs": "$~名前付きセルから名前を削除"
                 },
                 "MissingCell": {
                     "name": "$~列が欠落しています",
                     "explanation": "$~列$column",
-                    "resolution": "$?"
+                    "resolution": "$~* $column * のプレースホルダーセルを追加します。"
                 },
                 "ExtraCell": {
                     "name": "$~追加の列",
                     "explanation": "$~テーブルの種類に基づくと、ここには存在すべきではない追加の列があります。",
-                    "resolution": "$?"
+                    "resolution": "$~余分なセルを取り除く"
                 },
                 "UnknownColumn": {
                     "name": "$~不明な列名",
                     "explanation": "$~この名前のコラムは知りません",
-                    "resolution": "$?"
+                    "resolution": "$~* $name * に名前を変更します。"
                 },
                 "UnexpectedColumnBind": {
                     "name": "$~バインド行なし",
@@ -318,7 +318,7 @@
                 "DuplicateTypeVariable": {
                     "name": "$~重複型変数",
                     "explanation": "$~私の名前は$duplicate",
-                    "resolution": "$?"
+                    "resolution": "$~重複する型変数を削除します"
                 }
             },
             "label": {
@@ -394,7 +394,7 @@
                 "UnsupportedFontFormat": {
                     "name": "$~サポートされていないフォント形式",
                     "explanation": "$~私の友人 * $face * は$format。",
-                    "resolution": "$?"
+                    "resolution": "$~書式設定を削除する"
                 }
             }
         },
@@ -449,7 +449,7 @@
                 "OrderOfOperations": {
                     "name": "$~曖昧な順序",
                     "explanation": "$~演算順序ではなく、読み取り順序で評価します。評価順序を指定するには@Block？",
-                    "resolution": "$?"
+                    "resolution": "$~括弧を追加して優先順位を明確にする"
                 }
             },
             "label": {
@@ -499,7 +499,7 @@
                 "DuplicateShare": {
                     "name": "$~重複した共有",
                     "explanation": "$~$duplicate",
-                    "resolution": "$?"
+                    "resolution": "$~この重複した共有を削除してください"
                 },
                 "IncompatibleType": {
                     "name": "$~互換性のないタイプ",
@@ -519,27 +519,27 @@
                 "MisplacedShare": {
                     "name": "$~間違ったシェア",
                     "explanation": "$~共有できるのは @Program レベルでのみであり、他のものの中では共有できません。",
-                    "resolution": "$?"
+                    "resolution": "$~*↑* マーカーを削除します"
                 },
                 "MissingShareLanguages": {
                     "name": "$~言語が欠落している",
                     "explanation": "$~これをシェアしたい場合は、他の人が読めるかどうかわかるように、どの言語であるかを言わなければなりません。",
-                    "resolution": "$?"
+                    "resolution": "$~*↑* マーカーを削除します"
                 },
                 "RequiredAfterOptional": {
                     "name": "$~オプションの後に必須入力",
                     "explanation": "$~私はここにいることができません。私の前にオプションの@Bind",
-                    "resolution": "$?"
+                    "resolution": "$~必須入力をオプション入力の前に移動"
                 },
                 "UnexpectedEtc": {
                     "name": "$~入力リスト後の予期しない入力",
                     "explanation": "$~@FunctionDefinition",
-                    "resolution": "$?"
+                    "resolution": "$~*…* を削除してください"
                 },
                 "UnusedBind": {
                     "name": "$~未使用のバインド",
                     "explanation": "$~私の名前は$name",
-                    "resolution": "$?"
+                    "resolution": "$~このバインディングを削除"
                 }
             },
             "label": {
@@ -576,7 +576,7 @@
                 "ExpectedEndingExpression": {
                     "name": "$~表現が欠落している",
                     "explanation": "値を返すために、@Bind ではない式が少なくとも 1 つ必要です。",
-                    "resolution": "$?"
+                    "resolution": "$~最後に式を追加する"
                 }
             },
             "label": {
@@ -600,12 +600,12 @@
                 "UnknownBorrow": {
                     "name": "$~不明な借用",
                     "explanation": "$~この名前の$sourceは知りません",
-                    "resolution": "$?"
+                    "resolution": "$~この借用を削除する"
                 },
                 "BorrowCycle": {
                     "name": "$~自己参照借用",
                     "explanation": "$~これは$borrowに依存し、$borrow はこの$sourceに依存しているため、プログラムを評価できません。",
-                    "resolution": "$?"
+                    "resolution": "$~この借り入れを解いて、悪循環を断ち切りましょう"
                 }
             },
             "exception": {
@@ -688,7 +688,7 @@
                 "MisplacedConversion": {
                     "name": "$~誤った変換",
                     "explanation": "$~うわー、私はここにいられない、ただ@Block。",
-                    "resolution": "$?"
+                    "resolution": "$~この変換を削除する"
                 }
             },
             "label": {
@@ -716,7 +716,7 @@
                 "UnknownConversion": {
                     "name": "$~不明な変換",
                     "explanation": "$~$expected を $given に変換する方法が見つかりませんでした",
-                    "resolution": "$?"
+                    "resolution": "$~変換を削除する"
                 }
             },
             "exception": {
@@ -788,7 +788,7 @@
                 "UnexpectedTypeInput": {
                     "name": "$~予期しない型入力",
                     "explanation": "$~私は余分な、予想外のタイプ入力です。",
-                    "resolution": "$?"
+                    "resolution": "$~このタイプの入力を削除"
                 },
                 "MissingInput": {
                     "name": "$~入力がありません",
@@ -799,27 +799,27 @@
                 "NotInstantiable": {
                     "name": "$~不完全な構造",
                     "explanation": "$~この@StructureDefinition。実装されていない関数があります。",
-                    "resolution": "$?"
+                    "resolution": "$~不足している機能を足場として構築する"
                 },
                 "UnexpectedInput": {
                     "name": "$~予期しない入力",
                     "explanation": "$~予想外の入力です。",
-                    "resolution": "$?"
+                    "resolution": "$~この入力を削除してください"
                 },
                 "UnknownInput": {
                     "name": "$~不明な入力",
                     "explanation": "$~この関数 *$name* は私の名前の入力を想定していません。",
-                    "resolution": "$?"
+                    "resolution": "$~この入力の名前を * $name * に変更してください。"
                 },
                 "InputListMustBeLast": {
                     "name": "$~追加入力は最後ではない",
                     "explanation": "$~入力リストは最後になければなりません",
-                    "resolution": "$?"
+                    "resolution": "$~リスト入力を末尾に移動します"
                 },
                 "SeparatedEvaluate": {
                     "name": "$~曖昧な評価",
                     "explanation": "$~$name は評価しようとしている $structure[$structure|$function] の名前ですか？ 後ろのスペースを削除してみてください。そうすれば、別の @Block ではなく @Evaluate であることがわかります。",
-                    "resolution": "$?"
+                    "resolution": "$~* $name * とその入力値の間のスペースを閉じます"
                 }
             },
             "exception": {
@@ -864,7 +864,7 @@
                 "Placeholder": {
                     "name": "$~プレースホルダー",
                     "explanation": "$~代わりにやってもらえますか？私はただの代役です。",
-                    "resolution": "$?"
+                    "resolution": "$~* $candidate * に置き換えてください。"
                 }
             },
             "exception": {
@@ -902,7 +902,7 @@
                 "NoExpression": {
                     "name": "$~表現が欠落している",
                     "explanation": "$~評価する式が必要です。追加してもらえますか?",
-                    "resolution": "$?"
+                    "resolution": "$~プレースホルダー本文を追加する"
                 }
             },
             "label": {
@@ -965,8 +965,8 @@
                 "ImpossibleType": {
                     "name": "$~不可能なタイプ",
                     "explanation": "$~これは決して$type",
-                    "resolutionIsFalse": "$?",
-                    "resolutionDropOtherwise": "$?"
+                    "resolutionIsFalse": "$~この型チェックを *⊥* に置き換えてください（答えは常に偽です）。",
+                    "resolutionDropOtherwise": "$~*??* を削除してください — 左側は決して *ø* ではありません"
                 }
             },
             "exception": {
@@ -1027,7 +1027,7 @@
                 "NotAKeyValue": {
                     "name": "$~欠損値",
                     "explanation": "$~@Map 内にいるので、値が必要です。",
-                    "resolution": "$?"
+                    "resolution": "$~キーと値のペアとしてラップする"
                 }
             },
             "label": {
@@ -1064,7 +1064,7 @@
                 "NotANumber": {
                     "name": "$~数字ではない",
                     "explanation": "$~数字は全部知ってると思っていたけど、この数字は知らない",
-                    "resolution": "$?"
+                    "resolution": "$~*0* に置き換えてください。"
                 }
             }
         },
@@ -1180,7 +1180,7 @@
                 "InvalidProperty": {
                     "name": "$~不明なプロパティ",
                     "explanation": "$~私は構造 $structure 内の名前ではないので、洗練できません。",
-                    "resolution": "$?"
+                    "resolution": "$~* $name * に名前を変更します。"
                 }
             },
             "label": {
@@ -1220,7 +1220,7 @@
                 "ExpectedStream": {
                     "name": "$~予想されるストリーム",
                     "explanation": "$~$condition はストリームを参照しないので、反応しません。",
-                    "resolution": "$?"
+                    "resolution": "$~反応を削除し、初期値のみを保持する"
                 }
             },
             "label": {
@@ -1251,12 +1251,12 @@
                 "ReferenceCycle": {
                     "name": "$~自己参照値",
                     "explanation": "$~えーと、$name の価値はそれ自体で決まるので、それにどのような値を与えるべきかをどうやって知ればいいのでしょうか?",
-                    "resolution": "$?"
+                    "resolution": "$~ループを解消するには、* $name * をプレースホルダーに置き換えてください。"
                 },
                 "UnexpectedTypeVariable": {
                     "name": "$~予期しない型変数",
                     "explanation": "$~これらの入力タイプをどうすればよいか分かりません",
-                    "resolution": "$?"
+                    "resolution": "$~この型変数を関数から削除します。"
                 }
             },
             "exception": {
@@ -1282,7 +1282,7 @@
                 "ExpectedSelectName": {
                     "name": "$~列名がありません",
                     "explanation": "$~少なくとも 1 つの列名が必要です。",
-                    "resolution": "$?"
+                    "resolution": "$~このセルを削除してください"
                 }
             }
         },
@@ -1364,22 +1364,22 @@
                 "DisallowedInputs": {
                     "name": "$~入力は許可されていません",
                     "explanation": "$~インターフェース関数の1つ以上が実装されていないため、入力できません",
-                    "resolution": "$?"
+                    "resolution": "$~入力を削除する"
                 },
                 "IncompleteImplementation": {
                     "name": "$~不完全な構造",
                     "explanation": "$~私の関数はすべて実装するか、まったく実装しないかのどちらかです。ごちゃ混ぜにしないでください！",
-                    "resolution": "$?"
+                    "resolution": "$~入力を削除してインターフェースにする"
                 },
                 "NotAnInterface": {
                     "name": "$~インターフェースではない",
                     "explanation": "$~私はインターフェースではありません。構造体はインターフェースのみを実装でき、他の構造体は実装できません。",
-                    "resolution": "$?"
+                    "resolution": "$~インターフェースリストからこれを削除する"
                 },
                 "UnimplementedInterface": {
                     "name": "$~未実装",
                     "explanation": "$~私は$interface、 $function。",
-                    "resolution": "$?"
+                    "resolution": "$~この構造体に不足している$function。"
                 }
             },
             "label": {
@@ -1446,7 +1446,7 @@
                 "character": {
                     "name": "$~可能なカスタム文字",
                     "explanation": "$~これはキャラクター名のようです。それを表示するには、@FormattedLiteral@TextLiteral。",
-                    "resolutionStrip": "$?"
+                    "resolutionStrip": "$~テキストから特殊文字を削除する"
                 }
             },
             "label": {
@@ -1495,7 +1495,7 @@
                 "MisplacedThis": {
                     "name": "$~この参照を紛失した",
                     "explanation": "$~構造、変換、または反応でのみ許可されます。",
-                    "resolution": "$?"
+                    "resolution": "$~プレースホルダーに置き換えてください"
                 }
             }
         },
@@ -1545,7 +1545,7 @@
                 "UnclosedDelimiter": {
                     "name": "$~閉じられていない区切り文字",
                     "explanation": "$~$expected の後のどこかの時点で $unclosed を期待していました",
-                    "resolution": "$?"
+                    "resolution": "$~不足している * $expected * を追加します。"
                 }
             },
             "exception": {
@@ -1571,7 +1571,7 @@
                 "ExpectedColumnBind": {
                     "name": "$~列の値が欠落しています",
                     "explanation": "$~すべての列に値が必要です",
-                    "resolution": "$?"
+                    "resolution": "$~このセルを名前付き列としてラップする"
                 },
                 "IncompatibleCellType": {
                     "name": "$~不適合な細胞型",
@@ -1679,7 +1679,7 @@
                 "UnknownTypeName": {
                     "name": "$~不明な型名",
                     "explanation": "$~型名は構造体または型変数のみを参照できますが、これは型$type",
-                    "resolution": "$?"
+                    "resolution": "$~プレースホルダーのタイプに置き換えてください"
                 }
             }
         },
@@ -1744,7 +1744,7 @@
                 "ExpectedColumnType": {
                     "name": "$~列タイプがありません",
                     "explanation": "$~列タイプが必要です",
-                    "resolution": "$?"
+                    "resolution": "$~タイプのプレースホルダーを追加する"
                 }
             }
         },
@@ -1771,7 +1771,7 @@
                 "$~私は誰を代表するべきでしょうか、A か B か、それとも何か他のものでしょうか? 決して決められません!",
                 "$~\\indecision•''|#|{ø}:「分かりません！」\\"
             ],
-            "elidedSuffix": "$?"
+            "elidedSuffix": "$~または$omitted"
         },
         "Unit": {
             "name": "$~ユニット",
@@ -3710,10 +3710,10 @@
         "Hand": {
             "doc": [
                 "$~/くねくね/",
-                "$~@FunctionDefinition です！@Hand についてお話ししましょう。",
-                "$~@Handはカメラに映る手の動きを監視し、手の位置、伸ばされている指、手のひらまたは手の甲がカメラに向いているかどうかを教えてくれます。手を高く上げたり、振ったり、指を数えたりしても、@Hand。",
-                "$~@Hand、内部的には機械学習モデルを使用しています。プログラムで初めて使用する際は、モデルのダウンロードに数秒かかり、読み込み中はステージの右上隅に小さな回転する手のアイコンが表示されます。その後はキャッシュに保存され、すぐに起動します。",
-                "$~各フレームの@Hand、place（手の位置）、open（手が開いている場合はtrue）、fingers（指の数）、親指、人差し指、中指、薬指、小指それぞれのブール値、palm（手のひらがカメラに向いている場合はtrue）などのフィールドを持つ構造体を返します。",
+                "$~@FunctionDefinition！ @Hand。",
+                "$~@Handカメラに映る手の動きを監視し、手の位置、伸ばされている指、手のひらまたは手の甲がカメラに向いているかどうかを教えてくれます。手を高く上げたり、振ったり、指を数えたりしても、 @Hand。",
+                "$~@Hand 、内部的には機械学習モデルを使用しています。プログラムで初めて使用する際は、モデルのダウンロードに数秒かかり、読み込み中はステージの右上隅に小さな回転する手のアイコンが表示されます。その後はキャッシュに保存され、すぐに起動します。",
+                "$~各フレームで、 @Hand @Hand。入力の完全なリストとそれぞれの意味については、そちらを参照してください。",
                 "$~これを試してみてください。あなたの手の位置に合わせて、手の形に合った絵文字が表示されます。",
                 "$~\\hand: Hand()\nPhrase((hand.open ? '🖐️' '✊') place: hand.place)\\"
             ],
@@ -4622,7 +4622,7 @@
             "defaultDescription": "$~$text と言います"
         },
         "Gesture": {
-            "doc": "$~私はカメラによって検出された手のジェスチャーです。私のフィールドは、ステージ上の手の位置、伸ばされている指、手のひらまたは手の甲がカメラに向いているかどうかを示します。@Hand は私のオブジェクトを返します。",
+            "doc": "$~私は、カメラが検出した手のポーズのスナップショットで、 @Hand。place はステージ上の手の位置を示し、fingsings は伸ばされている指の数を示します。open は手が開いているとき（3本以上の指が伸びているとき）に true になり、thumb、index、middle、ring、pinky はそれぞれどの指が伸びているかを示します。palm は手のひらがカメラに向いているときに true になり、手の甲が向いているときに false になります。",
             "names": ["$~✋", "$~ジェスチャー"],
             "place": {
                 "doc": "$~舞台上の手の位置。",

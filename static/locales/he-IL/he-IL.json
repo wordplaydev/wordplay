@@ -216,17 +216,17 @@
                 "UnknownLanguage": {
                     "name": "$~שפהלאידועה",
                     "explanation": "$~אני לא מכיר את השפה הזאת",
-                    "resolution": "$?"
+                    "resolution": "$~הסר את קוד השפה הזה"
                 },
                 "MissingLanguage": {
                     "name": "$~שפהחסרה",
                     "explanation": "$~חסרה לי שפה. האם תוכל להוסיף אחת?",
-                    "resolution": "$?"
+                    "resolution": "$~הסר את תגית השפה הריקה"
                 },
                 "DuplicateLanguage": {
                     "name": "$~שפהכפולה",
                     "explanation": "$~השתמשת בשפה ' $code ' פעמיים. תגיות של שפות מעורבות צריכות לפרט כל שפה פעם אחת בלבד.",
-                    "resolution": "$?"
+                    "resolution": "$~הסר את התג הכפול * $code *"
                 }
             }
         },
@@ -270,23 +270,23 @@
                 "InvalidRow": {
                     "name": "$~שורהלאחוקית",
                     "explanation": "$~שורות צריכות להיות כולן ערכים או כולן @Bind.",
-                    "resolutionKeepPositional": "$?",
-                    "resolutionUnwrapInputs": "$?"
+                    "resolutionKeepPositional": "$~השמט את התאים בעלי השם, השאיר רק את התאים בעלי המיקומים",
+                    "resolutionUnwrapInputs": "$~מחיקת השמות מהתאים בעלי השם"
                 },
                 "MissingCell": {
                     "name": "$~עמודהחסרה",
                     "explanation": "$~חסרה לי עמודה $column",
-                    "resolution": "$?"
+                    "resolution": "$~הוסף תא מציין מיקום עבור * $column *"
                 },
                 "ExtraCell": {
                     "name": "$~עמודהנוספת",
                     "explanation": "$~בהתבסס על סוג הטבלה שלי, אני עמודה נוספת שלא אמורה להיות כאן.",
-                    "resolution": "$?"
+                    "resolution": "$~הסר את התא הנוסף"
                 },
                 "UnknownColumn": {
                     "name": "$~שםעמודהלאידוע",
                     "explanation": "$~אני לא מכיר טור בשם הזה",
-                    "resolution": "$?"
+                    "resolution": "$~שינוי שם ל-* $name *"
                 },
                 "UnexpectedColumnBind": {
                     "name": "$~איןשורותקשירה",
@@ -321,7 +321,7 @@
                 "DuplicateTypeVariable": {
                     "name": "$~משתנהמסוגכפול",
                     "explanation": "$~יש לי את אותו שם כמו $duplicate",
-                    "resolution": "$?"
+                    "resolution": "$~הסר את משתנה הסוג הכפול"
                 }
             }
         },
@@ -394,7 +394,7 @@
                 "UnsupportedFontFormat": {
                     "name": "$~פורמטגופןלאנתמך",
                     "explanation": "$~החבר שלי * $face * לא יודע איך להיות $format .",
-                    "resolution": "$?"
+                    "resolution": "$~הסר את העיצוב"
                 }
             }
         },
@@ -452,7 +452,7 @@
                 "OrderOfOperations": {
                     "name": "$~סדרדומשמעי",
                     "explanation": "$~אני מעריך לפי סדר קריאה, לא לפי סדר פעולות מתמטי. האם ברצונך להשתמש ב-@Block כדי לציין את הסדר שבו עליי לבצע את ההערכה?",
-                    "resolution": "$?"
+                    "resolution": "$~הוספת סוגריים כדי להבהיר את העדיפויות"
                 }
             }
         },
@@ -504,7 +504,7 @@
                 "DuplicateShare": {
                     "name": "$~שיתוףכפול",
                     "explanation": "$~יש לי את אותו שם כמו $duplicate. זה לא ברור מה אנחנו משתפים.",
-                    "resolution": "$?"
+                    "resolution": "$~הסר את השיתוף הכפול הזה"
                 },
                 "IncompatibleType": {
                     "name": "$~סוגלאתואם",
@@ -524,27 +524,27 @@
                 "MisplacedShare": {
                     "name": "$~שיתוףלאבמקום",
                     "explanation": "$~אני יכול לשתף דברים רק ברמת @Program, לא בתוך שום דבר!",
-                    "resolution": "$?"
+                    "resolution": "$~הסר את הסמן *↑*"
                 },
                 "MissingShareLanguages": {
                     "name": "$~שפהחסרה",
                     "explanation": "$~אם אתם רוצים לשתף את זה, עליכם לציין באיזו שפה זה כתוב, כדי שאחרים ידעו אם הם יכולים לקרוא את זה!",
-                    "resolution": "$?"
+                    "resolution": "$~הסר את הסמן *↑*"
                 },
                 "RequiredAfterOptional": {
                     "name": "$~קלטנדרשלאחראופציונלי",
                     "explanation": "$~אני לא יכול להיות כאן, יש @Bind אופציונלי לפניי",
-                    "resolution": "$?"
+                    "resolution": "$~הזזת קלטים נדרשים לפני קלטים אופציונליים"
                 },
                 "UnexpectedEtc": {
                     "name": "$~קלטבלתיצפוילאחררשימתקלט",
                     "explanation": "$~אני יכול להיות באורך משתנה רק ב-@FunctionDefinition",
-                    "resolution": "$?"
+                    "resolution": "$~הסר את *…*"
                 },
                 "UnusedBind": {
                     "name": "$~כריכהשאינהבשימוש",
                     "explanation": "$~אני קוראים ל-$name, אבל אף אחד לא משתמש בי. אולי אני לא נחוץ?",
-                    "resolution": "$?"
+                    "resolution": "$~מחק את הקישור הזה"
                 }
             }
         },
@@ -579,7 +579,7 @@
                 "ExpectedEndingExpression": {
                     "name": "$~ביטויחסר",
                     "explanation": "אני צריך לפחות ביטוי אחד שאינו @Bind, כדי שיהיה לי ערך להחזיר.",
-                    "resolution": "$?"
+                    "resolution": "$~הוסף ביטוי סופי"
                 }
             }
         },
@@ -605,12 +605,12 @@
                 "UnknownBorrow": {
                     "name": "$~לאידועללוות",
                     "explanation": "$~אני לא מכיר $source בשם הזה",
-                    "resolution": "$?"
+                    "resolution": "$~הסר את ההשאלה הזו"
                 },
                 "BorrowCycle": {
                     "name": "$~הלוואהעצמית",
                     "explanation": "$~זה תלוי ב-$borrow, שתלוי ב-$source הזה, כך שלא ניתן להעריך את התוכנית",
-                    "resolution": "$?"
+                    "resolution": "$~הסירו את ההלוואה הזו כדי לשבור את המעגל"
                 }
             },
             "exception": {
@@ -693,7 +693,7 @@
                 "MisplacedConversion": {
                     "name": "$~המרהשגויה",
                     "explanation": "$~וואו, אני לא יכול להיות פה, רק ב-@Block.",
-                    "resolution": "$?"
+                    "resolution": "$~הסר את ההמרה הזו"
                 }
             }
         },
@@ -716,7 +716,7 @@
                 "UnknownConversion": {
                     "name": "$~המרהלאידועה",
                     "explanation": "$~לא מצאנו דרך להמיר $expected ל-$given",
-                    "resolution": "$?"
+                    "resolution": "$~הסר את ההמרה"
                 }
             },
             "exception": {
@@ -793,7 +793,7 @@
                 "UnexpectedTypeInput": {
                     "name": "$~קלטמסוגבלתיצפוי",
                     "explanation": "$~אני קלט מסוג נוסף, בלתי צפוי.",
-                    "resolution": "$?"
+                    "resolution": "$~הסר קלט מסוג זה"
                 },
                 "MissingInput": {
                     "name": "$~קלטחסר",
@@ -804,27 +804,27 @@
                 "NotInstantiable": {
                     "name": "$~מבנהלאשלם",
                     "explanation": "$~אני לא יכול ליצור את ה-@StructureDefinition הזה, יש לו פונקציות לא ממומשות.",
-                    "resolution": "$?"
+                    "resolution": "$~פיגומים של הפונקציות החסרות"
                 },
                 "UnexpectedInput": {
                     "name": "$~קלטבלתיצפוי",
                     "explanation": "$~אני קלט בלתי צפוי.",
-                    "resolution": "$?"
+                    "resolution": "$~הסר קלט זה"
                 },
                 "UnknownInput": {
                     "name": "$~קלטלאידוע",
                     "explanation": "$~הפונקציה *$name* הזו לא מצפה לקלט עם השם שלי.",
-                    "resolution": "$?"
+                    "resolution": "$~שנה את שם הקלט הזה ל- * $name *"
                 },
                 "InputListMustBeLast": {
                     "name": "$~קלטנוסףאינואחרון",
                     "explanation": "$~רשימת הקלטים חייבת להיות אחרונה",
-                    "resolution": "$?"
+                    "resolution": "$~הזז את קלט הרשימה לסוף"
                 },
                 "SeparatedEvaluate": {
                     "name": "$~הערכהמעורפלת",
                     "explanation": "$~האם $name הוא שם של פונקציה [$structure|$structure] של $function שאתה מנסה להעריך? נסה להסיר את הרווח אחריי, כדי שאדע שזה @Evaluate ולא @Block נפרד.",
-                    "resolution": "$?"
+                    "resolution": "$~סגור את הרווח בין * $name * לבין הקלטים שלו"
                 }
             },
             "exception": {
@@ -867,7 +867,7 @@
                 "Placeholder": {
                     "name": "$~מצייןמיקום",
                     "explanation": "$~אתה יכול למלא אותי? אני רק מציין מקום.",
-                    "resolution": "$?"
+                    "resolution": "$~החלף ב- * $candidate *"
                 }
             },
             "exception": {
@@ -907,7 +907,7 @@
                 "NoExpression": {
                     "name": "$~ביטויחסר",
                     "explanation": "$~אני צריך ביטוי כדי לחשב, האם תוכל להוסיף אחד?",
-                    "resolution": "$?"
+                    "resolution": "$~הוסף גוף מציין מיקום"
                 }
             }
         },
@@ -965,8 +965,8 @@
                 "ImpossibleType": {
                     "name": "$~סוגבלתיאפשרי",
                     "explanation": "$~זה אף פעם לא יכול להיות $type",
-                    "resolutionIsFalse": "$?",
-                    "resolutionDropOtherwise": "$?"
+                    "resolutionIsFalse": "$~החלף את בדיקת הסוג הזו ב-*⊥* (התשובה תמיד שגויה)",
+                    "resolutionDropOtherwise": "$~זרוק את ה-*??* — צד שמאל אף פעם לא *ø*"
                 }
             },
             "exception": {
@@ -1030,7 +1030,7 @@
                 "NotAKeyValue": {
                     "name": "$~ערךחסר",
                     "explanation": "$~אני נמצא ב-@Map, אז אני צריך ערך.",
-                    "resolution": "$?"
+                    "resolution": "$~עטיפה כזוג מפתח-ערך"
                 }
             }
         },
@@ -1064,7 +1064,7 @@
                 "NotANumber": {
                     "name": "$~לאמספר",
                     "explanation": "$~חשבתי שאני יודע את כל המספרים, אבל אני לא יודע את זה.",
-                    "resolution": "$?"
+                    "resolution": "$~החלף ב-*0*"
                 }
             }
         },
@@ -1184,7 +1184,7 @@
                 "InvalidProperty": {
                     "name": "$~נכסלאידוע",
                     "explanation": "$~אני לא שם במבנה $structure, אז אי אפשר לזקק אותי.",
-                    "resolution": "$?"
+                    "resolution": "$~שינוי שם ל-* $name *"
                 }
             }
         },
@@ -1225,7 +1225,7 @@
                 "ExpectedStream": {
                     "name": "$~הזרםהצפוי",
                     "explanation": "$~$condition לא מתייחס לשידור חי, אז אני לעולם לא אגיב!",
-                    "resolution": "$?"
+                    "resolution": "$~עזוב את התגובה, שמור רק את הערך ההתחלתי"
                 }
             }
         },
@@ -1251,12 +1251,12 @@
                 "ReferenceCycle": {
                     "name": "$~ערךעצמיהמפנה",
                     "explanation": "$~אממ, הערך של $name תלוי בעצמו, אז איך אני יודע איזה ערך לתת לו?",
-                    "resolution": "$?"
+                    "resolution": "$~החלף את * $name * ב-placeholder כדי לשבור את המעגל"
                 },
                 "UnexpectedTypeVariable": {
                     "name": "$~משתנהמסוגבלתיצפוי",
                     "explanation": "$~אני לא מבין עכשיו מה לעשות עם הקלטים האלה",
-                    "resolution": "$?"
+                    "resolution": "$~הסר משתנה מסוג זה מהפונקציה"
                 }
             },
             "exception": {
@@ -1282,7 +1282,7 @@
                 "ExpectedSelectName": {
                     "name": "$~שםעמודהחסר",
                     "explanation": "$~אני צריך לפחות שם של עמודה אחת.",
-                    "resolution": "$?"
+                    "resolution": "$~הסר תא זה"
                 }
             }
         },
@@ -1370,22 +1370,22 @@
                 "DisallowedInputs": {
                     "name": "$~קלטאינומותר",
                     "explanation": "$~אני לא יכול לקבל קלט מכיוון שאחת או יותר מפונקציות הממשק שלי לא ממומשות",
-                    "resolution": "$?"
+                    "resolution": "$~הסר את הקלטים"
                 },
                 "IncompleteImplementation": {
                     "name": "$~מבנהלאשלם",
                     "explanation": "$~או שכל הפונקציות שלי צריכות להיות ממומשות, או שאף אחת מהן לא צריכה להיות ממומשת. בלי תערובות מבולגנות!",
-                    "resolution": "$?"
+                    "resolution": "$~השמט את הקלטים כדי להפוך אותו לממשק"
                 },
                 "NotAnInterface": {
                     "name": "$~לאממשק",
                     "explanation": "$~אני לא ממשק; מבנה יכול ליישם רק ממשקים, לא מבנים אחרים.",
-                    "resolution": "$?"
+                    "resolution": "$~הסר את זה מרשימת הממשקים"
                 },
                 "UnimplementedInterface": {
                     "name": "$~לאמיושם",
                     "explanation": "$~מיישמתי את $interface אבל עדיין לא מיישמתי את $function",
-                    "resolution": "$?"
+                    "resolution": "$~פיגום את הפונקציה החסרה * $function * במבנה הזה"
                 }
             }
         },
@@ -1449,7 +1449,7 @@
                 "character": {
                     "name": "$~דמותמותאמתאישיתאפשרית",
                     "explanation": "$~זה נראה כמו שם של תו. כדי להציג אותם, השתמש ב-@FormattedLiteral במקום ב-@TextLiteral.",
-                    "resolutionStrip": "$?"
+                    "resolutionStrip": "$~הסר את התווים המיוחדים מהטקסט"
                 }
             }
         },
@@ -1495,7 +1495,7 @@
                 "MisplacedThis": {
                     "name": "$~איבדתיאתההפניההזו",
                     "explanation": "$~מותר לי להיות חלק רק ממבנה, המרה או תגובה.",
-                    "resolution": "$?"
+                    "resolution": "$~החלף במציין מיקום"
                 }
             }
         },
@@ -1545,7 +1545,7 @@
                 "UnclosedDelimiter": {
                     "name": "$~מפרידלאסגור",
                     "explanation": "$~ציפיתי ש-$expected מתישהו אחרי $unclosed",
-                    "resolution": "$?"
+                    "resolution": "$~הוסף את ה-* $expected * החסר"
                 }
             },
             "exception": {
@@ -1571,7 +1571,7 @@
                 "ExpectedColumnBind": {
                     "name": "$~ערךעמודהחסר",
                     "explanation": "$~אני צריך ערך לכל עמודה",
-                    "resolution": "$?"
+                    "resolution": "$~עוטף תא זה כעמודה בעלת שם"
                 },
                 "IncompatibleCellType": {
                     "name": "$~סוגתאלאתואם",
@@ -1679,7 +1679,7 @@
                 "UnknownTypeName": {
                     "name": "$~שםסוגלאידוע",
                     "explanation": "$~שמות סוגים יכולים להתייחס רק למבנים או משתני סוג, אך זה מתייחס לסוג $type",
-                    "resolution": "$?"
+                    "resolution": "$~החלפה במציין מיקום של סוג"
                 }
             }
         },
@@ -1744,7 +1744,7 @@
                 "ExpectedColumnType": {
                     "name": "$~סוגעמודהחסר",
                     "explanation": "$~אני צריך סוג עמודה",
-                    "resolution": "$?"
+                    "resolution": "$~הוסף מציין מיקום של סוג"
                 }
             }
         },
@@ -1771,7 +1771,7 @@
                 "$~את מי אני צריך לייצג, את א' או את ב' או משהו אחר? אני אף פעם לא יכול להחליט!",
                 "$~\\חוסר החלטיות•''|#|{ø}: \"אני לא יודע!\"\\"
             ],
-            "elidedSuffix": "$?"
+            "elidedSuffix": "$~או $omitted אפשרויות אחרות"
         },
         "Unit": {
             "name": "$~יְחִידָה",
@@ -3710,10 +3710,10 @@
         "Hand": {
             "doc": [
                 "$~/ויגל ויגל/",
-                "$~@FunctionDefinition כאן! תן לי לספר לך על @Hand.",
-                "$~@Hand צופה במצלמה שלך ביד ומודיע לך היכן היא נמצאת, אילו אצבעות מושטות, והאם כף היד או גב היד שלך פונים אל המצלמה. הרימו את ידכם, נופפו בה, ספרו על האצבעות שלכם - @Hand עוקב.",
+                "$~@FunctionDefinition כאן! הרשו לי לספר לכם על @Hand .",
+                "$~@Hand צופה במצלמה שלך ביד ומודיע לך היכן היא נמצאת, אילו אצבעות מושטות, והאם כף היד או גב היד שלך פונים למצלמה. הרימו את ידך, נופפו בה, ספרו על האצבעות שלכם - @Hand עוקב.",
                 "$~מאחורי הקלעים, @Hand משתמש במודל למידת מכונה. בפעם הראשונה שמשתמשים בו בתוכנית, הורדת המודל אורכת מספר שניות, ויד זעירה מסתובבת מופיעה בפינה הימנית העליונה של הבמה בזמן הטעינה. לאחר מכן, המודל נשאר במטמון ומופעל באופן מיידי.",
-                "$~כל מסגרת של @Hand מחזירה מבנה עם שדות כמו place (היכן נמצאת היד), open (true אם היד שלך פתוחה), fingers (כמה אצבעות למעלה), בוליאנים בודדים עבור אגודל, מדריך, אמצע, טבעת וזרת, וכף יד (true אם כף היד שלך פונה למצלמה).",
+                "$~בכל פריים, @Hand נותן לך @Gesture - חפש שם את הרשימה המלאה של הקלטים ומה משמעותם.",
                 "$~נסו את זה - זה מראה אימוג'י שתואם את תנוחת היד שלכם בכל מקום שבו היד האמיתית שלכם נמצאת:",
                 "$~\\hand: Hand()\nPhrase((hand.open ? '🖐️' '✊') place: hand.place)\\"
             ],
@@ -4623,7 +4623,7 @@
             "defaultDescription": "$~אמור $text"
         },
         "Gesture": {
-            "doc": "$~אני תנועת יד שמזוהה על ידי המצלמה. השדות שלי אומרים לך היכן היד נמצאת על הבמה, אילו אצבעות מושטות, והאם כף היד או גב היד פונים למצלמה. @Hand מחזירה אחת ממני.",
+            "doc": "$~אני תמונת מצב של תנוחת יד שזוהתה על ידי המצלמה, הנפלטת מזרם @Hand . המיקום שלי אומר לך איפה היד נמצאת על הבמה, האצבעות שלי אומרות לך כמה מהן מושטות, ה\"פתוח\" שלי נכון כאשר היד פתוחה (3+ אצבעות מושטות), והאגודל, המורה, האמצע, הטבעת והזרת שלי אומרות כל אחת מהן אילו אצבעות ספציפיות מושטות. כף היד שלי נכונה כאשר כף היד פונה למצלמה, ושקרית כאשר גב כף היד פונה למצלמה.",
             "names": ["$~✋", "$~מחווה"],
             "place": {
                 "doc": "$~איפה שהיד על הבמה.",

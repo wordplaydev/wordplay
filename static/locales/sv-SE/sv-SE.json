@@ -216,17 +216,17 @@
                 "UnknownLanguage": {
                     "name": "$~okäntspråk",
                     "explanation": "$~Jag kan inte det här språket",
-                    "resolution": "$?"
+                    "resolution": "$~Ta bort den här språkkoden"
                 },
                 "MissingLanguage": {
                     "name": "$~saknatspråk",
                     "explanation": "$~Jag saknar ett språk. Kan du lägga till ett?",
-                    "resolution": "$?"
+                    "resolution": "$~Ta bort den tomma språktaggen"
                 },
                 "DuplicateLanguage": {
                     "name": "$~dupliceratspråk",
                     "explanation": "$~Du använde språket ' $code ' två gånger. Taggar för blandspråk bör bara lista varje språk en gång.",
-                    "resolution": "$?"
+                    "resolution": "$~Ta bort dubbletten * $code * tagg"
                 }
             }
         },
@@ -270,23 +270,23 @@
                 "InvalidRow": {
                     "name": "$~ogiltigrad",
                     "explanation": "$~Rader måste antingen vara alla värden eller alla @Bind.",
-                    "resolutionKeepPositional": "$?",
-                    "resolutionUnwrapInputs": "$?"
+                    "resolutionKeepPositional": "$~Ta bort de namngivna cellerna, behåll endast de positionella",
+                    "resolutionUnwrapInputs": "$~Ta bort namnen från de namngivna cellerna"
                 },
                 "MissingCell": {
                     "name": "$~saknadkolumn",
                     "explanation": "$~Jag saknar kolumn $column",
-                    "resolution": "$?"
+                    "resolution": "$~Lägg till en platshållarcell för * $column *"
                 },
                 "ExtraCell": {
                     "name": "$~extrakolumn",
                     "explanation": "$~Baserat på min tabelltyp är jag en extra kolumn som inte borde vara här.",
-                    "resolution": "$?"
+                    "resolution": "$~Ta bort den extra cellen"
                 },
                 "UnknownColumn": {
                     "name": "$~okäntkolumnnamn",
                     "explanation": "$~Jag känner inte till en kolumn med det här namnet",
-                    "resolution": "$?"
+                    "resolution": "$~Byt namn till * $name *"
                 },
                 "UnexpectedColumnBind": {
                     "name": "$~ingabindningsrader",
@@ -318,7 +318,7 @@
                 "DuplicateTypeVariable": {
                     "name": "$~dupliceradtypvariabel",
                     "explanation": "$~Jag har samma namn som $duplicate",
-                    "resolution": "$?"
+                    "resolution": "$~Ta bort den duplicerade typvariabeln"
                 }
             },
             "label": {
@@ -394,7 +394,7 @@
                 "UnsupportedFontFormat": {
                     "name": "$~teckensnittsformatsomintestöds",
                     "explanation": "$~Min vän * $face * vet inte hur man är $format .",
-                    "resolution": "$?"
+                    "resolution": "$~Ta bort formateringen"
                 }
             }
         },
@@ -449,7 +449,7 @@
                 "OrderOfOperations": {
                     "name": "$~tvetydigordning",
                     "explanation": "$~Jag utvärderar i läsordning, inte i matematisk ordning för operationerna. Vill du använda @Block för att ange i vilken ordning jag ska utvärdera?",
-                    "resolution": "$?"
+                    "resolution": "$~Lägg till parenteser för att förtydliga prioritet"
                 }
             },
             "label": {
@@ -499,7 +499,7 @@
                 "DuplicateShare": {
                     "name": "$~dupliceraddelning",
                     "explanation": "$~Jag har samma namn som $duplicate. Det gör det oklart vad vi delar.",
-                    "resolution": "$?"
+                    "resolution": "$~Ta bort den här duplicerade delningen"
                 },
                 "IncompatibleType": {
                     "name": "$~inkompatibeltyp",
@@ -519,27 +519,27 @@
                 "MisplacedShare": {
                     "name": "$~felplaceraddelning",
                     "explanation": "$~Jag kan bara dela saker på @Program-nivå, inte inuti någonting!",
-                    "resolution": "$?"
+                    "resolution": "$~Ta bort markören *↑*"
                 },
                 "MissingShareLanguages": {
                     "name": "$~saknatspråk",
                     "explanation": "$~Om du vill dela detta måste du ange vilket språk det är på, så att andra vet om de kan läsa det!",
-                    "resolution": "$?"
+                    "resolution": "$~Ta bort markören *↑*"
                 },
                 "RequiredAfterOptional": {
                     "name": "$~obligatoriskinmatningeftervalfritt",
                     "explanation": "$~Jag kan inte vara här, det finns en valfri @Bind framför mig",
-                    "resolution": "$?"
+                    "resolution": "$~Flytta obligatoriska inmatningar före valfria"
                 },
                 "UnexpectedEtc": {
                     "name": "$~oväntadinmatningefterinmatningslista",
                     "explanation": "$~Jag kan bara ha variabel längd i en @FunctionDefinition",
-                    "resolution": "$?"
+                    "resolution": "$~Ta bort *…*"
                 },
                 "UnusedBind": {
                     "name": "$~oanvändbindning",
                     "explanation": "$~Jag heter $name, men ingen utnyttjar mig. Kanske behövs jag inte?",
-                    "resolution": "$?"
+                    "resolution": "$~Ta bort den här bindningen"
                 }
             },
             "label": {
@@ -576,7 +576,7 @@
                 "ExpectedEndingExpression": {
                     "name": "$~saknatuttryck",
                     "explanation": "Jag behöver minst ett uttryck som inte är @Bind, så att jag har ett värde att returnera.",
-                    "resolution": "$?"
+                    "resolution": "$~Lägg till ett slutligt uttryck"
                 }
             },
             "label": {
@@ -600,12 +600,12 @@
                 "UnknownBorrow": {
                     "name": "$~okändlån",
                     "explanation": "$~Jag känner inte till en $source med det här namnet",
-                    "resolution": "$?"
+                    "resolution": "$~Ta bort detta lån"
                 },
                 "BorrowCycle": {
                     "name": "$~självrefererandelån",
                     "explanation": "$~detta beror på $borrow, vilket beror på denna $source, så programmet kan inte utvärderas",
-                    "resolution": "$?"
+                    "resolution": "$~Ta bort detta lån för att bryta cykeln"
                 }
             },
             "exception": {
@@ -688,7 +688,7 @@
                 "MisplacedConversion": {
                     "name": "$~felplaceradkonvertering",
                     "explanation": "$~Oj, jag kan inte vara här, bara i @Block.",
-                    "resolution": "$?"
+                    "resolution": "$~Ta bort den här konverteringen"
                 }
             },
             "label": {
@@ -716,7 +716,7 @@
                 "UnknownConversion": {
                     "name": "$~okändkonvertering",
                     "explanation": "$~Vi kunde inte hitta ett sätt att konvertera ett $expected till ett $given",
-                    "resolution": "$?"
+                    "resolution": "$~Ta bort konverteringen"
                 }
             },
             "exception": {
@@ -788,7 +788,7 @@
                 "UnexpectedTypeInput": {
                     "name": "$~oväntadtypinmatning",
                     "explanation": "$~Jag är en extra, oväntad typ av input.",
-                    "resolution": "$?"
+                    "resolution": "$~Ta bort den här typen av inmatning"
                 },
                 "MissingInput": {
                     "name": "$~saknadinmatning",
@@ -799,27 +799,27 @@
                 "NotInstantiable": {
                     "name": "$~ofullständigstruktur",
                     "explanation": "$~Jag kan inte skapa denna @StructureDefinition, den har oimplementerade funktioner.",
-                    "resolution": "$?"
+                    "resolution": "$~Bygg upp de saknade funktionerna"
                 },
                 "UnexpectedInput": {
                     "name": "$~oväntadinmatning",
                     "explanation": "$~Jag är en oväntad input.",
-                    "resolution": "$?"
+                    "resolution": "$~Ta bort den här inmatningen"
                 },
                 "UnknownInput": {
                     "name": "$~okändingång",
                     "explanation": "$~Den här funktionen *$name* förväntar sig inte inmatning med mitt namn.",
-                    "resolution": "$?"
+                    "resolution": "$~Byt namn på denna inmatning till * $name *"
                 },
                 "InputListMustBeLast": {
                     "name": "$~extrainmatningarärintesista",
                     "explanation": "$~listan över inmatningar måste vara sist",
-                    "resolution": "$?"
+                    "resolution": "$~Flytta listinmatningen till slutet"
                 },
                 "SeparatedEvaluate": {
                     "name": "$~tvetydigutvärdering",
                     "explanation": "$~Är $name namnet på en $structure[$structure|$function] som du försöker utvärdera? Försök att ta bort mellanslaget efter mig, så att jag vet att det är en @Evaluate och inte ett separat @Block.",
-                    "resolution": "$?"
+                    "resolution": "$~Stäng mellanrummet mellan * $name * och dess indata"
                 }
             },
             "exception": {
@@ -864,7 +864,7 @@
                 "Placeholder": {
                     "name": "$~platshållare",
                     "explanation": "$~Kan du fylla i mig? Jag är bara en platsmarkör.",
-                    "resolution": "$?"
+                    "resolution": "$~Ersätt med * $candidate *"
                 }
             },
             "exception": {
@@ -902,7 +902,7 @@
                 "NoExpression": {
                     "name": "$~saknatuttryck",
                     "explanation": "$~Jag behöver ett uttryck för att utvärdera, kan du lägga till ett?",
-                    "resolution": "$?"
+                    "resolution": "$~Lägg till en platshållartext"
                 }
             },
             "label": {
@@ -965,8 +965,8 @@
                 "ImpossibleType": {
                     "name": "$~omöjligtyp",
                     "explanation": "$~detta kan aldrig vara $type",
-                    "resolutionIsFalse": "$?",
-                    "resolutionDropOtherwise": "$?"
+                    "resolutionIsFalse": "$~Ersätt denna typkontroll med *⊥* (svaret är alltid falskt)",
+                    "resolutionDropOtherwise": "$~Släpp *??* — vänster sida är aldrig *ø*"
                 }
             },
             "exception": {
@@ -1027,7 +1027,7 @@
                 "NotAKeyValue": {
                     "name": "$~saknatvärde",
                     "explanation": "$~Jag är i en @Map, så jag behöver ett värde.",
-                    "resolution": "$?"
+                    "resolution": "$~Radbryt som ett nyckel-värde-par"
                 }
             },
             "label": {
@@ -1064,7 +1064,7 @@
                 "NotANumber": {
                     "name": "$~inteettnummer",
                     "explanation": "$~Jag trodde jag kunde alla siffror, men jag kan inte den här.",
-                    "resolution": "$?"
+                    "resolution": "$~Ersätt med *0*"
                 }
             }
         },
@@ -1180,7 +1180,7 @@
                 "InvalidProperty": {
                     "name": "$~okändegendom",
                     "explanation": "$~Jag är inte ett namn i strukturen $structure, så jag kan inte förfinas.",
-                    "resolution": "$?"
+                    "resolution": "$~Byt namn till * $name *"
                 }
             },
             "label": {
@@ -1220,7 +1220,7 @@
                 "ExpectedStream": {
                     "name": "$~förväntadström",
                     "explanation": "$~$condition refererar inte till en stream, så jag kommer aldrig att reagera!",
-                    "resolution": "$?"
+                    "resolution": "$~Släpp reaktionen, behåll bara det ursprungliga värdet"
                 }
             },
             "label": {
@@ -1251,12 +1251,12 @@
                 "ReferenceCycle": {
                     "name": "$~självrefererandevärde",
                     "explanation": "$~um, $name värde beror på sig självt, så hur vet jag vilket värde jag ska ge det?",
-                    "resolution": "$?"
+                    "resolution": "$~Ersätt * $name * med en platshållare för att bryta cykeln"
                 },
                 "UnexpectedTypeVariable": {
                     "name": "$~oväntadtypvariabel",
                     "explanation": "$~Jag vet inte vad jag ska göra med den här typen av inmatningar.",
-                    "resolution": "$?"
+                    "resolution": "$~Ta bort den här typen av variabel från funktionen"
                 }
             },
             "exception": {
@@ -1282,7 +1282,7 @@
                 "ExpectedSelectName": {
                     "name": "$~saknatkolumnnamn",
                     "explanation": "$~Jag behöver minst ett kolumnnamn.",
-                    "resolution": "$?"
+                    "resolution": "$~Ta bort den här cellen"
                 }
             }
         },
@@ -1364,22 +1364,22 @@
                 "DisallowedInputs": {
                     "name": "$~inmatningarärintetillåtna",
                     "explanation": "$~Jag kan inte få indata eftersom en eller flera av mina gränssnittsfunktioner inte är implementerade.",
-                    "resolution": "$?"
+                    "resolution": "$~Ta bort ingångarna"
                 },
                 "IncompleteImplementation": {
                     "name": "$~ofullständigstruktur",
                     "explanation": "$~Antingen måste alla mina funktioner implementeras, eller så måste inga implementeras. Inga röriga blandningar!",
-                    "resolution": "$?"
+                    "resolution": "$~Ta bort ingångarna för att göra det till ett gränssnitt"
                 },
                 "NotAnInterface": {
                     "name": "$~inteettgränssnitt",
                     "explanation": "$~Jag är inte ett gränssnitt; en struktur kan bara implementera gränssnitt, inte andra strukturer.",
-                    "resolution": "$?"
+                    "resolution": "$~Ta bort detta från gränssnittslistan"
                 },
                 "UnimplementedInterface": {
                     "name": "$~oimplementerad",
                     "explanation": "$~Jag implementerar $interface men har inte implementerat $function",
-                    "resolution": "$?"
+                    "resolution": "$~Bygg upp den saknade * $function * på denna struktur"
                 }
             },
             "label": {
@@ -1446,7 +1446,7 @@
                 "character": {
                     "name": "$~möjliganpassadkaraktär",
                     "explanation": "$~Detta ser ut som ett teckennamn. För att visa dessa, använd @FormattedLiteral istället för @TextLiteral.",
-                    "resolutionStrip": "$?"
+                    "resolutionStrip": "$~Ta bort specialtecknen från texten"
                 }
             },
             "label": {
@@ -1495,7 +1495,7 @@
                 "MisplacedThis": {
                     "name": "$~felplaceradedennareferens",
                     "explanation": "$~Jag är bara tillåten i en struktur, konvertering eller reaktion.",
-                    "resolution": "$?"
+                    "resolution": "$~Ersätt med en platshållare"
                 }
             }
         },
@@ -1545,7 +1545,7 @@
                 "UnclosedDelimiter": {
                     "name": "$~oavslutadavgränsare",
                     "explanation": "$~Jag förväntade mig $expected någon gång efter $unclosed",
-                    "resolution": "$?"
+                    "resolution": "$~Lägg till den saknade * $expected *"
                 }
             },
             "exception": {
@@ -1571,7 +1571,7 @@
                 "ExpectedColumnBind": {
                     "name": "$~saknatkolumnvärde",
                     "explanation": "$~Jag behöver ett värde för varje kolumn",
-                    "resolution": "$?"
+                    "resolution": "$~Radbryt den här cellen som en namngiven kolumn"
                 },
                 "IncompatibleCellType": {
                     "name": "$~inkompatibelcelltyp",
@@ -1679,7 +1679,7 @@
                 "UnknownTypeName": {
                     "name": "$~okänttypnamn",
                     "explanation": "$~typnamn kan bara referera till strukturer eller typvariabler, men detta refererar till typ $type",
-                    "resolution": "$?"
+                    "resolution": "$~Ersätt med en typplatshållare"
                 }
             }
         },
@@ -1744,7 +1744,7 @@
                 "ExpectedColumnType": {
                     "name": "$~saknadkolumntyp",
                     "explanation": "$~Jag behöver en kolumntyp",
-                    "resolution": "$?"
+                    "resolution": "$~Lägg till en platshållare för typ"
                 }
             }
         },
@@ -1771,7 +1771,7 @@
                 "$~Vem ska jag representera, A eller B eller något annat? Jag kan aldrig bestämma mig!",
                 "$~\\indecision•''|#|{ø}: \"Jag vet inte!\"\\"
             ],
-            "elidedSuffix": "$?"
+            "elidedSuffix": "$~eller $omitted andra alternativ"
         },
         "Unit": {
             "name": "$~enhet",
@@ -3710,10 +3710,10 @@
         "Hand": {
             "doc": [
                 "$~/vigla vicka/",
-                "$~@FunctionDefinition här! Låt mig berätta om @Hand.",
+                "$~@FunctionDefinition här! Låt mig berätta om @Hand .",
                 "$~@Hand tittar på din kamera efter en hand och talar om för dig var den är, vilka fingrar som är utsträckta och om handflatan eller baksidan av din hand är vänd mot kameran. Håll upp handen, vifta med den, räkna på dina fingrar – @Hand följer efter.",
                 "$~Bakom kulisserna använder @Hand en maskininlärningsmodell. Första gången du använder den i ett program tar det några sekunder att ladda ner modellen, och en liten snurrande hand visas i det övre högra hörnet av scenen medan den laddas. Därefter förblir den cachad och startar direkt.",
-                "$~Varje bildruta @Hand returnerar en struktur med fält som plats (där handen är), öppen (sant om din hand är öppen), fingrar (hur många fingrar är uppe), individuella booleska värden för tumme, pekfingrar, långfingrar, ringfingrar och lillfingrar, samt handflata (sant om din handflata är vänd mot kameran).",
+                "$~Varje bildruta ger @Hand dig en @Gesture — se där för en fullständig lista över indata och vad de betyder.",
                 "$~Prova detta — det visar en emoji som matchar din handposition var din riktiga hand än är:",
                 "$~\\hand: Hand()\nPhrase((hand.open ? '🖐️' '✊') place: hand.place)\\"
             ],
@@ -4622,7 +4622,7 @@
             "defaultDescription": "$~Säg $text"
         },
         "Gesture": {
-            "doc": "$~Jag är en handgest som kameran upptäcker. Mina fält visar var handen är på scenen, vilka fingrar som är utsträckta och om handflatan eller handryggen är vänd mot kameran. @Hand visar en av mig.",
+            "doc": "$~Jag är en ögonblicksbild av en handposition som detekterats av kameran och sänds ut av @Hand strömmen. Min position visar var handen är på scenen, mina fingrar visar hur många som är utsträckta, min öppna position är sann när handen är öppen (3+ fingrar utsträckta), och min tumme, pekfinger, långfinger, ringfinger och lillfinger visar vart och ett vilka specifika fingrar som är utsträckta. Min handflata är sann när handflatan är vänd mot kameran, falsk när handryggen är det.",
             "names": ["$~✋", "$~Gest"],
             "place": {
                 "doc": "$~Där handen är på scenen.",

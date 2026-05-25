@@ -216,17 +216,17 @@
                 "UnknownLanguage": {
                     "name": "$~bahasayangtidakdikenal",
                     "explanation": "$~Saya tidak tahu bahasa ini",
-                    "resolution": "$?"
+                    "resolution": "$~Hapus kode bahasa ini"
                 },
                 "MissingLanguage": {
                     "name": "$~bahasayanghilang",
                     "explanation": "$~Saya kekurangan satu bahasa. Bisakah Anda menambahkannya?",
-                    "resolution": "$?"
+                    "resolution": "$~Hapus tag bahasa yang kosong"
                 },
                 "DuplicateLanguage": {
                     "name": "$~bahasaduplikat",
                     "explanation": "$~Anda menggunakan bahasa ' $code ' dua kali. Tag campuran bahasa seharusnya hanya mencantumkan setiap bahasa satu kali.",
-                    "resolution": "$?"
+                    "resolution": "$~Hapus tag * $code * yang duplikat"
                 }
             }
         },
@@ -270,23 +270,23 @@
                 "InvalidRow": {
                     "name": "$~baristidakvalid",
                     "explanation": "$~Baris harus berisi semua nilai atau semua @Bind.",
-                    "resolutionKeepPositional": "$?",
-                    "resolutionUnwrapInputs": "$?"
+                    "resolutionKeepPositional": "$~Hapus sel yang diberi nama, hanya simpan sel yang menunjukkan posisinya.",
+                    "resolutionUnwrapInputs": "$~Hapus nama dari sel yang diberi nama."
                 },
                 "MissingCell": {
                     "name": "$~kolomhilang",
                     "explanation": "$~Saya kehilangan kolom $column",
-                    "resolution": "$?"
+                    "resolution": "$~Tambahkan sel tempat penampung untuk * $column *"
                 },
                 "ExtraCell": {
                     "name": "$~kolomtambahan",
                     "explanation": "$~Berdasarkan tipe tabel saya, saya adalah kolom tambahan yang seharusnya tidak ada di sini.",
-                    "resolution": "$?"
+                    "resolution": "$~Hapus sel tambahan"
                 },
                 "UnknownColumn": {
                     "name": "$~namakolomtidakdiketahui",
                     "explanation": "$~Saya tidak tahu kolom dengan nama ini.",
-                    "resolution": "$?"
+                    "resolution": "$~Ganti nama menjadi * $name *"
                 },
                 "UnexpectedColumnBind": {
                     "name": "$~tidakadabarispengikat",
@@ -321,7 +321,7 @@
                 "DuplicateTypeVariable": {
                     "name": "$~variabeltipeduplikat",
                     "explanation": "$~Saya memiliki nama yang sama dengan $duplicate",
-                    "resolution": "$?"
+                    "resolution": "$~Hapus variabel tipe duplikat."
                 }
             }
         },
@@ -394,7 +394,7 @@
                 "UnsupportedFontFormat": {
                     "name": "$~formatfonttidakdidukung",
                     "explanation": "$~Temanku * $face * tidak tahu bagaimana menjadi $format .",
-                    "resolution": "$?"
+                    "resolution": "$~Hapus formatnya"
                 }
             }
         },
@@ -455,7 +455,7 @@
                 "OrderOfOperations": {
                     "name": "$~urutanyangambigu",
                     "explanation": "$~Saya melakukan evaluasi berdasarkan urutan baca, bukan urutan operasi matematika. Apakah Anda ingin menggunakan @Block untuk menentukan urutan evaluasi yang harus saya ikuti?",
-                    "resolution": "$?"
+                    "resolution": "$~Tambahkan tanda kurung untuk memperjelas prioritas."
                 }
             }
         },
@@ -507,7 +507,7 @@
                 "DuplicateShare": {
                     "name": "$~berbagiduplikat",
                     "explanation": "$~Saya memiliki nama yang sama dengan $duplicate . Itu membuat tidak jelas apa yang kita bagikan.",
-                    "resolution": "$?"
+                    "resolution": "$~Hapus postingan duplikat ini"
                 },
                 "IncompatibleType": {
                     "name": "$~tipetidakkompatibel",
@@ -527,27 +527,27 @@
                 "MisplacedShare": {
                     "name": "$~sahamyangsalahtempat",
                     "explanation": "$~Saya hanya bisa membagikan hal-hal di tingkat @Program, bukan di dalam apa pun!",
-                    "resolution": "$?"
+                    "resolution": "$~Hapus tanda *↑*"
                 },
                 "MissingShareLanguages": {
                     "name": "$~bahasayanghilang",
                     "explanation": "$~Jika Anda ingin membagikan ini, Anda harus menyebutkan bahasa apa yang digunakan, agar orang lain tahu apakah mereka dapat membacanya!",
-                    "resolution": "$?"
+                    "resolution": "$~Hapus tanda *↑*"
                 },
                 "RequiredAfterOptional": {
                     "name": "$~inputwajibsetelahopsional",
                     "explanation": "$~Saya tidak bisa berada di sini, ada @Bind opsional sebelum saya.",
-                    "resolution": "$?"
+                    "resolution": "$~Pindahkan input yang wajib diisi sebelum input opsional."
                 },
                 "UnexpectedEtc": {
                     "name": "$~Masukantakterdugasetelahdaftarmasukan",
                     "explanation": "$~Panjangnya hanya bisa bervariasi di dalam @FunctionDefinition.",
-                    "resolution": "$?"
+                    "resolution": "$~Hapus ***"
                 },
                 "UnusedBind": {
                     "name": "$~pengikatyangtidakterpakai",
                     "explanation": "$~Nama saya $name , tetapi tidak ada yang menggunakan saya. Mungkin saya tidak dibutuhkan?",
-                    "resolution": "$?"
+                    "resolution": "$~Hapus pengikatan ini"
                 }
             }
         },
@@ -582,7 +582,7 @@
                 "ExpectedEndingExpression": {
                     "name": "$~ekspresiyanghilang",
                     "explanation": "$~Saya membutuhkan setidaknya satu ekspresi yang bukan @Bind, agar saya memiliki nilai untuk dikembalikan.",
-                    "resolution": "$?"
+                    "resolution": "$~Tambahkan ekspresi terakhir"
                 }
             }
         },
@@ -608,12 +608,12 @@
                 "UnknownBorrow": {
                     "name": "$~pinjamantakdikenal",
                     "explanation": "$~Saya tidak tahu $source dengan nama ini.",
-                    "resolution": "$?"
+                    "resolution": "$~Hapus pinjaman ini"
                 },
                 "BorrowCycle": {
                     "name": "$~meminjamyangmerujukdirisendiri",
                     "explanation": "$~Ini bergantung pada $borrow , yang bergantung pada $source , sehingga program tidak dapat dievaluasi.",
-                    "resolution": "$?"
+                    "resolution": "$~Hapus pinjaman ini untuk memutus siklusnya."
                 }
             },
             "exception": {
@@ -696,7 +696,7 @@
                 "MisplacedConversion": {
                     "name": "$~konversiyangsalahtempat",
                     "explanation": "$~Wah, aku tidak bisa berada di sini, hanya di @Block.",
-                    "resolution": "$?"
+                    "resolution": "$~Hapus konversi ini"
                 }
             }
         },
@@ -719,7 +719,7 @@
                 "UnknownConversion": {
                     "name": "$~konversitidakdiketahui",
                     "explanation": "$~Kami tidak menemukan cara untuk mengkonversi $expected menjadi $given",
-                    "resolution": "$?"
+                    "resolution": "$~Hapus konversi"
                 }
             },
             "exception": {
@@ -798,7 +798,7 @@
                 "UnexpectedTypeInput": {
                     "name": "$~inputtipeyangtidakterduga",
                     "explanation": "$~Saya adalah masukan tambahan yang tidak terduga.",
-                    "resolution": "$?"
+                    "resolution": "$~Hapus input tipe ini"
                 },
                 "MissingInput": {
                     "name": "$~inputhilang",
@@ -809,27 +809,27 @@
                 "NotInstantiable": {
                     "name": "$~strukturtidaklengkap",
                     "explanation": "$~Saya tidak bisa membuat @StructureDefinition ini karena memiliki fungsi yang belum diimplementasikan.",
-                    "resolution": "$?"
+                    "resolution": "$~Membangun kerangka untuk fungsi-fungsi yang hilang."
                 },
                 "UnexpectedInput": {
                     "name": "$~masukantakterduga",
                     "explanation": "$~Saya adalah masukan yang tak terduga.",
-                    "resolution": "$?"
+                    "resolution": "$~Hapus input ini"
                 },
                 "UnknownInput": {
                     "name": "$~masukantidakdikenal",
                     "explanation": "$~Fungsi ini * $name * tidak mengharapkan input berupa nama saya.",
-                    "resolution": "$?"
+                    "resolution": "$~Ubah nama input ini menjadi * $name *"
                 },
                 "InputListMustBeLast": {
                     "name": "$~masukantambahanbukanlahyangterakhir",
                     "explanation": "$~daftar input harus berada di akhir",
-                    "resolution": "$?"
+                    "resolution": "$~Pindahkan input daftar ke akhir."
                 },
                 "SeparatedEvaluate": {
                     "name": "$~evaluasiambigu",
                     "explanation": "$~Apakah $name adalah nama dari $structure [ $structure | $function ] yang ingin Anda evaluasi? Coba hapus spasi setelahnya, agar saya tahu itu adalah @Evaluate dan bukan @Block terpisah.",
-                    "resolution": "$?"
+                    "resolution": "$~Tutup spasi antara * $name * dan inputnya"
                 }
             },
             "exception": {
@@ -872,7 +872,7 @@
                 "Placeholder": {
                     "name": "$~placeholder",
                     "explanation": "$~Bisakah kamu mengisi posisiku? Aku hanya sekadar tempat penampung.",
-                    "resolution": "$?"
+                    "resolution": "$~Ganti dengan * $candidate *"
                 }
             },
             "exception": {
@@ -912,7 +912,7 @@
                 "NoExpression": {
                     "name": "$~ekspresiyanghilang",
                     "explanation": "$~Saya membutuhkan ekspresi untuk dievaluasi, bisakah Anda menambahkannya?",
-                    "resolution": "$?"
+                    "resolution": "$~Tambahkan isi placeholder"
                 }
             }
         },
@@ -970,8 +970,8 @@
                 "ImpossibleType": {
                     "name": "$~tipeyangmustahil",
                     "explanation": "$~ini tidak mungkin menjadi $type",
-                    "resolutionIsFalse": "$?",
-                    "resolutionDropOtherwise": "$?"
+                    "resolutionIsFalse": "$~Ganti pemeriksaan tipe ini dengan *⊥* (jawabannya selalu salah)",
+                    "resolutionDropOtherwise": "$~Hilangkan *??* — sisi kiri tidak pernah *ø*"
                 }
             },
             "exception": {
@@ -1035,7 +1035,7 @@
                 "NotAKeyValue": {
                     "name": "$~nilaiyanghilang",
                     "explanation": "$~Saya berada di dalam @Map, jadi saya membutuhkan sebuah nilai.",
-                    "resolution": "$?"
+                    "resolution": "$~Bungkus sebagai pasangan kunci-nilai"
                 }
             }
         },
@@ -1069,7 +1069,7 @@
                 "NotANumber": {
                     "name": "$~bukanangka",
                     "explanation": "$~Saya kira saya tahu semua angka, tapi saya tidak tahu angka yang ini.",
-                    "resolution": "$?"
+                    "resolution": "$~Ganti dengan 0*"
                 }
             }
         },
@@ -1189,7 +1189,7 @@
                 "InvalidProperty": {
                     "name": "$~propertiyangtidakdiketahui",
                     "explanation": "$~Saya bukan nama dalam struktur $structure , jadi saya tidak dapat dimurnikan.",
-                    "resolution": "$?"
+                    "resolution": "$~Ganti nama menjadi * $name *"
                 }
             }
         },
@@ -1230,7 +1230,7 @@
                 "ExpectedStream": {
                     "name": "$~aliranyangdiharapkan",
                     "explanation": "$~$condition tidak merujuk pada stream, jadi saya tidak akan pernah bereaksi!",
-                    "resolution": "$?"
+                    "resolution": "$~Abaikan reaksinya, pertahankan hanya nilai awalnya."
                 }
             }
         },
@@ -1256,12 +1256,12 @@
                 "ReferenceCycle": {
                     "name": "$~nilaiyangmerujukpadadirisendiri",
                     "explanation": "$~Eh, nilai $name bergantung pada dirinya sendiri, jadi bagaimana saya tahu nilai apa yang harus saya berikan padanya?",
-                    "resolution": "$?"
+                    "resolution": "$~Ganti * $name * dengan placeholder untuk memutus siklus"
                 },
                 "UnexpectedTypeVariable": {
                     "name": "$~variabeltipetakterduga",
                     "explanation": "$~Saya tidak tahu harus berbuat apa dengan jenis input ini.",
-                    "resolution": "$?"
+                    "resolution": "$~Hapus variabel tipe ini dari fungsi."
                 }
             },
             "exception": {
@@ -1287,7 +1287,7 @@
                 "ExpectedSelectName": {
                     "name": "$~namakolomhilang",
                     "explanation": "$~Saya membutuhkan setidaknya satu nama kolom.",
-                    "resolution": "$?"
+                    "resolution": "$~Hapus sel ini"
                 }
             }
         },
@@ -1375,22 +1375,22 @@
                 "DisallowedInputs": {
                     "name": "$~inputtidakdiizinkan",
                     "explanation": "$~Saya tidak dapat menerima input karena satu atau lebih fungsi antarmuka saya belum diimplementasikan.",
-                    "resolution": "$?"
+                    "resolution": "$~Hapus inputnya"
                 },
                 "IncompleteImplementation": {
                     "name": "$~strukturtidaklengkap",
                     "explanation": "$~Semua fungsi saya harus diimplementasikan, atau tidak satu pun yang diimplementasikan. Tidak boleh ada campuran yang berantakan!",
-                    "resolution": "$?"
+                    "resolution": "$~Hilangkan input untuk menjadikannya antarmuka."
                 },
                 "NotAnInterface": {
                     "name": "$~bukanantarmuka",
                     "explanation": "$~Saya bukanlah sebuah antarmuka; sebuah struktur hanya dapat mengimplementasikan antarmuka, bukan struktur lain.",
-                    "resolution": "$?"
+                    "resolution": "$~Hapus ini dari daftar antarmuka"
                 },
                 "UnimplementedInterface": {
                     "name": "$~belumdilaksanakan",
                     "explanation": "$~Saya mengimplementasikan $interface tetapi belum mengimplementasikan $function",
-                    "resolution": "$?"
+                    "resolution": "$~Susun kerangka * $function * yang hilang pada struktur ini"
                 }
             }
         },
@@ -1454,7 +1454,7 @@
                 "character": {
                     "name": "$~karakterkustomyangmungkin",
                     "explanation": "$~Ini sepertinya nama karakter. Untuk menampilkannya, gunakan @FormattedLiteral sebagai ganti @TextLiteral.",
-                    "resolutionStrip": "$?"
+                    "resolutionStrip": "$~Hapus karakter khusus dari teks."
                 }
             }
         },
@@ -1500,7 +1500,7 @@
                 "MisplacedThis": {
                     "name": "$~referensiinisalahtempat",
                     "explanation": "$~Saya hanya diperbolehkan berada dalam struktur, konversi, atau reaksi.",
-                    "resolution": "$?"
+                    "resolution": "$~Ganti dengan tempat penampung"
                 }
             }
         },
@@ -1550,7 +1550,7 @@
                 "UnclosedDelimiter": {
                     "name": "$~pembatasyangtidaktertutup",
                     "explanation": "$~Saya memperkirakan $expected beberapa saat setelah $unclosed",
-                    "resolution": "$?"
+                    "resolution": "$~Tambahkan * $expected * yang hilang"
                 }
             },
             "exception": {
@@ -1576,7 +1576,7 @@
                 "ExpectedColumnBind": {
                     "name": "$~nilaikolomhilang",
                     "explanation": "$~Saya membutuhkan nilai untuk setiap kolom.",
-                    "resolution": "$?"
+                    "resolution": "$~Bungkus sel ini sebagai kolom bernama."
                 },
                 "IncompatibleCellType": {
                     "name": "$~tipeselyangtidakkompatibel",
@@ -1684,7 +1684,7 @@
                 "UnknownTypeName": {
                     "name": "$~namatipetidakdiketahui",
                     "explanation": "$~Nama tipe hanya dapat merujuk ke struktur atau variabel tipe, tetapi ini merujuk ke tipe $type",
-                    "resolution": "$?"
+                    "resolution": "$~Ganti dengan placeholder tipe"
                 }
             }
         },
@@ -1749,7 +1749,7 @@
                 "ExpectedColumnType": {
                     "name": "$~tipekolomhilang",
                     "explanation": "$~Saya membutuhkan tipe kolom.",
-                    "resolution": "$?"
+                    "resolution": "$~Tambahkan placeholder tipe"
                 }
             }
         },
@@ -1776,7 +1776,7 @@
                 "$~Aku harus mewakili siapa, A atau B atau yang lain? Aku tidak pernah bisa memutuskan!",
                 "$~\\keraguan•''|#|{ø}: \"Saya tidak tahu!\"\\"
             ],
-            "elidedSuffix": "$?"
+            "elidedSuffix": "$~atau opsi lain $omitted"
         },
         "Unit": {
             "name": "$~satuan",
@@ -3543,12 +3543,12 @@
         "Hand": {
             "doc": [
                 "$~/goyang-goyang/",
-                "$~@FunctionDefinition di sini! Izinkan saya bercerita tentang @Hand.",
+                "$~@FunctionDefinition di sini! Izinkan saya bercerita tentang @Hand .",
                 "$~@Hand mengamati kamera Anda untuk mencari tangan dan memberi tahu Anda di mana letaknya, jari mana yang terentang, dan apakah telapak tangan atau punggung tangan Anda menghadap kamera. Angkat tangan Anda, lambaikan, hitung dengan jari Anda — @Hand akan mengikuti.",
                 "$~Di balik layar, @Hand menggunakan model pembelajaran mesin. Saat pertama kali Anda menggunakannya dalam sebuah program, model tersebut membutuhkan beberapa detik untuk diunduh, dan sebuah tangan kecil yang berputar akan muncul di pojok kanan atas panggung saat proses pemuatan berlangsung. Setelah itu, model tersebut akan tetap tersimpan dalam cache dan langsung berjalan.",
-                "$~Setiap frame @Hand mengembalikan sebuah struktur dengan field seperti place (di mana tangan berada), open (true jika tangan Anda terbuka), fingers (berapa banyak jari yang terangkat), boolean individual untuk ibu jari, telunjuk, tengah, manis, dan kelingking, serta palm (true jika telapak tangan Anda menghadap kamera).",
+                "$~Di setiap frame, @Hand memberi Anda @Gesture — lihat di sana untuk daftar lengkap input dan artinya.",
                 "$~Cobalah ini — ini menampilkan emoji yang sesuai dengan posisi tangan Anda di mana pun tangan Anda yang sebenarnya berada:",
-                "$~\\hand: Hand() Phrase((hand.open ? '🖐️' '✊') place: hand.place)\\"
+                "$~\\hand: Hand()\nPhrase((hand.open ? '🖐️' '✊') place: hand.place)\\"
             ],
             "names": ["$~🖐️", "$~Tangan"],
             "frequency": {
@@ -4378,7 +4378,7 @@
             }
         },
         "Gesture": {
-            "doc": "$~Saya adalah isyarat tangan yang terdeteksi oleh kamera. Data yang saya berikan memberitahu Anda di mana posisi tangan di atas panggung, jari mana yang terentang, dan apakah telapak tangan atau punggung tangan menghadap kamera.",
+            "doc": "$~Saya adalah cuplikan pose tangan yang terdeteksi oleh kamera, yang dipancarkan oleh aliran @Hand . Posisi saya menunjukkan di mana tangan berada di atas panggung, jari-jari saya menunjukkan berapa banyak jari yang terentang, posisi terbuka saya bernilai true ketika tangan terbuka (3+ jari terentang), dan ibu jari, telunjuk, tengah, manis, dan kelingking saya masing-masing menunjukkan jari mana yang terentang. Telapak tangan saya bernilai true ketika telapak tangan menghadap kamera, dan false ketika punggung tangan yang menghadap kamera.",
             "names": ["$~✋", "$~Sikap"],
             "place": {
                 "doc": "$~Di mana tangan berada di atas panggung.",

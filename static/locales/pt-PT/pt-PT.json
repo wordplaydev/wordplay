@@ -216,17 +216,17 @@
                 "UnknownLanguage": {
                     "name": "$~línguadesconhecida",
                     "explanation": "$~Eu não conheço esse idioma.",
-                    "resolution": "$?"
+                    "resolution": "$~Remova este código de idioma"
                 },
                 "MissingLanguage": {
                     "name": "$~idiomaausente",
                     "explanation": "$~Está em falta um idioma. Pode adicionar um?",
-                    "resolution": "$?"
+                    "resolution": "$~Remova a etiqueta de idioma vazia."
                 },
                 "DuplicateLanguage": {
                     "name": "$~idiomaduplicado",
                     "explanation": "$~Utilizou o idioma ' $code ' duas vezes. As etiquetas de idiomas mistos devem listar cada idioma apenas uma vez.",
-                    "resolution": "$?"
+                    "resolution": "$~Remova a etiqueta * $code * duplicada"
                 }
             }
         },
@@ -270,23 +270,23 @@
                 "InvalidRow": {
                     "name": "$~linhainválida",
                     "explanation": "$~As linhas devem conter apenas valores ou todas devem ser anotadas com @Bind.",
-                    "resolutionKeepPositional": "$?",
-                    "resolutionUnwrapInputs": "$?"
+                    "resolutionKeepPositional": "$~Elimine as células com nome, mantenha apenas as células posicionais.",
+                    "resolutionUnwrapInputs": "$~Remova os nomes das células nomeadas."
                 },
                 "MissingCell": {
                     "name": "$~colunaausente",
                     "explanation": "$~Falta a coluna $column.",
-                    "resolution": "$?"
+                    "resolution": "$~Adicione uma célula de espaço reservado para * $column *"
                 },
                 "ExtraCell": {
                     "name": "$~colunaextra",
                     "explanation": "$~Com base no meu tipo de tabela, sou uma coluna extra que não deveria estar aqui.",
-                    "resolution": "$?"
+                    "resolution": "$~Remova a célula extra."
                 },
                 "UnknownColumn": {
                     "name": "$~nomedecolunadesconhecido",
                     "explanation": "$~Não conheço nenhuma coluna com esse nome.",
-                    "resolution": "$?"
+                    "resolution": "$~Renomear para * $name *"
                 },
                 "UnexpectedColumnBind": {
                     "name": "$~nenhumalinhaligada",
@@ -321,7 +321,7 @@
                 "DuplicateTypeVariable": {
                     "name": "$~variáveldetipoduplicado",
                     "explanation": "$~Tenho o mesmo nome que $duplicate",
-                    "resolution": "$?"
+                    "resolution": "$~Remova a variável de tipo duplicada."
                 }
             }
         },
@@ -394,7 +394,7 @@
                 "UnsupportedFontFormat": {
                     "name": "$~formatodefontenãosuportado",
                     "explanation": "$~O meu amigo * $face * não sabe como ser $format .",
-                    "resolution": "$?"
+                    "resolution": "$~Remova a formatação"
                 }
             }
         },
@@ -452,7 +452,7 @@
                 "OrderOfOperations": {
                     "name": "$~ordemambígua",
                     "explanation": "$~Avalio na ordem de leitura, e não na ordem matemática das operações. Pretende utilizar @Block para especificar a ordem em que devo avaliar?",
-                    "resolution": "$?"
+                    "resolution": "$~Adicione parênteses para esclarecer a precedência."
                 }
             }
         },
@@ -504,7 +504,7 @@
                 "DuplicateShare": {
                     "name": "$~partilhaduplicado",
                     "explanation": "$~Tenho o mesmo nome que $duplicate. Isso torna incerto o que estamos a partilhar.",
-                    "resolution": "$?"
+                    "resolution": "$~Remova este duplicado de partilha"
                 },
                 "IncompatibleType": {
                     "name": "$~tipoincompatível",
@@ -524,27 +524,27 @@
                 "MisplacedShare": {
                     "name": "$~partilhaextraviado",
                     "explanation": "$~Só posso partilhar informação ao nível do @Program, não dentro de nada!",
-                    "resolution": "$?"
+                    "resolution": "$~Remova o marcador *↑*"
                 },
                 "MissingShareLanguages": {
                     "name": "$~idiomaausente",
                     "explanation": "$~Se quiser partilhar isto, precisa de dizer em que língua está, para que os outros saibam se conseguem ler!",
-                    "resolution": "$?"
+                    "resolution": "$~Remova o marcador *↑*"
                 },
                 "RequiredAfterOptional": {
                     "name": "$~entradaobrigatóriaapósopcional",
                     "explanation": "$~Não posso estar aqui, há um @Bind opcional antes de mim.",
-                    "resolution": "$?"
+                    "resolution": "$~Passe os dados obrigatórios para antes dos opcionais."
                 },
                 "UnexpectedEtc": {
                     "name": "$~Entradainesperadaapóslistadeentrada",
                     "explanation": "$~Só posso ter comprimento variável numa @FunctionDefinition",
-                    "resolution": "$?"
+                    "resolution": "$~Remova o *…*"
                 },
                 "UnusedBind": {
                     "name": "$~ligaçãonãoutilizada",
                     "explanation": "$~O meu nome é $name, mas ninguém me usa. Talvez eu não seja necessário?",
-                    "resolution": "$?"
+                    "resolution": "$~Apague esta vinculação"
                 }
             }
         },
@@ -579,7 +579,7 @@
                 "ExpectedEndingExpression": {
                     "name": "$~expressãoausente",
                     "explanation": "Preciso de pelo menos uma expressão que não seja um @Bind, para ter um valor para devolver.",
-                    "resolution": "$?"
+                    "resolution": "$~Adicione uma expressão final"
                 }
             }
         },
@@ -605,12 +605,12 @@
                 "UnknownBorrow": {
                     "name": "$~empréstimodesconhecido",
                     "explanation": "$~Não conheço nenhuma fonte com esse nome.",
-                    "resolution": "$?"
+                    "resolution": "$~Remova este empréstimo"
                 },
                 "BorrowCycle": {
                     "name": "$~empréstimoautorreferencial",
                     "explanation": "$~Este depende de $borrow, que depende de $source, pelo que o programa não pode ser avaliado.",
-                    "resolution": "$?"
+                    "resolution": "$~Retire esse empréstimo para quebrar o ciclo."
                 }
             },
             "exception": {
@@ -693,7 +693,7 @@
                 "MisplacedConversion": {
                     "name": "$~conversãomalposicionada",
                     "explanation": "$~Uau, não posso estar aqui, estou apenas no @Block.",
-                    "resolution": "$?"
+                    "resolution": "$~Remova esta conversão"
                 }
             }
         },
@@ -716,7 +716,7 @@
                 "UnknownConversion": {
                     "name": "$~conversãodesconhecida",
                     "explanation": "$~Não conseguimos encontrar uma forma de converter um valor $expected num valor $given.",
-                    "resolution": "$?"
+                    "resolution": "$~Remova a conversão."
                 }
             },
             "exception": {
@@ -793,7 +793,7 @@
                 "UnexpectedTypeInput": {
                     "name": "$~entradadetipoinesperado",
                     "explanation": "$~Sou um tipo de entrada extra e inesperada.",
-                    "resolution": "$?"
+                    "resolution": "$~Remova este tipo de entrada."
                 },
                 "MissingInput": {
                     "name": "$~entradaausente",
@@ -804,27 +804,27 @@
                 "NotInstantiable": {
                     "name": "$~estruturaincompleta",
                     "explanation": "$~Não consigo criar esta @StructureDefinition, tem funções não implementadas.",
-                    "resolution": "$?"
+                    "resolution": "$~Estruture as funções em falta."
                 },
                 "UnexpectedInput": {
                     "name": "$~entradainesperada",
                     "explanation": "$~Sou uma contribuição inesperada.",
-                    "resolution": "$?"
+                    "resolution": "$~Remova esta entrada"
                 },
                 "UnknownInput": {
                     "name": "$~entradadesconhecida",
                     "explanation": "$~Esta função *$name* não espera uma entrada com o meu nome.",
-                    "resolution": "$?"
+                    "resolution": "$~Renomeie este campo de entrada para * $name *"
                 },
                 "InputListMustBeLast": {
                     "name": "$~Asentradasextranãosãoasúltimas.",
                     "explanation": "$~A lista de entradas deve ser a última.",
-                    "resolution": "$?"
+                    "resolution": "$~Mova a entrada da lista para o fim."
                 },
                 "SeparatedEvaluate": {
                     "name": "$~avaliaçãoambígua",
                     "explanation": "$~$name é o nome de uma $structure[$structure|$function] que se está a tentar avaliar? Tente remover o espaço depois de mim, para que eu saiba que é um @Evaluate e não um @Block separado.",
-                    "resolution": "$?"
+                    "resolution": "$~Feche o espaço entre * $name * e os seus valores de entrada."
                 }
             },
             "exception": {
@@ -867,7 +867,7 @@
                 "Placeholder": {
                     "name": "$~espaçoreservado",
                     "explanation": "$~Pode me preencher? Sou apenas um espaço reservado.",
-                    "resolution": "$?"
+                    "resolution": "$~Substitua por * $candidate *"
                 }
             },
             "exception": {
@@ -907,7 +907,7 @@
                 "NoExpression": {
                     "name": "$~expressãoausente",
                     "explanation": "$~Preciso de uma expressão para avaliar, pode adicionar uma?",
-                    "resolution": "$?"
+                    "resolution": "$~Adicione um corpo de texto de exemplo"
                 }
             }
         },
@@ -965,8 +965,8 @@
                 "ImpossibleType": {
                     "name": "$~tipoimpossível",
                     "explanation": "$~Este nunca pode ser do tipo $type.",
-                    "resolutionIsFalse": "$?",
-                    "resolutionDropOtherwise": "$?"
+                    "resolutionIsFalse": "$~Substitua esta verificação de tipo por *⊥* (a resposta é sempre falsa)",
+                    "resolutionDropOtherwise": "$~Elimine o *??* — o lado esquerdo nunca é *ø*"
                 }
             },
             "exception": {
@@ -1030,7 +1030,7 @@
                 "NotAKeyValue": {
                     "name": "$~valorausente",
                     "explanation": "$~Estou num @Map, por isso preciso de um valor.",
-                    "resolution": "$?"
+                    "resolution": "$~Envolver como um par chave-valor"
                 }
             }
         },
@@ -1064,7 +1064,7 @@
                 "NotANumber": {
                     "name": "$~nãoumnúmero",
                     "explanation": "$~Eu pensava que sabia todos os números, mas não sei este.",
-                    "resolution": "$?"
+                    "resolution": "$~Substitua por *0*"
                 }
             }
         },
@@ -1184,7 +1184,7 @@
                 "InvalidProperty": {
                     "name": "$~propriedadedesconhecida",
                     "explanation": "$~Não sou um nome na estrutura $structure, pelo que não posso ser refinado.",
-                    "resolution": "$?"
+                    "resolution": "$~Renomear para * $name *"
                 }
             }
         },
@@ -1225,7 +1225,7 @@
                 "ExpectedStream": {
                     "name": "$~fluxoesperado",
                     "explanation": "$~$condition não se refere a uma transmissão, por isso nunca vou reagir!",
-                    "resolution": "$?"
+                    "resolution": "$~Elimine a reação, mantendo apenas o valor inicial."
                 }
             }
         },
@@ -1251,12 +1251,12 @@
                 "ReferenceCycle": {
                     "name": "$~valordeautorreferência",
                     "explanation": "$~Bem, o valor de `$name` depende dele próprio, então como é que eu sei qual o valor a atribuir-lhe?",
-                    "resolution": "$?"
+                    "resolution": "$~Substitua * $name * por um marcador para quebrar o ciclo."
                 },
                 "UnexpectedTypeVariable": {
                     "name": "$~variáveldetipoinesperada",
                     "explanation": "$~Não sei o que fazer com estes tipos de entrada.",
-                    "resolution": "$?"
+                    "resolution": "$~Remova esta variável de tipo da função."
                 }
             },
             "exception": {
@@ -1282,7 +1282,7 @@
                 "ExpectedSelectName": {
                     "name": "$~nomedacolunaemfalta",
                     "explanation": "$~Preciso de pelo menos um nome de coluna.",
-                    "resolution": "$?"
+                    "resolution": "$~Remova esta célula"
                 }
             }
         },
@@ -1370,22 +1370,22 @@
                 "DisallowedInputs": {
                     "name": "$~Entradasnãopermitidas",
                     "explanation": "$~Não consigo receber entradas porque uma ou mais das minhas funções de interface não foram implementadas.",
-                    "resolution": "$?"
+                    "resolution": "$~Remova as entradas"
                 },
                 "IncompleteImplementation": {
                     "name": "$~estruturaincompleta",
                     "explanation": "$~Ou todas as minhas funções têm de ser implementadas, ou nenhuma. Nada de soluções improvisadas!",
-                    "resolution": "$?"
+                    "resolution": "$~Remova as entradas para a transformar numa interface."
                 },
                 "NotAnInterface": {
                     "name": "$~nãoéumainterface",
                     "explanation": "$~Eu não sou uma interface; uma estrutura só pode implementar interfaces, e não outras estruturas.",
-                    "resolution": "$?"
+                    "resolution": "$~Remova isso da lista de interfaces."
                 },
                 "UnimplementedInterface": {
                     "name": "$~nãoimplementado",
                     "explanation": "$~Implementei $interface, mas ainda não implementei $function.",
-                    "resolution": "$?"
+                    "resolution": "$~Crie a estrutura da função * $function * em falta nesta estrutura"
                 }
             }
         },
@@ -1449,7 +1449,7 @@
                 "character": {
                     "name": "$~possívelpersonagempersonalizado",
                     "explanation": "$~Este parece ser o nome de uma personagem. Para os apresentar, utilize @FormattedLiteral em vez de @TextLiteral.",
-                    "resolutionStrip": "$?"
+                    "resolutionStrip": "$~Remova os caracteres especiais do texto."
                 }
             }
         },
@@ -1495,7 +1495,7 @@
                 "MisplacedThis": {
                     "name": "$~extraviestareferência",
                     "explanation": "$~Só me é permitido participar numa estrutura, conversão ou reação.",
-                    "resolution": "$?"
+                    "resolution": "$~Substitua por um espaço reservado"
                 }
             }
         },
@@ -1545,7 +1545,7 @@
                 "UnclosedDelimiter": {
                     "name": "$~delimitadornãofechado",
                     "explanation": "$~Eu esperava que o $expected fosse em algum momento depois do $unclosed",
-                    "resolution": "$?"
+                    "resolution": "$~Adicione o * $expected * que está em falta"
                 }
             },
             "exception": {
@@ -1571,7 +1571,7 @@
                 "ExpectedColumnBind": {
                     "name": "$~valordecolunaemfalta",
                     "explanation": "$~Necessito de um valor para cada coluna.",
-                    "resolution": "$?"
+                    "resolution": "$~Envolva esta célula numa coluna nomeada."
                 },
                 "IncompatibleCellType": {
                     "name": "$~tipodecélulaincompatível",
@@ -1679,7 +1679,7 @@
                 "UnknownTypeName": {
                     "name": "$~nomedetipodesconhecido",
                     "explanation": "$~Os nomes de tipo só podem referir-se a estruturas ou variáveis de tipo, mas isto refere-se ao tipo $type.",
-                    "resolution": "$?"
+                    "resolution": "$~Substitua por um espaço reservado à digitação."
                 }
             }
         },
@@ -1744,7 +1744,7 @@
                 "ExpectedColumnType": {
                     "name": "$~tipodecolunaemfalta",
                     "explanation": "$~Preciso de um tipo de coluna",
-                    "resolution": "$?"
+                    "resolution": "$~Adicione um espaço reservado para a digitação"
                 }
             }
         },
@@ -1771,7 +1771,7 @@
                 "$~Quem devo representar, A, B ou outra coisa qualquer? Nunca me consigo decidir!",
                 "$~\\indecisão•''|#|{ø}: \"Não sei!\"\\"
             ],
-            "elidedSuffix": "$?"
+            "elidedSuffix": "$~ou outras opções $omitted"
         },
         "Unit": {
             "name": "$~unidade",
@@ -3710,12 +3710,12 @@
         "Hand": {
             "doc": [
                 "$~/mexe mexe/",
-                "$~@FunctionDefinition aqui! Deixe-me falar sobre @Hand.",
+                "$~@FunctionDefinition aqui! Deixe-me falar sobre @Hand .",
                 "$~@Hand observa a sua câmara em busca de uma mão e diz-lhe onde está, quais os dedos estendidos e se a palma ou o dorso da mão está virado para a câmara. Levante a mão, acene com ela, conte pelos dedos — @Hand acompanha.",
-                "$~Nos bastidores, o @Hand utiliza um modelo de aprendizagem automática. Na primeira vez que o utiliza num programa, o modelo demora alguns segundos a ser descarregado, e uma pequena mão giratória aparece no canto superior direito do ecrã enquanto carrega. Depois disso, permanece em cache e inicia instantaneamente.",
-                "$~Cada frame @Hand devolve uma estrutura com campos como place (onde está a mão), open (verdadeiro se a mão estiver aberta), fingers (quantos dedos estão levantados), valores booleanos individuais para thumb, indicator, middle, ring, mindy e palm (verdadeiro se a palma da mão estiver virada para a câmara).",
+                "$~Nos bastidores, @Hand utiliza um modelo de aprendizagem automática. Na primeira vez que o utiliza num programa, o modelo demora alguns segundos a ser descarregado, e uma pequena mão giratória aparece no canto superior direito do ecrã enquanto carrega. Depois disso, permanece em cache e inicia instantaneamente.",
+                "$~A cada frame, @Hand fornece um @Gesture — veja lá a lista completa de entradas e os seus significados.",
                 "$~Experimente isto — mostra um emoji que corresponde à posição da sua mão, independentemente de onde a sua mão está de facto:",
-                "$~\\mão: Mão()\nFrase((mão. abrir ? '🖐️' '✊') lugar: mão. lugar)\\"
+                "$~\\hand: Hand()\nPhrase((hand.open ? '🖐️' '✊') place: hand.place)\\"
             ],
             "names": ["$~🖐️", "$~Mão"],
             "frequency": {
@@ -4623,7 +4623,7 @@
             }
         },
         "Gesture": {
-            "doc": "$~Sou um gesto de mão detetado pela câmara. Os meus campos indicam a posição da mão no palco, quais os dedos que estão estendidos e se a palma ou o dorso da mão está virado para a câmara. @Hand devolve uma das minhas representações.",
+            "doc": "$~Sou uma captura instantânea da pose da mão detetada pela câmara, emitida pelo stream @Hand . O meu posicionamento indica onde a mão está no palco, os meus dedos indicam quantos estão estendidos, o meu atributo \"aberto\" é verdadeiro quando a mão está aberta (3 ou mais dedos estendidos), e o meu polegar, indicador, médio, anelar e mindinho indicam quais os dedos específicos que estão estendidos. O meu atributo \"palma\" é verdadeiro quando a palma da mão está virada para a câmara e falso quando o dorso da mão está.",
             "names": ["$~✋", "$~Gesto"],
             "place": {
                 "doc": "$~Onde a mão está no palco.",

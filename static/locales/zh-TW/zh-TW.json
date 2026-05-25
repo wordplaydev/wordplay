@@ -216,17 +216,17 @@
                 "UnknownLanguage": {
                     "name": "$~未知語言",
                     "explanation": "$~我不懂這種語言。",
-                    "resolution": "$?"
+                    "resolution": "$~移除此語言代碼"
                 },
                 "MissingLanguage": {
                     "name": "$~缺少語言",
                     "explanation": "$~我這裡缺少一種語言。你能添加一種嗎？",
-                    "resolution": "$?"
+                    "resolution": "$~刪除空的語言標籤"
                 },
                 "DuplicateLanguage": {
                     "name": "$~重複語言",
                     "explanation": "$~您兩次使用了語言「 $code 」。混合語言標籤中每種語言只能列出一次。",
-                    "resolution": "$?"
+                    "resolution": "$~刪除重複的 * $code * 標籤"
                 }
             }
         },
@@ -270,23 +270,23 @@
                 "InvalidRow": {
                     "name": "$~無效行",
                     "explanation": "$~行要么全部是值，要么全部是 @Bind。",
-                    "resolutionKeepPositional": "$?",
-                    "resolutionUnwrapInputs": "$?"
+                    "resolutionKeepPositional": "$~刪除已命名的儲存格，只保留位置儲存格。",
+                    "resolutionUnwrapInputs": "$~從已命名的儲存格中刪除名稱"
                 },
                 "MissingCell": {
                     "name": "$~缺失列",
                     "explanation": "$~我缺少列 $column",
-                    "resolution": "$?"
+                    "resolution": "$~新增一個佔位符單元格，用於 * $column *"
                 },
                 "UnknownColumn": {
                     "name": "$~未知的列名",
                     "explanation": "$~我不知道有這麼個專欄。",
-                    "resolution": "$?"
+                    "resolution": "$~重新命名為 * $name *"
                 },
                 "ExtraCell": {
                     "name": "$~額外的列",
                     "explanation": "$~根據我的表格類型，我是一個不應該存在的多餘列。",
-                    "resolution": "$?"
+                    "resolution": "$~移除多餘的儲存格"
                 },
                 "UnexpectedColumnBind": {
                     "name": "$~無綁定行",
@@ -318,7 +318,7 @@
                 "DuplicateTypeVariable": {
                     "name": "$~重複類型變數",
                     "explanation": "$~我的名字和$duplicate",
-                    "resolution": "$?"
+                    "resolution": "$~刪除重複的類型變數"
                 }
             },
             "label": {
@@ -394,7 +394,7 @@
                 "UnsupportedFontFormat": {
                     "name": "$~不支援的字體格式",
                     "explanation": "$~我的朋友 * $face * 不知道如何成為$format 。",
-                    "resolution": "$?"
+                    "resolution": "$~移除格式"
                 }
             }
         },
@@ -449,7 +449,7 @@
                 "OrderOfOperations": {
                     "name": "$~模糊的順序",
                     "explanation": "$~我按照閱讀順序進行求值，而不是按照數學運算順序。您是否要使用 @Block 來指定我的求值順序？",
-                    "resolution": "$?"
+                    "resolution": "$~添加括號以明確優先權"
                 }
             },
             "label": {
@@ -499,7 +499,7 @@
                 "DuplicateShare": {
                     "name": "$~重複共享",
                     "explanation": "$~我和 $duplicate 同名。這使得我們分享的內容變得不明確。",
-                    "resolution": "$?"
+                    "resolution": "$~刪除此重複共享"
                 },
                 "IncompatibleType": {
                     "name": "$~不相容類型",
@@ -519,27 +519,27 @@
                 "MisplacedShare": {
                     "name": "$~放錯位置的份額",
                     "explanation": "$~我只能在 @Program 層級分享內容，無法在任何內部分享！",
-                    "resolution": "$?"
+                    "resolution": "$~移除 *↑* 標記"
                 },
                 "MissingShareLanguages": {
                     "name": "$~缺少語言",
                     "explanation": "$~如果你想分享這個內容，你必須說明它是什麼語言的，這樣其他人才能知道他們是否能讀懂！",
-                    "resolution": "$?"
+                    "resolution": "$~移除 *↑* 標記"
                 },
                 "RequiredAfterOptional": {
                     "name": "$~可選後必填輸入",
                     "explanation": "$~我不能在這裡，我前面還有一個可選的 @Bind 操作。",
-                    "resolution": "$?"
+                    "resolution": "$~將必填輸入移到可選輸入之前"
                 },
                 "UnexpectedEtc": {
                     "name": "$~輸入列表後的意外輸入",
                     "explanation": "$~我只能在 @FunctionDefinition 中使用可變長度",
-                    "resolution": "$?"
+                    "resolution": "$~刪除 *…*"
                 },
                 "UnusedBind": {
                     "name": "$~未使用的綁定",
                     "explanation": "$~我的名字是$name",
-                    "resolution": "$?"
+                    "resolution": "$~刪除此綁定"
                 }
             },
             "label": {
@@ -576,7 +576,7 @@
                 "ExpectedEndingExpression": {
                     "name": "$~缺失表達",
                     "explanation": "我需要至少一個不是 @Bind 的表述，這樣我才有值可以返回。",
-                    "resolution": "$?"
+                    "resolution": "$~新增最終表達式"
                 }
             },
             "label": {
@@ -600,12 +600,12 @@
                 "UnknownBorrow": {
                     "name": "$~未知借款",
                     "explanation": "$~我不知道有名為 $source 的資源",
-                    "resolution": "$?"
+                    "resolution": "$~移除此借用"
                 },
                 "BorrowCycle": {
                     "name": "$~自引用借用",
                     "explanation": "$~這取決於 $borrow，而 $borrow 又取決於這個 $source，因此無法評估程式。",
-                    "resolution": "$?"
+                    "resolution": "$~移除這筆借款以打破循環"
                 }
             },
             "exception": {
@@ -688,7 +688,7 @@
                 "MisplacedConversion": {
                     "name": "$~錯誤的轉換",
                     "explanation": "$~哇，我不能在這裡，只能在@Block。",
-                    "resolution": "$?"
+                    "resolution": "$~移除此轉換"
                 }
             },
             "label": {
@@ -716,7 +716,7 @@
                 "UnknownConversion": {
                     "name": "$~未知轉換",
                     "explanation": "$~我們找不到將 $expected 轉換為 $given 的方法。",
-                    "resolution": "$?"
+                    "resolution": "$~移除轉換"
                 }
             },
             "exception": {
@@ -788,7 +788,7 @@
                 "UnexpectedTypeInput": {
                     "name": "$~意外的類型輸入",
                     "explanation": "$~我是一個額外的、意想不到的輸入類型。",
-                    "resolution": "$?"
+                    "resolution": "$~移除此輸入類型"
                 },
                 "MissingInput": {
                     "name": "$~缺少輸入",
@@ -799,27 +799,27 @@
                 "NotInstantiable": {
                     "name": "$~結構不完整",
                     "explanation": "$~我無法建立 @StructureDefinition，因為它包含未實現的功能。",
-                    "resolution": "$?"
+                    "resolution": "$~搭建缺失功能的框架"
                 },
                 "UnexpectedInput": {
                     "name": "$~意外輸入",
                     "explanation": "$~我是一個意料之外的參與者。",
-                    "resolution": "$?"
+                    "resolution": "$~移除此輸入"
                 },
                 "UnknownInput": {
                     "name": "$~未知輸入",
                     "explanation": "$~這個函數 *$name* 不需要輸入我的名字。",
-                    "resolution": "$?"
+                    "resolution": "$~將此輸入重命名為 * $name *"
                 },
                 "InputListMustBeLast": {
                     "name": "$~額外的輸入不是最後的",
                     "explanation": "$~輸入清單必須放在最後。",
-                    "resolution": "$?"
+                    "resolution": "$~將列表輸入移到末尾。"
                 },
                 "SeparatedEvaluate": {
                     "name": "$~模稜兩可的評價",
                     "explanation": "$~$name 是您要評估的 $structure[$structure|$function] 的名稱嗎？請嘗試刪除我後面的空格，這樣我就知道它是 @Evaluate 而不是單獨的 @Block。",
-                    "resolution": "$?"
+                    "resolution": "$~關閉 * $name * 及其輸入項目之間的空格"
                 }
             },
             "exception": {
@@ -864,7 +864,7 @@
                 "Placeholder": {
                     "name": "$~佔位符",
                     "explanation": "$~你能幫我填上訊息嗎？我只是個佔位符。",
-                    "resolution": "$?"
+                    "resolution": "$~替換為 * $candidate *"
                 }
             },
             "exception": {
@@ -902,7 +902,7 @@
                 "NoExpression": {
                     "name": "$~缺失表達",
                     "explanation": "$~我需要一個表達式來進行計算，你能加一個嗎？",
-                    "resolution": "$?"
+                    "resolution": "$~添加佔位符正文"
                 }
             },
             "label": {
@@ -965,8 +965,8 @@
                 "ImpossibleType": {
                     "name": "$~不可能類型",
                     "explanation": "$~這永遠不可能是 $type",
-                    "resolutionIsFalse": "$?",
-                    "resolutionDropOtherwise": "$?"
+                    "resolutionIsFalse": "$~將此類型檢查替換為 *⊥*（答案始終為假）",
+                    "resolutionDropOtherwise": "$~去掉 *??* — 左邊永遠不會是 *ø*"
                 }
             },
             "exception": {
@@ -1027,7 +1027,7 @@
                 "NotAKeyValue": {
                     "name": "$~缺失值",
                     "explanation": "$~我在一個 @Map 中，所以我需要一個值。",
-                    "resolution": "$?"
+                    "resolution": "$~封裝成鍵值對"
                 }
             },
             "label": {
@@ -1064,7 +1064,7 @@
                 "NotANumber": {
                     "name": "$~不是一個數字",
                     "explanation": "$~我以為我知道所有的數字，但這個我不知道。",
-                    "resolution": "$?"
+                    "resolution": "$~替換為 *0*"
                 }
             }
         },
@@ -1180,7 +1180,7 @@
                 "InvalidProperty": {
                     "name": "$~未知財產",
                     "explanation": "$~我不是結構 $structure 中的名字，所以不能進行精煉。",
-                    "resolution": "$?"
+                    "resolution": "$~重新命名為 * $name *"
                 }
             },
             "label": {
@@ -1220,7 +1220,7 @@
                 "ExpectedStream": {
                     "name": "$~預期流量",
                     "explanation": "$~$condition 沒有引用流，所以我永遠不會做出反應！",
-                    "resolution": "$?"
+                    "resolution": "$~放棄反應，只保留初始值"
                 }
             },
             "label": {
@@ -1251,12 +1251,12 @@
                 "ReferenceCycle": {
                     "name": "$~自我參照價值",
                     "explanation": "$~嗯，$name 的值取決於它自身，那麼我怎麼知道該給它什麼值呢？",
-                    "resolution": "$?"
+                    "resolution": "$~將 * $name * 替換為佔位符以打破循環"
                 },
                 "UnexpectedTypeVariable": {
                     "name": "$~意外類型變數",
                     "explanation": "$~我不知道該如何處理這些類型的輸入。",
-                    "resolution": "$?"
+                    "resolution": "$~從函數中移除此類型變數。"
                 }
             },
             "exception": {
@@ -1282,7 +1282,7 @@
                 "ExpectedSelectName": {
                     "name": "$~缺少列名",
                     "explanation": "$~我至少需要一個列名。",
-                    "resolution": "$?"
+                    "resolution": "$~刪除此儲存格"
                 }
             }
         },
@@ -1364,22 +1364,22 @@
                 "DisallowedInputs": {
                     "name": "$~不允許輸入",
                     "explanation": "$~我無法接收輸入，因為我的一個或多個介面函數尚未實現。",
-                    "resolution": "$?"
+                    "resolution": "$~移除輸入"
                 },
                 "IncompleteImplementation": {
                     "name": "$~結構不完整",
                     "explanation": "$~我的函數要嘛全部實現，要嘛一個都不實現。絕不允許有任何混亂的混合！",
-                    "resolution": "$?"
+                    "resolution": "$~去掉輸入，使其成為一個接口"
                 },
                 "NotAnInterface": {
                     "name": "$~不是一個介面",
                     "explanation": "$~我不是接口；結構體只能實作接口，不能實作其他結構體。",
-                    "resolution": "$?"
+                    "resolution": "$~從介面清單中刪除此項"
                 },
                 "UnimplementedInterface": {
                     "name": "$~未實現",
                     "explanation": "$~我實作了$interface ，但還沒有實作$function",
-                    "resolution": "$?"
+                    "resolution": "$~在此結構上建立缺少的 * $function * 框架"
                 }
             },
             "label": {
@@ -1446,7 +1446,7 @@
                 "character": {
                     "name": "$~可能的自訂角色",
                     "explanation": "$~這看起來像是角色名稱。若要顯示角色名稱，請使用 @FormattedLiteral 而不是 @TextLiteral。",
-                    "resolutionStrip": "$?"
+                    "resolutionStrip": "$~從文字中刪除特殊字符"
                 }
             },
             "label": {
@@ -1495,7 +1495,7 @@
                 "MisplacedThis": {
                     "name": "$~放錯了這個參考",
                     "explanation": "$~我只能進入結構、轉化或反應。",
-                    "resolution": "$?"
+                    "resolution": "$~替換為佔位符"
                 }
             }
         },
@@ -1545,7 +1545,7 @@
                 "UnclosedDelimiter": {
                     "name": "$~未閉合的分隔符",
                     "explanation": "$~我預計在$expected$unclosed",
-                    "resolution": "$?"
+                    "resolution": "$~加入缺少的 * $expected *"
                 }
             },
             "exception": {
@@ -1571,7 +1571,7 @@
                 "ExpectedColumnBind": {
                     "name": "$~缺少列值",
                     "explanation": "$~我需要每一列都有一個值。",
-                    "resolution": "$?"
+                    "resolution": "$~將此儲存格包裝成命名列"
                 },
                 "IncompatibleCellType": {
                     "name": "$~不相容的細胞類型",
@@ -1679,7 +1679,7 @@
                 "UnknownTypeName": {
                     "name": "$~未知類型名稱",
                     "explanation": "$~類型名稱只能引用結構體或型別變量，但這裡指的是型別 $type",
-                    "resolution": "$?"
+                    "resolution": "$~替換為類型佔位符"
                 }
             }
         },
@@ -1744,7 +1744,7 @@
                 "ExpectedColumnType": {
                     "name": "$~缺少列類型",
                     "explanation": "$~我需要一種列類型",
-                    "resolution": "$?"
+                    "resolution": "$~新增類型佔位符"
                 }
             }
         },
@@ -1771,7 +1771,7 @@
                 "我應該代表誰，A 還是 B 還是其他什麼？我永遠無法決定！",
                 "\\猶豫•''|#|{ø}: \"我不知道！ \"\\"
             ],
-            "elidedSuffix": "$?"
+            "elidedSuffix": "$~或$omitted"
         },
         "Unit": {
             "name": "單位",
@@ -3697,13 +3697,13 @@
         },
         "Hand": {
             "doc": [
-                "$~/扭來扭去/",
-                "$~@FunctionDefinition 在這裡！讓我來給你介紹一下 @Hand。",
-                "$~@Hand 會監控你的鏡頭，尋找你的手，並告訴你手的位置、伸出的手指以及手掌或手背朝向攝影機。舉起你的手，揮動它，數數你的手指——@Hand 會跟隨你的動作。",
-                "$~@Hand 的底層使用了機器學習模型。首次在程式中使用它時，模型需要幾秒鐘下載，載入期間舞台右上角會出現一個旋轉的小手圖示。之後，它會被快取並立即啟動。",
-                "$~每個畫面 @Hand 傳回一個結構，其中包含 place（手的位置）、open（如果手張開則為 true）、fingers（伸出的手指數量）、拇指、食指、中指、無名指和小指的布林值以及 palm（如果手掌朝向攝影機則為 true）等字段。",
+                "$~/扭動扭動/",
+                "$~@FunctionDefinition！讓我來告訴你關於@Hand。",
+                "$~@Hand會監控你的鏡頭，尋找你的手，並告訴你手的位置、伸出的手指以及手掌或手背朝向攝影機。舉起你的手，揮動它，數數你的手指－ @Hand。",
+                "$~@Hand。首次在程式中使用它時，模型需要幾秒鐘下載，載入期間舞台右上角會出現一個旋轉的小手圖示。之後，它會被快取並立即啟動。",
+                "$~每一幀， @Hand@Gesture — 在那裡查看完整的輸入列表及其含義。",
                 "$~試試這個——無論你的手放在哪裡，它都會顯示一個與你的手部姿勢相匹配的表情符號：",
-                "$~\\hand: Hand()\n\nPhrase((hand.open ? '🖐️' '✊') place: hand.place)\\"
+                "$~\\hand: Hand()\nPhrase((hand.open ? '🖐️' '✊') place: hand.place)\\"
             ],
             "names": ["$~🖐️", "$~手"],
             "frequency": {
@@ -4580,7 +4580,7 @@
             "defaultDescription": "$~說 $text"
         },
         "Gesture": {
-            "doc": "$~我是攝影機偵測到的手勢。我的欄位會告訴你手在舞台上的位置、伸出的手指以及手掌或手背是朝向攝影機。 @Hand 傳回我的一個值。",
+            "doc": "$~我是相機偵測到的手部姿勢快照，由@Hand。我的位置資訊告訴你手在舞台上的位置，我的手指訊息告訴你伸出了多少根手指，當手張開（伸出三根或以上手指）時，我的「張開」狀態為真，我的拇指、食指、中指、無名指和小指分別表示伸出的具體手指。當手掌朝向攝影機時，我的「掌心」狀態為真，當手背朝向攝影機時，我的「掌心」狀態為假。",
             "names": ["$~✋", "$~手勢"],
             "place": {
                 "doc": "$~舞台上手的位置。",

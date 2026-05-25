@@ -216,17 +216,17 @@
                 "UnknownLanguage": {
                     "name": "$~limbănecunoscută",
                     "explanation": "$~Nu știu această limbă",
-                    "resolution": "$?"
+                    "resolution": "$~Eliminați acest cod de limbă"
                 },
                 "MissingLanguage": {
                     "name": "$~limbălipsă",
                     "explanation": "$~Îmi lipsește o limbă. Poți adăuga una?",
-                    "resolution": "$?"
+                    "resolution": "$~Eliminați eticheta de limbă goală"
                 },
                 "DuplicateLanguage": {
                     "name": "$~limbajduplicat",
                     "explanation": "$~Ai folosit codul limbii „ $code ” de două ori. Etichetele pentru limbi mixte ar trebui să listeze fiecare limbă o singură dată.",
-                    "resolution": "$?"
+                    "resolution": "$~Eliminați eticheta duplicată * $code *"
                 }
             }
         },
@@ -270,23 +270,23 @@
                 "InvalidRow": {
                     "name": "$~rândnevalid",
                     "explanation": "$~Rândurile trebuie să fie fie toate valori, fie toate @Bind.",
-                    "resolutionKeepPositional": "$?",
-                    "resolutionUnwrapInputs": "$?"
+                    "resolutionKeepPositional": "$~Eliminați celulele denumite, păstrați doar cele poziționale",
+                    "resolutionUnwrapInputs": "$~Eliminați numele din celulele denumite"
                 },
                 "MissingCell": {
                     "name": "$~coloanălipsă",
                     "explanation": "$~Îmi lipsește coloana $column",
-                    "resolution": "$?"
+                    "resolution": "$~Adăugați o celulă substituentă pentru * $column *"
                 },
                 "ExtraCell": {
                     "name": "$~coloanăsuplimentară",
                     "explanation": "$~Pe baza tipului de tabel, sunt o coloană suplimentară care nu ar trebui să fie aici.",
-                    "resolution": "$?"
+                    "resolution": "$~Eliminați celula suplimentară"
                 },
                 "UnknownColumn": {
                     "name": "$~numedecoloanănecunoscut",
                     "explanation": "$~Nu cunosc nicio coloană cu acest nume.",
-                    "resolution": "$?"
+                    "resolution": "$~Redenumiți la * $name *"
                 },
                 "UnexpectedColumnBind": {
                     "name": "$~fărărânduridelegături",
@@ -321,7 +321,7 @@
                 "DuplicateTypeVariable": {
                     "name": "$~variabilădetipduplicat",
                     "explanation": "$~Am același nume ca $duplicate",
-                    "resolution": "$?"
+                    "resolution": "$~Eliminați variabila de tip duplicat"
                 }
             }
         },
@@ -394,7 +394,7 @@
                 "UnsupportedFontFormat": {
                     "name": "$~formatdefontneacceptat",
                     "explanation": "$~Prietenul meu, * $face *, nu știe cum să fie $format .",
-                    "resolution": "$?"
+                    "resolution": "$~Eliminați formatarea"
                 }
             }
         },
@@ -455,7 +455,7 @@
                 "OrderOfOperations": {
                     "name": "$~ordineambiguă",
                     "explanation": "$~Evaluez în ordinea de citire, nu în ordinea matematică a operațiilor. Vrei să folosești @Block pentru a specifica ordinea în care ar trebui să evaluez?",
-                    "resolution": "$?"
+                    "resolution": "$~Adăugați paranteze pentru a clarifica precedența"
                 }
             }
         },
@@ -507,7 +507,7 @@
                 "DuplicateShare": {
                     "name": "$~partajareduplicată",
                     "explanation": "$~Am același nume ca $duplicate . Asta face ca nu se știe ce anume distribuim.",
-                    "resolution": "$?"
+                    "resolution": "$~Eliminați această partajare duplicată"
                 },
                 "IncompatibleType": {
                     "name": "$~tipincompatibil",
@@ -527,27 +527,27 @@
                 "MisplacedShare": {
                     "name": "$~acțiunepierdută",
                     "explanation": "$~Pot partaja lucruri doar la nivel de @Program, nu în interiorul nimicului!",
-                    "resolution": "$?"
+                    "resolution": "$~Eliminați marcajul *↑*"
                 },
                 "MissingShareLanguages": {
                     "name": "$~limbălipsă",
                     "explanation": "$~Dacă vrei să distribui asta, trebuie să spui în ce limbă este, ca și alții să știe dacă îl pot citi!",
-                    "resolution": "$?"
+                    "resolution": "$~Eliminați marcajul *↑*"
                 },
                 "RequiredAfterOptional": {
                     "name": "$~intrarenecesarădupăopțional",
                     "explanation": "$~Nu pot fi aici, există un @Bind opțional în fața mea.",
-                    "resolution": "$?"
+                    "resolution": "$~Mută intrările obligatorii înaintea celor opționale"
                 },
                 "UnexpectedEtc": {
                     "name": "$~intrareneașteptatădupălistadeintrări",
                     "explanation": "$~Pot avea doar lungime variabilă într-o @FunctionDefinition",
-                    "resolution": "$?"
+                    "resolution": "$~Eliminați *…*"
                 },
                 "UnusedBind": {
                     "name": "$~legareneutilizată",
                     "explanation": "$~Mă numesc $name , dar nimeni nu mă folosește. Poate că nu este nevoie de mine?",
-                    "resolution": "$?"
+                    "resolution": "$~Ștergeți această legătură"
                 }
             }
         },
@@ -582,7 +582,7 @@
                 "ExpectedEndingExpression": {
                     "name": "$~expresielipsă",
                     "explanation": "$~Am nevoie de cel puțin o expresie care nu este @Bind, deci am o valoare de returnat.",
-                    "resolution": "$?"
+                    "resolution": "$~Adăugați o expresie finală"
                 }
             }
         },
@@ -608,12 +608,12 @@
                 "UnknownBorrow": {
                     "name": "$~împrumutnecunoscut",
                     "explanation": "$~Nu cunosc o $source cu acest nume.",
-                    "resolution": "$?"
+                    "resolution": "$~Eliminați această împrumut"
                 },
                 "BorrowCycle": {
                     "name": "$~împrumutautoreferențial",
                     "explanation": "$~aceasta depinde de $borrow , care depinde și de această $source , deci programul nu poate fi evaluat.",
-                    "resolution": "$?"
+                    "resolution": "$~Eliminați această împrumut pentru a rupe ciclul"
                 }
             },
             "exception": {
@@ -696,7 +696,7 @@
                 "MisplacedConversion": {
                     "name": "$~conversiegreșită",
                     "explanation": "$~Uau, nu pot fi aici, doar în @Block.",
-                    "resolution": "$?"
+                    "resolution": "$~Eliminați această conversie"
                 }
             }
         },
@@ -719,7 +719,7 @@
                 "UnknownConversion": {
                     "name": "$~conversienecunoscută",
                     "explanation": "$~Nu am găsit o modalitate de a converti un $expected într-un $given",
-                    "resolution": "$?"
+                    "resolution": "$~Eliminați conversia"
                 }
             },
             "exception": {
@@ -798,7 +798,7 @@
                 "UnexpectedTypeInput": {
                     "name": "$~intraredetipneașteptat",
                     "explanation": "$~Sunt un input suplimentar, de tip neașteptat.",
-                    "resolution": "$?"
+                    "resolution": "$~Eliminați acest tip de intrare"
                 },
                 "MissingInput": {
                     "name": "$~intrarelipsă",
@@ -809,27 +809,27 @@
                 "NotInstantiable": {
                     "name": "$~structurăincompletă",
                     "explanation": "$~Nu pot face asta la @StructureDefinition, are funcții neimplementate.",
-                    "resolution": "$?"
+                    "resolution": "$~Eșafodajul funcțiilor lipsă"
                 },
                 "UnexpectedInput": {
                     "name": "$~intrareneașteptată",
                     "explanation": "$~Sunt o contribuție neașteptată.",
-                    "resolution": "$?"
+                    "resolution": "$~Eliminați această intrare"
                 },
                 "UnknownInput": {
                     "name": "$~intrarenecunoscută",
                     "explanation": "$~Această funcție * $name * nu așteaptă o intrare cu numele meu.",
-                    "resolution": "$?"
+                    "resolution": "$~Redenumiți această intrare la * $name *"
                 },
                 "InputListMustBeLast": {
                     "name": "$~intrărilesuplimentarenusuntultimele",
                     "explanation": "$~lista de intrări trebuie să fie ultima",
-                    "resolution": "$?"
+                    "resolution": "$~Mută intrarea din listă la sfârșit"
                 },
                 "SeparatedEvaluate": {
                     "name": "$~evaluareambiguă",
                     "explanation": "$~Este $name numele unei $structure [ $structure | $function ] pe care încerci să o evaluezi? Încearcă să elimini spațiul de după mine, ca să știu că este un @Evaluate și nu un @Block separat.",
-                    "resolution": "$?"
+                    "resolution": "$~Închideți spațiul dintre * $name * și intrările sale"
                 }
             },
             "exception": {
@@ -872,7 +872,7 @@
                 "Placeholder": {
                     "name": "$~substituent",
                     "explanation": "$~Poți să mă completezi? Sunt doar un provizorat.",
-                    "resolution": "$?"
+                    "resolution": "$~Înlocuiți cu * $candidate *"
                 }
             },
             "exception": {
@@ -912,7 +912,7 @@
                 "NoExpression": {
                     "name": "$~expresielipsă",
                     "explanation": "$~Am nevoie de o expresie pentru a evalua, poți adăuga una?",
-                    "resolution": "$?"
+                    "resolution": "$~Adăugați un corp substituent"
                 }
             }
         },
@@ -970,8 +970,8 @@
                 "ImpossibleType": {
                     "name": "$~tipimposibil",
                     "explanation": "$~asta nu poate fi niciodată $type",
-                    "resolutionIsFalse": "$?",
-                    "resolutionDropOtherwise": "$?"
+                    "resolutionIsFalse": "$~Înlocuiți acest tip de verificare cu *⊥* (răspunsul este întotdeauna fals)",
+                    "resolutionDropOtherwise": "$~Renunță la *??* — partea stângă nu este niciodată *ø*"
                 }
             },
             "exception": {
@@ -1035,7 +1035,7 @@
                 "NotAKeyValue": {
                     "name": "$~valoarelipsă",
                     "explanation": "$~Sunt într-o @Map, deci am nevoie de o valoare.",
-                    "resolution": "$?"
+                    "resolution": "$~Încadrați ca o pereche cheie-valoare"
                 }
             }
         },
@@ -1069,7 +1069,7 @@
                 "NotANumber": {
                     "name": "$~nuunnumăr",
                     "explanation": "$~Credeam că știu toate numerele, dar pe acesta nu-l știu.",
-                    "resolution": "$?"
+                    "resolution": "$~Înlocuiți cu *0*"
                 }
             }
         },
@@ -1189,7 +1189,7 @@
                 "InvalidProperty": {
                     "name": "$~proprietatenecunoscută",
                     "explanation": "$~Nu sunt un nume în structura $structure , deci nu pot fi rafinat.",
-                    "resolution": "$?"
+                    "resolution": "$~Redenumiți la * $name *"
                 }
             }
         },
@@ -1230,7 +1230,7 @@
                 "ExpectedStream": {
                     "name": "$~fluxulașteptat",
                     "explanation": "$~$condition nu face referire la un flux, deci nu voi reacționa niciodată!",
-                    "resolution": "$?"
+                    "resolution": "$~Renunțați la reacție, păstrați doar valoarea inițială"
                 }
             }
         },
@@ -1256,12 +1256,12 @@
                 "ReferenceCycle": {
                     "name": "$~valoareautoreferențială",
                     "explanation": "$~ăă, valoarea lui $name depinde de ea însăși, așa că de unde știu ce valoare să-i dau?",
-                    "resolution": "$?"
+                    "resolution": "$~Înlocuiți * $name * cu un provizoriu pentru a întrerupe ciclul"
                 },
                 "UnexpectedTypeVariable": {
                     "name": "$~variabilădetipneașteptat",
                     "explanation": "$~Nu știu ce să fac cu aceste tipuri de intrări.",
-                    "resolution": "$?"
+                    "resolution": "$~Eliminați această variabilă de tip din funcție"
                 }
             },
             "exception": {
@@ -1287,7 +1287,7 @@
                 "ExpectedSelectName": {
                     "name": "$~numelecoloaneilipsește",
                     "explanation": "$~Am nevoie de cel puțin un nume de coloană.",
-                    "resolution": "$?"
+                    "resolution": "$~Eliminați această celulă"
                 }
             }
         },
@@ -1375,22 +1375,22 @@
                 "DisallowedInputs": {
                     "name": "$~intrărinepermise",
                     "explanation": "$~Nu pot avea intrări deoarece una sau mai multe dintre funcțiile interfeței mele nu sunt implementate.",
-                    "resolution": "$?"
+                    "resolution": "$~Eliminați intrările"
                 },
                 "IncompleteImplementation": {
                     "name": "$~structurăincompletă",
                     "explanation": "$~Funcțiile mele trebuie fie implementate toate, fie nu trebuie implementată niciuna. Fără amestecuri dezordonate!",
-                    "resolution": "$?"
+                    "resolution": "$~Renunțați la intrări pentru a o transforma într-o interfață"
                 },
                 "NotAnInterface": {
                     "name": "$~nuointerfață",
                     "explanation": "$~Nu sunt o interfață; o structură poate implementa doar interfețe, nu alte structuri.",
-                    "resolution": "$?"
+                    "resolution": "$~Eliminați asta din lista de interfețe"
                 },
                 "UnimplementedInterface": {
                     "name": "$~neimplementat",
                     "explanation": "$~Implementez $interface , dar nu am implementat $function",
-                    "resolution": "$?"
+                    "resolution": "$~Construiți schele pentru funcția * $function * lipsă din această structură"
                 }
             }
         },
@@ -1454,7 +1454,7 @@
                 "character": {
                     "name": "$~posibilcaracterpersonalizat",
                     "explanation": "$~Acesta pare a fi numele unui caracter. Pentru a le afișa, folosiți @FormattedLiteral în loc de @TextLiteral.",
-                    "resolutionStrip": "$?"
+                    "resolutionStrip": "$~Eliminați caracterele speciale din text"
                 }
             }
         },
@@ -1500,7 +1500,7 @@
                 "MisplacedThis": {
                     "name": "$~ampierdutaceastăreferință",
                     "explanation": "$~Am voie doar într-o structură, conversie sau reacție.",
-                    "resolution": "$?"
+                    "resolution": "$~Înlocuiți cu un substituent"
                 }
             }
         },
@@ -1550,7 +1550,7 @@
                 "UnclosedDelimiter": {
                     "name": "$~delimitatorneînchis",
                     "explanation": "$~Mă așteptam $expected cândva după $unclosed",
-                    "resolution": "$?"
+                    "resolution": "$~Adăugați elementul lipsă * $expected *"
                 }
             },
             "exception": {
@@ -1576,7 +1576,7 @@
                 "ExpectedColumnBind": {
                     "name": "$~valoarelipsăîncoloană",
                     "explanation": "$~Am nevoie de o valoare pentru fiecare coloană",
-                    "resolution": "$?"
+                    "resolution": "$~Încadrați această celulă într-o coloană denumită"
                 },
                 "IncompatibleCellType": {
                     "name": "$~tipdecelulăincompatibil",
@@ -1684,7 +1684,7 @@
                 "UnknownTypeName": {
                     "name": "$~numedetipnecunoscut",
                     "explanation": "$~numele de tipuri se pot referi doar la structuri sau variabile de tip, dar acestea se referă la tipul $type",
-                    "resolution": "$?"
+                    "resolution": "$~Înlocuiți cu un substituent de tip"
                 }
             }
         },
@@ -1749,7 +1749,7 @@
                 "ExpectedColumnType": {
                     "name": "$~tipuldecoloanălipsă",
                     "explanation": "$~Am nevoie de un tip de coloană",
-                    "resolution": "$?"
+                    "resolution": "$~Adăugați un substituent pentru tip"
                 }
             }
         },
@@ -1776,7 +1776,7 @@
                 "$~Pe cine ar trebui să reprezint, pe A sau pe B sau pe altceva? Nu mă pot hotărî niciodată!",
                 "$~\\indecizie•''|#|{ø}: \"Nu știu!\""
             ],
-            "elidedSuffix": "$?"
+            "elidedSuffix": "$~sau $omitted alte opțiuni"
         },
         "Unit": {
             "name": "$~unitate",
@@ -3543,12 +3543,12 @@
         "Hand": {
             "doc": [
                 "$~/mișcă-te mișcă-te/",
-                "$~@FunctionDefinition aici! Permiteți-mi să vă povestesc despre @Hand.",
+                "$~@FunctionDefinition aici! Permiteți-mi să vă povestesc despre @Hand .",
                 "$~@Hand urmărește camera pentru a vedea o mână și îți spune unde se află, ce degete sunt întinse și dacă palma sau dosul palmei este orientat spre cameră. Ridică mâna, flutură-o, numără pe degete — @Hand urmează.",
                 "$~În culise, @Hand folosește un model de învățare automată. Prima dată când îl folosești într-un program, descărcarea modelului durează câteva secunde, iar o mică mână care se rotește apare în colțul din dreapta sus al scenei în timp ce se încarcă. După aceea, rămâne în cache și pornește instantaneu.",
-                "$~Fiecare cadru @Hand returnează o structură cu câmpuri precum place (unde se află mâna), open (adevărat dacă mâna este deschisă), fingers (câte degete sunt ridicate), valori booleene individuale pentru degetul mare, arătător, mijlociu, inelar și mic și palm (adevărat dacă palma este orientată spre cameră).",
+                "$~În fiecare cadru, @Hand îți oferă un @Gesture — caută acolo lista completă de intrări și semnificația acestora.",
                 "$~Încearcă asta — îți arată un emoji care se potrivește cu poziția mâinii tale, indiferent de locul în care se află mâna ta reală:",
-                "$~\\hand: Hand() Expresie((hand.open ? '🖐️' '✊') place: hand.place)\\"
+                "$~\\hand: Hand()\nPhrase((hand.open ? '🖐️' '✊') place: hand.place)\\"
             ],
             "names": ["$~🖐️", "$~Mână"],
             "frequency": {
@@ -4378,7 +4378,7 @@
             }
         },
         "Gesture": {
-            "doc": "$~Sunt un gest al mâinii detectat de cameră. Câmpurile mele îți spun unde se află mâna pe scenă, ce degete sunt întinse și dacă palma sau dosul mâinii este orientat spre cameră.",
+            "doc": "$~Sunt o imagine a unei poziții a mâinii detectată de cameră, emisă de fluxul @Hand . Locul meu îți spune unde se află mâna pe scenă, degetele mele îți spun câte sunt extinse, deschiderea mea este adevărată când mâna este deschisă (3+ degete extinse), iar degetul mare, arătătorul, mijlociul, inelarul și degetul mic indică fiecare ce degete sunt extinse. Palma mea este adevărată când palma este orientată spre cameră și falsă când dosul mâinii este orientat spre ea.",
             "names": ["$~✋", "$~Gest"],
             "place": {
                 "doc": "$~Unde mâna este pe scenă.",

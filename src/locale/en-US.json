@@ -3546,7 +3546,7 @@
                 "@FunctionDefinition here! Let me tell you about @Hand.",
                 "@Hand watches your camera for a hand and tells you where it is, which fingers are extended, and whether the palm or back of your hand is facing the camera. Hold your hand up, wave it around, count on your fingers — @Hand follows.",
                 "Behind the scenes, @Hand uses a machine-learning model. The first time you use it in a program the model takes a few seconds to download, and a tiny spinning hand appears in the top-right corner of the stage while it loads. After that it stays cached and starts instantly.",
-                "Each frame @Hand returns a structure with fields like place (where the hand is), open (true if your hand is open), fingers (how many fingers are up), individual booleans for thumb, index, middle, ring, and pinky, and palm (true if your palm faces the camera).",
+                "Each frame, @Hand gives you a @Gesture — look there for the full list of inputs and what they mean.",
                 "Try this — it shows an emoji that matches your hand pose wherever your real hand is:",
                 "\\hand: Hand()\nPhrase((hand.open ? '🖐️' '✊') place: hand.place)\\"
             ],
@@ -4379,7 +4379,7 @@
             }
         },
         "Gesture": {
-            "doc": "I'm a hand gesture detected by the camera. My fields tell you where the hand is on stage, which fingers are extended, and whether the palm or back of the hand is facing the camera.",
+            "doc": "I'm a snapshot of a hand pose detected by the camera, emitted by the @Hand stream. My place tells you where the hand is on stage, my fingers tells you how many are extended, my open is true when the hand is open (3+ fingers extended), and my thumb, index, middle, ring, and pinky each say which specific fingers are extended. My palm is true when the palm faces the camera, false when the back of the hand does.",
             "names": ["✋", "Gesture"],
             "place": {
                 "doc": "Where the hand is on stage.",

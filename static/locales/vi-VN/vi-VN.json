@@ -216,17 +216,17 @@
                 "UnknownLanguage": {
                     "name": "$~ngônngữkhôngxácđịnh",
                     "explanation": "$~Tôi không biết ngôn ngữ này",
-                    "resolution": "$?"
+                    "resolution": "$~Xóa mã ngôn ngữ này"
                 },
                 "MissingLanguage": {
                     "name": "$~ngônngữbịthiếu",
                     "explanation": "$~Tôi đang thiếu một ngôn ngữ. Bạn có thể thêm một ngôn ngữ nữa không?",
-                    "resolution": "$?"
+                    "resolution": "$~Xóa thẻ ngôn ngữ trống"
                 },
                 "DuplicateLanguage": {
                     "name": "$~ngônngữtrùnglặp",
                     "explanation": "$~Bạn đã sử dụng ngôn ngữ ' $code ' hai lần. Thẻ đa ngôn ngữ chỉ nên liệt kê mỗi ngôn ngữ một lần.",
-                    "resolution": "$?"
+                    "resolution": "$~Xóa thẻ * $code * trùng lặp"
                 }
             }
         },
@@ -270,23 +270,23 @@
                 "InvalidRow": {
                     "name": "$~hàngkhônghợplệ",
                     "explanation": "$~Các hàng phải toàn là giá trị hoặc toàn là @Bind.",
-                    "resolutionKeepPositional": "$?",
-                    "resolutionUnwrapInputs": "$?"
+                    "resolutionKeepPositional": "$~Xóa các ô được đặt tên, chỉ giữ lại các ô vị trí.",
+                    "resolutionUnwrapInputs": "$~Xóa tên khỏi các ô đã được đặt tên."
                 },
                 "MissingCell": {
                     "name": "$~cộtbịthiếu",
                     "explanation": "$~Tôi bị thiếu cột $column",
-                    "resolution": "$?"
+                    "resolution": "$~Thêm ô giữ chỗ cho * $column *"
                 },
                 "ExtraCell": {
                     "name": "$~cộtbổsung",
                     "explanation": "$~Dựa trên kiểu dữ liệu của bảng, tôi là một cột thừa không nên có ở đây.",
-                    "resolution": "$?"
+                    "resolution": "$~Loại bỏ ô thừa"
                 },
                 "UnknownColumn": {
                     "name": "$~têncộtkhôngxácđịnh",
                     "explanation": "$~Tôi không biết chuyên mục nào có tên này.",
-                    "resolution": "$?"
+                    "resolution": "$~Đổi tên thành * $name *"
                 },
                 "UnexpectedColumnBind": {
                     "name": "$~khôngliênkếtcáchàng",
@@ -321,7 +321,7 @@
                 "DuplicateTypeVariable": {
                     "name": "$~biếnkiểutrùnglặp",
                     "explanation": "$~Tôi có cùng tên với $duplicate",
-                    "resolution": "$?"
+                    "resolution": "$~Xóa biến kiểu trùng lặp"
                 }
             }
         },
@@ -394,7 +394,7 @@
                 "UnsupportedFontFormat": {
                     "name": "$~địnhdạngphôngchữkhôngđượchỗtrợ",
                     "explanation": "$~Bạn tôi * $face * không biết cách $format như thế nào.",
-                    "resolution": "$?"
+                    "resolution": "$~Xóa định dạng"
                 }
             }
         },
@@ -452,7 +452,7 @@
                 "OrderOfOperations": {
                     "name": "$~thứtựmơhồ",
                     "explanation": "$~Tôi thực hiện đánh giá theo thứ tự đọc, chứ không phải theo thứ tự các phép toán. Bạn có muốn sử dụng @Block để chỉ định thứ tự tôi nên thực hiện đánh giá không?",
-                    "resolution": "$?"
+                    "resolution": "$~Thêm dấu ngoặc đơn để làm rõ thứ tự ưu tiên."
                 }
             }
         },
@@ -504,7 +504,7 @@
                 "DuplicateShare": {
                     "name": "$~chiasẻtrùnglặp",
                     "explanation": "$~Tôi có cùng tên với $duplicate. Điều đó khiến cho việc chúng ta đang chia sẻ điều gì trở nên không rõ ràng.",
-                    "resolution": "$?"
+                    "resolution": "$~Xóa chia sẻ trùng lặp này"
                 },
                 "IncompatibleType": {
                     "name": "$~loạikhôngtươngthích",
@@ -524,27 +524,27 @@
                 "MisplacedShare": {
                     "name": "$~cổphầnbịthấtlạc",
                     "explanation": "$~Tôi chỉ có thể chia sẻ thông tin ở cấp độ @Program, chứ không thể chia sẻ bên trong bất kỳ trang nào khác!",
-                    "resolution": "$?"
+                    "resolution": "$~Xóa dấu *↑*"
                 },
                 "MissingShareLanguages": {
                     "name": "$~ngônngữbịthiếu",
                     "explanation": "$~Nếu bạn muốn chia sẻ tài liệu này, bạn phải ghi rõ ngôn ngữ để người khác biết họ có thể đọc được hay không!",
-                    "resolution": "$?"
+                    "resolution": "$~Xóa dấu *↑*"
                 },
                 "RequiredAfterOptional": {
                     "name": "$~đầuvàobắtbuộcsautùychọn",
                     "explanation": "$~Tôi không thể ở đây, có một lệnh @Bind tùy chọn trước tôi.",
-                    "resolution": "$?"
+                    "resolution": "$~Di chuyển các trường bắt buộc lên trước các trường tùy chọn."
                 },
                 "UnexpectedEtc": {
                     "name": "$~Đầuvàokhôngmongđợisaudanhsáchđầuvào",
                     "explanation": "$~Tôi chỉ có thể có độ dài thay đổi trong một @FunctionDefinition.",
-                    "resolution": "$?"
+                    "resolution": "$~Xóa bỏ *…*"
                 },
                 "UnusedBind": {
                     "name": "$~liênkếtkhôngsửdụng",
                     "explanation": "$~Tôi có tên là $name, nhưng chẳng ai dùng đến tôi cả. Có lẽ tôi không cần thiết chăng?",
-                    "resolution": "$?"
+                    "resolution": "$~Xóa liên kết này"
                 }
             }
         },
@@ -579,7 +579,7 @@
                 "ExpectedEndingExpression": {
                     "name": "$~biểuthứcbịthiếu",
                     "explanation": "Tôi cần ít nhất một biểu thức không phải @Bind, để có một giá trị để trả về.",
-                    "resolution": "$?"
+                    "resolution": "$~Thêm biểu thức cuối cùng"
                 }
             }
         },
@@ -605,12 +605,12 @@
                 "UnknownBorrow": {
                     "name": "$~mượnkhôngrõnguồngốc",
                     "explanation": "$~Tôi không biết nguồn nào có tên như vậy.",
-                    "resolution": "$?"
+                    "resolution": "$~Xóa khoản mượn này"
                 },
                 "BorrowCycle": {
                     "name": "$~mượntựthamchiếu",
                     "explanation": "$~Điều này phụ thuộc vào $borrow, mà $borrow lại phụ thuộc vào $source này, vì vậy chương trình không thể được đánh giá.",
-                    "resolution": "$?"
+                    "resolution": "$~Hãy loại bỏ khoản vay này để phá vỡ chu kỳ."
                 }
             },
             "exception": {
@@ -693,7 +693,7 @@
                 "MisplacedConversion": {
                     "name": "$~chuyểnđổisaivịtrí",
                     "explanation": "$~Ôi, mình không thể ở đây được, mình đang ở @Block.",
-                    "resolution": "$?"
+                    "resolution": "$~Xóa chuyển đổi này"
                 }
             }
         },
@@ -716,7 +716,7 @@
                 "UnknownConversion": {
                     "name": "$~chuyểnđổikhôngxácđịnh",
                     "explanation": "$~Chúng tôi không tìm được cách chuyển đổi $expected thành $given.",
-                    "resolution": "$?"
+                    "resolution": "$~Loại bỏ quá trình chuyển đổi"
                 }
             },
             "exception": {
@@ -793,7 +793,7 @@
                 "UnexpectedTypeInput": {
                     "name": "$~đầuvàokiểukhôngmongđợi",
                     "explanation": "$~Tôi là một dữ liệu đầu vào bổ sung, không được mong đợi.",
-                    "resolution": "$?"
+                    "resolution": "$~Xóa kiểu nhập liệu này"
                 },
                 "MissingInput": {
                     "name": "$~thiếuthôngtinđầuvào",
@@ -804,27 +804,27 @@
                 "NotInstantiable": {
                     "name": "$~cấutrúckhônghoànchỉnh",
                     "explanation": "$~Tôi không thể tạo @StructureDefinition này, vì nó có các hàm chưa được triển khai.",
-                    "resolution": "$?"
+                    "resolution": "$~Xây dựng khung sườn cho các chức năng còn thiếu."
                 },
                 "UnexpectedInput": {
                     "name": "$~đầuvàokhôngmongđợi",
                     "explanation": "$~Tôi là một nguồn dữ liệu đầu vào không được dự kiến.",
-                    "resolution": "$?"
+                    "resolution": "$~Xóa đầu vào này"
                 },
                 "UnknownInput": {
                     "name": "$~đầuvàokhôngxácđịnh",
                     "explanation": "$~Hàm *$name* này không mong đợi đầu vào là tên của tôi.",
-                    "resolution": "$?"
+                    "resolution": "$~Đổi tên đầu vào này thành * $name *"
                 },
                 "InputListMustBeLast": {
                     "name": "$~cácđầuvàobổsungkhôngphảilàcuốicùng",
                     "explanation": "$~Danh sách các đầu vào phải ở cuối.",
-                    "resolution": "$?"
+                    "resolution": "$~Di chuyển ô nhập danh sách xuống cuối."
                 },
                 "SeparatedEvaluate": {
                     "name": "$~đánhgiámơhồ",
                     "explanation": "$~$name có phải là tên của một $structure[$structure|$function] mà bạn đang cố gắng đánh giá không? Hãy thử xóa khoảng trắng sau tôi để tôi biết đó là một @Evaluate chứ không phải là một @Block riêng biệt.",
-                    "resolution": "$?"
+                    "resolution": "$~Đóng khoảng trắng giữa * $name * và các đầu vào của nó."
                 }
             },
             "exception": {
@@ -867,7 +867,7 @@
                 "Placeholder": {
                     "name": "$~chỗgiữchỗ",
                     "explanation": "$~Bạn có thể điền thông tin cho tôi không? Tôi chỉ là một chỗ giữ chỗ thôi.",
-                    "resolution": "$?"
+                    "resolution": "$~Thay thế bằng * $candidate *"
                 }
             },
             "exception": {
@@ -907,7 +907,7 @@
                 "NoExpression": {
                     "name": "$~biểuthứcbịthiếu",
                     "explanation": "$~Tôi cần một biểu thức để đánh giá, bạn có thể thêm một biểu thức nữa không?",
-                    "resolution": "$?"
+                    "resolution": "$~Thêm phần thân giữ chỗ"
                 }
             }
         },
@@ -965,8 +965,8 @@
                 "ImpossibleType": {
                     "name": "$~loạibấtkhảthi",
                     "explanation": "$~điều này không bao giờ có thể là $type",
-                    "resolutionIsFalse": "$?",
-                    "resolutionDropOtherwise": "$?"
+                    "resolutionIsFalse": "$~Thay thế kiểm tra kiểu này bằng *⊥* (câu trả lời luôn là sai)",
+                    "resolutionDropOtherwise": "$~Bỏ dấu *??* đi — phía bên trái không bao giờ là *ø*"
                 }
             },
             "exception": {
@@ -1030,7 +1030,7 @@
                 "NotAKeyValue": {
                     "name": "$~giátrịbịthiếu",
                     "explanation": "$~Tôi đang ở trong một @Map, vì vậy tôi cần một giá trị.",
-                    "resolution": "$?"
+                    "resolution": "$~Đóng gói dưới dạng cặp khóa-giá trị"
                 }
             }
         },
@@ -1064,7 +1064,7 @@
                 "NotANumber": {
                     "name": "$~khôngphảilàmộtconsố",
                     "explanation": "$~Tôi tưởng mình biết hết mọi con số, nhưng tôi không biết con số này.",
-                    "resolution": "$?"
+                    "resolution": "$~Thay thế bằng *0*"
                 }
             }
         },
@@ -1184,7 +1184,7 @@
                 "InvalidProperty": {
                     "name": "$~thuộctínhkhôngxácđịnh",
                     "explanation": "$~Tôi không phải là một tên trong cấu trúc $structure, vì vậy tôi không thể được tinh chỉnh.",
-                    "resolution": "$?"
+                    "resolution": "$~Đổi tên thành * $name *"
                 }
             }
         },
@@ -1225,7 +1225,7 @@
                 "ExpectedStream": {
                     "name": "$~dòngdựkiến",
                     "explanation": "$~$condition không liên quan đến một luồng phát trực tiếp nào cả, nên tôi sẽ không bao giờ phản hồi!",
-                    "resolution": "$?"
+                    "resolution": "$~Bỏ qua phản ứng, chỉ giữ lại giá trị ban đầu."
                 }
             }
         },
@@ -1251,12 +1251,12 @@
                 "ReferenceCycle": {
                     "name": "$~giátrịtựthamchiếu",
                     "explanation": "$~Ừm, giá trị của $name phụ thuộc vào chính nó, vậy làm sao tôi biết nên gán giá trị nào cho nó?",
-                    "resolution": "$?"
+                    "resolution": "$~Thay thế * $name * bằng một ký tự đại diện để phá vỡ chu kỳ."
                 },
                 "UnexpectedTypeVariable": {
                     "name": "$~biếnkiểukhôngmongđợi",
                     "explanation": "$~Tôi không biết phải làm gì với các loại đầu vào này.",
-                    "resolution": "$?"
+                    "resolution": "$~Hãy xóa biến kiểu này khỏi hàm."
                 }
             },
             "exception": {
@@ -1282,7 +1282,7 @@
                 "ExpectedSelectName": {
                     "name": "$~têncộtbịthiếu",
                     "explanation": "$~Tôi cần ít nhất một tên cột.",
-                    "resolution": "$?"
+                    "resolution": "$~Xóa ô này"
                 }
             }
         },
@@ -1370,22 +1370,22 @@
                 "DisallowedInputs": {
                     "name": "$~khôngchophépnhậpliệu",
                     "explanation": "$~Tôi không thể nhận đầu vào vì một hoặc nhiều chức năng giao diện của tôi chưa được triển khai.",
-                    "resolution": "$?"
+                    "resolution": "$~Xóa các đầu vào"
                 },
                 "IncompleteImplementation": {
                     "name": "$~cấutrúckhônghoànchỉnh",
                     "explanation": "$~Các hàm của tôi hoặc phải được triển khai toàn bộ, hoặc không được triển khai hàm nào cả. Không được có sự pha trộn lộn xộn!",
-                    "resolution": "$?"
+                    "resolution": "$~Loại bỏ các đầu vào để tạo thành một giao diện."
                 },
                 "NotAnInterface": {
                     "name": "$~khôngphảilàgiaodiện",
                     "explanation": "$~Tôi không phải là một giao diện; một cấu trúc chỉ có thể triển khai các giao diện, chứ không thể triển khai các cấu trúc khác.",
-                    "resolution": "$?"
+                    "resolution": "$~Xóa mục này khỏi danh sách giao diện"
                 },
                 "UnimplementedInterface": {
                     "name": "$~chưađượctriểnkhai",
                     "explanation": "$~Tôi đã triển khai $interface nhưng chưa triển khai $function.",
-                    "resolution": "$?"
+                    "resolution": "$~Tạo khung sườn cho hàm * $function * bị thiếu trên cấu trúc này."
                 }
             }
         },
@@ -1449,7 +1449,7 @@
                 "character": {
                     "name": "$~nhânvậttùychỉnhcóthể",
                     "explanation": "$~Đây có vẻ là tên nhân vật. Để hiển thị tên nhân vật, hãy sử dụng @FormattedLiteral thay vì @TextLiteral.",
-                    "resolutionStrip": "$?"
+                    "resolutionStrip": "$~Loại bỏ các ký tự đặc biệt khỏi văn bản"
                 }
             }
         },
@@ -1495,7 +1495,7 @@
                 "MisplacedThis": {
                     "name": "$~Tôiđãđểlạcmấttàiliệuthamkhảonày.",
                     "explanation": "$~Tôi chỉ được phép tham gia vào cấu trúc, quá trình chuyển đổi hoặc phản ứng.",
-                    "resolution": "$?"
+                    "resolution": "$~Thay thế bằng một chỗ giữ chỗ"
                 }
             }
         },
@@ -1545,7 +1545,7 @@
                 "UnclosedDelimiter": {
                     "name": "$~dấuphâncáchchưađóng",
                     "explanation": "$~Tôi dự kiến $expected sẽ xuất hiện vào một thời điểm nào đó sau khi $unclosed",
-                    "resolution": "$?"
+                    "resolution": "$~Thêm phần tử * $expected * bị thiếu"
                 }
             },
             "exception": {
@@ -1571,7 +1571,7 @@
                 "ExpectedColumnBind": {
                     "name": "$~giátrịcộtbịthiếu",
                     "explanation": "$~Tôi cần giá trị cho mỗi cột.",
-                    "resolution": "$?"
+                    "resolution": "$~Bọc ô này thành một cột có tên."
                 },
                 "IncompatibleCellType": {
                     "name": "$~loạitếbàokhôngtươngthích",
@@ -1679,7 +1679,7 @@
                 "UnknownTypeName": {
                     "name": "$~tênloạikhôngxácđịnh",
                     "explanation": "$~Tên kiểu chỉ có thể tham chiếu đến cấu trúc hoặc biến kiểu, nhưng điều này lại tham chiếu đến kiểu $type.",
-                    "resolution": "$?"
+                    "resolution": "$~Thay thế bằng một chỗ giữ chỗ kiểu dữ liệu"
                 }
             }
         },
@@ -1744,7 +1744,7 @@
                 "ExpectedColumnType": {
                     "name": "$~kiểucộtbịthiếu",
                     "explanation": "$~Tôi cần một kiểu cột",
-                    "resolution": "$?"
+                    "resolution": "$~Thêm chỗ giữ chỗ kiểu"
                 }
             }
         },
@@ -1771,7 +1771,7 @@
                 "$~Tôi nên đại diện cho ai, A hay B hay cái gì khác? Tôi không bao giờ quyết định được!",
                 "$~\\indecision•''|#|{ø}: \"Tôi không biết!\"\\"
             ],
-            "elidedSuffix": "$?"
+            "elidedSuffix": "$~hoặc các tùy chọn khác $omitted"
         },
         "Unit": {
             "name": "$~đơnvị",
@@ -3710,10 +3710,10 @@
         "Hand": {
             "doc": [
                 "$~/lắc lư lắc lư/",
-                "$~@FunctionDefinition đây! Để tôi giới thiệu về @Hand.",
+                "$~@FunctionDefinition đây! Để tôi giới thiệu với bạn về @Hand .",
                 "$~@Hand sẽ quan sát camera để tìm bàn tay của bạn và cho bạn biết vị trí của bàn tay, những ngón tay nào đang duỗi ra, và lòng bàn tay hay mu bàn tay đang hướng về phía camera. Giơ tay lên, vẫy tay xung quanh, đếm trên các ngón tay — @Hand sẽ theo dõi.",
-                "$~Về mặt kỹ thuật, @Hand sử dụng mô hình máy học. Lần đầu tiên bạn sử dụng nó trong một chương trình, mô hình cần vài giây để tải xuống, và một bàn tay nhỏ xoay tròn sẽ xuất hiện ở góc trên bên phải màn hình trong khi tải. Sau đó, nó được lưu vào bộ nhớ cache và bắt đầu hoạt động ngay lập tức.",
-                "$~Mỗi khung hình @Hand trả về một cấu trúc với các trường như place (vị trí của bàn tay), open (true nếu bàn tay bạn đang mở), fingers (số ngón tay đang giơ lên), các giá trị boolean riêng biệt cho ngón cái, ngón trỏ, ngón giữa, ngón áp út và ngón út, và palm (true nếu lòng bàn tay bạn hướng về phía camera).",
+                "$~Về mặt kỹ thuật, @Hand sử dụng mô hình máy học. Lần đầu tiên bạn sử dụng nó trong một chương trình, mô hình cần vài giây để tải xuống, và một bàn tay nhỏ đang xoay tròn sẽ xuất hiện ở góc trên bên phải màn hình trong khi chờ tải. Sau đó, nó được lưu vào bộ nhớ cache và bắt đầu hoạt động ngay lập tức.",
+                "$~Mỗi khung hình, @Hand sẽ cung cấp cho bạn một @Gesture — hãy xem ở đó để biết danh sách đầy đủ các thao tác nhập liệu và ý nghĩa của chúng.",
                 "$~Hãy thử cách này — nó sẽ hiển thị biểu tượng cảm xúc phù hợp với tư thế tay của bạn bất kể tay thật của bạn đang ở đâu:",
                 "$~\\hand: Hand()\nPhrase((hand.open ? '🖐️' '✊') place: hand.place)\\"
             ],
@@ -4623,7 +4623,7 @@
             "defaultDescription": "$~Nói $text"
         },
         "Gesture": {
-            "doc": "$~Tôi là một cử chỉ tay được camera nhận diện. Các trường thông tin của tôi cho biết vị trí của bàn tay trên sân khấu, những ngón tay nào đang duỗi ra và lòng bàn tay hay mu bàn tay đang hướng về phía camera. @Hand sẽ trả về một trong những cử chỉ của tôi.",
+            "doc": "$~Tôi là ảnh chụp nhanh tư thế bàn tay được camera phát hiện, được phát ra từ luồng @Hand . Vị trí của tôi cho biết bàn tay đang ở đâu trên sân khấu, các ngón tay cho biết có bao nhiêu ngón đang duỗi ra, \"open\" là true khi bàn tay mở (3 ngón trở lên duỗi ra), và ngón cái, ngón trỏ, ngón giữa, ngón áp út và ngón út lần lượt cho biết ngón nào đang duỗi ra. Lòng bàn tay là true khi lòng bàn tay hướng về phía camera, false khi mu bàn tay hướng về phía camera.",
             "names": ["$~✋", "$~Cửchỉ"],
             "place": {
                 "doc": "$~Vị trí bàn tay trên sân khấu.",
