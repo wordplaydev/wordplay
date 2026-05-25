@@ -6872,7 +6872,8 @@
             "skinTone": "$~tono de piel",
             "script": "$~guiones",
             "scriptLabel": "$~filtrar por script",
-            "pickFilter": "$~Elige una categoría o un guion."
+            "pickFilter": "$~Elige una categoría o un guion.",
+            "moreLanguages": "$~y $count más"
         },
         "localize": {
             "header": "$~Localizar",

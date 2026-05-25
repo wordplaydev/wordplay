@@ -32,6 +32,7 @@ This week we focused on multilingual coding features, with several bug fixes alo
 ### Changed
 
 - 🌐 We made the default choices on the language choosers in the editor and stage clearer.
+- 🔣 The script picker in the glyph chooser now lists which languages use each script.
 - 🎨 We gave the [updates](https://wordplay.dev/updates) a little emoji to make the page easier to scan.
 - 📝 We made @Phrase word wrapping locale specific (#164).
 - 🛠️ We upgraded internal tooling for stability.

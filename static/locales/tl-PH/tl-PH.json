@@ -6948,7 +6948,8 @@
             },
             "script": "$~mga iskrip",
             "scriptLabel": "$~i-filter ayon sa script",
-            "pickFilter": "$~Pumili ng kategorya o script"
+            "pickFilter": "$~Pumili ng kategorya o script",
+            "moreLanguages": "$~at $count pa"
         },
         "tour": {
             "label": "$~paglilibot",

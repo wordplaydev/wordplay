@@ -6885,7 +6885,8 @@
             "skinTone": "$~لون البشرة",
             "script": "$~البرامج النصية",
             "scriptLabel": "$~تصفية حسب البرنامج النصي",
-            "pickFilter": "$~اختر فئة أو نصًا"
+            "pickFilter": "$~اختر فئة أو نصًا",
+            "moreLanguages": "$~و $count أكثر"
         },
         "localize": {
             "header": "$~توطين",

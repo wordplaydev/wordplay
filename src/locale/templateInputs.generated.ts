@@ -421,6 +421,7 @@ export const DECLARED_INPUTS: Readonly<Record<string, readonly string[]>> = {
     'ui.edit.line': ['before', 'after'],
     'ui.edit.node': ['node', 'type'],
     'ui.edit.range': ['start', 'end'],
+    'ui.emoji.moreLanguages': ['count'],
     'ui.howto.announce.canvasPosition': ['x', 'y'],
     'ui.howto.announce.howToPosition': ['title', 'x', 'y'],
     'ui.howto.announce.moveActivated': ['target'],

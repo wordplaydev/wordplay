@@ -6954,7 +6954,8 @@
             },
             "script": "$~scripturi",
             "scriptLabel": "$~filtrare după script",
-            "pickFilter": "$~Alegeți o categorie sau un script"
+            "pickFilter": "$~Alegeți o categorie sau un script",
+            "moreLanguages": "$~și mai multe $count"
         },
         "connection": {
             "offline": "$~Ești offline. Unele funcții nu vor funcționa până când nu ești online.",

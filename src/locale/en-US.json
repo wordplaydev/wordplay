@@ -6914,6 +6914,7 @@
             "skinTone": "skin tone",
             "script": "scripts",
             "scriptLabel": "filter by script",
+            "moreLanguages": "and $count more",
             "pickFilter": "Choose a category or script",
             "groups": {
                 "label": "groups",

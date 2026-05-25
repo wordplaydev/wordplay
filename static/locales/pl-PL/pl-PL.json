@@ -6902,7 +6902,8 @@
             "skinTone": "$~odcień skóry",
             "script": "$~skrypty",
             "scriptLabel": "$~filtruj według skryptu",
-            "pickFilter": "$~Wybierz kategorię lub skrypt"
+            "pickFilter": "$~Wybierz kategorię lub skrypt",
+            "moreLanguages": "$~i $count więcej"
         },
         "localize": {
             "header": "$~Zlokalizować",

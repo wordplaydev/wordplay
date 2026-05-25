@@ -6889,7 +6889,8 @@
             "skinTone": "$~Hautton",
             "script": "$~Skripte",
             "scriptLabel": "$~Nach Skript filtern",
-            "pickFilter": "$~Wählen Sie eine Kategorie oder ein Skript aus."
+            "pickFilter": "$~Wählen Sie eine Kategorie oder ein Skript aus.",
+            "moreLanguages": "$~und $count mehr"
         },
         "localize": {
             "header": "$~Lokalisieren",

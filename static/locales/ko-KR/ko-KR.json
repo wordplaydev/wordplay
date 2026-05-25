@@ -6883,7 +6883,8 @@
             "skinTone": "$~피부톤",
             "script": "$~스크립트",
             "scriptLabel": "$~스크립트로 필터링",
-            "pickFilter": "$~카테고리 또는 스크립트를 선택하세요"
+            "pickFilter": "$~카테고리 또는 스크립트를 선택하세요",
+            "moreLanguages": "$~그리고 $count 더"
         },
         "localize": {
             "header": "$~현지화",

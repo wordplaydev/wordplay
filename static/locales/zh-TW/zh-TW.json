@@ -6823,7 +6823,8 @@
             "skinTone": "$~膚色",
             "script": "$~腳本",
             "scriptLabel": "$~按腳本篩選",
-            "pickFilter": "$~選擇類別或腳本"
+            "pickFilter": "$~選擇類別或腳本",
+            "moreLanguages": "$~以及$count"
         },
         "localize": {
             "header": "$~在地化",

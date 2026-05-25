@@ -6886,7 +6886,8 @@
             "skinTone": "$~גוון העור",
             "script": "$~תסריטים",
             "scriptLabel": "$~סינון לפי סקריפט",
-            "pickFilter": "$~בחר קטגוריה או תסריט"
+            "pickFilter": "$~בחר קטגוריה או תסריט",
+            "moreLanguages": "$~ועוד $count"
         },
         "localize": {
             "header": "$~לְמַקֵם",

@@ -6893,7 +6893,8 @@
             "skinTone": "$~teint",
             "script": "$~scripts",
             "scriptLabel": "$~filtrer par script",
-            "pickFilter": "$~Choisissez une catégorie ou un script"
+            "pickFilter": "$~Choisissez une catégorie ou un script",
+            "moreLanguages": "$~et $count plus"
         },
         "localize": {
             "header": "$~Localiser",

@@ -6886,7 +6886,8 @@
             "skinTone": "$~cilt tonu",
             "script": "$~komut dosyaları",
             "scriptLabel": "$~komut dosyasına göre filtrele",
-            "pickFilter": "$~Bir kategori veya senaryo seçin."
+            "pickFilter": "$~Bir kategori veya senaryo seçin.",
+            "moreLanguages": "$~ve daha fazla $count"
         },
         "localize": {
             "header": "$~Yerelleştir",

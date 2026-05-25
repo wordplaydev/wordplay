@@ -6945,7 +6945,8 @@
             },
             "script": "$~roteiros",
             "scriptLabel": "$~filtrar por script",
-            "pickFilter": "$~Escolha uma categoria ou itinerário"
+            "pickFilter": "$~Escolha uma categoria ou itinerário",
+            "moreLanguages": "$~e $count mais"
         },
         "tour": {
             "label": "$~digressão",

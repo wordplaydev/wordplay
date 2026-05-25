@@ -1273,6 +1273,8 @@ type UITexts = {
         script: string;
         /** [plain] ARIA label for the script filter dropdown */
         scriptLabel: string;
+        /** [plain] Suffix appended after the first few language names captioning a script option, when more languages use the script than fit. $count is the number of additional languages. */
+        moreLanguages: Template<['count']>;
         /** [plain] Hint shown in the glyph area when no category and no script is selected */
         pickFilter: string;
         /** Emoji category labels for the filter */
