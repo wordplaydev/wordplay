@@ -34,3 +34,25 @@ describe('completeBinaryEvaluate skips characters with non-operator meanings', (
         expect(insert('50', 2, '%')).toBe('50%');
     });
 });
+
+describe('completeBindOrKeyValue respects content on the same line', () => {
+    test('typing : after a reference on an otherwise empty line autocompletes a placeholder', () => {
+        expect(insert('x', 1, ':')).toBe('x: _');
+    });
+
+    test('typing : in front of an expression on the same line skips the placeholder', () => {
+        // Source is `x5`; caret is after `x`. Typing `:` should not insert a
+        // placeholder, because `5` already follows on the same line. The `:`
+        // is inserted as plain text and the parser treats the result as a Bind.
+        expect(insert('x5', 1, ':')).toBe('x:5');
+    });
+
+    test('typing : in front of an expression separated by spaces still skips the placeholder', () => {
+        expect(insert('x 5', 1, ':')).toBe('x: 5');
+    });
+
+    test('typing : before a newline autocompletes a placeholder', () => {
+        // Whitespace + newline counts as an empty line after the caret.
+        expect(insert('x \n5', 1, ':')).toBe('x: _ \n5');
+    });
+});

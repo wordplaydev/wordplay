@@ -517,6 +517,17 @@ function completeBindOrKeyValue({
     const reference = preceding.nodes((node) => node instanceof Reference)[0];
     if (reference === undefined) return undefined;
 
+    // If there's already non-whitespace content on the same line after the
+    // caret, skip the placeholder — the parser will treat what follows as the
+    // bind's value, and a placeholder would just duplicate or displace it.
+    let i = position;
+    let next = source.getGraphemeAt(i);
+    while (next !== undefined && next !== '\n') {
+        if (next !== ' ' && next !== '\t') return undefined;
+        i++;
+        next = source.getGraphemeAt(i);
+    }
+
     const placeholder = ExpressionPlaceholder.make(
         preceding instanceof Is ? preceding.type : undefined,
     );
