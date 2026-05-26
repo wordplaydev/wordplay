@@ -93,7 +93,7 @@
     font-style: normal;
     font-weight: 400;
     font-display: block;
-    src: url(/fonts/NotoEmoji/NotoEmoji-400.woff2);
+    src: url(/fonts/NotoEmoji/NotoEmoji-400.woff2) format('woff2');
 }
 
 @supports (-webkit-hyphens: none) {
