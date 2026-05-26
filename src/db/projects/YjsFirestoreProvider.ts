@@ -101,12 +101,28 @@ export default class YjsFirestoreProvider {
         // auth) skip the listener entirely — Firestore would reject
         // every addDoc anyway, so producing the events would just spam
         // the console and burn quota.
+        console.log(
+            '[crdt-debug] provider ctor',
+            this.projectID.slice(0, 8),
+            'me=' + this.writer.slice(0, 8),
+            'writable=' + this.writable,
+        );
         if (this.writable) {
             const yDoc = this.getYDoc();
             const updateHandler = (
                 update: Uint8Array,
                 origin: unknown,
             ): void => {
+                console.log(
+                    '[crdt-debug] provider local handler',
+                    this.projectID.slice(0, 8),
+                    'me=' + this.writer.slice(0, 8),
+                    'origin=' + String(origin),
+                    'updateLen=' + update.length,
+                    'stopped=' + this.stopped,
+                    'paused=' + this.paused,
+                    'forbidden=' + this.writeForbidden,
+                );
                 if (origin === 'remote') return;
                 if (this.stopped) return;
                 this.pendingUpdates.push(update);
@@ -226,6 +242,14 @@ export default class YjsFirestoreProvider {
     }
 
     private async flush(): Promise<void> {
+        console.log(
+            '[crdt-debug] provider flush enter',
+            this.projectID.slice(0, 8),
+            'me=' + this.writer.slice(0, 8),
+            'pending=' + this.pendingUpdates.length,
+            'paused=' + this.paused,
+            'forbidden=' + this.writeForbidden,
+        );
         if (this.pendingUpdates.length === 0) return;
         if (this.paused || this.writeForbidden) return;
         // Y.mergeUpdatesV2 is always available; the previous ternary
