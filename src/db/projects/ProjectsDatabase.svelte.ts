@@ -169,9 +169,14 @@ export default class ProjectsDatabase {
      * the same authorship for stamping purposes.
      */
     private readonly sessionID: string =
-        typeof crypto !== 'undefined' && crypto.randomUUID
+        typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function'
             ? crypto.randomUUID()
-            : `s-${Math.random().toString(36).slice(2)}-${Date.now().toString(36)}`;
+            : typeof crypto !== 'undefined' &&
+                  typeof crypto.getRandomValues === 'function'
+                ? `s-${Array.from(crypto.getRandomValues(new Uint8Array(16)))
+                      .map((byte) => byte.toString(16).padStart(2, '0'))
+                      .join('')}-${Date.now().toString(36)}`
+                : `s-${Date.now().toString(36)}`;
 
     /** True once the initial local-IndexedDB hydration has produced its
      *  first batch of projects (or determined there are none). Reactive
