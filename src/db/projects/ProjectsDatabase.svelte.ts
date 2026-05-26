@@ -238,6 +238,9 @@ export default class ProjectsDatabase {
 
         // Don't persist back to the local database, since we just read them from disk.
         // If it's a tutorial project, mark it as local saves only.
+        // fromCloud=false: this is our own IndexedDB cache rehydrating,
+        // not a peer/backend writing — the cache may trail the in-memory
+        // Y.Doc, so track() must skip foldRemoteCRDT for these.
         for (const project of projects) {
             this.track(
                 project,
@@ -246,6 +249,7 @@ export default class ProjectsDatabase {
                     ? PersistenceType.Local
                     : PersistenceType.Online,
                 true,
+                false,
             );
         }
     }
@@ -457,12 +461,21 @@ export default class ProjectsDatabase {
      * @param project The project to cache and track
      * @param editable Whether the project should be editable or read only
      * @param persist Whether this change should be persisted to the local and cloud databases
+     * @param saved Whether the project is already known to be persisted in its final destination
+     * @param fromCloud True iff this call is reacting to the Firestore
+     *   listener delivering a doc — i.e. the project *did* come from a
+     *   different replica, so falling back to its sources when its CRDT
+     *   snapshot is missing or stale makes sense. False when called from
+     *   the local IndexedDB liveQuery (where the project is just our own
+     *   yesterday-self and treating it as authoritative could clobber
+     *   the in-memory Y.Doc that already has fresher edits).
      * */
     track(
         project: Project,
         editable: boolean,
         persist: PersistenceType,
         saved: boolean,
+        fromCloud: boolean = true,
     ): ProjectHistory | undefined {
         if (editable) {
             // If we're not tracking this yet, create a history and store the version given.
@@ -497,8 +510,41 @@ export default class ProjectsDatabase {
             // so we don't lose pre-migration edits.
             else {
                 const current = history.getCurrent();
-                const merged = current.mergeWith(project);
-                if (!merged.equals(current)) {
+                let merged = current.mergeWith(project);
+
+                // mergeWith deliberately keeps local sources because
+                // the Yjs CRDT is supposed to be the authoritative
+                // merge for source code. But that only works while the
+                // CRDT is *active* — i.e., the user has the project
+                // open in a ProjectView. For an inactive project,
+                // there's no Y.Doc to fold the remote's bytes into,
+                // and a backend rewrite (Cloud Function, character
+                // rename, admin-side edit) would never reach the local
+                // source. Fall back to the legacy "later timestamp
+                // wins" rule for sources in that case so the project
+                // doesn't silently render the pre-rewrite text the
+                // next time it's opened.
+                if (
+                    fromCloud &&
+                    !this.projectCRDTs.has(project.getID()) &&
+                    project.getTimestamp() > current.getTimestamp()
+                ) {
+                    merged = merged.withSourcesFrom(project);
+                }
+
+                // Edit if anything user-visible changed, OR if the
+                // remote bumped our timestamp. Project.equals only
+                // compares id/name/sources, so a stamp-merge that
+                // updated `timestamp` (Math.max of both sides) goes
+                // unnoticed otherwise — and the next save would
+                // write our project back to the cloud with the
+                // pre-merge timestamp, looking older than the doc
+                // that's already there. That's how a backend
+                // rewrite's fresh timestamp gets reverted to ours.
+                if (
+                    !merged.equals(current) ||
+                    merged.getTimestamp() > current.getTimestamp()
+                ) {
                     history.edit(merged, true);
                 }
                 // If live coediting is active for this project, also
@@ -508,7 +554,14 @@ export default class ProjectsDatabase {
                 // bytes converges the two replicas to the same source
                 // text without coordination, even if the remote has
                 // edits we don't yet know about and vice versa.
-                this.foldRemoteCRDT(project);
+                //
+                // Skipped on the local-cache rehydration path: an
+                // IndexedDB livequery firing with our own pre-edit
+                // snapshot would otherwise look like a "remote with
+                // older sources and no CRDT" and trigger foldRemote's
+                // source-text fallback, clobbering the Y.Doc that
+                // already has fresher content.
+                if (fromCloud) this.foldRemoteCRDT(project);
             }
 
             // Activate or tear down the CRDT session based on whether the
@@ -932,14 +985,53 @@ export default class ProjectsDatabase {
     private foldRemoteCRDT(remote: Project): void {
         const crdt = this.projectCRDTs.get(remote.getID());
         if (crdt === undefined) return;
+
+        const remoteSources = remote.getSources();
+
+        // Snapshot of the Y.Doc text per source *before* we fold any
+        // remote bytes. We need this to tell apart two scenarios that
+        // both leave Y.Doc text disagreeing with remote.code:
+        //   (a) the snapshot fed Yjs real new operations and the
+        //       merge interleaved them with ours by clientID — Y.Doc
+        //       text is the authoritative converged state, even
+        //       though it doesn't match remote.code byte-for-byte.
+        //   (b) the snapshot was stale (or missing) and the remote's
+        //       fresh source.code came in via a non-CRDT write — we
+        //       must replay that text into the Y.Doc ourselves or
+        //       the editor will never see it.
+        const beforeApply = remoteSources.map((_, i) => crdt.getCode(i));
+
         const snapshot = remote.getCRDTSnapshot();
-        if (snapshot === null || snapshot.length === 0) return;
-        try {
-            const bytes = decodeCRDTSnapshot(snapshot);
-            crdt.applyRemoteUpdate(bytes);
-        } catch (err) {
-            console.error('Failed to fold remote CRDT snapshot', err);
+        if (snapshot !== null && snapshot.length > 0) {
+            try {
+                const bytes = decodeCRDTSnapshot(snapshot);
+                crdt.applyRemoteUpdate(bytes);
+            } catch (err) {
+                console.error('Failed to fold remote CRDT snapshot', err);
+            }
         }
+
+        // For each source: if applying the snapshot already moved the
+        // Y.Doc, we're in case (a) — trust Yjs. If the Y.Doc is
+        // unchanged AND still doesn't match remote.code, we're in
+        // case (b) — non-CRDT writer (Cloud Function rename,
+        // admin-side write, test helper writing `sources` directly,
+        // pre-v8 client). Apply that text as a 'remote' edit so the
+        // Y.Doc → Source bridge in activateCRDT lands it in history
+        // and the editor re-renders.
+        const tracked = this.lastCRDTCodes.get(remote.getID()) ?? [];
+        let trackedChanged = false;
+        for (let i = 0; i < remoteSources.length; i++) {
+            const postApplyCode = crdt.getCode(i);
+            const remoteCode = remoteSources[i].code.toString();
+            if (postApplyCode === remoteCode) continue;
+            const snapshotChangedSource = postApplyCode !== beforeApply[i];
+            if (snapshotChangedSource) continue;
+            crdt.applyLocalEdit(i, postApplyCode, remoteCode, 'remote');
+            tracked[i] = remoteCode;
+            trackedChanged = true;
+        }
+        if (trackedChanged) this.lastCRDTCodes.set(remote.getID(), tracked);
     }
 
     /** If a CRDT session is active for this project, return a copy of the

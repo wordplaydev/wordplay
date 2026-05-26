@@ -931,6 +931,26 @@ export default class Project {
         });
     }
 
+    /**
+     * Return a copy of this project with `main`, `supplements`, and
+     * `carets` taken from `other`. Used by the merge layer when the
+     * Yjs CRDT isn't active to drive source convergence — the remote's
+     * source structure is treated as authoritative and dropped into
+     * our merged metadata. Carets are intentionally swapped along
+     * with the sources because they hold `Source` references that
+     * are only valid against the source identities they came from;
+     * keeping our local carets would leave them pointing into the
+     * old Source objects.
+     */
+    withSourcesFrom(other: Project): Project {
+        return new Project({
+            ...this.data,
+            main: other.data.main,
+            supplements: other.data.supplements,
+            carets: other.data.carets,
+        });
+    }
+
     withRevisedNodes(nodes: [Node, Node | undefined][]) {
         const replacementSources: [Source, Source, CaretPosition][] = [];
 
