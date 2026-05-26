@@ -510,16 +510,15 @@ export default class ProjectsDatabase {
             // so we don't lose pre-migration edits.
             else {
                 const current = history.getCurrent();
-                console.log(
-                    '[crdt-debug] track existing',
-                    project.getID().slice(0, 8),
-                    'fromCloud=' + fromCloud,
-                    'crdtActive=' + this.projectCRDTs.has(project.getID()),
-                    'localCode=' + JSON.stringify(current.getSources()[0]?.code.toString().slice(0, 40)),
-                    'remoteCode=' + JSON.stringify(project.getSources()[0]?.code.toString().slice(0, 40)),
-                    'localTs=' + current.getTimestamp(),
-                    'remoteTs=' + project.getTimestamp(),
-                );
+                // Capture before mergeWith advances `current`'s timestamp to
+                // max(local, remote) — foldRemoteCRDT needs the *pre-merge*
+                // local timestamp to tell apart a fresh non-CRDT writer
+                // (remote ≥ local: apply remote text) from a stale echo of
+                // an earlier save while we have newer unpublished local
+                // typing (remote < local: skip case (b), which would
+                // otherwise roll back the Y.Doc to the snapshot's older
+                // code).
+                const localTimestampBeforeMerge = current.getTimestamp();
                 let merged = current.mergeWith(project);
 
                 // mergeWith deliberately keeps local sources because
@@ -571,7 +570,8 @@ export default class ProjectsDatabase {
                 // older sources and no CRDT" and trigger foldRemote's
                 // source-text fallback, clobbering the Y.Doc that
                 // already has fresher content.
-                if (fromCloud) this.foldRemoteCRDT(project);
+                if (fromCloud)
+                    this.foldRemoteCRDT(project, localTimestampBeforeMerge);
             }
 
             // Activate or tear down the CRDT session based on whether the
@@ -638,22 +638,9 @@ export default class ProjectsDatabase {
      * free.
      */
     activateCRDT(projectID: string): void {
-        if (this.projectCRDTs.has(projectID)) {
-            console.log('[crdt-debug] activateCRDT no-op (already active)', projectID.slice(0, 8));
-            return;
-        }
+        if (this.projectCRDTs.has(projectID)) return;
         const project = this.projectHistories.get(projectID)?.getCurrent();
-        if (project === undefined) {
-            console.log('[crdt-debug] activateCRDT bail (no history)', projectID.slice(0, 8));
-            return;
-        }
-        console.log(
-            '[crdt-debug] activateCRDT',
-            projectID.slice(0, 8),
-            'session=' + this.sessionID.slice(0, 8),
-            'hasSnapshot=' + (project.getCRDTSnapshot() !== null),
-            'sourceCode=' + JSON.stringify(project.getSources()[0]?.code.toString().slice(0, 40)),
-        );
+        if (project === undefined) return;
 
         const sources = project.getSources();
         const codes = sources.map((s) => s.code.toString());
@@ -705,13 +692,6 @@ export default class ProjectsDatabase {
         // own local edits (those are already in the Source the user
         // is typing in, and applyCRDTDiff put them in the Y.Text).
         crdt.onChange((sourceIndex, code, origin) => {
-            console.log(
-                '[crdt-debug] bridge onChange',
-                projectID.slice(0, 8),
-                'src=' + sourceIndex,
-                'origin=' + String(origin),
-                'newCode=' + JSON.stringify(code.slice(0, 40)),
-            );
             if (origin !== 'remote') return;
             const history = this.projectHistories.get(projectID);
             if (history === undefined) return;
@@ -719,11 +699,7 @@ export default class ProjectsDatabase {
             const sourcesNow = current.getSources();
             const source = sourcesNow[sourceIndex];
             if (source === undefined) return;
-            if (source.code.toString() === code) {
-                console.log('[crdt-debug] bridge no-op: Source.code already matches');
-                return;
-            }
-            console.log('[crdt-debug] bridge editing Source');
+            if (source.code.toString() === code) return;
 
             // Build a new Source with the merged code, keeping the
             // existing names. Replace it in the project.
@@ -1030,12 +1006,12 @@ export default class ProjectsDatabase {
      * into) or when the remote has no snapshot to apply (it's still
      * a solo or never-promoted project on that side).
      */
-    private foldRemoteCRDT(remote: Project): void {
+    private foldRemoteCRDT(
+        remote: Project,
+        localTimestampBeforeMerge: number,
+    ): void {
         const crdt = this.projectCRDTs.get(remote.getID());
-        if (crdt === undefined) {
-            console.log('[crdt-debug] foldRemoteCRDT bail: no Y.Doc', remote.getID().slice(0, 8));
-            return;
-        }
+        if (crdt === undefined) return;
 
         const remoteSources = remote.getSources();
 
@@ -1070,26 +1046,26 @@ export default class ProjectsDatabase {
         // pre-v8 client). Apply that text as a 'remote' edit so the
         // Y.Doc → Source bridge in activateCRDT lands it in history
         // and the editor re-renders.
+        // Case (b) is only safe when the remote project doc is at least
+        // as fresh as our local in-memory project was *before* this
+        // snapshot's merge bumped it. Otherwise the snapshot is a stale
+        // echo of an earlier save (e.g. our own or a peer's) that
+        // doesn't yet include local typing we've done since — applying
+        // it would roll back the Y.Doc to the older code and silently
+        // delete those unpublished characters. The legitimate case-(b)
+        // scenarios (Cloud Function rename, admin-SDK rewrite, pre-v8
+        // client) all carry a fresh `timestamp` and pass this gate.
+        const remoteIsFreshEnoughForCaseB =
+            remote.getTimestamp() >= localTimestampBeforeMerge;
         const tracked = this.lastCRDTCodes.get(remote.getID()) ?? [];
         let trackedChanged = false;
         for (let i = 0; i < remoteSources.length; i++) {
             const postApplyCode = crdt.getCode(i);
             const remoteCode = remoteSources[i].code.toString();
-            console.log(
-                '[crdt-debug] fold src[' + i + ']',
-                remote.getID().slice(0, 8),
-                'snapshotLen=' + (snapshot?.length ?? 0),
-                'before=' + JSON.stringify(beforeApply[i]?.slice(0, 40)),
-                'post=' + JSON.stringify(postApplyCode.slice(0, 40)),
-                'remote=' + JSON.stringify(remoteCode.slice(0, 40)),
-            );
             if (postApplyCode === remoteCode) continue;
             const snapshotChangedSource = postApplyCode !== beforeApply[i];
-            if (snapshotChangedSource) {
-                console.log('[crdt-debug] fold src[' + i + '] case (a): trust Yjs merge');
-                continue;
-            }
-            console.log('[crdt-debug] fold src[' + i + '] case (b): applyLocalEdit remote');
+            if (snapshotChangedSource) continue;
+            if (!remoteIsFreshEnoughForCaseB) continue;
             crdt.applyLocalEdit(i, postApplyCode, remoteCode, 'remote');
             tracked[i] = remoteCode;
             trackedChanged = true;

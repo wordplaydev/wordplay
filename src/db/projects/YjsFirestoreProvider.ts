@@ -101,28 +101,12 @@ export default class YjsFirestoreProvider {
         // auth) skip the listener entirely — Firestore would reject
         // every addDoc anyway, so producing the events would just spam
         // the console and burn quota.
-        console.log(
-            '[crdt-debug] provider ctor',
-            this.projectID.slice(0, 8),
-            'me=' + this.writer.slice(0, 8),
-            'writable=' + this.writable,
-        );
         if (this.writable) {
             const yDoc = this.getYDoc();
             const updateHandler = (
                 update: Uint8Array,
                 origin: unknown,
             ): void => {
-                console.log(
-                    '[crdt-debug] provider local handler',
-                    this.projectID.slice(0, 8),
-                    'me=' + this.writer.slice(0, 8),
-                    'origin=' + String(origin),
-                    'updateLen=' + update.length,
-                    'stopped=' + this.stopped,
-                    'paused=' + this.paused,
-                    'forbidden=' + this.writeForbidden,
-                );
                 if (origin === 'remote') return;
                 if (this.stopped) return;
                 this.pendingUpdates.push(update);
@@ -148,35 +132,12 @@ export default class YjsFirestoreProvider {
                 for (const change of snapshot.docChanges()) {
                     if (change.type !== 'added') continue;
                     const id = change.doc.id;
-                    const data = change.doc.data() as UpdateDoc;
-                    const fromCache = snapshot.metadata.fromCache;
                     if (this.ownDocIDs.has(id)) {
-                        console.log(
-                            '[crdt-debug] provider skip own (by id)',
-                            this.projectID.slice(0, 8),
-                            'me=' + this.writer.slice(0, 8),
-                            'fromCache=' + fromCache,
-                        );
                         this.ownDocIDs.delete(id);
                         continue;
                     }
-                    if (data.writer === this.writer) {
-                        console.log(
-                            '[crdt-debug] provider skip own (by writer)',
-                            this.projectID.slice(0, 8),
-                            'me=' + this.writer.slice(0, 8),
-                            'fromCache=' + fromCache,
-                        );
-                        continue;
-                    }
-                    console.log(
-                        '[crdt-debug] provider applyRemoteUpdate',
-                        this.projectID.slice(0, 8),
-                        'me=' + this.writer.slice(0, 8),
-                        'from=' + data.writer.slice(0, 8),
-                        'seq=' + data.seq,
-                        'fromCache=' + fromCache,
-                    );
+                    const data = change.doc.data() as UpdateDoc;
+                    if (data.writer === this.writer) continue;
                     try {
                         this.crdt.applyRemoteUpdate(base64ToBytes(data.bytes));
                     } catch (err) {
@@ -242,14 +203,6 @@ export default class YjsFirestoreProvider {
     }
 
     private async flush(): Promise<void> {
-        console.log(
-            '[crdt-debug] provider flush enter',
-            this.projectID.slice(0, 8),
-            'me=' + this.writer.slice(0, 8),
-            'pending=' + this.pendingUpdates.length,
-            'paused=' + this.paused,
-            'forbidden=' + this.writeForbidden,
-        );
         if (this.pendingUpdates.length === 0) return;
         if (this.paused || this.writeForbidden) return;
         // Y.mergeUpdatesV2 is always available; the previous ternary
@@ -273,13 +226,6 @@ export default class YjsFirestoreProvider {
                 payload,
             );
             this.ownDocIDs.add(ref.id);
-            console.log(
-                '[crdt-debug] provider published',
-                this.projectID.slice(0, 8),
-                'me=' + this.writer.slice(0, 8),
-                'seq=' + payload.seq,
-                'bytes=' + payload.bytes.length,
-            );
         } catch (err) {
             // permission-denied is terminal: the Firestore rule will say
             // no for every subsequent attempt this session, so retrying
