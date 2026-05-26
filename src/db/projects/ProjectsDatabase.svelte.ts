@@ -692,31 +692,14 @@ export default class ProjectsDatabase {
         // own local edits (those are already in the Source the user
         // is typing in, and applyCRDTDiff put them in the Y.Text).
         crdt.onChange((sourceIndex, code, origin) => {
-            console.log(
-                '[crdt-debug] bridge onChange',
-                projectID.slice(0, 8),
-                'src=' + sourceIndex,
-                'origin=' + String(origin),
-                'newCode=' + JSON.stringify(code.slice(0, 60)),
-            );
             if (origin !== 'remote') return;
             const history = this.projectHistories.get(projectID);
-            if (history === undefined) {
-                console.log('[crdt-debug] bridge bail: no history');
-                return;
-            }
+            if (history === undefined) return;
             const current = history.getCurrent();
             const sourcesNow = current.getSources();
             const source = sourcesNow[sourceIndex];
-            if (source === undefined) {
-                console.log('[crdt-debug] bridge bail: no source at index');
-                return;
-            }
-            if (source.code.toString() === code) {
-                console.log('[crdt-debug] bridge no-op: code matches');
-                return;
-            }
-            console.log('[crdt-debug] bridge editing Source');
+            if (source === undefined) return;
+            if (source.code.toString() === code) return;
 
             // Build a new Source with the merged code, keeping the
             // existing names. Replace it in the project.
@@ -1063,39 +1046,26 @@ export default class ProjectsDatabase {
         // pre-v8 client). Apply that text as a 'remote' edit so the
         // Y.Doc → Source bridge in activateCRDT lands it in history
         // and the editor re-renders.
+        // Case (b) is only safe when the remote project doc is at least
+        // as fresh as our local in-memory project was *before* this
+        // snapshot's merge bumped it. Otherwise the snapshot is a stale
+        // echo of an earlier save (e.g. our own or a peer's) that
+        // doesn't yet include local typing we've done since — applying
+        // it would roll back the Y.Doc to the older code and silently
+        // delete those unpublished characters. The legitimate case-(b)
+        // scenarios (Cloud Function rename, admin-SDK rewrite, pre-v8
+        // client) all carry a fresh `timestamp` and pass this gate.
         const remoteIsFreshEnoughForCaseB =
             remote.getTimestamp() >= localTimestampBeforeMerge;
-        console.log(
-            '[crdt-debug] foldRemoteCRDT',
-            remote.getID().slice(0, 8),
-            'snapshotLen=' + (snapshot?.length ?? 0),
-            'remoteTs=' + remote.getTimestamp(),
-            'preMergeLocalTs=' + localTimestampBeforeMerge,
-            'fresh=' + remoteIsFreshEnoughForCaseB,
-        );
         const tracked = this.lastCRDTCodes.get(remote.getID()) ?? [];
         let trackedChanged = false;
         for (let i = 0; i < remoteSources.length; i++) {
             const postApplyCode = crdt.getCode(i);
             const remoteCode = remoteSources[i].code.toString();
-            console.log(
-                '[crdt-debug] fold src[' + i + ']',
-                remote.getID().slice(0, 8),
-                'before=' + JSON.stringify(beforeApply[i]?.slice(0, 60)),
-                'post=' + JSON.stringify(postApplyCode.slice(0, 60)),
-                'remote=' + JSON.stringify(remoteCode.slice(0, 60)),
-            );
             if (postApplyCode === remoteCode) continue;
             const snapshotChangedSource = postApplyCode !== beforeApply[i];
-            if (snapshotChangedSource) {
-                console.log('[crdt-debug] fold case (a)');
-                continue;
-            }
-            if (!remoteIsFreshEnoughForCaseB) {
-                console.log('[crdt-debug] fold case (b) SKIPPED — stale remote');
-                continue;
-            }
-            console.log('[crdt-debug] fold case (b) APPLY');
+            if (snapshotChangedSource) continue;
+            if (!remoteIsFreshEnoughForCaseB) continue;
             crdt.applyLocalEdit(i, postApplyCode, remoteCode, 'remote');
             tracked[i] = remoteCode;
             trackedChanged = true;
