@@ -61,6 +61,7 @@ This week we focused on multilingual coding features, improved conflict resoluti
 - 🚦 We fixed a bug where one syntax error could show up as two duplicate warnings.
 - 📖 We fixed a bug where how-to's didn't show up for people with access to many galleries, like teachers with lots of classes.
 - 📝 We fixed two bugs with the editor on iPhone and iPad that made it impossible to type.
+- 🎨 Safari now renders color emoji correctly in markup.
 
 ## 0.18.0 - 2026-05-15
 

@@ -94,6 +94,25 @@
     font-weight: 400;
     font-display: block;
     src: url(/fonts/NotoEmoji/NotoEmoji-400.woff2) format('woff2');
+    /* Restrict to true emoji codepoints only. ASCII keycap-base
+       codepoints (U+23 #, U+2A *, U+30-39 digits, U+A9 ©, U+AE ®,
+       U+2122 ™, etc.) are intentionally excluded: claiming them
+       would let this font shadow Noto Sans for normal text/digits in
+       any cascade that lists either emoji font before Sans (e.g.
+       PhraseView's CSSFallbackFaces and the MarkupHTMLView override),
+       breaking spacing of plain text. Keep this in sync with the
+       Color Emoji @font-face below. Trade-off: keycap emoji (1️⃣) and
+       a few legacy color symbols render monochrome. */
+    unicode-range:
+        U+200D, U+20E3,
+        U+2194-21FF,
+        U+2300-23FF,
+        U+2460-24FF, U+2500-25FF, U+2600-26FF, U+2700-27BF,
+        U+2900-29FF, U+2B00-2BFF,
+        U+3030, U+303D, U+3297, U+3299,
+        U+FE0E-FE0F,
+        U+1F000-1FFFF,
+        U+E0020-E007F;
 }
 
 @supports (-webkit-hyphens: none) {
@@ -102,7 +121,21 @@
         font-style: normal;
         font-weight: 400;
         font-display: swap;
-        src: url(/fonts/NotoColorEmoji/NotoColorEmoji.svg.ttf);
+        src: url(/fonts/NotoColorEmoji/NotoColorEmoji.svg.ttf)
+            format('truetype');
+        /* True emoji codepoints only — must mirror Noto Emoji's range
+           above so neither font claims ASCII/digit codepoints. See
+           that block's comment for rationale. */
+        unicode-range:
+            U+200D, U+20E3,
+            U+2194-21FF,
+            U+2300-23FF,
+            U+2460-24FF, U+2500-25FF, U+2600-26FF, U+2700-27BF,
+            U+2900-29FF, U+2B00-2BFF,
+            U+3030, U+303D, U+3297, U+3299,
+            U+FE0E-FE0F,
+            U+1F000-1FFFF,
+            U+E0020-E007F;
     }
     body {
         --google-font-color-notocoloremoji: colrv1;
