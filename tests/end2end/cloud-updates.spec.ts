@@ -95,9 +95,17 @@ test('changing a character name updates its project references', async ({
     // navigating away. This proves the Firestore snapshot has been delivered
     // to the in-memory Projects store; otherwise the rename below may run
     // against a stale project that has no reference to revise.
+    //
+    // 15s timeout (not the 5s default) because the propagation path on
+    // Firefox CI runners is consistently slower than Chromium:
+    // Firestore listener → mergeWith → foldRemoteCRDT → Y.Doc
+    // applyLocalEdit('remote') → onChange listener → history.edit →
+    // Svelte reactivity → DOM. Each hop is fast individually, but the
+    // chain stacks up under CI load and the deterministic-seed dance
+    // that ProjectCRDT.fromSources does for Firefox adds extra work.
     await expect(
         page.getByTestId('editor').first(),
-    ).toContainText(`@${initialCharacterNameFull}`);
+    ).toContainText(`@${initialCharacterNameFull}`, { timeout: 15_000 });
 
     // Now, rename the character
     await page.goto(`/en-US/character/${characterId}`);
