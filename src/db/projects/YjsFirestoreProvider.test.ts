@@ -106,6 +106,29 @@ describe('YjsFirestoreProvider — data-loss prevention on stop', () => {
         expect(addDoc).not.toHaveBeenCalled();
     });
 
+    test('writable=false skips publish entirely — read-only mode for viewers/commenters', async () => {
+        // The proactive guard: when the caller knows the session
+        // isn't allowed to write (isEditable returned false), the
+        // provider should not even attach the local→remote listener.
+        // Local edits become no-ops from Firestore's perspective, and
+        // addDoc is never reached. The snapshot listener still
+        // subscribes (viewers + commenters can read /updates per
+        // firestore.rules) so peers' edits arrive normally.
+        const crdt = ProjectCRDT.fromSources(['x']);
+        const provider = new YjsFirestoreProvider(
+            fakeDb,
+            'project-readonly',
+            crdt,
+            'writer-A',
+            false,
+        );
+
+        crdt.applyLocalEdit(0, 'x', 'xy', 'local');
+        crdt.applyLocalEdit(0, 'xy', 'xyz', 'local');
+        await provider.stop();
+        expect(addDoc).not.toHaveBeenCalled();
+    });
+
     test('permission-denied is terminal — no retry, no console.error spam', async () => {
         // Reproduces the production-log issue: a viewer/commenter
         // session typed into a project they didn't own; every flush

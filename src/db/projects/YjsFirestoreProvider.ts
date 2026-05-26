@@ -55,13 +55,24 @@ export default class YjsFirestoreProvider {
     private stopped = false;
     private paused = false;
 
-    /** Set true after a publish returns `permission-denied`. The Firestore
-     *  rule for `/updates` create only admits owners + collaborators, so a
-     *  viewer/commenter (or any session whose auth state lags behind the
-     *  project's contributor list) sees every flush rejected. Retrying
-     *  spams the console and burns quota — once we've learned the answer
-     *  is "no", drop further publishes silently. The snapshot listener
-     *  keeps running so the user still sees peers' edits arrive. */
+    /** True when this provider may publish local edits. Set at
+     *  construction from the caller's editability check (owner or
+     *  collaborator per `firestore.rules`). When false, the local→remote
+     *  update handler is never attached and `flush` is a no-op, so a
+     *  viewer/commenter session never produces an addDoc that Firestore
+     *  rules would reject. The snapshot listener still runs so the user
+     *  sees peers' edits — read access is granted to the broader
+     *  read-allowed set (commenters, viewers, mods) by the rule. */
+    private readonly writable: boolean;
+
+    /** Defense-in-depth flag set when a publish actually returns
+     *  `permission-denied`. The constructor-time `writable` check is the
+     *  primary gate, but session-level changes (a collaborator removed
+     *  mid-session, an auth-token refresh that resets claims, a clock
+     *  skew between client and rule evaluation) can still race past it.
+     *  Once Firestore says no, drop further publishes silently rather
+     *  than retrying each one — that's the path that used to spam the
+     *  console. */
     private writeForbidden = false;
 
     /** Update bytes we just published — used to skip re-applying our own
@@ -73,29 +84,41 @@ export default class YjsFirestoreProvider {
         projectID: string,
         crdt: ProjectCRDT,
         writer: string,
+        writable: boolean = true,
     ) {
         this.db = db;
         this.projectID = projectID;
         this.crdt = crdt;
         this.writer = writer;
+        this.writable = writable;
         this.attach();
     }
 
     private attach(): void {
-        // Local → remote: queue every non-remote Y.Doc update for publish.
-        const yDoc = this.getYDoc();
-        const updateHandler = (update: Uint8Array, origin: unknown): void => {
-            if (origin === 'remote') return;
-            if (this.stopped) return;
-            this.pendingUpdates.push(update);
-            this.scheduleFlush();
-        };
-        // V2 format throughout — the encode/apply/merge calls below
-        // are all V2, so we must listen on `updateV2` not `update`.
-        // See the comment in ProjectCRDT's constructor for the
-        // RangeError this mismatch produces.
-        yDoc.on('updateV2', updateHandler);
-        this.detachLocal = () => yDoc.off('updateV2', updateHandler);
+        // Local → remote: queue every non-remote Y.Doc update for
+        // publish, but only when this session is allowed to write.
+        // Read-only sessions (viewers, commenters, anonymous, unhydrated
+        // auth) skip the listener entirely — Firestore would reject
+        // every addDoc anyway, so producing the events would just spam
+        // the console and burn quota.
+        if (this.writable) {
+            const yDoc = this.getYDoc();
+            const updateHandler = (
+                update: Uint8Array,
+                origin: unknown,
+            ): void => {
+                if (origin === 'remote') return;
+                if (this.stopped) return;
+                this.pendingUpdates.push(update);
+                this.scheduleFlush();
+            };
+            // V2 format throughout — the encode/apply/merge calls
+            // below are all V2, so we must listen on `updateV2` not
+            // `update`. See the comment in ProjectCRDT's constructor
+            // for the RangeError this mismatch produces.
+            yDoc.on('updateV2', updateHandler);
+            this.detachLocal = () => yDoc.off('updateV2', updateHandler);
+        }
 
         // Remote → local: subscribe to the updates subcollection.
         this.unsubscribe = onSnapshot(

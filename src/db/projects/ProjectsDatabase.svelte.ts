@@ -725,11 +725,25 @@ export default class ProjectsDatabase {
         // presence tracker would write to a single shared presence doc
         // that both tabs treat as self. Per-tab IDs fix both.
         if (firestore !== undefined) {
+            // Only owners and collaborators are allowed to write to the
+            // `/updates` subcollection (see firestore.rules). For
+            // viewers, commenters, or any session that doesn't pass
+            // hasContributor — including the brief window where auth
+            // hasn't hydrated and getUser() is still null — we activate
+            // the provider in *read-only* mode: it subscribes to peers'
+            // updates so the editor reflects live changes, but it never
+            // tries to publish. Without this, every local Y.Doc tick
+            // (caret moves don't fire Y.Doc updates, but any path that
+            // does — paste, programmatic source rewrites in shared
+            // helpers, eventual auth lag) would have addDoc rejected
+            // by the rule and log a permission-denied error.
+            const writable = this.isEditable(project);
             const provider = new YjsFirestoreProvider(
                 firestore,
                 projectID,
                 crdt,
                 this.sessionID,
+                writable,
             );
             this.crdtProviders.set(projectID, provider);
 
