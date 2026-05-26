@@ -1,5 +1,5 @@
 H
-SentenceLength
+"SentenceLength"/en"句子长度"/zh-CN"句子長度"/zh-TW
 ===
 sentence: Chat()
 length: Chat().length()
