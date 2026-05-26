@@ -17,6 +17,7 @@ vi.mock('@db/projects/ProjectsDatabase.svelte', () => ({
     ProjectsCollection: 'projects',
 }));
 
+import { FirebaseError } from 'firebase/app';
 import { addDoc } from 'firebase/firestore';
 import ProjectCRDT from './ProjectCRDT';
 import YjsFirestoreProvider from './YjsFirestoreProvider';
@@ -103,5 +104,47 @@ describe('YjsFirestoreProvider — data-loss prevention on stop', () => {
         // in case a stray update event slips in during teardown.)
         crdt.applyLocalEdit(0, 'x', 'xy', 'local');
         expect(addDoc).not.toHaveBeenCalled();
+    });
+
+    test('permission-denied is terminal — no retry, no console.error spam', async () => {
+        // Reproduces the production-log issue: a viewer/commenter
+        // session typed into a project they didn't own; every flush
+        // tried to addDoc and Firestore rules rejected each one.
+        // Pre-fix, the catch re-queued the bytes and re-scheduled,
+        // producing one error per keystroke for the rest of the
+        // session.
+        (addDoc as ReturnType<typeof vi.fn>).mockImplementation(
+            async () => {
+                throw new FirebaseError(
+                    'permission-denied',
+                    'Missing or insufficient permissions.',
+                );
+            },
+        );
+        const consoleError = vi
+            .spyOn(console, 'error')
+            .mockImplementation(() => undefined);
+        const consoleWarn = vi
+            .spyOn(console, 'warn')
+            .mockImplementation(() => undefined);
+
+        const crdt = ProjectCRDT.fromSources(['x']);
+        const provider = new YjsFirestoreProvider(
+            fakeDb,
+            'project-5',
+            crdt,
+            'writer-A',
+        );
+
+        crdt.applyLocalEdit(0, 'x', 'xa', 'local');
+        await provider.stop();
+        // First edit attempted once and refused.
+        expect(addDoc).toHaveBeenCalledTimes(1);
+        // Logged as a single warning, never as a recurring error.
+        expect(consoleWarn).toHaveBeenCalledTimes(1);
+        expect(consoleError).not.toHaveBeenCalled();
+
+        consoleError.mockRestore();
+        consoleWarn.mockRestore();
     });
 });

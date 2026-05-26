@@ -1,3 +1,4 @@
+import { FirebaseError } from 'firebase/app';
 import {
     addDoc,
     collection,
@@ -53,6 +54,15 @@ export default class YjsFirestoreProvider {
     private seqCounter = 0;
     private stopped = false;
     private paused = false;
+
+    /** Set true after a publish returns `permission-denied`. The Firestore
+     *  rule for `/updates` create only admits owners + collaborators, so a
+     *  viewer/commenter (or any session whose auth state lags behind the
+     *  project's contributor list) sees every flush rejected. Retrying
+     *  spams the console and burns quota — once we've learned the answer
+     *  is "no", drop further publishes silently. The snapshot listener
+     *  keeps running so the user still sees peers' edits arrive. */
+    private writeForbidden = false;
 
     /** Update bytes we just published — used to skip re-applying our own
      *  writes when they come back through the snapshot listener. */
@@ -146,8 +156,10 @@ export default class YjsFirestoreProvider {
     private scheduleFlush(): void {
         // Refuse to schedule after stop() — otherwise an addDoc failure
         // during the final flush would re-queue and re-schedule, firing
-        // after the provider was supposed to be torn down.
-        if (this.stopped) return;
+        // after the provider was supposed to be torn down. Also refuse
+        // once we've learned this session can't write; further attempts
+        // would just rediscover the same permission-denied error.
+        if (this.stopped || this.writeForbidden) return;
         if (this.flushTimer !== undefined) return;
         this.flushTimer = setTimeout(() => {
             this.flushTimer = undefined;
@@ -169,7 +181,7 @@ export default class YjsFirestoreProvider {
 
     private async flush(): Promise<void> {
         if (this.pendingUpdates.length === 0) return;
-        if (this.paused) return;
+        if (this.paused || this.writeForbidden) return;
         // Y.mergeUpdatesV2 is always available; the previous ternary
         // silently dropped tail updates when it was misconfigured.
         const merged = Y.mergeUpdatesV2(this.pendingUpdates);
@@ -192,8 +204,26 @@ export default class YjsFirestoreProvider {
             );
             this.ownDocIDs.add(ref.id);
         } catch (err) {
+            // permission-denied is terminal: the Firestore rule will say
+            // no for every subsequent attempt this session, so retrying
+            // just spams the console and burns quota. Drop the pending
+            // bytes, mark the provider write-forbidden, and stay
+            // subscribed for incoming updates so the user still sees
+            // peers' edits.
+            if (
+                err instanceof FirebaseError &&
+                err.code === 'permission-denied'
+            ) {
+                this.writeForbidden = true;
+                this.pendingUpdates = [];
+                console.warn(
+                    'YjsFirestoreProvider: write denied by Firestore rules; ' +
+                        'further local edits will not publish for this session.',
+                );
+                return;
+            }
             console.error('YjsFirestoreProvider publish failed', err);
-            // Re-queue so we retry on the next flush.
+            // Transient error — re-queue and retry on the next flush.
             this.pendingUpdates.unshift(merged);
             this.scheduleFlush();
         }

@@ -649,14 +649,7 @@
 
         // Clear any existing large deletion notification when user clicks to clear selection
         setLargeDeletionNotification?.(null);
-        // Mouse/pen: suppress native text-selection and focus stealing on
-        // pointerdown. Touch: do NOT preventDefault on touchstart — iOS Safari
-        // uses the tap gesture itself (touchstart→touchend) to decide whether
-        // to keep the on-screen keyboard up after our programmatic .focus().
-        // Cancelling the default cancels its tap-to-focus heuristic, so the
-        // keyboard appears briefly and is then dismissed at touchend. A small
-        // drag bypasses the heuristic, which is why drag retains focus.
-        if (event.pointerType !== 'touch') event.preventDefault();
+        event.preventDefault();
         event.stopPropagation();
 
         placeCaretAt(event);
@@ -2009,6 +2002,22 @@
 <svelte:window onblur={handleRelease} />
 
 <!--
+    iOS Safari preserves document.activeElement across a backgrounded tab
+    (switching apps, locking the device, etc.) even though the on-screen
+    keyboard is gone. On return, the next tap calls grabFocus(), but
+    setKeyboardFocus's "already focused" short-circuit then skips .focus()
+    so the keyboard never reappears — until the user taps something else
+    first to move activeElement off the textarea. Blurring on visibility
+    change resets the state so the next tap re-focuses cleanly.
+-->
+<svelte:document
+    onvisibilitychange={() => {
+        if (document.hidden && input && document.activeElement === input)
+            input.blur();
+    }}
+/>
+
+<!--
     Has ARIA role text box to allow keyboard keys to go through
     All NodeViews are set to role="presentation"
     We use the live region above
@@ -2039,6 +2048,17 @@
     onpointerup={handleRelease}
     onpointermove={handlePointerMove}
     onpointerleave={handlePointerLeave}
+    onmousedown={(event) => {
+        // iOS Safari fires synthetic mousedown after a touchend even though
+        // we handled the gesture via pointer events, and the default action
+        // of that synthetic mousedown blurs the (programmatically focused)
+        // textarea — which is what dismisses the on-screen keyboard a
+        // moment after a tap. Calling preventDefault here cancels that
+        // focus side-effect. Real mouse/pen mousedown is already suppressed
+        // by the preventDefault on pointerdown, so the only events that
+        // reach this handler in practice are the touch-synthesized ones.
+        event.preventDefault();
+    }}
     onkeydown={handleKeyDown}
     ondblclick={(event) => {
         event.stopPropagation();
