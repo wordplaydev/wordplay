@@ -132,12 +132,35 @@ export default class YjsFirestoreProvider {
                 for (const change of snapshot.docChanges()) {
                     if (change.type !== 'added') continue;
                     const id = change.doc.id;
+                    const data = change.doc.data() as UpdateDoc;
+                    const fromCache = snapshot.metadata.fromCache;
                     if (this.ownDocIDs.has(id)) {
+                        console.log(
+                            '[crdt-debug] provider skip own (by id)',
+                            this.projectID.slice(0, 8),
+                            'me=' + this.writer.slice(0, 8),
+                            'fromCache=' + fromCache,
+                        );
                         this.ownDocIDs.delete(id);
                         continue;
                     }
-                    const data = change.doc.data() as UpdateDoc;
-                    if (data.writer === this.writer) continue;
+                    if (data.writer === this.writer) {
+                        console.log(
+                            '[crdt-debug] provider skip own (by writer)',
+                            this.projectID.slice(0, 8),
+                            'me=' + this.writer.slice(0, 8),
+                            'fromCache=' + fromCache,
+                        );
+                        continue;
+                    }
+                    console.log(
+                        '[crdt-debug] provider applyRemoteUpdate',
+                        this.projectID.slice(0, 8),
+                        'me=' + this.writer.slice(0, 8),
+                        'from=' + data.writer.slice(0, 8),
+                        'seq=' + data.seq,
+                        'fromCache=' + fromCache,
+                    );
                     try {
                         this.crdt.applyRemoteUpdate(base64ToBytes(data.bytes));
                     } catch (err) {
@@ -226,6 +249,13 @@ export default class YjsFirestoreProvider {
                 payload,
             );
             this.ownDocIDs.add(ref.id);
+            console.log(
+                '[crdt-debug] provider published',
+                this.projectID.slice(0, 8),
+                'me=' + this.writer.slice(0, 8),
+                'seq=' + payload.seq,
+                'bytes=' + payload.bytes.length,
+            );
         } catch (err) {
             // permission-denied is terminal: the Firestore rule will say
             // no for every subsequent attempt this session, so retrying

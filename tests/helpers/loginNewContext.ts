@@ -54,6 +54,18 @@ export async function loginNewContext(
     });
     const page = await context.newPage();
 
+    // Mirror [crdt-debug] browser console messages to test stdout so they
+    // survive in CI artifacts. Same pattern as the default page fixture.
+    const tap = (p: Page) =>
+        p.on('console', (msg) => {
+            const text = msg.text();
+            if (text.includes('[crdt-debug]'))
+                // eslint-disable-next-line no-console
+                console.log(`[${username}] ${text}`);
+        });
+    tap(page);
+    context.on('page', tap);
+
     // Try login first; on emulator reruns the account already exists.
     await page.goto('/en-US/login');
     await page.locator('#login-username-field').fill(username);

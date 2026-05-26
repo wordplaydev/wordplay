@@ -1,4 +1,4 @@
-import { test as baseTest } from '@playwright/test';
+import { test as baseTest, type Page } from '@playwright/test';
 import fs from 'fs';
 import path from 'path';
 
@@ -9,13 +9,32 @@ function getUsernameForWorker(): string {
     return `user${test.info().parallelIndex}`;
 }
 
+/** Attach a console listener that mirrors [crdt-debug] messages to the test
+ *  output so we can read them out of CI artifacts. */
+function tapCrdtConsole(page: Page, label: string): void {
+    page.on('console', (msg) => {
+        const text = msg.text();
+        if (text.includes('[crdt-debug]')) {
+            // eslint-disable-next-line no-console
+            console.log(`[${label}] ${text}`);
+        }
+    });
+}
+
 export const test = baseTest.extend<
-    { loggedInUsername: string },
+    { loggedInUsername: string; page: Page },
     { workerStorageState: string }
 >({
     // Provide the test username to all tests in this worker.
     loggedInUsername: async ({ }, use) => {
         await use(getUsernameForWorker());
+    },
+    // Tap browser console for [crdt-debug] messages on the default page.
+    page: async ({ page }, use) => {
+        tapCrdtConsole(page, 'page');
+        // Also tap any additional pages opened from the same context.
+        page.context().on('page', (p) => tapCrdtConsole(p, 'tab'));
+        await use(page);
     },
     // Use the same storage state for all tests in this worker.
     storageState: ({ workerStorageState }, use) => use(workerStorageState),
