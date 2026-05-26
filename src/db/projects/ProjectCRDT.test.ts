@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest';
-import ProjectCRDT from './ProjectCRDT';
+import ProjectCRDT, { base64ToBytes } from './ProjectCRDT';
 
 describe('ProjectCRDT', () => {
     test('initializes empty', () => {
@@ -81,5 +81,34 @@ describe('ProjectCRDT', () => {
         const crdt = ProjectCRDT.fromSources([big]);
         crdt.applyLocalEdit(0, big, big + 'z');
         expect(crdt.getCode(0)).toBe(big + 'z');
+    });
+
+    test('two peers seeded independently from the same sources merge without duplicating the seed', () => {
+        // Without the fixed-clientID seed trick in fromSources, each
+        // peer's seed insertion would carry a different (clientID,
+        // counter) and Yjs would interleave them — the merged text
+        // contains the seed *twice*. This test pins the fix in place
+        // for the production "two collaborators open a `crdt: null`
+        // project, both seed locally" scenario.
+        const a = ProjectCRDT.fromSources(['Phrase("hi")']);
+        const b = ProjectCRDT.fromSources(['Phrase("hi")']);
+
+        a.applyLocalEdit(0, 'Phrase("hi")', 'aaPhrase("hi")');
+        b.applyLocalEdit(0, 'Phrase("hi")', 'Phrase("hi")bb');
+
+        // Exchange full snapshots, the way Firestore project-doc
+        // syncs do (each peer's encode() lands in the other's
+        // applyRemoteUpdate via foldRemoteCRDT).
+        const aBytes = a.encode();
+        const bBytes = b.encode();
+        a.applyRemoteUpdate(base64ToBytes(bBytes));
+        b.applyRemoteUpdate(base64ToBytes(aBytes));
+
+        // Both converge to the same string with exactly one copy of
+        // the seed text.
+        expect(a.getCode(0)).toBe(b.getCode(0));
+        expect(a.getCode(0).match(/Phrase\("hi"\)/g)?.length).toBe(1);
+        expect(a.getCode(0)).toContain('aa');
+        expect(a.getCode(0)).toContain('bb');
     });
 });

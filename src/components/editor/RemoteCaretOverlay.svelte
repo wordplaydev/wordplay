@@ -48,8 +48,10 @@
         /** The Source object whose tokens we'll query in the DOM. */
         source: Source;
         /** The editor's root viewport — used as the coordinate origin
-         *  and for clamping the flag within visible bounds. */
-        viewport: HTMLElement | undefined;
+         *  and for clamping the flag within visible bounds. Bind-this
+         *  in Editor.svelte starts at null and switches to the element
+         *  after mount, so null is the pre-mount value to expect. */
+        viewport: HTMLElement | null | undefined;
         /** True when the editor is in block mode (affects substring
          *  measurement + outline shape). */
         blocks: boolean;
@@ -146,7 +148,12 @@
     type PeerOverlay = PeerPoint | PeerRange | PeerNode;
 
     let overlays: PeerOverlay[] = $derived.by(() => {
-        if (tracker === undefined || viewport === undefined) return [];
+        // viewport == null catches both `undefined` (initial render
+        // before the parent's bind:this has fired) and `null` (the
+        // parent's $state declares `editor: HTMLElement | null` with a
+        // null initial value). Firefox surfaces the null-not-undefined
+        // case as a TypeError when accessing clientWidth below.
+        if (tracker === undefined || viewport == null) return [];
         if (crdt === undefined) return [];
         // `now` is read so this $derived re-runs on the heartbeat
         // (Svelte tracks the read; the value itself isn't used).
