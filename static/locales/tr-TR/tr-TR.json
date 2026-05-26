@@ -412,7 +412,7 @@
             "description": "$~biçimlendirmede $name'den söz et",
             "emotion": "serious",
             "doc": [
-                "$~Ben ya \\$program\\ terminolojisine ya da \\$1\\ dinamik girdisine referansım.",
+                "$~Ben ya \\$program\\ terminolojisine ya da \\$name\\ dinamik girdisine referansım.",
                 "$~Bu çoğunlukla dahili bir özellik olduğundan bunu bilmenize gerek yok."
             ]
         },
@@ -6952,8 +6952,8 @@
         },
         "presence": {
             "peersLabel": "$~bu projeyi düzenleyen işbirlikçiler",
-            "joined": "$~$1 katıldı.",
-            "left": "$~$1 kaldı.",
+            "joined": "$~$name katıldı.",
+            "left": "$~$name kaldı.",
             "waitingForSlot": "$~Düzenleme için sıra bekliyorum — dört işbirlikçi zaten düzenleme yapıyor. Birisi ayrıldığında, siz de düzenleme yapabileceksiniz."
         }
     },

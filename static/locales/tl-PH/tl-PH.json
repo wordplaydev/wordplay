@@ -415,7 +415,7 @@
             "description": "$~banggitin ang $name sa markup",
             "emotion": "serious",
             "doc": [
-                "$~Isa akong reperensya sa alinman sa terminolohiyang \\$program\\ o isang dynamic input na \\$1\\.",
+                "$~Isa akong reperensya sa alinman sa terminolohiyang \\$program\\ o isang dynamic input na \\$name\\.",
                 "$~Kadalasan, isa itong panloob na tampok, kaya hindi mo na kailangang malaman pa ito."
             ]
         },
@@ -6963,8 +6963,8 @@
         },
         "presence": {
             "peersLabel": "$~mga kolaborator na nag-eedit ng proyektong ito",
-            "joined": "$~Sumali $1 .",
-            "left": "$~$1 lang ang natitira.",
+            "joined": "$~Sumali $name .",
+            "left": "$~$name lang ang natitira.",
             "waitingForSlot": "$~Naghihintay ng slot sa pag-eedit — apat na kolaborator ang nag-eedit na. Kapag umalis ang isa, makakapag-edit ka na rin."
         }
     },

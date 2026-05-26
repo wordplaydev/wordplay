@@ -6962,8 +6962,8 @@
         },
         "presence": {
             "peersLabel": "$~colaboratori care editează acest proiect",
-            "joined": "$~$1 s-a alăturat.",
-            "left": "$~A mai rămas $1 .",
+            "joined": "$~$name s-a alăturat.",
+            "left": "$~A mai rămas $name .",
             "waitingForSlot": "$~Aștept un interval orar de editare — patru colaboratori editează deja. Când unul dintre ei pleacă, vei putea edita și tu."
         }
     },

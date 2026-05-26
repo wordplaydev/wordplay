@@ -6965,8 +6965,8 @@
         },
         "presence": {
             "peersLabel": "$~kolaborator yang menyunting proyek ini",
-            "joined": "$~Bergabung dengan biaya $1 .",
-            "left": "$~Sisa $1 .",
+            "joined": "$~Bergabung dengan biaya $name .",
+            "left": "$~Sisa $name .",
             "waitingForSlot": "$~Sedang menunggu giliran mengedit — empat kolaborator sudah sedang mengedit. Saat salah satu dari mereka pergi, Anda juga bisa mengedit."
         }
     },

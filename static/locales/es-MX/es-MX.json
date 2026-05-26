@@ -384,7 +384,7 @@
             "description": "mención $name",
             "emotion": "serious",
             "doc": [
-                "Soy una referencia a la terminología \\$programa\\ o una entrada dinámica \\$1\\.",
+                "Soy una referencia a la terminología \\$programa\\ o una entrada dinámica \\$name\\.",
                 "Sin embargo, esto es principalmente una función interna, así que no deberías necesitar conocerla."
             ]
         },
@@ -6938,8 +6938,8 @@
         },
         "presence": {
             "peersLabel": "$~Colaboradores que editan este proyecto",
-            "joined": "$~$1 se unió.",
-            "left": "$~Queda $1 .",
+            "joined": "$~$name se unió.",
+            "left": "$~Queda $name .",
             "waitingForSlot": "$~Esperando un turno para editar: cuatro colaboradores ya están editando. Cuando uno se vaya, tú también podrás editar."
         }
     },

@@ -672,10 +672,10 @@ type UITexts = {
     presence: {
         /** [plain] ARIA label for the row of collaborator chips in the editor footer */
         peersLabel: string;
-        /** [plain] Announcer message when a peer first appears (joins the project). $1 = peer's display name. */
-        joined: string;
-        /** [plain] Announcer message when a peer's presence falls out of the map (left or went idle). $1 = peer's display name. */
-        left: string;
+        /** [plain] Announcer message when a peer first appears (joins the project). $name is the peer's display name. */
+        joined: Template<['name']>;
+        /** [plain] Announcer message when a peer's presence falls out of the map (left or went idle). $name is the peer's display name. */
+        left: Template<['name']>;
         /** [plain] Banner shown when the local editor can't get a presence slot because the concurrent-editor cap is already reached. */
         waitingForSlot: string;
     };

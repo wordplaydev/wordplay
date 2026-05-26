@@ -412,7 +412,7 @@
             "description": "$~đề cập $name trong đánh dấu",
             "emotion": "serious",
             "doc": [
-                "$~Tôi là tham chiếu đến thuật ngữ \\$program\\ hoặc đầu vào động \\$1\\.",
+                "$~Tôi là tham chiếu đến thuật ngữ \\$program\\ hoặc đầu vào động \\$name\\.",
                 "$~Tuy nhiên, đây chủ yếu là một tính năng nội bộ, vì vậy bạn không cần phải biết đến nó."
             ]
         },
@@ -6956,8 +6956,8 @@
         },
         "presence": {
             "peersLabel": "$~Các cộng tác viên chỉnh sửa dự án này",
-            "joined": "$~$1 tham gia.",
-            "left": "$~Còn lại $1 la.",
+            "joined": "$~$name tham gia.",
+            "left": "$~Còn lại $name la.",
             "waitingForSlot": "$~Đang chờ đến lượt chỉnh sửa — đã có bốn cộng tác viên đang chỉnh sửa. Khi một người rời đi, bạn cũng sẽ có thể chỉnh sửa."
         }
     },

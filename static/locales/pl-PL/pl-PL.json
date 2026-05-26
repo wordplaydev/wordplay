@@ -412,7 +412,7 @@
             "description": "$~wspomnij o $name",
             "emotion": "serious",
             "doc": [
-                "$~Odnoszę się albo do terminologii \\$program\\ albo do dynamicznego wejścia \\$1\\.",
+                "$~Odnoszę się albo do terminologii \\$program\\ albo do dynamicznego wejścia \\$name\\.",
                 "$~Jest to jednak głównie funkcja wewnętrzna, więc nie musisz o tym wiedzieć."
             ]
         },
@@ -6968,8 +6968,8 @@
         },
         "presence": {
             "peersLabel": "$~współpracownicy edytujący ten projekt",
-            "joined": "$~Dołączył(a) $1 .",
-            "left": "$~Pozostał $1 .",
+            "joined": "$~Dołączył(a) $name .",
+            "left": "$~Pozostał $name .",
             "waitingForSlot": "$~Czekam na miejsce na edycję — czterech współpracowników już edytuje. Gdy jeden z nich odejdzie, Ty też będziesz mógł edytować."
         }
     },

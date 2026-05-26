@@ -17494,12 +17494,12 @@
               "description": "Strings shown by the live-presence layer when other people are editing the same project. See PresenceTracker and RemoteCarets.",
               "properties": {
                 "joined": {
-                  "description": "[plain] Announcer message when a peer first appears (joins the project). $1 = peer's display name.",
-                  "type": "string"
+                  "$ref": "#/definitions/Template%3C%5B%22name%22%5D%3E",
+                  "description": "[plain] Announcer message when a peer first appears (joins the project). $name is the peer's display name."
                 },
                 "left": {
-                  "description": "[plain] Announcer message when a peer's presence falls out of the map (left or went idle). $1 = peer's display name.",
-                  "type": "string"
+                  "$ref": "#/definitions/Template%3C%5B%22name%22%5D%3E",
+                  "description": "[plain] Announcer message when a peer's presence falls out of the map (left or went idle). $name is the peer's display name."
                 },
                 "peersLabel": {
                   "description": "[plain] ARIA label for the row of collaborator chips in the editor footer",

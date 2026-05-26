@@ -90,14 +90,23 @@
         const language = $locales.getLanguages()[0];
         for (const peer of peers) {
             if (prev.has(peer.clientID)) continue;
-            const name = nameFor(peer.userID);
-            const template = $locales.getPlainText((l) => l.ui.presence.joined);
-            fn('collaborator', language, template.replace('$1', name));
+            const message = $locales
+                .concretize(
+                    (l) => l.ui.presence.joined,
+                    { name: nameFor(peer.userID) },
+                )
+                .toText();
+            fn('collaborator', language, message);
         }
         for (const id of prev) {
             if (current.has(id)) continue;
-            const template = $locales.getPlainText((l) => l.ui.presence.left);
-            fn('collaborator', language, template.replace('$1', shortFor(id)));
+            const message = $locales
+                .concretize(
+                    (l) => l.ui.presence.left,
+                    { name: shortFor(id) },
+                )
+                .toText();
+            fn('collaborator', language, message);
         }
         knownPeers = current;
     });

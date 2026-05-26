@@ -412,7 +412,7 @@
             "description": "$~nämn $name",
             "emotion": "serious",
             "doc": [
-                "$~Jag är en referens till antingen terminologi \\$program\\ eller en dynamisk ingång \\$1\\.",
+                "$~Jag är en referens till antingen terminologi \\$program\\ eller en dynamisk ingång \\$name\\.",
                 "$~Detta är dock mestadels en intern funktion, så du borde inte behöva veta det."
             ]
         },
@@ -6953,8 +6953,8 @@
         },
         "presence": {
             "peersLabel": "$~samarbetspartners som redigerar detta projekt",
-            "joined": "$~$1 gick med.",
-            "left": "$~$1 kvar.",
+            "joined": "$~$name gick med.",
+            "left": "$~$name kvar.",
             "waitingForSlot": "$~Väntar på en redigeringsplats – fyra medarbetare redigerar redan. När en lämnar kan du också redigera."
         }
     },

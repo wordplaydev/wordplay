@@ -412,7 +412,7 @@
             "description": "$~mencionar $name",
             "emotion": "serious",
             "doc": [
-                "$~Sou uma referência à terminologia \\$program\\ ou a uma entrada dinâmica \\$1\\.",
+                "$~Sou uma referência à terminologia \\$program\\ ou a uma entrada dinâmica \\$name\\.",
                 "$~Trata-se principalmente de uma funcionalidade interna, pelo que não precisa de saber isso."
             ]
         },
@@ -6960,8 +6960,8 @@
         },
         "presence": {
             "peersLabel": "$~colaboradores que editaram este projeto",
-            "joined": "$~A entrada custou $1 .",
-            "left": "$~Resta apenas $1 .",
+            "joined": "$~A entrada custou $name .",
+            "left": "$~Resta apenas $name .",
             "waitingForSlot": "$~Aguarda vaga para edição — quatro colaboradores já estão a editar. Quando um deles sair, também poderá editar."
         }
     },

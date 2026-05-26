@@ -412,7 +412,7 @@
             "description": "$~erwähne $name im Markup",
             "emotion": "serious",
             "doc": [
-                "$~Ich beziehe mich entweder auf die Terminologie \\$program\\ oder auf eine dynamische Eingabe \\$1\\.",
+                "$~Ich beziehe mich entweder auf die Terminologie \\$program\\ oder auf eine dynamische Eingabe \\$name\\.",
                 "$~Dies ist allerdings größtenteils eine interne Funktion, Sie müssen es also nicht kennen."
             ]
         },
@@ -6955,8 +6955,8 @@
         },
         "presence": {
             "peersLabel": "$~Mitarbeiter, die dieses Projekt bearbeiten",
-            "joined": "$~$1 Beitritt.",
-            "left": "$~$1 übrig.",
+            "joined": "$~$name Beitritt.",
+            "left": "$~$name übrig.",
             "waitingForSlot": "$~Warten auf einen Bearbeitungsplatz – vier Mitarbeiter bearbeiten bereits. Sobald einer ausscheidet, können auch Sie bearbeiten."
         }
     },

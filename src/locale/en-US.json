@@ -5972,8 +5972,8 @@
         },
         "presence": {
             "peersLabel": "collaborators editing this project",
-            "joined": "$1 joined.",
-            "left": "$1 left.",
+            "joined": "$name joined.",
+            "left": "$name left.",
             "waitingForSlot": "Waiting for an editing slot — four collaborators are already editing. When one leaves, you'll be able to edit too."
         },
         "palette": {

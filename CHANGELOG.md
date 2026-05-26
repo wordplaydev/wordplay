@@ -6,10 +6,11 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 ## 0.19.0 - 2026-05-23
 
-This week we focused on multilingual coding features, with several bug fixes along the way.
+This week we focused on multilingual coding features, improved conflict resolution, collaborative editing, and several bug fixes.
 
 ### Added
 
+- 🤝 You can now edit a project together with up to four people at the same time. Edits, undo/redo, and other people's carets and selections all sync between collaborators as you type (#135).
 - 🌐 You can now do math with Han numerals for Chinese, Japanese, and Korean (#2), Thai (#6), and Indic numerals for Bengali, Devanagari, Gujarati, Gurmukhi, Kannada, Tamil, and Telugu (#5, #7).
 - 🌐 We added Bengali (#142), Indonesian (#148), and Romanian (#433)!
 - 🌐 The emoji/glyph chooser now lets you filter by language scripts (#322).
