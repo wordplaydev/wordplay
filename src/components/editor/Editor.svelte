@@ -649,7 +649,14 @@
 
         // Clear any existing large deletion notification when user clicks to clear selection
         setLargeDeletionNotification?.(null);
-        event.preventDefault();
+        // Mouse/pen: suppress native text-selection and focus stealing on
+        // pointerdown. Touch: do NOT preventDefault on touchstart — iOS Safari
+        // uses the tap gesture itself (touchstart→touchend) to decide whether
+        // to keep the on-screen keyboard up after our programmatic .focus().
+        // Cancelling the default cancels its tap-to-focus heuristic, so the
+        // keyboard appears briefly and is then dismissed at touchend. A small
+        // drag bypasses the heuristic, which is why drag retains focus.
+        if (event.pointerType !== 'touch') event.preventDefault();
         event.stopPropagation();
 
         placeCaretAt(event);
