@@ -5123,7 +5123,6 @@
                 "$~• עיין ב<galleries@://galleries> להשראה.",
                 "$~אם אתה תקוע,<learn more@://learn> ."
             ],
-            "overwritten": "$~הפרויקט עודכן במקום אחר",
             "confirm": {
                 "delete": {
                     "description": "$~מחק את $source הזה",
@@ -6952,10 +6951,10 @@
             "label": "$~סטטוס חיבור"
         },
         "presence": {
-            "peersLabel": "$?",
-            "joined": "$?",
-            "left": "$?",
-            "waitingForSlot": "$?"
+            "peersLabel": "$~משתפי פעולה עורכים את הפרויקט הזה",
+            "joined": "$~$1 הצטרף.",
+            "left": "$~נשאר $1 .",
+            "waitingForSlot": "$~מחכה למקום עריכה - ארבעה משתפי פעולה כבר עורכים. כאשר אחד מהם יעזוב, תוכלו גם אתם לערוך."
         }
     },
     "moderation": {

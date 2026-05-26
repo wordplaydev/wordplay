@@ -69,15 +69,7 @@
     // after each edit of a project!
     $effect(() => {
         project = history?.getCurrent();
-        if (history?.wasOverwritten()) {
-            overwritten = true;
-            // When overwritten, add the class, then remove it later.
-            setTimeout(() => (overwritten = false), 1000);
-        } else overwritten = false;
     });
-
-    // The project is overwriten if we have a history for it and it says so.
-    let overwritten = $state(false);
 
     // Check if the project is editable by the current user.
     let editable = $derived.by(() => {
@@ -128,7 +120,6 @@
             <ProjectView
                 {project}
                 {editable}
-                {overwritten}
                 warn={!editable}
                 {isCommenter}
             />

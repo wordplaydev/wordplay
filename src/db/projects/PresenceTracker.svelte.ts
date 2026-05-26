@@ -16,7 +16,7 @@ import {
     PRESENCE_HEARTBEAT_MS,
     type PresencePayload,
 } from '@db/projects/ProjectPresence';
-import type { Path } from '@nodes/Root';
+import type { RemoteCaret } from '@db/projects/caretEncoding';
 
 /** Throttle for caret-position publishes. Lower than the heartbeat so
  *  typing-induced caret moves are smooth, but high enough to avoid one
@@ -35,9 +35,10 @@ const PUBLISH_THROTTLE_MS = 150;
  * flag and pauses the CRDT provider so the would-be 5th editor's local
  * edits don't escape into the shared document until a slot opens.
  *
- * Lifecycle: one tracker per editable project, instantiated by
- * ProjectsDatabase.syncCRDTActivation alongside the CRDT session. The
- * tracker is universal (every editable project, even solo ones) so
+ * Lifecycle: view-driven. One tracker per project being actively
+ * viewed in ProjectView, instantiated by
+ * ProjectsDatabase.activateCRDT on mount and torn down by
+ * deactivateCRDT on unmount. We activate even for solo projects so
  * the same user editing on two devices can see each other's caret;
  * solo projects with no actual remote peers simply produce an empty
  * map and the UI layer suppresses presence chrome.
@@ -64,8 +65,21 @@ export class PresenceTracker {
 
     private readonly db: Firestore;
     private readonly projectID: string;
-    private readonly clientID: string;
-    private readonly userID: string | null;
+    /** Per-tab session identifier — readable from components that need
+     *  to include the local clientID in their unique-color assignment
+     *  (see {@link assignDistinctColors}). */
+    readonly clientID: string;
+    /**
+     * A getter, not a value snapshot. Firebase Auth's IndexedDB state
+     * hydrates asynchronously: depending on browser timing, this
+     * tracker may be constructed during the brief window before
+     * `onAuthStateChanged` fires and `Database.user` is populated. If
+     * we captured userID at construction we'd permanently see `null`
+     * and the publish guard below would skip every heartbeat forever.
+     * Reading it through the getter on each publish picks up the
+     * signed-in user as soon as auth settles.
+     */
+    private readonly getUserID: () => string | null;
 
     private subUnsub: Unsubscribe | undefined = undefined;
     private heartbeatTimer: ReturnType<typeof setInterval> | undefined =
@@ -74,19 +88,19 @@ export class PresenceTracker {
     private publishTimer: ReturnType<typeof setTimeout> | undefined = undefined;
 
     private currentSourceIndex = -1;
-    private currentCaret: number | Path | [number, number] | null = null;
+    private currentCaret: RemoteCaret = null;
     private stopped = false;
 
     constructor(
         db: Firestore,
         projectID: string,
         clientID: string,
-        userID: string | null,
+        getUserID: () => string | null,
     ) {
         this.db = db;
         this.projectID = projectID;
         this.clientID = clientID;
-        this.userID = userID;
+        this.getUserID = getUserID;
         this.attach();
     }
 
@@ -142,11 +156,11 @@ export class PresenceTracker {
         void this.publishNow();
     }
 
-    /** Update what we're advertising for the local user's caret. Throttled. */
-    updateCaret(
-        sourceIndex: number,
-        caret: number | Path | [number, number] | null,
-    ): void {
+    /** Update what we're advertising for the local user's caret. The
+     *  caret is passed in already encoded by the caller — the tracker
+     *  treats it as opaque transport since only the editor (which has
+     *  the Y.Text needed for the encoding) can produce one. Throttled. */
+    updateCaret(sourceIndex: number, caret: RemoteCaret): void {
         this.currentSourceIndex = sourceIndex;
         this.currentCaret = caret;
         if (this.publishTimer !== undefined) return;
@@ -164,8 +178,11 @@ export class PresenceTracker {
 
         // Anonymous users don't publish presence — they can still subscribe
         // and see who's editing, but won't appear in others' peer lists.
-        // Matches the design call: "Require sign-in to coedit".
-        if (this.userID === null) return;
+        // Matches the design call: "Require sign-in to coedit". Reading
+        // through the getter (not a cached value) catches the case where
+        // auth hydrates slightly after this tracker was constructed.
+        const userID = this.getUserID();
+        if (userID === null) return;
 
         // Live-presence cap: if we haven't yet claimed a slot and there are
         // already MAX-1 other peers (so adding us would exceed the cap),
@@ -177,7 +194,7 @@ export class PresenceTracker {
 
         const payload: PresencePayload = {
             clientID: this.clientID,
-            userID: this.userID,
+            userID,
             sourceIndex: this.currentSourceIndex,
             caret: this.currentCaret,
             color: pickColorForClient(this.clientID),

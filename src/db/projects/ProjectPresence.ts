@@ -1,5 +1,5 @@
 import { BCTKeys, type BCTKey } from '@output/BasicColors';
-import type { Path } from '@nodes/Root';
+import type { RemoteCaret } from './caretEncoding';
 
 /**
  * "Presence" in collaborative editing means: who else is here, where is
@@ -52,15 +52,15 @@ export type PresencePayload = {
      *  caret is in. -1 means "not focused on a source" (the user is
      *  in the project view but hasn't entered an editor). */
     sourceIndex: number;
-    /** Caret/selection position within the source. Three shapes — same
-     *  as SerializedCaret in ProjectSchemas.ts:
-     *    - `number`: a text-mode character offset (most common).
-     *    - `Path[]`: a block-mode node selection, by walking the AST
-     *      down a sequence of (type, index) hops from the root.
-     *    - `[number, number]`: a text-mode selection range.
-     *  RemoteCaretOverlay renders a floating caret line only for the
-     *  `number` case; the other two get the footer chip but no overlay. */
-    caret: number | Path | [number, number] | null;
+    /** Caret/selection position within the source, encoded so it
+     *  survives concurrent edits — see {@link RemoteCaret}. Text-mode
+     *  positions use Yjs RelativePositions (anchored to content, not
+     *  integer indices) and node-mode positions use AST Paths (with
+     *  nearest-ancestor fallback on the receiver). Both are decoded
+     *  against the receiver's local Y.Doc / Source to produce the
+     *  current rendering position, not the position the publisher
+     *  originally typed. */
+    caret: RemoteCaret;
     /** One of Wordplay's eleven Basic Color Terms (Berlin & Kay 1969).
      *  Deterministic from clientID so the same person keeps the same
      *  color across reloads and devices. The chromatic eight (not
@@ -90,28 +90,94 @@ export const PRESENCE_STALE_MS = 10_000;
  */
 export const PRESENCE_HEARTBEAT_MS = 5_000;
 
+/** The chromatic-only palette we draw from for presence colors. The
+ *  achromatic three (black/white/gray) are excluded because they're
+ *  hard to spot against the editor background. */
+const PRESENCE_PALETTE: readonly BCTKey[] = BCTKeys.filter(
+    (k) => k !== 'black' && k !== 'white' && k !== 'gray',
+);
+
 /**
- * Map a clientID to one of the eight chromatic Basic Color Terms (no
- * black/white/gray — those are hard to spot against the editor
- * background). The mapping is deterministic so the same person keeps
- * the same color forever, which is what lets a teacher (or screen
- * reader) recognize them across sessions: "the Cyan student" stays
- * Cyan tomorrow.
+ * Hash a clientID to its preferred Basic Color Term. Deterministic so
+ * a given person keeps the same preferred color across sessions, which
+ * is what lets a teacher (or screen reader) recognize them: "the Cyan
+ * student" stays Cyan tomorrow as long as no other present collaborator
+ * also prefers Cyan.
  *
  * Using the BCT palette specifically (and not, say, an HSL hash) means
  * every color has a translated name in every locale Wordplay supports,
  * so Announcer can speak it correctly.
+ *
+ * Use {@link assignDistinctColors} when displaying multiple peers — it
+ * starts from this preference but guarantees the assigned colors are
+ * pairwise distinct within the visible peer set.
  */
 export function pickColorForClient(clientID: string): BCTKey {
-    const chromatic: BCTKey[] = BCTKeys.filter(
-        (k) => k !== 'black' && k !== 'white' && k !== 'gray',
-    );
-    // Simple hash — distribution across 8 buckets is good enough for the
-    // 2–4 collaborators we cap projects at.
     let hash = 0;
     for (let i = 0; i < clientID.length; i++)
         hash = (hash * 31 + clientID.charCodeAt(i)) >>> 0;
-    return chromatic[hash % chromatic.length];
+    return PRESENCE_PALETTE[hash % PRESENCE_PALETTE.length];
+}
+
+/**
+ * Assign a unique color to every clientID in `clientIDs`, sorted-and-
+ * greedy from {@link pickColorForClient} preferences. With the
+ * 4-concurrent-editor cap and 8 chromatic colors, every peer is
+ * guaranteed a distinct color.
+ *
+ * # Why local-derivation rather than per-tracker self-assignment
+ *
+ * If every tracker just hashed its own clientID and published the
+ * result, two peers could land on the same color whenever their
+ * hashes collide (birthday paradox: ~22% for 4 peers in 8 buckets).
+ * Coordinating a unique assignment across replicas in real-time
+ * would need a server arbiter — overkill.
+ *
+ * Instead, *each viewer* recomputes the assignment locally from the
+ * union of {its own clientID} ∪ {visible peer clientIDs}, sorted.
+ * The sort + greedy traversal is deterministic, so every viewer that
+ * sees the same peer set arrives at the same assignment — peer X
+ * therefore appears as the same color in every tab, while remaining
+ * distinct from every other concurrent peer. Including the local
+ * clientID in the sort matters: it reserves the local user's slot so
+ * their color (the one others see) doesn't shift around as peers
+ * join and leave.
+ *
+ * # Stability under join/leave
+ *
+ * When a peer joins, only colors of peers whose preferred matches the
+ * newcomer's preferred can shift; everyone else keeps their color.
+ * When a peer leaves, no remaining peer changes color (greedy
+ * assignment is monotonic on a shrinking set).
+ */
+export function assignDistinctColors(
+    clientIDs: readonly string[],
+): Map<string, BCTKey> {
+    const sorted = [...clientIDs].sort();
+    const assignment = new Map<string, BCTKey>();
+    const used = new Set<BCTKey>();
+
+    for (const id of sorted) {
+        const preferred = pickColorForClient(id);
+        if (!used.has(preferred)) {
+            assignment.set(id, preferred);
+            used.add(preferred);
+            continue;
+        }
+        // The preferred slot is taken by an earlier-sorted clientID;
+        // pick the next palette color that no one else has yet.
+        const next = PRESENCE_PALETTE.find((c) => !used.has(c));
+        if (next === undefined) {
+            // More peers than palette colors — should never happen
+            // under the 4-editor cap, but degrade gracefully to the
+            // preferred color rather than throwing.
+            assignment.set(id, preferred);
+            continue;
+        }
+        assignment.set(id, next);
+        used.add(next);
+    }
+    return assignment;
 }
 
 /** True when this presence record is old enough to hide from the UI.

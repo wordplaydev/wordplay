@@ -5131,7 +5131,6 @@
                 "$~• Jelajahi<galleries@://galleries> untuk inspirasi.",
                 "$~Jika Anda mengalami kesulitan,<learn more@://learn> ."
             ],
-            "overwritten": "$~Proyek direvisi di tempat lain",
             "confirm": {
                 "delete": {
                     "description": "$~hapus $source ini",
@@ -6965,10 +6964,10 @@
             "label": "$~Status koneksi"
         },
         "presence": {
-            "peersLabel": "$?",
-            "joined": "$?",
-            "left": "$?",
-            "waitingForSlot": "$?"
+            "peersLabel": "$~kolaborator yang menyunting proyek ini",
+            "joined": "$~Bergabung dengan biaya $1 .",
+            "left": "$~Sisa $1 .",
+            "waitingForSlot": "$~Sedang menunggu giliran mengedit — empat kolaborator sudah sedang mengedit. Saat salah satu dari mereka pergi, Anda juga bisa mengedit."
         }
     },
     "moderation": {

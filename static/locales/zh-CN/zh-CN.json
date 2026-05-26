@@ -4830,7 +4830,6 @@
                 "$~• 浏览<galleries@://galleries>寻找灵感。",
                 "$~如果你遇到困难，<learn more@://learn> 。"
             ],
-            "overwritten": "收到了更新版本！",
             "confirm": {
                 "delete": {
                     "description": "删除此$source",
@@ -6887,10 +6886,10 @@
             "label": "$~连接状态"
         },
         "presence": {
-            "peersLabel": "$?",
-            "joined": "$?",
-            "left": "$?",
-            "waitingForSlot": "$?"
+            "peersLabel": "$~参与本项目编辑的合作者",
+            "joined": "$~加入费用为$1 。",
+            "left": "$~还剩$1 。",
+            "waitingForSlot": "$~正在等待剪辑名额——目前已有四位合作者在剪辑。当其中一位离开后，您也可以进行剪辑。"
         }
     },
     "moderation": {

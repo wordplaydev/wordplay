@@ -80,8 +80,12 @@ export default class YjsFirestoreProvider {
             this.pendingUpdates.push(update);
             this.scheduleFlush();
         };
-        yDoc.on('update', updateHandler);
-        this.detachLocal = () => yDoc.off('update', updateHandler);
+        // V2 format throughout — the encode/apply/merge calls below
+        // are all V2, so we must listen on `updateV2` not `update`.
+        // See the comment in ProjectCRDT's constructor for the
+        // RangeError this mismatch produces.
+        yDoc.on('updateV2', updateHandler);
+        this.detachLocal = () => yDoc.off('updateV2', updateHandler);
 
         // Remote → local: subscribe to the updates subcollection.
         this.unsubscribe = onSnapshot(
@@ -140,6 +144,10 @@ export default class YjsFirestoreProvider {
     }
 
     private scheduleFlush(): void {
+        // Refuse to schedule after stop() — otherwise an addDoc failure
+        // during the final flush would re-queue and re-schedule, firing
+        // after the provider was supposed to be torn down.
+        if (this.stopped) return;
         if (this.flushTimer !== undefined) return;
         this.flushTimer = setTimeout(() => {
             this.flushTimer = undefined;
@@ -162,9 +170,9 @@ export default class YjsFirestoreProvider {
     private async flush(): Promise<void> {
         if (this.pendingUpdates.length === 0) return;
         if (this.paused) return;
-        const merged = Y.mergeUpdatesV2
-            ? Y.mergeUpdatesV2(this.pendingUpdates)
-            : this.pendingUpdates[0];
+        // Y.mergeUpdatesV2 is always available; the previous ternary
+        // silently dropped tail updates when it was misconfigured.
+        const merged = Y.mergeUpdatesV2(this.pendingUpdates);
         this.pendingUpdates = [];
         const payload: UpdateDoc = {
             bytes: bytesToBase64(merged),
@@ -191,14 +199,45 @@ export default class YjsFirestoreProvider {
         }
     }
 
-    /** Stop publishing and unsubscribe from the subcollection. */
-    stop(): void {
+    /**
+     * Stop publishing and unsubscribe from the subcollection.
+     *
+     * Before tearing down we flush any pending updates that the
+     * debounce timer hadn't gotten to yet. Without this, a user
+     * navigating away from a project within the 200ms publish window
+     * after a keystroke would silently drop those updates on the
+     * floor for connected peers — the local Y.Doc still has the
+     * edits and {@link ProjectsDatabase.deactivateCRDT} persists the
+     * snapshot, so they're not lost from the project itself, but
+     * peers actively viewing this project would not see them through
+     * the realtime subcollection listener until the next time someone
+     * triggered a snapshot read. Flushing closes that gap.
+     *
+     * When `paused` is true (the local user was waiting for a
+     * concurrent-editor slot and never got one), we deliberately do
+     * NOT publish — the at-cap design says their edits shouldn't
+     * escape the local replica. Those edits still survive locally
+     * because they're in the Y.Doc and deactivateCRDT writes the
+     * snapshot to the project doc, where peers will see them via
+     * the next project-doc onSnapshot.
+     */
+    async stop(): Promise<void> {
         if (this.stopped) return;
         this.stopped = true;
         this.detachLocal();
         if (this.flushTimer !== undefined) {
             clearTimeout(this.flushTimer);
             this.flushTimer = undefined;
+        }
+        if (this.pendingUpdates.length > 0 && !this.paused) {
+            try {
+                await this.flush();
+            } catch (err) {
+                console.error(
+                    'YjsFirestoreProvider stop: final flush failed',
+                    err,
+                );
+            }
         }
         if (this.unsubscribe !== undefined) {
             this.unsubscribe();

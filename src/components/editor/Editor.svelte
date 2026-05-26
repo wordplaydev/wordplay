@@ -10,8 +10,12 @@
         type CaretBounds,
     } from '@components/editor/caret/CaretView.svelte';
     import RemoteCaretOverlay from '@components/editor/RemoteCaretOverlay.svelte';
-    import RemoteCarets from '@components/editor/RemoteCarets.svelte';
     import { computeCaretDescriptionPosition } from '@components/editor/caretDescriptionPosition';
+    import {
+        decodeRemoteCaret,
+        encodeRemoteCaret,
+        type RemoteCaret,
+    } from '@db/projects/caretEncoding';
     import {
         type Edit,
         InsertSymbol,
@@ -134,8 +138,6 @@
         setOutputPreview?: () => void;
         /** A function for updating conflicts of interest */
         updateConflicts?: (source: Source, conflicts: Conflict[]) => void;
-        /** Whether the code was revised by another creator */
-        overwritten?: boolean;
         /** Function to set large deletion notification for this editor */
         setLargeDeletionNotification?: (
             message: LocaleTextAccessor | null,
@@ -157,7 +159,6 @@
         conflictsOfInterest = $bindable([]),
         setOutputPreview,
         updateConflicts,
-        overwritten = false,
         setLargeDeletionNotification,
         caretSnapshot = $bindable(undefined),
     }: Props = $props();
@@ -202,21 +203,101 @@
         caretSnapshot = $caret;
     });
 
-    // Publish the local caret position to the PresenceTracker for this
-    // project, so collaborators see where we're editing. No-op when the
-    // project is solo (tracker is undefined). Caret is serialized as
-    // number | Path | [number, number] to match the project's SerializedCaret.
+    /** Narrowing helper: distinguishes a text-mode selection range
+     *  (`[number, number]`) from an AST Path (`{type, index}[]`).
+     *  Array.isArray alone can't tell them apart because both are
+     *  arrays. */
+    function isRangeTuple(v: readonly unknown[]): v is [number, number] {
+        return (
+            v.length === 2 &&
+            typeof v[0] === 'number' &&
+            typeof v[1] === 'number'
+        );
+    }
+
+    // Encoded snapshot of the LOCAL user's caret, kept current with
+    // every caret change. We re-resolve this against the Y.Text after
+    // a remote-origin update so the local caret follows the same
+    // content (or AST node) it was anchored to — just like we do for
+    // peer carets, but for ourselves. Stored in a plain `let` because
+    // Svelte reactivity isn't needed: only the onChange listener
+    // below reads it, and it does so on its own event tick.
+    let localCaretEncoded: RemoteCaret = null;
+
+    // Encode the local caret on every caret change AND publish it to
+    // the PresenceTracker so collaborators see where we're editing.
+    // The encoding (caretEncoding.encodeRemoteCaret) turns text
+    // positions into Yjs RelativePositions anchored to content (not
+    // integer indices), and node positions into AST Paths the
+    // receiver resolves with nearest-ancestor fallback. No-op when
+    // CRDT isn't active for this project — the encoder needs the
+    // Y.Text.
     $effect(() => {
         const c = $caret;
-        const tracker = Projects.getPresenceTracker(project.getID());
-        if (tracker === undefined) return;
+        const crdt = Projects.getProjectCRDT(project.getID());
+        if (crdt === undefined) return;
         const sourceIndex = project.getIndexOfSource(source);
-        const pos = c.position;
-        const serialized =
-            pos instanceof Node
-                ? (source.root.getPath(pos) ?? null)
-                : pos;
-        tracker.updateCaret(sourceIndex, serialized);
+        const yText = crdt.getYText(sourceIndex);
+        const encoded = encodeRemoteCaret(yText, source, c.position);
+        localCaretEncoded = encoded;
+        const tracker = Projects.getPresenceTracker(project.getID());
+        if (tracker !== undefined)
+            tracker.updateCaret(sourceIndex, encoded);
+    });
+
+    // When a remote peer's edit lands, the local user's caret index
+    // would normally stay put — but the content under it has shifted.
+    // Subscribe to the CRDT's onChange and, on remote-origin updates,
+    // decode our encoded snapshot against the now-updated Y.Text to
+    // get the position that anchors to the same content. For
+    // node-mode (Path), resolve through the latest source's root with
+    // the nearest-ancestor fallback baked into decodeRemoteCaret.
+    //
+    // Origin filtering matters: local edits also fire onChange, and
+    // re-applying the snapshot to ourselves would clobber the caret
+    // position the user just typed into. We only re-resolve when the
+    // change came from a peer.
+    $effect(() => {
+        const crdt = Projects.getProjectCRDT(project.getID());
+        if (crdt === undefined) return;
+        const sourceIndex = project.getIndexOfSource(source);
+        if (sourceIndex < 0) return;
+        return crdt.onChange((idx, _code, origin) => {
+            if (idx !== sourceIndex) return;
+            if (origin !== 'remote') return;
+            if (localCaretEncoded === null) return;
+            // The bridge in ProjectsDatabase.activateCRDT has
+            // already replaced the source in history by the time we
+            // run (its listener fires first). Read the post-bridge
+            // source from history rather than from our `source`
+            // closure — the closure source is the pre-merge one and
+            // its AST won't contain the merged content.
+            const latest = Projects.getHistory(project.getID())?.getCurrent();
+            const latestSource = latest?.getSources()[sourceIndex];
+            if (latestSource === undefined) return;
+            const yText = crdt.getYText(idx);
+            const decoded = decodeRemoteCaret(
+                localCaretEncoded,
+                yText,
+                latestSource,
+            );
+            if (decoded === null) return;
+            const current = untrack(() => $caret);
+            if (typeof decoded === 'number') {
+                caret.set(current.withPosition(decoded));
+            } else if (Array.isArray(decoded)) {
+                if (isRangeTuple(decoded)) {
+                    caret.set(current.withPosition(decoded));
+                } else {
+                    // Path — resolve to a Node in the post-merge
+                    // source. decodeRemoteCaret already did the
+                    // nearest-ancestor walk so this path resolves.
+                    const node = latestSource.root.resolvePath(decoded);
+                    if (node !== undefined)
+                        caret.set(current.withPosition(node));
+                }
+            }
+        });
     });
 
     let restoredPosition: CaretPosition | undefined = $state(undefined);
@@ -1933,7 +2014,6 @@
         : 'stepping'}"
     class:readonly={!editable}
     class:focused
-    class:overwritten
     class:dragging={dragCandidate !== undefined || $dragged !== undefined}
     class:density-compact={$blockDensity === 'compact'}
     class:density-spacious={$blockDensity === 'spacious'}
@@ -2085,6 +2165,8 @@
         {source}
         viewport={editor}
         blocks={$blocks}
+        {getNodeView}
+        rtl={$locales.getDirection() === 'rtl'}
     />
     <!--
         This is a localized description of the current caret position, a live region for screen readers,
@@ -2179,33 +2261,9 @@
             </Button>
         </div>
     {/if}
-    <!-- Editor footer: flex-wrap row of collaborator chips. Always
-         mounted; the inner component renders nothing (no footer chrome,
-         no border) when the local user is the only editor — so a solo
-         project shows no collaborative UI at all. The footer wrapper
-         only appears via CSS :has() when RemoteCarets has produced
-         actual content. -->
-    <div class="editor-footer">
-        <RemoteCarets projectID={project.getID()} />
-    </div>
 </div>
 
 <style>
-    /* The footer wrapper is empty when there are no remote peers (a
-       solo user editing alone, or a project with potential collaborators
-       but none currently active). Empty := zero visual footprint. */
-    .editor-footer:not(:empty) {
-        position: sticky;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        background: var(--wordplay-background);
-        border-top: var(--wordplay-border-width) solid
-            var(--wordplay-border-color);
-        white-space: normal;
-        z-index: 6;
-    }
-
     .editor {
         white-space: nowrap;
         line-height: var(--wordplay-code-line-height);
@@ -2320,19 +2378,4 @@
         justify-content: center;
     }
 
-    /** A single cycle color animation to indicate the code was revised. */
-    @keyframes overwritten {
-        0% {
-            background-color: var(--wordplay-highlight-color);
-        }
-
-        100% {
-            background-color: var(--wordplay-background);
-        }
-    }
-
-    .overwritten {
-        animation: overwritten 1s;
-        animation-iteration-count: 1;
-    }
 </style>

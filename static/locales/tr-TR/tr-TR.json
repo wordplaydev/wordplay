@@ -4885,7 +4885,6 @@
                 "$~• Göz atın<galleries@://galleries> İlham almak için.",
                 "$~Eğer sıkışıp kaldıysanız,<learn more@://learn> ."
             ],
-            "overwritten": "$~Proje başka yerde revize edildi",
             "confirm": {
                 "delete": {
                     "description": "$~bu $source'u sil",
@@ -6952,10 +6951,10 @@
             "label": "$~Bağlantı durumu"
         },
         "presence": {
-            "peersLabel": "$?",
-            "joined": "$?",
-            "left": "$?",
-            "waitingForSlot": "$?"
+            "peersLabel": "$~bu projeyi düzenleyen işbirlikçiler",
+            "joined": "$~$1 katıldı.",
+            "left": "$~$1 kaldı.",
+            "waitingForSlot": "$~Düzenleme için sıra bekliyorum — dört işbirlikçi zaten düzenleme yapıyor. Birisi ayrıldığında, siz de düzenleme yapabileceksiniz."
         }
     },
     "moderation": {

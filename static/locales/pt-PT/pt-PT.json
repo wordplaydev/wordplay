@@ -5126,7 +5126,6 @@
                 "$~• Navegue pelo<galleries@://galleries> Para inspiração.",
                 "$~Se estiver preso,<learn more@://learn> ."
             ],
-            "overwritten": "$~Projeto revisto em outro local",
             "confirm": {
                 "delete": {
                     "description": "$~apague este $source",
@@ -6960,10 +6959,10 @@
             "label": "$~Estado da conexão"
         },
         "presence": {
-            "peersLabel": "$?",
-            "joined": "$?",
-            "left": "$?",
-            "waitingForSlot": "$?"
+            "peersLabel": "$~colaboradores que editaram este projeto",
+            "joined": "$~A entrada custou $1 .",
+            "left": "$~Resta apenas $1 .",
+            "waitingForSlot": "$~Aguarda vaga para edição — quatro colaboradores já estão a editar. Quando um deles sair, também poderá editar."
         }
     },
     "moderation": {

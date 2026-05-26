@@ -5131,7 +5131,6 @@
                 "$~• Răsfoiți<galleries@://galleries> pentru inspirație.",
                 "$~Dacă ești blocat,<learn more@://learn> ."
             ],
-            "overwritten": "$~Proiect revizuit în altă parte",
             "confirm": {
                 "delete": {
                     "description": "$~ștergeți această $source",
@@ -6962,10 +6961,10 @@
             "label": "$~Starea conexiunii"
         },
         "presence": {
-            "peersLabel": "$?",
-            "joined": "$?",
-            "left": "$?",
-            "waitingForSlot": "$?"
+            "peersLabel": "$~colaboratori care editează acest proiect",
+            "joined": "$~$1 s-a alăturat.",
+            "left": "$~A mai rămas $1 .",
+            "waitingForSlot": "$~Aștept un interval orar de editare — patru colaboratori editează deja. Când unul dintre ei pleacă, vei putea edita și tu."
         }
     },
     "moderation": {

@@ -5125,7 +5125,6 @@
                 "$~• Duyệt qua<galleries@://galleries> để lấy cảm hứng.",
                 "$~Nếu bạn gặp khó khăn,<learn more@://learn> ."
             ],
-            "overwritten": "$~Dự án đã được chỉnh sửa ở nơi khác.",
             "confirm": {
                 "delete": {
                     "description": "$~xóa nguồn này",
@@ -6956,10 +6955,10 @@
             "label": "$~Trạng thái kết nối"
         },
         "presence": {
-            "peersLabel": "$?",
-            "joined": "$?",
-            "left": "$?",
-            "waitingForSlot": "$?"
+            "peersLabel": "$~Các cộng tác viên chỉnh sửa dự án này",
+            "joined": "$~$1 tham gia.",
+            "left": "$~Còn lại $1 la.",
+            "waitingForSlot": "$~Đang chờ đến lượt chỉnh sửa — đã có bốn cộng tác viên đang chỉnh sửa. Khi một người rời đi, bạn cũng sẽ có thể chỉnh sửa."
         }
     },
     "moderation": {

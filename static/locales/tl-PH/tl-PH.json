@@ -5129,7 +5129,6 @@
                 "$~• Mag-browse sa<galleries@://galleries> para sa inspirasyon.",
                 "$~Kung ikaw ay natigil,<learn more@://learn> ."
             ],
-            "overwritten": "$~Binago ang proyekto sa ibang lugar",
             "confirm": {
                 "delete": {
                     "description": "$~burahin ang $source na ito",
@@ -6963,10 +6962,10 @@
             "label": "$~Katayuan ng koneksyon"
         },
         "presence": {
-            "peersLabel": "$?",
-            "joined": "$?",
-            "left": "$?",
-            "waitingForSlot": "$?"
+            "peersLabel": "$~mga kolaborator na nag-eedit ng proyektong ito",
+            "joined": "$~Sumali $1 .",
+            "left": "$~$1 lang ang natitira.",
+            "waitingForSlot": "$~Naghihintay ng slot sa pag-eedit — apat na kolaborator ang nag-eedit na. Kapag umalis ang isa, makakapag-edit ka na rin."
         }
     },
     "moderation": {

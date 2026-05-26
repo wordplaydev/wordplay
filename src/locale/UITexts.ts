@@ -279,8 +279,6 @@ type UITexts = {
         title: string;
         /** [formatted] The text to show when a source file is empty */
         empty: Template<['symbol']>[];
-        /** [plain] When some other device had a more recent edit that overrode this device's version. */
-        overwritten: string;
         confirm: {
             /** [plain] The confirm button that deletes a source file */
             delete: ConfirmText;

@@ -4868,7 +4868,6 @@
                 "$~• 살펴보세요<galleries@://galleries> 영감을 얻기 위해.",
                 "$~막혔다면,<learn more@://learn> ."
             ],
-            "overwritten": "$~최신 버전을 받았습니다!",
             "confirm": {
                 "delete": {
                     "description": "$~이 $source 삭제",
@@ -6949,10 +6948,10 @@
             "label": "$~연결 상태"
         },
         "presence": {
-            "peersLabel": "$?",
-            "joined": "$?",
-            "left": "$?",
-            "waitingForSlot": "$?"
+            "peersLabel": "$~이 프로젝트를 편집하는 공동 작업자",
+            "joined": "$~$1 이 가입했습니다.",
+            "left": "$~$1 남았습니다.",
+            "waitingForSlot": "$~편집 슬롯을 기다리는 중입니다. 현재 네 명의 공동 작업자가 편집하고 있습니다. 한 명이 나가면 당신도 편집할 수 있습니다."
         }
     },
     "moderation": {

@@ -1594,14 +1594,16 @@ export default class Project {
      * The persisted CRDT snapshot (base64 of `Y.encodeStateAsUpdateV2`),
      * or null when this project has never been touched under v8 yet.
      *
-     * Every project — solo or multi-collaborator — has a CRDT session
-     * activated on load (see ProjectsDatabase.syncCRDTActivation). The
-     * "always on" choice is what fixes the offline-rename + online-
-     * code-edit case for the same user on two devices: stamps merge the
-     * `name` field, and the CRDT character-level-merges the source code,
-     * so neither side's edit is lost. Without CRDT for solo projects,
-     * that same-user-two-devices scenario would fall back to whole-
-     * project last-write-wins and reintroduce #135.
+     * Every project — solo or multi-collaborator — gets a CRDT session
+     * when it's actively viewed (see ProjectsDatabase.activateCRDT,
+     * triggered by ProjectView mount). The "every viewed project"
+     * choice is what fixes the offline-rename + online-code-edit case
+     * for the same user on two devices: stamps merge the `name` field,
+     * and the CRDT character-level-merges the source code, so neither
+     * side's edit is lost. Unviewed projects don't pay the CRDT
+     * runtime cost — their metadata still merges via stamps in
+     * mergeWith on remote sync, and their snapshot stays in this
+     * field for the next time someone opens them.
      */
     getCRDTSnapshot(): string | null {
         return this.data.crdt;

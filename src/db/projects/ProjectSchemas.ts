@@ -207,11 +207,14 @@ const ProjectSchemaV7 = ProjectSchemaV6.omit({ v: true }).extend(
  * what a CRDT does — see ProjectCRDT.ts for the full story.
  *
  * The `crdt` field on the project doc stores a base64-encoded Yjs
- * snapshot of the merged state. Every editable project — solo or
- * multi-collaborator — activates a Y.Doc on load (see
- * ProjectsDatabase.syncCRDTActivation), because the #135 reproduction
- * applies to single users on two devices too. New v8 projects start
- * with `crdt: null` and get a snapshot written on first save.
+ * snapshot of the merged state. Every project that's being actively
+ * viewed in ProjectView gets a Y.Doc spun up against this snapshot
+ * (see ProjectsDatabase.activateCRDT) — including solo projects,
+ * because the #135 reproduction applies to single users on two
+ * devices too. Projects the user isn't viewing don't pay the CRDT
+ * runtime cost; their snapshot just sits in this field until the
+ * next time someone opens them. New v8 projects start with
+ * `crdt: null` and get a snapshot written on first save.
  *
  * `sources[i].code` continues to hold the materialized text — it stays
  * in sync with each Y.Text so older readers still get the right

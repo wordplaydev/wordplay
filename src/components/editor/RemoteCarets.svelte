@@ -1,22 +1,26 @@
 <!--
-  Row of collaborator chips shown in the editor footer when more than one
-  person can edit this project. Each peer is rendered with CreatorView so
-  the chip matches how creators appear elsewhere in the app (character +
-  username), tinted with the peer's deterministic Basic-Color so they can
-  be matched to the floating caret line painted by RemoteCaretOverlay.
+  Row of collaborator chips shown in the editor footer when other people
+  are editing this project. Each peer is rendered with the same
+  CreatorView the rest of the app uses (character + username + chrome
+  border), tinted in the peer's deterministic Basic-Color so the chip
+  matches the floating caret line painted by RemoteCaretOverlay.
 
   Anonymous viewers never appear here — they don't publish presence (see
   PresenceTracker.publishNow). When the local user is currently waiting
-  for a concurrent-editing slot (cap reached), a small notice replaces
-  the chips with a localized "waiting for a slot" message.
+  for a concurrent-editing slot (cap reached), a localized "waiting for
+  a slot" notice replaces the chips.
 -->
 <script lang="ts">
     import CreatorView from '@components/app/CreatorView.svelte';
+    import Notice from '@components/app/Notice.svelte';
     import { getAnnouncer } from '@components/project/Contexts';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import { Creators, locales, Projects } from '@db/Database';
     import type { Creator } from '@db/creators/CreatorDatabase';
-    import { isPresenceStale } from '@db/projects/ProjectPresence';
+    import {
+        assignDistinctColors,
+        isPresenceStale,
+    } from '@db/projects/ProjectPresence';
+    import type { BCTKey } from '@output/BasicColors';
     import { Focals } from '@output/BasicColors';
     import { onDestroy, untrack } from 'svelte';
 
@@ -41,6 +45,20 @@
               ),
     );
 
+    // Locally derive a unique color per peer. Include the local
+    // clientID in the input so the local user's color (the one others
+    // see on us) doesn't accidentally collide with any visible peer.
+    // Every viewer that sees the same peer set arrives at the same
+    // assignment, so a given peer reads as the same color in every
+    // tab — see assignDistinctColors's docs.
+    let colorByClient: Map<string, BCTKey> = $derived.by(() => {
+        if (tracker === undefined) return new Map();
+        return assignDistinctColors([
+            tracker.clientID,
+            ...peers.map((p) => p.clientID),
+        ]);
+    });
+
     // Resolve userID → Creator. Async, cached in this local map; misses are
     // fetched on demand. Anonymous peers (null userID) are skipped.
     let creators: Record<string, Creator | null> = $state({});
@@ -52,8 +70,6 @@
         }
         if (missing.length === 0) return;
         void Creators.getCreatorsByUIDs(missing).then((map) => {
-            // Merge into the reactive map; preserve prior entries so
-            // peers we've already resolved don't flicker.
             const next = { ...untrack(() => creators) };
             for (const [uid, c] of Object.entries(map)) next[uid] = c;
             creators = next;
@@ -75,9 +91,7 @@
         for (const peer of peers) {
             if (prev.has(peer.clientID)) continue;
             const name = nameFor(peer.userID);
-            const template = $locales.getPlainText(
-                (l) => l.ui.presence.joined,
-            );
+            const template = $locales.getPlainText((l) => l.ui.presence.joined);
             fn('collaborator', language, template.replace('$1', name));
         }
         for (const id of prev) {
@@ -105,29 +119,30 @@
 </script>
 
 {#if tracker?.isAtCap}
-    <div class="remote-carets waiting" role="status">
-        <LocalizedText path={(l) => l.ui.presence.waitingForSlot} />
-    </div>
+    <!-- Notice matches the rest of the app's user-facing warnings: same
+         color (error background), same padding, same slide-in transition.
+         It also draws the eye where a plain styled <div> would blend in
+         with the editor's chrome. -->
+    <Notice text={(l) => l.ui.presence.waitingForSlot} />
 {:else if peers.length > 0}
     <ul
         class="remote-carets"
-        aria-label={$locales.getPlainText(
-            (l) => l.ui.presence.peersLabel,
-        )}
+        aria-label={$locales.getPlainText((l) => l.ui.presence.peersLabel)}
     >
         {#each peers as peer (peer.clientID)}
             <li
                 class="peer"
-                style:--peer-color={cssColor(peer.color)}
-                title={peer.userID ?? peer.clientID.slice(0, 6)}
+                style:--peer-color={cssColor(
+                    colorByClient.get(peer.clientID) ?? peer.color,
+                )}
+                title={nameFor(peer.userID)}
             >
-                <span class="swatch" aria-hidden="true"></span>
                 <CreatorView
                     creator={peer.userID === null
                         ? null
                         : (creators[peer.userID] ?? null)}
                     anonymize={false}
-                    chrome={false}
+                    chrome={true}
                 />
             </li>
         {/each}
@@ -142,31 +157,21 @@
         gap: var(--wordplay-spacing);
         list-style: none;
         margin: 0;
-        padding: calc(var(--wordplay-spacing) / 2)
-            var(--wordplay-spacing);
+        padding: calc(var(--wordplay-spacing) / 2) var(--wordplay-spacing);
         font-size: var(--wordplay-small-font-size);
+        /* A border-top visually anchors the presence row to the editor
+           above it; without it the chips appear to float in the gap
+           between the source tile and any siblings below. Same width
+           and color as the rest of the editor chrome so it reads as
+           part of the tile, not a separate band. */
+        border-top: var(--wordplay-border-width) solid
+            var(--wordplay-border-color);
     }
 
-    .remote-carets.waiting {
-        color: var(--wordplay-inactive-color);
-        font-style: italic;
-    }
-
-    .peer {
-        display: inline-flex;
-        align-items: center;
-        gap: calc(var(--wordplay-spacing) / 2);
-        padding: 0 calc(var(--wordplay-spacing) / 2);
-        border-radius: var(--wordplay-border-radius);
-        border: 1px solid var(--peer-color);
-    }
-
-    .swatch {
-        display: inline-block;
-        width: 0.55em;
-        height: 0.55em;
-        border-radius: 50%;
-        background: var(--peer-color);
-        flex: 0 0 auto;
+    /* Tint the chip's chrome border to match the floating caret color.
+       :global is needed because the .creator.chrome class is owned by
+       CreatorView; scoped Svelte styles can't reach it otherwise. */
+    .peer :global(.creator.chrome) {
+        border-color: var(--peer-color);
     }
 </style>

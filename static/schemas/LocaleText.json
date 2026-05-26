@@ -18361,10 +18361,6 @@
                   ],
                   "type": "object"
                 },
-                "overwritten": {
-                  "description": "[plain] When some other device had a more recent edit that overrode this device's version.",
-                  "type": "string"
-                },
                 "title": {
                   "description": "[plain] The label for the code editor toolbar",
                   "type": "string"
@@ -18436,7 +18432,6 @@
                 "label",
                 "title",
                 "empty",
-                "overwritten",
                 "confirm",
                 "toggle",
                 "button",

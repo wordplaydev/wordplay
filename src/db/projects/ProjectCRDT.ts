@@ -63,14 +63,24 @@ export default class ProjectCRDT {
     /** The Yjs document holding per-source Y.Texts. */
     private readonly doc: Y.Doc;
 
-    /** Listeners to call when a Y.Text inside the doc changes locally or remotely. */
+    /** Listeners called when a Y.Text inside the doc changes. They receive
+     *  the originating transaction's tag ('local' / 'remote' / whatever
+     *  applyLocalEdit / applyRemoteUpdate passed) so subscribers can
+     *  filter — typically ignoring 'local' to avoid echoing our own
+     *  edits back into the Project they came from. */
     private readonly listeners = new Set<
-        (sourceIndex: number, code: string) => void
+        (sourceIndex: number, code: string, origin: unknown) => void
     >();
 
     constructor(doc?: Y.Doc) {
         this.doc = doc ?? new Y.Doc();
-        this.doc.on('update', (_update, origin) => this.fire(origin));
+        // Listen on `updateV2` (not `update`) because every encode and
+        // apply path in this class uses Yjs's V2 binary format
+        // (encodeStateAsUpdateV2 / applyUpdateV2 / mergeUpdatesV2).
+        // Mixing V1 events with V2 merging produces a garbage byte
+        // stream that mergeUpdatesV2 decodes as an enormous typed-array
+        // length and crashes with a RangeError.
+        this.doc.on('updateV2', (_update, origin) => this.fire(origin));
     }
 
     /**
@@ -195,10 +205,15 @@ export default class ProjectCRDT {
         return Y.encodeStateAsUpdateV2(this.doc, stateVector);
     }
 
-    /** Subscribe to changes — callback gets (sourceIndex, newCode) for each
-     *  source whose text changed in the update batch. */
+    /** Subscribe to changes — callback gets (sourceIndex, newCode, origin)
+     *  for each source after the Y.Doc emits a transaction. Origin is the
+     *  tag passed by whoever drove the change: 'local' for applyLocalEdit,
+     *  'remote' for applyRemoteUpdate (i.e. an incoming peer update),
+     *  other tags for seeding/init. Subscribers typically only react to
+     *  'remote' to avoid echoing local edits back into the Project they
+     *  came from. */
     onChange(
-        fn: (sourceIndex: number, code: string) => void,
+        fn: (sourceIndex: number, code: string, origin: unknown) => void,
     ): () => void {
         this.listeners.add(fn);
         return () => this.listeners.delete(fn);
@@ -210,7 +225,7 @@ export default class ProjectCRDT {
         this.doc.destroy();
     }
 
-    /** Exposed to the Firestore provider so it can `.on('update', ...)`
+    /** Exposed to the Firestore provider so it can `.on('updateV2', ...)`
      *  and forward binary updates to the realtime subcollection. Treat
      *  this as a low-level handle, not part of the public API. */
     getInternalDoc(): Y.Doc {
@@ -229,14 +244,15 @@ export default class ProjectCRDT {
 
     private fire(origin: unknown): void {
         if (this.listeners.size === 0) return;
+        // Iterate every known source on every doc update. Listeners are
+        // responsible for no-op'ing when the code for a given index
+        // hasn't actually changed since the last fire — the bridge in
+        // ProjectsDatabase.activateCRDT does this by comparing against
+        // the in-memory Project's Source.code.
         for (const index of this.getKnownSourceIndices()) {
             const code = this.getCode(index);
-            for (const fn of this.listeners) fn(index, code);
+            for (const fn of this.listeners) fn(index, code, origin);
         }
-        // origin is exposed via doc.on('update', (_, origin)) — currently
-        // not surfaced to listeners; Stage 3's Firestore provider reads it
-        // directly from the Y.Doc's update event.
-        void origin;
     }
 }
 

@@ -4871,7 +4871,6 @@
                 "$~• Parcourez le<galleries@://galleries> pour vous inspirer.",
                 "$~Si vous êtes bloqué,<learn more@://learn> ."
             ],
-            "overwritten": "$~J'ai reçu une version plus récente !",
             "confirm": {
                 "delete": {
                     "description": "$~supprimer cette $source",
@@ -6959,10 +6958,10 @@
             "label": "$~État de la connexion"
         },
         "presence": {
-            "peersLabel": "$?",
-            "joined": "$?",
-            "left": "$?",
-            "waitingForSlot": "$?"
+            "peersLabel": "$~collaborateurs travaillant sur ce projet",
+            "joined": "$~$1 inscrit.",
+            "left": "$~Il reste $1 .",
+            "waitingForSlot": "$~En attente d'un créneau de montage : quatre collaborateurs sont déjà en train de monter. Dès que l'un d'eux se libère, vous pourrez également participer."
         }
     },
     "moderation": {

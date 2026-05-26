@@ -4867,7 +4867,6 @@
                 "$~• Durchsuchen Sie die<galleries@://galleries> zur Inspiration.",
                 "$~Wenn Sie nicht weiterkommen,<learn more@://learn> Die"
             ],
-            "overwritten": "$~Habe eine aktuellere Version erhalten!",
             "confirm": {
                 "delete": {
                     "description": "$~lösche diese $source",
@@ -6955,10 +6954,10 @@
             "label": "$~Verbindungsstatus"
         },
         "presence": {
-            "peersLabel": "$?",
-            "joined": "$?",
-            "left": "$?",
-            "waitingForSlot": "$?"
+            "peersLabel": "$~Mitarbeiter, die dieses Projekt bearbeiten",
+            "joined": "$~$1 Beitritt.",
+            "left": "$~$1 übrig.",
+            "waitingForSlot": "$~Warten auf einen Bearbeitungsplatz – vier Mitarbeiter bearbeiten bereits. Sobald einer ausscheidet, können auch Sie bearbeiten."
         }
     },
     "moderation": {

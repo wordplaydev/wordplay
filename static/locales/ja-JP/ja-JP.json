@@ -4885,7 +4885,6 @@
                 "$~• 閲覧する<galleries@://galleries>インスピレーションのために。",
                 "$~行き詰まったら、<learn more@://learn> 。"
             ],
-            "overwritten": "$~プロジェクトは他の場所で修正されました",
             "confirm": {
                 "delete": {
                     "description": "$~この$sourceを削除する",
@@ -6949,10 +6948,10 @@
             "label": "$~接続状態"
         },
         "presence": {
-            "peersLabel": "$?",
-            "joined": "$?",
-            "left": "$?",
-            "waitingForSlot": "$?"
+            "peersLabel": "$~このプロジェクトを編集している協力者たち",
+            "joined": "$~参加$1 。",
+            "left": "$~残り$1 。",
+            "waitingForSlot": "$~編集枠が空くのを待っています。すでに4人の共同編集者が編集作業を行っています。誰かが作業を終えたら、あなたも編集できるようになります。"
         }
     },
     "moderation": {

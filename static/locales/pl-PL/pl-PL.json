@@ -4893,7 +4893,6 @@
                 "$~• Przeglądaj<galleries@://galleries> dla inspiracji.",
                 "$~Jeśli utknąłeś,<learn more@://learn> ."
             ],
-            "overwritten": "$~Projekt zmieniony gdzie indziej",
             "confirm": {
                 "delete": {
                     "description": "$~usuń to $source",
@@ -6968,10 +6967,10 @@
             "label": "$~Status połączenia"
         },
         "presence": {
-            "peersLabel": "$?",
-            "joined": "$?",
-            "left": "$?",
-            "waitingForSlot": "$?"
+            "peersLabel": "$~współpracownicy edytujący ten projekt",
+            "joined": "$~Dołączył(a) $1 .",
+            "left": "$~Pozostał $1 .",
+            "waitingForSlot": "$~Czekam na miejsce na edycję — czterech współpracowników już edytuje. Gdy jeden z nich odejdzie, Ty też będziesz mógł edytować."
         }
     },
     "moderation": {

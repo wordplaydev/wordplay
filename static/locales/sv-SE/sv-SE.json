@@ -4885,7 +4885,6 @@
                 "$~• Bläddra bland<galleries@://galleries> för inspiration.",
                 "$~Om du har fastnat,<learn more@://learn> ."
             ],
-            "overwritten": "$~Projektet revideras på annat håll",
             "confirm": {
                 "delete": {
                     "description": "$~ta bort denna $source",
@@ -6953,10 +6952,10 @@
             "label": "$~Anslutningsstatus"
         },
         "presence": {
-            "peersLabel": "$?",
-            "joined": "$?",
-            "left": "$?",
-            "waitingForSlot": "$?"
+            "peersLabel": "$~samarbetspartners som redigerar detta projekt",
+            "joined": "$~$1 gick med.",
+            "left": "$~$1 kvar.",
+            "waitingForSlot": "$~Väntar på en redigeringsplats – fyra medarbetare redigerar redan. När en lämnar kan du också redigera."
         }
     },
     "moderation": {
