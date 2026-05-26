@@ -415,7 +415,7 @@
             "description": "$~banggitin ang $name sa markup",
             "emotion": "serious",
             "doc": [
-                "$~Isa akong reperensya sa alinman sa terminolohiyang \\$program\\ o isang dynamic input na \\$1\\.",
+                "$~Isa akong reperensya sa alinman sa terminolohiyang \\$program\\ o isang dynamic input na \\$name\\.",
                 "$~Kadalasan, isa itong panloob na tampok, kaya hindi mo na kailangang malaman pa ito."
             ]
         },
@@ -5136,7 +5136,6 @@
                 "$~• Mag-browse sa<galleries@://galleries> para sa inspirasyon.",
                 "$~Kung ikaw ay natigil,<learn more@://learn> ."
             ],
-            "overwritten": "$~Binago ang proyekto sa ibang lugar",
             "confirm": {
                 "delete": {
                     "description": "$~burahin ang $source na ito",
@@ -6969,6 +6968,12 @@
             "offline": "$~Naka-offline ka. Hindi gagana ang ilang feature hangga't hindi ka online.",
             "unreachable": "$~Hindi namin makontak ang database ng Wordplay. Hindi gagana ang ilang feature hangga't hindi bumabalik ang koneksyon.",
             "label": "$~Katayuan ng koneksyon"
+        },
+        "presence": {
+            "peersLabel": "$~mga kolaborator na nag-eedit ng proyektong ito",
+            "joined": "$~Sumali $name .",
+            "left": "$~$name lang ang natitira.",
+            "waitingForSlot": "$~Naghihintay ng slot sa pag-eedit — apat na kolaborator ang nag-eedit na. Kapag umalis ang isa, makakapag-edit ka na rin."
         }
     },
     "moderation": {

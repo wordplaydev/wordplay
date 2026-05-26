@@ -17568,6 +17568,35 @@
               ],
               "type": "object"
             },
+            "presence": {
+              "additionalProperties": false,
+              "description": "Strings shown by the live-presence layer when other people are editing the same project. See PresenceTracker and RemoteCarets.",
+              "properties": {
+                "joined": {
+                  "$ref": "#/definitions/Template%3C%5B%22name%22%5D%3E",
+                  "description": "[plain] Announcer message when a peer first appears (joins the project). $name is the peer's display name."
+                },
+                "left": {
+                  "$ref": "#/definitions/Template%3C%5B%22name%22%5D%3E",
+                  "description": "[plain] Announcer message when a peer's presence falls out of the map (left or went idle). $name is the peer's display name."
+                },
+                "peersLabel": {
+                  "description": "[plain] ARIA label for the row of collaborator chips in the editor footer",
+                  "type": "string"
+                },
+                "waitingForSlot": {
+                  "description": "[plain] Banner shown when the local editor can't get a presence slot because the concurrent-editor cap is already reached.",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "peersLabel",
+                "joined",
+                "left",
+                "waitingForSlot"
+              ],
+              "type": "object"
+            },
             "project": {
               "additionalProperties": false,
               "description": "Project settings and controls",
@@ -18446,10 +18475,6 @@
                   ],
                   "type": "object"
                 },
-                "overwritten": {
-                  "description": "[plain] When some other device had a more recent edit that overrode this device's version.",
-                  "type": "string"
-                },
                 "title": {
                   "description": "[plain] The label for the code editor toolbar",
                   "type": "string"
@@ -18521,7 +18546,6 @@
                 "label",
                 "title",
                 "empty",
-                "overwritten",
                 "confirm",
                 "toggle",
                 "button",
@@ -18956,6 +18980,7 @@
             "output",
             "docs",
             "collaborate",
+            "presence",
             "palette",
             "timeline",
             "tour",

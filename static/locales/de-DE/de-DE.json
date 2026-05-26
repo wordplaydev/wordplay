@@ -412,7 +412,7 @@
             "description": "$~erwähne $name im Markup",
             "emotion": "serious",
             "doc": [
-                "$~Ich beziehe mich entweder auf die Terminologie \\$program\\ oder auf eine dynamische Eingabe \\$1\\.",
+                "$~Ich beziehe mich entweder auf die Terminologie \\$program\\ oder auf eine dynamische Eingabe \\$name\\.",
                 "$~Dies ist allerdings größtenteils eine interne Funktion, Sie müssen es also nicht kennen."
             ]
         },
@@ -4874,7 +4874,6 @@
                 "$~• Durchsuchen Sie die<galleries@://galleries> zur Inspiration.",
                 "$~Wenn Sie nicht weiterkommen,<learn more@://learn> Die"
             ],
-            "overwritten": "$~Habe eine aktuellere Version erhalten!",
             "confirm": {
                 "delete": {
                     "description": "$~lösche diese $source",
@@ -6961,6 +6960,12 @@
             "offline": "$~Sie sind offline. Einige Funktionen sind erst verfügbar, wenn Sie online sind.",
             "unreachable": "$~Wir können nicht auf die Wordplay-Datenbank zugreifen. Einige Funktionen sind erst wieder verfügbar, wenn die Verbindung wiederhergestellt ist.",
             "label": "$~Verbindungsstatus"
+        },
+        "presence": {
+            "peersLabel": "$~Mitarbeiter, die dieses Projekt bearbeiten",
+            "joined": "$~$name Beitritt.",
+            "left": "$~$name übrig.",
+            "waitingForSlot": "$~Warten auf einen Bearbeitungsplatz – vier Mitarbeiter bearbeiten bereits. Sobald einer ausscheidet, können auch Sie bearbeiten."
         }
     },
     "moderation": {

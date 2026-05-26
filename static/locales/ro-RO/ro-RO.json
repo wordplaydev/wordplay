@@ -5138,7 +5138,6 @@
                 "$~• Răsfoiți<galleries@://galleries> pentru inspirație.",
                 "$~Dacă ești blocat,<learn more@://learn> ."
             ],
-            "overwritten": "$~Proiect revizuit în altă parte",
             "confirm": {
                 "delete": {
                     "description": "$~ștergeți această $source",
@@ -6968,6 +6967,12 @@
             "offline": "$~Ești offline. Unele funcții nu vor funcționa până când nu ești online.",
             "unreachable": "$~Nu putem accesa baza de date Wordplay. Unele funcții nu vor funcționa până nu se restabilește conexiunea.",
             "label": "$~Starea conexiunii"
+        },
+        "presence": {
+            "peersLabel": "$~colaboratori care editează acest proiect",
+            "joined": "$~$name s-a alăturat.",
+            "left": "$~A mai rămas $name .",
+            "waitingForSlot": "$~Aștept un interval orar de editare — patru colaboratori editează deja. Când unul dintre ei pleacă, vei putea edita și tu."
         }
     },
     "moderation": {

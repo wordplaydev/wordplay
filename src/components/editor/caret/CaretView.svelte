@@ -1030,6 +1030,12 @@
     .caret {
         position: absolute;
         opacity: 0.25;
+        /* Above RemoteCaretOverlay (z-index 4) so the local user's
+           caret is always visible — when a collaborator's caret
+           happens to land on the same position, the local one
+           still reads as the "you are here" indicator and isn't
+           obscured by the peer's flag or line. */
+        z-index: 6;
     }
 
     .focused,

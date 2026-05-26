@@ -45,6 +45,73 @@ service cloud.firestore {
             (resource.data.gallery != null && isCuratorOfProjectInGallery(request.auth.uid, resource.data.gallery))
           );
       allow delete: if request.auth != null && resource.data.owner == request.auth.uid;
+
+      // Realtime CRDT updates for collaborative editing (#135). Each doc is
+      // a small Yjs binary update (base64) emitted by one collaborator's
+      // editor and consumed by all others. Anyone with read access to the
+      // parent project can read its updates; only collaborators + owner
+      // can append updates tagged with their own writer ID.
+      //
+      // Every field access on parent() is guarded with `'X' in parent()`
+      // for the same reason the project-doc rule above guards every
+      // field access on resource.data: pre-v5 project docs predate
+      // `commenters` and `viewers`, and `request.auth.uid in null` is
+      // a CEL evaluation error that fails closed but in a confusing
+      // way. Guarding short-circuits cleanly before any null reach.
+      match /updates/{updateID} {
+        function parent() {
+          return get(/databases/$(database)/documents/projects/$(project)).data;
+        }
+        allow read: if
+          request.auth != null && (
+            ("mod" in request.auth.token && request.auth.token.mod) ||
+            ('owner' in parent() && parent().owner == request.auth.uid) ||
+            ('collaborators' in parent() && request.auth.uid in parent().collaborators) ||
+            ('commenters' in parent() && request.auth.uid in parent().commenters) ||
+            ('viewers' in parent() && request.auth.uid in parent().viewers)
+          );
+        allow create: if
+          request.auth != null && (
+            ('owner' in parent() && parent().owner == request.auth.uid) ||
+            ('collaborators' in parent() && request.auth.uid in parent().collaborators)
+          );
+        // Updates are immutable once written — compaction (Stage 5
+        // follow-up: Cloud Function) replaces them by writing a new
+        // snapshot to the parent doc and deleting consumed updates.
+        allow update: if false;
+        allow delete: if request.auth != null && (
+          ('owner' in parent() && parent().owner == request.auth.uid) ||
+          ("mod" in request.auth.token && request.auth.token.mod)
+        );
+      }
+
+      // Presence: one doc per collaborator's clientID, with their caret
+      // position and a heartbeat lastSeen. Readable by anyone with project
+      // read access; only the writer can write/delete their own doc.
+      match /presence/{clientID} {
+        function parent() {
+          return get(/databases/$(database)/documents/projects/$(project)).data;
+        }
+        allow read: if
+          request.auth != null && (
+            ('public' in parent() && parent().public) ||
+            ('owner' in parent() && parent().owner == request.auth.uid) ||
+            ('collaborators' in parent() && request.auth.uid in parent().collaborators) ||
+            ('commenters' in parent() && request.auth.uid in parent().commenters) ||
+            ('viewers' in parent() && request.auth.uid in parent().viewers)
+          );
+        allow write: if
+          request.auth != null && (
+            ('owner' in parent() && parent().owner == request.auth.uid) ||
+            ('collaborators' in parent() && request.auth.uid in parent().collaborators)
+          ) && 'userID' in request.resource.data
+            && request.resource.data.userID == request.auth.uid;
+        allow delete: if
+          request.auth != null && (
+            ('userID' in resource.data && resource.data.userID == request.auth.uid) ||
+            ('owner' in parent() && parent().owner == request.auth.uid)
+          );
+      }
     }
     match /creators/{uid} {
       allow read, write: if request.auth != null && request.auth.uid == uid;

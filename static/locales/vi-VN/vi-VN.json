@@ -412,7 +412,7 @@
             "description": "$~đề cập $name trong đánh dấu",
             "emotion": "serious",
             "doc": [
-                "$~Tôi là tham chiếu đến thuật ngữ \\$program\\ hoặc đầu vào động \\$1\\.",
+                "$~Tôi là tham chiếu đến thuật ngữ \\$program\\ hoặc đầu vào động \\$name\\.",
                 "$~Tuy nhiên, đây chủ yếu là một tính năng nội bộ, vì vậy bạn không cần phải biết đến nó."
             ]
         },
@@ -5132,7 +5132,6 @@
                 "$~• Duyệt qua<galleries@://galleries> để lấy cảm hứng.",
                 "$~Nếu bạn gặp khó khăn,<learn more@://learn> ."
             ],
-            "overwritten": "$~Dự án đã được chỉnh sửa ở nơi khác.",
             "confirm": {
                 "delete": {
                     "description": "$~xóa nguồn này",
@@ -6962,6 +6961,12 @@
             "offline": "$~Bạn đang ngoại tuyến. Một số tính năng sẽ không hoạt động cho đến khi bạn kết nối lại mạng.",
             "unreachable": "$~Chúng tôi không thể truy cập vào cơ sở dữ liệu Wordplay. Một số tính năng sẽ không hoạt động cho đến khi kết nối được khôi phục.",
             "label": "$~Trạng thái kết nối"
+        },
+        "presence": {
+            "peersLabel": "$~Các cộng tác viên chỉnh sửa dự án này",
+            "joined": "$~$name tham gia.",
+            "left": "$~Còn lại $name la.",
+            "waitingForSlot": "$~Đang chờ đến lượt chỉnh sửa — đã có bốn cộng tác viên đang chỉnh sửa. Khi một người rời đi, bạn cũng sẽ có thể chỉnh sửa."
         }
     },
     "moderation": {

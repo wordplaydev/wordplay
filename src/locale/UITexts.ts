@@ -293,8 +293,6 @@ type UITexts = {
         title: string;
         /** [formatted] The text to show when a source file is empty */
         empty: Template<['symbol']>[];
-        /** [plain] When some other device had a more recent edit that overrode this device's version. */
-        overwritten: string;
         confirm: {
             /** [plain] The confirm button that deletes a source file */
             delete: ConfirmText;
@@ -681,6 +679,19 @@ type UITexts = {
             /** [formatted] Markup describing the restrict-gallery toggle */
             restrict: FormattedText;
         };
+    };
+
+    /** Strings shown by the live-presence layer when other people are
+     *  editing the same project. See PresenceTracker and RemoteCarets. */
+    presence: {
+        /** [plain] ARIA label for the row of collaborator chips in the editor footer */
+        peersLabel: string;
+        /** [plain] Announcer message when a peer first appears (joins the project). $name is the peer's display name. */
+        joined: Template<['name']>;
+        /** [plain] Announcer message when a peer's presence falls out of the map (left or went idle). $name is the peer's display name. */
+        left: Template<['name']>;
+        /** [plain] Banner shown when the local editor can't get a presence slot because the concurrent-editor cap is already reached. */
+        waitingForSlot: string;
     };
 
     /** The palette editor */

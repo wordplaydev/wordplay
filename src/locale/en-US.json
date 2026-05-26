@@ -5139,7 +5139,6 @@
                 "• Browse the <galleries@://galleries> for inspiration.",
                 "If you're stuck, <learn more@://learn>."
             ],
-            "overwritten": "Project revised elsewhere",
             "confirm": {
                 "delete": {
                     "description": "delete this $source",
@@ -5977,6 +5976,12 @@
                 "viewers": "/Viewers/ can *view* the project and its *code*, but they cannot *discuss* or *edit* it.",
                 "restrict": "When a project is in a *gallery*, by default *everyone* who can see the gallery can see your project. The /restrict/ toggle *hides* it from everyone except you and the gallery curators."
             }
+        },
+        "presence": {
+            "peersLabel": "collaborators editing this project",
+            "joined": "$name joined.",
+            "left": "$name left.",
+            "waitingForSlot": "Waiting for an editing slot — four collaborators are already editing. When one leaves, you'll be able to edit too."
         },
         "palette": {
             "label": "palette",
