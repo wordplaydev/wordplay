@@ -4775,7 +4775,14 @@
                 "projectContainedPII": "$~Gizliliğinizi korumak için, potansiyel olarak kişisel olarak tanımlanabilir bilgiler içeren bir proje çevrimiçi olarak kaydedilmedi. Bilgilerin tanımlayıcı olup olmadığını görmek için projeyi kontrol edin.",
                 "projectsNotLoadingOnline": "$~Çevrimiçi projeler yüklenemiyor.",
                 "projectNotSavedOnline": "$~Projeler çevrimiçi olarak kaydedilemiyor.",
-                "settingsUnsaved": "$~Ayarlar çevrimiçi olarak kaydedilemiyor."
+                "settingsUnsaved": "$~Ayarlar çevrimiçi olarak kaydedilemiyor.",
+                "failureReason": {
+                    "indexedDBWriteFailed": "$~Tarayıcınız bu projeleri bu cihaza kaydedemedi.",
+                    "indexedDBUnsupported": "$~Tarayıcınız Wordplay'in bu cihazda proje kaydetmesine izin vermiyor.",
+                    "firestoreBatchFailed": "$~Bu projeleri buluta gönderemedik. Hala bu cihazda güvendeler.",
+                    "projectContainsPII": "$~Bu projelerde kişisel bilgiler bulunuyor gibi göründüğü için bunları çevrimiçi olarak kaydetmedik. Kişisel bilgi içerip içermediğini kontrol etmek için her birini açın."
+                },
+                "failuresHeader": "$~$count proje kaydedilmedi:"
             },
             "dialog": {
                 "unsaved": "$~Kaydedilmemiş çalışma...",
@@ -6885,7 +6892,8 @@
             "skinTone": "$~cilt tonu",
             "script": "$~komut dosyaları",
             "scriptLabel": "$~komut dosyasına göre filtrele",
-            "pickFilter": "$~Bir kategori veya senaryo seçin."
+            "pickFilter": "$~Bir kategori veya senaryo seçin.",
+            "moreLanguages": "$~ve daha fazla $count"
         },
         "localize": {
             "header": "$~Yerelleştir",

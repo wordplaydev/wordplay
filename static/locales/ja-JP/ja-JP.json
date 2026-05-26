@@ -4775,7 +4775,14 @@
                 "projectContainedPII": "$~プライバシーを保護するため、個人を特定できる可能性のある情報を含むプロジェクトはオンラインで保存されませんでした。プロジェクトをチェックして、情報が個人を特定できるものかどうかを確認してください。",
                 "projectsNotLoadingOnline": "$~オンライン プロジェクトを読み込めません。",
                 "projectNotSavedOnline": "$~プロジェクトをオンラインで保存できません。",
-                "settingsUnsaved": "$~設定をオンラインで保存できません。"
+                "settingsUnsaved": "$~設定をオンラインで保存できません。",
+                "failureReason": {
+                    "indexedDBWriteFailed": "$~お使いのブラウザでは、これらのプロジェクトをこのデバイスに保存できませんでした。",
+                    "indexedDBUnsupported": "$~お使いのブラウザでは、Wordplayがこのデバイスにプロジェクトを保存することはできません。",
+                    "firestoreBatchFailed": "$~これらのプロジェクトはクラウドに送信できませんでした。このデバイス上に安全に保管されています。",
+                    "projectContainsPII": "$~これらのプロジェクトには個人情報が含まれているように見えるため、オンラインには保存していません。それぞれを開いて、個人情報と思われる箇所を確認してください。"
+                },
+                "failuresHeader": "$~$count:"
             },
             "dialog": {
                 "unsaved": "$~作業が保存されていません...",
@@ -6882,7 +6889,8 @@
             "skinTone": "$~肌の色",
             "script": "$~スクリプト",
             "scriptLabel": "$~スクリプトでフィルタリング",
-            "pickFilter": "$~カテゴリまたはスクリプトを選択してください"
+            "pickFilter": "$~カテゴリまたはスクリプトを選択してください",
+            "moreLanguages": "$~さらに$count"
         },
         "localize": {
             "header": "$~ローカライズ",

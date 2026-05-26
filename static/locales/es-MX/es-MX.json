@@ -4757,7 +4757,14 @@
                 "projectContainedPII": "Para proteger tu privacidad, un proyecto con información potencialmente identificable personalmente no se guardó en línea. Verifica el proyecto para ver si la información es identificativa.",
                 "projectsNotLoadingOnline": "No se pueden cargar proyectos en línea.",
                 "projectNotSavedOnline": "No se pueden guardar proyectos en línea.",
-                "settingsUnsaved": "No se pueden guardar las configuraciones en línea."
+                "settingsUnsaved": "No se pueden guardar las configuraciones en línea.",
+                "failureReason": {
+                    "indexedDBWriteFailed": "$~Tu navegador no pudo guardar estos proyectos en este dispositivo.",
+                    "indexedDBUnsupported": "$~Tu navegador no permite que Wordplay guarde proyectos en este dispositivo.",
+                    "firestoreBatchFailed": "$~No pudimos enviar estos proyectos a la nube. Todavía están a salvo en este dispositivo.",
+                    "projectContainsPII": "$~Estos proyectos parecen contener información personal, por lo que no los guardamos en línea. Ábrelos para comprobar si hay información personal."
+                },
+                "failuresHeader": "$~$count proyectos no se guardaron:"
             },
             "dialog": {
                 "unsaved": "Trabajo no salvado...",
@@ -6871,7 +6878,8 @@
             "skinTone": "$~tono de piel",
             "script": "$~guiones",
             "scriptLabel": "$~filtrar por script",
-            "pickFilter": "$~Elige una categoría o un guion."
+            "pickFilter": "$~Elige una categoría o un guion.",
+            "moreLanguages": "$~y $count más"
         },
         "localize": {
             "header": "$~Localizar",

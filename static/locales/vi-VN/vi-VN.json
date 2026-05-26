@@ -4779,7 +4779,14 @@
                 "projectContainedPII": "$~Để bảo vệ quyền riêng tư của bạn, dự án có chứa thông tin có khả năng nhận dạng cá nhân đã không được lưu trực tuyến. Hãy kiểm tra dự án để xem thông tin đó có thể nhận dạng cá nhân hay không.",
                 "projectsNotLoadingOnline": "$~Không thể tải các dự án trực tuyến.",
                 "projectNotSavedOnline": "$~Không thể lưu dự án trực tuyến.",
-                "settingsUnsaved": "$~Không thể lưu cài đặt trực tuyến."
+                "settingsUnsaved": "$~Không thể lưu cài đặt trực tuyến.",
+                "failureReason": {
+                    "indexedDBWriteFailed": "$~Trình duyệt của bạn không thể lưu các dự án này trên thiết bị này.",
+                    "indexedDBUnsupported": "$~Trình duyệt của bạn không cho phép Wordplay lưu dự án trên thiết bị này.",
+                    "firestoreBatchFailed": "$~Chúng tôi không thể chuyển các dự án này lên đám mây. Chúng vẫn được lưu trữ an toàn trên thiết bị này.",
+                    "projectContainsPII": "$~Những dự án này có vẻ chứa thông tin cá nhân, vì vậy chúng tôi không lưu chúng trực tuyến. Hãy mở từng dự án để kiểm tra xem thông tin nào có vẻ là thông tin cá nhân."
+                },
+                "failuresHeader": "$~$count dự án không được lưu:"
             },
             "dialog": {
                 "unsaved": "$~Công việc chưa được lưu...",
@@ -6889,7 +6896,8 @@
             "skinTone": "$~màu da",
             "script": "$~kịch bản",
             "scriptLabel": "$~lọc theo tập lệnh",
-            "pickFilter": "$~Chọn một danh mục hoặc kịch bản"
+            "pickFilter": "$~Chọn một danh mục hoặc kịch bản",
+            "moreLanguages": "$~và $count thêm"
         },
         "localize": {
             "header": "$~Bản địa hóa",

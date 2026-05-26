@@ -3719,7 +3719,81 @@
             "yo",
             "za",
             "zh",
-            "zu"
+            "zu",
+            "ace",
+            "awa",
+            "ban",
+            "bax",
+            "bbc",
+            "bik",
+            "blt",
+            "brx",
+            "bsq",
+            "bug",
+            "ccp",
+            "ceb",
+            "chr",
+            "cjm",
+            "ckb",
+            "cop",
+            "doi",
+            "emk",
+            "fon",
+            "hil",
+            "hmn",
+            "hnn",
+            "hoc",
+            "ilo",
+            "khb",
+            "kha",
+            "kru",
+            "lep",
+            "lif",
+            "lis",
+            "luo",
+            "mad",
+            "mag",
+            "mai",
+            "mak",
+            "men",
+            "min",
+            "mni",
+            "mos",
+            "mro",
+            "new",
+            "nnp",
+            "nod",
+            "nst",
+            "osa",
+            "raj",
+            "rej",
+            "rhg",
+            "rom",
+            "sah",
+            "sat",
+            "saz",
+            "shn",
+            "srb",
+            "syl",
+            "tbw",
+            "tdd",
+            "tem",
+            "tzm",
+            "txo",
+            "unr",
+            "vai",
+            "war",
+            "zza",
+            "kbd",
+            "ady",
+            "lez",
+            "crh",
+            "myv",
+            "mdf",
+            "mhr",
+            "udm",
+            "bua",
+            "tyv"
           ],
           "type": "string"
         },
@@ -13628,6 +13702,10 @@
                   "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%5D%3E",
                   "description": "Emoji category labels for the filter"
                 },
+                "moreLanguages": {
+                  "$ref": "#/definitions/Template%3C%5B%22count%22%5D%3E",
+                  "description": "[plain] Suffix appended after the first few language names captioning a script option, when more languages use the script than fit. $count is the number of additional languages."
+                },
                 "noCharacters": {
                   "description": "[plain] Prompt when no custom characters are available",
                   "type": "string"
@@ -13654,6 +13732,7 @@
                 "skinTone",
                 "script",
                 "scriptLabel",
+                "moreLanguages",
                 "pickFilter",
                 "groups"
               ],
@@ -17719,6 +17798,39 @@
                   "additionalProperties": false,
                   "description": "The messages shown for save status",
                   "properties": {
+                    "failureReason": {
+                      "additionalProperties": false,
+                      "description": "Per-reason explanations shown in the save-failure dialog, grouped above the list of affected project names.",
+                      "properties": {
+                        "firestoreBatchFailed": {
+                          "$ref": "#/definitions/FormattedText",
+                          "description": "[formatted] Sending projects to the cloud failed"
+                        },
+                        "indexedDBUnsupported": {
+                          "$ref": "#/definitions/FormattedText",
+                          "description": "[formatted] Browser doesn't support saving projects locally"
+                        },
+                        "indexedDBWriteFailed": {
+                          "$ref": "#/definitions/FormattedText",
+                          "description": "[formatted] Browser local save failed (IndexedDB write error)"
+                        },
+                        "projectContainsPII": {
+                          "$ref": "#/definitions/FormattedText",
+                          "description": "[formatted] Project contained personal info so wasn't sent online"
+                        }
+                      },
+                      "required": [
+                        "indexedDBWriteFailed",
+                        "indexedDBUnsupported",
+                        "firestoreBatchFailed",
+                        "projectContainsPII"
+                      ],
+                      "type": "object"
+                    },
+                    "failuresHeader": {
+                      "$ref": "#/definitions/Template%3C%5B%22count%22%5D%3E",
+                      "description": "[plain] Header above the per-project failure list. $count = total count"
+                    },
                     "projectContainedPII": {
                       "$ref": "#/definitions/FormattedText",
                       "description": "[formatted] When a project wasn't saved because it contained PII"
@@ -17750,7 +17862,9 @@
                     "projectContainedPII",
                     "projectsNotLoadingOnline",
                     "projectNotSavedOnline",
-                    "settingsUnsaved"
+                    "settingsUnsaved",
+                    "failureReason",
+                    "failuresHeader"
                   ],
                   "type": "object"
                 },

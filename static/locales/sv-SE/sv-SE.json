@@ -4775,7 +4775,14 @@
                 "projectContainedPII": "$~För att skydda din integritet sparades inte ett projekt med potentiellt personligt identifierbar information online. Kontrollera projektet för att se om informationen är identifierande.",
                 "projectsNotLoadingOnline": "$~Det går inte att ladda onlineprojekt.",
                 "projectNotSavedOnline": "$~Det går inte att spara projekt online.",
-                "settingsUnsaved": "$~Det går inte att spara inställningar online."
+                "settingsUnsaved": "$~Det går inte att spara inställningar online.",
+                "failureReason": {
+                    "indexedDBWriteFailed": "$~Din webbläsare kunde inte spara dessa projekt på den här enheten.",
+                    "indexedDBUnsupported": "$~Din webbläsare tillåter inte Wordplay att spara projekt på den här enheten.",
+                    "firestoreBatchFailed": "$~Vi kunde inte skicka dessa projekt till molnet. De är fortfarande säkra på den här enheten.",
+                    "projectContainsPII": "$~Dessa projekt ser ut att innehålla personlig information, så vi har inte sparat dem online. Öppna vart och ett för att kontrollera vad som ser personligt ut."
+                },
+                "failuresHeader": "$~$count projekt sparades inte:"
             },
             "dialog": {
                 "unsaved": "$~Osparat arbete...",
@@ -6886,7 +6893,8 @@
             "skinTone": "$~hudton",
             "script": "$~manus",
             "scriptLabel": "$~filtrera efter skript",
-            "pickFilter": "$~Välj en kategori eller ett manus"
+            "pickFilter": "$~Välj en kategori eller ett manus",
+            "moreLanguages": "$~och $count mer"
         },
         "localize": {
             "header": "$~Lokalisera",

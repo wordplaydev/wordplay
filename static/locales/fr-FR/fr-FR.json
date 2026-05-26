@@ -4778,7 +4778,14 @@
                 "projectContainedPII": "$~Pour protéger votre vie privée, aucun projet contenant des informations potentiellement identifiables n'a été enregistré en ligne. Vérifiez le projet pour voir si les informations permettent de vous identifier.",
                 "projectsNotLoadingOnline": "$~Impossible de charger les projets en ligne.",
                 "projectNotSavedOnline": "$~Impossible de sauvegarder les projets en ligne.",
-                "settingsUnsaved": "$~Impossible d'enregistrer les paramètres en ligne."
+                "settingsUnsaved": "$~Impossible d'enregistrer les paramètres en ligne.",
+                "failureReason": {
+                    "indexedDBWriteFailed": "$~Votre navigateur n'a pas pu enregistrer ces projets sur cet appareil.",
+                    "indexedDBUnsupported": "$~Votre navigateur ne permet pas à Wordplay d'enregistrer les projets sur cet appareil.",
+                    "firestoreBatchFailed": "$~Nous n'avons pas pu transférer ces projets vers le cloud. Ils sont toujours en sécurité sur cet appareil.",
+                    "projectContainsPII": "$~Ces fichiers semblent contenir des informations personnelles, nous ne les avons donc pas sauvegardés en ligne. Ouvrez-les un par un pour vérifier quelles informations semblent personnelles."
+                },
+                "failuresHeader": "$~$count projets n'ont pas été enregistrés :"
             },
             "dialog": {
                 "unsaved": "$~Travail non enregistré...",
@@ -6892,7 +6899,8 @@
             "skinTone": "$~teint",
             "script": "$~scripts",
             "scriptLabel": "$~filtrer par script",
-            "pickFilter": "$~Choisissez une catégorie ou un script"
+            "pickFilter": "$~Choisissez une catégorie ou un script",
+            "moreLanguages": "$~et $count plus"
         },
         "localize": {
             "header": "$~Localiser",
