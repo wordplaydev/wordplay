@@ -22,24 +22,24 @@
   Y.Doc → Source bridge that produces the source we resolve against.
 -->
 <script lang="ts">
-    import { Creators, Projects } from '@db/Database';
     import type { Creator } from '@db/creators/CreatorDatabase';
+    import { Creators, Projects } from '@db/Database';
     import { decodeRemoteCaret } from '@db/projects/caretEncoding';
     import {
         assignDistinctColors,
         isPresenceStale,
     } from '@db/projects/ProjectPresence';
-    import { Focals } from '@output/BasicColors';
     import Node from '@nodes/Node';
     import type Source from '@nodes/Source';
+    import { Focals } from '@output/BasicColors';
     import { onDestroy, untrack } from 'svelte';
+    import { getRangeOutline } from './highlights/Highlights';
+    import type { Outline } from './highlights/outline';
+    import getOutlineOf from './highlights/outline';
     import {
         computeRemoteCaretLocation,
         type RemoteCaretLocation,
     } from './remoteCaretLocation';
-    import { getRangeOutline } from './highlights/Highlights';
-    import getOutlineOf from './highlights/outline';
-    import type { Outline } from './highlights/outline';
 
     interface Props {
         projectID: string;
@@ -173,8 +173,7 @@
             const colorKey = colorByClient.get(peer.clientID) ?? peer.color;
             const focal = Focals[colorKey];
             const color = `oklch(${focal.l} ${focal.c / 100} ${focal.h})`;
-            const creator =
-                peer.userID === null ? null : creators[peer.userID];
+            const creator = peer.userID === null ? null : creators[peer.userID];
             const name =
                 creator?.getUsername(false) ??
                 creator?.getName() ??
@@ -335,8 +334,8 @@
            background and editor-foreground so the username stays
            legible against any code or theme. */
         border-radius: var(--wordplay-border-radius);
-        border-top-left-radius: 1em;
-        border-bottom-left-radius: 1em;
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
         background: var(--wordplay-background);
         color: var(--wordplay-foreground);
         white-space: nowrap;
