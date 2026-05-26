@@ -1,8 +1,10 @@
 
 import { expect, test } from '../../playwright/fixtures';
 import { createTestCharacter } from '../helpers/createCharacter';
+import { seedCollaborativeProject } from '../helpers/createCollaborativeProject';
 import { createTestProject } from '../helpers/createProject';
-import { updateProjectSource, waitForDocumentUpdate } from '../helpers/firestore';
+import { uidForUsername } from '../helpers/loginNewContext';
+import { waitForDocumentUpdate } from '../helpers/firestore';
 
 test('editing a project saves it to the cloud', async ({ page }) => {
     // Create test project - the page will be redirected to the new project page 
@@ -59,15 +61,24 @@ test('changing a character name updates its project references', async ({
     page,
     loggedInUsername,
 }) => {
-    // Create test character - the page will be redirected to the new character page
-    const characterId = await createTestCharacter(page);
+    // The test under coverage is the Cloud Function that updates project
+    // sources whenever a character is renamed. That function reads and
+    // writes Firestore via the admin SDK; the editor UI is incidental.
+    //
+    // The page therefore stays on the character page for the whole test:
+    // we never open the project in the browser, so there's no in-memory
+    // Project view that could autosave (and clobber) the seeded source on
+    // unmount, and no fragile "wait for the Firestore listener to deliver
+    // the admin-SDK write to the DOM" step. Setup is admin-SDK only; the
+    // assertion polls Firestore directly.
 
-    // Set a name for the character since the default is empty
+    // Create the character via the page (we still want to exercise the
+    // real character-rename UI as the trigger for the Cloud Function).
+    const characterId = await createTestCharacter(page);
     const characterNameInput = page.locator('#character-name');
     const initialCharacterName = 'Old';
     await characterNameInput.fill(initialCharacterName);
 
-    // Wait for it to save
     const initialCharacterNameFull = `${loggedInUsername}/${initialCharacterName}`;
     await waitForDocumentUpdate(
         page,
@@ -76,43 +87,23 @@ test('changing a character name updates its project references', async ({
         (data) => data?.name === initialCharacterNameFull,
     );
 
-    // Create a test project - this will redirect to the project page
-    const projectId = await createTestProject(page);
-
-    // Wait for the project to be saved to Firestore
-    await waitForDocumentUpdate(
-        page,
-        'projects',
-        projectId,
-        (data) => data?.id === projectId,
+    // Seed a project that already references the character, via admin SDK.
+    // The page never visits /project/{id}, so there's no race between the
+    // page's autosave and our admin write.
+    const sourceCodeWithCharacterRef = `Phrase(\`@${initialCharacterNameFull}\`)`;
+    const ownerUid = await uidForUsername(loggedInUsername);
+    const projectId = await seedCollaborativeProject(
+        ownerUid,
+        undefined,
+        sourceCodeWithCharacterRef,
     );
 
-    // Update the project source to include a reference to the character
-    const sourceCodeWithCharacterRef = `Phrase(\`@${initialCharacterNameFull}\`)`;
-    await updateProjectSource(projectId, sourceCodeWithCharacterRef);
-
-    // Wait for the project page to render the new character reference before
-    // navigating away. This proves the Firestore snapshot has been delivered
-    // to the in-memory Projects store; otherwise the rename below may run
-    // against a stale project that has no reference to revise.
-    //
-    // 15s timeout (not the 5s default) because the propagation path on
-    // Firefox CI runners is consistently slower than Chromium:
-    // Firestore listener → mergeWith → foldRemoteCRDT → Y.Doc
-    // applyLocalEdit('remote') → onChange listener → history.edit →
-    // Svelte reactivity → DOM. Each hop is fast individually, but the
-    // chain stacks up under CI load and the deterministic-seed dance
-    // that ProjectCRDT.fromSources does for Firefox adds extra work.
-    await expect(
-        page.getByTestId('editor').first(),
-    ).toContainText(`@${initialCharacterNameFull}`, { timeout: 15_000 });
-
-    // Now, rename the character
-    await page.goto(`/en-US/character/${characterId}`);
+    // Trigger the Cloud Function by renaming the character. The page is
+    // already on /character/{id} from createTestCharacter, so this is a
+    // simple fill in place.
     const newCharacterName = 'New';
-    await page.locator('#character-name').fill(newCharacterName);
+    await characterNameInput.fill(newCharacterName);
 
-    // Wait for the character to be updated in Firestore
     const expectedFullName = `${loggedInUsername}/${newCharacterName}`;
     await waitForDocumentUpdate(
         page,
@@ -121,7 +112,8 @@ test('changing a character name updates its project references', async ({
         (data) => data?.name === expectedFullName,
     );
 
-    // Wait for the project to be updated with the new character reference
+    // Poll Firestore for the Cloud Function's update — the actual subject
+    // under test.
     const expectedSourceCode = `Phrase(\`@${expectedFullName}\`)`;
     const updatedProject = await waitForDocumentUpdate(
         page,
@@ -130,6 +122,5 @@ test('changing a character name updates its project references', async ({
         (data) => data?.sources?.[0]?.code === expectedSourceCode,
     );
 
-    // Verify the character reference was updated in the project
     expect(updatedProject?.sources[0].code).toBe(expectedSourceCode);
 });
