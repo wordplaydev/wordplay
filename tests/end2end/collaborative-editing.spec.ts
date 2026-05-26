@@ -110,11 +110,16 @@ test('two browser contexts, two users — edits propagate both ways', async ({
     // sessions, different presence docs. The CRDT update stream and the
     // Y.Doc → Source bridge in activateCRDT have to do all the work.
     //
-    // We mint unique usernames so this test doesn't collide with itself
-    // across retries or parallel workers.
-    const run = uuidv4().slice(0, 8);
-    const usernameA = `collab-a-${run}`;
-    const usernameB = `collab-b-${run}`;
+    // Usernames are stable per worker (NOT per run) so loginNewContext's
+    // storage-state cache hits on retry — Firefox CI's full login flow is
+    // ~7s per session, and two of them per attempt was eating most of
+    // the 30s test timeout before assertions could run. Per-worker keys
+    // still avoid collision with parallel workers; collision across runs
+    // is fine because the project ID is fresh per run and the assertions
+    // only check that fresh content propagates.
+    const workerIndex = test.info().parallelIndex;
+    const usernameA = `collab-a-${workerIndex}`;
+    const usernameB = `collab-b-${workerIndex}`;
     const password = 'password';
 
     const sessionA = await loginNewContext(browser, usernameA, password);

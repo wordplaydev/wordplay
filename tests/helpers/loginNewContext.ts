@@ -1,4 +1,6 @@
 import type { Browser, BrowserContext, Page } from '@playwright/test';
+import fs from 'fs';
+import path from 'path';
 import { initializeApp } from 'firebase-admin/app';
 import { getAuth } from 'firebase-admin/auth';
 
@@ -33,21 +35,56 @@ export async function uidForUsername(username: string): Promise<string> {
 }
 
 /**
- * Spin up a fresh browser context with no shared storage and sign the given
- * user in (creating the account first if needed). Returns the context, the
- * signed-in page, and the user's UID — the UID is convenient for setting up
- * Firestore-side fixtures that have to reference the same auth subject the
- * browser is signed in as.
+ * Spin up a browser context signed in as the given user (creating the
+ * account first if needed). Returns the context, the signed-in page, and
+ * the user's UID — the UID is convenient for setting up Firestore-side
+ * fixtures that have to reference the same auth subject the browser is
+ * signed in as.
  *
  * Each test that needs two distinct sessions should call this twice with
- * different usernames so each context owns its own localStorage, IndexedDB,
- * and writer ID — the realistic two-device scenario.
+ * different usernames so each context owns its own localStorage,
+ * IndexedDB, and writer ID — the realistic two-device scenario.
+ *
+ * # Storage-state caching
+ *
+ * The full login flow takes ~7s on Firefox CI (longer than Chromium —
+ * the login button has stability-retry stalls), so doing it twice
+ * per test eats most of the 30s test timeout before assertions even
+ * begin. To keep retries cheap, we persist Firebase Auth state to
+ * `playwright/.auth/${username}.json` after a successful login and
+ * load it directly on subsequent calls with the same username.
+ *
+ * Cache hits skip the entire login UI flow — `browser.newContext({
+ * storageState })` restores cookies, localStorage, and IndexedDB,
+ * which is everything Firebase Auth needs to resume the session. We
+ * still resolve the UID via the admin SDK on each call since
+ * downstream callers expect it.
+ *
+ * Cache lifetime is "as long as the file exists on disk." CI
+ * workspaces start fresh per run, so the first invocation in any
+ * given CI run still pays the full login cost; subsequent retries
+ * within that run reuse the cached state. For caching to work at
+ * all, callers must pass a *stable* username — randomly minted
+ * per-run usernames will miss the cache every time.
  */
 export async function loginNewContext(
     browser: Browser,
     username: string,
     password: string,
 ): Promise<{ context: BrowserContext; page: Page; uid: string }> {
+    const cacheDir = path.resolve('playwright', '.auth');
+    const cacheFile = path.resolve(cacheDir, `${username}.json`);
+
+    if (fs.existsSync(cacheFile)) {
+        const context = await browser.newContext({
+            baseURL: 'http://127.0.0.1:5002',
+            storageState: cacheFile,
+        });
+        const page = await context.newPage();
+        const uid = await uidForUsername(username);
+        return { context, page, uid };
+    }
+
     const context = await browser.newContext({
         baseURL: 'http://127.0.0.1:5002',
         storageState: { cookies: [], origins: [] },
@@ -76,6 +113,12 @@ export async function loginNewContext(
         await page.getByTestId('join-button').click();
         await page.waitForURL(/\/profile$/, { waitUntil: 'domcontentloaded' });
     }
+
+    // Persist auth so a retry in the same CI run can skip the UI flow.
+    // indexedDB:true is required — Firebase Auth keeps tokens there, not
+    // in cookies.
+    fs.mkdirSync(cacheDir, { recursive: true });
+    await context.storageState({ path: cacheFile, indexedDB: true });
 
     const uid = await uidForUsername(username);
     return { context, page, uid };
