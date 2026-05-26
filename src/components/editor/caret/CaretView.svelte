@@ -221,6 +221,22 @@
             $evaluation;
         tick().then(() => {
             location = computeLocation();
+
+            // After a DOM-mutating edit, layout can be transient at
+            // tick() time on WebKit (especially with complex programs
+            // containing formatted docs): the prior token's measured rect
+            // hasn't yet reflowed to its final position, so the caret is
+            // published one line too high. Re-measure on the next
+            // animation frame and adopt the settled position.
+            // computeLocation() clears `location` as its first step, so
+            // capture before the call and fall back to it if the re-run
+            // can't produce a value (e.g., editor being torn down).
+            requestAnimationFrame(() => {
+                const saved = location;
+                const corrected = computeLocation();
+                location = corrected ?? saved;
+            });
+
             if (animationDelayTimeout) clearTimeout(animationDelayTimeout);
             // Block-mode padding transitions over $animationDuration when the
             // selected block changes, so re-measure once the transition has
