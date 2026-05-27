@@ -1,0 +1,48 @@
+Study Mode Meter
+
+study-mode-meter
+
+¶The action stores the choice the user clicks, such as add or reset.¶/en
+action: Choice()
+
+¶Study hours remembers the current number of study hours.
+It starts at 0, then updates whenever the user selects an action.¶/en
+studyHours:
+	0 …
+	∆ action …
+		¶If the selected action is reset, study hours becomes 0.
+		Otherwise, it adds 1 study hour.¶/en
+		action = 'reset' ?
+			0
+			studyHours + 1
+
+¶Mood chooses the message shown on the screen.
+It uses conditional expressions to show Calm, Focus, or Overload mode.¶/en
+mood:
+	studyHours < 3 ?
+		'🌿 CALM MODE — click to add study time'
+		studyHours < 6 ?
+			'📚 FOCUS MODE — you are in the productive zone!'
+			'🔥 OVERLOAD MODE — take a break and "reset"'
+
+¶Stage creates the visible scene.
+The Stack places the title, message, and selectable text controls vertically.¶/en
+Stage([
+		Group(
+			Stack()
+			[
+				Phrase('Study Mode Meter' size: 0.5m)
+				Phrase(mood)
+
+				¶This selectable Phrase lets the user add one study hour.
+				Its name is add, so selecting it updates the action choice.¶/en
+				Phrase('Add Study Hour +1' selectable: ⊤ name: 'add' color: 🌈(80% 45 0°))
+
+				¶This selectable Phrase lets the user reset the tracker.
+				Its name is reset, so selecting it sets study hours back to 0.¶/en
+				Phrase('Reset' selectable: ⊤ name: 'reset' color: 🌈(69% 47 271°))
+			]
+		)
+	]
+	face: "Aclonica"
+)
