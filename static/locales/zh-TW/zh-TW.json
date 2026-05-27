@@ -4780,7 +4780,7 @@
         },
         "gallery": {
             "untitled": "未命名",
-            "undescribed": "$~無描述",
+            "undescribed": "無描述",
             "subheader": {
                 "curators": {
                     "header": "策展人",
@@ -4795,8 +4795,8 @@
                     "explanation": "刪除該圖庫不會刪除其項目。圖庫將會永久刪除。"
                 },
                 "classes": {
-                    "header": "$~課程",
-                    "explanation": "$~與此畫廊相關的課程。"
+                    "header": "課程",
+                    "explanation": "與此畫廊相關的課程。"
                 }
             },
             "confirm": {
@@ -5129,7 +5129,7 @@
                     "stories": "講故事",
                     "motion": "動作",
                     "video": "錄影",
-                    "gallery": "$~由您的 Wordplay 同儕導演創作"
+                    "gallery": "Wordplay 同儕創作者製作"
                 },
                 "related": "這些不是您要找的嗎？",
                 "howToGalleryButton": {
@@ -5710,7 +5710,7 @@
                 },
                 "search": {
                     "placeholder": "$~搜尋",
-                    "noResults": "$~未找到結果"
+                    "noResults": "未找到結果。"
                 }
             },
             "guide": {
@@ -5757,7 +5757,7 @@
                 },
                 "search": {
                     "description": "$~搜尋項目和來源文件",
-                    "noResults": "$~未找到結果。"
+                    "noResults": "未找到結果。"
                 }
             },
             "galleries": {
@@ -5768,31 +5768,31 @@
                         "label": "更多的...",
                         "tip": "下載更多畫廊！"
                     },
-                    "newgallery": "$~新畫廊"
+                    "newgallery": "新建畫廊"
                 },
                 "section": {
                     "own": {
-                        "header": "$~此致",
+                        "header": "你的",
                         "explanation": [
-                            "$~向受邀參加的畫廊投稿，或策劃自己的特定主題畫廊，並邀請其他人參加。",
-                            "$~策展人負責使用<gallery moderation dashboard@://galleries/moderation>來審核畫廊中的內容。"
+                            "向你受邀加入的畫廊投稿，或建立一個有特定主題的畫廊並邀請他人加入。",
+                            "/策展人負責使用<gallery moderation dashboard@://galleries/moderation>審核畫廊中的內容。/"
                         ]
                     },
                     "examples": {
-                        "header": "$~範例",
-                        "explanation": "$~這些都是由 Wordplay 開發人員精心挑選的圖庫。它們是學習和獲得靈感的良好起點。"
+                        "header": "範例",
+                        "explanation": "這些是 Wordplay 開發人員精選的畫廊。它們是學習和尋找靈感的好起點。"
                     },
                     "public": {
-                        "header": "$~民眾",
-                        "explanation": "$~這些都是文字遊戲創作者們公開的作品集。看看其他人創作了什麼，從中汲取靈感吧！"
+                        "header": "公開",
+                        "explanation": "這些是 Wordplay 創作者公開分享的畫廊。看看其他人做了什麼，從中獲取靈感吧！"
                     }
                 },
                 "error": {
-                    "nogalleryedits": "$~您必須<登入@://login>才能建立和變更圖庫。"
+                    "nogalleryedits": "你必須<登入@://login>才能建立和修改畫廊。"
                 },
                 "search": {
-                    "description": "$~搜尋範例圖庫項目",
-                    "noResults": "$~未找到結果。"
+                    "description": "搜尋範例畫廊項目",
+                    "noResults": "未找到結果。"
                 }
             },
             "about": {
@@ -6427,7 +6427,7 @@
                     "input": "$~輸入",
                     "output": "$~輸出",
                     "ui": "$~使用者介面",
-                    "gallery": "$~畫廊",
+                    "gallery": "畫廊",
                     "moderation": "$~適度"
                 },
                 "singletonWordsWarning": "$~你草稿中有些字在整個文本中只出現過一次。你確定它們的拼字正確，並且與其他文本保持一致嗎？",
@@ -6549,10 +6549,10 @@
         },
         "howto": {
             "galleryView": {
-                "header": "$~操作指南",
-                "subheader": "$~$total how-tos, $new new",
-                "subheaderEmpty": "$~創造第一個！",
-                "prompt": "$~「使用指南」是如何使用 Wordplay 實現特定功能的簡短解釋和範例程式碼。當你掌握了想要分享的技巧後，請為本圖庫的其他創作者撰寫一份指南，讓他們也能學習！"
+                "header": "操作指南",
+                "subheader": "$total 個操作指南，$new 個新的",
+                "subheaderEmpty": "建立第一個吧！",
+                "prompt": "操作指南是用 Wordplay 實現某個功能的簡短說明和範例程式碼。當你學會想分享的內容後，為本畫廊的其他創作者寫一份指南，讓他們也能學會。"
             },
             "headerTooltip": "$~返回圖庫",
             "drafts": {
@@ -6759,27 +6759,27 @@
             }
         },
         "gallerymoderation": {
-            "header": "$~圖庫審核控制面板",
-            "description": "$~您管理的圖庫中出現的以下訊息已被使用者舉報，需要進行審核。",
+            "header": "畫廊審核面板",
+            "description": "你管理的畫廊中，以下訊息已被使用者舉報，需要你審核。",
             "labels": {
-                "message": "$~訊息",
-                "reporter": "$~記者",
-                "action": "$~版主操作"
+                "message": "訊息",
+                "reporter": "舉報人",
+                "action": "版主操作"
             },
             "view": {
-                "label": "$~查看聊天記錄",
-                "tip": "$~在聊天中查看訊息"
+                "label": "查看聊天",
+                "tip": "在聊天中查看訊息"
             },
             "remove": {
-                "label": "$~消除",
-                "tip": "$~此訊息違反了相關準則。"
+                "label": "刪除",
+                "tip": "此訊息違反了準則"
             },
             "keep": {
-                "label": "$~保持",
-                "tip": "$~此訊息不違反準則"
+                "label": "保留",
+                "tip": "此訊息沒有違反準則"
             },
-            "empty": "$~所有訊息均無需審核。",
-            "error": "$~您必須登入才能管理圖庫"
+            "empty": "沒有需要審核的訊息",
+            "error": "你必須登入才能管理畫廊"
         },
         "emoji": {
             "noCharacters": "$~建立自訂角色",
@@ -6964,8 +6964,8 @@
             "description": "簡單的實用工具和應用程式。"
         },
         "stories": {
-            "name": "$~故事",
-            "description": "$~互動故事和敘述。"
+            "name": "故事",
+            "description": "互動故事和敘事。"
         }
     },
     "system": {

@@ -1,5 +1,5 @@
 1
-RotatingBinary
+"RotatingBinary"/en"旋转二进制"/zh-CN"旋轉二進位"/zh-TW
 ===start/en
 slowSpin:Sequence(spin() 10s "straight")
 
