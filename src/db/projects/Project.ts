@@ -1,5 +1,6 @@
 import Templates from '@concepts/Templates';
 import type Conflict from '@conflicts/Conflict';
+import { Permission, type PermissionName } from '@input/permissions';
 import type { CaretPosition } from '@edit/caret/Caret';
 import concretize from '@locale/concretize';
 import { getBestSupportedLocales } from '@locale/getBestSupportedLocales';
@@ -24,31 +25,41 @@ import type StructureDefinition from '@nodes/StructureDefinition';
 import { DOCS_SYMBOL } from '@parser/Symbols';
 import type createDefaultShares from '@runtime/createDefaultShares';
 import { v4 as uuidv4 } from 'uuid';
-import { Basis } from '../../basis/Basis';
-import DefaultLocale from '../../locale/DefaultLocale';
-import Locales from '../../locale/Locales';
-import type LocaleText from '../../locale/LocaleText';
-import FunctionType from '../../nodes/FunctionType';
-import type { Path } from '../../nodes/Root';
-import Root from '../../nodes/Root';
-import { parseNames } from '../../parser/parseBind';
-import { toTokens } from '../../parser/toTokens';
+import { Basis } from '@basis/Basis';
+import DefaultLocale from '@locale/DefaultLocale';
+import Locales from '@locale/Locales';
+import type LocaleText from '@locale/LocaleText';
+import FunctionType from '@nodes/FunctionType';
+import type { Path } from '@nodes/Root';
+import Root from '@nodes/Root';
+import { parseNames } from '@parser/parseBind';
+import { toTokens } from '@parser/toTokens';
 import {
     PROJECT_PARAM_EDIT,
     PROJECT_PARAM_PLAY,
-} from '../../routes/project/constants';
-import type LocalesDatabase from '../locales/LocalesDatabase';
-import { type ModerationState, unknownFlags } from './Moderation';
+} from '../../routes/[[locale]]/project/constants';
+import type LocalesDatabase from '@db/locales/LocalesDatabase';
+import { type ModerationState, unknownFlags } from '@db/projects/Moderation';
 import {
     type ProjectID,
     ProjectSchemaLatestVersion,
     type SerializedCaret,
+    type SerializedPreview,
     type SerializedProject,
+    type SerializedProjectStamps,
     type SerializedProjectUnknownVersion,
     type SerializedSource,
     type SerializedSourceCheckpoint,
     upgradeProject,
-} from './ProjectSchemas';
+} from '@db/projects/ProjectSchemas';
+import {
+    bumpField,
+    emptyStamps,
+    type FieldStamp,
+    getStamp,
+    mergeField,
+    mergeStamps,
+} from '@db/projects/VectorClock';
 
 /**
  * How we store projects in memory, mirroring the data in the deserialized form.
@@ -70,6 +81,82 @@ export type ProjectData = Omit<SerializedProject, 'sources' | 'locales'> & {
     carets: SerializedSourceCaret[];
 };
 
+/**
+ * The metadata fields that participate in the per-field stamp merge.
+ *
+ * # Why we use stamps for these fields specifically
+ *
+ * Wordplay merges two divergent copies of a project using two different
+ * mechanisms, picked to match the shape of the data:
+ *
+ *   - **Source code** goes through a Yjs CRDT (ProjectCRDT.ts). Two
+ *     people typing in different functions both belong in the final
+ *     string — there's no "winner" to pick.
+ *   - **These metadata fields** go through per-field Lamport stamps
+ *     (VectorClock.ts). They're scalars or arrays where concurrent
+ *     edits to the *same* field do have to pick a winner; the only
+ *     question is whose write came causally later.
+ *
+ * # Why these fields can't just live in the CRDT
+ *
+ * The CRDT is opaque binary bytes from the outside. These fields stay
+ * as plain Firestore fields because Wordplay relies on them for two
+ * things the CRDT can't support:
+ *
+ *   1. **Security rules.** `firestore.rules` checks predicates like
+ *      `request.auth.uid in resource.data.collaborators` to gate writes.
+ *      That requires `collaborators` (and `owner`, `viewers`,
+ *      `commenters`) to be plain queryable arrays.
+ *   2. **Server-side queries.** Firestore queries like "all listed
+ *      public projects in this gallery" need `where('public', '==',
+ *      true)`. Same constraint: the field has to be a plain top-level
+ *      value, not buried in a CRDT blob.
+ *
+ * `name`, `locales`, and `preview` also live here because they're
+ * rendered in project tiles without loading the full project — so they
+ * need to be cheap to read off the project doc directly.
+ *
+ * # Fields handled by other mechanisms (not in this list)
+ *
+ *  - `id`, `v`                : never change, no merge needed.
+ *  - `timestamp`              : scalar fallback used only when *both*
+ *                                sides have NeverWritten stamps on a
+ *                                field (the v6→v7 migration window).
+ *                                Bumped on every save independently.
+ *  - `persisted`              : local-only flag; sticky-true on merge.
+ *  - `history`                : append-only checkpoints; merged by
+ *                                union, not by stamp.
+ *  - `carets`                 : ephemeral UI state, never synced.
+ *  - `stamps`                 : the stamps themselves; merged together
+ *                                via {@link mergeStamps}.
+ *  - `crdt`                   : the CRDT snapshot; merged by applying
+ *                                the remote bytes to the local Y.Doc
+ *                                (see ProjectsDatabase.foldRemoteCRDT).
+ *  - sources / `main` / `supplements` :
+ *      Source *content* (code, names) lives in the CRDT, which is the
+ *      authoritative source of truth and merges by character-level
+ *      convergence. Source *structure* (number of sources, ordering)
+ *      is rare to change concurrently; mergeWith picks local sources
+ *      and lets the CRDT reconcile their text content.
+ */
+const StampedMetadataFields: readonly (keyof ProjectData & string)[] = [
+    'name',
+    'locales',
+    'owner',
+    'collaborators',
+    'public',
+    'listed',
+    'archived',
+    'gallery',
+    'flags',
+    'nonPII',
+    'chat',
+    'restrictedGallery',
+    'viewers',
+    'commenters',
+    'preview',
+];
+
 type Analysis = {
     conflicts: Conflict[];
     conflictedNodes: Map<Node, Conflict[]>;
@@ -90,6 +177,22 @@ type SerializedSourceCaret = { source: Source; caret: SerializedCaret };
  * For a very large project (thousand of lines of code) that allows for ~100 distinct versions.
  */
 const MaxCheckpointSize = 200000;
+
+/**
+ * The maximum number of editors who can be actively coediting a project at
+ * the same moment in time. This is a *live-presence* cap, not a lifetime
+ * cap on the `collaborators` array — a project can list any number of
+ * collaborators over its life, but only this many can have a live presence
+ * session (and therefore push CRDT updates) at once. When a fifth editor
+ * tries to join, they sit in a read-only "waiting" state until one of the
+ * four publishes a leave (or stops heartbeating long enough to fall out
+ * of the presence map).
+ *
+ * Matches the design call: "a small group in a classroom (4 students)
+ * would be a reasonable enforced maximum." Viewers and commenters never
+ * count against this cap because they don't publish presence at all.
+ */
+export const MAX_CONCURRENT_EDITORS = 4;
 
 /**
  * A project with a name, some source files, and evaluators for each source file.
@@ -190,6 +293,8 @@ export default class Project {
             restrictedGallery: false,
             viewers: [],
             commenters: [],
+            stamps: emptyStamps(),
+            crdt: null,
         });
     }
 
@@ -330,19 +435,29 @@ export default class Project {
         for (const source of this.getSources()) {
             const context = this.getContext(source);
 
-            // Compute all of the conflicts in the program.
-            this.analysis.conflicts = this.analysis.conflicts.concat(
-                source.expression.getAllConflicts(context),
-            );
+            // Compute all of the conflicts in this source.
+            const rawConflicts = source.expression.getAllConflicts(context);
 
-            // Build conflict indices by going through each conflict, asking for the conflicting nodes
-            // and adding to the conflict to each node's list of conflicts.
-            for (const conflict of this.analysis.conflicts) {
-                const complicitNodes = conflict.getMessage(context, Templates);
-                this.analysis.conflictedNodes.set(complicitNodes.node, [
-                    ...(this.analysis.conflictedNodes.get(
-                        complicitNodes.node,
-                    ) ?? []),
+            // Drop structural duplicates (same constructor + same Node fields).
+            // `Conflict.isEqualTo` exists but no caller used it for dedup; the
+            // Annotations UI did a defensive identity-Set pass instead. With
+            // the type-rooted cascade gates in place, true duplicates are
+            // already rare — this is a backstop for any that slip through. #1146
+            const sourceConflicts: Conflict[] = [];
+            for (const c of rawConflicts)
+                if (!sourceConflicts.some((d) => d.isEqualTo(c)))
+                    sourceConflicts.push(c);
+
+            this.analysis.conflicts =
+                this.analysis.conflicts.concat(sourceConflicts);
+
+            // Build conflict indices for just this source's new conflicts.
+            // (Earlier sources' conflicts were already indexed in their own
+            // iteration — re-iterating the cumulative list double-counts.)
+            for (const conflict of sourceConflicts) {
+                const node = conflict.getConflictingNode(context, Templates);
+                this.analysis.conflictedNodes.set(node, [
+                    ...(this.analysis.conflictedNodes.get(node) ?? []),
                     conflict,
                 ]);
             }
@@ -429,10 +544,9 @@ export default class Project {
             // Build conflict indices by going through each conflict, asking for the conflicting nodes
             // and adding to the conflict to each node's list of conflicts.
             for (const conflict of newAnalysis.conflicts) {
-                const complicitNodes = conflict.getMessage(context, Templates);
-                newAnalysis.conflictedNodes.set(complicitNodes.node, [
-                    ...(newAnalysis.conflictedNodes.get(complicitNodes.node) ??
-                        []),
+                const node = conflict.getConflictingNode(context, Templates);
+                newAnalysis.conflictedNodes.set(node, [
+                    ...(newAnalysis.conflictedNodes.get(node) ?? []),
                     conflict,
                 ]);
             }
@@ -702,6 +816,28 @@ export default class Project {
         return refs;
     }
 
+    /**
+     * Returns the set of browser permissions this project's sources reference,
+     * by checking whether any reference resolves to a permission-requiring
+     * basis stream definition. Used to show pre-evaluation permission feedback.
+     */
+    getRequiredPermissions(): Set<PermissionName> {
+        const required = new Set<PermissionName>();
+        const input = this.shares.input;
+        const map: [Definition, PermissionName][] = [
+            [input.Volume, Permission.Microphone],
+            [input.Pitch, Permission.Microphone],
+            [input.Speech, Permission.Microphone],
+            [input.Camera, Permission.Camera],
+            [input.Hand, Permission.Camera],
+        ];
+        for (const [definition, permission] of map) {
+            if (this.getReferences(definition).length > 0)
+                required.add(permission);
+        }
+        return required;
+    }
+
     withName(name: string) {
         return new Project({ ...this.data, name });
     }
@@ -792,6 +928,26 @@ export default class Project {
             main: newMain,
             supplements: newSupplements,
             carets: newCarets,
+        });
+    }
+
+    /**
+     * Return a copy of this project with `main`, `supplements`, and
+     * `carets` taken from `other`. Used by the merge layer when the
+     * Yjs CRDT isn't active to drive source convergence — the remote's
+     * source structure is treated as authoritative and dropped into
+     * our merged metadata. Carets are intentionally swapped along
+     * with the sources because they hold `Source` references that
+     * are only valid against the source identities they came from;
+     * keeping our local carets would leave them pointing into the
+     * old Source objects.
+     */
+    withSourcesFrom(other: Project): Project {
+        return new Project({
+            ...this.data,
+            main: other.data.main,
+            supplements: other.data.supplements,
+            carets: other.data.carets,
         });
     }
 
@@ -897,12 +1053,11 @@ export default class Project {
     }
 
     withCollaborator(uid: string) {
-        return this.data.collaborators.some((user) => user === uid)
-            ? this
-            : new Project({
-                  ...this.data,
-                  collaborators: [...this.data.collaborators, uid],
-              });
+        if (this.data.collaborators.includes(uid)) return this;
+        return new Project({
+            ...this.data,
+            collaborators: [...this.data.collaborators, uid],
+        });
     }
 
     withoutCollaborator(uid: string) {
@@ -1069,6 +1224,12 @@ export default class Project {
             restrictedGallery: project.restrictedGallery,
             viewers: project.viewers,
             commenters: project.commenters,
+            preview: project.preview,
+            stamps: {
+                lamport: project.stamps.lamport,
+                fields: { ...project.stamps.fields },
+            },
+            crdt: project.crdt,
         });
     }
 
@@ -1255,7 +1416,7 @@ export default class Project {
     }
 
     serialize(): SerializedProject {
-        return {
+        const serialized: SerializedProject = {
             v: ProjectSchemaLatestVersion,
             id: this.getID(),
             name: this.getName(),
@@ -1278,7 +1439,17 @@ export default class Project {
             restrictedGallery: this.data.restrictedGallery,
             viewers: this.data.viewers,
             commenters: this.data.commenters,
+            stamps: {
+                lamport: this.data.stamps.lamport,
+                fields: { ...this.data.stamps.fields },
+            },
+            crdt: this.data.crdt,
         };
+        // Firestore rejects literal `undefined` field values, and the schema
+        // marks `preview` as optional — so omit the key entirely when unset.
+        if (this.data.preview !== undefined)
+            serialized.preview = this.data.preview;
+        return serialized;
     }
 
     isTutorial() {
@@ -1295,6 +1466,14 @@ export default class Project {
 
     withChat(id: string | null) {
         return new Project({ ...this.data, chat: id });
+    }
+
+    getPreview(): SerializedPreview | undefined {
+        return this.data.preview;
+    }
+
+    withPreview(preview: SerializedPreview | undefined): Project {
+        return new Project({ ...this.data, preview });
     }
 
     static getHistorySize(history: SerializedSourceCheckpoint[]) {
@@ -1428,4 +1607,223 @@ export default class Project {
     withRestrictedGallery(restricted: boolean) {
         return new Project({ ...this.data, restrictedGallery: restricted });
     }
+
+    // --- CRDT snapshot ---
+
+    /**
+     * The persisted CRDT snapshot (base64 of `Y.encodeStateAsUpdateV2`),
+     * or null when this project has never been touched under v8 yet.
+     *
+     * Every project — solo or multi-collaborator — gets a CRDT session
+     * when it's actively viewed (see ProjectsDatabase.activateCRDT,
+     * triggered by ProjectView mount). The "every viewed project"
+     * choice is what fixes the offline-rename + online-code-edit case
+     * for the same user on two devices: stamps merge the `name` field,
+     * and the CRDT character-level-merges the source code, so neither
+     * side's edit is lost. Unviewed projects don't pay the CRDT
+     * runtime cost — their metadata still merges via stamps in
+     * mergeWith on remote sync, and their snapshot stays in this
+     * field for the next time someone opens them.
+     */
+    getCRDTSnapshot(): string | null {
+        return this.data.crdt;
+    }
+
+    /** Return a copy with the CRDT snapshot replaced. Persisted with
+     *  the next save. */
+    withCRDTSnapshot(crdt: string | null): Project {
+        return new Project({ ...this.data, crdt });
+    }
+
+    // --- Per-field stamp accessors and merge ---
+
+    getStamps(): SerializedProjectStamps {
+        return this.data.stamps;
+    }
+
+    withStamps(stamps: SerializedProjectStamps): Project {
+        return new Project({ ...this.data, stamps });
+    }
+
+    /**
+     * Record authorship for this save by bumping a fresh Lamport stamp
+     * on every field whose value has changed since `previous`. Returns
+     * a copy of this project with the new {@link ProjectStamps}.
+     *
+     * # Why this exists
+     *
+     * Stamps are the durable record of "I made this change at this
+     * Lamport time." Without them, when a remote replica later tries
+     * to merge its copy of the project with mine, there's no way to
+     * know which side has the more recent edit on any particular
+     * field — that's the gap that produced bug #135 (a stale device's
+     * older code clobbered a newer device's renamed project). With
+     * stamps in place, the remote merge in {@link mergeWith} picks
+     * the winning value field-by-field, so concurrent edits to
+     * disjoint fields both survive.
+     *
+     * # How "changed" is decided
+     *
+     * Every stamped field is a Zod-validated, JSON-serializable value
+     * (strings, booleans, arrays of primitives, plain object structs).
+     * So `JSON.stringify` equality is exact for our schema — there are
+     * no class instances or undefined-vs-missing distinctions to worry
+     * about. We bump only on real changes; an idempotent save that
+     * touches nothing leaves stamps alone.
+     *
+     * Sources are special-cased: they're not in
+     * {@link StampedMetadataFields} because Source instances are AST
+     * objects, not JSON. Instead we compare their *serialized* form
+     * under a single stamp key. Once collaboration is active the
+     * Yjs CRDT (ProjectCRDT.ts) is the real convergence mechanism
+     * for code, and this stamp is just a coarse hint for replicas
+     * that haven't seen the CRDT snapshot yet.
+     */
+    bumpStampsFrom(previous: Project, writer: string): Project {
+        let stamps = this.data.stamps;
+        for (const field of StampedMetadataFields) {
+            if (
+                !sameSerialized(
+                    previous.data[field as keyof ProjectData],
+                    this.data[field as keyof ProjectData],
+                )
+            ) {
+                stamps = bumpField(stamps, field, writer);
+            }
+        }
+        // Source content is not stamped — the Yjs CRDT in ProjectCRDT.ts
+        // is the authoritative merge mechanism for code and source names.
+        // Even solo single-user projects activate CRDT so that the same
+        // user editing on two devices converges correctly (the #135
+        // reproduction). The CRDT is character-level convergent, which is
+        // strictly better than the coarse "pick one side's whole sources
+        // blob" stamp we used to maintain here.
+        return this.withStamps(stamps);
+    }
+
+    /**
+     * Reconcile this project (the local copy) with `other` (an incoming
+     * copy, usually from Firestore) into a single merged project. This
+     * is the heart of the fix for #135.
+     *
+     * # The algorithm in one paragraph
+     *
+     * For every stamped field, we look at the Lamport stamps on both
+     * sides and pick the value whose stamp comes later in causal order
+     * (higher counter, writer ID as tiebreak). Concurrent edits to
+     * *different* fields therefore both survive — A's renamed name and
+     * B's edited code both make it into the merged copy. Concurrent
+     * edits to the *same* field deterministically agree on one winner
+     * across every replica (whichever writer ID sorts larger), so the
+     * system always converges without coordination.
+     *
+     * # The fallback path
+     *
+     * For a field where both sides have NeverWritten stamps (counter
+     * zero, empty writer), there's no Lamport information to compare,
+     * so we fall back to the legacy v6 behavior: take the side with
+     * the higher project-level `timestamp`. This only matters during
+     * the v6 → v7 transition window — once both replicas have touched
+     * a field under v7, the stamps will be non-zero forever after.
+     *
+     * # Fields that don't fit the stamp model
+     *
+     * - **Sources.** Source *content* (code, names) is merged via the
+     *   Yjs CRDT (ProjectCRDT.ts), not stamps — that gives character-
+     *   level convergence so two devices typing in different functions
+     *   both see both sets of keystrokes. The mergeWith call here just
+     *   takes the local Project's source structure (number of sources,
+     *   their Source object identities, and the carets that reference
+     *   them); the CRDT then folds in the remote's actual code content
+     *   asynchronously via ProjectsDatabase.foldRemoteCRDT.
+     * - **History** (checkpoints) is unioned, deduplicated by
+     *   `(time, first-source-code)`. This preserves both replicas'
+     *   undo history without clobbering.
+     * - **timestamp** is monotonic — take the max.
+     * - **persisted** is sticky-true — once any replica has saved it
+     *   to the cloud, it stays persisted.
+     */
+    mergeWith(other: Project): Project {
+        const localStamps = this.data.stamps;
+        const remoteStamps = other.data.stamps;
+        const fallbackPrefersLocal =
+            this.data.timestamp >= other.data.timestamp;
+
+        // Pick the winner of a single stamped field.
+        const pick = <K extends keyof ProjectData>(
+            field: K & string,
+        ): ProjectData[K] => {
+            const a: FieldStamp = getStamp(localStamps, field);
+            const b: FieldStamp = getStamp(remoteStamps, field);
+            if (a.c === 0 && b.c === 0) {
+                return fallbackPrefersLocal
+                    ? this.data[field]
+                    : other.data[field];
+            }
+            return mergeField(this.data[field], a, other.data[field], b);
+        };
+
+        const mergedData: ProjectData = {
+            ...this.data,
+            // Stamped metadata fields
+            name: pick('name'),
+            locales: pick('locales'),
+            owner: pick('owner'),
+            collaborators: pick('collaborators'),
+            public: pick('public'),
+            listed: pick('listed'),
+            archived: pick('archived'),
+            gallery: pick('gallery'),
+            flags: pick('flags'),
+            nonPII: pick('nonPII'),
+            chat: pick('chat'),
+            restrictedGallery: pick('restrictedGallery'),
+            viewers: pick('viewers'),
+            commenters: pick('commenters'),
+            preview: pick('preview'),
+            // Source structure stays local. The Yjs CRDT
+            // (ProjectCRDT.ts) is the authoritative merge for code and
+            // source names; ProjectsDatabase.foldRemoteCRDT applies the
+            // remote's CRDT bytes to our Y.Doc after this mergeWith
+            // returns. Carets are local UI state and reference our
+            // local Source object identities, so they stay too.
+            main: this.data.main,
+            supplements: this.data.supplements,
+            carets: this.data.carets,
+            // History is unioned, deduplicated by (time, first-source-code).
+            history: unionHistory(this.data.history, other.data.history),
+            // Timestamp is monotonic.
+            timestamp: Math.max(this.data.timestamp, other.data.timestamp),
+            // Persisted is sticky-true.
+            persisted: this.data.persisted || other.data.persisted,
+            stamps: mergeStamps(localStamps, remoteStamps),
+        };
+        return new Project(mergedData);
+    }
+}
+
+/** JSON-equality check used by {@link Project.bumpStampsFrom}. Both inputs
+ *  pass through the same stable serialization, so this is exact for our
+ *  composite-field data (arrays, plain objects, primitives). */
+function sameSerialized(a: unknown, b: unknown): boolean {
+    return JSON.stringify(a) === JSON.stringify(b);
+}
+
+/** Union two history lists, deduplicated by (time, first-source-code).
+ *  Sorted by time ascending. Trimmed to the size limit via the existing
+ *  Project.getHistorySize bound. */
+function unionHistory(
+    a: SerializedSourceCheckpoint[],
+    b: SerializedSourceCheckpoint[],
+): SerializedSourceCheckpoint[] {
+    const seen = new Set<string>();
+    const out: SerializedSourceCheckpoint[] = [];
+    for (const cp of [...a, ...b].sort((x, y) => x.time - y.time)) {
+        const key = `${cp.time}:${cp.sources[0]?.code ?? ''}`;
+        if (seen.has(key)) continue;
+        seen.add(key);
+        out.push(cp);
+    }
+    while (Project.getHistorySize(out) > 200000) out.shift();
+    return out;
 }

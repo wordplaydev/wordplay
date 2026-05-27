@@ -1,5 +1,6 @@
 <script lang="ts">
-    import { goto } from '$app/navigation';
+    import CreatorView from '@components/app/CreatorView.svelte';
+    import Loading from '@components/app/Loading.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import { getUser } from '@components/project/Contexts';
     import TileMessage from '@components/project/TileMessage.svelte';
@@ -18,9 +19,8 @@
     import type HowTo from '@db/howtos/HowToDatabase.svelte';
     import type Project from '@db/projects/Project';
     import { CANCEL_SYMBOL } from '@parser/Symbols';
+    import { localeGoto } from '@util/localeGoto';
     import { tick, untrack } from 'svelte';
-    import CreatorView from '../CreatorView.svelte';
-    import Loading from '../Loading.svelte';
 
     interface Props {
         chat: Chat | undefined | null | false;
@@ -58,7 +58,7 @@
     $effect(() => {
         if (chat && $user && chat.hasUnread($user.uid)) {
             untrack(() => {
-                Chats.updateChat(chat.asRead($user.uid), true);
+                Chats.markChatRead(chat, $user.uid);
             });
         }
 
@@ -98,7 +98,7 @@
 
     function deleteMessage(chat: Chat, message: SerializedMessage) {
         if (!chat) return;
-        Chats.updateChat(chat.withoutMessage(message), true);
+        Chats.deleteMessage(chat, message);
     }
 
     // moderation dialog
@@ -116,7 +116,7 @@
 
     function reportMessage(chat: Chat, message: SerializedMessage) {
         if (!chat || !$user) return;
-        Chats.updateChat(chat.withReportedMessage(message, $user.uid), true);
+        Chats.reportMessage(chat, message, $user.uid);
 
         showModerationDialog = false;
     }
@@ -204,7 +204,7 @@
                 tip={(l) => l.ui.collaborate.moderation.moderate.tip}
                 label={(l) => l.ui.collaborate.moderation.moderate.label}
                 action={() => {
-                    goto('/galleries/moderation');
+                    localeGoto('/galleries/moderation');
                 }}
             />
         {/if}
@@ -274,10 +274,9 @@
     .scroller {
         overflow-y: auto;
         overflow-x: clip;
-        height: 100%;
-        min-height: 50%;
+        flex: 1 1 0;
+        min-height: 0;
         width: 100%;
-        margin-block-start: auto;
         border-top: var(--wordplay-border-width) solid
             var(--wordplay-border-color);
         border-bottom: var(--wordplay-border-width) solid
@@ -295,6 +294,12 @@
         display: flex;
         flex-direction: column;
         gap: calc(0.5 * var(--wordplay-spacing));
+        flex-shrink: 0;
+        position: sticky;
+        bottom: 0;
+        background: var(--wordplay-background);
+        padding-block-start: calc(0.5 * var(--wordplay-spacing));
+        z-index: 1;
     }
 
     .controls {
@@ -307,7 +312,8 @@
         display: flex;
         flex-direction: column;
         gap: var(--wordplay-spacing);
-        width: 90%;
+        width: fit-content;
+        max-width: 75%;
         margin-block-end: var(--wordplay-spacing);
     }
 
@@ -335,6 +341,7 @@
         background: var(--wordplay-alternating-color);
         font-size: var(--wordplay-small-font-size);
         border-radius: var(--wordplay-border-radius);
-        width: fit-content;
+        width: 100%;
+        overflow-wrap: anywhere;
     }
 </style>

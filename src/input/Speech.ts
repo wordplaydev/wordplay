@@ -3,22 +3,24 @@ import type Evaluator from '@runtime/Evaluator';
 import BoolValue from '@values/BoolValue';
 import NumberValue from '@values/NumberValue';
 import StreamValue from '@values/StreamValue';
-import { getDocLocales } from '../locale/getDocLocales';
-import { getNameLocales } from '../locale/getNameLocales';
-import type Locales from '../locale/Locales';
-import type LocaleText from '../locale/LocaleText';
-import Bind from '../nodes/Bind';
-import BooleanType from '../nodes/BooleanType';
-import NoneLiteral from '../nodes/NoneLiteral';
-import NoneType from '../nodes/NoneType';
-import NumberType from '../nodes/NumberType';
-import StreamDefinition from '../nodes/StreamDefinition';
-import StreamType from '../nodes/StreamType';
-import TextLiteral from '../nodes/TextLiteral';
-import TextType from '../nodes/TextType';
-import UnionType from '../nodes/UnionType';
-import TextValue from '../values/TextValue';
-import createStreamEvaluator from './createStreamEvaluator';
+import { getDocLocales } from '@locale/getDocLocales';
+import { getNameLocales } from '@locale/getNameLocales';
+import type Locales from '@locale/Locales';
+import type LocaleText from '@locale/LocaleText';
+import Bind from '@nodes/Bind';
+import BooleanType from '@nodes/BooleanType';
+import NoneLiteral from '@nodes/NoneLiteral';
+import NoneType from '@nodes/NoneType';
+import NumberType from '@nodes/NumberType';
+import StreamDefinition from '@nodes/StreamDefinition';
+import StreamType from '@nodes/StreamType';
+import TextLiteral from '@nodes/TextLiteral';
+import TextType from '@nodes/TextType';
+import UnionType from '@nodes/UnionType';
+import TextValue from '@values/TextValue';
+import createStreamEvaluator from '@input/createStreamEvaluator';
+import PermissionException from '@values/PermissionException';
+import { denyConsent, Permission } from '@input/permissions';
 
 // Types for Web Speech API (browser compatibility handling)
 // The Web Speech API is *NOT* fully typed in TypeScript's lib.dom.d.ts
@@ -338,9 +340,17 @@ export default class Speech extends StreamValue<TextValue, string> {
                 break;
 
             case 'not-allowed':
-                // Permission denied - user needs to grant microphone access
-                this.reactError('micNotAllowed');
-                // Don't retry permission errors - user action required
+                // Permission denied - user needs to grant microphone access.
+                // Surface as a PermissionException so the stage shows the standard denial UI and a Retry button.
+                denyConsent(Permission.Microphone);
+                this.evaluator.replaceMainValue(
+                    new PermissionException(
+                        this.creator,
+                        this.evaluator,
+                        Permission.Microphone,
+                    ),
+                );
+                this.evaluator.broadcast();
                 this.stop();
                 break;
 

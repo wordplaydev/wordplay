@@ -1,7 +1,7 @@
 <script lang="ts">
-    import type TextLiteral from '../../../nodes/TextLiteral';
-    import NodeSequenceView from './NodeSequenceView.svelte';
-    import { type Format } from './NodeView.svelte';
+    import type TextLiteral from '@nodes/TextLiteral';
+    import NodeSequenceView from '@components/editor/nodes/NodeSequenceView.svelte';
+    import { type Format } from '@components/editor/nodes/NodeView.svelte';
 
     interface Props {
         node: TextLiteral;

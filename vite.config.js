@@ -21,8 +21,8 @@ function LocaleHotReload() {
 const config = {
     plugins: [sveltekit(), LocaleHotReload()],
     build: {
-        chunkSizeWarningLimit: 1600,
-        rollupOptions: {
+        chunkSizeWarningLimit: 1500,
+        rolldownOptions: {
             output: {
                 manualChunks: (id) => {
                     if (id.includes('node_modules')) {

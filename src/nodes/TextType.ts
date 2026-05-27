@@ -1,18 +1,18 @@
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { TEXT_SYMBOL } from '@parser/Symbols';
-import type { BasisTypeName } from '../basis/BasisConstants';
+import type { BasisTypeName } from '@basis/BasisConstants';
 import { Emotion } from '../lore/Emotion';
-import BasisType from './BasisType';
-import type Context from './Context';
-import Language from './Language';
-import { node, optional, type Grammar, type Replacement } from './Node';
-import { Sym } from './Sym';
-import TextLiteral from './TextLiteral';
-import Token from './Token';
-import type Type from './Type';
-import type TypeSet from './TypeSet';
-import UnionType from './UnionType';
+import BasisType from '@nodes/BasisType';
+import type Context from '@nodes/Context';
+import Language from '@nodes/Language';
+import { node, optional, type Grammar, type Replacement } from '@nodes/Node';
+import { Sym } from '@nodes/Sym';
+import TextLiteral from '@nodes/TextLiteral';
+import Token from '@nodes/Token';
+import type Type from '@nodes/Type';
+import type TypeSet from '@nodes/TypeSet';
+import UnionType from '@nodes/UnionType';
 
 /** Any string or a specific string, depending on whether the given token is an empty text literal. */
 export default class TextType extends BasisType {
@@ -92,18 +92,25 @@ export default class TextType extends BasisType {
                 return this.acceptsAll(type.getTypeSet(context), context);
             // If the possible type is not text, the type set is not acceptable.
             else if (!(type instanceof TextType)) return false;
-            // If:
-            // 1) this accepts any text, or its accepts specific text that matches the given type's text.
-            // 2) this has no required format, or they have matching formats
-            else
-                return (
-                    (this.text === undefined ||
-                        (type.text !== undefined &&
-                            this.text.getText() === type.text.getText())) &&
-                    (this.language === undefined ||
-                        (type.language !== undefined &&
-                            this.language.isEqualTo(type.language)))
-                );
+            else {
+                // 1) Does this accept any text, or does it accept specific text that matches the given type's text?
+                const textOk =
+                    this.text === undefined ||
+                    (type.text !== undefined &&
+                        this.text.getText() === type.text.getText());
+                // 2) When both sides are specific text literals with matching text, a text match alone is enough — locale doesn't have to match.
+                // Otherwise the required format (if any) must match.
+                const literalMatch =
+                    this.text !== undefined &&
+                    type.text !== undefined &&
+                    this.text.getText() === type.text.getText();
+                const languageOk =
+                    literalMatch ||
+                    this.language === undefined ||
+                    (type.language !== undefined &&
+                        this.language.isEqualTo(type.language));
+                return textOk && languageOk;
+            }
         });
     }
 
@@ -132,7 +139,9 @@ export default class TextType extends BasisType {
         return { symbols: this.open.getDelimiters(), emotion: Emotion.excited };
     }
     getDescriptionInputs() {
-        return [this.isLiteral() ? this.open.getText() : undefined];
+        return {
+            text: this.text?.getText(),
+        };
     }
 
     getDefaultExpression() {

@@ -3,12 +3,12 @@ import IncompatibleInput from '@conflicts/IncompatibleInput';
 import { testConflict } from '@conflicts/TestUtilities';
 import { UnknownName } from '@conflicts/UnknownName';
 import { expect, test } from 'vitest';
-import type Conflict from '../conflicts/Conflict';
-import evaluateCode from '../runtime/evaluate';
-import BinaryEvaluate from './BinaryEvaluate';
-import Conditional from './Conditional';
-import type Node from './Node';
-import Reference from './Reference';
+import type Conflict from '@conflicts/Conflict';
+import evaluateCode from '@runtime/evaluate';
+import BinaryEvaluate from '@nodes/BinaryEvaluate';
+import Conditional from '@nodes/Conditional';
+import type Node from '@nodes/Node';
+import Reference from '@nodes/Reference';
 
 test.each([
     ['⊥ ? 2 3"', '1 ? 2 3', Conditional, ExpectedBooleanCondition],

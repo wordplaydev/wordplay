@@ -1,22 +1,38 @@
 <script module lang="ts">
     /** How long to wait until considering typing idle. */
-    export const KeyboardIdleWaitTime = 1000;
+    export const KeyboardIdleWaitTime = 500;
 </script>
 
 <!-- svelte-ignore state_referenced_locally -->
 <script lang="ts">
     import { goto } from '$app/navigation';
     import { page } from '$app/state';
+    import Annotations from '@components/annotations/Annotations.svelte';
     import CollaborateView from '@components/app/chat/CollaborateView.svelte';
-    import Subheader from '@components/app/Subheader.svelte';
+    import Emoji from '@components/app/Emoji.svelte';
+    import { extractPreview } from '@components/app/extractPreview';
+    import { getLocalizedProjectName } from '@db/projects/getLocalizedProjectName';
     import Documentation from '@components/concepts/Documentation.svelte';
+    import {
+        handleKeyCommand,
+        Pause,
+        Play,
+        Restart,
+        toShortcut,
+        VisibleModifyCommands,
+        VisibleNavigateCommands,
+        type CommandContext,
+    } from '@components/editor/commands/Commands';
     import GlyphInserter from '@components/editor/commands/GlyphInserter.svelte';
     import Highlight from '@components/editor/highlights/Highlight.svelte';
     import Menu from '@components/editor/menu/Menu.svelte';
     import Speech from '@components/lore/Speech.svelte';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import Mode from '@components/widgets/Mode.svelte';
+    import Options from '@components/widgets/Options.svelte';
+    import Tour, { type UIExplanation } from '@components/widgets/Tour.svelte';
+    import type Concept from '@concepts/Concept';
+    import ConceptIndex from '@concepts/ConceptIndex';
     import {
         getConceptFromURL,
         setConceptInURL,
@@ -24,23 +40,7 @@
     import type Conflict from '@conflicts/Conflict';
     import type Chat from '@db/chats/ChatDatabase.svelte';
     import type { Creator } from '@db/creators/CreatorDatabase';
-    import type Project from '@db/projects/Project';
     import {
-        AnimationFactorIcons,
-        AnimationFactors,
-    } from '@db/settings/AnimationFactorSetting';
-    import type Locale from '@locale/Locale';
-    import Node, { isFieldPosition } from '@nodes/Node';
-    import Source from '@nodes/Source';
-    import { CANCEL_SYMBOL } from '@parser/Symbols';
-    import { isName } from '@parser/Tokenizer';
-    import Evaluator from '@runtime/Evaluator';
-    import { onDestroy, onMount, tick, untrack } from 'svelte';
-    import { writable, type Writable } from 'svelte/store';
-    import type Concept from '../../concepts/Concept';
-    import ConceptIndex from '../../concepts/ConceptIndex';
-    import {
-        animationFactor,
         arrangement,
         blocks,
         camera,
@@ -54,60 +54,49 @@
         mic,
         Projects,
         Settings,
-    } from '../../db/Database';
-    import { isFlagged } from '../../db/projects/Moderation';
+    } from '@db/Database';
+    import type Project from '@db/projects/Project';
     import Arrangement, {
         isResizeable,
         type ArrangementType,
-    } from '../../db/settings/Arrangement';
+    } from '@db/settings/Arrangement';
+    import { consent, refreshConsentFromBrowser } from '@input/permissions';
+    import type Locale from '@locale/Locale';
+    import Evaluate from '@nodes/Evaluate';
+    import Node, { isFieldPosition } from '@nodes/Node';
+    import Source from '@nodes/Source';
+    import type Color from '@output/Color';
+    import {
+        CANCEL_SYMBOL,
+        EXCEPTION_SYMBOL,
+        INFO_SYMBOL,
+    } from '@parser/Symbols';
+    import { isName } from '@parser/Tokenizer';
+    import Evaluator from '@runtime/Evaluator';
+    import type Value from '@values/Value';
+    import { onDestroy, onMount, tick, untrack } from 'svelte';
+    import { writable, type Writable } from 'svelte/store';
     import Characters from '../../lore/BasisCharacters';
-    import type Color from '../../output/Color';
     import {
         PROJECT_PARAM_EDIT,
         PROJECT_PARAM_PLAY,
-    } from '../../routes/project/constants';
-    import type Value from '../../values/Value';
-    import Annotations from '../annotations/Annotations.svelte';
-    import CreatorView from '../app/CreatorView.svelte';
-    import Emoji from '../app/Emoji.svelte';
-    import {
-        EnterFullscreen,
-        ExitFullscreen,
-        handleKeyCommand,
-        Restart,
-        ShowKeyboardHelp,
-        VisibleModifyCommands,
-        VisibleNavigateCommands,
-        type CommandContext,
-    } from '../editor/commands/Commands';
+    } from '../../routes/[[locale]]/project/constants';
 
     import Toolbar from '@components/editor/commands/Toolbar.svelte';
     import Editor from '@components/editor/Editor.svelte';
-    import type Gallery from '@db/galleries/Gallery';
-    import GalleryHowTo from '@db/howtos/HowToDatabase.svelte';
-    import type MenuInfo from '@edit/menu/Menu';
-    import type { LocaleTextAccessor } from '@locale/Locales';
-    import type { HighlightSpec } from '../editor/highlights/Highlights';
-    import getOutlineOf, { getUnderlineOf } from '../editor/highlights/outline';
-    import Timeline from '../evaluator/Timeline.svelte';
-    import OutputView from '../output/OutputView.svelte';
-    import type PaintingConfiguration from '../output/PaintingConfiguration';
-    import Palette from '../palette/Palette.svelte';
-    import Button from '../widgets/Button.svelte';
-    import CommandButton from '../widgets/CommandButton.svelte';
-    import ConfirmButton from '../widgets/ConfirmButton.svelte';
-    import Dialog from '../widgets/Dialog.svelte';
-    import TextField from '../widgets/TextField.svelte';
-    import Toggle from '../widgets/Toggle.svelte';
-    import type Bounds from './Bounds';
-    import Checkpoints from './Checkpoints.svelte';
+    import type { HighlightSpec } from '@components/editor/highlights/Highlights';
+    import getOutlineOf, {
+        getUnderlineOf,
+    } from '@components/editor/highlights/outline';
+    import Timeline from '@components/evaluator/Timeline.svelte';
+    import OutputView from '@components/output/OutputView.svelte';
+    import type PaintingConfiguration from '@components/output/PaintingConfiguration';
+    import Palette from '@components/palette/Palette.svelte';
+    import type Bounds from '@components/project/Bounds';
     import {
-        getAnnouncer,
         getConceptPath,
         getFullscreen,
-        getUser,
         IdleKind,
-        isAuthenticated,
         setAnimatingNodes,
         setConceptIndex,
         setConflicts,
@@ -117,29 +106,41 @@
         setKeyboardEditIdle,
         setKeyboardModifiers,
         setProjectCommandContext,
+        setResetKeyboardIdle,
         setSelectedOutput,
         type ConceptPath,
         type EditorState,
         type KeyModifierState,
-    } from './Contexts';
-    import CopyButton from './CopyButton.svelte';
-    import CurrentLayout from './CurrentLayout.svelte';
-    import FullscreenIcon from './FullscreenIcon.svelte';
-    import Layout from './Layout';
-    import Moderation from './Moderation.svelte';
-    import NonSourceTileToggle from './NonSourceTileToggle.svelte';
-    import OutputLocaleChooser from './OutputLocaleChooser.svelte';
-    import PositionAdjuster from './PositionAdjuster.svelte';
-    import RootView from './RootView.svelte';
-    import SelectedOutput from './SelectedOutput.svelte';
-    import Separator from './Separator.svelte';
-    import Sharing from './Sharing.svelte';
-    import Shortcuts from './Shortcuts.svelte';
-    import SourceTileToggle from './SourceTileToggle.svelte';
-    import Tile, { TileMode } from './Tile';
-    import { TileKind } from './TileKind';
-    import TileView, { type ResizeDirection } from './TileView.svelte';
-    import Translate from './Translate.svelte';
+    } from '@components/project/Contexts';
+    import CopyButton from '@components/project/CopyButton.svelte';
+    import Layout from '@components/project/Layout';
+    import Moderation from '@components/project/Moderation.svelte';
+    import OutputLocaleChooser from '@components/project/OutputLocaleChooser.svelte';
+    import PositionAdjuster from '@components/project/PositionAdjuster.svelte';
+    import ProjectFooter from '@components/project/ProjectFooter.svelte';
+    import RootView from '@components/project/RootView.svelte';
+    import SelectedOutput from '@components/project/SelectedOutput.svelte';
+    import Tile, { TileMode } from '@components/project/Tile';
+    import { TileKind } from '@components/project/TileKind';
+    import TileView, {
+        type ResizeDirection,
+    } from '@components/project/TileView.svelte';
+    import Button from '@components/widgets/Button.svelte';
+    import CommandButton from '@components/widgets/CommandButton.svelte';
+    import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
+    import Switch from '@components/widgets/Switch.svelte';
+    import Toggle from '@components/widgets/Toggle.svelte';
+    import type Gallery from '@db/galleries/Gallery';
+    import GalleryHowTo from '@db/howtos/HowToDatabase.svelte';
+    import {
+        AnimationFactorIcons,
+        AnimationFactors,
+        AnimationFactorSetting,
+        AnimationIcon,
+    } from '@db/settings/AnimationFactorSetting';
+    import type MenuInfo from '@edit/menu/Menu';
+    import type { LocaleTextAccessor } from '@locale/Locales';
+    import RemoteCarets from '@components/editor/RemoteCarets.svelte';
 
     interface Props {
         project: Project;
@@ -153,8 +154,6 @@
         fit?: boolean;
         /** True if the project should focus the main editor source on mount */
         autofocus?: boolean;
-        /** True if the project was overwritten by another instance of Wordplay */
-        overwritten?: boolean;
         /** Show the guide if the project is empty */
         guide?: boolean;
         /** True if the moderation warnings should show */
@@ -178,7 +177,6 @@
         showOutput = false,
         fit = true,
         autofocus = true,
-        overwritten = false,
         guide = true,
         warn = true,
         shareable = true,
@@ -187,6 +185,11 @@
         persistLayout = true,
         isCommenter = false,
     }: Props = $props();
+
+    /** The raw user-chosen animation factor (number or null for "auto"); used
+     * by the animation-speed picker so it reflects the actual choice rather
+     * than the effective resolved value. */
+    const animationFactor = AnimationFactorSetting.value;
 
     // The HTMLElement that represents this element
     let view = $state<HTMLElement | undefined>(undefined);
@@ -275,13 +278,8 @@
         page.url.searchParams.get(PROJECT_PARAM_EDIT) !== null,
     );
 
-    const user = getUser();
-
     /** The fullscreen context of the page that this is in. */
     const pageFullscreen = getFullscreen();
-
-    /** The live region announcer */
-    const announce = getAnnouncer();
 
     /** Tell the parent Page whether we're in fullscreen so it can hide and color things appropriately. */
     $effect(() => {
@@ -310,7 +308,56 @@
     const keyboardEditIdle = writable<IdleKind>(IdleKind.Idle);
     setKeyboardEditIdle(keyboardEditIdle);
 
-    let keyboardIdleTimeout = $state<NodeJS.Timeout | undefined>(undefined);
+    let keyboardIdleTimeout: NodeJS.Timeout | undefined = undefined;
+
+    /** Reset the keyboard idle timeout. Called on every keystroke so the
+     * 1s idle window correctly debounces, but does NOT touch the
+     * keyboardEditIdle store — that would re-fire every subscriber on
+     * every keystroke (the timer-arming effect, the conflicts gate, the
+     * displayedCaret defer effect, etc.) most of which are idempotent
+     * when the idle state hasn't actually changed. */
+    function resetKeyboardIdle() {
+        if (keyboardIdleTimeout) clearTimeout(keyboardIdleTimeout);
+        keyboardIdleTimeout = setTimeout(
+            () => keyboardEditIdle.set(IdleKind.Idle),
+            KeyboardIdleWaitTime,
+        );
+    }
+    setResetKeyboardIdle(resetKeyboardIdle);
+    onDestroy(() => {
+        if (keyboardIdleTimeout) clearTimeout(keyboardIdleTimeout);
+    });
+
+    // Live coediting (Yjs CRDT + Firestore update transport + presence
+    // heartbeat) is view-driven: we activate it when the user opens
+    // this project and tear it down when they leave. Activating in
+    // ProjectsDatabase.track() instead would spin up a Y.Doc and two
+    // Firestore listeners for *every* project the user has access to,
+    // even ones they aren't looking at — wasted quota.
+    //
+    // Lifecycle hooks (onMount / onDestroy), not $effect: this isn't
+    // reactive work and using $effect produces an infinite loop. The
+    // cleanup deactivates the CRDT, which calls history.edit to
+    // capture the final snapshot — that write fires reactive deps
+    // that the parent route reads to re-derive the `project` prop,
+    // which would re-fire any $effect that reads `project`. Pinning
+    // the project ID at component init and running activate/deactivate
+    // exactly once each sidesteps the loop entirely. ProjectView
+    // remounts on SvelteKit route changes, so re-activation on URL
+    // change happens naturally via the next mount.
+    const crdtProjectID = project.getID();
+    onMount(() => {
+        Projects.activateCRDT(crdtProjectID);
+    });
+    onDestroy(() => {
+        // deactivateCRDT is async (it awaits the final flush of
+        // queued realtime updates before tearing down). The
+        // in-memory snapshot capture happens *synchronously* inside
+        // before any await, so a rapid re-mount after this unmount
+        // would still see the latest snapshot on the in-memory
+        // project — see the docs on deactivateCRDT.
+        void Projects.deactivateCRDT(crdtProjectID);
+    });
 
     /** Keep a project global store indicating modifier key state, so that controls can highlight themselves */
     const keyModifiers = writable<KeyModifierState>({
@@ -328,23 +375,6 @@
 
     /** Keep a reactive map from source to EditorLocale chosen for the source */
     let editorLocales = $state<Record<string, Locale | null>>({});
-
-    // When keyboard isn't idle, set a timeout to set it to idle later.
-    // to reset it to false after a delay.
-    $effect(() => {
-        if ($keyboardEditIdle !== IdleKind.Idle) {
-            untrack(() => {
-                if (keyboardIdleTimeout) clearTimeout(keyboardIdleTimeout);
-                keyboardIdleTimeout = setTimeout(
-                    () => keyboardEditIdle.set(IdleKind.Idle),
-                    KeyboardIdleWaitTime,
-                );
-            });
-        }
-        return () => {
-            if (keyboardIdleTimeout) clearTimeout(keyboardIdleTimeout);
-        };
-    });
 
     /** Make the project global selected output and set it in a context. */
     let selectedOutput = new SelectedOutput();
@@ -370,7 +400,23 @@
 
     // When the project changes, create a new evaluator, observe it.
     let staleEvaluator = $state(false);
+    /** The project we last built the evaluator from. Used to skip rebuilds
+     *  for metadata-only changes (e.g., preview-glyph updates) — the
+     *  Evaluator only cares about id + name + sources, which is exactly
+     *  what `Project.equals()` compares. Without this, toggling
+     *  manual→auto in the share dialog would rebuild the evaluator from
+     *  scratch and the preview-write would race the fresh evaluation,
+     *  leaving a visible delay (or worse, stamping EXCEPTION_SYMBOL). */
+    let lastProjectForEvaluator: Project | undefined;
     projectStore.subscribe((newProject) => {
+        if (
+            lastProjectForEvaluator !== undefined &&
+            lastProjectForEvaluator.equals(newProject)
+        ) {
+            lastProjectForEvaluator = newProject;
+            return;
+        }
+        lastProjectForEvaluator = newProject;
         // If the project change, but the creator is typing, debounce update after the keyboard idle wait time.
         if ($keyboardEditIdle === IdleKind.Typing) staleEvaluator = true;
         // Otherwise, update immediately.
@@ -445,7 +491,118 @@
 
     /** Clean up the evaluator when unmounting. */
     onDestroy(() => {
-        $evaluator.stop();
+        // Cancel any pending debounced write — we're about to do it
+        // synchronously below.
+        if (pendingPreviewWrite !== undefined) {
+            clearTimeout(pendingPreviewWrite);
+            pendingPreviewWrite = undefined;
+        }
+        // If the user navigates away faster than the live evaluator
+        // produced its first value (e.g., type-and-immediately-back-out
+        // from ProjectView), getLatestSourceValue returns undefined and
+        // the write below would bail. Force the evaluator to a stable
+        // value with getInitialValue() — it resets and runs to completion
+        // synchronously, which is fine because we're about to stop the
+        // evaluator anyway.
+        if (
+            $evaluator !== undefined &&
+            $evaluator.getLatestSourceValue(project.getMain()) === undefined
+        ) {
+            try {
+                $evaluator.getInitialValue();
+            } catch {
+                // Best-effort: if the evaluator is in some torn-down
+                // state, fall through to writePreviewFromEvaluator which
+                // will bail on undefined.
+            }
+        }
+        writePreviewFromEvaluator();
+        $evaluator?.stop();
+    });
+
+    /**
+     * Auto-update the persisted project preview (issue #435). The live
+     * evaluator is already running, so we piggy-back on its current value
+     * instead of constructing a separate evaluator like /projects and
+     * /galleries used to do.
+     *
+     * Strategy:
+     *  - If no auto preview exists yet (fresh project, or the user just
+     *    toggled from manual back to auto), write immediately so the tile
+     *    isn't blank.
+     *  - Otherwise debounce: each `$evaluation` change cancels the pending
+     *    write and schedules a new one ~3s out. After 3s of no further
+     *    evaluator activity, the latest preview lands. This both avoids
+     *    history noise during a typing burst and guarantees the preview
+     *    eventually refreshes — the previous throttle could silently drop
+     *    every write between two evaluator settles.
+     */
+    let pendingPreviewWrite: ReturnType<typeof setTimeout> | undefined;
+    let lastWrittenText: string | undefined = undefined;
+    // Just long enough to coalesce typing-burst evaluations into a single
+    // write; short enough that a user editing and immediately switching
+    // tabs sees the new glyph on /projects without "wait a moment" feel.
+    // The onDestroy hook also forces a synchronous write on unmount, so
+    // this value is only the in-session typing-burst coalesce window.
+    const PREVIEW_DEBOUNCE_MS = 500;
+
+    function writePreviewFromEvaluator() {
+        if ($evaluator === undefined) return;
+        if (project.getPreview()?.mode === 'manual') return;
+        const value = $evaluator.getLatestSourceValue(project.getMain());
+        // The evaluator may not have produced a value yet (fresh project,
+        // just-recreated evaluator, etc.). Stamping `EXCEPTION_SYMBOL` over
+        // a cached good preview is worse than waiting — bail out and let
+        // the next $evaluation tick try again.
+        if (value === undefined) return;
+        const extracted = extractPreview($evaluator, value, $locales);
+        if (extracted.text === EXCEPTION_SYMBOL) return;
+        // Skip the write if the text hasn't changed since the last one —
+        // saves a no-op history.edit + saveSoon.
+        if (
+            extracted.text === lastWrittenText &&
+            project.getPreview()?.mode === 'auto'
+        )
+            return;
+        lastWrittenText = extracted.text;
+        Projects.setAutoPreview(project.getID(), extracted);
+    }
+
+    $effect(() => {
+        // Track both evaluator activity AND the project's current preview,
+        // so toggling manual→auto (which clears `preview` to undefined)
+        // also triggers a refresh.
+        $evaluation;
+        const current = project.getPreview();
+
+        // Manual override is the user's word — don't write.
+        if (current?.mode === 'manual') return;
+
+        // No auto preview yet → write immediately so the tile isn't blank.
+        if (current === undefined) {
+            if (pendingPreviewWrite !== undefined) {
+                clearTimeout(pendingPreviewWrite);
+                pendingPreviewWrite = undefined;
+            }
+            untrack(writePreviewFromEvaluator);
+            return;
+        }
+
+        // Have an auto preview — debounce subsequent updates so a typing
+        // burst doesn't push a history entry per keystroke.
+        if (pendingPreviewWrite !== undefined)
+            clearTimeout(pendingPreviewWrite);
+        pendingPreviewWrite = setTimeout(() => {
+            pendingPreviewWrite = undefined;
+            untrack(writePreviewFromEvaluator);
+        }, PREVIEW_DEBOUNCE_MS);
+
+        return () => {
+            if (pendingPreviewWrite !== undefined) {
+                clearTimeout(pendingPreviewWrite);
+                pendingPreviewWrite = undefined;
+            }
+        };
     });
 
     /** Several store contexts for tracking evaluator state. */
@@ -685,6 +842,170 @@
     /** True if the output should show a grid */
     let grid = $state(false);
 
+    /** Which tile-level tour is currently open, if any. */
+    let openTour = $state<
+        | undefined
+        | 'stage'
+        | 'source'
+        | 'docs'
+        | 'palette'
+        | 'collaborate'
+        | 'project'
+    >(undefined);
+
+    const stageTourSteps: UIExplanation[] = [
+        { uiid: 'stage', explanation: (l) => l.ui.output.tour.stage },
+        {
+            uiid: 'resetEvaluator',
+            explanation: (l) => l.ui.output.tour.reset,
+        },
+        { uiid: 'stageZoom', explanation: (l) => l.ui.output.tour.zoom },
+        { uiid: 'stageGrid', explanation: (l) => l.ui.output.tour.grid },
+        { uiid: 'stageLock', explanation: (l) => l.ui.output.tour.lock },
+        {
+            uiid: 'stageAnimationSpeed',
+            explanation: (l) => l.ui.output.tour.animationSpeed,
+        },
+    ];
+
+    const sourceTourSteps: UIExplanation[] = [
+        { uiid: 'editor', explanation: (l) => l.ui.source.tour.editor },
+        {
+            uiid: 'textBlocksToggle',
+            explanation: (l) => l.ui.source.tour.textBlocks,
+        },
+        {
+            uiid: 'editorToolbar',
+            explanation: (l) => l.ui.source.tour.toolbar,
+        },
+        {
+            uiid: 'editorExpand',
+            explanation: (l) => l.ui.source.tour.expand,
+        },
+        {
+            uiid: 'shortcutsDialog',
+            explanation: (l) => l.ui.source.tour.shortcuts,
+        },
+    ];
+
+    const projectTourSteps: UIExplanation[] = [
+        {
+            uiid: 'projectControls',
+            explanation: (l) => l.ui.project.tour.controls,
+        },
+        {
+            uiid: 'projectName',
+            explanation: (l) => l.ui.project.tour.name,
+        },
+        {
+            uiid: 'sourceToggle',
+            explanation: (l) => l.ui.project.tour.sourceToggle,
+        },
+        {
+            uiid: 'addSource',
+            explanation: (l) => l.ui.project.tour.addSource,
+        },
+        {
+            uiid: 'shareDialog',
+            explanation: (l) => l.ui.project.tour.share,
+        },
+        {
+            uiid: 'translateButton',
+            explanation: (l) => l.ui.project.tour.translate,
+        },
+        {
+            uiid: 'checkpoints',
+            explanation: (l) => l.ui.project.tour.checkpoints,
+        },
+    ];
+
+    /** Programmatically click the docs mode toggle for the given index
+     * (0 = code/language, 1 = how-to). Mode listens to `pointerdown`, so a
+     * synthesized event is what actually triggers selection. */
+    function setDocsMode(index: number) {
+        const buttons = document.querySelectorAll<HTMLButtonElement>(
+            '[data-uiid="docsModeToggle"] button',
+        );
+        const target = buttons[index];
+        if (target && target.getAttribute('aria-checked') !== 'true')
+            target.dispatchEvent(
+                new PointerEvent('pointerdown', {
+                    bubbles: true,
+                    button: 0,
+                    pointerType: 'mouse',
+                }),
+            );
+    }
+
+    const docsTourSteps: UIExplanation[] = [
+        { uiid: 'documentation', explanation: (l) => l.ui.docs.tour.guide },
+        {
+            uiid: 'documentation',
+            explanation: (l) => l.ui.docs.tour.code,
+            onEnter: () => setDocsMode(0),
+        },
+        {
+            uiid: 'documentation',
+            explanation: (l) => l.ui.docs.tour.howto,
+            onEnter: () => setDocsMode(1),
+        },
+        { uiid: 'docsModeToggle', explanation: (l) => l.ui.docs.tour.mode },
+        { uiid: 'docsSearch', explanation: (l) => l.ui.docs.tour.search },
+    ];
+
+    const paletteTourSteps: UIExplanation[] = [
+        { uiid: 'palette', explanation: (l) => l.ui.palette.tour.palette },
+        { uiid: 'paletteText', explanation: (l) => l.ui.palette.tour.text },
+        { uiid: 'paletteSet', explanation: (l) => l.ui.palette.tour.set },
+        { uiid: 'paletteUnset', explanation: (l) => l.ui.palette.tour.unset },
+        { uiid: 'editor', explanation: (l) => l.ui.palette.tour.editor },
+        { uiid: 'stage', explanation: (l) => l.ui.palette.tour.stage },
+    ];
+
+    const collaborateTourSteps: UIExplanation[] = [
+        {
+            uiid: 'collaborate',
+            explanation: (l) => l.ui.collaborate.tour.collaborate,
+        },
+        {
+            uiid: 'collaborators',
+            explanation: (l) => l.ui.collaborate.tour.collaborators,
+        },
+        {
+            uiid: 'commenters',
+            explanation: (l) => l.ui.collaborate.tour.commenters,
+        },
+        {
+            uiid: 'viewers',
+            explanation: (l) => l.ui.collaborate.tour.viewers,
+        },
+        {
+            uiid: 'restrictGallery',
+            explanation: (l) => l.ui.collaborate.tour.restrict,
+        },
+    ];
+
+    /** Open the palette tour, first selecting any Phrase in the project so
+     * the palette has properties to display. Falls back to highlighting the
+     * empty palette if no Phrase exists. */
+    function startPaletteTour() {
+        for (const source of project.getSources()) {
+            const phrases = source.root.root.nodes(
+                (node): node is Evaluate =>
+                    node instanceof Evaluate &&
+                    node.is(
+                        project.shares.output.Phrase,
+                        project.getNodeContext(node),
+                    ),
+            );
+            if (phrases.length > 0) {
+                selectedOutput.setPaths(project, [phrases[0]], 'palette');
+                break;
+            }
+        }
+        openTour = 'palette';
+    }
+
     /** Undefined or an object defining painting configuration */
     let painting = $state(false);
     let paintingConfig = $state<PaintingConfiguration>({
@@ -718,6 +1039,8 @@
     });
 
     let latestProject: Project | undefined;
+    let latestHowTos: unknown = undefined;
+    let latestGalleryHowTos: GalleryHowTo[] = [];
 
     // get the user generated how-tos that are in a gallery, if the gallery exists
     let galleryHowTos = $state<GalleryHowTo[]>([]);
@@ -747,43 +1070,65 @@
 
     // When dependencies change, create a new concept index.
     $effect(() => {
-        if (
-            index === undefined ||
-            ($keyboardEditIdle === IdleKind.Idle && latestProject !== project)
-        ) {
-            latestProject = project;
+        // Read reactive inputs in the outer scope so the effect re-runs when
+        // they change (howTos loading, gallery changes, project edit).
+        const resolvedHowTos = howTos instanceof Promise ? [] : howTos;
+        const currentGalleryHowTos = galleryHowTos;
+        // Rebuild after the user finishes typing (Idle) or on a single
+        // atomic edit (Typed) — but never mid-flurry, since walking the
+        // source for StructureDefinition/FunctionDefinition/Bind concepts
+        // is expensive and the result would be discarded on the next key.
+        const notTyping = $keyboardEditIdle !== IdleKind.Typing;
+        const currentProject = project;
 
-            // Make a new concept index with the new project and translations, but the old examples.
-            const newIndex = project
-                ? ConceptIndex.make(
-                      project,
-                      $locales,
-                      howTos instanceof Promise ? [] : howTos,
-                      galleryHowTos,
-                  ).withExamples(
-                      index === undefined ? new Map() : index.examples,
-                  )
-                : undefined;
+        // Wrap the rebuild logic in untrack() so that reads and writes of
+        // index and $path don't create a dependency cycle: without this,
+        // writing index/path would re-trigger this effect.
+        untrack(() => {
+            if (
+                index === undefined ||
+                (notTyping && latestProject !== currentProject) ||
+                resolvedHowTos !== latestHowTos ||
+                currentGalleryHowTos !== latestGalleryHowTos
+            ) {
+                latestProject = currentProject;
+                latestHowTos = resolvedHowTos;
+                latestGalleryHowTos = currentGalleryHowTos;
 
-            // Set the index
-            index = newIndex;
+                // Make a new concept index with the new project and translations, but the old examples.
+                const newIndex = currentProject
+                    ? ConceptIndex.make(
+                          currentProject,
+                          $locales,
+                          resolvedHowTos ?? [],
+                          HowTos.allAccessiblePublishedHowTos,
+                      ).withExamples(
+                          index === undefined ? new Map() : index.examples,
+                      )
+                    : undefined;
 
-            // Map the old path to the new one using concept equality.
-            if (path)
-                path.set(
-                    index && $path
-                        ? $path
-                              .map((concept) => index?.getEquivalent(concept))
-                              .filter((c): c is Concept => c !== undefined)
-                        : [],
+                // Set the index
+                index = newIndex;
+
+                // Map the old path to the new one using concept equality.
+                if (path)
+                    path.set(
+                        newIndex && $path
+                            ? $path
+                                  .map((concept) =>
+                                      newIndex?.getEquivalent(concept),
+                                  )
+                                  .filter((c): c is Concept => c !== undefined)
+                            : [],
+                    );
+
+                // Ensure the selected source index is in bounds.
+                selectedSourceIndex = Math.min(
+                    selectedSourceIndex,
+                    currentProject.getSupplements().length,
                 );
-
-            // Ensure the selected source index is in bounds.
-            selectedSourceIndex = Math.min(
-                selectedSourceIndex,
-                project.getSupplements().length,
-            );
-        }
+            }
+        });
     });
 
     // When the path changes, show the docs and mirror the concept in the URL.
@@ -836,38 +1181,64 @@
             .flat(),
     );
 
+    /** Permissions the current project needs but for which the user hasn't yet made a decision. */
+    const requiredPermissions = $derived(project.getRequiredPermissions());
+    const pendingPermissions = $derived(
+        new Set(
+            [...requiredPermissions].filter((p) => $consent[p] === 'unknown'),
+        ),
+    );
+
+    /** When the project's required permissions change, see if the browser already granted them. */
+    $effect(() => {
+        for (const permission of requiredPermissions) {
+            untrack(() => refreshConsentFromBrowser(permission));
+        }
+    });
+
     /**
-     * Any time the evaluator of the project changes, start it.
+     * Any time the evaluator of the project changes, start it — unless a
+     * required browser permission has not yet been granted.
      * */
     let updateTimer = $state<NodeJS.Timeout | undefined>(undefined);
     $effect(() => {
-        // Re-evaluate immediately if not started.
+        if (pendingPermissions.size > 0) return;
         if (!$evaluator.isStarted()) $evaluator.start();
     });
 
     function updateConflicts() {
+        // During a typing flurry skip the analysis entirely. project.analyze()
+        // walks every source node, computes types and conflicts, and is
+        // 50-200ms on a 100+ line program. Running it on every keystroke (and
+        // throwing the result away on the next stroke) is the dominant cost
+        // of typing in large files. The effect below re-fires when
+        // $keyboardEditIdle leaves Typing, at which point we'll catch up.
+        if ($keyboardEditIdle === IdleKind.Typing) return;
+
         // Analyzed? Update the conflicts immediately.
         if (project.analyzed === 'analyzed') {
             conflicts.set(project.getConflicts());
         }
-        // Not yet analyzed? Analyze in a bit.
+        // Not yet analyzed? Run analysis now and publish.
         else if (project.analyzed === 'unanalyzed') {
             project.analyze();
-            updateTimer = setTimeout(() => {
-                project.analyze();
-                updateConflicts();
-            }, KeyboardIdleWaitTime);
+            conflicts.set(project.getConflicts());
         }
-        // Still analyzing? Try again later.
+        // Still analyzing (re-entrant case)? Try again shortly.
         else {
             if (updateTimer) clearTimeout(updateTimer);
             updateTimer = setTimeout(updateConflicts, KeyboardIdleWaitTime);
         }
     }
 
-    /** Any time the project changes, update the conflicts soon */
+    /** Any time the project changes or typing settles, update the conflicts. */
     $effect(() => {
-        if (project) updateConflicts();
+        // Track both: project change re-fires (post-edit) and idle transitions
+        // re-fire (typing → typed/idle) so analysis happens as soon as the user
+        // pauses.
+        project;
+        $keyboardEditIdle;
+        updateConflicts();
         return () => {
             if (updateTimer) clearTimeout(updateTimer);
         };
@@ -885,6 +1256,17 @@
             if (tile && tile.mode === TileMode.Collapsed) {
                 untrack(() => setMode(tile, TileMode.Expanded));
             }
+        }
+    });
+
+    /** Clear output selection when evaluation resumes, so stale handles don't linger. */
+    $effect(() => {
+        if ($evaluation.playing === true) {
+            selectedOutput.empty();
+            // Close the palette when playing resumes, since content can't be edited while playing.
+            const palette = untrack(() => layout).getPalette();
+            if (palette && palette.mode === TileMode.Expanded)
+                untrack(() => setMode(palette, TileMode.Collapsed));
         }
     });
 
@@ -913,6 +1295,12 @@
     }
 
     let outputView = $state<OutputView | undefined>(undefined);
+
+    /** Tracks whether the current stage value has an explicit place set, so the toolbar can show a reset-zoom button. */
+    let hasStagePlace = $state(false);
+
+    /** Tracks whether the audience has overridden the stage's computed focus, so the reset-zoom button can be disabled when there is nothing to reset. */
+    let focusOverridden = $state(false);
 
     let adjusting = $state(false);
 
@@ -1074,24 +1462,22 @@
     // false: couldn't load it.
     let chat = $state<Chat | undefined | null | false>(null);
     $effect(() => {
-        // When the project or chat change, get the chat.
-        Chats.getChat(project).then((retrievedChat) => {
-            chat = retrievedChat;
-        });
-    });
-
-    // When ovewritten, announce it
-    $effect(() => {
-        if (overwritten)
-            untrack(() => {
-                if ($announce) {
-                    $announce(
-                        project.getID(),
-                        $locales.getLanguages()[0],
-                        $locales.getPlainText((l) => l.ui.source.overwritten),
-                    );
-                }
+        // Re-fetch whenever the project changes; do NOT subscribe to the
+        // chats $state map. Doing so would register this effect's closure
+        // as a reaction on Chats.chats — and that closure transitively
+        // captures the whole ProjectView script scope (including the
+        // commandContext $derived, which exposes the live evaluator and
+        // its temporalStreams). On any kind of remount the stale reaction
+        // would pin an old Evaluator (and therefore the old Hand stream,
+        // its camera DOM, and its MediaPipe WebAssembly.Memory) until the
+        // ChatDatabase singleton itself goes away — which never happens
+        // during a page session.
+        const currentProject = project;
+        untrack(() => {
+            Chats.getChat(currentProject).then((retrievedChat) => {
+                chat = retrievedChat;
             });
+        });
     });
 
     let currentArrangement = $state<ArrangementType>($arrangement);
@@ -1230,6 +1616,9 @@
         if (tile === layout.getPalette()) {
             if (tile.mode === TileMode.Expanded)
                 selectedOutput.setPaths(project, [], 'editor');
+            // Pause the evaluator when the palette opens, so content can be edited.
+            if (mode === TileMode.Expanded && $evaluator.isPlaying())
+                $evaluator.pause();
         }
 
         layout = layout
@@ -1455,8 +1844,17 @@
 
         if (isFieldPosition(anchor)) {
             // Is it a field position? Position near the field.
-            const trigger = editor.querySelector(
+            // The descendant combinator would also match triggers inside
+            // nested .node-view children (which can reuse the same field
+            // name, e.g. inner and outer Evaluate.inputs), so filter to the
+            // trigger whose closest .node-view ancestor is the actual parent.
+            const candidates = editor.querySelectorAll(
                 `.node-view[data-id="${anchor.parent.id}"] .trigger[data-field="${anchor.field}"]`,
+            );
+            const trigger = Array.from(candidates).find(
+                (t) =>
+                    t.closest('.node-view')?.getAttribute('data-id') ===
+                    String(anchor.parent.id),
             );
             if (trigger == null) return undefined;
             const triggerBounds = trigger.getBoundingClientRect();
@@ -1544,10 +1942,8 @@
     function stopPlaying() {
         const main = layout.getTileWithID(Layout.getSourceID(0));
         if (main) {
-            if (requestedPlay) {
-                requestedPlay = false;
-                setMode(main, TileMode.Expanded);
-            }
+            requestedPlay = false;
+            setMode(main, TileMode.Expanded);
             layout = layout.withoutFullscreen();
         }
     }
@@ -1557,7 +1953,10 @@
     }
 </script>
 
-<svelte:head><title>Wordplay - {project.getName()}</title></svelte:head>
+<svelte:head
+    ><title>Wordplay - {getLocalizedProjectName(project, $locales)}</title
+    ></svelte:head
+>
 
 <svelte:window
     onkeydown={handleKey}
@@ -1654,6 +2053,64 @@
                         >
                             {#snippet title()}{/snippet}
 
+                            {#snippet help()}
+                                {#if tile.kind === TileKind.Output}
+                                    <Button
+                                        tip={(l) => l.ui.output.tour.launch}
+                                        background="circular"
+                                        padding={false}
+                                        icon={INFO_SYMBOL}
+                                        uiid="stageTourLaunch"
+                                        action={() => {
+                                            openTour = 'stage';
+                                        }}
+                                    ></Button>
+                                {:else if tile.kind === TileKind.Source}
+                                    <Button
+                                        tip={(l) => l.ui.source.tour.launch}
+                                        background="circular"
+                                        padding={false}
+                                        icon={INFO_SYMBOL}
+                                        uiid="sourceTourLaunch"
+                                        action={() => {
+                                            openTour = 'source';
+                                        }}
+                                    ></Button>
+                                {:else if tile.kind === TileKind.Documentation}
+                                    <Button
+                                        tip={(l) => l.ui.docs.tour.launch}
+                                        background="circular"
+                                        padding={false}
+                                        icon={INFO_SYMBOL}
+                                        uiid="docsTourLaunch"
+                                        action={() => {
+                                            openTour = 'docs';
+                                        }}
+                                    ></Button>
+                                {:else if tile.kind === TileKind.Palette}
+                                    <Button
+                                        tip={(l) => l.ui.palette.tour.launch}
+                                        background="circular"
+                                        padding={false}
+                                        icon={INFO_SYMBOL}
+                                        uiid="paletteTourLaunch"
+                                        action={startPaletteTour}
+                                    ></Button>
+                                {:else if tile.kind === TileKind.Collaborate}
+                                    <Button
+                                        tip={(l) =>
+                                            l.ui.collaborate.tour.launch}
+                                        background="circular"
+                                        padding={false}
+                                        icon={INFO_SYMBOL}
+                                        uiid="collaborateTourLaunch"
+                                        action={() => {
+                                            openTour = 'collaborate';
+                                        }}
+                                    ></Button>
+                                {/if}
+                            {/snippet}
+
                             {#snippet extra()}
                                 {#if tile.kind === TileKind.Source}
                                     {@const source = getSourceByTileID(tile.id)}
@@ -1678,7 +2135,6 @@
                                     {#if (requestedPlay || showOutput) && layout.isFullscreen()}<Button
                                             uiid="editProject"
                                             background
-                                            padding={false}
                                             tip={(l) =>
                                                 l.ui.page.projects.button
                                                     .viewcode}
@@ -1687,8 +2143,24 @@
                                         ></Button>{/if}
                                     <CommandButton
                                         background
+                                        padding
                                         command={Restart}
                                     />
+                                    {#if requestedPlay || showOutput}
+                                        <Switch
+                                            on={$evaluation?.playing === true}
+                                            toggle={(play) =>
+                                                play
+                                                    ? $evaluator.play()
+                                                    : $evaluator.pause()}
+                                            offTip={Pause.description}
+                                            onTip={Play.description}
+                                            offLabel={Pause.symbol}
+                                            onLabel={Play.symbol}
+                                            uiid="playToggle"
+                                            shortcut={toShortcut(Play)}
+                                        />
+                                    {/if}
                                     {#if localesUsed.length > 0}<OutputLocaleChooser
                                             {localesUsed}
                                             locale={evaluationLocale}
@@ -1701,27 +2173,46 @@
                                     <Painting
                                             bind:painting
                                         />{/if} -->
-                                    <Button
-                                        action={() =>
-                                            outputView?.adjustZoom(-1)}
-                                        tip={(l) => l.ui.output.button.zoomOut}
-                                        padding={false}
-                                        ><Emoji>–🔎</Emoji></Button
+                                    <span
+                                        class="zoom-group"
+                                        data-uiid="stageZoom"
                                     >
-                                    <Button
-                                        action={() => outputView?.adjustZoom(1)}
-                                        tip={(l) => l.ui.output.button.zoomIn}
-                                        padding={false}
-                                        ><Emoji>+🔎</Emoji></Button
-                                    >
+                                        <Button
+                                            background
+                                            action={() =>
+                                                outputView?.adjustZoom(-1)}
+                                            tip={(l) =>
+                                                l.ui.output.button.zoomOut}
+                                            ><Emoji>–🔎</Emoji></Button
+                                        >
+                                        <Button
+                                            background
+                                            action={() =>
+                                                outputView?.adjustZoom(1)}
+                                            tip={(l) =>
+                                                l.ui.output.button.zoomIn}
+                                            ><Emoji>+🔎</Emoji></Button
+                                        >
+                                    </span>
+                                    {#if hasStagePlace}
+                                        <Button
+                                            action={() =>
+                                                outputView?.resetZoom()}
+                                            tip={(l) =>
+                                                l.ui.output.button.resetZoom}
+                                            background
+                                            active={focusOverridden}
+                                            ><Emoji>⟲🔎</Emoji></Button
+                                        >
+                                    {/if}
                                     <Toggle
-                                        background
+                                        uiid="stageGrid"
                                         tips={(l) => l.ui.output.toggle.grid}
                                         on={grid}
                                         toggle={() => (grid = !grid)}
                                         ><Emoji>▦</Emoji></Toggle
                                     ><Toggle
-                                        background
+                                        uiid="stageLock"
                                         tips={(l) => l.ui.output.toggle.fit}
                                         on={fit}
                                         toggle={() => (fit = !fit)}
@@ -1729,26 +2220,37 @@
                                             >{#if fit}🔒{:else}🔓{/if}</Emoji
                                         ></Toggle
                                     >
-                                    <Mode
-                                        modes={(l) =>
-                                            l.ui.dialog.settings.mode.animate}
-                                        choice={AnimationFactors.indexOf(
-                                            $animationFactor,
-                                        )}
-                                        select={(choice) =>
-                                            Settings.setAnimationFactor(
-                                                AnimationFactors[choice],
-                                            )}
-                                        icons={AnimationFactorIcons}
-                                        modeLabels={false}
-                                        labeled={false}
-                                    />
-                                    {#if $animationFactor === 0}<LocalizedText
-                                            path={(l) =>
+                                    <label
+                                        class="output-locale"
+                                        data-uiid="stageAnimationSpeed"
+                                        >{AnimationIcon}
+                                        <Options
+                                            value={$animationFactor === null
+                                                ? 'auto'
+                                                : String($animationFactor)}
+                                            label={(l) =>
                                                 l.ui.dialog.settings.mode
-                                                    .animate.labels[0]}
+                                                    .animate.label}
+                                            options={AnimationFactors.map(
+                                                (factor, i) => ({
+                                                    value:
+                                                        factor === null
+                                                            ? 'auto'
+                                                            : String(factor),
+                                                    label: AnimationFactorIcons[
+                                                        i
+                                                    ],
+                                                }),
+                                            )}
+                                            change={(v) =>
+                                                Settings.setAnimationFactor(
+                                                    v === undefined ||
+                                                        v === 'auto'
+                                                        ? null
+                                                        : Number(v),
+                                                )}
                                         />
-                                    {/if}
+                                    </label>
                                 {:else if tile.isSource()}
                                     {#if !editable}<CopyButton {project}
                                         ></CopyButton>{/if}
@@ -1786,9 +2288,12 @@
                                         bind:fit
                                         bind:grid
                                         bind:painting
+                                        bind:hasStagePlace
+                                        bind:focusOverridden
                                         {paintingConfig}
                                         bind:background={outputBackground}
                                         editable={editableAndCurrent}
+                                        onretry={() => updateEvaluator(project)}
                                     />
                                 {:else if tile.kind === TileKind.Collaborate}
                                     <CollaborateView {project} {chat} />
@@ -1806,7 +2311,6 @@
                                                     tile.id
                                                 ] ?? null}
                                                 editable={editableAndCurrent}
-                                                {overwritten}
                                                 sourceID={tile.id}
                                                 selected={source ===
                                                     selectedSource}
@@ -1845,6 +2349,14 @@
                                 {@const notification =
                                     largeDeletionNotifications.get(tile.id)}
                                 {#if tile.kind === TileKind.Source && editable}
+                                    <!-- Collaborator chip row sits above
+                                         the glyph-insertion area, in the
+                                         same band the large-deletion
+                                         overlay uses. Renders nothing
+                                         when the local user is the only
+                                         editor. -->
+                                    <RemoteCarets projectID={project.getID()} />
+
                                     {#if editableAndCurrent}<GlyphInserter
                                             sourceID={tile.id}
                                         />{/if}
@@ -1886,7 +2398,7 @@
                                             />
                                         </div>
                                     {/if}
-                                {:else if tile.kind === TileKind.Output && layout.fullscreenID !== tile.id && !requestedPlay && !showOutput}
+                                {:else if tile.kind === TileKind.Output && !requestedPlay && !showOutput}
                                     <Timeline evaluator={$evaluator} />{/if}
                             {/snippet}
                             {#snippet margin()}
@@ -1901,7 +2413,8 @@
                                             conflicts={visibleConflicts}
                                             stepping={$evaluation.playing ===
                                                 false}
-                                            caret={$editors.get(tile.id)?.caret}
+                                            caret={$editors.get(tile.id)
+                                                ?.displayedCaret}
                                         />{/if}
                                 {/if}
                             {/snippet}
@@ -1938,128 +2451,30 @@
     </div>
 
     {#if !layout.isFullscreen() && !requestedPlay}
-        <nav class="footer">
-            <div class="footer-row">
-                {#if original}<Button
-                        uiid="revertProject"
-                        tip={(l) => l.ui.project.button.revert}
-                        active={!project.equals(original)}
-                        action={() => revert()}
-                        icon="↺"
-                    ></Button>{/if}
-                {#if creator}
-                    <CreatorView {creator} />
-                {/if}
-                <Subheader compact>
-                    {#if editable}
-                        <TextField
-                            id="project-name"
-                            text={project.getName()}
-                            description={(l) =>
-                                l.ui.project.field.name.description}
-                            placeholder={(l) =>
-                                l.ui.project.field.name.placeholder}
-                            changed={(name) =>
-                                Projects.reviseProject(project.withName(name))}
-                            max="7em"
-                        />
-                    {:else}{project.getName()}{/if}
-                </Subheader>
-                {#if editable}
-                    <Button
-                        uiid="addSource"
-                        tip={(l) => l.ui.project.button.addSource}
-                        action={addSource}
-                        icon="+{Characters.Program.symbols}"
-                    ></Button>{/if}
-                {#each sources as source, index (index)}
-                    {@const tile = layout.getTileWithID(
-                        Layout.getSourceID(index),
-                    )}
-                    {#if tile}
-                        <!-- Source toggle is expanded if it's mode is expanded and it's not empty -->
-                        <SourceTileToggle
-                            {project}
-                            {source}
-                            expanded={tile.mode === TileMode.Expanded &&
-                                !tile.isInvisible()}
-                            toggle={() => toggleTile(tile)}
-                        />
-                    {/if}
-                {/each}
-                {#each layout.getNonSources() as tile (tile.id)}
-                    <!-- No need to show the tile if not visible when not editable. -->
-                    <!-- Show collaborate tile if the user is a commenter -->
-                    {#if tile.isVisibleCollapsed(editable || (tile.kind === TileKind.Collaborate && isCommenter))}
-                        <NonSourceTileToggle
-                            {project}
-                            {tile}
-                            toggle={() => toggleTile(tile)}
-                            notification={tile.kind === TileKind.Collaborate &&
-                                !!chat &&
-                                isAuthenticated($user) &&
-                                chat.hasUnread($user.uid)}
-                        />
-                    {/if}
-                {/each}
-                <span class="right-align">
-                    <Dialog
-                        header={(l) => l.ui.dialog.help.header}
-                        explanation={(l) => l.ui.dialog.help.explanation}
-                        button={{
-                            tip: ShowKeyboardHelp.description,
-                            icon: ShowKeyboardHelp.symbol,
-                        }}><Shortcuts /></Dialog
-                    >
-                    <CurrentLayout
-                        arrangement={$arrangement}
-                        {canvasWidth}
-                        {canvasHeight}
-                    />
-                    <Toggle
-                        tips={(l) => l.ui.tile.toggle.fullscreen}
-                        on={browserFullscreen}
-                        command={browserFullscreen
-                            ? ExitFullscreen
-                            : EnterFullscreen}
-                        toggle={() => setBrowserFullscreen(!browserFullscreen)}
-                    >
-                        <FullscreenIcon />
-                    </Toggle>
-                </span>
-            </div>
-            {#if editable}
-                <div class="footer-row">
-                    {#if shareable}
-                        <Dialog
-                            header={(l) => l.ui.dialog.share.header}
-                            explanation={(l) => l.ui.dialog.share.explanation}
-                            button={{
-                                tip: (l) => l.ui.project.button.share.tip,
-                                icon:
-                                    project.isPublic() &&
-                                    isFlagged(project.getFlags())
-                                        ? '‼️'
-                                        : '↗',
-                                label: (l) => l.ui.project.button.share.label,
-                            }}
-                        >
-                            <Sharing {project} />
-                        </Dialog>
-                    {/if}
-                    <Separator />
-                    <Translate
-                        {project}
-                        showAll={() => {
-                            for (const id of Object.keys(editorLocales))
-                                editorLocales[id] = null;
-                        }}
-                    ></Translate>
-                    <Separator />
-                    <Checkpoints {project} bind:checkpoint></Checkpoints>
-                </div>
-            {/if}
-        </nav>
+        <ProjectFooter
+            {project}
+            {layout}
+            {editable}
+            {shareable}
+            {creator}
+            {chat}
+            {isCommenter}
+            {original}
+            arrangement={$arrangement}
+            {canvasWidth}
+            {canvasHeight}
+            {sources}
+            {editorLocales}
+            {browserFullscreen}
+            {setBrowserFullscreen}
+            {revert}
+            {addSource}
+            {toggleTile}
+            launchTour={() => {
+                openTour = 'project';
+            }}
+            bind:checkpoint
+        />
 
         <!-- Render the menu on top of the annotations -->
         {#if menu && menuPosition}
@@ -2091,6 +2506,44 @@
         {/if}
     {/if}
 </main>
+
+{#if openTour === 'stage'}
+    <Tour
+        explanations={stageTourSteps}
+        subheader={(l) => l.ui.tile.label.output}
+        close={() => (openTour = undefined)}
+    />
+{:else if openTour === 'source'}
+    <Tour
+        explanations={sourceTourSteps}
+        subheader={(l) => l.ui.tile.label.source}
+        close={() => (openTour = undefined)}
+    />
+{:else if openTour === 'docs'}
+    <Tour
+        explanations={docsTourSteps}
+        subheader={(l) => l.ui.tile.label.docs}
+        close={() => (openTour = undefined)}
+    />
+{:else if openTour === 'palette'}
+    <Tour
+        explanations={paletteTourSteps}
+        subheader={(l) => l.ui.tile.label.palette}
+        close={() => (openTour = undefined)}
+    />
+{:else if openTour === 'collaborate'}
+    <Tour
+        explanations={collaborateTourSteps}
+        subheader={(l) => l.ui.tile.label.collaborate}
+        close={() => (openTour = undefined)}
+    />
+{:else if openTour === 'project'}
+    <Tour
+        explanations={projectTourSteps}
+        subheader={(l) => l.ui.project.label}
+        close={() => (openTour = undefined)}
+    />
+{/if}
 
 <style>
     :global(body) {
@@ -2142,17 +2595,6 @@
         height: 100%;
     }
 
-    nav {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        flex-wrap: nowrap;
-        padding: var(--wordplay-spacing);
-        gap: var(--wordplay-spacing);
-        border-top: var(--wordplay-border-width) solid
-            var(--wordplay-border-color);
-    }
-
     .drag-outline {
         z-index: 2;
         pointer-events: none;
@@ -2187,32 +2629,6 @@
         height: 100%;
     }
 
-    .right-align {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: nowrap;
-        align-items: center;
-        margin-left: auto;
-        gap: var(--wordplay-spacing);
-    }
-
-    .footer {
-        overflow-x: auto;
-        display: flex;
-        flex-direction: column;
-        gap: var(--wordplay-spacing);
-        align-items: flex-start;
-    }
-
-    .footer-row {
-        width: 100%;
-        display: flex;
-        flex-direction: row;
-        flex-wrap: nowrap;
-        gap: var(--wordplay-spacing);
-        align-items: center;
-    }
-
     .editor-warning {
         width: 100%;
         padding: var(--wordplay-spacing);
@@ -2241,5 +2657,12 @@
         100% {
             transform: scale(1);
         }
+    }
+
+    /* Group the two zoom buttons so the Tour can highlight them together. */
+    .zoom-group {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--wordplay-spacing);
     }
 </style>

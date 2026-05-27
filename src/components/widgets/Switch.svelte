@@ -1,8 +1,9 @@
 <script lang="ts">
-    import { getTip } from '@components/project/Contexts';
+    import { getLocalizing, getTip } from '@components/project/Contexts';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import { locales } from '@db/Database';
     import type { LocaleTextAccessor } from '@locale/Locales';
-    import { withMonoEmoji } from '../../unicode/emoji';
+    import { withMonoEmoji } from '@unicode/emoji';
 
     interface Props {
         on: boolean;
@@ -30,6 +31,9 @@
     let offTipText = $derived($locales.getPlainText(offTip));
 
     let hint = getTip();
+    let localizing = getLocalizing();
+    let offEditing = $state(false);
+    let onEditing = $state(false);
     function showTip(view: HTMLSpanElement, tip: string) {
         hint.show(tip + (shortcut ? ` (${shortcut})` : ''), view);
     }
@@ -45,6 +49,7 @@
         aria-disabled={!on}
         aria-label={offTipText}
         tabindex="0"
+        onpointerdown={(event) => event.preventDefault()}
         onclick={(event) => {
             event.stopPropagation();
             toggle(false);
@@ -69,6 +74,7 @@
         aria-disabled={on}
         aria-label={onTipText}
         tabindex="0"
+        onpointerdown={(event) => event.preventDefault()}
         onpointerenter={(event) =>
             showTip(event.target as HTMLSpanElement, onTipText)}
         onpointerleave={hideTip}
@@ -85,6 +91,15 @@
     >
         {withMonoEmoji(onLabel)}
     </span>
+    {#if localizing?.on}{#if !onEditing}<LocalizedText
+                path={offTip}
+                tipIcon
+                onEditingChange={(e) => (offEditing = e)}
+            />{/if}{#if !offEditing}<LocalizedText
+                path={onTip}
+                tipIcon
+                onEditingChange={(e) => (onEditing = e)}
+            />{/if}{/if}
 </span>
 
 <style>
@@ -94,7 +109,7 @@
         align-items: center;
         user-select: none;
         font-family: var(--wordplay-app-font);
-        font-size: var(--wordplay-font-size);
+        font-size: var(--wordplay-small-font-size);
         font-weight: var(--wordplay-font-weight);
         color: var(--wordplay-foreground);
     }
@@ -105,9 +120,14 @@
         transform-origin: center;
         cursor: pointer;
         border-radius: var(--wordplay-border-radius);
-        padding: var(--wordplay-spacing-half);
-        border: 1px solid var(--wordplay-chrome);
+        padding: var(--wordplay-spacing);
+        border: var(--wordplay-border-width) solid var(--wordplay-border-color);
         background: var(--wordplay-background);
+        box-shadow: var(--wordplay-border-width) var(--wordplay-border-width) 0
+            var(--wordplay-border-color);
+        transition:
+            transform calc(var(--animation-factor) * 100ms),
+            box-shadow calc(var(--animation-factor) * 100ms);
     }
 
     .button.off {
@@ -132,25 +152,29 @@
     }
 
     .button.inactive {
-        transform: scale(1);
         color: var(--wordplay-foreground);
         background-color: var(--wordplay-background);
     }
 
     .button.inactive:hover {
-        transform: scale(1.05);
-        transform-origin: center;
-        z-index: 1;
         background-color: var(--wordplay-hover);
+        box-shadow: var(--wordplay-border-width) var(--wordplay-border-width) 0
+            var(--wordplay-border-color);
+        transform: translate(-1px, -1px);
+        z-index: 1;
     }
 
     .button.active {
-        transform: scale(1.1);
         color: var(--wordplay-background);
         background: var(--wordplay-highlight-color);
+        box-shadow: inset var(--wordplay-border-width)
+            var(--wordplay-border-width) 0 var(--wordplay-foreground);
     }
 
     .button:focus {
-        outline: var(--wordplay-focus-color) solid var(--wordplay-focus-width);
+        background: var(--wordplay-focus-color);
+        color: var(--wordplay-background);
+        fill: var(--wordplay-background);
+        outline: none;
     }
 </style>

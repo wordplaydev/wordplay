@@ -11,9 +11,10 @@ import type Input from '@nodes/Input';
 import type StructureDefinition from '@nodes/StructureDefinition';
 import type Token from '@nodes/Token';
 import type UnaryEvaluate from '@nodes/UnaryEvaluate';
-import type Locales from '../locale/Locales';
-import type StreamDefinition from '../nodes/StreamDefinition';
-import Conflict from './Conflict';
+import type Locales from '@locale/Locales';
+import type StreamDefinition from '@nodes/StreamDefinition';
+import type Node from '@nodes/Node';
+import Conflict, { type Resolutions } from '@conflicts/Conflict';
 
 export default class MissingInput extends Conflict {
     readonly func: FunctionDefinition | StructureDefinition | StreamDefinition;
@@ -43,12 +44,13 @@ export default class MissingInput extends Conflict {
             explanation: (locales: Locales, context: Context) =>
                 locales.concretize(
                     (l) => MissingInput.LocalePath(l).explanation,
-                    this.func.names.getPreferredNameString(
+                    {
+                        name: this.func.names.getPreferredNameString(
                         locales.getLocales(),
                     ) ??
                         this.func.names.getFirst() ??
                         '—',
-                    context.project.contains(this.input)
+                        input: context.project.contains(this.input)
                         ? new NodeRef(this.input, locales, context)
                         : new ConceptRef(
                               `${this.func.getPreferredName(
@@ -57,8 +59,16 @@ export default class MissingInput extends Conflict {
                                   locales.getLocales(),
                               )}`,
                           ),
+                    },
                 ),
         };
+    }
+
+    override getResolutions(
+        context: Context,
+        concepts: Node[],
+    ): Resolutions {
+        return Conflict.fromRegistry(this, context, concepts);
     }
 
     getLocalePath() {

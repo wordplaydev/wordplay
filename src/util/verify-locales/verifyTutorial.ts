@@ -8,6 +8,16 @@ import Source from '@nodes/Source';
 import { DOCS_SYMBOL } from '@parser/Symbols';
 import parseDoc from '@parser/parseDoc';
 import { toTokens } from '@parser/toTokens';
+import type LocalePath from '@util/verify-locales/LocalePath';
+import { getKeyTemplatePairs } from '@util/verify-locales/LocalePath';
+import type Log from '@util/verify-locales/Log';
+import TutorialSchema, {
+    DefaultTutorial,
+} from '@util/verify-locales/TutorialSchema';
+import Validator from '@util/verify-locales/Validator';
+import translate, {
+    getGoogleTranslateTargetLocale,
+} from '@util/verify-locales/translate';
 import { Performances } from '../../tutorial/Performances';
 import type Tutorial from '../../tutorial/Tutorial';
 import {
@@ -17,12 +27,46 @@ import {
     type PeformanceModeType,
     type Performance,
 } from '../../tutorial/Tutorial';
-import type LocalePath from './LocalePath';
-import { getKeyTemplatePairs } from './LocalePath';
-import type Log from './Log';
-import TutorialSchema, { DefaultTutorial } from './TutorialSchema';
-import Validator from './Validator';
-import translate, { getGoogleTranslateTargetLocale } from './translate';
+
+/**
+ * Cache of tutorial code conflict-analysis results, keyed by the snippet's
+ * source code. Tutorial snippets are overwhelmingly shared across locales
+ * (94%+ dedup ratio across all 26 locales) — translators don't change the
+ * code, only the surrounding dialog. Without this cache the verifier would
+ * re-run `Project.analyze` ~7,600 times per pass; with it, ~430.
+ *
+ * The cached value is the analysis output, not the Project — Projects are
+ * heavy and we don't need them after extracting conflicts.
+ */
+type AnalyzeResult = { conflicts: string[]; error: string | undefined };
+const analyzeCache = new Map<string, AnalyzeResult>();
+
+function analyzeTutorialCode(code: string, locale: LocaleText): AnalyzeResult {
+    const cached = analyzeCache.get(code);
+    if (cached) return cached;
+    let result: AnalyzeResult;
+    try {
+        const project = Project.make(
+            null,
+            'test',
+            new Source('start', code),
+            [],
+            locale,
+        );
+        project.analyze();
+        project.getAnalysis();
+        result = {
+            conflicts: Array.from(project.getConflictedNodes().values())
+                .flat()
+                .map((c) => c.toString()),
+            error: undefined,
+        };
+    } catch (error) {
+        result = { conflicts: [], error: String(error) };
+    }
+    analyzeCache.set(code, result);
+    return result;
+}
 
 /** Load, validate, and check the tutorial, and optionally translate. */
 export async function verifyTutorial(
@@ -135,40 +179,17 @@ async function checkTutorial(
             }
         } else code = list.join('\n');
         if (code) {
-            try {
-                const project = Project.make(
-                    null,
-                    'test',
-                    new Source('start', code),
-                    [],
-                    locale,
-                );
-
-                project.analyze();
-                project.getAnalysis();
-
-                if (
-                    !conflictsIntentional &&
-                    project.getConflictedNodes().size > 0
-                ) {
-                    log.bad(
-                        2,
-                        `Found conflicts ${Array.from(
-                            project.getConflictedNodes().values(),
-                        )
-                            .flat()
-                            .map((c) => c.toString())
-                            .join(
-                                ',',
-                            )} in program: ${code.substring(0, 100)}...`,
-                    );
-                }
-            } catch (error) {
+            const result = analyzeTutorialCode(code, locale);
+            if (result.error)
                 log.bad(
                     2,
-                    `Unable to create project and check for conflicts tutorial code: ${code}.\n${error}`,
+                    `Unable to create project and check for conflicts tutorial code: ${code}.\n${result.error}`,
                 );
-            }
+            else if (!conflictsIntentional && result.conflicts.length > 0)
+                log.bad(
+                    2,
+                    `Found conflicts ${result.conflicts.join(',')} in program: ${code.substring(0, 100)}...`,
+                );
         }
     }
 
@@ -222,7 +243,7 @@ async function checkTutorial(
     if (automated.length > 0)
         log.warning(
             2,
-            `Tutorial has ${automated.length} machine translated ("${MachineTranslated}"). Make sure they're sensible for 6th grade reading levels.`,
+            `Tutorial: ${automated.length} machine translated ("${MachineTranslated}") strings to review.`,
         );
 
     return revised;
@@ -285,7 +306,7 @@ async function translateTutorial(
 
     log.say(
         2,
-        `Tutorial has ${unwritten.length} unwritten strings ("${Unwritten}"). Translating using Google translate from ${sourceLocale} to ${targetLocale}...`,
+        `Translating ${unwritten.length} unwritten strings ("${Unwritten}")...`,
     );
 
     const translations = await translate(

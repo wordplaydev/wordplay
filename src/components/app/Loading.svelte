@@ -1,17 +1,17 @@
 <script lang="ts">
-    import Text from '@components/widgets/LocalizedText.svelte';
-    import Spinning from './Spinning.svelte';
+    import Subheader from '@components/app/Subheader.svelte';
+    import Spinning from '@components/app/Spinning.svelte';
 </script>
 
 <div class="container">
     <Spinning label={(l) => l.ui.widget.loading.message} size={2} />
-    <p><Text path={(l) => l.ui.widget.loading.message} /></p>
+    <Subheader text={(l) => l.ui.widget.loading.message} compact />
 </div>
 
 <style>
     .container {
         width: 100dvw;
-        height: 100dvh;
+        height: 100%;
         max-width: 100%;
         max-height: 100%;
         display: flex;

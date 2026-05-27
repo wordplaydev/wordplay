@@ -1,11 +1,11 @@
 <script lang="ts">
     import type { LocaleTextAccessor } from '@locale/Locales';
     import { type Snippet } from 'svelte';
-    import { locales } from '../../db/Database';
-    import type Project from '../../db/projects/Project';
-    import Button from '../widgets/Button.svelte';
-    import ConfirmButton from '../widgets/ConfirmButton.svelte';
-    import ProjectPreview from './ProjectPreview.svelte';
+    import { locales } from '@db/Database';
+    import type Project from '@db/projects/Project';
+    import Button from '@components/widgets/Button.svelte';
+    import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
+    import ProjectPreview from '@components/app/ProjectPreview.svelte';
 
     interface Props {
         set: Project[];
@@ -34,6 +34,9 @@
         children?: Snippet;
         anonymize?: boolean;
         showCollaborators?: boolean;
+        searchTerm?: string;
+        /** Map from project ID to match snippet, for results matched on source content */
+        matchTexts?: Map<string, string>;
     }
 
     let {
@@ -44,6 +47,8 @@
         children,
         anonymize = true,
         showCollaborators = false,
+        searchTerm = '',
+        matchTexts = undefined,
     }: Props = $props();
 
     function sortProjects(projects: Project[]): Project[] {
@@ -63,21 +68,28 @@
             link={project.getLink(true)}
             {anonymize}
             {showCollaborators}
+            {searchTerm}
+            {...matchTexts?.has(project.getID())
+                ? { matchText: matchTexts.get(project.getID())! }
+                : {}}
             ><div class="controls">
                 {#if edit}<Button
                         tip={edit.description}
                         action={() => (edit ? edit.action(project) : undefined)}
                         icon={edit.label}
+                        background
                     ></Button>{/if}{#if copy}<Button
                         tip={copy.description}
                         action={() => copy.action(project)}
                         icon={copy.label}
+                        background
                     ></Button>{/if}{#if removeMeta}<ConfirmButton
                         prompt={removeMeta.prompt}
                         tip={removeMeta.description}
                         action={() =>
                             removeMeta ? removeMeta.action() : undefined}
                         icon={removeMeta.label}
+                        background
                     ></ConfirmButton>{/if}</div
             >{@render children?.()}</ProjectPreview
         >

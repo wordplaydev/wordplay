@@ -1,3 +1,5 @@
+import Concept from '@concepts/Concept';
+import { Purpose } from '@concepts/Purpose';
 import type HowTo from '@db/howtos/HowToDatabase.svelte';
 import Locales from '@locale/Locales';
 import type Context from '@nodes/Context';
@@ -9,8 +11,6 @@ import type CharacterSymbols from '../lore/BasisCharacter';
 import Characters from '../lore/BasisCharacters';
 import { Emotion } from '../lore/Emotion';
 import type { CharacterName } from '../tutorial/Tutorial';
-import Concept from './Concept';
-import { Purpose } from './Purpose';
 
 // modified from HowConcept.ts
 
@@ -46,7 +46,7 @@ export default class GalleryHowConcept extends Concept {
     }
 
     getNames(locales: Locales): string[] {
-        return [this.howTo.getTitleInLocale(locales.getLocaleString())];
+        return [this.getName(locales)];
     }
 
     getName(locales: Locales): string {
@@ -89,5 +89,9 @@ export default class GalleryHowConcept extends Concept {
 
     getPath(): string {
         return `/gallery/${this.howTo.getHowToGalleryId()}/howto?id=${this.howTo.getHowToId()}`;
+    }
+
+    getHowToId(): string {
+        return this.howTo.getHowToId();
     }
 }

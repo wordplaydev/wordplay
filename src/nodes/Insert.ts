@@ -1,7 +1,7 @@
 import type Conflict from '@conflicts/Conflict';
 import type { ReplaceContext } from '@edit/revision/EditContext';
+import type Context from '@nodes/Context';
 import type LocaleText from '@locale/LocaleText';
-import NodeRef from '@locale/NodeRef';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import Bind from '@nodes/Bind';
 import type Evaluator from '@runtime/Evaluator';
@@ -14,29 +14,28 @@ import TableValue from '@values/TableValue';
 import TypeException from '@values/TypeException';
 import UnimplementedException from '@values/UnimplementedException';
 import type Value from '@values/Value';
-import { Purpose } from '../concepts/Purpose';
-import IncompatibleCellType from '../conflicts/IncompatibleCellType';
-import IncompatibleInput from '../conflicts/IncompatibleInput';
-import InvalidRow from '../conflicts/InvalidRow';
-import MissingCell from '../conflicts/MissingCell';
-import UnknownColumn from '../conflicts/UnknownColumn';
-import type Locales from '../locale/Locales';
+import { Purpose } from '@concepts/Purpose';
+import IncompatibleCellType from '@conflicts/IncompatibleCellType';
+import IncompatibleInput from '@conflicts/IncompatibleInput';
+import InvalidRow from '@conflicts/InvalidRow';
+import MissingCell from '@conflicts/MissingCell';
+import UnknownColumn from '@conflicts/UnknownColumn';
+import type Locales from '@locale/Locales';
 import Characters from '../lore/BasisCharacters';
-import { INSERT_SYMBOL, TABLE_CLOSE_SYMBOL } from '../parser/Symbols';
-import StructureValue from '../values/StructureValue';
-import type Context from './Context';
-import type Definition from './Definition';
-import Expression, { type GuardContext } from './Expression';
-import ExpressionPlaceholder from './ExpressionPlaceholder';
-import Input from './Input';
-import type Node from './Node';
-import { node, type Grammar, type Replacement } from './Node';
-import Row, { getRowFromValues } from './Row';
-import { Sym } from './Sym';
-import TableType from './TableType';
-import Token from './Token';
-import type Type from './Type';
-import type TypeSet from './TypeSet';
+import { INSERT_SYMBOL, TABLE_CLOSE_SYMBOL } from '@parser/Symbols';
+import StructureValue from '@values/StructureValue';
+import type Definition from '@nodes/Definition';
+import Expression, { type GuardContext } from '@nodes/Expression';
+import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
+import Input from '@nodes/Input';
+import type Node from '@nodes/Node';
+import { node, type Grammar, type Replacement } from '@nodes/Node';
+import Row, { getRowFromValues } from '@nodes/Row';
+import { Sym } from '@nodes/Sym';
+import TableType from '@nodes/TableType';
+import Token from '@nodes/Token';
+import type Type from '@nodes/Type';
+import type TypeSet from '@nodes/TypeSet';
 
 export default class Insert extends Expression {
     readonly table: Expression;
@@ -127,8 +126,10 @@ export default class Insert extends Expression {
         const tableType = this.table.getType(context);
 
         // Table must be table typed.
-        if (!(tableType instanceof TableType))
+        if (!(tableType instanceof TableType)) {
+            if (context.isUnknownDownstream(this.table)) return conflicts;
             return [new IncompatibleInput(this, tableType, TableType.make([]))];
+        }
 
         // The row must "match" the columns, where match means that all columns without a default get a value.
         // Rows can either be all unnamed and provide values for every column or they can be selectively named,
@@ -146,7 +147,10 @@ export default class Insert extends Expression {
                         matchedColumns.push(column);
                         const expected = column.getType(context);
                         const given = cell.getType(context);
-                        if (!expected.accepts(given, context))
+                        if (
+                            !context.isUnknownDownstream(cell) &&
+                            !expected.accepts(given, context)
+                        )
                             conflicts.push(
                                 new IncompatibleCellType(
                                     tableType,
@@ -178,7 +182,10 @@ export default class Insert extends Expression {
                 else {
                     const expected = column.getType(context);
                     const given = cell.getType(context);
-                    if (!expected.accepts(given, context))
+                    if (
+                        !context.isUnknownDownstream(cell) &&
+                        !expected.accepts(given, context)
+                    )
                         conflicts.push(
                             new IncompatibleCellType(
                                 tableType,
@@ -322,22 +329,12 @@ export default class Insert extends Expression {
         return Insert.LocalePath;
     }
 
-    getStartExplanations(locales: Locales, context: Context) {
-        return locales.concretize(
-            (l) => l.node.Insert.start,
-            new NodeRef(this.table, locales, context),
-        );
+    getStartExplanations(locales: Locales) {
+        return locales.concretize((l) => l.node.Insert.start);
     }
 
-    getFinishExplanations(
-        locales: Locales,
-        context: Context,
-        evaluator: Evaluator,
-    ) {
-        return locales.concretize(
-            (l) => l.node.Insert.finish,
-            this.getValueIfDefined(locales, context, evaluator),
-        );
+    getFinishExplanations(locales: Locales) {
+        return locales.concretize((l) => l.node.Insert.finish);
     }
 
     getCharacter() {

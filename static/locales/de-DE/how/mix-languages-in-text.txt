@@ -1,0 +1,13 @@
+Begrüßen Sie ein mehrsprachiges Publikum
+
+A  @Phrase  Es wird jedem Zuschauer die passende Übersetzung basierend auf den von ihm gewählten Sprachen angezeigt. Spricht Ihr Publikum Spanisch, können Sie Spanisch sprechen; spricht es sowohl Spanisch als auch Englisch – Spanglish! –, können Sie die Sprachen mischen.
+
+Gib ein  @TextLiteral  Es stehen mehrere Übersetzungen zur Verfügung, darunter eine mehrsprachige, und Wordplay wählt für jeden Zuschauer die am besten geeignete aus:
+
+\Phrase("Hallo"/es"Hallo"/en"Hallo, meine Herren!"/es_en)\
+
+Ein Zuschauer, dessen bevorzugte Sprache Spanisch ist, sieht /Hallo/Ein Zuschauer, der nur Englisch bevorzugt, sieht /Hallo/Ein Zuschauer, der sowohl Spanisch als auch Englisch bevorzugt, sieht /Hallo, meine Herren!/ — die Spanglish-Version.
+
+Bei Wortspielen kommt es auf die spezifischste Übereinstimmung an, daher ist eine einsprachige Übersetzung immer einer mehrsprachigen vorzuziehen, wenn beide zutreffen könnten.
+
+styling-text

@@ -6,9 +6,9 @@ import type Token from '@nodes/Token';
 import type UnaryEvaluate from '@nodes/UnaryEvaluate';
 import type Evaluator from '@runtime/Evaluator';
 import ExceptionValue from '@values/ExceptionValue';
-import type Locales from '../locale/Locales';
-import type Expression from '../nodes/Expression';
-import type Value from '../values/Value';
+import type Locales from '@locale/Locales';
+import type Expression from '@nodes/Expression';
+import type Value from '@values/Value';
 
 export default class FunctionException extends ExceptionValue {
     readonly subject: Value | undefined;
@@ -34,27 +34,28 @@ export default class FunctionException extends ExceptionValue {
 
     getExplanation(locales: Locales) {
         return locales.concretize(
-            this.getExceptionText(locales).explanation,
-            // Wrap the node containing the name in a link
-            new NodeRef(
-                this.verb,
-                locales,
-                this.evaluator.project.getNodeContext(this.node),
-            ),
-            // Wrap the type, if there is one
-            this.subject === undefined
-                ? undefined
-                : new NodeRef(
-                      this.subject.getType(
-                          this.evaluator.project.getNodeContext(
-                              this.subject.creator,
+            (l) => l.node.Evaluate.exception.FunctionException.explanation,
+            {
+                name: new NodeRef(
+                    this.verb,
+                    locales,
+                    this.evaluator.project.getNodeContext(this.node),
+                ),
+                scope:
+                    this.subject === undefined
+                        ? undefined
+                        : new NodeRef(
+                              this.subject.getType(
+                                  this.evaluator.project.getNodeContext(
+                                      this.subject.creator,
+                                  ),
+                              ),
+                              locales,
+                              this.evaluator.project.getNodeContext(
+                                  this.subject.creator,
+                              ),
                           ),
-                      ),
-                      locales,
-                      this.evaluator.project.getNodeContext(
-                          this.subject.creator,
-                      ),
-                  ),
+            },
         );
     }
 }

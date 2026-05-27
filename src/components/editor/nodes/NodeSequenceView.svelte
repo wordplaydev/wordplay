@@ -1,19 +1,27 @@
 <script module lang="ts">
-    const LIMIT = 15;
+    const LIMIT = 10;
 </script>
 
 <script lang="ts" generics="NodeType extends Node">
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
+    import EmptyView from '@components/editor/blocks/EmptyView.svelte';
+    import MenuTrigger from '@components/editor/menu/MenuTrigger.svelte';
+    import NodeView, {
+        type Format,
+    } from '@components/editor/nodes/NodeView.svelte';
+    import {
+        getCaret,
+        getDragTarget,
+        getEditor,
+    } from '@components/project/Contexts';
+    import Button from '@components/widgets/Button.svelte';
+    import { locales, spaceIndicator } from '@db/Database';
     import { InsertionPoint } from '@edit/drag/Drag';
     import type NodeRef from '@locale/NodeRef';
     import type ValueRef from '@locale/ValueRef';
     import Node from '@nodes/Node';
-    import type KeysOfType from '../../../util/KeysOfType';
-    import { getCaret, getDragTarget } from '../../project/Contexts';
-    import Button from '../../widgets/Button.svelte';
-    import EmptyView from '../blocks/EmptyView.svelte';
-    import MenuTrigger from '../menu/MenuTrigger.svelte';
-    import NodeView, { type Format } from './NodeView.svelte';
+    import { EXPLICIT_NEWLINE_TEXT } from '@parser/Spaces';
+    import type KeysOfType from '@util/KeysOfType';
+    import { tick } from 'svelte';
 
     interface Props {
         /** The node containing a list of nodes to render */
@@ -30,7 +38,7 @@
         add?: boolean;
         /** What layout to use. Inline wraps automatically. */
         direction?: 'inline' | 'block';
-        /** Whether to elide the list when it's long. */
+        /** Whether the list supports being collapsed when it's long. */
         elide?: boolean;
         /** Whether to indent the list.*/
         indent?: boolean;
@@ -46,7 +54,7 @@
         filtered,
         empty,
         format,
-        elide = $bindable(false),
+        elide = false,
         add = true,
         direction = 'inline',
         indent = false,
@@ -55,6 +63,7 @@
     }: Props = $props();
 
     let caret = getCaret();
+    let editor = getEditor();
     let dragTarget = getDragTarget();
     let insertion = $derived(
         $dragTarget instanceof InsertionPoint &&
@@ -66,72 +75,30 @@
 
     let nodes = $derived(filtered ?? (node[field] as Node[]));
 
-    /**
-     * To help scalability of the editor, only show the first few values.
-     * If the caret is inside, show the ones nearby the caret.
-     * And allow the creator to toggle them all to be shown, if they want to take
-     * the performance hit.
-     **/
-    let visible: Node[] = $state([]);
-    let hiddenBefore = $state(0);
-    let hiddenAfter = $state(0);
+    /** Whether the list is long enough to be collapsible. */
+    let collapsible = $derived(elide && nodes.length > LIMIT);
 
-    // Update what's hidden and visible based on state.
-    $effect(() => {
-        // More than some number? Elide.
-        if (elide && nodes.length > LIMIT && $caret) {
-            const first = nodes.at(0);
-            const last = nodes.at(-1);
-            const node =
-                $caret.position instanceof Node
-                    ? $caret.position
-                    : $caret.tokenIncludingSpace;
-            const firstPosition = first
-                ? $caret.source.getNodeFirstPosition(first)
-                : undefined;
-            const lastPosition = last
-                ? $caret.source.getNodeLastPosition(last)
-                : undefined;
-            const anchorPosition = node
-                ? $caret.source.getNodeFirstPosition(node)
-                : undefined;
+    /** The user's preference: collapsed unless they've toggled it open. */
+    let userCollapsed = $state(true);
 
-            // Find the node in the list on which we'll anchor.
-            const anchor =
-                anchorPosition !== undefined &&
-                firstPosition !== undefined &&
-                lastPosition !== undefined &&
-                firstPosition < anchorPosition &&
-                anchorPosition < lastPosition
-                    ? nodes.find((n) => node && n.contains(node))
-                    : nodes.at(-1);
-
-            // A caret? See if it's in the list, and if so, show what's around it.
-            if (anchor) {
-                const index = nodes.indexOf(anchor);
-                const min = Math.round(Math.max(0, index - LIMIT / 2));
-                const max = Math.round(
-                    Math.min(nodes.length, index + LIMIT / 2),
-                );
-                visible = nodes.slice(min, max);
-                hiddenBefore = min;
-                hiddenAfter = nodes.length - max;
-            } else {
-                visible = nodes.slice(0, LIMIT / 2);
-                hiddenBefore = 0;
-                hiddenAfter = Math.max(0, Math.round(nodes.length - LIMIT / 2));
-            }
-        } else {
-            visible = nodes;
-            hiddenBefore = 0;
-            hiddenAfter = 0;
-        }
+    /** Whether the caret is currently inside any item in the list. */
+    let caretInside = $derived.by(() => {
+        if (!collapsible || !$caret) return false;
+        const position =
+            $caret.position instanceof Node
+                ? $caret.position
+                : $caret.tokenIncludingSpace;
+        if (!position) return false;
+        return nodes.some((n) => n === position || n.contains(position));
     });
+
+    /** Show all items unless the list is collapsible and the user has it collapsed and the caret isn't inside it. */
+    let expanded = $derived(!collapsible || !userCollapsed || caretInside);
 </script>
 
 {#snippet insertFeedback()}
-    <!--  Need a zero with space here to ensure baseline alignment has text to calculate on. 
-          Otherwise, the baseline is pushed down, causing a layout gap that prevents the pointer 
+    <!--  Need a zero with space here to ensure baseline alignment has text to calculate on.
+          Otherwise, the baseline is pushed down, causing a layout gap that prevents the pointer
           from remaining stably under the pointer during a drag, causing a flickering. -->
     <div class="insertion-feedback">&ZeroWidthSpace;</div>
 {/snippet}
@@ -143,6 +110,91 @@
                 insert
             /></div
         >{/if}{/snippet}
+
+{#snippet toggleControl()}
+    {#if collapsible}
+        {@const text = $locales.getTextStructure(
+            (l) => l.ui.source.toggle.expandSequence,
+        )}
+        <Button
+            classes="elide-toggle"
+            background
+            padding={false}
+            tip={() => $locales.getPlainText(expanded ? text.on : text.off)}
+            action={() => {
+                // If we're about to collapse and the caret is inside the list,
+                // move it onto the parent node so the list actually collapses.
+                if (!userCollapsed && caretInside && caret && $caret)
+                    caret.set($caret.withPosition(node));
+                userCollapsed = !userCollapsed;
+                // The selection outline is measured from the rendered DOM, so
+                // toggling visibility leaves it stale until something else
+                // forces a remeasure. Refresh after the next render.
+                tick().then(() => $editor?.refreshHighlights());
+            }}
+            ><span class="elide-label"
+                >{#if expanded}–{:else}+ {nodes.length} …{/if}</span
+            ></Button
+        >
+    {/if}
+{/snippet}
+
+{#snippet items()}
+    {#each nodes as node, index}
+        {#if insertion?.index === index}
+            {@render insertFeedback()}
+        {/if}
+        <!-- If in blocks mode and we're wrapping, render line breaks. Each
+             break wraps the row (inline) or adds a blank line (block). When
+             whitespace display is on, the break also shows a ↵ marker so
+             the gap is explained. -->
+        {#if format.block && breaks && format.spaces}
+            {@const space = format.spaces.getSpace(node)}
+            {#each space.split('\n').slice(0, -1), index}
+                <div class="break" class:first={index === 0}
+                    >{#if $spaceIndicator}<span class="newline-marker"
+                            >{EXPLICIT_NEWLINE_TEXT}</span
+                        >{/if}</div
+                >
+            {/each}
+        {/if}
+        <NodeView {node} {format} {index} />
+    {:else}
+        <EmptyView
+            {node}
+            {field}
+            style={empty}
+            {format}
+            index={0}
+            inserting={insertion?.index === 0}
+        />
+    {/each}
+    <!-- Render line breaks between the last node and whatever follows the sequence -->
+    {#if format.block && breaks && direction === 'block' && format.spaces && nodes.length > 0}
+        {@const allTokens = format.spaces.getTokens()}
+        {@const lastLeaf = nodes.at(-1)?.leaves().at(-1)}
+        {@const lastLeafIdx =
+            lastLeaf !== undefined ? allTokens.indexOf(lastLeaf) : -1}
+        {@const trailingToken =
+            lastLeafIdx >= 0 ? allTokens[lastLeafIdx + 1] : undefined}
+        {@const trailingSpace = trailingToken
+            ? format.spaces.getSpace(trailingToken)
+            : ''}
+        {#each trailingSpace.split('\n').slice(0, -1)}
+            <div class="break"
+                >{#if $spaceIndicator}<span class="newline-marker"
+                        >{EXPLICIT_NEWLINE_TEXT}</span
+                    >{/if}</div
+            >
+        {/each}
+    {/if}
+    {#if nodes.length > 0}
+        {#if insertion?.index === nodes.length}
+            {@render insertFeedback()}
+        {/if}
+        {@render append()}
+    {/if}
+{/snippet}
 
 {#snippet list()}
     {#if nodes.length > 0 || empty !== 'hide'}
@@ -156,99 +208,34 @@
             data-field={field}
             data-direction={direction}
         >
-            {@render before()}
-            {#each visible as node, index}
-                {#if insertion?.index === index}
-                    {@render insertFeedback()}
-                {/if}
-                <!-- If in blocks mode and we're wrapping, render line breaks -->
-                {#if format.block && breaks && format.spaces}
-                    {@const space = format.spaces.getSpace(node)}
-                    {#each space.split('\n').slice(0, -1), index}
-                        <div class="break" class:first={index === 0}></div>
-                    {/each}
-                {/if}
-                <NodeView {node} {format} {index} />
-            {:else}
-                <EmptyView
-                    {node}
-                    {field}
-                    style={empty}
-                    {format}
-                    index={0}
-                    inserting={insertion?.index === 0}
-                />
-            {/each}
-            <!-- Render line breaks between the last node and whatever follows the sequence -->
-            {#if format.block && breaks && direction === 'block' && format.spaces && nodes.length > 0}
-                {@const allTokens = format.spaces.getTokens()}
-                {@const lastLeaf = nodes.at(-1)?.leaves().at(-1)}
-                {@const lastLeafIdx =
-                    lastLeaf !== undefined ? allTokens.indexOf(lastLeaf) : -1}
-                {@const trailingToken =
-                    lastLeafIdx >= 0 ? allTokens[lastLeafIdx + 1] : undefined}
-                {@const trailingSpace = trailingToken
-                    ? format.spaces.getSpace(trailingToken)
-                    : ''}
-                {#each trailingSpace.split('\n').slice(0, -1)}
-                    <div class="break"></div>
-                {/each}
-            {/if}
-            {@render after()}
-            {#if nodes.length > 0}
-                {#if insertion?.index === nodes.length}
-                    {@render insertFeedback()}
-                {/if}
-                {#if direction === 'inline'}{@render append()}{/if}
+            {@render toggleControl()}
+            {#if expanded}
+                {@render items()}
             {/if}
         </div>
     {/if}
-{/snippet}
-
-{#snippet before()}
-    {#if hiddenBefore > 0}
-        <Button
-            tip={(l) => l.ui.source.button.expandSequence}
-            action={() => (elide = false)}
-            ><span class="count"
-                ><LocalizedText path={(l) => l.ui.edit.show} />
-                ({hiddenBefore})</span
-            ></Button
-        >{/if}
-{/snippet}
-
-{#snippet after()}
-    {#if hiddenAfter > 0}<Button
-            tip={(l) => l.ui.source.button.expandSequence}
-            action={() => (elide = false)}
-            ><span class="count"
-                ><LocalizedText path={(l) => l.ui.edit.show} />
-                ({hiddenAfter})</span
-            ></Button
-        >{/if}
 {/snippet}
 
 {#if format.block}
-    {#if direction === 'block'}
-        <div class="flow">
-            {@render list()}
-            {@render append()}
-        </div>
-    {:else}
-        {@render list()}
-    {/if}
+    {@render list()}
 {:else}
-    {@render before()}{#each visible as node, index}<NodeView
-            {node}
-            {format}
-            {index}
-        />{/each}{@render after()}
+    {@render toggleControl()}{#if expanded}{#each nodes as node, index}<NodeView
+                {node}
+                {format}
+                {index}
+            />{/each}{/if}
 {/if}
 
 <style>
-    .count {
-        font-size: x-small;
-        color: var(--wordplay-inactive-color);
+    .elide-label {
+        font-family: var(--wordplay-app-font);
+        font-size: var(--wordplay-small-font-size);
+        padding-inline: var(--wordplay-spacing-half);
+    }
+
+    :global(.elide-toggle) {
+        min-height: 0;
+        align-self: center;
     }
 
     .node-list {
@@ -262,7 +249,10 @@
 
     [data-direction='block'].node-list {
         flex-direction: column;
-        gap: var(--wordplay-spacing-half);
+        /* Don't stretch column children (e.g. the .append button) to the
+           column's full width — they should size to their content. */
+        align-items: start;
+        gap: var(--wordplay-block-stack-gap);
         padding-block-start: var(--wordplay-spacing-half);
         padding-block-end: var(--wordplay-spacing-half);
     }
@@ -293,30 +283,63 @@
     [data-direction='block'] > .insertion-feedback {
         width: 100%;
         height: var(--wordplay-focus-width);
-        margin-block-start: var(--wordplay-spacing);
-        margin-block-end: var(--wordplay-spacing);
+        margin-block-start: var(--wordplay-block-insertion-margin);
+        margin-block-end: var(--wordplay-block-insertion-margin);
     }
 
     .append {
         margin-inline-start: var(--wordplay-spacing-half);
     }
 
-    .flow {
-        display: flex;
-        flex-direction: row;
-        align-items: end;
-    }
-
     .break {
         display: block;
+        color: var(--wordplay-inactive-color);
+    }
+
+    /* The ↵ marker shown inside breaks when "show whitespace" is on. Small
+       and dim so it labels the gap without competing with the code. */
+    .newline-marker {
+        font-size: var(--wordplay-small-font-size);
+        color: var(--wordplay-inactive-color);
+        line-height: 1;
+    }
+
+    /* In an inline-direction node-list, breaks force a wrap by occupying a
+       full row (flex-basis: 100%) and add a line-height of vertical space. */
+    [data-direction='inline'] > .break {
         flex-basis: 100%;
         min-height: var(--wordplay-min-line-height);
     }
 
-    /* When a break is first, we render it, but we don't give it space.
-    This helps with caret positioning in CaretView.svelte. */
+    /* In a column list, breaks add space for blank-line newlines (e.g.
+       MarkupView paragraph separation). The newline marker itself is
+       rendered inline by Space.svelte before the next token, so the
+       break div is empty. */
+    [data-direction='block'] > .break {
+        min-height: var(--wordplay-min-line-height);
+    }
+
+    /* The first break in a leading whitespace's break sequence is the
+       implicit one that pairs with the column gap or inline wrap, so
+       collapse it to zero. CaretView.svelte depends on it being in the DOM. */
     .break.first {
         min-height: 0;
         max-height: 0;
+    }
+
+    /* In vertical lists, the first break is implicit (paired with the
+       column gap), so its marker would be visual noise — hide it even
+       when "show whitespace" is on. */
+    [data-direction='block'] > .break.first .newline-marker {
+        display: none;
+    }
+
+    /* In vertical lists, suppress the inline space/tab characters that
+       precede each item. Indentation-as-content is just visual noise in a
+       column-flex layout — newlines are already represented by break divs.
+       We hide the inner .space-text rather than the .space wrapper so the
+       wrapper stays in the DOM (CaretView looks it up by data-id). */
+    [data-direction='block'] > :global(.space) > :global(.space-text) {
+        display: none;
     }
 </style>

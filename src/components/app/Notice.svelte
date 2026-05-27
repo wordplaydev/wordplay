@@ -8,19 +8,29 @@
     interface Props {
         markup?: boolean;
         inline?: boolean;
+        testid?: string;
         text?: LocaleTextAccessor;
         children?: Snippet;
     }
 
-    let { markup = true, inline = false, text, children }: Props = $props();
+    let {
+        markup = true,
+        inline = false,
+        text,
+        children,
+        testid,
+    }: Props = $props();
 </script>
 
 {#if inline}<span class="feedback">{@render children?.()}</span>{:else}
-    <p class="feedback" transition:slide={{ duration: $animationDuration }}
+    <div
+        class="feedback"
+        data-testid={testid}
+        transition:slide={{ duration: $animationDuration }}
         >{#if children}{@render children()}{:else if text}<LocalizedText
                 path={text}
                 {markup}
-            />{/if}</p
+            />{/if}</div
     >{/if}
 
 <style>
@@ -30,7 +40,7 @@
         color: var(--wordplay-background);
         background: var(--wordplay-error);
         margin-block-start: var(--wordplay-spacing);
-        padding: var(--wordplay-spacing-half);
+        padding: var(--wordplay-spacing);
         border-radius: var(--wordplay-border-radius);
         flex-grow: 0;
     }
@@ -52,7 +62,8 @@
         display: inline-block;
     }
 
-    p {
-        text-align: center;
+    div {
+        text-align: left;
+        padding: var(--wordplay-spacing);
     }
 </style>

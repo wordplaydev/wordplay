@@ -1,0 +1,19 @@
+Subaybayan ang mga puntos
+
+Minsan sa isang laro, nakakatulong na subaybayan ang mga puntos kapag may nangyari. Kung hindi pinapayagan ng Wordplay ang mga baryabol na bigyan ng mga bagong halaga, paano natin magagawa iyon?
+
+Ang sekreto ay ang paggamit ng @Reaction upang tukuyin ang isang @Bind halaga, at pag-isipang mabuti kung anong pangyayari ang dapat magresulta sa isang bagong halaga para sa @Bind .
+
+Halimbawa, isipin ang isang napakasimpleng laro kung saan ang isang manlalaro ay nakakakuha ng mas maraming puntos sa bawat pagta-type ng isang sikretong key sa keyboard.
+
+\points: 0 … ['isang' 'e' 'ako' 'o' 'ikaw'].has(Key()) … points + 1\
+
+Sinasabi ng halimbawang ito,/Nagsisimula ang mga puntos sa 0, at sa tuwing may pipindutin na key, kung ang key ay nasa listahan ng mga patinig, ang mga puntos ay nagiging kasalukuyang mga puntos na may dagdag na isa./Sa bawat pagkakataon ang\Key()\  @Stream mga pagbabago, muling susuriin ng programa, susuriin ang kondisyon, at kung ito ay totoo, ibibigay\points\isang bagong halaga.
+
+May tatlong bahagi ang isang reaksyon dito:
+
+• Ang paunang halaga para sa mga puntos (\0\)• Ang kondisyon na, kapag totoo, ay lumilikha ng isang bagong halaga (\['isang' 'e' 'ako' 'o' 'ikaw'].has(Key())\)• Ang bagong halaga, kung ang kundisyon ay magiging totoo (\points + 1\)
+
+Para makagawa ng mas sopistikadong point tracking, gumawa lang ng mas sopistikadong mga kondisyon o mga bagong halaga. Maglaan ng ilang oras para pag-isipan ang mga patakaran ng mga kundisyong iyon at mga bagong halaga, at pagkatapos ay subukang ipahayag ang mga ito sa code.
+
+track-points

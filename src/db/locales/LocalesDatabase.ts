@@ -17,7 +17,14 @@ import {
 } from '@locale/SupportedLocales';
 import { get, writable, type Writable } from 'svelte/store';
 import type Tutorial from '../../tutorial/Tutorial';
-import type Setting from '../settings/Setting';
+import type Setting from '@db/settings/Setting';
+
+/** Per-locale emoji translations, keyed by the codepoint hex (e.g. "1F600",
+ * "0023 FE0F 20E3") used in static/unicode/codes.txt. Each value is an
+ * array whose first element is the display name and remaining elements are
+ * additional searchable keywords, sourced from Unicode CLDR. */
+export type EmojiEntry = readonly [name: string, ...keywords: string[]];
+export type EmojiMap = Record<string, EmojiEntry>;
 
 /** A singleton cache of loaded locales */
 export default class LocalesDatabase {
@@ -32,6 +39,15 @@ export default class LocalesDatabase {
 
     /** A reactive store of preferred locales based on the selected languages. */
     readonly locales: Writable<Locales> = writable(DefaultLocales);
+
+    /**
+     * True once the initial preferred locales have finished loading, preventing
+     * a flash of the default locale. Initialized in the constructor based on
+     * whether all requested locales are already available synchronously (i.e.,
+     * the en-US-only case where the bundled defaultLocale is enough), so that
+     * hydration of the prerendered landing page doesn't briefly hide content.
+     */
+    readonly localesReady: Writable<boolean>;
 
     /** The locales loaded, loading, or failed to load. */
     private localesLoaded: Record<
@@ -52,6 +68,19 @@ export default class LocalesDatabase {
         Record<SupportedLocale, HowTo[] | undefined | Promise<HowTo[]>>
     > = writable({});
 
+    /** Per-locale emoji translations, keyed by codepoint hex. Each value is
+     * [displayName, ...keywords] from CLDR. Loaded on demand (large files,
+     * only needed for emoji search and tooltips). The store fires when a new
+     * locale's data finishes loading so consumers can re-render. */
+    readonly emojis: Writable<Partial<Record<SupportedLocale, EmojiMap>>> =
+        writable({});
+
+    /** In-flight or completed emoji loads per locale, kept on the instance so
+     * concurrent callers share the same fetch. */
+    private emojisLoading: Partial<
+        Record<SupportedLocale, Promise<EmojiMap | undefined>>
+    > = {};
+
     constructor(
         database: Database,
         locales: SupportedLocale[],
@@ -70,9 +99,23 @@ export default class LocalesDatabase {
         this.setting = setting;
 
         // Load the requested locales, combining those given (from the browser) and those from the local storage settings.
-        this.loadLocales(
-            Array.from(new Set([...locales, ...this.setting.get()])),
+        // Mark ready once the initial preferred locales are loaded, so the UI can avoid rendering in the default locale first.
+        const requested = Array.from(
+            new Set([...locales, ...this.setting.get()]),
         );
+
+        // If everything we need is already loaded synchronously (the common
+        // en-US case, since the defaultLocale was just inserted above), start
+        // ready=true so the prerendered landing page doesn't get hidden during
+        // hydration. Non-en-US users start ready=false; the locale-loading
+        // CSS class set by /scripts/locale-preload.js keeps the body invisible
+        // for them until this writable flips true.
+        const allAvailable = requested.every(
+            (l) => this.localesLoaded[l] !== undefined,
+        );
+        this.localesReady = writable(allAvailable);
+
+        this.loadLocales(requested).then(() => this.localesReady.set(true));
     }
 
     async refreshLocales() {
@@ -271,6 +314,43 @@ export default class LocalesDatabase {
         this.syncLocales();
 
         return locales;
+    }
+
+    /** Load the emoji translation map for a single locale. The data is large
+     * (~500KB-1.3MB pretty-printed), so we fetch on demand and cache. */
+    async loadEmojis(locale: SupportedLocale): Promise<EmojiMap | undefined> {
+        const existing = get(this.emojis)[locale];
+        if (existing) return existing;
+        const inflight = this.emojisLoading[locale];
+        if (inflight) return inflight;
+
+        const promise = (async () => {
+            try {
+                const path = `/locales/${locale}/${locale}-emojis.json`;
+                const response = await fetch(path);
+                if (!response.ok) return undefined;
+                const data = (await response.json()) as EmojiMap;
+                this.emojis.update((current) => ({
+                    ...current,
+                    [locale]: data,
+                }));
+                return data;
+            } catch (_) {
+                return undefined;
+            } finally {
+                delete this.emojisLoading[locale];
+            }
+        })();
+
+        this.emojisLoading[locale] = promise;
+        return promise;
+    }
+
+    /** Ensure emoji data is loaded for the currently selected locales, in
+     * parallel. Returns once all have resolved (loaded or failed). */
+    async loadEmojisForCurrentLocales(): Promise<void> {
+        const codes = this.setting.get();
+        await Promise.all(codes.map((locale) => this.loadEmojis(locale)));
     }
 
     getTutorialURL(locale: string) {

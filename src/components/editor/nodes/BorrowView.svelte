@@ -1,6 +1,8 @@
 <script lang="ts">
     import type Borrow from '@nodes/Borrow';
-    import NodeView, { type Format } from './NodeView.svelte';
+    import NodeView, {
+        type Format,
+    } from '@components/editor/nodes/NodeView.svelte';
 
     interface Props {
         node: Borrow;

@@ -14,26 +14,26 @@ import type Evaluator from '@runtime/Evaluator';
 import type Step from '@runtime/Step';
 import NoneValue from '@values/NoneValue';
 import type Value from '@values/Value';
-import { Purpose } from '../concepts/Purpose';
+import { Purpose } from '@concepts/Purpose';
 import Characters from '../lore/BasisCharacters';
-import Tokens from '../parser/Tokens';
-import UnicodeString from '../unicode/UnicodeString';
-import Bind from './Bind';
-import type Borrow from './Borrow';
-import type { SharedDefinition } from './Borrow';
-import type Context from './Context';
-import type Definition from './Definition';
-import Expression from './Expression';
-import FunctionDefinition from './FunctionDefinition';
-import Markup from './Markup';
-import Names from './Names';
-import Node, { node, type Grammar, type Replacement } from './Node';
-import Program from './Program';
-import Root from './Root';
-import StructureDefinition from './StructureDefinition';
-import Token from './Token';
-import type Type from './Type';
-import type TypeSet from './TypeSet';
+import Tokens from '@parser/Tokens';
+import UnicodeString from '@unicode/UnicodeString';
+import Bind from '@nodes/Bind';
+import type Borrow from '@nodes/Borrow';
+import type { SharedDefinition } from '@nodes/Borrow';
+import type Context from '@nodes/Context';
+import type Definition from '@nodes/Definition';
+import Expression from '@nodes/Expression';
+import FunctionDefinition from '@nodes/FunctionDefinition';
+import Markup from '@nodes/Markup';
+import Names from '@nodes/Names';
+import Node, { node, type Grammar, type Replacement } from '@nodes/Node';
+import Program from '@nodes/Program';
+import Root from '@nodes/Root';
+import StructureDefinition from '@nodes/StructureDefinition';
+import Token from '@nodes/Token';
+import type Type from '@nodes/Type';
+import type TypeSet from '@nodes/TypeSet';
 
 /** A document representing executable Wordplay code and it's various metadata, such as conflicts, tokens, and evaulator. */
 export default class Source extends Expression {
@@ -56,6 +56,13 @@ export default class Source extends Expression {
 
     /** An index of token positions in the source file. */
     readonly tokenPositions: Map<Token, number> = new Map();
+
+    /** Lazily-built array where lineStarts[L] is the grapheme position at the
+     * start of line L. Lines are 0-indexed; lineStarts[0] is always 0. Built
+     * once per Source instance from this.code; immutable for the lifetime of
+     * this Source. Used to make position↔(line, column) lookups O(log N) /
+     * O(1) instead of O(N) scans through every token. */
+    private _lineStarts: number[] | undefined = undefined;
 
     /** An index of this tree for analyzing structure */
     readonly root: Root;
@@ -308,6 +315,20 @@ export default class Source extends Expression {
         const newTokens = tokenList.getTokens();
         const newSpaces = tokenList.getSpaces();
 
+        // FAST PATH for same-shape token lists. If the new tokenization
+        // produces the same number of tokens with the same Sym types in the
+        // same order, and at most one differs only in text, the parser would
+        // produce the same AST shape — so we can swap that one token (or
+        // just the spaces) into the existing AST and skip both parseProgram
+        // (full recursive descent over all tokens) and the node-reuse pass
+        // below (O(N) build of the constructor+hash index plus an O(N) walk
+        // of the new tree). This handles the common case of typing inside a
+        // string, name, number, comment, or doc, where a single token's text
+        // changes but no boundary moves. tryTextOnlyEdit returns undefined
+        // if the edit doesn't qualify, falling through to the slow path.
+        const fast = this.tryTextOnlyEdit(newTokens, newSpaces);
+        if (fast !== undefined) return fast;
+
         // Make a mutable list of the old tokens
         const oldTokens = [...this.tokens];
         const added: Token[] = [];
@@ -350,30 +371,54 @@ export default class Source extends Expression {
         // Create a set of all of the old program's nodes, except the program itself.
         const unmatchedOldNodes = new Set(this.expression.traverseTopDown());
         unmatchedOldNodes.delete(this.expression);
+
+        // Build a (constructor → (hash → nodes)) index over the unmatched old
+        // nodes so the reuse pass can find candidates by hash in O(1) instead
+        // of scanning every old node for every new node. This turns the
+        // overall match pass from O(N²) to O(N) on a tree with N nodes —
+        // before this change, that quadratic scan was the dominant per-
+        // keystroke cost on large files. (Combined with the memoized
+        // Node.hash() this replaces, the overall character-of-text-edit
+        // path is closer to O(N) than to O(N²).)
+        const oldByConstructorAndHash = new Map<Function, Map<string, Node[]>>();
+        for (const oldNode of unmatchedOldNodes) {
+            let byHash = oldByConstructorAndHash.get(oldNode.constructor);
+            if (byHash === undefined) {
+                byHash = new Map();
+                oldByConstructorAndHash.set(oldNode.constructor, byHash);
+            }
+            const key = oldNode.hash();
+            const bucket = byHash.get(key);
+            if (bucket === undefined) byHash.set(key, [oldNode]);
+            else bucket.push(oldNode);
+        }
+
         // Create a list of new nodes to iterate through to find matches. Skip the program, which always changes.
         const newNodes = newProgram.traverseTopDown();
         newNodes.shift();
         // Remember what we've matched so we don't redundantly match subtrees.
         const matched = new Set<Node>();
-        // Cache old node token ID sequences for speed.
-        const oldNodeTokenIDSequences = new Map<Node, string>();
 
         // Iterate through all of the new nodes in the program
         for (const newNode of newNodes) {
             // If we've already matched this node, skip it. Also skip the program; it always changes and is large.
             if (matched.has(newNode)) continue;
-            // Get the (likely cached) tokens in the new node
-            const newTokens = newNode.hash();
-            // Iterate through all of the unmatched old nodes to see if there's a match.
-            let match = undefined;
-            for (const oldNode of unmatchedOldNodes) {
-                if (newNode.constructor === oldNode.constructor) {
-                    const oldTokens =
-                        oldNodeTokenIDSequences.get(oldNode) ?? oldNode.hash();
-                    if (oldTokens === newTokens) {
-                        match = oldNode;
+            // Find the matching constructor's bucket and look up by hash.
+            const byHash = oldByConstructorAndHash.get(newNode.constructor);
+            const bucket = byHash?.get(newNode.hash());
+            // The bucket may contain old nodes that have already been claimed
+            // (because an ancestor was matched earlier and they were removed
+            // from unmatchedOldNodes). Skip past any of those.
+            let match: Node | undefined;
+            if (bucket !== undefined) {
+                while (bucket.length > 0) {
+                    const candidate = bucket[0];
+                    if (unmatchedOldNodes.has(candidate)) {
+                        match = candidate;
+                        bucket.shift();
                         break;
                     }
+                    bucket.shift();
                 }
             }
             if (match) {
@@ -385,14 +430,6 @@ export default class Source extends Expression {
                 // Remember the replacement.
                 replacements.push([match, newNode]);
             }
-            // FOR DEBUGGING
-            // else {
-            //     console.log(
-            //         `Couldn't find match for ${
-            //             newNode.getDescriptor()
-            //         } ${newNode.toWordplay()}`
-            //     );
-            // }
         }
 
         // If we found old subtrees to preserve, replace them in the new tree.
@@ -413,6 +450,68 @@ export default class Source extends Expression {
         //     console.log(node.getDescriptor() + ' ' + node.toWordplay());
 
         // Otherwise, reparse the program with the reused tokens and return a new source file
+        return new Source(this.names, [newProgram, newSpaces]);
+    }
+
+    /**
+     * Short-circuit reparse for the common in-token edit. Qualifying edits
+     * are those where the new tokenization has the same length and Sym types
+     * in the same order as the existing one, with at most one token differing
+     * in text — i.e., typing inside a string / name / number / comment / doc,
+     * or a whitespace-only change between tokens. In those cases the parse
+     * tree's shape is identical, so we can build the new Source by either
+     * (a) reusing the entire AST and only swapping the Spaces map, or (b)
+     * cloning the path from the program root to the one affected token and
+     * reusing every other subtree by reference.
+     *
+     * Cost: a single pairwise walk of the two token lists (O(N) comparisons
+     * with early exit) plus, for the single-token-text case, one
+     * expression.replace() that clones only the depth-deep path. The full
+     * reparse path that this avoids does a full parseProgram (~O(N) recursive
+     * descent) plus a constructor+hash-indexed node-reuse pass (~O(N) build
+     * of the index, O(N) lookups against it).
+     *
+     * Returns undefined if the edit doesn't qualify; the caller falls back to
+     * the full reparse.
+     */
+    private tryTextOnlyEdit(
+        newTokens: Token[],
+        newSpaces: Spaces,
+    ): Source | undefined {
+        if (newTokens.length !== this.tokens.length) return undefined;
+
+        // Walk pairwise looking for at most one text-only difference.
+        // Reject any difference in Sym types — those would change the parse.
+        let differingIndex = -1;
+        for (let i = 0; i < newTokens.length; i++) {
+            const newT = newTokens[i];
+            const oldT = this.tokens[i];
+            // Sym type lists must match exactly.
+            if (newT.types.length !== oldT.types.length) return undefined;
+            for (let j = 0; j < newT.types.length; j++)
+                if (newT.types[j] !== oldT.types[j]) return undefined;
+            if (newT.getText() === oldT.getText()) continue;
+            if (differingIndex !== -1) return undefined;
+            differingIndex = i;
+        }
+
+        // Re-key the new spaces map so unchanged token slots use the OLD
+        // token instances. The differing slot keeps its new instance.
+        for (let i = 0; i < newTokens.length; i++)
+            if (i !== differingIndex)
+                newSpaces.replace(newTokens[i], this.tokens[i]);
+
+        // Whitespace-only change: keep the existing AST, swap in the new spaces.
+        if (differingIndex === -1)
+            return new Source(this.names, [this.expression, newSpaces]);
+
+        // Single-token text change: clone the path from root to the affected
+        // token, replacing the old token with the new one. Everything else in
+        // the tree is reused by reference.
+        const newProgram = this.expression.replace(
+            this.tokens[differingIndex],
+            newTokens[differingIndex],
+        );
         return new Source(this.names, [newProgram, newSpaces]);
     }
 
@@ -638,45 +737,49 @@ export default class Source extends Expression {
         return undefined;
     }
 
+    /** Build/return the lazy line-start index — one O(N) grapheme walk of
+     * this.code, amortized to O(1) per subsequent call for the lifetime of
+     * this Source. Replaces the per-call O(N) token walks that
+     * getRenderedLineAndColumnFromPhysicalPosition and
+     * getPhysicalPositionFromLineAndColumn used to do via scanLines. */
+    private getLineStarts(): number[] {
+        if (this._lineStarts === undefined) {
+            const graphemes = this.code.getGraphemes();
+            const starts = [0];
+            for (let i = 0; i < graphemes.length; i++)
+                if (graphemes[i] === '\n') starts.push(i + 1);
+            this._lineStarts = starts;
+        }
+        return this._lineStarts;
+    }
+
+    /** Just the line for a physical position, no column — O(log N) binary
+     * search on the cached lineStarts. Use this in preference to
+     * getRenderedLineAndColumnFromPhysicalPosition when the caller (e.g.
+     * Caret.moveVertical) only needs the line, since the line+column
+     * variant additionally builds and discards a substring representing
+     * "everything on this line up to position". */
+    getLineFromPhysicalPosition(position: number): number | undefined {
+        const len = this.code.getLength();
+        if (position < 0 || position > len) return undefined;
+        const lineStarts = this.getLineStarts();
+        // Largest index whose lineStarts value is <= position.
+        let lo = 0;
+        let hi = lineStarts.length - 1;
+        while (lo < hi) {
+            const mid = (lo + hi + 1) >>> 1;
+            if (lineStarts[mid] <= position) lo = mid;
+            else hi = mid - 1;
+        }
+        return lo;
+    }
+
     getRenderedLineAndColumnFromPhysicalPosition(
         position: number,
     ): [number, number] | undefined {
-        return this.scanLines(
-            (
-                line: number,
-                column: number,
-                physical: number,
-                actualSpace: string,
-                renderedSpace: string,
-                text: string,
-                textLength: number,
-            ) => {
-                // If this token and it's space contains the physical position, find the corresponding line and column.
-                if (
-                    physical <= position &&
-                    position <= physical + actualSpace.length + textLength
-                ) {
-                    // Find the rendered text prior to the position, including rendered lines
-                    const textBeforePosition = (renderedSpace + text).substring(
-                        0,
-                        position - physical,
-                    );
-                    // Split the text before into lines.
-                    const linesBefore = textBeforePosition.split('\n');
-                    return [
-                        // Our line is the current line plus the number of lines before the position.
-                        line + linesBefore.length - 1,
-                        // Our column is ...
-                        linesBefore.length > 1
-                            ? // If there are line breaks, the number of them plus the length of the text on the last line.
-                              linesBefore[linesBefore.length - 1].length
-                            : // If no line breaks, increment by the length of the text before position
-                              column + textBeforePosition.length,
-                    ];
-                }
-                return undefined;
-            },
-        );
+        const line = this.getLineFromPhysicalPosition(position);
+        if (line === undefined) return undefined;
+        return [line, position - this.getLineStarts()[line]];
     }
 
     getColumn(position: number) {
@@ -689,98 +792,16 @@ export default class Source extends Expression {
         preferredLine: number,
         preferredColumn: number,
     ): number | undefined {
-        return this.scanLines(
-            (
-                line: number,
-                column: number,
-                physical: number,
-                actualSpace: string,
-                renderedSpace: string,
-                text: string,
-                textLength: number,
-                lastOnLine: boolean,
-            ) => {
-                // Get the space prior to each rendered line break.
-                const renderedSpacesBeforeBreaks = renderedSpace.split('\n');
-                const actualSpacesBeforeBreaks = actualSpace.split('\n');
-
-                // Check if there are any inserted lines
-                let extraLines =
-                    renderedSpacesBeforeBreaks.length -
-                    1 -
-                    (actualSpacesBeforeBreaks.length - 1);
-
-                // Remember the starting position
-                const originalPhysical = physical;
-
-                // Scan through each line except the last, updating the lines, columns, and physical position.
-                for (
-                    let index = 0;
-                    index < renderedSpacesBeforeBreaks.length - 1;
-                    index++
-                ) {
-                    const spaceBeforeBreak = renderedSpacesBeforeBreaks[index];
-                    // If this line matches and
-                    if (
-                        line === preferredLine &&
-                        // If the preferred column is between the current column and the end of the space.
-                        column <= preferredColumn &&
-                        // Within column or this is end of line (there is one more line after this)
-                        (preferredColumn <= column + spaceBeforeBreak.length ||
-                            index < renderedSpacesBeforeBreaks.length - 1)
-                    )
-                        // Return the current physical position plus the number of physical lines
-                        // BUG This includes any space that's rendered only
-                        return (
-                            physical +
-                            Math.min(
-                                preferredColumn - column,
-                                spaceBeforeBreak.length,
-                            )
-                        );
-                    // Advance to the next line, accounting for this line break.
-                    line++;
-                    // Reset the column to the start
-                    column = 0;
-                    // Advancing physical by the length of the text on the line, plus the line break
-                    physical +=
-                        spaceBeforeBreak.length + (extraLines > 0 ? 0 : 1);
-                    // Account for the extra line, so we start adding physical lines.
-                    if (extraLines > 0) extraLines--;
-                }
-
-                // Get the last space on the last line.
-                const lastLineRenderedSpace =
-                    renderedSpacesBeforeBreaks[
-                        renderedSpacesBeforeBreaks.length - 1
-                    ].length;
-                const lastLineActualSpace =
-                    actualSpacesBeforeBreaks[
-                        actualSpacesBeforeBreaks.length - 1
-                    ].length;
-
-                // Reset the physical position to the original, plus the actual preceding space.
-                physical =
-                    originalPhysical + actualSpace.length - lastLineActualSpace;
-
-                // Are we on the right line and the text contains the column, or its the end of the line?
-                if (
-                    line === preferredLine &&
-                    column <= preferredColumn &&
-                    (preferredColumn <=
-                        column + lastLineRenderedSpace + textLength ||
-                        lastOnLine)
-                )
-                    // Advance by the smaller of the preferred column position and the end of the line.
-                    return (
-                        physical +
-                        Math.min(
-                            preferredColumn - column,
-                            lastLineActualSpace + textLength,
-                        )
-                    );
-            },
-        );
+        const lineStarts = this.getLineStarts();
+        if (preferredLine < 0 || preferredLine >= lineStarts.length)
+            return undefined;
+        const lineStart = lineStarts[preferredLine];
+        const lineEnd =
+            preferredLine + 1 < lineStarts.length
+                ? // -1 for the '\n' that separates this line from the next.
+                  lineStarts[preferredLine + 1] - 1
+                : this.code.getLength();
+        return lineStart + Math.min(preferredColumn, lineEnd - lineStart);
     }
 
     getTokenAt(position: number, includingWhitespace = true) {

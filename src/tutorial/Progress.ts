@@ -1,4 +1,4 @@
-import type { TutorialProgress } from '../db/settings/TutorialProgressSetting';
+import type { TutorialProgress } from '@db/settings/TutorialProgressSetting';
 import type Tutorial from './Tutorial';
 import {
     PerformanceMode,
@@ -87,11 +87,20 @@ export default class Progress {
 
     /** Get the dialog before the current pause */
     getDialog(): Dialog[] | undefined {
+        return this.getDialogWithIndices()?.map((d) => d.dialog);
+    }
+
+    /** Get the dialog before the current pause, each paired with its source
+     *  index in `scene.lines`. The line index is required to build a stable
+     *  override key for inline editing of dialog text. */
+    getDialogWithIndices():
+        | { dialog: Dialog; lineIndex: number }[]
+        | undefined {
         const scene = this.getScene();
         if (scene === undefined) return undefined;
         if (this.pause === 0) return undefined;
 
-        const dialog: Dialog[] = [];
+        const dialog: { dialog: Dialog; lineIndex: number }[] = [];
         let pause = 1;
         for (let i = 0; i < scene.lines.length && pause <= this.pause; i++) {
             const line = scene.lines[i];
@@ -102,7 +111,7 @@ export default class Progress {
                 line !== null &&
                 !PerformanceMode.includes(line[0] as PeformanceModeType)
             )
-                dialog.push(line as Dialog);
+                dialog.push({ dialog: line as Dialog, lineIndex: i });
         }
         return dialog;
     }

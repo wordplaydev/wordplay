@@ -1,5 +1,5 @@
 import fs from 'fs';
-import Log from './Log';
+import Log from '@util/verify-locales/Log';
 
 /** Given a path, load a JSON file and ensure it's an object, not some other kind of value. */
 export function getObjectFromJSONFile(

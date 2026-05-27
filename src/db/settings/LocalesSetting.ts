@@ -2,7 +2,7 @@ import {
     SupportedLocales,
     type SupportedLocale,
 } from '@locale/SupportedLocales';
-import Setting from './Setting';
+import Setting from '@db/settings/Setting';
 
 export const LocalesSetting = new Setting<SupportedLocale[]>(
     'locales',

@@ -1,8 +1,8 @@
 <script lang="ts">
+    import CreatorSymbolView from '@components/app/CreatorCharacterView.svelte';
+    import Feedback from '@components/app/Notice.svelte';
     import Text from '@components/widgets/LocalizedText.svelte';
     import type { Creator } from '@db/creators/CreatorDatabase';
-    import CreatorSymbolView from './CreatorCharacterView.svelte';
-    import Feedback from './Notice.svelte';
 
     interface Props {
         creator: Creator | null;
@@ -43,6 +43,7 @@
         align-items: center;
         justify-content: center;
         font-size: var(--wordplay-small-font-size);
+        padding: var(--wordplay-spacing);
     }
 
     .fade {
@@ -51,11 +52,9 @@
 
     .chrome {
         border-radius: var(--wordplay-border-radius);
-        border-top-left-radius: 1em;
-        border-bottom-left-radius: 1em;
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
         border: var(--wordplay-border-color) solid var(--wordplay-border-width);
-        padding: calc(var(--wordplay-spacing) / 3);
-        padding-left: var(--wordplay-spacing);
     }
 
     @keyframes rotate {

@@ -7,42 +7,47 @@ import {
     createRectangleType,
 } from '@output/Form';
 import { createSourceType } from '@output/Source';
-import { createButtonDefinition } from '../input/Button';
-import { createCameraDefinition } from '../input/Camera';
-import { createChatDefinition } from '../input/Chat';
-import { createChoiceDefinition } from '../input/Choice';
-import { createCollisionDefinition } from '../input/Collision';
-import { createKeyDefinition } from '../input/Key';
-import { createMotionDefinition } from '../input/Motion';
-import { createPitchDefinition } from '../input/Pitch';
-import { createPlacementDefinition } from '../input/Placement';
-import { createPointerDefinition } from '../input/Pointer';
-import { createRandomFunction } from '../input/Random';
-import { createSpeechDefinition } from '../input/Speech';
-import { createTimeType } from '../input/Time';
-import { createVolumeDefinition } from '../input/Volume';
-import { createWebpageDefinition } from '../input/Webpage';
-import type Locales from '../locale/Locales';
-import { createArrangementType } from '../output/Arrangement';
-import { createColorType } from '../output/Color';
-import { getDefaultSequences } from '../output/DefaultSequences';
-import { createDirectionType } from '../output/Direction';
-import { createFreeType } from '../output/Free';
-import { createGridType } from '../output/Grid';
-import { createGroupType } from '../output/Group';
-import { createMatterType } from '../output/Matter';
-import { createOutputType } from '../output/Output';
-import { createPhraseType } from '../output/Phrase';
-import { createPlaceType } from '../output/Place';
-import { createPoseType } from '../output/Pose';
-import { createReboundType } from '../output/Rebound';
-import { createRowType } from '../output/Row';
-import { createSequenceType } from '../output/Sequence';
-import { createShapeType } from '../output/Shape';
-import { createStackType } from '../output/Stack';
-import { createStageType } from '../output/Stage';
-import { createVelocityType } from '../output/Velocity';
-import { createReactionDefinition } from '../values/ReactionStream';
+import { createButtonDefinition } from '@input/Button';
+import { createCameraDefinition } from '@input/Camera';
+import { createChatDefinition } from '@input/Chat';
+import { createChoiceDefinition } from '@input/Choice';
+import { createCollisionDefinition } from '@input/Collision';
+import { createKeyDefinition } from '@input/Key';
+import { createMotionDefinition } from '@input/Motion';
+import { createPitchDefinition } from '@input/Pitch';
+import { createPlacementDefinition } from '@input/Placement';
+import { createPointerDefinition } from '@input/Pointer';
+import { createRandomFunction } from '@input/Random';
+import { createHandDefinition } from '@input/Hand';
+import { createSpeechDefinition } from '@input/Speech';
+import { createTimeType } from '@input/Time';
+import { createVolumeDefinition } from '@input/Volume';
+import { createWebpageDefinition } from '@input/Webpage';
+import type Locales from '@locale/Locales';
+import { createArrangementType } from '@output/Arrangement';
+import { createColorType } from '@output/Color';
+import { getDefaultSequences } from '@output/DefaultSequences';
+import { createDirectionType } from '@output/Direction';
+import { createFreeType } from '@output/Free';
+import { createGridType } from '@output/Grid';
+import { createGroupType } from '@output/Group';
+import { createHandType } from '@output/Hand';
+import { createMatterType } from '@output/Matter';
+import { createOutputType } from '@output/Output';
+import { createPhraseType } from '@output/Phrase';
+import analyzePhraseEvaluate from '@output/analyzePhraseEvaluate';
+import { registerEvaluateAnalyzer } from '@conflicts/evaluateAnalyzers';
+import { createPlaceType } from '@output/Place';
+import { createPoseType } from '@output/Pose';
+import { createReboundType } from '@output/Rebound';
+import { createRowType } from '@output/Row';
+import { createSequenceType } from '@output/Sequence';
+import { createShapeType } from '@output/Shape';
+import { createSayType } from '@output/Say';
+import { createStackType } from '@output/Stack';
+import { createStageType } from '@output/Stage';
+import { createVelocityType } from '@output/Velocity';
+import { createReactionDefinition } from '@values/ReactionStream';
 
 export default function createDefaultShares(locales: Locales) {
     const OutputType = createOutputType(locales);
@@ -53,8 +58,11 @@ export default function createDefaultShares(locales: Locales) {
     const DirectionType = createDirectionType(locales);
     const ReboundType = createReboundType(locales);
     const PhraseType = createPhraseType(locales);
+    registerEvaluateAnalyzer(PhraseType, analyzePhraseEvaluate);
     const GroupType = createGroupType(locales);
     const ShapeType = createShapeType(locales);
+
+    const HandType = createHandType(locales);
 
     const OutputTypes = {
         Output: OutputType,
@@ -71,6 +79,7 @@ export default function createDefaultShares(locales: Locales) {
         Velocity: VelocityType,
         Direction: DirectionType,
         Rebound: ReboundType,
+        Gesture: HandType,
         Form: createFormType(locales),
         Rectangle: createRectangleType(locales),
         Circle: createCircleType(locales),
@@ -81,6 +90,7 @@ export default function createDefaultShares(locales: Locales) {
         Grid: createGridType(locales),
         Free: createFreeType(locales),
         Data: createSourceType(locales),
+        Say: createSayType(locales),
     };
 
     const InputTypes = {
@@ -96,6 +106,7 @@ export default function createDefaultShares(locales: Locales) {
         Pitch: createPitchDefinition(locales),
         Speech: createSpeechDefinition(locales),
         Camera: createCameraDefinition(locales, ColorType),
+        Hand: createHandDefinition(locales, HandType),
         Webpage: createWebpageDefinition(locales),
         Chat: createChatDefinition(locales),
         Collision: createCollisionDefinition(locales, ReboundType),

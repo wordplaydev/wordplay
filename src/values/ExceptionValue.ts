@@ -3,12 +3,12 @@ import ExceptionType from '@nodes/ExceptionType';
 import type Node from '@nodes/Node';
 import type Evaluator from '@runtime/Evaluator';
 import type Step from '@runtime/Step';
-import type { BasisTypeName } from '../basis/BasisConstants';
-import type Locales from '../locale/Locales';
-import type { ExceptionText } from '../locale/NodeTexts';
-import type Expression from '../nodes/Expression';
-import type Markup from '../nodes/Markup';
-import SimpleValue from './SimpleValue';
+import type { BasisTypeName } from '@basis/BasisConstants';
+import type Locales from '@locale/Locales';
+import type { ExceptionText } from '@locale/NodeTexts';
+import type Expression from '@nodes/Expression';
+import type Markup from '@nodes/Markup';
+import SimpleValue from '@values/SimpleValue';
 
 export default abstract class ExceptionValue extends SimpleValue {
     readonly evaluator: Evaluator;
@@ -33,7 +33,9 @@ export default abstract class ExceptionValue extends SimpleValue {
         return new ExceptionType(this);
     }
 
-    abstract getExceptionText(locales: Locales): ExceptionText;
+    abstract getExceptionText(
+        locales: Locales,
+    ): ExceptionText<readonly string[], readonly string[]>;
 
     getDescription() {
         return (l: LocaleText) => l.term.exception;

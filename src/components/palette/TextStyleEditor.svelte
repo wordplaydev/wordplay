@@ -25,14 +25,21 @@
     } from '@parser/Symbols';
     import { toTokens } from '@parser/toTokens';
     import MarkupValue from '@values/MarkupValue';
-    import NamedControl from './NamedControl.svelte';
+    import NamedControl from '@components/palette/NamedControl.svelte';
+    import { Faces, faceSupportsWeight, type FontWeight } from '@basis/Fonts';
+    import type { LocaleTextAccessor } from '@locale/Locales';
 
     interface Props {
         project: Project;
         outputs: OutputPropertyValueSet;
+        /** The face shared by all selected phrases, if any. Used to hide weight
+         * options and disable the italic checkbox when the face doesn't support
+         * them. Undefined means the selection has no single face — fall back to
+         * showing all options. */
+        faceName?: string | undefined;
     }
 
-    let { project, outputs }: Props = $props();
+    let { project, outputs, faceName = undefined }: Props = $props();
 
     const weights: Record<string, string> = {
         light: '~',
@@ -40,6 +47,44 @@
         bold: '*',
         extra: '^',
     };
+
+    /** All four weight options the editor offers, paired with the font-weight
+     * they map to so we can filter by what the active face supports. */
+    const allWeightOptions: {
+        value: string;
+        label: LocaleTextAccessor;
+        weight: FontWeight;
+    }[] = [
+        {
+            value: 'normal',
+            label: (l) => l.ui.palette.labels.normal,
+            weight: 400,
+        },
+        {
+            value: 'light',
+            label: (l) => l.ui.palette.labels.light,
+            weight: 300,
+        },
+        {
+            value: 'bold',
+            label: (l) => l.ui.palette.labels.bold,
+            weight: 700,
+        },
+        {
+            value: 'extra',
+            label: (l) => l.ui.palette.labels.extra,
+            weight: 900,
+        },
+    ];
+
+    let face = $derived(faceName ? Faces[faceName] : undefined);
+    let italicSupported = $derived(face === undefined || face.italic);
+    let weightOptions = $derived(
+        allWeightOptions.filter(
+            (option) =>
+                face === undefined || faceSupportsWeight(face, option.weight),
+        ),
+    );
 
     // Get a link to the phrase concept, which explains how formatting works.
     let indexContext = getConceptIndex();
@@ -279,24 +324,7 @@
                 label={(l) => l.ui.palette.labels.weight}
                 id="weight-chooser"
                 width="auto"
-                options={[
-                    {
-                        value: 'normal',
-                        label: (l) => l.ui.palette.labels.normal,
-                    },
-                    {
-                        value: 'light',
-                        label: (l) => l.ui.palette.labels.light,
-                    },
-                    {
-                        value: 'bold',
-                        label: (l) => l.ui.palette.labels.bold,
-                    },
-                    {
-                        value: 'extra',
-                        label: (l) => l.ui.palette.labels.extra,
-                    },
-                ]}
+                options={weightOptions}
                 change={(value) => applyWeight(value)}
             >
                 {#snippet item(option, localized)}
@@ -327,6 +355,7 @@
                 on={italic}
                 changed={() => applyStyle('italic')}
                 id="font-italic"
+                editable={italicSupported}
             ></Checkbox>
         </div>
         <div class="aspect">

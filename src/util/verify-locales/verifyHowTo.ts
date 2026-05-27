@@ -6,8 +6,8 @@ import { Sym } from '@nodes/Sym';
 import Token from '@nodes/Token';
 import fs from 'fs';
 import path from 'path';
-import type Log from './Log';
-import translate, { getGoogleTranslateTargetLocale } from './translate';
+import type Log from '@util/verify-locales/Log';
+import translate, { getGoogleTranslateTargetLocale } from '@util/verify-locales/translate';
 
 /**
  * Verify and optionally translate how-to content for a locale
@@ -85,7 +85,7 @@ export async function verifyHowTo(
         const targetFilePath = path.join(targetHowToDir, filename);
 
         try {
-            await translateHowToFile(
+            const translated = await translateHowToFile(
                 log,
                 filename,
                 englishFilePath,
@@ -94,7 +94,7 @@ export async function verifyHowTo(
                 targetLocale,
                 override,
             );
-            translatedCount++;
+            if (translated) translatedCount++;
         } catch (error) {
             log.bad(3, `Failed to process how-to file ${filename}: ${error}`);
         }
@@ -111,7 +111,11 @@ export async function verifyHowTo(
 }
 
 /**
- * Translate a single how-to file
+ * Translate a single how-to file. Returns true if a translation actually
+ * occurred (i.e. a request was sent and the target file was rewritten),
+ * false when nothing needed translating (target exists and isn't a
+ * machine-translated override candidate, or there are no translatable
+ * phrases in the parsed how-to).
  */
 async function translateHowToFile(
     log: Log,
@@ -121,7 +125,7 @@ async function translateHowToFile(
     sourceLocale: string,
     targetLocale: string,
     override: boolean,
-): Promise<void> {
+): Promise<boolean> {
     // Read English content
     let englishContent: string;
     try {
@@ -151,13 +155,13 @@ async function translateHowToFile(
     const needsTranslation =
         isNewFile || (override && isMachineTranslated(targetLines));
 
-    if (!needsTranslation) return;
+    if (!needsTranslation) return false;
 
     // Parse the target text as a how to.
     const parsedHowTo = parseHowTo(filename.replace('.txt', ''), targetLines);
 
     // Find all of the words in the content.
-    if (parsedHowTo.how === null) return;
+    if (parsedHowTo.how === null) return false;
 
     const phrases = parsedHowTo.how.content
         .nodes()
@@ -166,7 +170,7 @@ async function translateHowToFile(
                 node instanceof Token && node.isSymbol(Sym.Words),
         );
 
-    if (phrases.length === 0) return;
+    if (phrases.length === 0) return false;
 
     // Translate the title and content
     const translations = await translate(
@@ -229,4 +233,5 @@ async function translateHowToFile(
     }
 
     log.good(3, `Translated how-to file: ${filename}`);
+    return true;
 }

@@ -1,20 +1,24 @@
 import type Markup from '@nodes/Markup';
 import { MACHINE_TRANSLATED_SYMBOL } from '@parser/Symbols';
 import { withMonoEmoji } from '@unicode/emoji';
-import type Names from '../nodes/Names';
-import { getKeyTemplatePairs } from '../util/verify-locales/LocalePath';
-import { MachineTranslated, Unwritten } from './Annotations';
-import type ConceptRef from './ConceptRef';
-import type { Concretizer } from './concretize';
-import type LanguageCode from './LanguageCode';
-import { getLanguageDirection, getLanguageScripts } from './LanguageCode';
-import { localeToString } from './Locale';
-import type LocaleText from './LocaleText';
-import { isUnwritten, toLocaleString } from './LocaleText';
-import type NodeRef from './NodeRef';
-import type { Script } from './Scripts';
-import type ValueRef from './ValueRef';
-import { withoutAnnotations } from './withoutAnnotations';
+import type Names from '@nodes/Names';
+import { getKeyTemplatePairs } from '@util/verify-locales/LocalePath';
+import { MachineTranslated, Unwritten } from '@locale/Annotations';
+import type ConceptRef from '@locale/ConceptRef';
+import type { Concretizer } from '@locale/concretize';
+import type LanguageCode from '@locale/LanguageCode';
+import { getLanguageDirection, getLanguageScripts } from '@locale/LanguageCode';
+import { localeToString } from '@locale/Locale';
+import type LocaleText from '@locale/LocaleText';
+import {
+    isUnwritten,
+    toLocaleString,
+    type Template,
+} from '@locale/LocaleText';
+import type NodeRef from '@locale/NodeRef';
+import type { Script } from '@locale/Scripts';
+import type ValueRef from '@locale/ValueRef';
+import { withoutAnnotations } from '@locale/withoutAnnotations';
 
 export type TemplateInput =
     | number
@@ -252,17 +256,36 @@ export default class Locales {
      *      "]]"
      *      "||"
      */
+    /**
+     * Resolve a template and substitute its `$name` placeholders.
+     *
+     * Typed path form: when the path lambda returns `Template<Names>` (any
+     * locale field typed via `Template<['a', 'b', ...]>`), TypeScript
+     * requires `inputs` to be an object literal with exactly those keys.
+     */
+    concretize<Names extends readonly string[]>(
+        textOrQuery: (locale: LocaleText) => Template<Names>,
+        inputs?: { [K in Names[number]]: TemplateInput },
+    ): Markup;
+    /**
+     * Raw-string form: used when the template was already resolved (e.g.
+     * `Node.getDescription`). Key correctness is not enforced here — the
+     * locale verifier checks it at CI time against the schema-declared
+     * `Template<Names>` of the source field.
+     */
     concretize(
-        /** The string to localize */
+        textOrQuery: string,
+        inputs?: Record<string, TemplateInput>,
+    ): Markup;
+    concretize(
         textOrQuery: string | ((locale: LocaleText) => string),
-        /** The inputs to use to concretize */
-        ...inputs: TemplateInput[]
+        inputs: Record<string, TemplateInput> = {},
     ): Markup {
         const template =
             typeof textOrQuery === 'string'
                 ? textOrQuery
                 : this.get(textOrQuery);
-        return this.concretizer(this, template, ...inputs);
+        return this.concretizer(this, template, inputs);
     }
 
     getTermByID(id: string) {

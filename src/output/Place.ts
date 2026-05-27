@@ -3,14 +3,14 @@ import Evaluation from '@runtime/Evaluation';
 import type Evaluator from '@runtime/Evaluator';
 import NumberValue from '@values/NumberValue';
 import type Value from '@values/Value';
-import toStructure from '../basis/toStructure';
-import type Locales from '../locale/Locales';
-import type Names from '../nodes/Names';
-import Unit from '../nodes/Unit';
-import NoneValue from '../values/NoneValue';
-import StructureValue from '../values/StructureValue';
-import { toNumber } from './Stage';
-import Valued, { getOutputInputs } from './Valued';
+import toStructure from '@basis/toStructure';
+import type Locales from '@locale/Locales';
+import type Names from '@nodes/Names';
+import Unit from '@nodes/Unit';
+import NoneValue from '@values/NoneValue';
+import StructureValue from '@values/StructureValue';
+import { toNumber } from '@output/Stage';
+import Valued, { getOutputInputs } from '@output/Valued';
 
 export function createPlaceType(locales: Locales) {
     return toStructure(`

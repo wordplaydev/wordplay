@@ -1,5 +1,6 @@
 <script module lang="ts">
-    import Slider from './Slider.svelte';
+    import Slider from '@components/widgets/Slider.svelte';
+    import { BCTKeys, Focals } from '@output/BasicColors';
 
     // Create a list of hues in the LCH color space from 0 to 360
     function getColors(lightness: number, chroma: number) {
@@ -33,24 +34,24 @@
         (val) => percentToChroma(val),
     );
 
-    const Primary: [number, number, number][] = [
-        [0, 0, 0],
-        [33, 0, 0],
-        [66, 0, 0],
-        [100, 0, 0],
-        [50, 109, 42], // red
-        [50, 127, 174], // green
-        [50, 117, 282], // blue
-        // [91, 50, 196], // cyan
-        // [60, 115, 328], // magenta
-        // [97, 96, 102], // yellow
-    ];
+    /** Palette swatches sourced from the 11 Basic Color Term focal points
+     *  in `BasicColors`. Stored as `[lightness%, chroma, hue]` to match
+     *  the `palette` prop's shape; the localized BCT name comes from
+     *  `describeColorLocalized` on the same LCH triple. */
+    const Primary: [number, number, number][] = BCTKeys.map((key) => [
+        Focals[key].l * 100,
+        Focals[key].c,
+        Focals[key].h,
+    ]);
 </script>
 
 <script lang="ts">
     import { LCHtoCSS } from '@output/ColorJS';
-    import { getFirstText } from '../../locale/LocaleText';
-    import Button from './Button.svelte';
+    import { describeColorLocalized } from '@output/BasicColors';
+    import { getFirstText } from '@locale/LocaleText';
+    import { locales } from '@db/Database';
+    import { getAnnouncer } from '@components/project/Contexts';
+    import Button from '@components/widgets/Button.svelte';
 
     interface Props {
         /** a degree (any number remainder 360) */
@@ -61,6 +62,8 @@
         lightness: number;
         /** Called every time the color changes */
         change: (l: number, c: number, h: number) => void;
+        start?: () => void;
+        release?: () => void;
         editable?: boolean;
         id?: string | undefined;
         /** Additional colors to add to the palette */
@@ -72,6 +75,8 @@
         chroma = $bindable(),
         lightness = $bindable(),
         change,
+        start = undefined,
+        release = undefined,
         editable = true,
         id = undefined,
         palette = [],
@@ -93,18 +98,58 @@
         broadcast();
     }
 
+    const announce = getAnnouncer();
+
     function broadcast() {
         change(lightness, chroma, hue);
+        // Push the new color description into the central announcer so
+        // screen-reader users hear it. Falls back silently when no
+        // announcer is in context (e.g., outside ProjectView).
+        if (announce && $announce) {
+            $announce(
+                'color',
+                $locales.getLanguages()[0],
+                currentDescription,
+            );
+        }
     }
+
+    /** Localized description of the current color, recomputed reactively
+     *  on each lightness/chroma/hue change. Used for the focus-time
+     *  `aria-label` on the preview/picker, and pushed into the central
+     *  Announcer on each broadcast. */
+    let currentDescription = $derived(
+        describeColorLocalized(
+            $locales,
+            lightness,
+            chroma,
+            hue,
+        ),
+    );
 </script>
 
 <div class="component" {id}>
-    <div class="preview" style:background-color={color}></div>
+    <div
+        class="preview"
+        style:background-color={color}
+        aria-label={currentDescription}
+    ></div>
+    <!-- The chroma×hue picker is a 2-D draggable region. role="application"
+         lets it accept pointer gestures while exposing a meaningful label
+         to assistive tech. -->
     <!-- svelte-ignore a11y_no_static_element_interactions -->
     <div
         class="bands"
-        onpointerdown={editable ? handleMouseMove : null}
+        role="application"
+        aria-label={currentDescription}
+        onpointerdown={editable
+            ? (e) => {
+                  start?.();
+                  handleMouseMove(e);
+              }
+            : null}
         onpointermove={editable ? handleMouseMove : null}
+        onpointerup={editable ? () => release?.() : null}
         bind:clientWidth={hueWidth}
         bind:clientHeight={hueHeight}
     >
@@ -126,8 +171,14 @@
         ></div>
     </div>
     <div class="primary">
-        {#each [...palette, ...Primary] as primary}<Button
-                tip={() => primary.join(',')}
+        {#each [...palette, ...Primary] as primary}{@const swatchLabel =
+                describeColorLocalized(
+                    $locales,
+                    primary[0] / 100,
+                    primary[1],
+                    primary[2],
+                )}<Button
+                tip={() => swatchLabel}
                 padding={false}
                 action={() => {
                     lightness = primary[0] / 100;
@@ -142,6 +193,7 @@
                         primary[1],
                         primary[2],
                     )}
+                    aria-label={swatchLabel}
                 ></div></Button
             >{/each}
     </div>
@@ -156,6 +208,8 @@
             tip={(l) => l.output.Color.lightness.names[0]}
             unit={'%'}
             precision={0}
+            {...start ? { start } : {}}
+            {...release ? { release: () => release() } : {}}
             change={(value) => {
                 lightness = value.toNumber();
                 broadcast();
@@ -170,6 +224,8 @@
             increment={1}
             unit=""
             tip={(l) => l.output.Color.chroma.names[0]}
+            {...start ? { start } : {}}
+            {...release ? { release: () => release() } : {}}
             change={(value) => {
                 chroma = value.round().toNumber();
                 broadcast();
@@ -184,6 +240,8 @@
             increment={1}
             unit={'°'}
             tip={(l) => l.output.Color.hue.names[0]}
+            {...start ? { start } : {}}
+            {...release ? { release: () => release() } : {}}
             change={(value) => {
                 hue = value.round().toNumber();
                 broadcast();

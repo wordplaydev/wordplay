@@ -1,11 +1,11 @@
 import { MachineTranslated, Unwritten } from '@locale/Annotations';
 import { withoutAnnotations } from '@locale/withoutAnnotations';
-import type Markup from '../nodes/Markup';
-import { withColorEmoji } from '../unicode/emoji';
-import parseDoc from './parseDoc';
-import type Spaces from './Spaces';
-import { DOCS_SYMBOL } from './Symbols';
-import { toTokens } from './toTokens';
+import type Markup from '@nodes/Markup';
+import { withColorEmoji } from '@unicode/emoji';
+import parseDoc from '@parser/parseDoc';
+import type Spaces from '@parser/Spaces';
+import { DOCS_SYMBOL } from '@parser/Symbols';
+import { toTokens } from '@parser/toTokens';
 
 export function toMarkup(template: string): [Markup, Spaces] {
     // Ensure text has color emojis.

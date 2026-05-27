@@ -1,25 +1,27 @@
 import StructureValue from '@values/StructureValue';
-import { SupportedFontsFamiliesType, type SupportedFace } from '../basis/Fonts';
-import toStructure from '../basis/toStructure';
-import { getBind } from '../locale/getBind';
-import type Locales from '../locale/Locales';
-import { getFirstText } from '../locale/LocaleText';
-import { GROUP_SYMBOL, TYPE_SYMBOL } from '../parser/Symbols';
-import type Evaluator from '../runtime/Evaluator';
-import type Value from '../values/Value';
-import Arrangement from './Arrangement';
-import type Color from './Color';
-import Matter, { toMatter } from './Matter';
-import Output, { DefaultStyle } from './Output';
-import type Place from './Place';
-import type Pose from './Pose';
-import type { DefinitePose } from './Pose';
-import type RenderContext from './RenderContext';
-import type Sequence from './Sequence';
-import type { NameGenerator } from './Stage';
-import TextLang from './TextLang';
-import { getTypeStyle, toArrangement, toOutputList } from './toOutput';
-import { getOutputInput } from './Valued';
+import { SupportedFontsFamiliesType, type SupportedFace } from '@basis/Fonts';
+import toStructure from '@basis/toStructure';
+import { describeColorLocalized } from '@output/BasicColors';
+import { getBind } from '@locale/getBind';
+import type Locales from '@locale/Locales';
+import { getFirstText } from '@locale/LocaleText';
+import { GROUP_SYMBOL, TYPE_SYMBOL } from '@parser/Symbols';
+import type Evaluator from '@runtime/Evaluator';
+import type Value from '@values/Value';
+import Arrangement from '@output/Arrangement';
+import type Color from '@output/Color';
+import Matter, { toMatter } from '@output/Matter';
+import Output, { DefaultStyle } from '@output/Output';
+import type Place from '@output/Place';
+import type Pose from '@output/Pose';
+import type { DefinitePose } from '@output/Pose';
+import type RenderContext from '@output/RenderContext';
+import Say from '@output/Say';
+import type Sequence from '@output/Sequence';
+import type { NameGenerator } from '@output/Stage';
+import TextLang from '@output/TextLang';
+import { getTypeStyle, toArrangement, toOutputList } from '@output/toOutput';
+import { getOutputInput } from '@output/Valued';
 
 export function createGroupType(locales: Locales) {
     return toStructure(`
@@ -28,7 +30,7 @@ export function createGroupType(locales: Locales) {
         ${getBind(
             locales,
             (locale) => locale.output.Group.content,
-        )}•[Phrase|Group|ø]
+        )}•[Phrase|Group|Say|ø]
         ${getBind(locales, (locale) => locale.output.Group.size)}•${'#m|ø: ø'}
     ${getBind(
         locales,
@@ -57,7 +59,9 @@ export function createGroupType(locales: Locales) {
     ${getBind(locales, (locale) => locale.output.Group.style)}•${locales
         .getLocales()
         .map((locale) =>
-            Object.values(locale.output.Easing).map((id) => `"${id}"`),
+            Object.values(locale.output.Easing).map(
+                (id) => `"${id}"/${locale.language}`,
+            ),
         )
         .flat()
         .join('|')}: "${DefaultStyle}"
@@ -144,6 +148,15 @@ export default class Group extends Output {
         return undefined;
     }
 
+    getSays(): Say[] {
+        const says: Say[] = [];
+        for (const child of this.content) {
+            if (child instanceof Say) says.push(child);
+            else if (child instanceof Group) says.push(...child.getSays());
+        }
+        return says;
+    }
+
     getBackground(): Color | undefined {
         throw new Error('Method not implemented.');
     }
@@ -156,12 +169,24 @@ export default class Group extends Output {
 
     getDescription(locales: Locales) {
         if (this._description === undefined) {
+            const bg = this.background;
+            const colorDescription = bg
+                ? describeColorLocalized(
+                      locales,
+                      bg.lightness.toNumber(),
+                      bg.chroma.toNumber(),
+                      bg.hue.toNumber(),
+                  )
+                : undefined;
             this._description = locales
                 .concretize(
                     (l) => l.output.Group.defaultDescription,
-                    this.name instanceof TextLang ? this.name.text : undefined,
-                    this.layout.getDescription(this.content, locales),
-                    this.pose.getDescription(locales),
+                    {
+                        name: this.name instanceof TextLang ? this.name.text : undefined,
+                        layout: this.layout.getDescription(this.content, locales),
+                        pose: this.pose.getDescription(locales),
+                        color: colorDescription,
+                    },
                 )
                 .toText()
                 .trim();

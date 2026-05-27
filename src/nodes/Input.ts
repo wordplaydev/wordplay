@@ -1,24 +1,25 @@
 import { Purpose } from '@concepts/Purpose';
 import type Conflict from '@conflicts/Conflict';
-import type { InsertContext } from '@edit/revision/EditContext';
+import type { InsertContext, ReplaceContext } from '@edit/revision/EditContext';
+import UnionType from '@nodes/UnionType';
 import Refer from '@edit/revision/Refer';
 import type Locales from '@locale/Locales';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import Characters from '../lore/BasisCharacters';
-import type Bind from './Bind';
-import BindToken from './BindToken';
-import type Context from './Context';
-import Evaluate from './Evaluate';
-import type { GuardContext } from './Expression';
-import Expression from './Expression';
-import ExpressionPlaceholder from './ExpressionPlaceholder';
-import Node, { node, type Grammar, type Replacement } from './Node';
-import NoExpressionType from './NoExpressionType';
-import { Sym } from './Sym';
-import Token from './Token';
-import type Type from './Type';
-import type TypeSet from './TypeSet';
+import type Bind from '@nodes/Bind';
+import BindToken from '@nodes/BindToken';
+import type Context from '@nodes/Context';
+import Evaluate from '@nodes/Evaluate';
+import type { GuardContext } from '@nodes/Expression';
+import Expression from '@nodes/Expression';
+import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
+import Node, { node, type Grammar, type Replacement } from '@nodes/Node';
+import NoExpressionType from '@nodes/NoExpressionType';
+import { Sym } from '@nodes/Sym';
+import Token from '@nodes/Token';
+import type Type from '@nodes/Type';
+import type TypeSet from '@nodes/TypeSet';
 
 export default class Input extends Node {
     readonly name: Token;
@@ -53,8 +54,71 @@ export default class Input extends Node {
         );
     }
 
-    static getPossibleReplacements() {
-        return [];
+    static getPossibleReplacements({
+        node,
+        context,
+        locales,
+    }: ReplaceContext) {
+        if (!(node instanceof Input)) return [];
+        const parent = node.getParent(context);
+        if (!(parent instanceof Evaluate)) return [];
+        const mapping = parent.getInputMapping(context);
+        const expected = mapping?.inputs.find((i) => i.given === node)?.expected;
+        if (expected === undefined) return [];
+        const types =
+            expected.type instanceof UnionType
+                ? expected.type.getLocalizedTypes(locales, context)
+                : expected.type
+                  ? [expected.type]
+                  : undefined;
+        return (
+            types
+                ?.map((t) => t.getDefaultExpression(context))
+                .filter((e): e is Exclude<typeof e, undefined> => e !== undefined)
+                .map(
+                    (value) =>
+                        new Refer(
+                            (name) => Input.make(name, value),
+                            expected,
+                        ),
+                ) ?? [
+                new Refer(
+                    (name) => Input.make(name, ExpressionPlaceholder.make()),
+                    expected,
+                ),
+            ]
+        );
+    }
+
+    /** When the name token of an Input is the menu anchor, surface Input
+     *  variants whose name picks a different parameter of the parent Evaluate's
+     *  function — restricted to parameters whose declared type accepts the
+     *  current value's type. The current value (and surrounding tokens) are
+     *  preserved so the user is just renaming, not editing the value. */
+    getReplacementsForTokenAnchor(context: Context): Input[] {
+        const parent = this.getParent(context);
+        if (!(parent instanceof Evaluate)) return [];
+        const fun = parent.getFunction(context);
+        if (fun === undefined) return [];
+
+        const valueType = this.value.getType(context);
+        const currentName = this.name.getText();
+
+        return fun.inputs
+            .filter((bind) => {
+                if (bind.getNames().includes(currentName)) return false;
+                const expected = bind.getType(context);
+                return expected.accepts(valueType, context);
+            })
+            .map(
+                (bind) =>
+                    new Input(
+                        new Token(bind.getNames()[0], Sym.Name),
+                        this.bind,
+                        this.value,
+                        this.separator,
+                    ),
+            );
     }
 
     static getPossibleInsertions({ parent, context }: InsertContext) {
@@ -176,7 +240,10 @@ export default class Input extends Node {
     }
 
     getCharacter() {
-        return { symbols: this.name.getText() + Characters.Bind };
+        // Characters.Bind is `{ symbols: ':' }`, not a bare string — concatenating
+        // it as-is would coerce the object to "[object Object]". Use `.symbols`
+        // to get the actual glyph.
+        return { symbols: this.name.getText() + Characters.Bind.symbols };
     }
 
     static readonly LocalePath = (l: LocaleText) => l.node.Input;

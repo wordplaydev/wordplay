@@ -1,4 +1,5 @@
 import { Creator } from '@db/creators/CreatorDatabase';
+import { firebaseReachable } from '@db/Database';
 import { functions } from '@db/firebase';
 import { httpsCallable } from 'firebase/functions';
 import { type EmailExistsInputs, type EmailExistsOutput } from 'shared-types';
@@ -10,13 +11,18 @@ export async function usernameAccountExists(name: string) {
 
 export async function emailAccountExists(email: string) {
     if (functions === undefined) return;
-    // Ask the server about the account.
     const emailExists = httpsCallable<EmailExistsInputs, EmailExistsOutput>(
         functions,
         'emailExists',
     );
-    const { data } = await emailExists([email]);
-    return data !== undefined && data[email] === true;
+    try {
+        const { data } = await emailExists([email]);
+        firebaseReachable.set(true);
+        return data !== undefined && data[email] === true;
+    } catch (error) {
+        firebaseReachable.set(false);
+        throw error;
+    }
 }
 
 export async function usernamesExist(usernames: string[]) {
@@ -28,6 +34,12 @@ export async function usernamesExist(usernames: string[]) {
         functions,
         'emailExists',
     );
-    const { data } = await emailExists(emails);
-    return data;
+    try {
+        const { data } = await emailExists(emails);
+        firebaseReachable.set(true);
+        return data;
+    } catch (error) {
+        firebaseReachable.set(false);
+        throw error;
+    }
 }

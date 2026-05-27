@@ -2,11 +2,11 @@ import Caret from '@edit/caret/Caret';
 import type Context from '@nodes/Context';
 import Node from '@nodes/Node';
 import getPreferredSpaces from '@parser/getPreferredSpaces';
-import type { Edit } from '../../components/editor/commands/Commands';
-import type Locales from '../../locale/Locales';
-import Bind from '../../nodes/Bind';
-import Refer from './Refer';
-import Revision from './Revision';
+import type { Edit } from '@components/editor/commands/Commands';
+import type Locales from '@locale/Locales';
+import Bind from '@nodes/Bind';
+import Refer from '@edit/revision/Refer';
+import Revision from '@edit/revision/Revision';
 
 export default class Append<NodeType extends Node> extends Revision {
     /** The source index where the insertion occurs */
@@ -118,14 +118,7 @@ export default class Append<NodeType extends Node> extends Revision {
     }
 
     getDescription(locales: Locales) {
-        const node =
-            this.insertion instanceof Refer
-                ? this.insertion.getNode(locales)
-                : this.getNewNode(locales);
-        return locales.concretize(
-            (l) => l.ui.edit.append,
-            node.getLabel(locales),
-        );
+        return locales.concretize((l) => l.ui.edit.append);
     }
 
     getNewNode(locales: Locales): Node {

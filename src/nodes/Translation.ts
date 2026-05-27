@@ -3,21 +3,21 @@ import type Conflict from '@conflicts/Conflict';
 import { PossiblePII } from '@conflicts/PossiblePII';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
-import { Purpose } from '../concepts/Purpose';
+import { Purpose } from '@concepts/Purpose';
 import { Emotion } from '../lore/Emotion';
 import {
     ConceptRegExPattern,
     TextCloseByTextOpen,
     TextDelimiters,
-} from '../parser/Tokenizer';
-import type Context from './Context';
-import Example from './Example';
-import type Expression from './Expression';
-import Language from './Language';
-import { LanguageTagged } from './LanguageTagged';
-import { list, node, optional, type Grammar, type Replacement } from './Node';
-import { Sym } from './Sym';
-import Token from './Token';
+} from '@parser/Tokenizer';
+import type Context from '@nodes/Context';
+import Example from '@nodes/Example';
+import type Expression from '@nodes/Expression';
+import Language from '@nodes/Language';
+import { LanguageTagged } from '@nodes/LanguageTagged';
+import { list, node, optional, type Grammar, type Replacement } from '@nodes/Node';
+import { Sym } from '@nodes/Sym';
+import Token from '@nodes/Token';
 
 export const ESCAPE_REGEX = /\\(.)/g;
 
@@ -147,7 +147,9 @@ export default class Translation extends LanguageTagged {
     }
 
     getDescriptionInputs() {
-        return [this.getText()];
+        return {
+            text: this.getText(),
+        };
     }
 
     adjust(direction: -1 | 1): this | undefined {

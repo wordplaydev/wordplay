@@ -1,0 +1,27 @@
+Créez une grille de caractères
+
+Et si nous voulions des rangées ?/et/colonnes en même temps ? C'est ce que… @Grid est pour.
+
+UN  @Grid demande le nombre de lignes, le nombre de colonnes et l'espacement entre les cellules.
+
+\Group(Grid(2 3 0.25m) [
+		Phrase('🍎')
+		Phrase('🍌')
+		Phrase('🍇')
+		Phrase('🥕')
+		Phrase('🥦')
+		Phrase('🌽')
+	])\
+
+Cela permet de créer un potager de 2 x 3 pieds !
+
+Si vous souhaitez que toutes les cellules aient la même taille, donnez @Grid une largeur et une hauteur également. Ainsi, les caractères restent bien à l'intérieur de leurs carrés, même s'ils sont de tailles différentes :
+
+\Group(Grid(2 2 0.1m 1.5m 1.5m) [
+		Phrase('🐈' size: 1m)
+		Phrase('🐶' size: 1.5m)
+		Phrase('🦊' size: 0.5m)
+		Phrase('🐻' size: 2m)
+	])\
+
+arrange-in-a-row, stack-up-and-down, make-many-copies

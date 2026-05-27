@@ -1,5 +1,5 @@
 import type Value from '@values/Value';
-import Valued from './Valued';
+import Valued from '@output/Valued';
 
 export default class TextLang extends Valued {
     readonly text: string;

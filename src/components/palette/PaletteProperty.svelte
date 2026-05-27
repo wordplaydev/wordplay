@@ -10,30 +10,30 @@
     import type OutputPropertyValueSet from '@edit/output/OutputPropertyValueSet';
     import Evaluate from '@nodes/Evaluate';
     import { tick } from 'svelte';
-    import { DB, locales } from '../../db/Database';
+    import { DB, locales } from '@db/Database';
     import {
         CANCEL_SYMBOL,
         DOCUMENTATION_SYMBOL,
         EDIT_SYMBOL,
-    } from '../../parser/Symbols';
-    import ConceptLinkUI from '../concepts/ConceptLinkUI.svelte';
-    import { getConceptIndex } from '../project/Contexts';
-    import Button from '../widgets/Button.svelte';
-    import Note from '../widgets/Note.svelte';
-    import AuraEditor from './AuraEditor.svelte';
-    import BindCheckbox from './BindCheckbox.svelte';
-    import BindColor from './BindColor.svelte';
-    import BindOptions from './BindOptions.svelte';
-    import BindSlider from './BindSlider.svelte';
-    import BindText from './BindText.svelte';
-    import ContentEditor from './ContentEditor.svelte';
-    import MotionEditor from './MotionEditor.svelte';
-    import NamedControl from './NamedControl.svelte';
-    import PlaceEditor from './PlaceEditor.svelte';
-    import PlacementEditor from './PlacementEditor.svelte';
-    import PoseEditor from './PoseEditor.svelte';
-    import SequenceEditor from './SequenceEditor.svelte';
-    import SequencePosesEditor from './SequencePosesEditor.svelte';
+    } from '@parser/Symbols';
+    import ConceptLinkUI from '@components/concepts/ConceptLinkUI.svelte';
+    import { getConceptIndex } from '@components/project/Contexts';
+    import Button from '@components/widgets/Button.svelte';
+    import Note from '@components/widgets/Note.svelte';
+    import AuraEditor from '@components/palette/AuraEditor.svelte';
+    import BindCheckbox from '@components/palette/BindCheckbox.svelte';
+    import BindColor from '@components/palette/BindColor.svelte';
+    import BindOptions from '@components/palette/BindOptions.svelte';
+    import BindSlider from '@components/palette/BindSlider.svelte';
+    import BindText from '@components/palette/BindText.svelte';
+    import ContentEditor from '@components/palette/ContentEditor.svelte';
+    import MotionEditor from '@components/palette/MotionEditor.svelte';
+    import NamedControl from '@components/palette/NamedControl.svelte';
+    import PlaceEditor from '@components/palette/PlaceEditor.svelte';
+    import PlacementEditor from '@components/palette/PlacementEditor.svelte';
+    import PoseEditor from '@components/palette/PoseEditor.svelte';
+    import SequenceEditor from '@components/palette/SequenceEditor.svelte';
+    import SequencePosesEditor from '@components/palette/SequencePosesEditor.svelte';
 
     interface Props {
         project: Project;
@@ -81,6 +81,7 @@
                     ? (l) => l.ui.palette.button.revert
                     : (l) => l.ui.palette.button.set}
                 bind:view={toggleView}
+                uiid={valuesAreSet ? 'paletteUnset' : 'paletteSet'}
                 action={() => toggleValues(!valuesAreSet)}
                 icon={valuesAreSet ? CANCEL_SYMBOL : EDIT_SYMBOL}
             ></Button>{/if}
@@ -136,6 +137,12 @@
                 {values}
                 validator={property.type.validator}
                 {editable}
+                uiid={property.isName(
+                    $locales,
+                    (l) => l.output.Phrase.text.names,
+                )
+                    ? 'paletteText'
+                    : undefined}
             />
         {:else if property.type === 'color'}
             <BindColor id={propertyID} {property} {values} {editable} />

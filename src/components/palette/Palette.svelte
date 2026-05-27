@@ -5,21 +5,21 @@
     import OutputPropertyValueSet from '@edit/output/OutputPropertyValueSet';
     import Evaluate from '@nodes/Evaluate';
     import { untrack } from 'svelte';
-    import { DB, locales } from '../../db/Database';
+    import { DB, locales } from '@db/Database';
     import {
         GROUP_SYMBOL,
         PALETTE_SYMBOL,
         PHRASE_SYMBOL,
         STAGE_SYMBOL,
-    } from '../../parser/Symbols';
-    import MarkupHtmlView from '../concepts/MarkupHTMLView.svelte';
-    import Speech from '../lore/Speech.svelte';
+    } from '@parser/Symbols';
+    import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
+    import Speech from '@components/lore/Speech.svelte';
     import {
         getConceptIndex,
         getSelectedOutput,
         type EditorState,
-    } from '../project/Contexts';
-    import EditOffer from './EditOffer.svelte';
+    } from '@components/project/Contexts';
+    import EditOffer from '@components/palette/EditOffer.svelte';
     import {
         addGroup,
         addSoloPhrase,
@@ -27,9 +27,9 @@
         getSoloGroup,
         getSoloPhrase,
         getStage,
-    } from './editOutput';
-    import PaletteProperty from './PaletteProperty.svelte';
-    import TextStyleEditor from './TextStyleEditor.svelte';
+    } from '@components/palette/editOutput';
+    import PaletteProperty from '@components/palette/PaletteProperty.svelte';
+    import TextStyleEditor from '@components/palette/TextStyleEditor.svelte';
 
     interface Props {
         project: Project;
@@ -69,6 +69,12 @@
     let phraseTextValues: OutputPropertyValueSet | undefined =
         $state(undefined);
 
+    // Keep a reference to the face so the text style editor can hide weight/italic
+    // options the face doesn't support.
+    let phraseFaceValues = $state<OutputPropertyValueSet | undefined>(
+        undefined,
+    );
+
     /**
      * From the list of OutputExpressions, generate a value set for each property to allow for editing
      * multiple output expressions at once. */
@@ -101,9 +107,16 @@
             // Remember the phrase text property
             if (property.isName($locales, (l) => l.output.Phrase.text.names))
                 phraseTextValues = values;
+            // Remember the phrase face property
+            if (property.isName($locales, (l) => l.output.Phrase.face.names))
+                phraseFaceValues = values;
         }
         propertyValues = newPropertyValues;
     });
+
+    // The face name shared by all selected phrases, if any — used to constrain
+    // the text style editor's weight/italic options to what the face supports.
+    let sharedFaceName = $derived(phraseFaceValues?.getText());
 
     /** When the caret changes, see if it is inside an editable output, and select it if so. */
     $effect(() => {
@@ -139,6 +152,7 @@
 <section
     class="palette"
     data-testid="palette"
+    data-uiid="palette"
     aria-label={$locales.getPlainText((l) => l.ui.palette.label)}
 >
     {#if propertyValues.size > 0}
@@ -164,7 +178,10 @@
             <PaletteProperty {project} {property} {values} {editable} />
             <!-- Add the text style editor just below the face chooser. -->
             {#if property.isName($locales, (l) => l.output.Phrase.face.names) && phraseTextValues}
-                <TextStyleEditor {project} outputs={phraseTextValues}
+                <TextStyleEditor
+                    {project}
+                    outputs={phraseTextValues}
+                    faceName={sharedFaceName}
                 ></TextStyleEditor>
             {/if}
         {/each}

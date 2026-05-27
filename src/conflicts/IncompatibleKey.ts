@@ -3,8 +3,9 @@ import NodeRef from '@locale/NodeRef';
 import type Context from '@nodes/Context';
 import type SetOrMapAccess from '@nodes/SetOrMapAccess';
 import type Type from '@nodes/Type';
-import type Locales from '../locale/Locales';
-import Conflict from './Conflict';
+import type Locales from '@locale/Locales';
+import Conflict, { type Resolutions } from '@conflicts/Conflict';
+import type Node from '@nodes/Node';
 
 export class IncompatibleKey extends Conflict {
     readonly access: SetOrMapAccess;
@@ -27,9 +28,18 @@ export class IncompatibleKey extends Conflict {
             explanation: (locales: Locales, context: Context) =>
                 locales.concretize(
                     (l) => IncompatibleKey.LocalePath(l).explanation,
-                    new NodeRef(this.expected, locales, context),
+                    {
+                        expected: new NodeRef(this.expected, locales, context),
+                    },
                 ),
         };
+    }
+
+    override getResolutions(
+        context: Context,
+        concepts: Node[],
+    ): Resolutions {
+        return Conflict.fromRegistry(this, context, concepts);
     }
 
     getLocalePath() {

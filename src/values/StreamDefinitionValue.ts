@@ -1,11 +1,11 @@
 import type LocaleText from '@locale/LocaleText';
 import { STREAM_SYMBOL } from '@parser/Symbols';
 import type Value from '@values/Value';
-import type { BasisTypeName } from '../basis/BasisConstants';
-import type Locales from '../locale/Locales';
-import type StreamDefinition from '../nodes/StreamDefinition';
-import StreamType from '../nodes/StreamType';
-import SimpleValue from './SimpleValue';
+import type { BasisTypeName } from '@basis/BasisConstants';
+import type Locales from '@locale/Locales';
+import type StreamDefinition from '@nodes/StreamDefinition';
+import StreamType from '@nodes/StreamType';
+import SimpleValue from '@values/SimpleValue';
 
 export default class StreamDefinitionValue extends SimpleValue {
     /** The definition from the AST. */

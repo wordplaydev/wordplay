@@ -1,5 +1,5 @@
-import type Context from './Context';
-import type Type from './Type';
+import type Context from '@nodes/Context';
+import type Type from '@nodes/Type';
 
 /**
  * Utility class for reasoning about sets of types. Guarantees that any given pair of types in the set

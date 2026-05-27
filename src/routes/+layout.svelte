@@ -12,33 +12,50 @@
 </script>
 
 <script lang="ts">
+    // Side-effect import: registers type-mismatch resolvers with the Conflict
+    // registry. Loaded once at app startup so the registry is populated by
+    // the time any annotation asks for resolutions. See the file's header
+    // for why it can't be imported by the conflict files directly.
+    import '@conflicts/registerTypeResolutions';
+
     import { browser } from '$app/environment';
+    import { page } from '$app/state';
+    import ConnectionBanner from '@components/app/ConnectionBanner.svelte';
     import Loading from '@components/app/Loading.svelte';
     import Announcer from '@components/project/Announcer.svelte';
     import Hint, { ActiveHint } from '@components/widgets/Hint.svelte';
     import { firestore } from '@db/firebase';
     import { FaceSetting } from '@db/settings/FaceSetting';
+    import { type LocaleTextsAccessor } from '@locale/Locales';
+    import {
+        SupportedLocales,
+        type SupportedLocale,
+    } from '@locale/SupportedLocales';
     import type { User } from 'firebase/auth';
     import { onMount, type Snippet } from 'svelte';
     import { writable, type Writable } from 'svelte/store';
-    import Fonts from '../basis/Fonts';
+    import Fonts from '@basis/Fonts';
     import {
         setAnnouncer,
         setLocalizing,
         setTip,
         setUser,
         type AnnouncerContext,
-    } from '../components/project/Contexts';
+    } from '@components/project/Contexts';
     import {
         animationFactor,
         dark,
         DB,
+        disconnected,
         howToNotifications,
         HowTos,
         locales,
+        localesReady,
         Settings,
-    } from '../db/Database';
-    import { getLanguageDirection } from '../locale/LanguageCode';
+    } from '@db/Database';
+    import { getLanguageDirection } from '@locale/LanguageCode';
+    import { routeRequiresFirebase } from './routeRequiresFirebase';
+
     interface Props {
         children: Snippet;
     }
@@ -47,7 +64,10 @@
 
     let loaded = $state(false);
     let lag = $state(false);
-    let localizing = $state({ on: false });
+    let localizing = $state<{
+        on: boolean;
+        focused: LocaleTextsAccessor | undefined;
+    }>({ on: false, focused: undefined });
 
     /** Create a user store to share globally. Undefined means we don't know if the user is logged in yet. Null means not logged in. */
     const user = writable<User | null | undefined>(undefined);
@@ -71,6 +91,12 @@
         }
     });
 
+    /** Remove the locale-loading class added by locale-preload.js once the preferred locale is ready. */
+    $effect(() => {
+        if (browser && $localesReady)
+            document.documentElement.classList.remove('locale-loading');
+    });
+
     onMount(() => {
         // Force default font to load
         Fonts.loadFace('Noto Sans');
@@ -81,11 +107,24 @@
         // Listen for logged in users.
         DB.login((newUser) => user.set(newUser));
 
+        // Install browser online/offline + visibilitychange listeners.
+        const cleanupNetworkListeners = DB.installNetworkListeners();
+
+        // Install best-effort save-on-unload handlers so local edits
+        // (especially in-memory CRDT state) survive a tab close that
+        // beats saveSoon's debounce. See
+        // ProjectsDatabase.installSaveOnUnloadListeners for what it
+        // catches and what it can't.
+        const cleanupSaveOnUnload =
+            DB.Projects.installSaveOnUnloadListeners();
+
         // Wait a second before showing loading
         setTimeout(() => (lag = true), 1000);
 
         // Have the Database cleanup database connections when this is unmounted.
         return () => {
+            cleanupNetworkListeners();
+            cleanupSaveOnUnload();
             DB.clean();
         };
     });
@@ -98,12 +137,19 @@
         );
     }
 
-    /** When dark mode changes, update the body's dark class */
+    /** When dark mode changes, update the html element's dark/light classes */
     $effect(() => {
         if (browser) {
-            if ($dark === true || ($dark === null && prefersDark()))
-                document.body.classList.add('dark');
-            else document.body.classList.remove('dark');
+            if ($dark === true || ($dark === null && prefersDark())) {
+                document.documentElement.classList.add('dark');
+                document.documentElement.classList.remove('light');
+            } else if ($dark === false) {
+                document.documentElement.classList.remove('dark');
+                document.documentElement.classList.add('light');
+            } else {
+                document.documentElement.classList.remove('dark');
+                document.documentElement.classList.remove('light');
+            }
         }
     });
 
@@ -167,6 +213,28 @@
             HowTos.listen(firestore, $user.uid);
         }
     });
+
+    // When the URL locale param changes, sync it into the Database so all
+    // components see the correct locale(s) without requiring a page reload.
+    // The param may contain multiple locales joined by '+' (e.g. "en-US+es-MX").
+    $effect(() => {
+        const urlLocale = page.params.locale as string | undefined;
+        if (browser && urlLocale) {
+            const valid = urlLocale
+                .split('+')
+                .filter((l) =>
+                    SupportedLocales.includes(l as SupportedLocale),
+                ) as SupportedLocale[];
+            if (valid.length > 0) DB.Locales.setLocales(valid);
+        }
+    });
+
+    // Lock down the page when disconnected AND the current route requires Firebase.
+    // The editor (/project/[id]) and static pages stay interactive while offline;
+    // the existing per-page Status indicator surfaces save failures.
+    const locked = $derived(
+        $disconnected && routeRequiresFirebase(page.url.pathname),
+    );
 </script>
 
 <!-- svelte-ignore a11y_no_static_element_interactions -->
@@ -179,11 +247,21 @@
     lang={$locales.getLocale().language}
     ontouchstart={() => hint.hide()}
 >
-    {#if !loaded && lag}
-        <Loading />
-    {:else}
+    <ConnectionBanner />
+    <div class="content" class:locked inert={locked}>
+        <!-- Always render children, even before the user's preferred locale
+             finishes loading. The server renders with the default locale,
+             and so must the client during hydration — otherwise gating on
+             $localesReady would skip the page's <svelte:head> on the client
+             for non-en-US users while the server already emitted a <title>,
+             producing a hydration mismatch (see Title.svelte for the matching
+             locale-pinning during initial render). The body is kept invisible
+             via the `locale-loading` CSS class until $localesReady flips. -->
+        {#if (!$localesReady || !loaded) && lag}
+            <Loading />
+        {/if}
         {@render children()}
-    {/if}
+    </div>
 </div>
 <!-- Render a live region with announcements as soon as possible -->
 <Announcer
@@ -192,10 +270,34 @@
 <Hint></Hint>
 
 <style>
+    /* Flex column at the viewport height so the banner can take its natural
+       space at the top and the content shrinks to fit — same pattern Page.svelte
+       uses for the Localizer header. Keeps the page itself non-scrolling. */
     .root {
+        display: flex;
+        flex-direction: column;
+        height: 100dvh;
+        max-height: 100dvh;
         font-family: var(--wordplay-app-font);
         font-weight: var(--wordplay-font-weight);
         font-size: var(--wordplay-font-size);
         color: var(--wordplay-foreground);
+    }
+
+    .content {
+        flex: 1;
+        min-height: 0;
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* When the connection is lost on a Firebase-dependent route, grey out the
+       page content. `inert` (set on the element directly) handles focus and
+       a11y exclusion; this style is purely visual. */
+    .content.locked {
+        filter: grayscale(1);
+        opacity: 0.5;
+        pointer-events: none;
+        user-select: none;
     }
 </style>

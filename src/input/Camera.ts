@@ -1,50 +1,67 @@
+import CameraFeed from '@input/CameraFeed';
+import { denyConsent, Permission } from '@input/permissions';
+import createStreamEvaluator from '@input/createStreamEvaluator';
+import PermissionException from '@values/PermissionException';
+import { getDocLocales } from '@locale/getDocLocales';
+import { getNameLocales } from '@locale/getNameLocales';
+import type Locales from '@locale/Locales';
+import Bind from '@nodes/Bind';
+import type Expression from '@nodes/Expression';
+import ListType from '@nodes/ListType';
+import type Names from '@nodes/Names';
+import NoneType from '@nodes/NoneType';
+import NumberLiteral from '@nodes/NumberLiteral';
+import NumberType from '@nodes/NumberType';
+import StreamDefinition from '@nodes/StreamDefinition';
+import type StructureDefinition from '@nodes/StructureDefinition';
+import StructureType from '@nodes/StructureType';
+import UnionType from '@nodes/UnionType';
+import Unit from '@nodes/Unit';
 import { RGBtoLCH } from '@output/ColorJS';
 import type Evaluation from '@runtime/Evaluation';
 import ListValue from '@values/ListValue';
 import NumberValue from '@values/NumberValue';
-import { getDocLocales } from '../locale/getDocLocales';
-import { getNameLocales } from '../locale/getNameLocales';
-import type Locales from '../locale/Locales';
-import Bind from '../nodes/Bind';
-import type Expression from '../nodes/Expression';
-import ListType from '../nodes/ListType';
-import type Names from '../nodes/Names';
-import NoneType from '../nodes/NoneType';
-import NumberLiteral from '../nodes/NumberLiteral';
-import NumberType from '../nodes/NumberType';
-import StreamDefinition from '../nodes/StreamDefinition';
-import type StructureDefinition from '../nodes/StructureDefinition';
-import StructureType from '../nodes/StructureType';
-import UnionType from '../nodes/UnionType';
-import Unit from '../nodes/Unit';
-import StructureValue, { createStructure } from '../values/StructureValue';
-import TemporalStreamValue from '../values/TemporalStreamValue';
-import type Value from '../values/Value';
-import createStreamEvaluator from './createStreamEvaluator';
+import StructureValue, { createStructure } from '@values/StructureValue';
+import TemporalStreamValue from '@values/TemporalStreamValue';
+import type Value from '@values/Value';
 
-type CameraConfig = {
-    stream: MediaStream;
-    video: HTMLVideoElement;
-    canvas: HTMLCanvasElement;
-    context: CanvasRenderingContext2D;
-    width: number;
-    height: number;
-    sourceX: number;
-    sourceY: number;
-    sourceWidth: number;
-    sourceHeight: number;
-};
+/** A single pixel in LCH color space. */
+type LCHPixel = { l: number; c: number; h: number };
 
-type RawFrame = { l: number; c: number; h: number }[][];
+/** A 2D matrix of LCH pixels, indexed as [row][column]. */
+type LCHFrame = LCHPixel[][];
 
-export default class Camera extends TemporalStreamValue<ListValue, RawFrame> {
-    config: CameraConfig | undefined | null;
+/** Convert raw RGBA ImageData into a row-major LCH matrix. */
+function imageDataToLCH(image: ImageData): LCHFrame {
+    const frame: LCHFrame = [];
+    for (let i = 0; i < image.data.length; i += 4) {
+        const index = i / 4;
+        const row = Math.floor(index / image.width);
+        const column = index % image.width;
+        if (frame[row] === undefined) frame[row] = [];
+
+        const lch = RGBtoLCH(
+            image.data[i] / 255,
+            image.data[i + 1] / 255,
+            image.data[i + 2] / 255,
+        );
+        // PERF: round to integers to keep Decimal parsing fast downstream.
+        frame[row][column] = {
+            l: Math.round(lch.coords[0] ?? 0) / 100,
+            c: Math.round(lch.coords[1] ?? 0),
+            h: Math.round(lch.coords[2] ?? 0),
+        };
+    }
+    return frame;
+}
+
+export default class Camera extends TemporalStreamValue<ListValue, LCHFrame> {
+    feed: CameraFeed;
     lastTime: DOMHighResTimeStamp | undefined = undefined;
     frequency: number;
     width: number;
     height: number;
-    playing = false;
-    stopped = false;
+    lastDevice: string | null;
 
     constructor(
         evaluation: Evaluation,
@@ -62,111 +79,79 @@ export default class Camera extends TemporalStreamValue<ListValue, RawFrame> {
         this.width = width;
         this.height = height;
         this.frequency = frequency;
+        this.lastDevice = this.evaluator.database.Settings.getCamera();
+        this.feed = new CameraFeed(
+            this.evaluator.database,
+            width,
+            height,
+            frequency,
+            () => this.handleCameraDenied(),
+        );
+    }
+
+    private handleCameraDenied() {
+        denyConsent(Permission.Camera);
+        this.evaluator.replaceMainValue(
+            new PermissionException(
+                this.creator,
+                this.evaluator,
+                Permission.Camera,
+            ),
+        );
+        this.evaluator.broadcast();
+    }
+
+    configure(width: number, height: number, frequency: number) {
+        this.width = width;
+        this.height = height;
+        this.frequency = frequency;
+        this.feed.setResolution(width, height);
+        const currentDevice = this.evaluator.database.Settings.getCamera();
+        if (currentDevice !== this.lastDevice) {
+            this.lastDevice = currentDevice;
+            this.feed.setDevice();
+        }
     }
 
     /** Take a raw frame and add a frame to the stream */
-    react(raw: RawFrame) {
+    react(raw: LCHFrame) {
         const ColorType = this.evaluator.project.shares.output.Color;
 
         // Convert the raw frame into a value.
         const rows: StructureValue[][] = raw.map((row) =>
             row.map((color) => {
-                // Create bindings from it.
                 const bindings = new Map<Names, Value>();
-
-                // Lightness
                 bindings.set(
                     ColorType.inputs[0].names,
                     new NumberValue(this.creator, color.l),
                 );
-                // Chroma
                 bindings.set(
                     ColorType.inputs[1].names,
                     new NumberValue(this.creator, color.c),
                 );
-                // Hue
                 bindings.set(
                     ColorType.inputs[2].names,
                     new NumberValue(this.creator, color.h),
                 );
-                // Convert it to a Color value.
                 return createStructure(this.evaluator, ColorType, bindings);
             }),
         );
 
-        // Add the frame to the stream
         this.add(Camera.createFrame(this.creator, rows), raw);
     }
 
     tick(time: DOMHighResTimeStamp) {
-        if (!this.config) return;
-
-        // If the frequency has elapsed, add a value to the stream.
         if (
-            this.lastTime === undefined ||
-            time - this.lastTime >= this.frequency
-        ) {
-            this.lastTime = time;
+            this.lastTime !== undefined &&
+            time - this.lastTime < this.frequency
+        )
+            return;
 
-            const context = this.config.canvas.getContext('2d', {
-                alpha: false,
-                willReadFrequently: true,
-            });
-            if (context) {
-                // Draw the current image from the camera to the canvas
-                context.drawImage(
-                    this.config.video,
-                    // Render the cropped portion of the source image computed upon initialization
-                    this.config.sourceX,
-                    this.config.sourceY,
-                    this.config.sourceWidth,
-                    this.config.sourceHeight,
-                    // Render the source to the full size of the canvas destination
-                    0,
-                    0,
-                    this.width,
-                    this.height,
-                );
-                // Read the image
-                const image = context.getImageData(
-                    0,
-                    0,
-                    this.width,
-                    this.height,
-                    { colorSpace: 'srgb' },
-                );
+        const image = this.feed.grabImageData();
+        if (image === undefined) return;
 
-                // Translate the rows into a 2D array of colors
-                const raw: { l: number; c: number; h: number }[][] = [];
-                for (let i = 0; i < image.data.length; i += 4) {
-                    const index = i / 4;
-                    const row = Math.floor(index / image.width);
-                    const column = index % image.width;
-                    if (raw[row] === undefined) {
-                        raw[row] = [];
-                    }
-
-                    // Get an LCH color from it.
-                    const lch = RGBtoLCH(
-                        image.data[i] / 255,
-                        image.data[i + 1] / 255,
-                        image.data[i + 2] / 255,
-                    );
-
-                    // PERF: We convert to integers to prevent
-                    // Decimal from parsing as a string.
-
-                    // Save the color to an LCH Color and store at the appropriate place in the matrix.
-                    raw[row][column] = {
-                        l: Math.round(lch.coords[0] ?? 0) / 100,
-                        c: Math.round(lch.coords[1] ?? 0),
-                        h: Math.round(lch.coords[2] ?? 0),
-                    };
-                }
-
-                this.react(raw);
-            }
-        }
+        this.lastTime = time;
+        this.react(imageDataToLCH(image));
     }
 
     static createFrame(
@@ -180,112 +165,11 @@ export default class Camera extends TemporalStreamValue<ListValue, RawFrame> {
     }
 
     start() {
-        if (
-            typeof navigator === 'undefined' ||
-            typeof navigator.mediaDevices == 'undefined' ||
-            this.config !== undefined
-        )
-            return;
-
-        const videoConstraints: MediaTrackConstraints = {
-            width: { min: this.width },
-            height: { min: this.height },
-            facingMode: 'user',
-            frameRate: { ideal: 1000 / this.frequency },
-        };
-        const device = this.evaluator.database.Settings.getCamera();
-        if (device) videoConstraints.deviceId = device;
-
-        navigator.mediaDevices
-            .getUserMedia({
-                audio: false,
-                video: videoConstraints,
-            })
-            .then((stream) => {
-                if (this.stopped) return;
-                const settings = stream.getVideoTracks()[0].getSettings();
-                const canvas = document.createElement('canvas');
-                const context = canvas.getContext('2d', {
-                    alpha: false,
-                    willReadFrequently: true,
-                });
-
-                if (settings && settings.width && settings.height && context) {
-                    // Based on the camera size we received, determine the sub-rectangle
-                    // we care about based on the requested size. The goal is to pick a rectangle that
-                    // as the same aspect ratio as the requested size, cropping horizontally or
-                    // vertically as necessary.
-                    let sourceX, sourceY, sourceWidth, sourceHeight;
-                    const sourceAspectRatio = settings.width / settings.height;
-                    const targetAspectRatio = this.width / this.height;
-                    // Fit to height
-                    if (targetAspectRatio < sourceAspectRatio) {
-                        sourceHeight = settings.height;
-                        sourceWidth = settings.height * targetAspectRatio;
-                        sourceX = 0 + (settings.width - sourceWidth) / 2;
-                        sourceY = 0;
-                    }
-                    // Fit to width
-                    else {
-                        sourceWidth = settings.width;
-                        sourceHeight = sourceWidth / targetAspectRatio;
-                        sourceX = 0;
-                        sourceY = 0 + (settings.height - sourceHeight) / 2;
-                    }
-                    // First, create a video tag to render the stream to
-                    // and a canvas on which to render the video.
-                    const config: CameraConfig = {
-                        video: document.createElement('video'),
-                        canvas,
-                        context,
-                        stream,
-                        width: settings.width,
-                        height: settings.height,
-                        sourceX,
-                        sourceY,
-                        sourceWidth,
-                        sourceHeight,
-                    };
-
-                    // Save the config
-                    this.config = config;
-
-                    // Set the video stream's source to the camera.
-                    config.canvas.width = this.width;
-                    config.canvas.height = this.height;
-
-                    // Hide the video and canvas.
-                    config.canvas.style.display = 'none';
-                    config.video.style.display = 'none';
-
-                    // Add them to the dom.
-                    document.body.appendChild(config.video);
-                    document.body.appendChild(config.canvas);
-
-                    // Link the stream to the video tag
-                    config.video.srcObject = stream;
-
-                    // Start the video
-                    config.video.play().then(() => (this.playing = true));
-                } else this.config = null;
-            })
-            .catch(() => {
-                this.config = null;
-            });
+        this.feed.start();
     }
 
     stop() {
-        this.stopped = true;
-        if (this.config) {
-            if (this.playing)
-                this.config.stream.getTracks().forEach((track) => track.stop());
-            this.config.video.srcObject = null;
-
-            if (document.body.contains(this.config.canvas))
-                document.body.removeChild(this.config.canvas);
-            if (document.body.contains(this.config.video))
-                document.body.removeChild(this.config.video);
-        }
+        this.feed.stop();
     }
 
     getType() {
@@ -340,24 +224,23 @@ export function createCameraDefinition(
                 new Camera(
                     evaluation,
                     evaluation.get(WidthBind.names, NumberValue)?.toNumber() ??
-                        DEFAULT_FREQUENCY,
-                    evaluation.get(HeightBind.names, NumberValue)?.toNumber() ??
                         DEFAULT_WIDTH,
+                    evaluation.get(HeightBind.names, NumberValue)?.toNumber() ??
+                        DEFAULT_HEIGHT,
                     evaluation
                         .get(FrequencyBind.names, NumberValue)
-                        ?.toNumber() ?? DEFAULT_HEIGHT,
+                        ?.toNumber() ?? DEFAULT_FREQUENCY,
                 ),
             (stream, evaluation) => {
-                stream.frequency =
+                stream.configure(
                     evaluation.get(WidthBind.names, NumberValue)?.toNumber() ??
-                    DEFAULT_WIDTH;
-                stream.frequency =
+                        DEFAULT_WIDTH,
                     evaluation.get(HeightBind.names, NumberValue)?.toNumber() ??
-                    DEFAULT_HEIGHT;
-                stream.frequency =
+                        DEFAULT_HEIGHT,
                     evaluation
                         .get(FrequencyBind.names, NumberValue)
-                        ?.toNumber() ?? DEFAULT_FREQUENCY;
+                        ?.toNumber() ?? DEFAULT_FREQUENCY,
+                );
             },
         ),
         frameType.clone(),

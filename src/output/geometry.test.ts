@@ -7,7 +7,7 @@ import {
     segment,
     type Point,
     type Polygon,
-} from './geometry';
+} from '@output/geometry';
 
 test.each([
     [segment(0, 0, 0, 0), true],

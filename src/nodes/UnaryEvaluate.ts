@@ -1,8 +1,8 @@
 import type Conflict from '@conflicts/Conflict';
 import MissingInput from '@conflicts/MissingInput';
 import type LocaleText from '@locale/LocaleText';
-import NodeRef from '@locale/NodeRef';
 import type { NodeDescriptor } from '@locale/NodeTexts';
+import type Context from '@nodes/Context';
 import { NEGATE_SYMBOL, NOT_SYMBOL } from '@parser/Symbols';
 import Evaluation from '@runtime/Evaluation';
 import type Evaluator from '@runtime/Evaluator';
@@ -12,24 +12,23 @@ import StartEvaluation from '@runtime/StartEvaluation';
 import type Step from '@runtime/Step';
 import FunctionException from '@values/FunctionException';
 import type Value from '@values/Value';
-import { Purpose } from '../concepts/Purpose';
-import IncompatibleInput from '../conflicts/IncompatibleInput';
-import type Locales from '../locale/Locales';
+import { Purpose } from '@concepts/Purpose';
+import IncompatibleInput from '@conflicts/IncompatibleInput';
+import type Locales from '@locale/Locales';
 import { Emotion } from '../lore/Emotion';
-import FunctionValue from '../values/FunctionValue';
-import AnyType from './AnyType';
-import type Context from './Context';
-import type Definition from './Definition';
-import Expression, { type GuardContext } from './Expression';
-import FunctionDefinition from './FunctionDefinition';
-import FunctionType from './FunctionType';
-import getConcreteExpectedType from './Generics';
-import type Node from './Node';
-import { node, type Grammar, type Replacement } from './Node';
-import Reference from './Reference';
-import type Type from './Type';
-import type TypeSet from './TypeSet';
-import UnknownNameType from './UnknownNameType';
+import FunctionValue from '@values/FunctionValue';
+import AnyType from '@nodes/AnyType';
+import type Definition from '@nodes/Definition';
+import Expression, { type GuardContext } from '@nodes/Expression';
+import FunctionDefinition from '@nodes/FunctionDefinition';
+import FunctionType from '@nodes/FunctionType';
+import getConcreteExpectedType from '@nodes/Generics';
+import type Node from '@nodes/Node';
+import { node, type Grammar, type Replacement } from '@nodes/Node';
+import Reference from '@nodes/Reference';
+import type Type from '@nodes/Type';
+import type TypeSet from '@nodes/TypeSet';
+import UnknownNameType from '@nodes/UnknownNameType';
 
 export default class UnaryEvaluate extends Expression {
     readonly fun: Reference;
@@ -136,16 +135,18 @@ export default class UnaryEvaluate extends Expression {
         // Find the function on the left's type.
         const fun = this.getFunction(context);
 
-        // No match? Give a conflict.
-        if (fun === undefined)
-            conflicts.push(
-                new IncompatibleInput(
-                    this.fun,
-                    this.input.getType(context),
-                    FunctionType.make(undefined, [], new AnyType()),
-                ),
-            );
-        else if (fun.getRequiredInputs().length > 0) {
+        // No match? Give a conflict — unless the operand's type is already
+        // UnknownType, in which case the root-cause conflict is upstream.
+        if (fun === undefined) {
+            if (!context.isUnknownDownstream(this.input))
+                conflicts.push(
+                    new IncompatibleInput(
+                        this.fun,
+                        this.input.getType(context),
+                        FunctionType.make(undefined, [], new AnyType()),
+                    ),
+                );
+        } else if (fun.getRequiredInputs().length > 0) {
             conflicts.push(
                 new MissingInput(fun, this, this.input, fun.inputs[0]),
             );
@@ -210,7 +211,13 @@ export default class UnaryEvaluate extends Expression {
     }
 
     /**
-     * Logical negations take the set complement of the current set from the original.
+     * Logical negation flips the operand's narrowing. If the operand actually
+     * narrowed `current` to a subset, `~operand` is the complement of that
+     * subset within `current`. If the operand didn't narrow `current` at all
+     * (e.g. `~state.guesses.has(key)` — `has(key)` returns a Bool whose
+     * truthiness doesn't refine `key`'s type), `~` is a no-op too: otherwise
+     * `current.difference(current)` would collapse the set to empty and turn
+     * the binding's type into Never.
      * */
     evaluateTypeGuards(current: TypeSet, guard: GuardContext) {
         // We only manipulate possible types for logical negation operators.
@@ -219,8 +226,13 @@ export default class UnaryEvaluate extends Expression {
         // Get the possible types of the operand.
         const possible = this.input.evaluateTypeGuards(current, guard);
 
-        // Return the difference between the original types and the possible types,
-        return guard.original.difference(possible, guard.context);
+        // No narrowing from the operand → no narrowing here either. Narrowing
+        // only removes types, so size equality implies the sets match.
+        if (possible.size() === current.size()) return current;
+
+        // Otherwise, return the complement of the operand's narrowed set
+        // within `current`: the types where the operand's assertion is false.
+        return current.difference(possible, guard.context);
     }
 
     getStart() {
@@ -235,11 +247,8 @@ export default class UnaryEvaluate extends Expression {
         return UnaryEvaluate.LocalePath;
     }
 
-    getStartExplanations(locales: Locales, context: Context) {
-        return locales.concretize(
-            (l) => l.node.UnaryEvaluate.start,
-            new NodeRef(this.input, locales, context),
-        );
+    getStartExplanations(locales: Locales) {
+        return locales.concretize((l) => l.node.UnaryEvaluate.start);
     }
 
     getFinishExplanations(
@@ -249,7 +258,9 @@ export default class UnaryEvaluate extends Expression {
     ) {
         return locales.concretize(
             (l) => l.node.UnaryEvaluate.finish,
-            this.getValueIfDefined(locales, context, evaluator),
+            {
+                value: this.getValueIfDefined(locales, context, evaluator),
+            },
         );
     }
 

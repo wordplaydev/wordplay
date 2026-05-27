@@ -15,26 +15,29 @@
 <script lang="ts">
     import Emoji from '@components/app/Emoji.svelte';
     import Subheader from '@components/app/Subheader.svelte';
-    import type { Snippet } from 'svelte';
-    import { onMount } from 'svelte';
-    import { animationDuration, locales } from '../../db/Database';
-    import type Project from '../../db/projects/Project';
+    import type Bounds from '@components/project/Bounds';
+    import FullscreenIcon from '@components/project/FullscreenIcon.svelte';
+    import type Layout from '@components/project/Layout';
+    import type Tile from '@components/project/Tile';
+    import { TileMode } from '@components/project/Tile';
+    import TileKinds from '@components/project/TileKinds';
+    import Button from '@components/widgets/Button.svelte';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
+    import Note from '@components/widgets/Note.svelte';
+    import TextField from '@components/widgets/TextField.svelte';
+    import Toggle from '@components/widgets/Toggle.svelte';
+    import { animationDuration, locales } from '@db/Database';
+    import type Project from '@db/projects/Project';
     import {
         Arrangement,
         type ArrangementType,
-    } from '../../db/settings/Arrangement';
+    } from '@db/settings/Arrangement';
+    import Color from '@output/Color';
+    import { isName } from '@parser/Tokenizer';
+    import type { Snippet } from 'svelte';
+    import { onMount } from 'svelte';
     import Characters from '../../lore/BasisCharacters';
-    import Color from '../../output/Color';
-    import { isName } from '../../parser/Tokenizer';
-    import Button from '../widgets/Button.svelte';
-    import TextField from '../widgets/TextField.svelte';
-    import Toggle from '../widgets/Toggle.svelte';
-    import type Bounds from './Bounds';
-    import FullscreenIcon from './FullscreenIcon.svelte';
-    import type Layout from './Layout';
-    import type Tile from './Tile';
-    import { TileMode } from './Tile';
-    import TileKinds from './TileKinds';
+    import TileMessage from './TileMessage.svelte';
 
     interface Props {
         project: Project;
@@ -49,6 +52,11 @@
         animated: boolean;
         title: Snippet;
         content: Snippet;
+        /** Optional content rendered immediately after the tile's
+         * `<Subheader>` — typically a tour-launch button. Kept separate
+         * from `extra` so tour triggers have a consistent home next to
+         * the tile name rather than mixed in with the toolbar. */
+        help?: Snippet;
         extra?: Snippet;
         margin?: Snippet;
         footer?: Snippet;
@@ -77,6 +85,7 @@
         editable,
         animated,
         title,
+        help,
         extra,
         content,
         margin,
@@ -103,6 +112,84 @@
     let contentView = $state<HTMLElement | null>(null);
     let tileWidth = $state(0);
     let tileHeight = $state(0);
+
+    // Refs and detection for whether the header's three sections fit inline,
+    // or whether the toolbar should drop to its own row beneath the name and
+    // tile-controls. Pure CSS can't express "wrap only this child to a full
+    // row when content overflows" while keeping it visually centered when it
+    // fits, so we measure the children's natural widths and toggle a class.
+    let headerEl: HTMLElement | null = $state(null);
+    let nameSectionEl: HTMLElement | null = $state(null);
+    let toolbarEl: HTMLElement | null = $state(null);
+    let tileControlsEl: HTMLElement | null = $state(null);
+    let toolbarStacked = $state(false);
+
+    $effect(() => {
+        if (
+            headerEl === null ||
+            nameSectionEl === null ||
+            tileControlsEl === null
+        )
+            return;
+        const eHeader = headerEl;
+        const eName = nameSectionEl;
+        const eControls = tileControlsEl;
+        const eToolbar = toolbarEl;
+
+        const check = () => {
+            const headerStyle = getComputedStyle(eHeader);
+            const padL = parseFloat(headerStyle.paddingLeft) || 0;
+            const padR = parseFloat(headerStyle.paddingRight) || 0;
+            const gap =
+                parseFloat(
+                    headerStyle.columnGap === 'normal'
+                        ? headerStyle.gap
+                        : headerStyle.columnGap,
+                ) || 0;
+
+            const nameW = eName.offsetWidth;
+            const controlsW = eControls.offsetWidth;
+
+            // Sum the toolbar's children rather than reading offsetWidth on
+            // the toolbar itself: in stacked mode the toolbar spans the row
+            // (offsetWidth = full width), in compact mode it's the 1fr
+            // column (offsetWidth = remaining space). Children are sized
+            // by their content and stable across both modes.
+            let toolbarW = 0;
+            const toolbarChildren = eToolbar?.children ?? [];
+            if (eToolbar && toolbarChildren.length > 0) {
+                const tStyle = getComputedStyle(eToolbar);
+                const tGap =
+                    parseFloat(
+                        tStyle.columnGap === 'normal'
+                            ? tStyle.gap
+                            : tStyle.columnGap,
+                    ) || 0;
+                for (let i = 0; i < toolbarChildren.length; i++) {
+                    toolbarW += (toolbarChildren[i] as HTMLElement).offsetWidth;
+                }
+                if (toolbarChildren.length > 1)
+                    toolbarW += tGap * (toolbarChildren.length - 1);
+            }
+
+            const available = eHeader.clientWidth - padL - padR;
+            const gapsBetweenItems = toolbarW > 0 ? 2 : 1;
+            const totalNeeded =
+                nameW + toolbarW + controlsW + gap * gapsBetweenItems;
+
+            toolbarStacked = totalNeeded > available;
+        };
+
+        const observer = new ResizeObserver(check);
+        observer.observe(eHeader);
+        observer.observe(eName);
+        observer.observe(eControls);
+        if (eToolbar) observer.observe(eToolbar);
+
+        check();
+
+        return () => observer.disconnect();
+    });
 
     function handleKeyDown(event: KeyboardEvent) {
         // Move or resize on command-arrow
@@ -293,7 +380,7 @@
           }px`}
     bind:this={view}
 >
-    <!-- <svelte:boundary
+    <svelte:boundary
         onerror={(error) => {
             if (error instanceof Error) console.error(error.stack);
             else console.error(error);
@@ -314,98 +401,110 @@
                 >
                 <Note>{'' + error}</Note>
             </TileMessage>
-        {/snippet} -->
+        {/snippet}
 
-    {#if !tile.isInvisible() || fullscreen}
-        <!-- Render the toolbar -->
-        <div class="header" style:color={foreground} style:fill={foreground}>
-            <!-- This goes above the toolbar because we need the feedback to be visible. -->
-            <div style="z-index:2">
-                <Subheader compact>
-                    <div class="name" class:source={tile.isSource()}>
-                        {#if editable && tile.isSource()}
-                            <Emoji>{Characters.Program.symbols}</Emoji>
-                            {#if project.getSources().length > 1}
-                                <!-- Only show the source name editor if there's more than one source, to simplify. -->
-                                <TextField
-                                    id="source-name-editor-{tile.id}"
-                                    text={tile
-                                        .getSource(project)
-                                        ?.getPreferredName(
-                                            $locales.getLocales(),
-                                        ) ?? ''}
-                                    description={(l) =>
-                                        l.ui.source.field.name.description}
-                                    placeholder={(l) =>
-                                        l.ui.source.field.name.placeholder}
-                                    validator={(text) =>
-                                        !isName(text)
-                                            ? (l) =>
-                                                  l.ui.source.error.invalidName
-                                            : true}
-                                    inlineValidation
-                                    changed={handleRename}
-                                />
-                            {:else}
-                                {$locales.getUnannotatedText(
-                                    (l) => l.ui.source.title,
-                                )}
-                            {/if}
-                        {:else}
-                            <Emoji>{TileKinds[tile.kind].symbol}</Emoji
-                            >{tile.getName(project, $locales)}
-                        {/if}
-                        {@render title()}
-                    </div>
-                </Subheader>
-            </div>
-            <div class="toolbar">
-                {@render extra?.()}
-            </div>
-            <div class="tile-controls">
-                {#if !layout.isFullscreen()}
-                    <Button
-                        background={background !== null}
-                        padding={false}
-                        tip={(l) => l.ui.tile.button.collapse}
-                        action={() => mode(TileMode.Collapsed)}
-                        icon="–"
-                    ></Button>
-                {/if}
-                <Toggle
-                    tips={(l) => l.ui.tile.toggle.fullscreen}
-                    on={fullscreen}
-                    background={background !== null}
-                    toggle={() => setFullscreen(!fullscreen)}
-                >
-                    <FullscreenIcon />
-                </Toggle>
-            </div>
-        </div>
-        <!-- Render the content -->
-        <div class="main" class:rtl={$locales.getDirection() === 'rtl'}>
+        {#if !tile.isInvisible() || fullscreen}
+            <!-- Render the toolbar -->
             <div
-                class="content"
-                onscroll={() => scroll()}
-                bind:this={contentView}
-                bind:clientWidth={tileWidth}
-                bind:clientHeight={tileHeight}
-                onpointermove={handleContentPointerMove}
+                class="header"
+                class:stacked={toolbarStacked}
+                style:color={foreground}
+                style:fill={foreground}
+                bind:this={headerEl}
             >
-                {@render content()}
+                <!-- This goes above the toolbar because we need the feedback to be visible. -->
+                <div
+                    class="name-section"
+                    style="z-index:2"
+                    bind:this={nameSectionEl}
+                >
+                    <Subheader compact>
+                        <div class="name" class:source={tile.isSource()}>
+                            {#if editable && tile.isSource()}
+                                <Emoji>{Characters.Program.symbols}</Emoji>
+                                {#if project.getSources().length > 1}
+                                    <!-- Only show the source name editor if there's more than one source, to simplify. -->
+                                    <TextField
+                                        id="source-name-editor-{tile.id}"
+                                        text={tile
+                                            .getSource(project)
+                                            ?.getPreferredName(
+                                                $locales.getLocales(),
+                                            ) ?? ''}
+                                        description={(l) =>
+                                            l.ui.source.field.name.description}
+                                        placeholder={(l) =>
+                                            l.ui.source.field.name.placeholder}
+                                        validator={(text) =>
+                                            !isName(text)
+                                                ? (l) =>
+                                                      l.ui.source.error
+                                                          .invalidName
+                                                : true}
+                                        inlineValidation
+                                        changed={handleRename}
+                                    />
+                                {:else}
+                                    {$locales.getUnannotatedText(
+                                        (l) => l.ui.source.title,
+                                    )}
+                                {/if}
+                            {:else}
+                                <Emoji>{TileKinds[tile.kind].symbol}</Emoji
+                                >{tile.getName(project, $locales)}
+                            {/if}
+                            {@render title()}
+                        </div>
+                    </Subheader>
+                    {#if help}{@render help()}{/if}
+                </div>
+                {#if extra}
+                    <div class="toolbar" bind:this={toolbarEl}>
+                        {@render extra()}
+                    </div>
+                {/if}
+                <div class="tile-controls" bind:this={tileControlsEl}>
+                    {#if !layout.isFullscreen()}
+                        <Button
+                            background={false}
+                            tip={(l) => l.ui.tile.button.collapse}
+                            action={() => mode(TileMode.Collapsed)}
+                            icon="–"
+                        ></Button>
+                    {/if}
+                    <Toggle
+                        tips={(l) => l.ui.tile.toggle.fullscreen}
+                        on={fullscreen}
+                        toggle={() => setFullscreen(!fullscreen)}
+                    >
+                        <FullscreenIcon />
+                    </Toggle>
+                </div>
             </div>
-            {#if margin}
-                <div class="margin">{@render margin()}</div>
+            <!-- Render the content -->
+            <div class="main" class:rtl={$locales.getDirection() === 'rtl'}>
+                <div
+                    class="content"
+                    onscroll={() => scroll()}
+                    bind:this={contentView}
+                    bind:clientWidth={tileWidth}
+                    bind:clientHeight={tileHeight}
+                    onpointermove={handleContentPointerMove}
+                >
+                    {@render content()}
+                </div>
+                {#if margin}
+                    <div class="margin">{@render margin()}</div>
+                {/if}
+            </div>
+            <!-- Render a focus indicator. We do this instead of an outline to avoid content form overlapping an inset CSS outline.  -->
+            {#if focuscontent}
+                <div class="focus-indicator"></div>
             {/if}
-        </div>
-        <!-- Render a focus indicator. We do this instead of an outline to avoid content form overlapping an inset CSS outline.  -->
-        {#if focuscontent}
-            <div class="focus-indicator"></div>
+            <!-- Render the footer -->
+            <div class="footer">{@render footer?.()}</div>
         {/if}
-        <!-- Render the footer -->
-        <div class="footer">{@render footer?.()}</div>
-    {/if}
-    <!-- </svelte:boundary> -->
+    </svelte:boundary>
 </section>
 
 <style>
@@ -434,12 +533,13 @@
     }
 
     .toolbar {
+        grid-area: toolbar;
         display: flex;
         flex-direction: row;
-        flex-wrap: nowrap;
+        flex-wrap: wrap;
         align-items: center;
-        min-width: max-content;
         gap: var(--wordplay-spacing);
+        min-width: 0;
     }
 
     .footer {
@@ -454,7 +554,7 @@
         display: flex;
         flex-direction: row;
         flex-wrap: nowrap;
-        overflow: auto;
+        overflow: hidden;
     }
 
     .main.rtl {
@@ -548,21 +648,39 @@
     .header {
         position: relative;
         align-self: start;
-        display: flex;
-        flex-direction: row;
-        flex-wrap: nowrap;
+        display: grid;
+        grid-template-columns: auto minmax(0, 1fr) auto;
+        grid-template-areas: 'name toolbar controls';
         align-items: center;
         padding: var(--wordplay-spacing);
         gap: var(--wordplay-spacing);
         width: 100%;
-        overflow-x: auto;
-        overflow-y: visible;
         flex-shrink: 0;
         /** Dim the header a bit so that they don't demand so much attention */
         opacity: 0.8;
 
         border-block-end: solid var(--wordplay-border-color)
             var(--wordplay-border-width);
+    }
+
+    /* When the three sections don't fit on one row, drop the toolbar to a
+       second row spanning the full width. The 1fr middle column stays in
+       place so name/controls keep their content-based widths on row 1. */
+    .header.stacked {
+        grid-template-areas:
+            'name . controls'
+            'toolbar toolbar toolbar';
+    }
+
+    .name-section {
+        grid-area: name;
+        min-width: 0;
+        /* Lay out the Subheader and (optional) help button inline so the tour
+           trigger sits immediately to the right of the tile's name. */
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: var(--wordplay-spacing);
     }
 
     .focus-indicator {
@@ -599,7 +717,7 @@
     }
 
     .tile-controls {
-        margin-inline-start: auto;
+        grid-area: controls;
         display: flex;
         flex-direction: row;
         gap: var(--wordplay-spacing-half);

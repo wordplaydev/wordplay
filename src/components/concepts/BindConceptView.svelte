@@ -2,9 +2,9 @@
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import type BindConcept from '@concepts/BindConcept';
     import { blocks, locales } from '@db/Database';
-    import Speech from '../lore/Speech.svelte';
-    import RootView from '../project/RootView.svelte';
-    import MarkupHTMLView from './MarkupHTMLView.svelte';
+    import Speech from '@components/lore/Speech.svelte';
+    import RootView from '@components/project/RootView.svelte';
+    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
 
     interface Props {
         concept: BindConcept;

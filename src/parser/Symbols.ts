@@ -1,4 +1,4 @@
-import { withMonoEmoji } from '../unicode/emoji';
+import { withMonoEmoji } from '@unicode/emoji';
 
 export const TYPE_SYMBOL = '•';
 export const LITERAL_SYMBOL = '!';
@@ -61,12 +61,14 @@ export const PROPERTY_SYMBOL_FULL = '。';
 export const BORROW_SYMBOL = '↓';
 export const SHARE_SYMBOL = '↑';
 export const DOCS_SYMBOL = '¶';
+export const BULLET_SYMBOL = '•';
 export const FORMATTED_SYMBOL = '`';
 export const FORMATTED_SYMBOL_FULL = '｀';
 export const FORMATTED_TYPE_SYMBOL = '`…`';
 export const PLACEHOLDER_SYMBOL = '_';
 export const ETC_SYMBOL = '…';
 export const CODE_SYMBOL = '\\';
+export const HIGHLIGHT_SYMBOL = '⭐';
 export const BASE_SYMBOL = ';';
 export const BASE_SYMBOL_FULL = '；';
 export const EXPONENT_SYMBOL = '^';
@@ -101,6 +103,7 @@ export const EXTRA_SYMBOL = '^';
 export const MENTION_SYMBOL = '$';
 
 export const LOGO_SYMBOL = '💬';
+export const PROJECT_SYMBOL = '📚';
 export const PHRASE_SYMBOL = '💬';
 export const GROUP_SYMBOL = '🔳';
 export const STAGE_SYMBOL = '🎭';
@@ -112,6 +115,7 @@ export const GLOBE1_SYMBOL = '🌎';
 export const GLOBE2_SYMBOL = '🌍';
 export const GLOBE3_SYMBOL = '🌏';
 export const EDIT_SYMBOL = '✎';
+export const TOOLTIP_SYMBOL = '💭';
 export const CUT_SYMBOL = '✄';
 export const COPY_SYMBOL = '📚';
 export const PASTE_SYMBOL = '📋';
@@ -143,3 +147,7 @@ export const TEXT_EDITING_SYMBOL = withMonoEmoji('⌨️');
 export const DROP_DOWN_SYMBOL = '▾';
 
 export const MACHINE_TRANSLATED_SYMBOL = withMonoEmoji('🤖');
+export const LOCALLY_REVISED_SYMBOL = withMonoEmoji('✏️');
+export const REVERT_SYMBOL = UNDO_SYMBOL;
+
+export const INFO_SYMBOL = withMonoEmoji('❓');

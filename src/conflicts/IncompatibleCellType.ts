@@ -5,8 +5,9 @@ import type Expression from '@nodes/Expression';
 import type Input from '@nodes/Input';
 import type TableType from '@nodes/TableType';
 import type Type from '@nodes/Type';
-import type Locales from '../locale/Locales';
-import Conflict from './Conflict';
+import type Locales from '@locale/Locales';
+import type Node from '@nodes/Node';
+import Conflict, { type Resolutions } from '@conflicts/Conflict';
 
 export default class IncompatibleCellType extends Conflict {
     readonly type: TableType;
@@ -37,9 +38,19 @@ export default class IncompatibleCellType extends Conflict {
             explanation: (locales: Locales, context: Context) =>
                 locales.concretize(
                     (l) => IncompatibleCellType.LocalePath(l).explanation,
-                    new NodeRef(this.expected, locales, context),
+                    {
+                        expected: new NodeRef(this.expected, locales, context),
+                        given: new NodeRef(this.received, locales, context),
+                    },
                 ),
         };
+    }
+
+    override getResolutions(
+        context: Context,
+        concepts: Node[],
+    ): Resolutions {
+        return Conflict.fromRegistry(this, context, concepts);
     }
 
     getLocalePath() {

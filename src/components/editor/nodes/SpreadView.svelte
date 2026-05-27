@@ -1,6 +1,8 @@
 <script lang="ts">
-    import type Spread from '../../../nodes/Spread';
-    import NodeView, { type Format } from './NodeView.svelte';
+    import type Spread from '@nodes/Spread';
+    import NodeView, {
+        type Format,
+    } from '@components/editor/nodes/NodeView.svelte';
 
     interface Props {
         node: Spread;

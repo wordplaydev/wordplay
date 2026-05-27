@@ -3,10 +3,10 @@
     import type StreamConcept from '@concepts/StreamConcept';
     import { locales } from '@db/Database';
     import { onMount } from 'svelte';
-    import type BindConcept from '../../concepts/BindConcept';
-    import BindConceptView from './BindConceptView.svelte';
-    import ConceptView from './ConceptView.svelte';
-    import Names from './NamesView.svelte';
+    import type BindConcept from '@concepts/BindConcept';
+    import BindConceptView from '@components/concepts/BindConceptView.svelte';
+    import ConceptView from '@components/concepts/ConceptView.svelte';
+    import Names from '@components/concepts/NamesView.svelte';
 
     interface Props {
         concept: StreamConcept;

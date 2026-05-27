@@ -2,12 +2,16 @@
     import type OutputProperty from '@edit/output/OutputProperty';
     import type OutputPropertyRange from '@edit/output/OutputPropertyRange';
     import type OutputPropertyValues from '@edit/output/OutputPropertyValueSet';
+    import { getFirstText } from '@locale/LocaleText';
     import { parseNumber } from '@parser/parseExpression';
     import type Decimal from 'decimal.js';
-    import { locales, Projects } from '../../db/Database';
-    import { toTokens } from '../../parser/toTokens';
-    import { getProject } from '../project/Contexts';
-    import Slider from '../widgets/Slider.svelte';
+    import { locales, Projects } from '@db/Database';
+    import { toTokens } from '@parser/toTokens';
+    import {
+        getProject,
+        getSelectedOutput,
+    } from '@components/project/Contexts';
+    import Slider from '@components/widgets/Slider.svelte';
 
     interface Props {
         property: OutputProperty;
@@ -20,6 +24,7 @@
     let { property, values, range, editable, id = undefined }: Props = $props();
 
     const project = getProject();
+    const selection = getSelectedOutput();
 
     // Whenever the slider value changes, revise the Evaluates to match the new value.
     function handleChange(newValue: Decimal) {
@@ -48,8 +53,10 @@
     max={range.max}
     unit={range.unit}
     increment={range.step}
-    tip={() => $locales.getTextStructure(property.name)[0]}
+    tip={() => getFirstText($locales.getTextStructure(property.name))}
+    start={() => selection?.setAdjusting(true)}
     change={handleChange}
+    release={() => selection?.setAdjusting(false)}
     precision={range.precision}
     {editable}
     {id}

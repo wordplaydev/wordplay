@@ -1,0 +1,13 @@
+Çok dilli bir kitleyi selamlayın.
+
+A  @Phrase  Seçtikleri dillere göre her izleyiciye doğru çeviriyi gösterir. İzleyicileriniz İspanyolca konuşuyorsa, onlarla İspanyolca konuşabilirsiniz; hem İspanyolca hem de İngilizce konuşuyorlarsa — Spanglish! — karışık bir dil kullanabilirsiniz.
+
+Bir tane verin  @TextLiteral  Çok dilli bir çeviri de dahil olmak üzere çeşitli çeviriler mevcuttur ve Wordplay her izleyici için en uygun olanı seçer:
+
+\Phrase("hola"/es"Merhaba"/en"merhaba beyefendi"/es_en)\
+
+Tercih ettiği dil yalnızca İspanyolca olan bir izleyici şunu görür: /hola/Sadece İngilizce izlemeyi tercih eden bir izleyici şunu görür: /Merhaba/Hem İspanyolca hem de İngilizceyi tercih eden bir izleyici şunu görür: /merhaba beyefendi/ — İspanyolca ve İngilizce karışımı versiyon.
+
+Kelime oyunları en uygun eşleşmeyi tercih eder, bu nedenle her ikisi de geçerli olabileceği durumlarda tek dilli çeviri her zaman çok dilli çeviriye üstün gelir.
+
+styling-text

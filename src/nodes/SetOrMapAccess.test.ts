@@ -2,10 +2,10 @@ import { IncompatibleKey } from '@conflicts/IncompatibleKey';
 import { testConflict } from '@conflicts/TestUtilities';
 import { UnknownName } from '@conflicts/UnknownName';
 import { expect, test } from 'vitest';
-import IncompatibleInput from '../conflicts/IncompatibleInput';
-import evaluateCode from '../runtime/evaluate';
-import Reference from './Reference';
-import SetOrMapAccess from './SetOrMapAccess';
+import IncompatibleInput from '@conflicts/IncompatibleInput';
+import evaluateCode from '@runtime/evaluate';
+import Reference from '@nodes/Reference';
+import SetOrMapAccess from '@nodes/SetOrMapAccess';
 
 test.each([
     [

@@ -1,20 +1,21 @@
 import type Conflict from '@conflicts/Conflict';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
-import type { FontWeight } from '../basis/Fonts';
-import { Purpose } from '../concepts/Purpose';
-import type Locales from '../locale/Locales';
-import type { TemplateInput } from '../locale/Locales';
-import NodeRef from '../locale/NodeRef';
-import ValueRef from '../locale/ValueRef';
+import type { FontWeight } from '@basis/Fonts';
+import { Purpose } from '@concepts/Purpose';
+import type Locales from '@locale/Locales';
+import type { TemplateInput } from '@locale/Locales';
+import NodeRef from '@locale/NodeRef';
+import ValueRef from '@locale/ValueRef';
 import Characters from '../lore/BasisCharacters';
-import { unescapeMarkupSymbols } from '../parser/Tokenizer';
-import { withColorEmoji } from '../unicode/emoji';
-import Branch from './Branch';
-import ConceptLink from './ConceptLink';
-import Content from './Content';
-import Example from './Example';
-import Mention from './Mention';
+import { unescapeMarkupSymbols } from '@parser/Tokenizer';
+import { BULLET_SYMBOL } from '@parser/Symbols';
+import { withColorEmoji } from '@unicode/emoji';
+import Branch from '@nodes/Branch';
+import ConceptLink from '@nodes/ConceptLink';
+import Content from '@nodes/Content';
+import Example from '@nodes/Example';
+import Mention from '@nodes/Mention';
 import Node, {
     any,
     list,
@@ -22,12 +23,12 @@ import Node, {
     none,
     type Grammar,
     type Replacement,
-} from './Node';
-import type { NodeSegment, Segment } from './Paragraph';
-import { Sym } from './Sym';
-import { unescaped } from './TextLiteral';
-import Token from './Token';
-import WebLink from './WebLink';
+} from '@nodes/Node';
+import type { NodeSegment, Segment } from '@nodes/Paragraph';
+import { Sym } from '@nodes/Sym';
+import { unescaped } from '@nodes/TextLiteral';
+import Token from '@nodes/Token';
+import WebLink from '@nodes/WebLink';
 
 export type Format = 'italic' | 'underline' | 'light' | 'bold' | 'extra';
 
@@ -196,7 +197,7 @@ export default class Words extends Content {
 
     concretize(
         locales: Locales,
-        inputs: TemplateInput[],
+        inputs: Record<string, TemplateInput>,
         replacements: [Node, Node][],
     ): Words | undefined {
         const concrete = this.segments.map((content) => {
@@ -221,7 +222,7 @@ export default class Words extends Content {
     isBulleted() {
         return (
             this.segments[0] instanceof Token &&
-            this.segments[0].getText().startsWith('•')
+            this.segments[0].getText().startsWith(BULLET_SYMBOL)
         );
     }
 

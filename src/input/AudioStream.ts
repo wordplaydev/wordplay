@@ -1,8 +1,10 @@
 import type Unit from '@nodes/Unit';
 import type Evaluation from '@runtime/Evaluation';
 import NumberValue from '@values/NumberValue';
-import NumberType from '../nodes/NumberType';
-import TemporalStreamValue from '../values/TemporalStreamValue';
+import NumberType from '@nodes/NumberType';
+import TemporalStreamValue from '@values/TemporalStreamValue';
+import PermissionException from '@values/PermissionException';
+import { denyConsent, Permission } from '@input/permissions';
 
 /** We want more deail in the frequency domain and less in the amplitude domain, but we also want to minimize how much data we analyze. */
 export const DEFAULT_FREQUENCY = 33;
@@ -101,6 +103,18 @@ export default abstract class AudioStream extends TemporalStreamValue<
                 this.source = this.context.createMediaStreamSource(stream);
 
                 this.connect();
+            })
+            .catch(() => {
+                if (this.stopped) return;
+                denyConsent(Permission.Microphone);
+                this.evaluator.replaceMainValue(
+                    new PermissionException(
+                        this.creator,
+                        this.evaluator,
+                        Permission.Microphone,
+                    ),
+                );
+                this.evaluator.broadcast();
             });
     }
 

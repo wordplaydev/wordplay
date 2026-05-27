@@ -1,0 +1,27 @@
+Tạo một lưới các ký tự
+
+Nếu chúng ta muốn có các hàng thì sao?/Và/các cột cùng lúc? Đó là điều mà... @Grid là dành cho.
+
+MỘT  @Grid Chương trình yêu cầu nhập số hàng, số cột và khoảng cách giữa các ô.
+
+\Group(Grid(2 3 0.25m) [
+		Phrase('🍎')
+		Phrase('🍌')
+		Phrase('🍇')
+		Phrase('🥕')
+		Phrase('🥦')
+		Phrase('🌽')
+	])\
+
+Đây là một khu vườn rau quả có kích thước 2x3!
+
+Nếu bạn muốn tất cả các ô có cùng kích thước, hãy cung cấp @Grid Cả chiều rộng và chiều cao nữa. Bằng cách đó, các ký tự sẽ nằm gọn gàng bên trong các ô vuông của chúng, ngay cả khi chúng có kích thước khác nhau:
+
+\Group(Grid(2 2 0.1m 1.5m 1.5m) [
+		Phrase('🐈' size: 1m)
+		Phrase('🐶' size: 1.5m)
+		Phrase('🦊' size: 0.5m)
+		Phrase('🐻' size: 2m)
+	])\
+
+arrange-in-a-row, stack-up-and-down, make-many-copies

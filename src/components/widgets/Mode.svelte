@@ -1,17 +1,19 @@
 <script lang="ts">
-    import { getTip } from '@components/project/Contexts';
+    import { getLocalizing, getTip } from '@components/project/Contexts';
     import { locales } from '@db/Database';
     import type LocaleText from '@locale/LocaleText';
     import type { ModeText } from '@locale/UITexts';
     import { withoutAnnotations } from '@locale/withoutAnnotations';
-    import { withMonoEmoji } from '../../unicode/emoji';
-    import LocalizedText from './LocalizedText.svelte';
+    import { withMonoEmoji } from '@unicode/emoji';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
 
     interface Props {
         /** Localized text for the labels and tooltips */
         modes: (locale: LocaleText) => ModeText<readonly string[]>;
-        /** The current mode selected */
-        choice: number;
+        /** The current mode selected, or undefined for no selection (no
+         *  button is rendered selected — used when another control supersedes
+         *  the mode). */
+        choice: number | undefined;
         /** Callback for when a mode is selected.*/
         select: (choice: number) => void;
         /** Icons to add as prefixes to labels */
@@ -26,8 +28,9 @@
         wrap?: boolean;
         /** Buttons to omit, allowing for conditional display of modes */
         omit?: readonly number[];
-        /** Render as a small button */
-        small?: boolean;
+        /** Optional annotation text appended after each mode's label (e.g. a count).
+         *  Use `undefined` at a given index to skip annotating that button. */
+        annotations?: readonly (string | undefined)[];
     }
 
     let {
@@ -40,13 +43,18 @@
         modeLabels = true,
         wrap = false,
         omit = [],
-        small = false,
+        annotations,
     }: Props = $props();
 
     let modeText = $derived($locales.getTextStructure(modes));
     let label = $derived(withoutAnnotations(modeText.label));
 
     let hint = getTip();
+    let localizing = getLocalizing();
+    // Per-index edit state so we can hide a mode button's tip badge while its
+    // label is being edited (and vice versa).
+    let labelEditing = $state<Record<number, boolean>>({});
+    let tipEditing = $state<Record<number, boolean>>({});
     function showTip(view: HTMLButtonElement, tip: string) {
         hint.show(tip, view);
     }
@@ -62,7 +70,6 @@
     <div
         class="group"
         class:wrap
-        class:small
         role="radiogroup"
         id={label}
         aria-labelledby={label}
@@ -78,10 +85,11 @@
                     aria-label={$locales.getPlainText(modeText.tips[index])}
                     aria-disabled={!active || index === choice}
                     ondblclick={(event) => event.stopPropagation()}
-                    onpointerdown={(event) =>
-                        index !== choice && event.button === 0 && active
-                            ? select(index)
-                            : undefined}
+                    onpointerdown={(event) => {
+                        event.preventDefault();
+                        if (index !== choice && event.button === 0 && active)
+                            select(index);
+                    }}
                     onpointerenter={(event) =>
                         showTip(
                             event.target as HTMLButtonElement,
@@ -114,9 +122,17 @@
                     {#if icons}{#if index < icons.length}{withMonoEmoji(
                                 icons[index],
                             )}{:else}?{/if}{/if}
-                    {#if modeLabels}<LocalizedText
-                            path={(l) =>
-                                $locales.getPlainText(modeText.labels[index])}
+                    {#if modeLabels && !tipEditing[index]}<LocalizedText
+                            path={modes}
+                            extras={['labels', index]}
+                            onEditingChange={(e) => (labelEditing[index] = e)}
+                        />{/if}{#if annotations && annotations[index] !== undefined}<span
+                            class="annotation">{annotations[index]}</span
+                        >{/if}{#if localizing?.on && !labelEditing[index]}<LocalizedText
+                            path={modes}
+                            extras={['tips', index]}
+                            tipIcon
+                            onEditingChange={(e) => (tipEditing[index] = e)}
                         />{/if}
                 </button>
             {/if}
@@ -125,6 +141,19 @@
 </div>
 
 <style>
+    .annotation {
+        margin-inline-start: var(--wordplay-spacing-half);
+        font-variant-numeric: tabular-nums;
+        color: var(--wordplay-inactive-color);
+    }
+
+    /* Match the active/focused label color so the count stays legible on the
+       highlight or focus background instead of fading into it. */
+    button.selected .annotation,
+    button:focus .annotation {
+        color: inherit;
+    }
+
     .mode {
         display: flex;
         flex-direction: row;
@@ -141,48 +170,53 @@
     button {
         display: inline-block;
         font-family: var(--wordplay-app-font);
+        font-size: var(--wordplay-small-font-size);
         font-weight: var(--wordplay-font-weight);
         cursor: pointer;
         width: fit-content;
         white-space: nowrap;
-        border: 1px solid var(--wordplay-chrome);
+        border: var(--wordplay-border-width) solid var(--wordplay-border-color);
         color: var(--wordplay-foreground);
         background-color: var(--wordplay-background);
         padding: var(--wordplay-spacing);
-        transition: transform calc(var(--animation-factor) * 200ms);
+        box-shadow: var(--wordplay-border-width) var(--wordplay-border-width) 0
+            var(--wordplay-border-color);
+        transition:
+            transform calc(var(--animation-factor) * 200ms),
+            box-shadow calc(var(--animation-factor) * 100ms);
         cursor: pointer;
-    }
-
-    .small button {
-        font-size: var(--wordplay-small-font-size);
     }
 
     button.selected {
         color: var(--wordplay-background);
         background: var(--wordplay-highlight-color);
-        transform: scale(1.05);
+        box-shadow: inset var(--wordplay-border-width)
+            var(--wordplay-border-width) 0 var(--wordplay-foreground);
         cursor: default;
     }
 
     button:focus {
-        outline: var(--wordplay-focus-color) solid var(--wordplay-focus-width);
+        background: var(--wordplay-focus-color);
+        color: var(--wordplay-background);
+        fill: var(--wordplay-background);
+        outline: none;
     }
 
     button:first-child {
         border-top-left-radius: var(--wordplay-border-radius);
         border-bottom-left-radius: var(--wordplay-border-radius);
-        border-left: 1px solid var(--wordplay-chrome);
     }
 
     button:last-child {
         border-top-right-radius: var(--wordplay-border-radius);
         border-bottom-right-radius: var(--wordplay-border-radius);
-        border-right: 1px solid var(--wordplay-chrome);
     }
 
     button:not(:global(.selected)):hover {
-        transform: scale(1.05);
         background: var(--wordplay-hover);
+        box-shadow: var(--wordplay-border-width) var(--wordplay-border-width) 0
+            var(--wordplay-border-color);
+        transform: translate(-1px, -1px);
     }
 
     .group {

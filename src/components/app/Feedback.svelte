@@ -11,11 +11,15 @@
     import TextField from '@components/widgets/TextField.svelte';
     import { locales, Logs } from '@db/Database';
     import {
+        addFeedbackComment,
         createFeedback,
         deleteFeedback,
         getFeedback,
+        removeFeedbackComment,
         updateFeedback,
+        voteFeedback,
         type Feedback,
+        type FeedbackComment,
     } from '@db/feedback/FeedbackDatabase';
     import { isModerator } from '@db/projects/Moderation';
     import {
@@ -24,10 +28,10 @@
         DEFECT_SYMBOL,
         IDEA_SYMBOL,
     } from '@parser/Symbols';
-    import Link from './Link.svelte';
-    import Notice from './Notice.svelte';
-    import Spinning from './Spinning.svelte';
-    import Subheader from './Subheader.svelte';
+    import Link from '@components/app/Link.svelte';
+    import Notice from '@components/app/Notice.svelte';
+    import Spinning from '@components/app/Spinning.svelte';
+    import Subheader from '@components/app/Subheader.svelte';
 
     let mode: 'defect' | 'idea' = $state('defect');
     let title = $state('');
@@ -59,7 +63,10 @@
     function loadFeedback(reset: boolean = false) {
         getFeedback().then((f: Feedback[] | null) => {
             if (f === null) return;
-            feedback = f?.toSorted((a, b) => a.created - b.created);
+            // Sort first by number of votes, then by creation date.
+            feedback = f?.toSorted(
+                (a, b) => b.votes - a.votes || b.created - a.created,
+            );
             for (const feed of feedback) {
                 if (!(feed.id in githubURLs))
                     githubURLs[feed.id] = feed.github ?? '';
@@ -99,12 +106,14 @@
     }
 
     async function vote(feed: Feedback) {
-        const newFeedback = { ...feed, votes: feed.votes + 1 };
-        const success = await updateFeedback(newFeedback);
+        const success = await voteFeedback(feed.id);
         if (success && feedback) {
             votes.add(feed.id);
+            // Optimistic +1 in the local view; the actual server value is the
+            // result of an atomic increment, so the displayed count may briefly
+            // lag if other voters acted concurrently.
             feedback = feedback.map((f) =>
-                f.id === feed.id ? newFeedback : f,
+                f.id === feed.id ? { ...f, votes: f.votes + 1 } : f,
             );
         } else error = true;
     }
@@ -305,18 +314,19 @@
                                 id="new-comment-{feed.id}-{commentIndex}"
                                 done={(t) => {
                                     if (!isAuthenticated($user)) return;
-                                    updateFeedback({
-                                        ...feed,
-                                        comments: [
-                                            ...feed.comments,
-                                            {
-                                                creator: $user.uid,
-                                                text: t,
-                                                created: Date.now(),
-                                                moderator,
-                                            },
-                                        ],
-                                    });
+                                    // Replace the comment in-place: arrayRemove
+                                    // the old object (exact match) and
+                                    // arrayUnion the new. Done as two updates;
+                                    // if the second fails, the comment briefly
+                                    // disappears until reload.
+                                    const updated: FeedbackComment = {
+                                        creator: $user.uid,
+                                        text: t,
+                                        created: comment.created,
+                                        moderator: comment.moderator,
+                                    };
+                                    removeFeedbackComment(feed.id, comment);
+                                    addFeedbackComment(feed.id, updated);
                                 }}
                             />
                         {:else}
@@ -335,13 +345,10 @@
                                         l.ui.dialog.feedback.button.delete
                                             .prompt}
                                     action={async () => {
-                                        await updateFeedback({
-                                            ...feed,
-                                            comments: feed.comments.filter(
-                                                (_, index) =>
-                                                    index !== commentIndex,
-                                            ),
-                                        });
+                                        await removeFeedbackComment(
+                                            feed.id,
+                                            comment,
+                                        );
                                         loadFeedback();
                                     }}
                                 ></ConfirmButton>
@@ -365,18 +372,13 @@
                         label={(l) => l.ui.dialog.feedback.button.comment.label}
                         background
                         action={async () => {
-                            updateFeedback({
-                                ...feed,
-                                comments: [
-                                    ...feed.comments,
-                                    {
-                                        creator: $user.uid,
-                                        text: newComments[feed.id] ?? '',
-                                        created: Date.now(),
-                                        moderator,
-                                    },
-                                ],
-                            });
+                            const comment: FeedbackComment = {
+                                creator: $user.uid,
+                                text: newComments[feed.id] ?? '',
+                                created: Date.now(),
+                                moderator,
+                            };
+                            await addFeedbackComment(feed.id, comment);
                             loadFeedback();
                             newComments[feed.id] = '';
                         }}
@@ -445,6 +447,7 @@
     button={{
         tip: (l) => l.ui.dialog.feedback.button.show,
         icon: `${IDEA_SYMBOL}/${DEFECT_SYMBOL}`,
+        background: true,
     }}
 >
     <Mode

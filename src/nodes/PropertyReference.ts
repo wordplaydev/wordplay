@@ -11,31 +11,32 @@ import Start from '@runtime/Start';
 import type Step from '@runtime/Step';
 import NameException from '@values/NameException';
 import type Value from '@values/Value';
-import { Purpose } from '../concepts/Purpose';
-import { UnknownName } from '../conflicts/UnknownName';
-import type Locales from '../locale/Locales';
+import { Purpose } from '@concepts/Purpose';
+import { UnknownName } from '@conflicts/UnknownName';
+import type Locales from '@locale/Locales';
 import Characters from '../lore/BasisCharacters';
-import UnimplementedException from '../values/UnimplementedException';
-import BasisType from './BasisType';
-import Bind from './Bind';
-import type Context from './Context';
-import type Definition from './Definition';
-import Expression, { type GuardContext } from './Expression';
-import FunctionDefinition from './FunctionDefinition';
-import getGuards from './getGuards';
-import NameType from './NameType';
-import type Node from './Node';
-import { node, type Grammar, type Replacement } from './Node';
-import Reference from './Reference';
-import StreamType from './StreamType';
-import StructureType from './StructureType';
-import { Sym } from './Sym';
-import Token from './Token';
-import type Type from './Type';
-import type TypeSet from './TypeSet';
-import TypeVariable from './TypeVariable';
-import UnionType from './UnionType';
-import UnknownNameType from './UnknownNameType';
+import UnimplementedException from '@values/UnimplementedException';
+import BasisType from '@nodes/BasisType';
+import Bind from '@nodes/Bind';
+import type Context from '@nodes/Context';
+import type Definition from '@nodes/Definition';
+import Expression, { type GuardContext } from '@nodes/Expression';
+import FunctionDefinition from '@nodes/FunctionDefinition';
+import getGuards from '@nodes/getGuards';
+import NameType from '@nodes/NameType';
+import type Node from '@nodes/Node';
+import { node, type Grammar, type Replacement } from '@nodes/Node';
+import Reference from '@nodes/Reference';
+import StreamType from '@nodes/StreamType';
+import StructureDefinitionType from '@nodes/StructureDefinitionType';
+import StructureType from '@nodes/StructureType';
+import { Sym } from '@nodes/Sym';
+import Token from '@nodes/Token';
+import type Type from '@nodes/Type';
+import type TypeSet from '@nodes/TypeSet';
+import TypeVariable from '@nodes/TypeVariable';
+import UnionType from '@nodes/UnionType';
+import UnknownNameType from '@nodes/UnknownNameType';
 
 export default class PropertyReference extends Expression {
     readonly structure: Expression;
@@ -82,7 +83,7 @@ export default class PropertyReference extends Expression {
                 const prefix = node.name?.getName() ?? '';
                 return (
                     definition
-                        .getDefinitions(node)
+                        .getDefinitions(node, context)
                         // Filter my matching prefixes
                         .filter((def) =>
                             def
@@ -204,23 +205,32 @@ export default class PropertyReference extends Expression {
     getDefinitions(node: Node, context: Context): Definition[] {
         const subjectType = this.getSubjectType(context);
 
+        // Instance access — `getDefinitions` returns inputs + all block
+        // statements, which already includes any `↑` static members. So
+        // `m.PI` autocompletes alongside instance members.
         if (subjectType instanceof StructureType)
-            return subjectType.definition.getDefinitions(node);
-        else return subjectType.getDefinitions(node, context);
+            return subjectType.definition.getDefinitions(node, context);
+        // Definition access (e.g. `Foo.bar` where `Foo` names the structure
+        // itself) — only statics are visible.
+        if (subjectType instanceof StructureDefinitionType)
+            return subjectType.getStaticDefinitions(node, context);
+        return subjectType.getDefinitions(node, context);
     }
 
     resolve(context: Context): Definition | undefined {
         if (this.name === undefined) return undefined;
 
         const subjectType = this.getSubjectType(context);
+        const name = this.name.getName();
 
+        // Instance access — `getDefinition` already looks through block
+        // statements, which includes any `↑` static members.
         if (subjectType instanceof StructureType)
-            return subjectType.getDefinition(this.name.getName());
-        else
-            return subjectType.getDefinitionOfNameInScope(
-                this.name.getName(),
-                context,
-            );
+            return subjectType.getDefinition(name);
+        // Definition access (`Foo.bar`) — restrict to statics only.
+        if (subjectType instanceof StructureDefinitionType)
+            return subjectType.getStaticDefinition(name, context);
+        return subjectType.getDefinitionOfNameInScope(name, context);
     }
 
     getSubjectType(context: Context): Type {
@@ -393,10 +403,12 @@ export default class PropertyReference extends Expression {
     ) {
         return locales.concretize(
             (l) => l.node.PropertyReference.finish,
-            this.name
+            {
+                property: this.name
                 ? new NodeRef(this.name, locales, context, this.name?.getName())
                 : undefined,
-            this.getValueIfDefined(locales, context, evaluator),
+                value: this.getValueIfDefined(locales, context, evaluator),
+            },
         );
     }
 
@@ -405,8 +417,8 @@ export default class PropertyReference extends Expression {
     }
 
     getDescriptionInputs(locales: Locales, context: Context) {
-        return [
-            this.name ? new NodeRef(this.name, locales, context) : undefined,
-        ];
+        return {
+            name: this.name ? new NodeRef(this.name, locales, context) : undefined,
+        };
     }
 }

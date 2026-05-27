@@ -1,20 +1,20 @@
 import type { ReplaceContext } from '@edit/revision/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
-import type { BasisTypeName } from '../basis/BasisConstants';
-import { Purpose } from '../concepts/Purpose';
-import type Conflict from '../conflicts/Conflict';
-import IncompatibleType from '../conflicts/IncompatibleType';
+import type { BasisTypeName } from '@basis/BasisConstants';
+import { Purpose } from '@concepts/Purpose';
+import type Conflict from '@conflicts/Conflict';
+import IncompatibleType from '@conflicts/IncompatibleType';
 import Characters from '../lore/BasisCharacters';
-import { BIND_SYMBOL } from '../parser/Symbols';
-import AnyType from './AnyType';
-import type Context from './Context';
-import Expression from './Expression';
-import ListType from './ListType';
-import type { Grammar, Replacement } from './Node';
-import Node, { node, optional } from './Node';
-import { Sym } from './Sym';
-import Token from './Token';
+import { BIND_SYMBOL } from '@parser/Symbols';
+import AnyType from '@nodes/AnyType';
+import type Context from '@nodes/Context';
+import Expression from '@nodes/Expression';
+import ListType from '@nodes/ListType';
+import type { Grammar, Replacement } from '@nodes/Node';
+import Node, { node, optional } from '@nodes/Node';
+import { Sym } from '@nodes/Sym';
+import Token from '@nodes/Token';
 
 /** Inside a list literal, flattens values of a list value into a new list */
 export default class Spread extends Node {
@@ -79,7 +79,10 @@ export default class Spread extends Node {
     computeConflicts(context: Context): Conflict[] {
         if (this.list) {
             const type = this.list.getType(context);
-            if (!(type instanceof ListType))
+            if (
+                !context.isUnknownDownstream(this.list) &&
+                !(type instanceof ListType)
+            )
                 return [
                     new IncompatibleType(
                         this.list,

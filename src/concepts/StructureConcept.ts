@@ -4,15 +4,16 @@ import type Node from '@nodes/Node';
 import type StructureDefinition from '@nodes/StructureDefinition';
 import StructureType from '@nodes/StructureType';
 import type Type from '@nodes/Type';
-import type Locales from '../locale/Locales';
+import type Locales from '@locale/Locales';
+import { withoutAnnotations } from '@locale/withoutAnnotations';
 import { Emotion } from '../lore/Emotion';
-import type Markup from '../nodes/Markup';
+import type Markup from '@nodes/Markup';
 import type { CharacterName } from '../tutorial/Tutorial';
-import BindConcept from './BindConcept';
-import Concept from './Concept';
-import ConversionConcept from './ConversionConcept';
-import FunctionConcept from './FunctionConcept';
-import type { PurposeType } from './Purpose';
+import BindConcept from '@concepts/BindConcept';
+import Concept from '@concepts/Concept';
+import ConversionConcept from '@concepts/ConversionConcept';
+import FunctionConcept from '@concepts/FunctionConcept';
+import type { PurposeType } from '@concepts/Purpose';
 
 export default class StructureConcept extends Concept {
     /** The type this concept represents. */
@@ -178,8 +179,12 @@ export default class StructureConcept extends Concept {
             for (const [key, text] of Object.entries(locale.output))
                 if (
                     'names' in text &&
-                    ((typeof text.names === 'string' && text.names === name) ||
-                        text.names.includes(name))
+                    ((typeof text.names === 'string' &&
+                        withoutAnnotations(text.names) === name) ||
+                        (Array.isArray(text.names) &&
+                            text.names.some(
+                                (n) => withoutAnnotations(n) === name,
+                            )))
                 )
                     return key as CharacterName;
             for (const [key, text] of Object.entries(locale.basis))
@@ -197,15 +202,22 @@ export default class StructureConcept extends Concept {
      * True if the concept represents the given type. Used to map types to concepts.
      */
     representsType(type: Type) {
+        // For StructureType / NameType we must match on definition identity:
+        // every StructureType shares the same constructor, so falling through
+        // to the class-equality check below would let the basis `structure`
+        // concept claim every user-defined structure (e.g. the Gesture output
+        // type, which would then link to the generic Structure docs).
+        if (type instanceof StructureType)
+            return this.definition === type.definition;
+        if (type instanceof NameType)
+            return (
+                type.definition !== undefined &&
+                this.definition === type.definition
+            );
         return (
-            (type instanceof StructureType &&
-                this.definition === type.definition) ||
-            (type instanceof NameType &&
-                type.definition &&
-                this.definition == type.definition) ||
-            (type !== undefined &&
-                this.type !== undefined &&
-                type.constructor === this.type.constructor)
+            type !== undefined &&
+            this.type !== undefined &&
+            type.constructor === this.type.constructor
         );
     }
 }

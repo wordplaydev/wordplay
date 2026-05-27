@@ -1,5 +1,5 @@
-import type { FormattedText, NameAndDoc, NameText } from './LocaleText';
-import type { ExceptionText } from './NodeTexts';
+import type { NameAndDoc, NameText, Template } from '@locale/LocaleText';
+import type { ExceptionText } from '@locale/NodeTexts';
 
 export type TypeTexts = {
     /** How tall characters in a phrase, group, or stage should be */
@@ -55,8 +55,8 @@ type OutputTexts = {
         layout: NameAndDoc;
         /** The matter to use for the group if it's involved in collisions */
         matter: NameAndDoc;
-        /** [formatted] $1 = Layout description, $2 = pose description */
-        defaultDescription: FormattedText;
+        /** [formatted] $1 = optional group name, $2 = layout description, $3 = pose description, $4 = optional background color name */
+        defaultDescription: Template<['name', 'layout', 'pose', 'color']>;
     } & TypeTexts;
     /** A shadow */
     Aura: NameAndDoc & {
@@ -83,13 +83,17 @@ type OutputTexts = {
         matter: NameAndDoc;
         /** The shadow properties for the phrase */
         aura: NameAndDoc;
-        /** [formatted] A description of the phrase for screen readers. 1$: non-optional text, $2: optional name, $3: optional size, $4: optional font, $5: then non-optional pose */
-        defaultDescription: FormattedText;
+        /** [formatted] A description of the phrase for screen readers. $1: non-optional text, $2: optional name, $3: optional size, $4: optional font, $5: non-optional pose, $6: optional color name */
+        defaultDescription: Template<
+            ['text', 'name', 'size', 'face', 'animation', 'color']
+        >;
     } & TypeTexts;
     /** The whole stage view and settings to control its appearance */
     Stage: NameAndDoc & {
-        /** [formatted] A description of the stage for screen readers. $1: total outputs, $2: total phrases, $3: total groups, $4: pose */
-        defaultDescription: FormattedText;
+        /** [formatted] A description of the stage for screen readers. $1: output count, $2: optional stage name, $3: optional frame description, $4: pose description, $5: optional background color name */
+        defaultDescription: Template<
+            ['count', 'name', 'frame', 'pose', 'color']
+        >;
         /** A list of content to show on stage */
         content: NameAndDoc;
         /** The shape of the frame to clip stage content */
@@ -136,6 +140,13 @@ type OutputTexts = {
         duration: NameAndDoc;
         /** The transition style of transitions */
         style: NameAndDoc;
+    };
+    /** A text-to-speech output that speaks a plain text literal */
+    Say: NameAndDoc & {
+        /** The text to speak */
+        text: NameAndDoc;
+        /** [formatted] A description of the say for screen readers. $1: the text to speak */
+        defaultDescription: Template<['text']>;
     };
     /** The base form type */
     Form: NameAndDoc;
@@ -186,8 +197,10 @@ type OutputTexts = {
         scale: NameAndDoc;
         flipx: NameAndDoc;
         flipy: NameAndDoc;
-        /** [formatted] Templated description of the pose */
-        description: FormattedText;
+        /** [formatted] Templated description of the pose. $1: optional opacity, $2: optional rotation degrees, $3: optional scale, $4: optional flipx, $5: optional flipy, $6: optional blur */
+        description: Template<
+            ['opacity', 'rotation', 'scale', 'flipx', 'flipy', 'blur']
+        >;
     };
     /** A sequence of poses, keyed by percentage complete, for use in overriding an output's defaults for entering, resting, moving, or existing states */
     Sequence: NameAndDoc & {
@@ -210,6 +223,49 @@ type OutputTexts = {
         chroma: NameAndDoc;
         /** 0-360, a color wheel  */
         hue: NameAndDoc;
+        /** Names for each of the 11 Basic Color Terms (black, white, gray,
+         *  red, orange, yellow, green, blue, purple, brown, pink). Each
+         *  entry exposes its multilingual names as static binds on the
+         *  `Color` structure (so `Color.red`/`色.赤`/etc. work), and is also
+         *  the user-facing word used by screen-reader color descriptions. */
+        colors: {
+            /** [plain] doc + [name] names for "black" */
+            black: NameAndDoc;
+            /** [plain] doc + [name] names for "white" */
+            white: NameAndDoc;
+            /** [plain] doc + [name] names for "gray" */
+            gray: NameAndDoc;
+            /** [plain] doc + [name] names for "red" */
+            red: NameAndDoc;
+            /** [plain] doc + [name] names for "orange" */
+            orange: NameAndDoc;
+            /** [plain] doc + [name] names for "yellow" */
+            yellow: NameAndDoc;
+            /** [plain] doc + [name] names for "green" */
+            green: NameAndDoc;
+            /** [plain] doc + [name] names for "blue" */
+            blue: NameAndDoc;
+            /** [plain] doc + [name] names for "purple" */
+            purple: NameAndDoc;
+            /** [plain] doc + [name] names for "brown" */
+            brown: NameAndDoc;
+            /** [plain] doc + [name] names for "pink" */
+            pink: NameAndDoc;
+        };
+        /** Templates for assembling color descriptions from the BCT names
+         *  plus optional light/dark modifier and boundary-color mix. */
+        description: {
+            /** [plain] $1 = modifier (or empty), $2 = color name(s). Allows
+             *  per-locale word order. */
+            modified: Template<['modifier', 'color']>;
+            /** [plain] Join two BCTs into a mix description; $1 = first
+             *  color name, $2 = second color name. */
+            mix: Template<['first', 'second']>;
+            /** [plain] Word used when lightness is above the matched focal */
+            light: string;
+            /** [plain] Word used when lightness is below the matched focal */
+            dark: string;
+        };
     };
     /** A place on stage */
     Place: NameAndDoc & {
@@ -221,6 +277,27 @@ type OutputTexts = {
         z: NameAndDoc;
         /** optional rotation */
         rotation: NameAndDoc;
+    };
+    /** A hand gesture detected in the camera image (returned by the Hand input stream) */
+    Gesture: NameAndDoc & {
+        /** Where the hand is on stage */
+        place: NameAndDoc;
+        /** True when the hand is open, false when it's a fist */
+        open: NameAndDoc;
+        /** Count of extended fingers, 0–5 */
+        fingers: NameAndDoc;
+        /** True if the thumb is extended */
+        thumb: NameAndDoc;
+        /** True if the index finger is extended */
+        index: NameAndDoc;
+        /** True if the middle finger is extended */
+        middle: NameAndDoc;
+        /** True if the ring finger is extended */
+        ring: NameAndDoc;
+        /** True if the pinky finger is extended */
+        pinky: NameAndDoc;
+        /** True if the palm faces the camera, false if the back of the hand does */
+        palm: NameAndDoc;
     };
     /** A velocity vector */
     Velocity: NameAndDoc & {
@@ -253,10 +330,8 @@ type OutputTexts = {
         /**
          * [formatted] A description of the row for screen readers.
          * $1: total count
-         * $2: phrase count
-         * $3: group count
          */
-        description: FormattedText;
+        description: Template<['count']>;
         /** Whether to align content vertically at the start, center, or end of the vertical axis */
         alignment: NameAndDoc;
         /** How much padding to place between content */
@@ -267,10 +342,8 @@ type OutputTexts = {
         /**
          * [formatted] A description of the stack for screen readers.
          * $1: total count
-         * $2: phrase count
-         * $3: group count
          */
-        description: FormattedText;
+        description: Template<['count']>;
         /** Whether to align content at the start, center, or end of the horizontal axis */
         alignment: NameAndDoc;
         /** How much padding to place between content */
@@ -283,7 +356,7 @@ type OutputTexts = {
          * $1: rows
          * $2: columns
          */
-        description: FormattedText;
+        description: Template<['rows', 'columns']>;
         /** How many rows in the grid */
         rows: NameAndDoc;
         /** How many columns in the grid */
@@ -301,17 +374,17 @@ type OutputTexts = {
          * [formatted] A description of the free layout for screen readers.
          * $1: output count
          */
-        description: FormattedText;
+        description: Template<['count']>;
     };
     /** Localized descriptions of transition styles */
     Easing: {
-        /** CSS linear */
+        /** [name] CSS linear */
         straight: NameText;
-        /** CSS ease-in */
+        /** [name] CSS ease-in */
         pokey: NameText;
-        /** CSS ease-in-out */
+        /** [name] CSS ease-in-out */
         cautious: NameText;
-        /** CSS ease-out */
+        /** [name] CSS ease-out */
         zippy: NameText;
     };
     /** Convenience functions for generating maps for Sequences */

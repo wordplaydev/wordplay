@@ -1,14 +1,18 @@
 import { Purpose } from '@concepts/Purpose';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
-import type { BasisTypeName } from '../basis/BasisConstants';
-import type Locales from '../locale/Locales';
+import type { BasisTypeName } from '@basis/BasisConstants';
+import type Locales from '@locale/Locales';
 import Characters from '../lore/BasisCharacters';
-import type Spaces from '../parser/Spaces';
-import type Context from './Context';
-import type StructureType from './StructureType';
-import Type from './Type';
-import type TypeSet from './TypeSet';
+import type Spaces from '@parser/Spaces';
+import type Bind from '@nodes/Bind';
+import type Context from '@nodes/Context';
+import type Definition from '@nodes/Definition';
+import type FunctionDefinition from '@nodes/FunctionDefinition';
+import type Node from '@nodes/Node';
+import type StructureType from '@nodes/StructureType';
+import Type from '@nodes/Type';
+import type TypeSet from '@nodes/TypeSet';
 
 export default class StructureDefinitionType extends Type {
     readonly type: StructureType;
@@ -45,7 +49,9 @@ export default class StructureDefinitionType extends Type {
     }
 
     getDescriptionInputs(locales: Locales) {
-        return [locales.getName(this.type.definition.names)];
+        return {
+            name: locales.getName(this.type.definition.names),
+        };
     }
 
     getBasisTypeName(): BasisTypeName {
@@ -74,5 +80,27 @@ export default class StructureDefinitionType extends Type {
 
     getDefaultExpression(context: Context) {
         return this.type.getDefaultExpression(context);
+    }
+
+    /** A reference to the structure definition itself (e.g. `Foo` written
+     *  alone, without `()`) exposes only static members for property
+     *  access — `Foo.bar` resolves to a `↑ bar:` or `↑ ƒ bar()` in `Foo`'s
+     *  block. */
+    getStaticDefinition(
+        name: string,
+        context: Context,
+    ): Bind | FunctionDefinition | undefined {
+        return this.type.definition.getStaticDefinition(name, context);
+    }
+
+    getStaticDefinitions(_: Node, context: Context): Definition[] {
+        return this.type.definition.getStaticDefinitions(context);
+    }
+
+    /** Expose the structure's static members for name resolution. Without
+     *  this, the inner `Reference` child of `Foo.bar` walks an empty scope
+     *  chain and `bar` is flagged as `UnknownName`. */
+    getDefinitions(node: Node, context: Context): Definition[] {
+        return this.getStaticDefinitions(node, context);
     }
 }

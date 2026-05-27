@@ -1,25 +1,26 @@
+import type { BasisTypeName } from '@basis/BasisConstants';
 import { Purpose } from '@concepts/Purpose';
 import type { ReplaceContext } from '@edit/revision/EditContext';
+import type Locales from '@locale/Locales';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
+import type Context from '@nodes/Context';
+import type ConversionDefinition from '@nodes/ConversionDefinition';
+import type Definition from '@nodes/Definition';
+import type FunctionDefinition from '@nodes/FunctionDefinition';
+import type Markup from '@nodes/Markup';
+import NeverType from '@nodes/NeverType';
+import type Node from '@nodes/Node';
+import { node, type Grammar, type Replacement } from '@nodes/Node';
+import NoneType from '@nodes/NoneType';
+import { Sym } from '@nodes/Sym';
+import TextType from '@nodes/TextType';
+import Token from '@nodes/Token';
+import Type from '@nodes/Type';
+import TypePlaceholder from '@nodes/TypePlaceholder';
+import type TypeSet from '@nodes/TypeSet';
 import { OR_SYMBOL } from '@parser/Symbols';
-import type { BasisTypeName } from '../basis/BasisConstants';
-import type Locales from '../locale/Locales';
-import NodeRef from '../locale/NodeRef';
 import Characters from '../lore/BasisCharacters';
-import type Context from './Context';
-import type ConversionDefinition from './ConversionDefinition';
-import type Definition from './Definition';
-import type FunctionDefinition from './FunctionDefinition';
-import NeverType from './NeverType';
-import type Node from './Node';
-import { node, type Grammar, type Replacement } from './Node';
-import NoneType from './NoneType';
-import { Sym } from './Sym';
-import Token from './Token';
-import Type from './Type';
-import TypePlaceholder from './TypePlaceholder';
-import type TypeSet from './TypeSet';
 
 export default class UnionType extends Type {
     readonly left: Type;
@@ -249,11 +250,54 @@ export default class UnionType extends Type {
         return Characters.Union;
     }
 
-    getDescriptionInputs(locales: Locales, context: Context) {
-        return [
-            new NodeRef(this.left, locales, context),
-            new NodeRef(this.right, locales, context),
-        ];
+    /**
+     * Returns the union with any locale-tagged TextTypes whose language
+     * doesn't match the user's preferred locales filtered out. Used for rendering
+     * conflicts and resolution options for localized basis APIs (e.g. easing names),
+     * so users only see options in their own language. Falls back to the unfiltered
+     * list if filtering would leave nothing.
+     */
+    getLocalizedTypes(locales: Locales, context: Context): Type[] {
+        const all = this.getPossibleTypes(context);
+        const preferred = locales.getLanguages();
+        const filtered = all.filter((type) => {
+            if (type instanceof TextType && type.language !== undefined) {
+                const code = type.language.getLanguageCode();
+                return code === undefined || preferred.includes(code);
+            }
+            return true;
+        });
+        return filtered.length === 0 ? all : filtered;
+    }
+
+    /**
+     * Render the union as "one of A, B, ..., Y, or Z" using the locale's
+     * binary "$1 ... $2" description template. We split the filtered arms so
+     * $1 receives the comma-joined head and $2 receives the last arm. For
+     * three or more arms we add a trailing comma to the head so the en-US
+     * template "one of $1 or $2" produces the Oxford-comma form
+     * "one of A, B, C, or D"; with two arms the head is bare so we get
+     * "one of A or B". Non-English locales whose templates are shaped like
+     * "$1 or $2" degrade gracefully (e.g., "A, B, C, o D" in Spanish).
+     */
+    getDescription(locales: Locales, context: Context): Markup {
+        const filtered = this.getLocalizedTypes(locales, context);
+        if (filtered.length === 1)
+            return filtered[0].getDescription(locales, context);
+        const headArms = filtered.slice(0, -1);
+        const last = filtered[filtered.length - 1];
+        const headText = headArms
+            .map((arm) => arm.getDescription(locales, context).toText())
+            .join(', ');
+        const head = filtered.length >= 3 ? `${headText},` : headText;
+        const tail = last.getDescription(locales, context).toText();
+        return locales.concretize(
+            (l) => l.node.UnionType.description,
+            {
+                first: head,
+                second: tail,
+            },
+        );
     }
 
     concretize(context: Context) {

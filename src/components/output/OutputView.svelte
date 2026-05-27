@@ -5,26 +5,48 @@
     import type Project from '@db/projects/Project';
     import concretize from '@locale/concretize';
     import type Evaluator from '@runtime/Evaluator';
+    import { withMonoEmoji } from '@unicode/emoji';
     import ExceptionValue from '@values/ExceptionValue';
     import type Value from '@values/Value';
-    import { untrack } from 'svelte';
-    import { animationFactor, DB, locales, Projects } from '../../db/Database';
-    import Button from '../../input/Button';
-    import Chat from '../../input/Chat';
-    import Choice from '../../input/Choice';
-    import Key from '../../input/Key';
-    import Placement from '../../input/Placement';
-    import Pointer from '../../input/Pointer';
-    import Evaluate from '../../nodes/Evaluate';
-    import type Color from '../../output/Color';
-    import { getOrCreatePlace } from '../../output/getOrCreatePlace';
-    import { PX_PER_METER, rootScale } from '../../output/outputToCSS';
-    import Place, { createPlace } from '../../output/Place';
-    import { toStage } from '../../output/Stage';
-    import { toExpression } from '../../parser/parseExpression';
-    import MarkupHTMLView from '../concepts/MarkupHTMLView.svelte';
-    import Speech from '../lore/Speech.svelte';
-    import moveOutput, { addStageContent } from '../palette/editOutput';
+    import { onDestroy, untrack } from 'svelte';
+    import {
+        animationFactor,
+        DB,
+        locales,
+        Projects,
+        voice,
+    } from '@db/Database';
+    import Button from '@input/Button';
+    import Chat from '@input/Chat';
+    import Choice from '@input/Choice';
+    import { handLandmarkerStatus } from '@input/HandLandmarkerLoader.svelte';
+    import Key from '@input/Key';
+    import Placement from '@input/Placement';
+    import Pointer from '@input/Pointer';
+    import Evaluate from '@nodes/Evaluate';
+    import PermissionException from '@values/PermissionException';
+    import PermissionSplash from '@components/output/PermissionSplash.svelte';
+    import {
+        consent,
+        grantConsent,
+        type PermissionName,
+    } from '@input/permissions';
+    import type Color from '@output/Color';
+    import { toColor } from '@output/Color';
+    import { describeColorLocalized } from '@output/BasicColors';
+    import { toOutput } from '@output/toOutput';
+    import { NameGenerator } from '@output/Stage';
+    import TextValue from '@values/TextValue';
+    import { getOrCreatePlace } from '@output/getOrCreatePlace';
+    import { PX_PER_METER, rootScale } from '@output/outputToCSS';
+    import Place, { createPlace } from '@output/Place';
+    import { toStage } from '@output/Stage';
+    import { toExpression } from '@parser/parseExpression';
+    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
+    import Speech from '@components/lore/Speech.svelte';
+    import moveOutput, {
+        addStageContent,
+    } from '@components/palette/editOutput';
     import {
         getAnnouncer,
         getConceptIndex,
@@ -32,12 +54,15 @@
         getKeyboardEditIdle,
         getSelectedOutput,
         IdleKind,
-    } from '../project/Contexts';
-    import ValueView from '../values/ValueView.svelte';
-    import { default as ButtonUI } from '../widgets/Button.svelte';
-    import type PaintingConfiguration from './PaintingConfiguration';
-    import StageView from './StageView.svelte';
-    import { DOMRectCenter, DOMRectDistance } from './utilities';
+    } from '@components/project/Contexts';
+    import ValueView from '@components/values/ValueView.svelte';
+    import { default as ButtonUI } from '@components/widgets/Button.svelte';
+    import type PaintingConfiguration from '@components/output/PaintingConfiguration';
+    import StageView from '@components/output/StageView.svelte';
+    import {
+        DOMRectCenter,
+        DOMRectDistance,
+    } from '@components/output/utilities';
 
     interface Props {
         project: Project;
@@ -52,6 +77,14 @@
         background?: Color | string | null;
         /** Whether to process mouse wheel events without the shift key. Useful to disable for examples embedded in scrollable pages. */
         wheel?: boolean;
+        /** Reflects whether the current stage value has an explicit place set. */
+        hasStagePlace?: boolean;
+        /** Reflects whether the audience has overridden the stage's computed focus via zoom/pan controls. */
+        focusOverridden?: boolean;
+        /** Whether to blur the output while the user is typing in the project's editor. True for the main stage; false for embedded examples that are unaffected by the user's typing. */
+        blurOnTyping?: boolean;
+        /** Called when the viewer clicks Retry after a PermissionException. The host should restart the evaluator so failed streams can re-attempt getUserMedia. */
+        onretry?: () => void;
     }
 
     let {
@@ -66,6 +99,10 @@
         mini = false,
         background = $bindable(null),
         wheel = true,
+        hasStagePlace = $bindable(false),
+        focusOverridden = $bindable(false),
+        blurOnTyping = true,
+        onretry = undefined,
     }: Props = $props();
 
     let indexContext = getConceptIndex();
@@ -110,6 +147,33 @@
     const exception = $derived(
         value instanceof ExceptionValue ? value : undefined,
     );
+    const permissionException = $derived(
+        exception instanceof PermissionException ? exception : undefined,
+    );
+
+    /** Browser permissions the project references but for which the user hasn't yet made a decision. */
+    const pendingPermissions = $derived(
+        new Set<PermissionName>(
+            [...project.getRequiredPermissions()].filter(
+                (p) => $consent[p] === 'unknown',
+            ),
+        ),
+    );
+
+    /** Show the pre-evaluation splash only before the evaluator has started — afterwards, denial flows through the exception branch. */
+    const needsPermission = $derived(
+        !evaluator.isStarted() && pendingPermissions.size > 0,
+    );
+
+    function handleStart() {
+        for (const permission of pendingPermissions) grantConsent(permission);
+    }
+
+    function handleRetry() {
+        if (permissionException !== undefined)
+            grantConsent(permissionException.permission);
+        onretry?.();
+    }
 
     /** Every time the value changes, try to parse a Stage from it. */
     const stageValue = $derived(
@@ -118,6 +182,10 @@
 
     export function adjustZoom(dz: number) {
         stage?.adjustFocus(0, 0, dz);
+    }
+
+    export function resetZoom() {
+        stage?.resetFocus();
     }
 
     /** Every time the stage value changes, load any new fonts we might need */
@@ -136,7 +204,8 @@
 
     /** Keep track of whether the creator is typing, so we can blur output until the next change. */
     const typing = $derived(
-        !mini &&
+        blurOnTyping &&
+            !mini &&
             $evaluation?.playing === true &&
             $keyboardEditIdle === IdleKind.Typing,
     );
@@ -147,6 +216,11 @@
             value instanceof ExceptionValue
                 ? 'var(--wordplay-error)'
                 : (stageValue?.background ?? null);
+    });
+
+    /** Keep the bindable hasStagePlace flag up to date. */
+    $effect(() => {
+        hasStagePlace = stageValue?.place !== undefined;
     });
 
     /** Keep track of streams that listen for keyboard input */
@@ -166,17 +240,42 @@
     // Announce changes in values.
     $effect(() => {
         if ($announce && value !== undefined) {
+            // The generic `Value.getDescription` for any structure value
+            // just returns the term "structure" — useless for a screen
+            // reader. Prefer:
+            //   - the rich, localized description for known output types
+            //     (Phrase/Group/Stage/Shape/Say),
+            //   - the BCT color name for Color values,
+            //   - the literal text for TextValue (saying the type name
+            //     "text" is uninformative; speak what the program produced).
+            const output = toOutput(evaluator, value, new NameGenerator());
+            const colorValue = output ? undefined : toColor(value);
+            const body = exception
+                ? exception.getExplanation($locales).toText()
+                : output !== undefined
+                  ? output.getDescription($locales)
+                  : colorValue !== undefined
+                    ? describeColorLocalized(
+                          $locales,
+                          colorValue.lightness.toNumber(),
+                          colorValue.chroma.toNumber(),
+                          colorValue.hue.toNumber(),
+                      )
+                    : value instanceof TextValue
+                      ? value.text
+                      : concretize(
+                            $locales,
+                            $locales.getPlainText(value.getDescription()),
+                            {},
+                        ).toText();
+            // Prefix with the localized "output" term so the screen reader
+            // user can tell stage-output announcements apart from editor
+            // and chooser announcements.
+            const description = `${$locales.getPlainText(
+                (l) => l.term.output,
+            )} ${body}`;
             untrack(() =>
-                $announce(
-                    'value',
-                    $locales.getLanguages()[0],
-                    exception
-                        ? exception.getExplanation($locales).toText()
-                        : concretize(
-                              $locales,
-                              $locales.getPlainText(value.getDescription()),
-                          ).toText(),
-                ),
+                $announce('value', $locales.getLanguages()[0], description),
             );
         }
     });
@@ -400,6 +499,9 @@
         // Add event to pointer event cache for
         pointersByIndex.push(event);
 
+        // A second pointer turns this into a pinch gesture, so abandon any in-progress pan.
+        if (pointersByIndex.length >= 2) drag = undefined;
+
         // Focus the keyboard input if it exists.
         if (keyboardInputView) {
             setKeyboardFocus(
@@ -451,7 +553,7 @@
                 const outputView =
                     output === stageValue
                         ? valueView
-                        : document.querySelector(
+                        : valueView?.querySelector(
                               `[data-id="${output.getHTMLID()}"]`,
                           );
                 // Couldn't find the view? Move on to the next one.
@@ -560,9 +662,10 @@
 
         // If there are two pointers down, check for a pinch
         if (pointersByIndex.length === 2) {
-            // Find the difference on the x axis
-            const currentPointerDifference = Math.abs(
+            // Find the Euclidean distance between the two pointers
+            const currentPointerDifference = Math.hypot(
                 pointersByIndex[0].clientX - pointersByIndex[1].clientX,
+                pointersByIndex[0].clientY - pointersByIndex[1].clientY,
             );
             // No differences yet? Initialize to the current difference, which
             // is the anchor difference. Also initialize to the current rendered focus.
@@ -595,7 +698,12 @@
         // POINTER PANNING AND ZOOMING
 
         // Handle focus or output moves..
-        if (event.buttons === 1 && drag && renderedFocus) {
+        if (
+            pointersByIndex.length < 2 &&
+            event.buttons === 1 &&
+            drag &&
+            renderedFocus
+        ) {
             const valueRect = valueView?.getBoundingClientRect();
             if (valueRect !== undefined) {
                 const mouseXDelta = event.clientX - valueRect.left - drag.left;
@@ -826,9 +934,12 @@
         event: PointerEvent | MouseEvent,
     ): number | undefined {
         // Find the nearest .output element and get its node-id data attribute.
+        // Accept any Element here, not just HTMLElement: clicks landing on
+        // inline SVG (e.g. a custom character glyph rendered by CharacterView)
+        // return SVGElements, which still support .closest() and walk up to
+        // the enclosing .phrase div correctly.
         const element = document.elementFromPoint(event.clientX, event.clientY);
-        if (!(element instanceof HTMLElement)) return;
-        return getOutputNodeIDFromElement(element.closest('.output'));
+        return getOutputNodeIDFromElement(element?.closest('.output') ?? null);
     }
     function recordSelection(event: Event) {
         if (stageValue === undefined) return;
@@ -947,6 +1058,55 @@
                 );
         }
     });
+
+    // Collect all Say outputs from the stage each evaluation.
+    let says = $derived(stageValue?.getSays() ?? []);
+
+    // Index of the utterance currently being spoken; -1 when nothing is playing.
+    let speakingIndex = $state(-1);
+
+    // Speak the queued Say outputs whenever the list changes (i.e., each evaluation).
+    $effect(() => {
+        const currentSays = says;
+        speakingIndex = -1;
+
+        if (typeof speechSynthesis === 'undefined' || currentSays.length === 0)
+            return;
+
+        speechSynthesis.cancel();
+
+        const lang = $locales.getLanguages()[0];
+        const currentVoiceURI = $voice;
+
+        // Build all utterances up front so onend closures can reference them.
+        const utterances = currentSays.map((say, i) => {
+            const u = new SpeechSynthesisUtterance(say.text.text);
+            u.lang = say.text.lang ?? lang;
+            if (currentVoiceURI) {
+                const v = speechSynthesis
+                    .getVoices()
+                    .find((v) => v.voiceURI === currentVoiceURI);
+                if (v) u.voice = v;
+            }
+            u.onstart = () => {
+                speakingIndex = i;
+            };
+            u.onend = () => {
+                speakingIndex = -1;
+                if (i + 1 < utterances.length)
+                    speechSynthesis.speak(utterances[i + 1]);
+            };
+            return u;
+        });
+
+        speechSynthesis.speak(utterances[0]);
+
+        return () => speechSynthesis.cancel();
+    });
+
+    onDestroy(() => {
+        if (typeof speechSynthesis !== 'undefined') speechSynthesis.cancel();
+    });
 </script>
 
 <section
@@ -980,8 +1140,15 @@
         onpointermove={interactive ? handlePointerMove : null}
         onpointerleave={interactive ? handlePointerLeave : null}
     >
-        <!-- If there's an exception, show that. -->
-        {#if exception !== undefined}
+        <!-- If the project needs permission and evaluation hasn't started, show the splash. -->
+        {#if needsPermission}
+            <PermissionSplash
+                permissions={pendingPermissions}
+                onstart={handleStart}
+                {mini}
+            />
+            <!-- If there's an exception, show that. -->
+        {:else if exception !== undefined}
             <div class="message exception" class:mini data-uiid="exception"
                 >{#if mini}!{:else}<Speech
                         character={index?.getNodeConcept(exception.creator) ??
@@ -992,6 +1159,21 @@
                             <MarkupHTMLView
                                 markup={exception.getExplanation($locales)}
                             />
+                            {#if permissionException !== undefined && onretry !== undefined}
+                                <div class="permission-retry">
+                                    <ButtonUI
+                                        tip={(l) =>
+                                            l.ui.output.permission.retry}
+                                        action={handleRetry}
+                                        background
+                                        testid="permission-retry"
+                                    >
+                                        {$locales.getPlainText(
+                                            (l) => l.ui.output.permission.retry,
+                                        )}
+                                    </ButtonUI>
+                                </div>
+                            {/if}
                         {/snippet}</Speech
                     >
                 {/if}
@@ -1021,9 +1203,34 @@
                 bind:painting
                 bind:this={stage}
                 bind:renderedFocus
+                bind:focusOverridden
                 interactive={!mini}
                 {editable}
             />
+        {/if}
+        {#if says.length > 0 || handLandmarkerStatus.loading}
+            <div class="say-overlay" aria-live="polite" aria-atomic="false">
+                {#if handLandmarkerStatus.loading}
+                    <span
+                        class="say-item hand-loading"
+                        title="Loading hand tracker…"
+                        aria-label="Loading hand tracker"
+                        >{withMonoEmoji('🖐')}</span
+                    >
+                {/if}
+                {#each says as say, i (say.text.text + i)}
+                    <span
+                        class="say-item"
+                        title={say.text.text}
+                        aria-label={say.text.text}
+                        >{i < speakingIndex
+                            ? withMonoEmoji('🔇')
+                            : i === speakingIndex
+                              ? withMonoEmoji('🔊')
+                              : withMonoEmoji('🔈')}</span
+                    >
+                {/each}
+            </div>
         {/if}
         <!-- These streams need keyboard input, so we make a text input field. If there's a chat stream, we make it visible. -->
         {#if keys || placements || chats}
@@ -1173,6 +1380,12 @@
         color: var(--wordplay-evaluation-color);
     }
 
+    .permission-retry {
+        margin-top: 0.75em;
+        display: flex;
+        justify-content: flex-start;
+    }
+
     .keyboard {
         position: absolute;
         left: 0;
@@ -1211,5 +1424,43 @@
 
     h2 {
         margin-top: 1em;
+    }
+
+    .say-overlay {
+        position: absolute;
+        top: var(--wordplay-spacing);
+        right: var(--wordplay-spacing);
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: calc(var(--wordplay-spacing) / 2);
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    .say-item {
+        /* White + mix-blend-mode: difference inverts the indicator against
+           whatever is rendered behind it — visible against any stage
+           background color (white, black, or anywhere in between). */
+        color: white;
+        mix-blend-mode: difference;
+        font-size: 1em;
+        line-height: 1;
+        user-select: none;
+    }
+
+    .hand-loading {
+        animation: hand-loading-spin 1.5s linear infinite;
+        display: inline-block;
+        transform-origin: center;
+    }
+
+    @keyframes hand-loading-spin {
+        from {
+            transform: rotate(0deg);
+        }
+        to {
+            transform: rotate(360deg);
+        }
     }
 </style>

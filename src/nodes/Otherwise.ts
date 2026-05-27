@@ -11,20 +11,20 @@ import Start from '@runtime/Start';
 import type Step from '@runtime/Step';
 import NoneValue from '@values/NoneValue';
 import type Value from '@values/Value';
-import { Purpose } from '../concepts/Purpose';
-import type Locales from '../locale/Locales';
+import { Purpose } from '@concepts/Purpose';
+import type Locales from '@locale/Locales';
 import Characters from '../lore/BasisCharacters';
-import type Context from './Context';
-import Expression, { ExpressionKind } from './Expression';
-import ExpressionPlaceholder from './ExpressionPlaceholder';
-import { node, type Grammar, type Replacement } from './Node';
-import NoneType from './NoneType';
-import SimpleExpression from './SimpleExpression';
-import { Sym } from './Sym';
-import Token from './Token';
-import type Type from './Type';
-import type TypeSet from './TypeSet';
-import UnionType from './UnionType';
+import type Context from '@nodes/Context';
+import Expression, { ExpressionKind } from '@nodes/Expression';
+import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
+import { node, type Grammar, type Replacement } from '@nodes/Node';
+import NoneType from '@nodes/NoneType';
+import SimpleExpression from '@nodes/SimpleExpression';
+import { Sym } from '@nodes/Sym';
+import Token from '@nodes/Token';
+import type Type from '@nodes/Type';
+import type TypeSet from '@nodes/TypeSet';
+import UnionType from '@nodes/UnionType';
 
 export default class Otherwise extends SimpleExpression {
     readonly left: Expression;
@@ -186,7 +186,9 @@ export default class Otherwise extends SimpleExpression {
     ) {
         return locales.concretize(
             (l) => l.node.Otherwise.finish,
-            this.getValueIfDefined(locales, context, evaluator),
+            {
+                value: this.getValueIfDefined(locales, context, evaluator),
+            },
         );
     }
 

@@ -1,6 +1,6 @@
-import DefaultLocale from './DefaultLocale';
-import Locales from './Locales';
-import concretize from './concretize';
+import DefaultLocale from '@locale/DefaultLocale';
+import Locales from '@locale/Locales';
+import concretize from '@locale/concretize';
 
 const DefaultLocales = new Locales(concretize, [DefaultLocale], DefaultLocale);
 

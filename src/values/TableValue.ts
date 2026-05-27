@@ -4,10 +4,10 @@ import { TABLE_CLOSE_SYMBOL, TABLE_OPEN_SYMBOL } from '@parser/Symbols';
 import type ExceptionValue from '@values/ExceptionValue';
 import type StructureValue from '@values/StructureValue';
 import type Value from '@values/Value';
-import type { BasisTypeName } from '../basis/BasisConstants';
-import type Locales from '../locale/Locales';
-import type Expression from '../nodes/Expression';
-import SimpleValue from './SimpleValue';
+import type { BasisTypeName } from '@basis/BasisConstants';
+import type Locales from '@locale/Locales';
+import type Expression from '@nodes/Expression';
+import SimpleValue from '@values/SimpleValue';
 
 export default class TableValue extends SimpleValue {
     readonly type: TableType;

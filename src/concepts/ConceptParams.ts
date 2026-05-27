@@ -1,8 +1,8 @@
 /** Reusable functions for getting and setting concepts in the page URL */
 
 import type Locales from '@locale/Locales';
-import type Concept from './Concept';
-import type ConceptIndex from './ConceptIndex';
+import type Concept from '@concepts/Concept';
+import type ConceptIndex from '@concepts/ConceptIndex';
 
 export const PARAM_CONCEPT = 'concept';
 
@@ -31,7 +31,9 @@ export function setConceptInURL(
     params: URLSearchParams,
 ) {
     if (concept) {
-        const name = concept.getCharacterName(locales);
+        const name =
+            concept.getCharacterName(locales) ??
+            concept.getName(locales, false);
         const ownerName = index
             ?.getConceptOwner(concept)
             ?.getName(locales, false);

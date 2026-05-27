@@ -1,12 +1,10 @@
 import type LocaleText from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
 import type Context from '@nodes/Context';
-import Expression from '@nodes/Expression';
 import type Type from '@nodes/Type';
-import type Locales from '../locale/Locales';
-import type Node from '../nodes/Node';
-import Conflict from './Conflict';
-import { makeConversionResolutions } from './ConversionResolutions';
+import type Locales from '@locale/Locales';
+import type Node from '@nodes/Node';
+import Conflict, { type Resolutions } from '@conflicts/Conflict';
 
 export default class IncompatibleInput extends Conflict {
     readonly givenNode: Node;
@@ -23,36 +21,33 @@ export default class IncompatibleInput extends Conflict {
     static readonly LocalePath = (locales: LocaleText) =>
         locales.node.Evaluate.conflict.IncompatibleInput;
 
-    getMessage(context: Context, _concepts: Node[]) {
-        const resolutions =
-            this.givenNode instanceof Expression
-                ? makeConversionResolutions(
-                      this.givenNode,
-                      this.givenType,
-                      this.expectedType,
-                      context,
-                      (l) => IncompatibleInput.LocalePath(l).resolution,
-                  )
-                : [];
-
+    getMessage() {
         return {
             node: this.givenNode,
             explanation: (locales: Locales, context: Context) =>
                 locales.concretize(
                     (l) => IncompatibleInput.LocalePath(l).explanation,
-                    new NodeRef(
-                        this.expectedType.simplify(context),
-                        locales,
-                        context,
-                    ),
-                    new NodeRef(
-                        this.givenType.simplify(context),
-                        locales,
-                        context,
-                    ),
+                    {
+                        expected: new NodeRef(
+                            this.expectedType.simplify(context),
+                            locales,
+                            context,
+                        ),
+                        given: new NodeRef(
+                            this.givenType.simplify(context),
+                            locales,
+                            context,
+                        ),
+                    },
                 ),
-            resolutions,
         };
+    }
+
+    override getResolutions(
+        context: Context,
+        concepts: Node[],
+    ): Resolutions {
+        return Conflict.fromRegistry(this, context, concepts);
     }
 
     getLocalePath() {

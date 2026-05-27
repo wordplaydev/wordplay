@@ -11,7 +11,7 @@
     import Reference from '@nodes/Reference';
     import Unit from '@nodes/Unit';
     import { createColorLiteral } from '@output/Color';
-    import { locales, Projects } from '../../db/Database';
+    import { locales, Projects } from '@db/Database';
 
     interface Props {
         project: Project;

@@ -8,12 +8,12 @@ import BoolValue from '@values/BoolValue';
 import NoneValue from '@values/NoneValue';
 import TextValue from '@values/TextValue';
 import type Value from '@values/Value';
-import type Locales from '../locale/Locales';
-import type LocaleText from '../locale/LocaleText';
-import type { FunctionText, NameAndDoc } from '../locale/LocaleText';
-import type Expression from '../nodes/Expression';
-import TextType from '../nodes/TextType';
-import { createBasisConversion, createBasisFunction } from './Basis';
+import type Locales from '@locale/Locales';
+import type LocaleText from '@locale/LocaleText';
+import type { FunctionText, NameAndDoc } from '@locale/LocaleText';
+import type Expression from '@nodes/Expression';
+import TextType from '@nodes/TextType';
+import { createBasisConversion, createBasisFunction } from '@basis/Basis';
 
 export default function bootstrapNone(locales: Locales) {
     function createNoneFunction(

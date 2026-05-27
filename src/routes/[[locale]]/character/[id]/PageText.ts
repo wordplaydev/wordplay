@@ -1,0 +1,134 @@
+import type { Template } from '@locale/LocaleText';
+import type {
+    ButtonText,
+    FieldText,
+    HeaderAndExplanationText,
+    ModeText,
+} from '@locale/UITexts';
+
+type PageText = {
+    header: string;
+    prompt: string;
+    instructions: {
+        empty: string;
+        unselected: string;
+        selected: string;
+        eraser: string;
+        pixel: string;
+        rect: string;
+        ellipse: string;
+        path: string;
+        emoji: string;
+    };
+    shape: {
+        shape: string;
+        eraser: string;
+        pixel: string;
+        rect: string;
+        ellipse: string;
+        path: string;
+        emoji: string;
+    };
+    share: {
+        dialog: HeaderAndExplanationText;
+        button: ButtonText;
+        delete: ButtonText;
+        public: ModeText<string[]>;
+        collaborators: string;
+    };
+    field: {
+        name: FieldText;
+        description: FieldText;
+        mode: ModeText<
+            [string, string, string, string, string, string, string]
+        >;
+        fill: ModeText<string[]>;
+        stroke: ModeText<string[]>;
+        /** [plain] What to call no color */
+        none: string;
+        /** [plain] What to call inherited color */
+        inherit: string;
+        /** Labels for the stroke width slider*/
+        strokeWidth: { label: string; tip: string };
+        /** Labels for the border radius slider */
+        radius: { label: string; tip: string };
+        /** Labels for the rotation slider */
+        angle: { label: string; tip: string };
+        /** Width slider */
+        width: { label: string; tip: string };
+        /** Height slider */
+        height: { label: string; tip: string };
+        /** [plain] Closed path label */
+        closed: string;
+    };
+    button: {
+        /** The move selection back button */
+        back: ButtonText;
+        /** The move to back button */
+        toBack: ButtonText;
+        /** The move selection forward button */
+        forward: ButtonText;
+        /** The move to front button */
+        toFront: ButtonText;
+        /** Copy button text */
+        copy: ButtonText;
+        /** Paste button text */
+        paste: ButtonText;
+        /** The clear pixels button */
+        clearPixels: ButtonText;
+        /** The clear all button */
+        clear: ButtonText;
+        /** The undo tooltip */
+        undo: ButtonText;
+        /** The redo tooltip */
+        redo: ButtonText;
+        /** The select all button */
+        all: ButtonText;
+        /** The select all of color button */
+        allColor: ButtonText;
+        /** The color picker button */
+        pick: ButtonText;
+        /** The saturation up button */
+        saturationUp: ButtonText;
+        /** The saturation down button */
+        saturationDown: ButtonText;
+        /** End path button */
+        end: ButtonText;
+        /** Flip path horizontal */
+        horizontal: ButtonText;
+        /** Flip path vertical */
+        vertical: ButtonText;
+        /** Fit shapes to grid */
+        fit: ButtonText;
+        /** Dismiss the error message */
+        dismissError: ButtonText;
+    };
+    feedback: {
+        /** [name] When the name isn't a valid Wordplay name */
+        name: string;
+        /** [plain] When the description is empty */
+        description: string;
+        /** [plain] When completing a path, instructions on how to end it. */
+        end: string;
+        /** [plain] Couldn't load the character */
+        loadfail: string;
+        /** [plain] The character doesn't exist */
+        notfound: string;
+        /** [plain] Not logged in */
+        unauthenticated: string;
+        /** [plain] Not saving because name is taken */
+        taken: string;
+        /** [plain] When an edit failure occurs when updating projects after a character name change. */
+        projecteditfail: string;
+        /** [plain] Placeholder name for a project that has no name. */
+        untitledproject: string;
+    };
+    announce: {
+        /** [formatted] When cursor position changes $1 x, $2: y. */
+        position: Template<['x', 'y']>;
+        /** [formatted] When selection changes. $1 is list of shape types. */
+        selection: Template<['shapes']>;
+    };
+};
+
+export type { PageText as default };

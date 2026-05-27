@@ -1,0 +1,17 @@
+손가락을 따라 캐릭터가 움직이도록 하세요
+
+마우스나 손가락을 따라다니는 캐릭터를 원하시나요? @Stage ?우리는 그것을 할 수 있습니다 @Pointer 입력. 
+
+@Pointer 우리에게 새로운 것을 줍니다 @Place 포인터가 움직일 때마다.우리가 그것을 사용한다면 @Place ~로서 @Phrase 's\place\그러면 캐릭터는 우리가 가리키는 곳으로 이동합니다.
+
+\Stage([Phrase('🐈' place: Pointer())] place: Place(0m 0m -10m))\
+
+자, 이제 끝입니다! 마우스를 움직이거나 손가락을 드래그하면 고양이가 따라옵니다.
+
+그것을 꺼내면 더 흥미로운 일들을 할 수 있습니다.\x\ 그리고 \y\~로부터 @Place .여기 포인터보다 항상 1미터 위에 떠 있는 오리가 있습니다.
+
+\Stage([
+		Phrase('🦆' place: Place(Pointer().x Pointer().y + 1m))
+	] place: Place(0m 0m -10m))\
+
+move-phrase, count-with-time

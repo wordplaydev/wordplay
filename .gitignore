@@ -16,3 +16,8 @@ firestore-debug.log
 /playwright-report/
 /playwright/.cache/
 /playwright/.auth
+CLAUDE.md
+functions/.env.local
+static/wasm
+src/routes/\[\[locale\]\]/updates/updates.json
+src/routes/\[\[locale\]\]/updates/date.json

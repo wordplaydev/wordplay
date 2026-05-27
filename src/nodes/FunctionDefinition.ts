@@ -11,40 +11,42 @@ import type Step from '@runtime/Step';
 import FunctionValue from '@values/FunctionValue';
 import InternalException from '@values/InternalException';
 import type Value from '@values/Value';
-import { Purpose } from '../concepts/Purpose';
-import IncompatibleType from '../conflicts/IncompatibleType';
-import type Locales from '../locale/Locales';
+import { Purpose } from '@concepts/Purpose';
+import IncompatibleType from '@conflicts/IncompatibleType';
+import type Locales from '@locale/Locales';
 import Characters from '../lore/BasisCharacters';
-import AnyType from './AnyType';
-import BinaryEvaluate from './BinaryEvaluate';
-import Bind from './Bind';
-import type Context from './Context';
-import type Definition from './Definition';
-import DefinitionExpression from './DefinitionExpression';
-import Docs from './Docs';
-import EvalCloseToken from './EvalCloseToken';
-import EvalOpenToken from './EvalOpenToken';
-import Evaluate from './Evaluate';
-import Expression, { type GuardContext } from './Expression';
-import ExpressionPlaceholder from './ExpressionPlaceholder';
-import FunctionType from './FunctionType';
-import Names from './Names';
-import NameType from './NameType';
-import type Node from './Node';
-import { any, list, node, none, type Grammar, type Replacement } from './Node';
-import NumberType from './NumberType';
-import PropertyReference from './PropertyReference';
-import Reference from './Reference';
-import { Sym } from './Sym';
-import Token from './Token';
-import Type from './Type';
-import TypePlaceholder from './TypePlaceholder';
-import type TypeSet from './TypeSet';
-import TypeToken from './TypeToken';
-import TypeVariables from './TypeVariables';
-import UnaryEvaluate from './UnaryEvaluate';
-import Unit from './Unit';
-import { getEvaluationInputConflicts } from './util';
+import AnyType from '@nodes/AnyType';
+import BinaryEvaluate from '@nodes/BinaryEvaluate';
+import Bind from '@nodes/Bind';
+import Block from '@nodes/Block';
+import type Context from '@nodes/Context';
+import type Definition from '@nodes/Definition';
+import DefinitionExpression from '@nodes/DefinitionExpression';
+import Docs from '@nodes/Docs';
+import EvalCloseToken from '@nodes/EvalCloseToken';
+import EvalOpenToken from '@nodes/EvalOpenToken';
+import Evaluate from '@nodes/Evaluate';
+import Expression, { type GuardContext } from '@nodes/Expression';
+import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
+import FunctionType from '@nodes/FunctionType';
+import Names from '@nodes/Names';
+import NameType from '@nodes/NameType';
+import type Node from '@nodes/Node';
+import { any, list, node, none, type Grammar, type Replacement } from '@nodes/Node';
+import NumberType from '@nodes/NumberType';
+import PropertyReference from '@nodes/PropertyReference';
+import Reference from '@nodes/Reference';
+import StructureDefinition from '@nodes/StructureDefinition';
+import { Sym } from '@nodes/Sym';
+import Token from '@nodes/Token';
+import Type from '@nodes/Type';
+import TypePlaceholder from '@nodes/TypePlaceholder';
+import type TypeSet from '@nodes/TypeSet';
+import TypeToken from '@nodes/TypeToken';
+import TypeVariables from '@nodes/TypeVariables';
+import UnaryEvaluate from '@nodes/UnaryEvaluate';
+import Unit from '@nodes/Unit';
+import { getEvaluationInputConflicts } from '@nodes/util';
 
 export default class FunctionDefinition extends DefinitionExpression {
     readonly docs: Docs;
@@ -247,9 +249,7 @@ export default class FunctionDefinition extends DefinitionExpression {
                                       ExpressionPlaceholder.make(
                                           input.getType(context).clone(),
                                       ))
-                                    : ExpressionPlaceholder.make(
-                                          input.getType(context).clone(),
-                                      )
+                                    : ExpressionPlaceholder.make()
                                 : ExpressionPlaceholder.make(),
                         ),
                 );
@@ -348,6 +348,18 @@ export default class FunctionDefinition extends DefinitionExpression {
 
     isShared() {
         return this.share !== undefined;
+    }
+
+    /** True when `↑` precedes this function AND the function is a direct
+     *  statement of a `StructureDefinition`'s block. In that position `↑`
+     *  re-interprets as "static" — the function lives on the definition
+     *  itself, not per instance. */
+    isStatic(context: Context): boolean {
+        if (this.share === undefined) return false;
+        const parent = this.getParent(context);
+        if (!(parent instanceof Block)) return false;
+        const grand = parent.getParent(context);
+        return grand instanceof StructureDefinition;
     }
 
     getPreferredName(locales: LocaleText[]) {
@@ -570,7 +582,9 @@ export default class FunctionDefinition extends DefinitionExpression {
     }
 
     getDescriptionInputs(locales: Locales) {
-        return [locales.getName(this.names)];
+        return {
+            name: locales.getName(this.names),
+        };
     }
 
     getCharacter() {

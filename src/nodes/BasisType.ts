@@ -1,8 +1,8 @@
 import { Purpose } from '@concepts/Purpose';
-import type Context from './Context';
-import type Definition from './Definition';
-import type Node from './Node';
-import Type from './Type';
+import type Context from '@nodes/Context';
+import type Definition from '@nodes/Definition';
+import type Node from '@nodes/Node';
+import Type from '@nodes/Type';
 
 export default abstract class BasisType extends Type {
     constructor() {
@@ -34,7 +34,7 @@ export default abstract class BasisType extends Type {
             ...(context
                 .getBasis()
                 .getStructureDefinition(this.getBasisTypeName())
-                ?.getDefinitions(this) ?? []),
+                ?.getDefinitions(this, context) ?? []),
             // Include the basis scope functions
             ...(this.getAdditionalBasisScope(context)?.getDefinitions(
                 _,

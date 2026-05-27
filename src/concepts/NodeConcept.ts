@@ -6,12 +6,12 @@ import NameType from '@nodes/NameType';
 import type Node from '@nodes/Node';
 import StructureDefinition from '@nodes/StructureDefinition';
 import { PLACEHOLDER_SYMBOL } from '@parser/Symbols';
-import type Locales from '../locale/Locales';
+import type Locales from '@locale/Locales';
 import type { Emotion } from '../lore/Emotion';
-import type Markup from '../nodes/Markup';
+import type Markup from '@nodes/Markup';
 import type { CharacterName } from '../tutorial/Tutorial';
-import Concept from './Concept';
-import type { PurposeType } from './Purpose';
+import Concept from '@concepts/Concept';
+import type { PurposeType } from '@concepts/Purpose';
 
 export default class NodeConcept extends Concept {
     readonly template: Node;
@@ -59,7 +59,7 @@ export default class NodeConcept extends Concept {
         return locales
             .getLocales()
             .map((l) => this.template.getLocalePath()(l))
-            .map((text) => docToMarkup(text.doc).concretize(locales, []))
+            .map((text) => docToMarkup(text.doc).concretize(locales, {}))
             .filter((m) => m !== undefined);
     }
 

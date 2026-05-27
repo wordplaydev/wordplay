@@ -1,6 +1,8 @@
 <script lang="ts">
     import type Example from '@nodes/Example';
-    import NodeView, { type Format } from './NodeView.svelte';
+    import NodeView, {
+        type Format,
+    } from '@components/editor/nodes/NodeView.svelte';
 
     interface ExampleProps {
         node: Example;
@@ -13,4 +15,8 @@
 <NodeView node={[node, 'open']} {format} /><NodeView
     node={[node, 'program']}
     {format}
-/><NodeView node={[node, 'close']} {format} empty="hide" />
+/><NodeView node={[node, 'close']} {format} empty="hide" /><NodeView
+    node={[node, 'highlight']}
+    {format}
+    empty="hide"
+/>

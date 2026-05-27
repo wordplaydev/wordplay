@@ -2,15 +2,15 @@ import { FALSE_SYMBOL, TRUE_SYMBOL } from '@parser/Symbols';
 import Evaluator from '@runtime/Evaluator';
 import type Value from '@values/Value';
 import { expect, test } from 'vitest';
-import ExpectedStream from '../conflicts/ExpectedStream';
-import { testConflict } from '../conflicts/TestUtilities';
-import { DB } from '../db/Database';
-import Project from '../db/projects/Project';
-import Time from '../input/Time';
-import DefaultLocale from '../locale/DefaultLocale';
-import type Expression from './Expression';
-import Reaction from './Reaction';
-import Source from './Source';
+import ExpectedStream from '@conflicts/ExpectedStream';
+import { testConflict } from '@conflicts/TestUtilities';
+import { DB } from '@db/Database';
+import Project from '@db/projects/Project';
+import Time from '@input/Time';
+import DefaultLocale from '@locale/DefaultLocale';
+import type Expression from '@nodes/Expression';
+import Reaction from '@nodes/Reaction';
+import Source from '@nodes/Source';
 
 const makeOne = (creator: Expression) => Time.make(creator, 1);
 
@@ -21,7 +21,8 @@ test.each([
     [`Time() + 500ms`, makeOne, ['500ms', '501ms']],
     // Check reaction binding.
     [`a: 1 … ∆ Time() … a + 1\na`, makeOne, ['1', '2']],
-    // Check reactions in evaluations.
+    // Check reactions in evaluations. The program returns a list of its two
+    // non-Bind result expressions: the function definition and `b`.
     [
         `
         ƒ mult(a•# b•#) a × b
@@ -29,7 +30,7 @@ test.each([
         b
         `,
         makeOne,
-        ['2', '4'],
+        ['[ƒ mult() 2]', '[ƒ mult() 4]'],
     ],
     // Ensure that reactions are evaluated by count, just like other reactions.
     [

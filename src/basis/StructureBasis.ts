@@ -4,15 +4,15 @@ import Block, { BlockKind } from '@nodes/Block';
 import StructureDefinition from '@nodes/StructureDefinition';
 import type Evaluation from '@runtime/Evaluation';
 import BoolValue from '@values/BoolValue';
-import type Locales from '../locale/Locales';
-import AnyType from '../nodes/AnyType';
-import BooleanType from '../nodes/BooleanType';
-import type Expression from '../nodes/Expression';
-import TextType from '../nodes/TextType';
-import type StructureValue from '../values/StructureValue';
-import TextValue from '../values/TextValue';
-import Value from '../values/Value';
-import { createBasisConversion, createBasisFunction } from './Basis';
+import type Locales from '@locale/Locales';
+import AnyType from '@nodes/AnyType';
+import BooleanType from '@nodes/BooleanType';
+import type Expression from '@nodes/Expression';
+import TextType from '@nodes/TextType';
+import type StructureValue from '@values/StructureValue';
+import TextValue from '@values/TextValue';
+import Value from '@values/Value';
+import { createBasisConversion, createBasisFunction } from '@basis/Basis';
 
 export default function bootstrapStructure(locales: Locales) {
     return StructureDefinition.make(

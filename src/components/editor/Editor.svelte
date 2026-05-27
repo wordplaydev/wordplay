@@ -5,9 +5,82 @@
 <!-- svelte-ignore state_referenced_locally -->
 <script lang="ts">
     import Emoji from '@components/app/Emoji.svelte';
+    import ConceptLinkUI from '@components/concepts/ConceptLinkUI.svelte';
+    import CaretView, {
+        type CaretBounds,
+    } from '@components/editor/caret/CaretView.svelte';
+    import RemoteCaretOverlay from '@components/editor/RemoteCaretOverlay.svelte';
+    import { computeCaretDescriptionPosition } from '@components/editor/caretDescriptionPosition';
+    import {
+        decodeRemoteCaret,
+        encodeRemoteCaret,
+        type RemoteCaret,
+    } from '@db/projects/caretEncoding';
+    import {
+        type Edit,
+        InsertSymbol,
+        type ProjectRevision,
+        handleKeyCommand,
+    } from '@components/editor/commands/Commands';
+    import { getInternalClipboard } from '@components/editor/commands/InternalClipboard';
+    import interpret from '@components/editor/commands/interpret';
+    import Highlight from '@components/editor/highlights/Highlight.svelte';
+    import {
+        type HighlightSpec,
+        Highlights,
+        getCaretHighlights,
+        getDragHighlights,
+        getProjectHighlights,
+        getRangeOutline,
+        updateOutlines,
+    } from '@components/editor/highlights/Highlights';
+    import {
+        type Outline,
+        OutlinePadding,
+        type Rect,
+    } from '@components/editor/highlights/outline';
+    import MenuTrigger from '@components/editor/menu/MenuTrigger.svelte';
+    import {
+        getBlockInsertionPoint,
+        getCaretPositionAt,
+        getEmptyList,
+        getNodeAt,
+        getTextInsertionPointsAt,
+    } from '@components/editor/pointer/PointerUtilities';
+    import OutputView from '@components/output/OutputView.svelte';
+    import {
+        type EditorState,
+        IdleKind,
+        getAnimatingNodes,
+        getAnnouncer,
+        getConceptIndex,
+        getConflicts,
+        getDragged,
+        getEditors,
+        getEvaluation,
+        getKeyboardEditIdle,
+        getResetKeyboardIdle,
+        getSelectedOutput,
+        setCaret,
+        setDragTarget,
+        setEditor,
+        setHighlights,
+        setSetMenuAnchor,
+    } from '@components/project/Contexts';
+    import RootView from '@components/project/RootView.svelte';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
+    import Button from '@components/widgets/Button.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import type Conflict from '@conflicts/Conflict';
+    import {
+        DB,
+        Projects,
+        animationFactor,
+        blockDensity,
+        blocks,
+        locales,
+        showLines,
+    } from '@db/Database';
     import Project from '@db/projects/Project';
     import Caret, {
         type CaretPosition,
@@ -26,73 +99,19 @@
     import type Locale from '@locale/Locale';
     import { type LocaleTextAccessor } from '@locale/Locales';
     import Evaluate from '@nodes/Evaluate';
+    import Expression from '@nodes/Expression';
     import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
     import Node, { type FieldPosition, isFieldPosition } from '@nodes/Node';
     import Source from '@nodes/Source';
     import { Sym } from '@nodes/Sym';
     import Token from '@nodes/Token';
     import TypePlaceholder from '@nodes/TypePlaceholder';
+    import { DOCUMENTATION_SYMBOL, TYPE_SYMBOL } from '@parser/Symbols';
     import type Evaluator from '@runtime/Evaluator';
+    import UnicodeString from '@unicode/UnicodeString';
     import ExceptionValue from '@values/ExceptionValue';
     import { onMount, tick, untrack } from 'svelte';
-    import { writable } from 'svelte/store';
-    import {
-        DB,
-        Projects,
-        animationFactor,
-        blocks,
-        locales,
-        showLines,
-    } from '../../db/Database';
-    import Expression from '../../nodes/Expression';
-    import { DOCUMENTATION_SYMBOL, TYPE_SYMBOL } from '../../parser/Symbols';
-    import UnicodeString from '../../unicode/UnicodeString';
-    import ConceptLinkUI from '../concepts/ConceptLinkUI.svelte';
-    import OutputView from '../output/OutputView.svelte';
-    import {
-        type EditorState,
-        IdleKind,
-        getAnimatingNodes,
-        getAnnouncer,
-        getConceptIndex,
-        getConflicts,
-        getDragged,
-        getEditors,
-        getEvaluation,
-        getKeyboardEditIdle,
-        getSelectedOutput,
-        setCaret,
-        setDragTarget,
-        setEditor,
-        setHighlights,
-        setSetMenuAnchor,
-    } from '../project/Contexts';
-    import RootView from '../project/RootView.svelte';
-    import Button from '../widgets/Button.svelte';
-    import CaretView, { type CaretBounds } from './caret/CaretView.svelte';
-    import {
-        type Edit,
-        type ProjectRevision,
-        InsertSymbol,
-        handleKeyCommand,
-    } from './commands/Commands';
-    import Highlight from './highlights/Highlight.svelte';
-    import {
-        type HighlightSpec,
-        Highlights,
-        getHighlights,
-        getRangeOutline,
-        updateOutlines,
-    } from './highlights/Highlights';
-    import { type Outline, OutlinePadding } from './highlights/outline';
-    import MenuTrigger from './menu/MenuTrigger.svelte';
-    import {
-        getBlockInsertionPoint,
-        getCaretPositionAt,
-        getEmptyList,
-        getNodeAt,
-        getTextInsertionPointsAt,
-    } from './pointer/PointerUtilities';
+    import { get, writable } from 'svelte/store';
 
     interface Props {
         /** The evaluator evaluating the source being edited. */
@@ -102,9 +121,9 @@
         /** The source being edited */
         source: Source;
         /** The ID corresponding to which source this is in the project */
-        sourceID: string;
+        sourceID?: string;
         /** True if this editor's output is selected by the container. */
-        selected: boolean;
+        selected?: boolean;
         /** Whether to autofocus the editor */
         autofocus?: boolean;
         /** Whether the editor is editable */
@@ -116,23 +135,23 @@
         /** The bindable conflicts to show based caret and mouse position. */
         conflictsOfInterest?: Conflict[];
         /** An preview function that shows this editor */
-        setOutputPreview: () => void;
+        setOutputPreview?: () => void;
         /** A function for updating conflicts of interest */
-        updateConflicts: (source: Source, conflicts: Conflict[]) => void;
-        /** Whether the code was revised by another creator */
-        overwritten?: boolean;
+        updateConflicts?: (source: Source, conflicts: Conflict[]) => void;
         /** Function to set large deletion notification for this editor */
         setLargeDeletionNotification?: (
             message: LocaleTextAccessor | null,
         ) => void;
+        /** Bindable snapshot of the current caret, for parents that need to observe it */
+        caretSnapshot?: Caret | undefined;
     }
 
     let {
         evaluator,
         project,
         source,
-        sourceID,
-        selected,
+        sourceID = '',
+        selected = false,
         autofocus = true,
         editable,
         locale,
@@ -140,8 +159,8 @@
         conflictsOfInterest = $bindable([]),
         setOutputPreview,
         updateConflicts,
-        overwritten = false,
         setLargeDeletionNotification,
+        caretSnapshot = $bindable(undefined),
     }: Props = $props();
 
     // A per-editor store that contains the current editor's cursor. We expose it as context to children.
@@ -157,6 +176,11 @@
     );
 
     export function setCaretPosition(position: CaretPosition) {
+        // Programmatic placement is a discrete action — clear any defer flag
+        // left set by a prior held-key flurry so the description block, the
+        // editors-store publish, and the announcer all update on this caret
+        // change instead of waiting for the 1s idle timeout.
+        deferDisplayUpdate = false;
         caret.set($caret.withPosition(position));
     }
 
@@ -164,8 +188,116 @@
     setCaret(caret);
 
     // When source changes, make sure the caret is pointing to the source.
+    // Short-circuit when caret is already on this source: handleEdit already
+    // sets the caret with the new source before reviseProject fires, so when
+    // the new source prop catches up the caret is already aligned. Without
+    // this guard caret.set() fires every keystroke and re-runs every caret
+    // subscriber for nothing.
     $effect(() => {
-        caret.set(untrack(() => $caret).withSource(source));
+        const cur = untrack(() => $caret);
+        if (cur.source !== source) caret.set(cur.withSource(source));
+    });
+
+    // Expose caret value to parent via bindable prop.
+    $effect(() => {
+        caretSnapshot = $caret;
+    });
+
+    /** Narrowing helper: distinguishes a text-mode selection range
+     *  (`[number, number]`) from an AST Path (`{type, index}[]`).
+     *  Array.isArray alone can't tell them apart because both are
+     *  arrays. */
+    function isRangeTuple(v: readonly unknown[]): v is [number, number] {
+        return (
+            v.length === 2 &&
+            typeof v[0] === 'number' &&
+            typeof v[1] === 'number'
+        );
+    }
+
+    // Encoded snapshot of the LOCAL user's caret, kept current with
+    // every caret change. We re-resolve this against the Y.Text after
+    // a remote-origin update so the local caret follows the same
+    // content (or AST node) it was anchored to — just like we do for
+    // peer carets, but for ourselves. Stored in a plain `let` because
+    // Svelte reactivity isn't needed: only the onChange listener
+    // below reads it, and it does so on its own event tick.
+    let localCaretEncoded: RemoteCaret = null;
+
+    // Encode the local caret on every caret change AND publish it to
+    // the PresenceTracker so collaborators see where we're editing.
+    // The encoding (caretEncoding.encodeRemoteCaret) turns text
+    // positions into Yjs RelativePositions anchored to content (not
+    // integer indices), and node positions into AST Paths the
+    // receiver resolves with nearest-ancestor fallback. No-op when
+    // CRDT isn't active for this project — the encoder needs the
+    // Y.Text.
+    $effect(() => {
+        const c = $caret;
+        const crdt = Projects.getProjectCRDT(project.getID());
+        if (crdt === undefined) return;
+        const sourceIndex = project.getIndexOfSource(source);
+        const yText = crdt.getYText(sourceIndex);
+        const encoded = encodeRemoteCaret(yText, source, c.position);
+        localCaretEncoded = encoded;
+        const tracker = Projects.getPresenceTracker(project.getID());
+        if (tracker !== undefined)
+            tracker.updateCaret(sourceIndex, encoded);
+    });
+
+    // When a remote peer's edit lands, the local user's caret index
+    // would normally stay put — but the content under it has shifted.
+    // Subscribe to the CRDT's onChange and, on remote-origin updates,
+    // decode our encoded snapshot against the now-updated Y.Text to
+    // get the position that anchors to the same content. For
+    // node-mode (Path), resolve through the latest source's root with
+    // the nearest-ancestor fallback baked into decodeRemoteCaret.
+    //
+    // Origin filtering matters: local edits also fire onChange, and
+    // re-applying the snapshot to ourselves would clobber the caret
+    // position the user just typed into. We only re-resolve when the
+    // change came from a peer.
+    $effect(() => {
+        const crdt = Projects.getProjectCRDT(project.getID());
+        if (crdt === undefined) return;
+        const sourceIndex = project.getIndexOfSource(source);
+        if (sourceIndex < 0) return;
+        return crdt.onChange((idx, _code, origin) => {
+            if (idx !== sourceIndex) return;
+            if (origin !== 'remote') return;
+            if (localCaretEncoded === null) return;
+            // The bridge in ProjectsDatabase.activateCRDT has
+            // already replaced the source in history by the time we
+            // run (its listener fires first). Read the post-bridge
+            // source from history rather than from our `source`
+            // closure — the closure source is the pre-merge one and
+            // its AST won't contain the merged content.
+            const latest = Projects.getHistory(project.getID())?.getCurrent();
+            const latestSource = latest?.getSources()[sourceIndex];
+            if (latestSource === undefined) return;
+            const yText = crdt.getYText(idx);
+            const decoded = decodeRemoteCaret(
+                localCaretEncoded,
+                yText,
+                latestSource,
+            );
+            if (decoded === null) return;
+            const current = untrack(() => $caret);
+            if (typeof decoded === 'number') {
+                caret.set(current.withPosition(decoded));
+            } else if (Array.isArray(decoded)) {
+                if (isRangeTuple(decoded)) {
+                    caret.set(current.withPosition(decoded));
+                } else {
+                    // Path — resolve to a Node in the post-merge
+                    // source. decodeRemoteCaret already did the
+                    // nearest-ancestor walk so this path resolves.
+                    const node = latestSource.root.resolvePath(decoded);
+                    if (node !== undefined)
+                        caret.set(current.withPosition(node));
+                }
+            }
+        });
     });
 
     let restoredPosition: CaretPosition | undefined = $state(undefined);
@@ -176,6 +308,7 @@
     const animatingNodes = getAnimatingNodes();
     const nodeConflicts = getConflicts();
     const keyboardEditIdle = getKeyboardEditIdle();
+    const resetKeyboardIdle = getResetKeyboardIdle();
     const editors = getEditors();
 
     /** Get the concept index context */
@@ -246,12 +379,14 @@
         edit: handleEdit,
         sourceID: sourceID,
         caret: $caret,
+        displayedCaret: $caret,
         blocks: $blocks,
         project,
         focused: false,
         toggleMenu,
         grabFocus,
         setCaretPosition,
+        refreshHighlights,
         zoom,
         setZoom,
     });
@@ -267,11 +402,60 @@
     // Caret location comes from the caret
     let caretLocation: CaretBounds | undefined = $state(undefined);
 
+    // The caret-description div, used to measure its rendered size so we
+    // can pick a non-clipped position around the selected block.
+    let descriptionElement: HTMLDivElement | undefined = $state(undefined);
+    // Computed editor-relative position for the caret-description in blocks
+    // mode. Falls back to the simple caretLocation-based placement when
+    // unavailable.
+    let descriptionPos: { left: number; top: number } | undefined =
+        $state(undefined);
+
+    /** In blocks mode, position the caret-description so it doesn't get
+     *  clipped by the editor's actual visible viewport. See
+     *  computeCaretDescriptionPosition for placement details. */
+    $effect(() => {
+        const pos = displayedCaret.position;
+        // Reading these keeps the effect reactive to layout-affecting changes.
+        void $blocks;
+        void caretLocation;
+        const blockEl = pos instanceof Node ? getNodeView(pos) : undefined;
+        if (!descriptionElement || !$blocks || !blockEl || editor === null) {
+            descriptionPos = undefined;
+            return;
+        }
+        descriptionPos = computeCaretDescriptionPosition({
+            editor,
+            descriptionElement,
+            blockElement: blockEl,
+        });
+    });
+
     // The store the contains the current node being dragged.
     let dragged = getDragged();
 
     // The point at which a drag started.
     let dragPoint: { x: number; y: number } | undefined = $state(undefined);
+
+    // Touch input uses a long-press to enter drag mode (the iOS reorder
+    // convention) so a typical scroll swipe still scrolls. Mouse/trackpad
+    // input keeps the existing 10px-threshold drag start.
+    let dragLongPressTimer: NodeJS.Timeout | undefined;
+    /** ms a touch must be held still before a drag commits */
+    const DRAG_LONG_PRESS_MS = 250;
+    /** px a touch can drift during the hold before the long-press is
+     *  cancelled (i.e. the user is scrolling, not pressing-and-holding) */
+    const DRAG_LONG_PRESS_CANCEL_PX = 5;
+
+    function clearDragLongPress() {
+        if (dragLongPressTimer !== undefined) {
+            clearTimeout(dragLongPressTimer);
+            dragLongPressTimer = undefined;
+        }
+    }
+
+    // The caret position resolved at pointer-down, used as the anchor for drag-to-select.
+    let dragStartPosition: CaretPosition | undefined = $state(undefined);
 
     // The possible candidate for dragging
     let dragCandidate: Node | undefined = $state(undefined);
@@ -311,7 +495,7 @@
     /** Called when the program evaluates another step. */
     async function evalUpdate() {
         // No evaluator, or we're playing? No need to update the eval editor info.
-        if (evaluator === undefined || evaluator.isPlaying()) return;
+        if (evaluator.isPlaying()) return;
 
         // If the program contains this node, scroll it's first token into view.
         const stepNode = evaluator.getStepNode();
@@ -346,14 +530,21 @@
 
     /**
      * Given a node, find its rendered counterpart. This is expensive, so we do some caching.
-     * resetting the cache whenever the source or evaluation state changes, since we will likely have new nodes.
      * null represents that the node could not be found when we first checked.
      */
     let nodeViewCache = new Map<Node, HTMLElement | null>();
     $effect(() => {
-        // If blocks mode changes, reset cache.
+        // Reset on real DOM-shape changes only: source replacement (new AST
+        // means new ids and rendered elements), blocks mode toggle, or a
+        // stepping advance that swaps in value-rendered elements. We deliberately
+        // do NOT depend on $evaluation directly, which fires every animation
+        // frame during play and would otherwise blow this cache away 60 Hz.
         $blocks;
-        if (source && $evaluation) nodeViewCache = new Map();
+        source;
+        // Tracking the projectStepNode derived rather than $evaluation: its value
+        // stays undefined during play and only changes when stepping advances.
+        projectStepNode;
+        nodeViewCache = new Map();
     });
     function getNodeView(node: Node): HTMLElement | undefined {
         if (editor === null) return undefined;
@@ -400,9 +591,18 @@
         if (dragged) dragged.set(undefined);
         dragCandidate = undefined;
         dragPoint = undefined;
+        dragStartPosition = undefined;
+
+        // Cancel any pending touch long-press.
+        clearDragLongPress();
 
         // Reset the insertion points.
         insertion.set(undefined);
+
+        // Restore native touch behavior (scroll, etc.) for the next gesture.
+        // We only set touch-action on actual drag-start so this is a no-op
+        // for non-drag pointerups, but it keeps the editor in a clean state.
+        if (editor) editor.style.removeProperty('touchAction');
     }
 
     async function drop() {
@@ -441,6 +641,12 @@
     function handlePointerDown(event: PointerEvent) {
         if (event.button !== 0) return;
 
+        // A click is a discrete action — clear any defer flag left set by a
+        // prior held-key flurry so the description block, editors-store
+        // publish, and announcer all update immediately on the new caret
+        // rather than waiting for the 1s idle timeout.
+        deferDisplayUpdate = false;
+
         // Clear any existing large deletion notification when user clicks to clear selection
         setLargeDeletionNotification?.(null);
         event.preventDefault();
@@ -470,15 +676,7 @@
                         tokenUnderPointer,
                         source.root.getParent(tokenUnderPointer),
                     )
-                  ? getCaretPositionAt(
-                        $caret,
-                        editor,
-                        event,
-                        getNodeView,
-                        getTokenViews,
-                        $locales.getDirection(),
-                        $blocks,
-                    )
+                  ? getCaretPositionAt($caret, event, getTokenViews, $blocks)
                   : // If shift is down or in blocks mode and not over an editable text token, select the non-token node at the position.
                     (event.shiftKey || $blocks) &&
                       nonTokenNodeUnderPointer !== undefined
@@ -492,11 +690,8 @@
                       : // Otherwise choose an index position under the mouse
                         getCaretPositionAt(
                             $caret,
-                            editor,
                             event,
-                            getNodeView,
                             getTokenViews,
-                            $locales.getDirection(),
                             $blocks,
                         );
         // If we found a position, set it and reset the ignore feedback.
@@ -504,25 +699,55 @@
             caret.set($caret.withPosition(newPosition));
             resetIgnored(true);
             caretSetByPointer = true;
+            dragStartPosition = newPosition;
             setTimeout(() => {
                 caretSetByPointer = false;
             }, 100);
         }
 
         // Mark that the creator might want to drag the node under the pointer and remember where the click started.
+        // We deliberately do NOT preventDefault or set touch-action here:
+        // doing so on touch-start commits iOS to "this isn't a scroll" before
+        // we know the user's intent, breaking scrolling in blocks mode. The
+        // suppression is deferred to the moment a drag actually starts (in
+        // handleEditHover for mouse, or the long-press timer for touch).
         dragPoint = { x: event.clientX, y: event.clientY };
+        // Drag requires the editor to be editable. The previous condition
+        // (`editable ? $blocks || event.shiftKey : $blocks`) inadvertently
+        // allowed dragging in read-only blocks mode.
         if (
             editable &&
             nonTokenNodeUnderPointer &&
             ($blocks || event.shiftKey)
         ) {
             dragCandidate = nonTokenNodeUnderPointer;
-            // If the primary mouse button is down, start dragging and set insertion.
-            // We don't actually start dragging until the cursor has moved more than a certain amount since last click.
-            if (dragCandidate && event.buttons === 1) {
-                event.preventDefault();
-                event.stopPropagation();
-                if (editor) editor.style.touchAction = 'none';
+
+            // Touch input: gate drag on a long-press so scroll swipes still
+            // scroll. Mouse/trackpad still uses the existing pixel
+            // threshold check in handleEditHover.
+            if (
+                event.pointerType === 'touch' &&
+                dragged !== undefined &&
+                dragCandidate !== undefined
+            ) {
+                const candidate = dragCandidate;
+                clearDragLongPress();
+                dragLongPressTimer = setTimeout(() => {
+                    dragLongPressTimer = undefined;
+                    // Only commit if still the same candidate (the user
+                    // didn't release or move enough to cancel) and we
+                    // haven't already started a drag.
+                    if (
+                        dragCandidate === candidate &&
+                        $dragged === undefined &&
+                        dragged !== undefined
+                    ) {
+                        dragged.set(candidate);
+                        dragCandidate = undefined;
+                        dragPoint = undefined;
+                        if (editor) editor.style.touchAction = 'none';
+                    }
+                }, DRAG_LONG_PRESS_MS);
             }
         }
     }
@@ -533,47 +758,56 @@
             Math.sqrt(
                 Math.pow(event.clientX - dragPoint.x, 2) +
                     Math.pow(event.clientY - dragPoint.y, 2),
-            ) >= 5
+            ) >= 10
         );
     }
 
     function handlePointerMove(event: PointerEvent) {
-        if (evaluator === undefined) return;
         if (editor === null) return;
 
-        // Remove the touch action disabling now that we're moving.
-        editor.style.removeProperty('touchAction');
+        // Touch input: if the finger drifts during the long-press window,
+        // the user is scrolling, not pressing-and-holding. Cancel the
+        // pending drag so subsequent moves go to the browser as scroll.
+        if (
+            dragLongPressTimer !== undefined &&
+            dragPoint !== undefined &&
+            Math.sqrt(
+                Math.pow(event.clientX - dragPoint.x, 2) +
+                    Math.pow(event.clientY - dragPoint.y, 2),
+            ) >= DRAG_LONG_PRESS_CANCEL_PX
+        ) {
+            clearDragLongPress();
+            dragCandidate = undefined;
+        }
 
         // Handle an edit
         handleEditHover(event);
 
-        // If dragging and there's no drag candidate,
-        // and we've exceeded the drag threshold,
-        // update the selection.
+        // If the primary button is held and we have a drag start position,
+        // update the selection if the pointer has moved to a different character position
+        // AND has moved enough pixels to indicate intentional dragging (not click micro-movement).
         if (
             event.buttons === 1 &&
             $dragged === undefined &&
             dragPoint !== undefined &&
+            dragStartPosition !== undefined &&
             exceededDragThreshold(event)
         ) {
             // Dragging to select. What's under the pointer?
             const position = getCaretPositionAt(
                 $caret,
-                editor,
                 event,
-                getNodeView,
                 getTokenViews,
-                $locales.getDirection(),
                 $blocks,
             );
-            // Update the selection range based on the caret position.
-            if (position !== undefined && !$blocks) {
-                if ($caret.isPosition() && $caret.position !== position)
-                    caret.set($caret.withPosition([$caret.position, position]));
-                else if ($caret.isRange() && $caret.position[0] !== position)
-                    caret.set(
-                        $caret.withPosition([$caret.position[0], position]),
-                    );
+            // Only create a range if the pointer resolved to a different numeric character position.
+            if (
+                typeof position === 'number' &&
+                !$blocks &&
+                typeof dragStartPosition === 'number' &&
+                position !== dragStartPosition
+            ) {
+                caret.set($caret.withPosition([dragStartPosition, position]));
             }
         }
 
@@ -601,6 +835,12 @@
             dragged.set(dragCandidate);
             dragCandidate = undefined;
             dragPoint = undefined;
+            // Drag has actually started — now suppress native scroll/zoom
+            // for the rest of this gesture. Doing this on pointerdown would
+            // break iOS scrolling because Safari commits the gesture's
+            // intent (scroll vs custom) at touch-start.
+            event.preventDefault();
+            if (editor) editor.style.touchAction = 'none';
         }
 
         // Update insertion points if something is dragged and hovered isn't a placeholder.
@@ -627,11 +867,8 @@
             else {
                 insertionPoint = getTextInsertionPointsAt(
                     $caret,
-                    editor,
                     event,
-                    getNodeView,
                     getTokenViews,
-                    $locales.getDirection(),
                     $blocks,
                 ).filter((insertion) => {
                     const kind = insertion.node.getFieldKind(insertion.field);
@@ -652,8 +889,6 @@
     }
 
     function handleDebugHover(event: PointerEvent) {
-        if (evaluator === undefined) return;
-
         const node = getNodeAt(source, event, false);
 
         // If the node is associated with a step, set it, otherwise unset it.
@@ -750,6 +985,11 @@
                 menu = menu.withSelection([newIndex, 0]);
                 return false;
             } else {
+                // Menu commands are discrete user actions — clear any defer
+                // flag left set by a prior held-key flurry so consumers
+                // (description block, editors store, announcer) update on
+                // this edit instead of waiting for the 1s idle timeout.
+                deferDisplayUpdate = false;
                 handleEdit(selection, IdleKind.Typed, true);
                 return true;
             }
@@ -783,8 +1023,14 @@
         let newCaret = navigation ? edit : edit[1];
         const newSource = navigation ? undefined : edit[0];
 
-        // Update the idle state.
-        if (keyboardEditIdle) keyboardEditIdle.set(idle);
+        // Always reset the 1s idle timer, even when the store value isn't
+        // changing — the timer is what debounces "is the user still typing?".
+        if (resetKeyboardIdle) resetKeyboardIdle();
+        // Only fire the keyboardEditIdle store on actual transitions. Hitting
+        // .set() with the same value still notifies every subscriber and
+        // produces a fanout cascade across the project per keystroke.
+        if (keyboardEditIdle && get(keyboardEditIdle) !== idle)
+            keyboardEditIdle.set(idle);
 
         // See if the caret is inside a node that's currently being displayed as a value, and if
         // so, select the expression who's value is being displayed instead.
@@ -885,6 +1131,13 @@
 
         // Blocks mode? No text input support. It's all handled by text fields.
         if ($blocks) return;
+
+        // Text input is treated as a flurry: every typed character calls
+        // handleEdit which would otherwise update displayedCaret + publish
+        // editors + run the announcer per character. Defer all of those
+        // until the 1s idle timer fires (or some other discrete action
+        // resets the flag).
+        deferDisplayUpdate = true;
 
         resetIgnored(true);
 
@@ -989,7 +1242,6 @@
         }
         // If we're in the middle of composing, ignore the key events.
         if (composing || event.isComposing) return;
-        if (evaluator === undefined) return;
         if (editor === null) return;
 
         // Assume we'll handle it.
@@ -1005,6 +1257,37 @@
         // Are we to replace the prior symbol with the next? Don't handle it as a command,
         // just let the character with diacritic remark be typed, and handle it in the input handler above.
         if (replacePreviousWithNext) return;
+
+        // Ctrl/Cmd+V handling. If a copy from inside the app is still fresh,
+        // paste from the in-app clipboard directly and skip the native paste
+        // event — this avoids per-paste clipboard scanning that some browsers
+        // (notably Edge on managed Windows) do, which can freeze the page for
+        // a second or two. If the in-app clipboard is stale, fall through to
+        // the textarea's native paste event so cross-app paste still works.
+        // We don't use the PASTE command for the cross-app case because it
+        // calls navigator.clipboard.read(), which prompts for clipboard-read
+        // permission on each invocation in Edge.
+        if (
+            (event.ctrlKey || event.metaKey) &&
+            !event.shiftKey &&
+            !event.altKey &&
+            (event.code === 'KeyV' || event.key === 'v' || event.key === 'V')
+        ) {
+            const internal = getInternalClipboard();
+            if (internal === undefined) return;
+
+            const edit = $caret.insert(
+                interpret(internal),
+                $blocks,
+                project,
+                false,
+            );
+            event.preventDefault();
+            event.stopPropagation();
+            if (typeof edit === 'function') setIgnored(edit);
+            else handleEdit(edit, IdleKind.Typed, true);
+            return;
+        }
 
         const [command, result] = handleKeyCommand(event, {
             caret: $caret,
@@ -1031,6 +1314,14 @@
             command === InsertSymbol && event.key.length === 1
                 ? event.key
                 : undefined;
+
+        // Defer the displayed-caret description update for rapid input —
+        // a held key auto-repeating, OR a typing-kind command (e.g.,
+        // InsertSymbol when the user is typing characters). Discrete
+        // commands like Escape, a single arrow press, or a menu shortcut
+        // fall through with deferDisplayUpdate=false and update the
+        // description immediately.
+        deferDisplayUpdate = event.repeat || command?.typing === true;
 
         // If it produced a new caret and optionally a new project, update the stores.
         const idle =
@@ -1126,11 +1417,38 @@
             : undefined,
     );
 
+    // A caret snapshot used by the caret-description block. We want immediate
+    // feedback for discrete actions (single arrow press, click, menu command,
+    // Escape) but not for rapid input (held arrow keys auto-repeating, fast
+    // text typing). `deferDisplayUpdate` is set true by the rapid input paths
+    // (handleKeyDown when event.repeat is true; handleTextInput) and false by
+    // discrete paths. The effect updates displayedCaret on every caret change
+    // unless deferred; even when deferred, it'll catch up when keyboardEditIdle
+    // returns to Idle.
+    let deferDisplayUpdate = $state(false);
+    let displayedCaret = $state<Caret>(untrack(() => $caret));
+    $effect(() => {
+        $caret; // track caret moves so non-deferred updates publish immediately
+        if (
+            $keyboardEditIdle === IdleKind.Idle ||
+            !untrack(() => deferDisplayUpdate)
+        )
+            displayedCaret = untrack(() => $caret);
+    });
+    let displayedCaretExpressionType = $derived(
+        displayedCaret.position instanceof Expression
+            ? displayedCaret.position.getType(context).simplify(context)
+            : undefined,
+    );
+
     let concepts = $derived(indexContext?.index);
 
-    /** When the current step, step index, or playing state changes, update the evaluation view of the editor */
+    /** When the current step, step index, or playing state changes, update the evaluation view of the editor.
+     *  evalUpdate() bails when playing, so depending on $evaluation directly
+     *  (which broadcasts every animation frame) is wasteful. projectStepNode
+     *  changes only when stepping advances and stays undefined during play. */
     $effect(() => {
-        $evaluation;
+        projectStepNode;
         evalUpdate();
     });
 
@@ -1152,26 +1470,50 @@
     });
 
     // Keep the project-level editors store in sync with this editor's state.
+    // Every CommandButton in the toolbar subscribes to this store and re-runs
+    // command.active() (often AST-walking) on each fire, so during a held-key
+    // or typing flurry we'd otherwise be doing 20+ reactivity-driven AST
+    // queries per character at 30Hz. Defer the publish until the flurry
+    // settles — when deferDisplayUpdate clears or $keyboardEditIdle returns
+    // to Idle, this effect re-fires and consumers catch up to the latest
+    // state.
     $effect(() => {
-        if (untrack(() => editors)) {
+        // Read all reactive dependencies up front so the effect re-fires on
+        // any of them even when we bail below.
+        const c = $caret;
+        const dc = displayedCaret;
+        const inBlocks = $blocks;
+        const _project = project;
+        const isFocused = focused;
+        const z = zoom;
+        const defer = deferDisplayUpdate;
+        const idle = $keyboardEditIdle;
+
+        if (defer && idle !== IdleKind.Idle) return;
+
+        const editorsRef = untrack(() => editors);
+        if (editorsRef) {
             const state: EditorState = {
-                caret: $caret,
+                caret: c,
+                displayedCaret: dc,
                 edit: handleEdit,
                 sourceID: sourceID,
-                blocks: $blocks,
-                project,
-                focused,
+                blocks: inBlocks,
+                project: _project,
+                focused: isFocused,
                 toggleMenu,
                 grabFocus,
                 setCaretPosition,
-                zoom,
+                refreshHighlights,
+                zoom: z,
                 setZoom,
             };
             untrack(() => {
+                const currentEditors = get(editorsRef);
                 // Update the editor state in the editors store.
-                $editors.set(sourceID, state);
+                currentEditors.set(sourceID, state);
                 // Update the store with the edited map.
-                editors.set($editors);
+                editorsRef.set(currentEditors);
                 // Update the local editor state.
                 editContext.set(state);
             });
@@ -1183,149 +1525,202 @@
         if ($caret) hideMenu();
     });
 
+    // Cache of the inputs to the conflictsOfInterest computation. Caret moves
+    // within a single token don't change any of these, so we can bail without
+    // re-running the work — which previously did a full source.nodes() walk.
+    let prevConflictsKey:
+        | {
+              project: Project;
+              nodeConflicts: Conflict[] | undefined;
+              dragged: Node | undefined;
+              hoveredAny: Node | undefined;
+              caretNode: Node | undefined;
+              tokenAtCaret: Token | undefined;
+              tokenPrior: Token | undefined;
+              atTokenEnd: boolean;
+          }
+        | undefined;
+
     $effect(() => {
         // The project and source can update at different times, so we only do this if the current source is in the project.
-        if (project.contains(source)) {
-            let newConflictsOfInterest: Conflict[] = [];
+        if (!project.contains(source)) return;
 
-            // If dragging, don't show conlicts.
-            if ($dragged !== undefined) return;
+        // Build a cache key from the effect's true inputs. If they're all
+        // unchanged, the result is the same as last time and we can skip the
+        // entire computation (which is the hot path for arrow-key movement).
+        const tokenAtCaret = $caret.isPosition()
+            ? source.getTokenAt($caret.position, false)
+            : undefined;
+        const atTokenEnd = $caret.isPosition() && !!$caret.atTokenEnd();
+        const tokenPrior = atTokenEnd ? $caret.tokenPrior : undefined;
+        const caretNode =
+            $caret.position instanceof Node ? $caret.position : undefined;
 
-            // If there are any conflicts in the project...
-            if ($nodeConflicts !== undefined && $nodeConflicts.length > 0) {
-                let conflictSelection: Node | undefined = undefined;
+        if (
+            prevConflictsKey !== undefined &&
+            prevConflictsKey.project === project &&
+            prevConflictsKey.nodeConflicts === $nodeConflicts &&
+            prevConflictsKey.dragged === $dragged &&
+            prevConflictsKey.hoveredAny === $hoveredAny &&
+            prevConflictsKey.caretNode === caretNode &&
+            prevConflictsKey.tokenAtCaret === tokenAtCaret &&
+            prevConflictsKey.tokenPrior === tokenPrior &&
+            prevConflictsKey.atTokenEnd === atTokenEnd
+        )
+            return;
 
-                // Is the mouse hovering over one? Get the node at the mouse, including tokens
-                // and see if it, or any of its parents, are involved in node conflicts.
-                const conflictedHover =
-                    $hoveredAny === undefined
-                        ? undefined
-                        : (
-                              project
-                                  .getRoot($hoveredAny)
-                                  ?.getSelfAndAncestors($hoveredAny) ?? []
-                          ).find((node) =>
-                              project.nodeInvolvedInConflicts(node),
-                          );
-                if (conflictedHover) conflictSelection = conflictedHover;
+        prevConflictsKey = {
+            project,
+            nodeConflicts: $nodeConflicts,
+            dragged: $dragged,
+            hoveredAny: $hoveredAny,
+            caretNode,
+            tokenAtCaret,
+            tokenPrior,
+            atTokenEnd,
+        };
 
-                // If not, is there a node selected?
-                if (
-                    conflictSelection === undefined &&
-                    $caret.position instanceof Node &&
-                    project.nodeInvolvedInConflicts($caret.position)
-                )
-                    conflictSelection = $caret.position;
+        let newConflictsOfInterest: Conflict[] = [];
 
-                // If not, what is the "nearest" conflicted node at the caret position?
-                if (conflictSelection === undefined) {
-                    if ($caret.isPosition()) {
-                        // Try:
-                        // 1) the token just before
-                        // 2) the token before if we're at it's end.
-                        // 3) any nodes whose first position is at the caret.
-                        let conflictsAtPosition = [
-                            ...source
-                                .nodes()
-                                .filter(
-                                    (node) =>
-                                        source.getNodeFirstPosition(node) ===
-                                        $caret.position,
-                                ),
-                            source.getTokenAt($caret.position, false),
-                            $caret.atTokenEnd() ? $caret.tokenPrior : undefined,
-                        ].reduce(
-                            (conflicted: Node[], token: Node | undefined) => {
-                                let nodesAtPosition =
-                                    token === undefined
-                                        ? []
-                                        : (project
-                                              .getRoot(token)
-                                              ?.getSelfAndAncestors(token) ??
-                                          []);
-                                let nodesInConflict = nodesAtPosition.find(
-                                    (node) =>
-                                        project.nodeInvolvedInConflicts(node),
-                                );
-                                return [
-                                    ...conflicted,
-                                    ...(nodesInConflict
-                                        ? [nodesInConflict]
-                                        : []),
-                                ];
-                            },
-                            [],
-                        );
+        // If dragging, don't show conlicts.
+        if ($dragged !== undefined) {
+            untrack(() => updateConflicts?.(source, newConflictsOfInterest));
+            conflictsOfInterest = newConflictsOfInterest;
+            return;
+        }
 
-                        if (conflictsAtPosition !== undefined)
-                            conflictSelection = conflictsAtPosition[0];
+        // If there are any conflicts in the project...
+        if ($nodeConflicts !== undefined && $nodeConflicts.length > 0) {
+            let conflictSelection: Node | undefined = undefined;
+
+            // Is the mouse hovering over one? Get the node at the mouse, including tokens
+            // and see if it, or any of its parents, are involved in node conflicts.
+            const conflictedHover =
+                $hoveredAny === undefined
+                    ? undefined
+                    : (
+                          project
+                              .getRoot($hoveredAny)
+                              ?.getSelfAndAncestors($hoveredAny) ?? []
+                      ).find((node) => project.nodeInvolvedInConflicts(node));
+            if (conflictedHover) conflictSelection = conflictedHover;
+
+            // If not, is there a node selected?
+            if (
+                conflictSelection === undefined &&
+                caretNode !== undefined &&
+                project.nodeInvolvedInConflicts(caretNode)
+            )
+                conflictSelection = caretNode;
+
+            // If not, what is the "nearest" conflicted node at the caret position?
+            if (conflictSelection === undefined) {
+                if ($caret.isPosition()) {
+                    // 1) Find any conflicted node whose first position is at the caret.
+                    //    Iterate the conflicted-nodes map directly instead of walking
+                    //    every node in the source.
+                    for (const node of project.getConflictedNodes().keys()) {
+                        if (
+                            source.has(node) &&
+                            source.getNodeFirstPosition(node) ===
+                                $caret.position
+                        ) {
+                            conflictSelection = node;
+                            break;
+                        }
                     }
-                    // If there's a node selection, see if it or any of it's ancestors are involved in conflicts
-                    else if ($caret.isNode()) {
-                        const conflictedAncestor = [
-                            $caret.position,
-                            ...source.root.getAncestors($caret.position),
-                        ].find((node) => project.nodeInvolvedInConflicts(node));
-                        if (conflictedAncestor)
-                            conflictSelection = conflictedAncestor;
+                    // 2) Else: walk ancestors of the token at/just-before the caret
+                    //    looking for a conflicted ancestor.
+                    if (conflictSelection === undefined) {
+                        for (const token of [tokenAtCaret, tokenPrior]) {
+                            if (token === undefined) continue;
+                            const ancestors =
+                                project
+                                    .getRoot(token)
+                                    ?.getSelfAndAncestors(token) ?? [];
+                            const conflicted = ancestors.find((n) =>
+                                project.nodeInvolvedInConflicts(n),
+                            );
+                            if (conflicted) {
+                                conflictSelection = conflicted;
+                                break;
+                            }
+                        }
                     }
                 }
-
-                // If we found a selection, get its conflicts.
-                if (conflictSelection)
-                    // Get all conflicts involving the selection
-                    newConflictsOfInterest = [
-                        ...(project.getConflictsInvolvingNode(
-                            conflictSelection,
-                        ) ?? []),
-                        ...$nodeConflicts,
-                    ]
-                        // Eliminate duplicate conflicts
-                        .filter(
-                            (c1, i1, list) =>
-                                !list.some(
-                                    (c2, i2) =>
-                                        c1 === c2 && i2 > i1 && i1 !== i2,
-                                ),
-                        );
-                // If we didn't find a selection, just get all conflicts in the project.
-                else newConflictsOfInterest = $nodeConflicts;
+                // If there's a node selection, see if it or any of it's ancestors are involved in conflicts
+                else if (caretNode !== undefined) {
+                    const conflictedAncestor = [
+                        caretNode,
+                        ...source.root.getAncestors(caretNode),
+                    ].find((node) => project.nodeInvolvedInConflicts(node));
+                    if (conflictedAncestor)
+                        conflictSelection = conflictedAncestor;
+                }
             }
-            untrack(() => updateConflicts(source, newConflictsOfInterest));
 
-            // Finally, update the conflicts of interest.
-            conflictsOfInterest = newConflictsOfInterest;
+            // If we found a selection, get its conflicts.
+            if (conflictSelection)
+                // Get all conflicts involving the selection
+                newConflictsOfInterest = [
+                    ...(project.getConflictsInvolvingNode(conflictSelection) ??
+                        []),
+                    ...$nodeConflicts,
+                ]
+                    // Eliminate duplicate conflicts
+                    .filter(
+                        (c1, i1, list) =>
+                            !list.some(
+                                (c2, i2) => c1 === c2 && i2 > i1 && i1 !== i2,
+                            ),
+                    );
+            // If we didn't find a selection, just get all conflicts in the project.
+            else newConflictsOfInterest = $nodeConflicts;
         }
+        untrack(() => updateConflicts?.(source, newConflictsOfInterest));
+
+        // Finally, update the conflicts of interest.
+        conflictsOfInterest = newConflictsOfInterest;
     });
 
     /** Announce symbol insertion (character echo) or caret position (navigation) to screen readers.
      *  WCAG 2.1 SC 4.1.3: status messages are conveyed via the live region in Announcer.svelte.
-     *  On typing: announce the character that was inserted (character echo).
-     *  On navigation: announce the cursor's contextual description. */
+     *  On typing: announce the character that was inserted (character echo) immediately,
+     *    matching standard text-input behavior — the Announcer's own queue takes care
+     *    of pacing for screen readers that can't keep up with rapid input.
+     *  On navigation: announce the cursor's contextual description, deferred during
+     *    typing flurries because `caret.getDescription()` is expensive and screen readers
+     *    can't keep up. */
     $effect(() => {
         if ($announce && document.activeElement === input && $caret) {
             // Read lastInsertedKey before entering untrack so the value is captured
             // at the time the reactive effect fires (i.e. after the caret update).
             const key = lastInsertedKey;
+            // Character echo: never defer. Send each typed character to
+            // the Announcer with the 'type' kind so it's processed in FIFO
+            // order (without trimming) — matching standard text-input
+            // behavior where every key is heard.
+            if (key !== undefined) {
+                untrack(() => {
+                    $announce('type', $caret.getLanguage(), key);
+                    lastInsertedKey = undefined;
+                });
+                return;
+            }
+            // Navigation announcements may be deferred during typing flurries —
+            // see comment above.
+            if (deferDisplayUpdate && $keyboardEditIdle !== IdleKind.Idle)
+                return;
             untrack(() => {
-                if (key !== undefined) {
-                    // Character echo: announce only the typed symbol so the screen
-                    // reader does not flood the user with position descriptions while typing.
-                    $announce(sourceID, $caret.getLanguage(), key);
-                } else {
-                    // Navigation: announce the cursor's contextual description.
-                    $announce(
-                        sourceID,
-                        $caret.getLanguage(),
-                        $caret.getDescription(
-                            caretExpressionType,
-                            conflictsOfInterest,
-                            context,
-                        ),
-                    );
-                }
-                // Reset so the next caret change (navigation) gets a position description.
-                lastInsertedKey = undefined;
+                $announce(
+                    sourceID,
+                    $caret.getLanguage(),
+                    $caret.getDescription(
+                        caretExpressionType,
+                        conflictsOfInterest,
+                        context,
+                    ),
+                );
             });
         }
     });
@@ -1348,23 +1743,195 @@
         }
     });
 
-    // Update the highlights when any of these stores values change
-    $effect(() => {
+    // The evaluator's broadcast() fires on every requestAnimationFrame while a
+    // program with temporal streams is playing, which means $evaluation is
+    // replaced ~60 times per second. We derive the editor-relevant pieces
+    // separately so their values are *stable* during steady-state play
+    // (Svelte 5 deriveds only re-trigger downstream when their value changes).
+    //
+    // stepNode: only meaningful while paused/stepping. During play it stays
+    // undefined so the 'evaluating' highlight doesn't flicker every frame.
+    let projectStepNode = $derived.by(() => {
+        if ($evaluation === undefined || $evaluation.playing) return undefined;
+        return $evaluation.evaluator.getStepNode();
+    });
+
+    // exceptionNode: returns undefined unless the latest source value is an
+    // ExceptionValue, so during normal play the value stays === undefined and
+    // downstream consumers don't re-run.
+    let projectExceptionNode = $derived.by(() => {
         $evaluation;
-        conflictsOfInterest;
-        const newHighlights = getHighlights(
-            source,
-            evaluator,
-            $caret,
-            $dragged,
-            $hovered,
-            $insertion,
-            $animatingNodes,
-            selection?.getOutput(project),
-            $blocks,
-            selectingWithShift,
+        const latest = evaluator.getLatestSourceValue(source);
+        return latest instanceof ExceptionValue &&
+            latest.step !== undefined &&
+            latest.step.node instanceof Node
+            ? latest.step.node
+            : undefined;
+    });
+
+    // Memoize the resolved selected outputs so projectHighlights doesn't see a
+    // new array reference on every read of selection.getOutput().
+    let selectedOutputs = $derived(selection?.getOutput(project));
+
+    // The project-level slice (conflicts, animating nodes, output, evaluating
+    // step) is computed via an effect rather than a $derived so we can clear
+    // it as soon as $keyboardEditIdle enters Typing. The previous outlines
+    // are stale the moment the first edit lands (the source has changed but
+    // project.analyze() is deferred until idle for performance), so we wipe
+    // them rather than leave misleading outlines hovering over moved code.
+    // They repopulate when the flurry settles and analysis runs.
+    let projectHighlights = $state<Highlights>(new Highlights());
+    $effect(() => {
+        // Track every input but bail before recomputing if typing.
+        const stepNode = projectStepNode;
+        const exceptionNode = projectExceptionNode;
+        const animating = $animatingNodes;
+        const outputs = selectedOutputs;
+        const inBlocks = $blocks;
+        const _src = source;
+        const _project = project;
+        if ($keyboardEditIdle === IdleKind.Typing) {
+            projectHighlights = new Highlights();
+            return;
+        }
+        projectHighlights = getProjectHighlights(
+            _src,
+            _project,
+            stepNode,
+            exceptionNode,
+            animating,
+            outputs,
+            inBlocks,
         );
-        highlights.set(newHighlights);
+    });
+
+    // Caret-derived slice (selected/hovered/delimiter/related entries).
+    // During a held-key or typing flurry we return an empty Highlights so
+    // the decorative outlines disappear rather than stick to the old
+    // position the caret has visually moved away from. Together with the
+    // merged-highlights diff below, this means the publish during the
+    // flurry is a single emit-empty at the start; subsequent presses see
+    // an unchanged merged result and don't fire the highlights store
+    // (which would otherwise trigger updateOutlines and re-measure
+    // caretParent's rows — the dominant per-press JS cost on vertical
+    // movement, since each press lands in a different token whose parent
+    // often contains many descendants). The outlines snap back to the
+    // final position when $keyboardEditIdle flips to Idle and
+    // displayedCaret catches up.
+    let caretHighlights = $derived.by(() => {
+        if (deferDisplayUpdate && $keyboardEditIdle !== IdleKind.Idle)
+            return new Highlights();
+        return getCaretHighlights(
+            source,
+            project,
+            displayedCaret,
+            $blocks,
+            $animatingNodes,
+        );
+    });
+
+    // Drag-derived slice. Skip when there is no drag/hover-select to avoid the
+    // O(n) drop-target walk in getDragHighlights.
+    let dragHighlights = $derived.by(() => {
+        if ($dragged !== undefined || (selectingWithShift && !$blocks))
+            return getDragHighlights(
+                source,
+                project,
+                $dragged,
+                $hovered,
+                $insertion,
+                $blocks,
+                selectingWithShift,
+            );
+        return new Highlights();
+    });
+
+    // Merge the slices and publish only when the result actually changed.
+    // Skipping the store set on no-op caret moves prevents updateOutlines, the
+    // scroll effect, and every NodeView's highlight derived from re-running.
+    $effect(() => {
+        const newHighlights = Highlights.merge(
+            projectHighlights,
+            caretHighlights,
+            dragHighlights,
+        );
+        const current = untrack(() => get(highlights));
+        if (!current.equals(newHighlights)) highlights.set(newHighlights);
+    });
+
+    // Cache of measured per-row Rects keyed by node-view. updateOutlines
+    // populates and reads it so a highlight refresh that adds/removes one
+    // entry doesn't re-measure every other entry's rows. Invalidated whenever
+    // layout-affecting state changes (source/blocks/zoom) or the editor
+    // resizes.
+    let outlineRowsCache = new WeakMap<HTMLElement, Rect[]>();
+    $effect(() => {
+        // Tracking these intentionally so the cache is reset on layout changes.
+        source;
+        $blocks;
+        zoom;
+        editorWidth;
+        editorHeight;
+        outlineRowsCache = new WeakMap();
+    });
+
+    // Bumped by descendants whose visible content changed shape (e.g. a
+    // sequence expanded/collapsed). Drives the outline effect to re-measure,
+    // since neither editor size nor the highlight set will have changed.
+    let outlineRevision = $state(0);
+    function refreshHighlights() {
+        outlineRowsCache = new WeakMap();
+        outlineRevision++;
+    }
+
+    // While paused/stepping, each step can add or change the value rendered
+    // inline next to an expression in NodeView, which shifts the layout.
+    // Neither the source nor the highlight set changes, so the conflict
+    // underline outlines would otherwise stay at their pre-step positions.
+    // Refresh on every evaluator broadcast (it fires once per step) while not
+    // playing. During play the !playing guard keeps this cheap.
+    // Untrack the call: refreshHighlights does `outlineRevision++`, whose
+    // implicit read would otherwise register outlineRevision as a dep of this
+    // effect and the subsequent write would re-trigger us — infinite loop.
+    $effect(() => {
+        if ($evaluation !== undefined && !$evaluation.playing)
+            untrack(refreshHighlights);
+    });
+
+    // Re-measure outlines when an ancestor of the editor finishes a CSS
+    // animation. Matters for the editor inside ExampleUI: its container
+    // paragraph in MarkupHTMLView animates from transform: scaleY(0) to
+    // scaleY(1), and getBoundingClientRect on descendants reflects the
+    // mid-animation transform. If $animatingNodes populates while the
+    // ancestor is mid-pop, the cached rects stay collapsed and the
+    // animating outline ends up rendering above the editor. ResizeObserver
+    // does not fire on transform changes, so we listen for animationend
+    // bubbling up and refresh once the ancestor is at its final transform.
+    $effect(() => {
+        if (editor === null) return;
+        const editorEl = editor;
+        const handler = (event: AnimationEvent) => {
+            if (
+                event.target instanceof Element &&
+                event.target !== editorEl &&
+                event.target.contains(editorEl)
+            ) {
+                outlineRowsCache = new WeakMap();
+                if ($highlights)
+                    tick().then(() => {
+                        outlines = updateOutlines(
+                            $highlights,
+                            true,
+                            $locales.getDirection() === 'rtl',
+                            $blocks,
+                            getNodeView,
+                            outlineRowsCache,
+                        );
+                    });
+            }
+        };
+        document.addEventListener('animationend', handler);
+        return () => document.removeEventListener('animationend', handler);
     });
 
     // Update the outline positions any time the highlights change, but only after we're done rendering.
@@ -1372,6 +1939,15 @@
     $effect(() => {
         /** Update outlines when blocks mode changes. */
         $blocks;
+        /** Re-run on layout-affecting state too. The highlights store skips
+         * publishing when the highlighted node set is unchanged (e.g. the
+         * same nodes stay in $animatingNodes frame-to-frame), so without
+         * this the outlines would keep their stale positions after the
+         * editor reflows (a tile opens, zoom changes, etc.). */
+        editorWidth;
+        editorHeight;
+        zoom;
+        outlineRevision;
         if ($highlights)
             tick().then(() => {
                 outlines = updateOutlines(
@@ -1380,8 +1956,12 @@
                     $locales.getDirection() === 'rtl',
                     $blocks,
                     getNodeView,
+                    outlineRowsCache,
                 );
             });
+        /** Remove the caret selection if in blocks mode and its a range. */
+        if ($blocks && $caret.isRange())
+            caret.set($caret.withPosition($caret.position[1]));
     });
 
     // When the caret changes, and it's a range, compute a range highlight.
@@ -1422,6 +2002,22 @@
 <svelte:window onblur={handleRelease} />
 
 <!--
+    iOS Safari preserves document.activeElement across a backgrounded tab
+    (switching apps, locking the device, etc.) even though the on-screen
+    keyboard is gone. On return, the next tap calls grabFocus(), but
+    setKeyboardFocus's "already focused" short-circuit then skips .focus()
+    so the keyboard never reappears — until the user taps something else
+    first to move activeElement off the textarea. Blurring on visibility
+    change resets the state so the next tap re-focuses cleanly.
+-->
+<svelte:document
+    onvisibilitychange={() => {
+        if (document.hidden && input && document.activeElement === input)
+            input.blur();
+    }}
+/>
+
+<!--
     Has ARIA role text box to allow keyboard keys to go through
     All NodeViews are set to role="presentation"
     We use the live region above
@@ -1434,10 +2030,9 @@
         : 'stepping'}"
     class:readonly={!editable}
     class:focused
-    class:overwritten
-    class:dragging={dragCandidate !== undefined ||
-        $dragged !== undefined ||
-        dragPoint !== undefined}
+    class:dragging={dragCandidate !== undefined || $dragged !== undefined}
+    class:density-compact={$blockDensity === 'compact'}
+    class:density-spacious={$blockDensity === 'spacious'}
     data-uiid="editor"
     role="application"
     style:--zoom={`${zoom}pt`}
@@ -1453,6 +2048,17 @@
     onpointerup={handleRelease}
     onpointermove={handlePointerMove}
     onpointerleave={handlePointerLeave}
+    onmousedown={(event) => {
+        // iOS Safari fires synthetic mousedown after a touchend even though
+        // we handled the gesture via pointer events, and the default action
+        // of that synthetic mousedown blurs the (programmatically focused)
+        // textarea — which is what dismisses the on-screen keyboard a
+        // moment after a tap. Calling preventDefault here cancels that
+        // focus side-effect. Real mouse/pen mousedown is already suppressed
+        // by the preventDefault on pointerdown, so the only events that
+        // reach this handler in practice are the touch-synthesized ones.
+        event.preventDefault();
+    }}
     onkeydown={handleKeyDown}
     ondblclick={(event) => {
         event.stopPropagation();
@@ -1532,7 +2138,7 @@
         spaces={source.spaces}
         {locale}
         caret={$caret}
-        editable={true}
+        {editable}
         blocks={$blocks}
         lines={$showLines}
         inline={false}
@@ -1561,6 +2167,7 @@
     <CaretView
         caret={$caret}
         blocks={$blocks}
+        {editable}
         blink={$keyboardEditIdle === IdleKind.Idle &&
             focused &&
             editable &&
@@ -1572,13 +2179,27 @@
         viewportWidth={editorWidth}
         viewportHeight={editorHeight}
         {zoom}
+        placedByPointer={caretSetByPointer}
         bind:location={caretLocation}
+    />
+    <!-- Floating per-peer caret overlays, anchored to token positions in
+         this source. Always mounted because CRDT is always-on, but the
+         component renders nothing when no remote peers are publishing
+         presence here — so a solo user sees no overlay chrome. -->
+    <RemoteCaretOverlay
+        projectID={project.getID()}
+        sourceIndex={project.getIndexOfSource(source)}
+        {source}
+        viewport={editor}
+        blocks={$blocks}
+        {getNodeView}
+        rtl={$locales.getDirection() === 'rtl'}
     />
     <!--
         This is a localized description of the current caret position, a live region for screen readers,
         and a visual label for sighted folks.
      -->
-    {#key $caret.position}
+    {#key displayedCaret.position}
         {@const descriptionLeft =
             caretLocation === undefined
                 ? undefined
@@ -1591,34 +2212,54 @@
         <div
             class="caret-description"
             class:ignored={shakeCaret}
-            class:visible={$caret.isNode() || keyIgnoredReason !== undefined}
+            class:visible={(($keyboardEditIdle === IdleKind.Idle ||
+                !deferDisplayUpdate) &&
+                displayedCaret.isNode()) ||
+                keyIgnoredReason !== undefined}
             onpointerdown={(event) => event.stopPropagation()}
-            style:left={descriptionLeft
-                ? `calc(${descriptionLeft}px - ${OutlinePadding}px)`
-                : undefined}
-            style:top={descriptionTop ? `${descriptionTop}px` : undefined}
-            data-left={descriptionLeft}
-            >{#if $caret.position instanceof Node}
+            bind:this={descriptionElement}
+            style:left={descriptionPos
+                ? `${descriptionPos.left}px`
+                : descriptionLeft
+                  ? `calc(${descriptionLeft}px - ${OutlinePadding}px)`
+                  : undefined}
+            style:top={descriptionPos
+                ? `${descriptionPos.top}px`
+                : descriptionTop
+                  ? `${descriptionTop}px`
+                  : undefined}
+            data-left={descriptionPos ? descriptionPos.left : descriptionLeft}
+            >{#if displayedCaret.position instanceof Node}
                 {@const relevantConcept = concepts?.getRelevantConcept(
-                    $caret.position,
+                    displayedCaret.position,
                 )}
-                <!-- Make a link to the node's documentation -->
-                {#if relevantConcept}<ConceptLinkUI
-                        link={relevantConcept}
-                        label={DOCUMENTATION_SYMBOL}
-                    />{/if}
-                <!-- Show the node's label and type -->
-                {$caret.position.getLabel(
-                    $locales,
-                )}{#if caretExpressionType}&nbsp;{TYPE_SYMBOL}&nbsp;{caretExpressionType.toWordplay()}{/if}
-                <MenuTrigger
-                    anchor={$caret.position}
-                />{/if}{#if keyIgnoredReason}<em>
+                <span class="node-label">
+                    <!-- Make a link to the node's documentation -->
+                    {#if relevantConcept}<ConceptLinkUI
+                            link={relevantConcept}
+                            label={DOCUMENTATION_SYMBOL}
+                        />{/if}
+                    <!-- Show the node's label and type -->
+                    {displayedCaret.position.getLabel(
+                        $locales,
+                    )}{#if displayedCaretExpressionType}&nbsp;{TYPE_SYMBOL}&nbsp;{displayedCaretExpressionType.toWordplay()}{/if}
+                    {#if editable}<MenuTrigger
+                            anchor={displayedCaret.position}
+                        />{/if}
+                </span>{#if !(displayedCaret.position instanceof Token)}<em
+                        class="node-description"
+                        >{displayedCaret.position
+                            .getDescription($locales, context)
+                            .toText()}</em
+                    >{/if}{/if}{#if keyIgnoredReason}<em>
                     &nbsp;<LocalizedText path={keyIgnoredReason} /></em
                 >{/if}</div
         >
     {/key}
-    {#if project.getSupplements().length > 0}
+    {#if !editable}<span class="readonly-indicator" aria-hidden="true"
+            ><Emoji>🔒</Emoji></span
+        >{/if}
+    {#if project.getSupplements().length > 0 && setOutputPreview}
         <div class="output-preview-container">
             <Button
                 tip={(l) => l.ui.source.button.selectOutput}
@@ -1648,7 +2289,6 @@
         </div>
     {/if}
 </div>
-.
 
 <style>
     .editor {
@@ -1668,36 +2308,13 @@
         font-size: calc(var(--wordplay-font-size) + var(--zoom));
     }
 
-    .editor.readonly {
-        --size: 10px;
-
-        background-image:
-            linear-gradient(
-                45deg,
-                var(--wordplay-alternating-color) 25%,
-                transparent 25%
-            ),
-            linear-gradient(
-                -45deg,
-                var(--wordplay-alternating-color) 25%,
-                transparent 25%
-            ),
-            linear-gradient(
-                45deg,
-                transparent 75%,
-                var(--wordplay-alternating-color) 75%
-            ),
-            linear-gradient(
-                -45deg,
-                transparent 75%,
-                var(--wordplay-alternating-color) 75%
-            );
-        background-size: var(--size) var(--size);
-        background-position:
-            0 0,
-            0 calc(var(--size) / 2),
-            calc(var(--size) / 2) calc(-1 * var(--size) / 2),
-            calc(-1 * var(--size) / 2) 0px;
+    .readonly-indicator {
+        position: absolute;
+        top: 0;
+        left: var(--wordplay-spacing-half);
+        pointer-events: none;
+        font-size: 0.75em;
+        line-height: 1;
     }
 
     .editor.dragging {
@@ -1739,6 +2356,8 @@
         padding-right: var(--wordplay-spacing-half);
         border-radius: var(--wordplay-border-radius);
         opacity: 0;
+        display: flex;
+        flex-direction: column;
     }
 
     .caret-description.visible {
@@ -1747,6 +2366,18 @@
 
     .caret-description.ignored {
         animation: shake calc(var(--animation-factor) * 250ms) linear;
+    }
+
+    .node-label {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--wordplay-spacing-half);
+    }
+
+    .node-description {
+        display: block;
+        font-size: var(--wordplay-small-font-size);
+        opacity: 0.75;
     }
 
     .output-preview-container {
@@ -1774,19 +2405,4 @@
         justify-content: center;
     }
 
-    /** A single cycle color animation to indicate the code was revised. */
-    @keyframes overwritten {
-        0% {
-            background-color: var(--wordplay-highlight-color);
-        }
-
-        100% {
-            background-color: var(--wordplay-background);
-        }
-    }
-
-    .overwritten {
-        animation: overwritten 1s;
-        animation-iteration-count: 1;
-    }
 </style>

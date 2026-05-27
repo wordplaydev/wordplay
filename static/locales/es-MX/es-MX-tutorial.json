@@ -198,15 +198,15 @@
                             "Program",
                             "serious",
                             "Las instrucciones pueden ser tan sofisticadas como quieras, pero existen algunas reglas.",
-                            "Por ejemplo, solo puedo evaluar un *valor* y mostrar ese valor en el escenario. Ese valor puede ser tan complejo como quieras y, mientras sepa cómo mostrarlo, lo haré.",
-                            "Pero si me das dos cosas, solo mostraré la última que me des.",
+                            "Por ejemplo, evalúo un *valor* y muestro ese valor en el escenario. Ese valor puede ser tan complejo como quieras y, mientras sepa cómo mostrarlo, lo haré.",
+                            "Si me das más de una expresión, juntaré sus valores en una *lista* y mostraré esa.",
                             "Por ejemplo, intenta agregar otra instrucción después de \\'hola'\\, cualquier palabra que quieras, entre comillas."
                         ],
                         null,
                         [
                             "Program",
                             "serious",
-                            "¿Ves? Acabo de mostrar tu nueva palabra, no \\'hola'\\. Sabes que rompiste mi regla porque subrayé \\'hola'\\ y te dije que lo ignoraría."
+                            "¿Ves? Junté ambas frases en una lista y las puse en el escenario."
                         ],
                         null,
                         ["use", "fit", "Symbol", "🎭"],
@@ -218,7 +218,7 @@
                         [
                             "Program",
                             "serious",
-                            "Si y no. Puedo hacer mucho, pero eso es sólo porque trabajo con todos los demás en el *Verso*. Ellos son los que traen todas las posibilidades emocionantes al *escenario*. Lo único que realmente hago es dejarles hacer lo suyo y luego tomar lo último que crearon y mostrarlo en el escenario. Soy más como un mensajero que trae el *valor* final al escenario, como números, textos, frases y otros valores."
+                            "Si y no. Puedo hacer mucho, pero eso es sólo porque trabajo con todos los demás en el *Verso*. Ellos son los que traen todas las posibilidades emocionantes al *escenario*. Lo único que realmente hago es dejarles hacer lo suyo y luego traer cualquier valor que hayan hecho — un número, un texto, una frase o una lista de valores — al escenario."
                         ],
                         null,
                         [
@@ -301,7 +301,11 @@
                             "kind",
                             "¿Quieres decir lo que haces?"
                         ],
-                        ["ExpressionPlaceholder", "scared", "Lo puedes hacer tu?"],
+                        [
+                            "ExpressionPlaceholder",
+                            "scared",
+                            "Lo puedes hacer tu?"
+                        ],
                         null,
                         [
                             "FunctionDefinition",
@@ -4342,9 +4346,17 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "Y así, otra cosa que @Block puede hacer es algo que ya has visto. @Block te permite nombrar cosas con @Bind. Pero cualquier nombre definido en @Block solo se define entre paréntesis. No antes y no después. Por ejemplo, mira esto. \\a\\ se define como \\1\\, luego comienza un bloque, y \\b\\ se define como \\2\\, luego \\c\\ se define como su suma. Lo que evalúa @Block es el valor que está último en su lista de expresiones. Eso es @Bind, que evalúa cualquier cosa que sea \\c\\, que es \\3\\. ¿Verdad?"
+                            "Y así, otra cosa que @Block puede hacer es algo que ya has visto. @Block te permite nombrar cosas con @Bind. Pero cualquier nombre definido en @Block solo se define entre paréntesis. No antes y no después. Por ejemplo, mira esto: \\a\\ se define como \\1\\, luego comienza un bloque, \\b\\ se define como \\2\\, luego \\c\\ como su suma, y luego escribo \\c\\ por sí solo. Las declaraciones @Bind son efectos secundarios — introducen nombres pero no tienen un valor propio. Así que mi valor es lo que produzcan las expresiones que no son @Bind. Aquí, eso es solo \\c\\, que es \\3\\. ¿Verdad?"
                         ],
-                        ["conflict", "a: 1", "(", "  b: 2", "  c: a + b", ")"],
+                        [
+                            "conflict",
+                            "a: 1",
+                            "(",
+                            "  b: 2",
+                            "  c: a + b",
+                            "  c",
+                            ")"
+                        ],
                         null,
                         [
                             "FunctionDefinition",
@@ -4357,6 +4369,7 @@
                             "(",
                             "  b: 2",
                             "  c: a + b",
+                            "  c",
                             ") + c"
                         ],
                         [
@@ -4368,13 +4381,9 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "Y una cosa más, ¿creo? Dado que @Block es una lista de expresiones y solo se evalúa a la última expresión de la lista, cualquier expresión en la lista que no sea un @Bind se ignora básicamente. Por ejemplo, aquí, todas las operaciones antes de la última se ignoran. El \\3\\, el \\5\\, el \\7\\, todos ignorados, y @Block solo evalúa el último, \\9\\. ¿Entendí bien, @Block?"
+                            "Y una cosa más, ¿creo? Dado que @Block es una lista de expresiones, los valores de todas las expresiones que no son @Bind se convierten en mi valor. Si solo hay una, obtienes ese único valor. Si hay varias, obtienes una lista de todas, en orden. Así que aquí, el \\3\\, el \\5\\, el \\7\\ y el \\9\\ se convierten todos en una lista: \\[3 5 7 9]\\. ¿Entendí bien, @Block?"
                         ],
-                        [
-                            "Block",
-                            "shy",
-                            "… mhm. Solo el último. Los demás… ¡No sé para qué sirven!"
-                        ],
+                        ["Block", "shy", "… mhm. Todos, en una lista."],
                         [
                             "conflict",
                             "(",
@@ -4384,6 +4393,30 @@
                             "  4 + 5",
                             ")"
                         ],
+                        null,
+                        [
+                            "FunctionDefinition",
+                            "serious",
+                            "¿Pero qué pasa si no hay expresiones para guardar? ¿Solo declaraciones @Bind?"
+                        ],
+                        [
+                            "Block",
+                            "shy",
+                            "… entonces no tendría nada que dar. Necesito al menos una expresión que no sea @Bind, o tengo que decirte que falta algo."
+                        ],
+                        ["conflict", "(", "  a: 1", "  b: 2", ")"],
+                        null,
+                        [
+                            "FunctionDefinition",
+                            "kind",
+                            "¡Ah, y otra cosa linda! Cuando quieras una lista, no siempre tienes que escribir los corchetes. Puedes poner cada elemento en su propia línea dentro de @Block, y hace lo mismo."
+                        ],
+                        [
+                            "Block",
+                            "shy",
+                            "… y se ve mejor cuando cada línea es larga. Más fácil de leer."
+                        ],
+                        ["edit", "(", "  1 + 1", "  2 + 2", "  3 + 3", ")"],
                         null,
                         [
                             "fit",

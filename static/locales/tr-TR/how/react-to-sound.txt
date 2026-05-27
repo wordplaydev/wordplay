@@ -1,0 +1,17 @@
+Karakterlerin seslerle büyümesini sağlayın.
+
+Projenizin sizi dinleyebileceğini biliyor muydunuz? @Volume   @Stream Mikrofonunuzu kullanarak bize bir numara verin.\0\(sessiz)\1\ (yüksek sesle).
+
+Bu sayıyı her şeyi kontrol etmek için kullanabiliriz — bir şeyin boyutunu bile. @Phrase Dönüşü, rengi.
+
+\Phrase('📣' size: (Volume() × 5m) + 1m)\
+
+Ortam sessiz olduğunda, megafon devreye girer.\1m\uzun. Bağırdığınızda, boyu uzayabilir.\6m\ uzun.
+
+Ne kadar yüksek sesle konuşursanız, o kadar hızlı dönen bir güneş mi istiyorsunuz?
+
+\Phrase('🌞' rotation: Volume() × 360°)\
+
+Alkışlamayı veya mırıldanmayı deneyin ve neler olduğunu izleyin.(Bilgisayarınız ilk kullanımda mikrofonu kullanmak için izin isteyebilir.)
+
+count-with-time, follow-the-pointer

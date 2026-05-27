@@ -1,6 +1,7 @@
-import { measureTokenSegment } from './measureTokenSegment';
+import { TAB_WIDTH } from '@parser/Spaces';
+import { measureTokenSegment } from '@components/editor/highlights/measureTokenSegment';
 
-type Rect = {
+export type Rect = {
     l: number;
     t: number;
     r: number;
@@ -127,18 +128,6 @@ export function getTokenRects(
         if (view instanceof HTMLElement) {
             // If the view is not hidden, include it in the rects.
             if (view.closest('.hide') === null) {
-                if (clip === undefined) {
-                    // Add rects for space prior to token
-                    const spaceViews = view.querySelectorAll(
-                        '.space[data-id="' +
-                            view.dataset.id +
-                            '"] [data-uiid="space-text"]',
-                    );
-                    for (const spaceView of spaceViews)
-                        if (spaceView instanceof HTMLElement)
-                            rects.push(getViewRect(offset, spaceView));
-                }
-
                 // Add rects for token
                 const tokenRect = getViewRect(offset, view);
 
@@ -199,6 +188,49 @@ export function getTokenRects(
     return rects;
 }
 
+/** Build a rounded-rect Outline that traces the node's outer bounding box.
+ *  Used in blocks mode for exception highlights so the marching-dashes
+ *  pattern wraps around the whole block instead of sitting on its baseline.
+ *  Border radius is read from the element's computed style (with an 8px
+ *  fallback if not measurable). */
+export function getRoundedBlockOutline(view: HTMLElement): Outline {
+    const offset = getEditorOffset(view);
+    const rect = getViewRect(offset, view);
+
+    let radius = 8;
+    try {
+        const parsed = parseFloat(getComputedStyle(view).borderRadius);
+        if (!Number.isNaN(parsed) && parsed > 0) radius = parsed;
+    } catch {
+        // getComputedStyle may not be available in non-DOM environments.
+    }
+    const r = Math.min(radius, rect.w / 2, rect.h / 2);
+    const x = rect.l;
+    const y = rect.t;
+    const w = rect.w;
+    const h = rect.h;
+
+    const path =
+        `M ${x + r} ${y} ` +
+        `L ${x + w - r} ${y} ` +
+        `A ${r} ${r} 0 0 1 ${x + w} ${y + r} ` +
+        `L ${x + w} ${y + h - r} ` +
+        `A ${r} ${r} 0 0 1 ${x + w - r} ${y + h} ` +
+        `L ${x + r} ${y + h} ` +
+        `A ${r} ${r} 0 0 1 ${x} ${y + h - r} ` +
+        `L ${x} ${y + r} ` +
+        `A ${r} ${r} 0 0 1 ${x + r} ${y} ` +
+        `Z`;
+
+    return {
+        path,
+        minx: x,
+        miny: y,
+        maxx: x + w,
+        maxy: y + h,
+    };
+}
+
 export function createRectangleOutlineOf(
     nodeView: HTMLElement,
     blocks: boolean,
@@ -218,7 +250,10 @@ export function createRectangleOutlineOf(
     } L ${lm - OutlinePadding} ${bm + OutlinePadding} Z`;
 }
 
-function nodeToRows(
+/** Compute the per-row rects of a node's content. Exported so callers can cache
+ * the result and derive both outline and underline paths from the same rows
+ * without re-querying the DOM twice. */
+export function getRowsOf(
     nodeView: HTMLElement,
     horizontal: boolean,
     rtl: boolean,
@@ -239,6 +274,7 @@ function nodeToRows(
 
     return rectsToRows(rects, horizontal, rtl);
 }
+
 
 export function rectsToRows(
     rects: Rect[],
@@ -279,16 +315,14 @@ export function rectsToRows(
     });
 }
 
-export function getUnderlineOf(
+/** Derive an underline path from pre-computed rows, applying a vertical offset
+ * non-destructively so callers can reuse the same row array. */
+export function underlineFromRows(
+    rows: Rect[],
     nodeView: HTMLElement,
     horizontal: boolean,
-    rtl: boolean,
-    blocks: boolean,
     offset = 0,
-) {
-    const rows = nodeToRows(nodeView, horizontal, rtl, blocks);
-
-    // If the rows are empty, draw an arrow where the element is
+): Outline {
     if (rows.length === 0) {
         const radius = 10;
         const rect = getViewRect(getEditorOffset(nodeView), nodeView);
@@ -302,28 +336,45 @@ export function getUnderlineOf(
             maxy: rect.b + radius,
         };
     }
-    // Generate a path from the bottom edge (horizontal) or left edge (vertical) of each line's rectangle.
-    // Each line starts with a move to, and then a single line to to the edge of the rectangle.
-    else {
-        rows.forEach((row) => {
-            row.t += offset;
-            row.b += offset;
-        });
 
-        return {
-            path: horizontal
-                ? rows
-                      .map((row) => `M ${row.l} ${row.b} L ${row.r} ${row.b}`)
-                      .join(' ')
-                : rows
-                      .map((row) => `M ${row.l} ${row.t} L ${row.l} ${row.b}`)
-                      .join(' '),
-            minx: Math.min(...rows.map((row) => row.l)),
-            miny: Math.min(...rows.map((row) => row.t)),
-            maxx: Math.max(...rows.map((row) => row.r)),
-            maxy: Math.max(...rows.map((row) => row.b)),
-        };
+    const path = horizontal
+        ? rows
+              .map((row) => `M ${row.l} ${row.b + offset} L ${row.r} ${row.b + offset}`)
+              .join(' ')
+        : rows
+              .map(
+                  (row) =>
+                      `M ${row.l} ${row.t + offset} L ${row.l} ${row.b + offset}`,
+              )
+              .join(' ');
+    let minx = Infinity,
+        miny = Infinity,
+        maxx = -Infinity,
+        maxy = -Infinity;
+    for (const row of rows) {
+        if (row.l < minx) minx = row.l;
+        if (row.r > maxx) maxx = row.r;
+        const t = row.t + offset;
+        const b = row.b + offset;
+        if (t < miny) miny = t;
+        if (b > maxy) maxy = b;
     }
+    return { path, minx, miny, maxx, maxy };
+}
+
+export function getUnderlineOf(
+    nodeView: HTMLElement,
+    horizontal: boolean,
+    rtl: boolean,
+    blocks: boolean,
+    offset = 0,
+) {
+    return underlineFromRows(
+        getRowsOf(nodeView, horizontal, rtl, blocks),
+        nodeView,
+        horizontal,
+        offset,
+    );
 }
 
 export default function getOutlineOf(
@@ -332,7 +383,7 @@ export default function getOutlineOf(
     rtl: boolean,
     blocks: boolean,
 ): Outline {
-    const lines = nodeToRows(nodeView, horizontal, rtl, blocks);
+    const lines = getRowsOf(nodeView, horizontal, rtl, blocks);
 
     return getOutlineOfRows(lines);
 }
@@ -397,4 +448,95 @@ export function getOutlineOfRows(lines: Rect[]): Outline {
         maxx: Math.max(...path.map((pos) => pos.x)),
         maxy: Math.max(...path.map((pos) => pos.y)),
     };
+}
+
+export type SpaceLineClip = {
+    /** First selected source-character index within this line (0-based). */
+    charStart: number;
+    /** Exclusive end of selected source characters within this line. */
+    charEnd: number;
+    /** Original source content of this line (spaces/tabs only, no '\n'). */
+    lineContent: string;
+};
+
+/**
+ * Return bounding rects for the .space-text spans that precede the given
+ * token view element.  The .space container is located by querying the
+ * editor ancestor by data-id, so it is found correctly regardless of where
+ * getSpaceRoot placed it in the DOM.
+ *
+ * lineClips maps each included line index (from space.split('\n')) to the
+ * source-char range that is selected within that line.  Only spans whose
+ * data-line attribute appears in the map are processed, and each is clipped
+ * horizontally to the selected character range using measureTokenSegment —
+ * the same technique used for token rects.  Tab characters are accounted for
+ * by converting source-char offsets to rendered-char offsets first.
+ *
+ * Empty lines (lineContent === '') receive a 4-px minimum-width sliver.
+ * Zero-height spans receive fallbackHeight.
+ */
+export function getSpaceRects(
+    tokenView: HTMLElement,
+    fallbackHeight: number,
+    blocks: boolean,
+    lineClips: Map<number, SpaceLineClip>,
+): Rect[] {
+    const id = tokenView.dataset.id;
+    const editorEl = tokenView.closest('.editor');
+    if (!id || !(editorEl instanceof HTMLElement)) return [];
+
+    const spaceEl = editorEl.querySelector(`.space[data-id="${id}"]`);
+    if (!(spaceEl instanceof HTMLElement)) return [];
+
+    const offset = getEditorOffset(tokenView);
+    const rects: Rect[] = [];
+
+    for (const span of spaceEl.querySelectorAll('[data-uiid="space-text"]')) {
+        if (!(span instanceof HTMLElement)) continue;
+        const lineAttr = span.dataset.line;
+        if (lineAttr === undefined) continue;
+        const clip = lineClips.get(parseInt(lineAttr, 10));
+        if (!clip) continue;
+
+        const raw = getViewRect(offset, span);
+        if (raw.w === 0 && raw.h === 0) continue;
+
+        const h = raw.h === 0 ? fallbackHeight : raw.h;
+
+        if (clip.lineContent.length === 0) {
+            // Empty line: show a minimum-width sliver at this line's position.
+            rects.push({ l: raw.l, t: raw.t, r: raw.l + 4, b: raw.t + h, w: 4, h });
+        } else {
+            // Non-empty line: clip horizontally to the selected character range.
+            // Tabs expand to TAB_WIDTH rendered characters, so convert source
+            // indices to rendered indices before calling measureTokenSegment.
+            const renderedStart = toRenderedOffset(
+                clip.lineContent,
+                clip.charStart,
+            );
+            const renderedEnd = toRenderedOffset(
+                clip.lineContent,
+                clip.charEnd,
+            );
+            const startW =
+                measureTokenSegment(span, renderedStart, blocks)?.[0] ?? 0;
+            const endW =
+                measureTokenSegment(span, renderedEnd, blocks)?.[0] ?? 0;
+            const w = endW - startW;
+            if (w <= 0) continue;
+            const l = raw.l + startW;
+            rects.push({ l, t: raw.t, r: l + w, b: raw.t + h, w, h });
+        }
+    }
+
+    return rects;
+}
+
+/** Convert a source character index within a space line to the corresponding
+ *  rendered character offset, expanding each tab to TAB_WIDTH characters. */
+function toRenderedOffset(lineContent: string, charIdx: number): number {
+    let rendered = 0;
+    for (let i = 0; i < charIdx && i < lineContent.length; i++)
+        rendered += lineContent[i] === '\t' ? TAB_WIDTH : 1;
+    return rendered;
 }

@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest';
-import evaluateCode from '../runtime/evaluate';
+import evaluateCode from '@runtime/evaluate';
 
 test('Test text functions', () => {
     expect(evaluateCode('"hello".length()')?.toString()).toBe('5');

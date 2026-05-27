@@ -13,18 +13,19 @@ import JumpIfUnequal from '@runtime/JumpIfEqual';
 import Start from '@runtime/Start';
 import type Step from '@runtime/Step';
 import type Value from '@values/Value';
-import type Locales from '../locale/Locales';
+import type Locales from '@locale/Locales';
 import Characters from '../lore/BasisCharacters';
-import type Context from './Context';
-import Expression from './Expression';
-import ExpressionPlaceholder from './ExpressionPlaceholder';
-import KeyValue from './KeyValue';
-import { list, node, type Grammar, type Replacement } from './Node';
-import { Sym } from './Sym';
-import Token from './Token';
-import type Type from './Type';
-import type TypeSet from './TypeSet';
-import UnionType from './UnionType';
+import type Context from '@nodes/Context';
+import Expression from '@nodes/Expression';
+import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
+import KeyValue from '@nodes/KeyValue';
+import { list, node, type Grammar, type Replacement } from '@nodes/Node';
+import compileStreamWarmup from '@nodes/streamWarmup';
+import { Sym } from '@nodes/Sym';
+import Token from '@nodes/Token';
+import type Type from '@nodes/Type';
+import type TypeSet from '@nodes/TypeSet';
+import UnionType from '@nodes/UnionType';
 
 /**
  * A condition for any value, like a switch statement in other languages. For example:
@@ -153,10 +154,15 @@ export default class Match extends Expression {
 
         // Ensure that the corresponding values have a compatible type with the value.
         const valueType = this.value.getType(context).generalize(context);
+        const valueIsCorrupt = context.isUnknownDownstream(this.value);
 
         for (const corresponding of this.cases) {
             const givenType = corresponding.key.getType(context);
-            if (!valueType.accepts(givenType, context))
+            if (
+                !valueIsCorrupt &&
+                !context.isUnknownDownstream(corresponding.key) &&
+                !valueType.accepts(givenType, context)
+            )
                 conflicts.push(
                     new IncompatibleType(
                         corresponding.key,
@@ -200,6 +206,16 @@ export default class Match extends Expression {
         );
         const other = this.other.compile(evaluator, context);
 
+        // Pre-evaluate stream-creating calls in any case key, case value, or
+        // the other branch so streams referenced in branches that aren't
+        // chosen on first evaluation still come into existence. Without this,
+        // short-circuiting jumps below leave them uncreated and the program
+        // has nothing to react to. See streamWarmup.ts for details.
+        const warmup = compileStreamWarmup(this, evaluator, context, [
+            ...this.cases.flatMap((kv) => [kv.key, kv.value]),
+            this.other,
+        ]);
+
         // Compile the following pattern for each case:
         const cases: Step[] = this.cases
             .map((condition, index) => {
@@ -229,6 +245,8 @@ export default class Match extends Expression {
         return [
             // Start the expression
             new Start(this),
+            // Warm up stream creators in any branch (issue #679)
+            ...warmup,
             // Evaluate the value to check
             ...this.value.compile(evaluator, context),
             // Evaluate all of the conditions generated above
@@ -269,7 +287,9 @@ export default class Match extends Expression {
     getStartExplanations(locales: Locales, context: Context) {
         return locales.concretize(
             (l) => l.node.Match.start,
-            new NodeRef(this.value, locales, context),
+            {
+                value: new NodeRef(this.value, locales, context),
+            },
         );
     }
 

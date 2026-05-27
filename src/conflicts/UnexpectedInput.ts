@@ -5,9 +5,11 @@ import type Expression from '@nodes/Expression';
 import type FunctionDefinition from '@nodes/FunctionDefinition';
 import type Input from '@nodes/Input';
 import type StructureDefinition from '@nodes/StructureDefinition';
-import type Locales from '../locale/Locales';
-import type StreamDefinition from '../nodes/StreamDefinition';
-import Conflict from './Conflict';
+import type Locales from '@locale/Locales';
+import type StreamDefinition from '@nodes/StreamDefinition';
+import Conflict, { type Resolutions } from '@conflicts/Conflict';
+import type Context from '@nodes/Context';
+import type Node from '@nodes/Node';
 
 export default class UnexpectedInput extends Conflict {
     readonly func: FunctionDefinition | StructureDefinition | StreamDefinition;
@@ -36,6 +38,26 @@ export default class UnexpectedInput extends Conflict {
                     (l) => UnexpectedInput.LocalePath(l).explanation,
                 ),
         };
+    }
+
+    override getResolutions(
+        _context: Context,
+        _concepts: Node[],
+    ): Resolutions {
+        return [
+            {
+                kind: 'repair',
+                description: (locales: Locales) =>
+                    locales.concretize(
+                        (l) => UnexpectedInput.LocalePath(l).resolution,
+                    ),
+                mediator: (ctx) => ({
+                    newProject: ctx.project.withRevisedNodes([
+                        [this.input, undefined],
+                    ]),
+                }),
+            },
+        ];
     }
 
     getLocalePath() {

@@ -1,7 +1,7 @@
 import type LocalesDatabase from '@db/locales/LocalesDatabase';
 import type { SerializedProject } from '@db/projects/ProjectSchemas';
-import type LocaleText from '../../locale/LocaleText';
-import Project from './Project';
+import type LocaleText from '@locale/LocaleText';
+import Project from '@db/projects/Project';
 
 // Remember this many project edits.
 const PROJECT_HISTORY_LIMIT = 1000;
@@ -67,9 +67,6 @@ export class ProjectHistory {
     private lastDynamicEdit = 0;
     private consecutiveDynamicEdits = 0;
 
-    /** True if the last edit was an overwrite */
-    private overwrite = false;
-
     /** The last epoch time we saved an edit of this project. */
     private lastSave: number | undefined = undefined;
 
@@ -103,7 +100,6 @@ export class ProjectHistory {
     edit(
         project: Project,
         remember: boolean,
-        overwrite = false,
         /** Whether the edit should be treated as one that is happening in rapid succession, to avoid saving too much history. */
         dynamic = false,
     ): boolean {
@@ -148,12 +144,14 @@ export class ProjectHistory {
         // Mark it as not saved.
         this.saved = false;
 
-        // Update overwrite
-        this.overwrite = overwrite;
-
-        // Trim the history if we've exceeded our limit.
+        // Trim the history if we've exceeded our limit. splice(0, n) drops
+        // the n oldest entries; n must be positive (negative is treated as 0,
+        // which silently leaks the entire history past the cap).
         if (this.history.length > PROJECT_HISTORY_LIMIT)
-            this.history.splice(0, PROJECT_HISTORY_LIMIT - this.history.length);
+            this.history.splice(
+                0,
+                this.history.length - PROJECT_HISTORY_LIMIT,
+            );
 
         // Ping the store, so everyone knows about the edit.
         this.current = project;
@@ -168,10 +166,6 @@ export class ProjectHistory {
 
     isRedoable() {
         return this.index < this.history.length - 1;
-    }
-
-    wasOverwritten() {
-        return this.overwrite;
     }
 
     async undoRedo(direction: -1 | 1): Promise<Project | undefined> {
@@ -189,9 +183,11 @@ export class ProjectHistory {
             this.history[this.index],
         );
 
-        // Change the current project to the historical project.
-        // Since we use the time of the project to determine overwrites, give it a new time
-        // so the projects database doesn't overwrite it.
+        // Change the current project to the historical project. Bump
+        // its timestamp so the timestamp-fallback path in
+        // Project.mergeWith (used only when both sides have
+        // NeverWritten stamps) doesn't immediately replace it on the
+        // next remote sync.
         this.current = newProject.withNewTime();
 
         // Set the change type to undo/redo.
@@ -199,9 +195,6 @@ export class ProjectHistory {
 
         // Mark unsaved
         this.saved = false;
-
-        // Reset overwrite.
-        this.overwrite = false;
 
         return newProject;
     }

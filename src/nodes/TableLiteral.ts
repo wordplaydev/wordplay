@@ -7,37 +7,37 @@ import Start from '@runtime/Start';
 import type Step from '@runtime/Step';
 import TableValue from '@values/TableValue';
 import type Value from '@values/Value';
-import { Purpose } from '../concepts/Purpose';
-import ExtraCell from '../conflicts/ExtraCell';
-import IncompatibleCellType from '../conflicts/IncompatibleCellType';
-import MissingCell from '../conflicts/MissingCell';
-import UnexpectedColumnBind from '../conflicts/UnexpectedColumnBind';
-import type Locales from '../locale/Locales';
+import { Purpose } from '@concepts/Purpose';
+import ExtraCell from '@conflicts/ExtraCell';
+import IncompatibleCellType from '@conflicts/IncompatibleCellType';
+import MissingCell from '@conflicts/MissingCell';
+import UnexpectedColumnBind from '@conflicts/UnexpectedColumnBind';
+import type Locales from '@locale/Locales';
 import Characters from '../lore/BasisCharacters';
-import { tokenize } from '../parser/Tokenizer';
-import StructureValue from '../values/StructureValue';
-import Bind from './Bind';
-import BooleanLiteral from './BooleanLiteral';
-import BooleanType from './BooleanType';
-import CompositeLiteral from './CompositeLiteral';
-import type Context from './Context';
-import Expression, { type GuardContext } from './Expression';
-import Input from './Input';
-import Names from './Names';
-import type Node from './Node';
-import { list, node, type Grammar, type Replacement } from './Node';
-import NoneLiteral from './NoneLiteral';
-import NoneType from './NoneType';
-import NumberLiteral from './NumberLiteral';
-import NumberType from './NumberType';
-import Row, { getRowFromValues } from './Row';
-import { Sym } from './Sym';
-import TableType from './TableType';
-import TextLiteral from './TextLiteral';
-import TextType from './TextType';
-import type Type from './Type';
-import type TypeSet from './TypeSet';
-import UnionType from './UnionType';
+import { tokenize } from '@parser/Tokenizer';
+import StructureValue from '@values/StructureValue';
+import Bind from '@nodes/Bind';
+import BooleanLiteral from '@nodes/BooleanLiteral';
+import BooleanType from '@nodes/BooleanType';
+import CompositeLiteral from '@nodes/CompositeLiteral';
+import type Context from '@nodes/Context';
+import Expression, { type GuardContext } from '@nodes/Expression';
+import Input from '@nodes/Input';
+import Names from '@nodes/Names';
+import type Node from '@nodes/Node';
+import { list, node, type Grammar, type Replacement } from '@nodes/Node';
+import NoneLiteral from '@nodes/NoneLiteral';
+import NoneType from '@nodes/NoneType';
+import NumberLiteral from '@nodes/NumberLiteral';
+import NumberType from '@nodes/NumberType';
+import Row, { getRowFromValues } from '@nodes/Row';
+import { Sym } from '@nodes/Sym';
+import TableType from '@nodes/TableType';
+import TextLiteral from '@nodes/TextLiteral';
+import TextType from '@nodes/TextType';
+import type Type from '@nodes/Type';
+import type TypeSet from '@nodes/TypeSet';
+import UnionType from '@nodes/UnionType';
 
 export default class TableLiteral extends CompositeLiteral {
     readonly type: TableType;
@@ -219,7 +219,10 @@ export default class TableLiteral extends CompositeLiteral {
                     else {
                         const expected = column.getType(context);
                         const given = cell.getType(context);
-                        if (!expected.accepts(given, context))
+                        if (
+                            !context.isUnknownDownstream(cell) &&
+                            !expected.accepts(given, context)
+                        )
                             conflicts.push(
                                 new IncompatibleCellType(
                                     type,
@@ -343,7 +346,9 @@ export default class TableLiteral extends CompositeLiteral {
     ) {
         return locales.concretize(
             (l) => l.node.TableLiteral.finish,
-            this.getValueIfDefined(locales, context, evaluator),
+            {
+                value: this.getValueIfDefined(locales, context, evaluator),
+            },
         );
     }
 
@@ -352,6 +357,8 @@ export default class TableLiteral extends CompositeLiteral {
     }
 
     getDescriptionInputs() {
-        return [this.rows.length];
+        return {
+            count: this.rows.length,
+        };
     }
 }

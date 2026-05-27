@@ -1,9 +1,9 @@
 import type Expression from '@nodes/Expression';
 import type Type from '@nodes/Type';
-import { createBind } from './createBind';
-import type Locales from './Locales';
-import type LocaleText from './LocaleText';
-import type { NameAndDoc } from './LocaleText';
+import { createBind } from '@locale/createBind';
+import type Locales from '@locale/Locales';
+import type LocaleText from '@locale/LocaleText';
+import type { NameAndDoc } from '@locale/LocaleText';
 
 export function createInputs(
     locales: Locales,

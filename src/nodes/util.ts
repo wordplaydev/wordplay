@@ -1,10 +1,10 @@
 import DuplicateName from '@conflicts/DuplicateName';
 import InputListMustBeLast from '@conflicts/InputListMustBeLast';
 import RequiredAfterOptional from '@conflicts/RequiredAfterOptional';
-import Bind from './Bind';
-import type Node from './Node';
-import { Sym } from './Sym';
-import Token from './Token';
+import Bind from '@nodes/Bind';
+import type Node from '@nodes/Node';
+import { Sym } from '@nodes/Sym';
+import Token from '@nodes/Token';
 
 export function requiredBindAfterOptional(
     inputs: Bind[],

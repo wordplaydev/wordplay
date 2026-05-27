@@ -1,0 +1,21 @@
+Układaj znaki od góry do dołu
+
+Jeśli @Row jest obok siebie, a następnie @Stack jest od góry do dołu. @Stack umieszcza każdy znak pod znakiem poprzedzającym, jak wieżę.
+
+\Group(Stack() [
+		Phrase('jeden')
+		Phrase('dwa')
+		Phrase('trzy')
+	])\
+
+Jak @Row , A  @Stack może również posiadać wyrównanie i wypełnienie.Spróbuj ułożyć wszystko wzdłuż lewej strony:
+
+\Group(Stack('<' 0.25m) [
+		Phrase('🐣 trochę')
+		Phrase('🐥 średni')
+		Phrase('🐔 duży')
+	])\
+
+Ten\'<'\ oznacza /wyrównaj wszystko wzdłuż lewej krawędzi/.Możesz również spróbować\'|'\do środka lub\'>'\dla prawej krawędzi.
+
+arrange-in-a-row, make-a-grid

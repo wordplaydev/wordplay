@@ -20,35 +20,34 @@ import type Step from '@runtime/Step';
 import ExceptionValue from '@values/ExceptionValue';
 import type Value from '@values/Value';
 import ValueException from '@values/ValueException';
-import { Purpose } from '../concepts/Purpose';
-import type Locales from '../locale/Locales';
+import { Purpose } from '@concepts/Purpose';
+import type Locales from '@locale/Locales';
 import Characters from '../lore/BasisCharacters';
-import AnyType from './AnyType';
-import BindToken from './BindToken';
-import Block from './Block';
-import type Context from './Context';
-import type Definition from './Definition';
-import Docs from './Docs';
-import DocumentedExpression from './DocumentedExpression';
-import Evaluate from './Evaluate';
-import Expression, { ExpressionKind, type GuardContext } from './Expression';
-import ExpressionPlaceholder from './ExpressionPlaceholder';
-import FunctionDefinition from './FunctionDefinition';
-import FunctionType from './FunctionType';
-import getConcreteExpectedType from './Generics';
-import ListType from './ListType';
-import type Name from './Name';
-import Names from './Names';
-import NameType from './NameType';
-import { any, node, none, type Grammar, type Replacement } from './Node';
-import StructureDefinition from './StructureDefinition';
-import { Sym } from './Sym';
-import Token from './Token';
-import Type from './Type';
-import TypePlaceholder from './TypePlaceholder';
-import type TypeSet from './TypeSet';
-import TypeToken from './TypeToken';
-import UnknownType from './UnknownType';
+import AnyType from '@nodes/AnyType';
+import BindToken from '@nodes/BindToken';
+import Block from '@nodes/Block';
+import type Context from '@nodes/Context';
+import type Definition from '@nodes/Definition';
+import Docs from '@nodes/Docs';
+import DocumentedExpression from '@nodes/DocumentedExpression';
+import Evaluate from '@nodes/Evaluate';
+import Expression, { ExpressionKind, type GuardContext } from '@nodes/Expression';
+import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
+import FunctionDefinition from '@nodes/FunctionDefinition';
+import FunctionType from '@nodes/FunctionType';
+import { concretizeType } from '@nodes/Generics';
+import ListType from '@nodes/ListType';
+import type Name from '@nodes/Name';
+import Names from '@nodes/Names';
+import NameType from '@nodes/NameType';
+import { any, node, none, type Grammar, type Replacement } from '@nodes/Node';
+import StructureDefinition from '@nodes/StructureDefinition';
+import { Sym } from '@nodes/Sym';
+import Token from '@nodes/Token';
+import Type from '@nodes/Type';
+import TypePlaceholder from '@nodes/TypePlaceholder';
+import type TypeSet from '@nodes/TypeSet';
+import TypeToken from '@nodes/TypeToken';
 
 export default class Bind extends Expression {
     readonly docs: Docs;
@@ -117,6 +116,29 @@ export default class Bind extends Expression {
         type,
         locales,
     }: ReplaceContext) {
+        // If the anchor is a Bind that has a declared type but no default
+        // value, suggest the same Bind with a default value of the declared
+        // type. Lets the user add a default in one click instead of finding
+        // the empty value slot.
+        if (
+            node instanceof Bind &&
+            node.value === undefined &&
+            node.type instanceof Type
+        ) {
+            const defaultValue = node.type.getDefaultExpression(context);
+            if (defaultValue) {
+                return [
+                    Bind.make(
+                        node.docs.isEmpty() ? undefined : node.docs,
+                        node.names,
+                        node.type,
+                        defaultValue,
+                        node.isVariableLength(),
+                    ),
+                ];
+            }
+        }
+
         if (node instanceof Expression) {
             if (type === undefined || node.getParent(context) instanceof Block)
                 return [
@@ -136,13 +158,17 @@ export default class Bind extends Expression {
         return [
             parent instanceof StructureDefinition ||
             parent instanceof FunctionDefinition
-                ? Bind.make(
+                ? // Inputs to a definition: include a default value so adding
+                  //   the input doesn't break existing call sites with
+                  //   MissingInput conflicts. The user can then refine the
+                  //   type and the default.
+                  Bind.make(
                       undefined,
                       Names.make([
                           locales.getUnannotatedText((l) => l.term.name),
                       ]),
                       TypePlaceholder.make(),
-                      undefined,
+                      ExpressionPlaceholder.make(),
                   )
                 : Bind.make(
                       undefined,
@@ -370,7 +396,10 @@ export default class Bind extends Expression {
             this.value instanceof Expression
         ) {
             const valueType = this.value.getType(context);
-            if (!this.type.accepts(valueType, context))
+            if (
+                !context.isUnknownDownstream(this.value) &&
+                !this.type.accepts(valueType, context)
+            )
                 conflicts.push(
                     new IncompatibleType(
                         this.names,
@@ -441,21 +470,30 @@ export default class Bind extends Expression {
                 conflicts.push(new UnusedBind(this));
         }
 
-        // Shares can only appear in the program's root block.
+        // Shares can only appear in the program's root block OR (with the
+        // "static" interpretation) as a direct statement of a structure block.
         if (this.share !== undefined) {
-            if (
-                !context.source.expression.expression
-                    .getChildren()
-                    .includes(this)
-            )
+            const atRoot = context.source.expression.expression
+                .getChildren()
+                .includes(this);
+            const isStatic = this.isStatic(context);
+            if (!atRoot && !isStatic)
                 conflicts.push(new MisplacedShare(this, this.share));
 
-            // Bindings must have language tags on all names to clarify what langauge they're written in.
-            if (!this.names.names.every((n) => n.language !== undefined))
+            // Bindings must have language tags on all names to clarify what
+            // language they're written in — but only for top-level shares.
+            // Static binds inside a structure don't cross source files.
+            if (
+                atRoot &&
+                !this.names.names.every((n) => n.language !== undefined)
+            )
                 conflicts.push(new MissingShareLanguages(this));
 
-            // Other shares in this project can't have the same name
-            const sources = context.project.getSourcesExcept(context.source);
+            // Other shares in this project can't have the same name. Only
+            // applies to top-level shares; static binds don't cross sources.
+            const sources = atRoot
+                ? context.project.getSourcesExcept(context.source)
+                : undefined;
             if (sources !== undefined) {
                 for (const source of sources) {
                     if (source.expression.expression instanceof Block) {
@@ -497,6 +535,18 @@ export default class Bind extends Expression {
         return this.share !== undefined;
     }
 
+    /** True when `↑` precedes this bind AND the bind is a direct statement
+     *  of a `StructureDefinition`'s block. In that position `↑` re-interprets
+     *  as "static" — the value lives on the definition itself, not per
+     *  instance. */
+    isStatic(context: Context): boolean {
+        if (this.share === undefined) return false;
+        const parent = this.getParent(context);
+        if (!(parent instanceof Block)) return false;
+        const grand = parent.getParent(context);
+        return grand instanceof StructureDefinition;
+    }
+
     computeType(context: Context): Type {
         // Always compute the value's type, as it has side effects on streams.
         const valueType = this.value ? this.value.getType(context) : undefined;
@@ -504,8 +554,12 @@ export default class Bind extends Expression {
         // What type is this binding?
         let type = this.getSpecifiedType() ?? valueType;
 
-        if (type === undefined || type instanceof UnknownType)
-            type = this.getExpectedType(context);
+        // Only fall back to the inferred-from-context expected type when we
+        // have *nothing* — declared type and value both absent. If the value's
+        // type is corrupt (UnknownType), propagate that corruption so
+        // downstream consumers can suppress cascading conflicts via
+        // {@link Context.isUnknownDownstream}. (#1146)
+        if (type === undefined) type = this.getExpectedType(context);
 
         // If the type is a name, and it refers to a structure, resolve it.
         // Leave any other names (namely those that refer to type variables) to be concretized by others.
@@ -561,28 +615,19 @@ export default class Bind extends Expression {
                                 type instanceof FunctionType,
                         );
                     if (functionType) {
-                        let type: Type | undefined;
                         const funcBind = functionType.inputs[bindIndex];
-                        if (funcBind) type = funcBind.getType(context);
-
-                        const concreteFunctionType = getConcreteExpectedType(
-                            evalFunc,
-                            bind,
-                            evaluate,
-                            context,
-                        )
-                            .getPossibleTypes(context)
-                            .find(
-                                (type): type is FunctionType =>
-                                    type instanceof FunctionType,
+                        if (funcBind) {
+                            // Only concretize THIS input's type, not the whole function type. Concretizing the
+                            // whole type would also try to resolve the function's output type variable, which is
+                            // inferred from the user-provided function's own type — yielding a cycle through
+                            // this very bind. (See #680-related: anonymous translate function bodies.)
+                            return concretizeType(
+                                funcBind.getType(context),
+                                evalFunc,
+                                evaluate,
+                                context,
                             );
-                        if (concreteFunctionType) {
-                            type =
-                                concreteFunctionType.inputs[bindIndex].getType(
-                                    context,
-                                );
                         }
-                        if (type) return type;
                     }
                 }
             }
@@ -704,9 +749,11 @@ export default class Bind extends Expression {
     getStartExplanations(locales: Locales, context: Context) {
         return locales.concretize(
             (l) => l.node.Bind.start,
-            this.value === undefined
+            {
+                value: this.value === undefined
                 ? undefined
                 : new NodeRef(this.value, locales, context),
+            },
         );
     }
 
@@ -717,18 +764,22 @@ export default class Bind extends Expression {
     ) {
         return locales.concretize(
             (l) => l.node.Bind.finish,
-            this.getValueIfDefined(locales, context, evaluator),
-            new NodeRef(
+            {
+                value: this.getValueIfDefined(locales, context, evaluator),
+                name: new NodeRef(
                 this.names,
                 locales,
                 context,
                 locales.getName(this.names),
             ),
+            },
         );
     }
 
     getDescriptionInputs(locales: Locales) {
-        return [locales.getName(this.names)];
+        return {
+            name: locales.getName(this.names),
+        };
     }
 
     getCharacter(locales: Locales) {

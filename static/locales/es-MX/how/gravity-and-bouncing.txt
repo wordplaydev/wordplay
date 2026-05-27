@@ -1,0 +1,24 @@
+Haz que un personaje caiga y rebote.
+
+¿Qué pasa si queremos que un personaje se caiga, rebote en el suelo o sea empujado como si fuera real?Eso es lo que @Motion  y  @Matter son para — juntos simulan la física para un @Phrase . 
+
+@Motion controles/dónde/un personaje es a lo largo del tiempo. Lo usamos como el\place\por un @Phrase , empezándolo desde lo alto para que pueda caer.También necesitamos algo sobre lo que caer, ¡o nuestro personaje seguirá cayendo para siempre! @Shape con una amplia @Rectangle Hace un buen suelo:
+
+\Stage([
+		Phrase('🍎' place: Motion(Place(0m 5m)) matter: Matter())
+		Shape(Rectangle(-10m 0m 10m -5m))
+	])\
+
+La manzana comienza a cinco metros de altura y cae por efecto de la gravedad.Cuando toca el suelo, rebota un poco, porque @Phrase tiene un incorporado @Matter que controla su peso y elasticidad.
+
+Para cambiar cómo/activo/o cómo/pesado/un personaje es, dale tu propio @Matter . @Matter requiere una masa, elasticidad y fricción:
+
+\Stage([
+		Phrase('⚽' place: Motion(Place(-2m 5m)) matter: Matter(1kg 0.9 0.2))
+		Phrase('🪨' place: Motion(Place(2m 5m)) matter: Matter(5kg 0.1 0.8))
+		Shape(Rectangle(-10m 0m 10m -5m))
+	])\
+
+La pelota es ligera y elástica, por lo que vuelve a su posición original rápidamente.La roca es pesada y no rebota, así que simplemente golpea con un ruido sordo.
+
+follow-the-pointer, move-phrase

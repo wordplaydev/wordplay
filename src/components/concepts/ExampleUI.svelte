@@ -1,58 +1,62 @@
 <script lang="ts">
     import { toClipboard } from '@components/editor/commands/Clipboard';
     import Button from '@components/widgets/Button.svelte';
+    import Mode from '@components/widgets/Mode.svelte';
     import Project from '@db/projects/Project';
+    import type Caret from '@edit/caret/Caret';
     import Example from '@nodes/Example';
     import Source from '@nodes/Source';
     import getPreferredSpaces from '@parser/getPreferredSpaces';
     import type Spaces from '@parser/Spaces';
-    import { CONFIRM_SYMBOL, COPY_SYMBOL } from '@parser/Symbols';
+    import {
+        BLOCK_EDITING_SYMBOL,
+        CONFIRM_SYMBOL,
+        COPY_SYMBOL,
+        TEXT_EDITING_SYMBOL,
+    } from '@parser/Symbols';
     import Evaluator from '@runtime/Evaluator';
     import { onMount } from 'svelte';
     import { writable } from 'svelte/store';
-    import { DB, locales } from '../../db/Database';
-    import Stage, { NameGenerator, toStage } from '../../output/Stage';
-    import type Value from '../../values/Value';
-    import OutputView from '../output/OutputView.svelte';
-    import { getConceptIndex, setProject } from '../project/Contexts';
-    import ValueView from '../values/ValueView.svelte';
-    import CodeView from './CodeView.svelte';
+    import { blocks, DB, locales, Settings } from '@db/Database';
+    import Stage, { NameGenerator, toStage } from '@output/Stage';
+    import type Value from '@values/Value';
+    import Annotations from '@components/annotations/Annotations.svelte';
+    import Editor from '@components/editor/Editor.svelte';
+    import OutputView from '@components/output/OutputView.svelte';
+    import {
+        getConceptIndex,
+        IdleKind,
+        setAnimatingNodes,
+        setConflicts,
+        setDragged,
+        setEditors,
+        setEvaluation,
+        setKeyboardEditIdle,
+        setProject,
+        setProjectCommandContext,
+        setResetKeyboardIdle,
+        setSelectedOutput,
+        type EditorState,
+    } from '@components/project/Contexts';
+    import SelectedOutput from '@components/project/SelectedOutput.svelte';
+    import type { CommandContext } from '@components/editor/commands/Commands';
+    import type Node from '@nodes/Node';
+    import ValueView from '@components/values/ValueView.svelte';
 
     interface Props {
         example: Example;
         spaces: Spaces;
         /** True if this example should show it's value. */
         evaluated: boolean;
-        inline: boolean;
     }
 
-    let { example, spaces, evaluated, inline }: Props = $props();
+    let { example, spaces, evaluated }: Props = $props();
 
     let value: Value | undefined = $state(undefined);
     let stage: Stage | undefined = $state(undefined);
-    let evaluator: Evaluator | undefined = $state();
     let copied = $state(false);
-
-    function update() {
-        if (evaluator && project) {
-            value = evaluator.getLatestSourceValue(project.getMain());
-            stage = value
-                ? toStage(evaluator, value, new NameGenerator())
-                : undefined;
-        }
-    }
-
-    onMount(() => {
-        return () => {
-            // Remove the example from the index. We guard here because of a Svelte bug, which seems to change the prop to something else.
-            if (example instanceof Example)
-                index?.removeExample(example.program.expression);
-            if (evaluator) {
-                evaluator.stop();
-                evaluator.ignore(update);
-            }
-        };
-    });
+    let currentCaret: Caret | undefined = $state(undefined);
+    let annotationsExpanded = $state(false);
 
     let indexContext = getConceptIndex();
     let index = $derived(indexContext?.index);
@@ -79,18 +83,133 @@
         projectStore.set(project);
     });
 
+    // Provide a conflicts context so the Editor can show conflict annotations.
+    const conflictsStore = writable<
+        ReturnType<Project['analyze']>['conflicts']
+    >([]);
+    setConflicts(conflictsStore);
+    $effect(() => {
+        conflictsStore.set(project ? project.analyze().conflicts : []);
+    });
+
+    // Eagerly construct the evaluator so we can populate the evaluation
+    // context at script init, before child components mount. project is a
+    // $derived that returns a Project synchronously here.
+    // svelte-ignore state_referenced_locally
+    let evaluator = $state<Evaluator>(
+        new Evaluator(project as Project, DB, $locales.getLocales()),
+    );
+
+    // Isolate the evaluation and animating-nodes contexts from the parent
+    // ProjectView. Without this, parent broadcasts (~60Hz while playing) and
+    // parent stage animations would re-fire highlight/annotation effects in
+    // every example mounted in the open guide tile.
+    const evaluation = writable(getEvalContext());
+    setEvaluation(evaluation);
+
+    const animatingNodes = writable<Set<Node>>(new Set());
+    setAnimatingNodes(animatingNodes);
+
+    // Isolate the keyboardEditIdle context too: the example is read-only,
+    // so its typing state should always be Idle. Without this, typing in
+    // the parent's main editor flips its keyboardEditIdle to Typing, and
+    // the example's Editor projectHighlights effect clears the example's
+    // highlights (including outlines on animating nodes) until the parent
+    // returns to Idle.
+    setKeyboardEditIdle(writable(IdleKind.Idle));
+    setResetKeyboardIdle(() => {});
+
+    // Isolate every other project-scoped context so the example is fully
+    // independent from the parent ProjectView. Without these, the parent's
+    // selection, drag state, editor map, and command context leak into the
+    // example's Editor / OutputView / Annotations / CommandButtons.
+    setSelectedOutput(new SelectedOutput());
+    setEditors(writable(new Map<string, EditorState>()));
+    setDragged(writable<Node | undefined>(undefined));
+
+    // Provide a minimal command context bound to this example's project and
+    // evaluator. CommandButtons inside the example's Annotations consult this
+    // for `command.active(...)`. Optional fields (toggleMenu, setFullscreen,
+    // focusOrCycleTile, etc.) are left undefined — those are project-shell
+    // actions that don't apply to a read-only example.
+    let exampleCommandContext = $derived<CommandContext>({
+        caret: currentCaret,
+        editor: false,
+        project: project as Project,
+        locales: $locales,
+        evaluator,
+        database: DB,
+        dragging: false,
+        blocks: $blocks,
+        view: undefined,
+        zoom: undefined,
+    });
+    // svelte-ignore state_referenced_locally
+    let commandContextState = $state({ context: exampleCommandContext });
+    setProjectCommandContext(commandContextState);
+    $effect(() => {
+        commandContextState.context = exampleCommandContext;
+    });
+
+    function getEvalContext() {
+        return {
+            evaluator,
+            playing: evaluator.isPlaying(),
+            step: evaluator.getCurrentStep(),
+            stepIndex: evaluator.getStepIndex(),
+            streams: evaluator.reactions,
+        };
+    }
+
+    function updateEvaluatorStores() {
+        evaluation.set(getEvalContext());
+    }
+
+    function update() {
+        if (evaluator && project) {
+            value = evaluator.getLatestSourceValue(project.getMain());
+            stage = value
+                ? toStage(evaluator, value, new NameGenerator())
+                : undefined;
+        }
+    }
+
+    // Wire the eager evaluator's observers and start it. reset() handles
+    // subsequent project changes.
+    // svelte-ignore state_referenced_locally
+    if (evaluated) evaluator.observe(update);
+    // svelte-ignore state_referenced_locally
+    evaluator.observe(updateEvaluatorStores);
+    // svelte-ignore state_referenced_locally
+    evaluator.start();
+
+    onMount(() => {
+        return () => {
+            // Remove the example from the index. We guard here because of a Svelte bug, which seems to change the prop to something else.
+            if (example instanceof Example)
+                index?.removeExample(example.program.expression);
+            if (evaluator) {
+                evaluator.stop();
+                evaluator.ignore(update);
+                evaluator.ignore(updateEvaluatorStores);
+            }
+        };
+    });
+
     function reset(hard: boolean) {
         // Don't create a new evaluator if the project is the same.
         if (!hard && evaluator && evaluator.project === project) return;
 
         evaluator?.ignore(update);
+        evaluator?.ignore(updateEvaluatorStores);
+        evaluator?.stop();
 
-        if (evaluated && project) {
+        if (project) {
             evaluator = new Evaluator(project, DB, $locales.getLocales());
-            evaluator.observe(update);
+            if (evaluated) evaluator.observe(update);
+            evaluator.observe(updateEvaluatorStores);
             evaluator.start();
-        } else {
-            evaluator = undefined;
+            updateEvaluatorStores();
         }
     }
 
@@ -113,23 +232,77 @@
 
 <div class="container">
     <div class="example">
-        <div
-            class="code"
-            class:evaluated
-            class:inline
-            class:hasStage={stage !== undefined}
-        >
-            <CodeView
-                node={example.program}
-                {inline}
-                spaces={getPreferredSpaces(example.program)}
-                outline={false}
-                describe={false}
-            />
+        <div class="code-panel" class:evaluated>
+            <div class="code-row">
+                <div class="code">
+                    {#if project && evaluator}
+                        <Editor
+                            source={project.getMain()}
+                            {project}
+                            locale={null}
+                            {evaluator}
+                            editable={false}
+                            bind:caretSnapshot={currentCaret}
+                        />
+                    {/if}
+                </div>
+                {#if project}
+                    <Annotations
+                        {project}
+                        {evaluator}
+                        source={project.getMain()}
+                        sourceID=""
+                        stepping={false}
+                        conflicts={$conflictsStore}
+                        caret={currentCaret}
+                        expanded={annotationsExpanded}
+                        onToggle={() =>
+                            (annotationsExpanded = !annotationsExpanded)}
+                    />
+                {/if}
+            </div>
+            <div class="tools">
+                <Button
+                    tip={(l) => l.ui.project.button.copy.tip}
+                    action={() => {
+                        copied = true;
+                        toClipboard(
+                            example.program.toWordplay(
+                                getPreferredSpaces(example.program),
+                            ),
+                        );
+                        setTimeout(() => (copied = false), 1000);
+                    }}
+                    icon={COPY_SYMBOL}
+                    background={true}
+                >
+                    {#if copied}{CONFIRM_SYMBOL}{/if}</Button
+                >
+
+                <Mode
+                    icons={[TEXT_EDITING_SYMBOL, BLOCK_EDITING_SYMBOL]}
+                    modes={(l) => l.ui.dialog.settings.mode.blocks}
+                    choice={$blocks ? 1 : 0}
+                    select={(mode) => Settings.setBlocks(mode === 1)}
+                    labeled={false}
+                    modeLabels={false}
+                />
+
+                {#if evaluated && value}
+                    <div class="reset">
+                        <Button
+                            tip={(l) => l.ui.timeline.button.reset}
+                            icon="↻"
+                            background={true}
+                            action={() => reset(true)}
+                        ></Button>
+                    </div>
+                {/if}
+            </div>
         </div>
         {#if evaluated && value}
-            <div class="value"
-                >{#if stage && evaluator && project}
+            <div class="value">
+                {#if stage && evaluator && project}
                     <div class="stage">
                         <OutputView
                             {project}
@@ -138,35 +311,12 @@
                             grid
                             editable={false}
                             wheel={false}
+                            blurOnTyping={false}
                         />
                     </div>
-                {:else}<ValueView {value} inline={false} />{/if}</div
-            >
+                {:else}<ValueView {value} inline={false} />{/if}
+            </div>
         {/if}
-    </div>
-    <div class="tools">
-        <Button
-            tip={(l) => l.ui.project.button.copy.tip}
-            action={() => {
-                copied = true;
-                toClipboard(
-                    example.program.toWordplay(
-                        getPreferredSpaces(example.program),
-                    ),
-                );
-                // In case its already pressed, show it again.
-                setTimeout(() => (copied = false), 1000);
-            }}
-            icon={COPY_SYMBOL}
-        >
-            {#if copied}{CONFIRM_SYMBOL}{/if}</Button
-        >
-
-        <Button
-            tip={(l) => l.ui.timeline.button.reset}
-            icon="↻"
-            action={() => reset(true)}
-        ></Button>
     </div>
 </div>
 
@@ -174,26 +324,90 @@
     .container {
         display: flex;
         flex-direction: column;
+        container-type: inline-size;
+        /* Inline-size containment hides the children's intrinsic size from
+           ancestors that size via fit-content (e.g. chat bubbles). Provide a
+           fallback so those ancestors can still grow to show the example. */
+        contain-intrinsic-inline-size: auto 30em;
     }
 
     .value {
         flex-grow: 1;
         max-width: 30em;
+        display: flex;
+        flex-direction: column;
+        gap: var(--wordplay-spacing);
+    }
+
+    .reset {
+        display: flex;
+        margin-inline-start: auto;
     }
 
     .example {
         display: flex;
         flex-direction: row;
-        flex-grow: 1;
+        align-items: stretch;
         gap: var(--wordplay-spacing);
     }
 
-    .code {
-        min-width: 10em;
+    @container (max-width: 30em) {
+        .example {
+            flex-direction: column;
+        }
+
+        .value {
+            max-width: none;
+        }
     }
 
-    .code.inline {
-        display: inline;
+    .code-panel {
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+    }
+
+    .code-panel.evaluated {
+        border-radius: var(--wordplay-border-radius);
+        border: var(--wordplay-border-width) solid var(--wordplay-border-color);
+        border-top: none;
+        overflow: hidden;
+    }
+
+    .code-row {
+        border-radius: var(--wordplay-border-radius);
+        border-top: var(--wordplay-border-width) solid
+            var(--wordplay-border-color);
+        border-bottom: var(--wordplay-border-width) solid
+            var(--wordplay-border-color);
+        border-bottom: none;
+        display: flex;
+        flex-direction: row;
+        align-items: stretch;
+    }
+
+    /* Annotations sets height: 100% on its <section>, which doesn't
+       resolve against this auto-sized .code-row. Switch to auto so
+       align-items: stretch fills the row height instead. */
+    .code-row :global(section[data-uiid='conflict']) {
+        height: auto;
+    }
+
+    .code {
+        min-width: 0;
+        flex: 1;
+    }
+
+    .code-panel.evaluated .code {
+        padding: var(--wordplay-spacing);
+        overflow: auto;
+        white-space: nowrap;
+    }
+
+    /* Allow iOS horizontal scroll by overriding the touch-action: none set deep in CodeView */
+    .code-panel.evaluated :global(.view),
+    .code-panel.evaluated :global(.node) {
+        touch-action: pan-x;
     }
 
     .stage {
@@ -202,30 +416,16 @@
         width: 100%;
         aspect-ratio: 4/3;
         border-radius: var(--wordplay-border-radius);
-        border-top-right-radius: 0;
-        border-top-left-radius: 0;
         border: var(--wordplay-border-width) solid var(--wordplay-border-color);
-    }
-
-    .code.evaluated {
-        padding: var(--wordplay-spacing);
-        border-radius: var(--wordplay-border-radius);
-        border: var(--wordplay-border-width) solid var(--wordplay-border-color);
-        overflow-x: auto;
-        white-space: nowrap;
-    }
-
-    .code.hasStage {
-        border-bottom-left-radius: 0;
-        border-bottom-right-radius: 0;
-        border-bottom: none;
     }
 
     .tools {
-        justify-content: start;
         display: flex;
         flex-direction: row;
+        justify-content: start;
         gap: var(--wordplay-spacing);
-        margin-top: var(--wordplay-spacing);
+        padding: var(--wordplay-spacing);
+        border-top: var(--wordplay-border-width) solid
+            var(--wordplay-border-color);
     }
 </style>

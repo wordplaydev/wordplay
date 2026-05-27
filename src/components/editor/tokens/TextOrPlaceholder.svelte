@@ -1,7 +1,7 @@
 <script lang="ts">
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import type { LocaleTextAccessor } from '@locale/Locales';
-    import type { Format } from '../nodes/NodeView.svelte';
+    import type { Format } from '@components/editor/nodes/NodeView.svelte';
 
     interface Props {
         placeholder: LocaleTextAccessor | undefined;

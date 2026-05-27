@@ -1,0 +1,31 @@
+Crie uma aventura em texto
+
+Um tipo de jogo divertido é um/Escolha a sua própria aventura/Jogo em que o jogador navega por uma série de escolhas e tenta encontrar um caminho para um final feliz.
+
+Para fazer um destes, podemos usar @Structure , @Key , @Reaction , e  @List em conjunto, para tomar uma série de decisões, cada uma com um conjunto de opções, como esta:
+
+\¶Isto cria uma estrutura de dados que armazena uma escolha e a decisão para a qual irá direcionar o utilizador.¶•Option(text•'' decision•#)
+¶Esta estrutura de dados armazena uma lista de opções.¶•Decision(options: [Option])
+¶Este é o conteúdo do jogo! Altere o texto nas Opções para criar atmosfera e escolhas difíceis.Adicione opções para criar uma teia de escolhas complexas.¶
+decisions: [
+		Decision([Option('iniciar' 2)])
+		Decision([
+				Option('esquerda' 3)
+				Option('reto' 4)
+				Option('certo' 4)
+			])
+		Decision([Option('ganhar' 1)])
+		Decision([Option('perder' 1)])
+	]
+¶Converta a chave num número, se for um.¶
+key: Key()
+choice: key → #
+¶Este valor representa a decisão atual na lista acima.Ao premir a tecla, realizamos uma das seguintes ações.Se existir apenas uma opção para essa decisão, então alteramos a decisão atual.para a decisão alvo da opção, independentemente da tecla premida.Se a tecla premida estiver entre 1 e o número de opções, então passamos para a decisão alvo dessa opção.Caso contrário, manteremos a decisão atual.¶
+current•#: 1 … ∆ key … decisions[current].options.length() = 1 ? decisions[current].options[1].decision ((choice ≥ 1) & (choice ≤ decisions[current].options.length())) ? decisions[current].options[choice].decision current
+¶Isto apenas apresenta as opções como uma lista de frases. Pode alterar isto para adicionar instruções, animações e outros elementos interessantes!¶Stage([
+		Group(Stack() decisions[current].options.translate(ƒ(option) Phrase(option.text)))
+	])\
+
+Este padrão parece complexo, mas na verdade apenas exibe o conjunto atual de opções e, a cada mudança de tecla, leva à decisão da opção escolhida. Desenhar um jogo é basicamente alterar o conteúdo do ecrã!
+
+offer-choices

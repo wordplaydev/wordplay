@@ -2,7 +2,7 @@ import { testConflict } from '@conflicts/TestUtilities';
 import UnexpectedTypeInput from '@conflicts/UnexpectedTypeInput';
 import { UnknownTypeName } from '@conflicts/UnknownTypeName';
 import { test } from 'vitest';
-import NameType from './NameType';
+import NameType from '@nodes/NameType';
 
 test.each([
     [

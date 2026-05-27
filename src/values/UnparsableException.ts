@@ -1,8 +1,7 @@
-import NodeRef from '@locale/NodeRef';
 import type UnparsableExpression from '@nodes/UnparsableExpression';
 import type Evaluator from '@runtime/Evaluator';
 import ExceptionValue from '@values/ExceptionValue';
-import type Locales from '../locale/Locales';
+import type Locales from '@locale/Locales';
 
 export default class UnparsableException extends ExceptionValue {
     readonly unparsable: UnparsableExpression;
@@ -21,12 +20,10 @@ export default class UnparsableException extends ExceptionValue {
 
     getExplanation(locales: Locales) {
         return locales.concretize(
-            this.getExceptionText(locales).explanation,
-            new NodeRef(
-                this.unparsable,
-                locales,
-                this.getNodeContext(this.unparsable),
-            ),
+            (l) =>
+                l.node.UnparsableExpression.exception.UnparsableException
+                    .explanation,
+            {},
         );
     }
 }

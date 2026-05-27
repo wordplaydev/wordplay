@@ -3,12 +3,12 @@ import type LocaleText from '@locale/LocaleText';
 import type Context from '@nodes/Context';
 import Node from '@nodes/Node';
 import getPreferredSpaces from '@parser/getPreferredSpaces';
-import type { Edit } from '../../components/editor/commands/Commands';
-import type Locales from '../../locale/Locales';
-import Markup from '../../nodes/Markup';
-import Reference from '../../nodes/Reference';
-import Refer from './Refer';
-import Revision from './Revision';
+import type { Edit } from '@components/editor/commands/Commands';
+import type Locales from '@locale/Locales';
+import Markup from '@nodes/Markup';
+import Reference from '@nodes/Reference';
+import Refer from '@edit/revision/Refer';
+import Revision from '@edit/revision/Revision';
 
 export default class Replace<NodeType extends Node> extends Revision {
     readonly parent: Node;
@@ -130,14 +130,7 @@ export default class Replace<NodeType extends Node> extends Revision {
     getDescription(locales: Locales) {
         if (this.description)
             return Markup.words(locales.getWithAnnotations(this.description));
-        const node =
-            this.replacement instanceof Refer
-                ? this.replacement.getNode(locales)
-                : this.getNewNode(locales);
-        return locales.concretize(
-            (l) => l.ui.edit.replace,
-            node?.getLabel(locales),
-        );
+        return locales.concretize((l) => l.ui.edit.replace);
     }
 
     equals(revision: Revision) {

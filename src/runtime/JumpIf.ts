@@ -1,10 +1,10 @@
 import BooleanType from '@nodes/BooleanType';
 import type Evaluator from '@runtime/Evaluator';
 import BoolValue from '@values/BoolValue';
-import type Locales from '../locale/Locales';
-import type Expression from '../nodes/Expression';
-import type Value from '../values/Value';
-import Step from './Step';
+import type Locales from '@locale/Locales';
+import type Expression from '@nodes/Expression';
+import type Value from '@values/Value';
+import Step from '@runtime/Step';
 
 export default class JumpIf extends Step {
     readonly peek: boolean;
@@ -37,7 +37,9 @@ export default class JumpIf extends Step {
         const val = evaluator.peekValue();
         return locales.concretize(
             (l) => l.node.Conditional.else,
-            val instanceof BoolValue && val.bool === this.yes,
+            {
+                jumping: val instanceof BoolValue && val.bool === this.yes,
+            },
         );
     }
 }

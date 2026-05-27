@@ -7,11 +7,11 @@
         EVAL_OPEN_SYMBOL,
     } from '@parser/Symbols';
     import type StructureValue from '@values/StructureValue';
-    import { locales } from '../../db/Database';
-    import { toColor } from '../../output/Color';
-    import Expandable from './Expandable.svelte';
-    import SymbolView from './SymbolView.svelte';
-    import ValueView from './ValueView.svelte';
+    import { locales } from '@db/Database';
+    import { toColor } from '@output/Color';
+    import Expandable from '@components/values/Expandable.svelte';
+    import SymbolView from '@components/values/SymbolView.svelte';
+    import ValueView from '@components/values/ValueView.svelte';
 
     interface Props {
         value: StructureValue;

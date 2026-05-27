@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest';
-import evaluateCode from '../runtime/evaluate';
+import evaluateCode from '@runtime/evaluate';
 
 test.each([
     ['{1:"hi" 2:"bye"}.pair(3 "hello")', '{1:"hi" 2:"bye" 3:"hello"}'],

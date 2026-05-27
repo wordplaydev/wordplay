@@ -1,5 +1,5 @@
 <script lang="ts">
-    import GroupView from './GroupView.svelte';
+    import GroupView from '@components/output/GroupView.svelte';
 
     import Evaluate from '@nodes/Evaluate';
     import Group from '@output/Group';
@@ -16,13 +16,16 @@
     import type Place from '@output/Place';
     import type RenderContext from '@output/RenderContext';
     import { untrack } from 'svelte';
-    import { locales } from '../../db/Database';
-    import type { Form } from '../../output/Form';
-    import Shape from '../../output/Shape';
-    import Stage from '../../output/Stage';
-    import { getProject, getSelectedOutput } from '../project/Contexts';
-    import PhraseView from './PhraseView.svelte';
-    import ShapeView from './ShapeView.svelte';
+    import { locales } from '@db/Database';
+    import type { Form } from '@output/Form';
+    import Shape from '@output/Shape';
+    import Stage from '@output/Stage';
+    import {
+        getProject,
+        getSelectedOutput,
+    } from '@components/project/Contexts';
+    import PhraseView from '@components/output/PhraseView.svelte';
+    import ShapeView from '@components/output/ShapeView.svelte';
 
     interface Props {
         group: Group | Stage;

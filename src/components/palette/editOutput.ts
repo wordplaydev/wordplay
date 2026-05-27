@@ -9,22 +9,22 @@ import NumberLiteral from '@nodes/NumberLiteral';
 import Reference from '@nodes/Reference';
 import Unit from '@nodes/Unit';
 import Decimal from 'decimal.js';
-import type { Database } from '../../db/Database';
-import type Locales from '../../locale/Locales';
-import Convert from '../../nodes/Convert';
-import FormattedLiteral from '../../nodes/FormattedLiteral';
-import ListLiteral from '../../nodes/ListLiteral';
-import type Spread from '../../nodes/Spread';
-import TextLiteral from '../../nodes/TextLiteral';
-import TextType from '../../nodes/TextType';
-import UnaryEvaluate from '../../nodes/UnaryEvaluate';
-import { getPlaceExpression } from '../../output/getOrCreatePlace';
+import type { Database } from '@db/Database';
+import type Locales from '@locale/Locales';
+import Convert from '@nodes/Convert';
+import FormattedLiteral from '@nodes/FormattedLiteral';
+import ListLiteral from '@nodes/ListLiteral';
+import type Spread from '@nodes/Spread';
+import TextLiteral from '@nodes/TextLiteral';
+import TextType from '@nodes/TextType';
+import UnaryEvaluate from '@nodes/UnaryEvaluate';
+import { getPlaceExpression } from '@output/getOrCreatePlace';
 import {
     GROUP_SYMBOL,
     PHRASE_SYMBOL,
     STAGE_SYMBOL,
-} from '../../parser/Symbols';
-import { toExpression } from '../../parser/parseExpression';
+} from '@parser/Symbols';
+import { toExpression } from '@parser/parseExpression';
 
 export function getNumber(given: Expression): number | undefined {
     const measurement =

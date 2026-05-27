@@ -1,7 +1,10 @@
 import type LocaleText from '@locale/LocaleText';
-import type FunctionDefinition from '@nodes/FunctionDefinition';
-import type Locales from '../locale/Locales';
-import Conflict from './Conflict';
+import FunctionDefinition from '@nodes/FunctionDefinition';
+import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
+import type Locales from '@locale/Locales';
+import Conflict, { type Resolutions } from '@conflicts/Conflict';
+import type Context from '@nodes/Context';
+import type Node from '@nodes/Node';
 
 export default class NoExpression extends Conflict {
     readonly def: FunctionDefinition;
@@ -23,6 +26,43 @@ export default class NoExpression extends Conflict {
                     (l) => NoExpression.LocalePath(l).explanation,
                 ),
         };
+    }
+
+    override getResolutions(
+        _context: Context,
+        _concepts: Node[],
+    ): Resolutions {
+        // Set the function's body to an expression placeholder.
+        const placeholder = ExpressionPlaceholder.make();
+        const d = this.def;
+        const filled = new FunctionDefinition(
+            d.docs,
+            d.share,
+            d.fun,
+            d.names,
+            d.types,
+            d.open,
+            d.inputs,
+            d.close,
+            d.dot,
+            d.output,
+            placeholder,
+        );
+        return [
+            {
+                kind: 'repair',
+                description: (locales: Locales) =>
+                    locales.concretize(
+                        (l) => NoExpression.LocalePath(l).resolution,
+                    ),
+                mediator: (ctx) => ({
+                    newProject: ctx.project.withRevisedNodes([
+                        [this.def, filled],
+                    ]),
+                    newNode: placeholder,
+                }),
+            },
+        ];
     }
 
     getLocalePath() {

@@ -1,7 +1,7 @@
-import type { Metrics } from './Phrase';
-import type Place from './Place';
-import type Pose from './Pose';
-import { CSSFallbackFaces } from './Stage';
+import type { Metrics } from '@output/Phrase';
+import type Place from '@output/Place';
+import type Pose from '@output/Pose';
+import { CSSFallbackFaces } from '@output/Stage';
 
 /**
  * This is essentially the font size in pixels of a 1m phrase.

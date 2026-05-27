@@ -3,18 +3,18 @@ import { TYPE_SYMBOL } from '@parser/Symbols';
 import NumberValue from '@values/NumberValue';
 import StructureValue from '@values/StructureValue';
 import type Value from '@values/Value';
-import toStructure from '../basis/toStructure';
-import type Project from '../db/projects/Project';
-import type Locales from '../locale/Locales';
-import MapValue from '../values/MapValue';
-import TextValue from '../values/TextValue';
-import type { TransitionSequence } from './OutputAnimation';
-import type Place from './Place';
-import type Pose from './Pose';
-import { toPose } from './Pose';
-import { toDecimal } from './Stage';
-import Transition from './Transition';
-import Valued, { getOutputInputs } from './Valued';
+import toStructure from '@basis/toStructure';
+import type Project from '@db/projects/Project';
+import type Locales from '@locale/Locales';
+import MapValue from '@values/MapValue';
+import TextValue from '@values/TextValue';
+import type { TransitionSequence } from '@output/OutputAnimation';
+import type Place from '@output/Place';
+import type Pose from '@output/Pose';
+import { toPose } from '@output/Pose';
+import { toDecimal } from '@output/Stage';
+import Transition from '@output/Transition';
+import Valued, { getOutputInputs } from '@output/Valued';
 
 const MaxCount = 5;
 
@@ -32,7 +32,9 @@ export function createSequenceType(locales: Locales) {
         ${getBind(locales, (locale) => locale.output.Sequence.style)}•${locales
             .getLocales()
             .map((locale) =>
-                Object.values(locale.output.Easing).map((id) => `"${id}"`),
+                Object.values(locale.output.Easing).map(
+                    (id) => `"${id}"/${locale.language}`,
+                ),
             )
             .flat()
             .join('|')}: "${

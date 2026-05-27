@@ -1,11 +1,11 @@
 <script lang="ts">
-    import { getTip } from '@components/project/Contexts';
+    import { getLocalizing, getTip } from '@components/project/Contexts';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import { locales } from '@db/Database';
     import type { LocaleTextAccessor } from '@locale/Locales';
     import Decimal from 'decimal.js';
     import { tick } from 'svelte';
-    import LocalizedText from './LocalizedText.svelte';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
 
     interface Props {
         value: number | undefined;
@@ -15,6 +15,7 @@
         increment: number;
         label?: LocaleTextAccessor | undefined;
         tip: LocaleTextAccessor;
+        start?: () => void;
         change?: (value: Decimal) => void;
         release?: (value: number | undefined) => void;
         precision?: number;
@@ -30,6 +31,7 @@
         increment,
         label = undefined,
         tip,
+        start = undefined,
         change = undefined,
         release = undefined,
         precision = 0,
@@ -52,6 +54,7 @@
     }
 
     let hint = getTip();
+    let localizing = getLocalizing();
     function showTip() {
         if (view) hint.show(tooltip, view);
     }
@@ -82,6 +85,7 @@
         step={increment}
         bind:value
         bind:this={view}
+        onpointerdown={() => start?.()}
         oninput={handleChange}
         onpointerup={() => release?.(value)}
         disabled={!editable}
@@ -102,6 +106,7 @@
             ) + unit}
         {/if}
     </div>
+    {#if localizing?.on}<LocalizedText path={tip} tipIcon />{/if}
 </div>
 
 <style>
@@ -134,7 +139,7 @@
 
     input[type='range'] {
         height: 1em;
-        border: var(--wordplay-border-color) solid var(--wordplay-border-width);
+        border: var(--wordplay-border-width) solid var(--wordplay-border-color);
         border-radius: var(--wordplay-border-radius);
         margin: 0 0;
         background: none;
@@ -143,6 +148,15 @@
         /* Allow for it to be tiny */
         width: auto;
         min-width: 2em;
+        box-shadow: var(--wordplay-border-width) var(--wordplay-border-width) 0
+            var(--wordplay-border-color);
+        transition:
+            transform calc(var(--animation-factor) * 100ms),
+            box-shadow calc(var(--animation-factor) * 100ms);
+    }
+
+    input[type='range']:hover {
+        transform: translate(-1px, -1px);
     }
 
     input[type='range']:focus {

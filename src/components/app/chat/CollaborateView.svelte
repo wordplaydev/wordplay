@@ -2,6 +2,8 @@
  This chat component enables communication between project collaborators and owners of the gallery that a project is in. 
  -->
 <script lang="ts">
+    import ChatView from '@components/app/chat/ChatView.svelte';
+    import CreatorView from '@components/app/CreatorView.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import { getUser, isAuthenticated } from '@components/project/Contexts';
     import CreatorList from '@components/project/CreatorList.svelte';
@@ -14,8 +16,6 @@
     import { Creators, Galleries, locales, Projects } from '@db/Database';
     import type Gallery from '@db/galleries/Gallery';
     import type Project from '@db/projects/Project';
-    import CreatorView from '../CreatorView.svelte';
-    import ChatView from './ChatView.svelte';
 
     const {
         project,
@@ -71,21 +71,22 @@
 {:else}
     <section
         class="collab"
+        data-uiid="collaborate"
         aria-label={$locales.getPlainText((l) => l.ui.collaborate.label)}
     >
-        <MarkupHTMLView
-            markup={editable
-                ? project.getCollaborators().length === 0
-                    ? (l) => l.ui.collaborate.prompt.solo
-                    : (l) => l.ui.collaborate.prompt.owner
-                : collaborator
-                  ? (l) => l.ui.collaborate.prompt.collaborator
-                  : commenter
-                    ? (l) => l.ui.collaborate.prompt.commenter
-                    : (l) => l.ui.collaborate.prompt.curator}
-        ></MarkupHTMLView>
+        <div class="header">
+            <MarkupHTMLView
+                markup={editable
+                    ? project.getCollaborators().length === 0
+                        ? (l) => l.ui.collaborate.prompt.solo
+                        : (l) => l.ui.collaborate.prompt.owner
+                    : collaborator
+                      ? (l) => l.ui.collaborate.prompt.collaborator
+                      : commenter
+                        ? (l) => l.ui.collaborate.prompt.commenter
+                        : (l) => l.ui.collaborate.prompt.curator}
+            ></MarkupHTMLView>
 
-        <div class="everyone">
             <!-- If not the owner, show it -->
             {#if isAuthenticated($user) && owner !== $user.uid}
                 <Labeled label={(l) => l.ui.collaborate.role.owner}>
@@ -99,60 +100,68 @@
 
             <!-- Show all of the collaborators -->
             {#if owner == $user?.uid || project.getCollaborators().length > 0}
-                <Labeled label={(l) => l.ui.collaborate.role.collaborators}>
-                    <CreatorList
-                        anonymize={false}
-                        uids={project.getCollaborators()}
-                        {editable}
-                        add={(userID) =>
-                            Projects.reviseProject(
-                                project.withCollaborator(userID),
-                            )}
-                        remove={(userID) =>
-                            Projects.reviseProject(
-                                project.withoutCollaborator(userID),
-                            )}
-                        removable={() => true}
-                    />
-                </Labeled>
+                <div data-uiid="collaborators">
+                    <Labeled label={(l) => l.ui.collaborate.role.collaborators}>
+                        <CreatorList
+                            anonymize={false}
+                            uids={project.getCollaborators()}
+                            {editable}
+                            add={(userID) =>
+                                Projects.reviseProject(
+                                    project.withCollaborator(userID),
+                                )}
+                            remove={(userID) =>
+                                Projects.reviseProject(
+                                    project.withoutCollaborator(userID),
+                                )}
+                            removable={() => true}
+                        />
+                    </Labeled>
+                </div>
             {/if}
 
             <!-- Show all of the commenters -->
             {#if owner === $user?.uid || project.getCommenters().length > 0}
-                <Labeled label={(l) => l.ui.collaborate.role.commenters}>
-                    <CreatorList
-                        anonymize={false}
-                        uids={project.getCommenters()}
-                        {editable}
-                        add={(userID) =>
-                            Projects.reviseProject(
-                                project.withCommenter(userID),
-                            )}
-                        remove={(userID) =>
-                            Projects.reviseProject(
-                                project.withoutCommenter(userID),
-                            )}
-                        removable={() => true}
-                    />
-                </Labeled>
+                <div data-uiid="commenters">
+                    <Labeled label={(l) => l.ui.collaborate.role.commenters}>
+                        <CreatorList
+                            anonymize={false}
+                            uids={project.getCommenters()}
+                            {editable}
+                            add={(userID) =>
+                                Projects.reviseProject(
+                                    project.withCommenter(userID),
+                                )}
+                            remove={(userID) =>
+                                Projects.reviseProject(
+                                    project.withoutCommenter(userID),
+                                )}
+                            removable={() => true}
+                        />
+                    </Labeled>
+                </div>
             {/if}
 
             <!-- Show all of the viewers -->
             {#if owner === $user?.uid || project.getViewers().length > 0}
-                <Labeled label={(l) => l.ui.collaborate.role.viewers}>
-                    <CreatorList
-                        anonymize={false}
-                        uids={project.getViewers()}
-                        {editable}
-                        add={(userID) =>
-                            Projects.reviseProject(project.withViewer(userID))}
-                        remove={(userID) =>
-                            Projects.reviseProject(
-                                project.withoutViewer(userID),
-                            )}
-                        removable={() => true}
-                    />
-                </Labeled>
+                <div data-uiid="viewers">
+                    <Labeled label={(l) => l.ui.collaborate.role.viewers}>
+                        <CreatorList
+                            anonymize={false}
+                            uids={project.getViewers()}
+                            {editable}
+                            add={(userID) =>
+                                Projects.reviseProject(
+                                    project.withViewer(userID),
+                                )}
+                            remove={(userID) =>
+                                Projects.reviseProject(
+                                    project.withoutViewer(userID),
+                                )}
+                            removable={() => true}
+                        />
+                    </Labeled>
+                </div>
             {/if}
 
             {#if gallery}
@@ -175,15 +184,18 @@
 
                 <!-- Allow user to restrict access to non-curators -->
                 {#if owner === $user?.uid}
-                    <Mode
-                        modes={(l) =>
-                            l.ui.collaborate.restrictGalleryCreatorAccess.mode}
-                        choice={project.getRestrictedGallery() ? 1 : 0}
-                        select={(index) =>
-                            Projects.reviseProject(
-                                project.withRestrictedGallery(index === 1),
-                            )}
-                    />
+                    <span data-uiid="restrictGallery">
+                        <Mode
+                            modes={(l) =>
+                                l.ui.collaborate.restrictGalleryCreatorAccess
+                                    .mode}
+                            choice={project.getRestrictedGallery() ? 1 : 0}
+                            select={(index) =>
+                                Projects.reviseProject(
+                                    project.withRestrictedGallery(index === 1),
+                                )}
+                        />
+                    </span>
                 {/if}
             {/if}
         </div>
@@ -199,11 +211,23 @@
         height: 100%;
         padding: var(--wordplay-spacing);
         gap: var(--wordplay-spacing);
+        container-type: size;
     }
 
-    .everyone {
+    .header {
         display: flex;
         flex-direction: column;
         gap: var(--wordplay-spacing);
+        flex-shrink: 0;
+    }
+
+    @container (orientation: landscape) {
+        .header {
+            flex-direction: row;
+            flex-wrap: wrap;
+            align-items: baseline;
+            row-gap: 0;
+            column-gap: var(--wordplay-spacing);
+        }
     }
 </style>

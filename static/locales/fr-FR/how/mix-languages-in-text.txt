@@ -1,0 +1,13 @@
+Saluer un public multilingue
+
+UN  @Phrase  L'application affiche la traduction appropriée à chaque spectateur en fonction de la langue qu'il a choisie. Si votre public parle espagnol, vous pouvez lui parler en espagnol ; s'il parle à la fois espagnol et anglais (le spanglish !), vous pouvez mélanger les deux.
+
+Donnez un  @TextLiteral  plusieurs traductions, dont une multilingue, et Wordplay choisit celle qui convient le mieux à chaque spectateur :
+
+\Phrase("hola"/es"Bonjour"/en"Salut messieurs"/es_en)\
+
+Un téléspectateur dont la langue préférée est uniquement l'espagnol voit /hola/Un téléspectateur qui préfère uniquement l'anglais voit /Bonjour/Un téléspectateur qui préfère à la fois l'espagnol et l'anglais voit /Salut messieurs/ — la version spanglish.
+
+Les jeux de mots privilégient la correspondance la plus précise ; une traduction monolingue l'emporte donc toujours sur une traduction multilingue lorsque les deux pourraient convenir.
+
+styling-text

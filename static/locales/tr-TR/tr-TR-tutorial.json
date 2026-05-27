@@ -202,15 +202,15 @@
                             "Program",
                             "serious",
                             "$~Talimatlar istediğiniz kadar karmaşık olabilir, ancak birkaç kural var.",
-                            "$~Örneğin, yalnızca bir *değere* değerlendirme yapabilirim ve bu değeri sahnede gösterebilirim. Bu tek değer istediğiniz kadar karmaşık olabilir ve onu nasıl göstereceğimi bildiğim sürece bunu yapacağım.",
-                            "$~Ama bana iki şey verirsen, sadece bana verdiğin son şeyi gösteririm.",
+                            "Örneğin, bir *değere* değerlendirme yaparım ve bu değeri sahnede gösteririm. Bu tek değer istediğiniz kadar karmaşık olabilir ve onu nasıl göstereceğimi bildiğim sürece bunu yapacağım.",
+                            "Bana birden fazla ifade verirsen, değerlerini bir *listede* toplar ve onu gösteririm.",
                             "$~Örneğin, bir satır daha ekleyip ardından istediğiniz kelimeyi tırnak işaretleri içinde yazmayı deneyebilirsiniz."
                         ],
                         null,
                         [
                             "Program",
                             "serious",
-                            "$~Bakın? Az önce ikinci cümlenizi gösterdim, ilk cümlenizi değil. Kuralımı çiğnediğinizi biliyorsunuz çünkü ilk cümlenizin altını çizdim ve bunu görmezden geleceğimizi söylemiştik."
+                            "Gördün mü? Her iki ifadeyi de bir listede toplayıp sahneye koydum."
                         ],
                         null,
                         ["use", "fit", "Symbol", "🎭"],
@@ -222,7 +222,7 @@
                         [
                             "Program",
                             "serious",
-                            "$~Evet ve hayır. Çok şey yapabilirim, ancak bunun tek sebebi *Verse*'teki herkesle çalışmam. Tüm heyecan verici olasılıkları *sahneye* getirenler onlar. Benim yaptığım tek şey onların kendi işlerini yapmalarına izin vermek ve sonra yarattıkları son şeyi alıp sahnede göstermek. Ben daha çok sahneye sayılar, metinler, ifadeler veya diğer değerler gibi son *değeri* getiren bir eskort gibiyim."
+                            "Evet ve hayır. Çok şey yapabilirim, ancak bunun tek sebebi *Verse*'teki herkesle çalışmam. Tüm heyecan verici olasılıkları *sahneye* getirenler onlar. Benim yaptığım tek şey onların kendi işlerini yapmalarına izin vermek ve sonra yarattıkları değeri — bir sayıyı, bir metni, bir ifadeyi veya bir değer listesini — sahneye getirmektir."
                         ],
                         null,
                         [
@@ -4415,9 +4415,17 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "$~Ve böylece @Block'un yapabileceği bir diğer şey de daha önce gördüğünüz bir şeydir. @Block, @Bind ile şeylere isim vermenizi sağlar. Ancak @Block'ta tanımlanan tüm isimler yalnızca parantezlerin arasında tanımlanır. Öncesinde veya sonrasında değil. Örneğin, buna bir bakın. \\a\\, \\1\\ olarak tanımlanırsa, bir blok başlar ve \\b\\, \\2\\ olarak tanımlanırsa, \\c\\ bunların toplamı olarak tanımlanır. @Block'un değerlendirdiği şey, ifadeler listesindeki son değerdir. Bu, \\c\\ ne ise ona, yani \\3\\'e değer veren @Bind'dir. Değil mi?"
+                            "Ve @Block'un yapabileceği bir diğer şey de daha önce gördüğünüz bir şey. @Block, @Bind ile şeylere isim vermenizi sağlar. Ancak @Block'ta tanımlanan tüm isimler yalnızca parantezlerin arasında tanımlanır. Öncesinde veya sonrasında değil. Örneğin, buna bir bakın: \\a\\, \\1\\ olarak tanımlanır, sonra bir blok başlar, \\b\\, \\2\\ olarak tanımlanır, sonra \\c\\ ikisinin toplamı olarak tanımlanır ve sonunda \\c\\'yi tek başına yazarım. @Bind ifadeleri yan etkidir — isimleri tanıtırlar ama kendi başlarına bir değerleri yoktur. Yani benim değerim, @Bind olmayan ifadelerin ürettiğidir. Burada bu sadece \\c\\, yani \\3\\. Değil mi?"
                         ],
-                        ["conflict", "a: 1", "(", "  b: 2", "  c: a + b", ")"],
+                        [
+                            "conflict",
+                            "a: 1",
+                            "(",
+                            "  b: 2",
+                            "  c: a + b",
+                            "  c",
+                            ")"
+                        ],
                         null,
                         [
                             "FunctionDefinition",
@@ -4430,6 +4438,7 @@
                             "(",
                             "  b: 2",
                             "  c: a + b",
+                            "  c",
                             ") + c"
                         ],
                         [
@@ -4441,13 +4450,9 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~Ve bir şey daha, sanırım? @Block bir ifadeler listesi olduğundan ve yalnızca listedeki son ifadeye göre değerlendirildiğinden, listedeki @Bind olmayan tüm ifadeler temelde yok sayılır. Örneğin, burada, sonuncudan önceki tüm aritmetik yok sayılır. \\3\\, \\5\\, \\7\\ hepsi yok sayılır ve @Block yalnızca sonuncusu olan \\9\\'a göre değerlendirilir. Doğru anladım mı, @Block?"
+                            "Ve bir şey daha, sanırım? @Block bir ifadeler listesi olduğundan, @Bind olmayan tüm ifadelerin değerleri benim değerim olur. Sadece bir tane varsa, o tek değeri alırsın. Birden fazlaysa, hepsinin sırayla bir listesini alırsın. Yani burada \\3\\, \\5\\, \\7\\ ve \\9\\ hepsi bir liste olur: \\[3 5 7 9]\\. Doğru anladım mı, @Block?"
                         ],
-                        [
-                            "Block",
-                            "shy",
-                            "$~… mhm. Sadece sonuncusu. Diğerleri… Ne işe yaradıklarını bilmiyorum!!"
-                        ],
+                        ["Block", "shy", "… mhm. Hepsi, bir listede."],
                         [
                             "conflict",
                             "(",
@@ -4457,6 +4462,30 @@
                             "  4 + 5",
                             ")"
                         ],
+                        null,
+                        [
+                            "FunctionDefinition",
+                            "serious",
+                            "Peki ya tutulacak hiçbir ifade yoksa? Sadece @Bind ifadeleri varsa?"
+                        ],
+                        [
+                            "Block",
+                            "shy",
+                            "… o zaman verecek hiçbir şeyim olmaz. @Bind olmayan en az bir ifadeye ihtiyacım var, yoksa sana bir şeyin eksik olduğunu söylemem gerekir."
+                        ],
+                        ["conflict", "(", "  a: 1", "  b: 2", ")"],
+                        null,
+                        [
+                            "FunctionDefinition",
+                            "kind",
+                            "Ah, ve bir güzel şey daha! Bir liste istediğinde, parantezleri yazmak zorunda değilsin. Her öğeyi bir @Block içinde kendi satırına koyabilirsin, aynı şeyi yapar."
+                        ],
+                        [
+                            "Block",
+                            "shy",
+                            "… ve her satır uzadığında daha güzel oluyor. Okuması daha kolay."
+                        ],
+                        ["edit", "(", "  1 + 1", "  2 + 2", "  3 + 3", ")"],
                         null,
                         [
                             "fit",
@@ -4535,7 +4564,7 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "$~Fonksiyonlar istediğiniz kadar karmaşık olabilir. Basit ifadeler veya @Block kullanabilir ve hatta fonksiyonların içinde fonksiyonlar oluşturabilirsiniz. Örneğin, eski bir yönetmenin yazdığı bu fonksiyona bakın. Bir kelimenin kaç tane benzersiz sesli harfe sahip olduğunu bulmak için @Block'u birçok @Bind ile kullanır (sanırım bir kelimenin \"karmaşık\" olup olmadığını anlamaya çalışıyorlardı). Çok sayıda satırı olduğunu görüyor musunuz? Pekala, bunun hala yalnızca bir ifadesi var: tek bir @Block ve @Block'un tüm satırları var. Ve herhangi bir @Block gibi, son satır değerlendirildiği şeydir: benzersiz sesli harflerin toplam sayısı. Diğer her şey - metni bir harf listesine, ardından harf listesini bir kümeye dönüştüren ilk satır gibi - sadece bu sayıları ortadaki toplamaya hazırlıktır."
+                            "Fonksiyonlar istediğiniz kadar karmaşık olabilir. Basit ifadeler veya @Block kullanabilir ve hatta fonksiyonların içinde fonksiyonlar oluşturabilirsiniz. Örneğin, eski bir yönetmenin yazdığı bu fonksiyona bakın. Bir kelimenin kaç tane benzersiz sesli harfe sahip olduğunu bulmak için @Block'u birçok @Bind ile kullanır (sanırım bir kelimenin \"karmaşık\" olup olmadığını anlamaya çalışıyorlardı). Çok sayıda satırı olduğunu görüyor musunuz? Pekala, bunun hala yalnızca bir ifadesi var: tek bir @Block ve @Block'un tüm satırları var. @Bind satırları sadece isim tanıtır; sondaki @Bind olmayan tek ifade @Block'un — ve dolayısıyla fonksiyonun — değerlendirildiği şeydir: benzersiz sesli harflerin toplam sayısı. Onun öncesinde olan her şey — metni bir harf listesine, ardından harf listesini bir kümeye dönüştüren ilk satır gibi — sadece o son ifade için hazırlıktır."
                         ],
                         [
                             "edit",

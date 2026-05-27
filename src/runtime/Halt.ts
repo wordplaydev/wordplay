@@ -1,9 +1,9 @@
 import type Expression from '@nodes/Expression';
 import type Evaluator from '@runtime/Evaluator';
 import type ExceptionValue from '@values/ExceptionValue';
-import type Locales from '../locale/Locales';
-import type Value from '../values/Value';
-import Step from './Step';
+import type Locales from '@locale/Locales';
+import type Value from '@values/Value';
+import Step from '@runtime/Step';
 
 export default class Halt extends Step {
     readonly exception: (evaluator: Evaluator) => ExceptionValue;

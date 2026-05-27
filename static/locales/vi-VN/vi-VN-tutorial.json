@@ -202,15 +202,15 @@
                             "Program",
                             "serious",
                             "$~Bạn có thể đưa ra hướng dẫn chi tiết đến mức nào tùy thích, nhưng vẫn có một vài quy tắc cần tuân thủ.",
-                            "$~Ví dụ, tôi chỉ có thể đánh giá ra một *giá trị* duy nhất và hiển thị giá trị đó trên sân khấu. Giá trị đó có thể phức tạp đến mức nào tùy ý, miễn là tôi biết cách hiển thị nó, tôi sẽ làm.",
-                            "$~Nhưng nếu bạn đưa cho tôi hai thứ, tôi sẽ chỉ cho bạn xem thứ cuối cùng bạn đưa cho tôi.",
+                            "Ví dụ, tôi đánh giá ra một *giá trị* và hiển thị giá trị đó trên sân khấu. Giá trị đó có thể phức tạp tùy ý, miễn là tôi biết cách hiển thị nó, tôi sẽ làm.",
+                            "Nếu bạn đưa cho tôi nhiều biểu thức, tôi sẽ tập hợp giá trị của chúng thành một *danh sách* và hiển thị danh sách đó.",
                             "$~Ví dụ, hãy thử thêm một dòng khác rồi gõ từ bạn muốn, đặt trong dấu ngoặc kép."
                         ],
                         null,
                         [
                             "Program",
                             "serious",
-                            "$~Thấy chưa? Tôi vừa cho bạn xem cụm từ thứ hai, chứ không phải cụm từ đầu tiên. Bạn biết là bạn đã vi phạm quy tắc của tôi vì tôi đã gạch chân cụm từ đầu tiên và chúng ta đã nói rằng chúng ta sẽ bỏ qua nó."
+                            "Thấy chưa? Tôi đã gom cả hai cụm từ vào một danh sách và đặt chúng lên sân khấu."
                         ],
                         null,
                         ["use", "fit", "Symbol", "🎭"],
@@ -222,7 +222,7 @@
                         [
                             "Program",
                             "serious",
-                            "$~Có và không. Tôi có thể làm được nhiều việc, nhưng đó là vì tôi làm việc với tất cả mọi người trong *Verse*. Chính họ là những người mang đến tất cả những khả năng thú vị cho *sân khấu*. Việc tôi làm chỉ là để họ tự do làm việc của mình, rồi lấy sản phẩm cuối cùng họ tạo ra và trình diễn trên sân khấu. Tôi giống như một người dẫn dắt, mang đến *giá trị* cuối cùng cho sân khấu, chẳng hạn như các con số, văn bản, cụm từ hoặc các giá trị khác."
+                            "Có và không. Tôi có thể làm được nhiều việc, nhưng đó là vì tôi làm việc với tất cả mọi người trong *Verse*. Chính họ là những người mang đến tất cả những khả năng thú vị cho *sân khấu*. Việc tôi làm chỉ là để họ tự do làm việc của mình, rồi mang giá trị họ tạo ra — một con số, một văn bản, một cụm từ, hay một danh sách các giá trị — lên sân khấu."
                         ],
                         null,
                         [
@@ -4415,9 +4415,17 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "$~Và một điều nữa mà @Block có thể làm là điều bạn đã thấy rồi. @Block cho phép bạn đặt tên cho các đối tượng bằng @Bind. Nhưng bất kỳ tên nào được định nghĩa trong @Block chỉ được định nghĩa giữa dấu ngoặc đơn. Không phải trước và không phải sau. Ví dụ, hãy xem điều này. \\a\\ được định nghĩa là \\1\\, sau đó một khối bắt đầu và \\b\\ được định nghĩa là \\2\\, sau đó \\c\\ được định nghĩa là tổng của chúng. Giá trị mà @Block đánh giá là bất kỳ giá trị nào nằm cuối cùng trong danh sách các biểu thức của nó. Đó là @Bind, đánh giá thành bất kỳ giá trị nào của \\c\\, tức là \\3\\. Đúng không?"
+                            "Và một điều nữa mà @Block có thể làm là điều bạn đã thấy rồi. @Block cho phép bạn đặt tên cho các thứ bằng @Bind. Nhưng bất kỳ tên nào được định nghĩa trong @Block chỉ được định nghĩa giữa dấu ngoặc đơn. Không phải trước và không phải sau. Ví dụ, hãy xem điều này: \\a\\ được định nghĩa là \\1\\, sau đó một khối bắt đầu, \\b\\ được định nghĩa là \\2\\, rồi \\c\\ được định nghĩa là tổng của chúng, và sau đó tôi viết riêng \\c\\. Các câu lệnh @Bind là tác dụng phụ — chúng đặt tên nhưng không có giá trị riêng. Vì vậy giá trị của tôi là cái mà các biểu thức không phải @Bind tạo ra. Ở đây chỉ có \\c\\, và đó là \\3\\. Đúng không?"
                         ],
-                        ["conflict", "a: 1", "(", "  b: 2", "  c: a + b", ")"],
+                        [
+                            "conflict",
+                            "a: 1",
+                            "(",
+                            "  b: 2",
+                            "  c: a + b",
+                            "  c",
+                            ")"
+                        ],
                         null,
                         [
                             "FunctionDefinition",
@@ -4430,6 +4438,7 @@
                             "(",
                             "  b: 2",
                             "  c: a + b",
+                            "  c",
                             ") + c"
                         ],
                         [
@@ -4441,13 +4450,9 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "$~Và còn một điều nữa, tôi nghĩ vậy? Vì `@Block` là một danh sách các biểu thức và nó chỉ đánh giá đến biểu thức cuối cùng trong danh sách, nên bất kỳ biểu thức nào trong danh sách không phải là `@Bind` về cơ bản đều bị bỏ qua. Ví dụ, ở đây, tất cả các phép toán trước phép toán cuối cùng đều bị bỏ qua. `\\3\\`, `\\5\\`, `\\7\\`, tất cả đều bị bỏ qua, và `@Block` chỉ đánh giá đến phép toán cuối cùng, `\\9\\`. Tôi hiểu đúng chứ, `@Block`?"
+                            "Và còn một điều nữa, tôi nghĩ vậy? Vì @Block là một danh sách các biểu thức, nên giá trị của tất cả các biểu thức không phải @Bind sẽ trở thành giá trị của tôi. Nếu chỉ có một, bạn nhận được giá trị đó. Nếu có nhiều, bạn nhận được một danh sách của tất cả, theo thứ tự. Vậy nên ở đây, \\3\\, \\5\\, \\7\\ và \\9\\ đều trở thành một danh sách: \\[3 5 7 9]\\. Tôi hiểu đúng chứ, @Block?"
                         ],
-                        [
-                            "Block",
-                            "shy",
-                            "$~… ừm. Chỉ cái cuối cùng thôi. Mấy cái khác… tôi không biết chúng dùng để làm gì!!"
-                        ],
+                        ["Block", "shy", "… ừm. Tất cả, trong một danh sách."],
                         [
                             "conflict",
                             "(",
@@ -4457,6 +4462,30 @@
                             "  4 + 5",
                             ")"
                         ],
+                        null,
+                        [
+                            "FunctionDefinition",
+                            "serious",
+                            "Nhưng nếu không có biểu thức nào để giữ lại thì sao? Chỉ có các câu lệnh @Bind?"
+                        ],
+                        [
+                            "Block",
+                            "shy",
+                            "… vậy thì tôi sẽ không có gì để đưa cho bạn. Tôi cần ít nhất một biểu thức không phải @Bind, nếu không tôi phải nói với bạn rằng có gì đó còn thiếu."
+                        ],
+                        ["conflict", "(", "  a: 1", "  b: 2", ")"],
+                        null,
+                        [
+                            "FunctionDefinition",
+                            "kind",
+                            "Ồ, và một điều hay nữa! Khi bạn muốn một danh sách, bạn không cần phải gõ dấu ngoặc vuông. Bạn chỉ cần đặt mỗi mục trên một dòng riêng trong @Block, và nó cũng làm điều tương tự."
+                        ],
+                        [
+                            "Block",
+                            "shy",
+                            "… và đẹp hơn khi mỗi dòng dài. Dễ đọc hơn."
+                        ],
+                        ["edit", "(", "  1 + 1", "  2 + 2", "  3 + 3", ")"],
                         null,
                         [
                             "fit",
@@ -4535,7 +4564,7 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "$~Các hàm có thể phức tạp tùy ý. Bạn có thể sử dụng các biểu thức đơn giản hoặc @Block, thậm chí tạo hàm lồng trong hàm khác. Ví dụ, hãy xem hàm này do một cựu giám đốc viết. Nó sử dụng @Block với nhiều @Bind để tìm ra số lượng nguyên âm duy nhất trong một từ (tôi nghĩ họ đang cố gắng tìm hiểu xem một từ có \"phức tạp\" hay không). Bạn thấy nó có rất nhiều dòng không? Nhưng hàm này vẫn chỉ có một biểu thức: một @Block duy nhất, và @Block đó chứa tất cả các dòng. Và giống như bất kỳ @Block nào, dòng cuối cùng là kết quả mà nó đánh giá: tổng số nguyên âm duy nhất. Mọi thứ khác — như dòng đầu tiên, chuyển đổi văn bản thành một danh sách các chữ cái, sau đó chuyển đổi danh sách các chữ cái thành một tập hợp — chỉ là bước chuẩn bị để cộng tổng các số đếm ở giữa."
+                            "Các hàm có thể phức tạp tùy ý. Bạn có thể sử dụng các biểu thức đơn giản hoặc @Block, thậm chí tạo hàm lồng trong hàm khác. Ví dụ, hãy xem hàm này do một cựu giám đốc viết. Nó sử dụng @Block với nhiều @Bind để tìm ra số lượng nguyên âm duy nhất trong một từ (tôi nghĩ họ đang cố gắng tìm hiểu xem một từ có \"phức tạp\" hay không). Bạn thấy nó có rất nhiều dòng không? Nhưng hàm này vẫn chỉ có một biểu thức: một @Block duy nhất, và @Block đó chứa tất cả các dòng. Các dòng @Bind chỉ đặt tên; biểu thức không phải @Bind duy nhất ở cuối là cái mà @Block — và do đó là hàm — đánh giá: tổng số nguyên âm duy nhất. Mọi thứ trước đó — như dòng đầu tiên chuyển đổi văn bản thành danh sách các chữ cái, sau đó chuyển danh sách thành tập hợp — chỉ là sự chuẩn bị cho biểu thức cuối cùng đó."
                         ],
                         [
                             "edit",

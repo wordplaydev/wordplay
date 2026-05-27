@@ -1,5 +1,6 @@
 import { Purpose } from '@concepts/Purpose';
 import type Conflict from '@conflicts/Conflict';
+import { getEvaluateAnalyzers } from '@conflicts/evaluateAnalyzers';
 import IncompatibleInput from '@conflicts/IncompatibleInput';
 import MissingInput from '@conflicts/MissingInput';
 import NotInstantiable from '@conflicts/NotInstantiable';
@@ -28,45 +29,44 @@ import StructureDefinitionValue from '@values/StructureDefinitionValue';
 import UnimplementedException from '@values/UnimplementedException';
 import type Value from '@values/Value';
 import ValueException from '@values/ValueException';
-import type Locales from '../locale/Locales';
+import type Locales from '@locale/Locales';
 import Characters from '../lore/BasisCharacters';
-import StreamDefinitionValue from '../values/StreamDefinitionValue';
-import TypeException from '../values/TypeException';
-import AnyType from './AnyType';
-import BasisType from './BasisType';
-import Block from './Block';
-import type Context from './Context';
-import EvalCloseToken from './EvalCloseToken';
-import EvalOpenToken from './EvalOpenToken';
-import Expression, { ExpressionKind, type GuardContext } from './Expression';
-import FunctionDefinition from './FunctionDefinition';
-import FunctionType from './FunctionType';
-import getConcreteExpectedType from './Generics';
-import Input from './Input';
-import ListType from './ListType';
-import Names from './Names';
-import NameType from './NameType';
-import NeverType from './NeverType';
-import type Node from './Node';
-import { any, list, node, none, type Grammar, type Replacement } from './Node';
-import NoExpressionType from './NoExpressionType';
-import { NonFunctionType } from './NonFunctionType';
-import PropertyReference from './PropertyReference';
-import Reference from './Reference';
-import StreamDefinition from './StreamDefinition';
-import StreamDefinitionType from './StreamDefinitionType';
-import StreamType from './StreamType';
-import StructureDefinition from './StructureDefinition';
-import StructureDefinitionType from './StructureDefinitionType';
-import StructureType from './StructureType';
-import { Sym } from './Sym';
-import type Token from './Token';
-import type Type from './Type';
-import TypeInputs from './TypeInputs';
-import type TypeSet from './TypeSet';
-import TypeVariable from './TypeVariable';
-import UnionType from './UnionType';
-import { getEvaluationInputConflicts } from './util';
+import StreamDefinitionValue from '@values/StreamDefinitionValue';
+import TypeException from '@values/TypeException';
+import AnyType from '@nodes/AnyType';
+import BasisType from '@nodes/BasisType';
+import Block from '@nodes/Block';
+import type Context from '@nodes/Context';
+import EvalCloseToken from '@nodes/EvalCloseToken';
+import EvalOpenToken from '@nodes/EvalOpenToken';
+import Expression, { ExpressionKind, type GuardContext } from '@nodes/Expression';
+import FunctionDefinition from '@nodes/FunctionDefinition';
+import FunctionType from '@nodes/FunctionType';
+import getConcreteExpectedType from '@nodes/Generics';
+import Input from '@nodes/Input';
+import ListType from '@nodes/ListType';
+import Names from '@nodes/Names';
+import NameType from '@nodes/NameType';
+import NeverType from '@nodes/NeverType';
+import type Node from '@nodes/Node';
+import { any, list, node, none, type Grammar, type Replacement } from '@nodes/Node';
+import { NonFunctionType } from '@nodes/NonFunctionType';
+import PropertyReference from '@nodes/PropertyReference';
+import Reference from '@nodes/Reference';
+import StreamDefinition from '@nodes/StreamDefinition';
+import StreamDefinitionType from '@nodes/StreamDefinitionType';
+import StreamType from '@nodes/StreamType';
+import StructureDefinition from '@nodes/StructureDefinition';
+import StructureDefinitionType from '@nodes/StructureDefinitionType';
+import StructureType from '@nodes/StructureType';
+import { Sym } from '@nodes/Sym';
+import type Token from '@nodes/Token';
+import type Type from '@nodes/Type';
+import TypeInputs from '@nodes/TypeInputs';
+import type TypeSet from '@nodes/TypeSet';
+import TypeVariable from '@nodes/TypeVariable';
+import UnionType from '@nodes/UnionType';
+import { getEvaluationInputConflicts } from '@nodes/util';
 
 type Mapping = {
     expected: Bind;
@@ -135,7 +135,10 @@ export default class Evaluate extends Expression {
                 ? scopingType.getDefinitions(nodeBeingReplaced, context)
                 : // If the scope is a structure, get definitions in its scope
                   scopingType instanceof StructureType
-                  ? scopingType.definition.getDefinitions(nodeBeingReplaced)
+                  ? scopingType.definition.getDefinitions(
+                        nodeBeingReplaced,
+                        context,
+                    )
                   : // Otherwise, nothing extra
                     []
             : [];
@@ -187,8 +190,15 @@ export default class Evaluate extends Expression {
                     (def instanceof StructureDefinition &&
                         !def.isInterface() &&
                         (expectedType === undefined ||
+                            // Compare against the type the Evaluate would
+                            // *produce* (an instance of the definition),
+                            // not the definition's own type
+                            // (`StructureDefinitionType`). Otherwise this
+                            // filter relies on `StructureType.acceptsAll`
+                            // silently unwrapping a definition as if it
+                            // were an instance — a bug we've removed.
                             expectedType.accepts(
-                                def.getType(context),
+                                new StructureType(def),
                                 context,
                             ))) ||
                     // If its a stream and the expected type matches the stream's type,
@@ -512,17 +522,25 @@ export default class Evaluate extends Expression {
                 fun instanceof StreamDefinition
             )
         ) {
-            conflicts.push(
-                new IncompatibleInput(
-                    this.fun instanceof PropertyReference
-                        ? (this.fun.name ?? this.fun)
-                        : this.fun,
-                    this.fun instanceof PropertyReference
-                        ? this.fun.structure.getType(context)
-                        : this.fun.getType(context),
-                    FunctionType.make(undefined, [], new AnyType()),
-                ),
-            );
+            // Suppress when the function expression's type is already UnknownType
+            // (e.g. `foo()` where `foo` is unknown) — the root-cause conflict is
+            // upstream.
+            const functionOrTarget =
+                this.fun instanceof PropertyReference
+                    ? this.fun.structure
+                    : this.fun;
+            if (!context.isUnknownDownstream(functionOrTarget))
+                conflicts.push(
+                    new IncompatibleInput(
+                        this.fun instanceof PropertyReference
+                            ? (this.fun.name ?? this.fun)
+                            : this.fun,
+                        this.fun instanceof PropertyReference
+                            ? this.fun.structure.getType(context)
+                            : this.fun.getType(context),
+                        FunctionType.make(undefined, [], new AnyType()),
+                    ),
+                );
             return conflicts;
         }
 
@@ -585,14 +603,19 @@ export default class Evaluate extends Expression {
                 );
 
                 // Figure out what type this expected input is. Resolve any type variables to concrete values.
-                if (given instanceof Expression) {
+                if (given instanceof Expression || given instanceof Input) {
                     // Don't rely on the bind's specified type, since it's not a reliable source of type information. Ask it's value directly.
-                    const givenType =
-                        given instanceof Input
-                            ? (given.value?.getType(context) ??
-                              new NoExpressionType(given))
-                            : given.getType(context);
-                    if (!expectedType.accepts(givenType, context, given))
+                    const valueExpression =
+                        given instanceof Input ? given.value : given;
+                    const givenType = valueExpression.getType(context);
+                    if (
+                        !context.isUnknownDownstream(valueExpression) &&
+                        !expectedType.accepts(
+                            givenType,
+                            context,
+                            valueExpression,
+                        )
+                    )
                         conflicts.push(
                             new IncompatibleInput(
                                 given,
@@ -626,6 +649,7 @@ export default class Evaluate extends Expression {
                         for (const item of given) {
                             const givenType = item.getType(context);
                             if (
+                                !context.isUnknownDownstream(item) &&
                                 expectedType instanceof ListType &&
                                 expectedType.type &&
                                 !expectedType.type.accepts(givenType, context)
@@ -727,6 +751,12 @@ export default class Evaluate extends Expression {
             // Add a new one.
             conflicts.push(new SeparatedEvaluate(ref, block, structure));
         }
+
+        // Let any definition-specific analyzers contribute extra conflicts
+        // (e.g. Phrase's unsupported-font-format warnings). Keeps domain
+        // knowledge out of this file.
+        for (const analyzer of getEvaluateAnalyzers(fun))
+            conflicts.push(...analyzer(this, context));
 
         return conflicts;
     }
@@ -1071,10 +1101,7 @@ export default class Evaluate extends Expression {
     }
 
     getStartExplanations(locales: Locales) {
-        return locales.concretize(
-            (l) => l.node.Evaluate.start,
-            this.inputs.length > 0,
-        );
+        return locales.concretize((l) => l.node.Evaluate.start);
     }
 
     getFinishExplanations(
@@ -1084,13 +1111,20 @@ export default class Evaluate extends Expression {
     ) {
         return locales.concretize(
             (l) => l.node.Evaluate.finish,
-            this.getValueIfDefined(locales, context, evaluator),
+            {
+                value: this.getValueIfDefined(locales, context, evaluator),
+            },
         );
     }
 
     getDescriptionInputs(locales: Locales, context: Context) {
-        const names = this.getFunction(context)?.names;
-        return [names ? locales.getName(names) : undefined];
+        const fun = this.getFunction(context);
+        const names = fun?.names;
+        return {
+            name: names ? locales.getName(names) : undefined,
+            stream: fun instanceof StreamDefinition ? true : undefined,
+            structure: fun instanceof StructureDefinition ? true : undefined,
+        };
     }
 
     getCharacter() {

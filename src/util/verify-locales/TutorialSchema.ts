@@ -1,8 +1,8 @@
 import fs from 'fs';
 import path from 'path';
 import type Tutorial from '../../tutorial/Tutorial';
-import { getObjectFromJSONFile } from './getObjectFromJSONFile';
-import Log from './Log';
+import { getObjectFromJSONFile } from '@util/verify-locales/getObjectFromJSONFile';
+import Log from '@util/verify-locales/Log';
 
 // Read the tutorial schema.
 const TutorialSchema = JSON.parse(

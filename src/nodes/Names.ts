@@ -3,17 +3,17 @@ import type Locale from '@locale/Locale';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { COMMA_SYMBOL } from '@parser/Symbols';
-import { Purpose } from '../concepts/Purpose';
-import type Locales from '../locale/Locales';
+import { Purpose } from '@concepts/Purpose';
+import type Locales from '@locale/Locales';
 import { Emotion } from '../lore/Emotion';
-import Language from './Language';
-import { getPreferred } from './LanguageTagged';
-import Name from './Name';
-import NameToken from './NameToken';
-import type { Grammar, Replacement } from './Node';
-import Node, { list, node } from './Node';
-import { Sym } from './Sym';
-import Token from './Token';
+import Language from '@nodes/Language';
+import { getPreferred } from '@nodes/LanguageTagged';
+import Name from '@nodes/Name';
+import NameToken from '@nodes/NameToken';
+import type { Grammar, Replacement } from '@nodes/Node';
+import Node, { list, node } from '@nodes/Node';
+import { Sym } from '@nodes/Sym';
+import Token from '@nodes/Token';
 
 export default class Names extends Node {
     readonly names: Name[];

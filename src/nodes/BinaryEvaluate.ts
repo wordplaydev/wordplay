@@ -20,36 +20,36 @@ import StartEvaluation from '@runtime/StartEvaluation';
 import type Step from '@runtime/Step';
 import FunctionException from '@values/FunctionException';
 import type Value from '@values/Value';
-import { Purpose } from '../concepts/Purpose';
-import type Locales from '../locale/Locales';
+import { Purpose } from '@concepts/Purpose';
+import type Locales from '@locale/Locales';
 import Characters from '../lore/BasisCharacters';
 import { Emotion } from '../lore/Emotion';
-import JumpIfEqual from '../runtime/JumpIf';
-import FunctionValue from '../values/FunctionValue';
-import ValueException from '../values/ValueException';
-import AnyType from './AnyType';
-import Bind from './Bind';
-import BooleanType from './BooleanType';
-import type Context from './Context';
-import type Definition from './Definition';
-import Expression, { type GuardContext } from './Expression';
-import FunctionDefinition from './FunctionDefinition';
-import FunctionType from './FunctionType';
-import getConcreteExpectedType from './Generics';
-import NeverType from './NeverType';
-import type Node from './Node';
-import { node, type Grammar, type Replacement } from './Node';
-import NoneLiteral from './NoneLiteral';
-import NoneType from './NoneType';
-import NumberLiteral from './NumberLiteral';
-import NumberType from './NumberType';
-import Reference from './Reference';
-import TextLiteral from './TextLiteral';
-import TextType from './TextType';
-import Token from './Token';
-import type Type from './Type';
-import TypeSet from './TypeSet';
-import UnknownNameType from './UnknownNameType';
+import JumpIfEqual from '@runtime/JumpIf';
+import FunctionValue from '@values/FunctionValue';
+import ValueException from '@values/ValueException';
+import AnyType from '@nodes/AnyType';
+import Bind from '@nodes/Bind';
+import BooleanType from '@nodes/BooleanType';
+import type Context from '@nodes/Context';
+import type Definition from '@nodes/Definition';
+import Expression, { type GuardContext } from '@nodes/Expression';
+import FunctionDefinition from '@nodes/FunctionDefinition';
+import FunctionType from '@nodes/FunctionType';
+import getConcreteExpectedType from '@nodes/Generics';
+import NeverType from '@nodes/NeverType';
+import type Node from '@nodes/Node';
+import { node, type Grammar, type Replacement } from '@nodes/Node';
+import NoneLiteral from '@nodes/NoneLiteral';
+import NoneType from '@nodes/NoneType';
+import NumberLiteral from '@nodes/NumberLiteral';
+import NumberType from '@nodes/NumberType';
+import Reference from '@nodes/Reference';
+import TextLiteral from '@nodes/TextLiteral';
+import TextType from '@nodes/TextType';
+import Token from '@nodes/Token';
+import type Type from '@nodes/Type';
+import TypeSet from '@nodes/TypeSet';
+import UnknownNameType from '@nodes/UnknownNameType';
 
 export default class BinaryEvaluate extends Expression {
     readonly left: Expression;
@@ -143,6 +143,14 @@ export default class BinaryEvaluate extends Expression {
                 indent: true,
                 // The type of the right should be the type of the single input to the function corresponding to the operator.
                 getType: (context: Context) => {
+                    // For equality operators, mirror the left's actual type
+                    // instead of the basis function's generic input type. This
+                    // lets autocomplete on a placeholder right-hand side surface
+                    // the literal arms of a union-typed left (e.g., `Key() = _`
+                    // suggests each named key in the active locale).
+                    const op = this.getOperator();
+                    if (op === EQUALS_SYMBOL || op === NOT_EQUALS_SYMBOL)
+                        return this.left.getType(context);
                     const fun = this.getFunction(context);
                     if (fun === undefined || fun.inputs.length === 0)
                         return new NeverType();
@@ -208,12 +216,24 @@ export default class BinaryEvaluate extends Expression {
     computeConflicts(context: Context): Conflict[] {
         const conflicts = [];
 
-        // Warn on sequences of different operators about evaluation order.
-        if (
-            this.left instanceof BinaryEvaluate &&
-            this.getOperator() !== this.left.getOperator()
-        )
-            conflicts.push(new OrderOfOperations(this.left, this));
+        // Warn on a contiguous chain of BinaryEvaluates that mixes more than
+        // one operator. Fire the conflict ONCE per chain, at the chain root —
+        // since the resolution rebuilds the whole chain (#333), more than one
+        // would be redundant.
+        const parent = context.source.root.getParent(this);
+        const isChainRoot = !(
+            parent instanceof BinaryEvaluate && parent.left === this
+        );
+        if (isChainRoot && this.left instanceof BinaryEvaluate) {
+            const operators = new Set<string>();
+            let cur: Expression = this;
+            while (cur instanceof BinaryEvaluate) {
+                operators.add(cur.getOperator());
+                cur = cur.left;
+            }
+            if (operators.size > 1)
+                conflicts.push(new OrderOfOperations(this.left, this));
+        }
 
         // Get the types
         const rightType = this.right.getType(context);
@@ -221,15 +241,21 @@ export default class BinaryEvaluate extends Expression {
         // Find the function on the left's type.
         const fun = this.getFunction(context);
 
-        // Did we find nothing?
-        // if (fun === undefined)
-        //     return [
-        //         new IncompatibleInput(
-        //             this.fun,
-        //             this.left.getType(context),
-        //             FunctionType.make(undefined, [], new AnyType()),
-        //         ),
-        //     ];
+        // No matching operator on the left's type? Report it as the root cause
+        // so downstream type checks (e.g. Update.query) don't have to
+        // cascade-blame this. Suppressed when the left's type is already
+        // UnknownType (its own upstream conflict carries the explanation). #1146
+        if (fun === undefined) {
+            if (!context.isUnknownDownstream(this.left))
+                conflicts.push(
+                    new IncompatibleInput(
+                        this.fun,
+                        this.left.getType(context),
+                        FunctionType.make(undefined, [], new AnyType()),
+                    ),
+                );
+            return conflicts;
+        }
 
         // If it is a function, does the right match the expected input?
         if (fun instanceof FunctionDefinition) {
@@ -256,7 +282,10 @@ export default class BinaryEvaluate extends Expression {
                     );
 
                     // Pass this binary operation to the measurement type so it can reason about units correctly.
-                    if (!expectedType.accepts(rightType, context))
+                    if (
+                        !context.isUnknownDownstream(this.right) &&
+                        !expectedType.accepts(rightType, context)
+                    )
                         conflicts.push(
                             new IncompatibleInput(
                                 this.right,
@@ -410,18 +439,30 @@ export default class BinaryEvaluate extends Expression {
             this.getOperator() === NOT_EQUALS_SYMBOL
         ) {
             const equals = this.getOperator() === EQUALS_SYMBOL;
+
+            // Only narrow the guarded binding's TypeSet when the *other*
+            // side of the equality is a reference to that binding. Without
+            // this gate, an unrelated equality like `key.length() = 1` would
+            // intersect `key`'s text-union with `{# value}` and collapse it
+            // to NeverType, which then poisons any later use of `key`.
+            const guardSide = this.left.isGuardMatch(guard)
+                ? this.left
+                : this.right.isGuardMatch(guard)
+                  ? this.right
+                  : undefined;
+            const otherSide =
+                guardSide === this.left
+                    ? this.right
+                    : guardSide === this.right
+                      ? this.left
+                      : undefined;
+
             let set: TypeSet | undefined = undefined;
 
-            const textLiteral =
-                this.left instanceof TextLiteral
-                    ? this.left
-                    : this.right instanceof TextLiteral
-                      ? this.right
-                      : undefined;
-            if (textLiteral) {
+            if (guardSide !== undefined && otherSide instanceof TextLiteral) {
                 // Find all of the single token translations, turn them into literal text types, and find the intersection between them and the current set.
                 const types: TextType[] = [];
-                for (const translation of textLiteral.texts)
+                for (const translation of otherSide.texts)
                     if (
                         translation.segments.length === 1 &&
                         translation.segments[0] instanceof Token
@@ -432,29 +473,16 @@ export default class BinaryEvaluate extends Expression {
                 set = new TypeSet(types, guard.context);
             }
 
-            // Is one of them a check for a none literal?
-            const noneLiteral =
-                this.left instanceof NoneLiteral
-                    ? this.left
-                    : this.right instanceof NoneLiteral
-                      ? this.right
-                      : undefined;
-            if (noneLiteral) {
+            if (guardSide !== undefined && otherSide instanceof NoneLiteral) {
                 set = new TypeSet([NoneType.make()], guard.context);
             }
 
-            // Is one of them a check for a number?
-            const numberLiteral =
-                this.left instanceof NumberLiteral
-                    ? this.left
-                    : this.right instanceof NumberLiteral
-                      ? this.right
-                      : undefined;
-            if (numberLiteral)
+            if (guardSide !== undefined && otherSide instanceof NumberLiteral) {
                 set = new TypeSet(
-                    [new NumberType(numberLiteral.number, numberLiteral.unit)],
+                    [new NumberType(otherSide.number, otherSide.unit)],
                     guard.context,
                 );
+            }
 
             if (set)
                 return equals
@@ -487,7 +515,9 @@ export default class BinaryEvaluate extends Expression {
     getStartExplanations(locales: Locales, context: Context) {
         return locales.concretize(
             (l) => l.node.BinaryEvaluate.start,
-            new NodeRef(this.left, locales, context),
+            {
+                left: new NodeRef(this.left, locales, context),
+            },
         );
     }
 
@@ -498,7 +528,9 @@ export default class BinaryEvaluate extends Expression {
     ) {
         return locales.concretize(
             (l) => l.node.BinaryEvaluate.finish,
-            this.getValueIfDefined(locales, context, evaluator),
+            {
+                value: this.getValueIfDefined(locales, context, evaluator),
+            },
         );
     }
 
@@ -510,6 +542,8 @@ export default class BinaryEvaluate extends Expression {
     }
 
     getDescriptionInputs(locale: Locales, context: Context) {
-        return [new NodeRef(this.fun, locale, context)];
+        return {
+            operator: new NodeRef(this.fun, locale, context),
+        };
     }
 }

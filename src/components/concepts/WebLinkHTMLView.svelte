@@ -1,7 +1,7 @@
 <script lang="ts">
-    import type WebLink from '../../nodes/WebLink';
-    import type Spaces from '../../parser/Spaces';
-    import Link from '../app/Link.svelte';
+    import type WebLink from '@nodes/WebLink';
+    import type Spaces from '@parser/Spaces';
+    import Link from '@components/app/Link.svelte';
 
     interface Props {
         link: WebLink;

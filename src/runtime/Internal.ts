@@ -1,9 +1,9 @@
 import type LocaleText from '@locale/LocaleText';
 import { UNKNOWN_SYMBOL } from '@parser/Symbols';
-import type { BasisTypeName } from '../basis/BasisConstants';
-import AnyType from '../nodes/AnyType';
-import type Expression from '../nodes/Expression';
-import SimpleValue from '../values/SimpleValue';
+import type { BasisTypeName } from '@basis/BasisConstants';
+import AnyType from '@nodes/AnyType';
+import type Expression from '@nodes/Expression';
+import SimpleValue from '@values/SimpleValue';
 
 export default class Internal<Kind> extends SimpleValue {
     readonly value: Kind;

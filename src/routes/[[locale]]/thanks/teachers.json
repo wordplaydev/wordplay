@@ -1,0 +1,14 @@
+{
+    "teachers": [
+        {
+            "name": "Adrienne Gifford",
+            "school": "Open Window School",
+            "url": "https://www.openwindowschool.org/"
+        },
+        {
+            "name": "Eman Sherif",
+            "school": "Upward Bound, UW Seattle",
+            "url": "https://www.washington.edu/omad/upward-bound/"
+        }
+    ]
+}

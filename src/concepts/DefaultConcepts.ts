@@ -17,16 +17,16 @@ import StructureType from '@nodes/StructureType';
 import TextLiteral from '@nodes/TextLiteral';
 import TextType from '@nodes/TextType';
 import TypePlaceholder from '@nodes/TypePlaceholder';
-import type { Basis } from '../basis/Basis';
-import type Locales from '../locale/Locales';
-import TableLiteral from '../nodes/TableLiteral';
-import TableType from '../nodes/TableType';
-import type Concept from './Concept';
-import FunctionConcept from './FunctionConcept';
-import NodeConcept from './NodeConcept';
-import { Purpose, type PurposeType } from './Purpose';
-import StructureConcept from './StructureConcept';
-import Templates from './Templates';
+import type { Basis } from '@basis/Basis';
+import type Locales from '@locale/Locales';
+import TableLiteral from '@nodes/TableLiteral';
+import TableType from '@nodes/TableType';
+import type Concept from '@concepts/Concept';
+import FunctionConcept from '@concepts/FunctionConcept';
+import NodeConcept from '@concepts/NodeConcept';
+import { Purpose, type PurposeType } from '@concepts/Purpose';
+import StructureConcept from '@concepts/StructureConcept';
+import Templates from '@concepts/Templates';
 
 export function getNodeConcepts(context: Context): NodeConcept[] {
     return Templates.map((template) => {

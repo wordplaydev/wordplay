@@ -17,9 +17,9 @@ import FunctionValue from '@values/FunctionValue';
 import NumberValue from '@values/NumberValue';
 import TextValue from '@values/TextValue';
 import Value from '@values/Value';
-import type { BasisTypeName } from '../basis/BasisConstants';
-import type Locales from '../locale/Locales';
-import type Expression from '../nodes/Expression';
+import type { BasisTypeName } from '@basis/BasisConstants';
+import type Locales from '@locale/Locales';
+import type Expression from '@nodes/Expression';
 
 export default class StructureValue extends Value {
     readonly type: StructureDefinition;
@@ -115,6 +115,24 @@ export default class StructureValue extends Value {
     resolve(name: string | Names, evaluator?: Evaluator): Value | undefined {
         const value = this.context.resolve(name);
         if (value !== undefined) return value;
+        // Fall through to static members on the definition (e.g. `m.PI` on
+        // an instance of `Math`, or `someColor.red` on a `Color` instance).
+        // Statics aren't bound into the instance's Evaluation (see
+        // `StructureDefinition.getEvaluationSteps`), so they're reachable
+        // only through the definition value. The instance's closure chain
+        // contains the surrounding scope where the StructureDefinitionValue
+        // was bound — try each of the structure's names (as strings, since
+        // `Evaluation.resolve` only walks closures for string names).
+        if (typeof name === 'string' && evaluator !== undefined) {
+            for (const defName of this.type.names.getNames()) {
+                const defValue = this.context.resolve(defName);
+                if (defValue !== undefined && defValue !== this) {
+                    const fromStatic = defValue.resolve(name, evaluator);
+                    if (fromStatic !== undefined) return fromStatic;
+                    break;
+                }
+            }
+        }
         const basisFun =
             evaluator && typeof name === 'string'
                 ? evaluator

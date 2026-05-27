@@ -31,28 +31,30 @@ import type {
     Edit,
     ProjectRevision,
     Revision,
-} from '../../components/editor/commands/Commands';
-import type Conflict from '../../conflicts/Conflict';
-import Project from '../../db/projects/Project';
-import type LanguageCode from '../../locale/LanguageCode';
-import NodeRef from '../../locale/NodeRef';
-import Bind from '../../nodes/Bind';
-import BooleanLiteral from '../../nodes/BooleanLiteral';
-import Context from '../../nodes/Context';
-import type Definition from '../../nodes/Definition';
-import DefinitionExpression from '../../nodes/DefinitionExpression';
-import { LanguageTagged } from '../../nodes/LanguageTagged';
-import Literal from '../../nodes/Literal';
-import Name from '../../nodes/Name';
-import NameType from '../../nodes/NameType';
-import NumberLiteral from '../../nodes/NumberLiteral';
-import Reference from '../../nodes/Reference';
-import SetLiteral from '../../nodes/SetLiteral';
-import Translation from '../../nodes/Translation';
-import Type from '../../nodes/Type';
-import TypeVariable from '../../nodes/TypeVariable';
-import UnicodeString from '../../unicode/UnicodeString';
-import { completeInsertion } from './Complete';
+} from '@components/editor/commands/Commands';
+import type Conflict from '@conflicts/Conflict';
+import Project from '@db/projects/Project';
+import type LanguageCode from '@locale/LanguageCode';
+import NodeRef from '@locale/NodeRef';
+import Bind from '@nodes/Bind';
+import BooleanLiteral from '@nodes/BooleanLiteral';
+import Context from '@nodes/Context';
+import type Definition from '@nodes/Definition';
+import DefinitionExpression from '@nodes/DefinitionExpression';
+import { LanguageTagged } from '@nodes/LanguageTagged';
+import Literal from '@nodes/Literal';
+import Name from '@nodes/Name';
+import NameType from '@nodes/NameType';
+import NumberLiteral from '@nodes/NumberLiteral';
+import Input from '@nodes/Input';
+import Language from '@nodes/Language';
+import Reference from '@nodes/Reference';
+import SetLiteral from '@nodes/SetLiteral';
+import Translation from '@nodes/Translation';
+import Type from '@nodes/Type';
+import TypeVariable from '@nodes/TypeVariable';
+import UnicodeString from '@unicode/UnicodeString';
+import { completeInsertion } from '@edit/caret/Complete';
 
 /**
  * Conflicts that are permitted on insertion. We permit these to allow for some
@@ -614,7 +616,9 @@ export default class Caret {
         else return this;
     }
 
-    /** A block editable token is a non-reference name, words, or a number. */
+    /** A block editable token is a non-reference name, words, or a number.
+     *  Input names and Language tag tokens are excluded — they're chosen via
+     *  their respective menus, not free-typed. */
     static isTokenTextBlockEditable(
         token: Token,
         parent: Node | undefined,
@@ -625,7 +629,9 @@ export default class Caret {
             token.isSymbol(Sym.URL) ||
             (token.isSymbol(Sym.Name) &&
                 parent !== undefined &&
-                !(parent instanceof Reference))
+                !(parent instanceof Reference) &&
+                !(parent instanceof Input) &&
+                !(parent instanceof Language))
         );
     }
 
@@ -1300,6 +1306,7 @@ export default class Caret {
         // No autocomplete,
         else {
             // Insert the possibly revised text.
+            const lengthBeforeInsert = newSource.getCode().getLength();
             newSource = newSource.withGraphemesAt(text, newPosition);
 
             // Did we somehow get no source? Bail.
@@ -1309,8 +1316,12 @@ export default class Caret {
             // What's the new token we added?
             const newToken = newSource.getTokenAt(originalPosition, false);
 
-            // Find the position.
-            newPosition = newPosition + new UnicodeString(text).getLength();
+            // Advance by however many graphemes were actually added. Combining characters
+            // (e.g., Hindi vowel signs) merge with the preceding grapheme rather than
+            // adding a new one, so the source length may not grow by UnicodeString(text).getLength().
+            newPosition =
+                newPosition +
+                (newSource.getCode().getLength() - lengthBeforeInsert);
 
             // Finally, if we're in blocks mode, verify that the insertion was valid.
             if (blocks) {
@@ -1968,12 +1979,11 @@ export default class Caret {
     }
 
     getVertical(direction: 1 | -1, position: number): Caret | undefined {
-        // Get the current rendered line and column. Iterate through the tokens, and along the way, tracking the physical position and rendered position.
-        // When we find the physical position, we'll have the rendered line and column.
-        const match =
-            this.source.getRenderedLineAndColumnFromPhysicalPosition(position);
-        if (match === undefined) return;
-        const [line] = match;
+        // Use the line-only variant — we don't need the column for this caret;
+        // we use this.column (the caret's "remembered" column from the last
+        // horizontal move) to land at the same visual offset on the new line.
+        const line = this.source.getLineFromPhysicalPosition(position);
+        if (line === undefined) return;
         const newLine = line + direction;
 
         const newPosition = this.source.getPhysicalPositionFromLineAndColumn(
@@ -2082,7 +2092,12 @@ export default class Caret {
         const conflictDescription =
             conflicts.length > 0
                 ? locales
-                      .concretize((l) => l.ui.edit.conflicts, conflicts.length)
+                      .concretize(
+                          (l) => l.ui.edit.conflicts,
+                          {
+                              count: conflicts.length,
+                          },
+                      )
                       .toText()
                 : undefined;
 
@@ -2099,8 +2114,10 @@ export default class Caret {
             return locales
                 .concretize(
                     (l) => l.ui.edit.node,
-                    new NodeRef(this.addition, locales, context),
-                    type ? new NodeRef(type, locales, context) : undefined,
+                    {
+                        node: new NodeRef(this.addition, locales, context),
+                        type: type ? new NodeRef(type, locales, context) : undefined,
+                    },
                 )
                 .toText();
         }
@@ -2110,8 +2127,10 @@ export default class Caret {
             return locales
                 .concretize(
                     (l) => l.ui.edit.node,
-                    new NodeRef(this.position, locales, context),
-                    type ? new NodeRef(type, locales, context) : undefined,
+                    {
+                        node: new NodeRef(this.position, locales, context),
+                        type: type ? new NodeRef(type, locales, context) : undefined,
+                    },
                 )
                 .toText();
         }
@@ -2120,7 +2139,13 @@ export default class Caret {
         if (isRange(this.position)) {
             const [start, end] = this.position;
             return locales
-                .concretize((l) => l.ui.edit.range, start, end)
+                .concretize(
+                    (l) => l.ui.edit.range,
+                    {
+                        start: start,
+                        end: end,
+                    },
+                )
                 .toText();
         }
 
@@ -2141,15 +2166,17 @@ export default class Caret {
             return locales
                 .concretize(
                     (l) => l.ui.edit.inside,
-                    new NodeRef(this.tokenExcludingSpace, locales, context),
-                    // Character before cursor, if there is one
+                    {
+                        token: new NodeRef(this.tokenExcludingSpace, locales, context),
+                        before: // Character before cursor, if there is one
                     relativeIndex
                         ? this.tokenExcludingSpace.text.at(relativeIndex - 1)
                         : undefined,
-                    // Character after cursor, if there is one
+                        after: // Character after cursor, if there is one
                     relativeIndex
                         ? this.tokenExcludingSpace.text.at(relativeIndex)
                         : undefined,
+                    },
                 )
                 .toText();
         }
@@ -2158,12 +2185,14 @@ export default class Caret {
             return locales
                 .concretize(
                     (l) => l.ui.edit.line,
-                    beforeNode
+                    {
+                        before: beforeNode
                         ? new NodeRef(beforeNode, locales, context)
                         : undefined,
-                    afterNode
+                        after: afterNode
                         ? new NodeRef(afterNode, locales, context)
                         : undefined,
+                    },
                 )
                 .toText();
         }
@@ -2173,21 +2202,25 @@ export default class Caret {
                 return locales
                     .concretize(
                         (l) => l.ui.edit.between,
-                        beforeNode
+                        {
+                            before: beforeNode
                             ? new NodeRef(beforeNode, locales, context)
                             : undefined,
-                        afterNode
+                            after: afterNode
                             ? new NodeRef(afterNode, locales, context)
                             : undefined,
+                        },
                     )
                     .toText();
             else
                 return locales
                     .concretize(
                         (l) => l.ui.edit.before,
-                        afterNode
+                        {
+                            after: afterNode
                             ? new NodeRef(afterNode, locales, context)
                             : undefined,
+                        },
                     )
                     .toText();
         }

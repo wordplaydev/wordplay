@@ -10,21 +10,21 @@ import Start from '@runtime/Start';
 import type Step from '@runtime/Step';
 import BoolValue from '@values/BoolValue';
 import type Value from '@values/Value';
-import { Purpose } from '../concepts/Purpose';
-import type Locales from '../locale/Locales';
+import { Purpose } from '@concepts/Purpose';
+import type Locales from '@locale/Locales';
 import Characters from '../lore/BasisCharacters';
-import { TYPE_SYMBOL } from '../parser/Symbols';
-import BooleanType from './BooleanType';
-import type Context from './Context';
-import Expression, { type GuardContext } from './Expression';
-import ExpressionPlaceholder from './ExpressionPlaceholder';
-import { node, type Grammar, type Replacement } from './Node';
-import { Sym } from './Sym';
-import Token from './Token';
-import Type from './Type';
-import TypePlaceholder from './TypePlaceholder';
-import TypeSet from './TypeSet';
-import UnionType from './UnionType';
+import { TYPE_SYMBOL } from '@parser/Symbols';
+import BooleanType from '@nodes/BooleanType';
+import type Context from '@nodes/Context';
+import Expression, { type GuardContext } from '@nodes/Expression';
+import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
+import { node, type Grammar, type Replacement } from '@nodes/Node';
+import { Sym } from '@nodes/Sym';
+import Token from '@nodes/Token';
+import Type from '@nodes/Type';
+import TypePlaceholder from '@nodes/TypePlaceholder';
+import TypeSet from '@nodes/TypeSet';
+import UnionType from '@nodes/UnionType';
 
 export default class Is extends Expression {
     readonly expression: Expression;
@@ -161,7 +161,9 @@ export default class Is extends Expression {
     getStartExplanations(locales: Locales, context: Context) {
         return locales.concretize(
             (l) => l.node.Is.start,
-            new NodeRef(this.expression, locales, context),
+            {
+                expression: new NodeRef(this.expression, locales, context),
+            },
         );
     }
 
@@ -173,8 +175,10 @@ export default class Is extends Expression {
         const result = evaluator.peekValue();
         return locales.concretize(
             (l) => l.node.Is.finish,
-            result instanceof BoolValue && result.bool,
-            new NodeRef(this.type, locales, context),
+            {
+                value: result instanceof BoolValue && result.bool,
+                type: new NodeRef(this.type, locales, context),
+            },
         );
     }
 
@@ -183,6 +187,8 @@ export default class Is extends Expression {
     }
 
     getDescriptionInputs(locales: Locales, context: Context) {
-        return [new NodeRef(this.type, locales, context)];
+        return {
+            type: new NodeRef(this.type, locales, context),
+        };
     }
 }

@@ -1,4 +1,5 @@
-import type { NameAndDoc } from './LocaleText';
+import type { WellKnownKey } from '@input/KeyboardKeys';
+import type { NameAndDoc } from '@locale/LocaleText';
 
 type InputTexts = {
     /** The Random function, which generates random numbers */
@@ -18,6 +19,15 @@ type InputTexts = {
         key: NameAndDoc;
         /** The optional up or down state to notify about */
         down: NameAndDoc;
+        /** Per-locale translations for the named keys `Key()` can emit
+         *  (Space, Enter, ArrowUp, etc.). Keyed by the canonical English
+         *  `KeyboardEvent.key` string from [KeyboardKeys.ts](src/input/KeyboardKeys.ts).
+         *  Each value is an array whose first entry is this locale's display
+         *  name (what `Key()` emits) and any remaining entries are accepted
+         *  aliases for the `key` filter argument. The record's literal-key
+         *  type pins every `WellKnownKey` as required so the locale verifier
+         *  and `locales-fix` ensure full coverage in every locale. */
+        keys: Record<WellKnownKey, string[]>;
     };
     /** A stream of times since evaluation began */
     Time: NameAndDoc & {
@@ -70,6 +80,13 @@ type InputTexts = {
         height: NameAndDoc;
         /** The frequdncy with which color matrices should be sensed */
         frequency: NameAndDoc;
+    };
+    /** A stream that tracks a hand in the camera image using MediaPipe's hand landmarker */
+    Hand: NameAndDoc & {
+        /** The time between samples */
+        frequency: NameAndDoc;
+        /** The width (in pixels) at which to sample the camera */
+        resolution: NameAndDoc;
     };
     /** A stream of animated outputs */
     Scene: NameAndDoc & {

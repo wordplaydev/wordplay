@@ -1,6 +1,6 @@
-import { Sym, type SymType } from '../nodes/Sym';
-import Token from '../nodes/Token';
-import type Spaces from './Spaces';
+import { Sym, type SymType } from '@nodes/Sym';
+import Token from '@nodes/Token';
+import type Spaces from '@parser/Spaces';
 
 export default class Tokens {
     /** The tokens that have yet to be read. */
@@ -241,6 +241,11 @@ export default class Tokens {
             // If we didn't advance, then we're stuck in an infinite loop. Break.
             if (currentToken === this.peek()) break;
         } while (condition());
+    }
+
+    /** Inject a token at the front of the unread queue (used when splitting a Words token). */
+    injectNext(token: Token): void {
+        this.#unread.unshift(token);
     }
 
     /** Rollback to the given token. */

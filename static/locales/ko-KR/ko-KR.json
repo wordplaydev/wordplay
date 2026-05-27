@@ -94,7 +94,7 @@
         "Region": "지역",
         "BooleanType": "$~불리언 유형",
         "NumberType": "$~숫자 유형",
-        "JapaneseNumeral": "일본 숫자",
+        "HanNumeral": "일본 숫자",
         "RomanNumeral": "로마 숫자",
         "Pi": "파이",
         "Infinity": "무한대",
@@ -122,13 +122,23 @@
         "Name": "이름",
         "Unknown": "알 수 없음",
         "Locale": "로캘",
-        "End": "종료"
+        "End": "종료",
+        "Highlight": "$~강조 표시된 예시",
+        "ThaiNumeral": "$~태국 숫자",
+        "BengaliNumeral": "$~벵골어 숫자",
+        "DevanagariNumeral": "$~데바나가리 숫자",
+        "GujaratiNumeral": "$~구자라트어 숫자",
+        "GurmukhiNumeral": "$~구르무키 숫자",
+        "KannadaNumeral": "$~칸나다어 숫자",
+        "TamilNumeral": "$~타밀 숫자",
+        "TeluguNumeral": "$~텔루구어 숫자",
+        "LanguageJoin": "$~언어 결합기"
     },
     "node": {
         "Dimension": {
             "name": "차원",
-            "description": "차원",
-            "emotion": "$?",
+            "description": "$~단위의 일부를 나타내기",
+            "emotion": "serious",
             "doc": [
                 "나는 /측정 단위/이다!",
                 "나는 \\1m\\, \\10s\\, \\100g\\와 같은 표준화된 단위가 될 수 있어. 네가 만들고 싶은 \\17사과\\와 같은 단위도 기꺼이 될 수 있어.",
@@ -140,7 +150,8 @@
         },
         "Doc": {
             "name": "설명",
-            "emotion": "$?",
+            "description": "$~텍스트로 표현식 문서화하기",
+            "emotion": "serious",
             "doc": [
                 "나는 @Markup 으로 여러 가지를 포맷합니다, 예를 들면 너의 @Program 대한 설명이나, @Phrase 무대에 올린 단어들처럼요.",
                 "예를 들면, 나는 어떤 표현 앞에 올 수 있어요:",
@@ -160,7 +171,8 @@
         },
         "Docs": {
             "name": "설명 목록",
-            "emotion": "$?",
+            "description": "$~여러 언어로 문서 나열하기",
+            "emotion": "serious",
             "doc": [
                 "나는 다양한 언어로 @Doc의 번역본을 여러 개 가질 때 유용한 @Doc의 목록이야.",
                 "목록을 만들기 위해 특별히 무언가를 할 필요는 없어. 그냥 이렇게 여러 개의 @Doc을 나란히 놓으면 돼:",
@@ -170,7 +182,8 @@
         },
         "KeyValue": {
             "name": "매핑",
-            "emotion": "$?",
+            "description": "$~키를 값에 매핑하기",
+            "emotion": "kind",
             "doc": [
                 "나는 항상 @Map 안에서 *키*에서 *값*으로의 매핑이에요.",
                 "어떤 종류의 값을 다른 값에 매핑할 수 있어요. 예를 들어, 숫자의 매핑은 여기 있습니다:",
@@ -181,35 +194,46 @@
         },
         "Language": {
             "name": "언어",
-            "description": "언어 $1[$1|알 수 없음]",
-            "emotion": "$?",
+            "description": "$~태그 이름과 언어가 포함된 텍스트",
+            "emotion": "eager",
             "doc": [
-                "나는 언어 태그이며 @Name 과 @Doc 와 함께 작동해요!",
-                "무언가가 어떤 언어로 쓰여진 것인지 *또렷하게* 알려주는 데 매우 능숙해요.",
-                "그게 바로 제가 하는 일이에요. 단지 작은 슬래시 하나와 몇 글자만 있으면, 어떤 텍스트가 어떤 언어인지 절대 혼란스러워하지 않을 거예요.",
-                "예를 들어, 내 $이름을 말하고 싶지만 영어임을 분명히 하고 싶다고 가정해봅시다:",
-                "\\\"언어\"/en\\",
-                "또는 @Name 대해 이것을 하고 싶다고 가정해 보세요.",
-                "\\소리/en: '야옹'\\",
-                "또는 @Doc 에도!",
-                "\\¶의성어¶/en\n소리/en: \"야옹\"\\",
-                "내가 이해하는 <2글자 언어 코드들@https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes>이 많아요. 만약 그 중 하나를 사용하지 않는다면 알려드릴게요."
+                "$~저는 언어 태그이고 @Name 과 @Doc 사용하여 작업합니다!",
+                "$~저는 글이 어떤 언어로 쓰여 있는지 *정말 명확하게* 표시하는 데 아주 능숙합니다. 슬래시 하나와 몇 글자만 추가하면, 누구도 글의 언어에 대해 헷갈릴 일이 없을 거예요.",
+                "$~예를 들어, \"언어\"라고 말하고 싶지만 영어임을 명확히 하고 싶다면 다음과 같이 할 수 있습니다.",
+                "$~\\\"Language\"/en\\",
+                "$~@Name 에 대해 다음과 같이 할 수 있습니다.",
+                "$~\\sound/en: 'meow'\\",
+                "$~…또는 @Doc :",
+                "$~\\¶Onomatopoeia¶/en\nsound/en: \"meow\"\\",
+                "$~텍스트가 한 가지 언어로만 구성되어 있지 않고 여러 언어가 섞여 있는 경우도 있습니다. 예를 들어 스페인어와 영어가 혼합된 스팽글리시처럼 말이죠. 이런 경우에는 각 언어 사이에 밑줄(_)을 넣어 목록을 작성하세요. 첫 번째 언어가 기본 언어입니다. 예를 들어 어떤 따옴표를 사용할지 선택해야 할 때처럼, 언어를 선택해야 할 때 기본 언어를 사용합니다.",
+                "$~\\\"Hola gentleman!\"/es_en\\",
+                "$~\\¶A bilingual greeting¶/es_en\nhello/es_en: \"Hola gentleman!\"\\",
+                "$~언어를 하나 추가하는 것처럼, 하이픈(-) 뒤에 지역 하나를 추가할 수도 있습니다.",
+                "$~\\\"Hola gentleman!\"/es_en-MX\\",
+                "$~나열할 수 있는 언어 개수에는 제한이 없습니다. 다만 같은 언어를 두 번 나열하지 마세요. 중복될 경우 알려드리겠습니다. 제가 이해하는 <ISO 639-1 코드 목록>이 많이 있습니다. 만약 이 중 사용하지 않는 코드가 있다면 알려드리겠습니다."
             ],
             "conflict": {
                 "UnknownLanguage": {
                     "name": "$~알수없는언어",
-                    "explanation": "$~저는 이 언어를 모릅니다."
+                    "explanation": "$~저는 이 언어를 모릅니다.",
+                    "resolution": "$~이 언어 코드를 제거하세요"
                 },
                 "MissingLanguage": {
                     "name": "$~누락된언어",
-                    "explanation": "$~언어가 하나 빠져있네요. 추가해 주시겠어요?"
+                    "explanation": "$~언어가 하나 빠져있네요. 추가해 주시겠어요?",
+                    "resolution": "$~빈 언어 태그를 제거하세요"
+                },
+                "DuplicateLanguage": {
+                    "name": "$~중복언어",
+                    "explanation": "$~' $code '라는 언어를 두 번 사용하셨습니다. 여러 언어를 함께 사용하는 태그에는 각 언어를 한 번만 나열해야 합니다.",
+                    "resolution": "$~중복된 * $code * 태그를 제거하세요."
                 }
             }
         },
         "Name": {
             "name": "이름",
-            "description": "$1[$1 | 무명]",
-            "emotion": "$?",
+            "description": "$~이름 $name[$name|익명] 선언하기",
+            "emotion": "kind",
             "doc": [
                 "나는 값을 식별하며, 평가하기 어려운 것이나 반복해서 평가하고 싶지 않은 것에 대한 축약된 레이블을 제공하는 유용한 방법입니다.",
                 "@Bind 이렇게 내 이름을 지어줍니다:",
@@ -226,7 +250,8 @@
         },
         "Names": {
             "name": "이름 목록",
-            "emotion": "$?",
+            "description": "$~여러 언어로 이름 나열하기",
+            "emotion": "kind",
             "doc": [
                 "나는 @Name 목록이며, 값을 여러 이름으로 지정하고 싶을 때 유용합니다, 종종 다른 @Language 함께요.",
                 "이름은 \\,\\ 기호로 구분됩니다. 예를 들어, 여기 @Bind 여러 @Name 값을 지정하는 것입니다:",
@@ -238,24 +263,30 @@
         },
         "Row": {
             "name": "행",
-            "emotion": "$?",
+            "description": "$~테이블의 행 나타내기",
+            "emotion": "shy",
             "doc": "나는 @Table 한 행을 나타냅니다. 나에 대해 모든 것을 아는 @Table 말하는 것이 아마도 최선일 거예요. 나는 그저 앉아서 값들을 줄지어 정렬하고 있을 뿐이에요 :(",
             "conflict": {
                 "InvalidRow": {
                     "name": "$~잘못된행",
-                    "explanation": "$~행은 모두 값이거나 모두 @Bind 합니다."
+                    "explanation": "$~행은 모두 값이거나 모두 @Bind 합니다.",
+                    "resolutionKeepPositional": "$~이름이 지정된 셀은 삭제하고 위치 셀만 남겨두세요.",
+                    "resolutionUnwrapInputs": "$~이름이 지정된 셀에서 이름을 삭제하세요"
                 },
                 "MissingCell": {
                     "name": "$~누락된열",
-                    "explanation": "$~$1 열이 누락되었습니다."
+                    "explanation": "$~$column 열이 누락되었습니다.",
+                    "resolution": "$~* $column *에 대한 자리 표시자 셀을 추가합니다."
                 },
                 "ExtraCell": {
                     "name": "$~추가열",
-                    "explanation": "$~테이블 유형을 기준으로 볼 때, 저는 여기에 있어서는 안 될 불필요한 열입니다."
+                    "explanation": "$~테이블 유형을 기준으로 볼 때, 저는 여기에 있어서는 안 될 불필요한 열입니다.",
+                    "resolution": "$~추가 세포를 제거하세요"
                 },
                 "UnknownColumn": {
                     "name": "$~알수없는열이름",
-                    "explanation": "$~저는 그런 이름의 칼럼을 본 적이 없습니다."
+                    "explanation": "$~저는 그런 이름의 칼럼을 본 적이 없습니다.",
+                    "resolution": "$~이름을 * $name *으로 변경하세요"
                 },
                 "UnexpectedColumnBind": {
                     "name": "$~바인딩행없음",
@@ -265,8 +296,8 @@
         },
         "Token": {
             "name": "토큰",
-            "description": "$~$1 $2",
-            "emotion": "$?",
+            "description": "$label",
+            "emotion": "neutral",
             "doc": [
                 "어떻게 나를 찾아냈나요?",
                 "나는 공연에서 가능한 가장 작은 부분입니다. 나는 우주의 모든 문자가 만들어지는 기반이며, 우리 안무의 원자 입자입니다."
@@ -274,17 +305,20 @@
         },
         "TypeInputs": {
             "name": "$~유형입력",
-            "emotion": "$?",
+            "description": "$~타입 변수 슬롯 채우기",
+            "emotion": "curious",
             "doc": "$~@StructureDefinition 또는 @FunctionDefinition 서 @TypeVariables 를 대신하는 유형 목록입니다. 나는 모든 사람이 어떤 종류의 입력을 받게 될지 알 수 있도록 돕습니다."
         },
         "TypeVariable": {
             "name": "타입 입력",
-            "emotion": "$?",
+            "description": "$~호출자가 제공하는 타입 이름 붙이기",
+            "emotion": "curious",
             "doc": "@FunctionDefinition @StructureDefinition @TypeInputs 대체하는 타입 목록입니다. 나는 모든 사람들이 어떤 종류의 입력을 받게 될지 알 수 있도록 도와줍니다.",
             "conflict": {
                 "DuplicateTypeVariable": {
                     "name": "$~중복유형변수",
-                    "explanation": "$~나는 1달러와 이름이 같다"
+                    "explanation": "$~저는 $duplicate 이름이 같습니다.",
+                    "resolution": "$~중복된 유형 변수를 제거합니다."
                 }
             },
             "label": {
@@ -293,13 +327,14 @@
         },
         "TypeVariables": {
             "name": "타입 변수들",
-            "emotion": "$?",
+            "description": "$~정의에서 타입 변수 나열하기",
+            "emotion": "curious",
             "doc": "나는 @TypeVariable 목록입니다."
         },
         "Markup": {
             "name": "마크업",
-            "description": "$1 문단들",
-            "emotion": "$?",
+            "description": "$~$count 단락으로 문서 형식화하기",
+            "emotion": "serious",
             "doc": [
                 "나는 @Words, @WebLink, @ConceptLink, 그리고 @Example 같은 다양한 종류의 마크업을 사용하는 문단들의 목록입니다."
             ],
@@ -309,7 +344,8 @@
         },
         "Paragraph": {
             "name": "문단",
-            "emotion": "$?",
+            "description": "$~단어들을 단락으로 묶기",
+            "emotion": "serious",
             "doc": [
                 "나는 @Words, @ConceptLink, @WebLink 웹링크, 그리고 @Example 연속으로, 빈 줄로 구분되며 @Doc 안에 있습니다.",
                 "나를 쓰기 위해 필요한 것은 @Doc 많은 단어를 쓰는 것뿐입니다:",
@@ -320,8 +356,8 @@
         },
         "WebLink": {
             "name": "링크",
-            "description": "링크 $1",
-            "emotion": "$?",
+            "description": "$~웹 주소 $url 에 링크하기",
+            "emotion": "serious",
             "doc": [
                 "나는 인터넷상의 무언가로의 링크입니다. 나는 설명과 URL만 필요로 합니다:",
                 "\\¶나는 문서에서 <링크@https://wordplay.dev>입니다¶\n'링크 예시'\\",
@@ -330,8 +366,8 @@
         },
         "ConceptLink": {
             "name": "개념",
-            "description": "개념 $1",
-            "emotion": "$?",
+            "description": "$~문서에서 개념 $concept 에 링크하기",
+            "emotion": "serious",
             "doc": [
                 "$~저는 Verse 캐릭터에 대한 링크입니다. @Doc 작성하고 저희 중 한 명을 언급하고 싶을 때 도움이 됩니다.",
                 "$~예를 들어, @Evaluate 대해 이야기하고 싶고, 그들이 얼마나 대단한지 말하고 싶다고 가정해 보겠습니다. 다음과 같이 쓸 수 있습니다.",
@@ -345,18 +381,27 @@
         },
         "Words": {
             "name": "단어들",
-            "emotion": "$?",
+            "description": "$~문서에 일반 단어 쓰기",
+            "emotion": "serious",
             "doc": [
                 "나는 @Doc 안에서 마음에 드는 어떤 단어들이에요. 예를 들면:",
                 "\\¶포스가 함께 하기를.¶\n'그냥 몇몇 단어들!'\\",
                 "하지만 때때로, @Doc 사용하는 특수 문자들을 /단어로써/ 사용하고 싶을 수도 있어요. 예를 들어:",
                 "\\¶내 친구들은 @@, //, **, ||, 그리고 다른 기호들을 사용해요.¶\n'특수 문자 사용하기!'\\",
                 "이 특수 문자들을 반복하기만 하면, 그 특수한 의미 대신 문자 자체를 얻을 수 있습니다."
-            ]
+            ],
+            "conflict": {
+                "UnsupportedFontFormat": {
+                    "name": "$~지원되지않는글꼴형식",
+                    "explanation": "$~내 친구 * $face *는 $format 되는 방법을 모릅니다.",
+                    "resolution": "$~서식을 제거하세요"
+                }
+            }
         },
         "Example": {
             "name": "예제",
-            "emotion": "$?",
+            "description": "$~문서에 실행 가능한 코드 보여주기",
+            "emotion": "serious",
             "doc": [
                 "나는 무언가의 사용법을 설명하는 @Doc 작성할 때 유용한 예시 공연입니다!",
                 "\\¶덧셈의 예제를 보세요: \\1 + 1\\¶'예제 코드'\\"
@@ -364,16 +409,17 @@
         },
         "Mention": {
             "name": "언급",
-            "description": "언급 $1",
-            "emotion": "$?",
+            "description": "$~마크업에서 $name 언급하기",
+            "emotion": "serious",
             "doc": [
-                "나는 용어 \\$program\\ 또는 동적 입력 \\$1\\에 대한 참조입니다.",
+                "나는 용어 \\$program\\ 또는 동적 입력 \\$name\\에 대한 참조입니다.",
                 "하지만 이것은 주로 내부 기능이므로, 알 필요는 없을 거예요."
             ]
         },
         "Branch": {
             "name": "분기",
-            "emotion": "$?",
+            "description": "$~조건에 따라 마크업 선택하기",
+            "emotion": "serious",
             "doc": [
                 "나는 설명 입력 값이 정의되었거나 참인지에 따라 두 설명 세그먼트 중 하나를 선택하는 방법입니다.",
                 "하지만 이것은 주로 내부 기능이므로, 알 필요는 없을 거예요."
@@ -381,8 +427,8 @@
         },
         "BinaryEvaluate": {
             "name": "이진 평가",
-            "description": "$1 연산",
-            "emotion": "$?",
+            "description": "$~두 값에 $operator 연산자 적용하기",
+            "emotion": "insecure",
             "doc": [
                 "나는 @Evaluate 더 단순한 형태입니다, 두 입력을 취하는 @FunctionDefinition 사용하고 싶을 때 유용합니다.",
                 "예를 들어, 두 숫자를 더하는 데 @Evaluate 사용하는 방법은 다음과 같습니다:",
@@ -397,12 +443,15 @@
                 "수학에서는 곱셈이 먼저 오고 그 다음에 덧셈이 오므로 결과는 \\11\\이 될 것입니다. 하지만 읽는 순서대로 평가하기 때문에 결과는 \\13\\이 됩니다."
             ],
             "right": "입력",
-            "start": "$1을 먼저 평가해 봅시다",
-            "finish": "보세요, $1을 만들었습니다!",
+            "start": "$left 먼저 평가해 봅시다",
+            "finish": "보세요, $value 만들었습니다!",
             "conflict": {
                 "OrderOfOperations": {
                     "name": "$~모호한순서",
-                    "explanation": "$~저는 수학 연산 순서가 아니라 읽기 순서대로 평가합니다. @Block 어노테이션을 사용해서 평가 순서를 지정하시겠습니까?"
+                    "explanation": "$~저는 수학 연산 순서가 아니라 읽기 순서대로 평가합니다. @Block 어노테이션을 사용해서 평가 순서를 지정하시겠습니까?",
+                    "resolutionPEMDAS": "$~PEMDAS 계산 순서를 적용하세요: $higher 먼저 계산한 다음 $lower 계산하세요.",
+                    "resolutionReading": "$~읽는 순서를 계속 지켜주세요: $lower 평가하기 전에 $higher 평가하세요.",
+                    "resolutionWrap": "$~순서를 명확히 하려면 괄호를 추가하세요."
                 }
             },
             "label": {
@@ -411,8 +460,8 @@
         },
         "Bind": {
             "name": "바인드",
-            "description": "바인드 $1",
-            "emotion": "$?",
+            "description": "$~이 값에 '$name' 이름 붙이기",
+            "emotion": "excited",
             "doc": [
                 "나는 *값들*에 이름을 붙입니다.",
                 "이렇게요!",
@@ -439,44 +488,60 @@
                 "하지만 @Is 를 추가하면 이제 @FunctionDefinition 그것들이 숫자라는 것을 알게 됩니다:",
                 "\\ƒ sum(a•# b•#) a + b\\"
             ],
-            "start": "$1에서 어떤 값을 얻는지 봅시다!",
-            "finish": "오, 좋아요, $1을 얻었어요! 이름을 $2로 지어봅시다",
+            "start": "$value 어떤 값을 얻는지 봅시다!",
+            "finish": "오, 좋아요, $value 얻었어요! 이름을 $name 지어봅시다",
             "conflict": {
                 "DuplicateName": {
                     "conflict": {
                         "name": "$~중복된이름",
-                        "explanation": "$~누군가 '$1'이라는 이름을 이미 사용하고 있어서 저는 그 이름을 쓸 수 없어요."
+                        "explanation": "$~누군가 '$shadowed'이라는 이름을 이미 사용하고 있어서 저는 그 이름을 쓸 수 없어요."
                     },
                     "resolution": "$~중복된 이름이 있습니다. 하나를 제거하시겠습니까?"
                 },
                 "DuplicateShare": {
                     "name": "$~중복공유",
-                    "explanation": "$~제 이름은 1달러와 같습니다. 그래서 우리가 무엇을 공유하는지 불분명해지네요."
+                    "explanation": "$~제 이름이 $duplicate 똑같습니다. 그래서 우리가 무엇을 공유하고 있는지 불분명합니다.",
+                    "resolution": "$~이 중복 공유를 삭제하세요"
                 },
                 "IncompatibleType": {
                     "name": "$~호환되지않는유형",
-                    "explanation": "$~저는 2번 유형이어야 하는데, 1번 유형이에요.",
-                    "resolution": "$~1달러로 환산"
+                    "explanation": "$~나는 $expected 타입을 예상했지만 $given 타입을 받았다.",
+                    "resolution": "$~$expected 으로 변환",
+                    "resolutionLiteral": "$~리스트, 세트 또는 맵을 리터럴로 표시하려면 !를 사용하세요. 그러면 값이 일반화되지 않고 특정 값으로 유지됩니다. $expected 정확한 값이 필요합니다.",
+                    "resolutionOtherwise": "$~$expected ø를 허용하지 않으므로 누락된 값은 ??로 처리하세요.",
+                    "resolutionGuard": "$~$expected 는 다른 가능한 타입이 될 수 없으므로, 타입 가드를 사용하여 먼저 해당 값이 $expected 인지 확인합니다.",
+                    "resolutionDeclaration": "$~$expected 리터럴 값을 유지해야 하므로 타입을 명시적으로 선언해야 합니다.",
+                    "resolutionWrap": "$~$expected 값들의 모음을 필요로 하므로, 리스트, 세트 또는 맵에 담아주세요.",
+                    "resolutionStructure": "$~슬롯에 $expected 값이 필요하므로, 해당 값을 $expected 감싸주세요.",
+                    "resolutionDefault": "$~바인딩에 시작 값을 지정하세요. 여기서는 $expected 값이 누락될 수 없습니다.",
+                    "resolutionWiden": "$~$expected 실제로 저장된 값에 비해 범위가 너무 좁으므로, 이 바인딩에 값의 유형을 허용해야 합니다.",
+                    "resolutionReorder": "$~입력값을 서로 바꿔야 합니다. 타입 순서가 반대가 더 적합하기 때문입니다. $expected 다른 자리에 있어야 합니다.",
+                    "resolutionPlaceholder": "$~$expected 필수 항목이므로 지금은 임시 값으로 대체해 두세요. 그런 다음 자동 완성 메뉴에서 값을 선택하세요."
                 },
                 "MisplacedShare": {
                     "name": "$~잘못된공유",
-                    "explanation": "$~저는 @Program 레벨에서만 공유할 수 있고, 그 안에는 공유할 수 없습니다!"
+                    "explanation": "$~저는 @Program 레벨에서만 공유할 수 있고, 그 안에는 공유할 수 없습니다!",
+                    "resolution": "$~*↑* 표시를 제거하세요"
                 },
                 "MissingShareLanguages": {
                     "name": "$~누락된언어",
-                    "explanation": "$~이 내용을 공유하고 싶다면, 다른 사람들이 읽을 수 있는지 알 수 있도록 어떤 언어로 작성되었는지 명시해야 합니다!"
+                    "explanation": "$~이 내용을 공유하고 싶다면, 다른 사람들이 읽을 수 있는지 알 수 있도록 어떤 언어로 작성되었는지 명시해야 합니다!",
+                    "resolution": "$~*↑* 표시를 제거하세요"
                 },
                 "RequiredAfterOptional": {
                     "name": "$~선택사항후필수입력",
-                    "explanation": "$~저는 여기에 있을 수 없어요. 제 앞에 선택적 @Bind 있어요."
+                    "explanation": "$~저는 여기에 있을 수 없어요. 제 앞에 선택적 @Bind 있어요.",
+                    "resolution": "$~필수 입력값을 선택 입력값 앞에 배치하세요"
                 },
                 "UnexpectedEtc": {
                     "name": "$~입력목록후예상치못한입력",
-                    "explanation": "$~@FunctionDefinition 가변 길이를 사용할 수 있습니다."
+                    "explanation": "$~@FunctionDefinition 가변 길이를 사용할 수 있습니다.",
+                    "resolution": "$~*…*를 제거하세요."
                 },
                 "UnusedBind": {
                     "name": "$~사용하지않은바인드",
-                    "explanation": "$~내 이름은 $1인데 아무도 나를 사용하지 않네요. 아마 내가 필요 없는 걸까요?"
+                    "explanation": "$~내 이름은 $name 아무도 나를 사용하지 않네요. 아마 내가 필요 없는 걸까요?",
+                    "resolution": "$~이 바인딩을 삭제하세요"
                 }
             },
             "label": {
@@ -487,8 +552,8 @@
         },
         "Block": {
             "name": "블록",
-            "description": "$1 문장",
-            "emotion": "$?",
+            "description": "$~$count 개의 문을 순서대로 평가하기",
+            "emotion": "shy",
             "doc": [
                 "안녕하세요. 저는 조용하고 개인적인 공간을 만들어 평가하는 것들을 위한 곳입니다.",
                 "이렇게요:",
@@ -499,26 +564,21 @@
                 "@Bind \\count\\를 만든 것을 보세요? 이것은 저 안에서만 이름이 붙여집니다. 그래서 이건 작동하지 않아요:",
                 "\\(count: 10 count ^ count) + count\\",
                 "왜냐하면 count는 저 안에서만 이름이 붙여졌기 때문입니다.",
-                "저 안에는 원하는 만큼의 표현식을 넣을 수 있습니다. 하지만 저는 마지막 것만 신경 쓰죠:",
+                "표현식을 하나 주시면, 저는 그 값을 그대로 돌려드려요:",
+                "\\(1 + 1)\\",
+                "여러 개를 주시면, 순서대로 리스트로 모아드려요:",
                 "\\(1 2 3 4 5)\\",
-                "그래서 보통 저는 많은 @Bind 마지막에 표현식을 가지고 있습니다.",
-                "\\(\n  a: 1\n  b: 2\n  c: 3\n  d: 4\n  a + b + c + d\n)\\"
+                "@Bind 문은 부수 효과이지 값이 아니므로, 리스트에 나타나지 않아요:",
+                "\\(\n  a: 1\n  b: 2\n  a + b\n  a × b\n)\\",
+                "그러면 \\[3 2]\\가 돼요: @Bind가 아닌 두 표현식의 값들만요."
             ],
             "start": "첫 번째 표현식",
-            "finish": "끝났어요, $1을 얻었습니다",
+            "finish": "끝났어요, $value 얻었습니다",
             "conflict": {
                 "ExpectedEndingExpression": {
                     "name": "$~표현이누락됨",
-                    "explanation": "$~표현이 필요해요."
-                },
-                "IgnoredExpression": {
-                    "resolution": {
-                        "binary": "$~@UnaryEvaluate 대신 @BinaryEvaluate 를 사용한다는 뜻인가요? 공백을 추가하면 그 뜻을 알 수 있습니다.",
-                        "evaluate": "$~@Evaluate 설정하려고 하셨나요? 이 공백을 제거하면 두 개의 별도 표현식 대신 하나로 만들 수 있습니다.",
-                        "name": "$~이표현식에@Bind어노테이션을붙여서@Bind값을계산하는데사용하시겠습니까?"
-                    },
-                    "name": "$~무시된표현",
-                    "explanation": "$~@Block 값은 마지막 표현식을 기반으로 하기 때문에 저는 무시당하고 있습니다."
+                    "explanation": "값을 돌려드릴 수 있도록, @Bind가 아닌 표현식이 적어도 하나는 필요해요.",
+                    "resolution": "$~마지막 표현을 추가하세요"
                 }
             },
             "label": {
@@ -527,31 +587,33 @@
         },
         "BooleanLiteral": {
             "name": "특정 부울",
-            "description": "$1[참|거짓]",
-            "emotion": "$?",
+            "description": "$~$value[참|거짓] 불리언 값 만들기",
+            "emotion": "precise",
             "doc": "나는 \\⊤\\ 또는 \\⊥\\ 중 하나입니다. 우리의 아름다운 논리에 대해 더 알고 싶다면 @Boolean 참조하세요.",
-            "start": "$1!"
+            "start": "$value!"
         },
         "Borrow": {
             "name": "빌리기",
-            "description": "빌리기 $1[$1|이름 누락]",
-            "emotion": "$?",
+            "description": "$~소스에서 $name[$name|익명] 빌려오기",
+            "emotion": "excited",
             "doc": "여러 @Source 공연을 만들 때, 다른 @Bind 공유된 @Source 빌리기 위해 저를 사용할 수 있습니다. 그들의 이름을 사용하기만 하면 그들의 이름과 값을 가져올게요.",
-            "start": "$1에서 $2 빌리기",
+            "start": "$name $source 빌리기",
             "conflict": {
                 "UnknownBorrow": {
                     "name": "$~알수없는차용",
-                    "explanation": "$~저는 그런 이름의 $source를 알지 못합니다."
+                    "explanation": "$~저는 그런 이름의 $source를 알지 못합니다.",
+                    "resolution": "$~이 대출 항목을 제거하세요"
                 },
                 "BorrowCycle": {
                     "name": "$~자기참조차용",
-                    "explanation": "$~이것은 $1에 의존하고, $1은 이 $source에 의존하므로 프로그램을 평가할 수 없습니다."
+                    "explanation": "$~이것은 $borrow 에 의존하고, $borrow는 다시 $source 에 의존하므로 프로그램을 평가할 수 없습니다.",
+                    "resolution": "$~이 차용을 제거하여 악순환을 끊으세요."
                 }
             },
             "exception": {
                 "CycleException": {
                     "description": "빌리기 순환",
-                    "explanation": "$1이 자기 자신에게 의존하고 있어요"
+                    "explanation": "$borrow 자기 자신에게 의존하고 있어요"
                 }
             },
             "label": {
@@ -562,21 +624,23 @@
         },
         "Changed": {
             "name": "변경됨",
-            "emotion": "$?",
+            "description": "$~스트림이 변경되면 참 반환하기",
+            "emotion": "serious",
             "doc": [
                 "스트림이 @Program 재평가하게 했는지 확인하고 @Boolean 만듭니다. 이렇게요",
                 "\\∆ 시간()\\",
                 "스트림이 변경되었을 때만 무언가가 변경되기를 원할 때 정말 유용합니다.",
                 "그게 다에요."
             ],
-            "start": "$1이 변경되었는지 보자구요…",
+            "start": "$stream 변경되었는지 보자구요…",
             "label": {
                 "stream": "$~개울"
             }
         },
         "Conditional": {
             "name": "조건문",
-            "emotion": "$?",
+            "description": "$~조건 확인 후 두 표현식 중 하나 평가하기",
+            "emotion": "curious",
             "doc": [
                 "제가 결정을 내려야 하나요? 이렇게 말이죠?",
                 "\\숫자: -100\n숫자 < 0 ? '음수' '양수'\\",
@@ -584,14 +648,25 @@
                 "결정이 단순히 예 아니면 아니오로만 이루어져야 한다고 생각하지 않나요? \\⊤\\와 \\⊥\\ 사이에서 결정하는 것이 전부일까요?",
                 "이것들이 우리가 내릴 수 있는 유일한 종류의 결정이라면, 세상에 대한 중요한 맥락을 놓치고 있지 않을까 걱정되지 않나요?"
             ],
-            "start": "$1이 참인지 보자",
-            "else": "$1[코드를 건너뛰는 중 | 코드를 건너뛰지 않는 중]",
+            "start": "$condition 참인지 보자",
+            "else": "$jumping[코드를 건너뛰는 중 | 코드를 건너뛰지 않는 중]",
             "afterthen": "예스를 완료했으니, 노는 건너뛸까요?",
-            "finish": "아마도 $1인가요?",
+            "finish": "아마도 $value?",
             "conflict": {
                 "ExpectedBooleanCondition": {
                     "name": "$~예상되는부울조건",
-                    "explanation": "$~결정을 내리려면 @Boolean 값이 필요한데, 대신 1달러를 받았어요."
+                    "explanation": "$~결정을 내리려면 @Boolean 타입이 필요한데, 대신 $type 타입이 나왔어요.",
+                    "resolution": "$~$expected 는 필수 값이므로 $expected 로 변환하세요.",
+                    "resolutionLiteral": "$~리스트, 세트 또는 맵을 리터럴로 표시하려면 !를 사용하세요. 그러면 값이 일반화되지 않고 특정 값으로 유지됩니다. $expected 정확한 값이 필요합니다.",
+                    "resolutionOtherwise": "$~$expected ø를 허용하지 않으므로 누락된 값은 ??로 처리하세요.",
+                    "resolutionGuard": "$~$expected 는 다른 가능한 타입이 될 수 없으므로, 타입 가드를 사용하여 먼저 해당 값이 $expected 인지 확인합니다.",
+                    "resolutionDeclaration": "$~$expected 리터럴 값을 유지해야 하므로 타입을 명시적으로 선언해야 합니다.",
+                    "resolutionWrap": "$~$expected 값들의 모음을 필요로 하므로, 리스트, 세트 또는 맵에 담아주세요.",
+                    "resolutionStructure": "$~슬롯에 $expected 값이 필요하므로, 해당 값을 $expected 감싸주세요.",
+                    "resolutionDefault": "$~바인딩에 시작 값을 지정하세요. 여기서는 $expected 값이 누락될 수 없습니다.",
+                    "resolutionWiden": "$~$expected 실제로 저장된 값에 비해 범위가 너무 좁으므로, 이 바인딩에 값의 유형을 허용해야 합니다.",
+                    "resolutionReorder": "$~입력값을 서로 바꿔야 합니다. 타입 순서가 반대가 더 적합하기 때문입니다. $expected 다른 자리에 있어야 합니다.",
+                    "resolutionPlaceholder": "$~$expected 필수 항목이므로 지금은 임시 값으로 대체해 두세요. 그런 다음 자동 완성 메뉴에서 값을 선택하세요."
                 }
             },
             "label": {
@@ -602,8 +677,8 @@
         },
         "ConversionDefinition": {
             "name": "변환 정의",
-            "description": "$1 → $2",
-            "emotion": "$?",
+            "description": "$~$input 에서 $output 로 변환 정의하기",
+            "emotion": "excited",
             "doc": [
                 "이봐요, 저는 한 타입에서 다른 타입으로의 변환을 정의해요! @Block 안에서 이렇게 쓰이죠:",
                 "\\→ #kitty #cat . ÷ 2\n6kitty→#cat\\",
@@ -614,7 +689,8 @@
             "conflict": {
                 "MisplacedConversion": {
                     "name": "$~잘못된변환",
-                    "explanation": "$~와, 나 여기 있을 수 없어. @Block 있어야 해."
+                    "explanation": "$~와, 나 여기 있을 수 없어. @Block 있어야 해.",
+                    "resolution": "$~이 변환을 제거하세요"
                 }
             },
             "label": {
@@ -625,7 +701,8 @@
         },
         "Convert": {
             "name": "변환",
-            "emotion": "$?",
+            "description": "$~값을 다른 타입으로 변환하기",
+            "emotion": "cheerful",
             "doc": [
                 "안녕. 저는 값을 하나의 타입에서 다른 타입으로 변환해요. 이것 좀 보세요:",
                 "\\1 → \"\"\\",
@@ -635,24 +712,26 @@
                 "\\\"안녕\" → [] → {}\\",
                 "값들은 사전에 정의된 @ConversionDefinition 집합을 가지고 있지만, 새로운 타입의 값을 위한 @StructureDefinition 만들 경우, @ConversionDefinition 사용하여 자신만의 것을 정의할 수 있어요."
             ],
-            "start": "$1에서 값을 가져와요!",
-            "finish": "대단해, $1을 만들었어요",
+            "start": "$expression 값을 가져와요!",
+            "finish": "대단해, $value 만들었어요",
             "conflict": {
                 "UnknownConversion": {
                     "name": "$~알수없는변환",
-                    "explanation": "$~1달러를 2달러로 바꾸는 방법을 찾을 수 없었습니다."
+                    "explanation": "$~우리는 $expected $given 으로 변환하는 방법을 찾을 수 없었습니다.",
+                    "resolution": "$~변환을 제거하세요"
                 }
             },
             "exception": {
                 "ConversionException": {
                     "description": "불가능한 변환",
-                    "explanation": "$1에서 $2로 변환하는 방법을 모르겠어요"
+                    "explanation": "$from $to 변환하는 방법을 모르겠어요"
                 }
             }
         },
         "Delete": {
             "name": "삭제",
-            "emotion": "$?",
+            "description": "$~테이블에서 일치하는 행 제거하기",
+            "emotion": "angry",
             "doc": [
                 "가끔 테이블에 너무 많은 것이 들어 있는 경우가 있어요!",
                 "예를 들어, 게임에 플레이어들이 있는데 한 명이 떠나고 당신은 그저 '플레이어야, 사라져! 내 테이블에서 나가!'라고 말하고 싶을 때요.",
@@ -664,7 +743,8 @@
         },
         "DocumentedExpression": {
             "name": "설명된 표현",
-            "emotion": "$?",
+            "description": "$~표현식에 문서 첨부하기",
+            "emotion": "eager",
             "doc": [
                 "나는 @Doc 붙인 표현이야!",
                 "나를 만들려면, 표현 앞에 @Doc 를 넣기만 하면 돼:",
@@ -675,8 +755,8 @@
         },
         "Evaluate": {
             "name": "평가하다",
-            "description": "$1[$1|anonymous]을 평가해",
-            "emotion": "$?",
+            "description": "$~$structure[$name[$name|] 값을 이 입력으로 만들기|$stream[$name[$name|] 스트림을 이 입력으로 만들기|$name[$name|함수]를 이 입력에 적용]]",
+            "emotion": "shy",
             "doc": [
                 "안녕. 나는 @FunctionDefinition 을 이렇게 해석해:",
                 "\\ƒ greeting(message•'')\ngreeting('kitty')\\",
@@ -690,46 +770,64 @@
             ],
             "start": "먼저 입력된 수 부터 해석해 볼까?",
             "evaluate": "이젠 함수를 해석해보자",
-            "finish": "나는 $1로 해석했어",
+            "finish": "나는 $value 해석했어",
             "conflict": {
                 "IncompatibleInput": {
                     "name": "$~호환되지않는입력",
-                    "explanation": "$~저는 1번 유형이어야 하는데, 2번 유형이에요.",
-                    "resolution": "$~1달러로 환산"
+                    "explanation": "$~나는 $expected 기대했지만 $given 받았다",
+                    "resolution": "$~$expected 으로 변환",
+                    "resolutionLiteral": "$~리스트, 세트 또는 맵을 리터럴로 표시하려면 !를 사용하세요. 그러면 값이 일반화되지 않고 특정 값으로 유지됩니다. $expected 정확한 값이 필요합니다.",
+                    "resolutionOtherwise": "$~$expected ø를 허용하지 않으므로 누락된 값은 ??로 처리하세요.",
+                    "resolutionGuard": "$~$expected 는 다른 가능한 타입이 될 수 없으므로, 타입 가드를 사용하여 먼저 해당 값이 $expected 인지 확인합니다.",
+                    "resolutionDeclaration": "$~$expected 리터럴 값을 유지해야 하므로 타입을 명시적으로 선언해야 합니다.",
+                    "resolutionWrap": "$~$expected 값들의 모음을 필요로 하므로, 리스트, 세트 또는 맵에 담아주세요.",
+                    "resolutionStructure": "$~슬롯에 $expected 값이 필요하므로, 해당 값을 $expected 감싸주세요.",
+                    "resolutionDefault": "$~바인딩에 시작 값을 지정하세요. 여기서는 $expected 값이 누락될 수 없습니다.",
+                    "resolutionWiden": "$~$expected 실제로 저장된 값에 비해 범위가 너무 좁으므로, 이 바인딩에 값의 유형을 허용해야 합니다.",
+                    "resolutionReorder": "$~입력값을 서로 바꿔야 합니다. 타입 순서가 반대가 더 적합하기 때문입니다. $expected 다른 자리에 있어야 합니다.",
+                    "resolutionPlaceholder": "$~$expected 필수 항목이므로 지금은 임시 값으로 대체해 두세요. 그런 다음 자동 완성 메뉴에서 값을 선택하세요."
                 },
                 "UnexpectedTypeInput": {
                     "name": "$~예상치못한유형입력",
-                    "explanation": "$~저는 예상치 못한 추가 입력 유형입니다."
+                    "explanation": "$~저는 예상치 못한 추가 입력 유형입니다.",
+                    "resolution": "$~이 입력 유형을 제거하세요"
                 },
                 "MissingInput": {
                     "name": "$~입력누락",
-                    "explanation": "$~입력값 $2 없이는 평가할 수 없어요 :("
+                    "explanation": "$~입력값 $name 없이는 $input 평가할 수 없습니다 :(",
+                    "resolutionAddInput": "$~누락된 $input 변수와 해당 기본값을 추가합니다.",
+                    "resolutionPlaceholder": "$~누락된 $input 자리 표시자로 추가한 다음 자동 완성 메뉴에서 값을 선택하세요."
                 },
                 "NotInstantiable": {
                     "name": "$~불완전한구조",
-                    "explanation": "$~이 @StructureDefinition 구현되지 않은 함수가 있어서 만들 수 없습니다."
+                    "explanation": "$~이 @StructureDefinition 구현되지 않은 함수가 있어서 만들 수 없습니다.",
+                    "resolution": "$~누락된 기능을 위한 골격을 구축합니다."
                 },
                 "UnexpectedInput": {
                     "name": "$~예상치못한입력",
-                    "explanation": "$~저는 예상치 못한 입력값입니다."
+                    "explanation": "$~저는 예상치 못한 입력값입니다.",
+                    "resolution": "$~이 입력을 제거하세요"
                 },
                 "UnknownInput": {
                     "name": "$~알수없는입력",
-                    "explanation": "$~이 함수 *$1*은 내 이름이 포함된 입력을 기대하지 않습니다."
+                    "explanation": "$~이 함수 *$name*은 내 이름이 포함된 입력을 기대하지 않습니다.",
+                    "resolution": "$~이 입력 필드의 이름을 * $name *으로 변경하세요."
                 },
                 "InputListMustBeLast": {
                     "name": "$~추가입력은마지막이아닙니다",
-                    "explanation": "$~입력 목록은 마지막에 와야 합니다."
+                    "explanation": "$~입력 목록은 마지막에 와야 합니다.",
+                    "resolution": "$~목록 입력란을 맨 끝으로 이동하세요"
                 },
                 "SeparatedEvaluate": {
                     "name": "$~모호한평가",
-                    "explanation": "$~$1이 평가하려는 $2[$구조체|$함수]의 이름인가요? @Evaluate 아니면 별도의 @Block 알 수 있도록 제 뒤에 있는 공백을 제거해 주세요."
+                    "explanation": "$~$name 평가하려는 $structure[$structure|$function]의 이름인가요? @Evaluate 아니면 별도의 @Block 알 수 있도록 제 뒤에 있는 공백을 제거해 주세요.",
+                    "resolution": "$~* $name * 과 해당 입력값 사이의 공백을 닫으세요."
                 }
             },
             "exception": {
                 "FunctionException": {
                     "description": "unknown function",
-                    "explanation": "oh no, $1 isn't a function in $2[$2|this @Block ]!"
+                    "explanation": "$~oh no, $name isn't a function in $scope[$scope|this @Block ]!"
                 }
             },
             "label": {
@@ -740,8 +838,8 @@
         },
         "Input": {
             "name": "$~입력",
-            "description": "$~명명된 입력",
-            "emotion": "$?",
+            "description": "$~이름 있는 함수 입력 선언하기",
+            "emotion": "serious",
             "doc": [
                 "$~나는 @Evaluate 에 제공된 입력입니다. 내 이름은 평가 중인 @FunctionDefinition 또는 @StructureDefinition 의 입력 이름에 해당합니다.",
                 "$~다른 모든 것을 제공하지 않고 특정 입력만 재정의하려는 기본값이 많은 함수에 도움이 됩니다.",
@@ -752,8 +850,8 @@
         },
         "ExpressionPlaceholder": {
             "name": "자리 표시자",
-            "description": "$1[$1|자리 표시자]",
-            "emotion": "$?",
+            "description": "$~채울 표현식 표시하기",
+            "emotion": "scared",
             "doc": [
                 "나는 *표현*이지만 실제로는 아니야… 나는 그냥 다른 것을 대신하는 역할을 하는거야.",
                 "아직 무엇을 쓸지 모르면 내가 유용해. 이렇게 사용할 수 있어:",
@@ -767,7 +865,8 @@
             "conflict": {
                 "Placeholder": {
                     "name": "$~플레이스홀더",
-                    "explanation": "$~제 상황을 설명해 주시겠어요? 저는 그냥 임시 자리일 뿐이에요."
+                    "explanation": "$~제 상황을 설명해 주시겠어요? 저는 그냥 임시 자리일 뿐이에요.",
+                    "resolution": "$~* $candidate *로 대체하세요"
                 }
             },
             "exception": {
@@ -782,8 +881,8 @@
         },
         "FunctionDefinition": {
             "name": "함수",
-            "description": "$1 함수",
-            "emotion": "$?",
+            "description": "$~함수 $name 정의하기",
+            "emotion": "kind",
             "doc": [
                 "안녕! 나는 몇 가지 입력을 받고, 그 입력을 사용하여 표현을 평가하고 출력을 생성해내는 함수야.",
                 "간단한 예를 보여줄게:",
@@ -804,7 +903,8 @@
             "conflict": {
                 "NoExpression": {
                     "name": "$~표현이누락됨",
-                    "explanation": "$~평가할 표현식이 필요한데, 추가해 주시겠어요?"
+                    "explanation": "$~평가할 표현식이 필요한데, 추가해 주시겠어요?",
+                    "resolution": "$~자리 표시자 본문을 추가하세요"
                 }
             },
             "label": {
@@ -815,17 +915,19 @@
         },
         "Iteration": {
             "name": "고차 함수",
-            "emotion": "$?",
+            "description": "$~목록 값을 내부적으로 반복하기",
+            "emotion": "kind",
             "doc": "나는 @FunctionDefinition 중 특별한 종류로, 여러 가지 항목들의 목록에 작용해. 나에 대해 자세히 알 필요는 없어, 나는 @List/translate 와 같은 함수를 만들어내기 위한 거야.",
             "start": "주어진 함수를 평가하는 중",
             "initialize": "항목들을 순회하기 위해 준비 중",
             "next": "다음 항목으로 이동 중",
             "check": "계속할지 결정하는 중",
-            "finish": "$1로 평가되었습니다"
+            "finish": "$value 평가되었습니다"
         },
         "Initial": {
             "name": "시작",
-            "emotion": "$?",
+            "description": "$~첫 평가 시 참 반환하기",
+            "emotion": "curious",
             "doc": [
                 "@Program 의 현재 평가가 첫 번째인지 여부를 알려주는 역할을 하는데, 이것은 @Boolean 으로 평가돼. 예를 들어:",
                 "\\◆ ? Time() 'hi'\\",
@@ -835,7 +937,8 @@
         },
         "Insert": {
             "name": "삽입",
-            "emotion": "$?",
+            "description": "$~테이블에 행 추가하기",
+            "emotion": "kind",
             "doc": [
                 "@Table 이 있고 뭔가 부족한 느낌일 때가 있지? 나는 그것을 추가할 수 있어!",
                 "게임에서 선수들의 테이블이 있다고 가정해봐. 새로운 선수를 추가하고 싶을 때:",
@@ -847,8 +950,8 @@
         },
         "Is": {
             "name": "이다",
-            "description": "이다",
-            "emotion": "$?",
+            "description": "$~값이 $type 타입인지 확인하기",
+            "emotion": "curious",
             "doc": [
                 "그거 알아? 정말 다양한 의미를 가진 많은 종류의 값들이 있어. 나는 그것들이 무엇을 의미하는지 찾는 데 도움이 돼.",
                 "예를 들면, 수수께끼 값이 있다고 상상해봐. 나는 그것이 @Number 인지, @Boolean 을 주는지 알려줄 수 있어:",
@@ -858,54 +961,58 @@
                 "그러면 \\⊤\\가 돼!",
                 "어떤 @Name 이 특정 종류의 값인지 알아야 할 때 정말 도움이 돼."
             ],
-            "start": "우리 먼저 $1의 값을 가져오자",
-            "finish": "$1[값은 $2|값은 $2가 아님]",
+            "start": "우리 먼저 $expression 값을 가져오자",
+            "finish": "$~$value[값은 $type|값은 $type 아님]",
             "conflict": {
                 "ImpossibleType": {
                     "name": "$~불가능한유형",
-                    "explanation": "$~이건 절대로 1달러일 수 없어"
+                    "explanation": "$~이것은 절대로 $type 될 수 없습니다.",
+                    "resolutionIsFalse": "$~이 유형 검사를 *⊥*로 바꾸세요(답은 항상 거짓입니다).",
+                    "resolutionDropOtherwise": "$~*??*를 삭제하세요. 왼쪽은 절대 *ø*가 아닙니다."
                 }
             },
             "exception": {
                 "TypeException": {
                     "description": "호환되지 않는 값",
-                    "explanation": "$1을(를) 기대했지만 $2을(를) 받았어"
+                    "explanation": "$expected(를) 기대했지만 $given(를) 받았어"
                 }
             }
         },
         "IsLocale": {
             "name": "언어인가?",
-            "description": "언어인가?",
-            "emotion": "$?",
+            "description": "$~언어가 선택되면 true를 반환합니다.",
+            "emotion": "kind",
             "doc": [
                 "나는 너가 특정 언어나 지역을 선택했는지 확인하는 데 도움이 돼:",
                 "\\🌍/en\\",
                 "\\🌍/es-MX\\",
                 "이것은 선택된 언어에 따라 공연을 변경하고 싶을 때 유용하다."
             ],
-            "start": "그 언어는 $1 야?"
+            "start": "그 언어는 $locale 야?"
         },
         "ListAccess": {
             "name": "리스트 접근",
-            "emotion": "$?",
+            "description": "$~목록 위치의 값 가져오기",
+            "emotion": "cheerful",
             "doc": [
                 "@List 긴밀하게 협력해서 특정 위치의 값을 얻는 데 도움을 줘. 예를 들면, 리스트가 있고 그 중 두 번째 아이템을 원한다면 이렇게 쓸 수 있어:",
                 "\\list: ['새' '오리' '물고기' '뱀']\nlist[2]\\"
             ],
-            "start": "먼저 리스트 $1의 값을 가져오자",
-            "finish": "아이템은 $1야!"
+            "start": "먼저 리스트 $list 값을 가져오자",
+            "finish": "아이템은 $value!"
         },
         "ListLiteral": {
             "name": "특정 리스트",
-            "description": "$1 항목 리스트",
-            "emotion": "$?",
+            "description": "$~$count 개의 값 목록 만들기",
+            "emotion": "eager",
             "doc": "@List 의 구체적인 값들의 리스트야! 나에 대해 더 알고 싶다면 @List 참고해봐.",
             "start": "먼저 항목을 평가해보자",
-            "finish": "나는 나를 만들었어! $1"
+            "finish": "나는 나를 만들었어! $value"
         },
         "Spread": {
             "name": "리스트 확장",
-            "emotion": "$?",
+            "description": "$~목록을 다른 목록으로 확장하기",
+            "emotion": "serious",
             "doc": [
                 "다른 리스트들의 값으로 리스트를 만들 수 있게 도와주는 거야. 이렇게:",
                 "\\list1: [1 2 3]\nlist2: [4 5 6]\nfinal: [list1… list2…]"
@@ -913,15 +1020,16 @@
         },
         "MapLiteral": {
             "name": "맵",
-            "description": "$1 쌍 맵",
-            "emotion": "$?",
+            "description": "$~$count 쌍의 맵 만들기",
+            "emotion": "kind",
             "doc": "@Map 의 구체적인 키와 값 사이의 연결이야. 나에 대해 더 알고 싶다면 @Map 을 참고해봐.",
             "start": "먼저 키와 값을 평가해보자",
-            "finish": "나는 모두를 연결했어, $1",
+            "finish": "나는 모두를 연결했어, $value",
             "conflict": {
                 "NotAKeyValue": {
                     "name": "$~누락된값",
-                    "explanation": "$~저는 @Map 안에 있으므로 값이 필요합니다."
+                    "explanation": "$~저는 @Map 안에 있으므로 값이 필요합니다.",
+                    "resolution": "$~키-값 쌍으로 래핑합니다."
                 }
             },
             "label": {
@@ -930,7 +1038,8 @@
         },
         "Match": {
             "name": "$~성냥",
-            "emotion": "$?",
+            "description": "$~여러 경우와 값 비교하기",
+            "emotion": "curious",
             "doc": [
                 "$~나는 모든 조건부 검사 중 가장 영광스러운 사람입니다! 값을 가져와서 여러 사례와 비교하고 일치하는 해당 표현식을 평가합니다.",
                 "$~예를 들어 @Number 가 있고 이를 @Text 로 변환하려는 경우 다음과 같이 할 수 있습니다.",
@@ -939,7 +1048,7 @@
                 "$~가능한 많은 @Number, @Text 또는 더 복잡한 값 중 하나를 다른 것으로 변환하는 데 정말 도움이 됩니다.",
                 "$~@Boolean 또는 @None 에 사용할 수 있지만 실제로 그렇게 많을 수는 없으므로 이러한 간단한 값에는 유용하지 않습니다."
             ],
-            "start": "$~1달러가 무엇인지 볼까요?",
+            "start": "$~$value 얼마인지 알아볼까요...",
             "case": "$~이 상태를 확인해보자",
             "finish": "$~좋아요, 최종 값이 생겼습니다!",
             "label": {
@@ -949,31 +1058,35 @@
         },
         "NumberLiteral": {
             "name": "특정 숫자",
-            "description": "$1 $2[$2|]",
-            "emotion": "$?",
+            "description": "$~$number $unit[$unit|] 숫자 만들기",
+            "emotion": "excited",
             "doc": "@Number 구체적인 값이야. 어떤 언어의 어떤 종류의 숫자든 나를 쓸 수 있어. 내가 할 수 있는 모든 걸 알려면 @Number 참고해봐.",
-            "start": "$1!",
+            "start": "$value!",
             "conflict": {
                 "NotANumber": {
                     "name": "$~숫자가아니다",
-                    "explanation": "$~나는 모든 숫자를 다 안다고 생각했는데, 이 숫자는 모르겠네."
+                    "explanation": "$~나는 모든 숫자를 다 안다고 생각했는데, 이 숫자는 모르겠네.",
+                    "resolution": "$~*0*으로 대체하세요"
                 }
             }
         },
         "InternalExpression": {
             "name": "내부 표현",
-            "emotion": "$?",
+            "description": "$~내장 생성자 표현식 실행하기",
+            "emotion": "neutral",
             "doc": "어떻게 나를 찾았어? 나는 원조 창조자만 사용하는 표현이야. 나에 대해 더 알고 싶다면 그들에게 말해봐.",
             "start": "비밀 표현"
         },
         "NoneLiteral": {
             "name": "그냥 없음",
-            "emotion": "$?",
+            "description": "$~없음 값 만들기",
+            "emotion": "neutral",
             "doc": "/@FunctionDefinition 여기. 이건 그냥 @None 이야. 이건 독특한 존재야! @None 에 대해 더 알고 싶다면 @None 을 참고해봐.",
             "start": "… ø"
         },
         "Otherwise": {
             "name": "$~그렇지않으면",
+            "description": "$~없으면 대체 값 제공하기",
             "emotion": "curious",
             "doc": [
                 "$~/@FunctionDefinition 은 여기에 있습니다. 이는 값이 @None 인지 확인하고 @None 인 경우 백업 값을 제공하는 편리한 방법입니다./",
@@ -981,11 +1094,12 @@
                 "$~\\maybeNumber•#|ø: 1 아마도Number ?? 0\\"
             ],
             "start": "$~ø ??",
-            "finish": "$~… $1"
+            "finish": "$~… $value"
         },
         "Previous": {
             "name": "이전",
-            "emotion": "$?",
+            "description": "$~스트림의 이전 값 가져오기",
+            "emotion": "serious",
             "doc": [
                 "과거를 기억해보고 싶었던 적이 있니?",
                 "나는 Verse의 공식 기록관이야. 나에게 스트림과 숫자를 줘서 과거에서 그 스트림의 값이 어떤지 말해줄게.",
@@ -997,15 +1111,16 @@
                 "한 번이 아니라 이전 다섯 번의 시간이 나오는 거 봐.",
                 "과거에 의존하는 공연을 만들고 싶을 때 도움이 돼."
             ],
-            "start": "먼저 $1을(를) 가져와볼까",
-            "finish": "스트림 값은 $1으로 평가됐어",
+            "start": "먼저 $stream(를) 가져와볼까",
+            "finish": "스트림 값은 $value 평가됐어",
             "label": {
                 "range": "$~범위"
             }
         },
         "Program": {
             "name": "프로그램",
-            "emotion": "$?",
+            "description": "$~프로그램의 모든 표현식 포함하기",
+            "emotion": "serious",
             "doc": [
                 "여러 캐릭터들이 공연을 조정하는 곳이야, 공연의 시작과 끝을 담당해.",
                 "@Block 이 표현 목록을 평가하고 목록에서 마지막 값으로 평가되는 거 알지?",
@@ -1016,9 +1131,9 @@
                 "그리고 공연이 *스트림*에 의존하면 그 스트림이 변경될 때마다 다시평가할 거야."
             ],
             "unevaluated": "선택한 노드가 평가되지 않았어",
-            "start": "$1[$1 스트림이 $2으로 변경됐어!|첫 번째 평가다]",
+            "start": "$~$stream[$stream 스트림이 $value 변경됐어!|첫 번째 평가다]",
             "halt": "예외 발생, 중지 중",
-            "finish": "다 끝났어, 나는 $1으로 평가됐어",
+            "finish": "다 끝났어, 나는 $value 평가됐어",
             "done": "평가 중인 것이 없어",
             "exception": {
                 "BlankException": {
@@ -1027,7 +1142,7 @@
                 },
                 "EvaluationLimitException": {
                     "description": "평가 제한",
-                    "explanation": "@Evaluate 와 나는 평가하는 게 지겨워, 특히 $1에게.\n\n$1이 계속 자기 자신을 끝없이 평가하고 있는 건 아닌지 확인할 수 있을까?"
+                    "explanation": "$~@Evaluate 와 나는 평가하는 게 지겨워, 특히 $function.\n\n$function 계속 자기 자신을 끝없이 평가하고 있는 건 아닌지 확인할 수 있을까?"
                 },
                 "StepLimitException": {
                     "description": "단계 제한",
@@ -1039,7 +1154,11 @@
                 },
                 "InternalException": {
                     "description": "$~내부 오류",
-                    "explanation": "$~내부적으로 아주 안 좋은 일이 생겼습니다: $1"
+                    "explanation": "$~내부적으로 아주 안 좋은 일이 생겼습니다: $reason"
+                },
+                "PermissionException": {
+                    "description": "$~권한이 거부되었습니다",
+                    "explanation": "$~실행하려면 사용자 $permission 필요하지만, 현재 권한이 없습니다. 다시 시도하려면 '다시 시도'를 클릭하세요. 그래도 문제가 해결되지 않으면 브라우저 설정에서 해당 사이트에 대한 $permission 허용해 주세요."
                 }
             },
             "label": {
@@ -1049,8 +1168,8 @@
         },
         "PropertyBind": {
             "name": "다듬기",
-            "description": "$1[$1|이름 없음] 다듬기",
-            "emotion": "$?",
+            "description": "$~$name[$name|익명] 속성 조정하기",
+            "emotion": "kind",
             "doc": [
                 "@StructureDefinition 을 만들 때 작은 변경만 하고 싶을 때가 있어, 모든 값을 똑같이 가지고 있는 새로운 것을 만들 필요 없이.",
                 "예를 들면, 고양이 기록을 유지하고 있었는데 고양이의 취미를 바꾸고 싶다면 내가 도와줄게:",
@@ -1058,11 +1177,12 @@
                 "이전 값과 똑같은 값들을 가진 전체 새로운 \\Cat\\을 만드는 것보다 이게 훨씬 쉬워, 그치."
             ],
             "start": "먼저 값을 가져오자",
-            "finish": "구조를 복사했지만 $1을(를) $2로 만들었어",
+            "finish": "구조를 복사했지만 $property(를) $value 만들었어",
             "conflict": {
                 "InvalidProperty": {
                     "name": "$~알려지지않은속성",
-                    "explanation": "$~저는 $1 구조 내의 이름이 아니므로 정제할 수 없습니다."
+                    "explanation": "$~저는 $structure 구조 내의 이름이 아니므로 정제할 수 없습니다.",
+                    "resolution": "$~이름을 * $name *으로 변경하세요"
                 }
             },
             "label": {
@@ -1072,22 +1192,23 @@
         },
         "PropertyReference": {
             "name": "속성",
-            "description": "$1[$1|이름 없음] 속성",
-            "emotion": "$?",
+            "description": "$~$name[$name|익명] 속성 가져오기",
+            "emotion": "kind",
             "doc": [
                 "@StructureDefinition 을 만들 때 그 중 하나의 입력을 어떻게 얻을지에 대한 것이야.",
                 "도시에 관한 구조를 만든다면 나를 통해 이렇게 값을 얻을 수 있어:",
                 "\\•City(name•'' population•#people)\n\nportland: City('포틀랜드' 800000people)\n\nportland.population\\"
             ],
             "start": "먼저 값을 가져오자",
-            "finish": "구조를 복사했지만 $1으로 $2을 사용했어",
+            "finish": "구조를 복사했지만 $property $value 사용했어",
             "label": {
                 "property": "$~재산"
             }
         },
         "Reaction": {
             "name": "반응",
-            "emotion": "$?",
+            "description": "$~스트림 변경 시 값 만들기",
+            "emotion": "excited",
             "doc": [
                 "스트림은 정말 멋져요! 변경될 때마다 새로운 것들을 만들 수 있어요, 이건 정말 멋진 일이죠!",
                 "예를 들어, @Time 흐르는 것을 보여주고 싶지만, 숫자 대신 단어로 표현하고 싶다면 이렇게 할 수 있어요:",
@@ -1096,11 +1217,12 @@
                 "그래서 저도 스트림이지만, 다른 스트림을 기반으로 한 것이죠. 멋지지 않나요?"
             ],
             "start": "스트림을 업데이트해야 하는지 봅시다",
-            "finish": "새 스트림 값은 $1입니다",
+            "finish": "새 스트림 값은 $value",
             "conflict": {
                 "ExpectedStream": {
                     "name": "$~예상스트림",
-                    "explanation": "$~$1은 스트림을 참조하지 않으므로 절대 반응하지 않겠습니다!"
+                    "explanation": "$~$condition 스트림을 참조하지 않으므로 절대 반응하지 않겠습니다!",
+                    "resolution": "$~반응식을 삭제하고 초기값만 남겨두세요."
                 }
             },
             "label": {
@@ -1111,42 +1233,45 @@
         },
         "Reference": {
             "name": "참조",
-            "description": "$1",
-            "emotion": "$?",
+            "description": "$~이름 $name 참조하기",
+            "emotion": "shy",
             "doc": [
                 "@Bind 것들에게 @Name 부여하는 것을 알고 있죠? 저는 그것들을 참조하는 방법입니다. 어떤 @Bind 그 이름을 가지고 있는지 확인하고, 그렇다면 그 값은 제공합니다. 이렇게요:",
                 "\\앵무새: '폴리'\n앵무새\\",
                 "만약 제가 그 이름을 찾지 못하면, 무엇을 해야 할지 모르겠어요.",
                 "\\앵무새: '폴리'\n페리\\"
             ],
-            "start": "$1은 어떤 값을 가지고 있나요?",
+            "start": "$name 어떤 값을 가지고 있나요?",
             "conflict": {
                 "UnknownName": {
                     "conflict": {
                         "name": "$~알수없는이름",
-                        "explanation": "$~$1[저는 $2[$2|이 @Block]에 $1이라는 이름을 가진 사람을 모릅니다. 이름을 알려주시겠어요?]"
+                        "explanation": "$~$name[저는 $name[$scope|이 @Block]에 $scope 이름을 가진 사람을 모릅니다. 이름을 알려주시겠어요?]"
                     },
-                    "resolution": "$~*$1*을 말씀하셨나요?"
+                    "resolution": "$~*$suggestion*을 말씀하셨나요?"
                 },
                 "ReferenceCycle": {
                     "name": "$~자기참조값",
-                    "explanation": "$~음, 1달러의 가치는 그 자체에 달려있으니, 얼마만큼의 가치를 부여해야 할지 어떻게 알 수 있을까요?"
+                    "explanation": "$~음, $name 값은 자기 자신에 따라 달라지는데, 그렇다면 어떤 값을 줘야 할지 어떻게 알 수 있을까요?",
+                    "resolution": "$~순환 참조를 끊으려면 * $name *을 자리 표시자로 바꾸세요."
                 },
                 "UnexpectedTypeVariable": {
                     "name": "$~예상치못한유형변수",
-                    "explanation": "$~이런 입력값을 어떻게 처리해야 할지 모르겠어요."
+                    "explanation": "$~이런 입력값을 어떻게 처리해야 할지 모르겠어요.",
+                    "resolution": "$~함수에서 이 타입 변수를 제거하세요"
                 }
             },
             "exception": {
                 "NameException": {
                     "description": "알 수 없는 이름",
-                    "explanation": "$1[이름이 $1인 사람을 $2[$2|이 @Block]… 알 수 없습니다|으앗, 이름이 없어요!]"
+                    "explanation": "$~$name[이름이 $name 사람을 $scope[$scope|이 @Block]… 알 수 없습니다|으앗, 이름이 없어요!]"
                 }
             }
         },
         "Select": {
             "name": "선택",
-            "emotion": "$?",
+            "description": "$~테이블에서 일치하는 행 필터하기",
+            "emotion": "excited",
             "doc": [
                 "가끔 테이블이 있고 그 중 일부만 원할 때가 있어요. 저는 그것을 가져다 드릴 수 있어요!",
                 "예를 들어, 게임에서 플레이어들의 테이블이 있고, 점수가 10점 이상인 사람들을 찾아 누가 이겼는지 알고 싶다면:",
@@ -1158,21 +1283,23 @@
             "conflict": {
                 "ExpectedSelectName": {
                     "name": "$~열이름이누락되었습니다",
-                    "explanation": "$~최소한 하나의 열 이름이 필요합니다."
+                    "explanation": "$~최소한 하나의 열 이름이 필요합니다.",
+                    "resolution": "$~이 셀을 제거하세요"
                 }
             }
         },
         "SetLiteral": {
             "name": "특정 세트",
-            "description": "$1 아이템",
-            "emotion": "$?",
+            "description": "$~$count 요소의 집합 만들기",
+            "emotion": "eager",
             "doc": "저는 특정 값들의 특정 @Set . 저와 함께 작업하는 방법에 대해 더 알고 싶다면 @Set 참조하세요.",
             "start": "먼저 값들을 평가해 봅시다!",
-            "finish": "세트 $1을 만들었어요!"
+            "finish": "세트 $value 만들었어요!"
         },
         "SetOrMapAccess": {
             "name": "세트/맵 접근",
-            "emotion": "$?",
+            "description": "$~집합 또는 맵에 포함되어 있는지 확인하기",
+            "emotion": "kind",
             "doc": [
                 "@Set 또는 @Map 값이나 키가 있는지 확인할 수 있어요.",
                 "그리 어렵지 않아요. 이렇게 말이죠:",
@@ -1181,17 +1308,29 @@
                 "\\좋아하는 것들: {'맥앤치즈': 5별 '시리얼': 2별 '죽': 1별}\n좋아하는 것들{'죽'}\\"
             ],
             "start": "세트나 맵은 무엇인가요?",
-            "finish": "값은 $1입니다",
+            "finish": "값은 $value",
             "conflict": {
                 "IncompatibleKey": {
                     "name": "$~호환되지않는키",
-                    "explanation": "$~저는 $1 타입의 키를 예상했습니다."
+                    "explanation": "$~저는 $expected 타입의 키를 예상했습니다.",
+                    "resolution": "$~$expected 는 필수 값이므로 $expected 로 변환하세요.",
+                    "resolutionLiteral": "$~리스트, 세트 또는 맵을 리터럴로 표시하려면 !를 사용하세요. 그러면 값이 일반화되지 않고 특정 값으로 유지됩니다. $expected 정확한 값이 필요합니다.",
+                    "resolutionOtherwise": "$~$expected ø를 허용하지 않으므로 누락된 값은 ??로 처리하세요.",
+                    "resolutionGuard": "$~$expected 는 다른 가능한 타입이 될 수 없으므로, 타입 가드를 사용하여 먼저 해당 값이 $expected 인지 확인합니다.",
+                    "resolutionDeclaration": "$~$expected 리터럴 값을 유지해야 하므로 타입을 명시적으로 선언해야 합니다.",
+                    "resolutionWrap": "$~$expected 값들의 모음을 필요로 하므로, 리스트, 세트 또는 맵에 담아주세요.",
+                    "resolutionStructure": "$~슬롯에 $expected 값이 필요하므로, 해당 값을 $expected 감싸주세요.",
+                    "resolutionDefault": "$~바인딩에 시작 값을 지정하세요. 여기서는 $expected 값이 누락될 수 없습니다.",
+                    "resolutionWiden": "$~$expected 실제로 저장된 값에 비해 범위가 너무 좁으므로, 이 바인딩에 값의 유형을 허용해야 합니다.",
+                    "resolutionReorder": "$~입력값을 서로 바꿔야 합니다. 타입 순서가 반대가 더 적합하기 때문입니다. $expected 다른 자리에 있어야 합니다.",
+                    "resolutionPlaceholder": "$~$expected 필수 항목이므로 지금은 임시 값으로 대체해 두세요. 그런 다음 자동 완성 메뉴에서 값을 선택하세요."
                 }
             }
         },
         "Source": {
             "name": "소스",
-            "emotion": "$?",
+            "description": "$~프로그램 소스 파일 이름 붙이기",
+            "emotion": "curious",
             "doc": [
                 "@Program 알고 계시나요? 저는 그것들에 이름을 붙여주는 데 도움을 줍니다. @Program 주변의 창문과 그것들에 붙이는 이름처럼 생각하세요.",
                 "다른 @Source 프로그램과 함께 다른 @Source @UI/addSource 만들고, 다른 @Program @Borrow 통해 다른 프로그램에서 사용할 것들을 가져올 수도 있어요.",
@@ -1200,42 +1339,49 @@
         },
         "StreamDefinition": {
             "name": "스트림",
-            "emotion": "$?",
+            "description": "$~새 스트림 타입 정의하기",
+            "emotion": "curious",
             "doc": "제가 새로운 스트림을 만들어야 한다고 /생각/합니다. 하지만 정말로 그 방법을 모르겠어요. 지금은, 이미 존재하는 스트림을 사용하는 것이 좋겠죠?",
             "start": "이 새로운 종류의 스트림을 만듭니다"
         },
         "StructureDefinition": {
             "name": "구조",
-            "description": "구조 $1",
-            "emotion": "$?",
+            "description": "$~구조 $name 정의하기",
+            "emotion": "kind",
             "doc": [
-                "안녕하세요, 어떠세요? 저요? 저는 잘 지내고 있어요. 값을 저장하고 기능하는 구조를 정의하는 것을 좋아해서, 그 일을 하루 종일 할 수 있다면 저는 행복해요.",
-                "저는 이렇게 작동해요:",
-                "\\•피자(\n재료들•['']\n크기•#인치\n) (\n\tƒ 비용() 크기 × 10달러/인치\n)\n\n피자(['페퍼로니' '페퍼'] 12인치).비용()\\",
-                "작동 방식을 보세요? \\피자\\를 정의했는데, 두 개의 입력, \\재료들\\ (텍스트 목록)과 \\크기\\ (인치 단위의 숫자)가 있어요.",
-                "내부에서, @FunctionDefinition 인치 당 $10을 가정하여 피자 비용을 평가하는 함수를 만들었어요.",
-                "저는 @FunctionDefinition 없어도 됩니다. 단지 입력들만 있을 수 있어요.",
-                "\\•피자(\n재료들•['']\n크기•#인치\n)\\",
-                "또한 내부에 @Bind 가질 수 있어서, 미리 비용을 평가할 수 있어요.",
-                "\\•피자(\n재료들•['']\n크기•#인치\n) (\n\t비용: 크기 × 10달러/인치\n)\n\n피자(['페퍼로니' '페퍼'] 12인치).비용\\"
+                "$~안녕하세요, 잘 지내세요? 저는 아주 잘 지내요. 값과 함수를 저장하는 구조를 정의하는 걸 좋아해서, 하루 종일 그런 일만 할 수 있다면 정말 행복해요.",
+                "$~저는 이렇게 일합니다:",
+                "$~\\•Pizza(\ningredients•['']\nsize•#in\n) (\n\tƒ cost() size × 10dollars/in\n)\n\nPizza(['pepperoni' 'peppers'] 12in).cost()\\",
+                "$~어떻게 작동하는지 아시겠죠? 저는 두 개의 입력값, 즉 \\ingredients\\ ( @Text 리스트)와 \\size\\ (인치 단위의 숫자)를 받는 \\Pizza\\ 함수를 정의했습니다.",
+                "$~내부적으로 @FunctionDefinition 인치당 10달러라고 가정하고 피자 가격을 계산하는 함수를 만들었습니다.",
+                "$~저는 @FunctionDefinition 넣을 필요가 없습니다. 그냥 입력값으로 사용해도 됩니다.",
+                "$~\\•Pizza(\ningredients•['']\nsize•#in\n)\\",
+                "$~@Bind 내부에 포함시켜 비용을 미리 평가할 수도 있습니다.",
+                "$~\\•Pizza(\ningredients•['']\nsize•#in\n) (\n\tcost: size × 10dollars/in\n)\n\nPizza(['pepperoni' 'peppers'] 12in).cost\\",
+                "$~함수나 값에 ↑ 기호를 붙이면 해당 함수나 값이 인스턴스가 아닌 구조체 자체에 속하게 됩니다. 그러면 구조체를 새로 만들지 않고도 구조체 이름을 사용하여 해당 함수나 값에 접근할 수 있습니다.",
+                "$~\\•Math() (\n\t↑ pi: 3.14159\n\t↑ ƒ square(n•#) n · n\n)\n\nMath.pi\nMath.square(5)\\"
             ],
             "start": "이 멋진 구조를 정의해 봅시다",
             "conflict": {
                 "DisallowedInputs": {
                     "name": "$~입력이허용되지않습니다",
-                    "explanation": "$~인터페이스 함수 중 하나 이상이 구현되지 않았기 때문에 입력을 받을 수 없습니다."
+                    "explanation": "$~인터페이스 함수 중 하나 이상이 구현되지 않았기 때문에 입력을 받을 수 없습니다.",
+                    "resolution": "$~입력값을 제거하세요"
                 },
                 "IncompleteImplementation": {
                     "name": "$~불완전한구조",
-                    "explanation": "$~내 함수들은 모두 구현되거나, 아니면 하나도 구현되지 않아야 합니다. 복잡하게 섞이는 건 안 돼요!"
+                    "explanation": "$~내 함수들은 모두 구현되거나, 아니면 하나도 구현되지 않아야 합니다. 복잡하게 섞이는 건 안 돼요!",
+                    "resolution": "$~입력값을 삭제하여 인터페이스로 만드세요"
                 },
                 "NotAnInterface": {
                     "name": "$~인터페이스가아니다",
-                    "explanation": "$~나는 인터페이스가 아닙니다. 구조체는 인터페이스만 구현할 수 있고, 다른 구조체는 구현할 수 없습니다."
+                    "explanation": "$~나는 인터페이스가 아닙니다. 구조체는 인터페이스만 구현할 수 있고, 다른 구조체는 구현할 수 없습니다.",
+                    "resolution": "$~인터페이스 목록에서 이것을 제거하세요"
                 },
                 "UnimplementedInterface": {
                     "name": "$~구현되지않은",
-                    "explanation": "$~$1은 구현했지만 $2는 아직 구현하지 않았습니다."
+                    "explanation": "$~$interface 구현했지만 $function 아직 구현하지 않았습니다.",
+                    "resolution": "$~이 구조에 누락된 * $function *을 스캐폴딩하세요"
                 }
             },
             "label": {
@@ -1247,24 +1393,24 @@
         },
         "StructureDefinitionType": {
             "name": "$~구조정의",
-            "emotion": "$?",
-            "description": "$~$1의 정의",
+            "description": "$name",
+            "emotion": "kind",
             "doc": [
                 "$~나는 일종의 @StructureDefinition 을 참조합니다. 사람들은 대개 나를 직접적으로 언급하지 않습니다."
             ]
         },
         "TableLiteral": {
             "name": "특정 테이블",
-            "description": "$1 행 테이블",
-            "emotion": "$?",
+            "description": "$~$count 행의 테이블 만들기",
+            "emotion": "angry",
             "doc": "저는 특정한 행들을 가진 구체적인 테이블입니다. 저를 어떻게 활용할 수 있는지 @Table 확인해보세요.",
             "start": "먼저 행들을 평가합니다",
-            "finish": "새 테이블 $1로 평가되었습니다"
+            "finish": "새 테이블 $value 평가되었습니다"
         },
         "TextLiteral": {
             "name": "특정 텍스트",
-            "description": "텍스트 $1",
-            "emotion": "$?",
+            "description": "$~텍스트 값 $text 만들기",
+            "emotion": "serious",
             "doc": "저는 하나 이상의 구체적인 @Translation 텍스트를 나타냅니다. 저의 기능에 대해 더 알고 싶다면 @Text 참조하세요!",
             "start": "현재 로케일에서 텍스트를 만듭시다",
             "label": {
@@ -1273,35 +1419,36 @@
         },
         "Translation": {
             "name": "번역",
-            "description": "텍스트 $1",
-            "emotion": "$?",
+            "description": "$~'$text' 텍스트 만들기",
+            "emotion": "serious",
             "doc": "저는 @Language 태그가 있는 텍스트를 나타냅니다. 저에 대해 더 알고 싶다면 @Text 참조하세요!",
             "conflict": {
                 "phone": {
                     "name": "$~가능한전화번호",
-                    "explanation": "$~혹시 *$1*이 누군가의 전화번호인가요? 그렇다면 온라인에 공유하지 마세요!\n\n$2"
+                    "explanation": "$~혹시 *$text*이 누군가의 전화번호인가요? 그렇다면 온라인에 공유하지 마세요!\n\n$reminder"
                 },
                 "email": {
                     "name": "$~가능한이메일",
-                    "explanation": "$~*$1*이 누군가의 이메일 주소인가요? 그렇다면 여기에 공유하지 마세요!\n\n$2"
+                    "explanation": "$~*$text*이 누군가의 이메일 주소인가요? 그렇다면 여기에 공유하지 마세요!\n\n$reminder"
                 },
                 "tin": {
                     "name": "$~가능한세금식별자",
-                    "explanation": "$~1달러가 세금 식별자인가요? 만약 그렇다면, 절대 저를 공유하지 마세요. 저는 매우 민감한 정보입니다!\n\n2달러"
+                    "explanation": "$~*$text*는 세금 식별 정보인가요? 만약 그렇다면, 절대 저를 공유하지 마세요. 저는 매우 민감한 정보입니다!\n\n$reminder"
                 },
                 "address": {
                     "name": "$~가능한주소",
-                    "explanation": "$~*$1*이 누군가의 집 주소인가요? 그렇다면 저를 여기에 적지 마세요. 누구도 스토킹당하는 걸 원치 않아요!\n\n$2"
+                    "explanation": "$~*$text*이 누군가의 집 주소인가요? 그렇다면 저를 여기에 적지 마세요. 누구도 스토킹당하는 걸 원치 않아요!\n\n$reminder"
                 },
                 "handle": {
                     "name": "$~가능한사용자이름",
-                    "explanation": "$~혹시 *$1*이 인터넷의 다른 곳에서 사용하는 사용자 이름인가요? 그렇다면, 정말 의도하신 게 아니라면 여기에서 저를 공유하지 마세요.\n\n$2"
+                    "explanation": "$~혹시 *$text*이 인터넷의 다른 곳에서 사용하는 사용자 이름인가요? 그렇다면, 정말 의도하신 게 아니라면 여기에서 저를 공유하지 마세요.\n\n$reminder"
                 },
                 "resolution": "$~민감한 데이터가 아닙니다.",
                 "reminder": "$~참고: 이 작업을 실행 취소하고 공유 대화상자에서 민감하지 않은 것으로 표시한 다른 항목을 볼 수 있습니다.",
                 "character": {
                     "name": "$~사용자정의문자가능",
-                    "explanation": "$~이것은 캐릭터 이름처럼 보입니다. 캐릭터 이름을 표시하려면 @TextLiteral 대신 @FormattedLiteral 사용하세요."
+                    "explanation": "$~이것은 캐릭터 이름처럼 보입니다. 캐릭터 이름을 표시하려면 @TextLiteral 대신 @FormattedLiteral 사용하세요.",
+                    "resolutionStrip": "$~텍스트에서 특수 문자를 제거하세요"
                 }
             },
             "label": {
@@ -1310,15 +1457,15 @@
         },
         "FormattedLiteral": {
             "name": "포맷된 텍스트",
-            "description": "텍스트 $1",
-            "emotion": "$?",
+            "description": "$~서식 있는 텍스트 $text 만들기",
+            "emotion": "serious",
             "doc": "저는 다양한 @FormattedTranslation 포맷된 텍스트를 나타냅니다. 평가할 때, 관객의 선택된 언어에 기반하여 최적의 일치를 선택할 거예요.",
             "start": "현재 로케일에서 텍스트를 만듭시다"
         },
         "FormattedTranslation": {
             "name": "포맷된 텍스트",
-            "description": "텍스트 $1",
-            "emotion": "$?",
+            "description": "$~서식 있는 텍스트를 $language 로 번역하기",
+            "emotion": "serious",
             "doc": [
                 "저는 @Language 태그가 있는 포맷된 텍스트를 나타냅니다.",
                 "저는 다음과 같을 수 있어요:",
@@ -1333,7 +1480,8 @@
         },
         "This": {
             "name": "이것",
-            "emotion": "$?",
+            "description": "$~현재 구조 값 참조하기",
+            "emotion": "serious",
             "doc": [
                 "가끔은 값을 명시적으로 이름 짓기보다는 암시적으로 참조하는 것이 도움이 됩니다.",
                 "예를 들어, 변환되는 값을 이름으로 지정하지 않는 새로운 @ConversionDefinition 만들고 싶다고 가정해 봅시다. 저를 사용하여 그것을 참조할 수 있어요:",
@@ -1344,18 +1492,19 @@
                 "저를 확인하세요, 이전 반응 값을 대표하고 있습니다.",
                 "자주 등장하지는 않지만, 등장할 때면 @Bind 값을 정말 도와줄 수 있어요!"
             ],
-            "start": "$1로 평가되었습니다",
+            "start": "$value 평가되었습니다",
             "conflict": {
                 "MisplacedThis": {
                     "name": "$~이참조를잘못배치했습니다",
-                    "explanation": "$~저는 구조, 변환 또는 반응에만 참여할 수 있습니다."
+                    "explanation": "$~저는 구조, 변환 또는 반응에만 참여할 수 있습니다.",
+                    "resolution": "$~자리 표시자로 대체하세요"
                 }
             }
         },
         "UnaryEvaluate": {
             "name": "단항 평가",
-            "description": "$1",
-            "emotion": "$?",
+            "description": "$~단항 연산자 $operator 적용하기",
+            "emotion": "kind",
             "doc": [
                 "하나의 값만 평가하는 @FunctionDefinition 있어서, @FunctionDefinition 이름이 단일 기호일 경우, 입력 앞에 이름을 둘 수 있다는 것을 알고 계셨나요?",
                 "이렇게 말이죠:",
@@ -1367,14 +1516,15 @@
                 "한 가지 규칙이 있습니다: 이름과 값 사이에 공백을 둘 수 없어요. 그렇지 않으면 @Reference 또는 @BinaryEvaluate 만들 수 있습니다."
             ],
             "start": "값이 무엇인가요?",
-            "finish": "$1을 만들었습니다",
+            "finish": "$value 만들었습니다",
             "label": {
                 "input": "$~입력"
             }
         },
         "UnparsableExpression": {
             "name": "해석 불가",
-            "emotion": "$?",
+            "description": "$~파싱할 수 없는 표현식 표시하기",
+            "emotion": "excited",
             "doc": [
                 "/안녕하세요, @FunctionDefinition. 해석하기 어려운 @UnparsableExpression 대신 번역하고 있어요./",
                 "jkwel fjiwojvioao jjiweo jrfe",
@@ -1390,13 +1540,14 @@
                 "UnparsableConflict": {
                     "conflict": {
                         "name": "$~읽을수없는코드",
-                        "explanation": "$~@FunctionDefinition 여기 있고, @UnparsableExpression 이것이 어떤 종류의 $1[ 표현식 | 유형 ]인지 알 수 없습니다."
+                        "explanation": "$~@FunctionDefinition 여기 있고, @UnparsableExpression 이것이 어떤 종류의 $expression[ 표현식 | 유형 ]인지 알 수 없습니다."
                     },
-                    "resolution": "$~1달러, 2달러라고 말씀하셨나요?"
+                    "resolution": "$~$first, $second 타입을 말씀하시는 건가요?"
                 },
                 "UnclosedDelimiter": {
                     "name": "$~닫히지않은구분기호",
-                    "explanation": "$~1달러 이후 언젠가는 2달러가 나올 거라고 예상했어요."
+                    "explanation": "$~저는 $expected $unclosed 이후 어느 시점에 나올 거라고 예상했습니다.",
+                    "resolution": "$~누락된 * $expected *를 추가하세요"
                 }
             },
             "exception": {
@@ -1408,7 +1559,8 @@
         },
         "Update": {
             "name": "업데이트",
-            "emotion": "$?",
+            "description": "$~테이블의 일치하는 행 수정하기",
+            "emotion": "kind",
             "doc": [
                 "저는 @Table 수정하는 데 도움을 줍니다. 조건에 맞는 행을 찾아 새로운 값으로 개정된 행을 생성합니다.",
                 "예를 들어, 캐릭터와 점수가 있는 테이블이 있고, 특정 팀의 모든 캐릭터에게 점수를 주고 싶다면 이렇게 할 수 있습니다:",
@@ -1420,22 +1572,36 @@
             "conflict": {
                 "ExpectedColumnBind": {
                     "name": "$~열값이누락되었습니다",
-                    "explanation": "$~모든 열에 값이 필요합니다"
+                    "explanation": "$~모든 열에 값이 필요합니다",
+                    "resolution": "$~이 셀을 명명된 열로 묶으세요"
                 },
                 "IncompatibleCellType": {
                     "name": "$~비호환세포유형",
-                    "explanation": "$~저는 1달러 유형이어야 하는데 2달러 유형으로 나왔어요."
+                    "explanation": "$~나는 예상했던 타입($expected)이어야 하는데, $given 타입이 나왔어.",
+                    "resolution": "$~$expected 는 필수 값이므로 $expected 로 변환하세요.",
+                    "resolutionLiteral": "$~리스트, 세트 또는 맵을 리터럴로 표시하려면 !를 사용하세요. 그러면 값이 일반화되지 않고 특정 값으로 유지됩니다. $expected 정확한 값이 필요합니다.",
+                    "resolutionOtherwise": "$~$expected ø를 허용하지 않으므로 누락된 값은 ??로 처리하세요.",
+                    "resolutionGuard": "$~$expected 는 다른 가능한 타입이 될 수 없으므로, 타입 가드를 사용하여 먼저 해당 값이 $expected 인지 확인합니다.",
+                    "resolutionDeclaration": "$~$expected 리터럴 값을 유지해야 하므로 타입을 명시적으로 선언해야 합니다.",
+                    "resolutionWrap": "$~$expected 값들의 모음을 필요로 하므로, 리스트, 세트 또는 맵에 담아주세요.",
+                    "resolutionStructure": "$~슬롯에 $expected 값이 필요하므로, 해당 값을 $expected 감싸주세요.",
+                    "resolutionDefault": "$~바인딩에 시작 값을 지정하세요. 여기서는 $expected 값이 누락될 수 없습니다.",
+                    "resolutionWiden": "$~$expected 실제로 저장된 값에 비해 범위가 너무 좁으므로, 이 바인딩에 값의 유형을 허용해야 합니다.",
+                    "resolutionReorder": "$~입력값을 서로 바꿔야 합니다. 타입 순서가 반대가 더 적합하기 때문입니다. $expected 다른 자리에 있어야 합니다.",
+                    "resolutionPlaceholder": "$~$expected 필수 항목이므로 지금은 임시 값으로 대체해 두세요. 그런 다음 자동 완성 메뉴에서 값을 선택하세요."
                 }
             }
         },
         "AnyType": {
             "name": "아무 타입",
-            "emotion": "$?",
+            "description": "$~어떤 타입과도 일치하기",
+            "emotion": "curious",
             "doc": "나는 어떤 가능한 타입이든 대표해. 가끔 나타나는 이유는 뭔가의 값이 어떤 종류인지 모르기 때문에 뭐든 될 수 있어."
         },
         "BooleanType": {
             "name": "불리언",
-            "emotion": "$?",
+            "description": "$~불리언 참/거짓 값 타입",
+            "emotion": "kind",
             "doc": [
                 "나는 @Bind 함께 작동해서 이름이 @Boolean 값임을 선언해. 이렇게:",
                 "\\hungry•?: 'jello'\\",
@@ -1444,7 +1610,8 @@
         },
         "ConversionType": {
             "name": "변환",
-            "emotion": "$?",
+            "description": "$~변환 정의 타입",
+            "emotion": "serious",
             "doc": [
                 "@Bind 와 함께 작동해서 이름이 @ConversionDefinition 인 것을 나타냄. 아마도 나를 사용할 일은 별로 없을 거야, 왜냐하면 많은 사람들이 나를 값으로 전달하지 않기 때문이지만, 만약에 나를 사용한다면 이렇게 보일거야:",
                 "\\magic•?→'': → ? '' . ? 'yep' 'nope'\\"
@@ -1452,7 +1619,8 @@
         },
         "FormattedType": {
             "name": "포맷된",
-            "emotion": "$?",
+            "description": "$~서식 있는 텍스트 값 타입",
+            "emotion": "serious",
             "doc": [
                 "@Bind 와 함께 작동해서 이름이 @FormattedLiteral 값임을 알림. 이렇게:",
                 "\\hungry•`…`: `I am so /fancy/!`\\",
@@ -1461,13 +1629,14 @@
         },
         "ExceptionType": {
             "name": "예외",
-            "emotion": "$?",
+            "description": "$~예외 값 타입",
+            "emotion": "neutral",
             "doc": "나는 예외를 나타냄. 나는 어떻게 보든지 @Program 을 중단하기 때문에 나는 값으로 사용할 수 없어."
         },
         "FunctionType": {
             "name": "함수 타입",
-            "description": "$1 입력, $2 출력",
-            "emotion": "$?",
+            "description": "$~$inputs 개의 입력을 가진 함수 타입",
+            "emotion": "curious",
             "doc": [
                 "나는 @FunctionDefinition 을 나타냄. @Bind 가 어떤 종류의 함수를 가지고 있는지 말하고 싶을 때 정말 도움이 돼! 이렇게:",
                 "\\math•ƒ (# # # #) #: ƒ interesting(a•# b•# c•# d•#) a + b + c + d\\"
@@ -1475,8 +1644,8 @@
         },
         "ListType": {
             "name": "리스트 타입",
-            "description": "$1[리스트의 $1|리스트]",
-            "emotion": "$?",
+            "description": "$~$type[목록 $type|목록] 타입",
+            "emotion": "cheerful",
             "doc": [
                 "나는 정말 @List 의 팬이야. @Bind 에게 그들이 어떤 종류의 리스트인지 말할 수 있어! 이렇게, 나는 @Number 리스트라고 말하고 있어:",
                 "\\things•[#]: [ 1 2 3 4 5 ]\\"
@@ -1484,8 +1653,8 @@
         },
         "MapType": {
             "name": "맵 타입",
-            "description": "$1[ $1|아무거나]에서 $2[ $2|아무거나]로의 맵",
-            "emotion": "$?",
+            "description": "$~$key[$key|임의]에서 $value[$value|임의]로의 맵 타입",
+            "emotion": "kind",
             "doc": [
                 "@Map 이 얼마나 멋진지 알아? 진짜로 멋져. 나는 항상 @Bind 에게 그들이 어떤 종류의 맵인지 알려주고 있어, 예를 들어 숫자에서 리스트로의 맵이야:",
                 "\\stuff•{'':[]}: {}\\"
@@ -1493,8 +1662,8 @@
         },
         "NumberType": {
             "name": "숫자 타입",
-            "description": "$1[ $1 | 숫자]",
-            "emotion": "$?",
+            "description": "$~$unit[$unit|숫자] 값 타입",
+            "emotion": "precise",
             "doc": [
                 "@Bind 는 뭘 해야 할까? @Number 여야지. 왜냐하면 숫자가 최고 af니까.",
                 "\\count•#: 17\\"
@@ -1502,8 +1671,8 @@
         },
         "NameType": {
             "name": "이름 타입",
-            "description": "$1 타입",
-            "emotion": "$?",
+            "description": "$~이름 $name 으로 타입 참조",
+            "emotion": "curious",
             "doc": [
                 "나는 @StructureDefinition 을 그 이름으로 나타냄. 그래서, 예를 들면 이렇게 구조가 있다면, 값을 저장하는 @Bind 를 만들 수 있어.",
                 "\\•Friend(name•'')\nbestie•Friend: Friend('Jonah')\\"
@@ -1511,18 +1680,21 @@
             "conflict": {
                 "UnknownTypeName": {
                     "name": "$~알수없는유형이름",
-                    "explanation": "$~타입 이름은 구조체 또는 타입 변수만 참조할 수 있지만, 여기서는 타입 $1을 참조합니다."
+                    "explanation": "$~타입 이름은 구조체 또는 타입 변수만 참조할 수 있지만, 여기서는 타입 $type 참조합니다.",
+                    "resolution": "$~유형 자리 표시자로 대체"
                 }
             }
         },
         "NeverType": {
             "name": "절대 불가능한 타입",
-            "emotion": "$?",
+            "description": "$~불가능한 타입 나타내기",
+            "emotion": "curious",
             "doc": "나는 불가능한 타입을 나타냄. 예를 들어 @Is 에게 뭔가가 @Number 인지 물어봐도 그것은 결코 숫자가 될 수 없을 때야."
         },
         "NoneType": {
             "name": "없음 타입",
-            "emotion": "$?",
+            "description": "$~없음 값 타입",
+            "emotion": "neutral",
             "doc": [
                 "@None 은 가장 최고의 없음이고, 나는 그들의 충실한 대표자야.",
                 "\\space•ø: ø\\"
@@ -1530,8 +1702,8 @@
         },
         "SetType": {
             "name": "집합 타입",
-            "description": "$1[ $1 집합|집합] 타입",
-            "emotion": "$?",
+            "description": "$~$type[$type|임의] 집합 타입",
+            "emotion": "kind",
             "doc": [
                 "@Set 은 정말 최고야, 진짜로. 나는 항상 @Bind 에게 뭔가를 집합으로 만들라고 말하고 있어!",
                 "\\unique•{''}: {'something' 'anything' 'someone'}\\"
@@ -1539,12 +1711,14 @@
         },
         "StreamDefinitionType": {
             "name": "스트림 정의 타입",
-            "emotion": "$?",
+            "description": "$~정의된 스트림 타입",
+            "emotion": "angry",
             "doc": "나는 정의한 스트림을 나타내, 그게 불가능한데, 그러니까 왜 읽고 있어?"
         },
         "StreamType": {
             "name": "스트림 타입",
-            "emotion": "$?",
+            "description": "$~스트림 값 타입",
+            "emotion": "curious",
             "doc": [
                 "나는 스트림의 아름다움과 의미를 축하해… @Bind 에게 그것들을 저장하라고 말해:",
                 "\\time•…#ms: Time()\\"
@@ -1552,31 +1726,34 @@
         },
         "StructureType": {
             "name": "구조체 타입",
-            "description": "$1",
-            "emotion": "$?",
+            "description": "$~구조 $name 나타내기",
+            "emotion": "kind",
             "doc": "나는 기본 값 타입을 나타내기 위한 내부 타입이야."
         },
         "UnknownType": {
             "name": "알 수 없는 타입",
+            "description": "$~알려지지 않은",
             "connector": ", 왜냐하면 ",
-            "emotion": "$?",
+            "emotion": "curious",
             "doc": "음... 나는 내가 뭐를 나타내는지 모르겠어, 근데 정말로 궁금해. 너는 알아? 우리가 알아야 할 것 같아. 모르겠으면 우리한테 말해줘."
         },
         "TableType": {
             "name": "테이블 타입",
-            "emotion": "$?",
+            "description": "$~테이블 값 타입",
+            "emotion": "angry",
             "doc": "나는 테이블을 나타냄.",
             "conflict": {
                 "ExpectedColumnType": {
                     "name": "$~열유형이누락되었습니다",
-                    "explanation": "$~컬럼 유형이 필요합니다"
+                    "explanation": "$~컬럼 유형이 필요합니다",
+                    "resolution": "$~타입 자리 표시자를 추가합니다"
                 }
             }
         },
         "TextType": {
             "name": "텍스트 타입",
-            "description": "$1[ $1 | 텍스트]",
-            "emotion": "$?",
+            "description": "$~$text[$text|텍스트] 값 타입",
+            "emotion": "happy",
             "doc": [
                 "나는 가장 화려한 종류의 값, @Text 를 멋지게 나타냄.",
                 "\\story•'': '한 번에 하나의 시간에...'\\"
@@ -1584,22 +1761,24 @@
         },
         "TypePlaceholder": {
             "name": "플레이스홀더 타입",
-            "emotion": "$?",
+            "description": "$~타입의 자리 표시자 보유하기",
+            "emotion": "eager",
             "doc": "언젠가는 타입을 나타내기를 희망해, 내 베프인 @ExpressionPlaceholder 이 표현을 나타내는 것처럼 말이야! 어떤 종류인지 도와줄래?"
         },
         "UnionType": {
             "name": "옵션 타입",
-            "description": "$1 | $2",
-            "emotion": "$?",
+            "description": "$~$first 또는 $second 타입",
+            "emotion": "curious",
             "doc": [
                 "누구를 나타내야 할까, A 또는 B 또는 다른 뭔가? 결정할 수가 없어!",
                 "\\indecision•''|#|{ø}: \"I don't know!\"\\"
-            ]
+            ],
+            "elidedSuffix": "$~또는 기타 옵션을 $omitted"
         },
         "Unit": {
             "name": "단위",
-            "description": "$1",
-            "emotion": "$?",
+            "description": "$~단위 $unit 지정하기",
+            "emotion": "precise",
             "doc": [
                 "나는 @Number 가 가질 수 있는 모든 단위를 나타내, 단위가 없는 경우부터 상상할 수 있는 가장 복잡한 단위까지. 중력 같은 것 예를 들면:",
                 "\\gravity•m/s^2: 9.8m/s^2\\",
@@ -1608,56 +1787,62 @@
         },
         "UnparsableType": {
             "name": "해석할 수 없는 타입",
-            "emotion": "$?",
+            "description": "$~파싱할 수 없는 표현식 타입",
+            "emotion": "curious",
             "doc": "나는 알 수 없는 표현의 타입을 나타내. 그 표현을 어떤 목적으로 사용하려고 할 때 내가 나타나."
         },
         "VariableType": {
             "name": "변수 타입",
-            "emotion": "$?",
+            "description": "$~사용 중인 타입 변수 나타내기",
+            "emotion": "curious",
             "doc": "@TypeVariable 을 알아? 그리고 그들이 어떤 알 수 없는 종류의 값을 나타내는지? 나는 값 간의 모든 협상에서 그들을 나타내."
         },
         "CycleType": {
             "name": "순환 타입",
-            "description": "자기 자신에 의존",
-            "emotion": "$?",
+            "description": "$~자기 자신에 의존함",
+            "emotion": "curious",
             "doc": "가끔 값들이 자기 자신에게 의존하고 있어서 그 값이 어떤 종류인지 모르는 경우가 있어. 나는 그 상황을 나타내."
         },
         "UnknownVariableType": {
             "name": "알 수 없는 변수 타입",
-            "emotion": "$?",
+            "description": "$~알 수 없는 타입 변수 나타내기",
+            "emotion": "curious",
             "doc": "가끔 우리는 뭔가의 종류를 추측해 보려고 해; 나는 그게 뭔지 모를 때 나타나."
         },
         "NotAType": {
             "name": "예상치 못한 타입",
-            "description": "$1이 아님",
-            "emotion": "$?",
+            "description": "$~$type 을 유효하지 않은 타입으로 표시하기",
+            "emotion": "curious",
             "doc": "가끔 우리는 뭔가가 어떤 종류여야 하는지 알아. 예를 들면 @ListAccess 는 @Number 가 필요해. 그걸 얻지 못하면, 나는 뭔가가 우리가 기대한 것과 다른 타입이라고 나타내."
         },
         "NoExpressionType": {
             "name": "표현식 없음 타입",
-            "emotion": "$?",
+            "description": "$~빈 블록 타입",
+            "emotion": "angry",
             "doc": "@Block 적어도 하나의 표현식이 필요한 걸 알고 계시죠? 표현식을 제공하지 않을 때 나타나는 게 바로 저예요. 그러니 표현식을 제공하세요!"
         },
         "NotEnclosedType": {
             "name": "구조, 변환, 반응 안에 없음",
-            "emotion": "$?",
+            "description": "$~구조 외부 사용 표시하기",
+            "emotion": "curious",
             "doc": "@This 멋지긴 하지만, 특정 장소에만 속해요. 그들이 길을 잃었을 때, 누구를 대표하는지 아무도 모를 때 저가 나타납니다."
         },
         "NotImplementedType": {
             "name": "구현되지 않음",
-            "emotion": "$?",
+            "description": "$~채워지지 않은 자리 표시자 타입",
+            "emotion": "curious",
             "doc": "@ExpressionPlaceholder 사용하지만, 그 타입을 지정하지 않을 때, 나타나는 타입이 바로 저예요. 그냥 받아들이세요!"
         },
         "UnknownNameType": {
             "name": "알 수 없는 이름",
-            "description": "$1[$1이 정의되지 않음 |이름이 주어지지 않음]",
-            "emotion": "$?",
+            "description": "$~$name [ $name 아직 정의되지 않았습니다|이름이 지정되지 않았습니다 ]",
+            "emotion": "curious",
             "doc": "가끔 @Reference @PropertyReference 당신이 말하는 이름을 모를 때가 있죠? 그럴 때 나타나서 우리가 누구에 대해 이야기하고 있는지 모른다는 것을 대표합니다."
         },
         "NonFunctionType": {
             "name": "비함수",
-            "description": "비함수",
-            "emotion": "$?",
+            "description": "$~$type 을 비함수로 표시하기",
+            "emotion": "confused",
             "doc": "우리 중 일부는 함수를 기대했는데, 함수를 받지 못했을 때 저가 나타나요."
         }
     },
@@ -3188,6 +3373,59 @@
             "down": {
                 "names": "$~아래에",
                 "doc": "$~@None 인 경우 키를 누르면 입력이 생성됩니다. \\⊤\\이면 다운 입력만 제공되고, \\⊥\\이면 릴리스 입력만 제공됩니다."
+            },
+            "keys": {
+                "Shift": ["$~옮기다"],
+                "Control": ["$~제어", "$~Ctrl 키"],
+                "Alt": ["$~Alt", "$~옵션"],
+                "Meta": ["$~메타", "$~명령", "$~윈도우"],
+                "AltGraph": ["$~AltGraph"],
+                "CapsLock": ["$~캡스락", "$~캡스록"],
+                "NumLock": ["$~넘락", "$~넘락"],
+                "ScrollLock": ["$~스크롤락", "$~스크롤 락"],
+                "Enter": ["$~입력하다", "$~반품"],
+                "Tab": ["$~꼬리표"],
+                " ": ["$~공간", "$~스페이스바", "$~"],
+                "ArrowUp": ["$~애로우업", "$~위로"],
+                "ArrowDown": ["$~아래쪽 화살표", "$~아래에"],
+                "ArrowLeft": ["$~왼쪽 화살표", "$~왼쪽"],
+                "ArrowRight": ["$~오른쪽 화살표", "$~오른쪽"],
+                "Home": ["$~집"],
+                "End": ["$~끝"],
+                "PageUp": ["$~페이지업", "$~페이지 위로"],
+                "PageDown": ["$~페이지다운", "$~페이지 다운"],
+                "Backspace": ["$~역행 키이"],
+                "Delete": ["$~삭제", "$~델"],
+                "Insert": ["$~끼워 넣다", "$~보험"],
+                "Clear": ["$~분명한"],
+                "Cut": ["$~자르다"],
+                "Copy": ["$~복사"],
+                "Paste": ["$~반죽"],
+                "Undo": ["$~끄르다"],
+                "Redo": ["$~다시 하다"],
+                "Escape": ["$~탈출하다", "$~에스"],
+                "Pause": ["$~정지시키다"],
+                "ContextMenu": ["$~컨텍스트메뉴", "$~메뉴"],
+                "Help": ["$~돕다"],
+                "Convert": ["$~전환하다"],
+                "NonConvert": ["$~비변환"],
+                "KanaMode": ["$~카나모드"],
+                "HangulMode": ["$~한글 모드"],
+                "Hiragana": ["$~히라가나"],
+                "Katakana": ["$~가타카나"],
+                "Romaji": ["$~로마자"],
+                "F1": ["$~F1"],
+                "F2": ["$~F2"],
+                "F3": ["$~F3"],
+                "F4": ["$~F4"],
+                "F5": ["$~F5"],
+                "F6": ["$~F6"],
+                "F7": ["$~F7"],
+                "F8": ["$~F8"],
+                "F9": ["$~F9"],
+                "F10": ["$~F10"],
+                "F11": ["$~F11"],
+                "F12": ["$~F12"]
             }
         },
         "Time": {
@@ -3439,13 +3677,13 @@
         "Speech": {
             "doc": [
                 "$~/안녕!/",
-                "$~@FunctionDefinition. 들을 준비가 되어 있어요!",
-                "$~이 스트림은 음성을 인식하여 텍스트로 변환합니다. 브라우저의 음성 인식 기능을 사용하여 사용자의 말을 듣고 단어로 바꿔줍니다 (정말 멋지지 않나요?!).",
-                "$~\\연설()\\",
+                "$~@FunctionDefinition 입니다. 말씀해 주세요!",
+                "$~이 스트림은 음성을 인식하여 @Text 로 변환합니다. 브라우저의 음성 인식 기능을 사용하여 사용자의 말을 듣고 단어로 바꿔줍니다 (정말 멋지지 않나요?!).",
+                "$~\\Speech()\\",
                 "$~이 책은 언어를 말할 수는 있지만 읽고 쓰는 법을 배우고 있는 사람들에게 (그리고 그 이상을 배우고 있는 사람들에게) 완벽합니다.",
                 "$~특정 언어로 된 음성을 인식하기 위해 언어 코드를 지정할 수 있습니다.",
-                "$~\\음성(언어: 'es-MX')\\",
-                "$~언어를 지정하지 않으면 사용자가 선호하는 지역 설정이 기본값으로 사용됩니다.",
+                "$~\\Speech(language: 'es-MX')\\",
+                "$~언어를 지정하지 않으면 사용자가 선호하는 언어로 기본 설정됩니다.",
                 "$~음성 인식 기능을 사용하려면 마이크 접근 권한과 인터넷 연결이 필요합니다(접근 권한을 허용해 주세요!). 또한 사용 시간 제한이 있을 수 있으니 너무 오래 켜두지 마세요(안돼요!)."
             ],
             "names": ["$~연설", "$~목소리"],
@@ -3455,7 +3693,7 @@
             },
             "language": {
                 "names": ["$~언어", "$~언어"],
-                "doc": "$~BCP 47 언어 코드(예: 'en-US')입니다. 브라우저의 음성 인식 기능이 해당 코드를 지원하지 않으면 오류가 발생합니다. 기본값은 사용자가 설정한 지역 설정입니다."
+                "doc": "$~BCP 47 언어 코드(예: 'en-US')입니다. 브라우저의 음성 인식 기능이 해당 코드를 지원하지 않으면 오류 메시지가 표시됩니다. 기본 설정 언어는 사용자가 선호하는 언어입니다."
             },
             "limit": {
                 "names": ["$~한계", "$~단어"],
@@ -3469,6 +3707,26 @@
                 "noMicrophone": "$~마이크를 찾을 수 없습니다.",
                 "languageNotSupported": "$~지원되지 않는 언어입니다",
                 "limit": "$~여러 번 시도했지만 실패했습니다."
+            }
+        },
+        "Hand": {
+            "doc": [
+                "$~/꼬꼬꼬꼬/",
+                "$~@FunctionDefinition 입니다! @Hand 에 대해 알려드릴게요.",
+                "$~@Hand 카메라에 손이 있는지 확인하고, 손의 위치, 펴진 손가락, 손바닥 또는 손등이 카메라를 향하고 있는지 알려줍니다. 손을 들어 올리거나, 흔들거나, 손가락을 세어 보세요. @Hand 손을 따라갑니다.",
+                "$~@Hand 백그라운드에서 머신러닝 모델을 사용합니다. 프로그램에서 처음 사용할 때는 모델을 다운로드하는 데 몇 초 정도 걸리며, 로딩되는 동안 화면 오른쪽 상단에 작은 회전하는 손 모양 아이콘이 나타납니다. 이후에는 캐시에 저장되어 즉시 실행됩니다.",
+                "$~각 프레임마다 @Hand @Gesture 제공합니다. 전체 입력 목록과 그 의미는 해당 페이지를 참조하세요.",
+                "$~이렇게 해보세요. 실제 손이 있는 위치에 맞는 손 모양 이모티콘을 보여줍니다.",
+                "$~\\hand: Hand()\nPhrase((hand.open ? '🖐️' '✊') place: hand.place)\\"
+            ],
+            "names": ["$~🖐️", "$~손"],
+            "frequency": {
+                "names": ["$~빈도"],
+                "doc": "$~샘플 채취 간격."
+            },
+            "resolution": {
+                "names": ["$~해결"],
+                "doc": "$~손 모델을 실행하기 전에 카메라를 샘플링할 픽셀 단위의 너비입니다. 값이 높을수록 랜드마크의 정확도가 약간 높아지지만 프레임당 처리 시간이 더 오래 걸립니다."
             }
         }
     },
@@ -3490,7 +3748,7 @@
                 "$~나에게 프레임 테두리를 제공할 수도 있으며 나는 자릅니다.",
                 "$~\\Stage([Phrase('stufffffff')] 배경: 색상(75% 50 100°) 프레임: 직사각형(-1m -1m 1m 1m))\\"
             ],
-            "defaultDescription": "$~$2[$2|] 문구 중 $1[$1|] 문구 $3[$3 프레임|] $4",
+            "defaultDescription": "$~스테이지 $name [ $name |] of $count 는 $frame [with frame $frame |] $pose $color [ $color |]를 출력합니다.",
             "content": {
                 "doc": "$~스테이지에 표시할 @Output 목록입니다.",
                 "names": "$~콘텐츠"
@@ -3596,7 +3854,7 @@
                 "$~\\Group(Stack() [구('첫 번째') 구문('두 번째')])\\",
                 "$~내가 정확히 어떻게 정리하는지는 귀하가 제공한 @Arrangement 에 따라 다릅니다."
             ],
-            "defaultDescription": "$~$1[$1|] $2 $3",
+            "defaultDescription": "$~$name [ $name |] $layout $pose $color [ $color |]",
             "content": {
                 "doc": "$~정렬할 @Output 목록입니다.",
                 "names": "$~콘텐츠"
@@ -3701,7 +3959,7 @@
                 "$~분명히 @Text 가 필요하지만 그렇지 않으면 크기, 글꼴, 회전 변경을 포함하여 @Output 이 할 수 있는 모든 작업을 수행할 수 있고 @Pose 및 @Sequence 를 사용하여 놀라운 춤을 모두 수행할 수 있습니다.",
                 "$~@Stage 에서 나를 선택하고 옆에 있는 팔레트에서 나를 편집할 수도 있습니다."
             ],
-            "defaultDescription": "$~$3[$3 미터 |]문구 $1 $2[이름이 $2|] $4[$4|] $5",
+            "defaultDescription": "$~$size [ $size 미터 |] 문구 $text $name [ $name 으로 명명됨 |] $face [ $face |] $animation $color [ $color |]",
             "text": {
                 "doc": "$~@Stage 에서 보여줄 캐릭터들입니다.",
                 "names": "$~텍스트"
@@ -3740,11 +3998,11 @@
             },
             "name": {
                 "doc": [
-                    "$~당신이 나에게 지어준 이름! 이것은 많은 것에 도움이 됩니다.",
-                    "$~먼저 이름이 있으면 스크린 리더 설명에서 자신을 설명하는 데 이름을 사용하겠습니다.",
-                    "$~둘째, 애니메이션을 적용할 때 무대에서 동일한 콘텐츠를 표현해야 하는 다양한 표현이 있을 수 있습니다. 동일한 이름을 지정하면 하나로 애니메이션됩니다.",
-                    "$~마지막으로 @Choice 를 사용하면 도움이 됩니다. 귀하가 제공한 이름이 해당 스트림에 표시됩니다.",
-                    "$~도움이 된다면 각각 다른 언어로 된 다양한 이름을 알려주실 수 있습니다. 항상 처음 선택한 로케일의 이름을 사용하겠습니다."
+                    "$~당신이 내게 지어주는 이름! 여러모로 유용해요.",
+                    "$~우선, 제게 이름이 있다면 화면 낭독기 설명에서 제 자신을 설명하는 데 그 이름을 사용하겠습니다.",
+                    "$~둘째, 애니메이션을 제작할 때 무대에서 동일한 내용을 나타내야 하는 여러 개의 서로 다른 표현이 있을 수 있습니다. 이러한 표현들에 같은 이름을 지정하면 하나로 애니메이션이 실행됩니다.",
+                    "$~마지막으로, 저는 @Choice 님께 도움을 드리고 있습니다. 당신이 제게 알려주신 이름들이 해당 스트림에 나타납니다.",
+                    "$~도움이 된다면 여러 언어로 된 이름을 여러 개 알려주셔도 좋습니다. 저는 항상 처음에 선택하신 언어로 된 이름을 사용하겠습니다."
                 ],
                 "names": "$~이름"
             },
@@ -3822,7 +4080,7 @@
         "Row": {
             "names": ["Fila"],
             "doc": "$~나는 @Output 의 수평 @Arrangement 인 @Row 이며, 그 사이에 선택적 패딩이 있습니다. 내 쌍둥이 @Stack 을 만나보셨나요?",
-            "description": "$~$1개의 구문 및 그룹 행",
+            "description": "$~$count 구문 및 그룹 행",
             "alignment": {
                 "doc": "$~각 열의 시작, 중앙 또는 끝 부분에 텍스트를 정렬할지 여부입니다.",
                 "names": "$~조정"
@@ -3835,7 +4093,7 @@
         "Stack": {
             "names": ["$~⬇", "$~스택"],
             "doc": "$~나는 @Output 의 수직 @Arrangement 인 @Stack 이며 그 사이에 선택적 패딩이 있습니다. 내 쌍둥이 @Row 를 만나보셨나요?",
-            "description": "$~1달러짜리 구문 및 그룹 스택",
+            "description": "$~$count 구문 및 그룹 스택",
             "padding": {
                 "doc": "$~출력 사이에 배치할 패딩의 양입니다.",
                 "names": "$~심"
@@ -3848,7 +4106,7 @@
         "Grid": {
             "names": ["$~▦", "$~그리드"],
             "doc": "$~나는 @Output 의 그리드입니다. 행과 열 개수를 알려주시면 선택적으로 패딩과 셀 크기를 사용하여 깔끔하게 정리하겠습니다.",
-            "description": "$~$1행 $2열 그리드",
+            "description": "$~$rows $columns 그리드",
             "rows": {
                 "doc": "$~그리드에 몇 개의 행이 있는지.",
                 "names": "$~행"
@@ -3876,7 +4134,7 @@
                 "$~나는 마치, 뭐든지. 원하는 곳에 앉으세요. 그냥 아무데나 앉으세요! 당신이 나에게 제공한 모든 @Output 에 @Place 가 있는지 확인하십시오. 그렇지 않으면 어디로 가야할지 알 수 없습니다.",
                 "$~아, 그리고 각 @Output 에 제공하는 @Place 는 @Group 의 @Place 에 상대적이라는 점을 기억하세요! 따라서 예상한 곳에 항목이 표시되지 않는 이유가 궁금하다면 @Group 에도 위치를 지정해 보세요."
             ],
-            "description": "$~자유 형식 $1 출력"
+            "description": "$~자유 형식 $count 출력"
         },
         "Shape": {
             "names": ["$~⬟", "$~모양"],
@@ -4066,25 +4324,29 @@
                 "doc": "$~@Output 이 기본값이 아닌 y축에 미러링되어야 하는지 여부입니다.",
                 "names": "$~플리피"
             },
-            "description": "$~$1[투명 $1|] $2[$2도 회전|] $3[크기 조정 $3|] $4[수평으로 뒤집음|] $5[수직으로 뒤집음|] $6[흐린 그림자 $6픽셀]"
+            "description": "$~$opacity[투명 $opacity|] $rotation[$rotation 회전|] $scale[크기 조정 $scale|] $flipx[수평으로 뒤집음|] $flipy[수직으로 뒤집음|] $blur[흐린 그림자 $blur]"
         },
         "Color": {
             "names": ["$~색상"],
             "doc": [
-                "$~나는 세 가지 필수 차원으로 구성된 눈에 보이는 색상입니다.",
-                "$~중간 밝기와 높은 채도에서 색상환 주변의 몇 가지 일반적인 색상은 다음과 같습니다.",
-                "$~\\색상(50% 100 0°)\\",
-                "$~\\색상(50% 100 30°)\\",
-                "$~\\색상(50% 100 60°)\\",
-                "$~\\색상(50% 100 90°)\\",
-                "$~\\색상(50% 100 120°)\\",
-                "$~\\색상(50% 100 150°)\\",
-                "$~\\색상(50% 100 180°)\\",
-                "$~\\색상(50% 100 210°)\\",
-                "$~\\색상(50% 100 240°)\\",
-                "$~\\색상(50% 100 270°)\\",
-                "$~\\색상(50% 100 300°)\\",
-                "$~\\색상(50% 100 330°)\\"
+                "$~나는 눈에 보이는 색깔이며, 세 가지 필수적인 차원으로 이루어져 있습니다.",
+                "$~다음은 색상환에서 중간 밝기와 높은 채도를 가진 몇 가지 일반적인 색상입니다.",
+                "$~\\Color(50% 100 0°)\\",
+                "$~\\Color(50% 100 30°)\\",
+                "$~\\Color(50% 100 60°)\\",
+                "$~\\Color(50% 100 90°)\\",
+                "$~\\Color(50% 100 120°)\\",
+                "$~\\Color(50% 100 150°)\\",
+                "$~\\Color(50% 100 180°)\\",
+                "$~\\Color(50% 100 210°)\\",
+                "$~\\Color(50% 100 240°)\\",
+                "$~\\Color(50% 100 270°)\\",
+                "$~\\Color(50% 100 300°)\\",
+                "$~\\Color(50% 100 330°)\\",
+                "$~가장 흔한 11가지 색상 이름의 경우, 저를 처음부터 만들 필요가 없습니다. 제 이름에는 단축 기능이 있습니다.",
+                "$~\\Color.red\\",
+                "$~\\Color.blue\\",
+                "$~이러한 단축 표기법은 여러분의 언어에서도 사용할 수 있습니다. 예를 들어 프랑스어 사용자는 \\couleur.rouge\\ 라고 쓰고 일본어 사용자는 \\色.赤\\ 쓸 수 있습니다. 단축 표기법은 빨강, 주황, 노랑, 초록, 파랑, 보라, 갈색, 분홍, 검정, 흰색, 회색입니다."
             ],
             "lightness": {
                 "doc": "$~\\0\\에서 \\1\\까지, 검은색에서 \\0\\, 회색에서 \\0.5\\, 흰색에서 \\1\\까지 얼마나 밝아야 할까요?",
@@ -4097,6 +4359,58 @@
             "hue": {
                 "doc": "$~색상환에서 자홍색 \\0\\, 빨간색 \\30\\, 녹색 \\120\\, 파란색 \\270\\까지 어떤 색이어야 합니까?",
                 "names": ["$~색조", "$~시간"]
+            },
+            "colors": {
+                "black": {
+                    "doc": "$~기본 색상은 검정색입니다.",
+                    "names": ["$~검은색"]
+                },
+                "white": {
+                    "doc": "$~기본 색상은 흰색입니다.",
+                    "names": ["$~하얀색"]
+                },
+                "gray": {
+                    "doc": "$~기본 색상은 회색입니다.",
+                    "names": ["$~회색"]
+                },
+                "red": {
+                    "doc": "$~기본 색상은 빨간색입니다.",
+                    "names": ["$~빨간색"]
+                },
+                "orange": {
+                    "doc": "$~기본 색상은 주황색입니다.",
+                    "names": ["$~주황색"]
+                },
+                "yellow": {
+                    "doc": "$~기본 색상은 노란색입니다.",
+                    "names": ["$~노란색"]
+                },
+                "green": {
+                    "doc": "$~기본 색상은 녹색입니다.",
+                    "names": ["$~녹색"]
+                },
+                "blue": {
+                    "doc": "$~기본 색상은 파란색입니다.",
+                    "names": ["$~파란색"]
+                },
+                "purple": {
+                    "doc": "$~기본 색상은 보라색입니다.",
+                    "names": ["$~보라"]
+                },
+                "brown": {
+                    "doc": "$~기본 색상은 갈색입니다.",
+                    "names": ["$~갈색"]
+                },
+                "pink": {
+                    "doc": "$~기본 색상은 핑크입니다.",
+                    "names": ["$~분홍색"]
+                }
+            },
+            "description": {
+                "modified": "$~$modifier $color",
+                "mix": "$~$first - $second",
+                "light": "$~빛",
+                "dark": "$~어두운"
             }
         },
         "Sequence": {
@@ -4293,12 +4607,68 @@
                 "description": "$~프로젝트 크기 제한",
                 "explanation": "$~이 프로젝트에는 텍스트가 너무 많아 저장할 수 없습니다."
             }
+        },
+        "Say": {
+            "doc": [
+                "$~안녕하세요! 저는 @Say 이고, @Stage 에서 텍스트를 화면에 표시하는 대신 소리 내어 읽어줍니다.",
+                "$~제게 할 말을 주세요. 그러면 프로그램이 평가될 때마다 그 말을 하겠습니다.",
+                "$~\\Say('blah blah blah')\\",
+                "$~@TextLiteral 에 @Language 가 있으면 해당 언어를 사용하고, 없으면 선택된 언어를 사용합니다.",
+                "$~설정에서 음성을 선택할 수 있습니다."
+            ],
+            "names": ["$~🔊", "$~말하다"],
+            "text": {
+                "doc": "$~내가 소리 내어 읽어야 할 텍스트입니다.",
+                "names": "$~텍스트"
+            },
+            "defaultDescription": "$~$text 말하세요"
+        },
+        "Gesture": {
+            "doc": "$~저는 카메라가 감지한 손 포즈의 스냅샷이며, @Hand 스트림을 통해 전송됩니다. 제 위치(place)는 무대 위 손의 위치를 나타내고, 손가락(fingers)은 몇 개의 손가락이 펴져 있는지를 보여줍니다. open은 손이 완전히 펴진 상태(3개 이상의 손가락이 펴진 상태)일 때 true이고, thumb, sword, middle, racky, punky는 각각 어떤 손가락이 펴져 있는지를 나타냅니다. palm은 손바닥이 카메라를 향하고 있을 때 true이고, 손등이 향하고 있을 때는 false입니다.",
+            "names": ["$~✋", "$~몸짓"],
+            "place": {
+                "doc": "$~손이 무대 위에 있는 곳.",
+                "names": ["$~장소"]
+            },
+            "open": {
+                "doc": "$~손이 펴진 상태(손가락 3개 이상)이면 @True, 주먹을 쥔 상태이면 @True.",
+                "names": ["$~열려있는"]
+            },
+            "fingers": {
+                "doc": "$~손가락을 몇 개 펼쳤는지 (0개: 주먹, 5개: 엄지손가락을 포함한 모든 손가락),",
+                "names": ["$~손가락"]
+            },
+            "thumb": {
+                "doc": "$~엄지손가락이 펴져 있으면 @True.",
+                "names": ["$~무지"]
+            },
+            "index": {
+                "doc": "$~@True 검지손가락이 펴져 있으면 참입니다.",
+                "names": ["$~색인"]
+            },
+            "middle": {
+                "doc": "$~가운데 손가락을 뻗으면 @True.",
+                "names": ["$~가운데"]
+            },
+            "ring": {
+                "doc": "$~약지를 펴면 @True.",
+                "names": ["$~반지"]
+            },
+            "pinky": {
+                "doc": "$~새끼손가락을 펴면 @True.",
+                "names": ["$~핑키"]
+            },
+            "palm": {
+                "doc": "$~손바닥이 카메라를 향하면 @True, 손등이 카메라를 향하면 @True.",
+                "names": ["$~손바닥안에감추다"]
+            }
         }
     },
     "ui": {
         "font": {
             "app": "Noto Sans Korean",
-            "code": "Noto Mono"
+            "code": "Noto Mono",
+            "missing": "$~아니요"
         },
         "phrases": {
             "welcome": "$~안녕하세요"
@@ -4324,8 +4694,12 @@
             },
             "formatted": {
                 "edit": "$~서식이 지정된 텍스트를 편집합니다",
-                "preview": "$~서식이 지정된 텍스트 미리보기"
-            }
+                "preview": "$~서식이 지정된 텍스트 미리보기",
+                "highlight": "$~하이라이트 예시",
+                "bullet": "$~글머리 기호",
+                "attention": "$~이 표현을 강조 표시하세요"
+            },
+            "backtotop": "$~맨 위로 돌아가기"
         },
         "tile": {
             "toggle": {
@@ -4363,7 +4737,10 @@
                     "label": "$~텍스트로 복사"
                 },
                 "addSource": "$~새로운 $source 생성",
-                "duplicate": "$~이 프로젝트를 복사하세요",
+                "duplicate": {
+                    "tip": "$~이 프로젝트를 복제하세요",
+                    "label": "$~복제하다"
+                },
                 "revert": "$~원래 코드로 되돌리기",
                 "focusOutput": "$~무대에 키보드 집중",
                 "focusSource": "$~다음 소스에 집중하세요",
@@ -4375,14 +4752,10 @@
                     "tip": "$~이 프로젝트의 언어를 편집하고 다른 언어로 번역합니다.",
                     "label": "$~번역하다"
                 },
-                "primary": "$~이 프로젝트의 기본 로캘로 설정",
+                "primary": "$~이 프로젝트의 주요 언어로 설정되었습니다.",
                 "share": {
                     "tip": "$~프로젝트 공유 옵션 표시",
                     "label": "$~공유하다"
-                },
-                "history": {
-                    "on": "$~최근 프로젝트 코드 표시",
-                    "off": "$~현재 프로젝트 코드 표시"
                 },
                 "savedLocally": "$~프로젝트는 로컬에 저장되지만 온라인에는 저장되지 않습니다.",
                 "savedOnline": "$~프로젝트는 온라인으로 저장됩니다"
@@ -4390,7 +4763,8 @@
             "field": {
                 "name": {
                     "description": "$~프로젝트 이름 수정",
-                    "placeholder": "$~이름"
+                    "placeholder": "$~이름",
+                    "invalid": "$~번역이 불완전합니다. 따옴표와 \"hi\"/\"en\"hola\"/\"es\"와 같은 언어 태그를 확인하세요."
                 }
             },
             "collapsed": "$~창문이 모두 접혀있습니다! 아래 도구 모음에서 찾을 수 있습니다.",
@@ -4400,7 +4774,14 @@
                 "projectContainedPII": "$~귀하의 개인 정보를 보호하기 위해 잠재적으로 개인 식별 정보가 포함된 프로젝트는 온라인에 저장되지 않았습니다. 해당 정보가 식별 가능한지 확인하려면 프로젝트를 확인하세요.",
                 "projectsNotLoadingOnline": "$~온라인 프로젝트를 로드할 수 없습니다.",
                 "projectNotSavedOnline": "$~프로젝트를 온라인으로 저장할 수 없습니다.",
-                "settingsUnsaved": "$~온라인으로 설정을 저장할 수 없습니다."
+                "settingsUnsaved": "$~온라인으로 설정을 저장할 수 없습니다.",
+                "failureReason": {
+                    "indexedDBWriteFailed": "$~브라우저에서 이 프로젝트를 이 기기에 저장할 수 없습니다.",
+                    "indexedDBUnsupported": "$~사용하시는 브라우저에서 Wordplay가 이 기기에 프로젝트를 저장할 수 있도록 허용하지 않습니다.",
+                    "firestoreBatchFailed": "$~이 프로젝트들을 클라우드로 옮길 수 없었어요. 이 기기에 안전하게 보관되어 있습니다.",
+                    "projectContainsPII": "$~이 프로젝트에는 개인 정보가 포함된 것으로 보여 온라인에 저장하지 않았습니다. 각 프로젝트를 열어 개인 정보가 있는지 확인해 보세요."
+                },
+                "failuresHeader": "$~$count 프로젝트가 저장되지 않았습니다."
             },
             "help": "$~키보드 단축키 표시",
             "dialog": {
@@ -4420,6 +4801,23 @@
             },
             "defaults": {
                 "starterCode": "¶빈 프로젝트에 오신 것을 환영합니다! 이것은 댓글입니다.\n프로젝트를 설명하고, 메모를 작성하고,\n작업에 대해 다른 사람들이 알아야 할 내용을 설명하는 데 사용할 수 있습니다.\n굵게, 기울임꼴, <links@https://wordplay.dev> 등을 지원합니다.¶\nPhrase('hi')"
+            },
+            "toggle": {
+                "fullscreen": {
+                    "on": "$~브라우저 전체 화면 종료",
+                    "off": "$~브라우저 전체 화면으로 들어가기"
+                }
+            },
+            "label": "$~프로젝트 관리",
+            "tour": {
+                "launch": "$~프로젝트 관리 시스템을 둘러보세요",
+                "controls": "$~아래쪽의 이러한 제어 설정은 어떤 타일에서 작업하든 상관없이 *프로젝트 전체*에 적용됩니다.",
+                "name": "$~`/name/`필드는프로젝트이름입니다.이름은`*프로젝트*`및`*갤러리*`보기에서표시됩니다.",
+                "sourceToggle": "$~이 토글 버튼은 *원본 파일*을 표시하거나 숨깁니다. 이 행의 *다른 토글 버튼*은 다른 타일에 대해 동일한 기능을 수행합니다.",
+                "addSource": "$~일부 프로젝트에서는 데이터를 하나의 소스 파일에 저장하고 이를 메인 소스 파일로 가져오는 방식으로 여러 개의 소스 파일을 사용하는 것이 유용합니다. '소스 추가' 버튼을 클릭하면 새 소스 파일이 생성됩니다.",
+                "share": "$~/공유/ 대화 상자를 사용하면 프로젝트를 갤러리, 일반 사용자와 공유하거나 텍스트 파일로 복사하여 다른 곳에서 공유할 수 있습니다.",
+                "translate": "$~/번역/ 버튼을 사용하면 프로젝트의 *이름*, *텍스트*, *문서*를 다른 언어로 *번역*할 수 있습니다.",
+                "checkpoints": "$~/수정 내역/ 패널을 사용하면 프로젝트의 이전 버전으로 *되돌아갈* 수 있고, 기억해 두고 싶은 버전을 *스냅샷*으로 저장할 수 있습니다."
             }
         },
         "gallery": {
@@ -4470,14 +4868,13 @@
         "source": {
             "label": "$~프로그램 편집기",
             "empty": [
-                "$~시작하자! 당신은 할 수 있습니다…",
-                "$~• 📕을 열고 🖱️ 이 프로그램으로 드래그하세요.",
-                "$~• $1을 입력하고 메뉴에서 저희를 선택하세요.",
-                "$~• ⌨️를 사용하여 입력하세요.",
-                "$~• <galleries@://galleries>에서 영감을 얻으세요.",
-                "$~문제가 있으면 <자세히 알아보기@://learn>하세요."
+                "$~자, 시작해 볼까요! 여러분은…",
+                "$~• 마우스를 열고 이 프로그램으로 드래그하세요.",
+                "$~• $symbol 입력하고 메뉴에서 저희를 선택하세요.",
+                "$~• ⌨️ 기호를 사용하여 입력해 주세요.",
+                "$~• 살펴보세요<galleries@://galleries> 영감을 얻기 위해.",
+                "$~막혔다면,<learn more@://learn> ."
             ],
-            "overwritten": "$~최신 버전을 받았습니다!",
             "confirm": {
                 "delete": {
                     "description": "$~이 $source 삭제",
@@ -4492,11 +4889,14 @@
                 "characters": {
                     "on": "$~일치하는 글리프 축소",
                     "off": "$~일치하는 문자 확장"
+                },
+                "expandSequence": {
+                    "on": "$~접기 항목",
+                    "off": "$~항목 확장"
                 }
             },
             "button": {
                 "selectOutput": "$~이 출력을 무대에 표시",
-                "expandSequence": "$~이 접힌 코드를 확장하세요",
                 "expandControls": "$~추가 편집 명령 표시",
                 "collapseControls": "$~추가 편집 명령 숨기기",
                 "zoomIn": "$~코드 크기를 늘리세요",
@@ -4511,7 +4911,6 @@
             "menu": {
                 "label": "$~자동완성 메뉴",
                 "show": "$~자동완성 메뉴 표시",
-                "back": "$~하위 메뉴 나가기",
                 "empty": "$~제안 사항이 없습니다."
             },
             "cursor": {
@@ -4529,7 +4928,6 @@
                 "selectAll": "$~프로그램 선택",
                 "incrementLiteral": "$~숫자, 텍스트 또는 부울 증가",
                 "decrementLiteral": "$~숫자, 텍스트 또는 부울 감소",
-                "insertSymbol": "$~$1 삽입",
                 "insertTab": "$~삽입 탭",
                 "insertTrue": "$~참을 삽입하다",
                 "insertFalse": "$~거짓을 삽입하다",
@@ -4548,7 +4946,6 @@
                 "insertPrevious": "$~이전 기호 삽입",
                 "insertType": "$~유형 기호 삽입",
                 "insertTable": "$~테이블 열린 기호 삽입",
-                "insertTableClose": "$~테이블 닫기 기호 삽입",
                 "insertBorrow": "$~차용 삽입",
                 "insertShare": "$~공유 삽입",
                 "insertLine": "$~줄 바꿈 삽입",
@@ -4587,19 +4984,27 @@
             "options": {
                 "locale": {
                     "tip": "$~소스에 대한 기본 언어",
-                    "all": "$~모두"
+                    "all": "$~$count 언어"
                 }
             },
             "error": {
                 "invalidName": "$~유효한 워드플레이 이름이어야 합니다.",
                 "invalidWords": "$~단어는 비어 있을 수 없고 예약된 기호를 포함할 수 없습니다."
             },
-            "title": "$~암호"
+            "title": "$~암호",
+            "tour": {
+                "launch": "$~에디터 둘러보기",
+                "editor": "$~모든 코드는 *에디터*에 입력하세요. 모든 워드플레이 프로그램은 *값으로 평가*되며, 그 값이 *화면에* 표시됩니다.",
+                "textBlocks": "$~이 토글 버튼은 텍스트 편집과 블록 편집, 두 가지 편집 방식 사이를 전환합니다. 텍스트 편집은 더 유연하지만 오류가 발생하기 쉽습니다. 블록 편집은 오류 발생 가능성이 낮지만 속도가 느리고 더 경직된 편집 방식을 사용합니다.",
+                "toolbar": "$~이 도구 모음 컨트롤을 사용하면 *모두 선택*, *확대* 및 *축소*, *실행 취소*, *다시 실행*, *잘라내기*, *복사* 및 *붙여넣기*를 할 수 있습니다.",
+                "expand": "$~/확장/ 토글 버튼을 누르면 더욱 *고급* 편집 도구가 나타납니다.",
+                "shortcuts": "$~'/단축키/' 버튼을 누르면 더 빠르게 편집할 수 있는 키보드 단축키 목록이 나타납니다."
+            }
         },
         "annotations": {
             "label": "$~갈등과 도움",
-            "cursor": "$~이것은 *$1*$2[이고 $2|] 유형입니다.    $3[ *$3* 안에 있습니다.|]",
-            "cursorParent": "$~$2|] 유형의 *$1*$2[ 안에 있습니다.",
+            "cursor": "$~이것은 *$node*$type[이고 $type|] 유형입니다.    $description[ *$description* 안에 있습니다.|]",
+            "cursorParent": "$~$node|] 유형의 *$type*$type[ 안에 있습니다.",
             "learn": "$~/더 알아보기/",
             "evaluating": "$~아 재밌다 평가해보자!",
             "space": "$~이것은 공간이다! 아무것도 그렇게 많이 말할 수 있다는 것을 누가 알았습니까?",
@@ -4607,7 +5012,8 @@
                 "resolution": "$~이 충돌을 해결하세요",
                 "toggle": "$~주석 표시 및 숨기기",
                 "highlight": "$~편집기에서 이 코드를 표시합니다"
-            }
+            },
+            "nodeDescription": "$~그들은 $description."
         },
         "output": {
             "label": "$~프로그램 출력",
@@ -4634,11 +5040,31 @@
             "button": {
                 "submit": "$~이 채팅 메시지를 제출하세요",
                 "zoomIn": "$~무대를 확대해 보세요",
-                "zoomOut": "$~무대에서 줌아웃"
+                "zoomOut": "$~무대에서 줌아웃",
+                "rotate": "$~회전 문구",
+                "resize": "$~크기 조정 문구",
+                "resetZoom": "$~줌 기능을 무대 위치로 재설정합니다."
             },
             "options": {
                 "locale": "$~출력할 언어를 선택하세요",
-                "default": "$~기본"
+                "default": "$~$count 언어"
+            },
+            "tour": {
+                "launch": "$~무대 투어를 해보세요",
+                "stage": "$~`/stage/`는 프로그램의 *현재 값*을 보여줍니다. 이 값은 숫자나 리스트와 같은 *원시 값*일 수도 있고, 눈으로 볼 수 있는 *시각적 출력*일 수도 있으며, 귀로 들을 수 있는 *소리*일 수도 있습니다.",
+                "reset": "$~/리셋/ 버튼은 프로그램 평가를 *처음*으로 되돌려 시간, 키 또는 입력 스트림을 처음부터 다시 재생합니다.",
+                "zoom": "$~/줌/ 버튼을 사용하면 스테이지를 *확대*하거나 *축소*하여 출력을 더 선명하게 또는 더 자세히 볼 수 있습니다.",
+                "grid": "$~/그리드/ 버튼을 누르면 화면에 격자가 나타나 디자인 작업 중에 요소를 정확하게 배치하는 데 도움이 됩니다.",
+                "lock": "$~/잠금/ 버튼은 스테이지의 시점을 고정합니다. *잠금* 상태에서는 스테이지가 움직이지 않고, *잠금 해제* 상태에서는 자유롭게 패닝과 줌 기능을 사용할 수 있습니다.",
+                "animationSpeed": "$~`/애니메이션 속도/` 컨트롤은 애니메이션 재생 속도를 설정합니다. 동일한 컨트롤이 `설정`에도 있으므로 두 곳 모두에서 변경할 수 있습니다."
+            },
+            "permission": {
+                "title": "$~이 프로젝트는 허가가 필요합니다.",
+                "microphone": "$~마이크로폰",
+                "camera": "$~카메라",
+                "note": "$~공유하기 전에 브라우저에서 확인 메시지를 표시합니다.",
+                "start": "$~시작",
+                "retry": "$~다시 해 보다"
             }
         },
         "timeline": {
@@ -4658,11 +5084,22 @@
                 "start": "$~처음으로",
                 "reset": "$~성능 다시 시작"
             },
-            "debug": "$~디버그"
+            "debug": "$~디버그",
+            "tour": {
+                "launch": "$~타임라인 투어를 해보세요",
+                "timeline": "$~타임라인 기능을 사용하면 프로그램 평가 과정을 단계별로 앞뒤로 살펴볼 수 있습니다. 프로그램이 값을 계산하는 방식을 확인하고, 특히 원하는 동작이 나타나지 않을 때 워드플레이 프로그램의 평가 방식을 머릿속으로 그려보는 데 매우 유용한 기능입니다.",
+                "reset": "$~/리셋/ 버튼을 누르면 프로그램 평가가 *처음*부터 다시 시작되므로 처음부터 평가 과정을 다시 시청할 수 있습니다.",
+                "annotations": "$~/주석/ 창은 각 단계에 대한 설명이 표시되는 곳입니다. 프로그램을 단계별로 실행하면서 방금 어떤 일이 일어났는지 여기서 확인할 수 있습니다.",
+                "editor": "$~/에디터/에는 코드가 표시됩니다. 단계별로 실행하는 동안 프로그램의 각 부분의 *값*이 평가된 *후* 해당 부분 옆에 표시되므로 프로그램이 실행되는 동안 값이 어떻게 변하는지 확인할 수 있습니다.",
+                "history": "$~/히스토리/에는 키 입력, 시간 틱, 포인터 이벤트 등 프로그램이 받은 모든 *입력*이 표시됩니다. 드래그하여 이동할 수 있으므로 드래그만으로 프로그램 실행 기록의 어느 시점으로든 돌아갈 수 있습니다.",
+                "stepControls": "$~/단계 제어/를 사용하면 평가 과정을 정밀하게 이동할 수 있습니다. 시작 또는 끝으로 이동하거나, 한 단계씩 앞으로 또는 뒤로 이동하거나, 입력값 하나만큼 이동하거나, 함수에서 빠져나오거나, 현재 선택된 코드 부분으로 이동할 수 있습니다.",
+                "playMode": "$~프로그램이 현재 실행 중입니다. *실행* 모드에서는 프로그램이 완료될 때까지 (완료되지 않을 수도 있음) 실행되며 실시간으로 입력에 응답합니다.",
+                "pauseMode": "$~프로그램이 현재 일시 정지되었습니다. 일시 정지 모드에서는 평가 과정을 앞뒤로 이동하며 진행할 수 있습니다. 주석 창에는 각 단계에서 발생하는 상황이 표시되며, 편집기에서는 프로그램의 각 부분에 대한 현재 값이 그 옆에 나타납니다."
+            }
         },
         "docs": {
             "label": "$~문서 브라우저",
-            "link": "$~문서에 개념 $1 표시",
+            "link": "$~문서에 개념 $name 표시",
             "learn": "$~더 알아보기 …",
             "nodoc": "$~나는 누구입니까? 난 무엇인가? 내 목적은 무엇입니까?",
             "button": {
@@ -4736,7 +5173,11 @@
                     "video": "$~카메라를 사용하다",
                     "gallery": "$~Wordplay의 다른 디렉터들이 제작했습니다."
                 },
-                "related": "$~원하시는 내용이 아닌가요?"
+                "related": "$~원하시는 내용이 아닌가요?",
+                "howToGalleryButton": {
+                    "label": "$~해당 공간의 사용법을 확인하세요",
+                    "tip": "$~해당 공간의 사용법을 확인하세요"
+                }
             },
             "mode": {
                 "browse": {
@@ -4780,6 +5221,14 @@
                         "$~데이터 유형, 변환 및 유형 검사",
                         "$~문서 및 주석",
                         "$~고급 언어 개념"
+                    ]
+                },
+                "howToFilter": {
+                    "label": "$~사용자가 만든 사용법",
+                    "labels": ["$~모두", "$~갤러리 및 북마크"],
+                    "tips": [
+                        "$~사용자가 작성한 모든 사용법을 확인하세요",
+                        "$~이 프로젝트 갤러리에서 사용자가 만든 사용법 가이드와 모든 북마크만 볼 수 있습니다."
                     ]
                 }
             },
@@ -4855,6 +5304,14 @@
             },
             "note": {
                 "empty": "$~프로젝트에서 정의한 이름은 여기에 표시됩니다."
+            },
+            "tour": {
+                "launch": "$~가이드 투어를 해보세요",
+                "guide": "$~/가이드/에는 Wordplay의 모든 *프로그래밍 언어* 개념 및 *기능*에 대한 *문서*가 포함되어 있습니다.",
+                "mode": "$~이 /토글/을 사용하여 *코드* 섹션과 *방법* 섹션 사이를 직접 전환할 수 있습니다.",
+                "search": "$~검색 상자는 기능을 *발견*하거나 *이름으로* 빠르게 찾는 데 유용합니다.",
+                "code": "$~이 부분은 코드 섹션입니다. 프로그래밍 언어에 대한 문서, 즉 프로그램을 만드는 데 사용할 수 있는 기본 구성 요소들을 담고 있습니다.",
+                "howto": "$~이 부분은 /방법/ 섹션입니다. 프로젝트에서 특정 동작을 구현하는 데 유용한 *패턴*들을 담고 있습니다."
             }
         },
         "dialog": {
@@ -4877,12 +5334,20 @@
                     "copy": {
                         "header": "$~복사 및 붙여넣기",
                         "explanation": "$~이 프로젝트를 텍스트로 클립보드에 복사하여 다른 곳에 공유하세요."
+                    },
+                    "preview": {
+                        "header": "$~시사",
+                        "explanation": "$~이 작은 기호는 목록과 갤러리에서 프로젝트를 나타냅니다. 자동 선택 기능은 프로젝트에 표시되는 내용을 기반으로 하나를 선택하며, 사용자 지정 기능을 사용하면 특정 문자나 이모티콘을 고정할 수 있습니다."
                     }
                 },
                 "field": {
                     "emailOrUsername": {
                         "placeholder": "$~이메일 또는 사용자 이름",
                         "description": "$~편집 액세스 권한을 부여하려는 사람의 이메일 또는 사용자 이름"
+                    },
+                    "preview": {
+                        "placeholder": "$~미리보기 글리프",
+                        "description": "$~이 프로젝트의 미리보기 글리프로 사용할 단일 문자 또는 이모티콘"
                     }
                 },
                 "mode": {
@@ -4893,12 +5358,21 @@
                             "$~이 프로젝트는 당신과 공동 작업자만 볼 수 있습니다.",
                             "$~누구나 이 프로젝트를 볼 수 있습니다."
                         ]
+                    },
+                    "preview": {
+                        "label": "$~미리보기 모드",
+                        "labels": ["$~자동", "$~관습"],
+                        "tips": [
+                            "$~프로젝트가 표시되는 내용을 기반으로 자체적으로 미리보기 글리프를 선택하도록 합니다.",
+                            "$~원하는 기호를 고정하세요"
+                        ]
                     }
                 },
                 "error": {
                     "unknown": "$~이 이메일을 받은 작성자를 알 수 없습니다.",
                     "anonymous": "$~공유하려면 <로그인@login>해야 합니다.",
-                    "self": "$~자신을 추가할 수 없습니다."
+                    "self": "$~자신을 추가할 수 없습니다.",
+                    "invalidPreview": "$~문자 또는 이모티콘 중 하나만 선택하세요."
                 },
                 "button": {
                     "submit": "$~이 이메일 주소로 프로젝트를 공유하세요",
@@ -4938,7 +5412,7 @@
                         ]
                     },
                     "animate": {
-                        "label": "$~애니메이션",
+                        "label": "$~애니메이션 속도",
                         "labels": [
                             "$~끄다",
                             "$~1/4",
@@ -4947,7 +5421,8 @@
                             "$~1x",
                             "$~2배",
                             "$~5배",
-                            "$~10배"
+                            "$~10배",
+                            "$~자동"
                         ],
                         "tips": [
                             "$~애니메이션 끄기",
@@ -4957,7 +5432,8 @@
                             "$~정상 속도",
                             "$~두 배 속도",
                             "$~5단 변속기",
-                            "$~10단 변속기"
+                            "$~10단 변속기",
+                            "$~현재 기기 설정을 사용합니다"
                         ]
                     },
                     "dark": {
@@ -5001,13 +5477,23 @@
                             "$~코드를 텍스트로 편집",
                             "$~코드를 블록 단위로 편집하세요"
                         ]
+                    },
+                    "blockDensity": {
+                        "label": "$~블록 간격",
+                        "labels": ["$~콤팩트", "$~정상", "$~넓은"],
+                        "tips": [
+                            "$~화면에 더 많은 코드를 표시하기 위해 블록 크기를 더 촘촘하게 조정했습니다.",
+                            "$~기본 블록 간격",
+                            "$~선택과 드래그를 쉽게 하기 위해 블록 간격을 더 넓게 조정했습니다."
+                        ]
                     }
                 },
                 "options": {
                     "mic": "$~선택한 마이크",
                     "camera": "$~선택한 카메라",
                     "face": "$~글꼴면",
-                    "default": "$~기본"
+                    "default": "$~기본",
+                    "voice": "$~Say에 선택된 음성"
                 }
             },
             "locale": {
@@ -5015,15 +5501,27 @@
                 "explanation": "$~언어와 지역을 선택하세요.",
                 "subheader": {
                     "selected": "$~선택된",
-                    "supported": "$~사용 가능",
-                    "help": "$~번역을 도와주세요…"
+                    "supported": "$~사용 가능"
                 },
                 "button": {
-                    "show": "$~로케일 변경",
-                    "add": "$~이 로케일을 추가하세요",
-                    "remove": "$~이 로케일을 제거하세요",
-                    "replace": "$~이 로케일로 교체",
+                    "show": "$~웹사이트에 사용할 언어를 선택하세요",
+                    "add": "$~이 언어와 현재 언어를 사용하세요",
+                    "remove": "$~이 언어를 제거하세요",
+                    "replace": "$~이 언어를 사용하세요",
                     "menu": "$~기타 언어"
+                },
+                "localizeHelp": "$~해당 언어로 번역을 개선하는 데 도움을 주시려면 페이지 하단의 연필 아이콘(✎)을 클릭하여 현지화 모드를 켜고 개선 사항을 제안해 주세요.",
+                "request": {
+                    "header": "$~원하시는 언어가 없으신가요?",
+                    "explanation": "$~원하는 언어와 지역을 선택해 주시면, 해당 언어와 지역을 추가하는 것에 대해 GitHub 이슈를 생성하겠습니다.",
+                    "languageLabel": "$~언어",
+                    "regionLabel": "$~지역",
+                    "submit": "$~요구",
+                    "submitting": "$~요청을 보내는 중…",
+                    "success": "$~GitHub에서 이 요청에 대해 저희와 함께 논의해 주세요!",
+                    "error": "$~오류가 발생했습니다. 다시 시도해 주세요.",
+                    "alreadySupported": "$~해당 언어와 지역은 이미 지원됩니다.",
+                    "requiresLogin": "$~언어를 요청하려면 로그인해야 합니다."
                 }
             },
             "help": {
@@ -5123,11 +5621,11 @@
                     "tip": "$~모든 알림 지우기"
                 },
                 "notification": {
-                    "howToHeader": "$~\"$1\"이라는 제목의 새로운 사용법 게시물이 올라왔습니다.",
-                    "projectChatHeader": "$~프로젝트 \"$1\"에 새 메시지가 있습니다.",
-                    "howToChatHeader": "$~\"$1\" 사용법에 새 메시지가 추가되었습니다.",
+                    "howToHeader": "$~\"$title\"이라는 제목의 새로운 사용법 게시물이 올라왔습니다.",
+                    "projectChatHeader": "$~프로젝트 \"$name\"에 새 메시지가 있습니다.",
+                    "howToChatHeader": "$~\"$title\" 사용법에 새 메시지가 추가되었습니다.",
                     "link": "$~세부",
-                    "moderationHeader": "$~\"$1\"에 있는 메시지는 관리자의 조치가 필요합니다."
+                    "moderationHeader": "$~\"$name\"에 있는 메시지는 관리자의 조치가 필요합니다."
                 },
                 "delete": "$~이 알림을 삭제하세요",
                 "popup": "$~새 알림"
@@ -5141,7 +5639,6 @@
                 "default": "$~기본",
                 "inherited": "$~물려받은",
                 "notSequence": "$~시퀀스가 아님",
-                "notContent": "$~콘텐츠 목록이 아닙니다",
                 "format": "$~체재",
                 "weight": "$~무게",
                 "light": "$~빛",
@@ -5195,6 +5692,15 @@
                 "percent": "$~0~100 사이의 백분율이어야 합니다.",
                 "lessThanNext": "$~다음 항목보다 작아야 합니다.",
                 "moreThanPrevious": "$~이는 이전 항목보다 많아야 합니다."
+            },
+            "tour": {
+                "launch": "$~팔레트 투어를 해보세요",
+                "palette": "$~프로젝트가 *일시 중지*된 경우, /팔레트/를 사용하여 *구문*, *그룹* 및 *단계*를 편집할 수 있습니다.",
+                "text": "$~구문의 모든 속성을 여기에서 편집할 수 있습니다. 여기에는 구문의 *텍스트*가 포함되지만, 다른 속성들은 각각 별도의 제어 기능을 가지고 있습니다.",
+                "set": "$~속성이 현재 기본값을 사용하고 있는 경우, 연필 모양 버튼을 사용하여 해당 속성에 명시적인 값을 설정할 수 있습니다.",
+                "unset": "$~속성에 명시적인 값이 설정된 경우, *X* 버튼을 누르면 해당 값이 제거되고 속성이 *기본값*으로 되돌아갑니다.",
+                "editor": "$~팔레트에서 변경한 모든 내용은 편집기에 표시되는 코드에 그대로 반영됩니다.",
+                "stage": "$~문구는 *스테이지*에서 직접 /이동/, /크기 조정/, /회전/할 수도 있습니다."
             }
         },
         "save": {
@@ -5242,7 +5748,9 @@
                     },
                     "teach": "$~학생들의 수업과 프로젝트를 관리합니다",
                     "characters": "$~사용자 정의 이모티콘과 기호 만들기",
-                    "updates": "$~워드플레이의 새로운 소식을 확인하세요"
+                    "updates": "$~워드플레이의 새로운 소식을 확인하세요",
+                    "design": "$~참여자를 위한 디자인 시스템 참조 자료",
+                    "thanks": "$~누가 이걸 만드는 데 도움을 줬나요?"
                 }
             },
             "learn": {
@@ -5301,6 +5809,10 @@
                         "header": "$~방법",
                         "explanation": "$~이 갤러리에서 사용법을 보고 상호 작용할 수 있지만, 갤러리나 프로젝트가 공개되어 있지 않으면 프로젝트는 볼 수 없습니다."
                     }
+                },
+                "search": {
+                    "description": "$~프로젝트 및 소스 파일을 검색하세요.",
+                    "noResults": "$~검색 결과가 없습니다."
                 }
             },
             "galleries": {
@@ -5332,6 +5844,10 @@
                 },
                 "error": {
                     "nogalleryedits": "$~갤러리를 만들고 변경하려면 <로그인@login>해야 합니다."
+                },
+                "search": {
+                    "description": "$~검색 예시 갤러리 프로젝트",
+                    "noResults": "$~검색 결과가 없습니다."
                 }
             },
             "about": {
@@ -5354,9 +5870,7 @@
                     "forgot": "$~*비밀번호를 잊으셨나요?* 안타깝게도 당사에서는 연락처 정보를 수집하지 않으므로 귀하의 계정을 복구할 수 없습니다.",
                     "email": "$~이메일 전용 계정이 있나요? 이메일을 제출하여 로그인하세요. 연결된 계정이 있는 경우 로그인 링크가 포함된 이메일을 보내드립니다. 개인 정보 보호를 위해 새로운 이메일 전용 계정은 지원되지 않습니다.",
                     "enter": "$~로그인 링크가 다른 브라우저나 기기에서 온 것 같습니다. 본인임을 확인하기 위해 이메일을 다시 입력해 주시겠습니까?",
-                    "tooyoung": "$~이메일로 로그인하려면 13세 이상이어야 합니다.",
                     "passwordrule": "$~비밀번호는 6자 이상이어야 합니다. 비밀번호 관리자를 사용하지 않는 경우 기억할 수 있는 긴 단어 3개를 선택하세요.",
-                    "passwordreminder": "$~아직 계정이 없는 것 같습니다. 비밀번호는 복구할 수 없으므로 다시 한번 입력하시고, 안전하고 정확하게 보관했는지 확인하세요.",
                     "play": "$~로그인하셨습니다. 이제 프로젝트를 온라인에 저장할 수 있습니다! 뭔가를 만들고 싶나요?",
                     "changeEmail": "$~이메일을 변경하고 싶으신가요? 새 항목을 제출하면 기존 항목으로 확인 메일을 보내드립니다.",
                     "changePassword": "$~비밀번호를 변경하고 싶으신가요? 새로운 것을 제출하고 반복하세요.",
@@ -5376,7 +5890,6 @@
                     "email": "$~이 이메일은 유효하지 않습니다.",
                     "offline": "$~클라우드에 연결할 수 없습니다 ☁️.",
                     "failure": "$~로그인 할 수 없습니다 :(",
-                    "unchanged": "$~귀하의 이메일 주소를 변경할 수 없지만 이유를 알 수 없습니다.",
                     "delete": "$~귀하의 계정을 삭제할 수 없지만 이유를 알 수 없습니다.",
                     "wrongPassword": "$~유효한 사용자 이름과 비밀번호가 아닙니다. 귀하의 비밀번호가 잘못되었거나 다른 사람이 이 사용자 이름을 사용하고 있습니다.",
                     "tooMany": "$~로그인을 너무 많이 시도했지만 실패했습니다. 다시 시도하려면 기다려야 합니다.",
@@ -5589,11 +6102,6 @@
                         "description": "$~수업 설명",
                         "placeholder": "$~설명"
                     },
-                    "newteacher": {
-                        "placeholder": "$~이메일 또는 사용자 이름",
-                        "description": "$~이 수업에 교사에게 접근 권한을 부여하려는 작성자의 이메일 또는 사용자 이름"
-                    },
-                    "addteacher": "$~이 수업에 교사 추가",
                     "delete": {
                         "tip": "$~이 수업을 영구히 삭제하세요.",
                         "label": "$~이 수업을 삭제합니다"
@@ -5813,8 +6321,8 @@
                     "untitledproject": "$~제목 없는 프로젝트"
                 },
                 "announce": {
-                    "position": "$~1달러에 2달러",
-                    "selection": "$~$1[선택됨 $1|선택된 것이 없습니다]"
+                    "position": "$~$x $y",
+                    "selection": "$~$shapes[선택됨 $shapes|선택된 것이 없습니다]"
                 },
                 "share": {
                     "dialog": {
@@ -5855,30 +6363,155 @@
                     "removed": "$~제거됨",
                     "fixed": "$~결정된"
                 }
+            },
+            "design": {
+                "header": "$~설계",
+                "description": "$~이 문서는 색상, 글꼴, 간격 및 재사용 가능한 구성 요소를 포함한 Wordplay의 시각적 디자인 시스템에 대한 참조 자료입니다. 기여 방법에 대해서는 <디자인 위키@https://github.com/wordplaydev/wordplay/wiki/design> 및 <개발 위키@https://github.com/wordplaydev/wordplay/wiki/develop> 가이드를 참조하세요.",
+                "theme": "$~주제",
+                "colors": "$~그림 물감",
+                "palette": "$~팔레트",
+                "semantic": "$~의미론적 색상",
+                "fonts": "$~글꼴",
+                "spacing": "$~간격",
+                "typography": "$~타이포그래피",
+                "components": "$~구성 요소",
+                "col": {
+                    "component": "$~요소",
+                    "preview": "$~시사",
+                    "variable": "$~변하기 쉬운",
+                    "color": "$~색상",
+                    "hex": "$~마녀",
+                    "description": "$~설명",
+                    "cssvalue": "$~CSS 값",
+                    "computed": "$~계산됨",
+                    "primaryface": "$~주요 얼굴"
+                },
+                "demo": {
+                    "button": "$~예",
+                    "note": "$~이것은 메모입니다.",
+                    "notice": "$~이것은 공지사항입니다.",
+                    "header": "$~헤더",
+                    "subheader": "$~부제목",
+                    "toggleon": "$~~에",
+                    "toggleoff": "$~끄다",
+                    "textfieldplaceholder": "$~텍스트를 입력하세요…",
+                    "textfielddescription": "$~예시 텍스트 필드",
+                    "optionslabel": "$~예",
+                    "optiona": "$~옵션 A",
+                    "optionb": "$~옵션 B",
+                    "optionc": "$~옵션 C"
+                }
+            },
+            "thanks": {
+                "header": "$~감사해요",
+                "intro": "$~Wordplay의 디자인, 개발, 현지화 및 콘텐츠 제작에 기여해주신 * $count * 님께 감사드립니다! 또한, 포커스 그룹, 디자인 세션 및 교실 수업을 통해 디자인 방향을 제시해주신 많은 선생님들과 학생 여러분께도 감사드립니다. 개인 정보 보호를 위해 명단은 여기에 공개하지 않습니다. 본 프로젝트는 미국 국립과학재단(NSF)의 2318257, 2031265, 2100296, 2122950번 과제와 워싱턴 대학교, 그리고 여러 후원자들의 아낌없는 지원으로 이루어졌습니다.<gifts@://donate> 당신과 같은 사람들로부터.",
+                "teachers": "$~선생님들",
+                "contributors": "$~기고자"
+            },
+            "localize": {
+                "header": "$~현지화",
+                "description": [
+                    "$~여기에서 플랫폼 내 모든 현지화 가능한 문자열을 찾아보고, 번역되지 않은 텍스트나 기계 번역된 텍스트에 대한 번역 또는 수정 제안을 할 수 있습니다. 준비가 되면 수정 사항을 제출하여 검토를 받을 수 있습니다.",
+                    "$~글을 쓸 때는 어린 독자들이 아직 고급 어휘를 모를 수도 있다는 점을 고려하여 쉽고 간결하게 쓰는 것을 잊지 마세요. 또한, 가능한 한 여러 글에서 동일한 용어를 사용하여 일관성을 유지하세요."
+                ],
+                "workspaceLink": "$~현지화 작업 공간을 엽니다.",
+                "workspaceHeader": "$~작성 또는 검토할 텍스트",
+                "submitHeader": "$~제출하다",
+                "submitPrompt": "$~수정 제안을 제출할 준비가 되셨으면 아래에서 제출해 주세요.",
+                "bundleSummary": "$~이번 일괄 수정 사항",
+                "editEntry": "$~이 문자열을 편집하려면 뒤로 돌아가세요.",
+                "revertEntry": "$~이 편집 내용을 일괄 처리에서 제외하세요",
+                "prevBundleItem": "$~이전 편집 내용을 검토하세요",
+                "nextBundleItem": "$~다음 수정본을 검토해 주세요.",
+                "descriptionField": {
+                    "description": "$~검토자가 변경 사항을 쉽게 이해할 수 있도록 수정 사항에 대한 간략한 설명입니다.",
+                    "placeholder": "$~무엇을 바꾸셨나요? 그리고 그 이유는 무엇인가요?"
+                },
+                "notSpamLabel": "$~이 수정 사항들은 스팸이 아님을 약속드립니다.",
+                "notSpamNote": "$~Wordplay는 자원봉사자들이 주도하는 비영리 프로젝트입니다.",
+                "requireLogin": "$~현지화 제안을 제출하려면 로그인해야 합니다.",
+                "submit": {
+                    "description": "$~이 수정 사항들을 제출하세요",
+                    "prompt": "$~제출하다"
+                },
+                "submitSuccess": "$~감사합니다! 수정 사항이 제출되었으며 곧 검토될 예정입니다.",
+                "submitError": "$~제출하는 동안 오류가 발생했습니다. 수정 사항은 이 기기에 저장되어 있습니다. 다시 시도해 주세요.",
+                "empty": "$~이 필터와 일치하는 문자열이 없습니다.",
+                "prevEntry": "$~이전 문자열을 편집하세요",
+                "nextEntry": "$~다음 문자열을 편집하세요",
+                "qualityMode": {
+                    "label": "$~보여주다",
+                    "labels": ["$~모두", "$~기계 번역되었거나 기록되지 않은"],
+                    "tips": [
+                        "$~모든 문자열을 표시합니다",
+                        "$~기계 번역된 문자열 또는 작성되지 않은 문자열만 표시합니다."
+                    ]
+                },
+                "sectionMode": {
+                    "label": "$~부분",
+                    "labels": [
+                        "$~모두",
+                        "$~플랫폼",
+                        "$~용어",
+                        "$~토큰",
+                        "$~마디",
+                        "$~기초",
+                        "$~입력",
+                        "$~산출",
+                        "$~ui",
+                        "$~갱도",
+                        "$~절도"
+                    ],
+                    "tips": [
+                        "$~모든 섹션 표시",
+                        "$~플랫폼 이름",
+                        "$~공통 용어",
+                        "$~토큰 설명",
+                        "$~프로그래밍 언어 구성 요소",
+                        "$~숫자, 텍스트, 리스트와 같은 내장 유형",
+                        "$~스트림 및 입력 소스 설명",
+                        "$~출력 유형 설명",
+                        "$~애플리케이션 사용자 인터페이스",
+                        "$~기본 갤러리 콘텐츠",
+                        "$~콘텐츠 검열 메시지"
+                    ]
+                },
+                "section": {
+                    "wordplay": "$~플랫폼",
+                    "term": "$~술어",
+                    "token": "$~토큰",
+                    "node": "$~언어 구조",
+                    "basis": "$~내장형 유형",
+                    "input": "$~입력값",
+                    "output": "$~출력",
+                    "ui": "$~사용자 인터페이스",
+                    "gallery": "$~갱도",
+                    "moderation": "$~절도"
+                },
+                "singletonWordsWarning": "$~작성하신 초안에 단어가 한 번밖에 나오지 않는 경우가 있습니다. 철자가 정확한지, 다른 텍스트와 일관성이 있는지 확인해 보셨나요?",
+                "viewPR": "$~풀 리퀘스트 보기",
+                "oneLocaleNote": "$~각 제출물은 한 번에 하나의 언어만 다룹니다. 이 제출물은 $locale 에 대한 수정 사항으로 제출됩니다. 다른 언어에 기여하려면 먼저 언어를 변경하세요. 각 언어별로 저장한 수정 사항은 별도로 보관됩니다."
             }
         },
         "edit": {
-            "node": "$~$1$2[, $2|] 입력",
-            "before": "$~$1[$1|끝] 이전",
-            "inside": "$~$1에서 $2[$2|start]와 $3[$3|end] 사이",
-            "between": "$~$1에서 $2 사이",
-            "line": "$~$1[$1|start]와 $2[$2|end] 사이의 빈 줄",
-            "conflicts": "$~$1 충돌",
-            "assign": "$~/$2[가입 의향|탈퇴 고려]…/",
+            "node": "$~$node$type[, $type|] 입력",
+            "before": "$~$after[$after|끝] 이전",
+            "inside": "$~$token $before[$before|start]와 $after[$after|end] 사이",
+            "between": "$~$before $after 사이",
+            "line": "$~$before[$before|start]와 $after[$after|end] 사이의 빈 줄",
+            "conflicts": "$~$count 충돌",
+            "assign": "$~/$name[가입 의향|탈퇴 고려]…/",
             "append": "$~/삽입하고 싶어…/",
             "remove": "$~/퇴사를 고려 중…/",
             "replace": "$~/참여하고 싶다…/",
-            "wrap": "$~괄호 안에 넣다",
-            "unwrap": "$~풀다",
-            "bind": "$~이 표현의 이름을 지정하세요",
-            "range": "$~$1에서 $2까지 선택 가능",
-            "show": "$~… 더 보기",
+            "range": "$~$start $end 선택 가능",
             "area": "$~유형 코드"
         },
         "template": {
             "unwritten": "$~미정",
-            "unparsable": "$~구문 분석할 수 없는 템플릿: $1",
-            "machineTranslated": "$~이 내용은 기계 번역이므로 가독성이 떨어지거나 정확하지 않을 수 있습니다."
+            "unparsable": "$~구문 분석할 수 없는 템플릿: $template",
+            "machineTranslated": "$~이 내용은 기계 번역이므로 가독성이 떨어지거나 정확하지 않을 수 있습니다.",
+            "locallyRevised": "$~본 문서는 현지에서 수정되었으며 공식 번역본과 차이가 있습니다."
         },
         "collaborate": {
             "label": "$~협력하다",
@@ -5945,14 +6578,22 @@
                         "$~갤러리 큐레이터만 당신의 프로젝트를 볼 수 있습니다."
                     ]
                 }
+            },
+            "tour": {
+                "launch": "$~협업의 세계를 둘러보세요",
+                "collaborate": "$~프로젝트는 다른 사람들과 공유할 수 있으며, 프로젝트를 공유받은 모든 사람과 바로 여기에서 채팅할 수 있습니다.",
+                "collaborators": "$~공동 작업자는 프로젝트를 *편집*하고 *채팅*할 수 있습니다.",
+                "commenters": "$~댓글 작성자는 프로젝트에 대해 *토론*할 수는 있지만 *편집*할 수는 없습니다.",
+                "viewers": "$~/뷰어/는 프로젝트와 그 *코드*를 *볼* 수는 있지만, *토론*하거나 *편집*할 수는 없습니다.",
+                "restrict": "$~프로젝트가 갤러리에 등록되면 기본적으로 갤러리를 볼 수 있는 *모든* 사용자가 해당 프로젝트를 볼 수 있습니다. /제한/ 토글 버튼을 사용하면 프로젝트 소유자와 갤러리 관리자를 제외한 모든 사용자에게 프로젝트가 *숨겨집니다*."
             }
         },
         "checkpoints": {
             "label": {
                 "now": "$~지금",
-                "history": "$~복원하다",
+                "history": "$~버전",
                 "restore": "$~이것은 이 프로젝트의 이전 버전입니다.",
-                "ago": "$~$1 $2 전"
+                "ago": "$~$amount $unit 전"
             },
             "button": {
                 "clear": "$~기록 삭제",
@@ -5967,7 +6608,7 @@
         "howto": {
             "galleryView": {
                 "header": "$~방법",
-                "subheader": "$~$1 사용법, $2 신규",
+                "subheader": "$~$total 사용법, $new 신규",
                 "subheaderEmpty": "$~첫 번째 작품을 만들어 보세요!",
                 "prompt": "$~사용법은 워드플레이를 사용하여 무언가를 하는 방법에 대한 간단한 설명과 예제 코드입니다. 여러분이 방법을 알아냈다면, 다른 창작자들과 공유할 수 있도록 사용법을 작성해 주세요. 그들도 배울 수 있도록 말이죠!"
             },
@@ -6057,7 +6698,16 @@
                         "$~갤러리의 창작자와 큐레이터, 그리고 큐레이터가 큐레이팅한 내용을 볼 수 있습니다."
                     ]
                 },
-                "localeOptionsLabel": "$~편집기 입력 언어"
+                "localeOptionsLabel": "$~편집기 입력 언어",
+                "publicExplanation": "$~링크를 가진 사람이라면 누구나 사용 방법을 볼 수 있도록 하려면 사용 방법을 공개로 설정하면 됩니다.",
+                "publicMode": {
+                    "label": "$~이 사용법을 공개하세요",
+                    "labels": ["$~사적인", "$~공공의"],
+                    "tips": [
+                        "$~이 사용법에 직접 접근 권한이 있는 워드플레이어만 볼 수 있습니다.",
+                        "$~링크만 있으면 누구나 이 사용법을 볼 수 있습니다."
+                    ]
+                }
             },
             "viewer": {
                 "view": {
@@ -6085,7 +6735,7 @@
                 "usedBy": {
                     "prompt": "$~이 가이드를 프로젝트에 활용하셨나요, 아니면 다른 가이드를 활용하셨나요? 프로젝트를 목록에 추가하여 다른 사람들과 공유해 보세요!",
                     "empty": "$~아직 프로젝트나 다른 게시된 사용법 게시물이 없습니다. 하나 만들어 보세요!",
-                    "countDisplay": "$~다른 워드플레이 디렉터들도 이 방법을 다른 $1 프로젝트나 사용법 안내에 사용했습니다.",
+                    "countDisplay": "$~다른 워드플레이 디렉터들도 이 방법을 다른 $count 프로젝트나 사용법 안내에 사용했습니다.",
                     "selector": "$~프로젝트 및 사용 방법 선택기",
                     "removeButton": "$~목록에서 프로젝트 또는 사용 방법을 제거하세요",
                     "addButton": "$~프로젝트 또는 사용법을 추가하세요"
@@ -6120,8 +6770,9 @@
                             "$~어떤 갤러리든 어떤 큐레이터든 협력자들이 볼 수 있습니다."
                         ]
                     },
-                    "expanded": "$~퍼지는",
-                    "limited": "$~제한된"
+                    "expandedOptions": "$~선정된 갤러리의 큐레이터와 제작자들이 이 갤러리의 운영 방식을 볼 수 있도록 하세요.",
+                    "expandedAdd": "$~갤러리를 목록에 추가",
+                    "expandedRemove": "$~목록에서 갤러리를 제거하세요"
                 },
                 "guidingQuestions": {
                     "subheader": {
@@ -6158,9 +6809,9 @@
                 }
             },
             "announce": {
-                "howToPosition": "$~방법 안내 $1이 $2 $3로 이동했습니다.",
-                "canvasPosition": "$~캔버스 가격이 1달러, 2달러로 올랐습니다.",
-                "moveActivated": "$~움직임 감지. 마우스, 키보드 또는 터치스크린을 사용하여 1달러를 이동할 수 있습니다.",
+                "howToPosition": "$~방법 안내 $title $x $y 이동했습니다.",
+                "canvasPosition": "$~캔버스가 $x, $y 위치로 이동했습니다.",
+                "moveActivated": "$~이동이 활성화되었습니다. 마우스, 키보드 또는 터치스크린을 사용하여 $target 이동할 수 있습니다.",
                 "moveDeactivated": "$~동작이 비활성화되었습니다."
             },
             "error": {
@@ -6235,7 +6886,11 @@
                     "$~통화"
                 ]
             },
-            "skinTone": "$~피부톤"
+            "skinTone": "$~피부톤",
+            "script": "$~스크립트",
+            "scriptLabel": "$~스크립트로 필터링",
+            "pickFilter": "$~카테고리 또는 스크립트를 선택하세요",
+            "moreLanguages": "$~그리고 $count 더"
         },
         "localize": {
             "header": "$~현지화",
@@ -6249,7 +6904,11 @@
             "button": {
                 "edit": "$~이 텍스트에 대한 수정 제안을 해주세요.",
                 "submit": "$~수정 제안 제출",
-                "cancel": "$~제안된 수정 사항을 폐기합니다."
+                "cancel": "$~제안된 수정 사항을 폐기합니다.",
+                "revert": "$~공식 텍스트로 되돌리기",
+                "editTip": "$~이 컨트롤의 툴팁에 대한 수정 사항을 제안해 주세요.",
+                "prev": "$~이전 항목을 수정하세요",
+                "next": "$~다음 항목을 편집하세요"
             },
             "field": {
                 "plain": {
@@ -6265,13 +6924,42 @@
                     "placeholder": "$~이름을 입력하세요..."
                 },
                 "filter": {
-                    "description": "$~경로 또는 설명을 기준으로 로케일 문자열을 필터링합니다.",
+                    "description": "$~경로 또는 설명을 기준으로 번역 문자열을 필터링합니다.",
                     "placeholder": "$~필터..."
                 }
             },
-            "strings": "$~로케일 문자열",
-            "emotion": "$?",
-            "invalidName": "$~유효한 말장난 이름이 아닙니다"
+            "strings": "$~번역 문자열",
+            "emotion": "Choose an emotion",
+            "invalidName": "$~유효한 말장난 이름이 아닙니다",
+            "reference": "$~영어 참고 자료",
+            "invalidConceptLinks": "$~이 개념 링크들은 현재 언어에서 제대로 작동하지 않습니다. 혹시 오타가 있거나 의도적으로 삭제하신 건가요?",
+            "inputs": {
+                "header": "$~이 템플릿이 허용하는 입력값",
+                "usedTip": "$~커서 위치에 다른 참조를 삽입하려면 클릭하십시오.",
+                "unusedTip": "$~커서 위치에 이 참조를 삽입하려면 클릭하십시오.",
+                "missing": "$~누락된 입력값:",
+                "legacy": "$~기존의 위치 참조를 명명된 참조로 바꾸세요.",
+                "submitBlocked": "$~제출하기 전에 모든 입력 내용을 참조하십시오.",
+                "unknown": "$~이러한 참조는 선언된 입력이나 용어와 일치하지 않으므로 대체되지 않습니다."
+            }
+        },
+        "tour": {
+            "label": "$~관광",
+            "close": "$~투어를 종료하세요",
+            "previous": "$~이전 단계",
+            "next": "$~다음 단계",
+            "offscreen": "$~이 인터페이스 부분은 현재 화면에 표시되지 않습니다."
+        },
+        "connection": {
+            "offline": "$~현재 오프라인 상태입니다. 일부 기능은 온라인 상태가 되어야 작동합니다.",
+            "unreachable": "$~워드플레이 데이터베이스에 연결할 수 없습니다. 연결이 복구될 때까지 일부 기능이 작동하지 않을 수 있습니다.",
+            "label": "$~연결 상태"
+        },
+        "presence": {
+            "peersLabel": "$~이 프로젝트를 편집하는 공동 작업자",
+            "joined": "$~$name 이 가입했습니다.",
+            "left": "$~$name 남았습니다.",
+            "waitingForSlot": "$~편집 슬롯을 기다리는 중입니다. 현재 네 명의 공동 작업자가 편집하고 있습니다. 한 명이 나가면 당신도 편집할 수 있습니다."
         }
     },
     "moderation": {
@@ -6297,7 +6985,7 @@
             "disclosure": "이름, 연락처 정보, 실제 주소 등 다른 사람의 개인 정보를 공개한다.",
             "misinformation": "허위, 오해의 소지가 있거나 기만적이거나 조작된 정보가 포함되어 있습니다."
         },
-        "progress": "*$1* 중재됨, *$2* 남음",
+        "progress": "*$moderated* 중재됨, *$remaining* 남음",
         "button": {
             "submit": {
                 "tip": "이 중재 설정을 저장하세요",
@@ -6339,5 +7027,10 @@
             "name": "$~스토리",
             "description": "$~대화형 스토리와 내러티브."
         }
+    },
+    "system": {
+        "noscript": "$~Wordplay는 JavaScript를 사용합니다. 사용하시는 브라우저에서 JavaScript를 지원하지 않거나 비활성화되어 있습니다.",
+        "unsupportedHeading": "$~지원되지 않는 브라우저",
+        "unsupportedBody": "$~현재 사용 중인 브라우저는 필수 기능을 지원하지 않습니다. Wordplay를 사용하려면 최신 버전으로 업그레이드해야 합니다."
     }
 }

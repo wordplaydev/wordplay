@@ -7,16 +7,16 @@ import Halt from '@runtime/Halt';
 import type Step from '@runtime/Step';
 import UnparsableException from '@values/UnparsableException';
 import type Value from '@values/Value';
-import { Purpose } from '../concepts/Purpose';
-import type Locales from '../locale/Locales';
+import { Purpose } from '@concepts/Purpose';
+import type Locales from '@locale/Locales';
 import Characters from '../lore/BasisCharacters';
-import type Context from './Context';
-import type Expression from './Expression';
-import Node, { list, node, type Grammar, type Replacement } from './Node';
-import SimpleExpression from './SimpleExpression';
-import type Token from './Token';
-import type TypeSet from './TypeSet';
-import UnparsableType from './UnparsableType';
+import type Context from '@nodes/Context';
+import type Expression from '@nodes/Expression';
+import Node, { list, node, type Grammar, type Replacement } from '@nodes/Node';
+import SimpleExpression from '@nodes/SimpleExpression';
+import type Token from '@nodes/Token';
+import type TypeSet from '@nodes/TypeSet';
+import UnparsableType from '@nodes/UnparsableType';
 
 export default class UnparsableExpression extends SimpleExpression {
     readonly unparsables: Token[];
@@ -46,6 +46,28 @@ export default class UnparsableExpression extends SimpleExpression {
     }
 
     computeConflicts(context: Context): Conflict[] {
+        // An empty unparsable defers to a sibling unparsable in the same parent
+        // — it's usually a parser side-effect of running out of tokens while
+        // filling required slots, not a separate error. When multiple empty
+        // siblings exist (e.g. `←` produces two empty UnparsableExpressions in
+        // Previous.number and .stream), only the first emits a conflict.
+        if (this.unparsables.length === 0) {
+            const parent = context.source.root.getParent(this);
+            if (parent) {
+                const allUnparsables = parent
+                    .nodes()
+                    .filter(
+                        (n) =>
+                            n instanceof UnparsableExpression ||
+                            n instanceof UnparsableType,
+                    );
+                const someWithContent = allUnparsables.some(
+                    (n) => n !== this && n.unparsables.length > 0,
+                );
+                if (someWithContent) return [];
+                if (allUnparsables[0] !== this) return [];
+            }
+        }
         return [new UnparsableConflict(this, context)];
     }
 

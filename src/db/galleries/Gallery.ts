@@ -107,6 +107,59 @@ export default class Gallery {
         this.data.creators = Array.from(new Set(this.data.creators));
     }
 
+    /**
+     * Factory for constructing a Gallery at the current schema version
+     * with sensible defaults for every optional field. Prefer this over
+     * `new Gallery({...})` with a hand-built literal: when the schema
+     * bumps (a new required field is added), this factory's defaults
+     * cover it automatically, while a hand-built literal silently goes
+     * stale at every call site. Used by the seed script and tests; the
+     * production app's only writers are deserializeGallery (which
+     * upgrades) and the with* helpers below (which preserve shape).
+     */
+    static make(
+        id: string,
+        name: Record<string, string>,
+        description: Record<string, string>,
+        curators: string[],
+        creators: string[],
+        opts: {
+            path?: string | null;
+            words?: string[];
+            projects?: string[];
+            public?: boolean;
+            featured?: boolean;
+            howTos?: string[];
+            howToExpandedVisibility?: boolean;
+            howToExpandedGalleries?: string[];
+            howToViewers?: Record<string, string[]>;
+            howToViewersFlat?: string[];
+            howToGuidingQuestions?: string[];
+            howToReactions?: Record<string, string>;
+        } = {},
+    ): Gallery {
+        return new Gallery({
+            v: GallerySchemaLatestVersion,
+            id,
+            path: opts.path ?? null,
+            name,
+            description,
+            words: opts.words ?? [],
+            projects: opts.projects ?? [],
+            curators,
+            creators,
+            public: opts.public ?? false,
+            featured: opts.featured ?? false,
+            howTos: opts.howTos ?? [],
+            howToExpandedVisibility: opts.howToExpandedVisibility ?? false,
+            howToExpandedGalleries: opts.howToExpandedGalleries ?? [],
+            howToViewers: opts.howToViewers ?? {},
+            howToViewersFlat: opts.howToViewersFlat ?? [],
+            howToGuidingQuestions: opts.howToGuidingQuestions ?? [],
+            howToReactions: opts.howToReactions ?? {},
+        });
+    }
+
     /** Get the best name given a locale */
     getName(locales: Locales) {
         return locales.getUnannotatedText(
@@ -257,6 +310,22 @@ export default class Gallery {
 
     getHowToExpandedVisibility(): boolean {
         return this.data.howToExpandedVisibility;
+    }
+
+    withExpandedGallery(galleryID: string, viewers: string[]): Gallery {
+        const newData = { ...this.data };
+        newData.howToExpandedGalleries = [...newData.howToExpandedGalleries, galleryID];
+        newData.howToViewers[galleryID] = viewers;
+        newData.howToViewersFlat = Array.from(new Set([...newData.howToViewersFlat, ...viewers]));
+        return new Gallery(newData);
+    }
+
+    withoutExpandedGallery(galleryID: string): Gallery {
+        const newData = { ...this.data };
+        newData.howToExpandedGalleries = [...newData.howToExpandedGalleries.filter((id) => id !== galleryID)];
+        delete newData.howToViewers[galleryID];
+        newData.howToViewersFlat = Array.from(new Set([...Object.values(newData.howToViewers).flat()]));
+        return new Gallery(newData);
     }
 
     getHowToGuidingQuestions(): string[] {

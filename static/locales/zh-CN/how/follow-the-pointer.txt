@@ -1,0 +1,17 @@
+让一个角色跟随你的手指移动
+
+想要一个能追逐你的鼠标或手指的角色吗？ @Stage ？我们可以用以下方式做到这一点： @Pointer  输入。 
+
+@Pointer 给我们带来新鲜感 @Place 每次指针移动。如果我们使用那个 @Place 作为一个 @Phrase 的\place\角色会按照我们指向的方向移动。
+
+\Stage([Phrase('🐈' place: Pointer())] place: Place(0m 0m -10m))\
+
+就是这样！移动鼠标或拖动手指，就能看到猫咪跟着你走。
+
+你可以通过拿出……来做更多有趣的事情。\x\ 和 \y\ 从  @Place 。这是一只始终漂浮在指针上方一米处的鸭子：
+
+\Stage([
+		Phrase('🦆' place: Place(Pointer().x Pointer().y + 1m))
+	] place: Place(0m 0m -10m))\
+
+move-phrase, count-with-time

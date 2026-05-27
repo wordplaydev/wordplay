@@ -1,6 +1,8 @@
 <script lang="ts">
     import type Reaction from '@nodes/Reaction';
-    import NodeView, { type Format } from './NodeView.svelte';
+    import NodeView, {
+        type Format,
+    } from '@components/editor/nodes/NodeView.svelte';
 
     interface Props {
         node: Reaction;

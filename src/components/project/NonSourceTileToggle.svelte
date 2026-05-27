@@ -1,10 +1,10 @@
 <script lang="ts">
     import Emoji from '@components/app/Emoji.svelte';
     import { locales } from '@db/Database';
-    import type Project from '../../db/projects/Project';
-    import Toggle from '../widgets/Toggle.svelte';
-    import type Tile from './Tile';
-    import TileKinds from './TileKinds';
+    import type Project from '@db/projects/Project';
+    import Toggle from '@components/widgets/Toggle.svelte';
+    import type Tile from '@components/project/Tile';
+    import TileKinds from '@components/project/TileKinds';
 
     interface Props {
         project: Project;
@@ -25,5 +25,5 @@
     toggle={() => toggle()}
     highlight={notification}
     ><Emoji>{TileKinds[tile.kind].symbol}</Emoji>
-    {tile.getName(project, $locales)}</Toggle
+    <span class="toggle-label">{tile.getName(project, $locales)}</span></Toggle
 >

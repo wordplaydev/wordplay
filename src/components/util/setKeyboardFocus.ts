@@ -14,7 +14,7 @@ export default function setKeyboardFocus(
             console.log('\tFrom', document.activeElement);
             console.log('\tTo: ', element);
         }
-        element.focus();
+        element.focus({ preventScroll: true });
     } else if (DEBUG_FOCUS) {
         console.log(`Already focused: ${message}`);
     }

@@ -1,36 +1,28 @@
-import type { FormattedText } from './LocaleText';
+import type { FormattedText, Template } from '@locale/LocaleText';
 
 type EditTexts = {
-    /** [formatted] A way to say "on node of type [type]" */
-    node: FormattedText;
+    /** [formatted] A way to say "on node of type [type], they [description]". $1: node label, $2: type, $3: description */
+    node: Template<['node', 'type']>;
     /** [formatted] A way to say "before [token], at the beginning of the program" */
-    before: FormattedText;
+    before: Template<['after']>;
     /** [formatted] A way to say "inside [description], between character [before|start] and [after|end]" */
-    inside: FormattedText;
+    inside: Template<['token', 'before', 'after']>;
     /** [formatted] Description of a selection range */
-    range: FormattedText;
+    range: Template<['start', 'end']>;
     /** [formatted] A way to say "between [token1] and [token2]" */
-    between: FormattedText;
+    between: Template<['before', 'after']>;
     /** [formatted] A way to say "empty line between [node1] and [node2]" */
-    line: FormattedText;
+    line: Template<['before', 'after']>;
     /** [formatted] A description of how many conflicts are at this position */
-    conflicts: FormattedText;
+    conflicts: Template<['count']>;
     /** [formatted] $1: node description */
-    assign: FormattedText;
+    assign: Template<['name']>;
     /** [formatted] $1: node description */
     append: FormattedText;
     /** [formatted] $1: node description */
     remove: FormattedText;
     /** [formatted] $1: node description or undefined */
     replace: FormattedText;
-    /** [plain] Shown in menus to offer to wrap an expression in parentheses */
-    wrap: string;
-    /** [plain] Shown in menus to offer to unwrap an expression in parentheses */
-    unwrap: string;
-    /** [plain] Shown in menus to offer to name an expression with a bind */
-    bind: string;
-    /** [formatted] Show elided data structure $1 count */
-    show: FormattedText;
     /** [plain] A label for the textarea in which text is typed */
     area: string;
 };

@@ -1,0 +1,18 @@
+Choisissez un élément au hasard dans une liste.
+
+Vous voulez que votre projet vous surprenne à chaque exécution ? Faites une liste d’options et choisissez-en une avec @Random . 
+
+@Random peut nous donner un nombre aléatoire, et une liste peut être consultée par numéro avec\[n]\.Combinez-les pour choisir un emoji aléatoire :
+
+\emojis: ['🌈' '🌟' '🎈' '🦄' '🍩']
+Phrase(emojis.random())\
+
+Vous pouvez également utiliser @Random avec deux nombres, qui choisit un nombre entier entre eux.Par exemple, pour choisir un/nouveau/Des emojis aléatoires toutes les secondes, mélangés @Time et un @Reaction :
+
+\emojis: ['🌈' '🌟' '🎈' '🦄' '🍩']
+pick: emojis[1] … ∆ Time(1000ms) … emojis[Random(1 emojis.length())]
+Phrase(pick)\
+
+Chaque tic-tac de @Time , le  @Reaction choisit une nouvelle surprise.
+
+shake-phrase, count-with-time

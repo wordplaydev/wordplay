@@ -1,0 +1,31 @@
+Gumawa ng isang interactive na serye ng mga eksena
+
+Minsan gusto nating magkwento na naghihintay muna sa manonood na gumawa ng isang bagay bago pumunta sa susunod na nilalaman.
+
+Para magawa ito, maaari tayong gumamit ng isang @Scene , ngunit ilagay @Boolean mga halaga sa pagitan ng nilalamang gusto nating ipakita. Halimbawa, narito ang isang pag-click na susulong sa bawat susunod na nilalaman, gamit ang isang @Button :
+
+\Scene([
+		Phrase('i-click ako')
+		Button()
+		Phrase('i-click mo ulit ako' duration: 1s)
+		Button()
+		Phrase('hindi talaga, i-click mo ako nang malakas hangga't maaari!!' duration: 1s)
+		Button()
+		Phrase('Na-click mo na ba ako?' duration: 1s)
+	])\
+
+Ang @Scene nagpapakita ng una @Phrase , pagkatapos ay naghihintay para sa @Button maging totoo, at kapag ito ay totoo na, ito ay lilipat sa susunod @Phrase .
+
+Maaari mong gamitin ang anumang gusto mong isulong, basta't ito ay true o false.Halimbawa, maaari nating gamitin ang ating boses!Kung sisigaw tayo nang malakas, ang eksena ay susulong:
+
+\Scene([
+		Phrase('may tao ba diyan?')
+		Volume() > .5
+		Phrase("Hindi kita marinig, ulitin mo?" duration: 1s)
+		Volume() > .7
+		Phrase('mas malakas pa sana...' duration: 1s)
+		Volume() > .9
+		Phrase('uy, hi!' duration: 1s)
+	])\
+
+animated-scene

@@ -2,10 +2,10 @@ import DefaultLocales from '@locale/DefaultLocales';
 import concretize from '@locale/concretize';
 import { readFileSync } from 'fs';
 import { expect, test } from 'vitest';
-import DefaultLocale from '../locale/DefaultLocale';
-import type LocaleText from '../locale/LocaleText';
-import Locales from '../locale/Locales';
-import evaluateCode from '../runtime/evaluate';
+import DefaultLocale from '@locale/DefaultLocale';
+import type LocaleText from '@locale/LocaleText';
+import Locales from '@locale/Locales';
+import evaluateCode from '@runtime/evaluate';
 
 /** Load a few locales for testing. */
 const en = DefaultLocale;

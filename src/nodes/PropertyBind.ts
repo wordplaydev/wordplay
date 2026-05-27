@@ -10,25 +10,25 @@ import StartEvaluation from '@runtime/StartEvaluation';
 import type Step from '@runtime/Step';
 import ExceptionValue from '@values/ExceptionValue';
 import type Value from '@values/Value';
-import { Purpose } from '../concepts/Purpose';
-import IncompatibleType from '../conflicts/IncompatibleType';
-import type Locales from '../locale/Locales';
-import NodeRef from '../locale/NodeRef';
+import { Purpose } from '@concepts/Purpose';
+import IncompatibleType from '@conflicts/IncompatibleType';
+import type Locales from '@locale/Locales';
+import NodeRef from '@locale/NodeRef';
 import Characters from '../lore/BasisCharacters';
-import StructureValue from '../values/StructureValue';
-import ValueException from '../values/ValueException';
-import Bind from './Bind';
-import BindToken from './BindToken';
-import type Context from './Context';
-import { buildBindings } from './Evaluate';
-import Expression from './Expression';
-import { node, type Grammar, type Replacement } from './Node';
-import PropertyReference from './PropertyReference';
-import StructureDefinitionType from './StructureDefinitionType';
-import { Sym } from './Sym';
-import type Token from './Token';
-import type Type from './Type';
-import type TypeSet from './TypeSet';
+import StructureValue from '@values/StructureValue';
+import ValueException from '@values/ValueException';
+import Bind from '@nodes/Bind';
+import BindToken from '@nodes/BindToken';
+import type Context from '@nodes/Context';
+import { buildBindings } from '@nodes/Evaluate';
+import Expression from '@nodes/Expression';
+import { node, type Grammar, type Replacement } from '@nodes/Node';
+import PropertyReference from '@nodes/PropertyReference';
+import StructureDefinitionType from '@nodes/StructureDefinitionType';
+import { Sym } from '@nodes/Sym';
+import type Token from '@nodes/Token';
+import type Type from '@nodes/Type';
+import type TypeSet from '@nodes/TypeSet';
 
 export default class PropertyBind extends Expression {
     readonly reference: PropertyReference;
@@ -98,7 +98,10 @@ export default class PropertyBind extends Expression {
         const conflicts: Conflict[] = [];
 
         // If there's a type, the value must match.
-        if (!propertyType.accepts(valueType, context))
+        if (
+            !context.isUnknownDownstream(this.value) &&
+            !propertyType.accepts(valueType, context)
+        )
             conflicts.push(
                 new IncompatibleType(
                     this.reference,
@@ -225,10 +228,12 @@ export default class PropertyBind extends Expression {
     ) {
         return locales.concretize(
             (l) => l.node.PropertyBind.finish,
-            this.reference.name
+            {
+                property: this.reference.name
                 ? new NodeRef(this.reference.name, locales, context)
                 : undefined,
-            this.getValueIfDefined(locales, context, evaluator),
+                value: this.getValueIfDefined(locales, context, evaluator),
+            },
         );
     }
 
@@ -237,10 +242,10 @@ export default class PropertyBind extends Expression {
     }
 
     getDescriptionInputs(locales: Locales, context: Context) {
-        return [
-            this.reference.name
+        return {
+            name: this.reference.name
                 ? new NodeRef(this.reference.name, locales, context)
                 : undefined,
-        ];
+        };
     }
 }

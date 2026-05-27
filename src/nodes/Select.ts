@@ -2,8 +2,8 @@ import type Conflict from '@conflicts/Conflict';
 import ExpectedSelectName from '@conflicts/ExpectedSelectName';
 import UnknownColumn from '@conflicts/UnknownColumn';
 import type { ReplaceContext } from '@edit/revision/EditContext';
+import type Context from '@nodes/Context';
 import type LocaleText from '@locale/LocaleText';
-import NodeRef from '@locale/NodeRef';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import Bind from '@nodes/Bind';
 import Evaluation from '@runtime/Evaluation';
@@ -13,32 +13,31 @@ import Start from '@runtime/Start';
 import type Step from '@runtime/Step';
 import BoolValue from '@values/BoolValue';
 import type Value from '@values/Value';
-import { getIteration, getIterationResult } from '../basis/Iteration';
-import { Purpose } from '../concepts/Purpose';
-import IncompatibleInput from '../conflicts/IncompatibleInput';
-import type Locales from '../locale/Locales';
+import { getIteration, getIterationResult } from '@basis/Iteration';
+import { Purpose } from '@concepts/Purpose';
+import IncompatibleInput from '@conflicts/IncompatibleInput';
+import type Locales from '@locale/Locales';
 import Characters from '../lore/BasisCharacters';
-import { SELECT_SYMBOL, TABLE_CLOSE_SYMBOL } from '../parser/Symbols';
-import type StructureValue from '../values/StructureValue';
-import TableValue from '../values/TableValue';
-import BooleanType from './BooleanType';
-import type Context from './Context';
-import type Definition from './Definition';
-import Expression, { type GuardContext } from './Expression';
-import ExpressionPlaceholder from './ExpressionPlaceholder';
-import FunctionDefinition from './FunctionDefinition';
-import Names from './Names';
-import type Node from './Node';
-import { node, type Grammar, type Replacement } from './Node';
-import { NotAType } from './NotAType';
-import Reference from './Reference';
-import Row from './Row';
-import { Sym } from './Sym';
-import TableType from './TableType';
-import Token from './Token';
-import type Type from './Type';
-import type TypeSet from './TypeSet';
-import UnknownNameType from './UnknownNameType';
+import { SELECT_SYMBOL, TABLE_CLOSE_SYMBOL } from '@parser/Symbols';
+import type StructureValue from '@values/StructureValue';
+import TableValue from '@values/TableValue';
+import BooleanType from '@nodes/BooleanType';
+import type Definition from '@nodes/Definition';
+import Expression, { type GuardContext } from '@nodes/Expression';
+import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
+import FunctionDefinition from '@nodes/FunctionDefinition';
+import Names from '@nodes/Names';
+import type Node from '@nodes/Node';
+import { node, type Grammar, type Replacement } from '@nodes/Node';
+import { NotAType } from '@nodes/NotAType';
+import Reference from '@nodes/Reference';
+import Row from '@nodes/Row';
+import { Sym } from '@nodes/Sym';
+import TableType from '@nodes/TableType';
+import Token from '@nodes/Token';
+import type Type from '@nodes/Type';
+import type TypeSet from '@nodes/TypeSet';
+import UnknownNameType from '@nodes/UnknownNameType';
 
 type SelectState = {
     table: TableValue;
@@ -139,7 +138,10 @@ export default class Select extends Expression {
         const tableType = this.table.getType(context);
 
         // Table must be table typed.
-        if (!(tableType instanceof TableType))
+        if (
+            !context.isUnknownDownstream(this.table) &&
+            !(tableType instanceof TableType)
+        )
             conflicts.push(
                 new IncompatibleInput(this, tableType, TableType.make([])),
             );
@@ -169,6 +171,7 @@ export default class Select extends Expression {
         const queryType = this.query.getType(context);
         if (
             this.query instanceof Expression &&
+            !context.isUnknownDownstream(this.query) &&
             !(queryType instanceof BooleanType)
         )
             conflicts.push(
@@ -328,22 +331,12 @@ export default class Select extends Expression {
         return Select.LocalePath;
     }
 
-    getStartExplanations(locales: Locales, context: Context) {
-        return locales.concretize(
-            (l) => l.node.Select.start,
-            new NodeRef(this.table, locales, context),
-        );
+    getStartExplanations(locales: Locales) {
+        return locales.concretize((l) => l.node.Select.start);
     }
 
-    getFinishExplanations(
-        locales: Locales,
-        context: Context,
-        evaluator: Evaluator,
-    ) {
-        return locales.concretize(
-            (l) => l.node.Select.finish,
-            this.getValueIfDefined(locales, context, evaluator),
-        );
+    getFinishExplanations(locales: Locales) {
+        return locales.concretize((l) => l.node.Select.finish);
     }
 
     getCharacter() {

@@ -33,36 +33,36 @@ import TypeVariable from '@nodes/TypeVariable';
 import TypeVariables from '@nodes/TypeVariables';
 import Unit from '@nodes/Unit';
 import Update from '@nodes/Update';
-import BinaryEvaluate from '../nodes/BinaryEvaluate';
-import Block, { BlockKind } from '../nodes/Block';
-import BooleanLiteral from '../nodes/BooleanLiteral';
-import Conditional from '../nodes/Conditional';
-import type Doc from '../nodes/Doc';
-import Docs from '../nodes/Docs';
-import Evaluate from '../nodes/Evaluate';
-import type Expression from '../nodes/Expression';
-import FormattedLiteral from '../nodes/FormattedLiteral';
-import FormattedTranslation from '../nodes/FormattedTranslation';
-import Initial from '../nodes/Initial';
-import Is from '../nodes/Is';
-import IsLocale from '../nodes/IsLocale';
-import PropertyBind from '../nodes/PropertyBind';
-import Spread from '../nodes/Spread';
-import StructureDefinition from '../nodes/StructureDefinition';
-import { Sym, type SymType } from '../nodes/Sym';
-import This from '../nodes/This';
-import Translation, { type TranslationSegment } from '../nodes/Translation';
-import type Type from '../nodes/Type';
-import UnaryEvaluate from '../nodes/UnaryEvaluate';
-import UnparsableExpression from '../nodes/UnparsableExpression';
-import parseBind, { nextIsBind, nextIsInput, parseNames } from './parseBind';
-import parseDoc from './parseDoc';
-import parseLanguage from './parseLanguage';
-import parseMarkup, { parseExample } from './parseMarkup';
-import parseType, { parseTableType } from './parseType';
-import { DOT_SYMBOL, EXPONENT_SYMBOL } from './Symbols';
-import type Tokens from './Tokens';
-import { toTokens } from './toTokens';
+import BinaryEvaluate from '@nodes/BinaryEvaluate';
+import Block, { BlockKind } from '@nodes/Block';
+import BooleanLiteral from '@nodes/BooleanLiteral';
+import Conditional from '@nodes/Conditional';
+import type Doc from '@nodes/Doc';
+import Docs from '@nodes/Docs';
+import Evaluate from '@nodes/Evaluate';
+import type Expression from '@nodes/Expression';
+import FormattedLiteral from '@nodes/FormattedLiteral';
+import FormattedTranslation from '@nodes/FormattedTranslation';
+import Initial from '@nodes/Initial';
+import Is from '@nodes/Is';
+import IsLocale from '@nodes/IsLocale';
+import PropertyBind from '@nodes/PropertyBind';
+import Spread from '@nodes/Spread';
+import StructureDefinition from '@nodes/StructureDefinition';
+import { Sym, type SymType } from '@nodes/Sym';
+import This from '@nodes/This';
+import Translation, { type TranslationSegment } from '@nodes/Translation';
+import type Type from '@nodes/Type';
+import UnaryEvaluate from '@nodes/UnaryEvaluate';
+import UnparsableExpression from '@nodes/UnparsableExpression';
+import parseBind, { nextIsBind, nextIsInput, parseNames } from '@parser/parseBind';
+import parseDoc from '@parser/parseDoc';
+import parseLanguage from '@parser/parseLanguage';
+import parseMarkup, { parseExample } from '@parser/parseMarkup';
+import parseType, { parseTableType } from '@parser/parseType';
+import { DOT_SYMBOL, EXPONENT_SYMBOL } from '@parser/Symbols';
+import type Tokens from '@parser/Tokens';
+import { toTokens } from '@parser/toTokens';
 
 export function toExpression(code: string): Expression {
     return parseExpression(toTokens(code));
@@ -105,7 +105,7 @@ export function parseBlock(
     const root = kind === BlockKind.Root;
 
     // Grab any documentation if this isn't a root.
-    const docs = tokens.nextIs(Sym.Doc) ? parseDocs(tokens) : undefined;
+    const docs = !doc && tokens.nextIs(Sym.Doc) ? parseDocs(tokens) : undefined;
 
     const open = root
         ? undefined

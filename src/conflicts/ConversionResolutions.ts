@@ -4,13 +4,13 @@ import ConversionDefinition from '@nodes/ConversionDefinition';
 import Convert, { getConversionPath } from '@nodes/Convert';
 import Expression from '@nodes/Expression';
 import type Type from '@nodes/Type';
-import type Locales from '../locale/Locales';
-import type LocaleText from '../locale/LocaleText';
-import type { FormattedText } from '../locale/LocaleText';
-import Block from '../nodes/Block';
-import NumberLiteral from '../nodes/NumberLiteral';
-import NumberType from '../nodes/NumberType';
-import type { Resolution } from './Conflict';
+import type Locales from '@locale/Locales';
+import type LocaleText from '@locale/LocaleText';
+import type { Template } from '@locale/LocaleText';
+import Block from '@nodes/Block';
+import NumberLiteral from '@nodes/NumberLiteral';
+import NumberType from '@nodes/NumberType';
+import type { Resolution } from '@conflicts/Conflict';
 
 /**
  * Returns conversion resolutions for any conflict where an expression has a type
@@ -24,7 +24,7 @@ export function makeConversionResolutions(
     givenType: Type,
     expectedType: Type,
     context: Context,
-    localeAccessor: (locales: LocaleText) => FormattedText,
+    localeAccessor: (locales: LocaleText) => Template<['expected']>,
 ): Resolution[] {
     // Gather basis conversions and any ConversionDefinitions defined in enclosing blocks.
     const scopeConversions = (
@@ -69,11 +69,11 @@ export function makeConversionResolutions(
             const targetUnit = targetType.concreteUnit(context);
             if (!targetUnit.isUnitless()) {
                 resolutions.push({
+                    kind: 'repair',
                     description: (locales: Locales, context: Context) =>
-                        locales.concretize(
-                            localeAccessor,
-                            new NodeRef(targetType, locales, context),
-                        ),
+                        locales.concretize(localeAccessor, {
+                            expected: new NodeRef(targetType, locales, context),
+                        }),
                     mediator: (context: Context) => {
                         const source = context.project.getSourceOf(givenNode);
                         if (source === undefined)
@@ -101,11 +101,11 @@ export function makeConversionResolutions(
 
         if (path.length > 0) {
             resolutions.push({
+                kind: 'repair',
                 description: (locales: Locales, context: Context) =>
-                    locales.concretize(
-                        localeAccessor,
-                        new NodeRef(targetType, locales, context),
-                    ),
+                    locales.concretize(localeAccessor, {
+                        expected: new NodeRef(targetType, locales, context),
+                    }),
                 mediator: (context: Context) => {
                     const source = context.project.getSourceOf(givenNode);
                     if (source === undefined)

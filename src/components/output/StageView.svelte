@@ -23,21 +23,22 @@
     import { DefaultSize } from '@output/Stage';
     import type Evaluator from '@runtime/Evaluator';
     import { onDestroy, onMount, tick, untrack } from 'svelte';
-    import { animationFactor, locales } from '../../db/Database';
-    import type Output from '../../output/Output';
-    import range from '../../util/range';
+    import { animationFactor, locales } from '@db/Database';
+    import type Output from '@output/Output';
+    import range from '@util/range';
     import {
         getAnimatingNodes,
         getAnnouncer,
         getEvaluation,
-    } from '../project/Contexts';
-    import GroupView from './GroupView.svelte';
+        getSelectedOutput,
+    } from '@components/project/Contexts';
+    import GroupView from '@components/output/GroupView.svelte';
     import {
         describeEnteredOutput,
         describeMovedOutput,
         describedChangedOutput,
-    } from './OutputDescriptions';
-    import PhraseView from './PhraseView.svelte';
+    } from '@components/output/OutputDescriptions';
+    import PhraseView from '@components/output/PhraseView.svelte';
 
     interface Props {
         project: Project;
@@ -52,6 +53,8 @@
         /** Decide what focus to render. Explicitly set verse focus takes priority, then the fit focus if fitting content to viewport,
          * then the adjusted focus if providedWhenever the verse focus, fit setting, or adjusted focus change, updated the rendered focus */
         renderedFocus: Place;
+        /** Reflects whether the audience has overridden the stage's place via zoom/pan controls. */
+        focusOverridden?: boolean;
     }
 
     let {
@@ -65,6 +68,7 @@
         painting = $bindable(),
         background,
         renderedFocus = $bindable(),
+        focusOverridden = $bindable(false),
     }: Props = $props();
 
     const evaluation = getEvaluation();
@@ -128,12 +132,16 @@
     let previouslyPresent: Map<string, Output> | undefined = $state(undefined);
 
     const announcer = getAnnouncer();
+    const selectedOutput = getSelectedOutput();
 
     /** The verse focus that fits the content to the view*/
     let fitFocus: Place | undefined = $state(undefined);
 
     /** The creator or audience adjusted focus. */
     let adjustedFocus: Place = $state(createPlace(evaluator, 0, 0, -12));
+
+    /** Whether the audience has overridden the stage's place via zoom/pan controls. */
+    let focusOverride = $state(false);
 
     /** A stage to manage entries, exits, animations. A new one each time the for each project. */
     let animator = $state<Animator | undefined>();
@@ -164,6 +172,13 @@
         adjustedFocus = createPlace(evaluator, x, y, z);
         // Stop fitting
         fit = false;
+        // The audience has taken control of the focus; override any stage.place.
+        focusOverride = true;
+    };
+
+    /** Clear any audience override so the stage's computed focus is used again. */
+    export const resetFocus = () => {
+        focusOverride = false;
     };
 
     let editing = $derived($evaluation?.playing === false);
@@ -244,9 +259,18 @@
     );
     let contentBounds = $derived(stage.getLayout(context));
 
+    /** Permanently disable autofit when the user starts a palette edit, so the
+     *  stage doesn't snap back to fit after the gesture ends. */
+    $effect(() => {
+        if (selectedOutput?.adjusting)
+            untrack(() => {
+                fit = false;
+            });
+    });
+
     /** When verse or viewport changes, update the autofit focus. */
     $effect(() => {
-        if (view && fit) {
+        if (view && fit && !selectedOutput?.adjusting) {
             // Get the bounds of the verse in verse units.
             const contentWidth = contentBounds.width;
             const contentHeight = contentBounds.height;
@@ -258,6 +282,10 @@
             // Leave some padding on the edges.
             const availableWidth = viewportWidth * (3 / 4);
             const availableHeight = viewportHeight * (3 / 4);
+
+            // Skip if viewport dimensions aren't known yet; dividing by zero produces z = -Infinity
+            // which causes rootScale() to return 0 and renders all content invisible.
+            if (availableWidth <= 0 || availableHeight <= 0) return;
 
             // Figure out the fit dimension based on which scale would be smaller.
             // This ensures that we don't clip anything.
@@ -290,11 +318,18 @@
 
     /** Define the rendered focused based on the stage's place, fit, and other states. Not derived since it is a bindable prop. */
     $effect(() => {
-        renderedFocus = stage.place
-            ? stage.place.flipX()
-            : fit && fitFocus && $evaluation?.playing === true
-              ? fitFocus
-              : adjustedFocus;
+        renderedFocus = focusOverride
+            ? adjustedFocus
+            : stage.place
+              ? stage.place.flipX()
+              : fit && fitFocus && $evaluation?.playing === true
+                ? fitFocus
+                : adjustedFocus;
+    });
+
+    /** Mirror the override flag out to the parent so the toolbar can reflect it. */
+    $effect(() => {
+        focusOverridden = focusOverride;
     });
 
     /** Whenever the stage, languages, fonts, or rendered focus changes, update the rendered scene accordingly. */
@@ -523,9 +558,6 @@
         color: var(--wordplay-foreground);
 
         --grid-color: currentColor;
-
-        /** Put the stage in a layer, since it's contents likely change frequently. */
-        will-change: contents;
 
         /** No touch actions on the stage, since we handle them ourselves. */
         touch-action: none;

@@ -1,0 +1,15 @@
+Afișează un personaj personalizat
+
+Emoji-urile, literele și simbolurile sunt grozave! Dar uneori vrei să-ți creezi propriile personaje.Cum poți să-ți creezi și să-ți prezinți propria creație?
+
+Mai întâi, începe prin a crea un personaj pe <Personaje@://characters> pagină. Puteți utiliza pixeli, dreptunghiuri, cercuri și căi. Dă-i un nume, descrie-l, apoi poți folosi numele de utilizator și numele personajului astfel:
+
+\Phrase(`Uită-te la fantezia mea  @username/charactername !`)\
+
+Numele de utilizator și numele personajului respectiv nu există, așa că vor fi afișate ca un dreptunghi gol.Asigurați-vă că folosiți numele de utilizator real și numele personajului
+
+Vezi cum textul folosește apostroful în loc de ghilimele? Asta e important. Asta ne spune că folosești modul text îmbogățit și că este necesar pentru a face referire la un caracter personalizat.
+
+Puteți afla mai multe despre formatarea textului de la  @Phrase .
+
+animate-phrase

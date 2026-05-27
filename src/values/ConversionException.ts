@@ -1,11 +1,11 @@
 import NodeRef from '@locale/NodeRef';
 import type Evaluator from '@runtime/Evaluator';
 import ExceptionValue from '@values/ExceptionValue';
-import type Locales from '../locale/Locales';
-import ValueRef from '../locale/ValueRef';
-import type Expression from '../nodes/Expression';
-import type Type from '../nodes/Type';
-import type Value from '../values/Value';
+import type Locales from '@locale/Locales';
+import ValueRef from '@locale/ValueRef';
+import type Expression from '@nodes/Expression';
+import type Type from '@nodes/Type';
+import type Value from '@values/Value';
 
 export default class ConversionException extends ExceptionValue {
     readonly from: Value;
@@ -24,18 +24,19 @@ export default class ConversionException extends ExceptionValue {
 
     getExplanation(locales: Locales) {
         return locales.concretize(
-            this.getExceptionText(locales).explanation,
-            // Wrap the node containing the name in a link
-            new ValueRef(
-                this.from,
-                locales,
-                this.evaluator.project.getNodeContext(this.creator),
-            ),
-            new NodeRef(
-                this.to,
-                locales,
-                this.evaluator.project.getNodeContext(this.creator),
-            ),
+            (l) => l.node.Convert.exception.ConversionException.explanation,
+            {
+                from: new ValueRef(
+                    this.from,
+                    locales,
+                    this.evaluator.project.getNodeContext(this.creator),
+                ),
+                to: new NodeRef(
+                    this.to,
+                    locales,
+                    this.evaluator.project.getNodeContext(this.creator),
+                ),
+            },
         );
     }
 }

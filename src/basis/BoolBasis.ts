@@ -7,16 +7,16 @@ import Evaluation from '@runtime/Evaluation';
 import BoolValue from '@values/BoolValue';
 import TextValue from '@values/TextValue';
 import type Value from '@values/Value';
-import type Locales from '../locale/Locales';
-import type LocaleText from '../locale/LocaleText';
-import type { FunctionText, NameAndDoc } from '../locale/LocaleText';
-import type Expression from '../nodes/Expression';
-import type Type from '../nodes/Type';
+import type Locales from '@locale/Locales';
+import type LocaleText from '@locale/LocaleText';
+import type { FunctionText, NameAndDoc } from '@locale/LocaleText';
+import type Expression from '@nodes/Expression';
+import type Type from '@nodes/Type';
 import {
     createBasisConversion,
     createBasisFunction,
     createEqualsFunction,
-} from './Basis';
+} from '@basis/Basis';
 
 export default function bootstrapBool(locales: Locales) {
     function createBooleanFunction(

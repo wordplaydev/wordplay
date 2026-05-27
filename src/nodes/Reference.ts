@@ -12,36 +12,43 @@ import StartFinish from '@runtime/StartFinish';
 import type Step from '@runtime/Step';
 import NameException from '@values/NameException';
 import type Value from '@values/Value';
-import { Purpose } from '../concepts/Purpose';
-import type Locales from '../locale/Locales';
-import { type TemplateInput } from '../locale/Locales';
-import BinaryEvaluate from './BinaryEvaluate';
-import Bind from './Bind';
-import Borrow from './Borrow';
-import type Context from './Context';
-import type Definition from './Definition';
-import Expression, { type GuardContext } from './Expression';
-import FunctionDefinition from './FunctionDefinition';
-import FunctionType from './FunctionType';
-import getGuards from './getGuards';
-import NameToken from './NameToken';
-import type Node from './Node';
-import { ListOf, node, type Grammar, type Replacement } from './Node';
-import PropertyReference from './PropertyReference';
-import Reaction from './Reaction';
-import SimpleExpression from './SimpleExpression';
-import Source from './Source';
-import StreamDefinition from './StreamDefinition';
-import StreamType from './StreamType';
-import StructureDefinition from './StructureDefinition';
-import { Sym } from './Sym';
-import Token from './Token';
-import Type from './Type';
-import type TypeSet from './TypeSet';
-import TypeVariable from './TypeVariable';
-import UnaryEvaluate from './UnaryEvaluate';
-import UnionType from './UnionType';
-import UnknownNameType from './UnknownNameType';
+import { Purpose } from '@concepts/Purpose';
+import type Locales from '@locale/Locales';
+import { type TemplateInput } from '@locale/Locales';
+import BinaryEvaluate from '@nodes/BinaryEvaluate';
+import Bind from '@nodes/Bind';
+import Borrow from '@nodes/Borrow';
+import type Context from '@nodes/Context';
+import type Definition from '@nodes/Definition';
+import Delete from '@nodes/Delete';
+import Expression, { type GuardContext } from '@nodes/Expression';
+import FunctionDefinition from '@nodes/FunctionDefinition';
+import FunctionType from '@nodes/FunctionType';
+import getGuards from '@nodes/getGuards';
+import Insert from '@nodes/Insert';
+import NameToken from '@nodes/NameToken';
+import type Node from '@nodes/Node';
+import { ListOf, node, type Grammar, type Replacement } from '@nodes/Node';
+import PropertyReference from '@nodes/PropertyReference';
+import Row from '@nodes/Row';
+import Select from '@nodes/Select';
+import TableType from '@nodes/TableType';
+import Update from '@nodes/Update';
+import Reaction from '@nodes/Reaction';
+import SimpleExpression from '@nodes/SimpleExpression';
+import Source from '@nodes/Source';
+import StreamDefinition from '@nodes/StreamDefinition';
+import StreamType from '@nodes/StreamType';
+import StructureDefinition from '@nodes/StructureDefinition';
+import { Sym } from '@nodes/Sym';
+import Token from '@nodes/Token';
+import Type from '@nodes/Type';
+import type TypeSet from '@nodes/TypeSet';
+import TypeVariable from '@nodes/TypeVariable';
+import UnaryEvaluate from '@nodes/UnaryEvaluate';
+import UnionType from '@nodes/UnionType';
+import UnknownType from '@nodes/UnknownType';
+import UnknownNameType from '@nodes/UnknownNameType';
 
 /**
  * A reference to some Definition. Can optionally take the definition which it refers,
@@ -89,15 +96,50 @@ export default class Reference extends SimpleExpression {
                 ? reference.getName()
                 : undefined;
 
+        // Pick the right pool of definitions to suggest:
+        //  - A Reference that's the name of a PropertyReference: only the
+        //    subject's properties (a typo'd name shouldn't fall back to the
+        //    whole scope).
+        //  - A Reference that's a cell of a table-operation Row: only the
+        //    table's columns.
+        //  - A PropertyReference being autocompleted (existing behavior).
+        //  - Otherwise: walk the surrounding scope.
+        const refParent = parent;
+        const contextual: Definition[] | undefined = (() => {
+            if (refParent instanceof PropertyReference)
+                return refParent.getDefinitions(refParent, context);
+            if (refParent instanceof Row) {
+                const op = refParent.getParent(context);
+                const tableExpr =
+                    op instanceof Select
+                        ? op.table
+                        : op instanceof Insert
+                          ? op.table
+                          : op instanceof Update
+                            ? op.table
+                            : op instanceof Delete
+                              ? op.table
+                              : undefined;
+                if (tableExpr) {
+                    const tt = tableExpr.getType(context);
+                    if (tt instanceof TableType) return tt.getDefinitions();
+                }
+                return [];
+            }
+            return undefined;
+        })();
+
         // If the anchor is being replaced but isn't a reference, suggest nothing.
         // Otherwise, suggest references in the anchor node's scope that complete the prefix.
         return (
             [
                 // Find all the definitions in scope. If the anchor happens to be a property reference and we're completing,
                 // only find definitions in it's scope.
-                ...(reference instanceof PropertyReference && complete
-                    ? reference.getDefinitions(reference, context)
-                    : reference.getDefinitionsInScope(context)),
+                ...(contextual !== undefined
+                    ? contextual
+                    : reference instanceof PropertyReference && complete
+                      ? reference.getDefinitions(reference, context)
+                      : reference.getDefinitionsInScope(context)),
                 // Find all the sources in scope if the context is a borrow.
                 ...(reference instanceof Borrow
                     ? context.project
@@ -284,12 +326,18 @@ export default class Reference extends SimpleExpression {
         // Is this name undefined in scope?
         if (bindOrTypeVar === undefined) {
             const scope = this.getScope(context);
-            conflicts.push(
-                new UnknownName(
-                    this,
-                    scope instanceof Type ? scope : undefined,
-                ),
-            );
+            // Suppress when the scope is itself an UnknownType — the root-cause
+            // conflict lives on whatever made the scope corrupt. Without this,
+            // `missing + 10` would yield UnknownName twice: once for `missing`
+            // and once for `+`, because resolving `+` on UnknownNameType also
+            // fails. #1146
+            if (!(scope instanceof UnknownType))
+                conflicts.push(
+                    new UnknownName(
+                        this,
+                        scope instanceof Type ? scope : undefined,
+                    ),
+                );
         }
         // Can't refer to type variables with a reference, those can only be mentioned in type inputs.
         else if (bindOrTypeVar instanceof TypeVariable)
@@ -446,12 +494,16 @@ export default class Reference extends SimpleExpression {
     getStartExplanations(locales: Locales, context: Context) {
         return locales.concretize(
             (l) => l.node.Reference.start,
-            new NodeRef(this.name, locales, context),
+            {
+                name: new NodeRef(this.name, locales, context),
+            },
         );
     }
 
-    getDescriptionInputs(): TemplateInput[] {
-        return [this.getName()];
+    getDescriptionInputs(): Record<string, TemplateInput> {
+        return {
+            name: this.getName(),
+        };
     }
 
     getCharacter() {

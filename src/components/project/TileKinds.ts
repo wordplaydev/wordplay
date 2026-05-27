@@ -5,7 +5,7 @@ import {
     SOURCE_SYMBOL,
     STAGE_SYMBOL,
 } from '@parser/Symbols';
-import type { TileKind } from './TileKind';
+import type { TileKind } from '@components/project/TileKind';
 
 type TileKindMeta = { symbol: string; order: number };
 

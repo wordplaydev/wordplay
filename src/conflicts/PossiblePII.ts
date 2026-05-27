@@ -3,10 +3,10 @@ import type Context from '@nodes/Context';
 import type { LanguageTagged } from '@nodes/LanguageTagged';
 import { Sym } from '@nodes/Sym';
 import Token from '@nodes/Token';
-import type Locales from '../locale/Locales';
+import type Locales from '@locale/Locales';
 import type { PII } from '../pii/getPII';
 import getPII from '../pii/getPII';
-import Conflict from './Conflict';
+import Conflict, { type Resolutions } from '@conflicts/Conflict';
 
 export class PossiblePII extends Conflict {
     /** The node containing text */
@@ -42,27 +42,31 @@ export class PossiblePII extends Conflict {
                 locales.concretize(
                     (l) =>
                         l.node.Translation.conflict[this.pii.kind].explanation,
-                    this.pii.text,
-                    locales.getUnannotatedText(
-                        (l) => l.node.Translation.conflict.reminder,
-                    ),
-                ),
-            resolutions: [
-                {
-                    description: (locales: Locales) =>
-                        locales.concretize(
-                            (l) => l.node.Translation.conflict.resolution,
+                    {
+                        text: this.pii.text,
+                        reminder: locales.getUnannotatedText(
+                            (l) => l.node.Translation.conflict.reminder,
                         ),
-                    mediator: (context: Context) => {
-                        return {
-                            newProject: context.project.withNonPII(
-                                this.pii.text,
-                            ),
-                        };
                     },
-                },
-            ],
+                ),
         };
+    }
+
+    override getResolutions(): Resolutions {
+        return [
+            {
+                kind: 'repair',
+                description: (locales: Locales) =>
+                    locales.concretize(
+                        (l) => l.node.Translation.conflict.resolution,
+                    ),
+                mediator: (context: Context) => {
+                    return {
+                        newProject: context.project.withNonPII(this.pii.text),
+                    };
+                },
+            },
+        ];
     }
 
     getLocalePath() {

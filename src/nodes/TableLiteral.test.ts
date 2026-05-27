@@ -3,8 +3,8 @@ import IncompatibleCellType from '@conflicts/IncompatibleCellType';
 import MissingCell from '@conflicts/MissingCell';
 import { testConflict } from '@conflicts/TestUtilities';
 import { test } from 'vitest';
-import TableLiteral from './TableLiteral';
-import TableType from './TableType';
+import TableLiteral from '@nodes/TableLiteral';
+import TableType from '@nodes/TableType';
 
 test.each([
     ['⎡a•# b•#⎦', '⎡a•# b⎦', TableType, ExpectedColumnType],

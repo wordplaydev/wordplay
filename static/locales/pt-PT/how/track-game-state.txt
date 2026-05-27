@@ -1,0 +1,30 @@
+Acompanhe o estado do jogo.
+
+A maioria dos jogos monitoriza diversos aspetos à medida que a partida avança: os pontos, as posições dos jogadores e outros detalhes são fundamentais.Cada vez que existe uma entrada, este estado muda e, em resposta, queremos apresentar uma nova saída.
+
+Um padrão geral para qualquer jogo faz três coisas:
+
+• Defina uma estrutura de dados de estado do jogo para armazenar todo o estado do jogo.• Defina uma reação que crie um novo estado de jogo com base no estado de jogo anterior sempre que exista uma nova entrada.• Faça um @Stage  com  @Group  e  @Phrase para mostrar o estado do jogo
+
+Por exemplo, imagine um jogo simples que envolve digitar palavras secretas numa caixa de texto e ganhar um ponto cada vez que uma palavra secreta é adivinhada:
+
+\•Game(secrets•[''] points•#)
+state: Game(['gato' 'cão'] 0) … state.secrets.has(Chat()) … state.points:state.points + 1
+Stage(state.points = state.secrets.length() ? [Phrase("Você venceu!")] [
+			Group(Stack() [
+					Phrase("Adivinhe as minhas palavras secretas")
+					Phrase(`\state.secrets.length() - state.points\mais segredos`)
+				])
+		])\
+
+Vamos analisar isto em detalhe.
+
+• A primeira linha,\•Game(secrets•[''] points•#)\ diz, /Crie uma estrutura de dados chamada\Game\que armazena uma lista de segredos e pontos./• A segunda linha diz/O jogo começa com uma lista de segredos e zero pontos. Cada vez que...\Chat\Se a palavra introduzida estiver na lista de segredos, o jogo inicia um novo estado com a pontuação aumentada em um./.• Cada vez que o programa é reavaliado (quando o\Chat\(Alterações), mostre uma fase. Se o número de pontos for igual ao número de segredos, apresente uma fase vencedora. Caso contrário, mostre um aviso e o número de segredos restantes.
+
+Este exemplo apresenta alguns problemas:
+
+• Se adivinharem uma palavra secreta várias vezes, ganham mais pontos! O nosso sistema de jogo também pode precisar de se lembrar do que foi adivinhado, pelo que cada palavra é contada apenas duas vezes.• Se o jogador introduzir várias palavras, isso deve ser contabilizado?
+
+Estados de jogo e atualizações de jogo mais sofisticados ajudar-nos-iam a lidar com estes casos.
+
+track-points

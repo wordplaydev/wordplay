@@ -3,23 +3,23 @@ import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
 import type { ReplaceContext } from '@edit/revision/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
-import type { BasisTypeName } from '../basis/BasisConstants';
-import type Locales from '../locale/Locales';
-import NodeRef from '../locale/NodeRef';
+import type { BasisTypeName } from '@basis/BasisConstants';
+import type Locales from '@locale/Locales';
+import NodeRef from '@locale/NodeRef';
 import Characters from '../lore/BasisCharacters';
-import BasisType from './BasisType';
-import BindToken from './BindToken';
-import type Context from './Context';
-import ExpressionPlaceholder from './ExpressionPlaceholder';
-import MapLiteral from './MapLiteral';
-import { any, node, none, type Grammar, type Replacement } from './Node';
-import SetCloseToken from './SetCloseToken';
-import SetOpenToken from './SetOpenToken';
-import { Sym } from './Sym';
-import type Token from './Token';
-import Type from './Type';
-import TypePlaceholder from './TypePlaceholder';
-import type TypeSet from './TypeSet';
+import BasisType from '@nodes/BasisType';
+import BindToken from '@nodes/BindToken';
+import type Context from '@nodes/Context';
+import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
+import MapLiteral from '@nodes/MapLiteral';
+import { any, node, none, type Grammar, type Replacement } from '@nodes/Node';
+import SetCloseToken from '@nodes/SetCloseToken';
+import SetOpenToken from '@nodes/SetOpenToken';
+import { Sym } from '@nodes/Sym';
+import type Token from '@nodes/Token';
+import Type from '@nodes/Type';
+import TypePlaceholder from '@nodes/TypePlaceholder';
+import type TypeSet from '@nodes/TypeSet';
 
 export default class MapType extends BasisType {
     readonly open: Token;
@@ -174,10 +174,10 @@ export default class MapType extends BasisType {
     }
 
     getDescriptionInputs(locales: Locales, context: Context) {
-        return [
-            this.key ? new NodeRef(this.key, locales, context) : undefined,
-            this.value ? new NodeRef(this.value, locales, context) : undefined,
-        ];
+        return {
+            key: this.key ? new NodeRef(this.key, locales, context) : undefined,
+            value: this.value ? new NodeRef(this.value, locales, context) : undefined,
+        };
     }
 
     getDefaultExpression() {

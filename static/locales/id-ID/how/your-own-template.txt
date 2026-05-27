@@ -1,0 +1,20 @@
+Buat templat karaktermu sendiri
+
+Terkadang Anda menginginkan banyak karakter yang terlihat hampir sama, tetapi dengan sedikit perbedaan.Alih-alih menulis hal yang sama  @Phrase  berulang kali, Anda dapat membuat templat Anda sendiri dengan  @Structure .
+
+A  @Structure  Ini seperti resep dengan bagian-bagian kosong yang perlu diisi.Berikut templat balon yang menerima warna dan label, dan tahu cara menampilkan dirinya sendiri:
+
+\•Balloon(color•Color label•'') (
+	ƒ show() Phrase(`🎈 \label\` color: color size: 2m)
+)
+Group(Row() [
+		Balloon(Color(80% 50 240°) 'Langit').show()
+		Balloon(Color(60% 80 0°) 'Mawar').show()
+		Balloon(Color(90% 80 90°) 'Cerah').show()
+	])\
+
+Itu \•Balloon(...)\ bagian mendefinisikan templat, dan \ƒ show()\ sebagian mengatakan /cara menggambarnya/.Kemudian kita membuat tiga balon dengan warna dan label yang berbeda, dan meminta masing-masing balon untuk \show\ diri.
+
+Template sangat berguna ketika Anda ingin menjaga kode tetap rapi dan karakter tetap konsisten.
+
+track-game-state, make-many-copies

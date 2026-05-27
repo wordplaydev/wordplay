@@ -1,7 +1,7 @@
 <script lang="ts">
     import HeaderAndExplanation from '@components/app/HeaderAndExplanation.svelte';
     import Reference from '@nodes/Reference';
-    import CodeView from './CodeView.svelte';
+    import CodeView from '@components/concepts/CodeView.svelte';
 
     interface Props {
         names: string[];

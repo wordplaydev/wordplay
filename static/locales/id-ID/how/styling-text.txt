@@ -1,0 +1,37 @@
+Atur gaya teks Anda
+
+Terkadang kita ingin teks kita menonjol. Kita bisa melakukan ini dengan cara... /memiringkan/, *menebalkan*, dan masih banyak lagi!
+
+Misalnya, untuk membuat teks menjadi miring, Anda dapat membungkusnya dengan garis miring //, seperti //Hello//. Contohnya:
+
+\Group(Stack() [
+		Phrase(`Ingin pamer /huruf miring/ dalam teks Anda?`)
+		Phrase(`Ini bagus untuk penekanan atau untuk memberi makna pada kata-kata Anda. /jazz tambahan/.`)
+		Phrase(`Cukup tambahkan garis miring (//) sebelum dan sesudah kata atau frasa tersebut. /seperti ini/.`)
+	])\
+
+@Phrase  Anda juga dapat menebalkan teks. Anda dapat melakukannya dengan membungkus teks Anda dengan tanda bintang **, seperti **Halo**. Misalnya:
+
+\Group(Stack() [
+		Phrase(`Ingin membuat teks Anda lebih menarik dengan *berani*?`)
+		Phrase(`Ini sangat cocok saat Anda membutuhkannya. *teriak sesuatu dengan keras*.`)
+		Phrase(`Cukup beri tanda bintang tunggal (**) di sekitar kata-kata Anda, seperti *Hai!*, dan saksikan bagaimana rasanya berbeda.`)
+	])\
+
+@Phrase  Anda juga dapat membuat teks menjadi LEBIH tebal. Untuk itu, bungkus teks Anda dengan tanda sisipan ^^, seperti ^^Halo^^. Misalnya:
+
+\Group(Stack() [
+		Phrase(`Ekstra tebal adalah ^KAMBING^ saat kamu perlu memaksimalkan suasana.`)
+		Phrase(`Ini seperti berani tapi lebih ^api^, biasanya dilakukan dengan satu wortel di sekelilingnya (^^)`)
+		Phrase(`Gunakan itu untuk pamer ^judul^ atau ^ide-ide besar^.`)
+	])\
+
+Akhirnya,  @Phrase  Anda dapat membuat teks bergaris bawah. Untuk itu, bungkus teks Anda dengan garis bawah __, seperti __Hello__. Misalnya:
+
+\Group(Stack() [
+		Phrase(`Garis bawah adalah _api tersembunyi_ untuk saat Anda ingin teks tetap terlihat rapi namun tetap menonjol.`)
+		Phrase(`Hilangkan satu garis bawah (__) sebelum dan sesudah teks Anda, _seperti ini_, dan ini memberikan penekanan yang jelas.`)
+		Phrase(`Dia _sempurna_ karena menyampaikan maksudmu tanpa terlalu berlebihan _tambahan_.`)
+	])\
+
+custom-characters

@@ -2,8 +2,9 @@ import type LocaleText from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
 import type Bind from '@nodes/Bind';
 import type Context from '@nodes/Context';
-import type Locales from '../locale/Locales';
-import Conflict from './Conflict';
+import type Locales from '@locale/Locales';
+import Conflict, { type Resolutions } from '@conflicts/Conflict';
+import type Node from '@nodes/Node';
 
 export default class UnusedBind extends Conflict {
     readonly bind: Bind;
@@ -23,9 +24,32 @@ export default class UnusedBind extends Conflict {
             explanation: (locales: Locales, context: Context) =>
                 locales.concretize(
                     (l) => UnusedBind.LocalePath(l).explanation,
-                    new NodeRef(this.bind.names, locales, context),
+                    {
+                        name: new NodeRef(this.bind.names, locales, context),
+                    },
                 ),
         };
+    }
+
+    override getResolutions(
+        _context: Context,
+        _concepts: Node[],
+    ): Resolutions {
+        // Delete the unused bind entirely.
+        return [
+            {
+                kind: 'repair',
+                description: (locales: Locales) =>
+                    locales.concretize(
+                        (l) => UnusedBind.LocalePath(l).resolution,
+                    ),
+                mediator: (ctx) => ({
+                    newProject: ctx.project.withRevisedNodes([
+                        [this.bind, undefined],
+                    ]),
+                }),
+            },
+        ];
     }
 
     getLocalePath() {

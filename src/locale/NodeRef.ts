@@ -1,6 +1,6 @@
 import type Context from '@nodes/Context';
 import type Node from '@nodes/Node';
-import type Locales from './Locales';
+import type Locales from '@locale/Locales';
 
 export default class NodeRef {
     readonly node: Node;

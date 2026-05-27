@@ -7,17 +7,17 @@ import StreamType from '@nodes/StreamType';
 import UnionType from '@nodes/UnionType';
 import type Evaluation from '@runtime/Evaluation';
 import StreamValue from '@values/StreamValue';
-import type Locales from '../locale/Locales';
-import NoneLiteral from '../nodes/NoneLiteral';
-import type StructureDefinition from '../nodes/StructureDefinition';
-import TextType from '../nodes/TextType';
-import type Type from '../nodes/Type';
-import { createReboundStructure } from '../output/Rebound';
-import { PX_PER_METER } from '../output/outputToCSS';
-import NoneValue from '../values/NoneValue';
-import type StructureValue from '../values/StructureValue';
-import TextValue from '../values/TextValue';
-import createStreamEvaluator from './createStreamEvaluator';
+import type Locales from '@locale/Locales';
+import NoneLiteral from '@nodes/NoneLiteral';
+import type StructureDefinition from '@nodes/StructureDefinition';
+import TextType from '@nodes/TextType';
+import type Type from '@nodes/Type';
+import { createReboundStructure } from '@output/Rebound';
+import { PX_PER_METER } from '@output/outputToCSS';
+import NoneValue from '@values/NoneValue';
+import type StructureValue from '@values/StructureValue';
+import TextValue from '@values/TextValue';
+import createStreamEvaluator from '@input/createStreamEvaluator';
 
 export type ReboundEvent =
     | {

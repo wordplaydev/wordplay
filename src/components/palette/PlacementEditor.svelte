@@ -1,7 +1,7 @@
 <script lang="ts">
     import type Project from '@db/projects/Project';
-    import Evaluate from '../../nodes/Evaluate';
-    import PlaceEditor from './PlaceEditor.svelte';
+    import Evaluate from '@nodes/Evaluate';
+    import PlaceEditor from '@components/palette/PlaceEditor.svelte';
 
     interface Props {
         project: Project;

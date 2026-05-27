@@ -3,11 +3,11 @@ import type { EvaluationNode } from '@runtime/Evaluation';
 import type Evaluator from '@runtime/Evaluator';
 import NumberValue from '@values/NumberValue';
 import type Value from '@values/Value';
-import toStructure from '../basis/toStructure';
-import type Locales from '../locale/Locales';
-import Unit from '../nodes/Unit';
-import StructureValue from '../values/StructureValue';
-import Valued from './Valued';
+import toStructure from '@basis/toStructure';
+import type Locales from '@locale/Locales';
+import Unit from '@nodes/Unit';
+import StructureValue from '@values/StructureValue';
+import Valued from '@output/Valued';
 
 export function createDirectionType(locales: Locales) {
     return toStructure(`

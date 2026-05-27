@@ -3,8 +3,8 @@ import Node from '@nodes/Node';
 import Root from '@nodes/Root';
 import Source from '@nodes/Source';
 import type Token from '@nodes/Token';
-import Spaces from './Spaces';
-import TokenList from './TokenList';
+import Spaces from '@parser/Spaces';
+import TokenList from '@parser/TokenList';
 
 /**
  * Given a node, and optional root for the node, and optional current spacing for the node and its children,

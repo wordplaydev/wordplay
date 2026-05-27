@@ -22,12 +22,14 @@
         "firebase-admin": "^13",
         "firebase-functions": "^7",
         "nodemailer": "^8",
-        "shared-types": "file:./src/shared"
+        "prettier": "^3.8.3",
+        "shared-types": "file:./src/shared",
+        "yjs": "^13.6.30"
     },
     "devDependencies": {
-        "@types/nodemailer": "^7",
+        "@types/nodemailer": "^8",
         "firebase-functions-test": "^3",
-        "typescript": "^5"
+        "typescript": "^6"
     },
     "private": true,
     "bundleDependencies": [

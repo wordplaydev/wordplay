@@ -1,4 +1,4 @@
-Layer Images Over Each Other
+Layer images over each other
 
 Sometimes we want to layer images to build fun scenes or creative shapes.
 

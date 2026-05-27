@@ -1,6 +1,8 @@
 <script lang="ts">
-    import type VariableType from '../../../nodes/VariableType';
-    import NodeView, { type Format } from './NodeView.svelte';
+    import type VariableType from '@nodes/VariableType';
+    import NodeView, {
+        type Format,
+    } from '@components/editor/nodes/NodeView.svelte';
 
     interface Props {
         node: VariableType;

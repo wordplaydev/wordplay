@@ -2,8 +2,8 @@ import IncompatibleInput from '@conflicts/IncompatibleInput';
 import { testConflict } from '@conflicts/TestUtilities';
 import { FALSE_SYMBOL, OR_SYMBOL } from '@parser/Symbols';
 import { expect, test } from 'vitest';
-import evaluateCode from '../runtime/evaluate';
-import BinaryEvaluate from './BinaryEvaluate';
+import evaluateCode from '@runtime/evaluate';
+import BinaryEvaluate from '@nodes/BinaryEvaluate';
 
 test.each([
     ['1 × 5', '1 × ""', BinaryEvaluate, IncompatibleInput],

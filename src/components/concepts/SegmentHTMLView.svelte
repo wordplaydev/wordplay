@@ -1,25 +1,26 @@
 <script lang="ts">
-    import ConceptRef from '../../locale/ConceptRef';
-    import NodeRef from '../../locale/NodeRef';
-    import ValueRef from '../../locale/ValueRef';
-    import ConceptLink from '../../nodes/ConceptLink';
-    import Example from '../../nodes/Example';
-    import type { Segment } from '../../nodes/Paragraph';
-    import Token from '../../nodes/Token';
-    import UnknownType from '../../nodes/UnknownType';
-    import WebLink from '../../nodes/WebLink';
-    import Words from '../../nodes/Words';
-    import type Spaces from '../../parser/Spaces';
-    import { unescapeMarkupSymbols } from '../../parser/Tokenizer';
-    import { withColorEmoji } from '../../unicode/emoji';
-    import RootView from '../project/RootView.svelte';
-    import ValueView from '../values/ValueView.svelte';
-    import CodeView from './CodeView.svelte';
-    import ConceptLinkUI from './ConceptLinkUI.svelte';
-    import ExampleUI from './ExampleUI.svelte';
-    import MarkupHTMLView from './MarkupHTMLView.svelte';
-    import WebLinkHTMLView from './WebLinkHTMLView.svelte';
-    import WordsHTMLView from './WordsHTMLView.svelte';
+    import ConceptRef from '@locale/ConceptRef';
+    import NodeRef from '@locale/NodeRef';
+    import ValueRef from '@locale/ValueRef';
+    import ConceptLink from '@nodes/ConceptLink';
+    import Example from '@nodes/Example';
+    import type { Segment } from '@nodes/Paragraph';
+    import Token from '@nodes/Token';
+    import UnknownType from '@nodes/UnknownType';
+    import WebLink from '@nodes/WebLink';
+    import Words from '@nodes/Words';
+    import type Spaces from '@parser/Spaces';
+    import { unescapeMarkupSymbols } from '@parser/Tokenizer';
+    import { BULLET_SYMBOL } from '@parser/Symbols';
+    import RootView from '@components/project/RootView.svelte';
+    import ValueView from '@components/values/ValueView.svelte';
+    import CodeView from '@components/concepts/CodeView.svelte';
+    import ConceptLinkUI from '@components/concepts/ConceptLinkUI.svelte';
+    import elideNode from '@components/concepts/elideNode';
+    import ExampleUI from '@components/concepts/ExampleUI.svelte';
+    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
+    import WebLinkHTMLView from '@components/concepts/WebLinkHTMLView.svelte';
+    import WordsHTMLView from '@components/concepts/WordsHTMLView.svelte';
 
     interface Props {
         segment: Segment;
@@ -32,22 +33,32 @@
 
     let { segment, spaces, alone, first }: Props = $props();
 
-    // Compute whether there are one or more spaces before this segment, but not at the beginning of a paragraph.
+    // Compute whether there is whitespace before this segment that should render as a space.
+    // Spaces, tabs, and a single newline all count (so soft-wrapped source still
+    // gets a space between sentences), but not paragraph breaks (blank lines) or
+    // segments at the start of a paragraph.
     function isTokenSpaced(token: Token) {
-        return (
-            !first &&
-            token instanceof Token &&
-            /^[ ]+$/.test(spaces.getSpace(token))
-        );
+        if (first || !(token instanceof Token)) return false;
+        const space = spaces.getSpace(token);
+        return /^[ \t\n]+$/.test(space) && !space.includes('\n\n');
     }
 
     function getTokenText(token: Token) {
-        return withColorEmoji(
-            (token.startsWith('•')
+        // Don't apply withColorEmoji here. Wrapping every emoji sequence in
+        // a U+FE0F variation selector forced Safari into a code path that
+        // uses Apple Color Emoji even when Noto Color Emoji is first in the
+        // font-family cascade, breaking visual consistency with PhraseView
+        // / CreatorView. The locale source text already carries U+FE0F on
+        // the emoji that need it (e.g. 🖱️ ⌨️ 🖥️), so passing the text
+        // through unchanged lets each emoji use its natural Unicode
+        // presentation default — color emoji render in color via Noto,
+        // text-default symbols stay text unless the source explicitly
+        // requests color.
+        return (
+            token.startsWith(BULLET_SYMBOL)
                 ? token.getText().substring(1).trimStart()
-                : withColorEmoji(unescapeMarkupSymbols(token.getText()))
-            ).replaceAll('--', '—'),
-        );
+                : unescapeMarkupSymbols(token.getText())
+        ).replaceAll('--', '—');
     }
 </script>
 
@@ -56,7 +67,6 @@
             example={segment}
             {spaces}
             evaluated={alone}
-            inline={false}
         />
     {:else}<CodeView
             node={segment.program}
@@ -78,12 +88,24 @@
             )}
             inline
         />
-    {:else}<RootView
-            node={segment.node}
-            inline
-            locale="symbolic"
-            blocks={false}
-        />{/if}
+    {:else}
+        {@const elision = elideNode(segment.node, segment.locales)}
+        {#if elision}
+            <!-- Render the elided preview (still as code, via RootView) and
+                 append the localized "or N other options" suffix as markup. -->
+            <RootView
+                node={elision.preview}
+                inline
+                locale="symbolic"
+                blocks={false}
+            /><MarkupHTMLView markup={elision.suffix} inline />
+        {:else}<RootView
+                node={segment.node}
+                inline
+                locale="symbolic"
+                blocks={false}
+            />{/if}
+    {/if}
 {:else if segment instanceof ValueRef}<strong
         ><ValueView value={segment.value} /></strong
     >

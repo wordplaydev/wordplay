@@ -4,14 +4,14 @@ import Evaluate from '@nodes/Evaluate';
 import Reference from '@nodes/Reference';
 import StructureValue from '@values/StructureValue';
 import type Value from '@values/Value';
-import type Project from '../db/projects/Project';
-import type Locales from '../locale/Locales';
-import type Color from './Color';
-import { toColor } from './Color';
-import type Place from './Place';
-import { toPlace } from './Place';
-import { toBoolean, toNumber } from './Stage';
-import Valued, { getOutputInputs } from './Valued';
+import type Project from '@db/projects/Project';
+import type Locales from '@locale/Locales';
+import type Color from '@output/Color';
+import { toColor } from '@output/Color';
+import type Place from '@output/Place';
+import { toPlace } from '@output/Place';
+import { toBoolean, toNumber } from '@output/Stage';
+import Valued, { getOutputInputs } from '@output/Valued';
 
 export function createPoseType(locales: Locales) {
     return toStructure(`
@@ -79,17 +79,22 @@ export default class Pose extends Valued {
             this._description = locales
                 .concretize(
                     (l) => l.output.Pose.description,
-                    this.opacity !== undefined && this.opacity !== 1
+                    {
+                        opacity: this.opacity !== undefined && this.opacity !== 1
                         ? Math.round(this.opacity)
                         : undefined,
-                    this.rotation !== undefined && this.rotation % 360
+                        rotation: this.rotation !== undefined && this.rotation % 360
                         ? Math.round(this.rotation)
                         : undefined,
-                    this.scale !== undefined && this.scale !== 1
+                        scale: this.scale !== undefined && this.scale !== 1
                         ? Math.round(this.scale)
                         : undefined,
-                    this.flipx,
-                    this.flipy,
+                        flipx: this.flipx,
+                        flipy: this.flipy,
+                        blur: this.blur !== undefined && this.blur !== 0
+                        ? Math.round(this.blur)
+                        : undefined,
+                    },
                 )
                 .toText();
         }

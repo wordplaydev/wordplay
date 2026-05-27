@@ -1,6 +1,9 @@
 <script lang="ts">
-    import { HighlightTypes, type HighlightType } from './Highlights';
-    import type { Outline } from './outline';
+    import {
+        HighlightTypes,
+        type HighlightType,
+    } from '@components/editor/highlights/Highlights';
+    import type { Outline } from '@components/editor/highlights/outline';
 
     const HIGHLIGHT_PADDING = 20;
 
@@ -100,13 +103,13 @@
     /* Definitions and uses get hover feedback without border */
     .related:not(:global(.selected)).outline path {
         stroke: none;
-        fill: var(--wordplay-hover);
+        fill: var(--wordplay-hover-light);
     }
 
     .outline.selected path {
         stroke: var(--wordplay-highlight-color);
         stroke-width: var(--wordplay-focus-width);
-        fill: var(--wordplay-hover);
+        fill: var(--wordplay-hover-light);
     }
 
     .delimiter.outline path {
@@ -144,11 +147,26 @@
         animation-duration: calc(var(--animation-factor) * 1s);
     }
 
-    /* Make the text legible inside animating nodes */
+    /* In blocks mode, the SVG fill would be hidden behind the block's own
+       opaque background, so we treat animating differently: outline the
+       block in the evaluation color and animate the block itself with the
+       same shift. The text inside keeps its normal color (the SVG isn't
+       visible in this mode, so making text white would just be unreadable). */
+    :global(.node-view.block.animating) {
+        box-shadow: 0 0 0 var(--wordplay-focus-width)
+            var(--wordplay-evaluation-color);
+        animation: shift ease-in-out infinite;
+        animation-duration: calc(var(--animation-factor) * 1s);
+    }
+
+    /* Make the text legible inside animating/evaluating/dragging nodes —
+       only in text mode (i.e. NOT inside .block), where the pink SVG fill
+       is what's behind the text. In blocks mode the block keeps its normal
+       fill and the text should keep its normal color too. */
     :global(
-        .node-view.evaluating .token-view,
-        .node-view.animating .token-view,
-        .node-view.dragging .token-view
+        .node-view:not(.block).evaluating .token-view,
+        .node-view:not(.block).animating .token-view,
+        .node-view:not(.block).dragging .token-view
     ) {
         color: var(--wordplay-background) !important;
     }
@@ -178,7 +196,11 @@
 
     .underline.exception path {
         stroke: var(--wordplay-error);
-        fill: var(--wordplay-error);
+        /* No fill — for text mode the underline path is open M…L… segments
+           where fill is invisible anyway, and in blocks mode the path is a
+           closed rounded rect around the block, where filling would obscure
+           the block's contents. */
+        fill: none;
         stroke-width: calc(2 * var(--wordplay-border-width));
         stroke-dasharray: calc(2 * var(--wordplay-border-width));
     }

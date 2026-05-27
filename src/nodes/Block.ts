@@ -1,6 +1,5 @@
 import type Conflict from '@conflicts/Conflict';
 import { ExpectedEndingExpression } from '@conflicts/ExpectedEndingExpression';
-import { IgnoredExpression } from '@conflicts/IgnoredExpression';
 import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
 import type { InsertContext, ReplaceContext } from '@edit/revision/EditContext';
 import type LocaleText from '@locale/LocaleText';
@@ -8,33 +7,37 @@ import type { NodeDescriptor } from '@locale/NodeTexts';
 import Evaluation from '@runtime/Evaluation';
 import type Evaluator from '@runtime/Evaluator';
 import Finish from '@runtime/Finish';
+import Initialize from '@runtime/Initialize';
 import Start from '@runtime/Start';
 import type Step from '@runtime/Step';
+import ListValue from '@values/ListValue';
 import NoneValue from '@values/NoneValue';
 import type Value from '@values/Value';
-import { Purpose } from '../concepts/Purpose';
-import type Locales from '../locale/Locales';
+import { Purpose } from '@concepts/Purpose';
+import type Locales from '@locale/Locales';
 import Characters from '../lore/BasisCharacters';
-import Bind from './Bind';
-import type Context from './Context';
-import type Definition from './Definition';
-import DefinitionExpression from './DefinitionExpression';
-import Docs from './Docs';
-import EvalCloseToken from './EvalCloseToken';
-import EvalOpenToken from './EvalOpenToken';
-import Expression, { ExpressionKind, type GuardContext } from './Expression';
-import ExpressionPlaceholder from './ExpressionPlaceholder';
-import FunctionDefinition from './FunctionDefinition';
-import Names from './Names';
-import NoExpressionType from './NoExpressionType';
-import type Node from './Node';
-import { any, list, node, none, type Grammar, type Replacement } from './Node';
-import Reference from './Reference';
-import StructureDefinition from './StructureDefinition';
-import { Sym } from './Sym';
-import type Token from './Token';
-import type Type from './Type';
-import type TypeSet from './TypeSet';
+import Bind from '@nodes/Bind';
+import type Context from '@nodes/Context';
+import type Definition from '@nodes/Definition';
+import DefinitionExpression from '@nodes/DefinitionExpression';
+import Docs from '@nodes/Docs';
+import EvalCloseToken from '@nodes/EvalCloseToken';
+import EvalOpenToken from '@nodes/EvalOpenToken';
+import Expression, { ExpressionKind, type GuardContext } from '@nodes/Expression';
+import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
+import FunctionDefinition from '@nodes/FunctionDefinition';
+import Names from '@nodes/Names';
+import NoExpressionType from '@nodes/NoExpressionType';
+import type Node from '@nodes/Node';
+import { any, list, node, none, type Grammar, type Replacement } from '@nodes/Node';
+import ListType from '@nodes/ListType';
+import Reference from '@nodes/Reference';
+import StructureDefinition from '@nodes/StructureDefinition';
+import UnionType from '@nodes/UnionType';
+import { Sym } from '@nodes/Sym';
+import type Token from '@nodes/Token';
+import type Type from '@nodes/Type';
+import type TypeSet from '@nodes/TypeSet';
 
 export const BlockKind = {
     Root: 'root',
@@ -269,29 +272,35 @@ export default class Block extends Expression {
         return this;
     }
 
+    /** True if this statement introduces a name but doesn't contribute a
+     *  value to the block's result. @Bind and structure/conversion/stream
+     *  definitions are side effects; @FunctionDefinition is a value (the
+     *  function itself), so it does contribute. */
+    private static isSideEffect(s: Expression): boolean {
+        if (s instanceof Bind) return true;
+        if (s instanceof FunctionDefinition) return false;
+        if (s instanceof DefinitionExpression) return true;
+        return false;
+    }
+
+    /** The statements whose values become the block's result. */
+    getResultStatements(): Expression[] {
+        return this.statements.filter(
+            (s) => s instanceof Expression && !Block.isSideEffect(s),
+        );
+    }
+
     computeConflicts(): Conflict[] {
         const conflicts = [];
 
-        // Non-root blocks can't be empty. And if they aren't empty, the last statement must be an expression.
+        // Non-root, non-structure blocks must contain at least one non-Bind
+        // expression to produce a value. (A Binds-only block has no value.)
         if (
             !this.isRoot() &&
             !this.isStructure() &&
-            (this.statements.length === 0 ||
-                !(
-                    this.statements[this.statements.length - 1] instanceof
-                    Expression
-                ))
+            this.getResultStatements().length === 0
         )
             conflicts.push(new ExpectedEndingExpression(this));
-
-        // The only expression allowed is the last one.
-        this.statements
-            .slice(0, this.statements.length - 1)
-            .filter(
-                (s) =>
-                    !(s instanceof DefinitionExpression || s instanceof Bind),
-            )
-            .forEach((s) => conflicts.push(new IgnoredExpression(this, s)));
 
         if (this.open && this.close === undefined)
             conflicts.push(
@@ -334,14 +343,19 @@ export default class Block extends Expression {
     }
 
     computeType(context: Context): Type {
-        // The type of the last expression.
-        const lastExpression = this.statements
-            .slice()
-            .reverse()
-            .find((s) => s instanceof Expression) as Expression | undefined;
-        return lastExpression === undefined
-            ? new NoExpressionType(this)
-            : lastExpression.getType(context);
+        // A block's type is determined by its non-Bind result statements:
+        //   0 results → NoExpressionType (an error condition).
+        //   1 result  → that expression's type.
+        //   2+ results → a list whose elements are the union of their types.
+        const results = this.getResultStatements();
+        if (results.length === 0) return new NoExpressionType(this);
+        if (results.length === 1) return results[0].getType(context);
+        return ListType.make(
+            UnionType.getPossibleUnion(
+                context,
+                results.map((r) => r.getType(context)),
+            ),
+        );
     }
 
     getDependencies(context: Context): Expression[] {
@@ -351,20 +365,46 @@ export default class Block extends Expression {
         if (this.isStructure() && parent instanceof StructureDefinition)
             return [...parent.inputs];
 
-        // Otherwise, a block's value depends on it's last statement.
-        const lastStatement = this.statements[this.statements.length - 1];
-        return lastStatement === undefined ? [] : [lastStatement];
+        // Otherwise, the block's value depends on every non-Bind statement,
+        // since each contributes to the result (single value or list).
+        return this.getResultStatements();
     }
 
     /** Used by Evaluator to get the steps for the evaluation of this block. */
     getEvaluationSteps(evaluator: Evaluator, context: Context) {
-        return this.statements.reduce(
+        const statementSteps = this.statements.reduce(
             (prev: Step[], current) => [
                 ...prev,
                 ...current.compile(evaluator, context),
             ],
             [],
         );
+        // After all statements have run, append a step that collects their
+        // pushed values into the block's single result (a value or a list).
+        // We do this inside the inner evaluation so the values are still on
+        // its stack — once it ends, only the top of the stack survives.
+        return [
+            ...statementSteps,
+            new Initialize(this, (evaluator) => this.collect(evaluator)),
+        ];
+    }
+
+    /** Pops one value per statement off the inner evaluation's stack,
+     *  discards values from side-effect statements (Binds and most
+     *  definitions), and returns the block's result. Statements pushed in
+     *  source order, so popping in reverse iteration order recovers them in
+     *  source order. */
+    collect(evaluator: Evaluator): Value {
+        const results: Value[] = [];
+        for (let i = this.statements.length - 1; i >= 0; i--) {
+            const value = evaluator.popValue(this);
+            if (!Block.isSideEffect(this.statements[i]))
+                results.unshift(value);
+        }
+        if (this.isStructure()) return new NoneValue(this);
+        if (results.length === 0) return new NoneValue(this);
+        if (results.length === 1) return results[0];
+        return new ListValue(this, results);
     }
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -400,10 +440,10 @@ export default class Block extends Expression {
     evaluate(evaluator: Evaluator, prior: Value | undefined): Value {
         if (prior) return prior;
 
-        // Get the last value computed in the evaluation's stack.
+        // The inner evaluation's collect step has already combined all the
+        // statement values into a single result and pushed it to the parent's
+        // stack on inner-end. Just pop and return it.
         const result = evaluator.popValue(this);
-
-        // Root blocks are allowed to have no value, but all others must have one.
         return this.isStructure() ? new NoneValue(this) : result;
     }
 
@@ -435,12 +475,16 @@ export default class Block extends Expression {
     ) {
         return locales.concretize(
             (l) => l.node.Block.finish,
-            this.getValueIfDefined(locales, context, evaluator),
+            {
+                value: this.getValueIfDefined(locales, context, evaluator),
+            },
         );
     }
 
     getDescriptionInputs() {
-        return [this.statements.length];
+        return {
+            count: this.statements.length,
+        };
     }
 
     getStart() {

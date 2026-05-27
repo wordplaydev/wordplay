@@ -2,13 +2,13 @@ import ValueRef from '@locale/ValueRef';
 import type Evaluator from '@runtime/Evaluator';
 import type Step from '@runtime/Step';
 import type Value from '@values/Value';
-import type Locales from '../locale/Locales';
-import type Bind from './Bind';
-import type Context from './Context';
-import type Markup from './Markup';
-import Node from './Node';
-import type Type from './Type';
-import type TypeSet from './TypeSet';
+import type Locales from '@locale/Locales';
+import type Bind from '@nodes/Bind';
+import type Context from '@nodes/Context';
+import type Markup from '@nodes/Markup';
+import Node from '@nodes/Node';
+import type Type from '@nodes/Type';
+import type TypeSet from '@nodes/TypeSet';
 
 export const ExpressionKind = {
     Simple: 'simple',

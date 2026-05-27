@@ -6,8 +6,8 @@
     import type Node from '@nodes/Node';
     import { enumerateSymbols } from '@nodes/Node';
     import Token from '@nodes/Token';
-    import MenuTrigger from '../menu/MenuTrigger.svelte';
-    import { type Format } from '../nodes/NodeView.svelte';
+    import MenuTrigger from '@components/editor/menu/MenuTrigger.svelte';
+    import { type Format } from '@components/editor/nodes/NodeView.svelte';
 
     interface Props {
         /** The node containing a list of nodes to render */

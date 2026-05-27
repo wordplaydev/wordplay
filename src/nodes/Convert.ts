@@ -15,24 +15,24 @@ import type Step from '@runtime/Step';
 import ConversionException from '@values/ConversionException';
 import ExceptionValue from '@values/ExceptionValue';
 import type Value from '@values/Value';
-import { Purpose } from '../concepts/Purpose';
-import type Locales from '../locale/Locales';
+import { Purpose } from '@concepts/Purpose';
+import type Locales from '@locale/Locales';
 import Characters from '../lore/BasisCharacters';
-import Block from './Block';
-import type Context from './Context';
-import ConversionDefinition from './ConversionDefinition';
-import ConversionType from './ConversionType';
-import Expression, { type GuardContext } from './Expression';
-import { getConcreteConversionTypeVariable } from './Generics';
-import Names from './Names';
-import NameType from './NameType';
-import NeverType from './NeverType';
-import { node, type Grammar, type Replacement } from './Node';
-import { NotAType } from './NotAType';
-import { Sym } from './Sym';
-import Token from './Token';
-import Type from './Type';
-import type TypeSet from './TypeSet';
+import Block from '@nodes/Block';
+import type Context from '@nodes/Context';
+import ConversionDefinition from '@nodes/ConversionDefinition';
+import ConversionType from '@nodes/ConversionType';
+import Expression, { type GuardContext } from '@nodes/Expression';
+import { getConcreteConversionTypeVariable } from '@nodes/Generics';
+import Names from '@nodes/Names';
+import NameType from '@nodes/NameType';
+import NeverType from '@nodes/NeverType';
+import { node, type Grammar, type Replacement } from '@nodes/Node';
+import { NotAType } from '@nodes/NotAType';
+import { Sym } from '@nodes/Sym';
+import Token from '@nodes/Token';
+import Type from '@nodes/Type';
+import type TypeSet from '@nodes/TypeSet';
 
 export default class Convert extends Expression {
     readonly expression: Expression;
@@ -105,6 +105,41 @@ export default class Convert extends Expression {
             this.replaceChild('convert', this.convert, replace),
             this.replaceChild('type', this.type, replace),
         ) as this;
+    }
+
+    /** When the convert (→) token is the menu anchor, surface alternative
+     *  Convert variants whose target type is one of the conversions reachable
+     *  from the expression's type (one-hop, type-defined and scope-defined).
+     *  Excludes the current target. */
+    getReplacementsForTokenAnchor(context: Context): Convert[] {
+        const inputType = this.expression.getType(context);
+        const typeConversions = inputType.getAllConversions(context);
+        const scopeConversions =
+            context
+                .getRoot(this)
+                ?.getAncestors(this)
+                ?.filter((a): a is Block => a instanceof Block)
+                ?.reduce(
+                    (list: ConversionDefinition[], block) => [
+                        ...list,
+                        ...block.statements.filter(
+                            (s): s is ConversionDefinition =>
+                                s instanceof ConversionDefinition,
+                        ),
+                    ],
+                    [],
+                ) ?? [];
+        const seen = new Set<string>();
+        seen.add(this.type.toWordplay());
+        return [...typeConversions, ...scopeConversions]
+            .map((conv) => conv.output)
+            .filter((output) => {
+                const key = output.toWordplay();
+                if (seen.has(key)) return false;
+                seen.add(key);
+                return true;
+            })
+            .map((output) => new Convert(this.expression, this.convert, output));
     }
 
     getConversionSequence(
@@ -282,7 +317,9 @@ export default class Convert extends Expression {
     getStartExplanations(locales: Locales, context: Context) {
         return locales.concretize(
             (l) => l.node.Convert.start,
-            new NodeRef(this.expression, locales, context),
+            {
+                expression: new NodeRef(this.expression, locales, context),
+            },
         );
     }
 
@@ -293,7 +330,9 @@ export default class Convert extends Expression {
     ) {
         return locales.concretize(
             (l) => l.node.Convert.finish,
-            this.getValueIfDefined(locales, context, evaluator),
+            {
+                value: this.getValueIfDefined(locales, context, evaluator),
+            },
         );
     }
 

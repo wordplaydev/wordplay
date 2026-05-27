@@ -14,8 +14,8 @@
     import { EMOJI_SYMBOL } from '@parser/Symbols';
     import { SvelteSet } from 'svelte/reactivity';
     import { writable } from 'svelte/store';
-    import FormattedLiteral from '../../nodes/FormattedLiteral';
-    import TextLiteral from '../../nodes/TextLiteral';
+    import FormattedLiteral from '@nodes/FormattedLiteral';
+    import TextLiteral from '@nodes/TextLiteral';
     import {
         setCaret,
         setHidden,
@@ -23,7 +23,7 @@
         setRoot,
         setShowLines,
         setSpaces,
-    } from './Contexts';
+    } from '@components/project/Contexts';
 
     interface Props {
         node: Node;
@@ -47,6 +47,8 @@
         lines?: boolean;
         /** Whether any particular nodes should be rendered as removed */
         removed?: Node[];
+        /** Nodes that should render as "…" instead of their full subtree. */
+        elided?: Node[];
     }
 
     let {
@@ -61,6 +63,7 @@
         editable = false,
         lines = false,
         removed = [],
+        elided = [],
     }: Props = $props();
 
     /** Get the root, or make one if it's not a source. */
@@ -70,9 +73,11 @@
     let rootContext = $state<{
         root: Root | undefined;
         removed: SvelteSet<Node>;
+        elided: SvelteSet<Node>;
     }>({
         root: undefined,
         removed: new SvelteSet<Node>(),
+        elided: new SvelteSet<Node>(),
     });
     setRoot(rootContext);
 
@@ -80,6 +85,8 @@
         rootContext.root = root;
         rootContext.removed.clear();
         for (const node of removed) rootContext.removed.add(node);
+        rootContext.elided.clear();
+        for (const node of elided) rootContext.elided.add(node);
     });
 
     // When the spaces change, update the rendered spaces
@@ -121,23 +128,81 @@
         showLines.set(lines);
     });
 
+    // Cache the language-tagged-nodes list per AST root. The hidden-locales
+    // effect below needs this list to decide which Names/Docs/TextLiteral/
+    // FormattedLiteral nodes to hide; without this cache it would call
+    // node.nodes(...) every time the effect runs (every caret move while
+    // typing in a localized region), which is an O(N) tree walk. Node trees
+    // are immutable, so the filter is stable per `node`; the WeakMap
+    // auto-evicts when the AST is replaced.
+    type TaggedNode = Names | Docs | TextLiteral | FormattedLiteral;
+    const taggedCache = new WeakMap<Node, TaggedNode[]>();
+    function getTaggedNodes(n: Node): TaggedNode[] {
+        let list = taggedCache.get(n);
+        if (list === undefined) {
+            list = n.nodes(
+                (m): m is TaggedNode =>
+                    m instanceof Names ||
+                    m instanceof Docs ||
+                    m instanceof TextLiteral ||
+                    m instanceof FormattedLiteral,
+            );
+            taggedCache.set(n, list);
+        }
+        return list;
+    }
+
+    // Cache key for the hidden-nodes effect. The effect's only caret-derived
+    // input is "which tagged node contains the caret"; most caret moves stay
+    // within the same tagged node (or none at all), so the answer is the
+    // same as last time. When the key matches, we skip rebuilding the hidden
+    // Set — which would otherwise run an O(tagged) caret.isIn() pass and
+    // fire hidden.set() to every NodeView subscriber.
+    let prevHiddenKey:
+        | {
+              node: Node;
+              localize: Locale | null;
+              elide: boolean;
+              inline: boolean;
+              taggedAtCaret: TaggedNode | undefined;
+          }
+        | undefined;
+
     // Update what's hidden when locales or localized changes.
     $effect(() => {
+        // Compute the (only) caret-derived input we care about: which tagged
+        // node contains the caret, if any. Stable across in-token caret moves.
+        const taggedList = getTaggedNodes(node);
+        const taggedAtCaret =
+            caret === undefined
+                ? undefined
+                : taggedList.find((t) => caret.isIn(t, true));
+
+        if (
+            prevHiddenKey !== undefined &&
+            prevHiddenKey.node === node &&
+            prevHiddenKey.localize === $localize &&
+            prevHiddenKey.elide === elide &&
+            prevHiddenKey.inline === inline &&
+            prevHiddenKey.taggedAtCaret === taggedAtCaret
+        )
+            return;
+
+        prevHiddenKey = {
+            node,
+            localize: $localize,
+            elide,
+            inline,
+            taggedAtCaret,
+        };
+
         const newHidden = new Set<Node>();
 
         // If the locale is not null, hide non-preferred locales
         if ($localize !== null) {
             // Hide any language tagged nodes that 1) the caret isn't in, and 2) either have no language tag or aren't the selected locale.
             // Also hide any separators if the first visible name has one.
-            for (const tagged of node
-                .nodes()
-                .filter(
-                    (n): n is Names | Docs | TextLiteral | FormattedLiteral =>
-                        n instanceof Names ||
-                        n instanceof Docs ||
-                        n instanceof TextLiteral ||
-                        n instanceof FormattedLiteral,
-                )) {
+            for (const tagged of taggedList) {
                 // Get the language tags on the nodes.
                 const tags = tagged.getTagged();
 
@@ -149,11 +214,14 @@
                 if (!inside) {
                     // Keep track of visible
                     let visible: LanguageTagged[] = [];
-                    const hasMatchingLanguage = tags.some(
-                        (l) => l.getLanguage() === $localize.language,
+                    // A tag matches the user's preferred language if ANY of its
+                    // languages does — `/en_es` belongs to both the `en` bucket
+                    // and the `es` bucket.
+                    const hasMatchingLanguage = tags.some((l) =>
+                        l.getLanguages().includes($localize.language),
                     );
                     const hasUntagged = tags.some(
-                        (l) => l.getLanguage() === undefined,
+                        (l) => l.getLanguages().length === 0,
                     );
                     const hasSymbolic =
                         $localize.language === EMOJI_SYMBOL &&
@@ -172,10 +240,10 @@
                         let priorVisible = false;
                         // Go through each language tagged node to see if we should hide it.
                         for (const nameDocOrText of tags) {
-                            const language = nameDocOrText.getLanguage();
+                            const languages = nameDocOrText.getLanguages();
                             const isSelected =
-                                $localize.language === language ||
-                                (language === undefined &&
+                                languages.includes($localize.language) ||
+                                (languages.length === 0 &&
                                     !hasMatchingLanguage) ||
                                 ($localize.language === EMOJI_SYMBOL &&
                                     nameDocOrText instanceof Name &&
@@ -187,7 +255,14 @@
                             // Is the selected language? Hide just the locale tag and any preceding separator.
                             else {
                                 visible.push(nameDocOrText);
-                                if (nameDocOrText.language)
+                                // Hide the tag for monolingual matches only —
+                                // multilingual tags (e.g. /es_en) stay visible
+                                // because the multilingualism itself is
+                                // information the reader needs.
+                                if (
+                                    nameDocOrText.language &&
+                                    !nameDocOrText.language.isMultilingual()
+                                )
                                     newHidden.add(nameDocOrText.language);
                                 // Hide the separator, if there is one.
                                 if (!priorVisible && nameDocOrText.separator)
@@ -200,8 +275,13 @@
                     else {
                         for (const tag of tags) visible.push(tag);
                     }
-                    // If there's only one visible, hide its language, as its redundant.
-                    if (visible.length === 1 && visible[0].language)
+                    // If there's only one visible, hide its language, as its
+                    // redundant — but keep multilingual tags visible.
+                    if (
+                        visible.length === 1 &&
+                        visible[0].language &&
+                        !visible[0].language.isMultilingual()
+                    )
                         newHidden.add(visible[0].language);
                 }
             }

@@ -4,25 +4,19 @@
     import Fonts from '@basis/Fonts';
     import type Chat from '@db/chats/ChatDatabase.svelte';
     import type Project from '@db/projects/Project';
-    import { getFaceCSS } from '@output/outputToCSS';
-    import { toStage } from '@output/Stage';
-    import { EXCEPTION_SYMBOL, PHRASE_SYMBOL } from '@parser/Symbols';
-    import Evaluator from '@runtime/Evaluator';
-    import ExceptionValue from '@values/ExceptionValue';
-    import StructureValue from '@values/StructureValue';
-    import type { Character } from '../../db/characters/Character';
-    import { characterToSVG } from '../../db/characters/Character';
-    import { Chats, Creators, DB, locales } from '../../db/Database';
-    import { isFlagged } from '../../db/projects/Moderation';
-    import { isAudience } from '../../db/projects/ModerationUtils';
-    import ConceptLink, { CharacterName } from '../../nodes/ConceptLink';
-    import UnicodeString from '../../unicode/UnicodeString';
-    import MarkupValue from '../../values/MarkupValue';
-    import Value from '../../values/Value';
-    import { getUser, isAuthenticated } from '../project/Contexts';
-    import CreatorView from './CreatorView.svelte';
-    import Link from './Link.svelte';
-    import Spinning from './Spinning.svelte';
+    import type { SerializedPreview } from '@db/projects/ProjectSchemas';
+    import { PHRASE_SYMBOL } from '@parser/Symbols';
+    import type { Character } from '@db/characters/Character';
+    import { characterToSVG } from '@db/characters/Character';
+    import { Chats, Creators, DB, locales, Projects } from '@db/Database';
+    import { getLocalizedProjectName } from '@db/projects/getLocalizedProjectName';
+    import { isFlagged } from '@db/projects/Moderation';
+    import { isAudience } from '@db/projects/ModerationUtils';
+    import { enqueuePreviewCompute } from '@db/projects/previewQueue';
+    import { getUser, isAuthenticated } from '@components/project/Contexts';
+    import CreatorView from '@components/app/CreatorView.svelte';
+    import Link from '@components/app/Link.svelte';
+    import Spinning from '@components/app/Spinning.svelte';
 
     interface Props {
         project: Project;
@@ -36,31 +30,10 @@
         children?: import('svelte').Snippet;
         anonymize?: boolean;
         showCollaborators?: boolean;
-    }
-
-    function findCharacterName(value: Value): string | null {
-        // If it's a MarkupValue, check for character links
-        if (value instanceof MarkupValue) {
-            const nodes = value.markup.nodes();
-            for (const node of nodes) {
-                if (node instanceof ConceptLink) {
-                    const parsed = ConceptLink.parse(node.getName());
-                    if (parsed instanceof CharacterName) {
-                        return `${parsed.username}/${parsed.name}`;
-                    }
-                }
-            }
-        }
-
-        // If it's a StructureValue, check all its fields recursively
-        if (value instanceof StructureValue) {
-            const bindings = value.context.getBindingsByNames();
-            for (const [, fieldValue] of bindings) {
-                const result = findCharacterName(fieldValue);
-                if (result) return result;
-            }
-        }
-        return null;
+        /** Search term for highlighting matches in project names */
+        searchTerm?: string;
+        /** Excerpt of matching source text to display when the match was not on the project name */
+        matchText?: string;
     }
 
     let {
@@ -72,71 +45,59 @@
         children,
         anonymize = true,
         showCollaborators = false,
+        searchTerm = '',
+        matchText = undefined,
     }: Props = $props();
 
-    // Clone the project and get its initial value, then stop the project's evaluator.
-    type Preview = {
-        representativeForeground: string | null;
-        representativeBackground: string | null;
-        representativeFace: string | null;
-        representativeText: string;
-        characterName: string | null;
-    };
+    // Preview is a pure read of the persisted project metadata. On cache
+    // miss the queue runs one compute at a time off the render path; we
+    // hold the result in component state until (and only until) we navigate
+    // away. Editable projects also get the result persisted so the next
+    // visit hits the cached path.
+    let displayed = $state<SerializedPreview | null>(null);
 
-    /** Derive the preview contents from the project by getting it's first value */
-    let {
-        representativeForeground,
-        representativeBackground,
-        representativeFace,
-        representativeText,
-        characterName,
-    }: Preview = $derived.by(() => {
-        const evaluator = new Evaluator(
-            project,
-            DB,
-            $locales.getLocales(),
-            false,
-        );
-        const value = evaluator.getInitialValue();
-        evaluator.stop();
-
-        // First, check if there's a character name in the value
-        const foundCharacterName = value ? findCharacterName(value) : null;
-
-        if (foundCharacterName) {
-            return {
-                representativeForeground: null,
-                representativeBackground: null,
-                representativeFace: null,
-                representativeText: '',
-                characterName: foundCharacterName,
-            };
+    $effect(() => {
+        const cached = project.getPreview();
+        if (cached) {
+            displayed = cached;
+            // Make sure the font for the cached face is loaded so the glyph
+            // renders in its intended typeface instead of falling back.
+            if (cached.face) Fonts.loadFace(cached.face);
+            return;
         }
 
-        // If no character found, proceed with regular representation
-        const stage = value ? toStage(evaluator, value) : undefined;
-        if (stage && stage.face) Fonts.loadFace(stage.face);
-
-        return {
-            representativeFace: stage ? getFaceCSS(stage.face) : null,
-            representativeForeground: stage
-                ? (stage.pose.color?.toCSS() ?? null)
-                : 'var(--wordplay-evaluation-color)',
-            representativeBackground: stage
-                ? stage.back.toCSS()
-                : value instanceof ExceptionValue || value === undefined
-                  ? 'var(--wordplay-error)'
-                  : null,
-            representativeText: stage
-                ? new UnicodeString(stage.getRepresentativeText($locales))
-                      .substring(0, 1)
-                      .toString()
-                : value
-                  ? value.getRepresentativeText($locales)
-                  : EXCEPTION_SYMBOL,
-            characterName: null,
+        // Cache miss — show the placeholder square while a worker computes
+        // the preview in the background.
+        displayed = null;
+        let cancelled = false;
+        enqueuePreviewCompute(project, $locales, DB)
+            .then((extracted) => {
+                if (cancelled) return;
+                const full: SerializedPreview = {
+                    mode: 'auto',
+                    ...extracted,
+                };
+                displayed = full;
+                if (extracted.face) Fonts.loadFace(extracted.face);
+                if (Projects.isEditable(project))
+                    Projects.setAutoPreview(project.getID(), extracted);
+            })
+            .catch(() => {
+                // Swallow — the placeholder square stays visible. Errors
+                // from the queue's evaluator are not user-actionable here.
+            });
+        return () => {
+            cancelled = true;
         };
     });
+
+    // Convenience derivations for the template — keep the same names as
+    // before so the markup below didn't need to change.
+    let representativeForeground = $derived(displayed?.foreground ?? null);
+    let representativeBackground = $derived(displayed?.background ?? null);
+    let representativeFace = $derived(displayed?.face ?? null);
+    let representativeText = $derived(displayed?.text ?? '');
+    let characterName = $derived(displayed?.characterName ?? null);
 
     // Add a state variable to hold the character
     let character = $state<Character | null>(null);
@@ -171,6 +132,7 @@
     const user = getUser();
 
     let path = $derived(link ?? project.getLink(true));
+
     /** See if this is a public project being viewed by someone who isn't a creator or collaborator */
     let audience = $derived(isAudience($user, project));
 
@@ -220,24 +182,45 @@
             style:font-size={`${Math.max(4, size - 3)}rem`}
             class:blurred={audience && isFlagged(project.getFlags())}
         >
-            {#if character}
+            {#if displayed === null}
+                <!-- No persisted preview yet; the queue is computing one. -->
+                <Spinning />
+            {:else if character}
                 {@html characterToSVG(character, '100%')}
             {:else}
                 {representativeText}
             {/if}
         </div>
     </a>
+    {#snippet highlighted(text: string)}
+        {#if searchTerm.trim()}
+            {@const index = text
+                .toLowerCase()
+                .indexOf(searchTerm.toLowerCase())}
+            {#if index !== -1}
+                {text.slice(0, index)}<mark class="search-highlight"
+                    >{text.slice(index, index + searchTerm.length)}</mark
+                >{text.slice(index + searchTerm.length)}
+            {:else}
+                {text}
+            {/if}
+        {:else}
+            {text}
+        {/if}
+    {/snippet}
+
     {#if name}
+        {@const localizedName = getLocalizedProjectName(project, $locales)}
         <div class="name">
             {#if action}
-                {project.getName()}
+                {@render highlighted(localizedName)}
             {:else}
                 <Link to={path}>
-                    {#if project.getName().length === 0}<em class="untitled"
+                    {#if localizedName.length === 0}<em class="untitled"
                             >&mdash;</em
                         >
                     {:else}
-                        {project.getName()}{/if}</Link
+                        {@render highlighted(localizedName)}{/if}</Link
                 >
                 {#if navigating && `${navigating.to?.url.pathname}${navigating.to?.url.search}` === path}
                     <Spinning />{:else}{@render children?.()}
@@ -269,6 +252,9 @@
             {/if}
             {#if unread}
                 <div class="notification">{PHRASE_SYMBOL}</div>
+            {/if}
+            {#if matchText}
+                <div class="match-text">{@render highlighted(matchText)}</div>
             {/if}
         </div>
     {/if}
@@ -307,6 +293,7 @@
     .name {
         display: flex;
         flex-direction: column;
+        gap: var(--wordplay-spacing);
     }
 
     .untitled {
@@ -356,8 +343,24 @@
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
-        margin-block-start: var(--wordplay-spacing);
         gap: var(--wordplay-spacing);
         row-gap: var(--wordplay-spacing);
+    }
+
+    .match-text {
+        font-size: var(--wordplay-small-font-size);
+        color: var(--wordplay-inactive-color);
+        font-style: italic;
+        max-width: 20em;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .search-highlight {
+        background-color: var(--wordplay-highlight-color);
+        color: var(--wordplay-foreground);
+        padding: 0 var(--wordplay-spacing);
+        border-radius: var(--wordplay-border-radius);
     }
 </style>

@@ -1,6 +1,8 @@
 <script lang="ts">
     import type ConceptLink from '@nodes/ConceptLink';
-    import NodeView, { type Format } from './NodeView.svelte';
+    import NodeView, {
+        type Format,
+    } from '@components/editor/nodes/NodeView.svelte';
 
     interface Props {
         node: ConceptLink;

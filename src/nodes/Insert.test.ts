@@ -3,10 +3,10 @@ import InvalidRow from '@conflicts/InvalidRow';
 import MissingCell from '@conflicts/MissingCell';
 import { testConflict } from '@conflicts/TestUtilities';
 import { expect, test } from 'vitest';
-import IncompatibleInput from '../conflicts/IncompatibleInput';
-import DefaultLocales from '../locale/DefaultLocales';
-import evaluateCode from '../runtime/evaluate';
-import Insert from './Insert';
+import IncompatibleInput from '@conflicts/IncompatibleInput';
+import DefaultLocales from '@locale/DefaultLocales';
+import evaluateCode from '@runtime/evaluate';
+import Insert from '@nodes/Insert';
 
 test.each([
     [

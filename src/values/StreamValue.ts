@@ -6,11 +6,11 @@ import type { StepNumber } from '@runtime/Evaluator';
 import ListValue from '@values/ListValue';
 import NoneValue from '@values/NoneValue';
 import type Value from '@values/Value';
-import type { BasisTypeName } from '../basis/BasisConstants';
-import type Locales from '../locale/Locales';
-import type Expression from '../nodes/Expression';
-import type StreamDefinition from '../nodes/StreamDefinition';
-import SimpleValue from './SimpleValue';
+import type { BasisTypeName } from '@basis/BasisConstants';
+import type Locales from '@locale/Locales';
+import type Expression from '@nodes/Expression';
+import type StreamDefinition from '@nodes/StreamDefinition';
+import SimpleValue from '@values/SimpleValue';
 
 export const MAX_STREAM_LENGTH = 256;
 

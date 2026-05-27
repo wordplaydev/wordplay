@@ -8,18 +8,18 @@ import ReservedSymbols from '@parser/ReservedSymbols';
 import { COMMA_SYMBOL } from '@parser/Symbols';
 import { OperatorRegEx } from '@parser/Tokenizer';
 import { EmojiRegex } from '@unicode/emoji';
-import { Purpose } from '../concepts/Purpose';
+import { Purpose } from '@concepts/Purpose';
 import { Emotion } from '../lore/Emotion';
-import type Context from './Context';
-import type Definition from './Definition';
-import Evaluate from './Evaluate';
-import Language from './Language';
-import { LanguageTagged } from './LanguageTagged';
-import NameToken from './NameToken';
-import type { Grammar, Replacement } from './Node';
-import Node, { node, optional } from './Node';
-import { Sym } from './Sym';
-import Token from './Token';
+import type Context from '@nodes/Context';
+import type Definition from '@nodes/Definition';
+import Evaluate from '@nodes/Evaluate';
+import Language from '@nodes/Language';
+import { LanguageTagged } from '@nodes/LanguageTagged';
+import NameToken from '@nodes/NameToken';
+import type { Grammar, Replacement } from '@nodes/Node';
+import Node, { node, optional } from '@nodes/Node';
+import { Sym } from '@nodes/Sym';
+import Token from '@nodes/Token';
 
 export default class Name extends LanguageTagged {
     readonly name: Token;
@@ -190,7 +190,9 @@ export default class Name extends LanguageTagged {
     }
 
     getDescriptionInputs() {
-        return [this.name.getText()];
+        return {
+            name: this.name.getText(),
+        };
     }
 
     getCharacter() {

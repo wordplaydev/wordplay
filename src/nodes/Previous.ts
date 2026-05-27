@@ -12,24 +12,24 @@ import NumberValue from '@values/NumberValue';
 import StreamValue from '@values/StreamValue';
 import TypeException from '@values/TypeException';
 import type Value from '@values/Value';
-import { Purpose } from '../concepts/Purpose';
-import IncompatibleInput from '../conflicts/IncompatibleInput';
-import type Locales from '../locale/Locales';
+import { Purpose } from '@concepts/Purpose';
+import IncompatibleInput from '@conflicts/IncompatibleInput';
+import type Locales from '@locale/Locales';
 import Characters from '../lore/BasisCharacters';
-import AnyType from './AnyType';
-import type Context from './Context';
-import Expression, { type GuardContext } from './Expression';
-import ListType from './ListType';
-import { node, optional, type Grammar, type Replacement } from './Node';
-import NoneType from './NoneType';
-import NumberType from './NumberType';
-import StreamType from './StreamType';
-import { Sym } from './Sym';
-import Token from './Token';
-import type Type from './Type';
-import type TypeSet from './TypeSet';
-import UnionType from './UnionType';
-import Unit from './Unit';
+import AnyType from '@nodes/AnyType';
+import type Context from '@nodes/Context';
+import Expression, { type GuardContext } from '@nodes/Expression';
+import ListType from '@nodes/ListType';
+import { node, optional, type Grammar, type Replacement } from '@nodes/Node';
+import NoneType from '@nodes/NoneType';
+import NumberType from '@nodes/NumberType';
+import StreamType from '@nodes/StreamType';
+import { Sym } from '@nodes/Sym';
+import Token from '@nodes/Token';
+import type Type from '@nodes/Type';
+import type TypeSet from '@nodes/TypeSet';
+import UnionType from '@nodes/UnionType';
+import Unit from '@nodes/Unit';
 
 export default class Previous extends Expression {
     readonly previous: Token;
@@ -120,11 +120,15 @@ export default class Previous extends Expression {
         const valueType = this.stream.getType(context);
         const streamType = context.getStreamType(valueType);
 
-        if (streamType === undefined)
+        if (
+            streamType === undefined &&
+            !context.isUnknownDownstream(this.stream)
+        )
             return [new IncompatibleInput(this, valueType, StreamType.make())];
 
         const indexType = this.number.getType(context);
         if (
+            !context.isUnknownDownstream(this.number) &&
             !(
                 indexType instanceof NumberType &&
                 indexType.unit instanceof Unit &&
@@ -214,7 +218,9 @@ export default class Previous extends Expression {
     getStartExplanations(locales: Locales, context: Context) {
         return locales.concretize(
             (l) => l.node.Previous.start,
-            new NodeRef(this.stream, locales, context),
+            {
+                stream: new NodeRef(this.stream, locales, context),
+            },
         );
     }
 
@@ -225,7 +231,9 @@ export default class Previous extends Expression {
     ) {
         return locales.concretize(
             (l) => l.node.Previous.finish,
-            this.getValueIfDefined(locales, context, evaluator),
+            {
+                value: this.getValueIfDefined(locales, context, evaluator),
+            },
         );
     }
 

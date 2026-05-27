@@ -2,7 +2,7 @@ import Translate from '@google-cloud/translate';
 import type LanguageCode from '@locale/LanguageCode';
 import type { RegionCode } from '@locale/Regions';
 import { ConceptRegExPattern, MentionRegEx } from '@parser/Tokenizer';
-import type Log from './Log';
+import type Log from '@util/verify-locales/Log';
 
 export const GoogleTranslate = new Translate.v2.Translate();
 
@@ -20,31 +20,41 @@ export default async function translate(
     let translations: string[] = [];
     for (const batch of sourceStringsBatches) {
         try {
-            // Create a Google Translate client
-            // Translate the strings
-            const [translatedBatch] = await GoogleTranslate.translate(batch, {
-                from: sourceLocale,
-                to: targetLocale,
-            });
-            translations = [
-                ...translations,
-                // Restore concepts in all of the translated strings.
-                ...translatedBatch
-                    .map((translation, index) =>
-                        restoreReferences(
-                            batch[index],
-                            translation,
-                            ConceptPattern,
-                        ),
-                    )
-                    .map((translation, index) =>
-                        restoreReferences(
-                            batch[index],
-                            translation,
-                            MentionPattern,
-                        ),
+            // Wrap every `\…\` code block, `@Concept` link, and `$name`
+            // mention in a no-translate span before sending. Translate
+            // guarantees verbatim preservation of nodes marked
+            // `translate="no"`, which keeps Google from transliterating
+            // `$expected` to `$المتوقع`, dropping `\` delimiters around
+            // examples, agglutinating suffixes onto concept names (Romanian
+            // `@Program-urile`, Bengali `@Doc-এ`), or otherwise garbling
+            // Wordplay-specific syntax. We strip the wrappers after.
+            const wrapped = batch.map(wrapProtected);
+            const [translatedBatch] = await GoogleTranslate.translate(
+                wrapped,
+                {
+                    from: sourceLocale,
+                    to: targetLocale,
+                    format: 'html',
+                },
+            );
+            const restored = translatedBatch
+                .map(unwrapProtected)
+                .map(decodeHtmlEntities)
+                // Restore concept links (`@Foo`) using order-based matching.
+                .map((translation, index) =>
+                    restoreReferences(
+                        batch[index],
+                        translation,
+                        ConceptPattern,
                     ),
-            ];
+                )
+                // Safety net: if the no-translate wrapper failed for any
+                // reason and a `$name` got mangled anyway, fall back to a
+                // positional repair against the source's mention list.
+                .map((translation, index) =>
+                    repairMentionsPositional(batch[index], translation),
+                );
+            translations = [...translations, ...restored];
             log.good(
                 2,
                 `Translated ${batch.length} strings from ${sourceLocale} to ${targetLocale} ...`,
@@ -55,6 +65,141 @@ export default async function translate(
         }
     }
     return translations;
+}
+
+/** Wrap each `$name` mention in a `<span translate="no">` so Google Translate
+ *  preserves it verbatim. Returns the wrapped string. The negative lookbehind
+ *  keeps `$$N` (literal-dollar escape) from being treated as a mention. */
+export function wrapMentions(text: string): string {
+    return text.replace(
+        new RegExp(`(?<!\\$)${MentionRegEx}`, 'gu'),
+        (m) => `<span translate="no">${m}</span>`,
+    );
+}
+
+/** Strip the wrappers we added in `wrapMentions`/`wrapProtected`, keeping their
+ *  inner text. Uses a non-greedy any-character match so code-block content with
+ *  `<` (e.g. comparisons like `2 < 3`) survives the round-trip. */
+export function unwrapMentions(text: string): string {
+    return text.replace(
+        /<span\s+translate="no">([\s\S]*?)<\/span>/g,
+        (_m, inner: string) => inner,
+    );
+}
+
+/** Backwards-compatible alias for `unwrapMentions` — the unwrap step is the
+ *  same regardless of which constructs were wrapped. */
+export const unwrapProtected = unwrapMentions;
+
+/** Walk a markup string and split it into alternating markup and code
+ *  segments. Code segments are delimited by `\`; the delimiters are kept on
+ *  the segment so wrapping preserves them verbatim. An unclosed trailing
+ *  segment is treated as code so its content (including the opening `\`) is
+ *  protected together. */
+function splitMarkupAndCode(
+    text: string,
+): Array<{ kind: 'markup' | 'code'; text: string }> {
+    const segments: Array<{ kind: 'markup' | 'code'; text: string }> = [];
+    let buffer = '';
+    let inCode = false;
+    for (const c of text) {
+        if (c === '\\') {
+            if (inCode) {
+                segments.push({ kind: 'code', text: '\\' + buffer + '\\' });
+                buffer = '';
+                inCode = false;
+            } else {
+                if (buffer.length > 0)
+                    segments.push({ kind: 'markup', text: buffer });
+                buffer = '';
+                inCode = true;
+            }
+        } else {
+            buffer += c;
+        }
+    }
+    if (buffer.length > 0 || inCode) {
+        segments.push({
+            kind: inCode ? 'code' : 'markup',
+            text: inCode ? '\\' + buffer : buffer,
+        });
+    }
+    return segments;
+}
+
+const PROTECT_OPEN = '<span translate="no">';
+const PROTECT_CLOSE = '</span>';
+
+/** Wrap each `\…\` code block, each `@Concept` link in markup, and each
+ *  `$name` mention in a `<span translate="no">` so Google Translate preserves
+ *  them verbatim. Code blocks are wrapped whole (delimiters included); concept
+ *  links and mentions inside code blocks are already protected by the
+ *  surrounding wrap and aren't double-wrapped. */
+export function wrapProtected(text: string): string {
+    const conceptPattern = new RegExp(ConceptRegExPattern, 'gu');
+    const mentionPattern = new RegExp(`(?<!\\$)${MentionRegEx}`, 'gu');
+    return splitMarkupAndCode(text)
+        .map((seg) => {
+            if (seg.kind === 'code')
+                return `${PROTECT_OPEN}${seg.text}${PROTECT_CLOSE}`;
+            return seg.text
+                .replace(
+                    conceptPattern,
+                    (m) => `${PROTECT_OPEN}${m}${PROTECT_CLOSE}`,
+                )
+                .replace(
+                    mentionPattern,
+                    (m) => `${PROTECT_OPEN}${m}${PROTECT_CLOSE}`,
+                );
+        })
+        .join('');
+}
+
+/** Decode the HTML entities Google Translate emits when `format: 'html'`. */
+export function decodeHtmlEntities(text: string): string {
+    return text
+        .replace(/&#(\d+);/g, (_m, code: string) =>
+            String.fromCodePoint(parseInt(code, 10)),
+        )
+        .replace(/&#x([0-9a-fA-F]+);/g, (_m, code: string) =>
+            String.fromCodePoint(parseInt(code, 16)),
+        )
+        .replace(/&quot;/g, '"')
+        .replace(/&apos;/g, "'")
+        .replace(/&lt;/g, '<')
+        .replace(/&gt;/g, '>')
+        .replace(/&amp;/g, '&');
+}
+
+/**
+ * Safety net for the no-translate wrapper. If the translated string ends up
+ * with the same *count* of mentions as the source but their text differs
+ * (e.g. transliterated, capitalized, or partially eaten), rewrite them
+ * positionally using the source's ordered mention list.
+ *
+ * Leaves the translation alone when counts disagree — those cases need
+ * human review, and the locale verifier will surface them.
+ */
+export function repairMentionsPositional(
+    before: string,
+    after: string,
+): string {
+    const sourceMentions = Array.from(
+        before.matchAll(new RegExp(MentionRegEx, 'gu')),
+    ).map((m) => m[0]);
+    if (sourceMentions.length === 0) return after;
+    // Find anything in `after` that starts with `$` and runs until the next
+    // whitespace, punctuation, or symbol — broader than `MentionRegEx` so we
+    // catch mangled non-ASCII tails like `$المتوقع`. The `\p{P}\p{S}` Unicode
+    // classes cover script-specific punctuation like Arabic comma `،`,
+    // Chinese 。, etc.
+    const looseRe = /(?<!\$)\$[^\s\p{P}\p{S}]+/gu;
+    const afterMentions = Array.from(after.matchAll(looseRe)).map((m) => m[0]);
+    if (afterMentions.length !== sourceMentions.length) return after;
+    // If every mention already matches the source order, nothing to do.
+    if (afterMentions.every((m, i) => m === sourceMentions[i])) return after;
+    let i = 0;
+    return after.replace(looseRe, () => sourceMentions[i++]);
 }
 
 export async function getGoogleTranslateTargetLocale(

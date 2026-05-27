@@ -1,18 +1,16 @@
 <script lang="ts">
-    import Link from '@components/app/Link.svelte';
+    import ConceptLinkUI from '@components/concepts/ConceptLinkUI.svelte';
+    import TypeView from '@components/concepts/TypeView.svelte';
+    import { copyNode } from '@components/editor/commands/Clipboard';
+    import { getConceptIndex, getDragged } from '@components/project/Contexts';
+    import RootView from '@components/project/RootView.svelte';
     import type Concept from '@concepts/Concept';
-    import GalleryHowConcept from '@concepts/GalleryHowConcept';
     import { blocks, locales } from '@db/Database';
     import Expression, { ExpressionKind } from '@nodes/Expression';
     import type Node from '@nodes/Node';
+    import type Type from '@nodes/Type';
     import getPreferredSpaces from '@parser/getPreferredSpaces';
-    import type Type from '../../nodes/Type';
-    import Spaces from '../../parser/Spaces';
-    import { copyNode } from '../editor/commands/Clipboard';
-    import { getConceptIndex, getDragged } from '../project/Contexts';
-    import RootView from '../project/RootView.svelte';
-    import ConceptLinkUI from './ConceptLinkUI.svelte';
-    import TypeView from './TypeView.svelte';
+    import Spaces from '@parser/Spaces';
 
     interface Props {
         node: Node;
@@ -37,7 +35,11 @@
         outline = true,
         elide = false,
         flip = false,
-        localize = true,
+        // Examples and concept-code views default to *not* filtering by the
+        // current locale — they are samples of code, so every translation
+        // should be visible. Callers that want locale-aware filtering can
+        // opt in by setting `localize`.
+        localize = false,
     }: Props = $props();
 
     let dragged = getDragged();
@@ -66,8 +68,15 @@
 </script>
 
 {#snippet code()}
-    <div class="code">
-        <div
+    <!-- `span` rather than `div` so the element is intrinsically inline.
+         Before scoped CSS applies on a hard refresh (the brief window
+         where the browser has parsed the HTML but not yet the `<style>`),
+         `<div>` would render as block and inline examples would briefly
+         stack vertically before settling. Spans default to `inline` and
+         the CSS below then upgrades them to `inline-flex` / `flex` /
+         `inline-block` without a layout shift. -->
+    <span class="code">
+        <span
             role="textbox"
             aria-label={$locales.getPlainText(
                 (l) => node.getLocalePath()(l).name,
@@ -84,10 +93,12 @@
                 node.getKind() === ExpressionKind.Definition}
             tabindex={draggable ? 0 : 0}
             onpointerdown={handlePointerDown}
-            onkeydown={(event) =>
-                event.key === 'c' && (event.ctrlKey || event.metaKey)
-                    ? copy()
-                    : undefined}
+            onkeydown={(event) => {
+                if (event.key === 'c' && (event.ctrlKey || event.metaKey)) {
+                    event.preventDefault();
+                    copy();
+                }
+            }}
             ><RootView
                 {node}
                 {inline}
@@ -96,30 +107,24 @@
                 {elide}
                 locale={localize ? $locales.getLocale() : null}
                 inert={!draggable}
-            /></div
+            /></span
         >{#if type && concept}&nbsp;<TypeView
                 {type}
                 context={concept.context}
             />
         {/if}
-    </div>
+    </span>
 {/snippet}
 
 {#snippet link()}
     {#if describe && concept}
-        <div class="link">
-            {#if concept instanceof GalleryHowConcept}
-                <Link to={concept.getPath()} external
-                    >{concept.getName($locales)}</Link
-                >
-            {:else}
-                <ConceptLinkUI link={concept} symbolic={false} />
-            {/if}
-        </div>
+        <span class="link">
+            <ConceptLinkUI link={concept} symbolic={false} />
+        </span>
     {/if}
 {/snippet}
 
-<div class="view">
+<span class="view">
     {#if flip}
         {@render link()}
         {@render code()}
@@ -127,13 +132,13 @@
         {@render code()}
         {@render link()}
     {/if}
-</div>
+</span>
 
 <style>
     .view {
         display: inline-flex;
         flex-direction: column;
-        touch-action: none;
+        touch-action: pan-y;
         gap: var(--wordplay-spacing);
     }
 
@@ -142,8 +147,8 @@
         vertical-align: middle;
         user-select: none;
 
-        /* Don't let iOS grab pointer move events, so we can do drag and drop. */
-        touch-action: none;
+        /* Allow vertical scroll of parent while still delivering pointer events for drag. */
+        touch-action: pan-y;
     }
 
     .outline {
@@ -184,7 +189,16 @@
         box-shadow: var(--color-shadow) 4px 4px 4px;
     }
 
+    /* Inline examples embedded in paragraph text (the only call site that
+       passes outline={false}). Give them a neutral rounded border and a
+       subtle alternating background so they're visually separated from
+       surrounding prose — names share the text color, so without this they
+       blur into the sentence. No padding: identifiers already carry their
+       own internal spacing. */
     .node:not(:global(.outline)) {
         border-radius: var(--wordplay-border-radius);
+        padding-left: var(--wordplay-spacing);
+        padding-right: var(--wordplay-spacing);
+        background: var(--wordplay-alternating-color);
     }
 </style>

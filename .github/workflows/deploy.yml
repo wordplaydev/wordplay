@@ -4,11 +4,19 @@ on:
         branches:
             - main
 jobs:
-    build_and_deploy:
+    unit:
+        uses: ./.github/workflows/unit.yml
+
+    playwright:
+        uses: ./.github/workflows/playwright.yml
+        secrets: inherit
+
+    deploy:
+        needs: [unit, playwright]
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v4
-            - uses: actions/setup-node@v3
+            - uses: actions/checkout@v5
+            - uses: actions/setup-node@v5
               with:
                   node-version: '22'
 
@@ -29,22 +37,11 @@ jobs:
             - run: echo "${{ secrets.ENV_PROD }}" > .env.wordplay-prod
               name: Copy environment variables
 
-              # Run unit tests, to make sure nothing fails.continue-on-error:
-            - run: npm test
-              name: Run unit tests
-
-            # Run Svelte check to make sure there are no accessibility warnings or type errors.
-            - run: npx svelte-kit sync
-              name: Sync svelte-kit
-            - run: npx svelte-check --tsconfig ./tsconfig.json .svelte-kit
-              name: Run svelte-check
-
-            # Run locale verification to make sure all locales are valid and up to date.
-            - run: npm run locales-ci
-              name: Verify locales
-
             # Deploy Firebase functions first, so they are ready for source to invoke.
-            - run: firebase deploy --only functions
+            - run: firebase deploy --only functions --project wordplay-prod
+
+            # Deploy Firestore rules and indexes so they match the hosted client.
+            - run: firebase deploy --only firestore --project wordplay-prod
 
             # Deploy to Firebase hosting
             - uses: FirebaseExtended/action-hosting-deploy@v0

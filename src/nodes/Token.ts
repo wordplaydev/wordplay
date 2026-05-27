@@ -1,22 +1,22 @@
 import type Locale from '@locale/Locale';
 import type { NodeDescriptor } from '@locale/NodeTexts';
-import { Purpose } from '../concepts/Purpose';
+import { Purpose } from '@concepts/Purpose';
 import {
     getLanguageQuoteOpen,
     getLanguageSecondaryQuote,
-} from '../locale/LanguageCode';
-import type Locales from '../locale/Locales';
-import type { LocaleTextAccessor, TemplateInput } from '../locale/Locales';
-import type LocaleText from '../locale/LocaleText';
+} from '@locale/LanguageCode';
+import type Locales from '@locale/Locales';
+import type { LocaleTextAccessor, TemplateInput } from '@locale/Locales';
+import type LocaleText from '@locale/LocaleText';
 import { Emotion } from '../lore/Emotion';
-import type Spaces from '../parser/Spaces';
-import { TextCloseByTextOpen } from '../parser/Tokenizer';
-import UnicodeString from '../unicode/UnicodeString';
-import type Context from './Context';
-import type Definition from './Definition';
-import Node, { type Grammar, type Replacement } from './Node';
-import type Root from './Root';
-import { Sym, type SymType } from './Sym';
+import type Spaces from '@parser/Spaces';
+import { TextCloseByTextOpen } from '@parser/Tokenizer';
+import UnicodeString from '@unicode/UnicodeString';
+import type Context from '@nodes/Context';
+import type Definition from '@nodes/Definition';
+import Node, { type Grammar, type Replacement } from '@nodes/Node';
+import type Root from '@nodes/Root';
+import { Sym, type SymType } from '@nodes/Sym';
 
 export default class Token extends Node {
     /** The one or more types of token this might represent. This is narrowed during parsing to one.*/
@@ -152,8 +152,8 @@ export default class Token extends Node {
             : parent.getChildPlaceholderLabel(this, locales, context, root);
     }
 
-    getDescriptionInputs(locales: Locales): TemplateInput[] {
-        return [getTokenLabel(this, locales), this.getText()];
+    getDescriptionInputs(locales: Locales): Record<string, TemplateInput> {
+        return { label: getTokenLabel(this, locales) };
     }
 
     localized(

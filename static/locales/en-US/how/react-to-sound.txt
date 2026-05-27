@@ -1,0 +1,22 @@
+Make characters grow with sound
+
+Did you know your project can listen to you? The @Volume @Stream uses your microphone to give us a number from \0\ (silent) to \1\ (loud).
+
+We can use that number to control anything — the size of a @Phrase, its rotation, its color.
+
+\
+Phrase('📣' size: (Volume() × 5m) + 1m)
+\
+
+When it's quiet, the megaphone is \1m\ tall. When you shout, it can grow up to \6m\ tall.
+
+Want a sun that spins faster the louder you are?
+
+\
+Phrase('🌞' rotation: Volume() × 360°)
+\
+
+Try clapping or humming and watch what happens.
+(Your computer may ask permission to use the microphone the first time.)
+
+count-with-time, follow-the-pointer

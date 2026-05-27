@@ -1,7 +1,7 @@
 import { testConflict } from '@conflicts/TestUtilities';
 import { test } from 'vitest';
-import IncompatibleInput from '../conflicts/IncompatibleInput';
-import UnaryEvaluate from './UnaryEvaluate';
+import IncompatibleInput from '@conflicts/IncompatibleInput';
+import UnaryEvaluate from '@nodes/UnaryEvaluate';
 
 test.each([
     ['~(1 > 1)', '~"hi"', UnaryEvaluate, IncompatibleInput],

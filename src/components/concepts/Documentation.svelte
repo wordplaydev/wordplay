@@ -7,11 +7,32 @@
     import HeaderAndExplanation from '@components/app/HeaderAndExplanation.svelte';
     import Spinning from '@components/app/Spinning.svelte';
     import Subheader from '@components/app/Subheader.svelte';
+    import TutorialHighlight from '@components/app/TutorialHighlight.svelte';
+    import CodeView from '@components/concepts/CodeView.svelte';
+    import ConceptGroupView from '@components/concepts/ConceptGroupView.svelte';
+    import ConceptLinkUI from '@components/concepts/ConceptLinkUI.svelte';
+    import ConceptsView from '@components/concepts/ConceptsView.svelte';
+    import ConceptView from '@components/concepts/ConceptView.svelte';
+    import FunctionConceptView from '@components/concepts/FunctionConceptView.svelte';
+    import HowConceptView from '@components/concepts/HowConceptView.svelte';
+    import NodeConceptView from '@components/concepts/NodeConceptView.svelte';
+    import StreamConceptView from '@components/concepts/StreamConceptView.svelte';
+    import StructureConceptView from '@components/concepts/StructureConceptView.svelte';
+    import {
+        getConceptIndex,
+        getConceptPath,
+        getDragged,
+        getUser,
+        type ConceptPath,
+    } from '@components/project/Contexts';
+    import getScrollParent from '@components/util/getScrollParent';
+    import Button from '@components/widgets/Button.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import Mode from '@components/widgets/Mode.svelte';
+    import Note from '@components/widgets/Note.svelte';
+    import TextField from '@components/widgets/TextField.svelte';
     import BindConcept from '@concepts/BindConcept';
     import type Concept from '@concepts/Concept';
-    import ConceptIndex from '@concepts/ConceptIndex';
     import ConversionConcept from '@concepts/ConversionConcept';
     import FunctionConcept from '@concepts/FunctionConcept';
     import GalleryHowConcept from '@concepts/GalleryHowConcept';
@@ -22,13 +43,23 @@
     import { Purpose, type PurposeType } from '@concepts/Purpose';
     import StreamConcept from '@concepts/StreamConcept';
     import StructureConcept from '@concepts/StructureConcept';
+    import {
+        Galleries,
+        HowTos,
+        Locales,
+        Projects,
+        blocks,
+        locales,
+    } from '@db/Database';
     import type Gallery from '@db/galleries/Gallery';
     import GalleryHowTo from '@db/howtos/HowToDatabase.svelte';
+    import type Project from '@db/projects/Project';
     import {
         getLanguageQuoteClose,
         getLanguageQuoteOpen,
     } from '@locale/LanguageCode';
     import CompositeLiteral from '@nodes/CompositeLiteral';
+    import ConceptLink from '@nodes/ConceptLink';
     import Expression from '@nodes/Expression';
     import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
     import Literal from '@nodes/Literal';
@@ -51,38 +82,8 @@
         TRUE_SYMBOL,
         TYPE_SYMBOL,
     } from '@parser/Symbols';
-    import { onDestroy, tick, untrack } from 'svelte';
-    import {
-        Galleries,
-        HowTos,
-        Locales,
-        Projects,
-        blocks,
-        locales,
-    } from '../../db/Database';
-    import type Project from '../../db/projects/Project';
-    import ConceptLink from '../../nodes/ConceptLink';
-    import TutorialHighlight from '../app/TutorialHighlight.svelte';
-    import {
-        getConceptIndex,
-        getConceptPath,
-        getDragged,
-        type ConceptPath,
-    } from '../project/Contexts';
-    import getScrollParent from '../util/getScrollParent';
-    import Button from '../widgets/Button.svelte';
-    import Note from '../widgets/Note.svelte';
-    import TextField from '../widgets/TextField.svelte';
-    import CodeView from './CodeView.svelte';
-    import ConceptGroupView from './ConceptGroupView.svelte';
-    import ConceptLinkUI from './ConceptLinkUI.svelte';
-    import ConceptsView from './ConceptsView.svelte';
-    import ConceptView from './ConceptView.svelte';
-    import FunctionConceptView from './FunctionConceptView.svelte';
-    import HowConceptView from './HowConceptView.svelte';
-    import NodeConceptView from './NodeConceptView.svelte';
-    import StreamConceptView from './StreamConceptView.svelte';
-    import StructureConceptView from './StructureConceptView.svelte';
+    import { onDestroy, tick } from 'svelte';
+    import HowToConceptView from './HowToConceptView.svelte';
 
     interface Props {
         project: Project;
@@ -108,6 +109,8 @@
     function isContentPurpose(p: PurposeType): p is ContentPurpose {
         return (contentPurposes as readonly PurposeType[]).includes(p);
     }
+
+    const user = getUser();
 
     /**
      * The palette is hybrid documentation/drag and drop palette, organized by types.
@@ -157,11 +160,18 @@
     });
 
     // get the user generated how-tos that are in a gallery, if the gallery exists
-    let galleryHowTos = $state<GalleryHowTo[]>([]);
-    let gallery: Gallery | undefined = $state(undefined);
-    $effect(() => {
-        const galleryID: string | null = project.getGallery();
 
+    // determine if the guide will only show how-tos from the project's gallery
+    // or if it will show all how-tos that the user has access to
+    let galleryOnly: boolean = $state(false);
+    $effect(() => {
+        galleryOnly = project.getGallery() == null && !standalone;
+    });
+
+    let galleryID: string | null = $derived(project.getGallery());
+    let gallery: Gallery | undefined = $state(undefined);
+    let galleryHowTos: GalleryHowTo[] = $state([]);
+    $effect(() => {
         if (galleryID) {
             Galleries.get(galleryID).then((gal) => {
                 // Found a store? Subscribe to it, updating the gallery when it changes.
@@ -184,18 +194,54 @@
                     }
                 },
             );
-        } else if (standalone) {
-            galleryHowTos = HowTos.allAccessiblePublishedHowTos;
         }
     });
 
-    $effect(() => {
-        if (howTos && indexContext && galleryHowTos) {
-            indexContext.index = untrack(() =>
-                ConceptIndex.make(project, $locales, howTos, galleryHowTos),
-            );
-        }
-    });
+    let allBookmarks: GalleryHowTo[] = $derived(
+        HowTos.allAccessiblePublishedHowTos.filter((ht) =>
+            ht.hasBookmarker($user?.uid ?? ''),
+        ),
+    );
+
+    // order of how-tos shown in the Guide panel
+    // 1: all bookmarked how-tos first
+    // 2: then how-tos from the gallery that the project is in, if applicable (must be in project view and project must be in gallery)
+    // 3: then all other how-tos, if applicable (if filter is set to all, project is not in gallery, or )
+    let galleryHowConcepts: GalleryHowConcept[] = $derived(
+        index
+            ? (galleryID && galleryOnly
+                  ? [...galleryHowTos, ...allBookmarks]
+                  : HowTos.allAccessiblePublishedHowTos
+              )
+                  .map((ht) => index.getGalleryHowConcept(ht.getHowToId()))
+                  .filter((c): c is GalleryHowConcept => c !== undefined)
+                  .toSorted((a, b) => {
+                      let aBookmarked = a.howTo.hasBookmarker($user?.uid ?? '');
+                      let bBookmarked = b.howTo.hasBookmarker($user?.uid ?? '');
+
+                      if (aBookmarked && !bBookmarked) {
+                          return -1;
+                      } else if (!aBookmarked && bBookmarked) {
+                          return 1;
+                      } else if (galleryID) {
+                          let aInGallery =
+                              a.howTo.getHowToGalleryId() === galleryID;
+                          let bInGallery =
+                              b.howTo.getHowToGalleryId() === galleryID;
+
+                          if (aInGallery && !bInGallery) {
+                              return -1;
+                          } else if (!aInGallery && bInGallery) {
+                              return 1;
+                          } else {
+                              return 0;
+                          }
+                      } else {
+                          return 0;
+                      }
+                  })
+            : [],
+    );
 
     // When the path changes, reset the query
     const queryResetUnsub = path.subscribe(() => {
@@ -303,26 +349,30 @@
 <svelte:window onblur={() => dragged?.set(undefined)} />
 
 <div class="header">
-    <TextField
-        id="concept-search"
-        placeholder={SEARCH_SYMBOL}
-        description={(l) => l.ui.docs.field.search}
-        bind:text={query}
-        fill
-    />
-    {#if query.length === 0}
-        <Mode
-            modes={(l) => l.ui.docs.mode.browse}
-            icons={[DOCUMENTATION_SYMBOL, IDEA_SYMBOL]}
-            choice={Modes.indexOf(mode)}
-            select={(choice) => {
-                const newMode = Modes[choice];
-                if (mode !== newMode) {
-                    mode = newMode;
-                    path.set([]);
-                }
-            }}
+    <span data-uiid="docsSearch" class="search-wrap">
+        <TextField
+            id="concept-search"
+            placeholder={SEARCH_SYMBOL}
+            description={(l) => l.ui.docs.field.search}
+            bind:text={query}
+            fill
         />
+    </span>
+    {#if query.length === 0}
+        <span data-uiid="docsModeToggle">
+            <Mode
+                modes={(l) => l.ui.docs.mode.browse}
+                icons={[DOCUMENTATION_SYMBOL, IDEA_SYMBOL]}
+                choice={Modes.indexOf(mode)}
+                select={(choice) => {
+                    const newMode = Modes[choice];
+                    if (mode !== newMode) {
+                        mode = newMode;
+                        path.set([]);
+                    }
+                }}
+            />
+        </span>
         {#if mode === 'language'}
             <Mode
                 modes={(l) => l.ui.docs.mode.purpose}
@@ -377,6 +427,7 @@
 <section
     class="documentation"
     data-testid="documentation"
+    data-uiid="documentation"
     aria-label={$locales.getPlainText((l) => l.ui.docs.label)}
     onpointerup={handleDrop}
     bind:this={view}
@@ -445,6 +496,8 @@
                     <NodeConceptView concept={currentConcept} />
                 {:else if currentConcept instanceof HowConcept}
                     <HowConceptView concept={currentConcept} />
+                {:else if currentConcept instanceof GalleryHowConcept}
+                    <HowToConceptView concept={currentConcept} />
                 {:else}
                     <CodeView
                         node={currentConcept.getRepresentation($locales)}
@@ -457,15 +510,21 @@
                     {#if howTos === undefined}
                         <Spinning></Spinning>
                     {:else}
-                        {#if galleryHowTos.length > 0}
-                            {@const galleryHow = index.concepts.filter(
-                                (c) => c instanceof GalleryHowConcept,
-                            )}
+                        {#if !standalone && gallery}
+                            <Mode
+                                modes={(l) => l.ui.docs.mode.howToFilter}
+                                choice={galleryOnly ? 1 : 0}
+                                select={(choice) => {
+                                    galleryOnly = choice === 1;
+                                }}
+                            />
+                        {/if}
+                        {#if galleryHowConcepts.length > 0}
                             <Subheader
                                 text={(l) => l.ui.docs.how.category.gallery}
                             />
                             <div class="howtos">
-                                {#each galleryHow as how}
+                                {#each galleryHowConcepts as how}
                                     <CodeView
                                         node={how.getRepresentation()}
                                         concept={how}
@@ -712,11 +771,16 @@
         margin-right: var(--wordplay-spacing-half);
     }
 
+    /* The search field's parent needs to be block so the field fills width. */
+    .search-wrap {
+        display: block;
+    }
+
     .path {
         display: flex;
         flex-direction: row;
         flex-wrap: nowrap;
-        overflow-x: scroll;
+        overflow-x: auto;
         font-size: var(--wordplay-small-font-size);
         gap: var(--wordplay-spacing);
         padding-left: var(--wordplay-spacing);

@@ -7,8 +7,8 @@ import type { FieldPosition } from '@nodes/Node';
 import Reference from '@nodes/Reference';
 import type Source from '@nodes/Source';
 import Token from '@nodes/Token';
-import type { Edit } from '../../components/editor/commands/Commands';
-import Revision from '../revision/Revision';
+import type { Edit } from '@components/editor/commands/Commands';
+import Revision from '@edit/revision/Revision';
 
 /** The first number is the selected revision or revision set, the second number is the optional revision in a selected revision set. */
 export type MenuSelection = [number, number | undefined];

@@ -1,0 +1,19 @@
+Buat karakter menjadi animasi.
+
+Karakter dapat memiliki animasi istirahat yang berulang saat mereka tidak bergerak.
+
+Sebagai contoh, mari kita buat kucing ini menari sedikit dengan membuatnya berputar dan bergeser:
+
+\Phrase('🐈' resting: Sequence({
+			0%: Pose(rotation: 0°)
+			15%: Pose(rotation: 15°)
+			30%: Pose(rotation: 0°)
+			45%: Pose(offset: Place(-0.25m))
+			60%: Pose(offset: Place(0.25m))
+			75%: Pose(offset: Place(-0.25m))
+			90%: Pose(offset: Place(0m))
+		} 2s))\
+
+Contoh ini menggunakan sebuah  @Sequence  dari yang berbeda  @Pose .
+
+move-phrase, shake-phrase

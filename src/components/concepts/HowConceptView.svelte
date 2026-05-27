@@ -3,8 +3,8 @@
     import Speech from '@components/lore/Speech.svelte';
     import type HowConcept from '@concepts/HowConcept';
     import { locales } from '@db/Database';
-    import ConceptLinkUI from './ConceptLinkUI.svelte';
-    import MarkupHTMLView from './MarkupHTMLView.svelte';
+    import ConceptLinkUI from '@components/concepts/ConceptLinkUI.svelte';
+    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
 
     interface Props {
         concept: HowConcept;

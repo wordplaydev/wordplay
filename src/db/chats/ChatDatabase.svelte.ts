@@ -8,12 +8,15 @@ import type Project from '@db/projects/Project';
 import { FirebaseError } from 'firebase/app';
 import type { Unsubscribe, User } from 'firebase/auth';
 import {
+    arrayRemove,
+    arrayUnion,
     collection,
     deleteDoc,
     doc,
     getDoc,
     onSnapshot,
     query,
+    runTransaction,
     setDoc,
     updateDoc,
     where,
@@ -299,7 +302,14 @@ export class ChatDatabase {
         this.howToListener = this.handleRevisedHowTo.bind(this);
     }
 
-    /** Take the given chat and update it's state locally, and optionally remotely. */
+    /**
+     * Update the chat's state locally and optionally write the entire document
+     * remotely. Full-doc writes are vulnerable to lost updates when multiple
+     * participants act concurrently — prefer the granular methods below
+     * (addMessage, markChatRead, reportMessage, moderateMessage, deleteMessage,
+     * setChatParticipants) for any operation that races with other writers.
+     * Persisting here is reserved for hydration and bootstrap paths.
+     */
     async updateChat(chat: Chat, persist: boolean) {
         const projectID = chat.getProjectID();
 
@@ -322,18 +332,131 @@ export class ChatDatabase {
 
         // If asked to persist, update remotely.
         if (persist && firestore) {
-            await updateDoc(
-                doc(firestore, ChatsCollection, chat.getProjectID()),
-                chat.getData(),
+            await this.db.track(
+                updateDoc(
+                    doc(firestore, ChatsCollection, chat.getProjectID()),
+                    chat.getData(),
+                ),
             );
         }
+    }
+
+    /**
+     * Atomically append a message to a chat and refresh the unread list.
+     * arrayUnion on `messages` lets concurrent senders accumulate rather than
+     * overwrite each other; `unread` is computed from the chat's known
+     * participants and will be re-corrected by the next syncParticipants pass
+     * if the list was briefly stale.
+     */
+    private async writeAtomicChat(
+        chatID: string,
+        updates: Record<string, unknown>,
+    ) {
+        if (firestore === undefined) return;
+        await this.db.track(
+            updateDoc(doc(firestore, ChatsCollection, chatID), updates),
+        );
+    }
+
+    /**
+     * Atomically replace a specific message in the messages array, using a
+     * transaction so concurrent message additions aren't clobbered. The
+     * `transform` returns the new message body to substitute for the matching
+     * message id; if no message matches, the transaction is a no-op.
+     */
+    private async modifyChatMessage(
+        chatID: string,
+        messageID: string,
+        transform: (m: SerializedMessage) => SerializedMessage,
+    ) {
+        if (firestore === undefined) return;
+        const chatRef = doc(firestore, ChatsCollection, chatID);
+        await this.db.track(
+            runTransaction(firestore, async (tx) => {
+                const snap = await tx.get(chatRef);
+                if (!snap.exists()) return;
+                const current = upgradeChat(
+                    snap.data() as SerializedChatUnknownVersion,
+                );
+                const messages = current.messages.map((m) =>
+                    m.id === messageID ? transform(m) : m,
+                );
+                tx.update(chatRef, { messages });
+            }),
+        );
+    }
+
+    /** Atomically remove a UID from the unread list. */
+    async markChatRead(chat: Chat, uid: string) {
+        // Optimistic local update.
+        this.chats.set(chat.getProjectID(), chat.asRead(uid));
+        await this.writeAtomicChat(chat.getProjectID(), {
+            unread: arrayRemove(uid),
+        });
+    }
+
+    /**
+     * Atomically replace the chat's participants list. Used by the participant
+     * sync paths; only writes the participants field so messages/unread are
+     * unaffected.
+     */
+    async setChatParticipants(chat: Chat, participants: string[]) {
+        const updated = new Chat({ ...chat.getData(), participants });
+        this.chats.set(chat.getProjectID(), updated);
+        await this.writeAtomicChat(chat.getProjectID(), { participants });
+    }
+
+    /** Mark a message as reported (pending moderation). */
+    async reportMessage(
+        chat: Chat,
+        message: SerializedMessage,
+        reporterID: string,
+    ) {
+        this.chats.set(
+            chat.getProjectID(),
+            chat.withReportedMessage(message, reporterID),
+        );
+        await this.modifyChatMessage(chat.getProjectID(), message.id, (m) => ({
+            ...m,
+            moderation: 'pending',
+            reporter: reporterID,
+        }));
+    }
+
+    /** Apply a moderator's removal/approval to a message. */
+    async moderateMessage(
+        chat: Chat,
+        message: SerializedMessage,
+        action: 'removed' | 'approved',
+        moderatorID: string,
+    ) {
+        this.chats.set(
+            chat.getProjectID(),
+            chat.withModeratedMessage(message, action, moderatorID),
+        );
+        await this.modifyChatMessage(chat.getProjectID(), message.id, (m) => ({
+            ...m,
+            moderation: action,
+            moderator: moderatorID,
+        }));
+    }
+
+    /** Clear a message's text (soft delete that preserves the message slot). */
+    async deleteMessage(chat: Chat, message: SerializedMessage) {
+        this.chats.set(chat.getProjectID(), chat.withoutMessage(message));
+        await this.modifyChatMessage(chat.getProjectID(), message.id, (m) => ({
+            ...m,
+            text: null,
+        }));
     }
 
     async deleteChat(projectID: string) {
         this.chats.delete(projectID);
         if (firestore) {
             try {
-                await deleteDoc(doc(firestore, ChatsCollection, projectID));
+                await this.db.track(
+                    deleteDoc(doc(firestore, ChatsCollection, projectID)),
+                );
             } catch (err) {
                 console.error(err);
             }
@@ -380,9 +503,11 @@ export class ChatDatabase {
         // Add the chat to Firebase, relying on the realtime listener to update the local cache.
         try {
             // Create the document.
-            await setDoc(
-                doc(firestore, ChatsCollection, newChat.project),
-                newChat,
+            await this.db.track(
+                setDoc(
+                    doc(firestore, ChatsCollection, newChat.project),
+                    newChat,
+                ),
             );
 
             // Add the chat to the chats cache, but not remotely; we just created it.
@@ -426,9 +551,11 @@ export class ChatDatabase {
         // Add the chat to Firebase, relying on the realtime listener to update the local cache.
         try {
             // Create the document.
-            await setDoc(
-                doc(firestore, ChatsCollection, newChat.project),
-                newChat,
+            await this.db.track(
+                setDoc(
+                    doc(firestore, ChatsCollection, newChat.project),
+                    newChat,
+                ),
             );
 
             // Add the chat to the chats cache, but not remotely; we just created it.
@@ -511,14 +638,7 @@ export class ChatDatabase {
 
         // If they're not updated, update them.
         if (currentChatParticipantsString !== intendedChatParticipants.join()) {
-            // Update the chat with the new list of contributors.
-            this.updateChat(
-                new Chat({
-                    ...chat.getData(),
-                    participants: intendedChatParticipants,
-                }),
-                true,
-            );
+            this.setChatParticipants(chat, intendedChatParticipants);
         }
     }
 
@@ -559,14 +679,7 @@ export class ChatDatabase {
 
         // If they're not updated, update them.
         if (currentChatParticipantsString !== intendedChatParticipants.join()) {
-            // Update the chat with the new list of contributors.
-            this.updateChat(
-                new Chat({
-                    ...chat.getData(),
-                    participants: intendedChatParticipants,
-                }),
-                true,
-            );
+            this.setChatParticipants(chat, intendedChatParticipants);
         }
     }
 
@@ -632,8 +745,21 @@ export class ChatDatabase {
             creator: user,
         };
 
-        // Perist the revised chat, but don't wait for the remote update.
-        this.updateChat(chat.withMessage(newMessage), true);
+        // Optimistic local update so the sender sees their message immediately.
+        this.chats.set(chat.getProjectID(), chat.withMessage(newMessage));
+
+        // Atomic field operations on the server: arrayUnion lets concurrent
+        // senders accumulate messages, and unread is recomputed from the
+        // currently-known participants minus the sender. If the participants
+        // list shifts concurrently with the message add, the next sync pass
+        // will re-derive unread correctly.
+        this.writeAtomicChat(chat.getProjectID(), {
+            messages: arrayUnion(newMessage),
+            unread: chat
+                .getEligibleParticipants()
+                .filter((p) => p !== user),
+        });
+
         return newMessage;
     }
 

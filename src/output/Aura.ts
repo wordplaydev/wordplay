@@ -5,12 +5,12 @@ import Evaluate from '@nodes/Evaluate';
 import Reference from '@nodes/Reference';
 import StructureValue from '@values/StructureValue';
 import type Value from '@values/Value';
-import type Project from '../db/projects/Project';
-import type LocaleText from '../locale/LocaleText';
-import type Color from './Color';
-import { toColor } from './Color';
-import { toNumber } from './Stage';
-import Valued, { getOutputInputs } from './Valued';
+import type Project from '@db/projects/Project';
+import type LocaleText from '@locale/LocaleText';
+import type Color from '@output/Color';
+import { toColor } from '@output/Color';
+import { toNumber } from '@output/Stage';
+import Valued, { getOutputInputs } from '@output/Valued';
 
 export function createAuraType(locales: Locales) {
     return toStructure(`

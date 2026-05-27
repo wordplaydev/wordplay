@@ -7,7 +7,7 @@ import type Caret from '@edit/caret/Caret';
 import type { CaretPosition } from '@edit/caret/Caret';
 import type { AssignmentPoint, InsertionPoint } from '@edit/drag/Drag';
 import type Locale from '@locale/Locale';
-import type { LocaleTextAccessor } from '@locale/Locales';
+import type { LocaleTextAccessor, LocaleTextsAccessor } from '@locale/Locales';
 import type Node from '@nodes/Node';
 import type { FieldPosition } from '@nodes/Node';
 import type Root from '@nodes/Root';
@@ -19,14 +19,14 @@ import type Step from '@runtime/Step';
 import type { User } from 'firebase/auth';
 import { createContext, getContext, setContext } from 'svelte';
 import { type Writable } from 'svelte/store';
-import type LanguageCode from '../../locale/LanguageCode';
+import type LanguageCode from '@locale/LanguageCode';
 import type {
     CommandContext,
     Edit,
     ProjectRevision,
-} from '../editor/commands/Commands';
-import type { Highlights } from '../editor/highlights/Highlights';
-import type SelectedOutput from './SelectedOutput.svelte';
+} from '@components/editor/commands/Commands';
+import type { Highlights } from '@components/editor/highlights/Highlights';
+import type SelectedOutput from '@components/project/SelectedOutput.svelte';
 
 /** A helper for creating an optional context. Svelte's createContext throws if the context is not set. */
 function createOptionalContext<T>(): [() => T | undefined, (value: T) => void] {
@@ -55,7 +55,21 @@ export function isAuthenticated(user: PossibleUser): user is User {
 
 // Localization context
 
-export const [getLocalizing, setLocalizing] = createContext<{ on: boolean }>();
+export const [getLocalizing, setLocalizing] = createContext<{
+    on: boolean;
+    focused: LocaleTextsAccessor | undefined;
+}>();
+
+/** Communication channel from a `<Link>` to a `<LocalizedText>` rendered inside
+ *  it. The child registers its locale path here; the parent uses that path to
+ *  render an edit affordance *beside* the anchor instead of inside it. Putting
+ *  a button inside an anchor is invalid HTML and blocks navigation — this lets
+ *  the link stay a plain hyperlink while still being editable in localize mode. */
+export type LinkLocalizeContext = {
+    register: (path: LocaleTextAccessor | undefined) => void;
+};
+export const [getLinkLocalize, setLinkLocalize] =
+    createOptionalContext<LinkLocalizeContext>();
 
 /**
  * These are lists of announcements rendered invisiblily in the project view
@@ -70,7 +84,7 @@ export type AnnouncerContext =
       ) => void)
     | undefined;
 export const [getAnnouncer, setAnnouncer] =
-    createContext<Writable<AnnouncerContext>>();
+    createOptionalContext<Writable<AnnouncerContext>>();
 
 /** Whether the site is in fullscreen mode. */
 export type FullscreenContext = Writable<{
@@ -102,6 +116,16 @@ export type IdleKind = (typeof IdleKind)[keyof typeof IdleKind];
 /** The current keyboard edit idle state in a ProjectView. */
 export const [getKeyboardEditIdle, setKeyboardEditIdle] =
     createOptionalContext<Writable<IdleKind>>();
+
+/**
+ * A function that resets the keyboard idle timer without writing to the
+ * keyboardEditIdle store. Editors call this on every keystroke (so the
+ * 1s idle timeout debounces correctly) while leaving the store alone when
+ * the idle state hasn't transitioned — that prevents a fanout of
+ * idempotent subscriber re-runs across every typed character.
+ */
+export const [getResetKeyboardIdle, setResetKeyboardIdle] =
+    createOptionalContext<() => void>();
 
 export type KeyModifierState = {
     control: boolean;
@@ -141,6 +165,10 @@ export type EditHandler = (
 ) => Promise<void>;
 export type EditorState = {
     caret: Caret;
+    /** A snapshot of the caret that lags the live one and only catches up on
+     * idle or discrete (non-repeat) input events. Use this when driving UI
+     * that should remain stable during rapid input flurries. */
+    displayedCaret: Caret;
     sourceID: string;
     project: Project;
     edit: EditHandler;
@@ -149,14 +177,18 @@ export type EditorState = {
     toggleMenu: () => void;
     grabFocus: (message: string) => void;
     setCaretPosition: (position: CaretPosition) => void;
+    /** Invalidate the editor's cached highlight measurements and remeasure.
+     * Call after a descendant changes its rendered shape (e.g. an elided
+     * sequence expanded/collapsed) so selection outlines don't go stale. */
+    refreshHighlights: () => void;
     zoom: number;
     setZoom: (z: number) => void;
 };
 export const [getEditors, setEditors] =
-    createContext<Writable<Map<string, EditorState>>>();
+    createOptionalContext<Writable<Map<string, EditorState>>>();
 
 /** The latest conflicts computed for a project. */
-export const [getConflicts, setConflicts] = createContext<
+export const [getConflicts, setConflicts] = createOptionalContext<
     Writable<Conflict[]> | undefined
 >();
 
@@ -172,8 +204,11 @@ export const [getCaret, setCaret] = createOptionalContext<
     Writable<Caret> | undefined
 >();
 
-/** The current editor, inside an Editor view. */
-export const [getEditor, setEditor] = createContext<Writable<EditorState>>();
+/** The current editor, inside an Editor view. Optional because RootView is
+ * also rendered outside any Editor (e.g. inside menu items, docs previews),
+ * where descendants like NodeSequenceView still call getEditor(). */
+export const [getEditor, setEditor] =
+    createOptionalContext<Writable<EditorState>>();
 
 /** The current drag target being rendered. */
 export const [getDragTarget, setDragTarget] = createOptionalContext<
@@ -199,6 +234,9 @@ export const [getSetMenuAnchor, setSetMenuAnchor] =
 export const [getRoot, setRoot] = createOptionalContext<{
     root: Root | undefined;
     removed: Set<Node>;
+    /** Nodes that should render as a single ellipsis ("…") instead of their
+     *  full subtree. Used in menu item previews to elide large unchanged code. */
+    elided: Set<Node>;
 }>();
 
 /** White space of the root */

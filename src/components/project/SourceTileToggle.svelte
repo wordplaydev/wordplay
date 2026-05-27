@@ -4,10 +4,10 @@
     import Templates from '@concepts/Templates';
     import type Project from '@db/projects/Project';
     import type Source from '@nodes/Source';
-    import { locales } from '../../db/Database';
+    import { locales } from '@db/Database';
     import Characters from '../../lore/BasisCharacters';
-    import Toggle from '../widgets/Toggle.svelte';
-    import { getConflicts } from './Contexts';
+    import Toggle from '@components/widgets/Toggle.svelte';
+    import { getConflicts } from '@components/project/Contexts';
 
     interface Props {
         project: Project;
@@ -28,11 +28,11 @@
         let newCount = 0;
         if ($conflicts) {
             for (const conflict of $conflicts) {
-                const nodes = conflict.getMessage(
+                const node = conflict.getConflictingNode(
                     project.getContext(source),
                     Templates,
                 );
-                if (source.has(nodes.node)) {
+                if (source.has(node)) {
                     if (!conflict.isMinor()) newCount++;
                 }
             }
@@ -47,12 +47,14 @@
         >{/if}
     {#if conflictCount === 0}<Emoji>{Characters.Program.symbols}</Emoji>{/if}
     <!-- Only one source? Use a label to indicate that this is where the code is. Otherwise, use the source names. -->
-    {#if project.getSources().length > 1}{$locales.getName(
-            source.names,
-        )}{:else}<em
-            ><LocalizedText path={(locale) => locale.term.code}
-            ></LocalizedText></em
-        >{/if}
+    <span class="toggle-label"
+        >{#if project.getSources().length > 1}{$locales.getName(
+                source.names,
+            )}{:else}<em
+                ><LocalizedText path={(locale) => locale.term.code}
+                ></LocalizedText></em
+            >{/if}</span
+    >
 </Toggle>
 
 <style>

@@ -2,16 +2,16 @@ import { BlockKind } from '@nodes/Block';
 import Borrow from '@nodes/Borrow';
 import Program from '@nodes/Program';
 import { Sym } from '@nodes/Sym';
-import type Tokens from './Tokens';
-import { parseBlock, parseDocs, parseReference } from './parseExpression';
-import { toTokens } from './toTokens';
+import type Tokens from '@parser/Tokens';
+import { parseBlock, parseDocs, parseReference } from '@parser/parseExpression';
+import { toTokens } from '@parser/toTokens';
 
 export function toProgram(code: string): Program {
     return parseProgram(toTokens(code));
 }
 
 export default function parseProgram(tokens: Tokens, doc = false): Program {
-    const docs = tokens.nextIs(Sym.Doc) ? parseDocs(tokens) : undefined;
+    const docs = !doc && tokens.nextIs(Sym.Doc) ? parseDocs(tokens) : undefined;
 
     const borrows: Borrow[] = [];
     tokens.whileDo(

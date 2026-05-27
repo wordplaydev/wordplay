@@ -4,9 +4,12 @@
     import type Context from '@nodes/Context';
     import type Type from '@nodes/Type';
     import { OR_SYMBOL } from '@parser/Symbols';
-    import type FunctionConcept from '../../concepts/FunctionConcept';
-    import { getConceptIndex, getConceptPath } from '../project/Contexts';
-    import RootView from '../project/RootView.svelte';
+    import type FunctionConcept from '@concepts/FunctionConcept';
+    import {
+        getConceptIndex,
+        getConceptPath,
+    } from '@components/project/Contexts';
+    import RootView from '@components/project/RootView.svelte';
 
     interface Props {
         type: Type;

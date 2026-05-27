@@ -1,40 +1,50 @@
+🏀
 Basketball Star
 === start
 click: ∆ Button()
 
 clickCount: 0 … click … 1 + .
 
-basketballPlace: (clickCount % 2) = 0 ? Place(x: Pointer().x y: 8m z: 0m) Motion(place: Place(0m 8m 0m))
+¶ Capture pointer x at the moment of shooting, so the ball drops from where the player aimed instead of jumping back to x = 0 ¶
+shotX: 0m … (click & ((clickCount % 2) = 1)) … Pointer().x
+
+basketballPlace: (clickCount % 2) = 0 ? Place(x: Pointer().x y: 8m z: 0m) Motion(place: Place(shotX 8m 0m))
 
 basketball: Phrase(
 		"🏀" 0.7m
-		matter: Matter(0.623kg 0.99)
+		matter: Matter(0.623kg 0.5)
 		place: basketballPlace
 		name: "basketball"
 	)
 
-¶ Randomize basket location each time a shot is taken ¶
-basketXPlace: Random(-9000m 9000m) ÷ 1000 … (click & ((clickCount % 2) = 1)) … Random(-9000m 9000m) ÷ 1000
+¶ The bin slides side to side continuously, driven by sine of time ¶
+basketXPlace: (Time() ÷ 600ms).sin() · 6m
 
-¶ Keep track of scores and attempts ¶
-¶ Keep track of scores and attempts ¶
-score: 0 … (click & ((clickCount % 2) = 1) & ((basketXPlace + 0.81m) > (basketball.place ?? Place()).x) & ((basketXPlace - 0.8m) < (basketball.place ?? Place()).x)) & (2.1m > (basketball.place ?? Place()).y) … 1 + .
+¶ Read the ball's current position once for the score check ¶
+ballX: (basketball.place ?? Place()).x
+ballY: (basketball.place ?? Place()).y
 
 attempt: (clickCount ÷ 2).roundUp()
 
-basketballStar: Group(Stack() [
-			Phrase("BASKETBALL" offset: Place(0m 2m 0m))
-			Phrase("STAR" offset: Place(0m 1m 0m))
-			Phrase("Score: " + score → '' offset: Place(0m -4.5m 3m))
-			Phrase("Attempts: " + attempt → '' offset: Place(0m -5m 3m))
-		] size: 2m face: "Sue Ellen Francisco" offset: Place(0m 4m 10m))
+¶ inBin is true whenever the ball is inside the bin's interior. The score reaction only fires when inBin transitions to true AND the current attempt is ahead of the score, so any second entry during the same shot — bounces inside the bin, or the bin sliding back over the ball — is a no-op until the next shot bumps the attempt counter ¶
+inBin: (ballX < (basketXPlace + 0.9m)) & (ballX > (basketXPlace - 0.9m)) & (ballY < 2.9m) & (ballY > 0.3m)
+score: 0 … inBin & (attempt > score) … 1 + .
+
+basketballStar: Group(Stack('|' 0.5m) [
+			Phrase(`*Basketball Star*` .8m)
+			Phrase("Aim with your pointer." .6m)
+			Phrase("Click to drop the 🏀 into the moving bin." .6m)
+			Phrase("Score: " + score → '' .8m)
+			Phrase("Attempts: " + attempt → '' .8m)
+		] size: 2m face: "Sue Ellen Francisco" offset: Place(0m 8m 0m))
 
 Stage(
 	[
 		basketball
-		Shape(Rectangle(-1m + basketXPlace 0.1m 1m + basketXPlace 0m 0m) background: Color(60% 100 30°))
-		Shape(Rectangle(0.9m + basketXPlace 2m 1m + basketXPlace 0m 0m) background: Color(60% 100 30°))
-		Shape(Rectangle(-1m + basketXPlace 2m -0.9m + basketXPlace 0m 0m) background: Color(60% 100 30°))
+		¶ Bin walls extended to 0.3m thick (from 0.1m) so the laterally-moving bin can't tunnel past the ball, and 3m tall (from 2m) so a 0.5-bounciness ball can't bounce back over the rim ¶
+		Shape(Rectangle(-1.2m + basketXPlace 0.3m 1.2m + basketXPlace 0m 0m) background: Color(60% 100 30°))
+		Shape(Rectangle(0.9m + basketXPlace 3m 1.2m + basketXPlace 0m 0m) background: Color(60% 100 30°))
+		Shape(Rectangle(-1.2m + basketXPlace 3m -0.9m + basketXPlace 0m 0m) background: Color(60% 100 30°))
 		Shape(Rectangle(-10m 0.01m 10m -2m))
 		basketballStar
 	]

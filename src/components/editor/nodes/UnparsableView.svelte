@@ -1,8 +1,8 @@
 <script lang="ts">
     import type UnparsableExpression from '@nodes/UnparsableExpression';
     import type UnparsableType from '@nodes/UnparsableType';
-    import NodeSequenceView from './NodeSequenceView.svelte';
-    import { type Format } from './NodeView.svelte';
+    import NodeSequenceView from '@components/editor/nodes/NodeSequenceView.svelte';
+    import { type Format } from '@components/editor/nodes/NodeView.svelte';
 
     interface Props {
         node: UnparsableExpression | UnparsableType;

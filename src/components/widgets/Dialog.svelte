@@ -1,16 +1,16 @@
 <script lang="ts">
     import { clickOutside } from '@components/app/clickOutside';
+    import Header from '@components/app/Header.svelte';
+    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
+    import Button from '@components/widgets/Button.svelte';
+    import Hint from '@components/widgets/Hint.svelte';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import type {
         LocaleTextAccessor,
         LocaleTextsAccessor,
     } from '@locale/Locales';
     import { tick } from 'svelte';
-    import Header from '../app/Header.svelte';
-    import MarkupHTMLView from '../concepts/MarkupHTMLView.svelte';
-    import Button from './Button.svelte';
-    import Hint from './Hint.svelte';
-    import LocalizedText from './LocalizedText.svelte';
 
     interface Props {
         show?: boolean;
@@ -22,6 +22,7 @@
                   tip: LocaleTextAccessor;
                   icon?: string;
                   label?: string | LocaleTextAccessor;
+                  background?: boolean;
               }
             | undefined;
         children?: import('svelte').Snippet;
@@ -56,11 +57,18 @@
 </script>
 
 {#if button}
-    <Button tip={button.tip} action={() => (show = true)} icon={button.icon}>
-        {#if button.label}{#if typeof button.label === 'string'}{button.label}{:else}<LocalizedText
-                    path={button.label}
-                />{/if}{/if}</Button
-    >
+    {#snippet buttonLabel()}
+        {#if typeof button?.label === 'string'}{button.label}{:else if button?.label}<LocalizedText
+                path={button.label}
+            />{/if}
+    {/snippet}
+    <Button
+        tip={button.tip}
+        action={() => (show = true)}
+        icon={button.icon}
+        background={button.background ?? false}
+        children={button.label !== undefined ? buttonLabel : undefined}
+    />
 {/if}
 <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
 <dialog
@@ -77,6 +85,7 @@
                 <Button
                     tip={(l) => l.ui.widget.dialog.close}
                     action={() => (show = false)}
+                    background
                     icon="❌"
                 ></Button>
             </div>
@@ -88,7 +97,7 @@
             {@render children?.()}
         </div>
     </div>
-    <Hint></Hint>
+    <Hint inDialog={true}></Hint>
 </dialog>
 
 <style>

@@ -1,11 +1,11 @@
 import type LocaleText from '@locale/LocaleText';
-import NodeRef from '@locale/NodeRef';
-import type Context from '@nodes/Context';
 import type Expression from '@nodes/Expression';
 import type Input from '@nodes/Input';
-import type Locales from '../locale/Locales';
-import type Select from '../nodes/Select';
-import Conflict from './Conflict';
+import type Locales from '@locale/Locales';
+import type Select from '@nodes/Select';
+import Conflict, { type Resolutions } from '@conflicts/Conflict';
+import type Context from '@nodes/Context';
+import type Node from '@nodes/Node';
 
 export default class ExpectedSelectName extends Conflict {
     readonly select: Select;
@@ -24,12 +24,32 @@ export default class ExpectedSelectName extends Conflict {
     getMessage() {
         return {
             node: this.select,
-            explanation: (locales: Locales, context: Context) =>
+            explanation: (locales: Locales) =>
                 locales.concretize(
                     (l) => ExpectedSelectName.LocalePath(l).explanation,
-                    new NodeRef(this.cell, locales, context),
                 ),
         };
+    }
+
+    override getResolutions(
+        _context: Context,
+        _concepts: Node[],
+    ): Resolutions {
+        // Remove the invalid cell — the learner can re-add a column reference.
+        return [
+            {
+                kind: 'repair',
+                description: (locales: Locales) =>
+                    locales.concretize(
+                        (l) => ExpectedSelectName.LocalePath(l).resolution,
+                    ),
+                mediator: (ctx) => ({
+                    newProject: ctx.project.withRevisedNodes([
+                        [this.cell, undefined],
+                    ]),
+                }),
+            },
+        ];
     }
 
     getLocalePath() {

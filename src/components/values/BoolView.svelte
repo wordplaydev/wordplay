@@ -1,7 +1,7 @@
 <script lang="ts">
     import { Sym } from '@nodes/Sym';
     import type BoolValue from '@values/BoolValue';
-    import SymbolView from './SymbolView.svelte';
+    import SymbolView from '@components/values/SymbolView.svelte';
 
     interface Props {
         value: BoolValue;

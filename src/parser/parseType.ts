@@ -1,30 +1,30 @@
-import type Bind from '../nodes/Bind';
-import BooleanType from '../nodes/BooleanType';
-import ConversionType from '../nodes/ConversionType';
-import FormattedType from '../nodes/FormattedType';
-import FunctionType from '../nodes/FunctionType';
-import ListType from '../nodes/ListType';
-import MapType from '../nodes/MapType';
-import NameType from '../nodes/NameType';
-import NoneType from '../nodes/NoneType';
-import NumberType from '../nodes/NumberType';
-import SetType from '../nodes/SetType';
-import StreamType from '../nodes/StreamType';
-import { Sym } from '../nodes/Sym';
-import TableType from '../nodes/TableType';
-import TextType from '../nodes/TextType';
-import type Type from '../nodes/Type';
-import TypePlaceholder from '../nodes/TypePlaceholder';
-import UnionType from '../nodes/UnionType';
-import UnparsableType from '../nodes/UnparsableType';
-import parseBind, { nextIsBind } from './parseBind';
+import type Bind from '@nodes/Bind';
+import BooleanType from '@nodes/BooleanType';
+import ConversionType from '@nodes/ConversionType';
+import FormattedType from '@nodes/FormattedType';
+import FunctionType from '@nodes/FunctionType';
+import ListType from '@nodes/ListType';
+import MapType from '@nodes/MapType';
+import NameType from '@nodes/NameType';
+import NoneType from '@nodes/NoneType';
+import NumberType from '@nodes/NumberType';
+import SetType from '@nodes/SetType';
+import StreamType from '@nodes/StreamType';
+import { Sym } from '@nodes/Sym';
+import TableType from '@nodes/TableType';
+import TextType from '@nodes/TextType';
+import type Type from '@nodes/Type';
+import TypePlaceholder from '@nodes/TypePlaceholder';
+import UnionType from '@nodes/UnionType';
+import UnparsableType from '@nodes/UnparsableType';
+import parseBind, { nextIsBind } from '@parser/parseBind';
 import {
     parseTypeInputs,
     parseTypeVariables,
     parseUnit,
-} from './parseExpression';
-import parseLanguage from './parseLanguage';
-import type Tokens from './Tokens';
+} from '@parser/parseExpression';
+import parseLanguage from '@parser/parseLanguage';
+import type Tokens from '@parser/Tokens';
 
 export default function parseType(tokens: Tokens, isExpression = false): Type {
     let left: Type = tokens.nextIs(Sym.Placeholder)

@@ -1,7 +1,9 @@
 <script lang="ts">
     import type TypeInputs from '@nodes/TypeInputs';
-    import NodeSequenceView from './NodeSequenceView.svelte';
-    import NodeView, { type Format } from './NodeView.svelte';
+    import NodeSequenceView from '@components/editor/nodes/NodeSequenceView.svelte';
+    import NodeView, {
+        type Format,
+    } from '@components/editor/nodes/NodeView.svelte';
 
     interface Props {
         node: TypeInputs;

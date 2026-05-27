@@ -3,9 +3,10 @@ import NodeRef from '@locale/NodeRef';
 import Conditional from '@nodes/Conditional';
 import type Context from '@nodes/Context';
 import type Type from '@nodes/Type';
-import type Locales from '../locale/Locales';
-import type Reaction from '../nodes/Reaction';
-import Conflict from './Conflict';
+import type Locales from '@locale/Locales';
+import type Reaction from '@nodes/Reaction';
+import type Node from '@nodes/Node';
+import Conflict, { type Resolutions } from '@conflicts/Conflict';
 
 export default class ExpectedBooleanCondition extends Conflict {
     readonly conditional: Conditional | Reaction;
@@ -30,9 +31,18 @@ export default class ExpectedBooleanCondition extends Conflict {
             explanation: (locales: Locales, context: Context) =>
                 locales.concretize(
                     (l) => ExpectedBooleanCondition.LocalePath(l).explanation,
-                    new NodeRef(this.type, locales, context),
+                    {
+                        type: new NodeRef(this.type, locales, context),
+                    },
                 ),
         };
+    }
+
+    override getResolutions(
+        context: Context,
+        concepts: Node[],
+    ): Resolutions {
+        return Conflict.fromRegistry(this, context, concepts);
     }
 
     getLocalePath() {

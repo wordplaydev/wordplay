@@ -1,13 +1,13 @@
 import type Evaluation from '@runtime/Evaluation';
 import SingletonStreamValue from '@values/SingletonStreamValue';
-import { getDocLocales } from '../locale/getDocLocales';
-import { getNameLocales } from '../locale/getNameLocales';
-import type Locales from '../locale/Locales';
-import StreamDefinition from '../nodes/StreamDefinition';
-import StreamType from '../nodes/StreamType';
-import TextType from '../nodes/TextType';
-import TextValue from '../values/TextValue';
-import createStreamEvaluator from './createStreamEvaluator';
+import { getDocLocales } from '@locale/getDocLocales';
+import { getNameLocales } from '@locale/getNameLocales';
+import type Locales from '@locale/Locales';
+import StreamDefinition from '@nodes/StreamDefinition';
+import StreamType from '@nodes/StreamType';
+import TextType from '@nodes/TextType';
+import TextValue from '@values/TextValue';
+import createStreamEvaluator from '@input/createStreamEvaluator';
 
 export default class Chat extends SingletonStreamValue<TextValue, string> {
     constructor(evaluation: Evaluation) {

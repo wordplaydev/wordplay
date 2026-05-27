@@ -4,29 +4,38 @@
 </script>
 
 <script lang="ts">
+    import LocallyRevisedAnnotation from '@components/app/LocallyRevisedAnnotation.svelte';
     import MachineTranslatedAnnotation from '@components/app/MachineTranslatedAnnotation.svelte';
+    import Notice from '@components/app/Notice.svelte';
+    import SegmentHTMLView from '@components/concepts/SegmentHTMLView.svelte';
+    import { accessorToLocalePath } from '@components/localization/accessorToLocalePath';
     import { getLocalizing } from '@components/project/Contexts';
     import Button from '@components/widgets/Button.svelte';
     import FormattedEditor from '@components/widgets/FormattedEditor.svelte';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
+    import { animationDuration, animationFactor, locales } from '@db/Database';
+    import {
+        deleteLocaleEdit,
+        localeEdits,
+        saveLocaleEdit,
+    } from '@db/locales/LocalizationDexie';
     import type { LocaleTextsAccessor, TemplateInput } from '@locale/Locales';
+    import { toLocaleString } from '@locale/LocaleText';
     import { withoutAnnotations } from '@locale/withoutAnnotations';
+    import ConceptLink from '@nodes/ConceptLink';
     import Markup from '@nodes/Markup';
     import Paragraph from '@nodes/Paragraph';
+    import { parseDocs, parseFormattedLiteral } from '@parser/parseExpression';
     import {
         CANCEL_SYMBOL,
         CONFIRM_SYMBOL,
         DOCS_SYMBOL,
         FORMATTED_SYMBOL,
+        REVERT_SYMBOL,
     } from '@parser/Symbols';
-    import { parseDocs, parseFormattedLiteral } from '@parser/parseExpression';
+    import { toMarkup } from '@parser/toMarkup';
     import { toTokens } from '@parser/toTokens';
     import { tick } from 'svelte';
-    import {
-        animationDuration,
-        animationFactor,
-        locales,
-    } from '../../db/Database';
-    import SegmentHTMLView from './SegmentHTMLView.svelte';
 
     interface Props {
         markup:
@@ -34,12 +43,27 @@
             | string[]
             | string
             | LocaleTextsAccessor
-            | [LocaleTextsAccessor, ...TemplateInput[]];
+            | [LocaleTextsAccessor, Record<string, TemplateInput>];
         inline?: boolean;
         note?: boolean;
+        /** Storage key for an override, used when the markup doesn't live in the
+         *  regular locale tree (e.g., tutorial dialog). When provided, the
+         *  component becomes localizable just as it is for `LocaleTextsAccessor`
+         *  markup, looking up `LocalizationDexie` under this key. */
+        overrideKey?: string;
+        /** Raw text used as the editor's initial value and the "no-override"
+         *  fallback when `overrideKey` is supplied. Should already be in
+         *  Wordplay markup syntax. */
+        sourceText?: string;
     }
 
-    let { markup, inline = false, note = false }: Props = $props();
+    let {
+        markup,
+        inline = false,
+        note = false,
+        overrideKey,
+        sourceText,
+    }: Props = $props();
 
     const fieldId = `markup-editor-${idCounter++}`;
 
@@ -50,7 +74,7 @@
         // If markup was given as an accessor and inputs, concretize it with the inputs
         else if (Array.isArray(markup) && markup[0] instanceof Function) {
             const accessor = markup[0];
-            const inputs = markup.slice(1) as TemplateInput[];
+            const inputs = markup[1] as Record<string, TemplateInput>;
             const words = $locales.getWithAnnotations(accessor);
             return (
                 Markup.words(
@@ -118,30 +142,133 @@
     let editedText = $state('');
     let editorView = $state<HTMLTextAreaElement | undefined>(undefined);
 
-    /** True only when markup is a plain locale accessor (not a template array). */
+    /** Localizable in two modes:
+     *   1. `markup` is a plain locale accessor (not a template array).
+     *   2. Caller supplies an explicit `overrideKey` + `sourceText` (used by
+     *      tutorial dialog, whose markup doesn't live in the locale tree). */
     let isLocalizable = $derived(
-        markup instanceof Function && !(markup instanceof Markup),
+        overrideKey !== undefined ||
+            (markup instanceof Function && !(markup instanceof Markup)),
     );
 
-    /** The raw annotated text from the locale, for use as the editor's initial value. */
+    /** The raw text used as the editor's initial value. For locale-accessor markup
+     *  this is the resolved annotation-free locale string; for an explicit
+     *  `overrideKey` it's the caller-supplied `sourceText`. */
     let rawText = $derived.by(() => {
-        if (!isLocalizable || !(markup instanceof Function)) return '';
+        if (overrideKey !== undefined) return sourceText ?? '';
+        if (!(markup instanceof Function)) return '';
         const text = $locales.getWithAnnotations(markup);
         return withoutAnnotations(
             Array.isArray(text) ? text.join('\n\n') : text,
         );
     });
 
+    /** Storage key for the override: caller-supplied `overrideKey` wins; otherwise
+     *  we parse it from the accessor. */
+    let storageKey = $derived(
+        overrideKey !== undefined
+            ? overrideKey
+            : markup instanceof Function
+              ? accessorToLocalePath(markup)?.toString()
+              : undefined,
+    );
+    const activeLocaleString = $derived(toLocaleString($locales.getLocale()));
+    let override = $derived(
+        storageKey !== undefined
+            ? $localeEdits.get(activeLocaleString)?.get(storageKey)
+            : undefined,
+    );
+
+    /** Parsed markup for display in localizing mode, using the override if one exists. */
+    let displayParsed = $derived(override ? Markup.words(override) : parsed);
+    let displaySpaces = $derived(displayParsed.spaces);
+    let displayParagraphsAndLists = $derived(
+        displayParsed.paragraphs.reduce(
+            (stuff: ParagraphOrList[], next: Paragraph) => {
+                if (next.isBulleted()) {
+                    const items = next.getBullets();
+                    const previous = stuff.at(-1);
+                    if (previous instanceof Paragraph)
+                        return [...stuff, { items }];
+                    else if (previous !== undefined) {
+                        previous.items.push(next);
+                        return stuff;
+                    } else return [{ items }];
+                } else return [...stuff, next];
+            },
+            [],
+        ),
+    );
+
+    $effect(() => {
+        if (localizing && markup instanceof Function)
+            localizing.focused = editing ? markup : undefined;
+    });
+
     async function startEditing() {
-        editedText = rawText;
+        editedText = override ?? rawText;
         editing = true;
         await tick();
         editorView?.focus();
     }
 
-    function stopEditing() {
+    function cancelEditing() {
         editing = false;
     }
+
+    function confirmEditing() {
+        if (storageKey !== undefined) {
+            if (editedText === rawText)
+                deleteLocaleEdit(activeLocaleString, storageKey);
+            else saveLocaleEdit(activeLocaleString, storageKey, editedText);
+        }
+        editing = false;
+    }
+
+    /** Names of concept links found in the current draft that don't resolve in the
+     *  active locale. Populated by a dwell after the contributor stops typing and
+     *  rendered as a warning Notice below the editor. */
+    let invalidConceptLinks = $state<string[]>([]);
+
+    /** Parse the draft as markup and return the set of unresolved concept names
+     *  (e.g. `@FunctionDefinition`, `@UI/foo`). Robust to parse failures: any error
+     *  yields no warnings, since the formatted-editor's own validation will surface
+     *  bigger syntax problems on save. */
+    function findInvalidConceptLinks(text: string): string[] {
+        if (text.trim().length === 0) return [];
+        let parsed: Markup;
+        try {
+            parsed = toMarkup(text)[0];
+        } catch {
+            return [];
+        }
+        const locale = $locales.getLocale();
+        const seen = new Set<string>();
+        const result: string[] = [];
+        for (const node of parsed.nodes()) {
+            if (!(node instanceof ConceptLink)) continue;
+            if (node.isValid(locale)) continue;
+            const name = node.getName();
+            if (seen.has(name)) continue;
+            seen.add(name);
+            result.push(name);
+        }
+        return result;
+    }
+
+    // Debounced concept-link validation: re-check ~1s after the contributor stops
+    // typing. Cleared when the editor closes or the targeted cell changes.
+    $effect(() => {
+        if (!editing) {
+            invalidConceptLinks = [];
+            return;
+        }
+        const text = editedText;
+        const timer = setTimeout(() => {
+            invalidConceptLinks = findInvalidConceptLinks(text);
+        }, 1000);
+        return () => clearTimeout(timer);
+    });
 </script>
 
 {#if localizing?.on && isLocalizable}
@@ -161,19 +288,44 @@
                 bind:text={editedText}
                 bind:view={editorView}
             />
+            {#if invalidConceptLinks.length > 0}
+                <Notice>
+                    <p>
+                        <LocalizedText
+                            path={(l) => l.ui.localize.invalidConceptLinks}
+                        />
+                    </p>
+                    <p class="invalid-concept-links"
+                        >{invalidConceptLinks.map((n) => `@${n}`).join(', ')}</p
+                    >
+                </Notice>
+            {/if}
             <div class="edit-actions">
                 <Button
                     tip={(l) => l.ui.localize.button.submit}
-                    action={stopEditing}
+                    action={confirmEditing}
                     background
                     padding={true}>{CONFIRM_SYMBOL}</Button
                 >
                 <Button
                     tip={(l) => l.ui.localize.button.cancel}
-                    action={stopEditing}
+                    action={cancelEditing}
                     background
                     padding={true}>{CANCEL_SYMBOL}</Button
                 >
+                {#if override}<Button
+                        tip={(l) => l.ui.localize.button.revert}
+                        action={() => {
+                            if (storageKey !== undefined)
+                                deleteLocaleEdit(
+                                    activeLocaleString,
+                                    storageKey,
+                                );
+                            cancelEditing();
+                        }}
+                        background
+                        padding={true}>{REVERT_SYMBOL}</Button
+                    >{/if}
             </div>
         {:else}
             <span class="edit-button"
@@ -181,23 +333,34 @@
                     tip={(l) => l.ui.localize.button.edit}
                     action={startEditing}
                     padding={false}
-                    background
+                    background="salient"
+                    size="inherit"
                     wrap={true}
                 >
-                    {#if spaces}
+                    {#if displaySpaces}
                         {#if inline}
-                            {#each parsed.asLine().paragraphs[0].segments as segment}
+                            {#each displayParsed.asLine().paragraphs[0].segments as segment}
                                 <SegmentHTMLView
                                     {segment}
-                                    {spaces}
+                                    spaces={displaySpaces}
                                     alone={false}
                                 />
                             {/each}
                         {:else}
                             <div class="markup" class:note>
-                                {#each paragraphsAndLists as paragraphOrList, index}
+                                {#each displayParagraphsAndLists as paragraphOrList, index}
                                     {#if paragraphOrList instanceof Paragraph}
-                                        <p
+                                        <!--
+                                            `div` rather than `p`: an inline
+                                            Example's NodeView produces a
+                                            `<div>` for the node-view wrapper,
+                                            and `<div>` isn't phrasing content
+                                            so `<p>` rejects it (SSR errors
+                                            and hydration mismatch). The
+                                            paragraph styling carries via the
+                                            `.paragraph` class either way.
+                                        -->
+                                        <div
                                             class="paragraph"
                                             class:animated={$animationFactor >
                                                 0}
@@ -206,11 +369,11 @@
                                                 0.1}ms"
                                             >{#each paragraphOrList.segments as segment, index}<SegmentHTMLView
                                                     {segment}
-                                                    {spaces}
+                                                    spaces={displaySpaces}
                                                     alone={paragraphOrList
                                                         .segments.length === 1}
                                                     first={index === 0}
-                                                />{/each}</p
+                                                />{/each}</div
                                         >
                                     {:else}
                                         <ul
@@ -222,7 +385,7 @@
                                             >{#each paragraphOrList.items as paragraph}<li
                                                     >{#each paragraph.segments as segment, index}<SegmentHTMLView
                                                             {segment}
-                                                            {spaces}
+                                                            spaces={displaySpaces}
                                                             alone={paragraph
                                                                 .segments
                                                                 .length === 1}
@@ -231,13 +394,14 @@
                                                 >{/each}</ul
                                         >
                                     {/if}
-                                {/each}{#if parsed.isMachineTranslated()}<MachineTranslatedAnnotation
+                                {/each}{#if displayParsed.isMachineTranslated() && !override}<MachineTranslatedAnnotation
                                     />{/if}
                             </div>
                         {/if}
                     {:else}
                         unable to render markup without spaces
                     {/if}
+                    {#if override}<LocallyRevisedAnnotation />{/if}
                 </Button></span
             >
         {/if}
@@ -249,7 +413,7 @@
         {/each}
     {:else}<div class="markup" class:note
             >{#each paragraphsAndLists as paragraphOrList, index}{#if paragraphOrList instanceof Paragraph}
-                    <p
+                    <div
                         class="paragraph"
                         class:animated={$animationFactor > 0}
                         style="--delay:{$animationDuration * index * 0.1}ms"
@@ -258,7 +422,7 @@
                                 {spaces}
                                 alone={paragraphOrList.segments.length === 1}
                                 first={index === 0}
-                            />{/each}</p
+                            />{/each}</div
                     >{:else}<ul
                         class:animated={$animationFactor > 0}
                         style="--delay:{$animationDuration * index * 0.1}ms"
@@ -279,6 +443,17 @@
     .markup {
         display: flex;
         flex-direction: column;
+        /* Put Noto Color Emoji first so emoji codepoints in markup
+           prose render in color in Safari. The inherited
+           --wordplay-app-font has Noto Sans first, which Safari can't
+           reliably skip past for emoji codepoints — it picks Noto Emoji
+           later in the cascade and renders monochrome. The CSSFallbackFaces
+           used by PhraseView already follows this Color-Emoji-first pattern;
+           this mirrors it for markup text. Safe to put Color Emoji first
+           because its unicode-range in fonts.css is restricted to true
+           emoji codepoints — it doesn't claim ASCII/digits and so doesn't
+           shadow Noto Sans for normal text. */
+        font-family: 'Noto Color Emoji', 'Noto Sans', sans-serif;
     }
 
     .markup:not(:last-child) {
@@ -309,17 +484,15 @@
         }
     }
 
-    p {
+    .paragraph {
         margin-inline-start: 0;
+        margin-block-start: 0em;
+        margin-block-end: 1em;
+        line-height: 1.5;
     }
 
     .note {
         font-size: var(--wordplay-small-font-size);
-    }
-
-    p {
-        margin-block-start: 0em;
-        margin-block-end: 1em;
     }
 
     ul {
@@ -327,7 +500,7 @@
         margin-block-end: 1em;
     }
 
-    p:last-of-type {
+    .paragraph:last-of-type {
         margin-block-end: 0;
     }
 
@@ -353,5 +526,10 @@
 
     .edit-actions :global(button) {
         width: fit-content;
+    }
+
+    .invalid-concept-links {
+        font-family: var(--wordplay-code-font);
+        margin-block-start: var(--wordplay-spacing-half);
     }
 </style>

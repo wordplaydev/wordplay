@@ -3,9 +3,9 @@ import type Context from '@nodes/Context';
 import type ConversionDefinition from '@nodes/ConversionDefinition';
 import { CONVERT_SYMBOL } from '@parser/Symbols';
 import type Evaluation from '@runtime/Evaluation';
-import type { BasisTypeName } from '../basis/BasisConstants';
-import Value from '../values/Value';
-import SimpleValue from './SimpleValue';
+import type { BasisTypeName } from '@basis/BasisConstants';
+import Value from '@values/Value';
+import SimpleValue from '@values/SimpleValue';
 
 export default class ConversionDefinitionValue extends SimpleValue {
     /** The definition from the AST. */

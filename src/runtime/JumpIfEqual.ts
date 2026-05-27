@@ -1,8 +1,8 @@
 import type Evaluator from '@runtime/Evaluator';
-import type Locales from '../locale/Locales';
-import type Expression from '../nodes/Expression';
-import type Value from '../values/Value';
-import Step from './Step';
+import type Locales from '@locale/Locales';
+import type Expression from '@nodes/Expression';
+import type Value from '@values/Value';
+import Step from '@runtime/Step';
 
 /** Jumps if the two values on the top of the stack are unequal, popping the first value only. Used in Match. */
 export default class JumpIfUnequal extends Step {

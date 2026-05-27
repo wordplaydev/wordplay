@@ -2,23 +2,23 @@ import type { InsertContext, ReplaceContext } from '@edit/revision/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { MACHINE_TRANSLATED_SYMBOL } from '@parser/Symbols';
-import type { FontWeight } from '../basis/Fonts';
-import { Purpose } from '../concepts/Purpose';
-import type Locales from '../locale/Locales';
-import type { TemplateInput } from '../locale/Locales';
+import type { FontWeight } from '@basis/Fonts';
+import { Purpose } from '@concepts/Purpose';
+import type Locales from '@locale/Locales';
+import type { TemplateInput } from '@locale/Locales';
 import Characters from '../lore/BasisCharacters';
-import type { FormattedText } from '../output/Phrase';
-import Spaces from '../parser/Spaces';
-import { toMarkup } from '../parser/toMarkup';
-import { getCodepointFromString } from '../unicode/getCodepoint';
-import ConceptLink, { CharacterName, CodepointName } from './ConceptLink';
-import Content from './Content';
-import Example from './Example';
-import Node, { list, node, type Grammar, type Replacement } from './Node';
-import Paragraph, { type Segment } from './Paragraph';
-import { Sym } from './Sym';
-import Token from './Token';
-import Words from './Words';
+import type { FormattedText } from '@output/Phrase';
+import Spaces from '@parser/Spaces';
+import { toMarkup } from '@parser/toMarkup';
+import { getCodepointFromString } from '@unicode/getCodepoint';
+import ConceptLink, { CharacterName, CodepointName } from '@nodes/ConceptLink';
+import Content from '@nodes/Content';
+import Example from '@nodes/Example';
+import Node, { list, node, type Grammar, type Replacement } from '@nodes/Node';
+import Paragraph, { type Segment } from '@nodes/Paragraph';
+import { Sym } from '@nodes/Sym';
+import Token from '@nodes/Token';
+import Words from '@nodes/Words';
 
 export type MarkupMetadata = { unwritten: boolean; machineTranslated: boolean };
 
@@ -116,7 +116,9 @@ export default class Markup extends Content {
     }
 
     getDescriptionInputs() {
-        return [this.paragraphs.length];
+        return {
+            count: this.paragraphs.length,
+        };
     }
 
     getExamples(): Example[] {
@@ -131,7 +133,10 @@ export default class Markup extends Content {
             .flat();
     }
 
-    concretize(locales: Locales, inputs: TemplateInput[]): Markup | undefined {
+    concretize(
+        locales: Locales,
+        inputs: Record<string, TemplateInput>,
+    ): Markup | undefined {
         // Create an empty list of replacements which we'll recursively fill and then update space with.
         const replacements: [Node, Node][] = [];
         const concrete = this.paragraphs.map((p) =>

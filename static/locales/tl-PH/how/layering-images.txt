@@ -1,0 +1,19 @@
+Ipatong-patong ang mga larawan sa ibabaw ng isa't isa.
+
+Minsan gusto nating pagdugtungin ang mga imahe para makabuo ng mga nakakatuwang eksena o malikhaing mga hugis.
+
+Halimbawa, maaari mong gamitin ang maraming layer sa iyong proyekto @Stage para isalansan at ayusin ang mga larawan ayon sa gusto mo.
+
+Tingnan mo! Narito ang isang pagong na ginawa ko gamit lamang ang mga hugis!Subukang baguhin ang mga numero para sa bawat hugis. Maaari mo silang ilipat, baguhin ang laki, at paikutin pa.Maglaro-laro at tingnan kung ano ang kaya mong likhain!
+
+\¶Paalala: Tingnan ang gallery para sa isa pang proyekto<halimbawa@https://wordplay.dev/project/example-Layers?play>ng mga imaheng nagpapatong-patong.¶Stage([
+		Shape(Circle(3m 0m 1m 0m))
+		Shape(Polygon(2m 3 0m -12m 0m) rotation: -30°)
+		Shape(Polygon(7m 6 0m -6m 0m))
+		Shape(Rectangle(-11m -9m 11m -12m 10m) rotation: 25°)
+		Shape(Rectangle(-11m -9m 11m -12m 10m) rotation: -25°)
+	] place: Place(0m 10m -30m))\
+
+Maaari kang gumawa ng mga talagang magagandang bagay gamit ang mga layer! Subukan ito!
+
+custom-characters

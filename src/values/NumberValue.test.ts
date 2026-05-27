@@ -1,9 +1,9 @@
 import { FALSE_SYMBOL, TRUE_SYMBOL } from '@parser/Symbols';
 import NumberValue from '@values/NumberValue';
 import { expect, test } from 'vitest';
-import { parseNumber } from '../parser/parseExpression';
-import { toTokens } from '../parser/toTokens';
-import evaluateCode from '../runtime/evaluate';
+import { parseNumber } from '@parser/parseExpression';
+import { toTokens } from '@parser/toTokens';
+import evaluateCode from '@runtime/evaluate';
 
 test.each([
     // Test JavaScript number translation.
@@ -18,13 +18,46 @@ test.each([
     ['1000', '1000'],
     ['∞', '∞'],
 
-    // Test Japanese numbers.
+    // Test Han (CJK) numerals.
     ['十', '10'],
     ['二十', '20'],
     ['二万', '20000'],
     ['二十・二分', '20.2'],
     ['九万九千九百九十九・九分九厘九毛九糸九忽', '99999.99999'],
     ['99万', '990000'],
+    // Han numerals with larger magnitudes (億 = 10⁸, 兆 = 10¹²) and nested
+    // myriad grouping (e.g. 三千四百五十六万 means 3456·10⁴, not 6·10⁴).
+    ['三億', '300000000'],
+    ['五兆', '5000000000000'],
+    ['三億五千万', '350000000'],
+    ['二億三千四百五十六万七千八百九十', '234567890'],
+    ['一兆二千三百四十五億六千七百八十九万', '1234567890000'],
+
+    // Test Thai numerals.
+    ['๐', '0'],
+    ['๙', '9'],
+    ['๑๒๓', '123'],
+    ['-๔๒', '-42'],
+    ['๑๒๓.๔๕', '123.45'],
+    ['๕๐%', '0.5'],
+
+    // Test Indic positional numerals (Bengali, Devanagari, Gujarati, Gurmukhi,
+    // Kannada, Tamil, Telugu). Each is a positional digit set that translates
+    // one-to-one to Arabic digits.
+    ['১২৩', '123'],
+    ['১২৩.৪৫', '123.45'],
+    ['१२३', '123'],
+    ['१२३.४५', '123.45'],
+    ['૧૨૩', '123'],
+    ['૧૨૩.૪૫', '123.45'],
+    ['੧੨੩', '123'],
+    ['੧੨੩.੪੫', '123.45'],
+    ['೧೨೩', '123'],
+    ['೧೨೩.೪೫', '123.45'],
+    ['௧௨௩', '123'],
+    ['௧௨௩.௪௫', '123.45'],
+    ['౧౨౩', '123'],
+    ['౧౨౩.౪౫', '123.45'],
 
     // Test roman numerals.
     ['Ⅹ', '10'],
@@ -59,6 +92,19 @@ test.each([
     ['1 + 10', '11'],
     ['-1 + -100', '-101'],
     ['1.1 + 2.882', '3.982'],
+    // Thai numerals as arithmetic operands.
+    ['๑๐ + ๒๐', '30'],
+    ['๑๐๐ - ๑', '99'],
+    ['๒ × ๓', '6'],
+    ['๑๐ + 5', '15'],
+    // Indic numerals as arithmetic operands, including cross-script mixing.
+    ['১০ + 5', '15'],
+    ['१० + २०', '30'],
+    ['૧૦ × ૩', '30'],
+    ['੧੦੦ - ੧', '99'],
+    ['೧೦ + ౨౦', '30'],
+    ['௧௦௦ - 1', '99'],
+    ['౫ + ౫', '10'],
     ['1.1 + 2.982', '4.082'],
     ['2791 + -169.9', '2621.1'],
     ['1 - -1', '2'],

@@ -1,18 +1,18 @@
 import type { InsertContext, ReplaceContext } from '@edit/revision/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
-import { Purpose } from '../concepts/Purpose';
-import type { TemplateInput } from '../locale/Locales';
+import { Purpose } from '@concepts/Purpose';
+import type { TemplateInput } from '@locale/Locales';
 import Characters from '../lore/BasisCharacters';
 import {
     LINK_SYMBOL,
     TAG_CLOSE_SYMBOL,
     TAG_OPEN_SYMBOL,
-} from '../parser/Symbols';
-import Content from './Content';
-import { node, type Grammar, type Replacement } from './Node';
-import { Sym } from './Sym';
-import Token from './Token';
+} from '@parser/Symbols';
+import Content from '@nodes/Content';
+import { node, type Grammar, type Replacement } from '@nodes/Node';
+import { Sym } from '@nodes/Sym';
+import Token from '@nodes/Token';
 
 export default class WebLink extends Content {
     readonly open: Token;
@@ -110,8 +110,10 @@ export default class WebLink extends Content {
         return Characters.Link;
     }
 
-    getDescriptionInputs(): TemplateInput[] {
-        return [this.url?.getText()];
+    getDescriptionInputs(): Record<string, TemplateInput> {
+        return {
+            url: this.url?.getText(),
+        };
     }
 
     concretize(): WebLink {

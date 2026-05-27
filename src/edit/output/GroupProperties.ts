@@ -1,12 +1,12 @@
-import type Project from '../../db/projects/Project';
-import type Locales from '../../locale/Locales';
-import Evaluate from '../../nodes/Evaluate';
-import type Expression from '../../nodes/Expression';
-import ListLiteral from '../../nodes/ListLiteral';
-import Reference from '../../nodes/Reference';
-import { getTypeOutputProperties } from './OutputProperties';
-import OutputProperty from './OutputProperty';
-import OutputPropertyOptions from './OutputPropertyOptions';
+import type Project from '@db/projects/Project';
+import type Locales from '@locale/Locales';
+import Evaluate from '@nodes/Evaluate';
+import type Expression from '@nodes/Expression';
+import ListLiteral from '@nodes/ListLiteral';
+import Reference from '@nodes/Reference';
+import { getTypeOutputProperties } from '@edit/output/OutputProperties';
+import OutputProperty from '@edit/output/OutputProperty';
+import OutputPropertyOptions from '@edit/output/OutputPropertyOptions';
 
 export default function getGroupProperties(
     project: Project,

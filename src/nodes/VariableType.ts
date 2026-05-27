@@ -1,11 +1,11 @@
 import { Purpose } from '@concepts/Purpose';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
-import type { BasisTypeName } from '../basis/BasisConstants';
+import type { BasisTypeName } from '@basis/BasisConstants';
 import Characters from '../lore/BasisCharacters';
-import type { Grammar } from './Node';
-import Type from './Type';
-import type TypeVariable from './TypeVariable';
+import type { Grammar } from '@nodes/Node';
+import Type from '@nodes/Type';
+import type TypeVariable from '@nodes/TypeVariable';
 
 export default class VariableType extends Type {
     readonly definition: TypeVariable;

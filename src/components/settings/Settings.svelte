@@ -1,26 +1,27 @@
 <script lang="ts">
-    import { dev } from '$app/environment';
     import { Faces, getFaceDescription } from '@basis/Fonts';
+    import CreatorView from '@components/app/CreatorView.svelte';
     import Feedback from '@components/app/Feedback.svelte';
+    import Link from '@components/app/Link.svelte';
+    import Status from '@components/app/Status.svelte';
+    import {
+        getLocalizing,
+        getUser,
+        isAuthenticated,
+    } from '@components/project/Contexts';
     import { LayoutIcons } from '@components/project/Layout';
+    import FaceName from '@components/settings/FaceName.svelte';
+    import LocaleChooser from '@components/settings/LocaleChooser.svelte';
+    import Notifications from '@components/settings/Notifications.svelte';
+    import Dialog from '@components/widgets/Dialog.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
+    import Mode from '@components/widgets/Mode.svelte';
+    import Options from '@components/widgets/Options.svelte';
     import Toggle from '@components/widgets/Toggle.svelte';
+    import { Creator } from '@db/creators/CreatorDatabase';
     import {
-        AnimationFactorIcons,
-        AnimationFactors,
-    } from '@db/settings/AnimationFactorSetting';
-    import { FaceSetting } from '@db/settings/FaceSetting';
-    import {
-        BLOCK_EDITING_SYMBOL,
-        CANCEL_SYMBOL,
-        CONFIRM_SYMBOL,
-        TEXT_EDITING_SYMBOL,
-    } from '@parser/Symbols';
-    import { onMount } from 'svelte';
-    import { Creator } from '../../db/creators/CreatorDatabase';
-    import {
-        animationFactor,
         arrangement,
+        blockDensity,
         blocks,
         camera,
         dark,
@@ -29,18 +30,24 @@
         Settings,
         showLines,
         spaceIndicator,
-    } from '../../db/Database';
-    import { Arrangement } from '../../db/settings/Arrangement';
-    import CreatorView from '../app/CreatorView.svelte';
-    import Link from '../app/Link.svelte';
-    import Status from '../app/Status.svelte';
-    import { getLocalizing, getUser } from '../project/Contexts';
-    import Dialog from '../widgets/Dialog.svelte';
-    import Mode from '../widgets/Mode.svelte';
-    import Options from '../widgets/Options.svelte';
-    import FaceName from './FaceName.svelte';
-    import LocaleChooser from './LocaleChooser.svelte';
-    import Notifications from './Notifications.svelte';
+        voice,
+    } from '@db/Database';
+    import {
+        AnimationFactorIcons,
+        AnimationFactors,
+        AnimationFactorSetting,
+    } from '@db/settings/AnimationFactorSetting';
+
+    const animationFactor = AnimationFactorSetting.value;
+    import { Arrangement } from '@db/settings/Arrangement';
+    import { FaceSetting } from '@db/settings/FaceSetting';
+    import {
+        BLOCK_EDITING_SYMBOL,
+        CANCEL_SYMBOL,
+        CONFIRM_SYMBOL,
+        TEXT_EDITING_SYMBOL,
+    } from '@parser/Symbols';
+    import { onMount } from 'svelte';
 
     let user = getUser();
 
@@ -50,19 +57,26 @@
             typeof navigator.mediaDevices == 'undefined'
         ) {
             devicesRetrieved = undefined;
-            return;
+        } else {
+            const devices = await navigator.mediaDevices.enumerateDevices();
+            cameras = devices.filter((device) => device.kind === 'videoinput');
+            mics = devices.filter((device) => device.kind === 'audioinput');
+            devicesRetrieved = true;
         }
 
-        const devices = await navigator.mediaDevices.enumerateDevices();
-
-        cameras = devices.filter((device) => device.kind === 'videoinput');
-        mics = devices.filter((device) => device.kind === 'audioinput');
-        devicesRetrieved = true;
+        if (typeof speechSynthesis !== 'undefined') {
+            function loadVoices() {
+                voices = speechSynthesis.getVoices();
+            }
+            loadVoices();
+            speechSynthesis.addEventListener('voiceschanged', loadVoices);
+        }
     });
 
     let devicesRetrieved: boolean | undefined = $state(false);
     let cameras: MediaDeviceInfo[] = $state([]);
     let mics: MediaDeviceInfo[] = $state([]);
+    let voices: SpeechSynthesisVoice[] = $state([]);
 
     let cameraDevice = $derived(
         $camera ? cameras.find((cam) => cam.deviceId === $camera) : undefined,
@@ -72,32 +86,26 @@
         $mic ? mics.find((m) => m.deviceId === $mic) : undefined,
     );
 
+    let selectedVoice = $derived(
+        $voice ? voices.find((v) => v.voiceURI === $voice) : undefined,
+    );
+
     let localizing = getLocalizing();
+
+    // Force localizing mode off whenever the visitor is signed out, so badges
+    // and inline editors disappear on sign-out and don't reappear for an
+    // anonymous session that has no way to submit edits.
+    $effect(() => {
+        if (!isAuthenticated($user) && localizing.on) localizing.on = false;
+    });
 </script>
 
 <div class="settings">
-    <Notifications />
-    <Status />
-    <Link nowrap to="/login">
-        <CreatorView
-            anonymize={false}
-            creator={$user ? Creator.from($user) : null}
-            prompt
-        />
-    </Link>
-    {#if dev}
-        <Toggle
-            on={localizing.on}
-            tips={(l) => l.ui.localize.toggle.mode}
-            toggle={() => (localizing.on = !localizing.on)}>✎</Toggle
-        >
-    {/if}
-    <LocaleChooser />
-    <Feedback />
     <Dialog
         button={{
             tip: (l) => l.ui.dialog.settings.button.show,
             icon: '⚙',
+            background: true,
         }}
         header={(l) => l.ui.dialog.settings.header}
         explanation={(l) => l.ui.dialog.settings.explanation}
@@ -243,6 +251,34 @@
                             )}
                     />
                 </label>
+                {#if voices.length > 0}
+                    <label for="voice-setting">
+                        🔊
+                        <Options
+                            value={selectedVoice?.name}
+                            label={(l) => l.ui.dialog.settings.options.voice}
+                            id="voice-setting"
+                            options={[
+                                {
+                                    value: undefined,
+                                    label: (l) =>
+                                        l.ui.dialog.settings.options.default,
+                                },
+                                ...voices.map((v) => {
+                                    return {
+                                        value: v.name,
+                                        label: () => v.name,
+                                    };
+                                }),
+                            ]}
+                            change={(choice) =>
+                                Settings.setVoice(
+                                    voices.find((v) => v.name === choice)
+                                        ?.voiceURI ?? null,
+                                )}
+                        />
+                    </label>
+                {/if}
             {/if}
             <Mode
                 modes={(l) => l.ui.dialog.settings.mode.dark}
@@ -260,22 +296,71 @@
                     Settings.setBlocks(choice === 1 ? true : false)}
                 icons={[TEXT_EDITING_SYMBOL, BLOCK_EDITING_SYMBOL]}
             />
-            <Mode
-                modes={(l) => l.ui.dialog.settings.mode.lines}
-                choice={$showLines ? 1 : 0}
-                select={(choice) =>
-                    Settings.setLines(choice === 1 ? true : false)}
-                icons={[CANCEL_SYMBOL, CONFIRM_SYMBOL]}
-            />
-            <Mode
-                modes={(l) => l.ui.dialog.settings.mode.space}
-                choice={$spaceIndicator ? 1 : 0}
-                select={(choice) =>
-                    Settings.setSpace(choice === 1 ? true : false)}
-                icons={[CANCEL_SYMBOL, CONFIRM_SYMBOL]}
-            />
+            {#if $blocks}
+                <div class="indented">
+                    <Mode
+                        modes={(l) => l.ui.dialog.settings.mode.blockDensity}
+                        choice={$blockDensity === 'compact'
+                            ? 0
+                            : $blockDensity === 'spacious'
+                              ? 2
+                              : 1}
+                        select={(choice) =>
+                            Settings.setBlockDensity(
+                                choice === 0
+                                    ? 'compact'
+                                    : choice === 2
+                                      ? 'spacious'
+                                      : 'normal',
+                            )}
+                    />
+                </div>
+            {:else}
+                <div class="indented">
+                    <Mode
+                        modes={(l) => l.ui.dialog.settings.mode.lines}
+                        choice={$showLines ? 1 : 0}
+                        select={(choice) =>
+                            Settings.setLines(choice === 1 ? true : false)}
+                        icons={[CANCEL_SYMBOL, CONFIRM_SYMBOL]}
+                    />
+                </div>
+            {/if}
+            <div class="indented">
+                <Mode
+                    modes={(l) => l.ui.dialog.settings.mode.space}
+                    choice={$spaceIndicator ? 1 : 0}
+                    select={(choice) =>
+                        Settings.setSpace(choice === 1 ? true : false)}
+                    icons={[CANCEL_SYMBOL, CONFIRM_SYMBOL]}
+                />
+            </div>
         </div>
     </Dialog>
+    <!-- The localization toggle is only useful for signed-in users since
+         submitting an edit bundle requires authentication. Hide the toggle
+         from anonymous visitors entirely; if an anonymous user had localizing
+         turned on previously, turn it off so they don't see ✎/💭 badges they
+         can't submit. -->
+    {#if isAuthenticated($user)}
+        <Toggle
+            on={localizing.on}
+            tips={(l) => l.ui.localize.toggle.mode}
+            toggle={() => (localizing.on = !localizing.on)}>✎</Toggle
+        >
+    {/if}
+    <LocaleChooser />
+    <Feedback />
+    <Notifications />
+    <Link nowrap to="/login">
+        <CreatorView
+            anonymize={false}
+            creator={$user ? Creator.from($user) : null}
+            chrome={$user !== null}
+            prompt
+        />
+    </Link>
+    <Status />
 </div>
 
 <style>
@@ -301,6 +386,10 @@
         flex-direction: row;
         align-items: baseline;
         gap: var(--wordplay-spacing-half);
+    }
+
+    .indented {
+        margin-inline-start: var(--wordplay-spacing);
     }
 
     label > :global(span) {

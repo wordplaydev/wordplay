@@ -2,8 +2,8 @@ import type Conflict from '@conflicts/Conflict';
 import { IncompatibleKey } from '@conflicts/IncompatibleKey';
 import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
 import type LocaleText from '@locale/LocaleText';
-import NodeRef from '@locale/NodeRef';
 import type { NodeDescriptor } from '@locale/NodeTexts';
+import type Context from '@nodes/Context';
 import type Evaluator from '@runtime/Evaluator';
 import Finish from '@runtime/Finish';
 import Start from '@runtime/Start';
@@ -12,30 +12,29 @@ import MapValue from '@values/MapValue';
 import SetValue from '@values/SetValue';
 import TypeException from '@values/TypeException';
 import type Value from '@values/Value';
-import type { BasisTypeName } from '../basis/BasisConstants';
-import { Purpose } from '../concepts/Purpose';
-import IncompatibleInput from '../conflicts/IncompatibleInput';
-import type Locales from '../locale/Locales';
+import type { BasisTypeName } from '@basis/BasisConstants';
+import { Purpose } from '@concepts/Purpose';
+import IncompatibleInput from '@conflicts/IncompatibleInput';
+import type Locales from '@locale/Locales';
 import Characters from '../lore/BasisCharacters';
-import Bind from './Bind';
-import BooleanType from './BooleanType';
-import type Context from './Context';
-import Expression, { type GuardContext } from './Expression';
-import getGuards from './getGuards';
-import MapType from './MapType';
-import { node, type Grammar, type Replacement } from './Node';
-import NoneType from './NoneType';
-import { NotAType } from './NotAType';
-import PropertyReference from './PropertyReference';
-import Reference from './Reference';
-import SetCloseToken from './SetCloseToken';
-import SetOpenToken from './SetOpenToken';
-import SetType from './SetType';
-import { Sym } from './Sym';
-import type Token from './Token';
-import Type from './Type';
-import type TypeSet from './TypeSet';
-import UnionType from './UnionType';
+import Bind from '@nodes/Bind';
+import BooleanType from '@nodes/BooleanType';
+import Expression, { type GuardContext } from '@nodes/Expression';
+import getGuards from '@nodes/getGuards';
+import MapType from '@nodes/MapType';
+import { node, type Grammar, type Replacement } from '@nodes/Node';
+import NoneType from '@nodes/NoneType';
+import { NotAType } from '@nodes/NotAType';
+import PropertyReference from '@nodes/PropertyReference';
+import Reference from '@nodes/Reference';
+import SetCloseToken from '@nodes/SetCloseToken';
+import SetOpenToken from '@nodes/SetOpenToken';
+import SetType from '@nodes/SetType';
+import { Sym } from '@nodes/Sym';
+import type Token from '@nodes/Token';
+import Type from '@nodes/Type';
+import type TypeSet from '@nodes/TypeSet';
+import UnionType from '@nodes/UnionType';
 
 export default class SetOrMapAccess extends Expression {
     readonly setOrMap: Expression;
@@ -122,7 +121,10 @@ export default class SetOrMapAccess extends Expression {
 
         const conflicts = [];
 
-        if (!(setMapType instanceof SetType || setMapType instanceof MapType))
+        if (
+            !context.isUnknownDownstream(this.setOrMap) &&
+            !(setMapType instanceof SetType || setMapType instanceof MapType)
+        )
             conflicts.push(
                 new IncompatibleInput(
                     this,
@@ -132,6 +134,7 @@ export default class SetOrMapAccess extends Expression {
             );
 
         if (
+            !context.isUnknownDownstream(this.key) &&
             (setMapType instanceof SetType || setMapType instanceof MapType) &&
             setMapType.key instanceof Type &&
             !setMapType.key.accepts(keyType, context)
@@ -283,11 +286,8 @@ export default class SetOrMapAccess extends Expression {
         return SetOrMapAccess.LocalePath;
     }
 
-    getStartExplanations(locales: Locales, context: Context) {
-        return locales.concretize(
-            (l) => l.node.SetOrMapAccess.start,
-            new NodeRef(this.setOrMap, locales, context),
-        );
+    getStartExplanations(locales: Locales) {
+        return locales.concretize((l) => l.node.SetOrMapAccess.start);
     }
 
     getFinishExplanations(
@@ -297,7 +297,9 @@ export default class SetOrMapAccess extends Expression {
     ) {
         return locales.concretize(
             (l) => l.node.SetOrMapAccess.finish,
-            this.getValueIfDefined(locales, context, evaluator),
+            {
+                value: this.getValueIfDefined(locales, context, evaluator),
+            },
         );
     }
 

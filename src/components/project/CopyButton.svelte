@@ -1,12 +1,12 @@
 <script lang="ts">
     import { goto } from '$app/navigation';
+    import { getUser } from '@components/project/Contexts';
     import Button from '@components/widgets/Button.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import { Projects } from '@db/Database';
     import type Project from '@db/projects/Project';
     import { PersistenceType } from '@db/projects/ProjectHistory.svelte';
     import { COPY_SYMBOL } from '@parser/Symbols';
-    import { getUser } from './Contexts';
 
     interface Props {
         project: Project;
@@ -25,22 +25,10 @@
 </script>
 
 <Button
-    tip={(l) => l.ui.project.button.duplicate}
+    tip={(l) => l.ui.project.button.duplicate.tip}
     action={copy}
     icon={COPY_SYMBOL}
-    ><span class="copy">
-        <LocalizedText path={(l) => l.ui.project.button.duplicate} /></span
-    ></Button
+    background="salient"
+    padding={true}
+    ><LocalizedText path={(l) => l.ui.project.button.duplicate.label} /></Button
 >
-
-<style>
-    .copy {
-        display: inline-block;
-        background: var(--wordplay-highlight-color);
-        color: var(--wordplay-background);
-        border-radius: var(--wordplay-border-radius);
-        padding-inline-start: var(--wordplay-spacing);
-        padding-inline-end: var(--wordplay-spacing);
-        user-select: none;
-    }
-</style>

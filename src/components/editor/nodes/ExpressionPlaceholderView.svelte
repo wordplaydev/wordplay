@@ -1,9 +1,11 @@
 <script lang="ts">
     import type ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
-    import { locales } from '../../../db/Database';
-    import { getProject, getRoot } from '../../project/Contexts';
-    import MenuTrigger from '../menu/MenuTrigger.svelte';
-    import NodeView, { type Format } from './NodeView.svelte';
+    import { locales } from '@db/Database';
+    import { getProject, getRoot } from '@components/project/Contexts';
+    import MenuTrigger from '@components/editor/menu/MenuTrigger.svelte';
+    import NodeView, {
+        type Format,
+    } from '@components/editor/nodes/NodeView.svelte';
 
     interface Props {
         node: ExpressionPlaceholder;
@@ -43,8 +45,10 @@
     node={[node, 'dot']}
     empty="hide"
     format={{ ...format, editable: false }}
-/><NodeView node={[node, 'type']} format={{ ...format, editable: false }} />
-{#if format.editable && format.block}<MenuTrigger anchor={node} />{/if}
+/><NodeView
+    node={[node, 'type']}
+    format={{ ...format, editable: false }}
+/>{#if format.editable && format.block}<MenuTrigger anchor={node} />{/if}
 
 <style>
     .label {

@@ -2,9 +2,9 @@
     import type OutputProperty from '@edit/output/OutputProperty';
     import type OutputPropertyValues from '@edit/output/OutputPropertyValueSet';
     import BooleanLiteral from '@nodes/BooleanLiteral';
-    import { locales, Projects } from '../../db/Database';
-    import { getProject } from '../project/Contexts';
-    import Checkbox from '../widgets/Checkbox.svelte';
+    import { locales, Projects } from '@db/Database';
+    import { getProject } from '@components/project/Contexts';
+    import Checkbox from '@components/widgets/Checkbox.svelte';
 
     interface Props {
         property: OutputProperty;

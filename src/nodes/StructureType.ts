@@ -1,22 +1,22 @@
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
-import type { BasisTypeName } from '../basis/BasisConstants';
-import type Locales from '../locale/Locales';
+import type { BasisTypeName } from '@basis/BasisConstants';
+import type Locales from '@locale/Locales';
 import Characters from '../lore/BasisCharacters';
-import type Spaces from '../parser/Spaces';
-import BasisType from './BasisType';
-import type Bind from './Bind';
-import type Context from './Context';
-import type ConversionDefinition from './ConversionDefinition';
-import type Definition from './Definition';
-import type Expression from './Expression';
-import NameType from './NameType';
-import type Node from './Node';
-import type { Grammar } from './Node';
-import StructureDefinition from './StructureDefinition';
-import StructureDefinitionType from './StructureDefinitionType';
-import type Type from './Type';
-import type TypeSet from './TypeSet';
+import type Spaces from '@parser/Spaces';
+import BasisType from '@nodes/BasisType';
+import type Bind from '@nodes/Bind';
+import type Context from '@nodes/Context';
+import type ConversionDefinition from '@nodes/ConversionDefinition';
+import type Definition from '@nodes/Definition';
+import type Expression from '@nodes/Expression';
+import NameType from '@nodes/NameType';
+import type Node from '@nodes/Node';
+import type { Grammar } from '@nodes/Node';
+import StructureDefinition from '@nodes/StructureDefinition';
+import StructureDefinitionType from '@nodes/StructureDefinitionType';
+import type Type from '@nodes/Type';
+import type TypeSet from '@nodes/TypeSet';
 
 export const STRUCTURE_NATIVE_TYPE_NAME = 'structure';
 
@@ -79,7 +79,7 @@ export default class StructureType extends BasisType {
     /** Override to include this structure's definitions, but also the base structure definitions (e.g., =, ≠) */
     getDefinitions(node: Node, context: Context): Definition[] {
         return [
-            ...this.definition.getDefinitions(node),
+            ...this.definition.getDefinitions(node, context),
             ...(this.getAdditionalBasisScope(context)?.getDefinitions(
                 node,
                 context,
@@ -93,7 +93,11 @@ export default class StructureType extends BasisType {
             // If the given type is a name type, is does it refer to this type's structure definition?
             if (type instanceof NameType) type = type.getType(context);
 
-            if (type instanceof StructureDefinitionType) type = type.type;
+            // `StructureDefinitionType` is the type of a *reference to the
+            // definition itself* (e.g., `Color` standing alone), not of an
+            // instance. It should NOT satisfy a `StructureType` input —
+            // `Phrase(color: Color)` is a type error, since `Color` isn't a
+            // `Color` value.
             if (!(type instanceof StructureType)) return false;
             if (type.definition === this.definition) return true;
             // Are any of the given type's interfaces compatible with this?
@@ -166,7 +170,9 @@ export default class StructureType extends BasisType {
     }
 
     getDescriptionInputs(locales: Locales) {
-        return [locales.getName(this.definition.names)];
+        return {
+            name: locales.getName(this.definition.names),
+        };
     }
 
     getDefaultExpression(context: Context): Expression | undefined {

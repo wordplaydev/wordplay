@@ -11,30 +11,30 @@ import ListValue from '@values/ListValue';
 import NoneValue from '@values/NoneValue';
 import NumberValue from '@values/NumberValue';
 import type Value from '@values/Value';
-import type { BasisTypeName } from '../basis/BasisConstants';
-import { Purpose } from '../concepts/Purpose';
-import IncompatibleInput from '../conflicts/IncompatibleInput';
-import type Locales from '../locale/Locales';
+import type { BasisTypeName } from '@basis/BasisConstants';
+import { Purpose } from '@concepts/Purpose';
+import IncompatibleInput from '@conflicts/IncompatibleInput';
+import type Locales from '@locale/Locales';
 import Characters from '../lore/BasisCharacters';
-import AnyType from './AnyType';
-import Bind from './Bind';
-import type Context from './Context';
-import Expression, { type GuardContext } from './Expression';
-import getGuards from './getGuards';
-import ListCloseToken from './ListCloseToken';
-import ListOpenToken from './ListOpenToken';
-import ListType from './ListType';
-import { node, type Grammar, type Replacement } from './Node';
-import { NotAType } from './NotAType';
-import NumberType from './NumberType';
-import PropertyReference from './PropertyReference';
-import Reference from './Reference';
-import { Sym } from './Sym';
-import type Token from './Token';
-import type Type from './Type';
-import type TypeSet from './TypeSet';
-import UnionType from './UnionType';
-import Unit from './Unit';
+import AnyType from '@nodes/AnyType';
+import Bind from '@nodes/Bind';
+import type Context from '@nodes/Context';
+import Expression, { type GuardContext } from '@nodes/Expression';
+import getGuards from '@nodes/getGuards';
+import ListCloseToken from '@nodes/ListCloseToken';
+import ListOpenToken from '@nodes/ListOpenToken';
+import ListType from '@nodes/ListType';
+import { node, type Grammar, type Replacement } from '@nodes/Node';
+import { NotAType } from '@nodes/NotAType';
+import NumberType from '@nodes/NumberType';
+import PropertyReference from '@nodes/PropertyReference';
+import Reference from '@nodes/Reference';
+import { Sym } from '@nodes/Sym';
+import type Token from '@nodes/Token';
+import type Type from '@nodes/Type';
+import type TypeSet from '@nodes/TypeSet';
+import UnionType from '@nodes/UnionType';
+import Unit from '@nodes/Unit';
 
 export default class ListAccess extends Expression {
     readonly list: Expression;
@@ -126,7 +126,10 @@ export default class ListAccess extends Expression {
             );
 
         const listType = this.list.getType(context);
-        if (!(listType instanceof ListType))
+        if (
+            !context.isUnknownDownstream(this.list) &&
+            !(listType instanceof ListType)
+        )
             conflicts.push(
                 new IncompatibleInput(this.list, listType, ListType.make()),
             );
@@ -134,8 +137,9 @@ export default class ListAccess extends Expression {
         const indexType = this.index.getType(context);
 
         if (
-            !(indexType instanceof NumberType) ||
-            (indexType.unit instanceof Unit && !indexType.unit.isUnitless())
+            !context.isUnknownDownstream(this.index) &&
+            (!(indexType instanceof NumberType) ||
+                (indexType.unit instanceof Unit && !indexType.unit.isUnitless()))
         )
             conflicts.push(
                 new IncompatibleInput(this.index, indexType, NumberType.make()),
@@ -280,7 +284,9 @@ export default class ListAccess extends Expression {
     getStartExplanations(locales: Locales, context: Context) {
         return locales.concretize(
             (l) => l.node.ListAccess.start,
-            new NodeRef(this.list, locales, context),
+            {
+                list: new NodeRef(this.list, locales, context),
+            },
         );
     }
 
@@ -291,7 +297,9 @@ export default class ListAccess extends Expression {
     ) {
         return locales.concretize(
             (l) => l.node.ListAccess.finish,
-            this.getValueIfDefined(locales, context, evaluator),
+            {
+                value: this.getValueIfDefined(locales, context, evaluator),
+            },
         );
     }
 

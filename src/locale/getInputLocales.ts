@@ -3,11 +3,11 @@ import type Doc from '@nodes/Doc';
 import Docs from '@nodes/Docs';
 import Name from '@nodes/Name';
 import Names from '@nodes/Names';
-import type Locales from './Locales';
-import type LocaleText from './LocaleText';
-import { toDocString, type NameAndDoc } from './LocaleText';
-import { localeToLanguage } from './localeToLanguage';
-import { withoutAnnotations } from './withoutAnnotations';
+import type Locales from '@locale/Locales';
+import type LocaleText from '@locale/LocaleText';
+import { toDocString, type NameAndDoc } from '@locale/LocaleText';
+import { localeToLanguage } from '@locale/localeToLanguage';
+import { withoutAnnotations } from '@locale/withoutAnnotations';
 
 export function getInputLocales(
     locales: Locales,

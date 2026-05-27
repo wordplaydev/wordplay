@@ -1,13 +1,13 @@
 import type { HowToCategories } from '@concepts/HowTo';
 import { Purpose } from '@concepts/Purpose';
-import type { FormattedText } from '@locale/LocaleText';
-import type { HeaderAndExplanationText, ModeText } from '@locale/UITexts';
+import type { FormattedText, Template } from '@locale/LocaleText';
+import type { ButtonText, HeaderAndExplanationText, ModeText } from '@locale/UITexts';
 
 type DocumentationText = {
     /** [plain] The ARIA label for the palette section. */
     label: string;
     /** [formatted] A link to a concept in documentation */
-    link: FormattedText;
+    link: Template<['name']>;
     /** [plain] A link to the tutorial for a concept */
     learn: string;
     /** [plain] Shown if documentation is missing for a concept */
@@ -54,6 +54,8 @@ type DocumentationText = {
                 string,
             ]
         >;
+        /** Toggle between seeing all user-created how-tos or only those in the project's gallery */
+        howToFilter: ModeText<[string, string]>;
     };
     header: {
         /** Names header */
@@ -91,6 +93,23 @@ type DocumentationText = {
         category: Record<keyof typeof HowToCategories, string>;
         /** [plain] The subheader for related how to's */
         related: string;
+        /** Button text to go to the how-to in the space */
+        howToGalleryButton: ButtonText;
+    };
+    /** Interactive tour explaining the documentation tile */
+    tour: {
+        /** [plain] Tooltip on the help button that opens the tour */
+        launch: string;
+        /** Markup describing the guide overall */
+        guide: FormattedText;
+        /** Markup describing the code (programming language) section */
+        code: FormattedText;
+        /** Markup describing the how-to section */
+        howto: FormattedText;
+        /** Markup describing the code/how-to mode toggle */
+        mode: FormattedText;
+        /** Markup describing the search field */
+        search: FormattedText;
     };
 };
 

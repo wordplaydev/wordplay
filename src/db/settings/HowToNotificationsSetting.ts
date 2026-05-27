@@ -1,5 +1,5 @@
 import { withMonoEmoji } from "@unicode/emoji";
-import Setting from "./Setting";
+import Setting from "@db/settings/Setting";
 
 export const NotificationsIcons = ['🔔', '🔕'].map((i) => withMonoEmoji(i));
 

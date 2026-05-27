@@ -2,10 +2,10 @@ import ExpectedSelectName from '@conflicts/ExpectedSelectName';
 import { testConflict } from '@conflicts/TestUtilities';
 import UnknownColumn from '@conflicts/UnknownColumn';
 import { expect, test } from 'vitest';
-import IncompatibleInput from '../conflicts/IncompatibleInput';
-import DefaultLocales from '../locale/DefaultLocales';
-import evaluateCode from '../runtime/evaluate';
-import Select from './Select';
+import IncompatibleInput from '@conflicts/IncompatibleInput';
+import DefaultLocales from '@locale/DefaultLocales';
+import evaluateCode from '@runtime/evaluate';
+import Select from '@nodes/Select';
 
 test.each([
     [

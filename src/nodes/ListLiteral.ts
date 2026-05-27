@@ -9,25 +9,25 @@ import Start from '@runtime/Start';
 import type Step from '@runtime/Step';
 import ListValue from '@values/ListValue';
 import type Value from '@values/Value';
-import type { BasisTypeName } from '../basis/BasisConstants';
-import { Purpose } from '../concepts/Purpose';
-import type Locales from '../locale/Locales';
+import type { BasisTypeName } from '@basis/BasisConstants';
+import { Purpose } from '@concepts/Purpose';
+import type Locales from '@locale/Locales';
 import Characters from '../lore/BasisCharacters';
-import TypeException from '../values/TypeException';
-import AnyType from './AnyType';
-import CompositeLiteral from './CompositeLiteral';
-import type Context from './Context';
-import Expression, { type GuardContext } from './Expression';
-import ListCloseToken from './ListCloseToken';
-import ListOpenToken from './ListOpenToken';
-import ListType from './ListType';
-import { list, node, type Grammar, type Replacement } from './Node';
-import Spread from './Spread';
-import { Sym } from './Sym';
-import type Token from './Token';
-import type Type from './Type';
-import type TypeSet from './TypeSet';
-import UnionType from './UnionType';
+import TypeException from '@values/TypeException';
+import AnyType from '@nodes/AnyType';
+import CompositeLiteral from '@nodes/CompositeLiteral';
+import type Context from '@nodes/Context';
+import Expression, { type GuardContext } from '@nodes/Expression';
+import ListCloseToken from '@nodes/ListCloseToken';
+import ListOpenToken from '@nodes/ListOpenToken';
+import ListType from '@nodes/ListType';
+import { list, node, type Grammar, type Replacement } from '@nodes/Node';
+import Spread from '@nodes/Spread';
+import { Sym } from '@nodes/Sym';
+import type Token from '@nodes/Token';
+import type Type from '@nodes/Type';
+import type TypeSet from '@nodes/TypeSet';
+import UnionType from '@nodes/UnionType';
 
 export default class ListLiteral extends CompositeLiteral {
     readonly open: Token;
@@ -275,12 +275,16 @@ export default class ListLiteral extends CompositeLiteral {
     ) {
         return locales.concretize(
             (l) => l.node.ListLiteral.finish,
-            this.getValueIfDefined(locales, context, evaluator),
+            {
+                value: this.getValueIfDefined(locales, context, evaluator),
+            },
         );
     }
 
     getDescriptionInputs() {
-        return [this.values.length];
+        return {
+            count: this.values.length,
+        };
     }
 
     getCharacter() {

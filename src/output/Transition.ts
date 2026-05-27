@@ -1,5 +1,5 @@
-import type Place from './Place';
-import type Pose from './Pose';
+import type Place from '@output/Place';
+import type Pose from '@output/Pose';
 
 /**
  * Represents a transition between two poses, including a duration and style.

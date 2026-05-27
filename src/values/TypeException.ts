@@ -3,8 +3,8 @@ import type Type from '@nodes/Type';
 import type Evaluator from '@runtime/Evaluator';
 import ExceptionValue from '@values/ExceptionValue';
 import type Value from '@values/Value';
-import type Locales from '../locale/Locales';
-import type Expression from '../nodes/Expression';
+import type Locales from '@locale/Locales';
+import type Expression from '@nodes/Expression';
 
 export default class TypeException extends ExceptionValue {
     readonly expected: Type;
@@ -28,17 +28,19 @@ export default class TypeException extends ExceptionValue {
 
     getExplanation(locales: Locales) {
         return locales.concretize(
-            this.getExceptionText(locales).explanation,
-            new NodeRef(
-                this.expected,
-                locales,
-                this.getNodeContext(this.expected),
-            ),
-            new NodeRef(
-                this.received.getType(this.evaluator.getCurrentContext()),
-                locales,
-                this.getNodeContext(this.received.creator),
-            ),
+            (l) => l.node.Is.exception.TypeException.explanation,
+            {
+                expected: new NodeRef(
+                    this.expected,
+                    locales,
+                    this.getNodeContext(this.expected),
+                ),
+                given: new NodeRef(
+                    this.received.getType(this.evaluator.getCurrentContext()),
+                    locales,
+                    this.getNodeContext(this.received.creator),
+                ),
+            },
         );
     }
 }

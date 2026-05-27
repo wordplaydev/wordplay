@@ -82,7 +82,9 @@ export async function updateProjectSource(
  * @param collectionName - The collection name
  * @param documentId - The document ID
  * @param predicate - A function that takes the document data and returns true when the condition is met
- * @param timeout - Maximum time to wait in milliseconds (default: 5000)
+ * @param timeout - Maximum time to wait in milliseconds (default: 15000 — cloud
+ *                  writes are debounced and emulator round-trip latency varies,
+ *                  so anything tighter is the leading source of test flake)
  * @param interval - Polling interval in milliseconds (default: 100)
  * @returns The document data when the condition is met, or after the check has timed out
  */
@@ -91,7 +93,7 @@ export async function waitForDocumentUpdate(
     collectionName: string,
     documentId: string,
     predicate: (data: FirebaseFirestore.DocumentData | null | undefined) => boolean,
-    timeout = 5000,
+    timeout = 15000,
     interval = 100,
 ) {
     let documentData;

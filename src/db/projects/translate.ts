@@ -9,6 +9,7 @@ import FormattedLiteral from '@nodes/FormattedLiteral';
 import FormattedTranslation from '@nodes/FormattedTranslation';
 import Input from '@nodes/Input';
 import Language from '@nodes/Language';
+import Markup from '@nodes/Markup';
 import Names from '@nodes/Names';
 import Reference from '@nodes/Reference';
 import type Source from '@nodes/Source';
@@ -19,10 +20,28 @@ import Translation from '@nodes/Translation';
 import getPreferredSpaces from '@parser/getPreferredSpaces';
 import { toMarkup } from '@parser/toMarkup';
 import { httpsCallable, type Functions } from 'firebase/functions';
-import type Project from './Project';
+import type Project from '@db/projects/Project';
 
 // Convert any camel cased word into space separated words.
 const SeparateWords = /[A-Z-_](?=[a-z0-9]+)|[A-Z-_]+(?![a-z0-9])/g;
+
+/**
+ * Doc.make() and FormattedTranslation.make() build their inner Markup with
+ * no Spaces, but the stage renderer ([MarkupHTMLView](src/components/concepts/MarkupHTMLView.svelte))
+ * falls back to "unable to render markup without spaces" when that field is
+ * undefined. We reattach computed spaces here so the translated Doc /
+ * FormattedTranslation render the same way the original source-parsed one
+ * does. Same pattern as the source-level `getPreferredSpaces` call below.
+ */
+function withFormattedMarkupSpaces<T extends Doc | FormattedTranslation>(
+    node: T,
+): T {
+    const inner = node.markup;
+    return node.replace(
+        inner,
+        new Markup(inner.paragraphs, getPreferredSpaces(inner)),
+    ) as T;
+}
 
 /** Given a reference to Firebase functions, a project, and a target language, translate the project's names, documentation, and text literals
  * using a combination of the text already in the project and translations from Google's Translate API. Subsequent calls the project should
@@ -172,14 +191,16 @@ export default async function translateProject(
                 return {
                     names: markups,
                     original:
-                        docToTranslate instanceof Translation
-                            ? docToTranslate.segments
-                                  .filter((t): t is Token => t instanceof Token)
-                                  .map((t) => t.toWordplay())
-                                  .join('')
-                            : docToTranslate.markup.paragraphs
-                                  .map((p) => p.toWordplay())
-                                  .join('\n\n'),
+                        docToTranslate === undefined
+                            ? undefined
+                            : docToTranslate instanceof Translation
+                              ? docToTranslate.segments
+                                    .filter((t): t is Token => t instanceof Token)
+                                    .map((t) => t.toWordplay())
+                                    .join('')
+                              : docToTranslate.markup.paragraphs
+                                    .map((p) => p.toWordplay())
+                                    .join('\n\n'),
                     translation: existingTranslation?.toWordplay(),
                 };
             });
@@ -193,8 +214,8 @@ export default async function translateProject(
         // Keep a record of the revised project to return.
         let newProject = project;
 
-        // If there are original texts to translate, get the translations from the API.
-        let translations: string[] | null = null;
+        // Build a map from each unique original text to its translation, so lookups don't depend on positional indexes (which break when originalTexts has duplicates).
+        let translationByOriginal: Map<string, string> | null = null;
         // If there are more than one and the source and target are different, get some translations.
         if (
             originalTexts.length > 0 &&
@@ -205,17 +226,26 @@ export default async function translateProject(
                 string[] | null
             >(functions, 'getTranslations');
 
-            translations = (
+            // Remove duplicates from the original texts to minimize cost.
+            const uniqueOriginals = Array.from(new Set(originalTexts));
+
+            const translations = (
                 await getTranslations({
                     from: localeToString(sourceLocale),
                     to: localeToString(targetLocale),
-                    // Remove duplicates from the original texts to minimize cost.
-                    text: Array.from(new Set(originalTexts)),
+                    text: uniqueOriginals,
                 })
             ).data;
 
             // If we didn't get any translations, return nothing as an indicator of failure.
             if (translations === null) return null;
+
+            translationByOriginal = new Map();
+            uniqueOriginals.forEach((original, index) => {
+                const translated = translations[index];
+                if (typeof translated === 'string')
+                    translationByOriginal!.set(original, translated);
+            });
         }
 
         // First, revise the project to contain the target locale, so we have names from the locale.
@@ -236,12 +266,12 @@ export default async function translateProject(
                 if (
                     translation === undefined &&
                     original !== undefined &&
-                    translations
+                    translationByOriginal
                 ) {
-                    const originalIndex = originalTexts.indexOf(original);
-                    if (originalIndex === -1) return [names, names];
+                    const translated = translationByOriginal.get(original);
+                    if (translated === undefined) return [names, names];
                     // Convert the translated text into camel case, to confirm to Wordplay's naming rules.
-                    translation = translations[originalIndex]
+                    translation = translated
                         .split(' ')
                         .map((word, i) =>
                             i === 0
@@ -332,13 +362,14 @@ export default async function translateProject(
                 let translation = textToTranslate.translation;
 
                 // Already have a translation? No change.
-                if (translations === null || translation !== undefined)
+                if (translationByOriginal === null || translation !== undefined)
                     return [markups, markups];
 
-                const originalIndex = originalTexts.indexOf(original);
-                if (originalIndex === -1) return [markups, markups];
+                if (original === undefined) return [markups, markups];
+                const translated = translationByOriginal.get(original);
+                if (translated === undefined) return [markups, markups];
 
-                translation = translations[originalIndex];
+                translation = translated;
 
                 const [markup] = toMarkup(translation);
 
@@ -353,15 +384,19 @@ export default async function translateProject(
                           )
                         : markups instanceof Docs
                           ? markups.withOption(
-                                Doc.make(
-                                    markup.paragraphs,
-                                    Language.make(targetLanguage),
+                                withFormattedMarkupSpaces(
+                                    Doc.make(
+                                        markup.paragraphs,
+                                        Language.make(targetLanguage),
+                                    ),
                                 ),
                             )
                           : markups.withOption(
-                                FormattedTranslation.make(
-                                    markup.paragraphs,
-                                    Language.make(targetLanguage),
+                                withFormattedMarkupSpaces(
+                                    FormattedTranslation.make(
+                                        markup.paragraphs,
+                                        Language.make(targetLanguage),
+                                    ),
                                 ),
                             ),
                 ];
@@ -383,6 +418,7 @@ export default async function translateProject(
         // Return the revised project
         return newProject;
     } catch (e) {
+        console.error('translateProject failed:', e);
         return null;
     }
 }

@@ -1,6 +1,6 @@
 import type Conflict from '@conflicts/Conflict';
 import Placeholder from '@conflicts/Placeholder';
-import type { InsertContext } from '@edit/revision/EditContext';
+import type { InsertContext, ReplaceContext } from '@edit/revision/EditContext';
 import type { LocaleText } from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { TYPE_SYMBOL } from '@parser/Symbols';
@@ -9,31 +9,32 @@ import Halt from '@runtime/Halt';
 import type Step from '@runtime/Step';
 import UnimplementedException from '@values/UnimplementedException';
 import type Value from '@values/Value';
-import { Purpose } from '../concepts/Purpose';
-import type Locales from '../locale/Locales';
-import NodeRef from '../locale/NodeRef';
+import { Purpose } from '@concepts/Purpose';
+import type Locales from '@locale/Locales';
+import NodeRef from '@locale/NodeRef';
 import Characters from '../lore/BasisCharacters';
-import AnyType from './AnyType';
-import BinaryEvaluate from './BinaryEvaluate';
-import Bind from './Bind';
-import type Context from './Context';
-import Evaluate from './Evaluate';
-import type Expression from './Expression';
-import FunctionDefinition from './FunctionDefinition';
-import getConcreteExpectedType from './Generics';
-import Input from './Input';
-import type Node from './Node';
-import { any, node, none, type Grammar, type Replacement } from './Node';
-import PlaceholderToken from './PlaceholderToken';
-import type Root from './Root';
-import SimpleExpression from './SimpleExpression';
-import StreamType from './StreamType';
-import { Sym } from './Sym';
-import Token from './Token';
-import Type from './Type';
-import TypePlaceholder from './TypePlaceholder';
-import type TypeSet from './TypeSet';
-import TypeToken from './TypeToken';
+import AnyType from '@nodes/AnyType';
+import BinaryEvaluate from '@nodes/BinaryEvaluate';
+import Bind from '@nodes/Bind';
+import type Context from '@nodes/Context';
+import Evaluate from '@nodes/Evaluate';
+import type Expression from '@nodes/Expression';
+import FunctionDefinition from '@nodes/FunctionDefinition';
+import getConcreteExpectedType from '@nodes/Generics';
+import Input from '@nodes/Input';
+import type Node from '@nodes/Node';
+import { any, node, none, type Grammar, type Replacement } from '@nodes/Node';
+import PlaceholderToken from '@nodes/PlaceholderToken';
+import type Root from '@nodes/Root';
+import SimpleExpression from '@nodes/SimpleExpression';
+import StreamType from '@nodes/StreamType';
+import { Sym } from '@nodes/Sym';
+import Token from '@nodes/Token';
+import Type from '@nodes/Type';
+import TypePlaceholder from '@nodes/TypePlaceholder';
+import UnionType from '@nodes/UnionType';
+import type TypeSet from '@nodes/TypeSet';
+import TypeToken from '@nodes/TypeToken';
 
 export default class ExpressionPlaceholder extends SimpleExpression {
     readonly placeholder: Token | undefined;
@@ -63,8 +64,20 @@ export default class ExpressionPlaceholder extends SimpleExpression {
         );
     }
 
-    static getPossibleReplacements() {
-        return [];
+    static getPossibleReplacements({
+        node,
+        context,
+        locales,
+    }: ReplaceContext) {
+        if (!(node instanceof ExpressionPlaceholder)) return [];
+        const type = node.computeType(context);
+        const types =
+            type instanceof UnionType
+                ? type.getLocalizedTypes(locales, context)
+                : [type];
+        return types
+            .map((t) => t.getDefaultExpression(context))
+            .filter((e): e is Exclude<typeof e, undefined> => e !== undefined);
     }
 
     static getPossibleInsertions({ type }: InsertContext) {

@@ -1,15 +1,15 @@
 <script lang="ts">
     import type { LocaleTextAccessor } from '@locale/Locales';
     import { CANCEL_SYMBOL } from '@parser/Symbols';
-    import Button, { type Action } from './Button.svelte';
-    import LocalizedText from './LocalizedText.svelte';
+    import Button, { type Action } from '@components/widgets/Button.svelte';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
 
     interface Props {
         tip: LocaleTextAccessor;
         action: Action;
         enabled?: boolean;
         prompt: LocaleTextAccessor;
-        background?: boolean;
+        background?: boolean | 'salient' | 'circular';
         icon?: string;
         label?: LocaleTextAccessor;
         children?: import('svelte').Snippet;
@@ -40,13 +40,13 @@
         active={enabled}
         {label}
         {testid}
-        >{#if confirming}{CANCEL_SYMBOL}{:else if children}{@render children()}{:else if label}<LocalizedText
-                path={label}
-            />{/if}</Button
+        >{#if confirming}{CANCEL_SYMBOL}{:else}{#if children}{@render children()}{:else if label}<LocalizedText
+                    path={label}
+                />{/if}…{/if}</Button
     >
     {#if confirming}
         <Button
-            {background}
+            background="salient"
             stretch
             {tip}
             testid={testid + '-confirm'}
@@ -61,12 +61,23 @@
         display: inline-flex;
         flex-direction: row;
         width: max-content;
-        gap: var(--wordplay-spacing);
-        padding-left: var(--wordplay-spacing);
-        padding-right: var(--wordplay-spacing);
-        align-items: baseline;
+        gap: 0;
+        align-items: stretch;
         outline: var(--wordplay-border-color) solid var(--wordplay-border-width);
         border-radius: var(--wordplay-border-radius);
+    }
+
+    /* Square off the inner corners of each button when sitting in the
+       confirming prompt, so the cancel + confirm pair reads as a single
+       segmented control (like the Mode widget). */
+    .prompt.confirming :global(button:first-of-type) {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+
+    .prompt.confirming :global(button:last-of-type) {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
     }
 
     .prompt.background {

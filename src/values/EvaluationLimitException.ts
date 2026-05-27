@@ -4,9 +4,9 @@ import StructureDefinition from '@nodes/StructureDefinition';
 import type { DefinitionNode } from '@runtime/Evaluation';
 import type Evaluator from '@runtime/Evaluator';
 import ExceptionValue from '@values/ExceptionValue';
-import type Locales from '../locale/Locales';
-import type Program from '../nodes/Program';
-import StreamDefinition from '../nodes/StreamDefinition';
+import type Locales from '@locale/Locales';
+import type Program from '@nodes/Program';
+import StreamDefinition from '@nodes/StreamDefinition';
 
 export default class EvaluationLimitException extends ExceptionValue {
     readonly program: Program;
@@ -36,18 +36,21 @@ export default class EvaluationLimitException extends ExceptionValue {
         const mostFrequent = sorted[0][0];
 
         return locales.concretize(
-            this.getExceptionText(locales).explanation,
-            new NodeRef(
-                mostFrequent instanceof FunctionDefinition ||
-                mostFrequent instanceof StructureDefinition ||
-                mostFrequent instanceof StreamDefinition
-                    ? (mostFrequent.names.getPreferredName(
-                          locales.getLocales(),
-                      ) ?? mostFrequent)
-                    : mostFrequent,
-                locales,
-                this.getNodeContext(mostFrequent),
-            ),
+            (l) =>
+                l.node.Program.exception.EvaluationLimitException.explanation,
+            {
+                function: new NodeRef(
+                    mostFrequent instanceof FunctionDefinition ||
+                    mostFrequent instanceof StructureDefinition ||
+                    mostFrequent instanceof StreamDefinition
+                        ? (mostFrequent.names.getPreferredName(
+                              locales.getLocales(),
+                          ) ?? mostFrequent)
+                        : mostFrequent,
+                    locales,
+                    this.getNodeContext(mostFrequent),
+                ),
+            },
         );
     }
 }

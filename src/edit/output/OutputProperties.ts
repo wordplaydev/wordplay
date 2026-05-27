@@ -6,17 +6,17 @@ import TextLiteral from '@nodes/TextLiteral';
 import Unit from '@nodes/Unit';
 import { DefaultStyle } from '@output/Output';
 import { createPoseLiteral } from '@output/Pose';
-import type Project from '../../db/projects/Project';
-import type Locales from '../../locale/Locales';
-import type { LocaleTextsAccessor } from '../../locale/Locales';
-import type { NameText } from '../../locale/LocaleText';
-import BooleanLiteral from '../../nodes/BooleanLiteral';
-import Reference from '../../nodes/Reference';
-import OutputProperty from './OutputProperty';
-import OutputPropertyOptions from './OutputPropertyOptions';
-import OutputPropertyRange from './OutputPropertyRange';
-import OutputPropertyText from './OutputPropertyText';
-import getPoseProperties from './PoseProperties';
+import type Project from '@db/projects/Project';
+import type Locales from '@locale/Locales';
+import type { LocaleTextsAccessor } from '@locale/Locales';
+import type { NameText } from '@locale/LocaleText';
+import BooleanLiteral from '@nodes/BooleanLiteral';
+import Reference from '@nodes/Reference';
+import OutputProperty from '@edit/output/OutputProperty';
+import OutputPropertyOptions from '@edit/output/OutputPropertyOptions';
+import OutputPropertyRange from '@edit/output/OutputPropertyRange';
+import OutputPropertyText from '@edit/output/OutputPropertyText';
+import getPoseProperties from '@edit/output/PoseProperties';
 
 function getPoseProperty(
     project: Project,

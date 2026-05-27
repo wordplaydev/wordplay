@@ -2,9 +2,9 @@ import { Purpose } from '@concepts/Purpose';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { NEVER_SYMBOL } from '@parser/Symbols';
-import type { BasisTypeName } from '../basis/BasisConstants';
+import type { BasisTypeName } from '@basis/BasisConstants';
 import Characters from '../lore/BasisCharacters';
-import Type from './Type';
+import Type from '@nodes/Type';
 
 export default class NeverType extends Type {
     constructor() {

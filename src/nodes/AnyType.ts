@@ -1,10 +1,10 @@
 import { Purpose } from '@concepts/Purpose';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
-import type { BasisTypeName } from '../basis/BasisConstants';
+import type { BasisTypeName } from '@basis/BasisConstants';
 import Characters from '../lore/BasisCharacters';
-import { PLACEHOLDER_SYMBOL } from '../parser/Symbols';
-import Type from './Type';
+import { PLACEHOLDER_SYMBOL } from '@parser/Symbols';
+import Type from '@nodes/Type';
 
 export default class AnyType extends Type {
     constructor() {

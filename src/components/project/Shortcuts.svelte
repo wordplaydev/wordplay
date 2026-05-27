@@ -1,7 +1,7 @@
 <script lang="ts">
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
-    import Commands, { Category } from '../editor/commands/Commands';
-    import CommandDescription from './CommandDescription.svelte';
+    import Commands, { Category } from '@components/editor/commands/Commands';
+    import CommandDescription from '@components/project/CommandDescription.svelte';
 </script>
 
 <table>

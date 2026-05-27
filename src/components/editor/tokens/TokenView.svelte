@@ -1,22 +1,28 @@
 <script lang="ts">
     import Caret from '@edit/caret/Caret';
+    import Convert from '@nodes/Convert';
+    import Dimension from '@nodes/Dimension';
+    import Evaluate from '@nodes/Evaluate';
+    import Input from '@nodes/Input';
+    import Language from '@nodes/Language';
     import Reference from '@nodes/Reference';
     import { Sym } from '@nodes/Sym';
+    import Unit from '@nodes/Unit';
     import Token from '@nodes/Token';
-    import { locales } from '../../../db/Database';
-    import { withColorEmoji } from '../../../unicode/emoji';
+    import { locales } from '@db/Database';
+    import { withColorEmoji } from '@unicode/emoji';
     import {
         getCaret,
         getHidden,
         getLocalize,
         getProject,
         getRoot,
-    } from '../../project/Contexts';
-    import MenuTrigger from '../menu/MenuTrigger.svelte';
-    import type { Format } from '../nodes/NodeView.svelte';
-    import BooleanTokenEditor from './BooleanTokenEditor.svelte';
-    import TextOrPlaceholder from './TextOrPlaceholder.svelte';
-    import TokenCategories from './TokenCategories';
+    } from '@components/project/Contexts';
+    import MenuTrigger from '@components/editor/menu/MenuTrigger.svelte';
+    import type { Format } from '@components/editor/nodes/NodeView.svelte';
+    import BooleanTokenEditor from '@components/editor/tokens/BooleanTokenEditor.svelte';
+    import TextOrPlaceholder from '@components/editor/tokens/TextOrPlaceholder.svelte';
+    import TokenCategories from '@components/editor/tokens/TokenCategories';
 
     interface TokenProps {
         node: Token;
@@ -74,6 +80,22 @@
     // True if this is the recently added token.
     let added = $derived($caret?.addition?.contains(node) ?? false);
 
+    // Structural bracket pairs that should "pop" in blocks mode. Excludes
+    // separators, language tags, and markup tags — they share the delimiter
+    // category but aren't structural brackets.
+    let isBracket = $derived(
+        node.isSymbol(Sym.EvalOpen) ||
+            node.isSymbol(Sym.EvalClose) ||
+            node.isSymbol(Sym.SetOpen) ||
+            node.isSymbol(Sym.SetClose) ||
+            node.isSymbol(Sym.ListOpen) ||
+            node.isSymbol(Sym.ListClose) ||
+            node.isSymbol(Sym.TableOpen) ||
+            node.isSymbol(Sym.TableClose) ||
+            node.isSymbol(Sym.TypeOpen) ||
+            node.isSymbol(Sym.TypeClose),
+    );
+
     // If requesed, localize the token's text.
     // Don't localize the name if the caret is in the name.
     let text = $derived(
@@ -101,6 +123,7 @@
 
 {#if format.block && root}
     {@const parent = root.getParent(node)}
+    {@const grandparent = parent ? root.getParent(parent) : undefined}
     <div
         class="token-view blocks token-category-{TokenCategories.get(
             Array.isArray(node.types)
@@ -114,6 +137,7 @@
         class:blockText={format.editable &&
             Caret.isTokenTextBlockEditable(node, parent)}
         class:added
+        class:bracket={isBracket}
         data-id={node.id}
     >
         {#if editable && $project && node.isSymbol(Sym.Boolean)}<BooleanTokenEditor
@@ -125,8 +149,23 @@
                 rendered={renderedText}
                 {format}
             />{/if}
-    </div>{#if format.editable && parent instanceof Reference}<MenuTrigger
+    </div>{#if format.editable && parent instanceof Reference && !(grandparent instanceof Evaluate && grandparent.fun === parent)}<MenuTrigger
             anchor={parent}
+
+        ></MenuTrigger>{:else if format.editable && parent instanceof Input && parent.name === node}<MenuTrigger
+            anchor={node}
+
+        ></MenuTrigger>{:else if format.editable && parent instanceof Language && parent.slash === node}<MenuTrigger
+            anchor={node}
+
+        ></MenuTrigger>{:else if format.editable && parent instanceof Dimension && parent.name === node}<MenuTrigger
+            anchor={node}
+
+        ></MenuTrigger>{:else if format.editable && parent instanceof Unit && parent.slash === node}<MenuTrigger
+            anchor={node}
+
+        ></MenuTrigger>{:else if format.editable && parent instanceof Convert && parent.convert === node}<MenuTrigger
+            anchor={node}
         ></MenuTrigger>{/if}
 {:else}
     <span
@@ -199,6 +238,12 @@
         color: var(--wordplay-doc-color);
     }
 
+    /* Language tags are a kind of type annotation — color all their tokens
+       (slash, language code, dash, region) with the type color for parity. */
+    :global(.Language) .token-view {
+        color: var(--wordplay-type-color);
+    }
+
     .token-category-docs {
         font-size: small;
         color: var(--wordplay-doc-color);
@@ -207,6 +252,15 @@
     .token-category-delimiter,
     :global(.Example) .token-category-delimiter {
         color: var(--color-dark-grey);
+    }
+
+    /* Structural brackets pop in blocks mode to make group boundaries
+       visually obvious. Text mode keeps the existing token sizing.
+       Uses rem (not em) so deeply-nested brackets don't compound to ever-
+       larger sizes — every bracket is the same fixed size. */
+    .token-view.blocks.bracket {
+        font-weight: bold;
+        font-size: calc(var(--wordplay-font-size) * 1.2);
     }
     .token-category-relation,
     :global(.Example) .token-category-relation {

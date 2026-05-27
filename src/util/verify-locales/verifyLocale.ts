@@ -1,4 +1,4 @@
-import { MachineTranslated, Unwritten } from '@locale/Annotations';
+import { MachineTranslated, Revised, Unwritten } from '@locale/Annotations';
 import { concretizeOrUndefined } from '@locale/concretize';
 import DefaultLocale from '@locale/DefaultLocale';
 import DefaultLocales from '@locale/DefaultLocales';
@@ -16,11 +16,19 @@ import { Sym } from '@nodes/Sym';
 import Token from '@nodes/Token';
 import { tokenize } from '@parser/Tokenizer';
 import { toTokens } from '@parser/toTokens';
-import LocalePath, { getKeyTemplatePairs } from './LocalePath';
-import { LocaleValidator } from './LocaleSchema';
-import type Log from './Log';
-import type { RevisedString } from './start';
-import translate, { getGoogleTranslateTargetLocale } from './translate';
+import LocalePath, {
+    getKeyTemplatePairs,
+} from '@util/verify-locales/LocalePath';
+import { LocaleValidator } from '@util/verify-locales/LocaleSchema';
+import type Log from '@util/verify-locales/Log';
+import type { RevisedString } from '@util/verify-locales/start';
+import {
+    checkTemplateInputs,
+    getDeclaredInputs,
+} from '@util/verify-locales/templateInputs';
+import translate, {
+    getGoogleTranslateTargetLocale,
+} from '@util/verify-locales/translate';
 
 /** Create a copy of the default tutorial with all dialog marked unwritten */
 export function createUnwrittenLocale(): LocaleText {
@@ -78,6 +86,11 @@ export async function verifyLocale(
     revisedStrings: RevisedString[],
     /** Global names used by other locales */
     globalNames: Map<string, { locale: string; path: LocalePath }[]>,
+    /** Accumulator for paths whose translation succeeded in this run; the
+     *  caller uses it to strip `$!` Revised markers from the en-US source
+     *  once every sibling has been processed. Pass `undefined` for non-
+     *  translation runs. */
+    translatedPaths?: Set<string>,
 ): Promise<[LocaleText, boolean]> {
     let revisedText: LocaleText = text;
     const valid = LocaleValidator(text);
@@ -101,6 +114,7 @@ export async function verifyLocale(
         override,
         revisedStrings,
         globalNames,
+        translatedPaths,
     );
 
     return [revisedText, JSON.stringify(revisedText) !== JSON.stringify(text)];
@@ -127,74 +141,73 @@ async function checkLocale(
     override: boolean,
     revisedStrings: RevisedString[],
     globalNames: Map<string, { locale: string; path: LocalePath }[]>,
+    /** Accumulator for paths whose translation succeeded in this run; see
+     *  verifyLocale for details. */
+    translatedPaths?: Set<string>,
 ): Promise<LocaleText> {
     // Make a copy of the original to modify.
     let revised = JSON.parse(JSON.stringify(original)) as LocaleText;
 
-    // Get the key/value pairs to check.
-    let pairs: LocalePath[] = getCheckableLocalePairs(revised);
-
-    // Find all of the unwritten strings.
-    const pairsToTranslate = pairs
-        .filter((path) => {
-            const value = path.value;
-            // Is this path is marked revised in the original, and this is automated, retranslate it.
-            if (
-                revisedStrings.some((rev) => rev.path.equals(path)) &&
-                (typeof value === 'string'
-                    ? isMachineTranslated(value)
-                    : value.some((s) => isMachineTranslated(s)))
-            )
-                return true;
-
-            return typeof value === 'string'
-                ? // If the value is unwritten, or marked revised and machine translated, or we're overriding and is machine translated,
-                  shouldStringBeMachineTranslated(value, override)
-                : value.some((s) =>
-                      shouldStringBeMachineTranslated(s, override),
-                  );
-        })
-        // Don't translate emotions; those have meaning.
-        .filter(({ key }) => key !== 'emotion')
-        // Don't translate names that are names that are symbolic
-        .map((path) => {
-            if (path.key !== 'names') return path;
-            const names = (
-                Array.isArray(path.value) ? path.value : [path.value]
-            ).map((name) => {
-                // Not unwritten? Nothing to do.
-                if (!isUnwritten(name)) return name;
-                const nameWithoutPlaceholder = withoutAnnotations(name);
-                // A symbolic name? Don't translate it, just remove the unwritten marker.
-                if (
-                    toTokens(nameWithoutPlaceholder)
-                        .peek()
-                        ?.isSymbol(Sym.Operator)
-                )
-                    return nameWithoutPlaceholder;
-                // Return the unwritten name.
-                return name;
+    // If we're translating, find every unwritten/revised string the user
+    // wants Google Translate to fill in, then dispatch a batch request. In
+    // verify-only mode we skip this entire walk + filter — it produces a
+    // list nothing reads. Saves a second tree traversal of every locale.
+    if (translate && warnUnwritten) {
+        const pairsToTranslate = getCheckableLocalePairs(revised)
+            .filter((path) => {
+                const value = path.value;
+                // If this path is marked revised ($!) in any locale, reset
+                // every sibling at this path — even human translations. A
+                // revision means the meaning changed, so the existing
+                // translation is suspect; re-translating prompts a human
+                // reviewer to confirm or revise. Sibling's current value is
+                // irrelevant — we replace from the en-US source.
+                if (revisedStrings.some((rev) => rev.path.equals(path)))
+                    return true;
+                return typeof value === 'string'
+                    ? shouldStringBeMachineTranslated(value, override)
+                    : value.some((s) =>
+                          shouldStringBeMachineTranslated(s, override),
+                      );
+            })
+            // Don't translate emotions; those have meaning.
+            .filter(({ key }) => key !== 'emotion')
+            // Don't translate names that are symbolic operators.
+            .map((path) => {
+                if (path.key !== 'names') return path;
+                const names = (
+                    Array.isArray(path.value) ? path.value : [path.value]
+                ).map((name) => {
+                    if (!isUnwritten(name)) return name;
+                    const nameWithoutPlaceholder = withoutAnnotations(name);
+                    if (
+                        toTokens(nameWithoutPlaceholder)
+                            .peek()
+                            ?.isSymbol(Sym.Operator)
+                    )
+                        return nameWithoutPlaceholder;
+                    return name;
+                });
+                return new LocalePath(path.path, path.key, names);
             });
-            return new LocalePath(path.path, path.key, names);
-        });
 
-    // If there are any unwritten strings and we were asked to translate them, do so.
-    if (pairsToTranslate.length > 0 && warnUnwritten && translate) {
-        log.bad(
-            2,
-            `Locale has ${pairsToTranslate.length} unwritten strings ("${Unwritten}"). Translating using Google translate.`,
-        );
-
-        revised = await translateLocale(
-            log,
-            DefaultLocale,
-            revised,
-            pairsToTranslate,
-        );
+        if (pairsToTranslate.length > 0) {
+            log.bad(
+                2,
+                `Translating ${pairsToTranslate.length} unwritten strings ("${Unwritten}")...`,
+            );
+            revised = await translateLocale(
+                log,
+                DefaultLocale,
+                revised,
+                pairsToTranslate,
+                translatedPaths,
+            );
+        }
     }
 
-    // Check the translated pairs for errors.
-    pairs = getKeyTemplatePairs(revised);
+    // Check every pair for errors.
+    const pairs = getKeyTemplatePairs(revised);
 
     // Check each one.
     for (const path of pairs) {
@@ -310,18 +323,16 @@ async function checkLocale(
         // If it's not a doc, assume it's a template string and try to parse it as a template.
         // If we can't, complain.
         else if (typeof path.value === 'string') {
+            // Build an inputs dict with placeholder values for every declared
+            // name, so Mention resolution succeeds during this validation pass.
+            const declaredNames =
+                getDeclaredInputs().get(path.toString()) ?? [];
+            const inputs: Record<string, string> = {};
+            for (const name of declaredNames) inputs[name] = 'test';
             const description = concretizeOrUndefined(
                 DefaultLocales,
                 path.value,
-                'test',
-                'test',
-                'test',
-                'test',
-                'test',
-                'test',
-                'test',
-                'test',
-                'test',
+                inputs,
             );
             if (description === undefined)
                 log.bad(
@@ -330,6 +341,28 @@ async function checkLocale(
                         path.value
                     }"`,
                 );
+
+            // For Template<Names>-typed fields, the generated schema lists
+            // the declared input names. Verify that the template references
+            // every declared name (and nothing else of the old `$N` syntax).
+            const inputCheck = checkTemplateInputs(path.toString(), path.value);
+            if (inputCheck) {
+                if (inputCheck.numeric.length > 0)
+                    log.bad(
+                        2,
+                        `Template at ${path.toString()} uses old positional refs ${inputCheck.numeric.map((n) => `$${n}`).join(', ')} — use named refs: "${path.value}"`,
+                    );
+                if (inputCheck.unused.length > 0)
+                    log.bad(
+                        2,
+                        `Template at ${path.toString()} does not reference declared inputs ${inputCheck.unused.map((n) => `$${n}`).join(', ')}: "${path.value}"`,
+                    );
+                if (inputCheck.unknown.length > 0)
+                    log.bad(
+                        2,
+                        `Template at ${path.toString()} references unknown inputs ${inputCheck.unknown.map((n) => `$${n}`).join(', ')} (not declared, not terminology): "${path.value}"`,
+                    );
+            }
         }
     }
 
@@ -364,7 +397,7 @@ async function checkLocale(
     if (automated.length > 0)
         log.warning(
             2,
-            `Locale has ${automated.length} machine translated ("${MachineTranslated}"). Make sure they're sensible for 6th grade reading levels.`,
+            `Locale: ${automated.length} machine translated ("${MachineTranslated}") strings to review.`,
         );
 
     return revised;
@@ -392,18 +425,25 @@ async function translateLocale(
     source: LocaleText,
     target: LocaleText,
     unwritten: LocalePath[],
+    /** Accumulator for paths whose translation succeeded; see verifyLocale. */
+    translatedPaths?: Set<string>,
 ) {
     const revised = JSON.parse(JSON.stringify(target)) as LocaleText;
 
-    // Resolve all of the source strings
+    // Resolve all of the source strings, stripping any Unwritten/Revised
+    // annotation prefixes so Google Translate doesn't see them as part of
+    // the input (otherwise "$!duplicate" can come back with the marker
+    // literally embedded in the translation).
+    const stripMarkers = (s: string) =>
+        s.replace(Unwritten, '').replace(Revised, '');
     const sourceStrings = unwritten
         .map((path) => {
             const match = path.resolve(source);
             return match === undefined
                 ? undefined
                 : Array.isArray(match)
-                  ? match.map((s) => s.replace(Unwritten, ''))
-                  : match.replace(Unwritten, '');
+                  ? match.map(stripMarkers)
+                  : stripMarkers(match);
         })
         .filter((s) => s !== undefined)
         .flat();
@@ -437,15 +477,18 @@ async function translateLocale(
                 match.every((s) => typeof s === 'string')
             ) {
                 const value = [];
+                let wroteAny = false;
                 for (let count = 0; count < match.length; count++) {
                     let next = translations.shift();
                     if (next) {
                         if (path.key === 'name' || path.key === 'names')
                             next = next.replaceAll(' ', '');
                         value.push(`${MachineTranslated}${next.trim()}`);
+                        wroteAny = true;
                     }
                 }
                 path.repair(revised, value);
+                if (wroteAny) translatedPaths?.add(path.toString());
             } else {
                 let translation = translations.shift();
                 if (translation) {
@@ -455,6 +498,7 @@ async function translateLocale(
                         revised,
                         `${MachineTranslated}${translation.trim()}`,
                     );
+                    translatedPaths?.add(path.toString());
                 }
             }
         }

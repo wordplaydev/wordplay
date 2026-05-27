@@ -4,12 +4,12 @@
 </script>
 
 <script lang="ts">
-    import { getTip } from '@components/project/Contexts';
+    import Spinning from '@components/app/Spinning.svelte';
+    import { getLocalizing, getTip } from '@components/project/Contexts';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import { locales } from '@db/Database';
     import type { LocaleTextAccessor } from '@locale/Locales';
-    import { withMonoEmoji } from '../../unicode/emoji';
-    import Spinning from '../app/Spinning.svelte';
-    import LocalizedText from './LocalizedText.svelte';
+    import { withMonoEmoji } from '@unicode/emoji';
 
     interface Props {
         /** Tooltip and ARIA label for the button. LocaleTextAccessor to support multilingual tooltips, or a zero-argument function if computed. */
@@ -29,8 +29,12 @@
         /** The DOM element corresponding to the button */
         view?: HTMLButtonElement | undefined;
         large?: boolean;
-        /** Whether it should have a background */
-        background?: boolean;
+        size?: undefined | 'inherit';
+        /** Whether it should have a background. `true` and `'salient'` use
+         * the existing rectangular elevated card look. `'circular'` is a
+         * round variant — use it for distinct controls like tour-launch
+         * buttons that should stand out from the surrounding rectangular UI. */
+        background?: boolean | 'salient' | 'circular';
         /** Whether it should have padding */
         padding?: boolean;
         /** An ID to add for reference in the tutorial */
@@ -44,7 +48,7 @@
         /** Whether to wrap the text in the button */
         wrap?: boolean;
         /** The label */
-        children?: import('svelte').Snippet;
+        children?: import('svelte').Snippet | undefined;
     }
 
     let {
@@ -60,6 +64,7 @@
         view: _ = $bindable(undefined),
         large = false,
         background = false,
+        size = undefined,
         padding = true,
         testid = undefined,
         shortcut = undefined,
@@ -74,7 +79,6 @@
     }
 
     let loading = $state(false);
-    let width = $state(0);
     let tooltip = $derived(
         isComputedTooltip(tip)
             ? tip()
@@ -83,8 +87,16 @@
     let pressed = $state(false);
 
     let hint = getTip();
+    let localizing = getLocalizing();
+    // Track edit state of the label and tip LocalizedTexts so we can hide one
+    // when the other is being edited (avoids a redundant 💭 next to the editor).
+    let labelEditing = $state(false);
+    let tipEditing = $state(false);
     function showTip() {
-        if (_) hint.show(tooltip, _);
+        // Skip empty tooltips — callers (e.g. the glyph picker) sometimes
+        // compute a tip lazily and return an empty string when no
+        // description is available; showing an empty hint adds visual noise.
+        if (_ && tooltip.length > 0) hint.show(tooltip, _);
     }
     function hideTip() {
         hint.hide();
@@ -93,7 +105,6 @@
     async function doAction(event: Event) {
         if (active) {
             const result = action();
-            pressed = true;
             setTimeout(() => (pressed = false), 100);
 
             if (result instanceof Promise) {
@@ -112,7 +123,10 @@
 -->
 <button
     class:stretch
-    class:background
+    class:background={background === true || background === 'circular'}
+    class:salient={background === 'salient'}
+    class:circular={background === 'circular'}
+    class:inherit={size === 'inherit'}
     class:padding
     class:scale
     class:large
@@ -121,8 +135,6 @@
     data-testid={testid}
     data-uiid={uiid}
     class={classes}
-    bind:clientWidth={width}
-    style:--characters={width / 20}
     type={submit ? 'submit' : 'button'}
     aria-label={tooltip}
     aria-disabled={!active}
@@ -130,9 +142,13 @@
     onpointerdown={(event) => {
         event.preventDefault();
         event.stopPropagation();
+        if (active) pressed = true;
     }}
     onpointerenter={showTip}
-    onpointerleave={hideTip}
+    onpointerleave={() => {
+        hideTip();
+        pressed = false;
+    }}
     ontouchstart={showTip}
     ontouchend={hideTip}
     ontouchcancel={hideTip}
@@ -158,8 +174,13 @@
                   ? doAction(event)
                   : undefined}
     >{#if loading}<Spinning />{:else}{#if icon}{withMonoEmoji(icon)}{/if}
-        {#if children}{@render children()}{:else if label}<LocalizedText
+        {#if children}{@render children()}{:else if label && !tipEditing}<LocalizedText
                 path={label}
+                onEditingChange={(e) => (labelEditing = e)}
+            />{/if}{#if !children && localizing?.on && !isComputedTooltip(tip) && !labelEditing}<LocalizedText
+                path={tip}
+                tipIcon
+                onEditingChange={(e) => (tipEditing = e)}
             />{/if}{/if}
 </button>
 
@@ -167,7 +188,7 @@
     button {
         background-color: var(--wordplay-chrome);
         font-family: var(--wordplay-app-font);
-        font-size: inherit;
+        font-size: var(--wordplay-small-font-size);
         font-weight: var(--wordplay-font-weight);
         font-style: inherit;
         transform-origin: center;
@@ -183,9 +204,9 @@
         width: fit-content;
         white-space: nowrap;
         transition:
-            transform calc(var(--animation-factor) * 100ms),
-            box-shadow calc(var(--animation-factor) * 100ms),
-            background-color calc(var(--animation-factor) * 100ms);
+            transform calc(var(--animation-factor) * 50ms),
+            box-shadow calc(var(--animation-factor) * 50ms),
+            background-color calc(var(--animation-factor) * 50ms);
         /* This allows command hints to be visible */
         position: relative;
         overflow: visible;
@@ -193,13 +214,18 @@
         flex-shrink: 0;
     }
 
+    .inherit {
+        font-size: inherit;
+    }
+
     .wrap {
         white-space: normal;
     }
 
-    .padding {
-        padding-left: var(--wordplay-spacing-half);
-        padding-right: var(--wordplay-spacing-half);
+    .padding,
+    .salient {
+        padding-left: var(--wordplay-spacing);
+        padding-right: var(--wordplay-spacing);
     }
 
     button.stretch {
@@ -208,14 +234,37 @@
     }
 
     /* Raised, bordered look with hard offset shadow for dimensionality */
-    .background {
+    .background,
+    .salient {
         color: var(--wordplay-foreground);
-        background: var(--wordplay-alternating-color);
-        border: var(--wordplay-border-width) solid var(--wordplay-foreground);
+        background: var(--wordplay-background);
+        border: var(--wordplay-border-width) solid var(--wordplay-border-color);
         box-shadow: var(--wordplay-border-width) var(--wordplay-border-width) 0
-            var(--wordplay-foreground);
+            var(--wordplay-border-color);
         text-shadow: 0 var(--wordplay-border-width) 0
             var(--color-shadow-transparent);
+    }
+
+    /* Circular variant — same elevated look as `.background`, but a round
+       shape with equal padding so the button reads as a distinct
+       always-clickable control (used for tour-launch buttons). */
+    .circular {
+        border-radius: 50%;
+        aspect-ratio: 1;
+        padding: var(--wordplay-spacing-half);
+        min-width: var(--wordplay-widget-height);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .circular.padding {
+        padding: var(--wordplay-spacing);
+    }
+
+    .salient {
+        background: var(--color-yellow);
+        color: var(--wordplay-foreground);
     }
 
     [aria-disabled='true'] {
@@ -227,7 +276,7 @@
     /* Disabled background buttons: flat, muted, no shadow */
     .background[aria-disabled='true'] {
         background: var(--wordplay-alternating-color);
-        border-color: var(--wordplay-inactive-color);
+        border-color: var(--wordplay-border-color);
         box-shadow: none;
         text-shadow: none;
         opacity: 0.55;
@@ -235,6 +284,7 @@
 
     button:focus {
         background: var(--wordplay-focus-color);
+        color: var(--wordplay-foreground);
         fill: var(--wordplay-background);
     }
 
@@ -242,17 +292,19 @@
     button.background:focus {
         background: var(--wordplay-focus-color);
         color: var(--wordplay-background);
-        border-color: var(--wordplay-foreground);
+        border-color: var(--wordplay-border-color);
         box-shadow: var(--wordplay-border-width) var(--wordplay-border-width) 0
-            var(--wordplay-foreground);
+            var(--wordplay-border-color);
         text-shadow: 0 var(--wordplay-border-width) var(--wordplay-border-width)
             var(--color-shadow);
+        color: var(--wordplay-foreground);
         fill: var(--wordplay-background);
         outline: none;
     }
 
-    button:hover:not(:global(:focus))[aria-disabled='false'] {
+    button:hover:not(.pressed)[aria-disabled='false'] {
         background: var(--wordplay-hover);
+        transform: translate(-1px, -1px);
     }
 
     .button.active {
@@ -267,39 +319,35 @@
         font-size: 24pt;
     }
 
-    .background.padding {
-        padding-top: var(--wordplay-spacing-half);
-        padding-bottom: var(--wordplay-spacing-half);
+    .background.padding,
+    .salient.padding {
+        padding-top: var(--wordplay-spacing);
+        padding-bottom: var(--wordplay-spacing);
     }
 
-    button:hover:not(.pressed)[aria-disabled='false'],
     button:focus {
-        transform: rotate(calc(-5deg / var(--characters)));
+        transform: translate(-1px, -1px);
     }
 
-    /* Hover on background buttons: yellow fill, lift with larger shadow */
-    button.background:hover:not(.pressed)[aria-disabled='false'] {
-        background: var(--wordplay-hover);
-        border-color: var(--wordplay-foreground);
-        box-shadow: var(--wordplay-border-width) var(--wordplay-border-width) 0
-            var(--wordplay-foreground);
-        transform: translate(-1px, -1px) rotate(calc(-5deg / var(--characters)));
-        text-shadow: 0 var(--wordplay-border-width) var(--wordplay-border-width)
-            var(--color-shadow);
-    }
-
+    /* Hover on background buttons: lift with larger shadow */
+    button.background:hover:not(.pressed)[aria-disabled='false'],
     button.background:focus {
-        transform: translate(-1px, -1px) rotate(calc(-5deg / var(--characters)));
+        border-color: var(--wordplay-border-color);
+        box-shadow: var(--wordplay-border-width) var(--wordplay-border-width) 0
+            var(--wordplay-border-color);
     }
 
     button.pressed {
-        transform: translateY(-0.25em) scale(1.1);
+        transform: translate(1px, 1px);
     }
 
     /* Pressed background buttons: shadow collapses, button sinks into it */
     button.background.pressed {
-        box-shadow: 0 0 0 var(--wordplay-foreground);
-        transform: translate(3px, 3px);
+        box-shadow: none;
+        transform: translate(
+            var(--wordplay-border-width),
+            var(--wordplay-border-width)
+        );
         text-shadow: none;
     }
 </style>

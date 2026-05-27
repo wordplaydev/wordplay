@@ -16,15 +16,15 @@ Throughout this guide, we'll use a few formatting conventions:
 
 - Content in quote blocks are language grammar specifications, and will be formatted with an upper-case non-terminal name, followed by a `→`, and then an expression composed of:
     - Non-terminal names,
-    - `|` for options,
-    - `()` for groups,
-    - `?` for optional,
-    - `*` for zero or more repetitions,
-    - `+` for one or more repetitions,
+    - `｜` (full-width pipe) for options,
+    - `（）` (full-width parens) for groups,
+    - `？` (full-width question mark) for optional,
+    - `＊` (full-width asterisk) for zero or more repetitions,
+    - `＋` (full-width plus) for one or more repetitions,
     - `//` for POSIX regular expresssions, formatted as code
-    - Any text in code format is a literal text string
+    - Any text in code format is a literal token character (e.g., `` `ƒ` ``, `` `→` ``)
     - Any text in italics is a comment
-- We'll use the same syntax for the lexical grammar. All lexical non-terminals are in lower case.
+- We'll use the same syntax for the lexical grammar. All lexical non-terminals are in lower case. Within the lexical grammar, ASCII `|` is used for alternation between literal token characters; full-width metasymbols are reserved for the higher-level syntactic grammar.
 - Code examples are presented in code blocks. All examples are syntactically valid programs, but may not all be conflict free.
 
 ## Overview
@@ -65,10 +65,22 @@ Numbers can be:
 > arabic → `/-?[0-9]+([.,][0-9]+)?%?/`  
 > arabicbase → `/-?([2-9]|1[0-6]);[0-9A-F]+([.,][0-9A-F]+)?%?/`  
 > roman → `/(Ⅰ|Ⅱ|Ⅲ|Ⅳ|Ⅴ|Ⅵ|Ⅶ|Ⅷ|Ⅸ|Ⅹ|Ⅺ|Ⅻ|Ⅼ|Ⅽ|Ⅾ|Ⅿ)+/`  
-> japanese → `/-?[0-9]*[一二三四五六七八九十百千万]+(・[一二三四五六七八九分厘毛糸忽]+)?/`  
+> han → `/-?[0-9]*[一二三四五六七八九十百千万億兆]+(・[一二三四五六七八九分厘毛糸忽]+)?/`  
+> thai → `/-?[๐๑๒๓๔๕๖๗๘๙]+([.,][๐๑๒๓๔๕๖๗๘๙]+)?%?/`  
+> bengali → `/-?[০১২৩৪৫৬৭৮৯]+([.,][০১২৩৪৫৬৭৮৯]+)?%?/`  
+> devanagari → `/-?[०१२३४५६७८९]+([.,][०१२३४५६७८९]+)?%?/`  
+> gujarati → `/-?[૦૧૨૩૪૫૬૭૮૯]+([.,][૦૧૨૩૪૫૬૭૮૯]+)?%?/`  
+> gurmukhi → `/-?[੦੧੨੩੪੫੬੭੮੯]+([.,][੦੧੨੩੪੫੬੭੮੯]+)?%?/`  
+> kannada → `/-?[೦೧೨೩೪೫೬೭೮೯]+([.,][೦೧೨೩೪೫೬೭೮೯]+)?%?/`  
+> tamil → `/-?[௦௧௨௩௪௫௬௭௮௯]+([.,][௦௧௨௩௪௫௬௭௮௯]+)?%?/`  
+> telugu → `/-?[౦౧౨౩౪౫౬౭౮౯]+([.,][౦౧౨౩౪౫౬౭౮౯]+)?%?/`  
 > pi → `π`  
 > infinity → `∞`  
-> numeral → arabic | arabicbase | roman | japanese | pi | infinity
+> numeral → arabic | arabicbase | roman | han | thai | bengali | devanagari | gujarati | gurmukhi | kannada | tamil | telugu | pi | infinity
+
+The `han` production covers the shared Han-character numeral system used across Chinese, Japanese, and Korean (一二三…十百千万億兆). It uses nested myriad grouping: small orders (十百千) accumulate into a group that is multiplied by the next big unit (万/億/兆), so 三億五千万 is 3·10⁸ + 5000·10⁴ = 350,000,000.
+
+The `thai` production accepts the Thai digit characters ๐–๙, which are positional like Arabic decimals, so ๑๒๓ is 123 and ๑๒๓.๔๕ is 123.45. The seven Indic productions (`bengali`, `devanagari`, `gujarati`, `gurmukhi`, `kannada`, `tamil`, `telugu`) work the same way against their own digit sets; Bengali script is shared by Bengali and Assamese, Devanagari by Hindi and Marathi, and Gurmukhi by Punjabi.
 
 We hope to add other numerals as we localize other languages.
 
@@ -76,20 +88,22 @@ Text literals can be opened and closed with numerous delimiters:
 
 > textopen → `"` | `“` | `„` | `'` | `‘` | `‹` | `«` | `「` | `『`  
 > textclose → `"` | `„` | `”` | `'` | `’` | `›` | `»` | `」` | `』`  
-> markup → `\`  
+> markup → `` ` ``  
+> doc → `¶`  
 > text → _any sequence of characters between open/close and markup delimiters_
 
-Wordplay has a secondary notation for markup, delimited by backticks, as in ¶ `I am \*bold\*\` ¶. Between backticks, these tokens are valid:
+Wordplay has a secondary notation for markup, delimited by backticks, as in ¶ `` `I am *bold*` `` ¶. Between backticks, these tokens are valid:
 
 > linkopen → `<`  
 > linkclose → `>`  
-> italics → language  
+> italics → `/`  
 > code → `\`  
 > light → `~`  
 > underscore → `_`  
 > bold → `*`  
 > extrabold → `^`  
 > link → `@`  
+> mention → `$`  
 > concept → `/@(?!(https?)?://)[a-zA-Z/]*`  
 > words → _any sequence of characters between `markup` that aren't markup delimeters above_
 
@@ -110,7 +124,7 @@ Some are associated with reactive values:
 
 > reaction → `…` | `...`  
 > initial → `◆`  
-> change → `∆`  
+> change → `∆` | `∂`  
 > previous → `←`
 
 The language uses a placeholder token extensively to allow for unifinished syntactially valid code.
@@ -138,6 +152,8 @@ Some are associated with particular types of expressions:
 > evalopen → `(`  
 > evalclose → `)`  
 > question → `?` | `¿`  
+> otherwise → `??`  
+> match → `???`
 > conversion → `→` | `->` | `=>`  
 > access → `.`
 
@@ -169,7 +185,7 @@ Okay! Now that we've got tokens out of the way, let's talk about values. Concept
 
 ### None
 
-> NONE → none
+> NONE → `ø`
 
 None is declared with `ø`. It's only equal to itself. That's it! Here it is in a program, all by itself:
 
@@ -197,7 +213,7 @@ None is only equal to itself.
 
 ### Booleans
 
-> BOOLEAN_LITERAL → true | false
+> BOOLEAN_LITERAL → `⊤` ｜ `⊥`
 
 There are only two Boolean values:
 
@@ -235,9 +251,9 @@ Boolean literals evaluate to to boolean values without any intermediate steps.
 
 ### Numbers
 
-> NUMBER → numeral UNIT?  
-> UNIT → DIMENSION (·DIMENSION)_ (/ DIMENSION (·DIMENSION_))?  
-> DIMENSION → name (^arabic)?
+> NUMBER → numeral UNIT？  
+> UNIT → DIMENSION （`·` DIMENSION）＊ （`/` DIMENSION （`·` DIMENSION）＊）？  
+> DIMENSION → name （`^` arabic）？
 
 Numbers are arbitrary precision decimals with optional units, where units are just products and quotients of names:
 
@@ -274,11 +290,11 @@ Numbers are only equal to other numbers that have identical decimal values and e
 
 ### Text
 
-> TEXT → TRANSLATION\*  
-> TRANSLATION → textopen text textclose LOCALE
-> LOCALE → LANGUAGE [- REGION]
-> LANGUAGE [any valid ISO 639 language code]
-> REGION → [any valid ISO 3166 country code]
+> TEXT → TRANSLATION＊  
+> TRANSLATION → textopen text textclose LOCALE  
+> LOCALE → LANGUAGE （`-` REGION）？  
+> LANGUAGE → _any valid ISO 639 language code_  
+> REGION → _any valid ISO 3166 country code_
 
 Text values, unlike in other programming languages, are not a single sequence of Unicode code points. Rather, they are unique in a few ways:
 
@@ -300,6 +316,8 @@ For example, these are all valid text values:
 If `en-US` were the preferred locale, they would all evaluate to `'hi'`. But in the latter case, if Spanish or Japanese were selected, they would evaluate to `'hola'` or `『こんにちは』`'
 
 It's possible to check whether an environment has a particular locale selected with the locale predicate:
+
+> ISLOCALE → locale LANGUAGE？
 
 ```
 🌎/en
@@ -338,13 +356,13 @@ Two text values with different language declarations, however, are not equivalen
 
 ### Markup
 
-> MARKUP → FORMATTED\*  
-> FORMATTED → markup CONTENT markup LANGUAGE  
-> CONTENT → PARAGRAPH*  
-> PARAGRAPH → SEGMENT*  
-> SEGMENT → words | LINK | concept | CODE | MENTION  
-> LINK → linkopen words link words linkclose  
-> CODE → code PROGRAM code
+> MARKUP → FORMATTED＊  
+> FORMATTED → `` ` `` CONTENT `` ` `` LANGUAGE  
+> CONTENT → PARAGRAPH＊  
+> PARAGRAPH → SEGMENT＊  
+> SEGMENT → words ｜ LINK ｜ concept ｜ CODE ｜ MENTION  
+> LINK → `<` words `@` words `>`  
+> CODE → `\` PROGRAM `\`
 
 The final basic value is markup, which behaves identically to text values aside from their delimiters, and the meaning of the delimiters internal to text:
 
@@ -370,8 +388,8 @@ Now let's talk about the four built-in compound values (and how to get values ou
 
 ### List
 
-> LIST → listopen (EXPRESSION | SPREAD)\* listclose  
-> SPREAD → : EXPRESSION
+> LIST → `[` （EXPRESSION ｜ SPREAD）＊ `]`  
+> SPREAD → `:` EXPRESSION
 
 Lists are sequences of values:
 
@@ -429,8 +447,8 @@ Because all values in Wordplay are immutable, all of these operations produce ne
 
 ### Set
 
-> SET → setopen EXPRESSION\* setclose  
-> SETCHECK → EXPRESSION{EXPRESSION}
+> SET → `{` EXPRESSION＊ `}`  
+> SETCHECK → EXPRESSION `{` EXPRESSION `}`
 
 Sets are non-ordered collections of unique values, where unique is defined by value equality. Here's are some examples of sets:
 
@@ -467,8 +485,8 @@ Sets are equal when they have the same size and equivalent values.
 
 ### Map
 
-> MAP → setopen (bind | KEYVALUE\*) setopen  
-> KEYVALUE → EXPRESSION bind VALUE
+> MAP → `{` （`:` ｜ KEYVALUE＊） `}`  
+> KEYVALUE → EXPRESSION `:` EXPRESSION
 
 Maps create a mapping between values and other values. They're like sets in that they only contain unique keys, but values can reoccur. Here are some valid maps literals:
 
@@ -498,13 +516,13 @@ Maps are equivalent when they are the same size, and every key/value pair that o
 
 ### Table
 
-> TABLE → TABLETYPE ROWS*  
-> TABLETYPE → tableopen BIND* tableclose  
-> ROW → tableopen (BIND|EXPRESSION)\* tableclose  
-> SELECT → EXPRESSION select ROW EXPRESSION  
-> INSERT → EXPRESSION insert ROW  
-> UPDATE → EXPRESSION update ROW EXPRESSION  
-> DELETE → EXPRESSION delete EXPRESSION
+> TABLE → TABLETYPE ROW＊  
+> TABLETYPE → `⎡` BIND＊ `⎦`  
+> ROW → `⎡` （BIND ｜ EXPRESSION）＊ `⎦`  
+> SELECT → EXPRESSION `⎡?` ROW EXPRESSION  
+> INSERT → EXPRESSION `⎡+` ROW  
+> UPDATE → EXPRESSION `⎡:` ROW EXPRESSION  
+> DELETE → EXPRESSION `⎡-` EXPRESSION
 
 Tables are like relational tables, with a series of named columns with type declarations, and zero or more unordered rows indicating values for each of those columns. However, they are immutable in that every operation on a table produces a new table to reflect the value. They don't aspire to be space efficient, just a simple interface for expressing and updating tabular data.
 
@@ -569,7 +587,7 @@ There three different syntaxes for evaluating functions on values.
 
 ### Evaluate
 
-> EVALUTE → EXPRESSION evalopen EXPRESSION evalclose
+> EVALUATE → EXPRESSION `(` （BIND ｜ EXPRESSION）＊ `)`
 
 The standard way is to provide a function value, and then parentheses delimited sequence of values:
 
@@ -599,7 +617,7 @@ Evaluation expressions first evaluate their function value, and if one was not f
 
 ### Binary Evaluate
 
-> BINARYEVALUATE → ATOMIC (operator ATOMIC)\*
+> BINARYEVALUATE → ATOMIC （operator ATOMIC）＊
 
 While the evaluate syntax is fine, when using them with function names that are operator tokens, they can look kind of funny:
 
@@ -668,7 +686,7 @@ Unary evaluates evaluate their input value, and then resolve the operator name o
 
 ### Conditional
 
-> CONDITIONAL → EXPRESSION ? EXPRESSION EXPRESSION
+> CONDITIONAL → EXPRESSION `?` EXPRESSION EXPRESSION
 
 Conditions are a special kind of evaluation that evaluates to one of two expressions depending on a Boolean condition's value. This is much like an `if` statement in other languages, but functional, and like the tertiary conditional operators found in many imperative languages.
 
@@ -688,10 +706,54 @@ Note that there's no separator between the true anf false cases in this synatax 
 
 Conditions first evaluate their condition. If the condition does not evaluate to a boolean value, a type exception is generated, and the program halts. If the condition was true, it evaluates the true expression, otherwise it evaluates the false expression. The conditional then evaluates to the result.
 
+### Otherwise
+
+> OTHERWISE → EXPRESSION `??` EXPRESSION
+
+The otherwise (`??`) operator is a none-coalescing shorthand: it evaluates to its left expression unless that expression is `ø`, in which case it evaluates to its right expression. It's useful when working with values that might be `ø`, such as list accesses out of range or map lookups for missing keys:
+
+```
+{'amy': 43}{'jen'} ?? 0
+```
+
+This evaluates to `0`, because the map lookup is `ø`.
+
+### _conflicts_
+
+- The left expression's type does not include `ø` (the operator is unnecessary)
+
+#### _evaluation_
+
+Evaluates the left expression. If the result is `ø`, evaluates and returns the right expression; otherwise returns the left value.
+
+### Match
+
+> MATCH → EXPRESSION `???` （EXPRESSION `:` EXPRESSION）＊ EXPRESSION
+
+Match expressions select one of several expressions based on equality with a key. The first expression is the value being matched; pairs of `key: result` follow; and a final expression is the default when no key matches. For example:
+
+```
+sound ???
+    'meow': 'cat'
+    'woof': 'dog'
+    'unknown'
+```
+
+If `sound` equals `'meow'`, this evaluates to `'cat'`; if `'woof'`, `'dog'`; otherwise `'unknown'`.
+
+### _conflicts_
+
+- A key's type is incompatible with the matched value's type
+- The default expression is missing
+
+#### _evaluation_
+
+Evaluates the matched value, then evaluates each key in reading order, comparing for equality with the matched value. The first matching key's value expression is evaluated and returned. If no key matches, the default expression is evaluated and returned.
+
 ### Convert
 
-> CONVERT → EXPRESSION convert TYPE  
-> CONVERSION → DOCS convert TYPE TYPE EXPRESSION
+> CONVERT → EXPRESSION `→` TYPE  
+> CONVERSION → DOCS `→` TYPE TYPE EXPRESSION
 
 A final kind of evaluate is conversions, already mentioned earlier in examples. Conversions take a type declaration (described later) and attempt to find a series of one or more conversions that would convert the value to a type.
 
@@ -735,10 +797,10 @@ There are numerous ways that names are used in Wordplay, some of which have alre
 
 ### Bind
 
-> BIND → DOCS? share? NAMES reaction? (•TYPE)? (:EXPRESSION)?  
-> NAMES → NAME(alias NAME)\*
-> NAME → (name | operator | placeholder) LANUGAGE?
-> REFERENCE → name | operator
+> BIND → DOCS？ `↑`？ NAMES `…`？ （`•` TYPE）？ （`:` EXPRESSION）？  
+> NAMES → NAME （`,` NAME）＊  
+> NAME → （name ｜ operator ｜ `_`） LANGUAGE？  
+> REFERENCE → name ｜ operator
 
 Bindings are used throughout the language to declare names for things like values, table colums, function inputs, and more. They all use the same syntax, and can have a things like documentation, language tags, aliases, type declarations, and optional values. These are all syntatically valid bindings:
 
@@ -779,7 +841,7 @@ Binds evaluate in 1) blocks, 2) when offering a default value for a function eva
 
 ### Block
 
-> BLOCK → DOCS? evalopen (BIND|EXPRESSION)+ evalclose
+> BLOCK → DOCS？ `(` （BIND ｜ EXPRESSION）＋ `)`
 
 Blocks are a sequence of zero or more bindings, followed by an expression, and evaluate to the expression's value. They serve two purposes: to help define evaluation order for infix expressions as we saw earlier, and to help break up complex computation into named substeps, as in this example:
 
@@ -807,8 +869,8 @@ Blocks create a scope in which to bind names, then evaluate each of their statem
 
 ### Functions
 
-> FUNCTION → DOCS? share? function NAMES TYPEVARIABLES? evalopen BIND* evalclose (type TYPE)? EXPRESSION  
-> TYPEVARIABLES → typevariableopen NAME* typevariableclose
+> FUNCTION → DOCS？ `↑`？ `ƒ` NAMES TYPEVARIABLES？ `(` BIND＊ `)` （`•` TYPE）？ EXPRESSION  
+> TYPEVARIABLES → `⸨` NAME＊ `⸩`
 
 Function definitions, like binds, can have zero or more names, optional documentation, and take a series of binds specifying their inputs, and an expression defining its outputs. Binds can optionally specify types, default values, and an optional evaluation type can be provided as well. If they're not, types are inferred, if possible. Functions are values, like everything else.
 
@@ -839,9 +901,9 @@ Functions evaluate to a function value that has a reference to the definition.
 
 ### Structures
 
-> STRUCTURE → DOCS? share? type NAMES NAME+ TYPEVARIABLES? evalopen BIND\* evalclose BLOCK
-> PROPERTY → EXPRESSION access NAME
-> PROPERTYBIND → EXPRESSION
+> STRUCTURE → DOCS？ `↑`？ `•` NAMES NAME＊ TYPEVARIABLES？ `(` BIND＊ `)` BLOCK  
+> PROPERTY → EXPRESSION `.` NAME  
+> PROPERTYBIND → PROPERTY `:` EXPRESSION
 
 Structure definitions are how to declare new types of values. Structures can have properties, functions, and conversions, just like the built-in value types. For example, here's a new data type:
 
@@ -876,6 +938,24 @@ moomy: boomy.name:'mooooomy'
 
 This creates a new `Kitty` value with the new name and the old other properties (but does not modify the previous value, and binds it to a new name).
 
+#### _static members_
+
+A function or bind inside a structure's block can be marked with `↑` to make it belong to the structure definition itself, instead of to its instances. Static members are evaluated once when the structure is defined and are reached through the structure's name. They are also visible on instances.
+
+```
+•Math() (
+  ↑ pi: 3.14159
+  ↑ ƒ square(n•#) n · n
+)
+
+Math.pi          ¶ 3.14159 ¶
+Math.square(5)   ¶ 25 ¶
+m: Math()
+m.square(5)      ¶ 25 ¶
+```
+
+A static function or bind can't reference instance inputs or instance bindings, because an instance isn't required to use them; doing so is reported as an unknown name.
+
 #### _conflicts_
 
 - The inputs have duplicate names
@@ -897,6 +977,7 @@ These are created by evaluating their pre-defined stream definitions. Some strea
 Volume()
 Pitch()
 Camera()
+Hand()
 Motion()
 Time()
 ```
@@ -910,6 +991,7 @@ Choice()
 Key()
 Placement()
 Pointer()
+Speech()
 ```
 
 Some are events from the physics engine:
@@ -934,8 +1016,8 @@ When a built in stream definition is evaluated, the evaluator keeps track of whi
 
 ### Reaction
 
-> REACTION → EXPRESSION reaction question reaction EXPRESSION
-> CHANGE → change EXPRESSION
+> REACTION → EXPRESSION `…` EXPRESSION （`…` EXPRESSION）？  
+> CHANGED → `∆` EXPRESSION
 
 It's possible to derive new streams from existing streams. For example, here we take `Time()` and convert it to stream of even and odd values:
 
@@ -976,7 +1058,7 @@ Reactions are evaluated in the same way as built-in stream evaluations. When cre
 
 ### Initial
 
-> INITIAL → initial
+> INITIAL → `◆`
 
 The initial predict is a single token that evaluates to `⊤` if the program is evaluating for the first time. This is helpful to only do something once in a program, and never again, such as during stream initialization. For example, in this program, time ticks continuously, but evaluates to `'first'` on the first tick, then `'next'` for all others.
 
@@ -991,7 +1073,7 @@ Immediately evaluates to true if the evaluation is the program's first.
 
 ### Previous
 
-> PREVIOUS → previous previous? numeral EXPRESSION
+> PREVIOUS → `←` `←`？ EXPRESSION EXPRESSION
 
 It's also sometimes helpful to get previous values in a stream, to build programs that have some window back into time. Previous expressions can get a previous value a particular number of evaluations ago, as here, where we get the previous time:
 
@@ -1013,16 +1095,16 @@ Evaluates the stream value, and finds the stream that contains the value. If an 
 
 The combined set of all of the expressions above mean that most of Wordplay is expressions:
 
-> PROGRAM → BORROW* (BIND | EXPRESSION)*
-> BORROW → borrow name (access name)? numeral?  
-> EXPRESSION → CONDITIONAL | REACTION | BINARYEVALUATE | ATOMIC  
-> ATOMIC → LITERAL | REF | PLACEHOLDER | EVAL | DEFINITION | PROPERTYBIND | CONVERT | CHECK | QUERY | DOCUMENTED
-> LITERAL → NONE | NUMBER | BOOLEAN | LIST | SET | MAP | TABLE  
-> REF → REFERENCE | PROPERTY | this  
-> EVAL → EVALUATE | UNARYEVALUATE | BLOCK  
-> DEFINITION → FUNCTION | STRUCTURE | CONVERSION  
-> CHECK → CHANGE | IS  
-> QUERY → INSERT | UPDATE | SELECT | DELETE
+> PROGRAM → BORROW＊ （BIND ｜ EXPRESSION）＊  
+> BORROW → `↓` name （`.` name）？ numeral？  
+> EXPRESSION → REACTION ｜ CONDITIONAL ｜ MATCH ｜ OTHERWISE ｜ BINARYEVALUATE ｜ ATOMIC  
+> ATOMIC → LITERAL ｜ REF ｜ `_` ｜ EVAL ｜ DEFINITION ｜ PROPERTYBIND ｜ CONVERT ｜ CHECK ｜ QUERY ｜ DOCUMENTED ｜ PREVIOUS ｜ INITIAL ｜ ISLOCALE  
+> LITERAL → NONE ｜ NUMBER ｜ BOOLEAN ｜ TEXT ｜ MARKUP ｜ LIST ｜ SET ｜ MAP ｜ TABLE  
+> REF → REFERENCE ｜ PROPERTY  
+> EVAL → EVALUATE ｜ UNARYEVALUATE ｜ BLOCK  
+> DEFINITION → FUNCTION ｜ STRUCTURE ｜ CONVERSION  
+> CHECK → CHANGED ｜ IS  
+> QUERY → INSERT ｜ UPDATE ｜ SELECT ｜ DELETE
 
 If any sequences of tokens cannot be parsed according to this grammar, all of the tokens on the line are converted into an `UNPARSABLE` node.
 
@@ -1036,8 +1118,8 @@ Programs create an evaluation scope, evaluate their binds and expressions in rea
 
 ## Documentation
 
-> DOC → markup markup words markup markup
-> DOCS → DOC\*
+> DOC → `¶` MARKUP `¶` LANGUAGE？  
+> DOCS → DOC＊  
 > DOCUMENTED → DOCS EXPRESSION
 
 There are three places that comments can appear in code: just before programs, just before definitions of functions, structures, and conversions, and before expressions:
@@ -1058,18 +1140,20 @@ Documented expressions simply evaluate to their expression's value.
 
 ## Types
 
-> TYPE → placeholder | BOOLEANTYPE | NUMBERTYPE | TEXTTYPE | NONETYPE | LISTTYPE | SETTYPE | MAPTYPE | TABLETYPE | NAMETYPE | FUNCTIONTYPE | STREAMTYPE | FORMATTEDTYPE | CONVERSIONTYPE | UNION  
-> BOOLEANTYPE → question
-> NUMBERTYPE → (numbertype UNIT?) | numeral
-> TEXTTYPE → (textopen textclose LANGUAGE?) | TEXT
-> NONETYPE → none
-> LISTTYPE → listopen TYPE listclose  
-> SETTYPE → setopen TYPE setclose  
-> MAPTYPE → setopen TYPE bind TYPE setclose  
-> STREAMTYPE → stream TYPE  
-> CONVERSIONTYPE → TYPE → TYPE  
+> TYPE → `_` ｜ BOOLEANTYPE ｜ NUMBERTYPE ｜ TEXTTYPE ｜ NONETYPE ｜ LISTTYPE ｜ SETTYPE ｜ MAPTYPE ｜ TABLETYPE ｜ NAMETYPE ｜ FUNCTIONTYPE ｜ STREAMTYPE ｜ FORMATTEDTYPE ｜ CONVERSIONTYPE ｜ UNION  
+> BOOLEANTYPE → `?`  
+> NUMBERTYPE → （`#` UNIT？） ｜ numeral  
+> TEXTTYPE → （textopen textclose LANGUAGE？） ｜ TEXT  
+> NONETYPE → `ø`  
+> LISTTYPE → `[` TYPE `]`  
+> SETTYPE → `{` TYPE `}`  
+> MAPTYPE → `{` TYPE `:` TYPE `}`  
+> STREAMTYPE → `…` TYPE  
+> CONVERSIONTYPE → TYPE `→` TYPE  
 > NAMETYPE → name  
-> FUNCTIONTYPE → function TYPEVARIABLES? evalopen BIND\* evalclose TYPE
+> FUNCTIONTYPE → `ƒ` TYPEVARIABLES？ `(` BIND＊ `)` TYPE  
+> FORMATTEDTYPE → `\…\` ｜ `\...\`  
+> UNION → TYPE `|` TYPE
 
 The final part of the language is type declarations. These mostly mirror the syntax of the rest of the langauge, with the exception of numbers. Here are binds with type declarations demonstrating all of the above:
 
@@ -1092,7 +1176,7 @@ union•#|''
 
 Types are also used in "is" expressions:
 
-> IS → EXPRESSION type TYPE
+> IS → EXPRESSION `•` TYPE
 
 For example, this expression checks whether `1` is a number, and it is, so it evaluates to `⊤`.
 

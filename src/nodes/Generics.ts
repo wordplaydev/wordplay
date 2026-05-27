@@ -1,23 +1,23 @@
-import BinaryEvaluate from './BinaryEvaluate';
-import Bind from './Bind';
-import type Context from './Context';
-import type ConversionDefinition from './ConversionDefinition';
-import type Convert from './Convert';
-import Evaluate from './Evaluate';
-import Expression from './Expression';
-import type FunctionDefinition from './FunctionDefinition';
-import FunctionType from './FunctionType';
-import NameType from './NameType';
-import NumberType from './NumberType';
-import PropertyReference from './PropertyReference';
-import StreamDefinition from './StreamDefinition';
-import StructureDefinition from './StructureDefinition';
-import StructureType from './StructureType';
-import type Type from './Type';
-import TypeVariable from './TypeVariable';
-import type UnaryEvaluate from './UnaryEvaluate';
-import UnionType from './UnionType';
-import { UnknownVariableType } from './UnknownVariableType';
+import BinaryEvaluate from '@nodes/BinaryEvaluate';
+import Bind from '@nodes/Bind';
+import type Context from '@nodes/Context';
+import type ConversionDefinition from '@nodes/ConversionDefinition';
+import type Convert from '@nodes/Convert';
+import Evaluate from '@nodes/Evaluate';
+import Expression from '@nodes/Expression';
+import type FunctionDefinition from '@nodes/FunctionDefinition';
+import FunctionType from '@nodes/FunctionType';
+import NameType from '@nodes/NameType';
+import NumberType from '@nodes/NumberType';
+import PropertyReference from '@nodes/PropertyReference';
+import StreamDefinition from '@nodes/StreamDefinition';
+import StructureDefinition from '@nodes/StructureDefinition';
+import StructureType from '@nodes/StructureType';
+import type Type from '@nodes/Type';
+import TypeVariable from '@nodes/TypeVariable';
+import type UnaryEvaluate from '@nodes/UnaryEvaluate';
+import UnionType from '@nodes/UnionType';
+import { UnknownVariableType } from '@nodes/UnknownVariableType';
 
 export type EvaluationType = Evaluate | BinaryEvaluate | UnaryEvaluate;
 
@@ -71,7 +71,21 @@ export default function getConcreteExpectedType(
     if (type instanceof NumberType && type.hasDerivedUnit())
         return getConcreteNumberInput(type, evaluation, context);
 
-    // If the type is some other type, but contains one of the above, concretize them and construct a new compound type.
+    return concretizeType(type, definition, evaluation, context);
+}
+
+/**
+ * Walk a type, replacing every type variable reference and every derived-unit number with a concrete type
+ * inferred from the given evaluation. Useful when you only need part of a function's signature concretized
+ * (e.g. one input bind's type) and don't want to trigger inference for the rest — which can recurse back
+ * into whatever is asking and yield a cycle.
+ */
+export function concretizeType(
+    type: Type,
+    definition: FunctionDefinition | StructureDefinition | StreamDefinition,
+    evaluation: EvaluationType,
+    context: Context,
+): Type {
     // We do this in a loop since each time we clone the type, the abstract types that have yet to be concretized
     // are cloned too, so we can't just get a list and loop through it.
     let moreAbstractTypes = true;
@@ -98,8 +112,12 @@ export default function getConcreteExpectedType(
                           evaluation,
                           context,
                       );
-            // Clone the current type, replacing the abstract type with the concrete type.
-            type = type.replace(nextAbstractType, concreteType);
+            // If the abstract type *is* the root, replace it directly — Node.replace only walks
+            // children, so it can't replace `this`. Otherwise clone, swapping the descendant.
+            type =
+                type === nextAbstractType
+                    ? concreteType
+                    : type.replace(nextAbstractType, concreteType);
         }
         // If there isn't another abstract type, we have our type!
         else break;

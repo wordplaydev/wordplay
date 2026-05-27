@@ -1,6 +1,8 @@
 <script lang="ts">
     import type UnionType from '@nodes/UnionType';
-    import NodeView, { type Format } from './NodeView.svelte';
+    import NodeView, {
+        type Format,
+    } from '@components/editor/nodes/NodeView.svelte';
 
     interface Props {
         node: UnionType;

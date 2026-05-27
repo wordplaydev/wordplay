@@ -55,7 +55,7 @@ import {
     FormattingSymbols,
     tokens,
 } from '@parser/Tokenizer';
-import type Caret from './Caret';
+import type Caret from '@edit/caret/Caret';
 
 type InsertInfo = {
     /** The caret where the insertion is happening */
@@ -258,12 +258,12 @@ function completeConvert({
     source,
     position,
 }: InsertInfo): Revision | undefined {
-    // What's the preceding expression?
-    let precedingExpression: Expression | undefined = getPrecedingExpression(
-        source,
-        position,
-        false,
-    )[0];
+    // What's the preceding expression? Prefer an exact position match to avoid
+    // selecting an inner node (e.g. the "1" inside "(1)") that happens to match
+    // via the +1 fuzzy rule when a parent node ends exactly at the cursor.
+    let precedingExpression: Expression | undefined =
+        getPrecedingExpression(source, position, true)[0] ??
+        getPrecedingExpression(source, position, false)[0];
     if (precedingExpression === undefined) return undefined;
 
     // Replace the preceding expression with a conversion of it.
@@ -353,9 +353,13 @@ function completeDelimiter({
             );
             if (newSource) return [newSource, placeholder];
         } else {
-            text += DelimiterCloseByOpen[text];
-            newSource = source.withGraphemesAt(text, position) ?? newSource;
-            if (newSource) return [newSource, position + 1];
+            const closeChar = DelimiterCloseByOpen[text];
+            // If the closing delimiter is already immediately after the cursor, don't insert it.
+            if (source.getGraphemeAt(position) !== closeChar) {
+                text += closeChar;
+                newSource = source.withGraphemesAt(text, position) ?? newSource;
+                if (newSource) return [newSource, position + 1];
+            }
         }
     }
     return undefined;
@@ -410,6 +414,30 @@ function completeBinaryEvaluate({
         (text === PRODUCT_SYMBOL ||
             text === DOT_SYMBOL ||
             text === EXPONENT_SYMBOL)
+    )
+        return undefined;
+
+    // Typing `%` right after a NumberLiteral should append a percent suffix to
+    // the number (turning `50` into `50%`), not start a modulo BinaryEvaluate.
+    // Skip the binary completion so the `%` lands as a regular character on
+    // the literal.
+    if (
+        precedingExpression instanceof NumberLiteral &&
+        !precedingExpression.isPercent() &&
+        text === '%'
+    )
+        return undefined;
+
+    // If the inserted character has a non-binary-operator meaning in the
+    // language grammar (e.g., `|` separates types in a UnionType), skip the
+    // binary autocomplete so the character can be typed literally and resolved
+    // by the parser from the surrounding context. We detect this by checking
+    // whether the character's token carries a structural Sym type beyond
+    // Sym.Operator (Sym.Region is excluded — it applies only inside language
+    // tags within Numbers and doesn't conflict at expression level).
+    if (
+        tokens(text)[0]
+            ?.types.some((t) => t !== Sym.Operator && t !== Sym.Region)
     )
         return undefined;
 
@@ -488,6 +516,17 @@ function completeBindOrKeyValue({
     if (preceding === undefined) return undefined;
     const reference = preceding.nodes((node) => node instanceof Reference)[0];
     if (reference === undefined) return undefined;
+
+    // If there's already non-whitespace content on the same line after the
+    // caret, skip the placeholder — the parser will treat what follows as the
+    // bind's value, and a placeholder would just duplicate or displace it.
+    let i = position;
+    let next = source.getGraphemeAt(i);
+    while (next !== undefined && next !== '\n') {
+        if (next !== ' ' && next !== '\t') return undefined;
+        i++;
+        next = source.getGraphemeAt(i);
+    }
 
     const placeholder = ExpressionPlaceholder.make(
         preceding instanceof Is ? preceding.type : undefined,

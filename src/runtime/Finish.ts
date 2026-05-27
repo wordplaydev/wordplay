@@ -1,9 +1,9 @@
 import type Expression from '@nodes/Expression';
 import type Evaluator from '@runtime/Evaluator';
-import type Locales from '../locale/Locales';
-import type Value from '../values/Value';
-import { shouldSkip } from './Start';
-import Step from './Step';
+import type Locales from '@locale/Locales';
+import type Value from '@values/Value';
+import { getStoredValue, shouldSkip } from '@runtime/Start';
+import Step from '@runtime/Step';
 
 export default class Finish extends Step {
     constructor(node: Expression) {
@@ -25,8 +25,10 @@ export default class Finish extends Step {
 
 export function finish(evaluator: Evaluator, expr: Expression) {
     // Not in the past and the expression is either constant or not dependent on recenlty changed streams? Reuse the prior value.
+    // Use ANY stored value (not filtered by current stepIndex) so Start and Finish agree on whether to skip —
+    // see Start.start() for the rationale. shouldSkip already guarantees the expression is effectively constant here.
     if (shouldSkip(evaluator, expr)) {
-        const priorValue = evaluator.getLatestExpressionValue(expr);
+        const priorValue = getStoredValue(evaluator, expr);
         if (priorValue !== undefined) {
             // Ask the evaluator to remember the value we computed.
             // evaluator.rememberExpressionValue(expr, priorValue);

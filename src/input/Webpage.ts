@@ -1,26 +1,26 @@
 import type Evaluation from '@runtime/Evaluation';
 import StreamValue from '@values/StreamValue';
-import { getDocLocales } from '../locale/getDocLocales';
-import { getNameLocales } from '../locale/getNameLocales';
-import type Locales from '../locale/Locales';
-import type LocaleText from '../locale/LocaleText';
-import Bind from '../nodes/Bind';
-import ListType from '../nodes/ListType';
-import NoneType from '../nodes/NoneType';
-import NumberLiteral from '../nodes/NumberLiteral';
-import NumberType from '../nodes/NumberType';
-import StreamDefinition from '../nodes/StreamDefinition';
-import StreamType from '../nodes/StreamType';
-import TextLiteral from '../nodes/TextLiteral';
-import TextType from '../nodes/TextType';
-import UnionType from '../nodes/UnionType';
-import Unit from '../nodes/Unit';
-import type ExceptionValue from '../values/ExceptionValue';
-import ListValue from '../values/ListValue';
-import MessageException from '../values/MessageException';
-import NumberValue from '../values/NumberValue';
-import TextValue from '../values/TextValue';
-import createStreamEvaluator from './createStreamEvaluator';
+import { getDocLocales } from '@locale/getDocLocales';
+import { getNameLocales } from '@locale/getNameLocales';
+import type Locales from '@locale/Locales';
+import type LocaleText from '@locale/LocaleText';
+import Bind from '@nodes/Bind';
+import ListType from '@nodes/ListType';
+import NoneType from '@nodes/NoneType';
+import NumberLiteral from '@nodes/NumberLiteral';
+import NumberType from '@nodes/NumberType';
+import StreamDefinition from '@nodes/StreamDefinition';
+import StreamType from '@nodes/StreamType';
+import TextLiteral from '@nodes/TextLiteral';
+import TextType from '@nodes/TextType';
+import UnionType from '@nodes/UnionType';
+import Unit from '@nodes/Unit';
+import type ExceptionValue from '@values/ExceptionValue';
+import ListValue from '@values/ListValue';
+import MessageException from '@values/MessageException';
+import NumberValue from '@values/NumberValue';
+import TextValue from '@values/TextValue';
+import createStreamEvaluator from '@input/createStreamEvaluator';
 
 /**
  * Webpage stream values can be one of three things:

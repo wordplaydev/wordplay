@@ -1,0 +1,21 @@
+Criar um vídeo a partir da câmara
+
+O  @Camera A funcionalidade de fluxo de dados é uma excelente forma de obter uma grelha de cores do mundo real.E se quisermos ver essas cores, recriando a imagem? @Camera vê?
+
+Podemos usar o @Grid layout para um @Group , e  @List/combine função para converter as cores numa lista de @Phrase que damos ao @Grid .
+
+\width: 24
+height: 24
+colors: Camera(width × 1px height × 1px 33ms)
+Stage([
+		Group(Grid(height width 0m) colors.combine([] ƒ(phrases row) [
+						:phrases
+						:row.translate(ƒ(color) Phrase("⬤" color: color duration: 0s))
+					]))
+	])\
+
+Este exemplo cria uma lista de frases, convertendo cada cor num círculo com a cor específica.
+
+Tenha cuidado com @Camera Fluxos de dados: geram muita entrada! É importante manter a largura e a altura da imagem pequenas.
+
+interactive-scene

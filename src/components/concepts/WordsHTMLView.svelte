@@ -1,7 +1,7 @@
 <script lang="ts">
-    import type Words from '../../nodes/Words';
-    import type Spaces from '../../parser/Spaces';
-    import SegmentHTMLView from './SegmentHTMLView.svelte';
+    import type Words from '@nodes/Words';
+    import type Spaces from '@parser/Spaces';
+    import SegmentHTMLView from '@components/concepts/SegmentHTMLView.svelte';
 
     interface Props {
         words: Words;

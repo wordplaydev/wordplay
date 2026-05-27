@@ -1,0 +1,15 @@
+Tampilkan karakter kustom
+
+Emoji, huruf, dan simbol memang bagus! Tapi terkadang kamu ingin membuat karaktermu sendiri.Bagaimana Anda bisa membuat dan menampilkan karya Anda sendiri?
+
+Pertama, mulailah dengan membuat karakter di <Karakter@://characters> halaman. Anda dapat menggunakan piksel, persegi panjang, lingkaran, dan jalur. Beri nama, deskripsikan, lalu Anda dapat menggunakan nama pengguna dan nama karakter seperti ini:
+
+\Phrase(`Lihatlah imajinasiku  @username/charactername !`)\
+
+Nama pengguna dan nama karakter tersebut tidak ada, jadi akan ditampilkan sebagai persegi panjang kosong.Pastikan Anda menggunakan nama pengguna dan nama karakter Anda yang sebenarnya.
+
+Perhatikan bagaimana teks tersebut menggunakan tanda backtick (`) alih-alih tanda kutip? Itu penting. Itu menunjukkan bahwa Anda menggunakan mode teks kaya, dan itu diperlukan untuk merujuk ke karakter khusus.
+
+Anda dapat mempelajari lebih lanjut tentang pemformatan teks dari  @Phrase .
+
+animate-phrase

@@ -2,11 +2,14 @@
     import Emoji from '@components/app/Emoji.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import { toShortcut } from '@components/editor/commands/Commands';
+    import Button from '@components/widgets/Button.svelte';
+    import Switch from '@components/widgets/Switch.svelte';
+    import TextBox from '@components/widgets/TextBox.svelte';
     import { locales } from '@db/Database';
+    import type LocaleText from '@locale/LocaleText';
     import type { LocaleTextAccessor } from '@locale/Locales';
-    import Button from './Button.svelte';
-    import Switch from './Switch.svelte';
-    import TextBox from './TextBox.svelte';
+    import { BULLET_SYMBOL } from '@parser/Symbols';
+    import { tick } from 'svelte';
 
     interface Props {
         id: string;
@@ -25,8 +28,102 @@
     }: Props = $props();
 
     let preview = $state(false);
+    let cursorPosition = $state(0);
 
-    function format(format: '*' | '^' | '/' | '_' | '\\' | '@') {
+    $effect(() => {
+        if (!view) return;
+        function updateCursor() {
+            cursorPosition = view?.selectionStart ?? 0;
+        }
+        view.addEventListener('input', updateCursor);
+        view.addEventListener('click', updateCursor);
+        view.addEventListener('keyup', updateCursor);
+        return () => {
+            view?.removeEventListener('input', updateCursor);
+            view?.removeEventListener('click', updateCursor);
+            view?.removeEventListener('keyup', updateCursor);
+        };
+    });
+
+    function findRange(
+        src: string,
+        cursor: number,
+        delimiter: string,
+        start = 0,
+        end = src.length,
+    ): { open: number; close: number } | null {
+        let open = src.indexOf(delimiter, start);
+        while (open !== -1 && open < end) {
+            const close = src.indexOf(delimiter, open + 1);
+            if (close === -1 || close >= end) return null;
+            if (cursor > open && cursor <= close + 1) return { open, close };
+            open = src.indexOf(delimiter, close + 1);
+        }
+        return null;
+    }
+
+    let exampleRange = $derived(findRange(text, cursorPosition, '\\'));
+    let cursorInExample = $derived(exampleRange !== null);
+    let cursorInDocInExample = $derived(
+        exampleRange !== null &&
+            findRange(
+                text,
+                cursorPosition,
+                '¶',
+                exampleRange.open + 1,
+                exampleRange.close,
+            ) !== null,
+    );
+
+    function insertAtCursor(str: string, pos: number) {
+        text = text.slice(0, pos) + str + text.slice(pos);
+        const newCursor = pos + str.length;
+        cursorPosition = newCursor;
+        setTimeout(() => {
+            view!.focus();
+            view!.setSelectionRange(newCursor, newCursor);
+        }, 0);
+    }
+
+    function formatHighlight() {
+        if (view === undefined) return;
+        const range = findRange(text, view.selectionStart ?? 0, '\\');
+        if (range === null) return;
+        insertAtCursor('⭐', range.close + 1);
+    }
+
+    function formatAttention() {
+        if (view === undefined) return;
+        insertAtCursor('👀', view.selectionStart ?? 0);
+    }
+
+    /** Add a bullet on a new line */
+    async function formatBullet() {
+        if (view === undefined) return;
+        const cursor = view.selectionStart ?? 0;
+        const atLineStart = cursor === 0 || text[cursor - 1] === '\n';
+        let insertion: string;
+        if (atLineStart) {
+            insertion = `${BULLET_SYMBOL} `;
+        } else {
+            const lineStart = text.lastIndexOf('\n', cursor - 1) + 1;
+            const currentLineStartsBullet = text
+                .slice(lineStart)
+                .startsWith(`${BULLET_SYMBOL} `);
+            insertion = currentLineStartsBullet
+                ? `\n${BULLET_SYMBOL} `
+                : `\n\n${BULLET_SYMBOL} `;
+        }
+        text = text.slice(0, cursor) + insertion + text.slice(cursor);
+        const newCursor = cursor + insertion.length;
+        cursorPosition = newCursor;
+        await tick();
+        view.focus();
+        view.setSelectionRange(newCursor, newCursor);
+        view.scrollIntoView({ block: 'nearest' });
+    }
+
+    function format(format: '*' | '^' | '/' | '_' | '\\' | '@' | '¶') {
         if (view === undefined) return;
         const start = view.selectionStart;
         const end = view.selectionEnd;
@@ -50,8 +147,9 @@
                 start + 1 + selected.length + (start === end ? 0 : 1);
             }
         }
-        // Update the text box's text.
+        // Update the text box's text and cursor position state.
         text = formatted;
+        cursorPosition = cursorPos;
 
         // Update the cursor position.
         setTimeout(() => {
@@ -61,6 +159,52 @@
     }
 
     function handleKey(event: KeyboardEvent) {
+        // Add another bullet or replace an empty bullet line with an empty two lines.
+        if (
+            event.key === 'Enter' &&
+            !event.ctrlKey &&
+            !event.metaKey &&
+            view !== undefined
+        ) {
+            const cursor = view.selectionStart;
+            const collapsed = cursor === view.selectionEnd;
+            const atLineEnd = cursor === text.length || text[cursor] === '\n';
+            const lineStart = text.lastIndexOf('\n', cursor - 1) + 1;
+            if (
+                collapsed &&
+                atLineEnd &&
+                text.slice(lineStart).startsWith(`${BULLET_SYMBOL} `)
+            ) {
+                event.preventDefault();
+                event.stopPropagation();
+                const lineContent = text.slice(lineStart, cursor);
+                if (lineContent.trimEnd() === BULLET_SYMBOL) {
+                    // Empty bullet line: replace it with two empty lines
+                    text = text.slice(0, lineStart) + '\n' + text.slice(cursor);
+                    const newCursor = lineStart + 1;
+                    cursorPosition = newCursor;
+                    setTimeout(() => {
+                        view!.focus();
+                        view!.setSelectionRange(newCursor, newCursor);
+                        view!.scrollIntoView({ block: 'nearest' });
+                    }, 0);
+                } else {
+                    // Non-empty bullet line: continue with a new bullet
+                    const insertion = `\n${BULLET_SYMBOL} `;
+                    text =
+                        text.slice(0, cursor) + insertion + text.slice(cursor);
+                    const newCursor = cursor + insertion.length;
+                    cursorPosition = newCursor;
+                    setTimeout(() => {
+                        view!.focus();
+                        view!.setSelectionRange(newCursor, newCursor);
+                        view!.scrollIntoView({ block: 'nearest' });
+                    }, 0);
+                }
+            }
+        }
+
+        // Handle shortcuts.
         if (event.ctrlKey || event.metaKey) {
             switch (event.key.toLowerCase()) {
                 case 'enter':
@@ -97,6 +241,32 @@
                     event.preventDefault();
                     event.stopPropagation();
                     format('\\');
+                    break;
+                case '*':
+                    event.preventDefault();
+                    event.stopPropagation();
+                    formatHighlight();
+                    break;
+                case '8':
+                    event.preventDefault();
+                    event.stopPropagation();
+                    formatBullet();
+                    break;
+                case '>':
+                    event.preventDefault();
+                    event.stopPropagation();
+                    formatAttention();
+                    break;
+            }
+        }
+
+        if (event.altKey && !event.ctrlKey && !event.metaKey) {
+            switch (event.key) {
+                case '7':
+                case '¶':
+                    event.preventDefault();
+                    event.stopPropagation();
+                    format('¶');
                     break;
             }
         }
@@ -156,10 +326,39 @@
             action={() => format('\\')}><code>\\</code></Button
         >
         <Button
+            tip={(l: LocaleText) =>
+                l.ui.widget.formatted.highlight +
+                ` (${toShortcut({ control: true, alt: undefined, shift: true, key: '8' })})`}
+            action={formatHighlight}
+            active={!preview && cursorInExample}><Emoji>⭐</Emoji></Button
+        >
+        <Button
+            tip={(l: LocaleText) =>
+                l.ui.source.cursor.insertDocs +
+                ` (${toShortcut({ control: undefined, alt: true, shift: undefined, key: '7' })})`}
+            action={() => format('¶')}
+            active={!preview &&
+                exampleRange !== null &&
+                cursorPosition <= exampleRange.close}>¶</Button
+        >
+        <Button
+            tip={(l: LocaleText) =>
+                l.ui.widget.formatted.attention +
+                ` (${toShortcut({ control: true, alt: undefined, shift: true, key: '.' })})`}
+            action={formatAttention}
+            active={!preview && cursorInDocInExample}><Emoji>👀</Emoji></Button
+        >
+        <Button
             tip={() =>
                 $locales.getPlainText((l) => l.token.Link) +
                 ` (${toShortcut({ control: true, alt: undefined, shift: undefined, key: 'k' })})`}
             action={() => format('@')}><Emoji>🔗</Emoji></Button
+        >
+        <Button
+            tip={(l: LocaleText) =>
+                l.ui.widget.formatted.bullet +
+                ` (${toShortcut({ control: true, alt: undefined, shift: undefined, key: '8' })})`}
+            action={formatBullet}>{BULLET_SYMBOL}</Button
         >
     </div>
     {#if preview}

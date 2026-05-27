@@ -1,16 +1,16 @@
-import type Locales from '../locale/Locales';
-import type LocaleText from '../locale/LocaleText';
-import type Animator from './Animator';
-import type { Orientation, OutputName } from './Animator';
-import type Output from './Output';
-import { PX_PER_METER, sizeToPx, toOutputTransform } from './outputToCSS';
-import Phrase from './Phrase';
-import Place from './Place';
-import Pose from './Pose';
-import type RenderContext from './RenderContext';
-import Sequence from './Sequence';
-import Stage from './Stage';
-import Transition from './Transition';
+import type Locales from '@locale/Locales';
+import type LocaleText from '@locale/LocaleText';
+import type Animator from '@output/Animator';
+import type { Orientation, OutputName } from '@output/Animator';
+import type Output from '@output/Output';
+import { PX_PER_METER, sizeToPx, toOutputTransform } from '@output/outputToCSS';
+import Phrase from '@output/Phrase';
+import Place from '@output/Place';
+import Pose from '@output/Pose';
+import type RenderContext from '@output/RenderContext';
+import Sequence from '@output/Sequence';
+import Stage from '@output/Stage';
+import Transition from '@output/Transition';
 
 export const AnimationState = {
     Entering: 'entering',
@@ -375,6 +375,12 @@ export default class OutputAnimation {
         // Don't start any animations if there's no verse.
         if (this.animator.stage === undefined) return;
 
+        // Don't start animations after the animator has been stopped. stop()
+        // nulls this.animator.evaluator to break the Animator ↔ Evaluator
+        // retention cycle (see Animator.stop); a late-firing callback can
+        // still land here but has no valid context to animate against.
+        if (this.animator.evaluator === undefined) return;
+
         // Cancel any current animation.
         if (this.animation) {
             this.animation.onfinish = null;
@@ -537,8 +543,10 @@ export default class OutputAnimation {
                 totalDuration;
 
             keyframe.offset = Math.max(0, Math.min(1, currentOffset));
+            // Safe: the start() guard above already returned when
+            // animator.evaluator was undefined, so it can't be undefined here.
             keyframe.easing = styleToCSSEasing(
-                this.animator.evaluator.project.getLocales(),
+                this.animator.evaluator!.project.getLocales(),
                 transition.style,
             );
 

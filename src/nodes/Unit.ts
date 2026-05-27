@@ -1,25 +1,26 @@
 import { Purpose } from '@concepts/Purpose';
 import { getPossibleDimensions } from '@edit/menu/getPossibleUnits';
 import type { InsertContext, ReplaceContext } from '@edit/revision/EditContext';
+import type Context from '@nodes/Context';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { DOT_SYMBOL, EXPONENT_SYMBOL, LANGUAGE_SYMBOL } from '@parser/Symbols';
 import NumberValue from '@values/NumberValue';
-import type { BasisTypeName } from '../basis/BasisConstants';
-import type Locales from '../locale/Locales';
+import type { BasisTypeName } from '@basis/BasisConstants';
+import type Locales from '@locale/Locales';
 import { Emotion } from '../lore/Emotion';
-import Dimension from './Dimension';
-import LanguageToken from './LanguageToken';
+import Dimension from '@nodes/Dimension';
+import LanguageToken from '@nodes/LanguageToken';
 import Node, {
     list,
     node,
     optional,
     type Grammar,
     type Replacement,
-} from './Node';
-import { Sym } from './Sym';
-import Token from './Token';
-import type TypeSet from './TypeSet';
+} from '@nodes/Node';
+import { Sym } from '@nodes/Sym';
+import Token from '@nodes/Token';
+import type TypeSet from '@nodes/TypeSet';
 
 export default class Unit extends Node {
     /** In case this was parsed, we keep the original tokens around. */
@@ -136,27 +137,36 @@ export default class Unit extends Node {
     }
 
     static getPossibleReplacements({ node, context }: ReplaceContext) {
-        // What dimensions are possible?
-        const dimensions = getPossibleDimensions(context);
-
-        return node instanceof Unit
-            ? [
-                  // Suggest replacing this dimension
-                  ...dimensions.map((dim) => Unit.create([dim])),
-                  // Suggest adding a dimension to the numerator, except any existing numerators
-                  ...dimensions
-                      .filter((dim) => !node.hasDimension(dim))
-                      .map((dim) => node.withNumerator(dim)),
-                  // Suggest adding a dimension to the denominator, except any existing numerators
-                  ...dimensions
-                      .filter((dim) => !node.hasDimension(dim))
-                      .map((dim) => node.withDenominator(dim)),
-              ]
-            : [];
+        return node instanceof Unit ? node.getAlternativeUnits(context) : [];
     }
 
     static getPossibleInsertions({ context }: InsertContext) {
         return getPossibleDimensions(context).map((dim) => Unit.create([dim]));
+    }
+
+    /** Selecting the slash token of a Unit (e.g. `m/s`) has no useful
+     *  field-level replacements, so surface alternative whole-unit options
+     *  at the grandparent level. */
+    getReplacementsForTokenAnchor(context: Context): Unit[] {
+        return this.getAlternativeUnits(context);
+    }
+
+    /** Whole-unit alternatives, shared by getPossibleReplacements (Unit-
+     *  anchor case) and getReplacementsForTokenAnchor (token-anchor case). */
+    getAlternativeUnits(context: Context): Unit[] {
+        const dimensions = getPossibleDimensions(context);
+        return [
+            // Replace with a single-dimension unit.
+            ...dimensions.map((dim) => Unit.create([dim])),
+            // Add a dimension to the numerator (skipping ones already present).
+            ...dimensions
+                .filter((dim) => !this.hasDimension(dim))
+                .map((dim) => this.withNumerator(dim)),
+            // Add a dimension to the denominator (skipping ones already present).
+            ...dimensions
+                .filter((dim) => !this.hasDimension(dim))
+                .map((dim) => this.withDenominator(dim)),
+        ];
     }
 
     static Empty = new Unit();
@@ -418,11 +428,11 @@ export default class Unit extends Node {
     }
 
     getDescriptionInputs(locales: Locales) {
-        return [
-            this.isUnitless()
+        return {
+            unit: this.isUnitless()
                 ? locales.getUnannotatedText((l) => l.basis.Number.name[0])
                 : this.toWordplay(),
-        ];
+        };
     }
 
     static meters() {

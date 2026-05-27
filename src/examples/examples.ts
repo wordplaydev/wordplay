@@ -1,26 +1,50 @@
 import Gallery, { GallerySchemaLatestVersion } from '@db/galleries/Gallery';
-import type Locales from '@locale/Locales';
-import { moderatedFlags } from '../db/projects/Moderation';
+import { moderatedFlags } from '@db/projects/Moderation';
 import {
     ProjectSchemaLatestVersion,
+    type SerializedPreview,
     type SerializedProject,
-} from '../db/projects/ProjectSchemas';
-import type { GalleryText } from '../locale/GalleryTexts';
-import { localeToString } from '../locale/Locale';
-import { parseNames } from '../parser/parseBind';
-import { toTokens } from '../parser/toTokens';
+} from '@db/projects/ProjectSchemas';
+import type { GalleryText } from '@locale/GalleryTexts';
+import { localeToString } from '@locale/Locale';
+import type Locales from '@locale/Locales';
+import { parseNames } from '@parser/parseBind';
+import { toTokens } from '@parser/toTokens';
+import UnicodeString from '@unicode/UnicodeString';
 
 /** This mirrors the static path to examples, but also helps distinguish project IDs from example project names. */
 export const ExamplePrefix = 'example-';
+
+/**
+ * `.wp` example files may optionally begin with a single-grapheme preview
+ * glyph on its own line, before the project title. If present, it ships as
+ * the project's persisted preview (mode: 'auto', value precomputed at build
+ * time by scripts/precompute-previews.ts). Legacy files without a preview
+ * line fall through to the on-demand preview queue.
+ */
+function parsePreviewLine(line: string): string | undefined {
+    const trimmed = line.trim();
+    if (trimmed.length === 0) return undefined;
+    const us = new UnicodeString(trimmed);
+    return us.getLength() === 1 ? trimmed : undefined;
+}
 
 export function parseSerializedProject(
     project: string,
     id: string,
 ): SerializedProject {
-    const lines = project.split('\n');
-    const rest = project.substring(lines.slice(0, 1).join().length + 1);
+    let lines = project.split('\n');
 
-    // The first line is the project name
+    // Optional preview-glyph first line. If present, peel it off so the
+    // second line is the project name as in the legacy format.
+    const previewGlyph = parsePreviewLine(lines[0] ?? '');
+    if (previewGlyph !== undefined) lines = lines.slice(1);
+
+    // Reconstruct the remainder for downstream `===`-splitting.
+    const body = lines.join('\n');
+    const rest = body.substring(lines.slice(0, 1).join().length + 1);
+
+    // The first line of the (possibly peeled) body is the project name.
     const name = lines[0].trim();
 
     // Split the file by "===" lines
@@ -40,6 +64,18 @@ export function parseSerializedProject(
         }
         return { names, code, caret: 0 };
     });
+
+    const preview: SerializedPreview | undefined =
+        previewGlyph !== undefined
+            ? {
+                  mode: 'auto',
+                  text: previewGlyph,
+                  foreground: null,
+                  background: null,
+                  face: null,
+                  characterName: null,
+              }
+            : undefined;
 
     // Return stuff for display
     return {
@@ -63,6 +99,9 @@ export function parseSerializedProject(
         restrictedGallery: false,
         viewers: [],
         commenters: [],
+        preview,
+        stamps: { lamport: 0, fields: {} },
+        crdt: null,
     };
 }
 
@@ -158,6 +197,7 @@ export function getExampleGalleries(locales: Locales): Gallery[] {
                 'Pumpkin',
                 'Size',
                 'FloatingFoods',
+                'AditiAnimatedName',
             ],
             locales,
         ),
@@ -189,6 +229,7 @@ export function getExampleGalleries(locales: Locales): Gallery[] {
                 'RainingLetters',
                 'Video',
                 'ASCII',
+                'Hand',
             ],
             locales,
         ),
@@ -197,7 +238,7 @@ export function getExampleGalleries(locales: Locales): Gallery[] {
             Object.fromEntries(
                 locale.map((l) => [localeToString(l), l.gallery.stories]),
             ),
-            ['Pears', 'JapaneseClass'],
+            ['Pears', 'JapaneseClass', 'AditiPersonalMap'],
             locales,
         ),
         createGallery(

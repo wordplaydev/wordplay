@@ -1,6 +1,9 @@
 <script lang="ts">
     import type Language from '@nodes/Language';
-    import NodeView, { type Format } from './NodeView.svelte';
+    import NodeSequenceView from '@components/editor/nodes/NodeSequenceView.svelte';
+    import NodeView, {
+        type Format,
+    } from '@components/editor/nodes/NodeView.svelte';
 
     interface Props {
         node: Language;
@@ -14,6 +17,11 @@
     ><NodeView node={[node, 'slash']} {format} /><NodeView
         node={[node, 'language']}
         {format}
+    /><NodeSequenceView
+        {node}
+        field="extras"
+        {format}
+        empty="hide"
     /><NodeView node={[node, 'dash']} {format} empty="hide" /><NodeView
         node={[node, 'region']}
         {format}

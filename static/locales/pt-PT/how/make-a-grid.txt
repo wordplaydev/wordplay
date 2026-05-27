@@ -1,0 +1,27 @@
+Crie uma grelha de caracteres.
+
+E se quisermos fileiras?/e/colunas ao mesmo tempo? Isto é o que um @Grid é para.
+
+UM  @Grid Solicita o número de linhas, o número de colunas e o espaço a introduzir entre as células.
+
+\Group(Grid(2 3 0.25m) [
+		Phrase('🍎')
+		Phrase('🍌')
+		Phrase('🍇')
+		Phrase('🥕')
+		Phrase('🥦')
+		Phrase('🌽')
+	])\
+
+Isto cria uma horta de frutas e legumes de 2 por 3!
+
+Se pretender que todas as células tenham o mesmo tamanho, dê @Grid também uma largura e uma altura. Desta forma, as personagens ficam perfeitamente dentro dos seus quadrados, mesmo que tenham tamanhos diferentes:
+
+\Group(Grid(2 2 0.1m 1.5m 1.5m) [
+		Phrase('🐈' size: 1m)
+		Phrase('🐶' size: 1.5m)
+		Phrase('🦊' size: 0.5m)
+		Phrase('🐻' size: 2m)
+	])\
+
+arrange-in-a-row, stack-up-and-down, make-many-copies

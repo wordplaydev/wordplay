@@ -1,7 +1,17 @@
 <script lang="ts">
     import Link from '@components/app/Link.svelte';
+    import TutorialHighlight from '@components/app/TutorialHighlight.svelte';
     import CharacterView from '@components/output/CharacterView.svelte';
+    import {
+        getConceptIndex,
+        getConceptPath,
+        getUser,
+    } from '@components/project/Contexts';
+    import Button from '@components/widgets/Button.svelte';
     import Concept from '@concepts/Concept';
+    import GalleryHowConcept from '@concepts/GalleryHowConcept';
+    import { locales } from '@db/Database';
+    import ConceptRef from '@locale/ConceptRef';
     import ConceptLink, {
         CharacterName,
         CodepointName,
@@ -9,12 +19,8 @@
         HowToName,
         UIName,
     } from '@nodes/ConceptLink';
-    import { locales } from '../../db/Database';
-    import ConceptRef from '../../locale/ConceptRef';
-    import { withMonoEmoji } from '../../unicode/emoji';
-    import TutorialHighlight from '../app/TutorialHighlight.svelte';
-    import { getConceptIndex, getConceptPath } from '../project/Contexts';
-    import Button from '../widgets/Button.svelte';
+    import { withMonoEmoji } from '@unicode/emoji';
+    import MarkupHTMLView from './MarkupHTMLView.svelte';
 
     interface Props {
         link: ConceptRef | ConceptLink | Concept | string;
@@ -123,24 +129,25 @@
         }
     });
 
-    function capitalizeFirstLetter(val: string) {
-        return (
-            String(val)
-                .charAt(0)
-                .toLocaleUpperCase($locales.getLocaleString()) +
-            String(val).slice(1)
-        );
-    }
-
     let concept: Concept | undefined = $derived(
         match && typeof match !== 'string' && 'concept' in match
             ? match.concept
             : undefined,
     );
 
-    let longName: string = $derived(
-        capitalizeFirstLetter(concept?.getName($locales, false) ?? ''),
+    let ownerConcept: Concept | undefined = $derived(
+        match && typeof match !== 'string' && 'container' in match
+            ? match.container
+            : undefined,
     );
+
+    let isConceptGalleryHow: boolean = $derived(
+        concept instanceof GalleryHowConcept,
+    );
+
+    let user = getUser();
+
+    let longName: string = $derived(concept?.getName($locales, false) ?? '');
     let symbolicName: string = $derived(concept?.getName($locales, true) ?? '');
 
     function navigate() {
@@ -171,18 +178,26 @@
 </script>
 
 {#if concept}
+    {#if isConceptGalleryHow && (concept as GalleryHowConcept).howTo.hasBookmarker($user?.uid ?? '')}
+        <MarkupHTMLView inline markup={'🔖'} />
+    {/if}
     <Button
         padding={false}
         action={navigate}
         wrap={true}
         tip={() =>
-            $locales.concretize((l) => l.ui.docs.link, longName).toText()}
+            $locales
+                .concretize((l) => l.ui.docs.link, { name: longName })
+                .toText()}
         ><span class="conceptlink interactive">
             {#if label}
                 {withMonoEmoji(label)}
             {:else}
-                <span class="long">{longName}</span
-                >{#if symbolicName !== longName}
+                {#if ownerConcept}
+                    <span class="long"
+                        >{ownerConcept.getName($locales, false)}</span
+                    >.{/if}<span class="long">{longName}</span
+                >{#if symbolicName.toLocaleLowerCase($locales.getLocaleString()) !== longName.toLocaleLowerCase($locales.getLocaleString())}
                     <sub>{withMonoEmoji(symbolicName)}</sub>{/if}
             {/if}
         </span>

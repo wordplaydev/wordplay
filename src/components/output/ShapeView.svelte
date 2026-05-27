@@ -10,9 +10,9 @@
     import type Place from '@output/Place';
     import type RenderContext from '@output/RenderContext';
     import { untrack } from 'svelte';
-    import { locales } from '../../db/Database';
-    import { Circle, Polygon, Rectangle } from '../../output/Form';
-    import type Shape from '../../output/Shape';
+    import { locales } from '@db/Database';
+    import { Circle, Polygon, Rectangle } from '@output/Form';
+    import type Shape from '@output/Shape';
 
     interface Props {
         shape: Shape;

@@ -1,0 +1,17 @@
+Letakkan teks berdampingan
+
+Terkadang kita menginginkan teks tersusun rapi berdampingan dalam satu baris.Kita bisa melakukan itu dengan  @Row , yang mengatur semuanya dalam sebuah  @Group  dari kiri ke kanan.
+
+\Group(Row() [Phrase('🍎') Phrase('🍌') Phrase('🍇')])\
+
+A  @Row  Anda juga dapat menyusun karakter berdasarkan tepi atas, tengah, atau bawahnya, dan menambahkan spasi di antara karakter-karakter tersebut.Ini buah yang sama, tetapi posisinya lebih rendah dengan sedikit ruang bernapas:
+
+\Group(Row('>' 0.5m) [
+		Phrase('🍎' size: 2m)
+		Phrase('🍌' size: 1m)
+		Phrase('🍇' size: 3m)
+	])\
+
+Itu \'>'\ memberitahu  @Row  untuk menyelaraskan semuanya di sepanjang tepi bawahnya. Cobalah \'<'\ untuk bagian atas atau \'|'\ untuk bagian tengah.Itu \0.5m\ adalah spasi di antara setiap karakter.
+
+stack-up-and-down, make-a-grid

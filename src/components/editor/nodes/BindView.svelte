@@ -1,7 +1,9 @@
 <script lang="ts">
     import type Bind from '@nodes/Bind';
-    import Flow from '../blocks/Flow.svelte';
-    import NodeView, { type Format } from './NodeView.svelte';
+    import Flow from '@components/editor/blocks/Flow.svelte';
+    import NodeView, {
+        type Format,
+    } from '@components/editor/nodes/NodeView.svelte';
 
     interface Props {
         node: Bind;

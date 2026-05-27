@@ -2,9 +2,9 @@ import type Conflict from '@conflicts/Conflict';
 import IncompatibleType from '@conflicts/IncompatibleType';
 import { testConflict } from '@conflicts/TestUtilities';
 import { expect, test } from 'vitest';
-import evaluateCode from '../runtime/evaluate';
-import Match from './Match';
-import type Node from './Node';
+import evaluateCode from '@runtime/evaluate';
+import Match from '@nodes/Match';
+import type Node from '@nodes/Node';
 
 test.each([
     [

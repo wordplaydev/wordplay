@@ -1,0 +1,17 @@
+Faceți mai multe copii ale unui personaj
+
+Ce se întâmplă dacă vrem zece pisici sau o sută de stele, dar nu vrem să le tastăm pe toate?Putem cere unei persoane din listă să ne facă copii cu  @List/translate .
+
+Dacă începem cu numărul \10\ și convertiți-l cu \→ []\, obținem o listă de zece numere de la 1 la 10.Apoi folosim  @List/translate  să transforme fiecare număr într-un  @Phrase :
+
+\Group(Row() (10 → []).translate(ƒ() Phrase('🐈')))\
+
+@List/translate  apelează mica noastră funcție o dată pentru fiecare element și colectează rezultatele într-o listă nouă.
+
+Pentru a face fiecare copie puțin diferită, folosiți numărul pe care ni-l oferă traducerea:
+
+\Group(Row('|' 0.2m) (8 → []).translate(ƒ(n) Phrase('⭐' size: n × 0.5m)))\
+
+Fiecare stea este mai mare decât precedenta, pentru că \n\ merge de la \1\ la \8\.
+
+make-a-grid, arrange-in-a-row

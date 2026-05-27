@@ -1,0 +1,18 @@
+Alege un lucru aleatoriu dintr-o listă
+
+Vrei ca proiectul tău să te surprindă de fiecare dată când este derulat? Fă o listă de opțiuni și alege una dintre ele.  @Random . 
+
+@Random  ne poate da un număr aleatoriu, iar o listă poate fi căutată după număr cu \[n]\.Pune-le împreună pentru a alege un emoji aleatoriu:
+
+\emojis: ['🌈' '🌟' '🎈' '🦄' '🍩']
+Phrase(emojis.random())\
+
+De asemenea, puteți folosi  @Random  cu două numere, care alege un număr întreg între ele.De exemplu, să alegeți un /nou/ emoji aleatoriu în fiecare secundă, amestecați-l  @Time  și o  @Reaction :
+
+\emojis: ['🌈' '🌟' '🎈' '🦄' '🍩']
+pick: emojis[1] … ∆ Time(1000ms) … emojis[Random(1 emojis.length())]
+Phrase(pick)\
+
+Fiecare bifă a  @Time , cel/cea/cei/cele  @Reaction  alege o nouă surpriză.
+
+shake-phrase, count-with-time

@@ -12,19 +12,20 @@ import JumpIfEqual from '@runtime/JumpIf';
 import Start from '@runtime/Start';
 import type Step from '@runtime/Step';
 import type Value from '@values/Value';
-import { Purpose } from '../concepts/Purpose';
-import type Locales from '../locale/Locales';
+import { Purpose } from '@concepts/Purpose';
+import type Locales from '@locale/Locales';
 import Characters from '../lore/BasisCharacters';
-import BooleanType from './BooleanType';
-import type Context from './Context';
-import Expression, { type GuardContext } from './Expression';
-import ExpressionPlaceholder from './ExpressionPlaceholder';
-import { node, type Grammar, type Replacement } from './Node';
-import { Sym } from './Sym';
-import Token from './Token';
-import type Type from './Type';
-import type TypeSet from './TypeSet';
-import UnionType from './UnionType';
+import BooleanType from '@nodes/BooleanType';
+import type Context from '@nodes/Context';
+import Expression, { type GuardContext } from '@nodes/Expression';
+import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
+import { node, type Grammar, type Replacement } from '@nodes/Node';
+import compileStreamWarmup from '@nodes/streamWarmup';
+import { Sym } from '@nodes/Sym';
+import Token from '@nodes/Token';
+import type Type from '@nodes/Type';
+import type TypeSet from '@nodes/TypeSet';
+import UnionType from '@nodes/UnionType';
 
 export default class Conditional extends Expression {
     readonly condition: Expression;
@@ -135,7 +136,10 @@ export default class Conditional extends Expression {
         const children = [];
 
         const conditionType = this.condition.getType(context);
-        if (!(conditionType instanceof BooleanType))
+        if (
+            !context.isUnknownDownstream(this.condition) &&
+            !(conditionType instanceof BooleanType)
+        )
             children.push(new ExpectedBooleanCondition(this, conditionType));
 
         return children;
@@ -156,9 +160,18 @@ export default class Conditional extends Expression {
         const yes = this.yes.compile(evaluator, context);
         const no = this.no.compile(evaluator, context);
 
+        // Pre-evaluate stream-creating calls in either branch so streams
+        // referenced in the branch that isn't chosen on first evaluation
+        // still come into existence. See streamWarmup.ts and issue #679.
+        const warmup = compileStreamWarmup(this, evaluator, context, [
+            this.yes,
+            this.no,
+        ]);
+
         // Evaluate the condition, jump past the yes if false, otherwise evaluate the yes then jump past the no.
         return [
             new Start(this),
+            ...warmup,
             ...this.condition.compile(evaluator, context),
             new JumpIfEqual(yes.length + 1, false, false, this),
             ...yes,
@@ -220,7 +233,9 @@ export default class Conditional extends Expression {
     getStartExplanations(locales: Locales, context: Context) {
         return locales.concretize(
             (l) => l.node.Conditional.start,
-            new NodeRef(this.condition, locales, context),
+            {
+                condition: new NodeRef(this.condition, locales, context),
+            },
         );
     }
 
@@ -231,7 +246,9 @@ export default class Conditional extends Expression {
     ) {
         return locales.concretize(
             (l) => l.node.Conditional.finish,
-            this.getValueIfDefined(locales, context, evaluator),
+            {
+                value: this.getValueIfDefined(locales, context, evaluator),
+            },
         );
     }
 

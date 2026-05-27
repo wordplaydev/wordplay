@@ -1,15 +1,17 @@
-import Branch from '../nodes/Branch';
-import ConceptLink from '../nodes/ConceptLink';
-import Example from '../nodes/Example';
-import Markup from '../nodes/Markup';
-import Mention from '../nodes/Mention';
-import type { Segment } from '../nodes/Paragraph';
-import Paragraph from '../nodes/Paragraph';
-import { Sym } from '../nodes/Sym';
-import WebLink from '../nodes/WebLink';
-import Words from '../nodes/Words';
-import parseProgram from './parseProgram';
-import type Tokens from './Tokens';
+import Branch from '@nodes/Branch';
+import ConceptLink from '@nodes/ConceptLink';
+import Example from '@nodes/Example';
+import Markup from '@nodes/Markup';
+import Mention from '@nodes/Mention';
+import type { Segment } from '@nodes/Paragraph';
+import Paragraph from '@nodes/Paragraph';
+import { Sym } from '@nodes/Sym';
+import Token from '@nodes/Token';
+import WebLink from '@nodes/WebLink';
+import Words from '@nodes/Words';
+import parseProgram from '@parser/parseProgram';
+import { BULLET_SYMBOL, HIGHLIGHT_SYMBOL } from '@parser/Symbols';
+import type Tokens from '@parser/Tokens';
 
 export default function parseMarkup(tokens: Tokens): Markup {
     const content: Paragraph[] = [];
@@ -36,6 +38,19 @@ export function parseParagraph(tokens: Tokens): Paragraph {
         () => {
             content.push(parseSegment(tokens));
             if (tokens.nextHasMoreThanOneLineBreak()) return false;
+            // If non-bullet content precedes a bullet on a new line, end the paragraph so
+            // the bullet opens a fresh one and is rendered as a list.
+            const first = content[0];
+            const firstIsBullet =
+                (first instanceof Words && first.isBulleted()) ||
+                (first instanceof Token &&
+                    first.getText().startsWith(BULLET_SYMBOL));
+            if (
+                !firstIsBullet &&
+                tokens.nextHasPrecedingLineBreak() === true &&
+                tokens.peekText()?.startsWith(BULLET_SYMBOL)
+            )
+                return false;
         },
     );
 
@@ -46,12 +61,12 @@ function parseSegment(tokens: Tokens) {
     return tokens.nextIs(Sym.TagOpen)
         ? parseWebLink(tokens)
         : tokens.nextIs(Sym.Concept)
-          ? parseConceptLink(tokens)
-          : tokens.nextIs(Sym.Code)
-            ? parseExample(tokens)
-            : tokens.nextIs(Sym.Mention)
-              ? parseMention(tokens)
-              : parseWords(tokens);
+            ? parseConceptLink(tokens)
+            : tokens.nextIs(Sym.Code)
+                ? parseExample(tokens)
+                : tokens.nextIs(Sym.Mention)
+                    ? parseMention(tokens)
+                    : parseWords(tokens);
 }
 
 function parseWebLink(tokens: Tokens): WebLink {
@@ -104,6 +119,13 @@ function parseWords(tokens: Tokens): Words {
                     : parseSegment(tokens),
             );
             if (tokens.nextHasMoreThanOneLineBreak()) return false;
+            // Stop before a bullet on a new line so each bullet gets its own Words node,
+            // allowing getBullets() to split them correctly even with single-newline separators.
+            if (
+                tokens.nextHasPrecedingLineBreak() === true &&
+                tokens.peekText()?.startsWith(BULLET_SYMBOL)
+            )
+                return false;
         },
     );
 
@@ -118,7 +140,21 @@ export function parseExample(tokens: Tokens): Example {
     const program = parseProgram(tokens, true);
     const close = tokens.readIf(Sym.Code);
 
-    return new Example(open, program, close);
+    let highlight: Token | undefined = undefined;
+    if (close !== undefined && tokens.nextIs(Sym.Words)) {
+        const text = tokens.peekText() ?? '';
+        if (text.startsWith(HIGHLIGHT_SYMBOL) || text.startsWith('highlight')) {
+            tokens.read(Sym.Words);
+            const prefix = text.startsWith(HIGHLIGHT_SYMBOL)
+                ? HIGHLIGHT_SYMBOL
+                : 'highlight';
+            highlight = new Token(HIGHLIGHT_SYMBOL, Sym.Highlight);
+            const remaining = text.slice(prefix.length);
+            if (remaining.length > 0) tokens.injectNext(new Token(remaining, Sym.Words));
+        }
+    }
+
+    return new Example(open, program, close, highlight);
 }
 
 function parseMention(tokens: Tokens): Mention | Branch {

@@ -2,10 +2,10 @@ import Caret from '@edit/caret/Caret';
 import type Context from '@nodes/Context';
 import Node from '@nodes/Node';
 import getPreferredSpaces from '@parser/getPreferredSpaces';
-import type { Edit } from '../../components/editor/commands/Commands';
-import type Locales from '../../locale/Locales';
-import Refer from './Refer';
-import Revision from './Revision';
+import type { Edit } from '@components/editor/commands/Commands';
+import type Locales from '@locale/Locales';
+import Refer from '@edit/revision/Refer';
+import Revision from '@edit/revision/Revision';
 
 type Addition = { field: string; node: Node | Refer };
 
@@ -134,8 +134,9 @@ export default class Assign extends Revision {
                 : this.getNewNode(locales);
         return locales.concretize(
             (l) => l.ui.edit.assign,
-            first.field,
-            node?.getLabel(locales),
+            {
+                name: node?.getLabel(locales),
+            },
         );
     }
 

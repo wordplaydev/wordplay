@@ -1,7 +1,7 @@
 import { Sym, type SymType } from '@nodes/Sym';
 import Token from '@nodes/Token';
 import { withoutVariationSelectors } from '@unicode/emoji';
-import ReservedSymbols from './ReservedSymbols';
+import ReservedSymbols from '@parser/ReservedSymbols';
 import {
     BIND_SYMBOL,
     BIND_SYMBOL_FULL,
@@ -83,9 +83,9 @@ import {
     TYPE_SYMBOL,
     UNDERSCORE_SYMBOL,
     UPDATE_SYMBOL,
-} from './Symbols';
-import TokenList from './TokenList';
-import { toTokens } from './toTokens';
+} from '@parser/Symbols';
+import TokenList from '@parser/TokenList';
+import { toTokens } from '@parser/toTokens';
 
 const TEXT_SEPARATORS = '\'‘’"“”„«»‹›「」『』';
 const OPERATORS = `${NOT_SYMBOL}\\-\\^${SUM_SYMBOL}\\${DIFFERENCE_SYMBOL}${PRODUCT_SYMBOL}${DOT_SYMBOL}÷%<≤=≠≥>&|~?\\u2200-\\u22FF\\u2A00-\\u2AFF\\u2190-\\u21FF\\u27F0-\\u27FF\\u2900-\\u297F`;
@@ -212,8 +212,10 @@ const ListOpenPattern = {
 };
 const ListClosePattern = { pattern: LIST_CLOSE_SYMBOL, types: [Sym.ListClose] };
 
-/** Variable references in markup, for templating and reuse in locales (e.g., $1, $?, $source) */
-export const MentionRegEx = '\\$[a-zA-Z0-9?]+';
+/** Variable references in markup, for templating and reuse in locales:
+ * `$?` or `$!` placeholders, or `$<name>` where name is alphanumeric (no `?`).
+ */
+export const MentionRegEx = '\\$(?:[?!]|[a-zA-Z0-9]+)';
 
 /** Valid tokens inside of code. */
 const CodeTokenPatterns: TokenPattern[] = [
@@ -285,17 +287,61 @@ const CodeTokenPatterns: TokenPattern[] = [
     { pattern: CHANGE_SYMBOL, types: [Sym.Change] },
     { pattern: CHANGE_SYMBOL2, types: [Sym.Change] },
     { pattern: PREVIOUS_SYMBOL, types: [Sym.Previous] },
-    { pattern: PLACEHOLDER_SYMBOL, types: [Sym.Placeholder, Sym.Underline] },
+    {
+        pattern: PLACEHOLDER_SYMBOL,
+        types: [Sym.Placeholder, Sym.LanguageJoin, Sym.Underline],
+    },
     // Roman numerals
     {
         pattern: /^-?[ⅠⅡⅢⅣⅤⅥⅦⅧⅨⅩⅪⅫⅬⅭⅮⅯ]+/,
         types: [Sym.Number, Sym.RomanNumeral],
     },
-    // Japanese numbers
+    // Han (CJK) numerals — covers Chinese, Japanese, and Korean uses of the
+    // shared Han character set for numbers, including the larger magnitudes 億 (10^8) and 兆 (10^12).
     {
         pattern:
-            /^-?[0-9]*[一二三四五六七八九十百千万]+(・[一二三四五六七八九分厘毛糸忽]+)?/u,
-        types: [Sym.Number, Sym.JapaneseNumeral],
+            /^-?[0-9]*[一二三四五六七八九十百千万億兆]+(・[一二三四五六七八九分厘毛糸忽]+)?/u,
+        types: [Sym.Number, Sym.HanNumeral],
+    },
+    // Thai numerals — positional digits ๐–๙ that read like Arabic decimal.
+    {
+        pattern: /^-?[๐๑๒๓๔๕๖๗๘๙]+([.,][๐๑๒๓๔๕๖๗๘๙]+)?%?/u,
+        types: [Sym.Number, Sym.ThaiNumeral],
+    },
+    // Bengali numerals (also used by Assamese).
+    {
+        pattern: /^-?[০১২৩৪৫৬৭৮৯]+([.,][০১২৩৪৫৬৭৮৯]+)?%?/u,
+        types: [Sym.Number, Sym.BengaliNumeral],
+    },
+    // Devanagari numerals (used by Hindi, Marathi, Sanskrit).
+    {
+        pattern: /^-?[०१२३४५६७८९]+([.,][०१२३४५६७८९]+)?%?/u,
+        types: [Sym.Number, Sym.DevanagariNumeral],
+    },
+    // Gujarati numerals.
+    {
+        pattern: /^-?[૦૧૨૩૪૫૬૭૮૯]+([.,][૦૧૨૩૪૫૬૭૮૯]+)?%?/u,
+        types: [Sym.Number, Sym.GujaratiNumeral],
+    },
+    // Gurmukhi numerals (used by Punjabi).
+    {
+        pattern: /^-?[੦੧੨੩੪੫੬੭੮੯]+([.,][੦੧੨੩੪੫੬੭੮੯]+)?%?/u,
+        types: [Sym.Number, Sym.GurmukhiNumeral],
+    },
+    // Kannada numerals.
+    {
+        pattern: /^-?[೦೧೨೩೪೫೬೭೮೯]+([.,][೦೧೨೩೪೫೬೭೮೯]+)?%?/u,
+        types: [Sym.Number, Sym.KannadaNumeral],
+    },
+    // Tamil numerals.
+    {
+        pattern: /^-?[௦௧௨௩௪௫௬௭௮௯]+([.,][௦௧௨௩௪௫௬௭௮௯]+)?%?/u,
+        types: [Sym.Number, Sym.TamilNumeral],
+    },
+    // Telugu numerals.
+    {
+        pattern: /^-?[౦౧౨౩౪౫౬౭౮౯]+([.,][౦౧౨౩౪౫౬౭౮౯]+)?%?/u,
+        types: [Sym.Number, Sym.TeluguNumeral],
     },
     // Numbers with bases between base 2 and 16
     {
@@ -386,6 +432,28 @@ const CodeTokenPatterns: TokenPattern[] = [
     // All other tokens are names, which are sequences of Unicode characters that are not one of the reserved symbols above or whitespace.
     { pattern: NameRegEx, types: [Sym.Name] },
 ];
+
+/**
+ * Multi-codepoint literal token strings the tokenizer recognizes, paired with
+ * their primary SymType. Sourced directly from {@link CodeTokenPatterns} so
+ * consumers (e.g. UnparsableConflict's merge-anchor inference) work from the
+ * tokenizer's ground truth instead of inferring from the Sym enum's value
+ * strings — most Sym values match the tokenizer literal, but some are
+ * intentional disambiguators (`Sym.BooleanType = '•?'` for the type form of
+ * `?`, `Sym.This = '..'` for the this-form of `.`) and one source of truth
+ * keeps the repair layer robust to those.
+ *
+ * Only string patterns are included; regex patterns describe character
+ * classes / alternations whose "merged form" isn't a single literal target.
+ */
+export const LiteralMultiCharTokens: ReadonlyArray<{
+    text: string;
+    sym: SymType;
+}> = CodeTokenPatterns.flatMap((p) =>
+    typeof p.pattern === 'string' && Array.from(p.pattern).length >= 2
+        ? [{ text: p.pattern, sym: p.types[0] }]
+        : [],
+);
 
 /**
  * A concept reference starts with a @ then is followed by:
@@ -574,15 +642,30 @@ export function tokenize(source: string): TokenList {
         }
         // If the token we encountered a doc...
         else if (nextToken.isSymbol(Sym.Doc)) {
-            /// And there's a doc context open, close it
-            if (context.length > 0 && context[0].isSymbol(Sym.Doc))
-                context.shift();
-            // Otherwise open one
+            // Walk down the stack to find the nearest Doc — stopping if we
+            // cross a Code (`\…\`) boundary first. If we reach a Doc, this
+            // `¶` closes it, and any unclosed Formatted spans on the way are
+            // popped alongside it (so a stray backtick inside a localized
+            // doc doesn't bleed across the doc boundary into the next
+            // entry; see createSayType in vi-VN). If we reach a Code first,
+            // we're inside a code example and this `¶` opens a nested doc
+            // instead — that's the `\¶inner¶\` case. The walk handles
+            // arbitrary doc-inside-code-inside-doc nesting, since each Doc
+            // is independent and only the topmost Code blocks the close.
+            let closeUntil = -1;
+            for (let i = 0; i < context.length; i++) {
+                if (context[i].isSymbol(Sym.Code)) break;
+                if (context[i].isSymbol(Sym.Doc)) {
+                    closeUntil = i;
+                    break;
+                }
+            }
+            if (closeUntil >= 0) context.splice(0, closeUntil + 1);
             else context.unshift(nextToken);
         }
         // If the token we encountered a formatted...
         else if (nextToken.isSymbol(Sym.Formatted)) {
-            /// And there's a doc context open, close it
+            /// And there's a formatted context open, close it
             if (context.length > 0 && context[0].isSymbol(Sym.Formatted))
                 context.shift();
             // Otherwise open one

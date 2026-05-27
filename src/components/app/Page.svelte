@@ -1,21 +1,22 @@
 <script lang="ts">
-    import { goto } from '$app/navigation';
     import { page } from '$app/state';
+    import Emoji from '@components/app/Emoji.svelte';
+    import Link from '@components/app/Link.svelte';
     import Localizer from '@components/localization/Localizer.svelte';
     import {
         getLocalizing,
         setFullscreen,
         type FullscreenContext,
     } from '@components/project/Contexts';
+    import Settings from '@components/settings/Settings.svelte';
+    import Button from '@components/widgets/Button.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
+    import Color from '@output/Color';
     import { LOGO_SYMBOL } from '@parser/Symbols';
+    import { localeGoto } from '@util/localeGoto';
     import { type Snippet } from 'svelte';
     import { writable } from 'svelte/store';
     import { slide } from 'svelte/transition';
-    import Color from '../../output/Color';
-    import Settings from '../settings/Settings.svelte';
-    import Emoji from './Emoji.svelte';
-    import Link from './Link.svelte';
 
     interface Props {
         children: Snippet;
@@ -23,6 +24,14 @@
     }
 
     let { children, footer = true }: Props = $props();
+
+    let main: HTMLElement | undefined = $state();
+    let scrollY = $state(0);
+    let showBackToTop = $derived(scrollY > 200);
+
+    function scrollToTop() {
+        main?.scrollTo({ top: 0, behavior: 'smooth' });
+    }
 
     // Set a fullscreen flag to indicate whether footer should hide or not.
     // It's the responsibility of children componets to set this based on their state.
@@ -56,7 +65,7 @@
             event.key === 'Escape' &&
             page.route.id !== null
         ) {
-            goto('/');
+            localeGoto('/');
         }
     }
 </script>
@@ -67,9 +76,23 @@
     {#if localizing.on}
         <header transition:slide><Localizer /></header>
     {/if}
-    <main>
+    <main
+        bind:this={main}
+        onscroll={(e) => (scrollY = e.currentTarget.scrollTop)}
+    >
         {@render children()}
     </main>
+    {#if showBackToTop}
+        <div class="backtotop">
+            <div class="backtotop-inner">
+                <Button
+                    tip={(l) => l.ui.widget.backtotop}
+                    action={scrollToTop}
+                    background="circular">⏶</Button
+                >
+            </div>
+        </div>
+    {/if}
     <footer class:fullscreen={$fullscreen.on}>
         <nav>
             {#if footer}
@@ -121,7 +144,7 @@
 <style>
     .page {
         width: 100dvw;
-        height: calc(100dvh - 1px);
+        height: 100%;
         max-width: 100%;
         max-height: 100%;
         display: flex;
@@ -203,5 +226,37 @@
         align-items: center;
         padding: var(--wordplay-spacing-half);
         gap: var(--wordplay-spacing);
+    }
+
+    /* Cancel Link's default align-self: flex-start (used in flex columns
+       like Profile's <Action>) so inactive links in this row-direction nav
+       line up vertically with active links (which render as raw text and
+       follow `align-items: center`). Without this, inactive <a class="link">
+       items pin to the top of the row while raw-text active items stay
+       centered, producing an obvious vertical mismatch when the row is
+       taller than a single line (the LOGO emoji at 150% font-size makes it
+       tall here). */
+    nav :global(.link) {
+        align-self: center;
+    }
+
+    /* Anchor sits in the flex flow just above the footer with no height of
+       its own, so the absolutely-positioned inner bar rests on top of the
+       footer (anchor's bottom edge == footer's top edge) without pushing
+       layout. The high z-index keeps the button above the footer, which
+       has z-index: 1. */
+    .backtotop {
+        position: relative;
+        height: 0;
+        z-index: 2;
+    }
+
+    /* Pinned to the inline end (right in LTR, left in RTL) just above the
+       footer. Padding from both the edge and the footer matches the standard
+       page spacing. */
+    .backtotop-inner {
+        position: absolute;
+        bottom: var(--wordplay-spacing);
+        inset-inline-end: var(--wordplay-spacing);
     }
 </style>

@@ -1,5 +1,5 @@
-import { Arrangement, type ArrangementType } from './Arrangement';
-import Setting from './Setting';
+import { Arrangement, type ArrangementType } from '@db/settings/Arrangement';
+import Setting from '@db/settings/Setting';
 
 export const ArrangementSetting = new Setting<ArrangementType>(
     'arrangement',

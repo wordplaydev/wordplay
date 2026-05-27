@@ -8,10 +8,10 @@
     import Revision from '@edit/revision/Revision';
     import Node, { isFieldPosition, ListOf } from '@nodes/Node';
     import { tick } from 'svelte';
-    import { locales } from '../../../db/Database';
-    import Token from '../../../nodes/Token';
-    import MarkupHTMLView from '../../concepts/MarkupHTMLView.svelte';
-    import MenuItem from '../menu/MenuItem.svelte';
+    import { locales } from '@db/Database';
+    import Token from '@nodes/Token';
+    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
+    import MenuItem from '@components/editor/menu/MenuItem.svelte';
 
     interface Props {
         menu: Menu;
@@ -301,6 +301,8 @@
         left: 100%;
         top: 0;
         display: none;
+        flex-direction: column;
+        width: max-content;
         max-height: 20em;
         padding: var(--wordplay-spacing);
         overflow-y: auto;
@@ -312,7 +314,7 @@
     }
 
     .show + .submenu {
-        display: block;
+        display: flex;
     }
 
     .revisions {

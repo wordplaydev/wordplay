@@ -1,6 +1,6 @@
-import type Locales from '../locale/Locales';
-import type { EvaluationType } from './Generics';
-import UnknownType from './UnknownType';
+import type Locales from '@locale/Locales';
+import type { EvaluationType } from '@nodes/Generics';
+import UnknownType from '@nodes/UnknownType';
 
 export class UnknownVariableType extends UnknownType<EvaluationType> {
     constructor(evaluate: EvaluationType) {

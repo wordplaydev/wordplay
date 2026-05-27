@@ -93,17 +93,13 @@
     import type { LocaleTextAccessor } from '@locale/Locales';
     import Node from '@nodes/Node';
     import Token from '@nodes/Token';
-    import { EXPLICIT_TAB_TEXT, TAB_TEXT } from '@parser/Spaces';
+    import { TAB_TEXT } from '@parser/Spaces';
     import { tick, untrack } from 'svelte';
-    import {
-        animationDuration,
-        locales,
-        spaceIndicator,
-    } from '../../../db/Database';
-    import UnicodeString from '../../../unicode/UnicodeString';
-    import { getEditor, getEvaluation } from '../../project/Contexts';
-    import { measureTokenSegment } from '../highlights/measureTokenSegment';
-    import MenuTrigger from '../menu/MenuTrigger.svelte';
+    import { animationDuration, locales } from '@db/Database';
+    import UnicodeString from '@unicode/UnicodeString';
+    import { getEditor, getEvaluation } from '@components/project/Contexts';
+    import { measureTokenSegment } from '@components/editor/highlights/measureTokenSegment';
+    import MenuTrigger from '@components/editor/menu/MenuTrigger.svelte';
 
     interface Props {
         /** The current caret state to render */
@@ -114,6 +110,8 @@
         ignored: boolean;
         /** Whether the caret is in blocks mode */
         blocks: boolean;
+        /** Whether the editor is editable; when false, the caret is rendered with higher contrast and width */
+        editable: boolean;
         /** The current location of the caret */
         location: CaretBounds | undefined;
         /** A function for getting the editor's token views */
@@ -125,6 +123,8 @@
         viewportHeight: number;
         /** Current zoom of the editor */
         zoom: number;
+        /** True if the caret was just placed by a pointer event; suppresses auto-scroll */
+        placedByPointer: boolean;
     }
 
     let {
@@ -132,11 +132,13 @@
         blink,
         ignored,
         blocks,
+        editable,
         location = $bindable(undefined),
         getTokenViews,
         viewport,
         viewportWidth,
         zoom,
+        placedByPointer,
     }: Props = $props();
 
     /** The calculated padding of the editor. Determined from the DOM. */
@@ -144,6 +146,9 @@
 
     /** The HTMLElement rendering this view. */
     let element = $state<HTMLElement | null>(null);
+    let isElementInEditor: boolean = $derived(
+        element ? element.closest('.editor-viewport') !== null : false,
+    );
 
     /** Derive the current token we're on. */
     let token = $derived(caret?.getToken());
@@ -216,12 +221,32 @@
             $evaluation;
         tick().then(() => {
             location = computeLocation();
-            // Because some elements fade out when caret changes, affecting layout, we also need to recompute
-            // the caret position after the default animation duration to ensure it's positioned correctly.
+
+            // After a DOM-mutating edit, layout can be transient at
+            // tick() time on WebKit (especially with complex programs
+            // containing formatted docs): the prior token's measured rect
+            // hasn't yet reflowed to its final position, so the caret is
+            // published one line too high. Re-measure on the next
+            // animation frame and adopt the settled position.
+            // computeLocation() clears `location` as its first step, so
+            // capture before the call and fall back to it if the re-run
+            // can't produce a value (e.g., editor being torn down).
+            requestAnimationFrame(() => {
+                const saved = location;
+                const corrected = computeLocation();
+                location = corrected ?? saved;
+            });
+
             if (animationDelayTimeout) clearTimeout(animationDelayTimeout);
-            animationDelayTimeout = setTimeout(() => {
-                location = computeLocation();
-            }, $animationDuration);
+            // Block-mode padding transitions over $animationDuration when the
+            // selected block changes, so re-measure once the transition has
+            // settled. In text mode, caret movement does not trigger any layout
+            // transitions, so the delayed re-measure is pure waste.
+            if (blocks) {
+                animationDelayTimeout = setTimeout(() => {
+                    location = computeLocation();
+                }, $animationDuration);
+            }
         });
     });
 
@@ -229,16 +254,23 @@
     let lastScroll = 0;
     $effect(() => {
         // If the location is set and we're not playing, then scroll to it after updates are complete.
-        if (location) {
+        // Skip scrolling when the caret was just placed by a pointer event — the user already
+        // sees the position they clicked; scrolling would move the view unexpectedly.
+        if (location && !placedByPointer) {
             // If it's been more than 200ms since the last scroll, then scroll to the caret after the next update.
             // This prevents them from pooling up and causing the editor to hang.
             if (
-                performance.now() - lastScroll > 200 &&
+                performance.now() - lastScroll > 100 &&
                 element &&
                 !caret.isNode()
             ) {
                 tick().then(() => {
-                    if (element) element.scrollIntoView({ block: 'nearest' });
+                    // Only scroll when inside an editor tile (class set by TileView for source tiles).
+                    // Skipping this in embedded-example contexts (e.g. guide panel how-tos) prevents
+                    // the caret scroll from overriding the panel's own scroll-to-top and causing the
+                    // how-to to appear to open mid-page.
+                    if (element && isElementInEditor)
+                        element.scrollIntoView({ block: 'nearest' });
                     lastScroll = performance.now();
                 });
             }
@@ -272,11 +304,51 @@
         return null;
     }
 
+    // Line height only depends on the font (fixed per session), zoom, blocks
+    // mode, and writing direction — it does NOT change as the caret moves.
+    // Without this cache, every caret update would re-run the line-height
+    // search below, which iterates getTokenViews() looking for the first
+    // token following a <br>. That's O(tokens) DOM iteration plus a
+    // querySelectorAll('br') per token visited, on every arrow press. The
+    // cache is keyed by source identity so a new source (after edits or
+    // navigation) refills it.
+    let cachedLineHeight:
+        | {
+              source: typeof caret.source;
+              zoom: number;
+              blocks: boolean;
+              horizontal: boolean;
+              lineHeight: number;
+          }
+        | undefined;
+
     function computeCaretAndLineHeight(
         currentToken: Token,
         currentTokenRect: DOMRect,
         horizontal: boolean,
     ): [number, number] {
+        let caretHeight = horizontal
+            ? currentTokenRect.height
+            : currentTokenRect.width;
+
+        // If the caret height is invisible, try to find a token before and get its height.
+        if (caretHeight === 0) {
+            const before = caret.source.getTokenBefore(currentToken);
+            const beforeView = before ? getNodeView(before) : undefined;
+            caretHeight = beforeView?.getBoundingClientRect().height ?? 0;
+        }
+
+        // Reuse the cached line height when the only thing that changed is caret
+        // position. Avoids walking every token-view looking for a <br>.
+        if (
+            cachedLineHeight !== undefined &&
+            cachedLineHeight.source === caret.source &&
+            cachedLineHeight.zoom === zoom &&
+            cachedLineHeight.blocks === blocks &&
+            cachedLineHeight.horizontal === horizontal
+        )
+            return [caretHeight, cachedLineHeight.lineHeight];
+
         // To compute line height, find two tokens on adjacent lines and difference their tops.
         const tokenViews = getTokenViews();
         let firstTokenView: Element | undefined = undefined;
@@ -292,18 +364,6 @@
                     break;
                 }
             }
-        }
-
-        let caretHeight = horizontal
-            ? currentTokenRect.height
-            : currentTokenRect.width;
-
-        // If the caret height is invisible, try to find a token before and get its height.
-        // And if that's not visible, then set a minimum.
-        if (caretHeight === 0) {
-            const before = caret.source.getTokenBefore(currentToken);
-            const beforeView = before ? getNodeView(before) : undefined;
-            caretHeight = beforeView?.getBoundingClientRect().height ?? 0;
         }
 
         let lineHeight;
@@ -333,6 +393,14 @@
                 : currentTokenRect.width;
         }
 
+        cachedLineHeight = {
+            source: caret.source,
+            zoom,
+            blocks,
+            horizontal,
+            lineHeight,
+        };
+
         return [caretHeight, lineHeight];
     }
 
@@ -347,79 +415,80 @@
         beforeSpaceWidth: number;
         beforeSpaceHeight: number;
     } {
-        // Get some measurements on spaces and tab.
+        const zero = {
+            beforeSpaceLeft: 0,
+            beforeSpaceTop: 0,
+            beforeSpaceWidth: 0,
+            beforeSpaceHeight: 0,
+        };
+
+        // Get the .space wrapper for this token.
         const spaceElement = editor.querySelector(
             `.space[data-id="${currentToken.id}"]`,
         );
-        // Couldn't find the space for some reason? Return zero dimensions.
-        if (!(spaceElement instanceof HTMLElement))
-            return {
-                beforeSpaceLeft: 0,
-                beforeSpaceTop: 0,
-                beforeSpaceWidth: 0,
-                beforeSpaceHeight: 0,
-            };
+        if (!(spaceElement instanceof HTMLElement)) return zero;
 
-        // Remember the original HTML
-        const originalHTML = spaceElement.innerHTML;
-
-        // Get the lines in the HTML (which are separated by line breaks). This depends closely on the structure created in Space.svelte.
+        // Find the .space-text line containing caretIndex (counted in original
+        // characters, with each \n separating lines).
         const lines = Array.from(spaceElement.querySelectorAll('.space-text'));
-
-        // The line that contains the caret index
-        let containingLine: UnicodeString | undefined = undefined;
+        let containingLine: HTMLElement | undefined;
+        let lineCaretIndex = caretIndex;
         let currentIndex = 0;
-        for (let lineIndex = 0; lineIndex < lines.length; lineIndex++) {
-            const nextLine = lines[lineIndex];
-            if (nextLine instanceof HTMLElement) {
-                // Replace tab text with actual tabs for an accurate count.
-                const lineText = new UnicodeString(
-                    nextLine.dataset.space ?? '',
-                );
-
-                // If the caret index is between and the end of this line (inclusive), then we found our line.
-                if (currentIndex + lineText.getLength() >= caretIndex) {
-                    containingLine = lineText;
-                    // Adjust the caret index to be relative to this line's text so we can compute the dimensions of the text on this line.
-                    caretIndex -= currentIndex;
-                    // Found it, so we stop looping through lines.
-                    break;
-                } else {
-                    // Increment the character count by the number of characters in this line, plus one for the newline.
-                    currentIndex += lineText.getLength() + 1;
-                }
+        for (const line of lines) {
+            if (!(line instanceof HTMLElement)) continue;
+            const lineLength = new UnicodeString(
+                line.dataset.space ?? '',
+            ).getLength();
+            if (currentIndex + lineLength >= caretIndex) {
+                containingLine = line;
+                lineCaretIndex = caretIndex - currentIndex;
+                break;
             }
+            // +1 for the newline that separates lines.
+            currentIndex += lineLength + 1;
+        }
+        if (!containingLine) return zero;
+
+        // Translate caretIndex (in original chars) to an offset in the rendered
+        // text node. Space.svelte's render() replaces ' ' → 1 char (NBSP or ·)
+        // and '\t' → TAB_WIDTH chars (TAB_TEXT or EXPLICIT_TAB_TEXT — both have
+        // the same length), so this is a simple sum.
+        const dataSpace = containingLine.dataset.space ?? '';
+        let renderedOffset = 0;
+        for (let i = 0; i < lineCaretIndex && i < dataSpace.length; i++)
+            renderedOffset += dataSpace[i] === '\t' ? TAB_TEXT.length : 1;
+
+        // Use a Range to measure without mutating the DOM. The previous
+        // implementation set innerHTML and read getBoundingClientRect,
+        // forcing two synchronous layout flushes per call — the bulk of the
+        // cost of vertical caret movement on long files, since DOWN-arrow
+        // typically lands in indentation whitespace.
+        const textNode = containingLine.firstChild;
+        if (!textNode || textNode.nodeType !== textNode.TEXT_NODE) return zero;
+        const textLength = textNode.nodeValue?.length ?? 0;
+        const range = document.createRange();
+        range.setStart(textNode, 0);
+        range.setEnd(textNode, Math.min(renderedOffset, textLength));
+        const rect = range.getBoundingClientRect();
+
+        // For an empty range or empty line, the rect is degenerate; fall back
+        // to the line element's left/top so the caller still gets a usable
+        // anchor for the caret.
+        if (rect.width === 0 && rect.height === 0) {
+            const lineRect = containingLine.getBoundingClientRect();
+            return {
+                beforeSpaceLeft: lineRect.left,
+                beforeSpaceTop: lineRect.top,
+                beforeSpaceWidth: 0,
+                beforeSpaceHeight: lineRect.height,
+            };
         }
 
-        // If we didn't find a line, return zero dimensions.
-        if (containingLine === undefined)
-            return {
-                beforeSpaceLeft: 0,
-                beforeSpaceTop: 0,
-                beforeSpaceWidth: 0,
-                beforeSpaceHeight: 0,
-            };
-
-        // If we found the line, find the characters before the caret index.
-        const beforeSpace = containingLine.substring(0, caretIndex);
-
-        // Temporarily assign the inner HTML of the space component to the text before the caret on the line.
-        spaceElement.innerHTML = beforeSpace
-            .toString()
-            .replaceAll('\t', $spaceIndicator ? EXPLICIT_TAB_TEXT : TAB_TEXT);
-        const beforeSpaceBounds = spaceElement.getBoundingClientRect();
-        const beforeSpaceWidth = beforeSpaceBounds.width;
-        const beforeSpaceHeight = beforeSpaceBounds.height;
-
-        // Restore the original HTML
-        spaceElement.innerHTML = originalHTML;
-
-        // Return the computed space.
         return {
-            beforeSpaceLeft: beforeSpaceBounds.left,
-            beforeSpaceTop: beforeSpaceBounds.top,
-            beforeSpaceWidth,
-            beforeSpaceHeight,
+            beforeSpaceLeft: rect.left,
+            beforeSpaceTop: rect.top,
+            beforeSpaceWidth: rect.width,
+            beforeSpaceHeight: rect.height,
         };
     }
 
@@ -560,8 +629,7 @@
                             : [];
                         const lastBreak = allBreaks.at(-1);
                         if (lastBreak) {
-                            const breakRect =
-                                lastBreak.getBoundingClientRect();
+                            const breakRect = lastBreak.getBoundingClientRect();
                             // Use the left of the last node-view in the same
                             // node-list as the inline start (same as case 2).
                             const nodeList = lastBreak.parentElement;
@@ -955,6 +1023,7 @@
         ? 'blocks'
         : ''}"
     class:focused={$editor?.focused}
+    class:readonly={!editable}
     class:node={caret && caret.isNode() && !caret.isPlaceholderNode()}
     style:display={location === undefined ? 'none' : null}
     style:left={location ? `${location.left}px` : null}
@@ -963,7 +1032,7 @@
     ><span
         class="bar"
         style:width={location
-            ? blocks
+            ? !editable || blocks
                 ? 'var(--wordplay-focus-width)'
                 : `2px`
             : null}
@@ -977,9 +1046,16 @@
     .caret {
         position: absolute;
         opacity: 0.25;
+        /* Above RemoteCaretOverlay (z-index 4) so the local user's
+           caret is always visible — when a collaborator's caret
+           happens to land on the same position, the local one
+           still reads as the "you are here" indicator and isn't
+           obscured by the peer's flag or line. */
+        z-index: 6;
     }
 
-    .focused {
+    .focused,
+    .readonly {
         opacity: 1;
     }
 

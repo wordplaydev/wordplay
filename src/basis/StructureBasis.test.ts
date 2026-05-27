@@ -1,6 +1,6 @@
 import { expect, test } from 'vitest';
-import { FALSE_SYMBOL, TRUE_SYMBOL } from '../parser/Symbols';
-import evaluateCode from '../runtime/evaluate';
+import { FALSE_SYMBOL, TRUE_SYMBOL } from '@parser/Symbols';
+import evaluateCode from '@runtime/evaluate';
 
 test.each([
     ['•Cat(name•"")\nCat("a") = Cat("a")', TRUE_SYMBOL],

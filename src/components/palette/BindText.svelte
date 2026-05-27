@@ -15,8 +15,11 @@
     import { toTokens } from '@parser/toTokens';
     import MarkupValue from '@values/MarkupValue';
     import { tick } from 'svelte';
-    import { getProject } from '../project/Contexts';
-    import TextField from '../widgets/TextField.svelte';
+    import {
+        getProject,
+        getSelectedOutput,
+    } from '@components/project/Contexts';
+    import TextField from '@components/widgets/TextField.svelte';
 
     interface Props {
         property: OutputProperty;
@@ -24,11 +27,22 @@
         validator: (text: string) => LocaleTextAccessor | true;
         editable: boolean;
         id: string;
+        /** Optional `data-uiid` for tour or tutorial targeting; left to the
+         * caller because each BindText represents a distinct property. */
+        uiid?: string | undefined;
     }
 
-    let { property, values, validator, editable, id }: Props = $props();
+    let {
+        property,
+        values,
+        validator,
+        editable,
+        id,
+        uiid = undefined,
+    }: Props = $props();
 
     let project = getProject();
+    let selection = getSelectedOutput();
     let view: HTMLInputElement | undefined = $state(undefined);
 
     let isMarkup = $derived(values.getValue() instanceof MarkupValue);
@@ -63,7 +77,7 @@
     }
 </script>
 
-<div class="text">
+<div class="text" data-uiid={uiid}>
     {isMarkup
         ? FORMATTED_SYMBOL
         : getLanguageQuoteOpen($locales.getLocale().language)}
@@ -75,6 +89,8 @@
             : $locales.getName(values.values[0].bind.names)}
         {validator}
         changed={handleChange}
+        focus={() => selection?.setAdjusting(true)}
+        blur={() => selection?.setAdjusting(false)}
         bind:view
         {editable}
         {id}

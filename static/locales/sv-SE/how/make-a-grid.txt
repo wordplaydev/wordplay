@@ -1,0 +1,27 @@
+Skapa ett rutnät med tecken
+
+Vad händer om vi vill ha rader/och/kolumner samtidigt? Det är vad en @Grid är för.
+
+En @Grid frågar efter antalet rader, antalet kolumner och hur mycket utrymme som ska finnas mellan cellerna.
+
+\Group(Grid(2 3 0.25m) [
+		Phrase('🍎')
+		Phrase('🍌')
+		Phrase('🍇')
+		Phrase('🥕')
+		Phrase('🥦')
+		Phrase('🌽')
+	])\
+
+Detta blir en frukt- och grönsaksträdgård på 2 x 3!
+
+Om du vill att varje cell ska vara lika stor, ge @Grid en bredd och höjd också. På så sätt håller sig tecknen prydligt inuti sina rutor, även om de har olika storlekar:
+
+\Group(Grid(2 2 0.1m 1.5m 1.5m) [
+		Phrase('🐈' size: 1m)
+		Phrase('🐶' size: 1.5m)
+		Phrase('🦊' size: 0.5m)
+		Phrase('🐻' size: 2m)
+	])\
+
+arrange-in-a-row, stack-up-and-down, make-many-copies

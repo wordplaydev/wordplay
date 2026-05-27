@@ -1,5 +1,5 @@
 import { SupportedFaces } from '@basis/Fonts';
-import Setting from './Setting';
+import Setting from '@db/settings/Setting';
 
 export const FaceSetting = new Setting<string | null>(
     'face',

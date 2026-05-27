@@ -2,18 +2,18 @@ import type { InsertContext, ReplaceContext } from '@edit/revision/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { LIST_CLOSE_SYMBOL, LIST_OPEN_SYMBOL } from '@parser/Symbols';
-import type { BasisTypeName } from '../basis/BasisConstants';
-import type Locales from '../locale/Locales';
-import NodeRef from '../locale/NodeRef';
+import type { BasisTypeName } from '@basis/BasisConstants';
+import type Locales from '@locale/Locales';
+import NodeRef from '@locale/NodeRef';
 import Characters from '../lore/BasisCharacters';
-import BasisType from './BasisType';
-import type Context from './Context';
-import ListLiteral from './ListLiteral';
-import { node, optional, type Grammar, type Replacement } from './Node';
-import { Sym } from './Sym';
-import Token from './Token';
-import Type from './Type';
-import type TypeSet from './TypeSet';
+import BasisType from '@nodes/BasisType';
+import type Context from '@nodes/Context';
+import ListLiteral from '@nodes/ListLiteral';
+import { node, optional, type Grammar, type Replacement } from '@nodes/Node';
+import { Sym } from '@nodes/Sym';
+import Token from '@nodes/Token';
+import Type from '@nodes/Type';
+import type TypeSet from '@nodes/TypeSet';
 
 export default class ListType extends BasisType {
     readonly open: Token;
@@ -130,9 +130,9 @@ export default class ListType extends BasisType {
     }
 
     getDescriptionInputs(locales: Locales, context: Context) {
-        return [
-            this.type ? new NodeRef(this.type, locales, context) : undefined,
-        ];
+        return {
+            type: this.type ? new NodeRef(this.type, locales, context) : undefined,
+        };
     }
 
     getDefaultExpression() {

@@ -1,7 +1,7 @@
 import { testConflict } from '@conflicts/TestUtilities';
 import { test } from 'vitest';
-import IncompatibleType from '../conflicts/IncompatibleType';
-import Spread from './Spread';
+import IncompatibleType from '@conflicts/IncompatibleType';
+import Spread from '@nodes/Spread';
 
 test.each([['num: [1] [1 :num]', 'num: 2 [1 :num]', Spread, IncompatibleType]])(
     '%s => no conflict, %s => conflict',

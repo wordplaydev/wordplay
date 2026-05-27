@@ -1,9 +1,9 @@
 <!-- A fallback view of types that don't have a more specialized view, generally for type errors. -->
 <script lang="ts">
     import { locales } from '@db/Database';
-    import type Type from '../../../nodes/Type';
-    import MarkupHTMLView from '../../concepts/MarkupHTMLView.svelte';
-    import { getProject, getRoot } from '../../project/Contexts';
+    import type Type from '@nodes/Type';
+    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
+    import { getProject, getRoot } from '@components/project/Contexts';
 
     interface Props {
         node: Type;

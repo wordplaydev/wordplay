@@ -6,9 +6,9 @@
         SET_OPEN_SYMBOL,
     } from '@parser/Symbols';
     import type MapValue from '@values/MapValue';
-    import Expandable from './Expandable.svelte';
-    import SymbolView from './SymbolView.svelte';
-    import ValueView from './ValueView.svelte';
+    import Expandable from '@components/values/Expandable.svelte';
+    import SymbolView from '@components/values/SymbolView.svelte';
+    import ValueView from '@components/values/ValueView.svelte';
 
     interface Props {
         value: MapValue;

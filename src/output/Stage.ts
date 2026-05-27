@@ -1,27 +1,32 @@
 import { getBind } from '@locale/getBind';
+import { describeColorLocalized } from '@output/BasicColors';
 import { STAGE_SYMBOL } from '@parser/Symbols';
 import BoolValue from '@values/BoolValue';
 import ListValue from '@values/ListValue';
 import NumberValue from '@values/NumberValue';
 import StructureValue from '@values/StructureValue';
+import TextValue from '@values/TextValue';
 import type Value from '@values/Value';
 import Decimal from 'decimal.js';
-import { SupportedFontsFamiliesType, type SupportedFace } from '../basis/Fonts';
-import toStructure from '../basis/toStructure';
-import type Locales from '../locale/Locales';
-import { getFirstText } from '../locale/LocaleText';
-import type Evaluator from '../runtime/Evaluator';
-import Color from './Color';
-import { Form, toForm } from './Form';
-import Output, { DefaultStyle } from './Output';
-import Place from './Place';
-import Pose, { DefinitePose } from './Pose';
-import type RenderContext from './RenderContext';
-import type Sequence from './Sequence';
-import Shape from './Shape';
-import TextLang from './TextLang';
-import { getTypeStyle, toOutput, toOutputList } from './toOutput';
-import { getOutputInput } from './Valued';
+import { SupportedFontsFamiliesType, type SupportedFace } from '@basis/Fonts';
+import toStructure from '@basis/toStructure';
+import type Locales from '@locale/Locales';
+import { getFirstText } from '@locale/LocaleText';
+import type Evaluator from '@runtime/Evaluator';
+import Color from '@output/Color';
+import { Form, toForm } from '@output/Form';
+import Group from '@output/Group';
+import Output, { DefaultStyle } from '@output/Output';
+import Place from '@output/Place';
+import Pose, { DefinitePose } from '@output/Pose';
+import type RenderContext from '@output/RenderContext';
+import Say from '@output/Say';
+import type Sequence from '@output/Sequence';
+import Shape from '@output/Shape';
+import { Stack } from '@output/Stack';
+import TextLang from '@output/TextLang';
+import { getTypeStyle, toOutput, toOutputList } from '@output/toOutput';
+import { getOutputInput } from '@output/Valued';
 
 export const DefaultGravity = 9.8;
 
@@ -34,7 +39,7 @@ export function createStageType(locales: Locales) {
     ${getBind(
         locales,
         (locale) => locale.output.Stage.content,
-    )}•[Phrase|Shape|Group]
+    )}•[Phrase|Shape|Group|Say]
     ${getBind(locales, (locale) => locale.output.Stage.frame)}•Form|ø: ø
     ${getBind(locales, (locale) => locale.output.Stage.size)}•${'#m: 1m'}
     ${getBind(
@@ -67,7 +72,9 @@ export function createStageType(locales: Locales) {
     ${getBind(locales, (locale) => locale.output.Stage.style)}•${locales
         .getLocales()
         .map((locale) =>
-            Object.values(locale.output.Easing).map((id) => `"${id}"`),
+            Object.values(locale.output.Easing).map(
+                (id) => `"${id}"/${locale.language}`,
+            ),
         )
         .flat()
         .join('|')}: "${DefaultStyle}"
@@ -155,6 +162,15 @@ export default class Stage extends Output {
         return undefined;
     }
 
+    getSays(): Say[] {
+        const says: Say[] = [];
+        for (const child of this.content) {
+            if (child instanceof Say) says.push(child);
+            else if (child instanceof Group) says.push(...child.getSays());
+        }
+        return says;
+    }
+
     getLayout(context: RenderContext) {
         const places: [Output, Place][] = [];
         let left = 0,
@@ -217,13 +233,25 @@ export default class Stage extends Output {
 
     getDescription(locales: Locales) {
         if (this._description === undefined) {
+            const bg = this.background;
+            const colorDescription = bg
+                ? describeColorLocalized(
+                      locales,
+                      bg.lightness.toNumber(),
+                      bg.chroma.toNumber(),
+                      bg.hue.toNumber(),
+                  )
+                : undefined;
             this._description = locales
                 .concretize(
                     (l) => l.output.Stage.defaultDescription,
-                    this.content.length,
-                    this.name instanceof TextLang ? this.name.text : undefined,
-                    this.frame?.getDescription(locales),
-                    this.pose.getDescription(locales).trim(),
+                    {
+                        count: this.content.length,
+                        name: this.name instanceof TextLang ? this.name.text : undefined,
+                        frame: this.frame?.getDescription(locales),
+                        pose: this.pose.getDescription(locales).trim(),
+                        color: colorDescription,
+                    },
                 )
                 .toText()
                 .trim();
@@ -274,12 +302,18 @@ export class NameGenerator {
         // and if it is, make it unique by appending a number.
         let newName: string;
         if (name) {
-            const existingNameCount = this.names.get(name);
-            if (existingNameCount !== undefined)
-                name = name + (existingNameCount + 1);
+            const base = name;
+            const existingNameCount = this.names.get(base);
+            if (existingNameCount !== undefined) {
+                // Find the first suffix that doesn't collide with any already-assigned name.
+                let count = existingNameCount + 1;
+                while (this.names.has(base + count)) count++;
+                name = base + count;
+            }
             newName = name;
             // Remember this name to prevent duplicates.
-            this.names.set(newName, (existingNameCount ?? 0) + 1);
+            this.names.set(base, (existingNameCount ?? 0) + 1);
+            if (newName !== base) this.names.set(newName, 1);
         } else {
             const nodeID = value.creator.id;
             const count = (this.counter.get(nodeID) ?? 0) + 1;
@@ -295,12 +329,74 @@ export function toStage(
     value: Value,
     namer?: NameGenerator,
 ): Stage | undefined {
-    // If it's a list, find the last stage in the list, if there is one.
-    if (value instanceof ListValue)
-        return value.values
-            .map((val) => toStage(evaluator, val, namer))
-            .filter((stage): stage is Stage => stage instanceof Stage)
-            .at(-1);
+    // Lists are produced when a program (or any block) has multiple non-Bind
+    // result expressions. Decide how to render based on the list's contents.
+    if (value instanceof ListValue) {
+        if (namer === undefined) namer = new NameGenerator();
+
+        // Convert each list element to an Output. Categorize: Stages get
+        // priority (existing behavior); other Outputs (Phrase/Group/Shape/Say)
+        // get collected for stacking.
+        const stages: Stage[] = [];
+        const outputs: Output[] = [];
+        for (const val of value.values) {
+            const output = toOutput(evaluator, val, namer);
+            if (output instanceof Stage) stages.push(output);
+            else if (output !== undefined) outputs.push(output);
+        }
+
+        // If any element was a Stage, prefer the last one — preserves prior
+        // behavior for programs that explicitly produce multiple Stages.
+        if (stages.length > 0) return stages.at(-1);
+
+        // No stages and no other outputs: nothing renderable.
+        if (outputs.length === 0) return undefined;
+
+        // One non-Stage output: wrap it directly in a Stage, just like a
+        // program that returned that single Phrase/Group.
+        if (outputs.length === 1)
+            return wrapInStage(evaluator, value, outputs[0], namer);
+
+        // Multiple non-Stage outputs: collect them into a Group with a Stack
+        // arrangement, then wrap that Group in a Stage. This is the same
+        // implicit wrap idea as a single Phrase becoming a Stage — just
+        // extended to "multiple things become a stacked group on a Stage."
+        const stackArrangement = new Stack(
+            value,
+            new TextValue(value.creator, '|'),
+            new NumberValue(value.creator, new Decimal(1)),
+        );
+        const group = new Group(
+            value,
+            stackArrangement,
+            outputs,
+            undefined, // matter
+            undefined, // size
+            undefined, // face
+            undefined, // place
+            namer.getName(undefined, value),
+            undefined, // description
+            false, // selectable
+            undefined, // background
+            new DefinitePose(
+                value,
+                undefined,
+                1,
+                new Place(value, 0, 0, 0),
+                0,
+                1,
+                false,
+                false,
+            ),
+            undefined, // entering
+            undefined, // resting
+            undefined, // moving
+            undefined, // exiting
+            0, // duration
+            DefaultStyle,
+        );
+        return wrapInStage(evaluator, value, group, namer);
+    }
 
     // Otherwise, we require a structure value.
     if (!(value instanceof StructureValue)) return undefined;
@@ -370,50 +466,51 @@ export function toStage(
     // Just a phrase or group? Wrap it in a stage.
     else {
         const type = toOutput(evaluator, value, namer);
-
         return type === undefined
             ? undefined
-            : new Stage(
-                  value,
-                  false,
-                  [type],
-                  new Color(
-                      value,
-                      new Decimal(100),
-                      new Decimal(0),
-                      new Decimal(0),
-                  ),
-                  undefined,
-                  DefaultSize,
-                  evaluator.getLocales()[0].ui.font.app,
-                  undefined,
-                  namer.getName(undefined, value),
-                  undefined,
-                  type.selectable,
-                  new DefinitePose(
-                      value,
-                      new Color(
-                          value,
-                          new Decimal(0),
-                          new Decimal(0),
-                          new Decimal(0),
-                      ),
-                      1,
-                      new Place(value, 0, 0, 0),
-                      0,
-                      1,
-                      false,
-                      false,
-                  ),
-                  undefined,
-                  undefined,
-                  undefined,
-                  undefined,
-                  0,
-                  DefaultStyle,
-                  DefaultGravity,
-              );
+            : wrapInStage(evaluator, value, type, namer);
     }
+}
+
+/** Build a default Stage that contains a single child Output. The child can be
+ *  a single Phrase produced directly by the program, or a synthesized Group
+ *  collecting multiple Phrases from a list result. */
+function wrapInStage(
+    evaluator: Evaluator,
+    value: Value,
+    child: Output,
+    namer: NameGenerator,
+): Stage {
+    return new Stage(
+        value,
+        false,
+        [child],
+        new Color(value, new Decimal(100), new Decimal(0), new Decimal(0)),
+        undefined,
+        DefaultSize,
+        evaluator.getLocales()[0].ui.font.app,
+        undefined,
+        namer.getName(undefined, value),
+        undefined,
+        child.selectable,
+        new DefinitePose(
+            value,
+            new Color(value, new Decimal(0), new Decimal(0), new Decimal(0)),
+            1,
+            new Place(value, 0, 0, 0),
+            0,
+            1,
+            false,
+            false,
+        ),
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        0,
+        DefaultStyle,
+        DefaultGravity,
+    );
 }
 
 export function toDecimal(value: Value | undefined): Decimal | undefined {

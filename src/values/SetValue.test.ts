@@ -11,8 +11,8 @@ import {
 } from '@parser/Symbols';
 import NumberValue from '@values/NumberValue';
 import { describe, expect, it, test } from 'vitest';
-import evaluateCode from '../runtime/evaluate';
-import SetValue from './SetValue';
+import evaluateCode from '@runtime/evaluate';
+import SetValue from '@values/SetValue';
 
 test.each([
     ['{} = {}', TRUE_SYMBOL],

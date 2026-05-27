@@ -1,9 +1,9 @@
 <script lang="ts">
     import { Sym } from '@nodes/Sym';
-    import { locales } from '../../db/Database';
-    import { STREAM_SYMBOL } from '../../parser/Symbols';
-    import type StreamDefinitionValue from '../../values/StreamDefinitionValue';
-    import SymbolView from './SymbolView.svelte';
+    import { locales } from '@db/Database';
+    import { STREAM_SYMBOL } from '@parser/Symbols';
+    import type StreamDefinitionValue from '@values/StreamDefinitionValue';
+    import SymbolView from '@components/values/SymbolView.svelte';
 
     interface Props {
         value: StreamDefinitionValue;

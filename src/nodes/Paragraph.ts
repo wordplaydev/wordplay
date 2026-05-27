@@ -3,23 +3,24 @@ import type { InsertContext, ReplaceContext } from '@edit/revision/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import Node, { list, node } from '@nodes/Node';
-import { Purpose } from '../concepts/Purpose';
-import type Locales from '../locale/Locales';
-import type { TemplateInput } from '../locale/Locales';
-import NodeRef from '../locale/NodeRef';
-import ValueRef from '../locale/ValueRef';
+import { Purpose } from '@concepts/Purpose';
+import type Locales from '@locale/Locales';
+import type { TemplateInput } from '@locale/Locales';
+import NodeRef from '@locale/NodeRef';
+import ValueRef from '@locale/ValueRef';
 import Characters from '../lore/BasisCharacters';
-import { unescapeMarkupSymbols } from '../parser/Tokenizer';
-import Branch from './Branch';
-import ConceptLink from './ConceptLink';
-import Content from './Content';
-import Example from './Example';
-import Mention from './Mention';
-import type { Grammar, Replacement } from './Node';
-import { Sym } from './Sym';
-import Token from './Token';
-import WebLink from './WebLink';
-import Words, { type Format } from './Words';
+import { unescapeMarkupSymbols } from '@parser/Tokenizer';
+import { BULLET_SYMBOL } from '@parser/Symbols';
+import Branch from '@nodes/Branch';
+import ConceptLink from '@nodes/ConceptLink';
+import Content from '@nodes/Content';
+import Example from '@nodes/Example';
+import Mention from '@nodes/Mention';
+import type { Grammar, Replacement } from '@nodes/Node';
+import { Sym } from '@nodes/Sym';
+import Token from '@nodes/Token';
+import WebLink from '@nodes/WebLink';
+import Words, { type Format } from '@nodes/Words';
 
 export type NodeSegment =
     | Token
@@ -121,7 +122,7 @@ export default class Paragraph extends Content {
 
     concretize(
         locales: Locales,
-        inputs: TemplateInput[],
+        inputs: Record<string, TemplateInput>,
         replacements: [Node, Node][],
     ): Paragraph | undefined {
         const concreteSegments = this.segments.map((content) => {
@@ -148,7 +149,7 @@ export default class Paragraph extends Content {
             (this.segments[0] instanceof Words &&
                 this.segments[0].isBulleted()) ||
             (this.segments[0] instanceof Token &&
-                this.segments[0].getText().startsWith('•'))
+                this.segments[0].getText().startsWith(BULLET_SYMBOL))
         );
     }
 
@@ -163,7 +164,7 @@ export default class Paragraph extends Content {
                 if (
                     (segment instanceof Words && segment.isBulleted()) ||
                     (segment instanceof Token &&
-                        segment.getText().startsWith('•'))
+                        segment.getText().startsWith(BULLET_SYMBOL))
                 ) {
                     if (current.length > 0)
                         bullets.push(new Paragraph(current));

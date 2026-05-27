@@ -1,10 +1,10 @@
-import { DB } from '../db/Database';
-import Project from '../db/projects/Project';
-import DefaultLocale from '../locale/DefaultLocale';
-import Locales from '../locale/Locales';
-import Source from '../nodes/Source';
-import type Value from '../values/Value';
-import Evaluator from './Evaluator';
+import { DB } from '@db/Database';
+import Project from '@db/projects/Project';
+import DefaultLocale from '@locale/DefaultLocale';
+import Locales from '@locale/Locales';
+import Source from '@nodes/Source';
+import type Value from '@values/Value';
+import Evaluator from '@runtime/Evaluator';
 
 /**
  * Evaluates the given program and returns its value.

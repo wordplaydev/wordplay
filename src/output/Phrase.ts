@@ -10,34 +10,35 @@ import { LINK_SYMBOL, TYPE_SYMBOL } from '@parser/Symbols';
 import MarkupValue from '@values/MarkupValue';
 import TextValue from '@values/TextValue';
 import type Value from '@values/Value';
+import { describeColorLocalized } from '@output/BasicColors';
 import Fonts, {
     SupportedFontsFamiliesType,
     type FontWeight,
     type SupportedFace,
-} from '../basis/Fonts';
-import toStructure from '../basis/toStructure';
-import type Project from '../db/projects/Project';
-import type Locales from '../locale/Locales';
-import Markup from '../nodes/Markup';
-import StructureValue from '../values/StructureValue';
-import type Aura from './Aura';
-import { toAura } from './Aura';
-import type Color from './Color';
-import type Matter from './Matter';
-import { toMatter } from './Matter';
-import Output, { DefaultStyle } from './Output';
-import type Place from './Place';
-import type { DefinitePose } from './Pose';
-import Pose from './Pose';
-import type RenderContext from './RenderContext';
-import Sequence from './Sequence';
-import { CSSFallbackFaces, toNumber, type NameGenerator } from './Stage';
-import TextLang from './TextLang';
-import { getOutputInput } from './Valued';
-import getTextMetrics from './getTextMetrics';
-import { PX_PER_METER, sizeToPx } from './outputToCSS';
-import segmentWraps from './segmentWraps';
-import { getTypeStyle } from './toOutput';
+} from '@basis/Fonts';
+import toStructure from '@basis/toStructure';
+import type Project from '@db/projects/Project';
+import type Locales from '@locale/Locales';
+import Markup from '@nodes/Markup';
+import StructureValue from '@values/StructureValue';
+import type Aura from '@output/Aura';
+import { toAura } from '@output/Aura';
+import type Color from '@output/Color';
+import type Matter from '@output/Matter';
+import { toMatter } from '@output/Matter';
+import Output, { DefaultStyle } from '@output/Output';
+import type Place from '@output/Place';
+import type { DefinitePose } from '@output/Pose';
+import Pose from '@output/Pose';
+import type RenderContext from '@output/RenderContext';
+import Sequence from '@output/Sequence';
+import { CSSFallbackFaces, toNumber, type NameGenerator } from '@output/Stage';
+import TextLang from '@output/TextLang';
+import { getOutputInput } from '@output/Valued';
+import getTextMetrics from '@output/getTextMetrics';
+import { PX_PER_METER, sizeToPx } from '@output/outputToCSS';
+import segmentWraps from '@output/segmentWraps';
+import { getTypeStyle } from '@output/toOutput';
 
 export function createPhraseType(locales: Locales) {
     return toStructure(`
@@ -83,7 +84,9 @@ export function createPhraseType(locales: Locales) {
         ${getBind(locales, (locale) => locale.output.Phrase.style)}•${locales
             .getLocales()
             .map((locale) =>
-                Object.values(locale.output.Easing).map((id) => `"${id}"`),
+                Object.values(locale.output.Easing).map(
+                    (id) => `"${id}"/${locale.language}`,
+                ),
             )
             .flat()
             .join('|')}: "${DefaultStyle}"
@@ -233,8 +236,12 @@ export default class Phrase extends Output {
             const isCharacter = formatted.text.startsWith(LINK_SYMBOL);
             // If it is a custom character, treat it like the letter 'e' for measurement purposes.
             const textToMeasure = isCharacter ? '@' : formatted.text;
-            // Split the text by spaces and measure each space separated chunk.
-            for (const segment of segmentWraps(textToMeasure)) {
+            // Segment the text into wrap candidates using locale-aware
+            // word segmentation, then measure each segment.
+            for (const segment of segmentWraps(
+                textToMeasure,
+                context.locales.getLocaleString(),
+            )) {
                 const metrics = getTextMetrics(
                     // Choose the description with the preferred language.
                     segment,
@@ -369,14 +376,26 @@ export default class Phrase extends Output {
                         : this.pose.getDescription(locales);
             }
 
+            const color = this.pose.color;
+            const colorDescription = color
+                ? describeColorLocalized(
+                      locales,
+                      color.lightness.toNumber(),
+                      color.chroma.toNumber(),
+                      color.hue.toNumber(),
+                  )
+                : undefined;
             this._description = locales
                 .concretize(
                     (l) => l.output.Phrase.defaultDescription,
-                    text,
-                    this.name instanceof TextLang ? this.name.text : undefined,
-                    this.size,
-                    this.face,
-                    animationDescription,
+                    {
+                        text: text,
+                        name: this.name instanceof TextLang ? this.name.text : undefined,
+                        size: this.size,
+                        face: this.face,
+                        animation: animationDescription,
+                        color: colorDescription,
+                    },
                 )
                 .toText()
                 .trim();

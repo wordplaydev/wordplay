@@ -1,9 +1,28 @@
 <svelte:options />
 
 <script lang="ts">
-    import { DB, locales } from '@db/Database';
+    import { goto } from '$app/navigation';
+    import { page } from '$app/state';
+    import Link from '@components/app/Link.svelte';
+    import Spinning from '@components/app/Spinning.svelte';
+    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
+    import { getUser } from '@components/project/Contexts';
+    import LocaleName from '@components/settings/LocaleName.svelte';
+    import Button from '@components/widgets/Button.svelte';
+    import Dialog from '@components/widgets/Dialog.svelte';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
+    import Options from '@components/widgets/Options.svelte';
+    import { locales, Settings } from '@db/Database';
+    import { functions } from '@db/firebase';
     import type LanguageCode from '@locale/LanguageCode';
-    import { getLanguageLayout, PossibleLanguages } from '@locale/LanguageCode';
+    import { getLanguageLayout, Languages } from '@locale/LanguageCode';
+    import { localeToString } from '@locale/Locale';
+    import {
+        getLocaleLanguage,
+        getLocaleLanguageName,
+        isLocaleDraft,
+    } from '@locale/LocaleText';
+    import { Regions } from '@locale/Regions';
     import {
         SupportedLocales,
         type SupportedLocale,
@@ -11,20 +30,9 @@
     import {
         CANCEL_SYMBOL,
         DRAFT_SYMBOL,
-        EMOJI_SYMBOL,
         LOCALE_SYMBOL,
     } from '@parser/Symbols';
-    import { Settings } from '../../db/Database';
-    import { localeToString } from '../../locale/Locale';
-    import {
-        getLocaleLanguage,
-        getLocaleLanguageName,
-        isLocaleDraft,
-    } from '../../locale/LocaleText';
-    import Link from '../app/Link.svelte';
-    import Button from '../widgets/Button.svelte';
-    import Dialog from '../widgets/Dialog.svelte';
-    import LocaleName from './LocaleName.svelte';
+    import { httpsCallable } from 'firebase/functions';
 
     interface Props {
         /** Determines whether to show locale menu button (footer vs. speech bubble) */
@@ -40,6 +48,86 @@
             .getPreferredLocales()
             .map((locale) => localeToString(locale)) as SupportedLocale[];
     });
+
+    // ─── Request-a-language form state ────────────────────────────────────
+    const userStore = getUser();
+    let requestLanguage = $state<string | undefined>(undefined);
+    let requestRegion = $state<string | undefined>(undefined);
+    let requestStatus = $state<'idle' | 'submitting' | 'success' | 'error'>(
+        'idle',
+    );
+    let requestIssueUrl = $state<string | undefined>(undefined);
+    let requestErrorKey = $state<
+        'error' | 'alreadySupported' | 'requiresLogin' | undefined
+    >(undefined);
+
+    /** Language dropdown options: every language in our metadata, alphabetized
+     *  by native name. The submit guard rejects already-supported combinations. */
+    const languageOptions = Object.entries(Languages)
+        .map(([code, meta]) => ({
+            value: code,
+            label: `${meta.name} (${meta.en})`,
+        }))
+        .sort((a, b) => a.label.localeCompare(b.label));
+
+    /** Region dropdown options: every ISO 3166 alpha-2 code, sorted by English name. */
+    const regionOptions = Object.entries(Regions)
+        .map(([code, meta]) => ({ value: code, label: `${meta.en} (${code})` }))
+        .sort((a, b) => a.label.localeCompare(b.label));
+
+    let requestedLocale = $derived(
+        requestLanguage && requestRegion
+            ? `${requestLanguage}-${requestRegion}`
+            : undefined,
+    );
+    let requestedAlreadySupported = $derived(
+        requestedLocale !== undefined &&
+            SupportedLocales.includes(requestedLocale as SupportedLocale),
+    );
+    let requestSubmitDisabled = $derived(
+        requestStatus === 'submitting' ||
+            requestLanguage === undefined ||
+            requestRegion === undefined ||
+            requestedAlreadySupported,
+    );
+
+    async function submitRequest() {
+        if (
+            requestLanguage === undefined ||
+            requestRegion === undefined ||
+            requestedAlreadySupported
+        )
+            return;
+        if (!$userStore) {
+            requestStatus = 'error';
+            requestErrorKey = 'requiresLogin';
+            return;
+        }
+        if (functions === undefined) {
+            requestStatus = 'error';
+            requestErrorKey = 'error';
+            return;
+        }
+        requestStatus = 'submitting';
+        requestErrorKey = undefined;
+        requestIssueUrl = undefined;
+        try {
+            const submit = httpsCallable<
+                { language: string; region: string },
+                { issueUrl: string }
+            >(functions, 'submitLocaleRequest');
+            const response = await submit({
+                language: requestLanguage,
+                region: requestRegion,
+            });
+            requestIssueUrl = response.data.issueUrl;
+            requestStatus = 'success';
+        } catch (e) {
+            console.error('Locale request failed', e);
+            requestStatus = 'error';
+            requestErrorKey = 'error';
+        }
+    }
 
     function select(
         locale: SupportedLocale,
@@ -57,16 +145,26 @@
                   : // Put the selected locale at the end, removing it from the beginning if included
                     [...selectedLocales.filter((l) => l !== locale), locale];
 
+        if (selectedLocales.length === 0) return;
+
         // Set the layout and direction based on the preferred language.
-        if (selectedLocales.length > 0) {
-            Settings.setWritingLayout(
-                getLanguageLayout(
-                    getLocaleLanguage(selectedLocales[0]) as LanguageCode,
-                ),
-            );
-            // Save setLocales
-            DB.Locales.setLocales(selectedLocales as SupportedLocale[]);
-        }
+        Settings.setWritingLayout(
+            getLanguageLayout(
+                getLocaleLanguage(selectedLocales[0]) as LanguageCode,
+            ),
+        );
+
+        // All selected locales go into the URL joined by '+' (e.g. "en-US+es-MX").
+        // The layout's $effect will call DB.Locales.setLocales() after navigation.
+        const localeParam = selectedLocales.join('+');
+        const currentLocale = page.params.locale;
+        const currentPath = page.url.pathname;
+        const pathWithoutLocale = currentLocale
+            ? currentPath.slice(('/' + currentLocale).length) || '/'
+            : currentPath;
+        goto(
+            `/${localeParam}${pathWithoutLocale === '/' ? '' : pathWithoutLocale}${page.url.search}`,
+        );
     }
 </script>
 
@@ -83,9 +181,12 @@
               label: selectedLocales
                   .map((code) => getLocaleLanguageName(code))
                   .join(' + '),
+              background: true,
           }
         : undefined}
 >
+    <MarkupHTMLView markup={(l) => l.ui.dialog.locale.localizeHelp} />
+
     <h2
         >{$locales
             .concretize((l) => l.ui.dialog.locale.subheader.selected)
@@ -129,20 +230,73 @@
     </div>
 
     <h2
-        ><Link
-            external
-            to="https://github.com/wordplaydev/wordplay/wiki/localize"
-            >{$locales
-                .concretize((l) => l.ui.dialog.locale.subheader.help)
-                .toText()}</Link
-        ></h2
+        >{$locales
+            .concretize((l) => l.ui.dialog.locale.request.header)
+            .toText()}</h2
     >
-    <div class="languages">
-        {#each PossibleLanguages.filter((lang) => lang !== EMOJI_SYMBOL && !SupportedLocales.some((locale) => getLocaleLanguage(locale) === lang)) as lang}
-            <LocaleName locale={lang} supported={false} />
-        {/each}
-        ...
+    <MarkupHTMLView markup={(l) => l.ui.dialog.locale.request.explanation} />
+
+    <div class="request-form">
+        <Options
+            label={(l) => l.ui.dialog.locale.request.languageLabel}
+            value={requestLanguage}
+            options={[
+                {
+                    value: undefined,
+                    label: (l) => l.ui.dialog.locale.request.languageLabel,
+                },
+                ...languageOptions,
+            ]}
+            change={(value) => (requestLanguage = value)}
+        />
+        <Options
+            label={(l) => l.ui.dialog.locale.request.regionLabel}
+            value={requestRegion}
+            options={[
+                {
+                    value: undefined,
+                    label: (l) => l.ui.dialog.locale.request.regionLabel,
+                },
+                ...regionOptions,
+            ]}
+            change={(value) => (requestRegion = value)}
+        />
+        <Button
+            action={submitRequest}
+            tip={(l) => l.ui.dialog.locale.request.submit}
+            active={!requestSubmitDisabled}
+        >
+            <LocalizedText path={(l) => l.ui.dialog.locale.request.submit} />
+        </Button>
     </div>
+    {#if requestStatus === 'submitting'}
+        <p class="request-status"
+            ><Spinning></Spinning>
+            <LocalizedText
+                path={(l) => l.ui.dialog.locale.request.submitting}
+            /></p
+        >
+    {:else if requestStatus === 'success' && requestIssueUrl}
+        <p class="request-status">
+            <Link external to={requestIssueUrl}>
+                <LocalizedText
+                    path={(l) => l.ui.dialog.locale.request.success}
+                />
+            </Link>
+        </p>
+    {:else if requestStatus === 'error' && requestErrorKey}
+        <p class="request-status request-error">
+            <LocalizedText
+                path={(l) => l.ui.dialog.locale.request[requestErrorKey!]}
+            />
+        </p>
+    {:else if requestedAlreadySupported}
+        <p class="request-status request-error">
+            <LocalizedText
+                path={(l) => l.ui.dialog.locale.request.alreadySupported}
+            />
+        </p>
+    {/if}
 </Dialog>
 
 <style>
@@ -160,5 +314,26 @@
         gap: calc(2 * var(--wordplay-spacing));
         row-gap: var(--wordplay-spacing);
         padding: var(--wordplay-spacing);
+    }
+
+    .request-form {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: var(--wordplay-spacing);
+        padding: var(--wordplay-spacing) 0;
+    }
+
+    .request-status {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: var(--wordplay-spacing-half);
+        margin-block-start: var(--wordplay-spacing-half);
+    }
+
+    .request-error {
+        color: var(--wordplay-error);
     }
 </style>

@@ -10,7 +10,7 @@ import Token from '@nodes/Token';
 import parseExpression from '@parser/parseExpression';
 import { toTokens } from '@parser/toTokens';
 import { expect, test } from 'vitest';
-import { dropNodeOnSource, InsertionPoint, isValidDropTarget } from './Drag';
+import { dropNodeOnSource, InsertionPoint, isValidDropTarget } from '@edit/drag/Drag';
 
 test.each([
     // Replace placeholder with rootless expression

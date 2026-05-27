@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest';
-import { getTextTransition } from './getTextTransition';
+import { getTextTransition } from '@output/getTextTransition';
 
 test('Transitions', () => {
     expect(getTextTransition('hello', 'hi').join(' ')).toBe(

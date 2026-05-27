@@ -11,17 +11,17 @@ import type {
 } from '@locale/NodeTexts';
 import { withoutAnnotations } from '@locale/withoutAnnotations';
 import type Spaces from '@parser/Spaces';
-import type { BasisTypeName } from '../basis/BasisConstants';
-import type Locales from '../locale/Locales';
-import type { LocaleTextAccessor, TemplateInput } from '../locale/Locales';
+import type { BasisTypeName } from '@basis/BasisConstants';
+import type Locales from '@locale/Locales';
+import type { LocaleTextAccessor, TemplateInput } from '@locale/Locales';
 import type BasisCharacter from '../lore/BasisCharacter';
-import type Context from './Context';
-import type Definition from './Definition';
-import type Markup from './Markup';
-import type Root from './Root';
-import type { SymType } from './Sym';
-import type Token from './Token';
-import type Type from './Type';
+import type Context from '@nodes/Context';
+import type Definition from '@nodes/Definition';
+import type Markup from '@nodes/Markup';
+import type Root from '@nodes/Root';
+import type { SymType } from '@nodes/Sym';
+import type Token from '@nodes/Token';
+import type Type from '@nodes/Type';
 
 /* A global ID for nodes, for helping index them */
 let NODE_ID_COUNTER = 0;
@@ -35,6 +35,14 @@ export default abstract class Node {
 
     /** A cache of leaves in this node */
     _leaves: Token[] | undefined = undefined;
+
+    /** A cache of this node's structural hash. hash() is recursive — without
+     * caching, computing it for one node is O(subtree size), and Source.reparse
+     * calls hash() once per new node plus once per old candidate it inspects,
+     * which is O(N²) of recursive string-building per keystroke on a tree of
+     * size N. Nodes are immutable so the value never changes, making this a
+     * safe one-time-fill cache. */
+    _hash: string | undefined = undefined;
 
     constructor() {
         this.id = NODE_ID_COUNTER++;
@@ -160,11 +168,13 @@ export default abstract class Node {
     }
 
     hash(): string {
-        return this.isLeaf()
-            ? '' + this.id
-            : `•${this.getChildren()
-                  .map((n) => n.hash())
-                  .join(' ')}•`;
+        if (this._hash === undefined)
+            this._hash = this.isLeaf()
+                ? '' + this.id
+                : `•${this.getChildren()
+                      .map((n) => n.hash())
+                      .join(' ')}•`;
+        return this._hash;
     }
 
     //filter<S extends T>(predicate: (value: T, index: number, array: T[]) => value is S, thisArg?: any): S[];
@@ -365,7 +375,20 @@ export default abstract class Node {
         let scope: Node | undefined = this.getScope(context);
         // See if this node has any additional basis functions to include.
         let additional = this.getAdditionalBasisScope(context);
+        // If the scope chain involves an UnknownType (e.g. a CycleType from
+        // mid-cycle type inference), the result is incomplete and must not
+        // be cached — later non-cycling calls would otherwise read this stale
+        // value. (Mirrors Context.getType's no-cache-on-UnknownType guard.)
+        // We check via getBasisTypeName to avoid a circular import with
+        // UnknownType, which imports Token, which extends Node.
+        let cycled = false;
+        const isUnknownTypeScope = (n: Node | undefined) =>
+            n !== undefined &&
+            'getBasisTypeName' in n &&
+            typeof (n as Type).getBasisTypeName === 'function' &&
+            (n as Type).getBasisTypeName() === 'unknown';
         while (scope !== undefined || additional) {
+            if (isUnknownTypeScope(scope)) cycled = true;
             if (scope)
                 definitions = definitions.concat(
                     scope.getDefinitions(this, context),
@@ -388,8 +411,9 @@ export default abstract class Node {
             ...context.project.getDefaultShares().all,
         ];
 
-        // Cache the definitions for later.
-        context.definitions.set(this, definitions);
+        // Cache the definitions for later, unless cycle detection produced
+        // a partial result.
+        if (!cycled) context.definitions.set(this, definitions);
 
         // Return the definitions we found, in order.
         return definitions;
@@ -625,6 +649,15 @@ export default abstract class Node {
         return undefined;
     }
 
+    /** When a token child of this node is the autocomplete anchor, the menu
+     *  offers each of these as a replacement for this whole node. Override on
+     *  compound nodes whose meaning is encoded entirely in their tokens (e.g.
+     *  Language, Dimension), where token-level replacements aren't useful but
+     *  parent-level replacements are. Default is none. */
+    getReplacementsForTokenAnchor(context: Context): Node[] {
+        return [];
+    }
+
     // WHITESPACE
 
     isBlockFor(child: Node) {
@@ -668,15 +701,20 @@ export default abstract class Node {
             'description' in text
                 ? (text as DescriptiveNodeText).description
                 : text.name,
-            ...this.getDescriptionInputs(locales, context),
+            this.getDescriptionInputs(locales, context),
         );
     }
 
     /**
-     * Get the list of inputs to give to concretize the description.
+     * Get the named inputs to give to concretize the description. Subclasses
+     * override to return a record whose keys match the names declared in the
+     * field's `Template<Names>` type.
      */
-    getDescriptionInputs(_: Locales, __: Context): TemplateInput[] {
-        return [];
+    getDescriptionInputs(
+        _: Locales,
+        __: Context,
+    ): Record<string, TemplateInput> {
+        return {};
     }
 
     getDoc(locales: Locales): DocText {

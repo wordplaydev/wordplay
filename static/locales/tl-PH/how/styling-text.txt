@@ -1,0 +1,37 @@
+I-istilo ang iyong teksto
+
+Minsan gusto nating mapansin ang ating teksto. Magagawa natin ito sa pamamagitan ng/pag-italiko/,*pag-bold*, at marami pang iba!
+
+Halimbawa, para i-italicize ang teksto, maaari mo itong balutin ng mga forward slash na //, tulad ng //Hello//. Halimbawa:
+
+\Group(Stack() [
+		Phrase(`Gusto kong mag-flex nang kaunti/mga italiko/sa iyong teksto?`)
+		Phrase(`Mabuti ito para sa pagbibigay-diin o para bigyan ang iyong mga salita ng/dagdag na jazz/.`)
+		Phrase(`Lagyan lamang ng slash (//) bago at pagkatapos ng salita o parirala,/ganito/.`)
+	])\
+
+@Phrase maaari ring naka-bold ang teksto. Magagawa mo ito sa pamamagitan ng pagbalot ng iyong teksto sa mga asterisk **, tulad ng **Hello**. Halimbawa:
+
+\Group(Stack() [
+		Phrase(`Gusto mong palitawin ang iyong teksto gamit ang*matapang*?`)
+		Phrase(`Perpekto ito kapag kailangan mo*sumigaw ng isang bagay nang malakas*.`)
+		Phrase(`Lagyan lang ng tig-iisang asterisk (**) ang paligid ng iyong mga salita, tulad ng*Hoy!*, at panoorin itong tumama nang iba.`)
+	])\
+
+@Phrase maaari ring gawing mas naka-bold ang teksto. Para dito, balutin ang iyong teksto ng mga caret ^^, tulad ng ^^Hello^^. Halimbawa:
+
+\Group(Stack() [
+		Phrase(`Sobrang naka-bold ang^KAMBING^kapag kailangan mong i-maximize ang vibe.`)
+		Phrase(`Parang matapang pero mas^apoy^, karaniwang ginagawa gamit ang mga karot na nakapaligid (^^)`)
+		Phrase(`Gamitin ito para mag-flex^mga header^o^malalaking ideya^.`)
+	])\
+
+Sa wakas, @Phrase maaaring gawing may salungguhit ang teksto. Para dito, balutin ang iyong teksto ng mga salungguhit na __, tulad ng __Hello__. Halimbawa:
+
+\Group(Stack() [
+		Phrase(`Ang salungguhit ay_mahinang apoy_para sa mga panahong gusto mong panatilihing makinis ang teksto pero kapansin-pansin pa rin.`)
+		Phrase(`Maglagay ng isang underscore (__) bago at pagkatapos ng iyong teksto,_ganito_, at nagbibigay ito ng malinaw na diin.`)
+		Phrase(`Ito ay_perpekto_para maipahayag ang iyong punto nang hindi masyadong_dagdag_.`)
+	])\
+
+custom-characters

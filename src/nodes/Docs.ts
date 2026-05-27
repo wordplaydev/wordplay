@@ -2,13 +2,13 @@ import type { InsertContext, ReplaceContext } from '@edit/revision/EditContext';
 import type LanguageCode from '@locale/LanguageCode';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
-import { Purpose } from '../concepts/Purpose';
-import type Locales from '../locale/Locales';
+import { Purpose } from '@concepts/Purpose';
+import type Locales from '@locale/Locales';
 import Characters from '../lore/BasisCharacters';
-import Doc from './Doc';
-import { getPreferred } from './LanguageTagged';
-import type { Grammar, Replacement } from './Node';
-import Node, { list, node } from './Node';
+import Doc from '@nodes/Doc';
+import { getPreferred } from '@nodes/LanguageTagged';
+import type { Grammar, Replacement } from '@nodes/Node';
+import Node, { list, node } from '@nodes/Node';
 
 export default class Docs extends Node {
     readonly docs: Doc[];
@@ -99,7 +99,7 @@ export default class Docs extends Node {
 
     getMarkup(locales: Locales) {
         return this.docs
-            .map((doc) => doc.markup.concretize(locales, []))
+            .map((doc) => doc.markup.concretize(locales, {}))
             .filter((m) => m !== undefined);
     }
 

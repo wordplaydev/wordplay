@@ -1,4 +1,4 @@
-import type Expression from '../../nodes/Expression';
+import type Expression from '@nodes/Expression';
 
 export default class OutputPropertyOptions<
     Extra extends Record<string, unknown> = {},

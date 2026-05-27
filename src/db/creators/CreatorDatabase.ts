@@ -1,9 +1,9 @@
 import type { UserIdentifier } from 'firebase-admin/auth';
 import type { User } from 'firebase/auth';
 import { httpsCallable } from 'firebase/functions';
-import type { Database } from '../Database';
-import { functions } from '../firebase';
-import isValidEmail from './isValidEmail';
+import type { Database } from '@db/Database';
+import { functions } from '@db/firebase';
+import isValidEmail from '@db/creators/isValidEmail';
 
 export const CreatorCollection = 'creators';
 
@@ -78,12 +78,25 @@ export default class CreatorDatabase {
     /** The main database that manages this gallery database */
     readonly database: Database;
 
-    /** A cache of creator data from Firebase auth */
+    /** Resolved creators, keyed by the field we looked them up by. */
     private creatorsByEmail = new Map<string, Creator>();
     private creatorsByUID = new Map<string, Creator>();
 
+    /** Lookups that came back empty — remembered so we don't keep
+     *  paying for round-trips on dead IDs across a session. The cost
+     *  of a stale miss (a user who signed up after we looked them up)
+     *  is much smaller than the cost of N callable invocations per
+     *  page render for the same nonexistent name. */
     private unknownEmails = new Set<string>();
     private unknownUIDs = new Set<string>();
+
+    /** In-flight callable promises, keyed by ID. When several
+     *  components render in the same tick — e.g. a grid of
+     *  ProjectPreviews each calling getCreator(ownerUid) — they share
+     *  one round-trip instead of each firing their own. Cleared once
+     *  the request resolves. */
+    private pendingByEmail = new Map<string, Promise<void>>();
+    private pendingByUID = new Map<string, Promise<void>>();
 
     constructor(database: Database) {
         this.database = database;
@@ -98,51 +111,68 @@ export default class CreatorDatabase {
         detail: 'email' | 'uid',
     ): Promise<Creator[]> {
         const email = detail === 'email';
-        let missing = ids.slice();
-        const creators: Creator[] = [];
+        const cache = email ? this.creatorsByEmail : this.creatorsByUID;
+        const unknown = email ? this.unknownEmails : this.unknownUIDs;
+        const pending = email ? this.pendingByEmail : this.pendingByUID;
+
+        // Classify every id: already cached / known to not exist /
+        // currently being fetched by a sibling call / genuinely new.
+        const waits: Promise<void>[] = [];
+        const missing: string[] = [];
         for (const id of ids) {
-            const creator = (
-                email ? this.creatorsByEmail : this.creatorsByUID
-            ).get(id);
-            if (creator) creators.push(creator);
+            if (cache.has(id) || unknown.has(id)) continue;
+            const inFlight = pending.get(id);
+            if (inFlight) waits.push(inFlight);
             else missing.push(id);
         }
 
-        // Found them all? Return the list.
-        if (missing.length === 0) return creators;
-
-        // No access to database? Return what we've got.
-        if (functions === undefined) return creators;
-
-        // Get missing info.
-        const getCreators = httpsCallable<UserIdentifier[], CreatorSchema[]>(
-            functions,
-            'getCreators',
-        );
-
-        const missingCreators = (
-            await getCreators(
+        // Issue one callable for the genuinely-new ids. Stash the
+        // shared promise under each id in `pending` so any caller
+        // that lands while we're still in flight piggy-backs on us.
+        if (missing.length > 0 && functions !== undefined) {
+            const getCreatorsFn = httpsCallable<
+                UserIdentifier[],
+                CreatorSchema[]
+            >(functions, 'getCreators');
+            const request = getCreatorsFn(
                 missing.map((id) => (email ? { email: id } : { uid: id })),
             )
-        ).data as CreatorSchema[];
-
-        // Add the missing creators
-        for (const schema of missingCreators) {
-            const creator = new Creator(schema);
-            if (schema.email) this.creatorsByEmail.set(schema.email, creator);
-            this.creatorsByUID.set(schema.uid, creator);
-            missing = missing.filter(
-                (id) => id !== (email ? schema.email : schema.uid),
-            );
-            creators.push(creator);
+                .then((res) => {
+                    const schemas = res.data as CreatorSchema[];
+                    const found = new Set<string>();
+                    for (const schema of schemas) {
+                        const creator = new Creator(schema);
+                        if (schema.email)
+                            this.creatorsByEmail.set(schema.email, creator);
+                        this.creatorsByUID.set(schema.uid, creator);
+                        found.add(
+                            email ? (schema.email ?? '') : schema.uid,
+                        );
+                    }
+                    // Mark anything we asked about and didn't get
+                    // back as known-unknown so we don't ask again.
+                    for (const id of missing)
+                        if (!found.has(id)) unknown.add(id);
+                })
+                .finally(() => {
+                    for (const id of missing) pending.delete(id);
+                });
+            for (const id of missing) pending.set(id, request);
+            waits.push(request);
         }
 
-        // Remember the emails we didn't find users for.
-        for (const id of missing)
-            (email ? this.unknownEmails : this.unknownUIDs).add(id);
+        if (waits.length > 0) await Promise.all(waits);
 
-        // Return the final list of creators.
-        return creators;
+        // Read the resolved creators from the cache in input order.
+        // The cache is the authoritative result store: anything that
+        // resolved during our wait — whether from our own request or
+        // a sibling's — is now in there.
+        const out: Creator[] = [];
+        for (const id of ids) {
+            const creator = cache.get(id);
+            if (creator) out.push(creator);
+        }
+        return out;
     }
 
     async getCreatorsByUIDs(
