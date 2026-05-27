@@ -292,11 +292,7 @@
                         ],
                         ["ExpressionPlaceholder", "curious", "…"],
                         null,
-                        [
-                            "FunctionDefinition",
-                            "kind",
-                            "你想说说你的工作吗？"
-                        ],
+                        ["FunctionDefinition", "kind", "你想说说你的工作吗？"],
                         ["ExpressionPlaceholder", "scared", "你可以么？"],
                         null,
                         [
@@ -505,11 +501,7 @@
                         ],
                         ["Evaluate", "shy", "@FunctionDefinition?"],
                         null,
-                        [
-                            "FunctionDefinition",
-                            "curious",
-                            "是我。 你在哪？"
-                        ],
+                        ["FunctionDefinition", "curious", "是我。 你在哪？"],
                         [
                             "Evaluate",
                             "shy",
@@ -1091,11 +1083,7 @@
                             "neutral",
                             "其中一个是 @Boolean/and，对吗？它会接受你们中的一个，再加上另一个输入？然后只有当两者都为 \\⊤\\ 时，才会求值为 \\⊤\\？"
                         ],
-                        [
-                            "⊤",
-                            "precise",
-                            "对。\\⊤ & ⊤ = ⊤\\，否则就是 \\⊥\\。"
-                        ],
+                        ["⊤", "precise", "对。\\⊤ & ⊤ = ⊤\\，否则就是 \\⊥\\。"],
                         [
                             "⊥",
                             "precise",
@@ -2197,11 +2185,7 @@
                             "happy",
                             "和你见面太好了@Convert！我们要去见见人了。不久后见？"
                         ],
-                        [
-                            "Convert",
-                            "surprised",
-                            "很快。好……好的！当然，一定。"
-                        ]
+                        ["Convert", "surprised", "很快。好……好的！当然，一定。"]
                     ]
                 },
                 {
@@ -2467,25 +2451,15 @@
                             "neutral",
                             "@Key 流在你希望表演对观众按下的按键做出反应时非常有用。例如，你可以检查一个键中是否含有'Arrow'一词，以确定是否按下了箭头键。按下箭头键，你会看到 \\'move'\\，按下其他键，你会看到 \\'stay'\\。"
                         ],
-                        [
-                            "edit",
-                            "Key('a' ⊥)"
-                        ],
+                        ["edit", "Key('a' ⊥)"],
                         null,
                         [
                             "FunctionDefinition",
                             "neutral",
                             "当你希望表演对观众按下的按键做出反应时，@Key 流会很有用。例如，你可以检查一个键名里是否包含 'Arrow'，来判断观众是否按下了方向键。按下方向键时，你会看到 \\'move'\\，按下其他键时，你会看到 \\'stay'\\。"
                         ],
-                        [
-                            "Key",
-                            "neutral",
-                            "咔嗒 'Arrow'…"
-                        ],
-                        [
-                            "edit",
-                            "Key().has('Arrow') ? 'move' 'stay'"
-                        ]
+                        ["Key", "neutral", "咔嗒 'Arrow'…"],
+                        ["edit", "Key().has('Arrow') ? 'move' 'stay'"],
                         ["Key", "neutral", "咔嗒 'Arrow'…"],
                         ["edit", "Key().has('Arrow') ? 'move' 'stay'"]
                     ]
@@ -5344,16 +5318,8 @@
                             "confused",
                             "嗯……还是没有动。噢！我们还没有在 @Reaction 中求值 \\move\\。@List，你可以把每一个 \\Character\\ 转换成移动后的 \\Character\\ 吗？"
                         ],
-                        [
-                            "List",
-                            "excited",
-                            "有你帮忙转换！"
-                        ],
-                        [
-                            "use",
-                            "edit",
-                            "EvaluateDance12"
-                        ],
+                        ["List", "excited", "有你帮忙转换！"],
+                        ["use", "edit", "EvaluateDance12"],
                         ["List", "excited", "有你的帮忙来翻译!"],
                         ["use", "edit", "EvaluateDance12"],
                         null,
@@ -5374,11 +5340,7 @@
                             "kind",
                             "我们只是忘记了一个人……"
                         ],
-                        [
-                            "Evaluate",
-                            "excited",
-                            "谁？"
-                        ],
+                        ["Evaluate", "excited", "谁？"],
                         ["Evaluate", "excited", "谁?"],
                         [
                             "FunctionDefinition",
@@ -5391,87 +5353,23 @@
                             "excited",
                             "哦对，当然！让它们来做音乐怎么样？@Phrase，你能不能听听 @Volume，然后把它连接到你的颜色里的 @Color/lightness 和 @Color/chroma？这样，当我们的导演发出声音时，我们就会变得非常兴奋！"
                         ],
-                        [
-                            "Phrase",
-                            "kind",
-                            "好主意！"
-                        ],
-                        [
-                            "use",
-                            "edit",
-                            "EvaluateDance14"
-                        ],
+                        ["Phrase", "kind", "好主意！"],
+                        ["use", "edit", "EvaluateDance14"],
                         null,
-                        [
-                            "use",
-                            "fix",
-                            "EvaluateDance14"
-                        ],
-                        [
-                            "List",
-                            "excited",
-                            "1, 2, 3, 1, 2, 3"
-                        ],
-                        [
-                            "Boolean",
-                            "excited",
-                            "行动！"
-                        ],
-                        [
-                            "Text",
-                            "excited",
-                            "欢欣鼓舞!"
-                        ],
-                        [
-                            "Conditional",
-                            "excited",
-                            "什么是真正的舞蹈？"
-                        ],
-                        [
-                            "Changed",
-                            "excited",
-                            "隆，隆，隆。"
-                        ],
-                        [
-                            "Number",
-                            "excited",
-                            "左五度，向上一米。"
-                        ],
-                        [
-                            "Phrase",
-                            "excited",
-                            "好神奇！"
-                        ],
-                        [
-                            "Sequence",
-                            "excited",
-                            "这种感觉！"
-                        ],
-                        [
-                            "Group",
-                            "excited",
-                            "一起来！"
-                        ],
-                        [
-                            "Stage",
-                            "excited",
-                            "隆 隆 隆"
-                        ],
-                        [
-                            "None",
-                            "excited",
-                            "…"
-                        ],
-                        [
-                            "StructureDefinition",
-                            "excited",
-                            "记得动起来！"
-                        ],
-                        [
-                            "Bind",
-                            "excited",
-                            "角色们！"
-                        ],
+                        ["use", "fix", "EvaluateDance14"],
+                        ["List", "excited", "1, 2, 3, 1, 2, 3"],
+                        ["Boolean", "excited", "行动！"],
+                        ["Text", "excited", "欢欣鼓舞!"],
+                        ["Conditional", "excited", "什么是真正的舞蹈？"],
+                        ["Changed", "excited", "隆，隆，隆。"],
+                        ["Number", "excited", "左五度，向上一米。"],
+                        ["Phrase", "excited", "好神奇！"],
+                        ["Sequence", "excited", "这种感觉！"],
+                        ["Group", "excited", "一起来！"],
+                        ["Stage", "excited", "隆 隆 隆"],
+                        ["None", "excited", "…"],
+                        ["StructureDefinition", "excited", "记得动起来！"],
+                        ["Bind", "excited", "角色们！"],
                         ["Phrase", "kind", "好主意!"],
                         ["use", "edit", "EvaluateDance14"],
                         null,
@@ -5501,16 +5399,8 @@
                             "我……我真的成功了。但这也是我们一起完成的。"
                         ],
                         null,
-                        [
-                            "Program",
-                            "curious",
-                            "是我们自己在表演吗？"
-                        ],
-                        [
-                            "Reaction",
-                            "eager",
-                            "我想是吧……"
-                        ],
+                        ["Program", "curious", "是我们自己在表演吗？"],
+                        ["Reaction", "eager", "我想是吧……"],
                         ["Program", "curious", "是我们自己在表演吗？"],
                         ["Reaction", "eager", "我想是吧。。。"],
                         [
