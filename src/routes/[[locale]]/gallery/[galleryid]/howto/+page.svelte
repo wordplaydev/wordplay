@@ -427,8 +427,8 @@
                             />
                             <div class="draftslist">
                                 <ul>
-                                    {#each howTos as _, i (i)}
-                                        {#if !howTos[i].isPublished()}
+                                    {#each howTos as howTo, i (howTo.getHowToId())}
+                                        {#if !howTo.isPublished()}
                                             <li>
                                                 <HowToForm
                                                     editingMode={false}
@@ -505,13 +505,15 @@
                     {onblur}
                     {onkeydown}
                 >
-                    {#each howTos as howTo, i (i)}
+                    {#each howTos as howTo, i (howTo.getHowToId())}
                         {#if howTo.isPublished() && howTo.inCanvasArea(-cameraX, -cameraX + canvasWidth, -cameraY, -cameraY + canvasHeight)}
                             <HowToPreview
                                 bind:howTo={howTos[i]}
                                 bind:this={howToComponents[i]}
-                                {cameraX}
-                                {cameraY}
+                                bind:cameraX
+                                bind:cameraY
+                                {canvasWidth}
+                                {canvasHeight}
                                 bind:whichMoving
                                 bind:notPermittedAreas
                                 galleryCuratorCollaborators={gallery

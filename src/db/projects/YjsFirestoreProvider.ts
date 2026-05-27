@@ -79,18 +79,34 @@ export default class YjsFirestoreProvider {
      *  writes when they come back through the snapshot listener. */
     private ownDocIDs: Set<string> = new Set();
 
+    /** Optional callback to force-refresh the auth token. Used when a
+     *  `writable=true` session hits a single permission-denied, which is
+     *  almost always a stale Firebase Auth token rather than a real
+     *  permission change (the rule check passed at construction). One
+     *  refresh + retry recovers transparently; a second failure marks
+     *  the provider terminally write-forbidden as before. Optional so
+     *  test stubs and read-only sessions can omit it. */
+    private readonly refreshAuth: (() => Promise<void>) | undefined;
+
+    /** Latch: only the first permission-denied of the session triggers
+     *  a token refresh. If the retry also fails, or a later flush hits
+     *  a second permission-denied, we accept the verdict and stop. */
+    private authRefreshAttempted = false;
+
     constructor(
         db: Firestore,
         projectID: string,
         crdt: ProjectCRDT,
         writer: string,
         writable: boolean = true,
+        refreshAuth?: () => Promise<void>,
     ) {
         this.db = db;
         this.projectID = projectID;
         this.crdt = crdt;
         this.writer = writer;
         this.writable = writable;
+        this.refreshAuth = refreshAuth;
         this.attach();
     }
 
@@ -215,28 +231,72 @@ export default class YjsFirestoreProvider {
             seq: this.seqCounter++,
             sentAt: Date.now(),
         };
+        const updatesCollection = collection(
+            this.db,
+            ProjectsCollection,
+            this.projectID,
+            'updates',
+        );
         try {
-            const ref = await addDoc(
-                collection(
-                    this.db,
-                    ProjectsCollection,
-                    this.projectID,
-                    'updates',
-                ),
-                payload,
-            );
+            const ref = await addDoc(updatesCollection, payload);
             this.ownDocIDs.add(ref.id);
         } catch (err) {
-            // permission-denied is terminal: the Firestore rule will say
-            // no for every subsequent attempt this session, so retrying
-            // just spams the console and burns quota. Drop the pending
-            // bytes, mark the provider write-forbidden, and stay
-            // subscribed for incoming updates so the user still sees
-            // peers' edits.
             if (
                 err instanceof FirebaseError &&
                 err.code === 'permission-denied'
             ) {
+                // If we were created with writable=true (the rule
+                // checked out at activation) but Firestore still said
+                // no, the likely culprit is a stale auth token from a
+                // long-running session where the event loop got starved
+                // and missed the 55-minute refresh. Force a refresh
+                // and try once before giving up.
+                if (
+                    this.writable &&
+                    !this.authRefreshAttempted &&
+                    this.refreshAuth !== undefined
+                ) {
+                    this.authRefreshAttempted = true;
+                    try {
+                        await this.refreshAuth();
+                        const retryRef = await addDoc(
+                            updatesCollection,
+                            payload,
+                        );
+                        this.ownDocIDs.add(retryRef.id);
+                        return;
+                    } catch (retryErr) {
+                        if (
+                            !(
+                                retryErr instanceof FirebaseError &&
+                                retryErr.code === 'permission-denied'
+                            )
+                        ) {
+                            // Refresh or retry failed transiently —
+                            // re-queue and let the next flush try
+                            // again. We've already burned our retry
+                            // latch, so a second permission-denied
+                            // would now take the terminal path.
+                            console.error(
+                                'YjsFirestoreProvider publish retry failed',
+                                retryErr,
+                            );
+                            this.pendingUpdates.unshift(merged);
+                            this.scheduleFlush();
+                            return;
+                        }
+                        // Genuine permission-denied even after refresh —
+                        // fall through to the terminal path.
+                    }
+                }
+
+                // permission-denied is terminal: the Firestore rule
+                // will say no for every subsequent attempt this
+                // session, so retrying just spams the console and
+                // burns quota. Drop the pending bytes, mark the
+                // provider write-forbidden, and stay subscribed for
+                // incoming updates so the user still sees peers'
+                // edits.
                 this.writeForbidden = true;
                 this.pendingUpdates = [];
                 console.warn(

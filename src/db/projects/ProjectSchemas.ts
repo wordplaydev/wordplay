@@ -305,3 +305,22 @@ export function upgradeProject(
             throw new Error('Unexpected project version ' + project);
     }
 }
+
+/**
+ * Whether the serialized doc was written at a schema version older than the
+ * current code expects. ProjectsDatabase uses this on the load path to flag
+ * a freshly-deserialized project as unsaved so persist() will write the
+ * upgraded shape back without waiting on an explicit user edit — without
+ * this, a doc that hasn't been touched since a schema bump stays at the
+ * old `v` indefinitely and any newer fields the migration backfilled
+ * never reach Firestore.
+ *
+ * Defensive against malformed input: missing or non-numeric `v` returns
+ * false ("no upgrade signal"), not true — we don't force a rewrite on
+ * something we can't confidently identify as old.
+ */
+export function needsSchemaUpgrade(raw: unknown): boolean {
+    if (typeof raw !== 'object' || raw === null) return false;
+    const v = (raw as { v?: unknown }).v;
+    return typeof v === 'number' && v < ProjectSchemaLatestVersion;
+}

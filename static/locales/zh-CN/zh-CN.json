@@ -4799,8 +4799,8 @@
                     "explanation": "删除该图库不会删除其项目。图库将被永久删除。"
                 },
                 "classes": {
-                    "header": "$~课程",
-                    "explanation": "$~与此画廊相关的类别。"
+                    "header": "课程",
+                    "explanation": "与此画廊相关的课程。"
                 }
             },
             "confirm": {
@@ -5133,7 +5133,7 @@
                     "stories": "$~讲故事",
                     "motion": "$~运用物理",
                     "video": "$~使用相机",
-                    "gallery": "$~由您的 Wordplay 同行导演创作"
+                    "gallery": "Wordplay 同行创作者制作"
                 },
                 "related": "$~这不是您要找的吗？",
                 "howToGalleryButton": {
@@ -5705,7 +5705,7 @@
                 },
                 "search": {
                     "placeholder": "$~搜索",
-                    "noResults": "$~未找到结果"
+                    "noResults": "未找到结果。"
                 }
             },
             "guide": {
@@ -5746,13 +5746,13 @@
                     "shared": "$~共享",
                     "archived": "$~已归档",
                     "howtoviewonly": {
-                        "header": "$~操作指南",
+                        "header": "操作指南",
                         "explanation": "$~您可以查看这些图库中的操作指南并与之互动，但除非图库或项目是公开的，否则您无法查看它们的项目。"
                     }
                 },
                 "search": {
                     "description": "$~搜索项目和源文件",
-                    "noResults": "$~未找到结果。"
+                    "noResults": "未找到结果。"
                 }
             },
             "galleries": {
@@ -5760,34 +5760,34 @@
                 "prompt": "这些是其他人创作的表演作品。体验它们，学习它们，或者将它们改编成你自己的作品陈述。",
                 "button": {
                     "more": {
-                        "label": "$~更多的...",
-                        "tip": "$~加载更多画廊"
+                        "label": "更多…",
+                        "tip": "加载更多画廊"
                     },
-                    "newgallery": "$~新画廊"
+                    "newgallery": "新建画廊"
                 },
                 "section": {
                     "own": {
-                        "header": "$~此致",
+                        "header": "你的",
                         "explanation": [
-                            "$~向受邀参加的画廊投稿，或者策划自己的特定主题画廊，并邀请其他人参加。",
-                            "$~策展人负责使用<gallery moderation dashboard@://galleries/moderation>来审核画廊中的内容。"
+                            "向你受邀加入的画廊投稿，或创建一个有特定主题的画廊并邀请他人加入。",
+                            "/策展人负责使用<gallery moderation dashboard@://galleries/moderation>审核画廊中的内容。/"
                         ]
                     },
                     "examples": {
-                        "header": "$~示例",
-                        "explanation": "$~这些是由 Wordplay 开发人员精心挑选的图库。它们是学习和获得灵感的良好起点。"
+                        "header": "示例",
+                        "explanation": "这些是 Wordplay 开发人员精选的画廊。它们是学习和寻找灵感的好起点。"
                     },
                     "public": {
-                        "header": "$~民众",
-                        "explanation": "$~这些是文字游戏创作者们公开的作品集。看看其他人创作了什么，从中汲取灵感吧！"
+                        "header": "公开",
+                        "explanation": "这些是 Wordplay 创作者公开分享的画廊。看看其他人做了什么，从中获取灵感吧！"
                     }
                 },
                 "error": {
-                    "nogalleryedits": "$~您必须<登录@://login>才能创建和更改图库。"
+                    "nogalleryedits": "你必须<登录@://login>才能创建和修改画廊。"
                 },
                 "search": {
-                    "description": "$~搜索示例图库项目",
-                    "noResults": "$~未找到结果。"
+                    "description": "搜索示例画廊项目",
+                    "noResults": "未找到结果。"
                 }
             },
             "about": {
@@ -6027,10 +6027,10 @@
                 "subheader": {
                     "teachers": "$~教师",
                     "students": "$~学生",
-                    "galleries": "$~画廊"
+                    "galleries": "画廊"
                 },
                 "prompt": {
-                    "gallery": "$~为您的班级创建一个画廊，以组织作业或项目。项目中的所有教师都将成为画廊策展人，所有学生都将成为画廊创建者。",
+                    "gallery": "为你的班级创建一个画廊，用来组织作业或项目。项目中的所有教师都是画廊策展人，所有学生都是画廊创作者。",
                     "delete": "$~删除此类课程将永久删除有关该课程的信息，但会删除其项目、图库或学生帐户。"
                 },
                 "field": {
@@ -6049,7 +6049,7 @@
                 },
                 "error": {
                     "notfound": "$~我们找不到此类，或者您没有查看它的权限。",
-                    "gallery": "$~我们无法为此类创建画廊。"
+                    "gallery": "我们无法为此班级创建画廊。"
                 }
             },
             "characters": {
@@ -6425,7 +6425,7 @@
                     "input": "$~输入",
                     "output": "$~输出",
                     "ui": "$~用户界面",
-                    "gallery": "$~画廊",
+                    "gallery": "画廊",
                     "moderation": "$~适度"
                 },
                 "singletonWordsWarning": "$~你草稿中有些词在整个文本中只出现过一次。你确定它们的拼写正确，并且与其他文本保持一致吗？",
@@ -6547,10 +6547,10 @@
         },
         "howto": {
             "galleryView": {
-                "header": "$~操作指南",
-                "subheader": "$~$total how-tos，$new new",
-                "subheaderEmpty": "$~创造第一个！",
-                "prompt": "$~“使用指南”是对如何使用 Wordplay 实现特定功能的简短解释和示例代码。当你掌握了想要分享的技巧后，请为本图库中的其他创作者编写一份指南，以便它们也能学习！"
+                "header": "操作指南",
+                "subheader": "$total 个操作指南，$new 个新的",
+                "subheaderEmpty": "创建第一个吧！",
+                "prompt": "操作指南是用 Wordplay 实现某个功能的简短说明和示例代码。当你学会想分享的内容后，为本画廊的其他创作者写一份指南，让他们也能学会。"
             },
             "headerTooltip": "$~返回图库",
             "drafts": {
@@ -6757,27 +6757,27 @@
             }
         },
         "gallerymoderation": {
-            "header": "$~图库审核控制面板",
-            "description": "$~您管理的图库中出现的以下消息已被用户举报，需要进行审核。",
+            "header": "画廊审核面板",
+            "description": "你管理的画廊中，以下消息已被用户举报，需要你审核。",
             "labels": {
-                "message": "$~信息",
-                "reporter": "$~记者",
-                "action": "$~版主操作"
+                "message": "消息",
+                "reporter": "举报人",
+                "action": "版主操作"
             },
             "view": {
-                "label": "$~查看聊天记录",
-                "tip": "$~在聊天中查看消息"
+                "label": "查看聊天",
+                "tip": "在聊天中查看消息"
             },
             "remove": {
-                "label": "$~消除",
-                "tip": "$~此消息违反了相关准则。"
+                "label": "删除",
+                "tip": "此消息违反了准则"
             },
             "keep": {
-                "label": "$~保持",
-                "tip": "$~此消息不违反准则"
+                "label": "保留",
+                "tip": "此消息没有违反准则"
             },
-            "empty": "$~所有消息均无需审核。",
-            "error": "$~您必须登录才能管理图库"
+            "empty": "没有需要审核的消息",
+            "error": "你必须登录才能管理画廊"
         },
         "emoji": {
             "noCharacters": "$~创建自定义角色",
@@ -6962,8 +6962,8 @@
             "description": "简单的实用工具和应用程序。"
         },
         "stories": {
-            "name": "$~故事",
-            "description": "$~互动故事和叙述。"
+            "name": "故事",
+            "description": "互动故事和叙事。"
         }
     },
     "system": {
