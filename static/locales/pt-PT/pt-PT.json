@@ -261,7 +261,7 @@
                     "resolution": "$~Adicione uma célula de espaço reservado para * $column *"
                 },
                 "ExtraCell": {
-                    "name": "coluna xtra",
+                    "name": "coluna extra",
                     "explanation": "$~Com base no meu tipo de tabela, sou uma coluna extra que não deveria estar aqui.",
                     "resolution": "$~Remova a célula extra."
                 },
